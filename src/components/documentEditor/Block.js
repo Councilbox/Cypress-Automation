@@ -2,10 +2,7 @@ import React from 'react';
 import { Button, Collapse, Dialog, DialogTitle, DialogContent } from 'material-ui';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import RichTextInput from '../../displayComponents/RichTextInput';
-import iconVotaciones from '../../assets/img/handshake.svg';
-import iconAgendaComments from '../../assets/img/speech-bubbles-comment-option.svg';
 import { BasicButton } from '../../displayComponents';
-
 import LoadDraft from '../company/drafts/LoadDraft';
 import withSharedProps from '../../HOCs/withSharedProps';
 import { getDefaultTagsByBlockType } from './utils';
@@ -45,7 +42,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
     };
 
 
-    if (props.value.hasOwnProperty('toggleable')) {
+    if (Object.prototype.hasOwnProperty.call(props.value, 'toggleable')) {
         return (
             <div style={{ overflow: 'hidden', padding: '1em 1.5em 1em 1em', width: '100%', }}>
                 <BorderBox

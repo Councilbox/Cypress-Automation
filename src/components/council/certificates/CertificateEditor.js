@@ -7,7 +7,7 @@ import { getSecondary, getPrimary } from '../../../styles/colors';
 import { checkForUnclosedBraces, changeVariablesToValues, generateStatuteTag, prepareTextForFilename } from '../../../utils/CBX';
 import { buildDoc, useDoc, buildDocBlock, buildDocVariable } from '../../documentEditor/utils';
 import { certBlocks } from '../../documentEditor/actBlocks';
-import DocumentEditor2 from '../../documentEditor/DocumentEditor2';
+import DocumentEditor from '../../documentEditor/DocumentEditor';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { generateActTags, CouncilActData, generateCouncilSmartTagsValues } from '../writing/actEditor/ActEditor';
 import GoverningBodyDisplay from '../writing/actEditor/GoverningBodyDisplay';
@@ -109,7 +109,7 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 
     return (
 		<React.Fragment>
-			<DocumentEditor2
+			<DocumentEditor
 				doc={doc}
 				data={data}
 				{...handlers}

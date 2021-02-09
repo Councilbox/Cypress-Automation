@@ -2,8 +2,7 @@ import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import withTranslations from '../../HOCs/withTranslations';
 
-
-const GraficaEstadisiticas = ({ porcentaje, color, translate }) => {
+const GraficaEstadisiticas = ({ color, translate }) => {
 	const data = {
 		labels: [translate.companies_calendar, translate.companies_live, translate.companies_writing, translate.act_book],
 		datasets: [{
@@ -30,12 +29,12 @@ const GraficaEstadisiticas = ({ porcentaje, color, translate }) => {
 		maintainAspectRatio: false,
 		responsive: false,
 		legend: {
-		  position: 'left',
-		  labels: {
-			boxWidth: 10
-		  }
+			position: 'left',
+			labels: {
+				boxWidth: 10
+			}
 		}
-	  };
+	};
 
 	return (
 		<Doughnut data={data} options={options} />

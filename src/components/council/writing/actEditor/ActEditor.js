@@ -20,7 +20,7 @@ import {
 	getGoverningBodySignatories,
 	buildDelegationsString
 } from '../../../../utils/CBX';
-import DocumentEditor2 from '../../../documentEditor/DocumentEditor2';
+import DocumentEditor from '../../../documentEditor/DocumentEditor';
 import { buildDoc, useDoc, buildDocBlock, buildDocVariable } from '../../../documentEditor/utils';
 import DownloadDoc from '../../../documentEditor/DownloadDoc';
 import { actBlocks } from '../../../documentEditor/actBlocks';
@@ -533,7 +533,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 
 	return (
 		<React.Fragment>
-			<DocumentEditor2
+			<DocumentEditor
 				withDrawer={withDrawer}
 				doc={doc}
 				data={data}

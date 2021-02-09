@@ -8,7 +8,7 @@ import { AlertConfirm, BasicButton, FileUploadButton, ButtonIcon, LoadingSection
 let XLSX;
 import('xlsx').then(data => { XLSX = data; });
 
-function to_json(workbook) {
+function toJSON(workbook) {
     const result = {};
     workbook.SheetNames.forEach(sheetName => {
         const roa = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
@@ -32,7 +32,7 @@ const ImportOneOneOne = ({ translate, client }) => {
 
     const read = workbook => {
         const wb = XLSX.read(workbook, { type: 'binary' });
-        return to_json(wb);
+        return toJSON(wb);
     };
 
     const createOneOnOneCouncil = async council => client.mutate({

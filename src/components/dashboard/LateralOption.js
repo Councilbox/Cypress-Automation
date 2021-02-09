@@ -4,8 +4,8 @@ import { Icon } from '../../displayComponents';
 import { bHistory } from '../../containers/App';
 
 const LateralOption = ({ icon, text, link, customIcon, style }) => {
-	const followLink = link => {
-		bHistory.push(link);
+	const followLink = path => {
+		bHistory.push(path);
 	};
 
 	return (

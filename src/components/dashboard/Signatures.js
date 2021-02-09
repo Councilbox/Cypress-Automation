@@ -2,7 +2,7 @@ import React from 'react';
 import { compose, graphql } from 'react-apollo';
 import { TableCell, TableRow } from 'material-ui/Table';
 import Scrollbar from 'react-perfect-scrollbar';
-import { deleteSignature, signatures } from '../../queries/signature';
+import { deleteSignature as deleteSignatureMutation, signatures as signaturesQuery } from '../../queries/signature';
 import {
 	AlertConfirm,
 	CloseIcon,
@@ -50,7 +50,7 @@ const Signatures = ({ translate, data, ...props }) => {
 		}
 	};
 
-	function _renderDeleteIcon(signatureID) {
+	function renderDeleteIcon(signatureID) {
 		return (
 			<CloseIcon
 				style={{ color: primary }}
@@ -115,10 +115,10 @@ const Signatures = ({ translate, data, ...props }) => {
 								<div style={{ padding: '1em', paddingTop: '2em' }}>
 									{false ? (
 										<div>
-											{error.graphQLErrors.map((error, index) => (
+											{error.graphQLErrors.map((gqError, index) => (
 													<ErrorWrapper
 														key={`error_${index}`}
-														error={error}
+														error={gqError}
 														translate={translate}
 													/>
 												))}
@@ -129,7 +129,7 @@ const Signatures = ({ translate, data, ...props }) => {
 												{ name: translate.name },
 												{ name: '' }
 											]}
-											action={_renderDeleteIcon}
+											action={renderDeleteIcon}
 											companyID={props.company.id}
 										>
 											{signatures.map(signature => (
@@ -173,8 +173,8 @@ const Signatures = ({ translate, data, ...props }) => {
 
 
 export default compose(
-	graphql(deleteSignature),
-	graphql(signatures, {
+	graphql(deleteSignatureMutation),
+	graphql(signaturesQuery, {
 		options: props => ({
 			variables: {
 				state: props.state,
@@ -230,13 +230,13 @@ class HoverableRow extends React.PureComponent {
 					backgroundColor: disabled ? 'whiteSmoke' : 'inherit'
 				}}
 				onClick={() => {
-					disabled ?
+					if (disabled) {
 						this.props.showModal()
-						:						bHistory.push(`/company/${this.props.company.id}/signature/${signature.id}`);
+					} else {
+						bHistory.push(`/company/${this.props.company.id}/signature/${signature.id}`);
+					}
 				}}
-				key={`signature${
-					signature.id
-					}`}
+				key={`signature${signature.id}`}
 			>
 				<TableCell>
 					{signature.title || translate.dashboard_new_signature}

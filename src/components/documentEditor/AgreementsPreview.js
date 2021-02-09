@@ -1,7 +1,7 @@
 import React from 'react';
 import { BorderBox } from './Block';
 
-const AgreementsPreview = ({ item, translate, column }) => (
+const AgreementsPreview = ({ item, column }) => (
         <div>
             {item.items.map(block => (
                     block.logic ?

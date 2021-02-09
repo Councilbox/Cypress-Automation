@@ -206,7 +206,7 @@ class SignUpUser extends React.Component {
 
 	render() {
 		const primary = getPrimary();
-		const { translate, classes } = this.props;
+		const { translate } = this.props;
 		const data = this.props.formData;
 
 		return (

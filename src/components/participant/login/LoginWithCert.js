@@ -1,10 +1,8 @@
 import React from 'react';
 import { BasicButton, ButtonIcon } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
-import RequestDataInfo from './RequestDataInfo';
 
-
-const LoginWithCert = ({ participant, handleSuccess, translate, dispatch, status, message }) => {
+const LoginWithCert = ({ participant, handleSuccess, translate, dispatch, status }) => {
     const primary = getPrimary();
 
     const getData = async () => {
@@ -15,9 +13,10 @@ const LoginWithCert = ({ participant, handleSuccess, translate, dispatch, status
 
             if (json.success) {
                 dispatch({ type: 'SUCCESS',
-payload: {
-                    message: translate.cert_success,
-                } });
+                    payload: {
+                        message: translate.cert_success,
+                    }
+                });
             } else {
                 let message = json.error;
                 if (response.status == 403) {
@@ -27,9 +26,10 @@ payload: {
                     message = translate.cert_missing;
                 }
                 dispatch({ type: 'ERROR',
-payload: {
-                    message
-                } });
+                    payload: {
+                        message
+                    }
+                });
             }
         } catch (error) {
             dispatch({ type: 'ERROR', payload: translate.cert_error });
@@ -99,26 +99,3 @@ payload: {
 };
 
 export default LoginWithCert;
-
-/*
-           open={open}
-            title="Prueba"
-            bodyText={
-                status === 'LOADING'?
-                    'CARGANDO'
-                :
-                    status === 'SUCCESS'?
-                        <>
-                            Esto furrula entrar?
-                            <div style={{backgroundColor: 'red'}} onClick={handleSuccess}>
-                                VAMOS PA DENTRO
-                            </div>
-                        </>
-                    :
-                        <>
-                            Error!
-                            <div>
-                                {message}
-                            </div>
-                        </>
-*/

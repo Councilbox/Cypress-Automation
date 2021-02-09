@@ -23,12 +23,6 @@ const ApiKeyLogin = ({ apiLogin, client }) => {
         secret: ''
     });
 
-    React.useEffect(() => {
-        if (apiToken.current) {
-            getAccountInfo();
-        }
-    }, apiToken.current);
-
     const getAccountInfo = async () => {
         const account = await client.query({
             query: getApiAccount,
@@ -36,6 +30,12 @@ const ApiKeyLogin = ({ apiLogin, client }) => {
         });
         docsContext.loginSuccess(account.data.tokenAccount);
     };
+
+    React.useEffect(() => {
+        if (apiToken.current) {
+            getAccountInfo();
+        }
+    }, apiToken.current);
 
     const updateApikey = event => {
         setState({
@@ -103,6 +103,7 @@ const ApiKeyLogin = ({ apiLogin, client }) => {
                                 color={primary}
                                 text="Enviar"
                                 onClick={login}
+                                loading={loading}
                                 textStyle={{ color: 'white', fontWeight: '700' }}
                             />
                         </div>

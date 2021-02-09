@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { compose, graphql } from 'react-apollo';
 import { TableCell, TableRow } from 'material-ui/Table';
 import Scrollbar from 'react-perfect-scrollbar';
-import { councils, deleteCouncil } from '../../queries.js';
+import { councils as councilsQuery, deleteCouncil } from '../../queries';
 import {
 	AlertConfirm,
 	DateWrapper,
@@ -89,10 +89,10 @@ class Meetings extends Component {
 							<Fragment>
 								{error ? (
 									<div>
-										{error.graphQLErrors.map((error, index) => (
+										{error.graphQLErrors.map((err, index) => (
 												<ErrorWrapper
 													key={`error_${index}`}
-													error={error}
+													error={err}
 													translate={translate}
 												/>
 											))}
@@ -178,7 +178,7 @@ class Meetings extends Component {
 
 export default compose(
 	graphql(deleteCouncil),
-	graphql(councils, {
+	graphql(councilsQuery, {
 		name: 'data',
 		options: props => ({
 			variables: {

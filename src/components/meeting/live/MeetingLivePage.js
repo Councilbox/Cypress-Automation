@@ -4,19 +4,14 @@ import { bHistory } from '../../../containers/App';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import withWindowSize from '../../../HOCs/withWindowSize';
 import { Icon } from '../../../displayComponents';
-import { useOldState } from '../../../hooks';
-// import { useAdom } from 'adom-client';
 import logo from '../../../assets/img/logo-white.png';
-
-const minVideoWidth = 30;
-const minVideoHeight = '50%';
 
 const rand = Date.now();
 
-const MeetingLivePage = ({ data }) => {
-	const [state, setState] = useOldState({
+const MeetingLivePage = () => {
+	const state = {
 		url: sessionStorage.getItem('meetingUrl'),
-	});
+	};
 
 	React.useEffect(() => {
 		if (!state.url) {

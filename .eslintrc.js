@@ -72,6 +72,7 @@ module.exports = {
 		"one-var": "warn",
 		"arrow-body-style": 'warn',
 		"import/no-cycle": "off",
+		"space-before-blocks": 'error',
 		"no-mixed-spaces-and-tabs": 'error',
 		"object-curly-newline": "off",
 		"no-use-before-define": 'warn',

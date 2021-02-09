@@ -535,7 +535,7 @@ export const useDoc = (params = {}) => {
 
     const prepareText = async text => {
         if (params.transformText) {
-            return await params.transformText(text);
+            return params.transformText(text);
         }
 
         return text;

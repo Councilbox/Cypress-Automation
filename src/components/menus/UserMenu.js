@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { MenuItem, Divider, Tooltip } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 import { DropDownMenu, Icon, Link } from '../../displayComponents';
-
 import * as mainActions from '../../actions/mainActions';
 import { getSecondary } from '../../styles/colors';
 import { isMobile } from '../../utils/screen';
@@ -379,7 +378,7 @@ const UserMenu = ({ user, actions, translate, company }) => {
 		);
 };
 
-const ImageCircular = ({ src, styles, children }) => (
+const ImageCircular = ({ src, styles: style, children }) => (
 		<div
 			className={!src ? 'imageAfter' : ''}
 			style={{
@@ -389,7 +388,7 @@ const ImageCircular = ({ src, styles, children }) => (
 				backgroundPosition: '50% center',
 				backgroundSize: 'cover',
 				backgroundImage: `url(${src})`,
-				...styles
+				...style
 			}}
 		>
 			{children}

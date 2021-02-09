@@ -40,13 +40,57 @@ const styles = {
 	},
 };
 
-const DEFAULT_OPTIONS = {
-	limit: 10,
-	offset: 0,
-	orderDirection: 'DESC'
-};
+const corporationConvenedLiveCouncils = gql`
+    query corporationConvenedLiveCouncils(
+		$filters: [FilterInput],
+		$options: OptionsInput,
+		$dateStart: String,
+		$dateEnd: String,
+		$status: String,
+		$corporationId: Int
+	){
+		organizationCouncils(
+			filters: $filters,
+			options: $options,
+			dateStart: $dateStart,
+			dateEnd: $dateEnd,
+			status: $status,
+			corporationId: $corporationId
+		){
+			list{
+				id
+				name
+				state
+				dateStart
+				councilStarted
+				councilType
+				externalId
+				participants {
+					id
+					name
+					surname
+				}
+				prototype
+				attachments {
+					filename
+					participantId
+				}
+				company{
+					id
+					businessName
+					logo
+				}
+			}
+			total,
+			preparing,
+			saved,
+			roomOpened,
+			max
+		}
+	}
+`;
 
-const OrganizationDashboard = ({ translate, company, user, client, setAddUser, setEntidades, ...props }) => {
+const OrganizationDashboard = ({ translate, company, client, setAddUser, setEntidades }) => {
 	const [reuniones, setReuniones] = React.useState(false);
 	const [filters, setFilters] = React.useState({
 		page: 1,
@@ -618,8 +662,6 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 					}}>
 					<GridItem
 						xs={(!config.oneOnOneDashboard || company.id === company.corporationId) ? 4 : 12}
-						xs={(!config.oneOnOneDashboard || company.id === company.corporationId) ? 4 : 12}
-						xs={(!config.oneOnOneDashboard || company.id === company.corporationId) ? 4 : 12}
 						style={{
 							background: 'white',
 							boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)',
@@ -871,10 +913,12 @@ const GraficaDoughnut = ({ porcentaje, color, max }) => {
 				const { ctx } = chart.chart;
 				const fontStyle = helpers.getValueOrDefault(centerConfig.fontStyle, globalConfig.defaultFontStyle);
 				const fontFamily = helpers.getValueOrDefault(centerConfig.fontFamily, globalConfig.defaultFontFamily);
-				if (centerConfig.fontSize) var { fontSize } = centerConfig;
-				else {
+				let fontSize;
+				if (centerConfig.fontSize) {
+					fontSize = centerConfig;
+				} else {
 					ctx.save();
-					var fontSize = helpers.getValueOrDefault(centerConfig.minFontSize, 1);
+					fontSize = helpers.getValueOrDefault(centerConfig.minFontSize, 1);
 					const maxFontSize = helpers.getValueOrDefault(centerConfig.maxFontSize, 256);
 					const maxText = helpers.getValueOrDefault(centerConfig.maxText, centerConfig.text);
 					do {
@@ -960,55 +1004,5 @@ const GraficaDoughnut = ({ porcentaje, color, max }) => {
 		/>
 	);
 };
-
-const corporationConvenedLiveCouncils = gql`
-    query corporationConvenedLiveCouncils(
-		$filters: [FilterInput],
-		$options: OptionsInput,
-		$dateStart: String,
-		$dateEnd: String,
-		$status: String,
-		$corporationId: Int
-	){
-		organizationCouncils(
-			filters: $filters,
-			options: $options,
-			dateStart: $dateStart,
-			dateEnd: $dateEnd,
-			status: $status,
-			corporationId: $corporationId
-		){
-			list{
-				id
-				name
-				state
-				dateStart
-				councilStarted
-				councilType
-				externalId
-				participants {
-					id
-					name
-					surname
-				}
-				prototype
-				attachments {
-					filename
-					participantId
-				}
-				company{
-					id
-					businessName
-					logo
-				}
-			}
-			total,
-			preparing,
-			saved,
-			roomOpened,
-			max
-		}
-	}
-`;
 
 export default withApollo(withStyles(styles)(OrganizationDashboard));

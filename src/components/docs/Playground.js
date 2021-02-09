@@ -1,6 +1,6 @@
 import React from 'react';
 import { Controlled as CodeMirror } from 'react-codemirror2';
-import { js_beautify } from 'js-beautify';
+import { js_beautify as jsBeautify } from 'js-beautify';
 import { PlaygroundContext } from './PlaygroundPage';
 import { BasicButton } from '../../displayComponents';
 import 'codemirror/lib/codemirror.css';
@@ -47,7 +47,7 @@ const Playground = () => {
                         onBeforeChange={(editor, data, value) => {
                             updateVariables(value);
                         }}
-                        value={!!playgroundContext.operation && !!playgroundContext.operation.variables && js_beautify(playgroundContext.operation.variables)}
+                        value={!!playgroundContext.operation && !!playgroundContext.operation.variables && jsBeautify(playgroundContext.operation.variables)}
                     />
                 </div>
             </div>
@@ -67,7 +67,7 @@ const Playground = () => {
                         theme: 'darcula',
                         json: true
                     }}
-                    value={!!playgroundContext.operation && !!playgroundContext.operation.response && js_beautify(playgroundContext.operation.response)}
+                    value={!!playgroundContext.operation && !!playgroundContext.operation.response && jsBeautify(playgroundContext.operation.response)}
                 />
             </div>
         </div>

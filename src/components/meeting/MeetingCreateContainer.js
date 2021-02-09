@@ -10,8 +10,12 @@ import LiveHeader from '../council/live/LiveHeader';
 
 let logo;
 let icon;
-import('../../assets/img/logo-icono.png').then(data => icon = data);
-import('../../assets/img/logo-white.png').then(data => logo = data);
+import('../../assets/img/logo-icono.png').then(data => {
+	icon = data;
+});
+import('../../assets/img/logo-white.png').then(data => {
+	logo = data;
+});
 
 
 class MeetingCreateContainer extends React.Component {

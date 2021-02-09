@@ -1,4 +1,3 @@
-import iconVotaciones from '../../assets/img/handshake.svg';
 import iconAsistentes from '../../assets/img/meeting.svg';
 import iconDelegaciones from '../../assets/img/networking.svg';
 

@@ -1,16 +1,11 @@
 import React from 'react';
-import TopSectionBlocks from './TopSectionBlocks';
-import { darkGrey, lightGrey, primary, getSecondary } from '../../styles/colors';
-import withSharedProps from '../../HOCs/withSharedProps';
-import { Scrollbar, CBXFooter, Block, Icon, BasicButton, ButtonIcon, AlertConfirm, GridItem, Grid } from '../../displayComponents';
-import { moment } from '../../containers/App';
-import { TRIAL_DAYS } from '../../config';
-import { trialDaysLeft } from '../../utils/CBX';
+import { getSecondary } from '../../styles/colors';
+import { BasicButton, AlertConfirm, GridItem, Grid } from '../../displayComponents';
 
 
 class ModalEditDash extends React.Component {
 	render() {
-		const { translate, itemStorage, requestClose, open, title, items } = this.props;
+		const { itemStorage, requestClose, open, title, items } = this.props;
 		const secondary = getSecondary();
 
 		return (

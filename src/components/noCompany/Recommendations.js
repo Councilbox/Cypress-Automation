@@ -8,6 +8,41 @@ import * as mainActions from '../../actions/mainActions';
 import withTranslations from '../../HOCs/withTranslations';
 import { bHistory } from '../../containers/App';
 
+const isMobile = {
+    Windows: () => /IEMobile/i.test(navigator.userAgent),
+    Android: () => /Android/i.test(navigator.userAgent),
+    BlackBerry: () => /BlackBerry/i.test(navigator.userAgent),
+    iOS: () => /iPhone|iPad|iPod/i.test(navigator.userAgent),
+    Desktop: () => !isMobile.Android() && !isMobile.iOS()
+};
+
+const titleStyle = {
+    width: '100%',
+    fontWeight: 'bold',
+    padding: '1em',
+    borderBottom: 'solid 1px lightgrey',
+    marginBottom: '2em'
+};
+
+const instructionListStyle = {
+    margin: '0',
+    padding: '0',
+    listStyleType: 'none'
+};
+
+const instructionListItemStyle = {
+    padding: '1.2em',
+    borderBottom: 'solid 1px lightgrey'
+};
+
+const counter = {
+    marginRight: '1em',
+    backgroundColor: getPrimary(),
+    color: 'white',
+    fontWeight: 'bold',
+    padding: '3px 8px',
+    borderRadius: '3px'
+};
 
 class Recommendations extends React.Component {
     state = {
@@ -20,7 +55,7 @@ class Recommendations extends React.Component {
         }
     }
 
-    getBrowserPlatform() {
+    static getBrowserPlatform() {
         if (isMobile.Android()) {
             return 'ANDROID';
         } if (isMobile.iOS()) {
@@ -33,7 +68,7 @@ class Recommendations extends React.Component {
         this.setState({ platformActive });
     };
 
-    _renderPlatformButtons = () => {
+    renderPlatformButtons = () => {
         const primary = getPrimary();
         const lightgrey = getLightGrey();
         return (
@@ -52,37 +87,6 @@ class Recommendations extends React.Component {
                         type="desktop_windows"
                         color={primary} />
                 </Card>
-                {/* <Card
-                    elevation={this.state.platformActive === 'ANDROID' ? 0 : 1}
-                    onClick={() => this.setActivePlatform('ANDROID')}
-                    style={{
-                        cursor: 'pointer',
-                        padding: '0.4em 0.8em 0.2em  0.3em',
-                        backgroundColor: this.state.platformActive === 'ANDROID' ? lightgrey : 'white'
-                    }}
-                >
-                    <ButtonIcon
-                        style={{ fontSize: '2em' }}
-                        type="android"
-                        color={primary} />
-                </Card> */}
-                {/* <Card
-                    elevation={this.state.platformActive === 'IOS' ? 0 : 1}
-                    onClick={() => this.setActivePlatform('IOS')}
-                    style={{
-                        cursor: 'pointer',
-                        padding: '0.4em 0.8em 0.2em  1em',
-                        backgroundColor: this.state.platformActive === 'IOS' ? lightgrey : 'white'
-                    }}
-                >
-                    <FontAwesome
-                        name={"apple"}
-                        style={{
-                            fontSize: "2em",
-                            color: primary
-                        }}
-                    />
-                </Card> */}
             </div>
         );
     }
@@ -118,7 +122,7 @@ class Recommendations extends React.Component {
                             <div>
                                 <div style={titleStyle}>
                                     <span style={{ fontSize: '2em' }}>Android</span>
-                                    {this._renderPlatformButtons()}
+                                    {this.renderPlatformButtons()}
                                 </div>
                                 <ol style={instructionListStyle}>
                                     <li style={instructionListItemStyle}>
@@ -159,7 +163,9 @@ class Recommendations extends React.Component {
                                             type="videocam"
                                             color={primary}
                                             style={{ marginLeft: '15px', fontSize: '3em', cursor: 'pointer', marginBottom: '-0.25em' }}
-                                            onClick={() => { console.info('click'); bHistory.push(`/test/${translate.selectedLanguage}`); }}
+                                            onClick={() => {
+                                                bHistory.push(`/test/${translate.selectedLanguage}`);
+                                            }}
                                         />
                                     </li>
                                     <li style={instructionListItemStyle}>
@@ -175,7 +181,7 @@ class Recommendations extends React.Component {
                         {platformActive === 'IOS' && (
                             <div>
                                 <div style={titleStyle}>
-                                    {this._renderPlatformButtons()}
+                                    {this.renderPlatformButtons()}
                                     <span style={{ fontSize: '2em' }}>iOS</span>
                                 </div>
 
@@ -239,7 +245,7 @@ class Recommendations extends React.Component {
                             <div>
                                 <div style={titleStyle}>
                                     <span style={{ fontSize: '2em' }}>PC</span>
-                                    {this._renderPlatformButtons()}
+                                    {this.renderPlatformButtons()}
                                 </div>
                                 <ol style={instructionListStyle}>
                                     <li style={instructionListItemStyle}>
@@ -293,7 +299,9 @@ class Recommendations extends React.Component {
                                             type="videocam"
                                             color={primary}
                                             style={{ marginLeft: '15px', fontSize: '3em', cursor: 'pointer', marginBottom: '-0.25em' }}
-                                            onClick={() => { console.info('click'); bHistory.push(`/test/${translate.selectedLanguage}`); }}
+                                            onClick={() => {
+                                                bHistory.push(`/test/${translate.selectedLanguage}`);
+                                            }}
                                         />
                                     </li>
                                     <li style={instructionListItemStyle}>
@@ -311,42 +319,6 @@ class Recommendations extends React.Component {
         );
     }
 }
-
-const titleStyle = {
-    width: '100%',
-    fontWeight: 'bold',
-    padding: '1em',
-    borderBottom: 'solid 1px lightgrey',
-    marginBottom: '2em'
-};
-
-const instructionListStyle = {
-    margin: '0',
-    padding: '0',
-    listStyleType: 'none'
-};
-
-const instructionListItemStyle = {
-    padding: '1.2em',
-    borderBottom: 'solid 1px lightgrey'
-};
-
-const counter = {
-    marginRight: '1em',
-    backgroundColor: getPrimary(),
-    color: 'white',
-    fontWeight: 'bold',
-    padding: '3px 8px',
-    borderRadius: '3px'
-};
-
-const isMobile = {
-    Windows: () => /IEMobile/i.test(navigator.userAgent),
-    Android: () => /Android/i.test(navigator.userAgent),
-    BlackBerry: () => /BlackBerry/i.test(navigator.userAgent),
-    iOS: () => /iPhone|iPad|iPod/i.test(navigator.userAgent),
-    Desktop: () => !isMobile.Android() && !isMobile.iOS()
-};
 
 const mapDispatchToProps = dispatch => ({
     actions: bindActionCreators(mainActions, dispatch)

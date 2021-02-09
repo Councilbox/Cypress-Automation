@@ -14,8 +14,7 @@ class SinSesion extends React.Component {
 		showActions: false
 	}
 
-	onClickContinuarEditando = (event, id) => {
-		// esto te llevara a la pagina en donde se edita la reunion - ya funciona el id y el event
+	onClickContinuarEditando = event => {
 		event.stopPropagation();
 	}
 
@@ -32,7 +31,7 @@ class SinSesion extends React.Component {
 	}
 
 	render() {
-		const { translate, reuniones, estados, company } = this.props;
+		const { reuniones, estados, company } = this.props;
 		// Filtramos primero por los estados 5,10,20,30
 		let reunionesFiltradasPorEstado;
 		if (estados) {
@@ -44,7 +43,7 @@ class SinSesion extends React.Component {
 			reunionesFiltradasPorEstado = reuniones;
 		}
 		// sacamos solo 3 reuniones
-		const reunionesFiltradas = Object.keys(reunionesFiltradasPorEstado).filter(key => reunionesFiltradasPorEstado.length > 3).reduce((obj, key) => {
+		const reunionesFiltradas = Object.keys(reunionesFiltradasPorEstado).filter(() => reunionesFiltradasPorEstado.length > 3).reduce((obj, key) => {
 			if (key < 3) {
 				obj[key] = reunionesFiltradasPorEstado[key];
 			}

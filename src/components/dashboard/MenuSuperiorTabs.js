@@ -4,7 +4,7 @@ import { getPrimary } from '../../styles/colors';
 import { SelectInput } from '../../displayComponents';
 import { isMobile } from '../../utils/screen';
 
-const MenuSuperiorTabs = ({ items, setSelect, translate, selected, goToPadre }) => {
+const MenuSuperiorTabs = ({ items, setSelect, selected, goToPadre }) => {
 	const set = item => {
 		setSelect(item);
 		if (goToPadre) {

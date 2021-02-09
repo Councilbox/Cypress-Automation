@@ -74,7 +74,7 @@ class MeetingEditorConfig extends Component {
 	};
 
 
-	checkRequiredFields() {
+	static checkRequiredFields() {
 		return false;
 	}
 
@@ -88,7 +88,7 @@ class MeetingEditorConfig extends Component {
 		});
 	}
 
-	_renderSecurityForm() {
+	renderSecurityForm() {
 		const council = this.state.data;
 		const { translate } = this.props;
 
@@ -221,7 +221,7 @@ class MeetingEditorConfig extends Component {
 					>
 						{translate.security}
 					</Typography>
-					{this._renderSecurityForm()}
+					{this.renderSecurityForm()}
 				</div>
 
 				<div

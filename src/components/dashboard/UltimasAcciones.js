@@ -13,7 +13,7 @@ class UltimasAcciones extends React.Component {
 		showActions: false
 	}
 
-	onClickContinuarEditando = (event, id) => {
+	onClickContinuarEditando = event => {
 		event.stopPropagation();
 	}
 
@@ -30,7 +30,7 @@ class UltimasAcciones extends React.Component {
 	}
 
 	render() {
-		const { translate, councils, states } = this.props;
+		const { councils, states } = this.props;
 		let reunionesFiltradasPorEstado;
 		if (states) {
 			reunionesFiltradasPorEstado = councils.filter(council => states.includes(council.state));

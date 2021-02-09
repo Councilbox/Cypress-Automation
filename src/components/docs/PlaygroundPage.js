@@ -3,14 +3,12 @@ import { withApollo } from 'react-apollo';
 import { Card } from 'material-ui';
 import gql from 'graphql-tag';
 import DocsLayout, { DocsContext } from './DocsLayout';
-
 import PlaygroundSideMenu from './PlaygroundSideMenu';
 import Playground from './Playground';
 
 export const PlaygroundContext = React.createContext();
 
-
-const PlaygroundPage = ({ apiLogin, createUser, client }) => {
+const PlaygroundPage = ({ client }) => {
     const [operation, setOperation] = React.useState(null);
 
     const setVariables = variables => {

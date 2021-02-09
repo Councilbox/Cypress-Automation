@@ -8,8 +8,6 @@ import { downloadFile, prepareTextForFilename } from '../../utils/CBX';
 import { buildDocVariable } from './utils';
 
 const DownloadDoc = ({ client, doc, council, options, translate, filename }) => {
-    const [loading, setLoading] = React.useState(false);
-
     const getLanguageView = () => {
         const texts = {
             es: {
@@ -108,7 +106,6 @@ const DownloadDoc = ({ client, doc, council, options, translate, filename }) => 
         <DropDownMenu
             color="transparent"
             id={'user-menu-trigger'}
-            loading={loading}
             loadingColor={'black'}
             text={translate.export_doc}
             textStyle={{ color: '#464646' }}

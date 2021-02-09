@@ -1,33 +1,6 @@
 import React from 'react';
-import { graphql, compose } from 'react-apollo';
-import BigCalendar from 'react-big-calendar';
-import { Paper, Tooltip } from 'material-ui';
-import gql from 'graphql-tag';
 import { Doughnut, Chart } from 'react-chartjs-2';
-import {
-	Block,
-	Grid,
-	GridItem,
-	LoadingSection,
-	AlertConfirm,
-	Link,
-	BasicButton
-} from '../../displayComponents';
-import { councils } from '../../queries.js';
-import logo from '../../assets/img/logo-icono.png';
-import CantCreateCouncilsModal from './CantCreateCouncilsModal';
-import { TRIAL_DAYS } from '../../config';
-import { trialDaysLeft } from '../../utils/CBX';
-import { moment } from '../../containers/App';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { getPrimary, getSecondary } from '../../styles/colors';
-import CouncilDetails from '../council/display/CouncilDetails';
-import AgendaEvent from './AgendaEvent';
-import { isMobile } from '../../../utils/screen';
-
-
-const primary = getPrimary();
-const secondary = getSecondary();
 
 class Grafica extends React.Component {
 	render() {
@@ -37,6 +10,7 @@ class Grafica extends React.Component {
 		const originalDoughnutDraw = Chart.controllers.doughnut.prototype.draw;
 		Chart.helpers.extend(Chart.controllers.doughnut.prototype, {
 			draw() {
+				// eslint-disable-next-line prefer-rest-params
 				originalDoughnutDraw.apply(this, arguments);
 
 				const { chart } = this;
@@ -44,8 +18,6 @@ class Grafica extends React.Component {
 					const { height } = chart.chart;
 					const { ctx } = chart.chart;
 				ctx.fillStyle = 'rgba(0, 0, 0, 0.65)';
-
-				const fontSize = '14px';
 				ctx.font = 'sans-serif';
 				ctx.textBaseline = 'middle';
 

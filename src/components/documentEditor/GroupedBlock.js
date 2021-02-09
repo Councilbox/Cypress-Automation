@@ -10,10 +10,10 @@ const GroupedBlock = ({ translate, item, expand, hoverFijo, hoverAndSave, setTex
 
     return (
         <React.Fragment>
-            {item.items.map((item, index) => (
+            {item.items.map((block, index) => (
                 <Block
                     key={index}
-                    value={item}
+                    value={block}
                     hoverFijo={hoverFijo}
                     hoverAndSave={hoverAndSave}
                     setText={setText}
