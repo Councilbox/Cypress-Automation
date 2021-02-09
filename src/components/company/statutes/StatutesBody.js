@@ -12,7 +12,6 @@ import {
 	UnsavedChangesModal,
 	LoadingSection,
 	TextInput,
-	VTabs,
 	VTabs
 } from "../../../displayComponents";
 import {
@@ -276,28 +275,6 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 		}
 	};
 
-	const handleStatuteChange = index => {
-		if (index !== 'new') {
-			if (!state.unsavedChanges) {
-				setState({
-					...state,
-					selectedStatute: index,
-					statute: null,
-					error: false,
-					loading: false,
-					success: false
-				})
-			} else {
-				setState({
-					...state,
-					unsavedAlert: true,
-					error: false,
-					loading: false,
-					success: false
-				});
-			}
-		}
-	};
 
 	const createStatute = async () => {
 		const regex = new RegExp("^[a-zA-Z0-9-áéíóú]");
