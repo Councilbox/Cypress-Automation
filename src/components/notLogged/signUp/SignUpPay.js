@@ -10,7 +10,6 @@ import {
 	TextInput
 } from '../../../displayComponents';
 import { getPrimary, secondary } from '../../../styles/colors';
-import TermsModal from './TermsModal';
 
 class SignUpPay extends React.Component {
 	state = {
@@ -173,7 +172,7 @@ class SignUpPay extends React.Component {
 									cursor: 'pointer',
 									textTransform: 'lowerCase',
 									marginLeft: '0.4em'
-								 }}
+							}}
 								onClick={event => {
 									event.stopPropagation();
 									this.setState({

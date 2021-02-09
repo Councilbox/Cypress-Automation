@@ -32,7 +32,7 @@ const NotificationsTable = ({ notifications, translate, maxEmail, liveMobil }) =
 	if (liveMobil) {
 		return (
 			notifications.map((notification, index) => (
-				<Card style={{ marginBottom: '10px' }}>
+				<Card style={{ marginBottom: '10px' }} key={index}>
 					<CardHeader
 						avatar={
 							<EmailIcon

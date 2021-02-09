@@ -2,7 +2,7 @@ import React from 'react';
 import fileSize from 'filesize';
 import Dropzone from 'react-dropzone';
 import gql from 'graphql-tag';
-import { Icon, Card, Table, TableCell, TableBody, TableRow } from 'material-ui';
+import { Card, Table, TableCell, TableBody, TableRow } from 'material-ui';
 import { withApollo } from 'react-apollo';
 import { isMobile } from 'react-device-detect';
 import { BasicButton, Checkbox, AlertConfirm } from '../../../displayComponents';
@@ -40,13 +40,6 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
         getData();
     }, [participant.id]);
 
-    const onDrop = (accepted, rejected) => {
-		if (accepted.length === 0) {
-			return;
-		}
-		handleFile(accepted[0]);
-	};
-
     const handleFile = async file => {
 		if (!file) {
 			return;
@@ -73,6 +66,13 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
             setUploadFile(false);
 		};
     };
+
+    const onDrop = accepted => {
+		if (accepted.length === 0) {
+			return;
+		}
+		handleFile(accepted[0]);
+	};
 
     const deleteAttachment = async id => {
         await client.mutate({
@@ -247,7 +247,7 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
                         disabled={!check}
                         onDrop={onDrop}
                     >
-                        {({ getRootProps, getInputProps, isDragActive }) => (
+                        {({ getRootProps, getInputProps }) => (
                                 <div
                                     style={{ maxWidth: '700px', margin: '1em', marginTop: '2em' }}
                                     {...getRootProps()}

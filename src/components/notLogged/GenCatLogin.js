@@ -24,17 +24,17 @@ const GenCatLogin = ({ loginSuccess }) => {
         const randomnumber = +new Date();
         // calculem la data d'emissio de la peticio. El desitjable és que la data de la petició es calculi en el servidor web i no en Javascript. Aquest fragment de codi per a calcular la data en Javascript és només per a fer proves, en entorn de producció la data s'hauria de calcular al servidor web de cara a assegurar que estigui generada per un rellotge sincronitzar amb un servidor NTP.
         const d = new Date();
-        const curr_date = d.getDate();
-        const curr_month = d.getUTCMonth() + 1;
-        const curr_month2 = (curr_month < 10 ? '0' : '') + curr_month;
-        const curr_year = d.getFullYear();
-        const ymd = `${curr_year}-${curr_month2}-${curr_date}T`;
-        const curr_hour = d.getUTCHours();
-        const curr_min = d.getUTCMinutes();
-        const curr_min2 = (curr_min < 10 ? '0' : '') + curr_min;
-        const curr_sec = d.getUTCSeconds();
-        const curr_msec = d.getUTCMilliseconds();
-        const hms = `${curr_hour}:${curr_min2}:${curr_sec}.${curr_msec}`;
+        const currDate = d.getDate();
+        const currMonth = d.getUTCMonth() + 1;
+        const currMonth2 = (currMonth < 10 ? '0' : '') + currMonth;
+        const currYear = d.getFullYear();
+        const ymd = `${currYear}-${currMonth2}-${currDate}T`;
+        const currHour = d.getUTCHours();
+        const currMin = d.getUTCMinutes();
+        const currMin2 = (currMin < 10 ? '0' : '') + currMin;
+        const currSec = d.getUTCSeconds();
+        const currMSec = d.getUTCMilliseconds();
+        const hms = `${currHour}:${currMin2}:${currSec}.${currMSec}`;
         const datasaml = ymd + hms;
 
         // generem samlrequest en pla

@@ -55,9 +55,9 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
         getAgendaRecount();
     }, []);
 
-    const setAgendaVoting = vote => {
+    const setAgendaVoting = voteData => {
         if (props.ownVote) {
-            votingContext.responses.set(props.ownVote.id, vote);
+            votingContext.responses.set(props.ownVote.id, voteData);
             votingContext.setResponses(new Map(votingContext.responses));
         }
     };
@@ -68,25 +68,25 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
     };
 
 
-    const buildRecountText = recount => {
+    const buildRecountText = recountData => {
         const showRecount = ((CBX.getAgendaTypeLabel(agenda) !== 'private_votation'
             && council.statute.hideVotingsRecountFinished === 0) || agenda.votingState === AGENDA_STATES.CLOSED) && !config.hideRecount;
 
         return (
             showRecount ?
-                ` (${translate.recount}: ${recount}%)`
+                ` (${translate.recount}: ${recountData}%)`
             : ''
         );
     };
 
-    const updateAgendaVoting = async vote => {
-        setLoading(vote);
+    const updateAgendaVoting = async voteData => {
+        setLoading(voteData);
 
         const response = await Promise.all(agenda.votings.map(voting => props.updateAgendaVoting({
                 variables: {
                     agendaVoting: {
                         id: voting.id,
-                        vote,
+                        vote: voteData,
                     }
                 }
             })));
@@ -194,21 +194,19 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
     );
 };
 
-export const DeniedDisplay = ({ translate, denied }) =>
-    // TRADUCCION
-     (
-        <div>
-            No puede ejercer su derecho a voto
-            <br />
-            {denied.map(deniedVote => (
-                <React.Fragment>
-                    <br />
-                    {`${deniedVote.author.name} ${deniedVote.author.surname || ''} ${deniedVote.author.voteDeniedReason ? `: ${deniedVote.author.voteDeniedReason}` : ''}`}
-                </React.Fragment>
-            ))}
+export const DeniedDisplay = ({ denied }) => (
+    <div>
+        No puede ejercer su derecho a voto
+        <br />
+        {denied.map(deniedVote => (
+            <React.Fragment key={`${deniedVote.author.name}`}>
+                <br />
+                {`${deniedVote.author.name} ${deniedVote.author.surname || ''} ${deniedVote.author.voteDeniedReason ? `: ${deniedVote.author.voteDeniedReason}` : ''}`}
+            </React.Fragment>
+        ))}
 
-        </div>
-    );
+    </div>
+);
 
 
 export const VotingButton = ({ onClick, text, selected, icon, loading, onChange, disabled, styleButton, selectCheckBox, color, disabledColor }) => {

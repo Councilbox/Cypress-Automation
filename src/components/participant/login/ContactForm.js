@@ -3,7 +3,7 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Input, withStyles } from 'material-ui';
 import { withRouter } from 'react-router';
-import { TextInput, BasicButton, ButtonIcon, SuccessMessage } from '../../../displayComponents';
+import { BasicButton, ButtonIcon, SuccessMessage } from '../../../displayComponents';
 import RichTextInput from '../../../displayComponents/RichTextInput';
 import { useOldState } from '../../../hooks';
 import { getPrimary } from '../../../styles/colors';
@@ -23,7 +23,7 @@ const styles = {
 };
 
 
-const ContactForm = ({ participant = {}, translate, council = {}, client, match, ...props }) => {
+const ContactForm = ({ participant = {}, translate, client, match, ...props }) => {
     const [state, setState] = useOldState({
         replyTo: participant.email,
         subject: '',
@@ -32,6 +32,30 @@ const ContactForm = ({ participant = {}, translate, council = {}, client, match,
     const [emailEnviado, setEmailEnviado] = React.useState(false);
     const [errors, setErrors] = React.useState({});
     const primary = getPrimary();
+
+    const validate = () => {
+        let hasError = false;
+        const newErrors = {};
+
+        if (!state.body) {
+            newErrors.body = translate.required_field;
+            hasError = true;
+        }
+        if (!state.replyTo) {
+            newErrors.replyTo = translate.required_field;
+            hasError = true;
+        } else if (!checkValidEmail(state.replyTo)) {
+                newErrors.replyTo = 'El email esta mal';
+                hasError = true;
+            }
+        if (!state.subject) {
+            newErrors.subject = translate.required_field;
+            hasError = true;
+        }
+
+        setErrors(newErrors);
+        return hasError;
+    };
 
     const send = async () => {
         if (!validate(state)) {
@@ -59,30 +83,6 @@ const ContactForm = ({ participant = {}, translate, council = {}, client, match,
                 setEmailEnviado(true);
             }
         }
-    };
-
-    const validate = items => {
-        let hasError = false;
-        const newErrors = {};
-
-        if (!state.body) {
-            newErrors.body = translate.required_field;
-            hasError = true;
-        }
-        if (!state.replyTo) {
-            newErrors.replyTo = translate.required_field;
-            hasError = true;
-        } else if (!checkValidEmail(state.replyTo)) {
-                newErrors.replyTo = 'El email esta mal';
-                hasError = true;
-            }
-        if (!state.subject) {
-            newErrors.subject = translate.required_field;
-            hasError = true;
-        }
-
-        setErrors(newErrors);
-        return hasError;
     };
 
     if (emailEnviado) {

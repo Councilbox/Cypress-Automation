@@ -10,8 +10,8 @@ import { getPrimary } from '../../../styles/colors';
 
 const Resend2FAModal = ({ translate, open, requestClose, match, client }) => {
     const [data, setData] = React.useState(null);
+    const { secondsLeft, setCountdown } = useCountdown(0);
     const [timeDifference, setTimeDifference] = React.useState(0);
-    const [sending, setSending] = React.useState(false);
 
     React.useEffect(() => {
         if (data && data.sendDate) {
@@ -22,25 +22,6 @@ const Resend2FAModal = ({ translate, open, requestClose, match, client }) => {
             setCountdown(60 - difference);
         }
     }, [data]);
-
-    const { secondsLeft, setCountdown } = useCountdown(0);
-
-    const resendKey = async () => {
-        const response = await client.mutate({
-            mutation: gql`
-                mutation resend2FA($token: String!){
-                    resend2FA(token: $token){
-                        success
-                    }
-                }
-            `,
-            variables: {
-                token: match.params.token
-            }
-        });
-
-        getData();
-    };
 
     const getData = React.useCallback(async () => {
         const response = await client.query({
@@ -61,6 +42,23 @@ const Resend2FAModal = ({ translate, open, requestClose, match, client }) => {
 
         setData(response.data.last2FASent);
     }, [match.params.token, open]);
+
+    const resendKey = async () => {
+        await client.mutate({
+            mutation: gql`
+                mutation resend2FA($token: String!){
+                    resend2FA(token: $token){
+                        success
+                    }
+                }
+            `,
+            variables: {
+                token: match.params.token
+            }
+        });
+
+        getData();
+    };
 
     React.useEffect(() => {
         if (open) {
@@ -90,7 +88,6 @@ const Resend2FAModal = ({ translate, open, requestClose, match, client }) => {
             open={open}
             extraActions={
                 <BasicButton
-                    loading={sending}
                     color={getPrimary()}
                     textStyle={{
                         color: 'white',

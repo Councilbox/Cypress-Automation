@@ -10,7 +10,48 @@ import { CardPageLayout, EnhancedTable, LoadingSection, CloseIcon, BasicButton, 
 import { isMobile } from '../../utils/screen';
 
 let XLSX;
-import('xlsx').then(data => XLSX = data);
+import('xlsx').then(data => {
+    XLSX = data;
+});
+
+const deleteBookParticipants = gql`
+    mutation deleteBookParticipant($participantId: Int!){
+        deleteBookParticipant(participantId: $participantId){
+            success
+            message
+        }
+    }
+`;
+
+const bookParticipants = gql`
+    query BookParticipants($companyId: Int!, $filters: [FilterInput], $options: OptionsInput){
+        bookParticipants(companyId: $companyId, filters: $filters, options: $options){
+            list {
+                name
+                id
+                dni
+                state
+                numParticipations
+                socialCapital
+                representative {
+                    id
+                    name
+                    surname
+                    dni
+                    state
+                    position
+                }
+                position
+                surname
+                subscribeDate
+                unsubscribeDate
+                unsubscribeActNumber
+                subscribeActNumber
+            }
+            total
+        }
+    }
+`;
 
 const PartnersBookPage = ({ translate, client, ...props }) => {
     const [state, setState] = React.useState({
@@ -118,7 +159,8 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
         const arrayFinal = [];
         for (let index = 0; index < lista.length; index++) {
             let arrayRepresentative;
-            const { representative, __typename, name, dni, state, position, surname, subscribeDate, unsubscribeDate, unsubscribeActNumber, subscribeActNumber, id } = lista[index];
+            // eslint-disable-next-line no-unused-vars
+            const { representative, __typename, name, dni, state: s, position, surname, subscribeDate, unsubscribeDate, unsubscribeActNumber, subscribeActNumber, id } = lista[index];
             const listaFinal = {
                 id,
                 [translate.state]: state === 1 ? 'Alta' : 'Baja',
@@ -132,6 +174,7 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
                 [translate.unsubscribe_act_number]: unsubscribeActNumber,
             };
             if (representative !== null) {
+                // eslint-disable-next-line no-shadow
                 const { id, dni, name, position, state, surname } = representative;
                 arrayRepresentative = {
                     rId: id,
@@ -477,43 +520,5 @@ class HoverableRow extends React.PureComponent {
         );
     }
 }
-
-const bookParticipants = gql`
-    query BookParticipants($companyId: Int!, $filters: [FilterInput], $options: OptionsInput){
-        bookParticipants(companyId: $companyId, filters: $filters, options: $options){
-            list {
-                name
-                id
-                dni
-                state
-                numParticipations
-                socialCapital
-                representative {
-                    id
-                    name
-                    surname
-                    dni
-                    state
-                    position
-                }
-                position
-                surname
-                subscribeDate
-                unsubscribeDate
-                unsubscribeActNumber
-                subscribeActNumber
-            }
-            total
-        }
-    }
-`;
-const deleteBookParticipants = gql`
-    mutation deleteBookParticipant($participantId: Int!){
-        deleteBookParticipant(participantId: $participantId){
-            success
-            message
-        }
-    }
-`;
 
 export default withTranslations()(withRouter(withApollo(PartnersBookPage)));

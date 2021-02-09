@@ -8,7 +8,6 @@ import { getPrimary } from '../../../styles/colors';
 import Stars from './Stars';
 import { useSubdomain } from '../../../utils/subdomain';
 import { useStatus, STATUS } from '../../../hooks';
-import { isMobile } from '../../../utils/screen';
 
 let timeout;
 

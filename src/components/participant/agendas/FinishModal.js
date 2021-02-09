@@ -2,7 +2,7 @@ import React from 'react';
 import { AlertConfirm } from '../../../displayComponents';
 
 
-const FinishModal = ({ open, action, requestClose, translate, ...props }) => {
+const FinishModal = ({ open, action, requestClose, translate }) => {
     const renderBody = () => (
             <div>
                 Una vez enviado no se podrá modificar el sentido del voto ¿Aceptar?

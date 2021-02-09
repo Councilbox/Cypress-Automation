@@ -1,8 +1,7 @@
-import { Card } from 'material-ui';
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { NotLoggedLayout, Scrollbar, BasicButton, Checkbox } from '../../../displayComponents';
+import { BasicButton, Checkbox } from '../../../displayComponents';
 import { isMobile } from '../../../utils/screen';
 import { ReactComponent as VideoCamera } from '../../../assets/img/video-camera.svg';
 import { ReactComponent as Folder } from '../../../assets/img/folder-1.svg';
@@ -37,14 +36,14 @@ const styles = {
 };
 
 
-const DataAuthorization = ({ council, participant, props = {}, client, refetch }) => {
+const DataAuthorization = ({ client, refetch }) => {
     const [checked, setChecked] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const secondary = getSecondary();
 
     const sendConfirmation = async () => {
         setLoading(true);
-        const response = await client.mutate({
+        await client.mutate({
             mutation: gql`
                 mutation liveAcceptLegalTermsAndConditions{
                     liveAcceptLegalTermsAndConditions{

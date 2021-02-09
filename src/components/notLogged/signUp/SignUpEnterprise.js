@@ -30,12 +30,12 @@ class SignUpEnterprise extends React.Component {
 		const data = nextProps.formData;
 		const selectedCountry = this.props.countries.countries ?
 			this.props.countries.countries.find(
-					country => country.deno === data.country
-			  )
+				country => country.deno === data.country
+			)
 			: {
-					deno: 'España',
-					id: 1
-			  };
+				deno: 'España',
+				id: 1
+			};
 
 		const response = await this.props.client.query({
 			query: provinces,

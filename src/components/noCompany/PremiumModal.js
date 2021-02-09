@@ -1,11 +1,10 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { AlertConfirm, BasicButton, Grid, GridItem } from '../../displayComponents';
+import { AlertConfirm, BasicButton } from '../../displayComponents';
 import { primary } from '../../styles/colors';
 import { store } from '../../containers/App';
 import { setUserData } from '../../actions/mainActions';
-import { TRIAL_DAYS } from '../../config';
 
 class PremiumModal extends React.Component {
     state = {

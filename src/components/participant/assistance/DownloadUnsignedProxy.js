@@ -1,7 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
-import { AlertConfirm, HelpPopover, LoadingSection } from '../../../displayComponents';
+import { AlertConfirm, HelpPopover } from '../../../displayComponents';
 import { downloadFile } from '../../../utils/CBX';
 import { getPrimary } from '../../../styles/colors';
 
@@ -11,7 +11,7 @@ const DownloadUnsignedProxy = ({ action, translate, client, participant, delegat
     const primary = getPrimary();
 
 
-	const downloadUnsignedProxy = async id => {
+	const downloadUnsignedProxy = async () => {
         if (!loading) {
             setLoading(true);
             const response = await client.query({

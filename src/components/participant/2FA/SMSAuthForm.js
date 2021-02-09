@@ -1,6 +1,6 @@
 import React from 'react';
-import { Card, Tooltip } from 'material-ui';
-import { BasicButton, TextInput, NotLoggedLayout, Scrollbar } from '../../../displayComponents';
+import { Card } from 'material-ui';
+import { BasicButton, TextInput, NotLoggedLayout } from '../../../displayComponents';
 import { isMobile } from '../../../utils/screen';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import Resend2FAModal from './Resend2FAModal';

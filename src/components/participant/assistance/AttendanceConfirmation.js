@@ -3,7 +3,7 @@ import { AlertConfirm } from '../../../displayComponents';
 import withSharedProps from '../../../HOCs/withSharedProps';
 
 
-const AttendanceConfirmation = ({ open, requestClose, company, translate }) => (
+const AttendanceConfirmation = ({ open, requestClose, translate }) => (
         <AlertConfirm
             open={open}
             title={translate.warning}

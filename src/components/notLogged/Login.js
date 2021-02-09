@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Card } from 'material-ui';
 import { graphql } from 'react-apollo';
 import * as mainActions from '../../actions/mainActions';
-import { login } from '../../queries';
+import { login as loginMutation } from '../../queries';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import withWindowSize from '../../HOCs/withWindowSize';
 import withTranslations from '../../HOCs/withTranslations';
@@ -31,6 +31,32 @@ const Login = ({ translate, windowSize, ...props }) => {
 	const secondary = getSecondary();
 	const subdomain = useSubdomain();
 	const config = React.useContext(ConfigContext);
+
+	function checkRequiredFields() {
+		const errors = {
+			user: '',
+			password: ''
+		};
+
+		let hasError = false;
+
+		if (!state.user) {
+			hasError = true;
+			errors.user = translate.field_required;
+		}
+
+		if (!state.password) {
+			hasError = true;
+			errors.password = translate.field_required;
+		}
+
+		setState({
+			...state,
+			errors
+		});
+
+		return hasError;
+	}
 
 	const login = async () => {
 		const { user, password } = state;
@@ -108,33 +134,6 @@ const Login = ({ translate, windowSize, ...props }) => {
 			login();
 		}
 	};
-
-	function checkRequiredFields() {
-		const errors = {
-			user: '',
-			password: ''
-		};
-
-		let hasError = false;
-
-		if (!state.user) {
-			hasError = true;
-			errors.user = translate.field_required;
-		}
-
-		if (!state.password) {
-			hasError = true;
-			errors.password = translate.field_required;
-		}
-
-		setState({
-			...state,
-			errors
-		});
-
-		return hasError;
-	}
-
 
 	return (
 		<NotLoggedLayout
@@ -400,4 +399,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
 	null,
 	mapDispatchToProps
-)(graphql(login, { options: { errorPolicy: 'all' } })(withWindowSize(withTranslations()(Login))));
+)(graphql(loginMutation, { options: { errorPolicy: 'all' } })(withWindowSize(withTranslations()(Login))));

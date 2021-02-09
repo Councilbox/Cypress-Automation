@@ -2,13 +2,96 @@ import React from 'react';
 import { Card } from 'material-ui';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { AlertConfirm, Grid, GridItem, ReactSignature, BasicButton, Scrollbar, HelpPopover } from '../../../displayComponents';
-import { getSecondary, getPrimary } from '../../../styles/colors';
+import { AlertConfirm, Grid, GridItem, ReactSignature, BasicButton, Scrollbar } from '../../../displayComponents';
+import { getSecondary } from '../../../styles/colors';
 import withWindowSize from '../../../HOCs/withWindowSize';
 import { moment } from '../../../containers/App';
 import { isMobile } from '../../../utils/screen';
 import DownloadUnsignedProxy from './DownloadUnsignedProxy';
 import { voteValuesText } from '../../../utils/CBX';
+
+const proxyTranslations = {
+    es: {
+        at: 'a',
+        body: ({ council, delegation }) => (`No pudiendo asistir a la ${council.name} de ${council.company.businessName} convocada${
+            ' '}para el próximo día ${moment(council.dateStart).format('LL')} a${
+            ' '}las ${moment(council.dateStart).format('h:mm:ss')} horas, en ${council.street}, en${
+            ' '}primera convocatoria, o bien el ${moment(council.dateStart2ndCall).format('LL')} a${
+            ' '}las ${moment(council.dateStart2ndCall).format('h:mm:ss')} horas${
+            ' '}en el mismo lugar, en segunda convocatoria, delego mi representación y voto en favor de ${
+            ' '}D./ ${delegation.name} ${delegation.surname || ''} para que me represente en dicha reunión sin limitación de facultad de voto.`),
+        in: 'En',
+        intro: 'Distinguido/s Señor/es:',
+        salute: 'Le saluda muy atentatamente',
+        sir: 'D.'
+    },
+    cat: {
+        at: 'a',
+        body: ({ council, delegation }) => (`Malauradament no poden assistir a la ${council.name} d'${council.company.businessName} convocada${
+            ' '}per el pròxim dia ${moment(council.dateStart).format('LL')} a${
+            ' '}les ${moment(council.dateStart).format('h:mm:ss')} horas, ${council.statute.hasSecondCall === 1 ? `en ${council.street}, en${
+                ' '}primera convocatòria, o bé el ${moment(council.dateStart2ndCall).format('LL')} a${
+                ' '}les ${moment(council.dateStart2ndCall).format('h:mm:ss')} horas${
+                ' '}en la mateixa direcció, en segona convocatòria` : ''}. Delego la meva representació y el meu vot en favor de ${
+            ' '}D./ ${delegation.name} ${delegation.surname || ''} per que pugui representar-me en la citada reunió sense cap limitació de facultat de vot.`),
+        in: 'En',
+        intro: 'Distingits Senyors/res:',
+        salute: 'Salutacions',
+        sir: 'D,'
+    }
+};
+
+export const replaceDocsTags = (initialText, data = {}) => {
+    let text = initialText;
+    const translations = {
+        es: {
+            no_vote: 'No vota',
+            against_btn: 'En contra',
+            in_favor_btn: 'A favor',
+            abstention: 'Abstención'
+        },
+        en: {
+            no_vote: 'No vote',
+            against_btn: 'Against',
+            in_favor_btn: 'In favor',
+            abstention: 'Abstention'
+        }
+    };
+
+    const translate = translations[data.language] ? translations[data.language] : translations.es;
+
+    if (!text) {
+        return '';
+    }
+
+    text = text.replace(/{{participantName}}/g, `${data.participant.name} ${data.participant.surname || ''}`);
+    if (data.delegate) {
+        text = text.replace(/{{delegateName}}/g, `${data.delegate.name} ${data.delegate.surname || ''}`);
+    }
+
+    if (data.votes) {
+        text = text.replace(/{{votes}}/, data.council.agendas.reduce((acc, point) => {
+            const vote = data.votes.find(item => item.agendaId === point.id);
+
+            acc += `
+                <div style="margin-top: 1em">
+                    <b>${point.agendaSubject}</b>
+                </div>
+                ${translate[voteValuesText(vote.value)]}
+            `;
+
+            return acc;
+        }, ''));
+    }
+
+    text = text.replace(/{{business_name}}/g, data.council.company.businessName);
+    text = text.replace(/{{city}}/g, data.council.city);
+    text = text.replace(/{{address}}/g, data.council.street);
+    text = text.replace(/{{dateFirstCall}}/g, moment(data.council.dateStart).format('DD/MM/YYYY hh:mm'));
+    text = text.replace(/{{dateSecondCall}}/g, moment(data.council.dateStart2ndCall).format('DD/MM/YYYY hh:mm'));
+
+    return text;
+};
 
 
 const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, translate, participant, requestClose, action }) => {
@@ -71,9 +154,9 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
         }
     };
 
-    const sendDelegationData = async signature => {
+    const sendDelegationData = async signatureData => {
         setLoading(true);
-        await action(signature);
+        await action(signatureData);
         setLoading(false);
         requestClose();
     };
@@ -93,7 +176,7 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
     const proxyPreview = () => {
         const proxyTranslate = proxyTranslations[translate.selectedLanguage] ? proxyTranslations[translate.selectedLanguage] : proxyTranslations.es;
 
-        const signature = (
+        const renderSignature = (
             <ReactSignature
                 height={80}
                 width={160}
@@ -110,7 +193,7 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                 return (
                     <>
                         <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(proxy, { council, participant, delegate: delegation }) }}></div>
-                        {signature}
+                        {renderSignature}
                     </>
                 );
             }
@@ -118,8 +201,7 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
             return (
                 segments.map((text, index) => (
                         <>
-                            {index > 0
-                                && signature
+                            {index > 0 && renderSignature
                             }
                             <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(text, { council, participant, delegate: delegation }) }}></div>
 
@@ -141,7 +223,7 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                 <br/>
                 <br/>
                 <div>{proxyTranslate.salute}</div>
-                {signature}
+                {renderSignature}
                 {!council.statute.proxy
                     && <>
                         _________________________________
@@ -290,87 +372,3 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
 };
 
 export default withApollo(withWindowSize(DelegationProxyModal));
-
-
-const proxyTranslations = {
-    es: {
-        at: 'a',
-        body: ({ council, delegation }) => (`No pudiendo asistir a la ${council.name} de ${council.company.businessName} convocada${
-        ' '}para el próximo día ${moment(council.dateStart).format('LL')} a${
-        ' '}las ${moment(council.dateStart).format('h:mm:ss')} horas, en ${council.street}, en${
-        ' '}primera convocatoria, o bien el ${moment(council.dateStart2ndCall).format('LL')} a${
-        ' '}las ${moment(council.dateStart2ndCall).format('h:mm:ss')} horas${
-        ' '}en el mismo lugar, en segunda convocatoria, delego mi representación y voto en favor de ${
-        ' '}D./ ${delegation.name} ${delegation.surname || ''} para que me represente en dicha reunión sin limitación de facultad de voto.`),
-        in: 'En',
-        intro: 'Distinguido/s Señor/es:',
-        salute: 'Le saluda muy atentatamente',
-        sir: 'D.'
-    },
-    cat: {
-        at: 'a',
-        body: ({ council, delegation }) => (`Malauradament no poden assistir a la ${council.name} d'${council.company.businessName} convocada${
-        ' '}per el pròxim dia ${moment(council.dateStart).format('LL')} a${
-        ' '}les ${moment(council.dateStart).format('h:mm:ss')} horas, ${council.statute.hasSecondCall === 1 ? `en ${council.street}, en${
-            ' '}primera convocatòria, o bé el ${moment(council.dateStart2ndCall).format('LL')} a${
-            ' '}les ${moment(council.dateStart2ndCall).format('h:mm:ss')} horas${
-            ' '}en la mateixa direcció, en segona convocatòria` : ''}. Delego la meva representació y el meu vot en favor de ${
-        ' '}D./ ${delegation.name} ${delegation.surname || ''} per que pugui representar-me en la citada reunió sense cap limitació de facultat de vot.`),
-        in: 'En',
-        intro: 'Distingits Senyors/res:',
-        salute: 'Salutacions',
-        sir: 'D,'
-    }
-};
-
-
-export const replaceDocsTags = (text, data = {}) => {
-    const translations = {
-        es: {
-            no_vote: 'No vota',
-            against_btn: 'En contra',
-            in_favor_btn: 'A favor',
-            abstention: 'Abstención'
-        },
-        en: {
-            no_vote: 'No vote',
-            against_btn: 'Against',
-            in_favor_btn: 'In favor',
-            abstention: 'Abstention'
-        }
-    };
-
-    const translate = translations[data.language] ? translations[data.language] : translations.es;
-
-    if (!text) {
-        return '';
-    }
-
-    text = text.replace(/{{participantName}}/g, `${data.participant.name} ${data.participant.surname || ''}`);
-    if (data.delegate) {
-        text = text.replace(/{{delegateName}}/g, `${data.delegate.name} ${data.delegate.surname || ''}`);
-    }
-
-    if (data.votes) {
-        text = text.replace(/{{votes}}/, data.council.agendas.reduce((acc, point) => {
-            const vote = data.votes.find(vote => vote.agendaId === point.id);
-
-            acc += `
-                <div style="margin-top: 1em">
-                    <b>${point.agendaSubject}</b>
-                </div>
-                ${translate[voteValuesText(vote.value)]}
-            `;
-
-            return acc;
-        }, ''));
-    }
-
-    text = text.replace(/{{business_name}}/g, data.council.company.businessName);
-    text = text.replace(/{{city}}/g, data.council.city);
-    text = text.replace(/{{address}}/g, data.council.street);
-    text = text.replace(/{{dateFirstCall}}/g, moment(data.council.dateStart).format('DD/MM/YYYY hh:mm'));
-    text = text.replace(/{{dateSecondCall}}/g, moment(data.council.dateStart2ndCall).format('DD/MM/YYYY hh:mm'));
-
-    return text;
-};

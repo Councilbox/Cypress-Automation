@@ -9,6 +9,46 @@ import { moment } from '../../../containers/App';
 import ToolTip from '../../../displayComponents/Tooltip';
 import { isMobile } from '../../../utils/screen';
 
+const getEvidenceComponent = (evidence, cbxEvidence) => {
+    if (evidence.data.type === 'LOGIN') {
+        return <UserEvidence evidence={evidence} cbxEvidence={cbxEvidence} />;
+    }
+
+    return <CouncilEvidence evidence={evidence} cbxEvidence={cbxEvidence} />;
+};
+
+const getData = gql`
+    query EvidenceContent($code: String!){
+        evidenceContent(code: $code){
+            userId
+            participantId
+            content
+            type
+            uuid
+            validated
+            cbxEvidence {
+                evhash
+                tx_hash
+                prvhash
+                uuid
+                data
+            }
+        }
+    }
+`;
+
+const getTypeTranslation = type => {
+    const translations = {
+        INFORMATIVE: 'informative',
+        NOMINAL: 'public_voting',
+        ANONYMOUS: 'private_voting',
+        NOMINAL_ACT: 'public_act',
+        DEFAULT: 'custom_point'
+    };
+
+    return translations[type] || translations.default;
+};
+
 class ValidatorPage extends React.Component {
     state = {
         code: this.props.match.params.uuid,
@@ -22,7 +62,7 @@ class ValidatorPage extends React.Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         if (this.props.match.params.uuid) {
             if (this.props.match.params.uuid !== prevProps.match.params.uuid) {
                 this.searchCode(this.props.match.params.uuid);
@@ -150,16 +190,11 @@ const EvidenceContentDisplay = ({ content, cbxEvidence }) => {
 };
 
 const UserEvidence = withTranslations()(({ evidence, translate, cbxEvidence }) => (
-        <div>
-            <EvidenceDisplay evidence={evidence} translate={translate} cbxEvidence={cbxEvidence} />
-            <UserSection evidence={evidence} translate={translate} />
-        </div>
-    ));
-
-const blur = {
-    textShadow: '0 0 6px black',
-    color: 'transparent'
-};
+    <div>
+        <EvidenceDisplay evidence={evidence} translate={translate} cbxEvidence={cbxEvidence} />
+        <UserSection evidence={evidence} translate={translate} />
+    </div>
+));
 
 export const CouncilEvidence = withTranslations()(({ evidence, translate, cbxEvidence }) => (
         <React.Fragment>
@@ -314,106 +349,75 @@ const AgendaPointSection = ({ evidence, translate }) => (
     );
 
 const CouncilSection = ({ evidence, translate }) => (
-        <div style={{ /* paddingLeft: '1.5em' */ marginBottom: '1em' }}>
-            <div style={{ fontWeight: '700', fontSize: '1.2em' }}>
-                {translate.council_info}
-                <hr style={{ margin: '0.5em 0em' }}></hr>
-            </div>
-            <div>
-                {evidence.agendaPoint
-                    && <React.Fragment>
-                        {evidence.agendaPoint.company
-                            && <div style={{ display: 'flex' }}>
-                                <div style={{ width: '100px' }}>
-                                    <b>{`${translate.company}:`}</b>
-                                </div>
-                                <div>
-                                    {evidence.agendaPoint.company.businessName}
-                                </div>
-                            </div>
-                        }
-                        <div style={{ display: 'flex' }}>
-                            <div style={{ width: '100px' }}>
-                                <b>{translate.name}:</b>
-                            </div>
-                            <div>
-                                {evidence.agendaPoint.council.name}
-                            </div>
-                        </div>
-                        <div style={{ display: 'flex' }}>
-                            <div style={{ width: '100px' }}>
-                                <b>{translate.date_real_start}:</b>
-                            </div>
-                            <div>
-                                {moment(evidence.agendaPoint.council.dateRealStart).format('LLL')}
-                            </div>
-                        </div>
-                    </React.Fragment>
-                }
-                {evidence.council
-                    && <React.Fragment>
-                        {evidence.council.company
-                            && <div style={{ display: 'flex' }}>
-                                <div style={{ width: '100px' }}>
-                                    <b>{`${translate.company}:`}</b>
-                                </div>
-                                <div>
-                                    {evidence.council.company.businessName}
-                                </div>
-                            </div>
-                        }
-                        <div style={{ display: 'flex' }}>
-                            <div style={{ width: '100px' }}>
-                                <b>{translate.name}:</b>
-                            </div>
-                            <div>
-                                {evidence.council.name}
-                            </div>
-                        </div>
-                        <div style={{ display: 'flex' }}>
-                            <div style={{ width: '100px' }}>
-                                <b>{translate.date_real_start}:</b>
-                            </div>
-                            <div>
-                                {moment(evidence.council.dateRealStart).format('LLL')}
-                            </div>
-                        </div>
-                    </React.Fragment>
-                }
-            </div>
+    <div style={{ /* paddingLeft: '1.5em' */ marginBottom: '1em' }}>
+        <div style={{ fontWeight: '700', fontSize: '1.2em' }}>
+            {translate.council_info}
+            <hr style={{ margin: '0.5em 0em' }}></hr>
         </div>
-    );
-
-const EvidenceDisplay = ({ evidence, translate, cbxEvidence }) => {
-    const type = getTranslateFieldFromType(evidence.data.type);
-    const primerasLetras = translate[type].split(' ').map(palabra => palabra.toUpperCase().substr(0, 1));
-
-    return (
-        <div style={{ display: 'flex' }}>
-            <div style={{ position: 'relative', width: '40px', marginRight: '1em' }}>
-                <Avatar>
-                    {primerasLetras}
-                </Avatar>
-                <ToolTip text={cbxEvidence.tx_hash ? translate.blockchain_registered_content : translate.blockchain_pending_content}>
-                    <i className="material-icons" style={{ position: 'absolute', top: '60%', left: '60%', fontSize: '20px', color: cbxEvidence.tx_hash ? 'green' : 'red' }}>
-                        {cbxEvidence.tx_hash ?
-                            'verified_user'
-                            : 'query_builder'
-                        }
-                    </i>
-                </ToolTip>
-            </div>
-            <div>
-                <div>
-                    {translate[type] || type || ''}
-                </div>
-                <div>
-                    {moment(evidence.data.date).format('LLL')}
-                </div>
-            </div>
+        <div>
+            {evidence.agendaPoint
+                && <React.Fragment>
+                    {evidence.agendaPoint.company
+                        && <div style={{ display: 'flex' }}>
+                            <div style={{ width: '100px' }}>
+                                <b>{`${translate.company}:`}</b>
+                            </div>
+                            <div>
+                                {evidence.agendaPoint.company.businessName}
+                            </div>
+                        </div>
+                    }
+                    <div style={{ display: 'flex' }}>
+                        <div style={{ width: '100px' }}>
+                            <b>{translate.name}:</b>
+                        </div>
+                        <div>
+                            {evidence.agendaPoint.council.name}
+                        </div>
+                    </div>
+                    <div style={{ display: 'flex' }}>
+                        <div style={{ width: '100px' }}>
+                            <b>{translate.date_real_start}:</b>
+                        </div>
+                        <div>
+                            {moment(evidence.agendaPoint.council.dateRealStart).format('LLL')}
+                        </div>
+                    </div>
+                </React.Fragment>
+            }
+            {evidence.council
+                && <React.Fragment>
+                    {evidence.council.company
+                        && <div style={{ display: 'flex' }}>
+                            <div style={{ width: '100px' }}>
+                                <b>{`${translate.company}:`}</b>
+                            </div>
+                            <div>
+                                {evidence.council.company.businessName}
+                            </div>
+                        </div>
+                    }
+                    <div style={{ display: 'flex' }}>
+                        <div style={{ width: '100px' }}>
+                            <b>{translate.name}:</b>
+                        </div>
+                        <div>
+                            {evidence.council.name}
+                        </div>
+                    </div>
+                    <div style={{ display: 'flex' }}>
+                        <div style={{ width: '100px' }}>
+                            <b>{translate.date_real_start}:</b>
+                        </div>
+                        <div>
+                            {moment(evidence.council.dateRealStart).format('LLL')}
+                        </div>
+                    </div>
+                </React.Fragment>
+            }
         </div>
-    );
-};
+    </div>
+);
 
 export const getTranslateFieldFromType = type => {
     const types = {
@@ -446,45 +450,35 @@ export const getTranslateFieldFromType = type => {
     return types[type] ? types[type] : types.default();
 };
 
-const getTypeTranslation = type => {
-    const translations = {
-        INFORMATIVE: 'informative',
-        NOMINAL: 'public_voting',
-        ANONYMOUS: 'private_voting',
-        NOMINAL_ACT: 'public_act',
-        DEFAULT: 'custom_point'
-    };
+const EvidenceDisplay = ({ evidence, translate, cbxEvidence }) => {
+    const type = getTranslateFieldFromType(evidence.data.type);
+    const primerasLetras = translate[type].split(' ').map(palabra => palabra.toUpperCase().substr(0, 1));
 
-    return translations[type] || translations.default;
+    return (
+        <div style={{ display: 'flex' }}>
+            <div style={{ position: 'relative', width: '40px', marginRight: '1em' }}>
+                <Avatar>
+                    {primerasLetras}
+                </Avatar>
+                <ToolTip text={cbxEvidence.tx_hash ? translate.blockchain_registered_content : translate.blockchain_pending_content}>
+                    <i className="material-icons" style={{ position: 'absolute', top: '60%', left: '60%', fontSize: '20px', color: cbxEvidence.tx_hash ? 'green' : 'red' }}>
+                        {cbxEvidence.tx_hash ?
+                            'verified_user'
+                            : 'query_builder'
+                        }
+                    </i>
+                </ToolTip>
+            </div>
+            <div>
+                <div>
+                    {translate[type] || type || ''}
+                </div>
+                <div>
+                    {moment(evidence.data.date).format('LLL')}
+                </div>
+            </div>
+        </div>
+    );
 };
-
-
-const getEvidenceComponent = (evidence, cbxEvidence) => {
-    if (evidence.data.type === 'LOGIN') {
-        return <UserEvidence evidence={evidence} cbxEvidence={cbxEvidence} />;
-    }
-
-    return <CouncilEvidence evidence={evidence} cbxEvidence={cbxEvidence} />;
-};
-
-const getData = gql`
-    query EvidenceContent($code: String!){
-        evidenceContent(code: $code){
-            userId
-            participantId
-            content
-            type
-            uuid
-            validated
-            cbxEvidence {
-                evhash
-                tx_hash
-                prvhash
-                uuid
-                data
-            }
-        }
-    }
-`;
 
 export default withApollo(withTranslations()(ValidatorPage));

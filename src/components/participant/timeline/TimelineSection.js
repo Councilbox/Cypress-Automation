@@ -10,8 +10,80 @@ import { getPrimary } from '../../../styles/colors';
 import { usePolling } from '../../../hooks';
 import { COUNCIL_TYPES } from '../../../constants';
 
+export const councilTimelineQuery = gql`
+    query CouncilTimeline($councilId: Int!){
+        councilTimeline(councilId: $councilId){
+            id
+            type
+            date
+            content
+        }
+    }
+`;
 
-const TimelineSection = ({ translate, participant, council, scrollToBottom, isMobile, client, endPage, ...props }) => {
+export const getTimelineTranslation = ({ type, content, translate, council }) => {
+    const types = {
+        START_COUNCIL: () => translate.council_started,
+        START_AUTO_COUNCIL: () => translate.council_started,
+        OPEN_VOTING: () => `${content.data.agendaPoint.name} - ${
+            council.councilType === COUNCIL_TYPES.ONE_ON_ONE ?
+                translate.open_answers
+            : translate.voting_open
+        }`,
+        END_COUNCIL: () => translate.end_council,
+        OPEN_POINT_DISCUSSION: () => `${content.data.agendaPoint.name} - ${translate.agenda_begin_discussed}`,
+        CLOSE_POINT_DISCUSSION: () => `${content.data.agendaPoint.name} - ${translate.close_point}`,
+        CLOSE_VOTING: () => <span><span style={{ color: getPrimary() }}>{
+            council.councilType === COUNCIL_TYPES.ONE_ON_ONE ?
+            translate.closed
+        : translate.closed_votings
+        }</span> -  <b>{content.data.agendaPoint.name}</b></span>,
+        REOPEN_VOTING: () => `${content.data.agendaPoint.name} - ${translate.reopen_voting}`,
+        default: () => 'Tipo no reconocido'
+    };
+
+    return types[type] ? types[type]() : types.default();
+};
+
+export const getTimelineTranslationReverse = ({ type, content, translate, council }) => {
+    const types = {
+        START_COUNCIL: () => <b>{translate.council_started}</b>,
+        START_AUTO_COUNCIL: () => translate.council_started,
+        COUNCIL_PAUSED: () => <b>{translate.council_paused}</b>,
+        COUNCIL_RESUMED: () => <b>{translate.council_resumed}</b>,
+        OPEN_VOTING: () => <span><span style={{ color: getPrimary() }}>{
+            council.councilType === COUNCIL_TYPES.ONE_ON_ONE ?
+            translate.open_answers
+        : translate.voting_open
+        }</span> - <b>{content.data.agendaPoint.name}</b></span>,
+        END_COUNCIL: () => <b>{translate.end_council}</b>,
+        CLOSE_REMOTE_VOTINGS: () => 'Cierre votaciones remotas', // TRADUCCION
+        OPEN_POINT_DISCUSSION: () => <span><span style={{ color: getPrimary() }}>{translate.agenda_begin_discussed}</span> - <b>{content.data.agendaPoint.name}</b></span>,
+        CLOSE_POINT_DISCUSSION: () => <span><span style={{ color: getPrimary() }}>{translate.close_point}</span> - <b>{content.data.agendaPoint.name}</b></span>,
+        CLOSE_VOTING: () => <span><span style={{ color: getPrimary() }}>{
+            council.councilType === COUNCIL_TYPES.ONE_ON_ONE ?
+            translate.closed
+        : translate.closed_votings
+        }</span> -  <b>{content.data.agendaPoint.name}</b></span>,
+        REOPEN_VOTING: () => <span><span style={{ color: getPrimary() }}>{translate.reopen_voting}</span> - <b>{content.data.agendaPoint.name}</b></span>,
+        default: () => 'Tipo no reconocido'
+    };
+
+    return types[type] ? types[type]() : types.default();
+};
+
+const isValidResult = type => {
+    const types = {
+        PUBLIC_CUSTOM: true,
+        PRIVATE_CUSTOM: true,
+        CUSTOM_NOMINAL: true,
+        default: false
+    };
+
+    return types[type] ? !types[type] : types.default;
+};
+
+const TimelineSection = ({ translate, participant, council, scrollToBottom, isMobile, client, endPage }) => {
     const [timeline, setTimeline] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
     const [loaded, setLoaded] = React.useState(false);
@@ -59,7 +131,7 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
                         </div>
                     }
                     <Stepper orientation="vertical" style={{ margin: '0', padding: isMobile ? '20px' : '10px', textAlign: 'left' }}>
-                        {timeline.map((event, index) => {
+                        {timeline.map(event => {
                             const content = JSON.parse(event.content);
                             return (
                                 <Step active key={`event_${event.id}`} aria-label={`${getTimelineTranslation({
@@ -112,7 +184,7 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
                             return (
                                 <Step active key={`event_${event.id}`} aria-label={`${getTimelineTranslation({ event: event.type, content, translate, council })} Hora: ${moment(event.date).format('LLL')}`} >
                                     <StepLabel>
-                                        <b>{getTimelineTranslation({ type: event.type, content, translate, content })}</b><br />
+                                        <b>{getTimelineTranslation({ type: event.type, content, translate })}</b><br />
                                         <span style={{ fontSize: '0.9em' }}>{moment(event.date).format('LLL')}</span>
                                     </StepLabel>
                                     <StepContent style={{ fontSize: '0.9em' }}>
@@ -134,80 +206,6 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
                     </Stepper>
                 </React.Fragment>
         );
-};
-
-const isValidResult = type => {
-    const types = {
-        PUBLIC_CUSTOM: true,
-        PRIVATE_CUSTOM: true,
-        CUSTOM_NOMINAL: true,
-        default: false
-    };
-
-    return types[type] ? !types[type] : types.default;
-};
-
-export const councilTimelineQuery = gql`
-    query CouncilTimeline($councilId: Int!){
-        councilTimeline(councilId: $councilId){
-            id
-            type
-            date
-            content
-        }
-    }
-`;
-
-
-export const getTimelineTranslation = ({ type, content, translate, council }) => {
-    const types = {
-        START_COUNCIL: () => translate.council_started,
-        START_AUTO_COUNCIL: () => translate.council_started,
-        OPEN_VOTING: () => `${content.data.agendaPoint.name} - ${
-            council.councilType === COUNCIL_TYPES.ONE_ON_ONE ?
-                translate.open_answers
-            : translate.voting_open
-        }`,
-        END_COUNCIL: () => translate.end_council,
-        OPEN_POINT_DISCUSSION: () => `${content.data.agendaPoint.name} - ${translate.agenda_begin_discussed}`,
-        CLOSE_POINT_DISCUSSION: () => `${content.data.agendaPoint.name} - ${translate.close_point}`,
-        CLOSE_VOTING: () => <span><span style={{ color: getPrimary() }}>{
-            council.councilType === COUNCIL_TYPES.ONE_ON_ONE ?
-            translate.closed
-        : translate.closed_votings
-        }</span> -  <b>{content.data.agendaPoint.name}</b></span>,
-        REOPEN_VOTING: () => `${content.data.agendaPoint.name} - ${translate.reopen_voting}`,
-        default: () => 'Tipo no reconocido'
-    };
-
-    return types[type] ? types[type]() : types.default();
-};
-
-export const getTimelineTranslationReverse = ({ type, content, translate, council }) => {
-    const types = {
-        START_COUNCIL: () => <b>{translate.council_started}</b>,
-        START_AUTO_COUNCIL: () => translate.council_started,
-        COUNCIL_PAUSED: () => <b>{translate.council_paused}</b>,
-        COUNCIL_RESUMED: () => <b>{translate.council_resumed}</b>,
-        OPEN_VOTING: () => <span><span style={{ color: getPrimary() }}>{
-            council.councilType === COUNCIL_TYPES.ONE_ON_ONE ?
-            translate.open_answers
-        : translate.voting_open
-        }</span> - <b>{content.data.agendaPoint.name}</b></span>,
-        END_COUNCIL: () => <b>{translate.end_council}</b>,
-        CLOSE_REMOTE_VOTINGS: () => 'Cierre votaciones remotas', // TRADUCCION
-        OPEN_POINT_DISCUSSION: () => <span><span style={{ color: getPrimary() }}>{translate.agenda_begin_discussed}</span> - <b>{content.data.agendaPoint.name}</b></span>,
-        CLOSE_POINT_DISCUSSION: () => <span><span style={{ color: getPrimary() }}>{translate.close_point}</span> - <b>{content.data.agendaPoint.name}</b></span>,
-        CLOSE_VOTING: () => <span><span style={{ color: getPrimary() }}>{
-            council.councilType === COUNCIL_TYPES.ONE_ON_ONE ?
-            translate.closed
-        : translate.closed_votings
-        }</span> -  <b>{content.data.agendaPoint.name}</b></span>,
-        REOPEN_VOTING: () => <span><span style={{ color: getPrimary() }}>{translate.reopen_voting}</span> - <b>{content.data.agendaPoint.name}</b></span>,
-        default: () => 'Tipo no reconocido'
-    };
-
-    return types[type] ? types[type]() : types.default();
 };
 
 export default withApollo(withTranslations()(TimelineSection));

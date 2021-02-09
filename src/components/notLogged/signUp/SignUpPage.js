@@ -1,9 +1,7 @@
 import React from 'react';
 import { Card, CardContent } from 'material-ui';
 import { graphql } from 'react-apollo';
-import SignUpEnterprise from './SignUpEnterprise';
 import SignUpUser from './SignUpUser';
-import SignUpPay from './SignUpPay';
 import { getPrimary } from '../../../styles/colors';
 import SignUpStepper from './SignUpStepper';
 import { BasicButton, NotLoggedLayout, Scrollbar } from '../../../displayComponents';
@@ -166,7 +164,7 @@ const SignUpPage = ({ translate, windowSize, mutate }) => {
 												loading={loading}
 												signUp={createUser}
 												updateState={updateData}
-												updateErrors={errors => dispatch({ type: 'UPDATE_ERRORS', payload: errors })}
+												updateErrors={errs => dispatch({ type: 'UPDATE_ERRORS', payload: errs })}
 												translate={translate}
 											/>
 										</div>
