@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     env:
-      registry_url: cbxpre.azurecr.io
+      registry_url: cbxacr.azurecr.io
       repository_name: cbx/councilbox-client
       state_repo: councilbox/cbx-state
       service_name: councilbox-client
@@ -28,12 +28,14 @@ jobs:
       - name: print tag_name
         run: echo ${{ github.event.release.tag_name }}
 
+      - uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZ_CREDENTIALS_AKS_PREDEV }}
+
       - name: Login acr
-        uses: azure/docker-login@v1
-        with:  
-          login-server: ${{ env.registry_url }}
-          username: ${{ secrets.ACR_USER }}
-          password: ${{ secrets.ACR_PASSWORD }}
+        run: |
+              ACCESS_TOKEN=$(az acr login --name ${{ env.registry_url }} --expose-token --output tsv --query accessToken)
+              docker login ${{ env.registry_url }} -u 00000000-0000-0000-0000-000000000000 -p $ACCESS_TOKEN
 
       - name: Build and push
         uses: docker/build-push-action@v2

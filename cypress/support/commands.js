@@ -25,6 +25,9 @@
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
 let LOCAL_STORAGE_MEMORY = {};
+const login_url = Cypress.env("baseUrl");
+const valid_password = Cypress.env("login_password");
+const valid_email = Cypress.env("login_email");
 
 Cypress.Commands.add("saveLocalStorage", () => {
     Object.keys(localStorage).forEach(key => {
@@ -40,4 +43,24 @@ Cypress.Commands.add("restoreLocalStorage", () => {
     Object.keys(LOCAL_STORAGE_MEMORY).forEach(key => {
         localStorage.setItem(key, LOCAL_STORAGE_MEMORY[key]);
     });
+});
+
+Cypress.Commands.add("loginUI", () => {
+    cy.visit(login_url);
+    cy.wait(10000)
+    cy.contains("Sign in to Councilbox");
+    cy.get('input').eq(0)
+        .type(valid_email)    
+        .should("have.value", valid_email)
+    cy.get('input').eq(1)
+        .type(valid_password)    
+        .should("have.value", valid_password)
+    cy.contains("To enter").click();
+    cy.get('body').invoke('text').should('contain', 'Automation QA')
+});
+
+Cypress.Commands.add("logoutUI", () => {
+    cy.get('#user-menu-trigger').click();
+    cy.contains('Logout').click();
+    cy.url().should("include", login_url);
 });

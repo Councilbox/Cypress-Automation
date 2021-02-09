@@ -54,6 +54,61 @@ export const useHoverRow = () => {
 	return [showActions, { onMouseOver: mouseEnterHandler, onMouseLeave: mouseLeaveHandler }];
 }
 
+export const STATUS = {
+	ERROR: 'ERROR',
+	SUCCESS: 'SUCCESS',
+	LOADING: 'LOADING',
+	IDDLE: 'IDDLE'
+
+};
+
+const statusReducer = (state, action) => {
+    const actions = {
+        [STATUS.ERROR]: () => ({
+            ...state,
+			status: 'ERROR',
+			data: action.payload
+		}),
+		[STATUS.SUCCESS]: () => ({
+            ...state,
+			status: 'SUCCESS',
+			data: action.payload
+		}),
+		[STATUS.LOADING]: () => ({
+            ...state,
+			status: 'LOADING',
+			data: null
+		}),
+		[STATUS.IDDLE]: () => ({
+            ...state,
+			status: 'IDDLE',
+			data: null
+		}),
+	}
+
+	return actions[action.type] ? actions[action.type]() : state;
+}
+
+export const useStatus = initialStatus => {
+	const [{ status, data }, dispatch] = React.useReducer(statusReducer, {
+		status: initialStatus || STATUS.IDDLE
+	});
+
+	const setStatus = (type, payload) => {
+		dispatch({ type, payload });
+	}
+
+	return {
+		loading: status === STATUS.LOADING,
+		error: status === STATUS.ERROR,
+		iddle: status === STATUS.IDDLE,
+		success: status === STATUS.SUCCESS,
+		data,
+		STATUS,
+		setStatus
+	}
+}
+
 
 export const usePolling = (cb, interval, deps = []) => {
 	const [visible, setVisible] = React.useState(!document.hidden);

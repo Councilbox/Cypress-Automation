@@ -60,6 +60,16 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 		footer: statute.footer,
 		conveneHeader: statute.conveneHeader
 	});
+	const [saveDraft, setSaveDraft] = React.useState(false);
+	const editor = React.useRef();
+	const intro = React.useRef();
+	const introSecondary = React.useRef();
+	const constitutionSecondary = React.useRef();
+	const conclusionSecondary = React.useRef();
+	const footer = React.useRef();
+	const constitution = React.useRef();
+	const conclusion = React.useRef();
+	const primary = getPrimary();
 	const config = React.useContext(ConfigContext);
 
 	const [saveDraft, setSaveDraft] = React.useState(false);
@@ -98,8 +108,6 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 			conclusion.current.setValue(statute.conclusion || '');
 		}
 	}, [statute.id]);
-
-	const primary = getPrimary();
 
 	const closeDraftModal = () => {
 		setSaveDraft(false);

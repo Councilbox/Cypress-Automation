@@ -26,7 +26,6 @@ const CreateNoBoard = ({ setOptions, options, translate, hybrid, errors, company
     }, [company.id]);
 
     React.useEffect(() => {
-        props.setTitle('Seleccionar tipo de reunión');//TRADUCCION
         getData();
     }, [getData]);
 
@@ -44,7 +43,7 @@ const CreateNoBoard = ({ setOptions, options, translate, hybrid, errors, company
                     })
                 }
             >
-                {data.companyStatutes.map((statute, index) => (
+                {data.companyStatutes.map((statute) => (
                         <MenuItem
                             value={statute.id}
                             key={`statutes_${statute.id}`}
@@ -54,11 +53,6 @@ const CreateNoBoard = ({ setOptions, options, translate, hybrid, errors, company
                         </MenuItem>
                     ))}
             </SelectInput>
-            {/* <div onClick={showStatuteDetailsModal} style={{ cursor: 'pointer', color: secondary}}>
-                {translate.read_details}
-            </div> */}
-
-
         </div>
     )
 }

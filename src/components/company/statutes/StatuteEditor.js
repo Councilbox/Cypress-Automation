@@ -52,6 +52,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 							<GridItem xs={12} md={12} lg={12}>
 								<div style={{ maxWidth: '20em' }}>
 									<SelectInput
+										disabled={disabled}
 										floatingText={translate.company_type}
 										value={'' + statute.companyType || '-1'}
 										onChange={event => updateState({
@@ -85,6 +86,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, compan
 							<GridItem xs={12} md={12} lg={12}>
 								<div style={{ maxWidth: '20em' }}>
 									<SelectInput
+										disabled={disabled}
 										floatingText={translate.language}
 										value={statute.language || 'all'}
 										onChange={event => updateState({

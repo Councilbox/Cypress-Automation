@@ -9,7 +9,6 @@ const CreateWithoutSession = ({ setOptions, translate, hybrid, errors, ...props 
     });
 
     React.useEffect(() => {
-        props.setTitle(translate.setup_meeting_without_session);//TRADUCCION
         setOptions(dates);
     }, []);
 

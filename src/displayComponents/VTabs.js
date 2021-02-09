@@ -52,6 +52,7 @@ const Vtabs = ({
 											<HoverableTab
 												tab={tab}
 												index={index}
+												disabled={tab.disabled}
 												mapIndex={mapIndex}
 												editAction={editAction}
 												deleteAction={deleteAction}
@@ -182,12 +183,10 @@ export default withWindowSize(Vtabs);
 
 
 
-const HoverableTab = ({ tab, mapIndex, index, deleteAction, editAction, ...props }) => {
+const HoverableTab = ({ tab, mapIndex, index, deleteAction, editAction, disabled, ...props }) => {
 	const [state, setState] = React.useState({
 		showAction: false
 	})
-
-
 
 	const mouseEnterHandler = () => {
 		setState({
@@ -223,7 +222,7 @@ const HoverableTab = ({ tab, mapIndex, index, deleteAction, editAction, ...props
 				</span>
 			</Tooltip>
 			<span style={{ width: '2em', height: '32px' }} />
-			{state.showAction &&
+			{(state.showAction && !disabled) &&
 				<Paper
 					style={{
 						height: '35px',
@@ -262,111 +261,17 @@ const HoverableTab = ({ tab, mapIndex, index, deleteAction, editAction, ...props
 							</IconButton>
 						</Tooltip>
 					)}
-					<CloseIcon
-						style={{ float: "right" }}
-						onClick={event => {
-							deleteAction(tab.data.id);
-							event.stopPropagation();
-						}}
-					/>
+					{deleteAction &&
+						<CloseIcon
+							style={{ float: "right" }}
+							onClick={event => {
+								deleteAction(tab.data.id);
+								event.stopPropagation();
+							}}
+						/>
+					}
 				</Paper>
 			}
 		</div>
 	)
 }
-//old
-// class HoverableTab extends React.PureComponent {
-
-// 	state = {
-// 		showAction: false
-// 	}
-
-// 	mouseEnterHandler = () => {
-// 		this.setState({
-// 			showAction: true
-// 		})
-// 	}
-
-// 	mouseLeaveHandler = () => {
-// 		this.setState({
-// 			showAction: false
-// 		})
-// 	}
-
-
-// 	render(){
-// 		const { tab, mapIndex, index, deleteAction, editAction } = this.props;
-
-// 		return (
-// 			<div style={{display: 'flex', width: '22em', alignItems: 'center', justifyContent: 'space-between'}}
-// 				onMouseOver={this.mouseEnterHandler}
-// 				onMouseLeave={this.mouseLeaveHandler}
-// 			>
-// 				<Tooltip title={tab.title}>
-// 					<span
-// 						style={{
-// 							marginRight: '0.2em',
-// 							maxWidth: '15em',
-// 							whiteSpace: 'nowrap',
-// 							overflow: 'hidden',
-// 							textOverflow: 'ellipsis',
-// 							color: +index === +mapIndex? primary : 'black',
-// 						...(+index === +mapIndex? { fontWeight: '700'} : {})
-// 						}}
-// 					>
-// 						{tab.title}
-// 					</span>
-// 				</Tooltip>
-// 				<span style={{width: '2em', height: '32px'}} />
-// 				{this.state.showAction &&
-// 					<Paper
-// 						style={{
-// 							height: '35px',
-// 							paddingLeft: '1em',
-// 							paddingRight: '1em',
-// 							display: 'flex',
-// 							alignItems: 'center',
-// 							justifyContent: 'space-between',
-// 							borderRadius: '18px',
-// 							outline: '0'
-// 						}}
-// 						elevation={0}
-// 					>
-// 						{!!editAction && (
-// 							<Tooltip title={this.props.translate.rename_council_type}>
-// 								<IconButton
-// 									style={{
-// 										width: '32px',
-// 										height: '32px',
-// 										display: 'flex',
-// 										alignItems: 'center',
-// 										justifyContent: 'center'
-// 									}}
-// 								>
-// 									<FontAwesome
-// 										name="edit"
-// 										style={{
-// 											fontSize:'19px',
-// 											color: secondary
-// 										}}
-// 										onClick={event => {
-// 											editAction(mapIndex);
-// 											event.stopPropagation();
-// 										}}
-// 									/>
-// 								</IconButton>
-// 							</Tooltip>
-// 						)}
-// 						<CloseIcon
-// 							style={{ float: "right" }}
-// 							onClick={event => {
-// 								deleteAction(tab.data.id);
-// 								event.stopPropagation();
-// 							}}
-// 						/>
-// 					</Paper>
-// 				}
-// 			</div>
-// 		)
-// 	}
-// }

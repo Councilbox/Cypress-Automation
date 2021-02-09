@@ -1,6 +1,6 @@
 {
   "name": "councilbox_client",
-  "version": "7.5.0",
+  "version": "7.6.0",
   "private": true,
   "dependencies": {
     "adom-client": "^0.1.13",
@@ -101,7 +101,6 @@
     "deploy": "sh deploy.sh"
   },
   "devDependencies": {
-    "babel-eslint": "^10.1.0",
     "css-loader": "^0.28.8",
     "cypress": "^3.4.1",
     "eslint-config-airbnb-base": "^14.2.1",
