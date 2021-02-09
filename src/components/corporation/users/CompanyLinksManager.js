@@ -13,6 +13,20 @@ const DEFAULT_OPTIONS = {
     orderDirection: 'DESC'
 }
 
+const corporationCompanies = gql`
+    query corporationCompanies($filters: [FilterInput], $options: OptionsInput, $corporationId: Int){
+        corporationCompanies(filters: $filters, options: $options, corporationId: $corporationId){
+            list{
+                id
+                businessName
+                logo
+            }
+            total
+        }
+    }
+`;
+
+
 const CompanyLinksManager = ({ translate, client, ...props }) => {
     const [state, setState] = React.useState({
         checked: props.linkedCompanies || [],
@@ -46,8 +60,7 @@ const CompanyLinksManager = ({ translate, client, ...props }) => {
     }, [state.filterText, state.filterSelect, page])
 
     React.useEffect(() => {
-        let timeout;
-        timeout = setTimeout(() => {
+        const timeout = setTimeout(() => {
             getData();
         }, 350);
 
@@ -249,17 +262,5 @@ const LinksCompanies = ({ translate, companies, setPage, page, state, setState, 
 }
 
 
-const corporationCompanies = gql`
-    query corporationCompanies($filters: [FilterInput], $options: OptionsInput, $corporationId: Int){
-        corporationCompanies(filters: $filters, options: $options, corporationId: $corporationId){
-            list{
-                id
-                businessName
-                logo
-            }
-            total
-        }
-    }
-`;
 
 export default withApollo(CompanyLinksManager)

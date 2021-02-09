@@ -14,6 +14,42 @@ import ProxiesTemplates from './docTemplates/ProxiesTemplates';
 
 let timeout;
 
+const getTagsByActSection = (section, translate) => {
+	switch (section) {
+		case 'conveneHeader':
+			return [
+				{
+					value: '{{dateFirstCall}}',
+					label: translate.date
+				},
+				{
+					value: '{{business_name}}',
+					label: translate.business_name
+				},
+				{
+					value: '{{address}}',
+					label: translate.new_location_of_celebrate
+				},
+				{
+					value: '{{city}}',
+					label: translate.company_new_locality
+				},
+				{
+					value: '{{country_state}}',
+					label: translate.company_new_country_state
+				},
+			];
+
+		case 'intro':
+			return CBX.getTagVariablesByDraftType(DRAFT_TYPES.INTRO, translate);
+		case 'constitution':
+			return CBX.getTagVariablesByDraftType(DRAFT_TYPES.CONSTITUTION, translate);
+		case 'conclusion':
+			return CBX.getTagVariablesByDraftType(DRAFT_TYPES.CONCLUSION, translate);
+		default:
+			return [];
+	}
+}
 
 
 const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...props }) => {
@@ -26,33 +62,6 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 	});
 	const config = React.useContext(ConfigContext);
 
-	React.useEffect(() => {
-		if (editor.current) {
-			editor.current.setValue(statute.conveneHeader || '');
-		}
-		if (intro.current) {
-			intro.current.setValue(statute.intro || '');
-		}
-		if(introSecondary.current) {
-			introSecondary.current.setValue(statute.introSecondary || '');
-		}
-		if (footer.current) {
-			footer.current.setValue(statute.conveneFooter || '');
-		}
-		if (constitution.current) {
-			constitution.current.setValue(statute.constitution || '');
-		}
-		if(constitutionSecondary.current) {
-			constitutionSecondary.current.setValue(statute.constitutionSecondary || '');
-		}
-		if(conclusionSecondary.current) {
-			conclusionSecondary.current.setValue(statute.conclusionSecondary || '');
-		}
-		if (conclusion.current) {
-			conclusion.current.setValue(statute.conclusion || '');
-		}
-	}, [statute.id]);
-
 	const [saveDraft, setSaveDraft] = React.useState(false);
 	const editor = React.useRef();
 	const intro = React.useRef();
@@ -62,6 +71,34 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 	const footer = React.useRef();
 	const constitution = React.useRef();
 	const conclusion = React.useRef();
+
+	React.useEffect(() => {
+		if (editor.current) {
+			editor.current.setValue(statute.conveneHeader || '');
+		}
+		if (intro.current) {
+			intro.current.setValue(statute.intro || '');
+		}
+		if (introSecondary.current) {
+			introSecondary.current.setValue(statute.introSecondary || '');
+		}
+		if (footer.current) {
+			footer.current.setValue(statute.conveneFooter || '');
+		}
+		if (constitution.current) {
+			constitution.current.setValue(statute.constitution || '');
+		}
+		if (constitutionSecondary.current) {
+			constitutionSecondary.current.setValue(statute.constitutionSecondary || '');
+		}
+		if (conclusionSecondary.current) {
+			conclusionSecondary.current.setValue(statute.conclusionSecondary || '');
+		}
+		if (conclusion.current) {
+			conclusion.current.setValue(statute.conclusion || '');
+		}
+	}, [statute.id]);
+
 	const primary = getPrimary();
 
 	const closeDraftModal = () => {
@@ -129,8 +166,8 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 						label={translate.exists_act}
 						value={statute.existsAct === 1}
 						onChange={(event, isInputChecked) => updateState({
-								existsAct: isInputChecked ? 1 : 0
-							})
+							existsAct: isInputChecked ? 1 : 0
+						})
 						}
 					/>
 				</GridItem>
@@ -139,8 +176,8 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 						label={translate.included_in_act_book}
 						value={statute.includedInActBook === 1}
 						onChange={(event, isInputChecked) => updateState({
-								includedInActBook: isInputChecked ? 1 : 0
-							})
+							includedInActBook: isInputChecked ? 1 : 0
+						})
 						}
 					/>
 				</GridItem>
@@ -149,10 +186,10 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 						label={translate.include_participants_list_in_act}
 						value={statute.includeParticipantsList === 1}
 						onChange={(event, isInputChecked) => updateState({
-								includeParticipantsList: isInputChecked
-									? 1
-									: 0
-							})
+							includeParticipantsList: isInputChecked
+								? 1
+								: 0
+						})
 						}
 					/>
 				</GridItem>
@@ -180,8 +217,8 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 									: ""
 							}
 							onChange={value => handleUpdate({
-									conveneHeader: value
-								})
+								conveneHeader: value
+							})
 							}
 							saveDraft={
 								<SaveDraftIcon
@@ -251,8 +288,8 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 						floatingText={translate.convene_footer}
 						value={internalState.conveneFooter || ""}
 						onChange={value => handleUpdate({
-								conveneFooter: value
-							})
+							conveneFooter: value
+						})
 						}
 					/>
 				</GridItem>
@@ -290,8 +327,8 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 								errorText={errors.intro}
 								value={internalState.intro || ""}
 								onChange={value => handleUpdate({
-										intro: value
-									})
+									intro: value
+								})
 								}
 								saveDraft={
 									<SaveDraftIcon
@@ -341,8 +378,8 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 										: ""
 								}
 								onChange={value => handleUpdate({
-										introSecondary: value
-									})
+									introSecondary: value
+								})
 								}
 								tags={introTags}
 							/>
@@ -356,8 +393,8 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 								translate={translate}
 								value={internalState.constitution || ""}
 								onChange={value => handleUpdate({
-										constitution: value
-									})
+									constitution: value
+								})
 								}
 								saveDraft={
 									<SaveDraftIcon
@@ -407,8 +444,8 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 										: ""
 								}
 								onChange={value => handleUpdate({
-										constitutionSecondary: value
-									})
+									constitutionSecondary: value
+								})
 								}
 								tags={constitutionTags}
 							/>
@@ -422,8 +459,8 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 								translate={translate}
 								value={internalState.conclusion || ""}
 								onChange={value => handleUpdate({
-										conclusion: value
-									})
+									conclusion: value
+								})
 								}
 								saveDraft={
 									<SaveDraftIcon
@@ -473,8 +510,8 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 										: ""
 								}
 								onChange={value => handleUpdate({
-										conclusionSecondary: value
-									})
+									conclusionSecondary: value
+								})
 								}
 								tags={conclusionTags}
 							/>
@@ -523,48 +560,10 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 
 export default StatuteDocSection;
 
-const getTagsByActSection = (section, translate) => {
-	switch (section) {
-		case 'conveneHeader':
-			return [
-				{
-					value: '{{dateFirstCall}}',
-					label: translate.date
-				},
-				{
-					value: '{{business_name}}',
-					label: translate.business_name
-				},
-				{
-					value: '{{address}}',
-					label: translate.new_location_of_celebrate
-				},
-				{
-					value: '{{city}}',
-					label: translate.company_new_locality
-				},
-				{
-					value: '{{country_state}}',
-					label: translate.company_new_country_state
-				},
-			];
-
-		case 'intro':
-			return CBX.getTagVariablesByDraftType(DRAFT_TYPES.INTRO, translate);
-		case 'constitution':
-			return CBX.getTagVariablesByDraftType(DRAFT_TYPES.CONSTITUTION, translate);
-		case 'conclusion':
-			return CBX.getTagVariablesByDraftType(DRAFT_TYPES.CONCLUSION, translate);
-		default:
-			return [];
-	}
-}
-
-
 const SaveDraftIcon = ({ onClick, translate }) => (
-		<Tooltip title={translate.new_save}>
-			<div onClick={onClick} style={{ marginLeft: '0.6em', height: '100%', display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-				<i className="fa fa-save" style={{ color: getSecondary(), fontSize: '1.75em' }}></i>
-			</div>
-		</Tooltip>
-	)
+	<Tooltip title={translate.new_save}>
+		<div onClick={onClick} style={{ marginLeft: '0.6em', height: '100%', display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+			<i className="fa fa-save" style={{ color: getSecondary(), fontSize: '1.75em' }}></i>
+		</div>
+	</Tooltip>
+)

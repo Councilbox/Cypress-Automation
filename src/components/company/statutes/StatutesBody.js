@@ -2,20 +2,17 @@ import React from "react";
 import { compose, graphql, withApollo } from "react-apollo";
 import { withRouter } from "react-router-dom";
 import { toast } from 'react-toastify';
-import { Paper, IconButton, Tooltip } from "material-ui";
 import withSharedProps from "../../../HOCs/withSharedProps";
 import {
 	AlertConfirm,
 	BasicButton,
 	ButtonIcon,
-	CardPageLayout,
 	LiveToast,
 	Scrollbar,
 	UnsavedChangesModal,
 	LoadingSection,
 	TextInput,
 	VTabs,
-	CloseIcon
 } from "../../../displayComponents";
 import {
 	createStatute,
@@ -28,9 +25,8 @@ import { store } from '../../../containers/App';
 import { setUnsavedChanges } from '../../../actions/mainActions';
 import StatuteEditor from "./StatuteEditor";
 import StatuteNameEditor from './StatuteNameEditor';
-import { getPrimary, getSecondary, primary, secondary } from "../../../styles/colors";
+import { getPrimary, getSecondary } from "../../../styles/colors";
 import { checkForUnclosedBraces } from '../../../utils/CBX';
-import { useOldState } from "../../../hooks";
 import { isMobile } from '../../../utils/screen';
 
 
@@ -57,10 +53,10 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 
 	React.useEffect(() => {
 		if (!data.loading) {
-			setState(state => ({
+			setState({
 				...state,
 				statute: data.companyStatutes[state.selectedStatute]
-			}));
+			});
 			setTabs(data.companyStatutes.map(statute => ({
 				title: translate[statute.title] || statute.title,
 				data: statute
@@ -70,10 +66,10 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 
 	React.useEffect(() => {
 		if (state.statute === null) {
-			setState(state => ({
+			setState({
 				...state,
 				statute: data.companyStatutes[state.selectedStatute]
-			}));
+			});
 		}
 	}, [state.statute]);
 
@@ -108,22 +104,22 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 
 		const { statute } = state;
 
-		if (statute.existsAdvanceNoticeDays && isNaN(statute.advanceNoticeDays)) {
+		if (statute.existsAdvanceNoticeDays && Number.isNaN(statute.advanceNoticeDays)) {
 			errors.advanceNoticeDays = translate.required_field;
 			hasError = true;
 		}
 
-		if (statute.existsSecondCall && isNaN(statute.minimumSeparationBetweenCall)) {
+		if (statute.existsSecondCall && Number.isNaN(statute.minimumSeparationBetweenCall)) {
 			errors.minimumSeparationBetweenCall = translate.required_field;
 			hasError = true;
 		}
 
-		if (statute.existsMaxNumDelegatedVotes && isNaN(statute.maxNumDelegatedVotes)) {
+		if (statute.existsMaxNumDelegatedVotes && Number.isNaN(statute.maxNumDelegatedVotes)) {
 			hasError = true;
 			errors.maxNumDelegatedVotes = translate.required_field;
 		}
 
-		if (statute.existsLimitedAccessRoom && isNaN(statute.limitedAccessRoomMinutes)) {
+		if (statute.existsLimitedAccessRoom && Number.isNaN(statute.limitedAccessRoomMinutes)) {
 			hasError = true;
 			errors.limitedAccessRoomMinutes = translate.required_field;
 		}
@@ -166,11 +162,11 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 			);
 		}
 
-		setState(state => ({
+		setState({
 			...state,
 			errors,
 			error: hasError
-		}));
+		});
 
 		return hasError;
 	}
@@ -199,7 +195,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 		});
 	};
 
-	const updateStatute = async () => {
+	const actionUpdateStatute = async () => {
 		if (!checkRequiredFields()) {
 			setState({
 				...state,
@@ -234,7 +230,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 		}
 	};
 
-	const deleteStatute = async () => {
+	const actionDeleteStatute = async () => {
 		const response = await props.deleteStatute({
 			variables: {
 				statuteId: state.deleteID
@@ -253,8 +249,30 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 			});
 		}
 	};
+	const handleStatuteChange = index => {
+		if (index !== 'new') {
+			if (!state.unsavedChanges) {
+				setState({
+					...state,
+					selectedStatute: index,
+					statute: null,
+					error: false,
+					loading: false,
+					success: false
+				})
+			} else {
+				setState({
+					...state,
+					unsavedAlert: true,
+					error: false,
+					loading: false,
+					success: false
+				});
+			}
+		}
+	};
 
-	const createStatute = async () => {
+	const actionCreateStatute = async () => {
 		const regex = new RegExp("^[a-zA-Z0-9-áéíóú]");
 
 		if (state.newStatuteName) {
@@ -313,43 +331,22 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 		}
 
 
-		setState(state => ({
+		setState({
 			...state,
 			statute: {
 				...state.statute,
 				...object
 			},
 			unsavedChanges: JSON.stringify({ ...state.statute, ...object }) !== JSON.stringify(data.companyStatutes[state.selectedStatute])
-		}));
+		});
 	};
 
-	const handleStatuteChange = index => {
-		if (index !== 'new') {
-			if (!state.unsavedChanges) {
-				setState({
-					...state,
-					selectedStatute: index,
-					statute: null,
-					error: false,
-					loading: false,
-					success: false
-				})
-			} else {
-				setState({
-					...state,
-					unsavedAlert: true,
-					error: false,
-					loading: false,
-					success: false
-				});
-			}
-		}
-	};
+
 
 	const showNewStatute = () => setState({
 		...state,
-newStatute: true,
-errors: {
+		newStatute: true,
+		errors: {
 			...state.errors,
 			newStatuteName: ""
 		}
@@ -427,7 +424,6 @@ errors: {
 								<div
 									style={{
 										width: '100%',
-										paddingRight: '24px',
 										height: '3.5em',
 										paddingTop: '0.5em',
 										borderTop: '1px solid gainsboro',
@@ -471,7 +467,7 @@ errors: {
 												fontWeight: "700",
 												textTransform: 'none'
 											}}
-											onClick={updateStatute}
+											onClick={actionUpdateStatute}
 											loading={state.loading}
 											error={state.error}
 											reset={resetButtonStates}
@@ -522,14 +518,14 @@ errors: {
 				buttonAccept={translate.delete}
 				buttonCancel={translate.cancel}
 				modal={true}
-				acceptAction={deleteStatute}
+				acceptAction={actionDeleteStatute}
 				requestClose={() => setState({ ...state, deleteModal: false, deleteId: null })}
 			/>
 			<UnsavedChangesModal
 				cancelAction={() => {
 					restoreStatute();
 				}}
-				acceptAction={updateStatute}
+				acceptAction={actionUpdateStatute}
 				requestClose={() => setState({ ...state, unsavedAlert: false })}
 				open={state.unsavedAlert}
 			/>
@@ -547,7 +543,7 @@ errors: {
 				requestClose={() => setState({ ...state, newStatute: false })
 				}
 				open={state.newStatute}
-				acceptAction={createStatute}
+				acceptAction={actionCreateStatute}
 				buttonAccept={translate.accept}
 				buttonCancel={translate.cancel}
 				bodyText={
@@ -559,10 +555,10 @@ errors: {
 						errorText={errors.newStatuteName}
 						value={statute ? statute.newStatuteName : state.newStatuteName}
 						onChange={event => setState({
-								...state,
-								newStatuteName:
-									event.target.value
-							})
+							...state,
+							newStatuteName:
+								event.target.value
+						})
 						}
 					/>
 				}
