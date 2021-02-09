@@ -35,12 +35,12 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
 		const reader = new FileReader();
 		reader.readAsBinaryString(file);
 
-		reader.onload = async event => {
+		reader.onload = async loadEvent => {
 			const fileInfo = {
 				filename: file.name,
 				filetype: file.type,
-				filesize: event.loaded,
-				base64: btoa(event.target.result),
+				filesize: loadEvent.loaded,
+				base64: btoa(loadEvent.target.result),
 				councilId: council.id
             };
 
@@ -54,6 +54,53 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
         setCompanyDocumentsModal(false);
     };
 
+    const validateForm = async () => {
+        const newErrors = {};
+
+        if (attachments.length === 0) {
+            errors.attachments = translate.no_file_indicated;
+        } else {
+            const alreadyUsed = [];
+
+            attachments.forEach(a => {
+                const found = council.attachments.find(attachment => a.filename === attachment.filename);
+                if (found) {
+                    alreadyUsed.push(a.filename);
+                }
+            });
+
+            if (alreadyUsed.length > 0) {
+                newErrors.repeatedAttachments = alreadyUsed;
+            }
+        }
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return true;
+        }
+
+        return false;
+    };
+
+    const notifyAttachmentsAdded = async attachmentsAdded => {
+        await client.mutate({
+            mutation: gql`
+                mutation NotifyAddedCouncilAttachments($councilId: Int!, $attachments: [Int], $message: String){
+                    notifyAddedCouncilAttachments(councilId: $councilId, attachments: $attachments, message: $message){
+                        success
+                    }
+                }
+            `,
+            variables: {
+                councilId: council.id,
+                attachments: attachmentsAdded,
+                message
+            }
+        });
+        refetch();
+        setStep(3);
+    };
+
     const sendAttachments = async () => {
         if (!await validateForm()) {
             setStep(1);
@@ -63,6 +110,7 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                 const attachment = attachments[i];
                 setUploading(i);
                 if (attachment.id) {
+                    // eslint-disable-next-line no-await-in-loop
                     const response = await client.mutate({
                         mutation: gql`
                             mutation AttachCompanyDocumentToCouncil($councilId: Int!, $companyDocumentId: Int!){
@@ -78,6 +126,7 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                     });
                     addedAttachments.push(response.data.attachCompanyDocumentToCouncil.id);
                 } else {
+                    // eslint-disable-next-line no-await-in-loop
                     const response = await client.mutate({
                         mutation: addCouncilAttachment,
                         variables: {
@@ -94,58 +143,11 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
         }
     };
 
-    const validateForm = async () => {
-        const errors = {};
-
-        if (attachments.length === 0) {
-            errors.attachments = translate.no_file_indicated;
-        } else {
-            const alreadyUsed = [];
-
-            attachments.forEach((a, index) => {
-                const found = council.attachments.find(attachment => a.filename === attachment.filename);
-                if (found) {
-                    alreadyUsed.push(a.filename);
-                }
-            });
-
-            if (alreadyUsed.length > 0) {
-                errors.repeatedAttachments = alreadyUsed;
-            }
-        }
-
-        if (Object.keys(errors).length > 0) {
-            setErrors(errors);
-            return true;
-        }
-
-        return false;
-    };
-
     const resetAndClose = () => {
         requestClose();
         setStep(0);
         setAttachments([]);
         setMessage('');
-    };
-
-    const notifyAttachmentsAdded = async attachments => {
-        const response = await client.mutate({
-            mutation: gql`
-                mutation NotifyAddedCouncilAttachments($councilId: Int!, $attachments: [Int], $message: String){
-                    notifyAddedCouncilAttachments(councilId: $councilId, attachments: $attachments, message: $message){
-                        success
-                    }
-                }
-            `,
-            variables: {
-                councilId: council.id,
-                attachments,
-                message
-            }
-        });
-        refetch();
-        setStep(3);
     };
 
     const documentIsAlreadyUsed = filename => (errors.repeatedAttachments ? ((errors.repeatedAttachments.findIndex(item => item === filename) !== -1) ?

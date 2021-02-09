@@ -27,7 +27,7 @@ const reducer = (state, action) => {
 };
 
 
-const SendRequestConfirmationButton = ({ client, request, translate, council }) => {
+const SendRequestConfirmationButton = ({ client, request, translate }) => {
     const [state, dispatch] = React.useReducer(reducer, {
         status: 'INITIAL',
         modal: false
@@ -36,7 +36,7 @@ const SendRequestConfirmationButton = ({ client, request, translate, council }) 
 
     const resendConfirmation = async () => {
         dispatch({ type: 'SEND' });
-        const response = await client.mutate({
+        await client.mutate({
             mutation: gql`
                 mutation sendShareholderConfirmation($participantId: Int!){
                     sendShareholderConfirmation(participantId: $participantId){

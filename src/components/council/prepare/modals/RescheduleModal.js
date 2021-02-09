@@ -106,7 +106,7 @@ class RescheduleModal extends React.Component {
 			}
 	};
 
-	_renderReminderBody() {
+	renderReminderBody() {
 		const { translate, council } = this.props;
 
 		if (this.state.sending) {
@@ -182,16 +182,16 @@ class RescheduleModal extends React.Component {
 				open={this.props.show}
 				{...(this.state.unsavedChanges ?
 					{
-							acceptAction: this.state.success ?
-								() => this.close()
-								: this.rescheduleCouncil,
-							buttonAccept: this.state.success ?
-								translate.accept
-								: translate.send
-					  }
+						acceptAction: this.state.success ?
+							() => this.close()
+							: this.rescheduleCouncil,
+						buttonAccept: this.state.success ?
+							translate.accept
+							: translate.send
+					}
 					: {})}
 				buttonCancel={translate.close}
-				bodyText={this._renderReminderBody()}
+				bodyText={this.renderReminderBody()}
 				title={translate.reschedule_council}
 			/>
 		);

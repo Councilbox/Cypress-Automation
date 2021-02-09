@@ -5,10 +5,10 @@ import { BasicButton } from '../../../../displayComponents';
 import { getSecondary } from '../../../../styles/colors';
 
 
-const ApproveRequestButton = ({ request, client, refetch, translate }) => {
+const ApproveRequestButton = ({ request, client, refetch }) => {
     const secondary = getSecondary();
     const approveRequest = async () => {
-        const response = await client.mutate({
+        await client.mutate({
             mutation: gql`
                 mutation ApproveShareholderRequest($requestId: Int!, $shareholder: ParticipantInput){
                     approveShareholderRequest(requestId: $requestId, shareholder: $shareholder){

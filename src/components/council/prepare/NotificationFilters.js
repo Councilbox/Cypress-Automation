@@ -10,7 +10,8 @@ class NotificationFilters extends React.Component {
 		selectedFilter: ''
 	};
 
-	changeFilter = code => {
+	changeFilter = initialCode => {
+		let code = initialCode;
 		const { refetch } = this.props;
 		const { selectedFilter } = this.state;
 
@@ -60,7 +61,7 @@ class NotificationFilters extends React.Component {
 		}
 	}
 
-	_renderFilterIcon = value => {
+	renderFilterIcon = value => {
 		const { selectedFilter } = this.state;
 		const { translate } = this.props;
 
@@ -87,7 +88,7 @@ class NotificationFilters extends React.Component {
 		);
 	};
 
-	_renderIntentionIcon = value => {
+	renderIntentionIcon = value => {
 		const { selectedFilter } = this.state;
 		const { translate } = this.props;
 		const primary = getPrimary();
@@ -146,7 +147,7 @@ display: 'flex',
 							flexDirection: 'row'
 						}}
 					>
-						{Object.keys(EMAIL_STATES_FILTERS).map(code => this._renderFilterIcon(EMAIL_STATES_FILTERS[code]))}
+						{Object.keys(EMAIL_STATES_FILTERS).map(code => this.renderFilterIcon(EMAIL_STATES_FILTERS[code]))}
 					</GridItem>
 					<GridItem xs={4} md={9} lg={3} style={{ paddingTop: '0.6em' }}>
 					</GridItem>
@@ -161,7 +162,7 @@ display: 'flex',
 					>
 						{CBX.councilHasAssistanceConfirmation(council)
 							&& intentionStates.map(intention => (
-								this._renderIntentionIcon(intention)
+								this.renderIntentionIcon(intention)
 							))
 						}
 					</GridItem>
@@ -182,10 +183,10 @@ display: 'flex',
 						flexDirection: 'row'
 					}}
 				>
-					{Object.keys(EMAIL_STATES_FILTERS).map(code => this._renderFilterIcon(EMAIL_STATES_FILTERS[code]))}
+					{Object.keys(EMAIL_STATES_FILTERS).map(code => this.renderFilterIcon(EMAIL_STATES_FILTERS[code]))}
 					{CBX.councilHasAssistanceConfirmation(council)
 						&& intentionStates.map(intention => (
-							this._renderIntentionIcon(intention)
+							this.renderIntentionIcon(intention)
 						))
 					}
 					<FilterButton
@@ -213,12 +214,12 @@ display: 'flex',
 					>
 						<i className={'fa fa-comment'} style={{
 							width: '24px',
-height: 'auto',
-color: primary,
-display: 'flex',
+							height: 'auto',
+							color: primary,
+							display: 'flex',
 							alignContent: 'center',
 							justifyContent: 'center'
-						 }}></i>
+						}}></i>
 					</FilterButton>
 				</GridItem>
 			</Grid>

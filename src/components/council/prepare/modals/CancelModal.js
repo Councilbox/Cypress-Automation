@@ -1,7 +1,6 @@
 import React from 'react';
-import { Typography } from 'material-ui';
 import { graphql } from 'react-apollo';
-import { AlertConfirm, Icon, SuccessMessage, LoadingSection } from '../../../../displayComponents/index';
+import { AlertConfirm, SuccessMessage, LoadingSection } from '../../../../displayComponents/index';
 import { cancelCouncil } from '../../../../queries/council';
 import { bHistory, moment } from '../../../../containers/App';
 
@@ -48,7 +47,7 @@ class CancelModal extends React.Component {
 		}
 	};
 
-	_renderCancelBody() {
+	renderCancelBody() {
 		const { translate } = this.props;
 
 		if (this.state.sending) {
@@ -98,7 +97,7 @@ class CancelModal extends React.Component {
 						: ''
 				}
 				buttonCancel={translate.close}
-				bodyText={this._renderCancelBody()}
+				bodyText={this.renderCancelBody()}
 				title={translate.cancel_council}
 			/>
 		);

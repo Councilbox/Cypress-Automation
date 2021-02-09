@@ -3,7 +3,7 @@ import FontAwesome from 'react-fontawesome';
 import { VOTE_VALUES } from '../../../../constants';
 import { getSecondary } from '../../../../styles/colors';
 
-const VotingValueIcon = ({ vote, color, fixed }) => {
+const VotingValueIcon = ({ vote, color }) => {
 	switch (vote) {
 		case VOTE_VALUES.NO_VOTE:
 			return (

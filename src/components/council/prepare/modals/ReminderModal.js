@@ -51,7 +51,7 @@ class ReminderModal extends React.Component {
 		}
 	};
 
-	_renderReminderBody() {
+	renderReminderBody() {
 		const { translate } = this.props;
 
 		if (this.state.sending) {
@@ -67,7 +67,7 @@ class ReminderModal extends React.Component {
 				<Radio
 					value={'all'}
 					checked={this.state.group === 'all'}
-					onChange={event => this.setState({
+					onChange={() => this.setState({
 							group: 'all'
 						})
 					}
@@ -77,7 +77,7 @@ class ReminderModal extends React.Component {
 				<Radio
 					value={'unopened'}
 					checked={this.state.group === 'unopened'}
-					onChange={event => this.setState({
+					onChange={() => this.setState({
 							group: 'unopened'
 						})
 					}
@@ -103,7 +103,7 @@ class ReminderModal extends React.Component {
 					this.state.success ? translate.accept : translate.send
 				}
 				buttonCancel={translate.close}
-				bodyText={this._renderReminderBody()}
+				bodyText={this.renderReminderBody()}
 				title={translate.send_convene_reminder}
 			/>
 		);

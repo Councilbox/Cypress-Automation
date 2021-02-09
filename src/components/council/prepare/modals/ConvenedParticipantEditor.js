@@ -1,8 +1,8 @@
 import React from 'react';
 import { compose, graphql, withApollo } from 'react-apollo';
-import { BasicButton, CustomDialog, AlertConfirm, Scrollbar } from '../../../../displayComponents/index';
+import { BasicButton, AlertConfirm, Scrollbar } from '../../../../displayComponents/index';
 import { getPrimary, secondary } from '../../../../styles/colors';
-import { languages } from '../../../../queries/masters';
+import { languages as languagesQuery } from '../../../../queries/masters';
 import ParticipantForm from '../../participants/ParticipantForm';
 import {
 	checkRequiredFieldsParticipant,
@@ -10,9 +10,26 @@ import {
 } from '../../../../utils/validation';
 import RepresentativeForm from '../../../company/census/censusEditor/RepresentativeForm';
 import { upsertConvenedParticipant, checkUniqueCouncilEmails } from '../../../../queries/councilParticipant';
-import { PARTICIPANT_STATES, COUNCIL_TYPES } from '../../../../constants';
+import { COUNCIL_TYPES } from '../../../../constants';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import SelectRepresentative from '../../editor/census/modals/SelectRepresentative';
+
+function extractTypeName(object) {
+	const { __typename, ...rest } = object;
+	return rest;
+}
+
+const initialRepresentative = {
+	hasRepresentative: false,
+	language: 'es',
+	type: 2,
+	name: '',
+	surname: '',
+	position: '',
+	email: '',
+	phone: '',
+	dni: ''
+};
 
 class ConvenedParticipantEditor extends React.Component {
 	state = {
@@ -32,6 +49,7 @@ class ConvenedParticipantEditor extends React.Component {
 	}
 
 	setParticipantData() {
+		// eslint-disable-next-line prefer-const
 		let { representative, delegateId, delegateUuid, __typename, councilId, ...participant } = extractTypeName(
 			this.props.participant
 		);
@@ -214,9 +232,9 @@ class ConvenedParticipantEditor extends React.Component {
 							open={this.state.selectRepresentative}
 							council={this.props.council}
 							translate={translate}
-							updateRepresentative={representative => {
+							updateRepresentative={repre => {
 								this.updateRepresentative({
-									...representative,
+									...repre,
 									hasRepresentative: true
 								});
 							}}
@@ -329,23 +347,6 @@ export default compose(
 			errorPolicy: 'all'
 		}
 	}),
-	graphql(languages),
+	graphql(languagesQuery),
 	withSharedProps()
 )(withApollo(ConvenedParticipantEditor));
-
-const initialRepresentative = {
-	hasRepresentative: false,
-	language: 'es',
-	type: 2,
-	name: '',
-	surname: '',
-	position: '',
-	email: '',
-	phone: '',
-	dni: ''
-};
-
-function extractTypeName(object) {
-	const { __typename, ...rest } = object;
-	return rest;
-}

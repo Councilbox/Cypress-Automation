@@ -192,7 +192,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 				</span>
 				<b>
 					{!!vote.delegatedVotes
-						&& vote.delegatedVotes.filter(vote => vote.author.state === PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
+						&& vote.delegatedVotes.filter(item => item.author.state === PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
 							<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
 								<br />
 								{delegatedVote.fixed
@@ -222,7 +222,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 				</b>
 				<React.Fragment>
 					{!!vote.delegatedVotes
-						&& vote.delegatedVotes.filter(vote => vote.author.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
+						&& vote.delegatedVotes.filter(item => item.author.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
 							<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
 								<br />
 								{delegatedVote.fixed
@@ -470,7 +470,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 
 												<React.Fragment>
 													{!!vote.delegatedVotes
-														&& vote.delegatedVotes.filter(vote => vote.author.state === PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
+														&& vote.delegatedVotes.filter(item => item.author.state === PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
 															<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
 																<br />
 																{`${delegatedVote.author.numParticipations > 0 ? `${showNumParticipations(delegatedVote.numParticipations, props.company, props.council.statute)} ${printPercentage(delegatedVote.numParticipations)}` : '-'}`}
@@ -480,7 +480,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 												</React.Fragment>
 												<React.Fragment>
 													{!!vote.delegatedVotes
-														&& vote.delegatedVotes.filter(vote => vote.author.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
+														&& vote.delegatedVotes.filter(item => item.author.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
 															<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
 																<br />
 																{`${delegatedVote.author.numParticipations > 0 ? `${showNumParticipations(delegatedVote.author.numParticipations, props.company, props.council.statute)}  ${printPercentage(delegatedVote.author.numParticipations)}` : 0}`}
@@ -564,22 +564,12 @@ const PrivateVotingDisplay = compose(
 	`, {
 			name: 'cancelRemoteVote'
 		})
-)(({ translate, agenda, vote, refetch, togglePresentVote, cancelRemoteVote, council, ...props }) => {
+)(({ translate, agenda, vote, refetch, togglePresentVote, cancelRemoteVote, council }) => {
 	const [loading, setLoading] = React.useState(false);
 	const [modal, setModal] = React.useState(false);
 
 	const closeModal = () => {
 		setModal(false);
-	};
-
-	const toggleVote = () => {
-		setLoading(true);
-		if (vote.vote === 3) {
-			setModal(true);
-			setLoading(false);
-			return;
-		}
-		setVoting();
 	};
 
 	const setVoting = async () => {
@@ -597,13 +587,23 @@ const PrivateVotingDisplay = compose(
 			});
 		}
 		await refetch();
-		const timeout = setTimeout(() => {
+		const votingTimeout = setTimeout(() => {
 			setLoading(false);
-			clearTimeout(timeout);
+			clearTimeout(votingTimeout);
 			if (modal) {
 				setModal(false);
 			}
 		}, 1500);
+	};
+
+	const toggleVote = () => {
+		setLoading(true);
+		if (vote.vote === 3) {
+			setModal(true);
+			setLoading(false);
+			return;
+		}
+		setVoting();
 	};
 
 	//

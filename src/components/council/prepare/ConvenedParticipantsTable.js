@@ -14,7 +14,7 @@ import {
 } from '../../../displayComponents';
 import { downloadCBXData, updateConveneSends } from '../../../queries';
 import { convenedcouncilParticipants } from '../../../queries/councilParticipant';
-import { COUNCIL_TYPES, PARTICIPANTS_LIMITS, PARTICIPANT_STATES, PARTICIPANT_TYPE } from '../../../constants';
+import { COUNCIL_TYPES, PARTICIPANTS_LIMITS, PARTICIPANT_STATES } from '../../../constants';
 import NotificationFilters from './NotificationFilters';
 import DownloadCBXDataButton from './DownloadCBXDataButton';
 import AddConvenedParticipantButton from './modals/AddConvenedParticipantButton';
@@ -24,6 +24,24 @@ import AttendComment from './modals/AttendComment';
 import { isMobile } from '../../../utils/screen';
 import { useOldState, usePolling } from '../../../hooks';
 
+const formatParticipant = participant => {
+	let { ...newParticipant } = participant;
+
+	if (participant.representatives.length > 0) {
+		newParticipant = {
+			...participant,
+			representative: participant.representatives[0]
+		};
+	}
+
+	if (participant.live.state === PARTICIPANT_STATES.DELEGATED) {
+		newParticipant = {
+			...newParticipant,
+			delegate: participant.live.representative
+		};
+	}
+	return newParticipant;
+};
 
 const ConvenedParticipantsTable = ({ client, translate, council, participations, hideNotifications, hideAddParticipant, ...props }) => {
 	const [filters, setFilters] = React.useState({
@@ -75,11 +93,6 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 
 	usePolling(getData, 9000);
 
-	React.useEffect(() => {
-		refreshEmailStates();
-	}, [council.id]);
-
-
 	const refreshEmailStates = async () => {
 		setRefreshing(true);
 		const response = await props.updateConveneSends({
@@ -93,6 +106,10 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 			setRefreshing(false);
 		}
 	};
+
+	React.useEffect(() => {
+		refreshEmailStates();
+	}, [council.id]);
 
 	usePolling(CBX.councilIsNotified(council) ? refreshEmailStates : () => {}, 60000);
 
@@ -119,10 +136,6 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 			...filters,
 			...object
 		});
-	};
-
-	const resetPage = () => {
-		table.current.setPage(filters.page);
 	};
 
 	const showModalComment = comment => event => {
@@ -264,24 +277,25 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 					>
 						{councilParticipants.list.map(
 							item => {
-								const participant = formatParticipant(item);
+								const participantData = formatParticipant(item);
 								return (
 									<React.Fragment
-										key={`participant${participant.id}_${filters.notificationStatus}`}
+										key={`participant${participantData.id}_${filters.notificationStatus}`}
 									>
 										<HoverableRow
 											translate={translate}
-											participant={participant}
-											representative={participant.representative}
+											participant={participantData}
+											representative={participantData.representative}
 											showModalComment={showModalComment}
 											cbxData={false}
 											participations={participations}
 											editParticipant={() => {
-												!props.cantEdit
-													&& setState({
+												if (!props.cantEdit) {
+													setState({
 														editingParticipant: true,
 														participant
 													});
+												}
 											}}
 											council={council}
 											{...props}
@@ -586,25 +600,6 @@ class HoverableRow extends React.Component {
 		);
 	}
 }
-
-const formatParticipant = participant => {
-	let { ...newParticipant } = participant;
-
-	if (participant.representatives.length > 0) {
-		newParticipant = {
-			...participant,
-			representative: participant.representatives[0]
-		};
-	}
-
-	if (participant.live.state === PARTICIPANT_STATES.DELEGATED) {
-		newParticipant = {
-			...newParticipant,
-			delegate: participant.live.representative
-		};
-	}
-	return newParticipant;
-};
 
 export default compose(
 	graphql(updateConveneSends, {

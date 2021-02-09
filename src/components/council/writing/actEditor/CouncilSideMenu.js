@@ -121,7 +121,7 @@ class CouncilSideMenu extends React.Component {
 const createAttendantsString = (attendants, translate) => {
     let string = '';
 
-    attendants.forEach((attendant, index) => {
+    attendants.forEach(attendant => {
         const represent = attendant.delegationsAndRepresentations.find(participant => participant.state === PARTICIPANT_STATES.REPRESENTATED);
         string += represent ?
             `${represent.name} ${represent.surname || ''} - ${translate.represented_by} ${attendant.name} ${attendant.surname || ''}`
@@ -146,7 +146,7 @@ const AttendantRow = ({ attendant, translate }) => {
     );
 };
 
-const getPercentage = (value, total) => `${value} (${(value / total * 100).toFixed(3)}%)`;
+const getPercentage = (value, total) => `${value} (${(value / (total * 100)).toFixed(3)}%)`;
 
 class Row extends React.Component {
     state = {

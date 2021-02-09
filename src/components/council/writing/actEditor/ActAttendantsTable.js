@@ -4,7 +4,6 @@ import { TableRow, TableCell } from 'material-ui';
 import { LoadingSection, EnhancedTable, Scrollbar } from '../../../../displayComponents';
 import { PARTICIPANTS_LIMITS, PARTICIPANT_STATES } from '../../../../constants';
 import { getSecondary } from '../../../../styles/colors';
-import * as CBX from '../../../../utils/CBX';
 import { councilAttendants } from '../../../../queries/council';
 import DownloadAttendantsPDF from './DownloadAttendantsPDF';
 import StateIcon from '../../live/participants/StateIcon';
@@ -210,79 +209,5 @@ const HoverableRow = ({ translate, participant, delegatedVotes }) => {
         </>
     );
 };
-
-const formatParticipant = participant => {
-    const { representing, ...newParticipant } = participant;
-    let currentParticipant = newParticipant;
-    if (representing && representing.type === 3) {
-        const { representative, ...rest } = newParticipant;
-        currentParticipant = {
-            ...representing,
-            notifications: rest.notifications,
-            representative: rest
-        };
-    }
-    return currentParticipant;
-};
-
-
-const applyFilters = (participants, filters) => applyOrder(participants.filter(item => {
-        const participant = formatParticipant(item);
-        if (filters.text) {
-            const unaccentedText = CBX.unaccent(filters.text.toLowerCase());
-
-            if (filters.field === 'fullName') {
-                const fullName = `${participant.name} ${participant.surname || ''}`;
-                let repreName = '';
-                if (participant.representative) {
-                    repreName = `${participant.representative.name} ${participant.representative.surname || ''}`;
-                }
-                if (!CBX.unaccent(fullName.toLowerCase()).includes(unaccentedText)
-                    && !CBX.unaccent(repreName.toLowerCase()).includes(unaccentedText)) {
-                    return false;
-                }
-            }
-
-            if (filters.field === 'position') {
-                if (participant.representative) {
-                    if (!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText)
-                        && !CBX.unaccent(participant.representative.position.toLowerCase()).includes(unaccentedText)) {
-                        return false;
-                    }
-                } else if (!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText)) {
-                        return false;
-                    }
-            }
-
-            if (filters.field === 'dni') {
-                if (participant.representative) {
-                    if (!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText)
-                        && !CBX.unaccent(participant.representative.dni.toLowerCase()).includes(unaccentedText)) {
-                        return false;
-                    }
-                } else if (!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText)) {
-                        return false;
-                    }
-            }
-        }
-
-        if (filters.notificationStatus) {
-            if (participant.representative) {
-                if (participant.representative.notifications[0].reqCode !== filters.notificationStatus) {
-                    return false;
-                }
-            } else if (participant.notifications[0].reqCode !== filters.notificationStatus) {
-                    return false;
-                }
-        }
-
-        return true;
-    }), filters.orderBy, filters.orderDirection);
-
-const applyOrder = (participants, orderBy) => participants.sort((a, b) => {
-        const participantA = formatParticipant(a);
-        const participantB = formatParticipant(b);
-        return participantA[orderBy] > participantB[orderBy];
-    });
 
 export default withApollo(ActAttendantsTable);
