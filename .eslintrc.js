@@ -70,6 +70,7 @@ module.exports = {
 		"import/no-mutable-exports": "off",
 		"no-bitwise": "off",
 		"one-var": "warn",
+		"max-classes-per-file": 'warn',
 		"arrow-body-style": 'warn',
 		"import/no-cycle": "off",
 		"space-before-blocks": 'error',

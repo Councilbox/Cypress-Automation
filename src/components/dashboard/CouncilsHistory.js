@@ -120,11 +120,11 @@ class HoverableRow extends React.Component {
                 <Card
                     style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
                     onClick={() => {
-                        this.props.disabled ?
-                            this.props.showModal()
-                            : bHistory.push(
-                                generateLink(council, company)
-                            );
+                        if (this.props.disabled) {
+                            this.props.showModal();
+                        } else {
+                            bHistory.push(generateLink(council, company));
+                        }
                     }}
                 >
                     <Grid>
@@ -193,11 +193,11 @@ class HoverableRow extends React.Component {
                 style={{ ...TableStyles.ROW, backgroundColor: this.props.disabled ? 'whiteSmoke' : 'inherit' }}
                 key={`council${council.id}`}
                 onClick={() => {
-                    this.props.disabled ?
-                        this.props.showModal()
-                        : bHistory.push(
-                            generateLink(council, company)
-                        );
+                    if (this.props.disabled) {
+                        this.props.showModal();
+                    } else {
+                        bHistory.push(generateLink(council, company));
+                    }
                 }}
             >
                 <TableCell

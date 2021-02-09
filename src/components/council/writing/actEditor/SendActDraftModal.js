@@ -1,12 +1,11 @@
 import React from 'react';
-import { Typography, TableRowColumn, TableRow, Table, TableCell } from 'material-ui';
+import { Typography, TableRow, Table, TableCell } from 'material-ui';
 import { compose, graphql } from 'react-apollo';
 import FontAwesome from 'react-fontawesome';
 import {
 	AlertConfirm,
 	Icon,
 	LoadingSection,
-	ParticipantRow,
 	TextInput,
 	Scrollbar,
 	BasicButton,
@@ -19,7 +18,6 @@ import { DELEGATION_USERS_LOAD } from '../../../../constants';
 import { getPrimary, secondary, getSecondary } from '../../../../styles/colors';
 import { checkValidEmail } from '../../../../utils/validation';
 import { sendActDraft, councilParticipantsActSends } from '../../../../queries';
-import { isMobile } from '../../../../utils/screen';
 
 
 class SendActDraftModal extends React.Component {
@@ -93,7 +91,7 @@ class SendActDraftModal extends React.Component {
 	};
 
 	isChecked = id => {
-		const item = this.state.checked.find(item => item === id);
+		const item = this.state.checked.find(selection => selection === id);
 		return !!item;
 	}
 

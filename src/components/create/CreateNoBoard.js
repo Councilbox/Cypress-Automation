@@ -6,7 +6,7 @@ import { statutes } from '../../queries';
 import { SelectInput } from '../../displayComponents';
 
 
-const CreateNoBoard = ({ setOptions, options, translate, hybrid, errors, company, client, ...props }) => {
+const CreateNoBoard = ({ setOptions, options, translate, company, client }) => {
     const [data, setData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
 

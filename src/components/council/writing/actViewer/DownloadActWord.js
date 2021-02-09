@@ -1,7 +1,6 @@
 import React from 'react';
 import FontAwesome from 'react-fontawesome';
 import { BasicButton } from '../../../../displayComponents';
-import { downloadFile } from '../../../../utils/CBX';
 import { getSecondary } from '../../../../styles/colors';
 
 
@@ -10,17 +9,18 @@ class DownloadActWord extends React.Component {
         downloadingPDF: false
     }
 
-    export2Doc = (element, filename = '') => {
+    export2Doc = (element, name = '') => {
+        let filename = name;
         const preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
         const postHtml = '</body></html>';
         const body = this.props.html.replace(/[\u0080-\u024F]/g,
             a => `&#${a.charCodeAt(0)};`).replace(/<!--[\s\S]*?-->/g, '');
         const html = preHtml + body + postHtml;
-        const css = ('\
-            <style>\
-            body {font-family: Arial, Georgia, Serif; font-size: 14pt;}\
-            </style>\
-       ');
+        const css = (`
+            <style>
+                body {font-family: Arial, Georgia, Serif; font-size: 14pt;}\
+            </style>
+       `);
 
        const value = css + html;
         const url = `data:application/vnd.ms-word;charset=utf-8,${encodeURI(value)}`;

@@ -12,7 +12,7 @@ import {
 	Checkbox,
 	SuccessMessage
 } from '../../../../displayComponents';
-import { councilParticipantsActSends, sendAct } from '../../../../queries';
+import { councilParticipantsActSends, sendAct as sendActMutation } from '../../../../queries';
 import { DELEGATION_USERS_LOAD } from '../../../../constants';
 
 import { useOldState } from '../../../../hooks';
@@ -89,7 +89,7 @@ const SendActModal = ({ translate, data, ...props }) => {
 	};
 
 	const isChecked = id => {
-		const item = state.participants.find(item => item.id === id);
+		const item = state.participants.find(participant => participant.id === id);
 		return !!item;
 	};
 
@@ -113,10 +113,10 @@ const SendActModal = ({ translate, data, ...props }) => {
 		});
 	};
 
-	const _renderEmails = () => (
+	const renderEmails = () => (
 			<div style={{ width: '100%' }}>
 				{state.participants.length > 0 ?
-					state.participants.map((participant, index) => (
+					state.participants.map(participant => (
 						<Card
 							style={{
 								width: '98%',
@@ -178,13 +178,12 @@ const SendActModal = ({ translate, data, ...props }) => {
 	};
 
 
-	function _modalBody() {
-		const { loading } = data;
-
-		const participants = loading ?
+	function modalBody() {
+		const loadingParticipants = data.loading;
+		const participants = loadingParticipants ?
 			[]
 			: data.councilParticipantsActSends.list;
-		const { total } = loading ?
+		const { total } = loadingParticipants ?
 			0
 			: data.councilParticipantsActSends;
 		const rest = total - participants.length - 1;
@@ -216,7 +215,7 @@ const SendActModal = ({ translate, data, ...props }) => {
 							</TableRow>
 						</Table>
 
-						{loading ? (
+						{loadingParticipants ? (
 							<LoadingSection />
 						) : (
 							<div style={{ height: 'calc( 100% - 4em )', marginBottom: '0.5em', width: '600px', margin: '0 auto' }}>
@@ -284,13 +283,6 @@ const SendActModal = ({ translate, data, ...props }) => {
 									textStyle={{ color: 'white' }}
 								/>
 							</div>
-							// <div onClick={this.loadMore}>
-							// 	{`DESCARGAR ${
-							// 		rest > DELEGATION_USERS_LOAD
-							// 			? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-							// 			: translate.all_plural.toLowerCase()
-							// 		}`}
-							// </div>
 						)
 					))}
 				</div>
@@ -305,7 +297,7 @@ const SendActModal = ({ translate, data, ...props }) => {
 
 		return (
 			<div style={{ width: '600px' }}>
-				{_renderEmails()}
+				{renderEmails()}
 			</div>
 		);
 	}
@@ -327,7 +319,7 @@ const SendActModal = ({ translate, data, ...props }) => {
 			buttonCancel={state.success ?
 				translate.close
 			:				state.step === 1 ? translate.close : translate.back}
-			bodyText={_modalBody()}
+			bodyText={modalBody()}
 			title={translate.sending_the_minutes}
 		/>
 	);
@@ -347,7 +339,7 @@ export default compose(
 		})
 	}),
 
-	graphql(sendAct, {
+	graphql(sendActMutation, {
 		name: 'sendAct'
 	})
 )(SendActModal);

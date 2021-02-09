@@ -15,7 +15,7 @@ const exportActPDF = gql`
     }
 `;
 
-const ExportActToMenu = ({ translate, council, client, ...props }) => {
+const ExportActToMenu = ({ translate, council, client }) => {
     const [loading, setLoading] = React.useState(false);
     const secondary = getSecondary();
 

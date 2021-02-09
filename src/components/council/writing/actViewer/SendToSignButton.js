@@ -42,7 +42,7 @@ const SendToSignButton = ({ styles, council, translate, client }) => {
                 }
             });
 
-            const documentResponse = await client.mutate({
+            await client.mutate({
                 mutation: gql`
                     mutation SaveSignatureDocument($document: SignatureDocumentInput){
                         saveSignatureDocument(document: $document){

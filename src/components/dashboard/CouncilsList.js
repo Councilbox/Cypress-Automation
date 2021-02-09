@@ -8,8 +8,6 @@ import { getPrimary, getSecondary } from '../../styles/colors';
 import CantCreateCouncilsModal from './CantCreateCouncilsModal';
 import { TRIAL_DAYS } from '../../config';
 import { trialDaysLeft } from '../../utils/CBX';
-
-
 import { sendGAevent } from '../../utils/analytics';
 import { useHoverRow } from '../../hooks';
 import { isMobile } from '../../utils/screen';
@@ -102,14 +100,16 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
             <Card
                 style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
                 onClick={() => {
-                    props.disabled ?
-                        props.showModal()
-                        : sendGAevent({
+                    if (props.disabled) {
+                        props.showModal();
+                    } else {
+                        sendGAevent({
                             category: 'Reuniones',
                             action: `${getSectionTranslation(props.match.params.section)} - Acceso`,
                             label: company.businessName
                         });
-                    bHistory.push(`/company/${company.id}/council/${council.id}`);
+                        bHistory.push(`/company/${company.id}/council/${council.id}`);
+                    }
                 }}
             >
                 <Grid>
@@ -167,16 +167,16 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
             selected={selected}
             style={{ ...TableStyles.ROW, backgroundColor: props.disabled ? 'whiteSmoke' : 'inherit' }}
             onClick={() => {
-                props.disabled ?
-                    props.showModal()
-                    : sendGAevent({
+                if (props.disabled) {
+                    props.showModal();
+                } else {
+                    sendGAevent({
                         category: 'Reuniones',
                         action: `${getSectionTranslation(props.match.params.section)} - Acceso`,
                         label: company.businessName
                     });
-                bHistory.push(
-                    `/company/${company.id}/council/${council.id}`
-                );
+                    bHistory.push(`/company/${company.id}/council/${council.id}`);
+                }
             }}
         >
             <TableCell onClick={event => event.stopPropagation()} style={{ cursor: 'auto' }}>

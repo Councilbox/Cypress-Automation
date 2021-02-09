@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CreateWithSession = ({ setOptions, ...props }) => (
+const CreateWithSession = () => (
         <div />
     );
 

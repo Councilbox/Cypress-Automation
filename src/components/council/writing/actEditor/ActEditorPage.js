@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { CardPageLayout, TabsScreen, Scrollbar } from '../../../../displayComponents';
+import { Scrollbar } from '../../../../displayComponents';
 import ActConvenedParticipants from './ActConvenedParticipants';
 import ActAttendantsTable from './ActAttendantsTable';
 import ActEditor from './ActEditor';
@@ -19,7 +19,7 @@ import DelegationDocuments from './DelegationDocuments';
 import NavigationHeader from './NavigationHeader';
 import VoteLetters from './VoteLetters';
 import Results from './Results';
-import { councilHasComments, hasParticipations } from '../../../../utils/CBX';
+import { hasParticipations } from '../../../../utils/CBX';
 import CommenWallList from './CommenWallList';
 
 

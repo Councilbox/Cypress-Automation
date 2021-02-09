@@ -101,26 +101,30 @@ class ActLiveSection extends React.Component {
 		);
 	};
 
-    _section = () => {
+    section = () => {
 		const { council, translate, companyId } = this.props;
 		if (this.props.data.loading) {
 			return <LoadingSection />;
 		}
 
 		return (
-        	<div
+			<div
 				style={{
 					paddingTop: '1.2em',
 					backgroundColor: 'white'
 				}}
 			>
 				<RichTextInput
-					ref={editor => (this.editor = editor)}
+					ref={editor => {
+						this.editor = editor;
+					}}
 					required
 					translate={translate}
 					loadDraft={
 						<LoadDraftModal
-							ref={modal => (this.modal = modal)}
+							ref={modal => {
+								this.modal = modal;
+							}}
 							translate={translate}
 							companyId={companyId}
 							loadDraft={this.loadDraft}
@@ -183,7 +187,7 @@ class ActLiveSection extends React.Component {
 					collapse={this._section}
 				/> */}
 				{
-					this._section()
+					this.section()
 				}
 			</div>
 		);

@@ -2,7 +2,6 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { BasicButton, AlertConfirm } from '../../../../displayComponents';
-import ShareholderEditor from './ShareholderEditor';
 
 
 const RefuseRequestButton = ({ request, client, refetch, translate }) => {
@@ -10,7 +9,7 @@ const RefuseRequestButton = ({ request, client, refetch, translate }) => {
     const buttonColor = request.participantCreated ? 'grey' : 'red';
 
     const refuseRequest = async () => {
-        const response = await client.mutate({
+        await client.mutate({
             mutation: gql`
                 mutation RefuseShareholderRequest($requestId: Int!){
                     refuseShareholderRequest(requestId: $requestId){

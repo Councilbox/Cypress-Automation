@@ -231,7 +231,7 @@ class HoverableRow extends React.PureComponent {
 				}}
 				onClick={() => {
 					if (disabled) {
-						this.props.showModal()
+						this.props.showModal();
 					} else {
 						bHistory.push(`/company/${this.props.company.id}/signature/${signature.id}`);
 					}

@@ -2,7 +2,7 @@ import React from 'react';
 import { DateTimePicker } from '../../displayComponents';
 import { moment } from '../../containers/App';
 
-const CreateWithoutSession = ({ setOptions, translate, hybrid, errors, ...props }) => {
+const CreateWithoutSession = ({ setOptions, translate, hybrid, errors }) => {
     const [dates, setDates] = React.useState({
         dateStart: null,
         closeDate: null

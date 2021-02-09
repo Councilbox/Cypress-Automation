@@ -182,7 +182,7 @@ const DelegateVoteButton = ({ request, client, refetch, setRepresentative, text,
     }, [request.participantId]);
 
     const sendNotification = async () => {
-        const response = await client.mutate({
+        await client.mutate({
             mutation: gql`
                 mutation SendRequestDelegationConfirmation($requestId: Int!, $participantId: Int!){
                     sendRequestDelegationConfirmation(requestId: $requestId, participantId: $participantId){

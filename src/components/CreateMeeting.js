@@ -25,7 +25,7 @@ class CreateMeeting extends Component {
 		}
 	}
 
-	render() {
+	static render() {
 		return <LoadingMainApp />;
 	}
 }

@@ -12,7 +12,7 @@ import CommentsTable from '../../live/comments/CommentsTable';
 import { checkForUnclosedBraces, changeVariablesToValues, hasParticipations, isCustomPoint, cleanAgendaObject, generateStatuteTag, isConfirmationRequest } from '../../../../utils/CBX';
 import LoadDraft from '../../../company/drafts/LoadDraft';
 import AgendaDescriptionModal from '../../live/AgendaDescriptionModal';
-import { updateAgenda } from '../../../../queries/agenda';
+import { updateAgenda as updateAgendaMutation } from '../../../../queries/agenda';
 import CustomAgendaRecount from '../../live/voting/CustomAgendaRecount';
 import { agendaRecountQuery } from '../../live/ActAgreements';
 import { useOldState } from '../../../../hooks';
@@ -367,7 +367,7 @@ export default compose(
 			}
 		})
 	}),
-	graphql(updateAgenda, {
+	graphql(updateAgendaMutation, {
 		name: 'updateAgenda'
 	})
 )(AgendaEditor);

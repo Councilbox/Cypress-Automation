@@ -6,7 +6,7 @@ import ShareholderEditor from './ShareholderEditor';
 import { getSecondary } from '../../../../styles/colors';
 
 
-const ApproveRequestButton = ({ request, client, refetch, translate, council }) => {
+const ApproveRequestButton = ({ request, client, refetch, council }) => {
     const [modal, setModal] = React.useState(null);
     const { requestType, legalTermsAccepted, attachments, earlyVotes, representative, ...cleanData } = request.data;
     cleanData.numParticipations = +cleanData.numParticipations || 1;
@@ -17,7 +17,7 @@ const ApproveRequestButton = ({ request, client, refetch, translate, council }) 
     const buttonColor = request.participantCreated ? 'grey' : secondary;
 
     const setParticipantCreated = async participant => {
-        const response = await client.mutate({
+        await client.mutate({
             mutation: gql`
                 mutation SetRequestShareholderCreated($requestId: Int!, $participantId: Int!){
                     setRequestShareholderCreated(requestId: $requestId, participantId: $participantId){
@@ -35,8 +35,8 @@ const ApproveRequestButton = ({ request, client, refetch, translate, council }) 
     };
 
 
-    const sendPrueba = async participant => {
-        const response = await client.mutate({
+    const sendPrueba = async () => {
+        await client.mutate({
             mutation: gql`
                 mutation SetRequestShareholderCreated($requestId: Int!, $participantId: Int!){
                     setRequestShareholderCreated(requestId: $requestId, participantId: $participantId){
@@ -57,9 +57,11 @@ const ApproveRequestButton = ({ request, client, refetch, translate, council }) 
                 disabled={request.participantCreated}
                 text={request.participantCreated ? 'Ya creado' : 'Añadir al censo'}
                 onClick={() => {
-                    request.participantCreated ?
-                    sendPrueba()
-                    : setModal(request);
+                    if (request.participantCreated) {
+                        sendPrueba();
+                    } else {
+                        setModal(request);
+                    }
                 }}
                 buttonStyle={{
                     border: `1px solid ${buttonColor}`

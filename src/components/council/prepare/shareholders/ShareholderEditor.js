@@ -2,24 +2,48 @@ import React from 'react';
 import { compose, graphql, withApollo } from 'react-apollo';
 import {
 	BasicButton,
-	ButtonIcon,
 	CustomDialog,
-    LoadingSection
 } from '../../../../displayComponents';
-import { getPrimary, secondary } from '../../../../styles/colors';
-import { languages } from '../../../../queries/masters';
+import { getPrimary } from '../../../../styles/colors';
+import { languages as languagesQuery } from '../../../../queries/masters';
 import ParticipantForm from '../../participants/ParticipantForm';
-import {
-	checkRequiredFieldsParticipant,
-	checkRequiredFieldsRepresentative
-} from '../../../../utils/validation';
 import RepresentativeForm from '../../../company/census/censusEditor/RepresentativeForm';
 import { checkUniqueCouncilEmails, addConvenedParticipant } from '../../../../queries/councilParticipant';
 import { useOldState } from '../../../../hooks';
 import withSharedProps from '../../../../HOCs/withSharedProps';
-import { isMobile } from '../../../../utils/screen';
 import SelectRepresentative from '../../editor/census/modals/SelectRepresentative';
 
+const initialParticipant = {
+	name: '',
+	surname: '',
+	position: '',
+	email: '',
+	phone: '',
+	dni: '',
+	type: 0,
+	delegateId: null,
+	numParticipations: 1,
+	socialCapital: 1,
+	uuid: null,
+	initialState: 0,
+	delegateUuid: null,
+	language: 'es',
+	city: '',
+	personOrEntity: 0
+};
+
+const initialRepresentative = {
+	hasRepresentative: false,
+	language: 'es',
+	type: 2,
+	name: '',
+	surname: '',
+	position: '',
+	email: '',
+	initialState: 0,
+	phone: '',
+	dni: ''
+};
 
 const AddConvenedParticipantButton = ({ translate, participations, open, requestClose, defaultValues = {}, client, company, ...props }) => {
 	const [state, setState] = useOldState({
@@ -31,59 +55,7 @@ const AddConvenedParticipantButton = ({ translate, participations, open, request
 	});
 	const primary = getPrimary();
 
-
-	const addParticipant = async sendConvene => {
-		const { hasRepresentative, ...data } = state.representative;
-		const representative = state.representative.hasRepresentative ?
-			{
-					...data,
-					councilId: props.councilId
-			  }
-			: null;
-
-		if (!await checkRequiredFields()) {
-			const response = await props.addParticipant({
-				variables: {
-					participant: {
-						...state.data,
-						councilId: props.councilId
-					},
-					representative,
-					sendConvene
-				}
-			});
-			if (!response.errors) {
-				props.refetch(JSON.parse(response.data.addConvenedParticipant.message));
-				setState({
-					modal: false,
-					data: { ...initialParticipant },
-					representative: { ...initialRepresentative },
-					errors: {},
-					representativeErrors: {}
-				});
-			}
-		}
-	};
-
-	const updateState = object => {
-		setState({
-			data: {
-				...state.data,
-				...object
-			}
-		});
-	};
-
-	const updateRepresentative = object => {
-		setState({
-			representative: {
-				...state.representative,
-				...object
-			}
-		});
-	};
-
-	async function checkRequiredFields(onlyEmail) {
+	async function checkRequiredFields() {
 		const participant = state.data;
 		const { representative } = state;
 
@@ -143,6 +115,57 @@ const AddConvenedParticipantButton = ({ translate, participations, open, request
 		return errorsParticipant.hasError || errorsRepresentative.hasError;
 	}
 
+	const addParticipant = async sendConvene => {
+		const { hasRepresentative, ...data } = state.representative;
+		const representative = state.representative.hasRepresentative ?
+			{
+				...data,
+				councilId: props.councilId
+			}
+			: null;
+
+		if (!await checkRequiredFields()) {
+			const response = await props.addParticipant({
+				variables: {
+					participant: {
+						...state.data,
+						councilId: props.councilId
+					},
+					representative,
+					sendConvene
+				}
+			});
+			if (!response.errors) {
+				props.refetch(JSON.parse(response.data.addConvenedParticipant.message));
+				setState({
+					modal: false,
+					data: { ...initialParticipant },
+					representative: { ...initialRepresentative },
+					errors: {},
+					representativeErrors: {}
+				});
+			}
+		}
+	};
+
+	const updateState = object => {
+		setState({
+			data: {
+				...state.data,
+				...object
+			}
+		});
+	};
+
+	const updateRepresentative = object => {
+		setState({
+			representative: {
+				...state.representative,
+				...object
+			}
+		});
+	};
+
 	const {
 		data: participant,
 		errors,
@@ -196,9 +219,9 @@ const AddConvenedParticipantButton = ({ translate, participations, open, request
 						open={state.selectRepresentative}
 						council={props.council}
 						translate={translate}
-						updateRepresentative={representative => {
+						updateRepresentative={repre => {
 							updateRepresentative({
-								...representative,
+								...repre,
 								hasRepresentative: true
 							});
 						}}
@@ -239,38 +262,6 @@ export default compose(
 			errorPolicy: 'all'
 		}
 	}),
-	graphql(languages),
+	graphql(languagesQuery),
 	withSharedProps()
 )(withApollo(AddConvenedParticipantButton));
-
-const initialParticipant = {
-	name: '',
-	surname: '',
-	position: '',
-	email: '',
-	phone: '',
-	dni: '',
-	type: 0,
-	delegateId: null,
-	numParticipations: 1,
-	socialCapital: 1,
-	uuid: null,
-	initialState: 0,
-	delegateUuid: null,
-	language: 'es',
-	city: '',
-	personOrEntity: 0
-};
-
-const initialRepresentative = {
-	hasRepresentative: false,
-	language: 'es',
-	type: 2,
-	name: '',
-	surname: '',
-	position: '',
-	email: '',
-	initialState: 0,
-	phone: '',
-	dni: ''
-};

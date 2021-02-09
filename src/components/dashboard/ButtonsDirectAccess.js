@@ -1,6 +1,6 @@
 import React from 'react';
+import { Icon, Card } from 'material-ui';
 import {
-	Block,
 	Grid,
 	GridItem,
 	Link,
@@ -10,8 +10,7 @@ import { TRIAL_DAYS } from '../../config';
 import { trialDaysLeft } from '../../utils/CBX';
 import { moment } from '../../containers/App';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { getPrimary, getSecondary, darkGrey } from '../../styles/colors';
-import { Icon, Card, MenuItem } from 'material-ui';
+import { darkGrey } from '../../styles/colors';
 import CantCreateCouncilsModal from './CantCreateCouncilsModal';
 import ContentButtonDirectAccess from './ContentButtonDirectAccess';
 
@@ -140,8 +139,8 @@ class ButtonsDirectAccess extends React.Component {
 							<div style={{ background: company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0 ? '#cecece4a' : '#cecece', maxWidth: '155px', padding: '1em', borderRadius: '5px 5px 0px 0px' }}>
 								<img src={logo} style={{
 									height: '4.4em',
-									 width: 'auto',
-									 opacity: company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0 ? '0.5' : '1'
+									width: 'auto',
+									opacity: company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0 ? '0.5' : '1'
 								}}
 									alt="councilbox-logo" />
 							</div>

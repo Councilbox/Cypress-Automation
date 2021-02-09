@@ -14,9 +14,7 @@ class Grafica extends React.Component {
 				originalDoughnutDraw.apply(this, arguments);
 
 				const { chart } = this;
-				const { width } = chart.chart;
-					const { height } = chart.chart;
-					const { ctx } = chart.chart;
+				const { width, height, ctx } = chart.chart;
 				ctx.fillStyle = 'rgba(0, 0, 0, 0.65)';
 				ctx.font = 'sans-serif';
 				ctx.textBaseline = 'middle';

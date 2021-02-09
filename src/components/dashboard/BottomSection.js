@@ -1,9 +1,10 @@
 import React from 'react';
 import { MenuItem } from 'material-ui';
-import { BasicButton, SelectInput } from '../displayComponents';
 import { getPrimary, getSecondary, lightGrey } from '../../styles/colors';
+import { BasicButton, SelectInput } from '../../displayComponents';
 
-const BottomSection = ({ translate }) => (
+
+const BottomSection = () => (
 	<div
 		style={{
 			width: '100%',

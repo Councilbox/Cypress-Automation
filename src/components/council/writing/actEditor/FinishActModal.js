@@ -6,7 +6,7 @@ import {
 	AlertConfirm,
 	BasicButton,
 } from '../../../../displayComponents';
-import { approveAct } from '../../../../queries';
+import { approveAct as approveActMutation } from '../../../../queries';
 import { getSecondary } from '../../../../styles/colors';
 import { useOldState } from '../../../../hooks';
 import { isMobile } from '../../../../utils/screen';
@@ -103,7 +103,7 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 		});
 	};
 
-	function _modalBody() {
+	function modalBody() {
 		if (state.step === 2) {
 			if (state.file) {
 				return (
@@ -158,7 +158,7 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 			loadingAction={state.loading}
 			buttonAccept={state.step === 2 ? translate.send : translate.finish_and_aprove_act}
 			buttonCancel={translate.close}
-			bodyText={_modalBody()}
+			bodyText={modalBody()}
 			title={translate.finish_and_aprove_act}
 		/>
 	);
@@ -228,7 +228,7 @@ export const approveActUserPDF = gql`
 `;
 
 export default compose(
-	graphql(approveAct, {
+	graphql(approveActMutation, {
 		name: 'approveAct'
 	}),
 	graphql(approveActUserPDF, {

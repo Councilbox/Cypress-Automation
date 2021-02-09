@@ -1,17 +1,14 @@
 import React from 'react';
 import { compose, graphql, withApollo } from 'react-apollo';
-import { councils, deleteCouncil } from '../../queries.js';
+import { councils, deleteCouncil as deleteCouncilMutation } from '../../queries';
 import {
 	AlertConfirm,
-	ErrorWrapper,
 	Scrollbar,
 	BasicButton,
 	Grid,
 	GridItem,
 	LoadingSection,
-	MainTitle,
 	PaginationFooter,
-	CardPageLayout,
 } from '../../displayComponents/index';
 import { isLandscape, isMobile } from '../../utils/screen';
 import { getSecondary } from '../../styles/colors';
@@ -21,9 +18,9 @@ import CouncilsList from './CouncilsList';
 import CouncilsHistory from './CouncilsHistory';
 import CouncilsFilters from './CouncilsFilters';
 import { useOldState } from '../../hooks';
-import { DRAFTS_LIMITS } from '../../constants.js';
-import MenuSuperiorTabs from './MenuSuperiorTabs.js';
-import { bHistory } from '../../containers/App.js';
+import { DRAFTS_LIMITS } from '../../constants';
+import MenuSuperiorTabs from './MenuSuperiorTabs';
+import { bHistory } from '../../containers/App';
 
 const getSection = translate => {
 	const section = window.location.pathname.split('/').pop();
@@ -43,7 +40,6 @@ const getSection = translate => {
 const Councils = ({ translate, client, ...props }) => {
 	const [loading, setLoading] = React.useState(true);
 	const [councilsData, setCouncilsData] = React.useState(true);
-	const [error, setError] = React.useState(false);
 	const [state, setState] = useOldState({
 		councilToDelete: '',
 		deleteModal: false,
@@ -79,6 +75,10 @@ const Councils = ({ translate, client, ...props }) => {
 			setselectedTab(section);
 		}
 	}, [window.location.pathname]);
+
+	const handleChange = section => {
+		bHistory.push(statesTabLink[section]);
+	};
 
 	const getData = async filters => {
 		const response = await client.query({
@@ -176,11 +176,6 @@ const Councils = ({ translate, client, ...props }) => {
 		});
 	};
 
-	const handleChange = section => {
-		bHistory.push(statesTabLink[section]);
-	};
-
-
 	return (
 		<div
 			style={{
@@ -261,17 +256,7 @@ const Councils = ({ translate, client, ...props }) => {
 						<div style={{ height: `calc(100% - ${mobileLandscape() ? '7em' : '3em'})`, overflow: 'hidden' }}>
 							<Scrollbar>
 								<div style={{ padding: '1em', paddingTop: '2em' }}>
-									{false ? (
-										<div>
-											{error.graphQLErrors.map((error, index) => (
-													<ErrorWrapper
-														key={`error_${index}`}
-														error={error}
-														translate={translate}
-													/>
-												))}
-										</div>
-									) : councilsData.list.length > 0 ? (
+									{councilsData.list.length > 0 ? (
 										(selectedTab === translate.companies_writing
 										|| selectedTab === translate.act_book
 										|| selectedTab === translate.dashboard_historical
@@ -342,5 +327,5 @@ const Councils = ({ translate, client, ...props }) => {
 };
 
 export default compose(
-	graphql(deleteCouncil),
+	graphql(deleteCouncilMutation),
 )(withWindowSize(withApollo(Councils)));
