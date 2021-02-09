@@ -66,7 +66,9 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
     }, [open, innerWidth])
 
     const getSignaturePreview = () => {
-        signaturePreview.current.fromDataURL(signature.current.toDataURL());
+        if(signaturePreview.current){
+            signaturePreview.current.fromDataURL(signature.current.toDataURL());
+        }
     }
 
     const sendDelegationData = async signature => {

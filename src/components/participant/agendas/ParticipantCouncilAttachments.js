@@ -298,7 +298,7 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
                                             }}
                                             styleLabel={{ alignItems: "unset", fontSize: "14px", color: "black" }}
                                             styleInLabel={{ fontSize: "14px", color: "black" }}
-                                            label={"Confirmo y acepto la normativa de tratatimento de datos del Reglamento (UE) 2016/679 del Parlamento Europeo y del Consejo, de 27 de abril de 2016, relativo a la protección de las personas físicas en lo que respecta al tratamiento de datos personales y a la libre circulación de estos datos y por el que se deroga la Directiva 95/46/CE (Reglamento general de protección de datos) (Texto pertinente a efectos del EEE)"}
+                                            label={"Confirmo y acepto la normativa de tratamiento de datos del Reglamento (UE) 2016/679 del Parlamento Europeo y del Consejo, de 27 de abril de 2016, relativo a la protección de las personas físicas en lo que respecta al tratamiento de datos personales y a la libre circulación de estos datos y por el que se deroga la Directiva 95/46/CE (Reglamento general de protección de datos) (Texto pertinente a efectos del EEE)"}
                                         />
                                     </div>
                                 </div>

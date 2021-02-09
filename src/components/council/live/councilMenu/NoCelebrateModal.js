@@ -125,7 +125,7 @@ class NoCelebrateModal extends React.Component {
 				}
 				buttonCancel={translate.close}
 				bodyText={this._renderBody()}
-				title={translate.send_convene_reminder}
+				title={translate.council_not_celebrated}
 			/>
 		);
 	}
