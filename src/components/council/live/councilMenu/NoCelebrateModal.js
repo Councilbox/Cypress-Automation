@@ -109,8 +109,6 @@ class NoCelebrateModal extends React.Component {
 	render() {
 		const { translate } = this.props;
 
-		console.log(translate);
-
 		return (
 			<AlertConfirm
 				requestClose={this.props.requestClose}
