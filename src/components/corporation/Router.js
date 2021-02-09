@@ -23,7 +23,7 @@ import KPI from './KPI';
 import { HEADER_HEIGHT } from '../../styles/constants';
 
 let image;
-import("../../assets/img/sidebar-2.jpg").then(data => image = data);
+import("../../assets/img/sidebar-2.jpg").then(data => { image = data });
 
 
 const Router = ({ user, translate, location, data, classes }) => {
