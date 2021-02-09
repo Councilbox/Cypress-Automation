@@ -118,8 +118,8 @@ const ParticipantContactEditor = ({ translate, council, client, updateParticipan
             }
         });
 
-        if(response.errors){
-            if(response.errors[0].message === 'Invalid phone number'){
+        if (response.errors) {
+            if (response.errors[0].message === 'Invalid phone number') {
                 setState({
                     phoneError: translate.invalid_phone_number,
                     loading: false
@@ -196,18 +196,18 @@ const ParticipantContactEditor = ({ translate, council, client, updateParticipan
                 color={secondary}
                 text="Email email acceso del portal"
                 textStyle={{ color: 'white', fontWeight: '700' }}
-                //loading={state.sendsLoading}
+                // loading={state.sendsLoading}
                 onClick={sendParticipantPortalAccessMail}
             />
-            {roomLink &&
-                <>
+            {roomLink
+                && <>
                     <div style={{ wordWrap: 'break-word', width: '100%' }}>
                         {roomLink}
                     </div>
                 </>
             }
-            {hasAccessKey(council) &&
-                <BasicButton
+            {hasAccessKey(council)
+                && <BasicButton
                     color={secondary}
                     text="Enviar contraseña de entrada"
                     onClick={resendRoomAccessKey}

@@ -50,14 +50,14 @@ const UsersDashboard = ({ translate, client, ...props }) => {
     }, [state.selecteOptionMenu, filterText]);
 
 
-    const setSelecteOptionMenu = (value) => {
+    const setSelecteOptionMenu = value => {
         setState({
             ...state,
             selecteOptionMenu: value
         });
     };
 
-    const updateLimit = (value) => {
+    const updateLimit = value => {
         setState({
             ...state,
             limit: value
@@ -74,7 +74,6 @@ const UsersDashboard = ({ translate, client, ...props }) => {
     //     variables.filters = [{ field: 'fullName', text: state.filterText }];
     //     props.data.refetch(variables);
     // }
-
 
 
     if (state.addUser) {
@@ -125,7 +124,7 @@ const UsersDashboard = ({ translate, client, ...props }) => {
                 <div style={{ display: 'flex', padding: '1em', justifyContent: 'space-between', paddingTop: '0px', alignItems: 'center' }}>
                     <div style={{ fontSize: '13px', }}>
                         <MenuSuperiorTabs
-                        //TRADUCCION
+                        // TRADUCCION
                             items={['Registrados', 'Pendientes de confirmar']}
                             setSelect={setSelecteOptionMenu}
                             selected={state.selecteOptionMenu}
@@ -169,8 +168,7 @@ const UsersDashboard = ({ translate, client, ...props }) => {
                 </div>
                 {state.loading ?
                     <LoadingSection />
-                    :
-                    <TablaRegistrados
+                    : <TablaRegistrados
                         translate={translate}
                         corporationUsers={state.corporationUsers.list}
                     />

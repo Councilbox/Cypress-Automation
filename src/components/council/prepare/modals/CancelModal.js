@@ -52,7 +52,7 @@ class CancelModal extends React.Component {
 		const { translate } = this.props;
 
 		if (this.state.sending) {
-			return(
+			return (
 				<div>
 					<LoadingSection size={50} />
 				</div>
@@ -91,9 +91,9 @@ class CancelModal extends React.Component {
 					this.state.success ? () => this.close() : this.cancelCouncil
 				}
 				buttonAccept={
-					!this.state.sending
-						? this.state.success
-							? translate.accept
+					!this.state.sending ?
+						this.state.success ?
+							translate.accept
 							: translate.cancel_council
 						: ''
 				}

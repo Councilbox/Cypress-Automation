@@ -89,8 +89,7 @@ const FinishedPage = ({ client, translate, ...props }) => {
                 <Scrollbar>
                     {loading ?
                         <LoadingSection />
-                        :
-                        councils.map(council => (
+                        : councils.map(council => (
                             // <Card style={{marginBottom: '1.2em'}}>
                             <CouncilItem
                                 key={`council_${council.id}`}

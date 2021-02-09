@@ -35,7 +35,7 @@ const ApproveRequestButton = ({ request, client, refetch, translate }) => {
                 }}
                 color="white"
                 textStyle={{ color: secondary }}
-                //onClick={approveRequest}
+                // onClick={approveRequest}
             />
         </>
     );

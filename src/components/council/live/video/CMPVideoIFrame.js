@@ -11,26 +11,25 @@ import { COUNCIL_STATES } from '../../../../constants';
 import PausedCouncilPage from './PausedCouncilPage';
 
 
-
 const CMPVideoIFrame = props => {
     const [loading, setLoading] = React.useState(true);
     const [data, setData] = React.useState(null);
     const config = React.useContext(ConfigContext);
     const adminId = React.useRef(sessionStorage.getItem('adminId') || Date.now());
 
-    if(!sessionStorage.getItem('adminId')){
+    if (!sessionStorage.getItem('adminId')) {
         sessionStorage.setItem('adminId', adminId.current);
     }
 
     React.useEffect(() => {
-        if(!data){
+        if (!data) {
             fetchVideoURL();
         }
     }, [data]);
 
     React.useEffect(() => {
-        if(!loading){
-            if(data.errors){
+        if (!loading) {
+            if (data.errors) {
                 props.setVideoURL(data.errors[0].message === 'Admin already in the room' ? 'Admin already logued' : 'Error');
             } else {
                 sendAdminPing();
@@ -40,7 +39,7 @@ const CMPVideoIFrame = props => {
     }, [loading]);
 
     useInterval(async () => {
-        if(data && data.roomVideoURL){
+        if (data && data.roomVideoURL) {
             sendAdminPing();
         } else {
             setLoading(true);
@@ -77,11 +76,11 @@ const CMPVideoIFrame = props => {
         });
     };
 
-    if(loading){
+    if (loading) {
         return <LoadingSection />;
     }
 
-    if(props.council.state === COUNCIL_STATES.PAUSED){
+    if (props.council.state === COUNCIL_STATES.PAUSED) {
         return (
             <PausedCouncilPage council={props.council} translate={props.translate} />
         );
@@ -98,8 +97,8 @@ const CMPVideoIFrame = props => {
             />
             {!!data.roomVideoURL && config.video ?
                 <React.Fragment>
-                    {(config.recording && data.roomVideoURL.includes('councilbox') && !data.roomVideoURL.includes('rivulet')) &&
-                        <RecordingButton
+                    {(config.recording && data.roomVideoURL.includes('councilbox') && !data.roomVideoURL.includes('rivulet'))
+                        && <RecordingButton
                             config={config}
                             council={props.council}
                             translate={props.translate}
@@ -119,8 +118,7 @@ const CMPVideoIFrame = props => {
                         Something wrong...
                     </iframe>
                 </React.Fragment>
-            :
-                <div
+            : <div
                     style={{
                         width: '100%',
                         backgroundColor: darkGrey,
@@ -130,8 +128,7 @@ const CMPVideoIFrame = props => {
                 >
                     {props.videoURL === 'Admin already logued' ?
                         <AdminAlreadyLoguedScreen translate={props.translate} />
-                    :
-                        <CMPVideoError translate={props.translate} />
+                    : <CMPVideoError translate={props.translate} />
                     }
                 </div>
             }

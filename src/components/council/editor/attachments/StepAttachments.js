@@ -174,7 +174,7 @@ const StepAttachments = ({ client, translate, ...props }) => {
 	};
 
 	let attachments = [];
-	if(!loading){
+	if (!loading) {
 		attachments = data.council.attachments;
 	}
 
@@ -198,9 +198,9 @@ const StepAttachments = ({ client, translate, ...props }) => {
 						<GridItem xs={12} md={10} style={{ marginTop: '0.5em' }}>
 							<ProgressBar
 								value={
-									totalSize > 0
-										? (totalSize / MAX_FILE_SIZE) *
-										100
+									totalSize > 0 ?
+										(totalSize / MAX_FILE_SIZE)
+										* 100
 										: 0
 								}
 								color={secondary}
@@ -271,7 +271,7 @@ const StepAttachments = ({ client, translate, ...props }) => {
 													display: 'flex',
 													color: 'black',
 													padding: '.5em 0em',
-													borderTop: '1px solid' + primary,
+													borderTop: `1px solid${primary}`,
 													cursor: 'pointer'
 												}}
 												onClick={() => setCompanyDocumentsModal(true)}
@@ -290,8 +290,7 @@ const StepAttachments = ({ client, translate, ...props }) => {
 
 					{loading ?
 							<LoadingSection />
-						:
-						attachments.length > 0 && (
+						:						attachments.length > 0 && (
 							<AttachmentList
 								attachments={attachments}
 								refetch={getData}

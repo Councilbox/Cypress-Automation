@@ -55,15 +55,15 @@ const LoadFromPreviousCouncil = ({ translate, data, council, ...props }) => {
     };
 
     const _renderBody = () => {
-        if(!data.loading && data.councils.length === 0){
+        if (!data.loading && data.councils.length === 0) {
             return <span>{translate.no_celebrated_councils}</span>;
         }
 
-        if(!data.councils){
+        if (!data.councils) {
             return <LoadingSection />;
         }
 
-        if(state.council){
+        if (state.council) {
             return <CouncilDetails council={state.council} translate={translate} inIndex={true} />;
         }
 
@@ -128,11 +128,10 @@ const LoadFromPreviousCouncil = ({ translate, data, council, ...props }) => {
                     buttonAccept={translate.accept}
                     buttonCancel={state.council ? translate.back : translate.cancel}
                     bodyText={_renderBody()}
-                    title={'Cargar una reunión pasada'/*TRADUCCION*/}
+                    title={'Cargar una reunión pasada'/* TRADUCCION */}
                 />
             </React.Fragment>
-        :
-            <span />
+        : <span />
     );
 };
 
@@ -161,9 +160,9 @@ export default compose(
 )(LoadFromPreviousCouncil);
 
 const filterCouncilStates = state => (
-    state !== COUNCIL_STATES.CANCELED &&
-    state !== COUNCIL_STATES.DRAFT &&
-    state !== COUNCIL_STATES.PRECONVENE &&
-    state !== COUNCIL_STATES.PREPARING &&
-    state !== COUNCIL_STATES.SAVED
+    state !== COUNCIL_STATES.CANCELED
+    && state !== COUNCIL_STATES.DRAFT
+    && state !== COUNCIL_STATES.PRECONVENE
+    && state !== COUNCIL_STATES.PREPARING
+    && state !== COUNCIL_STATES.SAVED
 );

@@ -7,8 +7,8 @@ class ContentButtonDirectAccess extends React.Component {
 	render() {
 		const { children, disabled, disabledOnClick, link } = this.props;
 
-		const card =
-			<div
+		const card
+			= <div
 				style={{
 					...(!disabled ? {} : { filter: 'grayscale(80%)' })
 				}}
@@ -23,8 +23,7 @@ class ContentButtonDirectAccess extends React.Component {
 					<div onClick={disabledOnClick}>
 						{card}
 					</div>
-					:
-					<Link to={link}>
+					:					<Link to={link}>
 						{card}
 					</Link>
 				}

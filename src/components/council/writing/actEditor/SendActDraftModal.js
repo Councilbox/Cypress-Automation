@@ -131,9 +131,9 @@ class SendActDraftModal extends React.Component {
 		}
 	};
 
-	deleteEmailFromList = (email) => {
+	deleteEmailFromList = email => {
 		const list = this.state.emailList;
-		const checked = this.state.checked;
+		const { checked } = this.state;
 		const index = list.find(item => email === item);
 		list.splice(index, 1);
 		checked.splice(index, 1);
@@ -146,12 +146,12 @@ class SendActDraftModal extends React.Component {
 	}
 
 	_section = () => (
-			<div style={{ width: '100%', display: 'flex', flexDirection: 'column', paddingBottom: '1.5em', border: '1px solid ' + getSecondary(), borderRadius: '4px', padding: '1em', marginTop: '1em' }}>
+			<div style={{ width: '100%', display: 'flex', flexDirection: 'column', paddingBottom: '1.5em', border: `1px solid ${getSecondary()}`, borderRadius: '4px', padding: '1em', marginTop: '1em' }}>
 				<div style={{ width: '100%', paddingTop: '1em', paddingBottom: '1em', display: 'flex', flexDirection: 'row' }}>
 					<div style={{ width: '75%', marginRight: '0.8em' }}>
 						<TextInput
 							value={this.state.newEmail}
-							onChange={(event) => this.setState({
+							onChange={event => this.setState({
 								newEmail: event.nativeEvent.target.value
 							})}
 							errorText={this.state.errors.newEmail}
@@ -185,8 +185,7 @@ class SendActDraftModal extends React.Component {
 							/>
 						</div>
 					))
-					:
-					<div>
+					:					<div>
 						{this.props.translate.not_added}
 					</div>
 				}
@@ -257,7 +256,7 @@ class SendActDraftModal extends React.Component {
 		});
 	}
 
-	cambiarCheck = (mail) => {
+	cambiarCheck = mail => {
 		let isChecked = this.isChecked(mail);
 		if (isChecked) {
 			isChecked = false;
@@ -271,11 +270,11 @@ class SendActDraftModal extends React.Component {
 		const { translate } = this.props;
 		const { loading } = this.props.data;
 
-		const participants = loading
-			? []
+		const participants = loading ?
+			[]
 			: this.props.data.councilParticipantsActSends.list;
-		const { total } = loading
-			? 0
+		const { total } = loading ?
+			0
 			: this.props.data.councilParticipantsActSends;
 		const rest = total - participants.length - 1;
 
@@ -328,7 +327,7 @@ class SendActDraftModal extends React.Component {
 										<Table style={{ marginBottom: '1em', width: '600px', margin: '0 auto' }}>
 											{participants.length > 0 ? (
 												participants.filter(p => !!p.email).map(participant => (
-														<TableRow key={'participant_' + participant.id}>
+														<TableRow key={`participant_${participant.id}`}>
 															<TableCell style={{ width: '50px', padding: '0px', paddingLeft: '10px' }}>
 																<Checkbox
 																	value={this.isChecked(participant.email)}
@@ -402,8 +401,8 @@ class SendActDraftModal extends React.Component {
 								<BasicButton
 									text={
 										`DESCARGAR ${
-										rest > DELEGATION_USERS_LOAD
-											? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+										rest > DELEGATION_USERS_LOAD ?
+											`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
 											: translate.all_plural.toLowerCase()
 										}`
 									}

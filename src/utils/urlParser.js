@@ -15,27 +15,27 @@ const urlParser = obj => {
 			if (value instanceof Array) {
 				for (i = 0; i < value.length; ++i) {
 					subValue = value[i];
-					fullSubName = name + '[' + i + ']';
+					fullSubName = `${name}[${i}]`;
 					innerObj = {};
 					innerObj[fullSubName] = subValue;
-					query += urlParser(innerObj) + '&';
+					query += `${urlParser(innerObj)}&`;
 				}
 			} else if (value instanceof Object) {
 				for (subName in value) {
 					if (subName) {
 						subValue = value[subName];
-						fullSubName = name + '[' + subName + ']';
+						fullSubName = `${name}[${subName}]`;
 						innerObj = {};
 						innerObj[fullSubName] = subValue;
-						query += urlParser(innerObj) + '&';
+						query += `${urlParser(innerObj)}&`;
 					}
 				}
 			} else if (value !== undefined && value !== null) {
-				query +=
-					encodeURIComponent(name) +
-					'=' +
-					encodeURIComponent(value) +
-					'&';
+				query
+					+= `${encodeURIComponent(name)
+					}=${
+						encodeURIComponent(value)
+					}&`;
 			}
 		}
 	}

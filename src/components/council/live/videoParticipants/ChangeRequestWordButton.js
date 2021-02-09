@@ -68,8 +68,8 @@ class ChangeRequestWordButton extends React.Component {
 				{haveGrantedWord(participant) && (
 					<Tooltip
 						title={
-							participant.requestWord === 2
-								? this.props.translate.cancel_broadcast
+							participant.requestWord === 2 ?
+								this.props.translate.cancel_broadcast
 								: ''
 						}
 					>

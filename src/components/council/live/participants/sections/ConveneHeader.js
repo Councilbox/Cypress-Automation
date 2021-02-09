@@ -31,8 +31,8 @@ const ConveneHeader = ({ conveneSendRecount, selected, setSelected, translate })
 					style={{
 						cursor: 'pointer',
 						backgroundColor:
-							selected === null &&
-							'lightGrey'
+							selected === null
+							&& 'lightGrey'
 					}}
 				>
 					<EmailIcon
@@ -50,8 +50,8 @@ const ConveneHeader = ({ conveneSendRecount, selected, setSelected, translate })
 					style={{
 						cursor: 'pointer',
 						backgroundColor:
-							selected ===
-								EMAIL_TRACK_STATES.FAILED && 'lightGrey'
+							selected
+								=== EMAIL_TRACK_STATES.FAILED && 'lightGrey'
 					}}
 				>
 					<EmailIcon
@@ -69,8 +69,8 @@ const ConveneHeader = ({ conveneSendRecount, selected, setSelected, translate })
 					style={{
 						cursor: 'pointer',
 						backgroundColor:
-							selected ===
-								EMAIL_TRACK_STATES.NOT_SENT && 'lightGrey'
+							selected
+								=== EMAIL_TRACK_STATES.NOT_SENT && 'lightGrey'
 					}}
 				>
 					<EmailIcon
@@ -88,9 +88,9 @@ const ConveneHeader = ({ conveneSendRecount, selected, setSelected, translate })
 					style={{
 						cursor: 'pointer',
 						backgroundColor:
-							selected ===
-								EMAIL_TRACK_STATES.INVALID_EMAIL_ADDRESS &&
-							'lightGrey'
+							selected
+								=== EMAIL_TRACK_STATES.INVALID_EMAIL_ADDRESS
+							&& 'lightGrey'
 					}}
 				>
 					<EmailIcon
@@ -106,8 +106,8 @@ const ConveneHeader = ({ conveneSendRecount, selected, setSelected, translate })
 					style={{
 						cursor: 'pointer',
 						backgroundColor:
-							selected ===
-								EMAIL_TRACK_STATES.SPAM && 'lightGrey'
+							selected
+								=== EMAIL_TRACK_STATES.SPAM && 'lightGrey'
 					}}
 				>
 					<EmailIcon
@@ -125,9 +125,9 @@ const ConveneHeader = ({ conveneSendRecount, selected, setSelected, translate })
 					style={{
 						cursor: 'pointer',
 						backgroundColor:
-							selected ===
-								EMAIL_TRACK_STATES.PENDING_SHIPPING &&
-							'lightGrey'
+							selected
+								=== EMAIL_TRACK_STATES.PENDING_SHIPPING
+							&& 'lightGrey'
 					}}
 				>
 					<EmailIcon
@@ -145,8 +145,8 @@ const ConveneHeader = ({ conveneSendRecount, selected, setSelected, translate })
 					style={{
 						cursor: 'pointer',
 						backgroundColor:
-							selected ===
-								EMAIL_TRACK_STATES.DELIVERED && 'lightGrey'
+							selected
+								=== EMAIL_TRACK_STATES.DELIVERED && 'lightGrey'
 					}}
 				>
 					<EmailIcon
@@ -164,8 +164,8 @@ const ConveneHeader = ({ conveneSendRecount, selected, setSelected, translate })
 					style={{
 						cursor: 'pointer',
 						backgroundColor:
-							selected ===
-								EMAIL_TRACK_STATES.OPENED && 'lightGrey'
+							selected
+								=== EMAIL_TRACK_STATES.OPENED && 'lightGrey'
 					}}
 				>
 					<EmailIcon

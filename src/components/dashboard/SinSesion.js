@@ -8,8 +8,6 @@ import {
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 
-
-
 class SinSesion extends React.Component {
 	state = {
 		modalAcciones: false,
@@ -17,7 +15,7 @@ class SinSesion extends React.Component {
 	}
 
 	onClickContinuarEditando = (event, id) => {
-		//esto te llevara a la pagina en donde se edita la reunion - ya funciona el id y el event
+		// esto te llevara a la pagina en donde se edita la reunion - ya funciona el id y el event
 		event.stopPropagation();
 	}
 
@@ -35,7 +33,7 @@ class SinSesion extends React.Component {
 
 	render() {
 		const { translate, reuniones, estados, company } = this.props;
-		//Filtramos primero por los estados 5,10,20,30
+		// Filtramos primero por los estados 5,10,20,30
 		let reunionesFiltradasPorEstado;
 		if (estados) {
 			reunionesFiltradasPorEstado = Object.keys(reuniones).filter(key => estados.includes(reuniones[key].state)).reduce((obj, key) => {
@@ -45,7 +43,7 @@ class SinSesion extends React.Component {
 		} else {
 			reunionesFiltradasPorEstado = reuniones;
 		}
-		//sacamos solo 3 reuniones
+		// sacamos solo 3 reuniones
 		const reunionesFiltradas = Object.keys(reunionesFiltradasPorEstado).filter(key => reunionesFiltradasPorEstado.length > 3).reduce((obj, key) => {
 			if (key < 3) {
 				obj[key] = reunionesFiltradasPorEstado[key];
@@ -53,7 +51,7 @@ class SinSesion extends React.Component {
 			return obj;
 		}, {});
 
-		const textStates = { 5: 'Guardada', 10: 'Preparada', 20: 'Celebrándose', 30: 'Celebrándose', 40: 'Finalizada' };//TRADUCCIONES
+		const textStates = { 5: 'Guardada', 10: 'Preparada', 20: 'Celebrándose', 30: 'Celebrándose', 40: 'Finalizada' };// TRADUCCIONES
 
 		if (reuniones.length) {
 			return (
@@ -83,7 +81,7 @@ class SinSesion extends React.Component {
 													buttonStyle={{ minWidth: '155px' }}
 													claseHover={'classHover'}
 													backgroundColor={{ background: 'none', boxShadow: 'none', border: '1px solid gainsboro' }}
-													text={textStates[reunionesFiltradas[key].state]} //TRADUCCION
+													text={textStates[reunionesFiltradas[key].state]} // TRADUCCION
 												/>
 											</Link>
 										</div>
@@ -94,7 +92,7 @@ class SinSesion extends React.Component {
 					<hr></hr>
 					<div style={{ justifyContent: 'flex-end', display: 'inline' }}>
 						<BasicButton
-							text={'Más reuniones'} //TRADUCCION
+							text={'Más reuniones'} // TRADUCCION
 							onClick={this.showModalAcciones}
 						/>
 					</div>
@@ -129,8 +127,8 @@ class SinSesion extends React.Component {
 																buttonStyle={{ minWidth: '155px' }}
 																claseHover={'classHover'}
 																backgroundColor={{ background: 'none', boxShadow: 'none', border: '1px solid gainsboro' }}
-																text={textStates[reuniones[key].state]} //TRADUCCION
-																onClick={(event) => this.onClickContinuarEditando(event, reuniones[key].id)}
+																text={textStates[reuniones[key].state]} // TRADUCCION
+																onClick={event => this.onClickContinuarEditando(event, reuniones[key].id)}
 															/>
 														</Link>
 														{/* <BasicButton
@@ -153,7 +151,7 @@ class SinSesion extends React.Component {
 									/>
 								))
 						}
-						title={'Últimas acciones'} //TRADUCCION
+						title={'Últimas acciones'} // TRADUCCION
 						widthModal={{ width: '50%' }}
 					/>
 				</React.Fragment>
@@ -167,8 +165,6 @@ class SinSesion extends React.Component {
 			);
 	}
 }
-
-
 
 
 export default SinSesion;

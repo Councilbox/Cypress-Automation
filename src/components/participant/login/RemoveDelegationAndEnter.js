@@ -13,7 +13,6 @@ const setMainRepresentative = gql`
 }`;
 
 
-
 const RemoveDelegationAndEnter = ({ participant, represented, client, refetch }) => {
     const [loading, setLoading] = React.useState(false);
     const secondary = getSecondary();
@@ -37,7 +36,7 @@ const RemoveDelegationAndEnter = ({ participant, represented, client, refetch })
 
     const removeDelegation = async () => {
         setLoading(true);
-        const response = await client.mutate({
+        await client.mutate({
             mutation: changeParticipantState,
             variables: {
                 participantId: participant.id,
@@ -48,7 +47,7 @@ const RemoveDelegationAndEnter = ({ participant, represented, client, refetch })
         setLoading(false);
     };
 
-    //TRADUCCION
+    // TRADUCCION
     return (
         <BasicButton
             text="Retirar delegación y entrar"

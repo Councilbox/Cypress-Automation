@@ -13,17 +13,17 @@ const LoginWithCert = ({ participant, handleSuccess, translate, dispatch, status
             const response = await fetch(`${process.env.REACT_APP_CERT_API}participant/${participant.id}`);
             const json = await response.json();
 
-            if(json.success){
+            if (json.success) {
                 dispatch({ type: 'SUCCESS',
 payload: {
                     message: translate.cert_success,
                 } });
             } else {
                 let message = json.error;
-                if(response.status == 403) {
+                if (response.status == 403) {
                     message = translate.cert_doesnt_match;
                 }
-                if(response.status === 401){
+                if (response.status === 401) {
                     message = translate.cert_missing;
                 }
                 dispatch({ type: 'ERROR',
@@ -31,15 +31,15 @@ payload: {
                     message
                 } });
             }
-        } catch (error){
+        } catch (error) {
             dispatch({ type: 'ERROR', payload: translate.cert_error });
         }
     };
 
     return (
         <>
-            {status === 'ERROR' &&
-                <BasicButton
+            {status === 'ERROR'
+                && <BasicButton
                     text={translate.retry}
                     color={'red'}
                     textStyle={{
@@ -52,8 +52,8 @@ payload: {
                     onClick={getData}
                 />
             }
-            {status === 'WAITING' &&
-                <BasicButton
+            {status === 'WAITING'
+                && <BasicButton
                     text={translate.check_certificate}
                     color={primary}
                     textStyle={{
@@ -73,8 +73,8 @@ payload: {
                     onClick={getData}
                 />
             }
-            {status === 'SUCCESS' &&
-                <BasicButton
+            {status === 'SUCCESS'
+                && <BasicButton
                     text={translate.enter_room}
                     color={status === 'ERROR' ? 'grey' : primary}
                     textStyle={{

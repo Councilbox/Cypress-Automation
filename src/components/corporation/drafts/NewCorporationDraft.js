@@ -8,7 +8,7 @@ import { createCorporationDraft } from '../../../queries';
 
 
 export const company_types = [{
-    company_type: 0, //'s_a'
+    company_type: 0, // 's_a'
     statutes: [{
         prototype: 1,
         title: 'ordinary_general_assembly',
@@ -20,7 +20,7 @@ export const company_types = [{
         title: 'board_of_directors',
     }]
 }, {
-    company_type: 1, //'s_l'
+    company_type: 1, // 's_l'
     statutes: [{
         prototype: 4,
         title: 'ordinary_general_assembly',
@@ -32,7 +32,7 @@ export const company_types = [{
         title: 'board_of_directors',
     }]
 }, {
-    company_type: 2, //'s_coop'
+    company_type: 2, // 's_coop'
     statutes: [{
         prototype: 7,
         title: 'ordinary_general_assembly',
@@ -44,7 +44,7 @@ export const company_types = [{
         title: 'board_of_directors',
     }]
 }, {
-    company_type: 3, //'professional_association'
+    company_type: 3, // 'professional_association'
     statutes: [{
         prototype: 10,
         title: 'ordinary_general_assembly_association',
@@ -59,7 +59,7 @@ export const company_types = [{
         title: 'executive_committee',
     }]
 }, {
-    company_type: 4, //'association'
+    company_type: 4, // 'association'
     statutes: [{
         prototype: 14,
         title: 'ordinary_general_assembly_association',
@@ -74,7 +74,7 @@ export const company_types = [{
         title: 'executive_committee',
     }]
 }, {
-    company_type: 5, //'other'
+    company_type: 5, // 'other'
     statutes: [{
         prototype: 18,
         title: 'default_census_name',
@@ -85,7 +85,7 @@ export const getRootStatutes = companyType => {
     let rootStatutes = company_types[0].statutes;
     const filterStatutes = company_types.filter(list => list.company_type === companyType);
 
-    if(filterStatutes && filterStatutes.length > 0){
+    if (filterStatutes && filterStatutes.length > 0) {
         rootStatutes = filterStatutes[0].statutes;
     }
 
@@ -114,7 +114,7 @@ class NewCorporationDraft extends React.PureComponent {
         success: false,
     }
 
-    updateState = (object) => {
+    updateState = object => {
         this.setState({
             data: {
                 ...this.state.data,
@@ -171,10 +171,10 @@ class NewCorporationDraft extends React.PureComponent {
     };
 
 
-    render(){
+    render() {
         const rootStatutes = getRootStatutes(this.state.data.companyId);
 
-        return(
+        return (
             <CardPageLayout title={this.props.translate.drafts_new}>
                 <CompanyDraftForm
                     rootStatutes={rootStatutes}

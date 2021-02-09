@@ -29,7 +29,7 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 	const [filters, setFilters] = React.useState({
 		options: {
 			limit: PARTICIPANTS_LIMITS[0],
-			//page: 1,
+			// page: 1,
 			offset: 0,
 			orderBy: 'name',
 			orderDirection: 'asc',
@@ -155,7 +155,7 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 		{ text: translate.position },
 	];
 
-	if(council.councilType !== COUNCIL_TYPES.ONE_ON_ONE){
+	if (council.councilType !== COUNCIL_TYPES.ONE_ON_ONE) {
 		headers.push({
 			text: translate.votes,
 			name: 'numParticipations',
@@ -189,8 +189,8 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 			<React.Fragment>
 				<Grid style={{ margin: '0.5em 0' }}>
 					<GridItem xs={12} lg={6} md={6}>
-						{!hideNotifications &&
-							<NotificationFilters
+						{!hideNotifications
+							&& <NotificationFilters
 								translate={translate}
 								refetch={updateNotificationFilter}
 								council={council}
@@ -204,8 +204,8 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 						translate={translate}
 						menuButtons={
 							<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '0.3em' }}>
-								{!hideNotifications &&
-									<Tooltip
+								{!hideNotifications
+									&& <Tooltip
 										title={
 											translate.tooltip_refresh_convene_email_state_assistance
 										}
@@ -238,8 +238,8 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 										</div>
 									</Tooltip>
 								}
-								{!hideAddParticipant &&
-									<div>
+								{!hideAddParticipant
+									&& <div>
 										<AddConvenedParticipantButton
 											participations={participations}
 											translate={translate}
@@ -277,8 +277,8 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 											cbxData={false}
 											participations={participations}
 											editParticipant={() => {
-												!props.cantEdit &&
-													setState({
+												!props.cantEdit
+													&& setState({
 														editingParticipant: true,
 														participant
 													});
@@ -291,8 +291,7 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 							}
 						)}
 					</EnhancedTable>
-					:
-					<div
+					:					<div
 						style={{
 							height: '10em',
 							display: 'flex',
@@ -302,8 +301,8 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 						<LoadingSection />
 					</div>
 				}
-				{editingParticipant &&
-					<ConvenedParticipantEditor
+				{editingParticipant
+					&& <ConvenedParticipantEditor
 						key={participant.id}
 						translate={translate}
 						close={closeParticipantEditor}
@@ -349,7 +348,7 @@ class HoverableRow extends React.Component {
 
 	render() {
 		const { translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant } = this.props;
-		const representative = this.props.representative;
+		const { representative } = this.props;
 		const { delegate, notifications } = participant;
 
 		const voteParticipantInfo = (
@@ -358,9 +357,8 @@ class HoverableRow extends React.Component {
 					<br />
 					{`${translate.delegated_in}: ${delegate.name} ${delegate.surname || ''}`}
 				</React.Fragment>
-				:
-				!!representative &&
-				<React.Fragment>
+				:				!!representative
+				&& <React.Fragment>
 					<br />
 					{`${translate.represented_by}: ${representative.name} ${representative.surname || ''}`}
 				</React.Fragment>
@@ -389,8 +387,7 @@ class HoverableRow extends React.Component {
 								<React.Fragment>
 									{representative.dni}
 								</React.Fragment>
-								:
-								participant.dni
+								:								participant.dni
 							}
 						</GridItem>
 						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
@@ -401,8 +398,7 @@ class HoverableRow extends React.Component {
 								<React.Fragment>
 									{representative.position}
 								</React.Fragment>
-								:
-								participant.position
+								:								participant.position
 							}
 						</GridItem>
 						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
@@ -412,12 +408,12 @@ class HoverableRow extends React.Component {
 							{`${
 								CBX.showNumParticipations(participant.numParticipations, this.props.company, council.statute)
 								} (${participant.numParticipations > 0 ? (
-									(participant.numParticipations /
-										totalVotes) *
-									100
+									(participant.numParticipations
+										/ totalVotes)
+									* 100
 								).toFixed(2) : 0}%)`}
-							{!!representative &&
-								<React.Fragment>
+							{!!representative
+								&& <React.Fragment>
 									<br />
 								</React.Fragment>
 							}
@@ -428,11 +424,11 @@ class HoverableRow extends React.Component {
 									{translate.census_type_social_capital}
 								</GridItem>
 								<GridItem xs={7} md={7}>
-									{!CBX.isRepresentative(participant) &&
-										`${participant.socialCapital} (${participant.socialCapital > 0 ? (
-											(participant.socialCapital /
-												socialCapital) *
-											100).toFixed(2) : 0}%)`
+									{!CBX.isRepresentative(participant)
+										&& `${participant.socialCapital} (${participant.socialCapital > 0 ? (
+											(participant.socialCapital
+												/ socialCapital)
+											* 100).toFixed(2) : 0}%)`
 									}
 
 								</GridItem>
@@ -462,16 +458,16 @@ class HoverableRow extends React.Component {
 				<TableCell>
 					<span style={{ fontWeight: '700' }}>{`${participant.name} ${
 						participant.surname
-						}  ${(participant.live.state === PARTICIPANT_STATES.DELEGATED &&
-							participant.representatives.length > 0) ? ` - ${translate.represented_by}: ${
+						}  ${(participant.live.state === PARTICIPANT_STATES.DELEGATED
+							&& participant.representatives.length > 0) ? ` - ${translate.represented_by}: ${
 							participant.representatives[0].name} ${
 							participant.representatives[0].surname || ''}` : ''}`}</span>
 					{voteParticipantInfo}
 				</TableCell>
 				<TableCell>
 					{participant.dni}
-					{!!representative &&
-						<React.Fragment>
+					{!!representative
+						&& <React.Fragment>
 							<br />
 							{representative.dni}
 						</React.Fragment>
@@ -479,25 +475,25 @@ class HoverableRow extends React.Component {
 				</TableCell>
 				<TableCell>
 					{participant.position}
-					{!!representative &&
-						<React.Fragment>
+					{!!representative
+						&& <React.Fragment>
 							<br />
 							{representative.position}
 						</React.Fragment>
 					}
 				</TableCell>
-				{council.councilType !== COUNCIL_TYPES.ONE_ON_ONE &&
-					<>
+				{council.councilType !== COUNCIL_TYPES.ONE_ON_ONE
+					&& <>
 						<TableCell>
 							{`${
 								CBX.showNumParticipations(participant.numParticipations, this.props.company, council.statute)
 								} (${participant.numParticipations > 0 ? (
-									(participant.numParticipations /
-										totalVotes) *
-									100
+									(participant.numParticipations
+										/ totalVotes)
+									* 100
 								).toFixed(2) : 0}%)`}
-							{!!representative &&
-								<React.Fragment>
+							{!!representative
+								&& <React.Fragment>
 									<br />
 								</React.Fragment>
 							}
@@ -508,11 +504,10 @@ class HoverableRow extends React.Component {
 									CBX.showNumParticipations(participant.socialCapital, this.props.company, council.statute)
 									} (${participant.socialCapital > 0 ?
 										((participant.socialCapital / socialCapital) * 100).toFixed(2)
-										:
-										0
+										:										0
 									}%)`}
-								{!!representative &&
-									<React.Fragment>
+								{!!representative
+									&& <React.Fragment>
 										<br />
 									</React.Fragment>
 								}
@@ -521,11 +516,11 @@ class HoverableRow extends React.Component {
 					</>
 
 				}
-				{this.props.cbxData &&
-					<TableCell>
+				{this.props.cbxData
+					&& <TableCell>
 						<div style={{ width: '4em' }}>
-							{this.state.showActions &&
-								<DownloadCBXDataButton
+							{this.state.showActions
+								&& <DownloadCBXDataButton
 									translate={translate}
 									participantId={participant.live.id}
 								/>
@@ -534,8 +529,8 @@ class HoverableRow extends React.Component {
 					</TableCell>
 
 				}
-				{!hideNotifications &&
-					<React.Fragment>
+				{!hideNotifications
+					&& <React.Fragment>
 						<TableCell>
 
 							{notifications.length > 0 ? (
@@ -578,8 +573,7 @@ class HoverableRow extends React.Component {
 											text: participant.representatives.length > 0 ? participant.representative.live.assistanceComment : participant.live.assistanceComment,
 											author: participant.representatives.length > 0 ?
 												`${participant.name} ${participant.surname || ''} - ${translate.represented_by} ${representative.name} ${representative.surname || ''}`
-												:
-												`${participant.name} ${participant.surname || ''}`
+												:												`${participant.name} ${participant.surname || ''}`
 										})}
 										translate={translate}
 										size="2em"

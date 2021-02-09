@@ -7,7 +7,6 @@ import withTranslations from '../../../HOCs/withTranslations';
 import { getPrimary } from '../../../styles/colors';
 
 
-
 const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...props }) => {
     const primary = getPrimary();
     const books = (data.file && data.file.books) ? data.file.books : [];
@@ -45,7 +44,7 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                 <div style={{ height: '100%', }}>
                     <div style={{ padding: '0 1em', fontWeight: 'bold', color: primary, display: 'flex', justifyContent: 'space-between', paddingLeft: '24px', paddingRight: '24px' }}>
                         <div style={{ width: '15%', display: 'flex', cursor: 'pointer' }} onClick={addRow}>
-                            <div style={{ border: '1px solid' + primary, padding: '0.6em 5px', display: 'flex' }}>
+                            <div style={{ border: `1px solid${primary}`, padding: '0.6em 5px', display: 'flex' }}>
                                 {translate.act_book}
                                 <div>
                                     <i className="fa fa-plus-circle" style={{ color: primary, paddingRight: '5px', marginLeft: '5px', fontSize: '16px' }}></i>
@@ -84,7 +83,7 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                                                             onlyDate
                                                             onChange={date => {
                                                                 let dateString = null;
-                                                                if(date){
+                                                                if (date) {
                                                                     const newDate = new Date(date);
                                                                     dateString = newDate.toISOString();
                                                                 }
@@ -102,7 +101,7 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                                                             onlyDate
                                                             onChange={date => {
                                                                 let dateString = null;
-                                                                if(date){
+                                                                if (date) {
                                                                     const newDate = new Date(date);
                                                                     dateString = newDate.toISOString();
                                                                 }
@@ -120,7 +119,7 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                                                             onlyDate
                                                             onChange={date => {
                                                                 let dateString = null;
-                                                                if(date){
+                                                                if (date) {
                                                                     const newDate = new Date(date);
                                                                     dateString = newDate.toISOString();
                                                                 }
@@ -138,7 +137,7 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                                                             onlyDate
                                                             onChange={date => {
                                                                 let dateString = null;
-                                                                if(date){
+                                                                if (date) {
                                                                     const newDate = new Date(date);
                                                                     dateString = newDate.toISOString();
                                                                 }
@@ -179,8 +178,7 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                                         </Card>
                                     </div>
                                 ))
-                            :
-                                <div style={{ marginTop: '1em' }}>
+                            : <div style={{ marginTop: '1em' }}>
                                     {translate.no_books_added}
                                 </div>
 

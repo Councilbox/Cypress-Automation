@@ -48,8 +48,7 @@ const UserMenu = ({ user, actions, translate, company }) => {
 										maxWidth: '100px'
 									}}
 								/>
-							:
-								<i className="fa fa-building-o" style={{
+							:								<i className="fa fa-building-o" style={{
 									fontSize: '2em',
 									width: 'auto',
 									color: 'grey',
@@ -117,7 +116,7 @@ const UserMenu = ({ user, actions, translate, company }) => {
 											display: 'block',
 											width: '100%',
 										}}>
-											{user.name + ' ' + user.surname || ''}{' '}
+											{`${user.name} ${user.surname}` || ''}{' '}
 										</b>
 										<div>{user.phone}</div>
 										<div style={styles}>{user.email}</div>
@@ -142,8 +141,8 @@ const UserMenu = ({ user, actions, translate, company }) => {
 							</MenuItem>
 						</Link>
 						<Divider />
-						{isAdmin(user) &&
-							<Link to={`/company/${company.id}/settings`}>
+						{isAdmin(user)
+							&& <Link to={`/company/${company.id}/settings`}>
 								<MenuItem style={{ height: '100%', maxWidth: '270px' }}>
 									<div
 										style={{
@@ -168,8 +167,8 @@ const UserMenu = ({ user, actions, translate, company }) => {
 										>
 											<ImageCircular
 												src={
-													!company.logo
-														? ''
+													!company.logo ?
+														''
 														: company.logo
 												}
 												styles={{

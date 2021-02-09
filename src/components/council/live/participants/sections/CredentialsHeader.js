@@ -39,8 +39,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 						cursor: 'pointer',
 						...(selected === null ?
 							selectedStyle
-						:
-							{}
+						:							{}
 						)
 					}}
 				>
@@ -61,8 +60,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 						cursor: 'pointer',
 						...(selected === EMAIL_TRACK_STATES.FAILED ?
 							selectedStyle
-						:
-							{}
+						:							{}
 						)
 					}}
 				>
@@ -82,8 +80,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 						cursor: 'pointer',
 						...(selected === EMAIL_TRACK_STATES.NOT_SENT ?
 							selectedStyle
-						:
-							{}
+						:							{}
 						)
 					}}
 				>
@@ -103,8 +100,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 						cursor: 'pointer',
 						...(selected === EMAIL_TRACK_STATES.INVALID_EMAIL_ADDRESS ?
 							selectedStyle
-						:
-							{}
+						:							{}
 						)
 					}}
 				>
@@ -122,8 +118,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 						cursor: 'pointer',
 						...(selected === EMAIL_TRACK_STATES.SPAM ?
 							selectedStyle
-						:
-							{}
+						:							{}
 						)
 					}}
 				>
@@ -143,8 +138,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 						cursor: 'pointer',
 						...(selected === EMAIL_TRACK_STATES.PENDING_SHIPPING ?
 							selectedStyle
-						:
-							{}
+						:							{}
 						)
 					}}
 				>
@@ -164,8 +158,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 						cursor: 'pointer',
 						...(selected === EMAIL_TRACK_STATES.DELIVERED ?
 							selectedStyle
-						:
-							{}
+						:							{}
 						)
 					}}
 				>
@@ -185,8 +178,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 						cursor: 'pointer',
 						...(selected === EMAIL_TRACK_STATES.OPENED ?
 							selectedStyle
-						:
-							{}
+						:							{}
 						)
 					}}
 				>

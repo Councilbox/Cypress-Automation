@@ -75,8 +75,7 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
         return (
             showRecount ?
                 ` (${translate.recount}: ${recount}%)`
-            :
-                ''
+            : ''
         );
     };
 
@@ -97,7 +96,7 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
             setLoading(false);
             await props.refetch();
             getAgendaRecount();
-            if(props.close){
+            if (props.close) {
                 props.close();
             }
         }
@@ -139,18 +138,17 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
                 flexDirection: 'row'
             }}
         >
-            {denied.length > 0 &&
-                'Dentro de los votos depositados en usted, tiene votos denegados' //TRADUCCION
+            {denied.length > 0
+                && 'Dentro de los votos depositados en usted, tiene votos denegados' // TRADUCCION
             }
-            {fixed &&
-                translate.participant_vote_fixed
+            {fixed
+                && translate.participant_vote_fixed
             }
             <VotingButton
                 text={
                     hasVideo ?
                         translate.accept
-                        :
-                        translate.accept + buildRecountText(CBX.getPercentage(recount.numPositive, recount.numTotal, 2))
+                        : translate.accept + buildRecountText(CBX.getPercentage(recount.numPositive, recount.numTotal, 2))
                 }
                 loading={loading === 1}
                 disabledColor={disabledColor}
@@ -169,8 +167,7 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
                 text={
                     hasVideo ?
                         translate.refuse
-                        :
-                        translate.refuse + buildRecountText(CBX.getPercentage(recount.numNegative, recount.numTotal, 2))
+                        : translate.refuse + buildRecountText(CBX.getPercentage(recount.numNegative, recount.numTotal, 2))
                 }
                 loading={loading === 0}
                 disabledColor={disabledColor}
@@ -185,8 +182,8 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
                     }
                 }}
             />
-            {voteAtTheEnd &&
-                <VoteConfirmationModal
+            {voteAtTheEnd
+                && <VoteConfirmationModal
                     open={modal}
                     requestClose={closeModal}
                     translate={translate}
@@ -198,7 +195,7 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
 };
 
 export const DeniedDisplay = ({ translate, denied }) =>
-    //TRADUCCION
+    // TRADUCCION
      (
         <div>
             No puede ejercer su derecho a voto

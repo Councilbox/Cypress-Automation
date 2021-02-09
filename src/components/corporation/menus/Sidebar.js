@@ -128,11 +128,11 @@ class Sidebar extends React.Component {
 						return null;
 					}
 					const listItemClasses = cx({
-						[' ' +
-							this.props.classes[this.props.color]]: this.activeRoute(key)
+						[` ${
+							this.props.classes[this.props.color]}`]: this.activeRoute(key)
 					});
 					const whiteFontClasses = cx({
-						[' ' + this.props.classes.whiteFont]: this.activeRoute(key)
+						[` ${this.props.classes.whiteFont}`]: this.activeRoute(key)
 					});
 					return (
 						<NavLink
@@ -175,8 +175,8 @@ class Sidebar extends React.Component {
 								>
 									<ListItemIcon
 										className={
-											this.props.classes.itemIcon +
-											whiteFontClasses
+											this.props.classes.itemIcon
+											+ whiteFontClasses
 										}
 									>
 										<route.icon />

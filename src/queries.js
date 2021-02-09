@@ -1102,7 +1102,7 @@ export const councilStepFive = gql`
  }
 
  previewHtml
- }*/
+ } */
 
 export const councilStepSix = gql`
 	query CouncilStepSix($id: Int!, $timezone: String) {
@@ -2264,7 +2264,7 @@ export const agendaComments = gql`
 	}
 `;
 
-//OLD VERSION
+// OLD VERSION
 
 export const participantsQuery = gql`
 	query Participants($councilID: ID!) {

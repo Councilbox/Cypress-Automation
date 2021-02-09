@@ -39,7 +39,7 @@ const RefuseRequestButton = ({ request, client, refetch, translate }) => {
                 }}
                 color="white"
                 textStyle={{ color: buttonColor }}
-                //onClick={approveRequest}
+                // onClick={approveRequest}
             />
             <AlertConfirm
                 open={modal}

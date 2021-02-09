@@ -137,7 +137,7 @@ class ImportCensusButton extends React.Component {
 		this.setState(this.initialState);
 	}
 
-	checkUniqueEmails = async (participants) => {
+	checkUniqueEmails = async participants => {
 		const uniqueEmails = new Map();
 		const duplicatedEmails = new Map();
 		participants.forEach((censusP, index) => {
@@ -316,7 +316,7 @@ class ImportCensusButton extends React.Component {
 		for (let j = 0; j < keys.length; j++) {
 			const key = keys[j];
 			if (excelToDBColumns[key.toLowerCase()]) {
-				participant[excelToDBColumns[key.toLocaleLowerCase()]] = '' + _participant[key].trim();
+				participant[excelToDBColumns[key.toLocaleLowerCase()]] = `${_participant[key].trim()}`;
 			}
 		}
 
@@ -378,8 +378,8 @@ class ImportCensusButton extends React.Component {
 		}
 
 		const numParticipations = participant.numParticipations ?
-			participant.numParticipations.replace(/[.,]/g, '') :
-			participant.socialCapital ? participant.socialCapital.replace(/[.,]/g, '') : 0;
+			participant.numParticipations.replace(/[.,]/g, '')
+			: participant.socialCapital ? participant.socialCapital.replace(/[.,]/g, '') : 0;
 
 		return {
 			participant: {
@@ -405,8 +405,8 @@ class ImportCensusButton extends React.Component {
 			return participantError;
 		}
 		const numParticipations = participant.numParticipations ?
-			participant.numParticipations.replace(/[.,]/g, '') :
-			participant.socialCapital ? participant.socialCapital.replace(/[.,]/g, '') : 0;
+			participant.numParticipations.replace(/[.,]/g, '')
+			: participant.socialCapital ? participant.socialCapital.replace(/[.,]/g, '') : 0;
 
 
 		return {
@@ -449,7 +449,6 @@ class ImportCensusButton extends React.Component {
 			}
 
 
-
 			if (!participant.name) {
 				errors.name = required;
 				errors.hasError = true;
@@ -490,13 +489,13 @@ class ImportCensusButton extends React.Component {
 		return errors.hasError ? errors : false;
 	}
 
-	buildErrorString = (errors) => {
-		const translate = this.props.translate;
+	buildErrorString = errors => {
+		const { translate } = this.props;
 
 		let string = `${translate.entry}: ${errors.line}: ${errors.name ? `${translate.name}, ` : ''}${errors.surname ? `${translate.new_surname}, ` : ''}${errors.dni ? `${translate.dni}, ` : ''}${errors.phone ? `${translate.phone}, ` : ''}${errors.email ? `${translate.login_email}, ` : ''}${errors.r_name ? `${translate.entity_name}, ` : ''}${errors.r_dni ? `${translate.entity_cif}, ` : ''}${errors.r_phone ? `${translate.entity_phone}, ` : ''}${errors.r_email ? `${translate.entity_email}, ` : ''
 			}`;
 		if (string.charAt(string.length - 2) === ',') {
-			string = string.substr(0, string.length - 2) + '.';
+			string = `${string.substr(0, string.length - 2)}.`;
 		}
 
 		return string;
@@ -582,8 +581,8 @@ class ImportCensusButton extends React.Component {
 												}
 												onChange={this.handleFile}
 											/>
-											{this.state.loading &&
-												<span style={{ fontSize: '0.85em' }}>
+											{this.state.loading
+												&& <span style={{ fontSize: '0.85em' }}>
 													{this.state.processing ? `Procesando ${this.state.processing} participantes` : 'Cargando archivo'}
 												</span>
 											}
@@ -630,8 +629,8 @@ class ImportCensusButton extends React.Component {
 																	marginRight: '0.3em'
 																}}
 															/>{`${item.participant.email || ''}`}<br />
-															{!!item.representative &&
-																<React.Fragment>
+															{!!item.representative
+																&& <React.Fragment>
 																	{`${translate.represented_by}: ${item.representative.name} ${item.representative.surname || ''}`}
 																	<br />
 																</React.Fragment>
@@ -670,7 +669,7 @@ class ImportCensusButton extends React.Component {
 												<div
 													style={{ width: '100%' }}
 												>
-													{this.state.invalidEmails.map((item) => (
+													{this.state.invalidEmails.map(item => (
 														<React.Fragment key={`invalidEmails_${item.line}`}>
 															{this.buildErrorString(item)}<br />
 														</React.Fragment>
@@ -698,13 +697,12 @@ class ImportCensusButton extends React.Component {
 													No se puede realizar la importación.<br />
 												{this.state.duplicatedType === 'DB' ?
 													translate.following_emails_already_present_in_current_census
-													:
-													translate.following_emails_are_duplicated_in_sent_file
+													:													translate.following_emails_are_duplicated_in_sent_file
 												}
 												<div
 													style={{ width: '100%' }}
 												>
-													{this.state.invalidEmails.map((item) => (
+													{this.state.invalidEmails.map(item => (
 														<React.Fragment key={`invalidEmails_${item[0]}`}>
 															{`${translate.entry} ${item[1]}: ${item[0]}`}<br />
 														</React.Fragment>

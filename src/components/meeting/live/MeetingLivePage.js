@@ -5,7 +5,7 @@ import withSharedProps from '../../../HOCs/withSharedProps';
 import withWindowSize from '../../../HOCs/withWindowSize';
 import { Icon } from '../../../displayComponents';
 import { useOldState } from '../../../hooks';
-//import { useAdom } from 'adom-client';
+// import { useAdom } from 'adom-client';
 import logo from '../../../assets/img/logo-white.png';
 
 const minVideoWidth = 30;
@@ -19,7 +19,7 @@ const MeetingLivePage = ({ data }) => {
 	});
 
 	React.useEffect(() => {
-		if(!state.url){
+		if (!state.url) {
 			bHistory.push('/');
 		}
 		return () => sessionStorage.removeItem('meetingUrl');
@@ -105,8 +105,8 @@ const MeetingLivePage = ({ data }) => {
 					flexDirection: 'row'
 				}}
 			>
-			{!!state.url &&
-				<iframe
+			{!!state.url
+				&& <iframe
 					title="meetingScreen"
 					allow="geolocation; microphone; camera"
 					scrolling="no"

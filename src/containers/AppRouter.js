@@ -13,7 +13,6 @@ import RoomAdminContainer from './RoomAdminContainer';
 import { HEADER_HEIGHT } from '../styles/constants';
 
 
-
 const LoadRecommendations = Loadable({
 	loader: () => import('../components/noCompany/Recommendations'),
 	loading: LoadingMainApp
@@ -173,7 +172,7 @@ class AppRouter extends React.Component {
 			);
 		}
 
-		if(this.props.user.accessLimitedTo) {
+		if (this.props.user.accessLimitedTo) {
 			return (
 				<RoomAdminRouter user={this.props.user} location={this.props.location} />
 			);
@@ -266,8 +265,8 @@ class AppRouter extends React.Component {
 
 					<Route exact path="/test/:language" component={Test} />
 					<Route exact path="/test/:language/:token" component={Test} />
-					{this.props.main.isParticipantLogged &&
-						[<Route
+					{this.props.main.isParticipantLogged
+						&& [<Route
 							key='route_participant_meet'
 							exact
 							path="/participant/:id/council/:councilId/meet"

@@ -144,7 +144,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 
 	const checkConditions = () => {
 		const { errors } = state;
-		const agendas = data.council.agendas;
+		const { agendas } = data.council;
 
 		if (agendas.length !== 0) {
 			return true;
@@ -257,11 +257,11 @@ const StepAgenda = ({ client, translate, ...props }) => {
 													typeText={
 														translate[
 														votingTypes.find(
-															item => item.value ===
-																agenda.subjectType
+															item => item.value
+																=== agenda.subjectType
 														) ? votingTypes.find(
-															item => item.value ===
-																agenda.subjectType
+															item => item.value
+																=== agenda.subjectType
 														).label : ''
 														]
 													}
@@ -317,8 +317,8 @@ const StepAgenda = ({ client, translate, ...props }) => {
 						</Grid>
 						{!loading && (
 							<React.Fragment>
-								{!!state.editAgenda &&
-									<PointEditor
+								{!!state.editAgenda
+									&& <PointEditor
 										translate={translate}
 										draftTypes={draftTypes}
 										statute={council.statute}
@@ -351,8 +351,8 @@ const StepAgenda = ({ client, translate, ...props }) => {
 										}
 									/>
 								)}
-								{saveAsDraftId &&
-									newDraft && (
+								{saveAsDraftId
+									&& newDraft && (
 										<SaveDraftModal
 											open={saveAsDraftId}
 											statute={council.statute}
@@ -372,7 +372,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 														type: TAG_TYPES.STATUTE,
 														active: true
 													},
-													'agenda': {
+													agenda: {
 														type: TAG_TYPES.DRAFT_TYPE,
 														label: translate.agenda,
 														name: 'agenda',
@@ -581,8 +581,8 @@ export const AddAgendaPoint = ({
 									</span>
 								</div>
 							</MenuItem>
-							{config.confirmationRequestPoint &&
-								<>
+							{config.confirmationRequestPoint
+								&& <>
 									<Divider />
 									<MenuItem onClick={() => setState({ ...state, confirmationRequestModal: true })}>
 										<div

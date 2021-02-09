@@ -6,7 +6,6 @@ import withTranslations from '../../../HOCs/withTranslations';
 import { getPrimary } from '../../../styles/colors';
 
 
-
 const FileAuditoresPode = props => (
         <div style={{ height: '100%' }} >
             <div style={{ padding: '0.5em', display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
@@ -73,7 +72,6 @@ const AuditorsForm = ({ data, updateFileData, translate }) => {
     };
 
 
-
     return (
         <>
             <div style={{}}>
@@ -89,7 +87,7 @@ const AuditorsForm = ({ data, updateFileData, translate }) => {
                     boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
                     padding: '1em',
                     idth: '100%',
-                    //maxHeight: expandAuditores ? "100%" : "20em",
+                    // maxHeight: expandAuditores ? "100%" : "20em",
                     overflow: 'hidden',
                     position: 'relative',
                     paddingBottom: '2.5em',
@@ -97,7 +95,7 @@ const AuditorsForm = ({ data, updateFileData, translate }) => {
                 }}>
                     <div style={{ width: '100%', display: 'flex', }}>
                         <div style={{ height: '100%', width: '100%' }}>
-                            <div style={{ display: 'flex', width: '100%', padding: '1em', borderBottom: '1px solid' + primary, }}>
+                            <div style={{ display: 'flex', width: '100%', padding: '1em', borderBottom: `1px solid${primary}`, }}>
                                 <div style={{ textTransform: 'uppercase', color: primary, width: '20%', }}>{translate.name}</div>
                                 <div style={{ textTransform: 'uppercase', color: primary, width: '25%', }}>Inscripción en el registro mercantil</div>
                                 <div style={{ textTransform: 'uppercase', color: primary, width: '20%', }}>Fecha Nomb.</div>
@@ -136,7 +134,7 @@ const AuditorsForm = ({ data, updateFileData, translate }) => {
                                                     style={{ width: '10em' }}
                                                     onChange={date => {
                                                         let dateString = null;
-                                                        if(date){
+                                                        if (date) {
                                                             const newDate = new Date(date);
                                                             dateString = newDate.toISOString();
                                                         }
@@ -158,7 +156,7 @@ const AuditorsForm = ({ data, updateFileData, translate }) => {
                                                     onlyDate
                                                     onChange={date => {
                                                         let dateString = null;
-                                                        if(date){
+                                                        if (date) {
                                                             const newDate = new Date(date);
                                                             dateString = newDate.toISOString();
                                                         }
@@ -175,8 +173,7 @@ const AuditorsForm = ({ data, updateFileData, translate }) => {
                                         </div>
                                     </div>
                                 ))
-                            :
-                                <div style={{ marginTop: '1em' }}>
+                            : <div style={{ marginTop: '1em' }}>
                                     {translate.no_results}
                                 </div>
                             }
@@ -221,7 +218,6 @@ const PowersForm = ({ data, updateFileData, translate }) => {
     };
 
 
-
     return (
         <>
             <div style={{ marginTop: '2em', marginBottom: '1em' }}>
@@ -237,7 +233,7 @@ const PowersForm = ({ data, updateFileData, translate }) => {
                     boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
                     padding: '1em',
                     width: '100%',
-                    //maxHeight: expandPoderes ? "100%" : "20em",
+                    // maxHeight: expandPoderes ? "100%" : "20em",
                     overflow: 'hidden',
                     position: 'relative',
                     paddingBottom: '2.5em',
@@ -246,7 +242,7 @@ const PowersForm = ({ data, updateFileData, translate }) => {
                     <div style={{ width: '100%', display: 'flex', }}>
                         <div style={{ height: '100%', width: '100%' }}>
 
-                        <div style={{ display: 'flex', width: '100%', padding: '1em', borderBottom: '1px solid' + primary, }}>
+                        <div style={{ display: 'flex', width: '100%', padding: '1em', borderBottom: `1px solid${primary}`, }}>
                                 <div style={{ textTransform: 'uppercase', color: primary, width: '20%' }}>{translate.name}</div>
                                 <div style={{ textTransform: 'uppercase', color: primary, width: '15%' }}>F. Otorgamiento</div>
                                 <div style={{ textTransform: 'uppercase', color: primary, width: '20%' }}>Forma ejercicio</div>
@@ -275,7 +271,7 @@ const PowersForm = ({ data, updateFileData, translate }) => {
                                                     style={{ width: '10em' }}
                                                     onChange={date => {
                                                         let dateString = null;
-                                                        if(date){
+                                                        if (date) {
                                                             const newDate = new Date(date);
                                                             dateString = newDate.toISOString();
                                                         }
@@ -326,8 +322,7 @@ const PowersForm = ({ data, updateFileData, translate }) => {
                                         </div>
                                     </div>
                                 ))
-                            :
-                                <div style={{ marginTop: '1em' }}>
+                            : <div style={{ marginTop: '1em' }}>
                                     {translate.no_results}
                                 </div>
                             }
@@ -338,9 +333,6 @@ const PowersForm = ({ data, updateFileData, translate }) => {
         </>
     );
 };
-
-
-
 
 
 export default withTranslations()(withApollo(FileAuditoresPode));

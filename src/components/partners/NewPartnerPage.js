@@ -62,7 +62,7 @@ class NewPartnerPage extends React.Component {
     }
 
     goBack = () => {
-        bHistory.goBack();
+        bHistory.back();
     }
 
     baseState = this.state;
@@ -297,8 +297,8 @@ class NewPartnerPage extends React.Component {
                     }}
                 >
                     <div>
-                        {bHistory.length > 0 &&
-                            <BasicButton
+                        {bHistory.length > 0
+                            && <BasicButton
                                 text={this.props.translate.back}
                                 color={'white'}
                                 type="flat"

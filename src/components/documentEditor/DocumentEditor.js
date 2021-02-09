@@ -16,12 +16,12 @@ import { buildTranslateObject } from '../../actions/mainActions';
 
 const agendaBlocks = ['agendaSubject', 'description', 'comment', 'voting', 'votes', 'agendaComments'];
 const defaultTemplates = {
-    '0': ['title', 'intro', 'agenda', 'constitution',
+    0: ['title', 'intro', 'agenda', 'constitution',
         'agreements',
         'conclusion', 'attendants', 'delegations'
     ],
-    'default1': ['intro', 'constitution', 'conclusion'],
-    'default2': ['intro', 'constitution', 'conclusion']
+    default1: ['intro', 'constitution', 'conclusion'],
+    default2: ['intro', 'constitution', 'conclusion']
 };
 
 
@@ -39,7 +39,7 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
         const blocks = getBlocks(translate);
         const { agendas, council } = data;
         const { act } = council;
-        ///let objetoArrayAct = Object.entries(act);
+        /// let objetoArrayAct = Object.entries(act);
         const items = [
             blocks.TEXT,
             blocks.ACT_TITLE(data.council),
@@ -57,8 +57,8 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                 return {
                     draggables: {
                         items: [...array.filter(value => (
-                            value.type === 'text' ||
-                            (!agendaBlocks.includes(value.type) && !orden.includes(value.type))))]
+                            value.type === 'text'
+                            || (!agendaBlocks.includes(value.type) && !orden.includes(value.type))))]
                     },
                     doc: {
                         items: [...doc.items]
@@ -70,8 +70,8 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                 return {
                     draggables: {
                         items: [...array.filter(value => (
-                            value.type === 'text' ||
-                            (!agendaBlocks.includes(value.type) && !orden.includes(value.type))))]
+                            value.type === 'text'
+                            || (!agendaBlocks.includes(value.type) && !orden.includes(value.type))))]
                     },
                     doc: {
                         items: [...act.document.items]
@@ -164,8 +164,8 @@ const SortableList = SortableContainer(({ items, column, updateCouncilActa, upda
     if (edit) {
         return (
             <div >
-                {items &&
-                    items.map((item, index) => (
+                {items
+                    && items.map((item, index) => (
                         <DraggableBlock
                             key={`item-${item.id}`}
                             updateCouncilActa={updateCouncilActa}
@@ -193,8 +193,8 @@ const SortableList = SortableContainer(({ items, column, updateCouncilActa, upda
     }
     return (
         <div>
-            {items &&
-                items.map((item, index) => (
+            {items
+                && items.map((item, index) => (
                     <NoDraggableBlock
                         key={`item-${item.id}`}
                         updateCouncilActa={updateCouncilActa}
@@ -240,8 +240,8 @@ const DraggableBlock = SortableElement(props => {
     };
 
     return (
-        props.value !== undefined && props.value.text !== undefined &&
-        <div
+        props.value !== undefined && props.value.text !== undefined
+        && <div
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
             key={props.id}
@@ -262,8 +262,8 @@ const DraggableBlock = SortableElement(props => {
             <div style={{ paddingRight: '4px', background: props.value.colorBorder ? props.value.colorBorder : getPrimary(), borderRadius: '15px', }}></div>
             <div style={{ marginLeft: '4px', width: '95%', minHeight: '90px' }}>
                 <div style={{ width: '25px', cursor: 'pointer', position: 'absolute', top: '5px', right: '35px' }}>
-                    {props.expand &&
-                        <IconsDragActions
+                    {props.expand
+                        && <IconsDragActions
                             turn={'expand'}
                             clase={`fa fa-times ${props.id}`}
                             aria-hidden="true"
@@ -275,8 +275,8 @@ const DraggableBlock = SortableElement(props => {
                     }
                 </div>
                 <div style={{ width: '25px', cursor: 'pointer', position: 'absolute', top: '5px', right: '0', }}>
-                    {!props.noBorrar &&
-                        <IconsDragActions
+                    {!props.noBorrar
+                        && <IconsDragActions
                             turn={'cross'}
                             clase={`fa fa-times ${props.id}`}
                             aria-hidden="true"
@@ -315,12 +315,10 @@ const DraggableBlock = SortableElement(props => {
                             translate={props.translate}
                             remove={props.remove}
                         />
-                        :
-                        <Block
+                        : <Block
                             {...blockFijoTomadeAcuerdos}
                         />
-                    :
-                    <Block
+                    : <Block
                         {...props}
                     />
 
@@ -333,8 +331,8 @@ const DraggableBlock = SortableElement(props => {
 const NoDraggableBlock = props => {
     if (props.logic) {
         return (
-            props.value !== undefined && props.value.text !== undefined &&
-            <BorderBox
+            props.value !== undefined && props.value.text !== undefined
+            && <BorderBox
                 itemInfo={288}
                 icon={props.value.icon}
                 id={props.id}
@@ -349,8 +347,8 @@ const NoDraggableBlock = props => {
         );
     }
     return (
-        props.value !== undefined && props.value.text !== undefined &&
-        <React.Fragment>
+        props.value !== undefined && props.value.text !== undefined
+        && <React.Fragment>
             {props.value.type === 'agreements' ?
                 <Card
                     key={props.id}
@@ -367,8 +365,7 @@ const NoDraggableBlock = props => {
                         translate={props.translate}
                     />
                 </Card>
-                :
-                <Card
+                : <Card
                     key={props.id}
                     style={{
                         boxShadow: 'none',
@@ -407,15 +404,15 @@ const BloquesAutomaticos = ({ automaticos, addItem, translate }) => {
                                     help
 							</i>
                             </div>
-                            {open &&
-                                <div style={{ fontSize: '10px', color: '#a09aa0', fontWeight: '100' }}>Este tipo de bloques son generados automáticamente por el sistema y no necesitan edición.</div>
+                            {open
+                                && <div style={{ fontSize: '10px', color: '#a09aa0', fontWeight: '100' }}>Este tipo de bloques son generados automáticamente por el sistema y no necesitan edición.</div>
                             }
                         </div>
                     </div>
                     <div style={{ width: '100%', marginTop: '0.5em' }}>
                         {automaticos.items.filter(item => item.logic === true).map((item, index) => (
                             <CajaBloquesAutomaticos
-                                key={item.id + index + 'automaticos'}
+                                key={`${item.id + index}automaticos`}
                                 item={item}
                                 addItem={addItem}
                                 translate={translate}
@@ -448,7 +445,6 @@ const CajaBloquesAutomaticos = ({ item, addItem, itemInfo, translate }) => (
         </div>
     </div>
 );
-
 
 
 export const IconsDragActions = ({ click, id, indexItem, turn, expand }) => {

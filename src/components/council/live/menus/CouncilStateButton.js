@@ -43,7 +43,7 @@ const CouncilStateButton = ({ translate, data, council, participants, refetch, r
         );
     }
 
-    //TRADUCCION
+    // TRADUCCION
     // if(council.councilType > 1 && council.councilType !== 4){
     //     if(councilStarted(council)){
     //         if(council.councilType === 3){
@@ -118,8 +118,8 @@ const CouncilStateButton = ({ translate, data, council, participants, refetch, r
                         </div>
                     )
             )}
-            {council.state === 25 &&
-                <ResumeCouncilButton
+            {council.state === 25
+                && <ResumeCouncilButton
                     translate={translate}
                     refetch={refetch}
                     council={council}

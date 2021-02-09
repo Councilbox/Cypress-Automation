@@ -16,9 +16,9 @@ class DraftEditPage extends React.PureComponent {
         errors: {}
     }
 
-    static getDerivedStateFromProps(nextProps, prevState){
-        if(!nextProps.data.loading){
-            if(prevState.data.id !== nextProps.data.corporationDraft.id){
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (!nextProps.data.loading) {
+            if (prevState.data.id !== nextProps.data.corporationDraft.id) {
                 return {
                     data: {
                         ...nextProps.data.corporationDraft
@@ -30,7 +30,7 @@ class DraftEditPage extends React.PureComponent {
         return null;
     }
 
-    updateState = (object) => {
+    updateState = object => {
         this.setState({
             data: {
                 ...this.state.data,
@@ -39,7 +39,7 @@ class DraftEditPage extends React.PureComponent {
         });
     }
 
-    updateErrors = (errors) => {
+    updateErrors = errors => {
         this.setState({
             errors
         });
@@ -70,8 +70,8 @@ class DraftEditPage extends React.PureComponent {
         });
     }
 
-    render(){
-        if(this.props.data.loading){
+    render() {
+        if (this.props.data.loading) {
             return <LoadingSection />;
         }
 

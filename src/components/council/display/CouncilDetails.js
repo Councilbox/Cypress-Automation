@@ -10,7 +10,6 @@ import { getPrimary, getSecondary } from '../../../styles/colors';
 import { getSubjectAbrv } from '../../../displayComponents/AgendaNumber';
 
 
-
 class CouncilDetails extends React.Component {
     state = {
         agenda: false,
@@ -65,8 +64,7 @@ class CouncilDetails extends React.Component {
                     <React.Fragment>
                         {council.dateStart ? moment(new Date(council.dateStart)).format('LLL') : '-'}
                     </React.Fragment>
-                    :
-                    <React.Fragment>
+                    : <React.Fragment>
                         <div>
                             {`${translate['1st_call_date']}: ${council.dateStart ? moment(new Date(council.dateStart)).format('LLL') : '-'}`}
                         </div>
@@ -93,8 +91,7 @@ class CouncilDetails extends React.Component {
                                         {translate.agenda}
                                         {this.state.agenda ?
                                             <i className="fa fa-caret-up" aria-hidden="true" style={{ marginLeft: '2em' }}></i>
-                                            :
-                                            <i className="fa fa-caret-down" aria-hidden="true" style={{ marginLeft: '2em' }}></i>
+                                            : <i className="fa fa-caret-down" aria-hidden="true" style={{ marginLeft: '2em' }}></i>
                                         }
                                     </div>
                                 }
@@ -134,8 +131,7 @@ class CouncilDetails extends React.Component {
                                         {translate.options}
                                         {this.state.options ?
                                             <i className="fa fa-caret-up" aria-hidden="true" style={{ marginLeft: '2em' }}></i>
-                                            :
-                                            <i className="fa fa-caret-down" aria-hidden="true" style={{ marginLeft: '2em' }}></i>
+                                            : <i className="fa fa-caret-down" aria-hidden="true" style={{ marginLeft: '2em' }}></i>
                                         }
                                     </div>
                                 }
@@ -158,8 +154,7 @@ class CouncilDetails extends React.Component {
                                         {translate.council_type}
                                         {this.state.councilType ?
                                             <i className="fa fa-caret-up" aria-hidden="true" style={{ marginLeft: '2em' }}></i>
-                                            :
-                                            <i className="fa fa-caret-down" aria-hidden="true" style={{ marginLeft: '2em' }}></i>
+                                            : <i className="fa fa-caret-down" aria-hidden="true" style={{ marginLeft: '2em' }}></i>
                                         }
                                     </div>
                                 }

@@ -25,12 +25,12 @@ class SignatureConfirmed extends React.Component {
             })
         });
 
-        if(response.status === 200){
+        if (response.status === 200) {
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = this.props.data.signature.title + '.pdf';
+            a.download = `${this.props.data.signature.title}.pdf`;
             document.body.appendChild(a);
             a.click();
             a.remove();
@@ -40,17 +40,17 @@ class SignatureConfirmed extends React.Component {
         });
     }
 
-    render(){
+    render() {
         const primary = getPrimary();
         let title = this.props.translate.dashboard_new_signature;
         const { signature } = this.props.data;
-        if(!this.props.data.loading){
-            if(this.props.data.signature.title){
+        if (!this.props.data.loading) {
+            if (this.props.data.signature.title) {
                 title = this.props.data.signature.title;
             }
         }
 
-        return(
+        return (
             <CardPageLayout title={title}>
                 <Grid style={{ width: '100%' }}>
                     <GridItem xs={12} md={3} lg={3}>
@@ -64,8 +64,8 @@ class SignatureConfirmed extends React.Component {
                         />
                     </GridItem>
                     <GridItem xs={12} md={3} lg={3} style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                        {signature.state === SIGNATURE_STATES.COMPLETED &&
-                            <div>
+                        {signature.state === SIGNATURE_STATES.COMPLETED
+                            && <div>
                                 <BasicButton
                                     text={this.props.translate.download_signed_document}
                                     color={'white'}
@@ -96,8 +96,7 @@ class SignatureConfirmed extends React.Component {
                         >
                             <LoadingSection />
                         </div>
-                    :
-                        <div style={{ width: '100%', height: '100%' }}>
+                    : <div style={{ width: '100%', height: '100%' }}>
                             <SignersList
                                 ref={ref => { this.signers = ref; }}
                                 refetch={this.props.data.refetch}

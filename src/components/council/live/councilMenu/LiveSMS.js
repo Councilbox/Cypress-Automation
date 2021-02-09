@@ -22,8 +22,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll }) => {
     const [modifiedValues, setModifiedValues] = React.useState(new Map());
 
 
-
-    const getData = React.useCallback(async (value) => {
+    const getData = React.useCallback(async value => {
         const response = await client.query({
             query: getSMS,
             variables: {
@@ -75,14 +74,13 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll }) => {
             <div style={{ height: '100%' }}>
                 {loading ?
                     <LoadingSection />
-                    :
-                    <React.Fragment>
+                    : <React.Fragment>
                         <div style={{ marginBottom: '1em', marginLeft: '5px' }}>
                             <BasicButton
                                 color="transparent"
                                 text={filter ? translate.all_plural : translate.browse_failed_sms}
                                 onClick={filter ? () => setFilter(null) : () => setFilter('failed')}
-                                textStyle={{ color: '#000000de', border: '1px solid ' + getSecondary() }}
+                                textStyle={{ color: '#000000de', border: `1px solid ${getSecondary()}` }}
                             />
                         </div>
                         <div style={{ height: 'calc( 100% - 2em )', }}>
@@ -90,8 +88,8 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll }) => {
                                 {data.sendsSMS.list.map(send => (
                                     <Card style={{ margin: '5px', marginBottom: '15px' }} key={send.id}>
                                         <CardHeader
-                                            title={send.recipient.name + ' ' + send.recipient.surname || ''}
-                                            subheader={translate.state + ': ' + getSMSStatusByCode(send.reqCode)}
+                                            title={`${send.recipient.name} ${send.recipient.surname}` || ''}
+                                            subheader={`${translate.state}: ${getSMSStatusByCode(send.reqCode)}`}
                                         />
                                         <CardContent>
                                             <EditableCell
@@ -123,14 +121,13 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll }) => {
             <div style={{ height: '100%' }}>
                 {loading ?
                     <LoadingSection />
-                    :
-                    <React.Fragment>
+                    : <React.Fragment>
                         <div style={{ marginBottom: '1em' }}>
                             <BasicButton
                                 color="transparent"
                                 text={filter ? translate.all_plural : translate.browse_failed_sms}
                                 onClick={filter ? () => setFilter(null) : () => setFilter('failed')}
-                                textStyle={{ color: '#000000de', border: '1px solid ' + getSecondary() }}
+                                textStyle={{ color: '#000000de', border: `1px solid ${getSecondary()}` }}
                             />
                         </div>
                         <div style={{ height: 'calc( 100% - 5em )', }}>
@@ -156,7 +153,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll }) => {
                                         {data.sendsSMS.list.map(send => (
                                             <Row send={send} resendRoomAccessKey={resendRoomAccessKey} resendLoading={resendLoading} key={send.id}>
                                                 <TableCell>
-                                                    {send.recipient.name + ' ' + send.recipient.surname || ''}
+                                                    {`${send.recipient.name} ${send.recipient.surname}` || ''}
                                                 </TableCell>
                                                 <TableCell>
                                                     <EditableCell defaultValue={send.recipient.phone} setModifiedValues={updateParticipantPhone(send.recipient.id)} />
@@ -181,8 +178,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll }) => {
                             <div style={{ display: 'flex', width: '100%', padding: '0.5em', }}>
                                 {loading ?
                                     <div></div>
-                                    :
-                                    <PaginationFooter
+                                    : <PaginationFooter
                                         page={state.page}
                                         translate={translate}
                                         length={data.sendsSMS.list.length}

@@ -23,7 +23,6 @@ import { isMobile } from '../../../utils/screen';
 import { INPUT_REGEX } from '../../../constants';
 
 
-
 const CompanyDraftEditor = ({ translate, client, ...props }) => {
 	const [dataInit, setDataInit] = React.useState(null);
 	const [unsavedAlert, setUnsavedAlert] = React.useState(false);
@@ -121,7 +120,7 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 				if (!response.errors) {
 					setSuccess(true);
 					setLoading(false);
-					bHistory.goBack();
+					bHistory.back();
 				}
 			}
 		}
@@ -130,8 +129,8 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 	const comprobateChanges = () => JSON.stringify(data) !== JSON.stringify(dataInit);
 
 	const goBack = () => {
-		if(!comprobateChanges()){
-			bHistory.goBack();
+		if (!comprobateChanges()) {
+			bHistory.back();
 		} else {
 			setUnsavedAlert(true);
 		}
@@ -197,7 +196,7 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 			)}
 			<UnsavedChangesModal
 				acceptAction={updateCompanyDraft}
-				cancelAction={() => bHistory.goBack()}
+				cancelAction={() => bHistory.back()}
 				requestClose={() => setUnsavedAlert(false)}
 				successAction={success}
 				loadingAction={loading}

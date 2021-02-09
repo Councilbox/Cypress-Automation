@@ -3,7 +3,7 @@ import { SortableElement } from 'react-sortable-hoc';
 import { Card } from 'material-ui';
 import { getPrimary } from '../styles/colors';
 
-const DraggableBlock = SortableElement((props) => (
+const DraggableBlock = SortableElement(props => (
 		<Card
 			style={{
 				opacity: 1,

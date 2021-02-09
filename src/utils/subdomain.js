@@ -4,7 +4,7 @@ import { SERVER_URL } from '../config';
 export const getCustomLogo = () => {
     const state = store.getState();
 
-    if(state.subdomain.logo){
+    if (state.subdomain.logo) {
         return `${SERVER_URL}${state.subdomain.logo}`;
     }
     return null;
@@ -13,7 +13,7 @@ export const getCustomLogo = () => {
 export const getCustomIcon = () => {
     const state = store.getState();
 
-    if(state.subdomain.icon){
+    if (state.subdomain.icon) {
         return `${SERVER_URL}${state.subdomain.icon}`;
     }
     return null;
@@ -22,7 +22,7 @@ export const getCustomIcon = () => {
 export const getCustomBackground = () => {
     const state = store.getState();
 
-    if(state.subdomain.background){
+    if (state.subdomain.background) {
         return `${SERVER_URL}${state.subdomain.background}`;
     }
     return null;
@@ -31,7 +31,7 @@ export const getCustomBackground = () => {
 export const getCustomRoomBackground = () => {
     const state = store.getState();
 
-    if(state.subdomain.roomBackground){
+    if (state.subdomain.roomBackground) {
         return `${SERVER_URL}${state.subdomain.roomBackground}`;
     }
     return null;
@@ -44,11 +44,11 @@ export const useSubdomain = () => {
 
 export const shouldLoadSubdomain = () => {
     const validSubdomains = {
-        'app': true,
-        'localhost': true,
+        app: true,
+        localhost: true,
         'app-pre': true,
-        '172': true,
-        '192': true
+        172: true,
+        192: true
     };
     const subdomain = window.location.hostname.split('.')[0];
     return !validSubdomains[subdomain];

@@ -11,7 +11,6 @@ import withSharedProps from '../HOCs/withSharedProps';
 import { bHistory } from '../containers/App';
 import withTranslations from '../HOCs/withTranslations';
 
-
 class ErrorHandler extends React.Component {
     state = {
         error: false
@@ -23,9 +22,9 @@ class ErrorHandler extends React.Component {
         }, () => bHistory.push('/'));
     }
 
-    async componentDidCatch(error, info){
-        //console.log(error);
-        //console.log(info);
+    async componentDidCatch(error, info) {
+        // console.log(error);
+        // console.log(info);
 /*      console.log(error.message);
         console.log(error.name);
         console.log(error.toString());
@@ -47,9 +46,9 @@ class ErrorHandler extends React.Component {
         });
 	}
 
-    render(){
-        if(this.state.error){
-            return(
+    render() {
+        if (this.state.error) {
+            return (
                 <div
                     style={{
                         width: '100%',

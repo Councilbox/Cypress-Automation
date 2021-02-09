@@ -11,19 +11,19 @@ import withSharedProps from '../../../HOCs/withSharedProps';
 const SignatureRootPage = props => {
     const { data } = props;
 
-    if(data.loading){
+    if (data.loading) {
         return <LoadingSection />;
     }
 
-    if(data.signature.state === SIGNATURE_STATES.DRAFT){
+    if (data.signature.state === SIGNATURE_STATES.DRAFT) {
         return <SignatureEditorPage {...props} />;
     }
 
-    if(data.signature.state === SIGNATURE_STATES.SENT){
+    if (data.signature.state === SIGNATURE_STATES.SENT) {
         return <SignatureConfirmed {...props} />;
     }
 
-    if(data.signature.state === SIGNATURE_STATES.COMPLETED){
+    if (data.signature.state === SIGNATURE_STATES.COMPLETED) {
         return <SignatureConfirmed {...props} />;
     }
 };

@@ -24,7 +24,7 @@ const initialState = {
 
 const dataReducer = (state, action) => {
     const actions = {
-        'LOADED': {
+        LOADED: {
             ...state,
             loading: false,
             data: action.value
@@ -103,7 +103,7 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 		return response.data.generateDocumentHTML;
 	};
 
-    if(loading){
+    if (loading) {
         return <LoadingSection />;
     }
 
@@ -145,8 +145,8 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 								}}
 							/>
 						</div>
-						{error &&
-							<div style={{ color: 'red', fontWeight: '700', marginTop: '1em' }}>
+						{error
+							&& <div style={{ color: 'red', fontWeight: '700', marginTop: '1em' }}>
 								{error}
 							</div>
 						}

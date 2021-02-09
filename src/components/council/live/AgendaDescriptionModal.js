@@ -73,8 +73,8 @@ class AgendaDescriptionModal extends React.Component {
         // const width = window.innerWidth < 800? window.innerWidth : 800;
         return (
             <React.Fragment>
-                {this.state.loadDraft &&
-                    <LoadDraft
+                {this.state.loadDraft
+                    && <LoadDraft
                         translate={this.props.translate}
                         companyId={this.props.company.id}
                         loadDraft={this.loadDraft}
@@ -84,7 +84,7 @@ class AgendaDescriptionModal extends React.Component {
                         draftType={1}
                     />
                 }
-                <div style={{ /*width: width,*/ display: this.state.loadDraft && 'none' }}>
+                <div style={{ /* width: width, */ display: this.state.loadDraft && 'none' }}>
                     <RichTextInput
                         ref={editor => (this.editor = editor)}
                         floatingText={translate.description}

@@ -24,7 +24,6 @@ import { councilIsFinished } from '../../../../utils/CBX';
 import SelectRepresentative from '../../editor/census/modals/SelectRepresentative';
 
 
-
 const AddConvenedParticipantButton = ({ translate, council, participations, client, company, ...props }) => {
 	const [state, setState] = useOldState({
 		modal: false,
@@ -38,8 +37,8 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 
 	const addParticipant = async sendConvene => {
 		const { hasRepresentative, ...data } = state.representative;
-		const representative = state.representative.hasRepresentative
-			? {
+		const representative = state.representative.hasRepresentative ?
+			{
 				...data,
 				councilId: props.councilId
 			}
@@ -65,7 +64,7 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 					errors: {},
 					representativeErrors: {}
 				});
-			} else if(response.errors[0].message === 'Too many granted words'){
+			} else if (response.errors[0].message === 'Too many granted words') {
 					setState({
 						...(state.data.initialState === 2 ? {
 							errors: {
@@ -103,7 +102,7 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 
 	async function checkRequiredFields(onlyEmail) {
 		const participant = state.data;
-		const representative = state.representative;
+		const { representative } = state;
 
 		let errorsParticipant = {
 			errors: {},
@@ -123,7 +122,6 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 			errors: {},
 			hasError: false
 		};
-
 
 
 		if (representative.hasRepresentative) {

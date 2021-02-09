@@ -1,17 +1,17 @@
 import React from 'react';
-//import Stepper, { Step, StepContent, StepLabel } from "material-ui/Stepper";
+// import Stepper, { Step, StepContent, StepLabel } from "material-ui/Stepper";
 import Steps from 'antd/lib/steps';
 import { Tooltip } from 'material-ui';
 import Icon from 'antd/lib/icon';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 
-const Step = Steps.Step;
+const { Step } = Steps;
 
 const SignUpStepper = ({ active, translate, windowSize, goToPage }) => {
 	const secondary = getSecondary();
 	const primary = getPrimary();
 
-	if(windowSize !== 'xs'){
+	if (windowSize !== 'xs') {
 		return (
 			<div
 				style={{

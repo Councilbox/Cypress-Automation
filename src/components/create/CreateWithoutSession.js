@@ -51,7 +51,7 @@ const CreateWithoutSession = ({ setOptions, translate, hybrid, errors, ...props 
                     acceptText={translate.accept}
                     cancelText={translate.cancel}
                     minDate={Date.now()}
-                    label={translate.start_beginning}//TRADUCCION
+                    label={translate.start_beginning}// TRADUCCION
                     value={dates.dateStart}
                 />
             </div>
@@ -68,12 +68,12 @@ const CreateWithoutSession = ({ setOptions, translate, hybrid, errors, ...props 
                     acceptText={translate.accept}
                     cancelText={translate.cancel}
                     minDate={moment().add(30, 'minutes')}
-                    label={hybrid ? translate.remote_voting_closure : translate.date_end}//TRADUCCION
+                    label={hybrid ? translate.remote_voting_closure : translate.date_end}// TRADUCCION
                     value={dates.closeDate}
                 />
             </div>
-            {errors.errorMessage &&
-                <span style={{ color: 'red', marginTop: '1em' }}>{errors.errorMessage}</span>
+            {errors.errorMessage
+                && <span style={{ color: 'red', marginTop: '1em' }}>{errors.errorMessage}</span>
             }
         </div>
     );

@@ -25,8 +25,8 @@ class EnhancedTable extends React.Component {
 		limit: this.props.defaultLimit,
 		page: 1,
 		orderBy: this.props.defaultOrder ? this.props.defaultOrder[0] : '',
-		orderDirection: this.props.defaultOrder
-			? this.props.defaultOrder[1]
+		orderDirection: this.props.defaultOrder ?
+			this.props.defaultOrder[1]
 			: 'asc',
 		selectedCategories: this.props.selectedCategories
 	};
@@ -163,11 +163,11 @@ class EnhancedTable extends React.Component {
 
 		return (
 			<div style={{ height: '100%' }}>
-				{isMobile && !!this.props.menuButtons &&
-					this.props.menuButtons
+				{isMobile && !!this.props.menuButtons
+					&& this.props.menuButtons
 				}
-				{this.props.searchInMovil &&
-					<div style={{ width: '100%', justifyContent: 'flex-end', display: 'flex', marginTop: '0.5em' }}>
+				{this.props.searchInMovil
+					&& <div style={{ width: '100%', justifyContent: 'flex-end', display: 'flex', marginTop: '0.5em' }}>
 						{fields && (
 							<div style={{ minWidth: '12em', marginRight: '0.8em' }}>
 								<SelectInput
@@ -240,11 +240,11 @@ class EnhancedTable extends React.Component {
 								</div>
 							))
 						)}
-						{!!this.props.menuButtons && !isMobile &&
-							this.props.menuButtons
+						{!!this.props.menuButtons && !isMobile
+							&& this.props.menuButtons
 						}
-						{!this.props.searchInMovil &&
-							fields && (
+						{!this.props.searchInMovil
+							&& fields && (
 								<div style={{ minWidth: '12em', marginRight: '0.8em' }}>
 									<SelectInput
 										floatingText={translate.filter_by}
@@ -263,8 +263,8 @@ class EnhancedTable extends React.Component {
 									</SelectInput>
 								</div>
 							)}
-						{!this.props.hideTextFilter &&
-							<div style={{ width: '16em' }}>
+						{!this.props.hideTextFilter
+							&& <div style={{ width: '16em' }}>
 								<TextInput
 									adornment={<Icon>search</Icon>}
 									floatingText={' '}
@@ -287,8 +287,7 @@ class EnhancedTable extends React.Component {
 											<TableCell key={`header_${index}`}>
 												{header.selectAll}
 											</TableCell>
-											:
-											<TableCell
+											:											<TableCell
 												key={`header_${index}`}
 												sortDirection={
 													this.state.orderDirection
@@ -298,8 +297,8 @@ class EnhancedTable extends React.Component {
 												{header.canOrder ? (
 													<TableSortLabel
 														active={
-															header.name ===
-															this.state.orderBy
+															header.name
+															=== this.state.orderBy
 														}
 														direction={
 															this.state.orderDirection
@@ -318,11 +317,10 @@ class EnhancedTable extends React.Component {
 						</TableHead>
 						<TableBody>{!loading && children}</TableBody>
 					</Table>
-					:
-					children
+					:					children
 				}
-				{loading &&
-					<div style={{ marginTop: '3em' }}>
+				{loading
+					&& <div style={{ marginTop: '3em' }}>
 						<LoadingSection />
 					</div>
 				}

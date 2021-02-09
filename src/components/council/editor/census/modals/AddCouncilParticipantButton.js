@@ -39,8 +39,8 @@ class AddCouncilParticipantButton extends React.Component {
 
 	addParticipant = async () => {
 		const { hasRepresentative, ...data } = this.state.representative;
-		const representative = this.state.representative.hasRepresentative
-			? {
+		const representative = this.state.representative.hasRepresentative ?
+			{
 				...data,
 				councilId: this.props.council.id
 			}
@@ -110,7 +110,7 @@ class AddCouncilParticipantButton extends React.Component {
 	async checkRequiredFields() {
 		const testPhone = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
 		const participant = this.state.data;
-		const representative = this.state.representative;
+		const { representative } = this.state;
 		const { translate, participations, company } = this.props;
 		const hasSocialCapital = participations;
 		const errorsParticipant = checkRequiredFieldsParticipant(
@@ -263,7 +263,7 @@ class AddCouncilParticipantButton extends React.Component {
 
 	emailKeyUp = (event, type) => {
 		clearTimeout(this.timeout);
-		const value = event.target.value;
+		const { value } = event.target;
 		this.timeout = setTimeout(() => {
 			this.checkEmail(value, type);
 			clearTimeout(this.timeout);
@@ -272,7 +272,7 @@ class AddCouncilParticipantButton extends React.Component {
 
 	_renderBody() {
 		const participant = this.state.data;
-		const errors = this.state.errors;
+		const { errors } = this.state;
 		const { translate, participations } = this.props;
 		const { languages } = this.props.data;
 		return (
@@ -376,7 +376,6 @@ class AddCouncilParticipantButton extends React.Component {
 		);
 	}
 }
-
 
 
 export default compose(

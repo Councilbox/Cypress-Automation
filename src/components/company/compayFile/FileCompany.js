@@ -16,7 +16,7 @@ import SocialCapital from './SocialCapital';
 
 const reducer = (state, action) => {
     const actions = {
-        'SET_DATA': () => ({
+        SET_DATA: () => ({
             ...state,
             loading: false,
             data: {
@@ -24,14 +24,14 @@ const reducer = (state, action) => {
                 file: action.payload.file ? action.payload.file : {}
             }
         }),
-        'UPDATE_COMPANY_DATA': () => ({
+        UPDATE_COMPANY_DATA: () => ({
             ...state,
             data: {
                 ...state.data,
                 ...action.payload
             }
         }),
-        'UPDATE_FILE_DATA': () => ({
+        UPDATE_FILE_DATA: () => ({
             ...state,
             data: {
                 ...state.data,
@@ -180,7 +180,7 @@ const FileCompany = ({ translate, match, client }) => {
             />
         );
 
-    if(loading){
+    if (loading) {
         return <LoadingSection />;
     }
 
@@ -197,26 +197,26 @@ const FileCompany = ({ translate, match, client }) => {
                         />
                     </div>
                 </div>
-                {selecteOptionMenu === translate.information &&
-                    getInformacion()
+                {selecteOptionMenu === translate.information
+                    && getInformacion()
                 }
-                {selecteOptionMenu === translate.board_of_directors &&
-                    OrgAdministracion()
+                {selecteOptionMenu === translate.board_of_directors
+                    && OrgAdministracion()
                 }
-                {selecteOptionMenu === translate.social_capital_desc &&
-                    getShareCapital()
+                {selecteOptionMenu === translate.social_capital_desc
+                    && getShareCapital()
                 }
-                {selecteOptionMenu === translate.official_books &&
-                    librosOficiales()
+                {selecteOptionMenu === translate.official_books
+                    && librosOficiales()
                 }
-                {selecteOptionMenu === translate.auditors_and_powers &&
-                    auditoresPoderes()
+                {selecteOptionMenu === translate.auditors_and_powers
+                    && auditoresPoderes()
                 }
-                {selecteOptionMenu === translate.statutes &&
-                    estatutos()
+                {selecteOptionMenu === translate.statutes
+                    && estatutos()
                 }
-                {selecteOptionMenu === translate.calendar &&
-                    calendario()
+                {selecteOptionMenu === translate.calendar
+                    && calendario()
                 }
             </div>
         </CardPageLayout>

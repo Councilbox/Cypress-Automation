@@ -48,7 +48,7 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 	const secondary = getSecondary();
 
 	React.useEffect(() => {
-		if(comment !== agenda.comment || commentRightColumn !== agenda.commentRightColumn){
+		if (comment !== agenda.comment || commentRightColumn !== agenda.commentRightColumn) {
 			timeout.current = setTimeout(() => {
 				updateAgreement(comment);
 			}, 300);
@@ -58,7 +58,7 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 	}, [comment, commentRightColumn]);
 
 	React.useEffect(() => {
-		if(agenda.comment !== comment){
+		if (agenda.comment !== comment) {
 			setComment(agenda.comment);
 		}
 	}, [agenda]);
@@ -69,7 +69,7 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 
 	const updateText = async () => {
 		const correctedText = await getCorrectedText(comment, translate);
-		if(editorRightColumn.current && council.statute.doubleColumnDocs === 1){
+		if (editorRightColumn.current && council.statute.doubleColumnDocs === 1) {
 			await handleSecondaryText(commentRightColumn, true);
 		}
 		editor.current.setValue(correctedText);
@@ -77,8 +77,8 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 	};
 
 	React.useEffect(() => {
-		if(agenda.votingState === AGENDA_STATES.CLOSED && data){
-			if(/{{/.test(comment)){
+		if (agenda.votingState === AGENDA_STATES.CLOSED && data) {
+			if (/{{/.test(comment)) {
 				updateText();
 			}
 		}
@@ -104,7 +104,7 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 
 
 	const updateAgreement = async value => {
-		if(checkForUnclosedBraces(value)){
+		if (checkForUnclosedBraces(value)) {
 			toast.dismiss();
 			toast(
                 <LiveToast
@@ -149,12 +149,12 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 					negative: agenda.negativeVotings + agenda.negativeManual,
 					abstention: agenda.abstentionVotings + agenda.abstentionManual,
 					noVoteTotal: agenda.noVoteVotings + agenda.noVoteManual,
-					SCFavorTotal: participations ? ((positiveSC / recount.partTotal) * 100).toFixed(3) + '%' : '-',
-					SCAgainstTotal: participations ? ((negativeSC / recount.partTotal) * 100).toFixed(3) + '%' : '-',
-					SCAbstentionTotal: participations ? ((abstentionSC / recount.partTotal) * 100).toFixed(3) + '%' : '-',
-					SCFavorPresent: participations ? ((positiveSC / totalPresent) * 100).toFixed(3) + '%' : '-',
-					SCAgainstPresent: participations ? ((negativeSC / totalPresent) * 100).toFixed(3) + '%' : '-',
-					SCAbstentionPresent: participations ? ((abstentionSC / totalPresent) * 100).toFixed(3) + '%' : '-',
+					SCFavorTotal: participations ? `${((positiveSC / recount.partTotal) * 100).toFixed(3)}%` : '-',
+					SCAgainstTotal: participations ? `${((negativeSC / recount.partTotal) * 100).toFixed(3)}%` : '-',
+					SCAbstentionTotal: participations ? `${((abstentionSC / recount.partTotal) * 100).toFixed(3)}%` : '-',
+					SCFavorPresent: participations ? `${((positiveSC / totalPresent) * 100).toFixed(3)}%` : '-',
+					SCAgainstPresent: participations ? `${((negativeSC / totalPresent) * 100).toFixed(3)}%` : '-',
+					SCAbstentionPresent: participations ? `${((abstentionSC / totalPresent) * 100).toFixed(3)}%` : '-',
 					numPositive,
 					numNegative,
 					numAbstention,
@@ -165,10 +165,10 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 		return correctedText;
 	};
 
-	const loadDraft = async (draft) => {
+	const loadDraft = async draft => {
 		const correctedText = await getCorrectedText(draft.text, translate);
 
-		if(editorRightColumn.current && council.statute.doubleColumnDocs === 1){
+		if (editorRightColumn.current && council.statute.doubleColumnDocs === 1) {
 			await handleSecondaryText(draft.secondaryText, false);
 		}
 		editor.current.paste(correctedText);
@@ -185,7 +185,7 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 		const translationObject = buildTranslateObject(response.data.translations);
 		const correctedText = await getCorrectedText(text, translationObject);
 
-		if(replace){
+		if (replace) {
 			editorRightColumn.current.setValue(correctedText);
 		} else {
 			editorRightColumn.current.paste(correctedText);
@@ -198,7 +198,7 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 
 		const shouldPasteValue = agenda => agenda.votingState === 2;
 
-		if(data) {
+		if (data) {
 			const { numPositive, numNegative, numAbstention, numNoVote } = data;
 			const { positiveSC, negativeSC, abstentionSC } = data;
 			const participations = hasParticipations(council);
@@ -249,29 +249,29 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 				},
 			];
 
-			if(participations){
+			if (participations) {
 				tags.push({
-					value: shouldPasteValue(agenda) ? ((positiveSC / totalSC) * 100).toFixed(3) + '%' : '{{positiveSCTotal}}',
+					value: shouldPasteValue(agenda) ? `${((positiveSC / totalSC) * 100).toFixed(3)}%` : '{{positiveSCTotal}}',
 					label: '% a favor / total capital social'
 				},
 				{
-					value: shouldPasteValue(agenda) ? ((negativeSC / totalSC) * 100).toFixed(3) + '%' : '{{negativeSCTotal}}',
+					value: shouldPasteValue(agenda) ? `${((negativeSC / totalSC) * 100).toFixed(3)}%` : '{{negativeSCTotal}}',
 					label: '% en contra / total capital social'
 				},
 				{
-					value: shouldPasteValue(agenda) ? ((abstentionSC / totalSC) * 100).toFixed(3) + '%' : '{{abstentionSCTotal}}',
+					value: shouldPasteValue(agenda) ? `${((abstentionSC / totalSC) * 100).toFixed(3)}%` : '{{abstentionSCTotal}}',
 					label: '% abstención / total capital social'
 				},
 				{
-					value: shouldPasteValue(agenda) ? ((positiveSC / totalPresent) * 100).toFixed(3) + '%' : '{{positiveSCPresent}}',
+					value: shouldPasteValue(agenda) ? `${((positiveSC / totalPresent) * 100).toFixed(3)}%` : '{{positiveSCPresent}}',
 					label: '% a favor / capital social presente'
 				},
 				{
-					value: shouldPasteValue(agenda) ? ((negativeSC / totalPresent) * 100).toFixed(3) + '%' : '{{negativeSCPresent}}',
+					value: shouldPasteValue(agenda) ? `${((negativeSC / totalPresent) * 100).toFixed(3)}%` : '{{negativeSCPresent}}',
 					label: '% en contra / capital social presente'
 				},
 				{
-					value: shouldPasteValue(agenda) ? ((abstentionSC / totalPresent) * 100).toFixed(3) + '%' : '{{abstentionSCPresent}}',
+					value: shouldPasteValue(agenda) ? `${((abstentionSC / totalPresent) * 100).toFixed(3)}%` : '{{abstentionSCPresent}}',
 					label: '% abstención / capital social presente'
 				});
 			} else {
@@ -307,7 +307,7 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 							statute={council.statute}
 							defaultTags={
 								{
-									'comments_and_agreements': {
+									comments_and_agreements: {
 									active: true,
 									type: TAG_TYPES.DRAFT_TYPE,
 									name: 'comments_and_agreements',
@@ -323,8 +323,8 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 						updateComment(value);
 					}}
 				/>
-				{council.statute.doubleColumnDocs === 1 &&
-					<div style={{ marginTop: '1em' }}>
+				{council.statute.doubleColumnDocs === 1
+					&& <div style={{ marginTop: '1em' }}>
 						<RichTextInput
 							ref={editorRightColumn}
 							floatingText={translate.decision_making_right_column}

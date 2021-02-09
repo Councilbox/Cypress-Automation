@@ -26,7 +26,7 @@ const CommentModal = ({ translate, agenda, participant, council, client, ...prop
     });
 
     React.useEffect(() => {
-        if(agenda.votingState !== AGENDA_STATES.INITIAL){
+        if (agenda.votingState !== AGENDA_STATES.INITIAL) {
             setState({
                 ...state,
                 vote: getOwnVote()
@@ -37,8 +37,8 @@ const CommentModal = ({ translate, agenda, participant, council, client, ...prop
     function getOwnVote() {
         return agenda.votings.find(voting => (
             voting.participantId === participant.id
-            || voting.delegateId === participant.id ||
-            voting.author.representative.id === participant.id));
+            || voting.delegateId === participant.id
+            || voting.author.representative.id === participant.id));
     }
 
     const originalComment = getOwnVote();
@@ -51,7 +51,7 @@ const CommentModal = ({ translate, agenda, participant, council, client, ...prop
     };
 
     const updateComment = async () => {
-        if(!checkRequiredFields()){
+        if (!checkRequiredFields()) {
             setLoading(true);
             await client.mutate({
                 mutation: updateCommentMutation,
@@ -84,8 +84,8 @@ const CommentModal = ({ translate, agenda, participant, council, client, ...prop
 
     return (
         <React.Fragment>
-            {state.vote &&
-                <Button size="small" color="primary" onClick={toggle} disabled={!(CBX.agendaVotingsOpened(agenda) && CBX.councilHasComments(council.statute))}>
+            {state.vote
+                && <Button size="small" color="primary" onClick={toggle} disabled={!(CBX.agendaVotingsOpened(agenda) && CBX.councilHasComments(council.statute))}>
                     {(!!originalComment && originalComment.comment) ? translate.edit_comment : translate.send_comment}
                 </Button>
             }

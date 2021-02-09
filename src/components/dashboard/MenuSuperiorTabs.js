@@ -7,7 +7,7 @@ import { isMobile } from '../../utils/screen';
 const MenuSuperiorTabs = ({ items, setSelect, translate, selected, goToPadre }) => {
 	const set = item => {
 		setSelect(item);
-		if(goToPadre){
+		if (goToPadre) {
 			goToPadre(item);
 		}
 	};

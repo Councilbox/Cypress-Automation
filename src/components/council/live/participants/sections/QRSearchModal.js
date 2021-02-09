@@ -28,7 +28,7 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
     const streamRef = React.useRef();
 
     const initMedia = async () => {
-        if(streamRef.current){
+        if (streamRef.current) {
             videoRef.current.srcObject = streamRef.current;
             return;
         }
@@ -59,12 +59,12 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
 
     React.useLayoutEffect(() => {
         let interval;
-        if(open && videoRef.current && !videoRef.current.srcObject){
+        if (open && videoRef.current && !videoRef.current.srcObject) {
             initMedia();
         }
 
-        if(!open && streamRef.current){
-            streamRef.current.getTracks().forEach((track) => {
+        if (!open && streamRef.current) {
+            streamRef.current.getTracks().forEach(track => {
                 track.stop();
             });
             streamRef.current = null;
@@ -187,7 +187,7 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                 mutation: setLiveParticipantSignature,
                 variables: {
                     signature: {
-                        //...(data.liveParticipantSignature ? { id: data.liveParticipantSignature.id } : {}),
+                        // ...(data.liveParticipantSignature ? { id: data.liveParticipantSignature.id } : {}),
                         data: signatureData,
                         participantId: participant.id
                     },
@@ -277,8 +277,8 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
             return (
                 <div>
                     <React.Fragment>
-                        {isPresent(participant.state) &&
-                            <div style={{ width: '100%', padding: '1em', color: primary, fontWeight: '700', border: `1px solid ${primary}`, borderRadius: '5px' }}>
+                        {isPresent(participant.state)
+                            && <div style={{ width: '100%', padding: '1em', color: primary, fontWeight: '700', border: `1px solid ${primary}`, borderRadius: '5px' }}>
                                 {translate.participant_already_present}
                             </div>
                         }
@@ -304,8 +304,8 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                                 }}
                                 onClick={reset}
                             />
-                            {!isPresent(participant.state) &&
-                                <BasicButton
+                            {!isPresent(participant.state)
+                                && <BasicButton
                                     color={primary}
                                     textStyle={{ color: 'white' }}
                                     text={translate.change_to_present}
@@ -334,11 +334,11 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                     zIndex: '1',
                 }}
             >
-                {loadingCamera &&
-                    <LoadingSection />
+                {loadingCamera
+                    && <LoadingSection />
                 }
-                {errorMedia &&
-                    <div style={{ color: '#dc7373', display: 'flex', justifyContent: 'center', fontSize: '25px' }}>
+                {errorMedia
+                    && <div style={{ color: '#dc7373', display: 'flex', justifyContent: 'center', fontSize: '25px' }}>
                         <div>
                             <i className={'fa fa-exclamation-triangle'} style={{ fontSize: '40px' }}></i>
                         </div>
@@ -346,8 +346,8 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                     </div>
                 }
                 <div style={{ color: '#dc7373', paddingBottom: '1em' }}>
-                    {error &&
-                        translate.no_participant_found_code
+                    {error
+                        && translate.no_participant_found_code
                     }
                 </div>
                 <div style={{ overflow: 'hidden', width: '520px', height: '370px', position: 'relative', borderRadius: '30px', }} >

@@ -4,7 +4,7 @@ import { getSecondary } from '../../../styles/colors';
 import LoadDraft from './LoadDraft';
 
 const LoadDraftModal = ({ translate, companyId, councilType, draftType, statutes, statute, defaultTags, ...props }, ref) => {
-	//const modal = React.useRef();
+	// const modal = React.useRef();
 
 	const [state, setState] = React.useState({
 		loadDraft: false
@@ -31,7 +31,7 @@ const LoadDraftModal = ({ translate, companyId, councilType, draftType, statutes
 					translate={translate}
 					statutes={statutes}
 					statute={statute}
-					loadDraft={(value) => {
+					loadDraft={value => {
 						props.loadDraft(value);
 						setState({
 							loadDraft: false

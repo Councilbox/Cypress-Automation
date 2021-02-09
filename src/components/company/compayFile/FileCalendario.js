@@ -9,7 +9,6 @@ import AddCompanyNotificationMenu from './AddCompanyNotificationMenu';
 import { moment } from '../../../containers/App';
 
 
-
 const FileCalendario = ({ translate, company, client }) => {
     const [data, setData] = React.useState([]);
     const [modal, setModal] = React.useState(false);
@@ -55,7 +54,7 @@ const FileCalendario = ({ translate, company, client }) => {
                 notificationId: modal
             }
         });
-        if(response.data.deleteCompanyNotification){
+        if (response.data.deleteCompanyNotification) {
             getData();
             setModal(null);
         }
@@ -117,8 +116,8 @@ const FileCalendario = ({ translate, company, client }) => {
                                 style={{ color: primary, cursor: 'pointer', fontSize: '25px', paddingLeft: '5px' }}
                             />
                         </div>
-                        {showCreateMenu &&
-                            <div style={{ maxWidth: '300px' }}>
+                        {showCreateMenu
+                            && <div style={{ maxWidth: '300px' }}>
                                 <AddCompanyNotificationMenu
                                     company={company}
                                     translate={translate}
@@ -135,8 +134,8 @@ const FileCalendario = ({ translate, company, client }) => {
                                 <TableCell style={{ color: primary, fontWeight: 'bold' }}>{translate.description}</TableCell>
                                 <TableCell style={{ color: primary, fontWeight: 'bold' }}>Status</TableCell>
                             </TableRow>
-                            {data.length > 0 &&
-                                data.map((notification, index) => (
+                            {data.length > 0
+                                && data.map((notification, index) => (
                                     <TableRow key={notification.id}>
                                         <TableCell style={{ color: 'black' }}>{moment(notification.limitDate).format('L')}</TableCell>
                                         <TableCell style={{ color: 'black' }}>{notification.action}</TableCell>

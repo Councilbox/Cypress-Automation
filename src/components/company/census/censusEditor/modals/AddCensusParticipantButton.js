@@ -52,7 +52,6 @@ const initialRepresentative = {
 };
 
 
-
 class AddCensusParticipantButton extends React.Component {
 	state = {
 		modal: false,
@@ -64,8 +63,8 @@ class AddCensusParticipantButton extends React.Component {
 
 	addCensusParticipant = async () => {
 		const { hasRepresentative, ...data } = this.state.representative;
-		const representative = this.state.representative.hasRepresentative
-			? {
+		const representative = this.state.representative.hasRepresentative ?
+			{
 					...data,
 					companyId: this.props.census.companyId,
 					censusId: this.props.census.id
@@ -92,7 +91,7 @@ class AddCensusParticipantButton extends React.Component {
 					errors: {},
 					representativeErrors: {}
 				});
-			} else if(response.errors[0].message === 'Too many granted words'){
+			} else if (response.errors[0].message === 'Too many granted words') {
 					this.setState({
 						loading: false,
 						...(this.state.data.initialState === 2 ? {
@@ -131,7 +130,7 @@ class AddCensusParticipantButton extends React.Component {
 
 	async checkRequiredFields() {
 		const participant = this.state.data;
-		const representative = this.state.representative;
+		const { representative } = this.state;
 		const { translate, company } = this.props;
 		const hasSocialCapital = censusHasParticipations(this.props.census);
 		const errorsParticipant = checkRequiredFieldsParticipant(
@@ -143,8 +142,8 @@ class AddCensusParticipantButton extends React.Component {
 
 		const emailsToCheck = [];
 
-		if(this.props.company.type !== 10){
-			if(participant.personOrEntity === 0 && participant.email){
+		if (this.props.company.type !== 10) {
+			if (participant.personOrEntity === 0 && participant.email) {
 				emailsToCheck.push(participant.email);
 			}
 		}
@@ -159,12 +158,12 @@ class AddCensusParticipantButton extends React.Component {
 				translate
 			);
 
-			if(!representative.id){
+			if (!representative.id) {
 				emailsToCheck.push(representative.email);
 			}
 		}
 
-		if(emailsToCheck.length > 0){
+		if (emailsToCheck.length > 0) {
 			const response = await this.props.client.query({
 				query: checkUniqueCensusEmails,
 				variables: {
@@ -173,21 +172,21 @@ class AddCensusParticipantButton extends React.Component {
 				}
 			});
 
-			if(!response.data.checkUniqueCensusEmails.success){
+			if (!response.data.checkUniqueCensusEmails.success) {
 				const data = JSON.parse(response.data.checkUniqueCensusEmails.message);
 				data.duplicatedEmails.forEach(email => {
-					if(participant.email === email){
+					if (participant.email === email) {
 						errorsParticipant.errors.email = translate.register_exists_email;
 						errorsParticipant.hasError = true;
 					}
-					if(representative.email === email){
+					if (representative.email === email) {
 						errorsRepresentative.errors.email = translate.register_exists_email;
 						errorsRepresentative.hasError = true;
 					}
 				});
 			}
 
-			if(participant.email === representative.email){
+			if (participant.email === representative.email) {
 				errorsRepresentative.errors.email = translate.repeated_email;
 				errorsParticipant.errors.email = translate.repeated_email;
 				errorsParticipant.hasError = true;
@@ -206,7 +205,7 @@ class AddCensusParticipantButton extends React.Component {
 
 	_renderBody() {
 		const participant = this.state.data;
-		const errors = this.state.errors;
+		const { errors } = this.state;
 		const { translate } = this.props;
 		const { languages } = this.props.data;
 		return (

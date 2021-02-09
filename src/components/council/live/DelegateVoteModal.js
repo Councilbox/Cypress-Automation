@@ -217,12 +217,12 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 											>
 												<MenuItem style={{ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
 													{`DESCARGAR ${
-														rest > DELEGATION_USERS_LOAD
-															? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+														rest > DELEGATION_USERS_LOAD ?
+															`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
 															: translate.all_plural.toLowerCase()
 														}`}
-													{loading &&
-														<div>
+													{loading
+														&& <div>
 															<LoadingSection size={25} />
 														</div>
 													}

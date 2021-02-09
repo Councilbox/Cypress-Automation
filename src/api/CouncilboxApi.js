@@ -1,6 +1,6 @@
 import { urlParser } from '../utils';
 
-/*const apiURLs = {
+/* const apiURLs = {
  prod: {
  url: 'https://video.councilbox.com/#/login/',
  api: 'https://app.councilbox.com/server/api/'
@@ -10,7 +10,7 @@ import { urlParser } from '../utils';
  url: 'https://videobeta.councilbox.com/#/login/',
  api: 'https://beta.councilbox.com/server/api/'
  }
- }*/
+ } */
 
 class CouncilboxApi {
 	static login(userData) {
@@ -183,8 +183,8 @@ class CouncilboxApi {
 			.catch(error => {
 				throw error;
 			});
-		//return Promise.resolve({code: 200});
-		//return Promise.reject({code: 602})
+		// return Promise.resolve({code: 200});
+		// return Promise.reject({code: 602})
 	}
 
 	static async getTranslations(language) {

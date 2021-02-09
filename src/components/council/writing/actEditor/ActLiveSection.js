@@ -29,7 +29,7 @@ class ActLiveSection extends React.Component {
 
 
 	updateCouncilAct = async () => {
-		if(!checkForUnclosedBraces(this.state.conclusion)){
+		if (!checkForUnclosedBraces(this.state.conclusion)) {
 			this.setState({
 				updating: true,
 				disableButtons: false
@@ -42,7 +42,7 @@ class ActLiveSection extends React.Component {
 					}
 				}
 			});
-			if(response){
+			if (response) {
 				this.setState({
 					updating: false
 				});
@@ -127,7 +127,7 @@ class ActLiveSection extends React.Component {
 							statute={council.statute}
 							statutes={this.props.data.companyStatutes}
 							defaultTags={{
-								'conclusion': {
+								conclusion: {
 									active: true,
 									type: TAG_TYPES.DRAFT_TYPE,
 									name: 'conclusion',

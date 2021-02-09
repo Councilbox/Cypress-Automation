@@ -29,7 +29,7 @@ class SignatureStepTwo extends React.Component {
                 id: this.props.signature.id
             }
         });
-        if(response.data.sendSignature.success){
+        if (response.data.sendSignature.success) {
             this.setState({
                 loading: false
             });
@@ -37,11 +37,11 @@ class SignatureStepTwo extends React.Component {
         }
     }
 
-    render(){
+    render() {
         const { translate } = this.props;
         const primary = getPrimary();
         const secondary = getSecondary();
-        return(
+        return (
             <EditorStepLayout
                 body={
                     <div>

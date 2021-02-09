@@ -35,8 +35,7 @@ const MainTitle = ({ icon, title, subtitle, size }) => (
 				<h5 style={{ fontWeight: '700' }}><Typography>{title}</Typography></h5>
 			</div>
 		</div>
-		:
-		<div
+		:		<div
 			style={{
 				display: 'flex',
 				flexDirection: 'row',
@@ -63,8 +62,8 @@ const MainTitle = ({ icon, title, subtitle, size }) => (
 				}}
 			>
 				<h3 style={{ fontWeight: '600', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%' }}>{title}</h3>
-				{!isMobile &&
-					<Typography style={{ fontSize: '13px' }}>{subtitle}</Typography>
+				{!isMobile
+					&& <Typography style={{ fontSize: '13px' }}>{subtitle}</Typography>
 				}
 			</div>
 		</div>

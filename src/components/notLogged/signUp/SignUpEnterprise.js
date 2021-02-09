@@ -15,7 +15,6 @@ import { companyTypes, countries, provinces } from '../../../queries/masters';
 import { checkCifExists } from '../../../queries/userAndCompanySignUp';
 
 
-
 class SignUpEnterprise extends React.Component {
 	state = {
 		provinces: []
@@ -29,8 +28,8 @@ class SignUpEnterprise extends React.Component {
 
 	componentWillReceiveProps = async nextProps => {
 		const data = nextProps.formData;
-		const selectedCountry = this.props.countries.countries
-			? this.props.countries.countries.find(
+		const selectedCountry = this.props.countries.countries ?
+			this.props.countries.countries.find(
 					country => country.deno === data.country
 			  )
 			: {
@@ -110,8 +109,8 @@ class SignUpEnterprise extends React.Component {
 
 		if (!data.tin || existsCif) {
 			hasError = true;
-			errors.cif = existsCif
-				? translate.vat_previosly_save
+			errors.cif = existsCif ?
+				translate.vat_previosly_save
 				: translate.field_required;
 		}
 
@@ -152,7 +151,7 @@ class SignUpEnterprise extends React.Component {
 		if (event.nativeEvent.keyCode === 13) {
 			this.nextPage();
 		}
-		if(this.props.errors.hasError){
+		if (this.props.errors.hasError) {
 			this.checkRequiredFields();
 		}
 	};

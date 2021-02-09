@@ -50,7 +50,6 @@ const TablaCompanies = ({ client, translate, company }) => {
 	const primary = getPrimary();
 
 
-
 	const getCompanies = async () => {
 		const response = await client.query({
 			query: corporationCompanies,
@@ -87,8 +86,7 @@ const TablaCompanies = ({ client, translate, company }) => {
 		return (
 			companies.length === undefined ?
 				<LoadingSection />
-				:
-				<CardPageLayout title={translate.entities} stylesNoScroll={{ height: '100%' }} disableScroll={true}>
+				:				<CardPageLayout title={translate.entities} stylesNoScroll={{ height: '100%' }} disableScroll={true}>
 					<div style={{ fontSize: '13px', padding: '1.5em 1.5em 1.5em', height: '100%', paddingTop: '0px' }}>
 						<div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', width: '100%', overflow: 'hidden' }}>
 							<div style={{ padding: '0.5em', display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'space-between', overflow: 'hidden', paddingTop: '0px' }}>
@@ -241,8 +239,7 @@ const TablaCompanies = ({ client, translate, company }) => {
 		return (
 			companies.length === undefined ?
 				<LoadingSection />
-				:
-				<CardPageLayout title={translate.entities} stylesNoScroll={{ height: '100%' }} disableScroll={true}>
+				:				<CardPageLayout title={translate.entities} stylesNoScroll={{ height: '100%' }} disableScroll={true}>
 					<div style={{ fontSize: '13px', padding: '1.5em 1.5em 1.5em', height: '100%', paddingTop: '0px' }}>
 						<div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
 							<div style={{ padding: '0.5em', display: 'flex', alignItems: 'center', paddingTop: '0px' }}>
@@ -415,8 +412,7 @@ const CellAvatar = ({ avatar, width }) => (
 				<div style={{ height: '1.7em', width: '1.7em', borderRadius: '0.9em' }}>
 					<img src={avatar} alt="Foto" style={{ height: '100%', width: '100%' }} />
 				</div>
-				:
-				<i style={{ color: 'lightgrey', fontSize: '1.7em', marginLeft: '6px' }} className={'fa fa-building-o'} />
+				:				<i style={{ color: 'lightgrey', fontSize: '1.7em', marginLeft: '6px' }} className={'fa fa-building-o'} />
 			}
 		</div>
 	);
@@ -434,8 +430,6 @@ const Cell = ({ width, children, style }) => (
 			{children}
 		</div>
 	);
-
-
 
 
 export default withApollo(withSharedProps()(withRouter(TablaCompanies)));

@@ -7,7 +7,6 @@ import { getSecondary } from '../../../../styles/colors';
 import { isMobile } from '../../../../utils/screen';
 
 
-
 const createManualBallotsMutation = gql`
     mutation CreateManualBallots($ballots: [ManualBallotBulk], $agendaId: Int!){
         createManualBallots(ballots: $ballots, agendaId: $agendaId){
@@ -21,7 +20,7 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
     const [state, setState] = React.useState(false);
     const [ballots, setBallots] = React.useState(new Map(agenda.ballots.filter(ballot => ballot.admin === 1).map(ballot => [ballot.itemId, ballot])));
 
-    if(!props.votingsRecount){
+    if (!props.votingsRecount) {
         return <LoadingSection />;
     }
 
@@ -35,13 +34,13 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
             ...ballots.get(itemId)
         };
 
-        if(totalWeight == maxTotal){
+        if (totalWeight == maxTotal) {
             correctedValue = 0;
         } else {
-            if(((totalWeight - ballot.weight) + value) > maxTotal){
+            if (((totalWeight - ballot.weight) + value) > maxTotal) {
                 correctedValue = maxTotal - (totalWeight - ballot.weight);
             }
-            if(correctedValue > maxBallot){
+            if (correctedValue > maxBallot) {
                 correctedValue = maxBallot;
             }
         }
@@ -86,13 +85,13 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
         });
     };
 
-    if(agenda.presentCensus === 0){
+    if (agenda.presentCensus === 0) {
         return <span />;
     }
 
-    //TRADUCCION
+    // TRADUCCION
     return (
-        <div style={{ width: '100%', backgroundColor: 'white', paddingTop: '1em' }}> {/**padding: '0 1em' */}
+        <div style={{ width: '100%', backgroundColor: 'white', paddingTop: '1em' }}> {/** padding: '0 1em' */}
             <hr></hr>
             <div>
                 <h5>
@@ -123,10 +122,10 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
                 }}
                 >
                     <div>
-                        * Máximo por opción: {maxBallot} {/**TRADUCCION */}
+                        * Máximo por opción: {maxBallot} {/** TRADUCCION */}
                     </div>
                     <div>
-                        * Máximos totales: {`${totalWeight} / ${maxTotal}`} {/**TRADUCCION */}
+                        * Máximos totales: {`${totalWeight} / ${maxTotal}`} {/** TRADUCCION */}
                     </div>
                 </div>
                 <div>

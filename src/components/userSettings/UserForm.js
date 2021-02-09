@@ -72,8 +72,8 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate, ad
                 />
             </div>
         </GridItem>
-        {admin &&
-            <GridItem xs={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center', }}>
+        {admin
+            && <GridItem xs={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center', }}>
                 <div style={{ width: '120px', color: getPrimary(), fontWeight: 'bold' }}>
                     {translate.license_code}
                 </div>
@@ -115,8 +115,8 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate, ad
                         />
                     </div>
                 </div>
-                {!isMobile &&
-                    <div style={{ display: 'flex', alignItems: 'center', }}>
+                {!isMobile
+                    && <div style={{ display: 'flex', alignItems: 'center', }}>
                         <div style={{ width: '90px', color: getPrimary(), fontWeight: 'bold', marginTop: '4px' }}>
                             {translate.language}
                         </div>
@@ -133,8 +133,8 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate, ad
                                 // required
                                 disableUnderline={true}
                             >
-                                {languages &&
-                                    languages.map(language => (
+                                {languages
+                                    && languages.map(language => (
                                         <MenuItem
                                             key={`language_${language.columnName}`}
                                             value={language.columnName}
@@ -151,8 +151,8 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate, ad
                 }
             </div>
         </GridItem>
-        {isMobile &&
-            <GridItem xs={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center', }}>
+        {isMobile
+            && <GridItem xs={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center', }}>
                 <div style={{ display: 'flex', alignItems: 'center', }}>
                     <div style={{ width: '90px', color: getPrimary(), fontWeight: 'bold', marginTop: '4px' }}>
                         {translate.language}
@@ -170,8 +170,8 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate, ad
                             // required
                             disableUnderline={true}
                         >
-                            {languages &&
-                                languages.map(language => (
+                            {languages
+                                && languages.map(language => (
                                     <MenuItem
                                         key={`language_${language.columnName}`}
                                         value={language.columnName}
@@ -184,7 +184,7 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate, ad
                 </div>
             </GridItem>
         }
-        <div style={{ width: '100%', border: '1px solid' + getPrimary() }}></div>
+        <div style={{ width: '100%', border: `1px solid${getPrimary()}` }}></div>
     </Grid >
 );
 

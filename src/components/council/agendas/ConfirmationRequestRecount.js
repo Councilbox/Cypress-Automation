@@ -26,7 +26,7 @@ const ConfirmationRequestRecount = ({ translate, agenda, recount, client }) => {
 
     usePolling(getData, 10000);
 
-    if(!data) return null;
+    if (!data) return null;
 
     const positivePercentage = getPercentage(data.numPositive, data.numTotal, 2);
     const negativePercentage = getPercentage(data.numNegative, data.numTotal, 2);
@@ -34,8 +34,8 @@ const ConfirmationRequestRecount = ({ translate, agenda, recount, client }) => {
 
     return (
         <div>
-            {agenda.votingState !== AGENDA_STATES.INITIAL &&
-                <div style={{ display: 'flex', width: '100%', border: '1px solid grey', height: '1.6em', borderRadius: '2px' }}>
+            {agenda.votingState !== AGENDA_STATES.INITIAL
+                && <div style={{ display: 'flex', width: '100%', border: '1px solid grey', height: '1.6em', borderRadius: '2px' }}>
                     <PercentageSection
                         tooltip={`${translate.they_accept}: ${data.numPositive} (${positivePercentage}%)`}
                         value={positivePercentage}
@@ -69,7 +69,7 @@ const PercentageSection = ({ value, color, tooltip, text = '', textColor = 'whit
 
     React.useLayoutEffect(() => {
         setTimeout(() => {
-            if(block.current && block.current.clientWidth > 70){
+            if (block.current && block.current.clientWidth > 70) {
                 setShowValue(true);
             } else {
                 setShowValue(false);
@@ -104,7 +104,7 @@ const PercentageSection = ({ value, color, tooltip, text = '', textColor = 'whit
         </div>
     );
 
-    if(tooltip && value > 0){
+    if (tooltip && value > 0) {
         return (
             <Tooltip title={tooltip}>
                 {renderSection()}

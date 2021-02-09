@@ -20,15 +20,15 @@ class MeetingCreateContainer extends React.Component {
 		error: false
 	}
 
-	async componentDidMount(){
+	async componentDidMount() {
 		const response = await this.props.createMeeting();
-		if(!response.errors){
+		if (!response.errors) {
 			sessionStorage.setItem('sessionId', response.data.openMeetingRoom.sessionId);
 			sessionStorage.setItem('meetingUrl', response.data.openMeetingRoom.url);
 			this.setState({
 				created: true
 			});
-		}else{
+		} else {
 			this.setState({
 				error: true
 			});
@@ -38,8 +38,8 @@ class MeetingCreateContainer extends React.Component {
 	render() {
 		const primary = getPrimary();
 
-		if(this.state.error){
-			return(
+		if (this.state.error) {
+			return (
 				<div
 					style={{
 						height: '100vh',
@@ -80,7 +80,7 @@ class MeetingCreateContainer extends React.Component {
 			);
 		}
 
-		if(!this.state.created){
+		if (!this.state.created) {
             return <LoadingMainApp />;
 		}
 

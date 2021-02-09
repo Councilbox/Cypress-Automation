@@ -18,8 +18,7 @@ const ChangeCensusMenu = ({ showAddModal, disabled, handleCensusChange, reloadCe
 		<Grid>
 			{council.councilType === 5 ?
 				<GridItem xs={12} md={9} lg={9}></GridItem>
-			:
-				<>
+			:				<>
 					<GridItem
 						lg={3}
 						md={3}
@@ -43,19 +42,18 @@ const ChangeCensusMenu = ({ showAddModal, disabled, handleCensusChange, reloadCe
 											{census.censusName}
 										</MenuItem>
 									))}
-								{(CBX.multipleGoverningBody(company.governingBodyType) &&
-									company.governingBodyData &&
-									company.governingBodyData.list &&
-									company.governingBodyData.list.length > 0) &&
-									<MenuItem
+								{(CBX.multipleGoverningBody(company.governingBodyType)
+									&& company.governingBodyData
+									&& company.governingBodyData.list
+									&& company.governingBodyData.list.length > 0)
+									&& <MenuItem
 										value={parseInt(-1, 10)}
 									>
 										{translate.governing_body}
 									</MenuItem>
 								}
 							</SelectInput>
-							:
-							<span>{translate.empty_censuses}</span>
+							:							<span>{translate.empty_censuses}</span>
 						}
 
 					</GridItem>
@@ -109,8 +107,8 @@ const ChangeCensusMenu = ({ showAddModal, disabled, handleCensusChange, reloadCe
 						>
 							{`${translate.total_votes}: ${totalVotes || 0}`}
 						</Typography>
-						{CBX.hasParticipations(council) &&
-							<Typography
+						{CBX.hasParticipations(council)
+							&& <Typography
 								variant="body2"
 								style={{
 									padding: '1.1em 1em 0 1em',

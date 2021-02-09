@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-//import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
+// import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
 import Close from 'material-ui-icons/Close';
 import { IconButton } from 'material-ui';
 import { CircularProgress } from 'material-ui/Progress';

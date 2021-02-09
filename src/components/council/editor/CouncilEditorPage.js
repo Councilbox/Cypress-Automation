@@ -136,5 +136,4 @@ const CouncilEditorPage = ({ council, translate, company, ...props }) => {
 };
 
 
-
 export default withRouter(CouncilEditorPage);

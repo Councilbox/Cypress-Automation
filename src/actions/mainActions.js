@@ -45,21 +45,21 @@ export const loadSubdomainConfig = () => {
 			}
 		});
 
-		if(response.errors){
+		if (response.errors) {
 			window.location.replace('https://app.councilbox.com');
 		}
 
 		const config = response.data.subdomainConfig;
 
-		if(config.primary){
+		if (config.primary) {
 			document.documentElement.style.setProperty('--primary', config.primary);
 		}
 
-		if(config.secondary){
+		if (config.secondary) {
 			document.documentElement.style.setProperty('--secondary', config.secondary);
 		}
 
-		if(config.title){
+		if (config.title) {
 			document.title = config.title;
 		}
 
@@ -85,7 +85,7 @@ export const initUserData = () => async dispatch => {
 		});
 		if (!response.errors) {
 			if (response.data.me) {
-				if(process.env.REACT_APP_LOGROCKET_ENABLED){
+				if (process.env.REACT_APP_LOGROCKET_ENABLED) {
 					initLogRocket(response.data.me);
 				}
 
@@ -97,8 +97,8 @@ export const initUserData = () => async dispatch => {
 				dispatch(setLanguage(response.data.me.preferredLanguage));
 			}
 		} else {
-			response.errors[0].code === 440 &&
-				sessionStorage.removeItem('token');
+			response.errors[0].code === 440
+				&& sessionStorage.removeItem('token');
 		}
 	};
 
@@ -141,7 +141,7 @@ export const setLanguage = language => async dispatch => {
 				language
 			}
 		});
-		if(!response.errors){
+		if (!response.errors) {
 			const translationObject = buildTranslateObject(response.data.translations);
 			let locale = language;
 			if (language === 'cat' || language === 'gal') {

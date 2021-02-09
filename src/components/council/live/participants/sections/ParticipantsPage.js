@@ -53,14 +53,14 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 		];
 
 	React.useLayoutEffect(() => {
-		if(divWidth && divWidth.current && divWidth.current.offsetWidth < 648){
+		if (divWidth && divWidth.current && divWidth.current.offsetWidth < 648) {
 			setwidthOffset(true);
 		}
 	});
 
 
 	const _renderAddGuestButton = () => {
-		if(council.councilType === COUNCIL_TYPES.ONE_ON_ONE){
+		if (council.councilType === COUNCIL_TYPES.ONE_ON_ONE) {
 			return null;
 		}
 
@@ -129,35 +129,35 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 		}
 
 		const headers = {
-			'STATES': <StatesHeader
+			STATES: <StatesHeader
 				translate={translate}
 				stateRecount={data.stateRecount}
 				selected={filters.type}
 				setSelected={setSelectedType}
 			/>,
 
-			'ATTENDANCE': <AttendanceHeader
+			ATTENDANCE: <AttendanceHeader
 				translate={translate}
 				attendanceRecount={data.attendanceRecount}
 				selected={filters.type}
 				setSelected={setSelectedType}
 			/>,
 
-			'CREDENTIALS': <CredentialsHeader
+			CREDENTIALS: <CredentialsHeader
 				translate={translate}
 				crendentialSendRecount={data.crendentialSendRecount}
 				selected={filters.type}
 				setSelected={setSelectedType}
 			/>,
 
-			'TYPE': <TypesHeader
+			TYPE: <TypesHeader
 				translate={translate}
 				participantTypeRecount={data.participantTypeRecount}
 				selected={filters.type}
 				setSelected={setSelectedType}
 			/>,
 
-			'CONVENE': <ConveneHeader
+			CONVENE: <ConveneHeader
 				translate={translate}
 				conveneSendRecount={data.conveneSendRecount}
 				selected={filters.type}
@@ -192,8 +192,8 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 						textStyle={{ color: secondary, fontWeight: '700', border: `1px solid ${secondary}` }}
 						onClick={toggleOnlyNotSigned}
 					/>
-					{props.root &&
-						<AddConvenedParticipantButton
+					{props.root
+						&& <AddConvenedParticipantButton
 							participations={hasParticipations(council)}
 							translate={translate}
 							councilId={council.id}
@@ -202,8 +202,8 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 						/>
 					}
 
-					{props.view === 'CREDENTIALS' &&
-						<RefreshCredsSendsButton translate={translate} council={council} />
+					{props.view === 'CREDENTIALS'
+						&& <RefreshCredsSendsButton translate={translate} council={council} />
 					}
 				</GridItem>
 				<GridItem xs={orientation === 'landscape' ? 12 : 12} md={12} lg={6}
@@ -213,15 +213,15 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 						alignItems: 'center',
 						justifyContent: orientation === 'portrait' ? 'space-between' : 'flex-end'
 					}}>
-					{orientation === 'landscape' && isMobile &&
-						<CharSelector
+					{orientation === 'landscape' && isMobile
+						&& <CharSelector
 							onClick={toggleCharFilter}
 							translate={translate}
 							selectedChar={filters.charFilter}
 						/>
 					}
-					{(config.quickAccess && council.councilType < 2) &&
-						<React.Fragment>
+					{(config.quickAccess && council.councilType < 2)
+						&& <React.Fragment>
 							<QRSearchModal
 								open={QRModal}
 								translate={translate}
@@ -296,8 +296,8 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 					display: 'flex',
 				}}
 			>
-				{(!isMobile || orientation !== 'landscape') &&
-					<CharSelector
+				{(!isMobile || orientation !== 'landscape')
+					&& <CharSelector
 						onClick={toggleCharFilter}
 						translate={translate}
 						selectedChar={filters.charFilter}
@@ -305,8 +305,7 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 				}
 				{!data[getSection(props.view)] ?
 					<LoadingSection />
-					:
-					<ParticipantsList
+					:					<ParticipantsList
 						loadMore={loadMore}
 						loading={loading}
 						loadingMore={loading}
@@ -334,11 +333,11 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 
 const getSection = view => {
 	const sections = {
-		'STATES': 'liveParticipantsState',
-		'ATTENDANCE': 'liveParticipantsAttendance',
-		'CREDENTIALS': 'liveParticipantsCredentials',
-		'TYPE': 'liveParticipantsType',
-		'CONVENE': 'liveParticipantsConvene'
+		STATES: 'liveParticipantsState',
+		ATTENDANCE: 'liveParticipantsAttendance',
+		CREDENTIALS: 'liveParticipantsCredentials',
+		TYPE: 'liveParticipantsType',
+		CONVENE: 'liveParticipantsConvene'
 	};
 	return sections[view];
 };

@@ -5,15 +5,15 @@ import { secondary } from '../../../../styles/colors';
 import { isAskingForWord, exceedsOnlineTimeout } from '../../../../utils/CBX';
 
 class LiveParticipantStats extends React.Component {
-    render(){
+    render() {
         let online = 0;
 		let offline = 0;
 		let broadcasting = 0;
 		let askingForWord = 0;
-		if(this.props.data.videoParticipants){
+		if (this.props.data.videoParticipants) {
 			this.props.data.videoParticipants.list.forEach(
 				participant => {
-					if(isAskingForWord(participant)){
+					if (isAskingForWord(participant)) {
 						askingForWord++;
 					}
 					if (exceedsOnlineTimeout(participant.lastDateConnection)) {

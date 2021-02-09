@@ -31,8 +31,8 @@ const styles = {
 		marginBottom: '5px',
 		minWidth: width,
 		maxWidth: '100%',
-		//height: '50vh',
-		//minHeight: isMobile? '70vh' : '50vh',
+		// height: '50vh',
+		// minHeight: isMobile? '70vh' : '50vh',
 	}
 };
 

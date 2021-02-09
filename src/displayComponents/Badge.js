@@ -6,11 +6,11 @@ import { getPrimary } from '../styles/colors';
 const CBXBadge = ({ children, hide, dot, styleDot, ...props }) => {
     const primary = getPrimary();
 
-    if(hide){
+    if (hide) {
         return children;
     }
 
-    if(dot){
+    if (dot) {
         return (
             <div style={{ position: 'relative' }}>
                 {children}

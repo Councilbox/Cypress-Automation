@@ -16,12 +16,12 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
 
 
     React.useEffect(() => {
-        if(!loading){
-            if(data.proxyVotes){
+        if (!loading) {
+            if (data.proxyVotes) {
                 data.proxyVotes.forEach(vote => {
                     const { __typename, id, ...rest } = vote;
 
-                    if(vote.value > 10){
+                    if (vote.value > 10) {
                         selected.set(`${vote.agendaId}_${vote.value}_${vote.participantId}`, rest);
                     } else {
                         selected.set(`${vote.agendaId}_${vote.participantId}`, rest);
@@ -39,7 +39,7 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
     const isActive = (agendaId, value) => {
         const point = selected.get(agendaId);
 
-        if(!point){
+        if (!point) {
             return false;
         }
 
@@ -48,7 +48,7 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
 
     const earlyVoteMenu = participantInfo => (
         data.agendas.filter(point => point.subjectType !== AGENDA_TYPES.INFORMATIVE).map(point => {
-            if(isConfirmationRequest(point.subjectType)){
+            if (isConfirmationRequest(point.subjectType)) {
                 return (
                     <div key={`point_${point.id}`}>
                         <div style={{ fontWeight: '700', marginTop: '1em' }}>{point.agendaSubject}</div>
@@ -80,7 +80,7 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
                                                 agendaId: point.id,
                                                 participantInfoId: participantInfo.id
                                             })));
-                                            //setEarlyVote(point.id, vote)
+                                            // setEarlyVote(point.id, vote)
                                         }}
                                     >
                                         <VotingButton
@@ -96,7 +96,7 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
                 );
             }
 
-            if(!isCustomPoint(point.subjectType)){
+            if (!isCustomPoint(point.subjectType)) {
                 return (
                     <div key={`point_${point.id}`}>
                         <div style={{ fontWeight: '700', marginTop: '1em' }}>{point.agendaSubject}</div>
@@ -132,7 +132,7 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
                                                 agendaId: point.id,
                                                 participantInfoId: participantInfo.id
                                             })));
-                                            //setEarlyVote(point.id, vote)
+                                            // setEarlyVote(point.id, vote)
                                         }}
                                     >
                                         <VotingButton
@@ -150,7 +150,7 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
 
             const selections = point.items.reduce((acc, curr) => {
                 const key = `${point.id}_${curr.id}_${participantInfo.id}`;
-                if(isActive(key, curr.id)){
+                if (isActive(key, curr.id)) {
                     acc++;
                     return acc;
                 }
@@ -173,7 +173,7 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
                                     styleButton={{ padding: '0', width: '100%' }}
                                     selectCheckBox={active}
                                     onClick={() => {
-                                        if(active){
+                                        if (active) {
                                             selected.delete(key);
                                             setSelected(new Map(selected));
                                         } else {
@@ -194,7 +194,7 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
         })
     );
 
-    if(loading){
+    if (loading) {
         return <LoadingSection />;
     }
 
@@ -209,8 +209,7 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
                         {earlyVoteMenu(item)}
                     </>
                 ))
-        :
-            earlyVoteMenu(participant)
+        : earlyVoteMenu(participant)
     );
 };
 

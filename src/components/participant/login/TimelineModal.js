@@ -14,8 +14,7 @@ const TimelineModal = ({ translate, council }) => {
     };
 
 
-
-    return(
+    return (
         <React.Fragment>
             <BasicButton
                 text="Ver resumen"

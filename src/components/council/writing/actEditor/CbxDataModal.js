@@ -50,7 +50,7 @@ const CbxDataModal = ({ open, requestClose, participant, translate, client, comp
     }, [participant.id]);
 
     React.useEffect(() => {
-        if(open){
+        if (open) {
             getData();
         }
     }, [getData, open]);

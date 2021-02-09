@@ -22,7 +22,7 @@ class PremiumModal extends React.Component {
                 userId: this.props.user.id
             }
         });
-        if(!response.error){
+        if (!response.error) {
             this.setState({
                 success: true,
                 loading: false,
@@ -38,7 +38,7 @@ class PremiumModal extends React.Component {
         });
     }
 
-    render(){
+    render() {
         const { translate } = this.props;
         const modalWidth = window.innerWidth > 650 ? 650 : window.innerWidth;
 
@@ -51,8 +51,8 @@ class PremiumModal extends React.Component {
                 title={translate.premium_service}
                 bodyText={
                     <div style={{ width: `${modalWidth}px` }}>
-                        {this.state.step === 1 &&
-                            <React.Fragment>
+                        {this.state.step === 1
+                            && <React.Fragment>
                                 <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
                                     <div style={{ marginBottom: '0.6em' }}>
                                         {`${translate.you_need}`} <strong>{`${translate.subscribe_to_councilbox}`}</strong>
@@ -66,8 +66,8 @@ class PremiumModal extends React.Component {
                                 </div>
                             </React.Fragment>
                         }
-                        {this.state.step === 2 &&
-                            <React.Fragment>
+                        {this.state.step === 2
+                            && <React.Fragment>
                                 {/* <div style={{display: 'flex', flexDirection: 'column'}}>
                                     {translate.trial_begin_first_company}
                                 </div>
@@ -108,8 +108,8 @@ class PremiumModal extends React.Component {
                                 </div>
                             </React.Fragment>
                         }
-                        {this.state.step === 3 &&
-                            <div>
+                        {this.state.step === 3
+                            && <div>
                                 {translate.trial_started_can_create_company}
                             </div>
                         }

@@ -3,7 +3,7 @@ import { AlertConfirm } from '../../../displayComponents';
 
 class TermsModal extends Component {
 	_renderNewPointBody = () =>
-		//style="font-size:14px; padding: 2vw; text-align: justify;text-justify: inter-word;"
+		// style="font-size:14px; padding: 2vw; text-align: justify;text-justify: inter-word;"
 		 (
 			// TRADUCCION
 			<div>

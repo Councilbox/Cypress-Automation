@@ -119,14 +119,14 @@ const CompanyDraftNew = ({ translate, ...props }) => {
 			loading: false,
 			success: false
 		});
-		bHistory.goBack();
+		bHistory.back();
 	};
 
 	const comprobateChanges = () => JSON.stringify(state) !== JSON.stringify(dataInit);
 
 	const goBack = () => {
-		if(!comprobateChanges()){
-			bHistory.goBack();
+		if (!comprobateChanges()) {
+			bHistory.back();
 		} else {
 			setUnsavedAlert(true);
 		}
@@ -192,7 +192,7 @@ const CompanyDraftNew = ({ translate, ...props }) => {
 			</div>
 			<UnsavedChangesModal
 				acceptAction={createCompanyDraft}
-				cancelAction={() => bHistory.goBack()}
+				cancelAction={() => bHistory.back()}
 				requestClose={() => setUnsavedAlert(false)}
 				successAction={state.success}
 				loadingAction={state.loading}

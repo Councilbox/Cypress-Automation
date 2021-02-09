@@ -106,8 +106,8 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
                 paddingLeft: '4px',
             }}>
                 <div style={{ padding: '1em', paddingTop: '2em', display: 'flex' }} >
-                    {!isMobile &&
-                        <>
+                    {!isMobile
+                        && <>
                             <div style={{ color: '#154481', fontSize: '1.9em', marginRight: '1em' }}>{`${participant.name} ${participant.surname || ''}`}</div>
                             <div style={{ color: 'black', fontSize: '1.9em', }}>Su documentación</div>
                         </>
@@ -170,8 +170,7 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
                                         </Card>
                                     ))}
                             </>
-                        :
-                            <Table style={{ width: '100%', maxWidth: '100%' }}>
+                        : <Table style={{ width: '100%', maxWidth: '100%' }}>
                                 <TableBody>
                                     <TableRow>
                                         <TableCell style={{
@@ -260,7 +259,7 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
                                     >
                                         <BasicButton
                                             onClick={event => {
-                                                if(!check){
+                                                if (!check) {
                                                     event.stopPropagation();
                                                     setCheckError(true);
                                                 }
@@ -285,8 +284,8 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
                                         />
                                     </div>
                                     <div style={{ color: '#154481', textAlign: 'center', marginBottom: '2em' }}>O arrastrelos y suéltelos en esta pantalla</div>
-                                    {(!check && checkError) &&
-                                            <div style={{ color: 'red', fontWeight: '700' }}>
+                                    {(!check && checkError)
+                                            && <div style={{ color: 'red', fontWeight: '700' }}>
                                                 Es necesaria la confirmación para poder enviar
                                             </div>
                                         }

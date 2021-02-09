@@ -50,7 +50,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 		},
 		video: {
 			startRecording: council.fullVideoRecord === 1,
-			//hasRTMP: (council.room.videoConfig && council.room.videoConfig.rtmp)? true : false,
+			// hasRTMP: (council.room.videoConfig && council.room.videoConfig.rtmp)? true : false,
 			startStreaming: !!((council.room.videoConfig && council.room.videoConfig.rtmp))
 		},
 		errors: {
@@ -79,7 +79,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 					status: 'loading'
 				}));
 
-				//await wait();
+				// await wait();
 
 				await client.mutate({
 					mutation: gql`
@@ -113,7 +113,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 					status: 'loading'
 				}));
 
-				//await wait();
+				// await wait();
 
 				await client.mutate({
 					mutation: gql`
@@ -146,7 +146,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 				status: 'loading'
 			}));
 
-			//await wait();
+			// await wait();
 			const { startCouncil } = props;
 			const {
 				presidentId,
@@ -207,7 +207,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 
 	const actionSwitch = () => {
 		const actions = {
-			'1': (id, name) => {
+			1: (id, name) => {
 				setState({
 					data: {
 						...state.data,
@@ -217,7 +217,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 					selecting: 0
 				});
 			},
-			'2': (id, name) => {
+			2: (id, name) => {
 				setState({
 					data: {
 						...state.data,
@@ -227,7 +227,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 					selecting: 0
 				});
 			},
-			'3': (id, name) => {
+			3: (id, name) => {
 				setState({
 					data: {
 						...state.data,
@@ -320,11 +320,11 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 						{step.text}
 					</div>
 					<div>
-						{step.status === 'loading' &&
-							<LoadingSection size={14} />
+						{step.status === 'loading'
+							&& <LoadingSection size={14} />
 						}
-						{step.status === 'done' &&
-							<i className="fa fa-check" style={{ color: 'green' }}></i>
+						{step.status === 'done'
+							&& <i className="fa fa-check" style={{ color: 'green' }}></i>
 						}
 					</div>
 				</div>
@@ -382,8 +382,8 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 													border: '1px solid gainsboro'
 												}} className="withShadow">
 													{`Descargar ${
-														rest > DELEGATION_USERS_LOAD
-															? `${DELEGATION_USERS_LOAD} de ${rest} restantes`
+														rest > DELEGATION_USERS_LOAD ?
+															`${DELEGATION_USERS_LOAD} de ${rest} restantes`
 															: translate.all_plural.toLowerCase()
 														}`}
 												</div>
@@ -403,8 +403,8 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 
 		return (
 			<Grid style={{ width: '600px' }}>
-				{council.statute.hasPresident === 1 &&
-					<React.Fragment>
+				{council.statute.hasPresident === 1
+					&& <React.Fragment>
 						<GridItem xs={3} md={3} lg={3}>
 							{translate.president}
 						</GridItem>
@@ -423,8 +423,8 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 							) : (
 									<span
 										style={{
-											color: state.errors.president
-												? 'red'
+											color: state.errors.president ?
+												'red'
 												: 'inherit'
 										}}
 									>
@@ -435,8 +435,8 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 					</React.Fragment>
 				}
 
-				{council.statute.hasSecretary === 1 &&
-					<React.Fragment>
+				{council.statute.hasSecretary === 1
+					&& <React.Fragment>
 						<GridItem xs={3} md={3} lg={3}>
 							{translate.secretary}
 						</GridItem>
@@ -455,8 +455,8 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 							) : (
 									<span
 										style={{
-											color: state.errors.secretary
-												? 'red'
+											color: state.errors.secretary ?
+												'red'
 												: 'inherit'
 										}}
 									>
@@ -486,8 +486,8 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 							) : (
 									<span
 										style={{
-											color: state.errors.qualityVote
-												? 'red'
+											color: state.errors.qualityVote ?
+												'red'
 												: 'inherit'
 										}}
 									>
@@ -498,8 +498,8 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 					</React.Fragment>
 				)}
 
-				{councilHasVideo(council) &&
-					<StartCouncilVideoOptions
+				{councilHasVideo(council)
+					&& <StartCouncilVideoOptions
 						council={council}
 						data={state.video}
 						translate={translate}
@@ -514,8 +514,8 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 						}}
 					/>
 				}
-				{council.councilType !== COUNCIL_TYPES.ONE_ON_ONE &&
-					<ConveneSelector
+				{council.councilType !== COUNCIL_TYPES.ONE_ON_ONE
+					&& <ConveneSelector
 						council={council}
 						translate={translate}
 						convene={state.data.firstOrSecondConvene}
@@ -621,9 +621,8 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 							props.refetch();
 							setState({ alert: false });
 						}
-						:
-						state.selecting === 0
-							? () => setState({ alert: false })
+						:						state.selecting === 0 ?
+							() => setState({ alert: false })
 							: () => setState({ selecting: 0 })
 				}
 			/>

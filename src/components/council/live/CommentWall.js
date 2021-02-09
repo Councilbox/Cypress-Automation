@@ -17,20 +17,20 @@ const CommentWall = ({ open, data, council, translate, subscribeToWallComments, 
 	const scrollbar = React.useRef();
 
 	React.useEffect(() => {
-		if(open && !data.loading){
+		if (open && !data.loading) {
 			sessionStorage.setItem(`readMessages_${council.id}`, data.councilRoomMessages.length);
 			scrollbar.current.scrollToBottom();
 		}
-		if(!open && !data.loading){
+		if (!open && !data.loading) {
 			setCommentsRead(data.councilRoomMessages.length);
 		}
 	}, [open]);
 
 	React.useEffect(() => {
-		if(!data.loading){
+		if (!data.loading) {
 			const newUnread = data.councilRoomMessages.length - sessionStorage.getItem(`readMessages_${council.id}`);
 
-			if(newUnread !== unreadComments){
+			if (newUnread !== unreadComments) {
 				updateState({
 					unreadComments: newUnread
 				});
@@ -46,8 +46,8 @@ const CommentWall = ({ open, data, council, translate, subscribeToWallComments, 
 
 	return (
 		<>
-			{open &&
-				<Drawer
+			{open
+				&& <Drawer
 					style={{
 						zIndex: -1,
 						width: '300px'
@@ -114,8 +114,8 @@ const CommentWall = ({ open, data, council, translate, subscribeToWallComments, 
 												padding: '1em 0.8em',
 												fontWeight: (index + 1) > commentsRead ? '700' : '400',
 												backgroundColor:
-													comment.participantId === -1
-														? lightGrey
+													comment.participantId === -1 ?
+														lightGrey
 														: 'transparent'
 											}}
 										>

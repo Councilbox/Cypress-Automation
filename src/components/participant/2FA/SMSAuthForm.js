@@ -97,8 +97,7 @@ const SMSAuthForm = ({ value, updateValue, send, translate, error }) => {
                                     <h3 style={{ color: 'black', fontSize: '1.7em', }}>
                                         Bienvenido, para acceder introduzca el código que se ha enviado a su teléfono {error.originalError.data ?
                                             `(terminado en ${error.originalError.data.phone})`
-                                            :
-                                            ''
+                                            : ''
                                         }
                                     </h3>
                                 </div>

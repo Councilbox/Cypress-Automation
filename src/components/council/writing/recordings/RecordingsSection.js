@@ -6,13 +6,13 @@ import { moment } from '../../../../containers/App';
 const rand = Math.random();
 
 class RecordingsSection extends React.Component {
-    render(){
+    render() {
         const now = moment();
         const releaseDate = moment(ALPHA_RELEASE_DATE);
         const legacyRecordings = !(now.isAfter(releaseDate));
 
 
-        if(!this.props.data.recordingsIframe){
+        if (!this.props.data.recordingsIframe) {
             return (
                 <div style={{ width: '100%', height: '100%', paddingTop: '8em', fontSize: '20px', display: 'flex', fontWeight: '700', flexDirection: 'column', alignItems: 'center' }}>
                     {legacyRecordings ?
@@ -20,8 +20,7 @@ class RecordingsSection extends React.Component {
                             La visualización de este contenido no está disponible en estos momentos, estamos trabajando para que esté disponible lo antes posible. <br />
                             En caso de necesitarlo, puede ponerse en contacto con el equipo de Councilbox.
                         </div>
-                    :
-                        <React.Fragment>
+                    : <React.Fragment>
                             <i className="material-icons" style={{ color: getSecondary(), fontSize: '8em' }}>
                                 videocam_off
                             </i>
@@ -32,7 +31,7 @@ class RecordingsSection extends React.Component {
             );
         }
 
-        return(
+        return (
             <div style={{ width: '100%', height: '100%', overflow: 'hidden' }}>
                 <iframe
                     title="meetingScreen"

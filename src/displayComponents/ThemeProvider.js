@@ -50,7 +50,7 @@ const ThemeProvider = ({ children }) => {
 			MuiInput: {
 				underline: {
 					'&:hover:not($disabled):before': {
-						//underline color when hovered
+						// underline color when hovered
 						backgroundColor: secondary
 					},
 					'&:after': {

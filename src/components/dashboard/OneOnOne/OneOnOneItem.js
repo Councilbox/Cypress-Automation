@@ -25,8 +25,8 @@ const OneOnOneItem = ({ translate, council, index, company }) => {
                 md={12}
                 lg={12}
             >
-                {attachmentsModal &&
-                    <OneOnOneAttachmentsModal
+                {attachmentsModal
+                    && <OneOnOneAttachmentsModal
                         council={council}
                         translate={translate}
                         requestClose={event => {
@@ -62,8 +62,7 @@ const OneOnOneItem = ({ translate, council, index, company }) => {
                             <div style={{ marginRight: '.5em', fontSize: '12px', width: '10em' }}>
                                 {councilStarted(council) ?
                                     <b style={{ color: getPrimary(), padding: '8px 16px' }}>Iniciada</b>
-                                :
-                                    <BasicButton
+                                : <BasicButton
                                         text="Acceder"
                                         onClick={() => bHistory.push(`/company/${company.id}/council/${council.id}/live`)}
                                         backgroundColor={{ fontSize: '12px', fontStyle: 'Lato', fontWeight: 'bold', color: '#ffffff', backgroundColor: primary, borderRadius: '4px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}
@@ -80,8 +79,7 @@ const OneOnOneItem = ({ translate, council, index, company }) => {
                                         }}
                                         backgroundColor={{ fontSize: '12px', fontStyle: 'Lato', fontWeight: 'bold', color: primary, backgroundColor: '#ffffff', borderRadius: '4px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}
                                     />
-                                :
-                                    'Sin documentación'
+                                : 'Sin documentación'
                                 }
                             </div>
                             <div>

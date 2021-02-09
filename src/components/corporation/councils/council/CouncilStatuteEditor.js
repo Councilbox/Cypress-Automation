@@ -129,7 +129,7 @@ const CouncilStatuteEditor = ({ statute, translate, client, council, refetch }) 
             <GridItem xs={12} md={7} lg={7}>
                 <SelectInput
                         floatingText={translate.security}
-                        value={'' + council.securityType}
+                        value={`${council.securityType}`}
                         onChange={event => updateCouncil({
                                 securityType: +event.target.value
                             })

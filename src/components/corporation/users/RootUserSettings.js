@@ -13,14 +13,14 @@ class RootUserSettings extends React.Component {
     }
 
     sendPass = async () => {
-        if(this.state.settingsPassword){
+        if (this.state.settingsPassword) {
             const response = await this.props.sendPass({
                 variables: {
                     pass: this.state.settingsPassword
                 }
             });
 
-            if(response.data.checkRootSettingsKey.success){
+            if (response.data.checkRootSettingsKey.success) {
                 this.setState({
                     locked: false
                 });
@@ -43,7 +43,7 @@ class RootUserSettings extends React.Component {
 		}
     }
 
-    render(){
+    render() {
         return (
             <div style={{ height: 'calc(100% - 3em)' }}>
                 {this.state.locked ?
@@ -67,8 +67,7 @@ class RootUserSettings extends React.Component {
                             />
                         </Card>
                     </div>
-                :
-                    <UserSettingsPage />
+                : <UserSettingsPage />
                 }
             </div>
         );

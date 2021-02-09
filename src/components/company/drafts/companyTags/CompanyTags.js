@@ -116,8 +116,8 @@ const CompanyTags = ({ client, translate, company }) => {
                         />
                     </div>
                 </div>
-                {!!editTag &&
-                    <EditTagModal
+                {!!editTag
+                    && <EditTagModal
                         tag={editTag}
                         company={company}
                         open={!!editTag}
@@ -126,8 +126,8 @@ const CompanyTags = ({ client, translate, company }) => {
                         refetch={getData}
                     />
                 }
-                {data &&
-                    <Grid style={{ width: '100%', height: '100%', marginTop: '1em' }}>
+                {data
+                    && <Grid style={{ width: '100%', height: '100%', marginTop: '1em' }}>
                         <GridItem xs={12} md={12} lg={12} style={{ width: '99%', height: 'calc( 100% - 3em )' }}>
                             <div style={{ border: `1px solid ${getPrimary()}`, boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)', borderRadius: '2px', height: '100%', overflow: 'hidden', marginBottom: '4em', paddingBottom: '1em' }}>
                                 <Divider />
@@ -178,8 +178,7 @@ const CompanyTags = ({ client, translate, company }) => {
                                                                 ))}
                                                         </TableBody>
                                                     </Table>
-                                                    :
-                                                    <div style={{ padding: '1em' }}>{translate.no_results}</div>
+                                                    : <div style={{ padding: '1em' }}>{translate.no_results}</div>
                                                 }
                                             </div>
                                         </Scrollbar>
@@ -199,8 +198,8 @@ const CompanyTags = ({ client, translate, company }) => {
                     company={company}
                     refetch={getData}
                 />
-                {!!editTag &&
-                    <EditTagModal
+                {!!editTag
+                    && <EditTagModal
                         tag={editTag}
                         company={company}
                         open={!!editTag}
@@ -209,8 +208,8 @@ const CompanyTags = ({ client, translate, company }) => {
                         refetch={getData}
                     />
                 }
-                {data &&
-                    <Grid style={{ width: '100%', height: '100%', marginTop: '1em' }}>
+                {data
+                    && <Grid style={{ width: '100%', height: '100%', marginTop: '1em' }}>
                         <Scrollbar>
                             <GridItem xs={12} md={12} lg={12} style={{ width: '99%', height: 'calc( 100% - 3em )' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', color: '#969696', minHeight: '42px', marginBottom: '0.5em' }}>
@@ -220,8 +219,8 @@ const CompanyTags = ({ client, translate, company }) => {
 								</i>
                                     </div>
                                     <div style={{ height: '100%' }}>
-                                        {toggleText &&
-                                            <div>{translate.tags_description}</div>
+                                        {toggleText
+                                            && <div>{translate.tags_description}</div>
                                         }
                                     </div>
                                 </div>
@@ -276,8 +275,7 @@ const CompanyTags = ({ client, translate, company }) => {
                                                                     ))}
                                                             </TableBody>
                                                         </Table>
-                                                        :
-                                                        <div style={{ padding: '1em' }}>{translate.no_results}</div>
+                                                        : <div style={{ padding: '1em' }}>{translate.no_results}</div>
                                                     }
                                                 </div>
                                             </Scrollbar>
@@ -373,8 +371,8 @@ const HoverableRow = ({ translate, tag, deleteTag, editTag }) => {
                 </TableCell>
                 <TableCell>
                     <div style={{ width: '4em', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        {show &&
-                            <React.Fragment>
+                        {show
+                            && <React.Fragment>
                                 <IconButton
                                     onClick={event => {
                                         event.stopPropagation();

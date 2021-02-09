@@ -46,7 +46,7 @@ const ReorderPointsModal = ({ updateAgendas, translate, ...props }) => {
 		const opened = [];
 		const unOpened = [];
 		agendas.forEach(agenda => {
-			if(CBX.agendaPointNotOpened(agenda)){
+			if (CBX.agendaPointNotOpened(agenda)) {
 				unOpened.push(agenda);
 			} else {
 				opened.push(agenda);
@@ -54,7 +54,7 @@ const ReorderPointsModal = ({ updateAgendas, translate, ...props }) => {
 		});
 		return (
 			<React.Fragment>
-				{opened.map((agenda) => (
+				{opened.map(agenda => (
 					<li
 						key={`reorderAgenda_${agenda.id}`}
 						style={{

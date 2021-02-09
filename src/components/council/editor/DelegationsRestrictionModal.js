@@ -18,9 +18,8 @@ import { getPrimary } from '../../../styles/colors';
 import { isMobile } from '../../../utils/screen';
 
 
-
 const styles = {
-	'input': {
+	input: {
 		'&::placeholder': {
 			textOverflow: 'ellipsis !important',
 			color: '#0000005c'
@@ -81,12 +80,12 @@ const DelegationsRestrictionModal = ({ open, data, translate, participantsTable,
 		const { loading } = data;
 		let participants = {};
 		if (data.councilParticipantsFilterIds) {
-			participants = loading
-				? []
+			participants = loading ?
+				[]
 				: data.councilParticipantsFilterIds.list;
 		}
-		const { total } = loading
-			? 0
+		const { total } = loading ?
+			0
 			: data.councilParticipantsFilterIds;
 		const rest = total - participants.length - 1;
 
@@ -147,13 +146,13 @@ const DelegationsRestrictionModal = ({ open, data, translate, participantsTable,
 														>
 															<MenuItem style={{ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
 																{`DESCARGAR ${
-																	rest > DELEGATION_USERS_LOAD
-																		? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+																	rest > DELEGATION_USERS_LOAD ?
+																		`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
 																		: translate.all_plural.toLowerCase()
 																	}`
 																}
-																{loading &&
-																	<div>
+																{loading
+																	&& <div>
 																		<LoadingSection size={25} />
 																	</div>
 																}
@@ -214,7 +213,6 @@ const regularCardStyle = {
 };
 
 
-
 const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, translate, onClick, index }) => {
 	const [hover, setHover] = React.useState(false);
 
@@ -256,7 +254,7 @@ const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, translate,
 									width: '100%'
 								}}
 							>
-								{item.name + ' ' + item.surname || ''}
+								{`${item.name} ${item.surname}` || ''}
 							</div>
 						}
 						classes={{
@@ -268,8 +266,8 @@ const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, translate,
 					/>
 				</Card>
 			</GridItem>
-			{index % 2 === 0 &&
-				<GridItem xs={2} lg={2} md={2}></GridItem>
+			{index % 2 === 0
+				&& <GridItem xs={2} lg={2} md={2}></GridItem>
 			}
 		</React.Fragment>
 	);

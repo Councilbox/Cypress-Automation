@@ -103,11 +103,11 @@ const PaginationFooter = ({
 		return (
 			<div style={{}}>
 				<div>
-					{length > 0
-						? `${translate.table_showing_part1} ${(page - 1) * limit +
-						1} ${translate.table_showing_part2} ${(page - 1) *
-						limit +
-						length} ${translate.table_showing_part3} ${total} ${
+					{length > 0 ?
+						`${translate.table_showing_part1} ${(page - 1) * limit
+						+ 1} ${translate.table_showing_part2} ${(page - 1)
+						* limit
+						+ length} ${translate.table_showing_part3} ${total} ${
 						translate.table_showing_part4
 						}`
 						: translate.table_no_results}
@@ -141,11 +141,11 @@ const PaginationFooter = ({
 	return (
 		<React.Fragment>
 			<GridItem xs={window.innerWidth < 480 ? 12 : xs || 5} lg={lg || 5} md={md || 6} style={{ fontSize: '0.7rem' }}>
-				{length > 0
-					? `${translate.table_showing_part1} ${(page - 1) * limit +
-					1} ${translate.table_showing_part2} ${(page - 1) *
-					limit +
-					length} ${translate.table_showing_part3} ${total} ${
+				{length > 0 ?
+					`${translate.table_showing_part1} ${(page - 1) * limit
+					+ 1} ${translate.table_showing_part2} ${(page - 1)
+					* limit
+					+ length} ${translate.table_showing_part3} ${total} ${
 					translate.table_showing_part4
 					}`
 					: translate.table_no_results}

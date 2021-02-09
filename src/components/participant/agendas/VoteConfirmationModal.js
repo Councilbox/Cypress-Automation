@@ -2,7 +2,7 @@ import React from 'react';
 import { AlertConfirm } from '../../../displayComponents';
 
 class VoteConfirmationModal extends React.Component {
-    render(){
+    render() {
         return (
             <AlertConfirm
                 requestClose={this.props.requestClose}

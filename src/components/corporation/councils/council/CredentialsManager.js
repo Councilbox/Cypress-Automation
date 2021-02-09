@@ -45,11 +45,11 @@ const CredentialsManager = ({ translate, ...props }) => {
         });
     }, [filter, state.filterText, state.page]);
 
-    if(!props.data.liveParticipants){
+    if (!props.data.liveParticipants) {
         return <LoadingSection />;
     }
 
-    //const filteredParticipants = filterParticipants(props.data.liveParticipants.list, state.filterText);
+    // const filteredParticipants = filterParticipants(props.data.liveParticipants.list, state.filterText);
     const slicedParticipants = props.data.liveParticipants.list;
 
     return (
@@ -83,12 +83,12 @@ const CredentialsManager = ({ translate, ...props }) => {
                                 </div>
                             ))}
                             <div style={{ height: '4em', display: 'flex', fontWeight: '700', alignItems: 'center', paddingTop: '0.5em' }}>
-                                {state.page > 1 &&
-                                    <div onClick={() => updatePage(state.page - 1)} style={{ userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer' }}>{'<'}</div>
+                                {state.page > 1
+                                    && <div onClick={() => updatePage(state.page - 1)} style={{ userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer' }}>{'<'}</div>
                                 }
                                 <div style={{ margin: '0 0.3em', paddingBottom: '2em' }}>{state.page}</div>
-                                {(state.page < (props.data.liveParticipants.total / limit)) &&
-                                    <div onClick={() => updatePage(state.page + 1)} style={{ userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer' }}>{'>'}</div>
+                                {(state.page < (props.data.liveParticipants.total / limit))
+                                    && <div onClick={() => updatePage(state.page + 1)} style={{ userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer' }}>{'>'}</div>
                                 }
 
                             </div>

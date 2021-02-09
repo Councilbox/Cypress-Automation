@@ -133,11 +133,9 @@ const SignatureContainer = ({ match, company, translate, windowSize }) => {
 							}
 							onClick={() => (cantAccessPremium ?
 									showCantAccessPremiumModal()
-								:
-									!canCreateSignature() ?
+								:									!canCreateSignature() ?
 										showCantAccessSignatures()
-									:
-										bHistory.push(`/company/${company.id}/signature/new`))
+									:										bHistory.push(`/company/${company.id}/signature/new`))
 							}
 						/>
 					</div>

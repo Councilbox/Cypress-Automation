@@ -14,7 +14,7 @@ const Resend2FAModal = ({ translate, open, requestClose, match, client }) => {
     const [sending, setSending] = React.useState(false);
 
     React.useEffect(() => {
-        if(data && data.sendDate){
+        if (data && data.sendDate) {
             const firstDate = moment();
             const secondDate = moment(data.sendDate);
             const difference = firstDate.diff(secondDate, 'seconds');
@@ -63,7 +63,7 @@ const Resend2FAModal = ({ translate, open, requestClose, match, client }) => {
     }, [match.params.token, open]);
 
     React.useEffect(() => {
-        if(open){
+        if (open) {
             getData();
         }
     }, [getData]);
@@ -75,8 +75,8 @@ const Resend2FAModal = ({ translate, open, requestClose, match, client }) => {
             title={translate.resend}
             bodyText={
                 <div>
-                    {data &&
-                        <>
+                    {data
+                        && <>
                             <div>
                                 Último envío realizado: {moment(data.sendDate).format('LLL')}
                             </div>

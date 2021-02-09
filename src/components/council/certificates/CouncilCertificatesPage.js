@@ -26,8 +26,8 @@ const CouncilCertificates = ({ data, translate, ...props }) => {
 
         setDownloading(certificate.id);
 
-        if(response){
-            if(!response.errors){
+        if (response) {
+            if (!response.errors) {
                 downloadFile(
                     response.data.downloadCertificate,
                     'application/pdf',
@@ -43,14 +43,14 @@ const CouncilCertificates = ({ data, translate, ...props }) => {
         setEditor(false);
     };
 
-    if(data.loading){
+    if (data.loading) {
         return <LoadingSection />;
     }
 
     const { councilCertificates } = data;
 
-    if(editor){
-        return(
+    if (editor) {
+        return (
             <CertificateEditor
                 council={data.council}
                 translate={translate}
@@ -59,7 +59,7 @@ const CouncilCertificates = ({ data, translate, ...props }) => {
         );
     }
 
-    return(
+    return (
         <CardPageLayout title={translate.certificates}>
             <div
                 style={{
@@ -100,8 +100,7 @@ const CouncilCertificates = ({ data, translate, ...props }) => {
                                 />
                             ))}
                         </Table>
-                    :
-                        <Typography variant="subheading" style={{ fontWeight: '700', marginTop: '0.8em' }}>
+                    : <Typography variant="subheading" style={{ fontWeight: '700', marginTop: '0.8em' }}>
                             {translate.no_certificates}
                         </Typography>
                     }
@@ -116,7 +115,7 @@ const HoverableRow = ({ certificate, downloading, translate, ...props }) => {
     const [show, handlers] = useHoverRow();
     const secondary = getSecondary();
 
-    return(
+    return (
         <TableRow
             key={`certificate_${certificate.id}`}
             {...handlers}
@@ -129,8 +128,8 @@ const HoverableRow = ({ certificate, downloading, translate, ...props }) => {
             </TableCell>
             <TableCell>
                 <div style={{ width: '10em' }}>
-                    {(show || downloading) &&
-                        <BasicButton
+                    {(show || downloading)
+                        && <BasicButton
                             text={translate.download}
                             color='white'
                             loading={downloading}

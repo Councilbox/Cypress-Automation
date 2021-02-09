@@ -48,7 +48,7 @@ const CompanyVideoConfig = ({ client, company, translate }) => {
             }
         });
 
-        const companyPlatform = response.data.companyPlatform;
+        const { companyPlatform } = response.data;
         setData({
             videoConfig: {
                 rtmp: (companyPlatform.videoConfig && companyPlatform.videoConfig.rtmp) ? companyPlatform.videoConfig.rtmp : '',

@@ -1,48 +1,48 @@
-import React from "react";
+import React from 'react';
 import { BasicButton } from '../../displayComponents';
-import withTranslations from "../../HOCs/withTranslations";
-import withWindowSize from "../../HOCs/withWindowSize";
-import withWindowOrientation from "../../HOCs/withWindowOrientation";
-import { primary, secondary } from "../../styles/colors";
-import { iOS_DEVICE, NOT_COMPATIBLE_BROWSER, UNSUPORTED_WINDOWS_VERSION } from '../../utils/webRTC';
+import withTranslations from '../../HOCs/withTranslations';
+import withWindowSize from '../../HOCs/withWindowSize';
+import withWindowOrientation from '../../HOCs/withWindowOrientation';
+import { primary, secondary } from '../../styles/colors';
+import { IOS_DEVICE, NOT_COMPATIBLE_BROWSER, UNSUPORTED_WINDOWS_VERSION } from '../../utils/webRTC';
 import notCompatibleBrowserIcon from '../../assets/img/not_compatible_device.svg';
 import notCompatiblePhoneIcon from '../../assets/img/no-compatible-phone.svg';
 
 const styles = {
 	container: {
-		width: "100%",
-		height: "100%",
-		display: "flex",
-		flexDirection: "column",
-		alignItems: "center",
-		justifyContent: "center",
-		position: "relative"
+		width: '100%',
+		height: '100%',
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		justifyContent: 'center',
+		position: 'relative'
 	},
 	splittedContainer: {
-		width: "100%",
-		height: "100%",
-		display: "flex",
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "center",
-		position: "relative"
+		width: '100%',
+		height: '100%',
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		position: 'relative'
 	},
 	textContainer: {
-		display: "flex",
-		flexDirection: "column",
-		alignItems: "center",
-		justifyContent: "center",
-		padding: "15px",
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		justifyContent: 'center',
+		padding: '15px',
 		paddingBottom: '0px',
-		textAlign: "center"
+		textAlign: 'center'
 	},
 	imageContainer: {
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
 		minHeight: '12em',
-		padding: "15px",
-		width: "100%"
+		padding: '15px',
+		width: '100%'
 	}
 };
 
@@ -53,13 +53,13 @@ class ErrorState extends React.Component {
 			case UNSUPORTED_WINDOWS_VERSION:
 				return <UnsuportedWindowsVersion translate={translate} windowSize={windowSize} windowOrientation={windowOrientation} />;
 
-			case iOS_DEVICE:
+			case IOS_DEVICE:
 				return <IOSDevice translate={translate} windowSize={windowSize} windowOrientation={windowOrientation} />;
 
 			case NOT_COMPATIBLE_BROWSER:
 				return <NotCompatibleBrowser translate={translate} windowSize={windowSize} windowOrientation={windowOrientation} />;
 			default:
-				return <div />
+				return <div />;
 		}
 	};
 
@@ -73,9 +73,9 @@ class ErrorState extends React.Component {
 		return (
 			<div
 				style={
-					windowSize === "xs" &&
-						windowOrientation === "portrait"
-						? styles.container
+					windowSize === 'xs'
+						&& windowOrientation === 'portrait' ?
+						styles.container
 						: styles.splittedContainer
 				}
 			>
@@ -90,13 +90,13 @@ const UnsuportedWindowsVersion = ({ translate, windowSize, windowOrientation }) 
 		<div
 			style={{
 				...styles.textContainer,
-				...(windowSize === "xs" &&
-					windowOrientation === "portrait"
-					? { maxWidth: "100%" }
-					: { maxWidth: "50%", minWidth: "50%" })
+				...(windowSize === 'xs'
+					&& windowOrientation === 'portrait' ?
+					{ maxWidth: '100%' }
+					: { maxWidth: '50%', minWidth: '50%' })
 			}}
 		>
-			<h5 style={{ color: primary, fontWeight: "bold" }}>
+			<h5 style={{ color: primary, fontWeight: 'bold' }}>
 				{translate.we_are_sorry}
 			</h5>
 
@@ -108,26 +108,26 @@ const UnsuportedWindowsVersion = ({ translate, windowSize, windowOrientation }) 
 		</div>
 
 		<div style={styles.imageContainer}>
-			<img src={notCompatibleBrowserIcon} alt={translate.unsupported_browser} style={{width: '8em', height: 'auto'}} />
+			<img src={notCompatibleBrowserIcon} alt={translate.unsupported_browser} style={{ width: '8em', height: 'auto' }} />
 		</div>
 	</React.Fragment>
 );
 
 
-const IOSDevice = ({ translate, windowSize, windowOrientation }) => {
-	//const protocol = window.location.protocol;
-	//const appLink = (window.location.href).replace(protocol, 'cbxapp:');
-	return (
+const IOSDevice = ({ translate, windowSize, windowOrientation }) =>
+	// const protocol = window.location.protocol;
+	// const appLink = (window.location.href).replace(protocol, 'cbxapp:');
+	 (
 		<React.Fragment>
-			{(windowSize === "xs" && windowOrientation === "landscape") ?
+			{(windowSize === 'xs' && windowOrientation === 'landscape') ?
 				<React.Fragment>
 					<div
 						style={{
 							...styles.textContainer,
-							...{ maxWidth: "100%" }
+							...{ maxWidth: '100%' }
 						}}
 					>
-						<h5 style={{ color: primary, fontWeight: "bold" }}>
+						<h5 style={{ color: primary, fontWeight: 'bold' }}>
 							{translate.we_are_sorry}
 						</h5>
 
@@ -187,12 +187,11 @@ const IOSDevice = ({ translate, windowSize, windowOrientation }) => {
 						</div>
 					} */}
 				</React.Fragment>
-				:
-				<React.Fragment>
+				:				<React.Fragment>
 					<div
 						style={styles.textContainer}
 					>
-						<h5 style={{ color: primary, fontWeight: "bold" }}>
+						<h5 style={{ color: primary, fontWeight: 'bold' }}>
 							{translate.we_are_sorry}
 						</h5>
 
@@ -244,30 +243,28 @@ const IOSDevice = ({ translate, windowSize, windowOrientation }) => {
 									</a>
 								</div>
 							</div>
-						}*/}
+						} */}
 					</div>
 
 					<div style={styles.imageContainer}>
-						<img src={notCompatiblePhoneIcon} alt={translate.unsupported_device} style={{width: '8em', height: 'auto'}} />
+						<img src={notCompatiblePhoneIcon} alt={translate.unsupported_device} style={{ width: '8em', height: 'auto' }} />
 					</div>
 				</React.Fragment>
 			}
 		</React.Fragment>
 	);
-};
-
 const NotCompatibleBrowser = ({ translate, windowSize, windowOrientation }) => (
 	<React.Fragment>
 		<div
 			style={{
 				...styles.textContainer,
-				...(windowSize === "xs" &&
-					windowOrientation === "portrait"
-					? { maxWidth: "100%" }
-					: { maxWidth: "50%", minWidth: "50%" })
+				...(windowSize === 'xs'
+					&& windowOrientation === 'portrait' ?
+					{ maxWidth: '100%' }
+					: { maxWidth: '50%', minWidth: '50%' })
 			}}
 		>
-			<h5 style={{ color: primary, fontWeight: "bold" }}>
+			<h5 style={{ color: primary, fontWeight: 'bold' }}>
 				{translate.we_are_sorry}
 			</h5>
 
@@ -282,9 +279,9 @@ const NotCompatibleBrowser = ({ translate, windowSize, windowOrientation }) => (
 					color={secondary}
 					textStyle={{
 						color: 'white',
-						fontWeight: "700",
-						fontSize: "0.9em",
-						textTransform: "none"
+						fontWeight: '700',
+						fontSize: '0.9em',
+						textTransform: 'none'
 					}}
 					text={translate.download}
 					textPosition="after"
@@ -294,7 +291,7 @@ const NotCompatibleBrowser = ({ translate, windowSize, windowOrientation }) => (
 		</div>
 
 		<div style={styles.imageContainer}>
-			<img src={notCompatibleBrowserIcon} alt={translate.unsupported_browser} style={{width: '8em', height: 'auto'}} />
+			<img src={notCompatibleBrowserIcon} alt={translate.unsupported_browser} style={{ width: '8em', height: 'auto' }} />
 		</div>
 	</React.Fragment>
 );

@@ -36,17 +36,14 @@ const OneOnOneAttachmentsModal = ({ client, translate, council, open, requestClo
                         data.council.attachments.length > 0 ? data.council.attachments.map((attachment, index) => (
                             <AttachmentDownload
                                 attachment={attachment}
-                                //loading={this.state.downloading}
+                                // loading={this.state.downloading}
                                 spacing={0.5}
                                 key={`attachment_key_${index}`}
                              />
                         ))
-                        :
-                            translate.no_results
+                        : translate.no_results
 
-                    :
-
-                    <LoadingSection /> }
+                    : <LoadingSection /> }
                 </div>
             }
             buttonCancel={translate.close}

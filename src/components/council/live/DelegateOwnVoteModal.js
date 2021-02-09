@@ -213,12 +213,12 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, i
 											>
 												<MenuItem style={{ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
 													{`DESCARGAR ${
-														rest > DELEGATION_USERS_LOAD
-															? `${1} de ${rest} RESTANTES`
+														rest > DELEGATION_USERS_LOAD ?
+															`${1} de ${rest} RESTANTES`
 															: translate.all_plural.toLowerCase()
 														}`}
-													{loading &&
-														<div>
+													{loading
+														&& <div>
 															<LoadingSection size={25} />
 														</div>
 													}
@@ -236,7 +236,7 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, i
 		);
 	}
 	if (inModal) {
-		return(<div>{_renderBody()}</div>);
+		return (<div>{_renderBody()}</div>);
 	}
 		return (
 			<AlertConfirm

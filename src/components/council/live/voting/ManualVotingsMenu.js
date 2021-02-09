@@ -59,7 +59,7 @@ const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
         });
     };
 
-    if(agenda.votingState === 4 && !props.votingsRecount){
+    if (agenda.votingState === 4 && !props.votingsRecount) {
         return <span />;
     }
 
@@ -68,12 +68,12 @@ const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
 
     const width = window.innerWidth;
 
-    if(agenda.presentCensus <= 0){
+    if (agenda.presentCensus <= 0) {
         return <span/>;
     }
 
     return (
-        <div style={{ width: '100%', backgroundColor: 'white', }}> {/**padding: '0 1em' */}
+        <div style={{ width: '100%', backgroundColor: 'white', }}> {/** padding: '0 1em' */}
             <div
                 style={{
                     backgroundColor: 'white',

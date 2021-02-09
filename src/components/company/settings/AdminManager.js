@@ -33,17 +33,17 @@ const AdminManager = ({ company, translate, client }) => {
     }, [company.id]);
 
     React.useEffect(() => {
-        if(modal){
+        if (modal) {
             getAdmins();
         }
     }, [getAdmins, modal]);
 
     const renderModalBody = () => {
-        if(!admins){
+        if (!admins) {
             return <LoadingSection />;
         }
 
-        if(page === 3){
+        if (page === 3) {
             return (
                 <AddAdmin
                     company={company}
@@ -72,8 +72,7 @@ const AdminManager = ({ company, translate, client }) => {
                 <div>
                     {admins.length > 0 ?
                         admins.map((admin, index) => <div key={`admin_id${index}`}>{`${admin.name} ${admin.surname || ''} - ${admin.email}`}</div>)
-                    :
-                        translate.no_results
+                    : translate.no_results
                     }
                 </div>
 

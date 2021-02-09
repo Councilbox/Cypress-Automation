@@ -33,26 +33,24 @@ const SelectedTag = ({ text, color, action, list, count, stylesEtiqueta, despleg
 						color,
 						position: sinTitulos && 'relative',
 					}}
-					onClick={(event) => desplegarEtiquetas && desplegarEtiquetas(event)}
+					onClick={event => desplegarEtiquetas && desplegarEtiquetas(event)}
 					onMouseEnter={mouseEnterHandler || function () { return false; }}
 					onMouseLeave={mouseLeaveHandler || function () { return false; }}
 				>
 					{sinTitulos ?
-						count &&
-						<div style={{ color: 'white', position: 'absolute', top: '-8px', left: '0px' }}>
+						count
+						&& <div style={{ color: 'white', position: 'absolute', top: '-8px', left: '0px' }}>
 							+{count}
 						</div>
-						:
-						<div style={{ display: 'flex', justifyContent: 'space-between', color: 'white', }}>
+						:						<div style={{ display: 'flex', justifyContent: 'space-between', color: 'white', }}>
 							{tooltip ?
 								<Tooltip title={text}>
 									<div style={{ paddingRight: '0.5em', maxWidth: props.innerWidth < 1190 ? isMobile ? '' : '11em' : '15em' }} className="truncate">{text}</div>
 								</Tooltip>
-								:
-								<div style={{ paddingRight: '0.5em', maxWidth: props.innerWidth < 1190 ? isMobile ? '' : '11em' : '15em' }} className="truncate">{text}</div>
+								:								<div style={{ paddingRight: '0.5em', maxWidth: props.innerWidth < 1190 ? isMobile ? '' : '11em' : '15em' }} className="truncate">{text}</div>
 							}
-							{count &&
-								<div>
+							{count
+								&& <div>
 									<div style={{ background: 'white', color, borderRadius: '50%', width: '20px', paddingLeft: '2px', fontWeight: '900' }}>
 										+{count}
 									</div>
@@ -84,8 +82,7 @@ const SelectedTag = ({ text, color, action, list, count, stylesEtiqueta, despleg
 							<Tooltip title={text}>
 								<div style={{ paddingRight: '0.5em', maxWidth: props.innerWidth < 1190 ? isMobile ? '' : '11em' : '15em' }} className="truncate">{text}</div>
 							</Tooltip>
-							:
-							<div style={{ paddingRight: '0.5em', maxWidth: props.innerWidth < 1190 ? isMobile ? '' : '11em' : '15em' }} className="truncate">{text}</div>
+							:							<div style={{ paddingRight: '0.5em', maxWidth: props.innerWidth < 1190 ? isMobile ? '' : '11em' : '15em' }} className="truncate">{text}</div>
 						}
 						<div>
 							<i

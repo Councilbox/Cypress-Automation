@@ -23,6 +23,7 @@ export const useInterval = (callback, delay, deps = []) => {
 			const id = setInterval(tick, delay);
 			return () => clearInterval(id);
 		}
+		return null;
     }, [delay, ...deps]);
 };
 
@@ -115,16 +116,16 @@ export const usePolling = (cb, interval, deps = []) => {
 	const [online, setOnline] = React.useState(navigator.onLine);
 	const inThrottle = React.useRef(false);
 
-    function handleVisibilityChange(){
+    function handleVisibilityChange() {
         setVisible(!document.hidden);
 	}
 
-	function handleConnectionChange(event){
-		if(event.type === 'online'){
+	function handleConnectionChange(event) {
+		if (event.type === 'online') {
 			setOnline(true);
 		}
 
-		if(event.type === 'offline'){
+		if (event.type === 'offline') {
 			setOnline(false);
 		}
 	}
@@ -142,7 +143,7 @@ export const usePolling = (cb, interval, deps = []) => {
 
 
     React.useEffect(() => {
-        if(visible && online && !inThrottle.current){
+        if (visible && online && !inThrottle.current) {
 			cb();
 			inThrottle.current = true;
 			setTimeout(() => {
@@ -159,10 +160,10 @@ export const useRoomUpdated = config => {
 	const { refetch, props, participant } = config;
 
     React.useEffect(() => {
-        if(props.subs && props.subs.roomUpdated){
+        if (props.subs && props.subs.roomUpdated) {
 			const roomConfig = props.subs.roomUpdated;
-			if(roomConfig.videoConfig){
-				if(participant){
+			if (roomConfig.videoConfig) {
+				if (participant) {
 					refetch();
 				}
 			} else {
@@ -177,9 +178,9 @@ export const useValidRTMP = statute => {
 	const [validURL, setValidURL] = React.useState(true);
 
 	React.useEffect(() => {
-		if(statute.videoConfig && statute.videoConfig.rtmp){
+		if (statute.videoConfig && statute.videoConfig.rtmp) {
 			const valid = /rtmp?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(statute.videoConfig.rtmp);
-			if(valid !== validURL){
+			if (valid !== validURL) {
 				setValidURL(valid);
 			}
 		}
@@ -204,7 +205,7 @@ export const useParticipantContactEdit = ({ participant, client, translate, coun
 	React.useEffect(() => {
 		let timeout;
 
-		if(success){
+		if (success) {
 			timeout = setTimeout(() => {
 				setSuccess(false);
 			}, 3000);
@@ -215,10 +216,10 @@ export const useParticipantContactEdit = ({ participant, client, translate, coun
 	const checkRequiredFields = async () => {
 		const newErrors = {};
 
-		if(email !== participant.email){
-			if(!email){
+		if (email !== participant.email) {
+			if (!email) {
 				newErrors.email = translate.required_field;
-			} else if(!checkValidEmail(email.toLocaleLowerCase())){
+			} else if (!checkValidEmail(email.toLocaleLowerCase())) {
 					newErrors.email = translate.valid_email_required;
 			} else {
 				const response = await client.query({
@@ -229,14 +230,14 @@ export const useParticipantContactEdit = ({ participant, client, translate, coun
 					}
 				});
 
-				if(!response.data.checkUniqueCouncilEmails.success){
+				if (!response.data.checkUniqueCouncilEmails.success) {
 					newErrors.email = translate.register_exists_email;
 				}
 			}
 		}
 
-		if(phone !== participant.phone){
-			if(!phone){
+		if (phone !== participant.phone) {
+			if (!phone) {
 				newErrors.phone = translate.required_field;
 			} else {
 				const response = await client.query({
@@ -253,7 +254,7 @@ export const useParticipantContactEdit = ({ participant, client, translate, coun
 					}
 				});
 
-				if(!response.data.phoneLookup.success){
+				if (!response.data.phoneLookup.success) {
 					errors.phone = translate.invalid_phone;
 				}
 			}
@@ -265,7 +266,7 @@ export const useParticipantContactEdit = ({ participant, client, translate, coun
 
 	const updateParticipantContactInfo = async () => {
 		setSaving(true);
-		if(!await checkRequiredFields()){
+		if (!await checkRequiredFields()) {
 			const response = await client.mutate({
 				mutation: gql`
 					mutation UpdateParticipantContactInfo($participantId: Int!, $email: String!, $phone: String!){
@@ -281,7 +282,7 @@ export const useParticipantContactEdit = ({ participant, client, translate, coun
 					phone
 				}
 			});
-			if(response.data.updateParticipantContactInfo.success){
+			if (response.data.updateParticipantContactInfo.success) {
 				setSuccess(true);
 			}
 		}
@@ -399,12 +400,12 @@ export const useCountdown = time => {
 
 const queryReducer = (state, action) => {
 	const actions = {
-		'DATA_LOADED': () => ({
+		DATA_LOADED: () => ({
 			...state,
 			loading: false,
 			data: action.payload
 		}),
-		'LOADING': () => ({
+		LOADING: () => ({
 			...state,
 			loading: true
 		})
@@ -423,7 +424,7 @@ export const useQueryReducer = ({ client, query, variables }) => {
 			variables
 		});
 
-		if(!response.errors){
+		if (!response.errors) {
 			dispatch({ type: 'DATA_LOADED', payload: response.data });
 		}
 	}, [JSON.stringify(variables)]);

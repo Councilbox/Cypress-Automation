@@ -150,8 +150,8 @@ class RescheduleModal extends React.Component {
 						<DateTimePicker
 							required
 							minDate={
-								this.state.dateStart
-									? new Date(this.state.dateStart)
+								this.state.dateStart ?
+									new Date(this.state.dateStart)
 									: new Date()
 							}
 							errorText={this.state.error2NdCall}
@@ -180,13 +180,13 @@ class RescheduleModal extends React.Component {
 				requestClose={this.close}
 				loadingAction={this.state.sending}
 				open={this.props.show}
-				{...(this.state.unsavedChanges
-					? {
-							acceptAction: this.state.success
-								? () => this.close()
+				{...(this.state.unsavedChanges ?
+					{
+							acceptAction: this.state.success ?
+								() => this.close()
 								: this.rescheduleCouncil,
-							buttonAccept: this.state.success
-								? translate.accept
+							buttonAccept: this.state.success ?
+								translate.accept
 								: translate.send
 					  }
 					: {})}

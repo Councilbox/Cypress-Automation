@@ -33,7 +33,7 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 			}
 		});
 
-		if(state === PARTICIPANT_STATES.NO_PARTICIPATE && participant.signed){
+		if (state === PARTICIPANT_STATES.NO_PARTICIPATE && participant.signed) {
 			client.mutate({
 				mutation: removeLiveParticipantSignature,
 				variables: {
@@ -101,8 +101,8 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 						size="2.8em"
 						onClick={() => handleParticipantState(5, 2, null)}
 						active={
-							participant.state ===
-							PARTICIPANT_STATES.PHYSICALLY_PRESENT
+							participant.state
+							=== PARTICIPANT_STATES.PHYSICALLY_PRESENT
 						}
 					>
 						<StateIcon
@@ -122,8 +122,8 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 							size="2.8em"
 							onClick={() => handleParticipantState(7, 3, null)}
 							active={
-								participant.state ===
-								PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
+								participant.state
+								=== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
 							}
 						>
 							<StateIcon
@@ -138,8 +138,8 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 				)}
 			</GridItem>
 			<GridItem xs={landscape ? 6 : 12} md={6} lg={6} style={{ display: inDropDown ? 'none' : 'block' }}>
-				{CBX.canHaveRepresentative(participant) &&
-					<div style={{ display: 'flex', alignItems: 'center' }}>
+				{CBX.canHaveRepresentative(participant)
+					&& <div style={{ display: 'flex', alignItems: 'center' }}>
 
 						{!(participant.delegatedVotes.length > 0) && (
 							<FilterButton
@@ -167,8 +167,8 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 							size="2.8em"
 							onClick={() => setDelegateOwnVote(true)}
 							active={
-								participant.state ===
-								PARTICIPANT_STATES.DELEGATED
+								participant.state
+								=== PARTICIPANT_STATES.DELEGATED
 							}
 						>
 							<StateIcon
@@ -189,8 +189,8 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 							size="2.8em"
 							onClick={() => setDelegateVote(true)}
 							active={
-								participant.state ===
-								PARTICIPANT_STATES.DELEGATED
+								participant.state
+								=== PARTICIPANT_STATES.DELEGATED
 							}
 						>
 							<FontAwesome
@@ -223,8 +223,8 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 					requestClose={() => setAddRepresentative(false)}
 					translate={translate}
 				/>
-				{delegateOwnVote &&
-					<DelegateOwnVoteModal
+				{delegateOwnVote
+					&& <DelegateOwnVoteModal
 						show={delegateOwnVote}
 						council={council}
 						participant={participant}
@@ -234,12 +234,12 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 					/>
 				}
 
-				{(participant.state === PARTICIPANT_STATES.REMOTE ||
-					participant.state === PARTICIPANT_STATES.NO_PARTICIPATE ||
-					participant.state ===
-					PARTICIPANT_STATES.PHYSICALLY_PRESENT ||
-					participant.state ===
-					PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE) && (
+				{(participant.state === PARTICIPANT_STATES.REMOTE
+					|| participant.state === PARTICIPANT_STATES.NO_PARTICIPATE
+					|| participant.state
+					=== PARTICIPANT_STATES.PHYSICALLY_PRESENT
+					|| participant.state
+					=== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE) && (
 						<DelegateVoteModal
 							show={delegateVote}
 							council={council}

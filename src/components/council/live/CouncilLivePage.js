@@ -25,7 +25,7 @@ let minVideoHeight = calcMinHeight();
 
 const initScreenSizes = size => {
 	const sizes = {
-		'MIN': () => {
+		MIN: () => {
 			localStorage.setItem('screenSize', 'MIN');
 			return ({
 				videoWidth: minVideoWidth,
@@ -34,7 +34,7 @@ const initScreenSizes = size => {
 				screenSize: 'MIN'
 			});
 		},
-		'MED': () => {
+		MED: () => {
 			localStorage.setItem('screenSize', 'MED');
 			return {
 				videoWidth: minVideoWidth * 1.40,
@@ -44,7 +44,7 @@ const initScreenSizes = size => {
 				screenSize: 'MED'
 			};
 		},
-		'MAX': () => {
+		MAX: () => {
 			localStorage.setItem('screenSize', 'MAX');
 			return {
 				fullScreen: true,
@@ -60,7 +60,6 @@ const initScreenSizes = size => {
 };
 
 
-
 const CouncilLivePage = ({ translate, data, company, ...props }) => {
 	const [state, setState] = useOldState({
 		tab: data.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ? 'ATTACHMENTS' : 'AGENDA',
@@ -71,7 +70,7 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 		...initScreenSizes(localStorage.getItem('screenSize') || 'MIN')
 	});
 	const agendaManager = React.useRef(null);
-	//const company = props.companies.list[props.companies.selected];
+	// const company = props.companies.list[props.companies.selected];
 
 	const updateMinSizes = React.useCallback(() => {
 		minVideoWidth = calcMinWidth();
@@ -190,8 +189,8 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 					zIndex: 2
 				}}
 			>
-				{(councilStartedState() && council.wallActive === 1) &&
-					<Tooltip title={`${translate.wall} - (ALT + W)`} open={state.wallTooltip}>
+				{(councilStartedState() && council.wallActive === 1)
+					&& <Tooltip title={`${translate.wall} - (ALT + W)`} open={state.wallTooltip}>
 						<div>
 							{state.unreadComments > 0 ?
 								<Badge
@@ -222,8 +221,7 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 										/>
 									</div>
 								</Badge>
-								:
-								<div style={{ marginBottom: '0.3em' }}>
+								:								<div style={{ marginBottom: '0.3em' }}>
 									<FabButton
 										icon={
 											<Icon className="material-icons">
@@ -261,8 +259,8 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 					<div
 						style={{
 							display: 'flex',
-							flexDirection: state.fullScreen
-								? 'row'
+							flexDirection: state.fullScreen ?
+								'row'
 								: 'column',
 							width: `${state.videoWidth}%`,
 							height: '100%',
@@ -297,16 +295,16 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 										transitionTimingFunction: 'ease'
 									}}
 								>
-									{(config.videoEnabled && config.videoVersion === videoVersions.CMP) &&
-										<CMPVideoIFrame
+									{(config.videoEnabled && config.videoVersion === videoVersions.CMP)
+										&& <CMPVideoIFrame
 											council={council}
 											translate={translate}
 											videoURL={state.videoURL}
 											setVideoURL={setVideoURL}
 										/>
 									}
-									{(council.room && council.room.htmlVideoCouncil && config.videoEnabled && config.videoVersion !== videoVersions.CMP) &&
-										<div
+									{(council.room && council.room.htmlVideoCouncil && config.videoEnabled && config.videoVersion !== videoVersions.CMP)
+										&& <div
 											style={{ height: '100%', width: '100%' }}
 											dangerouslySetInnerHTML={{ __html: council.room.htmlVideoCouncil }}
 										/>
@@ -332,8 +330,8 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 											className="material-icons"
 											style={{ color: lightGrey }}
 										>
-											{state.fullScreen
-												? 'zoom_out'
+											{state.fullScreen ?
+												'zoom_out'
 												: 'zoom_in'}
 										</Icon>
 									</div>
@@ -358,8 +356,8 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 				<div
 					style={{
 						width: `${
-							showVideo(council)
-								? 100 - state.videoWidth - '0.5'
+							showVideo(council) ?
+								100 - state.videoWidth - '0.5'
 								: 100
 							}%`,
 						height: '100%',
@@ -391,14 +389,13 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 									}
 								/>
 							)
-						:
-						<React.Fragment>
-							{!state.fullScreen &&
-								<Tabs value={state.tab}>
+						:						<React.Fragment>
+							{!state.fullScreen
+								&& <Tabs value={state.tab}>
 									<Tab value={'PARTICIPANTS'} label={translate.participants} onClick={() => toggleScreens('PARTICIPANTS')} />
 									<Tab value={'AGENDA'} label={translate.agenda} onClick={() => toggleScreens('AGENDA')} id={'ordenDelDiaParticipantesButton'} />
-									{council.councilType === COUNCIL_TYPES.ONE_ON_ONE &&
-										<Tab value={'ATTACHMENTS'} label={translate.attachments} onClick={() => toggleScreens('ATTACHMENTS')} id={'councilAttachmentsButton'} />
+									{council.councilType === COUNCIL_TYPES.ONE_ON_ONE
+										&& <Tab value={'ATTACHMENTS'} label={translate.attachments} onClick={() => toggleScreens('ATTACHMENTS')} id={'councilAttachmentsButton'} />
 									}
 									<div style={{
 										width: '100%',
@@ -407,8 +404,8 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 										alignItems: 'center',
 										paddingRight: '1em'
 									}}>
-										{data.councilRecount &&
-											<>
+										{data.councilRecount
+											&& <>
 												<QuorumDisplay
 													company={company}
 													recount={data.councilRecount}
@@ -423,8 +420,8 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 								</Tabs>
 							}
 							<div style={{ height: '100%' }}>
-								{(showParticipants && !state.fullScreen) &&
-									<div style={{ height: 'calc( 100% - 2em )' }}>
+								{(showParticipants && !state.fullScreen)
+									&& <div style={{ height: 'calc( 100% - 2em )' }}>
 										<ParticipantsManager
 											stylesDiv={{ margin: '0', height: 'calc( 100% - 1.8em )', borderTop: '1px solid #e7e7e7', width: '100%' }}
 											translate={translate}
@@ -433,18 +430,18 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 										/>
 									</div>
 								}
-								{(state.tab === 'ATTACHMENTS' && !state.fullScreen) &&
-									<div style={{ height: 'calc( 100% - 2em )' }}>
+								{(state.tab === 'ATTACHMENTS' && !state.fullScreen)
+									&& <div style={{ height: 'calc( 100% - 2em )' }}>
 										<OneOnOneAttachmentsList
 											council={council}
 											translate={translate}
 										/>
 									</div>
 								}
-								{(state.tab === 'AGENDA' || state.fullScreen) &&
-									<div style={{ height: 'calc( 100% - 2em )', position: 'relative' }}>
-										{council.state === COUNCIL_STATES.PAUSED &&
-											<DisabledSection>
+								{(state.tab === 'AGENDA' || state.fullScreen)
+									&& <div style={{ height: 'calc( 100% - 2em )', position: 'relative' }}>
+										{council.state === COUNCIL_STATES.PAUSED
+											&& <DisabledSection>
 												<div style={{ marginBottom: '1em' }}>
 													{translate.council_paused}
 												</div>

@@ -21,13 +21,13 @@ const DevAdminPage = ({ data, toggleFeature }) => {
 
     const config = {};
 
-        if(!data.loading){
-            for(const field of data.adminFeatures.features){
+        if (!data.loading) {
+            for (const field of data.adminFeatures.features) {
                 config[field.name] = field.active;
             }
         }
 
-        if(data.loading){
+        if (data.loading) {
             return <LoadingSection />;
         }
 

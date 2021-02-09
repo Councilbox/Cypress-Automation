@@ -163,13 +163,13 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
     const renderPointTitle = point => (
         <div style={{ display: 'flex', alignItems: 'center' }}>
             <div style={{ fontWeight: '700', marginTop: '1em' }}>{point.agendaSubject}</div>
-            {!!getProxyVote(point.id) &&
-                <div style={{ marginLeft: '10px', marginTop: '10px' }}>
+            {!!getProxyVote(point.id)
+                && <div style={{ marginLeft: '10px', marginTop: '10px' }}>
                     <BasicButton
                         color="white"
                         text={translate.delete}
                         backgroundColor={{
-                            border: '1px solid ' + getSecondary(),
+                            border: `1px solid ${getSecondary()}`,
                             borderRadius: '4px',
                             marginTotop: '0.3em',
                             color: getSecondary(),
@@ -188,8 +188,7 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
         <>
             {loading ?
                 <LoadingSection />
-                :
-                data.agendas.filter(point => point.subjectType !== AGENDA_TYPES.INFORMATIVE).map(point => {
+                : data.agendas.filter(point => point.subjectType !== AGENDA_TYPES.INFORMATIVE).map(point => {
                     const disabled = point.votingState !== AGENDA_STATES.INITIAL;
 
                     if (isConfirmationRequest(point.subjectType)) {
@@ -323,8 +322,8 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                     return (
                         <div key={`point_${point.id}`} style={{ marginTop: '1.3em' }}>
                             {renderPointTitle(point)}
-                            {(point.options.maxSelections > 1) &&
-                                < div > {
+                            {(point.options.maxSelections > 1)
+                                && < div > {
                                     translate.can_select_between_min_max
                                         .replace('{{min}}', point.options.minSelections)
                                         .replace('{{max}}', point.options.maxSelections)
@@ -332,8 +331,8 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                                 </div>
                             }
                             <div>
-                                {(selections < point.options.minSelections && point.options.minSelections > 1) &&
-                                    <React.Fragment>{translate.need_select_more.replace('{{options}}', getRemainingOptions())}</React.Fragment>
+                                {(selections < point.options.minSelections && point.options.minSelections > 1)
+                                    && <React.Fragment>{translate.need_select_more.replace('{{options}}', getRemainingOptions())}</React.Fragment>
                                 }
                             </div>
                             <div>

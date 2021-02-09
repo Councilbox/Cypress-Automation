@@ -35,8 +35,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => (
 						cursor: 'pointer',
 						...(selected === null ?
 							selectedStyle
-						:
-							{}
+						:							{}
 						)
 					}}
 				>
@@ -57,8 +56,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => (
 						cursor: 'pointer',
 						...(selected === PARTICIPANT_STATES.NO_PARTICIPATE ?
 							selectedStyle
-						:
-							{}
+						:							{}
 						)
 					}}
 				>
@@ -77,8 +75,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => (
 						cursor: 'pointer',
 						...(selected === PARTICIPANT_STATES.REMOTE ?
 							selectedStyle
-						:
-							{}
+						:							{}
 						)
 					}}
 				>
@@ -99,8 +96,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => (
 						cursor: 'pointer',
 						...(selected === PARTICIPANT_STATES.PHYSICALLY_PRESENT ?
 							selectedStyle
-						:
-							{}
+						:							{}
 						)
 					}}
 				>
@@ -121,8 +117,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => (
 						cursor: 'pointer',
 						...(selected === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE ?
 							selectedStyle
-						:
-							{}
+						:							{}
 						)
 					}}
 				>
@@ -141,8 +136,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => (
 						cursor: 'pointer',
 						...(selected === PARTICIPANT_STATES.DELEGATED ?
 							selectedStyle
-						:
-							{}
+						:							{}
 						)
 					}}
 				>
@@ -163,8 +157,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => (
 						cursor: 'pointer',
 						...(selected === PARTICIPANT_STATES.REPRESENTATED ?
 							selectedStyle
-						:
-							{}
+						:							{}
 						)
 					}}
 				>

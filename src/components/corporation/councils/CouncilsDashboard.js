@@ -64,7 +64,6 @@ const CouncilDetailsRoot = gql`
 `;
 
 
-
 const CouncilsDashboard = ({ translate, client }) => {
     const _convenedTrigger = () => (
             <CouncilsSectionTrigger
@@ -140,7 +139,6 @@ const CouncilsDashboard = ({ translate, client }) => {
 };
 
 
-
 const Councils = ({ translate, client, query }) => {
     const [councils, setCouncils] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
@@ -174,11 +172,10 @@ const Councils = ({ translate, client, query }) => {
     }, [getDataCouncils]);
 
 
-
     return (
         <div style={{ padding: '1em' }}>
             <BasicButton
-                backgroundColor={{ backgroundColor: 'white', border: '1px solid ' + getSecondary(), boxShadow: 'none' }}
+                backgroundColor={{ backgroundColor: 'white', border: `1px solid ${getSecondary()}`, boxShadow: 'none' }}
                 icon={
                     <i
                         className={'fa fa-refresh'}
@@ -191,8 +188,7 @@ const Councils = ({ translate, client, query }) => {
             />
             {loading ?
                 <LoadingSection />
-                :
-                <div>
+                : <div>
                     <Table
                         style={{ width: '100%', maxWidth: '100%' }}
                     >
@@ -207,8 +203,8 @@ const Councils = ({ translate, client, query }) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {councils.list &&
-                                councils.list.map((council, index) => (
+                            {councils.list
+                                && councils.list.map((council, index) => (
                                     <CouncilItem
                                         index={index}
                                         key={`council_${council.id}`}
@@ -271,7 +267,7 @@ export const SearchCouncils = withApollo(({ client, reload }) => {
             style={{
                 margin: '1.4em',
                 boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
-                border: '1px solid' + getSecondary(),
+                border: `1px solid${getSecondary()}`,
                 borderRadius: '4px',
                 padding: '0.5em',
                 color: 'black'
@@ -302,8 +298,8 @@ export const SearchCouncils = withApollo(({ client, reload }) => {
                             backgroundColor={{ backgroundColor: 'white', minWidth: '0', marginLeft: '1em', minHeight: '0px', boxShadow: 'none', borderRadius: '4px', border: ' 1px solid black' }}
                         />
                     </div>
-                    {error &&
-                        <div style={{ display: 'flex', alignItems: 'center', marginTop: '6px', marginLeft: '15px', color: 'red', fontWeight: 'bold' }}>
+                    {error
+                        && <div style={{ display: 'flex', alignItems: 'center', marginTop: '6px', marginLeft: '15px', color: 'red', fontWeight: 'bold' }}>
                             {error}
                         </div>
                     }

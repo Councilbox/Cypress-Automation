@@ -16,7 +16,7 @@ const QuorumDisplay = ({ council, recount, translate, company }) => {
 
     const councilStarted = () => (council.state === 20 || council.state === 30) && council.councilStarted == 1;
 
-    if(council.councilType === COUNCIL_TYPES.ONE_ON_ONE){
+    if (council.councilType === COUNCIL_TYPES.ONE_ON_ONE) {
         return null;
     }
 
@@ -26,15 +26,12 @@ const QuorumDisplay = ({ council, recount, translate, company }) => {
                 <b>{`${translate.current_quorum}: ${showNumParticipations(recount.partRightVoting, company, council.statute)} (${((recount.partRightVoting / (recount.partTotal ? recount.partTotal : 1)) * 100).toFixed(3)}%)${(councilStarted() && council.councilStarted === 1 && councilHasSession(council)) ?
                     ` / ${translate.initial_quorum}: ${council.initialQuorum ? showNumParticipations(council.initialQuorum, company, council.statute) : showNumParticipations(council.currentQuorum, company, council.statute)
                     } (${((council.initialQuorum / (recount.partTotal ? recount.partTotal : 1) * 100).toFixed(3))}%)`
-                    :
-                    ''
+                    : ''
                     }`}</b>
-                :
-                <b>{`${translate.current_quorum}: ${showNumParticipations(recount.socialCapitalRightVoting, company, council.statute)} (${((recount.socialCapitalRightVoting / (recount.socialCapitalTotal ? recount.socialCapitalTotal : 1)) * 100).toFixed(3)}%)${(councilStarted() && council.councilStarted === 1 && councilHasSession(council)) ?
+                : <b>{`${translate.current_quorum}: ${showNumParticipations(recount.socialCapitalRightVoting, company, council.statute)} (${((recount.socialCapitalRightVoting / (recount.socialCapitalTotal ? recount.socialCapitalTotal : 1)) * 100).toFixed(3)}%)${(councilStarted() && council.councilStarted === 1 && councilHasSession(council)) ?
                     ` / ${translate.initial_quorum}: ${council.initialQuorum ? showNumParticipations(council.initialQuorum, company, council.statute) : showNumParticipations(council.currentQuorum, company, council.statute)
                     } (${((council.initialQuorum / (recount.socialCapitalTotal ? recount.socialCapitalTotal : 1) * 100).toFixed(3))}%)`
-                    :
-                    ''
+                    : ''
                     }`}</b>
             }
             <div
@@ -47,8 +44,8 @@ const QuorumDisplay = ({ council, recount, translate, company }) => {
                 ></i>
             </div>
 
-            {modal &&
-                <AlertConfirm
+            {modal
+                && <AlertConfirm
                     title={'Quorum info'}
                     open={modal}
                     bodyStyle={{ height: '450px', minWidth: '50vw' }}
@@ -275,8 +272,8 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                                         {getPercentage(data.remote)}%
                             </TableCell>
                                 </TableRow>
-                                {council.statute.canEarlyVote === 1 &&
-                                    <TableRow>
+                                {council.statute.canEarlyVote === 1
+                                    && <TableRow>
                                         <TableCell>
                                             -{council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION ? translate.vote_letter : translate.quorum_early_votes}
                                         </TableCell>
@@ -335,8 +332,8 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                                 </TableRow>
                             </TableBody>
                         </Table>
-                        {renderVotingsTable &&
-                            <Table style={{ marginTop: '3em' }}>
+                        {renderVotingsTable
+                            && <Table style={{ marginTop: '3em' }}>
                                 <TableHead>
                                     <TableCell style={{ fontSize: '16px', fontWeight: '700' }}>
                                         {translate.title}
@@ -379,8 +376,7 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                                                                 -
                                                     </TableCell>
                                                         </>
-                                                        :
-                                                        <>
+                                                        : <>
                                                             <TableCell>
                                                                 {showNumParticipations(point.positiveVotings + point.positiveManual, company, council.statute)}
                                                             </TableCell>
@@ -402,8 +398,7 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                                                         </>
                                                     }
                                                 </>
-                                                :
-                                                <>
+                                                : <>
                                                     <TableCell colSpan={2} align="center">
                                                         -
                                             </TableCell>

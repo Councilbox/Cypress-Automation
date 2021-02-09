@@ -9,8 +9,8 @@ const CanceledCouncil = ({ council, translate }) => (
                 council={council}
                 translate={translate}
             />
-            {!!council.noCelebrateComment &&
-                <Card
+            {!!council.noCelebrateComment
+                && <Card
                     elevation={0}
                     style={{
                         marginTop: '1em',

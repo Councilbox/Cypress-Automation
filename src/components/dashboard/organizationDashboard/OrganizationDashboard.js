@@ -1,6 +1,5 @@
 
 
-
 import React from 'react';
 import { Avatar } from 'antd';
 import Calendar from 'react-calendar';
@@ -33,7 +32,7 @@ import { isOrganization } from '../../../utils/CBX';
 
 
 const styles = {
-	'input': {
+	input: {
 		'&::placeholder': {
 			textOverflow: 'ellipsis !important',
 			color: '#0000005c'
@@ -161,8 +160,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 					textFilter={state.textFilter || ''}
 					translate={translate}
 				/>
-			:
-				<EntitiesTable
+			:				<EntitiesTable
 					company={company}
 					textFilter={state.textFilter || ''}
 					translate={translate}
@@ -189,8 +187,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 					}}>
 						{config.oneOnOneDashboard ?
 							<div style={{ marginBottom: '1em', fontWeight: 'bold', color: '#a09b9e' }}>Citas en curso</div>
-							:
-							<div style={{ marginBottom: '1em', fontWeight: 'bold', color: '#a09b9e' }}>Reuniones en curso</div>
+							:							<div style={{ marginBottom: '1em', fontWeight: 'bold', color: '#a09b9e' }}>Reuniones en curso</div>
 						}
 						<div style={{
 							display: 'flex',
@@ -284,8 +281,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 									<i className={'fa fa-calendar-o'} style={{ position: 'relative', fontSize: '18px' }}></i>
 									<i className={'fa fa-clock-o'} style={{ position: 'relative', left: '-5px', bottom: '-5px' }}></i>
 								</div>
-								:
-								<div style={{ color: 'black', fontSize: '18px', display: 'flex', alignItems: 'center' }} onClick={() => setToggleReunionesCalendario(translate.councils_link)} >
+								:								<div style={{ color: 'black', fontSize: '18px', display: 'flex', alignItems: 'center' }} onClick={() => setToggleReunionesCalendario(translate.councils_link)} >
 									<i className={'fa fa-list'}></i>
 								</div>
 							}
@@ -296,11 +292,10 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 							<Scrollbar>
 								{reuniones.length === undefined || reunionesLoading ?
 									<LoadingSection />
-									:
-									<div>
+									:									<div>
 										{reuniones.map((item, index) => (
 												<TablaReunionesEnCurso
-													key={index + '_reuniones'}
+													key={`${index}_reuniones`}
 													item={item}
 													index={index}
 													translate={translate}
@@ -321,12 +316,10 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 								}
 							</Scrollbar>
 						</div>
-						:
-						<div style={{ padding: '1em', display: 'flex', justifyContent: 'center' }}>
+						:						<div style={{ padding: '1em', display: 'flex', justifyContent: 'center' }}>
 							{reuniones.length === undefined ?
 								<LoadingSection />
-								:
-								<Calendar
+								:								<Calendar
 									showNeighboringMonth={false}
 									prevLabel={
 										<div style={{}} onClick={changeMonthBack}>
@@ -359,8 +352,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 				}}>
 					{reuniones.length === undefined ?
 						<LoadingSection />
-						:
-						<div>
+						:						<div>
 							<Grid>
 								<GridItem xs={4} md={6} lg={4}>
 									<div style={{ width: '100%', }}>
@@ -399,8 +391,8 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 						</div>
 					}
 				</div>
-				{!config.oneOnOneDashboard &&
-					<div style={{
+				{!config.oneOnOneDashboard
+					&& <div style={{
 						width: '100%',
 						padding: '1em',
 						background: 'white',
@@ -478,9 +470,8 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 											text={translate.add}
 											onClick={() => setAddUser(true)}
 										/>
-										:
-										isOrganization(company) &&
-											<BasicButton
+										:										isOrganization(company)
+											&& <BasicButton
 												buttonStyle={{ boxShadow: 'none', borderRadius: '4px', border: `1px solid ${primary}`, padding: '0.2em 0.4em', marginTop: '5px', color: primary, }}
 												backgroundColor={{ backgroundColor: 'white' }}
 												text={translate.add}
@@ -517,11 +508,10 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 					<GridItem xs={8} md={8} lg={8} style={{ overflow: 'hidden' }}>
 						{config.oneOnOneDashboard ?
 							<div style={{ marginBottom: '1em', fontWeight: 'bold', color: '#a09b9e' }}>Citas en curso</div>
-							:
-							<div style={{ marginBottom: '1em', fontWeight: 'bold', color: '#a09b9e' }}>Reuniones en curso</div>
+							:							<div style={{ marginBottom: '1em', fontWeight: 'bold', color: '#a09b9e' }}>Reuniones en curso</div>
 						}
-						{config.oneOnOneDashboard &&
-							<div style={{ display: 'flex', alignItems: 'center', marginBottom: '1em' }}>
+						{config.oneOnOneDashboard
+							&& <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1em' }}>
 								<div style={{ display: 'flex', marginRight: '1em' }}>
 									<BasicButton
 										text="Ver documentaciones pendientes"
@@ -564,11 +554,10 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 							<Scrollbar>
 								{reuniones.length === undefined || reunionesLoading ?
 										<LoadingSection />
-										:
-										<div>
+										:										<div>
 											{reuniones.map((item, index) => (
 													<TablaReunionesEnCurso
-														key={index + '_reuniones'}
+														key={`${index}_reuniones`}
 														item={item}
 														index={index}
 														translate={translate}
@@ -599,8 +588,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 						<div style={{ padding: '1em', display: 'flex', justifyContent: 'center' }}>
 							{reuniones.length === undefined ?
 								<LoadingSection />
-								:
-								<Calendar
+								:								<Calendar
 									showNeighboringMonth={false}
 									prevLabel={
 										<div style={{}} onClick={changeMonthBack}>
@@ -640,8 +628,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 						}}>
 						{reuniones.length === undefined ?
 							<LoadingSection />
-							:
-							<div>
+							:							<div>
 								<Grid>
 									<GridItem xs={12} md={6} lg={4}>
 										<div style={{ color: 'black', marginBottom: '1em' }}>{translate.companies_calendar}</div>
@@ -683,8 +670,8 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 							</div>
 						}
 					</GridItem>
-					{(!config.oneOnOneDashboard || company.id === company.corporationId) &&
-						<GridItem xs={7} md={7} lg={7} style={{
+					{(!config.oneOnOneDashboard || company.id === company.corporationId)
+						&& <GridItem xs={7} md={7} lg={7} style={{
 							background: 'white',
 							boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)',
 							padding: '1em',
@@ -724,8 +711,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 												text={translate.add}
 												onClick={() => setAddUser(true)}
 											/>
-											:
-											<BasicButton
+											:											<BasicButton
 												buttonStyle={{ boxShadow: 'none', marginRight: '1em', borderRadius: '4px', border: `1px solid ${primary}`, padding: '0.2em 0.4em', marginTop: '5px', color: primary, }}
 												backgroundColor={{ backgroundColor: 'white' }}
 												text={translate.add}
@@ -787,8 +773,7 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 					<div style={{ marginRight: '0.2em' }}>
 						{item.logo ?
 							<Avatar alt="Foto" src={item.logo} />
-							:
-							<i
+							:							<i
 								className={'fa fa-building-o'}
 								style={{ fontSize: '1.7em', color: 'lightgrey' }}
 							/>
@@ -811,8 +796,7 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 				<GridItem xs={1} md={1} lg={1}>
 					{item.logo ?
 						<Avatar alt="Foto" src={item.logo} />
-						:
-						<i
+						:						<i
 							className={'fa fa-building-o'}
 							style={{ fontSize: '1.7em', color: 'lightgrey' }}
 						/>
@@ -825,16 +809,16 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 					{item.name} - {moment(item.dateStart).format('DD/MM/YYYY HH:mm')}
 				</GridItem>
 				<GridItem xs={3} md={3} lg={3} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-					{(item.state === 5 || item.state === 10) &&
-						translate.convened
+					{(item.state === 5 || item.state === 10)
+						&& translate.convened
 					}
 
-					{(item.state === 20 || item.state === 30) &&
-						translate.companies_live
+					{(item.state === 20 || item.state === 30)
+						&& translate.companies_live
 					}
 
-					{(item.state === 40) &&
-						translate.companies_writing
+					{(item.state === 40)
+						&& translate.companies_writing
 					}
 
 				</GridItem>
@@ -860,7 +844,7 @@ const GraficaDoughnut = ({ porcentaje, color, max }) => {
 
 		afterDraw(chart) {
 			if (chart.config.options.elements.arc.roundedCornersFor !== undefined) {
-				const ctx = chart.chart.ctx;
+				const { ctx } = chart.chart;
 				const arc = chart.getDatasetMeta(0).data[chart.config.options.elements.arc.roundedCornersFor];
 				const startAngle = Math.PI / 2 - arc._view.startAngle;
 				const endAngle = Math.PI / 2 - arc._view.endAngle;
@@ -881,13 +865,13 @@ const GraficaDoughnut = ({ porcentaje, color, max }) => {
 	Chart.pluginService.register({
 		afterUpdate(chart) {
 			if (chart.config.options.elements.center) {
-				const helpers = Chart.helpers;
+				const { helpers } = Chart;
 				const centerConfig = chart.config.options.elements.center;
 				const globalConfig = Chart.defaults.global;
-				const ctx = chart.chart.ctx;
+				const { ctx } = chart.chart;
 				const fontStyle = helpers.getValueOrDefault(centerConfig.fontStyle, globalConfig.defaultFontStyle);
 				const fontFamily = helpers.getValueOrDefault(centerConfig.fontFamily, globalConfig.defaultFontFamily);
-				if (centerConfig.fontSize) var fontSize = centerConfig.fontSize;
+				if (centerConfig.fontSize) var { fontSize } = centerConfig;
 				else {
 					ctx.save();
 					var fontSize = helpers.getValueOrDefault(centerConfig.minFontSize, 1);
@@ -913,7 +897,7 @@ const GraficaDoughnut = ({ porcentaje, color, max }) => {
 		afterDraw(chart) {
 			if (chart.center) {
 				const centerConfig = chart.config.options.elements.center;
-				const ctx = chart.chart.ctx;
+				const { ctx } = chart.chart;
 				ctx.save();
 				ctx.font = chart.center.font;
 				ctx.fillStyle = chart.center.fillStyle;

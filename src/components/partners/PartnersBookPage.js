@@ -34,7 +34,7 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
     const primary = getPrimary();
 
 
-    const getData = React.useCallback(async (sinFiltros) => {
+    const getData = React.useCallback(async sinFiltros => {
         const response = await client.query({
             query: bookParticipants,
             variables: {
@@ -51,7 +51,7 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
         setBookParticipantsData(response.data.bookParticipants.list);
         setBookParticipantsTotal(response.data.bookParticipants.total);
         setLoading(false);
-        if(sinFiltros){
+        if (sinFiltros) {
             return response.data.bookParticipants.list;
         }
     }, [state.appliedFilters.page, state.appliedFilters.orderDirection, state.appliedFilters.orderBy, state.appliedFilters.text, state.appliedFilters.limit]);
@@ -135,11 +135,11 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
                 const { id, dni, name, position, state, surname } = representative;
                 arrayRepresentative = {
                     rId: id,
-                    ['r' + translate.state]: state === 1 ? 'Alta' : 'Baja',
-                    ['r' + translate.name]: name,
-                    ['r' + translate.surname]: surname,
-                    ['r' + translate.dni]: dni,
-                    ['r' + translate.position]: position,
+                    [`r${translate.state}`]: state === 1 ? 'Alta' : 'Baja',
+                    [`r${translate.name}`]: name,
+                    [`r${translate.surname}`]: surname,
+                    [`r${translate.dni}`]: dni,
+                    [`r${translate.position}`]: position,
                 };
             }
             const a = Object.assign(listaFinal, arrayRepresentative);
@@ -149,7 +149,7 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
         const ws = XLSX.utils.json_to_sheet(arrayFinal);
         const wb = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(wb, ws, 'Libro de socios');
-        XLSX.writeFile(wb, 'LibroDeSocios-' + props.match.params.company + '.xlsx');
+        XLSX.writeFile(wb, `LibroDeSocios-${props.match.params.company}.xlsx`);
     };
 
     if (loading) {
@@ -234,7 +234,7 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
                             id={'anadirSocioLibroSocios'}
                         />
                         <BasicButton
-                            text={'Exportar a XLSX'} //TRADUCCION
+                            text={'Exportar a XLSX'} // TRADUCCION
                             onClick={createXLSX}
                             color={'white'}
                             buttonStyle={{ border: `2px solid ${primary}` }}
@@ -292,13 +292,13 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
                     },
                     {
                         value: 'subscribeActNumber',
-                        translation: 'Nº de acta'//translate.subscribe_act
+                        translation: 'Nº de acta'// translate.subscribe_act
                     },
                 ]}
                 headers={headers}
             >
                 {bookParticipantsData.map(
-                    (participant) => (
+                    participant => (
                             <HoverableRow
                                 key={`participant${participant.id}`}
                                 deleteBookParticipant={selectedIdToDelete}
@@ -346,14 +346,14 @@ class HoverableRow extends React.PureComponent {
                             {translate.state}
                         </GridItem>
                         <GridItem xs={7} md={7}>
-                            {participant.state === 1 &&
-                                this.props.translate.subscribed
+                            {participant.state === 1
+                                && this.props.translate.subscribed
                             }
-                            {participant.state === 0 &&
-                                this.props.translate.unsubscribed
+                            {participant.state === 0
+                                && this.props.translate.unsubscribed
                             }
-                            {participant.state === 2 &&
-                                this.props.translate.other
+                            {participant.state === 2
+                                && this.props.translate.other
                             }
                         </GridItem>
 
@@ -427,20 +427,20 @@ class HoverableRow extends React.PureComponent {
                 }}
             >
                 <TableCell>
-                    {participant.state === 1 &&
-                        this.props.translate.subscribed
+                    {participant.state === 1
+                        && this.props.translate.subscribed
                     }
-                    {participant.state === 0 &&
-                        this.props.translate.unsubscribed
+                    {participant.state === 0
+                        && this.props.translate.unsubscribed
                     }
-                    {participant.state === 2 &&
-                        this.props.translate.other
+                    {participant.state === 2
+                        && this.props.translate.other
                     }
                 </TableCell>
                 <TableCell>
                     <span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname || ''}`}</span>
-                    {representative &&
-                        <React.Fragment>
+                    {representative
+                        && <React.Fragment>
                             <br />{`${representative.name} ${representative.surname || ''}`}
                         </React.Fragment>
                     }
@@ -465,8 +465,8 @@ class HoverableRow extends React.PureComponent {
                 </TableCell>
                 <TableCell>
                     <div style={{ width: '3em' }}>
-                        {this.state.showActions &&
-                            <CloseIcon onClick={event => {
+                        {this.state.showActions
+                            && <CloseIcon onClick={event => {
                                 event.stopPropagation();
                                 this.props.deleteBookParticipant(participant.id);
                             }} />

@@ -58,9 +58,7 @@ const DateTimePickerWrapper = ({
 					</Typography>
 				)}
 			</React.Fragment>
-			:
-
-			<React.Fragment>
+			:			<React.Fragment>
 				<div style={{ width: '100%' }}>
 					<DateTimePicker
 						label={label ? `${label}${required && '*'}` : ''}

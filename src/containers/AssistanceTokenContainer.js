@@ -66,7 +66,7 @@ const AssistanceTokenContainer = ({ participantToken, client, translate, match }
 	}
 
 	if (error) {
-		if(error.message === '2FA enabled' || error.message === 'Invalid key'){
+		if (error.message === '2FA enabled' || error.message === 'Invalid key') {
 			return (
 				<SMSAuthForm
 					value={key}

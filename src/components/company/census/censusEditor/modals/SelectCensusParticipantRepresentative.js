@@ -15,7 +15,7 @@ import { DELEGATION_USERS_LOAD } from '../../../../../constants';
 import { isMobile } from '../../../../../utils/screen';
 
 const styles = {
-	'input': {
+	input: {
 		'&::placeholder': {
 			textOverflow: 'ellipsis !important',
 			color: '#0000005c'
@@ -76,12 +76,12 @@ const SelectCensusParticipantRepresentative = ({ open, data, translate, particip
 		const { loading } = data;
 		let participants = {};
 		if (data.censusParticipantWhoCanBeRepresentatives) {
-			participants = loading
-				? []
+			participants = loading ?
+				[]
 				: data.censusParticipantWhoCanBeRepresentatives.list;
 		}
-		const { total } = loading
-			? 0
+		const { total } = loading ?
+			0
 			: data.censusParticipantWhoCanBeRepresentatives;
 		const rest = total - participants.length - 1;
 
@@ -144,13 +144,13 @@ const SelectCensusParticipantRepresentative = ({ open, data, translate, particip
 															onClick={loadMore}
 														>
 															<MenuItem style={{ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
-																{`DESCARGAR ${rest > DELEGATION_USERS_LOAD
-																	? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+																{`DESCARGAR ${rest > DELEGATION_USERS_LOAD ?
+																	`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
 																	: translate.all_plural.toLowerCase()
 																	}`
 																}
-																{loading &&
-																	<div>
+																{loading
+																	&& <div>
 																		<LoadingSection size={25} />
 																	</div>
 																}
@@ -201,7 +201,6 @@ const regularCardStyle = {
 };
 
 
-
 const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, onClick, index }) => {
 	const [hover, setHover] = React.useState(false);
 
@@ -243,7 +242,7 @@ const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, onClick, i
 									width: '100%'
 								}}
 							>
-								{item.name + ' ' + item.surname || ''}
+								{`${item.name} ${item.surname}` || ''}
 							</div>
 						}
 						classes={{
@@ -255,8 +254,8 @@ const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, onClick, i
 					/>
 				</Card>
 			</GridItem>
-			{index % 2 === 0 &&
-				<GridItem xs={2} lg={2} md={2}></GridItem>
+			{index % 2 === 0
+				&& <GridItem xs={2} lg={2} md={2}></GridItem>
 			}
 		</React.Fragment>
 	);

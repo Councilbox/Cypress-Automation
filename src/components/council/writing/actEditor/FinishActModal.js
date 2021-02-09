@@ -140,8 +140,8 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 			bodyStyle={{ minWidth: '50vw', height: isMobile ? '26em' : '100%' }}
 			requestClose={close}
 			open={props.show}
-			extraActions={state.step === 1 &&
-				<BasicButton
+			extraActions={state.step === 1
+				&& <BasicButton
 					color="white"
 					buttonStyle={{
 						border: `1px solid ${secondary}`
@@ -171,21 +171,20 @@ const UploadAct = ({ ...props }) => {
 		const reader = new FileReader();
 		reader.readAsDataURL(file);
 
-		/*TODO ADD LIMIT TO FILE*/
+		/* TODO ADD LIMIT TO FILE */
 
 		reader.onload = async () => {
 			props.setFile(reader.result, file.name);
 		};
 	};
 
-	const onDrop = (accepted) => {
+	const onDrop = accepted => {
 		if (accepted.length === 0) {
-			setError('Tipo de archivo no válido, solo son admiten archivos PDF'/*TRADUCCION*/);
+			setError('Tipo de archivo no válido, solo son admiten archivos PDF'/* TRADUCCION */);
 			return;
 		}
 		handleFile(accepted[0]);
 	};
-
 
 
 	return (
@@ -209,17 +208,14 @@ const UploadAct = ({ ...props }) => {
 				>
 					<input {...getInputProps()} />
 					{error || (isDragActive ?
-						<p>Arrastre los archivos aquí</p>//TRADUCCION
-						:
-						<p>Arrastre el archivo o haga click para seleccionarlo.</p>)
+						<p>Arrastre los archivos aquí</p>// TRADUCCION
+						:						<p>Arrastre el archivo o haga click para seleccionarlo.</p>)
 					}
 				</div>
 			)}
 		</Dropzone>
 	);
 };
-
-
 
 
 export const approveActUserPDF = gql`

@@ -39,9 +39,9 @@ const Vtabs = ({
 							</div>
 							<Scrollbar>
 								{tabs.map((tab, mapIndex) => (
-										<div key={'' + mapIndex} onClick={() => changeTab('' + mapIndex)}
+										<div key={`${mapIndex}`} onClick={() => changeTab(`${mapIndex}`)}
 											style={{
-												borderRight: +index === +mapIndex ? '6px solid ' + primary : '',
+												borderRight: +index === +mapIndex ? `6px solid ${primary}` : '',
 												marginTop: '0.5em',
 												marginBottom: '0.5em',
 												padding: '0.5em',
@@ -106,8 +106,8 @@ const Vtabs = ({
 									}}
 									elevation={0}
 								>
-									{!!saveAction &&
-										<React.Fragment>
+									{!!saveAction
+										&& <React.Fragment>
 											<Tooltip title={translate.save}>
 												<Icon
 													type="save"
@@ -156,7 +156,7 @@ const Vtabs = ({
 									)}
 									{deleteAction && (
 										<CloseIcon
-											onClick={(event) => {
+											onClick={event => {
 												deleteAction(tabs[index].data.id);
 												event.stopPropagation();
 											}}
@@ -180,7 +180,6 @@ const Vtabs = ({
 	);
 
 export default withWindowSize(Vtabs);
-
 
 
 const HoverableTab = ({ tab, mapIndex, index, deleteAction, editAction, disabled, ...props }) => {
@@ -222,8 +221,8 @@ const HoverableTab = ({ tab, mapIndex, index, deleteAction, editAction, disabled
 				</span>
 			</Tooltip>
 			<span style={{ width: '2em', height: '32px' }} />
-			{(state.showAction && !disabled) &&
-				<Paper
+			{(state.showAction && !disabled)
+				&& <Paper
 					style={{
 						height: '35px',
 						paddingLeft: '1em',
@@ -261,8 +260,8 @@ const HoverableTab = ({ tab, mapIndex, index, deleteAction, editAction, disabled
 							</IconButton>
 						</Tooltip>
 					)}
-					{deleteAction &&
-						<CloseIcon
+					{deleteAction
+						&& <CloseIcon
 							style={{ float: 'right' }}
 							onClick={event => {
 								deleteAction(tab.data.id);

@@ -27,7 +27,7 @@ const DropDownMenu = ({
 	const [anchorEl, setAnchorEl] = React.useState(null);
 
 	React.useEffect(() => {
-		if(open){
+		if (open) {
 			setAnchorEl(open);
 		} else {
 			setAnchorEl(null);
@@ -41,7 +41,7 @@ const DropDownMenu = ({
 
 	const handleClose = event => {
 		event.stopPropagation();
-		if(requestClose){
+		if (requestClose) {
 			requestClose();
 		}
 		setAnchorEl(null);

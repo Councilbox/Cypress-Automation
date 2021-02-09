@@ -174,8 +174,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 								/>
 							</div>
 						</div>
-						:
-						<div style={{ width: '100%', ...(!isMobile ? { float: 'right' } : {}) }}>
+						:						<div style={{ width: '100%', ...(!isMobile ? { float: 'right' } : {}) }}>
 							<BasicButton
 								text={isConfirmationRequest(agenda.subjectType) ? translate.close_answers : translate.close_point_votations}
 								color={primary}
@@ -203,8 +202,8 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 				</React.Fragment>
 			)}
 			{agenda.votingState === 2 && getVotingClosedSection()}
-			{agenda.votingState === 4 &&
-				<div style={{ width: '100%', ...(!isMobile ? { float: 'right' } : {}) }}>
+			{agenda.votingState === 4
+				&& <div style={{ width: '100%', ...(!isMobile ? { float: 'right' } : {}) }}>
 					<BasicButton
 						text={translate.close_point_votations}
 						color={primary}
@@ -229,8 +228,8 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 					/>
 				</div>
 			}
-			{agenda.votingState === 3 &&
-				<div style={{ width: '100%', ...(!isMobile ? { float: 'right' } : {}) }}>
+			{agenda.votingState === 3
+				&& <div style={{ width: '100%', ...(!isMobile ? { float: 'right' } : {}) }}>
 					<BasicButton
 						text={translate.open_in_person_votings}
 						color={'white'}

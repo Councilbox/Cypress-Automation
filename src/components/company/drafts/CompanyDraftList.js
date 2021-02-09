@@ -40,11 +40,10 @@ export const useTags = translate => {
 
 	const formatTagLabel = tag => (tag.segments ?
 			`${tag.segments.reduce((acc, curr) => {
-				if (curr !== tag.label) return acc + (translate[curr] || curr) + '. ';
+				if (curr !== tag.label) return `${acc + (translate[curr] || curr)}. `;
 				return acc;
 			}, '')}`
-			:
-			tag.label);
+			:			tag.label);
 
 	const removeTag = tag => {
 		delete testTags[tag.name];
@@ -304,7 +303,7 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 											boxShadow: 'none',
 											marginRight: !isMobile && '1em',
 											borderRadius: '4px',
-											border: '1px solid' + getSecondary(),
+											border: `1px solid${getSecondary()}`,
 											padding: '0.2em 0.4em',
 											marginTop: '5px',
 											color: 'white',
@@ -330,8 +329,8 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 							/>
 						</Link>
 					</div>
-					{!isMobile &&
-						<React.Fragment>
+					{!isMobile
+						&& <React.Fragment>
 							<div style={{ marginRight: isMobile ? '0.5em' : '3em', marginLeft: '1em' }}>
 								<DropdownEtiquetas
 									translate={translate}
@@ -520,8 +519,8 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 	if (isMobile) {
 		return (
 			<Grid style={{ height: '100%', width: '100%', overflow: 'hidden' }} >
-				{columns &&
-					<Card
+				{columns
+					&& <Card
 						style={{ width: '100%', border: 'none', boxShadow: 'none', ...stylesBackground, overflow: 'hidden' }}>
 						<CardHeader
 							classes={{
@@ -530,7 +529,7 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 							action={
 								<IconButton
 									style={{ top: '5px', }}
-									onClick={(event) => clickMobilExpand(event)}
+									onClick={event => clickMobilExpand(event)}
 									aria-expanded={expandedCard}
 									aria-label="Show more"
 									className={'expandButtonModal'}
@@ -547,12 +546,12 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 							style={{ padding: '10px 16px 10px 16px', width: '100%', overflow: 'hidden', display: 'flex', justifyContent: 'space-between', }}
 							title={
 								<div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px', padding: '0px' }} >
-									{selectable &&
-										<div>
+									{selectable
+										&& <div>
 											<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 												{getCheckbox()}
-												{props.alreadySaved(draft.id) &&
-													<i className="fa fa-floppy-o"
+												{props.alreadySaved(draft.id)
+													&& <i className="fa fa-floppy-o"
 														style={{
 															cursor: 'pointer',
 															fontSize: '2em',
@@ -572,10 +571,10 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 									}}>
 										{draft.title}
 									</div>
-									{!expandedCard &&
-										<div style={{ display: 'flex', paddingRight: '5px', marginLeft: '7px' }}>
-											{columns &&
-												Object.keys(columns).map(key => {
+									{!expandedCard
+										&& <div style={{ display: 'flex', paddingRight: '5px', marginLeft: '7px' }}>
+											{columns
+												&& Object.keys(columns).map(key => {
 													const columnaLength = columns[key].length;
 													return (
 														<TagColumn key={`column_${key}`}>
@@ -591,8 +590,7 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 																				count={''}
 																			/>
 																		</Collapse>
-																		:
-																		<SelectedTag
+																		:																		<SelectedTag
 																			key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}`}
 																			text={''}
 																			color={getTagColor(key)}
@@ -615,8 +613,8 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 							<CardContent>
 								<GridItem xs={12} md={12} lg={12} style={{}}>
 									<div style={{}}>
-										{columns &&
-											Object.keys(columns).map(key => {
+										{columns
+											&& Object.keys(columns).map(key => {
 												const columnaLength = columns[key].length;
 												return (
 													<TagColumn key={`column_${key}`}>
@@ -631,8 +629,7 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 																			count={''}
 																		/>
 																	</Collapse>
-																	:
-																	<SelectedTag
+																	:																	<SelectedTag
 																		key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}`}
 																		text={translate[tag.label] || tag.label}
 																		color={getTagColor(key)}
@@ -652,8 +649,8 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 									</div>
 								</GridItem>
 								<CardActions>
-									{props.renderDeleteIcon &&
-										props.renderDeleteIcon(draft.id)
+									{props.renderDeleteIcon
+										&& props.renderDeleteIcon(draft.id)
 									}
 								</CardActions>
 							</CardContent>
@@ -668,14 +665,14 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 				{...handlers}
 				hover
 			>
-				{selectable &&
-					<TableCell
+				{selectable
+					&& <TableCell
 						style={TableStyles.TD}
 					>
 						<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 							{getCheckbox()}
-							{props.alreadySaved(draft.id) &&
-								<i className="fa fa-floppy-o"
+							{props.alreadySaved(draft.id)
+								&& <i className="fa fa-floppy-o"
 									style={{
 										cursor: 'pointer',
 										fontSize: '2em',
@@ -697,8 +694,8 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 				</TableCell>
 				<TableCell>
 					<div style={{ display: 'flex' }}>
-						{columns &&
-							Object.keys(columns).map(key => {
+						{columns
+							&& Object.keys(columns).map(key => {
 								const columnaLength = columns[key].length;
 								return (
 									<TagColumn key={`column_${key}`}>
@@ -714,8 +711,7 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 															count={''}
 														/>
 													</Collapse>
-													:
-													<SelectedTag
+													:													<SelectedTag
 														key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}`}
 														text={translate[tag.label] || tag.label}
 														color={getTagColor(key)}

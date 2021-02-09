@@ -20,7 +20,7 @@ class CommandLine extends React.Component {
         suggestions: COMMANDS
     }
 
-    updateCommand = (event) => {
+    updateCommand = event => {
         this.setState({
             command: event.target.value
         });
@@ -51,14 +51,14 @@ class CommandLine extends React.Component {
         });
     }
 
-    render(){
+    render() {
         const inputProps = {
             placeholder: this.props.translate.enter_command,
             value: this.state.command,
             onChange: this.updateCommand
         };
 
-        return(
+        return (
             <div style={{ maxWidth: '180px' }}>
                 <Autosuggest
                     suggestions={this.state.suggestions}

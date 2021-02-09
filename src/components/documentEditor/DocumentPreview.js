@@ -12,7 +12,7 @@ const DocumentPreview = ({ generatePreview, options, company, finishInModal }) =
     const getPreview = async () => {
         const response = await generatePreview();
         preview.current = response;
-        if((new Date().getTime() - mountedDate.current) > spinnerDelay){
+        if ((new Date().getTime() - mountedDate.current) > spinnerDelay) {
 			setLoading(false);
 		}
     };
@@ -24,9 +24,9 @@ const DocumentPreview = ({ generatePreview, options, company, finishInModal }) =
 
     React.useEffect(() => {
         let interval;
-        if(loading){
+        if (loading) {
             interval = setInterval(() => {
-                if(preview.current){
+                if (preview.current) {
                     setLoading(false);
                 }
             }, spinnerDelay);

@@ -53,7 +53,6 @@ export const statute_types = [
 	}];
 
 
-
 const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 	const [state, setState] = useOldState({
 		selectedIndex: -1,
@@ -208,7 +207,7 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 					selectedValues: []
 				});
 				getData();
-				bHistory.goBack();
+				bHistory.back();
 			}
 		}
 	};
@@ -219,7 +218,7 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 		const values = state.selectedValues;
 
 		for (let i = 0; i < list.length; i++) {
-			const id = list[i].id;
+			const { id } = list[i];
 			const item = selectedValues.find(
 				selectedValue => id === selectedValue
 			);
@@ -238,7 +237,7 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 		let values = state.selectedValues;
 
 		for (let i = 0; i < list.length; i++) {
-			const id = list[i].id;
+			const { id } = list[i];
 			values = values.filter(value => value !== id);
 		}
 
@@ -372,8 +371,7 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 													/>
 												</div>
 											</div>
-											:
-											<div style={{ marginRight: '0.8em', display: 'flex', justifyContent: 'flex-end' }}>
+											:											<div style={{ marginRight: '0.8em', display: 'flex', justifyContent: 'flex-end' }}>
 												<div style={{ marginRight: '3em' }}>
 													<DropdownEtiquetas
 														translate={translate}

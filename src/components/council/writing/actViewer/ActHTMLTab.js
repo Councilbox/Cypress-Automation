@@ -43,15 +43,14 @@ const ActHTML = ({ translate, company, council, client, toolbar }) => {
 		<React.Fragment>
 			{toolbar ?
 				toolbar()
-			:
-				data.councilAct.type === 0 &&
-					<>
+			:				data.councilAct.type === 0
+					&& <>
 						<DownloadActPDF
 							translate={translate}
 							council={council}
 						/>
-						{config.sendActToSign &&
-							<SendToSignButton
+						{config.sendActToSign
+							&& <SendToSignButton
 								council={council}
 								company={company}
 								translate={translate}
@@ -80,8 +79,8 @@ const ActHTML = ({ translate, company, council, client, toolbar }) => {
 							translate={translate}
 							council={council}
 						/>
-						{config.sendActToSign &&
-							<SendToSignButton
+						{config.sendActToSign
+							&& <SendToSignButton
 								council={council}
 								company={company}
 								translate={translate}
@@ -89,8 +88,7 @@ const ActHTML = ({ translate, company, council, client, toolbar }) => {
 							/>
 						}
 					</React.Fragment>
-				:
-					<div style={{ border: '1px solid gainsboro' }}>
+				:					<div style={{ border: '1px solid gainsboro' }}>
 						<CBXDocumentLayout
 							preview={data.councilAct.emailAct}
 							loading={false}

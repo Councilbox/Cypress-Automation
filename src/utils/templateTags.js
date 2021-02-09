@@ -1,7 +1,7 @@
 export const buildTagColumns = (draft, formatLabelFromName) => {
     const { tags } = draft;
     const columns = {};
-    if(tags){
+    if (tags) {
         Object.keys(tags).forEach(key => {
             const tag = tags[key];
             const formatted = {
@@ -20,7 +20,7 @@ export const formatLabelFromName = (companyStatutes, translate) => tag => {
     if (tag.type === 1) {
         let statute = null;
 
-        if(companyStatutes){
+        if (companyStatutes) {
             statute = companyStatutes.find(item => item.id === +tag.name.split('_')[tag.name.split('_').length - 1]);
         }
         const title = statute ? translate[statute.title] ? translate[statute.title] : statute.title : tag.label;
@@ -29,9 +29,8 @@ export const formatLabelFromName = (companyStatutes, translate) => tag => {
 
     return tag.segments ?
         `${tag.segments.reduce((acc, curr) => {
-            if (curr !== tag.label) return acc + (translate[curr] || curr) + '. ';
+            if (curr !== tag.label) return `${acc + (translate[curr] || curr)}. `;
             return acc;
         }, '')}`
-        :
-        translate[tag.name] ? translate[tag.name] : tag.name;
+        : translate[tag.name] ? translate[tag.name] : tag.name;
 };

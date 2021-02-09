@@ -55,11 +55,11 @@ const CommenWallList = ({ council, translate, client }) => {
     };
 
 
-    if(loading){
+    if (loading) {
         return <LoadingSection />;
     }
 
-    if(data.participantComments.length === 0) {
+    if (data.participantComments.length === 0) {
         return translate.no_results;
     }
 
@@ -67,8 +67,7 @@ const CommenWallList = ({ council, translate, client }) => {
         <div style={{ width: '95%', margin: 'auto', paddingBottom: '5em', marginTop: '1em' }}>
             {data.participantComments.length === 0 ?
                 translate.no_results
-            :
-                <>
+            : <>
                     <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
                         <DropDownMenu
                             color="transparent"

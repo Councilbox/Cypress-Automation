@@ -20,8 +20,8 @@ const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, s
 
 		}}
 		>
-			{checkBox &&
-				<Checkbox
+			{checkBox
+				&& <Checkbox
 					value={selected}
 					onChange={onChange}
 				/>
@@ -42,8 +42,8 @@ const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, s
 				>
 					{`${participant.name} ${participant.surname || ''} ${toDelegate && limitReached ? ` - ${translate.cant_delegate_more}` : ''}`}
 				</div>
-				{toDelegate && participant.assistanceIntention === 6 &&
-					<div style={{ fontSize: '0.9rem', fontWeight: '700' }}>{translate.participant_wont_attend}</div>
+				{toDelegate && participant.assistanceIntention === 6
+					&& <div style={{ fontSize: '0.9rem', fontWeight: '700' }}>{translate.participant_wont_attend}</div>
 				}
 			</div>
 		</Paper>

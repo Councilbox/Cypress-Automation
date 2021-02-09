@@ -52,7 +52,7 @@ const OrganizationEntitiesTable = ({ translate, company, client, textFilter }) =
 
     const primary = getPrimary();
 
-    if(!companies){
+    if (!companies) {
         return <LoadingSection />;
     }
 

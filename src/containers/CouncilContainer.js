@@ -84,15 +84,13 @@ const CouncilContainer = ({ match, company, translate }) => {
 										}
 										onClick={() => (cantAccessPremium ?
 												showCantAccessPremiumModal()
-												:
-												bHistory.push(`/company/${company.id}/council/new`))
+												:												bHistory.push(`/company/${company.id}/council/new`))
 										}
 									/>
 								</div>
 							</Tooltip>
 						</div>
-						:
-						<div
+						:						<div
 							style={{
 								position: 'absolute',
 								right: '1%',
@@ -111,8 +109,7 @@ const CouncilContainer = ({ match, company, translate }) => {
 										style={{ width: '38px', height: '38px' }}
 										onClick={() => (cantAccessPremium ?
 												showCantAccessPremiumModal()
-												:
-												bHistory.push(`/company/${company.id}/council/new`))
+												:												bHistory.push(`/company/${company.id}/council/new`))
 										}
 									/>
 								</div>
@@ -129,8 +126,6 @@ const CouncilContainer = ({ match, company, translate }) => {
 		</CardPageLayout>
 	);
 };
-
-
 
 
 const mapStateToProps = state => ({

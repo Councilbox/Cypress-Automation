@@ -162,8 +162,7 @@ class Sidebar extends React.Component {
 												)
 											}
 										</Link>
-									:
-										this.props.company.logo ? (
+									:										this.props.company.logo ? (
 											<img
 												src={this.props.company.logo}
 												alt="logo"
@@ -185,8 +184,8 @@ class Sidebar extends React.Component {
 							return null;
 						}
 						const listItemClasses = cx({
-							[' ' +
-								this.props.classes[this.props.color]]: this.activeRoute(key)
+							[` ${
+								this.props.classes[this.props.color]}`]: this.activeRoute(key)
 						});
 						return (
 							<div
@@ -250,8 +249,7 @@ class Sidebar extends React.Component {
 						);
 					})}
 				</React.Fragment>
-				:
-				<div
+				:				<div
 					style={{
 						display: 'flex',
 						flexDirection: 'row',
@@ -276,8 +274,8 @@ class Sidebar extends React.Component {
 							return null;
 						}
 						const listItemClasses = cx({
-							[' ' +
-								this.props.classes[this.props.color]]: this.activeRoute(key)
+							[` ${
+								this.props.classes[this.props.color]}`]: this.activeRoute(key)
 						});
 						return (
 							<NavLink
@@ -413,8 +411,7 @@ class Sidebar extends React.Component {
 								alignItems: 'center',
 								height: '3.5em'
 							}
-							:
-							{
+							:							{
 								flexDirection: 'column',
 								top: 0,
 								left: 0,
@@ -423,8 +420,8 @@ class Sidebar extends React.Component {
 						),
 						alignItems: 'center',
 					}}>
-						{!this.showVerticalLayout() &&
-							this.brand()
+						{!this.showVerticalLayout()
+							&& this.brand()
 						}
 						<div
 							className={classes.sidebarWrapper}

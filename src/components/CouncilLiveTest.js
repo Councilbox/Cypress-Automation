@@ -17,9 +17,9 @@ class CouncilLiveTest extends React.Component {
         url: ''
     }
 
-    static getDerivedStateFromProps(nextProps, prevState){
-        if(nextProps.data.roomVideoURL){
-            if(nextProps.data.roomVideoURL !== prevState.url){
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.data.roomVideoURL) {
+            if (nextProps.data.roomVideoURL !== prevState.url) {
                 return { url: nextProps.data.roomVideoURL };
             }
         }
@@ -27,9 +27,9 @@ class CouncilLiveTest extends React.Component {
         return null;
     }
 
-    componentDidUpdate(){
-        if(!this.props.data.loading){
-            if(this.props.data.council){
+    componentDidUpdate() {
+        if (!this.props.data.loading) {
+            if (this.props.data.council) {
                 checkCouncilState(
                     {
                         state: this.props.data.council.state,
@@ -69,8 +69,8 @@ class CouncilLiveTest extends React.Component {
 						flexDirection: 'row'
 					}}
 				>
-				{!!this.state.url &&
-					<iframe
+				{!!this.state.url
+					&& <iframe
 						title="meetingScreen"
 						allow="geolocation; microphone; camera"
 						scrolling="no"

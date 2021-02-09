@@ -14,7 +14,7 @@ const PlaygroundPage = ({ apiLogin, createUser, client }) => {
     const [operation, setOperation] = React.useState(null);
 
     const setVariables = variables => {
-        if(operation){
+        if (operation) {
             setOperation({
                 ...operation,
                 variables
@@ -29,7 +29,7 @@ const PlaygroundPage = ({ apiLogin, createUser, client }) => {
 
         try {
             let response;
-            if(request.definitions[0].operation === 'query'){
+            if (request.definitions[0].operation === 'query') {
                 response = await client.query({
                     query: request,
                     variables: JSON.parse(operation.variables),
@@ -43,19 +43,19 @@ const PlaygroundPage = ({ apiLogin, createUser, client }) => {
                 });
             }
 
-            if(response.data[operationName]){
+            if (response.data[operationName]) {
                 setOperation({
                     ...operation,
                     response: JSON.stringify(response.data[operationName])
                 });
             }
-            if(response.errors){
+            if (response.errors) {
                 setOperation({
                     ...operation,
                     response: JSON.stringify(response.errors)
                 });
             }
-        } catch (e){
+        } catch (e) {
             setOperation({
                 ...operation,
                 response: e.message
@@ -86,8 +86,7 @@ const PlaygroundPage = ({ apiLogin, createUser, client }) => {
                                 loading={loading}
                             /> */}
                         </PlaygroundContext.Provider>
-                    :
-                        <div style={{ width: '100%', height: '100%', padding: '1em', paddingTop: '3em' }}>
+                    : <div style={{ width: '100%', height: '100%', padding: '1em', paddingTop: '3em' }}>
                             <Card style={{
                                 backgroundColor: '#212121',
                                 padding: '2em'
@@ -100,9 +99,6 @@ const PlaygroundPage = ({ apiLogin, createUser, client }) => {
         </DocsLayout>
     );
 };
-
-
-
 
 
 export default withApollo(PlaygroundPage);

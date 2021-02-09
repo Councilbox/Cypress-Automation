@@ -11,7 +11,6 @@ import withSharedProps from '../../HOCs/withSharedProps';
 import { getDefaultTagsByBlockType } from './utils';
 
 
-
 const Block = ({ expand, setExpand, company, translate, ...props }) => {
     const [editMode, setEditMode] = React.useState(false);
     const [text, setText] = React.useState(props.column === 2 ? props.value.secondaryText : props.value.text);
@@ -74,8 +73,8 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                 ref={editor}
                 value={props.column === 2 ? props.value.secondaryText || '' : props.value.text || ''}
                 translate={translate}
-                //tags={generateActTags(null, translate)}
-                //errorText={props.state.errors === undefined ? "" : props.state.errors[props.editInfo.originalName]}
+                // tags={generateActTags(null, translate)}
+                // errorText={props.state.errors === undefined ? "" : props.state.errors[props.editInfo.originalName]}
                 onChange={value => setText(value)}
                 loadDraft={
                     <BasicButton
@@ -107,8 +106,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                                 <img src={props.value.icon} />
                             </div>
                         </React.Fragment>
-                        :
-                        <React.Fragment>
+                        : <React.Fragment>
                             <div>Aa</div>
                             <div>
                                 <i className="fa fa-i-cursor" aria-hidden="true"/>
@@ -134,13 +132,11 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                         </div>
                     </React.Fragment>
                 </Collapse>
-                :
-                editMode ?
+                : editMode ?
                     <div style={{ marginTop: '1em', cursor: 'default' }} className="editorText">
                         {renderEditor()}
                     </div>
-                    :
-                    <div
+                    : <div
                         style={{ marginTop: '1em' }}
                         dangerouslySetInnerHTML={{
                             __html: props.column === 2 ? props.value.secondaryText : props.value.text
@@ -149,19 +145,18 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
             }
 
             <div style={{ marginTop: '1em', }}>
-                {props.value.editButton &&
-                    <Button style={{ color: getPrimary(), minWidth: '0', padding: '0' }} onClick={() => hoverAndSave(props.id, text)}>
+                {props.value.editButton
+                    && <Button style={{ color: getPrimary(), minWidth: '0', padding: '0' }} onClick={() => hoverAndSave(props.id, text)}>
                         {/* onClick={props.updateCouncilActa} */}
                         {editMode ?
                             translate.accept
-                            :
-                            translate.edit
+                            : translate.edit
                         }
                     </Button>
                 }
             </div>
-            {draftModal &&
-                <Dialog
+            {draftModal
+                && <Dialog
                     open={draftModal}
                     maxWidth={false}
                     onClose={closeDraftModal}
@@ -194,8 +189,7 @@ export const BorderBox = ({ colorBorder, children, addItem, itemInfo, icon, styl
                                         <img src={icon} />
                                     </div>
                                 </React.Fragment>
-                                :
-                                <React.Fragment>
+                                : <React.Fragment>
                                     <div>Aa</div>
                                     <div>
                                         <i className="fa fa-i-cursor" aria-hidden="true">
@@ -214,13 +208,11 @@ export const BorderBox = ({ colorBorder, children, addItem, itemInfo, icon, styl
                                     <span style={{ cursor: 'pointer', color: colorBorder }} onClick={() => removeBlock(id)}>
                                         {!itemInfo.hide ?
                                             <i className="fa fa-check-square-o" aria-hidden="true" style={{ color: 'green', fontSize: '20px', }}></i>
-                                         :
-                                            <i className="fa fa-square-o" aria-hidden="true" style={{ color: 'grey', fontSize: '20px' }}></i>
+                                         : <i className="fa fa-square-o" aria-hidden="true" style={{ color: 'grey', fontSize: '20px' }}></i>
                                          }
                                     </span>
-                                :
-                                    !noIcon &&
-                                    <i className="material-icons" style={{ cursor: 'pointer', color: '#979797' }} onClick={() => addItem(id)}>
+                                : !noIcon
+                                    && <i className="material-icons" style={{ cursor: 'pointer', color: '#979797' }} onClick={() => addItem(id)}>
                                         arrow_right_alt
                                         </i>
                                 }

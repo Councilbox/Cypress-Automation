@@ -12,7 +12,7 @@ const Playground = () => {
         playgroundContext.setVariables(value);
     };
 
-    return(
+    return (
         <div
             style={{
                 width: 'calc(100% - 250px)',

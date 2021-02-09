@@ -24,9 +24,9 @@ const CustomPointForm = ({
     const [loadDraftModal, setLoadDraft] = React.useState(false);
     const editor = React.useRef();
     const validateNumber = number => {
-        if(number < 0 || isNaN(number)){
+        if (number < 0 || isNaN(number)) {
             const value = Math.abs(parseInt(number, 10));
-            if(isNaN(value)){
+            if (isNaN(value)) {
                 return '';
             }
             return value;
@@ -54,7 +54,7 @@ const CustomPointForm = ({
                     <GridItem xs={12} md={3} lg={3}>
                         <SelectInput
                             floatingText={translate.votation_type}
-                            value={'' + agenda.subjectType}
+                            value={`${agenda.subjectType}`}
                             onChange={event => updateAgenda({
                                     subjectType: +event.target.value
                                 })
@@ -63,15 +63,14 @@ const CustomPointForm = ({
                         >
                             {council.councilType === 3 ?
                                     <MenuItem
-                                        value={'' + CUSTOM_AGENDA_VOTING_TYPES[1].value}
+                                        value={`${CUSTOM_AGENDA_VOTING_TYPES[1].value}`}
                                         key={`voting${CUSTOM_AGENDA_VOTING_TYPES[1].value}`}
                                     >
                                         {translate[CUSTOM_AGENDA_VOTING_TYPES[1].label]}
                                     </MenuItem>
-                            :
-                                Object.keys(CUSTOM_AGENDA_VOTING_TYPES).map(key => (
+                            : Object.keys(CUSTOM_AGENDA_VOTING_TYPES).map(key => (
                                         <MenuItem
-                                            value={'' + CUSTOM_AGENDA_VOTING_TYPES[key].value}
+                                            value={`${CUSTOM_AGENDA_VOTING_TYPES[key].value}`}
                                             key={`voting${CUSTOM_AGENDA_VOTING_TYPES[key].value}`}
                                         >
                                             {translate[CUSTOM_AGENDA_VOTING_TYPES[key].label]}
@@ -134,15 +133,15 @@ const CustomPointForm = ({
                         label={translate.single}
                     />
                 </div>
-                {options.multiselect &&
-                    <React.Fragment>
+                {options.multiselect
+                    && <React.Fragment>
                         <TextInput
                             floatingText={translate.max_selections}
                             value={options.maxSelections}
                             onChange={event => updateOptions({ maxSelections: validateNumber(+event.target.value) })}
                         />
-                        {errors.maxSelections &&
-                            <div style={{ color: 'red' }}>
+                        {errors.maxSelections
+                            && <div style={{ color: 'red' }}>
                                 {errors.maxSelections}
                             </div>
                         }
@@ -151,8 +150,8 @@ const CustomPointForm = ({
                             value={options.minSelections}
                             onChange={event => updateOptions({ minSelections: validateNumber(+event.target.value) })}
                         />
-                        {errors.minSelections &&
-                            <div style={{ color: 'red' }}>
+                        {errors.minSelections
+                            && <div style={{ color: 'red' }}>
                                 {errors.minSelections}
                             </div>
                         }
@@ -189,7 +188,7 @@ const CustomPointForm = ({
                     >
                         <TextInput
                             value={item.value}
-                            //placeholder="Escribe el valor de la opción"
+                            // placeholder="Escribe el valor de la opción"
                             floatingText={translate.value}
                             multiline
                             errorText={errors.items && errors.items[index] && errors.items[index].error}
@@ -203,8 +202,8 @@ const CustomPointForm = ({
                         ></i>
                     </Card>
                 ))}
-                {errors.itemsLength &&
-                    <div style={{ color: 'red' }}>
+                {errors.itemsLength
+                    && <div style={{ color: 'red' }}>
                         {errors.itemsLength}
                     </div>
                 }

@@ -16,7 +16,6 @@ import GenCatLogin from './GenCatLogin';
 import { ConfigContext } from '../../containers/AppControl';
 
 
-
 const Login = ({ translate, windowSize, ...props }) => {
 	const [state, setState] = useOldState({
 		user: '',
@@ -155,8 +154,8 @@ const Login = ({ translate, windowSize, ...props }) => {
 						paddingTop: windowSize === 'xs' ? '8%' : '12em'
 					}}
 				>
-					{!subdomain.hideSignUp &&
-						<div
+					{!subdomain.hideSignUp
+						&& <div
 							style={{
 								width: '70%',
 								fontSize: '0.9em',
@@ -195,8 +194,8 @@ const Login = ({ translate, windowSize, ...props }) => {
 									marginTop: windowSize === 'xs' ? 0 : '1em'
 								}}
 							>
-								{config.meeting &&
-									<div
+								{config.meeting
+									&& <div
 										className="col-lg-6 col-md-6 col-xs-6"
 										style={{ padding: '1em' }}
 									>
@@ -272,8 +271,8 @@ const Login = ({ translate, windowSize, ...props }) => {
 								} : {})
 							}}
 						>
-							{(subdomain.logo && isMobile) &&
-								<React.Fragment>
+							{(subdomain.logo && isMobile)
+								&& <React.Fragment>
 									<img
 										src={getCustomLogo()}
 										className="App-logo"
@@ -321,8 +320,8 @@ const Login = ({ translate, windowSize, ...props }) => {
 									floatingText={translate.login_password}
 									id={'password'}
 									type={
-										state.showPassword
-											? 'text'
+										state.showPassword ?
+											'text'
 											: 'password'
 									}
 									passwordToggler={() => setState({
@@ -361,8 +360,8 @@ const Login = ({ translate, windowSize, ...props }) => {
 								}
 							/>
 						</div>
-						{(!!subdomain.name && subdomain.name.includes('gencat')) &&
-							<div style={{ marginTop: '1em' }}>
+						{(!!subdomain.name && subdomain.name.includes('gencat'))
+							&& <div style={{ marginTop: '1em' }}>
 								<GenCatLogin
 									loginSuccess={props.actions.loginSuccess}
 								/>
@@ -378,8 +377,8 @@ const Login = ({ translate, windowSize, ...props }) => {
 								{translate.login_forgot}
 							</Link>
 						</div>
-						{(!!subdomain.name && subdomain.name === 'madrid') &&
-							<div style={{ width: '100%', textAlign: 'center' }}>
+						{(!!subdomain.name && subdomain.name === 'madrid')
+							&& <div style={{ width: '100%', textAlign: 'center' }}>
 								<img src="/img/logo-1.png" style={{ marginTop: '2.5em', height: '3.5em', width: 'auto' }} alt="logo-seneca" />
 							</div>
 						}

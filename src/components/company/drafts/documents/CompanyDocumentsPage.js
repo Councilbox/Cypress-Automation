@@ -138,7 +138,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                 return setErrorModal(translate.file_exceeds_rest);
             }
 
-            //TRADUCCION
+            // TRADUCCION
             if (file.size > (50 * 1024 * 1024)) {
                 return setErrorModal('El archivo supera el límite de tamaño');
             }
@@ -167,7 +167,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                 console.log(e);
             };
 
-            xhr.upload.onprogress = (e) => {
+            xhr.upload.onprogress = e => {
                 if (e.loaded === e.total) {
                     removeFromQueue(id);
                 } else {
@@ -203,8 +203,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                 <>
                                     <div dangerouslySetInnerHTML={{ __html: translate.delete_folder_warning.replace(/{{folderName}}/, deleteModal ? deleteModal.name : '') }} />
                                 </>
-                                :
-                                <>
+                                : <>
                                     <div dangerouslySetInnerHTML={{ __html: translate.delete_document_warning.replace(/{{name}}/, deleteModal ? deleteModal.name : '') }} />
                                 </>
                             }
@@ -249,12 +248,12 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                         opacity: 0
                     }}
                 />
-                <div style={{ display: 'flex', borderBottom: '1px solid' + primary, alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', borderBottom: `1px solid${primary}`, alignItems: 'center', justifyContent: 'space-between' }}>
                     <div style={{ display: 'flex', alignItems: 'center', }}>
                         {breadCrumbs.map((item, index) => (
                             <React.Fragment key={index}>
-                                {index > 0 &&
-                                    ' > '
+                                {index > 0
+                                    && ' > '
                                 }
                                 {(index === breadCrumbs.length - 1) && !hideUpload ?
                                     <DropDownMenu
@@ -296,8 +295,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                                         <div style={{ paddingLeft: '10px' }}>
                                                             {queue.length > 0 ?
                                                                 `${translate.uploading}...`
-                                                                :
-                                                                translate.upload_file
+                                                                : translate.upload_file
                                                             }
                                                         </div>
                                                     </div>
@@ -307,7 +305,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                                         display: 'flex',
                                                         color: 'black',
                                                         padding: '.5em 0em',
-                                                        borderTop: '1px solid' + primary,
+                                                        borderTop: `1px solid${primary}`,
                                                         cursor: 'pointer'
                                                     }}
                                                     onClick={() => setFolderModal(true)}
@@ -322,8 +320,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                             </div>
                                         }
                                     />
-                                    :
-                                    <span
+                                    : <span
                                         style={{
                                             ...(index === breadCrumbs.length - 1 ? {
                                                 color: (index === breadCrumbs.length - 1) ? primary : 'inherit'
@@ -342,8 +339,8 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                     </div>
 
                     <div style={{ display: 'flex', alignContent: 'center' }}>
-                        {quota &&
-                            `${filesize(quota.used)} / ${filesize(quota.total)}`
+                        {quota
+                            && `${filesize(quota.used)} / ${filesize(quota.total)}`
                         }
                         <div style={{ padding: '0px 8px', fontSize: '24px', color: '#c196c3', display: 'flex', alignContent: 'center' }}>
                             <i className="fa fa-filter"></i>
@@ -435,8 +432,8 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                         </TableCell>
                                         <TableCell />
                                         <TableCell>
-                                            {!action &&
-                                                <div style={{ display: 'flex' }}>
+                                            {!action
+                                                && <div style={{ display: 'flex' }}>
                                                     <div onClick={event => {
                                                         event.stopPropagation();
                                                         setDeleteModal(doc);
@@ -488,8 +485,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
 
                                         </TableCell>
                                     </TableRow>
-                                    :
-                                    <FileRow
+                                    : <FileRow
                                         key={`doc_${doc.id}`}
                                         translate={translate}
                                         file={doc}
@@ -499,8 +495,8 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                         refetch={getData}
                                     />
                             ))}
-                            {queue.map((item) => (
-                                <DelayedRow key={'delayedRow_' + item.id} delay={1000}>
+                            {queue.map(item => (
+                                <DelayedRow key={`delayedRow_${item.id}`} delay={1000}>
                                     <TableRow>
                                         <TableCell>
                                             {item.name}
@@ -700,10 +696,8 @@ const FileRow = withApollo(({ client, translate, file, refetch, setDeleteModal, 
                         <div onClick={() => action(file)} style={{ cursor: 'pointer' }}>
                             {trigger}
                         </div>
-                        :
-                        <span />
-                    :
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        : <span />
+                    : <div style={{ display: 'flex', alignItems: 'center' }}>
                         <DownloadCompanyDocument
                             translate={translate}
                             file={file}

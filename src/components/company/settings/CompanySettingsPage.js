@@ -217,7 +217,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 				if (!props.organization) {
 					store.dispatch(setCompany(response.data.updateCompany));
 				}
-				bHistory.goBack();
+				bHistory.back();
 			}
 		}
 	};
@@ -242,7 +242,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 					className: 'successToast'
 				}
 				);
-				bHistory.goBack();
+				bHistory.back();
 			}
 		}
 	};
@@ -378,8 +378,8 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 									}
 								/>
 							</GridItem>
-							{props.root &&
-								<>
+							{props.root
+								&& <>
 									<GridItem xs={12} md={6} lg={4}>
 										<TextInput
 											floatingText={'Saldo'}
@@ -498,8 +498,8 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 					</GridItem>
 					<React.Fragment>
 						<GridItem xs={12} md={6} lg={3}>
-							{data.country &&
-								<SelectInput
+							{data.country
+								&& <SelectInput
 									floatingText={translate.company_new_country}
 									value={countryInput ? 'otro' : data.country}
 									onChange={handleCountryChange}
@@ -522,8 +522,8 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 								</SelectInput>
 							}
 						</GridItem>
-						{countryInput &&
-							<GridItem xs={12} md={6} lg={3}>
+						{countryInput
+							&& <GridItem xs={12} md={6} lg={3}>
 								<TextInput
 									floatingText={translate.company_new_country}
 									value={data.country}
@@ -546,8 +546,7 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 									})
 									}
 								/>
-								:
-								<SelectInput
+								:								<SelectInput
 									id={'addSociedadProvincia'}
 									floatingText={translate.company_new_country_state}
 									value={data.countryState}
@@ -596,8 +595,8 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 							}
 							errorText={errors.language}
 						>
-							{props.info.languages &&
-								props.info.languages.map(language => (
+							{props.info.languages
+								&& props.info.languages.map(language => (
 									<MenuItem
 										key={`language_${language.columnName}`}
 										value={language.columnName}
@@ -607,8 +606,8 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 								))}
 						</SelectInput>
 					</GridItem>
-					{props.root &&
-						<GridItem xs={12} md={6} lg={3}>
+					{props.root
+						&& <GridItem xs={12} md={6} lg={3}>
 							<SelectInput
 								floatingText={'Categoría'}
 								value={data.category}
@@ -627,8 +626,8 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 							</SelectInput>
 						</GridItem>
 					}
-					{props.root &&
-						<GridItem xs={12} md={12} lg={12}>
+					{props.root
+						&& <GridItem xs={12} md={12} lg={12}>
 							<TablaUsuarios
 								translate={translate}
 								client={client}
@@ -658,8 +657,8 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 						onClick={saveCompany}
 						icon={<ButtonIcon type="save" color="white" />}
 					/>
-					{company.corporationId !== 1 &&
-						<BasicButton
+					{company.corporationId !== 1
+						&& <BasicButton
 							text={'Añadir administrador'}
 							color={primary}
 							floatRight
@@ -675,8 +674,8 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 							}
 						/>
 					}
-					{props.linkButton &&
-						<BasicButton
+					{props.linkButton
+						&& <BasicButton
 							text={translate.unlink}
 							color={primary}
 							floatRight
@@ -694,22 +693,22 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 						/>
 					}
 
-					{props.confirmCompany &&
-						<ConfirmCompanyButton
+					{props.confirmCompany
+						&& <ConfirmCompanyButton
 							translate={translate}
 							company={company}
 							refetch={props.refetch}
 						/>
 					}
-					{props.root &&
-						<DeleteCompanyButton
+					{props.root
+						&& <DeleteCompanyButton
 							translate={translate}
 							company={company}
 						/>
 					}
 					{
-						props.root &&
-						<CompanyVideoConfig
+						props.root
+						&& <CompanyVideoConfig
 							company={company}
 							translate={translate}
 						/>
@@ -783,7 +782,7 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkComp
 		getUsers();
 	}, [state.filterTextUsuarios, usersPage]);
 
-	const unlinkId = (id) => {
+	const unlinkId = id => {
 		setUnlink(true);
 		setUnlinkIdRemove(id);
 	};
@@ -855,8 +854,8 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkComp
 				<div style={{ height: '15em' }}>
 					<Scrollbar>
 						<Grid style={{ padding: '1em', height: '100%' }}>
-							{users &&
-								users.map(item => (
+							{users
+								&& users.map(item => (
 									<Card style={{ marginBottom: '0.5em', padding: '1em' }} key={item.id}>
 										<Grid>
 											<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
@@ -877,7 +876,7 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkComp
 												overflow: 'hidden',
 												textOverflow: 'ellipsis'
 											}}>
-												{item.name + ' ' + item.surname || ''}
+												{`${item.name} ${item.surname}` || ''}
 											</GridItem>
 											<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
 												{translate.email}
@@ -1019,8 +1018,8 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkComp
 					</div>
 					<div style={{ height: '300px' }}>
 						<Scrollbar>
-							{users &&
-								users.map(item => (
+							{users
+								&& users.map(item => (
 									<div
 										key={item.id}
 										style={{
@@ -1030,7 +1029,7 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkComp
 											alignItems: 'center'
 										}}>
 										<Cell text={getActivationText(item.actived, translate)} />
-										<Cell text={item.name + ' ' + item.surname || ''} />
+										<Cell text={`${item.name} ${item.surname}` || ''} />
 										<Cell text={item.email} />
 										<Cell text={item.lastConnectionDate && moment(item.lastConnectionDate).format('LLL')} />
 										<Cell
@@ -1117,10 +1116,8 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 		}
 	};
 
-	const comparer = (otherArray) => function (current) {
-		return otherArray.filter(function (other) {
-			return (other.id == current.id);
-		}).length == 0;
+	const comparer = otherArray => function (current) {
+		return otherArray.filter(other => (other.id == current.id)).length == 0;
 	};
 
 	React.useEffect(() => {
@@ -1153,7 +1150,7 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 		});
 	};
 
-	const isChecked = (id) => {
+	const isChecked = id => {
 		const item = state.checked.find(item => item.id === id);
 		return !!item;
 	};
@@ -1186,8 +1183,8 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 				<div style={{ height: '15em' }}>
 					<Scrollbar>
 						<Grid style={{ padding: '1em', height: '100%' }}>
-							{users &&
-								users.map(item => (
+							{users
+								&& users.map(item => (
 									<Card style={{ marginBottom: '0.5em', padding: '1em' }} key={item.id}>
 										<Grid style={{ position: 'relative' }}>
 											<div style={{ display: 'flex', justifyContent: 'flex-end', position: 'absolute', right: '-18px', top: '-14px' }}>
@@ -1216,7 +1213,7 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 												overflow: 'hidden',
 												textOverflow: 'ellipsis'
 											}}>
-												{item.name + ' ' + item.surname || ''}
+												{`${item.name} ${item.surname}` || ''}
 											</GridItem>
 											<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
 												{translate.email}
@@ -1338,8 +1335,8 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 					</div>
 					<div style={{ height: '300px' }}>
 						<Scrollbar>
-							{users &&
-								users.map(item => (
+							{users
+								&& users.map(item => (
 									<div
 										key={item.id}
 										style={{
@@ -1360,7 +1357,7 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 											}
 										/>
 										<Cell text={getActivationText(item.actived, translate)} />
-										<Cell text={item.name + ' ' + item.surname || ''} />
+										<Cell text={`${item.name} ${item.surname}` || ''} />
 										<Cell text={item.email} />
 										<Cell text={item.lastConnectionDate && moment(item.lastConnectionDate).format('LLL')} />
 									</div>
@@ -1422,7 +1419,6 @@ const Cell = ({ text, width, styles }) => (
 		{text}
 	</div>
 );
-
 
 
 const AddAdmin = ({ translate, company, open, requestClose }) => {

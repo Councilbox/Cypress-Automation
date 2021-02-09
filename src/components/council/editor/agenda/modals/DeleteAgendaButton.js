@@ -23,7 +23,7 @@ const DeleteAgendaButton = ({ agenda, council, translate, client, refetch, reque
 			}
 		});
 		refetch();
-		if(requestClose){
+		if (requestClose) {
 			requestClose();
 		}
 		setModal(false);

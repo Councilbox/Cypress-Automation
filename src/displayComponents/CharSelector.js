@@ -7,7 +7,7 @@ import { isMobile } from '../utils/screen';
 const chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'ñ', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 
 const CharSelector = ({ onClick, ...props }) => {
-    if(isMobile && props.orientation === 'landscape'){
+    if (isMobile && props.orientation === 'landscape') {
         return (
             <div style={{ marginRight: '0.3em' }}>
                 <SelectInput

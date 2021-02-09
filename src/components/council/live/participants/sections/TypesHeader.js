@@ -38,8 +38,7 @@ const TypesHeader = ({ translate, setSelected, participantTypeRecount, selected 
 							cursor: 'pointer',
 							...(selected === null ?
 								selectedStyle
-							:
-								{}
+							:								{}
 							)
 						}}
 					>
@@ -58,8 +57,7 @@ const TypesHeader = ({ translate, setSelected, participantTypeRecount, selected 
 							cursor: 'pointer',
 							...(selected === PARTICIPANT_TYPE.PARTICIPANT ?
 								selectedStyle
-							:
-								{}
+							:								{}
 							)
 						}}
 					>
@@ -78,8 +76,7 @@ const TypesHeader = ({ translate, setSelected, participantTypeRecount, selected 
 							cursor: 'pointer',
 							...(selected === PARTICIPANT_TYPE.GUEST ?
 								selectedStyle
-							:
-								{}
+							:								{}
 							)
 						}}
 					>
@@ -98,8 +95,7 @@ const TypesHeader = ({ translate, setSelected, participantTypeRecount, selected 
 							cursor: 'pointer',
 							...(selected === PARTICIPANT_TYPE.REPRESENTATIVE ?
 								selectedStyle
-							:
-								{}
+							:								{}
 							)
 						}}
 					>

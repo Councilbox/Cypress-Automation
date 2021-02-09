@@ -10,8 +10,8 @@ import { HEADER_HEIGHT } from '../../styles/constants';
 
 
 class NoCompanyRouter extends React.Component {
-    render(){
-        return(
+    render() {
+        return (
             <div
                 style={{
                     width: '100vw',

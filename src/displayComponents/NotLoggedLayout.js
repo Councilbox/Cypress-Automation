@@ -11,8 +11,7 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
     const customRoomBackground = getCustomRoomBackground();
     const imgUrl = window.location.pathname.includes('participant') ?
         customRoomBackground || (customBackground || bg)
-        :
-        customBackground || bg;
+        : customBackground || bg;
 
     React.useEffect(() => {
         const img = new Image();

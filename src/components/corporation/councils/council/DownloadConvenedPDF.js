@@ -24,7 +24,7 @@ const DownloadConvenedPDF = ({ color, council }) => {
             })
 		});
 
-		if(response.status === 200){
+		if (response.status === 200) {
 			const blob = await response.blob();
 			const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');

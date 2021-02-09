@@ -71,10 +71,10 @@ const IconSwitch = ({
 	switch (state) {
 		case 'REMOTE':
 			tooltipValue = `${
-				representative ? translate.representative + ' - ' : ''
+				representative ? `${translate.representative} - ` : ''
 			}${
-				tooltip === 'change'
-					? translate.change_to_remote
+				tooltip === 'change' ?
+					translate.change_to_remote
 					: translate.remote_assistance
 			}`;
 			icon = (
@@ -91,10 +91,10 @@ const IconSwitch = ({
 
 		case 'PRESENT':
 			tooltipValue = `${
-				representative ? translate.representative + ' - ' : ''
+				representative ? `${translate.representative} - ` : ''
 			}${
-				tooltip === 'change'
-					? translate.change_to_present
+				tooltip === 'change' ?
+					translate.change_to_present
 					: translate.physically_present_assistance
 			}`;
 			icon = (
@@ -111,10 +111,10 @@ const IconSwitch = ({
 
 		case 'REPRESENTATED':
 			tooltipValue = `${
-				representative ? translate.representative + ' - ' : ''
+				representative ? `${translate.representative} - ` : ''
 			}${
-				tooltip === 'change'
-					? translate.add_representative
+				tooltip === 'change' ?
+					translate.add_representative
 					: translate.representated
 			}`;
 			icon = <DoubleIcon main={'user-o'} sub={'user'} />;
@@ -122,10 +122,10 @@ const IconSwitch = ({
 
 		case 'DELEGATED':
 			tooltipValue = `${
-				representative ? translate.representative + ' - ' : ''
+				representative ? `${translate.representative} - ` : ''
 			}${
-				tooltip === 'change'
-					? translate.to_delegate_vote
+				tooltip === 'change' ?
+					translate.to_delegate_vote
 					: translate.delegated
 			}`;
 
@@ -140,10 +140,10 @@ const IconSwitch = ({
 
 		case 'PHYSICALLY_PRESENT':
 			tooltipValue = `${
-				representative ? translate.representative + ' - ' : ''
+				representative ? `${translate.representative} - ` : ''
 			}${
-				tooltip === 'change'
-					? translate.change_to_present
+				tooltip === 'change' ?
+					translate.change_to_present
 					: translate.physically_present_assistance
 			}`;
 			icon = (
@@ -160,10 +160,10 @@ const IconSwitch = ({
 
 		case 'NO_PARTICIPATE':
 			tooltipValue = `${
-				representative ? translate.representative + ' - ' : ''
+				representative ? `${translate.representative} - ` : ''
 			}${
-				tooltip === 'change'
-					? translate.change_to_no_participate
+				tooltip === 'change' ?
+					translate.change_to_no_participate
 					: translate.no_assist_assistance
 			}`;
 
@@ -172,10 +172,10 @@ const IconSwitch = ({
 
 		case 'PRESENT_WITH_REMOTE_VOTE':
 			tooltipValue = `${
-				representative ? translate.representative + ' - ' : ''
+				representative ? `${translate.representative} - ` : ''
 			}${
-				tooltip === 'change'
-					? translate.change_to_present_with_remote_vote
+				tooltip === 'change' ?
+					translate.change_to_present_with_remote_vote
 					: translate.physically_present_with_remote_vote
 			}`;
 

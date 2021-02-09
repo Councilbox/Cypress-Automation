@@ -68,14 +68,14 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
 			];
 		}
 
-		if(filters.onlyNotSigned){
+		if (filters.onlyNotSigned) {
 			variables.filters = [
 				...variables.filters,
 				{ field: 'signed', text: 0 }
 			];
 		}
 
-		if(filters.charFilter){
+		if (filters.charFilter) {
 			variables.filters = [
 				...variables.filters,
 				{ field: 'surname', text: filters.charFilter }
@@ -116,7 +116,7 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
 
 
     const changeView = object => {
-        //setParticipants(null);
+        // setParticipants(null);
         setFilters({ type: null });
         setState({ ...state, ...object });
     };
@@ -130,7 +130,7 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
 
     const _renderSection = () => {
         const { layout, addGuest } = state;
-        if(participants === null){
+        if (participants === null) {
             return (
                 <LoadingSection />
             );
@@ -282,23 +282,23 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
 
 const getQuery = type => {
     const sections = {
-        'STATES': 'liveParticipantsState',
-        'ATTENDANCE': 'liveParticipantsAttendance',
-        'CREDENTIALS': 'liveParticipantsCredentials',
-        'TYPE': 'liveParticipantsType',
-        'CONVENE': 'liveParticipantsConvene'
+        STATES: 'liveParticipantsState',
+        ATTENDANCE: 'liveParticipantsAttendance',
+        CREDENTIALS: 'liveParticipantsCredentials',
+        TYPE: 'liveParticipantsType',
+        CONVENE: 'liveParticipantsConvene'
     };
 
     const typeFilters = {
-        'STATES': 'stateStatus',
-        'ATTENDANCE': 'attendanceStatus',
-        'CREDENTIALS': 'notificationStatus',
-        'TYPE': 'typeStatus',
-        'CONVENE': 'notificationStatus'
+        STATES: 'stateStatus',
+        ATTENDANCE: 'attendanceStatus',
+        CREDENTIALS: 'notificationStatus',
+        TYPE: 'typeStatus',
+        CONVENE: 'notificationStatus'
     };
 
     const recounts = {
-        'STATES': `
+        STATES: `
             stateRecount(councilId: $councilId) {
                 all
                 remote
@@ -311,7 +311,7 @@ const getQuery = type => {
                 noParticipate
             }
         `,
-        'ATTENDANCE': `
+        ATTENDANCE: `
             attendanceRecount(councilId: $councilId) {
                 all
                 notConfirmed
@@ -321,7 +321,7 @@ const getQuery = type => {
                 delegated
             }
         `,
-        'CREDENTIALS': `
+        CREDENTIALS: `
             crendentialSendRecount(councilId: $councilId) {
                 all
                 failed
@@ -333,7 +333,7 @@ const getQuery = type => {
                 opened
             }
         `,
-        'TYPE': `
+        TYPE: `
             participantTypeRecount(councilId: $councilId) {
                 all
                 participant
@@ -341,7 +341,7 @@ const getQuery = type => {
                 guest
             }
         `,
-        'CONVENE': `
+        CONVENE: `
             conveneSendRecount(councilId: $councilId) {
                 all
                 failed
@@ -408,8 +408,7 @@ const getQuery = type => {
                         `sendCredentials {
                             reqCode
                         }`
-                    :
-                        ''
+                    : ''
                     }
                 }
                 total

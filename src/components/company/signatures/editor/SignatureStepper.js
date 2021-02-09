@@ -27,8 +27,8 @@ const SignatureStepper = ({ translate, active, goToPage, windowSize }) => {
         />
     );
 
-    if(windowSize === 'xs'){
-        return(
+    if (windowSize === 'xs') {
+        return (
             <div
                 style={{
                     width: '100%',
@@ -50,7 +50,7 @@ const SignatureStepper = ({ translate, active, goToPage, windowSize }) => {
         );
     }
 
-    return(
+    return (
         <Steps
             current={active}
             size="small"
@@ -60,8 +60,8 @@ const SignatureStepper = ({ translate, active, goToPage, windowSize }) => {
                 title={
                     <span
                         style={{ userSelect: 'none', cursor: active > 0 ? 'pointer' : 'inherit' }}
-                        {...(active > 0
-                        ? {
+                        {...(active > 0 ?
+                        {
                                 onClick: () => goToPage(1),
                         }
                         : {})}
@@ -75,8 +75,8 @@ const SignatureStepper = ({ translate, active, goToPage, windowSize }) => {
                 title={
                     <span
                         style={{ userSelect: 'none', cursor: active > 1 ? 'pointer' : 'inherit' }}
-                        {...(active > 1
-                        ? {
+                        {...(active > 1 ?
+                        {
                                 onClick: () => goToPage(2),
                         }
                         : {})}

@@ -13,8 +13,8 @@ const StartCouncilVideoOptions = ({ council, translate, data, updateData }) => (
                     })
                 }
             />
-            {(council.room.videoConfig && council.room.videoConfig.rtmp) &&
-                <Checkbox
+            {(council.room.videoConfig && council.room.videoConfig.rtmp)
+                && <Checkbox
                     label={translate.start_broadcasting}
                     disabled={!(council.room.videoConfig && council.room.videoConfig.rtmp)}
                     value={data.startStreaming}

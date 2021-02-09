@@ -31,14 +31,14 @@ const DateHeader = ({ council, button, translate }) => (
 					council.dateStart
 				).format('LLL')}`}
 			</div>
-			{hasSecondCall(council.statute) &&
-				`${translate['2nd_call_date']}: ${moment(
+			{hasSecondCall(council.statute)
+				&& `${translate['2nd_call_date']}: ${moment(
 					council.dateStart2NdCall
 				).format('LLL')}`}
 			<h6>
 				<b>{`${translate.new_location_of_celebrate}: `}</b>
-				{council.remoteCelebration === 1
-					? translate.remote_celebration
+				{council.remoteCelebration === 1 ?
+					translate.remote_celebration
 					: `${council.street}, ${council.country}`}
 			</h6>
 		</div>

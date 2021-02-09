@@ -69,7 +69,7 @@ export const createTag = (data, type, translate) => {
 									label: translate[votingType.label],
 									type,
 								})}
-								key={'tag_' + votingType.value}
+								key={`tag_${votingType.value}`}
 							/>
 						))
 				: null

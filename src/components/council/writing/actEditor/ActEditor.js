@@ -496,8 +496,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 						/>
 					</>
 
-				:
-					<>
+				:					<>
 						<BasicButton
 							text={translate.save_preview_act}
 							color={'white'}
@@ -567,12 +566,12 @@ export const generateActTags = (type, data, translate) => {
 	let delegatedVotesString = cache.get(`${council.id}_delegated`);
 
 
-	if(!attendantsString){
+	if (!attendantsString) {
 		attendantsString = data.council.attendants.reduce(buildAttendantsString(council, base), '');
 		cache.set(`${council.id}_attendants`, attendantsString);
 	}
 
-	if(!delegatedVotesString){
+	if (!delegatedVotesString) {
 		delegatedVotesString = buildDelegationsString(council.delegatedVotes, council, translate);
 		cache.set(`${council.id}_delegated`, delegatedVotesString);
 	}
@@ -599,8 +598,8 @@ export const generateActTags = (type, data, translate) => {
 		},
 		firstOrSecondConvene: {
 			value: `${
-				council.firstOrSecondConvene
-					? translate.first
+				council.firstOrSecondConvene ?
+					translate.first
 					: translate.second
 				} `,
 			label: translate.first_or_second_call
@@ -660,15 +659,15 @@ export const generateActTags = (type, data, translate) => {
 			label: translate.number_attentands_in_person
 		},
 		percentageSCPresent: {
-			value: council.percentageSCPresent + '%',
+			value: `${council.percentageSCPresent}%`,
 			label: translate.percentage_shares_personally
 		},
 		percentageSCDelegated: {
-			value: council.percentageSCDelegated + '%',
+			value: `${council.percentageSCDelegated}%`,
 			label: translate.percentage_shares_represented
 		},
 		percentageSCTotal: {
-			value: council.percentageSCTotal + '%',
+			value: `${council.percentageSCTotal}%`,
 			label: translate.percentage_quorum
 		},
 		numParticipationsPresent: {

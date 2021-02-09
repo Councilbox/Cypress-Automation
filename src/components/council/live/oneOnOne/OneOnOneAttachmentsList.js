@@ -11,16 +11,13 @@ const OneOnOneAttachmentsList = ({ council, translate }) => (
                     <AttachmentDownload
                         key={`attachment_Download${index}`}
                         attachment={attachment}
-                        //loading={this.state.downloading}
+                        // loading={this.state.downloading}
                         spacing={0.5}
                     />
                 ))
-                :
-                    translate.no_results
+                : translate.no_results
 
-            :
-
-            <LoadingSection /> }
+            : <LoadingSection /> }
         </div>
     );
 

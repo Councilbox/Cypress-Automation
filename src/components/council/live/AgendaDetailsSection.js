@@ -83,8 +83,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 								agenda={agenda}
 								council={council}
 							/>
-							:
-							<div style={{ display: 'flex', alignItems: 'center', maxWidth: 'calc(100% - 11em)' }}>
+							:							<div style={{ display: 'flex', alignItems: 'center', maxWidth: 'calc(100% - 11em)' }}>
 								<div>
 									<ToolTip text={agenda.agendaSubject}>
 										<div style={{
@@ -124,8 +123,8 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 											marginLeft: '0.2em'
 										}}
 									></i>
-									{pointEditor &&
-										<>
+									{pointEditor
+										&& <>
 											{CBX.isCustomPoint(agenda.subjectType) ?
 												<CustomPointEditor
 													translate={translate}
@@ -142,8 +141,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 													refetch={refetch}
 													requestClose={closePointEditor}
 												/>
-												:
-												<PointEditor
+												:												<PointEditor
 													translate={translate}
 													draftTypes={props.draftTypes}
 													statute={council.statute}
@@ -165,15 +163,14 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 									}
 
 								</React.Fragment>
-								:
-								translate[CBX.getAgendaTypeLabel(agenda)]
+								:								translate[CBX.getAgendaTypeLabel(agenda)]
 							}
 						</div>
 					</div>
 					<Grid>
 						<GridItem xs={normalLayout ? 3 : 12} md={normalLayout ? 3 : 12} lg={3} style={{ display: 'flex', alignItems: 'center' }}>
-							{agenda.subjectType !== CBX.getActPointSubjectType() &&
-								<React.Fragment>
+							{agenda.subjectType !== CBX.getActPointSubjectType()
+								&& <React.Fragment>
 									{agenda.description ?
 										<BasicButton
 											text={translate.description}
@@ -186,8 +183,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 											}}
 											onClick={() => setExpanded(!expanded)}
 										/>
-										:
-										<span style={{ marginRight: '0.6em' }}>{translate.no_description}</span>
+										:										<span style={{ marginRight: '0.6em' }}>{translate.no_description}</span>
 									}
 								</React.Fragment>
 							}
@@ -203,8 +199,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 											refetch={props.refetchCouncil}
 											active={agenda.orderIndex === openIndex}
 										/>
-										:
-										<ToggleAgendaButton
+										:										<ToggleAgendaButton
 											agenda={agenda}
 											council={council}
 											nextPoint={props.nextPoint}
@@ -232,8 +227,8 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 				</GridItem>
 			</Grid>
 			<div style={{ borderTop: '1px solid gainsboro', position: 'relative', width: '100%', height: `calc( ${smallLayout ? '100vh' : '100%'} - ${smallLayout ? '14em' : '6.5em'})`, overflow: 'hidden' }}>
-				{agenda.description &&
-					<Collapse isOpened={expanded} style={{ position: 'absolute', zIndex: '1', borderBottom: '1px solid gainsboro', width: '100%' }}>
+				{agenda.description
+					&& <Collapse isOpened={expanded} style={{ position: 'absolute', zIndex: '1', borderBottom: '1px solid gainsboro', width: '100%' }}>
 						<div
 							style={{
 								fontSize: '0.9em',
@@ -264,8 +259,7 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 						recount={props.recount}
 						majorityTypes={props.majorityTypes}
 					/>
-					:
-					<ActPointInfoDisplay
+					:					<ActPointInfoDisplay
 						council={council}
 						data={props.data}
 						agenda={agenda}
@@ -329,7 +323,7 @@ const EditTitlePoint = ({ title, translate, setPointNameEditor, updateAgenda, ag
 			<BasicButton
 				backgroundColor={{
 					backgroundColor: 'white',
-					border: '1px solid' + getPrimary(),
+					border: `1px solid${getPrimary()}`,
 					color: getPrimary(),
 					marginRight: '0.5em',
 					padding: '0px',
@@ -343,7 +337,7 @@ const EditTitlePoint = ({ title, translate, setPointNameEditor, updateAgenda, ag
 				text={translate.cancel}
 				backgroundColor={{
 					backgroundColor: 'white',
-					border: '1px solid' + getSecondary(),
+					border: `1px solid${getSecondary()}`,
 					padding: '0px',
 					borderRadius: '4px',
 color: getSecondary(),
@@ -351,8 +345,8 @@ color: getSecondary(),
 				}}
 				onClick={() => setPointNameEditor(false)}
 			/>
-			{error &&
-				<span style={{ color: 'red', marginLeft: '0.6em' }}>{error}</span>
+			{error
+				&& <span style={{ color: 'red', marginLeft: '0.6em' }}>{error}</span>
 			}
 		</div>
 	);

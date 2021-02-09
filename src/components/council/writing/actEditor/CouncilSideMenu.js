@@ -19,7 +19,7 @@ class CouncilSideMenu extends React.Component {
     render() {
         const { council, translate, company, councilRecount, councilAttendants } = this.props;
 
-        //TRADUCCION
+        // TRADUCCION
         if (!this.props.open) {
             return <span />;
         }
@@ -33,8 +33,8 @@ class CouncilSideMenu extends React.Component {
                         <h6 style={{ fontWeight: '700', paddingLeft: '0.25em' }}>{translate.council}</h6>
                         <Row field={translate.name} value={council.name} />
                         <Row field={translate['1st_call_date']} value={`${moment(council.dateStart).format('LLL')}`} />
-                        {CBX.hasSecondCall(council.statute) &&
-                            <Row field={translate['2nd_call_date']} value={`${moment(council.dateStart2NdCall).format('LLL')}`} />
+                        {CBX.hasSecondCall(council.statute)
+                            && <Row field={translate['2nd_call_date']} value={`${moment(council.dateStart2NdCall).format('LLL')}`} />
                         }
                         <Row field={translate.new_location_of_celebrate} value={`${
                             council.street
@@ -58,8 +58,8 @@ class CouncilSideMenu extends React.Component {
                         <Row field={translate.remote_vote} value={councilRecount.numRemote} />
                         <Row field={translate.customer_delegated} value={this.props.participantsWithDelegatedVote.length} />
                         <hr></hr>
-                        {councilAttendants.list.length > 0 &&
-                            <React.Fragment>
+                        {councilAttendants.list.length > 0
+                            && <React.Fragment>
                                 <h6 style={{ fontWeight: '700', marginTop: '1.2em' }}>{translate.assistance}</h6>
                                 <div onClick={this.copyAttendants}>Click para copiar la lista completa</div>
                                 {councilAttendants.list.map(attendant => (
@@ -68,7 +68,7 @@ class CouncilSideMenu extends React.Component {
                             </React.Fragment>
                         }
                         <hr></hr>
-                        {/*TRADUCCION*/}
+                        {/* TRADUCCION */}
                         {CBX.hasParticipations(council.statute) ?
                             <React.Fragment>
                                 <h6 style={{ fontWeight: '700', marginTop: '1.2em' }}>{translate.social_capital_desc}</h6>
@@ -90,8 +90,7 @@ class CouncilSideMenu extends React.Component {
                                     value={getPercentage(councilRecount.socialCapitalNoParticipate, councilRecount.socialCapitalTotal)}
                                 />
                             </React.Fragment>
-                            :
-                            <React.Fragment>
+                            : <React.Fragment>
                                 <h6 style={{ fontWeight: '700', marginTop: '1.2em' }}>{translate.votes}</h6>
                                 <Row field={'Total'} value={councilRecount.partTotal} />
                                 <Row
@@ -126,8 +125,7 @@ const createAttendantsString = (attendants, translate) => {
         const represent = attendant.delegationsAndRepresentations.find(participant => participant.state === PARTICIPANT_STATES.REPRESENTATED);
         string += represent ?
             `${represent.name} ${represent.surname || ''} - ${translate.represented_by} ${attendant.name} ${attendant.surname || ''}`
-            :
-            `${attendant.name} ${attendant.surname || ''}`;
+            : `${attendant.name} ${attendant.surname || ''}`;
         string += '\n';
     });
 
@@ -139,8 +137,7 @@ const AttendantRow = ({ attendant, translate }) => {
 
     const dataString = represent ?
         `${represent.name} ${represent.surname || ''} - ${translate.represented_by} ${attendant.name} ${attendant.surname || ''}`
-        :
-        `${attendant.name} ${attendant.surname || ''}`;
+        : `${attendant.name} ${attendant.surname || ''}`;
 
     return (
         <React.Fragment>
@@ -192,7 +189,7 @@ class Row extends React.Component {
     }
 
     render() {
-        //TRADUCCION
+        // TRADUCCION
         return (
             <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', background: this.state.showActions ? 'gainsboro' : '', paddingRight: '0.25em', paddingLeft: '0.25em', paddingBottom: '0.25em', paddingTop: '0.25em', }}
                 onMouseOver={this.mouseEnterHandler}
@@ -205,8 +202,7 @@ class Row extends React.Component {
                             <span>{this.props.value}</span>
                         </Tooltip>
                     </div>
-                    :
-                    <div style={{ width: '64%', marginLeft: '1%', cursor: 'pointer' }} onClick={this.copy}>
+                    : <div style={{ width: '64%', marginLeft: '1%', cursor: 'pointer' }} onClick={this.copy}>
                         {this.props.value}
                     </div>
                 }

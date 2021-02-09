@@ -26,11 +26,11 @@ const ConveneDisplay = ({ match, client, translate, ...props }) => {
             fetchPolicy: 'network-only'
         });
 
-        if(response.errors){
+        if (response.errors) {
             setError(response.errors[0].code);
         }
 
-        if(response.data.councilPublicConvene){
+        if (response.data.councilPublicConvene) {
             setConvene(response.data.councilPublicConvene);
         }
     };
@@ -62,8 +62,7 @@ const ConveneDisplay = ({ match, client, translate, ...props }) => {
                             margin: '0 auto'
                         }}
                     />
-                :
-                    <div
+                : <div
                         style={{
                             width: '100%',
                             marginTop: '2em',
@@ -75,11 +74,11 @@ const ConveneDisplay = ({ match, client, translate, ...props }) => {
                         }}
                     >
                         <img src="/img/logo-icono.png" style={{ height: '3em' }} alt="councilbox-logo" />
-                        {error === 400 &&
-                            'La convocatoria no es de acceso público'
+                        {error === 400
+                            && 'La convocatoria no es de acceso público'
                         }
-                        {error === 404 &&
-                            'No existe esa reunión'
+                        {error === 404
+                            && 'No existe esa reunión'
                         }
                     </div>
                 }

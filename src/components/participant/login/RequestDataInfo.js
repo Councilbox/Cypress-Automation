@@ -1,7 +1,6 @@
 import React from 'react';
 import withTranslations from '../../../HOCs/withTranslations';
 import { getSecondary } from '../../../styles/colors';
-import { SERVER_URL } from '../../../config';
 import shield from '../../../assets/img/shield.svg';
 import shieldFail from '../../../assets/img/shield-fail.svg';
 import network from '../../../assets/img/network.svg';
@@ -14,8 +13,8 @@ const RequestDataInfo = ({ translate, status, message }) => {
 
     const getIcon = () => {
         const icons = {
-            'SUCCESS': <img src={shield} />,
-            'ERROR': <img src={shieldFail} />,
+            SUCCESS: <img src={shield} />,
+            ERROR: <img src={shieldFail} />,
             default: <img src={network} />
         };
 
@@ -31,14 +30,14 @@ const RequestDataInfo = ({ translate, status, message }) => {
                 {getIcon()}
             </div>
             <div style={{ fontSize: '1.1em', color: status === 'ERROR' ? 'red' : secondary }}>
-                {data &&
-                    <>
+                {data
+                    && <>
                         <div style={{ fontWeight: '700', marginBottom: '0.3em' }}>{message || translate.secure_connection}</div>
                         <div>
                             <span style={{ fontWeight: '700', marginRight: '0.5em' }}>IP:</span>
                             {data.requestInfo && data.requestInfo.ip}
-                            {data.geoLocation &&
-                                <>
+                            {data.geoLocation
+                                && <>
                                     <span style={{ fontWeight: '700', marginLeft: '2em' }}>{
                                         `${formatCountryName(data.geoLocation.country, translate.selectedLanguage)
                                     }`}</span>

@@ -21,8 +21,8 @@ const LoadMoreButton = ({ loading, onClick }) => (
         >
             <MenuItem style={{ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
                 Cargar más
-                {loading &&
-                    <div>
+                {loading
+                    && <div>
                         <LoadingSection size={25} />
                     </div>
                 }

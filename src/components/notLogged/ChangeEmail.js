@@ -10,7 +10,6 @@ import { LoadingSection, BasicButton, NotLoggedLayout } from '../../displayCompo
 import logo from '../../assets/img/logo-icono.png';
 
 
-
 const ChangeEmail = ({ match, translate, ...props }) => {
     const [state, setState] = React.useState({
         loading: true,
@@ -43,7 +42,6 @@ const ChangeEmail = ({ match, translate, ...props }) => {
     }, []);
 
 
-
     const errorWrapper = () => (
             <div
                 style={{
@@ -56,8 +54,6 @@ const ChangeEmail = ({ match, translate, ...props }) => {
                 FAIL
             </div>
         );
-
-
 
 
     return (
@@ -91,14 +87,13 @@ const ChangeEmail = ({ match, translate, ...props }) => {
                 >
                     {state.loading ?
                         <LoadingSection />
-                        :
-                        <React.Fragment>
+                        : <React.Fragment>
                             <img src={logo} style={{ height: '6em', marginBottom: '0.6em' }} alt="councibox-icon" />
-                            {!state.success &&
-                                errorWrapper()
+                            {!state.success
+                                && errorWrapper()
                             }
-                            {state.success &&
-                                <div style={{ margin: '1em' }}>
+                            {state.success
+                                && <div style={{ margin: '1em' }}>
                                 Gracias por confirmar el nuevo email
                                 </div>
                             }

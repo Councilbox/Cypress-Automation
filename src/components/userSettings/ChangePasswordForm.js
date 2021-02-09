@@ -218,8 +218,8 @@ class ChangePasswordForm extends React.Component {
 								// required
 								/>
 							</div>
-							{data.newPassword &&
-								<div style={{ width: isMobile ? '100%' : '40%', display: 'flex', alignItems: 'center', minHeight: isMobile ? '50px' : '' }}>
+							{data.newPassword
+								&& <div style={{ width: isMobile ? '100%' : '40%', display: 'flex', alignItems: 'center', minHeight: isMobile ? '50px' : '' }}>
 									<div style={{ width: '50%', marginRight: '3em' }}>
 										<LinearProgress
 											variant="determinate"
@@ -230,7 +230,7 @@ class ChangePasswordForm extends React.Component {
 												borderRadius: '10px',
 												boxShadow: 'rgba(0, 0, 0, 0.15) 0px 12px 20px -10px, rgba(0, 0, 0, 0.18) 0px 4px 20px 0px, rgba(0, 0, 0, 0.23) 0px 7px 8px -5px'
 											}}
-											className={'barColor' + this.state.color}
+											className={`barColor${this.state.color}`}
 										/>
 									</div>
 									{/* TRADUCCION */}

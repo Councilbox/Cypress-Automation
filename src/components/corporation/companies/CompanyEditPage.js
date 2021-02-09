@@ -8,15 +8,15 @@ import { company as queryCompany } from '../../../queries';
 import { bHistory } from '../../../containers/App';
 
 const CompanyEditPage = ({ data, user, company, translate }) => {
-    if(data.loading){
+    if (data.loading) {
         return <LoadingSection />;
     }
 
-    if(!data.company){
+    if (!data.company) {
         bHistory.replace('/companies');
     }
 
-    return(
+    return (
         <div style={{ height: '100%', width: '100%' }}>
             <CompanySettingsPage
                 key={`company_${company.id}`}

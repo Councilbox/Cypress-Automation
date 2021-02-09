@@ -37,13 +37,12 @@ const PointAttachments = ({ translate, company, attachments, setAttachments, set
 
     const removeAgendaAttachment = index => {
         const toDelete = attachments.splice(index, 1);
-        if(setDeletedAttachments){
+        if (setDeletedAttachments) {
             setDeletedAttachments([...deletedAttachments, toDelete[0]]);
         }
 
         setAttachments([...attachments]);
     };
-
 
 
     return (
@@ -68,7 +67,7 @@ const PointAttachments = ({ translate, company, attachments, setAttachments, set
                 type="file"
                 id={'raised-button-file'}
                 onChange={handleFile}
-                //disabled={uploading}
+                // disabled={uploading}
                 style={{
                     cursor: 'pointer',
                     position: 'absolute',
@@ -118,7 +117,7 @@ const PointAttachments = ({ translate, company, attachments, setAttachments, set
                             display: 'flex',
                             color: 'black',
                             padding: '.5em 0em',
-                            borderTop: '1px solid' + primary,
+                            borderTop: `1px solid${primary}`,
                             cursor: 'pointer'
                         }}
                         onClick={() => setCompanyDocumentsModal(true)}

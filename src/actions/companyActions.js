@@ -16,11 +16,11 @@ export const getCompanies = userId => async dispatch => {
 				fetchPolicy: 'network-only'
 			});
 			const selectedCompany = response.data.userCompanies.findIndex(element => element.actived === 1);
-			if(response.data.userCompanies.length === 0){
+			if (response.data.userCompanies.length === 0) {
 				dispatch({
 					type: 'NO_COMPANIES'
 				});
-			}else{
+			} else {
 				dispatch({
 					type: 'COMPANIES',
 					value: response.data.userCompanies.map(item => ({ ...item.company })),
@@ -45,7 +45,7 @@ export const setCompany = company => {
 let initialTranslations = null;
 
 export const addSpecificTranslations = company => {
-	if(!initialTranslations){
+	if (!initialTranslations) {
 		initialTranslations = store.getState().translate;
 	}
 	const specificTranslations = getSpecificTranslations(initialTranslations.selectedLanguage, company);
@@ -62,7 +62,6 @@ export const addSpecificTranslations = company => {
 
 const getSpecificTranslations = (language, company) => {
 	const { type, id } = company;
-
 
 
 	const specificTranslations = {
@@ -103,7 +102,7 @@ export const changeCompany = (index, id) => async dispatch => {
 				companyId: id || companies[index].id
 			}
 		});
-		//dispatch());
+		// dispatch());
 		dispatch({
 			type: 'CHANGE_SELECTED',
 			value: index

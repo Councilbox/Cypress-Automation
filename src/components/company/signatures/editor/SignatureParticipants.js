@@ -32,7 +32,7 @@ class SignatureParticipants extends React.Component {
             }
         });
 
-        if(response.data.removeSignatureParticipant.success){
+        if (response.data.removeSignatureParticipant.success) {
             this.props.data.refetch();
         }
     }
@@ -48,8 +48,8 @@ class SignatureParticipants extends React.Component {
             }
         });
 
-        if(response.data){
-            if(response.data.addSignatureParticipantsFromCensus.success){
+        if (response.data) {
+            if (response.data.addSignatureParticipantsFromCensus.success) {
                 this.props.data.refetch();
                 this.props.refetch();
                 this.props.setError(false);
@@ -75,12 +75,12 @@ class SignatureParticipants extends React.Component {
             </div>
         )
 
-    render(){
+    render() {
         const { translate, company } = this.props;
         const { signatureParticipants = { list: [], total: 0 }, loading, censuses = { list: [], total: 0 } } = this.props.data;
         const primary = getPrimary();
 
-        return(
+        return (
             <React.Fragment>
                 <NewParticipantModal
                     open={this.state.newParticipantModal}
@@ -89,8 +89,8 @@ class SignatureParticipants extends React.Component {
                     refetch={this.props.data.refetch}
                     requestClose={() => this.setState({ newParticipantModal: false })}
                 />
-                {!!this.state.editParticipant &&
-                    <ParticipantEditorModal
+                {!!this.state.editParticipant
+                    && <ParticipantEditorModal
                         participantId={this.state.editParticipant}
                         key={this.state.editParticipant}
                         translate={translate}
@@ -122,11 +122,11 @@ class SignatureParticipants extends React.Component {
                                                 {census.censusName}
                                             </MenuItem>
                                         ))}
-                                    {(multipleGoverningBody(company.governingBodyType) &&
-                                        company.governingBodyData &&
-                                        company.governingBodyData.list &&
-                                        company.governingBodyData.list.length > 0) &&
-                                            <MenuItem
+                                    {(multipleGoverningBody(company.governingBodyType)
+                                        && company.governingBodyData
+                                        && company.governingBodyData.list
+                                        && company.governingBodyData.list.length > 0)
+                                            && <MenuItem
                                                 value={parseInt(-1, 10)}
                                             >
                                                 {translate.governing_body}
@@ -187,8 +187,8 @@ class SignatureParticipants extends React.Component {
                         }
                     ]}
                 >
-                    {signatureParticipants.list.length > 0 &&
-                        signatureParticipants.list.map(participant => (
+                    {signatureParticipants.list.length > 0
+                        && signatureParticipants.list.map(participant => (
                             <HoverableRow
                                 participant={participant}
                                 key={`participant_${participant.id}`}
@@ -210,8 +210,8 @@ class SignatureParticipants extends React.Component {
                     bodyText={this._renderBody()}
                     title={translate.census}
                 />
-                 {this.props.error &&
-                    <div style={{ width: '100%', display: 'flex', justifyContent: 'center', color: 'red', fontWeight: '700' }}>{this.props.error}</div>
+                 {this.props.error
+                    && <div style={{ width: '100%', display: 'flex', justifyContent: 'center', color: 'red', fontWeight: '700' }}>{this.props.error}</div>
                 }
             </React.Fragment>
         );
@@ -235,10 +235,10 @@ class HoverableRow extends React.Component {
         });
     }
 
-    render(){
+    render() {
         const { participant } = this.props;
 
-        return(
+        return (
             <TableRow
                 onMouseOver={this.handleMouseEnter}
                 onMouseLeave={this.handleMouseLeave}
@@ -268,8 +268,7 @@ class HoverableRow extends React.Component {
                                 this.props.deleteParticipant(participant.id);
                             }}
                         />
-                    :
-                        <div style={{ width: '4em' }} />
+                    : <div style={{ width: '4em' }} />
                     }
                 </TableCell>
             </TableRow>

@@ -76,8 +76,8 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 
 	const checkParticipantsStatus = async participants => {
 		const offline = participants.filter(participant => (
-			(participant.online !== 2 && exceedsOnlineTimeout(participant.lastDateConnection) ||
-			(participant.online === 2 && !councilStarted(council))
+			(participant.online !== 2 && exceedsOnlineTimeout(participant.lastDateConnection)
+			|| (participant.online === 2 && !councilStarted(council))
 		)));
 		if (offline.length > 0) {
 			await client.mutate({
@@ -190,18 +190,18 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 							className="truncate"
 						>
 							{`${participant.name} ${participant.surname || ''}`}<br />
-							{(participant.geoLocation && participant.geoLocation.city) &&
-								<span style={{ fontSize: '0.85em' }}>
+							{(participant.geoLocation && participant.geoLocation.city)
+								&& <span style={{ fontSize: '0.85em' }}>
 									{`${participant.geoLocation.ip || participant.geoLocation.query}, ${formatCountryName(participant.geoLocation.country, translate.selectedLanguage)}`}
 								</span>
 							}
 						</div>
 					</Tooltip>
 				</GridItem>
-				{council.state !== COUNCIL_STATES.PAUSED &&
-					<>
-						{!isMobile &&
-							<GridItem xs={3} lg={3} md={3}>
+				{council.state !== COUNCIL_STATES.PAUSED
+					&& <>
+						{!isMobile
+							&& <GridItem xs={3} lg={3} md={3}>
 								<div
 									style={{
 										color: lightGrey,
@@ -342,8 +342,8 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 						{videoParticipants.list.map(participant => _participantEntry(participant))}
 					</Scrollbar>
 				</div>
-				{videoParticipants.total > options.limit &&
-					<div style={{ height: '2em', display: 'flex', alignItems: 'center', borderTop: '1px solid gainsboro', width: '100%', justifyContent: 'flex-end', paddingTop: '0.3em' }}>
+				{videoParticipants.total > options.limit
+					&& <div style={{ height: '2em', display: 'flex', alignItems: 'center', borderTop: '1px solid gainsboro', width: '100%', justifyContent: 'flex-end', paddingTop: '0.3em' }}>
 						{_paginationFooter(videoParticipants)}
 					</div>
 				}
@@ -361,25 +361,25 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 
 	const _paginationFooter = participants => (
 			<div style={{ display: 'flex', color: 'white', fontWeight: '700', alignItems: 'center', paddingTop: '0.5em' }}>
-				{options.page > 1 &&
-					<div onClick={() => setOptions({ ...options, page: options.page - 1 })} style={{ color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer' }}>{'<'}</div>
+				{options.page > 1
+					&& <div onClick={() => setOptions({ ...options, page: options.page - 1 })} style={{ color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer' }}>{'<'}</div>
 				}
 				<div style={{ margin: '0 0.3em' }}>{options.page}</div>
-				{(options.page < (participants.total / options.limit)) &&
-					<div onClick={() => setOptions({ ...options, page: options.page + 1 })} style={{ color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer' }}>{'>'}</div>
+				{(options.page < (participants.total / options.limit))
+					&& <div onClick={() => setOptions({ ...options, page: options.page + 1 })} style={{ color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer' }}>{'>'}</div>
 				}
 			</div>
 		);
 
-	const CMPVideo = true;//this.props.videoURL && this.props.videoURL.includes('councilbox');
+	const CMPVideo = true;// this.props.videoURL && this.props.videoURL.includes('councilbox');
 
 	if (screenSize === 'MAX') {
 		return <div style={{ height: '100%' }}>{CMPVideo && _button()}</div>;
 	}
 	return (
 		<div style={{}}>
-			{CMPVideo &&
-				<div style={{}}>
+			{CMPVideo
+				&& <div style={{}}>
 					<CollapsibleSection
 						trigger={_button}
 						controlled={true}
@@ -396,8 +396,8 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 						buttonCancel={translate.cancel}
 						bodyText={
 							<div>
-								{!!options.banParticipant &&
-									`${translate.want_eject} ${options.banParticipant.name
+								{!!options.banParticipant
+									&& `${translate.want_eject} ${options.banParticipant.name
 									} ${options.banParticipant.surname || ''} ${translate.from_room
 									}?`
 								}

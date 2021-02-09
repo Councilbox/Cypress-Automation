@@ -29,7 +29,7 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
             setSelected(index);
         };
 
-        if(props.editedVotings){
+        if (props.editedVotings) {
             props.showVotingsAlert(cb);
         } else {
             cb();
@@ -60,16 +60,16 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
                 {[
                     <Tab label={isMobile ? translate.agreements : translate.comments_and_agreements} />,
                     <Tab label={isMobile ? translate.comments : translate.act_comments} disabled={!CBX.councilStarted(council)} />,
-                    agenda.subjectType !== AGENDA_TYPES.INFORMATIVE &&
-                        <Tab label={CBX.isConfirmationRequest(agenda.subjectType) ? translate.answers : translate.voting} disabled={showEarlyVotings}/>,
+                    agenda.subjectType !== AGENDA_TYPES.INFORMATIVE
+                        && <Tab label={CBX.isConfirmationRequest(agenda.subjectType) ? translate.answers : translate.voting} disabled={showEarlyVotings}/>,
                     <Tab label={isMobile ? translate.attachments : translate.attachment_files} />
                 ]}
             </Tabs>
-            <div style={{ borderTop: '1px solid gainsboro', height: isMobile ? isLandscape() ? '100%' : 'calc(100% - 5em)' : 'calc(100% - 4em)' }}> {/**height: isMobile ? 'calc(100% - 5em)' : 'calc(100% - 4em)' */}
+            <div style={{ borderTop: '1px solid gainsboro', height: isMobile ? isLandscape() ? '100%' : 'calc(100% - 5em)' : 'calc(100% - 4em)' }}> {/** height: isMobile ? 'calc(100% - 5em)' : 'calc(100% - 4em)' */}
                 <Scrollbar>
                     <>
-                        {selected === 0 &&
-                            <div style={{ padding: '1em' }}>
+                        {selected === 0
+                            && <div style={{ padding: '1em' }}>
                                 <ActAgreements
                                     agenda={agenda}
                                     key={`agendaAgreements_${agenda.id}`}
@@ -81,8 +81,8 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
                                 />
                             </div>
                         }
-                        {selected === 1 &&
-                            <div style={{ marginTop: '6px' }}>
+                        {selected === 1
+                            && <div style={{ marginTop: '6px' }}>
                                 <Comments
                                     agenda={agenda}
                                     council={council}
@@ -92,8 +92,8 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
                         }
                         {agenda.subjectType !== AGENDA_TYPES.INFORMATIVE ?
                             <React.Fragment>
-                                {selected === 2 &&
-                                    <div style={{ padding: '1em' }}>
+                                {selected === 2
+                                    && <div style={{ padding: '1em' }}>
                                         {CBX.isCustomPoint(agenda.subjectType) ?
                                             <CustomPointVotingsLive
                                                 agenda={agenda}
@@ -105,8 +105,7 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
                                                 recount={props.recount}
                                                 translate={translate}
                                             />
-                                        :
-                                            CBX.isConfirmationRequest(agenda.subjectType) ?
+                                        : CBX.isConfirmationRequest(agenda.subjectType) ?
                                                 <div style={{ padding: '1em' }}>
                                                     <ConfirmationRequestRecount
                                                         agenda={agenda}
@@ -124,8 +123,7 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
                                                         translate={translate}
                                                     />
                                                 </div>
-                                            :
-                                                <>
+                                            : <>
                                                     {(council.statute.canEarlyVote === 1 && (!CBX.councilStarted(council))) ?
                                                         <EarlyVotes
                                                             translate={translate}
@@ -133,12 +131,10 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
                                                             council={council}
                                                             recount={props.recount}
                                                         />
-                                                    :
-                                                        <>
+                                                    : <>
                                                             {agenda.votingState !== 2 && agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING ?
                                                                 <PrivateRecountMessage translate={translate} />
-                                                            :
-                                                                <RecountSection
+                                                            : <RecountSection
                                                                     agenda={agenda}
                                                                     key={`agendaRecount_${agenda.id}`}
                                                                     council={council}
@@ -165,10 +161,9 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
                                     </div>
                                 }
                             </React.Fragment>
-                        :
-                            <React.Fragment>
-                                {selected === 2 &&
-                                    <AgendaAttachmentsManager
+                        : <React.Fragment>
+                                {selected === 2
+                                    && <AgendaAttachmentsManager
                                         attachments={agenda.attachments}
                                         translate={translate}
                                         key={`agendaAttachments_${agenda.id}`}
@@ -179,8 +174,8 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
                                 }
                             </React.Fragment>
                         }
-                        {selected === 3 &&
-                            <AgendaAttachmentsManager
+                        {selected === 3
+                            && <AgendaAttachmentsManager
                                 attachments={agenda.attachments}
                                 translate={translate}
                                 key={`agendaAttachments_${agenda.id}`}

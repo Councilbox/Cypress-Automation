@@ -42,9 +42,9 @@ class RichTextInput extends React.Component {
 	}
 
 	shouldComponentUpdate(prevProps, prevState) {
-		return (prevProps.value !== this.props.value ||
-			prevProps.tags !== this.props.tags ||
-			prevProps.errorText !== this.props.errorText) || prevState !== this.state;
+		return (prevProps.value !== this.props.value
+			|| prevProps.tags !== this.props.tags
+			|| prevProps.errorText !== this.props.errorText) || prevState !== this.state;
 	}
 
 	changeShowTags = () => {
@@ -92,8 +92,8 @@ class RichTextInput extends React.Component {
 	};
 
 	checkCharacterCount = event => {
-		if (this.props.maxChars){
-			if(removeHTMLTags(this.state.value.toString()).length >= this.props.maxChars && event.key !== 'Backspace') {
+		if (this.props.maxChars) {
+			if (removeHTMLTags(this.state.value.toString()).length >= this.props.maxChars && event.key !== 'Backspace') {
 				event.preventDefault();
 			}
 		}
@@ -105,10 +105,10 @@ class RichTextInput extends React.Component {
 		const modules = {
 			toolbar: {
 				container: [
-					[{ 'color': [] }, { 'background': [] }], ['bold', 'italic', 'underline', 'link', 'strike'],
-					['blockquote', 'code-block', { 'list': 'ordered' }, { 'list': 'bullet' }],
-					[{ 'header': 1 }, { 'header': 2 }],
-					[{ 'align': 'justify' }], [((this.state.companyTags && this.state.companyTags.length > 0) || (tags && tags.length > 0)) ? 'custom' : '']
+					[{ color: [] }, { background: [] }], ['bold', 'italic', 'underline', 'link', 'strike'],
+					['blockquote', 'code-block', { list: 'ordered' }, { list: 'bullet' }],
+					[{ header: 1 }, { header: 2 }],
+					[{ align: 'justify' }], [((this.state.companyTags && this.state.companyTags.length > 0) || (tags && tags.length > 0)) ? 'custom' : '']
 				],
 				handlers: {
 					// 'custom': (...args) => {
@@ -137,8 +137,8 @@ class RichTextInput extends React.Component {
 				>
 					{this.props.floatingText}
 					{!!required && '*'}
-					{!!errorText &&
-						<FontAwesome
+					{!!errorText
+						&& <FontAwesome
 							name={'times'}
 							style={{
 								fontSize: '13px',
@@ -181,8 +181,8 @@ class RichTextInput extends React.Component {
 											<div>
 												{!!loadDraft && loadDraft}
 											</div>
-											{!!this.props.saveDraft &&
-												this.props.saveDraft
+											{!!this.props.saveDraft
+												&& this.props.saveDraft
 											}
 										</div>
 									</div>
@@ -211,8 +211,8 @@ class RichTextInput extends React.Component {
 								style={{ ...stylesQuill }}
 								className={`text-editor ${this.props.quillEditorButtonsEmpty} ${errorText ? 'text-editor-error' : ''} ${borderless ? 'borderless-text-editor' : ''}`}
 							/>
-							{this.props.maxChars &&
-								<span style={{ color: removeHTMLTags(this.state.value.toString()).length >= this.props.maxChars ? 'red' : 'inherit' }}>
+							{this.props.maxChars
+								&& <span style={{ color: removeHTMLTags(this.state.value.toString()).length >= this.props.maxChars ? 'red' : 'inherit' }}>
 									{`${removeHTMLTags(this.state.value.toString()).length} / ${this.props.maxChars}`}
 								</span>
 							}
@@ -246,7 +246,7 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 	}, [searchModal, companyTags, tags]);
 
 	const loadCompanyTags = React.useCallback(async () => {
-		if(company) {
+		if (company) {
 			const response = await client.query({
 				query,
 				variables: {
@@ -355,8 +355,8 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 							<i className="material-icons" style={{ color: primary, fontSize: '14px', cursor: 'pointer', paddingRight: '0.3em' }} onClick={() => setOcultar(!ocultar)}>
 								help
 							</i>
-							{!ocultar &&
-								<div>{translate.tags_description.split('.')[0]}. <u style={{ cursor: 'pointer' }} onClick={() => setOcultar(true)}>({translate.hide})</u></div>
+							{!ocultar
+								&& <div>{translate.tags_description.split('.')[0]}. <u style={{ cursor: 'pointer' }} onClick={() => setOcultar(true)}>({translate.hide})</u></div>
 							}
 						</div>
 						<div style={{ width: '97%', height: '30vh' }} >

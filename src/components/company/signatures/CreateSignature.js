@@ -29,7 +29,7 @@ class CreateSignature extends React.Component {
 			);
 			bHistory.replace(`/company/${this.props.match.params.company}/signature/${newSignatureId}`);
 		}
-		//Nueva forma de firmar signatureIvCert
+		// Nueva forma de firmar signatureIvCert
 		if (this.props.match.url === `/company/${this.props.match.params.company}/signatureIvCert/new` && !this.state.creating) {
 			this.setState({
 				creating: true

@@ -118,8 +118,8 @@ const CouncilLiveMobilePage = ({ client, companies, data, translate, ...props })
                         buttonStyle={{ marginBottom: '1em' }}
                         onClick={openCommentWall}
                     />
-                    {showVideo(council) &&
-                        <BasicButton
+                    {showVideo(council)
+                        && <BasicButton
                             text={'Ver participantes remotos'}
                             color={secondary}
                             textStyle={{ color: 'white', fontWeight: '700' }}
@@ -132,13 +132,13 @@ const CouncilLiveMobilePage = ({ client, companies, data, translate, ...props })
                     icon={
                         <React.Fragment>
                             <Icon className="material-icons">
-                                {state.participants
-                                    ? 'developer_board'
+                                {state.participants ?
+                                    'developer_board'
                                     : 'group'}
                             </Icon>
                             <Icon className="material-icons">
-                                {state.participants
-                                    ? 'keyboard_arrow_left'
+                                {state.participants ?
+                                    'keyboard_arrow_left'
                                     : 'keyboard_arrow_right'}
                             </Icon>
                         </React.Fragment>
@@ -181,8 +181,7 @@ const CouncilLiveMobilePage = ({ client, companies, data, translate, ...props })
                         }
                         council={data.council}
                     />
-                    :
-                    <AgendaManager
+                    : <AgendaManager
                         ref={agendaManager => (agendaManager = agendaManager)}
                         recount={data.councilRecount}
                         council={council}

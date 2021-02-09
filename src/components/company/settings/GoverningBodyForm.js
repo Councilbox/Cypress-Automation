@@ -46,7 +46,7 @@ const GoverningBodyForm = ({ translate, state, updateState }) => {
                             Component={() => <div
                                     style={{
                                         borderRadius: '1px',
-                                        border: '1px solid' + primary,
+                                        border: `1px solid${primary}`,
                                         padding: '0.5em 1em',
                                         cursor: 'pointer'
                                     }}
@@ -226,7 +226,7 @@ const primary = getPrimary();
 const ListAdminForm = ({ translate, setData, data }) => {
     const primary = getPrimary();
     React.useEffect(() => {
-        if(!data.list){
+        if (!data.list) {
             setData({
                 list: []
             });
@@ -287,8 +287,8 @@ const ListAdminForm = ({ translate, setData, data }) => {
                     boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
                     padding: '1em',
                     width: '100%',
-                    //maxHeight: expandAdministradores ? "100%" : "20em",
-                    //overflow: "hidden",
+                    // maxHeight: expandAdministradores ? "100%" : "20em",
+                    // overflow: "hidden",
                     overflowX: 'auto',
                     position: 'relative',
                     paddingBottom: '2.5em',
@@ -412,7 +412,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
                                     </TableCell>
                                     <TableCell>
                                         <ContentEditable
-                                            html={(item.numParticipations && item.numParticipations !== 0) ? item.numParticipations + '' : 0}
+                                            html={(item.numParticipations && item.numParticipations !== 0) ? `${item.numParticipations}` : 0}
                                             style={{ borderBottom: item.numParticipations && item.numParticipations !== 0 ? '1px solid grey' : '' }}
                                             onChange={event => {
                                                 setAdminData({
@@ -423,7 +423,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
                                     </TableCell>
                                     <TableCell>
                                         <ContentEditable
-                                            html={(item.socialCapital && item.socialCapital !== 0) ? item.socialCapital + '' : 0}
+                                            html={(item.socialCapital && item.socialCapital !== 0) ? `${item.socialCapital}` : 0}
                                             style={{ borderBottom: (item.socialCapital && item.socialCapital !== 0) ? '1px solid grey' : '' }}
                                             onChange={event => {
                                                 setAdminData({
@@ -481,7 +481,7 @@ export const getCouncilAdminPosition = (index, translate) => {
 
 const CouncilAdminForm = ({ translate, setData, data }) => {
     React.useEffect(() => {
-        if(!data.list || data.list.length !== 4){
+        if (!data.list || data.list.length !== 4) {
             setData({
                 list: [baseUser, baseUser, baseUser, baseUser]
             });
@@ -499,9 +499,6 @@ const CouncilAdminForm = ({ translate, setData, data }) => {
             list: [...list]
         });
     };
-
-
-
 
 
     return (

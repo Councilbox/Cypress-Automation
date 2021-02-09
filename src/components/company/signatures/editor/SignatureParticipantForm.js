@@ -92,13 +92,13 @@ const SignatureParticipantForm = ({ participant, translate, updateState, errors,
 					{languages.map(language => (
 							<MenuItem
 								value={
-									language.columnName
-										? language.columnName
+									language.columnName ?
+										language.columnName
 										: language.column_name
 								}
 								key={`language_${
-									language.columnName
-										? language.columnName
+									language.columnName ?
+										language.columnName
 										: language.column_name
 								}`}
 							>

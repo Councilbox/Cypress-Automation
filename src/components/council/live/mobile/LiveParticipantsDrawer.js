@@ -10,8 +10,8 @@ const LiveParticipantsDrawer = ({ open, requestClose, council, translate }) => {
 
     return (
         <React.Fragment>
-            {open &&
-                <Drawer
+            {open
+                && <Drawer
                     style={{
                         zIndex: -1,
                         minWidth: `${100}px`,

@@ -30,7 +30,6 @@ import VoteLetterWithSenseOption from './VoteLetterWithSenseOption';
 import AttendanceTextEditor from './AttendanceTextEditor';
 
 
-
 const StepOptions = ({ translate, data, client, ...props }) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
@@ -75,7 +74,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 			}
 		}
 	});
-	const council = state.data.council;
+	const { council } = state.data;
 
 
 	const updateCouncil = async step => {
@@ -112,7 +111,6 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 		});
 
 
-
 		setState({
 			...state,
 			loading: false,
@@ -136,7 +134,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 				}
 			}
 		});
-		if(response){
+		if (response) {
 			setIsmodal({ ...isModal, modal: false, unsavedModal: false });
 		}
 	};
@@ -163,7 +161,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 		}
 
 		if (council.autoClose === 1) {
-			//TRADUCCION
+			// TRADUCCION
 			if (!CBX.checkSecondDateAfterFirst(council.dateStart, council.closeDate)) {
 				setState({
 					...state,
@@ -182,7 +180,6 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 
 		return false;
 	};
-
 
 
 	function updateCouncilData(data) {
@@ -270,8 +267,8 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 								})
 							}
 						/>
-						{council.autoClose === 1 &&
-							<div style={{ width: '22em', marginLeft: '0.9em' }}>
+						{council.autoClose === 1
+							&& <div style={{ width: '22em', marginLeft: '0.9em' }}>
 								<DateTimePicker
 									required
 									minDate={moment(new Date(council.dateStart)).add(1, 'm')}
@@ -290,8 +287,8 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 							</div>
 						}
 					</div>
-					{council.councilType === 0 &&
-						<GridItem xs={12} md={8} lg={6}>
+					{council.councilType === 0
+						&& <GridItem xs={12} md={8} lg={6}>
 							<RTMPField
 								data={council}
 								updateData={updateCouncilData}
@@ -312,8 +309,8 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 					/>
 
 					<div style={{ display: 'flex' }}>
-						{council.autoClose === 1 &&
-							<div style={{ width: '22em' }}>
+						{council.autoClose === 1
+							&& <div style={{ width: '22em' }}>
 								<DateTimePicker
 									required
 									errorText={state.errors.closeDate}
@@ -345,8 +342,8 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 						}}
 					/>
 					<div style={{ display: 'flex' }}>
-						{council.autoClose === 1 &&
-							<div style={{ width: '22em' }}>
+						{council.autoClose === 1
+							&& <div style={{ width: '22em' }}>
 								<DateTimePicker
 									required
 									errorText={state.errors.closeDate}
@@ -506,8 +503,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 						>
 							<LoadingSection />
 						</div>
-						:
-						<div style={{ marginLeft: '1em' }}>
+						:						<div style={{ marginLeft: '1em' }}>
 							{council.councilType < 2 && (
 								<React.Fragment>
 									<SectionTitle
@@ -522,8 +518,8 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 											})
 										}
 									/>
-									{council.confirmAssistance === 1 &&
-										<>
+									{council.confirmAssistance === 1
+										&& <>
 											<AttendanceTextEditor
 												council={council}
 												translate={translate}
@@ -539,8 +535,8 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 							)}
 							{renderCouncilTypeSpecificOptions(council.councilType)}
 
-							{council.councilType !== 4 &&
-								<>
+							{council.councilType !== 4
+								&& <>
 									<SectionTitle
 										text={translate.security}
 										color={primary}
@@ -741,7 +737,6 @@ export default compose(
 		name: 'updateCouncil'
 	})
 )(withWindowSize(StepOptions));
-
 
 
 const RTMPField = ({ data, updateData, translate }) => {

@@ -28,7 +28,7 @@ const PointEditorLive = ({ agenda, translate, council, ...props }) => {
 
     const updateAgenda = async () => {
         const majorityCheckResult = checkValidMajority(state.majority, state.majorityDivider, state.majorityType);
-        if(majorityCheckResult.error){
+        if (majorityCheckResult.error) {
             setState({
                 majorityError: majorityCheckResult.message
             });
@@ -48,16 +48,16 @@ const PointEditorLive = ({ agenda, translate, council, ...props }) => {
     const _renderModalBody = () => {
         const filteredTypes = filterAgendaVotingTypes(props.votingTypes, council.statute, council);
 
-        if(isCustomPoint(agenda.subjectType)){
+        if (isCustomPoint(agenda.subjectType)) {
             return (
                 <SelectInput
                     floatingText={translate.type}
-                    value={'' + state.subjectType}
+                    value={`${state.subjectType}`}
                     onChange={event => updateState({ subjectType: +event.target.value })}
                 >
                     {Object.keys(CUSTOM_AGENDA_VOTING_TYPES).map(key => (
                             <MenuItem
-                                value={'' + CUSTOM_AGENDA_VOTING_TYPES[key].value}
+                                value={`${CUSTOM_AGENDA_VOTING_TYPES[key].value}`}
                                 key={`voting${CUSTOM_AGENDA_VOTING_TYPES[key].value}`}
                             >
                                 {translate[CUSTOM_AGENDA_VOTING_TYPES[key].label]}
@@ -71,12 +71,12 @@ const PointEditorLive = ({ agenda, translate, council, ...props }) => {
             <React.Fragment>
                 <SelectInput
                     floatingText={translate.type}
-                    value={'' + state.subjectType}
+                    value={`${state.subjectType}`}
                     onChange={event => updateState({ subjectType: +event.target.value })}
                 >
                     {filteredTypes.map(voting => (
                             <MenuItem
-                                value={'' + voting.value}
+                                value={`${voting.value}`}
                                 key={`voting${voting.value}`}
                             >
                                 {translate[voting.label]}
@@ -88,8 +88,8 @@ const PointEditorLive = ({ agenda, translate, council, ...props }) => {
                         <GridItem xs={6} lg={3} md={3}>
                             <SelectInput
                                 floatingText={translate.majority_label}
-                                value={'' + state.majorityType}
-                                //errorText={errors.majorityType}
+                                value={`${state.majorityType}`}
+                                // errorText={errors.majorityType}
                                 onChange={event => updateState({
                                         majorityType: +event.target.value
                                     })
@@ -98,7 +98,7 @@ const PointEditorLive = ({ agenda, translate, council, ...props }) => {
                             >
                                 {props.majorityTypes.map(majority => (
                                         <MenuItem
-                                            value={'' + majority.value}
+                                            value={`${majority.value}`}
                                             key={`majorityType_${
                                                 majority.value
                                             }`}
@@ -125,8 +125,8 @@ const PointEditorLive = ({ agenda, translate, council, ...props }) => {
                                 />
                             )}
                         </GridItem>
-                        {state.majorityError &&
-                            <div>
+                        {state.majorityError
+                            && <div>
                                 <span style={{ color: 'red' }}>{state.majorityError}</span>
                             </div>
                         }
@@ -137,7 +137,7 @@ const PointEditorLive = ({ agenda, translate, council, ...props }) => {
         );
     };
 
-    return(
+    return (
         <AlertConfirm
             open={props.open}
             requestClose={props.requestClose}
@@ -150,7 +150,6 @@ const PointEditorLive = ({ agenda, translate, council, ...props }) => {
         />
     );
 };
-
 
 
 export default graphql(updateAgenda, {

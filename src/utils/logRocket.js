@@ -6,17 +6,17 @@ const logRocketState = {
 };
 
 export const initLogRocket = user => {
-    if(logRocketState.initialized) {
+    if (logRocketState.initialized) {
         return;
     }
 
-    if(process.env.REACT_APP_LOGROCKET_ENABLED){
+    if (process.env.REACT_APP_LOGROCKET_ENABLED) {
         LogRocket.init(process.env.REACT_APP_LOGROCKET_ENABLED);
         try {
             logRocketState.initialized = true;
             setupLogRocketReact(LogRocket);
 
-            if(user.roles !== 'devAdmin'){
+            if (user.roles !== 'devAdmin') {
                 LogRocket.identify(user.id, {
                     name: `${user.name} ${user.surname}`,
                     email: user.email,
@@ -24,7 +24,7 @@ export const initLogRocket = user => {
                     subscriptionType: user.roles || 'participant'
                 });
             }
-        } catch (error){
+        } catch (error) {
             console.error(error);
         }
     }

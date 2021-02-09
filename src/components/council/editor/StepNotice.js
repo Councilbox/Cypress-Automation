@@ -102,7 +102,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 	};
 
 	const checkDates = () => {
-		const statute = data.council.statute;
+		const { statute } = data.council;
 		const firstDate = council.dateStart || new Date().toISOString();
 		const secondDate = council.dateStart2NdCall || new Date().toISOString();
 		const errors = {};
@@ -132,7 +132,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 				updateConveneDates(oldFirstDate, firstDate, oldSecondDate, secondDate);
 			}
 			if (!CBX.checkMinimumDistanceBetweenCalls(firstDate, secondDate, statute)) {
-				//errors.dateStart2NdCall = translate.new_statutes_hours_warning.replace("{{hours}}", statute.minimumSeparationBetweenCall);
+				// errors.dateStart2NdCall = translate.new_statutes_hours_warning.replace("{{hours}}", statute.minimumSeparationBetweenCall);
 			}
 		}
 
@@ -264,8 +264,8 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 		}
 
 		if (
-			!council.conveneText ||
-			council.conveneText.replace(/<\/?[^>]+(>|$)/g, '').length <= 0
+			!council.conveneText
+			|| council.conveneText.replace(/<\/?[^>]+(>|$)/g, '').length <= 0
 		) {
 			errors.conveneText = translate.field_required;
 		} else if (CBX.checkForUnclosedBraces(council.conveneText)) {
@@ -323,7 +323,6 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 	}
 
 	let tags = [];
-
 
 
 	if (CBX.hasSecondCall(statute)) {
@@ -418,8 +417,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 						>
 							<LoadingSection />
 						</div>
-						:
-						<React.Fragment>
+						:						<React.Fragment>
 							{
 								<LoadFromPreviousCouncil
 									council={council}
@@ -443,8 +441,8 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 													value={statute.id}
 													key={`statutes_${statute.id}`}
 												>
-													{translate[statute.title] ||
-														statute.title}
+													{translate[statute.title]
+														|| statute.title}
 												</MenuItem>
 											))}
 									</SelectInput>
@@ -478,8 +476,8 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 									/>
 									<h6 style={{ paddingTop: '0.8em', marginLeft: '1em' }}>
 										<b>{`${translate.new_location_of_celebrate}: `}</b>
-										{council.remoteCelebration === 1
-											? translate.remote_celebration
+										{council.remoteCelebration === 1 ?
+											translate.remote_celebration
 											: `${council.street}, ${council.country}`}
 									</h6>
 								</GridItem>
@@ -506,8 +504,8 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 										<DateTimePicker
 											required
 											minDate={
-												council.dateStart
-													? new Date(council.dateStart)
+												council.dateStart ?
+													new Date(council.dateStart)
 													: new Date()
 											}
 											errorText={errors.dateStart2NdCall}
@@ -554,7 +552,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 												statute={statute}
 												statutes={companyStatutes}
 												defaultTags={{
-													'convene_header': {
+													convene_header: {
 														active: true,
 														label: translate.convene_header,
 														name: 'convene_header',
@@ -588,7 +586,7 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 												statute={statute}
 												statutes={companyStatutes}
 												defaultTags={{
-													'convene_footer': {
+													convene_footer: {
 														active: true,
 														type: TAG_TYPES.DRAFT_TYPE,
 														name: 'convene_footer',

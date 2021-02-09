@@ -53,9 +53,9 @@ function checkValidServiceWorker(swUrl) {
 		.then(response => {
 			// Ensure service worker exists, and that we really are getting a JS file.
 			if (
-				response.status === 404 ||
-				response.headers.get('content-type').indexOf('javascript') ===
-					-1
+				response.status === 404
+				|| response.headers.get('content-type').indexOf('javascript')
+					=== -1
 			) {
 				// No service worker found. Probably a different app. Reload the page.
 				navigator.serviceWorker.ready.then(registration => {
@@ -76,9 +76,9 @@ function checkValidServiceWorker(swUrl) {
 }
 
 const isLocalhost = Boolean(
-	window.location.hostname === 'localhost' || // [::1] is the IPv6 localhost address.
-	window.location.hostname === '[::1]' || // 127.0.0.1/8 is considered localhost for IPv4.
-		window.location.hostname.match(
+	window.location.hostname === 'localhost' // [::1] is the IPv6 localhost address.
+	|| window.location.hostname === '[::1]' // 127.0.0.1/8 is considered localhost for IPv4.
+		|| window.location.hostname.match(
 			/^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
 		)
 );

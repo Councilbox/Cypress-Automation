@@ -12,12 +12,12 @@ const DenyVote = ({ translate, client, refetch, participant }) => {
     const secondary = getSecondary();
     const config = React.useContext(ConfigContext);
 
-    if(!config.denyVote){
+    if (!config.denyVote) {
         return null;
     }
 
     const renderBody = () => {
-        if(!participant.voteDenied){
+        if (!participant.voteDenied) {
             return (
             <div>
                 {translate.deny_vote_warning_question}
@@ -100,8 +100,7 @@ const DenyVote = ({ translate, client, refetch, participant }) => {
                         <span onClick={() => setModal(true)} style={{ fontSize: '0.9em', color: secondary, cursor: 'pointer' }}>({translate.restore_vote_right})</span>
                     </Typography>
                 </Tooltip>
-            :
-                <Typography variant="body1" className="truncate" style={{ cursor: 'pointer' }} onClick={() => setModal(true)}>
+            : <Typography variant="body1" className="truncate" style={{ cursor: 'pointer' }} onClick={() => setModal(true)}>
                     {translate.deny_right_to_vote}
                 </Typography>
             }

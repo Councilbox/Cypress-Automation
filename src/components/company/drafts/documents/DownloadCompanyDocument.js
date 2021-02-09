@@ -4,7 +4,6 @@ import { getSecondary } from '../../../../styles/colors';
 import { LoadingSection } from '../../../../displayComponents';
 
 
-
 const DownloadCompanyDocument = ({ file, trigger, color = getSecondary() }) => {
     const [downloading, setDownloading] = React.useState(false);
 
@@ -19,7 +18,7 @@ const DownloadCompanyDocument = ({ file, trigger, color = getSecondary() }) => {
 			})
 		});
 
-		if(response.status === 200){
+		if (response.status === 200) {
 			const blob = await response.blob();
 			const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -38,14 +37,12 @@ const DownloadCompanyDocument = ({ file, trigger, color = getSecondary() }) => {
                 <>
                     {trigger}
                 </>
-            :
-                <>
+            : <>
                     {downloading ?
                         <div>
                             <LoadingSection color={'secondary'} size={12} />
                         </div>
-                        :
-                        <i className="fa fa-download" aria-hidden="true" onClick={download} style={{
+                        : <i className="fa fa-download" aria-hidden="true" onClick={download} style={{
                             color,
                             cursor: 'pointer'
                         }}></i>

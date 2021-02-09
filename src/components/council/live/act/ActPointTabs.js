@@ -18,7 +18,7 @@ const ActPointTabs = ({ agenda, translate, council, company, ...props }) => {
     };
 
 
-    return(
+    return (
         <div style={{ height: '100%', backgroundColor: 'white' }}>
             <Tabs
                 value={selectedTab}
@@ -28,14 +28,14 @@ const ActPointTabs = ({ agenda, translate, council, company, ...props }) => {
             >
                 <Tab label={translate.proposed_act} />
                 <Tab label={translate.voting}/>
-                {CBX.councilHasComments(council.statute) &&
-                    <Tab label={translate.act_comments}/>
+                {CBX.councilHasComments(council.statute)
+                    && <Tab label={translate.act_comments}/>
                 }
             </Tabs>
             <div style={{ width: '100%', height: 'calc(100% - 48px)', borderTop: '1px solid gainsboro' }}>
                 <Scrollbar>
-                    {selectedTab === 0 &&
-                        <div style={{ padding: '1.5em', paddingRight: '4.5em' }}>
+                    {selectedTab === 0
+                        && <div style={{ padding: '1.5em', paddingRight: '4.5em' }}>
                             <ActHTMLTab
                                 council={council}
                                 translate={translate}
@@ -46,8 +46,8 @@ const ActPointTabs = ({ agenda, translate, council, company, ...props }) => {
                             />
                         </div>
                     }
-                    {selectedTab === 1 &&
-                        <div style={{ padding: '1.5em', paddingRight: '4.5em', paddingBottom: '2em' }}>
+                    {selectedTab === 1
+                        && <div style={{ padding: '1.5em', paddingRight: '4.5em', paddingBottom: '2em' }}>
                             <RecountSection
                                 agenda={agenda}
                                 key={`agendaRecount_${agenda.id}`}
@@ -67,8 +67,8 @@ const ActPointTabs = ({ agenda, translate, council, company, ...props }) => {
                             />
                         </div>
                     }
-                    {selectedTab === 2 &&
-                        <Comments
+                    {selectedTab === 2
+                        && <Comments
                             agenda={agenda}
                             council={council}
                             translate={translate}

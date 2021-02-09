@@ -44,15 +44,15 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
     };
 
     const printPercentage = num => {
-        if(company.type === 10){
+        if (company.type === 10) {
             return '';
         }
 
-        //const total = council.statute.quorumPrototype === 0 ? (agenda.presentCensus + agenda.remoteCensus) : recount.partTotal;
+        // const total = council.statute.quorumPrototype === 0 ? (agenda.presentCensus + agenda.remoteCensus) : recount.partTotal;
         const total = agenda.presentCensus + agenda.remoteCensus;
 
 
-        if(total === 0){
+        if (total === 0) {
             return '(0%)';
         }
 
@@ -108,8 +108,8 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                 </div>
                 <div style={itemStyle}>
                     {`${translate.votes}: ${(editable && activatePresentOneVote) ?
-                        CBX.showNumParticipations(agenda.numPresentCensus, company, council.statute) :
-                        CBX.showNumParticipations(agenda.presentCensus, company, council.statute) || 0} ${printPercentage(agenda.presentCensus)}`}
+                        CBX.showNumParticipations(agenda.numPresentCensus, company, council.statute)
+                        : CBX.showNumParticipations(agenda.presentCensus, company, council.statute) || 0} ${printPercentage(agenda.presentCensus)}`}
                 </div>
             </>
         );
@@ -173,12 +173,11 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                         </div>
                     </GridItem>
                     <GridItem xs={4} lg={4} md={4} style={columnStyle}>
-                        {CBX.haveQualityVoteConditions(agenda, council) &&
-                            <div style={itemStyle}>
+                        {CBX.haveQualityVoteConditions(agenda, council)
+                            && <div style={itemStyle}>
                                 {approvedByQualityVote ?
                                     `${translate.approved} ${translate.by_quality_vote}`
-                                    :
-                                    `${translate.not_approved} ${translate.by_quality_vote}`
+                                    : `${translate.not_approved} ${translate.by_quality_vote}`
                                 }
                             </div>
                         }
@@ -273,8 +272,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                                         />
                                     </div>
                                 </React.Fragment>
-                                :
-                                <React.Fragment>
+                                : <React.Fragment>
                                     {translate.in_favor} : {printPositivePresent()}
                                     <br></br>
                                     {translate.against} : {printNegativePresent()}
@@ -313,8 +311,8 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
 
     return (
         <React.Fragment>
-            {council.autoClose !== 1 &&
-                <Grid style={{ border: `1px solid ${getSecondary()}`, margin: 'auto', marginTop: '1em', marginBottom: '2em' }}>
+            {council.autoClose !== 1
+                && <Grid style={{ border: `1px solid ${getSecondary()}`, margin: 'auto', marginTop: '1em', marginBottom: '2em' }}>
                     <GridItem xs={3} lg={3} md={3} style={columnStyle}>
                         {renderTotal()}
                     </GridItem>
@@ -339,12 +337,11 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                     </div>
                 </GridItem>
                 <GridItem xs={4} lg={4} md={4} style={columnStyle}>
-                    {CBX.haveQualityVoteConditions(agenda, council) &&
-                        <div style={itemStyle}>
+                    {CBX.haveQualityVoteConditions(agenda, council)
+                        && <div style={itemStyle}>
                             {CBX.approvedByQualityVote(agenda, council.qualityVoteId) ?
                                 `${translate.approved} ${translate.by_quality_vote}`
-                                :
-                                `${translate.not_approved} ${translate.by_quality_vote}`
+                                : `${translate.not_approved} ${translate.by_quality_vote}`
                             }
                         </div>
                     }
@@ -424,8 +421,7 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refet
                                 translate={translate}
                             />
                         </React.Fragment>
-                        :
-                        <React.Fragment>
+                        : <React.Fragment>
                             <TableCell>
                                 {printPositivePresent()}
                             </TableCell>
@@ -504,7 +500,7 @@ class EditableCell extends React.Component {
         });
     }
 
-    handleKeyUp = (event) => {
+    handleKeyUp = event => {
         const key = event.nativeEvent;
 
         if (key.keyCode === 13) {
@@ -543,7 +539,7 @@ class EditableCell extends React.Component {
                                     min={0}
                                     onBlur={this.saveValue}
                                     value={this.state.value}
-                                    onChange={(event) => {
+                                    onChange={event => {
                                         if (event.target.value >= 0 && event.target.value <= this.props.max) {
                                             this.setState({
                                                 value: parseInt(event.target.value, 10)
@@ -556,8 +552,7 @@ class EditableCell extends React.Component {
                             </div>
                         </Tooltip>
 
-                        :
-                        this.state.value
+                        : this.state.value
                     }
                 </div>
             );
@@ -584,7 +579,7 @@ class EditableCell extends React.Component {
                                     min={0}
                                     onBlur={this.saveValue}
                                     value={this.state.value}
-                                    onChange={(event) => {
+                                    onChange={event => {
                                         if (event.target.value >= 0 && event.target.value <= this.props.max) {
                                             this.setState({
                                                 value: parseInt(event.target.value, 10)
@@ -597,8 +592,7 @@ class EditableCell extends React.Component {
                             </div>
                         </Tooltip>
 
-                        :
-                        this.state.value
+                        : this.state.value
                     }
 
                 </div>

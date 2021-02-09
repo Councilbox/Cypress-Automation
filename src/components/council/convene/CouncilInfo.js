@@ -13,13 +13,12 @@ const CouncilInfo = ({ council, translate }) => (
                     <p><b>&#8226; {`${translate['1st_call_date']}`}</b>: {`${moment(council.dateStart).format('LLL')}`}</p>
                     <p><b>&#8226; {`${translate['2nd_call_date']}`}</b>: {`${moment(council.dateStart2NdCall).format('LLL')}`}</p>
                 </React.Fragment>
-                :
-                <p>
+                : <p>
                     <b>&#8226; {`${translate.celebration_date}`}</b>: {`${moment(council.dateStart).format('LLL')}`}
                 </p>
             }
-            {!!council.dateRealStart &&
-                <p>
+            {!!council.dateRealStart
+                && <p>
                     {`${translate.meeting_has_started_in} ${
                         council.firstOrSecondConvene === 1 ? translate.first_call : translate.second_call
                         } ${translate.the

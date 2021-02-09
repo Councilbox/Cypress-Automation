@@ -8,7 +8,7 @@ const styleMainIcon = (color, ratio) => ({
 		color
 	});
 
-const styleImageIcon = (ratio) => ({
+const styleImageIcon = ratio => ({
 		height: `${1.6 * ratio}em`,
 		width: 'auto'
 	});

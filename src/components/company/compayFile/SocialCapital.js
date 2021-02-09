@@ -6,7 +6,6 @@ import withTranslations from '../../../HOCs/withTranslations';
 import { getPrimary } from '../../../styles/colors';
 
 
-
 const ShareCapital = ({ translate, updateFileData, updateCompany, data, ...props }) => {
     const primary = getPrimary();
     const shareowners = (data.file && data.file.shareowners) ? data.file.shareowners : [];
@@ -44,7 +43,7 @@ const ShareCapital = ({ translate, updateFileData, updateCompany, data, ...props
                 <div style={{ height: '100%', }}>
                     <div style={{ padding: '0 1em', fontWeight: 'bold', color: primary, display: 'flex', justifyContent: 'space-between', paddingLeft: '24px', paddingRight: '24px' }}>
                         <div style={{ width: '33%', display: 'flex', cursor: 'pointer' }} onClick={addRow}>
-                            <div style={{ border: '1px solid' + primary, padding: '0.6em 5px', display: 'flex' }}>
+                            <div style={{ border: `1px solid${primary}`, padding: '0.6em 5px', display: 'flex' }}>
                                 {translate.add}
                                 <div>
                                     <i className="fa fa-plus-circle" style={{ color: primary, paddingRight: '5px', marginLeft: '5px', fontSize: '16px' }}></i>
@@ -114,8 +113,7 @@ const ShareCapital = ({ translate, updateFileData, updateCompany, data, ...props
                                         </Card>
                                     </div>
                                 ))
-                            :
-                                <div style={{ marginTop: '1em' }}>
+                            : <div style={{ marginTop: '1em' }}>
                                     {translate.no_results}
                                 </div>
 

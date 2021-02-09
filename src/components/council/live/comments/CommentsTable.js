@@ -45,7 +45,7 @@ const CommentsTable = props => {
 		};
 
 		if (this.state.filterText) {
-			const filterText = state.filterText;
+			const { filterText } = state;
 			variables = {
 				...variables,
 				authorFilters: {
@@ -124,8 +124,8 @@ const CommentsTable = props => {
 											voting.author.representative.surname || ''
 											}` : ''}`}
 									</span>
-									{voting.author.position &&
-										<span style={{ fontSize: '0.73rem' }}>{` - ${
+									{voting.author.position
+										&& <span style={{ fontSize: '0.73rem' }}>{` - ${
 											voting.author.position
 										}`}</span>
 									}

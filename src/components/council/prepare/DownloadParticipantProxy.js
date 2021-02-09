@@ -13,7 +13,7 @@ const DownloadCBXDataButton = props => {
 
 	const downloadCBXData = async id => {
 		setLoading(true);
-		if(props.updateState){
+		if (props.updateState) {
 			props.updateState({ loading: true });
 		}
 		const response = await props.client.query({
@@ -36,7 +36,7 @@ const DownloadCBXDataButton = props => {
 					`Proxy_${props.participant.name}${props.participant.surname ? `_${props.participant.surname || ''}` : ''}.pdf`.replace(' ', '_')
 				);
 				setLoading(false);
-				if(props.updateState){
+				if (props.updateState) {
 					props.updateState({ loading: false });
 				}
 			}

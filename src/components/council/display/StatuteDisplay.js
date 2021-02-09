@@ -14,8 +14,8 @@ export const StatuteDisplay = ({ statute, translate, quorumTypes }) => (
         <div style={{ display: 'flex', alignItems: 'center' }}>
             {getSelectionIcon(statute.existsSecondCall)}<span>{translate.exists_second_call}</span>
         </div>
-        {statute.existsSecondCall === 1 &&
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+        {statute.existsSecondCall === 1
+            && <div style={{ display: 'flex', alignItems: 'center' }}>
                 <div style={{ width: '15px', marginRight: '0.4em' }}></div><span>{translate.minimum_separation_between_call}</span>{` - ${statute.minimumSeparationBetweenCall} ${translate.minutes}`}
             </div>
         }
@@ -26,8 +26,8 @@ export const StatuteDisplay = ({ statute, translate, quorumTypes }) => (
             <div style={{ width: '15px', marginRight: '0.4em' }}></div>   <span style={{ marginRight: '0.3em' }}>{translate.exist_quorum_assistance_first_call}:</span>{translate[getQuorumType(statute.firstCallQuorumType, quorumTypes)]}
         </div>
 
-        {statute.existsSecondCall === 1 &&
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+        {statute.existsSecondCall === 1
+            && <div style={{ display: 'flex', alignItems: 'center' }}>
                 <div style={{ width: '15px', marginRight: '0.4em' }}></div>  <span style={{ marginRight: '0.3em' }}>{translate.exist_quorum_assistance_second_call}:</span>{translate[getQuorumType(statute.secondCallQuorumType, quorumTypes)]}
             </div>
         }
@@ -90,8 +90,8 @@ export const StatuteDisplayIconsIzq = ({ statute, translate, quorumTypes }) => (
         <div style={{ display: 'flex' }} className={'colorTable'}>
             <div style={{ width: '25px' }}>{getSelectionIcon(statute.existsSecondCall)}</div><span style={{ width: '100%' }}>{translate.exists_second_call}</span>
         </div>
-        {statute.existsSecondCall === 1 &&
-            <div style={{ display: 'flex' }} className={'colorTable'}>
+        {statute.existsSecondCall === 1
+            && <div style={{ display: 'flex' }} className={'colorTable'}>
                 <div style={{ width: '25px' }}></div> <span>{translate.minimum_separation_between_call}{` - ${statute.minimumSeparationBetweenCall} ${translate.minutes}`}</span>
             </div>
         }
@@ -102,8 +102,8 @@ export const StatuteDisplayIconsIzq = ({ statute, translate, quorumTypes }) => (
             <div style={{ width: '25px' }}></div><span style={{ width: '100%' }}>{translate.exist_quorum_assistance_first_call}:{translate[getQuorumType(statute.firstCallQuorumType, quorumTypes)]}</span>
         </div>
 
-        {statute.existsSecondCall === 1 &&
-            <div style={{ display: 'flex' }} className={'colorTable'}>
+        {statute.existsSecondCall === 1
+            && <div style={{ display: 'flex' }} className={'colorTable'}>
                 <div style={{ width: '25px' }}></div><span style={{ width: '100%' }}>{translate.exist_quorum_assistance_second_call}:{translate[getQuorumType(statute.secondCallQuorumType, quorumTypes)]}</span>
             </div>
         }

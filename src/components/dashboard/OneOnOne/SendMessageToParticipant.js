@@ -101,7 +101,7 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
             const fileInfo = {
                 filename: file.name,
                 filetype: file.type,
-                filesize: '' + ev.loaded,
+                filesize: `${ev.loaded}`,
                 base64: btoa(ev.target.result)
             };
             setAttachments([...attachments, fileInfo]);
@@ -127,8 +127,7 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
                         <SuccessMessage
                             message={translate.sent}
                         />
-                        :
-                        <>
+                        : <>
                             <div style={{ marginTop: '1em' }}>
                                 <div style={{ fontWeight: 'bold' }}>{translate.title}</div>
                                 <Input
@@ -147,7 +146,7 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
                                     }}
                                     value={state.subject}
                                     onChange={event => setState({ subject: event.target.value })}
-                                    //classes={{ input: props.classes.input }}
+                                    // classes={{ input: props.classes.input }}
                                     error={!!errors.subject}
                                 >
                                 </Input>
@@ -156,7 +155,7 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
                                 type="file"
                                 id={'raised-button-file'}
                                 onChange={handleFile}
-                                //disabled={uploading}
+                                // disabled={uploading}
                                 style={{
                                     cursor: 'pointer',
                                     position: 'absolute',

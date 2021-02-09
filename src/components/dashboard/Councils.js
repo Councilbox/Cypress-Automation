@@ -28,13 +28,13 @@ import { bHistory } from '../../containers/App.js';
 const getSection = translate => {
 	const section = window.location.pathname.split('/').pop();
 	const sections = {
-		'drafts': translate.companies_draft,
-		'calendar': translate.companies_calendar,
-		'live': translate.companies_live,
-		'act': translate.companies_writing,
-		'confirmed': translate.act_book,
-		'history': translate.dashboard_historical,
-		'all': translate.all_plural_fem
+		drafts: translate.companies_draft,
+		calendar: translate.companies_calendar,
+		live: translate.companies_live,
+		act: translate.companies_writing,
+		confirmed: translate.act_book,
+		history: translate.dashboard_historical,
+		all: translate.all_plural_fem
 	};
 
 	return sections[section];
@@ -80,7 +80,7 @@ const Councils = ({ translate, client, ...props }) => {
 		}
 	}, [window.location.pathname]);
 
-	const getData = async (filters) => {
+	const getData = async filters => {
 		const response = await client.query({
 			query: councils,
 			variables: {
@@ -237,8 +237,8 @@ const Councils = ({ translate, client, ...props }) => {
 				/> */}
 				<Grid style={{ marginTop: '0.6em' }}>
 					<GridItem xs={4} md={8} lg={9}>
-						{state.selectedIds.size > 0 &&
-							<BasicButton
+						{state.selectedIds.size > 0
+							&& <BasicButton
 								text={state.selectedIds.size === 1 ? translate.delete_one_item : `${translate.new_delete} ${state.selectedIds.size} ${translate.items}`}
 								color={getSecondary()}
 								textStyle={{ color: 'white', fontWeight: '700' }}
@@ -272,10 +272,10 @@ const Councils = ({ translate, client, ...props }) => {
 												))}
 										</div>
 									) : councilsData.list.length > 0 ? (
-										(selectedTab === translate.companies_writing ||
-										selectedTab === translate.act_book ||
-										selectedTab === translate.dashboard_historical ||
-										selectedTab === translate.all_plural_fem) ?
+										(selectedTab === translate.companies_writing
+										|| selectedTab === translate.act_book
+										|| selectedTab === translate.dashboard_historical
+										|| selectedTab === translate.all_plural_fem) ?
 											<div>
 												<CouncilsHistory
 													councils={councilsData.list}

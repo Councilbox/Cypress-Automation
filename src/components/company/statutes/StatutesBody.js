@@ -30,7 +30,6 @@ import { checkForUnclosedBraces } from '../../../utils/CBX';
 import { isMobile } from '../../../utils/screen';
 
 
-
 const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props }) => {
 	const [state, setState] = React.useState({
 		selectedStatute: 0,
@@ -330,7 +329,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 	};
 
 	const updateState = object => {
-		if(state.statute.companyId !== props.company.id){
+		if (state.statute.companyId !== props.company.id) {
 			return;
 		}
 
@@ -417,8 +416,8 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 							<React.Fragment>
 								<div style={{ position: 'relative', overflow: 'hidden', height: 'calc(100% - 4.5em)' }}>
 									<Scrollbar>
-										{disabled &&
-											<>
+										{disabled
+											&& <>
 												<div
 													style={{
 														position: 'absolute',
@@ -426,7 +425,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 														left: '0',
 														width: '100%',
 														height: editorHeight,
-														//backgroundColor: 'red',
+														// backgroundColor: 'red',
 														zIndex: 1000000
 													}}
 													onClick={() => {}}
@@ -476,8 +475,8 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 									}}
 								>
 									<div>
-										{state.unsavedChanges &&
-											<BasicButton
+										{state.unsavedChanges
+											&& <BasicButton
 												text={translate.undo_changes}
 												color={getSecondary()}
 												textStyle={{
@@ -500,8 +499,8 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 												}
 											/>
 										}
-										{!disabled &&
-											<BasicButton
+										{!disabled
+											&& <BasicButton
 												text={translate.save}
 												disabled={state.error}
 												color={success ? 'green' : getPrimary()}
@@ -608,8 +607,8 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 				}
 				title={translate.add_council_type}
 			/>
-			{state.editModal !== false &&
-				<StatuteNameEditor
+			{state.editModal !== false
+				&& <StatuteNameEditor
 					requestClose={() => setState({ ...state, editModal: false })
 					}
 					key={companyStatutes[state.editModal].id}

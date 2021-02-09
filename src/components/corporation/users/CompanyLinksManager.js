@@ -89,7 +89,7 @@ const CompanyLinksManager = ({ translate, client, ...props }) => {
     };
 
     return (
-        <div> {/**"calc( 100% - 16em )" */}
+        <div> {/** "calc( 100% - 16em )" */}
             < div style={{ width: '100%', display: 'flex', flexDirection: 'row', marginTop: '2em', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Typography variant="subheading" style={{ color: getPrimary(), marginRight: '0.6em' }}>
                     {props.linkedCompanies.length} {translate.linked_companies}
@@ -173,7 +173,7 @@ const LinksCompanies = ({ translate, companies, setPage, page, state, setState, 
         } else {
             const index = checked.findIndex(item => item.id === company.id);
 
-            if(index !== -1){
+            if (index !== -1) {
                 checked.splice(index, 1);
             }
         }
@@ -215,8 +215,7 @@ const LinksCompanies = ({ translate, companies, setPage, page, state, setState, 
                 </div>
                 {loading ?
                     <LoadingSection />
-                    :
-                    <div>
+                    : <div>
                         {companies.list.map(company => (
                             <CompanyItem
                                 key={`company_${company.id}`}
@@ -260,7 +259,6 @@ const LinksCompanies = ({ translate, companies, setPage, page, state, setState, 
         );
     }
 };
-
 
 
 export default withApollo(CompanyLinksManager);

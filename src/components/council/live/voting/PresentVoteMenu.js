@@ -37,8 +37,8 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 	};
 
 	const _block = (value, active) => {
-		if(!agendaVotingsOpened(agenda)){
-			if(!active){
+		if (!agendaVotingsOpened(agenda)) {
+			if (!active) {
 				return <span />;
 			}
 		}
@@ -74,8 +74,7 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 				>
 					{loading === value ?
 						<CircularProgress size={12} thickness={7} color={'primary'} style={{ marginBottom: '0.35em' }} />
-					:
-						<VotingValueIcon
+					:						<VotingValueIcon
 							vote={value}
 							color={active ? undefined : 'grey'}
 						/>
@@ -94,15 +93,14 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 					marginRight: '0.7em'
 				}}
 			>
-				{agendaVoting.author.voteDenied ? //TRADUCCION
+				{agendaVoting.author.voteDenied ? // TRADUCCION
 					<React.Fragment>
 						<Tooltip title={agendaVoting.author.voteDeniedReason}>
 							<div>Derecho a voto denegado</div>
 						</Tooltip>
 					</React.Fragment>
 
-				:
-					<React.Fragment>
+				:					<React.Fragment>
 						{_block(VOTE_VALUES.POSITIVE, active === VOTE_VALUES.POSITIVE)}
 						{_block(VOTE_VALUES.NEGATIVE, active === VOTE_VALUES.NEGATIVE)}
 						{_block(VOTE_VALUES.ABSTENTION, active === VOTE_VALUES.ABSTENTION)}

@@ -61,7 +61,7 @@ class Sidebar extends React.Component {
 	}
 
 
-	componentDidUpdate(prevProps){
+	componentDidUpdate(prevProps) {
 		if (this.props.location.pathname !== prevProps.location.pathname) {
 			this.setState({
 				location: this.props.location.pathname,
@@ -70,7 +70,7 @@ class Sidebar extends React.Component {
 		}
 	}
 
-	findActiveRoute = (pathname) => {
+	findActiveRoute = pathname => {
 		let routeIndex = 0;
 		this.routes.forEach((route, index) => {
 			if (pathname.includes(route.name)) {
@@ -93,11 +93,11 @@ class Sidebar extends React.Component {
 					return null;
 				}
 				const listItemClasses = cx({
-					[' ' +
-					this.props.classes[this.props.color]]: this.activeRoute(key)
+					[` ${
+					this.props.classes[this.props.color]}`]: this.activeRoute(key)
 				});
 				const whiteFontClasses = cx({
-					[' ' + this.props.classes.whiteFont]: this.activeRoute(key)
+					[` ${this.props.classes.whiteFont}`]: this.activeRoute(key)
 				});
 				return (
 					<NavLink
@@ -125,8 +125,8 @@ class Sidebar extends React.Component {
 						>
 							<ListItemIcon
 								className={
-									this.props.classes.itemIcon +
-									whiteFontClasses
+									this.props.classes.itemIcon
+									+ whiteFontClasses
 								}
 							>
 								<route.icon />
@@ -134,8 +134,8 @@ class Sidebar extends React.Component {
 							<ListItemText
 								primary={route.sidebarName}
 								className={
-									this.props.classes.itemText +
-									whiteFontClasses
+									this.props.classes.itemText
+									+ whiteFontClasses
 								}
 								disableTypography={true}
 							/>
@@ -261,14 +261,14 @@ class Sidebar extends React.Component {
 					>
 						{this.brand()}
 						<div className={classes.sidebarWrapper}>
-							{/*<HeaderLinks />*/}
+							{/* <HeaderLinks /> */}
 							{this.links()}
 						</div>
 						{image !== undefined ? (
 							<div
 								className={classes.background}
 								style={{
-									backgroundImage: 'url(' + image + ')'
+									backgroundImage: `url(${image})`
 								}}
 							/>
 						) : null}
@@ -291,7 +291,7 @@ class Sidebar extends React.Component {
 							<div
 								className={classes.background}
 								style={{
-									backgroundImage: 'url(' + image + ')'
+									backgroundImage: `url(${image})`
 								}}
 							/>
 						) : null}

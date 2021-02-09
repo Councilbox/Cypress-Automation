@@ -21,7 +21,7 @@ const NotificationsTable = ({ notifications, translate, maxEmail, liveMobil }) =
 		});
 	};
 
-	if(!notifications || notifications.length === 0){
+	if (!notifications || notifications.length === 0) {
 		return (
 			<Grid style={{ marginBottom: '1em', display: 'flex', alignItems: 'center', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)', border: 'solid 1px #61abb7', borderRadius: '4px', padding: '1em', marginTop: '1em', justifyContent: 'space-between' }}>
 				{translate.no_notifications_text}
@@ -46,14 +46,14 @@ const NotificationsTable = ({ notifications, translate, maxEmail, liveMobil }) =
 					<CardContent>
 						<div>
 						{translate.send_date}:
-							{moment(notification.sendDate).isValid()
-								? moment(notification.sendDate).format('l LT')
+							{moment(notification.sendDate).isValid() ?
+								moment(notification.sendDate).format('l LT')
 								: '-'}
 						</div>
 						<div>
 						{translate.last_date_updated}:
-							{moment(notification.refreshDate).isValid()
-								? moment(notification.refreshDate).format('l LT')
+							{moment(notification.refreshDate).isValid() ?
+								moment(notification.refreshDate).format('l LT')
 								: '-'}
 						</div>
 					</CardContent>
@@ -94,13 +94,13 @@ const NotificationsTable = ({ notifications, translate, maxEmail, liveMobil }) =
 									{notification.email}
 							</TableCell>
 							<TableCell style={tableCellStyle}>
-								{moment(notification.sendDate).isValid()
-									? moment(notification.sendDate).format('l LT')
+								{moment(notification.sendDate).isValid() ?
+									moment(notification.sendDate).format('l LT')
 									: '-'}
 							</TableCell>
 							<TableCell style={tableCellStyle}>
-								{moment(notification.refreshDate).isValid()
-									? moment(notification.refreshDate).format('l LT')
+								{moment(notification.refreshDate).isValid() ?
+									moment(notification.refreshDate).format('l LT')
 									: '-'}
 							</TableCell>
 						</TableRow>

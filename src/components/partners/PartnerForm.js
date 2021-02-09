@@ -134,7 +134,7 @@ class PartnerForm extends React.PureComponent {
                             <TextInput
                                 id={'anadirSocioMail'}
                                 floatingText={translate.email}
-                                {...(checkEmail ? { onKeyUp: (event) => checkEmail(event, 'participant') } : {})}
+                                {...(checkEmail ? { onKeyUp: event => checkEmail(event, 'participant') } : {})}
                                 type="text"
                                 errorText={errors.email}
                                 value={participant.email || ''}
@@ -186,7 +186,7 @@ class PartnerForm extends React.PureComponent {
                         <GridItem xs={6} md={4} lg={3}>
                             <SelectInput
                                 floatingText={translate.state}
-                                value={'' + participant.state}
+                                value={`${participant.state}`}
                                 errorText={errors.state}
                                 onChange={event => updateState({
                                         state: +event.target.value
@@ -466,10 +466,8 @@ class PartnerForm extends React.PureComponent {
                     </Grid>
 
 
-
-
-                    {participant.personOrEntity === 1 &&
-                        <React.Fragment>
+                    {participant.personOrEntity === 1
+                        && <React.Fragment>
                             <SectionTitle color={primary} text={translate.representative} style={{ marginTop: '2.8em' }} />
                             <SectionTitle color={primary} text={translate.personal_data} style={{ marginTop: '1.2em' }} />
                             <Paper elevation={0}>
@@ -526,7 +524,7 @@ class PartnerForm extends React.PureComponent {
                                         <TextInput
                                             id={'anadirSocioRepresentanteEmail'}
                                             floatingText={translate.email}
-                                            {...(checkEmail ? { onKeyUp: (event) => checkEmail(event, 'representative') } : {})}
+                                            {...(checkEmail ? { onKeyUp: event => checkEmail(event, 'representative') } : {})}
                                             type="text"
                                             value={representative.email || ''}
                                             onChange={event => updateRepresentative({

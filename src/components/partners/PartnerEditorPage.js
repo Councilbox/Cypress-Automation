@@ -41,7 +41,7 @@ class Page extends React.PureComponent {
     }
 
     goBack = () => {
-        bHistory.goBack();
+        bHistory.back();
     }
 
     updateBookParticipant = async () => {
@@ -278,7 +278,7 @@ class Page extends React.PureComponent {
             return <LoadingSection />;
         }
 
-        let representative = this.state.representative;
+        let { representative } = this.state;
 
         if (this.state.data.personOrEntity === 1 && !representative) {
             representative = {
@@ -336,8 +336,8 @@ class Page extends React.PureComponent {
                     }}
                 >
                     <div>
-                        {bHistory.length > 0 &&
-                            <BasicButton
+                        {bHistory.length > 0
+                            && <BasicButton
                                 text={this.props.translate.back}
                                 color={'white'}
                                 type="flat"

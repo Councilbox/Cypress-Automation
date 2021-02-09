@@ -53,7 +53,7 @@ class SignUpUser extends React.Component {
 
 	nextPage = async () => {
 		if (!(await this.checkRequiredFields())) {
-			//this.props.nextPage();
+			// this.props.nextPage();
 			this.props.signUp();
 		}
 	};
@@ -107,14 +107,14 @@ class SignUpUser extends React.Component {
 
 			if (!checkValidEmail(data.email) || existsCif) {
 				hasError = true;
-				errors.email = existsCif
-					? translate.register_exists_email
+				errors.email = existsCif ?
+					translate.register_exists_email
 					: translate.email_not_valid;
 			}
 			if (!checkValidEmail(data.email) || existsCif) {
 				hasError = true;
-				errors.email = existsCif
-					? translate.register_exists_email
+				errors.email = existsCif ?
+					translate.register_exists_email
 					: translate.email_not_valid;
 			}
 			if (!(/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g.test(data.phone))) {
@@ -350,7 +350,7 @@ class SignUpUser extends React.Component {
 									borderRadius: '10px',
 									boxShadow: 'rgba(0, 0, 0, 0.15) 0px 12px 20px -10px, rgba(0, 0, 0, 0.18) 0px 4px 20px 0px, rgba(0, 0, 0, 0.23) 0px 7px 8px -5px'
 								}}
-								className={'barColor' + this.state.color}
+								className={`barColor${this.state.color}`}
 							/>
 						</div>
 						<div style={{ width: '100%' }}>
@@ -363,7 +363,7 @@ class SignUpUser extends React.Component {
 					<GridItem xs={12} md={12} lg={12}>
 						<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
 							<Checkbox
-								label={translate.login_read_terms + ' '}
+								label={`${translate.login_read_terms} `}
 								value={this.state.termsCheck}
 								onChange={(event, isInputChecked) => this.setState({
 										termsAccepted: isInputChecked

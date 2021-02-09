@@ -5,8 +5,8 @@ const isIOS = (navigator.userAgent.match(/(iPad)/)) || (navigator.platform === '
 export const isLandscape = () => {
     const { orientation } = window.screen;
 
-    if(orientation){
-        if(orientation.type.includes('portrait')){
+    if (orientation) {
+        if (orientation.type.includes('portrait')) {
             return false;
         }
 

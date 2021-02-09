@@ -12,8 +12,7 @@ const QuorumWrapper = ({ translate, council, recount, secondCall }) => {
             value: council.statute.secondCallQuorum,
             divider: council.statute.secondCallQuorumDivider
         }
-    :
-        {
+    : {
             type: council.statute.firstCallQuorumType,
             value: council.statute.firstCallQuorum,
             divider: council.statute.firstCallQuorumDivider
@@ -22,7 +21,7 @@ const QuorumWrapper = ({ translate, council, recount, secondCall }) => {
     const quorumType = QUORUM_TYPES.find(quorum => quorum.value === statute.type);
     const neededQuorum = CBX.calculateQuorum(council, recount);
 
-    return(
+    return (
         <React.Fragment>
             {statute.type !== -1 ?
                 <React.Fragment>
@@ -30,14 +29,11 @@ const QuorumWrapper = ({ translate, council, recount, secondCall }) => {
                         {`${translate.quorum_type}: ${translate[quorumType.label]} ${
                             CBX.isQuorumPercentage(quorumType.value) ?
                                 `(${statute.value} %)`
-                            :
-                                CBX.isQuorumFraction(quorumType.value) ?
+                            : CBX.isQuorumFraction(quorumType.value) ?
                                     `(${statute.value} / ${statute.divider})`
-                                :
-                                    CBX.isQuorumNumber(quorumType.value) ?
+                                : CBX.isQuorumNumber(quorumType.value) ?
                                         `(${statute.value})`
-                                    :
-                                        ''
+                                    : ''
 
                         }`}
                     </span>
@@ -48,18 +44,14 @@ const QuorumWrapper = ({ translate, council, recount, secondCall }) => {
                         {council.statute.quorumPrototype === 0 ?
                             neededQuorum <= recount.partRightVoting ?
                                 <ReachedIcon />
-                            :
-                                <NotReachedIcon />
-                        :
-                            neededQuorum <= recount.socialCapitalRightVoting ?
+                            : <NotReachedIcon />
+                        : neededQuorum <= recount.socialCapitalRightVoting ?
                                 <ReachedIcon />
-                            :
-                                <NotReachedIcon />
+                            : <NotReachedIcon />
                         }
                     </div>
                 </React.Fragment>
-            :
-                <span>
+            : <span>
                     {`${translate.quorum_type}: ${translate[quorumType.label]}`}
                 </span>
             }

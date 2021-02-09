@@ -20,8 +20,8 @@ class AnnouncementModal extends React.Component {
         errorText: ''
     };
 
-    static getDerivedStateFromProps(nextProps, prevProps){
-        if(!nextProps.data.loading && nextProps.data.adminAnnouncemment){
+    static getDerivedStateFromProps(nextProps, prevProps) {
+        if (!nextProps.data.loading && nextProps.data.adminAnnouncemment) {
             return {
                 text: nextProps.data.adminAnnouncement.text
             };
@@ -31,7 +31,7 @@ class AnnouncementModal extends React.Component {
     }
 
     addAnnouncement = async () => {
-        if(removeHTMLTags(this.state.text.toString()).length <= CHAR_LIMIT){
+        if (removeHTMLTags(this.state.text.toString()).length <= CHAR_LIMIT) {
             const response = await this.props.addRoomAnnouncement({
                 variables: {
                     message: {
@@ -64,7 +64,7 @@ class AnnouncementModal extends React.Component {
         const { translate } = this.props;
         const primary = getPrimary();
 
-        if(this.props.data.loading){
+        if (this.props.data.loading) {
             return <LoadingSection />;
         }
 
@@ -110,8 +110,8 @@ class AnnouncementModal extends React.Component {
                             type="flat"
                             textStyle={{ fontWeight: '700', textTransform: 'none' }}
                         />
-                        {this.props.data.adminAnnouncement && this.props.data.adminAnnouncement &&
-                            <BasicButton
+                        {this.props.data.adminAnnouncement && this.props.data.adminAnnouncement
+                            && <BasicButton
                                 text={translate.hide_announcement}
                                 onClick={this.closeAnnouncement}
                                 color={getSecondary()}

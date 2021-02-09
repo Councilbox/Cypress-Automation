@@ -29,7 +29,7 @@ const CreateNoBoard = ({ setOptions, options, translate, hybrid, errors, company
         getData();
     }, [getData]);
 
-    if(loading){
+    if (loading) {
         return null;
     }
 
@@ -43,13 +43,13 @@ const CreateNoBoard = ({ setOptions, options, translate, hybrid, errors, company
                     })
                 }
             >
-                {data.companyStatutes.map((statute) => (
+                {data.companyStatutes.map(statute => (
                         <MenuItem
                             value={statute.id}
                             key={`statutes_${statute.id}`}
                         >
-                            {translate[statute.title] ||
-                                statute.title}
+                            {translate[statute.title]
+                                || statute.title}
                         </MenuItem>
                     ))}
             </SelectInput>

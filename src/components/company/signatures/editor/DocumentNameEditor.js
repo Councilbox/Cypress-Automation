@@ -51,7 +51,7 @@ class DocumentNameEditor extends React.Component {
 			}
 		});
 		if (response) {
-            if(response.data.updateSignatureDocumentName.success){
+            if (response.data.updateSignatureDocumentName.success) {
                 this.props.updateAttachment({
                     filename: `${this.state.data.filename}.${this.state.data.extension}`
                 });
@@ -60,9 +60,9 @@ class DocumentNameEditor extends React.Component {
 		}
 	};
 
-    render(){
+    render() {
         const { translate } = this.props;
-        return(
+        return (
 			<div
 				style={{
 					width: '100%'

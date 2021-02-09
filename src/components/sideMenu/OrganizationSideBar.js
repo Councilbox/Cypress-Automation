@@ -19,9 +19,6 @@ import LateralMenuOptions from '../dashboard/LateralMenuOptions';
 import plantillasIcon from '../../assets/img/plantillasIcon.svg';
 import entidadesIcon from '../../assets/img/shape.svg';
 
-// contact-support.svg
-
-
 class Sidebar extends React.Component {
 	state = {
 		selectedRoute: 0,
@@ -65,7 +62,7 @@ class Sidebar extends React.Component {
 			{
 				path: `/company/${this.props.company.id}/drafts/documentation`,
 				name: 'drafts',
-				//TRADUCCION
+				// TRADUCCION
 				sidebarName: 'B. conocimiento',
 				// sidebarName: this.props.translate.tooltip_knowledge_base,
 				icon: <img src={plantillasIcon} style={{ width: '19px', height: 'auto' }} />
@@ -106,7 +103,7 @@ class Sidebar extends React.Component {
 		}
 	}
 
-	findActiveRoute = (pathname) => {
+	findActiveRoute = pathname => {
 		let routeIndex = 0;
 		const found = this.routes.findIndex(route => pathname.includes(route.name));
 
@@ -178,8 +175,8 @@ class Sidebar extends React.Component {
 							return null;
 						}
 						const listItemClasses = cx({
-							[' ' +
-								this.props.classes[this.props.color]]: this.activeRoute(key)
+							[` ${
+								this.props.classes[this.props.color]}`]: this.activeRoute(key)
 						});
 						return (
 							<div
@@ -247,8 +244,7 @@ class Sidebar extends React.Component {
 						);
 					})}
 				</React.Fragment>
-				:
-				<div
+				:				<div
 					style={{
 						display: 'flex',
 						flexDirection: 'row',
@@ -273,8 +269,8 @@ class Sidebar extends React.Component {
 							return null;
 						}
 						const listItemClasses = cx({
-							[' ' +
-								this.props.classes[this.props.color]]: this.activeRoute(key)
+							[` ${
+								this.props.classes[this.props.color]}`]: this.activeRoute(key)
 						});
 						return (
 							<NavLink
@@ -465,8 +461,7 @@ class Sidebar extends React.Component {
 								alignItems: 'center',
 								height: '3.5em'
 							}
-							:
-							{
+							:							{
 								flexDirection: 'column',
 								top: 0,
 								left: 0,
@@ -478,8 +473,8 @@ class Sidebar extends React.Component {
 						{/* {!this.showVerticalLayout() &&
 							this.brand()
 						} */}
-						{!this.showVerticalLayout() &&
-							this.brandNew()
+						{!this.showVerticalLayout()
+							&& this.brandNew()
 						}
 						<div
 							className={classes.sidebarWrapper}

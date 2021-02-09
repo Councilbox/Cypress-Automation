@@ -82,31 +82,29 @@ const SendToSignButton = ({ styles, council, translate, client }) => {
                 requestClose={() => setLoading(false)}
                 bodyText={
                     <>
-                        {loading >= 1 &&
-                            <div style={{ width: '90%', display: 'flex', justifyContent: 'space-between' }}>
+                        {loading >= 1
+                            && <div style={{ width: '90%', display: 'flex', justifyContent: 'space-between' }}>
                                 <div>
                                     {translate.creant_signatura}
                                 </div>
                                 <div>
                                     {loading > 1 ?
                                         <i className="fa fa-check" style={{ color: 'green' }}></i>
-                                        :
-                                        <LoadingSection size={14} />
+                                        : <LoadingSection size={14} />
 
                                     }
                                 </div>
                             </div>
                         }
-                        {loading >= 2 &&
-                            <div style={{ width: '90%', display: 'flex', justifyContent: 'space-between' }}>
+                        {loading >= 2
+                            && <div style={{ width: '90%', display: 'flex', justifyContent: 'space-between' }}>
                                 <div>
                                     {translate.uploading_act_to_sign}
                                 </div>
                                 <div>
                                     {loading > 2 ?
                                         <i className="fa fa-check" style={{ color: 'green' }}></i>
-                                        :
-                                        <LoadingSection size={14} />
+                                        : <LoadingSection size={14} />
 
                                     }
                                 </div>
@@ -118,7 +116,7 @@ const SendToSignButton = ({ styles, council, translate, client }) => {
             <BasicButton
                 text={translate.new_send_to_sign}
                 color={'white'}
-                //loading={downloading}
+                // loading={downloading}
                 onClick={createSignature}
                 type="flat"
                 loadingColor={secondary}

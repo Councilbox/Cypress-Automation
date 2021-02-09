@@ -10,7 +10,7 @@ const CouncilSurvey = ({ translate, participant }) => {
     const config = React.useContext(ConfigContext);
     const primary = getPrimary();
 
-    if(!config.councilSurvey){
+    if (!config.councilSurvey) {
         return null;
     }
 

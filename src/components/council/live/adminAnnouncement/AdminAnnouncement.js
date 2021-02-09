@@ -40,8 +40,8 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
 
     React.useEffect(() => {
         if (!data.loading) {
-            if(data.adminAnnouncement){
-                if(!announcement || data.adminAnnouncement.id !== announcement){
+            if (data.adminAnnouncement) {
+                if (!announcement || data.adminAnnouncement.id !== announcement) {
                     setAnnouncement(data.adminAnnouncement);
                     setBlockUser(data.adminAnnouncement.blockUser);
                 }
@@ -118,8 +118,8 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
                         <div style={{
                             width: '80%'
                         }}>
-                            {isAdmin &&
-                                <BasicButton
+                            {isAdmin
+                                && <BasicButton
                                     text={translate.hide_announcement}
                                     textStyle={{ textTransform: 'none', color: 'white', }}
                                     onClick={closeAnnouncement}
@@ -127,8 +127,8 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
                                     backgroundColor={{ backgroundColor: getPrimary(), boxShadow: 'none', borderRadius: '0' }}
                                 />
                             }
-                            {!isAdmin && !data.adminAnnouncement.blockUser &&
-                                <BasicButton
+                            {!isAdmin && !data.adminAnnouncement.blockUser
+                                && <BasicButton
                                     text={translate.hide_announcement}
                                     textStyle={{ textTransform: 'none', color: 'white', }}
                                     onClick={() => setShowInParticipant(false)}
@@ -140,8 +140,7 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
                     </div>
                 </Paper>
             </div>
-            :
-            <span />
+            : <span />
     );
 };
 

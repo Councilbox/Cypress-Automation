@@ -52,8 +52,7 @@ const DelegationDocuments = ({ council, translate, client }) => {
         <div style={{ width: '100%', display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
             {loading ?
                 <LoadingSection />
-            :
-                <>
+            : <>
                     <div>
                         {translate.number_of_letters_issued} {data.total} / {translate.participation_number}: {data.totalShares} ({((data.totalShares / data.quorum) * 100).toFixed(2)}%)
                     </div>
@@ -64,8 +63,8 @@ const DelegationDocuments = ({ council, translate, client }) => {
                                     <span style={{ fontWeight: '700' }}>{translate.participant}:</span>
                                         {` ${item.participant.name} ${item.participant.surname || ''}`}
                                     <br/>
-                                    {item.participant.id !== item.signer.id &&
-                                        <>
+                                    {item.participant.id !== item.signer.id
+                                        && <>
                                             <br/>
                                             <span style={{ fontWeight: '700' }}>{translate.signed}:</span>
                                             {` ${item.signer.name} ${item.signer.surname || ''}, ${moment(item.date).format('LLL')}`}

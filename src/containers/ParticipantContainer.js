@@ -68,27 +68,27 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 
 
 	React.useEffect(() => {
-		if(participant.id){
+		if (participant.id) {
 			initLogRocket(participant);
 		}
 	}, [participant.id]);
 
 	const getReqData = React.useCallback(async () => {
-        //const response = await fetch(`${SERVER_URL}/connectionInfo`);
-		let json = {};//await response.json();
+        // const response = await fetch(`${SERVER_URL}/connectionInfo`);
+		let json = {};// await response.json();
 
 		const getDataFromBackend = async () => {
 			const response = await fetch(`${SERVER_URL}/connectionInfo`);
-			return await response.json();
+			return response.json();
 		};
 
-		if('geolocation' in navigator){
+		if ('geolocation' in navigator) {
 			navigator.geolocation.getCurrentPosition(async position => {
 				const geoRequest = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${
 					position.coords.latitude}&longitude=${position.coords.longitude}&localityLanguage=${translate.selectedLanguage}`);
 				const response = await fetch(`${SERVER_URL}/connectionInfo/requestOnly`);
 				json = await response.json();
-				if(geoRequest.status === 200){
+				if (geoRequest.status === 200) {
 					const geoLocation = await geoRequest.json();
 					json.geoLocation = {
 						...geoLocation,
@@ -120,8 +120,8 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 
 
 	React.useEffect(() => {
-		if(data && data.participant){
-			if(data.participant.language !== translate.selectedLanguage){
+		if (data && data.participant) {
+			if (data.participant.language !== translate.selectedLanguage) {
 				actions.setLanguage(data.participant.language);
 			}
 		}
@@ -133,11 +133,11 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 
 
 	React.useEffect(() => {
-		if(council.councilVideo){
+		if (council.councilVideo) {
 			setCompanyId(council.councilVideo.companyId);
 		}
 
-		if(data && data.errors && data.errors[0]){
+		if (data && data.errors && data.errors[0]) {
 			setLoadingConfig(false);
 		}
 	}, [council]);
@@ -148,23 +148,23 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 	};
 
 	React.useEffect(() => {
-		if(companyId){
+		if (companyId) {
 			updateConfig(companyId);
 			store.dispatch(addSpecificTranslations(council.councilVideo.company));
 		}
 	}, [companyId]);
 
 	React.useEffect(() => {
-		if(council && council.councilVideo){
+		if (council && council.councilVideo) {
 			const { subdomain } = council.councilVideo;
 			const actualSubdomain = window.location.hostname.split('.')[0];
 
-			if(subdomain){
-				if(subdomain !== actualSubdomain){
-					window.location.replace(window.location.origin.replace(actualSubdomain, subdomain) + '/participant/redirect/' + sessionStorage.getItem('participantToken'));
+			if (subdomain) {
+				if (subdomain !== actualSubdomain) {
+					window.location.replace(`${window.location.origin.replace(actualSubdomain, subdomain)}/participant/redirect/${sessionStorage.getItem('participantToken')}`);
 				}
-			} else if(shouldLoadSubdomain()){
-					window.location.replace(window.location.origin.replace(actualSubdomain, 'app') + '/participant/redirect/' + sessionStorage.getItem('participantToken'));
+			} else if (shouldLoadSubdomain()) {
+					window.location.replace(`${window.location.origin.replace(actualSubdomain, 'app')}/participant/redirect/${sessionStorage.getItem('participantToken')}`);
 				}
 		}
 	}, [council]);
@@ -175,7 +175,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 			query: participantQuery
 		});
 
-		if(response.errors){
+		if (response.errors) {
 			setData(response);
 		} else {
 			setData(response.data);
@@ -188,18 +188,18 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 		store.dispatch(setDetectRTC());
 	}, []);
 
-	if(!data || !council || !reqData || loadingConfig){
+	if (!data || !council || !reqData || loadingConfig) {
 		return <LoadingMainApp />;
 	}
 
 	if (data.errors && data.errors[0]) {
-		const code = data.errors[0].code;
+		const { code } = data.errors[0];
 		if (
-			code === PARTICIPANT_ERRORS.PARTICIPANT_BLOCKED ||
-			code === PARTICIPANT_ERRORS.PARTICIPANT_IS_NOT_REMOTE ||
-			code === PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED ||
-			code === PARTICIPANT_ERRORS.REPRESENTED_DELEGATED ||
-			code === PARTICIPANT_ERRORS.REPRESENTATIVE_WITHOUT_REPRESENTED
+			code === PARTICIPANT_ERRORS.PARTICIPANT_BLOCKED
+			|| code === PARTICIPANT_ERRORS.PARTICIPANT_IS_NOT_REMOTE
+			|| code === PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED
+			|| code === PARTICIPANT_ERRORS.REPRESENTED_DELEGATED
+			|| code === PARTICIPANT_ERRORS.REPRESENTATIVE_WITHOUT_REPRESENTED
 		) {
 			if (!council.councilVideo) {
 				return <LoadingMainApp />;
@@ -249,8 +249,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 											}}
 											company={council.councilVideo.company}
 										/>
-									:
-										<Council
+									:										<Council
 											participant={data.participant}
 											reqData={reqData}
 											council={{
@@ -261,8 +260,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 										/>
 								}
 							</React.Fragment>
-						:
-							<ParticipantLogin
+						:							<ParticipantLogin
 								participant={data.participant}
 								council={{
 									...council.councilVideo
@@ -387,7 +385,7 @@ const mapStateToProps = state => ({
 	translate: state.translate
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
         actions: bindActionCreators(mainActions, dispatch)
     });
 
@@ -400,8 +398,8 @@ export default graphql(councilQuery, {
 		pollInterval: 45000
 	}),
 	props: props => ({
-		  ...props,
-		  subscribeToCouncilStateUpdated: params => props.council.subscribeToMore({
+		...props,
+		subscribeToCouncilStateUpdated: params => props.council.subscribeToMore({
 				document: gql`
 					subscription councilStateUpdated($councilId: Int!){
 						councilStateUpdated(councilId: $councilId){

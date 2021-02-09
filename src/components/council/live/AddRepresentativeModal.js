@@ -33,8 +33,8 @@ const AddRepresentativeModal = ({ translate, participant, ...props }) => {
 				close();
 			}
 		}
-		if(response.errors){
-			if(response.errors[0].message = 'Email already used'){
+		if (response.errors) {
+			if (response.errors[0].message = 'Email already used') {
 				setState({
 					errors: {
 						email: translate.repeated_email

@@ -29,8 +29,8 @@ class CouncilParticipantEditor extends React.Component {
 		let { representative, representatives, representing, ...participant } = extractTypeName(
 			this.props.participant
 		);
-		representative = representative
-			? {
+		representative = representative ?
+			{
 				hasRepresentative: true,
 				...extractTypeName(representative)
 			}
@@ -52,8 +52,8 @@ class CouncilParticipantEditor extends React.Component {
 
 	updateCouncilParticipant = async () => {
 		const { hasRepresentative, ...data } = this.state.representative;
-		const representative = this.state.representative.hasRepresentative
-			? {
+		const representative = this.state.representative.hasRepresentative ?
+			{
 				...data,
 				councilId: this.props.council.id
 			}
@@ -119,7 +119,7 @@ class CouncilParticipantEditor extends React.Component {
 	async checkRequiredFields() {
 		const testPhone = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
 		const participant = this.state.data;
-		const representative = this.state.representative;
+		const { representative } = this.state;
 		const { translate, participations, company } = this.props;
 		const hasSocialCapital = participations;
 		const errorsParticipant = checkRequiredFieldsParticipant(
@@ -248,7 +248,7 @@ class CouncilParticipantEditor extends React.Component {
 
 	emailKeyUp = (event, type) => {
 		clearTimeout(this.timeout);
-		const value = event.target.value;
+		const { value } = event.target;
 		this.timeout = setTimeout(() => {
 			this.checkEmail(value, type);
 			clearTimeout(this.timeout);

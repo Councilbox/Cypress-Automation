@@ -141,8 +141,8 @@ const FilterMenu = ({
 				</FilterButton>
 			</div>
 
-			{state.tableType === 'participantSend' &&
-				<React.Fragment>
+			{state.tableType === 'participantSend'
+				&& <React.Fragment>
 					<Typography
 						variant="subheading"
 						style={{

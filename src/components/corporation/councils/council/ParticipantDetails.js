@@ -1,8 +1,8 @@
 import React from 'react';
 
 class ParticipantDetails extends React.Component {
-    render(){
-        return(
+    render() {
+        return (
             <div></div>
         );
     }

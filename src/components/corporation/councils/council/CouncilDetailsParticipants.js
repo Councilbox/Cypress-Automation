@@ -34,7 +34,7 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 	const [filters, setFilters] = React.useState({
 		options: {
 			limit: PARTICIPANTS_LIMITS[0],
-			//page: 1,
+			// page: 1,
 			offset: 0,
 			orderBy: 'fullName',
 			orderDirection: 'asc',
@@ -60,7 +60,7 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 	const secondary = getSecondary();
 
 	const getData = React.useCallback(async () => {
-		//liveParticipantsCredentials
+		// liveParticipantsCredentials
 
 		const response = await client.query({
 			query: convenedcouncilParticipants,
@@ -85,7 +85,7 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 	usePolling(getData, 9000);
 
 	React.useEffect(() => {
-		//refreshEmailStates();
+		// refreshEmailStates();
 	}, [council.id]);
 
 
@@ -193,8 +193,8 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 	const menuButtons = () => (
 		<>
 			<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '0.3em' }}>
-				{!hideNotifications &&
-					<Tooltip
+				{!hideNotifications
+					&& <Tooltip
 						title={
 							translate.tooltip_refresh_convene_email_state_assistance
 						}
@@ -255,8 +255,8 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 						translate={translate}
 					/>
 				</>
-				{!hideAddParticipant &&
-					<div>
+				{!hideAddParticipant
+					&& <div>
 						<AddConvenedParticipantButton
 							participations={participations}
 							translate={translate}
@@ -275,8 +275,8 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 			<React.Fragment>
 				<Grid style={{ margin: '0.5em 0.5em' }}>
 					<GridItem xs={12} lg={6} md={6}>
-						{!hideNotifications &&
-							<NotificationFilters
+						{!hideNotifications
+							&& <NotificationFilters
 								translate={translate}
 								refetch={updateNotificationFilter}
 								council={council}
@@ -317,8 +317,8 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 													cbxData={false}
 													participations={participations}
 													editParticipant={() => {
-														!props.cantEdit &&
-															setState({
+														!props.cantEdit
+															&& setState({
 																editingParticipant: true,
 																participant: formatDataParticipant
 															});
@@ -334,8 +334,7 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 									}
 								)}
 							</EnhancedTable>
-							:
-							<div
+							:							<div
 								style={{
 									height: '10em',
 									display: 'flex',
@@ -347,8 +346,8 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 						}
 					</div>
 				</Scrollbar>
-				{editingParticipant &&
-					<ConvenedParticipantEditor
+				{editingParticipant
+					&& <ConvenedParticipantEditor
 						key={participant.id}
 						translate={translate}
 						close={closeParticipantEditor}
@@ -395,9 +394,8 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 				<br />
 				{`${translate.delegated_in}: ${delegate.name} ${delegate.surname || ''}`}
 			</React.Fragment>
-			:
-			!!representative &&
-			<React.Fragment>
+			:			!!representative
+			&& <React.Fragment>
 				<br />
 				{`${translate.represented_by}: ${representative.name} ${representative.surname || ''}`}
 			</React.Fragment>
@@ -414,8 +412,8 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 					credentials == 'participant' ?
 						<div>
 							<div style={{ color: 'black', marginBottom: '.5em' }}>Credenciales de: {`${participant.name} ${participant.surname
-								}  ${(participant.live.state === PARTICIPANT_STATES.DELEGATED &&
-									participant.representatives.length > 0) ? ` - ${translate.represented_by}: ${participant.representatives[0].name} ${participant.representatives[0].surname || ''}` : ''}`}</div>
+								}  ${(participant.live.state === PARTICIPANT_STATES.DELEGATED
+									&& participant.representatives.length > 0) ? ` - ${translate.represented_by}: ${participant.representatives[0].name} ${participant.representatives[0].surname || ''}` : ''}`}</div>
 							<div style={{}}>
 								<ParticipantContactEditor
 									participant={participant.live}
@@ -433,9 +431,8 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 								/>
 							</div>
 						</div>
-						:
-						representative && representative.live &&
-						<div>
+						:						representative && representative.live
+						&& <div>
 							<div style={{ color: 'black', marginBottom: '.5em' }}>Credenciales de: {representative.live.name} {representative.live.surname}</div>
 							<div style={{}}>
 								<ParticipantContactEditor
@@ -472,21 +469,20 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 							<div><StateIcon state={participant.live.state} translate={translate} ratio={1.4} /></div>
 							<div><StateIcon state={representative.live.state} translate={translate} ratio={1.4} /></div>
 						</div>
-						:
-						<StateIcon state={participant.live.state} translate={translate} ratio={1.4} />
+						:						<StateIcon state={participant.live.state} translate={translate} ratio={1.4} />
 					}
 				</TableCell>
 				<TableCell>
 					<div style={{ fontWeight: '700', marginBottom: '0.2em' }}>{`${participant.name} ${participant.surname
-						}  ${(participant.live.state === PARTICIPANT_STATES.DELEGATED &&
-							participant.representatives.length > 0) ? ` - ${translate.represented_by}: ${participant.representatives[0].name} ${participant.representatives[0].surname || ''}` : ''}`}
+						}  ${(participant.live.state === PARTICIPANT_STATES.DELEGATED
+							&& participant.representatives.length > 0) ? ` - ${translate.represented_by}: ${participant.representatives[0].name} ${participant.representatives[0].surname || ''}` : ''}`}
 					</div>
 					{voteParticipantInfo}
 				</TableCell>
 				<TableCell>
 					<div style={{ marginBottom: '0.2em' }}>{participant.dni}</div>
-					{!!representative &&
-						<React.Fragment>
+					{!!representative
+						&& <React.Fragment>
 							<br />
 							{representative.dni}
 						</React.Fragment>
@@ -494,8 +490,8 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 				</TableCell>
 				<TableCell>
 					<div style={{ marginBottom: '0.2em' }}>{participant.position}</div>
-					{!!representative &&
-						<React.Fragment>
+					{!!representative
+						&& <React.Fragment>
 							<br />
 							{representative.position}
 						</React.Fragment>
@@ -504,12 +500,12 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 				<TableCell>
 					{`${participant.numParticipations
 						} (${participant.numParticipations > 0 ? (
-							(participant.numParticipations /
-								totalVotes) *
-							100
+							(participant.numParticipations
+								/ totalVotes)
+							* 100
 						).toFixed(2) : 0}%)`}
-					{!!representative &&
-						<React.Fragment>
+					{!!representative
+						&& <React.Fragment>
 							<br />
 						</React.Fragment>
 					}
@@ -519,22 +515,21 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 						{`${participant.socialCapital
 							} (${participant.socialCapital > 0 ?
 								((participant.socialCapital / socialCapital) * 100).toFixed(2)
-								:
-								0
+								:								0
 							}%)`}
-						{!!representative &&
-							<React.Fragment>
+						{!!representative
+							&& <React.Fragment>
 								<br />
 							</React.Fragment>
 						}
 					</TableCell>
 				)}
 
-				{props.cbxData &&
-					<TableCell>
+				{props.cbxData
+					&& <TableCell>
 						<div style={{ width: '4em' }}>
-							{showActions &&
-								<DownloadCBXDataButton
+							{showActions
+								&& <DownloadCBXDataButton
 									translate={translate}
 									participantId={participant.live.id}
 								/>
@@ -544,8 +539,8 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 
 				}
 
-				{!hideNotifications &&
-					<React.Fragment>
+				{!hideNotifications
+					&& <React.Fragment>
 						<TableCell>
 							{notifications.length > 0 ? (
 								<Tooltip
@@ -568,8 +563,8 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 									''
 								)}
 						</TableCell>
-						{CBX.councilHasAssistanceConfirmation(council) &&
-							(
+						{CBX.councilHasAssistanceConfirmation(council)
+							&& (
 								<TableCell>
 									<AttendIntentionIcon
 										participant={participant.live}
@@ -580,8 +575,7 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 											text: participant.representatives.length > 0 ? participant.representative.live.assistanceComment : participant.live.assistanceComment,
 											author: participant.representatives.length > 0 ?
 												`${participant.name} ${participant.surname || ''} - ${translate.represented_by} ${representative.name} ${representative.surname || ''}`
-												:
-												`${participant.name} ${participant.surname || ''}`
+												:												`${participant.name} ${participant.surname || ''}`
 										})}
 										translate={translate}
 										size="2em"
@@ -650,8 +644,8 @@ const applyFilters = (participants, filters) => applyOrder(participants.filter(i
 
 		if (filters.field === 'position') {
 			if (participant.representative) {
-				if (!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText) &&
-					!CBX.unaccent(participant.representative.position.toLowerCase()).includes(unaccentedText)) {
+				if (!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText)
+					&& !CBX.unaccent(participant.representative.position.toLowerCase()).includes(unaccentedText)) {
 					return false;
 				}
 			} else if (!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText)) {
@@ -661,8 +655,8 @@ const applyFilters = (participants, filters) => applyOrder(participants.filter(i
 
 		if (filters.field === 'dni') {
 			if (participant.representative) {
-				if (!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText) &&
-					!CBX.unaccent(participant.representative.dni.toLowerCase()).includes(unaccentedText)) {
+				if (!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText)
+					&& !CBX.unaccent(participant.representative.dni.toLowerCase()).includes(unaccentedText)) {
 					return false;
 				}
 			} else if (!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText)) {

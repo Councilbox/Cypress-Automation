@@ -14,8 +14,8 @@ const AdminAnnouncementBody = ({ announcement, updateAnnouncement, admin, blockU
             <div style={{ display: 'flex', alignItems: 'center', color: 'black', marginBottom: '0.5em' }}>
                 <div style={{ paddingRight: '0.5em' }}><img src={aviso}></img></div>
                 <div style={{ fontSize: '18px', color: 'black' }}>{translate.admin_announcement}</div>
-                {(announcement.blockUser && !admin) &&
-                    <>
+                {(announcement.blockUser && !admin)
+                    && <>
                         <div style={{ paddingLeft: '0.5em', width: announcement.blockUser && '230px', display: 'flex' }} >
                         <i
                             className="material-icons"
@@ -24,8 +24,8 @@ const AdminAnnouncementBody = ({ announcement, updateAnnouncement, admin, blockU
                         >
                             help
                         </i>
-                        {showInfo &&
-                            <div style={{ color: 'rgba(0, 0, 0, 0.37)', fontSize: '10px' }}>
+                        {showInfo
+                            && <div style={{ color: 'rgba(0, 0, 0, 0.37)', fontSize: '10px' }}>
                                 {translate.notice_block_user_option}
                             </div>
                         }
@@ -33,8 +33,8 @@ const AdminAnnouncementBody = ({ announcement, updateAnnouncement, admin, blockU
                     </>
                 }
             </div>
-            {admin &&
-                <div style={{
+            {admin
+                && <div style={{
                     color: primary,
                     marginTop: '0.5'
                 }}>
@@ -54,7 +54,7 @@ const AdminAnnouncementBody = ({ announcement, updateAnnouncement, admin, blockU
                     width: '100%',
                     overflow: 'hidden',
                     padding: '.5em',
-                    border: '1px solid' + primary,
+                    border: `1px solid${primary}`,
                 }}
             >
                 <Scrollbar>

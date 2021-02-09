@@ -4,7 +4,6 @@ import { getPrimary } from '../../../styles/colors';
 import ParticipantCouncilAttachments from './ParticipantCouncilAttachments';
 
 
-
 const CouncilAttachmentsModal = ({ translate, council, participant }) => {
     const [modal, setModal] = React.useState(false);
     const primary = getPrimary();

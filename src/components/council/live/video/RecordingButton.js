@@ -94,8 +94,7 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
 
         const response = data.sessionStatus.record ?
             await props.stopRecording({ variables })
-            :
-            await props.startRecording({ variables });
+            : await props.startRecording({ variables });
         if (response) {
             await data.refetch();
         }
@@ -129,10 +128,9 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
         >
             {loading ?
                 <CircularProgress size={20} thickness={7} color={'secondary'} />
-                :
-                <>
-                    {showRecordingButton &&
-                        <Tooltip title={council.fullVideoRecord === 1 ?
+                : <>
+                    {showRecordingButton
+                        && <Tooltip title={council.fullVideoRecord === 1 ?
                             translate.full_record : record ? translate.to_stop_recording : translate.to_start_recording}>
                             <div
                                 style={{ cursor: council.fullVideoRecord === 1 ? 'auto' : 'pointer' }}
@@ -140,17 +138,15 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
                             >
                                 {loading ?
                                     <CircularProgress size={20} thickness={7} color={'secondary'} />
-                                    :
-                                    record ?
+                                    : record ?
                                         <i className="fa fa-dot-circle-o fadeToggle" style={{ color: 'red' }} />
-                                        :
-                                        <i className="fa fa-circle" style={{ color: 'red' }} />
+                                        : <i className="fa fa-circle" style={{ color: 'red' }} />
                                 }
                             </div>
                         </Tooltip>
                     }
-                    {showStreamingButton &&
-                        <Tooltip title={sessionStatus.streaming ? translate.stop_broadcasting : translate.start_broadcasting}>
+                    {showStreamingButton
+                        && <Tooltip title={sessionStatus.streaming ? translate.stop_broadcasting : translate.start_broadcasting}>
                             {sessionStatus.streaming ?
                                 <img
                                     src={BroadcastingTower}
@@ -158,8 +154,7 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
                                     onClick={stopStreamingAlert}
                                 // onClick={stopStreaming}
                                 />
-                                :
-                                <img
+                                : <img
                                     src={Tower}
                                     style={{ width: 'auto', height: '0.8em', marginLeft: showRecordingButton ? '0.4em' : '0', cursor: 'pointer' }}
                                     onClick={startStreaming}
@@ -167,8 +162,8 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
                             }
                         </Tooltip>
                     }
-                    {(council.room.videoConfig && council.room.videoConfig.autoHybrid) &&
-                        <AlertConfirm
+                    {(council.room.videoConfig && council.room.videoConfig.autoHybrid)
+                        && <AlertConfirm
                             requestClose={() => setAutoHybridModal(false)}
                             open={autoHybridModal}
                             acceptAction={stopStreaming}

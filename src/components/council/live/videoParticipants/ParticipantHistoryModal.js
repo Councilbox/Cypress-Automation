@@ -54,8 +54,8 @@ const ParticipantHistory = ({ data, participant, translate, requestClose }) => (
 											<TableCell>
 												{`${history.trackInfo.ua.os
 													.name || '-'} ${history
-													.trackInfo.ua.os.version ||
-													'-'}`}
+													.trackInfo.ua.os.version
+													|| '-'}`}
 											</TableCell>
 											<TableCell>
 												{history.trackInfo.ip}
@@ -73,7 +73,7 @@ const ParticipantHistory = ({ data, participant, translate, requestClose }) => (
 );
 
 const getLogText = (type, translate) => {
-	switch(type){
+	switch (type) {
 		case 'CONNECT':
 			return 'Conectado';
 

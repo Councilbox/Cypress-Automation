@@ -48,8 +48,7 @@ const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, council
             />
             {agendaVoting.ballots.length === 0 ?
                 '-'
-            :
-                <div>
+            : <div>
                     <DisplayVoting
                         ballots={agendaVoting.ballots}
                         translate={translate}
@@ -71,8 +70,8 @@ export const DisplayVoting = ({ ballots, translate, items = [] }) => {
 
     const getVoteValueText = ballot => {
         const texts = {
-            'Abstention': translate.abstention_btn,
-            'default': ballot.value ? ballot.value : getValueFromItems(ballot)
+            Abstention: translate.abstention_btn,
+            default: ballot.value ? ballot.value : getValueFromItems(ballot)
         };
 
         return texts[ballot.value] ? texts[ballot.value] : texts.default;

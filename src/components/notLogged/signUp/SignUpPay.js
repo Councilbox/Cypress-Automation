@@ -78,7 +78,7 @@ class SignUpPay extends React.Component {
 		if (event.nativeEvent.keyCode === 13) {
 			this.endForm();
 		}
-		if(this.props.errors.hasError){
+		if (this.props.errors.hasError) {
 			this.checkRequiredFields();
 		}
 	};
@@ -154,7 +154,7 @@ class SignUpPay extends React.Component {
 					<GridItem xs={12} md={12} lg={12}>
 						<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
 							<Checkbox
-								label={translate.login_read_terms + ' '}
+								label={`${translate.login_read_terms} `}
 								value={this.state.termsCheck}
 								onChange={(event, isInputChecked) => this.setState({
 										termsCheck: isInputChecked

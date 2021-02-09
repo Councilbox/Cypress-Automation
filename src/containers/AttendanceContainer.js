@@ -17,13 +17,13 @@ const AttendanceContainer = ({ data, translate, actions }) => {
 	const [loadingConfig, setLoadingConfig] = React.useState(true);
 
 	React.useEffect(() => {
-		if(!data.error && !data.loading && translate.selectedLanguage !== data.participant.language){
+		if (!data.error && !data.loading && translate.selectedLanguage !== data.participant.language) {
 			actions.setLanguage(data.participant.language);
 		}
 	}, [data.loading, data.participant]);
 
 	React.useEffect(() => {
-		if(data.councilVideo){
+		if (data.councilVideo) {
 			setCompanyId(data.councilVideo.companyId);
 		}
 	}, [data.councilVideo]);
@@ -34,7 +34,7 @@ const AttendanceContainer = ({ data, translate, actions }) => {
 	};
 
 	React.useEffect(() => {
-		if(companyId){
+		if (companyId) {
 			updateConfig(companyId);
 		}
 	}, [companyId]);
@@ -47,11 +47,11 @@ const AttendanceContainer = ({ data, translate, actions }) => {
 		return <LoadingMainApp />;
 	}
 
-	if(translate.selectedLanguage !== data.participant.language){
+	if (translate.selectedLanguage !== data.participant.language) {
 		return <LoadingMainApp />;
 	}
 
-	if(data.councilVideo.councilType === COUNCIL_TYPES.ONE_ON_ONE){
+	if (data.councilVideo.councilType === COUNCIL_TYPES.ONE_ON_ONE) {
 		return (
 			<OneOnOneDocumentation
 				translate={translate}
@@ -78,7 +78,7 @@ const mapStateToProps = state => ({
 	translate: state.translate
 });
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
         actions: bindActionCreators(mainActions, dispatch)
     });
 

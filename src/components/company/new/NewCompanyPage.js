@@ -70,7 +70,7 @@ class NewCompanyPage extends React.PureComponent {
 		const selectedCountry = this.props.info.countries.find(
 			country => country.deno === event.target.value
 		);
-		if(selectedCountry){
+		if (selectedCountry) {
 			this.updateProvinces(selectedCountry.id);
 		} else {
 			this.setState({
@@ -216,8 +216,8 @@ class NewCompanyPage extends React.PureComponent {
 
 		if (!data.tin || existsCif) {
 			hasError = true;
-			errors.tin = existsCif
-				? translate.vat_previosly_save
+			errors.tin = existsCif ?
+				translate.vat_previosly_save
 				: translate.field_required;
 		}
 
@@ -507,8 +507,8 @@ class NewCompanyPage extends React.PureComponent {
 										</MenuItem>
 									</SelectInput>
 								</GridItem>
-								{this.state.countryInput &&
-									<GridItem xs={12} md={6} lg={3}>
+								{this.state.countryInput
+									&& <GridItem xs={12} md={6} lg={3}>
 										<TextInput
 											floatingText={
 												translate.company_new_country
@@ -537,8 +537,7 @@ class NewCompanyPage extends React.PureComponent {
 												})
 											}
 										/>
-									:
-										<SelectInput
+									:										<SelectInput
 											floatingText={
 												translate.company_new_country_state
 											}
@@ -583,8 +582,8 @@ class NewCompanyPage extends React.PureComponent {
 										}
 										errorText={errors.language}
 									>
-										{this.props.info.languages &&
-											this.props.info.languages.map(
+										{this.props.info.languages
+											&& this.props.info.languages.map(
 												language => (
 													<MenuItem
 														key={`language_${
@@ -641,8 +640,7 @@ class NewCompanyPage extends React.PureComponent {
 											icon={<ButtonIcon type="add" color="white" />}
 										/>
 									</React.Fragment>
-									:
-									<BasicButton
+									:									<BasicButton
 										text={translate.companies_add}
 										color={getPrimary()}
 										error={requestError}

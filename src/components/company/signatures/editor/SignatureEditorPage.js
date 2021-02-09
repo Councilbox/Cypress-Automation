@@ -49,10 +49,9 @@ class SignatureEditorPage extends React.Component {
                         >
                             <LoadingSection />
                         </div>
-                        :
-                        <React.Fragment>
-                            {this.state.step === 1 &&
-                                <SignatureStepOneIvnosys
+                        : <React.Fragment>
+                            {this.state.step === 1
+                                && <SignatureStepOneIvnosys
                                     translate={translate}
                                     key={this.props.data.signature.id}
                                     signature={this.props.data.signature}
@@ -60,8 +59,8 @@ class SignatureEditorPage extends React.Component {
                                     nextStep={() => this.setState({ step: 2 })}
                                 />
                             }
-                            {this.state.step === 2 &&
-                                <SignatureStepTwoIvnosys
+                            {this.state.step === 2
+                                && <SignatureStepTwoIvnosys
                                     translate={translate}
                                     company={this.props.company}
                                     key={this.props.data.signature.id}

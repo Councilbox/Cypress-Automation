@@ -25,8 +25,7 @@ const SortableList = SortableContainer(({ items, offset = 0 }) => (
 					>
 						{item.agendaSubject}
 					</li>
-				:
-					<DraggableBlock
+				:					<DraggableBlock
 						key={`item-${index}`}
 						index={offset + index}
 						value={item.agendaSubject}

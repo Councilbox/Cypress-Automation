@@ -64,7 +64,7 @@ class ParticipantsWithActTable extends React.Component {
                         <LoadingSection />
                         : (
                             this.props.data.councilParticipantsWithActSends.list.map(
-                                (participant) => (
+                                participant => (
                                     <React.Fragment
                                         key={`participant${participant.id}`}
                                     >

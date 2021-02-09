@@ -25,7 +25,7 @@ class CompaniesDashboard extends React.PureComponent {
 
     timeout = null;
 
-    updateFilterText = (text) => {
+    updateFilterText = text => {
         this.setState({
             filterText: text
         }, () => {
@@ -34,7 +34,7 @@ class CompaniesDashboard extends React.PureComponent {
         });
     }
 
-    updateLimit = (value) => {
+    updateLimit = value => {
         this.setState({
             limit: value
         }, () => this.refresh());
@@ -146,8 +146,7 @@ class CompaniesDashboard extends React.PureComponent {
                         <Scrollbar>
                             {this.props.data.loading ?
                                 <LoadingSection />
-                                :
-                                this.props.data.corporationCompanies.list.map(company => (
+                                : this.props.data.corporationCompanies.list.map(company => (
                                     <Link to={`/companies/edit/${company.id}`} key={`company_${company.id}`}>
                                         <CompanyItem
                                             tableRoot={true}

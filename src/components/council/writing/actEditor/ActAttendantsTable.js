@@ -53,20 +53,17 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
         <div style={{ height: '100%', overflow: 'hidden', position: 'relative' }}>
             {loading ?
                 <LoadingSection />
-                :
-
-                total <= 0 && total !== null ?
+                : total <= 0 && total !== null ?
                     <div style={{ display: 'flex', fontSize: '1.2em', flexDirection: 'column', fontWeight: '700', height: '80%', alignItems: 'center', justifyContent: 'center' }}>
                         <i className="fa fa-user-times" aria-hidden="true" style={{ fontSize: '6em', color: secondary }}></i>
                         {translate.no_participant_attended}
                     </div>
-                    :
-                    <Scrollbar>
+                    : <Scrollbar>
                         <div style={{ padding: '1.5em', overflow: 'hidden' }}>
                             {!!councilAttendantsData && (
                                 <React.Fragment>
-                                    {councilAttendantsData.total > 0 &&
-                                        <DownloadAttendantsPDF
+                                    {councilAttendantsData.total > 0
+                                        && <DownloadAttendantsPDF
                                             translate={translate}
                                             color={secondary}
                                             council={council}
@@ -128,9 +125,8 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
                                     >
                                     {loading ?
                                         <LoadingSection />
-                                        :
-                                        councilAttendantsData.list.map(
-                                            (participant) => (
+                                        : councilAttendantsData.list.map(
+                                            participant => (
                                                     <React.Fragment
                                                         key={`participant${participant.id}`}
                                                     >
@@ -179,24 +175,23 @@ const HoverableRow = ({ translate, participant, delegatedVotes }) => {
                 <TableCell>
                     {representing ?
                         <span style={{ fontWeight: '700' }}>{`${representing.name} ${representing.surname || ''} - ${translate.represented_by} ${participant.name} ${participant.surname || ''}`}</span>
-                        :
-                        <span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname || ''}`}</span>
+                        : <span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname || ''}`}</span>
                     }
                 </TableCell>
                 <TableCell>
-                    {participant.firstLoginDate &&
-                        moment(participant.firstLoginDate).format('LLL')
+                    {participant.firstLoginDate
+                        && moment(participant.firstLoginDate).format('LLL')
                     }
                 </TableCell>
                 <TableCell>
-                    {participant.state === PARTICIPANT_STATES.LEFT &&
-                        moment(participant.lastDateConnection).format('LLL')
+                    {participant.state === PARTICIPANT_STATES.LEFT
+                        && moment(participant.lastDateConnection).format('LLL')
                     }
                 </TableCell>
                 <TableCell>
                     <div style={{ width: '4em' }}>
-                        {showActions &&
-                            <>
+                        {showActions
+                            && <>
                                 <i
                                     className="fa fa-info-circle"
                                     aria-hidden="true"
@@ -250,8 +245,8 @@ const applyFilters = (participants, filters) => applyOrder(participants.filter(i
 
             if (filters.field === 'position') {
                 if (participant.representative) {
-                    if (!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText) &&
-                        !CBX.unaccent(participant.representative.position.toLowerCase()).includes(unaccentedText)) {
+                    if (!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText)
+                        && !CBX.unaccent(participant.representative.position.toLowerCase()).includes(unaccentedText)) {
                         return false;
                     }
                 } else if (!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText)) {
@@ -261,8 +256,8 @@ const applyFilters = (participants, filters) => applyOrder(participants.filter(i
 
             if (filters.field === 'dni') {
                 if (participant.representative) {
-                    if (!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText) &&
-                        !CBX.unaccent(participant.representative.dni.toLowerCase()).includes(unaccentedText)) {
+                    if (!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText)
+                        && !CBX.unaccent(participant.representative.dni.toLowerCase()).includes(unaccentedText)) {
                         return false;
                     }
                 } else if (!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText)) {

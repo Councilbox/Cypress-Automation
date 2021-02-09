@@ -56,8 +56,8 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 				</div>
 				<Typography variant="subheading" className="truncate">
 					<b>{`${participant.name} ${participant.surname || ''}`}</b> {
-						canEdit &&
-							<>
+						canEdit
+							&& <>
 								<Tooltip title={translate.edit_participant_contact}>
 									<i
 										onClick={() => setEdit(!edit)}
@@ -155,8 +155,8 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 					</i>
 				</div>
 				{edit ?
- 					<TextInput
-					 	floatingText={translate.email}
+					<TextInput
+						floatingText={translate.email}
 						type="text"
 						required
 						value={email}
@@ -164,16 +164,15 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 						onChange={event => setEmail(event.target.value)
 						}
 					/>
-				:
-					<Typography variant="body1" className="truncate">
+				:					<Typography variant="body1" className="truncate">
 					{`${participant.email || '-'}`}
 					</Typography>
 				}
 
 			</div>
 
-			{council.securityType === 2 &&
-				<div
+			{council.securityType === 2
+				&& <div
 					style={{
 						display: 'flex',
 						flexDirection: 'row',
@@ -207,8 +206,7 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 							onChange={event => setPhone(event.target.value)
 							}
 						/>
-					:
-						<Typography variant="body1" className="truncate">
+					:						<Typography variant="body1" className="truncate">
 						{`${participant.phone || '-'}`}
 						</Typography>
 					}
@@ -216,8 +214,8 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 				</div>
 			}
 
-			{(!CBX.participantIsGuest(participant) && !CBX.participantIsRepresentative(participant) &&
-				!delegate && council.councilType !== COUNCIL_TYPES.ONE_ON_ONE) && (
+			{(!CBX.participantIsGuest(participant) && !CBX.participantIsRepresentative(participant)
+				&& !delegate && council.councilType !== COUNCIL_TYPES.ONE_ON_ONE) && (
 					<React.Fragment>
 						<div
 							style={{
@@ -291,8 +289,8 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 					</React.Fragment>
 				)
 			}
-			{(CBX.isActiveState(participant.state) && participant.firstLoginDate) &&
-				<div
+			{(CBX.isActiveState(participant.state) && participant.firstLoginDate)
+				&& <div
 					style={{
 						display: 'flex',
 						flexDirection: 'row',
@@ -321,8 +319,8 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 					</Typography>
 				</div>
 			}
-			{(participant.state === PARTICIPANT_STATES.LEFT || participant.online === 2) &&
-				<div
+			{(participant.state === PARTICIPANT_STATES.LEFT || participant.online === 2)
+				&& <div
 					style={{
 						display: 'flex',
 						flexDirection: 'row',
@@ -351,8 +349,8 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 					</Typography>
 				</div>
 			}
-			{edit &&
-				<BasicButton
+			{edit
+				&& <BasicButton
 					text={translate.save}
 					color={secondary}
 					loading={saving}

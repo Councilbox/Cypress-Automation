@@ -26,7 +26,6 @@ import AgendaEvent from './AgendaEvent';
 import { isMobile } from '../../../utils/screen';
 
 
-
 const primary = getPrimary();
 const secondary = getSecondary();
 
@@ -40,10 +39,10 @@ class Grafica extends React.Component {
 			draw() {
 				originalDoughnutDraw.apply(this, arguments);
 
-				const chart = this.chart;
-				const width = chart.chart.width;
-					const height = chart.chart.height;
-					const ctx = chart.chart.ctx;
+				const { chart } = this;
+				const { width } = chart.chart;
+					const { height } = chart.chart;
+					const { ctx } = chart.chart;
 				ctx.fillStyle = 'rgba(0, 0, 0, 0.65)';
 
 				const fontSize = '14px';
@@ -98,7 +97,7 @@ class Grafica extends React.Component {
 		};
 		if (totalReuniones) {
 			return (
-				<div style={{ width: '100%', height: '220px', ...stylesGrafica }}>{/*width: "170px"*/}
+				<div style={{ width: '100%', height: '220px', ...stylesGrafica }}>{/* width: "170px" */}
 					<Doughnut
 						data={data}
 						width={170}

@@ -173,11 +173,11 @@ class TableEnhancer extends Component {
 						}}
 					>
 						<GridItem xs={6} lg={6} md={6}>
-							{length > 0
-								? `${translate.table_showing_part1} ${(page -
-										1) *
-										limit +
-										1} ${
+							{length > 0 ?
+								`${translate.table_showing_part1} ${(page
+										- 1)
+										* limit
+										+ 1} ${
 										translate.table_showing_part2
 								} ${(page - 1) * limit + length} ${
 										translate.table_showing_part3

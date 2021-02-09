@@ -10,7 +10,7 @@ class MuteToggleButton extends React.Component {
 		this.setState({
 			loading: true
 		});
-		if((this.props.participant.videoParticipant && this.props.participant.videoParticipant.mutedCam)){
+		if ((this.props.participant.videoParticipant && this.props.participant.videoParticipant.mutedCam)) {
 			const response = await this.props.unmuteParticipant({
 				variables: {
 					councilId: this.props.participant.councilId,
@@ -18,15 +18,15 @@ class MuteToggleButton extends React.Component {
 				}
 			});
 
-			if(response.data){
-				if(response.data.unmuteVideoParticipantCam.success){
+			if (response.data) {
+				if (response.data.unmuteVideoParticipantCam.success) {
 					this.setState({
 						loading: false
 					});
 					this.props.refetch();
 				}
 			}
-		}else {
+		} else {
 			const response = await this.props.muteParticipant({
 				variables: {
 					councilId: this.props.participant.councilId,
@@ -34,8 +34,8 @@ class MuteToggleButton extends React.Component {
 				}
 			});
 
-			if(response.data){
-				if(response.data.muteVideoParticipantCam.success){
+			if (response.data) {
+				if (response.data.muteVideoParticipantCam.success) {
 					this.setState({
 						loading: false
 					});
@@ -48,14 +48,14 @@ class MuteToggleButton extends React.Component {
 	render() {
 		const { participant } = this.props;
 
-        //TRADUCCION
+        // TRADUCCION
 		return (
 			<div style={{ marginRight: '0.3em' }}>
 				{haveGrantedWord(participant) && (
 					<Tooltip
 						title={
-							participant.requestWord === 2
-								? 'Desactivar cámara'
+							participant.requestWord === 2 ?
+								'Desactivar cámara'
 								: ''
 						}
 					>
@@ -85,8 +85,7 @@ class MuteToggleButton extends React.Component {
                                     <span className="material-icons" style={{ fontSize: '1.15em' }}>
                                     videocam_off
                                     </span>
-								:
-                                    <span className="material-icons" style={{ fontSize: '1.15em' }}>
+								: <span className="material-icons" style={{ fontSize: '1.15em' }}>
                                         videocam
                                     </span>
 								}

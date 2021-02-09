@@ -49,14 +49,14 @@ const AppControl = ({ companies, user = {}, children, client }) => {
                 } : {})
             }
         });
-        if(response.data){
+        if (response.data) {
             const newConfig = {};
-            for(const field of response.data.appConfig){
+            for (const field of response.data.appConfig) {
                 newConfig[field.name] = field.active;
             }
-            if(companies.selected || companies.selected === 0){
-                if(companies.list[companies.selected].id === 488){
-                    //newConfig.blockchain = true;
+            if (companies.selected || companies.selected === 0) {
+                if (companies.list[companies.selected].id === 488) {
+                    // newConfig.blockchain = true;
                 }
             }
             setConfig(newConfig);
@@ -70,7 +70,7 @@ const AppControl = ({ companies, user = {}, children, client }) => {
 
 
     React.useEffect(() => {
-        if(!!user && !!user.id){
+        if (!!user && !!user.id) {
             const subscribe = async () => {
                 const response = await client.subscribe({
                     query: appControlChange,
@@ -79,20 +79,20 @@ const AppControl = ({ companies, user = {}, children, client }) => {
                     }
                 });
                 response.subscribe(subscriptionData => {
-                    if(!subscriptionData.data.appControlChange){
+                    if (!subscriptionData.data.appControlChange) {
                         return;
                     }
-                    if(subscriptionData.data.appControlChange.command === 'logout'){
+                    if (subscriptionData.data.appControlChange.command === 'logout') {
                         store.dispatch(mainActions.logout());
                     }
 
-                    if(subscriptionData.data.appControlChange.command === 'refresh'){
+                    if (subscriptionData.data.appControlChange.command === 'refresh') {
                         window.location.reload(true);
                     }
 
-                    if(!subscriptionData.data.appControlChange.config) return;
+                    if (!subscriptionData.data.appControlChange.config) return;
                     const newConfig = {};
-                    for(const field of subscriptionData.data.appControlChange.config){
+                    for (const field of subscriptionData.data.appControlChange.config) {
                         newConfig[field.name] = field.active;
                     }
                     setConfig({
@@ -107,20 +107,19 @@ const AppControl = ({ companies, user = {}, children, client }) => {
 
 
     React.useEffect(() => {
-        if(companies.selected || companies.selected === 0){
+        if (companies.selected || companies.selected === 0) {
             getData(companies.list[companies.selected].id);
         }
     }, [companies.selected]);
 
-    return(
+    return (
         <ConfigContext.Provider value={{
             ...config,
             updateConfig: getData
         }}>
             {loading ?
                 <></>
-            :
-                children
+            : children
             }
         </ConfigContext.Provider>
     );

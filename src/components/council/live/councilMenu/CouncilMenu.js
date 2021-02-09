@@ -122,8 +122,8 @@ class CouncilMenu extends React.Component {
 										/>
 										{translate.send_video_emails}
 									</MenuItem>
-									{council.securityType === 2 &&
-										<MenuItem
+									{council.securityType === 2
+										&& <MenuItem
 											onClick={() => this.setState({ SMSManager: true })
 											}
 										>
@@ -139,8 +139,8 @@ class CouncilMenu extends React.Component {
 										</MenuItem>
 
 									}
-									{!(council.state === 20 || council.state === 30) &&
-										<MenuItem
+									{!(council.state === 20 || council.state === 30)
+										&& <MenuItem
 											onClick={() => this.setState({ noCelebrate: true })
 											}
 										>
@@ -183,16 +183,16 @@ class CouncilMenu extends React.Component {
 										/>
 										{translate.council_info}
 									</MenuItem>
-									{councilIsLive(council) &&
-										<>
+									{councilIsLive(council)
+										&& <>
 											<DownloadAttendantsButton
 												translate={translate}
 												council={council}
 											/>
 										</>
 									}
-									{(councilHasVideo(council) && councilStarted(council) && council.state === 20) &&
-										<MenuItem
+									{(councilHasVideo(council) && councilStarted(council) && council.state === 20)
+										&& <MenuItem
 											onClick={() => this.setState({ pauseModal: true })}
 										>
 											<FontAwesome
@@ -206,8 +206,8 @@ class CouncilMenu extends React.Component {
 										</MenuItem>
 									}
 
-									{councilHasVideo(council) && config.roomAnnouncement &&
-										<MenuItem
+									{councilHasVideo(council) && config.roomAnnouncement
+										&& <MenuItem
 											onClick={this.showAnnouncementModal}
 										>
 											<FontAwesome

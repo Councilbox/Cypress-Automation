@@ -105,8 +105,8 @@ const ParticipantForm = ({
 					}
 				/>
 			</GridItem>
-			{participant.personOrEntity === 0 &&
-				<GridItem xs={6} md={4} lg={3}>
+			{participant.personOrEntity === 0
+				&& <GridItem xs={6} md={4} lg={3}>
 					<TextInput
 						floatingText={translate.position}
 						type="text"
@@ -122,7 +122,7 @@ const ParticipantForm = ({
 			<GridItem xs={6} md={4} lg={3}>
 				<TextInput
 					floatingText={translate.email}
-					{...(checkEmail ? { onKeyUp: (event) => checkEmail(event, 'participant') } : {})}
+					{...(checkEmail ? { onKeyUp: event => checkEmail(event, 'participant') } : {})}
 					type="text"
 					errorText={errors.email}
 					value={participant.email}
@@ -169,13 +169,13 @@ const ParticipantForm = ({
 					{languages.map(language => (
 							<MenuItem
 								value={
-									language.columnName
-										? language.columnName
+									language.columnName ?
+										language.columnName
 										: language.column_name
 								}
 								key={`language_${
-									language.columnName
-										? language.columnName
+									language.columnName ?
+										language.columnName
 										: language.column_name
 								}`}
 							>
@@ -184,12 +184,12 @@ const ParticipantForm = ({
 						))}
 				</SelectInput>
 			</GridItem>
-			{participant.personOrEntity === 0 &&
-				<GridItem xs={6} md={4} lg={3}>
+			{participant.personOrEntity === 0
+				&& <GridItem xs={6} md={4} lg={3}>
 					<SelectInput
 						floatingText={translate.participation_type}
 						errorText={errors.initialState}
-						value={'' + participant.initialState}
+						value={`${participant.initialState}`}
 						onChange={event => updateState({
 								initialState: +event.target.value
 							})
@@ -218,8 +218,8 @@ const ParticipantForm = ({
 					</SelectInput>
 				</GridItem>
 			}
-			{!hideVotingInputs &&
-				<>
+			{!hideVotingInputs
+				&& <>
 					<GridItem xs={6} md={4} lg={1}>
 						<TextInput
 							floatingText={translate.votes}
@@ -228,7 +228,7 @@ const ParticipantForm = ({
 							errorText={errors.numParticipations}
 							value={participant.numParticipations}
 							onChange={event => {
-								if(!isNaN(event.target.value) || +event.target.value > 0){
+								if (!isNaN(event.target.value) || +event.target.value > 0) {
 									updateState({
 										numParticipations: +event.target.value
 									});
@@ -245,7 +245,7 @@ const ParticipantForm = ({
 								errorText={errors.socialCapital}
 								value={participant.socialCapital}
 								onChange={event => {
-									if(!isNaN(event.target.value) || +event.target.value > 0){
+									if (!isNaN(event.target.value) || +event.target.value > 0) {
 										updateState({
 											socialCapital: +event.target.value
 										});

@@ -139,8 +139,8 @@ class Meetings extends Component {
 															width: '65%'
 														}}
 													>
-														{meeting.name ||
-															translate.dashboard_new}
+														{meeting.name
+															|| translate.dashboard_new}
 													</TableCell>
 													<TableCell
 														style={TableStyles.TD}

@@ -30,13 +30,13 @@ const SignersStatusRecount = ({ data, translate, signature, client }) => {
         let interval;
         getData();
 
-        if(signature.state !== SIGNATURE_STATES.COMPLETED){
+        if (signature.state !== SIGNATURE_STATES.COMPLETED) {
             interval = setInterval(getData, 8000);
         }
         return () => clearInterval(interval);
     }, [getData]);
 
-    if(!count){
+    if (!count) {
         return <span />;
     }
 
@@ -63,8 +63,7 @@ const SignersStatusRecount = ({ data, translate, signature, client }) => {
                 >
                     {translate.signature_of_documents_completed}
                 </div>
-            :
-                <React.Fragment>
+            : <React.Fragment>
                     <GridItem xs={4} md={4} lg={4}>
                         {`${translate.required_signatures}: ${count.signed + count.unsigned}`}
                     </GridItem>

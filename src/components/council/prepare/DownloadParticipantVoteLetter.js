@@ -13,7 +13,7 @@ const DownloadCBXDataButton = props => {
 
 	const downloadCBXData = async id => {
 		setLoading(true);
-		if(props.updateState){
+		if (props.updateState) {
 			props.updateState({ loading: true });
 		}
 		const response = await props.client.query({
@@ -33,10 +33,10 @@ const DownloadCBXDataButton = props => {
 				downloadFile(
 					response.data.voteLetterPDF,
 					'application/pdf',
-					`${props.translate.vote_letter}_${props.participant.name}${props.participant.surname ? `_${props.participant.surname || ''}` : ''}.pdf`.replace(' ', '_') //TRADUCCION
+					`${props.translate.vote_letter}_${props.participant.name}${props.participant.surname ? `_${props.participant.surname || ''}` : ''}.pdf`.replace(' ', '_') // TRADUCCION
 				);
 				setLoading(false);
-				if(props.updateState){
+				if (props.updateState) {
 					props.updateState({ loading: false });
 				}
 			}
@@ -45,7 +45,7 @@ const DownloadCBXDataButton = props => {
 
 	const secondary = getSecondary();
 
-	if(props.trigger){
+	if (props.trigger) {
 		return (
 			loading ? (
 			<LoadingSection size={14} color={'secondary'} />

@@ -48,8 +48,8 @@ const ParticipantItem = ({ participant, translate, layout, editParticipant, mode
 					}}
 					onClick={() => editParticipant(participant.id)}
 				>
-					{layout === 'compact' &&
-						<CompactItemLayout
+					{layout === 'compact'
+						&& <CompactItemLayout
 							secondary={secondary}
 							participant={participant}
 							translate={translate}
@@ -59,8 +59,8 @@ const ParticipantItem = ({ participant, translate, layout, editParticipant, mode
 							mode={mode}
 						/>
 					}
-					{layout === 'table' &&
-						<CompactItemLayout
+					{layout === 'table'
+						&& <CompactItemLayout
 							secondary={secondary}
 							participant={participant}
 							translate={translate}
@@ -70,8 +70,8 @@ const ParticipantItem = ({ participant, translate, layout, editParticipant, mode
 							mode={mode}
 						/>
 					}
-					{layout === 'squares' &&
-						<TabletItem
+					{layout === 'squares'
+						&& <TabletItem
 							secondary={secondary}
 							participant={participant}
 							translate={translate}
@@ -118,8 +118,7 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 							inDropDown={true}
 							refetch={refetch}
 						/>
-					:
-						<div
+					:						<div
 							style={{
 								width: '88px',
 								height: '100%',
@@ -135,14 +134,14 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 					}
 				</div>
 			</GridItem>
-			{mode === 'ATTENDANCE' &&
-				<GridItem
+			{mode === 'ATTENDANCE'
+				&& <GridItem
 					xs={1}
 					lg={1}
 					md={1}
 				>
-					{participant.assistanceComment &&
-						<Tooltip title={removeHTMLTags(participant.assistanceComment)}>
+					{participant.assistanceComment
+						&& <Tooltip title={removeHTMLTags(participant.assistanceComment)}>
 							<div style={{ padding: '0.5em' }}>
 								<FontAwesome
 									name={'comment'}
@@ -173,8 +172,8 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 				md={2}
 				lg={2}
 			>
-				{!isRepresented(participant) && council.councilType < 2 && !hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
-					<BasicButton
+				{!isRepresented(participant) && council.councilType < 2 && !hasHisVoteDelegated(participant) && participant.personOrEntity !== 1
+					&& <BasicButton
 						text={participant.signed ? translate.user_signed : translate.to_sign}
 						fullWidth
 						buttonStyle={{ border: `1px solid ${participant.signed ? primary : secondary}` }}
@@ -221,8 +220,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 								refetch={refetch}
 								council={council}
 							/>
-						:
-							<div
+						:							<div
 								style={{
 									width: '88px',
 									height: '100%',
@@ -323,9 +321,8 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 								</Tooltip>
 							</div>
 
-						:
-							(participant.representatives && participant.representatives.length > 0) &&
-								<div
+						:							(participant.representatives && participant.representatives.length > 0)
+								&& <div
 									style={{
 										display: 'flex',
 										flexDirection: 'row',
@@ -421,8 +418,8 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 								{`${participant.position ? participant.position : '-'}`}
 							</Typography>
 						</div>
-						{mode === 'ATTENDANCE' && participant.assistanceComment &&
-							<div
+						{mode === 'ATTENDANCE' && participant.assistanceComment
+							&& <div
 								style={{
 									display: 'flex',
 									flexDirection: 'row',
@@ -461,8 +458,8 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 						}
 					</div>
 				</div>
-				{council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION &&
-					<div
+				{council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION
+					&& <div
 						style={{
 							width: '35%',
 							padding: '0.3em',
@@ -475,8 +472,8 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 					>
 						{!isRepresented(participant) ?
 							<React.Fragment>
-								{council.councilType < 2 && !hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
-									<BasicButton
+								{council.councilType < 2 && !hasHisVoteDelegated(participant) && participant.personOrEntity !== 1
+									&& <BasicButton
 										text={participant.signed ? translate.user_signed : translate.to_sign}
 										fullWidth
 										buttonStyle={{ border: `1px solid ${participant.signed ? primary : secondary}` }}
@@ -490,8 +487,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 									/>
 								}
 							</React.Fragment>
-						:
-							<BasicButton
+						:							<BasicButton
 								text={participantRepresentativeSigned(participant) ? translate.user_signed : translate.to_sign}
 								fullWidth
 								buttonStyle={{ border: `1px solid ${participantRepresentativeSigned(participant) ? primary : secondary}` }}
@@ -518,7 +514,7 @@ const _getIcon = ({ mode, participant, translate, council, representative }) => 
 		case 'CONVENE':
 			return <EmailIcon translate={translate} reqCode={participant.sendConvene.reqCode} />;
 		case 'CREDENTIALS':
-			if(participant.sendCredentials){
+			if (participant.sendCredentials) {
 				return <EmailIcon translate={translate} reqCode={participant.sendCredentials.reqCode} />;
 			}
 			return '-';

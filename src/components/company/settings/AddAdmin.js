@@ -56,7 +56,7 @@ const AddAdmin = ({ translate, company, refetch, admins, client }) => {
         getUsers();
     }, [getUsers]);
 
-    if(loading){
+    if (loading) {
         return <LoadingSection />;
     }
 
@@ -80,7 +80,7 @@ const AddAdmin = ({ translate, company, refetch, admins, client }) => {
                     {`${user.name} ${user.surname || ''} - ${user.email}`}
                     <div style={{ cursor: 'pointer' }} onClick={() => {
                         setModal(user);
-                        //alert()
+                        // alert()
                     }}>Añadir</div>
                 </div>
             ))}
@@ -91,7 +91,7 @@ const AddAdmin = ({ translate, company, refetch, admins, client }) => {
                     length={users.list.length}
                     total={users.total}
                     limit={10}
-                    //changePage={changePageUsuarios}
+                    // changePage={changePageUsuarios}
                     md={12}
                     xs={12}
                 />

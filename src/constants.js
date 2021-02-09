@@ -241,7 +241,7 @@ export const GOVERNING_BODY_TYPES = {
 	}
 };
 
-//CONTINUATION OF AGENDA_TYPES
+// CONTINUATION OF AGENDA_TYPES
 export const CUSTOM_AGENDA_VOTING_TYPES = [
 	{
 		label: 'public_voting',

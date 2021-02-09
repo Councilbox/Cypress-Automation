@@ -182,8 +182,8 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
         }
 
         if (!dataState.description) {
-            //errors.description = translate.required_field;
-            //hasError = true;
+            // errors.description = translate.required_field;
+            // hasError = true;
         } else if (checkForUnclosedBraces(dataState.description)) {
             errors.description = true;
             hasError = true;
@@ -223,8 +223,6 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
             }
         }
     };
-
-
 
 
     return (
@@ -341,7 +339,7 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
                                 <DocumentNameEditor
                                     key={state.data.attachment.id}
                                     attachment={state.data.attachment}
-                                    updateAttachment={(event) => setState({
+                                    updateAttachment={event => setState({
                                         ...state,
                                         data: {
                                             ...state.data,
@@ -357,8 +355,7 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
                                     requestClose={() => setState({ ...state, editDocument: false })}
                                 />
                             </div>
-                            :
-                            <div>
+                            : <div>
                                 <div style={{ maxWidth: '10em' }}>
                                     <FileUploadButton
                                         text={translate.new_add}
@@ -382,8 +379,8 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
                                         onChange={handleFile}
                                     />
                                 </div>
-                                {!!state.errors.file &&
-                                    <p style={{ color: 'red', fontWeight: '700' }}>
+                                {!!state.errors.file
+                                    && <p style={{ color: 'red', fontWeight: '700' }}>
                                         {state.errors.file}
                                     </p>
                                 }

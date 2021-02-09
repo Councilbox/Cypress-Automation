@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Router, Switch } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
-import createHistory from 'history/createBrowserHistory';
+import { createBrowserHistory as createHistory } from 'history';
 import Loadable from 'react-loadable';
 import { Provider } from 'react-redux';
 import { ApolloClient } from 'apollo-client';
@@ -37,6 +37,9 @@ const httpLink = new HttpLink({
 });
 
 export const bHistory = createHistory();
+console.log(bHistory);
+
+
 export const store = configureStore();
 
 const getToken = () => {
@@ -48,11 +51,11 @@ const getToken = () => {
 
 function getDefaultLanguage() {
 	const languages = {
-		'es': 'es',
-		'ca': 'cat',
-		'en': 'en',
-		'gl': 'gal',
-		'pt': 'pt'
+		es: 'es',
+		ca: 'cat',
+		en: 'en',
+		gl: 'gal',
+		pt: 'pt'
 	};
 
 	const languageCode = navigator.language || navigator.userLanguage;
@@ -141,7 +144,7 @@ const retryLink = new RetryLink({
 	}
 });
 
-const addStatusLink = new ApolloLink((operation, forward) => forward(operation).map((response) => {
+const addStatusLink = new ApolloLink((operation, forward) => forward(operation).map(response => {
 		networkErrorHandler(null, toast, store);
 		return response;
 	}));
@@ -153,7 +156,7 @@ const logoutLink = onError(({ graphQLErrors, networkError, operation, forward })
 	console.info(networkError);
 	// console.error(networkError);
 
- 	if (graphQLErrors) {
+	if (graphQLErrors) {
 		if (graphQLErrors[0].code === 440) {
 			return new Observable(observable => {
 				let sub = null;
@@ -163,10 +166,10 @@ const logoutLink = onError(({ graphQLErrors, networkError, operation, forward })
 					operation.setContext({
 						headers: {
 							...operation.getContext().headers,
-							authorization: token
-								? `Bearer ${token}`
+							authorization: token ?
+								`Bearer ${token}`
 								: `Bearer ${participantToken}`,
-							//"x-jwt-token": token ? token : participantToken
+							// "x-jwt-token": token ? token : participantToken
 						}
 					});
 					sub = forward(operation).subscribe(observable);
@@ -178,7 +181,7 @@ const logoutLink = onError(({ graphQLErrors, networkError, operation, forward })
 		graphQLErrors.map(error => graphQLErrorHandler(error, toast, store, client, operation, bHistory));
 	}
 
-	if(networkError){
+	if (networkError) {
 		networkErrorHandler(networkError, toast, store, client, operation);
 	}
 });
@@ -213,11 +216,11 @@ if (sessionStorage.getItem('token')) {
 	store.dispatch(loadingFinished());
 }
 
-if(shouldLoadSubdomain()){
+if (shouldLoadSubdomain()) {
 	store.dispatch(loadSubdomainConfig());
 }
 
-if(sessionStorage.getItem('participantLoginSuccess')){
+if (sessionStorage.getItem('participantLoginSuccess')) {
 	store.dispatch({ type: 'PARTICIPANT_LOGIN_SUCCESS' });
 }
 
@@ -272,15 +275,15 @@ const RouterWrapper = () => {
 					path="/convene/:id"
 					component={ConveneDisplay}
 				/>
-				{!window.location.hostname.includes('app.councilbox') &&
-						<Route
+				{!window.location.hostname.includes('app.councilbox')
+						&& <Route
 							exact
 							path="/docs"
 							component={DocsPage}
 						/>
 					}
-					{!window.location.hostname.includes('app.councilbox') &&
-						<Route
+					{!window.location.hostname.includes('app.councilbox')
+						&& <Route
 							exact
 							path="/docs/tryit"
 							component={PlaygroundPage}

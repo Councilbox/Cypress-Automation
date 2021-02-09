@@ -40,7 +40,7 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 			}
 		});
 		if (response.data.openCouncilRoom.success) {
-			if(response.data.openCouncilRoom.message === 'Failed SMS'){
+			if (response.data.openCouncilRoom.message === 'Failed SMS') {
 				setError(response.data.openCouncilRoom.message);
 				setLoading(false);
 			} else {
@@ -51,7 +51,7 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 	};
 
 	const getBody = () => {
-		if(state.showSMS){
+		if (state.showSMS) {
 			return (
 				<LiveSMS
 					translate={translate}
@@ -60,11 +60,11 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 			);
 		}
 
-		if(error === 'Failed SMS'){
+		if (error === 'Failed SMS') {
 			return <FailedSMSMessage translate={translate} onClick={() => setState({ showSMS: true })} />;
 		}
 
-		if(council.councilType === COUNCIL_TYPES.ONE_ON_ONE){
+		if (council.councilType === COUNCIL_TYPES.ONE_ON_ONE) {
 			return (
 				<a
 					href={`https://app.councilbox.com/recommendations/${council.language}`}
@@ -85,8 +85,8 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 		return (
 			<React.Fragment>
 				<div>{translate.open_room_continue}</div>
-				{council.videoEmailsDate &&
-					<div style={{ marginTop: '1.4em', fontSize: '0.9em' }}>{`${translate.creds_send_date} ${moment(council.videoEmailsDate).format('LLL')}`}</div>
+				{council.videoEmailsDate
+					&& <div style={{ marginTop: '1.4em', fontSize: '0.9em' }}>{`${translate.creds_send_date} ${moment(council.videoEmailsDate).format('LLL')}`}</div>
 				}
 				<Checkbox
 					label={council.videoEmailsDate ? translate.resend : translate.send_video_credentials}
@@ -97,8 +97,8 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 					}
 					id={'checkEnviarEmail'}
 				/>
-				{state.sendCredentials &&
-					<>
+				{state.sendCredentials
+					&& <>
 						<Radio
 							value={'all'}
 							checked={state.sendOptions === 'all'}
@@ -146,8 +146,8 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 	return (
 		<React.Fragment>
 			<div>
-				{council.state < 20 &&
-					<BasicButton
+				{council.state < 20
+					&& <BasicButton
 						text={translate.open_room}
 						color={primary}
 						loading={loading}

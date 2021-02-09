@@ -14,16 +14,16 @@ import withTranslations from '../../../HOCs/withTranslations';
 
 const stateReducer = (state, action) => {
 	const actions = {
-		'UPDATE_ERRORS': () => ({
+		UPDATE_ERRORS: () => ({
 				...state,
 				errors: action.payload
 			}),
-		'SUCCESS': () => ({
+		SUCCESS: () => ({
 				...state,
 				loading: false,
 				success: true
 			}),
-		'LOADING': () => ({
+		LOADING: () => ({
 				...state,
 				loading: true,
 				success: false
@@ -127,8 +127,8 @@ const SignUpPage = ({ translate, windowSize, mutate }) => {
 									flexDirection:
 										windowSize !== 'xs' ? 'row' : 'column',
 									height:
-										windowSize !== 'xs'
-											? '72vh'
+										windowSize !== 'xs' ?
+											'72vh'
 											: 'calc(100vh - 3em)',
 									width: '100%'
 								}}
@@ -153,8 +153,8 @@ const SignUpPage = ({ translate, windowSize, mutate }) => {
 										position: 'relative',
 										overflowY: 'hidden',
 										height:
-											windowSize !== 'xs'
-												? '100%'
+											windowSize !== 'xs' ?
+												'100%'
 												: 'calc(100vh - 8em - 11.5%)'
 									}}
 								>

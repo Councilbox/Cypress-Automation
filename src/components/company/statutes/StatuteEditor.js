@@ -47,14 +47,14 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, disabl
 				/>
 				<br />
 				<Grid style={{ overflow: 'hidden' }}>
-					{props.organization &&
-						<>
+					{props.organization
+						&& <>
 							<GridItem xs={12} md={12} lg={12}>
 								<div style={{ maxWidth: '20em' }}>
 									<SelectInput
 										disabled={disabled}
 										floatingText={translate.company_type}
-										value={'' + statute.companyType || '-1'}
+										value={`${statute.companyType}` || '-1'}
 										onChange={event => updateState({
 												companyType: +event.target.value
 											})
@@ -70,7 +70,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, disabl
 											companyType => (
 													<MenuItem
 														key={companyType.label}
-														value={'' + companyType.value}
+														value={`${companyType.value}`}
 													>
 														{
 															translate[
@@ -220,9 +220,9 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, disabl
 								})
 							}
 						>
-							{quorumTypes !== undefined &&
-								!loading &&
-								quorumTypes.map(quorumType => (
+							{quorumTypes !== undefined
+								&& !loading
+								&& quorumTypes.map(quorumType => (
 										<MenuItem
 											value={quorumType.value}
 											key={`quorum_${quorumType.label}`}
@@ -264,8 +264,8 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, disabl
 									})
 								}
 							>
-								{!loading &&
-									quorumTypes.map(quorumType => (
+								{!loading
+									&& quorumTypes.map(quorumType => (
 											<MenuItem
 												value={quorumType.value}
 												key={`quorum_${quorumType.label
@@ -311,8 +311,8 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, disabl
 							}
 						/>
 					</GridItem>
-					{config.earlyVoting &&
-						<>
+					{config.earlyVoting
+						&& <>
 							<GridItem xs={12} md={7} lg={7}>
 								<Checkbox
 									disabled={statute.existsDelegatedVote !== 1}
@@ -344,8 +344,8 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, disabl
 							label={translate.exist_max_num_delegated_votes}
 							value={statute.existMaxNumDelegatedVotes === 1}
 							onChange={(event, isInputChecked) => updateState({
-									existMaxNumDelegatedVotes: isInputChecked
-										? 1
+									existMaxNumDelegatedVotes: isInputChecked ?
+										1
 										: 0
 								})
 							}
@@ -382,8 +382,8 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, disabl
 							helpDescription={translate.cant_access_after_start_desc}
 							value={statute.existsLimitedAccessRoom === 1}
 							onChange={(event, isInputChecked) => updateState({
-									existsLimitedAccessRoom: isInputChecked
-										? 1
+									existsLimitedAccessRoom: isInputChecked ?
+										1
 										: 0
 								})
 							}
@@ -490,8 +490,8 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, disabl
 							label={translate.exist_present_with_remote_vote}
 							value={statute.existsPresentWithRemoteVote === 1}
 							onChange={(event, isInputChecked) => updateState({
-									existsPresentWithRemoteVote: isInputChecked
-										? 1
+									existsPresentWithRemoteVote: isInputChecked ?
+										1
 										: 0
 								})
 							}
@@ -583,8 +583,8 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, disabl
 								})
 							}
 						>
-							{!!props.censusList && !props.censusList.loading &&
-								props.censusList.censuses.list.map(
+							{!!props.censusList && !props.censusList.loading
+								&& props.censusList.censuses.list.map(
 									census => (
 											<MenuItem
 												value={census.id}
@@ -595,11 +595,11 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, disabl
 										)
 								)
 							}
-							{(CBX.multipleGoverningBody(company.governingBodyType) &&
-								company.governingBodyData &&
-								company.governingBodyData.list &&
-								company.governingBodyData.list.length > 0) &&
-								<MenuItem
+							{(CBX.multipleGoverningBody(company.governingBodyType)
+								&& company.governingBodyData
+								&& company.governingBodyData.list
+								&& company.governingBodyData.list.length > 0)
+								&& <MenuItem
 									value={parseInt(-1, 10)}
 								>
 									{translate.governing_body}
@@ -663,6 +663,5 @@ const VideoSection = ({ updateState, statute, translate }) => {
 };
 
 export default withApollo(withSharedProps()(StatuteEditor));
-
 
 

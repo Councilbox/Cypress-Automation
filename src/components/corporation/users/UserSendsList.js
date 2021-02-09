@@ -46,7 +46,7 @@ const UserSendsList = ({ translate, enRoot, client, ...props }) => {
             }
         });
 
-        if(!response.errors){
+        if (!response.errors) {
             getData();
         }
     };
@@ -70,18 +70,18 @@ const UserSendsList = ({ translate, enRoot, client, ...props }) => {
 		setSending(false);
     };
 
-    if(!sends){
+    if (!sends) {
         return null;
     }
 
-    return(
+    return (
         <div style={{ marginBottom: '3em' }}>
             <div style={{ width: '100%', display: 'flex', flexDirection: 'row', marginTop: '0.8em', alignItems: 'center' }}>
                 <Typography variant="subheading" style={{ color: getPrimary(), marginRight: '0.6em' }}>
                     {translate.sends}
                 </Typography>
-                {props.user.actived === 0 &&
-                    <BasicButton
+                {props.user.actived === 0
+                    && <BasicButton
                         text={translate.resend}
                         color={secondary}
                         loading={sending}

@@ -36,7 +36,7 @@ class AddGuestModal extends React.Component {
 	};
 
 	addGuest = async () => {
-		if(!await this.checkRequiredFields()){
+		if (!await this.checkRequiredFields()) {
 			const response = await this.props.addGuest({
 				variables: {
 					guest: {
@@ -61,7 +61,7 @@ class AddGuestModal extends React.Component {
 		}
 	};
 
-	checkRequiredFields = async (emailOnly) => {
+	checkRequiredFields = async emailOnly => {
 		const errors = {
 			name: '',
 			surname: '',
@@ -74,13 +74,13 @@ class AddGuestModal extends React.Component {
 		const { translate } = this.props;
 
 
-		if(!guest.email){
+		if (!guest.email) {
 			errors.email = translate.required_field;
 			hasError = true;
-		}else if(!checkValidEmail(guest.email)){
+		} else if (!checkValidEmail(guest.email)) {
 				errors.email = translate.valid_email_required;
 				hasError = true;
-			}else{
+			} else {
 				const response = await this.props.client.query({
 					query: checkUniqueCouncilEmails,
 					variables: {
@@ -88,29 +88,29 @@ class AddGuestModal extends React.Component {
 						emailList: [guest.email]
 					}
 				});
-				if(!response.data.checkUniqueCouncilEmails.success){
+				if (!response.data.checkUniqueCouncilEmails.success) {
 					errors.email = translate.register_exists_email;
 					hasError = true;
 				}
 			}
 
-		if(!emailOnly){
-			if(!guest.name){
+		if (!emailOnly) {
+			if (!guest.name) {
 				errors.name = translate.required_field;
 				hasError = true;
 			}
 
-			if(!guest.surname){
+			if (!guest.surname) {
 				errors.surname = translate.required_field;
 				hasError = true;
 			}
 
-			if(!guest.dni){
+			if (!guest.dni) {
 				errors.dni = translate.required_field;
 				hasError = true;
 			}
 
-			if(!guest.phone){
+			if (!guest.phone) {
 				errors.phone = translate.required_field;
 				hasError = true;
 			}

@@ -49,22 +49,22 @@ const MainRouter = ({ company, user, location }) => {
 		store.dispatch(addSpecificTranslations(company));
 	}, [store, company]);
 
-    if(!location.pathname.includes(`/company/${company.id}`) && !location.pathname.includes(`/user/${user.id}`) && !location.pathname.includes('/admin')){
+    if (!location.pathname.includes(`/company/${company.id}`) && !location.pathname.includes(`/user/${user.id}`) && !location.pathname.includes('/admin')) {
         bHistory.push(`/company/${company.id}`);
-        //return <Redirect to={`/company/${company.id}`} />
+        // return <Redirect to={`/company/${company.id}`} />
     }
 
     const companySettings = () => <CompanySettingsPage linkButton={true} />;
 
-    return(
+    return (
         <Switch>
             <Route
                 exact
                 path="/"
                 component={redirect(company)}
             />
-            {user.roles === 'devAdmin' &&
-                <Route
+            {user.roles === 'devAdmin'
+                && <Route
                     exact
                     path="/admin"
                     component={DevAdminPanel}

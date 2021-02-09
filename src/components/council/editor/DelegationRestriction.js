@@ -88,8 +88,7 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
             <div>
                 {warningModal.id ?
                     <text dangerouslySetInnerHTML={{ __html: translate.remove_delegation_restriction_warning.replace('{{name}}', warningModal.name).replace('{{surname}}', warningModal.surname || '') }}></text>
-                :
-                    translate.this_options_delete_delegation_restriction
+                : translate.this_options_delete_delegation_restriction
                 }
             </div>
         );
@@ -166,8 +165,8 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                                     text={translate.select}
                                 >
                                 </BasicButton>
-                                {participants.length > 0 &&
-                                    <BasicButton
+                                {participants.length > 0
+                                    && <BasicButton
                                         color={'white'}
                                         textStyle={{
                                             color: primary,
@@ -206,8 +205,8 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                                         translate={translate}
                                     />
                                 ))}
-                                {participants.length === 0 &&
-                                    <Etiqueta
+                                {participants.length === 0
+                                    && <Etiqueta
                                         empty={true}
                                         council={council}
                                         translate={translate}
@@ -316,8 +315,7 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
             <div>
                 {_renderBody()}
             </div>
-            :
-            <div style={{ padding: '1em', paddingLeft: 0, marginTop: '1em', maxWidth: isMobile ? '100%' : '70%' }}>
+            : <div style={{ padding: '1em', paddingLeft: 0, marginTop: '1em', maxWidth: isMobile ? '100%' : '70%' }}>
                 {_renderBody()}
             </div>
     );
@@ -338,7 +336,7 @@ const Etiqueta = ({ participant, removeCouncilDelegate, openDeleteWarning, counc
                     cursor: 'initial',
                     marginRight: '1em',
                     borderRadius: '1px',
-                    //border: 'solid 1px #f0f3f6',
+                    // border: 'solid 1px #f0f3f6',
                     display: 'inline-block',
                     marginBottom: '0.5em',
                     minWidth: '100px'
@@ -380,7 +378,7 @@ const Etiqueta = ({ participant, removeCouncilDelegate, openDeleteWarning, counc
                         textOverflow: 'ellipsis',
                         maxWidth: '160px'
                     }}>
-                        {participant.name + ' ' + participant.surname || ''}
+                        {`${participant.name} ${participant.surname}` || ''}
                     </div>
                     <div style={{ marginLeft: '5px', marginRight: '3px', display: 'flex' }}>
                         <ButtonIcon

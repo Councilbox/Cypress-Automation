@@ -14,7 +14,7 @@ class Header extends React.Component {
 	};
 
 	goBack = () => {
-		bHistory.goBack();
+		bHistory.back();
 	};
 
 	render() {

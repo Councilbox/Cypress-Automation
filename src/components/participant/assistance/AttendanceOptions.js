@@ -35,7 +35,7 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
     const checkDelegationConditions = () => config.attendanceDelegationOption && council.statute.existsDelegatedVote === 1 && ((participant.numParticipations > 0)
             || participant.represented.filter(p => (p.numParticipations > 0)).length > 0);
 
-    if(council.councilType === 4){
+    if (council.councilType === 4) {
         return (
             <>
                 <div style={{ width: '100%', marginBottom: '1em' }}>
@@ -57,8 +57,8 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                         });
                     }}
                 />
-                {checkDelegationConditions() &&
-                    <AssistanceOption
+                {checkDelegationConditions()
+                    && <AssistanceOption
                         translate={translate}
                         title={translate.want_to_delegate_in}
                         select={showDelegationModal}
@@ -85,8 +85,7 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                                         }
                                     ></i>
                                 </div>
-                                :
-                                ''
+                                : ''
                         }
                     />
                 }
@@ -100,15 +99,14 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                 <div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
                     {AECOC_ID ?
                         translate.vote_delegation
-                    :
-                        translate.indicate_status
+                    : translate.indicate_status
                     }
                 </div>
             </div>
             {participant.personOrEntity === 0 ?
                 <React.Fragment>
-                    {((council.councilType === 0 || council.councilType === 1) && config.attendanceRemoteOption) &&
-                        <AssistanceOption
+                    {((council.councilType === 0 || council.councilType === 1) && config.attendanceRemoteOption)
+                        && <AssistanceOption
                             title={translate.attend_remotely_through_cbx}
                             translate={translate}
                             select={() => {
@@ -123,8 +121,8 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                             selected={state.assistanceIntention}
                         />
                     }
-                    {(council.remoteCelebration !== 1 && config.attendancePresentOption) &&
-                        <AssistanceOption
+                    {(council.remoteCelebration !== 1 && config.attendancePresentOption)
+                        && <AssistanceOption
                             title={translate.attending_in_person}
                             translate={translate}
                             select={() => {
@@ -140,8 +138,8 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
 
                         />
                     }
-                    {config.attendanceNoParticipateOption &&
-                        <AssistanceOption
+                    {config.attendanceNoParticipateOption
+                        && <AssistanceOption
                             translate={translate}
                             title={translate.not_attending}
                             select={() => {
@@ -149,9 +147,9 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                                     ...state,
                                     assistanceIntention: PARTICIPANT_STATES.NO_PARTICIPATE,
                                     locked: false,
-                                    noAttendWarning: !!((participant.type !== PARTICIPANT_TYPE.REPRESENTATIVE &&
-                                        participant.delegatedVotes.length > 0) ||
-                                        participant.delegatedVotes.length > 1),
+                                    noAttendWarning: !!((participant.type !== PARTICIPANT_TYPE.REPRESENTATIVE
+                                        && participant.delegatedVotes.length > 0)
+                                        || participant.delegatedVotes.length > 1),
                                     delegateId: null
                                 });
                             }}
@@ -160,8 +158,7 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                         />
                     }
                 </React.Fragment>
-            :
-                <React.Fragment>
+            : <React.Fragment>
                     <div onClick={showAddRepresentative}>
                         <AssistanceOption
                             translate={translate}
@@ -188,13 +185,12 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                                             }
                                         ></i>
                                     </div>
-                                    :
-                                    ''
+                                    : ''
                             }
                         />
                         </div>
-                        {state.addRepresentative &&
-                            <AddRepresentativeModal
+                        {state.addRepresentative
+                            && <AddRepresentativeModal
                                 show={state.addRepresentative}
                                 council={council}
                                 participant={participant}
@@ -205,15 +201,15 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                         }
                     </React.Fragment>
                 }
-            {state.noAttendWarning &&
-                <NoAttendDelegationWarning
+            {state.noAttendWarning
+                && <NoAttendDelegationWarning
                     translate={translate}
                     representative={participant.type === PARTICIPANT_TYPE.REPRESENTATIVE}
                     requestClose={() => setState({ ...state, noAttendWarning: false })}
                 />
             }
-            {(council.statute.canEarlyVote === 1 && checkDelegationConditions()) &&
-                <>
+            {(council.statute.canEarlyVote === 1 && checkDelegationConditions())
+                && <>
                     <EarlyVoteOption
                         translate={translate}
                         state={state}
@@ -224,13 +220,12 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
 
                 </>
             }
-            {checkDelegationConditions() &&
-                <AssistanceOption
+            {checkDelegationConditions()
+                && <AssistanceOption
                     translate={translate}
                     title={council.companyId === 286 ?
                         'Quiero delegar en el Presidente de AECOC o, en su ausencia, en el Vicepresidente'
-                    :
-                        translate.want_to_delegate_in
+                    : translate.want_to_delegate_in
                     }
                     select={showDelegationModal}
                     disabled={!canDelegate}
@@ -255,8 +250,8 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                                         })
                                     }
                                 ></i>
-                                {council.statute.canSenseVoteDelegate === 1 &&
-                                    <FixDelegationVoteButton
+                                {council.statute.canSenseVoteDelegate === 1
+                                    && <FixDelegationVoteButton
                                         translate={translate}
                                         state={state}
                                         council={council}
@@ -265,8 +260,7 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                                     />
                                 }
                             </div>
-                            :
-                            ''
+                            : ''
                     }
                 />
             }

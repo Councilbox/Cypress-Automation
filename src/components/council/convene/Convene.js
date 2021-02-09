@@ -161,8 +161,8 @@ class Convene extends React.Component {
 						</div>
 					)
 					}
-					{!noButtonsDownload &&
-						<React.Fragment>
+					{!noButtonsDownload
+						&& <React.Fragment>
 							<div>
 								<BasicButton
 									text={translate.export_convene}
@@ -216,8 +216,8 @@ class Convene extends React.Component {
 									}
 									label={council.publicConvene === 1 ? translate.public_convene : translate.private_convene}
 								/>
-								{council.publicConvene === 1 &&
-									<div style={{ userSelect: 'text' }}>
+								{council.publicConvene === 1
+									&& <div style={{ userSelect: 'text' }}>
 										{`${translate.link_share_convene}: ${window.location.origin}/convene/${this.props.data.council.id}`}
 									</div>
 								}
@@ -294,8 +294,8 @@ class Convene extends React.Component {
 							</div>
 						</div>
 					)}
-					{!noButtonsDownload &&
-						<React.Fragment>
+					{!noButtonsDownload
+						&& <React.Fragment>
 							<div>
 								<BasicButton
 									text={translate.export_convene}
@@ -349,8 +349,8 @@ class Convene extends React.Component {
 									}
 									label={council.publicConvene === 1 ? translate.public_convene : translate.private_convene}
 								/>
-								{council.publicConvene === 1 &&
-									<div style={{ userSelect: 'text' }}>
+								{council.publicConvene === 1
+									&& <div style={{ userSelect: 'text' }}>
 										{`${translate.link}: ${window.location.origin}/convene/${this.props.data.council.id}`}
 									</div>
 								}

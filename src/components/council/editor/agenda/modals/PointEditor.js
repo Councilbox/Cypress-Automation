@@ -52,13 +52,13 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 		let majorityType = 0; let
 subjectType = 0;
 
-		if(draft.tags.agenda){
+		if (draft.tags.agenda) {
 			const { segments } = draft.tags.agenda;
-			if(segments[1]){
+			if (segments[1]) {
 				subjectType = props.votingTypes.filter(type => draft.tags.agenda.segments[1] === type.label)[0].value;
 			}
 
-			if(segments[2]){
+			if (segments[2]) {
 				majorityType = props.majorityTypes.filter(type => draft.tags.agenda.segments[2] === type.label)[0].value;
 			}
 		}
@@ -89,9 +89,9 @@ subjectType = 0;
 					}
 				}
 			});
-			if(attachments.length > 0){
+			if (attachments.length > 0) {
 				await Promise.all(attachments.filter(attachment => !attachment.__typename).map(attachment => {
-					if(attachment.filename){
+					if (attachment.filename) {
 						const fileInfo = {
 							...attachment,
 							state: 0,
@@ -131,7 +131,7 @@ subjectType = 0;
 				}));
 			}
 
-			if(attachmentsToRemove.length > 0){
+			if (attachmentsToRemove.length > 0) {
 				await Promise.all(attachmentsToRemove.map(item => props.client.mutate({
 						mutation: gql`
 							mutation deleteAgendaAttachment($attachmentId: Int!){
@@ -145,7 +145,6 @@ subjectType = 0;
 						}
 					})));
 			}
-
 
 
 			if (response) {
@@ -188,7 +187,7 @@ subjectType = 0;
 						statute={statute}
 						defaultTags={{
 							...(state.subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST ? {
-								'confirmation_request': {
+								confirmation_request: {
 									active: true,
 									childs: null,
 									label: translate.confirmation_request,
@@ -196,7 +195,7 @@ subjectType = 0;
 									type: 3
 								},
 							} : {
-								'agenda': {
+								agenda: {
 									active: true,
 									type: 2,
 									name: 'agenda',
@@ -244,8 +243,7 @@ subjectType = 0;
 										{translate.confirmation_request}
 									</MenuItem>
 								</SelectInput>
-							:
-								<SelectInput
+							:								<SelectInput
 									floatingText={translate.type}
 									value={agenda.subjectType}
 									errorText={errors.subjectType}
@@ -273,7 +271,7 @@ subjectType = 0;
 							<GridItem xs={6} lg={3} md={3}>
 								<SelectInput
 									floatingText={translate.majority_label}
-									value={'' + agenda.majorityType}
+									value={`${agenda.majorityType}`}
 									errorText={errors.majorityType}
 									onChange={event => updateState({
 											majorityType: +event.target.value
@@ -283,7 +281,7 @@ subjectType = 0;
 								>
 									{props.majorityTypes.map(majority => (
 											<MenuItem
-												value={'' + majority.value}
+												value={`${majority.value}`}
 												key={`majorityType_${
 													majority.value
 												}`}
@@ -386,8 +384,8 @@ subjectType = 0;
 			open={open}
 			acceptAction={saveChanges}
 			extraActions={
-				props.deleteButton &&
-					<DeleteAgendaButton
+				props.deleteButton
+					&& <DeleteAgendaButton
 						agenda={agenda}
 						requestClose={requestClose}
 						refetch={props.refetch}

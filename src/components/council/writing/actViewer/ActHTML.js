@@ -4,7 +4,6 @@ import { councilActEmail } from '../../../../queries';
 import { LoadingSection } from '../../../../displayComponents';
 
 
-
 const ActHTML = ({ council, client }) => {
     const [act, setAct] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
@@ -26,17 +25,16 @@ const ActHTML = ({ council, client }) => {
     }, [council.id]);
 
 
-    if(loading){
+    if (loading) {
         return <LoadingSection />;
     }
 
-    return(
+    return (
         <div style={{ width: '100%', position: 'relative' }}>
             <div dangerouslySetInnerHTML={{ __html: act.emailAct }} />
         </div>
     );
 };
-
 
 
 export default withApollo(ActHTML);

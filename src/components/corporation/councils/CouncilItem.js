@@ -10,17 +10,17 @@ import { councilTypesInfo } from '../../../constants';
 const getCouncilStateString = (state, councilStarted) => {
     const stateStrings = {
         '-1': 'Cancelada',
-        '0': 'Borrador',
-        '3': 'Preconvocada',
-        '5': 'Convocada sin notificar',
-        '10': 'Convocada y notificada',
-        '20': councilStarted ? 'Reunión iniciada' : 'Sala abierta',
-        '30': 'Aprobando acta en celebración',
-        '40': 'Finalizada',
-        '60': 'Acta aprobada',
-        '70': 'Acta enviada',
-        '80': 'No celebrada',
-        '90': 'Finalizada sin acta',
+        0: 'Borrador',
+        3: 'Preconvocada',
+        5: 'Convocada sin notificar',
+        10: 'Convocada y notificada',
+        20: councilStarted ? 'Reunión iniciada' : 'Sala abierta',
+        30: 'Aprobando acta en celebración',
+        40: 'Finalizada',
+        60: 'Acta aprobada',
+        70: 'Acta enviada',
+        80: 'No celebrada',
+        90: 'Finalizada sin acta',
         default: 'Estado no contemplado'
     };
 
@@ -48,8 +48,8 @@ const CouncilItem = ({ council, translate, hideFixedUrl, enCouncilRoot, index })
                     <span date={council.dateStart} style={{ color: getSecondary(), fontWeight: '700' }}>{moment(council.dateStart).format('LLL')}</span>
                 </div>
                 <div style={{ margin: '1em 0px', width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-                    {!hideFixedUrl &&
-                        <FixedVideoURLModal
+                    {!hideFixedUrl
+                        && <FixedVideoURLModal
                             translate={translate}
                             council={council}
 
@@ -103,11 +103,11 @@ const CouncilItem = ({ council, translate, hideFixedUrl, enCouncilRoot, index })
                             </div>
                             <div style={{ textAlign: 'center', width: '20%' }}>
                                 <span> {moment(council.dateStart).format('LLL')}</span>
-                                {council.autoClose === 1 &&
-                                    <React.Fragment><br></br> <span>Fecha de cierre automático: {moment(council.closeDate).format('LLL')}</span></React.Fragment>
+                                {council.autoClose === 1
+                                    && <React.Fragment><br></br> <span>Fecha de cierre automático: {moment(council.closeDate).format('LLL')}</span></React.Fragment>
                                 }
-                                {council.dateEnd &&
-                                    <React.Fragment><br></br><span>Fecha de finalización: {moment(council.dateEnd).format('LLL')}</span></React.Fragment>
+                                {council.dateEnd
+                                    && <React.Fragment><br></br><span>Fecha de finalización: {moment(council.dateEnd).format('LLL')}</span></React.Fragment>
                                 }
                             </div>
                             <span style={{ textAlign: 'center', width: '20%', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{getCouncilStateString(council.state, council.councilStarted)}</span>
@@ -144,11 +144,11 @@ const CouncilItem = ({ council, translate, hideFixedUrl, enCouncilRoot, index })
             </TableCell>
             <TableCell style={{ color: 'black' }}>
                 <span> {moment(council.dateStart).format('LLL')}</span>
-                {council.autoClose === 1 &&
-                    <React.Fragment><br></br> <span>Fecha de cierre automático: {moment(council.closeDate).format('LLL')}</span></React.Fragment>
+                {council.autoClose === 1
+                    && <React.Fragment><br></br> <span>Fecha de cierre automático: {moment(council.closeDate).format('LLL')}</span></React.Fragment>
                 }
-                {council.dateEnd &&
-                    <React.Fragment><br></br><span>Fecha de finalización: {moment(council.dateEnd).format('LLL')}</span></React.Fragment>
+                {council.dateEnd
+                    && <React.Fragment><br></br><span>Fecha de finalización: {moment(council.dateEnd).format('LLL')}</span></React.Fragment>
                 }
             </TableCell>
             <TableCell style={{ color: 'black' }}>

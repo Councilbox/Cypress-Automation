@@ -76,7 +76,7 @@ const FileEstatutos = ({ translate, data, updateFileData, updateCompany, ...prop
                     <Scrollbar>
                         <div>
                             {statutes.map((statute, index) => (
-                                <div key={index} style={{ borderBottom: '1px solid' + primary, display: 'flex' }}>
+                                <div key={index} style={{ borderBottom: `1px solid${primary}`, display: 'flex' }}>
                                     <div style={{ display: 'flex', padding: '1em', width: '100%' }} >
                                         <div style={{ marginRight: '1em', width: '15%', color: primary, fontWeight: 'bold' }}>
                                             <ContentEditable

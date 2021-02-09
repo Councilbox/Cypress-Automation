@@ -244,8 +244,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 						>
 							<LoadingSection />
 						</div>
-						:
-						<React.Fragment>
+						:						<React.Fragment>
 							<ParticipantsTable
 								translate={translate}
 								data={props.participants}
@@ -269,8 +268,8 @@ const StepCensus = ({ translate, data, ...props }) => {
 								totalSocialCapital={data.councilSocialCapital}
 								participations={CBX.hasParticipations(council)}
 							/>
-							{checkParticipants() &&
-								<div
+							{checkParticipants()
+								&& <div
 									style={{
 										color: 'red',
 										fontWeight: '700',
@@ -295,8 +294,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 						<DialogTitle>{translate.census_change}</DialogTitle>
 						{!council ?
 							<LoadingSection />
-							:
-							council.selectedCensusId !== null || state.censusChangeId ?
+							:							council.selectedCensusId !== null || state.censusChangeId ?
 								<div>
 									<DialogContent>
 										{translate.census_change_warning.replace(
@@ -308,8 +306,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 										{_renderCensusChangeButtons(council.selectedCensusId || state.censusChangeId)}
 									</DialogActions>
 								</div>
-								:
-								<div style={{ minWidth: '500px' }}>
+								:								<div style={{ minWidth: '500px' }}>
 									<DialogContent>
 										{translate.need_pick_census}
 									</DialogContent>

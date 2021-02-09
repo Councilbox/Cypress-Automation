@@ -83,7 +83,7 @@ const SignatureStepTwoIvnosys = ({ client, translate, ...props }) => {
                         text={translate.save}
                         color={secondary}
                         textStyle={{ color: 'white', textTransform: 'none', fontWeight: '700' }}
-                    //////cambiar esto
+                    /// ///cambiar esto
                     // onClick={saveSignature}
                     />
                     <BasicButton
@@ -99,7 +99,6 @@ const SignatureStepTwoIvnosys = ({ client, translate, ...props }) => {
         />
     );
 };
-
 
 
 export default withApollo(SignatureStepTwoIvnosys);

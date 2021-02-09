@@ -10,10 +10,10 @@ import { AddAgendaPoint } from '../editor/agenda/StepAgenda';
 const AgendaSelector = ({ agendas, translate, council, onClick, selected, stylesDiv, ...props }) => {
 	const canAddPoints = () => {
 		const activePoint = agendas.find(agenda => agenda.pointState === AGENDA_STATES.DISCUSSION);
-		if(activePoint){
-			return CBX.canAddPoints(council) &&
-				activePoint.subjectType !== AGENDA_TYPES.PRIVATE_ACT &&
-				activePoint.subjectType !== AGENDA_TYPES.PUBLIC_ACT;
+		if (activePoint) {
+			return CBX.canAddPoints(council)
+				&& activePoint.subjectType !== AGENDA_TYPES.PRIVATE_ACT
+				&& activePoint.subjectType !== AGENDA_TYPES.PUBLIC_ACT;
 		}
 		return CBX.canAddPoints(council);
 	};
@@ -63,8 +63,8 @@ const AgendaSelector = ({ agendas, translate, council, onClick, selected, styles
 						</React.Fragment>
 					))}
 			</div>
-			{(council.councilType < 2 || council.state < COUNCIL_STATES.ROOM_OPENED) &&
-				<React.Fragment>
+			{(council.councilType < 2 || council.state < COUNCIL_STATES.ROOM_OPENED)
+				&& <React.Fragment>
 					{canAddPoints(council) && (
 						<div style={{ marginBottom: '0.8em' }}>
 							<AddAgendaPoint

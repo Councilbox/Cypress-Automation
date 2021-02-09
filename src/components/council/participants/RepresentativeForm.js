@@ -71,7 +71,7 @@ const RepresentativeForm = ({
 			<TextInput
 				floatingText={translate.email}
 				type="text"
-				{...(checkEmail ? { onKeyUp: (event) => checkEmail(event, 'representative') } : {})}
+				{...(checkEmail ? { onKeyUp: event => checkEmail(event, 'representative') } : {})}
 				errorText={errors.email}
 				value={representative.email}
 				onChange={event => updateState({
@@ -117,13 +117,13 @@ const RepresentativeForm = ({
 				{languages.map(language => (
 						<MenuItem
 							value={
-								language.columnName
-									? language.columnName
+								language.columnName ?
+									language.columnName
 									: language.column_name
 							}
 							key={`language${
-								language.columnName
-									? language.columnName
+								language.columnName ?
+									language.columnName
 									: language.column_name
 							}`}
 						>
@@ -135,7 +135,7 @@ const RepresentativeForm = ({
 		<GridItem xs={6} md={4} lg={4}>
 			<SelectInput
 				floatingText={translate.participation_type}
-				value={'' + representative.initialState}
+				value={`${representative.initialState}`}
 				onChange={event => updateState({
 						initialState: +event.target.value
 					})

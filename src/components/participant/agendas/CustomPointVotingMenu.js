@@ -20,18 +20,18 @@ const asbtentionOption = {
 };
 
 const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCustomPointVoting, cantVote, ...props }) => {
-    const [selections, setSelections] = React.useState(ownVote ? createSelectionsFromBallots(ownVote.ballots, ownVote.participantId) : []); //(props.ownVote.ballots, props.ownVote.participantId));
+    const [selections, setSelections] = React.useState(ownVote ? createSelectionsFromBallots(ownVote.ballots, ownVote.participantId) : []); // (props.ownVote.ballots, props.ownVote.participantId));
     const votingContext = React.useContext(VotingContext);
     const config = React.useContext(ConfigContext);
 
     const disabled = agenda.votingState !== AGENDA_STATES.DISCUSSION || cantVote;
 
     const buildRecountText = itemId => {
-        if(!agenda.votingsRecount){
+        if (!agenda.votingsRecount) {
             return '';
         }
 
-        if(!councilHasSession(council)) return '';
+        if (!councilHasSession(council)) return '';
 
         const showRecount = ((getAgendaTypeLabel(agenda) !== 'private_votation'
             && council.statute.hideVotingsRecountFinished === 0) || agenda.votingState === AGENDA_STATES.CLOSED) && !config.hideRecount;
@@ -41,8 +41,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
                 ` (${translate.recount}: ${agenda.votingsRecount[itemId] !== undefined ?
                     showNumParticipations(agenda.votingsRecount[itemId], council.company, council.statute)
                 : 0})`
-            :
-                ''
+            : ''
         );
     };
 
@@ -86,7 +85,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
     };
 
     const sendCustomAgendaVote = async selected => {
-        if(voteAllAtOnce({ council })){
+        if (voteAllAtOnce({ council })) {
             votingContext.responses.set(ownVote.id, selected);
             votingContext.setResponses(new Map(votingContext.responses));
         } else {
@@ -110,29 +109,29 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
     };
 
     if (ownVote && (ownVote.vote !== -1 && ownVote.ballots.length === 0 && agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE)) {
-        //return 'Tu voto ha sido registrado en la apertura de votos anterior, para preservar el anonimato de los votos, los registrados antes del cierre no pueden ser cambiados';
+        // return 'Tu voto ha sido registrado en la apertura de votos anterior, para preservar el anonimato de los votos, los registrados antes del cierre no pueden ser cambiados';
     }
 
     let voteDenied = false;
     let denied = [];
 
 
-    if(config.denyVote && (agenda.votings && agenda.votings.length > 0)){
+    if (config.denyVote && (agenda.votings && agenda.votings.length > 0)) {
         denied = agenda.votings.filter(voting => voting.author.voteDenied);
 
 
-        if(denied.length === agenda.votings.length){
+        if (denied.length === agenda.votings.length) {
             voteDenied = true;
         }
     }
 
     const renderCommonButtons = () => {
-        if(config.hideNoVoteButton || config.hideAbstentionButton){
+        if (config.hideNoVoteButton || config.hideAbstentionButton) {
             return (
                 <div style={{ paddingTop: '5px' }}>
                     <div style={{ display: 'flex', width: '100%', height: '2.5em' }}>
-                        {(config.hideNoVoteButton && !config.hideAbstentionButton) &&
-                            <VotingButton
+                        {(config.hideNoVoteButton && !config.hideAbstentionButton)
+                            && <VotingButton
                                 text={`${translate.abstention_btn} ${buildRecountText('abstention')}`}
                                 disabled={disabled}
                                 disabledColor={disabled}
@@ -141,8 +140,8 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
                                 selectCheckBox={getSelectedRadio(-1)}
                             />
                         }
-                        {(!config.hideNoVoteButton && config.hideAbstentionButton) &&
-                            <VotingButton
+                        {(!config.hideNoVoteButton && config.hideAbstentionButton)
+                            && <VotingButton
                                 text={`${translate.dont_vote} ${buildRecountText('noVote')}`}
                                 disabled={disabled}
                                 disabledColor={disabled}
@@ -180,7 +179,7 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
         );
     };
 
-    if(voteDenied){
+    if (voteDenied) {
         return (
             <DeniedDisplay translate={translate} denied={denied} />
         );
@@ -188,15 +187,14 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
 
     return (
         <div>
-            {denied.length > 0 &&
-                'Dentro de los votos depositados en usted, tiene votos denegados' //
+            {denied.length > 0
+                && 'Dentro de los votos depositados en usted, tiene votos denegados' //
             }
-            {(ownVote && ownVote.fixed) &&
-                <>
+            {(ownVote && ownVote.fixed)
+                && <>
                     {ownVote.numParticipations === 0 ?
                         translate.cant_vote_this_point
-                    :
-                        translate.participant_vote_fixed
+                    : translate.participant_vote_fixed
                     }
                 </>
             }
@@ -218,15 +216,14 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
                         </React.Fragment>
                     ))}
                 </React.Fragment>
-                :
-                <React.Fragment>
-                    {agendaPointOpened(agenda) &&
-                        <div style={{ fontSize: '0.85em', textAlign: 'left' }}>
-                            {(selections.length < agenda.options.minSelections && agenda.options.minSelections > 1) &&
-                                <React.Fragment>{translate.need_select_more.replace('{{options}}', getRemainingOptions())}</React.Fragment>
+                : <React.Fragment>
+                    {agendaPointOpened(agenda)
+                        && <div style={{ fontSize: '0.85em', textAlign: 'left' }}>
+                            {(selections.length < agenda.options.minSelections && agenda.options.minSelections > 1)
+                                && <React.Fragment>{translate.need_select_more.replace('{{options}}', getRemainingOptions())}</React.Fragment>
                             }
-                            {(agenda.options.maxSelections > 1) &&
-                                <React.Fragment>{translate.can_select_between_min_max
+                            {(agenda.options.maxSelections > 1)
+                                && <React.Fragment>{translate.can_select_between_min_max
                                         .replace('{{min}}', agenda.options.minSelections)
                                         .replace('{{max}}', agenda.options.maxSelections)}
                                 </React.Fragment>

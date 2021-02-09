@@ -207,14 +207,14 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 				if (CBX.checkSecondDateAfterFirst(council.dateStart, new Date())) {
 					hasError = true;
 					errors.dateStart = {
-						message: 'La fecha de comienzo es posterior a la actual, por favor actualice el valor', //TRADUCCION
+						message: 'La fecha de comienzo es posterior a la actual, por favor actualice el valor', // TRADUCCION
 						action: () => props.goToPage(1)
 					};
 				}
 				if (!CBX.checkSecondDateAfterFirst(council.dateStart, council.closeDate)) {
 					hasError = true;
 					errors.closeDate = {
-						message: 'La fecha de fin no puede ser anterior a la de comienzo, por favor corrija ese valor', //TRADUCCION
+						message: 'La fecha de fin no puede ser anterior a la de comienzo, por favor corrija ese valor', // TRADUCCION
 						action: () => props.goToPage(5)
 					};
 				}
@@ -356,13 +356,13 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 						open={state.conveneTestModal}
 						loadingAction={loading}
 						acceptAction={
-							state.conveneTestSuccess
-								? resetConveneTestValues
+							state.conveneTestSuccess ?
+								resetConveneTestValues
 								: sendConveneTest
 						}
 						buttonAccept={
-							state.conveneTestSuccess
-								? translate.accept
+							state.conveneTestSuccess ?
+								translate.accept
 								: translate.send
 						}
 						buttonCancel={translate.close}
@@ -374,8 +374,8 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 						open={state.preConveneModal}
 						loadingAction={loading}
 						acceptAction={
-							state.preConveneSuccess
-								? () => setState({ preConveneModal: false })
+							state.preConveneSuccess ?
+								() => setState({ preConveneModal: false })
 								: sendPreConvene
 						}
 						buttonAccept={translate.send}
@@ -401,8 +401,8 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 						open={state.sendConveneWithoutNoticeModal}
 						loadingAction={loading}
 						acceptAction={
-							state.sendWithoutNoticeSuccess
-								? () => {
+							state.sendWithoutNoticeSuccess ?
+								() => {
 									setState(
 										{
 											sendConveneWithoutNoticeModal: false,
@@ -414,8 +414,8 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 								: sendConveneWithoutNotice
 						}
 						buttonAccept={
-							state.sendWithoutNoticeSuccess
-								? translate.accept
+							state.sendWithoutNoticeSuccess ?
+								translate.accept
 								: translate.send
 						}
 						buttonCancel={translate.close}
@@ -490,8 +490,8 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 									type="flat"
 									items={
 										<React.Fragment>
-											{data.council.councilType !== 4 &&
-												<>
+											{data.council.councilType !== 4
+												&& <>
 													<MenuItem
 														onClick={() => setState({
 																conveneTestModal: true
@@ -587,7 +587,6 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 		/>
 	);
 };
-
 
 
 export default compose(

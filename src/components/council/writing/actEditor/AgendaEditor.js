@@ -31,7 +31,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 	const primary = getPrimary();
 
 	const updateAgenda = React.useCallback(async () => {
-		if(!checkForUnclosedBraces(comment)){
+		if (!checkForUnclosedBraces(comment)) {
 			await props.updateAgenda({
 				variables: {
 					agenda: {
@@ -57,7 +57,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 
 	React.useEffect(() => {
 		let timeout;
-		if(comment !== agenda.comment){
+		if (comment !== agenda.comment) {
 			timeout = setTimeout(updateAgenda, 500);
 		}
 		return () => clearTimeout(timeout);
@@ -81,12 +81,12 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 				negative: agenda.negativeVotings + agenda.negativeManual,
 				abstention: agenda.abstentionVotings + agenda.abstentionManual,
 				noVoteTotal: agenda.noVoteVotings + agenda.noVoteManual,
-				SCFavorTotal: participations ? ((positiveSC / recount.partTotal) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL', //TRADUCCION
-				SCAgainstTotal: participations ? ((negativeSC / recount.partTotal) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
-				SCAbstentionTotal: participations ? ((abstentionSC / recount.partTotal) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
-				SCFavorPresent: participations ? ((positiveSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
-				SCAgainstPresent: participations ? ((negativeSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
-				SCAbstentionPresent: participations ? ((abstentionSC / totalPresent) * 100).toFixed(3) + '%' : 'VOTACIÓN SIN CAPITAL SOCIAL',
+				SCFavorTotal: participations ? `${((positiveSC / recount.partTotal) * 100).toFixed(3)}%` : 'VOTACIÓN SIN CAPITAL SOCIAL', // TRADUCCION
+				SCAgainstTotal: participations ? `${((negativeSC / recount.partTotal) * 100).toFixed(3)}%` : 'VOTACIÓN SIN CAPITAL SOCIAL',
+				SCAbstentionTotal: participations ? `${((abstentionSC / recount.partTotal) * 100).toFixed(3)}%` : 'VOTACIÓN SIN CAPITAL SOCIAL',
+				SCFavorPresent: participations ? `${((positiveSC / totalPresent) * 100).toFixed(3)}%` : 'VOTACIÓN SIN CAPITAL SOCIAL',
+				SCAgainstPresent: participations ? `${((negativeSC / totalPresent) * 100).toFixed(3)}%` : 'VOTACIÓN SIN CAPITAL SOCIAL',
+				SCAbstentionPresent: participations ? `${((abstentionSC / totalPresent) * 100).toFixed(3)}%` : 'VOTACIÓN SIN CAPITAL SOCIAL',
 				numPositive,
 				numNegative,
 				numAbstention,
@@ -101,7 +101,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 	};
 
 
-	if(agendaData.loading){
+	if (agendaData.loading) {
 		return <span />;
 	}
 	const tabs = [];
@@ -133,29 +133,29 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 		},
 	];
 
-	if(participations){
+	if (participations) {
 		tags.push({
-			value: ((positiveSC / recount.partTotal) * 100).toFixed(3) + '%',
+			value: `${((positiveSC / recount.partTotal) * 100).toFixed(3)}%`,
 			label: '% a favor / total capital social'
 		},
 		{
-			value: ((negativeSC / recount.partTotal) * 100).toFixed(3) + '%',
+			value: `${((negativeSC / recount.partTotal) * 100).toFixed(3)}%`,
 			label: '% en contra / total capital social'
 		},
 		{
-			value: ((abstentionSC / recount.partTotal) * 100).toFixed(3) + '%',
+			value: `${((abstentionSC / recount.partTotal) * 100).toFixed(3)}%`,
 			label: '% abstención / total capital social'
 		},
 		{
-			value: ((positiveSC / totalPresent) * 100).toFixed(3) + '%',
+			value: `${((positiveSC / totalPresent) * 100).toFixed(3)}%`,
 			label: '% a favor / capital social presente'
 		},
 		{
-			value: ((negativeSC / totalPresent) * 100).toFixed(3) + '%',
+			value: `${((negativeSC / totalPresent) * 100).toFixed(3)}%`,
 			label: '% en contra / capital social presente'
 		},
 		{
-			value: ((abstentionSC / totalPresent) * 100).toFixed(3) + '%',
+			value: `${((abstentionSC / totalPresent) * 100).toFixed(3)}%`,
 			label: '% abstención / capital social presente'
 		});
 	} else {
@@ -170,7 +170,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 	}
 
 
-	if(!readOnly){
+	if (!readOnly) {
 		tabs.push({
 			text: translate.comments_and_agreements,
 			component: () => (
@@ -204,7 +204,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 							tags={tags}
 							value={agenda.comment || ''}
 							onChange={value => {
-								if(value !== agenda.comment){
+								if (value !== agenda.comment) {
 									setComment(value);
 								}
 							}}
@@ -227,13 +227,13 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 			)
 	});
 
-	if(agenda.subjectType !== AGENDA_TYPES.INFORMATIVE){
+	if (agenda.subjectType !== AGENDA_TYPES.INFORMATIVE) {
 		tabs.push({
 			text: isConfirmationRequest(agenda.subjectType) ? translate.answers : translate.voting,
 			component: () => (
 					<div style={{ minHeight: '8em', padding: '1em' }}>
-						{isCustomPoint(agenda.subjectType) &&
-							<CustomAgendaRecount
+						{isCustomPoint(agenda.subjectType)
+							&& <CustomAgendaRecount
 								agenda={agenda}
 								company={company}
 								translate={translate}
@@ -248,8 +248,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 								recount={recount}
 								majorityTypes={majorityTypes}
 							/>
-						:
-							<AgendaRecount
+						:							<AgendaRecount
 								agenda={agenda}
 								council={council}
 								translate={translate}
@@ -342,7 +341,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 						statutes={data ? data.companyStatutes : ''}
 						defaultTags={
 							{
-								'comments_and_agreements': {
+								comments_and_agreements: {
 								active: true,
 								type: 2,
 								name: 'comments_and_agreements',

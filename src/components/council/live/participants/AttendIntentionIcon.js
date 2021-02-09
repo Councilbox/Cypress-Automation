@@ -19,8 +19,8 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
     const confirmationDate = participant.state === PARTICIPANT_STATES.REPRESENTATED ? representative.assistanceLastDateConfirmed : participant.assistanceLastDateConfirmed;
     const intention = participant.state === PARTICIPANT_STATES.REPRESENTATED ? representative.assistanceIntention : participant.assistanceIntention;
 
-    if(confirmationDate){
-        switch(intention){
+    if (confirmationDate) {
+        switch (intention) {
             case PARTICIPANT_STATES.REMOTE:
                 tooltip = translate.remote_assistance_short;
                 icon = getAttendanceIntentionIcon(intention, iconStyle);
@@ -45,7 +45,7 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
 
 
             case PARTICIPANT_STATES.DELEGATED:
-                if((representative && participant.delegateId !== representative.id) || (!representative && participant.delegateId)){
+                if ((representative && participant.delegateId !== representative.id) || (!representative && participant.delegateId)) {
                     tooltip = `${translate.delegated_in}: ${participant.representative.name} ${participant.representative.surname || ''}`;
                 } else {
                     tooltip = translate.will_delegate;
@@ -72,8 +72,8 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
             <Tooltip title={tooltip}>
                 {icon}
             </Tooltip>
-            {showCommentIcon &&
-                <FontAwesome
+            {showCommentIcon
+                && <FontAwesome
                     onClick={onCommentClick}
                     name={'comment'}
                     style={{
@@ -83,8 +83,8 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
                     }}
                 />
             }
-            {council.statute.requireProxy === 1 && participant.delegationProxy &&
-                <DownloadParticipantProxy
+            {council.statute.requireProxy === 1 && participant.delegationProxy
+                && <DownloadParticipantProxy
                     translate={translate}
                     participantId={participant.id}
                     participant={participant}

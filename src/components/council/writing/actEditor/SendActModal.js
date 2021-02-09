@@ -30,7 +30,7 @@ const SendActModal = ({ translate, data, ...props }) => {
 	});
 
 	React.useEffect(() => {
-		if(props.show){
+		if (props.show) {
 			data.refetch();
 		}
 	}, [props.show]);
@@ -76,10 +76,10 @@ const SendActModal = ({ translate, data, ...props }) => {
 
 	const checkRow = (participant, check) => {
 		let participants = [...state.participants];
-		if(check){
+		if (check) {
 			const { __typename, ...participantData } = participant;
 			participants = [...participants, participantData];
-		}else{
+		} else {
 			const index = participants.findIndex(item => item.id === participant.id);
 			participants.splice(index, 1);
 		}
@@ -143,8 +143,7 @@ const SendActModal = ({ translate, data, ...props }) => {
 							/>
 						</Card>
 					))
-				:
-					<div>
+				:					<div>
 						{translate.not_added}
 					</div>
 				}
@@ -160,8 +159,8 @@ const SendActModal = ({ translate, data, ...props }) => {
 				participantsIds
 			}
 		});
-		if(response){
-			if(!response.data.errors){
+		if (response) {
+			if (!response.data.errors) {
 				setState({
 					success: true
 				});
@@ -182,15 +181,15 @@ const SendActModal = ({ translate, data, ...props }) => {
 	function _modalBody() {
 		const { loading } = data;
 
-		const participants = loading
-			? []
+		const participants = loading ?
+			[]
 			: data.councilParticipantsActSends.list;
-		const { total } = loading
-			? 0
+		const { total } = loading ?
+			0
 			: data.councilParticipantsActSends;
 		const rest = total - participants.length - 1;
 
-		if(state.step === 1){
+		if (state.step === 1) {
 			return (
 				<div style={{ width: '600px' }}>
 					<TextInput
@@ -275,8 +274,8 @@ const SendActModal = ({ translate, data, ...props }) => {
 								<BasicButton
 									text={
 										`DESCARGAR ${
-										rest > DELEGATION_USERS_LOAD
-											? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+										rest > DELEGATION_USERS_LOAD ?
+											`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
 											: translate.all_plural.toLowerCase()
 										}`
 									}
@@ -298,13 +297,13 @@ const SendActModal = ({ translate, data, ...props }) => {
 			);
 		}
 
-		if(state.success){
-			return(
+		if (state.success) {
+			return (
 				<SuccessMessage />
 			);
 		}
 
-		return(
+		return (
 			<div style={{ width: '600px' }}>
 				{_renderEmails()}
 			</div>
@@ -321,16 +320,13 @@ const SendActModal = ({ translate, data, ...props }) => {
 			buttonAccept={state.step === 1 ? translate.continue : translate.send}
 			cancelAction={state.success ?
 				close
-			:
-				state.step !== 1 ?
+			:				state.step !== 1 ?
 						() => setState({ step: 1, success: false })
-					:
-						null
+					:						null
 			}
 			buttonCancel={state.success ?
 				translate.close
-			:
-				state.step === 1 ? translate.close : translate.back}
+			:				state.step === 1 ? translate.close : translate.back}
 			bodyText={_modalBody()}
 			title={translate.sending_the_minutes}
 		/>

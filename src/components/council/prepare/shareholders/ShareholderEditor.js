@@ -21,7 +21,6 @@ import { isMobile } from '../../../../utils/screen';
 import SelectRepresentative from '../../editor/census/modals/SelectRepresentative';
 
 
-
 const AddConvenedParticipantButton = ({ translate, participations, open, requestClose, defaultValues = {}, client, company, ...props }) => {
 	const [state, setState] = useOldState({
 		modal: false,
@@ -35,8 +34,8 @@ const AddConvenedParticipantButton = ({ translate, participations, open, request
 
 	const addParticipant = async sendConvene => {
 		const { hasRepresentative, ...data } = state.representative;
-		const representative = state.representative.hasRepresentative
-			? {
+		const representative = state.representative.hasRepresentative ?
+			{
 					...data,
 					councilId: props.councilId
 			  }
@@ -86,7 +85,7 @@ const AddConvenedParticipantButton = ({ translate, participations, open, request
 
 	async function checkRequiredFields(onlyEmail) {
 		const participant = state.data;
-		const representative = state.representative;
+		const { representative } = state;
 
 		const errorsParticipant = {
 			errors: {},
@@ -99,7 +98,7 @@ const AddConvenedParticipantButton = ({ translate, participations, open, request
 			hasError: false
 		};
 
-		if(participant.email && company.type !== 10){
+		if (participant.email && company.type !== 10) {
 			const emailsToCheck = [participant.email];
 
 			if (representative.email && !representative.id) {
@@ -114,21 +113,21 @@ const AddConvenedParticipantButton = ({ translate, participations, open, request
 				}
 			});
 
-			if(!response.data.checkUniqueCouncilEmails.success){
+			if (!response.data.checkUniqueCouncilEmails.success) {
 				const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
 				data.duplicatedEmails.forEach(email => {
-					if(participant.email === email){
+					if (participant.email === email) {
 						errorsParticipant.errors.email = translate.register_exists_email;
 						errorsParticipant.hasError = true;
 					}
-					if(representative.email === email){
+					if (representative.email === email) {
 						errorsRepresentative.errors.email = translate.register_exists_email;
 						errorsRepresentative.hasError = true;
 					}
 				});
 			}
 
-			if(participant.email === representative.email){
+			if (participant.email === representative.email) {
 				errorsRepresentative.errors.email = translate.repeated_email;
 				errorsParticipant.errors.email = translate.repeated_email;
 				errorsParticipant.hasError = true;
@@ -153,7 +152,7 @@ const AddConvenedParticipantButton = ({ translate, participations, open, request
 
     const { languages } = props.data;
 
-    if(props.data.loading){
+    if (props.data.loading) {
         return '';
     }
 

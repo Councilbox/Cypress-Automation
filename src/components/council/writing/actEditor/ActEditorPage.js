@@ -77,8 +77,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                                 </Scrollbar>
                             </div>
                         </div>
-                        :
-                        <div style={{ height: '100%' }}>
+                        : <div style={{ height: '100%' }}>
                             <ActEditor
                                 translate={translate}
                                 councilID={council.id}
@@ -106,7 +105,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
             });
         }
 
-        if(hasParticipations(council)){
+        if (hasParticipations(council)) {
             tabs.push({
                 label: translate.results,
                 value: 'results',
@@ -126,7 +125,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
     }
 
 
-    if(council.wallActive === 1){
+    if (council.wallActive === 1) {
         tabs.push({
             label: translate.council_comments,
             value: 'comments',
@@ -194,7 +193,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
     }
     ];
 
-    if(council.councilType === 4){
+    if (council.councilType === 4) {
         tabs.push({
             label: translate.vote_letters,
             value: 'vote_letters',
@@ -213,7 +212,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
     }
 
 
-    if(config.proxies && council.statute.requireProxy === 1){
+    if (config.proxies && council.statute.requireProxy === 1) {
         tabs.push({
             label: translate.delegation_proxies,
             value: 'proxies',

@@ -10,7 +10,7 @@ class MuteToggleButton extends React.Component {
 		this.setState({
 			loading: true
 		});
-		if((this.props.participant.videoParticipant && this.props.participant.videoParticipant.mutedMic)){
+		if ((this.props.participant.videoParticipant && this.props.participant.videoParticipant.mutedMic)) {
 			const response = await this.props.unmuteParticipant({
 				variables: {
 					councilId: this.props.participant.councilId,
@@ -18,15 +18,15 @@ class MuteToggleButton extends React.Component {
 				}
 			});
 
-			if(response.data){
-				if(response.data.unmuteVideoParticipant.success){
+			if (response.data) {
+				if (response.data.unmuteVideoParticipant.success) {
 					this.setState({
 						loading: false
 					});
 					this.props.refetch();
 				}
 			}
-		}else {
+		} else {
 			const response = await this.props.muteParticipant({
 				variables: {
 					councilId: this.props.participant.councilId,
@@ -34,8 +34,8 @@ class MuteToggleButton extends React.Component {
 				}
 			});
 
-			if(response.data){
-				if(response.data.muteVideoParticipant.success){
+			if (response.data) {
+				if (response.data.muteVideoParticipant.success) {
 					this.setState({
 						loading: false
 					});
@@ -48,14 +48,14 @@ class MuteToggleButton extends React.Component {
 	render() {
 		const { participant } = this.props;
 
-		//TRADUCCION
+		// TRADUCCION
 		return (
 			<div style={{ marginRight: '0.3em' }}>
 				{haveGrantedWord(participant) && (
 					<Tooltip
 						title={
-							participant.requestWord === 2
-								? 'Mutar participante'
+							participant.requestWord === 2 ?
+								'Mutar participante'
 								: ''
 						}
 					>
@@ -83,8 +83,7 @@ class MuteToggleButton extends React.Component {
 							>
 								{(this.props.participant.videoParticipant && this.props.participant.videoParticipant.mutedMic) ?
 									<i className="fa fa-microphone-slash" aria-hidden="true" style={{ transform: 'scaleX(-1)' }}></i>
-								:
-									<i className="fa fa-microphone" aria-hidden="true"></i>
+								:									<i className="fa fa-microphone" aria-hidden="true"></i>
 								}
 							</MenuItem>
 						</Card>

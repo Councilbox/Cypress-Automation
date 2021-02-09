@@ -9,15 +9,15 @@ const TabsScreen = ({ selected, controlled, tabsIndex, tabsInfo, linked, windowS
 	const [selectedTab, setSelected] = React.useState(0);
 
 	React.useEffect(() => {
-		if(controlled){
-			if(selected !== selectedTab){
+		if (controlled) {
+			if (selected !== selectedTab) {
 				setSelected(tabsIndex[selected]);
 			}
 		}
 	}, [selected]);
 
 	const handleChange = tabIndex => {
-		if(linked){
+		if (linked) {
 			bHistory.push(tabsInfo[tabIndex].link);
 		} else {
 			setSelected(tabIndex);
@@ -41,7 +41,7 @@ const TabsScreen = ({ selected, controlled, tabsIndex, tabsInfo, linked, windowS
 			className="card-container"
 		>
 			<Tabs
-				activeKey={'' + selectedTab}
+				activeKey={`${selectedTab}`}
 				type="card"
 				style={{ width: '100%', height: '100%', paddingBottom: '1em', }}
 				onChange={handleChange}
@@ -51,10 +51,9 @@ const TabsScreen = ({ selected, controlled, tabsIndex, tabsInfo, linked, windowS
 							tab={
 								linked ?
 								<Link to={tab.link}>{tab.text}</Link>
-								:
-									tab.text
+								:									tab.text
 							}
-							key={'' + index}
+							key={`${index}`}
 							style={{
 								height: 'calc(100% - 40px) !important',
 								overflow: 'hidden',

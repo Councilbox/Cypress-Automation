@@ -51,8 +51,8 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
             }
         });
 
-        if(response.errors){
-            if(response.errors[0].message === 'Invalid phone number'){
+        if (response.errors) {
+            if (response.errors[0].message === 'Invalid phone number') {
                 setPhoneError(true);
             }
         } else {
@@ -93,8 +93,7 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
 						</React.Fragment>
 					}
 				/>
-			:
-				<ResendButton
+			:				<ResendButton
 					action={openModal}
 					translate={translate}
 					active={participant.signed === 1}
@@ -136,7 +135,6 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
 		</React.Fragment>
 	);
 };
-
 
 
 const ResendButton = ({ active, action, translate }) => (

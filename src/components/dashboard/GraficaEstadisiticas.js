@@ -43,5 +43,4 @@ const GraficaEstadisiticas = ({ porcentaje, color, translate }) => {
 };
 
 
-
 export default withTranslations()(GraficaEstadisiticas);

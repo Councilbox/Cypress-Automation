@@ -15,7 +15,7 @@ const CouncilsByRange = ({ client, dateStart, dateEnd, translate }) => {
     const [sendsModal, setSendsModal] = React.useState(null);
 
     const getData = React.useCallback(async () => {
-        if(!dateStart || !dateEnd){
+        if (!dateStart || !dateEnd) {
             return;
         }
 
@@ -46,7 +46,7 @@ const CouncilsByRange = ({ client, dateStart, dateEnd, translate }) => {
         getData();
     }, [getData]);
 
-    if(!data){
+    if (!data) {
         return <span/>;
     }
 
@@ -116,8 +116,7 @@ const CouncilsByRange = ({ client, dateStart, dateEnd, translate }) => {
                             <TableCell>
                                 {council.duration ?
                                     `${council.duration.hours || '00'}:${council.duration.minutes || '00'}:${council.duration.seconds || '00'}`
-                                :
-                                    '-'
+                                : '-'
                                 }
                             </TableCell>
                             <TableCell>

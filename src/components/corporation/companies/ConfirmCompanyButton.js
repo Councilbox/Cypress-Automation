@@ -12,7 +12,6 @@ class ConfirmCompanyButton extends React.Component {
     }
 
 
-
     confirmCompany = async () => {
         this.setState({
             loading: true
@@ -23,7 +22,7 @@ class ConfirmCompanyButton extends React.Component {
             }
         });
 
-        if(!response.errors){
+        if (!response.errors) {
             this.setState({
                 success: true,
                 loading: false
@@ -42,7 +41,7 @@ class ConfirmCompanyButton extends React.Component {
             }
         });
 
-        if(!response.errors){
+        if (!response.errors) {
             this.setState({
                 success: true,
                 loading: false
@@ -51,7 +50,7 @@ class ConfirmCompanyButton extends React.Component {
         }
     }
 
-    render(){
+    render() {
         return (
             this.props.company.demo === 0 ?
                 <BasicButton
@@ -66,8 +65,7 @@ class ConfirmCompanyButton extends React.Component {
                     buttonStyle={{ marginRight: '1.2em' }}
                     icon={<ButtonIcon type="check_circle_outline" color="white" />}
                 />
-            :
-                <BasicButton
+            : <BasicButton
                     text={'Confimar entidad'}
                     color={getPrimary()}
                     floatRight

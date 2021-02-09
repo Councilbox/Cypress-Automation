@@ -60,7 +60,7 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client }) =>
 	}, [council.id]);
 
 	React.useEffect(() => {
-		if(show){
+		if (show) {
 			getData();
 		}
 	}, [show]);
@@ -162,8 +162,7 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client }) =>
 											<i className="material-icons" style={{ fontSize: '27px', cursor: 'pointer' }} onClick={() => setOpen(false)}>
 												arrow_drop_up
 											</i>
-											:
-											<i className="material-icons" style={{ fontSize: '27px', cursor: 'pointer' }} onClick={() => setOpen(true)}>
+											:											<i className="material-icons" style={{ fontSize: '27px', cursor: 'pointer' }} onClick={() => setOpen(true)}>
 												arrow_drop_down
 											</i>
 										}
@@ -198,17 +197,17 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client }) =>
 								).format('LLL')}`}
 							</div>
 							<div>
-								{hasSecondCall(council.statute) &&
-									`${translate['2nd_call_date']}: ${council.dateStart2NdCall ? moment(
+								{hasSecondCall(council.statute)
+									&& `${translate['2nd_call_date']}: ${council.dateStart2NdCall ? moment(
 										council.dateStart2NdCall
 									).format('LLL') : '-'}`}
 							</div>
 							<div>
-								{council.autoClose === 1 &&
-									<span>{translate.date_end}: {moment(council.closeDate).format('LLL')}</span>
+								{council.autoClose === 1
+									&& <span>{translate.date_end}: {moment(council.closeDate).format('LLL')}</span>
 								}
-								{council.dateEnd &&
-									<span>{translate.date_end}: {moment(council.dateEnd).format('LLL')}</span>
+								{council.dateEnd
+									&& <span>{translate.date_end}: {moment(council.dateEnd).format('LLL')}</span>
 								}
 							</div>
 						</GridItem>
@@ -241,16 +240,15 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client }) =>
 												<i className="material-icons" style={{ fontSize: '27px', cursor: 'pointer' }} onClick={() => setOpenPoints(false)}>
 													arrow_drop_up
 												</i>
-												:
-												<i className="material-icons" style={{ fontSize: '27px', cursor: 'pointer' }} onClick={() => setOpenPoints(true)}>
+												:												<i className="material-icons" style={{ fontSize: '27px', cursor: 'pointer' }} onClick={() => setOpenPoints(true)}>
 													arrow_drop_down
 												</i>
 											}
 										</div>
 									</div>
 									<Collapse in={openPoints} timeout="auto" unmountOnExit >
-										{!loading &&
-											<div>{data.agendas.map(agenda => (
+										{!loading
+											&& <div>{data.agendas.map(agenda => (
 												<Paper style={{ marginTop: '0.8em',
 padding: '0.8em',
 margin: '0.3em',
@@ -289,8 +287,8 @@ boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
 								padding: '1em'
 							}}
 						>
-							{!loading &&
-								<StatuteDisplay
+							{!loading
+								&& <StatuteDisplay
 									statute={council.statute}
 									translate={translate}
 									quorumTypes={data.quorumTypes}

@@ -53,8 +53,8 @@ const CheckPhoneModal = ({ translate, client }) => {
                             floatingText={translate.phone}
                             onChange={event => setPhone(event.target.value)}
                         />
-                        {result &&
-                            <div>
+                        {result
+                            && <div>
                                 {Object.keys(result).map((key, index) => (
                                     <div key={`${key}_${index}`}>
                                         {key} - {result[key]}

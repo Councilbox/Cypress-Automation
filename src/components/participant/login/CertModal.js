@@ -3,11 +3,11 @@ import { AlertConfirm } from '../../../displayComponents';
 
 const reducer = (state, action) => {
     const actions = {
-        'SUCCESS': () => ({
+        SUCCESS: () => ({
                 ...state,
                 status: 'SUCCESS'
             }),
-        'ERROR': () => ({
+        ERROR: () => ({
             ...state,
             status: 'ERROR',
             message: action.payload
@@ -25,7 +25,7 @@ const CertModal = ({ open, participant, handleSuccess }) => {
         const response = await fetch(`https://api.pre.councilbox.com:5001/participant/${participant.id}`);
         const json = await response.json();
 
-        if(json.success){
+        if (json.success) {
             dispatch({ type: 'SUCCESS' });
         } else {
             dispatch({ type: 'ERROR', payload: json.error });
@@ -33,7 +33,7 @@ const CertModal = ({ open, participant, handleSuccess }) => {
     };
 
     React.useEffect(() => {
-        if(open){
+        if (open) {
             getData();
         }
     }, [open]);
@@ -46,16 +46,14 @@ const CertModal = ({ open, participant, handleSuccess }) => {
             bodyText={
                 status === 'LOADING' ?
                     'CARGANDO'
-                :
-                    status === 'SUCCESS' ?
+                : status === 'SUCCESS' ?
                         <>
                             Esto furrula entrar?
                             <div style={{ backgroundColor: 'red' }} onClick={handleSuccess}>
                                 VAMOS PA DENTRO
                             </div>
                         </>
-                    :
-                        <>
+                    : <>
                             Error!
                             <div>
                                 {message}

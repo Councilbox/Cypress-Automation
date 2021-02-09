@@ -23,8 +23,8 @@ class NewParticipantModal extends React.Component {
 
     initialState = this.state;
 
-    componentDidUpdate(prevProps, prevState){
-        if(prevProps.open && !this.props.open){
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.open && !this.props.open) {
             this.setState(this.initialState);
         }
     }
@@ -52,7 +52,7 @@ class NewParticipantModal extends React.Component {
     }
 
     addSignatureParticipant = async () => {
-        if(!await this.checkRequiredFields()){
+        if (!await this.checkRequiredFields()) {
             const response = await this.props.addSignatureParticipant({
                 variables: {
                     participant: {
@@ -61,14 +61,14 @@ class NewParticipantModal extends React.Component {
                 }
             });
 
-            if(response.data.addSignatureParticipant.id){
+            if (response.data.addSignatureParticipant.id) {
                 this.props.refetch();
                 this.props.requestClose();
             }
         }
     }
 
-    async checkRequiredFields(){
+    async checkRequiredFields() {
         const errors = {
             name: '',
             surname: '',
@@ -82,28 +82,28 @@ class NewParticipantModal extends React.Component {
         const { translate } = this.props;
         const { data } = this.state;
 
-        if(!data.name){
+        if (!data.name) {
             hasError = true;
             errors.name = translate.field_required;
         }
 
-        if(!data.surname){
+        if (!data.surname) {
             hasError = true;
             errors.surname = translate.field_required;
         }
 
-        if(!data.dni){
+        if (!data.dni) {
             hasError = true;
             errors.dni = translate.field_required;
         }
 
-        if(!data.email){
+        if (!data.email) {
             hasError = true;
             errors.email = translate.field_required;
-        }else if(!checkValidEmail(data.email)){
+        } else if (!checkValidEmail(data.email)) {
                 hasError = true;
                 errors.email = translate.valid_email_required;
-            }else if(!await this.checkEmailAvailability()){
+            } else if (!await this.checkEmailAvailability()) {
                     hasError = true;
                     errors.email = this.props.translate.register_exists_email;
                 }
@@ -136,7 +136,7 @@ class NewParticipantModal extends React.Component {
         );
     }
 
-    render(){
+    render() {
         const { translate } = this.props;
         return (
             <AlertConfirm

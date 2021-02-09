@@ -98,7 +98,7 @@ class CouncilDetails extends React.Component {
 
 	toggleLock = event => {
 		event.stopPropagation();
-		const locked = this.state.locked;
+		const { locked } = this.state;
 		this.setState({
 			locked: !locked
 		});
@@ -165,8 +165,7 @@ class CouncilDetails extends React.Component {
 							<i className="fa fa-hourglass-end" aria-hidden="true" style={{ color: 'grey', fontSize: '6em' }}></i>
 							REUNIÓN FINALIZADA
 						</div>
-						:
-						<div style={{ backgroundColor: 'white', height: '100%', border: '2px solid black', position: 'relative' }}>
+						:						<div style={{ backgroundColor: 'white', height: '100%', border: '2px solid black', position: 'relative' }}>
 							<AgendaManager
 								recount={this.state.data.councilRecount}
 								council={council}
@@ -177,8 +176,8 @@ class CouncilDetails extends React.Component {
 								refetch={this.props.data.refetch}
 								openMenu={() => { }}
 							/>
-							{this.state.locked &&
-								<div style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', zIndex: 10000 }} onClick={() => alert('Se mira pero no se toca')}>
+							{this.state.locked
+								&& <div style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', zIndex: 10000 }} onClick={() => alert('Se mira pero no se toca')}>
 
 								</div>
 							}
@@ -263,12 +262,11 @@ class CouncilDetails extends React.Component {
 									root={true}
 								/>
 							</>
-						:
-							<CouncilDetailsParticipants
+						:							<CouncilDetailsParticipants
 								council={council}
 								participations={CBX.hasParticipations(council)}
 								translate={translate}
-								//refetch={refetch}
+								// refetch={refetch}
 							/>
 						}
 
@@ -282,7 +280,7 @@ class CouncilDetails extends React.Component {
 			);
 		}
 
-		//const { council } = this.props.data;
+		// const { council } = this.props.data;
 
 		return (
 			<div style={{ width: '100%', height: '100%', }}>
@@ -493,8 +491,8 @@ class CouncilDetails extends React.Component {
 								alignItems: 'center'
 							}}
 						>
-							{council.state > 40 &&
-								<BasicButton
+							{council.state > 40
+								&& <BasicButton
 									text="Cancelar acta"
 									color={secondary}
 									onClick={this.cancelCouncilAct}
@@ -507,8 +505,8 @@ class CouncilDetails extends React.Component {
 								textStyle={{ fontWeight: '700', color: 'white' }}
 								onClick={this.showAgendaManager}
 							/>
-							{council.securityType === 2 &&
-								<FailedSMSList
+							{council.securityType === 2
+								&& <FailedSMSList
 									council={council}
 									translate={translate}
 								/>
@@ -552,7 +550,7 @@ const showGroupAttendees = attendees => {
 			list.remotos++;
 		}
 
-		if(attendee.state === 11){
+		if (attendee.state === 11) {
 			list['Dejaron la sala']++;
 		}
 
@@ -576,23 +574,22 @@ const showGroupAttendees = attendees => {
 };
 
 
-
-const showSendsRecount = (sends) => {
+const showSendsRecount = sends => {
 	const list = {
 		'-1': 'Preconvocatoria',
-		'0': 'Convocatoria',
-		'1': 'Recordatorio',
-		'2': 'Aviso de reprogramación',
-		'3': 'Reunión cancelada',
-		'4': 'Acceso a sala',
-		'5': 'Clave de acceso',
-		'6': 'Acta',
-		'13': 'Propuesta de acta',
-		'16': 'Notificación de apertura de votación',
-		'18': 'Delegación de voto',
-		'19': 'Rechazo de delegación',
-		'20': 'Delegación retirada',
-		'21': 'Notificación de delegación'
+		0: 'Convocatoria',
+		1: 'Recordatorio',
+		2: 'Aviso de reprogramación',
+		3: 'Reunión cancelada',
+		4: 'Acceso a sala',
+		5: 'Clave de acceso',
+		6: 'Acta',
+		13: 'Propuesta de acta',
+		16: 'Notificación de apertura de votación',
+		18: 'Delegación de voto',
+		19: 'Rechazo de delegación',
+		20: 'Delegación retirada',
+		21: 'Notificación de delegación'
 	};
 
 	const recount = {
@@ -603,14 +600,14 @@ const showSendsRecount = (sends) => {
 		'Reunión cancelada': 0,
 		'Acceso a sala': 0,
 		'Clave de acceso': 0,
-		'Acta': 0,
+		Acta: 0,
 		'Propuesta de acta': 0,
 		'Notificación de apertura de votación': 0,
 		'Notificación de delegación': 0,
 		'Delegación de voto': 0,
 		'Rechazo de delegación': 0,
 		'Delegación retirada': 0,
-		'Otros': 0
+		Otros: 0
 	};
 
 	sends.forEach(send => {

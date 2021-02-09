@@ -65,8 +65,8 @@ const EditorStepper = ({ translate, active, goToPage, windowSize }) => {
         />
     );
 
-    if(windowSize === 'xs'){
-        return(
+    if (windowSize === 'xs') {
+        return (
             <div
                 style={{
                     width: '100%',
@@ -100,7 +100,7 @@ const EditorStepper = ({ translate, active, goToPage, windowSize }) => {
         );
     }
 
-    return(
+    return (
         <Steps
             current={active}
             size="small"
@@ -119,8 +119,8 @@ const EditorStepper = ({ translate, active, goToPage, windowSize }) => {
                                     textDecoration: 'underline'
                                 } : {})
                             }}
-                            {...(active > step.index
-                            ? {
+                            {...(active > step.index ?
+                            {
                                     onClick: () => goToPage(step.index + 1),
                             }
                             : {})}
@@ -135,8 +135,8 @@ const EditorStepper = ({ translate, active, goToPage, windowSize }) => {
                                 color: active === step.index ? primary : secondary,
                                 cursor: active > step.index ? 'pointer' : 'inherit'
                             }}
-                            {...(active > step.index
-                            ? {
+                            {...(active > step.index ?
+                            {
                                     onClick: () => goToPage(step.index + 1),
                             }
                             : {})}
@@ -222,8 +222,5 @@ export default withWindowSize(EditorStepper);
 		</Step>
 	</Stepper>
 )} */
-
-
-
 
 

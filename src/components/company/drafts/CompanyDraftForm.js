@@ -26,7 +26,7 @@ const { NONE, ...governingBodyTypes } = GOVERNING_BODY_TYPES;
 
 export const levelColor = ['#866666', '#b47fb6', '#7fa5b6', '#7f94b6'];
 const styles = {
-	'input': {
+	input: {
 		'&::placeholder': {
 			textOverflow: 'ellipsis !important',
 			color: '#0000005c'
@@ -52,11 +52,10 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 
 	const formatTagLabel = tag => (tag.segments ?
 		`${tag.segments.reduce((acc, curr) => {
-			if (curr !== tag.label) return acc + (translate[curr] || curr) + '. ';
+			if (curr !== tag.label) return `${acc + (translate[curr] || curr)}. `;
 			return acc;
 		}, '')}`
-		:
-		tag.label);
+		:		tag.label);
 
 	const formatLabelFromName = tag => {
 		if (tag.type === 1) {
@@ -70,11 +69,10 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 
 		return tag.segments ?
 			`${tag.segments.reduce((acc, curr) => {
-				if (curr !== tag.label) return acc + (translate[curr] || curr) + '. ';
+				if (curr !== tag.label) return `${acc + (translate[curr] || curr)}. `;
 				return acc;
 			}, '')}`
-			:
-			translate[tag.name] ? translate[tag.name] : tag.name;
+			:			translate[tag.name] ? translate[tag.name] : tag.name;
 	};
 
 	const reduceTagName = tag => tag.name;
@@ -151,8 +149,8 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 					classes={{ input: props.classes.input }}
 				>
 				</Input>
-				{!!errors.title &&
-					<span style={{ color: 'red' }}>{errors.title}</span>
+				{!!errors.title
+					&& <span style={{ color: 'red' }}>{errors.title}</span>
 				}
 			</div>
 		</React.Fragment>
@@ -311,9 +309,9 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 						</div>
 						<Collapse in={openSelectorEtiquetas} timeout="auto" unmountOnExit >
 							<div style={{ display: matchSearch.length > 0 ? 'block' : 'none' }}>
-								{matchSearch &&
-									!!companyStatutes &&
-									<ContenedorEtiquetas
+								{matchSearch
+									&& !!companyStatutes
+									&& <ContenedorEtiquetas
 										search={true}
 										color={'rgba(128, 78, 33, 0.58)'}
 										addTag={addTag}
@@ -324,8 +322,8 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 								}
 							</div>
 							<div style={{}}>
-								{company.id === company.corporationId &&
-									<ContenedorEtiquetas
+								{company.id === company.corporationId
+									&& <ContenedorEtiquetas
 										color={getTagColor(TAG_TYPES.COMPANY_TYPE)}
 										translate={translate}
 										addTag={addTag}
@@ -338,8 +336,8 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 									/>
 								}
 
-								{!!companyStatutes &&
-									<ContenedorEtiquetas
+								{!!companyStatutes
+									&& <ContenedorEtiquetas
 										color={'#b47fb6'}
 										translate={translate}
 										addTag={addTag}
@@ -364,8 +362,8 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 										.map(key => createTag(governingBodyTypes[key], TAG_TYPES.GOVERNING_BODY, translate))}
 								/>
 
-								{!!draftTypes &&
-									<ContenedorEtiquetas
+								{!!draftTypes
+									&& <ContenedorEtiquetas
 										color={'#7fa5b6'}
 										addTag={addTag}
 										translate={translate}
@@ -401,13 +399,13 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 							<GridItem xs={12} lg={12} md={12} style={{ height: '120px ' }} >
 								{renderTitle()}
 							</GridItem>
-							{Object.keys(testTags).length > 0 &&
-								<GridItem xs={12} lg={12} md={12} style={{}}>
+							{Object.keys(testTags).length > 0
+								&& <GridItem xs={12} lg={12} md={12} style={{}}>
 									{renderEtiquetasSeleccionadas()}
 								</GridItem>
 							}
-							{openSelectorEtiquetas &&
-								<Fade show={openSelectorEtiquetas}>
+							{openSelectorEtiquetas
+								&& <Fade show={openSelectorEtiquetas}>
 									{renderRichEditor()}
 								</Fade>
 							}
@@ -416,8 +414,8 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 					<GridItem xs={12} lg={4} md={4} style={{}}>
 						{renderSelectorEtiquetas()}
 					</GridItem>
-					{!openSelectorEtiquetas &&
-						<Fade show={!openSelectorEtiquetas}>
+					{!openSelectorEtiquetas
+						&& <Fade show={!openSelectorEtiquetas}>
 							{renderRichEditor()}
 						</Fade>
 					}
@@ -433,8 +431,8 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 						<GridItem xs={12} lg={8} md={8} >
 							{renderTitle()}
 						</GridItem>
-						{Object.keys(testTags).length > 0 &&
-							<GridItem xs={12} lg={12} md={12} style={{}}>
+						{Object.keys(testTags).length > 0
+							&& <GridItem xs={12} lg={12} md={12} style={{}}>
 								{renderEtiquetasSeleccionadas()}
 							</GridItem>
 						}
@@ -510,7 +508,6 @@ export const EtiquetasModal = ({ color, title, tags, addTag }) => (
 );
 
 
-
 export const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, addTag, translate, search }) => {
 	const [open, setOpen] = React.useState(false);
 
@@ -564,8 +561,7 @@ export const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, a
 						<i className="material-icons" style={{ fontSize: '40px' }}>
 							arrow_drop_up
 							</i>
-						:
-						<i className="material-icons" style={{ fontSize: '40px' }}>
+						:						<i className="material-icons" style={{ fontSize: '40px' }}>
 							arrow_drop_down
 							</i>
 					}

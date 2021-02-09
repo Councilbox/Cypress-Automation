@@ -71,9 +71,9 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 				}
 			});
 
-			if(attachments.length > 0){
+			if (attachments.length > 0) {
 				await Promise.all(attachments.map(attachment => {
-					if(attachment.filename){
+					if (attachment.filename) {
 						const fileInfo = {
 							...attachment,
 							state: 0,
@@ -157,14 +157,14 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 subjectType = 0;
 
 
-		if(draft.tags.agenda){
+		if (draft.tags.agenda) {
 			const { segments } = draft.tags.agenda;
-			if(segments){
-				if(segments[1]){
+			if (segments) {
+				if (segments[1]) {
 					subjectType = votingTypes.filter(type => draft.tags.agenda.segments[1] === type.label)[0].value;
 				}
 
-				if(segments[2]){
+				if (segments[2]) {
 					majorityType = props.majorityTypes.filter(type => draft.tags.agenda.segments[2] === type.label)[0].value;
 				}
 			}
@@ -188,7 +188,7 @@ subjectType = 0;
 	};
 
 	const _renderNewPointBody = () => {
-		const errors = state.errors;
+		const { errors } = state;
 		const agenda = state.newPoint;
 		return (
 			<div
@@ -207,7 +207,7 @@ subjectType = 0;
 						draftType={1}
 						defaultTags={{
 							...(state.newPoint.subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST ? {
-								'confirmation_request': {
+								confirmation_request: {
 									active: true,
 									childs: null,
 									label: translate.confirmation_request,
@@ -215,7 +215,7 @@ subjectType = 0;
 									type: 3
 								},
 							} : {
-								'agenda': {
+								agenda: {
 									active: true,
 									type: 2,
 									name: 'agenda',
@@ -261,10 +261,9 @@ subjectType = 0;
 										{translate.confirmation_request}
 									</MenuItem>
 								</SelectInput>
-							:
-								<SelectInput
+							:								<SelectInput
 									floatingText={translate.type}
-									value={'' + agenda.subjectType}
+									value={`${agenda.subjectType}`}
 									onChange={event => updateState({
 											subjectType: +event.target.value
 										})
@@ -273,7 +272,7 @@ subjectType = 0;
 								>
 									{filteredTypes.map(voting => (
 											<MenuItem
-												value={'' + voting.value}
+												value={`${voting.value}`}
 												key={`voting${voting.value}`}
 											>
 												{translate[voting.label]}
@@ -288,7 +287,7 @@ subjectType = 0;
 							<GridItem xs={6} lg={3} md={3}>
 								<SelectInput
 									floatingText={translate.majority_label}
-									value={'' + agenda.majorityType}
+									value={`${agenda.majorityType}`}
 									errorText={errors.majorityType}
 									onChange={event => updateState({
 											majorityType: +event.target.value
@@ -298,7 +297,7 @@ subjectType = 0;
 								>
 									{props.majorityTypes.map(majority => (
 											<MenuItem
-												value={'' + majority.value}
+												value={`${majority.value}`}
 												key={`majorityType_${
 													majority.value
 													}`}
@@ -349,8 +348,8 @@ subjectType = 0;
 						translate={translate}
 						type="text"
 						loadDraft={
-							showLoadDraft &&
-								<BasicButton
+							showLoadDraft
+								&& <BasicButton
 									text={translate.load_draft}
 									color={secondary}
 									textStyle={{

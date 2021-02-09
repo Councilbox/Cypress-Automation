@@ -92,8 +92,8 @@ class ParticipantSelectActions extends React.Component {
 					alignItems: 'center'
 				}}
 			>
-				{CBX.canHaveRepresentative(participant) &&
-					!(participant.delegatedVotes.length > 0) && (
+				{CBX.canHaveRepresentative(participant)
+					&& !(participant.delegatedVotes.length > 0) && (
 						<GridItem xs={12} md={6} lg={4}>
 							<ButtonActions
 								loading={loading === 4}
@@ -174,8 +174,8 @@ class ParticipantSelectActions extends React.Component {
 					}
 					translate={translate}
 				/>
-				{this.state.delegateOwnVote &&
-					<DelegateOwnVoteModal
+				{this.state.delegateOwnVote
+					&& <DelegateOwnVoteModal
 						show={this.state.delegateOwnVote}
 						council={council}
 						participant={participant}
@@ -186,12 +186,12 @@ class ParticipantSelectActions extends React.Component {
 					/>
 				}
 
-				{(participant.state === PARTICIPANT_STATES.REMOTE ||
-					participant.state === PARTICIPANT_STATES.NO_PARTICIPATE ||
-					participant.state ===
-					PARTICIPANT_STATES.PHYSICALLY_PRESENT ||
-					participant.state ===
-					PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE) && (
+				{(participant.state === PARTICIPANT_STATES.REMOTE
+					|| participant.state === PARTICIPANT_STATES.NO_PARTICIPATE
+					|| participant.state
+					=== PARTICIPANT_STATES.PHYSICALLY_PRESENT
+					|| participant.state
+					=== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE) && (
 						<DelegateVoteModal
 							show={this.state.delegateVote}
 							council={council}

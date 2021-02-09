@@ -5,7 +5,7 @@ import CouncilLiveTest from '../components/CouncilLiveTest';
 import { LoadingMainApp } from '../displayComponents';
 
 const CouncilLiveContainer = ({ user, match }) => {
-    if(!user.id){
+    if (!user.id) {
         return <LoadingMainApp />;
     }
 

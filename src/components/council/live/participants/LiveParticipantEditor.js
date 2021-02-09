@@ -103,10 +103,10 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								</Typography>
 							</GridItem>
 							<GridItem xs={12} md={8} lg={8}>
-								{participant.personOrEntity !== 1 &&
-									<div style={{ display: 'flex', alignItems: 'center' }}>
-										{showStateMenu() &&
-											<ParticipantStateList
+								{participant.personOrEntity !== 1
+									&& <div style={{ display: 'flex', alignItems: 'center' }}>
+										{showStateMenu()
+											&& <ParticipantStateList
 												participant={participant}
 												council={props.council}
 												translate={translate}
@@ -128,16 +128,16 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 										refetch={data.refetch}
 									/>
 								</div>
-								{(props.council.councilType !== 4 && props.council.councilType !== 5) &&
-									<EarlyVotingModal
+								{(props.council.councilType !== 4 && props.council.councilType !== 5)
+									&& <EarlyVotingModal
 										council={props.council}
 										participant={participant}
 										translate={translate}
 									/>
 								}
 								<Grid style={{ marginTop: '1em', display: 'flex' }}>
-									{(CBX.showSendCredentials(participant.state) && props.council.councilType !== 4) &&
-										<GridItem xs={12} md={7} lg={5} style={{}}>
+									{(CBX.showSendCredentials(participant.state) && props.council.councilType !== 4)
+										&& <GridItem xs={12} md={7} lg={5} style={{}}>
 											<div style={{}}>
 												<ResendCredentialsModal
 													participant={participant}
@@ -150,8 +150,8 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 										</GridItem>
 									}
 									<GridItem xs={12} md={5} lg={5}>
-										{!CBX.isRepresented(participant) && props.council.councilType < 2 && !CBX.hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
-											<div>
+										{!CBX.isRepresented(participant) && props.council.councilType < 2 && !CBX.hasHisVoteDelegated(participant) && participant.personOrEntity !== 1
+											&& <div>
 												<SignatureButton
 													participant={participant}
 													council={props.council}
@@ -174,9 +174,8 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								data={data}
 								type={PARTICIPANT_STATES.REPRESENTATED}
 							/>
-							:
-							(participant.representatives && participant.representatives.length > 0) &&
-							<ParticipantBlock
+							:							(participant.representatives && participant.representatives.length > 0)
+							&& <ParticipantBlock
 								{...props}
 								participant={participant.representatives[0]}
 								translate={translate}
@@ -194,8 +193,8 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 							/>
 						}
 
-						{(participant.representatives && participant.representatives.length > 0 && participant.representatives[0].delegatedVotes) &&
-							participant.representatives[0].delegatedVotes.map((delegatedVote, index) => (
+						{(participant.representatives && participant.representatives.length > 0 && participant.representatives[0].delegatedVotes)
+							&& participant.representatives[0].delegatedVotes.map((delegatedVote, index) => (
 								<ParticipantBlock
 									key={`participantBlock_Representatives_${index}`}
 									{...props}
@@ -216,8 +215,8 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 							))
 						}
 
-						{(participant.delegatedVotes && participant.delegatedVotes.length > 0) &&
-							participant.delegatedVotes.map((delegatedVote, index) => (
+						{(participant.delegatedVotes && participant.delegatedVotes.length > 0)
+							&& participant.delegatedVotes.map((delegatedVote, index) => (
 								<ParticipantBlock
 									key={`participantBlock_deletedVoted_${index}`}
 									{...props}
@@ -238,8 +237,8 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 							))
 						}
 
-						{CBX.hasHisVoteDelegated(participant) &&
-							<ParticipantBlock
+						{CBX.hasHisVoteDelegated(participant)
+							&& <ParticipantBlock
 								{...props}
 								active={false}
 								participant={participant.representative}
@@ -306,8 +305,8 @@ const ParticipantBlock = withApollo(({ children, translate, type, client, data, 
 						{`${text}:`}
 						<b>{`${participant.name} ${participant.surname || ''}`}</b>
 					</div>
-					{type === PARTICIPANT_STATES.REPRESENTATED &&
-						<div style={{ display: 'flex', alignItems: 'center' }}>
+					{type === PARTICIPANT_STATES.REPRESENTATED
+						&& <div style={{ display: 'flex', alignItems: 'center' }}>
 							<Tooltip title={translate.edit_participant_contact}>
 								<i
 									onClick={() => setEdit(!edit)}
@@ -325,8 +324,8 @@ const ParticipantBlock = withApollo(({ children, translate, type, client, data, 
 						</div>
 					}
 				</div>
-				{edit &&
-					<>
+				{edit
+					&& <>
 						<TextInput
 							floatingText={translate.email}
 							type="text"
@@ -336,8 +335,8 @@ const ParticipantBlock = withApollo(({ children, translate, type, client, data, 
 							onChange={event => setEmail(event.target.value)
 							}
 						/>
-						{props.council.securityType === 2 &&
-							<TextInput
+						{props.council.securityType === 2
+							&& <TextInput
 								type="text"
 								floatingText={translate.phone}
 								required
@@ -363,8 +362,8 @@ const ParticipantBlock = withApollo(({ children, translate, type, client, data, 
 					</>
 				}
 			</GridItem>
-			{active &&
-				<GridItem xs={12} md={3} lg={3} style={{ display: 'flex', justifyContent: props.innerWidth < 960 ? '' : 'center', }}>
+			{active
+				&& <GridItem xs={12} md={3} lg={3} style={{ display: 'flex', justifyContent: props.innerWidth < 960 ? '' : 'center', }}>
 					<div style={{ display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
 						<div>
 							<ParticipantStateList
@@ -388,8 +387,8 @@ const ParticipantBlock = withApollo(({ children, translate, type, client, data, 
 			}
 			<GridItem xs={12} md={5} lg={6}>
 				<Grid style={{}}>
-					{(active && props.council.councilType !== 4) &&
-						<GridItem xs={12} md={9} lg={6} style={{}}>
+					{(active && props.council.councilType !== 4)
+						&& <GridItem xs={12} md={9} lg={6} style={{}}>
 							<div style={{ marginRight: '1em', borderRadius: '4px', }}>
 								<ResendCredentialsModal
 									participant={participant}
@@ -402,10 +401,10 @@ const ParticipantBlock = withApollo(({ children, translate, type, client, data, 
 						</GridItem>
 					}
 					<GridItem xs={12} md={5} lg={5}>
-						{action ||
-							<div>
-								{(active && props.council.councilType < 2) &&
-									<SignatureButton
+						{action
+							|| <div>
+								{(active && props.council.councilType < 2)
+									&& <SignatureButton
 										participant={participant}
 										council={props.council}
 										refetch={data.refetch}
@@ -416,8 +415,8 @@ const ParticipantBlock = withApollo(({ children, translate, type, client, data, 
 						}
 					</GridItem>
 					<GridItem xs={12} md={9} lg={6} style={{ display: 'flex' }}>
-						{active &&
-							<ParticipantSelectActions
+						{active
+							&& <ParticipantSelectActions
 								participant={participant}
 								council={props.council}
 								translate={translate}

@@ -20,8 +20,7 @@ const UnsavedChangesModal = ({ translate, open, requestClose, acceptAction, canc
                         fontWeight: '700'
                     }}
                 />
-            :
-                null
+            : null
         }
         buttonCancel={translate.close}
         cancelAction={requestClose}

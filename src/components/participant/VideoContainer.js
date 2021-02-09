@@ -19,11 +19,11 @@ const VideoContainer = ({ setVideoURL, videoURL, announcement, client, ...props 
     const [loading, setLoading] = React.useState(true);
 
     const updateUrl = async newUrl => {
-        if(newUrl){
-            if(newUrl !== url){
+        if (newUrl) {
+            if (newUrl !== url) {
                 setUrl(newUrl);
             }
-            if(loading){
+            if (loading) {
                 setLoading(false);
             }
         } else {
@@ -48,13 +48,13 @@ const VideoContainer = ({ setVideoURL, videoURL, announcement, client, ...props 
         participant: props.participant
     });
 
-    const requestWord = props.participant.requestWord;
+    const { requestWord } = props.participant;
 
     React.useEffect(() => {
         getData();
     }, [requestWord, getData]);
 
-    if(props.council.state === COUNCIL_STATES.PAUSED){
+    if (props.council.state === COUNCIL_STATES.PAUSED) {
         return (
             <PausedCouncilPage
                 council={props.council}
@@ -64,11 +64,11 @@ const VideoContainer = ({ setVideoURL, videoURL, announcement, client, ...props 
     }
 
 
-    if(!loading){
-        if(!videoURL){
+    if (!loading) {
+        if (!videoURL) {
             setVideoURL(url || 'Error reaching CMP');
         }
-        return(
+        return (
             <iframe
                 title="meetingScreen"
                 allow="geolocation; microphone; camera; autoplay"

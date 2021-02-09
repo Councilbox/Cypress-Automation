@@ -32,11 +32,11 @@ export const buildDocVariable = (doc, options) => ({
     }
 });
 
-export function generateCertAgendaBlocks(data, language = 'es'){
+export function generateCertAgendaBlocks(data, language = 'es') {
     const agenda = data.agendas;
     const texts = translations[language];
 
-    return agenda.map((point) => ({
+    return agenda.map(point => ({
         id: Math.random().toString(36).substr(2, 9),
         label: `${texts.includePoint} ${point.orderIndex}`,
         text: '',
@@ -60,7 +60,7 @@ const getCustomRecount = (ballots, itemId) => ballots.filter(ballot => ballot.it
 
 
 const buildAgendaText = (agenda, translate, data) => {
-    if(isCustomPoint(agenda.subjectType)){
+    if (isCustomPoint(agenda.subjectType)) {
         return `
             <div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
                 <b>${translate.votings}:</b>
@@ -76,9 +76,9 @@ const buildAgendaText = (agenda, translate, data) => {
         `;
     }
 
-    if(isConfirmationRequest(agenda.subjectType)){
-        if(data.council.councilType === COUNCIL_TYPES.ONE_ON_ONE){
-            if((agenda.positiveVotings + agenda.positiveManual) > (agenda.negativeVotings + agenda.negativeManual)){
+    if (isConfirmationRequest(agenda.subjectType)) {
+        if (data.council.councilType === COUNCIL_TYPES.ONE_ON_ONE) {
+            if ((agenda.positiveVotings + agenda.positiveManual) > (agenda.negativeVotings + agenda.negativeManual)) {
                 return '';
             }
         }
@@ -110,14 +110,14 @@ const buildAgendaText = (agenda, translate, data) => {
     `;
 };
 
-export function generateAgendaBlocks(data, language = 'es', secondaryLanguage = 'en'){
+export function generateAgendaBlocks(data, language = 'es', secondaryLanguage = 'en') {
     const agenda = data.agendas;
     const texts = translations[language];
     const secondaryTexts = translations[secondaryLanguage];
 
     let newArray = [];
 
-    if(data.council.councilType !== COUNCIL_TYPES.ONE_ON_ONE){
+    if (data.council.councilType !== COUNCIL_TYPES.ONE_ON_ONE) {
         newArray.push({
             id: Math.random().toString(36).substr(2, 9),
             label: texts.agenda,
@@ -160,7 +160,7 @@ export function generateAgendaBlocks(data, language = 'es', secondaryLanguage = 
         ]);
 
 
-        if(hasVotation(element.subjectType)){
+        if (hasVotation(element.subjectType)) {
             newArray = newArray.concat([
                 {
                     id: Math.random().toString(36).substr(2, 9),
@@ -198,7 +198,7 @@ export function generateAgendaBlocks(data, language = 'es', secondaryLanguage = 
                 }
             ]);
 
-            if(data.council.statute.existsComments === 1){
+            if (data.council.statute.existsComments === 1) {
                 newArray = newArray.concat([
                     {
                         id: Math.random().toString(36).substr(2, 9),
@@ -267,7 +267,7 @@ export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = '
         agendaList: () => {
             let puntos = `<b>${texts.agenda}</b> </br>`;
             data.agendas.forEach(element => {
-                puntos += '- ' + element.agendaSubject + '</br>';
+                puntos += `- ${element.agendaSubject}</br>`;
             });
             return {
                 ...item,
@@ -328,7 +328,7 @@ export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = '
         })
     };
 
-    if(!blockTypes[item.type]){
+    if (!blockTypes[item.type]) {
         throw new Error('Invalid block type');
     }
 
@@ -342,35 +342,35 @@ export const getDefaultTagsByBlockType = (type, translate) => {
     };
 
     const defaultTags = {
-        'intro': {
+        intro: {
             intro: {
                 ...baseTag,
                 name: 'intro',
                 label: translate.intro
             }
         },
-        'conclusion': {
+        conclusion: {
             conclusion: {
                 ...baseTag,
                 name: 'conclusion',
                 label: translate.conclusion
             }
         },
-        'constitution': {
+        constitution: {
             constitution: {
                 ...baseTag,
                 name: 'constitution',
                 label: translate.constitution
             }
         },
-        'cert_header': {
+        cert_header: {
             constitution: {
                 ...baseTag,
                 name: 'cert_header',
                 label: translate.cert_header
             }
         },
-        'cert_footer': {
+        cert_footer: {
             constitution: {
                 ...baseTag,
                 name: 'cert_footer',
@@ -396,7 +396,7 @@ export const buildDoc = (data, translate, type) => {
                 blocks.ATTENDANTS_LIST
             ];
 
-            if(data.council.councilType !== COUNCIL_TYPES.ONE_ON_ONE){
+            if (data.council.councilType !== COUNCIL_TYPES.ONE_ON_ONE) {
                 sections.push(blocks.DELEGATION_LIST);
             }
 
@@ -410,7 +410,7 @@ export const buildDoc = (data, translate, type) => {
         ],
     };
 
-    if(!CBX_DOCS[type]){
+    if (!CBX_DOCS[type]) {
         throw new Error('Invalid doc type');
     }
 
@@ -439,27 +439,27 @@ export const shouldCancelStart = event => {
         return true;
     }
 
-    if(event.target.className === 'ql-editor ql-blank'){
+    if (event.target.className === 'ql-editor ql-blank') {
         return true;
     }
 
-    if (tagName === 'button' ||
-        tagName === 'span' ||
-        tagName === 'polyline' ||
-        tagName === 'path' ||
-        tagName === 'pre' ||
-        tagName === 'h1' ||
-        tagName === 'h2' ||
-        tagName === 'li' ||
-        tagName === 's' ||
-        tagName === 'a' ||
-        (tagName === 'p' && event.target.parentElement.classList.value === 'ql-editor ql-blank') ||
-        tagName === 'u' ||
-        tagName === 'line' ||
-        tagName === 'strong' ||
-        tagName === 'em' ||
-        tagName === 'blockquote' ||
-        tagName === 'svg') {
+    if (tagName === 'button'
+        || tagName === 'span'
+        || tagName === 'polyline'
+        || tagName === 'path'
+        || tagName === 'pre'
+        || tagName === 'h1'
+        || tagName === 'h2'
+        || tagName === 'li'
+        || tagName === 's'
+        || tagName === 'a'
+        || (tagName === 'p' && event.target.parentElement.classList.value === 'ql-editor ql-blank')
+        || tagName === 'u'
+        || tagName === 'line'
+        || tagName === 'strong'
+        || tagName === 'em'
+        || tagName === 'blockquote'
+        || tagName === 'svg') {
         return true;
     }
 };
@@ -494,15 +494,15 @@ export const useDoc = (params = {}) => {
         do {
             const block = doc[i];
 
-            if(block.id === id){
+            if (block.id === id) {
                 localization = {
                     block: i
                 };
             }
 
-            if(block.items && !localization){
+            if (block.items && !localization) {
                 const index = block.items.findIndex(subBlock => subBlock.id === id);
-                if(index !== -1){
+                if (index !== -1) {
                     localization = {
                         block: i,
                         subBlock: index
@@ -512,8 +512,8 @@ export const useDoc = (params = {}) => {
             i++;
         } while (!localization || i > doc.length);
 
-        if(localization){
-            if(Object.prototype.hasOwnProperty.call(localization, 'subBlock')){
+        if (localization) {
+            if (Object.prototype.hasOwnProperty.call(localization, 'subBlock')) {
                 const items = [...newItems[localization.block].items];
                 const item = { ...newItems[localization.block].items[localization.subBlock], ...object };
                 items[localization.subBlock] = item;
@@ -534,7 +534,7 @@ export const useDoc = (params = {}) => {
     };
 
     const prepareText = async text => {
-        if(params.transformText){
+        if (params.transformText) {
             return await params.transformText(text);
         }
 

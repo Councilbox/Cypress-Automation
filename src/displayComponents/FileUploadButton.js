@@ -42,8 +42,7 @@ const FileUploadButton = ({
 			<label htmlFor="raised-button-file" style={style}>
 				{trigger()}
 			</label>
-		:
-			<label htmlFor="raised-button-file" style={style}>
+		:			<label htmlFor="raised-button-file" style={style}>
 				<Button
 					variant={flat ? 'flat' : 'raised'}
 					component="span"

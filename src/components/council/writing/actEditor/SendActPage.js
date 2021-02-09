@@ -58,8 +58,8 @@ class SendActPage extends React.Component {
             }
         });
 
-        if(response.data.sendCouncilAct){
-            if(response.data.sendCouncilAct.success){
+        if (response.data.sendCouncilAct) {
+            if (response.data.sendCouncilAct.success) {
                 this.setState({
                     loading: false,
                     success: true
@@ -69,7 +69,7 @@ class SendActPage extends React.Component {
             }
         }
 
-        if(response.errors){
+        if (response.errors) {
             this.setState({
                 loading: false,
                 error: true,
@@ -78,18 +78,17 @@ class SendActPage extends React.Component {
         }
     }
 
-    render(){
+    render() {
         const primary = getPrimary();
         const { translate, council } = this.props;
 
-        return(
+        return (
             <div style={{ width: '100%', padding: '1.2em', display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                     <Typography style={{ marginRight: '0.6em' }}>
                         {council.sendActDate ?
                             `${translate.last_time_sent_act}: ${moment(new Date(council.sendActDate)).format('LLL')}`
-                        :
-                            this.props.translate.act_has_not_been_sent
+                        : this.props.translate.act_has_not_been_sent
                         }
                     </Typography>
                     <div>
@@ -146,8 +145,8 @@ class SendActPage extends React.Component {
                         />
                     </div>
                 </div>
-                {!!council.sendActDate &&
-                    <ParticipantsWithActTable
+                {!!council.sendActDate
+                    && <ParticipantsWithActTable
                         council={council}
                         key={this.random}
                         translate={translate}
@@ -164,11 +163,10 @@ class SendActPage extends React.Component {
                     cancelAction={this.closeAllConvened}
                     buttonCancel={translate.close}
                     bodyText={this.state.success ?
-                        <SuccessMessage /> :
-                        this.state.error ?
+                        <SuccessMessage />
+                        : this.state.error ?
                             translate.no_participants_to_send_act
-                        :
-                            translate.will_send_email_with_act
+                        : translate.will_send_email_with_act
                     }
                     title={translate.sending_the_minutes}
                 />
@@ -182,11 +180,10 @@ class SendActPage extends React.Component {
                     cancelAction={this.closeAttendants}
                     buttonCancel={translate.close}
                     bodyText={this.state.success ?
-                        <SuccessMessage /> :
-                        this.state.error ?
+                        <SuccessMessage />
+                        : this.state.error ?
                             translate.no_attendees
-                        :
-                            translate.will_send_email_to_attendees
+                        : translate.will_send_email_to_attendees
                     }
                     title={translate.sending_the_minutes}
                 />

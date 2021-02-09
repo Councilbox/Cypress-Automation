@@ -19,7 +19,7 @@ const CompaniesManagerButton = props => {
         setModal(false);
     };
 
-    return(
+    return (
         <div style={{ width: '100%', padding: '1em', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div>
                 {userCanCreateCompany(props.user, props.companies.list) ?
@@ -37,8 +37,7 @@ const CompaniesManagerButton = props => {
                             textStyle={{ textTransform: 'none', fontWeight: '700', fontSize: '0.9em', color: 'white' }}
                         />
                     </Link>
-                :
-                    <BasicButton
+                : <BasicButton
                         text={props.translate.companies_add}
                         color={'#A0A0A0'}
                         id={'entidadesAddSociedad'}

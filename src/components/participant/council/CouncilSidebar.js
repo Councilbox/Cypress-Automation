@@ -96,12 +96,12 @@ margin: '0',
 
     function checkAgendas() {
         const opened = agendas.agendas.reduce((acc, agenda) => {
-            if(agenda.votingState === 1){
+            if (agenda.votingState === 1) {
                 acc.push(agenda);
             }
             return acc;
         }, []);
-        if(!votingsWarning){
+        if (!votingsWarning) {
             return {
                 opened,
                 read: new Set(),
@@ -119,8 +119,8 @@ margin: '0',
     }
 
     React.useEffect(() => {
-        if(agendas){
-            if(JSON.stringify(agendas.agendas) !== JSON.stringify(prevAgendas.current)){
+        if (agendas) {
+            if (JSON.stringify(agendas.agendas) !== JSON.stringify(prevAgendas.current)) {
                 setVotingsWarning(checkAgendas());
             }
         }
@@ -136,7 +136,7 @@ margin: '0',
         });
     };
 
-    function selectAgenda(){
+    function selectAgenda() {
         props.setContent('agenda');
         updateReadVotings();
     }
@@ -208,8 +208,8 @@ margin: '0',
                             position: 'relative'
                         }}>
                             calendar_today
-                            {activeIcon &&
-                                <img src={iconVoteInsert} style={{ color: secondary, position: 'absolute', left: '5.2px', width: '13px' }}></img>
+                            {activeIcon
+                                && <img src={iconVoteInsert} style={{ color: secondary, position: 'absolute', left: '5.2px', width: '13px' }}></img>
                             }
                         </i>
                     </div>
@@ -233,7 +233,7 @@ margin: '0',
                 title={'sendMessage'}
                 disabled={disabled}
                 style={styles.button}
-                onClick={(event) => props.setAdminMessage(!props.adminMessage, event)}
+                onClick={event => props.setAdminMessage(!props.adminMessage, event)}
             >
                 <div style={{ display: 'unset' }}>
                     <div>
@@ -376,8 +376,7 @@ margin: '0',
                                         </div>
                                     </Button>
                                 </FloatGroup>
-                                :
-                                renderVideoButton()
+                                : renderVideoButton()
                             }
                         </div>
                         {renderVotingsWarning()}
@@ -410,11 +409,11 @@ margin: '0',
                     bodyStyle={{ maxWidth: '100vw', width: '100%', padding: '0', height: '100%  ' }}
                     bodyText={
                         <div style={{ height: '100%' }}>
-                            {props.modalContent === 'agenda' &&
-                                props.agenda
+                            {props.modalContent === 'agenda'
+                                && props.agenda
                             }
-                            {props.modalContent === 'timeline' &&
-                                <ResultsTimeline
+                            {props.modalContent === 'timeline'
+                                && <ResultsTimeline
                                     council={council}
                                     participant={participant}
                                     translate={translate}
@@ -538,8 +537,8 @@ margin: '0',
                     </Grid>
                 </div>
 
-                {props.adminMessage &&
-                    <Grid item xs={6} md={8} style={{
+                {props.adminMessage
+                    && <Grid item xs={6} md={8} style={{
                         transition: 'bottom 0.7s',
                         display: 'flex',
                         position: 'fixed',
@@ -595,8 +594,8 @@ options: props => ({
     const [arrayTimeline, setArrayTimeline] = React.useState(null);
 
     React.useEffect(() => {
-        if(timelineTotal.councilTimelineTotal){
-            if(timelineTotal.councilTimelineTotal !== total){
+        if (timelineTotal.councilTimelineTotal) {
+            if (timelineTotal.councilTimelineTotal !== total) {
                 setTotal(timelineTotal.councilTimelineTotal);
             }
         }

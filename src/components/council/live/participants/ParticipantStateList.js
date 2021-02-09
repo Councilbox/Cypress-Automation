@@ -64,7 +64,6 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 	};
 
 
-
 	const { loading } = state;
 
 	return (
@@ -136,8 +135,8 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 									</div>
 								</FilterButton>
 							</div>
-							{council.councilType !== 1 &&
-								<div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+							{council.councilType !== 1
+								&& <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
 									<FilterButton
 										styles={{ width: '100%', border: 'none', boxShadow: 'none', margin: 'none', borderRadius: '0' }}
 										tooltip={translate.change_to_remote}
@@ -168,8 +167,8 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 									size="2.8em"
 									onClick={() => updateParticipantState(5, 2, null)}
 									active={
-										participant.state ===
-										PARTICIPANT_STATES.PHYSICALLY_PRESENT
+										participant.state
+										=== PARTICIPANT_STATES.PHYSICALLY_PRESENT
 									}
 								>
 									<div style={{ width: '30%', marginRight: '20px' }}>
@@ -185,8 +184,8 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 									</div>
 								</FilterButton>
 							</div>
-							{((participant.state === PARTICIPANT_STATES.PHYSICALLY_PRESENT ||
-								participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
+							{((participant.state === PARTICIPANT_STATES.PHYSICALLY_PRESENT
+								|| participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
 							) && council.councilType < 2) && (
 									<div style={{ display: 'flex', alignItems: 'center', margin: 'none', borderRadius: '0', width: '100%' }}>
 										<FilterButton
@@ -196,8 +195,8 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 											size="2.8em"
 											onClick={() => setLeaveAlert(true)}
 											active={
-												participant.state ===
-												PARTICIPANT_STATES.LEFT
+												participant.state
+												=== PARTICIPANT_STATES.LEFT
 											}
 										>
 											<div style={{ width: '30%', marginRight: '20px' }}>
@@ -223,8 +222,8 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 										size="2.8em"
 										onClick={() => updateParticipantState(7, 3, null)}
 										active={
-											participant.state ===
-											PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
+											participant.state
+											=== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
 										}
 									>
 										<div style={{ width: '30%', marginRight: '20px' }}>

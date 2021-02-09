@@ -21,7 +21,7 @@ const RoomAdminContainer = ({ match, client, actions }) => {
             }
         });
 
-        if(response.data.adminToken){
+        if (response.data.adminToken) {
             actions.loginSuccess(response.data.adminToken.token);
         }
     };

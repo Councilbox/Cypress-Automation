@@ -104,7 +104,7 @@ const Signatures = ({ translate, data, ...props }) => {
 
 									}}
 									buttonStyle={{
-										border: '1px solid ' + getPrimary(),
+										border: `1px solid ${getPrimary()}`,
 										marginTop: '1em'
 									}}
 
@@ -202,7 +202,7 @@ class HoverableRow extends React.PureComponent {
 		});
 	}
 
-	deleteIcon = (signatureId) => {
+	deleteIcon = signatureId => {
 		const primary = getPrimary();
 
 		return (
@@ -232,8 +232,7 @@ class HoverableRow extends React.PureComponent {
 				onClick={() => {
 					disabled ?
 						this.props.showModal()
-						:
-						bHistory.push(`/company/${this.props.company.id}/signature/${signature.id}`);
+						:						bHistory.push(`/company/${this.props.company.id}/signature/${signature.id}`);
 				}}
 				key={`signature${
 					signature.id
@@ -245,8 +244,7 @@ class HoverableRow extends React.PureComponent {
 				<TableCell>
 					{this.state.showActions ?
 						this.deleteIcon(signature.id)
-						:
-						<div style={{ width: '5em' }} />
+						:						<div style={{ width: '5em' }} />
 					}
 				</TableCell>
 			</TableRow>

@@ -32,7 +32,7 @@ const PauseCouncilModal = ({ open, council, requestClose, client, translate, ref
     };
 
     React.useEffect(() => {
-        if(!open && status !== 'IDDLE'){
+        if (!open && status !== 'IDDLE') {
             setMessage('');
             setStatus('IDDLE');
         }
@@ -59,10 +59,9 @@ const PauseCouncilModal = ({ open, council, requestClose, client, translate, ref
                                 setMessage(value);
                             }}
                         />
-                    :
-                        <div style={{ width: '90%', display: 'flex', justifyContent: 'space-between' }}>
-                            {status === 'PAUSING' &&
-                                <>
+                    : <div style={{ width: '90%', display: 'flex', justifyContent: 'space-between' }}>
+                            {status === 'PAUSING'
+                                && <>
                                     <div>
                                         {translate.pausing_council}
                                     </div>
@@ -71,8 +70,8 @@ const PauseCouncilModal = ({ open, council, requestClose, client, translate, ref
                                     </div>
                                 </>
                             }
-                            {status === 'SUCCESS' &&
-                                <>
+                            {status === 'SUCCESS'
+                                && <>
                                     <div>
                                         {translate.council_paused}
                                     </div>

@@ -45,7 +45,7 @@ const OrganizationUsersTable = ({ company, translate, textFilter, client }) => {
     }, [getUsers]);
 
 
-    if(!users){
+    if (!users) {
         return <LoadingSection />;
     }
 
@@ -83,7 +83,7 @@ const OrganizationUsersTable = ({ company, translate, textFilter, client }) => {
 									}}>
 									<Cell text={getActivationText(item.actived, translate)} />
 									<Cell text={item.id} />
-									<Cell text={item.name + ' ' + item.surname || ''} />
+									<Cell text={`${item.name} ${item.surname}` || ''} />
 									<Cell text={item.email} />
 									<Cell text={item.lastConnectionDate ? moment(item.lastConnectionDate).format('LLL') : '-'} />
 								</div>

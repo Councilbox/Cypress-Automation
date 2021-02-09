@@ -44,8 +44,8 @@ class CensusParticipantEditor extends React.Component {
 		let { representative, ...participant } = extractTypeName(
 			this.props.participant
 		);
-		representative = representative
-			? {
+		representative = representative ?
+			{
 				hasRepresentative: true,
 				...extractTypeName(representative)
 			}
@@ -60,8 +60,8 @@ class CensusParticipantEditor extends React.Component {
 		let { representative, ...participant } = extractTypeName(
 			this.props.participant
 		);
-		representative = representative
-			? {
+		representative = representative ?
+			{
 				hasRepresentative: true,
 				...extractTypeName(representative)
 			}
@@ -74,8 +74,8 @@ class CensusParticipantEditor extends React.Component {
 
 	updateCensusParticipant = async () => {
 		const { hasRepresentative, ...data } = this.state.representative;
-		const representative = this.state.representative.hasRepresentative
-			? {
+		const representative = this.state.representative.hasRepresentative ?
+			{
 				...data,
 				companyId: this.props.census.companyId,
 				censusId: this.props.census.id
@@ -134,7 +134,7 @@ class CensusParticipantEditor extends React.Component {
 
 	async checkRequiredFields() {
 		const participant = this.state.data;
-		const representative = this.state.representative;
+		const { representative } = this.state;
 		const { translate, company } = this.props;
 		const hasSocialCapital = censusHasParticipations(this.props.census);
 		const errorsParticipant = checkRequiredFieldsParticipant(
@@ -166,7 +166,7 @@ class CensusParticipantEditor extends React.Component {
 
 	_renderBody() {
 		const participant = this.state.data;
-		const errors = this.state.errors;
+		const { errors } = this.state;
 		const { translate } = this.props;
 		const { languages } = this.props.data;
 		return (

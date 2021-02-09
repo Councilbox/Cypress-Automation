@@ -18,9 +18,7 @@ const AgreementsPreview = ({ item, translate, column }) => (
                                 <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{block.label}</div>
                             </div>
                         </BorderBox>
-                    :
-
-                    <div dangerouslySetInnerHTML={{ __html: column === 2 ? block.secondaryText : block.text }} style={{ marginTop: '2em' }} key={block.id}/>
+                    : <div dangerouslySetInnerHTML={{ __html: column === 2 ? block.secondaryText : block.text }} style={{ marginTop: '2em' }} key={block.id}/>
                 ))}
         </div>
     );

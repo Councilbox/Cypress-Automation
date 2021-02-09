@@ -51,8 +51,7 @@ class CompanySelector extends React.Component {
 											height: 'auto'
 										}}
 									/>
-								:
-									<FontAwesome
+								:									<FontAwesome
 										name={'building-o'}
 										style={{
 											fontSize: '2em',

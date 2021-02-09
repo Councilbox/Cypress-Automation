@@ -4,7 +4,6 @@ import gql from 'graphql-tag';
 import { DateTimePicker, BasicButton, TextInput } from '../../../displayComponents';
 
 
-
 const AddCompanyNotificationMenu = ({ refetch, company, translate, client }) => {
     const defaultState = {
         limitDate: null,
@@ -42,7 +41,7 @@ const AddCompanyNotificationMenu = ({ refetch, company, translate, client }) => 
                     onlyDate
                     onChange={date => {
                         let dateString = null;
-                        if(date){
+                        if (date) {
                             const newDate = new Date(date);
                             dateString = newDate.toISOString();
                         }

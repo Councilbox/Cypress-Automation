@@ -13,24 +13,24 @@ const DownloadDoc = ({ client, doc, council, options, translate, filename }) => 
     const getLanguageView = () => {
         const texts = {
             es: {
-                'view': 'Vista previa sin validez legal',
-                'preview': 'Vista previa del documento',
+                view: 'Vista previa sin validez legal',
+                preview: 'Vista previa del documento',
             },
             en: {
-                'view': 'Preview without legal validity',
-                'preview': 'Document preview',
+                view: 'Preview without legal validity',
+                preview: 'Document preview',
             },
             cat: {
-                'view': 'Vista prèvia sense validesa legal',
-                'preview': 'Vista prèvia de el document',
+                view: 'Vista prèvia sense validesa legal',
+                preview: 'Vista prèvia de el document',
             },
             gal: {
-                'view': 'Vista previa sen validez legal',
-                'preview': 'Vista previa do documento',
+                view: 'Vista previa sen validez legal',
+                preview: 'Vista previa do documento',
             },
             pt: {
-                'view': 'Visualização sem validade legal',
-                'preview': 'Antevisão do Documento',
+                view: 'Visualização sem validade legal',
+                preview: 'Antevisão do Documento',
             }
         };
         return texts[options.language];

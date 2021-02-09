@@ -55,14 +55,14 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
     };
 
     const sendAttachments = async () => {
-        if(!await validateForm()){
+        if (!await validateForm()) {
             setStep(1);
             const addedAttachments = [];
 
-            for(let i = 0; i < attachments.length; i++){
+            for (let i = 0; i < attachments.length; i++) {
                 const attachment = attachments[i];
                 setUploading(i);
-                if(attachment.id){
+                if (attachment.id) {
                     const response = await client.mutate({
                         mutation: gql`
                             mutation AttachCompanyDocumentToCouncil($councilId: Int!, $companyDocumentId: Int!){
@@ -97,24 +97,24 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
     const validateForm = async () => {
         const errors = {};
 
-        if(attachments.length === 0){
+        if (attachments.length === 0) {
             errors.attachments = translate.no_file_indicated;
         } else {
             const alreadyUsed = [];
 
             attachments.forEach((a, index) => {
                 const found = council.attachments.find(attachment => a.filename === attachment.filename);
-                if(found){
+                if (found) {
                     alreadyUsed.push(a.filename);
                 }
             });
 
-            if(alreadyUsed.length > 0){
+            if (alreadyUsed.length > 0) {
                 errors.repeatedAttachments = alreadyUsed;
             }
         }
 
-        if(Object.keys(errors).length > 0){
+        if (Object.keys(errors).length > 0) {
             setErrors(errors);
             return true;
         }
@@ -153,7 +153,7 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
         : null) : null);
 
     const modalBody = () => {
-        if(step === 1){
+        if (step === 1) {
             return (
                 <>
                     <div>
@@ -175,13 +175,13 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
             );
         }
 
-        if(step === 2){
+        if (step === 2) {
             return (
                 <LoadingSection />
             );
         }
 
-        if(step === 3){
+        if (step === 3) {
             return <SuccessMessage />;
         }
 
@@ -191,7 +191,7 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                     type="file"
                     id={'raised-button-file'}
                     onChange={handleFile}
-                    //disabled={uploading}
+                    // disabled={uploading}
                     style={{
                         cursor: 'pointer',
                         position: 'absolute',
@@ -245,7 +245,7 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                                 display: 'flex',
                                 color: 'black',
                                 padding: '.5em 0em',
-                                borderTop: '1px solid' + primary,
+                                borderTop: `1px solid${primary}`,
                                 cursor: 'pointer'
                             }}
                             onClick={() => setCompanyDocumentsModal(true)}
@@ -257,8 +257,8 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                     </div>
                     }
                 />
-                {errors.attachments &&
-                    <div style={{ color: 'red' }}>
+                {errors.attachments
+                    && <div style={{ color: 'red' }}>
                         {errors.attachments}
                     </div>
                 }

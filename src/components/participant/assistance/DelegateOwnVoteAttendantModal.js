@@ -60,11 +60,11 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 	function _renderBody() {
 		const { loading } = data;
 
-		const participants = loading
-			? []
+		const participants = loading ?
+			[]
 			: data.liveParticipantsToDelegate.list;
-		const { total } = loading
-			? 0
+		const { total } = loading ?
+			0
 			: data.liveParticipantsToDelegate;
 		const rest = total - participants.length - 1;
 
@@ -134,13 +134,13 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 												>
 													<MenuItem style={{ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
 														{`DESCARGAR ${
-															rest > DELEGATION_USERS_LOAD
-																? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+															rest > DELEGATION_USERS_LOAD ?
+																`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
 																: translate.all_plural.toLowerCase()
 															}`
 														}
-														{loading &&
-															<div>
+														{loading
+															&& <div>
 																<LoadingSection size={25} />
 															</div>
 														}
@@ -189,7 +189,7 @@ export default graphql(participantsToDelegate, {
 	options: props => ({
 		variables: {
 			councilId: props.council.id,
-			//participantId: props.participant.id,
+			// participantId: props.participant.id,
 			options: {
 				offset: 0,
 				limit: DELEGATION_USERS_LOAD

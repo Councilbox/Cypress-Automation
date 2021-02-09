@@ -72,8 +72,7 @@ const Block = withSharedProps()(({ button, link, icon, text, id, customIcon, dis
 				<div onClick={disabledOnClick}>
 					{card}
 				</div>
-			:
-				<div onClick={followLink}>
+			:				<div onClick={followLink}>
 					{card}
 				</div>
 			}

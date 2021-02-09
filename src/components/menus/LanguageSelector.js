@@ -22,8 +22,8 @@ const LanguageSelector = ({ selectedLanguage, data }) => (
 			}
 			items={
 				<Fragment>
-					{!!data.languages &&
-						data.languages.map(language => (
+					{!!data.languages
+						&& data.languages.map(language => (
 							<MenuItem
 								key={`language_${language.columnName}`}
 								onClick={() => changeLanguage(language.columnName)}

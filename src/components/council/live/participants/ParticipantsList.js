@@ -46,8 +46,7 @@ const ParticipantsList = ({ mode, translate, layout, council, refetch, loadMore,
 					<LoadingSection />
 				</div>
 
-				:
-				participants.list.length > 0 ? (
+				:				participants.list.length > 0 ? (
 					<Scrollbar>
 						<Grid spacing={0} style={{ paddingBottom: '6em', padding: '1em' }}>
 							{participants.list.map(
@@ -67,16 +66,16 @@ const ParticipantsList = ({ mode, translate, layout, council, refetch, loadMore,
 									/>
 								</React.Fragment>
 							)}
-							{participants.list.length <
-								participants.total && (
+							{participants.list.length
+								< participants.total && (
 									<LoadMoreButton
 										onClick={loadMore}
 										loading={loadingMore}
 									/>
 								)}
 						</Grid>
-						{state.showSignatureModal &&
-							<SignatureModal
+						{state.showSignatureModal
+							&& <SignatureModal
 								show={state.showSignatureModal}
 								council={council}
 								participant={state.participantToSign}
@@ -88,8 +87,8 @@ const ParticipantsList = ({ mode, translate, layout, council, refetch, loadMore,
 								translate={translate}
 							/>
 						}
-						{state.editParticipant &&
-							<AlertConfirm
+						{state.editParticipant
+							&& <AlertConfirm
 								open={!!state.editParticipant}
 								classNameDialog={isMobile ? 'livePArticipants' : ''}
 								bodyStyle={
@@ -118,8 +117,7 @@ const ParticipantsList = ({ mode, translate, layout, council, refetch, loadMore,
 						}
 					</Scrollbar>
 				)
-					:
-					(
+					:					(
 						<div style={{ marginLeft: '2em' }}>
 							{translate.no_results}
 						</div>

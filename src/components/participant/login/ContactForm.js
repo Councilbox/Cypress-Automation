@@ -10,10 +10,8 @@ import { getPrimary } from '../../../styles/colors';
 import { checkValidEmail } from '../../../utils';
 
 
-
-
 const styles = {
-    'input': {
+    input: {
         '&::placeholder': {
             textOverflow: 'ellipsis !important',
             color: '#0000005c'
@@ -63,7 +61,7 @@ const ContactForm = ({ participant = {}, translate, council = {}, client, match,
         }
     };
 
-    const validate = (items) => {
+    const validate = items => {
         let hasError = false;
         const newErrors = {};
 

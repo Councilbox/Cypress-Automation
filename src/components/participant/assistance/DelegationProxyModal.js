@@ -39,7 +39,7 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                 participantId: participant.id
             }
         });
-        if(response.data.proxy && (delegation && response.data.proxy.delegateId === delegation.id)){
+        if (response.data.proxy && (delegation && response.data.proxy.delegateId === delegation.id)) {
             setExistingProxy(response.data.proxy);
             setSigned(true);
             signature.current.fromDataURL(response.data.proxy.signature);
@@ -48,7 +48,7 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
     }, [participant.id]);
 
     React.useEffect(() => {
-        if(open){
+        if (open) {
             getProxy();
         }
     }, [getProxy, open]);
@@ -66,7 +66,7 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
     }, [open, innerWidth]);
 
     const getSignaturePreview = () => {
-        if(signaturePreview.current){
+        if (signaturePreview.current) {
             signaturePreview.current.fromDataURL(signature.current.toDataURL());
         }
     };
@@ -106,7 +106,7 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
         const buildCustomProxy = proxy => {
             const segments = proxy.split('{{signature}}');
 
-            if(segments.length === 1){
+            if (segments.length === 1) {
                 return (
                     <>
                         <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(proxy, { council, participant, delegate: delegation }) }}></div>
@@ -118,8 +118,8 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
             return (
                 segments.map((text, index) => (
                         <>
-                            {index > 0 &&
-                                signature
+                            {index > 0
+                                && signature
                             }
                             <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(text, { council, participant, delegate: delegation }) }}></div>
 
@@ -142,37 +142,35 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                 <br/>
                 <div>{proxyTranslate.salute}</div>
                 {signature}
-                {!council.statute.proxy &&
-                    <>
+                {!council.statute.proxy
+                    && <>
                         _________________________________
                         <div>{proxyTranslate.sir}  {participant.name} {participant.surname || ''} </div>
                     </>
                 }
             </>;
 
-            if(council.statute.doubleColumnDocs){
+            if (council.statute.doubleColumnDocs) {
                 return (
                     <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
                         {council.statute.proxy ?
                             <div style={{ width: '48%' }}>
                                 {buildCustomProxy(council.statute.proxy)}
                             </div>
-                        :
-                            proxyBody
+                        : proxyBody
                         }
                         {council.statute.proxySecondary ?
                             <div style={{ width: '48%' }}>
                                 <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(council.statute.proxySecondary, { council, participant, delegate: delegation }) }}></div>
                             </div>
-                        :
-                            proxyBody
+                        : proxyBody
                         }
                     </div>
                 );
             }
 
 
-            if(council.statute.proxy){
+            if (council.statute.proxy) {
                 return <div dangerouslySetInnerHTML={{ __html: council.statute.proxy }}></div>;
             }
 
@@ -180,8 +178,8 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
         };
 
         return (
-            delegation &&
-                <Card style={{ padding: '0.6em', paddingBottom: '1em', width: '96%', marginLeft: '2%' }}>
+            delegation
+                && <Card style={{ padding: '0.6em', paddingBottom: '1em', width: '96%', marginLeft: '2%' }}>
                     <div>{council.company.businessName}</div>
                     <div>{council.street}</div>
                     <div>{council.countryState} {council.countryState}</div>
@@ -215,8 +213,7 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                     <GridItem xs={12} md={6} lg={7} style={{ ...(isMobile ? {} : { height: '70vh' }) }} >
                         {isMobile ?
                             proxyPreview()
-                        :
-                            <Scrollbar>
+                        : <Scrollbar>
                                 {proxyPreview()}
                             </Scrollbar>
                         }
@@ -241,8 +238,8 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                             onMouseDown={() => setSigned(true)}
                             ref={signatureContainer}
                         >
-                            {!signed &&
-                                <div style={{ position: 'absolute', margin: '0.6em' }}>{translate.sign_to_create_proxy}.</div>
+                            {!signed
+                                && <div style={{ position: 'absolute', margin: '0.6em' }}>{translate.sign_to_create_proxy}.</div>
                             }
                             <div>
                                 <ReactSignature
@@ -295,8 +292,6 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
 export default withApollo(withWindowSize(DelegationProxyModal));
 
 
-
-
 const proxyTranslations = {
     es: {
         at: 'a',
@@ -329,36 +324,34 @@ const proxyTranslations = {
 };
 
 
-
-
 export const replaceDocsTags = (text, data = {}) => {
     const translations = {
         es: {
-            'no_vote': 'No vota',
-            'against_btn': 'En contra',
-            'in_favor_btn': 'A favor',
-            'abstention': 'Abstención'
+            no_vote: 'No vota',
+            against_btn: 'En contra',
+            in_favor_btn: 'A favor',
+            abstention: 'Abstención'
         },
         en: {
-            'no_vote': 'No vote',
-            'against_btn': 'Against',
-            'in_favor_btn': 'In favor',
-            'abstention': 'Abstention'
+            no_vote: 'No vote',
+            against_btn: 'Against',
+            in_favor_btn: 'In favor',
+            abstention: 'Abstention'
         }
     };
 
     const translate = translations[data.language] ? translations[data.language] : translations.es;
 
-    if(!text){
+    if (!text) {
         return '';
     }
 
     text = text.replace(/{{participantName}}/g, `${data.participant.name} ${data.participant.surname || ''}`);
-    if(data.delegate){
+    if (data.delegate) {
         text = text.replace(/{{delegateName}}/g, `${data.delegate.name} ${data.delegate.surname || ''}`);
     }
 
-    if(data.votes) {
+    if (data.votes) {
         text = text.replace(/{{votes}}/, data.council.agendas.reduce((acc, point) => {
             const vote = data.votes.find(vote => vote.agendaId === point.id);
 

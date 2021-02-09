@@ -13,11 +13,11 @@ const EstimatedQuorum = ({ council, translate, client, socialCapital, totalVotes
     const getPercentage = value => {
         let base = totalVotes;
 
-        if(totalVotes === 0){
+        if (totalVotes === 0) {
             return '-';
         }
 
-        if(hasParticipations(council)){
+        if (hasParticipations(council)) {
             base = socialCapital;
         }
 
@@ -54,18 +54,18 @@ const EstimatedQuorum = ({ council, translate, client, socialCapital, totalVotes
     usePolling(getData, 10000);
 
 
-    if(loading){
+    if (loading) {
         return '';
     }
 
-    //TRADUCCION
+    // TRADUCCION
     return (
         <div style={{ fontSize: '0.9em' }}>
             <b>{translate.quorum_estimated}:</b> {showNumParticipations(data.total, company, council.statute)} ({getPercentage(data.total)}%)<br/>
             <b>{translate.face_to_face}:</b> {showNumParticipations(data.present, company, council.statute)} ({getPercentage(data.present)}%) | <b>{translate.remotes}:</b> {showNumParticipations(data.remote, company, council.statute)} ({getPercentage(data.remote)}%)
             | <b>{translate.delegated_plural}:</b> {showNumParticipations(data.delegated, company, council.statute)} ({getPercentage(data.delegated)}%) {
-                council.statute.canEarlyVote === 1 &&
-                    <>
+                council.statute.canEarlyVote === 1
+                    && <>
                         | <b>{council.councilType === COUNCIL_TYPES.BOARD_WITHOUT_SESSION ? translate.vote_letter : translate.quorum_early_votes}:</b> {showNumParticipations(data.earlyVotes, company, council.statute)} ({getPercentage(data.earlyVotes)}%)
                     </>
             }

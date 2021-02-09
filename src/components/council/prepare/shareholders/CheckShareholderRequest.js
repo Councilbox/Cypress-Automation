@@ -13,11 +13,11 @@ import SendRequestConfirmationButton from './SendRequestConfirmationButton';
 
 export const getTypeText = (text, translate) => {
     const texts = {
-        'access': translate.assistance,
+        access: translate.assistance,
         // 'access': 'Asistencia a la junta general',
-        'vote': translate.early_vote,
-        'represent': translate.vote_delegation,
-        'representation': translate.vote_represented
+        vote: translate.early_vote,
+        represent: translate.vote_delegation,
+        representation: translate.vote_represented
     };
 
     return texts[text];
@@ -64,8 +64,8 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
                     <div>
                         {translate.type_of_request}: {getTypeText(request.data.requestType, translate)}
                     </div>
-                    {request.data.requestType === 'vote' &&
-                        <>
+                    {request.data.requestType === 'vote'
+                        && <>
                             {request.data.earlyVotes && request.data.earlyVotes.map((vote, index) => (
                                 <div key={`early_vote_${index}`}>
                                     <div style={{ fontWeight: '700' }}>{vote.name}</div>
@@ -74,24 +74,22 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
                             ))}
                         </>
                     }
-                    {request.data.requestType === 'represent' &&
-                        <>
+                    {request.data.requestType === 'represent'
+                        && <>
                             En:
                             {Array.isArray(request.data.representative) ?
                                 <div style={{ marginBotton: '2em' }}>
                                     {request.data.representative[0].value === 'el presidente' || request.data.representative[0].value === 'el secretario' || request.data.representative[0].value && request.data.representative[0].value.includes('Presidente') ?
                                         request.data.representative[0].value
-                                        :
-                                        request.data.representative[0].info.map((data, index) => (
-                                            data.value &&
-                                            <div key={index}>
+                                        : request.data.representative[0].info.map((data, index) => (
+                                            data.value
+                                            && <div key={index}>
                                                 {data.name}  - {data.value}
                                             </div>
                                         ))}
                                 </div>
-                                :
-                                request.data.representative &&
-                                <div style={{ marginBotton: '2em' }}>
+                                : request.data.representative
+                                && <div style={{ marginBotton: '2em' }}>
                                     <div>
                                         {request.data.representative.name} {request.data.representative.surname || ''}
                                     </div>
@@ -109,8 +107,8 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
                     }
                 </div>
                 <div style={{ marginTop: '1em', marginBottom: '1.6em' }}>
-                    {request.data.attachments.length > 0 &&
-                        <div>  {translate.attachments} :</div>
+                    {request.data.attachments.length > 0
+                        && <div>  {translate.attachments} :</div>
                     }
                     {request.data.attachments ?
                         request.data.attachments.map((attachment, index) => (
@@ -118,8 +116,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
                                 <i className='fa fa-file-pdf-o'></i>  {attachment.name}
                             </div>
                         ))
-                        :
-                        ''
+                        : ''
                     }
                 </div>
                 <AddShareholder
@@ -133,23 +130,23 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
                     refetch={refetch}
                     translate={translate}
                 />
-                {request.state !== '1' &&
-                    <ApproveRequestButton
+                {request.state !== '1'
+                    && <ApproveRequestButton
                         request={request}
                         refetch={refetch}
                         translate={translate}
                     />
                 }
-                {request.participantCreated &&
-                    <SendRequestConfirmationButton
+                {request.participantCreated
+                    && <SendRequestConfirmationButton
                         request={request}
                         refetch={refetch}
                         translate={translate}
                     />
 
                 }
-                {request.participantCreated && request.data.requestType === 'represent' &&
-                    <DelegateVoteButton
+                {request.participantCreated && request.data.requestType === 'represent'
+                    && <DelegateVoteButton
                         request={request}
                         refetch={refetch}
                         translate={translate}
@@ -186,7 +183,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
     return (
         <>
             <AlertConfirm
-                title={inModal ? translate.to_delegate_vote : 'Alerta'}//TRADUCCION
+                title={inModal ? translate.to_delegate_vote : 'Alerta'}// TRADUCCION
                 bodyText={
                     <div>
                         {inModal ?
@@ -203,8 +200,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
                                     closeModalAlert={() => { setModalAlert(false); refetch(); }}
                                 />
                             </div>
-                            :
-                            <div>
+                            : <div>
                                 <div>{translate.user_marked_delegation_vote}</div>
                                 <div style={{ display: 'flex', marginTop: '1em', justifyContent: 'flex-end' }}>
                                     <DelegateVoteButton
@@ -226,7 +222,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
                                         }}
                                         color="white"
                                         textStyle={{ color: secondary }}
-                                    //onClick={approveRequest}
+                                    // onClick={approveRequest}
                                     />
                                 </div>
                             </div>
@@ -244,7 +240,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
                 }}
                 color="white"
                 textStyle={{ color: secondary }}
-            //onClick={approveRequest}
+            // onClick={approveRequest}
             />
             <AlertConfirm
                 title={'Solicitud'}

@@ -31,7 +31,7 @@ class SignatureStepOne extends React.Component {
             }
         });
 
-        if(this.state.errorState){
+        if (this.state.errorState) {
             this.checkRequiredFields();
         }
     }
@@ -55,7 +55,7 @@ class SignatureStepOne extends React.Component {
             }
         });
 
-        if(response.data.removeSignatureDocument.success){
+        if (response.data.removeSignatureDocument.success) {
             this.setState({
                 data: {
                     ...this.state.data,
@@ -71,8 +71,8 @@ class SignatureStepOne extends React.Component {
 			return;
 		}
 		if (
-			file.size / 1000 + parseInt(this.state.totalSize, 10) >
-			10000
+			file.size / 1000 + parseInt(this.state.totalSize, 10)
+			> 10000
 		) {
 			this.setState({
 				alert: true
@@ -90,7 +90,7 @@ class SignatureStepOne extends React.Component {
 				base64: btoa(event.target.result),
 				signatureId: this.state.data.id
             };
-            if(fileInfo.filetype === 'application/pdf'){
+            if (fileInfo.filetype === 'application/pdf') {
                 this.setState({
                     uploading: true
                 });
@@ -102,7 +102,7 @@ class SignatureStepOne extends React.Component {
                 });
 
                 if (response.data) {
-                    if(response.data.saveSignatureDocument.id){
+                    if (response.data.saveSignatureDocument.id) {
                         this.setState({
                             uploading: false,
                             data: {
@@ -115,7 +115,7 @@ class SignatureStepOne extends React.Component {
                     }
                     this.props.data.refetch();
                 }
-            }else{
+            } else {
                 this.setState({
                     errors: {
                         ...this.state.errors,
@@ -139,9 +139,9 @@ class SignatureStepOne extends React.Component {
     }
 
     nextStep = async () => {
-        if(!this.checkRequiredFields()){
+        if (!this.checkRequiredFields()) {
             const result = await this.saveSignature();
-            if(!result.errors){
+            if (!result.errors) {
                 this.props.nextStep();
             }
         }
@@ -160,23 +160,23 @@ class SignatureStepOne extends React.Component {
 
         let hasError = false;
 
-        if(!data.expirationDateToSign){
+        if (!data.expirationDateToSign) {
             errors.expirationDateToSign = translate.required_field;
             hasError = true;
         }
 
-        if(!data.title){
+        if (!data.title) {
             errors.title = translate.required_field;
             hasError = true;
         }
 
-        if(!data.description){
+        if (!data.description) {
             errors.description = translate.required_field;
             hasError = true;
-        }else if(checkForUnclosedBraces(data.description)){
+        } else if (checkForUnclosedBraces(data.description)) {
                 errors.description = true;
                 hasError = true;
-                if(this.toastId){
+                if (this.toastId) {
                     toast.dismiss(this.toastId);
                 }
                 this.toastId = toast(
@@ -191,7 +191,7 @@ class SignatureStepOne extends React.Component {
 				);
             }
 
-        if(!data.attachment){
+        if (!data.attachment) {
             errors.file = translate.must_add_attachment_file_to_sign;
             hasError = true;
         }
@@ -204,13 +204,13 @@ class SignatureStepOne extends React.Component {
         return hasError;
     }
 
-    render(){
+    render() {
         const { translate } = this.props;
         const primary = getPrimary();
         const secondary = getSecondary();
         const { data, errors } = this.state;
 
-        return(
+        return (
             <EditorStepLayout
                 body={
                     <div>
@@ -248,7 +248,7 @@ class SignatureStepOne extends React.Component {
                             <TextInput
                                 floatingText={translate.signature_title}
                                 errorText={errors.title}
-                                onChange={(event) => this.updateState({ title: event.target.value })}
+                                onChange={event => this.updateState({ title: event.target.value })}
                                 value={data.title}
                             />
                         </div>
@@ -294,8 +294,7 @@ class SignatureStepOne extends React.Component {
                                         requestClose={() => this.setState({ editDocument: false })}
                                     />
                                 </div>
-                            :
-                                <div>
+                            : <div>
                                     <div style={{ maxWidth: '10em' }}>
                                         <FileUploadButton
                                             text={translate.new_add}
@@ -319,8 +318,8 @@ class SignatureStepOne extends React.Component {
                                             onChange={this.handleFile}
                                         />
                                     </div>
-                                    {!!this.state.errors.file &&
-                                        <p style={{ color: 'red', fontWeight: '700' }}>
+                                    {!!this.state.errors.file
+                                        && <p style={{ color: 'red', fontWeight: '700' }}>
                                             {this.state.errors.file}
                                         </p>
                                     }

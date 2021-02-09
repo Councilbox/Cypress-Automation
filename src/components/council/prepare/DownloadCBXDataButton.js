@@ -13,7 +13,7 @@ const DownloadCBXDataButton = props => {
 
 	const downloadCBXData = async id => {
 		setLoading(true);
-		if(props.updateState){
+		if (props.updateState) {
 			props.updateState({ loading: true });
 		}
 		const response = await props.downloadCBXData({
@@ -30,7 +30,7 @@ const DownloadCBXDataButton = props => {
 					`CbxData_${id}`
 				);
 				setLoading(false);
-				if(props.updateState){
+				if (props.updateState) {
 					props.updateState({ loading: false });
 				}
 			}

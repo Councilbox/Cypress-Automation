@@ -104,8 +104,7 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
                 onClick={() => {
                     props.disabled ?
                         props.showModal()
-                        :
-                        sendGAevent({
+                        : sendGAevent({
                             category: 'Reuniones',
                             action: `${getSectionTranslation(props.match.params.section)} - Acceso`,
                             label: company.businessName
@@ -139,8 +138,7 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
                                 />
                             </GridItem>
                         </React.Fragment>
-                        :
-                        <React.Fragment>
+                        : <React.Fragment>
                             <GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
                                 {translate.date_real_start}
                             </GridItem>
@@ -171,8 +169,7 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
             onClick={() => {
                 props.disabled ?
                     props.showModal()
-                    :
-                    sendGAevent({
+                    : sendGAevent({
                         category: 'Reuniones',
                         action: `${getSectionTranslation(props.match.params.section)} - Acceso`,
                         label: company.businessName
@@ -184,8 +181,8 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
         >
             <TableCell onClick={event => event.stopPropagation()} style={{ cursor: 'auto' }}>
                 <div style={{ width: '2em' }}>
-                    {(show || selected) &&
-                        <Checkbox
+                    {(show || selected)
+                        && <Checkbox
                             value={selected}
                             onChange={() => props.select(council.id)
                             }
@@ -201,8 +198,8 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
                     date={council.dateStart}
                 />
             </TableCell>
-            {link === '/finished' &&
-                <TableCell
+            {link === '/finished'
+                && <TableCell
                     style={TableStyles.TD}
                 >
                     <div style={{ width: '15em', display: 'flex', flexDirection: 'row' }}>
@@ -225,8 +222,8 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
                     width: '65%'
                 }}
             >
-                {council.promoCode === 'COUNCILBOX' &&
-                    <Tooltip title={translate.test_meeting}>
+                {council.promoCode === 'COUNCILBOX'
+                    && <Tooltip title={translate.test_meeting}>
                         <span className="material-icons" style={{ color: getSecondary(), fontSize: '16px', marginRight: '0.5em' }}>
                             miscellaneous_services
                         </span>

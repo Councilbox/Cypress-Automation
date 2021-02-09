@@ -22,12 +22,10 @@ const CompanyDraftsPage = ({ translate, client, ...props }) => {
     const [data, setData] = React.useState({});
     const tabs = showOrganizationDashboard(props.company, config, props.user) ?
         [translate.dasboard_documentation, translate.drafts, '<Tags>', translate.council_types]
-        :
-        [translate.dasboard_documentation, translate.drafts, '<Tags>'];
+        : [translate.dasboard_documentation, translate.drafts, '<Tags>'];
     const tabsUrl = showOrganizationDashboard(props.company, config, props.user) ?
         ['documentation', 'drafts', 'tags', 'councilTypes']
-        :
-        ['documentation', 'drafts', 'tags'];
+        : ['documentation', 'drafts', 'tags'];
     const [selecteDraftPadre, setSelecteDraftPadre] = React.useState(tabs[0]);
     const [mostrarMenu, setMostrarMenu] = React.useState(true);
     const [inputSearch, setInputSearch] = React.useState(false);
@@ -90,7 +88,7 @@ const CompanyDraftsPage = ({ translate, client, ...props }) => {
         }
     }, [window.location.pathname]);
 
-    const goToPadre = (item) => {
+    const goToPadre = item => {
         const indexPadre = tabs.indexOf(item);
         bHistory.push(`/company/${props.company.id}/drafts/${tabsUrl[indexPadre]}`);
     };
@@ -99,8 +97,8 @@ const CompanyDraftsPage = ({ translate, client, ...props }) => {
     return (
         <CardPageLayout title={translate.tooltip_knowledge_base} disableScroll>
             <div style={{ padding: '1em', height: '100%', paddingTop: '0px' }}>
-                {mostrarMenu &&
-                    <div style={{ display: 'flex', padding: '1em', justifyContent: 'space-between', paddingTop: '0px' }}>
+                {mostrarMenu
+                    && <div style={{ display: 'flex', padding: '1em', justifyContent: 'space-between', paddingTop: '0px' }}>
                         <div style={{ fontSize: '13px', }}>
                             <MenuSuperiorTabs
                                 items={tabs}
@@ -109,8 +107,8 @@ const CompanyDraftsPage = ({ translate, client, ...props }) => {
                                 goToPadre={goToPadre}
                             />
                         </div>
-                        {isMobile && selecteDraftPadre !== '<Tags>' && selecteDraftPadre !== translate.dasboard_documentation &&
-                            <div style={{ marginRight: '0.8em', display: 'flex', justifyContent: isMobile ? 'space-between' : 'flex-end', alignItems: 'center' }}>
+                        {isMobile && selecteDraftPadre !== '<Tags>' && selecteDraftPadre !== translate.dasboard_documentation
+                            && <div style={{ marginRight: '0.8em', display: 'flex', justifyContent: isMobile ? 'space-between' : 'flex-end', alignItems: 'center' }}>
                                 <div style={{ marginRight: isMobile ? '0.5em' : '3em' }}>
                                     <DropdownEtiquetas
                                         translate={translate}
@@ -157,22 +155,22 @@ const CompanyDraftsPage = ({ translate, client, ...props }) => {
                         }
                     </div>
                 }
-                {selecteDraftPadre === translate.dasboard_documentation &&
-                    <CompanyDocumentsPage
+                {selecteDraftPadre === translate.dasboard_documentation
+                    && <CompanyDocumentsPage
                         translate={translate}
                         company={props.company}
                     />
                 }
-                {selecteDraftPadre === translate.drafts &&
-                    <div style={{ width: '100%', height: '100%', padding: '1em', paddingBottom: '2em', paddingTop: isMobile && '0em' }}>
+                {selecteDraftPadre === translate.drafts
+                    && <div style={{ width: '100%', height: '100%', padding: '1em', paddingBottom: '2em', paddingTop: isMobile && '0em' }}>
                         <CompanyDraftList setMostrarMenu={setMostrarMenu} searchDraft={search} />
                     </div>
                 }
-                {selecteDraftPadre === '<Tags>' &&
-                    <div style={{ width: '100%', height: '100%', padding: '1em' }}><CompanyTags /></div>
+                {selecteDraftPadre === '<Tags>'
+                    && <div style={{ width: '100%', height: '100%', padding: '1em' }}><CompanyTags /></div>
                 }
-                {selecteDraftPadre === translate.council_types &&
-                    <div style={{ width: '100%', height: '100%', padding: '1em' }}>
+                {selecteDraftPadre === translate.council_types
+                    && <div style={{ width: '100%', height: '100%', padding: '1em' }}>
                         <StatutesBody
                             companyId={props.company.id}
                             organization={true}

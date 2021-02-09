@@ -183,7 +183,7 @@ class Recommendations extends React.Component {
                                     <i class="fa fa-exclamation-triangle cbx-color-light" aria-hidden="true"
                                     style="font-size: 30px;"></i>
                                         {translate.ios_devices_not_compatible_with_our_platform}
-                                </h3>*/}
+                                </h3> */}
 
                                 <ol style={instructionListStyle}>
                                     <li style={instructionListItemStyle}>

@@ -13,7 +13,7 @@ const ActPointStateManager = ({ agenda, council, translate, refetch, ...props })
     const [sendAct, setSendAct] = React.useState(false);
     const primary = getPrimary();
 
-    if(!props.active){
+    if (!props.active) {
         return (
             <Tooltip title={translate.warning_unclosed_agenda}>
                 <i
@@ -29,8 +29,8 @@ const ActPointStateManager = ({ agenda, council, translate, refetch, ...props })
 
     return (
         <React.Fragment>
-            {agenda.pointState === AGENDA_STATES.INITIAL &&
-                <div>
+            {agenda.pointState === AGENDA_STATES.INITIAL
+                && <div>
                     <ToggleAgendaButton
                         agenda={agenda}
                         council={council}
@@ -40,8 +40,8 @@ const ActPointStateManager = ({ agenda, council, translate, refetch, ...props })
                     />
                 </div>
             }
-            {agenda.votingState === AGENDA_STATES.DISCUSSION &&
-                <ToggleVotingsButton
+            {agenda.votingState === AGENDA_STATES.DISCUSSION
+                && <ToggleVotingsButton
                     council={council}
                     agenda={agenda}
                     translate={translate}
@@ -49,8 +49,8 @@ const ActPointStateManager = ({ agenda, council, translate, refetch, ...props })
                 />
             }
 
-            {agenda.votingState === AGENDA_STATES.CLOSED &&
-                <ApproveActButton
+            {agenda.votingState === AGENDA_STATES.CLOSED
+                && <ApproveActButton
                     council={council}
                     agenda={agenda}
                     translate={translate}

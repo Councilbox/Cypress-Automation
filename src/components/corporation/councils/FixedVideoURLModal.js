@@ -120,8 +120,6 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
     };
 
 
-
-
     const handleEnter = event => {
         refreshButtons();
         if (event.nativeEvent.keyCode === 13) {
@@ -131,8 +129,8 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
 
     const _renderBody = () => (
         <>
-            {videoConfig &&
-                <>
+            {videoConfig
+                && <>
                     <div style={{ marginBottom: '1em' }}>
                         <h5>Video config:</h5>
                         <div>
@@ -195,8 +193,8 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
                     }
                 })}
             />
-            {data.videoConfig.autoHybrid &&
-                <>
+            {data.videoConfig.autoHybrid
+                && <>
                     {/* <SelectInput
                             value={data.videoConfig.hybridMode}
                             floatingText={'Sistema híbrido'}

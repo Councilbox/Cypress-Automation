@@ -10,18 +10,17 @@ import { getSecondary } from '../../../../styles/colors';
 
 const GoverningBodyDisplay = ({ translate, company, open }) => {
     const copyAll = () => (company.governingBodyType > 2 ?
-            CBX.copyStringToClipboard(company.governingBodyData.list.reduce((acc, curr) => acc + `${curr.name} ${curr.surname || ''} \n`, ''))
-        :
-            CBX.copyStringToClipboard(`${company.governingBodyData.name} ${company.governingBodyData.surname || ''}`));
+            CBX.copyStringToClipboard(company.governingBodyData.list.reduce((acc, curr) => `${acc}${curr.name} ${curr.surname || ''} \n`, ''))
+        : CBX.copyStringToClipboard(`${company.governingBodyData.name} ${company.governingBodyData.surname || ''}`));
 
 
     const type = GOVERNING_BODY_TYPES[Object.keys(GOVERNING_BODY_TYPES).filter(key => GOVERNING_BODY_TYPES[key].value === company.governingBodyType)[0]];
     return (
         <div style={{ width: '100%', height: '100%', padding: '1em' }}>
-            {open &&
-                <React.Fragment>
-                    <div>{translate[type.label] || type.label} {company.governingBodyType > 2 &&
-                        <BasicButton
+            {open
+                && <React.Fragment>
+                    <div>{translate[type.label] || type.label} {company.governingBodyType > 2
+                        && <BasicButton
                             type="flat"
                             color="transparent"
                             onClick={copyAll}
@@ -41,11 +40,10 @@ const GoverningBodyDisplay = ({ translate, company, open }) => {
                                     />
                                 </div>
                             ))
-                    :
-                        company.governingBodyType !== 0 &&
-                            <div>
-                                {company.governingBodyType === 2 &&
-                                    <Row
+                    : company.governingBodyType !== 0
+                            && <div>
+                                {company.governingBodyType === 2
+                                    && <Row
                                         field={translate.entity}
                                         value={`${company.governingBodyData.entityName}`}
                                     />
@@ -72,7 +70,7 @@ const Row = ({ value, field }) => {
     React.useEffect(() => {
         let timeout;
 
-        if(tooltip){
+        if (tooltip) {
             timeout = setTimeout(() => setTooltip(false), 2000);
         }
         return () => clearTimeout(timeout);
@@ -101,8 +99,8 @@ const Row = ({ value, field }) => {
         <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', background: showActions ? 'gainsboro' : '', paddingRight: '0.25em', paddingLeft: '0.25em', paddingBottom: '0.25em', paddingTop: '0.25em', }}
             {...handlers}
         >
-            {field &&
-                <div style={{ fontWeight: '700', width: '32%' }}>{`${field}:`}</div>
+            {field
+                && <div style={{ fontWeight: '700', width: '32%' }}>{`${field}:`}</div>
             }
             {tooltip ?
                 <div style={{ width: '64%', marginLeft: '1%' }} onClick={copy}>
@@ -113,8 +111,7 @@ const Row = ({ value, field }) => {
                         </div>
                     </Tooltip>
                 </div>
-                :
-                <div style={{ width: '64%', marginLeft: '1%', cursor: 'pointer' }} onClick={copy}>
+                : <div style={{ width: '64%', marginLeft: '1%', cursor: 'pointer' }} onClick={copy}>
                     {value}
                     {showActions && icon()}
                 </div>

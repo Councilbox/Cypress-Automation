@@ -42,10 +42,10 @@ const AttachmentItem = ({ attachment, removeAttachment, icon, editName, edit, lo
 					</div>
 				</GridItem>
 				<GridItem xs={4} style={{ fontSize: '0.8em', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>{attachment.state === 2 ? translate.deleted : formatSize(attachment.filesize)}</GridItem>
-				{attachment.state !== 2 &&
-					<GridItem xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
-						{edit && attachment.state !== 2 &&
-							<Tooltip title={translate.edit}>
+				{attachment.state !== 2
+					&& <GridItem xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+						{edit && attachment.state !== 2
+							&& <Tooltip title={translate.edit}>
 								<div>
 									<IconButton
 										style={{
@@ -66,8 +66,8 @@ const AttachmentItem = ({ attachment, removeAttachment, icon, editName, edit, lo
 								</div>
 							</Tooltip>
 						}
-						{(edit || loading) &&
-							<CloseIcon
+						{(edit || loading)
+							&& <CloseIcon
 								style={{
 									float: 'right',
 									color: primary
@@ -79,8 +79,8 @@ const AttachmentItem = ({ attachment, removeAttachment, icon, editName, edit, lo
 						{icon && icon}
 					</GridItem>
 				}
-				{error &&
-					<>
+				{error
+					&& <>
 						<br />
 						{error}
 					</>

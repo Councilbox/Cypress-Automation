@@ -29,7 +29,7 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
 
 
     const confirmEmailAndSetPwd = async () => {
-        if(!checkRequiredFields()){
+        if (!checkRequiredFields()) {
             setState({
                 ...state,
                 loading: true
@@ -41,15 +41,15 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
                 }
             });
 
-            if(!response.errors){
-                if(response.data.confirmEmailAndSetPwd.success){
+            if (!response.errors) {
+                if (response.data.confirmEmailAndSetPwd.success) {
                     setState({
                         ...state,
                         loading: false,
                         success: true
                     });
                 }
-            }else{
+            } else {
                 setState({
                     ...state,
                     loading: false,
@@ -68,13 +68,13 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
 
         let hasError;
 
-        if(state.password.length === 0){
+        if (state.password.length === 0) {
             hasError = true;
             errors.password = translate.required_field;
-        }else if(state.confirmPassword.length === 0){
+        } else if (state.confirmPassword.length === 0) {
                 hasError = true;
                 errors.confirmPassword = translate.required_field;
-            }else if(state.password !== state.confirmPassword){
+            } else if (state.password !== state.confirmPassword) {
                     errors.confirmPassword = translate.register_unmatch_pwds;
                     hasError = true;
                 }
@@ -98,8 +98,7 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
             >
                 {state.error === 407 ?
                     translate.account_actived_yet
-                :
-                    translate.error_active_account
+                : translate.error_active_account
                 }
             </div>
         );
@@ -117,7 +116,7 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
             </div>
         );
 
-    return(
+    return (
         <NotLoggedLayout
             translate={translate}
             helpIcon={true}
@@ -147,12 +146,11 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
                 >
                     {state.loading ?
                             <LoadingSection />
-                        :
-                            <React.Fragment>
-                                {state.error &&
-                                    errorWrapper()}
-                                {state.success &&
-                                    successMessage()}
+                        : <React.Fragment>
+                                {state.error
+                                    && errorWrapper()}
+                                {state.success
+                                    && successMessage()}
                                 {(!state.success && !state.error) ?
                                     <React.Fragment>
                                         <p
@@ -167,8 +165,7 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
                                         >
                                             {(subdomain && subdomain.title) ?
                                                 translate.welcome_set_your_pwd.replace('Councilbox', subdomain?.title)
-                                            :
-                                                translate.welcome_set_your_pwd
+                                            : translate.welcome_set_your_pwd
                                             }
                                         </p>
                                         <div
@@ -183,8 +180,8 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
                                             <TextInput
                                                 floatingText={translate.login_password}
                                                 type={
-                                                    state.showPassword
-                                                        ? 'text'
+                                                    state.showPassword ?
+                                                        'text'
                                                         : 'password'
                                                 }
                                                 passwordToggler={() => setState({
@@ -204,8 +201,8 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
                                             <TextInput
                                                 floatingText={translate.login_confirm_password}
                                                 type={
-                                                    state.showConfirmPassword
-                                                        ? 'text'
+                                                    state.showConfirmPassword ?
+                                                        'text'
                                                         : 'password'
                                                 }
                                                 passwordToggler={() => setState({
@@ -216,7 +213,7 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
                                                 showPassword={state.showConfirmPassword}
                                                 value={state.confirmPassword}
                                                 errorText={state.errors.confirmPassword}
-                                                onChange={(event) => setState({
+                                                onChange={event => setState({
                                                     ...state,
                                                     confirmPassword: event.target.value
                                                 })}
@@ -233,8 +230,7 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
                                             </div>
                                         </div>
                                     </React.Fragment>
-                                :
-                                    <BasicButton
+                                : <BasicButton
                                         text={translate.go_login}
                                         textStyle={{ color: 'white', textTransform: 'none', fontWeight: '700' }}
                                         color={primary}

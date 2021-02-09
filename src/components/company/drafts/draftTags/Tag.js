@@ -36,15 +36,14 @@ const Tag = ({ text, color, childs, width, action }) => {
 								<i className="material-icons" style={{ fontSize: '27px' }} >
 									arrow_drop_up
 								</i>
-								:
-								<i className="material-icons" style={{ fontSize: '27px' }}>
+								:								<i className="material-icons" style={{ fontSize: '27px' }}>
 									arrow_drop_down
 								</i>
 							}
 						</div>
 					</div>
-					{childs &&
-						<Collapse in={open} timeout="auto" unmountOnExit >
+					{childs
+						&& <Collapse in={open} timeout="auto" unmountOnExit >
 							<div>
 								{childs}
 							</div>

@@ -23,8 +23,8 @@ const DeleteCompanyButton = ({ company, deleteCompany }) => {
             }
         });
 
-        if(response.data){
-            if(response.data.deleteCompany.success){
+        if (response.data) {
+            if (response.data.deleteCompany.success) {
                 bHistory.replace('/companies');
             }
         }

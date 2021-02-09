@@ -15,8 +15,7 @@ const CompanyItem = ({ company, onCheck, checkable, checked, tableRoot }) => {
                         <TableCell style={{ width: '15%', padding: '4px 56px 4px 15px', textAlign: 'center' }}>
                             {company.logo ?
                                 <img src={company.logo} alt={'logo'} style={{ height: '2em', width: 'auto', maxWidth: '3em' }} />
-                                :
-                                <FontAwesome
+                                : <FontAwesome
                                     name={'building-o'}
                                     style={{ fontSize: '1.7em', color: 'lightgrey' }}
                                 />
@@ -35,8 +34,8 @@ const CompanyItem = ({ company, onCheck, checkable, checked, tableRoot }) => {
         }
             return (
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    {checkable &&
-                        <div style={{ width: '5em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {checkable
+                        && <div style={{ width: '5em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <Checkbox
                                 value={checked}
                                 onChange={(event, isInputChecked) => {
@@ -73,8 +72,7 @@ const CompanyItem = ({ company, onCheck, checkable, checked, tableRoot }) => {
                             >
                                 {company.logo ?
                                     <img src={company.logo} alt={'logo'} style={{ height: '2em', width: 'auto', maxWidth: '3em' }} />
-                                    :
-                                    <FontAwesome
+                                    : <FontAwesome
                                         name={'building-o'}
                                         style={{ fontSize: '1.7em', color: 'lightgrey' }}
                                     />
@@ -110,8 +108,8 @@ const CompanyItem = ({ company, onCheck, checkable, checked, tableRoot }) => {
     }
         return (
             <div style={{ display: 'flex', flexDirection: 'row' }}>
-                {checkable &&
-                    <div style={{ width: '5em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {checkable
+                    && <div style={{ width: '5em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <Checkbox
                             value={checked}
                             onChange={(event, isInputChecked) => {
@@ -140,8 +138,7 @@ const CompanyItem = ({ company, onCheck, checkable, checked, tableRoot }) => {
                     >
                         {company.logo ?
                             <img src={company.logo} alt={'logo'} style={{ height: '2em', width: 'auto', maxWidth: '3em' }} />
-                            :
-                            <FontAwesome
+                            : <FontAwesome
                                 name={'building-o'}
                                 style={{ fontSize: '1.7em', color: 'lightgrey' }}
                             />

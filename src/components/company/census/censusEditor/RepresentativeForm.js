@@ -96,8 +96,8 @@ const RepresentativeForm = ({
 					</div>
 				</Action>
 			</GridItem>
-			{disabled &&
-				<div style={{ width: '100%', padding: '1em' }}>
+			{disabled
+				&& <div style={{ width: '100%', padding: '1em' }}>
 					{translate.cant_add_representative}
 				</div>
 			}
@@ -154,7 +154,7 @@ const RepresentativeForm = ({
 						</GridItem>
 						<GridItem xs={6} md={4} lg={3}>
 							<TextInput
-								{...(checkEmail ? { onKeyUp: (event) => checkEmail(event, 'representative') } : {})}
+								{...(checkEmail ? { onKeyUp: event => checkEmail(event, 'representative') } : {})}
 								floatingText={translate.email}
 								type="text"
 								errorText={errors.email}
@@ -214,7 +214,7 @@ const RepresentativeForm = ({
 							<SelectInput
 								floatingText={translate.participation_type}
 								errorText={errors.initialState}
-								value={'' + representative.initialState}
+								value={`${representative.initialState}`}
 								onChange={event => updateState({
 										initialState: +event.target.value
 									})

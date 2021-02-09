@@ -13,8 +13,8 @@ class CloseSessionButton extends React.PureComponent {
         });
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <BasicButton
                 text={this.props.translate.close_sessions}
                 textStyle={{ textTransform: 'none', fontWeight: '700', color: 'white' }}

@@ -3,18 +3,18 @@ import { sendGraphQLError } from '../queries';
 import { CLIENT_VERSION } from '../config';
 
 export const networkErrorHandler = async (networkError, toast, store, apolloClient, operation) => {
-    if(!networkError){
-        if(!store.getState().main.serverStatus){
+    if (!networkError) {
+        if (!store.getState().main.serverStatus) {
             store.dispatch(serverRestored());
         }
-    }else{
-        if(networkError.message === 'Failed to fetch'){
+    } else {
+        if (networkError.message === 'Failed to fetch') {
             store.dispatch(noServerResponse());
         }
 
-        if(networkError.statusCode === 400){
-            const companies = store.getState().companies;
-            const user = store.getState().user;
+        if (networkError.statusCode === 400) {
+            const { companies } = store.getState();
+            const { user } = store.getState();
             await apolloClient.mutate({
                 mutation: sendGraphQLError,
                 variables: {

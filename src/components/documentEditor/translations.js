@@ -1,5 +1,5 @@
 export const translations = {
-    'es': {
+    es: {
         abstentions: 'Abstenciones',
         accept: 'Aceptan',
         against: 'En contra',
@@ -24,7 +24,7 @@ export const translations = {
         votes: 'Votos',
         votings: 'Votaciones'
     },
-    'en': {
+    en: {
         abstentions: 'Abstentions',
         accept: 'Accept',
         against: 'Against',
@@ -49,7 +49,7 @@ export const translations = {
         votes: 'Votes',
         votings: 'Votings'
     },
-    'cat': {
+    cat: {
         abstentions: 'Abstencions',
         accept: 'Accepten',
         against: 'En contra',
@@ -74,7 +74,7 @@ export const translations = {
         votes: 'Vots',
         votings: 'Votaciones'
     },
-    'gal': {
+    gal: {
         abstentions: 'Abstencións',
         accept: 'Aceptan',
         against: 'En contra',
@@ -99,7 +99,7 @@ export const translations = {
         votes: 'Votos',
         votings: 'Votacións'
     },
-    'pt': {
+    pt: {
         abstentions: 'Abstenções',
         accept: 'Aceitam',
         against: 'Contra',

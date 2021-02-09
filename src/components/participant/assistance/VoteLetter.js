@@ -29,7 +29,7 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
     };
 
     const nextStep = () => {
-        if(selected.size === council.agendas.length){
+        if (selected.size === council.agendas.length) {
             props.setState({
                 ...props.state,
                 earlyVotes: Array.from(selected.values())
@@ -86,16 +86,15 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
                                         nextStep();
                                     }}
                                 />
-                                {error &&
-                                    <div style={{ color: 'red', fontWeight: '700', clear: 'both' }}>{error}</div>
+                                {error
+                                    && <div style={{ color: 'red', fontWeight: '700', clear: 'both' }}>{error}</div>
                                 }
                             </div>
                         </div>
 
                     </>
 
-                :
-                    <SignatureStep
+                : <SignatureStep
                         signature={signature}
                         participant={participant}
                         council={council}
@@ -148,7 +147,7 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
                 participantId: participant.id
             }
         });
-        if(response.data.proxy && (delegation && response.data.proxy.delegateId === delegation.id)){
+        if (response.data.proxy && (delegation && response.data.proxy.delegateId === delegation.id)) {
             setExistingProxy(response.data.proxy);
             setSigned(true);
             signature.current.fromDataURL(response.data.proxy.signature);
@@ -181,7 +180,7 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
     }, [innerWidth]);
 
     const getSignaturePreview = () => {
-        if(signaturePreview.current) {
+        if (signaturePreview.current) {
             signaturePreview.current.fromDataURL(signature.current.toDataURL());
         }
     };
@@ -190,7 +189,7 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
         const text = replaceDocsTags(council.statute.voteLetterWithSense, { council, participant, votes });
         const segments = text.split('{{signature}}');
 
-        if(segments.length === 1){
+        if (segments.length === 1) {
             return <div dangerouslySetInnerHTML={{ __html: segments[0] }} style={{ width: '48%' }}></div>;
         }
 
@@ -225,8 +224,8 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
                     company: council.company
                 })}
                 </div>
-                {withVoteSense &&
-                    <>
+                {withVoteSense
+                    && <>
                         <br/>
                         {council.agendas.map(point => {
                             const vote = votes.find(vote => vote.agendaId === point.id);
@@ -254,8 +253,8 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
                     disabled
                     ref={signaturePreview}
                 />
-                {!council.statute.voteLetter &&
-                    <>
+                {!council.statute.voteLetter
+                    && <>
                         _________________________________
                         <div>{proxyTranslate.sir}  {participant.name} {participant.surname || ''} </div>
                     </>
@@ -263,46 +262,42 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
             </>;
 
 
-            if(council.statute.doubleColumnDocs && !withVoteSense){
+            if (council.statute.doubleColumnDocs && !withVoteSense) {
                 return (
                     <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
                         {council.statute.voteLetter ?
                             <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(council.statute.voteLetter, { council, participant }) }} style={{ width: '48%' }}></div>
-                        :
-                            docBody
+                        : docBody
                         }
                         {council.statute.voteLetterSecondary ?
                             <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(council.statute.voteLetterSecondary, { council, participant }) }} style={{ width: '48%' }}></div>
-                        :
-                            docBody
+                        : docBody
                         }
                     </div>
                 );
             }
 
 
-            if(council.statute.voteLetter && !withVoteSense){
+            if (council.statute.voteLetter && !withVoteSense) {
                 return <div dangerouslySetInnerHTML={{ __html: council.statute.voteLetter }}></div>;
             }
 
-            if(council.statute.doubleColumnDocs && withVoteSense){
+            if (council.statute.doubleColumnDocs && withVoteSense) {
                 return (
                     <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
                         {council.statute.voteLetterWithSense ?
                             renderCustom()
-                        :
-                            docBody
+                        : docBody
                         }
                         {council.statute.voteLetterWithSenseSecondary ?
                             <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(council.statute.voteLetterWithSenseSecondary, { council, participant, votes, language: 'en' }) }} style={{ width: '48%' }}></div>
-                        :
-                            docBody
+                        : docBody
                         }
                     </div>
                 );
             }
 
-            if(council.statute.voteLetter && withVoteSense){
+            if (council.statute.voteLetter && withVoteSense) {
                 return <div dangerouslySetInnerHTML={{ __html: council.statute.voteLetterWithSense }}></div>;
             }
 
@@ -329,8 +324,7 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
             <GridItem xs={12} md={6} lg={7} style={{ ...(isMobile ? {} : { height: '70vh' }) }} >
                 {isMobile ?
                     proxyPreview()
-                :
-                    <Scrollbar>
+                : <Scrollbar>
                         {proxyPreview()}
                     </Scrollbar>
                 }
@@ -349,8 +343,8 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
                     onMouseDown={() => setSigned(true)}
                     ref={signatureContainer}
                 >
-                    {!signed &&
-                        <div style={{ position: 'absolute', margin: '0.6em' }}>{translate.sign_to_create_proxy}.</div>
+                    {!signed
+                        && <div style={{ position: 'absolute', margin: '0.6em' }}>{translate.sign_to_create_proxy}.</div>
                     }
                     <div>
                         <ReactSignature
@@ -401,13 +395,12 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
 export default withApollo(withWindowSize(VoteLetter));
 
 
-
 const getVoteLetterTranslation = ({ language, withVoteSense }) => {
     const voteLetterTranslations = {
         es: {
             at: 'a',
             body: ({ company }) => {
-                if(withVoteSense){
+                if (withVoteSense) {
                     return (`El abajo firmante, en su condición de miembro del Consejo de Administración de ${
                         company.businessName}, tras ser informado por el Secretario/no-miembro del Consejo de la urgencia de adoptar unos acuerdos${
                         ''} y a la vista de las dificultades de celebrar inmediatamente una reunión del Consejo de Administración de la Sociedad,${

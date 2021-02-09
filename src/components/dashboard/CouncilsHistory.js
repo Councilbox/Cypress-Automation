@@ -122,16 +122,15 @@ class HoverableRow extends React.Component {
                     onClick={() => {
                         this.props.disabled ?
                             this.props.showModal()
-                            :
-                            bHistory.push(
+                            : bHistory.push(
                                 generateLink(council, company)
                             );
                     }}
                 >
                     <Grid>
                         <GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
-                            {council.promoCode === 'COUNCILBOX' &&
-                                <Tooltip title={translate.test_meeting}>
+                            {council.promoCode === 'COUNCILBOX'
+                                && <Tooltip title={translate.test_meeting}>
                                     <span className="material-icons" style={{ color: getSecondary(), fontSize: '16px', marginRight: '0.5em' }}>
                                         miscellaneous_services
                                     </span>
@@ -166,14 +165,14 @@ class HoverableRow extends React.Component {
                             />
                         </GridItem>
                         <GridItem xs={12} md={12}>
-                            {(council.promoCode !== 'COUNCILBOX' && council.state >= 40) &&
-                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '10px' }}>
+                            {(council.promoCode !== 'COUNCILBOX' && council.state >= 40)
+                                && <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '10px' }}>
                                     <BasicButton
                                         text={translate.certificates}
                                         color="white"
                                         textStyle={{ textTransform: 'none', fontWeight: '700', color: primary }}
                                         buttonStyle={{ border: `2px solid ${primary}` }}
-                                        onClick={(event) => {
+                                        onClick={event => {
                                             bHistory.push(`/company/${company.id}/council/${council.id}/certificates`);
                                             event.stopPropagation();
                                         }}
@@ -196,8 +195,7 @@ class HoverableRow extends React.Component {
                 onClick={() => {
                     this.props.disabled ?
                         this.props.showModal()
-                        :
-                        bHistory.push(
+                        : bHistory.push(
                             generateLink(council, company)
                         );
                 }}
@@ -218,8 +216,8 @@ class HoverableRow extends React.Component {
                         width: '35%'
                     }}
                 >
-                    {council.promoCode === 'COUNCILBOX' &&
-                        <Tooltip title={translate.test_meeting}>
+                    {council.promoCode === 'COUNCILBOX'
+                        && <Tooltip title={translate.test_meeting}>
                             <span className="material-icons" style={{ color: getSecondary(), fontSize: '16px', marginRight: '0.5em' }}>
                                 miscellaneous_services
                             </span>
@@ -231,8 +229,8 @@ class HoverableRow extends React.Component {
                     style={TableStyles.TD}
                 >
                     <div style={{ width: '10em', display: 'flex', flexDirection: 'row' }}>
-                        {council.dateEnd &&
-                            <>
+                        {council.dateEnd
+                            && <>
                                 <DateWrapper
                                     format="HH:mm"
                                     date={council.dateRealStart}
@@ -257,13 +255,13 @@ class HoverableRow extends React.Component {
                     style={TableStyles.TD}
                 >
                     <div style={{ width: '12em' }}>
-                        {(this.state.showActions && council.promoCode !== 'COUNCILBOX' && council.state >= 40) &&
-                            <BasicButton
+                        {(this.state.showActions && council.promoCode !== 'COUNCILBOX' && council.state >= 40)
+                            && <BasicButton
                                 text={translate.certificates}
                                 color="white"
                                 textStyle={{ textTransform: 'none', fontWeight: '700', color: primary }}
                                 buttonStyle={{ border: `2px solid ${primary}` }}
-                                onClick={(event) => {
+                                onClick={event => {
                                     bHistory.push(`/company/${company.id}/council/${council.id}/certificates`);
                                     event.stopPropagation();
                                 }}

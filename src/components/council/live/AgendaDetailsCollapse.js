@@ -6,7 +6,7 @@ import AgendaAttachmentsManager from './AgendaAttachmentsManager';
 import Comments from './Comments';
 
 class AgendaDetailsCollapse extends React.Component {
-    render(){
+    render() {
         return (
             <React.Fragment>
                 <div
@@ -24,8 +24,8 @@ class AgendaDetailsCollapse extends React.Component {
                         data={this.props.data}
                     />
                 </div>
-                {CBX.councilStarted(council) &&
-                    <React.Fragment>
+                {CBX.councilStarted(council)
+                    && <React.Fragment>
                         {CBX.councilHasComments(council.statute) && CBX.showAgendaVotingsTable(agenda) && (
                             <div
                                 style={{

@@ -13,8 +13,7 @@ const TableWrapper = ({ headers = [], children, forceMobileTable, stylesHeader, 
 	<React.Fragment>
 		{isMobile && !forceMobileTable ?
 			children
-			:
-			<Table className={'tableReuniones'} style={{ maxWidth: '100%', width: '100%' }}>
+			:			<Table className={'tableReuniones'} style={{ maxWidth: '100%', width: '100%' }}>
 				<TableHead style={{ ...stylesHeader }} className={'hearderReunionesTabla'}>
 					<TableRow style={{ ...stylesHeaderRow }}>
 						{headers.map((header, index) => (
@@ -22,8 +21,7 @@ const TableWrapper = ({ headers = [], children, forceMobileTable, stylesHeader, 
 									<TableCell key={`header_${index}`}>
 										{header.selectAll}
 									</TableCell>
-									:
-									<TableCell
+									:									<TableCell
 										style={TableStyles.TH}
 										key={`header_${index}`}
 										sortDirection={header.order}

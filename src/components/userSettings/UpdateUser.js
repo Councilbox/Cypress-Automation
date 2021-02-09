@@ -62,7 +62,7 @@ class UpdateUserForm extends React.Component {
 			});
 
 			if (response.errors) {
-				if(response.errors[0].message === 'Code already used'){
+				if (response.errors[0].message === 'Code already used') {
 					this.setState({
 						errors: {
 							code: 'Código ya en uso'
@@ -94,7 +94,7 @@ class UpdateUserForm extends React.Component {
 		});
 	};
 
-	updateState = (newValues) => {
+	updateState = newValues => {
 		this.setState({
 			data: {
 				...this.state.data,
@@ -115,7 +115,7 @@ class UpdateUserForm extends React.Component {
 			confirmPWD: ''
 		};
 
-		const data = this.state.data;
+		const { data } = this.state;
 		let hasError = false;
 
 		if (!data.name) {
@@ -199,15 +199,15 @@ class UpdateUserForm extends React.Component {
 								translate={translate}
 							/>
 						</div>
-						{!this.state.showPass && !this.props.admin &&
-							<div style={{ padding: '1.5em' }}>
+						{!this.state.showPass && !this.props.admin
+							&& <div style={{ padding: '1.5em' }}>
 								<BasicButton
 									text={translate.change_password}
 									backgroundColor={{
 										fontWeight: '700',
 										boxShadow: 'none',
 										background: 'white',
-										border: '1px solid ' + primary,
+										border: `1px solid ${primary}`,
 										color: primary,
 										width: '200px',
 										height: '3em'
@@ -216,12 +216,12 @@ class UpdateUserForm extends React.Component {
 								/>
 							</div>
 						}
-						{this.state.showPass &&
-							<div style={{ padding: '1.5em' }}>
+						{this.state.showPass
+							&& <div style={{ padding: '1.5em' }}>
 								<div>
 									<div>
-										{!this.props.admin &&
-											<div style={{}}>
+										{!this.props.admin
+											&& <div style={{}}>
 												<ChangePasswordForm
 													translate={translate}
 													showPass={this.state.showPass}
@@ -244,8 +244,8 @@ class UpdateUserForm extends React.Component {
 								</div>
 							</div>
 						}
-						{this.props.admin &&
-							<div style={{ padding: '1.5em' }}>
+						{this.props.admin
+							&& <div style={{ padding: '1.5em' }}>
 								<CompanyLinksManager
 									linkedCompanies={this.state.companies}
 									translate={translate}
@@ -256,8 +256,8 @@ class UpdateUserForm extends React.Component {
 								/>
 							</div>
 						}
-						{this.state.data.actived === 0 &&
-							<div style={{ padding: '1em' }}>
+						{this.state.data.actived === 0
+							&& <div style={{ padding: '1em' }}>
 								<UserSendsList
 									enRoot={false}
 									user={this.state.data}

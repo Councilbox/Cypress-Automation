@@ -11,7 +11,7 @@ import { AGENDA_STATES, COUNCIL_TYPES } from '../../../constants';
 
 const ToggleAgendaButton = ({ agenda, council, active, translate, ...props }) => {
 	const openAgenda = async () => {
-		if(agenda.subjectType === getActPointSubjectType()){
+		if (agenda.subjectType === getActPointSubjectType()) {
 			const response = await props.openActPoint({
 				variables: {
 					councilId: agenda.councilId
@@ -20,14 +20,14 @@ const ToggleAgendaButton = ({ agenda, council, active, translate, ...props }) =>
 			if (response) {
 				props.refetch();
 			}
-		}else{
+		} else {
 			const response = await props.openAgenda({
 				variables: {
 					agendaId: agenda.id
 				}
 			});
 			if (response) {
-				if(response.errors){
+				if (response.errors) {
 					toast(
 						<LiveToast
 							message={translate.open_point_error}
@@ -58,7 +58,7 @@ const ToggleAgendaButton = ({ agenda, council, active, translate, ...props }) =>
 	const primary = getPrimary();
 	const secondary = getSecondary();
 
-	if(!councilHasSession(council)){
+	if (!councilHasSession(council)) {
 		return <span/>;
 	}
 

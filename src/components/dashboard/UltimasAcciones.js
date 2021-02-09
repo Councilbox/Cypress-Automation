@@ -7,8 +7,6 @@ import {
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 
-
-
 class UltimasAcciones extends React.Component {
 	state = {
 		modalAcciones: false,
@@ -67,7 +65,7 @@ class UltimasAcciones extends React.Component {
 											<BasicButton
 												claseHover={'classHover'}
 												backgroundColor={{ background: 'none', boxShadow: 'none', border: '1px solid gainsboro' }}
-												text={'Continuar editando'} //TRADUCCION
+												text={'Continuar editando'} // TRADUCCION
 											/>
 										</div>
 									</div>
@@ -77,7 +75,7 @@ class UltimasAcciones extends React.Component {
 					<hr></hr>
 					<div style={{ justifyContent: 'flex-end', display: 'inline' }}>
 						<BasicButton
-							text={'Más reuniones'} //TRADUCCION
+							text={'Más reuniones'} // TRADUCCION
 							onClick={this.showModalAcciones}
 						/>
 					</div>
@@ -109,9 +107,9 @@ class UltimasAcciones extends React.Component {
 													<div>
 														<BasicButton
 															claseHover={'classHover'}
-															onClick={(event) => this.onClickContinuarEditando(event, councils[key].id)}
+															onClick={event => this.onClickContinuarEditando(event, councils[key].id)}
 															backgroundColor={{ background: 'none', boxShadow: 'none', border: '1px solid gainsboro' }}
-															text={'Continuar editando'} //TRADUCCION
+															text={'Continuar editando'} // TRADUCCION
 														/>
 													</div>
 												</div>
@@ -126,7 +124,7 @@ class UltimasAcciones extends React.Component {
 									/>
 								))
 						}
-						title={'Últimas acciones'} //TRADUCCION
+						title={'Últimas acciones'} // TRADUCCION
 						widthModal={{ width: '50%' }}
 					/>
 				</React.Fragment>
@@ -135,13 +133,11 @@ class UltimasAcciones extends React.Component {
 		}
 			return (
 				<div style={{ display: 'inline-flex', alignItems: 'center', justifontent: 'center', height: '370px', }}>
-					<div>Aun no hay councils</div>{/*TRADUCCION*/}
+					<div>Aun no hay councils</div>{/* TRADUCCION */}
 				</div>
 			);
 	}
 }
-
-
 
 
 export default UltimasAcciones;

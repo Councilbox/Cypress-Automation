@@ -62,7 +62,6 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
     }, [newId]);
 
 
-
     const changeToColumn = index => {
         props.setColumn(index);
     };
@@ -85,7 +84,7 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
         setDoc(arrayMove(doc, oldIndex, newIndex));
     };
 
-    const remove = (id) => {
+    const remove = id => {
         const arrayDoc = doc.filter(item => item.id !== id);
         setDoc(arrayDoc);
     };
@@ -113,8 +112,8 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                     })}>
                         help
                     </i>
-                    {hide &&
-                        <div style={{
+                    {hide
+                        && <div style={{
                             fontSize: '13px',
                             color: '#a09aa0'
                         }}>
@@ -132,7 +131,7 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                     options={options}
                                     setOptions={setOptions}
                                 />
-                                {filteredBlocks.filter(item => !item.logic).map((item) => (
+                                {filteredBlocks.filter(item => !item.logic).map(item => (
                                         <BorderBox
                                             key={item.id}
                                             addItem={addItem}
@@ -167,8 +166,7 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                         >
                             {opcionesMenu()}
                         </DrawerOptions>
-                        :
-                        <div style={{ width: '700px', maxWidth: '700px', transition: 'max-width 0.5s linear', overflow: 'hidden', height: 'calc( 100% - 3em )', display: collapse ? 'none' : '' }}>
+                        : <div style={{ width: '700px', maxWidth: '700px', transition: 'max-width 0.5s linear', overflow: 'hidden', height: 'calc( 100% - 3em )', display: collapse ? 'none' : '' }}>
                             {opcionesMenu()}
                         </div>
 
@@ -176,15 +174,15 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
 
 
                     <div style={{ width: '100%', position: collapse && 'relative', height: 'calc( 100% - 3.5em )', justifyContent: collapse ? 'center' : '', display: collapse ? 'flex' : '' }}>
-                        {!collapse &&
-                            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1em 0em ' }}>
+                        {!collapse
+                            && <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1em 0em ' }}>
                                 <div style={{ display: 'flex' }}>
                                     {documentMenu}
-                                    {/*MENU EXTERNO*/}
+                                    {/* MENU EXTERNO */}
                                 </div>
                                 <div style={{ display: 'flex' }}>
-                                    {options.doubleColumn &&
-                                        <React.Fragment>
+                                    {options.doubleColumn
+                                        && <React.Fragment>
                                             <BasicButton
                                                 text={'Columna 1'}
                                                 color={column === 1 ? secondary : 'white'}
@@ -225,8 +223,8 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                             />
                                         </React.Fragment>
                                     }
-                                    {withDrawer &&
-                                        <Tooltip title="Ocultar">
+                                    {withDrawer
+                                        && <Tooltip title="Ocultar">
                                             <div
                                                 style={{
                                                     boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
@@ -285,8 +283,8 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                             </div>
                         }
                         <div style={{ position: 'absolute', top: '7px', right: '15px' }}>
-                            {collapse &&
-                                <Tooltip title="Volver al editor">
+                            {collapse
+                                && <Tooltip title="Volver al editor">
                                     <div
                                         style={{
                                             boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
@@ -329,11 +327,10 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                         company={company}
                                         finishInModal={false}
                                     />
-                                    :
-                                    <div style={{ display: 'flex', height: '100%' }} >
+                                    : <div style={{ display: 'flex', height: '100%' }} >
                                         <div style={{ width: '20%', maxWidth: '95px' }}>
-                                            {options.stamp &&
-                                                <Timbrado
+                                            {options.stamp
+                                                && <Timbrado
                                                     collapse={collapse}
                                                     edit={edit}
                                                 />
@@ -351,9 +348,9 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                                     lockAxis={'y'}
                                                     items={doc}
                                                     editBlock={editBlock}
-                                                    //updateBlock={updateBlock}
+                                                    // updateBlock={updateBlock}
                                                     state={state}
-                                                    //setState={setState}
+                                                    // setState={setState}
                                                     edit={true}
                                                     translate={translate}
                                                     offset={0}
@@ -383,8 +380,8 @@ const SortableList = SortableContainer(({ items, column, editBlock, state, edit,
     if (edit) {
         return (
             <div>
-                {items &&
-                    items.map((item, index) => (
+                {items
+                    && items.map((item, index) => (
                         <DraggableBlock
                             key={`item-${item.id}`}
                             editBlock={editBlock}
@@ -409,8 +406,8 @@ const SortableList = SortableContainer(({ items, column, editBlock, state, edit,
     }
         return (
             <div>
-                {items &&
-                    items.map((item, index) => (
+                {items
+                    && items.map((item, index) => (
                         <NoDraggableBlock
                             key={`item-${item.id}`}
                             editBlock={editBlock}
@@ -450,8 +447,8 @@ const DraggableBlock = SortableElement(props => {
     };
 
     return (
-        props.value !== undefined && props.value.text !== undefined &&
-        <div
+        props.value !== undefined && props.value.text !== undefined
+        && <div
             key={props.id}
             id={props.id}
             style={{
@@ -471,8 +468,8 @@ const DraggableBlock = SortableElement(props => {
             <div style={{ paddingRight: '4px', background: props.value.colorBorder ? props.value.colorBorder : getPrimary(), borderRadius: '15px', }}></div>
             <div style={{ marginLeft: '4px', width: '95%', minHeight: '90px' }}>
                 <div style={{ width: '25px', cursor: 'pointer', position: 'absolute', top: '5px', right: '0', right: '35px' }}>
-                    {props.expand &&
-                        <IconsDragActions
+                    {props.expand
+                        && <IconsDragActions
                             turn={'expand'}
                             clase={`fa fa-times ${props.id}`}
                             aria-hidden="true"
@@ -484,8 +481,8 @@ const DraggableBlock = SortableElement(props => {
                     }
                 </div>
                 <div style={{ width: '25px', cursor: 'pointer', position: 'absolute', top: '5px', right: '0', }}>
-                    {!props.value.hideDelete &&
-                        <IconsDragActions
+                    {!props.value.hideDelete
+                        && <IconsDragActions
                             turn={'cross'}
                             clase={`fa fa-times ${props.id}`}
                             aria-hidden="true"
@@ -521,12 +518,10 @@ const DraggableBlock = SortableElement(props => {
                             item={props.value}
                             {...props}
                         />
-                        :
-                        <Block
+                        : <Block
                             {...blockFijoTomadeAcuerdos}
                         />
-                    :
-                    <Block
+                    : <Block
                         {...props}
                     />
 
@@ -574,8 +569,8 @@ const DrawerOptions = ({ mostrarBloques, children, setMostrarBloques }) => (
 const NoDraggableBlock = props => {
     if (props.logic) {
         return (
-            props.value !== undefined && props.value.text !== undefined &&
-            <BorderBox
+            props.value !== undefined && props.value.text !== undefined
+            && <BorderBox
                 itemInfo={288}
                 icon={props.value.icon}
                 id={props.id}
@@ -590,8 +585,8 @@ const NoDraggableBlock = props => {
         );
     }
         return (
-            props.value !== undefined && props.value.text !== undefined &&
-            <React.Fragment>
+            props.value !== undefined && props.value.text !== undefined
+            && <React.Fragment>
                 {props.value.type === 'agreements' ?
                     <Card
                         key={props.id}
@@ -609,8 +604,7 @@ const NoDraggableBlock = props => {
                             translate={props.translate}
                         />
                     </Card>
-                    :
-                    <Card
+                    : <Card
                         key={props.id}
                         style={{
                             boxShadow: 'none',
@@ -635,7 +629,7 @@ const NoDraggableBlock = props => {
 };
 
 const LogicBlocks = ({ colorBorder, children, automaticos, addItem, translate }) => {
-    //TRADUCCION
+    // TRADUCCION
     const [open, setOpen] = React.useState(true);
     return (
         <div style={{ width: '100%', background: 'white', boxShadow: ' 0 2px 4px 5px rgba(0, 0, 0, 0.11)', borderRadius: '4px', marginBottom: '0.8em', }}>
@@ -650,15 +644,15 @@ const LogicBlocks = ({ colorBorder, children, automaticos, addItem, translate })
                                     help
 							</i>
                             </div>
-                            {open &&
-                                <div style={{ fontSize: '10px', color: '#a09aa0', fontWeight: '100' }}>{translate.auto_blocks_help}</div>
+                            {open
+                                && <div style={{ fontSize: '10px', color: '#a09aa0', fontWeight: '100' }}>{translate.auto_blocks_help}</div>
                             }
                         </div>
                     </div>
                     <div style={{ width: '100%', marginTop: '0.5em' }}>
                         {automaticos.filter(item => item.logic === true).map((item, index) => (
                                 <CajaLogicBlocks
-                                    key={item.id + index + 'automaticos'}
+                                    key={`${item.id + index}automaticos`}
                                     item={item}
                                     addItem={addItem}
                                     translate={translate}
@@ -691,7 +685,6 @@ const CajaLogicBlocks = ({ colorBorder, children, item, addItem, itemInfo, trans
             </div>
         </div>
     );
-
 
 
 export const IconsDragActions = ({ clase, click, id, indexItem, turn, expand }) => {

@@ -28,7 +28,7 @@ const CouncilLiveContainer = ({ main, companies, translate, match, client }) => 
 			...response.data,
 			refetch: getData
 		});
-		if(loading){
+		if (loading) {
 			setLoading(false);
 		}
 	}, [match.params.id]);
@@ -41,7 +41,7 @@ const CouncilLiveContainer = ({ main, companies, translate, match, client }) => 
 
 	React.useEffect(() => {
 		const company = companies.list[companies.selected];
-		if(company){
+		if (company) {
 			store.dispatch(addSpecificTranslations(company));
 		}
 	}, [store, companies.selected]);
@@ -82,8 +82,8 @@ const CouncilLiveContainer = ({ main, companies, translate, match, client }) => 
 				position: 'fixed'
 			}}
 		>
-			{!main.serverStatus &&
-				<NoConnectionModal open={!main.serverStatus} />
+			{!main.serverStatus
+				&& <NoConnectionModal open={!main.serverStatus} />
 			}
 			{!isMobile ?
 				<CouncilLivePage
@@ -92,8 +92,7 @@ const CouncilLiveContainer = ({ main, companies, translate, match, client }) => 
 					translate={translate}
 					data={data}
 				/>
-			:
-				<CouncilLiveMobilePage
+			:				<CouncilLiveMobilePage
 					companies={companies}
 					data={data}
 					translate={translate}

@@ -99,7 +99,7 @@ class Row extends React.Component {
     }
 
     render() {
-        //TRADUCCION
+        // TRADUCCION
         const { value, disabled, floatingText, errorText, onChange, flagEdit } = this.props;
         return (
             <div onClick={flagEdit && this.copy} style={{ overflow: 'hidden', width: '100%', display: 'flex', }}>

@@ -24,13 +24,13 @@ const ActiveUserPage = ({ match, translate, activeUser }) => {
             }
         });
 
-        if(!response.errors){
+        if (!response.errors) {
             setState({
                 ...state,
                 loading: false,
                 success: true
             });
-        }else{
+        } else {
             setState({
                 ...state,
                 loading: false,
@@ -55,8 +55,7 @@ const ActiveUserPage = ({ match, translate, activeUser }) => {
             >
                 {state.error === 407 ?
                     translate.account_actived_yet
-                :
-                    translate.error_active_account
+                : translate.error_active_account
                 }
             </div>
         );
@@ -74,7 +73,7 @@ const ActiveUserPage = ({ match, translate, activeUser }) => {
             </div>
         );
 
-    return(
+    return (
         <NotLoggedLayout
             translate={translate}
             helpIcon={true}
@@ -105,14 +104,13 @@ const ActiveUserPage = ({ match, translate, activeUser }) => {
                 >
                     {state.loading ?
                         <LoadingSection />
-                    :
-                        <React.Fragment>
+                    : <React.Fragment>
                             <img src={logo} style={{ height: '6em', marginBottom: '0.6em' }} alt="councibox-icon" />
-                            {state.error &&
-                                errorWrapper()
+                            {state.error
+                                && errorWrapper()
                             }
-                            {state.success &&
-                                successMessage()
+                            {state.success
+                                && successMessage()
                             }
                             <BasicButton
                                 text={translate.go_login}

@@ -10,7 +10,7 @@ import { isMobile } from '../../../../utils/screen';
 
 
 const EvidencesPage = ({ data, translate }) => {
-    if(data.loading){
+    if (data.loading) {
         return <LoadingSection />;
     }
 
@@ -31,8 +31,7 @@ const EvidencesPage = ({ data, translate }) => {
                                         <i className="material-icons" style={{ position: 'absolute', top: '60%', left: '60%', fontSize: '20px', color: evidence.cbxEvidence ? 'green' : 'red' }}>
                                             {evidence.cbxEvidence ?
                                                 'verified_user'
-                                                :
-                                                'query_builder'
+                                                : 'query_builder'
                                             }
                                         </i>
                                     </ToolTip>
@@ -44,8 +43,8 @@ const EvidencesPage = ({ data, translate }) => {
                         <hr></hr>
                         <CardActions>
                             <ValidatorLink prvHash={parsedContent.prvhash} translate={translate} />
-                            {evidence.cbxEvidence &&
-                                <ExplorerLink txHash={evidence.cbxEvidence.tx_hash} translate={translate} />
+                            {evidence.cbxEvidence
+                                && <ExplorerLink txHash={evidence.cbxEvidence.tx_hash} translate={translate} />
                             }
                         </CardActions>
                     </Card>

@@ -5,15 +5,15 @@ import ActPointTabs from './ActPointTabs';
 
 
 class ActPointInfoDisplay extends React.Component {
-    render(){
+    render() {
         const { agenda, council, translate } = this.props;
 
-        return(
+        return (
             <div style={{ height: '100%' }}>
-            {agenda.pointState === AGENDA_STATES.DISCUSSION &&
-                <React.Fragment>
-                    {agenda.votingState === AGENDA_STATES.INITIAL &&
-                        <div style={{ paddingRight: '3.5em', height: '100%', paddingLeft: '1em' }} >
+            {agenda.pointState === AGENDA_STATES.DISCUSSION
+                && <React.Fragment>
+                    {agenda.votingState === AGENDA_STATES.INITIAL
+                        && <div style={{ paddingRight: '3.5em', height: '100%', paddingLeft: '1em' }} >
                             <ActEditor
                                 withDrawer={true}
                                 liveMode={true}
@@ -24,8 +24,8 @@ class ActPointInfoDisplay extends React.Component {
                             />
                         </div>
                     }
-                    {(agenda.votingState === AGENDA_STATES.DISCUSSION || agenda.votingState === AGENDA_STATES.CLOSED) &&
-                        <ActPointTabs
+                    {(agenda.votingState === AGENDA_STATES.DISCUSSION || agenda.votingState === AGENDA_STATES.CLOSED)
+                        && <ActPointTabs
                             {...this.props}
                             agenda={agenda}
                             council={council}

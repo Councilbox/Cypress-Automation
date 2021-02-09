@@ -47,9 +47,9 @@ const getCustomDocsTags = (type, translate) => {
     };
 
     const types = {
-        'PROXY': Object.keys(TAGS).map(key => TAGS[key]),
-        'VOTE_LETTER': Object.keys(TAGS).filter(key => key !== 'DELEGATE').map(key => TAGS[key]),
-        'VOTE_LETTER_WITH_SENSE': [...Object.keys(TAGS).filter(key => key !== 'DELEGATE').map(key => TAGS[key]), votes],
+        PROXY: Object.keys(TAGS).map(key => TAGS[key]),
+        VOTE_LETTER: Object.keys(TAGS).filter(key => key !== 'DELEGATE').map(key => TAGS[key]),
+        VOTE_LETTER_WITH_SENSE: [...Object.keys(TAGS).filter(key => key !== 'DELEGATE').map(key => TAGS[key]), votes],
     };
 
     return types[type] ? types[type] : [];
@@ -130,8 +130,8 @@ const ProxiesTemplates = ({ statute, updateState, translate }) => {
                     translate={translate}
                     floatingText={translate.custom_proxy}
                     value={
-                        internalState.proxy
-                            ? internalState.proxy
+                        internalState.proxy ?
+                            internalState.proxy
                             : ''
                     }
                     onChange={value => handleUpdate({
@@ -147,8 +147,8 @@ const ProxiesTemplates = ({ statute, updateState, translate }) => {
                     translate={translate}
                     floatingText={translate.proxy_right_column}
                     value={
-                        internalState.proxySecondary
-                            ? internalState.proxySecondary
+                        internalState.proxySecondary ?
+                            internalState.proxySecondary
                             : ''
                     }
                     onChange={value => handleUpdate({
@@ -164,8 +164,8 @@ const ProxiesTemplates = ({ statute, updateState, translate }) => {
                     translate={translate}
                     floatingText={translate.vote_letter}
                     value={
-                        internalState.voteLetter
-                            ? internalState.voteLetter
+                        internalState.voteLetter ?
+                            internalState.voteLetter
                             : ''
                     }
                     onChange={value => handleUpdate({
@@ -181,8 +181,8 @@ const ProxiesTemplates = ({ statute, updateState, translate }) => {
                     translate={translate}
                     floatingText={translate.vote_letter_right_column}
                     value={
-                        internalState.voteLetterSecondary
-                            ? internalState.voteLetterSecondary
+                        internalState.voteLetterSecondary ?
+                            internalState.voteLetterSecondary
                             : ''
                     }
                     onChange={value => handleUpdate({
@@ -198,8 +198,8 @@ const ProxiesTemplates = ({ statute, updateState, translate }) => {
                     translate={translate}
                     floatingText={translate.vote_letter_with_voting_sense}
                     value={
-                        internalState.voteLetterWithSense
-                            ? internalState.voteLetterWithSense
+                        internalState.voteLetterWithSense ?
+                            internalState.voteLetterWithSense
                             : ''
                     }
                     onChange={value => handleUpdate({
@@ -215,8 +215,8 @@ const ProxiesTemplates = ({ statute, updateState, translate }) => {
                     translate={translate}
                     floatingText={translate.right_column_vote_letter_with_voting_sense}
                     value={
-                        internalState.voteLetterWithSenseSecondary
-                            ? internalState.voteLetterWithSenseSecondary
+                        internalState.voteLetterWithSenseSecondary ?
+                            internalState.voteLetterWithSenseSecondary
                             : ''
                     }
                     onChange={value => handleUpdate({

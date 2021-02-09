@@ -19,7 +19,7 @@ const postRequest2 = `fetch('http://api-pre.councilbox.com/graphql', {
     body: JSON.stringify({ query: '{ languages { columnName } }' }),
 });`;
 
-//HEADER #212121
+// HEADER #212121
 const DocsPage = () => (
     <DocsLayout>
         <div style={{ width: '100%', height: '100%', padding: '2em' }}>

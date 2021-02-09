@@ -85,7 +85,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 				text: translate.convene,
 			},
 			{
-				text: translate.new_list_called /**TRADUCCION CAMBIAR POR LISTA DE PARTICIPANTES*/,
+				text: translate.new_list_called /** TRADUCCION CAMBIAR POR LISTA DE PARTICIPANTES */,
 			},
 		];
 
@@ -95,7 +95,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 			});
 		}
 
-		if(council.statute.shareholdersPortal){
+		if (council.statute.shareholdersPortal) {
 			tabs.push({
 				text: 'Solicitudes de participación'
 			});
@@ -121,8 +121,8 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 						/>
 					</div>
 				</div>
-				{selecteReuniones === translate.convene &&
-					<div style={{ height: 'calc(100% - 38px)' }}>
+				{selecteReuniones === translate.convene
+					&& <div style={{ height: 'calc(100% - 38px)' }}>
 						<Scrollbar>
 							<div style={{ width: '100%', position: 'relative', padding: '1em', paddingBottom: '1.3em' }}>
 								<Convene
@@ -133,8 +133,8 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 						</Scrollbar>
 					</div>
 				}
-				{selecteReuniones === translate.new_list_called &&
-					<div style={{ height: 'calc(100% - 38px)' }}>
+				{selecteReuniones === translate.new_list_called
+					&& <div style={{ height: 'calc(100% - 38px)' }}>
 						<Scrollbar>
 							<div
 								style={{
@@ -142,8 +142,8 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 									height: '100%'
 								}}
 							>
-								{(CBX.councilHasAssistanceConfirmation(council) && council.councilType !== COUNCIL_TYPES.ONE_ON_ONE) &&
-									<EstimatedQuorum
+								{(CBX.councilHasAssistanceConfirmation(council) && council.councilType !== COUNCIL_TYPES.ONE_ON_ONE)
+									&& <EstimatedQuorum
 										council={council}
 										company={company}
 										totalVotes={data.councilTotalVotes}
@@ -165,8 +165,8 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 						</Scrollbar>
 					</div>
 				}
-				{selecteReuniones === translate.delegations &&
-					<div style={{ height: 'calc(100% - 38px)' }}>
+				{selecteReuniones === translate.delegations
+					&& <div style={{ height: 'calc(100% - 38px)' }}>
 						<Scrollbar>
 							<div
 								style={{
@@ -179,8 +179,8 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 						</Scrollbar>
 					</div>
 				}
-				{selecteReuniones === 'Solicitudes de participación' &&
-					<ShareholdersRequestsPage
+				{selecteReuniones === 'Solicitudes de participación'
+					&& <ShareholdersRequestsPage
 						council={council}
 						translate={translate}
 					/>

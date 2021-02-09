@@ -56,12 +56,12 @@ const TextInput = ({
 				onSelect={onClick}
 				onBlur={onBlur}
 				label={
-					labelNone ? '' :
-						helpPopoverInLabel ? floatingText :
-							<div style={{ display: 'flex', ...styleFloatText }}>
+					labelNone ? ''
+						: helpPopoverInLabel ? floatingText
+							: <div style={{ display: 'flex', ...styleFloatText }}>
 								{`${floatingText}${required ? '*' : ''}`}
-								{!!errorText &&
-									<FontAwesome
+								{!!errorText
+									&& <FontAwesome
 										name={'times'}
 										style={{
 											fontSize: '17px',
@@ -70,8 +70,8 @@ const TextInput = ({
 										}}
 									/>
 								}
-								{helpPopover &&
-									<HelpPopover
+								{helpPopover
+									&& <HelpPopover
 										title={helpTitle}
 										content={helpDescription}
 									/>

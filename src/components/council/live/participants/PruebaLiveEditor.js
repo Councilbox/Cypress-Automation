@@ -146,17 +146,17 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 						</GridItem>
 						<GridItem xs={landscape ? 12 : 12} md={4} style={{ marginBottom: '0.8em', padding: '0' }}>
 							<div style={{ width: '100%', borderBottom: '1px solid gainsboro', textAlign: 'center', minHeight: '2px', marginBottom: '0.8em' }}>
-								{participant.personOrEntity !== 1 &&
-									<h4 style={{ width: '100%' }}>{translate.state}</h4>
+								{participant.personOrEntity !== 1
+									&& <h4 style={{ width: '100%' }}>{translate.state}</h4>
 								}
 							</div>
 							<div style={{ display: 'flex', padding: '5px' }} >
-								{participant.personOrEntity !== 1 &&
-									<React.Fragment>
+								{participant.personOrEntity !== 1
+									&& <React.Fragment>
 										<GridItem xs={landscape ? 1 : 12} md={3}>
 											<div>
-												{showStateMenu() &&
-													<ParticipantStateList
+												{showStateMenu()
+													&& <ParticipantStateList
 														participant={participant}
 														council={council}
 														translate={translate}
@@ -187,8 +187,8 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 														<b>{`${translate.current_status}:  `}</b>
 														{translate[CBX.getParticipantStateField(participant)]}
 													</div>
-													{showStateMenu() &&
-														<div style={{ paddingLeft: '1em', display: isMobile ? 'none' : 'block' }}>
+													{showStateMenu()
+														&& <div style={{ paddingLeft: '1em', display: isMobile ? 'none' : 'block' }}>
 															<ParticipantStateSelector
 																inDropDown={true}
 																participant={participant}
@@ -237,8 +237,8 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 					}}
 				>
 					<Grid>
-						{(CBX.isRepresented(participant) ||
-							CBX.hasHisVoteDelegated(participant)) && (
+						{(CBX.isRepresented(participant)
+							|| CBX.hasHisVoteDelegated(participant)) && (
 								<GridItem xs={12} lg={12} md={12}>
 									<React.Fragment>
 										<RepresentativeMenu
@@ -296,8 +296,8 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 							</React.Fragment>
 						)}
 
-						{!!participant.assistanceComment &&
-							<GridItem xs={12} md={12} lg={12}>
+						{!!participant.assistanceComment
+							&& <GridItem xs={12} md={12} lg={12}>
 								<Typography
 									variant="subheading"
 									style={{
@@ -322,8 +322,8 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								}}
 							>
 								<Grid>
-									{!isMobile &&
-										<GridItem xs={12} md={3} lg={2}
+									{!isMobile
+										&& <GridItem xs={12} md={3} lg={2}
 											style={{
 												display: 'flex'
 											}}
@@ -350,8 +350,8 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 											marginLeft: 'auto'
 										}}
 									>
-										{CBX.showSendCredentials(participant.state) &&
-											<div>
+										{CBX.showSendCredentials(participant.state)
+											&& <div>
 												<ResendCredentialsModal
 													participant={participant}
 													council={props.council}
@@ -361,8 +361,8 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 												/>
 											</div>
 										}
-										{!CBX.isRepresented(participant) && props.council.councilType < 2 && !CBX.hasHisVoteDelegated(participant) && participant.personOrEntity !== 1 &&
-											<div>
+										{!CBX.isRepresented(participant) && props.council.councilType < 2 && !CBX.hasHisVoteDelegated(participant) && participant.personOrEntity !== 1
+											&& <div>
 												<SignatureButton
 													participant={participant}
 													open={openSignModal}
@@ -370,8 +370,8 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 												/>
 											</div>
 										}
-										{state.showSignatureModal &&
-											<SignatureModal
+										{state.showSignatureModal
+											&& <SignatureModal
 												show={state.showSignatureModal}
 												council={props.council}
 												participant={participant}
@@ -381,16 +381,16 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 											/>
 										}
 
-										{!isMobile &&
-											<DownloadCBXDataButton
+										{!isMobile
+											&& <DownloadCBXDataButton
 												style={{ width: '5.85em', marginLeft: '0px', height: '2.45em' }}
 												translate={translate}
 												participantId={participant.id}
 											/>
 										}
 									</GridItem>
-									{isMobile &&
-										<GridItem xs={12} md={3} lg={2}
+									{isMobile
+										&& <GridItem xs={12} md={3} lg={2}
 											style={{
 												display: 'flex'
 											}}
@@ -459,12 +459,12 @@ const RepresentativeMenu = ({ participant, translate, data, ...props }) => {
 			}
 		});
 
-		if(response.data){
+		if (response.data) {
 			data.refetch();
 		}
 	};
 
-	if(!representative){
+	if (!representative) {
 		return <span/>;
 	}
 
@@ -477,8 +477,8 @@ const RepresentativeMenu = ({ participant, translate, data, ...props }) => {
 				{`${representative.name} ${representative.surname || ''}`}
 				{participant.state !== PARTICIPANT_STATES.DELEGATED ?
 					<React.Fragment>
-						{CBX.showSendCredentials(representative.state) &&
-							<div>
+						{CBX.showSendCredentials(representative.state)
+							&& <div>
 								<ResendCredentialsModal
 									participant={representative}
 									council={props.council}
@@ -488,8 +488,8 @@ const RepresentativeMenu = ({ participant, translate, data, ...props }) => {
 								/>
 							</div>
 						}
-						{!CBX.isRepresented(representative) && props.council.councilType < 2 && !CBX.hasHisVoteDelegated(representative) &&
-							<div>
+						{!CBX.isRepresented(representative) && props.council.councilType < 2 && !CBX.hasHisVoteDelegated(representative)
+							&& <div>
 								<SignatureButton
 									participant={representative}
 									open={() => setSignatureModal(true)}
@@ -525,8 +525,8 @@ const RepresentativeMenu = ({ participant, translate, data, ...props }) => {
 								horizontal: 'left',
 							}}
 						/>
-						{signatureModal &&
-							<SignatureModal
+						{signatureModal
+							&& <SignatureModal
 								show={signatureModal}
 								council={props.council}
 								participant={representative}
@@ -536,8 +536,7 @@ const RepresentativeMenu = ({ participant, translate, data, ...props }) => {
 							/>
 						}
 					</React.Fragment>
-				:
-					<BasicButton
+				:					<BasicButton
 						text="Otogar voto"
 						color="white"
 						textStyle={{ color: secondary }}

@@ -36,8 +36,8 @@ class NoCelebrateModal extends React.Component {
 	};
 
 	noCelebrateCouncil = async () => {
-		if(this.state.cancelText){
-			if(checkForUnclosedBraces(this.state.cancelText)){
+		if (this.state.cancelText) {
+			if (checkForUnclosedBraces(this.state.cancelText)) {
 				this.setState({
 					errorText: true
 				});
@@ -114,13 +114,13 @@ class NoCelebrateModal extends React.Component {
 				requestClose={this.props.requestClose}
 				open={this.props.show}
 				acceptAction={
-					this.state.success
-						? () => this.close()
+					this.state.success ?
+						() => this.close()
 						: this.noCelebrateCouncil
 				}
 				buttonAccept={
-					this.state.success
-						? translate.accept
+					this.state.success ?
+						translate.accept
 						: translate.no_celebrate
 				}
 				buttonCancel={translate.close}

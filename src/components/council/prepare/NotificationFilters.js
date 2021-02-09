@@ -159,8 +159,8 @@ display: 'flex',
 							flexDirection: 'row'
 						}}
 					>
-						{CBX.councilHasAssistanceConfirmation(council) &&
-							intentionStates.map(intention => (
+						{CBX.councilHasAssistanceConfirmation(council)
+							&& intentionStates.map(intention => (
 								this._renderIntentionIcon(intention)
 							))
 						}
@@ -183,14 +183,14 @@ display: 'flex',
 					}}
 				>
 					{Object.keys(EMAIL_STATES_FILTERS).map(code => this._renderFilterIcon(EMAIL_STATES_FILTERS[code]))}
-					{CBX.councilHasAssistanceConfirmation(council) &&
-						intentionStates.map(intention => (
+					{CBX.councilHasAssistanceConfirmation(council)
+						&& intentionStates.map(intention => (
 							this._renderIntentionIcon(intention)
 						))
 					}
 					<FilterButton
 						onClick={() => {
-							if(this.state.selectedFilter === 'comment'){
+							if (this.state.selectedFilter === 'comment') {
 								this.setState({
 									selectedFilter: null
 								});

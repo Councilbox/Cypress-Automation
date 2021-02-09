@@ -24,7 +24,7 @@ const ApiKeyLogin = ({ apiLogin, client }) => {
     });
 
     React.useEffect(() => {
-        if(apiToken.current){
+        if (apiToken.current) {
             getAccountInfo();
         }
     }, apiToken.current);
@@ -59,7 +59,7 @@ const ApiKeyLogin = ({ apiLogin, client }) => {
             }
         });
 
-        if(response.data.apiLogin){
+        if (response.data.apiLogin) {
             sessionStorage.removeItem('participantToken');
             sessionStorage.removeItem('token');
             sessionStorage.setItem('apiToken', response.data.apiLogin.token);
@@ -108,8 +108,7 @@ const ApiKeyLogin = ({ apiLogin, client }) => {
                         </div>
                     }
                 />
-            :
-                <div>
+            : <div>
                     <span style={{ fontWeight: '700', color: 'white', marginRight: '1em' }}>{docsContext.login.name}</span>
                     <BasicButton
                         type="flat"

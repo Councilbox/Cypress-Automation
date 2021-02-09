@@ -9,7 +9,7 @@ const AttendanceTextEditor = ({ translate, text, setText, updateAttendanceText, 
     const initialValue = React.useRef(text);
 
     React.useEffect(() => {
-        if(isModal.modal){
+        if (isModal.modal) {
             initialValue.current = text;
         }
     }, [isModal.modal]);
@@ -24,7 +24,7 @@ const AttendanceTextEditor = ({ translate, text, setText, updateAttendanceText, 
 
     const handleClose = ev => {
         ev.preventDefault();
-        if (text !== initialValue.current){
+        if (text !== initialValue.current) {
             setIsmodal({ ...isModal, modal: true, unsavedModal: true });
         } else {
             setIsmodal({ ...isModal, modal: false, unsavedModal: false });
@@ -32,7 +32,7 @@ const AttendanceTextEditor = ({ translate, text, setText, updateAttendanceText, 
     };
     const discardText = ev => {
         ev.preventDefault();
-        if (text !== initialValue.current){
+        if (text !== initialValue.current) {
             setIsmodal({ ...isModal, modal: false, unsavedModal: false });
             setText(initialValue.current);
         }

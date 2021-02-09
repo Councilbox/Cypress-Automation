@@ -63,7 +63,7 @@ class CloneCensusModal extends Component {
 
 	_renderNewPointBody = () => {
 		const { translate } = this.props;
-		const errors = this.state.errors;
+		const { errors } = this.state;
 		const census = this.state.data;
 
 		return (

@@ -36,8 +36,8 @@ class ConvenedParticipantEditor extends React.Component {
 			this.props.participant
 		);
 
-		representative = (participant.representatives.length > 0)
-			? {
+		representative = (participant.representatives.length > 0) ?
+			{
 				hasRepresentative: true,
 				...extractTypeName(participant.representatives[0])
 			}
@@ -58,8 +58,8 @@ class ConvenedParticipantEditor extends React.Component {
 
 	updateConvenedParticipant = async sendConvene => {
 		const { hasRepresentative, ...data } = this.state.representative;
-		const representative = this.state.representative.hasRepresentative
-			? {
+		const representative = this.state.representative.hasRepresentative ?
+			{
 				...data,
 				councilId: this.props.councilId
 			}
@@ -81,7 +81,7 @@ class ConvenedParticipantEditor extends React.Component {
 			if (!response.errors) {
 				this.props.refetch();
 				this.props.close();
-			} else if(response.errors[0].message === 'Too many granted words'){
+			} else if (response.errors[0].message === 'Too many granted words') {
 					this.setState({
 						loading: false,
 						...(participant.initialState === 2 ? {
@@ -120,7 +120,7 @@ class ConvenedParticipantEditor extends React.Component {
 
 	async checkRequiredFields(onlyEmail) {
 		const participant = this.state.data;
-		const representative = this.state.representative;
+		const { representative } = this.state;
 		const { translate, participations, company } = this.props;
 
 		let errorsParticipant = {
@@ -141,7 +141,6 @@ class ConvenedParticipantEditor extends React.Component {
 			errors: {},
 			hasError: false
 		};
-
 
 
 		if (representative.hasRepresentative) {

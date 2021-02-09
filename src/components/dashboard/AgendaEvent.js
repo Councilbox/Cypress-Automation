@@ -5,7 +5,6 @@ import withTranslations from '../../HOCs/withTranslations';
 import CouncilDetails from '../council/display/CouncilDetails';
 
 
-
 class AgendaEvent extends React.Component {
 	state = {
 		open: false,
@@ -25,7 +24,7 @@ class AgendaEvent extends React.Component {
 		});
 	}
 
-	selectEvent = (event) => {
+	selectEvent = event => {
 		this.setState({
 			modal: true,
 			reunion: event
@@ -72,7 +71,6 @@ class AgendaEvent extends React.Component {
 		);
 	}
 }
-
 
 
 export default withTranslations()(AgendaEvent);

@@ -28,31 +28,31 @@ class DraftsDashboard extends React.PureComponent {
 
     timeout = null;
 
-    updateLimit = (value) => {
+    updateLimit = value => {
         this.setState({
             limit: value
         }, this.refresh);
     }
 
-    updateLanguage = (value) => {
+    updateLanguage = value => {
         this.setState({
             language: value
         }, this.refresh);
     }
 
-    updateCompanyType = (value) => {
+    updateCompanyType = value => {
         this.setState({
             companyType: value
         }, this.refresh);
     }
 
-    updateDraftType = (value) => {
+    updateDraftType = value => {
         this.setState({
             draftType: value
         }, this.refresh);
     }
 
-    updateFilterText = (text) => {
+    updateFilterText = text => {
         this.setState({
             filterText: text
         }, () => {
@@ -61,7 +61,7 @@ class DraftsDashboard extends React.PureComponent {
         });
     }
 
-    openDeleteModal = (id) => {
+    openDeleteModal = id => {
         this.setState({
             deleteModal: true,
             deleteId: id
@@ -105,7 +105,7 @@ class DraftsDashboard extends React.PureComponent {
         }
     }
 
-    edit = (id) => {
+    edit = id => {
         bHistory.push(`/drafts/edit/${id}`);
     }
 
@@ -211,8 +211,8 @@ class DraftsDashboard extends React.PureComponent {
                                         this.updateLanguage(event.target.value);
                                     }}
                                 >
-                                    {!this.props.data.loading &&
-                                        this.props.data.languages.map(language => (
+                                    {!this.props.data.loading
+                                        && this.props.data.languages.map(language => (
                                             <MenuItem value={language.columnName} key={`language_${language.columnName}`}>
                                                 {language.desc}
                                             </MenuItem>
@@ -229,8 +229,8 @@ class DraftsDashboard extends React.PureComponent {
                                     <MenuItem value='all'>
                                         {translate.all_plural}
                                     </MenuItem>
-                                    {!this.props.data.loading &&
-                                        this.props.data.companyTypes.map(companyType => (
+                                    {!this.props.data.loading
+                                        && this.props.data.companyTypes.map(companyType => (
                                             <MenuItem
                                                 key={companyType.label}
                                                 value={companyType.value}
@@ -250,8 +250,8 @@ class DraftsDashboard extends React.PureComponent {
                                     <MenuItem value='all'>
                                         {translate.all_plural}
                                     </MenuItem>
-                                    {!this.props.data.loading &&
-                                        this.props.data.draftTypes.map(draftType => (
+                                    {!this.props.data.loading
+                                        && this.props.data.draftTypes.map(draftType => (
                                             <MenuItem
                                                 key={draftType.label}
                                                 value={draftType.value}
@@ -265,8 +265,7 @@ class DraftsDashboard extends React.PureComponent {
                     </div>
                     {this.props.data.loading ?
                         <LoadingSection />
-                        :
-                        <React.Fragment>
+                        : <React.Fragment>
                             <Table
                                 style={{ width: '100%', maxWidth: '100%' }}
                             >
@@ -285,8 +284,7 @@ class DraftsDashboard extends React.PureComponent {
                                     >
                                         {this.props.data.loading ?
                                             <LoadingSection />
-                                            :
-                                            this.props.data.platformDrafts.list.length > 0 ?
+                                            : this.props.data.platformDrafts.list.length > 0 ?
                                                 <TableBody style={{ marginBottom: '1em' }}>
                                                     {this.props.data.platformDrafts.list.map(draft => (
                                                         <TableRow hover={true} onClick={() => this.edit(draft.id)} key={`draft_${draft.id}`}>
@@ -308,8 +306,7 @@ class DraftsDashboard extends React.PureComponent {
                                                         </TableRow>
                                                     ))}
                                                 </TableBody>
-                                                :
-                                                translate.no_results
+                                                : translate.no_results
                                         }
                                     </Table>
                                 </Scrollbar>

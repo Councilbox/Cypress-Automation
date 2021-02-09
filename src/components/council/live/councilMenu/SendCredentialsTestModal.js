@@ -99,8 +99,8 @@ class SendCredentialsTestModal extends React.Component {
 				requestClose={this.close}
 				open={this.props.show}
 				acceptAction={
-					this.state.success
-						? () => this.close()
+					this.state.success ?
+						() => this.close()
 						: this.sendVideoEmailTest
 				}
 				buttonAccept={

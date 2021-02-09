@@ -9,7 +9,7 @@ class LogoutUser extends React.Component {
     }
 
     toggle = async () => {
-        if(this.state.userId){
+        if (this.state.userId) {
             await this.props.logoutUser({
                 variables: {
                     userId: this.state.userId
@@ -18,8 +18,8 @@ class LogoutUser extends React.Component {
         }
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <div style={{ display: 'flex' }}>
                 <BasicButton
                     text="Logout user"

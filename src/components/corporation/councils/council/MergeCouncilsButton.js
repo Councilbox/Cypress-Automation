@@ -6,21 +6,21 @@ import { BasicButton, AlertConfirm, TextInput, Checkbox, LoadingSection } from '
 
 const reducer = (state, action) => {
     const actions = {
-        'LOADING': () => ({
+        LOADING: () => ({
             ...state,
             status: 'LOADING'
         }),
-        'ERROR': () => ({
+        ERROR: () => ({
             ...state,
             status: 'ERROR',
             error: action.payload
         }),
-        'SUCCESS': () => ({
+        SUCCESS: () => ({
             ...state,
             status: 'SUCCESS',
             error: null
         }),
-        'IDDLE': () => ({
+        IDDLE: () => ({
             ...state,
             error: null,
             status: 'IDDLE'
@@ -85,8 +85,8 @@ const MergeCouncilsButton = ({ translate, color, council, client }) => {
         if (hasError) {
             return (
                 <>
-                    {error.type === 'Duplicated emails' &&
-                        <>
+                    {error.type === 'Duplicated emails'
+                        && <>
                             Hay emails repetidos entre las reuniones
                             {error.repeatedEmails.map(email => (
                                 <div key={email}>
@@ -141,7 +141,7 @@ const MergeCouncilsButton = ({ translate, color, council, client }) => {
             <BasicButton
                 text={'Añadir participantes desde otra reunión'}
                 color={color}
-                //loading={loading}
+                // loading={loading}
                 buttonStyle={{ marginTop: '0.5em', marginBottom: '1.4em', marginRight: '0.6em' }}
                 textStyle={{
                     color: 'white',

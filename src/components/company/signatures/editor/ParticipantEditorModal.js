@@ -23,16 +23,16 @@ class ParticipantEditorModal extends React.Component {
 
     initialState = this.state;
 
-    componentDidUpdate(prevProps, prevState){
-        if(prevProps.open && !this.props.open){
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.open && !this.props.open) {
             this.setState(this.initialState);
         }
     }
 
-    static getDerivedStateFromProps(nextProps, prevState){
-        if(!nextProps.data.loading && nextProps.data.signatureParticipant){
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (!nextProps.data.loading && nextProps.data.signatureParticipant) {
             const { __typename, ...participant } = nextProps.data.signatureParticipant;
-            if(participant.id !== prevState.data.id){
+            if (participant.id !== prevState.data.id) {
                 return {
                     data: participant
                 };
@@ -65,7 +65,7 @@ class ParticipantEditorModal extends React.Component {
     }
 
     updateSignatureParticipant = async () => {
-        if(!await this.checkRequiredFields()){
+        if (!await this.checkRequiredFields()) {
             const response = await this.props.updateSignatureParticipant({
                 variables: {
                     participant: {
@@ -74,14 +74,14 @@ class ParticipantEditorModal extends React.Component {
                 }
             });
 
-            if(response.data.updateSignatureParticipant.success){
+            if (response.data.updateSignatureParticipant.success) {
                 this.props.refetch();
                 this.props.requestClose();
             }
         }
     }
 
-    async checkRequiredFields(){
+    async checkRequiredFields() {
         const errors = {
             name: '',
             surname: '',
@@ -95,29 +95,29 @@ class ParticipantEditorModal extends React.Component {
         const { translate } = this.props;
         const { data } = this.state;
 
-        if(!data.name){
+        if (!data.name) {
             hasError = true;
             errors.name = translate.field_required;
         }
 
-        if(!data.surname){
+        if (!data.surname) {
             hasError = true;
             errors.surname = translate.field_required;
         }
 
-        if(!data.dni){
+        if (!data.dni) {
             hasError = true;
             errors.dni = translate.field_required;
         }
 
-        if(!data.email){
+        if (!data.email) {
             hasError = true;
             errors.email = translate.field_required;
-        }else if(!checkValidEmail(data.email)){
+        } else if (!checkValidEmail(data.email)) {
                 hasError = true;
                 errors.email = translate.valid_email_required;
-            }else if(data.email !== this.props.data.signatureParticipant.email){
-                    if(!await this.checkEmailAvailability()){
+            } else if (data.email !== this.props.data.signatureParticipant.email) {
+                    if (!await this.checkEmailAvailability()) {
                         hasError = true;
                         errors.email = this.props.translate.register_exists_email;
                     }
@@ -148,7 +148,7 @@ class ParticipantEditorModal extends React.Component {
             </div>
         )
 
-    render(){
+    render() {
         const { translate } = this.props;
         return (
             <AlertConfirm

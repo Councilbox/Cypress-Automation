@@ -72,8 +72,8 @@ const LateralMenuOptions = ({ translate, company, stylesMenu, clase, menuType })
 						link={`/company/${company.id}/statutes`}
 						style={{ marginTop: '10px' }}
 					/>
-					{(config.partnerBook && company.type !== 10) &&
-						<LateralOption
+					{(config.partnerBook && company.type !== 10)
+						&& <LateralOption
 							icon={'contacts'}
 							text={translate.book}
 							link={`/company/${company.id}/book`}
@@ -110,8 +110,8 @@ const LateralMenuOptions = ({ translate, company, stylesMenu, clase, menuType })
 	};
 
 	return (
-		!isMobile &&
-		<div className={clase} style={{
+		!isMobile
+		&& <div className={clase} style={{
 			background: 'transparent',
 			width: '130px',
 			position: 'fixed',

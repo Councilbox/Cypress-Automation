@@ -13,7 +13,7 @@ const ActualQuorum = withApollo(({ council, translate, client, socialCapital, to
 
     const getPercentage = value => {
         let base = totalVotes;
-        if(CBX.hasParticipations(council)){
+        if (CBX.hasParticipations(council)) {
             base = socialCapital;
         }
 
@@ -50,7 +50,7 @@ const ActualQuorum = withApollo(({ council, translate, client, socialCapital, to
     usePolling(getData, 10000);
 
 
-    if(loading){
+    if (loading) {
         return '';
     }
 
@@ -59,8 +59,8 @@ const ActualQuorum = withApollo(({ council, translate, client, socialCapital, to
             <b>{translate.quorum}:</b> {data.total} ({getPercentage(data.total)}%)<br/>
             <b>{translate.face_to_face}:</b> {data.present} ({getPercentage(data.present)}%) | <b>{translate.remotes}:</b> {data.remote} ({getPercentage(data.remote)}%)
             | <b>{translate.delegated_plural}:</b> {data.delegated} ({getPercentage(data.delegated)}%) {
-                council.statute.canEarlyVote === 1 &&
-                    <>
+                council.statute.canEarlyVote === 1
+                    && <>
                         | <b>{translate.quorum_early_votes}:</b> {data.earlyVotes} ({getPercentage(data.earlyVotes)}%)
                     </>
             }
@@ -92,8 +92,8 @@ const ConveneSelector = ({ translate, council, recount, convene, changeConvene }
                 <DateWrapper date={council.dateStart} format="DD/MM/YYYY HH:mm" />
                 <QuorumWrapper council={council} translate={translate} recount={recount} />
             </Card>
-            {CBX.hasSecondCall(council.statute) &&
-                <Card
+            {CBX.hasSecondCall(council.statute)
+                && <Card
                     style={{
                         width: '100%',
                         display: 'flex',
@@ -132,31 +132,24 @@ const ConveneSelector = ({ translate, council, recount, convene, changeConvene }
                                     `${translate.with_current_quorum} ${
                                     CBX.hasParticipations(council) ?
                                         renderParticipationsText()
-                                        :
-                                        `${recount.numRightVoting} ${translate.participants.toLowerCase()}`
+                                        : `${recount.numRightVoting} ${translate.participants.toLowerCase()}`
                                     }`
-                                    :
-                                    ''
+                                    : ''
                                 }`
 
-                                :
-                                `${translate['2nd_call']} ${
+                                : `${translate['2nd_call']} ${
                                 council.statute.secondCallQuorumType !== -1 ?
                                     `${translate.with_current_quorum} ${
                                         CBX.hasParticipations(council) ?
                                         renderParticipationsText()
-                                        :
-                                        `${recount.numRightVoting} ${translate.participants.toLowerCase()}`
+                                        : `${recount.numRightVoting} ${translate.participants.toLowerCase()}`
                                     }`
-                                    :
-                                    ''
+                                    : ''
                                 }`
-                            :
-                            `${translate.with_current_quorum} ${
+                            : `${translate.with_current_quorum} ${
                                 CBX.hasParticipations(council) ?
                                 renderParticipationsText()
-                                :
-                                `${recount.numRightVoting} ${translate.participants.toLowerCase()}`
+                                : `${recount.numRightVoting} ${translate.participants.toLowerCase()}`
                             }`
                         }
                     </div>

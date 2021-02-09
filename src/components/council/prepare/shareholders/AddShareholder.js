@@ -59,18 +59,17 @@ const ApproveRequestButton = ({ request, client, refetch, translate, council }) 
                 onClick={() => {
                     request.participantCreated ?
                     sendPrueba()
-                    :
-                    setModal(request);
+                    : setModal(request);
                 }}
                 buttonStyle={{
                     border: `1px solid ${buttonColor}`
                 }}
                 color="white"
                 textStyle={{ color: buttonColor }}
-                //onClick={approveRequest}
+                // onClick={approveRequest}
             />
-            {modal &&
-                <ShareholderEditor
+            {modal
+                && <ShareholderEditor
                     open={modal}
                     council={council}
                     participations={true}

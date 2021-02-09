@@ -9,7 +9,7 @@ class RefreshUser extends React.Component {
     }
 
     toggle = async () => {
-        if(this.state.userId){
+        if (this.state.userId) {
             await this.props.refreshUser({
                 variables: {
                     userId: this.state.userId
@@ -18,8 +18,8 @@ class RefreshUser extends React.Component {
         }
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <div style={{ display: 'flex' }}>
                 <BasicButton
                     text="Refresh user"

@@ -61,8 +61,8 @@ class ValidatorPage extends React.Component {
             }
         });
 
-        if(response.errors){
-            if(response.errors[0].code === 404){
+        if (response.errors) {
+            if (response.errors[0].code === 404) {
                 return this.setState({
                     error: response.errors[0].message === 'Evidence not found' ? this.props.translate.evidence_pending : this.props.translate.invalid_evidence_code,
                     loading: false,
@@ -93,21 +93,21 @@ class ValidatorPage extends React.Component {
             >
                 <div style={{ width: '100%', overflow: 'auto' }}>
                      <div style={{ width: isMobile ? '100%' : '70%', margin: '4em auto', padding: '1em', display: 'block' }}>
-                        {this.state.loading &&
-                            <Card style={{ padding: '2em', margin: '1.5em' }} elevation={4}>
+                        {this.state.loading
+                            && <Card style={{ padding: '2em', margin: '1.5em' }} elevation={4}>
                                 <LoadingSection />
                             </Card>
                         }
-                        {this.state.error &&
-                            <Card style={{ padding: '2em', margin: '1.5em' }} elevation={4}>
+                        {this.state.error
+                            && <Card style={{ padding: '2em', margin: '1.5em' }} elevation={4}>
                                 <div style={{ fontWeight: '700', color: 'red', marginTop: '1em', fonSize: '1.1em' }}>
                                     {this.state.error}
                                 </div>
                             </Card>
                         }
 
-                        {this.state.data &&
-                            <Card style={{ padding: '2em', margin: '1.5em' }} elevation={4}>
+                        {this.state.data
+                            && <Card style={{ padding: '2em', margin: '1.5em' }} elevation={4}>
                                 <EvidenceContentDisplay content={this.state.data.content} cbxEvidence={this.state.data.cbxEvidence} />
                                 <hr></hr>
                                 <ExplorerLink txHash={this.state.data.cbxEvidence.tx_hash} translate={this.props.translate} />
@@ -129,8 +129,7 @@ export const ExplorerLink = ({ txHash, translate }) => (
                 <Button style={{ marginLeft: '1.2em' }} size="small" color="primary" href={`${EXPLORER_URL}/transaction/${txHash}`} target="_blank" rel="noreferrer noopener">
                     {translate.see_blockchain_explorer.toUpperCase()}
                 </Button>
-                :
-                ''
+                : ''
             }
         </React.Fragment>
     );
@@ -191,26 +190,25 @@ export const CouncilEvidence = withTranslations()(({ evidence, translate, cbxEvi
                         {cbxEvidence.tx_hash}
                     </div>
                 </div>
-                {evidence.data.user &&
-                    <UserSection evidence={evidence} translate={translate} />
+                {evidence.data.user
+                    && <UserSection evidence={evidence} translate={translate} />
                 }
-                {evidence.data.agendaPoint &&
-                    <AgendaPointSection evidence={evidence.data} translate={translate} />
+                {evidence.data.agendaPoint
+                    && <AgendaPointSection evidence={evidence.data} translate={translate} />
                 }
                 {evidence.data.participant ?
                     <React.Fragment>
                         <CouncilSection evidence={evidence.data.participant} translate={translate} />
                         <ParticipantSection evidence={evidence} translate={translate} />
                     </React.Fragment>
-                    :
-                    <CouncilSection evidence={evidence.data} translate={translate} />
+                    : <CouncilSection evidence={evidence.data} translate={translate} />
                 }
             </CardContent>
         </React.Fragment>
     ));
 
 const UserSection = ({ evidence, translate }) => (
-        <div style={{ /*paddingLeft: '1.5em' */ marginBottom: '1em' }}>
+        <div style={{ /* paddingLeft: '1.5em' */ marginBottom: '1em' }}>
             {/* <h5>{translate.user_data}</h5> */}
             <div style={{ fontWeight: '700', fontSize: '1.2em' }}>
                 {translate.user_data}
@@ -316,16 +314,16 @@ const AgendaPointSection = ({ evidence, translate }) => (
     );
 
 const CouncilSection = ({ evidence, translate }) => (
-        <div style={{ /*paddingLeft: '1.5em'*/ marginBottom: '1em' }}>
+        <div style={{ /* paddingLeft: '1.5em' */ marginBottom: '1em' }}>
             <div style={{ fontWeight: '700', fontSize: '1.2em' }}>
                 {translate.council_info}
                 <hr style={{ margin: '0.5em 0em' }}></hr>
             </div>
             <div>
-                {evidence.agendaPoint &&
-                    <React.Fragment>
-                        {evidence.agendaPoint.company &&
-                            <div style={{ display: 'flex' }}>
+                {evidence.agendaPoint
+                    && <React.Fragment>
+                        {evidence.agendaPoint.company
+                            && <div style={{ display: 'flex' }}>
                                 <div style={{ width: '100px' }}>
                                     <b>{`${translate.company}:`}</b>
                                 </div>
@@ -352,10 +350,10 @@ const CouncilSection = ({ evidence, translate }) => (
                         </div>
                     </React.Fragment>
                 }
-                {evidence.council &&
-                    <React.Fragment>
-                        {evidence.council.company &&
-                            <div style={{ display: 'flex' }}>
+                {evidence.council
+                    && <React.Fragment>
+                        {evidence.council.company
+                            && <div style={{ display: 'flex' }}>
                                 <div style={{ width: '100px' }}>
                                     <b>{`${translate.company}:`}</b>
                                 </div>
@@ -400,8 +398,7 @@ const EvidenceDisplay = ({ evidence, translate, cbxEvidence }) => {
                     <i className="material-icons" style={{ position: 'absolute', top: '60%', left: '60%', fontSize: '20px', color: cbxEvidence.tx_hash ? 'green' : 'red' }}>
                         {cbxEvidence.tx_hash ?
                             'verified_user'
-                            :
-                            'query_builder'
+                            : 'query_builder'
                         }
                     </i>
                 </ToolTip>
@@ -420,29 +417,29 @@ const EvidenceDisplay = ({ evidence, translate, cbxEvidence }) => {
 
 export const getTranslateFieldFromType = type => {
     const types = {
-        'CLOSE_POINT_DISCUSSION': 'close_point',
-        'CLOSE_VOTING': 'closed_votings',
-        'CONVENE_COUNCIL_WITH_NOTICE': 'convene_council_with_notice',
-        'CONVENE_COUNCIL_WITHOUT_NOTICE': 'convene_council_without_notice',
-        'END_COUNCIL': 'finish_council',
-        'LOGIN': 'login_to_enter',
-        'OPEN_COUNCIL_ROOM': 'room_opened',
-        'OPEN_POINT_DISCUSSION': 'discuss_agenda',
-        'OPEN_VOTING': 'active_votings',
-        'PARTICIPANT_CONNECT': 'participant_enter_room',
-        'PARTICIPANT_DISCONNECT': 'participant_disconnect',
-        'PARTICIPANT_LOGIN': 'participant_login',
-        'PARTICIPANT_SIGNED': 'participant_signed',
-        'REFUSED_DELEGATION': 'refused_delegation',
-        'REOPEN_VOTING': 'reopen_voting',
-        'SEND_ACCESS_KEY_EMAIL': 'send_access_key_email',
-        'SEND_ACCESS_KEY_SMS': 'send_access_key_phone',
-        'SEND_NOTICE': 'send_convene',
-        'SEND_ROOM_ACCESS_EMAIL': 'send_room_access_email',
-        'START_COUNCIL': 'start_council',
-        'UPDATE_VOTE': 'update_vote',
-        'VOTE': 'has_voted',
-        'VOTE_DELEGATION': 'vote_delegation',
+        CLOSE_POINT_DISCUSSION: 'close_point',
+        CLOSE_VOTING: 'closed_votings',
+        CONVENE_COUNCIL_WITH_NOTICE: 'convene_council_with_notice',
+        CONVENE_COUNCIL_WITHOUT_NOTICE: 'convene_council_without_notice',
+        END_COUNCIL: 'finish_council',
+        LOGIN: 'login_to_enter',
+        OPEN_COUNCIL_ROOM: 'room_opened',
+        OPEN_POINT_DISCUSSION: 'discuss_agenda',
+        OPEN_VOTING: 'active_votings',
+        PARTICIPANT_CONNECT: 'participant_enter_room',
+        PARTICIPANT_DISCONNECT: 'participant_disconnect',
+        PARTICIPANT_LOGIN: 'participant_login',
+        PARTICIPANT_SIGNED: 'participant_signed',
+        REFUSED_DELEGATION: 'refused_delegation',
+        REOPEN_VOTING: 'reopen_voting',
+        SEND_ACCESS_KEY_EMAIL: 'send_access_key_email',
+        SEND_ACCESS_KEY_SMS: 'send_access_key_phone',
+        SEND_NOTICE: 'send_convene',
+        SEND_ROOM_ACCESS_EMAIL: 'send_room_access_email',
+        START_COUNCIL: 'start_council',
+        UPDATE_VOTE: 'update_vote',
+        VOTE: 'has_voted',
+        VOTE_DELEGATION: 'vote_delegation',
         default: () => type
     };
 

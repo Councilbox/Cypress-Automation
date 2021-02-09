@@ -71,7 +71,7 @@ const SendCredentialsModal = ({ translate, council, requestClose, ...props }) =>
 			return <div>{translate.sending}</div>;
 		}
 
-		if(state.showSMS){
+		if (state.showSMS) {
 			return (
 				<LiveSMS
 					translate={translate}
@@ -80,7 +80,7 @@ const SendCredentialsModal = ({ translate, council, requestClose, ...props }) =>
 			);
 		}
 
-		if(state.error === 'Failed SMS'){
+		if (state.error === 'Failed SMS') {
 			return <FailedSMSMessage translate={translate} onClick={() => setState({ showSMS: true })} />;
 		}
 

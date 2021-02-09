@@ -49,12 +49,12 @@ const AlertConfirm = ({
 				/>
 			)}
 
-			{extraActions &&
-				extraActions
+			{extraActions
+				&& extraActions
 			}
 
-			{!hideAccept &&
-				!!buttonAccept && (
+			{!hideAccept
+				&& !!buttonAccept && (
 					<BasicButton
 						text={buttonAccept}
 						loading={loadingAction}
@@ -117,8 +117,7 @@ const AlertConfirm = ({
 								<div style={{ color: ' rgba(0, 0, 0, 0.37)', fontSize: '17px' }}>{titleRigth}</div>
 							</div>
 						)
-						:
-						(
+						:						(
 							title
 						)
 					}
@@ -134,8 +133,8 @@ const AlertConfirm = ({
 			>
 				{bodyText}
 			</DialogContent>
-			{(!!buttonCancel || !!buttonAccept) &&
-				<DialogActions
+			{(!!buttonCancel || !!buttonAccept)
+				&& <DialogActions
 					style={{
 						paddingRight: '0.6em',
 						borderTop: '1px solid gainsboro',
@@ -147,8 +146,8 @@ const AlertConfirm = ({
 					{buttons}
 				</DialogActions>
 			}
-			{actions &&
-				<DialogActions
+			{actions
+				&& <DialogActions
 					style={{
 						paddingRight: '0.6em',
 						borderTop: '1px solid gainsboro',

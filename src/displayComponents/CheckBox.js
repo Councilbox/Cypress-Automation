@@ -15,8 +15,7 @@ const CheckBox = ({ value, label, onChange, loading, disabled, helpPopover, help
 			control={
 				loading ?
 					<LoadingSection />
-				:
-				<Checkbox checked={value} onChange={onChange} disabled={disabled} id={id} color={colorCheckbox} />
+				:				<Checkbox checked={value} onChange={onChange} disabled={disabled} id={id} color={colorCheckbox} />
 			}
 			label={
 				<React.Fragment>
@@ -25,8 +24,8 @@ const CheckBox = ({ value, label, onChange, loading, disabled, helpPopover, help
 			}
 			style={{ marginBottom: '0', marginRight: '0', ...styleLabel }}
 		/>
-		{helpPopover &&
-			<HelpPopover
+		{helpPopover
+			&& <HelpPopover
 				title={helpTitle}
 				content={helpDescription}
 			/>

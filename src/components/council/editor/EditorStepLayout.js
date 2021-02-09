@@ -9,13 +9,13 @@ class EditorStepLayout extends React.Component {
 
     scrollbar = null;
 
-    componentDidUpdate(){
-        if(this.scrollbar){
-            if(this.state.stick){
-                //this.scrollbar.scrollToBottom();
+    componentDidUpdate() {
+        if (this.scrollbar) {
+            if (this.state.stick) {
+                // this.scrollbar.scrollToBottom();
             }
             const values = this.scrollbar.getValues();
-            if(values.clientHeight === values.scrollHeight && !this.state.stick){
+            if (values.clientHeight === values.scrollHeight && !this.state.stick) {
                 this.setState({
                     stick: true
                 });
@@ -26,18 +26,18 @@ class EditorStepLayout extends React.Component {
     updateStickToBottom = () => {
         const values = this.scrollbar.getValues();
 
-        if(values.top + 0.01 > 1){
+        if (values.top + 0.01 > 1) {
             this.setState({
                 stick: true
             });
-        }else{
+        } else {
             this.setState({
                 stick: false
             });
         }
     }
 
-    render(){
+    render() {
         const { body, buttons } = this.props;
 
         return (

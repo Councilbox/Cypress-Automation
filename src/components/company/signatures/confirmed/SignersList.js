@@ -31,15 +31,15 @@ const SignersList = ({ translate, client, ...props }) => {
 
     const table = React.useRef();
 
-    const getData = React.useCallback(async (filtros) => {
+    const getData = React.useCallback(async filtros => {
         const response = await client.query({
             query: signatureParticipants,
             variables: {
                 signatureId: props.signature.id,
                 ...(filtros ? {
                     ...filtros
-                } :
-                    {}
+                }
+                    : {}
                 )
             },
         });
@@ -53,7 +53,7 @@ const SignersList = ({ translate, client, ...props }) => {
     }, [getData]);
 
 
-    const removeSignature = async (id) => {
+    const removeSignature = async id => {
         const response = await client.mutate({
             mutation: removeSignatureParticipant,
             variables: {
@@ -134,8 +134,8 @@ const SignersList = ({ translate, client, ...props }) => {
                     }
                 ]}
             >
-                {signatureParticipantsList.length > 0 &&
-                    signatureParticipantsList.map(participant => (
+                {signatureParticipantsList.length > 0
+                    && signatureParticipantsList.map(participant => (
                         isMobile ?
                             <Card style={{ marginBottom: '1em', fontSize: '0.9em' }} key={`participant_${participant.id}`}>
                                 <CardContent>
@@ -143,8 +143,8 @@ const SignersList = ({ translate, client, ...props }) => {
                                         <div style={{ display: 'flex' }}>
                                             <div style={{ fontWeight: 'bold' }}>{translate.participant_data}: </div>
                                             <div style={{ marginLeft: '5px' }}>
-                                                {participant.status === SIGNATURE_PARTICIPANTS_STATES.SIGNED &&
-                                                    <i className="fa fa-check" aria-hidden="true" style={{ marginRight: '0.2em', color: 'green' }}></i>
+                                                {participant.status === SIGNATURE_PARTICIPANTS_STATES.SIGNED
+                                                    && <i className="fa fa-check" aria-hidden="true" style={{ marginRight: '0.2em', color: 'green' }}></i>
                                                 }
                                                 {`${participant.name} ${participant.surname || ''}`}
                                             </div>
@@ -170,13 +170,12 @@ const SignersList = ({ translate, client, ...props }) => {
                                     </div>
                                 </CardContent>
                             </Card>
-                            :
-                            <TableRow
+                            : <TableRow
                                 key={`participant_${participant.id}`}
                             >
                                 <TableCell>
-                                    {participant.status === SIGNATURE_PARTICIPANTS_STATES.SIGNED &&
-                                        <i className="fa fa-check" aria-hidden="true" style={{ marginRight: '0.2em', color: 'green' }}></i>
+                                    {participant.status === SIGNATURE_PARTICIPANTS_STATES.SIGNED
+                                        && <i className="fa fa-check" aria-hidden="true" style={{ marginRight: '0.2em', color: 'green' }}></i>
                                     }
                                     {`${participant.name} ${participant.surname || ''}`}
                                 </TableCell>

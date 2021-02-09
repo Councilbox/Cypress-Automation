@@ -41,8 +41,8 @@ class CommentsSection extends Component {
 							fontWeight: '700'
 						}}
 					>
-						{council.statute.existsAct
-							? translate.act_comments
+						{council.statute.existsAct ?
+							translate.act_comments
 							: translate.council_comments}
 					</span>
 				</div>
@@ -70,8 +70,7 @@ class CommentsSection extends Component {
 					council={this.props.council}
 					key={this.props.agenda.id}
 				/>
-			:
-				<div style={{ padding: '1em' }}>Los comentarios están desactivados en esta reunión</div>
+			:				<div style={{ padding: '1em' }}>Los comentarios están desactivados en esta reunión</div>
 		);
 
 	render() {
@@ -79,7 +78,7 @@ class CommentsSection extends Component {
 			<div
 				style={{
 					width: '100%',
-					//backgroundColor: "lightgrey",
+					// backgroundColor: "lightgrey",
 					position: 'relative'
 				}}
 			>

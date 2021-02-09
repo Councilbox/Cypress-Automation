@@ -6,17 +6,17 @@ import { getSecondary } from '../../../../styles/colors';
 
 const reducer = (state, action) => {
     const actions = {
-        'SEND': {
+        SEND: {
             ...state,
             status: 'LOADING',
             modal: true
         },
-        'SUCCESS': {
+        SUCCESS: {
             ...state,
             status: 'SUCCESS',
             modal: true
         },
-        'CLOSE_MODAL': {
+        CLOSE_MODAL: {
             ...state,
             status: 'INITIAL',
             modal: false
@@ -64,8 +64,7 @@ const SendRequestConfirmationButton = ({ client, request, translate, council }) 
                         <SuccessMessage
                             message={translate.tooltip_sent}
                         />
-                    :
-                        translate.sending
+                    : translate.sending
                 }
             />
             <BasicButton

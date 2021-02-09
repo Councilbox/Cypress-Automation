@@ -79,8 +79,7 @@ const Dashboard = ({ translate, company, user }) => {
 							setAddUser={setAddUser}
 							setEntidades={setEntidades}
 						/>
-						:
-						<React.Fragment>
+						:						<React.Fragment>
 							<div
 								style={{
 									fontWeight: '700',
@@ -92,8 +91,8 @@ const Dashboard = ({ translate, company, user }) => {
 							</div>
 							<div style={{ display: 'flex', flexDirection: 'column', fontWeight: '700', alignItems: 'center' }}>
 								<div>
-									{company.logo &&
-										<img src={company.logo} alt="company-logo" style={{ height: '4.5em', width: 'auto' }} />
+									{company.logo
+										&& <img src={company.logo} alt="company-logo" style={{ height: '4.5em', width: 'auto' }} />
 									}
 								</div>
 								<div>

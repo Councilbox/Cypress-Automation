@@ -160,8 +160,8 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 						<TextInput
 							floatingText={translate.company_new_key}
 							type={
-								state.showPassword
-									? 'text'
+								state.showPassword ?
+									'text'
 									: 'password'
 							}
 							passwordToggler={() => setState({
@@ -213,7 +213,6 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 		</CardPageLayout>
 	);
 };
-
 
 
 export default graphql(linkCompany, {

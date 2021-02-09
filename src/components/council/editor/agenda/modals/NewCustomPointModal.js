@@ -145,7 +145,7 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
         setItems(newItems);
     };
 
-    const removeItem = (index) => {
+    const removeItem = index => {
         const newItems = [...items];
         newItems.splice(index, 1);
         setItems(newItems);

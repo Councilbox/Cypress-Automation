@@ -19,7 +19,7 @@ const CreateCertificateModal = ({ doc, open, requestClose, setError, client, cou
     const [loading, setLoading] = React.useState(false);
 
     const createCertificate = async () => {
-        if(!checkRequiredFields()){
+        if (!checkRequiredFields()) {
             setLoading(true);
             const response = await client.mutate({
                 mutation: createCertificateMutation,
@@ -32,8 +32,8 @@ const CreateCertificateModal = ({ doc, open, requestClose, setError, client, cou
                 }
             });
 
-            if(!response.errors){
-                if(response.data.createCertificate.success){
+            if (!response.errors) {
+                if (response.data.createCertificate.success) {
                     setLoading(false);
                     closeEditor();
                 }
@@ -45,11 +45,11 @@ const CreateCertificateModal = ({ doc, open, requestClose, setError, client, cou
         const titleBlock = doc.find(block => block.type === 'cert_title');
         let error = null;
 
-        if(!titleBlock.text){
+        if (!titleBlock.text) {
             error = translate.cert_title_error;
         }
 
-        if(error){
+        if (error) {
             setError(error);
             requestClose();
             return true;

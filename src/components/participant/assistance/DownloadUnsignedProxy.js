@@ -12,7 +12,7 @@ const DownloadUnsignedProxy = ({ action, translate, client, participant, delegat
 
 
 	const downloadUnsignedProxy = async id => {
-        if(!loading){
+        if (!loading) {
             setLoading(true);
             const response = await client.query({
                 query: gql`

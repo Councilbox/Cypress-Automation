@@ -18,7 +18,7 @@ export const getSubjectAbrv = text => {
 	}
 
 	if (!Number.isNaN(text)) {
-		text = '' + text;
+		text = `${text}`;
 	}
 
 	while (!isChar) {
@@ -72,8 +72,8 @@ const AgendaNumber = ({
 		}}
 		onClick={onClick}
 	>
-		{voting &&
-			<Tooltip title={translate.opened_votings}>
+		{voting
+			&& <Tooltip title={translate.opened_votings}>
 				<FontAwesome
 					name={'envelope'}
 					style={{

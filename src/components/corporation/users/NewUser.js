@@ -101,7 +101,7 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
     }
 
     const body = () => (
-        <div style={{ height: '100%', padding: isMobile ? '1.5em 1.5em 1em' : '1.5em 1.5em 2em' }}> {/*6em*/}
+        <div style={{ height: '100%', padding: isMobile ? '1.5em 1.5em 1em' : '1.5em 1.5em 2em' }}> {/* 6em */}
             <div style={{ height: '100%' }} >
                 <UserForm
                     translate={translate}
@@ -111,13 +111,13 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
                     updateState={updateState}
                     languages={props.data.languages}
                 />
-                {success &&
-                    <div style={{ margin: '2em 0em' }}>
+                {success
+                    && <div style={{ margin: '2em 0em' }}>
                         Se le ha enviado un <b>email de confirmación</b> al usuario para que pueda completar su registro indicando su <b>contraseña</b>.
                 </div>
                 }
-                {!fixedCompany &&
-                    <CompanyLinksManager
+                {!fixedCompany
+                    && <CompanyLinksManager
                         linkedCompanies={state.companies}
                         translate={translate}
                         company={company}
@@ -152,8 +152,7 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
                             onClick={createUserWithoutPassword}
                         />
                     </React.Fragment>
-                    :
-                    <BasicButton
+                    : <BasicButton
                         text={translate.back}
                         textStyle={{ textTransform: 'none', color: 'black', fontWeight: '700' }}
                         onClick={props.requestClose}
@@ -169,8 +168,7 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
         <div style={{ height: !fixedCompany ? 'calc(100vh - 3em)' : '100%', ...props.styles }}>
             {fixedCompany ?
                 body()
-                :
-                <CardPageLayout title={translate.users_add} >
+                : <CardPageLayout title={translate.users_add} >
                     {/* stylesNoScroll={{ height: "100%" }} */}
                     {body()}
                 </CardPageLayout>
@@ -188,7 +186,6 @@ const createUserWithoutPassword = gql`
         }
     }
 `;
-
 
 
 export default compose(

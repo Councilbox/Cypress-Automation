@@ -53,8 +53,7 @@ const DelegationDocuments = ({ council, translate, client }) => {
         <div style={{ width: '100%', display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
             {loading ?
                 <LoadingSection />
-            :
-                data.map(item => (
+            : data.map(item => (
                     <Card key={item.participant.id} style={{ marginTop: '1em', width: '70%', padding: '0.6em' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', flexGrow: 1 }}>
                             <div>
@@ -63,8 +62,8 @@ const DelegationDocuments = ({ council, translate, client }) => {
                                 <br/>
                                 <span style={{ fontWeight: '700' }}>{translate.delegates}</span>
                                 {` ${item.delegate.name} ${item.delegate.surname || ''}`}
-                                {item.participant.id !== item.signer.id &&
-                                    <>
+                                {item.participant.id !== item.signer.id
+                                    && <>
                                         <br/>
                                         <span style={{ fontWeight: '700' }}>{translate.signed}:</span>
                                         {` ${item.signer.name} ${item.signer.surname || ''}, ${moment(item.date).format('LLL')}`}

@@ -19,7 +19,7 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
 
 
     const addCustomPoint = async () => {
-        if(!validateCustomAgenda(items, options, agenda)){
+        if (!validateCustomAgenda(items, options, agenda)) {
             await updateCustomAgenda({
                 variables: {
                     agenda,
@@ -52,7 +52,7 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
         setItems(newItems);
     };
 
-    const removeItem = (index) => {
+    const removeItem = index => {
         const newItems = [...items];
         newItems.splice(index, 1);
         setItems(newItems);
@@ -100,8 +100,8 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
             buttonAccept={translate.accept}
             buttonCancel={translate.cancel}
             extraActions={
-				props.deleteButton &&
-					<DeleteAgendaButton
+				props.deleteButton
+					&& <DeleteAgendaButton
 						agenda={agenda}
                         refetch={props.refetch}
                         requestClose={props.requestClose}

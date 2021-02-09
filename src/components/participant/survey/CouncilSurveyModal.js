@@ -274,16 +274,16 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
                                 </div>
                                 {/* </Scrollbar> */}
                             </div>
-                            {state.creationDate &&
-                                <div style={{ marginBottom: '1em', marginTop: '1em' }}>
+                            {state.creationDate
+                                && <div style={{ marginBottom: '1em', marginTop: '1em' }}>
                                     {translate.sent_fem}: {moment(state.creationDate).format('LLL')}
                                 </div>
                             }
 
                             <div>
                                 <div style={{ marginTop: '1.5em', display: 'flex', flexDirection: 'row', padding: '1rem' }}>
-                                    {!disabled &&
-                                        <BasicButton
+                                    {!disabled
+                                        && <BasicButton
                                             onClick={sendSurvey}
                                             text={translate.send}
                                             loading={loading}

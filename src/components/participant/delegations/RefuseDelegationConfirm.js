@@ -17,14 +17,14 @@ const RefuseDelegationConfirm = withApollo(({ delegation, client, translate, ref
 			}
 		});
 
-		if(response.data.refuseDelegation.success){
+		if (response.data.refuseDelegation.success) {
             setLoading(false);
             refetch();
             requestClose();
 		}
 	};
 
-    return(
+    return (
         <AlertConfirm
             open={true}
             title={translate.warning}

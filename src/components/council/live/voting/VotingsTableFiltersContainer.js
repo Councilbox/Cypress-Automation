@@ -119,8 +119,8 @@ const VotingsTableFiltersContainer = ({ agenda, council, client, ...props }) => 
 			{!isCustomPoint(agenda.subjectType) ?
 				<React.Fragment>
 					{((canEditPresentVotings(agenda) && agendaVotingsOpened(agenda) && council.councilType !== 3)
-					|| (council.councilType === 3 && agenda.votingState === 4)) &&
-						<ManualVotingsMenu
+					|| (council.councilType === 3 && agenda.votingState === 4))
+						&& <ManualVotingsMenu
 							refetch={props.refetch}
 							changeEditedVotings={props.changeEditedVotings}
 							editedVotings={props.editedVotings}
@@ -130,11 +130,10 @@ const VotingsTableFiltersContainer = ({ agenda, council, client, ...props }) => 
 						/>
 					}
 				</React.Fragment>
-			:
-				<React.Fragment>
-					{((canEditPresentVotings(agenda) &&
-						agendaVotingsOpened(agenda) && council.councilType !== 3) || (council.councilType === 3 && agenda.votingState === 4)) &&
-						<CustomAgendaManualVotings
+			:				<React.Fragment>
+					{((canEditPresentVotings(agenda)
+						&& agendaVotingsOpened(agenda) && council.councilType !== 3) || (council.councilType === 3 && agenda.votingState === 4))
+						&& <CustomAgendaManualVotings
 							agenda={agenda}
 							translate={props.translate}
 							votingsRecount={data.votingsRecount}

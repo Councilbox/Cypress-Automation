@@ -163,8 +163,8 @@ class CompanyCensusPage extends React.Component {
 					open={this.state.cloneModal}
 					census={censuses.list[this.state.index]}
 				/>
-				{!!this.state.editId &&
-					<EditCensusModal
+				{!!this.state.editId
+					&& <EditCensusModal
 						translate={translate}
 						censusId={this.state.editId}
 						refetch={this.props.data.refetch}
@@ -197,7 +197,7 @@ class HoverableRow extends React.PureComponent {
         });
     }
 
-    deleteIcon = (councilID) => {
+    deleteIcon = councilID => {
         const primary = getPrimary();
 
         return (
@@ -218,8 +218,8 @@ class HoverableRow extends React.PureComponent {
 		const secondary = getSecondary();
 
 		const actions = <React.Fragment>
-			{census.id ===
-			this.props.changingDefault ? (
+			{census.id
+			=== this.props.changingDefault ? (
 				<div
 					style={{
 						display: 'inline-block'
@@ -231,9 +231,9 @@ class HoverableRow extends React.PureComponent {
 				<Tooltip title={translate.change_default_census_tooltip}>
 					<FontAwesome
 						name={
-							census.defaultCensus ===
-							1
-								? 'star'
+							census.defaultCensus
+							=== 1 ?
+								'star'
 								: 'star-o'
 						}
 						style={{
@@ -320,8 +320,8 @@ class HoverableRow extends React.PureComponent {
 			</Tooltip>
 		</React.Fragment>;
 
-		if(isMobile){
-            return(
+		if (isMobile) {
+            return (
                 <Card
                     style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
 					onClick={() => this.props.openCensusEdit(census.id)}
@@ -331,8 +331,8 @@ class HoverableRow extends React.PureComponent {
                             {translate.name}
                         </GridItem>
                         <GridItem xs={7} md={7}>
-							{census.defaultCensus === 1 &&
-								<Tooltip title={translate.default_census} >
+							{census.defaultCensus === 1
+								&& <Tooltip title={translate.default_census} >
 									<FontAwesome
 										name={'star'}
 										style={{
@@ -392,8 +392,8 @@ class HoverableRow extends React.PureComponent {
 				onClick={() => this.props.openCensusEdit(census.id)}
 			>
 				<TableCell>
-					{census.defaultCensus === 1 &&
-						<Tooltip title={translate.default_census} >
+					{census.defaultCensus === 1
+						&& <Tooltip title={translate.default_census} >
 							<FontAwesome
 								name={'star'}
 								style={{
@@ -424,8 +424,8 @@ class HoverableRow extends React.PureComponent {
 				</TableCell>
 				<TableCell>
 					<div style={{ width: '12.5em', float: 'right' }}>
-						{this.state.showActions &&
-							actions
+						{this.state.showActions
+							&& actions
 						}
 					</div>
 				</TableCell>

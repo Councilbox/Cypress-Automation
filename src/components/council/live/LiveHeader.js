@@ -99,8 +99,7 @@ const LiveHeader = ({ councilName, translate, windowSize, participants, user, co
 								}
 							/>
 						</div>
-						:
-						<div style={{}} />
+						:						<div style={{}} />
 					}
 					<div style={{ display: 'flex', alignItems: 'center' }} >
 						<img
@@ -143,8 +142,8 @@ const LiveHeader = ({ councilName, translate, windowSize, participants, user, co
 						</Tooltip>
 					</div>
 				</div>
-				{council &&
-					<>
+				{council
+					&& <>
 						<div style={{ display: 'flex', paddingRight: '2em' }}>
 							<div style={{ marginRight: '1em' }}>
 								<CouncilMenu
