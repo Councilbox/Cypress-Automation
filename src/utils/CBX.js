@@ -639,13 +639,9 @@ export const buildAttendantsString = ({ council, total, type }) => (acc, curr) =
 
 export const isAdmin = user => user.roles === 'admin' || user.roles === 'devAdmin'
 
-export const isOrganization = company => {
-	return company.id === company.corporationId;
-}
+export const isOrganization = company => company.id === company.corporationId
 
-export const showOrganizationDashboard = (company, config, user = {}) => {
-	return (company.type === 12 && (config.oneOnOneDashboard || config.newDashboard)) || (isOrganization(company) && config.organizationDashboard && isAdmin(user));
-}
+export const showOrganizationDashboard = (company, config, user = {}) => (company.type === 12 && (config.oneOnOneDashboard || config.newDashboard)) || (isOrganization(company) && config.organizationDashboard && isAdmin(user))
 
 export const generateCompanyAdminsText = ({ council, company, list }) => {
 	const data = company.governingBodyData;

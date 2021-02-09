@@ -1,7 +1,7 @@
 import React from 'react';
+import { withApollo } from 'react-apollo';
 import RichTextInput from '../../../../displayComponents/RichTextInput';
 import { AlertConfirm, BasicButton, UnsavedChangesModal } from '../../../../displayComponents';
-import { withApollo } from 'react-apollo';
 import { getSecondary } from '../../../../styles/colors';
 
 
@@ -14,28 +14,26 @@ const AttendanceTextEditor = ({ translate, text, setText, updateAttendanceText, 
         }
     }, [isModal.modal])
 
-    const renderBody = () => {
-        return (
+    const renderBody = () => (
             <RichTextInput
                 translate={translate}
                 value={text}
                 onChange={value => setText(value)}
-            /> 
+            />
         )
-    }
 
     const handleClose = ev => {
         ev.preventDefault();
         if (text !== initialValue.current){
-            setIsmodal({...isModal, modal: true, unsavedModal: true});
+            setIsmodal({ ...isModal, modal: true, unsavedModal: true });
         } else {
-            setIsmodal({...isModal, modal: false, unsavedModal: false});
+            setIsmodal({ ...isModal, modal: false, unsavedModal: false });
         }
     }
     const discardText = ev => {
         ev.preventDefault();
         if (text !== initialValue.current){
-            setIsmodal({...isModal, modal: false, unsavedModal: false})
+            setIsmodal({ ...isModal, modal: false, unsavedModal: false })
             setText(initialValue.current);
         }
     }
@@ -43,8 +41,8 @@ const AttendanceTextEditor = ({ translate, text, setText, updateAttendanceText, 
     return (
         <>
             <BasicButton
-                text={text? translate.edit_instructions : translate.add_instructions}
-                onClick={() => setIsmodal({...isModal, modal: true})}
+                text={text ? translate.edit_instructions : translate.add_instructions}
+                onClick={() => setIsmodal({ ...isModal, modal: true })}
                 color="white"
                 type="flat"
                 textStyle={{
@@ -57,14 +55,14 @@ const AttendanceTextEditor = ({ translate, text, setText, updateAttendanceText, 
                 buttonAccept={translate.save}
                 acceptAction={updateAttendanceText}
                 buttonCancel={translate.cancel}
-                title={text? translate.edit_instructions : translate.add_instructions}
+                title={text ? translate.edit_instructions : translate.add_instructions}
                 bodyText={renderBody()}
             />
-            <UnsavedChangesModal 
-                translate={translate}  
+            <UnsavedChangesModal
+                translate={translate}
                 open={isModal.unsavedModal}
                 requestClose={() => {
-                    setIsmodal({...isModal, modal: true, unsavedModal: false})
+                    setIsmodal({ ...isModal, modal: true, unsavedModal: false })
                 }}
                 acceptAction={updateAttendanceText}
                 cancelAction={discardText}

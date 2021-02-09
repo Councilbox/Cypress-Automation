@@ -202,38 +202,38 @@ class Sidebar extends React.Component {
 			}
 			items={
 				<React.Fragment>
-					{this.props.companies.map((company, index) => {
-						if (company.id !== this.props.company.id) {
-							return (
-								<MenuItem
-									key={`company_${company.id}`}
-									onClick={() => this.changeCompany(index)}
-								>
-									{company.logo ? (
-										<img
-											src={company.logo}
-											alt="logo"
-											className={this.props.classes.img}
-										/>
-									) : (
-										<FontAwesome
-											name={"building-o"}
-											className={this.props.classes.img}
-										/>
-									)}
+					{this.props.companies
+					.filter(company => company.id !== this.props.company.id)
+					.map((company, index) => {
+						return (
+							<MenuItem
+								key={`company_${company.id}`}
+								onClick={() => this.changeCompany(index)}
+							>
+								{company.logo ? (
+									<img
+										src={company.logo}
+										alt="logo"
+										className={this.props.classes.img}
+									/>
+								) : (
+									<FontAwesome
+										name={"building-o"}
+										className={this.props.classes.img}
+									/>
+								)}
 
-									<div
-										style={{
-											fontSize: "0.85em",
-											fontWeight: "700",
-											marginLeft: "0.3em"
-										}}
-									>
-										{company.businessName}
-									</div>
-								</MenuItem>
-							);
-						}
+								<div
+									style={{
+										fontSize: "0.85em",
+										fontWeight: "700",
+										marginLeft: "0.3em"
+									}}
+								>
+									{company.businessName}
+								</div>
+							</MenuItem>
+						);
 					})}
 				</React.Fragment>
 			}

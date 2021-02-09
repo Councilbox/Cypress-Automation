@@ -24,6 +24,33 @@ const styles = {
     }
 }
 
+const councilTimelineQuery = gql`
+    query CouncilTimeline($councilId: Int!, ){
+        councilTimeline(councilId: $councilId){
+            id
+        }
+    }
+`;
+
+const readTimeline = gql`
+    query ReadTimeline($councilId: Int!){
+        readTimeline(councilId: $councilId){
+            id
+            type
+            date
+            content
+        }
+    }
+`;
+
+const createEvidenceRead = gql`
+    mutation CreateEvidenceRead($evidenceId: Int!){
+        createEvidenceRead(evidenceId: $evidenceId){
+            success
+        }
+    }
+`;
+
 
 const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) => {
     const prevAgendas = React.useRef(null);
@@ -99,6 +126,21 @@ margin: "0",
         }
     }, [agendas]);
 
+    const buildReadArray = (read, opened) => new Set([...Array.from(read), ...opened.map(agenda => agenda.id)])
+
+    const updateReadVotings = () => {
+        setVotingsWarning({
+            ...votingsWarning,
+            read: buildReadArray(votingsWarning.read, votingsWarning.opened),
+            show: false
+        });
+    }
+
+    function selectAgenda(){
+        props.setContent('agenda');
+        updateReadVotings();
+    }
+
     const renderVotingsWarning = () => {
         const hideEnterModal = props.modalContent === "agenda";
         return (
@@ -120,9 +162,6 @@ margin: "0",
                         <div style={{ color: getSecondary(), whiteSpace: 'nowrap', marginRight: "10px" }}>
                             {translate.opened_votings} ({votingsWarning.opened.length})
                         </div>
-                        {/* <div style={{ color: "#3b3b3b", marginRight: "10px", overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: "ellipsis", maxWidth: "30%" }}>
-                            {council.businessName}
-                        </div> */}
                         <div style={{ maxWidth: '40%', color: "#3b3b3b", overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: "ellipsis" }}>
                             {votingsWarning.opened[votingsWarning.opened.length - 1].agendaSubject}
                         </div>
@@ -141,26 +180,10 @@ margin: "0",
         )
     }
 
-    const buildReadArray = (read, opened) => new Set([...Array.from(read), ...opened.map(agenda => agenda.id)])
-
-
-    const updateReadVotings = () => {
-        setVotingsWarning({
-            ...votingsWarning,
-            read: buildReadArray(votingsWarning.read, votingsWarning.opened),
-            show: false
-        });
-    }
-
-    function selectAgenda(){
-        props.setContent('agenda');
-        updateReadVotings();
-    }
-
     const renderAgendaButton = () => {
         let activeIcon = false;
         if (agendas) {
-            agendas.agendas.map(item => {
+            agendas.agendas.forEach(item => {
                 activeIcon = !!(item.votingState === 1 || activeIcon)
             })
         }
@@ -176,8 +199,8 @@ margin: "0",
                         <i className="material-icons" style={{
                             color: props.modalContent === "agenda" ? secondary : "",
                             fontSize: '24px',
-padding: '0',
-margin: "0",
+                            padding: '0',
+                            margin: "0",
                             width: '1em',
                             height: '1em',
                             overflow: 'hidden',
@@ -679,34 +702,7 @@ options: props => ({
             </div>
         </Button>
     )
-}))
-
-const councilTimelineQuery = gql`
-    query CouncilTimeline($councilId: Int!, ){
-        councilTimeline(councilId: $councilId){
-            id
-        }
-    }
-`;
-
-const readTimeline = gql`
-    query ReadTimeline($councilId: Int!){
-        readTimeline(councilId: $councilId){
-            id
-            type
-            date
-            content
-        }
-    }
-`;
-
-const createEvidenceRead = gql`
-    mutation CreateEvidenceRead($evidenceId: Int!){
-        createEvidenceRead(evidenceId: $evidenceId){
-            success
-        }
-    }
-`;
+}));
 
 
 export default CouncilSidebar

@@ -2,8 +2,7 @@ import React from 'react';
 import Avatar from "antd/lib/avatar";
 
 
-const CellAvatar = ({ avatar }) => {
-	return (
+const CellAvatar = ({ avatar }) => (
 		<div style={{ overflow: "hidden", width: 'calc( 100% / 3 )', textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', paddingRight: "10px" }}>
 			{avatar ?
 				<Avatar src={avatar} alt="Foto" />
@@ -12,6 +11,5 @@ const CellAvatar = ({ avatar }) => {
 			}
 		</div>
 	)
-}
 
 export default CellAvatar;

@@ -2,6 +2,15 @@
 
 
 import React from "react";
+import { Avatar } from "antd";
+import Calendar from 'react-calendar';
+import { Icon, withStyles, Divider, } from "material-ui";
+import { Doughnut, Chart } from "react-chartjs-2";
+import { withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
+import { getPrimary } from "../../../styles/colors";
+import { moment } from "../../../containers/App";
+import { ConfigContext } from '../../../containers/AppControl';
 import {
 	Grid,
 	GridItem,
@@ -13,15 +22,6 @@ import {
 	DropDownMenu,
 	MenuItem,
 } from "../../../displayComponents";
-import { ConfigContext } from '../../../containers/AppControl';
-import { moment } from "../../../containers/App";
-import { Avatar } from "antd";
-import { getPrimary } from "../../../styles/colors";
-import Calendar from 'react-calendar';
-import { Icon, withStyles, Divider, } from "material-ui";
-import { Doughnut, Chart } from "react-chartjs-2";
-import { withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
 import GraficaEstadisiticas from "../GraficaEstadisiticas";
 import { isMobile } from "../../../utils/screen";
 import OneOnOneItem from "../OneOnOne/OneOnOneItem";
@@ -75,9 +75,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 
 	const getTileClassName = ({ date }) => {
 		if (reuniones.length > 0) {
-			let array = reuniones.find(reunion => {
-				return moment(reunion.dateStart).format("MMM Do YY") === moment(date).format("MMM Do YY");
-			})
+			const array = reuniones.find(reunion => moment(reunion.dateStart).format("MMM Do YY") === moment(date).format("MMM Do YY"))
 			if (array) {
 				return 'selectedDate';
 			}
@@ -102,10 +100,10 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 				}
 			}
 		});
-		
+
 		setReuniones(response.data.organizationCouncils.list);
 		setReunionesTotal(response.data.organizationCouncils.total);
-		
+
 		setPorcentajes({
 			convocadaPorcentaje: response.data.organizationCouncils.preparing,
 			celebracionPorcentaje: response.data.organizationCouncils.roomOpened,
@@ -156,8 +154,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 		}
 	}
 
-	const renderTables = () => {
-		return (
+	const renderTables = () => (
 			usuariosEntidades === translate.users ?
 				<UsersTable
 					company={company}
@@ -171,7 +168,6 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 					translate={translate}
 				/>
 		)
-	}
 
 	if (isMobile) {
 		return (
@@ -302,16 +298,14 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 									<LoadingSection />
 									:
 									<div>
-										{reuniones.map((item, index) => {
-											return (
+										{reuniones.map((item, index) => (
 												<TablaReunionesEnCurso
 													key={index + "_reuniones"}
 													item={item}
 													index={index}
 													translate={translate}
 												/>
-											)
-										})}
+											))}
 										<Grid style={{ marginTop: "1em" }}>
 											<PaginationFooter
 												page={filters.page}
@@ -572,16 +566,14 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 										<LoadingSection />
 										:
 										<div>
-											{reuniones.map((item, index) => {
-												return (
+											{reuniones.map((item, index) => (
 													<TablaReunionesEnCurso
 														key={index + "_reuniones"}
 														item={item}
 														index={index}
 														translate={translate}
 													/>
-												)
-											})}
+												))}
 											<Grid style={{ marginTop: "1em" }}>
 												<PaginationFooter
 													page={filters.page}
@@ -603,7 +595,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 							</Scrollbar>
 						</Grid>
 					</GridItem>
-					<GridItem xs={4} md={4} lg={4} style={{height: '35em'}}>
+					<GridItem xs={4} md={4} lg={4} style={{ height: '35em' }}>
 						<div style={{ padding: "1em", display: 'flex', justifyContent: "center" }}>
 							{reuniones.length === undefined ?
 								<LoadingSection />
@@ -853,9 +845,9 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 
 const GraficaDoughnut = ({ porcentaje, color, max }) => {
 	Chart.pluginService.register({
-		afterUpdate: function (chart) {
+		afterUpdate(chart) {
 			if (chart.config.options.elements.arc.roundedCornersFor !== undefined) {
-				var arc = chart.getDatasetMeta(0).data[chart.config.options.elements.arc.roundedCornersFor];
+				const arc = chart.getDatasetMeta(0).data[chart.config.options.elements.arc.roundedCornersFor];
 				arc.round = {
 					x: (chart.chartArea.left + chart.chartArea.right) / 2,
 					y: (chart.chartArea.top + chart.chartArea.bottom) / 2,
@@ -866,12 +858,12 @@ const GraficaDoughnut = ({ porcentaje, color, max }) => {
 			}
 		},
 
-		afterDraw: function (chart) {
+		afterDraw(chart) {
 			if (chart.config.options.elements.arc.roundedCornersFor !== undefined) {
-				var ctx = chart.chart.ctx;
-				var arc = chart.getDatasetMeta(0).data[chart.config.options.elements.arc.roundedCornersFor];
-				var startAngle = Math.PI / 2 - arc._view.startAngle;
-				var endAngle = Math.PI / 2 - arc._view.endAngle;
+				const ctx = chart.chart.ctx;
+				const arc = chart.getDatasetMeta(0).data[chart.config.options.elements.arc.roundedCornersFor];
+				const startAngle = Math.PI / 2 - arc._view.startAngle;
+				const endAngle = Math.PI / 2 - arc._view.endAngle;
 
 				ctx.save();
 				ctx.translate(arc.round.x, arc.round.y);
@@ -887,26 +879,24 @@ const GraficaDoughnut = ({ porcentaje, color, max }) => {
 	});
 
 	Chart.pluginService.register({
-		afterUpdate: function (chart) {
+		afterUpdate(chart) {
 			if (chart.config.options.elements.center) {
-				var helpers = Chart.helpers;
-				var centerConfig = chart.config.options.elements.center;
-				var globalConfig = Chart.defaults.global;
-				var ctx = chart.chart.ctx;
-				var fontStyle = helpers.getValueOrDefault(centerConfig.fontStyle, globalConfig.defaultFontStyle);
-				var fontFamily = helpers.getValueOrDefault(centerConfig.fontFamily, globalConfig.defaultFontFamily);
-				if (centerConfig.fontSize)
-					var fontSize = centerConfig.fontSize;
+				const helpers = Chart.helpers;
+				const centerConfig = chart.config.options.elements.center;
+				const globalConfig = Chart.defaults.global;
+				const ctx = chart.chart.ctx;
+				const fontStyle = helpers.getValueOrDefault(centerConfig.fontStyle, globalConfig.defaultFontStyle);
+				const fontFamily = helpers.getValueOrDefault(centerConfig.fontFamily, globalConfig.defaultFontFamily);
+				if (centerConfig.fontSize) var fontSize = centerConfig.fontSize;
 				else {
 					ctx.save();
 					var fontSize = helpers.getValueOrDefault(centerConfig.minFontSize, 1);
-					var maxFontSize = helpers.getValueOrDefault(centerConfig.maxFontSize, 256);
-					var maxText = helpers.getValueOrDefault(centerConfig.maxText, centerConfig.text);
+					const maxFontSize = helpers.getValueOrDefault(centerConfig.maxFontSize, 256);
+					const maxText = helpers.getValueOrDefault(centerConfig.maxText, centerConfig.text);
 					do {
 						ctx.font = helpers.fontString(fontSize, fontStyle, fontFamily);
-						var textWidth = ctx.measureText(maxText).width;
-						if (textWidth < chart.innerRadius * 2 && fontSize < maxFontSize)
-							fontSize += 1;
+						const textWidth = ctx.measureText(maxText).width;
+						if (textWidth < chart.innerRadius * 2 && fontSize < maxFontSize) fontSize += 1;
 						else {
 							fontSize -= 1;
 							break;
@@ -920,17 +910,17 @@ const GraficaDoughnut = ({ porcentaje, color, max }) => {
 				};
 			}
 		},
-		afterDraw: function (chart) {
+		afterDraw(chart) {
 			if (chart.center) {
-				var centerConfig = chart.config.options.elements.center;
-				var ctx = chart.chart.ctx;
+				const centerConfig = chart.config.options.elements.center;
+				const ctx = chart.chart.ctx;
 				ctx.save();
 				ctx.font = chart.center.font;
 				ctx.fillStyle = chart.center.fillStyle;
 				ctx.textAlign = 'center';
 				ctx.textBaseline = 'middle';
-				var centerX = (chart.chartArea.left + chart.chartArea.right) / 2;
-				var centerY = (chart.chartArea.top + chart.chartArea.bottom) / 2;
+				const centerX = (chart.chartArea.left + chart.chartArea.right) / 2;
+				const centerY = (chart.chartArea.top + chart.chartArea.bottom) / 2;
 				ctx.fillText(centerConfig.text, centerX, centerY);
 				ctx.restore();
 			}

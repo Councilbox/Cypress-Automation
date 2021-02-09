@@ -1,11 +1,6 @@
-import gql from 'graphql-tag';
-import { Icon, Card, Table, TableCell, TableBody, TableRow } from 'material-ui';
+import { Card } from 'material-ui';
 import React from 'react';
-import { withApollo } from 'react-apollo';
-import { BasicButton, FileUploadButton, NotLoggedLayout, Scrollbar, TextInput, Checkbox, AlertConfirm } from '../../../displayComponents';
-import { addCouncilAttachment } from '../../../queries';
-import { moment } from '../../../containers/App';
-import { getPrimary, getSecondary } from '../../../styles/colors';
+import { NotLoggedLayout, Scrollbar } from '../../../displayComponents';
 import { isMobile } from '../../../utils/screen';
 import ParticipantCouncilAttachments from '../agendas/ParticipantCouncilAttachments';
 

@@ -146,8 +146,8 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
         <AlertConfirm
             bodyStyle={{ minWidth: "60vw", overflow: 'hidden', minHeight: '70vh', maxHeight: '95vh', height: '50px', padding: '1.5em' }}
             bodyText={
-                <Scrollbar style={{marginTop: "1rem" }}>
-                    <div style={{padding: '1em'}}>
+                <Scrollbar style={{ marginTop: "1rem" }}>
+                    <div style={{ padding: '1em' }}>
                         <div style={{
                             width: "100%",
                             borderRadius: '3px',

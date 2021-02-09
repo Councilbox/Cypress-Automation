@@ -43,7 +43,7 @@ const OrganizationUsersTable = ({ company, translate, textFilter, client }) => {
         console.log('debería pedir de nuevo');
         getUsers();
     }, [getUsers])
-    
+
 
     if(!users){
         return <LoadingSection />;
@@ -72,8 +72,7 @@ const OrganizationUsersTable = ({ company, translate, textFilter, client }) => {
 				</div>
 				<div style={{ height: "300px" }}>
 					<Scrollbar>
-						{users.map((item, index) => {
-							return (
+						{users.map((item, index) => (
 								<div
 									key={item.id}
 									style={{
@@ -89,8 +88,7 @@ const OrganizationUsersTable = ({ company, translate, textFilter, client }) => {
 									<Cell text={item.lastConnectionDate ? moment(item.lastConnectionDate).format("LLL") : '-'} />
 								</div>
 
-							)
-						})}
+							))}
 					</Scrollbar>
 				</div>
 				<Grid style={{ marginTop: "1em" }}>

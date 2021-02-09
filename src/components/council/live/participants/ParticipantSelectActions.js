@@ -4,7 +4,7 @@ import * as CBX from "../../../../utils/CBX";
 import { getLightGrey } from "../../../../styles/colors";
 import { PARTICIPANT_STATES } from "../../../../constants";
 import { changeParticipantState } from "../../../../queries/liveParticipant";
-import {Grid, GridItem, LoadingSection } from "../../../../displayComponents";
+import { Grid, GridItem, LoadingSection } from "../../../../displayComponents";
 import AddRepresentativeModal from "../AddRepresentativeModal";
 import DelegateOwnVoteModal from "../DelegateOwnVoteModal";
 import DelegateVoteModal from "../DelegateVoteModal";

@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertConfirm, LoadingSection, BasicButton } from '../../../displayComponents';
+import { AlertConfirm } from '../../../displayComponents';
 import EarlyVoteMenu from './EarlyVoteMenu';
 
 const EarlyVoteModal = ({ state, setState, acceptState, participant, council, translate, open, requestClose }) => {

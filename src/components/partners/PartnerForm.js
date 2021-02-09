@@ -11,13 +11,12 @@ class PartnerForm extends React.PureComponent {
         provinces: []
     }
 
-    onParse(event) {
+    static onParse(event) {
         const text = event
         const tempDiv = document.createElement("DIV");
         tempDiv.innerHTML = text;
         return tempDiv.innerHTML;
     }
-
 
     render() {
         const { participant, translate, updateState, errors, checkEmail, representative, updateRepresentative } = this.props;

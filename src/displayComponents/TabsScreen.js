@@ -50,7 +50,7 @@ const TabsScreen = ({ selected, controlled, tabsIndex, tabsInfo, linked, windowS
 						<Tabs.TabPane
 							tab={
 								linked ?
-								 <Link to={tab.link}>{tab.text}</Link>
+								<Link to={tab.link}>{tab.text}</Link>
 								:
 									tab.text
 							}

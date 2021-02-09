@@ -26,7 +26,7 @@ export const checkIsiOSDevice = detectRTC => detectRTC.isMobileDevice && detectR
 export const checkIsMobileDevice = detectRTC => detectRTC.isMobileDevice
 
 export const checkIsCompatible = (detectRTC, council, participant) => {
- 	if(council.councilType === COUNCIL_TYPES.NO_VIDEO){
+	if(council.councilType === COUNCIL_TYPES.NO_VIDEO){
 		return COMPATIBLE;
 	}
 	if(participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE){

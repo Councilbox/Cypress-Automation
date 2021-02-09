@@ -1,7 +1,6 @@
 import React from 'react';
 
-const Stars = ({ name, lowStars, onClick, value, error, disabled = false }) => {
-	return (
+const Stars = ({ name, lowStars, onClick, value, error, disabled = false }) => (
 		<div style={{ display: "inline-block" }}>
 			{error && <span style={{ color: 'red', fontWeight: '700', marginBottom: '1em' }}>{error}</span>}
 			<form id={"ratingForm" + name}>
@@ -28,6 +27,5 @@ const Stars = ({ name, lowStars, onClick, value, error, disabled = false }) => {
 			</form>
 		</div>
 	)
-}
 
 export default Stars;

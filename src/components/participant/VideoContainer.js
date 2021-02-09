@@ -8,20 +8,15 @@ import PausedCouncilPage from '../council/live/video/PausedCouncilPage';
 
 const rand = Math.random();
 
+const videoURLQuery = gql`
+    query participantVideoURL($participantId: Int!){
+        participantVideoURL(participantId: $participantId)
+    }
+`;
+
 const VideoContainer = ({ setVideoURL, videoURL, announcement, client, ...props }) => {
     const [url, setUrl] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
-
-    const getData = React.useCallback(async () => {
-        const response = await client.query({
-            query: videoURLQuery,
-            variables: {
-                participantId: +props.participant.id
-            }
-        })
-
-        updateUrl(response.data.participantVideoURL);
-    }, [props.participant.id])
 
     const updateUrl = async newUrl => {
         if(newUrl){
@@ -35,6 +30,17 @@ const VideoContainer = ({ setVideoURL, videoURL, announcement, client, ...props 
             setTimeout(getData, 5000);
         }
     }
+
+    const getData = React.useCallback(async () => {
+        const response = await client.query({
+            query: videoURLQuery,
+            variables: {
+                participantId: +props.participant.id
+            }
+        })
+
+        updateUrl(response.data.participantVideoURL);
+    }, [props.participant.id])
 
     useRoomUpdated({
         refetch: updateUrl,
@@ -81,12 +87,6 @@ const VideoContainer = ({ setVideoURL, videoURL, announcement, client, ...props 
 
     return <div/>;
 }
-
-const videoURLQuery = gql`
-    query participantVideoURL($participantId: Int!){
-        participantVideoURL(participantId: $participantId)
-    }
-`;
 
 export default compose(
     graphql(roomUpdateSubscription, {

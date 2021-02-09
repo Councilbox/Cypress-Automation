@@ -82,10 +82,11 @@ module.exports = {
     "arrow-body-style": 'warn',
     "space-before-blocks": 'off',
     "import/no-cycle": "off",
-    "no-mixed-spaces-and-tabs": 'warn',
+    "no-mixed-spaces-and-tabs": 'error',
     "quote-props": "off",
     "object-curly-newline": "off",
     "no-return-await": "off",
+	"no-use-before-define": 'warn',
     "prefer-destructuring": "off",
     "no-tabs": "off"
   },

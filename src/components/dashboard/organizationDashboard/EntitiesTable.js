@@ -25,7 +25,7 @@ const OrganizationEntitiesTable = ({ translate, company, client, textFilter }) =
     })
 	const [companies, setCompanies] = React.useState(false);
     const [companiesTotal, setCompaniesTotal] = React.useState(false);
-    
+
     const getCompanies = React.useCallback(async () => {
 		const response = await client.query({
 			query: corporationCompanies,
@@ -45,13 +45,13 @@ const OrganizationEntitiesTable = ({ translate, company, client, textFilter }) =
 			setCompaniesTotal(response.data.corporationCompanies.total)
 		}
     }, [textFilter, filters.page, company.id])
-    
+
     React.useEffect(() => {
         getCompanies();
     }, [getCompanies])
 
     const primary = getPrimary();
-    
+
     if(!companies){
         return <LoadingSection />;
     }
@@ -71,8 +71,7 @@ const OrganizationEntitiesTable = ({ translate, company, client, textFilter }) =
 			</div>
 			<div style={{ height: "300px" }}>
 				<Scrollbar>
-					{companies.map((item, index) => {
-						return (
+					{companies.map((item, index) => (
 							<div
 								key={item.id}
 								style={{
@@ -85,8 +84,7 @@ const OrganizationEntitiesTable = ({ translate, company, client, textFilter }) =
 								<Cell width={3} text={item.id} />
 								<Cell width={3} text={item.businessName} />
 							</div>
-						)
-					})}
+						))}
 				</Scrollbar>
 			</div>
 			<Grid style={{ marginTop: "1em" }}>

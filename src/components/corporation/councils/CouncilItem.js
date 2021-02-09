@@ -1,10 +1,10 @@
 import React from 'react';
 import FontAwesome from 'react-fontawesome';
+import { TableRow, TableCell } from 'material-ui';
 import { getSecondary } from '../../../styles/colors';
 import { bHistory, moment } from '../../../containers/App';
 import { Link } from '../../../displayComponents';
 import FixedVideoURLModal from './FixedVideoURLModal';
-import { TableRow, TableCell } from 'material-ui';
 import { councilTypesInfo } from '../../../constants';
 
 const getCouncilStateString = (state, councilStarted) => {

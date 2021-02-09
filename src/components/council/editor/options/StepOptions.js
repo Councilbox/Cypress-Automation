@@ -137,7 +137,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 			}
 		});
 		if(response){
-			setIsmodal({...isModal, modal: false, unsavedModal: false})
+			setIsmodal({ ...isModal, modal: false, unsavedModal: false })
 		}
 	}
 
