@@ -1,12 +1,12 @@
-import React from "react";
-import { MenuItem } from "material-ui";
+import React from 'react';
+import { MenuItem } from 'material-ui';
 import {
 	Grid,
 	GridItem,
 	Radio,
 	SelectInput,
 	TextInput
-} from "../../../displayComponents";
+} from '../../../displayComponents';
 
 const ParticipantForm = ({
 	type,
@@ -43,7 +43,7 @@ const ParticipantForm = ({
 									event.nativeEvent.target.value,
 									10
 								),
-								surname: ""
+								surname: ''
 							})
 						}
 						value="1"
@@ -141,7 +141,7 @@ const ParticipantForm = ({
 					onChange={event => {
 						updateState({
 							secondaryEmail: event.target.value
-						})
+						});
 					}}
 				/>
 			</GridItem>
@@ -231,7 +231,7 @@ const ParticipantForm = ({
 								if(!isNaN(event.target.value) || +event.target.value > 0){
 									updateState({
 										numParticipations: +event.target.value
-									})
+									});
 								}
 							}}
 						/>
@@ -248,7 +248,7 @@ const ParticipantForm = ({
 									if(!isNaN(event.target.value) || +event.target.value > 0){
 										updateState({
 											socialCapital: +event.target.value
-										})
+										});
 									}
 								}}
 							/>

@@ -1,10 +1,10 @@
-import React from "react";
-import FontAwesome from "react-fontawesome";
-import { MenuItem, Paper } from "material-ui";
-import { DropDownMenu, Icon } from "../../../../displayComponents";
-import { getPrimary, getSecondary } from "../../../../styles/colors";
-import OriginalConveneModal from "../../live/councilMenu/OriginalConveneModal";
-import CouncilInfoModal from "../../live/councilMenu/CouncilInfoModal";
+import React from 'react';
+import FontAwesome from 'react-fontawesome';
+import { MenuItem, Paper } from 'material-ui';
+import { DropDownMenu, Icon } from '../../../../displayComponents';
+import { getPrimary, getSecondary } from '../../../../styles/colors';
+import OriginalConveneModal from '../../live/councilMenu/OriginalConveneModal';
+import CouncilInfoModal from '../../live/councilMenu/CouncilInfoModal';
 import { ConfigContext } from '../../../../containers/AppControl';
 
 class CouncilMenu extends React.Component {
@@ -20,13 +20,13 @@ class CouncilMenu extends React.Component {
 	showAnnouncementModal = () => {
 		this.setState({
 			announcementModal: true
-		})
+		});
 	}
 
 	closeAnnouncementModal = () => {
 		this.setState({
 			announcementModal: false
-		})
+		});
 	}
 
 	render() {
@@ -43,15 +43,15 @@ class CouncilMenu extends React.Component {
 							Component={() => <Paper
 									elevation={1}
 									style={{
-										boxSizing: "border-box",
-										padding: "0",
+										boxSizing: 'border-box',
+										padding: '0',
 										width: '5em',
 										height: '36px',
 										display: 'flex',
 										alignItems: 'center',
 										justifyContent: 'flex-end',
 										border: `1px solid ${primary}`,
-										marginLeft: "0.3em"
+										marginLeft: '0.3em'
 									}}
 								>
 									<MenuItem
@@ -66,11 +66,11 @@ class CouncilMenu extends React.Component {
 										}}
 									>
 										<FontAwesome
-											name={"bars"}
+											name={'bars'}
 											style={{
-												cursor: "pointer",
-												fontSize: "0.8em",
-												height: "0.8em",
+												cursor: 'pointer',
+												fontSize: '0.8em',
+												height: '0.8em',
 												color: primary
 											}}
 										/>
@@ -102,7 +102,7 @@ class CouncilMenu extends React.Component {
 										<FontAwesome
 											name="eye"
 											style={{
-												marginRight: "0.8em",
+												marginRight: '0.8em',
 												color: secondary
 											}}
 										/>
@@ -115,7 +115,7 @@ class CouncilMenu extends React.Component {
 										<FontAwesome
 											name="info"
 											style={{
-												marginRight: "0.8em",
+												marginRight: '0.8em',
 												color: secondary
 											}}
 										/>

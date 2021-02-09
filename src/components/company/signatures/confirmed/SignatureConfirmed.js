@@ -18,10 +18,10 @@ class SignatureConfirmed extends React.Component {
         this.setState({
             downloading: true
         });
-        const token = sessionStorage.getItem("token");
+        const token = sessionStorage.getItem('token');
         const response = await fetch(`${SERVER_URL}/signedDocument/${this.props.data.signature.id}`, {
             headers: new Headers({
-                "x-jwt-token": token
+                'x-jwt-token': token
             })
         });
 
@@ -30,14 +30,14 @@ class SignatureConfirmed extends React.Component {
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = this.props.data.signature.title + ".pdf";
+            a.download = this.props.data.signature.title + '.pdf';
             document.body.appendChild(a);
             a.click();
             a.remove();
         }
         this.setState({
             downloading: false
-        })
+        });
     }
 
     render(){
@@ -99,7 +99,7 @@ class SignatureConfirmed extends React.Component {
                     :
                         <div style={{ width: '100%', height: '100%' }}>
                             <SignersList
-                                ref={ref => { this.signers = ref }}
+                                ref={ref => { this.signers = ref; }}
                                 refetch={this.props.data.refetch}
                                 signature={signature}
                                 translate={this.props.translate}
@@ -109,7 +109,7 @@ class SignatureConfirmed extends React.Component {
                     }
                 </div>
             </CardPageLayout>
-        )
+        );
     }
 }
 

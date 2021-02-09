@@ -1,14 +1,14 @@
-import React from "react";
-import { compose, graphql } from "react-apollo";
-import { AlertConfirm } from "../../../displayComponents";
-import { addRepresentative } from "../../../queries";
-import RepresentativeForm from "../participants/RepresentativeForm";
-import { languages } from "../../../queries/masters";
-import { useOldState } from "../../../hooks";
+import React from 'react';
+import { compose, graphql } from 'react-apollo';
+import { AlertConfirm } from '../../../displayComponents';
+import { addRepresentative } from '../../../queries';
+import RepresentativeForm from '../participants/RepresentativeForm';
+import { languages } from '../../../queries/masters';
+import { useOldState } from '../../../hooks';
 
 const AddRepresentativeModal = ({ translate, participant, ...props }) => {
 	const [state, setState] = useOldState({
-		success: "",
+		success: '',
 		errors: {},
 		representative: {
 			...newRepresentativeInitialValues
@@ -18,7 +18,7 @@ const AddRepresentativeModal = ({ translate, participant, ...props }) => {
 	const close = () => {
 		props.requestClose();
 		resetForm();
-	}
+	};
 
 	const addRepresentative = async () => {
 		const response = await props.addRepresentative({
@@ -39,10 +39,10 @@ const AddRepresentativeModal = ({ translate, participant, ...props }) => {
 					errors: {
 						email: translate.repeated_email
 					}
-				})
+				});
 			}
 		}
-	}
+	};
 
 	const resetForm = () => {
 		setState({
@@ -59,7 +59,7 @@ const AddRepresentativeModal = ({ translate, participant, ...props }) => {
 				...object
 			}
 		});
-	}
+	};
 
 	function _renderReminderBody() {
 		if (state.sending) {
@@ -88,26 +88,26 @@ const AddRepresentativeModal = ({ translate, participant, ...props }) => {
 			title={participant.representative ? translate.change_representative : translate.add_representative}
 		/>
 	);
-}
+};
 
 export default compose(
 	graphql(addRepresentative, {
-		name: "addRepresentative",
+		name: 'addRepresentative',
 		options: {
-			errorPolicy: "all"
+			errorPolicy: 'all'
 		}
 	}),
 	graphql(languages)
 )(AddRepresentativeModal);
 
 const newRepresentativeInitialValues = {
-	language: "es",
+	language: 'es',
 	personOrEntity: 0,
-	name: "",
-	surname: "",
-	position: "",
+	name: '',
+	surname: '',
+	position: '',
 	initialState: 0,
-	dni: "",
-	email: "",
-	phone: ""
+	dni: '',
+	email: '',
+	phone: ''
 };

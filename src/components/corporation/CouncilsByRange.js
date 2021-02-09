@@ -34,20 +34,20 @@ const CouncilsByRange = ({ client, dateStart, dateEnd, translate }) => {
                 }
             }
         });
-        setData(response.data.kpiCouncils)
-    }, [dateStart, dateEnd, page])
+        setData(response.data.kpiCouncils);
+    }, [dateStart, dateEnd, page]);
 
 
     const changePage = page => {
         setPage(page);
-    }
+    };
 
     React.useEffect(() => {
         getData();
-    }, [getData])
+    }, [getData]);
 
     if(!data){
-        return <span/>
+        return <span/>;
     }
 
 
@@ -146,7 +146,7 @@ const CouncilsByRange = ({ client, dateStart, dateEnd, translate }) => {
                 />
             </Grid>
         </div>
-    )
-}
+    );
+};
 
 export default withApollo(CouncilsByRange);

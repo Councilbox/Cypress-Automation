@@ -1,16 +1,16 @@
-import React from "react";
-import { compose, graphql } from "react-apollo";
+import React from 'react';
+import { compose, graphql } from 'react-apollo';
 import Dropzone from 'react-dropzone';
 import gql from 'graphql-tag';
 import {
 	AlertConfirm,
 	BasicButton,
-} from "../../../../displayComponents";
+} from '../../../../displayComponents';
 import { approveAct } from '../../../../queries';
-import { getSecondary } from "../../../../styles/colors";
-import { useOldState } from "../../../../hooks";
-import { isMobile } from "../../../../utils/screen";
-import DocumentPreview from "../../../documentEditor/DocumentPreview";
+import { getSecondary } from '../../../../styles/colors';
+import { useOldState } from '../../../../hooks';
+import { isMobile } from '../../../../utils/screen';
+import DocumentPreview from '../../../documentEditor/DocumentPreview';
 
 const dropzoneStyles = {
 	active: {
@@ -21,7 +21,7 @@ const dropzoneStyles = {
 		border: '2px dashed red',
 		color: 'red'
 	}
-}
+};
 
 
 const FinishActModal = ({ requestClose, updateAct, translate, preview, council, finishInModal, ...props }) => {
@@ -63,7 +63,7 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 				props.refetch();
 			}
 		}
-	}
+	};
 
 	const approveActWithUserPDF = async () => {
 		setState({
@@ -88,20 +88,20 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 		setState({
 			loading: false
 		});
-	}
+	};
 
 	const goToDropZone = () => {
 		setState({
 			step: 2
 		});
-	}
+	};
 
 	const setFile = (file, filename) => {
 		setState({
 			file,
 			filename
 		});
-	}
+	};
 
 	function _modalBody() {
 		if (state.step === 2) {
@@ -110,7 +110,7 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 					<div>
 						{state.filename}
 					</div>
-				)
+				);
 			}
 
 			return (
@@ -118,7 +118,7 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 					council={council}
 					setFile={setFile}
 				/>
-			)
+			);
 		}
 
 		return (
@@ -137,7 +137,7 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 
 	return (
 		<AlertConfirm
-			bodyStyle={{ minWidth: "50vw", height: isMobile ? '26em' : "100%" }}
+			bodyStyle={{ minWidth: '50vw', height: isMobile ? '26em' : '100%' }}
 			requestClose={close}
 			open={props.show}
 			extraActions={state.step === 1 &&
@@ -162,7 +162,7 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 			title={translate.finish_and_aprove_act}
 		/>
 	);
-}
+};
 
 const UploadAct = ({ ...props }) => {
 	const [error, setError] = React.useState('');
@@ -176,7 +176,7 @@ const UploadAct = ({ ...props }) => {
 		reader.onload = async () => {
 			props.setFile(reader.result, file.name);
 		};
-	}
+	};
 
 	const onDrop = (accepted) => {
 		if (accepted.length === 0) {
@@ -184,7 +184,7 @@ const UploadAct = ({ ...props }) => {
 			return;
 		}
 		handleFile(accepted[0]);
-	}
+	};
 
 
 
@@ -197,7 +197,7 @@ const UploadAct = ({ ...props }) => {
 			{({ getRootProps, getInputProps, isDragActive }) => (
 				<div
 					{...getRootProps()}
-					className={`dropzone`}
+					className={'dropzone'}
 					style={{
 						height: '8em',
 						border: '2px dashed gainsboro',
@@ -216,8 +216,8 @@ const UploadAct = ({ ...props }) => {
 				</div>
 			)}
 		</Dropzone>
-	)
-}
+	);
+};
 
 
 

@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 
 const LoadingMainApp = ({ message }) => (
 	<div
 		style={{
-			display: "flex",
-			height: "100vh",
-			width: "100vw",
-			alignItems: "center",
-			justifyContent: "center",
+			display: 'flex',
+			height: '100vh',
+			width: '100vw',
+			alignItems: 'center',
+			justifyContent: 'center',
 			flexDirection: 'column'
 		}}
 	>

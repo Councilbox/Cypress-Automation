@@ -1,21 +1,21 @@
-import React from "react";
+import React from 'react';
 import Dialog, {
 	DialogActions,
 	DialogContent,
 	DialogTitle
-} from "material-ui/Dialog";
-import { withRouter } from "react-router-dom";
-import { compose, graphql } from "react-apollo";
-import gql from "graphql-tag";
+} from 'material-ui/Dialog';
+import { withRouter } from 'react-router-dom';
+import { compose, graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import {
 	BasicButton,
 	ButtonIcon,
 	ErrorWrapper,
 	LoadingSection,
-} from "../../../displayComponents";
-import { getPrimary } from "../../../styles/colors";
-import ParticipantsTable from "../../council/editor/census/ParticipantsTable";
-import { councilStepTwo, updateCouncil } from "../../../queries";
+} from '../../../displayComponents';
+import { getPrimary } from '../../../styles/colors';
+import ParticipantsTable from '../../council/editor/census/ParticipantsTable';
+import { councilStepTwo, updateCouncil } from '../../../queries';
 
 class MeetingEditorCensus extends React.Component {
 	closeAddParticipantModal = () => {
@@ -88,7 +88,7 @@ class MeetingEditorCensus extends React.Component {
 			placeModal: false,
 			censusChangeAlert: false,
 			addParticipantModal: false,
-			censusChangeId: "",
+			censusChangeId: '',
 			data: {
 				censuses: []
 			}
@@ -117,25 +117,25 @@ class MeetingEditorCensus extends React.Component {
 			<React.Fragment>
 				<BasicButton
 					text={translate.cancel}
-					color={"white"}
+					color={'white'}
 					textStyle={{
 						color: getPrimary(),
-						fontWeight: "700",
-						fontSize: "0.9em",
-						textTransform: "none"
+						fontWeight: '700',
+						fontSize: '0.9em',
+						textTransform: 'none'
 					}}
 					textPosition="after"
 					onClick={() => this.setState({ censusChangeAlert: false })}
-					buttonStyle={{ marginRight: "1em" }}
+					buttonStyle={{ marginRight: '1em' }}
 				/>
 				<BasicButton
 					text={translate.want_census_change}
 					color={getPrimary()}
 					textStyle={{
-						color: "white",
-						fontWeight: "700",
-						fontSize: "0.9em",
-						textTransform: "none"
+						color: 'white',
+						fontWeight: '700',
+						fontSize: '0.9em',
+						textTransform: 'none'
 					}}
 					icon={<ButtonIcon type="save" color="white" />}
 					textPosition="after"
@@ -157,9 +157,9 @@ class MeetingEditorCensus extends React.Component {
 			return (
 				<div
 					style={{
-						width: "100%",
-						height: "100%",
-						padding: "2em"
+						width: '100%',
+						height: '100%',
+						padding: '2em'
 					}}
 				>
 					<ErrorWrapper error={error} translate={translate} />
@@ -170,9 +170,9 @@ class MeetingEditorCensus extends React.Component {
 		return (
 			<div
 				style={{
-					width: "100%",
-					height: "100%",
-					padding: "2em"
+					width: '100%',
+					height: '100%',
+					padding: '2em'
 				}}
 			>
 				<ParticipantsTable
@@ -182,17 +182,17 @@ class MeetingEditorCensus extends React.Component {
 					translate={translate}
 					refetch={this.props.data.refetch}
 				/>
-				<div className="row" style={{ marginTop: "2em" }}>
+				<div className="row" style={{ marginTop: '2em' }}>
 					<div className="col-lg-12 col-md-12 col-xs-12">
-						<div style={{ float: "right" }}>
+						<div style={{ float: 'right' }}>
 							<BasicButton
 								text={translate.previous}
 								color={getPrimary()}
 								textStyle={{
-									color: "white",
-									fontWeight: "700",
-									fontSize: "0.9em",
-									textTransform: "none"
+									color: 'white',
+									fontWeight: '700',
+									fontSize: '0.9em',
+									textTransform: 'none'
 								}}
 								textPosition="after"
 								onClick={this.previousPage}
@@ -201,12 +201,12 @@ class MeetingEditorCensus extends React.Component {
 								text={translate.save}
 								color={getPrimary()}
 								textStyle={{
-									color: "white",
-									fontWeight: "700",
-									fontSize: "0.9em",
-									marginLeft: "0.5em",
-									marginRight: "0.5em",
-									textTransform: "none"
+									color: 'white',
+									fontWeight: '700',
+									fontSize: '0.9em',
+									marginLeft: '0.5em',
+									marginRight: '0.5em',
+									textTransform: 'none'
 								}}
 								icon={<ButtonIcon type="save" color="white" />}
 								textPosition="after"
@@ -216,10 +216,10 @@ class MeetingEditorCensus extends React.Component {
 								text={translate.table_button_next}
 								color={getPrimary()}
 								textStyle={{
-									color: "white",
-									fontWeight: "700",
-									fontSize: "0.9em",
-									textTransform: "none"
+									color: 'white',
+									fontWeight: '700',
+									fontSize: '0.9em',
+									textTransform: 'none'
 								}}
 								textPosition="after"
 								onClick={this.nextPage}
@@ -234,7 +234,7 @@ class MeetingEditorCensus extends React.Component {
 				>
 					<DialogTitle>{translate.census_change}</DialogTitle>
 					<DialogContent>
-						{translate.census_change_warning.replace("<br/>", "")}
+						{translate.census_change_warning.replace('<br/>', '')}
 					</DialogContent>
 					<DialogActions>
 						{this._renderCensusChangeButtons()}
@@ -253,7 +253,7 @@ const changeCensus = gql`
 
 export default compose(
 	graphql(councilStepTwo, {
-		name: "data",
+		name: 'data',
 		options: props => ({
 			variables: {
 				id: props.councilID,
@@ -266,6 +266,6 @@ export default compose(
 	graphql(changeCensus),
 
 	graphql(updateCouncil, {
-		name: "updateCouncil"
+		name: 'updateCouncil'
 	})
 )(withRouter(MeetingEditorCensus));

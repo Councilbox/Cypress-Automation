@@ -17,14 +17,14 @@ const styles = {
     division: {
         display: 'flex',
         alignItems: 'center',
-        marginTop: ".5em"
+        marginTop: '.5em'
     },
     divisionM: {
         display: 'flex',
         alignItems: 'center',
         height: '50px',
     }
-}
+};
 
 const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, votings, client, disabledColor, hasVideo, ...props }) => {
     const [loading, setLoading] = React.useState(false);
@@ -35,7 +35,7 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
     const primary = getPrimary();
     const votingContext = React.useContext(VotingContext);
     const voteAtTheEnd = voteAllAtOnce({ council });
-    let fixed
+    let fixed;
 
     if (props.ownVote) {
         fixed = props.ownVote.fixed;
@@ -48,11 +48,11 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
                 agendaId: agenda.id,
             }
         });
-        setRecount(response.data.agendaRecount)
-    }
+        setRecount(response.data.agendaRecount);
+    };
 
     React.useEffect(() => {
-        getAgendaRecount()
+        getAgendaRecount();
     }, []);
 
     const setAgendaVoting = vote => {
@@ -60,12 +60,12 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
             votingContext.responses.set(props.ownVote.id, vote);
             votingContext.setResponses(new Map(votingContext.responses));
         }
-    }
+    };
 
     const closeModal = () => {
         setModal(false);
         setVote(-1);
-    }
+    };
 
 
     const buildRecountText = recount => {
@@ -77,8 +77,8 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
                 ` (${translate.recount}: ${recount}%)`
             :
                 ''
-        )
-    }
+        );
+    };
 
     const updateAgendaVoting = async vote => {
         setLoading(vote);
@@ -101,13 +101,13 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
                 props.close();
             }
         }
-    }
+    };
 
     const getSelected = value => {
         if (props.ownVote) {
             return voteAtTheEnd ? votingContext.responses.get(props.ownVote.id) === value : props.ownVote.vote === value;
         }
-    }
+    };
 
     let voteDenied = false;
     let denied = [];
@@ -125,7 +125,7 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
     if (voteDenied) {
         return (
             <DeniedDisplay translate={translate} denied={denied} />
-        )
+        );
     }
 
     const disabled = fixed || !props.ownVote;
@@ -159,9 +159,9 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
                 icon={<i className="fa fa-check" aria-hidden="true" style={{ marginLeft: '0.2em', color: getSelected(1) ? primary : 'silver' }}></i>}
                 onClick={() => {
                     if (voteAtTheEnd) {
-                        setAgendaVoting(1)
+                        setAgendaVoting(1);
                     } else {
-                        updateAgendaVoting(1)
+                        updateAgendaVoting(1);
                     }
                 }}
             />
@@ -179,9 +179,9 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
                 icon={<i className="fa fa-times" aria-hidden="true" style={{ marginLeft: '0.2em', color: getSelected(0) ? primary : 'silver' }}></i>}
                 onClick={() => {
                     if (voteAtTheEnd) {
-                        setAgendaVoting(0)
+                        setAgendaVoting(0);
                     } else {
-                        updateAgendaVoting(0)
+                        updateAgendaVoting(0);
                     }
                 }}
             />
@@ -194,8 +194,8 @@ const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, v
                 />
             }
         </Grid>
-    )
-}
+    );
+};
 
 export const DeniedDisplay = ({ translate, denied }) =>
     //TRADUCCION
@@ -211,7 +211,7 @@ export const DeniedDisplay = ({ translate, denied }) =>
             ))}
 
         </div>
-    )
+    );
 
 
 export const VotingButton = ({ onClick, text, selected, icon, loading, onChange, disabled, styleButton, selectCheckBox, color, disabledColor }) => {
@@ -220,7 +220,7 @@ export const VotingButton = ({ onClick, text, selected, icon, loading, onChange,
         <GridItem xs={12} md={12} lg={12} style={isMobile ? styles.divisionM : styles.division}>
             <BasicButton
                 text={text}
-                color={color || (disabledColor ? 'gainsboro' : "white")}
+                color={color || (disabledColor ? 'gainsboro' : 'white')}
                 disabled={disabled || selected || disabledColor}
                 loading={loading}
                 loadingColor={primary}
@@ -239,8 +239,8 @@ export const VotingButton = ({ onClick, text, selected, icon, loading, onChange,
                 onChange={onChange}
             />
         </GridItem>
-    )
-}
+    );
+};
 
 const updateAgendaVoting = gql`
     mutation UpdateAgendaVoting($agendaVoting: AgendaVotingInput!){

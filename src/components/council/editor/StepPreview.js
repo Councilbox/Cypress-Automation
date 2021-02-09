@@ -1,9 +1,9 @@
-import React from "react";
-import { withRouter } from "react-router-dom";
-import { compose, graphql, withApollo } from "react-apollo";
-import { Icon, MenuItem, Paper, Typography } from "material-ui";
-import FontAwesome from "react-fontawesome";
-import { toast } from "react-toastify";
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { compose, graphql, withApollo } from 'react-apollo';
+import { Icon, MenuItem, Paper, Typography } from 'material-ui';
+import FontAwesome from 'react-fontawesome';
+import { toast } from 'react-toastify';
 import {
 	AlertConfirm,
 	BasicButton,
@@ -14,23 +14,23 @@ import {
 	LoadingSection,
 	TextInput,
 	SuccessMessage
-} from "../../../displayComponents";
-import { getPrimary, getSecondary } from "../../../styles/colors";
+} from '../../../displayComponents';
+import { getPrimary, getSecondary } from '../../../styles/colors';
 import {
 	councilStepSix
-} from "../../../queries";
+} from '../../../queries';
 import {
 	conveneWithNotice,
 	conveneWithoutNotice,
 	sendConveneTest,
 	sendPreConvene
-} from "../../../queries/council";
-import { bHistory, moment } from "../../../containers/App";
-import * as CBX from "../../../utils/CBX";
-import { checkValidEmail } from "../../../utils/validation";
+} from '../../../queries/council';
+import { bHistory, moment } from '../../../containers/App';
+import * as CBX from '../../../utils/CBX';
+import { checkValidEmail } from '../../../utils/validation';
 import EditorStepLayout from './EditorStepLayout';
 
-import { useOldState } from "../../../hooks";
+import { useOldState } from '../../../hooks';
 
 
 const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
@@ -47,11 +47,11 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 		sendConveneWithoutNoticeModal: false,
 		conveneWithoutNoticeSuccess: false,
 		data: {
-			conveneTestEmail: ""
+			conveneTestEmail: ''
 		},
 
 		errors: {
-			conveneTestEmail: ""
+			conveneTestEmail: ''
 		}
 	});
 
@@ -99,14 +99,14 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 						/>, {
 						position: toast.POSITION.TOP_RIGHT,
 						autoClose: true,
-						className: "successToast"
+						className: 'successToast'
 					}
-					)
+					);
 					bHistory.push(`/company/${company.id}/council/${council.id}/prepare`);
 				}
 			}
 		}
-	}
+	};
 
 	const sendConveneTest = async () => {
 		if (checkValidEmail(state.data.conveneTestEmail)) {
@@ -134,7 +134,7 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 				}
 			});
 		}
-	}
+	};
 
 	const conveneTestKeyUp = event => {
 		if (event.nativeEvent.keyCode === 13) {
@@ -149,14 +149,14 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 				...object
 			}
 		});
-	}
+	};
 
 	const resetConveneTestValues = () => {
 		setState({
 			conveneTestModal: false,
 			conveneTestSuccess: false,
 			data: { conveneTestEmail: '' },
-			errors: { conveneTestEmail: "" }
+			errors: { conveneTestEmail: '' }
 		});
 	};
 
@@ -176,15 +176,15 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 				preConveneSuccess: true
 			});
 		}
-	}
+	};
 
 	const resetErrors = () => {
 		setErrors({});
-	}
+	};
 
 	const checkInvalidDates = () => {
 		let hasError = false;
-		const errors = {}
+		const errors = {};
 		const { council } = data;
 
 		if (council.councilType === 2 || council.councilType === 3) {
@@ -224,7 +224,7 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 		setErrors(errors);
 
 		return hasError;
-	}
+	};
 
 	const sendConveneWithoutNotice = async () => {
 		if (!checkInvalidDates()) {
@@ -247,14 +247,14 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 						/>, {
 						position: toast.POSITION.TOP_RIGHT,
 						autoClose: true,
-						className: "successToast"
+						className: 'successToast'
 					}
 					);
 					bHistory.push(`/company/${company.id}/council/${data.council.id}/prepare`);
 				}
 			}
 		}
-	}
+	};
 
 	const _renderPreConveneModalBody = () => {
 		if (state.preConveneSuccess) {
@@ -262,7 +262,7 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 		}
 
 		return (
-			<div style={{ width: "500px" }}>
+			<div style={{ width: '500px' }}>
 				{translate.send_preconvene_desc}
 			</div>
 		);
@@ -272,7 +272,7 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 
 	const _renderErrorModalBody = () => {
 		if (Object.keys(errors).length === 0) {
-			return <div />
+			return <div />;
 		}
 
 		return (
@@ -289,24 +289,24 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 					</div>
 				))}
 			</div>
-		)
-	}
+		);
+	};
 
 	function _renderConveneTestModalBody() {
 		const { data, errors } = state;
-		const texts = CBX.removeHTMLTags(translate.send_convene_test_email_modal_text).split(".");
+		const texts = CBX.removeHTMLTags(translate.send_convene_test_email_modal_text).split('.');
 
 		if (state.conveneTestSuccess) {
 			return <SuccessMessage message={translate.sent} />;
 		}
 
 		return (
-			<div style={{ width: "500px" }}>
-				<Typography style={{ fontWeight: "700" }}>
+			<div style={{ width: '500px' }}>
+				<Typography style={{ fontWeight: '700' }}>
 					{texts[0]}
 				</Typography>
 				<Typography>{`${texts[1]}.`}</Typography>
-				<div style={{ marginTop: "2em" }}>
+				<div style={{ marginTop: '2em' }}>
 					<TextInput
 						required
 						floatingText={translate.email}
@@ -333,8 +333,8 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 			body={
 				<div
 					style={{
-						width: "100%",
-						height: "100%",
+						width: '100%',
+						height: '100%',
 						padding: '1.2em',
 						paddingTop: '0.8em',
 						display: 'flex',
@@ -408,7 +408,7 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 											sendConveneWithoutNoticeModal: false,
 											sendWithoutNoticeSuccess: false
 										},
-										() => bHistory.push(`/`)
+										() => bHistory.push('/')
 									);
 								}
 								: sendConveneWithoutNotice
@@ -437,7 +437,7 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 						<div>
 							<div
 								style={{
-									float: "right"
+									float: 'right'
 								}}
 							>
 								<DropDownMenu
@@ -446,15 +446,15 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 									Component={() => <Paper
 											elevation={1}
 											style={{
-												boxSizing: "border-box",
-												padding: "0",
+												boxSizing: 'border-box',
+												padding: '0',
 												width: '5em',
 												height: '36px',
 												display: 'flex',
 												alignItems: 'center',
 												justifyContent: 'center',
 												border: `1px solid ${primary}`,
-												marginLeft: "0.3em"
+												marginLeft: '0.3em'
 											}}
 										>
 											<MenuItem
@@ -469,11 +469,11 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 												}}
 											>
 												<FontAwesome
-													name={"bars"}
+													name={'bars'}
 													style={{
-														cursor: "pointer",
-														fontSize: "0.8em",
-														height: "0.8em",
+														cursor: 'pointer',
+														fontSize: '0.8em',
+														height: '0.8em',
 														color: primary
 													}}
 												/>
@@ -502,11 +502,11 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 															className="fa fa-flask"
 															style={{
 																color: secondary,
-																marginLeft: "0.4em",
+																marginLeft: '0.4em',
 																marginRight: '0.4em'
 															}}
 														>
-															{" "}
+															{' '}
 														</Icon>
 														{translate.send_test_convene}
 													</MenuItem>
@@ -520,7 +520,7 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 															className="material-icons"
 															style={{
 																color: secondary,
-																marginLeft: "0.4em",
+																marginLeft: '0.4em',
 																marginRight: '0.4em'
 															}}
 														>
@@ -541,7 +541,7 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 													className="material-icons"
 													style={{
 														color: secondary,
-														marginLeft: "0.4em",
+														marginLeft: '0.4em',
 														marginRight: '0.4em'
 													}}
 												>
@@ -557,11 +557,11 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 								text={data.council.councilType === 4 ? translate.confirm_and_notify : translate.new_save_and_send}
 								color={primary}
 								textStyle={{
-									color: "white",
-									fontWeight: "700",
-									marginLeft: "0.3em",
-									fontSize: "0.9em",
-									textTransform: "none"
+									color: 'white',
+									fontWeight: '700',
+									marginLeft: '0.3em',
+									fontSize: '0.9em',
+									textTransform: 'none'
 								}}
 								floatRight
 								textPosition="after"
@@ -571,10 +571,10 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 								text={translate.previous}
 								color={secondary}
 								textStyle={{
-									color: "white",
-									fontWeight: "700",
-									fontSize: "0.9em",
-									textTransform: "none"
+									color: 'white',
+									fontWeight: '700',
+									fontSize: '0.9em',
+									textTransform: 'none'
 								}}
 								floatRight
 								textPosition="after"
@@ -586,27 +586,27 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 			}
 		/>
 	);
-}
+};
 
 
 
 export default compose(
 	graphql(conveneWithNotice, {
-		name: "conveneWithNotice"
+		name: 'conveneWithNotice'
 	}),
 
 	graphql(sendConveneTest, {
-		name: "sendConveneTest"
+		name: 'sendConveneTest'
 	}),
 
 	graphql(sendPreConvene, {
-		name: "sendPreConvene"
+		name: 'sendPreConvene'
 	}),
 
 	graphql(conveneWithoutNotice, {
-		name: "conveneWithoutNotice",
+		name: 'conveneWithoutNotice',
 		options: {
-			errorPolicy: "all"
+			errorPolicy: 'all'
 		}
 	}),
 )(withRouter(withApollo(StepPreview)));

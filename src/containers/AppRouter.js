@@ -1,16 +1,16 @@
-import React from "react";
-import { Route, Switch, withRouter, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
+import React from 'react';
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 import withStyles from 'material-ui/styles/withStyles';
 import Loadable from 'react-loadable';
-import { LoadingMainApp } from "../displayComponents";
+import { LoadingMainApp } from '../displayComponents';
 import withWindowSize from '../HOCs/withWindowSize';
-import appStyle from "../styles/appStyle";
+import appStyle from '../styles/appStyle';
 import { isLandscape, isMobile } from '../utils/screen';
-import image from "../assets/img/sidebar-2.jpg";
-import GicarLoginContainer from "./GicarLoginContainer";
-import RoomAdminContainer from "./RoomAdminContainer";
-import { HEADER_HEIGHT } from "../styles/constants";
+import image from '../assets/img/sidebar-2.jpg';
+import GicarLoginContainer from './GicarLoginContainer';
+import RoomAdminContainer from './RoomAdminContainer';
+import { HEADER_HEIGHT } from '../styles/constants';
 
 
 
@@ -33,7 +33,7 @@ const RoomAdminRouter = Loadable({
 const LoadNoConnectionModal = Loadable({
 	loader: () => import('../components/NoConnectionModal'),
 	loading: LoadingMainApp
-})
+});
 
 const Header = Loadable({
 	loader: () => import('../components/Header'),
@@ -141,7 +141,7 @@ class AppRouter extends React.Component {
 
 		if (window.location.hash) {
 			if (window.location.hash.includes('#/videoTest')) {
-				return <Redirect to="/test/es" />
+				return <Redirect to="/test/es" />;
 			}
 		}
 
@@ -156,11 +156,11 @@ class AppRouter extends React.Component {
 					user={this.props.user}
 					location={this.props.location}
 				/>
-			)
+			);
 		}
 
 		if (this.props.main.isLogged && !(this.props.companies.list.length > 0) && !this.props.companies.selected) {
-			return <LoadingMainApp />
+			return <LoadingMainApp />;
 		}
 
 		if (this.props.user.roles === 'root') {
@@ -176,11 +176,11 @@ class AppRouter extends React.Component {
 		if(this.props.user.accessLimitedTo) {
 			return (
 				<RoomAdminRouter user={this.props.user} location={this.props.location} />
-			)
+			);
 		}
 
 		return this.props.main.isLogged && this.props.user.type === 'company' ? (
-			<div style={{ width: "100%", height: '100%', position: isMobile ? "relative" : "" }}>
+			<div style={{ width: '100%', height: '100%', position: isMobile ? 'relative' : '' }}>
 				<SidebarLite
 					companies={this.props.companies.list}
 					company={this.props.companies.list[this.props.companies.selected]}
@@ -194,9 +194,9 @@ class AppRouter extends React.Component {
 
 				<div
 					style={{
-						width: "100%",
+						width: '100%',
 						height: '100%',
-						position: "fixed",
+						position: 'fixed',
 						overflow: 'hidden',
 						marginLeft: isMobile && isLandscape() && '5em'
 					}}
@@ -205,12 +205,12 @@ class AppRouter extends React.Component {
 
 
 					<div className={this.props.classes.mainPanelLite} style={{
-						width: "100%",
+						width: '100%',
 						height: '100%',
 						...(!verticalLayout ?
 							{
 								marginLeft: isMobile && isLandscape() ? '0em' : '5em',
-								width: `calc(100% - 5em)`
+								width: 'calc(100% - 5em)'
 							} : {}
 						)
 					}}>
@@ -232,9 +232,9 @@ class AppRouter extends React.Component {
 						<div
 							style={{
 								// height: '100%',
-								height: `calc(100% - ${isMobile ? isLandscape() ? "3.5em" : '6.5rem' : HEADER_HEIGHT})`,
-								display: "flex",
-								width: "100%",
+								height: `calc(100% - ${isMobile ? isLandscape() ? '3.5em' : '6.5rem' : HEADER_HEIGHT})`,
+								display: 'flex',
+								width: '100%',
 								overflow: 'hidden',
 								...(verticalLayout ? {
 									// paddingBottom: '3.5rem'

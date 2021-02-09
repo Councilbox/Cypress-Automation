@@ -1,11 +1,11 @@
-import React, { Fragment } from "react";
+import React, { Fragment } from 'react';
 import Dialog, {
 	DialogActions,
 	DialogContent,
 	DialogTitle
-} from "material-ui/Dialog";
-import BasicButton from "./BasicButton";
-import { getPrimary } from "../styles/colors";
+} from 'material-ui/Dialog';
+import BasicButton from './BasicButton';
+import { getPrimary } from '../styles/colors';
 
 const ErrorAlert = ({ title, buttonAccept, open, requestClose, bodyText }) => {
 	const primary = getPrimary();
@@ -15,11 +15,11 @@ const ErrorAlert = ({ title, buttonAccept, open, requestClose, bodyText }) => {
 			<BasicButton
 				text={buttonAccept}
 				textStyle={{
-					color: "white",
-					textTransform: "none",
-					fontWeight: "700"
+					color: 'white',
+					textTransform: 'none',
+					fontWeight: '700'
 				}}
-				buttonStyle={{ marginLeft: "1em" }}
+				buttonStyle={{ marginLeft: '1em' }}
 				color={primary}
 				onClick={requestClose}
 			/>

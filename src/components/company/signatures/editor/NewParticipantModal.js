@@ -76,7 +76,7 @@ class NewParticipantModal extends React.Component {
             position: '',
             phone: '',
             email: ''
-        }
+        };
 
         let hasError = false;
         const { translate } = this.props;
@@ -105,13 +105,13 @@ class NewParticipantModal extends React.Component {
                 errors.email = translate.valid_email_required;
             }else if(!await this.checkEmailAvailability()){
                     hasError = true;
-                    errors.email = this.props.translate.register_exists_email
+                    errors.email = this.props.translate.register_exists_email;
                 }
 
         this.setState({
             errors,
             errorState: hasError
-        })
+        });
         return hasError;
     }
 
@@ -133,7 +133,7 @@ class NewParticipantModal extends React.Component {
                     languages={languages}
                 />
             </div>
-        )
+        );
     }
 
     render(){

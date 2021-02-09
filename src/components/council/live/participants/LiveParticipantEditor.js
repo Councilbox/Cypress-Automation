@@ -1,13 +1,13 @@
-import React from "react";
-import { compose, graphql, withApollo } from "react-apollo";
+import React from 'react';
+import { compose, graphql, withApollo } from 'react-apollo';
 import {
 	Typography,
 	Tooltip
-} from "material-ui";
-import gql from "graphql-tag";
-import { liveParticipant, updateParticipantSends } from "../../../../queries";
-import { isLandscape, isMobile } from "../../../../utils/screen";
-import { getSecondary } from "../../../../styles/colors";
+} from 'material-ui';
+import gql from 'graphql-tag';
+import { liveParticipant, updateParticipantSends } from '../../../../queries';
+import { isLandscape, isMobile } from '../../../../utils/screen';
+import { getSecondary } from '../../../../styles/colors';
 import {
 	Grid,
 	GridItem,
@@ -16,21 +16,21 @@ import {
 	ParticipantDisplay,
 	Scrollbar,
 	TextInput
-} from "../../../../displayComponents";
-import * as CBX from "../../../../utils/CBX";
+} from '../../../../displayComponents';
+import * as CBX from '../../../../utils/CBX';
 import withWindowSize from '../../../../HOCs/withWindowSize';
-import ParticipantStateList from "./ParticipantStateList";
-import NotificationsTable from "../../../notifications/NotificationsTable";
-import { changeParticipantState } from "../../../../queries/liveParticipant";
-import ParticipantSelectActions from "./ParticipantSelectActions";
-import ResendCredentialsModal from "./modals/ResendCredentialsModal";
-import { PARTICIPANT_STATES } from "../../../../constants";
-import SignatureButton from "./SignatureButton";
-import { client } from "../../../../containers/App";
-import RemoveDelegationButton from "./RemoveDelegationButton";
-import { useParticipantContactEdit } from "../../../../hooks";
+import ParticipantStateList from './ParticipantStateList';
+import NotificationsTable from '../../../notifications/NotificationsTable';
+import { changeParticipantState } from '../../../../queries/liveParticipant';
+import ParticipantSelectActions from './ParticipantSelectActions';
+import ResendCredentialsModal from './modals/ResendCredentialsModal';
+import { PARTICIPANT_STATES } from '../../../../constants';
+import SignatureButton from './SignatureButton';
+import { client } from '../../../../containers/App';
+import RemoveDelegationButton from './RemoveDelegationButton';
+import { useParticipantContactEdit } from '../../../../hooks';
 
-import EarlyVotingModal from "./EarlyVotingModal";
+import EarlyVotingModal from './EarlyVotingModal';
 
 const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	const landscape = isLandscape() || window.innerWidth > 700;
@@ -58,7 +58,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	}, [participant.id]);
 
 
-	const showStateMenu = () => !(participant.representatives && participant.representatives.length > 0)
+	const showStateMenu = () => !(participant.representatives && participant.representatives.length > 0);
 
 
 	if (!data.liveParticipant) {
@@ -71,22 +71,22 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	return (
 		<div
 			style={{
-				width: "100%",
-				height: "100%",
+				width: '100%',
+				height: '100%',
 				paddingTop: '2em',
-				display: "flex",
-				flexDirection: "column",
-				justifyContent: "flex-start",
-				alignItems: "stretch",
-				alignContent: "stretch",
-				marginTop: "30px",
-				padding: isMobile ? "" : props.windowSize === 'xs' ? '1.3em' : "1em",
+				display: 'flex',
+				flexDirection: 'column',
+				justifyContent: 'flex-start',
+				alignItems: 'stretch',
+				alignContent: 'stretch',
+				marginTop: '30px',
+				padding: isMobile ? '' : props.windowSize === 'xs' ? '1.3em' : '1em',
 			}}
 		>
 			<Scrollbar>
 				<div style={{ height: '100%', display: 'flex', alignItems: 'center', }}>
-					<div style={{ width: "100%", padding: "0.5em", height: "100%", }}>
-						<Grid style={{ boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)", border: CBX.hasHisVoteDelegated(participant) ? "" : 'solid 1px #61abb7', borderRadius: '4px', padding: "1em" }}>
+					<div style={{ width: '100%', padding: '0.5em', height: '100%', }}>
+						<Grid style={{ boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)', border: CBX.hasHisVoteDelegated(participant) ? '' : 'solid 1px #61abb7', borderRadius: '4px', padding: '1em' }}>
 							<GridItem xs={12} md={4} lg={4}>
 								<Typography variant="body2" >
 									<div style={{ paddingLeft: '1em' }}>
@@ -104,7 +104,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 							</GridItem>
 							<GridItem xs={12} md={8} lg={8}>
 								{participant.personOrEntity !== 1 &&
-									<div style={{ display: "flex", alignItems: "center" }}>
+									<div style={{ display: 'flex', alignItems: 'center' }}>
 										{showStateMenu() &&
 											<ParticipantStateList
 												participant={participant}
@@ -114,7 +114,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 												inDropDown={true}
 											/>
 										}
-										<div style={{ paddingLeft: landscape ? '1em' : "0", marginBottom: "0.5em" }}>
+										<div style={{ paddingLeft: landscape ? '1em' : '0', marginBottom: '0.5em' }}>
 											<b>{`${translate.current_status}:  `}</b>
 											{translate[CBX.getParticipantStateField(participant)]}
 										</div>
@@ -135,7 +135,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 										translate={translate}
 									/>
 								}
-								<Grid style={{ marginTop: "1em", display: "flex" }}>
+								<Grid style={{ marginTop: '1em', display: 'flex' }}>
 									{(CBX.showSendCredentials(participant.state) && props.council.councilType !== 4) &&
 										<GridItem xs={12} md={7} lg={5} style={{}}>
 											<div style={{}}>
@@ -258,7 +258,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 			</Scrollbar>
 		</div>
 	);
-}
+};
 
 const ParticipantBlock = withApollo(({ children, translate, type, client, data, action, active, participant, ...props }) => {
 	const {
@@ -280,22 +280,22 @@ const ParticipantBlock = withApollo(({ children, translate, type, client, data, 
 		[PARTICIPANT_STATES.DELEGATED]: translate.delegated_in,
 		[PARTICIPANT_STATES.REPRESENTATED]: translate.represented_by,
 		3: translate.delegated_vote_from.capitalize()
-	}
+	};
 
-	const text = texts[type]
+	const text = texts[type];
 
 	return (
-		<Grid style={{ marginBottom: "1em", display: "flex", alignItems: "center", boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.5)", border: 'solid 1px #61abb7', borderRadius: '4px', padding: "1em", marginTop: "1em", justifyContent: "space-between" }}>
+		<Grid style={{ marginBottom: '1em', display: 'flex', alignItems: 'center', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)', border: 'solid 1px #61abb7', borderRadius: '4px', padding: '1em', marginTop: '1em', justifyContent: 'space-between' }}>
 			<GridItem xs={12} md={4} lg={3}>
-				<div style={{ display: "flex" }}>
-					<div style={{ color: secondary, position: "relative", width: "24px", minWidth: "24px" }}>
+				<div style={{ display: 'flex' }}>
+					<div style={{ color: secondary, position: 'relative', width: '24px', minWidth: '24px' }}>
 						<i
-							className={type === PARTICIPANT_STATES.REPRESENTATED ? "fa fa-user-o" : 'fa fa-user'}
-							style={{ position: "absolute", left: "0", top: "0", fontSize: "19px" }}
+							className={type === PARTICIPANT_STATES.REPRESENTATED ? 'fa fa-user-o' : 'fa fa-user'}
+							style={{ position: 'absolute', left: '0', top: '0', fontSize: '19px' }}
 						/>
 						<i
-							className={"fa fa-user"}
-							style={{ position: "absolute", right: "4px", bottom: "4px" }}
+							className={'fa fa-user'}
+							style={{ position: 'absolute', right: '4px', bottom: '4px' }}
 						/>
 					</div>
 					<div style={{
@@ -307,7 +307,7 @@ const ParticipantBlock = withApollo(({ children, translate, type, client, data, 
 						<b>{`${participant.name} ${participant.surname || ''}`}</b>
 					</div>
 					{type === PARTICIPANT_STATES.REPRESENTATED &&
-						<div style={{ display: "flex", alignItems: "center" }}>
+						<div style={{ display: 'flex', alignItems: 'center' }}>
 							<Tooltip title={translate.edit_participant_contact}>
 								<i
 									onClick={() => setEdit(!edit)}
@@ -315,10 +315,10 @@ const ParticipantBlock = withApollo(({ children, translate, type, client, data, 
 									aria-hidden="true"
 									style={{
 										color: secondary,
-										fontSize: "1em",
+										fontSize: '1em',
 										cursor: 'pointer',
-										marginLeft: "0.3em",
-										paddingTop: "3px"
+										marginLeft: '0.3em',
+										paddingTop: '3px'
 									}}>
 								</i>
 							</Tooltip>
@@ -364,8 +364,8 @@ const ParticipantBlock = withApollo(({ children, translate, type, client, data, 
 				}
 			</GridItem>
 			{active &&
-				<GridItem xs={12} md={3} lg={3} style={{ display: "flex", justifyContent: props.innerWidth < 960 ? "" : "center", }}>
-					<div style={{ display: "flex", alignItems: "center", overflow: "hidden" }}>
+				<GridItem xs={12} md={3} lg={3} style={{ display: 'flex', justifyContent: props.innerWidth < 960 ? '' : 'center', }}>
+					<div style={{ display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
 						<div>
 							<ParticipantStateList
 								participant={participant}
@@ -376,7 +376,7 @@ const ParticipantBlock = withApollo(({ children, translate, type, client, data, 
 							/>
 						</div>
 						<div style={{
-							width: "100%",
+							width: '100%',
 							whiteSpace: 'nowrap',
 							overflow: 'hidden',
 							textOverflow: 'ellipsis'
@@ -390,7 +390,7 @@ const ParticipantBlock = withApollo(({ children, translate, type, client, data, 
 				<Grid style={{}}>
 					{(active && props.council.councilType !== 4) &&
 						<GridItem xs={12} md={9} lg={6} style={{}}>
-							<div style={{ marginRight: "1em", borderRadius: "4px", }}>
+							<div style={{ marginRight: '1em', borderRadius: '4px', }}>
 								<ResendCredentialsModal
 									participant={participant}
 									council={props.council}
@@ -429,8 +429,8 @@ const ParticipantBlock = withApollo(({ children, translate, type, client, data, 
 				</Grid>
 			</GridItem>
 		</Grid>
-	)
-})
+	);
+});
 
 const setMainRepresentative = gql`
 	mutation setMainRepresentative($participantId: Int!, $representativeId: Int!){
@@ -455,7 +455,7 @@ const GrantVoteButton = ({ participant, representative, refetch, translate }) =>
 		if (response.data) {
 			refetch();
 		}
-	}
+	};
 
 	return (
 		<BasicButton
@@ -466,8 +466,8 @@ const GrantVoteButton = ({ participant, representative, refetch, translate }) =>
 			onClick={appointRepresentative}
 			buttonStyle={{ border: `1px solid ${secondary}` }}
 		/>
-	)
-}
+	);
+};
 
 export default compose(
 	graphql(liveParticipant, {
@@ -479,9 +479,9 @@ export default compose(
 		})
 	}),
 	graphql(changeParticipantState, {
-		name: "changeParticipantState"
+		name: 'changeParticipantState'
 	}),
 	graphql(updateParticipantSends, {
-		name: "updateParticipantSends"
+		name: 'updateParticipantSends'
 	})
 )(withWindowSize(LiveParticipantEditor));

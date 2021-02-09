@@ -39,21 +39,21 @@ const getCustomDocsTags = (type, translate) => {
             value: '{{signature}}',
             label: translate.new_signature
         }
-    }
+    };
 
     const votes = {
         value: '{{votes}}',
         label: translate.votes
-    }
+    };
 
     const types = {
         'PROXY': Object.keys(TAGS).map(key => TAGS[key]),
         'VOTE_LETTER': Object.keys(TAGS).filter(key => key !== 'DELEGATE').map(key => TAGS[key]),
         'VOTE_LETTER_WITH_SENSE': [...Object.keys(TAGS).filter(key => key !== 'DELEGATE').map(key => TAGS[key]), votes],
-    }
+    };
 
     return types[type] ? types[type] : [];
-}
+};
 
 const ProxiesTemplates = ({ statute, updateState, translate }) => {
     const primary = getPrimary();
@@ -77,12 +77,12 @@ const ProxiesTemplates = ({ statute, updateState, translate }) => {
         internalState.current = {
             ...internalState.current,
             ...object
-        }
+        };
 
         timeout = setTimeout(() => {
-            updateState(internalState.current)
+            updateState(internalState.current);
         }, 350);
-    }
+    };
 
     React.useEffect(() => {
         proxyTemplate.current.setValue(statute.proxy || '');
@@ -99,8 +99,8 @@ const ProxiesTemplates = ({ statute, updateState, translate }) => {
                 text={translate.documents}
                 color={primary}
                 style={{
-                    marginTop: "2em",
-                    marginBottom: "1em"
+                    marginTop: '2em',
+                    marginBottom: '1em'
                 }}
             />
             <GridItem xs={12} md={12} lg={12}>
@@ -132,7 +132,7 @@ const ProxiesTemplates = ({ statute, updateState, translate }) => {
                     value={
                         internalState.proxy
                             ? internalState.proxy
-                            : ""
+                            : ''
                     }
                     onChange={value => handleUpdate({
                         proxy: value
@@ -149,7 +149,7 @@ const ProxiesTemplates = ({ statute, updateState, translate }) => {
                     value={
                         internalState.proxySecondary
                             ? internalState.proxySecondary
-                            : ""
+                            : ''
                     }
                     onChange={value => handleUpdate({
                         proxySecondary: value
@@ -166,7 +166,7 @@ const ProxiesTemplates = ({ statute, updateState, translate }) => {
                     value={
                         internalState.voteLetter
                             ? internalState.voteLetter
-                            : ""
+                            : ''
                     }
                     onChange={value => handleUpdate({
                         voteLetter: value
@@ -183,7 +183,7 @@ const ProxiesTemplates = ({ statute, updateState, translate }) => {
                     value={
                         internalState.voteLetterSecondary
                             ? internalState.voteLetterSecondary
-                            : ""
+                            : ''
                     }
                     onChange={value => handleUpdate({
                         voteLetterSecondary: value
@@ -200,7 +200,7 @@ const ProxiesTemplates = ({ statute, updateState, translate }) => {
                     value={
                         internalState.voteLetterWithSense
                             ? internalState.voteLetterWithSense
-                            : ""
+                            : ''
                     }
                     onChange={value => handleUpdate({
                         voteLetterWithSense: value
@@ -217,7 +217,7 @@ const ProxiesTemplates = ({ statute, updateState, translate }) => {
                     value={
                         internalState.voteLetterWithSenseSecondary
                             ? internalState.voteLetterWithSenseSecondary
-                            : ""
+                            : ''
                     }
                     onChange={value => handleUpdate({
                         voteLetterWithSenseSecondary: value
@@ -227,7 +227,7 @@ const ProxiesTemplates = ({ statute, updateState, translate }) => {
                 />
             </GridItem>
         </>
-    )
-}
+    );
+};
 
 export default ProxiesTemplates;

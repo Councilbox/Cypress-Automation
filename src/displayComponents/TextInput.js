@@ -1,18 +1,18 @@
-import React from "react";
+import React from 'react';
 import {
 	FormControl,
 	IconButton,
 	InputAdornment,
 	TextField
-} from "material-ui";
-import Visibility from "material-ui-icons/Visibility";
-import VisibilityOff from "material-ui-icons/VisibilityOff";
-import FontAwesome from "react-fontawesome";
-import HelpPopover from "./HelpPopover";
+} from 'material-ui';
+import Visibility from 'material-ui-icons/Visibility';
+import VisibilityOff from 'material-ui-icons/VisibilityOff';
+import FontAwesome from 'react-fontawesome';
+import HelpPopover from './HelpPopover';
 
 
 const TextInput = ({
-	floatingText = "",
+	floatingText = '',
 	type,
 	passwordToggler,
 	showPassword,
@@ -41,12 +41,12 @@ const TextInput = ({
 	labelNone,
 	className,
 	stylesTextField,
-	autoComplete = "true",
+	autoComplete = 'true',
 	styleFloatText,
 }) => (
 		<FormControl
 			style={{
-				width: "100%",
+				width: '100%',
 				marginTop: '0',
 				...styles
 			}}
@@ -56,15 +56,15 @@ const TextInput = ({
 				onSelect={onClick}
 				onBlur={onBlur}
 				label={
-					labelNone ? "" :
+					labelNone ? '' :
 						helpPopoverInLabel ? floatingText :
 							<div style={{ display: 'flex', ...styleFloatText }}>
-								{`${floatingText}${required ? "*" : ""}`}
+								{`${floatingText}${required ? '*' : ''}`}
 								{!!errorText &&
 									<FontAwesome
-										name={"times"}
+										name={'times'}
 										style={{
-											fontSize: "17px",
+											fontSize: '17px',
 											color: 'red',
 											marginLeft: '0.2em'
 										}}
@@ -82,7 +82,7 @@ const TextInput = ({
 				multiline={multiline}
 				style={{
 					marginTop: 0,
-					width: "100%",
+					width: '100%',
 					...stylesTextField
 				}}
 				placeholder={placeholder}
@@ -91,7 +91,7 @@ const TextInput = ({
 				}}
 				InputProps={{
 					disableUnderline,
-					startAdornment: "",
+					startAdornment: '',
 					inputProps: {
 						min,
 						id,
@@ -121,7 +121,7 @@ const TextInput = ({
 							{adornment}
 						</InputAdornment>
 					) : (
-								""
+								''
 							)
 				}}
 				FormHelperTextProps={{

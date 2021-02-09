@@ -1,5 +1,5 @@
 import React from 'react';
-import { AGENDA_TYPES, INPUT_REGEX, MAJORITY_TYPES } from "../constants";
+import { AGENDA_TYPES, INPUT_REGEX, MAJORITY_TYPES } from '../constants';
 import { checkForUnclosedBraces, majorityNeedsInput } from './CBX';
 import { LiveToast } from '../displayComponents';
 
@@ -15,7 +15,7 @@ export const checkValidMajority = (majority, divider, type, translate) => {
 			return {
 				error: true,
 				message: translate.percentage_error
-			}
+			};
 		}
 	}
 
@@ -24,14 +24,14 @@ export const checkValidMajority = (majority, divider, type, translate) => {
 			return {
 				error: true,
 				message: translate.fraction_values_error
-			}
+			};
 		}
 	}
 
 	return {
 		error: false
 	};
-}
+};
 
 export const checkRequiredFieldsParticipant = (
 	participant,
@@ -40,15 +40,15 @@ export const checkRequiredFieldsParticipant = (
 	company
 ) => {
 	const errors = {
-		name: "",
-		surname: "",
-		dni: "",
-		email: "",
-		phone: "",
-		language: "",
-		numParticipations: "",
-		socialCapital: "",
-		secondaryEmail: ""
+		name: '',
+		surname: '',
+		dni: '',
+		email: '',
+		phone: '',
+		language: '',
+		numParticipations: '',
+		socialCapital: '',
+		secondaryEmail: ''
 	};
 
 	let hasError = false;
@@ -100,17 +100,17 @@ export const checkRequiredFieldsParticipant = (
 	return {
 		errors,
 		hasError
-	}
-}
+	};
+};
 
 export const checkRequiredFieldsRepresentative = (participant, translate) => {
 	const errors = {
-		name: "",
-		surname: "",
-		dni: "",
-		email: "",
-		phone: "",
-		language: ""
+		name: '',
+		surname: '',
+		dni: '',
+		email: '',
+		phone: '',
+		language: ''
 	};
 
 	let hasError = false;
@@ -176,12 +176,12 @@ export const checkRequiredFieldsRepresentative = (participant, translate) => {
 
 export const checkRequiredFieldsAgenda = (agenda, translate, toast) => {
 	const errors = {
-		agendaSubject: "",
-		subjectType: "",
-		description: "",
-		majorityType: "",
-		majority: "",
-		majorityDivider: ""
+		agendaSubject: '',
+		subjectType: '',
+		description: '',
+		majorityType: '',
+		majority: '',
+		majorityDivider: ''
 	};
 
 	let hasError = false;
@@ -219,7 +219,7 @@ export const checkRequiredFieldsAgenda = (agenda, translate, toast) => {
 				/>, {
 				position: toast.POSITION.TOP_RIGHT,
 				autoClose: true,
-				className: "errorToast"
+				className: 'errorToast'
 			}
 			);
 		}

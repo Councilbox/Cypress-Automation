@@ -3,11 +3,11 @@ import { TableRow, TableCell, Card, Tooltip } from 'material-ui';
 import { withRouter } from 'react-router-dom';
 import { Table, CloseIcon, DateWrapper, Checkbox, Grid, GridItem } from '../../displayComponents';
 import { bHistory, moment } from '../../containers/App';
-import TableStyles from "../../styles/table";
-import { getPrimary, getSecondary } from "../../styles/colors";
-import CantCreateCouncilsModal from "./CantCreateCouncilsModal";
-import { TRIAL_DAYS } from "../../config";
-import { trialDaysLeft } from "../../utils/CBX";
+import TableStyles from '../../styles/table';
+import { getPrimary, getSecondary } from '../../styles/colors';
+import CantCreateCouncilsModal from './CantCreateCouncilsModal';
+import { TRIAL_DAYS } from '../../config';
+import { trialDaysLeft } from '../../utils/CBX';
 
 
 import { sendGAevent } from '../../utils/analytics';
@@ -20,11 +20,11 @@ const CouncilsList = ({ councils, translate, openDeleteModal, company, link, sel
 
     const openCantAccessModal = () => {
         setOpen(true);
-    }
+    };
 
     const closeCantAccessModal = () => {
         setOpen(false);
-    }
+    };
 
     const headers = link === '/finished' ? [
         { selectAll: <Checkbox onChange={props.selectAll} value={selectedIds.size === councils.length} /> },
@@ -37,7 +37,7 @@ const CouncilsList = ({ councils, translate, openDeleteModal, company, link, sel
             { name: translate.date_real_start },
             { name: translate.name },
             { name: '' }
-        ]
+        ];
 
     return (
         <Table
@@ -66,8 +66,8 @@ const CouncilsList = ({ councils, translate, openDeleteModal, company, link, sel
                 requestClose={closeCantAccessModal}
             />
         </Table>
-    )
-}
+    );
+};
 
 
 const CouncilListItem = withRouter(({ council, company, link, translate, selected, ...props }) => {
@@ -82,7 +82,7 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
                     event.stopPropagation();
                 }}
             />
-        )
+        );
 
     const getSectionTranslation = type => {
         const texts = {
@@ -92,10 +92,10 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
             act: translate.companies_writing,
             confirmed: translate.act_book,
             history: translate.dashboard_historical
-        }
+        };
 
         return texts[type];
-    }
+    };
 
     if (isMobile) {
         return (
@@ -109,8 +109,8 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
                             category: 'Reuniones',
                             action: `${getSectionTranslation(props.match.params.section)} - Acceso`,
                             label: company.businessName
-                        })
-                    bHistory.push(`/company/${company.id}/council/${council.id}`)
+                        });
+                    bHistory.push(`/company/${company.id}/council/${council.id}`);
                 }}
             >
                 <Grid>
@@ -132,7 +132,7 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
                                     date={
                                         council.dateRealStart
                                     }
-                                /> {` - `}
+                                /> {' - '}
                                 <DateWrapper
                                     format="HH:mm"
                                     date={council.dateEnd}
@@ -159,7 +159,7 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
                     {deleteIcon(council.id)}
                 </div>
             </Card>
-        )
+        );
     }
 
     return (
@@ -176,10 +176,10 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
                         category: 'Reuniones',
                         action: `${getSectionTranslation(props.match.params.section)} - Acceso`,
                         label: company.businessName
-                    })
+                    });
                 bHistory.push(
                     `/company/${company.id}/council/${council.id}`
-                )
+                );
             }}
         >
             <TableCell onClick={event => event.stopPropagation()} style={{ cursor: 'auto' }}>
@@ -209,7 +209,7 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
                         <DateWrapper
                             format="HH:mm"
                             date={council.dateRealStart}
-                        /> {` - `}
+                        /> {' - '}
                         <DateWrapper
                             format="HH:mm"
                             date={
@@ -222,7 +222,7 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
             <TableCell
                 style={{
                     ...TableStyles.TD,
-                    width: "65%"
+                    width: '65%'
                 }}
             >
                 {council.promoCode === 'COUNCILBOX' &&
@@ -243,8 +243,8 @@ const CouncilListItem = withRouter(({ council, company, link, translate, selecte
                 </div>
             </TableCell>
         </TableRow>
-    )
-})
+    );
+});
 
 
 export default CouncilsList;

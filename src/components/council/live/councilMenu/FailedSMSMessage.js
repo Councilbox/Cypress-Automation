@@ -16,14 +16,14 @@ const FailedSMSMessage = ({ onClick }) => {
                 text={'Administrar SMS'}
                 color={'white'}
                 onClick={onClick}
-                buttonStyle={{ width: "11em", border: `1px solid ${primary}` }}
+                buttonStyle={{ width: '11em', border: `1px solid ${primary}` }}
                 textStyle={{
-                    fontWeight: "700",
-                    textTransform: "none"
+                    fontWeight: '700',
+                    textTransform: 'none'
                 }}
             />
         </div>
-    )
-}
+    );
+};
 
 export default FailedSMSMessage;

@@ -30,7 +30,7 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
                 subject: council.name
             });
         }
-    }, [open])
+    }, [open]);
 
     const checkRequiredFields = () => {
         const newErrors = {};
@@ -55,7 +55,7 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
         }
 
         return hasError;
-    }
+    };
 
     const send = async () => {
         if (!checkRequiredFields()) {
@@ -81,13 +81,13 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
 
             setStatus('SUCCESS');
         }
-    }
+    };
 
     const removeAttachment = index => {
         const newAttachments = [...attachments];
         newAttachments.splice(index, 1);
         setAttachments(newAttachments);
-    }
+    };
 
     const handleFile = async event => {
         const file = event.nativeEvent.target.files[0];
@@ -129,21 +129,21 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
                         />
                         :
                         <>
-                            <div style={{ marginTop: "1em" }}>
-                                <div style={{ fontWeight: "bold" }}>{translate.title}</div>
+                            <div style={{ marginTop: '1em' }}>
+                                <div style={{ fontWeight: 'bold' }}>{translate.title}</div>
                                 <Input
                                     placeholder={translate.title}
 
                                     disableUnderline={true}
-                                    id={"titleDraft"}
+                                    id={'titleDraft'}
                                     style={{
-                                        color: "rgba(0, 0, 0, 0.65)",
+                                        color: 'rgba(0, 0, 0, 0.65)',
                                         fontSize: '15px',
                                         boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-                                        border: errors.subject ? "1px solid red" : "1px solid #d7d7d7",
-                                        width: "100%",
+                                        border: errors.subject ? '1px solid red' : '1px solid #d7d7d7',
+                                        width: '100%',
                                         padding: '.5em 1.6em',
-                                        marginTop: "1em"
+                                        marginTop: '1em'
                                     }}
                                     value={state.subject}
                                     onChange={event => setState({ subject: event.target.value })}
@@ -154,12 +154,12 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
                             </div>
                             <input
                                 type="file"
-                                id={"raised-button-file"}
+                                id={'raised-button-file'}
                                 onChange={handleFile}
                                 //disabled={uploading}
                                 style={{
-                                    cursor: "pointer",
-                                    position: "absolute",
+                                    cursor: 'pointer',
+                                    position: 'absolute',
                                     top: 0,
                                     width: 0,
                                     bottom: 0,
@@ -174,11 +174,11 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
                                 fullWidth
                                 color={primary}
                                 textStyle={{
-                                    color: "white",
-                                    fontWeight: "700",
-                                    fontSize: "0.9em",
+                                    color: 'white',
+                                    fontWeight: '700',
+                                    fontSize: '0.9em',
                                     marginTop: '1em',
-                                    textTransform: "none"
+                                    textTransform: 'none'
                                 }}
                                 onChange={handleFile}
                             />
@@ -190,7 +190,7 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
                                         icon={
                                             <CloseIcon
                                                 style={{
-                                                    float: "right",
+                                                    float: 'right',
                                                     color: primary
                                                 }}
                                                 onClick={() => removeAttachment(index)}
@@ -203,8 +203,8 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
                                     />
                                 ))
                             )}
-                            <div style={{ marginTop: "1em" }}>
-                                <div style={{ marginBottom: "1em", fontWeight: "bold" }}>{translate.message}</div>
+                            <div style={{ marginTop: '1em' }}>
+                                <div style={{ marginBottom: '1em', fontWeight: 'bold' }}>{translate.message}</div>
                                 <RichTextInput
                                     value={state.body}
                                     onChange={value => setState({ body: value })}
@@ -228,7 +228,7 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
                 </>
             }
         />
-    )
-}
+    );
+};
 
-export default withSharedProps()(withApollo(SendMessageToParticipant))
+export default withSharedProps()(withApollo(SendMessageToParticipant));

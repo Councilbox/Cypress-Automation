@@ -29,7 +29,7 @@ class RecordingsSection extends React.Component {
                         </React.Fragment>
                     }
                 </div>
-            )
+            );
         }
 
         return(
@@ -42,13 +42,13 @@ class RecordingsSection extends React.Component {
                     src={`https://${this.props.data.recordingsIframe}?rand=${rand}`}
                     allowFullScreen={true}
                     style={{
-                        border: "none !important",
+                        border: 'none !important',
                     }}
                 >
                     Something wrong...
                 </iframe>
             </div>
-        )
+        );
     }
 }
 

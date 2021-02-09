@@ -13,7 +13,7 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
         modal: false,
         loading: false,
         success: false
-    })
+    });
 
     const [data, setData] = React.useState(null);
     const [videoConfig, setVideoConfig] = React.useState(null);
@@ -56,7 +56,7 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
                     autoHybrid: false,
                     disableHybrid: false
                 }
-            })
+            });
         }
         setVideoConfig(JSON.parse(response.data.videoConfig));
     }, [council.id]);
@@ -68,7 +68,7 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
     React.useEffect(() => () => clearInterval(interval), [state.modal]);
 
     if (!data) {
-        return <LoadingSection />
+        return <LoadingSection />;
     }
 
 
@@ -79,14 +79,14 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
             ...state,
             modal: true
         });
-    }
+    };
 
     const closeURLModal = () => {
         setState({
             ...state,
             modal: false
         });
-    }
+    };
 
     const refreshButtons = () => {
         setState({
@@ -95,7 +95,7 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
             loading: false,
             error: false
         });
-    }
+    };
 
     const updateCouncilRoomLink = async () => {
         clearInterval(interval);
@@ -103,7 +103,7 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
             ...state,
             loading: true,
             success: false
-        })
+        });
         await props.updateCouncilRoomLink({
             variables: {
                 councilId: council.id,
@@ -117,7 +117,7 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
             success: true
         });
         interval = setInterval(refreshButtons, 3000);
-    }
+    };
 
 
 
@@ -238,7 +238,7 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
                 })}
             />
         </>
-    )
+    );
 
     return (
         <>
@@ -248,7 +248,7 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
                 color="white"
                 textStyle={{ color: primary, fontWeight: '700' }}
                 onClick={openURLModal}
-                buttonStyle={{ border: "1px solid " }}
+                buttonStyle={{ border: '1px solid ' }}
             />
             <AlertConfirm
                 requestClose={closeURLModal}
@@ -259,11 +259,11 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
                 buttonAccept={'Aceptar'}
                 buttonCancel={'Cancelar'}
                 bodyText={_renderBody()}
-                title={"Fijar video URL"}
+                title={'Fijar video URL'}
             />
         </>
     );
-}
+};
 
 const updateCouncilRoomLink = gql`
     mutation UpdateCouncilRoomLink($councilRoom: CouncilRoomInput!, $councilId: Int!){
@@ -275,5 +275,5 @@ const updateCouncilRoomLink = gql`
 `;
 
 export default graphql(updateCouncilRoomLink, {
-    name: "updateCouncilRoomLink"
+    name: 'updateCouncilRoomLink'
 })(withApollo(FixedVideoURLModal));

@@ -5,9 +5,9 @@ import gql from 'graphql-tag';
 import { TextInput, BasicButton, CardPageLayout, Scrollbar, LoadingSection, SectionTitle, LiveToast } from '../../../displayComponents';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import { checkForUnclosedBraces, changeVariablesToValues, generateStatuteTag, prepareTextForFilename } from '../../../utils/CBX';
-import { buildDoc, useDoc, buildDocBlock, buildDocVariable } from "../../documentEditor/utils";
-import { certBlocks } from "../../documentEditor/actBlocks";
-import DocumentEditor2 from "../../documentEditor/DocumentEditor2";
+import { buildDoc, useDoc, buildDocBlock, buildDocVariable } from '../../documentEditor/utils';
+import { certBlocks } from '../../documentEditor/actBlocks';
+import DocumentEditor2 from '../../documentEditor/DocumentEditor2';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { generateActTags, CouncilActData, generateCouncilSmartTagsValues } from '../writing/actEditor/ActEditor';
 import GoverningBodyDisplay from '../writing/actEditor/GoverningBodyDisplay';
@@ -20,7 +20,7 @@ import { ConfigContext } from '../../../containers/AppControl';
 const initialState = {
     loading: true,
     data: null
-}
+};
 
 const dataReducer = (state, action) => {
     const actions = {
@@ -31,10 +31,10 @@ const dataReducer = (state, action) => {
         },
 
         default: state
-    }
+    };
 
     return actions[action.type] ? actions[action.type] : actions.default;
-}
+};
 
 
 const CerficateEditor = ({ translate, council, company, client, ...props }) => {
@@ -101,10 +101,10 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 			}
 		});
 		return response.data.generateDocumentHTML;
-	}
+	};
 
     if(loading){
-        return <LoadingSection />
+        return <LoadingSection />;
     }
 
     return (
@@ -131,15 +131,15 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 								text={translate.certificate_generate}
 								color={secondary}
 								textStyle={{
-									color: "white",
-									fontSize: "0.9em",
-									textTransform: "none"
+									color: 'white',
+									fontSize: '0.9em',
+									textTransform: 'none'
 								}}
 								onClick={() => setCreateModal(true)}
 								textPosition="after"
-								iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+								iconInit={<i style={{ marginRight: '0.3em', fontSize: '18px' }} className="fa fa-floppy-o" aria-hidden="true"></i>}
 								buttonStyle={{
-									marginRight: "1em",
+									marginRight: '1em',
 									boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
 									borderRadius: '3px'
 								}}
@@ -167,8 +167,8 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 				requestClose={() => setCreateModal(false)}
 			/>
 		</React.Fragment>
-	)
-}
+	);
+};
 
 export const query = gql`
 	query DraftData($companyId: Int!, $councilId: Int!, $options: OptionsInput) {

@@ -27,11 +27,11 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
 
     const openDraftModal = () => {
         setDraftModal(true);
-    }
+    };
 
     const closeDraftModal = () => {
         setDraftModal(false);
-    }
+    };
 
 
     const hoverAndSave = id => {
@@ -43,7 +43,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
             }, 150);
         }
         setEditMode(!editMode);
-    }
+    };
 
 
     if (props.value.hasOwnProperty('toggleable')) {
@@ -55,7 +55,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                     id={props.id}
                     column={props.column}
                     colorBorder={props.value.colorBorder}
-                    stylesBody={{ width: "100%", margin: "0em", }}
+                    stylesBody={{ width: '100%', margin: '0em', }}
                     removeBlock={props.removeBlock}
                     toggle={props.value.toggleable}
                     noIcon={true}
@@ -65,7 +65,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                     </div>
                 </BorderBox>
             </div>
-        )
+        );
     }
 
     const renderEditor = () => (
@@ -82,25 +82,25 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                         text={translate.load_draft}
                         color={getSecondary()}
                         textStyle={{
-                            color: "white",
-                            fontWeight: "600",
-                            fontSize: "0.8em",
-                            textTransform: "none",
-                            marginLeft: "0.4em",
+                            color: 'white',
+                            fontWeight: '600',
+                            fontSize: '0.8em',
+                            textTransform: 'none',
+                            marginLeft: '0.4em',
                             minHeight: 0,
-                            lineHeight: "1em"
+                            lineHeight: '1em'
                         }}
                         textPosition="after"
                         onClick={openDraftModal}
                     />
                 }
             />
-        )
+        );
 
     return (
-        <div style={{ padding: "1em", paddingRight: "1.5em", width: "100%" }}>
-            <div style={{ display: "flex", fontSize: '19px' }} >
-                <div style={{ color: getPrimary(), fontWeight: "bold", display: "flex", paddingRight: "1em", }}>
+        <div style={{ padding: '1em', paddingRight: '1.5em', width: '100%' }}>
+            <div style={{ display: 'flex', fontSize: '19px' }} >
+                <div style={{ color: getPrimary(), fontWeight: 'bold', display: 'flex', paddingRight: '1em', }}>
                     {props.value.icon ?
                         <React.Fragment>
                             <div>
@@ -117,7 +117,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                     }
 
                 </div>
-                <div style={{ fontWeight: "700" }}>
+                <div style={{ fontWeight: '700' }}>
                     {props.value.label ? translate[props.value.label] || props.value.label : ''}
                 </div>
             </div>
@@ -125,7 +125,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                 // Este es el que tiene que montar los demas puntos dentro
                 <Collapse in={expand} timeout="auto" unmountOnExit>
                     <React.Fragment>
-                        <div style={{ marginTop: "1em" }} dangerouslySetInnerHTML={{
+                        <div style={{ marginTop: '1em' }} dangerouslySetInnerHTML={{
                             __html: props.column === 2 ? props.value.secondaryText : props.value.text
                         }}>
                         </div>
@@ -136,21 +136,21 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                 </Collapse>
                 :
                 editMode ?
-                    <div style={{ marginTop: "1em", cursor: "default" }} className="editorText">
+                    <div style={{ marginTop: '1em', cursor: 'default' }} className="editorText">
                         {renderEditor()}
                     </div>
                     :
                     <div
-                        style={{ marginTop: "1em" }}
+                        style={{ marginTop: '1em' }}
                         dangerouslySetInnerHTML={{
                             __html: props.column === 2 ? props.value.secondaryText : props.value.text
                         }}
                     />
             }
 
-            <div style={{ marginTop: "1em", }}>
+            <div style={{ marginTop: '1em', }}>
                 {props.value.editButton &&
-                    <Button style={{ color: getPrimary(), minWidth: "0", padding: "0" }} onClick={() => hoverAndSave(props.id, text)}>
+                    <Button style={{ color: getPrimary(), minWidth: '0', padding: '0' }} onClick={() => hoverAndSave(props.id, text)}>
                         {/* onClick={props.updateCouncilActa} */}
                         {editMode ?
                             translate.accept
@@ -167,7 +167,7 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                     onClose={closeDraftModal}
                 >
                     <DialogTitle>{translate.load_draft}</DialogTitle>
-                    <DialogContent style={{ width: "800px" }}>
+                    <DialogContent style={{ width: '800px' }}>
                         <LoadDraft
                             defaultTags={getDefaultTagsByBlockType(props.value.type, translate)}
                             translate={translate}
@@ -177,17 +177,17 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
                 </Dialog>
             }
         </div>
-    )
-}
+    );
+};
 
 
 export const BorderBox = ({ colorBorder, children, addItem, itemInfo, icon, stylesBody, toggle, removeBlock, id, noIcon }) => (
-        <div style={{ width: "100%", background: "white", boxShadow: " 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRadius: "4px", margin: "0.8em 0px", ...stylesBody }}>
-            <div style={{ width: "100%", display: "flex", }}>
-                <div style={{ paddingRight: "4px", background: colorBorder || getPrimary(), borderRadius: "15px", }}></div>
-                <div style={{ marginLeft: "0.5em", paddingTop: "0.8em", paddingBottom: "0.8em", width: "100%" }}>
-                    <div style={{ display: "flex", width: "100%" }}>
-                        <div style={{ color: getPrimary(), fontWeight: "bold", fontSize: '16px', display: "flex" }}>
+        <div style={{ width: '100%', background: 'white', boxShadow: ' 0 2px 4px 5px rgba(0, 0, 0, 0.11)', borderRadius: '4px', margin: '0.8em 0px', ...stylesBody }}>
+            <div style={{ width: '100%', display: 'flex', }}>
+                <div style={{ paddingRight: '4px', background: colorBorder || getPrimary(), borderRadius: '15px', }}></div>
+                <div style={{ marginLeft: '0.5em', paddingTop: '0.8em', paddingBottom: '0.8em', width: '100%' }}>
+                    <div style={{ display: 'flex', width: '100%' }}>
+                        <div style={{ color: getPrimary(), fontWeight: 'bold', fontSize: '16px', display: 'flex' }}>
                             {icon ?
                                 <React.Fragment>
                                     <div>
@@ -205,13 +205,13 @@ export const BorderBox = ({ colorBorder, children, addItem, itemInfo, icon, styl
                             }
 
                         </div>
-                        <div style={{ justifyContent: "space-between", display: "flex", width: "100%" }}>
-                            <div style={{ marginLeft: "0.3em", width: "100%", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }}>
+                        <div style={{ justifyContent: 'space-between', display: 'flex', width: '100%' }}>
+                            <div style={{ marginLeft: '0.3em', width: '100%', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }}>
                                 {children}
                             </div>
-                            <div style={{ marginLeft: "0.3em", marginRight: "0.8em", height: '100%', display: 'flex', alignItems: 'center' }}>
+                            <div style={{ marginLeft: '0.3em', marginRight: '0.8em', height: '100%', display: 'flex', alignItems: 'center' }}>
                                 {toggle ?
-                                    <span style={{ cursor: "pointer", color: colorBorder }} onClick={() => removeBlock(id)}>
+                                    <span style={{ cursor: 'pointer', color: colorBorder }} onClick={() => removeBlock(id)}>
                                         {!itemInfo.hide ?
                                             <i className="fa fa-check-square-o" aria-hidden="true" style={{ color: 'green', fontSize: '20px', }}></i>
                                          :
@@ -220,7 +220,7 @@ export const BorderBox = ({ colorBorder, children, addItem, itemInfo, icon, styl
                                     </span>
                                 :
                                     !noIcon &&
-                                    <i className="material-icons" style={{ cursor: "pointer", color: "#979797" }} onClick={() => addItem(id)}>
+                                    <i className="material-icons" style={{ cursor: 'pointer', color: '#979797' }} onClick={() => addItem(id)}>
                                         arrow_right_alt
                                         </i>
                                 }
@@ -230,6 +230,6 @@ export const BorderBox = ({ colorBorder, children, addItem, itemInfo, icon, styl
                 </div>
             </div>
         </div>
-    )
+    );
 
 export default withSharedProps()(Block);

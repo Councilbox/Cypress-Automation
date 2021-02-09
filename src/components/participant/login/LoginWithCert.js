@@ -17,7 +17,7 @@ const LoginWithCert = ({ participant, handleSuccess, translate, dispatch, status
                 dispatch({ type: 'SUCCESS',
 payload: {
                     message: translate.cert_success,
-                } })
+                } });
             } else {
                 let message = json.error;
                 if(response.status == 403) {
@@ -29,12 +29,12 @@ payload: {
                 dispatch({ type: 'ERROR',
 payload: {
                     message
-                } })
+                } });
             }
         } catch (error){
             dispatch({ type: 'ERROR', payload: translate.cert_error });
         }
-    }
+    };
 
     return (
         <>
@@ -43,8 +43,8 @@ payload: {
                     text={translate.retry}
                     color={'red'}
                     textStyle={{
-                        color: "white",
-                        fontWeight: "700"
+                        color: 'white',
+                        fontWeight: '700'
                     }}
                     loading={status === 'LOADING'}
                     textPosition="before"
@@ -57,8 +57,8 @@ payload: {
                     text={translate.check_certificate}
                     color={primary}
                     textStyle={{
-                        color: "white",
-                        fontWeight: "700"
+                        color: 'white',
+                        fontWeight: '700'
                     }}
                     loading={status === 'LOADING'}
                     disabled={status === 'ERROR'}
@@ -78,8 +78,8 @@ payload: {
                     text={translate.enter_room}
                     color={status === 'ERROR' ? 'grey' : primary}
                     textStyle={{
-                        color: "white",
-                        fontWeight: "700"
+                        color: 'white',
+                        fontWeight: '700'
                     }}
                     loading={status === 'LOADING'}
                     disabled={status === 'ERROR'}
@@ -95,8 +95,8 @@ payload: {
                 />
             }
         </>
-    )
-}
+    );
+};
 
 export default LoginWithCert;
 

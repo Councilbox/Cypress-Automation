@@ -1,29 +1,29 @@
-import React from "react";
-import { withRouter } from "react-router-dom";
-import { Card } from "material-ui";
-import { compose, graphql } from "react-apollo";
-import { changePwd, checkExpiration } from "../../queries/restorePwd";
-import { getPrimary } from "../../styles/colors";
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { Card } from 'material-ui';
+import { compose, graphql } from 'react-apollo';
+import { changePwd, checkExpiration } from '../../queries/restorePwd';
+import { getPrimary } from '../../styles/colors';
 import { bHistory } from '../../containers/App';
-import withWindowSize from "../../HOCs/withWindowSize";
-import withSharedProps from "../../HOCs/withSharedProps";
+import withWindowSize from '../../HOCs/withWindowSize';
+import withSharedProps from '../../HOCs/withSharedProps';
 import {
 	BasicButton,
 	ButtonIcon,
 	Link,
 	TextInput,
 	NotLoggedLayout
-} from "../../displayComponents";
+} from '../../displayComponents';
 
 const DEFAULT_ERRORS = {
-	pwd: "",
-	repeatPwd: ""
+	pwd: '',
+	repeatPwd: ''
 };
 
 class ChangePwd extends React.PureComponent {
 	state = {
-		pwd: "",
-		repeatPwd: "",
+		pwd: '',
+		repeatPwd: '',
 		linkExpired: false,
 		changed: false,
 		errors: DEFAULT_ERRORS
@@ -122,18 +122,18 @@ class ChangePwd extends React.PureComponent {
 				<div
 					className="row justify-content-md-center"
 					style={{
-						width: "100%",
+						width: '100%',
 						margin: 0,
-						fontSize: "0.85em",
-						height: "100%"
+						fontSize: '0.85em',
+						height: '100%'
 					}}
 				>
 					<div
 						className="col-lg-8 col-md-8 col-xs-12 "
 						style={{
-							display: "flex",
-							justifyContent: "center",
-							alignItems: "center",
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
 							padding: 0
 						}}
 					>
@@ -141,16 +141,16 @@ class ChangePwd extends React.PureComponent {
 							!this.state.changed ? (
 								<Card
 									style={{
-										width: windowSize === "xs" ? "100%" : "70%",
-										padding: "4vw"
+										width: windowSize === 'xs' ? '100%' : '70%',
+										padding: '4vw'
 									}}
 								>
 									<div
 										style={{
 											marginBottom: 0,
 											paddingBottom: 0,
-											fontWeight: "700",
-											fontSize: "1.5em",
+											fontWeight: '700',
+											fontSize: '1.5em',
 											color: primary
 										}}
 									>
@@ -191,13 +191,13 @@ class ChangePwd extends React.PureComponent {
 											}
 										/>
 									</div>
-									<div style={{ marginTop: "3em" }}>
+									<div style={{ marginTop: '3em' }}>
 										<BasicButton
 											text={translate.change_pwd}
 											color={primary}
 											textStyle={{
-												color: "white",
-												fontWeight: "700"
+												color: 'white',
+												fontWeight: '700'
 											}}
 											textPosition="before"
 											onClick={this.changePwd}
@@ -214,16 +214,16 @@ class ChangePwd extends React.PureComponent {
 							) : (
 								<Card
 									style={{
-										width: windowSize === "xs" ? "100%" : "70%",
-										padding: "3vw"
+										width: windowSize === 'xs' ? '100%' : '70%',
+										padding: '3vw'
 									}}
 								>
 									<div
 										style={{
 											marginBottom: 0,
 											paddingBottom: 0,
-											fontWeight: "600",
-											fontSize: "1.5em",
+											fontWeight: '600',
+											fontSize: '1.5em',
 											color: primary
 										}}
 									>
@@ -234,8 +234,8 @@ class ChangePwd extends React.PureComponent {
 										text={translate.go_login}
 										color={primary}
 										textStyle={{
-											color: "white",
-											fontWeight: "700"
+											color: 'white',
+											fontWeight: '700'
 										}}
 										textPosition="before"
 										onClick={() => bHistory.push('/')}
@@ -252,29 +252,29 @@ class ChangePwd extends React.PureComponent {
 						) : (
 							<Card
 								style={{
-									width: windowSize === "xs" ? "100%" : "70%",
-									padding: "3vw"
+									width: windowSize === 'xs' ? '100%' : '70%',
+									padding: '3vw'
 								}}
 							>
 								<div
 									style={{
 										marginBottom: 0,
 										paddingBottom: 0,
-										fontWeight: "600",
-										fontSize: "1.5em",
+										fontWeight: '600',
+										fontSize: '1.5em',
 										color: primary
 									}}
 								>
 									{translate.link_expired}
 								</div>
 								<br />
-								<Link to={"/forgetPwd"}>
+								<Link to={'/forgetPwd'}>
 									<BasicButton
 										text={translate.back}
 										color={primary}
 										textStyle={{
-											color: "white",
-											fontWeight: "700"
+											color: 'white',
+											fontWeight: '700'
 										}}
 										textPosition="before"
 										onClick={this.goRestorePwd}
@@ -298,11 +298,11 @@ class ChangePwd extends React.PureComponent {
 
 export default compose(
 	graphql(changePwd, {
-		name: "changePwd",
-		options: { errorPolicy: "all" }
+		name: 'changePwd',
+		options: { errorPolicy: 'all' }
 	}),
 	graphql(checkExpiration, {
-		name: "checkExpiration",
-		options: { errorPolicy: "all" }
+		name: 'checkExpiration',
+		options: { errorPolicy: 'all' }
 	})
 )(withSharedProps()(withWindowSize(withRouter(ChangePwd))));

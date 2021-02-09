@@ -18,7 +18,7 @@ class ActAttachments extends React.PureComponent{
                 >
                     <LoadingSection />
                 </div>
-            )
+            );
         }
         const { translate } = this.props;
         const primary = getPrimary();
@@ -71,7 +71,7 @@ class ActAttachments extends React.PureComponent{
                     }
                 </Grid>
             </div>
-        )
+        );
     }
 }
 

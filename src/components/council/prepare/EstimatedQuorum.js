@@ -22,7 +22,7 @@ const EstimatedQuorum = ({ council, translate, client, socialCapital, totalVotes
         }
 
         return ((value / base) * 100).toFixed(3);
-    }
+    };
 
 
     const getData = React.useCallback(async () => {
@@ -70,7 +70,7 @@ const EstimatedQuorum = ({ council, translate, client, socialCapital, totalVotes
                     </>
             }
         </div>
-    )
-}
+    );
+};
 
 export default withApollo(EstimatedQuorum);

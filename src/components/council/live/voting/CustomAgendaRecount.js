@@ -34,10 +34,10 @@ const CustomAgendaRecount = ({ agenda, translate, council, company }) => {
                     <TableHead>
                         <TableRow>
                             <TableCell>
-                                <span style={{ fontWeight: "700" }}>{translate.options}</span>
+                                <span style={{ fontWeight: '700' }}>{translate.options}</span>
                             </TableCell>
                             <TableCell >
-                                <span style={{ fontWeight: "700" }}>{translate.votes}</span>
+                                <span style={{ fontWeight: '700' }}>{translate.votes}</span>
                             </TableCell>
                         </TableRow>
                     </TableHead>
@@ -84,12 +84,12 @@ const CustomAgendaRecount = ({ agenda, translate, council, company }) => {
                 </Table>
             </GridItem>
         </Grid>
-    )
-}
+    );
+};
 
 const formatDataFromAgenda = agenda => {
     const labels = agenda.items.map(item => item.value);
-    const colors = ['#E8B745', '#D1DE3B', '#6AD132', '#2AC26D', '#246FB0', '#721E9C', '#871A1C', '#6EA85D', '#9DAA49', '#CDA645']
+    const colors = ['#E8B745', '#D1DE3B', '#6AD132', '#2AC26D', '#246FB0', '#721E9C', '#871A1C', '#6EA85D', '#9DAA49', '#CDA645'];
     const dataSet = agenda.items.map(item => agenda.votingsRecount[item.id]);
 
     const data = {
@@ -100,9 +100,9 @@ const formatDataFromAgenda = agenda => {
             backgroundColor: colors,
             hoverBackgroundColor: colors,
         }]
-    }
+    };
 
     return data;
-}
+};
 
 export default CustomAgendaRecount;

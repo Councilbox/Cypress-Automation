@@ -1,11 +1,11 @@
-import React from "react";
-import { MenuItem } from "material-ui";
+import React from 'react';
+import { MenuItem } from 'material-ui';
 import {
 	Grid,
 	GridItem,
 	SelectInput,
 	TextInput
-} from "../../../displayComponents";
+} from '../../../displayComponents';
 
 const RepresentativeForm = ({
 	representative,
@@ -89,7 +89,7 @@ const RepresentativeForm = ({
 				onChange={event => {
 					updateState({
 						secondaryEmail: event.target.value
-					})
+					});
 				}}
 			/>
 		</GridItem>

@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 import { Tooltip, Paper, MenuItem, IconButton } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
-import { CloseIcon, Grid, GridItem, SelectInput, Icon } from "./index";
-import { getPrimary, getSecondary } from "../styles/colors";
-import withWindowSize from "../HOCs/withWindowSize";
-import "../styles/react-tabs.css";
-import Scrollbar from "./Scrollbar";
-import { isMobile } from "../utils/screen";
+import { CloseIcon, Grid, GridItem, SelectInput, Icon } from './index';
+import { getPrimary, getSecondary } from '../styles/colors';
+import withWindowSize from '../HOCs/withWindowSize';
+import '../styles/react-tabs.css';
+import Scrollbar from './Scrollbar';
+import { isMobile } from '../utils/screen';
 
 const primary = getPrimary();
 const secondary = getSecondary();
@@ -26,14 +26,14 @@ const Vtabs = ({
 	deleteAction
 }) => (
 		<React.Fragment>
-			<div style={{ height: "100%" }}>
-				{windowSize !== "xs" && !isMobile && (
-					<div style={{ borderRight: "1px solid gainsboro", width: "24em", height: "100%" }}>
-						<div style={{ height: "calc(100% - 3em)" }}>
+			<div style={{ height: '100%' }}>
+				{windowSize !== 'xs' && !isMobile && (
+					<div style={{ borderRight: '1px solid gainsboro', width: '24em', height: '100%' }}>
+						<div style={{ height: 'calc(100% - 3em)' }}>
 							<div style={{
-								width: "90%",
-								margin: "0 auto",
-								marginBottom: "0.5em"
+								width: '90%',
+								margin: '0 auto',
+								marginBottom: '0.5em'
 							}}>
 								{additionalTab}
 							</div>
@@ -41,13 +41,13 @@ const Vtabs = ({
 								{tabs.map((tab, mapIndex) => (
 										<div key={'' + mapIndex} onClick={() => changeTab('' + mapIndex)}
 											style={{
-												borderRight: +index === +mapIndex ? "6px solid " + primary : "",
-												marginTop: "0.5em",
-												marginBottom: "0.5em",
-												padding: "0.5em",
+												borderRight: +index === +mapIndex ? '6px solid ' + primary : '',
+												marginTop: '0.5em',
+												marginBottom: '0.5em',
+												padding: '0.5em',
 												paddingLeft: '1.2em',
-												background: +index === +mapIndex ? "#dcdcdc" : 'white',
-												cursor: "pointer"
+												background: +index === +mapIndex ? '#dcdcdc' : 'white',
+												cursor: 'pointer'
 											}}>
 											<HoverableTab
 												tab={tab}
@@ -65,14 +65,14 @@ const Vtabs = ({
 					</div>
 				)}
 
-				{(windowSize === "xs" || isMobile) && (
-					<div className="container-fluid" style={{ height: "100%" }}>
+				{(windowSize === 'xs' || isMobile) && (
+					<div className="container-fluid" style={{ height: '100%' }}>
 						<Grid>
 							<GridItem xs={6}>
 								<SelectInput
 									noLabel
 									value={index}
-									style={{ margin: "-16px" }}
+									style={{ margin: '-16px' }}
 									onChange={event => changeTab(event.target.value)}
 								>
 									{tabs.map((tab, itemIndex) => (
@@ -168,7 +168,7 @@ const Vtabs = ({
 						<div
 							style={{
 								height: '100%',
-								marginTop: "0.5em"
+								marginTop: '0.5em'
 							}}
 						>
 							{children}
@@ -177,7 +177,7 @@ const Vtabs = ({
 				)}
 			</div>
 		</React.Fragment >
-	)
+	);
 
 export default withWindowSize(Vtabs);
 
@@ -186,19 +186,19 @@ export default withWindowSize(Vtabs);
 const HoverableTab = ({ tab, mapIndex, index, deleteAction, editAction, disabled, ...props }) => {
 	const [state, setState] = React.useState({
 		showAction: false
-	})
+	});
 
 	const mouseEnterHandler = () => {
 		setState({
 			showAction: true
-		})
-	}
+		});
+	};
 
 	const mouseLeaveHandler = () => {
 		setState({
 			showAction: false
-		})
-	}
+		});
+	};
 
 
 	return (
@@ -263,7 +263,7 @@ const HoverableTab = ({ tab, mapIndex, index, deleteAction, editAction, disabled
 					)}
 					{deleteAction &&
 						<CloseIcon
-							style={{ float: "right" }}
+							style={{ float: 'right' }}
 							onClick={event => {
 								deleteAction(tab.data.id);
 								event.stopPropagation();
@@ -273,5 +273,5 @@ const HoverableTab = ({ tab, mapIndex, index, deleteAction, editAction, disabled
 				</Paper>
 			}
 		</div>
-	)
-}
+	);
+};

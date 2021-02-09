@@ -11,14 +11,14 @@ import { isMobile } from '../../../../utils/screen';
 
 const EvidencesPage = ({ data, translate }) => {
     if(data.loading){
-        return <LoadingSection />
+        return <LoadingSection />;
     }
 
     return (
         <div>
             {data.councilEvidences.map((evidence, index) => {
                 const parsedContent = JSON.parse(evidence.content);
-                const primerasLetras = `${translate[getTranslateFieldFromType(evidence.type)] || getTranslateFieldFromType(evidence.type)}`.split(' ').map(palabra => palabra.toUpperCase().substr(0, 1))
+                const primerasLetras = `${translate[getTranslateFieldFromType(evidence.type)] || getTranslateFieldFromType(evidence.type)}`.split(' ').map(palabra => palabra.toUpperCase().substr(0, 1));
                 return (
                     <Card key={`${evidence.id}`} style={{ padding: '0.6em', userSelect: 'text', width: isMobile ? '90%' : '65%', margin: '0 auto', marginBottom: '1.5em', marginTop: index === 0 ? '1.6em' : '0' }}>
                         <CardHeader
@@ -49,11 +49,11 @@ const EvidencesPage = ({ data, translate }) => {
                             }
                         </CardActions>
                     </Card>
-                )
+                );
             })}
         </div>
-    )
-}
+    );
+};
 
 
 const councilEvidences = gql`

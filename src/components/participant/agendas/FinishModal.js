@@ -7,7 +7,7 @@ const FinishModal = ({ open, action, requestClose, translate, ...props }) => {
             <div>
                 Una vez enviado no se podrá modificar el sentido del voto ¿Aceptar?
             </div>
-        )
+        );
 
     return (
         <AlertConfirm
@@ -20,7 +20,7 @@ const FinishModal = ({ open, action, requestClose, translate, ...props }) => {
             title={translate.warning}
             bodyText={renderBody()}
         />
-    )
-}
+    );
+};
 
 export default FinishModal;

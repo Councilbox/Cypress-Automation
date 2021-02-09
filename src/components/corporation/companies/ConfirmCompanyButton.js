@@ -21,13 +21,13 @@ class ConfirmCompanyButton extends React.Component {
             variables: {
                 companyId: this.props.company.id
             }
-        })
+        });
 
         if(!response.errors){
             this.setState({
                 success: true,
                 loading: false
-            })
+            });
             this.props.refetch();
         }
     }
@@ -40,7 +40,7 @@ class ConfirmCompanyButton extends React.Component {
             variables: {
                 companyId: this.props.company.id
             }
-        })
+        });
 
         if(!response.errors){
             this.setState({
@@ -59,11 +59,11 @@ class ConfirmCompanyButton extends React.Component {
                     color={getPrimary()}
                     floatRight
                     textStyle={{
-                        color: "white",
-                        fontWeight: "700"
+                        color: 'white',
+                        fontWeight: '700'
                     }}
                     onClick={this.cancelCompanySubscription}
-                    buttonStyle={{ marginRight: "1.2em" }}
+                    buttonStyle={{ marginRight: '1.2em' }}
                     icon={<ButtonIcon type="check_circle_outline" color="white" />}
                 />
             :
@@ -72,14 +72,14 @@ class ConfirmCompanyButton extends React.Component {
                     color={getPrimary()}
                     floatRight
                     textStyle={{
-                        color: "white",
-                        fontWeight: "700"
+                        color: 'white',
+                        fontWeight: '700'
                     }}
                     onClick={this.confirmCompany}
-                    buttonStyle={{ marginRight: "1.2em" }}
+                    buttonStyle={{ marginRight: '1.2em' }}
                     icon={<ButtonIcon type="check_circle_outline" color="white" />}
                 />
-        )
+        );
     }
 }
 

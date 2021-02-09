@@ -1,26 +1,26 @@
-import React from "react";
-import { connect } from "react-redux";
-import { withApollo, graphql } from "react-apollo";
-import gql from "graphql-tag";
+import React from 'react';
+import { connect } from 'react-redux';
+import { withApollo, graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import { bindActionCreators } from 'redux';
 import { store } from './App';
 import { setDetectRTC } from '../actions/mainActions';
 import withDetectRTC from '../HOCs/withDetectRTC';
-import { PARTICIPANT_ERRORS } from "../constants";
-import { LoadingMainApp } from "../displayComponents";
-import InvalidUrl from "../components/participant/InvalidUrl";
-import ParticipantLogin from "../components/participant/login/Login";
-import ErrorState from "../components/participant/login/ErrorState";
+import { PARTICIPANT_ERRORS } from '../constants';
+import { LoadingMainApp } from '../displayComponents';
+import InvalidUrl from '../components/participant/InvalidUrl';
+import ParticipantLogin from '../components/participant/login/Login';
+import ErrorState from '../components/participant/login/ErrorState';
 import Council from '../components/participant/council/Council';
 import Meet from '../components/participant/meet/Meet';
 import * as mainActions from '../actions/mainActions';
-import { shouldLoadSubdomain } from "../utils/subdomain";
-import withTranslations from "../HOCs/withTranslations";
-import { usePolling } from "../hooks";
-import { ConfigContext } from "./AppControl";
-import { SERVER_URL } from "../config";
-import { addSpecificTranslations } from "../actions/companyActions";
-import { initLogRocket } from "../utils/logRocket";
+import { shouldLoadSubdomain } from '../utils/subdomain';
+import withTranslations from '../HOCs/withTranslations';
+import { usePolling } from '../hooks';
+import { ConfigContext } from './AppControl';
+import { SERVER_URL } from '../config';
+import { addSpecificTranslations } from '../actions/companyActions';
+import { initLogRocket } from '../utils/logRocket';
 
 const participantQuery = gql`
 	query info {
@@ -71,7 +71,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 		if(participant.id){
 			initLogRocket(participant);
 		}
-	}, [participant.id])
+	}, [participant.id]);
 
 	const getReqData = React.useCallback(async () => {
         //const response = await fetch(`${SERVER_URL}/connectionInfo`);
@@ -80,7 +80,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 		const getDataFromBackend = async () => {
 			const response = await fetch(`${SERVER_URL}/connectionInfo`);
 			return await response.json();
-		}
+		};
 
 		if('geolocation' in navigator){
 			navigator.geolocation.getCurrentPosition(async position => {
@@ -96,7 +96,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 						city: geoLocation.locality,
 						state: geoLocation.principalSubdivision,
 						country: geoLocation.countryName,
-					}
+					};
 				} else {
 					json = await getDataFromBackend();
 				}
@@ -112,7 +112,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 			json = await getDataFromBackend();
 			setConnectionData(json);
 		}
-	}, [])
+	}, []);
 
     React.useEffect(() => {
         getReqData();
@@ -129,7 +129,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 
 	React.useEffect(() => {
 		props.subscribeToCouncilStateUpdated({ councilId: +match.params.councilId });
-	}, [match.params.councilId])
+	}, [match.params.councilId]);
 
 
 	React.useEffect(() => {
@@ -140,16 +140,16 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 		if(data && data.errors && data.errors[0]){
 			setLoadingConfig(false);
 		}
-	}, [council])
+	}, [council]);
 
 	const updateConfig = async id => {
 		await config.updateConfig(id);
 		setLoadingConfig(false);
-	}
+	};
 
 	React.useEffect(() => {
 		if(companyId){
-			updateConfig(companyId)
+			updateConfig(companyId);
 			store.dispatch(addSpecificTranslations(council.councilVideo.company));
 		}
 	}, [companyId]);
@@ -180,7 +180,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 		} else {
 			setData(response.data);
 		}
-	}
+	};
 	usePolling(getData, 10000);
 
 
@@ -226,13 +226,13 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 		}}>
 
 			<div
-				id={"mainContainer"}
+				id={'mainContainer'}
 				style={{
-					display: "flex",
+					display: 'flex',
 					flex: 1,
 					height: '100%',
-					flexDirection: "column",
-					overflow: "auto",
+					flexDirection: 'column',
+					overflow: 'auto',
 					padding: 0,
 					margin: 0
 				}}
@@ -276,7 +276,7 @@ const ParticipantContainer = ({ client, council, match, detectRTC, main, actions
 		</ConnectionInfoContext.Provider>
 
 	);
-}
+};
 
 
 const councilQuery = gql`
@@ -389,7 +389,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch) => ({
         actions: bindActionCreators(mainActions, dispatch)
-    })
+    });
 
 export default graphql(councilQuery, {
 	name: 'council',

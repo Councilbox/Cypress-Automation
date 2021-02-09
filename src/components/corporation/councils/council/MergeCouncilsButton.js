@@ -25,10 +25,10 @@ const reducer = (state, action) => {
             error: null,
             status: 'IDDLE'
         })
-    }
+    };
 
     return actions[action.type] ? actions[action.type]() : state;
-}
+};
 
 
 const MergeCouncilsButton = ({ translate, color, council, client }) => {
@@ -72,14 +72,14 @@ const MergeCouncilsButton = ({ translate, color, council, client }) => {
         } else {
             dispatch({ type: 'SUCCESS' });
         }
-    }
+    };
 
 
     const renderBody = () => {
         if (status === 'SUCCESS') {
             return (
                 'Reuniones mezcladas con éxito'
-            )
+            );
         }
 
         if (hasError) {
@@ -103,11 +103,11 @@ const MergeCouncilsButton = ({ translate, color, council, client }) => {
 
                 </>
 
-            )
+            );
         }
 
         if (loading) {
-            return <LoadingSection />
+            return <LoadingSection />;
         }
 
         return (
@@ -116,11 +116,11 @@ const MergeCouncilsButton = ({ translate, color, council, client }) => {
                 type="number"
                 floatingText={'Mover participantes desde la ID'}
                 onChange={event => {
-                    setFrom(+event.target.value)
+                    setFrom(+event.target.value);
                 }}
             />
-        )
-    }
+        );
+    };
 
     return (
         <>
@@ -142,20 +142,20 @@ const MergeCouncilsButton = ({ translate, color, council, client }) => {
                 text={'Añadir participantes desde otra reunión'}
                 color={color}
                 //loading={loading}
-                buttonStyle={{ marginTop: "0.5em", marginBottom: '1.4em', marginRight: '0.6em' }}
+                buttonStyle={{ marginTop: '0.5em', marginBottom: '1.4em', marginRight: '0.6em' }}
                 textStyle={{
-                    color: "white",
-                    fontWeight: "700",
-                    fontSize: "0.9em",
-                    textTransform: "none"
+                    color: 'white',
+                    fontWeight: '700',
+                    fontSize: '0.9em',
+                    textTransform: 'none'
                 }}
                 icon={
                     <FontAwesome
-                        name={"file-pdf-o"}
+                        name={'file-pdf-o'}
                         style={{
-                            fontSize: "1em",
-                            color: "white",
-                            marginLeft: "0.3em"
+                            fontSize: '1em',
+                            color: 'white',
+                            marginLeft: '0.3em'
                         }}
                     />
                 }
@@ -163,8 +163,8 @@ const MergeCouncilsButton = ({ translate, color, council, client }) => {
                 onClick={() => setModal(true)}
             />
         </>
-    )
-}
+    );
+};
 
 
 export default withApollo(MergeCouncilsButton);

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { Tooltip } from 'material-ui';
 import {
 	LoadingSection,
@@ -11,23 +11,23 @@ import {
 	CharSelector,
 	MenuItem,
 	TextInput
-} from "../../../../../displayComponents";
-import { getSecondary } from "../../../../../styles/colors";
-import withWindowSize from "../../../../../HOCs/withWindowSize";
-import ParticipantsList from "../ParticipantsList";
-import AddGuestModal from "../AddGuestModal";
+} from '../../../../../displayComponents';
+import { getSecondary } from '../../../../../styles/colors';
+import withWindowSize from '../../../../../HOCs/withWindowSize';
+import ParticipantsList from '../ParticipantsList';
+import AddGuestModal from '../AddGuestModal';
 import StatesHeader from './StatesHeader';
 import TypesHeader from './TypesHeader';
 import AttendanceHeader from './AttendanceHeader';
 import CredentialsHeader from './CredentialsHeader';
 import ConveneHeader from './ConveneHeader';
-import RefreshCredsSendsButton from "../RefreshCredsSendsButton";
-import QRSearchModal from "./QRSearchModal";
-import { ConfigContext } from "../../../../../containers/AppControl";
-import { isMobile } from "../../../../../utils/screen";
-import AddConvenedParticipantButton from "../../../prepare/modals/AddConvenedParticipantButton";
-import { hasParticipations } from "../../../../../utils/CBX";
-import { COUNCIL_TYPES } from "../../../../../constants";
+import RefreshCredsSendsButton from '../RefreshCredsSendsButton';
+import QRSearchModal from './QRSearchModal';
+import { ConfigContext } from '../../../../../containers/AppControl';
+import { isMobile } from '../../../../../utils/screen';
+import AddConvenedParticipantButton from '../../../prepare/modals/AddConvenedParticipantButton';
+import { hasParticipations } from '../../../../../utils/CBX';
+import { COUNCIL_TYPES } from '../../../../../constants';
 
 
 const ParticipantsPage = ({ translate, council, orientation, participants, loading, data, filters, setFilters, ...props }) => {
@@ -39,22 +39,22 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 	const divWidth = React.useRef();
 	const _getFilters = () => [
 			{
-				value: "fullName",
+				value: 'fullName',
 				translation: translate.participant_data
 			},
 			{
-				value: "dni",
+				value: 'dni',
 				translation: translate.dni
 			},
 			{
-				value: "position",
+				value: 'position',
 				translation: translate.position
 			}
-		]
+		];
 
 	React.useLayoutEffect(() => {
 		if(divWidth && divWidth.current && divWidth.current.offsetWidth < 648){
-			setwidthOffset(true)
+			setwidthOffset(true);
 		}
 	});
 
@@ -69,32 +69,32 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 				<div>
 					<BasicButton
 						text={isMobile ? translate.invite_guest : translate.add_guest}
-						color={"white"}
+						color={'white'}
 						textStyle={{
 							color: secondary,
-							fontWeight: "700",
-							fontSize: "0.9em",
-							textTransform: "none",
+							fontWeight: '700',
+							fontSize: '0.9em',
+							textTransform: 'none',
 						}}
 						textPosition="after"
 						type="flat"
 						icon={<ButtonIcon type="add" color={secondary} />}
 						onClick={() => setAddGuest(true)}
 						buttonStyle={{
-							marginRight: "1em",
+							marginRight: '1em',
 							border: `1px solid ${secondary}`,
 						}}
 					/>
 				</div>
 			</Tooltip>
-		)
-	}
+		);
+	};
 
 	const toggleCharFilter = char => {
 		setFilters({
 			charFilter: char === filters.charFilter ? null : char
 		});
-	}
+	};
 
 	const setSelectedType = newValue => {
 		setFilters({ type: newValue });
@@ -120,12 +120,12 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 	const toggleOnlyNotSigned = () => {
 		setFilters({
 			onlyNotSigned: !filters.onlyNotSigned
-		})
-	}
+		});
+	};
 
 	const _renderHeader = () => {
 		if (!data[getSection(props.view)]) {
-			return <div />
+			return <div />;
 		}
 
 		const headers = {
@@ -163,7 +163,7 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 				selected={filters.type}
 				setSelected={setSelectedType}
 			/>,
-		}
+		};
 		return headers[props.view];
 	};
 	const fields = _getFilters();
@@ -172,14 +172,14 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 		<React.Fragment>
 			<div
 				style={{
-					minHeight: "3em",
+					minHeight: '3em',
 					maxHeight: '6em',
-					overflow: "hidden"
+					overflow: 'hidden'
 				}}
 			>
 				{_renderHeader()}
 			</div>
-			<Grid style={{ padding: "0 8px", width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+			<Grid style={{ padding: '0 8px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 				<GridItem xs={orientation === 'landscape' ? 4 : 6} md={6} lg={3} style={{ display: 'flex', alignItems: 'center', height: '3.5em' }}>
 					{_renderAddGuestButton()}
 				</GridItem>
@@ -248,7 +248,7 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 					}
 					<div
 						style={{
-							maxWidth: "8em"
+							maxWidth: '8em'
 							// maxWidth: "12em"
 						}}
 					>
@@ -270,14 +270,14 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 					</div>
 					<div
 						style={{
-							marginLeft: "0.8em",
+							marginLeft: '0.8em',
 							width: '8em'
 							// width: '10em'
 						}}
 					>
 						<TextInput
 							adornment={<Icon>search</Icon>}
-							floatingText={" "}
+							floatingText={' '}
 							type="text"
 							autoComplete="off"
 							value={filters.filterText}
@@ -292,7 +292,7 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 				ref={divWidth}
 				style={{
 					height: `calc(100% - 4em - ${isMobile && orientation === 'portrait' ? '8em' : `${props.menuOpen ? '6.5' : widthOffset ? '9.5' : '3.5'}em`}  )`,
-					overflow: "hidden",
+					overflow: 'hidden',
 					display: 'flex',
 				}}
 			>
@@ -329,8 +329,8 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 				translate={translate}
 			/>
 		</React.Fragment>
-	)
-}
+	);
+};
 
 const getSection = view => {
 	const sections = {
@@ -339,8 +339,8 @@ const getSection = view => {
 		'CREDENTIALS': 'liveParticipantsCredentials',
 		'TYPE': 'liveParticipantsType',
 		'CONVENE': 'liveParticipantsConvene'
-	}
+	};
 	return sections[view];
-}
+};
 
 export default withWindowSize(ParticipantsPage);

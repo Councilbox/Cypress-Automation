@@ -1,9 +1,9 @@
-import React from "react";
-import { withRouter } from "react-router-dom";
+import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { bHistory } from "../../../containers/App";
-import { LoadingMainApp } from "../../../displayComponents";
+import { bHistory } from '../../../containers/App';
+import { LoadingMainApp } from '../../../displayComponents';
 
 class CreateSignature extends React.Component {
 	state = {

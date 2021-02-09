@@ -28,7 +28,7 @@ const DeleteCompanyButton = ({ company, deleteCompany }) => {
                 bHistory.replace('/companies');
             }
         }
-    }
+    };
 
     return (
         <div>
@@ -45,11 +45,11 @@ const DeleteCompanyButton = ({ company, deleteCompany }) => {
                 buttonAccept='Aceptar'
                 buttonCancel={'Cancelar'}
                 bodyText={<div>Esta acción no se puede deshacer, se borrará la compañía, censos y reuniones, confirmar?</div>}
-                title={"Advertencia"}
+                title={'Advertencia'}
             />
         </div>
-    )
-}
+    );
+};
 
 export default graphql(deleteCompanyMutation, {
     name: 'deleteCompany'

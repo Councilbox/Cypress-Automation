@@ -15,6 +15,6 @@ const CouncilActResults = ({ council, agendas, recount, translate }) => (
             />
         </div>
 
-    )
+    );
 
 export default CouncilActResults;

@@ -1,5 +1,5 @@
-import React, { Fragment } from "react";
-import { Checkbox, Menu, MenuItem } from "material-ui";
+import React, { Fragment } from 'react';
+import { Checkbox, Menu, MenuItem } from 'material-ui';
 
 class AllSelector extends React.Component {
 	state = {
@@ -38,11 +38,11 @@ class AllSelector extends React.Component {
 			<Fragment>
 				<div
 					style={{
-						border: "solid 2px grey",
-						width: "92px",
-						cursor: "pointer",
-						float: "left",
-						marginRight: "1em"
+						border: 'solid 2px grey',
+						width: '92px',
+						cursor: 'pointer',
+						float: 'left',
+						marginRight: '1em'
 					}}
 					onClick={this.handleClick}
 				>

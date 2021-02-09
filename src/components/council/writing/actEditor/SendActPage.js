@@ -56,7 +56,7 @@ class SendActPage extends React.Component {
                 councilId: this.props.council.id,
                 group
             }
-        })
+        });
 
         if(response.data.sendCouncilAct){
             if(response.data.sendCouncilAct.success){
@@ -74,7 +74,7 @@ class SendActPage extends React.Component {
                 loading: false,
                 error: true,
                 success: false
-            })
+            });
         }
     }
 
@@ -100,15 +100,15 @@ class SendActPage extends React.Component {
                                     loading={this.state.updating}
                                     loadingColor={primary}
                                     disabled={this.state.updating}
-                                    color={"white"}
+                                    color={'white'}
                                     textStyle={{
                                         color: primary,
-                                        fontWeight: "700",
-                                        fontSize: "0.9em",
-                                        textTransform: "none"
+                                        fontWeight: '700',
+                                        fontSize: '0.9em',
+                                        textTransform: 'none'
                                     }}
                                     buttonStyle={{
-                                        marginRight: "1em",
+                                        marginRight: '1em',
                                         border: `2px solid ${primary}`
                                     }}
                                 />
@@ -198,7 +198,7 @@ class SendActPage extends React.Component {
 					requestClose={() => this.setState({ sendAct: false, success: false })}
 				/>
             </div>
-        )
+        );
     }
 }
 

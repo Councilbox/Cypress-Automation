@@ -32,7 +32,7 @@ const ExportActToMenu = ({ translate, council, client, ...props }) => {
 			if (response.data.exportActPDF) {
 				downloadFile(
 					response.data.exportActPDF,
-					"application/pdf",
+					'application/pdf',
 					`${translate.act.replace(/ /g, '_')}-${council.name.replace(/ /g, '_').replace(/\./g, '_')}`
                 );
                 setLoading(false);
@@ -48,7 +48,7 @@ const ExportActToMenu = ({ translate, council, client, ...props }) => {
 			}
         });
         const preHtml = "<!DOCTYPE html type=\"text/html\"><html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta http-equiv='Content-Type' content='text/html;charset=UTF-8'><title>Export HTML To Doc</title></head><body style='font-family: Arial;'>";
-        const postHtml = "</body></html>";
+        const postHtml = '</body></html>';
         const body = response.data.councilAct.emailAct.replace(/#BFBFBF/g, 'rgb(191, 191, 191)').replace(/<!--[\s\S]*?-->/g, '').replace(/style="page-break-before: always"/g, '').replace(/solid 1px rgb(217, 237, 247)/g, 'solid 2px rgb(217, 237, 247)')
 .replace(/font-size: 11px/g, 'font-size: 12.5px');
         const html = preHtml + body + postHtml;
@@ -68,7 +68,7 @@ const ExportActToMenu = ({ translate, council, client, ...props }) => {
             type: 'application/msword'
         });
         FileSaver.saveAs(blob, filename);
-    }
+    };
 
     return (
         <DropDownMenu
@@ -82,9 +82,9 @@ const ExportActToMenu = ({ translate, council, client, ...props }) => {
             buttonStyle={{ border: `1px solid ${secondary}` }}
             icon={
                 <i className="fa fa-download" style={{
-                        fontSize: "1em",
+                        fontSize: '1em',
                         color: secondary,
-                        marginLeft: "0.3em"
+                        marginLeft: '0.3em'
                     }}
                 />
             }
@@ -100,9 +100,9 @@ const ExportActToMenu = ({ translate, council, client, ...props }) => {
                             }}
                         >
                             <i className="fa fa-file-pdf-o" style={{
-                                    fontSize: "1em",
+                                    fontSize: '1em',
                                     color: secondary,
-                                    marginLeft: "0.3em"
+                                    marginLeft: '0.3em'
                                 }}
                             />
                             <span style={{ marginLeft: '2.5em', marginRight: '0.8em' }}>
@@ -121,9 +121,9 @@ const ExportActToMenu = ({ translate, council, client, ...props }) => {
                             }}
                         >
                             <i className="fa fa-file-word-o" style={{
-                                    fontSize: "1em",
+                                    fontSize: '1em',
                                     color: secondary,
-                                    marginLeft: "0.3em"
+                                    marginLeft: '0.3em'
                                 }}
                             />
                             <span style={{ marginLeft: '2.5em', marginRight: '0.8em' }}>
@@ -134,7 +134,7 @@ const ExportActToMenu = ({ translate, council, client, ...props }) => {
                 </React.Fragment>
             }
         />
-    )
-}
+    );
+};
 
 export default withApollo(ExportActToMenu);

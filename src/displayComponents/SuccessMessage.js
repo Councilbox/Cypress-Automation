@@ -19,35 +19,35 @@ class SuccessMessage extends React.Component {
 	}
 
 	render() {
-		const { message } = this.props
+		const { message } = this.props;
 		return (
 			<div
 				style={{
-					width: "100%",
-					display: "flex",
-					alignItems: "center",
-					alignContent: "center",
-					flexDirection: "column",
-					position: "relative"
+					width: '100%',
+					display: 'flex',
+					alignItems: 'center',
+					alignContent: 'center',
+					flexDirection: 'column',
+					position: 'relative'
 				}}
 			>
 				{this.state.mounted ? (
 					<React.Fragment>
 						<div className="scale-up-center" style={{ marginBottom: '15px' }}>
 							< FontAwesome
-								name={"envelope-o"}
+								name={'envelope-o'}
 								style={{
-									fontSize: "7em",
+									fontSize: '7em',
 								}}
 							/>
 							< FontAwesome
-								name={"check"}
+								name={'check'}
 								style={{
-									fontSize: "3em",
-									color: "limegreen",
-									position: "absolute",
-									top: "0",
-									left: "65%",
+									fontSize: '3em',
+									color: 'limegreen',
+									position: 'absolute',
+									top: '0',
+									left: '65%',
 								}}
 							/>
 						</div>
@@ -56,8 +56,8 @@ class SuccessMessage extends React.Component {
 				) : (
 						<CircularProgress
 							size={60}
-							color={"primary"}
-							style={{ marginRight: "0.8em" }}
+							color={'primary'}
+							style={{ marginRight: '0.8em' }}
 						/>
 					)
 				}

@@ -1,12 +1,12 @@
 import React from 'react';
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import CouncilLiveTest from "../components/CouncilLiveTest";
-import { LoadingMainApp } from "../displayComponents";
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import CouncilLiveTest from '../components/CouncilLiveTest';
+import { LoadingMainApp } from '../displayComponents';
 
 const CouncilLiveContainer = ({ user, match }) => {
     if(!user.id){
-        return <LoadingMainApp />
+        return <LoadingMainApp />;
     }
 
 	return <CouncilLiveTest councilId={+match.params.id} userId={user.id} />;

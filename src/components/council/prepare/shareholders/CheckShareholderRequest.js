@@ -18,10 +18,10 @@ export const getTypeText = (text, translate) => {
         'vote': translate.early_vote,
         'represent': translate.vote_delegation,
         'representation': translate.vote_represented
-    }
+    };
 
     return texts[text];
-}
+};
 
 
 const CheckShareholderRequest = ({ request, translate, refetch, client, council }) => {
@@ -49,8 +49,8 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
         });
         const file = response.data.shareholdersRequestAttachment;
         const base64 = file.base64.split(';base64,').pop();
-        downloadFile(base64, file.filetype, file.filename)
-    }
+        downloadFile(base64, file.filetype, file.filename);
+    };
     const modalBody = () => (
             <>
                 <div>
@@ -119,7 +119,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
                             </div>
                         ))
                         :
-                        ""
+                        ''
                     }
                 </div>
                 <AddShareholder
@@ -133,7 +133,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
                     refetch={refetch}
                     translate={translate}
                 />
-                {request.state !== "1" &&
+                {request.state !== '1' &&
                     <ApproveRequestButton
                         request={request}
                         refetch={refetch}
@@ -157,30 +157,30 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
                     />
                 }
             </>
-        )
+        );
 
 
     const closeModal = () => {
         if (!representative && request.data.requestType === 'represent' && request.participantCreated) {
-            setModalAlert(true)
+            setModalAlert(true);
         } else {
-            setModal(false)
+            setModal(false);
         }
-    }
+    };
 
     const closeModals = () => {
-        setModal(false)
-        setModalAlert(false)
-        refetch()
-    }
+        setModal(false);
+        setModalAlert(false);
+        refetch();
+    };
 
     const closeModalAlert = () => {
-        setModalAlert(false)
+        setModalAlert(false);
         if (inModal) {
-            setInModal(false)
+            setInModal(false);
         }
-        refetch()
-    }
+        refetch();
+    };
 
 
     return (
@@ -190,7 +190,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
                 bodyText={
                     <div>
                         {inModal ?
-                            <div style={{ display: "flex", marginTop: "1em", justifyContent: "flex-end" }}>
+                            <div style={{ display: 'flex', marginTop: '1em', justifyContent: 'flex-end' }}>
                                 <DelegateVoteButton
                                     text={translate.continue}
                                     request={request}
@@ -200,13 +200,13 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
                                     closeModal={() => setModalAlert(false)}
                                     setInModal={setInModal}
                                     inModal={inModal}
-                                    closeModalAlert={() => { setModalAlert(false); refetch() }}
+                                    closeModalAlert={() => { setModalAlert(false); refetch(); }}
                                 />
                             </div>
                             :
                             <div>
                                 <div>{translate.user_marked_delegation_vote}</div>
-                                <div style={{ display: "flex", marginTop: "1em", justifyContent: "flex-end" }}>
+                                <div style={{ display: 'flex', marginTop: '1em', justifyContent: 'flex-end' }}>
                                     <DelegateVoteButton
                                         text={translate.to_delegate_vote}
                                         request={request}
@@ -222,7 +222,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
                                         onClick={closeModals}
                                         buttonStyle={{
                                             border: `1px solid ${secondary}`,
-                                            marginLeft: "1em"
+                                            marginLeft: '1em'
                                         }}
                                         color="white"
                                         textStyle={{ color: secondary }}
@@ -253,7 +253,7 @@ const CheckShareholderRequest = ({ request, translate, refetch, client, council 
                 open={modal}
             />
         </>
-    )
-}
+    );
+};
 
 export default withApollo(CheckShareholderRequest);

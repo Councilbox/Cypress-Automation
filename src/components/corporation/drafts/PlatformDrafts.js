@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 import { Icon, IconButton, withStyles } from 'material-ui';
-import { compose, graphql, withApollo } from "react-apollo";
-import { withRouter } from "react-router-dom";
-import gql from "graphql-tag";
+import { compose, graphql, withApollo } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
+import gql from 'graphql-tag';
 import {
 	AllSelector,
 	BasicButton,
@@ -13,19 +13,19 @@ import {
 	ErrorWrapper,
 	TextInput,
 	CloseIcon
-} from "../../../displayComponents";
-import { cloneDrafts, platformDrafts as query } from "../../../queries";
-import { getPrimary } from "../../../styles/colors";
-import withSharedProps from "../../../HOCs/withSharedProps";
-import PlatformDraftDetails from "./PlatformDraftDetails";
+} from '../../../displayComponents';
+import { cloneDrafts, platformDrafts as query } from '../../../queries';
+import { getPrimary } from '../../../styles/colors';
+import withSharedProps from '../../../HOCs/withSharedProps';
+import PlatformDraftDetails from './PlatformDraftDetails';
 import DraftDetailsModal from './DraftDetailsModal';
-import { DRAFTS_LIMITS } from "../../../constants";
-import { useOldState } from "../../../hooks";
-import { useTags, DraftRow } from "../../company/drafts/CompanyDraftList";
-import { DropdownEtiquetas } from "../../company/drafts/LoadDraft";
+import { DRAFTS_LIMITS } from '../../../constants';
+import { useOldState } from '../../../hooks';
+import { useTags, DraftRow } from '../../company/drafts/CompanyDraftList';
+import { DropdownEtiquetas } from '../../company/drafts/LoadDraft';
 
-import { isMobile } from "../../../utils/screen";
-import { bHistory } from "../../../containers/App";
+import { isMobile } from '../../../utils/screen';
+import { bHistory } from '../../../containers/App';
 
 export const statute_types = [
 	{
@@ -79,7 +79,7 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 		});
 
 		setData(response.data);
-	}
+	};
 
 	React.useEffect(() => {
 		getData({
@@ -87,13 +87,13 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 			...(search ? {
 				filters: [
 					{
-						field: "title",
+						field: 'title',
 						text: search
 					},
 				]
 			} : {}),
 			tags: Object.keys(testTags).map(key => testTags[key].name),
-		})
+		});
 	}, [testTags, search]);
 
 	const getVars = async () => {
@@ -133,14 +133,14 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 
 
 	if (!data) {
-		return <LoadingSection />
+		return <LoadingSection />;
 	}
 
 	const alreadySaved = id => {
 		const { companyDrafts } = data;
 		const item = companyDrafts.list.find(draft => draft.draftId === id);
 		return !!item;
-	}
+	};
 
 
 	const anySelected = () => {
@@ -156,19 +156,19 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 			}
 		}
 		return false;
-	}
+	};
 
 	const showDraftDetails = draft => {
 		setState({
 			draftModal: draft
 		});
-	}
+	};
 
 	const closeDraftDetails = () => {
 		setState({
 			draftModal: null
 		});
-	}
+	};
 
 	const allSelected = () => {
 		const { platformDrafts } = data;
@@ -211,7 +211,7 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 				bHistory.goBack();
 			}
 		}
-	}
+	};
 
 	const selectAll = () => {
 		const { list } = data.platformDrafts;
@@ -231,7 +231,7 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 		setState({
 			selectedValues: [...values],
 		});
-	}
+	};
 
 	const deselectAll = () => {
 		const { list } = data.platformDrafts;
@@ -245,7 +245,7 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 		setState({
 			selectedValues: [...values],
 		});
-	}
+	};
 
 	const updateSelectedValues = id => {
 		let { selectedValues } = state;
@@ -259,7 +259,7 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 		setState({
 			selectedValues: [...selectedValues]
 		});
-	}
+	};
 
 	const { loading, error, platformDrafts, draftTypes } = data;
 	const { selectedIndex, selectedValues } = state;
@@ -305,11 +305,11 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 															translate.to
 															} '${translate.my_drafts}'`
 														}
-														color={"white"}
+														color={'white'}
 														textStyle={{
 															color: primary,
-															fontWeight: "700",
-															textTransform: "none"
+															fontWeight: '700',
+															textTransform: 'none'
 														}}
 														textPosition="after"
 														icon={
@@ -320,7 +320,7 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 														}
 														onClick={cloneDrafts}
 														buttonStyle={{
-															marginRight: "1em",
+															marginRight: '1em',
 															border: `2px solid ${primary}`,
 														}}
 													/>
@@ -328,8 +328,8 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 											)}
 										</div>
 										{isMobile ?
-											<div style={{ marginRight: '0.8em', display: "flex", justifyContent: 'flex-end', alignItems: "center", marginTop: '.3em', marginBottom: "0.3em" }}>
-												<div style={{ marginRight: isMobile ? "0.5em" : "3em" }}>
+											<div style={{ marginRight: '0.8em', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginTop: '.3em', marginBottom: '0.3em' }}>
+												<div style={{ marginRight: isMobile ? '0.5em' : '3em' }}>
 													<DropdownEtiquetas
 														translate={translate}
 														search={tagText}
@@ -349,23 +349,23 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 															horizontal: 'right',
 														}}
 														removeTag={removeTag}
-														stylesMenuItem={{ padding: "3px 3px", marginTop: isMobile && '0', width: isMobile && "" }}
+														stylesMenuItem={{ padding: '3px 3px', marginTop: isMobile && '0', width: isMobile && '' }}
 														soloIcono={true}
 													/>
 												</div>
 												<div>
 													<TextInput
-														className={isMobile && !inputSearch ? "openInput" : ""}
+														className={isMobile && !inputSearch ? 'openInput' : ''}
 														disableUnderline={true}
-														styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", padding: isMobile && inputSearch && "4px 5px", paddingLeft: !isMobile && "5px" }}
-														stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && inputSearch ? "8px" : "4px" }}
+														styleInInput={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', padding: isMobile && inputSearch && '4px 5px', paddingLeft: !isMobile && '5px' }}
+														stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: isMobile && inputSearch ? '8px' : '4px' }}
 														adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
-														floatingText={" "}
+														floatingText={' '}
 														type="text"
 														value={search}
-														styles={{ marginTop: "-16px" }}
-														stylesTextField={{ marginBottom: "0px" }}
-														placeholder={isMobile ? "" : translate.search}
+														styles={{ marginTop: '-16px' }}
+														stylesTextField={{ marginBottom: '0px' }}
+														placeholder={isMobile ? '' : translate.search}
 														onChange={event => {
 															setSearch(event.target.value);
 														}}
@@ -373,8 +373,8 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 												</div>
 											</div>
 											:
-											<div style={{ marginRight: '0.8em', display: "flex", justifyContent: 'flex-end' }}>
-												<div style={{ marginRight: "3em" }}>
+											<div style={{ marginRight: '0.8em', display: 'flex', justifyContent: 'flex-end' }}>
+												<div style={{ marginRight: '3em' }}>
 													<DropdownEtiquetas
 														translate={translate}
 														search={tagText}
@@ -400,10 +400,10 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 												<div>
 													<TextInput
 														disableUnderline={true}
-														styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", paddingLeft: "5px", padding: "4px 5px" }}
-														stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+														styleInInput={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px', padding: '4px 5px' }}
+														stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px' }}
 														adornment={<Icon>search</Icon>}
-														floatingText={" "}
+														floatingText={' '}
 														type="text"
 														value={search}
 														placeholder={translate.search_templates}
@@ -431,7 +431,7 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 															classes={classes}
 															key={`draft${draft.id}${draft.title}`}
 															translate={translate}
-															action={() => { showDraftDetails(draft) }}
+															action={() => { showDraftDetails(draft); }}
 															draft={draft}
 															selectable={true}
 															companyStatutes={vars.companyStatutes}
@@ -440,7 +440,7 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 															isChecked={isChecked}
 															alreadySaved={alreadySaved}
 															updateSelectedValues={updateSelectedValues}
-															stylesBackground={{ background: index % 2 ? "#edf4fb" : "" }}
+															stylesBackground={{ background: index % 2 ? '#edf4fb' : '' }}
 															info={props}
 														/>
 													)
@@ -463,18 +463,18 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 			/>
 		</CardPageLayout>
 	);
-}
+};
 const regularCardStyle = {
 	cardTitle: {
-		width: "100%",
-		overflow: "hidden"
+		width: '100%',
+		overflow: 'hidden'
 	},
-}
+};
 
 export default withSharedProps()(
 	compose(
 		graphql(cloneDrafts, {
-			name: "cloneDrafts"
+			name: 'cloneDrafts'
 		})
 	)(withRouter(withApollo(withStyles(regularCardStyle)(PlatformDrafts))))
 );

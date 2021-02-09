@@ -21,7 +21,7 @@ const CantCreateCouncilsModal = props => (
                 </div>
             }
         />
-    )
+    );
 
 export default CantCreateCouncilsModal;
 

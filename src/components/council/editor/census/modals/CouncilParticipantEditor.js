@@ -1,19 +1,19 @@
-import React from "react";
-import { compose, graphql, withApollo } from "react-apollo";
-import { Card } from "material-ui";
-import { AlertConfirm } from "../../../../../displayComponents/index";
-import { updateCouncilParticipant, checkUniqueCouncilEmails } from "../../../../../queries/councilParticipant";
-import { languages } from "../../../../../queries/masters";
-import ParticipantForm from "../../../participants/ParticipantForm";
+import React from 'react';
+import { compose, graphql, withApollo } from 'react-apollo';
+import { Card } from 'material-ui';
+import { AlertConfirm } from '../../../../../displayComponents/index';
+import { updateCouncilParticipant, checkUniqueCouncilEmails } from '../../../../../queries/councilParticipant';
+import { languages } from '../../../../../queries/masters';
+import ParticipantForm from '../../../participants/ParticipantForm';
 import {
 	checkRequiredFieldsParticipant,
 	checkRequiredFieldsRepresentative,
 	checkValidEmail
-} from "../../../../../utils/validation";
-import RepresentativeForm from "../../../../company/census/censusEditor/RepresentativeForm";
-import withSharedProps from "../../../../../HOCs/withSharedProps";
-import SelectRepresentative from "./SelectRepresentative";
-import { COUNCIL_TYPES } from "../../../../../constants";
+} from '../../../../../utils/validation';
+import RepresentativeForm from '../../../../company/census/censusEditor/RepresentativeForm';
+import withSharedProps from '../../../../../HOCs/withSharedProps';
+import SelectRepresentative from './SelectRepresentative';
+import { COUNCIL_TYPES } from '../../../../../constants';
 
 class CouncilParticipantEditor extends React.Component {
 	state = {
@@ -112,7 +112,7 @@ class CouncilParticipantEditor extends React.Component {
 		this.setState({
 			errors: {},
 			representativeErrors: {}
-		})
+		});
 		this.props.close();
 	}
 
@@ -176,7 +176,7 @@ class CouncilParticipantEditor extends React.Component {
 						errorsRepresentative.errors.email = translate.register_exists_email;
 						errorsRepresentative.hasError = true;
 					}
-				})
+				});
 			}
 		}
 
@@ -222,7 +222,7 @@ class CouncilParticipantEditor extends React.Component {
 							if (this.state.representative.email === email) {
 								error = translate.register_exists_email;
 							}
-						})
+						});
 					}
 				} else {
 					error = translate.valid_email_required;
@@ -233,14 +233,14 @@ class CouncilParticipantEditor extends React.Component {
 							...this.state.errors,
 							email: error
 						}
-					})
+					});
 				} else {
 					this.setState({
 						representativeErrors: {
 							...this.state.errors,
 							email: error
 						}
-					})
+					});
 				}
 			}
 		}
@@ -276,10 +276,10 @@ class CouncilParticipantEditor extends React.Component {
 						selectRepresentative: false
 					})}
 				/>
-				<div style={{ marginRight: "1em" }}>
+				<div style={{ marginRight: '1em' }}>
 					<Card style={{
 						padding: '1em',
-						marginBottom: "1em",
+						marginBottom: '1em',
 						color: 'black',
 					}}>
 						<ParticipantForm
@@ -296,7 +296,7 @@ class CouncilParticipantEditor extends React.Component {
 					</Card>
 					<Card style={{
 						padding: '1em',
-						marginBottom: "1em",
+						marginBottom: '1em',
 						color: 'black',
 					}}>
 						<RepresentativeForm
@@ -339,9 +339,9 @@ class CouncilParticipantEditor extends React.Component {
 
 export default compose(
 	graphql(updateCouncilParticipant, {
-		name: "updateCouncilParticipant",
+		name: 'updateCouncilParticipant',
 		options: {
-			errorPolicy: "all"
+			errorPolicy: 'all'
 		}
 	}),
 	graphql(languages),
@@ -350,15 +350,15 @@ export default compose(
 
 const initialRepresentative = {
 	hasRepresentative: false,
-	language: "es",
+	language: 'es',
 	initialState: 0,
 	type: 2,
-	name: "",
-	surname: "",
-	position: "",
-	email: "",
-	phone: "",
-	dni: ""
+	name: '',
+	surname: '',
+	position: '',
+	email: '',
+	phone: '',
+	dni: ''
 };
 
 function extractTypeName(object) {

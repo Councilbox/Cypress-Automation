@@ -1,10 +1,10 @@
-import React from "react";
-import { graphql } from "react-apollo";
-import { Tooltip } from "material-ui";
-import FontAwesome from "react-fontawesome";
-import { Grid, GridItem, Icon } from "../../../../displayComponents";
-import { getSecondary } from "../../../../styles/colors";
-import { councilRecount } from "../../../../queries/council";
+import React from 'react';
+import { graphql } from 'react-apollo';
+import { Tooltip } from 'material-ui';
+import FontAwesome from 'react-fontawesome';
+import { Grid, GridItem, Icon } from '../../../../displayComponents';
+import { getSecondary } from '../../../../styles/colors';
+import { councilRecount } from '../../../../queries/council';
 
 class ParticipantStatsBanner extends React.Component {
 	render() {
@@ -13,17 +13,17 @@ class ParticipantStatsBanner extends React.Component {
 
 		return (
 			<Grid spacing={0} style={{
-				backgroundColor: "whiteSmoke",
+				backgroundColor: 'whiteSmoke',
 				width: '100%',
 				height: '3em',
 				borderBottom: '1px solid gainsboro',
 				borderTop: '1px solid gainsboro',
-				display: "flex",
-				flexDirection: "row",
-				alignItems: "center",
-				justifyContent: "space-between",
-				paddingLeft: "1.5em",
-				paddingRight: "2.5em",
+				display: 'flex',
+				flexDirection: 'row',
+				alignItems: 'center',
+				justifyContent: 'space-between',
+				paddingLeft: '1.5em',
+				paddingRight: '2.5em',
 				textAlign: 'center'
 			}}>
 				<GridItem
@@ -34,11 +34,11 @@ class ParticipantStatsBanner extends React.Component {
 					<Tooltip title={translate.all_plural}>
 						<div>
 							<FontAwesome
-								name={"users"}
+								name={'users'}
 								style={{
-									margin: "0.5em",
+									margin: '0.5em',
 									color: secondary,
-									fontSize: "1.4em"
+									fontSize: '1.4em'
 								}}
 							/>
 							{/* {this.getStateCount("all")} */}
@@ -53,11 +53,11 @@ class ParticipantStatsBanner extends React.Component {
 					<Tooltip title={translate.customer_initial}>
 						<div>
 							<FontAwesome
-								name={"globe"}
+								name={'globe'}
 								style={{
-									margin: "0.5em",
+									margin: '0.5em',
 									color: secondary,
-									fontSize: "1.4em"
+									fontSize: '1.4em'
 								}}
 							/>
 							{/* {this.getStateCount(0)} */}
@@ -75,8 +75,8 @@ class ParticipantStatsBanner extends React.Component {
 								className="material-icons"
 								style={{
 									color: secondary,
-									fontSize: "1.6em",
-									marginRight: "0.5em"
+									fontSize: '1.6em',
+									marginRight: '0.5em'
 								}}
 							>
 								face
@@ -93,20 +93,20 @@ class ParticipantStatsBanner extends React.Component {
 					<Tooltip title={translate.customer_delegated}>
 						<div>
 							<FontAwesome
-								name={"user"}
+								name={'user'}
 								style={{
-									margin: "0.5em",
+									margin: '0.5em',
 									color: secondary,
-									fontSize: "1.2em"
+									fontSize: '1.2em'
 								}}
 							/>
 							<FontAwesome
-								name={"user"}
+								name={'user'}
 								style={{
-									marginLeft: "-1em",
-									marginRight: "0.5em",
+									marginLeft: '-1em',
+									marginRight: '0.5em',
 									color: secondary,
-									fontSize: "0.85em"
+									fontSize: '0.85em'
 								}}
 							/>
 							{/* {this.getStateCount(4)} */}
@@ -121,20 +121,20 @@ class ParticipantStatsBanner extends React.Component {
 					<Tooltip title={translate.customer_representated}>
 						<div>
 							<FontAwesome
-								name={"user-o"}
+								name={'user-o'}
 								style={{
-									margin: "0.5em",
+									margin: '0.5em',
 									color: secondary,
-									fontSize: "1.2em"
+									fontSize: '1.2em'
 								}}
 							/>
 							<FontAwesome
-								name={"user"}
+								name={'user'}
 								style={{
-									marginLeft: "-1em",
-									marginRight: "0.5em",
+									marginLeft: '-1em',
+									marginRight: '0.5em',
 									color: secondary,
-									fontSize: "0.85em"
+									fontSize: '0.85em'
 								}}
 							/>
 							{/* {this.getStateCount(2)} */}
@@ -149,11 +149,11 @@ class ParticipantStatsBanner extends React.Component {
 					<Tooltip title={translate.guest}>
 						<div>
 							<FontAwesome
-								name={"user-o"}
+								name={'user-o'}
 								style={{
-									margin: "0.5em",
+									margin: '0.5em',
 									color: secondary,
-									fontSize: "1.2em"
+									fontSize: '1.2em'
 								}}
 							/>
 							{/* {this.getTypeCount(1)} */}

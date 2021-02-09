@@ -1,9 +1,9 @@
-import React from "react";
-import { compose, graphql, withApollo } from "react-apollo";
-import { MenuItem } from "material-ui";
-import gql from "graphql-tag";
-import { toast } from "react-toastify";
-import withSharedProps from "../../../HOCs/withSharedProps";
+import React from 'react';
+import { compose, graphql, withApollo } from 'react-apollo';
+import { MenuItem } from 'material-ui';
+import gql from 'graphql-tag';
+import { toast } from 'react-toastify';
+import withSharedProps from '../../../HOCs/withSharedProps';
 import {
 	BasicButton,
 	ButtonIcon,
@@ -16,35 +16,35 @@ import {
 	SelectInput,
 	TextInput,
 	SectionTitle
-} from "../../../displayComponents";
-import { checkCifExists } from "../../../queries/userAndCompanySignUp";
+} from '../../../displayComponents';
+import { checkCifExists } from '../../../queries/userAndCompanySignUp';
 import { USER_ACTIVATIONS } from '../../../constants';
-import { getPrimary, getSecondary } from "../../../styles/colors";
-import { provinces as provincesQuery } from "../../../queries/masters";
-import { bHistory, store } from "../../../containers/App";
-import { getCompanies } from "../../../actions/companyActions";
-import { sendGAevent } from "../../../utils/analytics";
-import GoverningBodyForm from "../settings/GoverningBodyForm";
+import { getPrimary, getSecondary } from '../../../styles/colors';
+import { provinces as provincesQuery } from '../../../queries/masters';
+import { bHistory, store } from '../../../containers/App';
+import { getCompanies } from '../../../actions/companyActions';
+import { sendGAevent } from '../../../utils/analytics';
+import GoverningBodyForm from '../settings/GoverningBodyForm';
 
 
 class NewCompanyPage extends React.PureComponent {
 	state = {
 		data: {
-			businessName: "",
-			alias: "",
-			tin: "",
-			domain: "",
+			businessName: '',
+			alias: '',
+			tin: '',
+			domain: '',
 			type: 0,
-			linkKey: "",
-			address: "",
+			linkKey: '',
+			address: '',
 			governingBodyType: 0,
 			governingBodyData: {},
-			city: "",
-			zipcode: "",
-			country: "España",
+			city: '',
+			zipcode: '',
+			country: 'España',
 			creationCode: '',
 			countryState: '',
-			language: "es"
+			language: 'es'
 		},
 		step: 1,
 		hasError: false,
@@ -170,14 +170,14 @@ class NewCompanyPage extends React.PureComponent {
 				if (response.data.createCompany.id) {
 					this.setState({ request: false });
 					await store.dispatch(getCompanies(this.props.user.id));
-					bHistory.push(`/`);
+					bHistory.push('/');
 					toast(
 						<LiveToast
 							message={this.props.translate.company_created}
 						/>, {
 							position: toast.POSITION.TOP_RIGHT,
 							autoClose: true,
-							className: "successToast"
+							className: 'successToast'
 						}
 					);
 				}
@@ -190,14 +190,14 @@ class NewCompanyPage extends React.PureComponent {
 
 		const { data } = this.state;
 		const errors = {
-			businessName: "",
-			type: "",
+			businessName: '',
+			type: '',
 			alias: '',
-			tin: "",
-			address: "",
-			city: "",
+			tin: '',
+			address: '',
+			city: '',
 			countryState: '',
-			country: "",
+			country: '',
 			zipcode: '',
 		};
 		let hasError = false;
@@ -207,7 +207,7 @@ class NewCompanyPage extends React.PureComponent {
 			errors.businessName = translate.field_required;
 		}
 
-		if (data.type === "") {
+		if (data.type === '') {
 			hasError = true;
 			errors.type = translate.field_required;
 		}
@@ -231,7 +231,7 @@ class NewCompanyPage extends React.PureComponent {
 			errors.city = translate.field_required;
 		}
 
-		if (data.countryState === "") {
+		if (data.countryState === '') {
 			hasError = true;
 			errors.countryState = translate.field_required;
 		}
@@ -241,7 +241,7 @@ class NewCompanyPage extends React.PureComponent {
 			errors.zipcode = translate.field_required;
 		}
 
-		if (data.type === "") {
+		if (data.type === '') {
 			hasError = true;
 			errors.province = translate.field_required;
 		}
@@ -406,7 +406,7 @@ class NewCompanyPage extends React.PureComponent {
 									xs={12}
 									md={3}
 									lg={3}
-									style={{ textAlign: "center" }}
+									style={{ textAlign: 'center' }}
 								>
 									<GridItem xs={12} md={12} lg={12}>
 										{!!data.logo && (
@@ -414,9 +414,9 @@ class NewCompanyPage extends React.PureComponent {
 												src={data.logo}
 												alt="logo"
 												style={{
-													marginBottom: "0.6em",
-													maxHeight: "4em",
-													maxWidth: "100%"
+													marginBottom: '0.6em',
+													maxHeight: '4em',
+													maxWidth: '100%'
 												}}
 											/>
 										)}
@@ -427,10 +427,10 @@ class NewCompanyPage extends React.PureComponent {
 											image
 											color={secondary}
 											textStyle={{
-												color: "white",
-												fontWeight: "700",
-												fontSize: "0.9em",
-												textTransform: "none"
+												color: 'white',
+												fontWeight: '700',
+												fontSize: '0.9em',
+												textTransform: 'none'
 											}}
 											icon={
 												<ButtonIcon
@@ -547,7 +547,7 @@ class NewCompanyPage extends React.PureComponent {
 											onChange={event => {
 												this.updateState({
 													countryState: event.target.value
-												}, () => this.handleKeyUp(event))
+												}, () => this.handleKeyUp(event));
 											}}
 										>
 											{this.state.provinces.map(province => (
@@ -612,8 +612,8 @@ class NewCompanyPage extends React.PureComponent {
 							</Grid>
 						</div>
 						<br />
-						<div style={{ marginTop: "3em" }}>
-							<div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", marginBottom: "2em" }} >
+						<div style={{ marginTop: '3em' }}>
+							<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginBottom: '2em' }} >
 								{buttonBack ?
 									<React.Fragment>
 										<BasicButton
@@ -633,8 +633,8 @@ class NewCompanyPage extends React.PureComponent {
 											loading={request}
 											floatRight
 											textStyle={{
-												color: "white",
-												fontWeight: "700",
+												color: 'white',
+												fontWeight: '700',
 
 											}}
 											onClick={this.createCompany}
@@ -650,9 +650,9 @@ class NewCompanyPage extends React.PureComponent {
 										loading={request}
 										floatRight
 										textStyle={{
-											color: "white",
-											fontWeight: "700",
-											marginBottom: "2em"
+											color: 'white',
+											fontWeight: '700',
+											marginBottom: '2em'
 										}}
 										onClick={this.createCompany}
 										icon={<ButtonIcon type="add" color="white" />}
@@ -701,7 +701,7 @@ const createCompany = gql`
 
 export default compose(
 	graphql(info, {
-		name: "info",
+		name: 'info',
 		options: props => ({
 			variables: {
 				countryId: 1
@@ -709,9 +709,9 @@ export default compose(
 		})
 	}),
 	graphql(createCompany, {
-		name: "createCompany",
+		name: 'createCompany',
 		options: {
-			errorPolicy: "all"
+			errorPolicy: 'all'
 		}
 	})
 )(withSharedProps()(withApollo(NewCompanyPage)));

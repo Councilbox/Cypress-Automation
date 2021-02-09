@@ -8,7 +8,7 @@ const postRequest = `fetch('http://api-pre.councilbox.com/graphql', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ query: '{ languages { columnName } }' }),
-});`
+});`;
 
 const postRequest2 = `fetch('http://api-pre.councilbox.com/graphql', {
     method: 'POST',
@@ -17,7 +17,7 @@ const postRequest2 = `fetch('http://api-pre.councilbox.com/graphql', {
         'authorization' 'Bearer asd1231lkasjd.asdlaksjdlaksjd'
     },
     body: JSON.stringify({ query: '{ languages { columnName } }' }),
-});`
+});`;
 
 //HEADER #212121
 const DocsPage = () => (
@@ -42,12 +42,12 @@ const DocsPage = () => (
 
                         Ejemplo de petición en JavaScript (la misma petición puede ser realizada por POST o GET):
                             <ul>GET:</ul>
-                    <div style={{ backgroundColor: "#424242", color: 'white', padding: '1em' }}>
+                    <div style={{ backgroundColor: '#424242', color: 'white', padding: '1em' }}>
                         fetch(&apos;http://api-pre.councilbox.com/graphql?query=query%20%7B%0A%20%20languages%7B%0A%20%20%20%20columnName%0A%20%20%7D%0A%7D&apos;);
                             </div>
 
                     <ul style={{ marginTop: '1em' }}>POST:</ul>
-                    <div style={{ backgroundColor: "#424242", color: 'white', padding: '1em' }}>
+                    <div style={{ backgroundColor: '#424242', color: 'white', padding: '1em' }}>
                         <pre style={{ color: 'white' }}>
                             {postRequest}
                         </pre>
@@ -60,7 +60,7 @@ const DocsPage = () => (
                         Este token tiene que ser subministrado con cabecera &quot;x-jwt-token&quot;.
 
                         <br />Ejemplo:<br />
-                    <div style={{ backgroundColor: "#424242", color: 'white', padding: '1em', marginBottom: '2em' }}>
+                    <div style={{ backgroundColor: '#424242', color: 'white', padding: '1em', marginBottom: '2em' }}>
                         <pre style={{ color: 'white' }}>
                             {postRequest2}
                         </pre>
@@ -79,7 +79,7 @@ const DocsPage = () => (
             </Card>
         </div>
     </DocsLayout>
-)
+);
 
 
 export default DocsPage;

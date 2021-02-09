@@ -6,7 +6,7 @@ import { moment } from '../../../containers/App';
 
 const CouncilInfo = ({ council, translate }) => (
     <div>
-        <Card elevation={4} style={{ padding: "20px" }}>
+        <Card elevation={4} style={{ padding: '20px' }}>
             <b>&#8226; {`${translate.new_location_of_celebrate}`}</b>: {`${council.street}, ${council.country}`}
             {hasSecondCall(council.statute) ?
                 <React.Fragment>

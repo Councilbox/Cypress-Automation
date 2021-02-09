@@ -32,7 +32,7 @@ class SignatureStepTwo extends React.Component {
         if(response.data.sendSignature.success){
             this.setState({
                 loading: false
-            })
+            });
             this.props.refetch();
         }
     }
@@ -79,7 +79,7 @@ class SignatureStepTwo extends React.Component {
                     </div>
                 }
             />
-        )
+        );
     }
 }
 

@@ -9,32 +9,32 @@ import { getPrimary } from '../../../styles/colors';
 const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile, updateCompany, updateFileData, ...props }) => {
     const primary = getPrimary();
     return (
-        <div style={{ height: "100%" }}>
+        <div style={{ height: '100%' }}>
             <div style={{ padding: '0px 1em 1em', height: '100%', }}>
                 <Scrollbar >
-                    <div style={{ height: "100%" }}>
+                    <div style={{ height: '100%' }}>
                         <div style={{
-                            padding: "1em"
+                            padding: '1em'
                         }}>
                             <Grid style={{ marginTop: '0.6em' }}>
-                                <GridItem xs={12} md={8} lg={8} style={{ display: "flex" }}>
+                                <GridItem xs={12} md={8} lg={8} style={{ display: 'flex' }}>
                                     <div style={{
                                         color: primary,
                                         width: '125px',
-                                        fontWeight: "bold",
+                                        fontWeight: 'bold',
                                         marginRight: '1em'
                                     }}>
                                         {translate.denomination}
                                     </div>
                                     <div style={{
-                                        color: "black",
+                                        color: 'black',
                                     }}>
                                         <ContentEditable
                                             html={data.businessName}
                                             onChange={event => {
                                                 updateCompanyData({
                                                     businessName: event.target.value
-                                                })
+                                                });
                                             }}
                                         />
                                     </div>
@@ -43,14 +43,14 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                         </div>
                         <DividerContenido />
                         <div style={{
-                            padding: "1em"
+                            padding: '1em'
                         }}>
-                            <Grid style={{ display: "flex" }}>
-                                <GridItem xs={12} md={8} lg={8} style={{ display: "flex" }}>
+                            <Grid style={{ display: 'flex' }}>
+                                <GridItem xs={12} md={8} lg={8} style={{ display: 'flex' }}>
                                     <div style={{
-                                        width: "125px",
+                                        width: '125px',
                                         color: primary,
-                                        fontWeight: "bold",
+                                        fontWeight: 'bold',
                                         marginRight: '1em'
                                     }}>
                                         {translate.registered_office}
@@ -61,15 +61,15 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         onChange={event => {
                                             updateCompanyData({
                                                 address: event.target.value
-                                            })
+                                            });
                                         }}
                                     />
                                 </GridItem>
-                                <GridItem xs={12} md={4} lg={4} style={{ display: "flex" }}>
+                                <GridItem xs={12} md={4} lg={4} style={{ display: 'flex' }}>
                                     <div style={{
                                         color: primary,
                                         width: '75px',
-                                        fontWeight: "bold"
+                                        fontWeight: 'bold'
                                     }}>
                                         {translate.cif}
                                     </div>
@@ -81,11 +81,11 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                 </GridItem>
                             </Grid>
                             <Grid style={{ marginTop: '0.6em' }}>
-                                <GridItem xs={12} md={8} lg={8} style={{ display: "flex" }}>
+                                <GridItem xs={12} md={8} lg={8} style={{ display: 'flex' }}>
                                     <div style={{
                                         color: primary,
                                         width: '125px',
-                                        fontWeight: "bold",
+                                        fontWeight: 'bold',
                                         marginRight: '1em'
                                     }}>
                                         {translate.social_capital_desc}
@@ -96,15 +96,15 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         onChange={event => {
                                             updateFileData({
                                                 socialCapital: event.target.value
-                                            })
+                                            });
                                         }}
                                     />
                                 </GridItem>
-                                <GridItem xs={12} md={4} lg={4} style={{ display: "flex" }}>
+                                <GridItem xs={12} md={4} lg={4} style={{ display: 'flex' }}>
                                     <div style={{
                                         color: primary,
                                         width: '75px',
-                                        fontWeight: "bold"
+                                        fontWeight: 'bold'
                                     }}>
                                         CNAE
                                     </div>
@@ -114,7 +114,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         onChange={event => {
                                             updateFileData({
                                                 CNAE: event.target.value
-                                            })
+                                            });
                                         }}
                                     />
                                 </GridItem>
@@ -122,14 +122,14 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                         </div>
                         <DividerContenido />
                         <div style={{
-                            padding: "1em"
+                            padding: '1em'
                         }}>
                             <Grid style={{ marginTop: '0.6em' }}>
-                                <GridItem xs={12} md={8} lg={8} style={{ display: "flex" }}>
+                                <GridItem xs={12} md={8} lg={8} style={{ display: 'flex' }}>
                                     <div style={{
                                         color: primary,
                                         width: '125px',
-                                        fontWeight: "bold",
+                                        fontWeight: 'bold',
                                         marginRight: '1em'
                                     }}>
                                         {translate.constitution}
@@ -140,17 +140,17 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         onChange={event => {
                                             updateFileData({
                                                 constitution: event.target.value
-                                            })
+                                            });
                                         }}
                                     />
                                 </GridItem>
                             </Grid>
                             <Grid style={{ marginTop: '0.6em' }}>
-                                <GridItem xs={12} md={8} lg={8} style={{ display: "flex" }}>
+                                <GridItem xs={12} md={8} lg={8} style={{ display: 'flex' }}>
                                     <div style={{
                                         color: primary,
                                         width: '125px',
-                                        fontWeight: "bold",
+                                        fontWeight: 'bold',
                                         marginRight: '1em'
                                     }}>
                                         {translate.adaptation}
@@ -161,17 +161,17 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         onChange={event => {
                                             updateFileData({
                                                 adaptation: event.target.value
-                                            })
+                                            });
                                         }}
                                     />
                                 </GridItem>
                             </Grid>
                             <Grid style={{ marginTop: '0.6em' }}>
-                                <GridItem xs={12} md={8} lg={8} style={{ display: "flex" }}>
+                                <GridItem xs={12} md={8} lg={8} style={{ display: 'flex' }}>
                                     <div style={{
                                         color: primary,
                                         width: '125px',
-                                        fontWeight: "bold",
+                                        fontWeight: 'bold',
                                         marginRight: '1em'
                                     }}>
                                         {translate.transformation}
@@ -182,17 +182,17 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         onChange={event => {
                                             updateFileData({
                                                 transformation: event.target.value
-                                            })
+                                            });
                                         }}
                                     />
                                 </GridItem>
                             </Grid>
                             <Grid style={{ marginTop: '0.6em' }}>
-                                <GridItem xs={12} md={8} lg={8} style={{ display: "flex" }}>
+                                <GridItem xs={12} md={8} lg={8} style={{ display: 'flex' }}>
                                     <div style={{
                                         color: primary,
                                         width: '125px',
-                                        fontWeight: "bold",
+                                        fontWeight: 'bold',
                                         marginRight: '1em'
                                     }}>
                                         {translate.transfer_registered_office}
@@ -203,7 +203,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         onChange={event => {
                                             updateFileData({
                                                 placeOfBusiness: event.target.value
-                                            })
+                                            });
                                         }}
                                     />
                                 </GridItem>
@@ -211,14 +211,14 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                         </div>
                         <DividerContenido />
                         <div style={{
-                            padding: "1em"
+                            padding: '1em'
                         }}>
                             <Grid style={{ marginTop: '0.6em' }}>
-                                <GridItem xs={12} md={8} lg={8} style={{ display: "flex" }}>
+                                <GridItem xs={12} md={8} lg={8} style={{ display: 'flex' }}>
                                     <div style={{
                                         color: primary,
                                         width: '125px',
-                                        fontWeight: "bold",
+                                        fontWeight: 'bold',
                                         marginRight: '1em'
                                     }}>
                                         {translate.fiscal_year}
@@ -229,7 +229,7 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                                         onChange={event => {
                                             updateFileData({
                                                 financialYear: event.target.value
-                                            })
+                                            });
                                         }}
                                     />
                                 </GridItem>
@@ -251,11 +251,11 @@ const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile
                 </Scrollbar>
             </div>
         </div>
-    )
-}
+    );
+};
 
 const DividerContenido = () => (
         <div style={{ borderBottom: `1px solid ${getPrimary()}` }}></div>
-    )
+    );
 
 export default withTranslations()(withApollo(FileInformacion));

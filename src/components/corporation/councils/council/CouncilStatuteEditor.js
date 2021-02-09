@@ -22,7 +22,7 @@ const CouncilStatuteEditor = ({ statute, translate, client, council, refetch }) 
             }
         });
         refetch();
-    }
+    };
 
     const updateCouncil = async object => {
         await client.mutate({
@@ -41,11 +41,11 @@ const CouncilStatuteEditor = ({ statute, translate, client, council, refetch }) 
             }
         });
         refetch();
-    }
+    };
 
 
     return (
-        <Grid style={{ overflow: "hidden" }}>
+        <Grid style={{ overflow: 'hidden' }}>
             <GridItem xs={12} md={7} lg={7}>
                 <Checkbox
                     label={translate.exists_delegated_vote}
@@ -136,22 +136,22 @@ const CouncilStatuteEditor = ({ statute, translate, client, council, refetch }) 
                         }
                     >
                         <MenuItem
-                            value={"0"}
+                            value={'0'}
                         >
                             {translate.new_security_none}
                         </MenuItem>
                         <MenuItem
-                            value={"1"}
+                            value={'1'}
                         >
                             {translate.new_security_email}
                         </MenuItem>
                         <MenuItem
-                            value={"2"}
+                            value={'2'}
                         >
                             {translate.new_security_sms}
                         </MenuItem>
                         <MenuItem
-                            value={"3"}
+                            value={'3'}
                         >
                             {translate.council_security_cert}
                         </MenuItem>
@@ -189,7 +189,7 @@ const CouncilStatuteEditor = ({ statute, translate, client, council, refetch }) 
                     </SelectInput>
             </GridItem>
         </Grid>
-    )
-}
+    );
+};
 
 export default withApollo(CouncilStatuteEditor);

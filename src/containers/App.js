@@ -1,34 +1,34 @@
-import React from "react";
-import { Route, Router, Switch } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
-import createHistory from "history/createBrowserHistory";
+import React from 'react';
+import { Route, Router, Switch } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import createHistory from 'history/createBrowserHistory';
 import Loadable from 'react-loadable';
-import { Provider } from "react-redux";
-import { ApolloClient } from "apollo-client";
+import { Provider } from 'react-redux';
+import { ApolloClient } from 'apollo-client';
 import { RetryLink } from 'apollo-link-retry';
-import { HttpLink } from "apollo-link-http";
+import { HttpLink } from 'apollo-link-http';
 import { ApolloLink, Observable, split } from 'apollo-link';
-import { InMemoryCache } from "apollo-cache-inmemory";
-import { ApolloProvider } from "react-apollo";
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { ApolloProvider } from 'react-apollo';
 import { WebSocketLink } from 'apollo-link-ws';
-import { setContext } from "apollo-link-context";
+import { setContext } from 'apollo-link-context';
 import { getMainDefinition } from 'apollo-utilities';
-import { onError } from "apollo-link-error";
-import moment from "moment/min/moment-with-locales.min";
+import { onError } from 'apollo-link-error';
+import moment from 'moment/min/moment-with-locales.min';
 import '../styles/antd.css';
-import { API_URL, CLIENT_VERSION, WS_URL } from "../config";
-import AppRouter from "./AppRouter";
-import { graphQLErrorHandler, refreshToken, networkErrorHandler } from "../utils";
+import { API_URL, CLIENT_VERSION, WS_URL } from '../config';
+import AppRouter from './AppRouter';
+import { graphQLErrorHandler, refreshToken, networkErrorHandler } from '../utils';
 import AppControl from './AppControl';
-import { initUserData, loadingFinished, loadSubdomainConfig, setLanguage, noServerResponse, serverRestored } from "../actions/mainActions";
+import { initUserData, loadingFinished, loadSubdomainConfig, setLanguage, noServerResponse, serverRestored } from '../actions/mainActions';
 import ErrorHandler from '../components/ErrorHandler';
-import ThemeProvider from "../displayComponents/ThemeProvider";
-import configureStore from "../store/store";
+import ThemeProvider from '../displayComponents/ThemeProvider';
+import configureStore from '../store/store';
 import LoadingMainApp from '../displayComponents/LoadingMainApp';
-import ValidatorPage from "../components/notLogged/validator/ValidatorPage";
-import ConveneDisplay from "../components/council/convene/ConveneDisplay";
-import { pageView } from "../utils/analytics";
-import { shouldLoadSubdomain } from "../utils/subdomain";
+import ValidatorPage from '../components/notLogged/validator/ValidatorPage';
+import ConveneDisplay from '../components/council/convene/ConveneDisplay';
+import { pageView } from '../utils/analytics';
+import { shouldLoadSubdomain } from '../utils/subdomain';
 
 export { moment };
 
@@ -40,11 +40,11 @@ export const bHistory = createHistory();
 export const store = configureStore();
 
 const getToken = () => {
-	const token = sessionStorage.getItem("token");
+	const token = sessionStorage.getItem('token');
 	const apiToken = sessionStorage.getItem('apiToken');
-	const participantToken = sessionStorage.getItem("participantToken");
-	return token || (apiToken || participantToken)
-}
+	const participantToken = sessionStorage.getItem('participantToken');
+	return token || (apiToken || participantToken);
+};
 
 function getDefaultLanguage() {
 	const languages = {
@@ -53,7 +53,7 @@ function getDefaultLanguage() {
 		'en': 'en',
 		'gl': 'gal',
 		'pt': 'pt'
-	}
+	};
 
 	const languageCode = navigator.language || navigator.userLanguage;
 	const language = languageCode.split('-')[0];
@@ -74,7 +74,7 @@ const wsLink = new WebSocketLink({
 export const refreshWSLink = () => {
 	wsLink.subscriptionClient.close(false, false);
 	wsLink.subscriptionClient.connect();
-}
+};
 
 
 const authLink = setContext((_, { headers }) => ({
@@ -84,8 +84,8 @@ const authLink = setContext((_, { headers }) => ({
 				? `Bearer ${token}`
 				: apiToken? `Bearer ${apiToken}` :
 				`Bearer ${participantToken}`, */
-			"x-jwt-token": getToken(),
-			"cbx-client-v": CLIENT_VERSION
+			'x-jwt-token': getToken(),
+			'cbx-client-v': CLIENT_VERSION
 		}
 	}));
 
@@ -115,17 +115,17 @@ const CouncilLiveTestContainer = Loadable({
 	loading: LoadingMainApp
 });
 const DocsPage = Loadable({
-	loader: () => import("../components/docs/DocsPage"),
+	loader: () => import('../components/docs/DocsPage'),
 	loading: LoadingMainApp
-})
+});
 const PlaygroundPage = Loadable({
-	loader: () => import("../components/docs/PlaygroundPage"),
+	loader: () => import('../components/docs/PlaygroundPage'),
 	loading: LoadingMainApp
-})
+});
 
 String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
-}
+};
 
 const retryLink = new RetryLink({
 	delay: {
@@ -158,8 +158,8 @@ const logoutLink = onError(({ graphQLErrors, networkError, operation, forward })
 			return new Observable(observable => {
 				let sub = null;
 				refreshToken(client, toast, store).then(() => {
-					const token = sessionStorage.getItem("token");
-					const participantToken = sessionStorage.getItem("participantToken");
+					const token = sessionStorage.getItem('token');
+					const participantToken = sessionStorage.getItem('participantToken');
 					operation.setContext({
 						headers: {
 							...operation.getContext().headers,
@@ -185,28 +185,28 @@ const logoutLink = onError(({ graphQLErrors, networkError, operation, forward })
 
 window.addEventListener('offline', () => {
 	store.dispatch(noServerResponse());
-})
+});
 
 window.addEventListener('online', () => {
 	store.dispatch(serverRestored());
-})
+});
 
 export const client = new ApolloClient({
 	link: ApolloLink.from([retryLink, addStatusLink, logoutLink, authLink, link]),
 	cache: new InMemoryCache(),
 	defaultOptions: {
 		query: {
-			fetchPolicy: "network-only",
-			errorPolicy: "all"
+			fetchPolicy: 'network-only',
+			errorPolicy: 'all'
 		},
 		mutate: {
-			errorPolicy: "all"
+			errorPolicy: 'all'
 		}
 	}
 });
 
-if (sessionStorage.getItem("token")) {
-	store.dispatch({ type: "LOGIN_SUCCESS" });
+if (sessionStorage.getItem('token')) {
+	store.dispatch({ type: 'LOGIN_SUCCESS' });
 	store.dispatch(initUserData());
 } else {
 	store.dispatch(setLanguage(getDefaultLanguage()));
@@ -217,8 +217,8 @@ if(shouldLoadSubdomain()){
 	store.dispatch(loadSubdomainConfig());
 }
 
-if(sessionStorage.getItem("participantLoginSuccess")){
-	store.dispatch({ type: "PARTICIPANT_LOGIN_SUCCESS" });
+if(sessionStorage.getItem('participantLoginSuccess')){
+	store.dispatch({ type: 'PARTICIPANT_LOGIN_SUCCESS' });
 }
 
 export const MainContext = React.createContext();
@@ -242,7 +242,7 @@ const App = () => (
 				</ThemeProvider>
 			</Provider>
 		</ApolloProvider>
-	)
+	);
 
 const RouterWrapper = () => {
 	React.useEffect(() => {
@@ -308,7 +308,7 @@ const RouterWrapper = () => {
 				progressClassName={'toastProgressBar'}
 			/>
 		</React.Fragment>
-	)
+	);
 };
 
 export default App;

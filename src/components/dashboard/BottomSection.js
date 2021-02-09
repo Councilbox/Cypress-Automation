@@ -1,24 +1,24 @@
-import React from "react";
-import { MenuItem } from "material-ui";
-import { BasicButton, SelectInput } from "../displayComponents";
-import { getPrimary, getSecondary, lightGrey } from "../../styles/colors";
+import React from 'react';
+import { MenuItem } from 'material-ui';
+import { BasicButton, SelectInput } from '../displayComponents';
+import { getPrimary, getSecondary, lightGrey } from '../../styles/colors';
 
 const BottomSection = ({ translate }) => (
 	<div
 		style={{
-			width: "100%",
-			backgroundColor: "white",
-			display: "flex",
-			flexDirection: "row"
+			width: '100%',
+			backgroundColor: 'white',
+			display: 'flex',
+			flexDirection: 'row'
 		}}
 		className="row"
 	>
 		<div
 			className="col-lg-6 col-md-6"
 			style={{
-				padding: "2em",
-				paddingLeft: "10%",
-				paddingRight: "10%",
+				padding: '2em',
+				paddingLeft: '10%',
+				paddingRight: '10%',
 				borderRight: `1px solid ${lightGrey}`
 			}}
 		>
@@ -44,17 +44,17 @@ const BottomSection = ({ translate }) => (
 			<BasicButton
 				text="ABRIR SALA"
 				fullWidth={true}
-				color={"transparent"}
+				color={'transparent'}
 				buttonStyle={{
-					backgroundColor: "transparent",
+					backgroundColor: 'transparent',
 					border: `1px solid ${getPrimary()}`,
-					marginRight: "2em"
+					marginRight: '2em'
 				}}
 				textStyle={{
 					color: getPrimary(),
-					fontWeight: "700",
-					fontSize: "0.8em",
-					textTransform: "none"
+					fontWeight: '700',
+					fontSize: '0.8em',
+					textTransform: 'none'
 				}}
 				textPosition="before"
 				onClick={this.login}
@@ -63,9 +63,9 @@ const BottomSection = ({ translate }) => (
 		<div
 			className="col-lg-6 col-md-6"
 			style={{
-				padding: "2em",
-				paddingLeft: "10%",
-				paddingRight: "10%",
+				padding: '2em',
+				paddingLeft: '10%',
+				paddingRight: '10%',
 				borderLeft: `1px solid ${lightGrey}`,
 				borderTop: `1px solid ${lightGrey}`
 			}}
@@ -92,16 +92,16 @@ const BottomSection = ({ translate }) => (
 			<BasicButton
 				text="Organizar Reunión"
 				fullWidth={true}
-				color={"transparent"}
+				color={'transparent'}
 				buttonStyle={{
-					backgroundColor: "transparent",
+					backgroundColor: 'transparent',
 					border: `1px solid ${getSecondary()}`,
-					marginRight: "2em"
+					marginRight: '2em'
 				}}
 				textStyle={{
 					color: getSecondary(),
-					fontWeight: "700",
-					fontSize: "0.8em"
+					fontWeight: '700',
+					fontSize: '0.8em'
 				}}
 				textPosition="before"
 				onClick={this.login}

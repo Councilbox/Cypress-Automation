@@ -1,15 +1,15 @@
-import React from "react";
-import { withApollo } from "react-apollo";
-import gql from "graphql-tag";
+import React from 'react';
+import { withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
 import {
 	ErrorWrapper,
 	LoadingSection
-} from "../../../displayComponents";
-import { bHistory } from "../../../containers/App";
-import { checkCouncilState } from "../../../utils/CBX";
+} from '../../../displayComponents';
+import { bHistory } from '../../../containers/App';
+import { checkCouncilState } from '../../../utils/CBX';
 import withSharedProps from '../../../HOCs/withSharedProps';
-import ActEditorPage from "./actEditor/ActEditorPage";
+import ActEditorPage from './actEditor/ActEditorPage';
 import { COUNCIL_STATES } from '../../../constants';
 import CanceledCouncil from './canceled/CanceledCouncil';
 
@@ -43,8 +43,8 @@ const CouncilFinishedPage = ({ translate, client, match, company }) => {
 				},
 				company,
 				bHistory,
-				"finished"
-			)
+				'finished'
+			);
 		}
 	});
 
@@ -86,7 +86,7 @@ const CouncilFinishedPage = ({ translate, client, match, company }) => {
 				socialCapital={data.councilSocialCapital}
 				totalVotes={data.councilTotalVotes}
 			/>
-		)
+		);
 	}
 
 	if (council.state === COUNCIL_STATES.FINISHED_WITHOUT_ACT) {
@@ -104,7 +104,7 @@ const CouncilFinishedPage = ({ translate, client, match, company }) => {
 				{...data}
 				refetch={getData}
 			/>
-		)
+		);
 	}
 
 	if (council.state === COUNCIL_STATES.NOT_CELEBRATED || council.state === COUNCIL_STATES.CANCELED) {
@@ -115,11 +115,11 @@ const CouncilFinishedPage = ({ translate, client, match, company }) => {
 				socialCapital={data.councilSocialCapital}
 				totalVotes={data.councilTotalVotes}
 			/>
-		)
+		);
 	}
 
 	return <LoadingSection />;
-}
+};
 
 export const councilDetails = gql`
 	query CouncilDetails($councilID: Int!) {

@@ -22,7 +22,7 @@ const RefuseDelegationConfirm = withApollo(({ delegation, client, translate, ref
             refetch();
             requestClose();
 		}
-	}
+	};
 
     return(
         <AlertConfirm
@@ -40,8 +40,8 @@ const RefuseDelegationConfirm = withApollo(({ delegation, client, translate, ref
                 </div>
             }
         />
-    )
-})
+    );
+});
 
 const refuseDelegationMutation = gql`
 	mutation RefuseDelegation($participantId: Int!){

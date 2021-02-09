@@ -1,12 +1,12 @@
-import React from "react";
-import { TableRow, TableCell } from "material-ui";
-import { graphql } from "react-apollo";
-import gql from "graphql-tag";
+import React from 'react';
+import { TableRow, TableCell } from 'material-ui';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import {
 	AlertConfirm,
 	LoadingSection,
 	Table
-} from "../../../../displayComponents";
+} from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
 
 const ParticipantHistory = ({ data, participant, translate, requestClose }) => (
@@ -40,22 +40,22 @@ const ParticipantHistory = ({ data, participant, translate, requestClose }) => (
 											<TableCell>
 												{moment(
 													new Date(history.date)
-												).format("LLL")}
+												).format('LLL')}
 											</TableCell>
 											<TableCell>
 												{getLogText(history.typeText, translate)}
 											</TableCell>
 											<TableCell>
 												{`${history.trackInfo.ua.browser
-													.name || "-"} ${history
+													.name || '-'} ${history
 													.trackInfo.ua.browser
-													.version || "-"}`}
+													.version || '-'}`}
 											</TableCell>
 											<TableCell>
 												{`${history.trackInfo.ua.os
-													.name || "-"} ${history
+													.name || '-'} ${history
 													.trackInfo.ua.os.version ||
-													"-"}`}
+													'-'}`}
 											</TableCell>
 											<TableCell>
 												{history.trackInfo.ip}
@@ -95,7 +95,7 @@ const getLogText = (type, translate) => {
 		default:
 			return type;
 	}
-}
+};
 
 const participantHistory = gql`
 	query participantHistory($participantId: Int!) {

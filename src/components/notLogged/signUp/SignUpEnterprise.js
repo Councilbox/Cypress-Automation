@@ -1,6 +1,6 @@
-import React from "react";
-import { MenuItem } from "material-ui/Menu";
-import { graphql, withApollo, compose } from "react-apollo";
+import React from 'react';
+import { MenuItem } from 'material-ui/Menu';
+import { graphql, withApollo, compose } from 'react-apollo';
 import {
 	BasicButton,
 	ButtonIcon,
@@ -9,10 +9,10 @@ import {
 	LoadingSection,
 	SelectInput,
 	TextInput
-} from "../../../displayComponents";
-import { getPrimary, getSecondary } from "../../../styles/colors";
-import { companyTypes, countries, provinces } from "../../../queries/masters";
-import { checkCifExists } from "../../../queries/userAndCompanySignUp";
+} from '../../../displayComponents';
+import { getPrimary, getSecondary } from '../../../styles/colors';
+import { companyTypes, countries, provinces } from '../../../queries/masters';
+import { checkCifExists } from '../../../queries/userAndCompanySignUp';
 
 
 
@@ -34,7 +34,7 @@ class SignUpEnterprise extends React.Component {
 					country => country.deno === data.country
 			  )
 			: {
-					deno: "España",
+					deno: 'España',
 					id: 1
 			  };
 
@@ -85,13 +85,13 @@ class SignUpEnterprise extends React.Component {
 
 		const data = this.props.formData;
 		const errors = {
-			businessName: "",
-			type: "",
-			cif: "",
-			address: "",
+			businessName: '',
+			type: '',
+			cif: '',
+			address: '',
 			countryState: '',
-			city: "",
-			country: "",
+			city: '',
+			country: '',
 			zipcode: '',
 		};
 		let hasError = false;
@@ -101,7 +101,7 @@ class SignUpEnterprise extends React.Component {
 			errors.businessName = translate.field_required;
 		}
 
-		if (data.type === "") {
+		if (data.type === '') {
 			hasError = true;
 			errors.type = translate.field_required;
 		}
@@ -125,7 +125,7 @@ class SignUpEnterprise extends React.Component {
 			errors.city = translate.field_required;
 		}
 
-		if (data.countryState === "") {
+		if (data.countryState === '') {
 			hasError = true;
 			errors.countryState = translate.field_required;
 		}
@@ -135,7 +135,7 @@ class SignUpEnterprise extends React.Component {
 			errors.zipcode = translate.field_required;
 		}
 
-		if (data.type === "") {
+		if (data.type === '') {
 			hasError = true;
 			errors.province = translate.field_required;
 		}
@@ -178,22 +178,22 @@ class SignUpEnterprise extends React.Component {
 		return (
 			<div
 				style={{
-					width: "100%",
-					padding: "6%",
-					height: "100%"
+					width: '100%',
+					padding: '6%',
+					height: '100%'
 				}}
 				onKeyUp={this.handleKeyUp}
 			>
 				<span
 					style={{
-						fontSize: "1.3em",
-						fontWeight: "700",
+						fontSize: '1.3em',
+						fontWeight: '700',
 						color: primary
 					}}
 				>
 					{translate.company_new_data}
 				</span>
-				<Grid style={{ marginTop: "2em" }}>
+				<Grid style={{ marginTop: '2em' }}>
 				<GridItem xs={12} md={12} lg={12}>
 						<TextInput
 							floatingText={translate.address}
@@ -321,8 +321,8 @@ class SignUpEnterprise extends React.Component {
 							text={translate.back}
 							color={getSecondary()}
 							textStyle={{
-								color: "white",
-								fontWeight: "700"
+								color: 'white',
+								fontWeight: '700'
 							}}
 							onClick={this.previousPage}
 							fullWidth
@@ -336,8 +336,8 @@ class SignUpEnterprise extends React.Component {
 							text="Omitir este paso"
 							color={getSecondary()}
 							textStyle={{
-								color: "white",
-								fontWeight: "700"
+								color: 'white',
+								fontWeight: '700'
 							}}
 							onClick={this.jumpStep}
 							fullWidth
@@ -351,8 +351,8 @@ class SignUpEnterprise extends React.Component {
 							text={translate.continue}
 							color={primary}
 							textStyle={{
-								color: "white",
-								fontWeight: "700"
+								color: 'white',
+								fontWeight: '700'
 							}}
 							onClick={this.nextPage}
 							fullWidth

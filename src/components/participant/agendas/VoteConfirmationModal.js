@@ -13,8 +13,8 @@ class VoteConfirmationModal extends React.Component {
                 bodyText={<div>{this.props.translate.cant_revert_confirm}</div>}
                 title={this.props.translate.warning}
             />
-        )
+        );
     }
 }
 
-export default VoteConfirmationModal
+export default VoteConfirmationModal;

@@ -1,27 +1,27 @@
-import React from "react";
-import { compose, graphql, withApollo } from "react-apollo";
+import React from 'react';
+import { compose, graphql, withApollo } from 'react-apollo';
 import {
 	BasicButton,
 	ButtonIcon,
 	CustomDialog,
 	AlertConfirm,
 	Scrollbar
-} from "../../../../displayComponents";
-import { getPrimary, secondary } from "../../../../styles/colors";
-import { languages } from "../../../../queries/masters";
-import ParticipantForm from "../../participants/ParticipantForm";
+} from '../../../../displayComponents';
+import { getPrimary, secondary } from '../../../../styles/colors';
+import { languages } from '../../../../queries/masters';
+import ParticipantForm from '../../participants/ParticipantForm';
 import {
 	checkRequiredFieldsParticipant,
 	checkRequiredFieldsRepresentative
-} from "../../../../utils/validation";
-import RepresentativeForm from "../../../company/census/censusEditor/RepresentativeForm";
-import { checkUniqueCouncilEmails, addConvenedParticipant } from "../../../../queries/councilParticipant";
-import { useOldState } from "../../../../hooks";
-import withSharedProps from "../../../../HOCs/withSharedProps";
-import { isMobile } from "../../../../utils/screen";
-import { COUNCIL_TYPES } from "../../../../constants";
-import { councilIsFinished } from "../../../../utils/CBX";
-import SelectRepresentative from "../../editor/census/modals/SelectRepresentative";
+} from '../../../../utils/validation';
+import RepresentativeForm from '../../../company/census/censusEditor/RepresentativeForm';
+import { checkUniqueCouncilEmails, addConvenedParticipant } from '../../../../queries/councilParticipant';
+import { useOldState } from '../../../../hooks';
+import withSharedProps from '../../../../HOCs/withSharedProps';
+import { isMobile } from '../../../../utils/screen';
+import { COUNCIL_TYPES } from '../../../../constants';
+import { councilIsFinished } from '../../../../utils/CBX';
+import SelectRepresentative from '../../editor/census/modals/SelectRepresentative';
 
 
 
@@ -162,7 +162,7 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 						errorsRepresentative.errors.email = translate.register_exists_email;
 						errorsRepresentative.hasError = true;
 					}
-				})
+				});
 			}
 
 			if (participant.email === representative.email) {
@@ -196,18 +196,18 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 			<BasicButton
 				text={translate.add_participant}
 				disabled={councilIsFinished(council)}
-				color={"white"}
+				color={'white'}
 				textStyle={{
 					color: primary,
-					fontWeight: "700",
-					fontSize: "0.9em",
-					textTransform: "none"
+					fontWeight: '700',
+					fontSize: '0.9em',
+					textTransform: 'none'
 				}}
 				textPosition="after"
 				icon={!isMobile ? <ButtonIcon type="add" color={primary} /> : null}
 				onClick={() => setState({ modal: true })}
 				buttonStyle={{
-					marginRight: "1em",
+					marginRight: '1em',
 					border: `2px solid ${primary}`
 				}}
 			/>
@@ -229,13 +229,13 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 								selectRepresentative: false
 							})}
 						/>
-						<div style={{ marginRight: "1em" }}>
+						<div style={{ marginRight: '1em' }}>
 							<div style={{
 								boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
 								border: '1px solid rgb(97, 171, 183)',
 								borderRadius: '4px',
 								padding: '1em',
-								marginBottom: "1em",
+								marginBottom: '1em',
 								color: 'black',
 							}}>
 								<ParticipantForm
@@ -255,7 +255,7 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 								borderRadius: '4px',
 								padding: '1em',
 								color: 'black',
-								marginBottom: ".5em",
+								marginBottom: '.5em',
 							}}>
 								<RepresentativeForm
 									translate={translate}
@@ -281,8 +281,8 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 							type="flat"
 							color="white"
 							textStyle={{
-								textTransform: "none",
-								fontWeight: "700"
+								textTransform: 'none',
+								fontWeight: '700'
 							}}
 							onClick={() => setState({
 								modal: false
@@ -291,11 +291,11 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 						<BasicButton
 							text={council.councilType === COUNCIL_TYPES.BOARD_WITHOUT_SESSION ? translate.save_and_notify : translate.save_changes_and_send}
 							textStyle={{
-								color: "white",
-								textTransform: "none",
-								fontWeight: "700"
+								color: 'white',
+								textTransform: 'none',
+								fontWeight: '700'
 							}}
-							buttonStyle={{ marginLeft: "1em" }}
+							buttonStyle={{ marginLeft: '1em' }}
 							color={secondary}
 							onClick={() => {
 								addParticipant(true);
@@ -304,11 +304,11 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 						<BasicButton
 							text={translate.save_changes}
 							textStyle={{
-								color: "white",
-								textTransform: "none",
-								fontWeight: "700"
+								color: 'white',
+								textTransform: 'none',
+								fontWeight: '700'
 							}}
-							buttonStyle={{ marginLeft: "1em" }}
+							buttonStyle={{ marginLeft: '1em' }}
 							color={primary}
 							onClick={() => {
 								addParticipant(false);
@@ -318,14 +318,14 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 				} />
 		</React.Fragment>
 	);
-}
+};
 
 
 export default compose(
 	graphql(addConvenedParticipant, {
-		name: "addParticipant",
+		name: 'addParticipant',
 		options: {
-			errorPolicy: "all"
+			errorPolicy: 'all'
 		}
 	}),
 	graphql(languages),
@@ -333,12 +333,12 @@ export default compose(
 )(withApollo(AddConvenedParticipantButton));
 
 const initialParticipant = {
-	name: "",
-	surname: "",
-	position: "",
-	email: "",
-	phone: "",
-	dni: "",
+	name: '',
+	surname: '',
+	position: '',
+	email: '',
+	phone: '',
+	dni: '',
 	type: 0,
 	delegateId: null,
 	numParticipations: 1,
@@ -346,20 +346,20 @@ const initialParticipant = {
 	uuid: null,
 	initialState: 0,
 	delegateUuid: null,
-	language: "es",
-	city: "",
+	language: 'es',
+	city: '',
 	personOrEntity: 0
 };
 
 const initialRepresentative = {
 	hasRepresentative: false,
-	language: "es",
+	language: 'es',
 	type: 2,
-	name: "",
-	surname: "",
-	position: "",
-	email: "",
+	name: '',
+	surname: '',
+	position: '',
+	email: '',
 	initialState: 0,
-	phone: "",
-	dni: ""
+	phone: '',
+	dni: ''
 };

@@ -1,18 +1,18 @@
-import React, { Component, Fragment } from "react";
-import { graphql } from "react-apollo";
-import { Paper, Typography } from "material-ui";
+import React, { Component, Fragment } from 'react';
+import { graphql } from 'react-apollo';
+import { Paper, Typography } from 'material-ui';
 import {
 	BasicButton,
 	ButtonIcon,
 	Checkbox,
 	Grid,
 	GridItem
-} from "../../../displayComponents";
-import { getPrimary } from "../../../styles/colors";
-import RepresentativeForm from "./RepresentativeForm";
-import ParticipantForm from "./ParticipantForm";
-import { checkValidEmail, errorHandler } from "../../../utils";
-import { updateCouncilParticipant } from "../../../queries/councilParticipant";
+} from '../../../displayComponents';
+import { getPrimary } from '../../../styles/colors';
+import RepresentativeForm from './RepresentativeForm';
+import ParticipantForm from './ParticipantForm';
+import { checkValidEmail, errorHandler } from '../../../utils';
+import { updateCouncilParticipant } from '../../../queries/councilParticipant';
 
 class ParticipantEditor extends Component {
 	updateParticipantData = object => {
@@ -96,15 +96,15 @@ class ParticipantEditor extends Component {
 			},
 
 			errors: {
-				language: "",
-				councilId: "",
-				numParticipations: "",
-				personOrEntity: "",
-				name: "",
-				dni: "",
-				position: "",
-				email: "",
-				phone: ""
+				language: '',
+				councilId: '',
+				numParticipations: '',
+				personOrEntity: '',
+				name: '',
+				dni: '',
+				position: '',
+				email: '',
+				phone: ''
 			}
 		};
 	}
@@ -158,14 +158,14 @@ class ParticipantEditor extends Component {
 		const { translate } = this.props;
 
 		const errors = {
-			name: "",
-			surname: "",
-			dni: "",
-			position: "",
-			email: "",
-			phone: "",
-			language: "",
-			numParticipations: ""
+			name: '',
+			surname: '',
+			dni: '',
+			position: '',
+			email: '',
+			phone: '',
+			language: '',
+			numParticipations: ''
 		};
 
 		let hasError = false;
@@ -192,7 +192,7 @@ class ParticipantEditor extends Component {
 
 		if (!checkValidEmail(participant.email.toLocaleLowerCase())) {
 			hasError = true;
-			errors.email = "Se requiere un email válido";
+			errors.email = 'Se requiere un email válido';
 		}
 
 		if (!participant.phone) {
@@ -241,17 +241,17 @@ class ParticipantEditor extends Component {
 			<Fragment>
 				<BasicButton
 					text={translate.cancel}
-					color={"white"}
+					color={'white'}
 					textStyle={{
 						color: primary,
-						fontWeight: "700",
-						fontSize: "0.9em",
-						textTransform: "none"
+						fontWeight: '700',
+						fontSize: '0.9em',
+						textTransform: 'none'
 					}}
 					textPosition="after"
 					onClick={this.props.requestClose}
 					buttonStyle={{
-						marginRight: "1em",
+						marginRight: '1em',
 						border: `2px solid ${primary}`
 					}}
 				/>
@@ -259,10 +259,10 @@ class ParticipantEditor extends Component {
 					text={translate.save}
 					color={primary}
 					textStyle={{
-						color: "white",
-						fontWeight: "700",
-						fontSize: "0.9em",
-						textTransform: "none"
+						color: 'white',
+						fontWeight: '700',
+						fontSize: '0.9em',
+						textTransform: 'none'
 					}}
 					icon={<ButtonIcon color="white" type="save" />}
 					textPosition="after"
@@ -288,10 +288,10 @@ class ParticipantEditor extends Component {
 					</GridItem>
 					<Paper
 						style={{
-							padding: "2em",
-							paddingTop: "1em",
-							marginTop: "1em",
-							marginBottom: "1em"
+							padding: '2em',
+							paddingTop: '1em',
+							marginTop: '1em',
+							marginBottom: '1em'
 						}}
 					>
 						{
@@ -310,8 +310,8 @@ class ParticipantEditor extends Component {
 					{this.state.addRepresentative && (
 						<Paper
 							style={{
-								marginBottom: "1.3em",
-								padding: "2em"
+								marginBottom: '1.3em',
+								padding: '2em'
 							}}
 						>
 							{
@@ -333,16 +333,16 @@ class ParticipantEditor extends Component {
 }
 
 export default graphql(updateCouncilParticipant, {
-	name: "updateCouncilParticipant"
+	name: 'updateCouncilParticipant'
 })(ParticipantEditor);
 
 const newRepresentativeInitialValues = {
-	language: "es",
+	language: 'es',
 	personOrEntity: 0,
-	name: "",
-	surname: "",
-	position: "",
-	dni: "",
-	email: "",
-	phone: ""
+	name: '',
+	surname: '',
+	position: '',
+	dni: '',
+	email: '',
+	phone: ''
 };

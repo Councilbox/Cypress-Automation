@@ -7,7 +7,7 @@ import { LoadingSection, EnhancedTable, RefreshButton } from '../../../../displa
 import { PARTICIPANTS_LIMITS } from '../../../../constants';
 import * as CBX from '../../../../utils/CBX';
 import AttendIntentionIcon from '../../live/participants/AttendIntentionIcon';
-import DownloadCBXDataButton from "../../prepare/DownloadCBXDataButton";
+import DownloadCBXDataButton from '../../prepare/DownloadCBXDataButton';
 
 
 const updateActSends = gql`
@@ -45,12 +45,12 @@ class ParticipantsWithActTable extends React.Component {
                     onClick={this.refreshEmails}
                 />
                 <EnhancedTable
-                    ref={table => { this.table = table }}
+                    ref={table => { this.table = table; }}
                     translate={translate}
                     defaultLimit={PARTICIPANTS_LIMITS[0]}
-                    defaultFilter={"fullName"}
+                    defaultFilter={'fullName'}
                     hideTextFilter={true}
-                    defaultOrder={["name", "asc"]}
+                    defaultOrder={['name', 'asc']}
                     limits={PARTICIPANTS_LIMITS}
                     page={1}
                     loading={this.props.data.loading}
@@ -76,7 +76,7 @@ class ParticipantsWithActTable extends React.Component {
                                             })
                                             }
                                             style={{
-                                                cursor: "pointer"
+                                                cursor: 'pointer'
                                             }}
                                         >
                                             <TableCell>
@@ -105,9 +105,9 @@ class ParticipantsWithActTable extends React.Component {
                                                             <img
                                                                 style={{
                                                                     height:
-                                                                        "2.1em",
+                                                                        '2.1em',
                                                                     width:
-                                                                        "auto"
+                                                                        'auto'
                                                                 }}
                                                                 src={CBX.getEmailIconByReqCode(
                                                                     participant
@@ -118,7 +118,7 @@ class ParticipantsWithActTable extends React.Component {
                                                             />
                                                         </Tooltip>
                                                     ) : (
-                                                        ""
+                                                        ''
                                                     )}
                                             </TableCell>
                                             {CBX.councilHasAssistanceConfirmation(
@@ -147,7 +147,7 @@ class ParticipantsWithActTable extends React.Component {
                         )}
                 </EnhancedTable>
             </div>
-        )
+        );
     }
 }
 

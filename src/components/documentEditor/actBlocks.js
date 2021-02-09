@@ -6,7 +6,7 @@ export const blocks = {
     TEXT: {
         id: Math.random().toString(36).substr(2, 9),
         secondaryText: 'Insert text',
-        type: "text",
+        type: 'text',
         editButton: true
     },
     ACT_TITLE: {
@@ -49,12 +49,12 @@ export const blocks = {
         secondaryLanguage: 'en',
         type: 'attendants',
         icon: iconAsistentes,
-        colorBorder: "#61abb7"
+        colorBorder: '#61abb7'
     },
     DELEGATION_LIST: {
         id: Math.random().toString(36).substr(2, 9),
-        label: "Lista de delegaciones", //TRADUCCION
-        text: "",
+        label: 'Lista de delegaciones', //TRADUCCION
+        text: '',
         editButton: false,
         type: 'delegations',
         language: 'es',
@@ -66,7 +66,7 @@ export const blocks = {
     AGENDA: {
         id: Math.random().toString(36).substr(2, 9),
         label: 'comments_and_agreements',
-        text: "",
+        text: '',
         editButton: false,
         hideDelete: true,
         type: 'agreements',
@@ -76,7 +76,7 @@ export const blocks = {
     CERT_HEADER: {
         id: Math.random().toString(36).substr(2, 9),
         label: 'header',
-        text: "",
+        text: '',
         secondaryText: '',
         editButton: true,
         type: 'cert_header',
@@ -86,7 +86,7 @@ export const blocks = {
     CERT_TITLE: {
         id: Math.random().toString(36).substr(2, 9),
         label: 'title',
-        text: "",
+        text: '',
         secondaryText: '',
         hideDelete: true,
         editButton: true,
@@ -97,7 +97,7 @@ export const blocks = {
     CERT_FOOTER: {
         id: Math.random().toString(36).substr(2, 9),
         label: 'certificate_footer',
-        text: "",
+        text: '',
         secondaryText: '',
         editButton: true,
         type: 'cert_footer',
@@ -107,7 +107,7 @@ export const blocks = {
     CERT_AGENDA: {
         id: Math.random().toString(36).substr(2, 9),
         label: 'agenda',
-        text: "",
+        text: '',
         secondaryText: '',
         editButton: false,
         hideDelete: true,
@@ -115,7 +115,7 @@ export const blocks = {
         language: 'es',
         secondaryLanguage: 'en',
     }
-}
+};
 
 export const actBlocks = {
     TEXT: blocks.TEXT,
@@ -127,7 +127,7 @@ export const actBlocks = {
     ATTENDANTS_LIST: blocks.ATTENDANTS_LIST,
     DELEGATION_LIST: blocks.DELEGATION_LIST,
     AGENDA: blocks.AGENDA
-}
+};
 
 export const certBlocks = {
     TEXT: blocks.TEXT,
@@ -135,4 +135,4 @@ export const certBlocks = {
     CERT_AGENDA: blocks.CERT_AGENDA,
     CERT_FOOTER: blocks.CERT_FOOTER
 
-}
+};

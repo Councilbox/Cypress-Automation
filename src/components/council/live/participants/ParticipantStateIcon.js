@@ -1,12 +1,12 @@
-import React from "react";
-import FontAwesome from "react-fontawesome";
-import { Tooltip } from "material-ui";
-import { getSecondary } from "../../../../styles/colors";
+import React from 'react';
+import FontAwesome from 'react-fontawesome';
+import { Tooltip } from 'material-ui';
+import { getSecondary } from '../../../../styles/colors';
 import {
 	getParticipantStateString,
 	isRepresentative,
 	participantIsGuest
-} from "../../../../utils/CBX";
+} from '../../../../utils/CBX';
 
 const mainIconSize = 1.75;
 const subIconSize = 1;
@@ -20,18 +20,18 @@ const DoubleIcon = ({
 }) => (
 		<div
 			style={{
-				position: "relative",
-				height: "2.5em",
-				display: "flex",
-				alignItems: "center",
+				position: 'relative',
+				height: '2.5em',
+				display: 'flex',
+				alignItems: 'center',
 				width: '2.75em',
-				justifyContent: "center"
+				justifyContent: 'center'
 			}}
 		>
 			<FontAwesome
 				name={main}
 				style={{
-					margin: "0.5em",
+					margin: '0.5em',
 					color: mainColor,
 					fontSize: `${mainIconSize}em`
 				}}
@@ -39,10 +39,10 @@ const DoubleIcon = ({
 			<FontAwesome
 				name={sub}
 				style={{
-					margin: "0.5em",
+					margin: '0.5em',
 					color: subColor,
 					fontSize: `${subSize}em`,
-					position: "absolute",
+					position: 'absolute',
 					top: `${mainIconSize - 0.25 - subSize}em`,
 					right: 0
 				}}
@@ -69,19 +69,19 @@ const IconSwitch = ({
 	let icon;
 
 	switch (state) {
-		case "REMOTE":
+		case 'REMOTE':
 			tooltipValue = `${
-				representative ? translate.representative + " - " : ""
+				representative ? translate.representative + ' - ' : ''
 			}${
-				tooltip === "change"
+				tooltip === 'change'
 					? translate.change_to_remote
 					: translate.remote_assistance
 			}`;
 			icon = (
 				<FontAwesome
-					name={"globe"}
+					name={'globe'}
 					style={{
-						margin: "0.5em",
+						margin: '0.5em',
 						color: secondary,
 						fontSize: `${mainIconSize}em`
 					}}
@@ -89,19 +89,19 @@ const IconSwitch = ({
 			);
 			break;
 
-		case "PRESENT":
+		case 'PRESENT':
 			tooltipValue = `${
-				representative ? translate.representative + " - " : ""
+				representative ? translate.representative + ' - ' : ''
 			}${
-				tooltip === "change"
+				tooltip === 'change'
 					? translate.change_to_present
 					: translate.physically_present_assistance
 			}`;
 			icon = (
 				<FontAwesome
-					name={"user"}
+					name={'user'}
 					style={{
-						margin: "0.5em",
+						margin: '0.5em',
 						color: secondary,
 						fontSize: `${mainIconSize}em`
 					}}
@@ -109,48 +109,48 @@ const IconSwitch = ({
 			);
 			break;
 
-		case "REPRESENTATED":
+		case 'REPRESENTATED':
 			tooltipValue = `${
-				representative ? translate.representative + " - " : ""
+				representative ? translate.representative + ' - ' : ''
 			}${
-				tooltip === "change"
+				tooltip === 'change'
 					? translate.add_representative
 					: translate.representated
 			}`;
-			icon = <DoubleIcon main={"user-o"} sub={"user"} />;
+			icon = <DoubleIcon main={'user-o'} sub={'user'} />;
 			break;
 
-		case "DELEGATED":
+		case 'DELEGATED':
 			tooltipValue = `${
-				representative ? translate.representative + " - " : ""
+				representative ? translate.representative + ' - ' : ''
 			}${
-				tooltip === "change"
+				tooltip === 'change'
 					? translate.to_delegate_vote
 					: translate.delegated
 			}`;
 
 			icon = (
 				<DoubleIcon
-					main={"user"}
-					sub={"user"}
+					main={'user'}
+					sub={'user'}
 					mainColor={getSecondary()}
 				/>
 			);
 			break;
 
-		case "PHYSICALLY_PRESENT":
+		case 'PHYSICALLY_PRESENT':
 			tooltipValue = `${
-				representative ? translate.representative + " - " : ""
+				representative ? translate.representative + ' - ' : ''
 			}${
-				tooltip === "change"
+				tooltip === 'change'
 					? translate.change_to_present
 					: translate.physically_present_assistance
 			}`;
 			icon = (
 				<FontAwesome
-					name={"user"}
+					name={'user'}
 					style={{
-						margin: "0.5em",
+						margin: '0.5em',
 						color: secondary,
 						fontSize: `${mainIconSize}em`
 					}}
@@ -158,28 +158,28 @@ const IconSwitch = ({
 			);
 			break;
 
-		case "NO_PARTICIPATE":
+		case 'NO_PARTICIPATE':
 			tooltipValue = `${
-				representative ? translate.representative + " - " : ""
+				representative ? translate.representative + ' - ' : ''
 			}${
-				tooltip === "change"
+				tooltip === 'change'
 					? translate.change_to_no_participate
 					: translate.no_assist_assistance
 			}`;
 
-			icon = <DoubleIcon main={"user-o"} sub={"times"} />;
+			icon = <DoubleIcon main={'user-o'} sub={'times'} />;
 			break;
 
-		case "PRESENT_WITH_REMOTE_VOTE":
+		case 'PRESENT_WITH_REMOTE_VOTE':
 			tooltipValue = `${
-				representative ? translate.representative + " - " : ""
+				representative ? translate.representative + ' - ' : ''
 			}${
-				tooltip === "change"
+				tooltip === 'change'
 					? translate.change_to_present_with_remote_vote
 					: translate.physically_present_with_remote_vote
 			}`;
 
-			icon = <DoubleIcon main={"user-o"} sub={"mobile"} subSize={1.75} />;
+			icon = <DoubleIcon main={'user-o'} sub={'mobile'} subSize={1.75} />;
 
 			break;
 
@@ -187,9 +187,9 @@ const IconSwitch = ({
 			tooltipValue = translate.not_confirmed_assistance;
 			icon = (
 				<FontAwesome
-					name={"question"}
+					name={'question'}
 					style={{
-						margin: "0.5em",
+						margin: '0.5em',
 						color: secondary,
 						fontSize: `${mainIconSize}em`
 					}}
@@ -218,7 +218,7 @@ const ParticipantStateIcon = ({
 		return (
 			<Tooltip title={translate.guest}>
 				<div>
-					<DoubleIcon main={"user-o"} sub={"eye"} />
+					<DoubleIcon main={'user-o'} sub={'eye'} />
 				</div>
 			</Tooltip>
 		);

@@ -1,17 +1,17 @@
-import React from "react";
+import React from 'react';
 import Dialog, {
 	DialogActions,
 	DialogContent,
 	DialogTitle
-} from "material-ui/Dialog";
+} from 'material-ui/Dialog';
 import {
 	BasicButton,
 	Checkbox,
 	LoadingSection,
 	TextInput
-} from "../../../displayComponents";
-import { getPrimary } from "../../../styles/colors";
-import { useOldState } from "../../../hooks";
+} from '../../../displayComponents';
+import { getPrimary } from '../../../styles/colors';
+import { useOldState } from '../../../hooks';
 
 
 const PlaceModal = ({ council, translate, ...props }) => {
@@ -27,11 +27,11 @@ const PlaceModal = ({ council, translate, ...props }) => {
 	const [state, setState] = useOldState({
 		remoteCelebration: council.remoteCelebration,
 		errors: {
-			address: "",
-			city: "",
-			country: "",
-			zipcode: "",
-			region: ""
+			address: '',
+			city: '',
+			country: '',
+			zipcode: '',
+			region: ''
 		}
 	});
 	const primary = getPrimary();
@@ -45,14 +45,14 @@ const PlaceModal = ({ council, translate, ...props }) => {
 				props.saveAndClose({
 					street: translate.remote_celebration,
 					remoteCelebration: 1,
-					country: "",
-					countryState: "",
-					city: "",
-					zipcode: ""
+					country: '',
+					countryState: '',
+					city: '',
+					zipcode: ''
 				});
 			}
 		}
-	}
+	};
 
 	const _renderActionButtons = () => (
 			<React.Fragment>
@@ -60,11 +60,11 @@ const PlaceModal = ({ council, translate, ...props }) => {
 					text={translate.close}
 					id={'close-button'}
 					type="flat"
-					color={"white"}
+					color={'white'}
 					textStyle={{
-						fontWeight: "700",
-						fontSize: "0.9em",
-						textTransform: "none"
+						fontWeight: '700',
+						fontSize: '0.9em',
+						textTransform: 'none'
 					}}
 					textPosition="after"
 					onClick={props.close}
@@ -73,17 +73,17 @@ const PlaceModal = ({ council, translate, ...props }) => {
 					text={translate.accept}
 					color={primary}
 					textStyle={{
-						color: "white",
-						fontWeight: "700",
-						fontSize: "0.9em",
-						textTransform: "none"
+						color: 'white',
+						fontWeight: '700',
+						fontSize: '0.9em',
+						textTransform: 'none'
 					}}
-					buttonStyle={{ marginLeft: "1em" }}
+					buttonStyle={{ marginLeft: '1em' }}
 					textPosition="after"
 					onClick={saveAndClose}
 				/>
 			</React.Fragment>
-		)
+		);
 
 	function checkRequiredFields() {
 		if (state.remoteCelebration) {
@@ -91,11 +91,11 @@ const PlaceModal = ({ council, translate, ...props }) => {
 		}
 
 		const errors = {
-			country: "",
-			countryState: "",
-			street: "",
-			zipcode: "",
-			city: ""
+			country: '',
+			countryState: '',
+			street: '',
+			zipcode: '',
+			city: ''
 		};
 
 		let hasError = false;
@@ -153,10 +153,10 @@ const PlaceModal = ({ council, translate, ...props }) => {
 				{!state.remoteCelebration && (
 					<div
 						style={{
-							display: "flex",
-							flexDirection: "column",
-							alignItems: "center",
-							justifyContent: "center"
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+							justifyContent: 'center'
 						}}
 					>
 						<TextInput
@@ -219,8 +219,8 @@ const PlaceModal = ({ council, translate, ...props }) => {
 			</DialogContent>
 			<DialogActions>{_renderActionButtons()}</DialogActions>
 		</Dialog>
-	)
-}
+	);
+};
 
 
 export default PlaceModal;

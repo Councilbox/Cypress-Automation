@@ -59,15 +59,15 @@ const FileCalendario = ({ translate, company, client }) => {
             getData();
             setModal(null);
         }
-    }
+    };
 
     const showDeleteWarningModal = id => {
         setModal(id);
-    }
+    };
 
     const closeDeleteWarningModal = () => {
         setModal(false);
-    }
+    };
 
     const updateCompanyNotification = async (value, index) => {
         const newValues = {
@@ -91,11 +91,11 @@ const FileCalendario = ({ translate, company, client }) => {
         });
 
         getData();
-    }
+    };
 
 
     return (
-        <div style={{ height: "100%" }}>
+        <div style={{ height: '100%' }}>
             <div style={{ padding: '0px 1em 1em', height: '100%', }}>
                 <AlertConfirm
                     open={modal}
@@ -107,14 +107,14 @@ const FileCalendario = ({ translate, company, client }) => {
                     buttonCancel={translate.cancel}
                     buttonAccept={translate.accept}
                 />
-                <div style={{ marginTop: "1em" }}>
+                <div style={{ marginTop: '1em' }}>
                     <div>
-                        <div style={{ fontWeight: "bold", color: primary, display: "flex", alignItems: "center" }}>
+                        <div style={{ fontWeight: 'bold', color: primary, display: 'flex', alignItems: 'center' }}>
                             {translate.add}
                             <i
                                 className={'fa fa-plus-circle'}
                                 onClick={() => setShowCreateMenu(!showCreateMenu)}
-                                style={{ color: primary, cursor: "pointer", fontSize: "25px", paddingLeft: "5px" }}
+                                style={{ color: primary, cursor: 'pointer', fontSize: '25px', paddingLeft: '5px' }}
                             />
                         </div>
                         {showCreateMenu &&
@@ -127,20 +127,20 @@ const FileCalendario = ({ translate, company, client }) => {
                             </div>
                         }
                         <Table
-                            style={{ width: "100%", maxWidth: "100%" }}
+                            style={{ width: '100%', maxWidth: '100%' }}
                         >
                             <TableRow>
-                                <TableCell style={{ color: primary, fontWeight: "bold" }}>Fecha límite </TableCell>
-                                <TableCell style={{ color: primary, fontWeight: "bold" }}>Acción</TableCell>
-                                <TableCell style={{ color: primary, fontWeight: "bold" }}>{translate.description}</TableCell>
-                                <TableCell style={{ color: primary, fontWeight: "bold" }}>Status</TableCell>
+                                <TableCell style={{ color: primary, fontWeight: 'bold' }}>Fecha límite </TableCell>
+                                <TableCell style={{ color: primary, fontWeight: 'bold' }}>Acción</TableCell>
+                                <TableCell style={{ color: primary, fontWeight: 'bold' }}>{translate.description}</TableCell>
+                                <TableCell style={{ color: primary, fontWeight: 'bold' }}>Status</TableCell>
                             </TableRow>
                             {data.length > 0 &&
                                 data.map((notification, index) => (
                                     <TableRow key={notification.id}>
-                                        <TableCell style={{ color: "black" }}>{moment(notification.limitDate).format('L')}</TableCell>
-                                        <TableCell style={{ color: "black" }}>{notification.action}</TableCell>
-                                        <TableCell style={{ color: "black" }}>
+                                        <TableCell style={{ color: 'black' }}>{moment(notification.limitDate).format('L')}</TableCell>
+                                        <TableCell style={{ color: 'black' }}>{notification.action}</TableCell>
+                                        <TableCell style={{ color: 'black' }}>
                                             {notification.description}
                                         </TableCell>
                                         <TableCell style={{ color: primary, display: 'flex', alignItems: 'center' }}>
@@ -149,7 +149,7 @@ const FileCalendario = ({ translate, company, client }) => {
                                                 onChange={event => {
                                                     updateCompanyNotification({
                                                         state: event.target.value,
-                                                    }, index)
+                                                    }, index);
                                                 }}
                                             >
                                                 <MenuItem value={0}>
@@ -160,16 +160,16 @@ const FileCalendario = ({ translate, company, client }) => {
                                                 </MenuItem>
                                             </SelectInput>
                                             <div style={{
-                                                background: "white",
-                                                width: "10%",
+                                                background: 'white',
+                                                width: '10%',
                                                 color: primary,
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                fontSize: "25px",
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                fontSize: '25px',
                                                 marginLeft: '0.6em'
                                             }}>
-                                                <i className={"fa fa-times-circle"} onClick={() => showDeleteWarningModal(notification.id)} style={{ cursor: "pointer", }} ></i>
+                                                <i className={'fa fa-times-circle'} onClick={() => showDeleteWarningModal(notification.id)} style={{ cursor: 'pointer', }} ></i>
                                             </div>
                                         </TableCell>
                                     </TableRow>
@@ -179,7 +179,7 @@ const FileCalendario = ({ translate, company, client }) => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default withTranslations()(withApollo(FileCalendario));

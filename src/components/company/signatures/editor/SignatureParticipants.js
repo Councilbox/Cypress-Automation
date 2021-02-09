@@ -22,7 +22,7 @@ class SignatureParticipants extends React.Component {
         this.setState({
             censusModal: true,
             selectedCensus: event.target.value
-        })
+        });
     }
 
     deleteParticipant = async participantId => {
@@ -60,18 +60,18 @@ class SignatureParticipants extends React.Component {
             loading: false,
             selectedCensus: null,
             censusModal: false
-        })
+        });
     }
 
     editParticipant = id => {
         this.setState({
             editParticipant: id
-        })
+        });
     }
 
     _renderBody = () => (
             <div style={{ maxWidth: '600px' }}>
-                {this.props.translate.census_change_warning.replace("<br/>", "")}
+                {this.props.translate.census_change_warning.replace('<br/>', '')}
             </div>
         )
 
@@ -103,8 +103,8 @@ class SignatureParticipants extends React.Component {
                     ref={table => (this.table = table)}
                     translate={translate}
                     defaultLimit={PARTICIPANTS_LIMITS[0]}
-                    defaultFilter={"fullName"}
-                    defaultOrder={["fullName", "asc"]}
+                    defaultFilter={'fullName'}
+                    defaultOrder={['fullName', 'asc']}
                     limits={PARTICIPANTS_LIMITS}
                     menuButtons={
                         <React.Fragment>
@@ -154,15 +154,15 @@ class SignatureParticipants extends React.Component {
                     action={this._renderDeleteIcon}
                     fields={[
                         {
-                            value: "fullName",
+                            value: 'fullName',
                             translation: translate.participant_data
                         },
                         {
-                            value: "dni",
+                            value: 'dni',
                             translation: translate.dni
                         },
                         {
-                            value: "email",
+                            value: 'email',
                             translation: translate.email
                         }
                     ]}
@@ -214,7 +214,7 @@ class SignatureParticipants extends React.Component {
                     <div style={{ width: '100%', display: 'flex', justifyContent: 'center', color: 'red', fontWeight: '700' }}>{this.props.error}</div>
                 }
             </React.Fragment>
-        )
+        );
     }
 }
 
@@ -265,7 +265,7 @@ class HoverableRow extends React.Component {
                             }}
                             onClick={event => {
                                 event.stopPropagation();
-                                this.props.deleteParticipant(participant.id)
+                                this.props.deleteParticipant(participant.id);
                             }}
                         />
                     :
@@ -273,7 +273,7 @@ class HoverableRow extends React.Component {
                     }
                 </TableCell>
             </TableRow>
-        )
+        );
     }
 }
 

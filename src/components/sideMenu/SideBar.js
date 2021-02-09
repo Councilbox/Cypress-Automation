@@ -1,6 +1,6 @@
-import React from "react";
-import { NavLink, withRouter } from "react-router-dom";
-import cx from "classnames";
+import React from 'react';
+import { NavLink, withRouter } from 'react-router-dom';
+import cx from 'classnames';
 import {
 	Drawer,
 	Hidden,
@@ -10,17 +10,17 @@ import {
 	ListItemText,
 	MenuItem,
 	withStyles
-} from "material-ui";
+} from 'material-ui';
 import BorderColor from 'material-ui-icons/BorderColor';
 import ContentPaste from 'material-ui-icons/ContentPaste';
 import Dashboard from 'material-ui-icons/Dashboard';
 import ImportContacts from 'material-ui-icons/ImportContacts';
-import FontAwesome from "react-fontawesome";
-import sidebarStyle from "../../styles/sidebarStyle";
-import { getPrimary } from "../../styles/colors";
-import { bHistory, store } from "../../containers/App";
-import { changeCompany } from "../../actions/companyActions";
-import { DropDownMenu, Icon } from "../../displayComponents";
+import FontAwesome from 'react-fontawesome';
+import sidebarStyle from '../../styles/sidebarStyle';
+import { getPrimary } from '../../styles/colors';
+import { bHistory, store } from '../../containers/App';
+import { changeCompany } from '../../actions/companyActions';
+import { DropDownMenu, Icon } from '../../displayComponents';
 
 class Sidebar extends React.Component {
 	state = {
@@ -35,19 +35,19 @@ class Sidebar extends React.Component {
 		},
 		{
 			path: `/company/${this.props.company.id}/councils/drafts`,
-			name: "council",
+			name: 'council',
 			sidebarName: this.props.translate.councils,
 			icon: ImportContacts
 		},
 		{
 			path: `/company/${this.props.company.id}/meeting/new`,
-			name: "meeting",
+			name: 'meeting',
 			sidebarName: this.props.translate.dashboard_new_meeting,
 			icon: ContentPaste
 		},
 		{
 			path: `/company/${this.props.company.id}/signatures/drafts`,
-			name: "signature",
+			name: 'signature',
 			sidebarName: this.props.translate.signatures,
 			icon: BorderColor
 		}
@@ -93,11 +93,11 @@ class Sidebar extends React.Component {
 					return null;
 				}
 				const listItemClasses = cx({
-					[" " +
+					[' ' +
 					this.props.classes[this.props.color]]: this.activeRoute(key)
 				});
 				const whiteFontClasses = cx({
-					[" " + this.props.classes.whiteFont]: this.activeRoute(key)
+					[' ' + this.props.classes.whiteFont]: this.activeRoute(key)
 				});
 				return (
 					<NavLink
@@ -106,9 +106,9 @@ class Sidebar extends React.Component {
 						activeClassName="active"
 						key={key}
 						style={{
-							":hover": {
-								textDecoration: "none",
-								color: "red"
+							':hover': {
+								textDecoration: 'none',
+								color: 'red'
 							}
 						}}
 						onClick={() => this.setState({ selectedRoute: key })}
@@ -119,8 +119,8 @@ class Sidebar extends React.Component {
 								this.props.classes.itemLink + listItemClasses
 							}
 							style={{
-								display: "flex",
-								flexDirection: "row"
+								display: 'flex',
+								flexDirection: 'row'
 							}}
 						>
 							<ListItemIcon
@@ -150,18 +150,18 @@ class Sidebar extends React.Component {
 		<DropDownMenu
 			color="transparent"
 			buttonStyle={{
-				boxSizing: "border-box",
-				padding: "0",
+				boxSizing: 'border-box',
+				padding: '0',
 				border: `1px solid ${getPrimary()}`,
-				marginLeft: "0.3em"
+				marginLeft: '0.3em'
 			}}
 			text={
 				<div className={this.props.classes.logo}>
 					<div
 						className={this.props.classes.logoLink}
 						style={{
-							display: "flex",
-							flexDirection: "row"
+							display: 'flex',
+							flexDirection: 'row'
 						}}
 					>
 						<div className={this.props.classes.logoImage}>
@@ -173,7 +173,7 @@ class Sidebar extends React.Component {
 								/>
 							) : (
 								<FontAwesome
-									name={"building-o"}
+									name={'building-o'}
 									className={this.props.classes.img}
 								/>
 							)}
@@ -181,8 +181,8 @@ class Sidebar extends React.Component {
 
 						<div
 							style={{
-								fontSize: "0.85em",
-								fontWeight: "700"
+								fontSize: '0.85em',
+								fontWeight: '700'
 							}}
 						>
 							{this.props.company.businessName}
@@ -204,8 +204,7 @@ class Sidebar extends React.Component {
 				<React.Fragment>
 					{this.props.companies
 					.filter(company => company.id !== this.props.company.id)
-					.map((company, index) => {
-						return (
+					.map((company, index) => (
 							<MenuItem
 								key={`company_${company.id}`}
 								onClick={() => this.changeCompany(index)}
@@ -218,23 +217,22 @@ class Sidebar extends React.Component {
 									/>
 								) : (
 									<FontAwesome
-										name={"building-o"}
+										name={'building-o'}
 										className={this.props.classes.img}
 									/>
 								)}
 
 								<div
 									style={{
-										fontSize: "0.85em",
-										fontWeight: "700",
-										marginLeft: "0.3em"
+										fontSize: '0.85em',
+										fontWeight: '700',
+										marginLeft: '0.3em'
 									}}
 								>
 									{company.businessName}
 								</div>
 							</MenuItem>
-						);
-					})}
+						))}
 				</React.Fragment>
 			}
 		/>
@@ -270,7 +268,7 @@ class Sidebar extends React.Component {
 							<div
 								className={classes.background}
 								style={{
-									backgroundImage: "url(" + image + ")"
+									backgroundImage: 'url(' + image + ')'
 								}}
 							/>
 						) : null}
@@ -293,7 +291,7 @@ class Sidebar extends React.Component {
 							<div
 								className={classes.background}
 								style={{
-									backgroundImage: "url(" + image + ")"
+									backgroundImage: 'url(' + image + ')'
 								}}
 							/>
 						) : null}

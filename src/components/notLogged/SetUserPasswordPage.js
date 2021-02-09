@@ -58,13 +58,13 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
                 });
             }
         }
-    }
+    };
 
     const checkRequiredFields = () => {
         const errors = {
             confirmPassword: '',
             password: ''
-        }
+        };
 
         let hasError;
 
@@ -85,7 +85,7 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
         });
 
         return hasError;
-    }
+    };
 
     const errorWrapper = () => (
             <div
@@ -102,7 +102,7 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
                     translate.error_active_account
                 }
             </div>
-        )
+        );
 
     const successMessage = () => (
             <div
@@ -115,7 +115,7 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
             >
                 {translate.account_actived}
             </div>
-        )
+        );
 
     return(
         <NotLoggedLayout
@@ -126,10 +126,10 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
             <div
                 className="row"
                 style={{
-                    width: "100%",
+                    width: '100%',
                     margin: 0,
-                    fontSize: "0.85em",
-                    height: "100%",
+                    fontSize: '0.85em',
+                    height: '100%',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center'
@@ -184,8 +184,8 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
                                                 floatingText={translate.login_password}
                                                 type={
                                                     state.showPassword
-                                                        ? "text"
-                                                        : "password"
+                                                        ? 'text'
+                                                        : 'password'
                                                 }
                                                 passwordToggler={() => setState({
                                                         ...state,
@@ -205,8 +205,8 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
                                                 floatingText={translate.login_confirm_password}
                                                 type={
                                                     state.showConfirmPassword
-                                                        ? "text"
-                                                        : "password"
+                                                        ? 'text'
+                                                        : 'password'
                                                 }
                                                 passwordToggler={() => setState({
                                                         ...state,
@@ -246,8 +246,8 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
                 </Paper>
             </div>
         </NotLoggedLayout>
-    )
-}
+    );
+};
 
 
 const confirmEmailAndSetPwd = gql`

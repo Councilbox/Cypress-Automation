@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import AgendaRecount from '../agendas/AgendaRecount';
 import { canEditPresentVotings } from '../../../utils/CBX';
 
@@ -20,15 +20,15 @@ const RecountSection = ({ translate, council, agenda, ...props }) => {
 	return (
 		<div
 			style={{
-				width: "100%",
+				width: '100%',
 				backgroundColor: 'white',
-				position: "relative"
+				position: 'relative'
 			}}
 		>
 			{_section()}
 		</div>
 	);
-}
+};
 
 
 export default RecountSection;

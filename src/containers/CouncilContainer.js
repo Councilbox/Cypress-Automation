@@ -1,16 +1,16 @@
-import React from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import React from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { Tooltip } from 'material-ui';
-import { FabButton, Icon, CardPageLayout } from "../displayComponents";
-import Councils from "../components/dashboard/Councils";
+import { FabButton, Icon, CardPageLayout } from '../displayComponents';
+import Councils from '../components/dashboard/Councils';
 import withWindowSize from '../HOCs/withWindowSize';
-import { bHistory, moment } from "./App";
-import { TRIAL_DAYS } from "../config";
-import { trialDaysLeft } from "../utils/CBX";
-import CantCreateCouncilsModal from "../components/dashboard/CantCreateCouncilsModal";
-import { sendGAevent } from "../utils/analytics";
-import { isMobile } from "../utils/screen";
+import { bHistory, moment } from './App';
+import { TRIAL_DAYS } from '../config';
+import { trialDaysLeft } from '../utils/CBX';
+import CantCreateCouncilsModal from '../components/dashboard/CantCreateCouncilsModal';
+import { sendGAevent } from '../utils/analytics';
+import { isMobile } from '../utils/screen';
 
 
 const CouncilContainer = ({ match, company, translate }) => {
@@ -18,11 +18,11 @@ const CouncilContainer = ({ match, company, translate }) => {
 
 	const showCantAccessPremiumModal = () => {
 		setNoPremiumModal(true);
-	}
+	};
 
 	const closeCantAccessPremiumModal = () => {
 		setNoPremiumModal(false);
-	}
+	};
 
 	const getSectionTranslation = type => {
 		const texts = {
@@ -32,17 +32,17 @@ const CouncilContainer = ({ match, company, translate }) => {
 			act: translate.companies_writing,
 			confirmed: translate.act_book,
 			history: translate.dashboard_historical
-		}
+		};
 
 		return texts[type];
-	}
+	};
 
 	React.useEffect(() => {
 		sendGAevent({
 			category: 'Reuniones',
 			action: `${getSectionTranslation(match.params.section)} - Listado`,
 			label: company.businessName
-		})
+		});
 	}, [match.params.section]);
 	const cantAccessPremium = company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0;
 
@@ -51,9 +51,9 @@ const CouncilContainer = ({ match, company, translate }) => {
 			<div
 				style={{
 					height: '100%',
-					fontSize: "13px",
+					fontSize: '13px',
 					padding: '1.5em 1.5em 1.5em',
-					paddingTop: "0px"
+					paddingTop: '0px'
 				}}
 			>
 				<div style={{ height: '100%', width: '98%', margin: '0 auto' }}>
@@ -61,9 +61,9 @@ const CouncilContainer = ({ match, company, translate }) => {
 						company={company}
 						translate={translate}
 						state={[-1, 40, 60, 70, 80, 90]}
-						link={"/history"}
+						link={'/history'}
 						title={translate.dashboard_historical}
-						icon={"history"}
+						icon={'history'}
 					/>
 					{!isMobile ?
 						<div
@@ -74,7 +74,7 @@ const CouncilContainer = ({ match, company, translate }) => {
 							}}
 						>
 							<Tooltip title={`${translate.dashboard_new}`}>
-								<div style={{ marginBottom: "0.3em" }}>
+								<div style={{ marginBottom: '0.3em' }}>
 									<FabButton
 										{...(cantAccessPremium ? { color: 'grey' } : {})}
 										icon={
@@ -100,7 +100,7 @@ const CouncilContainer = ({ match, company, translate }) => {
 							}}
 						>
 							<Tooltip title={`${translate.dashboard_new}`}>
-								<div style={{ marginBottom: "0.3em" }}>
+								<div style={{ marginBottom: '0.3em' }}>
 									<FabButton
 										{...(cantAccessPremium ? { color: 'grey' } : {})}
 										icon={
@@ -108,7 +108,7 @@ const CouncilContainer = ({ match, company, translate }) => {
 												add
 											</Icon>
 										}
-										style={{ width: '38px', height: "38px" }}
+										style={{ width: '38px', height: '38px' }}
 										onClick={() => (cantAccessPremium ?
 												showCantAccessPremiumModal()
 												:
@@ -128,7 +128,7 @@ const CouncilContainer = ({ match, company, translate }) => {
 			</div>
 		</CardPageLayout>
 	);
-}
+};
 
 
 

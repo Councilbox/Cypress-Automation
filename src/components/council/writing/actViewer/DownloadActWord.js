@@ -1,5 +1,5 @@
 import React from 'react';
-import FontAwesome from "react-fontawesome";
+import FontAwesome from 'react-fontawesome';
 import { BasicButton } from '../../../../displayComponents';
 import { downloadFile } from '../../../../utils/CBX';
 import { getSecondary } from '../../../../styles/colors';
@@ -12,7 +12,7 @@ class DownloadActWord extends React.Component {
 
     export2Doc = (element, filename = '') => {
         const preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
-        const postHtml = "</body></html>";
+        const postHtml = '</body></html>';
         const body = this.props.html.replace(/[\u0080-\u024F]/g,
             function (a) {
               return '&#' + a.charCodeAt(0) + ';';
@@ -27,7 +27,7 @@ class DownloadActWord extends React.Component {
        const value = css + html;
         const url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURI(value);
         filename = filename ? filename + '.docx' : 'document.docx';
-        const downloadLink = document.createElement("a");
+        const downloadLink = document.createElement('a');
         document.body.appendChild(downloadLink);
         if(navigator.msSaveOrOpenBlob){
             const blob = new Blob(['\ufeff', css + html], {
@@ -51,27 +51,27 @@ class DownloadActWord extends React.Component {
                 text={translate.export_original_act}
                 color={secondary}
                 loading={this.state.downloadingPDF}
-                buttonStyle={{ marginTop: "0.5em", marginLeft: "0.5em" }}
+                buttonStyle={{ marginTop: '0.5em', marginLeft: '0.5em' }}
                 textStyle={{
-                    color: "white",
-                    fontWeight: "700",
-                    fontSize: "0.9em",
-                    textTransform: "none"
+                    color: 'white',
+                    fontWeight: '700',
+                    fontSize: '0.9em',
+                    textTransform: 'none'
                 }}
                 icon={
                     <FontAwesome
-                        name={"file-word-o"}
+                        name={'file-word-o'}
                         style={{
-                            fontSize: "1em",
-                            color: "white",
-                            marginLeft: "0.3em"
+                            fontSize: '1em',
+                            color: 'white',
+                            marginLeft: '0.3em'
                         }}
                     />
                 }
                 textPosition="after"
                 onClick={this.export2Doc}
             />
-        )
+        );
     }
 }
 

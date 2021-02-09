@@ -1,27 +1,27 @@
-import React from "react";
-import { compose, graphql, withApollo } from "react-apollo";
-import { AlertConfirm } from "../../../../displayComponents";
-import { addGuest } from "../../../../queries";
-import RepresentativeForm from "../../participants/RepresentativeForm";
-import { languages } from "../../../../queries/masters";
+import React from 'react';
+import { compose, graphql, withApollo } from 'react-apollo';
+import { AlertConfirm } from '../../../../displayComponents';
+import { addGuest } from '../../../../queries';
+import RepresentativeForm from '../../participants/RepresentativeForm';
+import { languages } from '../../../../queries/masters';
 import { checkValidEmail } from '../../../../utils/validation';
-import { checkUniqueCouncilEmails } from "../../../../queries/councilParticipant";
+import { checkUniqueCouncilEmails } from '../../../../queries/councilParticipant';
 
 const newGuestInitialValues = {
-	language: "es",
+	language: 'es',
 	personOrEntity: 0,
-	name: "",
-	surname: "",
-	position: "",
-	dni: "",
-	email: "",
-	phone: "",
+	name: '',
+	surname: '',
+	position: '',
+	dni: '',
+	email: '',
+	phone: '',
 	initialState: 0
 };
 
 class AddGuestModal extends React.Component {
 	state = {
-		success: "",
+		success: '',
 		errors: {},
 		guest: {
 			...newGuestInitialValues
@@ -50,7 +50,7 @@ class AddGuestModal extends React.Component {
 				if (response.data.addGuest.success) {
 					this.props.refetch();
 					this.close();
-				} else if (response.data.addGuest.message === "601") {
+				} else if (response.data.addGuest.message === '601') {
 						this.setState({
 							errors: {
 								email: this.props.translate.repeated_email
@@ -68,7 +68,7 @@ class AddGuestModal extends React.Component {
 			dni: '',
 			email: '',
 			phone: ''
-		}
+		};
 		let hasError = false;
 		const { guest } = this.state;
 		const { translate } = this.props;
@@ -150,7 +150,7 @@ class AddGuestModal extends React.Component {
 		}
 
 		return (
-			<div style={{ maxWidth: "850px" }}>
+			<div style={{ maxWidth: '850px' }}>
 				<RepresentativeForm
 					guest={true}
 					checkEmail={this.emailKeyUp}
@@ -183,9 +183,9 @@ class AddGuestModal extends React.Component {
 
 export default compose(
 	graphql(addGuest, {
-		name: "addGuest",
+		name: 'addGuest',
 		options: {
-			errorPolicy: "all"
+			errorPolicy: 'all'
 		}
 	}),
 	graphql(languages)

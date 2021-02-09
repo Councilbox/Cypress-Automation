@@ -16,12 +16,12 @@ class PremiumModal extends React.Component {
     activateTrial = async () => {
         this.setState({
             loading: true,
-        })
+        });
         const response = await this.props.activateTrial({
             variables: {
                 userId: this.props.user.id
             }
-        })
+        });
         if(!response.error){
             this.setState({
                 success: true,
@@ -35,7 +35,7 @@ class PremiumModal extends React.Component {
     showActivateTrialPage = () => {
         this.setState({
             step: 2
-        })
+        });
     }
 
     render(){
@@ -116,7 +116,7 @@ class PremiumModal extends React.Component {
                     </div>
                 }
             />
-        )
+        );
     }
 }
 

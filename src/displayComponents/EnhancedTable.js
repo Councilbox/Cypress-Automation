@@ -1,33 +1,33 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Icon, MenuItem } from "material-ui";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Icon, MenuItem } from 'material-ui';
 import Table, {
 	TableBody,
 	TableCell,
 	TableHead,
 	TableRow,
 	TableSortLabel
-} from "material-ui/Table";
+} from 'material-ui/Table';
 import {
 	Grid,
 	LoadingSection,
 	SelectInput,
 	TextInput
-} from "./index";
-import TableStyles from "../styles/table";
-import PaginationFooter from "./PaginationFooter";
-import { isMobile } from "../utils/screen";
+} from './index';
+import TableStyles from '../styles/table';
+import PaginationFooter from './PaginationFooter';
+import { isMobile } from '../utils/screen';
 
 class EnhancedTable extends React.Component {
 	state = {
-		filterText: "",
+		filterText: '',
 		filterField: this.props.defaultFilter,
 		limit: this.props.defaultLimit,
 		page: 1,
-		orderBy: this.props.defaultOrder ? this.props.defaultOrder[0] : "",
+		orderBy: this.props.defaultOrder ? this.props.defaultOrder[0] : '',
 		orderDirection: this.props.defaultOrder
 			? this.props.defaultOrder[1]
-			: "asc",
+			: 'asc',
 		selectedCategories: this.props.selectedCategories
 	};
 
@@ -61,7 +61,7 @@ class EnhancedTable extends React.Component {
 			variables.filters = [
 				...variables.filters,
 				...this.props.addedFilters
-			]
+			];
 		}
 
 		if (this.props.categories) {
@@ -74,9 +74,9 @@ class EnhancedTable extends React.Component {
 								field: category.field,
 								text: category.value
 							}
-						]
+						];
 					}
-				})
+				});
 			}
 		}
 
@@ -84,7 +84,7 @@ class EnhancedTable extends React.Component {
 			variables = {
 				...variables,
 				...object
-			}
+			};
 		}
 
 		this.props.refetch(variables);
@@ -121,10 +121,10 @@ class EnhancedTable extends React.Component {
 	};
 
 	orderBy = field => {
-		let direction = "asc";
+		let direction = 'asc';
 
 		if (field === this.state.orderBy) {
-			direction = this.state.orderDirection === "asc" ? "desc" : "asc";
+			direction = this.state.orderDirection === 'asc' ? 'desc' : 'asc';
 		}
 
 		this.setState({
@@ -162,12 +162,12 @@ class EnhancedTable extends React.Component {
 		} = this.state;
 
 		return (
-			<div style={{ height: "100%" }}>
+			<div style={{ height: '100%' }}>
 				{isMobile && !!this.props.menuButtons &&
 					this.props.menuButtons
 				}
 				{this.props.searchInMovil &&
-					<div style={{ width: '100%', justifyContent: "flex-end", display: "flex", marginTop: "0.5em" }}>
+					<div style={{ width: '100%', justifyContent: 'flex-end', display: 'flex', marginTop: '0.5em' }}>
 						{fields && (
 							<div style={{ minWidth: '12em', marginRight: '0.8em' }}>
 								<SelectInput
@@ -189,7 +189,7 @@ class EnhancedTable extends React.Component {
 						)}
 						<TextInput
 							adornment={<Icon>search</Icon>}
-							floatingText={" "}
+							floatingText={' '}
 							type="text"
 							value={filterText}
 							onChange={event => {
@@ -267,7 +267,7 @@ class EnhancedTable extends React.Component {
 							<div style={{ width: '16em' }}>
 								<TextInput
 									adornment={<Icon>search</Icon>}
-									floatingText={" "}
+									floatingText={' '}
 									type="text"
 									value={filterText}
 									onChange={event => {
@@ -279,7 +279,7 @@ class EnhancedTable extends React.Component {
 					</div>
 				</div>
 				{!isMobile ?
-					<Table style={{ maxWidth: "100%", tableLayout: 'auto' }}>
+					<Table style={{ maxWidth: '100%', tableLayout: 'auto' }}>
 						<TableHead>
 							<TableRow>
 								{headers.map((header, index) => (
@@ -293,7 +293,7 @@ class EnhancedTable extends React.Component {
 												sortDirection={
 													this.state.orderDirection
 												}
-												style={{ ...TableStyles.TH, paddingRight: "40px" }}
+												style={{ ...TableStyles.TH, paddingRight: '40px' }}
 											>
 												{header.canOrder ? (
 													<TableSortLabel
@@ -329,8 +329,8 @@ class EnhancedTable extends React.Component {
 				{!loading && (
 					<Grid
 						style={{
-							fontSize: "0.9em",
-							marginTop: "1em"
+							fontSize: '0.9em',
+							marginTop: '1em'
 						}}
 					>
 						<PaginationFooter

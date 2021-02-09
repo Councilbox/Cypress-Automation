@@ -1,29 +1,29 @@
-import React from "react";
-import { Grid } from "../../../../../displayComponents";
-import { PARTICIPANT_STATES } from "../../../../../constants";
-import { getSecondary } from "../../../../../styles/colors";
-import StateIcon from "../StateIcon";
+import React from 'react';
+import { Grid } from '../../../../../displayComponents';
+import { PARTICIPANT_STATES } from '../../../../../constants';
+import { getSecondary } from '../../../../../styles/colors';
+import StateIcon from '../StateIcon';
 
 const selectedStyle = {
 	borderBottom: `3px solid ${getSecondary()}`,
 	color: getSecondary(),
 	fontWeight: '700'
-}
+};
 
 
 const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => (
 		<React.Fragment>
 			<Grid
 				style={{
-					width: "100%",
-					minHeight: "3em",
-					borderBottom: "1px solid gainsboro",
-					display: "flex",
-					flexDirection: "row",
-					alignItems: "center",
-					justifyContent: "space-between",
-					paddingLeft: "1.5em",
-					paddingRight: "2.5em",
+					width: '100%',
+					minHeight: '3em',
+					borderBottom: '1px solid gainsboro',
+					display: 'flex',
+					flexDirection: 'row',
+					alignItems: 'center',
+					justifyContent: 'space-between',
+					paddingLeft: '1.5em',
+					paddingRight: '2.5em',
 					margin: 0
 				}}
 			>
@@ -32,7 +32,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => (
 						setSelected(null);
 					}}
 					style={{
-						cursor: "pointer",
+						cursor: 'pointer',
 						...(selected === null ?
 							selectedStyle
 						:
@@ -43,7 +43,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => (
 					<StateIcon
 						color={selected === null ? getSecondary() : 'grey'}
 						translate={translate}
-						state={"ALL"}
+						state={'ALL'}
 						number={stateRecount.all}
 					/>
 				</div>
@@ -54,7 +54,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => (
 						);
 					}}
 					style={{
-						cursor: "pointer",
+						cursor: 'pointer',
 						...(selected === PARTICIPANT_STATES.NO_PARTICIPATE ?
 							selectedStyle
 						:
@@ -74,7 +74,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => (
 						setSelected(PARTICIPANT_STATES.REMOTE);
 					}}
 					style={{
-						cursor: "pointer",
+						cursor: 'pointer',
 						...(selected === PARTICIPANT_STATES.REMOTE ?
 							selectedStyle
 						:
@@ -96,7 +96,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => (
 						);
 					}}
 					style={{
-						cursor: "pointer",
+						cursor: 'pointer',
 						...(selected === PARTICIPANT_STATES.PHYSICALLY_PRESENT ?
 							selectedStyle
 						:
@@ -118,7 +118,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => (
 						);
 					}}
 					style={{
-						cursor: "pointer",
+						cursor: 'pointer',
 						...(selected === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE ?
 							selectedStyle
 						:
@@ -138,7 +138,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => (
 						setSelected(PARTICIPANT_STATES.DELEGATED);
 					}}
 					style={{
-						cursor: "pointer",
+						cursor: 'pointer',
 						...(selected === PARTICIPANT_STATES.DELEGATED ?
 							selectedStyle
 						:
@@ -160,7 +160,7 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => (
 						);
 					}}
 					style={{
-						cursor: "pointer",
+						cursor: 'pointer',
 						...(selected === PARTICIPANT_STATES.REPRESENTATED ?
 							selectedStyle
 						:
@@ -177,6 +177,6 @@ const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => (
 				</div>
 			</Grid>
 		</React.Fragment>
-	)
+	);
 
-export default StatesHeader
+export default StatesHeader;

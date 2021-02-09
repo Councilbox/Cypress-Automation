@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import withTranslations from '../HOCs/withTranslations';
-import * as mainActions from "../actions/mainActions";
+import * as mainActions from '../actions/mainActions';
 
 const RoomAdminContainer = ({ match, client, actions }) => {
     const getAdminToken = async () => {
@@ -24,17 +24,17 @@ const RoomAdminContainer = ({ match, client, actions }) => {
         if(response.data.adminToken){
             actions.loginSuccess(response.data.adminToken.token);
         }
-    }
+    };
 
 
     React.useEffect(() => {
         getAdminToken();
-    }, [match.params.token])
+    }, [match.params.token]);
 
     return (
         <div/>
-    )
-}
+    );
+};
 
 
 function mapDispatchToProps(dispatch) {

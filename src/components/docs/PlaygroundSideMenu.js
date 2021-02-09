@@ -69,8 +69,8 @@ const PlaygroundSideMenu = () => {
                 </ExpansionPanelDetails>
             </ExpansionPanel>
         </div>
-    )
-}
+    );
+};
 
 const createUser = `
 mutation createUser($user: UserInput!){
@@ -173,6 +173,6 @@ const operations = {
             companyTin: 0
         })
     }
-}
+};
 
 export default PlaygroundSideMenu;

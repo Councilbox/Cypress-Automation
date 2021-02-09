@@ -1,26 +1,26 @@
-import React from "react";
+import React from 'react';
 import Select from 'antd/lib/select';
-import { MenuItem } from "material-ui";
-import { GridItem } from ".";
-import { hasMorePages } from "../utils/pagination";
-import { getPrimary, getSecondary } from "../styles/colors";
-import SelectInput from "./SelectInput";
-import { isMobile } from "../utils/screen";
+import { MenuItem } from 'material-ui';
+import { GridItem } from '.';
+import { hasMorePages } from '../utils/pagination';
+import { getPrimary, getSecondary } from '../styles/colors';
+import SelectInput from './SelectInput';
+import { isMobile } from '../utils/screen';
 
 
 const primary = getPrimary();
 const secondary = getSecondary();
 const paginationButtonStyle = {
-	cursor: "pointer",
-	padding: "0.5em",
-	paddingTop: "0.2em",
-	paddingBottom: "0.2em",
-	border: "1px solid",
+	cursor: 'pointer',
+	padding: '0.5em',
+	paddingTop: '0.2em',
+	paddingBottom: '0.2em',
+	border: '1px solid',
 	borderColor: secondary,
 	userSelect: 'none',
 	color: secondary,
-	marginLeft: "1px",
-	marginRight: "1px"
+	marginLeft: '1px',
+	marginRight: '1px'
 };
 
 
@@ -46,7 +46,7 @@ const showPages = (numPages, active, changePage) => {
 			const value = (active > 3 && active < numPages - 3) ? active : '...';
 			const options = [];
 			for (let j = 4; j < (numPages - 2); j++) {
-				options.push(<Select.Option key={`pagination_${j}`} value={j}><span>{j}</span></Select.Option>)
+				options.push(<Select.Option key={`pagination_${j}`} value={j}><span>{j}</span></Select.Option>);
 			}
 			pages.push(
 				<Select
@@ -77,12 +77,12 @@ const showPagesMobile = (numPages, active, changePage) => {
 				<SelectInput
 					value={active}
 					onChange={event => changePage(event.target.value)}
-					styles={{ marginTop: "0", marginLeft: "2px" }}
+					styles={{ marginTop: '0', marginLeft: '2px' }}
 				>
 					{Array.from(Array(numPages).keys()).map(page => <MenuItem value={page + 1} key={page + 1} >{page + 1}</MenuItem>)}
 				</SelectInput>
 			</div>
-		)
+		);
 	}
 };
 
@@ -112,7 +112,7 @@ const PaginationFooter = ({
 						}`
 						: translate.table_no_results}
 				</div>
-				<div style={{ marginTop: "0.6em", display: "flex", alignItems: "center", justifyContent: "center" }}>
+				<div style={{ marginTop: '0.6em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 					<React.Fragment>
 						{page > 1 && (
 							<span
@@ -136,7 +136,7 @@ const PaginationFooter = ({
 					</React.Fragment>
 				</div>
 			</div>
-		)
+		);
 	}
 	return (
 		<React.Fragment>

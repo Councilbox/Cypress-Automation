@@ -1,24 +1,24 @@
-import React from "react";
-import { compose, graphql, withApollo } from "react-apollo";
-import { Card } from "material-ui";
+import React from 'react';
+import { compose, graphql, withApollo } from 'react-apollo';
+import { Card } from 'material-ui';
 import {
 	AlertConfirm,
 	BasicButton,
 	ButtonIcon
-} from "../../../../../displayComponents/index";
-import { getPrimary } from "../../../../../styles/colors";
-import { addParticipant, checkUniqueCouncilEmails } from "../../../../../queries/councilParticipant";
-import { languages } from "../../../../../queries/masters";
+} from '../../../../../displayComponents/index';
+import { getPrimary } from '../../../../../styles/colors';
+import { addParticipant, checkUniqueCouncilEmails } from '../../../../../queries/councilParticipant';
+import { languages } from '../../../../../queries/masters';
 import { checkValidEmail,
 	checkRequiredFieldsParticipant,
 	checkRequiredFieldsRepresentative,
-} from "../../../../../utils/validation";
-import ParticipantForm from "../../../participants/ParticipantForm";
+} from '../../../../../utils/validation';
+import ParticipantForm from '../../../participants/ParticipantForm';
 
-import RepresentativeForm from "../../../../company/census/censusEditor/RepresentativeForm";
-import withSharedProps from "../../../../../HOCs/withSharedProps";
-import SelectRepresentative from "./SelectRepresentative";
-import { COUNCIL_TYPES, INPUT_REGEX } from "../../../../../constants";
+import RepresentativeForm from '../../../../company/census/censusEditor/RepresentativeForm';
+import withSharedProps from '../../../../../HOCs/withSharedProps';
+import SelectRepresentative from './SelectRepresentative';
+import { COUNCIL_TYPES, INPUT_REGEX } from '../../../../../constants';
 
 
 class AddCouncilParticipantButton extends React.Component {
@@ -177,7 +177,7 @@ class AddCouncilParticipantButton extends React.Component {
 						errorsRepresentative.errors.email = translate.register_exists_email;
 						errorsRepresentative.hasError = true;
 					}
-				})
+				});
 			}
 
 			if (representative.hasRepresentative && participant.email === representative.email) {
@@ -237,7 +237,7 @@ class AddCouncilParticipantButton extends React.Component {
 							if (this.state.representative.email === email) {
 								error = translate.register_exists_email;
 							}
-						})
+						});
 					}
 				} else {
 					error = translate.valid_email_required;
@@ -248,14 +248,14 @@ class AddCouncilParticipantButton extends React.Component {
 							...this.state.errors,
 							email: error
 						}
-					})
+					});
 				} else {
 					this.setState({
 						representativeErrors: {
 							...this.state.errors,
 							email: error
 						}
-					})
+					});
 				}
 			}
 		}
@@ -291,10 +291,10 @@ class AddCouncilParticipantButton extends React.Component {
 						selectRepresentative: false
 					})}
 				/>
-				<div style={{ marginRight: "1em" }}>
+				<div style={{ marginRight: '1em' }}>
 					<Card style={{
 						padding: '1em',
-						marginBottom: "1em",
+						marginBottom: '1em',
 						color: 'black',
 					}}>
 						<ParticipantForm
@@ -311,7 +311,7 @@ class AddCouncilParticipantButton extends React.Component {
 					</Card>
 					<Card style={{
 						padding: '1em',
-						marginBottom: "1em",
+						marginBottom: '1em',
 						color: 'black',
 					}}>
 						<RepresentativeForm
@@ -341,12 +341,12 @@ class AddCouncilParticipantButton extends React.Component {
 					text={translate.add_participant}
 					disabled={this.props.disabled}
 					floatRight
-					color={this.props.disabled ? 'lightgrey' : "white"}
+					color={this.props.disabled ? 'lightgrey' : 'white'}
 					textStyle={{
 						color: primary,
-						fontWeight: "700",
-						fontSize: "0.9em",
-						textTransform: "none"
+						fontWeight: '700',
+						fontSize: '0.9em',
+						textTransform: 'none'
 					}}
 					textPosition="after"
 					icon={<ButtonIcon type="add" color={primary} />}
@@ -381,9 +381,9 @@ class AddCouncilParticipantButton extends React.Component {
 
 export default compose(
 	graphql(addParticipant, {
-		name: "addParticipant",
+		name: 'addParticipant',
 		options: {
-			errorPolicy: "all"
+			errorPolicy: 'all'
 		}
 	}),
 	graphql(languages),
@@ -391,12 +391,12 @@ export default compose(
 )(withApollo(AddCouncilParticipantButton));
 
 const initialParticipant = {
-	name: "",
-	surname: "",
-	position: "",
-	email: "",
-	phone: "",
-	dni: "",
+	name: '',
+	surname: '',
+	position: '',
+	email: '',
+	phone: '',
+	dni: '',
 	initialState: 0,
 	type: 0,
 	delegateId: null,
@@ -404,20 +404,20 @@ const initialParticipant = {
 	socialCapital: 1,
 	uuid: null,
 	delegateUuid: null,
-	language: "es",
-	city: "",
+	language: 'es',
+	city: '',
 	personOrEntity: 0
 };
 
 const initialRepresentative = {
 	hasRepresentative: false,
-	language: "es",
+	language: 'es',
 	type: 2,
 	initialState: 0,
-	name: "",
-	surname: "",
-	position: "",
-	email: "",
-	phone: "",
-	dni: ""
+	name: '',
+	surname: '',
+	position: '',
+	email: '',
+	phone: '',
+	dni: ''
 };

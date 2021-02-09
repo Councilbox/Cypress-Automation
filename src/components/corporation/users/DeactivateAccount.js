@@ -9,11 +9,11 @@ const DeactivateAccount = ({ render, translate, client, user, refetch }) => {
 
     const showModal = () => {
         setModal(true);
-    }
+    };
 
     const closeModal = () => {
         setModal(false);
-    }
+    };
 
     const deactivateUser = async () => {
         const response = await client.mutate({
@@ -31,13 +31,13 @@ const DeactivateAccount = ({ render, translate, client, user, refetch }) => {
         });
         closeModal();
         refetch();
-    }
+    };
 
     const renderBody = () => (
             <div>
                 ¿Está seguro que desea desactivar la cuenta de {user.name} {user.surname || ''}?
             </div>
-        )
+        );
 
 
     return (
@@ -53,7 +53,7 @@ const DeactivateAccount = ({ render, translate, client, user, refetch }) => {
             />
             {render}
         </div>
-    )
-}
+    );
+};
 
 export default withApollo(DeactivateAccount);

@@ -1,15 +1,15 @@
-import React from "react";
-import { Grid } from "../../../../../displayComponents";
-import { EMAIL_TRACK_STATES } from "../../../../../constants";
-import { getSecondary } from "../../../../../styles/colors";
-import EmailIcon from "../EmailIcon";
+import React from 'react';
+import { Grid } from '../../../../../displayComponents';
+import { EMAIL_TRACK_STATES } from '../../../../../constants';
+import { getSecondary } from '../../../../../styles/colors';
+import EmailIcon from '../EmailIcon';
 
 
 const selectedStyle = {
 	borderBottom: `3px solid ${getSecondary()}`,
 	color: getSecondary(),
 	fontWeight: '700'
-}
+};
 
 
 const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, selected }) => (
@@ -20,15 +20,15 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 				lg={12}
 				md={12}
 				style={{
-					width: "100%",
-					height: "3em",
-					borderBottom: "1px solid gainsboro",
-					display: "flex",
-					flexDirection: "row",
-					alignItems: "center",
-					justifyContent: "space-between",
-					paddingLeft: "1.5em",
-					paddingRight: "2.5em"
+					width: '100%',
+					height: '3em',
+					borderBottom: '1px solid gainsboro',
+					display: 'flex',
+					flexDirection: 'row',
+					alignItems: 'center',
+					justifyContent: 'space-between',
+					paddingLeft: '1.5em',
+					paddingRight: '2.5em'
 				}}
 			>
 				<div
@@ -36,7 +36,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 						setSelected(null);
 					}}
 					style={{
-						cursor: "pointer",
+						cursor: 'pointer',
 						...(selected === null ?
 							selectedStyle
 						:
@@ -47,7 +47,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 					<EmailIcon
 						color={selected === null ? getSecondary() : 'grey'}
 						translate={translate}
-						reqCode={"ALL"}
+						reqCode={'ALL'}
 						number={crendentialSendRecount.all}
 					/>
 				</div>
@@ -58,7 +58,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 						);
 					}}
 					style={{
-						cursor: "pointer",
+						cursor: 'pointer',
 						...(selected === EMAIL_TRACK_STATES.FAILED ?
 							selectedStyle
 						:
@@ -79,7 +79,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 						);
 					}}
 					style={{
-						cursor: "pointer",
+						cursor: 'pointer',
 						...(selected === EMAIL_TRACK_STATES.NOT_SENT ?
 							selectedStyle
 						:
@@ -100,7 +100,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 						);
 					}}
 					style={{
-						cursor: "pointer",
+						cursor: 'pointer',
 						...(selected === EMAIL_TRACK_STATES.INVALID_EMAIL_ADDRESS ?
 							selectedStyle
 						:
@@ -119,7 +119,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 						setSelected(EMAIL_TRACK_STATES.SPAM);
 					}}
 					style={{
-						cursor: "pointer",
+						cursor: 'pointer',
 						...(selected === EMAIL_TRACK_STATES.SPAM ?
 							selectedStyle
 						:
@@ -140,7 +140,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 						);
 					}}
 					style={{
-						cursor: "pointer",
+						cursor: 'pointer',
 						...(selected === EMAIL_TRACK_STATES.PENDING_SHIPPING ?
 							selectedStyle
 						:
@@ -161,7 +161,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 						);
 					}}
 					style={{
-						cursor: "pointer",
+						cursor: 'pointer',
 						...(selected === EMAIL_TRACK_STATES.DELIVERED ?
 							selectedStyle
 						:
@@ -182,7 +182,7 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 						);
 					}}
 					style={{
-						cursor: "pointer",
+						cursor: 'pointer',
 						...(selected === EMAIL_TRACK_STATES.OPENED ?
 							selectedStyle
 						:
@@ -198,6 +198,6 @@ const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, sel
 				</div>
 			</Grid>
 		</React.Fragment>
-	)
+	);
 
 export default CredentialsHeader;

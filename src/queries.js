@@ -1,5 +1,5 @@
-import gql from "graphql-tag";
-import { companyFragment } from "./queries/company";
+import gql from 'graphql-tag';
+import { companyFragment } from './queries/company';
 
 export const setCompanyAsSelected = gql`
 	mutation setCompanyAsSelected($userId: Int!, $companyId: Int!) {

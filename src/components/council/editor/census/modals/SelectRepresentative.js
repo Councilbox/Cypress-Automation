@@ -11,9 +11,9 @@ import {
 	GridItem,
 	ButtonIcon,
 	Grid
-} from "../../../../../displayComponents";
-import { DELEGATION_USERS_LOAD } from "../../../../../constants";
-import { councilParticipantsFilterIds } from "../../../../../queries/councilParticipant";
+} from '../../../../../displayComponents';
+import { DELEGATION_USERS_LOAD } from '../../../../../constants';
+import { councilParticipantsFilterIds } from '../../../../../queries/councilParticipant';
 import { getPrimary } from '../../../../../styles/colors';
 import { isMobile } from '../../../../../utils/screen';
 
@@ -54,32 +54,32 @@ const DelegationsRestrictionModal = ({ open, data, translate, participantsTable,
 				};
 			}
 		});
-	}
+	};
 
 
 	const close = () => {
 		props.requestClose();
-	}
+	};
 
 	const updateFilterText = async text => {
 		await data.refetch({
 			filters: [
 				{
-					field: "fullName",
+					field: 'fullName',
 					text
 				}
 			]
 		});
-	}
+	};
 
 	React.useEffect(() => {
-		data.refetch()
+		data.refetch();
 	}, [participantsTable]);
 
 
 	function _renderBody() {
 		const { loading } = data;
-		let participants = {}
+		let participants = {};
 		if (data.councilParticipantsFilterIds) {
 			participants = loading
 				? []
@@ -99,24 +99,24 @@ const DelegationsRestrictionModal = ({ open, data, translate, participantsTable,
 							adornment={<Icon>search</Icon>}
 							type="text"
 							// value={searchModalPlantillas}
-							styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", paddingLeft: "5px" }}
+							styleInInput={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px' }}
 							classes={{ input: props.classes.input, formControl: props.classes.formControl }}
 							disableUnderline={true}
-							stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+							stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px' }}
 							onChange={event => {
 								updateFilterText(event.target.value);
 							}}
 						/>
 					</GridItem>
 				</Grid>
-				<div style={{ marginTop: "1em", borderTop: "2px solid #dcdcdc", height: '0', overflow: "hidden", height: isMobile ? 'calc( 100% - 5em )' : "100%", }}>
+				<div style={{ marginTop: '1em', borderTop: '2px solid #dcdcdc', height: '0', overflow: 'hidden', height: isMobile ? 'calc( 100% - 5em )' : '100%', }}>
 					{loading ? (
 						<LoadingSection />
 					) : (
 							<Scrollbar>
-								<Grid style={{ width: "95%", margin: "0 auto", marginTop: "1em", }}>
+								<Grid style={{ width: '95%', margin: '0 auto', marginTop: '1em', }}>
 									<GridItem xs={12} lg={12} md={12} >
-										<Grid style={{ display: "flex" }}>
+										<Grid style={{ display: 'flex' }}>
 											{participants.length > 0 ? (
 												<React.Fragment>
 													{participants.map((participant, index) => (
@@ -185,18 +185,18 @@ const DelegationsRestrictionModal = ({ open, data, translate, participantsTable,
 		<AlertConfirm
 			requestClose={close}
 			open={open}
-			widthModal={{ height: "100%" }}
+			widthModal={{ height: '100%' }}
 			buttonCancel={translate.close}
 			bodyText={_renderBody()}
 			title={translate.select}
-			bodyStyle={{ width: "75vw", minWidth: "50vw", overflow: isMobile && "hidden", width: isMobile && "100%", height: isMobile && '100%' }}
+			bodyStyle={{ width: '75vw', minWidth: '50vw', overflow: isMobile && 'hidden', width: isMobile && '100%', height: isMobile && '100%' }}
 		/>
 	);
-}
+};
 
 const regularCardStyle = {
 	cardTitle: {
-		fontSize: "1em",
+		fontSize: '1em',
 	},
 	content: {
 		whiteSpace: 'nowrap',
@@ -204,7 +204,7 @@ const regularCardStyle = {
 		textOverflow: 'ellipsis',
 		maxWidth: '100%'
 	}
-}
+};
 
 
 
@@ -212,12 +212,12 @@ const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, translate,
 	const [hover, setHover] = React.useState(false);
 
 	const mouseEnterHandler = () => {
-		setHover(true)
-	}
+		setHover(true);
+	};
 
 	const mouseLeaveHandler = () => {
-		setHover(false)
-	}
+		setHover(false);
+	};
 
 	return (
 		<React.Fragment>
@@ -225,31 +225,31 @@ const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, translate,
 				<Card
 					style={{
 						boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
-						marginBottom: "1em"
+						marginBottom: '1em'
 					}}>
 					<CardHeader
 						onMouseOver={mouseEnterHandler}
 						onMouseLeave={mouseLeaveHandler}
 						style={{
-							color: "#000000",
-							padding: "1em",
+							color: '#000000',
+							padding: '1em',
 							whiteSpace: 'nowrap',
 							overflow: 'hidden',
 							textOverflow: 'ellipsis',
-							cursor: "pointer",
-							background: hover && "gainsboro"
+							cursor: 'pointer',
+							background: hover && 'gainsboro'
 						}}
 						title={
 							<div
 								style={{
-									textAlign: "center",
+									textAlign: 'center',
 									whiteSpace: 'nowrap',
 									overflow: 'hidden',
 									textOverflow: 'ellipsis',
-									width: "100%"
+									width: '100%'
 								}}
 							>
-								{item.name + " " + item.surname || ''}
+								{item.name + ' ' + item.surname || ''}
 							</div>
 						}
 						classes={{
@@ -265,7 +265,7 @@ const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, translate,
 				<GridItem xs={2} lg={2} md={2}></GridItem>
 			}
 		</React.Fragment>
-	)
+	);
 });
 
 

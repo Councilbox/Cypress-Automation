@@ -1,17 +1,17 @@
-import React from "react";
+import React from 'react';
 import {
 	Block,
 	Grid,
 	AlertConfirm,
 	GridItem
-} from "../../displayComponents";
+} from '../../displayComponents';
 import logo from '../../assets/img/logo-icono.png';
 import { ConfigContext } from '../../containers/AppControl';
-import CantCreateCouncilsModal from "./CantCreateCouncilsModal";
-import { TRIAL_DAYS } from "../../config";
-import { trialDaysLeft } from "../../utils/CBX";
-import { moment } from "../../containers/App";
-import { secondary } from "../../styles/colors";
+import CantCreateCouncilsModal from './CantCreateCouncilsModal';
+import { TRIAL_DAYS } from '../../config';
+import { trialDaysLeft } from '../../utils/CBX';
+import { moment } from '../../containers/App';
+import { secondary } from '../../styles/colors';
 
 const TopSectionBlocks = ({ translate, company, user }) => {
 	const [open, setOpen] = React.useState(false);
@@ -20,21 +20,21 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 
 	const closeCouncilsModal = () => {
 		setOpen(false);
-	}
+	};
 
 	const showCouncilsModal = () => {
 		setOpen(true);
-	}
+	};
 
 	const showDeactivatedFeature = () => {
 		setFeatureModal(true);
-	}
+	};
 
 	const closeDeactivedFeature = () => {
-		setFeatureModal(false)
-	}
+		setFeatureModal(false);
+	};
 
-	const companyHasBook = () => (config.partnerBook && company.type !== 10)
+	const companyHasBook = () => (config.partnerBook && company.type !== 10);
 
 	const hasBook = companyHasBook();
 
@@ -45,8 +45,8 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 	return(
 		<Grid
 			style={{
-				width: "90%",
-				marginTop: "4vh"
+				width: '90%',
+				marginTop: '4vh'
 			}}
 			spacing={8}
 		>
@@ -147,7 +147,7 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 			{user.roles === 'devAdmin' && false &&
 				<GridItem xs={12} md={size} lg={size}>
 					<Block
-						link={`/admin`}
+						link={'/admin'}
 						customIcon={<i className="fa fa-user-secret" aria-hidden="true" style={{ fontSize: '7em' }}></i>}
 						id={'admin-panel'}
 						text={'Panel devAdmin'}
@@ -156,7 +156,7 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 			}
 		</Grid>
 	);
-}
+};
 
 
 export default TopSectionBlocks;

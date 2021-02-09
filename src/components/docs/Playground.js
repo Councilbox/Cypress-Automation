@@ -10,7 +10,7 @@ const Playground = () => {
     const playgroundContext = React.useContext(PlaygroundContext);
     const updateVariables = value => {
         playgroundContext.setVariables(value);
-    }
+    };
 
     return(
         <div
@@ -45,7 +45,7 @@ const Playground = () => {
                             readOnly: false
                         }}
                         onBeforeChange={(editor, data, value) => {
-                            updateVariables(value)
+                            updateVariables(value);
                         }}
                         value={!!playgroundContext.operation && !!playgroundContext.operation.variables && js_beautify(playgroundContext.operation.variables)}
                     />
@@ -71,7 +71,7 @@ const Playground = () => {
                 />
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Playground;

@@ -1,5 +1,5 @@
-import React from "react";
-import { compose, graphql } from "react-apollo";
+import React from 'react';
+import { compose, graphql } from 'react-apollo';
 import {
 	Typography,
 	Table,
@@ -7,11 +7,11 @@ import {
 	TableBody,
 	TableRow,
 	TableCell
-} from "material-ui";
-import gql from "graphql-tag";
-import { liveParticipant, updateParticipantSends } from "../../../../queries";
-import { isLandscape, isMobile } from "../../../../utils/screen";
-import { getPrimary, getSecondary } from "../../../../styles/colors";
+} from 'material-ui';
+import gql from 'graphql-tag';
+import { liveParticipant, updateParticipantSends } from '../../../../queries';
+import { isLandscape, isMobile } from '../../../../utils/screen';
+import { getPrimary, getSecondary } from '../../../../styles/colors';
 import {
 	Grid,
 	GridItem,
@@ -22,22 +22,22 @@ import {
 	RefreshButton,
 	CloseIcon,
 	Scrollbar
-} from "../../../../displayComponents";
-import * as CBX from "../../../../utils/CBX";
-import SignatureModal from "./modals/SignatureModal";
+} from '../../../../displayComponents';
+import * as CBX from '../../../../utils/CBX';
+import SignatureModal from './modals/SignatureModal';
 import withWindowSize from '../../../../HOCs/withWindowSize';
-import ParticipantStateSelector from "./ParticipantStateSelector";
-import ParticipantStateList from "./ParticipantStateList";
-import NotificationsTable from "../../../notifications/NotificationsTable";
-import StateIcon from "./StateIcon";
-import TypeIcon from "./TypeIcon";
-import ParticipantSelectActions from "./ParticipantSelectActions";
-import DownloadCBXDataButton from "../../prepare/DownloadCBXDataButton";
-import ResendCredentialsModal from "./modals/ResendCredentialsModal";
-import { PARTICIPANT_STATES } from "../../../../constants";
-import { useOldState, useHoverRow } from "../../../../hooks";
-import SignatureButton from "./SignatureButton";
-import { client } from "../../../../containers/App";
+import ParticipantStateSelector from './ParticipantStateSelector';
+import ParticipantStateList from './ParticipantStateList';
+import NotificationsTable from '../../../notifications/NotificationsTable';
+import StateIcon from './StateIcon';
+import TypeIcon from './TypeIcon';
+import ParticipantSelectActions from './ParticipantSelectActions';
+import DownloadCBXDataButton from '../../prepare/DownloadCBXDataButton';
+import ResendCredentialsModal from './modals/ResendCredentialsModal';
+import { PARTICIPANT_STATES } from '../../../../constants';
+import { useOldState, useHoverRow } from '../../../../hooks';
+import SignatureButton from './SignatureButton';
+import { client } from '../../../../containers/App';
 
 const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	const [state, setState] = useOldState({
@@ -53,13 +53,13 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 		setState({
 			showSignatureModal: true
 		});
-	}
+	};
 
 	const closeSignModal = () => {
 		setState({
 			showSignatureModal: false
 		});
-	}
+	};
 
 	const refreshEmailStates = async () => {
 		setState({
@@ -79,14 +79,14 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 		}
 	};
 
-	const showStateMenu = () => !(participant.representatives && participant.representatives.length > 0)
+	const showStateMenu = () => !(participant.representatives && participant.representatives.length > 0);
 
 	const handleToggleVisib = () => {
 		const visib = !state.visib;
 		setState({
 			visib
 		});
-	}
+	};
 
 	if (!data.liveParticipant) {
 		return <LoadingSection />;
@@ -99,27 +99,27 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	return (
 		<div
 			style={{
-				width: "100%",
-				height: "100%",
+				width: '100%',
+				height: '100%',
 				paddingTop: '2em',
-				display: "flex",
-				flexDirection: "column",
-				justifyContent: "flex-start",
-				alignItems: "stretch",
-				alignContent: "stretch",
-				marginTop: "30px",
-				padding: isMobile ? "" : props.windowSize === 'xs' ? '1.3em' : "1em",
+				display: 'flex',
+				flexDirection: 'column',
+				justifyContent: 'flex-start',
+				alignItems: 'stretch',
+				alignContent: 'stretch',
+				marginTop: '30px',
+				padding: isMobile ? '' : props.windowSize === 'xs' ? '1.3em' : '1em',
 			}}
 		>
 			<Scrollbar>
 				<div>
 					<Grid >
-						<GridItem xs={landscape ? 12 : 12} md={4} style={{ marginBottom: "0.8em", padding: "0" }}>
-							<div style={{ width: "100%", borderBottom: "1px solid gainsboro", textAlign: "center", marginBottom: "0.8em" }}>
+						<GridItem xs={landscape ? 12 : 12} md={4} style={{ marginBottom: '0.8em', padding: '0' }}>
+							<div style={{ width: '100%', borderBottom: '1px solid gainsboro', textAlign: 'center', marginBottom: '0.8em' }}>
 								<h4 style={{ width: '100%' }}>Info</h4>
 							</div>
-							<div style={{ display: "flex", padding: "5px" }} >
-								<GridItem xs={landscape ? 2 : 12} md={2} style={{ textAlign: "center" }}>
+							<div style={{ display: 'flex', padding: '5px' }} >
+								<GridItem xs={landscape ? 2 : 12} md={2} style={{ textAlign: 'center' }}>
 									<TypeIcon
 										translate={translate}
 										type={participant.type}
@@ -127,7 +127,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 									/>
 								</GridItem>
 								<GridItem xs={landscape ? 3 : 12} md={10} style={{ display: 'flex', ...(isMobile ? { justifyContent: 'left' } : {}) }}>
-									<div style={{ marginLeft: isMobile ? "1em" : "2em", width: "100%", overflow: "hidden" }}>
+									<div style={{ marginLeft: isMobile ? '1em' : '2em', width: '100%', overflow: 'hidden' }}>
 										<Typography variant="body2" >
 											<div style={{ paddingLeft: '1em' }}>
 											</div>
@@ -144,13 +144,13 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								</GridItem>
 							</div>
 						</GridItem>
-						<GridItem xs={landscape ? 12 : 12} md={4} style={{ marginBottom: "0.8em", padding: "0" }}>
-							<div style={{ width: "100%", borderBottom: "1px solid gainsboro", textAlign: "center", minHeight: '2px', marginBottom: "0.8em" }}>
+						<GridItem xs={landscape ? 12 : 12} md={4} style={{ marginBottom: '0.8em', padding: '0' }}>
+							<div style={{ width: '100%', borderBottom: '1px solid gainsboro', textAlign: 'center', minHeight: '2px', marginBottom: '0.8em' }}>
 								{participant.personOrEntity !== 1 &&
 									<h4 style={{ width: '100%' }}>{translate.state}</h4>
 								}
 							</div>
-							<div style={{ display: "flex", padding: "5px" }} >
+							<div style={{ display: 'flex', padding: '5px' }} >
 								{participant.personOrEntity !== 1 &&
 									<React.Fragment>
 										<GridItem xs={landscape ? 1 : 12} md={3}>
@@ -168,27 +168,27 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 											<div
 												style={{
 
-													marginTop: "1em"
+													marginTop: '1em'
 												}}
 											>
 											</div>
 											<div
 												style={{
-													marginLeft: isMobile ? '0' : "0",
-													marginTop: "0.5em"
+													marginLeft: isMobile ? '0' : '0',
+													marginTop: '0.5em'
 												}}
 											>
 											</div>
 										</GridItem>
 										<GridItem xs={landscape ? 3 : 12} md={9} style={{ display: 'flex', ...(isMobile ? { justifyContent: 'center' } : {}) }}>
-											<div style={{ marginLeft: '1.3em', width: "100%" }}>
+											<div style={{ marginLeft: '1.3em', width: '100%' }}>
 												<Typography variant="body2" >
-													<div style={{ paddingLeft: landscape ? '1em' : "0", marginBottom: "0.5em" }}>
+													<div style={{ paddingLeft: landscape ? '1em' : '0', marginBottom: '0.5em' }}>
 														<b>{`${translate.current_status}:  `}</b>
 														{translate[CBX.getParticipantStateField(participant)]}
 													</div>
 													{showStateMenu() &&
-														<div style={{ paddingLeft: '1em', display: isMobile ? "none" : "block" }}>
+														<div style={{ paddingLeft: '1em', display: isMobile ? 'none' : 'block' }}>
 															<ParticipantStateSelector
 																inDropDown={true}
 																participant={participant}
@@ -206,12 +206,12 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								}
 							</div>
 						</GridItem>
-						<GridItem xs={landscape ? 12 : 12} md={4} style={{ marginBottom: "0.8em", padding: "0" }}>
-							<div style={{ width: "100%", borderBottom: "1px solid gainsboro", textAlign: "center", marginBottom: "0.8em" }}>
+						<GridItem xs={landscape ? 12 : 12} md={4} style={{ marginBottom: '0.8em', padding: '0' }}>
+							<div style={{ width: '100%', borderBottom: '1px solid gainsboro', textAlign: 'center', marginBottom: '0.8em' }}>
 								<h4 style={{ width: '100%' }}>{translate.actions}</h4>
 							</div>
-							<div style={{ display: "flex", padding: "5px" }} >
-								<GridItem xs={landscape ? 3 : 12} md={11} style={{ marginLeft: isMobile ? "0" : "25px" }}>
+							<div style={{ display: 'flex', padding: '5px' }} >
+								<GridItem xs={landscape ? 3 : 12} md={11} style={{ marginLeft: isMobile ? '0' : '25px' }}>
 									<React.Fragment>
 										<ParticipantSelectActions
 											participant={participant}
@@ -227,13 +227,13 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 				</div>
 				<hr
 					style={{
-						width: "100%"
+						width: '100%'
 					}}>
 				</hr>
 				<div
 					style={{
 						minHeight: 0,
-						paddingRight: "0.5em"
+						paddingRight: '0.5em'
 					}}
 				>
 					<Grid>
@@ -301,7 +301,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								<Typography
 									variant="subheading"
 									style={{
-										marginRight: "1em"
+										marginRight: '1em'
 									}}
 								>
 									{translate.assistance_comment}
@@ -315,23 +315,23 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								lg={12}
 								md={12}
 								style={{
-									display: "flex",
-									flexDirection: "row",
-									alignItems: "center",
-									margin: "0"
+									display: 'flex',
+									flexDirection: 'row',
+									alignItems: 'center',
+									margin: '0'
 								}}
 							>
 								<Grid>
 									{!isMobile &&
 										<GridItem xs={12} md={3} lg={2}
 											style={{
-												display: "flex"
+												display: 'flex'
 											}}
 										>
 											<Typography
 												variant="subheading"
 												style={{
-													marginRight: "1em"
+													marginRight: '1em'
 												}}
 											>
 												{translate.sends}
@@ -345,9 +345,9 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 									}
 									<GridItem xs={12} md={9} lg={10}
 										style={{
-											display: "flex",
+											display: 'flex',
 											justifyContent: 'flex-end',
-											marginLeft: "auto"
+											marginLeft: 'auto'
 										}}
 									>
 										{CBX.showSendCredentials(participant.state) &&
@@ -383,7 +383,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 
 										{!isMobile &&
 											<DownloadCBXDataButton
-												style={{ width: "5.85em", marginLeft: "0px", height: "2.45em" }}
+												style={{ width: '5.85em', marginLeft: '0px', height: '2.45em' }}
 												translate={translate}
 												participantId={participant.id}
 											/>
@@ -392,13 +392,13 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 									{isMobile &&
 										<GridItem xs={12} md={3} lg={2}
 											style={{
-												display: "flex"
+												display: 'flex'
 											}}
 										>
 											<Typography
 												variant="subheading"
 												style={{
-													marginRight: "1em"
+													marginRight: '1em'
 												}}
 											>
 												{translate.sends}
@@ -434,7 +434,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 			</Scrollbar>
 		</div>
 	);
-}
+};
 
 
 const setMainRepresentative = gql`
@@ -462,10 +462,10 @@ const RepresentativeMenu = ({ participant, translate, data, ...props }) => {
 		if(response.data){
 			data.refetch();
 		}
-	}
+	};
 
 	if(!representative){
-		return <span/>
+		return <span/>;
 	}
 
 	return (
@@ -498,7 +498,7 @@ const RepresentativeMenu = ({ participant, translate, data, ...props }) => {
 							</div>
 						}
 						<DropDownMenu
-							claseHover={"classHover"}
+							claseHover={'classHover'}
 							color="transparent"
 							id={'dropdownEstados'}
 							style={{ paddingLeft: '0px', paddingRight: '0px' }}
@@ -547,8 +547,8 @@ const RepresentativeMenu = ({ participant, translate, data, ...props }) => {
 				}
 			</div>
 		</div>
-	)
-}
+	);
+};
 
 
 const ParticipantTable = ({
@@ -559,26 +559,26 @@ const ParticipantTable = ({
 	quitDelegatedVote,
 	primary
 }) => (
-	<Table style={{ maxWidth: "100%", width: "100%" }}>
+	<Table style={{ maxWidth: '100%', width: '100%' }}>
 		<TableHead>
 			<TableRow>
-				<TableCell style={{ padding: "0.2em" }}>
+				<TableCell style={{ padding: '0.2em' }}>
 					{translate.name || ''}
 				</TableCell>
-				<TableCell style={{ padding: "0.2em" }}>
+				<TableCell style={{ padding: '0.2em' }}>
 					{translate.dni || ''}
 				</TableCell>
-				<TableCell style={{ padding: "0.2em" }}>
+				<TableCell style={{ padding: '0.2em' }}>
 					{translate.position || ''}
 				</TableCell>
-				<TableCell style={{ padding: "0.2em" }}>
+				<TableCell style={{ padding: '0.2em' }}>
 					{!representative && translate.votes}
 				</TableCell>
-				<TableCell style={{ padding: "0.2em" }}>
+				<TableCell style={{ padding: '0.2em' }}>
 				</TableCell>
 			</TableRow>
 		</TableHead>
-		<TableBody style={{ height: "100px", overflowY: 'auto', overflowX: 'hidden' }}>
+		<TableBody style={{ height: '100px', overflowY: 'auto', overflowX: 'hidden' }}>
 			{participants.map((participant, index) => (
 				<HoverableRow
 					key={`del_${index}`}
@@ -599,17 +599,17 @@ const HoverableRow = ({ primary, participant, quitDelegatedVote, enableActions, 
 
 	return (
 		<TableRow {...rowHandlers}>
-			<TableCell style={{ padding: "0.2em" }}>
+			<TableCell style={{ padding: '0.2em' }}>
 				{`${participant.name} ${participant.surname || ''}`}
 			</TableCell>
-			<TableCell style={{ padding: "0.2em" }}>{`${
+			<TableCell style={{ padding: '0.2em' }}>{`${
 				participant.dni || ''
 				}`}</TableCell>
-			<TableCell style={{ padding: "0.2em" }}>{`${
+			<TableCell style={{ padding: '0.2em' }}>{`${
 				participant.position || ''
 				}`}</TableCell>
-			<TableCell style={{ padding: "0.2em" }}>{!representative && participant.numParticipations}</TableCell>
-			<TableCell style={{ padding: "0.2em" }}>
+			<TableCell style={{ padding: '0.2em' }}>{!representative && participant.numParticipations}</TableCell>
+			<TableCell style={{ padding: '0.2em' }}>
 				<div style={{ width: '4em' }}>
 					{(showActions && enableActions) && (
 						<CloseIcon
@@ -624,7 +624,7 @@ const HoverableRow = ({ primary, participant, quitDelegatedVote, enableActions, 
 			</TableCell>
 		</TableRow>
 	);
-}
+};
 
 export default compose(
 	graphql(liveParticipant, {
@@ -636,6 +636,6 @@ export default compose(
 		})
 	}),
 	graphql(updateParticipantSends, {
-		name: "updateParticipantSends"
+		name: 'updateParticipantSends'
 	})
 )(withWindowSize(LiveParticipantEditor));

@@ -64,7 +64,7 @@ const CMPVideoIFrame = props => {
             errors: response.errors
         });
         setLoading(false);
-    }
+    };
 
     useRoomUpdated({ refetch: fetchVideoURL, props, participant: null });
 
@@ -75,16 +75,16 @@ const CMPVideoIFrame = props => {
                 adminId: sessionStorage.getItem('adminId')
             }
         });
-    }
+    };
 
     if(loading){
-        return <LoadingSection />
+        return <LoadingSection />;
     }
 
     if(props.council.state === COUNCIL_STATES.PAUSED){
         return (
             <PausedCouncilPage council={props.council} translate={props.translate} />
-        )
+        );
     }
 
     return (
@@ -113,7 +113,7 @@ const CMPVideoIFrame = props => {
                         src={`https://${data.roomVideoURL}?rand=${adminId.current}`}
                         allowFullScreen={true}
                         style={{
-                            border: "none !important"
+                            border: 'none !important'
                         }}
                     >
                         Something wrong...
@@ -136,8 +136,8 @@ const CMPVideoIFrame = props => {
                 </div>
             }
         </div>
-    )
-}
+    );
+};
 
 const AdminAlreadyLoguedScreen = ({ translate }) => (
     <div style={{ width: '100%', height: '100%', padding: '2em', display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
@@ -148,7 +148,7 @@ const AdminAlreadyLoguedScreen = ({ translate }) => (
             <LoadingSection size={20} />
         </div>
     </div>
-)
+);
 
 const CMPVideoError = ({ translate }) => (
     <div style={{ width: '100%', height: '100%', padding: '2em', display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
@@ -159,7 +159,7 @@ const CMPVideoError = ({ translate }) => (
             <LoadingSection size={20} />
         </div>
     </div>
-)
+);
 
 const videoURL = gql`
     query RoomVideoURL($councilId: Int!, $participantId: String!, $adminId: String){
@@ -185,7 +185,7 @@ export const roomUpdateSubscription = gql`
             videoConfig
         }
     }
-`
+`;
 
 export default compose(
     graphql(adminPing, {

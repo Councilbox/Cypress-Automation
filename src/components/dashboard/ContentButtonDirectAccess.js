@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 import {
 	Link,
-} from "../../displayComponents";
+} from '../../displayComponents';
 
 class ContentButtonDirectAccess extends React.Component {
 	render() {
@@ -14,7 +14,7 @@ class ContentButtonDirectAccess extends React.Component {
 				}}
 			>
 				{children}
-			</div>
+			</div>;
 
 
 		return (

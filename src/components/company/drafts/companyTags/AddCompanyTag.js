@@ -30,18 +30,18 @@ const AddCompanyTag = ({ company, translate, refetch, client, styles }) => {
     const [errors, setErrors] = React.useState({
         key: '',
         value: '',
-        description: ""
+        description: ''
     });
     const primary = getPrimary();
     const [tag, setTag] = React.useState({
         key: '',
         value: '',
-        description: ""
+        description: ''
     });
 
 
     const checkRequiredFields = async () => {
-        const checkErrors = {}
+        const checkErrors = {};
 
         if (!tag.key || !tag.key.trim()) {
             checkErrors.key = translate.required_field;
@@ -66,14 +66,14 @@ const AddCompanyTag = ({ company, translate, refetch, client, styles }) => {
         setErrors(checkErrors);
 
         return Object.keys(checkErrors).length > 0;
-    }
+    };
 
     const updateTag = object => {
         setTag({
             ...tag,
             ...object
         });
-    }
+    };
 
     const createCompanyTag = async () => {
         if (!await checkRequiredFields()) {
@@ -92,7 +92,7 @@ const AddCompanyTag = ({ company, translate, refetch, client, styles }) => {
             if (response.data.createCompanyTag) {
                 sendGAevent({
                     category: 'Etiquetas',
-                    action: `Crear etiqueta`,
+                    action: 'Crear etiqueta',
                     label: company.businessName
                 });
                 refetch();
@@ -101,10 +101,10 @@ const AddCompanyTag = ({ company, translate, refetch, client, styles }) => {
                     key: '',
                     value: '',
                     description: '',
-                })
+                });
             }
         }
-    }
+    };
 
 
     const openModal = React.useCallback(() => {
@@ -113,7 +113,7 @@ const AddCompanyTag = ({ company, translate, refetch, client, styles }) => {
 
     const closeModal = React.useCallback(() => {
         setModal(false);
-    })
+    });
 
     const renderModalBody = () => (
         <CompanyTagForm
@@ -122,7 +122,7 @@ const AddCompanyTag = ({ company, translate, refetch, client, styles }) => {
             errors={errors}
             setTag={updateTag}
         />
-    )
+    );
 
     return (
         <React.Fragment>
@@ -148,7 +148,7 @@ const AddCompanyTag = ({ company, translate, refetch, client, styles }) => {
                 buttonCancel={translate.cancel}
             />
         </React.Fragment>
-    )
-}
+    );
+};
 
 export default withApollo(AddCompanyTag);

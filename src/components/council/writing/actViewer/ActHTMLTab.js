@@ -102,7 +102,7 @@ const ActHTML = ({ translate, company, council, client, toolbar }) => {
 			</div>
 		</React.Fragment>
 	);
-}
+};
 
 
 export default withApollo(withWindowSize(ActHTML));

@@ -1,22 +1,22 @@
-import React from "react";
-import { graphql } from "react-apollo";
+import React from 'react';
+import { graphql } from 'react-apollo';
 import {
 	AlertConfirm,
 	BasicButton,
 	ButtonIcon,
-} from "../../../displayComponents";
-import { getPrimary } from "../../../styles/colors";
-import { createCensus } from "../../../queries/census";
+} from '../../../displayComponents';
+import { getPrimary } from '../../../styles/colors';
+import { createCensus } from '../../../queries/census';
 import CensusInfoForm from './CensusInfoForm';
-import { isMobile } from "../../../utils/screen";
-import { INPUT_REGEX } from "../../../constants";
+import { isMobile } from '../../../utils/screen';
+import { INPUT_REGEX } from '../../../constants';
 
 class AddCensusButton extends React.Component {
 	state = {
 		modal: false,
 		data: {
-			censusName: "",
-			censusDescription: "",
+			censusName: '',
+			censusDescription: '',
 			quorumPrototype: 0
 		},
 		errors: {}
@@ -39,8 +39,8 @@ class AddCensusButton extends React.Component {
 				this.setState({
 					modal: false,
 					data: {
-						censusName: "",
-						censusDescription: "",
+						censusName: '',
+						censusDescription: '',
 						quorumPrototype: 0
 					},
 					errors: {}
@@ -59,7 +59,7 @@ class AddCensusButton extends React.Component {
 	};
 
 	_renderBody = () => (
-			<div style={{ minWidth: !isMobile && "800px" }}>
+			<div style={{ minWidth: !isMobile && '800px' }}>
 				<CensusInfoForm
 					translate={this.props.translate}
 					errors={this.state.errors}
@@ -81,7 +81,7 @@ class AddCensusButton extends React.Component {
 						...this.state.errors,
 						censusName: translate.invalid_field
 					}
-				})
+				});
 			}
 		}
 		if (this.state.data.censusDescription) {
@@ -92,7 +92,7 @@ class AddCensusButton extends React.Component {
 						...this.state.errors,
 						censusDescription: translate.invalid_field
 					}
-				})
+				});
 			}
 		}
 
@@ -119,26 +119,26 @@ class AddCensusButton extends React.Component {
 			<React.Fragment>
 				<BasicButton
 					text={translate.add_census}
-					color={"white"}
+					color={'white'}
 					textStyle={{
 						color: primary,
-						fontWeight: "700",
-						fontSize: "0.9em",
-						textTransform: "none"
+						fontWeight: '700',
+						fontSize: '0.9em',
+						textTransform: 'none'
 					}}
 					textPosition="after"
 					icon={<ButtonIcon type="add" color={primary} />}
 					onClick={() => this.setState({
 						modal: true,
 						data: {
-							censusName: "",
-							censusDescription: "",
+							censusName: '',
+							censusDescription: '',
 							quorumPrototype: 0
 						},
 						errors: {}
 					})}
 					buttonStyle={{
-						marginRight: "1em",
+						marginRight: '1em',
 						border: `2px solid ${primary}`
 					}}
 				/>
@@ -157,5 +157,5 @@ class AddCensusButton extends React.Component {
 }
 
 export default graphql(createCensus, {
-	name: "createCensus"
+	name: 'createCensus'
 })(AddCensusButton);

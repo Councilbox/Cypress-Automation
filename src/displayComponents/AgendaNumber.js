@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 import FontAwesome from 'react-fontawesome';
 import { Tooltip } from 'material-ui';
-import { getPrimary, getSecondary } from "../styles/colors";
+import { getPrimary, getSecondary } from '../styles/colors';
 
 
 export const getSubjectAbrv = text => {
@@ -31,11 +31,11 @@ export const getSubjectAbrv = text => {
 	}
 
 	if (!start) {
-		start = text.split(' ').reduce((acc, curr) => `${acc}${curr.toUpperCase().substr(0, 1)}`, '')
+		start = text.split(' ').reduce((acc, curr) => `${acc}${curr.toUpperCase().substr(0, 1)}`, '');
 	}
 
 	return start.substr(0, 3);
-}
+};
 
 
 const AgendaNumber = ({
@@ -53,20 +53,20 @@ const AgendaNumber = ({
 }) => (
 	<div
 		style={{
-			display: "flex",
-			justifyContent: "center",
-			alignItems: "center",
-			height: small ? "24px" : "2em",
-			filter: open && !active ? "opacity(50%)" : "",
-			width: small ? "24px" : "2em",
-			fontSize: small ? "15px" : "1.1em",
-			cursor: onlyShowCalendar ? "" : "pointer",
-			userSelect: "none",
+			display: 'flex',
+			justifyContent: 'center',
+			alignItems: 'center',
+			height: small ? '24px' : '2em',
+			filter: open && !active ? 'opacity(50%)' : '',
+			width: small ? '24px' : '2em',
+			fontSize: small ? '15px' : '1.1em',
+			cursor: onlyShowCalendar ? '' : 'pointer',
+			userSelect: 'none',
 			position: 'relative',
 			margin: 0,
-			color: active || open ? "white" : secondaryColor,
-			borderRadius: small ? "12px" : "1em",
-			backgroundColor: active || open ? activeColor : "white",
+			color: active || open ? 'white' : secondaryColor,
+			borderRadius: small ? '12px' : '1em',
+			backgroundColor: active || open ? activeColor : 'white',
 			border: `3px solid ${active || open ? activeColor : secondaryColor}`,
 			...moreStyles
 		}}
@@ -75,7 +75,7 @@ const AgendaNumber = ({
 		{voting &&
 			<Tooltip title={translate.opened_votings}>
 				<FontAwesome
-					name={"envelope"}
+					name={'envelope'}
 					style={{
 						position: 'absolute',
 						fontSize: '0.7em',

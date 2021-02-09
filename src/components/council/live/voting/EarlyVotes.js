@@ -1,7 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
-import { TableRow, TableCell, withStyles, Card, CardContent, Tooltip } from "material-ui";
+import { TableRow, TableCell, withStyles, Card, CardContent, Tooltip } from 'material-ui';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import { PARTICIPANT_STATES, AGENDA_TYPES } from '../../../../constants';
 import { Table, PaginationFooter } from '../../../../displayComponents';
@@ -63,11 +63,11 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
         setEarlyVotes(response.data.earlyVotes);
         setRecount(response.data.earlyVotesRecount);
         setLoading(false);
-    }, [agenda.id])
+    }, [agenda.id]);
 
     React.useEffect(() => {
         getData();
-    }, [getData])
+    }, [getData]);
 
     const printPercentage = value => {
 		//This companies work based on coefficients
@@ -75,8 +75,8 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
 			return '';
 		}
 
-		return `(${getPercentage(value, props.recount.partTotal)}%)`
-    }
+		return `(${getPercentage(value, props.recount.partTotal)}%)`;
+    };
 
     const renderVotingMenu = vote => (
 		<React.Fragment>
@@ -88,7 +88,7 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
                 />
 			}
 		</React.Fragment>
-	)
+	);
 
 
     const renderParticipantInfo = vote => (
@@ -123,7 +123,7 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
 					}
 				</React.Fragment>
 			</div>
-		)
+		);
 
 
     if(loading){
@@ -171,10 +171,10 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
                                 :
                                 <div
                                     style={{
-                                        display: "flex",
+                                        display: 'flex',
                                         flexDirection:
-                                            "row",
-                                        alignItems: "center",
+                                            'row',
+                                        alignItems: 'center',
                                     }}
                                 >
                                     {vote.delegateId && vote.author.state !== PARTICIPANT_STATES.REPRESENTATED ?
@@ -218,13 +218,13 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
             </Table>
             <div
                 style={{
-                    width: "90%",
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    marginTop: "1em",
-                    paddinRight: "10em"
+                    width: '90%',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    marginTop: '1em',
+                    paddinRight: '10em'
                 }}
             >
                 {/* <PaginationFooter
@@ -236,7 +236,7 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
                 /> */}
             </div>
         </>
-    )
-}
+    );
+};
 
-export default withApollo(withSharedProps()(EarlyVotes))
+export default withApollo(withSharedProps()(EarlyVotes));

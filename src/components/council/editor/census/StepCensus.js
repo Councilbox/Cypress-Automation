@@ -1,27 +1,27 @@
-import React from "react";
+import React from 'react';
 import Dialog, {
 	DialogActions,
 	DialogContent,
 	DialogTitle
-} from "material-ui/Dialog";
-import { compose, graphql } from "react-apollo";
-import gql from "graphql-tag";
+} from 'material-ui/Dialog';
+import { compose, graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import {
 	BasicButton,
 	ButtonIcon,
 	ErrorWrapper,
 	LoadingSection
-} from "../../../../displayComponents/index";
+} from '../../../../displayComponents/index';
 import {
 	councilParticipants
-} from "../../../../queries/councilParticipant";
-import { PARTICIPANTS_LIMITS } from "../../../../constants";
-import { getPrimary, getSecondary } from "../../../../styles/colors";
-import ParticipantsTable from "./ParticipantsTable";
-import * as CBX from "../../../../utils/CBX";
-import { councilStepTwo, updateCouncil } from "../../../../queries";
+} from '../../../../queries/councilParticipant';
+import { PARTICIPANTS_LIMITS } from '../../../../constants';
+import { getPrimary, getSecondary } from '../../../../styles/colors';
+import ParticipantsTable from './ParticipantsTable';
+import * as CBX from '../../../../utils/CBX';
+import { councilStepTwo, updateCouncil } from '../../../../queries';
 import EditorStepLayout from '../EditorStepLayout';
-import { useOldState } from "../../../../hooks";
+import { useOldState } from '../../../../hooks';
 
 
 const StepCensus = ({ translate, data, ...props }) => {
@@ -30,7 +30,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 		censusChangeAlert: false,
 		addParticipant: false,
 		noParticipantsError: false,
-		censusChangeId: "",
+		censusChangeId: '',
 		participantsLength: 0,
 		data: {
 			censuses: []
@@ -43,7 +43,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 		if (!data.loading) {
 			props.participants.refetch();
 		}
-	}, [props.councilID])
+	}, [props.councilID]);
 
 	React.useEffect(() => {
 		if (!data.loading) {
@@ -72,13 +72,13 @@ const StepCensus = ({ translate, data, ...props }) => {
 		setState({
 			loading: false,
 			success: false
-		})
-	}
+		});
+	};
 
 	const saveDraft = async step => {
 		setState({
 			loading: true
-		})
+		});
 		const { __typename, participants, selectedCensusId, ...council } = data.council;
 		await props.updateCouncil({
 			variables: {
@@ -160,25 +160,25 @@ const StepCensus = ({ translate, data, ...props }) => {
 				<React.Fragment>
 					<BasicButton
 						text={translate.cancel}
-						color={"white"}
+						color={'white'}
 						type="flat"
 						textStyle={{
-							fontWeight: "700",
-							fontSize: "0.9em",
-							textTransform: "none"
+							fontWeight: '700',
+							fontSize: '0.9em',
+							textTransform: 'none'
 						}}
 						textPosition="after"
 						onClick={() => setState({ censusChangeAlert: false })}
-						buttonStyle={{ marginRight: "1em" }}
+						buttonStyle={{ marginRight: '1em' }}
 					/>
 					<BasicButton
 						text={translate.want_census_change}
 						color={primary}
 						textStyle={{
-							color: "white",
-							fontWeight: "700",
-							fontSize: "0.9em",
-							textTransform: "none"
+							color: 'white',
+							fontWeight: '700',
+							fontSize: '0.9em',
+							textTransform: 'none'
 						}}
 						icon={<ButtonIcon type="save" color="white" />}
 						textPosition="after"
@@ -191,22 +191,22 @@ const StepCensus = ({ translate, data, ...props }) => {
 				<React.Fragment>
 					<BasicButton
 						text={translate.cancel}
-						color={"white"}
+						color={'white'}
 						type="flat"
 						textStyle={{
-							fontWeight: "700",
-							fontSize: "0.9em",
-							textTransform: "none"
+							fontWeight: '700',
+							fontSize: '0.9em',
+							textTransform: 'none'
 						}}
 						textPosition="after"
 						onClick={() => setState({ censusChangeAlert: false })}
-						buttonStyle={{ marginRight: "1em" }}
+						buttonStyle={{ marginRight: '1em' }}
 					/>
 				</React.Fragment>
 			);
 	}
 
-	const checkParticipants = () => !data.loading && state.participantsLength <= 0
+	const checkParticipants = () => !data.loading && state.participantsLength <= 0;
 
 	const { council, error } = data;
 
@@ -214,9 +214,9 @@ const StepCensus = ({ translate, data, ...props }) => {
 		return (
 			<div
 				style={{
-					width: "100%",
-					height: "100%",
-					padding: "2em"
+					width: '100%',
+					height: '100%',
+					padding: '2em'
 				}}
 			>
 				<ErrorWrapper error={error} translate={translate} />
@@ -225,7 +225,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 	}
 
 	if (state.loading) {
-		return <LoadingSection />
+		return <LoadingSection />;
 	}
 
 	return (
@@ -235,11 +235,11 @@ const StepCensus = ({ translate, data, ...props }) => {
 					{!council ?
 						<div
 							style={{
-								height: "300px",
-								width: "100%",
-								display: "flex",
-								alignItems: "center",
-								justifyContent: "center"
+								height: '300px',
+								width: '100%',
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center'
 							}}
 						>
 							<LoadingSection />
@@ -255,7 +255,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 									if (type === 'delete') {
 										setState({
 											participantsLength: participants.data.councilParticipants.total
-										})
+										});
 									}
 								}}
 								key={`${council.selectedCensusId}`}
@@ -300,8 +300,8 @@ const StepCensus = ({ translate, data, ...props }) => {
 								<div>
 									<DialogContent>
 										{translate.census_change_warning.replace(
-											"<br/>",
-											""
+											'<br/>',
+											''
 										)}
 									</DialogContent>
 									<DialogActions>
@@ -309,7 +309,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 									</DialogActions>
 								</div>
 								:
-								<div style={{ minWidth: "500px" }}>
+								<div style={{ minWidth: '500px' }}>
 									<DialogContent>
 										{translate.need_pick_census}
 									</DialogContent>
@@ -344,10 +344,10 @@ const StepCensus = ({ translate, data, ...props }) => {
 						color={secondary}
 						disabled={data.loading}
 						textStyle={{
-							color: "white",
-							fontWeight: "700",
-							fontSize: "0.9em",
-							textTransform: "none"
+							color: 'white',
+							fontWeight: '700',
+							fontSize: '0.9em',
+							textTransform: 'none'
 						}}
 						textPosition="after"
 						onClick={previousPage}
@@ -360,12 +360,12 @@ const StepCensus = ({ translate, data, ...props }) => {
 						loading={state.loading}
 						success={state.success}
 						textStyle={{
-							color: "white",
-							fontWeight: "700",
-							fontSize: "0.9em",
-							marginLeft: "0.5em",
-							marginRight: "0.5em",
-							textTransform: "none"
+							color: 'white',
+							fontWeight: '700',
+							fontSize: '0.9em',
+							marginLeft: '0.5em',
+							marginRight: '0.5em',
+							textTransform: 'none'
 						}}
 						icon={
 							<ButtonIcon type="save" color="white" />
@@ -378,10 +378,10 @@ const StepCensus = ({ translate, data, ...props }) => {
 						color={primary}
 						disabled={data.loading}
 						textStyle={{
-							color: "white",
-							fontWeight: "700",
-							fontSize: "0.9em",
-							textTransform: "none"
+							color: 'white',
+							fontWeight: '700',
+							fontSize: '0.9em',
+							textTransform: 'none'
 						}}
 						textPosition="after"
 						onClick={nextPage}
@@ -391,7 +391,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 			}
 		/>
 	);
-}
+};
 
 
 const changeCensus = gql`
@@ -404,7 +404,7 @@ const changeCensus = gql`
 
 export default compose(
 	graphql(councilStepTwo, {
-		name: "data",
+		name: 'data',
 		options: props => ({
 			variables: {
 				id: props.councilID,
@@ -430,9 +430,9 @@ export default compose(
 		})
 	}),
 	graphql(changeCensus, {
-		name: "changeCensus"
+		name: 'changeCensus'
 	}),
 	graphql(updateCouncil, {
-		name: "updateCouncil"
+		name: 'updateCouncil'
 	})
 )(StepCensus);

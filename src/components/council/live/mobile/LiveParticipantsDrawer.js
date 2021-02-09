@@ -1,5 +1,5 @@
 import React from 'react';
-import { Drawer } from "material-ui";
+import { Drawer } from 'material-ui';
 import { Icon } from '../../../../displayComponents';
 import { darkGrey } from '../../../../styles/colors';
 import ParticipantsLive from '../ParticipantsLive';
@@ -15,7 +15,7 @@ const LiveParticipantsDrawer = ({ open, requestClose, council, translate }) => {
                     style={{
                         zIndex: -1,
                         minWidth: `${100}px`,
-                        maxWidth: "100%",
+                        maxWidth: '100%',
                     }}
                     anchor="left"
                     variant="persistent"
@@ -29,26 +29,26 @@ const LiveParticipantsDrawer = ({ open, requestClose, council, translate }) => {
                 >
                     <div
                         style={{
-                            height: "100%",
-                            width: "100%",
-                            paddingTop: "3em",
-                            overflow: "hidden"
+                            height: '100%',
+                            width: '100%',
+                            paddingTop: '3em',
+                            overflow: 'hidden'
                         }}
                     >
                         <div
                             style={{
-                                display: "flex",
-                                cursor: "pointer",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                                paddingLeft: "0.8em",
-                                fontSize: "0.90rem",
-                                width: "100%",
-                                height: "3.5em",
+                                display: 'flex',
+                                cursor: 'pointer',
+                                alignItems: 'center',
+                                justifyContent: 'space-between',
+                                paddingLeft: '0.8em',
+                                fontSize: '0.90rem',
+                                width: '100%',
+                                height: '3.5em',
                                 fontWeight: '700',
                                 backgroundColor: darkGrey,
-                                textTransform: "uppercase",
-                                color: "grey"
+                                textTransform: 'uppercase',
+                                color: 'grey'
                             }}
                             onClick={requestClose}
                         >
@@ -56,8 +56,8 @@ const LiveParticipantsDrawer = ({ open, requestClose, council, translate }) => {
                             <Icon
                                 className="material-icons"
                                 style={{
-                                    color: "grey",
-                                    marginRight: "1.1em"
+                                    color: 'grey',
+                                    marginRight: '1.1em'
                                 }}
                             >
                                 keyboard_arrow_left
@@ -65,12 +65,12 @@ const LiveParticipantsDrawer = ({ open, requestClose, council, translate }) => {
                         </div>
                         <div
                             style={{
-                                width: "100%",
+                                width: '100%',
                                 height: '100%',
-                                overflow: "hidden",
-                                paddingBottom: "3em",
+                                overflow: 'hidden',
+                                paddingBottom: '3em',
                                 backgroundColor: darkGrey,
-                                position: "relative"
+                                position: 'relative'
                             }}
                         >
                             <ParticipantsLive
@@ -85,7 +85,7 @@ const LiveParticipantsDrawer = ({ open, requestClose, council, translate }) => {
                 </Drawer>
             }
         </React.Fragment>
-    )
-}
+    );
+};
 
 export default LiveParticipantsDrawer;

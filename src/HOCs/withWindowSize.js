@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { isMobile } from "../utils/screen";
+import React, { Component } from 'react';
+import { isMobile } from '../utils/screen';
 
 if(isMobile){
 	const updateHeights = () => {
@@ -13,15 +13,15 @@ if(isMobile){
 		}
 
 		document.getElementById('root').height = window.innerHeight + 'px';
-	}
+	};
 
-	window.addEventListener("resize", updateHeights);
+	window.addEventListener('resize', updateHeights);
 	updateHeights();
 }
 
 const withWindowSize = WrappedComponent => class WithWindowSize extends Component {
 		state = {
-			size: "lg",
+			size: 'lg',
 			innerHeight: window.innerHeight,
 			innerWidth: window.innerWidth
 		}
@@ -30,19 +30,19 @@ const withWindowSize = WrappedComponent => class WithWindowSize extends Componen
 			const state = { ...this.state };
 			state.innerWidth = window.innerWidth;
 			if (window.innerWidth < 960) {
-				state.size = "xs";
+				state.size = 'xs';
 			} else if (window.innerWidth < 1200) {
-				state.size = "md";
+				state.size = 'md';
 			} else if (window.innerWidth < 1600) {
-				state.size = "lg";
+				state.size = 'lg';
 			} else {
-				state.size = "xl";
+				state.size = 'xl';
 			}
 
 			if (window.innerWidth < window.innerHeight) {
-				state.orientation = "portrait";
+				state.orientation = 'portrait';
 			} else if (window.innerWidth > window.innerHeight) {
-				state.orientation = "landscape";
+				state.orientation = 'landscape';
 			}
 
 			if(isMobile){
@@ -83,11 +83,11 @@ const withWindowSize = WrappedComponent => class WithWindowSize extends Componen
 
 		componentDidMount() {
 			this.updateSize();
-			window.addEventListener("resize", this.updateSize);
+			window.addEventListener('resize', this.updateSize);
 		}
 
 		componentWillUnmount() {
-			window.removeEventListener("resize", this.updateSize);
+			window.removeEventListener('resize', this.updateSize);
 		}
 
 		render() {

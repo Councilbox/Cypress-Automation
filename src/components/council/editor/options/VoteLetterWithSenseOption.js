@@ -27,7 +27,7 @@ const VoteLetterWithSenseOption = ({ council, client, translate }) => {
                 }
             }
         });
-    }
+    };
 
     return (
         <>
@@ -42,12 +42,12 @@ const VoteLetterWithSenseOption = ({ council, client, translate }) => {
                 label={translate.allows_indicate_direction_voting_letter}
                 value={canEarlyVote}
                 onChange={(event, isInputChecked) => {
-                    send(isInputChecked ? 1 : 0)
+                    send(isInputChecked ? 1 : 0);
                 }}
             />
         </>
 
-    )
-}
+    );
+};
 
 export default withApollo(VoteLetterWithSenseOption);

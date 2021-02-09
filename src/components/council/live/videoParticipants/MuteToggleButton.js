@@ -1,9 +1,9 @@
-import React from "react";
-import { Card, MenuItem, Tooltip } from "material-ui";
-import { graphql, compose } from "react-apollo";
+import React from 'react';
+import { Card, MenuItem, Tooltip } from 'material-ui';
+import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
-import { getSecondary } from "../../../../styles/colors";
-import { haveGrantedWord } from "../../../../utils/CBX";
+import { getSecondary } from '../../../../styles/colors';
+import { haveGrantedWord } from '../../../../utils/CBX';
 
 class MuteToggleButton extends React.Component {
     toggleMuteParticipant = async () => {
@@ -56,29 +56,29 @@ class MuteToggleButton extends React.Component {
 						title={
 							participant.requestWord === 2
 								? 'Mutar participante'
-								: ""
+								: ''
 						}
 					>
 						<Card
 							onClick={() => this.toggleMuteParticipant(participant.id)
 							}
 							style={{
-								width: "1.6em",
-								height: "1.6em",
-								borderRadius: "0.1em",
+								width: '1.6em',
+								height: '1.6em',
+								borderRadius: '0.1em',
 								backgroundColor: getSecondary()
 							}}
 						>
 							<MenuItem
 								style={{
-									height: "1.6em",
-									width: "1.6em",
+									height: '1.6em',
+									width: '1.6em',
 									padding: 0,
 									margin: 0,
                                     color: 'white',
-									display: "flex",
-									alignItems: "center",
-									justifyContent: "center"
+									display: 'flex',
+									alignItems: 'center',
+									justifyContent: 'center'
 								}}
 							>
 								{(this.props.participant.videoParticipant && this.props.participant.videoParticipant.mutedMic) ?

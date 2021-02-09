@@ -11,7 +11,7 @@ const DEFAULT_OPTIONS = {
     offset: 0,
     orderBy: 'id',
     orderDirection: 'DESC'
-}
+};
 
 const corporationCompanies = gql`
     query corporationCompanies($filters: [FilterInput], $options: OptionsInput, $corporationId: Int){
@@ -35,9 +35,9 @@ const CompanyLinksManager = ({ translate, client, ...props }) => {
         filterText: '',
         filterSelect: 'businessName',
         limit: DEFAULT_OPTIONS.limit
-    })
+    });
     const [loading, setLoading] = React.useState(true);
-    const [dataCorporationCompanies, setDataCorporationCompanies] = React.useState({})
+    const [dataCorporationCompanies, setDataCorporationCompanies] = React.useState({});
     const [page, setPage] = React.useState(1);
 
     const getData = React.useCallback(async () => {
@@ -57,7 +57,7 @@ const CompanyLinksManager = ({ translate, client, ...props }) => {
             setDataCorporationCompanies(response.data.corporationCompanies);
             setLoading(false);
         }
-    }, [state.filterText, state.filterSelect, page])
+    }, [state.filterText, state.filterSelect, page]);
 
     React.useEffect(() => {
         const timeout = setTimeout(() => {
@@ -65,7 +65,7 @@ const CompanyLinksManager = ({ translate, client, ...props }) => {
         }, 350);
 
         return () => clearTimeout(timeout);
-    }, [getData])
+    }, [getData]);
 
     const addCheckedCompanies = () => {
         props.addCheckedCompanies(state.checked);
@@ -74,7 +74,7 @@ const CompanyLinksManager = ({ translate, client, ...props }) => {
             step: 1,
             modal: false
         });
-    }
+    };
 
     const close = () => {
         setState({
@@ -86,11 +86,11 @@ const CompanyLinksManager = ({ translate, client, ...props }) => {
             checked: props.linkedCompanies,
             modal: false
         });
-    }
+    };
 
     return (
         <div> {/**"calc( 100% - 16em )" */}
-            < div style={{ width: '100%', display: "flex", flexDirection: 'row', marginTop: '2em', alignItems: 'center', justifyContent: "space-between" }}>
+            < div style={{ width: '100%', display: 'flex', flexDirection: 'row', marginTop: '2em', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Typography variant="subheading" style={{ color: getPrimary(), marginRight: '0.6em' }}>
                     {props.linkedCompanies.length} {translate.linked_companies}
                 </Typography>
@@ -103,19 +103,19 @@ const CompanyLinksManager = ({ translate, client, ...props }) => {
                         setState({
                             ...state,
                             modal: true
-                        })
+                        });
                     }}
                 />
             </div >
             <div style={{ width: '100%' }}>
                 <Table
-                    style={{ width: "100%", maxWidth: "100%" }}
+                    style={{ width: '100%', maxWidth: '100%' }}
                 >
                     <TableHead>
                         <TableRow>
-                            <TableCell style={{ width: "15%", padding: '4px 56px 4px 15px', textAlign: "center" }}>Logo</TableCell>
-                            <TableCell style={{ width: "10%", padding: '4px 56px 4px 15px' }}>Id</TableCell>
-                            <TableCell style={{ width: "75%", padding: '4px 56px 4px 5px' }}>{translate.name}</TableCell>
+                            <TableCell style={{ width: '15%', padding: '4px 56px 4px 15px', textAlign: 'center' }}>Logo</TableCell>
+                            <TableCell style={{ width: '10%', padding: '4px 56px 4px 15px' }}>Id</TableCell>
+                            <TableCell style={{ width: '75%', padding: '4px 56px 4px 5px' }}>{translate.name}</TableCell>
                         </TableRow>
                     </TableHead>
                 </Table>
@@ -156,15 +156,15 @@ const CompanyLinksManager = ({ translate, client, ...props }) => {
                 title={translate.link_companies}
             />
         </div >
-    )
-}
+    );
+};
 
 
 const LinksCompanies = ({ translate, companies, setPage, page, state, setState, loading }) => {
     const isChecked = id => {
         const item = state.checked.find(item => item.id === id);
         return !!item;
-    }
+    };
 
     const checkRow = (company, check) => {
         let checked = [...state.checked];
@@ -187,8 +187,8 @@ const LinksCompanies = ({ translate, companies, setPage, page, state, setState, 
     if (state.step === 1) {
         return (
             <div style={{ width: '650px', }}>
-                <div style={{ display: "flex" }}>
-                    <div style={{ width: '100px', marginRight: "1em" }}>
+                <div style={{ display: 'flex' }}>
+                    <div style={{ width: '100px', marginRight: '1em' }}>
                         <SelectInput
                             value={state.filterSelect}
                             onChange={event => setState({ ...state, filterSelect: event.target.value })}
@@ -200,7 +200,7 @@ const LinksCompanies = ({ translate, companies, setPage, page, state, setState, 
                     <div style={{ width: '100%' }}>
                         <TextInput
                             adornment={<Icon>search</Icon>}
-                            floatingText={" "}
+                            floatingText={' '}
                             type="text"
                             value={state.filterText}
                             onChange={event => {
@@ -208,7 +208,7 @@ const LinksCompanies = ({ translate, companies, setPage, page, state, setState, 
                                     ...state,
                                     page: 1,
                                     filterText: event.target.value
-                                })
+                                });
                             }}
                         />
                     </div>
@@ -226,7 +226,7 @@ const LinksCompanies = ({ translate, companies, setPage, page, state, setState, 
                                 onCheck={checkRow}
                             />
                         ))}
-                        <Grid style={{ marginTop: "1em" }}>
+                        <Grid style={{ marginTop: '1em' }}>
                             <PaginationFooter
                                 page={page}
                                 translate={translate}
@@ -241,7 +241,7 @@ const LinksCompanies = ({ translate, companies, setPage, page, state, setState, 
                     </div>
                 }
             </div>
-        )
+        );
     }
 
     if (state.step === 2) {
@@ -257,10 +257,10 @@ const LinksCompanies = ({ translate, companies, setPage, page, state, setState, 
                     />
                 ))}
             </div>
-        )
+        );
     }
-}
+};
 
 
 
-export default withApollo(CompanyLinksManager)
+export default withApollo(CompanyLinksManager);

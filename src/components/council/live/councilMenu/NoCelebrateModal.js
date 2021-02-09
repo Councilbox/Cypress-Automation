@@ -1,23 +1,23 @@
-import React from "react";
-import { Typography } from "material-ui";
-import { graphql } from "react-apollo";
+import React from 'react';
+import { Typography } from 'material-ui';
+import { graphql } from 'react-apollo';
 import { toast } from 'react-toastify';
 import {
 	AlertConfirm,
 	Icon,
 	LiveToast
-} from "../../../../displayComponents";
-import RichTextInput from "../../../../displayComponents/RichTextInput";
-import { noCelebrateCouncil } from "../../../../queries";
-import { bHistory } from "../../../../containers/App";
+} from '../../../../displayComponents';
+import RichTextInput from '../../../../displayComponents/RichTextInput';
+import { noCelebrateCouncil } from '../../../../queries';
+import { bHistory } from '../../../../containers/App';
 import { checkForUnclosedBraces } from '../../../../utils/CBX';
 
 class NoCelebrateModal extends React.Component {
 	state = {
-		success: "",
-		error: "",
+		success: '',
+		error: '',
 		errorText: '',
-		cancelText: "",
+		cancelText: '',
 		sendAgenda: false
 	};
 
@@ -28,10 +28,10 @@ class NoCelebrateModal extends React.Component {
 				success: false,
 				sending: false,
 				error: false,
-				cancelText: "",
+				cancelText: '',
 				sendAgenda: false
 			},
-			() => bHistory.push("/")
+			() => bHistory.push('/')
 		);
 	};
 
@@ -47,7 +47,7 @@ class NoCelebrateModal extends React.Component {
 					/>, {
 						position: toast.POSITION.TOP_RIGHT,
 						autoClose: true,
-						className: "errorToast"
+						className: 'errorToast'
 					}
 				);
 				return;
@@ -89,7 +89,7 @@ class NoCelebrateModal extends React.Component {
 		}
 
 		return (
-			<div style={{ width: "650px" }}>
+			<div style={{ width: '650px' }}>
 				<RichTextInput
 					floatingText={translate.live_no_celebrate}
 					translate={translate}
@@ -132,24 +132,24 @@ class NoCelebrateModal extends React.Component {
 }
 
 export default graphql(noCelebrateCouncil, {
-	name: "noCelebrateCouncil"
+	name: 'noCelebrateCouncil'
 })(NoCelebrateModal);
 
 const SuccessMessage = ({ message }) => (
 	<div
 		style={{
-			width: "500px",
-			display: "flex",
-			alignItems: "center",
-			alignContent: "center",
-			flexDirection: "column"
+			width: '500px',
+			display: 'flex',
+			alignItems: 'center',
+			alignContent: 'center',
+			flexDirection: 'column'
 		}}
 	>
 		<Icon
 			className="material-icons"
 			style={{
-				fontSize: "6em",
-				color: "green"
+				fontSize: '6em',
+				color: 'green'
 			}}
 		>
 			check_circle

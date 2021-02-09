@@ -16,39 +16,39 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
         const newBooks = [...books, { aqui: 'otro' }];
         updateFileData({
             books: newBooks
-        })
-    }
+        });
+    };
 
     const deleteRow = index => {
         const newBooks = [...books];
         newBooks.splice(index, 1);
         updateFileData({
             books: newBooks
-        })
-    }
+        });
+    };
 
     const updateBook = (newData, index) => {
         const list = [...books];
         list[index] = {
             ...list[index],
             ...newData
-        }
+        };
 
         updateFileData({
             books: [...list]
-        })
-    }
+        });
+    };
 
     return (
-        <div style={{ height: "100%" }}>
+        <div style={{ height: '100%' }}>
             <div style={{ padding: '0px 1em 1em', height: '100%', }}>
-                <div style={{ height: "100%", }}>
-                    <div style={{ padding: "0 1em", fontWeight: "bold", color: primary, display: "flex", justifyContent: "space-between", paddingLeft: '24px', paddingRight: '24px' }}>
-                        <div style={{ width: '15%', display: "flex", cursor: 'pointer' }} onClick={addRow}>
-                            <div style={{ border: "1px solid" + primary, padding: "0.6em 5px", display: 'flex' }}>
+                <div style={{ height: '100%', }}>
+                    <div style={{ padding: '0 1em', fontWeight: 'bold', color: primary, display: 'flex', justifyContent: 'space-between', paddingLeft: '24px', paddingRight: '24px' }}>
+                        <div style={{ width: '15%', display: 'flex', cursor: 'pointer' }} onClick={addRow}>
+                            <div style={{ border: '1px solid' + primary, padding: '0.6em 5px', display: 'flex' }}>
                                 {translate.act_book}
                                 <div>
-                                    <i className="fa fa-plus-circle" style={{ color: primary, paddingRight: "5px", marginLeft: '5px', fontSize: "16px" }}></i>
+                                    <i className="fa fa-plus-circle" style={{ color: primary, paddingRight: '5px', marginLeft: '5px', fontSize: '16px' }}></i>
                                 </div>
                             </div>
                         </div>
@@ -59,13 +59,13 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                         <div style={{ width: '15%', textAlign: 'center' }}>{translate.comments}</div>
                     </div>
                     <Scrollbar>
-                        <div style={{ width: "100%", height: "calc( 100% - 3em )", padding: "0 1em" }}>
+                        <div style={{ width: '100%', height: 'calc( 100% - 3em )', padding: '0 1em' }}>
                             {books.length > 0 ?
                                 books.map((book, index) => (
                                     <div key={`book_${index}`}>
-                                        <Card style={{ marginTop: "1em" }}>
-                                            <div style={{ position: "relative" }}>
-                                                <div style={{ color: 'black', display: "flex", justifyContent: "space-between", fontSize: "15px", paddingLeft: '24px', paddingRight: '24px', paddingTop: "3em", paddingBottom: "3em" }}>
+                                        <Card style={{ marginTop: '1em' }}>
+                                            <div style={{ position: 'relative' }}>
+                                                <div style={{ color: 'black', display: 'flex', justifyContent: 'space-between', fontSize: '15px', paddingLeft: '24px', paddingRight: '24px', paddingTop: '3em', paddingBottom: '3em' }}>
                                                     <div style={{ width: '15%' }}>
                                                         <ContentEditable
                                                             style={{ color: 'black', minWidth: '10em' }}
@@ -73,7 +73,7 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                                                             onChange={event => {
                                                                 updateBook({
                                                                     name: event.target.value
-                                                                }, index)
+                                                                }, index);
                                                             }}
                                                         />
 
@@ -90,7 +90,7 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                                                                 }
                                                                 updateBook({
                                                                     openDate: dateString
-                                                                }, index)
+                                                                }, index);
                                                             }}
 
                                                             value={book.openDate ? book.openDate : null}
@@ -108,7 +108,7 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                                                                 }
                                                                 updateBook({
                                                                     closeDate: dateString
-                                                                }, index)
+                                                                }, index);
                                                             }}
 
                                                             value={book.closeDate ? book.closeDate : null}
@@ -126,7 +126,7 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                                                                 }
                                                                 updateBook({
                                                                     legalDate: dateString
-                                                                }, index)
+                                                                }, index);
                                                             }}
 
                                                             value={book.legalDate ? book.legalDate : null}
@@ -144,7 +144,7 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                                                                 }
                                                                 updateBook({
                                                                     devolutionDate: dateString
-                                                                }, index)
+                                                                }, index);
                                                             }}
 
                                                             value={book.devolutionDate ? book.devolutionDate : null}
@@ -157,19 +157,19 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                                                             onChange={event => {
                                                                 updateBook({
                                                                     comments: event.target.value
-                                                                }, index)
+                                                                }, index);
                                                             }}
                                                         />
                                                         <IconButton
                                                             onClick={() => deleteRow(index)}
                                                             aria-label="Show more"
-                                                            className={"expandButtonModal"}
+                                                            className={'expandButtonModal'}
                                                         >
                                                             <i
-                                                                className={"fa fa-times-circle"}
+                                                                className={'fa fa-times-circle'}
                                                                 style={{
                                                                     color: primary,
-                                                                    transition: "all 0.3s"
+                                                                    transition: 'all 0.3s'
                                                                 }}
                                                             />
                                                         </IconButton>
@@ -204,8 +204,8 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 
 export default withTranslations()(withApollo(FileLibrosOfi));

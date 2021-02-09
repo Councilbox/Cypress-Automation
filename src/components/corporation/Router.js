@@ -13,8 +13,8 @@ import CompanyEditPage from './companies/CompanyEditPage';
 import { LoadingMainApp } from '../../displayComponents';
 import Header from '../Header';
 import { getCorporation } from '../../queries/corporation';
-import Sidebar from "./menus/Sidebar";
-import appStyle from "../../styles/appStyle.jsx";
+import Sidebar from './menus/Sidebar';
+import appStyle from '../../styles/appStyle.jsx';
 import { lightGrey } from '../../styles/colors';
 import CouncilDetails from './councils/council/CouncilDetails';
 import RootUserSettings from './users/RootUserSettings';
@@ -23,7 +23,7 @@ import KPI from './KPI';
 import { HEADER_HEIGHT } from '../../styles/constants';
 
 let image;
-import("../../assets/img/sidebar-2.jpg").then(data => { image = data });
+import('../../assets/img/sidebar-2.jpg').then(data => { image = data; });
 
 
 const Router = ({ user, translate, location, data, classes }) => {
@@ -43,7 +43,7 @@ const Router = ({ user, translate, location, data, classes }) => {
                 <Header
                     user={user}
                     translate={translate}
-                    backButton={location.pathname !== `/`}
+                    backButton={location.pathname !== '/'}
                 />
                 <div style={{ width: '100%', height: `calc(100% - ${HEADER_HEIGHT})` }}>
                     <Switch>
@@ -66,7 +66,7 @@ const Router = ({ user, translate, location, data, classes }) => {
 
             </div>
         </div>
-	)
+	);
 };
 
 export default graphql(getCorporation)(withStyles(appStyle)(Router));

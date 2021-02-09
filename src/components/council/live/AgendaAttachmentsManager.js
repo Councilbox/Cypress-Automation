@@ -1,19 +1,19 @@
-import React from "react";
-import { compose, graphql } from "react-apollo";
+import React from 'react';
+import { compose, graphql } from 'react-apollo';
 import {
 	FileUploadButton,
 	Icon
-} from "../../../displayComponents";
-import AttachmentList from "../../attachments/AttachmentList";
-import { darkGrey, getSecondary } from "../../../styles/colors";
-import { addAgendaAttachment, removeAgendaAttachment } from "../../../queries";
-import { MAX_FILE_SIZE } from "../../../constants";
-import { LIVE_COLLAPSIBLE_HEIGHT } from "../../../styles/constants";
+} from '../../../displayComponents';
+import AttachmentList from '../../attachments/AttachmentList';
+import { darkGrey, getSecondary } from '../../../styles/colors';
+import { addAgendaAttachment, removeAgendaAttachment } from '../../../queries';
+import { MAX_FILE_SIZE } from '../../../constants';
+import { LIVE_COLLAPSIBLE_HEIGHT } from '../../../styles/constants';
 
 class AgendaAttachmentsManager extends React.Component {
 	state = {
 		open: false,
-		loadingId: ""
+		loadingId: ''
 	};
 
 	handleFile = async event => {
@@ -72,7 +72,7 @@ class AgendaAttachmentsManager extends React.Component {
 		if (response) {
 			const refetch = await this.props.refetch();
 			if (refetch) {
-				this.setState({ loadingId: "" });
+				this.setState({ loadingId: '' });
 			}
 		}
 	};
@@ -84,42 +84,42 @@ class AgendaAttachmentsManager extends React.Component {
 			<div
 				style={{
 					height: LIVE_COLLAPSIBLE_HEIGHT,
-					display: "flex",
+					display: 'flex',
 					...(attachments.length === 0 ? { cursor: 'auto' } : {}),
-					justifyContent: "space-between",
-					alignItems: "center"
+					justifyContent: 'space-between',
+					alignItems: 'center'
 				}}
 			>
 				<div
 					style={{
-						width: "25%",
+						width: '25%',
 						height: LIVE_COLLAPSIBLE_HEIGHT,
-						display: "flex",
-						alignItems: "center",
-						paddingLeft: "1.5em"
+						display: 'flex',
+						alignItems: 'center',
+						paddingLeft: '1.5em'
 					}}
 				>
-					<Icon className="material-icons" style={{ color: "grey" }}>
+					<Icon className="material-icons" style={{ color: 'grey' }}>
 						description
 					</Icon>
 					<span
 						style={{
-							marginLeft: "0.7em",
+							marginLeft: '0.7em',
 							color: darkGrey,
-							fontWeight: "700"
+							fontWeight: '700'
 						}}
 					>{`${attachments.length}`}</span>
 				</div>
 				<div
 					style={{
-						width: "25%",
-						display: "flex",
-						justifyContent: "flex-end",
-						paddingRight: "2em"
+						width: '25%',
+						display: 'flex',
+						justifyContent: 'flex-end',
+						paddingRight: '2em'
 					}}
 				>
 					{attachments.length > 0 && (
-						<Icon className="material-icons" style={{ color: "grey" }}>
+						<Icon className="material-icons" style={{ color: 'grey' }}>
 							keyboard_arrow_down
 						</Icon>
 					)}
@@ -149,8 +149,8 @@ class AgendaAttachmentsManager extends React.Component {
 		return (
 			<div
 				style={{
-					width: "100%",
-					position: "relative"
+					width: '100%',
+					position: 'relative'
 				}}
 			>
 				{this.props.attachments.length > 0 ?
@@ -162,26 +162,26 @@ class AgendaAttachmentsManager extends React.Component {
 				}
 				<div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '1em' }}>
 					<FileUploadButton
-						color={"white"}
+						color={'white'}
 						text={this.props.translate.add_attachment}
 						textStyle={{
 							color: secondary,
-							fontWeight: "700",
-							fontSize: "0.9em",
-							textTransform: "none"
+							fontWeight: '700',
+							fontSize: '0.9em',
+							textTransform: 'none'
 						}}
 						loading={this.state.uploading}
 						loadingColor={'primary'}
 						buttonStyle={{
 							border: `1px solid ${secondary}`,
-							height: "100%",
-							marginTop: "5px"
+							height: '100%',
+							marginTop: '5px'
 						}}
 						icon={
 							<Icon
 								className="material-icons"
 								style={{
-									fontSize: "1.5em",
+									fontSize: '1.5em',
 									color: secondary
 								}}
 							>
@@ -246,10 +246,10 @@ class AgendaAttachmentsManager extends React.Component {
 
 export default compose(
 	graphql(addAgendaAttachment, {
-		name: "addAgendaAttachment"
+		name: 'addAgendaAttachment'
 	}),
 
 	graphql(removeAgendaAttachment, {
-		name: "removeAgendaAttachment"
+		name: 'removeAgendaAttachment'
 	})
 )(AgendaAttachmentsManager);

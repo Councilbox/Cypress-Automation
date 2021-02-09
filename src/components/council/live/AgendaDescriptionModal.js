@@ -2,12 +2,12 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import { Tooltip } from 'material-ui';
 import { AlertConfirm, BasicButton } from '../../../displayComponents';
-import RichTextInput from "../../../displayComponents/RichTextInput";
+import RichTextInput from '../../../displayComponents/RichTextInput';
 import { getSecondary } from '../../../styles/colors';
 import { changeVariablesToValues } from '../../../utils/CBX';
 import withSharedProps from '../../../HOCs/withSharedProps';
-import LoadDraft from "../../company/drafts/LoadDraft";
-import { updateAgenda } from "../../../queries/agenda";
+import LoadDraft from '../../company/drafts/LoadDraft';
+import { updateAgenda } from '../../../queries/agenda';
 
 class AgendaDescriptionModal extends React.Component {
     state = {
@@ -32,13 +32,13 @@ class AgendaDescriptionModal extends React.Component {
     updateDescription = value => {
         this.setState({
             description: value
-        })
+        });
     }
 
     updateAgenda = async () => {
         this.setState({
             loading: true
-        })
+        });
         await this.props.updateAgenda({
             variables: {
                 agenda: {
@@ -53,7 +53,7 @@ class AgendaDescriptionModal extends React.Component {
         this.setState({
             modal: false,
             loading: false
-        })
+        });
     }
 
     loadDraft = async draft => {
@@ -95,13 +95,13 @@ class AgendaDescriptionModal extends React.Component {
                                 text={translate.load_draft}
                                 color={getSecondary()}
                                 textStyle={{
-                                    color: "white",
-                                    fontWeight: "600",
-                                    fontSize: "0.8em",
-                                    textTransform: "none",
-                                    marginLeft: "0.4em",
+                                    color: 'white',
+                                    fontWeight: '600',
+                                    fontSize: '0.8em',
+                                    textTransform: 'none',
+                                    marginLeft: '0.4em',
                                     minHeight: 0,
-                                    lineHeight: "1em"
+                                    lineHeight: '1em'
                                 }}
                                 textPosition="after"
                                 onClick={() => this.setState({ loadDraft: true })
@@ -127,7 +127,7 @@ class AgendaDescriptionModal extends React.Component {
                     />
                 </div>
             </React.Fragment>
-        )
+        );
     }
 
     render() {
@@ -146,7 +146,7 @@ class AgendaDescriptionModal extends React.Component {
                     ></i>
                 </Tooltip>
                 <AlertConfirm
-					bodyStyle={{ width: "75vw", minWidth: "50vw", }}
+					bodyStyle={{ width: '75vw', minWidth: '50vw', }}
                     requestClose={this.closeModal}
                     open={this.state.modal}
                     acceptAction={this.updateAgenda}
@@ -157,8 +157,8 @@ class AgendaDescriptionModal extends React.Component {
                     title={this.props.translate.edit_description}
                 />
             </React.Fragment>
-        )
+        );
     }
 }
 
-export default graphql(updateAgenda, { name: "updateAgenda" })(withSharedProps()(AgendaDescriptionModal));
+export default graphql(updateAgenda, { name: 'updateAgenda' })(withSharedProps()(AgendaDescriptionModal));

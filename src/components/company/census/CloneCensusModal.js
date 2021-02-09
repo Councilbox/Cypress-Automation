@@ -1,27 +1,27 @@
-import React, { Component, Fragment } from "react";
-import { graphql } from "react-apollo";
-import { MenuItem } from "material-ui";
+import React, { Component, Fragment } from 'react';
+import { graphql } from 'react-apollo';
+import { MenuItem } from 'material-ui';
 import {
 	AlertConfirm,
 	SelectInput,
 	TextInput
-} from "../../../displayComponents";
-import RichTextInput from "../../../displayComponents/RichTextInput";
-import { cloneCensus } from "../../../queries/census";
+} from '../../../displayComponents';
+import RichTextInput from '../../../displayComponents/RichTextInput';
+import { cloneCensus } from '../../../queries/census';
 import { removeHTMLTags } from '../../../utils/CBX';
 
 class CloneCensusModal extends Component {
 	state = {
 		data: {
-			censusName: "",
+			censusName: '',
 			quorumPrototype: 0,
-			censusDescription: ""
+			censusDescription: ''
 		},
 
 		errors: {
-			censusName: "",
-			quorumPrototype: "",
-			censusDescription: ""
+			censusName: '',
+			quorumPrototype: '',
+			censusDescription: ''
 		}
 	};
 
@@ -31,9 +31,9 @@ class CloneCensusModal extends Component {
 				return {
 					data: {
 						...nextProps.census,
-						censusDescription: nextProps.census.censusDescription || ""
+						censusDescription: nextProps.census.censusDescription || ''
 					}
-				}
+				};
 			}
 		}
 		return null;
@@ -152,5 +152,5 @@ class CloneCensusModal extends Component {
 }
 
 export default graphql(cloneCensus, {
-	name: "cloneCensus"
+	name: 'cloneCensus'
 })(CloneCensusModal);

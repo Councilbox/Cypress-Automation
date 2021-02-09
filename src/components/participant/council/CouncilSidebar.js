@@ -1,13 +1,13 @@
 import React from 'react';
-import FontAwesome from "react-fontawesome";
+import FontAwesome from 'react-fontawesome';
 import FloatGroup from 'react-float-button';
-import { Grid, Button } from "material-ui";
+import { Grid, Button } from 'material-ui';
 import { withApollo, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import ResultsTimeline from '../ResultsTimeline';
 import { darkGrey, secondary, getSecondary, getPrimary } from '../../../styles/colors';
 import { AlertConfirm, Badge } from '../../../displayComponents';
-import iconVoteInsert from "../../../assets/img/dropping-vote-in-box2.svg";
+import iconVoteInsert from '../../../assets/img/dropping-vote-in-box2.svg';
 import { usePolling } from '../../../hooks';
 import { COUNCIL_STATES } from '../../../constants';
 
@@ -15,14 +15,14 @@ import { COUNCIL_STATES } from '../../../constants';
 const styles = {
     button: {
         width: '100%',
-        height: "100%",
-        minWidth: "0",
+        height: '100%',
+        minWidth: '0',
         color: '#ffffffcc',
         padding: '0',
-        margin: "0",
+        margin: '0',
         fontSize: '10px'
     }
-}
+};
 
 const councilTimelineQuery = gql`
     query CouncilTimeline($councilId: Int!, ){
@@ -58,24 +58,24 @@ const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) 
 
     const closeAll = () => {
         props.setContent(null);
-    }
+    };
 
     const renderVideoButton = () => (
             <Button
-                className={"NoOutline prueba"}
+                className={'NoOutline prueba'}
                 style={styles.button}
                 onClick={closeAll}
             >
-                <div style={{ display: "unset" }}>
+                <div style={{ display: 'unset' }}>
                     <div>
                         <i
                             className="fa fa-video-camera"
                             style={{
-                                color: !props.modalContent ? secondary : "",
+                                color: !props.modalContent ? secondary : '',
                                 fontSize: '24px',
 padding: '0',
-margin: "0",
-                                marginTop: "4px",
+margin: '0',
+                                marginTop: '4px',
                                 width: '1em',
                                 height: '1em',
                                 overflow: 'hidden',
@@ -86,13 +86,13 @@ margin: "0",
                     <div style={{
                         color: 'white',
                         fontSize: '0.55rem',
-                        textTransform: "none"
+                        textTransform: 'none'
                     }}>
                         {translate.video}
                     </div>
                 </div>
             </Button>
-        )
+        );
 
     function checkAgendas() {
         const opened = agendas.agendas.reduce((acc, agenda) => {
@@ -106,7 +106,7 @@ margin: "0",
                 opened,
                 read: new Set(),
                 show: opened.length > 0
-            }
+            };
         }
         prevAgendas.current = agendas.agendas;
 
@@ -115,18 +115,18 @@ margin: "0",
             opened,
             show: opened.filter(item => !votingsWarning.read.has(item.id)).length > 0,
             read: (opened.length > votingsWarning.opened.length) ? new Set(opened) : votingsWarning.read
-        }
+        };
     }
 
     React.useEffect(() => {
         if(agendas){
             if(JSON.stringify(agendas.agendas) !== JSON.stringify(prevAgendas.current)){
-                setVotingsWarning(checkAgendas())
+                setVotingsWarning(checkAgendas());
             }
         }
     }, [agendas]);
 
-    const buildReadArray = (read, opened) => new Set([...Array.from(read), ...opened.map(agenda => agenda.id)])
+    const buildReadArray = (read, opened) => new Set([...Array.from(read), ...opened.map(agenda => agenda.id)]);
 
     const updateReadVotings = () => {
         setVotingsWarning({
@@ -134,7 +134,7 @@ margin: "0",
             read: buildReadArray(votingsWarning.read, votingsWarning.opened),
             show: false
         });
-    }
+    };
 
     function selectAgenda(){
         props.setContent('agenda');
@@ -142,27 +142,27 @@ margin: "0",
     }
 
     const renderVotingsWarning = () => {
-        const hideEnterModal = props.modalContent === "agenda";
+        const hideEnterModal = props.modalContent === 'agenda';
         return (
             ((votingsWarning && votingsWarning.show) && !hideEnterModal) && (
-                <div style={{ position: 'absolute', width: "100%", bottom: '5.7em' }}>
+                <div style={{ position: 'absolute', width: '100%', bottom: '5.7em' }}>
                     <div
                         onClick={selectAgenda}
                         style={{
-                            background: "white",
+                            background: 'white',
                             width: '100%',
-                            fontWeight: "bold",
-                            padding: "0.7em",
+                            fontWeight: 'bold',
+                            padding: '0.7em',
                             paddingRight: '1em',
-                            display: "flex",
-                            justifyContent: "space-between",
-                            fontSize: "14px"
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            fontSize: '14px'
                         }}
                     >
-                        <div style={{ color: getSecondary(), whiteSpace: 'nowrap', marginRight: "10px" }}>
+                        <div style={{ color: getSecondary(), whiteSpace: 'nowrap', marginRight: '10px' }}>
                             {translate.opened_votings} ({votingsWarning.opened.length})
                         </div>
-                        <div style={{ maxWidth: '40%', color: "#3b3b3b", overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: "ellipsis" }}>
+                        <div style={{ maxWidth: '40%', color: '#3b3b3b', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
                             {votingsWarning.opened[votingsWarning.opened.length - 1].agendaSubject}
                         </div>
                     </div>
@@ -177,90 +177,90 @@ margin: "0",
                     }}></div>
                 </div>
             )
-        )
-    }
+        );
+    };
 
     const renderAgendaButton = () => {
         let activeIcon = false;
         if (agendas) {
             agendas.agendas.forEach(item => {
-                activeIcon = !!(item.votingState === 1 || activeIcon)
-            })
+                activeIcon = !!(item.votingState === 1 || activeIcon);
+            });
         }
 
         return (
             <Button
-                className={"NoOutline"}
+                className={'NoOutline'}
                 style={styles.button}
                 onClick={selectAgenda}
             >
-                <div style={{ display: "unset" }}>
+                <div style={{ display: 'unset' }}>
                     <div>
                         <i className="material-icons" style={{
-                            color: props.modalContent === "agenda" ? secondary : "",
+                            color: props.modalContent === 'agenda' ? secondary : '',
                             fontSize: '24px',
                             padding: '0',
-                            margin: "0",
+                            margin: '0',
                             width: '1em',
                             height: '1em',
                             overflow: 'hidden',
                             userSelect: 'none',
-                            position: "relative"
+                            position: 'relative'
                         }}>
                             calendar_today
                             {activeIcon &&
-                                <img src={iconVoteInsert} style={{ color: secondary, position: "absolute", left: "5.2px", width: "13px" }}></img>
+                                <img src={iconVoteInsert} style={{ color: secondary, position: 'absolute', left: '5.2px', width: '13px' }}></img>
                             }
                         </i>
                     </div>
                     <div style={{
                         color: 'white',
                         fontSize: '0.55rem',
-                        textTransform: "none"
+                        textTransform: 'none'
                     }}>
                         {council.councilType === 5 ? translate.council : translate.agenda}
                     </div>
                 </div>
             </Button>
-        )
-    }
+        );
+    };
 
     const renderPrivateMessageButton = () => {
         const disabled = council.wallActive !== 1 || council.state === COUNCIL_STATES.PAUSED;
         return (
             <Button
-                className={"NoOutline"}
-                title={"sendMessage"}
+                className={'NoOutline'}
+                title={'sendMessage'}
                 disabled={disabled}
                 style={styles.button}
                 onClick={(event) => props.setAdminMessage(!props.adminMessage, event)}
             >
-                <div style={{ display: "unset" }}>
+                <div style={{ display: 'unset' }}>
                     <div>
                         <i className="material-icons" style={{
                             fontSize: '24px',
 padding: '0',
-margin: "0",
+margin: '0',
                             width: '1em',
                             height: '1em',
                             overflow: 'hidden',
                             userSelect: 'none',
-                            color: disabled ? 'grey' : props.adminMessage ? getPrimary() : "#ffffffcc",
+                            color: disabled ? 'grey' : props.adminMessage ? getPrimary() : '#ffffffcc',
                         }}>
                             chat_bubble_outline
                         </i>
                     </div>
                     <div style={{
-                        color: disabled ? 'grey' : "white",
+                        color: disabled ? 'grey' : 'white',
                         fontSize: '0.55rem',
-                        textTransform: "none"
+                        textTransform: 'none'
                     }}>
                         {translate.message}
                     </div>
                 </div>
             </Button>
-        )
-    }
+        );
+    };
 
 
     if (!props.noSession && props.isMobile) {
@@ -269,16 +269,16 @@ margin: "0",
                 open={true}
                 classNameDialog={'modal100SinMenu'}
                 PaperProps={{
-                    style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: "0px" }
+                    style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: '0px' }
                 }}
-                bodyStyle={{ maxWidth: '100vw', width: "100%", padding: '0', }}
+                bodyStyle={{ maxWidth: '100vw', width: '100%', padding: '0', }}
                 bodyText={
                     <div style={{ height: '100%' }}>
                         {props.agenda}
                     </div>
                 }
             />
-        )
+        );
     }
 
     if (props.isMobile) {
@@ -288,7 +288,7 @@ margin: "0",
                 zIndex: '0'
             }}>
                 <div style={{
-                    borderTop: "1px solid dimgrey",
+                    borderTop: '1px solid dimgrey',
                     backgroundColor: darkGrey,
                     height: 'calc( 3.5rem + 1px )',
                     zIndex: '1000',
@@ -300,21 +300,21 @@ margin: "0",
                     alignItems: 'center',
                     bottom: '0px',
                     // overflow: 'hidden',
-                    fontSize: "0.55em"
+                    fontSize: '0.55em'
                 }}>
-                    <div style={{ height: '3.5rem', width: "100vw", display: 'flex', color: '#ffffffcc', }}>
+                    <div style={{ height: '3.5rem', width: '100vw', display: 'flex', color: '#ffffffcc', }}>
 
-                        <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
+                        <div style={{ width: '20%', textAlign: 'center', paddingTop: '0.35rem', }}>
                             {!props.modalContent ?
                                 <FloatGroup
                                     delay={0.02}
                                     style={{
                                         width: '100%',
-                                        height: "100%",
-                                        minWidth: "0",
+                                        height: '100%',
+                                        minWidth: '0',
                                         color: '#ffffffcc',
                                         padding: '0',
-                                        margin: "0",
+                                        margin: '0',
                                         fontSize: '10px'
                                     }}
                                 >
@@ -322,14 +322,14 @@ margin: "0",
                                     <Button style={{
                                         left: '0.9em',
                                         bottom: '20px',
-                                        background: "white",
-                                        width: "45px",
-                                        borderRadius: "45px",
-                                        height: "45px",
+                                        background: 'white',
+                                        width: '45px',
+                                        borderRadius: '45px',
+                                        height: '45px',
                                         padding: '0',
-                                        margin: "0px",
-                                        minWidth: "0",
-                                        boxShadow: "0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12)"
+                                        margin: '0px',
+                                        minWidth: '0',
+                                        boxShadow: '0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12)'
                                     }}
                                         onClick={props.middle}>
                                         <div>
@@ -338,7 +338,7 @@ margin: "0",
                                                 style={{
                                                     color: 'grey',
                                                     padding: '0',
-margin: "0",
+margin: '0',
                                                     fontSize: '24px',
                                                     overflow: 'hidden',
                                                     userSelect: 'none'
@@ -349,23 +349,23 @@ margin: "0",
                                     <Button style={{
                                         left: '0.9em',
                                         bottom: '20px',
-                                        background: "white",
-                                        width: "45px",
-                                        borderRadius: "45px",
-                                        height: "45px",
+                                        background: 'white',
+                                        width: '45px',
+                                        borderRadius: '45px',
+                                        height: '45px',
                                          padding: '0',
-                                        margin: "0",
-                                        minWidth: "0",
-                                        boxShadow: "0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12)"
+                                        margin: '0',
+                                        minWidth: '0',
+                                        boxShadow: '0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12)'
                                     }}
                                         onClick={props.full}>
                                         <div>
                                             <i
-                                                className={"fa fa-expand"}
+                                                className={'fa fa-expand'}
                                                 style={{
                                                     color: 'grey',
                                                     padding: '0',
-margin: "0",
+margin: '0',
                                                     fontSize: '24px',
                                                     width: '1em',
                                                     height: '1em',
@@ -381,19 +381,19 @@ margin: "0",
                             }
                         </div>
                         {renderVotingsWarning()}
-                        <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
+                        <div style={{ width: '20%', textAlign: 'center', paddingTop: '0.35rem', }}>
                             {renderAgendaButton()}
                         </div>
                         {props.askWordMenu}
-                        <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
+                        <div style={{ width: '20%', textAlign: 'center', paddingTop: '0.35rem', }}>
                             {renderPrivateMessageButton()}
                         </div>
-                        <div style={{ width: "20%", textAlign: "center", paddingTop: '0.35rem', }}>
+                        <div style={{ width: '20%', textAlign: 'center', paddingTop: '0.35rem', }}>
                             <TimelineButton
                                 council={council}
                                 translate={translate}
                                 onClick={() => props.setContent('timeline')}
-                                actived={props.modalContent === "timeline"}
+                                actived={props.modalContent === 'timeline'}
                                 participant={participant}
                             />
                         </div>
@@ -405,9 +405,9 @@ margin: "0",
                     classNameDialog={props.modalContent ? 'modal100block' : 'modal100none'}
                     PaperProps={{
                         // style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: "0px" }
-                        style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: "0px", display: props.modalContent ? "block" : "none" }
+                        style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: '0px', display: props.modalContent ? 'block' : 'none' }
                     }}
-                    bodyStyle={{ maxWidth: '100vw', width: "100%", padding: '0', height: '100%  ' }}
+                    bodyStyle={{ maxWidth: '100vw', width: '100%', padding: '0', height: '100%  ' }}
                     bodyText={
                         <div style={{ height: '100%' }}>
                             {props.modalContent === 'agenda' &&
@@ -427,31 +427,31 @@ margin: "0",
                 <AlertConfirm
                     open={props.adminMessage}
                     classNameDialog={'modal100Comentario'}
-                    bodyStyle={{ maxWidth: '100vw', width: "100%", padding: '0' }}
+                    bodyStyle={{ maxWidth: '100vw', width: '100%', padding: '0' }}
                     PaperProps={{
                         style: {
-                            margin: "0",
-                            transition: "bottom 0.4s",
-                            display: "flex",
-                            position: "fixed",
+                            margin: '0',
+                            transition: 'bottom 0.4s',
+                            display: 'flex',
+                            position: 'fixed',
                             minHeight: '50px',
-                            width: "100vw",
-                            bottom: props.click ? "0" : "3.7rem",
-                            left: "0",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            borderTop: "1px solid gainsboro"
+                            width: '100vw',
+                            bottom: props.click ? '0' : '3.7rem',
+                            left: '0',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            borderTop: '1px solid gainsboro'
                         }
                     }}
                     bodyText={
                         <div style={{
-                            borderRadiusTopLeft: "5px",
-                            position: "relative",
-                            width: "100%",
-                            height: "100%",
-                            background: "#f1f1f1"
+                            borderRadiusTopLeft: '5px',
+                            position: 'relative',
+                            width: '100%',
+                            height: '100%',
+                            background: '#f1f1f1'
                         }}>
-                            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
+                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
                                 {props.comentario}
                             </div>
                         </div>
@@ -476,29 +476,29 @@ margin: "0",
                     width: 'calc( 100vw - 20px )',
                     alignItems: 'center',
                     bottom: '0px',
-                    fontSize: "0.55em",
-                    marginLeft: "10px",
-                    marginRight: "10px"
+                    fontSize: '0.55em',
+                    marginLeft: '10px',
+                    marginRight: '10px'
                 }}>
                     <Grid
                         item xs={6}
                         md={8}
                         style={{
                             height: '3.5rem',
-                            width: "100vw",
+                            width: '100vw',
                             display: 'flex',
                             color: '#ffffffcc',
-                            paddingRight: "3px"
+                            paddingRight: '3px'
                         }}
                     >
                         {props.askWordMenu}
                         <div
                             style={{
-                                width: "50%",
-                                textAlign: "center",
+                                width: '50%',
+                                textAlign: 'center',
                                 paddingTop: '0.35rem',
-                                borderTop: "1px solid dimgrey",
-                                borderRight: "1px solid dimgrey"
+                                borderTop: '1px solid dimgrey',
+                                borderRight: '1px solid dimgrey'
                             }}
                         >
                             {renderPrivateMessageButton()}
@@ -509,28 +509,28 @@ margin: "0",
                         md={4}
                         style={{
                             height: '3.5rem',
-                            width: "100vw",
+                            width: '100vw',
                             display: 'flex',
                             color: '#ffffffcc',
-                            paddingLeft: "6px"
+                            paddingLeft: '6px'
                         }}
                     >
                         <div
                             style={{
-                                width: "50%",
-                                textAlign: "center",
+                                width: '50%',
+                                textAlign: 'center',
                                 paddingTop: '0.35rem',
-                                borderTop: "1px solid dimgrey",
-                                borderLeft: "1px solid dimgrey"
+                                borderTop: '1px solid dimgrey',
+                                borderLeft: '1px solid dimgrey'
                             }}
                         >
                             {renderAgendaButton()}
                         </div>
-                        <div style={{ width: "50%", textAlign: "center", paddingTop: '0.35rem', borderTop: "1px solid dimgrey", borderRight: "1px solid dimgrey", }}>
+                        <div style={{ width: '50%', textAlign: 'center', paddingTop: '0.35rem', borderTop: '1px solid dimgrey', borderRight: '1px solid dimgrey', }}>
                             <TimelineButton
                                 council={council}
                                 onClick={() => props.setContent('timeline')}
-                                actived={props.modalContent === "timeline"}
+                                actived={props.modalContent === 'timeline'}
                                 participant={participant}
                                 translate={translate}
                             />
@@ -540,32 +540,32 @@ margin: "0",
 
                 {props.adminMessage &&
                     <Grid item xs={6} md={8} style={{
-                        transition: "bottom 0.7s",
-                        display: "flex",
-                        position: "fixed",
+                        transition: 'bottom 0.7s',
+                        display: 'flex',
+                        position: 'fixed',
                         minHeight: '50px',
-                        bottom: "3.7rem",
-                        left: "0",
-                        alignItems: "center",
-                        justifyContent: "center",
+                        bottom: '3.7rem',
+                        left: '0',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                         zIndex: '1000',
                     }}>
                         <div style={{
                             width: '100vw',
-                            marginLeft: "10px",
-                            paddingRight: "6px"
+                            marginLeft: '10px',
+                            paddingRight: '6px'
                         }}
                         >
                             <div style={{
-                                borderTop: "1px solid gainsboro",
-                                borderRadiusTopLeft: "5px",
-                                position: "relative",
-                                width: "100%",
-                                height: "100%",
-                                background: "#f1f1f1"
+                                borderTop: '1px solid gainsboro',
+                                borderRadiusTopLeft: '5px',
+                                position: 'relative',
+                                width: '100%',
+                                height: '100%',
+                                background: '#f1f1f1'
                             }}
                             >
-                                <div style={{ display: "flex", justifyContent: "center", alignItems: "center", }}>
+                                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
                                     {props.comentario}
                                 </div>
                             </div>
@@ -574,7 +574,7 @@ margin: "0",
                 }
             </div>
         );
-}
+};
 
 
 const TimelineButton = graphql(gql`
@@ -600,7 +600,7 @@ options: props => ({
                 setTotal(timelineTotal.councilTimelineTotal);
             }
         }
-    }, [timelineTotal])
+    }, [timelineTotal]);
 
     const readTimelines = React.useCallback(async () => {
         const response = await client.query({
@@ -611,13 +611,13 @@ options: props => ({
         });
 
         if (response.data && response.data.readTimeline.length > 0) {
-            setTimelineLastRead(JSON.parse(response.data.readTimeline[response.data.readTimeline.length - 1].content).data.participant.timeline)
+            setTimelineLastRead(JSON.parse(response.data.readTimeline[response.data.readTimeline.length - 1].content).data.participant.timeline);
         }
     }, [participant.id]);
 
     React.useEffect(() => {
         readTimelines();
-    }, [readTimelines])
+    }, [readTimelines]);
 
     const getTimeline = React.useCallback(async () => {
         const response = await client.query({
@@ -629,12 +629,12 @@ options: props => ({
 
         if (response.data && response.data.councilTimeline) {
             setTotal(response.data.councilTimeline.length);
-            setArrayTimeline(response.data.councilTimeline)
+            setArrayTimeline(response.data.councilTimeline);
             if (response.data.councilTimeline[response.data.councilTimeline.length - 1] !== undefined) {
-                setlastEvidenceId(response.data.councilTimeline[response.data.councilTimeline.length - 1].id)
+                setlastEvidenceId(response.data.councilTimeline[response.data.councilTimeline.length - 1].id);
             }
         }
-    }, [council.id, client, councilTimelineQuery])
+    }, [council.id, client, councilTimelineQuery]);
 
 
     React.useEffect(() => {
@@ -652,17 +652,17 @@ options: props => ({
             }
         });
         readTimelines();
-    }
+    };
 
 
     const enterTimeline = () => {
         onClick();
         evidenceRead();
-    }
+    };
 
 
-    let resultado
-    let unread = 0
+    let resultado;
+    let unread = 0;
     if (arrayTimeline != null) {
         resultado = arrayTimeline.findIndex(item => item.id === timelineLastRead);
         unread = total - (resultado + 1);
@@ -672,17 +672,17 @@ options: props => ({
 
     return (
         <Button
-            className={"NoOutline"}
+            className={'NoOutline'}
             style={styles.button}
             onClick={enterTimeline}
         >
-            <div style={{ display: "unset" }}>
+            <div style={{ display: 'unset' }}>
                 <Badge badgeContent={unread} hide={unread === 0} color="primary">
                     <div>
                         <FontAwesome
-                            name={"file-text-o"}
+                            name={'file-text-o'}
                             style={{
-                                color: actived ? secondary : "",
+                                color: actived ? secondary : '',
                                 fontSize: '24px',
                                 width: '1em',
                                 height: '1em',
@@ -695,14 +695,14 @@ options: props => ({
                 <div style={{
                     color: 'white',
                     fontSize: '0.55rem',
-                    textTransform: "none"
+                    textTransform: 'none'
                 }}>
                     {translate.summary}
                 </div>
             </div>
         </Button>
-    )
+    );
 }));
 
 
-export default CouncilSidebar
+export default CouncilSidebar;

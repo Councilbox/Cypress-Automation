@@ -2,17 +2,17 @@ import React from 'react';
 import { TableRow, TableCell, Card, Tooltip } from 'material-ui';
 import { Table, DateWrapper, BasicButton, Grid, GridItem } from '../../displayComponents';
 import { bHistory, moment } from '../../containers/App';
-import TableStyles from "../../styles/table";
+import TableStyles from '../../styles/table';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import { COUNCIL_STATES } from '../../constants';
-import CantCreateCouncilsModal from "./CantCreateCouncilsModal";
-import { TRIAL_DAYS } from "../../config";
-import { trialDaysLeft } from "../../utils/CBX";
+import CantCreateCouncilsModal from './CantCreateCouncilsModal';
+import { TRIAL_DAYS } from '../../config';
+import { trialDaysLeft } from '../../utils/CBX';
 
 import { isMobile } from '../../utils/screen';
 
 
-const generateLink = (council, company) => `/company/${company.id}/council/${council.id}/finished`
+const generateLink = (council, company) => `/company/${company.id}/council/${council.id}/finished`;
 
 class CouncilsHistory extends React.Component {
     state = {
@@ -28,7 +28,7 @@ class CouncilsHistory extends React.Component {
     closeCantAccessModal = () => {
         this.setState({
             open: false
-        })
+        });
     }
 
     render() {
@@ -62,7 +62,7 @@ class CouncilsHistory extends React.Component {
                     requestClose={this.closeCantAccessModal}
                 />
             </Table>
-        )
+        );
     }
 }
 
@@ -125,7 +125,7 @@ class HoverableRow extends React.Component {
                             :
                             bHistory.push(
                                 generateLink(council, company)
-                            )
+                            );
                     }}
                 >
                     <Grid>
@@ -157,7 +157,7 @@ class HoverableRow extends React.Component {
                                 date={
                                     council.dateRealStart
                                 }
-                            /> {` - `}
+                            /> {' - '}
                             <DateWrapper
                                 format="HH:mm"
                                 date={
@@ -167,7 +167,7 @@ class HoverableRow extends React.Component {
                         </GridItem>
                         <GridItem xs={12} md={12}>
                             {(council.promoCode !== 'COUNCILBOX' && council.state >= 40) &&
-                                <div style={{ display: "flex", alignItems: "center", justifyContent: "center", margin: '10px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '10px' }}>
                                     <BasicButton
                                         text={translate.certificates}
                                         color="white"
@@ -183,7 +183,7 @@ class HoverableRow extends React.Component {
                         </GridItem>
                     </Grid>
                 </Card>
-            )
+            );
         }
 
         return (
@@ -199,7 +199,7 @@ class HoverableRow extends React.Component {
                         :
                         bHistory.push(
                             generateLink(council, company)
-                        )
+                        );
                 }}
             >
                 <TableCell
@@ -215,7 +215,7 @@ class HoverableRow extends React.Component {
                 <TableCell
                     style={{
                         ...TableStyles.TD,
-                        width: "35%"
+                        width: '35%'
                     }}
                 >
                     {council.promoCode === 'COUNCILBOX' &&
@@ -238,7 +238,7 @@ class HoverableRow extends React.Component {
                                     date={council.dateRealStart}
                                 />
 
-                                {` - `}
+                                {' - '}
                                 <DateWrapper
                                     format="HH:mm"
                                     date={council.dateEnd}
@@ -272,7 +272,7 @@ class HoverableRow extends React.Component {
                     </div>
                 </TableCell>
             </TableRow>
-        )
+        );
     }
 }
 

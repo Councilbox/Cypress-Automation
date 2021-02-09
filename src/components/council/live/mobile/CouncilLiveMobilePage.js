@@ -3,7 +3,7 @@ import { withApollo } from 'react-apollo';
 import FloatGroup from 'react-float-button';
 import { LoadingMainApp, FabButton, Icon, BasicButton } from '../../../../displayComponents';
 import { showVideo } from '../../../../utils/CBX';
-import { councilLiveQuery } from "../../../../queries";
+import { councilLiveQuery } from '../../../../queries';
 import ParticipantsManager from '../participants/ParticipantsManager';
 import LiveMobileHeader from './LiveMobileHeader';
 import AgendaManager from '../AgendaManager';
@@ -20,8 +20,8 @@ const CouncilLiveMobilePage = ({ client, companies, data, translate, ...props })
         liveParticipantsDrawer: false,
         open: false
     });
-    const [council, setCouncil] = React.useState(false)
-    const [loading, setLoading] = React.useState(true)
+    const [council, setCouncil] = React.useState(false);
+    const [loading, setLoading] = React.useState(true);
 
     const getData = React.useCallback(async () => {
         const response = await client.query({
@@ -31,17 +31,17 @@ const CouncilLiveMobilePage = ({ client, companies, data, translate, ...props })
             }
         });
 
-        setLoading(false)
-        setCouncil(response)
-    }, [])
+        setLoading(false);
+        setCouncil(response);
+    }, []);
 
     React.useEffect(() => {
         getData();
-    }, [getData])
+    }, [getData]);
 
     const updateState = object => {
         setState(object);
-    }
+    };
 
     const toggleLiveParticipantsDrawer = () => {
         const drawer = state.liveParticipantsDrawer;
@@ -50,22 +50,22 @@ const CouncilLiveMobilePage = ({ client, companies, data, translate, ...props })
             liveParticipantsDrawer: !drawer,
             open: false
         });
-    }
+    };
 
     const closeCommentWall = () => {
         setState({
             ...state,
             wall: false
         });
-    }
+    };
 
     const openCommentWall = () => {
         setState({
             ...state,
             wall: true,
             open: false
-        })
-    }
+        });
+    };
 
     const secondary = getSecondary();
 
@@ -74,7 +74,7 @@ const CouncilLiveMobilePage = ({ client, companies, data, translate, ...props })
     ];
 
     if (loading) {
-        return <LoadingMainApp />
+        return <LoadingMainApp />;
     }
 
     return (
@@ -93,11 +93,11 @@ const CouncilLiveMobilePage = ({ client, companies, data, translate, ...props })
             />
             <div
                 style={{
-                    position: "absolute",
-                    bottom: "5%",
-                    right: state.fullScreen ? "5%" : "2%",
-                    display: "flex",
-                    flexDirection: "column",
+                    position: 'absolute',
+                    bottom: '5%',
+                    right: state.fullScreen ? '5%' : '2%',
+                    display: 'flex',
+                    flexDirection: 'column',
                     alignItems: 'flex-end',
                     zIndex: 2
                 }}
@@ -133,13 +133,13 @@ const CouncilLiveMobilePage = ({ client, companies, data, translate, ...props })
                         <React.Fragment>
                             <Icon className="material-icons">
                                 {state.participants
-                                    ? "developer_board"
-                                    : "group"}
+                                    ? 'developer_board'
+                                    : 'group'}
                             </Icon>
                             <Icon className="material-icons">
                                 {state.participants
-                                    ? "keyboard_arrow_left"
-                                    : "keyboard_arrow_right"}
+                                    ? 'keyboard_arrow_left'
+                                    : 'keyboard_arrow_right'}
                             </Icon>
                         </React.Fragment>
                     }
@@ -201,8 +201,8 @@ const CouncilLiveMobilePage = ({ client, companies, data, translate, ...props })
                 }
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default withApollo(CouncilLiveMobilePage);
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { TableRow, TableCell, Card } from 'material-ui';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
@@ -19,17 +19,17 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
         partners: [],
         appliedFilters: {
             limit: 50,
-            text: "",
+            text: '',
             field: 'fullName',
             page: 1,
             notificationStatus: null,
             orderBy: 'name',
             orderDirection: 'asc'
         }
-    })
-    const [bookParticipantsData, setBookParticipantsData] = React.useState()
-    const [bookParticipantsTotal, setBookParticipantsTotal] = React.useState()
-    const [loading, setLoading] = React.useState(true)
+    });
+    const [bookParticipantsData, setBookParticipantsData] = React.useState();
+    const [bookParticipantsTotal, setBookParticipantsTotal] = React.useState();
+    const [loading, setLoading] = React.useState(true);
     const table = React.useRef();
     const primary = getPrimary();
 
@@ -39,7 +39,7 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
             query: bookParticipants,
             variables: {
                 companyId: +props.match.params.company,
-                filters: !sinFiltros ? [{ field: state.appliedFilters.field, text: state.appliedFilters.text }] : [{ field: 'fullName', text: "" }],
+                filters: !sinFiltros ? [{ field: state.appliedFilters.field, text: state.appliedFilters.text }] : [{ field: 'fullName', text: '' }],
                 options: {
                     limit: !sinFiltros ? state.appliedFilters.limit : 0,
                     offset: !sinFiltros ? (state.appliedFilters.page - 1) * state.appliedFilters.limit : 0,
@@ -48,17 +48,17 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
                 },
             },
         });
-        setBookParticipantsData(response.data.bookParticipants.list)
-        setBookParticipantsTotal(response.data.bookParticipants.total)
-        setLoading(false)
+        setBookParticipantsData(response.data.bookParticipants.list);
+        setBookParticipantsTotal(response.data.bookParticipants.total);
+        setLoading(false);
         if(sinFiltros){
-            return response.data.bookParticipants.list
+            return response.data.bookParticipants.list;
         }
-    }, [state.appliedFilters.page, state.appliedFilters.orderDirection, state.appliedFilters.orderBy, state.appliedFilters.text, state.appliedFilters.limit])
+    }, [state.appliedFilters.page, state.appliedFilters.orderDirection, state.appliedFilters.orderBy, state.appliedFilters.text, state.appliedFilters.limit]);
 
     React.useEffect(() => {
         getData();
-    }, [getData])
+    }, [getData]);
 
     const updateFilters = value => {
         const appliedFilters = {
@@ -69,17 +69,17 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
             limit: value.options.limit,
             orderBy: value.options.orderBy,
             orderDirection: value.options.orderDirection
-        }
+        };
 
         setState({
             ...state,
             appliedFilters,
         });
-    }
+    };
 
     const addPartner = () => {
         bHistory.push(`/company/${props.match.params.company}/book/new`);
-    }
+    };
 
 
     const closeDeleteModal = () => {
@@ -87,16 +87,16 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
             ...state,
             deleteModal: false,
             selectedId: null
-        })
-    }
+        });
+    };
 
     const selectedIdToDelete = id => {
         setState({
             ...state,
             selectedId: id,
             deleteModal: true
-        })
-    }
+        });
+    };
 
     const deleteBookParticipant = async () => {
         const response = await client.mutate({
@@ -110,18 +110,18 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
             getData();
             closeDeleteModal();
         }
-    }
+    };
 
 
     const createXLSX = async () => {
         const lista = await getData(true);
         const arrayFinal = [];
         for (let index = 0; index < lista.length; index++) {
-            let arrayRepresentative
+            let arrayRepresentative;
             const { representative, __typename, name, dni, state, position, surname, subscribeDate, unsubscribeDate, unsubscribeActNumber, subscribeActNumber, id } = lista[index];
             const listaFinal = {
                 id,
-                [translate.state]: state === 1 ? "Alta" : "Baja",
+                [translate.state]: state === 1 ? 'Alta' : 'Baja',
                 [translate.name]: name,
                 [translate.surname]: surname,
                 [translate.dni]: dni,
@@ -130,27 +130,27 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
                 [translate.unsubscribe_date]: unsubscribeDate,
                 [translate.subscribe_act_number]: subscribeActNumber,
                 [translate.unsubscribe_act_number]: unsubscribeActNumber,
-            }
+            };
             if (representative !== null) {
                 const { id, dni, name, position, state, surname } = representative;
                 arrayRepresentative = {
                     rId: id,
-                    ["r" + translate.state]: state === 1 ? "Alta" : "Baja",
-                    ["r" + translate.name]: name,
-                    ["r" + translate.surname]: surname,
-                    ["r" + translate.dni]: dni,
-                    ["r" + translate.position]: position,
-                }
+                    ['r' + translate.state]: state === 1 ? 'Alta' : 'Baja',
+                    ['r' + translate.name]: name,
+                    ['r' + translate.surname]: surname,
+                    ['r' + translate.dni]: dni,
+                    ['r' + translate.position]: position,
+                };
             }
-            const a = Object.assign(listaFinal, arrayRepresentative)
+            const a = Object.assign(listaFinal, arrayRepresentative);
             arrayFinal.push(a);
         }
 
         const ws = XLSX.utils.json_to_sheet(arrayFinal);
         const wb = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, "Libro de socios");
-        XLSX.writeFile(wb, "LibroDeSocios-" + props.match.params.company + ".xlsx");
-    }
+        XLSX.utils.book_append_sheet(wb, ws, 'Libro de socios');
+        XLSX.writeFile(wb, 'LibroDeSocios-' + props.match.params.company + '.xlsx');
+    };
 
     if (loading) {
         return <LoadingSection />;
@@ -164,17 +164,17 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
         },
         {
             text: translate.participant_data,
-            name: "fullName",
+            name: 'fullName',
             canOrder: true
         },
         {
             text: translate.dni,
-            name: "dni",
+            name: 'dni',
             canOrder: true
         },
         {
             text: translate.position,
-            name: "position",
+            name: 'position',
             canOrder: true
         },
         {
@@ -229,12 +229,12 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
                             text={translate.add_partner}
                             onClick={addPartner}
                             color={'white'}
-                            buttonStyle={{ border: `2px solid ${primary}`, marginRight: "0.9em" }}
+                            buttonStyle={{ border: `2px solid ${primary}`, marginRight: '0.9em' }}
                             textStyle={{ color: primary, textTransform: 'none', fontWeight: '700' }}
                             id={'anadirSocioLibroSocios'}
                         />
                         <BasicButton
-                            text={"Exportar a XLSX"} //TRADUCCION
+                            text={'Exportar a XLSX'} //TRADUCCION
                             onClick={createXLSX}
                             color={'white'}
                             buttonStyle={{ border: `2px solid ${primary}` }}
@@ -243,34 +243,34 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
                     </div>
                 }
                 selectedCategories={[{
-                    field: "state",
+                    field: 'state',
                     value: 'all',
                     label: translate.all_plural
                 }]}
                 categories={[[
                     {
-                        field: "state",
+                        field: 'state',
                         value: 'all',
                         label: translate.all_plural
                     },
                     {
-                        field: "state",
+                        field: 'state',
                         value: 1,
                         label: translate.subscribed
                     },
                     {
-                        field: "state",
+                        field: 'state',
                         value: 0,
                         label: translate.unsubscribed
                     },
                     {
-                        field: "state",
+                        field: 'state',
                         value: 2,
                         label: translate.other
                     }
                 ]]}
-                defaultFilter={"fullName"}
-                defaultOrder={["fullName", "asc"]}
+                defaultFilter={'fullName'}
+                defaultOrder={['fullName', 'asc']}
                 limits={[50, 100]}
                 page={1}
                 loading={loading}
@@ -279,20 +279,20 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
                 refetch={updateFilters}
                 fields={[
                     {
-                        value: "fullName",
+                        value: 'fullName',
                         translation: translate.participant_data
                     },
                     {
-                        value: "dni",
+                        value: 'dni',
                         translation: translate.dni
                     },
                     {
-                        value: "position",
+                        value: 'position',
                         translation: translate.position
                     },
                     {
-                        value: "subscribeActNumber",
-                        translation: "Nº de acta"//translate.subscribe_act
+                        value: 'subscribeActNumber',
+                        translation: 'Nº de acta'//translate.subscribe_act
                     },
                 ]}
                 headers={headers}
@@ -311,8 +311,8 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
                 )}
             </EnhancedTable>
         </CardPageLayout>
-    )
-}
+    );
+};
 
 class HoverableRow extends React.PureComponent {
     state = {
@@ -322,13 +322,13 @@ class HoverableRow extends React.PureComponent {
     mouseEnterHandler = () => {
         this.setState({
             showActions: true
-        })
+        });
     }
 
     mouseLeaveHandler = () => {
         this.setState({
             showActions: false
-        })
+        });
     }
 
 
@@ -411,7 +411,7 @@ class HoverableRow extends React.PureComponent {
                         }} />
                     </div>
                 </Card>
-            )
+            );
         }
 
         return (
@@ -422,8 +422,8 @@ class HoverableRow extends React.PureComponent {
                 onMouseLeave={this.mouseLeaveHandler}
                 onClick={() => bHistory.push(`/company/${this.props.companyId}/book/${participant.id}`)}
                 style={{
-                    cursor: "pointer",
-                    fontSize: "0.5em"
+                    cursor: 'pointer',
+                    fontSize: '0.5em'
                 }}
             >
                 <TableCell>
@@ -474,7 +474,7 @@ class HoverableRow extends React.PureComponent {
                     </div>
                 </TableCell>
             </TableRow>
-        )
+        );
     }
 }
 

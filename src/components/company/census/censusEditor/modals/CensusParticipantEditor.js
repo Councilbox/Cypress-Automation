@@ -1,29 +1,29 @@
-import React from "react";
-import { compose, graphql } from "react-apollo";
-import { Card } from "material-ui";
-import { AlertConfirm } from "../../../../../displayComponents/index";
-import { updateCensusParticipant } from "../../../../../queries/census";
-import { languages } from "../../../../../queries/masters";
-import { censusHasParticipations } from "../../../../../utils/CBX";
-import RepresentativeForm from "../RepresentativeForm";
-import ParticipantForm from "../../../../council/participants/ParticipantForm";
+import React from 'react';
+import { compose, graphql } from 'react-apollo';
+import { Card } from 'material-ui';
+import { AlertConfirm } from '../../../../../displayComponents/index';
+import { updateCensusParticipant } from '../../../../../queries/census';
+import { languages } from '../../../../../queries/masters';
+import { censusHasParticipations } from '../../../../../utils/CBX';
+import RepresentativeForm from '../RepresentativeForm';
+import ParticipantForm from '../../../../council/participants/ParticipantForm';
 import {
 	checkRequiredFieldsParticipant,
 	checkRequiredFieldsRepresentative
-} from "../../../../../utils/validation";
-import SelectCensusParticipantRepresentative from "./SelectCensusParticipantRepresentative";
+} from '../../../../../utils/validation';
+import SelectCensusParticipantRepresentative from './SelectCensusParticipantRepresentative';
 
 const initialRepresentative = {
 	hasRepresentative: false,
-	language: "es",
+	language: 'es',
 	type: 2,
 	initialState: 0,
-	name: "",
-	surname: "",
-	position: "",
-	email: "",
-	phone: "",
-	dni: ""
+	name: '',
+	surname: '',
+	position: '',
+	email: '',
+	phone: '',
+	dni: ''
 };
 
 function extractTypeName(object) {
@@ -186,10 +186,10 @@ class CensusParticipantEditor extends React.Component {
 							selectRepresentative: false
 						})}
 					/>
-					<div style={{ marginRight: "1em" }}>
+					<div style={{ marginRight: '1em' }}>
 						<Card style={{
 							padding: '1em',
-							marginBottom: "1em",
+							marginBottom: '1em',
 							color: 'black',
 						}}>
 							<ParticipantForm
@@ -204,7 +204,7 @@ class CensusParticipantEditor extends React.Component {
 						</Card>
 						<Card style={{
 							padding: '1em',
-							marginBottom: "1em",
+							marginBottom: '1em',
 							color: 'black',
 						}}>
 							<RepresentativeForm
@@ -248,9 +248,9 @@ class CensusParticipantEditor extends React.Component {
 
 export default compose(
 	graphql(updateCensusParticipant, {
-		name: "updateCensusParticipant",
+		name: 'updateCensusParticipant',
 		options: {
-			errorPolicy: "all"
+			errorPolicy: 'all'
 		}
 	}),
 	graphql(languages)

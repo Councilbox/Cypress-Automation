@@ -27,11 +27,11 @@ const CbxDataModal = ({ open, requestClose, participant, translate, client, comp
 
 		if (response) {
 			if (response.data.cbxData) {
-				downloadFile(response.data.cbxData, "application/pdf", `CbxData_${participant.id}`);
+				downloadFile(response.data.cbxData, 'application/pdf', `CbxData_${participant.id}`);
             }
             setDownloading(false);
 		}
-	}
+	};
 
 
     const getData = React.useCallback(async () => {
@@ -47,7 +47,7 @@ const CbxDataModal = ({ open, requestClose, participant, translate, client, comp
         });
         setHtml(response.data.cbxDataHtml);
         setLoading(false);
-    }, [participant.id])
+    }, [participant.id]);
 
     React.useEffect(() => {
         if(open){
@@ -69,20 +69,20 @@ const CbxDataModal = ({ open, requestClose, participant, translate, client, comp
                         loading={downloading}
                         loadingColor={secondary}
                         onClick={download}
-                        buttonStyle={{ marginTop: "0.5em", border: `1px solid ${secondary}` }}
+                        buttonStyle={{ marginTop: '0.5em', border: `1px solid ${secondary}` }}
                         textStyle={{
                             color: secondary,
-                            fontWeight: "700",
-                            fontSize: "0.9em",
-                            textTransform: "none"
+                            fontWeight: '700',
+                            fontSize: '0.9em',
+                            textTransform: 'none'
                         }}
                         icon={
                             <FontAwesome
-                                name={"file-pdf-o"}
+                                name={'file-pdf-o'}
                                 style={{
-                                    fontSize: "1em",
+                                    fontSize: '1em',
                                     color: secondary,
-                                    marginLeft: "0.3em"
+                                    marginLeft: '0.3em'
                                 }}
                             />
                         }
@@ -103,7 +103,7 @@ const CbxDataModal = ({ open, requestClose, participant, translate, client, comp
 
             }
         />
-    )
-}
+    );
+};
 
-export default withSharedProps()(withApollo(CbxDataModal))
+export default withSharedProps()(withApollo(CbxDataModal));

@@ -26,8 +26,8 @@ const CouncilsSectionTrigger = ({ text, description, icon }) => (
                 <FontAwesome
                     name={icon}
                     style={{
-                        cursor: "pointer",
-                        fontSize: "1.7em",
+                        cursor: 'pointer',
+                        fontSize: '1.7em',
                         color: getPrimary()
                     }}
                 />
@@ -50,13 +50,13 @@ const CouncilsSectionTrigger = ({ text, description, icon }) => (
             <FontAwesome
                 name={'chevron-down'}
                 style={{
-                    cursor: "pointer",
-                    fontSize: "1.4em",
+                    cursor: 'pointer',
+                    fontSize: '1.4em',
                     color: 'grey'
                 }}
             />
         </div>
     </MenuItem>
-)
+);
 
 export default CouncilsSectionTrigger;

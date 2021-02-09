@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from "react";
-import { Typography } from "material-ui";
-import { compose, graphql } from "react-apollo";
+import React, { Component, Fragment } from 'react';
+import { Typography } from 'material-ui';
+import { compose, graphql } from 'react-apollo';
 import {
 	BasicButton,
 	ButtonIcon,
@@ -10,10 +10,10 @@ import {
 	LoadingSection,
 	Radio,
 	TextInput
-} from "../../../displayComponents";
-import RichTextInput from "../../../displayComponents/RichTextInput";
-import { getPrimary } from "../../../styles/colors";
-import { meetingStepOne, updateCouncil } from "../../../queries";
+} from '../../../displayComponents';
+import RichTextInput from '../../../displayComponents/RichTextInput';
+import { getPrimary } from '../../../styles/colors';
+import { meetingStepOne, updateCouncil } from '../../../queries';
 
 class MeetingEditorConfig extends Component {
 	constructor(props) {
@@ -25,9 +25,9 @@ class MeetingEditorConfig extends Component {
 				dateStart: new Date().toISOString()
 			},
 			errors: {
-				name: "",
-				dateStart: "",
-				conveneText: ""
+				name: '',
+				dateStart: '',
+				conveneText: ''
 			}
 		};
 	}
@@ -95,7 +95,7 @@ class MeetingEditorConfig extends Component {
 		return (
 			<Fragment>
 				<Radio
-					value={"0"}
+					value={'0'}
 					checked={council.securityType === 0}
 					onChange={event => this.updateCouncilData({
 							securityType: parseInt(event.target.value, 10)
@@ -105,7 +105,7 @@ class MeetingEditorConfig extends Component {
 					label={translate.new_security_none}
 				/>
 				<Radio
-					value={"1"}
+					value={'1'}
 					checked={council.securityType === 1}
 					onChange={event => this.updateCouncilData({
 							securityType: parseInt(event.target.value, 10)
@@ -115,7 +115,7 @@ class MeetingEditorConfig extends Component {
 					label={translate.new_security_email}
 				/>
 				<Radio
-					value={"2"}
+					value={'2'}
 					checked={council.securityType === 2}
 					onChange={event => this.updateCouncilData({
 							securityType: parseInt(event.target.value, 10)
@@ -141,9 +141,9 @@ class MeetingEditorConfig extends Component {
 		return (
 			<div
 				style={{
-					width: "100%",
-					height: "100%",
-					padding: "2em"
+					width: '100%',
+					height: '100%',
+					padding: '2em'
 				}}
 			>
 				<div className="row">
@@ -155,11 +155,11 @@ class MeetingEditorConfig extends Component {
 								const dateString = newDate.toISOString();
 								this.updateDate(dateString);
 							}}
-							minDateMessage={""}
+							minDateMessage={''}
 							errorText={errors.dateStart}
 							acceptText={translate.accept}
 							cancelText={translate.cancel}
-							label={translate["1st_call_date"]}
+							label={translate['1st_call_date']}
 							value={council.dateStart}
 						/>
 					</div>
@@ -169,7 +169,7 @@ class MeetingEditorConfig extends Component {
 							floatingText={translate.convene_header}
 							type="text"
 							errorText={this.state.errors.name}
-							value={council.name || ""}
+							value={council.name || ''}
 							onChange={event => this.setState({
 									...this.state,
 									data: {
@@ -182,13 +182,13 @@ class MeetingEditorConfig extends Component {
 					</div>
 					<div
 						className="col-lg-10 col-md-10 col-xs-12"
-						style={{ margin: "0.7em 0.7em 0 0" }}
+						style={{ margin: '0.7em 0.7em 0 0' }}
 					>
 						<RichTextInput
 							errorText=""
 							translate={translate}
 							floatingText={translate.convene_info}
-							value={council.conveneText || ""}
+							value={council.conveneText || ''}
 							onChange={value => this.setState({
 									...this.state,
 									data: {
@@ -203,7 +203,7 @@ class MeetingEditorConfig extends Component {
 				<div>
 					<Typography
 						variant="subheading"
-						style={{ marginTop: "2em" }}
+						style={{ marginTop: '2em' }}
 					>
 						{translate.video}
 					</Typography>
@@ -217,7 +217,7 @@ class MeetingEditorConfig extends Component {
 					/>
 					<Typography
 						variant="subheading"
-						style={{ marginTop: "2em" }}
+						style={{ marginTop: '2em' }}
 					>
 						{translate.security}
 					</Typography>
@@ -226,21 +226,21 @@ class MeetingEditorConfig extends Component {
 
 				<div
 					style={{
-						marginTop: "2em",
-						width: "40%",
-						float: "right",
-						height: "3em"
+						marginTop: '2em',
+						width: '40%',
+						float: 'right',
+						height: '3em'
 					}}
 				>
 					<BasicButton
 						text={translate.save}
 						color={getPrimary()}
 						textStyle={{
-							color: "white",
-							fontWeight: "700",
-							fontSize: "0.9em",
-							textTransform: "none",
-							marginRight: "0.6em"
+							color: 'white',
+							fontWeight: '700',
+							fontSize: '0.9em',
+							textTransform: 'none',
+							marginRight: '0.6em'
 						}}
 						icon={<ButtonIcon type="save" color="white" />}
 						textPosition="after"
@@ -251,10 +251,10 @@ class MeetingEditorConfig extends Component {
 						color={getPrimary()}
 						icon={<ButtonIcon type="arrow_forward" color="white" />}
 						textStyle={{
-							color: "white",
-							fontWeight: "700",
-							fontSize: "0.9em",
-							textTransform: "none"
+							color: 'white',
+							fontWeight: '700',
+							fontSize: '0.9em',
+							textTransform: 'none'
 						}}
 						textPosition="after"
 						onClick={this.nextPage}
@@ -274,7 +274,7 @@ class MeetingEditorConfig extends Component {
 
 export default compose(
 	graphql(meetingStepOne, {
-		name: "data",
+		name: 'data',
 		options: props => ({
 			variables: {
 				id: props.councilID
@@ -283,6 +283,6 @@ export default compose(
 	}),
 
 	graphql(updateCouncil, {
-		name: "updateCouncil"
+		name: 'updateCouncil'
 	})
 )(MeetingEditorConfig);

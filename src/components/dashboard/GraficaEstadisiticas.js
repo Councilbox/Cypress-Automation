@@ -1,6 +1,6 @@
-import React from "react";
-import { Doughnut } from "react-chartjs-2";
-import withTranslations from "../../HOCs/withTranslations";
+import React from 'react';
+import { Doughnut } from 'react-chartjs-2';
+import withTranslations from '../../HOCs/withTranslations';
 
 
 const GraficaEstadisiticas = ({ porcentaje, color, translate }) => {
@@ -10,19 +10,19 @@ const GraficaEstadisiticas = ({ porcentaje, color, translate }) => {
 			data: [65, 59, 80, 81],
 			backgroundColor: [
 				color,
-				"#491f77",
+				'#491f77',
 				'#e77152',
 				'rgb(125, 33, 128)',
 			],
 			hoverBackgroundColor: [
 				color,
-				"#491f77",
+				'#491f77',
 				'#e77152',
 				'rgb(125, 33, 128)',
 			],
 			borderColor: '#cfe7f4',
 			borderWidth: 4,
-			hoverBorderColor: ["#cfe7f4", '#cfe7f4']
+			hoverBorderColor: ['#cfe7f4', '#cfe7f4']
 		}]
 	};
 
@@ -35,12 +35,12 @@ const GraficaEstadisiticas = ({ porcentaje, color, translate }) => {
 			boxWidth: 10
 		  }
 		}
-	  }
+	  };
 
 	return (
 		<Doughnut data={data} options={options} />
-	)
-}
+	);
+};
 
 
 

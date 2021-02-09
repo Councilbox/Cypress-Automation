@@ -7,7 +7,7 @@ const ToggleRecordings = ({ toggleRecordings }) => (
         <BasicButton
             text="Toggle recordings"
         />
-    )
+    );
 
 
 const toggleRecordings = gql`

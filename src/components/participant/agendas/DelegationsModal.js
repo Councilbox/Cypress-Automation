@@ -13,7 +13,7 @@ const DelegationsModal = ({ open, requestClose, translate, refetch, council, par
 
     const closeConfirm = () => {
         setDelegation(false);
-    }
+    };
 
     const delegations = participant.delegatedVotes.filter(vote => vote.state === PARTICIPANT_STATES.DELEGATED);
     const representations = participant.delegatedVotes.filter(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
@@ -64,10 +64,10 @@ const DelegationsModal = ({ open, requestClose, translate, refetch, council, par
                     ))}
                 <br/>{translate.total_votes}: {calculateParticipantVotes()}
             </div>
-        )
+        );
     }
 
-    const calculateParticipantVotes = () => showNumParticipations(participant.delegatedVotes.reduce((a, b) => a + b.numParticipations, participant.numParticipations), council.company, council.statute)
+    const calculateParticipantVotes = () => showNumParticipations(participant.delegatedVotes.reduce((a, b) => a + b.numParticipations, participant.numParticipations), council.company, council.statute);
 
     return (
         <React.Fragment>
@@ -93,8 +93,8 @@ const DelegationsModal = ({ open, requestClose, translate, refetch, council, par
 				/>
 			}
         </React.Fragment>
-    )
-}
+    );
+};
 
 
 export default DelegationsModal;

@@ -1,13 +1,13 @@
-import React from "react";
-import { graphql, withApollo } from "react-apollo";
-import * as CBX from "../../../../utils/CBX";
-import { getSecondary } from "../../../../styles/colors";
-import { PARTICIPANT_STATES } from "../../../../constants";
-import { changeParticipantState } from "../../../../queries/liveParticipant";
-import { FilterButton, Grid, AlertConfirm, DropDownMenu } from "../../../../displayComponents";
-import StateIcon from "./StateIcon";
-import { useOldState } from "../../../../hooks";
-import { removeLiveParticipantSignature } from "./modals/SignatureModal";
+import React from 'react';
+import { graphql, withApollo } from 'react-apollo';
+import * as CBX from '../../../../utils/CBX';
+import { getSecondary } from '../../../../styles/colors';
+import { PARTICIPANT_STATES } from '../../../../constants';
+import { changeParticipantState } from '../../../../queries/liveParticipant';
+import { FilterButton, Grid, AlertConfirm, DropDownMenu } from '../../../../displayComponents';
+import StateIcon from './StateIcon';
+import { useOldState } from '../../../../hooks';
+import { removeLiveParticipantSignature } from './modals/SignatureModal';
 
 const getActualParticipant = (participant, representative) => {
 	if (CBX.hasHisVoteDelegated(participant)) {
@@ -15,7 +15,7 @@ const getActualParticipant = (participant, representative) => {
 	}
 
 	return representative || participant;
-}
+};
 
 
 const ParticipantStateList = ({ participant: p, representative, translate, council, inDropDown, client, ...props }) => {
@@ -28,7 +28,7 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 	const [leaveAlert, setLeaveAlert] = React.useState(false);
 	const secondary = getSecondary();
 
-	const participant = getActualParticipant(p, representative)
+	const participant = getActualParticipant(p, representative);
 
 	const removeParticipantSignature = async () => {
 		await client.mutate({
@@ -37,7 +37,7 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 				participantId: participant.id
 			}
 		});
-	}
+	};
 
 	const updateParticipantState = async (status, index) => {
 		setState({
@@ -76,7 +76,7 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 				open={leaveAlert}
 				requestClose={event => {
 					event.stopPropagation();
-					setLeaveAlert(false)
+					setLeaveAlert(false);
 				}}
 				acceptAction={event => {
 					event.stopPropagation();
@@ -88,10 +88,10 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 				}
 			/>
 			<DropDownMenu
-				claseHover={"classHover "}
+				claseHover={'classHover '}
 				color="transparent"
 				style={{ paddingLeft: '0px', paddingRight: '0px' }}
-				textStyle={{ boxShadow: "none", height: '100%', minWidth: "15px" }}
+				textStyle={{ boxShadow: 'none', height: '100%', minWidth: '15px' }}
 				icon={
 					<StateIcon
 						translate={translate}
@@ -103,18 +103,18 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 					<>
 						<Grid
 							style={{
-								width: "100%",
-								display: "flex",
-								flexDirection: "row",
+								width: '100%',
+								display: 'flex',
+								flexDirection: 'row',
 								minWidth: '17em',
-								alignItems: "center",
+								alignItems: 'center',
 								margin: 0
 							}}
 						>
 
-							<div style={{ display: 'flex', alignItems: 'center', padding: "0px", width: '100%' }}>
+							<div style={{ display: 'flex', alignItems: 'center', padding: '0px', width: '100%' }}>
 								<FilterButton
-									styles={{ width: '100%', border: 'none', boxShadow: 'none', margin: "none", borderRadius: "0" }}
+									styles={{ width: '100%', border: 'none', boxShadow: 'none', margin: 'none', borderRadius: '0' }}
 									tooltip={translate.change_to_no_participate}
 									loading={loading === 0}
 									size="2.8em"
@@ -123,7 +123,7 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 										participant.state === PARTICIPANT_STATES.NO_PARTICIPATE
 									}
 								>
-									<div style={{ width: '30%', marginRight: "20px" }}>
+									<div style={{ width: '30%', marginRight: '20px' }}>
 										<StateIcon
 											translate={translate}
 											state={PARTICIPANT_STATES.NO_PARTICIPATE}
@@ -139,14 +139,14 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 							{council.councilType !== 1 &&
 								<div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
 									<FilterButton
-										styles={{ width: "100%", border: "none", boxShadow: "none", margin: "none", borderRadius: "0" }}
+										styles={{ width: '100%', border: 'none', boxShadow: 'none', margin: 'none', borderRadius: '0' }}
 										tooltip={translate.change_to_remote}
 										loading={loading === 1}
 										size="2.8em"
 										onClick={() => updateParticipantState(0, 1, null)}
 										active={participant.state === PARTICIPANT_STATES.REMOTE}
 									>
-										<div style={{ width: '30%', marginRight: "20px" }}>
+										<div style={{ width: '30%', marginRight: '20px' }}>
 											<StateIcon
 												translate={translate}
 												state={PARTICIPANT_STATES.REMOTE}
@@ -160,9 +160,9 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 									</FilterButton>
 								</div>
 							}
-							<div style={{ display: 'flex', alignItems: 'center', margin: "none", borderRadius: "0", width: '100%' }}>
+							<div style={{ display: 'flex', alignItems: 'center', margin: 'none', borderRadius: '0', width: '100%' }}>
 								<FilterButton
-									styles={{ width: "100%", border: "none", boxShadow: "none", margin: "none", }}
+									styles={{ width: '100%', border: 'none', boxShadow: 'none', margin: 'none', }}
 									tooltip={translate.physically_present_assistance}
 									loading={loading === 2}
 									size="2.8em"
@@ -172,7 +172,7 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 										PARTICIPANT_STATES.PHYSICALLY_PRESENT
 									}
 								>
-									<div style={{ width: '30%', marginRight: "20px" }}>
+									<div style={{ width: '30%', marginRight: '20px' }}>
 										<StateIcon
 											translate={translate}
 											state={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
@@ -188,10 +188,10 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 							{((participant.state === PARTICIPANT_STATES.PHYSICALLY_PRESENT ||
 								participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
 							) && council.councilType < 2) && (
-									<div style={{ display: 'flex', alignItems: 'center', margin: "none", borderRadius: "0", width: '100%' }}>
+									<div style={{ display: 'flex', alignItems: 'center', margin: 'none', borderRadius: '0', width: '100%' }}>
 										<FilterButton
 											tooltip={translate.change_to_present_with_remote_vote}
-											styles={{ width: "100%", border: "none", boxShadow: "none", margin: "none", }}
+											styles={{ width: '100%', border: 'none', boxShadow: 'none', margin: 'none', }}
 											loading={loading === 3}
 											size="2.8em"
 											onClick={() => setLeaveAlert(true)}
@@ -200,7 +200,7 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 												PARTICIPANT_STATES.LEFT
 											}
 										>
-											<div style={{ width: '30%', marginRight: "20px" }}>
+											<div style={{ width: '30%', marginRight: '20px' }}>
 												<StateIcon
 													translate={translate}
 													state={PARTICIPANT_STATES.LEFT}
@@ -215,10 +215,10 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 									</div>
 								)}
 							{CBX.canBePresentWithRemoteVote(council.statute) && (
-								<div style={{ display: 'flex', alignItems: 'center', margin: "none", borderRadius: "0", width: '100%' }}>
+								<div style={{ display: 'flex', alignItems: 'center', margin: 'none', borderRadius: '0', width: '100%' }}>
 									<FilterButton
 										tooltip={translate.change_to_present_with_remote_vote}
-										styles={{ width: "100%", border: "none", boxShadow: "none", margin: "none", }}
+										styles={{ width: '100%', border: 'none', boxShadow: 'none', margin: 'none', }}
 										loading={loading === 3}
 										size="2.8em"
 										onClick={() => updateParticipantState(7, 3, null)}
@@ -227,7 +227,7 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 											PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
 										}
 									>
-										<div style={{ width: '30%', marginRight: "20px" }}>
+										<div style={{ width: '30%', marginRight: '20px' }}>
 											<StateIcon
 												translate={translate}
 												state={PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE}
@@ -252,9 +252,9 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 			/>
 		</>
 	);
-}
+};
 
 
 export default graphql(changeParticipantState, {
-	name: "changeParticipantState"
+	name: 'changeParticipantState'
 })(withApollo(ParticipantStateList));

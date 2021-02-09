@@ -1,6 +1,6 @@
 import React from 'react';
-import { printCifAlreadyUsed, printSessionExpiredError, printTrialEnded } from "./CBX";
-import { logout } from "../actions/mainActions";
+import { printCifAlreadyUsed, printSessionExpiredError, printTrialEnded } from './CBX';
+import { logout } from '../actions/mainActions';
 import { refreshTokenQuery } from '../queries';
 import { LiveToast } from '../displayComponents';
 
@@ -27,15 +27,15 @@ export const refreshToken = async (apolloClient, toast, store) => {
 			/>, {
 				position: toast.POSITION.TOP_RIGHT,
 				autoClose: true,
-				className: "errorToast"
+				className: 'errorToast'
 			}
 		);
 		store.dispatch(logout());
 	}
-}
+};
 
 export const graphQLErrorHandler = async (graphQLError, toast, store, apolloClient, operation, bHistory) => {
-	if (graphQLError.message === "Validation error") {
+	if (graphQLError.message === 'Validation error') {
 		if (graphQLError.originalError) {
 			if (graphQLError.originalError.fields) {
 				if (graphQLError.originalError.fields.tin) {
@@ -45,7 +45,7 @@ export const graphQLErrorHandler = async (graphQLError, toast, store, apolloClie
 						/>, {
 							position: toast.POSITION.TOP_RIGHT,
 							autoClose: true,
-							className: "errorToast"
+							className: 'errorToast'
 						}
 					);
 				}
@@ -59,7 +59,7 @@ export const graphQLErrorHandler = async (graphQLError, toast, store, apolloClie
 			/>, {
 				position: toast.POSITION.TOP_RIGHT,
 				autoClose: true,
-				className: "errorToast"
+				className: 'errorToast'
 			}
 		);
 		bHistory.push('/');

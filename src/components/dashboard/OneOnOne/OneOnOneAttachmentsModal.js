@@ -53,7 +53,7 @@ const OneOnOneAttachmentsModal = ({ client, translate, council, open, requestClo
             requestClose={requestClose}
             open={open}
         />
-    )
-}
+    );
+};
 
 export default withApollo(OneOnOneAttachmentsModal);

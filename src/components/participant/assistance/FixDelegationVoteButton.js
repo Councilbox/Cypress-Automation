@@ -35,7 +35,7 @@ const FixDelegationVoteButton = ({ translate, setState, state, council, particip
 
             />
         </>
-    )
-}
+    );
+};
 
 export default FixDelegationVoteButton;

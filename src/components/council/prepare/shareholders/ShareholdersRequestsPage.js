@@ -56,40 +56,40 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
             setUsersTotal(response.data.shareholdersRequests.total);
         }
         setLoading(false);
-    }, [council.id, usersPage, search, searchText])
+    }, [council.id, usersPage, search, searchText]);
 
     usePolling(getData, 8000);
 
     React.useEffect(() => {
         const timeout = setTimeout(getData, 300);
         return () => clearTimeout(timeout);
-    }, [getData, usersPage, search, searchText])
+    }, [getData, usersPage, search, searchText]);
 
     if (loading) {
-        return <LoadingSection />
+        return <LoadingSection />;
     }
 
     return (
-        <div style={{ padding: '2em 1em 1em', height: "calc( 100% - 3em )" }}>
+        <div style={{ padding: '2em 1em 1em', height: 'calc( 100% - 3em )' }}>
             <Scrollbar>
-                <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                    <div style={{ display: "flex", width: "50px", marginBottom: "2em" }}>
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                    <div style={{ display: 'flex', width: '50px', marginBottom: '2em' }}>
                         <DropDownMenu
                             anchorOrigin={{
                                 vertical: 'bottom',
                                 horizontal: 'left',
                             }}
                             color="transparent"
-                            Component={() => <div style={{ marginTop: "0.5em", cursor: "pointer" }}>
+                            Component={() => <div style={{ marginTop: '0.5em', cursor: 'pointer' }}>
                                     <div>
-                                        <i className="fa fa-filter" aria-hidden="true" style={{ color: '#c196c3', fontSize: "24px" }}></i>
+                                        <i className="fa fa-filter" aria-hidden="true" style={{ color: '#c196c3', fontSize: '24px' }}></i>
                                     </div>
                                 </div>
                             }
-                            textStyle={{ color: "#c196c3" }}
+                            textStyle={{ color: '#c196c3' }}
                             type="flat"
                             items={
-                                <div style={{ color: "" }}>
+                                <div style={{ color: '' }}>
                                     {/* TRADUCCION */}
                                     <MenuItem onClick={() => setSearch('1')} >
                                         Aceptada
@@ -103,71 +103,71 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
 
                     </div>
                     <TextInput
-                        className={isMobile && !searchText ? "openInput" : ""}
+                        className={isMobile && !searchText ? 'openInput' : ''}
                         disableUnderline={true}
-                        styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", padding: isMobile && searchText && "4px 5px", paddingLeft: !isMobile && "5px" }}
-                        stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && searchText ? "8px" : "4px" }}
+                        styleInInput={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', padding: isMobile && searchText && '4px 5px', paddingLeft: !isMobile && '5px' }}
+                        stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: isMobile && searchText ? '8px' : '4px' }}
                         adornment={<Icon onClick={() => setSearchText(!searchText)} >search</Icon>}
-                        floatingText={" "}
+                        floatingText={' '}
                         type="text"
                         value={searchText}
-                        placeholder={isMobile ? "" : translate.search}
+                        placeholder={isMobile ? '' : translate.search}
                         onChange={event => {
                             setSearchText(event.target.value);
                         }}
-                        styles={{ marginTop: "-16px", width: '200px' }}
-                        stylesTextField={{ marginBottom: "0px" }}
+                        styles={{ marginTop: '-16px', width: '200px' }}
+                        stylesTextField={{ marginBottom: '0px' }}
                     />
                 </div>
                 <Table>
                     <TableHead>
-                        <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: "0.75rem" }}>
+                        <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: '0.75rem' }}>
                             {translate.name}
                         </TableCell>
-                        <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: "0.75rem" }}>
+                        <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: '0.75rem' }}>
                             {translate.email}
                         </TableCell>
-                        <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: "0.75rem" }}>
+                        <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: '0.75rem' }}>
                             {translate.dni}
                         </TableCell>
-                        <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: "0.75rem" }}>
+                        <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: '0.75rem' }}>
                             {translate.type}
                         </TableCell>
-                        <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: "0.75rem" }}>
+                        <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: '0.75rem' }}>
                             {translate.date}
                         </TableCell>
-                        <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: "0.75rem" }}>
+                        <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: '0.75rem' }}>
                             {translate.state}
                         </TableCell>
-                        <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: "0.75rem" }}>
+                        <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: '0.75rem' }}>
                             Aprobar
                         </TableCell>
                     </TableHead>
                     <TableBody>
                         {data.map(request => (
                             <TableRow key={`request_${request.id}`}>
-                                <TableCell style={{ color: "black", borderBottom: 'none' }}>
+                                <TableCell style={{ color: 'black', borderBottom: 'none' }}>
                                     {request.data.name}
                                 </TableCell>
-                                <TableCell style={{ color: "black", borderBottom: 'none' }}>
+                                <TableCell style={{ color: 'black', borderBottom: 'none' }}>
                                     {request.data.email}
                                 </TableCell>
-                                <TableCell style={{ color: "black", borderBottom: 'none' }}>
+                                <TableCell style={{ color: 'black', borderBottom: 'none' }}>
                                     {request.data.dni}
                                 </TableCell>
-                                <TableCell style={{ color: "black", borderBottom: 'none' }}>
+                                <TableCell style={{ color: 'black', borderBottom: 'none' }}>
                                     {getTypeText(request.data.requestType, translate)}
                                 </TableCell>
                                 {/* <TableCell style={{ color: "black", borderBottom: 'none' }}>
 
                                 </TableCell> */}
-                                <TableCell style={{ color: "black", borderBottom: 'none' }}>
+                                <TableCell style={{ color: 'black', borderBottom: 'none' }}>
                                     {moment(request.date).format('LLL')}
                                 </TableCell>
-                                <TableCell style={{ color: "black", borderBottom: 'none' }}>
-                                    {request.state === '0' ? "Pendiente" : "Aceptada"}
+                                <TableCell style={{ color: 'black', borderBottom: 'none' }}>
+                                    {request.state === '0' ? 'Pendiente' : 'Aceptada'}
                                 </TableCell>
-                                <TableCell style={{ color: "black", borderBottom: 'none' }}>
+                                <TableCell style={{ color: 'black', borderBottom: 'none' }}>
                                     <CheckShareholderRequest
                                         request={request}
                                         refetch={getData}
@@ -179,7 +179,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                         ))}
                     </TableBody>
                 </Table>
-                <Grid style={{ margin: "1em", width: "97%" }} >
+                <Grid style={{ margin: '1em', width: '97%' }} >
                     <PaginationFooter
                         page={usersPage}
                         translate={translate}
@@ -193,7 +193,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                 </Grid>
             </Scrollbar>
         </div >
-    )
-}
+    );
+};
 
 export default withApollo(ShareholdersRequestsPage);

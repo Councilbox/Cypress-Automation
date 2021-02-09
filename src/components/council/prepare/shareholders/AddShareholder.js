@@ -32,7 +32,7 @@ const ApproveRequestButton = ({ request, client, refetch, translate, council }) 
         });
         refetch();
         setModal(false);
-    }
+    };
 
 
     const sendPrueba = async participant => {
@@ -49,18 +49,18 @@ const ApproveRequestButton = ({ request, client, refetch, translate, council }) 
                 participantId: request.participantId
             }
         });
-    }
+    };
 
     return (
         <>
             <BasicButton
                 disabled={request.participantCreated}
-                text={request.participantCreated ? 'Ya creado' : "Añadir al censo"}
+                text={request.participantCreated ? 'Ya creado' : 'Añadir al censo'}
                 onClick={() => {
                     request.participantCreated ?
                     sendPrueba()
                     :
-                    setModal(request)
+                    setModal(request);
                 }}
                 buttonStyle={{
                     border: `1px solid ${buttonColor}`
@@ -81,7 +81,7 @@ const ApproveRequestButton = ({ request, client, refetch, translate, council }) 
                 />
             }
         </>
-    )
-}
+    );
+};
 
 export default withApollo(ApproveRequestButton);

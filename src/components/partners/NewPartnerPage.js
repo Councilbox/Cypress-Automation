@@ -6,7 +6,7 @@ import PartnerForm from './PartnerForm';
 import withSharedProps from '../../HOCs/withSharedProps';
 import { getPrimary } from '../../styles/colors';
 import { bHistory } from '../../containers/App';
-import { checkValidEmail } from "../../utils";
+import { checkValidEmail } from '../../utils';
 import { INPUT_REGEX } from '../../constants';
 
 class NewPartnerPage extends React.Component {
@@ -75,10 +75,10 @@ class NewPartnerPage extends React.Component {
 
             Object.keys(data).forEach(key => {
                 trimmedData[key] = (data[key] && data[key].trim) ? data[key].trim() : data[key];
-            })
+            });
             Object.keys(representative).forEach(key => {
                 trimmedRepresentative[key] = (representative[key] && representative[key].trim) ? representative[key].trim() : representative[key];
-            })
+            });
 
             const response = await this.props.createPartner({
                 variables: {
@@ -123,7 +123,7 @@ class NewPartnerPage extends React.Component {
             zipcode: ''
         };
 
-        let hasError = false
+        let hasError = false;
 
         const { data } = this.state;
         const { translate } = this.props;
@@ -250,7 +250,7 @@ class NewPartnerPage extends React.Component {
                 ...this.state.data,
                 ...object
             }
-        })
+        });
     }
 
     updateRepresentative = object => {
@@ -259,7 +259,7 @@ class NewPartnerPage extends React.Component {
                 ...this.state.representative,
                 ...object
             }
-        })
+        });
     }
 
     render() {
@@ -317,7 +317,7 @@ class NewPartnerPage extends React.Component {
                     </div>
                 </div>
             </CardPageLayout>
-        )
+        );
     }
 }
 

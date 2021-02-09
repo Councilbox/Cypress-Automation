@@ -1,20 +1,20 @@
-import React from "react";
-import { graphql, withApollo, compose } from "react-apollo";
-import { checkValidEmail } from "../../utils";
+import React from 'react';
+import { graphql, withApollo, compose } from 'react-apollo';
+import { checkValidEmail } from '../../utils';
 import {
 	BasicButton,
 	AlertConfirm,
 	Scrollbar
-} from "../../displayComponents";
-import { updateUser } from "../../queries";
-import { store } from "../../containers/App";
-import { setUserData } from "../../actions/mainActions";
-import { getPrimary } from "../../styles/colors";
+} from '../../displayComponents';
+import { updateUser } from '../../queries';
+import { store } from '../../containers/App';
+import { setUserData } from '../../actions/mainActions';
+import { getPrimary } from '../../styles/colors';
 import UserForm from './UserForm';
-import { checkEmailExists } from "../../queries/userAndCompanySignUp";
-import CompanyLinksManager from "../corporation/users/CompanyLinksManager";
-import ChangePasswordForm from "./ChangePasswordForm";
-import UserSendsList from "../corporation/users/UserSendsList";
+import { checkEmailExists } from '../../queries/userAndCompanySignUp';
+import CompanyLinksManager from '../corporation/users/CompanyLinksManager';
+import ChangePasswordForm from './ChangePasswordForm';
+import UserSendsList from '../corporation/users/UserSendsList';
 
 
 class UpdateUserForm extends React.Component {
@@ -35,7 +35,7 @@ class UpdateUserForm extends React.Component {
 		if (nextProps.user.id !== prevState.data.id) {
 			return {
 				data: nextProps.user
-			}
+			};
 		}
 
 		return null;
@@ -107,12 +107,12 @@ class UpdateUserForm extends React.Component {
 		const { translate } = this.props;
 
 		const errors = {
-			name: "",
-			surname: "",
-			phone: "",
-			email: "",
-			pwd: "",
-			confirmPWD: ""
+			name: '',
+			surname: '',
+			phone: '',
+			email: '',
+			pwd: '',
+			confirmPWD: ''
 		};
 
 		const data = this.state.data;
@@ -128,7 +128,7 @@ class UpdateUserForm extends React.Component {
 			errors.email = translate.email_not_valid;
 		} else if (data.email.toLowerCase() !== this.props.user.email.toLowerCase()) {
 				if (await this.checkEmailExists()) {
-					errors.email = translate.register_exists_email
+					errors.email = translate.register_exists_email;
 				}
 			}
 
@@ -144,7 +144,7 @@ class UpdateUserForm extends React.Component {
 
 		if (!(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(data.email))) {
 			hasError = true;
-			errors.email = "invalid email";
+			errors.email = 'invalid email';
 		}
 
 		this.setState({
@@ -161,7 +161,7 @@ class UpdateUserForm extends React.Component {
 	updateStateShow = object => {
 		this.setState({
 			...object
-		})
+		});
 	}
 
 	async checkEmailExists() {
@@ -186,7 +186,7 @@ class UpdateUserForm extends React.Component {
 
 		return (
 			<div style={{ height: 'calc(100% - 3.5em)' }} {...(error ? { onKeyUp: this.onKeyUp } : {})}>
-				<div style={{ paddingTop: 0, height: "100%" }}>
+				<div style={{ paddingTop: 0, height: '100%' }}>
 					<Scrollbar>
 						<div style={{ padding: '1.5em' }}>
 							<UserForm
@@ -204,13 +204,13 @@ class UpdateUserForm extends React.Component {
 								<BasicButton
 									text={translate.change_password}
 									backgroundColor={{
-										fontWeight: "700",
-										boxShadow: "none",
-										background: "white",
+										fontWeight: '700',
+										boxShadow: 'none',
+										background: 'white',
 										border: '1px solid ' + primary,
 										color: primary,
-										width: "200px",
-										height: "3em"
+										width: '200px',
+										height: '3em'
 									}}
 									onClick={() => this.setState({ showPass: true })}
 								/>
@@ -326,9 +326,9 @@ class UpdateUserForm extends React.Component {
 						loading={loading}
 						floatRight
 						backgroundColor={{
-							color: "white",
-							fontWeight: "700",
-							width: "195px"
+							color: 'white',
+							fontWeight: '700',
+							width: '195px'
 						}}
 						onClick={error ? () => { } : this.saveUser}
 					// icon={<ButtonIcon type="save" color="white" />}
@@ -340,7 +340,7 @@ class UpdateUserForm extends React.Component {
 					acceptAction={() => this.setState({ modal: false })}
 					buttonAccept={translate.accept}
 					bodyText={this._renderBodyModal()}
-					title={"Envio Email"}
+					title={'Envio Email'}
 				/>
 			</div >
 		);
@@ -350,7 +350,7 @@ class UpdateUserForm extends React.Component {
 export default compose(
 	graphql(
 		updateUser, {
-		name: "updateUser"
+		name: 'updateUser'
 	}
 ),
 )(withApollo(UpdateUserForm));

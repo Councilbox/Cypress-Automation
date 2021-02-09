@@ -33,7 +33,7 @@ class EditorStepLayout extends React.Component {
         }else{
             this.setState({
                 stick: false
-            })
+            });
         }
     }
 
@@ -43,8 +43,8 @@ class EditorStepLayout extends React.Component {
         return (
             <div
                 style={{
-                    width: "100%",
-                    height: "calc(100% - 4em)"
+                    width: '100%',
+                    height: 'calc(100% - 4em)'
                 }}
             >
                 <div style={{ height: '100%', overflow: 'hidden', position: 'relative', borderTop: '1px solid gainsboro', }}>
@@ -58,7 +58,7 @@ class EditorStepLayout extends React.Component {
                     {buttons}
                 </div>
             </div>
-        )
+        );
     }
 }
 

@@ -2,11 +2,11 @@ import React from 'react';
 import Block from './Block';
 
 const GroupedBlock = ({ translate, item, expand, hoverFijo, hoverAndSave, setText, ...props }) => {
-    const updateBlock = (index, text) => props.editBlock(item.items[index].id, text)
+    const updateBlock = (index, text) => props.editBlock(item.items[index].id, text);
 
     const removeBlock = index => {
         props.toggleBlock(item.items[index].id, !item.items[index].hide);
-    }
+    };
 
     return (
         <React.Fragment>
@@ -25,7 +25,7 @@ const GroupedBlock = ({ translate, item, expand, hoverFijo, hoverAndSave, setTex
                 />
             ))}
         </React.Fragment>
-    )
-}
+    );
+};
 
 export default GroupedBlock;

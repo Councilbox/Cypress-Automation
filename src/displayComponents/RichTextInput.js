@@ -1,25 +1,25 @@
-import React from "react";
-import { Typography, TableRow, TableHead, Table, TableBody, TableCell, Divider } from "material-ui";
+import React from 'react';
+import { Typography, TableRow, TableHead, Table, TableBody, TableCell, Divider } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 import { isChrome } from 'react-device-detect';
 import { withApollo } from 'react-apollo';
 import ReactQuill, { Quill } from 'react-quill';
-import { Grid, GridItem } from "./index";
-import { getPrimary } from "../styles/colors";
+import { Grid, GridItem } from './index';
+import { getPrimary } from '../styles/colors';
 import { removeHTMLTags } from '../utils/CBX';
 import DropDownMenu from './DropDownMenu';
 import Icon from './Icon';
 import 'react-quill/dist/quill.snow.css';
-import withSharedProps from "../HOCs/withSharedProps";
-import { query } from "../components/company/drafts/companyTags/CompanyTags";
-import TextInput from "./TextInput";
+import withSharedProps from '../HOCs/withSharedProps';
+import { query } from '../components/company/drafts/companyTags/CompanyTags';
+import TextInput from './TextInput';
 
-import Scrollbar from "./Scrollbar";
-import { useHoverRow } from "../hooks";
+import Scrollbar from './Scrollbar';
+import { useHoverRow } from '../hooks';
 
 
 if (isChrome) {
-	const style = document.createElement("style");
+	const style = document.createElement('style');
 	style.innerHTML = '.ql-editor{white-space: normal !important;}';
 	document.head.appendChild(style);
 }
@@ -124,7 +124,7 @@ class RichTextInput extends React.Component {
 		};
 
 		if (styles) {
-			const style = document.createElement("style");
+			const style = document.createElement('style');
 			style.innerHTML = `.ql-editor{ ${styles} }`;
 			document.head.appendChild(style);
 		}
@@ -133,15 +133,15 @@ class RichTextInput extends React.Component {
 			<React.Fragment>
 				<Typography
 					variant="body1"
-					style={{ color: errorText ? "red" : "inherit" }}
+					style={{ color: errorText ? 'red' : 'inherit' }}
 				>
 					{this.props.floatingText}
-					{!!required && "*"}
+					{!!required && '*'}
 					{!!errorText &&
 						<FontAwesome
-							name={"times"}
+							name={'times'}
 							style={{
-								fontSize: "13px",
+								fontSize: '13px',
 								color: 'red',
 								marginLeft: '0.2em'
 							}}
@@ -152,17 +152,17 @@ class RichTextInput extends React.Component {
 					<GridItem xs={12}>
 						<div
 							style={{
-								marginTop: "0.7em",
-								marginBottom: "-0.7em",
-								paddingRight: "0.8em"
+								marginTop: '0.7em',
+								marginBottom: '-0.7em',
+								paddingRight: '0.8em'
 							}}
 						>
 							{
 								<React.Fragment>
 									<div
 										style={{
-											display: "flex",
-											float: "right",
+											display: 'flex',
+											float: 'right',
 										}}
 									>
 										<div style={{
@@ -194,7 +194,7 @@ class RichTextInput extends React.Component {
 								if (event.target.className === 'ql-custom') {
 									this.setState({
 										showTags: event.target
-									})
+									});
 								}
 							}}
 						>
@@ -203,9 +203,9 @@ class RichTextInput extends React.Component {
 								onChange={this.onChange}
 								modules={modules}
 								onKeyDown={this.checkCharacterCount}
-								placeholder={placeholder || ""}
+								placeholder={placeholder || ''}
 								ref={editor => {
-									this.rtEditor = editor
+									this.rtEditor = editor;
 								}}
 								id={this.props.id}
 								style={{ ...stylesQuill }}
@@ -229,7 +229,7 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 	const primary = getPrimary();
 	const [companyTags, setCompanyTags] = React.useState(null);
 	const [ocultar, setOcultar] = React.useState(false);
-	const [searchModal, setSearchModal] = React.useState("");
+	const [searchModal, setSearchModal] = React.useState('');
 	const [filteredTags, setFilteredTags] = React.useState(tags || []);
 
 
@@ -254,17 +254,17 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 					...(searchModal ? {
 						filters: [
 							{
-								field: "key",
+								field: 'key',
 								text: searchModal
 							},
 						]
 					} : {}),
 				}
 			});
-			setData(response.data.companyTags)
+			setData(response.data.companyTags);
 			setCompanyTags(response.data.companyTags);
 		} else {
-			setData([])
+			setData([]);
 			setCompanyTags([]);
 		}
 	}, [company ? company.id : null, searchModal]);
@@ -284,7 +284,7 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 			return tag.getValue();
 		}
 		return tag.value;
-	}
+	};
 
 	return (
 		<DropDownMenu
@@ -304,7 +304,7 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 			styleBody={{}}
 			Component={() => <span />}
 			text={translate.add_agenda_point}
-			textStyle={"ETIQUETA"}
+			textStyle={'ETIQUETA'}
 			items={
 				<div style={{}}
 					onClick={event => {
@@ -312,25 +312,25 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 					}}
 				>
 					<div style={{
-						margin: "0px 1em",
+						margin: '0px 1em',
 					}}>
 						<div style={{
-							width: "100%",
-							display: "flex",
-							alignItems: "center",
-							justifyContent: "space-between"
+							width: '100%',
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'space-between'
 						}}
 						>
 							<div>
 								<TextInput
 									placeholder={`${translate.search} <Tags>`}
 									adornment={<Icon>search</Icon>}
-									id={"buscarEtiquetasEnModal"}
+									id={'buscarEtiquetasEnModal'}
 									type="text"
 									stylesAdornment={{ color: primary }}
 									value={searchModal}
-									styleInInput={{ fontSize: "12px", color: primary }}
-									styles={{ marginBottom: "0" }}
+									styleInInput={{ fontSize: '12px', color: primary }}
+									styles={{ marginBottom: '0' }}
 									onChange={event => {
 										setSearchModal(event.target.value);
 									}}
@@ -345,31 +345,31 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 					<Divider style={{ background: primary }} />
 					<div
 						style={{
-							width: "100%",
-							flexDirection: "row",
-							justifyContent: "space-between",
-							margin: "1em"
+							width: '100%',
+							flexDirection: 'row',
+							justifyContent: 'space-between',
+							margin: '1em'
 						}}
 					>
-						<div style={{ fontSize: "14px", display: "flex", alignItems: "center", color: "#969696", minWidth: "700px", marginBottom: "0.5em" }} >
-							<i className="material-icons" style={{ color: primary, fontSize: '14px', cursor: "pointer", paddingRight: "0.3em" }} onClick={() => setOcultar(!ocultar)}>
+						<div style={{ fontSize: '14px', display: 'flex', alignItems: 'center', color: '#969696', minWidth: '700px', marginBottom: '0.5em' }} >
+							<i className="material-icons" style={{ color: primary, fontSize: '14px', cursor: 'pointer', paddingRight: '0.3em' }} onClick={() => setOcultar(!ocultar)}>
 								help
 							</i>
 							{!ocultar &&
-								<div>{translate.tags_description.split('.')[0]}. <u style={{ cursor: "pointer" }} onClick={() => setOcultar(true)}>({translate.hide})</u></div>
+								<div>{translate.tags_description.split('.')[0]}. <u style={{ cursor: 'pointer' }} onClick={() => setOcultar(true)}>({translate.hide})</u></div>
 							}
 						</div>
-						<div style={{ width: "97%", height: "30vh" }} >
-							<div style={{ width: "100%", height: '100%' }}>
+						<div style={{ width: '97%', height: '30vh' }} >
+							<div style={{ width: '100%', height: '100%' }}>
 								<Scrollbar>
 									<div style={{ height: '100%' }}>
-										<Table style={{ maxWidth: "100%", width: "100%" }}>
+										<Table style={{ maxWidth: '100%', width: '100%' }}>
 											<TableHead>
-												<TableRow style={{ color: "black" }}>
-													<TableCell style={{ color: "black", fontSize: "16px" }}>
+												<TableRow style={{ color: 'black' }}>
+													<TableCell style={{ color: 'black', fontSize: '16px' }}>
 														{translate.key}
 													</TableCell>
-													<TableCell style={{ color: "black", fontSize: "16px" }}>
+													<TableCell style={{ color: 'black', fontSize: '16px' }}>
 														{translate.value}
 													</TableCell>
 												</TableRow>
@@ -382,7 +382,7 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 															value={getTextToPaste(tag)}
 															translate={translate}
 															onClick={() => {
-																paste(`<span id="${tag.id}">${getTextToPaste(tag)}</span>`)
+																paste(`<span id="${tag.id}">${getTextToPaste(tag)}</span>`);
 																requestClose();
 															}}
 														/>
@@ -410,8 +410,8 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 				</div>
 			}
 		/>
-	)
-}))
+	);
+}));
 
 
 const HoverableRow = ({ tag, onClick, value }) => {
@@ -422,19 +422,19 @@ const HoverableRow = ({ tag, onClick, value }) => {
 		<TableRow
 			{...handlers}
 			style={{
-				background: show && "rgba(0, 0, 0, 0.07)",
-				cursor: "pointer"
+				background: show && 'rgba(0, 0, 0, 0.07)',
+				cursor: 'pointer'
 			}}
 			onClick={onClick}
 		>
-			<TableCell style={{ color: "black" }}>
+			<TableCell style={{ color: 'black' }}>
 				{tag.key || tag.label}
 			</TableCell>
 			<TableCell style={{ color: primary }}>
 				{tag.description || value}
 			</TableCell>
 		</TableRow>
-	)
-}
+	);
+};
 
 export default RichTextInput;

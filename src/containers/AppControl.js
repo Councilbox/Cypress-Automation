@@ -1,9 +1,9 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 import * as mainActions from '../actions/mainActions';
-import { store } from "./App";
+import { store } from './App';
 
 const ConfigContext = React.createContext({
     video: true,
@@ -100,7 +100,7 @@ const AppControl = ({ companies, user = {}, children, client }) => {
                         ...newConfig
                     });
                 });
-            }
+            };
             subscribe();
         }
     }, [user.id]);
@@ -123,8 +123,8 @@ const AppControl = ({ companies, user = {}, children, client }) => {
                 children
             }
         </ConfigContext.Provider>
-    )
-}
+    );
+};
 
 const mapStateToProps = state => ({
 	main: state.main,

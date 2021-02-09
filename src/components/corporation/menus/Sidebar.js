@@ -1,22 +1,22 @@
-import React from "react";
-import { NavLink, withRouter } from "react-router-dom";
-import cx from "classnames";
+import React from 'react';
+import { NavLink, withRouter } from 'react-router-dom';
+import cx from 'classnames';
 import {
 	ListItem,
 	ListItemIcon,
 	withStyles
-} from "material-ui";
+} from 'material-ui';
 import BorderColor from 'material-ui-icons/BorderColor';
 import ContentPaste from 'material-ui-icons/ContentPaste';
 import Dashboard from 'material-ui-icons/Dashboard';
 import History from 'material-ui-icons/History';
 import Language from 'material-ui-icons/Language';
 import ImportContacts from 'material-ui-icons/ImportContacts';
-import icono from "../../../assets/img/logo-icono.png";
-import sidebarStyle from "../../../styles/sidebarStyle";
-import { bHistory, store } from "../../../containers/App";
-import { changeCompany } from "../../../actions/companyActions";
-import { darkGrey } from "../../../styles/colors";
+import icono from '../../../assets/img/logo-icono.png';
+import sidebarStyle from '../../../styles/sidebarStyle';
+import { bHistory, store } from '../../../containers/App';
+import { changeCompany } from '../../../actions/companyActions';
+import { darkGrey } from '../../../styles/colors';
 
 
 class Sidebar extends React.Component {
@@ -29,32 +29,32 @@ class Sidebar extends React.Component {
 
 		this.routes = [
 			{
-				path: `/councils`,
+				path: '/councils',
 				name: 'councils',
 				sidebarName: props.translate.councils_link,
 				icon: Dashboard
 			},
 			{
-				path: `/finished`,
+				path: '/finished',
 				name: 'finished',
 				sidebarName: 'Histórico',
 				icon: History
 			},
 			{
-				path: `/companies`,
-				name: "companies",
+				path: '/companies',
+				name: 'companies',
 				sidebarName: 'Entidades',
 				icon: ImportContacts
 			},
 			{
-				path: `/drafts`,
-				name: "drafts",
+				path: '/drafts',
+				name: 'drafts',
 				sidebarName: 'Borradores',
 				icon: ContentPaste
 			},
 			{
-				path: `/users`,
-				name: "users",
+				path: '/users',
+				name: 'users',
 				sidebarName: props.translate.users,
 				icon: BorderColor
 			},
@@ -106,16 +106,16 @@ class Sidebar extends React.Component {
 				top: '0',
 				display: 'flex',
 				flexDirection: 'column',
-				width: "100%",
-				overflow: "hidden"
+				width: '100%',
+				overflow: 'hidden'
 			}}
 		>
 			<React.Fragment>
 				<div
 					className={this.props.classes.logoLink}
 					style={{
-						display: "flex",
-						flexDirection: "row",
+						display: 'flex',
+						flexDirection: 'row',
 						width: '100%',
 						justifyContent: 'center',
 						alignItems: 'center'
@@ -128,11 +128,11 @@ class Sidebar extends React.Component {
 						return null;
 					}
 					const listItemClasses = cx({
-						[" " +
+						[' ' +
 							this.props.classes[this.props.color]]: this.activeRoute(key)
 					});
 					const whiteFontClasses = cx({
-						[" " + this.props.classes.whiteFont]: this.activeRoute(key)
+						[' ' + this.props.classes.whiteFont]: this.activeRoute(key)
 					});
 					return (
 						<NavLink
@@ -154,23 +154,23 @@ class Sidebar extends React.Component {
 									this.props.classes.itemLink + listItemClasses
 								}
 								style={{
-									display: "flex",
-									flexDirection: "column",
+									display: 'flex',
+									flexDirection: 'column',
 									alignItems: 'center',
 									justifyContent: 'center',
-									margin: "7px 7px 0",
-									padding: "10px 10px",
-									width: "100%",
-									maxWidth: "61px"
+									margin: '7px 7px 0',
+									padding: '10px 10px',
+									width: '100%',
+									maxWidth: '61px'
 								}}
 							>
 								<div
 									style={{
-										width: "24px",
-										height: "30px",
+										width: '24px',
+										height: '30px',
 										display: 'flex',
 										alignItems: 'center',
-										color: "rgba(255, 255, 255, 0.8)"
+										color: 'rgba(255, 255, 255, 0.8)'
 									}}
 								>
 									<ListItemIcon
@@ -203,8 +203,8 @@ class Sidebar extends React.Component {
 			<div
 				className={this.props.classes.logoLink}
 				style={{
-					display: "flex",
-					flexDirection: "row",
+					display: 'flex',
+					flexDirection: 'row',
 					alignItems: 'center',
 					justifyContent: 'center'
 				}}
@@ -242,7 +242,7 @@ class Sidebar extends React.Component {
 					<div
 						className={classes.sidebarWrapper}
 						style={{
-							position: "relative",
+							position: 'relative',
 							width: '100%',
 							alignItems: 'center',
 							height: 'calc(100vh - 75px)'

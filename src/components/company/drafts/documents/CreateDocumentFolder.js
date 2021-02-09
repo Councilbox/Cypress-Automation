@@ -28,7 +28,7 @@ const CreateDocumentFolder = ({ translate, refetch, open, requestClose, client, 
 
         refetch();
         requestClose();
-    }
+    };
 
 
     const renderBody = () => (
@@ -36,21 +36,21 @@ const CreateDocumentFolder = ({ translate, refetch, open, requestClose, client, 
                 placeholder={translate.title}
                 //error={!!errors.title}
                 disableUnderline={true}
-                id={"titleDraft"}
+                id={'titleDraft'}
                 style={{
-                    color: "rgba(0, 0, 0, 0.65)",
+                    color: 'rgba(0, 0, 0, 0.65)',
                     fontSize: '15px',
                     boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
                     //border: !!errors.title? '2px solid red' : '1px solid #d7d7d7',
-                    width: "100%",
+                    width: '100%',
                     padding: '.5em 1.6em',
-                    marginTop: "1em"
+                    marginTop: '1em'
                 }}
                 value={name}
                 onChange={event => setName(event.nativeEvent.target.value)
                 }
             />
-        )
+        );
 
     return (
         <>
@@ -64,7 +64,7 @@ const CreateDocumentFolder = ({ translate, refetch, open, requestClose, client, 
                 bodyText={renderBody()}
             />
         </>
-    )
-}
+    );
+};
 
 export default withApollo(CreateDocumentFolder);

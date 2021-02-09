@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from "react";
-import { compose, graphql } from "react-apollo";
-import { TableCell, TableRow } from "material-ui/Table";
-import Scrollbar from "react-perfect-scrollbar";
-import { councils, deleteCouncil } from "../../queries.js";
+import React, { Component, Fragment } from 'react';
+import { compose, graphql } from 'react-apollo';
+import { TableCell, TableRow } from 'material-ui/Table';
+import Scrollbar from 'react-perfect-scrollbar';
+import { councils, deleteCouncil } from '../../queries.js';
 import {
 	AlertConfirm,
 	DateWrapper,
@@ -10,12 +10,12 @@ import {
 	LoadingSection,
 	MainTitle,
 	Table
-} from "../../displayComponents/index";
-import { getPrimary } from "../../styles/colors";
-import "react-perfect-scrollbar/dist/css/styles.css";
-import TableStyles from "../../styles/table";
-import { bHistory } from "../../containers/App";
-import CloseIcon from "../../displayComponents/CloseIcon";
+} from '../../displayComponents/index';
+import { getPrimary } from '../../styles/colors';
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import TableStyles from '../../styles/table';
+import { bHistory } from '../../containers/App';
+import CloseIcon from '../../displayComponents/CloseIcon';
 
 class Meetings extends Component {
 	_renderDeleteIcon = meetingID => {
@@ -71,13 +71,13 @@ class Meetings extends Component {
 		return (
 			<div
 				style={{
-					height: "100%",
-					overflow: "hidden",
-					position: "relative"
+					height: '100%',
+					overflow: 'hidden',
+					position: 'relative'
 				}}
 			>
 				<Scrollbar option={{ suppressScrollX: true }}>
-					<div style={{ padding: "2em" }}>
+					<div style={{ padding: '2em' }}>
 						<MainTitle
 							icon={this.props.icon}
 							title={this.props.title}
@@ -136,7 +136,7 @@ class Meetings extends Component {
 													<TableCell
 														style={{
 															...TableStyles.TD,
-															width: "65%"
+															width: '65%'
 														}}
 													>
 														{meeting.name ||
@@ -179,7 +179,7 @@ class Meetings extends Component {
 export default compose(
 	graphql(deleteCouncil),
 	graphql(councils, {
-		name: "data",
+		name: 'data',
 		options: props => ({
 			variables: {
 				state: props.state,

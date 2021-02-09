@@ -10,7 +10,7 @@ const SignatureStepTwoIvnosys = ({ client, translate, ...props }) => {
     const [state, setState] = React.useState({
         loading: false,
         error: false
-    })
+    });
 
     const sendSignature = async () => {
         setState({
@@ -35,7 +35,7 @@ const SignatureStepTwoIvnosys = ({ client, translate, ...props }) => {
                 ...state,
                 error: false,
                 loading: false
-            })
+            });
             props.refetch();
         }
 
@@ -44,9 +44,9 @@ const SignatureStepTwoIvnosys = ({ client, translate, ...props }) => {
                 ...state,
                 loading: false,
                 error: translate.participants_required
-            })
+            });
         }
-    }
+    };
 
     const primary = getPrimary();
     const secondary = getSecondary();
@@ -65,7 +65,7 @@ const SignatureStepTwoIvnosys = ({ client, translate, ...props }) => {
                             setState({
                                 ...state,
                                 error
-                            })
+                            });
                         }}
                     />
                 </div>
@@ -97,8 +97,8 @@ const SignatureStepTwoIvnosys = ({ client, translate, ...props }) => {
                 </div>
             }
         />
-    )
-}
+    );
+};
 
 
 

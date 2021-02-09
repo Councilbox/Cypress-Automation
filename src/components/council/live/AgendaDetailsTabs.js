@@ -1,13 +1,13 @@
 import React from 'react';
 import { Tabs, Tab, withStyles } from 'material-ui';
-import * as CBX from "../../../utils/CBX";
+import * as CBX from '../../../utils/CBX';
 import { Scrollbar } from '../../../displayComponents';
 import ActAgreements from './ActAgreements';
 import Comments from './Comments';
 import RecountSection from './RecountSection';
-import Votings from "./Votings";
+import Votings from './Votings';
 import { AGENDA_TYPES, COUNCIL_TYPES } from '../../../constants';
-import AgendaAttachmentsManager from "./AgendaAttachmentsManager";
+import AgendaAttachmentsManager from './AgendaAttachmentsManager';
 import PrivateRecountMessage from './voting/PrivateRecountMessage';
 import CustomPointVotingsLive from './voting/CustomPointVotingsLive';
 import { isLandscape, isMobile } from '../../../utils/screen';
@@ -16,7 +16,7 @@ import ConfirmationRequestRecount from '../agendas/ConfirmationRequestRecount';
 
 const styles = theme => ({
     scrollable: {
-        overflow: "hidden"
+        overflow: 'hidden'
     }
 });
 const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...props }) => {
@@ -27,19 +27,19 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
     const handleChange = (event, index) => {
         const cb = () => {
             setSelected(index);
-        }
+        };
 
         if(props.editedVotings){
             props.showVotingsAlert(cb);
         } else {
             cb();
         }
-    }
+    };
 
     return (
         <div style={{
                 width: '100%',
-                height: isMobile ? isLandscape() ? `calc( 100% - 7em )` : `calc(100% - ${window.screen.availHeight - window.innerHeight}px)` : '100%',
+                height: isMobile ? isLandscape() ? 'calc( 100% - 7em )' : `calc(100% - ${window.screen.availHeight - window.innerHeight}px)` : '100%',
                 backgroundColor: 'white',
                 borderTop: '1px solid gainsboro',
                 paddingBottom: '10px',
@@ -49,7 +49,7 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
         >
             <Tabs
                 variant="scrollable"
-                scrollButtons={"on"}
+                scrollButtons={'on'}
                 scrollable={true}
                 classes={{ scrollable: classes.scrollable }}
                 value={selected}
@@ -193,7 +193,7 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
                 </Scrollbar>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default withStyles(styles)(AgendaDetailsTabs);

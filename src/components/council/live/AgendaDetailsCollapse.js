@@ -1,9 +1,9 @@
 import React from 'react';
 import RecountSection from './RecountSection';
-import Votings from "./Votings";
-import ActAgreements from "./ActAgreements";
-import AgendaAttachmentsManager from "./AgendaAttachmentsManager";
-import Comments from "./Comments";
+import Votings from './Votings';
+import ActAgreements from './ActAgreements';
+import AgendaAttachmentsManager from './AgendaAttachmentsManager';
+import Comments from './Comments';
 
 class AgendaDetailsCollapse extends React.Component {
     render(){
@@ -11,7 +11,7 @@ class AgendaDetailsCollapse extends React.Component {
             <React.Fragment>
                 <div
                     style={{
-                        width: "100%",
+                        width: '100%',
                     }}
                     className="withShadow"
                 >
@@ -29,8 +29,8 @@ class AgendaDetailsCollapse extends React.Component {
                         {CBX.councilHasComments(council.statute) && CBX.showAgendaVotingsTable(agenda) && (
                             <div
                                 style={{
-                                    width: "100%",
-                                    marginTop: "0.4em"
+                                    width: '100%',
+                                    marginTop: '0.4em'
                                 }}
                                 className="withShadow"
                             >
@@ -45,8 +45,8 @@ class AgendaDetailsCollapse extends React.Component {
                             <React.Fragment>
                                 <div
                                     style={{
-                                        width: "100%",
-                                        marginTop: "0.4em"
+                                        width: '100%',
+                                        marginTop: '0.4em'
                                     }}
                                     className="withShadow"
                                 >
@@ -63,8 +63,8 @@ class AgendaDetailsCollapse extends React.Component {
 
                                 <div
                                     style={{
-                                        width: "100%",
-                                        marginTop: "0.4em"
+                                        width: '100%',
+                                        marginTop: '0.4em'
                                     }}
                                     className="withShadow"
                                 >
@@ -82,8 +82,8 @@ class AgendaDetailsCollapse extends React.Component {
                 }
                 <div
                     style={{
-                        width: "100%",
-                        marginTop: "0.4em"
+                        width: '100%',
+                        marginTop: '0.4em'
                     }}
                     className="withShadow"
                 >
@@ -97,7 +97,7 @@ class AgendaDetailsCollapse extends React.Component {
                     />
                 </div>
             </React.Fragment>
-        )
+        );
     }
 }
 

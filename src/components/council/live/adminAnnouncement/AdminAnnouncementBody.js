@@ -11,21 +11,21 @@ const AdminAnnouncementBody = ({ announcement, updateAnnouncement, admin, blockU
 
     return (
         <>
-            <div style={{ display: "flex", alignItems: "center", color: "black", marginBottom: '0.5em' }}>
-                <div style={{ paddingRight: "0.5em" }}><img src={aviso}></img></div>
-                <div style={{ fontSize: "18px", color: "black" }}>{translate.admin_announcement}</div>
+            <div style={{ display: 'flex', alignItems: 'center', color: 'black', marginBottom: '0.5em' }}>
+                <div style={{ paddingRight: '0.5em' }}><img src={aviso}></img></div>
+                <div style={{ fontSize: '18px', color: 'black' }}>{translate.admin_announcement}</div>
                 {(announcement.blockUser && !admin) &&
                     <>
-                        <div style={{ paddingLeft: "0.5em", width: announcement.blockUser && "230px", display: "flex" }} >
+                        <div style={{ paddingLeft: '0.5em', width: announcement.blockUser && '230px', display: 'flex' }} >
                         <i
                             className="material-icons"
-                            style={{ color: primary, fontSize: '14px', paddingRight: "0.3em", cursor: "pointer" }}
+                            style={{ color: primary, fontSize: '14px', paddingRight: '0.3em', cursor: 'pointer' }}
                             onClick={() => setShowInfo(!showInfo)}
                         >
                             help
                         </i>
                         {showInfo &&
-                            <div style={{ color: "rgba(0, 0, 0, 0.37)", fontSize: "10px" }}>
+                            <div style={{ color: 'rgba(0, 0, 0, 0.37)', fontSize: '10px' }}>
                                 {translate.notice_block_user_option}
                             </div>
                         }
@@ -40,8 +40,8 @@ const AdminAnnouncementBody = ({ announcement, updateAnnouncement, admin, blockU
                 }}>
                     <Checkbox
                         label={translate.notice_block_check}
-                        styleInLabel={{ color: primary, fontSize: "12px" }}
-                        colorCheckbox={"primary"}
+                        styleInLabel={{ color: primary, fontSize: '12px' }}
+                        colorCheckbox={'primary'}
                         value={blockUser}
                         onChange={() => updateAnnouncement({ blockUser: !blockUser })}
                     />
@@ -54,15 +54,15 @@ const AdminAnnouncementBody = ({ announcement, updateAnnouncement, admin, blockU
                     width: '100%',
                     overflow: 'hidden',
                     padding: '.5em',
-                    border: "1px solid" + primary,
+                    border: '1px solid' + primary,
                 }}
             >
                 <Scrollbar>
                     <div style={{ height: 'calc(100% - 0.6em)' }} >
                         <div style={{
-                            width: "calc(100% - 3px)",
-                            fontSize: "13px",
-                            color: "black",
+                            width: 'calc(100% - 3px)',
+                            fontSize: '13px',
+                            color: 'black',
                         }}>
                             <div dangerouslySetInnerHTML={{ __html: announcement.text }} />
                         </div>
@@ -70,7 +70,7 @@ const AdminAnnouncementBody = ({ announcement, updateAnnouncement, admin, blockU
                 </Scrollbar>
             </div>
         </>
-    )
-}
+    );
+};
 
 export default AdminAnnouncementBody;

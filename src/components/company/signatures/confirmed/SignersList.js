@@ -43,9 +43,9 @@ const SignersList = ({ translate, client, ...props }) => {
                 )
             },
         });
-        setSignatureParticipantsList(response.data.signatureParticipants.list)
-        setSignatureParticipantsTotal(response.data.signatureParticipants.total)
-        setLoading(false)
+        setSignatureParticipantsList(response.data.signatureParticipants.list);
+        setSignatureParticipantsTotal(response.data.signatureParticipants.total);
+        setLoading(false);
     }, []);
 
     React.useEffect(() => {
@@ -60,16 +60,16 @@ const SignersList = ({ translate, client, ...props }) => {
                 participantId: ''
             }
         });
-    }
+    };
 
     const refresh = async () => {
         setRefreshing(true);
         await props.refetch();
         setRefreshing(false);
-    }
+    };
 
     if (loading) {
-        return <LoadingSection />
+        return <LoadingSection />;
     }
 
     return (
@@ -80,8 +80,8 @@ const SignersList = ({ translate, client, ...props }) => {
                 ref={table}
                 translate={translate}
                 defaultLimit={PARTICIPANTS_LIMITS[0]}
-                defaultFilter={"fullName"}
-                defaultOrder={["fullName", "asc"]}
+                defaultFilter={'fullName'}
+                defaultOrder={['fullName', 'asc']}
                 limits={PARTICIPANTS_LIMITS}
                 menuButtons={
                     <div style={{ marginRight: '0.8em' }}>
@@ -99,15 +99,15 @@ const SignersList = ({ translate, client, ...props }) => {
                 refetch={getData}
                 fields={[
                     {
-                        value: "fullName",
+                        value: 'fullName',
                         translation: translate.participant_data
                     },
                     {
-                        value: "dni",
+                        value: 'dni',
                         translation: translate.dni
                     },
                     {
-                        value: "email",
+                        value: 'email',
                         translation: translate.email
                     }
                 ]}
@@ -137,33 +137,33 @@ const SignersList = ({ translate, client, ...props }) => {
                 {signatureParticipantsList.length > 0 &&
                     signatureParticipantsList.map(participant => (
                         isMobile ?
-                            <Card style={{ marginBottom: "1em", fontSize: '0.9em' }} key={`participant_${participant.id}`}>
+                            <Card style={{ marginBottom: '1em', fontSize: '0.9em' }} key={`participant_${participant.id}`}>
                                 <CardContent>
                                     <div>
-                                        <div style={{ display: "flex" }}>
-                                            <div style={{ fontWeight: "bold" }}>{translate.participant_data}: </div>
-                                            <div style={{ marginLeft: "5px" }}>
+                                        <div style={{ display: 'flex' }}>
+                                            <div style={{ fontWeight: 'bold' }}>{translate.participant_data}: </div>
+                                            <div style={{ marginLeft: '5px' }}>
                                                 {participant.status === SIGNATURE_PARTICIPANTS_STATES.SIGNED &&
                                                     <i className="fa fa-check" aria-hidden="true" style={{ marginRight: '0.2em', color: 'green' }}></i>
                                                 }
                                                 {`${participant.name} ${participant.surname || ''}`}
                                             </div>
                                         </div>
-                                        <div style={{ display: "flex" }}>
-                                            <div style={{ fontWeight: "bold" }}>{translate.dni}: </div>
-                                            <div style={{ marginLeft: "5px" }}>
+                                        <div style={{ display: 'flex' }}>
+                                            <div style={{ fontWeight: 'bold' }}>{translate.dni}: </div>
+                                            <div style={{ marginLeft: '5px' }}>
                                                 {participant.dni}
                                             </div>
                                         </div>
-                                        <div style={{ display: "flex" }}>
-                                            <div style={{ fontWeight: "bold" }}>{translate.email}: </div>
-                                            <div style={{ marginLeft: "5px" }}>
+                                        <div style={{ display: 'flex' }}>
+                                            <div style={{ fontWeight: 'bold' }}>{translate.email}: </div>
+                                            <div style={{ marginLeft: '5px' }}>
                                                 {participant.email}
                                             </div>
                                         </div>
-                                        <div style={{ display: "flex" }}>
-                                            <div style={{ fontWeight: "bold" }}>{translate.signed}: </div>
-                                            <div style={{ marginLeft: "5px" }}>
+                                        <div style={{ display: 'flex' }}>
+                                            <div style={{ fontWeight: 'bold' }}>{translate.signed}: </div>
+                                            <div style={{ marginLeft: '5px' }}>
                                                 {translate[getSignerStatusTranslateField(participant.status)]}
                                             </div>
                                         </div>
@@ -194,8 +194,8 @@ const SignersList = ({ translate, client, ...props }) => {
                 }
             </EnhancedTable>
         </React.Fragment>
-    )
-}
+    );
+};
 
 const removeSignatureParticipant = gql`
     mutation RemoveSignatureParticipant($participantId: Int!){

@@ -1,10 +1,10 @@
-import React from "react";
-import { graphql } from "react-apollo";
-import { endCouncil } from "../../../../queries/council";
-import { AlertConfirm, BasicButton, Icon } from "../../../../displayComponents";
-import { getPrimary, getSecondary } from "../../../../styles/colors";
-import { bHistory } from "../../../../containers/App";
-import { isMobile } from "../../../../utils/screen";
+import React from 'react';
+import { graphql } from 'react-apollo';
+import { endCouncil } from '../../../../queries/council';
+import { AlertConfirm, BasicButton, Icon } from '../../../../displayComponents';
+import { getPrimary, getSecondary } from '../../../../styles/colors';
+import { bHistory } from '../../../../containers/App';
+import { isMobile } from '../../../../utils/screen';
 
 class EndCouncilButton extends React.Component {
 	state = {
@@ -46,19 +46,19 @@ class EndCouncilButton extends React.Component {
 							<Icon
 								className="material-icons"
 								style={{
-									fontSize: "1.1em",
-									color: "white"
+									fontSize: '1.1em',
+									color: 'white'
 								}}
 							>
 								play_arrow
 							</Icon>
 						}
-						buttonStyle={{ minWidth: isMobile ? "" : "13em" }}
+						buttonStyle={{ minWidth: isMobile ? '' : '13em' }}
 						textStyle={{
-							color: "white",
-							fontSize: "0.75em",
-							fontWeight: "700",
-							textTransform: "none"
+							color: 'white',
+							fontSize: '0.75em',
+							fontWeight: '700',
+							textTransform: 'none'
 						}}
 					/>
 				</div>
@@ -97,5 +97,5 @@ class EndCouncilButton extends React.Component {
 }
 
 export default graphql(endCouncil, {
-	name: "endCouncil"
+	name: 'endCouncil'
 })(EndCouncilButton);

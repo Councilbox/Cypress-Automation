@@ -21,7 +21,7 @@ const ApproveActButton = ({ translate, council, client, refetch }) => {
         });
 
         refetch();
-    }
+    };
 
     return (
         <ConfigContext.Consumer>
@@ -36,25 +36,25 @@ const ApproveActButton = ({ translate, council, client, refetch }) => {
                             <Icon
                                 className="material-icons"
                                 style={{
-                                    fontSize: "1.1em",
-                                    color: "white"
+                                    fontSize: '1.1em',
+                                    color: 'white'
                                 }}
                             >
                                 play_arrow
                             </Icon>
                         }
                         textStyle={{
-                            color: "white",
-                            fontSize: "0.7em",
-                            fontWeight: "700",
-                            textTransform: "none"
+                            color: 'white',
+                            fontSize: '0.7em',
+                            fontWeight: '700',
+                            textTransform: 'none'
                         }}
                     />
                 </React.Fragment>
             )}
         </ConfigContext.Consumer>
-    )
-}
+    );
+};
 
 
 export default withApollo(ApproveActButton);

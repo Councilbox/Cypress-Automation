@@ -20,12 +20,12 @@ const PlaygroundPage = ({ apiLogin, createUser, client }) => {
                 variables
             });
         }
-    }
+    };
 
 
     const sendOperation = async () => {
         const request = gql`${operation.query}`;
-        const operationName = request.definitions["0"].name.value;
+        const operationName = request.definitions['0'].name.value;
 
         try {
             let response;
@@ -59,9 +59,9 @@ const PlaygroundPage = ({ apiLogin, createUser, client }) => {
             setOperation({
                 ...operation,
                 response: e.message
-            })
+            });
         }
-    }
+    };
 
     const value = {
         operation,
@@ -98,8 +98,8 @@ const PlaygroundPage = ({ apiLogin, createUser, client }) => {
                 )}
             </DocsContext.Consumer>
         </DocsLayout>
-    )
-}
+    );
+};
 
 
 

@@ -1,8 +1,8 @@
-import React from "react";
-import { compose, graphql } from "react-apollo";
-import { AlertConfirm, TextInput } from "../../displayComponents";
-import { updateCouncilAttachment, updateAgendaAttachment } from "../../queries";
-import AttachmentItem from "./AttachmentItem";
+import React from 'react';
+import { compose, graphql } from 'react-apollo';
+import { AlertConfirm, TextInput } from '../../displayComponents';
+import { updateCouncilAttachment, updateAgendaAttachment } from '../../queries';
+import AttachmentItem from './AttachmentItem';
 import { splitExtensionFilename } from '../../utils/CBX';
 
 
@@ -10,10 +10,10 @@ const AttachmentList = ({ translate, attachments, isAgendaAttachment, ...props }
 	const [state, setState] = React.useState({
 		showModal: false,
 		data: {
-			name: ""
+			name: ''
 		},
 		errors: {
-			name: ""
+			name: ''
 		}
 	});
 
@@ -28,7 +28,7 @@ const AttachmentList = ({ translate, attachments, isAgendaAttachment, ...props }
 	};
 
 	const _renderModalBody = () => (
-			<div style={{ width: window.innerWidth > 650 ? "650px" : '100%' }}>
+			<div style={{ width: window.innerWidth > 650 ? '650px' : '100%' }}>
 				<TextInput
 					floatingText={translate.name}
 					type="text"
@@ -92,7 +92,7 @@ const AttachmentList = ({ translate, attachments, isAgendaAttachment, ...props }
 	return (
 		<div
 			style={{
-				width: "100%"
+				width: '100%'
 			}}
 		>
 			{attachments.map((attachment, index) => (
@@ -119,13 +119,13 @@ const AttachmentList = ({ translate, attachments, isAgendaAttachment, ...props }
 			/>
 		</div>
 	);
-}
+};
 
 export default compose(
 	graphql(updateCouncilAttachment, {
-		name: "updateCouncilAttachment"
+		name: 'updateCouncilAttachment'
 	}),
 	graphql(updateAgendaAttachment, {
-		name: "updateAgendaAttachment"
+		name: 'updateAgendaAttachment'
 	})
 )(AttachmentList);

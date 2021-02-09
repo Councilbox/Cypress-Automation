@@ -23,7 +23,7 @@ const CreateWithoutSession = ({ setOptions, translate, hybrid, errors, ...props 
             dateStart: date,
             dateStart2NdCall: moment(date).add(5, 'minutes')
         });
-    }
+    };
 
     const setCloseDate = date => {
         setDates({
@@ -34,7 +34,7 @@ const CreateWithoutSession = ({ setOptions, translate, hybrid, errors, ...props 
             ...dates,
             closeDate: date
         });
-    }
+    };
 
     return (
         <div>
@@ -46,7 +46,7 @@ const CreateWithoutSession = ({ setOptions, translate, hybrid, errors, ...props 
                         const dateString = newDate.toISOString();
                         setStartDate(dateString);
                     }}
-                    minDateMessage={""}
+                    minDateMessage={''}
                     errorText={errors.dateStart}
                     acceptText={translate.accept}
                     cancelText={translate.cancel}
@@ -63,7 +63,7 @@ const CreateWithoutSession = ({ setOptions, translate, hybrid, errors, ...props 
                         const dateString = newDate.toISOString();
                         setCloseDate(dateString);
                     }}
-                    minDateMessage={""}
+                    minDateMessage={''}
                     errorText={errors.closeDate}
                     acceptText={translate.accept}
                     cancelText={translate.cancel}
@@ -76,7 +76,7 @@ const CreateWithoutSession = ({ setOptions, translate, hybrid, errors, ...props 
                 <span style={{ color: 'red', marginTop: '1em' }}>{errors.errorMessage}</span>
             }
         </div>
-    )
-}
+    );
+};
 
 export default CreateWithoutSession;

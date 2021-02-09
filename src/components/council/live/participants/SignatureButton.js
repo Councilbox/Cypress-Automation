@@ -20,15 +20,15 @@ const SignatureButton = ({ participant, translate, council, refetch }) => {
             <BasicButton
                 text={participant.signed ? translate.user_signed : translate.to_sign}
                 fullWidth
-                buttonStyle={{ borderRadius: "4px", marginRight: "10px", width: "150px", border: `1px solid ${secondary}` }}
+                buttonStyle={{ borderRadius: '4px', marginRight: '10px', width: '150px', border: `1px solid ${secondary}` }}
                 type="flat"
                 color={participant.signed ? secondary : 'white'}
                 onClick={() => setModal(true)}
-                textStyle={{ color: participant.signed ? "white" : secondary }}
+                textStyle={{ color: participant.signed ? 'white' : secondary }}
             />
         </React.Fragment>
 
-    )
-}
+    );
+};
 
 export default SignatureButton;

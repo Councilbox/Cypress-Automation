@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 import { Paper } from 'material-ui';
-import { graphql, compose, withApollo } from "react-apollo";
+import { graphql, compose, withApollo } from 'react-apollo';
 import FontAwesome from 'react-fontawesome';
 import {
 	BasicButton,
@@ -10,74 +10,74 @@ import {
 	GridItem,
 	FileUploadButton,
 	AlertConfirm
-} from "../../../displayComponents";
-import { getPrimary, getSecondary } from "../../../styles/colors";
-import { importCensus, getCensusTemplate, checkUniqueCensusEmails } from "../../../queries/census";
-import { checkValidEmail } from "../../../utils";
-import { downloadFile } from "../../../utils/CBX";
+} from '../../../displayComponents';
+import { getPrimary, getSecondary } from '../../../styles/colors';
+import { importCensus, getCensusTemplate, checkUniqueCensusEmails } from '../../../queries/census';
+import { checkValidEmail } from '../../../utils';
+import { downloadFile } from '../../../utils/CBX';
 
 let XLSX;
-import('xlsx').then(data => { XLSX = data });
+import('xlsx').then(data => { XLSX = data; });
 
 const original = {
-	NOMBRE: "name",
-	APELLIDOS: "surname",
-	DNI: "dni",
-	CARGO: "position",
-	EMAIL: "email",
-	TELÉFONO: "phone",
-	IDIOMA: "language_TEXT",
-	"Nº VOTOS": "numParticipations",
+	NOMBRE: 'name',
+	APELLIDOS: 'surname',
+	DNI: 'dni',
+	CARGO: 'position',
+	EMAIL: 'email',
+	TELÉFONO: 'phone',
+	IDIOMA: 'language_TEXT',
+	'Nº VOTOS': 'numParticipations',
 	'N votos': 'numParticipations',
 	'N participaciones': 'socialCapital',
 	'N participacións': 'socialCapital',
-	"Nº PARTICIPACIONES": "socialCapital",
-	"RAZÓN SOCIAL": "r_name",
-	CIF: "r_dni",
-	"EMAIL RAZÓN SOCIAL": "r_email",
-	"TELÉFONO RAZÓN SOCIAL": "r_phone",
-	NAME: "name",
-	SURNAME: "surname",
-	POSITION: "position",
-	PHONE: "phone",
-	LANGUAGE: "language_TEXT",
-	"No. VOTES": "numParticipations",
-	"No. SHARES": "socialCapital",
-	"BUSINESS NAME": "r_name",
-	"EMAIL BUSINESS NAME": "r_email",
-	"PHONE BUSINESS NAME": "r_phone",
-	NOM: "name",
-	COGNOMS: "surname",
-	CÀRREC: "position",
-	TELÉFON: "phone",
-	LLENGUA: "language_TEXT",
-	"Nº VOTS": "numParticipations",
-	"Nº PARTICIPACIONS": "socialCapital",
-	"RAÓ SOCIAL": "r_name",
-	"EMAIL RAÓ SOCIAL": "r_email",
-	"TELÉFON RAÓ SOCIAL": "r_phone",
-	NOME: "name",
-	SOBRENOME: "surname",
-	"Nº AÇÕES": "numParticipations",
-	"RAZÃO SOCIAL": "r_name",
-	"EMAIL RAZÃO SOCIAL": "r_email",
-	"TELÉFONO RAZÃO SOCIAL": "r_phone",
-	APELIDOS: "surname",
-	"Nº PARTICIPACIÓNS": "socialCapital"
+	'Nº PARTICIPACIONES': 'socialCapital',
+	'RAZÓN SOCIAL': 'r_name',
+	CIF: 'r_dni',
+	'EMAIL RAZÓN SOCIAL': 'r_email',
+	'TELÉFONO RAZÓN SOCIAL': 'r_phone',
+	NAME: 'name',
+	SURNAME: 'surname',
+	POSITION: 'position',
+	PHONE: 'phone',
+	LANGUAGE: 'language_TEXT',
+	'No. VOTES': 'numParticipations',
+	'No. SHARES': 'socialCapital',
+	'BUSINESS NAME': 'r_name',
+	'EMAIL BUSINESS NAME': 'r_email',
+	'PHONE BUSINESS NAME': 'r_phone',
+	NOM: 'name',
+	COGNOMS: 'surname',
+	CÀRREC: 'position',
+	TELÉFON: 'phone',
+	LLENGUA: 'language_TEXT',
+	'Nº VOTS': 'numParticipations',
+	'Nº PARTICIPACIONS': 'socialCapital',
+	'RAÓ SOCIAL': 'r_name',
+	'EMAIL RAÓ SOCIAL': 'r_email',
+	'TELÉFON RAÓ SOCIAL': 'r_phone',
+	NOME: 'name',
+	SOBRENOME: 'surname',
+	'Nº AÇÕES': 'numParticipations',
+	'RAZÃO SOCIAL': 'r_name',
+	'EMAIL RAZÃO SOCIAL': 'r_email',
+	'TELÉFONO RAZÃO SOCIAL': 'r_phone',
+	APELIDOS: 'surname',
+	'Nº PARTICIPACIÓNS': 'socialCapital'
 };
 
 const excelToDBColumns = Object.keys(original).reduce((acc, curr) => {
 	acc[curr.toLowerCase()] = original[curr];
 
 	return acc;
-}, {})
+}, {});
 
 const languages = {
-	español: "es",
-	english: "en",
-	português: "pt",
-	català: "cat",
-	galego: "gal"
+	español: 'es',
+	english: 'en',
+	português: 'pt',
+	català: 'cat',
+	galego: 'gal'
 };
 
 function to_json(workbook) {
@@ -118,8 +118,8 @@ class ImportCensusButton extends React.Component {
 			if (response.data) {
 				downloadFile(
 					response.data.getCensusTemplate,
-					"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-					`censusTemplate.xlsx`
+					'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+					'censusTemplate.xlsx'
 				);
 				this.setState({
 					downloading: false
@@ -142,7 +142,7 @@ class ImportCensusButton extends React.Component {
 		const duplicatedEmails = new Map();
 		participants.forEach((censusP, index) => {
 			if (censusP.participant.email) {
-				const item = uniqueEmails.get(censusP.participant.email)
+				const item = uniqueEmails.get(censusP.participant.email);
 				if (item) {
 					if (item.name !== censusP.participant.name || item.surname !== censusP.participant.surname || item.dni !== censusP.participant.dni) {
 						duplicatedEmails.set(censusP.participant.email, [index + 2]);
@@ -155,7 +155,7 @@ class ImportCensusButton extends React.Component {
 
 			if (censusP.representative) {
 				if (censusP.representative.email) {
-					const item = uniqueEmails.get(censusP.representative.email)
+					const item = uniqueEmails.get(censusP.representative.email);
 					if (item) {
 						if (item.name !== censusP.representative.name || item.surname !== censusP.representative.surname || item.dni !== censusP.representative.dni) {
 							duplicatedEmails.set(censusP.representative.email, [index + 2]);
@@ -254,7 +254,7 @@ class ImportCensusButton extends React.Component {
 							processing: false,
 							loading: false,
 							step: 2
-						})
+						});
 					}
 				}
 			} else {
@@ -290,7 +290,7 @@ class ImportCensusButton extends React.Component {
 		const duplicatedEmails = await this.checkUniqueEmails(preparedParticipants);
 		if (!duplicatedEmails) {
 			if (preparedParticipants.length > 0) {
-				if (preparedParticipants[0].participant.email === "example@councilbox.com") {
+				if (preparedParticipants[0].participant.email === 'example@councilbox.com') {
 					preparedParticipants.splice(0, 1);
 				}
 			}
@@ -370,7 +370,7 @@ class ImportCensusButton extends React.Component {
 				dni: participant.dni || '',
 				phone: this.cleanPhone(participant.phone),
 				language: participant.language,
-			}
+			};
 		}
 		const participantError = this.checkRequiredFields(participant, true);
 		if (participantError || errors) {
@@ -423,11 +423,11 @@ class ImportCensusButton extends React.Component {
 				numParticipations: +numParticipations,
 				socialCapital: participant.socialCapital ? +participant.socialCapital.replace(/[.,]/g, '') : +numParticipations,
 			}
-		}
+		};
 	}
 
 	checkRequiredFields = (participant, isEntity) => {
-		const required = 'required'
+		const required = 'required';
 
 		const errors = {
 			name: '',
@@ -440,7 +440,7 @@ class ImportCensusButton extends React.Component {
 			r_dni: '',
 			r_email: '',
 			r_phone: ''
-		}
+		};
 
 		if (!isEntity) {
 			if (!checkValidEmail(participant.email)) {
@@ -519,19 +519,19 @@ class ImportCensusButton extends React.Component {
 					color={secondary}
 					textStyle={{
 						color: 'white',
-						fontWeight: "700",
-						fontSize: "0.9em",
-						textTransform: "none"
+						fontWeight: '700',
+						fontSize: '0.9em',
+						textTransform: 'none'
 					}}
 					textPosition="after"
 					icon={<ButtonIcon type="import_export" color="white" />}
 					onClick={() => this.setState({ modal: true })}
 					buttonStyle={{
-						marginRight: "1em",
+						marginRight: '1em',
 					}}
 				/>
 				<AlertConfirm
-					bodyStyle={{ overflow: "hidden" }}
+					bodyStyle={{ overflow: 'hidden' }}
 					requestClose={this.close}
 					open={this.state.modal}
 					bodyText={
@@ -547,16 +547,16 @@ class ImportCensusButton extends React.Component {
 													disabled={this.state.loading}
 													textStyle={{
 														color: 'white',
-														fontWeight: "700",
-														fontSize: "0.9em",
-														textTransform: "none"
+														fontWeight: '700',
+														fontSize: '0.9em',
+														textTransform: 'none'
 													}}
 													loading={downloading}
 													textPosition="after"
 													icon={<ButtonIcon type="add" color="white" />}
 													onClick={this.getCensusTemplate}
 													buttonStyle={{
-														marginRight: "1em",
+														marginRight: '1em',
 													}}
 												/>
 											</div>
@@ -567,15 +567,15 @@ class ImportCensusButton extends React.Component {
 												loading={this.state.loading}
 												text={translate.import_template}
 												style={{
-													width: "100%"
+													width: '100%'
 												}}
-												buttonStyle={{ width: "100%" }}
+												buttonStyle={{ width: '100%' }}
 												color={primary}
 												textStyle={{
-													color: "white",
-													fontWeight: "700",
-													fontSize: "0.9em",
-													textTransform: "none"
+													color: 'white',
+													fontWeight: '700',
+													fontSize: '0.9em',
+													textTransform: 'none'
 												}}
 												icon={
 													<ButtonIcon type="publish" color="white" />
@@ -601,7 +601,7 @@ class ImportCensusButton extends React.Component {
 							{step === 3 && (
 								<div>
 									<div
-										style={{ height: '70vh', overflow: "hidden" }}
+										style={{ height: '70vh', overflow: 'hidden' }}
 									>
 										{translate.result_reading_press_confirm}:
 										<div style={{ height: 'calc( 100% - 4em )' }}>
@@ -615,18 +615,18 @@ class ImportCensusButton extends React.Component {
 															key={`excelParticipant_${index}`}
 														>
 															<FontAwesome
-																name={"tag"}
+																name={'tag'}
 																style={{
 																	color: secondary,
-																	fontSize: "0.8em",
+																	fontSize: '0.8em',
 																	marginRight: '0.3em'
 																}}
 															/>{`${item.participant.name} ${item.participant.surname || ''} - ${item.participant.dni || ''}`}<br />
 															<FontAwesome
-																name={"at"}
+																name={'at'}
 																style={{
 																	color: secondary,
-																	fontSize: "0.8em",
+																	fontSize: '0.8em',
 																	marginRight: '0.3em'
 																}}
 															/>{`${item.participant.email || ''}`}<br />
@@ -653,7 +653,7 @@ class ImportCensusButton extends React.Component {
 							)}
 							{step === 4 && (
 								<div>
-									<div style={{ height: '70vh', overflow: "hidden" }}>
+									<div style={{ height: '70vh', overflow: 'hidden' }}>
 										<div style={{ height: 'calc( 100% - 4em )' }}>
 											<Scrollbar>
 												<div
@@ -683,7 +683,7 @@ class ImportCensusButton extends React.Component {
 							)}
 							{step === 5 && (
 								<div>
-									<div style={{ height: '70vh', overflow: "hidden" }}>
+									<div style={{ height: '70vh', overflow: 'hidden' }}>
 										<div style={{ height: 'calc(100%)' }}>
 											<Scrollbar>
 												<div
@@ -899,9 +899,9 @@ class ImportCensusButton extends React.Component {
 
 export default compose(
 	graphql(getCensusTemplate, {
-		name: "getCensusTemplate"
+		name: 'getCensusTemplate'
 	}),
 	graphql(importCensus, {
-		name: "importCensus"
+		name: 'importCensus'
 	})
 )(withApollo(ImportCensusButton));

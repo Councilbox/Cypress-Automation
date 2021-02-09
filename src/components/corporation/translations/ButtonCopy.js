@@ -1,5 +1,5 @@
 import React from 'react';
-import FontAwesome from "react-fontawesome";
+import FontAwesome from 'react-fontawesome';
 import { Tooltip } from 'material-ui';
 
 
@@ -15,7 +15,7 @@ const ButtonCopy = () => {
                 showCopyTooltip: false
             });
         }, 2000);
-    }
+    };
 
     const copy = () => {
         setState({
@@ -30,21 +30,21 @@ const ButtonCopy = () => {
         // element.select();
         // document.execCommand('copy');
         // CBX.copyStringToClipboard(value);
-    }
+    };
 
     return (
         <Tooltip title="Copiado" open={state.showCopyTooltip}>
             <FontAwesome
-                name={"clone"}
+                name={'clone'}
                 style={{
-                    cursor: "pointer",
-                    marginTop: "18px",
-                    marginLeft: "0.5em",
+                    cursor: 'pointer',
+                    marginTop: '18px',
+                    marginLeft: '0.5em',
                 }}
                 onClick={copy}
             />
         </Tooltip>
-    )
-}
+    );
+};
 
-export default ButtonCopy
+export default ButtonCopy;

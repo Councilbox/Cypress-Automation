@@ -15,20 +15,20 @@ const mutation = gql`
 `;
 
 const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, client, requestClose, ...props }) => {
-    const [tag, setTag] = React.useState(initialValue || { key: '', value: '', description: "" });
+    const [tag, setTag] = React.useState(initialValue || { key: '', value: '', description: '' });
     const [errors, setErrors] = React.useState({});
-    const [initInfo, setInitInfo] = React.useState(tag)
-    const [unsavedAlert, setUnsavedAlert] = React.useState(false)
+    const [initInfo, setInitInfo] = React.useState(tag);
+    const [unsavedAlert, setUnsavedAlert] = React.useState(false);
 
     const updateTagData = object => {
         setTag({
             ...tag,
             ...object
         });
-    }
+    };
 
     const checkRequiredFields = async () => {
-        const checkErrors = {}
+        const checkErrors = {};
 
         if (!tag.key) {
             checkErrors.key = translate.required_field;
@@ -53,7 +53,7 @@ const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, cl
         setErrors(checkErrors);
 
         return Object.keys(checkErrors).length > 0;
-    }
+    };
 
     const updateTag = async () => {
         if (!await checkRequiredFields()) {
@@ -68,7 +68,7 @@ const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, cl
             refetch();
             requestClose();
         }
-    }
+    };
 
     const renderBody = () => (
         <CompanyTagForm
@@ -77,20 +77,20 @@ const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, cl
             setTag={updateTagData}
             translate={translate}
         />
-    )
+    );
 
     const comprobateChanges = () => {
-        const isUnsavedAlert = JSON.stringify(initInfo) !== JSON.stringify(tag)
-        setUnsavedAlert(isUnsavedAlert)
-        return isUnsavedAlert
+        const isUnsavedAlert = JSON.stringify(initInfo) !== JSON.stringify(tag);
+        setUnsavedAlert(isUnsavedAlert);
+        return isUnsavedAlert;
     };
 
     const closeModal = () => {
         const equals = comprobateChanges();
         if (!equals) {
-            requestClose()
+            requestClose();
         }
-    }
+    };
 
     return (
         <div>
@@ -110,7 +110,7 @@ const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, cl
                 open={unsavedAlert}
             />
         </div>
-    )
-}
+    );
+};
 
 export default withApollo(EditTagModal);

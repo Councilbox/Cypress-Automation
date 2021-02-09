@@ -40,19 +40,19 @@ const CommenWallList = ({ council, translate, client }) => {
 
         setData(response.data);
         setLoading(false);
-    }, [council.id])
+    }, [council.id]);
 
     React.useEffect(() => {
         getData();
-    }, [getData])
+    }, [getData]);
 
     const downloadPDF = async () => {
         await downloadHTMLAsPDF({
             name: `${translate.council_comments}_${council.id}`,
             companyId: council.companyId,
-            html: document.getElementById("toDownload").innerHTML
+            html: document.getElementById('toDownload').innerHTML
         });
-    }
+    };
 
 
     if(loading){
@@ -81,9 +81,9 @@ const CommenWallList = ({ council, translate, client }) => {
                             buttonStyle={{ border: `1px solid ${secondary}` }}
                             icon={
                                 <i className="fa fa-download" style={{
-                                    fontSize: "1em",
+                                    fontSize: '1em',
                                     color: secondary,
-                                    marginLeft: "0.3em"
+                                    marginLeft: '0.3em'
                                 }}
                                 />
                             }
@@ -99,9 +99,9 @@ const CommenWallList = ({ council, translate, client }) => {
                                             }}
                                         >
                                             <i className="fa fa-file-pdf-o" style={{
-                                                fontSize: "1em",
+                                                fontSize: '1em',
                                                 color: secondary,
-                                                marginLeft: "0.3em"
+                                                marginLeft: '0.3em'
                                             }}
                                             />
                                             <span style={{ marginLeft: '2.5em', marginRight: '0.8em' }}>
@@ -147,7 +147,7 @@ const CommenWallList = ({ council, translate, client }) => {
                 </>
             }
          </div>
-    )
-}
+    );
+};
 
 export default withApollo(CommenWallList);

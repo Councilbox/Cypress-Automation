@@ -14,13 +14,13 @@ const filterHiddenItems = item => !item.hide;
 const flatItems = (acc, curr) => (curr.items ? [
         ...acc,
         ...curr.items.filter(filterHiddenItems)
-    ] : [...acc, curr])
+    ] : [...acc, curr]);
 
 const prepareColumn = (column, secondary) => column.reduce(flatItems, []).map(item => ({
         type: item.type,
         text: secondary ? item.secondaryText : item.text,
         data: item.data
-    }))
+    }));
 
 export const buildDocVariable = (doc, options) => ({
     fragments: prepareColumn(doc),
@@ -30,7 +30,7 @@ export const buildDocVariable = (doc, options) => ({
         secondaryLanguage: 'en',
         ...options,
     }
-})
+});
 
 export function generateCertAgendaBlocks(data, language = 'es'){
     const agenda = data.agendas;
@@ -39,7 +39,7 @@ export function generateCertAgendaBlocks(data, language = 'es'){
     return agenda.map((point) => ({
         id: Math.random().toString(36).substr(2, 9),
         label: `${texts.includePoint} ${point.orderIndex}`,
-        text: "",
+        text: '',
         editButton: false,
         type: 'certAgenda',
         logic: true,
@@ -47,7 +47,7 @@ export function generateCertAgendaBlocks(data, language = 'es'){
         toggleable: true,
         hide: false,
         secondaryLanguage: 'en',
-        colorBorder: "#b39a5b",
+        colorBorder: '#b39a5b',
         noBorrar: false,
         data: {
             agendaId: point.id
@@ -56,7 +56,7 @@ export function generateCertAgendaBlocks(data, language = 'es'){
 }
 
 
-const getCustomRecount = (ballots, itemId) => ballots.filter(ballot => ballot.itemId == itemId).reduce((a, b) => a + b.weight, 0)
+const getCustomRecount = (ballots, itemId) => ballots.filter(ballot => ballot.itemId == itemId).reduce((a, b) => a + b.weight, 0);
 
 
 const buildAgendaText = (agenda, translate, data) => {
@@ -93,7 +93,7 @@ const buildAgendaText = (agenda, translate, data) => {
                     getAgendaResult(agenda, 'NUM_NEGATIVE', data)} | ${translate.noVote.toUpperCase()}: ${getAgendaResult(agenda, 'NUM_NO_VOTE', data)}
                 <br>
             </div>
-        `
+        `;
     }
 
     return `
@@ -108,7 +108,7 @@ const buildAgendaText = (agenda, translate, data) => {
             <br>
         </div>
     `;
-}
+};
 
 export function generateAgendaBlocks(data, language = 'es', secondaryLanguage = 'en'){
     const agenda = data.agendas;
@@ -168,7 +168,7 @@ export function generateAgendaBlocks(data, language = 'es', secondaryLanguage = 
                         data.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ? texts.results : texts.votes
                     }`,
                     editButton: false,
-                    type: "votes",
+                    type: 'votes',
                     noBorrar: true,
                     data: {
                         agendaId: element.id
@@ -181,7 +181,7 @@ export function generateAgendaBlocks(data, language = 'es', secondaryLanguage = 
                     label: `${texts.agendaPoint} ${index + 1} - ${
                         data.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ? texts.participantList : texts.votersList
                     }`,
-                    text: "",
+                    text: '',
                     editButton: false,
                     type: 'voting',
                     toggleable: true,
@@ -210,7 +210,7 @@ export function generateAgendaBlocks(data, language = 'es', secondaryLanguage = 
                         toggleable: false,
                         language: 'es',
                         secondaryLanguage: 'en',
-                        colorBorder: "#b39a5b",
+                        colorBorder: '#b39a5b',
                         icon: iconAgendaComments,
                         noBorrar: false,
                         data: {
@@ -265,9 +265,9 @@ export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = '
             secondaryText: data.council.act.conclusionRightColumn || '',
         }),
         agendaList: () => {
-            let puntos = `<b>${texts.agenda}</b> </br>`
+            let puntos = `<b>${texts.agenda}</b> </br>`;
             data.agendas.forEach(element => {
-                puntos += "- " + element.agendaSubject + "</br>";
+                puntos += '- ' + element.agendaSubject + '</br>';
             });
             return {
                 ...item,
@@ -278,7 +278,7 @@ export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = '
                     <b>${secondaryTexts.agenda}</b> </br>
                     ${data.agendas.reduce((acc, curr) => `${acc}- ${curr.agendaSubject}</br>`, '')}
                 `
-            }
+            };
         },
         attendants: () => ({
             ...item,
@@ -293,7 +293,7 @@ export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = '
             ...item,
             id: Math.random().toString(36).substr(2, 9),
             label: texts.delegationsList,
-            text: "",
+            text: '',
             editButton: false,
             type: 'delegations',
             language,
@@ -304,7 +304,7 @@ export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = '
         }),
         agreements: () => ({
             ...item,
-            label: "entrar",
+            label: 'entrar',
             items: generateAgendaBlocks(data, language, secondaryLanguage),
             text: `<b>${texts.agendaIntro}</b>`,
             secondaryText: `<b>${texts.agendaIntro}</b>`,
@@ -320,26 +320,26 @@ export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = '
         }),
         cert_agenda: () => ({
             ...item,
-            label: "agenda",
+            label: 'agenda',
             type: 'certAgenda',
             items: generateCertAgendaBlocks(data, language, secondaryLanguage),
-            text: "",
-            secondaryText: "",
+            text: '',
+            secondaryText: '',
         })
-    }
+    };
 
     if(!blockTypes[item.type]){
         throw new Error('Invalid block type');
     }
 
     return blockTypes[item.type]();
-}
+};
 
 export const getDefaultTagsByBlockType = (type, translate) => {
     const baseTag = {
         type: TAG_TYPES.DRAFT_TYPE,
         active: true,
-    }
+    };
 
     const defaultTags = {
         'intro': {
@@ -377,10 +377,10 @@ export const getDefaultTagsByBlockType = (type, translate) => {
                 label: translate.cert_footer
             }
         }
-    }
+    };
 
     return defaultTags[type] ? defaultTags[type] : null;
-}
+};
 
 
 export const buildDoc = (data, translate, type) => {
@@ -408,35 +408,35 @@ export const buildDoc = (data, translate, type) => {
             blocks.CERT_AGENDA,
             blocks.CERT_FOOTER
         ],
-    }
+    };
 
     if(!CBX_DOCS[type]){
         throw new Error('Invalid doc type');
     }
 
     return CBX_DOCS[type]().map(item => buildDocBlock(item, data, data.council.language));
-}
+};
 
 export const shouldCancelStart = event => {
     const tagName = event.target.tagName.toLowerCase();
 
     if (tagName === 'i' && event.target.classList[2] !== undefined) {
-        return true
+        return true;
     }
-    if (event.target.classList.value === "ql-syntax") {
-        return true
+    if (event.target.classList.value === 'ql-syntax') {
+        return true;
     }
-    if (event.target.classList.value === "ql-picker-options") {
-        return true
+    if (event.target.classList.value === 'ql-picker-options') {
+        return true;
     }
-    if (event.target.classList.value === "ql-editor" || event.target.classList.value === "ql-toolbar ql-snow") {
-        return true
+    if (event.target.classList.value === 'ql-editor' || event.target.classList.value === 'ql-toolbar ql-snow') {
+        return true;
     }
-    if (event.path[1].classList.value === "ql-editor" && event.path[0].tagName.toLowerCase() === "p") {
-        return true
+    if (event.path[1].classList.value === 'ql-editor' && event.path[0].tagName.toLowerCase() === 'p') {
+        return true;
     }
     if (tagName === 'i' && event.target.classList[2] === undefined) {
-        return true
+        return true;
     }
 
     if(event.target.className === 'ql-editor ql-blank'){
@@ -453,16 +453,16 @@ export const shouldCancelStart = event => {
         tagName === 'li' ||
         tagName === 's' ||
         tagName === 'a' ||
-        (tagName === 'p' && event.target.parentElement.classList.value === "ql-editor ql-blank") ||
+        (tagName === 'p' && event.target.parentElement.classList.value === 'ql-editor ql-blank') ||
         tagName === 'u' ||
         tagName === 'line' ||
         tagName === 'strong' ||
         tagName === 'em' ||
         tagName === 'blockquote' ||
         tagName === 'svg') {
-        return true
+        return true;
     }
-}
+};
 
 
 export const useDoc = (params = {}) => {
@@ -477,14 +477,14 @@ export const useDoc = (params = {}) => {
 				...object
 			}
 		});
-	}
+	};
 
 	const setDoc = value => {
 		updateDoc({
 			doc: value,
 			options
 		});
-    }
+    };
 
     const updateBlock = (id, object) => {
         const newItems = [...doc];
@@ -497,7 +497,7 @@ export const useDoc = (params = {}) => {
             if(block.id === id){
                 localization = {
                     block: i
-                }
+                };
             }
 
             if(block.items && !localization){
@@ -506,7 +506,7 @@ export const useDoc = (params = {}) => {
                     localization = {
                         block: i,
                         subBlock: index
-                    }
+                    };
                 }
             }
             i++;
@@ -515,7 +515,7 @@ export const useDoc = (params = {}) => {
         if(localization){
             if(Object.prototype.hasOwnProperty.call(localization, 'subBlock')){
                 const items = [...newItems[localization.block].items];
-                const item = { ...newItems[localization.block].items[localization.subBlock], ...object }
+                const item = { ...newItems[localization.block].items[localization.subBlock], ...object };
                 items[localization.subBlock] = item;
                 newItems[localization.block] = {
                     ...newItems[localization.block],
@@ -531,7 +531,7 @@ export const useDoc = (params = {}) => {
         }
 
         throw new Error('Block ID not found');
-    }
+    };
 
     const prepareText = async text => {
         if(params.transformText){
@@ -539,18 +539,18 @@ export const useDoc = (params = {}) => {
         }
 
         return text;
-    }
+    };
 
     const editBlock = async (id, text) => {
-        const prepared = await prepareText(text)
+        const prepared = await prepareText(text);
         updateBlock(id, { [column === 2 ? 'secondaryText' : 'text']: prepared });
 
         return prepared;
-    }
+    };
 
     const toggleBlock = (id, value) => {
         updateBlock(id, { hide: value });
-    }
+    };
 
     return {
         doc,
@@ -562,5 +562,5 @@ export const useDoc = (params = {}) => {
         toggleBlock,
         column,
         setColumn
-    }
-}
+    };
+};

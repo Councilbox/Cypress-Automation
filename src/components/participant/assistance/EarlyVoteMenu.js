@@ -26,15 +26,15 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
                     } else {
                         selected.set(`${vote.agendaId}_${vote.participantId}`, rest);
                     }
-                })
+                });
                 setSelected(new Map(selected));
                 setState({
                     ...state,
                     earlyVotes: Array.from(selected.values())
-                })
+                });
             }
         }
-    }, [loading, data])
+    }, [loading, data]);
 
     const isActive = (agendaId, value) => {
         const point = selected.get(agendaId);
@@ -44,7 +44,7 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
         }
 
         return point.value === value;
-    }
+    };
 
     const earlyVoteMenu = participantInfo => (
         data.agendas.filter(point => point.subjectType !== AGENDA_TYPES.INFORMATIVE).map(point => {
@@ -56,23 +56,23 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
                             {[{
                                 value: VOTE_VALUES.POSITIVE,
                                 label: translate.accept,
-                                icon: "fa fa-check"
+                                icon: 'fa fa-check'
                             }, {
                                 value: VOTE_VALUES.NEGATIVE,
                                 label: translate.refuse,
-                                icon: "fa fa-times"
+                                icon: 'fa fa-times'
                             }].map(vote => {
                                 const active = isActive(`${point.id}_${participantInfo.id}`, vote.value);
                                 return (
                                     <div
                                         key={`vote_${vote.value}`}
                                         style={{
-                                            marginRight: "0.2em",
-                                            borderRadius: "3px",
-                                            display: "flex",
-                                            cursor: "pointer",
-                                            alignItems: "center",
-                                            justifyContent: "center"
+                                            marginRight: '0.2em',
+                                            borderRadius: '3px',
+                                            display: 'flex',
+                                            cursor: 'pointer',
+                                            alignItems: 'center',
+                                            justifyContent: 'center'
                                         }}
                                         onClick={() => {
                                             setSelected(new Map(selected.set(`${point.id}_${participantInfo.id}`, {
@@ -89,11 +89,11 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
                                             icon={<i className={vote.icon} aria-hidden="true" style={{ marginLeft: '0.2em', color: active ? getPrimary() : 'silver' }}></i>}
                                         />
                                     </div>
-                                )
+                                );
                             })}
                         </div>
                     </div>
-                )
+                );
             }
 
             if(!isCustomPoint(point.subjectType)){
@@ -104,11 +104,11 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
                             {[{
                                 value: VOTE_VALUES.POSITIVE,
                                 label: translate.in_favor_btn,
-                                icon: "fa fa-check"
+                                icon: 'fa fa-check'
                             }, {
                                 value: VOTE_VALUES.NEGATIVE,
                                 label: translate.against_btn,
-                                icon: "fa fa-times"
+                                icon: 'fa fa-times'
                             }, {
                                 value: VOTE_VALUES.ABSTENTION,
                                 label: translate.abstention_btn,
@@ -119,12 +119,12 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
                                     <div
                                         key={`vote_${vote.value}`}
                                         style={{
-                                            marginRight: "0.2em",
-                                            borderRadius: "3px",
-                                            display: "flex",
-                                            cursor: "pointer",
-                                            alignItems: "center",
-                                            justifyContent: "center"
+                                            marginRight: '0.2em',
+                                            borderRadius: '3px',
+                                            display: 'flex',
+                                            cursor: 'pointer',
+                                            alignItems: 'center',
+                                            justifyContent: 'center'
                                         }}
                                         onClick={() => {
                                             setSelected(new Map(selected.set(`${point.id}_${participantInfo.id}`, {
@@ -141,11 +141,11 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
                                             icon={<i className={vote.icon} aria-hidden="true" style={{ marginLeft: '0.2em', color: active ? getPrimary() : 'silver' }}></i>}
                                         />
                                     </div>
-                                )
+                                );
                             })}
                         </div>
                     </div>
-                )
+                );
             }
 
             const selections = point.items.reduce((acc, curr) => {
@@ -155,7 +155,7 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
                     return acc;
                 }
                 return acc;
-            }, 0)
+            }, 0);
 
             const disabled = selections >= point.options.maxSelections;
             return (
@@ -174,28 +174,28 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
                                     selectCheckBox={active}
                                     onClick={() => {
                                         if(active){
-                                            selected.delete(key)
-                                            setSelected(new Map(selected))
+                                            selected.delete(key);
+                                            setSelected(new Map(selected));
                                         } else {
                                             setSelected(new Map(selected.set(key, {
                                                 value: item.id,
                                                 agendaId: point.id,
                                                 participantInfoId: participantInfo.id
-                                            })))
+                                            })));
                                         }
                                     }}
                                     text={item.value}
                                 />
-                            )
+                            );
                         })}
                     </div>
                 </div>
-            )
+            );
         })
-    )
+    );
 
     if(loading){
-        return <LoadingSection />
+        return <LoadingSection />;
     }
 
 
@@ -211,7 +211,7 @@ const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, clie
                 ))
         :
             earlyVoteMenu(participant)
-    )
-}
+    );
+};
 
 export default withApollo(EarlyVoteMenu);

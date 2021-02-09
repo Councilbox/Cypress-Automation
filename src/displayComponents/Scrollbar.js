@@ -9,7 +9,7 @@ class Scrollbar extends React.Component {
     }
 
     getScrollTop() {
-        return this.scrollbar.getScrollTop()
+        return this.scrollbar.getScrollTop();
     }
 
     getScrollHeight(){
@@ -21,12 +21,12 @@ class Scrollbar extends React.Component {
     }
 
     render(){
-        const { style, autoHide, children, showX, onScrollStop, classFix = "" } = this.props;
+        const { style, autoHide, children, showX, onScrollStop, classFix = '' } = this.props;
 
         return(
             <Scrollbars
                 ref={ref => {
-                    this.scrollbar = ref
+                    this.scrollbar = ref;
                 }}
                 autoHide={autoHide}
                 className={'Scrollbar' + classFix}
@@ -43,7 +43,7 @@ class Scrollbar extends React.Component {
             >
                 {children}
             </Scrollbars>
-        )
+        );
     }
 }
 

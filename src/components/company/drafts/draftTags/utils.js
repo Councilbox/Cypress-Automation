@@ -1,5 +1,5 @@
 import React from 'react';
-import * as CBX from "../../../../utils/CBX";
+import * as CBX from '../../../../utils/CBX';
 import Tag from './Tag';
 
 export const TAG_TYPES = {
@@ -8,7 +8,7 @@ export const TAG_TYPES = {
     GOVERNING_BODY: 2,
     DRAFT_TYPE: 3,
     CUSTOM: 99
-}
+};
 
 export const getTagColor = type => {
 	const colors = {
@@ -17,9 +17,9 @@ export const getTagColor = type => {
 		2: 'rgba(33, 98, 128, 0.58)',
 		3: 'rgba(33, 70, 128, 0.58)',
 		99: 'rgba(128, 78, 33, 0.58)'
-	}
+	};
 	return colors[type] ? colors[type] : colors[99];
-}
+};
 
 export const createTag = (data, type, translate) => {
 	const types = {
@@ -69,12 +69,12 @@ export const createTag = (data, type, translate) => {
 									label: translate[votingType.label],
 									type,
 								})}
-								key={"tag_" + votingType.value}
+								key={'tag_' + votingType.value}
 							/>
 						))
 				: null
-			})
+			});
 		}
-	}
+	};
 	return types[type]();
-}
+};

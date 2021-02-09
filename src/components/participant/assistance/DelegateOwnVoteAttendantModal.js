@@ -1,5 +1,5 @@
-import React from "react";
-import { graphql } from "react-apollo";
+import React from 'react';
+import { graphql } from 'react-apollo';
 import { Card, MenuItem, Typography } from 'material-ui';
 import {
 	AlertConfirm,
@@ -10,10 +10,10 @@ import {
 	TextInput,
 	Grid,
 	GridItem
-} from "../../../displayComponents";
-import { participantsToDelegate } from "../../../queries";
-import { DELEGATION_USERS_LOAD } from "../../../constants";
-import { getPrimary } from "../../../styles/colors";
+} from '../../../displayComponents';
+import { participantsToDelegate } from '../../../queries';
+import { DELEGATION_USERS_LOAD } from '../../../constants';
+import { getPrimary } from '../../../styles/colors';
 
 const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 	const loadMore = () => {
@@ -40,22 +40,22 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 				};
 			}
 		});
-	}
+	};
 
 	const close = () => {
 		props.requestClose();
-	}
+	};
 
 	const updateFilterText = async text => {
 		await data.refetch({
 			filters: [
 				{
-					field: "fullName",
+					field: 'fullName',
 					text
 				}
 			]
 		});
-	}
+	};
 
 	function _renderBody() {
 		const { loading } = data;
@@ -73,10 +73,10 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 				<TextInput
 					disableUnderline={true}
 					adornment={<Icon>search</Icon>}
-					floatingText={" "}
+					floatingText={' '}
 					type="text"
-					styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", paddingLeft: "5px" }}
-					stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "4px" }}
+					styleInInput={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px' }}
+					stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: '4px' }}
 					onChange={event => {
 						updateFilterText(event.target.value);
 					}}
@@ -84,7 +84,7 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 
 				<div
 					style={{
-						height: "300px",
+						height: '300px',
 					}}
 				>
 					{loading ? (
@@ -94,7 +94,7 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 								<Scrollbar>
 									{participants.length > 0 ? (
 										<div style={{ display: 'flex', }}>
-											<Grid style={{ padding: "10px" }}>
+											<Grid style={{ padding: '10px' }}>
 												{participants.map(participant => {
 													if (participant.id !== props.participant.id) {
 														return (
@@ -107,7 +107,7 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 																		participant={participant}
 																		onClick={() => props.addRepresentative(participant.id)
 																		}
-																		stylesPaper={{ borderRadius: "5px", width: "100%" }}
+																		stylesPaper={{ borderRadius: '5px', width: '100%' }}
 																	/>
 																</React.Fragment>
 															</GridItem>
@@ -162,19 +162,19 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 
 	return (
 		<AlertConfirm
-			bodyStyle={{ minWidth: "" }}
-			classNameDialog={"modalParticipant"}
+			bodyStyle={{ minWidth: '' }}
+			classNameDialog={'modalParticipant'}
 			requestClose={close}
 			open={show}
 			buttonCancel={translate.close}
 			bodyText={_renderBody()}
 			title={
-				<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+				<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 					<div>
 						{translate.to_delegate_vote}
 					</div>
-					<div style={{ fontSize: "15px", color: "#0000005e", display: "flex", alignItems: "center" }}>
-						<i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', paddingRight: "0.3em", cursor: "pointer" }} >
+					<div style={{ fontSize: '15px', color: '#0000005e', display: 'flex', alignItems: 'center' }}>
+						<i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', paddingRight: '0.3em', cursor: 'pointer' }} >
 							help
 						</i>
 						{translate.select_who_will_be_delegate}
@@ -183,7 +183,7 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 			}
 		/>
 	);
-}
+};
 
 export default graphql(participantsToDelegate, {
 	options: props => ({

@@ -28,7 +28,7 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
             setLoading(false);
             setLoaded(true);
             setTimeline(response.data.councilTimeline);
-        }
+        };
 
         getTimeline();
     }, [council.id, setLoading, setLoaded, setTimeline, client]);
@@ -50,7 +50,7 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
                 :
                 <React.Fragment>
                     {isMobile &&
-                        <div style={{ position: "fixed", top: '50px', right: "15px", background: "gainsboro", width: "47px", height: "32px", borderRadius: "25px" }}>
+                        <div style={{ position: 'fixed', top: '50px', right: '15px', background: 'gainsboro', width: '47px', height: '32px', borderRadius: '25px' }}>
                             <CouncilInfoMenu
                                 translate={translate}
                                 participant={participant}
@@ -59,7 +59,7 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
                             />
                         </div>
                     }
-                    <Stepper orientation="vertical" style={{ margin: '0', padding: isMobile ? '20px' : '10px', textAlign: "left" }}>
+                    <Stepper orientation="vertical" style={{ margin: '0', padding: isMobile ? '20px' : '10px', textAlign: 'left' }}>
                         {timeline.map((event, index) => {
                             const content = JSON.parse(event.content);
                             return (
@@ -68,12 +68,12 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
                                     content,
                                     translate,
                                     council
-                                }) + " Hora: " + moment(event.date).format('LLL')} >
-                                    <StepLabel style={{ textAlign: "left" }}>
+                                }) + ' Hora: ' + moment(event.date).format('LLL')} >
+                                    <StepLabel style={{ textAlign: 'left' }}>
                                         {getTimelineTranslationReverse({ type: event.type, content, translate, council })}<br />
-                                        <span style={{ fontSize: '0.9em', color: "grey" }}>{moment(event.date).format('LLL')}</span>
+                                        <span style={{ fontSize: '0.9em', color: 'grey' }}>{moment(event.date).format('LLL')}</span>
                                     </StepLabel>
-                                    <StepContent style={{ fontSize: '0.9em', textAlign: "left" }}>
+                                    <StepContent style={{ fontSize: '0.9em', textAlign: 'left' }}>
                                         {(event.type === 'CLOSE_VOTING' && isValidResult(content.data.agendaPoint.type)) &&
                                             <React.Fragment>
                                                 <span>
@@ -87,7 +87,7 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
                                     </StepContent>
                                 </Step>
 
-                            )
+                            );
                         })}
                     </Stepper>
                 </React.Fragment>
@@ -99,7 +99,7 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
                 :
                 <React.Fragment>
                     {isMobile &&
-                        <div style={{ position: "fixed", top: '50px', right: "15px", background: "gainsboro", width: "47px", height: "32px", borderRadius: "25px" }}>
+                        <div style={{ position: 'fixed', top: '50px', right: '15px', background: 'gainsboro', width: '47px', height: '32px', borderRadius: '25px' }}>
                             <CouncilInfoMenu
                                 translate={translate}
                                 participant={participant}
@@ -112,7 +112,7 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
                         {timeline.map((event) => {
                             const content = JSON.parse(event.content);
                             return (
-                                <Step active key={`event_${event.id}`} aria-label={getTimelineTranslation({ event: event.type, content, translate, council }) + " Hora: " + moment(event.date).format('LLL')} >
+                                <Step active key={`event_${event.id}`} aria-label={getTimelineTranslation({ event: event.type, content, translate, council }) + ' Hora: ' + moment(event.date).format('LLL')} >
                                     <StepLabel>
                                         <b>{getTimelineTranslation({ type: event.type, content, translate, content })}</b><br />
                                         <span style={{ fontSize: '0.9em' }}>{moment(event.date).format('LLL')}</span>
@@ -131,12 +131,12 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
                                     </StepContent>
                                 </Step>
 
-                            )
+                            );
                         })}
                     </Stepper>
                 </React.Fragment>
         );
-}
+};
 
 const isValidResult = type => {
     const types = {
@@ -144,10 +144,10 @@ const isValidResult = type => {
         PRIVATE_CUSTOM: true,
         CUSTOM_NOMINAL: true,
         default: false
-    }
+    };
 
     return types[type] ? !types[type] : types.default;
-}
+};
 
 export const councilTimelineQuery = gql`
     query CouncilTimeline($councilId: Int!){
@@ -182,10 +182,10 @@ export const getTimelineTranslation = ({ type, content, translate, council }) =>
         }</span> -  <b>{content.data.agendaPoint.name}</b></span>,
         'REOPEN_VOTING': () => `${content.data.agendaPoint.name} - ${translate.reopen_voting}`,
         default: () => 'Tipo no reconocido'
-    }
+    };
 
     return types[type] ? types[type]() : types.default();
-}
+};
 
 export const getTimelineTranslationReverse = ({ type, content, translate, council }) => {
     const types = {
@@ -211,9 +211,9 @@ export const getTimelineTranslationReverse = ({ type, content, translate, counci
         }</span> -  <b>{content.data.agendaPoint.name}</b></span>,
         'REOPEN_VOTING': () => <span><span style={{ color: getPrimary() }}>{translate.reopen_voting}</span> - <b>{content.data.agendaPoint.name}</b></span>,
         default: () => 'Tipo no reconocido'
-    }
+    };
 
     return types[type] ? types[type]() : types.default();
-}
+};
 
 export default withApollo(withTranslations()(TimelineSection));

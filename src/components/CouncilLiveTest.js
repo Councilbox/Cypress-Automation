@@ -5,11 +5,11 @@ import gql from 'graphql-tag';
 import withSharedProps from '../HOCs/withSharedProps';
 import { bHistory } from '../containers/App';
 import { checkCouncilState } from '../utils/CBX';
-import LiveHeader from "./council/live/LiveHeader";
-import { lightGrey } from "../styles/colors";
+import LiveHeader from './council/live/LiveHeader';
+import { lightGrey } from '../styles/colors';
 
 let logo;
-import("../assets/img/logo-white.png").then(data => { logo = data });
+import('../assets/img/logo-white.png').then(data => { logo = data; });
 
 
 class CouncilLiveTest extends React.Component {
@@ -37,7 +37,7 @@ class CouncilLiveTest extends React.Component {
                     },
                     this.props.company,
                     bHistory,
-                    "live"
+                    'live'
                 );
             }
         }
@@ -49,10 +49,10 @@ class CouncilLiveTest extends React.Component {
 		return (
 			<div
 				style={{
-					height: "100vh",
-					overflow: "hidden",
+					height: '100vh',
+					overflow: 'hidden',
 					backgroundColor: lightGrey,
-					fontSize: "1em"
+					fontSize: '1em'
 				}}
 			>
 				<LiveHeader
@@ -63,10 +63,10 @@ class CouncilLiveTest extends React.Component {
 				/>
 				<div
 					style={{
-						display: "flex",
-						width: "100%",
-						height: "calc(100vh - 3em)",
-						flexDirection: "row"
+						display: 'flex',
+						width: '100%',
+						height: 'calc(100vh - 3em)',
+						flexDirection: 'row'
 					}}
 				>
 				{!!this.state.url &&
@@ -78,7 +78,7 @@ class CouncilLiveTest extends React.Component {
 						src={`https://${this.state.url}?rand=${Date.now()}`}
 						allowFullScreen={true}
 						style={{
-							border: "none !important"
+							border: 'none !important'
 						}}
 					>
 						Something wrong...

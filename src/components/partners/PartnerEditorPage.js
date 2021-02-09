@@ -7,7 +7,7 @@ import withTranslations from '../../HOCs/withTranslations';
 import { bHistory } from '../../containers/App';
 import { getPrimary } from '../../styles/colors';
 import PartnerForm from './PartnerForm';
-import { checkValidEmail } from "../../utils";
+import { checkValidEmail } from '../../utils';
 import { INPUT_REGEX } from '../../constants';
 
 class Page extends React.PureComponent {
@@ -33,7 +33,7 @@ class Page extends React.PureComponent {
                     ...(representative ? {
                         representative
                     } : {})
-                }
+                };
             }
         }
 
@@ -51,14 +51,14 @@ class Page extends React.PureComponent {
             });
             const variables = {
                 participant: this.state.data
-            }
+            };
 
             if (this.state.data.personOrEntity === 1 && this.state.representative) {
                 const { __typename, ...cleanedRepresentative } = this.state.representative;
                 variables.representative = {
                     ...cleanedRepresentative,
                     companyId: this.state.data.companyId
-                }
+                };
             }
 
             const { participant, representative } = variables;
@@ -68,12 +68,12 @@ class Page extends React.PureComponent {
             if (participant) {
                 Object.keys(participant).forEach(key => {
                     trimmedData[key] = (participant[key] && participant[key].trim) ? participant[key].trim() : participant[key];
-                })
+                });
             }
             if (representative) {
                 Object.keys(representative).forEach(key => {
                     trimmedRepresentative[key] = (representative[key] && representative[key].trim) ? representative[key].trim() : representative[key];
-                })
+                });
             }
 
             const response = await this.props.updateBookParticipant({
@@ -101,8 +101,8 @@ class Page extends React.PureComponent {
                     this.setState({
                         success: true,
                         loading: false
-                    })
-                    this.goBack()
+                    });
+                    this.goBack();
                 }
             }
         }
@@ -112,7 +112,7 @@ class Page extends React.PureComponent {
         this.setState({
             success: false,
             loading: false
-        })
+        });
     }
 
     checkRequiredFields = async () => {
@@ -134,7 +134,7 @@ class Page extends React.PureComponent {
             zipcode: ''
         };
 
-        let hasError = false
+        let hasError = false;
 
         const { data } = this.state;
         const { translate } = this.props;
@@ -261,7 +261,7 @@ class Page extends React.PureComponent {
                 ...this.state.data,
                 ...object
             }
-        })
+        });
     }
 
     updateRepresentative = object => {
@@ -270,7 +270,7 @@ class Page extends React.PureComponent {
                 ...this.state.representative,
                 ...object
             }
-        })
+        });
     }
 
     render() {
@@ -299,7 +299,7 @@ class Page extends React.PureComponent {
                 countryState: '',
                 zipcode: '',
                 position: ''
-            }
+            };
         }
 
         return (
@@ -359,7 +359,7 @@ class Page extends React.PureComponent {
                     </div>
                 </div>
             </CardPageLayout>
-        )
+        );
     }
 }
 

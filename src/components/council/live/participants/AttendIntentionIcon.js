@@ -10,7 +10,7 @@ import { getAttendanceIntentionIcon } from '../../../../utils/CBX';
 const AttendIntentionIcon = ({ participant, representative, council, translate, size = '1.3em', color = getPrimary(), showCommentIcon, onCommentClick }) => {
     let tooltip = translate.not_confirmed_assistance;
     const iconStyle = {
-        margin: "0.3em",
+        margin: '0.3em',
         color,
         fontSize: size
     };
@@ -40,7 +40,7 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
                 tooltip = translate.participant_vote_fixed;
                 icon = <span className="material-icons" style={iconStyle}>
                         how_to_vote
-                    </span>
+                    </span>;
                 break;
 
 
@@ -48,7 +48,7 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
                 if((representative && participant.delegateId !== representative.id) || (!representative && participant.delegateId)){
                     tooltip = `${translate.delegated_in}: ${participant.representative.name} ${participant.representative.surname || ''}`;
                 } else {
-                    tooltip = translate.will_delegate
+                    tooltip = translate.will_delegate;
                 }
                 icon = getAttendanceIntentionIcon(intention, iconStyle);
                 break;
@@ -59,7 +59,7 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
                     participantId={participant.id}
                     participant={participant}
                     trigger={<i className='fa fa-sticky-note' style={iconStyle}></i>}
-                />
+                />;
                 break;
 
             default:
@@ -77,7 +77,7 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
                     onClick={onCommentClick}
                     name={'comment'}
                     style={{
-                        margin: "0.2em",
+                        margin: '0.2em',
                         color,
                         fontSize: size
                     }}
@@ -91,7 +91,7 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
                 />
             }
         </div>
-    )
-}
+    );
+};
 
 export default AttendIntentionIcon;

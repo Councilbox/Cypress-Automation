@@ -31,7 +31,7 @@ class LogoutUser extends React.Component {
                     onChange={event => this.setState({ userId: event.target.value })}
                 />
             </div>
-        )
+        );
     }
 }
 

@@ -1,5 +1,5 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
 
 const mapStateToProps = state => ({
 	companies: state.companies,
@@ -16,7 +16,7 @@ const withSharedProps = () => WrappedComponent => {
 				translate={translate}
 				{...restProps}
 			/>
-		)
+		);
 
 
 	return connect(mapStateToProps)(WithSharedProps);

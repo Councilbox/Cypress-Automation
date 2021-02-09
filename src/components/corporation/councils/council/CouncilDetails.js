@@ -8,8 +8,8 @@ import CouncilItem from '../CouncilItem';
 import { getSecondary } from '../../../../styles/colors';
 import DownloadAttendantsPDF from '../../../council/writing/actEditor/DownloadAttendantsPDF';
 import withTranslations from '../../../../HOCs/withTranslations';
-import SendCredentialsModal from "../../../council/live/councilMenu/SendCredentialsModal";
-import AgendaManager from "../../../council/live/AgendaManager";
+import SendCredentialsModal from '../../../council/live/councilMenu/SendCredentialsModal';
+import AgendaManager from '../../../council/live/AgendaManager';
 import { StatuteDisplay } from '../../../council/display/StatuteDisplay';
 import OptionsDisplay from '../../../council/display/OptionsDisplay';
 import CostManager from './CostManager';
@@ -53,7 +53,7 @@ class CouncilDetails extends React.Component {
 			if (!nextProps.data.loading) {
 				return {
 					data: nextProps.data
-				}
+				};
 			}
 		}
 
@@ -93,7 +93,7 @@ class CouncilDetails extends React.Component {
 	closeCredManager = () => {
 		this.setState({
 			credManager: false
-		})
+		});
 	}
 
 	toggleLock = event => {
@@ -131,7 +131,7 @@ class CouncilDetails extends React.Component {
 		const secondary = getSecondary();
 
 		if (this.props.data.loading) {
-			return <LoadingSection />
+			return <LoadingSection />;
 		}
 
 		const { council } = this.state.data;
@@ -139,7 +139,7 @@ class CouncilDetails extends React.Component {
 		if (!council) {
 			return <FailPageSearchId
 				id={this.props.match.params.id}
-			/>
+			/>;
 		}
 		if (this.state.showAgenda && council) {
 			return (
@@ -201,7 +201,7 @@ class CouncilDetails extends React.Component {
 								}}
 							>
 								<i
-									className={this.state.locked ? "fa fa-lock" : 'fa fa-unlock-alt'}
+									className={this.state.locked ? 'fa fa-lock' : 'fa fa-unlock-alt'}
 									aria-hidden="true"
 									style={{ color: 'white', fontSize: '2em' }}
 								></i>
@@ -210,12 +210,12 @@ class CouncilDetails extends React.Component {
 						</div>
 					}
 				</React.Fragment>
-			)
+			);
 		}
 
 		if (this.state.councilDetailsParticipants && council) {
 			return (
-				<div style={{ height: "100%" }}>
+				<div style={{ height: '100%' }}>
 					<div
 						style={{
 							color: 'rgb(125, 33, 128)',
@@ -253,11 +253,11 @@ class CouncilDetails extends React.Component {
 							Participantes
 							</div>
 					</div >
-					<div style={{ height: "100%" }}>
+					<div style={{ height: '100%' }}>
 						{council.state >= 20 ?
 							<>
 								<ParticipantsManager
-									stylesDiv={{ margin: "0", marginTop: "3.5em", height: "calc( 100% - 10em )", borderTop: "1px solid #e7e7e7", width: "100%" }}
+									stylesDiv={{ margin: '0', marginTop: '3.5em', height: 'calc( 100% - 10em )', borderTop: '1px solid #e7e7e7', width: '100%' }}
 									translate={translate}
 									council={council}
 									root={true}
@@ -279,7 +279,7 @@ class CouncilDetails extends React.Component {
 						/> */}
 					</div>
 				</div >
-			)
+			);
 		}
 
 		//const { council } = this.props.data;
@@ -287,7 +287,7 @@ class CouncilDetails extends React.Component {
 		return (
 			<div style={{ width: '100%', height: '100%', }}>
 				<Scrollbar>
-					<div style={{ padding: "1em" }}>
+					<div style={{ padding: '1em' }}>
 						<CouncilItem council={council} hideFixedUrl={council.state > 30} enCouncilRoot={true} translate={translate} />
 						<div
 							style={{
@@ -299,11 +299,11 @@ class CouncilDetails extends React.Component {
 								display: 'flex',
 								flexDirection: 'column',
 								justifyContent: 'center',
-								margin: "1em 0px"
+								margin: '1em 0px'
 								// alignItems: 'center'
 							}}
 						>
-							<div style={{ fontSize: '1rem', marginLeft: '0.6em', justifyContent: "flex-end", display: "flex" }}>
+							<div style={{ fontSize: '1rem', marginLeft: '0.6em', justifyContent: 'flex-end', display: 'flex' }}>
 								<MergeCouncilsButton
 									council={council}
 									translate={translate}
@@ -322,7 +322,7 @@ class CouncilDetails extends React.Component {
 								<BasicButton
 									text="Ver tipo de reunión"
 									color={secondary}
-									textStyle={{ fontWeight: '700', color: 'white', marginTop: "0.5em", marginBottom: '1.4em', marginLeft: "1.5em" }}
+									textStyle={{ fontWeight: '700', color: 'white', marginTop: '0.5em', marginBottom: '1.4em', marginLeft: '1.5em' }}
 									onClick={this.showCouncilType}
 								/>
 								<AlertConfirm
@@ -344,12 +344,12 @@ class CouncilDetails extends React.Component {
 											/>
 										</React.Fragment>
 									}
-									title={"Detalle del tipo de reunión"}
+									title={'Detalle del tipo de reunión'}
 								/>
 								<BasicButton
 									text="Configurar reunión"
 									color={secondary}
-									textStyle={{ fontWeight: '700', color: 'white', marginTop: "0.5em", marginBottom: '1.4em', marginLeft: "1.5em" }}
+									textStyle={{ fontWeight: '700', color: 'white', marginTop: '0.5em', marginBottom: '1.4em', marginLeft: '1.5em' }}
 									onClick={() => this.setState({ councilConfigEditor: true })}
 								/>
 								<AlertConfirm
@@ -364,14 +364,14 @@ class CouncilDetails extends React.Component {
 											refetch={this.props.data.refetch}
 										/>
 									}
-									title={"Detalle del tipo de reunión"}
+									title={'Detalle del tipo de reunión'}
 								/>
 							</div>
-							<div style={{ display: "flex" }}>
-								<Table style={{ width: "45%" }}>
+							<div style={{ display: 'flex' }}>
+								<Table style={{ width: '45%' }}>
 									<TableHead>
 										<TableRow>
-											<TableCell colSpan={2} style={{ textAlign: "center" }}>Asistentes</TableCell>
+											<TableCell colSpan={2} style={{ textAlign: 'center' }}>Asistentes</TableCell>
 										</TableRow>
 									</TableHead>
 									<TableBody>
@@ -382,10 +382,10 @@ class CouncilDetails extends React.Component {
 										</TableRow>
 									</TableBody>
 								</Table>
-								<Table style={{ maxWidth: "45%", marginLeft: "10%" }}>
+								<Table style={{ maxWidth: '45%', marginLeft: '10%' }}>
 									<TableHead>
 										<TableRow>
-											<TableCell colSpan={2} style={{ textAlign: "center" }}>Envios</TableCell>
+											<TableCell colSpan={2} style={{ textAlign: 'center' }}>Envios</TableCell>
 										</TableRow>
 									</TableHead>
 									<TableBody>
@@ -439,14 +439,14 @@ class CouncilDetails extends React.Component {
 								open={this.state.credManager}
 								buttonCancel={'Cancelar'}
 								classNameDialog={'height100'}
-								bodyStyle={{ minWidth: "100vh", maxWidth: "100vh", height: '100%', overflowY: 'hidden' }}
+								bodyStyle={{ minWidth: '100vh', maxWidth: '100vh', height: '100%', overflowY: 'hidden' }}
 								bodyText={
 									<CredentialsManager
 										council={council}
 										translate={this.props.translate}
 									/>
 								}
-								title={"Administrador de credenciales"}
+								title={'Administrador de credenciales'}
 							/>
 							<SendCredentialsModal
 								show={this.state.sendCredentials}
@@ -517,15 +517,15 @@ class CouncilDetails extends React.Component {
 					</div>
 				</Scrollbar>
 			</div >
-		)
+		);
 	}
 }
 
 const FailPageSearchId = ({ id }) => (
 		<div>
 			<SearchCouncils reload={true} />
-			<div style={{ fontSize: "25px", color: "black", display: "flex", alignItems: "center", width: "100%", justifyContent: "center", marginTop: "4em" }}>
-				<div style={{ color: "#dc7373", fontSize: "35px", marginRight: "1em" }}>
+			<div style={{ fontSize: '25px', color: 'black', display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'center', marginTop: '4em' }}>
+				<div style={{ color: '#dc7373', fontSize: '35px', marginRight: '1em' }}>
 					<i className="fa fa-exclamation-triangle" />
 				</div>
 				<div>
@@ -534,7 +534,7 @@ const FailPageSearchId = ({ id }) => (
 
 			</div>
 		</div>
-	)
+	);
 
 const showGroupAttendees = attendees => {
 	const list = {
@@ -559,7 +559,7 @@ const showGroupAttendees = attendees => {
 		if (attendee.state === 7) {
 			list['presente con voto telématico']++;
 		}
-	})
+	});
 
 	return (
 		Object.keys(list).map((key, index) => (
@@ -572,8 +572,8 @@ const showGroupAttendees = attendees => {
 				</TableCell>
 			</TableRow>
 		))
-	)
-}
+	);
+};
 
 
 
@@ -593,7 +593,7 @@ const showSendsRecount = (sends) => {
 		'19': 'Rechazo de delegación',
 		'20': 'Delegación retirada',
 		'21': 'Notificación de delegación'
-	}
+	};
 
 	const recount = {
 		Preconvocatoria: 0,
@@ -611,7 +611,7 @@ const showSendsRecount = (sends) => {
 		'Rechazo de delegación': 0,
 		'Delegación retirada': 0,
 		'Otros': 0
-	}
+	};
 
 	sends.forEach(send => {
 		if (recount[list[send.sendType]] !== undefined) {
@@ -641,8 +641,8 @@ const showSendsRecount = (sends) => {
 				<TableCell colSpan={3}>{sends.length}</TableCell>
 			</TableRow>
 		</React.Fragment>
-	)
-}
+	);
+};
 
 const CouncilDetailsRoot = gql`
     query CouncilDetailsRoot($id: Int!){

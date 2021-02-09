@@ -1,7 +1,7 @@
-import React from "react";
-import { BasicButton, AlertConfirm } from "../../../displayComponents";
-import { getSecondary } from "../../../styles/colors";
-import LoadDraft from "./LoadDraft";
+import React from 'react';
+import { BasicButton, AlertConfirm } from '../../../displayComponents';
+import { getSecondary } from '../../../styles/colors';
+import LoadDraft from './LoadDraft';
 
 const LoadDraftModal = ({ translate, companyId, councilType, draftType, statutes, statute, defaultTags, ...props }, ref) => {
 	//const modal = React.useRef();
@@ -35,11 +35,11 @@ const LoadDraftModal = ({ translate, companyId, councilType, draftType, statutes
 						props.loadDraft(value);
 						setState({
 							loadDraft: false
-						})
+						});
 					}}
 				/>
 			</div>
-		)
+		);
 
 
 	const secondary = getSecondary();
@@ -50,13 +50,13 @@ const LoadDraftModal = ({ translate, companyId, councilType, draftType, statutes
 				text={translate.load_draft}
 				color={secondary}
 				textStyle={{
-					color: "white",
-					fontWeight: "600",
-					fontSize: "0.8em",
-					textTransform: "none",
-					marginLeft: "0.4em",
+					color: 'white',
+					fontWeight: '600',
+					fontSize: '0.8em',
+					textTransform: 'none',
+					marginLeft: '0.4em',
 					minHeight: 0,
-					lineHeight: "1em"
+					lineHeight: '1em'
 				}}
 				textPosition="after"
 				onClick={() => setState({ loadDraft: true })}
@@ -67,10 +67,10 @@ const LoadDraftModal = ({ translate, companyId, councilType, draftType, statutes
 				buttonCancel={translate.close}
 				bodyText={_renderModalBody()}
 				title={translate.load_draft}
-				bodyStyle={{ width: "75vw", minWidth: "50vw", }}
+				bodyStyle={{ width: '75vw', minWidth: '50vw', }}
 			/>
 		</React.Fragment>
 	);
-}
+};
 
 export default React.forwardRef(LoadDraftModal);

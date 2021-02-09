@@ -30,7 +30,7 @@ const DownloadUnsignedProxy = ({ action, translate, client, participant, delegat
                 if (response.data.unsignedProxyPDF) {
                     downloadFile(
                         response.data.unsignedProxyPDF,
-                        "application/pdf",
+                        'application/pdf',
                         `Proxy_${participant.name}${participant.surname ? `_${participant.surname || ''}` : ''}.pdf`.replace(' ', '_')
                     );
                     await action();
@@ -38,7 +38,7 @@ const DownloadUnsignedProxy = ({ action, translate, client, participant, delegat
                 }
             }
         }
-    }
+    };
 
     return (
         <React.Fragment>
@@ -46,17 +46,17 @@ const DownloadUnsignedProxy = ({ action, translate, client, participant, delegat
                 borderRadius: '4px',
                 boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)',
                 color: primary,
-                marginBottom: "1em",
-                padding: "0.6em 1em",
-                display: "flex",
-                alignItems: "center",
-                width: "100%"
+                marginBottom: '1em',
+                padding: '0.6em 1em',
+                display: 'flex',
+                alignItems: 'center',
+                width: '100%'
             }}>
                 <div style={{
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
-                    cursor: "pointer"
+                    cursor: 'pointer'
                 }} onClick={downloadUnsignedProxy}>
                     {translate.send_intention_download_PDF}
                 </div>
@@ -73,7 +73,7 @@ const DownloadUnsignedProxy = ({ action, translate, client, participant, delegat
 
             />
         </React.Fragment>
-    )
-}
+    );
+};
 
 export default withApollo(DownloadUnsignedProxy);

@@ -1,21 +1,21 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 import Paper from 'material-ui/Paper';
-import { MenuItem } from "material-ui";
-import logo from "../assets/img/logo.png";
-import icono from "../assets/img/logo-icono.png";
-import LanguageSelector from "./menus/LanguageSelector";
-import UserMenu from "./menus/UserMenu";
+import { MenuItem } from 'material-ui';
+import logo from '../assets/img/logo.png';
+import icono from '../assets/img/logo-icono.png';
+import LanguageSelector from './menus/LanguageSelector';
+import UserMenu from './menus/UserMenu';
 import CommandLine from './dashboard/CommandLine';
-import { DropDownMenu, BasicButton } from "../displayComponents";
-import { bHistory } from "../containers/App";
-import withWindowSize from "../HOCs/withWindowSize";
-import { getPrimary, primary } from "../styles/colors";
+import { DropDownMenu, BasicButton } from '../displayComponents';
+import { bHistory } from '../containers/App';
+import withWindowSize from '../HOCs/withWindowSize';
+import { getPrimary, primary } from '../styles/colors';
 import { isLandscape } from '../utils/screen';
-import { CLIENT_VERSION } from "../config";
-import { getCustomLogo, getCustomIcon, useSubdomain } from "../utils/subdomain";
-import ContactModal from "./participant/login/ContactModal";
-import { HEADER_HEIGHT } from "../styles/constants";
+import { CLIENT_VERSION } from '../config';
+import { getCustomLogo, getCustomIcon, useSubdomain } from '../utils/subdomain';
+import ContactModal from './participant/login/ContactModal';
+import { HEADER_HEIGHT } from '../styles/constants';
 
 
 const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon, translate, councilIsFinished, setSelectHeadFinished, selectHeadFinished, contactAdmin, ...props }) => {
@@ -25,7 +25,7 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 	const customLogo = getCustomLogo();
 	const subdomain = useSubdomain();
 
-	const showVerticalLayout = () => windowSize === 'xs' && !isLandscape()
+	const showVerticalLayout = () => windowSize === 'xs' && !isLandscape();
 
 	return (
 		<Paper
@@ -33,31 +33,31 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 			style={{
 				height: HEADER_HEIGHT,
 				zIndex: 1000,
-				display: "flex",
-				flexDirection: "row",
+				display: 'flex',
+				flexDirection: 'row',
 				borderBottom: '1px solid gainsboro',
-				width: "100%",
-				justifyContent: "space-between",
-				alignItems: "center",
-				backgroundColor: "white"
+				width: '100%',
+				justifyContent: 'space-between',
+				alignItems: 'center',
+				backgroundColor: 'white'
 			}}
 		>
 			<div
 				style={{
-					display: "flex",
-					flexDirection: "row",
-					height: "100%",
-					alignItems: "center"
+					display: 'flex',
+					flexDirection: 'row',
+					height: '100%',
+					alignItems: 'center'
 				}}
 			>
 				<Link to="/">
-					<div style={{ position: "relative" }}>
+					<div style={{ position: 'relative' }}>
 						<img
 							src={!showVerticalLayout() ? customLogo || logo : customIcon || icono}
 							className="App-logo"
 							style={{
-								height: "1.5em",
-								marginLeft: "1em",
+								height: '1.5em',
+								marginLeft: '1em',
 								// marginLeft: "2em",
 								userSelect: 'none',
 								...(subdomain.styles ? {
@@ -76,9 +76,9 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 
 			<div
 				style={{
-					display: "flex",
-					flexDirection: "row",
-					alignItems: "center"
+					display: 'flex',
+					flexDirection: 'row',
+					alignItems: 'center'
 				}}
 			>
 				{councilIsFinished &&
@@ -88,7 +88,7 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 							horizontal: 'left',
 						}}
 						color="transparent"
-						Component={() => <div style={{ color: getPrimary(), marginRight: "1em", marginTop: "0.5em", cursor: "pointer" }}>
+						Component={() => <div style={{ color: getPrimary(), marginRight: '1em', marginTop: '0.5em', cursor: 'pointer' }}>
 								<div>
 									<i className="material-icons" >
 										dehaze
@@ -101,12 +101,12 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 						items={
 							<div style={{ color: getPrimary() }}>
 								{selectHeadFinished !== 'participacion' &&
-									<MenuItem onClick={() => setSelectHeadFinished("participacion")} >
+									<MenuItem onClick={() => setSelectHeadFinished('participacion')} >
 										{translate.my_participation}
 									</MenuItem>
 								}
 								{selectHeadFinished !== 'contactAdmin' &&
-									<MenuItem onClick={() => setSelectHeadFinished("contactAdmin")} >
+									<MenuItem onClick={() => setSelectHeadFinished('contactAdmin')} >
 										{translate.mail_contact_admin}
 									</MenuItem>
 								}
@@ -124,22 +124,22 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 						textStyle={{
 							color: ` ${primary}`,
 						}}
-						backgroundColor={{ background: "white", justifyContent: "inherit" }}
+						backgroundColor={{ background: 'white', justifyContent: 'inherit' }}
 						text={
 							<div>
 								{!showVerticalLayout() && translate.mail_contact_admin}
-								<i className={"fa fa-envelope-o"} style={{ marginLeft: "5px" }}></i>
+								<i className={'fa fa-envelope-o'} style={{ marginLeft: '5px' }}></i>
 							</div>}
 						buttonStyle={{
-							border: "1px solid " + getPrimary(),
+							border: '1px solid ' + getPrimary(),
 							color: getPrimary(),
-							boxShadow: "0 2px 1px 0 rgba(0, 0, 0, 0.25)",
-							padding: "4px 15px",
-							margin: "5px 15px",
-							cursor: "pointer",
-							fontSize: "12px",
-							borderRadius: "0",
-							minHeight: "0"
+							boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
+							padding: '4px 15px',
+							margin: '5px 15px',
+							cursor: 'pointer',
+							fontSize: '12px',
+							borderRadius: '0',
+							minHeight: '0'
 						}}>
 					</BasicButton>
 				}
@@ -165,11 +165,11 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 						company={props.company}
 					/>
 				)}
-				{drawerIcon && "DRAWER"}
+				{drawerIcon && 'DRAWER'}
 			</div>
 		</Paper>
 	);
-}
+};
 
 
 export default withWindowSize(Header);

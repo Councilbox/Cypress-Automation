@@ -26,7 +26,7 @@ const StartCouncilVideoOptions = ({ council, translate, data, updateData }) => (
             }
 
         </div>
-    )
+    );
 
 
 export default StartCouncilVideoOptions;

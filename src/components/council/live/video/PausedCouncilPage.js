@@ -26,7 +26,7 @@ const PausedCouncilPage = ({ council, client, translate, heightImg = '15em' }) =
 
     React.useEffect(() => {
         getData();
-    }, [getData])
+    }, [getData]);
 
     usePolling(getData, 12000);
 
@@ -50,7 +50,7 @@ const PausedCouncilPage = ({ council, client, translate, heightImg = '15em' }) =
                 <img src={pausedImg} style={{ height: heightImg, width: 'auto', marginLeft: '7%', marginTop: '0.6em' }} alt="Council paused img" />
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default withApollo(PausedCouncilPage);

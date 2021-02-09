@@ -1,9 +1,9 @@
-import React from "react";
-import { Divider, MenuItem, Paper } from "material-ui";
-import { graphql, withApollo } from "react-apollo";
+import React from 'react';
+import { Divider, MenuItem, Paper } from 'material-ui';
+import { graphql, withApollo } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import FontAwesome from "react-fontawesome";
-import gql from "graphql-tag";
+import FontAwesome from 'react-fontawesome';
+import gql from 'graphql-tag';
 import {
 	BasicButton,
 	CardPageLayout,
@@ -12,25 +12,25 @@ import {
 	Icon,
 	Scrollbar,
 	LoadingSection
-} from "../../../displayComponents";
-import { getPrimary, getSecondary } from "../../../styles/colors";
-import { bHistory } from "../../../containers/App";
-import * as CBX from "../../../utils/CBX";
-import ReminderModal from "./modals/ReminderModal";
-import RescheduleModal from "./modals/RescheduleModal";
-import SendConveneModal from "./modals/SendConveneModal";
-import CancelModal from "./modals/CancelModal";
-import Convene from "../convene/Convene";
+} from '../../../displayComponents';
+import { getPrimary, getSecondary } from '../../../styles/colors';
+import { bHistory } from '../../../containers/App';
+import * as CBX from '../../../utils/CBX';
+import ReminderModal from './modals/ReminderModal';
+import RescheduleModal from './modals/RescheduleModal';
+import SendConveneModal from './modals/SendConveneModal';
+import CancelModal from './modals/CancelModal';
+import Convene from '../convene/Convene';
 import withSharedProps from '../../../HOCs/withSharedProps';
-import ConvenedParticipantsTable from "./ConvenedParticipantsTable";
-import { useOldState } from "../../../hooks";
-import { ConfigContext } from "../../../containers/AppControl";
-import DelegationRestriction from "../editor/DelegationRestriction";
-import MenuSuperiorTabs from "../../dashboard/MenuSuperiorTabs";
-import ShareholdersRequestsPage from "./shareholders/ShareholdersRequestsPage";
-import EstimatedQuorum from "./EstimatedQuorum";
-import AttachmentsModal from "./AttachmentsModal";
-import { COUNCIL_TYPES } from "../../../constants";
+import ConvenedParticipantsTable from './ConvenedParticipantsTable';
+import { useOldState } from '../../../hooks';
+import { ConfigContext } from '../../../containers/AppControl';
+import DelegationRestriction from '../editor/DelegationRestriction';
+import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
+import ShareholdersRequestsPage from './shareholders/ShareholdersRequestsPage';
+import EstimatedQuorum from './EstimatedQuorum';
+import AttachmentsModal from './AttachmentsModal';
+import { COUNCIL_TYPES } from '../../../constants';
 
 
 const CouncilPreparePage = ({ company, translate, data, ...props }) => {
@@ -58,7 +58,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 				},
 				company,
 				bHistory,
-				"convened"
+				'convened'
 			);
 		}
 	}, [data]);
@@ -67,7 +67,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 		bHistory.push(
 			`/company/${company.id}/council/${props.match.params.id}/live`
 		);
-	}
+	};
 
 	const { council, error, loading, refetch } = data;
 
@@ -92,7 +92,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 		if (config.councilDelegates && council.statute.existsDelegatedVote) {
 			tabs.push({
 				text: translate.delegations,
-			})
+			});
 		}
 
 		if(council.statute.shareholdersPortal){
@@ -103,17 +103,17 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 
 		const tabsListNames = [];
 		tabs.map(item => {
-			tabsListNames.push(item.text)
-		})
+			tabsListNames.push(item.text);
+		});
 
 		return tabsListNames;
-	}
+	};
 
 	return (
 		<CardPageLayout title={translate.prepare_room} disableScroll>
 			<div style={{ width: '100%', padding: '1.7em', paddingBottom: '0.5em', height: 'calc(100% - 3.5em)', paddingTop: '0em' }}>
 				<div style={{ display: 'flex', marginTop: '0.6em' }}>
-					<div style={{ fontSize: "13px", }}>
+					<div style={{ fontSize: '13px', }}>
 						<MenuSuperiorTabs
 							items={getTabs()}
 							setSelect={setSelecteReuniones}
@@ -220,7 +220,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 				refetch={refetch}
 				company={company}
 				translate={translate}
-				requestClose={() => { setState({ ...state, attachmentsModal: false }) }}
+				requestClose={() => { setState({ ...state, attachmentsModal: false }); }}
 			/>
 			<RescheduleModal
 				show={state.rescheduleCouncil}
@@ -247,23 +247,23 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 							id={'prepararSalaNew'}
 							color={primary}
 							buttonStyle={{
-								margin: "0",
+								margin: '0',
 								minWidth: '12em'
 							}}
 							textStyle={{
-								color: "white",
-								fontWeight: "700",
-								marginLeft: "0.3em",
-								fontSize: "0.9em",
-								textTransform: "none"
+								color: 'white',
+								fontWeight: '700',
+								marginLeft: '0.3em',
+								fontSize: '0.9em',
+								textTransform: 'none'
 							}}
 							icon={
 								<FontAwesome
-									name={"user-plus"}
+									name={'user-plus'}
 									style={{
-										fontSize: "1em",
-										color: "white",
-										marginLeft: "0.3em"
+										fontSize: '1em',
+										color: 'white',
+										marginLeft: '0.3em'
 									}}
 								/>
 							}
@@ -276,15 +276,15 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 						Component={() => <Paper
 								elevation={1}
 								style={{
-									boxSizing: "border-box",
-									padding: "0",
+									boxSizing: 'border-box',
+									padding: '0',
 									width: '5em',
 									height: '36px',
 									display: 'flex',
 									alignItems: 'center',
 									justifyContent: 'center',
 									border: `1px solid ${primary}`,
-									marginLeft: "0.3em"
+									marginLeft: '0.3em'
 								}}
 							>
 								<MenuItem
@@ -299,11 +299,11 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 									}}
 								>
 									<FontAwesome
-										name={"bars"}
+										name={'bars'}
 										style={{
-											cursor: "pointer",
-											fontSize: "0.8em",
-											height: "0.8em",
+											cursor: 'pointer',
+											fontSize: '0.8em',
+											height: '0.8em',
 											color: primary
 										}}
 									/>
@@ -330,7 +330,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 											className="material-icons"
 											style={{
 												color: secondary,
-												marginRight: "0.4em"
+												marginRight: '0.4em'
 											}}
 										>
 											update
@@ -348,7 +348,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 												className="material-icons"
 												style={{
 													color: secondary,
-													marginRight: "0.4em"
+													marginRight: '0.4em'
 												}}
 											>
 												notifications
@@ -366,7 +366,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 										className="material-icons"
 										style={{
 											color: secondary,
-											marginRight: "0.4em"
+											marginRight: '0.4em'
 										}}
 									>
 										attach_file
@@ -383,7 +383,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 										className="material-icons"
 										style={{
 											color: secondary,
-											marginRight: "0.4em"
+											marginRight: '0.4em'
 										}}
 									>
 										schedule
@@ -398,8 +398,8 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 									<Icon
 										className="material-icons"
 										style={{
-											color: "red",
-											marginRight: "0.4em"
+											color: 'red',
+											marginRight: '0.4em'
 										}}
 									>
 										highlight_off
@@ -413,7 +413,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 			</div>
 		</CardPageLayout>
 	);
-}
+};
 
 
 export default graphql(gql`
@@ -525,7 +525,7 @@ export default graphql(gql`
 		councilSocialCapital(councilId: $councilID)
 	}
 `, {
-	name: "data",
+	name: 'data',
 	options: props => ({
 		variables: {
 			councilID: +props.match.params.id

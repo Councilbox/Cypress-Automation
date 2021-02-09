@@ -1,19 +1,19 @@
-import React from "react";
-import { compose, graphql, withApollo } from "react-apollo";
+import React from 'react';
+import { compose, graphql, withApollo } from 'react-apollo';
 import { toast } from 'react-toastify';
 import gql from 'graphql-tag';
-import { LiveToast, BasicButton } from "../../../displayComponents";
-import RichTextInput from "../../../displayComponents/RichTextInput";
-import { updateAgenda } from "../../../queries/agenda";
-import withSharedProps from "../../../HOCs/withSharedProps";
-import LoadDraftModal from "../../company/drafts/LoadDraftModal";
-import { changeVariablesToValues, checkForUnclosedBraces, hasParticipations, generateGBDecidesText, generateStatuteTag } from "../../../utils/CBX";
+import { LiveToast, BasicButton } from '../../../displayComponents';
+import RichTextInput from '../../../displayComponents/RichTextInput';
+import { updateAgenda } from '../../../queries/agenda';
+import withSharedProps from '../../../HOCs/withSharedProps';
+import LoadDraftModal from '../../company/drafts/LoadDraftModal';
+import { changeVariablesToValues, checkForUnclosedBraces, hasParticipations, generateGBDecidesText, generateStatuteTag } from '../../../utils/CBX';
 import { moment } from '../../../containers/App';
-import { AGENDA_STATES } from "../../../constants";
-import { getSecondary } from "../../../styles/colors";
-import { TAG_TYPES } from "../../company/drafts/draftTags/utils";
-import { getTranslations } from "../../../queries";
-import { buildTranslateObject } from "../../../actions/mainActions";
+import { AGENDA_STATES } from '../../../constants';
+import { getSecondary } from '../../../styles/colors';
+import { TAG_TYPES } from '../../company/drafts/draftTags/utils';
+import { getTranslations } from '../../../queries';
+import { buildTranslateObject } from '../../../actions/mainActions';
 
 
 export const agendaRecountQuery = gql`
@@ -65,7 +65,7 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 
 	const updateComment = value => {
 		setComment(value);
-	}
+	};
 
 	const updateText = async () => {
 		const correctedText = await getCorrectedText(comment, translate);
@@ -74,7 +74,7 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 		}
 		editor.current.setValue(correctedText);
 		updateAgreement(correctedText);
-	}
+	};
 
 	React.useEffect(() => {
 		if(agenda.votingState === AGENDA_STATES.CLOSED && data){
@@ -112,13 +112,13 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
                 />, {
                     position: toast.POSITION.TOP_RIGHT,
                     autoClose: true,
-                    className: "errorToast"
+                    className: 'errorToast'
                 }
             );
 			setError(true);
 			return;
 		}
-		if (value.replace(/<\/?[^>]+(>|$)/g, "").length > 0) {
+		if (value.replace(/<\/?[^>]+(>|$)/g, '').length > 0) {
 			await props.updateAgenda({
 				variables: {
 					agenda: {
@@ -132,7 +132,7 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 			props.refetch();
 			setError(false);
 		}
-	}
+	};
 
 	const getCorrectedText = async (text, translate) => {
 		const { numPositive, numNegative, numAbstention, numNoVote } = data;
@@ -163,7 +163,7 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 			} : {})
 		}, translate);
 		return correctedText;
-	}
+	};
 
 	const loadDraft = async (draft) => {
 		const correctedText = await getCorrectedText(draft.text, translate);
@@ -173,7 +173,7 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 		}
 		editor.current.paste(correctedText);
 		updateAgreement(correctedText);
-	}
+	};
 
 	const handleSecondaryText = async (text, replace) => {
 		const response = await props.client.query({
@@ -190,13 +190,13 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 		} else {
 			editorRightColumn.current.paste(correctedText);
 		}
-	}
+	};
 
 
 	const _section = () => {
 		let tags = [];
 
-		const shouldPasteValue = agenda => agenda.votingState === 2
+		const shouldPasteValue = agenda => agenda.votingState === 2;
 
 		if(data) {
 			const { numPositive, numNegative, numAbstention, numNoVote } = data;
@@ -208,7 +208,7 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 
 			tags = [
 				{
-					value: moment(council.dateStart).format("LLL"),
+					value: moment(council.dateStart).format('LLL'),
 					label: translate.date
 				},
 				{
@@ -247,7 +247,7 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 					value: shouldPasteValue(agenda) ? numNoVote : '{{numNoVote}}',
 					label: translate.num_no_vote
 				},
-			]
+			];
 
 			if(participations){
 				tags.push({
@@ -290,8 +290,8 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 			<div
 				style={{
 					padding: '0.9em',
-					paddingTop: "1.2em",
-					backgroundColor: "white"
+					paddingTop: '1.2em',
+					backgroundColor: 'white'
 				}}
 			>
 
@@ -307,7 +307,7 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 							statute={council.statute}
 							defaultTags={
 								{
-									"comments_and_agreements": {
+									'comments_and_agreements': {
 									active: true,
 									type: TAG_TYPES.DRAFT_TYPE,
 									name: 'comments_and_agreements',
@@ -318,9 +318,9 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 						/>
 					}
 					tags={tags}
-					value={comment || ""}
+					value={comment || ''}
 					onChange={value => {
-						updateComment(value)
+						updateComment(value);
 					}}
 				/>
 				{council.statute.doubleColumnDocs === 1 &&
@@ -331,28 +331,28 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 							errorText={error}
 							translate={translate}
 							tags={tags}
-							value={commentRightColumn || ""}
+							value={commentRightColumn || ''}
 							onChange={value => setCommentRightColumn(value)}
 						/>
 					</div>
 				}
 
 			</div>
-		)
-	}
+		);
+	};
 
 	return (
 		<div
 			style={{
-				width: "100%",
-				position: "relative"
+				width: '100%',
+				position: 'relative'
 			}}
 		>
 			{_section()}
 		</div>
-	)
-}
+	);
+};
 
-export default compose(graphql(updateAgenda, { name: "updateAgenda" }))(
+export default compose(graphql(updateAgenda, { name: 'updateAgenda' }))(
 	withSharedProps()(withApollo(ActAgreements))
 );

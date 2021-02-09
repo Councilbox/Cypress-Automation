@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import { bindActionCreators } from "redux";
-import * as councilActions from "../actions/councilActions";
-import { LoadingMainApp } from "../displayComponents";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import * as councilActions from '../actions/councilActions';
+import { LoadingMainApp } from '../displayComponents';
 
 class CreateMeeting extends Component {
 	constructor(props) {
@@ -21,7 +21,7 @@ class CreateMeeting extends Component {
 			this.setState({
 				creating: true
 			});
-			this.props.actions.create(this.props.match.params.company, "meeting");
+			this.props.actions.create(this.props.match.params.company, 'meeting');
 		}
 	}
 

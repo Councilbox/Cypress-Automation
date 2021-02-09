@@ -6,6 +6,6 @@ const KPISends = () => (
         <div>
             PRUEBA
         </div>
-    )
+    );
 
-export default withApollo(KPISends)
+export default withApollo(KPISends);

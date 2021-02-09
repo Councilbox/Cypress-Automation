@@ -31,8 +31,8 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
                 ...state.data,
                 ...object
             }
-        })
-    }
+        });
+    };
 
     const createUserWithoutPassword = async () => {
         if (!checkRequiredFields()) {
@@ -50,15 +50,15 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
                 } else {
                     setSuccess(true);
                 }
-            } else if (response.errors[0].message === "Email already registered") {
+            } else if (response.errors[0].message === 'Email already registered') {
                     setState({
                         errors: {
                             email: translate.register_exists_email
                         }
-                    })
+                    });
                 }
         }
-    }
+    };
 
     function checkRequiredFields() {
         const errors = {
@@ -66,7 +66,7 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
             name: '',
             surname: '',
             phone: ''
-        }
+        };
 
         let hasError = false;
         const { data } = state;
@@ -97,12 +97,12 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
     }
 
     if (props.data.loading) {
-        return <LoadingSection />
+        return <LoadingSection />;
     }
 
     const body = () => (
-        <div style={{ height: "100%", padding: isMobile ? '1.5em 1.5em 1em' : '1.5em 1.5em 2em' }}> {/*6em*/}
-            <div style={{ height: "100%" }} >
+        <div style={{ height: '100%', padding: isMobile ? '1.5em 1.5em 1em' : '1.5em 1.5em 2em' }}> {/*6em*/}
+            <div style={{ height: '100%' }} >
                 <UserForm
                     translate={translate}
                     data={state.data}
@@ -127,7 +127,7 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
                     />
                 }
             </div>
-            <div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginTop: "2em" }}>
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginTop: '2em' }}>
                 {!success ?
                     <React.Fragment>
                         <BasicButton
@@ -137,8 +137,8 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
                             buttonStyle={{ marginRight: '1em' }}
 
                             textStyle={{
-                                textTransform: "none",
-                                fontWeight: "700",
+                                textTransform: 'none',
+                                fontWeight: '700',
                             }}
                             primary={true}
                             color='transparent'
@@ -163,7 +163,7 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
 
             </div>
         </div>
-    )
+    );
 
     return (
         <div style={{ height: !fixedCompany ? 'calc(100vh - 3em)' : '100%', ...props.styles }}>
@@ -177,8 +177,8 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
             }
 
         </div>
-    )
-}
+    );
+};
 
 
 const createUserWithoutPassword = gql`

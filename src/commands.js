@@ -35,4 +35,4 @@ export const COMMANDS = [
         command: 'Settings',
         link: '/user/{{userId}}'
     }
-]
+];

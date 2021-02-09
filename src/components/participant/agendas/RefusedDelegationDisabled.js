@@ -14,6 +14,6 @@ const RefusedDelegationDisabled = ({ translate, open, requestClose }) => (
                 </div>
             }
         />
-    )
+    );
 
 export default RefusedDelegationDisabled;

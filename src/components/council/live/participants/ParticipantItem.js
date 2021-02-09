@@ -1,16 +1,16 @@
-import React from "react";
-import { MenuItem, Typography, Tooltip, Card } from "material-ui";
-import FontAwesome from "react-fontawesome";
-import { GridItem, Grid, BasicButton } from "../../../../displayComponents";
-import { getSecondary, getPrimary } from "../../../../styles/colors";
-import StateIcon from "./StateIcon";
-import EmailIcon from "./EmailIcon";
-import TypeIcon from "./TypeIcon";
+import React from 'react';
+import { MenuItem, Typography, Tooltip, Card } from 'material-ui';
+import FontAwesome from 'react-fontawesome';
+import { GridItem, Grid, BasicButton } from '../../../../displayComponents';
+import { getSecondary, getPrimary } from '../../../../styles/colors';
+import StateIcon from './StateIcon';
+import EmailIcon from './EmailIcon';
+import TypeIcon from './TypeIcon';
 import { removeHTMLTags, isRepresented, hasHisVoteDelegated, getMainRepresentative } from '../../../../utils/CBX';
 import withWindowSize from '../../../../HOCs/withWindowSize';
-import AttendIntentionIcon from "./AttendIntentionIcon";
-import ParticipantStateList from "./ParticipantStateList";
-import { COUNCIL_TYPES } from "../../../../constants";
+import AttendIntentionIcon from './AttendIntentionIcon';
+import ParticipantStateList from './ParticipantStateList';
+import { COUNCIL_TYPES } from '../../../../constants';
 
 
 const ParticipantItem = ({ participant, translate, layout, editParticipant, mode, council, ...props }) => {
@@ -28,7 +28,7 @@ const ParticipantItem = ({ participant, translate, layout, editParticipant, mode
 				style={{
 					width: '98%',
 					marginRight: '5%',
-					marginBottom: "10px",
+					marginBottom: '10px',
 					height: layout === 'compact' ? '1.8em' : layout === 'table' ? '2.5em' : '6em',
 					...(layout !== 'squares' ? {
 						height: '3.2em',
@@ -39,12 +39,12 @@ const ParticipantItem = ({ participant, translate, layout, editParticipant, mode
 			>
 				<MenuItem
 					style={{
-						width: "100%",
+						width: '100%',
 						height: '100%',
 						borderRadius: '2px',
 						padding: '2px 2px',
-						textOverflow: "ellipsis",
-						overflow: "hidden",
+						textOverflow: 'ellipsis',
+						overflow: 'hidden',
 					}}
 					onClick={() => editParticipant(participant.id)}
 				>
@@ -95,13 +95,13 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 		<Grid
 			spacing={0}
 			style={{
-				display: "flex",
-				flexDirection: "row",
-				alignItems: "center",
-				width: "100%",
+				display: 'flex',
+				flexDirection: 'row',
+				alignItems: 'center',
+				width: '100%',
 				fontSize: '14px',
-				textOverflow: "ellipsis",
-				overflow: "hidden"
+				textOverflow: 'ellipsis',
+				overflow: 'hidden'
 			}}
 		>
 			<GridItem
@@ -143,9 +143,9 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 				>
 					{participant.assistanceComment &&
 						<Tooltip title={removeHTMLTags(participant.assistanceComment)}>
-							<div style={{ padding: "0.5em" }}>
+							<div style={{ padding: '0.5em' }}>
 								<FontAwesome
-									name={"comment"}
+									name={'comment'}
 									style={{ fontSize: '1.5em', color: 'grey' }}
 								/>
 							</div>
@@ -179,20 +179,20 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 						fullWidth
 						buttonStyle={{ border: `1px solid ${participant.signed ? primary : secondary}` }}
 						type="flat"
-						color={"white"}
+						color={'white'}
 						onClick={event => {
 							event.stopPropagation();
-							showSignatureModal()
+							showSignatureModal();
 						}}
 						textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
 					/>
 				}
 			</GridItem>
 		</Grid>
-	)
-}
+	);
+};
 
-const participantRepresentativeSigned = participant => participant.representatives && participant.representatives.length > 0 && getMainRepresentative(participant).signed
+const participantRepresentativeSigned = participant => participant.representatives && participant.representatives.length > 0 && getMainRepresentative(participant).signed;
 
 const TabletItem = ({ participant, translate, secondary, mode, showSignatureModal, council, refetch }) => {
 	const representative = getMainRepresentative(participant);
@@ -203,15 +203,15 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 		<React.Fragment>
 			<Card
 				style={{
-					display: "flex",
-					flexDirection: "row",
-					alignItems: "center",
-					width: "100%",
-					textOverflow: "ellipsis",
-					overflow: "hidden"
+					display: 'flex',
+					flexDirection: 'row',
+					alignItems: 'center',
+					width: '100%',
+					textOverflow: 'ellipsis',
+					overflow: 'hidden'
 				}}
 			>
-				<div style={{ width: '60%', display: 'flex', height: "84px" }}>
+				<div style={{ width: '60%', display: 'flex', height: '84px' }}>
 					<div>
 						{ mode === 'STATES' && council.councilType < 2 ?
 							<ParticipantStateList
@@ -240,35 +240,35 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 
 					<div
 						style={{
-							display: "flex",
-							flexDirection: "column",
-							marginLeft: "0.6em",
-							width: "100%",
-							textOverflow: "ellipsis",
-							overflow: "hidden",
+							display: 'flex',
+							flexDirection: 'column',
+							marginLeft: '0.6em',
+							width: '100%',
+							textOverflow: 'ellipsis',
+							overflow: 'hidden',
 							// paddingTop: '15px'
-							justifyContent: "center"
+							justifyContent: 'center'
 						}}
 					>
 						<div
 							style={{
-								display: "flex",
-								flexDirection: "row",
-								alignItems: "center"
+								display: 'flex',
+								flexDirection: 'row',
+								alignItems: 'center'
 							}}
 						>
 							<div
 								style={{
-									width: "2.2em",
-									display: "flex",
-									justifyContent: "center"
+									width: '2.2em',
+									display: 'flex',
+									justifyContent: 'center'
 								}}
 							>
 								<FontAwesome
-									name={"info"}
+									name={'info'}
 									style={{
 										color: secondary,
-										fontSize: "1em",
+										fontSize: '1em',
 										marginRight: 0
 									}}
 								/>
@@ -278,7 +278,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 									variant="body1"
 									className="truncate"
 									style={{
-										fontWeight: "600",
+										fontWeight: '600',
 										width: 'calc(100% - 2.2em)'
 									}}
 								>
@@ -289,23 +289,23 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 						{(hasHisVoteDelegated(participant) && !!participant.representative) ?
 							<div
 								style={{
-									display: "flex",
-									flexDirection: "row",
-									alignItems: "center"
+									display: 'flex',
+									flexDirection: 'row',
+									alignItems: 'center'
 								}}
 							>
 								<div
 									style={{
-										width: "2.2em",
-										display: "flex",
-										justifyContent: "center"
+										width: '2.2em',
+										display: 'flex',
+										justifyContent: 'center'
 									}}
 								>
 									<FontAwesome
-										name={"user-circle-o"}
+										name={'user-circle-o'}
 										style={{
 											color: secondary,
-											fontSize: "1em",
+											fontSize: '1em',
 											marginRight: 0
 										}}
 									/>
@@ -327,23 +327,23 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 							(participant.representatives && participant.representatives.length > 0) &&
 								<div
 									style={{
-										display: "flex",
-										flexDirection: "row",
-										alignItems: "center"
+										display: 'flex',
+										flexDirection: 'row',
+										alignItems: 'center'
 									}}
 								>
 									<div
 										style={{
-											width: "2.2em",
-											display: "flex",
-											justifyContent: "center"
+											width: '2.2em',
+											display: 'flex',
+											justifyContent: 'center'
 										}}
 									>
 										<FontAwesome
-											name={"user-circle-o"}
+											name={'user-circle-o'}
 											style={{
 												color: secondary,
-												fontSize: "1em",
+												fontSize: '1em',
 												marginRight: 0
 											}}
 										/>
@@ -363,60 +363,60 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 						}
 						<div
 							style={{
-								display: "flex",
-								flexDirection: "row",
-								alignItems: "center"
+								display: 'flex',
+								flexDirection: 'row',
+								alignItems: 'center'
 							}}
 						>
 							<div
 								style={{
-									width: "2.2em",
-									display: "flex",
-									justifyContent: "center"
+									width: '2.2em',
+									display: 'flex',
+									justifyContent: 'center'
 								}}
 							>
 								<FontAwesome
-									name={"id-card"}
+									name={'id-card'}
 									style={{
 										color: secondary,
-										fontSize: "1em",
+										fontSize: '1em',
 										marginRight: 0
 									}}
 								/>
 							</div>
 							<Typography
 								variant="body1"
-								style={{ color: "grey", fontSize: "0.75rem" }}
+								style={{ color: 'grey', fontSize: '0.75rem' }}
 							>
 								{`${participant.dni || ''}`}
 							</Typography>
 						</div>
 						<div
 							style={{
-								display: "flex",
-								flexDirection: "row",
-								alignItems: "center"
+								display: 'flex',
+								flexDirection: 'row',
+								alignItems: 'center'
 							}}
 						>
 							<div
 								style={{
-									width: "2.2em",
-									display: "flex",
-									justifyContent: "center"
+									width: '2.2em',
+									display: 'flex',
+									justifyContent: 'center'
 								}}
 							>
 								<FontAwesome
-									name={"tag"}
+									name={'tag'}
 									style={{
 										color: secondary,
-										fontSize: "1em",
+										fontSize: '1em',
 										marginRight: 0
 									}}
 								/>
 							</div>
 							<Typography
 								variant="body1"
-								style={{ color: "grey", fontSize: "0.75rem" }}
+								style={{ color: 'grey', fontSize: '0.75rem' }}
 							>
 								{`${participant.position ? participant.position : '-'}`}
 							</Typography>
@@ -424,35 +424,35 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 						{mode === 'ATTENDANCE' && participant.assistanceComment &&
 							<div
 								style={{
-									display: "flex",
-									flexDirection: "row",
-									alignItems: "center"
+									display: 'flex',
+									flexDirection: 'row',
+									alignItems: 'center'
 								}}
 							>
 								<div
 									style={{
-										width: "2.2em",
-										display: "flex",
-										justifyContent: "center",
+										width: '2.2em',
+										display: 'flex',
+										justifyContent: 'center',
 										alignItems: 'center'
 									}}
 								>
 									<FontAwesome
-										name={"comment"}
+										name={'comment'}
 										style={{
 											color: primary,
-											fontSize: "1em",
+											fontSize: '1em',
 											marginRight: 0
 										}}
 									/>
 								</div>
 								<div
 									style={{
-										color: "grey",
-										fontSize: "0.75rem",
-										textOverflow: "ellipsis",
+										color: 'grey',
+										fontSize: '0.75rem',
+										textOverflow: 'ellipsis',
 										height: '1.5em',
-										overflow: "hidden"
+										overflow: 'hidden'
 									}}
 								>
 									{removeHTMLTags(participant.assistanceComment)}
@@ -481,7 +481,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 										fullWidth
 										buttonStyle={{ border: `1px solid ${participant.signed ? primary : secondary}` }}
 										type="flat"
-										color={"white"}
+										color={'white'}
 										onClick={event => {
 											event.stopPropagation();
 											showSignatureModal();
@@ -496,7 +496,7 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 								fullWidth
 								buttonStyle={{ border: `1px solid ${participantRepresentativeSigned(participant) ? primary : secondary}` }}
 								type="flat"
-								color={"white"}
+								color={'white'}
 								onClick={event => {
 									event.stopPropagation();
 									showSignatureModal();
@@ -508,22 +508,22 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 				}
 			</Card>
 		</React.Fragment>
-	)
-}
+	);
+};
 
 const _getIcon = ({ mode, participant, translate, council, representative }) => {
 	switch (mode) {
 		case 'STATES':
-			return <StateIcon translate={translate} state={participant.state} />
+			return <StateIcon translate={translate} state={participant.state} />;
 		case 'CONVENE':
-			return <EmailIcon translate={translate} reqCode={participant.sendConvene.reqCode} />
+			return <EmailIcon translate={translate} reqCode={participant.sendConvene.reqCode} />;
 		case 'CREDENTIALS':
 			if(participant.sendCredentials){
-				return <EmailIcon translate={translate} reqCode={participant.sendCredentials.reqCode} />
+				return <EmailIcon translate={translate} reqCode={participant.sendCredentials.reqCode} />;
 			}
 			return '-';
 		case 'TYPE':
-			return <TypeIcon translate={translate} type={participant.type} />
+			return <TypeIcon translate={translate} type={participant.type} />;
 		case 'ATTENDANCE':
 			return <AttendIntentionIcon
 				participant={participant}
@@ -532,10 +532,10 @@ const _getIcon = ({ mode, participant, translate, council, representative }) => 
 				size="2em"
 				color={getSecondary()}
 				representative={representative}
-			/>
+			/>;
 		default:
 			break;
 	}
-}
+};
 
 export default withWindowSize(ParticipantItem);

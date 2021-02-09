@@ -15,11 +15,11 @@ const DocumentPreview = ({ generatePreview, options, company, finishInModal }) =
         if((new Date().getTime() - mountedDate.current) > spinnerDelay){
 			setLoading(false);
 		}
-    }
+    };
 
     React.useEffect(() => {
         getPreview();
-    }, [])
+    }, []);
 
 
     React.useEffect(() => {
@@ -32,7 +32,7 @@ const DocumentPreview = ({ generatePreview, options, company, finishInModal }) =
             }, spinnerDelay);
         }
         return () => clearInterval(interval);
-    }, [loading])
+    }, [loading]);
 
 
     return (
@@ -43,7 +43,7 @@ const DocumentPreview = ({ generatePreview, options, company, finishInModal }) =
             company={company}
             finishInModal={finishInModal}
         />
-    )
-}
+    );
+};
 
 export default withApollo(DocumentPreview);

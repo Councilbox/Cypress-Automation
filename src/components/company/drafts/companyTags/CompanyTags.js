@@ -35,7 +35,7 @@ const deleteCompanyTag = gql`
 const CompanyTags = ({ client, translate, company }) => {
     const [data, setData] = React.useState(null);
     const [editTag, setEditTag] = React.useState(null);
-    const [buscarTags, setBuscarTags] = React.useState("");
+    const [buscarTags, setBuscarTags] = React.useState('');
     const [toggleText, setToggleText] = React.useState(true);
     const [inputSearch, setInputSearch] = React.useState(false);
 
@@ -47,7 +47,7 @@ const CompanyTags = ({ client, translate, company }) => {
                 ...(buscarTags ? {
                     filters: [
                         {
-                            field: "key",
+                            field: 'key',
                             text: buscarTags
                         },
                     ]
@@ -55,7 +55,7 @@ const CompanyTags = ({ client, translate, company }) => {
             }
         });
         setData(response.data.companyTags);
-    }
+    };
 
     React.useEffect(() => {
         getData();
@@ -64,18 +64,18 @@ const CompanyTags = ({ client, translate, company }) => {
     React.useEffect(() => {
         sendGAevent({
             category: 'Etiquetas',
-            action: `Entrada al listado`,
+            action: 'Entrada al listado',
             label: company.businessName
         });
     }, [sendGAevent]);
 
     const openEditTag = tag => {
         setEditTag(tag);
-    }
+    };
 
     const closeEditTag = () => {
         setEditTag(null);
-    }
+    };
 
 
     const deleteTag = async id => {
@@ -86,29 +86,29 @@ const CompanyTags = ({ client, translate, company }) => {
             }
         });
         getData();
-    }
+    };
 
     if (isMobile) {
         return (
-            <div style={{ height: "calc( 100% - 5em )" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div style={{ height: 'calc( 100% - 5em )' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <AddCompanyTag
                         translate={translate}
                         company={company}
                         refetch={getData}
-                        styles={{ height: "0" }}
+                        styles={{ height: '0' }}
                     />
-                    <div style={{ maxWidth: "10em", marginLeft: "1em" }}>
+                    <div style={{ maxWidth: '10em', marginLeft: '1em' }}>
                         <TextInput
-                            className={isMobile && !inputSearch ? "openInput" : ""}
+                            className={isMobile && !inputSearch ? 'openInput' : ''}
                             disableUnderline={true}
-                            styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", paddingLeft: "5px", padding: isMobile && inputSearch && "4px 5px" }}
-                            stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && inputSearch ? "8px" : "4px" }}
+                            styleInInput={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px', padding: isMobile && inputSearch && '4px 5px' }}
+                            stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: isMobile && inputSearch ? '8px' : '4px' }}
                             adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
-                            floatingText={" "}
+                            floatingText={' '}
                             type="text"
                             value={buscarTags}
-                            placeholder={isMobile ? "" : translate.search_templates}
+                            placeholder={isMobile ? '' : translate.search_templates}
                             onChange={event => {
                                 setBuscarTags(event.target.value);
                             }}
@@ -127,26 +127,26 @@ const CompanyTags = ({ client, translate, company }) => {
                     />
                 }
                 {data &&
-                    <Grid style={{ width: "100%", height: "100%", marginTop: "1em" }}>
-                        <GridItem xs={12} md={12} lg={12} style={{ width: "99%", height: "calc( 100% - 3em )" }}>
-                            <div style={{ border: `1px solid ${getPrimary()}`, boxShadow: " 0 2px 4px 0 rgba(0, 0, 0, 0.5)", borderRadius: "2px", height: '100%', overflow: "hidden", marginBottom: '4em', paddingBottom: "1em" }}>
+                    <Grid style={{ width: '100%', height: '100%', marginTop: '1em' }}>
+                        <GridItem xs={12} md={12} lg={12} style={{ width: '99%', height: 'calc( 100% - 3em )' }}>
+                            <div style={{ border: `1px solid ${getPrimary()}`, boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)', borderRadius: '2px', height: '100%', overflow: 'hidden', marginBottom: '4em', paddingBottom: '1em' }}>
                                 <Divider />
                                 <div style={{ height: '100%' }}>
                                     <div style={{ height: '100%' }}>
                                         <Scrollbar>
                                             <div style={{ height: '100%' }}>
                                                 {data.length > 0 ?
-                                                    <Table style={{ maxWidth: "100%", width: "100%" }}>
+                                                    <Table style={{ maxWidth: '100%', width: '100%' }}>
                                                         <TableHead>
-                                                            <TableRow style={{ color: "black", borderBottom: `1px solid ${getPrimary()}` }}>
-                                                                <TableCell style={{ color: "black", fontSize: "16px", border: 'none' }}>
+                                                            <TableRow style={{ color: 'black', borderBottom: `1px solid ${getPrimary()}` }}>
+                                                                <TableCell style={{ color: 'black', fontSize: '16px', border: 'none' }}>
                                                                     <div>{translate.key}</div>
                                                                 </TableCell>
-                                                                <TableCell style={{ color: "black", fontSize: "16px", display: "flex", border: 'none' }}>
+                                                                <TableCell style={{ color: 'black', fontSize: '16px', display: 'flex', border: 'none' }}>
                                                                     <div>
-                                                                        <div style={{ display: "flex", alignItems: "center", color: "#969696", minHeight: "42px", marginBottom: "0.5em" }}>
+                                                                        <div style={{ display: 'flex', alignItems: 'center', color: '#969696', minHeight: '42px', marginBottom: '0.5em' }}>
                                                                             <div style={{}} onClick={() => setToggleText(!toggleText)}>
-                                                                                <i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', paddingRight: "0.3em", cursor: "pointer" }} >
+                                                                                <i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', paddingRight: '0.3em', cursor: 'pointer' }} >
                                                                                     help
                                                                             </i>
                                                                             </div>
@@ -190,10 +190,10 @@ const CompanyTags = ({ client, translate, company }) => {
                     </Grid>
                 }
             </div>
-        )
+        );
     }
         return (
-            <div style={{ height: "calc( 100% - 5em )" }}>
+            <div style={{ height: 'calc( 100% - 5em )' }}>
                 <AddCompanyTag
                     translate={translate}
                     company={company}
@@ -210,27 +210,27 @@ const CompanyTags = ({ client, translate, company }) => {
                     />
                 }
                 {data &&
-                    <Grid style={{ width: "100%", height: "100%", marginTop: "1em" }}>
+                    <Grid style={{ width: '100%', height: '100%', marginTop: '1em' }}>
                         <Scrollbar>
-                            <GridItem xs={12} md={12} lg={12} style={{ width: "99%", height: "calc( 100% - 3em )" }}>
-                                <div style={{ display: "flex", alignItems: "center", color: "#969696", minHeight: "42px", marginBottom: "0.5em" }}>
+                            <GridItem xs={12} md={12} lg={12} style={{ width: '99%', height: 'calc( 100% - 3em )' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', color: '#969696', minHeight: '42px', marginBottom: '0.5em' }}>
                                     <div style={{}} onClick={() => setToggleText(!toggleText)}>
-                                        <i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', paddingRight: "0.3em", cursor: "pointer" }} >
+                                        <i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', paddingRight: '0.3em', cursor: 'pointer' }} >
                                             help
 								</i>
                                     </div>
-                                    <div style={{ height: "100%" }}>
+                                    <div style={{ height: '100%' }}>
                                         {toggleText &&
                                             <div>{translate.tags_description}</div>
                                         }
                                     </div>
                                 </div>
-                                <div style={{ border: `1px solid ${getPrimary()}`, boxShadow: " 0 2px 4px 0 rgba(0, 0, 0, 0.5)", borderRadius: "2px", height: '390px', overflow: "hidden", marginBottom: '4em', paddingBottom: "4em" }}>
-                                    <div style={{ width: "100%" }}>
-                                        <div style={{ maxWidth: "10em", marginLeft: "1em" }}>
+                                <div style={{ border: `1px solid ${getPrimary()}`, boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)', borderRadius: '2px', height: '390px', overflow: 'hidden', marginBottom: '4em', paddingBottom: '4em' }}>
+                                    <div style={{ width: '100%' }}>
+                                        <div style={{ maxWidth: '10em', marginLeft: '1em' }}>
                                             <TextInput
                                                 disableUnderline={true}
-                                                styleInInput={{ fontSize: "12px", color: getPrimary(), }}
+                                                styleInInput={{ fontSize: '12px', color: getPrimary(), }}
                                                 stylesAdornment={{}}
                                                 adornment={<Icon style={{ color: getPrimary() }}>search</Icon>}
                                                 type="text"
@@ -249,19 +249,19 @@ const CompanyTags = ({ client, translate, company }) => {
                                             <Scrollbar>
                                                 <div style={{ height: '100%' }}>
                                                     {data.length > 0 ?
-                                                        <Table style={{ maxWidth: "100%", width: "100%" }}>
+                                                        <Table style={{ maxWidth: '100%', width: '100%' }}>
                                                             <TableHead>
-                                                                <TableRow style={{ color: "black" }}>
-                                                                    <TableCell style={{ color: "black", fontSize: "16px" }}>
+                                                                <TableRow style={{ color: 'black' }}>
+                                                                    <TableCell style={{ color: 'black', fontSize: '16px' }}>
                                                                         {translate.key}
                                                                     </TableCell>
-                                                                    <TableCell style={{ color: "black", fontSize: "16px" }}>
+                                                                    <TableCell style={{ color: 'black', fontSize: '16px' }}>
                                                                         {translate.value}
                                                                     </TableCell>
-                                                                    <TableCell style={{ color: "black", fontSize: "16px" }}>
+                                                                    <TableCell style={{ color: 'black', fontSize: '16px' }}>
                                                                         {translate.description}
                                                                     </TableCell>
-                                                                    <TableCell style={{ width: "2em" }} />
+                                                                    <TableCell style={{ width: '2em' }} />
                                                                 </TableRow>
                                                             </TableHead>
                                                             <TableBody id={'bodyTagsTable'} >
@@ -289,23 +289,23 @@ const CompanyTags = ({ client, translate, company }) => {
                     </Grid>
                 }
             </div>
-        )
-}
+        );
+};
 
 const HoverableRow = ({ translate, tag, deleteTag, editTag }) => {
     const [show, handlers] = useHoverRow();
     const primary = getPrimary();
-    const [modal, setModal] = React.useState(false)
+    const [modal, setModal] = React.useState(false);
 
     if (isMobile) {
         return (
             <TableRow
                 {...handlers}
                 style={{
-                    background: show && "rgba(0, 0, 0, 0.07)"
+                    background: show && 'rgba(0, 0, 0, 0.07)'
                 }}
             >
-                <TableCell style={{ color: "black" }}>
+                <TableCell style={{ color: 'black' }}>
                     {tag.key}
                 </TableCell>
                 <TableCell>
@@ -323,7 +323,7 @@ const HoverableRow = ({ translate, tag, deleteTag, editTag }) => {
                             >
                                 <i className="fa fa-edit"
                                     style={{
-                                        cursor: "pointer",
+                                        cursor: 'pointer',
                                         fontSize: '22px',
                                         color: primary
                                     }}
@@ -353,16 +353,16 @@ const HoverableRow = ({ translate, tag, deleteTag, editTag }) => {
                     />
                 </TableCell>
             </TableRow>
-        )
+        );
     }
         return (
             <TableRow
                 {...handlers}
                 style={{
-                    background: show && "rgba(0, 0, 0, 0.07)"
+                    background: show && 'rgba(0, 0, 0, 0.07)'
                 }}
             >
-                <TableCell style={{ color: "black" }}>
+                <TableCell style={{ color: 'black' }}>
                     {tag.key}
                 </TableCell>
                 <TableCell style={{ color: getPrimary() }}>
@@ -387,7 +387,7 @@ const HoverableRow = ({ translate, tag, deleteTag, editTag }) => {
                                 >
                                     <i className="fa fa-edit"
                                         style={{
-                                            cursor: "pointer",
+                                            cursor: 'pointer',
                                             fontSize: '22px',
                                             color: primary
                                         }}
@@ -419,7 +419,7 @@ const HoverableRow = ({ translate, tag, deleteTag, editTag }) => {
                     />
                 </TableCell>
             </TableRow>
-        )
-}
+        );
+};
 
 export default withSharedProps()(withApollo(CompanyTags));

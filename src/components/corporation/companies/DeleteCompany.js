@@ -1,7 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
-import { AlertConfirm } from "../../../displayComponents";
+import { AlertConfirm } from '../../../displayComponents';
 
 
 const DeletCompany = ({ company, render, refetch, translate, styles, client }) => {
@@ -9,11 +9,11 @@ const DeletCompany = ({ company, render, refetch, translate, styles, client }) =
 
     const openModal = () => {
         setModal(true);
-    }
+    };
 
     const closeModal = () => {
-        setModal(false)
-    }
+        setModal(false);
+    };
 
     const action = async () => {
         await client.mutate({
@@ -30,14 +30,14 @@ const DeletCompany = ({ company, render, refetch, translate, styles, client }) =
             }
         });
         refetch();
-    }
+    };
 
     const renderModalBody = () => (
         <>
             {`¿Esta acción eliminará la compañía ${company.businessName} por completo y todas su reuniones. ¿Continuar?`}
             <span onClick={action}>Aceptar</span>
         </>
-    )
+    );
 
     return (
         <React.Fragment>
@@ -55,7 +55,7 @@ const DeletCompany = ({ company, render, refetch, translate, styles, client }) =
             />
         </React.Fragment>
 
-    )
-}
+    );
+};
 
 export default withApollo(DeletCompany);

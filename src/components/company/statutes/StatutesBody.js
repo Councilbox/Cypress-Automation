@@ -1,8 +1,8 @@
-import React from "react";
-import { compose, graphql, withApollo } from "react-apollo";
-import { withRouter } from "react-router-dom";
+import React from 'react';
+import { compose, graphql, withApollo } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import withSharedProps from "../../../HOCs/withSharedProps";
+import withSharedProps from '../../../HOCs/withSharedProps';
 import {
 	AlertConfirm,
 	BasicButton,
@@ -13,19 +13,19 @@ import {
 	LoadingSection,
 	TextInput,
 	VTabs
-} from "../../../displayComponents";
+} from '../../../displayComponents';
 import {
 	createStatute as createStatuteMutation,
 	deleteStatute as deleteStatuteMutation,
 	statutes,
 	updateStatute as updateStatuteMutation
-} from "../../../queries";
-import { censuses } from "../../../queries/census";
+} from '../../../queries';
+import { censuses } from '../../../queries/census';
 import { store } from '../../../containers/App';
 import { setUnsavedChanges } from '../../../actions/mainActions';
-import StatuteEditor from "./StatuteEditor";
+import StatuteEditor from './StatuteEditor';
 import StatuteNameEditor from './StatuteNameEditor';
-import { getPrimary, getSecondary } from "../../../styles/colors";
+import { getPrimary, getSecondary } from '../../../styles/colors';
 import { checkForUnclosedBraces } from '../../../utils/CBX';
 import { isMobile } from '../../../utils/screen';
 
@@ -35,7 +35,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 	const [state, setState] = React.useState({
 		selectedStatute: 0,
 		newStatute: false,
-		newStatuteName: "",
+		newStatuteName: '',
 		newLoading: false,
 		statute: {},
 		success: false,
@@ -86,7 +86,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 			});
 
 			setCensusList(response.data);
-		}
+		};
 
 		requestCensus();
 	}, [censuses]);
@@ -160,7 +160,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 				/>, {
 				position: toast.POSITION.TOP_RIGHT,
 				autoClose: true,
-				className: "errorToast"
+				className: 'errorToast'
 			}
 			);
 		}
@@ -186,8 +186,8 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 		setState({
 			...state,
 			editModal: index
-		})
-	}
+		});
+	};
 
 	const resetButtonStates = () => {
 		setState({
@@ -263,7 +263,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 					error: false,
 					loading: false,
 					success: false
-				})
+				});
 			} else {
 				setState({
 					...state,
@@ -277,7 +277,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 	};
 
 	const createStatute = async () => {
-		const regex = new RegExp("^[a-zA-Z0-9-áéíóú]");
+		const regex = new RegExp('^[a-zA-Z0-9-áéíóú]');
 
 		if (state.newStatuteName) {
 			if ((regex.test(state.newStatuteName)) && state.newStatuteName.trim()) {
@@ -354,7 +354,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 		newStatute: true,
 		errors: {
 			...state.errors,
-			newStatuteName: ""
+			newStatuteName: ''
 		}
 	});
 
@@ -368,7 +368,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 		});
 
 		store.dispatch(setUnsavedChanges(false));
-	}
+	};
 
 	React.useLayoutEffect(() => {
 		setEditorHeight(statuteEditorRef.current?.offsetHeight || '100%');
@@ -387,7 +387,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 	const body = () => (
 		<>
 			{companyStatutes.length > 0 ? (
-				<div style={{ height: `calc( 100% ${isMobile ? '- 2em' : ''})`, paddingRight: "0", display: !isMobile && "flex", }}>
+				<div style={{ height: `calc( 100% ${isMobile ? '- 2em' : ''})`, paddingRight: '0', display: !isMobile && 'flex', }}>
 					<div>
 						<VTabs
 							tabs={tabs}
@@ -412,7 +412,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 						>
 						</VTabs>
 					</div>
-					<div style={{ width: "100%", height: "100%" }}>
+					<div style={{ width: '100%', height: '100%' }}>
 						{!!statute && (
 							<React.Fragment>
 								<div style={{ position: 'relative', overflow: 'hidden', height: 'calc(100% - 4.5em)' }}>
@@ -481,8 +481,8 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 												text={translate.undo_changes}
 												color={getSecondary()}
 												textStyle={{
-													color: "white",
-													fontWeight: "700",
+													color: 'white',
+													fontWeight: '700',
 													textTransform: 'none'
 												}}
 												buttonStyle={{
@@ -494,7 +494,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 												})}
 												icon={
 													<ButtonIcon
-														type={"replay"}
+														type={'replay'}
 														color="white"
 													/>
 												}
@@ -504,10 +504,10 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 											<BasicButton
 												text={translate.save}
 												disabled={state.error}
-												color={success ? "green" : getPrimary()}
+												color={success ? 'green' : getPrimary()}
 												textStyle={{
-													color: "white",
-													fontWeight: "700",
+													color: 'white',
+													fontWeight: '700',
 													textTransform: 'none'
 												}}
 												onClick={updateStatute}
@@ -517,7 +517,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 												success={success}
 												icon={
 													<ButtonIcon
-														type={"save"}
+														type={'save'}
 														color="white"
 													/>
 												}
@@ -619,22 +619,22 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 				/>
 			}
 		</>
-	)
+	);
 
-	return (body())
-}
+	return (body());
+};
 
 
 export default withSharedProps()(
 	compose(
 		graphql(updateStatuteMutation, {
-			name: "updateStatute"
+			name: 'updateStatute'
 		}),
 		graphql(deleteStatuteMutation, {
-			name: "deleteStatute"
+			name: 'deleteStatute'
 		}),
 		graphql(createStatuteMutation, {
-			name: "createStatute"
+			name: 'createStatute'
 		}),
 		graphql(statutes, {
 			options: props => ({

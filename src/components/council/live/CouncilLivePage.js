@@ -1,24 +1,24 @@
-import React from "react";
-import { Tooltip, Badge, Tabs, Tab } from "material-ui";
-import { DisabledSection, FabButton, Icon } from "../../../displayComponents";
-import LiveHeader from "./LiveHeader";
-import { darkGrey, lightGrey } from "../../../styles/colors";
-import AgendaManager from "./AgendaManager";
-import ParticipantsLive from "./ParticipantsLive";
-import ParticipantsManager from "./participants/ParticipantsManager";
-import CommentWall from "./CommentWall";
-import { showVideo } from "../../../utils/CBX";
+import React from 'react';
+import { Tooltip, Badge, Tabs, Tab } from 'material-ui';
+import { DisabledSection, FabButton, Icon } from '../../../displayComponents';
+import LiveHeader from './LiveHeader';
+import { darkGrey, lightGrey } from '../../../styles/colors';
+import AgendaManager from './AgendaManager';
+import ParticipantsLive from './ParticipantsLive';
+import ParticipantsManager from './participants/ParticipantsManager';
+import CommentWall from './CommentWall';
+import { showVideo } from '../../../utils/CBX';
 import { config, videoVersions } from '../../../config';
 import CMPVideoIFrame from './video/CMPVideoIFrame';
-import { useOldState } from "../../../hooks";
+import { useOldState } from '../../../hooks';
 import { isMobile } from '../../../utils/screen';
-import QuorumDisplay from "./quorum/QuorumDisplay";
-import { COUNCIL_STATES, COUNCIL_TYPES } from "../../../constants";
-import ResumeCouncilButton from "./menus/ResumeCouncilButton";
-import OneOnOneAttachmentsList from "./oneOnOne/OneOnOneAttachmentsList";
+import QuorumDisplay from './quorum/QuorumDisplay';
+import { COUNCIL_STATES, COUNCIL_TYPES } from '../../../constants';
+import ResumeCouncilButton from './menus/ResumeCouncilButton';
+import OneOnOneAttachmentsList from './oneOnOne/OneOnOneAttachmentsList';
 
 const calcMinWidth = () => (window.innerWidth * 0.38 > 450 ? 35 : 100 / (window.innerWidth / 450));
-const calcMinHeight = () => "42vh";
+const calcMinHeight = () => '42vh';
 
 let minVideoWidth = calcMinWidth();
 let minVideoHeight = calcMinHeight();
@@ -32,7 +32,7 @@ const initScreenSizes = size => {
 				videoHeight: minVideoHeight,
 				fullScreen: false,
 				screenSize: 'MIN'
-			})
+			});
 		},
 		'MED': () => {
 			localStorage.setItem('screenSize', 'MED');
@@ -42,7 +42,7 @@ const initScreenSizes = size => {
 				fullScreen: false,
 				tab: 'AGENDA',
 				screenSize: 'MED'
-			}
+			};
 		},
 		'MAX': () => {
 			localStorage.setItem('screenSize', 'MAX');
@@ -52,12 +52,12 @@ const initScreenSizes = size => {
 				videoHeight: '100%',
 				tab: 'AGENDA',
 				screenSize: 'MAX'
-			}
+			};
 		}
-	}
+	};
 
 	return sizes[size] ? sizes[size]() : sizes.MIN();
-}
+};
 
 
 
@@ -91,8 +91,8 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 	const setVideoURL = url => {
 		setState({
 			videoURL: url
-		})
-	}
+		});
+	};
 
 	const toggleScreens = screen => {
 		const cb = () => {
@@ -102,7 +102,7 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 				videoHeight: minVideoHeight,
 				fullScreen: false
 			});
-		}
+		};
 
 		if (agendaManager.current) {
 			if (agendaManager.current.wrappedInstance) {
@@ -113,7 +113,7 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 			}
 		}
 		cb();
-	}
+	};
 
 	const updateState = object => {
 		setState({
@@ -123,7 +123,7 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 
 	const toggleWall = () => {
 		setState({ wall: !state.wall });
-	}
+	};
 
 	const toggleFullScreen = () => {
 		if (state.screenSize === 'MIN') {
@@ -149,11 +149,11 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 				screenSize={state.screenSize}
 				toggleFullScreen={toggleFullScreen}
 			/>
-		)
+		);
 
 	const { council } = data;
 
-	const councilStartedState = () => council.state >= 20 && council.state <= 30
+	const councilStartedState = () => council.state >= 20 && council.state <= 30;
 
 	const showParticipants = state.tab === 'PARTICIPANTS';
 
@@ -161,12 +161,12 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 	return (
 		<div
 			style={{
-				height: "100%",
-				width: "100vw",
-				overflow: "hidden",
+				height: '100%',
+				width: '100vw',
+				overflow: 'hidden',
 				backgroundColor: 'white',
-				fontSize: "1em",
-				position: "relative"
+				fontSize: '1em',
+				position: 'relative'
 			}}
 		>
 			<LiveHeader
@@ -182,11 +182,11 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 
 			<div
 				style={{
-					position: "absolute",
-					bottom: "5%",
-					right: state.fullScreen ? "5%" : "2%",
-					display: "flex",
-					flexDirection: "column",
+					position: 'absolute',
+					bottom: '5%',
+					right: state.fullScreen ? '5%' : '2%',
+					display: 'flex',
+					flexDirection: 'column',
 					zIndex: 2
 				}}
 			>
@@ -201,8 +201,8 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 									badgeContent={
 										<span
 											style={{
-												color: "white",
-												fontWeight: "700",
+												color: 'white',
+												fontWeight: '700',
 											}}
 										>
 											{state.unreadComments}
@@ -210,7 +210,7 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 									}
 									color="secondary"
 								>
-									<div style={{ marginBottom: "0.3em" }}>
+									<div style={{ marginBottom: '0.3em' }}>
 										<FabButton
 											mode="intermitent"
 											icon={
@@ -223,7 +223,7 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 									</div>
 								</Badge>
 								:
-								<div style={{ marginBottom: "0.3em" }}>
+								<div style={{ marginBottom: '0.3em' }}>
 									<FabButton
 										icon={
 											<Icon className="material-icons">
@@ -250,33 +250,33 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 
 			<div
 				style={{
-					display: "flex",
-					width: "100%",
-					height: "calc(100% - 3em)",
-					flexDirection: "row",
-					overflow: "hidden"
+					display: 'flex',
+					width: '100%',
+					height: 'calc(100% - 3em)',
+					flexDirection: 'row',
+					overflow: 'hidden'
 				}}
 			>
 				{showVideo(council) && (
 					<div
 						style={{
-							display: "flex",
+							display: 'flex',
 							flexDirection: state.fullScreen
-								? "row"
-								: "column",
+								? 'row'
+								: 'column',
 							width: `${state.videoWidth}%`,
-							height: "100%",
-							overflow: "hidden",
-							position: "relative",
+							height: '100%',
+							overflow: 'hidden',
+							position: 'relative',
 							backgroundColor: darkGrey,
 						}}
 					>
 						{state.fullScreen && (
 							<div
 								style={{
-									height: "100%",
-									width: "5%",
-									overflow: "hidden",
+									height: '100%',
+									width: '5%',
+									overflow: 'hidden',
 									backgroundColor: darkGrey
 								}}
 							>
@@ -289,10 +289,10 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 								<div
 									style={{
 										height: state.videoHeight,
-										width: "100%",
+										width: '100%',
 										overflow: 'hidden',
 										backgroundColor: darkGrey,
-										position: "relative",
+										position: 'relative',
 										transition: 'width 0.8s, height 0.6s',
 										transitionTimingFunction: 'ease'
 									}}
@@ -313,18 +313,18 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 									}
 									<div
 										style={{
-											borderRadius: "5px",
-											cursor: "pointer",
-											position: "absolute",
-											right: "5%",
-											top: "16px",
+											borderRadius: '5px',
+											cursor: 'pointer',
+											position: 'absolute',
+											right: '5%',
+											top: '16px',
 											backgroundColor:
-												"rgba(0, 0, 0, 0.5)",
-											width: "2.9em",
-											height: "2.9em",
-											display: "flex",
-											alignItems: "center",
-											justifyContent: "center"
+												'rgba(0, 0, 0, 0.5)',
+											width: '2.9em',
+											height: '2.9em',
+											display: 'flex',
+											alignItems: 'center',
+											justifyContent: 'center'
 										}}
 										onClick={toggleFullScreen}
 									>
@@ -333,8 +333,8 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 											style={{ color: lightGrey }}
 										>
 											{state.fullScreen
-												? "zoom_out"
-												: "zoom_in"}
+												? 'zoom_out'
+												: 'zoom_in'}
 										</Icon>
 									</div>
 								</div>
@@ -344,8 +344,8 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 							<div
 								style={{
 									height: `calc(100% - ${state.videoHeight})`,
-									width: "100%",
-									overflow: "hidden",
+									width: '100%',
+									overflow: 'hidden',
 									backgroundColor: darkGrey
 								}}
 							>
@@ -362,8 +362,8 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 								? 100 - state.videoWidth - '0.5'
 								: 100
 							}%`,
-						height: "100%",
-						marginLeft: "5px",
+						height: '100%',
+						marginLeft: '5px',
 						position: 'relative'
 					}}
 				>
@@ -422,11 +422,11 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 									</div>
 								</Tabs>
 							}
-							<div style={{ height: "100%" }}>
+							<div style={{ height: '100%' }}>
 								{(showParticipants && !state.fullScreen) &&
-									<div style={{ height: "calc( 100% - 2em )" }}>
+									<div style={{ height: 'calc( 100% - 2em )' }}>
 										<ParticipantsManager
-											stylesDiv={{ margin: "0", height: "calc( 100% - 1.8em )", borderTop: "1px solid #e7e7e7", width: "100%" }}
+											stylesDiv={{ margin: '0', height: 'calc( 100% - 1.8em )', borderTop: '1px solid #e7e7e7', width: '100%' }}
 											translate={translate}
 											participants={data.council.participants}
 											council={council}
@@ -434,7 +434,7 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 									</div>
 								}
 								{(state.tab === 'ATTACHMENTS' && !state.fullScreen) &&
-									<div style={{ height: "calc( 100% - 2em )" }}>
+									<div style={{ height: 'calc( 100% - 2em )' }}>
 										<OneOnOneAttachmentsList
 											council={council}
 											translate={translate}
@@ -442,7 +442,7 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 									</div>
 								}
 								{(state.tab === 'AGENDA' || state.fullScreen) &&
-									<div style={{ height: "calc( 100% - 2em )", position: 'relative' }}>
+									<div style={{ height: 'calc( 100% - 2em )', position: 'relative' }}>
 										{council.state === COUNCIL_STATES.PAUSED &&
 											<DisabledSection>
 												<div style={{ marginBottom: '1em' }}>
@@ -455,7 +455,7 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 												/>
 											</DisabledSection>
 										}
-										<div style={{ borderTop: "1px solid #e7e7e7", height: "calc( 100% - 1.8em )", width: "100%" }}>
+										<div style={{ borderTop: '1px solid #e7e7e7', height: 'calc( 100% - 1.8em )', width: '100%' }}>
 											<AgendaManager
 												ref={agendaManager}
 												recount={data.councilRecount}
@@ -481,7 +481,7 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 			</div>
 		</div>
 	);
-}
+};
 
 export default CouncilLivePage;
 

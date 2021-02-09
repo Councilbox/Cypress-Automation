@@ -1,30 +1,30 @@
-import React from "react";
-import FontAwesome from "react-fontawesome";
-import { graphql, compose } from "react-apollo";
+import React from 'react';
+import FontAwesome from 'react-fontawesome';
+import { graphql, compose } from 'react-apollo';
 import { MenuItem } from 'material-ui';
 import gql from 'graphql-tag';
-import { resendRoomEmails } from "../../../../../queries/liveParticipant";
+import { resendRoomEmails } from '../../../../../queries/liveParticipant';
 import {
 	CustomDialog,
 	BasicButton,
 	DropDownMenu
-} from "../../../../../displayComponents";
-import { getPrimary, getSecondary } from "../../../../../styles/colors";
-import { moment } from "../../../../../containers/App";
-import { isMobile } from "../../../../../utils/screen";
+} from '../../../../../displayComponents';
+import { getPrimary, getSecondary } from '../../../../../styles/colors';
+import { moment } from '../../../../../containers/App';
+import { isMobile } from '../../../../../utils/screen';
 
 const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council, ...props }) => {
 	const [modal, setModal] = React.useState(false);
 	const [phoneError, setPhoneError] = React.useState(false);
 	const primary = getPrimary();
 	const translation = translate.sure_send_video.replace(
-		"{{name}}",
+		'{{name}}',
 		`${participant.name} ${participant.surname || ''}`
 	);
 
 	const close = () => {
 		setModal(false);
-	}
+	};
 
 	const resend = async onlyAccessLink => {
 		const response = await props.resendRoomEmails({
@@ -39,7 +39,7 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
 			props.refetch();
 			close();
 		}
-	}
+	};
 
 	const sendKey = async type => {
         const response = await sendAccessKey({
@@ -58,11 +58,11 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
         } else {
             props.refetch();
         }
-	}
+	};
 
 	const openModal = () => {
 		setModal(true);
-	}
+	};
 
 	return (
 		<React.Fragment>
@@ -110,19 +110,19 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
 							text={translate.cancel}
 							type="flat"
 							textStyle={{
-								textTransform: "none",
-								fontWeight: "700"
+								textTransform: 'none',
+								fontWeight: '700'
 							}}
 							onClick={close}
 						/>
 						<BasicButton
 							text={translate.continue}
 							textStyle={{
-								color: "white",
-								textTransform: "none",
-								fontWeight: "700"
+								color: 'white',
+								textTransform: 'none',
+								fontWeight: '700'
 							}}
-							buttonStyle={{ marginLeft: "1em" }}
+							buttonStyle={{ marginLeft: '1em' }}
 							color={primary}
 							onClick={() => {
 								resend();
@@ -131,11 +131,11 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
 					</React.Fragment>
 				}
 			>
-				<div style={{ width: "400px" }}>{translation}</div>
+				<div style={{ width: '400px' }}>{translation}</div>
 			</CustomDialog>
 		</React.Fragment>
-	)
-}
+	);
+};
 
 
 
@@ -154,10 +154,10 @@ const ResendButton = ({ active, action, translate }) => (
 				text={
 					<React.Fragment>
 						<FontAwesome
-							name={"share-square"}
+							name={'share-square'}
 							style={{
-								cursor: "pointer",
-								fontSize: "1.2em",
+								cursor: 'pointer',
+								fontSize: '1.2em',
 								marginRight: '0.2em',
 								color: getSecondary()
 							}}
@@ -168,7 +168,7 @@ const ResendButton = ({ active, action, translate }) => (
 			>
 			</BasicButton>
 		// </Tooltip>
-	)
+	);
 
 const sendParticipantRoomKey = gql`
     mutation SendParticipantRoomKey($participantIds: [Int]!, $councilId: Int!, $timezone: String!, $type: String){
@@ -180,9 +180,9 @@ const sendParticipantRoomKey = gql`
 
 export default compose(
 	graphql(resendRoomEmails, {
-		name: "resendRoomEmails",
+		name: 'resendRoomEmails',
 		options: {
-			errorPolicy: "all"
+			errorPolicy: 'all'
 		}
 	}),
 	graphql(sendParticipantRoomKey, {

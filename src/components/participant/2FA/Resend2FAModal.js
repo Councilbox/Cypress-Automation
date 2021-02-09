@@ -17,11 +17,11 @@ const Resend2FAModal = ({ translate, open, requestClose, match, client }) => {
         if(data && data.sendDate){
             const firstDate = moment();
             const secondDate = moment(data.sendDate);
-            const difference = firstDate.diff(secondDate, "seconds");
+            const difference = firstDate.diff(secondDate, 'seconds');
             setTimeDifference(difference > 0 ? difference : 0);
             setCountdown(60 - difference);
         }
-    }, [data])
+    }, [data]);
 
     const { secondsLeft, setCountdown } = useCountdown(0);
 
@@ -40,7 +40,7 @@ const Resend2FAModal = ({ translate, open, requestClose, match, client }) => {
         });
 
         getData();
-    }
+    };
 
     const getData = React.useCallback(async () => {
         const response = await client.query({
@@ -60,13 +60,13 @@ const Resend2FAModal = ({ translate, open, requestClose, match, client }) => {
         });
 
         setData(response.data.last2FASent);
-    }, [match.params.token, open])
+    }, [match.params.token, open]);
 
     React.useEffect(() => {
         if(open){
             getData();
         }
-    }, [getData])
+    }, [getData]);
 
     const resendDisabled = timeDifference <= 60 && secondsLeft > 0;
 
@@ -104,7 +104,7 @@ const Resend2FAModal = ({ translate, open, requestClose, match, client }) => {
             buttonCancel={translate.close}
             requestClose={requestClose}
         />
-    )
-}
+    );
+};
 
 export default withApollo(withRouter(Resend2FAModal));

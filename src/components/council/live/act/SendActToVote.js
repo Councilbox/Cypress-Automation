@@ -1,10 +1,10 @@
-import React from "react";
-import { compose, graphql, withApollo } from "react-apollo";
+import React from 'react';
+import { compose, graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { sendActToVote, openAgendaVoting } from '../../../../queries';
 
-import { AlertConfirm } from "../../../../displayComponents";
-import DocumentPreview from "../../../documentEditor/DocumentPreview";
+import { AlertConfirm } from '../../../../displayComponents';
+import DocumentPreview from '../../../documentEditor/DocumentPreview';
 
 
 const SendActToVote = ({ requestClose, translate, updateAct, agenda, council, refetch, ...props }) => {
@@ -12,7 +12,7 @@ const SendActToVote = ({ requestClose, translate, updateAct, agenda, council, re
 
 	const close = () => {
 		requestClose();
-	}
+	};
 
 	const sendActToVote = async () => {
 		setLoading(true);
@@ -27,7 +27,7 @@ const SendActToVote = ({ requestClose, translate, updateAct, agenda, council, re
 			await refetch();
 		}
 		setLoading(false);
-	}
+	};
 
 	const _modalBody = () => (
 			<div style={{ marginTop: '12px', height: '100%', border: '1px solid gainsboro' }}>
@@ -39,7 +39,7 @@ const SendActToVote = ({ requestClose, translate, updateAct, agenda, council, re
 					company={props.company}
 				/>
 			</div>
-		)
+		);
 
 	return (
 		<AlertConfirm
@@ -53,7 +53,7 @@ const SendActToVote = ({ requestClose, translate, updateAct, agenda, council, re
 			title={translate.save_preview_act}
 		/>
 	);
-}
+};
 
 
 export default compose(

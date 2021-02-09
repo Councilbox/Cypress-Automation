@@ -1,18 +1,18 @@
-import React from "react";
-import { connect } from "react-redux";
-import { graphql, withApollo } from "react-apollo";
-import gql from "graphql-tag";
+import React from 'react';
+import { connect } from 'react-redux';
+import { graphql, withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
 import { bindActionCreators } from 'redux';
-import { LoadingMainApp } from "../displayComponents";
-import InvalidUrl from "../components/participant/InvalidUrl";
+import { LoadingMainApp } from '../displayComponents';
+import InvalidUrl from '../components/participant/InvalidUrl';
 import * as mainActions from '../actions/mainActions';
-import Assistance from "../components/participant/assistance/Assistance";
-import { ConfigContext } from "./AppControl";
-import { COUNCIL_TYPES } from "../constants";
-import OneOnOneDocumentation from "../components/participant/assistance/OneOnOneDocumentation";
+import Assistance from '../components/participant/assistance/Assistance';
+import { ConfigContext } from './AppControl';
+import { COUNCIL_TYPES } from '../constants';
+import OneOnOneDocumentation from '../components/participant/assistance/OneOnOneDocumentation';
 
 const AttendanceContainer = ({ data, translate, actions }) => {
-	const [companyId, setCompanyId] = React.useState(null)
+	const [companyId, setCompanyId] = React.useState(null);
 	const config = React.useContext(ConfigContext);
 	const [loadingConfig, setLoadingConfig] = React.useState(true);
 
@@ -26,12 +26,12 @@ const AttendanceContainer = ({ data, translate, actions }) => {
 		if(data.councilVideo){
 			setCompanyId(data.councilVideo.companyId);
 		}
-	}, [data.councilVideo])
+	}, [data.councilVideo]);
 
 	const updateConfig = async id => {
 		await config.updateConfig(id);
 		setLoadingConfig(false);
-	}
+	};
 
 	React.useEffect(() => {
 		if(companyId){
@@ -39,8 +39,8 @@ const AttendanceContainer = ({ data, translate, actions }) => {
 		}
 	}, [companyId]);
 
-	if (data.error && data.error.graphQLErrors["0"]) {
-		return <InvalidUrl error={data.error.graphQLErrors["0"]} />;
+	if (data.error && data.error.graphQLErrors['0']) {
+		return <InvalidUrl error={data.error.graphQLErrors['0']} />;
 	}
 
 	if (!translate || data.loading || loadingConfig) {
@@ -60,7 +60,7 @@ const AttendanceContainer = ({ data, translate, actions }) => {
 				company={data.councilVideo.company}
 				refetch={data.refetch}
 			/>
-		)
+		);
 	}
 
 	return (
@@ -71,7 +71,7 @@ const AttendanceContainer = ({ data, translate, actions }) => {
 			refetch={data.refetch}
 		/>
 	);
-}
+};
 
 const mapStateToProps = state => ({
 	main: state.main,
@@ -80,7 +80,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch) => ({
         actions: bindActionCreators(mainActions, dispatch)
-    })
+    });
 
 const participantQuery = gql`
 	query info($councilId: Int!) {
@@ -191,6 +191,6 @@ export default graphql(participantQuery, {
 		variables: {
 			councilId: +props.match.params.councilId
 		},
-		fetchPolicy: "network-only"
+		fetchPolicy: 'network-only'
 	})
 })(withApollo(connect(mapStateToProps, mapDispatchToProps)(AttendanceContainer)));

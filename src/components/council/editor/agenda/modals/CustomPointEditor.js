@@ -1,7 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
-import { AlertConfirm } from "../../../../../displayComponents";
+import { AlertConfirm } from '../../../../../displayComponents';
 import CustomPointForm from './CustomPointForm';
 import { useValidateAgenda } from './NewCustomPointModal';
 import DeleteAgendaButton from './DeleteAgendaButton';
@@ -31,7 +31,7 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
             await props.refetch();
             props.requestClose();
         }
-    }
+    };
 
     const addOption = () => {
         setItems([
@@ -44,33 +44,33 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
             ...errors,
             itemsLength: null
         });
-    }
+    };
 
     const updateItem = (index, value) => {
         const newItems = [...items];
         newItems[index].value = value;
         setItems(newItems);
-    }
+    };
 
     const removeItem = (index) => {
         const newItems = [...items];
         newItems.splice(index, 1);
         setItems(newItems);
-    }
+    };
 
     const updateOptions = object => {
         setOptions({
             ...options,
             ...object
         });
-    }
+    };
 
     const updateAgenda = object => {
         setAgenda({
             ...agenda,
             ...object
         });
-    }
+    };
 
     const renderBody = () => (
             <div style={{ marginTop: '1em', marginBottom: '2em', width: window.innerWidth > 720 ? '720px' : '100%' }}>
@@ -90,7 +90,7 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
                     }}
                 />
             </div>
-        )
+        );
 
     return (
         <AlertConfirm
@@ -112,8 +112,8 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
             bodyText={renderBody()}
             title={translate.edit}
         />
-    )
-}
+    );
+};
 
 const updateCustomAgenda = gql`
     mutation UpdateCustomAgenda($agenda: AgendaInput!, $options: PollOptionsInput!, $items: [PollItemInput]!){
@@ -135,7 +135,7 @@ const updateCustomAgenda = gql`
 const cleanObject = object => {
     const { __typename, items, options, attachments, ballots, qualityVoteSense, votingsRecount, ...rest } = object;
     return rest;
-}
+};
 
 export default graphql(updateCustomAgenda, {
     name: 'updateCustomAgenda'

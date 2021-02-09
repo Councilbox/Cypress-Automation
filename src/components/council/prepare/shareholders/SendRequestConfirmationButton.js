@@ -21,10 +21,10 @@ const reducer = (state, action) => {
             status: 'INITIAL',
             modal: false
         }
-    }
+    };
 
     return actions[action.type] || state;
-}
+};
 
 
 const SendRequestConfirmationButton = ({ client, request, translate, council }) => {
@@ -50,7 +50,7 @@ const SendRequestConfirmationButton = ({ client, request, translate, council }) 
         });
 
         dispatch({ type: 'SUCCESS' });
-    }
+    };
 
 
     return (
@@ -79,7 +79,7 @@ const SendRequestConfirmationButton = ({ client, request, translate, council }) 
                 onClick={resendConfirmation}
             />
         </>
-    )
-}
+    );
+};
 
 export default withApollo(SendRequestConfirmationButton);

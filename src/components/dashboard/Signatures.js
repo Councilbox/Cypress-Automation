@@ -1,8 +1,8 @@
-import React from "react";
-import { compose, graphql } from "react-apollo";
-import { TableCell, TableRow } from "material-ui/Table";
-import Scrollbar from "react-perfect-scrollbar";
-import { deleteSignature, signatures } from "../../queries/signature";
+import React from 'react';
+import { compose, graphql } from 'react-apollo';
+import { TableCell, TableRow } from 'material-ui/Table';
+import Scrollbar from 'react-perfect-scrollbar';
+import { deleteSignature, signatures } from '../../queries/signature';
 import {
 	AlertConfirm,
 	CloseIcon,
@@ -11,12 +11,12 @@ import {
 	MainTitle,
 	Table,
 	BasicButton
-} from "../../displayComponents/index";
-import { getPrimary } from "../../styles/colors";
-import "react-perfect-scrollbar/dist/css/styles.css";
-import { bHistory } from "../../containers/App";
-import CantCreateCouncilsModal from "./CantCreateCouncilsModal";
-import { ConfigContext } from "../../containers/AppControl";
+} from '../../displayComponents/index';
+import { getPrimary } from '../../styles/colors';
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import { bHistory } from '../../containers/App';
+import CantCreateCouncilsModal from './CantCreateCouncilsModal';
+import { ConfigContext } from '../../containers/AppControl';
 
 
 const Signatures = ({ translate, data, ...props }) => {
@@ -27,15 +27,15 @@ const Signatures = ({ translate, data, ...props }) => {
 
 	const openCantAccessModal = () => {
 		setCantAccessModal(true);
-	}
+	};
 
 	const closeCantAccessModal = () => {
 		setCantAccessModal(false);
-	}
+	};
 
 	const openDeleteModal = id => {
 		setDeleteModalId(id);
-	}
+	};
 
 	const deleteSignature = async () => {
 		data.loading = true;
@@ -48,7 +48,7 @@ const Signatures = ({ translate, data, ...props }) => {
 			setDeleteModalId(null);
 			data.refetch();
 		}
-	}
+	};
 
 	function _renderDeleteIcon(signatureID) {
 		return (
@@ -70,8 +70,8 @@ const Signatures = ({ translate, data, ...props }) => {
 			style={{
 				height: '100%',
 				width: '100%',
-				overflow: "hidden",
-				position: "relative"
+				overflow: 'hidden',
+				position: 'relative'
 			}}
 		>
 			<div style={{ width: '100%', height: '100%', padding: '1em' }}>
@@ -93,7 +93,7 @@ const Signatures = ({ translate, data, ...props }) => {
 				) : (
 						<div style={{ height: 'calc(100% - 10.5em)', overflow: 'hidden' }}>
 							<div style={{
-								display: "flex"
+								display: 'flex'
 							}}>
 								<BasicButton
 									color='white'
@@ -104,7 +104,7 @@ const Signatures = ({ translate, data, ...props }) => {
 
 									}}
 									buttonStyle={{
-										border: "1px solid " + getPrimary(),
+										border: '1px solid ' + getPrimary(),
 										marginTop: '1em'
 									}}
 
@@ -112,7 +112,7 @@ const Signatures = ({ translate, data, ...props }) => {
 								/>
 							</div>
 							<Scrollbar>
-								<div style={{ padding: "1em", paddingTop: '2em' }}>
+								<div style={{ padding: '1em', paddingTop: '2em' }}>
 									{false ? (
 										<div>
 											{error.graphQLErrors.map((error, index) => (
@@ -169,7 +169,7 @@ const Signatures = ({ translate, data, ...props }) => {
 			/>
 		</div>
 	);
-}
+};
 
 
 export default compose(
@@ -193,13 +193,13 @@ class HoverableRow extends React.PureComponent {
 	mouseEnterHandler = () => {
 		this.setState({
 			showActions: true
-		})
+		});
 	}
 
 	mouseLeaveHandler = () => {
 		this.setState({
 			showActions: false
-		})
+		});
 	}
 
 	deleteIcon = (signatureId) => {
@@ -226,7 +226,7 @@ class HoverableRow extends React.PureComponent {
 				onMouseOver={this.mouseEnterHandler}
 				onMouseLeave={this.mouseLeaveHandler}
 				style={{
-					cursor: "pointer",
+					cursor: 'pointer',
 					backgroundColor: disabled ? 'whiteSmoke' : 'inherit'
 				}}
 				onClick={() => {
@@ -250,6 +250,6 @@ class HoverableRow extends React.PureComponent {
 					}
 				</TableCell>
 			</TableRow>
-		)
+		);
 	}
 }

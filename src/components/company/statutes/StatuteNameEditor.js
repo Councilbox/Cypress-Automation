@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import { TextInput, AlertConfirm } from '../../../displayComponents';
-import { updateStatute } from "../../../queries";
+import { updateStatute } from '../../../queries';
 
 class StatuteNameEditor extends React.Component {
     state = {
@@ -30,7 +30,7 @@ class StatuteNameEditor extends React.Component {
     }
 
     checkRequiredFields = () => {
-        const regex = new RegExp("^[a-zA-Z0-9-áéíóú]");
+        const regex = new RegExp('^[a-zA-Z0-9-áéíóú]');
         if (!this.state.title) {
             this.setState({
                 titleError: this.props.translate.required_field
@@ -77,7 +77,7 @@ class StatuteNameEditor extends React.Component {
                 }
                 title={translate.rename_council_type}
             />
-        )
+        );
     }
 }
 

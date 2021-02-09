@@ -6,7 +6,7 @@ import gql from 'graphql-tag';
 import { LiveToast, AlertConfirm } from '../../../displayComponents';
 import * as CBX from '../../../utils/CBX';
 import { AGENDA_STATES } from '../../../constants';
-import RichTextInput from "../../../displayComponents/RichTextInput";
+import RichTextInput from '../../../displayComponents/RichTextInput';
 
 
 const updateCommentMutation = gql`
@@ -30,7 +30,7 @@ const CommentModal = ({ translate, agenda, participant, council, client, ...prop
             setState({
                 ...state,
                 vote: getOwnVote()
-            })
+            });
         }
     }, [agenda.votingState]);
 
@@ -47,8 +47,8 @@ const CommentModal = ({ translate, agenda, participant, council, client, ...prop
         setState({
             ...state,
             open: !state.open
-        })
-    }
+        });
+    };
 
     const updateComment = async () => {
         if(!checkRequiredFields()){
@@ -65,7 +65,7 @@ const CommentModal = ({ translate, agenda, participant, council, client, ...prop
             props.refetch();
             toggle();
         }
-    }
+    };
 
     const checkRequiredFields = () => {
         if (CBX.checkForUnclosedBraces(state.vote.comment)) {
@@ -75,12 +75,12 @@ const CommentModal = ({ translate, agenda, participant, council, client, ...prop
                 />, {
                     position: toast.POSITION.TOP_RIGHT,
                     autoClose: true,
-                    className: "errorToast"
+                    className: 'errorToast'
                 }
             );
             return true;
         }
-    }
+    };
 
     return (
         <React.Fragment>
@@ -95,7 +95,7 @@ const CommentModal = ({ translate, agenda, participant, council, client, ...prop
                 requestClose={toggle}
                 bodyText={
                     <RichTextInput
-                        value={state.vote !== undefined ? state.vote.comment : ""}
+                        value={state.vote !== undefined ? state.vote.comment : ''}
                         translate={translate}
                         onChange={value => setState({
                                 ...state,
@@ -114,7 +114,7 @@ const CommentModal = ({ translate, agenda, participant, council, client, ...prop
                 buttonCancel={translate.cancel}
             />
         </React.Fragment>
-    )
-}
+    );
+};
 
 export default withApollo(CommentModal);

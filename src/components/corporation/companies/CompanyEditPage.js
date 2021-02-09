@@ -9,7 +9,7 @@ import { bHistory } from '../../../containers/App';
 
 const CompanyEditPage = ({ data, user, company, translate }) => {
     if(data.loading){
-        return <LoadingSection />
+        return <LoadingSection />;
     }
 
     if(!data.company){
@@ -28,8 +28,8 @@ const CompanyEditPage = ({ data, user, company, translate }) => {
                 refetch={data.refetch}
             />
         </div>
-    )
-}
+    );
+};
 
 export default graphql(queryCompany, {
     options: props => ({

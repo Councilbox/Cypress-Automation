@@ -30,6 +30,6 @@ const CustomPointVotingsLive = ({ agenda, council, recount, translate, refetch, 
                 </GridItem>
             </Grid>
         </div>
-    )
+    );
 
 export default withSharedProps()(CustomPointVotingsLive);

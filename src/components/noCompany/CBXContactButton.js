@@ -11,6 +11,6 @@ const CBXContactButton = props => (
             textStyle={{ fontWeight: '700', color: 'white', fontSize: '18px' }}
         />
     </a>
-)
+);
 
 export default CBXContactButton;

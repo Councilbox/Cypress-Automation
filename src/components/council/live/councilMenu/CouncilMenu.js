@@ -1,21 +1,21 @@
-import React from "react";
-import FontAwesome from "react-fontawesome";
-import { MenuItem, Paper } from "material-ui";
-import { withApollo } from "react-apollo";
-import { DropDownMenu, Icon } from "../../../../displayComponents";
-import { getPrimary, getSecondary } from "../../../../styles/colors";
-import SendCredentialsModal from "./SendCredentialsModal";
+import React from 'react';
+import FontAwesome from 'react-fontawesome';
+import { MenuItem, Paper } from 'material-ui';
+import { withApollo } from 'react-apollo';
+import { DropDownMenu, Icon } from '../../../../displayComponents';
+import { getPrimary, getSecondary } from '../../../../styles/colors';
+import SendCredentialsModal from './SendCredentialsModal';
 import { moment } from '../../../../containers/App';
 import AnnouncementModal from './AnnouncementModal';
-import NoCelebrateModal from "./NoCelebrateModal";
-import OriginalConveneModal from "./OriginalConveneModal";
-import CouncilInfoModal from "./CouncilInfoModal";
+import NoCelebrateModal from './NoCelebrateModal';
+import OriginalConveneModal from './OriginalConveneModal';
+import CouncilInfoModal from './CouncilInfoModal';
 import { councilHasVideo, councilIsLive, councilStarted, } from '../../../../utils/CBX';
 import { ConfigContext } from '../../../../containers/AppControl';
-import SMSManagerModal from "./SMSManagerModal";
-import { isMobile } from "../../../../utils/screen";
-import { useDownloadCouncilAttendants } from "../../writing/actEditor/DownloadAttendantsPDF";
-import PauseCouncilModal from "./PauseCouncilModal";
+import SMSManagerModal from './SMSManagerModal';
+import { isMobile } from '../../../../utils/screen';
+import { useDownloadCouncilAttendants } from '../../writing/actEditor/DownloadAttendantsPDF';
+import PauseCouncilModal from './PauseCouncilModal';
 
 
 class CouncilMenu extends React.Component {
@@ -34,13 +34,13 @@ class CouncilMenu extends React.Component {
 	showAnnouncementModal = () => {
 		this.setState({
 			announcementModal: true
-		})
+		});
 	}
 
 	closeAnnouncementModal = () => {
 		this.setState({
 			announcementModal: false
-		})
+		});
 	}
 
 	render() {
@@ -57,15 +57,15 @@ class CouncilMenu extends React.Component {
 							Component={() => <Paper
 									elevation={1}
 									style={{
-										boxSizing: "border-box",
-										padding: "0",
-										width: isMobile ? "4em" : '5em',
+										boxSizing: 'border-box',
+										padding: '0',
+										width: isMobile ? '4em' : '5em',
 										height: '36px',
 										display: 'flex',
 										alignItems: 'center',
 										justifyContent: 'center',
 										border: `1px solid ${primary}`,
-										marginLeft: "0.3em"
+										marginLeft: '0.3em'
 									}}
 								>
 									<MenuItem
@@ -80,11 +80,11 @@ class CouncilMenu extends React.Component {
 										}}
 									>
 										<FontAwesome
-											name={"bars"}
+											name={'bars'}
 											style={{
-												cursor: "pointer",
-												fontSize: "0.8em",
-												height: "0.8em",
+												cursor: 'pointer',
+												fontSize: '0.8em',
+												height: '0.8em',
 												color: primary
 											}}
 										/>
@@ -116,7 +116,7 @@ class CouncilMenu extends React.Component {
 										<FontAwesome
 											name="paper-plane"
 											style={{
-												marginRight: "0.8em",
+												marginRight: '0.8em',
 												color: secondary
 											}}
 										/>
@@ -131,7 +131,7 @@ class CouncilMenu extends React.Component {
 												className="fa fa-commenting-o"
 												aria-hidden="true"
 												style={{
-													marginRight: "0.8em",
+													marginRight: '0.8em',
 													color: secondary
 												}}
 											></i>
@@ -147,8 +147,8 @@ class CouncilMenu extends React.Component {
 											<FontAwesome
 												name="exclamation-triangle"
 												style={{
-													marginRight: "0.8em",
-													color: "red"
+													marginRight: '0.8em',
+													color: 'red'
 												}}
 											/>
 											{translate.no_celebrate_council}
@@ -161,7 +161,7 @@ class CouncilMenu extends React.Component {
 										<FontAwesome
 											name="eye"
 											style={{
-												marginRight: "0.8em",
+												marginRight: '0.8em',
 												color: secondary
 											}}
 										/>
@@ -174,10 +174,10 @@ class CouncilMenu extends React.Component {
 										<FontAwesome
 											name="info"
 											style={{
-												marginRight: "0.8em",
-												width: "15px",
-												display: "flex",
-												justifyContent: "center",
+												marginRight: '0.8em',
+												width: '15px',
+												display: 'flex',
+												justifyContent: 'center',
 												color: secondary
 											}}
 										/>
@@ -198,7 +198,7 @@ class CouncilMenu extends React.Component {
 											<FontAwesome
 												name={'pause-circle-o'}
 												style={{
-													marginRight: "0.8em",
+													marginRight: '0.8em',
 													color: secondary
 												}}
 											/>
@@ -213,7 +213,7 @@ class CouncilMenu extends React.Component {
 											<FontAwesome
 												name="comments-o"
 												style={{
-													marginRight: "0.8em",
+													marginRight: '0.8em',
 													color: secondary
 												}}
 											/>
@@ -237,7 +237,7 @@ class CouncilMenu extends React.Component {
 					translate={translate}
 					open={this.state.SMSManager}
 					requestClose={() => {
-						this.setState({ SMSManager: false })
+						this.setState({ SMSManager: false });
 					}}
 				/>
 				<PauseCouncilModal
@@ -292,13 +292,13 @@ const DownloadAttendantsButton = withApollo(({ council, client, translate }) => 
 			<FontAwesome
 				name="users"
 				style={{
-					marginRight: "0.8em",
+					marginRight: '0.8em',
 					color: secondary
 				}}
 			/>
 			{translate.export_participants}
 		</MenuItem>
-	)
+	);
 });
 
 export default withApollo(CouncilMenu);

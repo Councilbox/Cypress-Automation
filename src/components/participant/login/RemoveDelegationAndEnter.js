@@ -33,7 +33,7 @@ const RemoveDelegationAndEnter = ({ participant, represented, client, refetch })
 
         await refetch();
         setLoading(false);
-    }
+    };
 
     const removeDelegation = async () => {
         setLoading(true);
@@ -46,7 +46,7 @@ const RemoveDelegationAndEnter = ({ participant, represented, client, refetch })
         });
         await refetch();
         setLoading(false);
-    }
+    };
 
     //TRADUCCION
     return (
@@ -64,7 +64,7 @@ const RemoveDelegationAndEnter = ({ participant, represented, client, refetch })
             loadingColor={secondary}
             onClick={(represented && represented.length > 0) ? setRepresentativeAsVoteOwner : removeDelegation}
         />
-    )
-}
+    );
+};
 
 export default withApollo(RemoveDelegationAndEnter);

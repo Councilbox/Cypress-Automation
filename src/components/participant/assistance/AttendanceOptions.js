@@ -23,22 +23,22 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
 			...state,
 			addRepresentative: true
 		});
-	}
+	};
 
 	const closeAddRepresentative = () => {
 		setState({
 			...state,
 			addRepresentative: false
 		});
-    }
+    };
 
     const checkDelegationConditions = () => config.attendanceDelegationOption && council.statute.existsDelegatedVote === 1 && ((participant.numParticipations > 0)
-            || participant.represented.filter(p => (p.numParticipations > 0)).length > 0)
+            || participant.represented.filter(p => (p.numParticipations > 0)).length > 0);
 
     if(council.councilType === 4){
         return (
             <>
-                <div style={{ width: '100%', marginBottom: "1em" }}>
+                <div style={{ width: '100%', marginBottom: '1em' }}>
                     <div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
                         {translate.wizard_options}
                     </div>
@@ -54,7 +54,7 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                             assistanceIntention: PARTICIPANT_STATES.SENT_VOTE_LETTER,
                             locked: false,
                             delegateId: null
-                        })
+                        });
                     }}
                 />
                 {checkDelegationConditions() &&
@@ -67,12 +67,12 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                         selected={state.assistanceIntention}
                         delegationItem={
                             state.delegateInfoUser && state.assistanceIntention === 4 ?
-                                <div style={{ display: "flex", alignItems: "center" }}>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
                                     <DelegationItem participant={state.delegateInfoUser} />
                                     <i className="fa fa-trash-o"
                                         style={{
-                                            marginLeft: "1em",
-                                            fontSize: "25px",
+                                            marginLeft: '1em',
+                                            fontSize: '25px',
                                             color: '#dc7373',
                                             cursor: 'pointer'
                                         }}
@@ -86,17 +86,17 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                                     ></i>
                                 </div>
                                 :
-                                ""
+                                ''
                         }
                     />
                 }
             </>
-        )
+        );
     }
 
     return (
         <>
-            <div style={{ width: '100%', marginBottom: "1em" }}>
+            <div style={{ width: '100%', marginBottom: '1em' }}>
                 <div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
                     {AECOC_ID ?
                         translate.vote_delegation
@@ -117,7 +117,7 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                                     assistanceIntention: PARTICIPANT_STATES.REMOTE,
                                     locked: false,
                                     delegateId: null
-                                })
+                                });
                             }}
                             value={PARTICIPANT_STATES.REMOTE}
                             selected={state.assistanceIntention}
@@ -133,7 +133,7 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                                     assistanceIntention: PARTICIPANT_STATES.PHYSICALLY_PRESENT,
                                     locked: false,
                                     delegateId: null
-                                })
+                                });
                             }}
                             value={PARTICIPANT_STATES.PHYSICALLY_PRESENT}
                             selected={state.assistanceIntention}
@@ -153,7 +153,7 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                                         participant.delegatedVotes.length > 0) ||
                                         participant.delegatedVotes.length > 1),
                                     delegateId: null
-                                })
+                                });
                             }}
                             value={PARTICIPANT_STATES.NO_PARTICIPATE}
                             selected={state.assistanceIntention}
@@ -170,12 +170,12 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                             selected={state.assistanceIntention !== 4 ? participant.state : null}
                             delegationItem={
                                 participant.representative && state.assistanceIntention !== 4 ?
-                                    <div style={{ display: "flex", alignItems: "center" }}>
+                                    <div style={{ display: 'flex', alignItems: 'center' }}>
                                         <DelegationItem participant={participant.representative} />
                                         <i className="fa fa-trash-o"
                                             style={{
-                                                marginLeft: "1em",
-                                                fontSize: "25px",
+                                                marginLeft: '1em',
+                                                fontSize: '25px',
                                                 color: '#dc7373',
                                                 cursor: 'pointer'
                                             }}
@@ -189,7 +189,7 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                                         ></i>
                                     </div>
                                     :
-                                    ""
+                                    ''
                             }
                         />
                         </div>
@@ -238,12 +238,12 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                     selected={state.assistanceIntention}
                     delegationItem={
                         state.delegateInfoUser && state.assistanceIntention === 4 ?
-                            <div style={{ display: "flex", alignItems: "center" }}>
+                            <div style={{ display: 'flex', alignItems: 'center' }}>
                                 <DelegationItem participant={state.delegateInfoUser} />
                                 <i className="fa fa-trash-o"
                                     style={{
-                                        marginLeft: "1em",
-                                        fontSize: "25px",
+                                        marginLeft: '1em',
+                                        fontSize: '25px',
                                         color: '#dc7373',
                                         cursor: 'pointer'
                                     }}
@@ -266,12 +266,12 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
                                 }
                             </div>
                             :
-                            ""
+                            ''
                     }
                 />
             }
         </>
-    )
-}
+    );
+};
 
 export default AttendanceOptions;

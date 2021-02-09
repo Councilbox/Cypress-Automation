@@ -1,8 +1,8 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import FontAwesome from 'react-fontawesome';
-import { downloadAttendPDF } from "../../../../queries";
-import { BasicButton } from "../../../../displayComponents";
+import { downloadAttendPDF } from '../../../../queries';
+import { BasicButton } from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
 import { downloadFile } from '../../../../utils/CBX';
 
@@ -24,15 +24,15 @@ export const useDownloadCouncilAttendants = client => {
                 setLoading(false);
                 downloadFile(
                     response.data.downloadAttendPDF,
-                    "application/pdf",
+                    'application/pdf',
                     filename
                 );
             }
         }
     };
 
-    return { loading, downloadPDF }
-}
+    return { loading, downloadPDF };
+};
 
 const DownloadAttendantsPDF = ({ translate, color, council, client }) => {
     const { loading, downloadPDF } = useDownloadCouncilAttendants(client);
@@ -42,28 +42,28 @@ const DownloadAttendantsPDF = ({ translate, color, council, client }) => {
             text={translate.export_participants}
             color={color}
             loading={loading}
-            buttonStyle={{ marginTop: "0.5em", marginBottom: '1.4em' }}
+            buttonStyle={{ marginTop: '0.5em', marginBottom: '1.4em' }}
             textStyle={{
-                color: "white",
-                fontWeight: "700",
-                fontSize: "0.9em",
-                textTransform: "none"
+                color: 'white',
+                fontWeight: '700',
+                fontSize: '0.9em',
+                textTransform: 'none'
             }}
             icon={
                 <FontAwesome
-                    name={"file-pdf-o"}
+                    name={'file-pdf-o'}
                     style={{
-                        fontSize: "1em",
-                        color: "white",
-                        marginLeft: "0.3em"
+                        fontSize: '1em',
+                        color: 'white',
+                        marginLeft: '0.3em'
                     }}
                 />
             }
             textPosition="after"
             onClick={() => downloadPDF(council, `${translate.assistants_list.replace(/ /g, '_')}-${council.name.replace(/ /g, '_').replace(/\./, '')}`)}
         />
-    )
-}
+    );
+};
 
 
 export default withApollo(DownloadAttendantsPDF);

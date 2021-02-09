@@ -1,5 +1,5 @@
 import React from 'react';
-import { withApollo } from "react-apollo";
+import { withApollo } from 'react-apollo';
 import { ConfigContext } from '../../../containers/AppControl';
 import { BasicButton } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
@@ -33,7 +33,7 @@ const CouncilSurvey = ({ translate, participant }) => {
                 requestClose={() => setOpen(false)}
             />
 		</div>
-	)
-}
+	);
+};
 
 export default withApollo(CouncilSurvey);

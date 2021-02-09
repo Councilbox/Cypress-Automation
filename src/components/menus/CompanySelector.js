@@ -1,10 +1,10 @@
-import React from "react";
-import { MenuItem, Divider } from "material-ui";
+import React from 'react';
+import { MenuItem, Divider } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 import Tooltip from 'material-ui/Tooltip';
-import { store } from "../../containers/App";
-import { changeCompany } from "../../actions/companyActions";
-import { Scrollbar } from "../../displayComponents";
+import { store } from '../../containers/App';
+import { changeCompany } from '../../actions/companyActions';
+import { Scrollbar } from '../../displayComponents';
 
 class CompanySelector extends React.Component {
 	tate = {

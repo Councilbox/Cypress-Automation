@@ -70,7 +70,7 @@ const SendToSignButton = ({ styles, council, translate, client }) => {
 
             setLoading(3);
         }
-    }
+    };
 
     return (
         <>
@@ -122,17 +122,17 @@ const SendToSignButton = ({ styles, council, translate, client }) => {
                 onClick={createSignature}
                 type="flat"
                 loadingColor={secondary}
-                buttonStyle={{ marginTop: "0.5em", border: `1px solid ${secondary}` }}
+                buttonStyle={{ marginTop: '0.5em', border: `1px solid ${secondary}` }}
                 textStyle={{
                     color: secondary,
-                    fontWeight: "700",
-                    fontSize: "0.9em",
-                    textTransform: "none",
+                    fontWeight: '700',
+                    fontSize: '0.9em',
+                    textTransform: 'none',
                     ...styles
                 }}
             />
         </>
-    )
-}
+    );
+};
 
 export default withApollo(SendToSignButton);

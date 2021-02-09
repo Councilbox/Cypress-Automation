@@ -20,7 +20,7 @@ const styles = {
         }
     },
     formControl: {
-        background: "red"
+        background: 'red'
     }
 };
 
@@ -58,14 +58,14 @@ const ContactForm = ({ participant = {}, translate, council = {}, client, match,
                 }
             });
             if (response.data.sendAdminEmail) {
-                setEmailEnviado(true)
+                setEmailEnviado(true);
             }
         }
-    }
+    };
 
     const validate = (items) => {
         let hasError = false;
-        const newErrors = {}
+        const newErrors = {};
 
         if (!state.body) {
             newErrors.body = translate.required_field;
@@ -75,7 +75,7 @@ const ContactForm = ({ participant = {}, translate, council = {}, client, match,
             newErrors.replyTo = translate.required_field;
             hasError = true;
         } else if (!checkValidEmail(state.replyTo)) {
-                newErrors.replyTo = "El email esta mal";
+                newErrors.replyTo = 'El email esta mal';
                 hasError = true;
             }
         if (!state.subject) {
@@ -85,29 +85,29 @@ const ContactForm = ({ participant = {}, translate, council = {}, client, match,
 
         setErrors(newErrors);
         return hasError;
-    }
+    };
 
     if (emailEnviado) {
         return (
             <SuccessMessage message={translate.sent} />
-        )
+        );
     }
         return (
             <React.Fragment>
                 <div>
-                    <div style={{ fontWeight: "bold" }}>{translate.email}</div>
+                    <div style={{ fontWeight: 'bold' }}>{translate.email}</div>
                     <Input
                         placeholder={translate.email}
                         disableUnderline={true}
-                        id={"titleDraft"}
+                        id={'titleDraft'}
                         style={{
-                            color: "rgba(0, 0, 0, 0.65)",
+                            color: 'rgba(0, 0, 0, 0.65)',
                             fontSize: '15px',
                             boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-                            border: errors.replyTo ? "1px solid red" : "1px solid #d7d7d7",
-                            width: "100%",
+                            border: errors.replyTo ? '1px solid red' : '1px solid #d7d7d7',
+                            width: '100%',
                             padding: '.5em 1.6em',
-                            marginTop: "1em"
+                            marginTop: '1em'
                         }}
                         value={state.replyTo}
                         onChange={event => setState({ replyTo: event.target.value })}
@@ -116,20 +116,20 @@ const ContactForm = ({ participant = {}, translate, council = {}, client, match,
                     >
                     </Input>
                 </div>
-                <div style={{ marginTop: "1em" }}>
-                    <div style={{ fontWeight: "bold" }}>{translate.title}</div>
+                <div style={{ marginTop: '1em' }}>
+                    <div style={{ fontWeight: 'bold' }}>{translate.title}</div>
                     <Input
                         placeholder={translate.title}
                         disableUnderline={true}
-                        id={"titleDraft"}
+                        id={'titleDraft'}
                         style={{
-                            color: "rgba(0, 0, 0, 0.65)",
+                            color: 'rgba(0, 0, 0, 0.65)',
                             fontSize: '15px',
                             boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-                            border: errors.subject ? "1px solid red" : "1px solid #d7d7d7",
-                            width: "100%",
+                            border: errors.subject ? '1px solid red' : '1px solid #d7d7d7',
+                            width: '100%',
                             padding: '.5em 1.6em',
-                            marginTop: "1em"
+                            marginTop: '1em'
                         }}
                         value={state.subject}
                         onChange={event => setState({ subject: event.target.value })}
@@ -138,8 +138,8 @@ const ContactForm = ({ participant = {}, translate, council = {}, client, match,
                     >
                     </Input>
                 </div>
-                <div style={{ marginTop: "1em" }}>
-                    <div style={{ marginBottom: "1em", fontWeight: "bold" }}>{translate.message}</div>
+                <div style={{ marginTop: '1em' }}>
+                    <div style={{ marginBottom: '1em', fontWeight: 'bold' }}>{translate.message}</div>
                     <RichTextInput
                         value={state.body}
                         onChange={value => setState({ body: value })}
@@ -158,7 +158,7 @@ const ContactForm = ({ participant = {}, translate, council = {}, client, match,
 
             </React.Fragment>
 
-        )
-}
+        );
+};
 
 export default withStyles(styles)(withApollo(withRouter(ContactForm)));

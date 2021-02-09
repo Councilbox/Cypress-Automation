@@ -1,12 +1,12 @@
-import React from "react";
-import { Paper, Card } from "material-ui";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import { NotLoggedLayout, ButtonIcon } from "../../displayComponents";
-import { getPrimary, getLightGrey } from "../../styles/colors";
-import * as mainActions from "../../actions/mainActions";
-import withTranslations from "../../HOCs/withTranslations";
-import { bHistory } from "../../containers/App";
+import React from 'react';
+import { Paper, Card } from 'material-ui';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { NotLoggedLayout, ButtonIcon } from '../../displayComponents';
+import { getPrimary, getLightGrey } from '../../styles/colors';
+import * as mainActions from '../../actions/mainActions';
+import withTranslations from '../../HOCs/withTranslations';
+import { bHistory } from '../../containers/App';
 
 
 class Recommendations extends React.Component {
@@ -22,11 +22,11 @@ class Recommendations extends React.Component {
 
     getBrowserPlatform() {
         if (isMobile.Android()) {
-            return "ANDROID";
+            return 'ANDROID';
         } if (isMobile.iOS()) {
-            return "IOS";
+            return 'IOS';
         }
-            return "DESKTOP";
+            return 'DESKTOP';
     }
 
     setActivePlatform = platformActive => {
@@ -84,7 +84,7 @@ class Recommendations extends React.Component {
                     />
                 </Card> */}
             </div>
-        )
+        );
     }
 
     render() {
@@ -100,21 +100,21 @@ class Recommendations extends React.Component {
             >
                 <div
                     style={{
-                        width: "100%",
-                        height: "100%",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center"
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center'
                     }}
                 >
                     <Paper
                         style={{
-                            marginTop: "2em",
-                            width: "90vw",
-                            padding: "2vw"
+                            marginTop: '2em',
+                            width: '90vw',
+                            padding: '2vw'
                         }}
                     >
-                        {platformActive === "ANDROID" && (
+                        {platformActive === 'ANDROID' && (
                             <div>
                                 <div style={titleStyle}>
                                     <span style={{ fontSize: '2em' }}>Android</span>
@@ -137,7 +137,7 @@ class Recommendations extends React.Component {
                                         />
                                         <a href="https://play.google.com/store/apps/details?id=com.android.chrome&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
                                             <img
-                                                style={{ maxWidth: "150px" }}
+                                                style={{ maxWidth: '150px' }}
                                                 alt="Disponible en Google Play"
                                                 src="https://play.google.com/intl/en_us/badges/images/generic/es_badge_web_generic.png"
                                             />
@@ -158,8 +158,8 @@ class Recommendations extends React.Component {
                                         <ButtonIcon
                                             type="videocam"
                                             color={primary}
-                                            style={{ marginLeft: "15px", fontSize: '3em', cursor: 'pointer', marginBottom: '-0.25em' }}
-                                            onClick={() => { console.info('click'); bHistory.push(`/test/${translate.selectedLanguage}`) }}
+                                            style={{ marginLeft: '15px', fontSize: '3em', cursor: 'pointer', marginBottom: '-0.25em' }}
+                                            onClick={() => { console.info('click'); bHistory.push(`/test/${translate.selectedLanguage}`); }}
                                         />
                                     </li>
                                     <li style={instructionListItemStyle}>
@@ -172,7 +172,7 @@ class Recommendations extends React.Component {
                             </div>
                         )}
 
-                        {platformActive === "IOS" && (
+                        {platformActive === 'IOS' && (
                             <div>
                                 <div style={titleStyle}>
                                     {this._renderPlatformButtons()}
@@ -199,14 +199,14 @@ class Recommendations extends React.Component {
                                             href="https://itunes.apple.com/es/app/councilbox/id1338823032?mt=8"
                                             alt="appstore-link"
                                             style={{
-                                                display: "inline-block",
-                                                overflow: "hidden",
+                                                display: 'inline-block',
+                                                overflow: 'hidden',
                                                 background:
-                                                    "url(https://linkmaker.itunes.apple.com/assets/shared/badges/es-es/appstore-lrg.svg) no-repeat",
-                                                width: "135px",
-                                                height: "35px",
-                                                backgroundSize: "contain",
-                                                margin: "5px 0 -10px 1em"
+                                                    'url(https://linkmaker.itunes.apple.com/assets/shared/badges/es-es/appstore-lrg.svg) no-repeat',
+                                                width: '135px',
+                                                height: '35px',
+                                                backgroundSize: 'contain',
+                                                margin: '5px 0 -10px 1em'
                                             }}
                                         />
                                     </li>
@@ -235,7 +235,7 @@ class Recommendations extends React.Component {
                             </div>
                         )}
 
-                        {platformActive === "DESKTOP" && (
+                        {platformActive === 'DESKTOP' && (
                             <div>
                                 <div style={titleStyle}>
                                     <span style={{ fontSize: '2em' }}>PC</span>
@@ -259,10 +259,10 @@ class Recommendations extends React.Component {
                                         <a
                                             href="https://www.google.com/chrome/browser/desktop/index.html"
                                             style={{
-                                                display: "inline-block",
-                                                border: "2px solid #A859A8",
-                                                borderRadius: "5px",
-                                                margin: "-5px 0 -10px 12px"
+                                                display: 'inline-block',
+                                                border: '2px solid #A859A8',
+                                                borderRadius: '5px',
+                                                margin: '-5px 0 -10px 12px'
                                             }}
                                             rel="noopener noreferrer"
                                             target="_blank"
@@ -272,8 +272,8 @@ class Recommendations extends React.Component {
                                                 alt="chrome-icon"
                                                 width="25"
                                                 style={{
-                                                    padding: "5px",
-                                                    display: "block"
+                                                    padding: '5px',
+                                                    display: 'block'
                                                 }}
                                             />
                                         </a>
@@ -292,8 +292,8 @@ class Recommendations extends React.Component {
                                         <ButtonIcon
                                             type="videocam"
                                             color={primary}
-                                            style={{ marginLeft: "15px", fontSize: '3em', cursor: 'pointer', marginBottom: '-0.25em' }}
-                                            onClick={() => { console.info('click'); bHistory.push(`/test/${translate.selectedLanguage}`) }}
+                                            style={{ marginLeft: '15px', fontSize: '3em', cursor: 'pointer', marginBottom: '-0.25em' }}
+                                            onClick={() => { console.info('click'); bHistory.push(`/test/${translate.selectedLanguage}`); }}
                                         />
                                     </li>
                                     <li style={instructionListItemStyle}>
@@ -313,31 +313,31 @@ class Recommendations extends React.Component {
 }
 
 const titleStyle = {
-    width: "100%",
-    fontWeight: "bold",
-    padding: "1em",
-    borderBottom: `solid 1px lightgrey`,
-    marginBottom: "2em"
+    width: '100%',
+    fontWeight: 'bold',
+    padding: '1em',
+    borderBottom: 'solid 1px lightgrey',
+    marginBottom: '2em'
 };
 
 const instructionListStyle = {
-    margin: "0",
-    padding: "0",
-    listStyleType: "none"
+    margin: '0',
+    padding: '0',
+    listStyleType: 'none'
 };
 
 const instructionListItemStyle = {
-    padding: "1.2em",
-    borderBottom: `solid 1px lightgrey`
+    padding: '1.2em',
+    borderBottom: 'solid 1px lightgrey'
 };
 
 const counter = {
-    marginRight: "1em",
+    marginRight: '1em',
     backgroundColor: getPrimary(),
-    color: "white",
-    fontWeight: "bold",
-    padding: "3px 8px",
-    borderRadius: "3px"
+    color: 'white',
+    fontWeight: 'bold',
+    padding: '3px 8px',
+    borderRadius: '3px'
 };
 
 const isMobile = {

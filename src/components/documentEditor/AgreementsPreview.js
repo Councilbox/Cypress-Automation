@@ -11,7 +11,7 @@ const AgreementsPreview = ({ item, translate, column }) => (
                             icon={block.icon}
                             id={block.id}
                             colorBorder={block.colorBorder}
-                            stylesBody={{ width: "98%" }}
+                            stylesBody={{ width: '98%' }}
                             noIcon={true}
                         >
                             <div >
@@ -23,6 +23,6 @@ const AgreementsPreview = ({ item, translate, column }) => (
                     <div dangerouslySetInnerHTML={{ __html: column === 2 ? block.secondaryText : block.text }} style={{ marginTop: '2em' }} key={block.id}/>
                 ))}
         </div>
-    )
+    );
 
 export default AgreementsPreview;

@@ -8,18 +8,18 @@ const EditTranslationsModal = ({ translation, translate, refresh }) => {
 
     const showEditTraductions = () => {
         setEdit(true);
-    }
+    };
 
     const closeEditTraductions = () => {
         setEdit(false);
-    }
+    };
 
     return (
         <React.Fragment>
 
             <Button size="small" color="primary" onClick={showEditTraductions} >
                 Editar
-                <i className="fa fa-pencil-square-o" style={{ paddingLeft: "5px", paddingTop: "2px", fontSize: "16px" }}></i>
+                <i className="fa fa-pencil-square-o" style={{ paddingLeft: '5px', paddingTop: '2px', fontSize: '16px' }}></i>
             </Button>
 
             <NewTranslationModal
@@ -31,6 +31,6 @@ const EditTranslationsModal = ({ translation, translate, refresh }) => {
             />
         </React.Fragment>
     );
-}
+};
 
-export default EditTranslationsModal
+export default EditTranslationsModal;

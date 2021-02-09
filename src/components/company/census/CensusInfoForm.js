@@ -50,6 +50,6 @@ const CensusInfoForm = ({ translate, census, updateState, errors }) => (
                     />
                 </GridItem>
             </Grid>
-        )
+        );
 
-export default CensusInfoForm
+export default CensusInfoForm;

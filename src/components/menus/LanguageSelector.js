@@ -1,11 +1,11 @@
-import React, { Fragment } from "react";
-import { graphql } from "react-apollo";
-import { MenuItem } from "material-ui";
-import { getSecondary } from "../../styles/colors";
-import { languages } from "../../queries/masters";
-import { setLanguage } from "../../actions/mainActions";
-import { DropDownMenu, Icon } from "../../displayComponents";
-import { store } from "../../containers/App";
+import React, { Fragment } from 'react';
+import { graphql } from 'react-apollo';
+import { MenuItem } from 'material-ui';
+import { getSecondary } from '../../styles/colors';
+import { languages } from '../../queries/masters';
+import { setLanguage } from '../../actions/mainActions';
+import { DropDownMenu, Icon } from '../../displayComponents';
+import { store } from '../../containers/App';
 
 const secondary = getSecondary();
 

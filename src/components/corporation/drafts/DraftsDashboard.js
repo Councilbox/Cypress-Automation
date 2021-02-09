@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import { MenuItem, Table, TableRow, TableHead, TableCell, TableBody, InputAdornment } from 'material-ui';
-import { corporationDrafts, deleteCorporationDraft } from "../../../queries";
+import { corporationDrafts, deleteCorporationDraft } from '../../../queries';
 import { LoadingSection, SelectInput, TextInput, AlertConfirm, CloseIcon, BasicButton, ButtonIcon, Scrollbar } from '../../../displayComponents';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import withTranslations from '../../../HOCs/withTranslations';
@@ -13,7 +13,7 @@ const DEFAULT_OPTIONS = {
     offset: 0,
     orderBy: 'title',
     orderDirection: 'ASC'
-}
+};
 
 class DraftsDashboard extends React.PureComponent {
     state = {
@@ -73,7 +73,7 @@ class DraftsDashboard extends React.PureComponent {
             options: {
                 ...DEFAULT_OPTIONS
             }
-        }
+        };
 
         variables.options.limit = this.state.limit;
         variables.filters = [{ field: 'title', text: this.state.filterText }];
@@ -106,7 +106,7 @@ class DraftsDashboard extends React.PureComponent {
     }
 
     edit = (id) => {
-        bHistory.push(`/drafts/edit/${id}`)
+        bHistory.push(`/drafts/edit/${id}`);
     }
 
     closeEdit = () => {
@@ -128,7 +128,7 @@ class DraftsDashboard extends React.PureComponent {
                         requestClose={this.closeEdit}
                     />
                 </div>
-            )
+            );
         }
 
         return (
@@ -155,11 +155,11 @@ class DraftsDashboard extends React.PureComponent {
                         <div>
                             <TextInput
                                 startAdornment={
-                                    <InputAdornment position="start" style={{ marginRight: "1em" }}>
+                                    <InputAdornment position="start" style={{ marginRight: '1em' }}>
                                         <i className="fa fa-search" aria-hidden="true"></i>
                                     </InputAdornment>
                                 }
-                                floatingText={" "}
+                                floatingText={' '}
                                 type="text"
                                 value={this.state.filterText}
                                 onChange={event => {
@@ -173,9 +173,9 @@ class DraftsDashboard extends React.PureComponent {
                     height: 'calc(100% - 6.5em)',
                     flexDirection: 'column',
                     // overflowX: 'hidden',
-                    padding: "1em"
+                    padding: '1em'
                 }}>
-                    <div style={{ display: 'flex', justifyContent: "space-between", alignItems: "center" }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div>
                             <BasicButton
                                 text={this.props.translate.drafts_new}
@@ -268,29 +268,29 @@ class DraftsDashboard extends React.PureComponent {
                         :
                         <React.Fragment>
                             <Table
-                                style={{ width: "100%", maxWidth: "100%" }}
+                                style={{ width: '100%', maxWidth: '100%' }}
                             >
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell style={{ width: "70%" }}>{translate.certificate_title}</TableCell>
+                                        <TableCell style={{ width: '70%' }}>{translate.certificate_title}</TableCell>
                                         <TableCell style={{}}>{translate.draft_type}</TableCell>
                                         <TableCell style={{}}>{translate.delete}</TableCell>
                                     </TableRow>
                                 </TableHead>
                             </Table>
-                            <div style={{ height: "calc( 100% - 5em)", width: "100%" }}>
+                            <div style={{ height: 'calc( 100% - 5em)', width: '100%' }}>
                                 <Scrollbar>
                                     <Table
-                                        style={{ width: "100%", maxWidth: "100%" }}
+                                        style={{ width: '100%', maxWidth: '100%' }}
                                     >
                                         {this.props.data.loading ?
                                             <LoadingSection />
                                             :
                                             this.props.data.platformDrafts.list.length > 0 ?
-                                                <TableBody style={{ marginBottom: "1em" }}>
+                                                <TableBody style={{ marginBottom: '1em' }}>
                                                     {this.props.data.platformDrafts.list.map(draft => (
                                                         <TableRow hover={true} onClick={() => this.edit(draft.id)} key={`draft_${draft.id}`}>
-                                                            <TableCell style={{ width: "70%" }}>
+                                                            <TableCell style={{ width: '70%' }}>
                                                                 {draft.title}
                                                             </TableCell>
                                                             <TableCell>
@@ -388,7 +388,7 @@ class DraftsDashboard extends React.PureComponent {
                     title={translate.attention}
                 />
             </div >
-        )
+        );
     }
 }
 

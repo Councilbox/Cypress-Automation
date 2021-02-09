@@ -23,7 +23,7 @@ class DraftEditPage extends React.PureComponent {
                     data: {
                         ...nextProps.data.corporationDraft
                     }
-                }
+                };
             }
         }
 
@@ -93,8 +93,8 @@ class DraftEditPage extends React.PureComponent {
                                 text={this.props.translate.back}
                                 color={'white'}
                                 textStyle={{
-                                    color: "black",
-                                    fontWeight: "700"
+                                    color: 'black',
+                                    fontWeight: '700'
                                 }}
                                 onClick={() => bHistory.push('/drafts')}
                             />
@@ -106,8 +106,8 @@ class DraftEditPage extends React.PureComponent {
                                 loading={this.state.loading}
                                 success={this.state.success}
                                 textStyle={{
-                                    color: "white",
-                                    fontWeight: "700"
+                                    color: 'white',
+                                    fontWeight: '700'
                                 }}
                                 onClick={() => this.updateCorporationDraft()}
                                 icon={<ButtonIcon type="save" color="white" />}
@@ -116,7 +116,7 @@ class DraftEditPage extends React.PureComponent {
                     </div>
                 </CardPageLayout>
             </div>
-        )
+        );
     }
 }
 

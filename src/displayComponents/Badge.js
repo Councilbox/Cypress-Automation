@@ -35,14 +35,14 @@ const CBXBadge = ({ children, hide, dot, styleDot, ...props }) => {
                     }}></i>
                 </div>
             </div>
-        )
+        );
     }
 
     return (
         <Badge {...props}>
             {children}
         </Badge>
-    )
-}
+    );
+};
 
 export default CBXBadge;

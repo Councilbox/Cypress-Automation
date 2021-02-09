@@ -28,7 +28,7 @@ const NewTranslationModal = ({ translate, ...props }) => {
                 ...object
             }
         });
-    }
+    };
 
     const checkRequiredFields = () => {
         const errors = {
@@ -38,7 +38,7 @@ const NewTranslationModal = ({ translate, ...props }) => {
             en: '',
             gal: '',
             pt: '',
-        }
+        };
         let hasError = false;
 
         const { data } = state;
@@ -78,7 +78,7 @@ const NewTranslationModal = ({ translate, ...props }) => {
         });
 
         return hasError;
-    }
+    };
 
     const saveNewTranslation = async () => {
         if (!checkRequiredFields()) {
@@ -95,7 +95,7 @@ const NewTranslationModal = ({ translate, ...props }) => {
                 });
             }
         }
-    }
+    };
 
 
     const updateTranslationAction = async () => {
@@ -112,7 +112,7 @@ const NewTranslationModal = ({ translate, ...props }) => {
                 props.requestClose();
             }
         }
-    }
+    };
 
     const _renderModalBody = () => (
         <TranslationForm
@@ -121,7 +121,7 @@ const NewTranslationModal = ({ translate, ...props }) => {
             data={state.data}
             flagEdit={!!props.values}
         />
-    )
+    );
 
     return (
         <AlertConfirm
@@ -131,10 +131,10 @@ const NewTranslationModal = ({ translate, ...props }) => {
             buttonAccept={translate.accept}
             buttonCancel={translate.cancel}
             bodyText={_renderModalBody()}
-            title={props.values ? translate.edit : "Nueva traducción"}
+            title={props.values ? translate.edit : 'Nueva traducción'}
         />
-    )
-}
+    );
+};
 
 const saveTranslation = gql`
     mutation SaveTranslation($translation: TranslationInput){
@@ -156,7 +156,7 @@ const updateTranslation = gql`
 
 export default compose(
     graphql(updateTranslation, {
-        name: "updateTranslation"
+        name: 'updateTranslation'
     }),
     graphql(saveTranslation, {
         name: 'createTranslation'

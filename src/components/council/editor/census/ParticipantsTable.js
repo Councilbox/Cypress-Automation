@@ -1,16 +1,16 @@
-import React from "react";
-import { TableCell, TableRow } from "material-ui/Table";
+import React from 'react';
+import { TableCell, TableRow } from 'material-ui/Table';
 import { Card } from 'material-ui';
-import { compose, graphql } from "react-apollo";
-import { getPrimary, getSecondary } from "../../../../styles/colors";
-import * as CBX from "../../../../utils/CBX";
-import { CloseIcon, EnhancedTable, BasicButton, Checkbox, Grid, GridItem, AlertConfirm } from "../../../../displayComponents";
-import { deleteParticipant } from "../../../../queries/councilParticipant";
-import { COUNCIL_TYPES, PARTICIPANTS_LIMITS } from "../../../../constants";
-import ChangeCensusMenu from "./ChangeCensusMenu";
-import CouncilParticipantEditor from "./modals/CouncilParticipantEditor";
-import { useOldState, useHoverRow } from "../../../../hooks";
-import { isMobile } from "../../../../utils/screen";
+import { compose, graphql } from 'react-apollo';
+import { getPrimary, getSecondary } from '../../../../styles/colors';
+import * as CBX from '../../../../utils/CBX';
+import { CloseIcon, EnhancedTable, BasicButton, Checkbox, Grid, GridItem, AlertConfirm } from '../../../../displayComponents';
+import { deleteParticipant } from '../../../../queries/councilParticipant';
+import { COUNCIL_TYPES, PARTICIPANTS_LIMITS } from '../../../../constants';
+import ChangeCensusMenu from './ChangeCensusMenu';
+import CouncilParticipantEditor from './modals/CouncilParticipantEditor';
+import { useOldState, useHoverRow } from '../../../../hooks';
+import { isMobile } from '../../../../utils/screen';
 
 
 const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, participations, council, ...props }) => {
@@ -38,20 +38,20 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
         setState({
             selectedIds: new Map(state.selectedIds)
         });
-	}
+	};
 
 	const selectAll = () => {
 		const newSelected = new Map();
 		if(state.selectedIds.size !== data.councilParticipants.list.length){
 			data.councilParticipants.list.forEach(participant => {
 				newSelected.set(participant.id, 'selected');
-			})
+			});
 		}
 
 		setState({
 			selectedIds: newSelected
 		});
-	}
+	};
 
 	const deleteParticipant = async () => {
 		let toDelete;
@@ -71,7 +71,7 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 				selectedIds: new Map(),
 				singleId: null,
 				deleteModal: false
-			})
+			});
 			await props.refetch('delete');
 		}
 	};
@@ -85,7 +85,7 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 					setState({
 						singleId: participantID,
 						deleteModal: true
-					})
+					});
 				}}
 			/>
 		);
@@ -94,18 +94,18 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 	const openDeleteModal = () => {
 		setState({
 			deleteModal: true
-		})
-	}
+		});
+	};
 
 	const closeDeleteModal = () => {
 		setState({
 			deleteModal: false
-		})
-	}
+		});
+	};
 
 	const refresh = async () => {
 		props.refetch();
-	}
+	};
 
 	const { editingParticipant, participant } = state;
 	const { councilParticipants } = data;
@@ -121,17 +121,17 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 		},
 		{
 			text: translate.participant_data,
-			name: "fullName",
+			name: 'fullName',
 			canOrder: true
 		},
 		{
 			text: translate.dni,
-			name: "dni",
+			name: 'dni',
 			canOrder: true
 		},
 		{
 			text: translate.position,
-			name: "position",
+			name: 'position',
 			canOrder: true
 		},
 
@@ -140,14 +140,14 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 	if(council.councilType !== COUNCIL_TYPES.ONE_ON_ONE){
 		headers.push({
 			text: translate.votes,
-			name: "numParticipations",
+			name: 'numParticipations',
 			canOrder: true
 		});
 
 		if (participations) {
 			headers.push({
 				text: translate.census_type_social_capital,
-				name: "socialCapital",
+				name: 'socialCapital',
 				canOrder: true
 			});
 		}
@@ -156,7 +156,7 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 	headers.push({ text: '' });
 
 	return (
-		<div style={{ width: "100%" }}>
+		<div style={{ width: '100%' }}>
 			<ChangeCensusMenu
 				translate={translate}
 				council={council}
@@ -198,8 +198,8 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 					<EnhancedTable
 						translate={translate}
 						defaultLimit={PARTICIPANTS_LIMITS[0]}
-						defaultFilter={"fullName"}
-						defaultOrder={["fullName", "asc"]}
+						defaultFilter={'fullName'}
+						defaultOrder={['fullName', 'asc']}
 						limits={PARTICIPANTS_LIMITS}
 						page={1}
 						searchInMovil={isMobile}
@@ -221,15 +221,15 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 						action={_renderDeleteIcon}
 						fields={[
 							{
-								value: "fullName",
+								value: 'fullName',
 								translation: translate.participant_data
 							},
 							{
-								value: "dni",
+								value: 'dni',
 								translation: translate.dni
 							},
 							{
-								value: "position",
+								value: 'position',
 								translation: translate.position
 							}
 						]}
@@ -265,7 +265,7 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 			{props.children}
 		</div>
 	);
-}
+};
 
 const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council, totalVotes, totalSocialCapital, representative, selected, translate, participations, ...props }) => {
 	const [showActions, rowHandlers] = useHoverRow();
@@ -349,7 +349,7 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council
 						_renderDeleteIcon(participant.id)}
 				</div>
 			</Card>
-		)
+		);
 	}
 
 	return (
@@ -358,8 +358,8 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council
 			{...rowHandlers}
 			onClick={editParticipant}
 			style={{
-				cursor: "pointer",
-				fontSize: "0.5em"
+				cursor: 'pointer',
+				fontSize: '0.5em'
 			}}
 		>
 			<TableCell onClick={event => event.stopPropagation()} style={{ cursor: 'auto' }}>
@@ -457,8 +457,8 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council
 				</div>
 			</TableCell>
 		</TableRow>
-	)
-}
+	);
+};
 
 
 export default compose(

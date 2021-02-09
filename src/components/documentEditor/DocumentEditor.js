@@ -1,7 +1,7 @@
 import React from 'react';
-import { SortableContainer, SortableElement } from "react-sortable-hoc";
+import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import { Card } from 'material-ui';
-import { withApollo } from "react-apollo";
+import { withApollo } from 'react-apollo';
 import { getPrimary } from '../../styles/colors';
 import withSharedProps from '../../HOCs/withSharedProps';
 import { getBlocks, generateAgendaBlocks } from './actBlocks';
@@ -16,13 +16,13 @@ import { buildTranslateObject } from '../../actions/mainActions';
 
 const agendaBlocks = ['agendaSubject', 'description', 'comment', 'voting', 'votes', 'agendaComments'];
 const defaultTemplates = {
-    "0": ['title', "intro", "agenda", 'constitution',
+    '0': ['title', 'intro', 'agenda', 'constitution',
         'agreements',
         'conclusion', 'attendants', 'delegations'
     ],
-    "default1": ["intro", "constitution", "conclusion"],
-    "default2": ["intro", "constitution", "conclusion"]
-}
+    'default1': ['intro', 'constitution', 'conclusion'],
+    'default2': ['intro', 'constitution', 'conclusion']
+};
 
 
 export const ActContext = React.createContext();
@@ -79,7 +79,7 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                 };
             }
             let auxTemplate = [];
-            const auxTemplate2 = { items: array }
+            const auxTemplate2 = { items: array };
 
             if (orden !== undefined) {
                 orden.forEach(element => {
@@ -106,7 +106,7 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
                     items: auxTemplate
                 }
             };
-        }
+        };
 
         let template = defaultTemplates[0];
 
@@ -117,7 +117,7 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
         }
 
         return buildDocModules(template, items, agendas, act, translate);
-    }
+    };
 
     const rebuildBlockSecondaryTranslation = () => {
         const newItems = doc.items.map(item => ({
@@ -125,7 +125,7 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
             secondaryText: item.buildDefaultValue ? item.buildDefaultValue(data, secondaryTranslate) : item.secondaryText
         }));
         setDoc({ items: newItems });
-    }
+    };
 
     React.useEffect(() => {
         const { draggables, doc: draggleDoc } = generateDraggable(data, translate);
@@ -144,20 +144,20 @@ const DocumentEditor = ({ translate, company, data, updateDocument, client, ...p
         const secondaryTranslateData = buildTranslateObject(response.data.translations);
         setSecondaryTranslate(secondaryTranslateData);
         rebuildBlockSecondaryTranslation(translate, secondaryTranslate);
-    }
+    };
 
     React.useEffect(() => {
         if (options.doubleColumn) {
             getSecondaryLanguage('en');
         }
-    }, [options.doubleColumn])
+    }, [options.doubleColumn]);
 
     return (
         <ActContext.Provider value={data}>
 
         </ActContext.Provider>
-    )
-}
+    );
+};
 
 
 const SortableList = SortableContainer(({ items, column, updateCouncilActa, updateBlock, state, setState, edit, translate, offset = 0, moveUp, moveDown, remove }) => {
@@ -222,22 +222,22 @@ const DraggableBlock = SortableElement(props => {
     const [hover, setHover] = React.useState(false);
 
     const onMouseEnter = () => {
-        setHover(true)
-    }
+        setHover(true);
+    };
     const onMouseLeave = () => {
-        setHover(false)
-    }
+        setHover(false);
+    };
     const blockFijoTomadeAcuerdos = {
         value: {
             id: Math.random().toString(36).substr(2, 9),
-            label: "Toma de acuerdos",
+            label: 'Toma de acuerdos',
             editButton: true,
             type: 'Toma de acuerdos',
             noBorrar: true,
             text: '',
             expand: true
         }
-    }
+    };
 
     return (
         props.value !== undefined && props.value.text !== undefined &&
@@ -247,24 +247,24 @@ const DraggableBlock = SortableElement(props => {
             key={props.id}
             style={{
                 opacity: 1,
-                width: "100%",
-                display: "flex",
-                listStyleType: "none",
-                borderRadius: "4px",
-                cursor: "grab",
-                marginBottom: "0.8em",
-                position: "relative",
+                width: '100%',
+                display: 'flex',
+                listStyleType: 'none',
+                borderRadius: '4px',
+                cursor: 'grab',
+                marginBottom: '0.8em',
+                position: 'relative',
                 boxShadow: '0 2px 4px 5px rgba(0, 0, 0, 0.11)',
-                background: "white"
+                background: 'white'
             }}
             className="draggable"
         >
-            <div style={{ paddingRight: "4px", background: props.value.colorBorder ? props.value.colorBorder : getPrimary(), borderRadius: "15px", }}></div>
-            <div style={{ marginLeft: "4px", width: '95%', minHeight: "90px" }}>
-                <div style={{ width: "25px", cursor: "pointer", position: "absolute", top: "5px", right: "35px" }}>
+            <div style={{ paddingRight: '4px', background: props.value.colorBorder ? props.value.colorBorder : getPrimary(), borderRadius: '15px', }}></div>
+            <div style={{ marginLeft: '4px', width: '95%', minHeight: '90px' }}>
+                <div style={{ width: '25px', cursor: 'pointer', position: 'absolute', top: '5px', right: '35px' }}>
                     {props.expand &&
                         <IconsDragActions
-                            turn={"expand"}
+                            turn={'expand'}
                             clase={`fa fa-times ${props.id}`}
                             aria-hidden="true"
                             click={() => setExpand(!expand)}
@@ -274,10 +274,10 @@ const DraggableBlock = SortableElement(props => {
                         />
                     }
                 </div>
-                <div style={{ width: "25px", cursor: "pointer", position: "absolute", top: "5px", right: "0", }}>
+                <div style={{ width: '25px', cursor: 'pointer', position: 'absolute', top: '5px', right: '0', }}>
                     {!props.noBorrar &&
                         <IconsDragActions
-                            turn={"cross"}
+                            turn={'cross'}
                             clase={`fa fa-times ${props.id}`}
                             aria-hidden="true"
                             click={props.remove}
@@ -286,10 +286,10 @@ const DraggableBlock = SortableElement(props => {
                         />
                     }
                 </div>
-                <div style={{ width: "25px", cursor: "pointer", position: "absolute", top: !props.noBorrar ? "35px" : '10px', right: "1px", }}>
+                <div style={{ width: '25px', cursor: 'pointer', position: 'absolute', top: !props.noBorrar ? '35px' : '10px', right: '1px', }}>
                     <div>
                         <IconsDragActions
-                            turn={"up"}
+                            turn={'up'}
                             aria-hidden="true"
                             click={props.moveUp}
                             id={props.id}
@@ -298,7 +298,7 @@ const DraggableBlock = SortableElement(props => {
                     </div>
                     <div>
                         <IconsDragActions
-                            turn={"down"}
+                            turn={'down'}
                             aria-hidden="true"
                             click={props.moveDown}
                             id={props.id}
@@ -339,7 +339,7 @@ const NoDraggableBlock = props => {
                 icon={props.value.icon}
                 id={props.id}
                 colorBorder={props.value.colorBorder}
-                stylesBody={{ width: "98%" }}
+                stylesBody={{ width: '98%' }}
                 noIcon={true}
             >
                 <div >
@@ -355,10 +355,10 @@ const NoDraggableBlock = props => {
                 <Card
                     key={props.id}
                     style={{
-                        boxShadow: "none",
-                        margin: "3px",
-                        paddingLeft: "15px",
-                        paddingTop: "5px",
+                        boxShadow: 'none',
+                        margin: '3px',
+                        paddingLeft: '15px',
+                        paddingTop: '5px',
                     }}
                 >
                     <AgreementsPreview
@@ -371,10 +371,10 @@ const NoDraggableBlock = props => {
                 <Card
                     key={props.id}
                     style={{
-                        boxShadow: "none",
-                        margin: "3px",
-                        paddingLeft: "15px",
-                        paddingTop: "5px",
+                        boxShadow: 'none',
+                        margin: '3px',
+                        paddingLeft: '15px',
+                        paddingTop: '5px',
                     }}
                 >
                     <div style={{}}>
@@ -390,32 +390,32 @@ const NoDraggableBlock = props => {
         </React.Fragment>
 
     );
-}
+};
 
 const BloquesAutomaticos = ({ automaticos, addItem, translate }) => {
-    const [open, setOpen] = React.useState(true)
+    const [open, setOpen] = React.useState(true);
     return (
-        <div style={{ width: "100%", background: "white", boxShadow: " 0 2px 4px 5px rgba(0, 0, 0, 0.11)", borderRadius: "4px", marginBottom: "0.8em", }}>
-            <div style={{ width: "100%", display: "flex", }}>
-                <div style={{ paddingRight: "4px", }}></div>
-                <div style={{ marginLeft: "0.5em", paddingTop: "0.8em", paddingBottom: "0.8em", width: "100%" }}>
-                    <div style={{ width: "100%", fontSize: '16px', color: '#a09aa0', display: "flex", fontWeight: "bold" }}>
-                        <div style={{ marginRight: "1em", width: "15em" }}>Bloques  automáticos</div>
-                        <div style={{ display: "flex", width: "100%" }}>
+        <div style={{ width: '100%', background: 'white', boxShadow: ' 0 2px 4px 5px rgba(0, 0, 0, 0.11)', borderRadius: '4px', marginBottom: '0.8em', }}>
+            <div style={{ width: '100%', display: 'flex', }}>
+                <div style={{ paddingRight: '4px', }}></div>
+                <div style={{ marginLeft: '0.5em', paddingTop: '0.8em', paddingBottom: '0.8em', width: '100%' }}>
+                    <div style={{ width: '100%', fontSize: '16px', color: '#a09aa0', display: 'flex', fontWeight: 'bold' }}>
+                        <div style={{ marginRight: '1em', width: '15em' }}>Bloques  automáticos</div>
+                        <div style={{ display: 'flex', width: '100%' }}>
                             <div>
-                                <i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', cursor: "pointer", paddingRight: "0.3em", marginTop: "4px" }} onClick={() => setOpen(!open)}>
+                                <i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', cursor: 'pointer', paddingRight: '0.3em', marginTop: '4px' }} onClick={() => setOpen(!open)}>
                                     help
 							</i>
                             </div>
                             {open &&
-                                <div style={{ fontSize: "10px", color: "#a09aa0", fontWeight: "100" }}>Este tipo de bloques son generados automáticamente por el sistema y no necesitan edición.</div>
+                                <div style={{ fontSize: '10px', color: '#a09aa0', fontWeight: '100' }}>Este tipo de bloques son generados automáticamente por el sistema y no necesitan edición.</div>
                             }
                         </div>
                     </div>
-                    <div style={{ width: "100%", marginTop: "0.5em" }}>
+                    <div style={{ width: '100%', marginTop: '0.5em' }}>
                         {automaticos.items.filter(item => item.logic === true).map((item, index) => (
                             <CajaBloquesAutomaticos
-                                key={item.id + index + "automaticos"}
+                                key={item.id + index + 'automaticos'}
                                 item={item}
                                 addItem={addItem}
                                 translate={translate}
@@ -427,27 +427,27 @@ const BloquesAutomaticos = ({ automaticos, addItem, translate }) => {
             </div>
         </div>
     );
-}
+};
 
 const CajaBloquesAutomaticos = ({ item, addItem, itemInfo, translate }) => (
-    <div style={{ display: "flex", width: "100%", marginBottom: "0.8em" }}>
-        <div style={{ color: getPrimary(), fontWeight: "bold", fontSize: '16px', display: "flex" }}>
+    <div style={{ display: 'flex', width: '100%', marginBottom: '0.8em' }}>
+        <div style={{ color: getPrimary(), fontWeight: 'bold', fontSize: '16px', display: 'flex' }}>
             <div>
                 <img src={item.icon} />
             </div>
         </div>
-        <div style={{ justifyContent: "space-between", display: "flex", width: "100%" }}>
-            <div style={{ marginLeft: "0.3em", width: "100%", whiteSpace: 'nowrap', fontSize: ' 16px', overflow: 'hidden', textOverflow: 'ellipsis', color: "#000000" }}>
+        <div style={{ justifyContent: 'space-between', display: 'flex', width: '100%' }}>
+            <div style={{ marginLeft: '0.3em', width: '100%', whiteSpace: 'nowrap', fontSize: ' 16px', overflow: 'hidden', textOverflow: 'ellipsis', color: '#000000' }}>
                 {translate[item.label] || item.label}
             </div>
-            <div style={{ marginLeft: "0.3em", marginRight: "0.3em" }}>
-                <i className="material-icons" style={{ cursor: "pointer", color: "#979797" }} onClick={() => addItem(itemInfo)}>
+            <div style={{ marginLeft: '0.3em', marginRight: '0.3em' }}>
+                <i className="material-icons" style={{ cursor: 'pointer', color: '#979797' }} onClick={() => addItem(itemInfo)}>
                     arrow_right_alt
         </i>
             </div>
         </div>
     </div>
-)
+);
 
 
 
@@ -455,66 +455,66 @@ export const IconsDragActions = ({ click, id, indexItem, turn, expand }) => {
     const [hover, setHover] = React.useState(false);
 
     const onMouseEnter = () => {
-        setHover(true)
-    }
+        setHover(true);
+    };
     const onMouseLeave = () => {
-        setHover(false)
-    }
+        setHover(false);
+    };
 
-    if (turn === "up") {
+    if (turn === 'up') {
         return (
             <i
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
-                className={"material-icons"}
-                style={{ background: hover && "gainsboro", borderRadius: "20px", color: "#a09aa0", transform: 'rotate(-90deg)' }}
+                className={'material-icons'}
+                style={{ background: hover && 'gainsboro', borderRadius: '20px', color: '#a09aa0', transform: 'rotate(-90deg)' }}
                 aria-hidden="true"
                 onClick={() => click(id, indexItem)}
             >
                 arrow_right_alt
             </i>
-        )
+        );
     }
     if (turn === 'expand') {
         return (
             <i
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
-                className={"fa fa-compress"}
-                style={{ background: hover && "gainsboro", borderRadius: "20px", color: expand ? "black" : "#a09aa0", padding: "5px", fontSize: "16px", }}
+                className={'fa fa-compress'}
+                style={{ background: hover && 'gainsboro', borderRadius: '20px', color: expand ? 'black' : '#a09aa0', padding: '5px', fontSize: '16px', }}
                 aria-hidden="true"
                 onClick={() => click(id, indexItem)}
             >
             </i>
-        )
+        );
     }
     if (turn === 'cross') {
         return (
             <i
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
-                className={"material-icons"}
-                style={{ background: hover && "gainsboro", borderRadius: "20px", color: "#a09aa0" }}
+                className={'material-icons'}
+                style={{ background: hover && 'gainsboro', borderRadius: '20px', color: '#a09aa0' }}
                 aria-hidden="true"
                 onClick={() => click(id, indexItem)}
             >
                 clear
             </i>
-        )
+        );
     }
 
     return (
         <i
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
-            className={"material-icons"}
-            style={{ background: hover && "gainsboro", borderRadius: "20px", color: "#a09aa0", transform: 'rotate(90deg)' }}
+            className={'material-icons'}
+            style={{ background: hover && 'gainsboro', borderRadius: '20px', color: '#a09aa0', transform: 'rotate(90deg)' }}
             aria-hidden="true"
             onClick={() => click(id, indexItem)}
         >
             arrow_right_alt
         </i>
-    )
-}
+    );
+};
 
 export default withApollo(withSharedProps()(DocumentEditor));

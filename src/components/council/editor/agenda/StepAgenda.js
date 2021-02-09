@@ -1,6 +1,6 @@
-import React from "react";
-import { compose, graphql, withApollo } from "react-apollo";
-import { Typography, MenuItem, Divider } from "material-ui";
+import React from 'react';
+import { compose, graphql, withApollo } from 'react-apollo';
+import { Typography, MenuItem, Divider } from 'material-ui';
 import {
 	BasicButton,
 	ButtonIcon,
@@ -9,28 +9,28 @@ import {
 	DropDownMenu,
 	LoadingSection,
 	AlertConfirm
-} from "../../../../displayComponents/index";
-import { councilStepThree, updateCouncil } from "../../../../queries";
-import { removeAgenda } from "../../../../queries/agenda";
+} from '../../../../displayComponents/index';
+import { councilStepThree, updateCouncil } from '../../../../queries';
+import { removeAgenda } from '../../../../queries/agenda';
 
-import { getPrimary, getSecondary } from "../../../../styles/colors";
-import NewAgendaPointModal from "./modals/NewAgendaPointModal";
-import PointEditor from "./modals/PointEditor";
-import ReorderPointsModal from "../../agendas/ReorderPointsModal";
-import SaveDraftModal from "../../../company/drafts/SaveDraftModal";
-import AgendaItem from "./AgendaItem";
-import EditorStepLayout from "../EditorStepLayout";
-import NewCustomPointModal from "./modals/NewCustomPointModal";
-import CustomPointEditor from "./modals/CustomPointEditor";
-import { ConfigContext } from "../../../../containers/AppControl";
-import { useOldState } from "../../../../hooks";
-import { TAG_TYPES } from "../../../company/drafts/draftTags/utils";
+import { getPrimary, getSecondary } from '../../../../styles/colors';
+import NewAgendaPointModal from './modals/NewAgendaPointModal';
+import PointEditor from './modals/PointEditor';
+import ReorderPointsModal from '../../agendas/ReorderPointsModal';
+import SaveDraftModal from '../../../company/drafts/SaveDraftModal';
+import AgendaItem from './AgendaItem';
+import EditorStepLayout from '../EditorStepLayout';
+import NewCustomPointModal from './modals/NewCustomPointModal';
+import CustomPointEditor from './modals/CustomPointEditor';
+import { ConfigContext } from '../../../../containers/AppControl';
+import { useOldState } from '../../../../hooks';
+import { TAG_TYPES } from '../../../company/drafts/draftTags/utils';
 
 const buttonStyle = {
-	color: "white",
-	fontWeight: "700",
-	fontSize: "0.9em",
-	textTransform: "none"
+	color: 'white',
+	fontWeight: '700',
+	fontSize: '0.9em',
+	textTransform: 'none'
 };
 
 const StepAgenda = ({ client, translate, ...props }) => {
@@ -44,9 +44,9 @@ const StepAgenda = ({ client, translate, ...props }) => {
 		confirmationRequestModal: false,
 		agendaIdRemove: false,
 		errors: {
-			agendaSubject: "",
-			description: "",
-			emptyAgendas: ""
+			agendaSubject: '',
+			description: '',
+			emptyAgendas: ''
 		}
 	});
 	const [loading, setLoading] = React.useState(true);
@@ -189,11 +189,11 @@ const StepAgenda = ({ client, translate, ...props }) => {
 							{agendas === null ? (
 								<div
 									style={{
-										height: "300px",
-										width: "100%",
-										display: "flex",
-										alignItems: "center",
-										justifyContent: "center"
+										height: '300px',
+										width: '100%',
+										display: 'flex',
+										alignItems: 'center',
+										justifyContent: 'center'
 									}}
 								>
 									<LoadingSection />
@@ -205,8 +205,8 @@ const StepAgenda = ({ client, translate, ...props }) => {
 										lg={12}
 										md={12}
 										style={{
-											display: "flex",
-											flexDirection: "row"
+											display: 'flex',
+											flexDirection: 'row'
 										}}
 									>
 										<AddAgendaPoint
@@ -226,13 +226,13 @@ const StepAgenda = ({ client, translate, ...props }) => {
 											agendas={council.agendas}
 											councilID={props.councilID}
 											refetch={getData}
-											style={{ marginLeft: "0.8em" }}
+											style={{ marginLeft: '0.8em' }}
 										>
 											<BasicButton
 												text={
-													<div style={{ display: "flex", alignItems: "center" }}>
+													<div style={{ display: 'flex', alignItems: 'center' }}>
 														<div>{translate.reorder_agenda_points}</div>
-														<div style={{ display: "flex" }}><ButtonIcon
+														<div style={{ display: 'flex' }}><ButtonIcon
 															type="cached"
 															color="white"
 															style={{ marginTop: '3px' }}
@@ -247,7 +247,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 									</GridItem>
 									<div
 										style={{
-											width: "100%"
+											width: '100%'
 										}}
 									>
 										{agendas.map((agenda, index) => (
@@ -276,12 +276,12 @@ const StepAgenda = ({ client, translate, ...props }) => {
 							) : (
 										<div
 											style={{
-												width: "100%",
-												display: "flex",
-												flexDirection: "column",
-												alignItems: "center",
-												marginTop: "2em",
-												marginBottom: "3em"
+												width: '100%',
+												display: 'flex',
+												flexDirection: 'column',
+												alignItems: 'center',
+												marginTop: '2em',
+												marginBottom: '3em'
 											}}
 										>
 											<Typography variant="subheading">
@@ -305,9 +305,9 @@ const StepAgenda = ({ client, translate, ...props }) => {
 											<Typography
 												variant="subheading"
 												style={{
-													color: "red",
-													fontWeight: "700",
-													marginTop: "1.2em"
+													color: 'red',
+													fontWeight: '700',
+													marginTop: '1.2em'
 												}}
 											>
 												{errors.emptyAgendas}
@@ -359,11 +359,11 @@ const StepAgenda = ({ client, translate, ...props }) => {
 											data={{
 												...newDraft,
 												text: newDraft.description,
-												description: "",
+												description: '',
 												title: newDraft.agendaSubject,
 												votationType: newDraft.subjectType,
 												type: draftTypes.filter(
-													draft => draft.label === "agenda"
+													draft => draft.label === 'agenda'
 												)[0].value,
 												tags: {
 													[`statute_${council.statute.statuteId}`]: {
@@ -412,12 +412,12 @@ const StepAgenda = ({ client, translate, ...props }) => {
 							reset={resetButtonStates}
 							color={secondary}
 							textStyle={{
-								color: "white",
-								fontWeight: "700",
-								fontSize: "0.9em",
-								marginLeft: "0.5em",
-								marginRight: "0.5em",
-								textTransform: "none"
+								color: 'white',
+								fontWeight: '700',
+								fontSize: '0.9em',
+								marginLeft: '0.5em',
+								marginRight: '0.5em',
+								textTransform: 'none'
 							}}
 							icon={<ButtonIcon type="save" color="white" />}
 							textPosition="after"
@@ -428,12 +428,12 @@ const StepAgenda = ({ client, translate, ...props }) => {
 							id={'ordenDelDiaNext'}
 							color={primary}
 							disable={loading}
-							loadingColor={"white"}
+							loadingColor={'white'}
 							textStyle={{
-								color: "white",
-								fontWeight: "700",
-								fontSize: "0.9em",
-								textTransform: "none"
+								color: 'white',
+								fontWeight: '700',
+								fontSize: '0.9em',
+								textTransform: 'none'
 							}}
 							textPosition="after"
 							onClick={nextPage}
@@ -504,13 +504,13 @@ export const AddAgendaPoint = ({
 			{config.customPoints ? (
 				<DropDownMenu
 					color={primary}
-					id={"newPuntoDelDiaOrdenDelDiaNew"}
+					id={'newPuntoDelDiaOrdenDelDiaNew'}
 					loading={false}
 					{...(Component ? (Component = { Component }) : {})}
 					text={
-						<div style={{ display: "flex", alignItems: "center" }}>
+						<div style={{ display: 'flex', alignItems: 'center' }}>
 							<div>{translate.add_agenda_point}</div>
-							<div style={{ display: "flex", alignItems: "center" }}><ButtonIcon type="add" color="white" style={{ marginTop: '3px' }} /></div>
+							<div style={{ display: 'flex', alignItems: 'center' }}><ButtonIcon type="add" color="white" style={{ marginTop: '3px' }} /></div>
 						</div>
 					}
 					textStyle={buttonStyle}
@@ -524,17 +524,17 @@ export const AddAgendaPoint = ({
 								<div
 									id={'puntoSiNoAbstencion'}
 									style={{
-										width: "100%",
-										display: "flex",
-										flexDirection: "row",
-										alignItems: "center"
+										width: '100%',
+										display: 'flex',
+										flexDirection: 'row',
+										alignItems: 'center'
 										// justifyContent: "space-between"
 									}}
 								>
 									<i
 										className="material-icons"
 										style={{
-											fontSize: "1.2em",
+											fontSize: '1.2em',
 											color: secondary
 										}}
 									>
@@ -542,8 +542,8 @@ export const AddAgendaPoint = ({
 									</i>
 									<span
 										style={{
-											marginLeft: "2.5em",
-											marginRight: "0.8em"
+											marginLeft: '2.5em',
+											marginRight: '0.8em'
 										}}
 									>
 										{translate.approving_point}
@@ -555,17 +555,17 @@ export const AddAgendaPoint = ({
 								<div
 									id={'puntoPersonalizado'}
 									style={{
-										width: "100%",
-										display: "flex",
-										flexDirection: "row",
-										alignItems: "center"
+										width: '100%',
+										display: 'flex',
+										flexDirection: 'row',
+										alignItems: 'center'
 										// justifyContent: "space-between"
 									}}
 								>
 									<i
 										className="material-icons"
 										style={{
-											fontSize: "1.2em",
+											fontSize: '1.2em',
 											color: secondary
 										}}
 									>
@@ -573,8 +573,8 @@ export const AddAgendaPoint = ({
 									</i>
 									<span
 										style={{
-											marginLeft: "2.5em",
-											marginRight: "0.8em"
+											marginLeft: '2.5em',
+											marginRight: '0.8em'
 										}}
 									>
 										{translate.custom_point}
@@ -588,16 +588,16 @@ export const AddAgendaPoint = ({
 										<div
 											id={'puntoPersonalizado'}
 											style={{
-												width: "100%",
-												display: "flex",
-												flexDirection: "row",
-												justifyContent: "space-between"
+												width: '100%',
+												display: 'flex',
+												flexDirection: 'row',
+												justifyContent: 'space-between'
 											}}
 										>
 											<i
 												className="material-icons"
 												style={{
-													fontSize: "1.2em",
+													fontSize: '1.2em',
 													color: secondary
 												}}
 											>
@@ -605,8 +605,8 @@ export const AddAgendaPoint = ({
 											</i>
 											<span
 												style={{
-													marginLeft: "2.5em",
-													marginRight: "0.8em"
+													marginLeft: '2.5em',
+													marginRight: '0.8em'
 												}}
 											>
 												{translate.confirmation_request}
@@ -686,6 +686,6 @@ export const AddAgendaPoint = ({
 };
 
 export default compose(
-	graphql(removeAgenda, { name: "removeAgenda" }),
-	graphql(updateCouncil, { name: "updateCouncil" })
+	graphql(removeAgenda, { name: 'removeAgenda' }),
+	graphql(updateCouncil, { name: 'updateCouncil' })
 )(withApollo(StepAgenda));

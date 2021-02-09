@@ -22,7 +22,7 @@ class NoCompanyRouter extends React.Component {
                 <Header
                     translate={this.props.translate}
                     user={this.props.user}
-                    backButton={this.props.location.pathname !== `/`}
+                    backButton={this.props.location.pathname !== '/'}
                 />
                 <div
                     style={{
@@ -47,7 +47,7 @@ class NoCompanyRouter extends React.Component {
                     </Switch>
                 </div>
             </div>
-        )
+        );
     }
 }
 

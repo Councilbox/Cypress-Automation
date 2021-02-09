@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from "react";
-import { AlertConfirm } from "../../../displayComponents";
+import React, { Component, Fragment } from 'react';
+import { AlertConfirm } from '../../../displayComponents';
 
 class TermsModal extends Component {
 	_renderNewPointBody = () =>
@@ -33,7 +33,7 @@ class TermsModal extends Component {
 
 				<p>
 					Al suscribirte a cualquier plan de Councilbox estás
-					aceptando los términos de suscripción recogidos en{" "}
+					aceptando los términos de suscripción recogidos en{' '}
 					<a
 						href="http://www.councilbox.com/"
 						target="_blank"

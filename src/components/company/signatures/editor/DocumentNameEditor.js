@@ -10,7 +10,7 @@ class DocumentNameEditor extends React.Component {
 			...splitExtensionFilename(this.props.attachment.filename)
 		},
 		errors: {
-			filename: ""
+			filename: ''
 		}
 	};
 
@@ -28,7 +28,7 @@ class DocumentNameEditor extends React.Component {
 		const { errors } = this.state;
 
 		return (
-			<div style={{ width: "650px" }}>
+			<div style={{ width: '650px' }}>
 				<TextInput
 					floatingText={translate.name}
 					type="text"
@@ -54,7 +54,7 @@ class DocumentNameEditor extends React.Component {
             if(response.data.updateSignatureDocumentName.success){
                 this.props.updateAttachment({
                     filename: `${this.state.data.filename}.${this.state.data.extension}`
-                })
+                });
                 this.props.requestClose();
             }
 		}
@@ -65,7 +65,7 @@ class DocumentNameEditor extends React.Component {
         return(
 			<div
 				style={{
-					width: "100%"
+					width: '100%'
 				}}
 			>
 				<AlertConfirm
@@ -78,7 +78,7 @@ class DocumentNameEditor extends React.Component {
 					title={translate.edit}
 				/>
 			</div>
-        )
+        );
     }
 }
 

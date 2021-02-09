@@ -1,15 +1,15 @@
-import React from "react";
-import { Typography, Tooltip } from "material-ui";
+import React from 'react';
+import { Typography, Tooltip } from 'material-ui';
 import { withApollo } from 'react-apollo';
-import { getSecondary } from "../styles/colors";
-import * as CBX from "../utils/CBX";
-import DenyVote from "../components/council/live/participants/DenyVote";
-import { moment } from "../containers/App";
-import withSharedProps from "../HOCs/withSharedProps";
-import BasicButton from "./BasicButton";
-import TextInput from "./TextInput";
-import { useParticipantContactEdit } from "../hooks";
-import { COUNCIL_TYPES, PARTICIPANT_STATES } from "../constants";
+import { getSecondary } from '../styles/colors';
+import * as CBX from '../utils/CBX';
+import DenyVote from '../components/council/live/participants/DenyVote';
+import { moment } from '../containers/App';
+import withSharedProps from '../HOCs/withSharedProps';
+import BasicButton from './BasicButton';
+import TextInput from './TextInput';
+import { useParticipantContactEdit } from '../hooks';
+import { COUNCIL_TYPES, PARTICIPANT_STATES } from '../constants';
 
 const ParticipantDisplay = ({ participant, translate, refetch, council, delegate, company, client, canEdit }) => {
 	const {
@@ -32,16 +32,16 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 		<div style={{ padding: '0.5em' }}>
 			<div
 				style={{
-					display: "flex",
-					flexDirection: "row",
-					alignItems: "center"
+					display: 'flex',
+					flexDirection: 'row',
+					alignItems: 'center'
 				}}
 			>
 				<div
 					style={{
-						width: "2em",
-						display: "flex",
-						justifyContent: "center"
+						width: '2em',
+						display: 'flex',
+						justifyContent: 'center'
 					}}
 				>
 					<i
@@ -49,8 +49,8 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 						aria-hidden="true"
 						style={{
 							color: secondary,
-							fontSize: "0.8em",
-							marginRight: "0.3em"
+							fontSize: '0.8em',
+							marginRight: '0.3em'
 						}}
 					></i>
 				</div>
@@ -65,9 +65,9 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 										aria-hidden="true"
 										style={{
 											color: secondary,
-											fontSize: "0.8em",
+											fontSize: '0.8em',
 											cursor: 'pointer',
-											marginLeft: "0.3em"
+											marginLeft: '0.3em'
 										}}>
 									</i>
 								</Tooltip>
@@ -78,16 +78,16 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 			</div>
 			<div
 				style={{
-					display: "flex",
-					flexDirection: "row",
-					alignItems: "center"
+					display: 'flex',
+					flexDirection: 'row',
+					alignItems: 'center'
 				}}
 			>
 				<div
 					style={{
-						width: "2em",
-						display: "flex",
-						justifyContent: "center"
+						width: '2em',
+						display: 'flex',
+						justifyContent: 'center'
 					}}
 				>
 					<i
@@ -95,8 +95,8 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 						aria-hidden="true"
 						style={{
 							color: secondary,
-							fontSize: "0.8em",
-							marginRight: "0.3em"
+							fontSize: '0.8em',
+							marginRight: '0.3em'
 						}}>
 					</i>
 				</div>
@@ -104,16 +104,16 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 			</div>
 			<div
 				style={{
-					display: "flex",
-					flexDirection: "row",
-					alignItems: "center"
+					display: 'flex',
+					flexDirection: 'row',
+					alignItems: 'center'
 				}}
 			>
 				<div
 					style={{
-						width: "2em",
-						display: "flex",
-						justifyContent: "center"
+						width: '2em',
+						display: 'flex',
+						justifyContent: 'center'
 					}}
 				>
 					<i
@@ -121,8 +121,8 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 						aria-hidden="true"
 						style={{
 							color: secondary,
-							fontSize: "0.8em",
-							marginRight: "0.3em"
+							fontSize: '0.8em',
+							marginRight: '0.3em'
 						}}>
 					</i>
 				</div>
@@ -132,16 +132,16 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 			</div>
 			<div
 				style={{
-					display: "flex",
-					flexDirection: "row",
-					alignItems: "center"
+					display: 'flex',
+					flexDirection: 'row',
+					alignItems: 'center'
 				}}
 			>
 				<div
 					style={{
-						width: "2em",
-						display: "flex",
-						justifyContent: "center"
+						width: '2em',
+						display: 'flex',
+						justifyContent: 'center'
 					}}
 				>
 					<i
@@ -149,8 +149,8 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 						aria-hidden="true"
 						style={{
 							color: secondary,
-							fontSize: "0.8em",
-							marginRight: "0.3em"
+							fontSize: '0.8em',
+							marginRight: '0.3em'
 						}}>
 					</i>
 				</div>
@@ -175,16 +175,16 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 			{council.securityType === 2 &&
 				<div
 					style={{
-						display: "flex",
-						flexDirection: "row",
-						alignItems: "center"
+						display: 'flex',
+						flexDirection: 'row',
+						alignItems: 'center'
 					}}
 				>
 					<div
 						style={{
-							width: "2em",
-							display: "flex",
-							justifyContent: "center"
+							width: '2em',
+							display: 'flex',
+							justifyContent: 'center'
 						}}
 					>
 						<i
@@ -192,8 +192,8 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 							aria-hidden="true"
 							style={{
 								color: secondary,
-								fontSize: "0.8em",
-								marginRight: "0.3em"
+								fontSize: '0.8em',
+								marginRight: '0.3em'
 							}}>
 						</i>
 					</div>
@@ -221,17 +221,17 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 					<React.Fragment>
 						<div
 							style={{
-								display: "flex",
-								flexDirection: "row",
-								alignItems: "center"
+								display: 'flex',
+								flexDirection: 'row',
+								alignItems: 'center'
 							}}
 						>
 							<Tooltip title={translate.votes}>
 								<div
 									style={{
-										width: "2em",
-										display: "flex",
-										justifyContent: "center"
+										width: '2em',
+										display: 'flex',
+										justifyContent: 'center'
 									}}
 								>
 									<i
@@ -239,8 +239,8 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 										aria-hidden="true"
 										style={{
 											color: secondary,
-											fontSize: "0.8em",
-											marginRight: "0.3em"
+											fontSize: '0.8em',
+											marginRight: '0.3em'
 										}}>
 									</i>
 								</div>
@@ -252,9 +252,9 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 						{CBX.hasParticipations(council.statute) && (
 							<div
 								style={{
-									display: "flex",
-									flexDirection: "row",
-									alignItems: "center"
+									display: 'flex',
+									flexDirection: 'row',
+									alignItems: 'center'
 								}}
 							>
 								<Tooltip
@@ -262,9 +262,9 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 								>
 									<div
 										style={{
-											width: "2em",
-											display: "flex",
-											justifyContent: "center"
+											width: '2em',
+											display: 'flex',
+											justifyContent: 'center'
 										}}
 									>
 										<i
@@ -272,8 +272,8 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 											aria-hidden="true"
 											style={{
 												color: secondary,
-												fontSize: "0.8em",
-												marginRight: "0.3em"
+												fontSize: '0.8em',
+												marginRight: '0.3em'
 											}}>
 										</i>
 									</div>
@@ -294,16 +294,16 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 			{(CBX.isActiveState(participant.state) && participant.firstLoginDate) &&
 				<div
 					style={{
-						display: "flex",
-						flexDirection: "row",
-						alignItems: "center"
+						display: 'flex',
+						flexDirection: 'row',
+						alignItems: 'center'
 					}}
 				>
 					<div
 						style={{
-							width: "2em",
-							display: "flex",
-							justifyContent: "center"
+							width: '2em',
+							display: 'flex',
+							justifyContent: 'center'
 						}}
 					>
 						<i
@@ -311,8 +311,8 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 							aria-hidden="true"
 							style={{
 								color: secondary,
-								fontSize: "0.8em",
-								marginRight: "0.3em"
+								fontSize: '0.8em',
+								marginRight: '0.3em'
 							}}>
 						</i>
 					</div>
@@ -324,16 +324,16 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 			{(participant.state === PARTICIPANT_STATES.LEFT || participant.online === 2) &&
 				<div
 					style={{
-						display: "flex",
-						flexDirection: "row",
-						alignItems: "center"
+						display: 'flex',
+						flexDirection: 'row',
+						alignItems: 'center'
 					}}
 				>
 					<div
 						style={{
-							width: "2em",
-							display: "flex",
-							justifyContent: "center"
+							width: '2em',
+							display: 'flex',
+							justifyContent: 'center'
 						}}
 					>
 						<i
@@ -341,8 +341,8 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 							aria-hidden="true"
 							style={{
 								color: secondary,
-								fontSize: "0.8em",
-								marginRight: "0.3em"
+								fontSize: '0.8em',
+								marginRight: '0.3em'
 							}}>
 						</i>
 					</div>

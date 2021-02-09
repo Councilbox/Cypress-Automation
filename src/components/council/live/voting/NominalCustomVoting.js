@@ -1,6 +1,6 @@
 import React from 'react';
-import { AlertConfirm, BasicButton } from "../../../../displayComponents";
-import { getSecondary } from "../../../../styles/colors";
+import { AlertConfirm, BasicButton } from '../../../../displayComponents';
+import { getSecondary } from '../../../../styles/colors';
 import CustomPointVotingMenu from '../../../participant/agendas/CustomPointVotingMenu';
 import { isMobile } from '../../../../utils/screen';
 
@@ -10,11 +10,11 @@ const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, council
 
     const openModal = () => {
         setModal(true);
-    }
+    };
 
     const closeModal = () => {
         setModal(false);
-    }
+    };
 
     const renderVotingMenu = () => (
             <div style={{ width: '600px' }}>
@@ -26,7 +26,7 @@ const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, council
                     ownVote={agendaVoting}
                 />
             </div>
-        )
+        );
 
     return (
         <div>
@@ -57,8 +57,8 @@ const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, council
                 </div>
             }
         </div>
-    )
-}
+    );
+};
 
 export const DisplayVoting = ({ ballots, translate, items = [] }) => {
     const map = new Map();
@@ -67,16 +67,16 @@ export const DisplayVoting = ({ ballots, translate, items = [] }) => {
         map.set(item.id, item);
     });
 
-    const getValueFromItems = ballot => map.get(ballot.itemId).value
+    const getValueFromItems = ballot => map.get(ballot.itemId).value;
 
     const getVoteValueText = ballot => {
         const texts = {
             'Abstention': translate.abstention_btn,
             'default': ballot.value ? ballot.value : getValueFromItems(ballot)
-        }
+        };
 
         return texts[ballot.value] ? texts[ballot.value] : texts.default;
-    }
+    };
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', marginTop: isMobile ? '0.6em' : 'inherit' }}>
@@ -87,7 +87,7 @@ export const DisplayVoting = ({ ballots, translate, items = [] }) => {
                 </div>
             ))}
         </div>
-    )
-}
+    );
+};
 
 export default NominalCustomVoting;

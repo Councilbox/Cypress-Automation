@@ -1,12 +1,12 @@
-import React from "react";
-import { graphql } from "react-apollo";
-import { MenuItem, Tooltip } from "material-ui";
-import { CircularProgress } from "material-ui/Progress";
-import { VOTE_VALUES } from "../../../../constants";
+import React from 'react';
+import { graphql } from 'react-apollo';
+import { MenuItem, Tooltip } from 'material-ui';
+import { CircularProgress } from 'material-ui/Progress';
+import { VOTE_VALUES } from '../../../../constants';
 import { agendaVotingsOpened, getActiveVote } from '../../../../utils/CBX';
-import VotingValueIcon from "./VotingValueIcon";
-import { updateAgendaVoting } from "../../../../queries/agenda";
-import withTranslations from "../../../../HOCs/withTranslations";
+import VotingValueIcon from './VotingValueIcon';
+import { updateAgendaVoting } from '../../../../queries/agenda';
+import withTranslations from '../../../../HOCs/withTranslations';
 
 const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 	const [loading, setLoading] = React.useState(false);
@@ -14,7 +14,7 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 
 	const vote = getActiveVote(agendaVoting);
 
-	const checkFixed = () => agendaVoting.fixed && agendaVoting.delegatedVotes.filter(vote => !vote.fixed).length === 0
+	const checkFixed = () => agendaVoting.fixed && agendaVoting.delegatedVotes.filter(vote => !vote.fixed).length === 0;
 
 	const fixed = checkFixed();
 
@@ -39,22 +39,22 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 	const _block = (value, active) => {
 		if(!agendaVotingsOpened(agenda)){
 			if(!active){
-				return <span />
+				return <span />;
 			}
 		}
 
 		return (
 			<div
 				style={{
-					height: "1.75em",
-					width: "1.75em",
-					marginRight: "0.2em",
-					border: `2px solid ${"grey"}`,
-					borderRadius: "3px",
-					display: "flex",
-					cursor: "pointer",
-					alignItems: "center",
-					justifyContent: "center"
+					height: '1.75em',
+					width: '1.75em',
+					marginRight: '0.2em',
+					border: `2px solid ${'grey'}`,
+					borderRadius: '3px',
+					display: 'flex',
+					cursor: 'pointer',
+					alignItems: 'center',
+					justifyContent: 'center'
 				}}
 				onClick={() => (fixed ? setFixedAlert(!fixedAlert) : updateAgendaVoting(value))}
 			>
@@ -62,10 +62,10 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 					selected={active}
 					disabled={fixed}
 					style={{
-						display: "flex",
-						fontSize: "0.9em",
-						alignItems: "center",
-						justifyContent: "center",
+						display: 'flex',
+						fontSize: '0.9em',
+						alignItems: 'center',
+						justifyContent: 'center',
 						height: '100%',
 						width: '100%',
 						padding: 0,
@@ -77,7 +77,7 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 					:
 						<VotingValueIcon
 							vote={value}
-							color={active ? undefined : "grey"}
+							color={active ? undefined : 'grey'}
 						/>
 					}
 				</MenuItem>
@@ -89,9 +89,9 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 		<Tooltip title={agendaVoting.numParticipations === 0 ? props.translate.cant_vote_this_point : props.translate.participant_vote_fixed} open={fixedAlert}>
 			<div
 				style={{
-					display: "flex",
-					flexDirection: "row",
-					marginRight: "0.7em"
+					display: 'flex',
+					flexDirection: 'row',
+					marginRight: '0.7em'
 				}}
 			>
 				{agendaVoting.author.voteDenied ? //TRADUCCION
@@ -111,9 +111,9 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 			</div>
 		</Tooltip>
 	);
-}
+};
 
 
 export default graphql(updateAgendaVoting, {
-	name: "updateAgendaVoting"
+	name: 'updateAgendaVoting'
 })(withTranslations()(PresentVoteMenu));

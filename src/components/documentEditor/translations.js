@@ -124,4 +124,4 @@ export const translations = {
         votes: 'Votos',
         votings: 'Votações'
     }
-}
+};

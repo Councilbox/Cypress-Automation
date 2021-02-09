@@ -1,7 +1,7 @@
 export default {
 	main: {
 		isLogged: false,
-		selectedLanguage: "es",
+		selectedLanguage: 'es',
 		serverStatus: true,
 		isParticipantLogged: false,
 		loading: true,

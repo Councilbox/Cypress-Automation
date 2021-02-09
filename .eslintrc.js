@@ -56,8 +56,6 @@ module.exports = {
     "linebreak-style": "off",
     "comma-dangle": "off",
     "max-len": "off",
-    "semi": "off",
-    "quotes": "off",
     "prefer-arrow-callback": "off",
     "prefer-template": "off",
     "spaced-comment": "off",

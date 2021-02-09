@@ -1,23 +1,23 @@
-import React from "react";
-import { Typography } from "material-ui";
-import { graphql } from "react-apollo";
-import { AlertConfirm, Icon, SuccessMessage, LoadingSection } from "../../../../displayComponents/index";
-import { cancelCouncil } from "../../../../queries/council";
-import { bHistory, moment } from "../../../../containers/App";
+import React from 'react';
+import { Typography } from 'material-ui';
+import { graphql } from 'react-apollo';
+import { AlertConfirm, Icon, SuccessMessage, LoadingSection } from '../../../../displayComponents/index';
+import { cancelCouncil } from '../../../../queries/council';
+import { bHistory, moment } from '../../../../containers/App';
 
-import RichTextInput from "../../../../displayComponents/RichTextInput";
+import RichTextInput from '../../../../displayComponents/RichTextInput';
 
 class CancelModal extends React.Component {
 	state = {
 		success: false,
 		sending: false,
 		message: '',
-		error: ""
+		error: ''
 	};
 
 	close = () => {
 		this.props.requestClose();
-		bHistory.push("/");
+		bHistory.push('/');
 	};
 
 	hide = () => {
@@ -95,7 +95,7 @@ class CancelModal extends React.Component {
 						? this.state.success
 							? translate.accept
 							: translate.cancel_council
-						: ""
+						: ''
 				}
 				buttonCancel={translate.close}
 				bodyText={this._renderCancelBody()}
@@ -106,5 +106,5 @@ class CancelModal extends React.Component {
 }
 
 export default graphql(cancelCouncil, {
-	name: "cancelCouncil"
+	name: 'cancelCouncil'
 })(CancelModal);

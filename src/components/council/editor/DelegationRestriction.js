@@ -56,19 +56,19 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
 
     const openSelectModal = () => {
         setModal(true);
-    }
+    };
 
     const closeModal = () => {
         setModal(false);
-    }
+    };
 
     const openDeleteWarning = participant => {
         setWarningModal(participant);
-    }
+    };
 
     const closeDeleteWarning = () => {
         setWarningModal(false);
-    }
+    };
 
     const addCouncilDelegate = async participantId => {
         const response = await client.mutate({
@@ -82,7 +82,7 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
         if (response.data.addCouncilDelegate) {
             getData();
         }
-    }
+    };
 
     const renderWarningText = () => (
             <div>
@@ -92,10 +92,10 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                     translate.this_options_delete_delegation_restriction
                 }
             </div>
-        )
+        );
 
     const removeCouncilDelegate = async participantId => {
-        let arrayIds = []
+        let arrayIds = [];
         if (selectedIds.size > 0) {
             arrayIds = Array.from(selectedIds.keys());
         }
@@ -105,35 +105,35 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                 councilId: council.id,
                 participantId: selectedIds.size > 0 ? arrayIds : [participantId]
             }
-        })
+        });
 
         if (response.data.removeCouncilDelegate.success) {
             setselectedIds(new Map());
             getData();
-            setWarningModal(false)
+            setWarningModal(false);
         }
-    }
+    };
 
     const selectAll = () => {
         const newSelected = new Map();
         if (selectedIds.size !== participants.length) {
             participants.forEach(participant => {
                 newSelected.set(participant.id, 'selected');
-            })
+            });
         }
 
         setselectedIds(newSelected);
-    }
+    };
 
     React.useEffect(() => {
-        getData()
+        getData();
     }, [getData]);
 
 
     const _renderBody = () => {
         if (!isMobile) {
             return (
-                <div style={{ width: "100%", height: "100%" }}>
+                <div style={{ width: '100%', height: '100%' }}>
                     <SectionTitle
                         text={`${translate.can_receive_delegations}: `}
                         color={primary}
@@ -141,25 +141,25 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                             // marginTop: '1.6em'
                         }}
                     />
-                    <div style={{ paddingBottom: "1em" }}>
-                        <div style={{ display: "flex" }}>
-                            <div style={{ width: "135px" }}>
+                    <div style={{ paddingBottom: '1em' }}>
+                        <div style={{ display: 'flex' }}>
+                            <div style={{ width: '135px' }}>
                                 <BasicButton
                                     color={'transparent'}
                                     textStyle={{
                                         color: getPrimary(),
-                                        fontWeight: "700",
-                                        fontSize: "0.9em",
-                                        textTransform: "none",
-                                        fontWeight: "500",
-                                        minWidth: "100px"
+                                        fontWeight: '700',
+                                        fontSize: '0.9em',
+                                        textTransform: 'none',
+                                        fontWeight: '500',
+                                        minWidth: '100px'
                                     }}
                                     icon={<ButtonIcon type="person_add" color={getPrimary()} />}
                                     textPosition="after"
                                     buttonStyle={{
-                                        marginRight: "1em",
-                                        borderRadius: "1px",
-                                        marginBottom: "0.5em",
+                                        marginRight: '1em',
+                                        borderRadius: '1px',
+                                        marginBottom: '0.5em',
                                         border: `2px solid ${getPrimary()}`
                                     }}
                                     onClick={openSelectModal}
@@ -171,31 +171,31 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                                         color={'white'}
                                         textStyle={{
                                             color: primary,
-                                            fontWeight: "700",
-                                            fontSize: "0.9em",
-                                            textTransform: "none",
-                                            fontWeight: "500",
+                                            fontWeight: '700',
+                                            fontSize: '0.9em',
+                                            textTransform: 'none',
+                                            fontWeight: '500',
                                             borderRadius: '2px',
                                             border: `solid 2px ${primary}`,
-                                            minWidth: "125px"
+                                            minWidth: '125px'
                                         }}
                                         textPosition="after"
                                         buttonStyle={{
-                                            marginRight: "1em",
-                                            borderRadius: "1px",
-                                            boxShadow: "none"
+                                            marginRight: '1em',
+                                            borderRadius: '1px',
+                                            boxShadow: 'none'
                                         }}
                                         icon={<ButtonIcon type="people_alt" color={getPrimary()} />}
                                         text={translate.all_plural}
                                         onClick={() => {
-                                            selectAll()
+                                            selectAll();
                                             setWarningModal(true);
                                         }}
                                     >
                                     </BasicButton>
                                 }
                             </div>
-                            <div style={{ width: "100%" }}>
+                            <div style={{ width: '100%' }}>
                                 {participants.map(participant => (
                                     <Etiqueta
                                         participant={participant}
@@ -234,10 +234,10 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                         bodyText={renderWarningText()}
                     />
                 </div>
-            )
+            );
         }
             return (
-                <div style={{ width: "100%", height: "100%" }}>
+                <div style={{ width: '100%', height: '100%' }}>
                     <SectionTitle
                         text={`${translate.can_receive_delegations}: `}
                         color={primary}
@@ -245,18 +245,18 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                             // marginTop: '1.6em'
                         }}
                     />
-                    <div style={{ paddingBottom: "1em" }}>
+                    <div style={{ paddingBottom: '1em' }}>
                         <BasicButton
-                            color={"white"}
+                            color={'white'}
                             textStyle={{
                                 color: primary,
-                                fontWeight: "700",
-                                fontSize: "0.9em",
-                                textTransform: "none"
+                                fontWeight: '700',
+                                fontSize: '0.9em',
+                                textTransform: 'none'
                             }}
                             textPosition="after"
                             buttonStyle={{
-                                marginRight: "1em",
+                                marginRight: '1em',
                                 border: `2px solid ${primary}`
                             }}
                             onClick={openSelectModal}
@@ -266,18 +266,18 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                     </div>
                     {participants.map(participant => (
                         <div key={`participant_${participant.id}`}>
-                            <Card style={{ padding: "1em", display: "flex", justifyContent: "space-between", marginBottom: "1em" }}>
+                            <Card style={{ padding: '1em', display: 'flex', justifyContent: 'space-between', marginBottom: '1em' }}>
                                 <div>
                                     <div><b> {translate.name} </b>: {participant.name}</div>
                                     <div><b> {translate.surname || ''} </b>: {participant.surname || ''}</div>
                                 </div>
-                                <div style={{ display: "flex", alignItems: "center" }} >
+                                <div style={{ display: 'flex', alignItems: 'center' }} >
                                     <i
-                                        className={"fa fa-times"}
-                                        style={{ color: "#000000de" }}
+                                        className={'fa fa-times'}
+                                        style={{ color: '#000000de' }}
                                         onClick={() => {
                                             if (council.state < 5) {
-                                                removeCouncilDelegate(participant.id)
+                                                removeCouncilDelegate(participant.id);
                                             } else {
                                                 openDeleteWarning(participant.id);
                                             }
@@ -308,8 +308,8 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                         bodyText={renderWarningText()}
                     />
                 </div>
-            )
-    }
+            );
+    };
 
     return (
         fullScreen ?
@@ -317,35 +317,35 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                 {_renderBody()}
             </div>
             :
-            <div style={{ padding: "1em", paddingLeft: 0, marginTop: "1em", maxWidth: isMobile ? "100%" : "70%" }}>
+            <div style={{ padding: '1em', paddingLeft: 0, marginTop: '1em', maxWidth: isMobile ? '100%' : '70%' }}>
                 {_renderBody()}
             </div>
     );
-}
+};
 
 const Etiqueta = ({ participant, removeCouncilDelegate, openDeleteWarning, council, empty, translate }) => {
     if (empty) {
         return (
             <div
-                color={"white"}
+                color={'white'}
                 style={{
-                    background: "white",
-                    color: "black",
-                    fontWeight: "700",
-                    fontSize: "0.9em",
-                    textTransform: "none",
-                    fontWeight: "500",
+                    background: 'white',
+                    color: 'black',
+                    fontWeight: '700',
+                    fontSize: '0.9em',
+                    textTransform: 'none',
+                    fontWeight: '500',
                     cursor: 'initial',
-                    marginRight: "1em",
-                    borderRadius: "1px",
+                    marginRight: '1em',
+                    borderRadius: '1px',
                     //border: 'solid 1px #f0f3f6',
-                    display: "inline-block",
-                    marginBottom: "0.5em",
-                    minWidth: "100px"
+                    display: 'inline-block',
+                    marginBottom: '0.5em',
+                    minWidth: '100px'
                 }}
             >
-                <div style={{ padding: "8px", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                    <div style={{ marginLeft: "15px", marginRight: "15px", }}>
+                <div style={{ padding: '8px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <div style={{ marginLeft: '15px', marginRight: '15px', }}>
                         {translate.all_plural}
                     </div>
                 </div>
@@ -354,51 +354,51 @@ const Etiqueta = ({ participant, removeCouncilDelegate, openDeleteWarning, counc
     }
         return (
             <div
-                color={"white"}
+                color={'white'}
                 style={{
-                    background: "white",
-                    color: "black",
-                    fontWeight: "700",
-                    fontSize: "0.9em",
-                    textTransform: "none",
-                    fontWeight: "500",
+                    background: 'white',
+                    color: 'black',
+                    fontWeight: '700',
+                    fontSize: '0.9em',
+                    textTransform: 'none',
+                    fontWeight: '500',
                     cursor: 'initial',
-                    marginRight: "1em",
-                    borderRadius: "1px",
+                    marginRight: '1em',
+                    borderRadius: '1px',
                     boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
                     border: 'solid 1px #f0f3f6',
-                    display: "inline-block",
-                    marginBottom: "0.5em",
-                    minWidth: "100px"
+                    display: 'inline-block',
+                    marginBottom: '0.5em',
+                    minWidth: '100px'
                 }}
             >
-                <div style={{ padding: "8px", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <div style={{ padding: '8px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                     <div style={{
-                        marginLeft: "15px",
+                        marginLeft: '15px',
                         whiteSpace: 'nowrap',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
-                        maxWidth: "160px"
+                        maxWidth: '160px'
                     }}>
-                        {participant.name + " " + participant.surname || ''}
+                        {participant.name + ' ' + participant.surname || ''}
                     </div>
-                    <div style={{ marginLeft: "5px", marginRight: "3px", display: "flex" }}>
+                    <div style={{ marginLeft: '5px', marginRight: '3px', display: 'flex' }}>
                         <ButtonIcon
                             type="cancel"
-                            style={{ cursor: "pointer" }}
+                            style={{ cursor: 'pointer' }}
                             color={getPrimary()}
                             onClick={() => {
                                 if (council.state !== 0) {
                                     openDeleteWarning(participant);
                                 } else {
-                                    removeCouncilDelegate(participant.id)
+                                    removeCouncilDelegate(participant.id);
                                 }
                             }} />
                     </div>
                 </div>
             </div>
         );
-}
+};
 
 
 export default withApollo(DelegationRestriction);

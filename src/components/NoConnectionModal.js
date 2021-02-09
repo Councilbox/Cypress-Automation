@@ -1,7 +1,7 @@
 import React from 'react';
 import Dialog, {
 	DialogTitle
-} from "material-ui/Dialog";
+} from 'material-ui/Dialog';
 import withTranslations from '../HOCs/withTranslations';
 import { LoadingSection } from '../displayComponents';
 
@@ -25,6 +25,6 @@ const NoConnectionModal = ({ open, translate }) => (
             </div>
         </div>
     </Dialog>
-)
+);
 
 export default withTranslations()(NoConnectionModal);

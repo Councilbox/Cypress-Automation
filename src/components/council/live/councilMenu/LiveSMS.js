@@ -48,14 +48,14 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll }) => {
     }, [getData]);
 
     const changePage = value => {
-        setState({ page: value })
-        getData(value)
-    }
+        setState({ page: value });
+        getData(value);
+    };
 
     const updateParticipantPhone = participantId => newPhone => {
         modifiedValues.set(participantId, newPhone);
         setModifiedValues(new Map(modifiedValues));
-    }
+    };
 
     const resendRoomAccessKey = async (id, sendId) => {
         setResendLoading(sendId);
@@ -69,29 +69,29 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll }) => {
         });
         setResendLoading(null);
         getData();
-    }
+    };
     if (isMobile) {
         return (
-            <div style={{ height: "100%" }}>
+            <div style={{ height: '100%' }}>
                 {loading ?
                     <LoadingSection />
                     :
                     <React.Fragment>
-                        <div style={{ marginBottom: "1em", marginLeft: "5px" }}>
+                        <div style={{ marginBottom: '1em', marginLeft: '5px' }}>
                             <BasicButton
                                 color="transparent"
                                 text={filter ? translate.all_plural : translate.browse_failed_sms}
                                 onClick={filter ? () => setFilter(null) : () => setFilter('failed')}
-                                textStyle={{ color: "#000000de", border: "1px solid " + getSecondary() }}
+                                textStyle={{ color: '#000000de', border: '1px solid ' + getSecondary() }}
                             />
                         </div>
-                        <div style={{ height: "calc( 100% - 2em )", }}>
+                        <div style={{ height: 'calc( 100% - 2em )', }}>
                             <Scrollbar>
                                 {data.sendsSMS.list.map(send => (
-                                    <Card style={{ margin: "5px", marginBottom: "15px" }} key={send.id}>
+                                    <Card style={{ margin: '5px', marginBottom: '15px' }} key={send.id}>
                                         <CardHeader
-                                            title={send.recipient.name + " " + send.recipient.surname || ''}
-                                            subheader={translate.state + ": " + getSMSStatusByCode(send.reqCode)}
+                                            title={send.recipient.name + ' ' + send.recipient.surname || ''}
+                                            subheader={translate.state + ': ' + getSMSStatusByCode(send.reqCode)}
                                         />
                                         <CardContent>
                                             <EditableCell
@@ -104,7 +104,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll }) => {
                                                 size="small"
                                                 color="primary"
                                                 text={translate.resend}
-                                                textStyle={{ boxShadow: "none", color: getPrimary(), background: "white" }}
+                                                textStyle={{ boxShadow: 'none', color: getPrimary(), background: 'white' }}
                                                 loading={resendLoading === send.id}
                                                 onClick={() => resendRoomAccessKey(send.recipient.id, send.id)}
                                                 loadingColor={getPrimary()}
@@ -117,25 +117,25 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll }) => {
                     </React.Fragment>
                 }
             </div>
-        )
+        );
     }
         return (
-            <div style={{ height: "100%" }}>
+            <div style={{ height: '100%' }}>
                 {loading ?
                     <LoadingSection />
                     :
                     <React.Fragment>
-                        <div style={{ marginBottom: "1em" }}>
+                        <div style={{ marginBottom: '1em' }}>
                             <BasicButton
                                 color="transparent"
                                 text={filter ? translate.all_plural : translate.browse_failed_sms}
                                 onClick={filter ? () => setFilter(null) : () => setFilter('failed')}
-                                textStyle={{ color: "#000000de", border: "1px solid " + getSecondary() }}
+                                textStyle={{ color: '#000000de', border: '1px solid ' + getSecondary() }}
                             />
                         </div>
-                        <div style={{ height: "calc( 100% - 5em )", }}>
+                        <div style={{ height: 'calc( 100% - 5em )', }}>
                             <Scrollbar>
-                                <Table style={{ maxWidth: "100%", width: "100%" }} >
+                                <Table style={{ maxWidth: '100%', width: '100%' }} >
                                     <TableHead>
                                         <TableRow>
                                             <TableCell>
@@ -156,7 +156,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll }) => {
                                         {data.sendsSMS.list.map(send => (
                                             <Row send={send} resendRoomAccessKey={resendRoomAccessKey} resendLoading={resendLoading} key={send.id}>
                                                 <TableCell>
-                                                    {send.recipient.name + " " + send.recipient.surname || ''}
+                                                    {send.recipient.name + ' ' + send.recipient.surname || ''}
                                                 </TableCell>
                                                 <TableCell>
                                                     <EditableCell defaultValue={send.recipient.phone} setModifiedValues={updateParticipantPhone(send.recipient.id)} />
@@ -170,7 +170,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll }) => {
                                                         text={translate.resend}
                                                         loading={resendLoading === send.id}
                                                         onClick={() => resendRoomAccessKey(send.recipient.id, send.id)}
-                                                        loadingColor={"#000000de"}
+                                                        loadingColor={'#000000de'}
                                                     />
                                                 </TableCell>
                                             </Row>
@@ -178,7 +178,7 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll }) => {
                                     </TableBody>
                                 </Table>
                             </Scrollbar>
-                            <div style={{ display: "flex", width: "100%", padding: "0.5em", }}>
+                            <div style={{ display: 'flex', width: '100%', padding: '0.5em', }}>
                                 {loading ?
                                     <div></div>
                                     :
@@ -197,26 +197,26 @@ const LiveSMS = ({ council, client, translate, sendAccessKey, showAll }) => {
                     </React.Fragment>
                 }
             </div>
-        )
-}
+        );
+};
 
 const Row = ({ send, children }) => {
     const [hover, setHover] = React.useState(false);
 
     const onMouseEnter = () => {
-        setHover(true)
-    }
+        setHover(true);
+    };
 
     const onMouseLeave = () => {
-        setHover(false)
-    }
+        setHover(false);
+    };
 
     return (
-        <TableRow key={send.id} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} style={{ background: hover && "#e8e8e8" }}>
+        <TableRow key={send.id} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} style={{ background: hover && '#e8e8e8' }}>
             {children}
         </TableRow>
-    )
-}
+    );
+};
 
 const EditableCell = ({ defaultValue, setModifiedValues }) => {
     const [value, setValue] = React.useState(defaultValue);
@@ -224,7 +224,7 @@ const EditableCell = ({ defaultValue, setModifiedValues }) => {
     const updateValue = event => {
         setValue(event.target.value);
         setModifiedValues(event.target.value);
-    }
+    };
 
     return (
         <React.Fragment>
@@ -232,13 +232,13 @@ const EditableCell = ({ defaultValue, setModifiedValues }) => {
                 value={value}
                 onChange={updateValue}
                 className={'inputTableSMS'}
-                styleInInput={{ border: "1px solid #0000006b", padding: "5px" }}
+                styleInInput={{ border: '1px solid #0000006b', padding: '5px' }}
                 disableUnderline={true}
                 // styles={{ borderTop: "1px solid #0000006b", borderLeft: "1px solid #0000006b", borderRight: "1px solid #0000006b", marginTop: "5px" }}
             />
         </React.Fragment>
-    )
-}
+    );
+};
 
 
 export default graphql(sendParticipantRoomKey, {

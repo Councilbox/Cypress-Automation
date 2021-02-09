@@ -1,11 +1,11 @@
-import React from "react";
-import { compose, graphql } from "react-apollo";
-import FontAwesome from "react-fontawesome";
-import { Tooltip } from "material-ui";
+import React from 'react';
+import { compose, graphql } from 'react-apollo';
+import FontAwesome from 'react-fontawesome';
+import { Tooltip } from 'material-ui';
 import { toast } from 'react-toastify';
-import { closeAgenda, openAgenda, openActPoint } from "../../../queries";
-import { BasicButton, Icon, LiveToast } from "../../../displayComponents";
-import { getPrimary, getSecondary } from "../../../styles/colors";
+import { closeAgenda, openAgenda, openActPoint } from '../../../queries';
+import { BasicButton, Icon, LiveToast } from '../../../displayComponents';
+import { getPrimary, getSecondary } from '../../../styles/colors';
 import { councilHasSession, getActPointSubjectType } from '../../../utils/CBX';
 import { AGENDA_STATES, COUNCIL_TYPES } from '../../../constants';
 
@@ -34,7 +34,7 @@ const ToggleAgendaButton = ({ agenda, council, active, translate, ...props }) =>
 						/>, {
 							position: toast.POSITION.TOP_RIGHT,
 							autoClose: true,
-							className: "errorToast"
+							className: 'errorToast'
 						}
 					);
 				}
@@ -53,13 +53,13 @@ const ToggleAgendaButton = ({ agenda, council, active, translate, ...props }) =>
 			props.refetch();
 			props.nextPoint();
 		}
-	}
+	};
 
 	const primary = getPrimary();
 	const secondary = getSecondary();
 
 	if(!councilHasSession(council)){
-		return <span/>
+		return <span/>;
 	}
 
 	return (
@@ -68,25 +68,25 @@ const ToggleAgendaButton = ({ agenda, council, active, translate, ...props }) =>
 				active ? (
 					<BasicButton
 						text={translate.discuss_agenda}
-						color={"white"}
+						color={'white'}
 						textPosition="before"
 						icon={
 							<Icon
 								className="material-icons"
 								style={{
-									fontSize: "1.1em",
+									fontSize: '1.1em',
 									color: primary
 								}}
 							>
 								lock_open
 							</Icon>
 						}
-						buttonStyle={{ width: "11em" }}
+						buttonStyle={{ width: '11em' }}
 						onClick={openAgenda}
 						textStyle={{
-							fontSize: "0.75em",
-							fontWeight: "700",
-							textTransform: "none",
+							fontSize: '0.75em',
+							fontWeight: '700',
+							textTransform: 'none',
 							color: primary
 						}}
 					/>
@@ -96,7 +96,7 @@ const ToggleAgendaButton = ({ agenda, council, active, translate, ...props }) =>
 							name="lock"
 							style={{
 								color: secondary,
-								fontSize: "2em"
+								fontSize: '2em'
 							}}
 						/>
 					</Tooltip>
@@ -110,36 +110,36 @@ const ToggleAgendaButton = ({ agenda, council, active, translate, ...props }) =>
 						<Icon
 							className="material-icons"
 							style={{
-								fontSize: "1.1em",
-								color: "white"
+								fontSize: '1.1em',
+								color: 'white'
 							}}
 						>
 							lock_open
 						</Icon>
 					}
-					buttonStyle={{ width: "11em" }}
+					buttonStyle={{ width: '11em' }}
 					onClick={closeAgenda}
 					textStyle={{
-						fontSize: "0.75em",
-						fontWeight: "700",
-						textTransform: "none",
-						color: "white"
+						fontSize: '0.75em',
+						fontWeight: '700',
+						textTransform: 'none',
+						color: 'white'
 					}}
 				/>
 			)}
 		</React.Fragment>
-	)
-}
+	);
+};
 
 
 export default compose(
 	graphql(openAgenda, {
-		name: "openAgenda"
+		name: 'openAgenda'
 	}),
 	graphql(openActPoint, {
 		name: 'openActPoint'
 	}),
 	graphql(closeAgenda, {
-		name: "closeAgenda"
+		name: 'closeAgenda'
 	})
 )(ToggleAgendaButton);

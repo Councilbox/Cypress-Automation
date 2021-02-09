@@ -1,24 +1,24 @@
-import React from "react";
-import { compose, graphql, withApollo } from "react-apollo";
+import React from 'react';
+import { compose, graphql, withApollo } from 'react-apollo';
 import {
 	BasicButton,
 	ButtonIcon,
 	CustomDialog,
     LoadingSection
-} from "../../../../displayComponents";
-import { getPrimary, secondary } from "../../../../styles/colors";
-import { languages } from "../../../../queries/masters";
-import ParticipantForm from "../../participants/ParticipantForm";
+} from '../../../../displayComponents';
+import { getPrimary, secondary } from '../../../../styles/colors';
+import { languages } from '../../../../queries/masters';
+import ParticipantForm from '../../participants/ParticipantForm';
 import {
 	checkRequiredFieldsParticipant,
 	checkRequiredFieldsRepresentative
-} from "../../../../utils/validation";
-import RepresentativeForm from "../../../company/census/censusEditor/RepresentativeForm";
-import { checkUniqueCouncilEmails, addConvenedParticipant } from "../../../../queries/councilParticipant";
-import { useOldState } from "../../../../hooks";
-import withSharedProps from "../../../../HOCs/withSharedProps";
-import { isMobile } from "../../../../utils/screen";
-import SelectRepresentative from "../../editor/census/modals/SelectRepresentative";
+} from '../../../../utils/validation';
+import RepresentativeForm from '../../../company/census/censusEditor/RepresentativeForm';
+import { checkUniqueCouncilEmails, addConvenedParticipant } from '../../../../queries/councilParticipant';
+import { useOldState } from '../../../../hooks';
+import withSharedProps from '../../../../HOCs/withSharedProps';
+import { isMobile } from '../../../../utils/screen';
+import SelectRepresentative from '../../editor/census/modals/SelectRepresentative';
 
 
 
@@ -125,7 +125,7 @@ const AddConvenedParticipantButton = ({ translate, participations, open, request
 						errorsRepresentative.errors.email = translate.register_exists_email;
 						errorsRepresentative.hasError = true;
 					}
-				})
+				});
 			}
 
 			if(participant.email === representative.email){
@@ -154,7 +154,7 @@ const AddConvenedParticipantButton = ({ translate, participations, open, request
     const { languages } = props.data;
 
     if(props.data.loading){
-        return ''
+        return '';
     }
 
 
@@ -171,19 +171,19 @@ const AddConvenedParticipantButton = ({ translate, participations, open, request
 							type="flat"
 							color="white"
 							textStyle={{
-								textTransform: "none",
-								fontWeight: "700"
+								textTransform: 'none',
+								fontWeight: '700'
 							}}
 							onClick={requestClose}
 						/>
 						<BasicButton
 							text={translate.save_changes}
 							textStyle={{
-								color: "white",
-								textTransform: "none",
-								fontWeight: "700"
+								color: 'white',
+								textTransform: 'none',
+								fontWeight: '700'
 							}}
-							buttonStyle={{ marginLeft: "1em" }}
+							buttonStyle={{ marginLeft: '1em' }}
 							color={primary}
 							onClick={() => {
 								addParticipant(false);
@@ -230,14 +230,14 @@ const AddConvenedParticipantButton = ({ translate, participations, open, request
 			</CustomDialog>
 		</React.Fragment>
 	);
-}
+};
 
 
 export default compose(
 	graphql(addConvenedParticipant, {
-		name: "addParticipant",
+		name: 'addParticipant',
 		options: {
-			errorPolicy: "all"
+			errorPolicy: 'all'
 		}
 	}),
 	graphql(languages),
@@ -245,12 +245,12 @@ export default compose(
 )(withApollo(AddConvenedParticipantButton));
 
 const initialParticipant = {
-	name: "",
-	surname: "",
-	position: "",
-	email: "",
-	phone: "",
-	dni: "",
+	name: '',
+	surname: '',
+	position: '',
+	email: '',
+	phone: '',
+	dni: '',
 	type: 0,
 	delegateId: null,
 	numParticipations: 1,
@@ -258,20 +258,20 @@ const initialParticipant = {
 	uuid: null,
 	initialState: 0,
 	delegateUuid: null,
-	language: "es",
-	city: "",
+	language: 'es',
+	city: '',
 	personOrEntity: 0
 };
 
 const initialRepresentative = {
 	hasRepresentative: false,
-	language: "es",
+	language: 'es',
 	type: 2,
-	name: "",
-	surname: "",
-	position: "",
-	email: "",
+	name: '',
+	surname: '',
+	position: '',
+	email: '',
 	initialState: 0,
-	phone: "",
-	dni: ""
+	phone: '',
+	dni: ''
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import whiteIcon from "../assets/img/imago-councilbox-inverse-xl.png";
+import whiteIcon from '../assets/img/imago-councilbox-inverse-xl.png';
 
 class LiveToast extends React.Component {
     render(){
@@ -8,7 +8,7 @@ class LiveToast extends React.Component {
                 <img src={whiteIcon} style={{ height: '2.2em', width: 'auto', marginRight: '0.8em' }} alt={'Toast'}/>
                 <div>{this.props.message}</div>
             </div>
-        )
+        );
     }
 }
 

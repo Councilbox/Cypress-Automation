@@ -16,7 +16,7 @@ const RefreshCredsSendsButton = ({ translate, council, refreshCouncilCredsSends 
             }
         });
         setLoading(false);
-    }
+    };
 
     return (
         <div>
@@ -30,8 +30,8 @@ const RefreshCredsSendsButton = ({ translate, council, refreshCouncilCredsSends 
                 onClick={refreshCredSends}
             />
         </div>
-    )
-}
+    );
+};
 
 const refreshSends = gql`
     mutation RefreshCouncilCredsSends($councilId: Int!){

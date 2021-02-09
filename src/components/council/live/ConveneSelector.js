@@ -18,7 +18,7 @@ const ActualQuorum = withApollo(({ council, translate, client, socialCapital, to
         }
 
         return ((value / base) * 100).toFixed(3);
-    }
+    };
 
 
     const getData = React.useCallback(async () => {
@@ -65,12 +65,12 @@ const ActualQuorum = withApollo(({ council, translate, client, socialCapital, to
                     </>
             }
         </div>
-    )
-})
+    );
+});
 
 
 const ConveneSelector = ({ translate, council, recount, convene, changeConvene }) => {
-    const renderParticipationsText = () => `${recount.socialCapitalRightVoting} (${((recount.socialCapitalRightVoting / recount.socialCapitalTotal) * 100).toFixed(3)}%) ${translate.social_capital.toLowerCase()}`
+    const renderParticipationsText = () => `${recount.socialCapitalRightVoting} (${((recount.socialCapitalRightVoting / recount.socialCapitalTotal) * 100).toFixed(3)}%) ${translate.social_capital.toLowerCase()}`;
 
     return (
         <React.Fragment>
@@ -163,7 +163,7 @@ const ConveneSelector = ({ translate, council, recount, convene, changeConvene }
                 </div>
             </div>
         </React.Fragment>
-    )
-}
+    );
+};
 
 export default ConveneSelector;

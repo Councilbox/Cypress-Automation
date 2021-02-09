@@ -11,16 +11,16 @@ const DefaultTrigger = ({ onClick }) => {
             <i className="material-icons" style={{
                 color: primary,
                 fontSize: '14px',
-                paddingRight: "0.3em",
-                cursor: "pointer",
-                marginLeft: "5px"
+                paddingRight: '0.3em',
+                cursor: 'pointer',
+                marginLeft: '5px'
             }} >
                 help
             </i>
         </span>
 
-    )
-}
+    );
+};
 
 class HelpPopover extends React.Component {
     state = {
@@ -51,8 +51,8 @@ class HelpPopover extends React.Component {
 
         return (
             <Popover
-                title={<span style={{ userSelect: "none" }}>{title}</span>}
-                content={<span style={{ userSelect: "none" }}>{content}</span>}
+                title={<span style={{ userSelect: 'none' }}>{title}</span>}
+                content={<span style={{ userSelect: 'none' }}>{content}</span>}
                 visible={this.state.visible}
                 onVisibleChange={this.onVisibleChange}
                 trigger={'hover'}
@@ -62,7 +62,7 @@ class HelpPopover extends React.Component {
                     colorFail={errorText}
                 />
             </Popover>
-        )
+        );
     }
 }
 

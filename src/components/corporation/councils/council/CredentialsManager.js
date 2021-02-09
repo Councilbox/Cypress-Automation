@@ -1,11 +1,11 @@
 import React from 'react';
 import { InputAdornment, Card, IconButton, CardHeader, Typography, Collapse, CardContent } from 'material-ui';
-import FontAwesome from "react-fontawesome";
+import FontAwesome from 'react-fontawesome';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import { LoadingSection, BasicButton, TextInput, Scrollbar } from '../../../../displayComponents';
 import NotificationsTable from '../../../notifications/NotificationsTable';
-import { updateParticipantSends } from "../../../../queries";
+import { updateParticipantSends } from '../../../../queries';
 import ParticipantContactEditor from './ParticipantContactEditor';
 import StateIcon from '../../../council/live/participants/StateIcon';
 import { useOldState } from '../../../../hooks';
@@ -22,13 +22,13 @@ const CredentialsManager = ({ translate, ...props }) => {
 
     const toggleFilter = () => {
         setFilter(!filter ? 'failed' : null);
-    }
+    };
 
     const updatePage = page => {
         setState({
             page
         });
-    }
+    };
 
     React.useEffect(() => {
         props.data.refetch({
@@ -42,23 +42,23 @@ const CredentialsManager = ({ translate, ...props }) => {
                 limit,
                 offset: (state.page - 1) * 2
             }
-        })
-    }, [filter, state.filterText, state.page])
+        });
+    }, [filter, state.filterText, state.page]);
 
     if(!props.data.liveParticipants){
-        return <LoadingSection />
+        return <LoadingSection />;
     }
 
     //const filteredParticipants = filterParticipants(props.data.liveParticipants.list, state.filterText);
     const slicedParticipants = props.data.liveParticipants.list;
 
     return (
-         <div style={{ height: "100%", overflow: "hidden", width: "100%" }}>
+         <div style={{ height: '100%', overflow: 'hidden', width: '100%' }}>
                 <TextInput
                     value={state.filterText}
                     onChange={event => setState({ filterText: event.target.value })}
                     startAdornment={
-                        <InputAdornment position="start" style={{ marginRight: "1em" }}>
+                        <InputAdornment position="start" style={{ marginRight: '1em' }}>
                             <i className="fa fa-search" aria-hidden="true"></i>
                         </InputAdornment>
                     }
@@ -69,7 +69,7 @@ const CredentialsManager = ({ translate, ...props }) => {
                     loading={state.sendsLoading}
                     onClick={toggleFilter}
                 />
-                <div style={{ overflow: "hidden", height: "calc( 100% - 70px )", }}>
+                <div style={{ overflow: 'hidden', height: 'calc( 100% - 70px )', }}>
                     <Scrollbar>
                         <div>
                             {slicedParticipants.map(participant => (
@@ -96,22 +96,22 @@ const CredentialsManager = ({ translate, ...props }) => {
                     </Scrollbar>
                 </div>
             </div>
-    )
-}
+    );
+};
 
 
 const Content = ({ participant, translate, refetch, council }) => {
-    const [expanded, setExpanded] = React.useState(false)
+    const [expanded, setExpanded] = React.useState(false);
 
     const toggleExpanded = () => {
         setExpanded(!expanded);
-    }
+    };
 
     return (
-        <Card style={{ marginLeft: '1px', marginRight: '15px', marginTop: "15px" }} >
+        <Card style={{ marginLeft: '1px', marginRight: '15px', marginTop: '15px' }} >
             <CardHeader
                 onClick={toggleExpanded}
-                style={{ cursor: "pointer" }}
+                style={{ cursor: 'pointer' }}
                 avatar={
                     <StateIcon state={participant.state} translate={translate} ratio={1.4} />
                 }
@@ -121,13 +121,13 @@ const Content = ({ participant, translate, refetch, council }) => {
                         onClick={toggleExpanded}
                         aria-expanded={expanded}
                         aria-label="Show more"
-                        className={"expandButtonModal"}
+                        className={'expandButtonModal'}
                     >
                         <FontAwesome
-                            name={"angle-down"}
+                            name={'angle-down'}
                             style={{
-                                transform: expanded ? "rotate(180deg)" : "rotate(0deg)",
-                                transition: "all 0.3s"
+                                transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                                transition: 'all 0.3s'
                             }}
                         />
                     </IconButton>
@@ -151,7 +151,7 @@ const Content = ({ participant, translate, refetch, council }) => {
                             council={council}
                         />
                     </div>
-                    <div style={{ padding: "1em 0px" }}>
+                    <div style={{ padding: '1em 0px' }}>
                         <NotificationsTable
                             maxEmail={{ maxWidth: '100px' }}
                             translate={translate}
@@ -161,8 +161,8 @@ const Content = ({ participant, translate, refetch, council }) => {
                 </CardContent>
             </Collapse>
         </Card>
-    )
-}
+    );
+};
 
 const participants = gql`
     query CredsParticipants($councilId: Int!, $filters: [FilterInput], $options: OptionsInput){
@@ -204,7 +204,7 @@ export default compose(
         })
     }),
     graphql(updateParticipantSends, {
-        name: "updateParticipantSends"
+        name: 'updateParticipantSends'
     })
 )(CredentialsManager);
 

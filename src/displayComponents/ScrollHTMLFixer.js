@@ -11,6 +11,6 @@ const ScrollHTMLFixer = () => (
         height: '100%',
         zIndex: 100
     }} />
-)
+);
 
 export default ScrollHTMLFixer;

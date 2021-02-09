@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 import gql from 'graphql-tag';
-import { compose, graphql, withApollo } from "react-apollo";
-import { Tooltip } from "material-ui";
-import { darkGrey, getSecondary, lightGrey, turquoise } from "../../../styles/colors";
+import { compose, graphql, withApollo } from 'react-apollo';
+import { Tooltip } from 'material-ui';
+import { darkGrey, getSecondary, lightGrey, turquoise } from '../../../styles/colors';
 import {
 	CollapsibleSection,
 	Icon,
@@ -12,27 +12,27 @@ import {
 	GridItem,
 	AlertConfirm,
 	CBXFooter
-} from "../../../displayComponents";
-import { changeRequestWord, videoParticipants, banParticipant } from "../../../queries";
-import { exceedsOnlineTimeout, participantIsBlocked, isAskingForWord, formatCountryName, councilStarted } from "../../../utils/CBX";
-import VideoParticipantMenu from "./videoParticipants/VideoParticipantMenu";
-import ChangeRequestWordButton from "./videoParticipants/ChangeRequestWordButton";
-import VideoParticipantsStats from "./videoParticipants/VideoParticipantsStats";
-import ParticipantHistoryModal from "./videoParticipants/ParticipantHistoryModal";
+} from '../../../displayComponents';
+import { changeRequestWord, videoParticipants, banParticipant } from '../../../queries';
+import { exceedsOnlineTimeout, participantIsBlocked, isAskingForWord, formatCountryName, councilStarted } from '../../../utils/CBX';
+import VideoParticipantMenu from './videoParticipants/VideoParticipantMenu';
+import ChangeRequestWordButton from './videoParticipants/ChangeRequestWordButton';
+import VideoParticipantsStats from './videoParticipants/VideoParticipantsStats';
+import ParticipantHistoryModal from './videoParticipants/ParticipantHistoryModal';
 import MuteToggleButton from './videoParticipants/MuteToggleButton';
-import { isMobile } from "../../../utils/screen";
-import { usePolling } from "../../../hooks";
-import MuteCamToggleButton from "./videoParticipants/MuteCamToggleButton";
-import imgCouncilbox from "../../../assets/img/imago-councilbox-inverse-mini.png";
-import imgCouncilbox2 from "../../../assets/img/logo-white-mini.png";
-import { COUNCIL_STATES } from "../../../constants";
+import { isMobile } from '../../../utils/screen';
+import { usePolling } from '../../../hooks';
+import MuteCamToggleButton from './videoParticipants/MuteCamToggleButton';
+import imgCouncilbox from '../../../assets/img/imago-councilbox-inverse-mini.png';
+import imgCouncilbox2 from '../../../assets/img/logo-white-mini.png';
+import { COUNCIL_STATES } from '../../../constants';
 
 const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) => {
 	const [stats, setStats] = React.useState({
-		online: "-",
-		offline: "-",
-		broadcasting: "-",
-		banned: "-"
+		online: '-',
+		offline: '-',
+		broadcasting: '-',
+		banned: '-'
 	});
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
@@ -55,7 +55,7 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 		});
 
 		setData(response.data);
-		setStats(response.data.videoParticipantsStats)
+		setStats(response.data.videoParticipantsStats);
 		setLoading(false);
 	}, [council.id, options]);
 
@@ -93,7 +93,7 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 				}
 			});
 		}
-	}
+	};
 
 	const banParticipant = async () => {
 		const response = await props.banParticipant({
@@ -111,7 +111,7 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 				});
 			}
 		}
-	}
+	};
 
 	const _participantVideoIcon = participant => {
 		if (participantIsBlocked(participant)) {
@@ -119,9 +119,9 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 				<Icon
 					className="material-icons"
 					style={{
-						fontSize: "1.1em",
-						marginRight: "0.3em",
-						color: "crimson"
+						fontSize: '1.1em',
+						marginRight: '0.3em',
+						color: 'crimson'
 					}}
 				>
 					block
@@ -134,8 +134,8 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 				<Icon
 					className="material-icons"
 					style={{
-						fontSize: "1.1em",
-						marginRight: "0.3em",
+						fontSize: '1.1em',
+						marginRight: '0.3em',
 						color: participantLiveColor(participant)
 					}}
 				>
@@ -147,34 +147,34 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 			<Icon
 				className="material-icons"
 				style={{
-					fontSize: "1.1em",
-					marginRight: "0.3em",
+					fontSize: '1.1em',
+					marginRight: '0.3em',
 					color: participantLiveColor(participant)
 				}}
 			>
 				videocam
 			</Icon>
 		);
-	}
+	};
 
 	const _participantEntry = participant => (
 			<Grid
 				key={`participant${participant.id}`}
-				className={(isAskingForWord(participant) && participant.online === 1) ? "colorToggle" : ''}
+				className={(isAskingForWord(participant) && participant.online === 1) ? 'colorToggle' : ''}
 				style={{
-					display: "flex",
-					flexDirection: "row",
+					display: 'flex',
+					flexDirection: 'row',
 					borderRadius: '3px',
-					height: "3em",
-					padding: "0.5em",
-					alignItems: "center"
+					height: '3em',
+					padding: '0.5em',
+					alignItems: 'center'
 				}}
 			>
 				<GridItem
 					xs={4}
 					lg={5}
 					md={5}
-					style={{ display: "flex", flexDirection: "row" }}
+					style={{ display: 'flex', flexDirection: 'row' }}
 				>
 					{_participantVideoIcon(participant)}
 					<Tooltip
@@ -182,10 +182,10 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 					>
 						<div
 							style={{
-								color: "white",
-								fontSize: "0.85em",
-								marginLeft: "0.5em",
-								width: "80%"
+								color: 'white',
+								fontSize: '0.85em',
+								marginLeft: '0.5em',
+								width: '80%'
 							}}
 							className="truncate"
 						>
@@ -205,8 +205,8 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 								<div
 									style={{
 										color: lightGrey,
-										marginLeft: "1em",
-										fontSize: "0.8em"
+										marginLeft: '1em',
+										fontSize: '0.8em'
 									}}
 									className="truncate"
 								>
@@ -219,9 +219,9 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 							lg={isMobile ? 2 : 1}
 							md={isMobile ? 2 : 1}
 							style={{
-								display: "flex",
-								flexDirection: "row",
-								justifyContent: "space-between"
+								display: 'flex',
+								flexDirection: 'row',
+								justifyContent: 'space-between'
 							}}
 						>
 							<MuteCamToggleButton
@@ -235,9 +235,9 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 							lg={isMobile ? 2 : 1}
 							md={isMobile ? 2 : 1}
 							style={{
-								display: "flex",
-								flexDirection: "row",
-								justifyContent: "space-between"
+								display: 'flex',
+								flexDirection: 'row',
+								justifyContent: 'space-between'
 							}}
 						>
 							<MuteToggleButton
@@ -251,9 +251,9 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 							lg={isMobile ? 2 : 1}
 							md={isMobile ? 2 : 1}
 							style={{
-								display: "flex",
-								flexDirection: "row",
-								justifyContent: "space-between"
+								display: 'flex',
+								flexDirection: 'row',
+								justifyContent: 'space-between'
 							}}
 						>
 							<ChangeRequestWordButton
@@ -267,9 +267,9 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 							lg={isMobile ? 2 : 1}
 							md={isMobile ? 2 : 1}
 							style={{
-								display: "flex",
-								flexDirection: "row",
-								justifyContent: "space-between"
+								display: 'flex',
+								flexDirection: 'row',
+								justifyContent: 'space-between'
 							}}
 						>
 							<VideoParticipantMenu
@@ -286,11 +286,11 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 					</>
 				}
 			</Grid>
-		)
+		);
 
 	const participantLiveColor = participant => {
 		if (participant.online !== 1) {
-			return "crimson";
+			return 'crimson';
 		}
 		if (!participant.videoParticipant) {
 			return turquoise;
@@ -307,17 +307,17 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 					if (videoParticipant.online === 1) {
 						return turquoise;
 					}
-					return "darkorange";
+					return 'darkorange';
 			}
 
 			if (videoParticipant.online === 1) {
 				return turquoise;
 			}
-				return "darkorange";
+				return 'darkorange';
 		}
 
 		return turquoise;
-	}
+	};
 
 	const _button = () => (
 			<VideoParticipantsStats
@@ -326,7 +326,7 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 				stats={stats}
 				toggleFullScreen={props.toggleFullScreen}
 			/>
-		)
+		);
 
 	const _section = () => {
 		const { videoParticipants } = data;
@@ -336,7 +336,7 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 		}
 
 		return (
-			<div style={{ backgroundColor: darkGrey, width: "100%", height: isMobile ? "430px" : `calc(100vh - ${props.videoHeight} - 5em)`, padding: "0.75em", position: "relative", overflow: "hidden" }}>
+			<div style={{ backgroundColor: darkGrey, width: '100%', height: isMobile ? '430px' : `calc(100vh - ${props.videoHeight} - 5em)`, padding: '0.75em', position: 'relative', overflow: 'hidden' }}>
 				<div style={{ height: `calc(100% - ${videoParticipants.total > options.limit ? '4em' : '2em'})` }}>
 					<Scrollbar>
 						{videoParticipants.list.map(participant => _participantEntry(participant))}
@@ -347,17 +347,17 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 						{_paginationFooter(videoParticipants)}
 					</div>
 				}
-				<div style={{ display: 'flex', alignItems: "center", justifyContent: "center", paddingTop: "3px" }}>
-					<div style={{ width: '17px', marginRight: "5px", display: 'flex', }}>
+				<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '3px' }}>
+					<div style={{ width: '17px', marginRight: '5px', display: 'flex', }}>
 						<img src={imgCouncilbox} style={{ width: '100%' }}></img>
 					</div>
-					<div style={{ width: '84px', display: 'flex', marginTop: "1px" }}>
+					<div style={{ width: '84px', display: 'flex', marginTop: '1px' }}>
 						<img src={imgCouncilbox2} style={{ width: '100%' }}></img>
 					</div>
 				</div>
 			</div>
 		);
-	}
+	};
 
 	const _paginationFooter = participants => (
 			<div style={{ display: 'flex', color: 'white', fontWeight: '700', alignItems: 'center', paddingTop: '0.5em' }}>
@@ -369,12 +369,12 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 					<div onClick={() => setOptions({ ...options, page: options.page + 1 })} style={{ color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer' }}>{'>'}</div>
 				}
 			</div>
-		)
+		);
 
 	const CMPVideo = true;//this.props.videoURL && this.props.videoURL.includes('councilbox');
 
 	if (screenSize === 'MAX') {
-		return <div style={{ height: "100%" }}>{CMPVideo && _button()}</div>;
+		return <div style={{ height: '100%' }}>{CMPVideo && _button()}</div>;
 	}
 	return (
 		<div style={{}}>
@@ -417,7 +417,7 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 			}
 		</div>
 	);
-}
+};
 
 const changeParticipantOnlineState = gql`
     mutation changeParticipantOnlineState($participantId: Int!, $online: Int!){
@@ -431,10 +431,10 @@ const changeParticipantOnlineState = gql`
 export default compose(
 	withApollo,
 	graphql(changeRequestWord, {
-		name: "changeRequestWord"
+		name: 'changeRequestWord'
 	}),
 	graphql(banParticipant, {
-		name: "banParticipant"
+		name: 'banParticipant'
 	}),
 	graphql(changeParticipantOnlineState, {
 		name: 'changeParticipantOnlineState'

@@ -33,15 +33,15 @@ const DenyVote = ({ translate, client, refetch, participant }) => {
                 </div>
 
             </div>
-            )
+            );
         }
 
         return (
             <div>
                 {translate.undeny_vote_question}
             </div>
-        )
-    }
+        );
+    };
 
     const toggleDeniedVote = async value => {
         await client.mutate({
@@ -61,14 +61,14 @@ const DenyVote = ({ translate, client, refetch, participant }) => {
 
         refetch();
         setModal(false);
-    }
+    };
 
     return (
         <div
             style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center"
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center'
             }}
         >
             <AlertConfirm
@@ -82,15 +82,15 @@ const DenyVote = ({ translate, client, refetch, participant }) => {
             />
             <div
                 style={{
-                    width: "2em",
-                    display: "flex",
-                    justifyContent: "center"
+                    width: '2em',
+                    display: 'flex',
+                    justifyContent: 'center'
                 }}
             >
                 <i className="fa fa-times" aria-hidden="true" style={{
                         color: secondary,
-                        fontSize: "0.8em",
-                        marginRight: "0.3em"
+                        fontSize: '0.8em',
+                        marginRight: '0.3em'
                 }}></i>
             </div>
             {participant.voteDenied ?
@@ -107,7 +107,7 @@ const DenyVote = ({ translate, client, refetch, participant }) => {
             }
 
         </div>
-    )
-}
+    );
+};
 
 export default withApollo(DenyVote);

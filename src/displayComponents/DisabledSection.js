@@ -23,6 +23,6 @@ const DisabledSection = ({ children }) => (
                 {children}
             </div>
         </div>
-    )
+    );
 
 export default DisabledSection;

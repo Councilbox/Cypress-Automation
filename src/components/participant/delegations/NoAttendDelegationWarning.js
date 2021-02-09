@@ -15,7 +15,7 @@ const NoAttendDelegationWarning = ({ translate, requestClose }) => (
                 </div>
             }
         />
-    )
+    );
 
 
 export default NoAttendDelegationWarning;

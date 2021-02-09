@@ -30,7 +30,7 @@ const CreateCertificateModal = ({ doc, open, requestClose, setError, client, cou
                         title: removeHTMLTags(doc.find(block => block.type === 'cert_title').text)
                     }
                 }
-            })
+            });
 
             if(!response.errors){
                 if(response.data.createCertificate.success){
@@ -39,7 +39,7 @@ const CreateCertificateModal = ({ doc, open, requestClose, setError, client, cou
                 }
             }
         }
-    }
+    };
 
     const checkRequiredFields = () => {
         const titleBlock = doc.find(block => block.type === 'cert_title');
@@ -55,7 +55,7 @@ const CreateCertificateModal = ({ doc, open, requestClose, setError, client, cou
             return true;
         }
         return false;
-    }
+    };
 
     const renderBody = () => (
             <div style={{ marginTop: '12px', height: '100%', border: '1px solid gainsboro' }}>
@@ -67,7 +67,7 @@ const CreateCertificateModal = ({ doc, open, requestClose, setError, client, cou
 					company={company}
 				/>
 			</div>
-        )
+        );
 
     return (
         <AlertConfirm
@@ -80,7 +80,7 @@ const CreateCertificateModal = ({ doc, open, requestClose, setError, client, cou
             title={translate.certificate_generate}
             bodyText={renderBody()}
         />
-    )
-}
+    );
+};
 
-export default withApollo(CreateCertificateModal)
+export default withApollo(CreateCertificateModal);

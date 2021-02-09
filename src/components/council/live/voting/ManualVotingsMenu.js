@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import { TextInput, Grid, GridItem, BasicButton, LoadingSection } from '../../../../displayComponents';
 import { getSecondary } from '../../../../styles/colors';
-import { updateAgenda } from "../../../../queries/agenda";
+import { updateAgenda } from '../../../../queries/agenda';
 import { useOldState } from '../../../../hooks';
 import { cleanAgendaObject } from '../../../../utils/CBX';
 import { isMobile } from '../../../../utils/screen';
@@ -23,7 +23,7 @@ const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
             props.changeEditedVotings(false);
         }
         setState(voting);
-    }
+    };
 
     const saveManualVotings = async () => {
         const toSend = cleanAgendaObject(agenda);
@@ -50,17 +50,17 @@ const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
             props.changeEditedVotings(false);
             props.refetch();
         }
-    }
+    };
 
     const resetButtonStates = () => {
         setState({
             loading: false,
             success: false
         });
-    }
+    };
 
     if(agenda.votingState === 4 && !props.votingsRecount){
-        return <span />
+        return <span />;
     }
 
     const votesLeft = ((agenda.votingState === 4 ? props.votingsRecount.availableVotes : agenda.presentCensus) - state.noVoteManual - state.abstentionManual - state.negativeManual - state.positiveManual);
@@ -69,7 +69,7 @@ const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
     const width = window.innerWidth;
 
     if(agenda.presentCensus <= 0){
-        return <span/>
+        return <span/>;
     }
 
     return (
@@ -90,7 +90,7 @@ const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
                         {translate.manual_votes} <br />
                         {`(${translate.avaliable} ${maxVoteManual})`}
                     </GridItem>
-                    <GridItem xs={12} md={10} lg={10} style={{ display: isMobile || width < 960 ? "" : 'flex', justifyContent: "space-between" }}>
+                    <GridItem xs={12} md={10} lg={10} style={{ display: isMobile || width < 960 ? '' : 'flex', justifyContent: 'space-between' }}>
                         <GridItem xs={12} md={2} lg={2}>
                             <TextInput
                                 value={state.positiveManual || 0}
@@ -101,7 +101,7 @@ const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
                                 onChange={event => {
                                     updateVoting({
                                         positiveManual: calculateValidNumber(parseInt(maxVoteManual, 10), parseInt(state.positiveManual, 10), parseInt(event.target.value, 10))
-                                    })
+                                    });
                                 }}
                             />
                         </GridItem>
@@ -115,7 +115,7 @@ const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
                                 onChange={event => {
                                     updateVoting({
                                         negativeManual: calculateValidNumber(parseInt(maxVoteManual, 10), parseInt(state.negativeManual, 10), parseInt(event.target.value, 10))
-                                    })
+                                    });
                                 }}
                             />
                         </GridItem>
@@ -129,7 +129,7 @@ const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
                                 onChange={event => {
                                     updateVoting({
                                         abstentionManual: calculateValidNumber(parseInt(maxVoteManual, 10), parseInt(state.abstentionManual, 10), parseInt(event.target.value, 10))
-                                    })
+                                    });
                                 }
                                 }
                             />
@@ -151,7 +151,7 @@ const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
                                 loading={state.loading}
                                 success={state.success}
                                 reset={resetButtonStates}
-                                text={state.loading || state.success ? "Guardado" : translate.save}
+                                text={state.loading || state.success ? 'Guardado' : translate.save}
                                 // text={translate.save}
                                 textStyle={{ color: 'white', fontWeight: '700' }}
                                 color={getSecondary()}
@@ -162,8 +162,8 @@ const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
                 </Grid>
             </div>
         </div>
-    )
-}
+    );
+};
 
 const calculateValidNumber = (max, actual, newValue) => {
     if (isNaN(newValue)) {
@@ -173,7 +173,7 @@ const calculateValidNumber = (max, actual, newValue) => {
         return newValue;
     }
         return max + actual;
-}
+};
 
 export default graphql(updateAgenda, {
     name: 'updateAgenda'

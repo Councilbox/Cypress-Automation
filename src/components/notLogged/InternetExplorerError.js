@@ -4,6 +4,6 @@ const InternetExplorerError = () => (
         <div>
             Error
         </div>
-    )
+    );
 
 export default InternetExplorerError;

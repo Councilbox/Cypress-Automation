@@ -13,11 +13,11 @@ const CompaniesManagerButton = props => {
 
     const showCantCreateModal = () => {
         setModal(true);
-    }
+    };
 
     const hideCantCreateModal = () => {
         setModal(false);
-    }
+    };
 
     return(
         <div style={{ width: '100%', padding: '1em', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -83,8 +83,8 @@ const CompaniesManagerButton = props => {
                 }
             />
         </div>
-    )
-}
+    );
+};
 
 
 export default withSharedProps()(CompaniesManagerButton);

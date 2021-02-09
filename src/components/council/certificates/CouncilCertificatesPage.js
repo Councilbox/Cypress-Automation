@@ -30,21 +30,21 @@ const CouncilCertificates = ({ data, translate, ...props }) => {
             if(!response.errors){
                 downloadFile(
                     response.data.downloadCertificate,
-                    "application/pdf",
+                    'application/pdf',
                     `${certificate.title.replace(/\./, '')}`
                 );
                 setDownloading(false);
             }
         }
-    }
+    };
 
     const closeEditor = () => {
         data.refetch();
         setEditor(false);
-    }
+    };
 
     if(data.loading){
-        return <LoadingSection />
+        return <LoadingSection />;
     }
 
     const { councilCertificates } = data;
@@ -56,7 +56,7 @@ const CouncilCertificates = ({ data, translate, ...props }) => {
                 translate={translate}
                 requestClose={closeEditor}
             />
-        )
+        );
     }
 
     return(
@@ -108,8 +108,8 @@ const CouncilCertificates = ({ data, translate, ...props }) => {
                 </div>
             </div>
         </CardPageLayout>
-    )
-}
+    );
+};
 
 
 const HoverableRow = ({ certificate, downloading, translate, ...props }) => {
@@ -144,8 +144,8 @@ const HoverableRow = ({ certificate, downloading, translate, ...props }) => {
                 </div>
             </TableCell>
         </TableRow>
-    )
-}
+    );
+};
 
 
 export default compose(

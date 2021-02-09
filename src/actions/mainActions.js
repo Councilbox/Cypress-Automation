@@ -1,25 +1,25 @@
-import DetectRTC from "detectrtc";
+import DetectRTC from 'detectrtc';
 import gql from 'graphql-tag';
-import { getCompanies } from "./companyActions";
-import { client, bHistory, refreshWSLink, moment } from "../containers/App";
-import { getMe, getTranslations } from "../queries";
+import { getCompanies } from './companyActions';
+import { client, bHistory, refreshWSLink, moment } from '../containers/App';
+import { getMe, getTranslations } from '../queries';
 
-import { initLogRocket } from "../utils/logRocket";
+import { initLogRocket } from '../utils/logRocket';
 
-export const language = "es";
+export const language = 'es';
 
 export const loginSuccess = (token, refreshToken) => dispatch => {
-		sessionStorage.setItem("token", token);
-		sessionStorage.setItem("refreshToken", refreshToken);
+		sessionStorage.setItem('token', token);
+		sessionStorage.setItem('refreshToken', refreshToken);
 		refreshWSLink();
 		dispatch(initUserData());
 		dispatch(getCompanies());
-		dispatch({ type: "LOGIN_SUCCESS" });
+		dispatch({ type: 'LOGIN_SUCCESS' });
 	};
 
 export const setUnsavedChanges = value => (
 	{ type: 'UNSAVED_CHANGES', value }
-)
+);
 
 export const loadSubdomainConfig = () => {
 	const subdomain = window.location.hostname.split('.')[0];
@@ -68,20 +68,20 @@ value: {
 			...response.data.subdomainConfig,
 			name: subdomain
 		} });
-	}
-}
+	};
+};
 
 export const participantLoginSuccess = () => dispatch => {
-		sessionStorage.setItem("participantLoginSuccess", true);
-		dispatch({ type: "PARTICIPANT_LOGIN_SUCCESS" });
+		sessionStorage.setItem('participantLoginSuccess', true);
+		dispatch({ type: 'PARTICIPANT_LOGIN_SUCCESS' });
 	};
 
-export const loadingFinished = () => ({ type: "LOADING_FINISHED" });
+export const loadingFinished = () => ({ type: 'LOADING_FINISHED' });
 
 export const initUserData = () => async dispatch => {
 		const response = await client.query({
 			query: getMe,
-			errorPolicy: "all"
+			errorPolicy: 'all'
 		});
 		if (!response.errors) {
 			if (response.data.me) {
@@ -90,7 +90,7 @@ export const initUserData = () => async dispatch => {
 				}
 
 				dispatch({
-					type: "SET_USER_DATA",
+					type: 'SET_USER_DATA',
 					value: response.data.me
 				});
 				dispatch(getCompanies(response.data.me.id));
@@ -98,31 +98,31 @@ export const initUserData = () => async dispatch => {
 			}
 		} else {
 			response.errors[0].code === 440 &&
-				sessionStorage.removeItem("token");
+				sessionStorage.removeItem('token');
 		}
 	};
 
 export const setUserData = user => dispatch => {
 		dispatch({
-			type: "SET_USER_DATA",
+			type: 'SET_USER_DATA',
 			value: user
 		});
 		dispatch(setLanguage(user.preferredLanguage));
 	};
 
-export const noServerResponse = () => ({ type: 'NO_SERVER_RESPONSE' })
+export const noServerResponse = () => ({ type: 'NO_SERVER_RESPONSE' });
 
-export const serverRestored = () => ({ type: 'SERVER_RESTORED' })
+export const serverRestored = () => ({ type: 'SERVER_RESTORED' });
 
 export const logout = () => {
 	sessionStorage.clear();
-	return { type: "LOGOUT" };
+	return { type: 'LOGOUT' };
 };
 
 export const logoutParticipant = (participant, council) => {
 	sessionStorage.removeItem('participantLoginSuccess');
 	bHistory.push(`/participant/${participant.id}/council/${council.id}/login`);
-	return { type: "PARTICIPANT_LOGOUT" };
+	return { type: 'PARTICIPANT_LOGOUT' };
 };
 
 export const buildTranslateObject = translations => {
@@ -132,7 +132,7 @@ export const buildTranslateObject = translations => {
 	});
 
 	return translationObject;
-}
+};
 
 export const setLanguage = language => async dispatch => {
 		const response = await client.query({
@@ -144,18 +144,18 @@ export const setLanguage = language => async dispatch => {
 		if(!response.errors){
 			const translationObject = buildTranslateObject(response.data.translations);
 			let locale = language;
-			if (language === "cat" || language === "gal") {
-				locale = "es";
+			if (language === 'cat' || language === 'gal') {
+				locale = 'es';
 			}
 			moment.updateLocale(locale, {
-				months: translationObject.datepicker_months.split(","),
+				months: translationObject.datepicker_months.split(','),
 				monthsShort: translationObject.datepicker_months
-					.split(",")
+					.split(',')
 					.map(month => month.substring(0, 3))
 			});
 			localStorage.setItem(language, JSON.stringify(translationObject));
 			dispatch({
-				type: "LOADED_LANG",
+				type: 'LOADED_LANG',
 				value: translationObject,
 				selected: language
 			});
@@ -165,7 +165,7 @@ export const setLanguage = language => async dispatch => {
 export const setDetectRTC = () => dispatch => {
 		DetectRTC.load(() => {
 			dispatch({
-				type: "LOADED_DETECTRTC",
+				type: 'LOADED_DETECTRTC',
 				detectRTC: DetectRTC
 			});
 		});

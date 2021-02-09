@@ -28,7 +28,7 @@ const AddAdmin = ({ translate, company, refetch, admins, client }) => {
         });
         setModal(false);
         refetch();
-    }
+    };
 
     const getUsers = React.useCallback(async () => {
         const response = await client.query({
@@ -57,7 +57,7 @@ const AddAdmin = ({ translate, company, refetch, admins, client }) => {
     }, [getUsers]);
 
     if(loading){
-        return <LoadingSection />
+        return <LoadingSection />;
     }
 
 
@@ -79,7 +79,7 @@ const AddAdmin = ({ translate, company, refetch, admins, client }) => {
                 <div key={user.id} style={{ display: 'flex' }}>
                     {`${user.name} ${user.surname || ''} - ${user.email}`}
                     <div style={{ cursor: 'pointer' }} onClick={() => {
-                        setModal(user)
+                        setModal(user);
                         //alert()
                     }}>Añadir</div>
                 </div>
@@ -97,7 +97,7 @@ const AddAdmin = ({ translate, company, refetch, admins, client }) => {
                 />
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default withApollo(AddAdmin);

@@ -1,12 +1,12 @@
-import React from "react";
-import { withApollo } from "react-apollo";
-import { CircularProgress } from "material-ui";
-import FontAwesome from "react-fontawesome";
-import { getSecondary } from "../../styles/colors";
-import { printPrettyFilesize } from "../../utils/CBX";
+import React from 'react';
+import { withApollo } from 'react-apollo';
+import { CircularProgress } from 'material-ui';
+import FontAwesome from 'react-fontawesome';
+import { getSecondary } from '../../styles/colors';
+import { printPrettyFilesize } from '../../utils/CBX';
 
 const API_URL =
-	process.env.REACT_APP_MODE === "dev"
+	process.env.REACT_APP_MODE === 'dev'
 		? `http://${process.env.REACT_APP_LOCAL_API}`
 		: `https://${process.env.REACT_APP_API_URL}`;
 
@@ -16,13 +16,13 @@ const AttachmentDownload = ({ agenda, translate, attachment, ...props }) => {
 
 	const downloadAttachment = async id => {
 		setDownloading(true);
-		const token = sessionStorage.getItem("token");
+		const token = sessionStorage.getItem('token');
 		const apiToken = sessionStorage.getItem('apiToken');
-		const participantToken = sessionStorage.getItem("participantToken");
-		const endpoint = agenda ? 'agendaAttachment' : 'councilAttachment'
+		const participantToken = sessionStorage.getItem('participantToken');
+		const endpoint = agenda ? 'agendaAttachment' : 'councilAttachment';
 		const response = await fetch(`${API_URL}/${endpoint}/${id}`, {
 			headers: new Headers({
-				"x-jwt-token": token || (apiToken || participantToken),
+				'x-jwt-token': token || (apiToken || participantToken),
 			})
 		});
 
@@ -37,15 +37,15 @@ const AttachmentDownload = ({ agenda, translate, attachment, ...props }) => {
             a.remove();
 		}
 		setDownloading(false);
-	}
+	};
 
 	return (
 		<div
 			style={{
-				cursor: "pointer",
-				padding: "0.2em 0.5em",
+				cursor: 'pointer',
+				padding: '0.2em 0.5em',
 				border: `1px solid ${secondary}`,
-				borderRadius: "3px",
+				borderRadius: '3px',
 				marginTop: '5px',
 				color: secondary
 			}}
@@ -55,14 +55,14 @@ const AttachmentDownload = ({ agenda, translate, attachment, ...props }) => {
 			{downloading ? (
 				<CircularProgress
 					size={14}
-					color={"secondary"}
-					style={{ marginRight: "0.8em" }}
+					color={'secondary'}
+					style={{ marginRight: '0.8em' }}
 				/>
 			) : (
 				<FontAwesome
-					name={"download"}
+					name={'download'}
 					style={{
-						fontSize: "0.9em",
+						fontSize: '0.9em',
 						marginRight: '0.3em',
 						color: secondary
 					}}
@@ -76,6 +76,6 @@ const AttachmentDownload = ({ agenda, translate, attachment, ...props }) => {
 			</div>
 		</div>
 	);
-}
+};
 
 export default withApollo(AttachmentDownload);

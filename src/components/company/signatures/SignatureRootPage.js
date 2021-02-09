@@ -12,7 +12,7 @@ const SignatureRootPage = props => {
     const { data } = props;
 
     if(data.loading){
-        return <LoadingSection />
+        return <LoadingSection />;
     }
 
     if(data.signature.state === SIGNATURE_STATES.DRAFT){
@@ -26,7 +26,7 @@ const SignatureRootPage = props => {
     if(data.signature.state === SIGNATURE_STATES.COMPLETED){
         return <SignatureConfirmed {...props} />;
     }
-}
+};
 
 
 export default compose(

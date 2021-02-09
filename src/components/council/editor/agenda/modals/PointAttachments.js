@@ -7,7 +7,7 @@ import CompanyDocumentsBrowser from '../../../../company/drafts/documents/Compan
 const PointAttachments = ({ translate, company, attachments, setAttachments, setDeletedAttachments, deletedAttachments }) => {
     const primary = getPrimary();
     const secondary = getSecondary();
-    const [companyDocumentsModal, setCompanyDocumentsModal] = React.useState(false)
+    const [companyDocumentsModal, setCompanyDocumentsModal] = React.useState(false);
 
     const handleFile = event => {
         const file = event.nativeEvent.target.files[0];
@@ -33,7 +33,7 @@ const PointAttachments = ({ translate, company, attachments, setAttachments, set
             };
             setAttachments([...attachments, fileInfo]);
 		};
-    }
+    };
 
     const removeAgendaAttachment = index => {
         const toDelete = attachments.splice(index, 1);
@@ -42,7 +42,7 @@ const PointAttachments = ({ translate, company, attachments, setAttachments, set
         }
 
         setAttachments([...attachments]);
-    }
+    };
 
 
 
@@ -66,12 +66,12 @@ const PointAttachments = ({ translate, company, attachments, setAttachments, set
             />
             <input
                 type="file"
-                id={"raised-button-file"}
+                id={'raised-button-file'}
                 onChange={handleFile}
                 //disabled={uploading}
                 style={{
-                    cursor: "pointer",
-                    position: "absolute",
+                    cursor: 'pointer',
+                    position: 'absolute',
                     top: 0,
                     width: 0,
                     bottom: 0,
@@ -82,15 +82,15 @@ const PointAttachments = ({ translate, company, attachments, setAttachments, set
             />
             <DropDownMenu
                 color="transparent"
-                styleComponent={{ width: "" }}
+                styleComponent={{ width: '' }}
                 Component={() => <BasicButton
                         color={primary}
-                        icon={<i className={"fa fa-paperclip"}
+                        icon={<i className={'fa fa-paperclip'}
                         style={{
                             cursor: 'pointer',
                             color: 'white',
                             fontWeight: '700',
-                            paddingLeft: "5px"
+                            paddingLeft: '5px'
                         }}></i>}
                         text={translate.add_attachment}
                         textStyle={{
@@ -105,25 +105,25 @@ const PointAttachments = ({ translate, company, attachments, setAttachments, set
                 }}
                 type="flat"
                 items={
-                    <div style={{ padding: "1em" }}>
+                    <div style={{ padding: '1em' }}>
                         <label htmlFor="raised-button-file">
-                            <div style={{ display: "flex", color: "black", padding: ".5em 0em", cursor: "pointer" }}>
-                                <div style={{ paddingLeft: "10px" }}>
+                            <div style={{ display: 'flex', color: 'black', padding: '.5em 0em', cursor: 'pointer' }}>
+                                <div style={{ paddingLeft: '10px' }}>
                                     {translate.upload_file}
                                 </div>
                             </div>
                         </label>
                     <div
                         style={{
-                            display: "flex",
-                            color: "black",
-                            padding: ".5em 0em",
-                            borderTop: "1px solid" + primary,
-                            cursor: "pointer"
+                            display: 'flex',
+                            color: 'black',
+                            padding: '.5em 0em',
+                            borderTop: '1px solid' + primary,
+                            cursor: 'pointer'
                         }}
                         onClick={() => setCompanyDocumentsModal(true)}
                     >
-                        <div style={{ paddingLeft: "10px" }} >
+                        <div style={{ paddingLeft: '10px' }} >
                             {translate.my_documentation}
                         </div>
                     </div>
@@ -161,7 +161,7 @@ const PointAttachments = ({ translate, company, attachments, setAttachments, set
             <div style={{ clear: 'both' }} />
 
         </>
-    )
-}
+    );
+};
 
 export default withSharedProps()(PointAttachments);

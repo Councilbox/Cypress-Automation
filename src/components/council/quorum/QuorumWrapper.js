@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import FontAwesome from 'react-fontawesome';
 import * as CBX from '../../../utils/CBX';
-import { QUORUM_TYPES } from "../../../constants";
+import { QUORUM_TYPES } from '../../../constants';
 import { liveRecount } from '../../../queries/live';
 
 const QuorumWrapper = ({ translate, council, recount, secondCall }) => {
@@ -17,7 +17,7 @@ const QuorumWrapper = ({ translate, council, recount, secondCall }) => {
             type: council.statute.firstCallQuorumType,
             value: council.statute.firstCallQuorum,
             divider: council.statute.firstCallQuorumDivider
-        }
+        };
 
     const quorumType = QUORUM_TYPES.find(quorum => quorum.value === statute.type);
     const neededQuorum = CBX.calculateQuorum(council, recount);
@@ -65,30 +65,30 @@ const QuorumWrapper = ({ translate, council, recount, secondCall }) => {
             }
 
         </React.Fragment>
-    )
-}
+    );
+};
 
 const NotReachedIcon = () => (
     <FontAwesome
-        name={"times"}
+        name={'times'}
         style={{
-            fontSize: "0.9em",
+            fontSize: '0.9em',
             color: 'red',
             marginLeft: '0.4em'
         }}
     />
-)
+);
 
 const ReachedIcon = () => (
     <FontAwesome
-        name={"check"}
+        name={'check'}
         style={{
-            fontSize: "0.9em",
+            fontSize: '0.9em',
             color: 'green',
             marginLeft: '0.4em'
         }}
     />
-)
+);
 
 export default graphql(liveRecount, {
     options: props => ({

@@ -29,7 +29,7 @@ const VideoContainer = ({ setVideoURL, videoURL, announcement, client, ...props 
         } else {
             setTimeout(getData, 5000);
         }
-    }
+    };
 
     const getData = React.useCallback(async () => {
         const response = await client.query({
@@ -37,10 +37,10 @@ const VideoContainer = ({ setVideoURL, videoURL, announcement, client, ...props 
             variables: {
                 participantId: +props.participant.id
             }
-        })
+        });
 
         updateUrl(response.data.participantVideoURL);
-    }, [props.participant.id])
+    }, [props.participant.id]);
 
     useRoomUpdated({
         refetch: updateUrl,
@@ -60,7 +60,7 @@ const VideoContainer = ({ setVideoURL, videoURL, announcement, client, ...props 
                 council={props.council}
                 translate={props.translate}
             />
-        )
+        );
     }
 
 
@@ -77,16 +77,16 @@ const VideoContainer = ({ setVideoURL, videoURL, announcement, client, ...props 
                 src={`https://${url}?rand=${rand}`}
                 allowFullScreen={true}
                 style={{
-                    border: "none !important",
+                    border: 'none !important',
                 }}
             >
                 Something wrong...
             </iframe>
-        )
+        );
     }
 
     return <div/>;
-}
+};
 
 export default compose(
     graphql(roomUpdateSubscription, {

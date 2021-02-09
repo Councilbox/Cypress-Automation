@@ -1,6 +1,6 @@
-import React from "react";
-import { Button } from "material-ui";
-import { CircularProgress } from "material-ui/Progress";
+import React from 'react';
+import { Button } from 'material-ui';
+import { CircularProgress } from 'material-ui/Progress';
 
 const FileUploadButton = ({
 	onChange,
@@ -21,15 +21,15 @@ const FileUploadButton = ({
 	<React.Fragment>
 		<input
 			type="file"
-			{...(image ? { accept: "image/*" } : {})}
+			{...(image ? { accept: 'image/*' } : {})}
 			{...(accept ? { accept } : {})}
-			id={"raised-button-file"}
+			id={'raised-button-file'}
 			onChange={onChange}
 			disabled={disabled}
 			{...(loading ? { disabled: true } : {})}
 			style={{
-				cursor: "pointer",
-				position: "absolute",
+				cursor: 'pointer',
+				position: 'absolute',
 				top: 0,
 				width: 0,
 				bottom: 0,
@@ -45,7 +45,7 @@ const FileUploadButton = ({
 		:
 			<label htmlFor="raised-button-file" style={style}>
 				<Button
-					variant={flat ? "flat" : "raised"}
+					variant={flat ? 'flat' : 'raised'}
 					component="span"
 					disableRipple={loading}
 					disabled={loading}
@@ -59,8 +59,8 @@ const FileUploadButton = ({
 					{loading ? (
 						<div
 							style={{
-								color: "white",
-								marginLeft: "0.3em"
+								color: 'white',
+								marginLeft: '0.3em'
 							}}
 						>
 							<CircularProgress size={12} color={loadingColor} />

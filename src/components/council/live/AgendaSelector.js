@@ -1,11 +1,11 @@
-import React from "react";
-import { Tooltip } from "material-ui";
-import { AgendaNumber, Icon } from "../../../displayComponents";
-import { getPrimary, getSecondary } from "../../../styles/colors";
-import ReorderPointsModal from "../agendas/ReorderPointsModal";
-import * as CBX from "../../../utils/CBX";
-import { AGENDA_TYPES, AGENDA_STATES, COUNCIL_STATES } from "../../../constants";
-import { AddAgendaPoint } from "../editor/agenda/StepAgenda";
+import React from 'react';
+import { Tooltip } from 'material-ui';
+import { AgendaNumber, Icon } from '../../../displayComponents';
+import { getPrimary, getSecondary } from '../../../styles/colors';
+import ReorderPointsModal from '../agendas/ReorderPointsModal';
+import * as CBX from '../../../utils/CBX';
+import { AGENDA_TYPES, AGENDA_STATES, COUNCIL_STATES } from '../../../constants';
+import { AddAgendaPoint } from '../editor/agenda/StepAgenda';
 
 const AgendaSelector = ({ agendas, translate, council, onClick, selected, stylesDiv, ...props }) => {
 	const canAddPoints = () => {
@@ -16,25 +16,25 @@ const AgendaSelector = ({ agendas, translate, council, onClick, selected, styles
 				activePoint.subjectType !== AGENDA_TYPES.PUBLIC_ACT;
 		}
 		return CBX.canAddPoints(council);
-	}
+	};
 
 	return (
 		<div
 			style={{
-				width: "100%",
-				paddingBottom: "2em",
-				flexDirection: "column",
-				display: "flex",
-				alignItems: "center",
+				width: '100%',
+				paddingBottom: '2em',
+				flexDirection: 'column',
+				display: 'flex',
+				alignItems: 'center',
 			}}
 			>
 			<div
 				style={{
-					marginBottom: "0.8em",
+					marginBottom: '0.8em',
 					marginTop: '1.2em',
-					flexDirection: "column",
-					display: "flex",
-					alignItems: "center",
+					flexDirection: 'column',
+					display: 'flex',
+					alignItems: 'center',
 				}}
 			>
 				{agendas.map((agenda, index) => (
@@ -44,9 +44,9 @@ const AgendaSelector = ({ agendas, translate, council, onClick, selected, styles
 									style={{
 										margin: 0,
 										padding: 0,
-										width: "1px",
+										width: '1px',
 										borderRight: `3px solid ${getSecondary()}`,
-										height: "0.8em"
+										height: '0.8em'
 									}}
 								/>
 							)}
@@ -66,7 +66,7 @@ const AgendaSelector = ({ agendas, translate, council, onClick, selected, styles
 			{(council.councilType < 2 || council.state < COUNCIL_STATES.ROOM_OPENED) &&
 				<React.Fragment>
 					{canAddPoints(council) && (
-						<div style={{ marginBottom: "0.8em" }}>
+						<div style={{ marginBottom: '0.8em' }}>
 							<AddAgendaPoint
 								translate={translate}
 								Component={props => (
@@ -76,10 +76,10 @@ const AgendaSelector = ({ agendas, translate, council, onClick, selected, styles
 									>
 										<div>
 											<AgendaNumber
-												index={"+"}
+												index={'+'}
 												onClick={props.onClick}
 												active={false}
-												secondaryColor={"#888888"}
+												secondaryColor={'#888888'}
 											/>
 										</div>
 									</Tooltip>
@@ -113,13 +113,13 @@ const AgendaSelector = ({ agendas, translate, council, onClick, selected, styles
 												alt="reorder icon"
 												style={{
 													fontSize: '16px',
-													color: "#888888",
-													height: "auto"
+													color: '#888888',
+													height: 'auto'
 												}}
 											>low_priority</Icon>
 										}
 										active={false}
-										secondaryColor={"#888888"}
+										secondaryColor={'#888888'}
 									/>
 								</div>
 							</Tooltip>
@@ -129,7 +129,7 @@ const AgendaSelector = ({ agendas, translate, council, onClick, selected, styles
 			}
 		</div>
 	);
-}
+};
 
 
 export default AgendaSelector;

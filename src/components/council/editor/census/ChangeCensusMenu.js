@@ -1,17 +1,17 @@
-import React from "react";
-import { MenuItem, Typography, Tooltip } from "material-ui";
+import React from 'react';
+import { MenuItem, Typography, Tooltip } from 'material-ui';
 import {
 	Grid,
 	GridItem,
 	SelectInput,
 	ButtonIcon,
 	BasicButton
-} from "../../../../displayComponents/index";
-import * as CBX from "../../../../utils/CBX";
-import AddCouncilParticipantButton from "./modals/AddCouncilParticipantButton";
-import { getSecondary } from "../../../../styles/colors";
-import withSharedProps from "../../../../HOCs/withSharedProps";
-import { GOVERNING_BODY_TYPES } from "../../../../constants";
+} from '../../../../displayComponents/index';
+import * as CBX from '../../../../utils/CBX';
+import AddCouncilParticipantButton from './modals/AddCouncilParticipantButton';
+import { getSecondary } from '../../../../styles/colors';
+import withSharedProps from '../../../../HOCs/withSharedProps';
+import { GOVERNING_BODY_TYPES } from '../../../../constants';
 
 
 const ChangeCensusMenu = ({ showAddModal, disabled, handleCensusChange, reloadCensus, council, company, translate, censuses, totalVotes, totalSocialCapital, participations, refetch }) => (
@@ -25,8 +25,8 @@ const ChangeCensusMenu = ({ showAddModal, disabled, handleCensusChange, reloadCe
 						md={3}
 						xs={6}
 						style={{
-							height: "4em",
-							verticalAlign: "middle"
+							height: '4em',
+							verticalAlign: 'middle'
 						}}
 					>
 						{(censuses && censuses.list && censuses.list.length > 0) ?
@@ -64,9 +64,9 @@ const ChangeCensusMenu = ({ showAddModal, disabled, handleCensusChange, reloadCe
 						md={1}
 						xs={6}
 						style={{
-							height: "4em",
-							display: "flex",
-							alignItems: "center"
+							height: '4em',
+							display: 'flex',
+							alignItems: 'center'
 						}}
 					>
 						<Tooltip title={translate.try_again_census} >
@@ -74,7 +74,7 @@ const ChangeCensusMenu = ({ showAddModal, disabled, handleCensusChange, reloadCe
 								<BasicButton
 									color={getSecondary()}
 									buttonStyle={{
-										margin: "0"
+										margin: '0'
 									}}
 									icon={
 										<ButtonIcon
@@ -94,17 +94,17 @@ const ChangeCensusMenu = ({ showAddModal, disabled, handleCensusChange, reloadCe
 						md={5}
 						xs={12}
 						style={{
-							height: "4em",
-							display: "flex",
-							alignItems: "center"
+							height: '4em',
+							display: 'flex',
+							alignItems: 'center'
 						}}
 					>
 						<Typography
 							variant="body2"
 							style={{
-								padding: "1.1em 1em 0 1em",
-								fontWeight: "600",
-								fontSize: "1em"
+								padding: '1.1em 1em 0 1em',
+								fontWeight: '600',
+								fontSize: '1em'
 							}}
 						>
 							{`${translate.total_votes}: ${totalVotes || 0}`}
@@ -113,9 +113,9 @@ const ChangeCensusMenu = ({ showAddModal, disabled, handleCensusChange, reloadCe
 							<Typography
 								variant="body2"
 								style={{
-									padding: "1.1em 1em 0 1em",
-									fontWeight: "600",
-									fontSize: "1em"
+									padding: '1.1em 1em 0 1em',
+									fontWeight: '600',
+									fontSize: '1em'
 								}}
 							>
 								{`${translate.total_social_capital}: ${totalSocialCapital || 0}`}
@@ -131,9 +131,9 @@ const ChangeCensusMenu = ({ showAddModal, disabled, handleCensusChange, reloadCe
 				md={3}
 				xs={12}
 				style={{
-					height: "4em",
+					height: '4em',
 					display: 'flex',
-					alignItems: "center"
+					alignItems: 'center'
 				}}
 			>
 				<AddCouncilParticipantButton
@@ -145,6 +145,6 @@ const ChangeCensusMenu = ({ showAddModal, disabled, handleCensusChange, reloadCe
 				/>
 			</GridItem>
 		</Grid>
-	)
+	);
 
 export default withSharedProps()(ChangeCensusMenu);

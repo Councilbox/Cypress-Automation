@@ -22,6 +22,6 @@ const OneOnOneAttachmentsList = ({ council, translate }) => (
 
             <LoadingSection /> }
         </div>
-    )
+    );
 
 export default withApollo(OneOnOneAttachmentsList);

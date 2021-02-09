@@ -1,6 +1,6 @@
-import React, { Fragment } from "react";
+import React, { Fragment } from 'react';
 import { Popover } from 'material-ui';
-import { BasicButton } from "./index";
+import { BasicButton } from './index';
 
 const DropDownMenu = ({
 	text,
@@ -63,7 +63,7 @@ const DropDownMenu = ({
 						onClick={handleClick}
 						textStyle={{
 							...textStyle,
-							textTransform: "none",
+							textTransform: 'none',
 						}}
 						color={color}
 						icon={icon}
@@ -99,7 +99,7 @@ const DropDownMenu = ({
 			</Popover>
 		</Fragment>
 	);
-}
+};
 
 
 export default DropDownMenu;

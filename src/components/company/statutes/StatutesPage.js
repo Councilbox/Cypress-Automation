@@ -9,6 +9,6 @@ const StatutesPage = ({ match, translate }) => (
 				companyId={+match.params.company}
 			/>
 		</CardPageLayout>
-	)
+	);
 
-export default withSharedProps()(StatutesPage)
+export default withSharedProps()(StatutesPage);

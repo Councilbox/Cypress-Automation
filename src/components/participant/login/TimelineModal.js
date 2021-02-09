@@ -7,11 +7,11 @@ const TimelineModal = ({ translate, council }) => {
 
     const openModal = () => {
         setOpen(true);
-    }
+    };
 
     const closeModal = () => {
         setOpen(false);
-    }
+    };
 
 
 
@@ -36,8 +36,8 @@ const TimelineModal = ({ translate, council }) => {
                 title={`${council.name} - Resumen`}
             />
         </React.Fragment>
-    )
-}
+    );
+};
 
 
 export default TimelineModal;

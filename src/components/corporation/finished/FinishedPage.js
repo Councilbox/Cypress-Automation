@@ -35,7 +35,7 @@ const FinishedPage = ({ client, translate, ...props }) => {
             setCouncils(response.data.rootFinishedCouncils);
         }
         setLoading(false);
-    }
+    };
 
     return (
         <div
@@ -44,8 +44,8 @@ const FinishedPage = ({ client, translate, ...props }) => {
                 height: '100%',
             }}
         >
-            <div style={{ padding: "1em", height: 'calc( 100% - 3em )', }}>
-                <Grid style={{ display: "flex", alignItems: "center" }}>
+            <div style={{ padding: '1em', height: 'calc( 100% - 3em )', }}>
+                <Grid style={{ display: 'flex', alignItems: 'center' }}>
                     <GridItem xs={12} md={3} lg={3}>
                         <SelectInput
                             floatingText='Mes'
@@ -79,7 +79,7 @@ const FinishedPage = ({ client, translate, ...props }) => {
                             onChange={event => setOptions({ ...options, companyId: event.target.value ? +event.target.value : null })}
                         />
                     </GridItem>
-                    <GridItem xs={12} md={3} lg={3} style={{ textAlign: "right" }}>
+                    <GridItem xs={12} md={3} lg={3} style={{ textAlign: 'right' }}>
                         <BasicButton
                             text="Buscar"
                             onClick={send}
@@ -104,8 +104,8 @@ const FinishedPage = ({ client, translate, ...props }) => {
                 </Scrollbar>
             </div>
         </div>
-    )
-}
+    );
+};
 
 const finishedCouncils = gql`
     query rootFinishedCouncils($month: Int, $year: Int, $companyId: Int){

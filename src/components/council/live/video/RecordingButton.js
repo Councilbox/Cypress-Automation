@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql, compose, withApollo } from 'react-apollo';
 import { Tooltip } from 'material-ui';
-import { CircularProgress } from "material-ui/Progress";
+import { CircularProgress } from 'material-ui/Progress';
 import gql from 'graphql-tag';
 import DetectRTC from 'detectrtc';
 import { checkIsWebRTCCompatibleBrowser } from '../../../../utils/webRTC';
@@ -19,7 +19,7 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
 
     React.useState(() => {
         DetectRTC.load();
-    }, [council.id])
+    }, [council.id]);
 
     React.useEffect(() => {
         if (!data.loading && council.councilStarted === 1) {
@@ -31,11 +31,11 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
 
     const stopStreamingAlert = async () => {
         if (council.room.videoConfig && council.room.videoConfig.autoHybrid) {
-            setAutoHybridModal(council.room.videoConfig.autoHybrid)
+            setAutoHybridModal(council.room.videoConfig.autoHybrid);
         } else {
-            stopStreaming()
+            stopStreaming();
         }
-    }
+    };
 
     const stopStreaming = async () => {
         if (loading) {
@@ -57,8 +57,8 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
         });
         data.refetch();
         setLoading(false);
-        setAutoHybridModal(false)
-    }
+        setAutoHybridModal(false);
+    };
 
     const startStreaming = async () => {
         if (loading) {
@@ -80,7 +80,7 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
         });
         data.refetch();
         setLoading(false);
-    }
+    };
 
     const toggleRecordings = async () => {
         if (loading) {
@@ -90,7 +90,7 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
 
         const variables = {
             councilId: council.id
-        }
+        };
 
         const response = data.sessionStatus.record ?
             await props.stopRecording({ variables })
@@ -100,11 +100,11 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
             await data.refetch();
         }
         setLoading(false);
-    }
+    };
 
     const { sessionStatus } = data;
     if (!sessionStatus || !checkIsWebRTCCompatibleBrowser(DetectRTC)) {
-        return <span />
+        return <span />;
     }
 
     if (!props.config.recording && !props.config.streaming) {
@@ -154,14 +154,14 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
                             {sessionStatus.streaming ?
                                 <img
                                     src={BroadcastingTower}
-                                    style={{ width: 'auto', height: '0.8em', marginLeft: showRecordingButton ? '0.4em' : '0', cursor: "pointer" }}
+                                    style={{ width: 'auto', height: '0.8em', marginLeft: showRecordingButton ? '0.4em' : '0', cursor: 'pointer' }}
                                     onClick={stopStreamingAlert}
                                 // onClick={stopStreaming}
                                 />
                                 :
                                 <img
                                     src={Tower}
-                                    style={{ width: 'auto', height: '0.8em', marginLeft: showRecordingButton ? '0.4em' : '0', cursor: "pointer" }}
+                                    style={{ width: 'auto', height: '0.8em', marginLeft: showRecordingButton ? '0.4em' : '0', cursor: 'pointer' }}
                                     onClick={startStreaming}
                                 />
                             }
@@ -175,9 +175,9 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
                             buttonAccept={translate.accept}
                             buttonCancel={translate.cancel}
                             bodyText={
-                                <div style={{ margin: "1em", color: "black", display: "flex", alignItems: "center", marginTop: "2em", fontSize: "21px" }}>
+                                <div style={{ margin: '1em', color: 'black', display: 'flex', alignItems: 'center', marginTop: '2em', fontSize: '21px' }}>
                                     <div>
-                                        <i className="fa fa-exclamation-triangle" aria-hidden="true" style={{ color: "#dc7373", fontSize: "25px", marginRight: "22px" }}></i>
+                                        <i className="fa fa-exclamation-triangle" aria-hidden="true" style={{ color: '#dc7373', fontSize: '25px', marginRight: '22px' }}></i>
                                     </div>
                                     <div>Esta acción cortará la emisión a todos los participantes</div>
                                 </div>
@@ -187,8 +187,8 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
                 </>
             }
         </div>
-    )
-}
+    );
+};
 
 const startRecording = gql`
     mutation StartRecording($councilId: Int!){

@@ -1,6 +1,6 @@
-import React from "react";
-import { Typography, Card, TableRow, Table, TableCell } from "material-ui";
-import { compose, graphql } from "react-apollo";
+import React from 'react';
+import { Typography, Card, TableRow, Table, TableCell } from 'material-ui';
+import { compose, graphql } from 'react-apollo';
 import FontAwesome from 'react-fontawesome';
 import {
 	AlertConfirm,
@@ -11,12 +11,12 @@ import {
 	TextInput,
 	Checkbox,
 	SuccessMessage
-} from "../../../../displayComponents";
-import { councilParticipantsActSends, sendAct } from "../../../../queries";
-import { DELEGATION_USERS_LOAD } from "../../../../constants";
+} from '../../../../displayComponents';
+import { councilParticipantsActSends, sendAct } from '../../../../queries';
+import { DELEGATION_USERS_LOAD } from '../../../../constants';
 
-import { useOldState } from "../../../../hooks";
-import { getSecondary } from "../../../../styles/colors";
+import { useOldState } from '../../../../hooks';
+import { getSecondary } from '../../../../styles/colors';
 
 
 const SendActModal = ({ translate, data, ...props }) => {
@@ -91,13 +91,13 @@ const SendActModal = ({ translate, data, ...props }) => {
 	const isChecked = id => {
 		const item = state.participants.find(item => item.id === id);
 		return !!item;
-	}
+	};
 
 	const updateFilterText = async text => {
 		await data.refetch({
 			filters: [
 				{
-					field: "fullName",
+					field: 'fullName',
 					text
 				}
 			]
@@ -111,7 +111,7 @@ const SendActModal = ({ translate, data, ...props }) => {
 		setState({
 			participants: [...list],
 		});
-	}
+	};
 
 	const _renderEmails = () => (
 			<div style={{ width: '100%' }}>
@@ -133,9 +133,9 @@ const SendActModal = ({ translate, data, ...props }) => {
 						>
 							{participant.email}
 							<FontAwesome
-								name={"times"}
+								name={'times'}
 								style={{
-									fontSize: "0.9em",
+									fontSize: '0.9em',
 									color: 'red',
 									cursor: 'pointer'
 								}}
@@ -149,7 +149,7 @@ const SendActModal = ({ translate, data, ...props }) => {
 					</div>
 				}
 			</div>
-		)
+		);
 
 	const sendAct = async () => {
 		setLoading(true);
@@ -170,13 +170,13 @@ const SendActModal = ({ translate, data, ...props }) => {
 			props.refetch();
 			data.refetch();
 		}
-	}
+	};
 
 	const secondStep = () => {
 		setState({
 			step: 2
 		});
-	}
+	};
 
 
 	function _modalBody() {
@@ -192,10 +192,10 @@ const SendActModal = ({ translate, data, ...props }) => {
 
 		if(state.step === 1){
 			return (
-				<div style={{ width: "600px" }}>
+				<div style={{ width: '600px' }}>
 					<TextInput
 						adornment={<Icon>search</Icon>}
-						floatingText={" "}
+						floatingText={' '}
 						type="text"
 						value={state.filterText}
 						onChange={event => {
@@ -204,15 +204,15 @@ const SendActModal = ({ translate, data, ...props }) => {
 					/>
 					<div
 						style={{
-							height: "300px",
-							overflow: "hidden",
-							position: "relative"
+							height: '300px',
+							overflow: 'hidden',
+							position: 'relative'
 						}}
 					>
-						<Table style={{ width: "600px", margin: "0 auto" }}>
+						<Table style={{ width: '600px', margin: '0 auto' }}>
 							<TableRow>
-								<TableCell style={{ width: "50px", padding: "0px", paddingLeft: "10px" }}></TableCell>
-								<TableCell style={{ width: "305px" }}>{translate.participant_data}</TableCell>
+								<TableCell style={{ width: '50px', padding: '0px', paddingLeft: '10px' }}></TableCell>
+								<TableCell style={{ width: '305px' }}>{translate.participant_data}</TableCell>
 								<TableCell>{translate.email}</TableCell>
 							</TableRow>
 						</Table>
@@ -220,20 +220,20 @@ const SendActModal = ({ translate, data, ...props }) => {
 						{loading ? (
 							<LoadingSection />
 						) : (
-							<div style={{ height: "calc( 100% - 4em )", marginBottom: '0.5em', width: "600px", margin: "0 auto" }}>
+							<div style={{ height: 'calc( 100% - 4em )', marginBottom: '0.5em', width: '600px', margin: '0 auto' }}>
 								<Scrollbar option={{ suppressScrollX: true }}>
-									<Table style={{ marginBottom: "1em", width: "600px", margin: "0 auto" }}>
+									<Table style={{ marginBottom: '1em', width: '600px', margin: '0 auto' }}>
 										{participants.length > 0 ? (
 											participants.filter(p => !!p.email).map(participant => (
 													<TableRow key={participant.id}>
-														<TableCell style={{ width: "50px", padding: "0px", paddingLeft: "10px" }}>
+														<TableCell style={{ width: '50px', padding: '0px', paddingLeft: '10px' }}>
 															<Checkbox
 																value={isChecked(participant.id)}
 																onChange={(event, isInputChecked) => checkRow(participant, isInputChecked)
 																}
 															/>
 														</TableCell>
-														<TableCell style={{ width: "305px" }}>
+														<TableCell style={{ width: '305px' }}>
 															<div style={{
 																whiteSpace: 'nowrap',
 																overflow: 'hidden',
@@ -267,9 +267,9 @@ const SendActModal = ({ translate, data, ...props }) => {
 						participants.length < total - 1 && (
 							<div
 								style={{
-									width: "100%",
-									display: "flex",
-									justifyContent: "flex-end"
+									width: '100%',
+									display: 'flex',
+									justifyContent: 'flex-end'
 								}}
 							>
 								<BasicButton
@@ -282,7 +282,7 @@ const SendActModal = ({ translate, data, ...props }) => {
 									}
 									color={getSecondary()}
 									onClick={loadMore}
-									textStyle={{ color: "white" }}
+									textStyle={{ color: 'white' }}
 								/>
 							</div>
 							// <div onClick={this.loadMore}>
@@ -301,14 +301,14 @@ const SendActModal = ({ translate, data, ...props }) => {
 		if(state.success){
 			return(
 				<SuccessMessage />
-			)
+			);
 		}
 
 		return(
-			<div style={{ width: "600px" }}>
+			<div style={{ width: '600px' }}>
 				{_renderEmails()}
 			</div>
-		)
+		);
 	}
 
 	return (
@@ -335,7 +335,7 @@ const SendActModal = ({ translate, data, ...props }) => {
 			title={translate.sending_the_minutes}
 		/>
 	);
-}
+};
 
 
 export default compose(

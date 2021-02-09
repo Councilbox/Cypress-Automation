@@ -1,7 +1,7 @@
-import React from "react";
-import { DateTimePicker, DatePicker } from "material-ui-pickers";
-import { Icon, IconButton, InputAdornment, Typography } from "material-ui";
-import withTranslations from "../HOCs/withTranslations";
+import React from 'react';
+import { DateTimePicker, DatePicker } from 'material-ui-pickers';
+import { Icon, IconButton, InputAdornment, Typography } from 'material-ui';
+import withTranslations from '../HOCs/withTranslations';
 
 const DateTimePickerWrapper = ({
 	label,
@@ -24,7 +24,7 @@ const DateTimePickerWrapper = ({
 			<React.Fragment>
 				<div style={{ width: '100%' }}>
 					<DatePicker
-						label={label ? `${label}${required && "*"}` : ''}
+						label={label ? `${label}${required && '*'}` : ''}
 						format={format || 'LL'}
 						minDateMessage={minDateMessage}
 						okLabel={'Ok'}
@@ -50,8 +50,8 @@ const DateTimePickerWrapper = ({
 					<Typography
 						variant="caption"
 						style={{
-							color: "red",
-							marginTop: "8px"
+							color: 'red',
+							marginTop: '8px'
 						}}
 					>
 						{errorText}
@@ -63,7 +63,7 @@ const DateTimePickerWrapper = ({
 			<React.Fragment>
 				<div style={{ width: '100%' }}>
 					<DateTimePicker
-						label={label ? `${label}${required && "*"}` : ''}
+						label={label ? `${label}${required && '*'}` : ''}
 						ampm={false}
 						format={format || 'LLL'}
 						minDateMessage={minDateMessage}
@@ -88,14 +88,14 @@ const DateTimePickerWrapper = ({
 					<Typography
 						variant="caption"
 						style={{
-							color: "red",
-							marginTop: "8px"
+							color: 'red',
+							marginTop: '8px'
 						}}
 					>
 						{errorText}
 					</Typography>
 				)}
 			</React.Fragment>
-	)
+	);
 
 export default (withTranslations()(DateTimePickerWrapper));

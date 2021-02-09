@@ -1,7 +1,7 @@
-import React from "react";
-import { graphql, withApollo } from "react-apollo";
-import { toast } from "react-toastify";
-import withSharedProps from "../../../HOCs/withSharedProps";
+import React from 'react';
+import { graphql, withApollo } from 'react-apollo';
+import { toast } from 'react-toastify';
+import withSharedProps from '../../../HOCs/withSharedProps';
 import {
 	BasicButton,
 	ButtonIcon,
@@ -10,20 +10,20 @@ import {
 	LiveToast,
 	GridItem,
 	TextInput
-} from "../../../displayComponents";
-import { getPrimary } from "../../../styles/colors";
-import { bHistory, store } from "../../../containers/App";
-import { getCompanies } from "../../../actions/companyActions";
-import { linkCompany } from "../../../queries/company";
-import { useOldState } from "../../../hooks";
-import { sendGAevent } from "../../../utils/analytics";
+} from '../../../displayComponents';
+import { getPrimary } from '../../../styles/colors';
+import { bHistory, store } from '../../../containers/App';
+import { getCompanies } from '../../../actions/companyActions';
+import { linkCompany } from '../../../queries/company';
+import { useOldState } from '../../../hooks';
+import { sendGAevent } from '../../../utils/analytics';
 
 
 const LinkCompanyPage = ({ translate, ...props }) => {
 	const [state, setState] = useOldState({
 		data: {
-			linkKey: "",
-			cif: ""
+			linkKey: '',
+			cif: ''
 		},
 		showPassword: false,
 		errors: {},
@@ -75,7 +75,7 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 			});
 
 			if (response.errors) {
-				if (response.errors[0].message === "Tin-noExists") {
+				if (response.errors[0].message === 'Tin-noExists') {
 					setState({
 						errors: {
 							cif: translate.company_not_exist
@@ -92,21 +92,21 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 					/>, {
 					position: toast.POSITION.TOP_RIGHT,
 					autoClose: true,
-					className: "successToast"
+					className: 'successToast'
 				}
 				);
 				store.dispatch(getCompanies(props.user.id));
-				bHistory.push("/");
+				bHistory.push('/');
 			} else {
 				switch (response.data.linkCompany.message) {
-					case "Wrong linkKey":
+					case 'Wrong linkKey':
 						setState({
 							errors: {
 								linkKey: translate.incorrect_master_key
 							}
 						});
 						break;
-					case "Already Linked":
+					case 'Already Linked':
 						setState({
 							errors: {
 								cif: translate.company_already_linked
@@ -129,12 +129,12 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 
 	return (
 		<CardPageLayout title={translate.companies_link_company}>
-			<Grid style={{ marginTop: "4em" }}>
+			<Grid style={{ marginTop: '4em' }}>
 				<GridItem xs={12} md={12} lg={12}>
 					<div
 						style={{
-							width: "400px",
-							margin: "auto"
+							width: '400px',
+							margin: 'auto'
 						}}
 					>
 						<TextInput
@@ -153,16 +153,16 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 				<GridItem xs={12} md={12} lg={12}>
 					<div
 						style={{
-							width: "400px",
-							margin: "auto"
+							width: '400px',
+							margin: 'auto'
 						}}
 					>
 						<TextInput
 							floatingText={translate.company_new_key}
 							type={
 								state.showPassword
-									? "text"
-									: "password"
+									? 'text'
+									: 'password'
 							}
 							passwordToggler={() => setState({
 									showPassword: !state.showPassword
@@ -187,8 +187,8 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 				<GridItem xs={12} md={12} lg={12} style={{ maxWidth: '400px', margin: '0 auto' }}>
 					<div
 						style={{
-							display: "flex",
-							justifyContent: "flex-end"
+							display: 'flex',
+							justifyContent: 'flex-end'
 						}}>
 						<BasicButton
 							text={translate.link}
@@ -198,11 +198,11 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 							loading={request}
 							floatRight
 							buttonStyle={{
-								marginTop: "1.5em"
+								marginTop: '1.5em'
 							}}
 							textStyle={{
-								color: "white",
-								fontWeight: "700"
+								color: 'white',
+								fontWeight: '700'
 							}}
 							onClick={linkCompany}
 							icon={<ButtonIcon type="link" color="white" />}
@@ -212,13 +212,13 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 			</Grid>
 		</CardPageLayout>
 	);
-}
+};
 
 
 
 export default graphql(linkCompany, {
-	name: "linkCompany",
+	name: 'linkCompany',
 	options: {
-		errorPolicy: "all"
+		errorPolicy: 'all'
 	}
 })(withSharedProps()(withApollo(LinkCompanyPage)));

@@ -13,10 +13,10 @@ const SMSManagerModal = ({ open, translate, council, requestClose }) => (
 				buttonCancel={translate.close}
 				modal={true}
 				requestClose={requestClose}
-				classNameDialog={isMobile ? "noMarginM" : 'noMargin'}
-				bodyStyle={{ overflowY: "hidden", height: "50vh", width: "100%", maxWidth: isMobile && "100vw" }}
+				classNameDialog={isMobile ? 'noMarginM' : 'noMargin'}
+				bodyStyle={{ overflowY: 'hidden', height: '50vh', width: '100%', maxWidth: isMobile && '100vw' }}
 			/>
         </div>
-    )
+    );
 
 export default SMSManagerModal;

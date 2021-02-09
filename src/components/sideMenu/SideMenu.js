@@ -1,6 +1,6 @@
-import React from "react";
-import CompanyMenu from "./CompanyMenu";
-import { LoadingMainApp } from "../../displayComponents";
+import React from 'react';
+import CompanyMenu from './CompanyMenu';
+import { LoadingMainApp } from '../../displayComponents';
 
 class SideMenu extends React.Component {
 	openCompany = () => {
@@ -28,9 +28,9 @@ class SideMenu extends React.Component {
 			<div
 				style={{
 					width: `${this.props.width}%`,
-					height: "100%",
-					display: "flex",
-					overflow: "hidden"
+					height: '100%',
+					display: 'flex',
+					overflow: 'hidden'
 				}}
 			>
 				<CompanyMenu

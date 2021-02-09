@@ -26,7 +26,7 @@ const CheckPhoneModal = ({ translate, client }) => {
             }
         });
         setResult(JSON.parse(response.data.phoneLookup.message));
-    }
+    };
 
     return (
         <>
@@ -66,7 +66,7 @@ const CheckPhoneModal = ({ translate, client }) => {
                 }
             />
         </>
-    )
-}
+    );
+};
 
-export default withApollo(CheckPhoneModal)
+export default withApollo(CheckPhoneModal);

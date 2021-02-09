@@ -1,15 +1,15 @@
-import CouncilboxApi from "../api/CouncilboxApi";
-import { bHistory } from "../containers/App";
+import CouncilboxApi from '../api/CouncilboxApi';
+import { bHistory } from '../containers/App';
 
 export const saveSignUpInfo = info => ({
-		type: "SIGN_UP_INFO",
+		type: 'SIGN_UP_INFO',
 		value: info
 	});
 
 export const getData = councilInfo => dispatch => CouncilboxApi.getData(councilInfo)
 			.then(response => {
 				dispatch({
-					type: "COUNCIL_DATA",
+					type: 'COUNCIL_DATA',
 					value: response
 				});
 			})
@@ -52,7 +52,7 @@ export const getParticipants = councilID => async dispatch => {
 		try {
 			const response = await CouncilboxApi.getParticipants(councilID);
 			dispatch({
-				type: "COUNCIL_PARTICIPANTS",
+				type: 'COUNCIL_PARTICIPANTS',
 				value: response
 			});
 		} catch (error) {

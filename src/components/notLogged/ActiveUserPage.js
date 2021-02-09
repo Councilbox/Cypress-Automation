@@ -7,7 +7,7 @@ import { bHistory } from '../../containers/App';
 import withTranslations from '../../HOCs/withTranslations';
 import { getPrimary } from '../../styles/colors';
 import { LoadingSection, BasicButton, NotLoggedLayout } from '../../displayComponents';
-import logo from "../../assets/img/logo-icono.png";
+import logo from '../../assets/img/logo-icono.png';
 
 
 const ActiveUserPage = ({ match, translate, activeUser }) => {
@@ -38,7 +38,7 @@ const ActiveUserPage = ({ match, translate, activeUser }) => {
                 error: response.errors[0].code
             });
         }
-    }
+    };
 
     React.useEffect(() => {
         activateUser();
@@ -59,7 +59,7 @@ const ActiveUserPage = ({ match, translate, activeUser }) => {
                     translate.error_active_account
                 }
             </div>
-        )
+        );
 
     const successMessage = () => (
             <div
@@ -72,7 +72,7 @@ const ActiveUserPage = ({ match, translate, activeUser }) => {
             >
                 {translate.account_actived}
             </div>
-        )
+        );
 
     return(
         <NotLoggedLayout
@@ -83,10 +83,10 @@ const ActiveUserPage = ({ match, translate, activeUser }) => {
             <div
                 className="row"
                 style={{
-                    width: "100%",
+                    width: '100%',
                     margin: 0,
-                    fontSize: "0.85em",
-                    height: "100%",
+                    fontSize: '0.85em',
+                    height: '100%',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center'
@@ -126,8 +126,8 @@ const ActiveUserPage = ({ match, translate, activeUser }) => {
                 </Paper>
             </div>
         </NotLoggedLayout>
-    )
-}
+    );
+};
 
 const activeUser = gql`
     mutation confirmEmail($token: String!){

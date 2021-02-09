@@ -12,7 +12,7 @@ const renderSuggestion = suggestion => (
     </div>
 );
 
-const getSuggestionValue = suggestion => suggestion.link
+const getSuggestionValue = suggestion => suggestion.link;
 
 class CommandLine extends React.Component {
     state = {
@@ -39,7 +39,7 @@ class CommandLine extends React.Component {
     onSuggestionsClearRequested = () => {
         this.setState({
             suggestions: COMMANDS
-        })
+        });
     }
 
     onSuggestionSelected = (event, suggestion) => {
@@ -47,7 +47,7 @@ class CommandLine extends React.Component {
         link = link.replace('{{userId}}', this.props.user.id);
         bHistory.push(`${link}`);
         this.setState({
-            command: ``
+            command: ''
         });
     }
 
@@ -70,7 +70,7 @@ class CommandLine extends React.Component {
                     inputProps={inputProps}
                 />
             </div>
-        )
+        );
     }
 }
 

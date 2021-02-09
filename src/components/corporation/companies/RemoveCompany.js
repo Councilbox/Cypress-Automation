@@ -1,7 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
-import { AlertConfirm } from "../../../displayComponents";
+import { AlertConfirm } from '../../../displayComponents';
 
 
 const RemoveCompany = ({ company, render, refetch, translate, styles, client }) => {
@@ -9,11 +9,11 @@ const RemoveCompany = ({ company, render, refetch, translate, styles, client }) 
 
     const openModal = () => {
         setModal(true);
-    }
+    };
 
     const closeModal = () => {
-        setModal(false)
-    }
+        setModal(false);
+    };
 
     const action = async () => {
         await client.mutate({
@@ -30,9 +30,9 @@ const RemoveCompany = ({ company, render, refetch, translate, styles, client }) 
             }
         });
         refetch();
-    }
+    };
 
-    const renderModalBody = () => `¿Está seguro que desea quitar la empresa ${company.businessName} de la organización?`
+    const renderModalBody = () => `¿Está seguro que desea quitar la empresa ${company.businessName} de la organización?`;
 
     return (
         <React.Fragment>
@@ -50,7 +50,7 @@ const RemoveCompany = ({ company, render, refetch, translate, styles, client }) 
             />
         </React.Fragment>
 
-    )
-}
+    );
+};
 
 export default withApollo(RemoveCompany);

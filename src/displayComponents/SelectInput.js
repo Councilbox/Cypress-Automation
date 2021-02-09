@@ -1,7 +1,7 @@
-import React from "react";
-import { Select } from "material-ui";
-import Input, { InputLabel } from "material-ui/Input";
-import { FormControl } from "material-ui/Form";
+import React from 'react';
+import { Select } from 'material-ui';
+import Input, { InputLabel } from 'material-ui/Input';
+import { FormControl } from 'material-ui/Form';
 
 // const styles = {
 // 	'#b47fb6': {
@@ -68,13 +68,13 @@ const SelectInput = ({
 		<FormControl
 			error={!!errorText}
 			style={{
-				width: "100%",
-				marginTop: "0",
-				marginBottom: "8px"
+				width: '100%',
+				marginTop: '0',
+				marginBottom: '8px'
 			}}
 		>
 			{!noLabel && (
-				<InputLabel style={{ ...styleLabel }} htmlFor={id}>{`${floatingText || ""}${required ? "*" : ""
+				<InputLabel style={{ ...styleLabel }} htmlFor={id}>{`${floatingText || ''}${required ? '*' : ''
 					}`}</InputLabel>
 			)}
 			<Select
@@ -107,7 +107,7 @@ const SelectInput = ({
 			</Select>
 			{errorText && <span style={{ color: 'red', fontSize: '12px' }}>{errorText}</span>}
 		</FormControl>
-	)
+	);
 
 
 // SelectInput.propTypes = {

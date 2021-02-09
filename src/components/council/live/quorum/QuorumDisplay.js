@@ -14,7 +14,7 @@ const QuorumDisplay = ({ council, recount, translate, company }) => {
     const secondary = getSecondary();
     const [modal, setModal] = React.useState(false);
 
-    const councilStarted = () => (council.state === 20 || council.state === 30) && council.councilStarted == 1
+    const councilStarted = () => (council.state === 20 || council.state === 30) && council.councilStarted == 1;
 
     if(council.councilType === COUNCIL_TYPES.ONE_ON_ONE){
         return null;
@@ -51,7 +51,7 @@ const QuorumDisplay = ({ council, recount, translate, company }) => {
                 <AlertConfirm
                     title={'Quorum info'}
                     open={modal}
-                    bodyStyle={{ height: '450px', minWidth: "50vw" }}
+                    bodyStyle={{ height: '450px', minWidth: '50vw' }}
                     bodyText={
                         <QuorumDetails
                             council={council}
@@ -68,13 +68,13 @@ const QuorumDisplay = ({ council, recount, translate, company }) => {
                 />
             }
         </>
-    )
-}
+    );
+};
 
 const mainRowsStyle = {
     fontWeight: '700',
     fontSize: '14px'
-}
+};
 
 export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas = [], company, translate, recount, totalVotes, socialCapital, client }) => {
     const [data, setData] = React.useState(null);
@@ -91,17 +91,17 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
         }
 
         return ((value / base) * 100).toFixed(3);
-    }
+    };
 
-    const getVotingPercentage = value => ((value / totalVotes) * 100).toFixed(3)
+    const getVotingPercentage = value => ((value / totalVotes) * 100).toFixed(3);
 
     const downloadPDF = async () => {
         await downloadHTMLAsPDF({
             name: `Quorum_${council.name.replace(/\s/g, '_')}_${moment().format('DD/MM/YYYY_hh_mm_ss')}`,
             companyId: council.companyId,
-            html: document.getElementById("quorumTable").innerHTML
+            html: document.getElementById('quorumTable').innerHTML
         });
-    }
+    };
 
     const getData = React.useCallback(async () => {
         const response = await client.query({
@@ -168,9 +168,9 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                             buttonStyle={{ border: `1px solid ${secondary}` }}
                             icon={
                                 <i className="fa fa-download" style={{
-                                    fontSize: "1em",
+                                    fontSize: '1em',
                                     color: secondary,
-                                    marginLeft: "0.3em"
+                                    marginLeft: '0.3em'
                                 }}
                                 />
                             }
@@ -186,9 +186,9 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                                             }}
                                         >
                                             <i className="fa fa-file-pdf-o" style={{
-                                                fontSize: "1em",
+                                                fontSize: '1em',
                                                 color: secondary,
-                                                marginLeft: "0.3em"
+                                                marginLeft: '0.3em'
                                             }}
                                             />
                                             <span style={{ marginLeft: '2.5em', marginRight: '0.8em' }}>
@@ -427,7 +427,7 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
 
             </Scrollbar>
         </div>
-    )
-})
+    );
+});
 
 export default QuorumDisplay;

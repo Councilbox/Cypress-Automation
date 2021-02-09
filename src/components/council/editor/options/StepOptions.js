@@ -1,6 +1,6 @@
-import React from "react";
-import { MenuItem, Typography } from "material-ui";
-import { compose, graphql, withApollo } from "react-apollo";
+import React from 'react';
+import { MenuItem, Typography } from 'material-ui';
+import { compose, graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import {
 	BasicButton,
@@ -15,19 +15,19 @@ import {
 	SelectInput,
 	TextInput,
 	GridItem
-} from "../../../../displayComponents";
-import { councilStepFive, updateCouncil } from "../../../../queries";
+} from '../../../../displayComponents';
+import { councilStepFive, updateCouncil } from '../../../../queries';
 import { checkValidMajority } from '../../../../utils/validation';
-import { getPrimary, getSecondary } from "../../../../styles/colors";
-import * as CBX from "../../../../utils/CBX";
+import { getPrimary, getSecondary } from '../../../../styles/colors';
+import * as CBX from '../../../../utils/CBX';
 import withWindowSize from '../../../../HOCs/withWindowSize';
 import EditorStepLayout from '../EditorStepLayout';
 import { moment } from '../../../../containers/App';
-import DelegationRestriction from "../DelegationRestriction";
-import { ConfigContext } from "../../../../containers/AppControl";
-import { useValidRTMP } from "../../../../hooks";
-import VoteLetterWithSenseOption from "./VoteLetterWithSenseOption";
-import AttendanceTextEditor from "./AttendanceTextEditor";
+import DelegationRestriction from '../DelegationRestriction';
+import { ConfigContext } from '../../../../containers/AppControl';
+import { useValidRTMP } from '../../../../hooks';
+import VoteLetterWithSenseOption from './VoteLetterWithSenseOption';
+import AttendanceTextEditor from './AttendanceTextEditor';
 
 
 
@@ -39,7 +39,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 	const [isModal, setIsmodal] = React.useState({
 		modal: false,
 		unsavedModal: false
-	})
+	});
 	const [state, setState] = React.useState({
 		data: {},
 		loading: false,
@@ -47,7 +47,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 		alertText: '',
 		success: false,
 		errors: {
-			confirmAssistance: "",
+			confirmAssistance: '',
 			actPointMajorityDivider: -1
 		}
 	});
@@ -137,9 +137,9 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 			}
 		});
 		if(response){
-			setIsmodal({ ...isModal, modal: false, unsavedModal: false })
+			setIsmodal({ ...isModal, modal: false, unsavedModal: false });
 		}
-	}
+	};
 
 	const resetButtonStates = () => {
 		setState({
@@ -147,7 +147,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 			loading: false,
 			success: false
 		});
-	}
+	};
 
 	const checkRequiredFields = () => {
 		if (council.approveActDraft === 1) {
@@ -181,7 +181,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 		}
 
 		return false;
-	}
+	};
 
 
 
@@ -280,9 +280,9 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 										const dateString = newDate.toISOString();
 										updateCouncilData({
 											closeDate: dateString
-										})
+										});
 									}}
-									minDateMessage={""}
+									minDateMessage={''}
 									acceptText={translate.accept}
 									cancelText={translate.cancel}
 									value={council.closeDate ? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm')}
@@ -323,9 +323,9 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 										const dateString = newDate.toISOString();
 										updateCouncilData({
 											closeDate: dateString
-										})
+										});
 									}}
-									minDateMessage={""}
+									minDateMessage={''}
 									acceptText={translate.accept}
 									cancelText={translate.cancel}
 									value={council.closeDate ? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm')}
@@ -356,9 +356,9 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 										const dateString = newDate.toISOString();
 										updateCouncilData({
 											closeDate: dateString
-										})
+										});
 									}}
-									minDateMessage={""}
+									minDateMessage={''}
 									acceptText={translate.accept}
 									cancelText={translate.cancel}
 									value={council.closeDate ? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm')}
@@ -423,7 +423,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 					/>
 				</>
 			),
-		}
+		};
 
 		return councilOptions[type] ? councilOptions[type] : councilOptions[1];
 	}
@@ -439,9 +439,9 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 
 	function _renderSecurityForm() {
 		return (
-			<div style={{ display: "inline-grid" }}>
+			<div style={{ display: 'inline-grid' }}>
 				<Radio
-					value={"0"}
+					value={'0'}
 					checked={council.securityType === 0}
 					onChange={event => updateCouncilData({
 							securityType: parseInt(event.target.value, 10)
@@ -451,7 +451,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 					label={translate.new_security_none}
 				/>
 				<Radio
-					value={"1"}
+					value={'1'}
 					checked={council.securityType === 1}
 					onChange={event => updateCouncilData({
 							securityType: parseInt(event.target.value, 10)
@@ -461,7 +461,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 					label={translate.new_security_email}
 				/>
 				<Radio
-					value={"2"}
+					value={'2'}
 					checked={council.securityType === 2}
 					onChange={event => updateCouncilData({
 							securityType: parseInt(event.target.value, 10)
@@ -471,7 +471,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 					label={translate.new_security_sms}
 				/>
 				<Radio
-					value={"3"}
+					value={'3'}
 					checked={council.securityType === 3}
 					onChange={event => updateCouncilData({
 							securityType: parseInt(event.target.value, 10)
@@ -497,11 +497,11 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 					{data.loading || !council ?
 						<div
 							style={{
-								height: "300px",
-								width: "100%",
-								display: "flex",
-								alignItems: "center",
-								justifyContent: "center"
+								height: '300px',
+								width: '100%',
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center'
 							}}
 						>
 							<LoadingSection />
@@ -633,7 +633,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 														) && (
 																<MajorityInput
 																	type={council.actPointMajorityType}
-																	style={{ marginLeft: "1em" }}
+																	style={{ marginLeft: '1em' }}
 																	value={council.actPointMajority}
 																	divider={
 																		council.actPointMajorityDivider
@@ -677,10 +677,10 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 						color={secondary}
 						disable={data.loading}
 						textStyle={{
-							color: "white",
-							fontWeight: "700",
-							fontSize: "0.9em",
-							textTransform: "none"
+							color: 'white',
+							fontWeight: '700',
+							fontSize: '0.9em',
+							textTransform: 'none'
 						}}
 						textPosition="after"
 						onClick={previousPage}
@@ -693,12 +693,12 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 						loading={state.loading}
 						disable={data.loading}
 						textStyle={{
-							color: "white",
-							fontWeight: "700",
-							marginLeft: "0.5em",
-							marginRight: "0.5em",
-							fontSize: "0.9em",
-							textTransform: "none"
+							color: 'white',
+							fontWeight: '700',
+							marginLeft: '0.5em',
+							marginRight: '0.5em',
+							fontSize: '0.9em',
+							textTransform: 'none'
 						}}
 						icon={<ButtonIcon type="save" color="white" />}
 						textPosition="after"
@@ -710,10 +710,10 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 						disable={data.loading}
 						id={'optionsNewSiguiente'}
 						textStyle={{
-							color: "white",
-							fontWeight: "700",
-							fontSize: "0.9em",
-							textTransform: "none"
+							color: 'white',
+							fontWeight: '700',
+							fontSize: '0.9em',
+							textTransform: 'none'
 						}}
 						textPosition="after"
 						onClick={nextPage}
@@ -722,12 +722,12 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 			}
 		/>
 	);
-}
+};
 
 
 export default compose(
 	graphql(councilStepFive, {
-		name: "data",
+		name: 'data',
 		options: props => ({
 			variables: {
 				id: props.councilID
@@ -738,7 +738,7 @@ export default compose(
 	}),
 	withApollo,
 	graphql(updateCouncil, {
-		name: "updateCouncil"
+		name: 'updateCouncil'
 	})
 )(withWindowSize(StepOptions));
 
@@ -763,5 +763,5 @@ const RTMPField = ({ data, updateData, translate }) => {
 				})
 			}
 		/>
-	)
-}
+	);
+};

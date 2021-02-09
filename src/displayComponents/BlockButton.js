@@ -19,6 +19,6 @@ const BlockButton = ({ text, icon, onClick, color = darkGrey }) => (
 			{icon && icon}
 			{text}
 		</Card>
-	)
+	);
 
 export default BlockButton;

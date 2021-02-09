@@ -17,6 +17,6 @@ const AttendanceConfirmation = ({ open, requestClose, company, translate }) => (
                 a la siguiente dirección de correo electrónico <a href="pilar@asnef.com">pilar@asnef.com</a>. Muchas gracias.
             </div>}
         />
-    )
+    );
 
 export default withSharedProps()(AttendanceConfirmation);

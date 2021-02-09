@@ -46,7 +46,7 @@ class LiveParticipantStats extends React.Component {
                     Remotos {`(Online: ${online} || Offline: ${offline} || Palabra concedida: ${broadcasting} || Pidiendo Palabra: ${askingForWord})`}
                 </div>
             </React.Fragment>
-        )
+        );
     }
 }
 

@@ -7,7 +7,7 @@ import { AlertConfirm, BasicButton, LoadingSection } from '../../../displayCompo
 import { councils } from '../../../queries';
 import { COUNCIL_STATES } from '../../../constants';
 import { ConfigContext } from '../../../containers/AppControl';
-import CouncilDetails from '../display/CouncilDetails'
+import CouncilDetails from '../display/CouncilDetails';
 import { useOldState } from '../../../hooks';
 
 const LoadFromPreviousCouncil = ({ translate, data, council, ...props }) => {
@@ -22,19 +22,19 @@ const LoadFromPreviousCouncil = ({ translate, data, council, ...props }) => {
         setState({
             modal: false
         });
-    }
+    };
 
     const showCouncilDetails = council => {
         setState({
             council
         });
-    }
+    };
 
     const closeCouncilDetails = () => {
         setState({
             council: null
         });
-    }
+    };
 
     const loadFromCouncil = originCouncil => async () => {
         await props.loadFromPreviousCouncil({
@@ -46,17 +46,17 @@ const LoadFromPreviousCouncil = ({ translate, data, council, ...props }) => {
 
         props.refetch();
         closeModal();
-    }
+    };
 
     const showModal = () => {
         setState({
             modal: true
         });
-    }
+    };
 
     const _renderBody = () => {
         if(!data.loading && data.councils.length === 0){
-            return <span>{translate.no_celebrated_councils}</span>
+            return <span>{translate.no_celebrated_councils}</span>;
         }
 
         if(!data.councils){
@@ -91,14 +91,14 @@ const LoadFromPreviousCouncil = ({ translate, data, council, ...props }) => {
                             textStyle={{ color: getSecondary(), fontWeight: '700' }}
                             onClick={event => {
                                 event.stopPropagation();
-                                showCouncilDetails(council)
+                                showCouncilDetails(council);
                             }}
                         />
                     </Paper>
                 ))}
             </div>
-        )
-    }
+        );
+    };
 
     return (
         config.cloneCouncil ?
@@ -107,10 +107,10 @@ const LoadFromPreviousCouncil = ({ translate, data, council, ...props }) => {
                     text={translate.clone_council_btn}
                     color={getSecondary()}
                     textStyle={{
-                        color: "white",
-                        fontWeight: "600",
-                        fontSize: "0.9em",
-                        textTransform: "none"
+                        color: 'white',
+                        fontWeight: '600',
+                        fontSize: '0.9em',
+                        textTransform: 'none'
                     }}
                     buttonStyle={{
                         marginBottom: '0.6em'
@@ -133,8 +133,8 @@ const LoadFromPreviousCouncil = ({ translate, data, council, ...props }) => {
             </React.Fragment>
         :
             <span />
-    )
-}
+    );
+};
 
 const loadFromPreviousCouncil = gql`
     mutation LoadFromPreviousCouncil($councilId: Int!, $originId: Int!){

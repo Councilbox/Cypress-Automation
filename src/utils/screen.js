@@ -1,4 +1,4 @@
-import { isMobile as mobile } from "react-device-detect";
+import { isMobile as mobile } from 'react-device-detect';
 
 const isIOS = (navigator.userAgent.match(/(iPad)/)) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
@@ -14,6 +14,6 @@ export const isLandscape = () => {
     }
 
     return Math.abs(window.orientation) === 90;
-}
+};
 
 export const isMobile = mobile || isIOS;

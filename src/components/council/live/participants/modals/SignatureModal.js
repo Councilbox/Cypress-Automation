@@ -1,23 +1,23 @@
-import React, { Fragment } from "react";
-import { compose, graphql } from "react-apollo";
-import gql from "graphql-tag";
-import { liveParticipantSignature, setLiveParticipantSignature } from "../../../../../queries/liveParticipant";
+import React, { Fragment } from 'react';
+import { compose, graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+import { liveParticipantSignature, setLiveParticipantSignature } from '../../../../../queries/liveParticipant';
 import {
 	CustomDialog,
 	BasicButton,
 	ReactSignature,
 	ParticipantDisplay,
 	Checkbox,
-} from "../../../../../displayComponents";
-import { getPrimary } from "../../../../../styles/colors";
-import { canBePresentWithRemoteVote } from "../../../../../utils/CBX";
-import { PARTICIPANT_STATES } from "../../../../../constants";
-import { useOldState } from "../../../../../hooks";
-import { isMobile } from "../../../../../utils/screen";
+} from '../../../../../displayComponents';
+import { getPrimary } from '../../../../../styles/colors';
+import { canBePresentWithRemoteVote } from '../../../../../utils/CBX';
+import { PARTICIPANT_STATES } from '../../../../../constants';
+import { useOldState } from '../../../../../hooks';
+import { isMobile } from '../../../../../utils/screen';
 
 const SignatureModal = ({ data, translate, council, participant, ...props }) => {
 	const [state, setState] = useOldState({
-		success: "",
+		success: '',
 		errors: {},
 		liveParticipantSignature: {},
 		participant: {},
@@ -115,7 +115,7 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 				open={props.show}
 				onEntered={setSignature}
 				disableBackdropClick
-				dialogActionsStyles={{ padding: "0px", marginRight: isMobile ? "" : "1em" }}
+				dialogActionsStyles={{ padding: '0px', marginRight: isMobile ? '' : '1em' }}
 				actions={
 					<Fragment>
 						<BasicButton
@@ -123,8 +123,8 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 							type="flat"
 							color="transparent"
 							textStyle={{
-								textTransform: "none",
-								fontWeight: "700"
+								textTransform: 'none',
+								fontWeight: '700'
 							}}
 							onClick={clear}
 						/>
@@ -134,8 +134,8 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 							color="transparent"
 							// buttonStyle={{marginLeft: '0.6em'}}
 							textStyle={{
-								textTransform: "none",
-								fontWeight: "700"
+								textTransform: 'none',
+								fontWeight: '700'
 							}}
 							onClick={close}
 						/>
@@ -143,9 +143,9 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 							loading={saving}
 							text={translate.save_changes}
 							textStyle={{
-								color: "white",
-								textTransform: "none",
-								fontWeight: "700"
+								color: 'white',
+								textTransform: 'none',
+								fontWeight: '700'
 							}}
 							// buttonStyle={{ marginLeft: "1em" }}
 							color={primary}
@@ -157,18 +157,18 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 				<div> {/**style={{ width: `calc(${width}px +  2em)`}} */}
 					<div
 						style={{
-							height: "400px",
+							height: '400px',
 							width: '100%',
 							display: 'flex',
 							alignItems: 'center',
 							flexDirection: 'column',
-							position: "relative"
+							position: 'relative'
 						}}
 					>
 						<div
 							style={{
 								width: '100%',
-								textAlign: "left"
+								textAlign: 'left'
 							}}
 						>
 							<ParticipantDisplay
@@ -207,7 +207,7 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 								width={width}
 								dotSize={1}
 								onEnd={() => setState({ clean: false })}
-								style={{ border: "solid 1px" }}
+								style={{ border: 'solid 1px' }}
 								ref={signature}
 							/>
 						</div>
@@ -216,7 +216,7 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 			</CustomDialog>
 		</Fragment>
 	);
-}
+};
 
 export const removeLiveParticipantSignature = gql`
 	mutation RemoveLiveParticipantSignature($participantId: Int!){
@@ -238,16 +238,16 @@ export default compose(
 		})
 	}),
 	graphql(setLiveParticipantSignature, {
-		name: "setLiveParticipantSignature",
+		name: 'setLiveParticipantSignature',
 		options: {
-			errorPolicy: "all"
+			errorPolicy: 'all'
 		}
 	}),
 
 	graphql(removeLiveParticipantSignature, {
 		name: 'removeLiveParticipantSignature',
 		options: {
-			errorPolicy: "all"
+			errorPolicy: 'all'
 		}
 	})
 )(SignatureModal);

@@ -97,7 +97,7 @@ const EditorStepper = ({ translate, active, goToPage, windowSize }) => {
                     <XsIcon icon='copy' page={6} />
                 </Tooltip>
             </div>
-        )
+        );
     }
 
     return(
@@ -145,8 +145,8 @@ const EditorStepper = ({ translate, active, goToPage, windowSize }) => {
                 />
             ))}
         </Steps>
-    )
-}
+    );
+};
 
 export default withWindowSize(EditorStepper);
 

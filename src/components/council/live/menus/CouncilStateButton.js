@@ -1,10 +1,10 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
-import OpenRoomButton from "./OpenRoomButton";
-import StartCouncilButton from "./StartCouncilButton";
-import EndCouncilButton from "./EndCouncilButton";
-import { councilStarted, pointIsClosed } from "../../../../utils/CBX";
+import OpenRoomButton from './OpenRoomButton';
+import StartCouncilButton from './StartCouncilButton';
+import EndCouncilButton from './EndCouncilButton';
+import { councilStarted, pointIsClosed } from '../../../../utils/CBX';
 import { LoadingSection } from '../../../../displayComponents';
 import ResumeCouncilButton from './ResumeCouncilButton';
 
@@ -24,11 +24,11 @@ const CouncilStateButton = ({ translate, data, council, participants, refetch, r
     React.useEffect(() => {
         props.subscribeToPointStates({
             councilId: council.id
-        })
-    }, [council.id])
+        });
+    }, [council.id]);
 
     if (data.loading) {
-        return <LoadingSection size={20} />
+        return <LoadingSection size={20} />;
     }
 
     if (council.councilType === 4) {
@@ -40,7 +40,7 @@ const CouncilStateButton = ({ translate, data, council, participants, refetch, r
                     translate={translate}
                 />
             </div>
-        )
+        );
     }
 
     //TRADUCCION
@@ -127,8 +127,8 @@ const CouncilStateButton = ({ translate, data, council, participants, refetch, r
             }
         </React.Fragment>
 
-    )
-}
+    );
+};
 
 
 export default graphql(gql`
@@ -175,7 +175,7 @@ export default graphql(gql`
                 agendas[index] = {
                     ...agendas[index],
                     ...subscriptionData.data.pointStateChanged
-                }
+                };
 
                 return ({
                     ...prev,

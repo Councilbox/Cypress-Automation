@@ -1,16 +1,16 @@
-import React, { Fragment } from "react";
-import { graphql } from "react-apollo";
-import { LinearProgress } from "material-ui/Progress";
+import React, { Fragment } from 'react';
+import { graphql } from 'react-apollo';
+import { LinearProgress } from 'material-ui/Progress';
 import {
 	BasicButton,
 	Grid,
 	GridItem,
 	SectionTitle,
 	TextInput
-} from "../../displayComponents";
-import { getPrimary, getSecondary } from "../../styles/colors";
-import { updatePassword } from "../../queries";
-import { isMobile } from "../../utils/screen";
+} from '../../displayComponents';
+import { getPrimary, getSecondary } from '../../styles/colors';
+import { updatePassword } from '../../queries';
+import { isMobile } from '../../utils/screen';
 
 
 class ChangePasswordForm extends React.Component {
@@ -19,14 +19,14 @@ class ChangePasswordForm extends React.Component {
 		loading: false,
 		error: false,
 		data: {
-			currentPassword: "",
-			newPassword: "",
-			newPasswordConfirm: ""
+			currentPassword: '',
+			newPassword: '',
+			newPasswordConfirm: ''
 		},
 		errors: {},
 		errorsBar: null,
 		porcentaje: 0,
-		color: "#333333"
+		color: '#333333'
 	};
 
 
@@ -82,9 +82,9 @@ class ChangePasswordForm extends React.Component {
 		const { data } = this.state;
 		let hasError = false;
 		const errors = {
-			currentPassword: "",
-			newPassword: "",
-			newPasswordConfirm: ""
+			currentPassword: '',
+			newPassword: '',
+			newPasswordConfirm: ''
 		};
 
 		if (data.newPassword !== data.newPasswordConfirm) {
@@ -108,8 +108,8 @@ class ChangePasswordForm extends React.Component {
 	}
 
 	updateState(newValues, validate) {
-		let errorsBar
-		let porcentaje = 100
+		let errorsBar;
+		let porcentaje = 100;
 		const { translate } = this.props;
 		if (validate) {
 			if (!(/[a-z]/.test(newValues.newPassword))) {
@@ -132,8 +132,8 @@ class ChangePasswordForm extends React.Component {
 				errorsBar = translate.insecure_password;
 				porcentaje -= 20;
 			}
-			let color = "Green"
-			color = porcentaje < 40 ? 'Red' : porcentaje >= 40 && porcentaje <= 80 ? "Orange" : "Green";
+			let color = 'Green';
+			color = porcentaje < 40 ? 'Red' : porcentaje >= 40 && porcentaje <= 80 ? 'Orange' : 'Green';
 			this.setState({
 				errorsBar,
 				porcentaje,
@@ -183,11 +183,11 @@ class ChangePasswordForm extends React.Component {
 				<Grid>
 					<GridItem xs={12} md={12} lg={12} >
 						{/* //TRADUCCION */}
-						<div style={{ color: "black" }}>{translate.current_password}</div>
+						<div style={{ color: 'black' }}>{translate.current_password}</div>
 						<div>
 							<TextInput
 								type="password"
-								styles={{ width: isMobile ? "100%" : "300px" }}
+								styles={{ width: isMobile ? '100%' : '300px' }}
 								onKeyUp={this.handleKeyUp}
 								value={data.currentPassword}
 								errorText={errors.currentPassword}
@@ -201,12 +201,12 @@ class ChangePasswordForm extends React.Component {
 						</div>
 					</GridItem>
 					<GridItem xs={12} md={12} lg={12} >
-						<div style={{ color: "black" }}>{translate.new_password}</div>
-						<div style={{ display: isMobile ? "" : "flex" }}>
-							<div style={{ marginRight: "1em" }}>
+						<div style={{ color: 'black' }}>{translate.new_password}</div>
+						<div style={{ display: isMobile ? '' : 'flex' }}>
+							<div style={{ marginRight: '1em' }}>
 								<TextInput
 									type="password"
-									styles={{ width: isMobile ? "100%" : "300px" }}
+									styles={{ width: isMobile ? '100%' : '300px' }}
 									onKeyUp={this.handleKeyUp}
 									value={data.newPassword}
 									onChange={event => this.updateState({
@@ -219,22 +219,22 @@ class ChangePasswordForm extends React.Component {
 								/>
 							</div>
 							{data.newPassword &&
-								<div style={{ width: isMobile ? "100%" : "40%", display: "flex", alignItems: "center", minHeight: isMobile ? '50px' : "" }}>
-									<div style={{ width: "50%", marginRight: "3em" }}>
+								<div style={{ width: isMobile ? '100%' : '40%', display: 'flex', alignItems: 'center', minHeight: isMobile ? '50px' : '' }}>
+									<div style={{ width: '50%', marginRight: '3em' }}>
 										<LinearProgress
 											variant="determinate"
 											value={this.state.porcentaje}
 											style={{
-												height: "18px",
+												height: '18px',
 												backgroundColor: 'lightgrey',
-												borderRadius: "10px",
-												boxShadow: "rgba(0, 0, 0, 0.15) 0px 12px 20px -10px, rgba(0, 0, 0, 0.18) 0px 4px 20px 0px, rgba(0, 0, 0, 0.23) 0px 7px 8px -5px"
+												borderRadius: '10px',
+												boxShadow: 'rgba(0, 0, 0, 0.15) 0px 12px 20px -10px, rgba(0, 0, 0, 0.18) 0px 4px 20px 0px, rgba(0, 0, 0, 0.23) 0px 7px 8px -5px'
 											}}
-											className={"barColor" + this.state.color}
+											className={'barColor' + this.state.color}
 										/>
 									</div>
 									{/* TRADUCCION */}
-									<div style={{ width: "50%" }}>
+									<div style={{ width: '50%' }}>
 										{this.state.errorsBar !== undefined ? this.state.errorsBar : translate.safe_password}
 									</div>
 								</div>
@@ -242,11 +242,11 @@ class ChangePasswordForm extends React.Component {
 						</div>
 					</GridItem>
 					<GridItem xs={12} md={12} lg={12} >
-						<div style={{ color: "black" }}>{translate.confirm}</div>
+						<div style={{ color: 'black' }}>{translate.confirm}</div>
 						<div>
 							<TextInput
 								type="password"
-								styles={{ width: isMobile ? "100%" : "300px" }}
+								styles={{ width: isMobile ? '100%' : '300px' }}
 								onKeyUp={this.handleKeyUp}
 								value={data.newPasswordConfirm}
 								onChange={event => this.updateState({
@@ -260,19 +260,19 @@ class ChangePasswordForm extends React.Component {
 					</GridItem>
 				</Grid>
 				<br />
-				<div style={{ display: "flex" }}>
+				<div style={{ display: 'flex' }}>
 					<BasicButton
 						backgroundColor={{
-							fontWeight: "700",
-							boxShadow: "none",
+							fontWeight: '700',
+							boxShadow: 'none',
 							background: getSecondary(),
-							color: "white",
-							borderRadius: "8px",
-							width: "200px",
-							height: "3em"
+							color: 'white',
+							borderRadius: '8px',
+							width: '200px',
+							height: '3em'
 						}}
 						text={translate.save}
-						color={success ? "green" : primary}
+						color={success ? 'green' : primary}
 						floatRight
 						onClick={this.updatePassword}
 						loading={loading}
@@ -283,14 +283,14 @@ class ChangePasswordForm extends React.Component {
 					<BasicButton
 						text={translate.cancel}
 						backgroundColor={{
-							fontWeight: "700",
-							boxShadow: "none",
-							background: "white",
-							border: "none",
+							fontWeight: '700',
+							boxShadow: 'none',
+							background: 'white',
+							border: 'none',
 							color: getSecondary(),
-							borderRadius: "8px",
-							width: "200px",
-							height: "3em"
+							borderRadius: '8px',
+							width: '200px',
+							height: '3em'
 						}}
 						onClick={() => this.props.setShowPass({ showPass: false })}
 					/>
@@ -301,6 +301,6 @@ class ChangePasswordForm extends React.Component {
 }
 
 export default graphql(updatePassword, {
-	name: "updatePassword",
-	options: { errorPolicy: "all" }
+	name: 'updatePassword',
+	options: { errorPolicy: 'all' }
 })(ChangePasswordForm);

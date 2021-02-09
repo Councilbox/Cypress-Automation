@@ -1,7 +1,7 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import { MenuItem, Divider } from 'material-ui';
-import FontAwesome from "react-fontawesome";
+import FontAwesome from 'react-fontawesome';
 import { BasicButton, DropDownMenu } from '../../../../displayComponents';
 import { downloadFile } from '../../../../utils/CBX';
 import { downloadAct } from '../../../../queries';
@@ -27,7 +27,7 @@ const DownloadActPDF = ({ client, council, translate }) => {
 				setDownloading(false);
 				downloadFile(
 					response.data.downloadAct,
-					"application/pdf",
+					'application/pdf',
 					`${translate.act.replace(/ /g, '_')}-${council.name.replace(/ /g, '_').replace(/\./g, '_')
 					}`
 				);
@@ -42,28 +42,28 @@ const DownloadActPDF = ({ client, council, translate }) => {
             loading={downloading}
             type="flat"
             loadingColor={secondary}
-            buttonStyle={{ marginTop: "0.5em", border: `1px solid ${secondary}` }}
+            buttonStyle={{ marginTop: '0.5em', border: `1px solid ${secondary}` }}
             textStyle={{
                 color: secondary,
-                fontWeight: "700",
-                fontSize: "0.9em",
-                textTransform: "none"
+                fontWeight: '700',
+                fontSize: '0.9em',
+                textTransform: 'none'
             }}
             icon={
                 <FontAwesome
-                    name={"file-pdf-o"}
+                    name={'file-pdf-o'}
                     style={{
-                        fontSize: "1em",
+                        fontSize: '1em',
                         color: secondary,
-                        marginLeft: "0.3em"
+                        marginLeft: '0.3em'
                     }}
                 />
             }
             textPosition="after"
             onClick={downloadPDF}
         />
-    )
-}
+    );
+};
 
 /*
 <BasicButton

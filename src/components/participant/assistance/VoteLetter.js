@@ -6,7 +6,7 @@ import { AlertConfirm, Grid, GridItem, ReactSignature, BasicButton, Scrollbar, H
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import withWindowSize from '../../../HOCs/withWindowSize';
 import { moment } from '../../../containers/App';
-import { isMobile } from "../../../utils/screen";
+import { isMobile } from '../../../utils/screen';
 import { replaceDocsTags } from './DelegationProxyModal';
 import EarlyVoteMenu from './EarlyVoteMenu';
 import { voteValuesText } from '../../../utils/CBX';
@@ -26,19 +26,19 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
         await action(signature);
         setLoading(false);
         requestClose();
-    }
+    };
 
     const nextStep = () => {
         if(selected.size === council.agendas.length){
             props.setState({
                 ...props.state,
                 earlyVotes: Array.from(selected.values())
-            })
-            setStep(2)
+            });
+            setStep(2);
         } else {
             setError('Hay puntos sin marcar');
         }
-    }
+    };
 
 
     return (
@@ -46,7 +46,7 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
             open={open}
             loadingAction={loading}
             bodyStyle={{
-                width: isMobile ? '100%' : step !== 1 ? council.statute.doubleColumnDocs ? "80vw" : "60vw" : '600px',
+                width: isMobile ? '100%' : step !== 1 ? council.statute.doubleColumnDocs ? '80vw' : '60vw' : '600px',
             }}
             PaperProps={{
                 style: {
@@ -109,8 +109,8 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
                     />
             }
         />
-    )
-}
+    );
+};
 
 
 const SignatureStep = ({ signature, loading, participant, votes, council, innerWidth, translate, sendVote, client, delegation }) => {
@@ -130,7 +130,7 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
 		signature.current.clear();
     };
 
-    const disableSendButton = () => existingProxy
+    const disableSendButton = () => existingProxy;
 
 
     const getProxy = React.useCallback(async () => {
@@ -176,22 +176,22 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
 					height: (signatureContainer.current.getBoundingClientRect().height),
                 });
             }
-		}, 150)
+		}, 150);
 		return () => clearTimeout(timeout);
-    }, [innerWidth])
+    }, [innerWidth]);
 
     const getSignaturePreview = () => {
         if(signaturePreview.current) {
             signaturePreview.current.fromDataURL(signature.current.toDataURL());
         }
-    }
+    };
 
     const renderCustom = () => {
         const text = replaceDocsTags(council.statute.voteLetterWithSense, { council, participant, votes });
         const segments = text.split('{{signature}}');
 
         if(segments.length === 1){
-            return <div dangerouslySetInnerHTML={{ __html: segments[0] }} style={{ width: '48%' }}></div>
+            return <div dangerouslySetInnerHTML={{ __html: segments[0] }} style={{ width: '48%' }}></div>;
         }
 
         return (
@@ -206,8 +206,8 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
                 />
                 <div dangerouslySetInnerHTML={{ __html: segments[1] }} />
             </div>
-        )
-    }
+        );
+    };
 
     const proxyPreview = () => {
         const withVoteSense = council.statute.canEarlyVote === 1;
@@ -215,7 +215,7 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
         const proxyTranslate = getVoteLetterTranslation({
             language: translate.selectedLanguage,
             withVoteSense
-        })
+        });
 
         const getBody = () => {
             const docBody = <>
@@ -239,7 +239,7 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
                                     {translate[voteValuesText(vote.value)]}
                                 </>
 
-                            )
+                            );
                         })}
                     </>
 
@@ -260,7 +260,7 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
                         <div>{proxyTranslate.sir}  {participant.name} {participant.surname || ''} </div>
                     </>
                 }
-            </>
+            </>;
 
 
             if(council.statute.doubleColumnDocs && !withVoteSense){
@@ -277,12 +277,12 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
                             docBody
                         }
                     </div>
-                )
+                );
             }
 
 
             if(council.statute.voteLetter && !withVoteSense){
-                return <div dangerouslySetInnerHTML={{ __html: council.statute.voteLetter }}></div>
+                return <div dangerouslySetInnerHTML={{ __html: council.statute.voteLetter }}></div>;
             }
 
             if(council.statute.doubleColumnDocs && withVoteSense){
@@ -299,15 +299,15 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
                             docBody
                         }
                     </div>
-                )
+                );
             }
 
             if(council.statute.voteLetter && withVoteSense){
-                return <div dangerouslySetInnerHTML={{ __html: council.statute.voteLetterWithSense }}></div>
+                return <div dangerouslySetInnerHTML={{ __html: council.statute.voteLetterWithSense }}></div>;
             }
 
             return docBody;
-        }
+        };
 
 
         return (
@@ -321,12 +321,12 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
                 <br/><br/>
                 {getBody()}
             </Card>
-        )
-    }
+        );
+    };
 
     return (
-        <Grid style={{ marginTop: "15px", height: "100%" }}>
-            <GridItem xs={12} md={6} lg={7} style={{ ...(isMobile ? {} : { height: "70vh" }) }} >
+        <Grid style={{ marginTop: '15px', height: '100%' }}>
+            <GridItem xs={12} md={6} lg={7} style={{ ...(isMobile ? {} : { height: '70vh' }) }} >
                 {isMobile ?
                     proxyPreview()
                 :
@@ -341,9 +341,9 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
                     style={{
                         border: 'solid 2px silver',
                         color: '#a09aa0',
-                        padding: "0",
+                        padding: '0',
                         borderRadius: '3px',
-                        marginBottom: "1em",
+                        marginBottom: '1em',
                         height: isMobile ? '250px' : '300px'
                     }}
                     onMouseDown={() => setSigned(true)}
@@ -376,7 +376,7 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
                         textStyle={{
                             color: secondary,
                             border: `1px solid ${secondary}`,
-                            width: "30%"
+                            width: '30%'
                         }}
                         onClick={clear}
                     />
@@ -386,8 +386,8 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
                         disabled={!signed || disableSendButton()}
                         loading={loading}
                         textStyle={{
-                            color: "white",
-                            width: "65%"
+                            color: 'white',
+                            width: '65%'
                         }}
                         onClick={() => sendVote(signature.current.toDataURL())}
                     />
@@ -395,8 +395,8 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
 
             </GridItem>
         </Grid>
-    )
-}
+    );
+};
 
 export default withApollo(withWindowSize(VoteLetter));
 
@@ -415,7 +415,7 @@ const getVoteLetterTranslation = ({ language, withVoteSense }) => {
                         ''} Reglamento del Registro Mercantil, (2) vota en el sentido indicado a continuación con respecto a la/s ${
                         ''} propuesta/s del/los acuerdo/s contenido/s en el borrador de acta adjunto y (3) aprueba el texto del acta ${
                         ''}para el caso de que los acuerdos sean finalmente adoptados por el Consejo:
-                    `)
+                    `);
                 }
 
                 return (`El abajo firmante, en su condición de miembro del Consejo de Administración de${
@@ -423,7 +423,7 @@ const getVoteLetterTranslation = ({ language, withVoteSense }) => {
                         ''} y a la vista de las dificultades de celebrar inmediatamente una reunión del Consejo de Administración de la Sociedad, (1)${
                         ''} acepta seguir el procedimiento de votación por escrito y sin sesión, previsto en el articulo 100.3 del Reglamento del Registro${
                         ''} Mercantil, (2) vota a favor de los acuerdos contenidos en el borrador de acta adjunto y (3) aprueba el texto del acta${
-                        ''} para el caso de que los acuerdos sean finalmente adoptados por el Consejo.`)
+                        ''} para el caso de que los acuerdos sean finalmente adoptados por el Consejo.`);
             },
             in: 'En',
 
@@ -444,8 +444,8 @@ const getVoteLetterTranslation = ({ language, withVoteSense }) => {
             salute: 'Yours faithfully,',
             sir: 'Mr.'
         }
-    }
+    };
 
     return voteLetterTranslations[language] ? voteLetterTranslations[language] : voteLetterTranslations.es;
-}
+};
 

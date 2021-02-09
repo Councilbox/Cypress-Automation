@@ -4,7 +4,7 @@ import { graphql } from 'react-apollo';
 import { AlertConfirm, SelectInput, Grid, GridItem, MajorityInput } from '../../../displayComponents';
 import { filterAgendaVotingTypes, hasVotation, majorityNeedsInput, isCustomPoint } from '../../../utils/CBX';
 import { checkValidMajority } from '../../../utils/validation';
-import { updateAgenda } from "../../../queries/agenda";
+import { updateAgenda } from '../../../queries/agenda';
 import { CUSTOM_AGENDA_VOTING_TYPES } from '../../../constants';
 import { useOldState } from '../../../hooks';
 
@@ -24,7 +24,7 @@ const PointEditorLive = ({ agenda, translate, council, ...props }) => {
             ...object,
             majorityError: ''
         });
-    }
+    };
 
     const updateAgenda = async () => {
         const majorityCheckResult = checkValidMajority(state.majority, state.majorityDivider, state.majorityType);
@@ -39,11 +39,11 @@ const PointEditorLive = ({ agenda, translate, council, ...props }) => {
             variables: {
                 agenda
             }
-        })
+        });
 
         props.refetch();
         props.requestClose();
-    }
+    };
 
     const _renderModalBody = () => {
         const filteredTypes = filterAgendaVotingTypes(props.votingTypes, council.statute, council);
@@ -52,31 +52,31 @@ const PointEditorLive = ({ agenda, translate, council, ...props }) => {
             return (
                 <SelectInput
                     floatingText={translate.type}
-                    value={"" + state.subjectType}
+                    value={'' + state.subjectType}
                     onChange={event => updateState({ subjectType: +event.target.value })}
                 >
                     {Object.keys(CUSTOM_AGENDA_VOTING_TYPES).map(key => (
                             <MenuItem
-                                value={"" + CUSTOM_AGENDA_VOTING_TYPES[key].value}
+                                value={'' + CUSTOM_AGENDA_VOTING_TYPES[key].value}
                                 key={`voting${CUSTOM_AGENDA_VOTING_TYPES[key].value}`}
                             >
                                 {translate[CUSTOM_AGENDA_VOTING_TYPES[key].label]}
                             </MenuItem>
                         ))}
                 </SelectInput>
-            )
+            );
         }
 
         return (
             <React.Fragment>
                 <SelectInput
                     floatingText={translate.type}
-                    value={"" + state.subjectType}
+                    value={'' + state.subjectType}
                     onChange={event => updateState({ subjectType: +event.target.value })}
                 >
                     {filteredTypes.map(voting => (
                             <MenuItem
-                                value={"" + voting.value}
+                                value={'' + voting.value}
                                 key={`voting${voting.value}`}
                             >
                                 {translate[voting.label]}
@@ -98,7 +98,7 @@ const PointEditorLive = ({ agenda, translate, council, ...props }) => {
                             >
                                 {props.majorityTypes.map(majority => (
                                         <MenuItem
-                                            value={"" + majority.value}
+                                            value={'' + majority.value}
                                             key={`majorityType_${
                                                 majority.value
                                             }`}
@@ -134,8 +134,8 @@ const PointEditorLive = ({ agenda, translate, council, ...props }) => {
                 )}
 
             </React.Fragment>
-        )
-    }
+        );
+    };
 
     return(
         <AlertConfirm
@@ -148,8 +148,8 @@ const PointEditorLive = ({ agenda, translate, council, ...props }) => {
             acceptAction={updateAgenda}
             cancelAction={props.requestClose}
         />
-    )
-}
+    );
+};
 
 
 

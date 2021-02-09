@@ -35,7 +35,7 @@ class ParticipantEditorModal extends React.Component {
             if(participant.id !== prevState.data.id){
                 return {
                     data: participant
-                }
+                };
             }
         }
 
@@ -89,7 +89,7 @@ class ParticipantEditorModal extends React.Component {
             position: '',
             phone: '',
             email: ''
-        }
+        };
 
         let hasError = false;
         const { translate } = this.props;
@@ -119,14 +119,14 @@ class ParticipantEditorModal extends React.Component {
             }else if(data.email !== this.props.data.signatureParticipant.email){
                     if(!await this.checkEmailAvailability()){
                         hasError = true;
-                        errors.email = this.props.translate.register_exists_email
+                        errors.email = this.props.translate.register_exists_email;
                     }
                 }
 
         this.setState({
             errors,
             errorState: hasError
-        })
+        });
         return hasError;
     }
 

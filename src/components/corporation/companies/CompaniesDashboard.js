@@ -14,7 +14,7 @@ const DEFAULT_OPTIONS = {
     offset: 0,
     orderBy: 'id',
     orderDirection: 'DESC'
-}
+};
 
 class CompaniesDashboard extends React.PureComponent {
     state = {
@@ -51,7 +51,7 @@ class CompaniesDashboard extends React.PureComponent {
 
     render() {
         if (this.state.addCompany) {
-            return <NewCompanyPage />
+            return <NewCompanyPage />;
         }
 
         return (
@@ -77,11 +77,11 @@ class CompaniesDashboard extends React.PureComponent {
                         <div style={{ marginLeft: '0.6em' }}>
                             <TextInput
                                 startAdornment={
-                                    <InputAdornment position="start" style={{ marginRight: "1em" }}>
+                                    <InputAdornment position="start" style={{ marginRight: '1em' }}>
                                         <i className="fa fa-search" aria-hidden="true"></i>
                                     </InputAdornment>
                                 }
-                                floatingText={" "}
+                                floatingText={' '}
                                 type="text"
                                 value={this.state.filterText}
                                 onChange={event => {
@@ -94,14 +94,14 @@ class CompaniesDashboard extends React.PureComponent {
                 <div style={{
                     height: 'calc(100% - 6em)',
                     flexDirection: 'column',
-                    padding: "1em"
+                    padding: '1em'
                 }}>
                     <div
                         style={{
-                            width: "100%",
-                            display: "flex",
-                            justifyContent: "space-between",
-                            alignItems: "center"
+                            width: '100%',
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center'
                         }}
                     >
                         <div>
@@ -132,17 +132,17 @@ class CompaniesDashboard extends React.PureComponent {
                         </div>
                     </div>
                     <Table
-                        style={{ width: "100%", maxWidth: "100%" }}
+                        style={{ width: '100%', maxWidth: '100%' }}
                     >
                         <TableHead>
                             <TableRow>
-                                <TableCell style={{ width: "15%", padding: '4px 56px 4px 15px', textAlign: "center" }}>Logo</TableCell>
-                                <TableCell style={{ width: "10%", padding: '4px 56px 4px 15px' }}>Id</TableCell>
-                                <TableCell style={{ width: "75%", padding: '4px 56px 4px 15px' }}>Nombre</TableCell>
+                                <TableCell style={{ width: '15%', padding: '4px 56px 4px 15px', textAlign: 'center' }}>Logo</TableCell>
+                                <TableCell style={{ width: '10%', padding: '4px 56px 4px 15px' }}>Id</TableCell>
+                                <TableCell style={{ width: '75%', padding: '4px 56px 4px 15px' }}>Nombre</TableCell>
                             </TableRow>
                         </TableHead>
                     </Table>
-                    <div style={{ height: "calc( 100% - 5em)" }}>
+                    <div style={{ height: 'calc( 100% - 5em)' }}>
                         <Scrollbar>
                             {this.props.data.loading ?
                                 <LoadingSection />
@@ -180,7 +180,7 @@ class CompaniesDashboard extends React.PureComponent {
                     }
                 </div> */}
             </div>
-        )
+        );
     }
 }
 

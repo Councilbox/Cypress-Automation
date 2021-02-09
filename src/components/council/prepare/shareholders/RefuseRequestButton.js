@@ -25,7 +25,7 @@ const RefuseRequestButton = ({ request, client, refetch, translate }) => {
 
         setModal(false);
         refetch();
-    }
+    };
 
     return (
         <>
@@ -50,7 +50,7 @@ const RefuseRequestButton = ({ request, client, refetch, translate }) => {
                 acceptAction={refuseRequest}
             />
         </>
-    )
-}
+    );
+};
 
 export default withApollo(RefuseRequestButton);

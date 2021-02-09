@@ -1,4 +1,4 @@
-import { urlParser } from "../utils";
+import { urlParser } from '../utils';
 
 /*const apiURLs = {
  prod: {
@@ -19,7 +19,7 @@ class CouncilboxApi {
 				userData.user
 			}","password":"${userData.password}"%7D`,
 			{
-				method: "GET"
+				method: 'GET'
 			}
 		);
 		return fetch(request).then(response => response.json());
@@ -27,9 +27,9 @@ class CouncilboxApi {
 
 	static async getCompanyTypes() {
 		const request = new Request(
-			`https://beta.councilbox.com/server/api/company_types`,
+			'https://beta.councilbox.com/server/api/company_types',
 			{
-				method: "GET"
+				method: 'GET'
 			}
 		);
 		const response = await fetch(request);
@@ -39,9 +39,9 @@ class CouncilboxApi {
 
 	static async getCountries() {
 		const request = new Request(
-			`https://beta.councilbox.com/server/api/countries`,
+			'https://beta.councilbox.com/server/api/countries',
 			{
-				method: "GET"
+				method: 'GET'
 			}
 		);
 		const response = await fetch(request);
@@ -51,9 +51,9 @@ class CouncilboxApi {
 
 	static async getLanguageList() {
 		const request = new Request(
-			`https://beta.councilbox.com/server/api/languages`,
+			'https://beta.councilbox.com/server/api/languages',
 			{
-				method: "GET"
+				method: 'GET'
 			}
 		);
 		const response = await fetch(request);
@@ -65,7 +65,7 @@ class CouncilboxApi {
 		const request = new Request(
 			`https://beta.councilbox.com/server/api/provinces?where=%7B"country_id":${countryID}%7D`,
 			{
-				method: "GET"
+				method: 'GET'
 			}
 		);
 		const response = await fetch(request);
@@ -75,12 +75,12 @@ class CouncilboxApi {
 
 	static async getVotingTypes() {
 		const request = new Request(
-			`https://beta.councilbox.com/server/api/votation_types`,
+			'https://beta.councilbox.com/server/api/votation_types',
 			{
-				method: "GET",
+				method: 'GET',
 				headers: new Headers({
-					Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-					"x-jwt-token": sessionStorage.getItem("token")
+					Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+					'x-jwt-token': sessionStorage.getItem('token')
 				})
 			}
 		);
@@ -91,12 +91,12 @@ class CouncilboxApi {
 
 	static async getMajorities() {
 		const request = new Request(
-			`https://beta.councilbox.com/server/api/majorities`,
+			'https://beta.councilbox.com/server/api/majorities',
 			{
-				method: "GET",
+				method: 'GET',
 				headers: new Headers({
-					Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-					"x-jwt-token": sessionStorage.getItem("token")
+					Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+					'x-jwt-token': sessionStorage.getItem('token')
 				})
 			}
 		);
@@ -113,10 +113,10 @@ class CouncilboxApi {
 				info.isMeeting
 			}%7D`,
 			{
-				method: "GET",
+				method: 'GET',
 				headers: new Headers({
-					Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-					"x-jwt-token": sessionStorage.getItem("token")
+					Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+					'x-jwt-token': sessionStorage.getItem('token')
 				})
 			}
 		);
@@ -127,22 +127,22 @@ class CouncilboxApi {
 
 	static async getSubscriptions() {
 		return Promise.resolve([
-			"LITE - 25 €/mes",
-			"LITE - 240 €/año",
-			"BASIC - 50 €/mes",
-			"BASIC - 480 €/año",
-			"PRO - 100 €/mes",
-			"PRO - 960 €/año",
-			"BUSINESS - 180 €/mes",
-			"BUSINESS - 1.800 €/año",
-			"TARIFA PAGO POR USO *consultar condiciones",
-			"Otra"
+			'LITE - 25 €/mes',
+			'LITE - 240 €/año',
+			'BASIC - 50 €/mes',
+			'BASIC - 480 €/año',
+			'PRO - 100 €/mes',
+			'PRO - 960 €/año',
+			'BUSINESS - 180 €/mes',
+			'BUSINESS - 1.800 €/año',
+			'TARIFA PAGO POR USO *consultar condiciones',
+			'Otra'
 		]);
 	}
 
 	static createCompany(company) {
 		const body = {
-			preferred_language: "es",
+			preferred_language: 'es',
 			type: company.type,
 			country: company.country,
 			subscription_type: company.subscription,
@@ -160,19 +160,19 @@ class CouncilboxApi {
 			pwd: company.password,
 			repeatPwd: company.password,
 			terms: 1,
-			census_name: "Por defecto",
+			census_name: 'Por defecto',
 			census_description:
-				"Primer censo creado automáticamente cuando se crea la sociedad"
+				'Primer censo creado automáticamente cuando se crea la sociedad'
 		};
 
 		const data = urlParser(body);
 
 		const request = new Request(
-			"https://beta.councilbox.com/server/api/societyUp",
+			'https://beta.councilbox.com/server/api/societyUp',
 			{
-				method: "POST",
+				method: 'POST',
 				headers: new Headers({
-					"Content-Type": "application/x-www-form-urlencoded"
+					'Content-Type': 'application/x-www-form-urlencoded'
 				}),
 				body: data
 			}
@@ -191,7 +191,7 @@ class CouncilboxApi {
 		const request = new Request(
 			`https://beta.councilbox.com/server/api/translations?language=${language}`,
 			{
-				method: "GET"
+				method: 'GET'
 			}
 		);
 		const response = await fetch(request);
@@ -201,12 +201,12 @@ class CouncilboxApi {
 
 	static async getCompany() {
 		const request = new Request(
-			`https://beta.councilbox.com/server/api/dashboard/getCompanies`,
+			'https://beta.councilbox.com/server/api/dashboard/getCompanies',
 			{
-				method: "GET",
+				method: 'GET',
 				headers: new Headers({
-					Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-					"x-jwt-token": sessionStorage.getItem("token")
+					Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+					'x-jwt-token': sessionStorage.getItem('token')
 				})
 			}
 		);
@@ -219,10 +219,10 @@ class CouncilboxApi {
 		const request = new Request(
 			`https://beta.councilbox.com/server/api/dashboard/getRecount?data=%7B%22company_id%22:%22${companyID}%22%7D`,
 			{
-				method: "GET",
+				method: 'GET',
 				headers: new Headers({
-					Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-					"x-jwt-token": sessionStorage.getItem("token")
+					Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+					'x-jwt-token': sessionStorage.getItem('token')
 				})
 			}
 		);
@@ -239,10 +239,10 @@ class CouncilboxApi {
 				councilInfo.councilID
 			}%22,%22step%22:%22${councilInfo.step}%22%7D`,
 			{
-				method: "GET",
+				method: 'GET',
 				headers: new Headers({
-					Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-					"x-jwt-token": sessionStorage.getItem("token")
+					Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+					'x-jwt-token': sessionStorage.getItem('token')
 				})
 			}
 		);
@@ -255,13 +255,13 @@ class CouncilboxApi {
 		const urlEncondedInfo = urlParser(councilInfo);
 
 		const request = new Request(
-			"https://beta.councilbox.com/server/api/new/saveData",
+			'https://beta.councilbox.com/server/api/new/saveData',
 			{
-				method: "POST",
+				method: 'POST',
 				headers: new Headers({
-					"Content-Type": "application/x-www-form-urlencoded",
-					Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-					"x-jwt-token": sessionStorage.getItem("token")
+					'Content-Type': 'application/x-www-form-urlencoded',
+					Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+					'x-jwt-token': sessionStorage.getItem('token')
 				}),
 				body: urlEncondedInfo
 			}
@@ -276,10 +276,10 @@ class CouncilboxApi {
 		const request = new Request(
 			`https://beta.councilbox.com/server/api/new/getParticipants?data=%7B%22council_id%22:%22${councilID}%22,%22order_by%22:%7B%22name%22:%22+ASC%22%7D,%22limit%22:25,%22page%22:1%7D`,
 			{
-				method: "GET",
+				method: 'GET',
 				headers: new Headers({
-					Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-					"x-jwt-token": sessionStorage.getItem("token")
+					Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+					'x-jwt-token': sessionStorage.getItem('token')
 				})
 			}
 		);
@@ -292,13 +292,13 @@ class CouncilboxApi {
 		const urlEncondedInfo = urlParser(participantInfo);
 
 		const request = new Request(
-			"https://beta.councilbox.com/server/api/new/deleteParticipant",
+			'https://beta.councilbox.com/server/api/new/deleteParticipant',
 			{
-				method: "POST",
+				method: 'POST',
 				headers: new Headers({
-					"Content-Type": "application/x-www-form-urlencoded",
-					Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-					"x-jwt-token": sessionStorage.getItem("token")
+					'Content-Type': 'application/x-www-form-urlencoded',
+					Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+					'x-jwt-token': sessionStorage.getItem('token')
 				}),
 				body: urlEncondedInfo
 			}
@@ -313,13 +313,13 @@ class CouncilboxApi {
 		const urlEncondedInfo = urlParser(participant);
 
 		const request = new Request(
-			"https://beta.councilbox.com/server/api/new/saveParticipant",
+			'https://beta.councilbox.com/server/api/new/saveParticipant',
 			{
-				method: "POST",
+				method: 'POST',
 				headers: new Headers({
-					"Content-Type": "application/x-www-form-urlencoded",
-					Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-					"x-jwt-token": sessionStorage.getItem("token")
+					'Content-Type': 'application/x-www-form-urlencoded',
+					Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+					'x-jwt-token': sessionStorage.getItem('token')
 				}),
 				body: urlEncondedInfo
 			}
@@ -338,10 +338,10 @@ class CouncilboxApi {
 				info.company_id
 			}%22%7D`,
 			{
-				method: "GET",
+				method: 'GET',
 				headers: new Headers({
-					Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-					"x-jwt-token": sessionStorage.getItem("token")
+					Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+					'x-jwt-token': sessionStorage.getItem('token')
 				})
 			}
 		);
@@ -354,13 +354,13 @@ class CouncilboxApi {
 		const urlEncondedInfo = urlParser(file);
 
 		const request = new Request(
-			"https://beta.councilbox.com/server/api/new/saveAttachment",
+			'https://beta.councilbox.com/server/api/new/saveAttachment',
 			{
-				method: "POST",
+				method: 'POST',
 				headers: new Headers({
-					"Content-Type": "application/x-www-form-urlencoded",
-					Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-					"x-jwt-token": sessionStorage.getItem("token")
+					'Content-Type': 'application/x-www-form-urlencoded',
+					Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+					'x-jwt-token': sessionStorage.getItem('token')
 				}),
 				body: urlEncondedInfo
 			}
@@ -377,10 +377,10 @@ class CouncilboxApi {
 				fileInfo.council_id
 			}%22,%22attachment_id%22:%22${fileInfo.attachment_id}%22%7D`,
 			{
-				method: "GET",
+				method: 'GET',
 				headers: new Headers({
-					Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-					"x-jwt-token": sessionStorage.getItem("token")
+					Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+					'x-jwt-token': sessionStorage.getItem('token')
 				})
 			}
 		);

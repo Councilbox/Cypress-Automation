@@ -32,9 +32,9 @@ const DownloadDoc = ({ client, doc, council, options, translate, filename }) => 
                 'view': 'Visualização sem validade legal',
                 'preview': 'Antevisão do Documento',
             }
-        }
+        };
         return texts[options.language];
-    }
+    };
 
     const downloadPDF = async () => {
         const response = await client.mutate({
@@ -57,12 +57,12 @@ const DownloadDoc = ({ client, doc, council, options, translate, filename }) => 
             if (response.data.generateDocPDF) {
                 downloadFile(
                     response.data.generateDocPDF,
-                    "application/pdf",
+                    'application/pdf',
                     filename || `${translate.act.replace(/ /g, '_')}_${prepareTextForFilename(council.name)}`
                 );
             }
         }
-    }
+    };
 
     const export2Doc = async () => {
         const response = await client.mutate({
@@ -77,7 +77,7 @@ const DownloadDoc = ({ client, doc, council, options, translate, filename }) => 
             }
         });
         const preHtml = "<!DOCTYPE html type=\"text/html\"><html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta http-equiv='Content-Type' content='text/html;charset=UTF-8'><title>Export HTML To Doc</title></head><body style='font-family: Arial;'>";
-        const postHtml = "</body></html>";
+        const postHtml = '</body></html>';
 
         const body = response.data.generateDocumentHTML
             .replace(/#BFBFBF/g, 'rgb(191, 191, 191)').replace(/<!--[\s\S]*?-->/g, '')
@@ -102,7 +102,7 @@ const DownloadDoc = ({ client, doc, council, options, translate, filename }) => 
             type: 'application/msword'
         });
         FileSaver.saveAs(blob, docFilename);
-    }
+    };
 
     return (
         <DropDownMenu
@@ -115,9 +115,9 @@ const DownloadDoc = ({ client, doc, council, options, translate, filename }) => 
             buttonStyle={{ border: `1px solid ${'#969696'}`, marginRight: '1em' }}
             icon={
                 <i className="fa fa-download" style={{
-                    fontSize: "1em",
+                    fontSize: '1em',
                     color: 'black',
-                    marginLeft: "0.3em"
+                    marginLeft: '0.3em'
                 }}
                 />
             }
@@ -133,9 +133,9 @@ const DownloadDoc = ({ client, doc, council, options, translate, filename }) => 
                             }}
                         >
                             <i className="fa fa-file-pdf-o" style={{
-                                fontSize: "1em",
+                                fontSize: '1em',
                                 color: 'black',
-                                marginLeft: "0.3em"
+                                marginLeft: '0.3em'
                             }}
                             />
                             <span style={{ marginLeft: '2.5em', marginRight: '0.8em' }}>
@@ -154,9 +154,9 @@ const DownloadDoc = ({ client, doc, council, options, translate, filename }) => 
                             }}
                         >
                             <i className="fa fa-file-word-o" style={{
-                                fontSize: "1em",
+                                fontSize: '1em',
                                 color: 'black',
-                                marginLeft: "0.3em"
+                                marginLeft: '0.3em'
                             }}
                             />
                             <span style={{ marginLeft: '2.5em', marginRight: '0.8em' }}>
@@ -167,7 +167,7 @@ const DownloadDoc = ({ client, doc, council, options, translate, filename }) => 
                 </React.Fragment>
             }
         />
-    )
-}
+    );
+};
 
 export default withApollo(DownloadDoc);

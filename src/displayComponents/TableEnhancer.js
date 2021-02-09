@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { MenuItem } from "material-ui";
-import { Grid, GridItem, SelectInput, TextInput } from "./index";
+import React, { Component } from 'react';
+import { MenuItem } from 'material-ui';
+import { Grid, GridItem, SelectInput, TextInput } from './index';
 
 class TableEnhancer extends Component {
 	updateFilterText = async value => {
@@ -94,8 +94,8 @@ class TableEnhancer extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			filterText: "",
-			filterField: "fullName",
+			filterText: '',
+			filterField: 'fullName',
 			limit: this.props.defaultLimit,
 			page: 1
 		};
@@ -168,8 +168,8 @@ class TableEnhancer extends Component {
 				{!loading && (
 					<Grid
 						style={{
-							fontSize: "0.9em",
-							marginTop: "1em"
+							fontSize: '0.9em',
+							marginTop: '1em'
 						}}
 					>
 						<GridItem xs={6} lg={6} md={6}>
@@ -185,15 +185,15 @@ class TableEnhancer extends Component {
 								: translate.table_no_results}
 						</GridItem>
 						<GridItem xs={6} lg={6} md={6}>
-							<div style={{ float: "right" }}>
+							<div style={{ float: 'right' }}>
 								<span
 									onClick={() => this.changePage(1)}
 									style={{
-										cursor: "pointer",
-										padding: "0.3em",
-										paddingTop: "0.1em",
-										paddingBottom: "0.1em",
-										border: "2px solid grey"
+										cursor: 'pointer',
+										padding: '0.3em',
+										paddingTop: '0.1em',
+										paddingBottom: '0.1em',
+										border: '2px solid grey'
 									}}
 								>
 									{translate.table_button_first}
@@ -201,19 +201,19 @@ class TableEnhancer extends Component {
 								<span
 									onClick={() => this.changePage(page - 1)}
 									style={{
-										cursor: "pointer",
-										padding: "0.3em",
-										paddingTop: "0.1em",
-										paddingBottom: "0.1em",
-										border: "2px solid grey"
+										cursor: 'pointer',
+										padding: '0.3em',
+										paddingTop: '0.1em',
+										paddingBottom: '0.1em',
+										border: '2px solid grey'
 									}}
 								>
 									{translate.table_button_previous}
 								</span>
 								<span
 									style={{
-										marginLeft: "0.5em",
-										marginRight: "0.5em"
+										marginLeft: '0.5em',
+										marginRight: '0.5em'
 									}}
 								>
 									{page}
@@ -221,11 +221,11 @@ class TableEnhancer extends Component {
 								<span
 									onClick={() => this.changePage(page + 1)}
 									style={{
-										cursor: "pointer",
-										padding: "0.3em",
-										paddingTop: "0.1em",
-										paddingBottom: "0.1em",
-										border: "2px solid grey"
+										cursor: 'pointer',
+										padding: '0.3em',
+										paddingTop: '0.1em',
+										paddingBottom: '0.1em',
+										border: '2px solid grey'
 									}}
 								>
 									{translate.table_button_next}
@@ -236,11 +236,11 @@ class TableEnhancer extends Component {
 										)
 									}
 									style={{
-										cursor: "pointer",
-										padding: "0.3em",
-										paddingTop: "0.1em",
-										paddingBottom: "0.1em",
-										border: "2px solid grey"
+										cursor: 'pointer',
+										padding: '0.3em',
+										paddingTop: '0.1em',
+										paddingBottom: '0.1em',
+										border: '2px solid grey'
 									}}
 								>
 									{translate.table_button_last}

@@ -1,11 +1,11 @@
-import React from "react";
-import Stepper, { Step, StepLabel } from "material-ui/Stepper";
-import { CardPageLayout, MobileStepper } from "../../../displayComponents";
-import { bHistory } from "../../../containers/App";
-import withWindowSize from "../../../HOCs/withWindowSize";
-import MeetingEditorConfig from "./MeetingEditorConfig";
-import MeetingEditorCensus from "./MeetingEditorCensus";
-import { checkCouncilState } from "../../../utils/CBX";
+import React from 'react';
+import Stepper, { Step, StepLabel } from 'material-ui/Stepper';
+import { CardPageLayout, MobileStepper } from '../../../displayComponents';
+import { bHistory } from '../../../containers/App';
+import withWindowSize from '../../../HOCs/withWindowSize';
+import MeetingEditorConfig from './MeetingEditorConfig';
+import MeetingEditorCensus from './MeetingEditorCensus';
+import { checkCouncilState } from '../../../utils/CBX';
 
 class MeetingEditorPage extends React.Component {
 	constructor(props) {
@@ -29,7 +29,7 @@ class MeetingEditorPage extends React.Component {
 			},
 			this.props.company,
 			bHistory,
-			"draft"
+			'draft'
 		);
 	}
 
@@ -77,24 +77,24 @@ class MeetingEditorPage extends React.Component {
 			<CardPageLayout title={translate.dashboard_new_meeting}>
 				<div
 					style={{
-						display: "flex",
-						flexDirection: "column",
-						height: "100%"
+						display: 'flex',
+						flexDirection: 'column',
+						height: '100%'
 					}}
 				>
 					<div
 						style={{
-							backgroundColor: "lightgrey",
-							borderRadius: "5px",
-							display: "flex",
-							flexDirection: "row",
-							justifyContent: "center",
-							paddingTop: "1em",
-							width: "100%",
-							height: "100%"
+							backgroundColor: 'lightgrey',
+							borderRadius: '5px',
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'center',
+							paddingTop: '1em',
+							width: '100%',
+							height: '100%'
 						}}
 					>
-						{windowSize === "xs" ? (
+						{windowSize === 'xs' ? (
 							<MobileStepper
 								active={this.state.step - 1}
 								total={2}
@@ -115,7 +115,7 @@ class MeetingEditorPage extends React.Component {
 							</Stepper>
 						)}
 					</div>
-					<div style={{ width: "100%" }}>
+					<div style={{ width: '100%' }}>
 						{this.state.step === 1 && (
 							<MeetingEditorConfig
 								nextStep={this.nextStep}

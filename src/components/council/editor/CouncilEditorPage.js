@@ -1,14 +1,14 @@
-import React from "react";
+import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { CardPageLayout } from "../../../displayComponents";
-import CouncilEditorNotice from "./StepNotice";
-import CouncilEditorCensus from "./census/StepCensus";
-import CouncilEditorAgenda from "./agenda/StepAgenda";
-import CouncilEditorAttachments from "./attachments/StepAttachments";
-import CouncilEditorOptions from "./options/StepOptions";
-import CouncilEditorPreview from "./StepPreview";
-import { bHistory } from "../../../containers/App";
-import { checkCouncilState } from "../../../utils/CBX";
+import { CardPageLayout } from '../../../displayComponents';
+import CouncilEditorNotice from './StepNotice';
+import CouncilEditorCensus from './census/StepCensus';
+import CouncilEditorAgenda from './agenda/StepAgenda';
+import CouncilEditorAttachments from './attachments/StepAttachments';
+import CouncilEditorOptions from './options/StepOptions';
+import CouncilEditorPreview from './StepPreview';
+import { bHistory } from '../../../containers/App';
+import { checkCouncilState } from '../../../utils/CBX';
 import EditorStepper from './EditorStepper';
 
 
@@ -24,7 +24,7 @@ const CouncilEditorPage = ({ council, translate, company, ...props }) => {
 			},
 			company,
 			bHistory,
-			"draft"
+			'draft'
 		);
 	}, [council.state]);
 
@@ -38,25 +38,25 @@ const CouncilEditorPage = ({ council, translate, company, ...props }) => {
 	const nextStep = () => {
 		const index = step + 1;
 		setStep(index);
-	}
+	};
 
 	const goToPage = page => {
 		if (page < +step) {
 			setStep(page);
 		}
-	}
+	};
 
 	const previousStep = () => {
 		const index = step - 1;
 		setStep(index);
-	}
+	};
 
 	return (
 		<CardPageLayout disableScroll={true}>
 			<div
 				style={{
-					width: "100%",
-					textAlign: "center",
+					width: '100%',
+					textAlign: 'center',
 				}}
 			>
 				<div style={{ marginBottom: '1.2em', marginTop: '0.8em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingRight: '1.5em' }}>
@@ -133,7 +133,7 @@ const CouncilEditorPage = ({ council, translate, company, ...props }) => {
 			</div>
 		</CardPageLayout>
 	);
-}
+};
 
 
 

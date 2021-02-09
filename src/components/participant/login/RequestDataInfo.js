@@ -17,10 +17,10 @@ const RequestDataInfo = ({ translate, status, message }) => {
             'SUCCESS': <img src={shield} />,
             'ERROR': <img src={shieldFail} />,
             default: <img src={network} />
-        }
+        };
 
         return icons[status] ? icons[status] : icons.default;
-    }
+    };
 
     return (
         <div style={{
@@ -50,7 +50,7 @@ const RequestDataInfo = ({ translate, status, message }) => {
             </div>
 
         </div>
-    )
-}
+    );
+};
 
 export default withTranslations()(RequestDataInfo);

@@ -1,8 +1,8 @@
 import React from 'react';
 import { MenuItem, Card } from 'material-ui';
 import { CUSTOM_AGENDA_VOTING_TYPES } from '../../../../../constants';
-import { Radio, SectionTitle, TextInput, Grid, GridItem, SelectInput, BasicButton } from "../../../../../displayComponents";
-import RichTextInput from "../../../../../displayComponents/RichTextInput";
+import { Radio, SectionTitle, TextInput, Grid, GridItem, SelectInput, BasicButton } from '../../../../../displayComponents';
+import RichTextInput from '../../../../../displayComponents/RichTextInput';
 import { getPrimary, getSecondary } from '../../../../../styles/colors';
 
 
@@ -32,7 +32,7 @@ const CustomPointForm = ({
             return value;
         }
         return number;
-    }
+    };
 
     const primary = getPrimary();
     const secondary = getSecondary();
@@ -54,7 +54,7 @@ const CustomPointForm = ({
                     <GridItem xs={12} md={3} lg={3}>
                         <SelectInput
                             floatingText={translate.votation_type}
-                            value={"" + agenda.subjectType}
+                            value={'' + agenda.subjectType}
                             onChange={event => updateAgenda({
                                     subjectType: +event.target.value
                                 })
@@ -63,7 +63,7 @@ const CustomPointForm = ({
                         >
                             {council.councilType === 3 ?
                                     <MenuItem
-                                        value={"" + CUSTOM_AGENDA_VOTING_TYPES[1].value}
+                                        value={'' + CUSTOM_AGENDA_VOTING_TYPES[1].value}
                                         key={`voting${CUSTOM_AGENDA_VOTING_TYPES[1].value}`}
                                     >
                                         {translate[CUSTOM_AGENDA_VOTING_TYPES[1].label]}
@@ -71,7 +71,7 @@ const CustomPointForm = ({
                             :
                                 Object.keys(CUSTOM_AGENDA_VOTING_TYPES).map(key => (
                                         <MenuItem
-                                            value={"" + CUSTOM_AGENDA_VOTING_TYPES[key].value}
+                                            value={'' + CUSTOM_AGENDA_VOTING_TYPES[key].value}
                                             key={`voting${CUSTOM_AGENDA_VOTING_TYPES[key].value}`}
                                         >
                                             {translate[CUSTOM_AGENDA_VOTING_TYPES[key].label]}
@@ -210,7 +210,7 @@ const CustomPointForm = ({
                 }
             </div>
         </React.Fragment>
-    )
-}
+    );
+};
 
 export default CustomPointForm;

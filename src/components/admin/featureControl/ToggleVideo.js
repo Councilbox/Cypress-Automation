@@ -8,7 +8,7 @@ const ToggleVideo = ({ toggleVideo }) => (
             text="Toggle video"
 
         />
-    )
+    );
 
 const toggleVideo = gql`
     mutation ToggleFeature($id: Int!) {

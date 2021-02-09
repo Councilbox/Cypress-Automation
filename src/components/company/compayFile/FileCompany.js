@@ -41,10 +41,10 @@ const reducer = (state, action) => {
                 }
             }
         })
-    }
+    };
 
     return actions[action.type] ? actions[action.type]() : state;
-}
+};
 
 
 const FileCompany = ({ translate, match, client }) => {
@@ -63,16 +63,16 @@ const FileCompany = ({ translate, match, client }) => {
             }
         });
         dispatch({ type: 'SET_DATA', payload: response.data.company });
-    }, [match.params.id])
+    }, [match.params.id]);
 
     React.useEffect(() => {
         getData();
-    }, [getData])
+    }, [getData]);
 
     function checkRequiredFields() {
 		const errors = {
-			businessName: "",
-			tin: ""
+			businessName: '',
+			tin: ''
 		};
 
 		let hasError = false;
@@ -110,12 +110,12 @@ const FileCompany = ({ translate, match, client }) => {
 	};
 
     const updateCompanyData = React.useCallback(object => {
-        dispatch({ type: 'UPDATE_COMPANY_DATA', payload: object })
-    }, [match.params.id])
+        dispatch({ type: 'UPDATE_COMPANY_DATA', payload: object });
+    }, [match.params.id]);
 
     const updateFileData = React.useCallback(object => {
-        dispatch({ type: 'UPDATE_FILE_DATA', payload: object })
-    }, [match.params.id])
+        dispatch({ type: 'UPDATE_FILE_DATA', payload: object });
+    }, [match.params.id]);
 
     const getInformacion = () => (
             <FileInfo
@@ -125,7 +125,7 @@ const FileCompany = ({ translate, match, client }) => {
                 updateFileData={updateFileData}
                 updateCompany={saveCompany}
             />
-        )
+        );
 
     const OrgAdministracion = () => (
             <FileOrgAdm
@@ -134,7 +134,7 @@ const FileCompany = ({ translate, match, client }) => {
                 updateCompanyData={updateCompanyData}
                 updateCompany={saveCompany}
             />
-        )
+        );
 
     const getShareCapital = () => (
             <SocialCapital
@@ -144,7 +144,7 @@ const FileCompany = ({ translate, match, client }) => {
                 updateFileData={updateFileData}
                 updateCompany={saveCompany}
             />
-        )
+        );
 
     const librosOficiales = () => (
             <FileLibrosOfi
@@ -154,7 +154,7 @@ const FileCompany = ({ translate, match, client }) => {
                 updateFileData={updateFileData}
                 updateCompany={saveCompany}
             />
-        )
+        );
 
     const auditoresPoderes = () => (
             <FileAuditoresPode
@@ -163,7 +163,7 @@ const FileCompany = ({ translate, match, client }) => {
                 updateFileData={updateFileData}
                 updateCompany={saveCompany}
             />
-        )
+        );
 
     const estatutos = () => (
             <FileEstatutos
@@ -172,24 +172,24 @@ const FileCompany = ({ translate, match, client }) => {
                 updateFileData={updateFileData}
                 updateCompany={saveCompany}
             />
-        )
+        );
 
     const calendario = () => (
             <FileCalendario
                 company={data}
             />
-        )
+        );
 
     if(loading){
-        return <LoadingSection />
+        return <LoadingSection />;
     }
 
     return (
         <CardPageLayout title={`Ficha de ${data.businessName}`} disableScroll avatar={data.logo}>
             {/* company.icon */}
-            <div style={{ padding: '1em', height: '100%', paddingTop: "0px" }}>
-                <div style={{ display: "flex", padding: '1em', justifyContent: "space-between", paddingTop: "0px", alignItems: "center" }}>
-                    <div style={{ fontSize: "13px", }}>
+            <div style={{ padding: '1em', height: '100%', paddingTop: '0px' }}>
+                <div style={{ display: 'flex', padding: '1em', justifyContent: 'space-between', paddingTop: '0px', alignItems: 'center' }}>
+                    <div style={{ fontSize: '13px', }}>
                         <MenuSuperiorTabs
                             items={[translate.information, translate.social_capital_desc, translate.board_of_directors, translate.official_books, translate.auditors_and_powers, translate.statutes, translate.calendar]}
                             setSelect={setSelecteOptionMenu}
@@ -220,7 +220,7 @@ const FileCompany = ({ translate, match, client }) => {
                 }
             </div>
         </CardPageLayout>
-    )
-}
+    );
+};
 
 export default withTranslations()(withApollo(FileCompany));

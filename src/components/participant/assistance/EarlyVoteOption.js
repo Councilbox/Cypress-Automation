@@ -15,11 +15,11 @@ const EarlyVoteOption = ({ setState, state, participant, council, translate }) =
                 translate={translate}
                 title={translate.anticipate_vote}
                 select={() => {
-                    setModal(true)
+                    setModal(true);
                     setState({
                         ...state,
                         locked: false,
-                    })
+                    });
                 }}
                 value={PARTICIPANT_STATES.EARLY_VOTE}
                 selected={state.assistanceIntention}
@@ -36,8 +36,8 @@ const EarlyVoteOption = ({ setState, state, participant, council, translate }) =
 
             />
         </>
-    )
-}
+    );
+};
 
 
 export default withApollo(EarlyVoteOption);

@@ -27,7 +27,7 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
 
     React.useEffect(() => {
         props.subscribeToAdminAnnoucement({ councilId: council.id });
-    }, [council.id])
+    }, [council.id]);
 
     const closeAnnouncement = async () => {
         await closeRoomAnnouncement({
@@ -35,7 +35,7 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
                 councilId: council.id
             }
         });
-    }
+    };
 
 
     React.useEffect(() => {
@@ -64,7 +64,7 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
             }
         });
         data.refetch();
-    }
+    };
 
     if (data.loading || !context.roomAnnouncement) {
         return <span />;
@@ -91,7 +91,7 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
                     style={{
                         padding: '20px',
                         maxHeight: '100%',
-                        borderRadius: "8px",
+                        borderRadius: '8px',
                         position: 'relative'
                     }}
                 >
@@ -106,7 +106,7 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
                     </div>
 
                     <div style={{
-                        width: "100%",
+                        width: '100%',
                         position: 'absolute',
                         bottom: 0,
                         left: 0,
@@ -116,24 +116,24 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
                         justifyContent: 'center'
                     }}>
                         <div style={{
-                            width: "80%"
+                            width: '80%'
                         }}>
                             {isAdmin &&
                                 <BasicButton
                                     text={translate.hide_announcement}
-                                    textStyle={{ textTransform: 'none', color: "white", }}
+                                    textStyle={{ textTransform: 'none', color: 'white', }}
                                     onClick={closeAnnouncement}
-                                    buttonStyle={{ marginTop: '.8em', width: "100%" }}
-                                    backgroundColor={{ backgroundColor: getPrimary(), boxShadow: "none", borderRadius: "0" }}
+                                    buttonStyle={{ marginTop: '.8em', width: '100%' }}
+                                    backgroundColor={{ backgroundColor: getPrimary(), boxShadow: 'none', borderRadius: '0' }}
                                 />
                             }
                             {!isAdmin && !data.adminAnnouncement.blockUser &&
                                 <BasicButton
                                     text={translate.hide_announcement}
-                                    textStyle={{ textTransform: 'none', color: "white", }}
+                                    textStyle={{ textTransform: 'none', color: 'white', }}
                                     onClick={() => setShowInParticipant(false)}
-                                    buttonStyle={{ marginTop: '.8em', width: "100%" }}
-                                    backgroundColor={{ backgroundColor: getPrimary(), boxShadow: "none", borderRadius: "0" }}
+                                    buttonStyle={{ marginTop: '.8em', width: '100%' }}
+                                    backgroundColor={{ backgroundColor: getPrimary(), boxShadow: 'none', borderRadius: '0' }}
                                 />
                             }
                         </div>
@@ -142,8 +142,8 @@ const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnn
             </div>
             :
             <span />
-    )
-}
+    );
+};
 
 const adminAnnouncement = gql`
     query AdminAnnouncement($councilId: Int!){

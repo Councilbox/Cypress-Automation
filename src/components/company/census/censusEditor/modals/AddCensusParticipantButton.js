@@ -1,31 +1,31 @@
-import React from "react";
-import { compose, graphql, withApollo } from "react-apollo";
-import { Card } from "material-ui";
+import React from 'react';
+import { compose, graphql, withApollo } from 'react-apollo';
+import { Card } from 'material-ui';
 import {
 	AlertConfirm,
 	BasicButton,
 	ButtonIcon
-} from "../../../../../displayComponents/index";
-import { getPrimary } from "../../../../../styles/colors";
-import { addCensusParticipant, checkUniqueCensusEmails } from "../../../../../queries/census";
-import { languages } from "../../../../../queries/masters";
-import { censusHasParticipations } from "../../../../../utils/CBX";
-import RepresentativeForm from "../RepresentativeForm";
-import ParticipantForm from "../../../../council/participants/ParticipantForm";
+} from '../../../../../displayComponents/index';
+import { getPrimary } from '../../../../../styles/colors';
+import { addCensusParticipant, checkUniqueCensusEmails } from '../../../../../queries/census';
+import { languages } from '../../../../../queries/masters';
+import { censusHasParticipations } from '../../../../../utils/CBX';
+import RepresentativeForm from '../RepresentativeForm';
+import ParticipantForm from '../../../../council/participants/ParticipantForm';
 import {
 	checkRequiredFieldsParticipant,
 	checkRequiredFieldsRepresentative
-} from "../../../../../utils/validation";
-import { isMobile } from "../../../../../utils/screen";
-import SelectCensusParticipantRepresentative from "./SelectCensusParticipantRepresentative";
+} from '../../../../../utils/validation';
+import { isMobile } from '../../../../../utils/screen';
+import SelectCensusParticipantRepresentative from './SelectCensusParticipantRepresentative';
 
 const initialParticipant = {
-	name: "",
-	surname: "",
-	position: "",
-	email: "",
-	phone: "",
-	dni: "",
+	name: '',
+	surname: '',
+	position: '',
+	email: '',
+	phone: '',
+	dni: '',
 	initialState: 0,
 	type: 0,
 	delegateId: null,
@@ -33,22 +33,22 @@ const initialParticipant = {
 	socialCapital: 1,
 	uuid: null,
 	delegateUuid: null,
-	language: "es",
-	city: "",
+	language: 'es',
+	city: '',
 	personOrEntity: 0
 };
 
 const initialRepresentative = {
 	hasRepresentative: false,
-	language: "es",
+	language: 'es',
 	type: 2,
-	name: "",
-	surname: "",
+	name: '',
+	surname: '',
 	initialState: 0,
-	position: "",
-	email: "",
-	phone: "",
-	dni: ""
+	position: '',
+	email: '',
+	phone: '',
+	dni: ''
 };
 
 
@@ -184,7 +184,7 @@ class AddCensusParticipantButton extends React.Component {
 						errorsRepresentative.errors.email = translate.register_exists_email;
 						errorsRepresentative.hasError = true;
 					}
-				})
+				});
 			}
 
 			if(participant.email === representative.email){
@@ -226,10 +226,10 @@ class AddCensusParticipantButton extends React.Component {
 					})}
 				/>
 
-				<div style={{ marginRight: "1em" }}>
+				<div style={{ marginRight: '1em' }}>
 					<Card style={{
 						padding: '1em',
-						marginBottom: "1em",
+						marginBottom: '1em',
 						color: 'black',
 					}}>
 						<ParticipantForm
@@ -244,7 +244,7 @@ class AddCensusParticipantButton extends React.Component {
 					</Card>
 					<Card style={{
 						padding: '1em',
-						marginBottom: "1em",
+						marginBottom: '1em',
 						color: 'black',
 					}}>
 						<RepresentativeForm
@@ -273,18 +273,18 @@ class AddCensusParticipantButton extends React.Component {
 			<React.Fragment>
 				<BasicButton
 					text={translate.add_participant}
-					color={"white"}
+					color={'white'}
 					textStyle={{
 						color: primary,
-						fontWeight: "700",
-						fontSize: "0.9em",
-						textTransform: "none"
+						fontWeight: '700',
+						fontSize: '0.9em',
+						textTransform: 'none'
 					}}
 					textPosition="after"
 					icon={!isMobile ? <ButtonIcon type="add" color={primary} /> : null}
 					onClick={() => this.setState({ modal: true })}
 					buttonStyle={{
-						marginRight: "1em",
+						marginRight: '1em',
 						border: `2px solid ${primary}`
 					}}
 				/>
@@ -305,9 +305,9 @@ class AddCensusParticipantButton extends React.Component {
 
 export default compose(
 	graphql(addCensusParticipant, {
-		name: "addCensusParticipant",
+		name: 'addCensusParticipant',
 		options: {
-			errorPolicy: "all"
+			errorPolicy: 'all'
 		}
 	}),
 	graphql(languages)

@@ -15,14 +15,14 @@ const CostManager = ({ council, updateCouncil }) => {
             ...formData,
             price: event.target.value
         });
-    }
+    };
 
     const updateObservations = event => {
         setFormData({
             ...formData,
             promoCode: event.target.value
         });
-    }
+    };
 
     const sendUpdate = async () => {
         setLoading(true);
@@ -37,7 +37,7 @@ const CostManager = ({ council, updateCouncil }) => {
         });
 
         setLoading(false);
-    }
+    };
 
     return (
         <div>
@@ -45,7 +45,7 @@ const CostManager = ({ council, updateCouncil }) => {
                 floatingText="Coste"
                 value={formData.price || ''}
                 onChange={updatePrice}
-                styles={{ marginBottom: "0.8em" }}
+                styles={{ marginBottom: '0.8em' }}
             />
             <TextInput
                 floatingText="Observaciones sobre el coste"
@@ -53,14 +53,14 @@ const CostManager = ({ council, updateCouncil }) => {
                 onChange={updateObservations}
             />
             <BasicButton
-                buttonStyle={{ marginTop: "1em" }}
+                buttonStyle={{ marginTop: '1em' }}
                 text="Guardar"
                 loading={loading}
                 onClick={sendUpdate}
             />
         </div>
-    )
-}
+    );
+};
 
 const updateCouncil = gql`
     mutation UpdateCouncil($council: CouncilInput){
@@ -72,4 +72,4 @@ const updateCouncil = gql`
     }
 `;
 
-export default graphql(updateCouncil, { name: 'updateCouncil' })(CostManager)
+export default graphql(updateCouncil, { name: 'updateCouncil' })(CostManager);

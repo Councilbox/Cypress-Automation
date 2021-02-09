@@ -17,6 +17,6 @@ const CouncilHeader = ({ council, translate }) => (
             {council.remoteCelebration === 1 ? translate.remote_celebration : `${council.street}, ${council.country}`}
         </Typography>
     </Card>
-)
+);
 
 export default CouncilHeader;

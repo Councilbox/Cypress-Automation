@@ -1,8 +1,8 @@
-import React from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import { TabsScreen } from "../displayComponents";
-import Meetings from "../components/dashboard/Meetings";
+import React from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { TabsScreen } from '../displayComponents';
+import Meetings from '../components/dashboard/Meetings';
 
 const MeetingsContainer = ({ company, match, translate }) => {
 	const tabsIndex = {
@@ -20,10 +20,10 @@ const MeetingsContainer = ({ company, match, translate }) => {
 						company={company}
 						translate={translate}
 						state={[0]}
-						link={""}
+						link={''}
 						title={translate.companies_draft}
 						desc={translate.companies_draft_desc}
-						icon={"pencil-square-o"}
+						icon={'pencil-square-o'}
 					/>
 				)
 		},
@@ -35,10 +35,10 @@ const MeetingsContainer = ({ company, match, translate }) => {
 						company={company}
 						translate={translate}
 						state={[20]}
-						link={"/live"}
+						link={'/live'}
 						title={translate.companies_live}
 						desc={translate.companies_live_desc}
-						icon={"users"}
+						icon={'users'}
 					/>
 				)
 		},
@@ -52,9 +52,9 @@ const MeetingsContainer = ({ company, match, translate }) => {
 	return (
 		<div
 			style={{
-				height: "100vh",
-				width: "100%",
-				display: "flex"
+				height: '100vh',
+				width: '100%',
+				display: 'flex'
 			}}
 		>
 			<TabsScreen

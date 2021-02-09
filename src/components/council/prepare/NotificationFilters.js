@@ -1,13 +1,13 @@
-import React from "react";
-import { Grid, GridItem, FilterButton } from "../../../displayComponents";
-import { EMAIL_STATES_FILTERS, PARTICIPANT_STATES, COUNCIL_TYPES } from "../../../constants";
-import * as CBX from "../../../utils/CBX";
-import { getPrimary } from "../../../styles/colors";
-import { isMobile } from "../../../utils/screen";
+import React from 'react';
+import { Grid, GridItem, FilterButton } from '../../../displayComponents';
+import { EMAIL_STATES_FILTERS, PARTICIPANT_STATES, COUNCIL_TYPES } from '../../../constants';
+import * as CBX from '../../../utils/CBX';
+import { getPrimary } from '../../../styles/colors';
+import { isMobile } from '../../../utils/screen';
 
 class NotificationFilters extends React.Component {
 	state = {
-		selectedFilter: ""
+		selectedFilter: ''
 	};
 
 	changeFilter = code => {
@@ -16,7 +16,7 @@ class NotificationFilters extends React.Component {
 
 		if (selectedFilter === code) {
 			this.setState({
-				selectedFilter: ""
+				selectedFilter: ''
 			});
 			refetch({
 				notificationStatus: null
@@ -26,7 +26,7 @@ class NotificationFilters extends React.Component {
 				selectedFilter: code
 			});
 			if (code === 37) {
-				code = '37, 39, 40'
+				code = '37, 39, 40';
 			}
 			refetch({
 				attendanceIntention: null,
@@ -42,7 +42,7 @@ class NotificationFilters extends React.Component {
 
 		if (selectedFilter === intention) {
 			this.setState({
-				selectedFilter: ""
+				selectedFilter: ''
 			});
 			refetch({
 				comment: null,
@@ -75,9 +75,9 @@ class NotificationFilters extends React.Component {
 					src={CBX.getEmailIconByReqCode(value)}
 					alt={value}
 					style={{
-						width: "100%",
-						maxWidth: "22px",
-						height: "auto",
+						width: '100%',
+						maxWidth: '22px',
+						height: 'auto',
 						display: 'flex',
 						alignContent: 'center',
 						justifyContent: 'center'
@@ -100,8 +100,8 @@ class NotificationFilters extends React.Component {
 				tooltip={translate[CBX.getAttendanceIntentionTooltip(value)]}
 			>
 				{CBX.getAttendanceIntentionIcon(value, {
-					width: "24px",
-height: "auto",
+					width: '24px',
+height: 'auto',
 color: primary,
 display: 'flex',
 					alignContent: 'center',
@@ -120,7 +120,7 @@ display: 'flex',
 			PARTICIPANT_STATES.REMOTE,
 			PARTICIPANT_STATES.PHYSICALLY_PRESENT,
 			PARTICIPANT_STATES.DELEGATED,
-		]
+		];
 
 		if (council.state.canEarlyVote && council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION) {
 			intentionStates.push(PARTICIPANT_STATES.EARLY_VOTE);
@@ -134,7 +134,7 @@ display: 'flex',
 		if (isMobile) {
 			return (
 				<Grid>
-					<GridItem xs={4} md={9} lg={3} style={{ paddingTop: "0.6em" }}>
+					<GridItem xs={4} md={9} lg={3} style={{ paddingTop: '0.6em' }}>
 						{`${translate.filter_by}: `}
 					</GridItem>
 					<GridItem
@@ -142,21 +142,21 @@ display: 'flex',
 						md={9}
 						lg={9}
 						style={{
-							display: "flex",
-							flexDirection: "row"
+							display: 'flex',
+							flexDirection: 'row'
 						}}
 					>
 						{Object.keys(EMAIL_STATES_FILTERS).map(code => this._renderFilterIcon(EMAIL_STATES_FILTERS[code]))}
 					</GridItem>
-					<GridItem xs={4} md={9} lg={3} style={{ paddingTop: "0.6em" }}>
+					<GridItem xs={4} md={9} lg={3} style={{ paddingTop: '0.6em' }}>
 					</GridItem>
 					<GridItem
 						xs={8}
 						md={9}
 						lg={9}
 						style={{
-							display: "flex",
-							flexDirection: "row"
+							display: 'flex',
+							flexDirection: 'row'
 						}}
 					>
 						{CBX.councilHasAssistanceConfirmation(council) &&
@@ -170,7 +170,7 @@ display: 'flex',
 		}
 		return (
 			<Grid>
-				<GridItem xs={4} md={9} lg={3} style={{ paddingTop: "0.6em" }}>
+				<GridItem xs={4} md={9} lg={3} style={{ paddingTop: '0.6em' }}>
 					{`${translate.filter_by}: `}
 				</GridItem>
 				<GridItem
@@ -178,8 +178,8 @@ display: 'flex',
 					md={9}
 					lg={9}
 					style={{
-						display: "flex",
-						flexDirection: "row"
+						display: 'flex',
+						flexDirection: 'row'
 					}}
 				>
 					{Object.keys(EMAIL_STATES_FILTERS).map(code => this._renderFilterIcon(EMAIL_STATES_FILTERS[code]))}
@@ -211,9 +211,9 @@ display: 'flex',
 						active={this.state.selectedFilter === 'comment'}
 						tooltip={translate.show_comments}
 					>
-						<i className={"fa fa-comment"} style={{
-							width: "24px",
-height: "auto",
+						<i className={'fa fa-comment'} style={{
+							width: '24px',
+height: 'auto',
 color: primary,
 display: 'flex',
 							alignContent: 'center',

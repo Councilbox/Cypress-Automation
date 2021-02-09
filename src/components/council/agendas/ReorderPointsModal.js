@@ -1,9 +1,9 @@
-import React from "react";
-import { graphql } from "react-apollo";
-import { arrayMove } from "react-sortable-hoc";
-import { AlertConfirm } from "../../../displayComponents";
-import { updateAgendas } from "../../../queries/agenda";
-import SortableList from "../../../displayComponents/SortableList";
+import React from 'react';
+import { graphql } from 'react-apollo';
+import { arrayMove } from 'react-sortable-hoc';
+import { AlertConfirm } from '../../../displayComponents';
+import { updateAgendas } from '../../../queries/agenda';
+import SortableList from '../../../displayComponents/SortableList';
 import * as CBX from '../../../utils/CBX';
 
 
@@ -36,7 +36,7 @@ const ReorderPointsModal = ({ updateAgendas, translate, ...props }) => {
 	const reset = () => {
 		setReorderModal(false);
 		setAgendas(props.agendas);
-	}
+	};
 
 	const onSortEnd = ({ oldIndex, newIndex }) => {
 		setAgendas(arrayMove(agendas, oldIndex, newIndex));
@@ -59,16 +59,16 @@ const ReorderPointsModal = ({ updateAgendas, translate, ...props }) => {
 						key={`reorderAgenda_${agenda.id}`}
 						style={{
 							opacity: 1,
-							width: "100%",
+							width: '100%',
 							color: 'lightgrey',
-							display: "flex",
-							alignItems: "center",
-							padding: "0.5em",
-							height: "3em",
-							border: `2px solid lightgrey`,
-							listStyleType: "none",
-							borderRadius: "3px",
-							marginTop: "0.5em"
+							display: 'flex',
+							alignItems: 'center',
+							padding: '0.5em',
+							height: '3em',
+							border: '2px solid lightgrey',
+							listStyleType: 'none',
+							borderRadius: '3px',
+							marginTop: '0.5em'
 						}}
 						className="draggable"
 					>
@@ -105,8 +105,8 @@ const ReorderPointsModal = ({ updateAgendas, translate, ...props }) => {
 			/>
 		</React.Fragment>
 	);
-}
+};
 
 export default graphql(updateAgendas, {
-	name: "updateAgendas"
+	name: 'updateAgendas'
 })(ReorderPointsModal);

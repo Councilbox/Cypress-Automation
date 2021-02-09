@@ -40,7 +40,7 @@ class CouncilDetails extends React.Component {
     }
 
     getTypeText = subjectType => {
-        const votingType = this.props.data.votingTypes.find(item => item.value === subjectType)
+        const votingType = this.props.data.votingTypes.find(item => item.value === subjectType);
         return votingType ? this.props.translate[votingType.label] : '';
     }
 
@@ -51,7 +51,7 @@ class CouncilDetails extends React.Component {
 
     render() {
         if (this.props.data.loading) {
-            return <LoadingSection />
+            return <LoadingSection />;
         }
 
         const { council } = this.props.data;
@@ -60,7 +60,7 @@ class CouncilDetails extends React.Component {
 
         return (
             <div>
-                <h5 style={{ marginTop: inIndex ? "" : '1em' }}>{council.name}</h5>
+                <h5 style={{ marginTop: inIndex ? '' : '1em' }}>{council.name}</h5>
                 {council.statute.hasSecondCall === 1 ?
                     <React.Fragment>
                         {council.dateStart ? moment(new Date(council.dateStart)).format('LLL') : '-'}
@@ -68,10 +68,10 @@ class CouncilDetails extends React.Component {
                     :
                     <React.Fragment>
                         <div>
-                            {`${translate["1st_call_date"]}: ${council.dateStart ? moment(new Date(council.dateStart)).format('LLL') : '-'}`}
+                            {`${translate['1st_call_date']}: ${council.dateStart ? moment(new Date(council.dateStart)).format('LLL') : '-'}`}
                         </div>
                         <div>
-                            {`${translate["2nd_call_date"]}: ${council.dateStart2NdCall ? moment(new Date(council.dateStart2NdCall)).format('LLL') : '-'}`}
+                            {`${translate['2nd_call_date']}: ${council.dateStart2NdCall ? moment(new Date(council.dateStart2NdCall)).format('LLL') : '-'}`}
                         </div>
                     </React.Fragment>
 
@@ -174,20 +174,20 @@ class CouncilDetails extends React.Component {
                         </div>
                     </div>
                 ) : (
-                        <div style={{ paddingTop: "1em" }}>
+                        <div style={{ paddingTop: '1em' }}>
                             <TabsScreen
                                 uncontrolled={true}
                                 stylesTabPane={{ padding: '1em', minHeight: '425px' }}
                                 stylesInTabPane={{ width: '90%', margin: '0 auto' }}
-                                stylesTab={{ paddingBottom: "0" }}
+                                stylesTab={{ paddingBottom: '0' }}
                                 tabsInfo={[
                                     {
                                         text: translate.agenda,
                                         component: () => (
-                                                <div style={{ marginTop: "0.8em" }}>
-                                                    <div style={{ display: "flex", marginLeft: '58px', justifyContent: 'space-between', fontWeight: ' 700', marginBottom: "10px" }}>
+                                                <div style={{ marginTop: '0.8em' }}>
+                                                    <div style={{ display: 'flex', marginLeft: '58px', justifyContent: 'space-between', fontWeight: ' 700', marginBottom: '10px' }}>
                                                         <div>{translate.certificate_title}</div>
-                                                        <div style={{ marginRight: "57px" }}>{translate.type}</div>
+                                                        <div style={{ marginRight: '57px' }}>{translate.type}</div>
                                                     </div>
 
                                                     {this.props.data.agendas.map((agenda, index) => (
@@ -196,14 +196,14 @@ class CouncilDetails extends React.Component {
                                                                 <div
                                                                     style={{
                                                                         margin: 0,
-                                                                        padding: "11px",
-                                                                        width: "1px",
+                                                                        padding: '11px',
+                                                                        width: '1px',
                                                                         borderRight: `3px solid ${getSecondary()}`,
-                                                                        height: "3em",
+                                                                        height: '3em',
                                                                     }}
                                                                 />
                                                             )}
-                                                            <div style={{ display: "flex", alignItems: "center" }}>
+                                                            <div style={{ display: 'flex', alignItems: 'center' }}>
                                                                 <AgendaNumber
                                                                     index={index + 1}
                                                                     open={agenda.pointState === 1}
@@ -211,11 +211,11 @@ class CouncilDetails extends React.Component {
                                                                     voting={agenda.votingState === 1 && agenda.subjectType !== 0}
                                                                     translate={translate}
                                                                     secondaryColor={getSecondary()}
-                                                                    moreStyles={{ minWidth: '44px', minHeight: '44px', width: "50px", height: "44px", maxWidth: "53px", maxHeight: "44px", borderRadius: "2em" }}
+                                                                    moreStyles={{ minWidth: '44px', minHeight: '44px', width: '50px', height: '44px', maxWidth: '53px', maxHeight: '44px', borderRadius: '2em' }}
                                                                     onlyShowCalendar={true}
 
                                                                 />
-                                                                <div style={{ marginLeft: "15px", display: "flex", justifyContent: 'space-between', width: "100%" }}>
+                                                                <div style={{ marginLeft: '15px', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                                                                     <div>
                                                                         <div style={{ whiteSpace: 'nowrap', maxWidth: '215px', maxHeight: '45px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                                                                             {agenda.agendaSubject}
@@ -224,7 +224,7 @@ class CouncilDetails extends React.Component {
                                                             {agenda.description}
                                                         </div> */}
                                                                     </div>
-                                                                    <div style={{ width: "150px", textAlign: "center" }}>
+                                                                    <div style={{ width: '150px', textAlign: 'center' }}>
                                                                         <div>{this.getTypeText(agenda.subjectType)}</div>
                                                                     </div>
                                                                 </div>
@@ -246,7 +246,7 @@ class CouncilDetails extends React.Component {
                                                     }}>
                                                         {translate.options}
                                                     </div>
-                                                    <div style={{ marginTop: "1em" }}>
+                                                    <div style={{ marginTop: '1em' }}>
                                                         <OptionsDisplayIconIzq council={council} translate={translate} />
 
                                                     </div>
@@ -265,7 +265,7 @@ class CouncilDetails extends React.Component {
                                                     }}>
                                                         {translate.council_type}
                                                     </div>
-                                                    <div style={{ marginTop: "1em" }}>
+                                                    <div style={{ marginTop: '1em' }}>
                                                         <StatuteDisplayIconsIzq
                                                             statute={council.statute}
                                                             translate={translate}
@@ -281,7 +281,7 @@ class CouncilDetails extends React.Component {
                         </div>
                     )}
             </div>
-        )
+        );
     }
 }
 

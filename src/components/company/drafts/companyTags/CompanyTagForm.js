@@ -27,6 +27,6 @@ const CompanyTagForm = ({ tag, translate, setTag, errors }) => (
                     id={'descripcion'}
                 />
             </React.Fragment>
-    )
+    );
 
 export default CompanyTagForm;

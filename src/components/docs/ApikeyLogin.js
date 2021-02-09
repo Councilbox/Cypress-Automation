@@ -32,24 +32,24 @@ const ApiKeyLogin = ({ apiLogin, client }) => {
     const getAccountInfo = async () => {
         const account = await client.query({
             query: getApiAccount,
-            fetchPolicy: "network-only"
+            fetchPolicy: 'network-only'
         });
         docsContext.loginSuccess(account.data.tokenAccount);
-    }
+    };
 
     const updateApikey = event => {
         setState({
             ...state,
             apikey: event.target.value
         });
-    }
+    };
 
     const updateSecret = event => {
         setState({
             ...state,
             secret: event.target.value
         });
-    }
+    };
 
     const login = async () => {
         setLoading(true);
@@ -57,18 +57,18 @@ const ApiKeyLogin = ({ apiLogin, client }) => {
             variables: {
                 ...state
             }
-        })
+        });
 
         if(response.data.apiLogin){
             sessionStorage.removeItem('participantToken');
             sessionStorage.removeItem('token');
-            sessionStorage.setItem("apiToken", response.data.apiLogin.token);
-            sessionStorage.setItem("refreshToken", response.data.apiLogin.refreshToken);
+            sessionStorage.setItem('apiToken', response.data.apiLogin.token);
+            sessionStorage.setItem('refreshToken', response.data.apiLogin.refreshToken);
             await getAccountInfo();
         }
 
         setLoading(false);
-    }
+    };
 
 
     return (
@@ -123,8 +123,8 @@ const ApiKeyLogin = ({ apiLogin, client }) => {
             }
 
         </div>
-    )
-}
+    );
+};
 
 const apiKeyLogin = gql`
     mutation ApiLogin($apikey: String!, $secret: String!){

@@ -1,5 +1,5 @@
 import React from 'react';
-import { BasicButton, ButtonIcon } from "../../displayComponents";
+import { BasicButton, ButtonIcon } from '../../displayComponents';
 import { ConfigContext } from '../../containers/AppControl';
 
 const GenCatLogin = ({ loginSuccess }) => {
@@ -8,17 +8,17 @@ const GenCatLogin = ({ loginSuccess }) => {
 
     window.setToken = creds => {
         setLoading(false);
-        loginSuccess(creds.token, creds.refreshToken)
-    }
+        loginSuccess(creds.token, creds.refreshToken);
+    };
 
     const gicarRedirect = () => {
         setLoading(true);
         //dades de l aplicacio a integrar
-        const entityid = "Councilbox";
-        const AssertionConsumerServiceURL = "https://api.councilbox.com/sso/gicar";
+        const entityid = 'Councilbox';
+        const AssertionConsumerServiceURL = 'https://api.councilbox.com/sso/gicar';
 
         //url endpoint de GICAR a utilitzar
-        const endpointGICAR = "https://idp1-gicar.gencat.cat/idp/profile/SAML2/Redirect/SSO?SAMLRequest=";
+        const endpointGICAR = 'https://idp1-gicar.gencat.cat/idp/profile/SAML2/Redirect/SSO?SAMLRequest=';
 
         //calculem el id de la peticio
         const randomnumber = +new Date();
@@ -28,17 +28,17 @@ const GenCatLogin = ({ loginSuccess }) => {
         const curr_month = d.getUTCMonth() + 1;
         const curr_month2 = (curr_month < 10 ? '0' : '') + curr_month;
         const curr_year = d.getFullYear();
-        const ymd = curr_year + "-" + curr_month2 + "-" + curr_date + "T";
+        const ymd = curr_year + '-' + curr_month2 + '-' + curr_date + 'T';
         const curr_hour = d.getUTCHours();
         const curr_min = d.getUTCMinutes();
         const curr_min2 = (curr_min < 10 ? '0' : '') + curr_min;
         const curr_sec = d.getUTCSeconds();
         const curr_msec = d.getUTCMilliseconds();
-        const hms = curr_hour + ":" + curr_min2 + ":" + curr_sec + "." + curr_msec;
+        const hms = curr_hour + ':' + curr_min2 + ':' + curr_sec + '.' + curr_msec;
         const datasaml = ymd + hms;
 
         //generem samlrequest en pla
-        const samlrequestpla = "<?xml version=\"1.0\"?> <samlp:AuthnRequest xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\" Version=\"2.0\" ID=\"b" + randomnumber + "a\" IssueInstant=\"" + datasaml + "\" AssertionConsumerServiceURL=\"" + AssertionConsumerServiceURL + "\" ProtocolBinding=\"urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST\" IsPassive=\"false\" xmlns:samlp=\"urn:oasis:names:tc:SAML:2.0:protocol\"> <saml:Issuer>" + entityid + "</saml:Issuer> </samlp:AuthnRequest>";
+        const samlrequestpla = '<?xml version="1.0"?> <samlp:AuthnRequest xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" Version="2.0" ID="b' + randomnumber + 'a" IssueInstant="' + datasaml + '" AssertionConsumerServiceURL="' + AssertionConsumerServiceURL + '" ProtocolBinding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" IsPassive="false" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"> <saml:Issuer>' + entityid + '</saml:Issuer> </samlp:AuthnRequest>';
 
         //fem deflate i codificacio en base64
         const samlrequestb64 = btoa(window.RawDeflate.deflate(samlrequestpla));
@@ -50,11 +50,11 @@ const GenCatLogin = ({ loginSuccess }) => {
         const targeturl = endpointGICAR + samlrequest;
 
         //fem el redirect
-        window.open(targeturl, "width=800,height=600", "width=800,height=600");
-    }
+        window.open(targeturl, 'width=800,height=600', 'width=800,height=600');
+    };
 
     if(!config.gicarLogin){
-        return <span />
+        return <span />;
     }
 
     return (
@@ -64,8 +64,8 @@ const GenCatLogin = ({ loginSuccess }) => {
             loading={loading}
             id={'login-button'}
             textStyle={{
-                color: "white",
-                fontWeight: "700"
+                color: 'white',
+                fontWeight: '700'
             }}
             textPosition="before"
             onClick={gicarRedirect}
@@ -77,7 +77,7 @@ const GenCatLogin = ({ loginSuccess }) => {
                 />
             }
         />
-    )
-}
+    );
+};
 
 export default GenCatLogin;

@@ -24,12 +24,12 @@ const RoomAdminRouter = ({ user, company, translate }) => {
                 component={() => (
                     <div
                         style={{
-                            height: "100%",
-                            width: "100vw",
-                            overflow: "hidden",
+                            height: '100%',
+                            width: '100vw',
+                            overflow: 'hidden',
                             backgroundColor: 'white',
-                            fontSize: "1em",
-                            position: "relative"
+                            fontSize: '1em',
+                            position: 'relative'
                         }}
                     >
                         <LiveHeader
@@ -44,7 +44,7 @@ const RoomAdminRouter = ({ user, company, translate }) => {
                 )}
             />
         </Switch>
-    )
-}
+    );
+};
 
 export default withSharedProps()(RoomAdminRouter);

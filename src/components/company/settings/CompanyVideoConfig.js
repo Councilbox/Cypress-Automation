@@ -32,7 +32,7 @@ const CompanyVideoConfig = ({ client, company, translate }) => {
             }
         });
         setSaving(false);
-    }
+    };
 
     const getData = React.useCallback(async () => {
         const response = await client.query({
@@ -60,7 +60,7 @@ const CompanyVideoConfig = ({ client, company, translate }) => {
 
     React.useEffect(() => {
         getData();
-    }, [getData])
+    }, [getData]);
 
     return (
         <>
@@ -87,7 +87,7 @@ const CompanyVideoConfig = ({ client, company, translate }) => {
                                         ...data.videoConfig,
                                         rtmp: event.target.value
                                     }
-                                })
+                                });
                             }}
                         />
                         <TextInput
@@ -99,7 +99,7 @@ const CompanyVideoConfig = ({ client, company, translate }) => {
                                         ...data.videoConfig,
                                         fixedSlot: event.target.value
                                     }
-                                })
+                                });
                             }}
                         />
                         <TextInput
@@ -111,14 +111,14 @@ const CompanyVideoConfig = ({ client, company, translate }) => {
                                         ...data.videoConfig,
                                         viewerURL: event.target.value
                                     }
-                                })
+                                });
                             }}
                         />
                     </>
                 }
             />
         </>
-    )
-}
+    );
+};
 
-export default withApollo(CompanyVideoConfig)
+export default withApollo(CompanyVideoConfig);

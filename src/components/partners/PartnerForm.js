@@ -12,8 +12,8 @@ class PartnerForm extends React.PureComponent {
     }
 
     static onParse(event) {
-        const text = event
-        const tempDiv = document.createElement("DIV");
+        const text = event;
+        const tempDiv = document.createElement('DIV');
         tempDiv.innerHTML = text;
         return tempDiv.innerHTML;
     }
@@ -48,7 +48,7 @@ class PartnerForm extends React.PureComponent {
                                         event.nativeEvent.target.value,
                                         10
                                     ),
-                                    surname: ""
+                                    surname: ''
                                 })
                             }
                             value="1"
@@ -278,7 +278,7 @@ class PartnerForm extends React.PureComponent {
                                         openDate: date ? dateString : date
                                     });
                                 }}
-                                minDateMessage={""}
+                                minDateMessage={''}
                                 errorText={errors.openDate}
                                 acceptText={translate.accept}
                                 cancelText={translate.cancel}
@@ -298,7 +298,7 @@ class PartnerForm extends React.PureComponent {
                                         subscribeDate: date ? dateString : date
                                     });
                                 }}
-                                minDateMessage={""}
+                                minDateMessage={''}
                                 errorText={errors.subscribeDate}
                                 acceptText={translate.accept}
                                 cancelText={translate.cancel}
@@ -318,7 +318,7 @@ class PartnerForm extends React.PureComponent {
                                         subscribeActDate: date ? dateString : date
                                     });
                                 }}
-                                minDateMessage={""}
+                                minDateMessage={''}
                                 errorText={errors.subscribeActDate}
                                 acceptText={translate.accept}
                                 cancelText={translate.cancel}
@@ -338,7 +338,7 @@ class PartnerForm extends React.PureComponent {
                                         unsubscribeDate: date ? dateString : date
                                     });
                                 }}
-                                minDateMessage={""}
+                                minDateMessage={''}
                                 errorText={errors.unsubscribeDate}
                                 acceptText={translate.accept}
                                 cancelText={translate.cancel}
@@ -358,7 +358,7 @@ class PartnerForm extends React.PureComponent {
                                         unsubscribeActDate: date ? dateString : date
                                     });
                                 }}
-                                minDateMessage={""}
+                                minDateMessage={''}
                                 errorText={errors.unsubscribeActDate}
                                 acceptText={translate.accept}
                                 cancelText={translate.cancel}
@@ -403,7 +403,7 @@ class PartnerForm extends React.PureComponent {
                                 floatingText={translate.company_new_country}
                                 type="text"
                                 value={participant.country || ''}
-                                errorText={errors.country !== "España" && errors.country }
+                                errorText={errors.country !== 'España' && errors.country }
                                 onChange={event => updateState({
                                         country: this.onParse(event.nativeEvent.target.value)
                                     })
@@ -668,7 +668,7 @@ class PartnerForm extends React.PureComponent {
                     }
                 </Paper>
             </React.Fragment>
-        )
+        );
     }
 }
 

@@ -6,7 +6,7 @@ import { moment } from '../../../containers/App';
 import { AlertConfirm, BasicButton, FileUploadButton, ButtonIcon, LoadingSection } from '../../../displayComponents';
 
 let XLSX;
-import('xlsx').then(data => { XLSX = data });
+import('xlsx').then(data => { XLSX = data; });
 
 function to_json(workbook) {
     const result = {};
@@ -53,7 +53,7 @@ const ImportOneOneOne = ({ translate, client }) => {
                 }
             `,
         variables: council
-    })
+    });
 
     const cleanAndClose = () => {
         setStep(1);
@@ -62,13 +62,13 @@ const ImportOneOneOne = ({ translate, client }) => {
         setCreatedCouncils([]);
         setCreatingIndex(-1);
         setStatus('IDDLE');
-    }
+    };
 
     const scrollTo = id => {
         if (itemRefs[id] != null) {
             itemRefs[id].scrollIntoView();
         }
-    }
+    };
 
     const startCreating = async () => {
         setStatus('CREATING');
@@ -81,7 +81,7 @@ const ImportOneOneOne = ({ translate, client }) => {
             scrollTo(i);
         }
         setStatus('CREATED');
-    }
+    };
 
 
 
@@ -99,37 +99,37 @@ const ImportOneOneOne = ({ translate, client }) => {
             const pages = Object.keys(result);
             if (pages.length >= 1) {
                 const processedCouncils = result[pages[0]].filter(row => !!row['council.externalId']).map(row => ({
-                    "council": {
-                        "name": row['council.name'],
-                        "externalId": row['council.externalId'],
-                        "companyExternalId": row['council.companyExternalId'],
-                        "contactEmail": row['council.contactEmail'],
-                        "dateStart": moment(row['council.dateStart'], 'MM/DD/YYYY HH:mm').toISOString(),
-                        "conveneText": row['council.conveneText']
+                    'council': {
+                        'name': row['council.name'],
+                        'externalId': row['council.externalId'],
+                        'companyExternalId': row['council.companyExternalId'],
+                        'contactEmail': row['council.contactEmail'],
+                        'dateStart': moment(row['council.dateStart'], 'MM/DD/YYYY HH:mm').toISOString(),
+                        'conveneText': row['council.conveneText']
                     },
-                    "participant": {
-                        "name": row['participant.name'],
-                        "dni": row['participant.dni'],
-                        "surname": row['participant.surname'] || '',
-                        "email": row['participant.email'],
-                        "phone": row['participant.phone']
+                    'participant': {
+                        'name': row['participant.name'],
+                        'dni': row['participant.dni'],
+                        'surname': row['participant.surname'] || '',
+                        'email': row['participant.email'],
+                        'phone': row['participant.phone']
                     },
                     agenda: [
                         {
-                            "type": +row['agenda1.type'] || 9,
-                            "templateId": +row['agenda1.id']
+                            'type': +row['agenda1.type'] || 9,
+                            'templateId': +row['agenda1.id']
                         },
                         {
-                            "type": +row['agenda2.type'] || 9,
-                            "templateId": +row['agenda2.id']
+                            'type': +row['agenda2.type'] || 9,
+                            'templateId': +row['agenda2.id']
                         },
                         {
-                            "type": +row['agenda3.type'] || 9,
-                            "templateId": +row['agenda3.id']
+                            'type': +row['agenda3.type'] || 9,
+                            'templateId': +row['agenda3.id']
                         },
                         {
-                            "type": +row['agenda4.type'] || 9,
-                            "templateId": +row['agenda4.id']
+                            'type': +row['agenda4.type'] || 9,
+                            'templateId': +row['agenda4.id']
                         }
                     ].filter(agenda => !!agenda.templateId)
                 }));
@@ -144,13 +144,13 @@ const ImportOneOneOne = ({ translate, client }) => {
 
     const getButtonOptions = () => {
         if (step === 1 || councilsToCreate.length === 0 || status === 'CREATING') {
-            return {}
+            return {};
         }
 
         if (status === 'CREATED') {
             return {
                 buttonCancel: translate.close,
-            }
+            };
         }
 
         if (step === 2) {
@@ -158,9 +158,9 @@ const ImportOneOneOne = ({ translate, client }) => {
                 buttonCancel: translate.cancel,
                 buttonAccept: 'Importar',
                 acceptAction: startCreating
-            }
+            };
         }
-    }
+    };
 
     return (
         <>
@@ -176,15 +176,15 @@ const ImportOneOneOne = ({ translate, client }) => {
                                 //loading={this.state.loading}
                                 text={translate.import_template}
                                 style={{
-                                    width: "100%"
+                                    width: '100%'
                                 }}
-                                buttonStyle={{ width: "100%" }}
+                                buttonStyle={{ width: '100%' }}
                                 color={primary}
                                 textStyle={{
-                                    color: "white",
-                                    fontWeight: "700",
-                                    fontSize: "0.9em",
-                                    textTransform: "none"
+                                    color: 'white',
+                                    fontWeight: '700',
+                                    fontSize: '0.9em',
+                                    textTransform: 'none'
                                 }}
                                 icon={
                                     <ButtonIcon type="publish" color="white" />
@@ -203,7 +203,7 @@ const ImportOneOneOne = ({ translate, client }) => {
                                         return (
                                             <div
                                                 key={`council_to_create_${index}`}
-                                                ref={el => { itemRefs[index] = el }}
+                                                ref={el => { itemRefs[index] = el; }}
                                                 style={{
                                                     display: 'flex',
                                                     justifyContent: 'space-between',
@@ -214,7 +214,7 @@ const ImportOneOneOne = ({ translate, client }) => {
                                                     <b>
                                                         {item.council.externalId && `${item.council.externalId} - `}
                                                         {item.council.name}
-                                                    </b>{` - `}
+                                                    </b>{' - '}
                                                     <span>{moment(item.council.dateStart).format('DD/MM/YYYY HH:mm')}</span>
                                                     {hasError &&
                                                         <>
@@ -248,7 +248,7 @@ const ImportOneOneOne = ({ translate, client }) => {
                                                     </div>
                                                 }
                                             </div>
-                                        )
+                                        );
                                     })
                                     :
                                     'Sin citas válidas'
@@ -264,8 +264,8 @@ const ImportOneOneOne = ({ translate, client }) => {
                 text="Importar citas"
                 onClick={() => setModal(true)}
                 backgroundColor={{
-                    fontSize: "12px",
-                    fontStyle: "Lato",
+                    fontSize: '12px',
+                    fontStyle: 'Lato',
                     fontWeight: 'bold',
                     color: primary,
                     backgroundColor: 'white',
@@ -274,7 +274,7 @@ const ImportOneOneOne = ({ translate, client }) => {
                 }}
             />
         </>
-    )
-}
+    );
+};
 
 export default withApollo(ImportOneOneOne);

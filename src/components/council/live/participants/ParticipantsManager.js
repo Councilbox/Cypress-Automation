@@ -4,7 +4,7 @@ import { MenuItem, Paper } from 'material-ui';
 import gql from 'graphql-tag';
 import { getSecondary, getPrimary } from '../../../../styles/colors';
 import { FilterButton, SelectInput, Grid, GridItem, CollapsibleSection, LoadingSection } from '../../../../displayComponents';
-import ParticipantsPage from "./sections/ParticipantsPage";
+import ParticipantsPage from './sections/ParticipantsPage';
 import { useOldState } from '../../../../hooks';
 import { isMobile } from '../../../../utils/screen';
 
@@ -15,7 +15,7 @@ const initialState = {
     refreshing: false,
     editParticipant: undefined,
     view: 'STATES' // CONVENE, CREDENTIALS, ATTENDANCE, TYPE
-}
+};
 
 const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) => {
     const [state, setState] = React.useState(initialState);
@@ -23,8 +23,8 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
     const [filters, setFilters] = useOldState({
         typeStatus: null,
         type: null,
-		filterText: "",
-        filterField: "fullName",
+		filterText: '',
+        filterField: 'fullName',
         limit: 24,
 		status: null,
 		onlyNotSigned: false,
@@ -41,7 +41,7 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
         return () => {
             clearInterval(interval);
             clearTimeout(timeout);
-        }
+        };
     }, [state.view, filters.filterText, filters.limit, filters.type, filters.status, filters.onlyNotSigned, filters.filterField]);
 
 
@@ -59,7 +59,7 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
 		variables.options = {
 			limit: filters.limit,
 			offset: 0
-		}
+		};
 
 		if (filters.filterText) {
 			variables.filters = [
@@ -79,7 +79,7 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
 			variables.filters = [
 				...variables.filters,
 				{ field: 'surname', text: filters.charFilter }
-			]
+			];
 		}
 
 		return variables;
@@ -100,12 +100,12 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
             refetch: updateParticipants
         });
         setState(() => ({ ...state, loading: false }));
-    }
+    };
 
     const toggleSettings = () => {
 		const newValue = !state.open;
 		setState({ ...state, open: newValue });
-    }
+    };
 
     const updateState = object => {
 		setState({
@@ -119,7 +119,7 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
         //setParticipants(null);
         setFilters({ type: null });
         setState({ ...state, ...object });
-    }
+    };
 
     const editParticipant = id => {
 		setState({
@@ -133,7 +133,7 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
         if(participants === null){
             return (
                 <LoadingSection />
-            )
+            );
         }
 
         return (
@@ -153,8 +153,8 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
                 addGuest={addGuest}
                 updateState={updateState}
             />
-        )
-	}
+        );
+	};
 
 
     const _renderTableOptions = () => (
@@ -166,7 +166,7 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
 					alignItems: 'center',
 					backgroundColor: 'white',
 					borderBottom: '1px solid gainsboro',
-					position: "relative",
+					position: 'relative',
 					overflow: 'hidden'
 				}}
 			>
@@ -174,23 +174,23 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
 					<FilterButton
 						tooltip={translate.grid}
 						onClick={() => setState({ ...state, layout: 'squares', open: false })}
-						active={state.layout === "squares"}
+						active={state.layout === 'squares'}
 						size= {'2.55em'}
 					>
                         <i className="fa fa-th-large" style={{
 								color: primary,
-								fontSize: "0.9em"
+								fontSize: '0.9em'
 						}}/>
 					</FilterButton>
 					<FilterButton
 						tooltip={translate.table}
 						onClick={() => setState({ ...state, layout: 'table', open: false })}
-						active={state.layout === "table"}
+						active={state.layout === 'table'}
 						size= {'2.55em'}
 					>
                         <i className="fa fa-th-list" style={{
 								color: primary,
-								fontSize: "0.9em"
+								fontSize: '0.9em'
 						}}/>
 					</FilterButton>
 				</div>
@@ -217,13 +217,13 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
 					</SelectInput>
 				</div>
 			</div>
-		)
+		);
 
     return (
         <Paper
             style={{
-                width: "calc(100% - 1.2em)",
-                height: "calc(100% - 1.2em)",
+                width: 'calc(100% - 1.2em)',
+                height: 'calc(100% - 1.2em)',
                 overflowX: 'hidden',
                 padding: 0,
                 margin: '0.6em',
@@ -241,27 +241,27 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
                     // top: isMobile? '2.5em' : '1.8em',
                     right: '1em',
                     color: secondary,
-                    background: "white"
+                    background: 'white'
                 }}
                 onClick={toggleSettings}
             >
                 settings
             </i>
             <Grid spacing={0} style={{
-                height: "100%",
+                height: '100%',
             }}>
                 <GridItem
                     xs={12}
                     md={12}
                     lg={12}
                     style={{
-                        height: "100%",
+                        height: '100%',
                         overflow: 'hidden'
                     }}
                 >
                     <Paper
                         style={{
-                            height: "100%",
+                            height: '100%',
                             position: 'relative'
                         }}
                     >
@@ -277,7 +277,7 @@ const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) =>
             </Grid>
         </Paper>
     );
-}
+};
 
 
 const getQuery = type => {
@@ -287,7 +287,7 @@ const getQuery = type => {
         'CREDENTIALS': 'liveParticipantsCredentials',
         'TYPE': 'liveParticipantsType',
         'CONVENE': 'liveParticipantsConvene'
-    }
+    };
 
     const typeFilters = {
         'STATES': 'stateStatus',
@@ -295,7 +295,7 @@ const getQuery = type => {
         'CREDENTIALS': 'notificationStatus',
         'TYPE': 'typeStatus',
         'CONVENE': 'notificationStatus'
-    }
+    };
 
     const recounts = {
         'STATES': `
@@ -353,7 +353,7 @@ const getQuery = type => {
                 opened
             }
         `,
-    }
+    };
 
 
     return gql`
@@ -417,6 +417,6 @@ const getQuery = type => {
             ${recounts[type]}
         }
     `;
-}
+};
 
 export default withApollo(ParticipantsManager);

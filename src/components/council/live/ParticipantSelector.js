@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { TableCell, TableRow } from "material-ui/Table";
-import { Table } from "../../../displayComponents";
+import React, { Component } from 'react';
+import { TableCell, TableRow } from 'material-ui/Table';
+import { Table } from '../../../displayComponents';
 
 class ParticipantSelector extends Component {
 	render() {

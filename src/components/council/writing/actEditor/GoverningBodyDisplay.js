@@ -12,7 +12,7 @@ const GoverningBodyDisplay = ({ translate, company, open }) => {
     const copyAll = () => (company.governingBodyType > 2 ?
             CBX.copyStringToClipboard(company.governingBodyData.list.reduce((acc, curr) => acc + `${curr.name} ${curr.surname || ''} \n`, ''))
         :
-            CBX.copyStringToClipboard(`${company.governingBodyData.name} ${company.governingBodyData.surname || ''}`))
+            CBX.copyStringToClipboard(`${company.governingBodyData.name} ${company.governingBodyData.surname || ''}`));
 
 
     const type = GOVERNING_BODY_TYPES[Object.keys(GOVERNING_BODY_TYPES).filter(key => GOVERNING_BODY_TYPES[key].value === company.governingBodyType)[0]];
@@ -61,8 +61,8 @@ const GoverningBodyDisplay = ({ translate, company, open }) => {
             }
         </div>
 
-    )
-}
+    );
+};
 
 const Row = ({ value, field }) => {
     const [tooltip, setTooltip] = React.useState(false);
@@ -82,23 +82,23 @@ const Row = ({ value, field }) => {
     const copy = () => {
         setTooltip(true);
         CBX.copyStringToClipboard(value);
-    }
+    };
 
     const icon = () => (
             <i className="fa fa-clone"
                 onClick={copy}
                 style={{
-                    textAlign: "right",
-                    fontSize: "0.9em",
+                    textAlign: 'right',
+                    fontSize: '0.9em',
                     color: secondary,
                     marginLeft: '0.6em',
                     cursor: 'pointer'
                 }}
             />
-        )
+        );
 
     return (
-        <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', background: showActions ? "gainsboro" : "", paddingRight: "0.25em", paddingLeft: "0.25em", paddingBottom: "0.25em", paddingTop: "0.25em", }}
+        <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', background: showActions ? 'gainsboro' : '', paddingRight: '0.25em', paddingLeft: '0.25em', paddingBottom: '0.25em', paddingTop: '0.25em', }}
             {...handlers}
         >
             {field &&
@@ -120,7 +120,7 @@ const Row = ({ value, field }) => {
                 </div>
             }
         </div>
-    )
-}
+    );
+};
 
 export default GoverningBodyDisplay;

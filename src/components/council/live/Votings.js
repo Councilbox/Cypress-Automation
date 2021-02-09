@@ -1,5 +1,5 @@
-import React from "react";
-import VotingsTableFiltersContainer from "./voting/VotingsTableFiltersContainer";
+import React from 'react';
+import VotingsTableFiltersContainer from './voting/VotingsTableFiltersContainer';
 
 const Votings = ({ translate, agenda, council, ...props }) => {
 	const _section = () => (
@@ -14,18 +14,18 @@ const Votings = ({ translate, agenda, council, ...props }) => {
 					editedVotings={props.editedVotings}
 				/>
 			</div>
-		)
+		);
 
 	return (
 		<div
 			style={{
-				width: "100%",
-				position: "relative"
+				width: '100%',
+				position: 'relative'
 			}}
 		>
 			{_section()}
 		</div>
-	)
-}
+	);
+};
 
 export default Votings;

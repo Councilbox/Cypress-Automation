@@ -108,6 +108,6 @@ const SignatureParticipantForm = ({ participant, translate, updateState, errors,
 				</SelectInput>
             </GridItem>
         </Grid>
-    )
+    );
 
 export default SignatureParticipantForm;

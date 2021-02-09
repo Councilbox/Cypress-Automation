@@ -53,7 +53,7 @@ const CharSelector = ({ onClick, ...props }) => {
                 ))}
 
         </div>
-    )
-}
+    );
+};
 
-export default withWindowSize(CharSelector)
+export default withWindowSize(CharSelector);

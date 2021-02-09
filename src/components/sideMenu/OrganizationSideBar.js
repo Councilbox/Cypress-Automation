@@ -1,23 +1,23 @@
 
-import React from "react";
-import { NavLink, withRouter } from "react-router-dom";
-import cx from "classnames";
+import React from 'react';
+import { NavLink, withRouter } from 'react-router-dom';
+import cx from 'classnames';
 import {
 	Icon,
 	ListItem,
 	withStyles,
 	Tooltip
-} from "material-ui";
-import FontAwesome from "react-fontawesome";
-import sidebarStyleLite from "../../styles/sidebarStyleLite";
+} from 'material-ui';
+import FontAwesome from 'react-fontawesome';
+import sidebarStyleLite from '../../styles/sidebarStyleLite';
 import { Link } from '../../displayComponents';
 import withWindowSize from '../../HOCs/withWindowSize';
-import { getSecondary, darkGrey } from "../../styles/colors";
-import { isLandscape, isMobile } from "../../utils/screen";
-import CompanyMenu from "./CompanyMenu";
-import LateralMenuOptions from "../dashboard/LateralMenuOptions";
-import plantillasIcon from "../../assets/img/plantillasIcon.svg";
-import entidadesIcon from "../../assets/img/shape.svg";
+import { getSecondary, darkGrey } from '../../styles/colors';
+import { isLandscape, isMobile } from '../../utils/screen';
+import CompanyMenu from './CompanyMenu';
+import LateralMenuOptions from '../dashboard/LateralMenuOptions';
+import plantillasIcon from '../../assets/img/plantillasIcon.svg';
+import entidadesIcon from '../../assets/img/shape.svg';
 
 // contact-support.svg
 
@@ -33,31 +33,31 @@ class Sidebar extends React.Component {
 	enter = () => {
 		this.setState({
 			hovered: true
-		})
+		});
 	}
 
 	leave = () => {
 		this.setState({
 			hovered: false
-		})
+		});
 	}
 
 	buildRoutes = () => [
 			{
 				path: `/company/${this.props.company.id}`,
 				sidebarName: 'Dashboard',
-				name: "dashboard",
+				name: 'dashboard',
 				icon: 'dashboard'
 			},
 			{
 				path: `/company/${this.props.company.id}/councils/drafts`,
-				name: "council",
+				name: 'council',
 				sidebarName: this.props.translate.councils_link,
 				icon: 'import_contacts'
 			},
 			{
 				path: `/company/${this.props.company.id}/companies`,
-				name: "companies",
+				name: 'companies',
 				sidebarName: 'Entidades',
 				// sidebarName: this.props.translate.councils_link,
 				icon: <img src={entidadesIcon} style={{ width: '100%', height: 'auto' }} />
@@ -122,11 +122,11 @@ class Sidebar extends React.Component {
 	links = () => (
 		<div className={this.props.classes.list}
 			style={{
-				zIndex: "99999",
+				zIndex: '99999',
 				display: 'flex',
 				flexDirection: 'column',
-				position: isMobile ? "" : "absolute",
-				top: "0px",
+				position: isMobile ? '' : 'absolute',
+				top: '0px',
 				...(this.showVerticalLayout() ? { margin: 0 } : {}),
 			}}
 		>
@@ -135,9 +135,9 @@ class Sidebar extends React.Component {
 					<div
 						className={this.props.classes.logoLink}
 						style={{
-							zIndex: "99999",
-							display: "flex",
-							flexDirection: "row",
+							zIndex: '99999',
+							display: 'flex',
+							flexDirection: 'row',
 							width: '100%',
 							justifyContent: 'center',
 							alignItems: 'center'
@@ -145,7 +145,7 @@ class Sidebar extends React.Component {
 					>
 						<div
 							style={{
-								zIndex: "99999",
+								zIndex: '99999',
 								width: '100%',
 								display: 'flex',
 								alignItems: 'center',
@@ -178,7 +178,7 @@ class Sidebar extends React.Component {
 							return null;
 						}
 						const listItemClasses = cx({
-							[" " +
+							[' ' +
 								this.props.classes[this.props.color]]: this.activeRoute(key)
 						});
 						return (
@@ -204,23 +204,23 @@ class Sidebar extends React.Component {
 											this.props.classes.itemLink + listItemClasses
 										}
 										style={{
-											display: "flex",
-											flexDirection: "column",
+											display: 'flex',
+											flexDirection: 'column',
 											alignItems: 'center',
 											justifyContent: 'center'
 										}}
 									>
 										<div
 											style={{
-												width: "24px",
-												height: "30px",
+												width: '24px',
+												height: '30px',
 												display: 'flex',
 												alignItems: 'center',
 												justifyContent: 'center',
-												color: "rgba(255, 255, 255, 0.8)"
+												color: 'rgba(255, 255, 255, 0.8)'
 											}}
 										>
-											<Icon style={{ display: "flex", justifyContent: "center" }}>
+											<Icon style={{ display: 'flex', justifyContent: 'center' }}>
 												{route.icon}
 											</Icon>
 										</div>
@@ -228,20 +228,20 @@ class Sidebar extends React.Component {
 											style={{
 												color: 'white',
 												fontSize: '0.55em',
-												textAlign: "center",
+												textAlign: 'center',
 												lineHeight: '13px',
-												marginTop: "4px"
+												marginTop: '4px'
 											}}
 										>
 											{route.sidebarName}
 										</span>
 									</ListItem>
 								</NavLink>
-								{route.name === "dashboard" && (
-									<LateralMenuOptions company={this.props.company} clase={"dropdown-container"} menuType={"dashboard"} />
+								{route.name === 'dashboard' && (
+									<LateralMenuOptions company={this.props.company} clase={'dropdown-container'} menuType={'dashboard'} />
 								)}
-								{route.name === "council" && (
-									<LateralMenuOptions company={this.props.company} clase={"dropdown-container-reunion"} menuType={"council"} />
+								{route.name === 'council' && (
+									<LateralMenuOptions company={this.props.company} clase={'dropdown-container-reunion'} menuType={'council'} />
 								)}
 							</div>
 						);
@@ -273,7 +273,7 @@ class Sidebar extends React.Component {
 							return null;
 						}
 						const listItemClasses = cx({
-							[" " +
+							[' ' +
 								this.props.classes[this.props.color]]: this.activeRoute(key)
 						});
 						return (
@@ -283,9 +283,9 @@ class Sidebar extends React.Component {
 								activeClassName="active"
 								key={key}
 								style={{
-									":hover": {
-										textDecoration: "none",
-										color: "red"
+									':hover': {
+										textDecoration: 'none',
+										color: 'red'
 									},
 									width: '25%',
 									height: '100%',
@@ -301,8 +301,8 @@ class Sidebar extends React.Component {
 									}
 									style={{
 										borderRadius: '0',
-										display: "flex",
-										flexDirection: "column",
+										display: 'flex',
+										flexDirection: 'column',
 										alignItems: 'center',
 										margin: 0,
 										height: '100%',
@@ -313,12 +313,12 @@ class Sidebar extends React.Component {
 									<div
 										style={{
 											paddingTop: '0.35rem',
-											width: "24px",
+											width: '24px',
 											// height: "30px",
 											display: 'flex',
 											alignItems: 'center',
 											justifyContent: 'center',
-											color: "rgba(255, 255, 255, 0.8)"
+											color: 'rgba(255, 255, 255, 0.8)'
 										}}
 									>
 										<Icon>
@@ -345,7 +345,7 @@ class Sidebar extends React.Component {
 	toggleCompanyMenu = () => {
 		this.setState({
 			companyMenu: !this.state.companyMenu
-		})
+		});
 	}
 
 	brand = () => (
@@ -405,23 +405,23 @@ class Sidebar extends React.Component {
 					borderLeftStyle: 'none',
 					borderTopLeftRadius: '0',
 					borderBottomLeftRadius: '0',
-					display: "flex",
+					display: 'flex',
 					justifyContent: 'center',
-					marginRight: "7px",
-					alignItems: "center"
+					marginRight: '7px',
+					alignItems: 'center'
 				}}>
-					<div style={{ padding: "0.5em", minHeight: "3.5em", display: "flex", alignItems: "center" }}>
+					<div style={{ padding: '0.5em', minHeight: '3.5em', display: 'flex', alignItems: 'center' }}>
 						<Link to={`/company/${this.props.company.id}/settings`}>
 							{this.props.company.logo ? (
 								<img
 									src={this.props.company.logo}
 									alt="logo"
 									className={this.props.classes.img}
-									style={{ marginLeft: "7px" }}
+									style={{ marginLeft: '7px' }}
 								/>
 							) : (
 									<FontAwesome
-										name={"building-o"}
+										name={'building-o'}
 									/>
 								)
 							}
@@ -447,7 +447,7 @@ class Sidebar extends React.Component {
 					translate={this.props.translate}
 					requestClose={this.toggleCompanyMenu}
 				/>
-				<div style={{ float: 'left', zIndex: '0', height: '100vh', position: isMobile && isLandscape() && "fixed" }}>
+				<div style={{ float: 'left', zIndex: '0', height: '100vh', position: isMobile && isLandscape() && 'fixed' }}>
 
 					<div style={{
 						backgroundColor: darkGrey,
@@ -484,7 +484,7 @@ class Sidebar extends React.Component {
 						<div
 							className={classes.sidebarWrapper}
 							style={{
-								position: "relative",
+								position: 'relative',
 								...(this.showVerticalLayout() ? {
 									height: '3.5em',
 									display: 'flex',

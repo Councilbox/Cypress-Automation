@@ -1,13 +1,13 @@
-import React from "react";
-import { Grid, LoadMoreButton, Scrollbar, LoadingSection, AlertConfirm } from "../../../../displayComponents";
+import React from 'react';
+import { Grid, LoadMoreButton, Scrollbar, LoadingSection, AlertConfirm } from '../../../../displayComponents';
 
-import ParticipantItem from "./ParticipantItem";
-import SignatureModal from "./modals/SignatureModal";
-import LiveParticipantEditor from "./LiveParticipantEditor";
-import { useOldState } from "../../../../hooks";
-import { PARTICIPANT_STATES } from "../../../../constants";
-import { getMainRepresentative } from "../../../../utils/CBX";
-import { isMobile } from "../../../../utils/screen";
+import ParticipantItem from './ParticipantItem';
+import SignatureModal from './modals/SignatureModal';
+import LiveParticipantEditor from './LiveParticipantEditor';
+import { useOldState } from '../../../../hooks';
+import { PARTICIPANT_STATES } from '../../../../constants';
+import { getMainRepresentative } from '../../../../utils/CBX';
+import { isMobile } from '../../../../utils/screen';
 
 const ParticipantsList = ({ mode, translate, layout, council, refetch, loadMore, loading, loadingMore, participants }) => {
 	const [state, setState] = useOldState({
@@ -21,14 +21,14 @@ const ParticipantsList = ({ mode, translate, layout, council, refetch, loadMore,
 			return getMainRepresentative(participant);
 		}
 		return participant;
-	}
+	};
 
 	const showSignatureModal = participant => () => {
 		setState({
 			showSignatureModal: true,
 			participantToSign: getSignatureParticipant(participant)
 		});
-	}
+	};
 
 
 	return (
@@ -36,11 +36,11 @@ const ParticipantsList = ({ mode, translate, layout, council, refetch, loadMore,
 			{loading && false ?
 				<div
 					style={{
-						marginTop: "5em",
-						width: "100%",
-						display: "flex",
-						alignItems: "center",
-						justifyContent: "center"
+						marginTop: '5em',
+						width: '100%',
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center'
 					}}
 				>
 					<LoadingSection />
@@ -82,7 +82,7 @@ const ParticipantsList = ({ mode, translate, layout, council, refetch, loadMore,
 								participant={state.participantToSign}
 								refetch={refetch}
 								requestClose={() => {
-									setState({ showSignatureModal: false, participantToSign: null })
+									setState({ showSignatureModal: false, participantToSign: null });
 								}
 								}
 								translate={translate}
@@ -91,9 +91,9 @@ const ParticipantsList = ({ mode, translate, layout, council, refetch, loadMore,
 						{state.editParticipant &&
 							<AlertConfirm
 								open={!!state.editParticipant}
-								classNameDialog={isMobile ? 'livePArticipants' : ""}
+								classNameDialog={isMobile ? 'livePArticipants' : ''}
 								bodyStyle={
-									isMobile ? { padding: '0.3em', maxWidth: "100%" } : { minWidth: "90vw", overflowY: 'hidden' }
+									isMobile ? { padding: '0.3em', maxWidth: '100%' } : { minWidth: '90vw', overflowY: 'hidden' }
 								}
 								fullWidth={true}
 								// fullScreen={true}
@@ -120,14 +120,14 @@ const ParticipantsList = ({ mode, translate, layout, council, refetch, loadMore,
 				)
 					:
 					(
-						<div style={{ marginLeft: "2em" }}>
+						<div style={{ marginLeft: '2em' }}>
 							{translate.no_results}
 						</div>
 					)
 			}
 		</React.Fragment>
 	);
-}
+};
 
 
 export default ParticipantsList;

@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { graphql } from "react-apollo";
-import { withRouter } from "react-router-dom";
-import { iframeParticipant } from "../../queries";
-import LiveHeader from "../council/live/LiveHeader";
-import withTranslations from "../../HOCs/withTranslations";
-import { LoadingMainApp } from "../../displayComponents";
-import logo from "../../assets/img/logo-white.png";
+import React, { Component } from 'react';
+import { graphql } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
+import { iframeParticipant } from '../../queries';
+import LiveHeader from '../council/live/LiveHeader';
+import withTranslations from '../../HOCs/withTranslations';
+import { LoadingMainApp } from '../../displayComponents';
+import logo from '../../assets/img/logo-white.png';
 
 class ParticipantPage extends Component {
 	render() {
@@ -17,7 +17,7 @@ class ParticipantPage extends Component {
 			return <LoadingMainApp />;
 		}
 		return (
-			<div style={{ height: "calc(100vh - 3em" }}>
+			<div style={{ height: 'calc(100vh - 3em' }}>
 				<LiveHeader translate={translate} logo={logo} />
 				<iframe
 					title="cmpScreen"
@@ -28,7 +28,7 @@ class ParticipantPage extends Component {
 						Math.random() * 10000000
 					)}`}
 					allowFullScreen={true}
-					style={{ border: "none !important" }}
+					style={{ border: 'none !important' }}
 				>
 					Something wrong...
 				</iframe>

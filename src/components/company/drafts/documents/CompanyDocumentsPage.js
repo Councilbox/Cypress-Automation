@@ -8,7 +8,7 @@ import folderIcon from '../../../../assets/img/folder.svg';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import upload from '../../../../assets/img/upload.png';
 import { isMobile } from '../../../../utils/screen';
-import { TextInput, ProgressBar, DropDownMenu, AlertConfirm, Scrollbar } from "../../../../displayComponents";
+import { TextInput, ProgressBar, DropDownMenu, AlertConfirm, Scrollbar } from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
 import CreateDocumentFolder from './CreateDocumentFolder';
 
@@ -27,7 +27,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
     const [deleting, setDeleting] = React.useState(false);
     const [documents, setDocuments] = React.useState(null);
     const [folderModal, setFolderModal] = React.useState(false);
-    const [search, setSearch] = React.useState("");
+    const [search, setSearch] = React.useState('');
     const [deleteModal, setDeleteModal] = React.useState(false);
     const [editModal, setEditModal] = React.useState(false);
     const primary = getPrimary();
@@ -63,7 +63,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                 ...(search ? {
                     filters: [
                         {
-                            field: "name",
+                            field: 'name',
                             text: search
                         },
                     ]
@@ -73,11 +73,11 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
 
         setDocuments(response.data.companyDocuments.list);
         setQuota(response.data.companyDocumentsQuota);
-    }, [company.id, breadCrumbs, search])
+    }, [company.id, breadCrumbs, search]);
 
     React.useEffect(() => {
         getData();
-    }, [getData])
+    }, [getData]);
 
     const navigateTo = doc => {
         breadCrumbs.push({
@@ -86,7 +86,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
         });
 
         setBreadCrumbs([...breadCrumbs]);
-    }
+    };
 
     const deleteDocument = async () => {
         setDeleting(true);
@@ -105,24 +105,24 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
         getData();
         setDeleting(false);
         setDeleteModal(false);
-    }
+    };
 
     const addToQueue = file => {
-        queue.push(file)
+        queue.push(file);
         setQueue([...queue]);
-    }
+    };
 
     const updateQueueItem = (value, id) => {
         const index = queue.findIndex(item => item.id === id);
         queue[index].uploaded = value;
         setQueue([...queue]);
-    }
+    };
 
     const removeFromQueue = id => {
         const index = queue.findIndex(item => item.id === id);
         queue.splice(index, 1);
         setQueue([...queue]);
-    }
+    };
 
     const handleFileWithLoading = async event => {
         const file = event.nativeEvent.target.files[0];
@@ -173,10 +173,10 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                 } else {
                     updateQueueItem(((e.loaded / e.total) * 100).toFixed(2), id);
                 }
-            }
+            };
 
             xhr.open('POST', `${SERVER_URL}/api/companyDocument`, true);
-            xhr.setRequestHeader('x-jwt-token', sessionStorage.getItem("token"));
+            xhr.setRequestHeader('x-jwt-token', sessionStorage.getItem('token'));
             xhr.onreadystatechange = () => {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                     const response = JSON.parse(xhr.responseText);
@@ -186,11 +186,11 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                 }
             };
             xhr.send(formData);
-        }
-    }
+        };
+    };
 
     return (
-        <div style={{ width: '100%', height: '100%', padding: '1em', paddingBottom: "2em", paddingTop: isMobile && "0em" }}>
+        <div style={{ width: '100%', height: '100%', padding: '1em', paddingBottom: '2em', paddingTop: isMobile && '0em' }}>
             <div>
                 <AlertConfirm
                     open={deleteModal}
@@ -239,8 +239,8 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                     disabled={queue.length > 0}
                     id="raised-button-file"
                     style={{
-                        cursor: "pointer",
-                        position: "absolute",
+                        cursor: 'pointer',
+                        position: 'absolute',
                         top: 0,
                         width: 0,
                         bottom: 0,
@@ -249,34 +249,34 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                         opacity: 0
                     }}
                 />
-                <div style={{ display: "flex", borderBottom: "1px solid" + primary, alignItems: "center", justifyContent: "space-between" }}>
-                    <div style={{ display: "flex", alignItems: "center", }}>
+                <div style={{ display: 'flex', borderBottom: '1px solid' + primary, alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', }}>
                         {breadCrumbs.map((item, index) => (
                             <React.Fragment key={index}>
                                 {index > 0 &&
-                                    ` > `
+                                    ' > '
                                 }
                                 {(index === breadCrumbs.length - 1) && !hideUpload ?
                                     <DropDownMenu
                                         color="transparent"
-                                        styleComponent={{ width: "" }}
-                                        Component={() => <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "0.5em", paddingRight: "1em", position: "relative" }}>
+                                        styleComponent={{ width: '' }}
+                                        Component={() => <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.5em', paddingRight: '1em', position: 'relative' }}>
                                                 <div
                                                     style={{
-                                                        cursor: "pointer"
+                                                        cursor: 'pointer'
                                                     }}
                                                 >
-                                                    <span style={{ color: primary, fontWeight: "bold" }}>{item.label}</span>
+                                                    <span style={{ color: primary, fontWeight: 'bold' }}>{item.label}</span>
                                                 </div>
-                                                <i className={"fa fa-sort-desc"}
+                                                <i className={'fa fa-sort-desc'}
                                                     style={{
                                                         cursor: 'pointer',
                                                         color: primary,
-                                                        paddingLeft: "5px",
-                                                        fontSize: "20px",
-                                                        position: "absolute",
-                                                        top: "5px",
-                                                        right: "0px"
+                                                        paddingLeft: '5px',
+                                                        fontSize: '20px',
+                                                        position: 'absolute',
+                                                        top: '5px',
+                                                        right: '0px'
                                                     }}></i>
                                             </div>
                                         }
@@ -287,13 +287,13 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                         }}
                                         type="flat"
                                         items={
-                                            <div style={{ padding: "1em" }}>
+                                            <div style={{ padding: '1em' }}>
                                                 <label htmlFor="raised-button-file">
-                                                    <div style={{ display: "flex", color: "black", padding: ".5em 0em", cursor: "pointer" }}>
-                                                        <div style={{ width: "15px" }}>
-                                                            <img src={upload} style={{ width: "100%" }}></img>
+                                                    <div style={{ display: 'flex', color: 'black', padding: '.5em 0em', cursor: 'pointer' }}>
+                                                        <div style={{ width: '15px' }}>
+                                                            <img src={upload} style={{ width: '100%' }}></img>
                                                         </div>
-                                                        <div style={{ paddingLeft: "10px" }}>
+                                                        <div style={{ paddingLeft: '10px' }}>
                                                             {queue.length > 0 ?
                                                                 `${translate.uploading}...`
                                                                 :
@@ -304,18 +304,18 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                                 </label>
                                                 <div
                                                     style={{
-                                                        display: "flex",
-                                                        color: "black",
-                                                        padding: ".5em 0em",
-                                                        borderTop: "1px solid" + primary,
-                                                        cursor: "pointer"
+                                                        display: 'flex',
+                                                        color: 'black',
+                                                        padding: '.5em 0em',
+                                                        borderTop: '1px solid' + primary,
+                                                        cursor: 'pointer'
                                                     }}
                                                     onClick={() => setFolderModal(true)}
                                                 >
-                                                    <div style={{ width: "15px" }}>
-                                                        <img src={folder} style={{ width: "100%" }}></img>
+                                                    <div style={{ width: '15px' }}>
+                                                        <img src={folder} style={{ width: '100%' }}></img>
                                                     </div>
-                                                    <div style={{ paddingLeft: "10px" }}>
+                                                    <div style={{ paddingLeft: '10px' }}>
                                                         {translate.new_folder}
                                                     </div>
                                                 </div>
@@ -341,26 +341,26 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                         ))}
                     </div>
 
-                    <div style={{ display: "flex", alignContent: "center" }}>
+                    <div style={{ display: 'flex', alignContent: 'center' }}>
                         {quota &&
                             `${filesize(quota.used)} / ${filesize(quota.total)}`
                         }
-                        <div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3", display: "flex", alignContent: "center" }}>
+                        <div style={{ padding: '0px 8px', fontSize: '24px', color: '#c196c3', display: 'flex', alignContent: 'center' }}>
                             <i className="fa fa-filter"></i>
                         </div>
                         <div>
                             <TextInput
-                                className={isMobile && !inputSearch ? "openInput" : ""}
+                                className={isMobile && !inputSearch ? 'openInput' : ''}
                                 disableUnderline={true}
-                                styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", padding: isMobile && inputSearch && "4px 5px", paddingLeft: !isMobile && "5px" }}
-                                stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && inputSearch ? "8px" : "4px" }}
+                                styleInInput={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', padding: isMobile && inputSearch && '4px 5px', paddingLeft: !isMobile && '5px' }}
+                                stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: isMobile && inputSearch ? '8px' : '4px' }}
                                 adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
-                                floatingText={" "}
+                                floatingText={' '}
                                 type="text"
                                 value={search}
-                                styles={{ marginTop: "-16px" }}
-                                stylesTextField={{ marginBottom: "0px" }}
-                                placeholder={isMobile ? "" : translate.search}
+                                styles={{ marginTop: '-16px' }}
+                                stylesTextField={{ marginBottom: '0px' }}
+                                placeholder={isMobile ? '' : translate.search}
                                 onChange={event => {
                                     setSearch(event.target.value);
                                 }}
@@ -381,43 +381,43 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                     setEditModal(false);
                 }}
             />
-            <div style={{ marginTop: "2em", height: 'calc(100% - 5em)' }}>
+            <div style={{ marginTop: '2em', height: 'calc(100% - 5em)' }}>
                 <Scrollbar>
-                    <Table style={{ width: '100%', minWidth: "100%" }}>
+                    <Table style={{ width: '100%', minWidth: '100%' }}>
                         <TableBody>
                             <TableRow>
                                 <TableCell style={{
-                                    color: "#a09aa0",
-                                    fontWeight: "bold",
-                                    borderBottom: "1px solid #979797"
+                                    color: '#a09aa0',
+                                    fontWeight: 'bold',
+                                    borderBottom: '1px solid #979797'
                                 }}>
                                     {translate.name}
                                 </TableCell>
                                 <TableCell style={{
-                                    color: "#a09aa0",
-                                    fontWeight: "bold",
-                                    borderBottom: "1px solid #979797"
+                                    color: '#a09aa0',
+                                    fontWeight: 'bold',
+                                    borderBottom: '1px solid #979797'
                                 }}>
                                     {translate.type}
                                 </TableCell>
                                 <TableCell style={{
-                                    color: "#a09aa0",
-                                    fontWeight: "bold",
-                                    borderBottom: "1px solid #979797"
+                                    color: '#a09aa0',
+                                    fontWeight: 'bold',
+                                    borderBottom: '1px solid #979797'
                                 }}>
                                     {translate.last_edit}
                                 </TableCell>
                                 <TableCell style={{
-                                    color: "#a09aa0",
-                                    fontWeight: "bold",
-                                    borderBottom: "1px solid #979797"
+                                    color: '#a09aa0',
+                                    fontWeight: 'bold',
+                                    borderBottom: '1px solid #979797'
                                 }}>
                                     {translate.size}
                                 </TableCell>
                                 <TableCell style={{
-                                    color: "#a09aa0",
-                                    fontWeight: "bold",
-                                    borderBottom: "1px solid #979797"
+                                    color: '#a09aa0',
+                                    fontWeight: 'bold',
+                                    borderBottom: '1px solid #979797'
                                 }} />
                             </TableRow>
                             {documents && documents.map(doc => (
@@ -436,20 +436,20 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                         <TableCell />
                                         <TableCell>
                                             {!action &&
-                                                <div style={{ display: "flex" }}>
+                                                <div style={{ display: 'flex' }}>
                                                     <div onClick={event => {
                                                         event.stopPropagation();
-                                                        setDeleteModal(doc)
+                                                        setDeleteModal(doc);
                                                     }} style={{
                                                         cursor: 'pointer',
                                                         color: secondary,
                                                         background: 'white',
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        justifyContent: "center",
-                                                        padding: "0.3em",
-                                                        width: "100px",
-                                                        marginLeft: "11px"
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        padding: '0.3em',
+                                                        width: '100px',
+                                                        marginLeft: '11px'
                                                     }}>
                                                         {translate.delete}
                                                     </div>
@@ -462,24 +462,24 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                                             cursor: 'pointer',
                                                             color: getSecondary(),
                                                             background: 'white',
-                                                            display: "flex",
-                                                            alignItems: "center",
-                                                            justifyContent: "center",
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            justifyContent: 'center',
                                                         }}>
                                                         {translate.edit}
                                                     </div>
                                                     <div
                                                         onClick={event => {
                                                             event.stopPropagation();
-                                                            navigateTo(doc)
+                                                            navigateTo(doc);
                                                         }}
                                                         style={{
                                                             cursor: 'pointer',
                                                             color: getSecondary(),
                                                             background: 'white',
-                                                            display: "flex",
-                                                            alignItems: "center",
-                                                            justifyContent: "center",
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            justifyContent: 'center',
                                                         }}>
                                                         {translate.open}
                                                     </div>
@@ -525,8 +525,8 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                 </Scrollbar>
             </div>
         </div>
-    )
-}
+    );
+};
 
 
 const DelayedRow = ({ children, delay }) => {
@@ -539,15 +539,15 @@ const DelayedRow = ({ children, delay }) => {
                 setReady(true);
             }, delay);
         }
-        return () => clearTimeout(timeout)
-    }, [delay])
+        return () => clearTimeout(timeout);
+    }, [delay]);
 
     if (ready) {
         return children;
     }
 
     return <></>;
-}
+};
 
 
 const EditFolder = withApollo(({ client, translate, file, refetch, modal, setModal }) => {
@@ -558,7 +558,7 @@ const EditFolder = withApollo(({ client, translate, file, refetch, modal, setMod
         if (modal && file) {
             setFilename(file.name);
         }
-    }, [file ? file.id : null, modal])
+    }, [file ? file.id : null, modal]);
 
     const updateFile = async () => {
         if (!filename) {
@@ -583,7 +583,7 @@ const EditFolder = withApollo(({ client, translate, file, refetch, modal, setMod
 
         refetch();
         setModal(false);
-    }
+    };
 
     return (
         <div style={{ display: 'flex' }}>
@@ -599,15 +599,15 @@ const EditFolder = withApollo(({ client, translate, file, refetch, modal, setMod
                     <Input
                         error={error}
                         disableUnderline={true}
-                        id={"titleDraft"}
+                        id={'titleDraft'}
                         style={{
-                            color: "rgba(0, 0, 0, 0.65)",
+                            color: 'rgba(0, 0, 0, 0.65)',
                             fontSize: '15px',
                             border: error ? '2px solid red' : '1px solid #d7d7d7',
                             boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-                            width: "100%",
+                            width: '100%',
                             padding: '.5em 1.6em',
-                            marginTop: "1em"
+                            marginTop: '1em'
                         }}
                         value={filename}
                         onChange={event => setFilename(event.target.value)
@@ -616,8 +616,8 @@ const EditFolder = withApollo(({ client, translate, file, refetch, modal, setMod
                 }
             />
         </div>
-    )
-})
+    );
+});
 
 const FileRow = withApollo(({ client, translate, file, refetch, setDeleteModal, action, trigger }) => {
     const nameData = file.name.split('.');
@@ -651,7 +651,7 @@ const FileRow = withApollo(({ client, translate, file, refetch, setDeleteModal, 
 
         refetch();
         setModal(false);
-    }
+    };
 
     return (
         <TableRow>
@@ -666,15 +666,15 @@ const FileRow = withApollo(({ client, translate, file, refetch, setDeleteModal, 
                     <Input
                         error={error}
                         disableUnderline={true}
-                        id={"titleDraft"}
+                        id={'titleDraft'}
                         style={{
-                            color: "rgba(0, 0, 0, 0.65)",
+                            color: 'rgba(0, 0, 0, 0.65)',
                             fontSize: '15px',
                             border: error ? '2px solid red' : '1px solid #d7d7d7',
                             boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-                            width: "100%",
+                            width: '100%',
                             padding: '.5em 1.6em',
-                            marginTop: "1em"
+                            marginTop: '1em'
                         }}
                         value={filename}
                         onChange={event => setFilename(event.target.value)
@@ -712,11 +712,11 @@ const FileRow = withApollo(({ client, translate, file, refetch, setDeleteModal, 
                             cursor: 'pointer',
                             color: getSecondary(),
                             background: 'white',
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            padding: "0.3em",
-                            width: "100px"
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            padding: '0.3em',
+                            width: '100px'
                         }}>
                             {translate.delete}
                         </div>
@@ -724,10 +724,10 @@ const FileRow = withApollo(({ client, translate, file, refetch, setDeleteModal, 
                             cursor: 'pointer',
                             color: getSecondary(),
                             background: 'white',
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            padding: "0.3em",
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            padding: '0.3em',
                         }}>
                             {translate.edit}
                         </div>
@@ -735,7 +735,7 @@ const FileRow = withApollo(({ client, translate, file, refetch, setDeleteModal, 
                 }
             </TableCell>
         </TableRow>
-    )
-})
+    );
+});
 
 export default withApollo(CompanyDocumentsPage);

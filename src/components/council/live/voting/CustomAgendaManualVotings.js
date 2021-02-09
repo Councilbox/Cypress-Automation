@@ -18,11 +18,11 @@ const createManualBallotsMutation = gql`
 
 
 const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...props }) => {
-    const [state, setState] = React.useState(false)
+    const [state, setState] = React.useState(false);
     const [ballots, setBallots] = React.useState(new Map(agenda.ballots.filter(ballot => ballot.admin === 1).map(ballot => [ballot.itemId, ballot])));
 
     if(!props.votingsRecount){
-        return <LoadingSection />
+        return <LoadingSection />;
     }
 
     const maxBallot = agenda.votingState === 4 ? props.votingsRecount.availableVotes : agenda.presentCensus;
@@ -51,7 +51,7 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
         ballots.set(itemId, ballot);
         setBallots(new Map(ballots));
         props.changeEditedVotings(true);
-    }
+    };
 
     function getActualRecount(ballotsMap) {
         return Array.from(ballotsMap.values()).reduce((acc, item) => item.weight + acc, 0);
@@ -77,17 +77,17 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
             });
         }
         props.changeEditedVotings(false);
-    }
+    };
 
     const resetButtonStates = () => {
         setState({
             loading: false,
             success: false
         });
-    }
+    };
 
     if(agenda.presentCensus === 0){
-        return <span />
+        return <span />;
     }
 
     //TRADUCCION
@@ -115,11 +115,11 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
                 <div style={{
                     width: '100%',
                     marginBottom: '0.3em',
-                    borderBottom: "1px solid gainsboro",
-                    display: "flex",
-                    justifyContent: "space-between",
+                    borderBottom: '1px solid gainsboro',
+                    display: 'flex',
+                    justifyContent: 'space-between',
                     padding: '0.3em 0.5em',
-                    color: "#e02e2e"
+                    color: '#e02e2e'
                 }}
                 >
                     <div>
@@ -134,7 +134,7 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
                         padding: isMobile ? '0.3em 0.3em' : '0.3em 0.5em',
                     }}
                     >
-                        <Table style={{ width: "100%", maxWidth: "100%" }}>
+                        <Table style={{ width: '100%', maxWidth: '100%' }}>
                             <TableBody>
                                 <TableRow>
                                     <TableCell>
@@ -152,7 +152,7 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
                                                     whiteSpace: 'nowrap',
                                                     overflow: 'hidden',
                                                     textOverflow: 'ellipsis',
-                                                    maxWidth: isMobile ? "50px" : "100%"
+                                                    maxWidth: isMobile ? '50px' : '100%'
                                                 }}
                                             >
                                                 {item.value}
@@ -160,7 +160,7 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
                                         </TableCell>
                                         <TableCell style={{ padding: '5px 10px' }}>
                                             <TextInput
-                                                styles={{ width: isMobile ? "50px" : "100px" }}
+                                                styles={{ width: isMobile ? '50px' : '100px' }}
                                                 // styleInInput={{ textAlign: 'center' }}
                                                 value={ballots.get(item.id) ? ballots.get(item.id).weight : 0}
                                                 onChange={event => updateBallotValue(item.id, +event.target.value)}
@@ -175,7 +175,7 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
                                                 whiteSpace: 'nowrap',
                                                 overflow: 'hidden',
                                                 textOverflow: 'ellipsis',
-                                                maxWidth: isMobile ? "50px" : "150px"
+                                                maxWidth: isMobile ? '50px' : '150px'
                                             }}
                                         >
                                             {translate.abstention_btn}
@@ -183,7 +183,7 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
                                     </TableCell>
                                     <TableCell style={{ padding: '5px 10px' }}>
                                         <TextInput
-                                            styles={{ width: isMobile ? "50px" : "100px" }}
+                                            styles={{ width: isMobile ? '50px' : '100px' }}
                                             // styleInInput={{ textAlign: 'center' }}
                                             value={ballots.get(-1) ? ballots.get(-1).weight : 0}
                                             onChange={event => updateBallotValue(-1, +event.target.value)}
@@ -194,8 +194,8 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
                         </Table>
                     </div>
                     <div style={{
-                        width: "100%",
-                        display: "flex",
+                        width: '100%',
+                        display: 'flex',
                         padding: '0.6em 1em',
                     }}
                     >
@@ -212,9 +212,9 @@ const CustomAgendaManualVotings = ({ agenda, translate, createManualBallots, ...
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default graphql(createManualBallotsMutation, {
     name: 'createManualBallots'
-})(CustomAgendaManualVotings)
+})(CustomAgendaManualVotings);

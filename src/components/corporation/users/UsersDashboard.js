@@ -15,7 +15,7 @@ const DEFAULT_OPTIONS = {
     offset: 0,
     orderBy: 'lastConnectionDate',
     orderDirection: 'DESC'
-}
+};
 
 const UsersDashboard = ({ translate, client, ...props }) => {
     const [filterText, setFilterText] = React.useState('');
@@ -23,7 +23,7 @@ const UsersDashboard = ({ translate, client, ...props }) => {
         filterText: '',
         limit: DEFAULT_OPTIONS.limit,
         addUser: false,
-        selecteOptionMenu: "Registrados",
+        selecteOptionMenu: 'Registrados',
         loading: true
     });
 
@@ -31,17 +31,17 @@ const UsersDashboard = ({ translate, client, ...props }) => {
     const timeout = null;
 
     const getData = async () => {
-        setState({ ...state, loading: true })
+        setState({ ...state, loading: true });
         const response = await client.query({
             query: corporationUsers,
             variables: {
                 options: DEFAULT_OPTIONS,
-                actived: state.selecteOptionMenu === "Registrados",
+                actived: state.selecteOptionMenu === 'Registrados',
                 filters: [{ field: 'fullName', text: filterText }],
                 corporationId: 1
             },
         });
-        setState({ ...state, corporationUsers: response.data.corporationUsers, loading: false })
+        setState({ ...state, corporationUsers: response.data.corporationUsers, loading: false });
     };
 
     React.useEffect(() => {
@@ -54,8 +54,8 @@ const UsersDashboard = ({ translate, client, ...props }) => {
         setState({
             ...state,
             selecteOptionMenu: value
-        })
-    }
+        });
+    };
 
     const updateLimit = (value) => {
         setState({
@@ -64,7 +64,7 @@ const UsersDashboard = ({ translate, client, ...props }) => {
         }
             // , () => refresh()
         );
-    }
+    };
 
     // const refresh = () => {
     //     let variables = {
@@ -78,7 +78,7 @@ const UsersDashboard = ({ translate, client, ...props }) => {
 
 
     if (state.addUser) {
-        return <NewUser translate={translate} requestClose={() => setState({ addUser: false })} />
+        return <NewUser translate={translate} requestClose={() => setState({ addUser: false })} />;
     }
 
     return (
@@ -105,11 +105,11 @@ const UsersDashboard = ({ translate, client, ...props }) => {
                         {/* //REVISAR este es el buscador que se vuelve loco al escribir... va para adelante y atras sin sentido y no busca */}
                         <TextInput
                             startAdornment={
-                                <InputAdornment position="start" style={{ marginRight: "1em" }}>
+                                <InputAdornment position="start" style={{ marginRight: '1em' }}>
                                     <i className="fa fa-search" aria-hidden="true"></i>
                                 </InputAdornment>
                             }
-                            floatingText={" "}
+                            floatingText={' '}
                             type="text"
                             value={filterText}
                             onChange={event => setFilterText(event.target.value)}
@@ -120,13 +120,13 @@ const UsersDashboard = ({ translate, client, ...props }) => {
             <div style={{
                 height: 'calc(100% - 6em)',
                 flexDirection: 'column',
-                padding: "1em"
+                padding: '1em'
             }}>
-                <div style={{ display: "flex", padding: '1em', justifyContent: "space-between", paddingTop: "0px", alignItems: "center" }}>
-                    <div style={{ fontSize: "13px", }}>
+                <div style={{ display: 'flex', padding: '1em', justifyContent: 'space-between', paddingTop: '0px', alignItems: 'center' }}>
+                    <div style={{ fontSize: '13px', }}>
                         <MenuSuperiorTabs
                         //TRADUCCION
-                            items={["Registrados", "Pendientes de confirmar"]}
+                            items={['Registrados', 'Pendientes de confirmar']}
                             setSelect={setSelecteOptionMenu}
                             selected={state.selecteOptionMenu}
                         />
@@ -134,10 +134,10 @@ const UsersDashboard = ({ translate, client, ...props }) => {
                 </div>
                 <div
                     style={{
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center"
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
                     }}
                 >
                     <div>
@@ -178,7 +178,7 @@ const UsersDashboard = ({ translate, client, ...props }) => {
             </div>
         </div>
     );
-}
+};
 
 
 const TablaRegistrados = ({ translate, corporationUsers }) => (
@@ -186,19 +186,19 @@ const TablaRegistrados = ({ translate, corporationUsers }) => (
             height: 'calc(100% - 4em)',
         }}>
             <Table
-                style={{ width: "100%", maxWidth: "100%" }}
+                style={{ width: '100%', maxWidth: '100%' }}
             >
                 <TableHead>
                     <TableRow>
-                        <TableCell style={{ width: "15%", padding: '4px 56px 4px 15px', textAlign: "center" }}>{translate.state}</TableCell>
-                        <TableCell style={{ width: "10%", padding: '4px 56px 4px 15px' }}>Id</TableCell>
-                        <TableCell style={{ width: "25%", padding: '4px 56px 4px 15px' }}>{translate.name}</TableCell>
-                        <TableCell style={{ width: "25%", padding: '4px 56px 4px 15px' }}>{translate.email}</TableCell>
-                        <TableCell style={{ width: "25%", padding: '4px 56px 4px 15px' }}>Ultima Conexion</TableCell>
+                        <TableCell style={{ width: '15%', padding: '4px 56px 4px 15px', textAlign: 'center' }}>{translate.state}</TableCell>
+                        <TableCell style={{ width: '10%', padding: '4px 56px 4px 15px' }}>Id</TableCell>
+                        <TableCell style={{ width: '25%', padding: '4px 56px 4px 15px' }}>{translate.name}</TableCell>
+                        <TableCell style={{ width: '25%', padding: '4px 56px 4px 15px' }}>{translate.email}</TableCell>
+                        <TableCell style={{ width: '25%', padding: '4px 56px 4px 15px' }}>Ultima Conexion</TableCell>
                     </TableRow>
                 </TableHead>
             </Table>
-            <div style={{ height: "calc( 100% - 5em)" }}>
+            <div style={{ height: 'calc( 100% - 5em)' }}>
                 <Scrollbar>
                     {corporationUsers.map(user => (
                         <Link to={`/users/edit/${user.id}`} key={`user_${user.id}`} >
@@ -213,7 +213,7 @@ const TablaRegistrados = ({ translate, corporationUsers }) => (
                 </Scrollbar>
             </div>
         </div>
-    )
+    );
 
 
 export default (withTranslations()(withApollo(UsersDashboard)));

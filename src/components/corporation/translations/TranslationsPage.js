@@ -1,28 +1,28 @@
-import React from "react";
-import { graphql } from "react-apollo";
-import gql from "graphql-tag";
+import React from 'react';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import {
 	InputAdornment,
 	Card,
 	CardActions,
 	CardContent,
 	CardHeader
-} from "material-ui";
+} from 'material-ui';
 import {
 	Scrollbar,
 	LoadingSection,
 	TextInput,
 	BasicButton
-} from "../../../displayComponents";
-import withTranslations from "../../../HOCs/withTranslations";
-import NewTranslationModal from "./NewTranslationModal";
-import { secondary } from "../../../styles/colors";
-import EditTranslationsModal from "./EditTranslationsModal";
+} from '../../../displayComponents';
+import withTranslations from '../../../HOCs/withTranslations';
+import NewTranslationModal from './NewTranslationModal';
+import { secondary } from '../../../styles/colors';
+import EditTranslationsModal from './EditTranslationsModal';
 
 
 class TranslationsPage extends React.Component {
 	state = {
-		filterText: "",
+		filterText: '',
 		newModal: false
 	};
 
@@ -55,7 +55,7 @@ class TranslationsPage extends React.Component {
 			filters: [
 				{
 					text: this.state.filterText,
-					field: "label"
+					field: 'label'
 				}
 			]
 		});
@@ -92,19 +92,19 @@ class TranslationsPage extends React.Component {
 		return (
 			<div
 				style={{
-					width: "100%",
-					height: "calc(100% - 1em)",
-					overflow: "hidden"
+					width: '100%',
+					height: 'calc(100% - 1em)',
+					overflow: 'hidden'
 				}}
 			>
 				<div
 					style={{
-						borderBottom: "1px solid gainsboro",
-						paddingRight: "1em",
-						paddingLeft: "1em",
-						display: "flex",
-						justifyContent: "flex-end",
-						alignItems: "center"
+						borderBottom: '1px solid gainsboro',
+						paddingRight: '1em',
+						paddingLeft: '1em',
+						display: 'flex',
+						justifyContent: 'flex-end',
+						alignItems: 'center'
 					}}
 				>
 					<div>
@@ -115,7 +115,7 @@ class TranslationsPage extends React.Component {
 							startAdornment={
 								<InputAdornment
 									position="start"
-									style={{ marginRight: "1em" }}
+									style={{ marginRight: '1em' }}
 								>
 									<i
 										className="fa fa-search"
@@ -128,9 +128,9 @@ class TranslationsPage extends React.Component {
 				</div>
 				<div
 					style={{
-						width: "100%",
-						padding: "1em",
-						alignItems: "center"
+						width: '100%',
+						padding: '1em',
+						alignItems: 'center'
 					}}
 				>
 					<BasicButton
@@ -140,13 +140,13 @@ class TranslationsPage extends React.Component {
 								<i
 									className="fa fa-plus"
 									aria-hidden="true"
-									style={{ paddingLeft: "0.5em" }}
+									style={{ paddingLeft: '0.5em' }}
 								/>
 							</div>
 						}
 						onClick={this.showNewModal}
 						color={secondary}
-						textStyle={{ color: "white" }}
+						textStyle={{ color: 'white' }}
 					/>
 					<NewTranslationModal
 						open={this.state.newModal}
@@ -156,14 +156,14 @@ class TranslationsPage extends React.Component {
 				</div>
 				<Scrollbar
 					onScrollStop={this.handleScrollStop}
-					ref={ref => { this.scrollbar = ref }}
+					ref={ref => { this.scrollbar = ref; }}
 				>
-					<div style={{ width: "100%", padding: "1em" }}>
+					<div style={{ width: '100%', padding: '1em' }}>
 						{this.props.data.rootTranslations.map(translation => (
 							<Card
 								style={{
-									padding: "1.5em",
-									marginBottom: "1.5em"
+									padding: '1.5em',
+									marginBottom: '1.5em'
 								}}
 								key={`translation_${translation.label}`}
 							>

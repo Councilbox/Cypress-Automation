@@ -1,20 +1,20 @@
 
-import React from "react";
-import { withApollo } from "react-apollo";
+import React from 'react';
+import { withApollo } from 'react-apollo';
 import {
     AlertConfirm, UnsavedChangesModal
-} from "../../../../../displayComponents";
-import { census, updateCensus } from "../../../../../queries/census";
+} from '../../../../../displayComponents';
+import { census, updateCensus } from '../../../../../queries/census';
 import CensusInfoForm from '../../CensusInfoForm';
-import { INPUT_REGEX } from "../../../../../constants";
+import { INPUT_REGEX } from '../../../../../constants';
 
 const EditCensusButton = ({ translate, client, ...props }) => {
-    const [initInfo, setInitInfo] = React.useState({})
+    const [initInfo, setInitInfo] = React.useState({});
     const [state, setState] = React.useState({
         data: {},
         errors: {},
         unsavedAlert: false,
-    })
+    });
 
     const getData = React.useCallback(async () => {
         const response = await client.query({
@@ -43,7 +43,7 @@ const EditCensusButton = ({ translate, client, ...props }) => {
                         ...state.errors,
                         censusName: translate.invalid_field
                     }
-                })
+                });
             }
         }
         if (state.data.censusDescription) {
@@ -55,7 +55,7 @@ const EditCensusButton = ({ translate, client, ...props }) => {
                         ...state.errors,
                         censusDescription: translate.invalid_field
                     }
-                })
+                });
             }
         }
 
@@ -73,7 +73,7 @@ const EditCensusButton = ({ translate, client, ...props }) => {
             return true;
         }
             return false;
-    }
+    };
 
     const updateCensusFunction = async () => {
         if (!checkRequiredFields()) {
@@ -89,7 +89,7 @@ const EditCensusButton = ({ translate, client, ...props }) => {
                 props.requestClose();
             }
         }
-    }
+    };
 
     const updateState = object => {
         setState({
@@ -102,7 +102,7 @@ const EditCensusButton = ({ translate, client, ...props }) => {
     };
 
     const _renderBody = () => (
-        <div style={{ minWidth: "800px" }}>
+        <div style={{ minWidth: '800px' }}>
             <CensusInfoForm
                 translate={translate}
                 errors={state.errors}
@@ -113,20 +113,20 @@ const EditCensusButton = ({ translate, client, ...props }) => {
     );
 
     const comprobateChanges = () => {
-        const unsavedAlert = JSON.stringify(initInfo) !== JSON.stringify(state.data)
+        const unsavedAlert = JSON.stringify(initInfo) !== JSON.stringify(state.data);
         setState({
             ...state,
             unsavedAlert
-        })
-        return unsavedAlert
+        });
+        return unsavedAlert;
     };
 
     const closeModal = () => {
         const equals = comprobateChanges();
         if (!equals) {
-            props.requestClose()
+            props.requestClose();
         }
-    }
+    };
 
     return (
         <div>
@@ -151,6 +151,6 @@ const EditCensusButton = ({ translate, client, ...props }) => {
             />
         </div>
     );
-}
+};
 
 export default withApollo(EditCensusButton);

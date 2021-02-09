@@ -1,14 +1,14 @@
-import React from "react";
-import { graphql } from "react-apollo";
-import * as CBX from "../../../../utils/CBX";
-import { getLightGrey } from "../../../../styles/colors";
-import { PARTICIPANT_STATES } from "../../../../constants";
-import { changeParticipantState } from "../../../../queries/liveParticipant";
-import { Grid, GridItem, LoadingSection } from "../../../../displayComponents";
-import AddRepresentativeModal from "../AddRepresentativeModal";
-import DelegateOwnVoteModal from "../DelegateOwnVoteModal";
-import DelegateVoteModal from "../DelegateVoteModal";
-import StateIcon from "./StateIcon";
+import React from 'react';
+import { graphql } from 'react-apollo';
+import * as CBX from '../../../../utils/CBX';
+import { getLightGrey } from '../../../../styles/colors';
+import { PARTICIPANT_STATES } from '../../../../constants';
+import { changeParticipantState } from '../../../../queries/liveParticipant';
+import { Grid, GridItem, LoadingSection } from '../../../../displayComponents';
+import AddRepresentativeModal from '../AddRepresentativeModal';
+import DelegateOwnVoteModal from '../DelegateOwnVoteModal';
+import DelegateVoteModal from '../DelegateVoteModal';
+import StateIcon from './StateIcon';
 
 
 class ParticipantSelectActions extends React.Component {
@@ -56,11 +56,11 @@ class ParticipantSelectActions extends React.Component {
 							onClick={() => {
 								this.setState({
 									delegateVote: true
-								})
+								});
 							}}
 						>
 							<div
-								style={{ display: "flex", alignItems: "center" }}
+								style={{ display: 'flex', alignItems: 'center' }}
 							>
 								<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
 									<span style={{ fontSize: '0.9em' }}>{translate.add_delegated}</span>
@@ -85,11 +85,11 @@ class ParticipantSelectActions extends React.Component {
 		return (
 			<Grid
 				style={{
-					marginTop: "1em",
-					width: "100%",
-					display: "flex",
-					flexDirection: "row",
-					alignItems: "center"
+					marginTop: '1em',
+					width: '100%',
+					display: 'flex',
+					flexDirection: 'row',
+					alignItems: 'center'
 				}}
 			>
 				{CBX.canHaveRepresentative(participant) &&
@@ -104,15 +104,15 @@ class ParticipantSelectActions extends React.Component {
 
 							>
 								<div
-									style={{ display: "flex", alignItems: "center", overflow: "hidden" }}
+									style={{ display: 'flex', alignItems: 'center', overflow: 'hidden' }}
 								>
-									<div style={{ width: "3em" }}>
+									<div style={{ width: '3em' }}>
 										<StateIcon
 											translate={translate}
 											state={PARTICIPANT_STATES.REPRESENTATED}
 											color={'black'}
 											hideTooltip={true}
-											styles={{ padding: "0em" }}
+											styles={{ padding: '0em' }}
 										/>
 									</div>
 									<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -134,7 +134,7 @@ class ParticipantSelectActions extends React.Component {
 							}
 						>
 							<div
-								style={{ display: "flex", alignItems: "center" }}
+								style={{ display: 'flex', alignItems: 'center' }}
 							>
 								<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
 									<span style={{ fontSize: '0.9em' }}>{translate.to_delegate_vote}</span>
@@ -151,11 +151,11 @@ class ParticipantSelectActions extends React.Component {
 							onClick={() => {
 								this.setState({
 									delegateVote: true
-								})
+								});
 							}}
 						>
 							<div
-								style={{ display: "flex", alignItems: "center" }}
+								style={{ display: 'flex', alignItems: 'center' }}
 							>
 								<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
 									<span style={{ fontSize: '0.9em' }}>{translate.add_delegated}</span>
@@ -215,23 +215,23 @@ const ButtonActions = ({ children, loading, onClick, active }) => (
 		style={{
 			display: 'flex',
 			alignItems: 'center',
-			height: "37px",
+			height: '37px',
 			borderRadius: '4px',
 			border: 'solid 1px #a09aa0',
 			color: 'black',
-			padding: "0.3em 1.3em",
-			cursor: "pointer",
-			marginRight: "0.5em",
-			backgroundColor: active ? getLightGrey() : "transparent",
+			padding: '0.3em 1.3em',
+			cursor: 'pointer',
+			marginRight: '0.5em',
+			backgroundColor: active ? getLightGrey() : 'transparent',
 		}}
 		onClick={onClick}
 	>
 		{loading ? (
 			<div
 				style={{
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "center"
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center'
 				}}
 			>
 				<LoadingSection size={20} />
@@ -240,9 +240,9 @@ const ButtonActions = ({ children, loading, onClick, active }) => (
 				children
 			)}
 	</div>
-)
+);
 
 
 export default graphql(changeParticipantState, {
-	name: "changeParticipantState"
+	name: 'changeParticipantState'
 })(ParticipantSelectActions);

@@ -1,23 +1,23 @@
-import React from "react";
+import React from 'react';
 import { toast } from 'react-toastify';
 import { graphql, compose } from 'react-apollo';
-import Dialog, { DialogContent, DialogTitle } from "material-ui/Dialog";
-import { Grid, GridItem, TabsScreen, BasicButton, LiveToast } from "../../../../displayComponents";
-import RichTextInput from "../../../../displayComponents/RichTextInput";
-import { getPrimary, getSecondary } from "../../../../styles/colors";
+import Dialog, { DialogContent, DialogTitle } from 'material-ui/Dialog';
+import { Grid, GridItem, TabsScreen, BasicButton, LiveToast } from '../../../../displayComponents';
+import RichTextInput from '../../../../displayComponents/RichTextInput';
+import { getPrimary, getSecondary } from '../../../../styles/colors';
 import AgendaRecount from '../../agendas/AgendaRecount';
 import { AGENDA_TYPES, DRAFT_TYPES } from '../../../../constants';
-import VotingsTableFiltersContainer from "../../live/voting/VotingsTableFiltersContainer";
-import CommentsTable from "../../live/comments/CommentsTable";
+import VotingsTableFiltersContainer from '../../live/voting/VotingsTableFiltersContainer';
+import CommentsTable from '../../live/comments/CommentsTable';
 import { checkForUnclosedBraces, changeVariablesToValues, hasParticipations, isCustomPoint, cleanAgendaObject, generateStatuteTag, isConfirmationRequest } from '../../../../utils/CBX';
-import LoadDraft from "../../../company/drafts/LoadDraft";
+import LoadDraft from '../../../company/drafts/LoadDraft';
 import AgendaDescriptionModal from '../../live/AgendaDescriptionModal';
-import { updateAgenda } from "../../../../queries/agenda";
-import CustomAgendaRecount from "../../live/voting/CustomAgendaRecount";
-import { agendaRecountQuery } from "../../live/ActAgreements";
-import { useOldState } from "../../../../hooks";
-import { moment } from "../../../../containers/App";
-import ConfirmationRequestRecount from "../../agendas/ConfirmationRequestRecount";
+import { updateAgenda } from '../../../../queries/agenda';
+import CustomAgendaRecount from '../../live/voting/CustomAgendaRecount';
+import { agendaRecountQuery } from '../../live/ActAgreements';
+import { useOldState } from '../../../../hooks';
+import { moment } from '../../../../containers/App';
+import ConfirmationRequestRecount from '../../agendas/ConfirmationRequestRecount';
 
 
 const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTypes, typeText, data, company, translate, council, ...props }) => {
@@ -49,7 +49,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 				/>, {
 					position: toast.POSITION.TOP_RIGHT,
 					autoClose: true,
-					className: "errorToast"
+					className: 'errorToast'
 				}
 			);
 		}
@@ -65,7 +65,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 
 	const update = () => {
 		props.refetch();
-	}
+	};
 
 	const loadDraft = async draft => {
 		const { numPositive, numNegative, numAbstention, numNoVote } = agendaData.agendaRecount;
@@ -98,7 +98,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 		setState({
 			loadDraft: false
 		});
-	}
+	};
 
 
 	if(agendaData.loading){
@@ -131,7 +131,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 			value: numNoVote,
 			label: translate.num_no_vote
 		},
-	]
+	];
 
 	if(participations){
 		tags.push({
@@ -185,13 +185,13 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 									text={translate.load_draft}
 									color={secondary}
 									textStyle={{
-										color: "white",
-										fontWeight: "600",
-										fontSize: "0.8em",
-										textTransform: "none",
-										marginLeft: "0.4em",
+										color: 'white',
+										fontWeight: '600',
+										fontSize: '0.8em',
+										textTransform: 'none',
+										marginLeft: '0.4em',
 										minHeight: 0,
-										lineHeight: "1em"
+										lineHeight: '1em'
 									}}
 									textPosition="after"
 									onClick={() => setState({
@@ -205,13 +205,13 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 							value={agenda.comment || ''}
 							onChange={value => {
 								if(value !== agenda.comment){
-									setComment(value)
+									setComment(value);
 								}
 							}}
 						/>
 					</div>
 				)
-		})
+		});
 	}
 
 	tabs.push({
@@ -272,18 +272,18 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 	return (
 		<div
 			style={{
-				width: "100%",
-				margin: "0.6em 0",
+				width: '100%',
+				margin: '0.6em 0',
 			}}
 		>
 			<Grid spacing={16} style={{ marginBottom: '1em' }}>
 				<GridItem xs={1}
 					style={{
 						color: primary,
-						width: "30px",
-						margin: "-0.25em 0",
-						fontWeight: "700",
-						fontSize: "1.5em",
+						width: '30px',
+						margin: '-0.25em 0',
+						fontWeight: '700',
+						fontSize: '1.5em',
 						display: 'flex',
 						alignItems: 'center',
 						justifyContent: 'center'
@@ -294,8 +294,8 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 				<GridItem xs={9}>
 					<div
 						style={{
-							fontWeight: "600",
-							fontSize: "1.1em",
+							fontWeight: '600',
+							fontSize: '1.1em',
 							marginBottom: '1em'
 						}}
 					>
@@ -313,8 +313,8 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 					{agenda.description && (
 						<div
 							style={{
-								width: "100%",
-								marginTop: "0.3em",
+								width: '100%',
+								marginTop: '0.3em',
 								fontSize: '0.87rem'
 							}}
 							dangerouslySetInnerHTML={{ __html: agenda.description }}
@@ -333,7 +333,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 				onClose={() => setState({ loadDraft: false })}
 			>
 				<DialogTitle>{translate.load_draft}</DialogTitle>
-				<DialogContent style={{ width: "800px" }}>
+				<DialogContent style={{ width: '800px' }}>
 					<LoadDraft
 						translate={translate}
 						companyId={company ? company.id : ''}
@@ -342,7 +342,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 						statutes={data ? data.companyStatutes : ''}
 						defaultTags={
 							{
-								"comments_and_agreements": {
+								'comments_and_agreements': {
 								active: true,
 								type: 2,
 								name: 'comments_and_agreements',
@@ -356,7 +356,7 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 			</Dialog>
 		</div>
 	);
-}
+};
 
 
 export default compose(

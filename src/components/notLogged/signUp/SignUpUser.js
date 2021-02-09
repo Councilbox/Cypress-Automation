@@ -1,6 +1,6 @@
-import React from "react";
-import { withApollo } from "react-apollo/index";
-import { LinearProgress } from "material-ui/Progress";
+import React from 'react';
+import { withApollo } from 'react-apollo/index';
+import { LinearProgress } from 'material-ui/Progress';
 import PropTypes from 'prop-types';
 import {
 	BasicButton,
@@ -11,11 +11,11 @@ import {
 	SelectInput,
 	TextInput,
 	Checkbox
-} from "../../../displayComponents";
-import { checkValidEmail } from "../../../utils/index";
-import { getPrimary } from "../../../styles/colors";
-import { checkEmailExists } from "../../../queries/userAndCompanySignUp";
-import TermsModal from "./TermsModal";
+} from '../../../displayComponents';
+import { checkValidEmail } from '../../../utils/index';
+import { getPrimary } from '../../../styles/colors';
+import { checkEmailExists } from '../../../queries/userAndCompanySignUp';
+import TermsModal from './TermsModal';
 
 
 class SignUpUser extends React.Component {
@@ -25,7 +25,7 @@ class SignUpUser extends React.Component {
 		repeatEmail: '',
 		termsAccepted: false,
 		termsModal: false,
-		confirmPWD: "",
+		confirmPWD: '',
 		subscriptions: [],
 		languages: [
 			{
@@ -60,14 +60,14 @@ class SignUpUser extends React.Component {
 
 	checkRequiredFields = async () => {
 		const errors = {
-			name: "",
-			surname: "",
-			phone: "",
-			email: "",
+			name: '',
+			surname: '',
+			phone: '',
+			email: '',
 			repeatEmail: '',
-			pwd: "",
-			termsAccepted: "",
-			confirmPWD: ""
+			pwd: '',
+			termsAccepted: '',
+			confirmPWD: ''
 		};
 
 		const data = this.props.formData;
@@ -119,7 +119,7 @@ class SignUpUser extends React.Component {
 			}
 			if (!(/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g.test(data.phone))) {
 				hasError = true;
-				errors.phone = translate.enter_valid_phone_number
+				errors.phone = translate.enter_valid_phone_number;
 			}
 		}
 
@@ -135,12 +135,12 @@ class SignUpUser extends React.Component {
 
 		if (!(/^[A-Za-z\s]+$/.test(data.name))) {
 			hasError = true;
-			errors.name = translate.enter_valid_name
+			errors.name = translate.enter_valid_name;
 		}
 
 		if (!(/^[A-Za-z\s]+$/.test(data.surname))) {
 			hasError = true;
-			errors.surname = translate.enter_valid_last_names
+			errors.surname = translate.enter_valid_last_names;
 		}
 
 		// if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,}$/.test(data.pwd))) {
@@ -166,8 +166,8 @@ class SignUpUser extends React.Component {
 
 	handleKeyUp = event => {
 		const data = this.props.formData;
-		let errorsBar
-		let porcentaje = 100
+		let errorsBar;
+		let porcentaje = 100;
 		const { translate } = this.props;
 		if (!(/[a-z]/.test(data.pwd))) {
 			errorsBar = translate.insecure_password;
@@ -189,13 +189,13 @@ class SignUpUser extends React.Component {
 			errorsBar = translate.insecure_password;
 			porcentaje -= 20;
 		}
-		let color = "Green"
-		color = porcentaje < 40 ? 'Red' : porcentaje >= 40 && porcentaje <= 80 ? "Orange" : "Green";
+		let color = 'Green';
+		color = porcentaje < 40 ? 'Red' : porcentaje >= 40 && porcentaje <= 80 ? 'Orange' : 'Green';
 		this.setState({
 			errorsBar,
 			porcentaje,
 			color,
-		})
+		});
 		if (event.nativeEvent.keyCode === 13) {
 			this.nextPage();
 		}
@@ -212,21 +212,21 @@ class SignUpUser extends React.Component {
 		return (
 			<div
 				style={{
-					width: "100%",
-					padding: "6%"
+					width: '100%',
+					padding: '6%'
 				}}
 				onKeyUp={this.handleKeyUp}
 			>
 				<div
 					style={{
-						fontSize: "1.3em",
-						fontWeight: "700",
+						fontSize: '1.3em',
+						fontWeight: '700',
 						color: primary
 					}}
 				>
 					{translate.user_data}
 				</div>
-				<Grid style={{ marginTop: "2em" }}>
+				<Grid style={{ marginTop: '2em' }}>
 					<GridItem xs={12} md={6} lg={6}>
 						<TextInput
 							floatingText={translate.name}
@@ -339,26 +339,26 @@ class SignUpUser extends React.Component {
 							required
 						/>
 					</GridItem>
-					<GridItem xs={12} md={6} lg={6} style={{ height: "50px" }}>
-						<div style={{ width: "100%", marginRight: "3em" }}>
+					<GridItem xs={12} md={6} lg={6} style={{ height: '50px' }}>
+						<div style={{ width: '100%', marginRight: '3em' }}>
 							<LinearProgress
 								variant="determinate"
 								value={this.state.porcentaje}
 								style={{
-									height: "18px",
+									height: '18px',
 									backgroundColor: 'lightgrey',
-									borderRadius: "10px",
-									boxShadow: "rgba(0, 0, 0, 0.15) 0px 12px 20px -10px, rgba(0, 0, 0, 0.18) 0px 4px 20px 0px, rgba(0, 0, 0, 0.23) 0px 7px 8px -5px"
+									borderRadius: '10px',
+									boxShadow: 'rgba(0, 0, 0, 0.15) 0px 12px 20px -10px, rgba(0, 0, 0, 0.18) 0px 4px 20px 0px, rgba(0, 0, 0, 0.23) 0px 7px 8px -5px'
 								}}
-								className={"barColor" + this.state.color}
+								className={'barColor' + this.state.color}
 							/>
 						</div>
-						<div style={{ width: "100%" }}>
+						<div style={{ width: '100%' }}>
 							{this.state.errorsBar !== undefined ? this.state.errorsBar : translate.safe_password}
 						</div>
 					</GridItem>
 					<GridItem xs={12} md={6} lg={6}>
-						{" "}
+						{' '}
 					</GridItem>
 					<GridItem xs={12} md={12} lg={12}>
 						<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
@@ -394,7 +394,7 @@ class SignUpUser extends React.Component {
 							</a>
 						</div>
 						{this.props.errors.termsCheck && (
-							<div style={{ color: "red" }}>
+							<div style={{ color: 'red' }}>
 								{this.props.errors.termsCheck}
 							</div>
 						)}
@@ -405,8 +405,8 @@ class SignUpUser extends React.Component {
 							loading={this.props.loading}
 							color={primary}
 							textStyle={{
-								color: "white",
-								fontWeight: "700"
+								color: 'white',
+								fontWeight: '700'
 							}}
 							onClick={this.nextPage}
 							fullWidth

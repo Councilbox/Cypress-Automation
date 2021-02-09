@@ -1,6 +1,6 @@
 import React from 'react';
 import { Tooltip } from 'material-ui';
-import FontAwesome from "react-fontawesome";
+import FontAwesome from 'react-fontawesome';
 import { Scrollbar } from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
 import * as CBX from '../../../../utils/CBX';
@@ -21,20 +21,20 @@ class CouncilSideMenu extends React.Component {
 
         //TRADUCCION
         if (!this.props.open) {
-            return <span />
+            return <span />;
         }
 
         return (
             <div style={{ width: '100%', height: '100%', borderLeft: '1px solid gainsboro' }}>
                 <Scrollbar>
                     <div style={{ padding: '2.5em 1.3em', fontSize: '14px' }}>
-                        <h4 style={{ textAlign: "center" }}>{translate.council_info}</h4>
+                        <h4 style={{ textAlign: 'center' }}>{translate.council_info}</h4>
                         <hr></hr>
-                        <h6 style={{ fontWeight: '700', paddingLeft: "0.25em" }}>{translate.council}</h6>
+                        <h6 style={{ fontWeight: '700', paddingLeft: '0.25em' }}>{translate.council}</h6>
                         <Row field={translate.name} value={council.name} />
-                        <Row field={translate['1st_call_date']} value={`${moment(council.dateStart).format("LLL")}`} />
+                        <Row field={translate['1st_call_date']} value={`${moment(council.dateStart).format('LLL')}`} />
                         {CBX.hasSecondCall(council.statute) &&
-                            <Row field={translate['2nd_call_date']} value={`${moment(council.dateStart2NdCall).format("LLL")}`} />
+                            <Row field={translate['2nd_call_date']} value={`${moment(council.dateStart2NdCall).format('LLL')}`} />
                         }
                         <Row field={translate.new_location_of_celebrate} value={`${
                             council.street
@@ -42,7 +42,7 @@ class CouncilSideMenu extends React.Component {
                             council.country
                             })`}
                         />
-                        <Row field={translate.date_end} value={`${moment(council.dateEnd).format("LLL")}`} />
+                        <Row field={translate.date_end} value={`${moment(council.dateEnd).format('LLL')}`} />
                         <hr></hr>
                         <h6 style={{ fontWeight: '700', marginTop: '1.2em' }}>{translate.company}</h6>
                         <Row field={translate.name} value={company.businessName} />
@@ -115,7 +115,7 @@ class CouncilSideMenu extends React.Component {
                     </div>
                 </Scrollbar>
             </div>
-        )
+        );
     }
 }
 
@@ -132,7 +132,7 @@ const createAttendantsString = (attendants, translate) => {
     });
 
     return string;
-}
+};
 
 const AttendantRow = ({ attendant, translate }) => {
     const represent = attendant.delegationsAndRepresentations.find(participant => participant.state === PARTICIPANT_STATES.REPRESENTATED);
@@ -140,16 +140,16 @@ const AttendantRow = ({ attendant, translate }) => {
     const dataString = represent ?
         `${represent.name} ${represent.surname || ''} - ${translate.represented_by} ${attendant.name} ${attendant.surname || ''}`
         :
-        `${attendant.name} ${attendant.surname || ''}`
+        `${attendant.name} ${attendant.surname || ''}`;
 
     return (
         <React.Fragment>
             <div>{dataString}</div>
         </React.Fragment>
-    )
-}
+    );
+};
 
-const getPercentage = (value, total) => `${value} (${(value / total * 100).toFixed(3)}%)`
+const getPercentage = (value, total) => `${value} (${(value / total * 100).toFixed(3)}%)`;
 
 class Row extends React.Component {
     state = {
@@ -182,19 +182,19 @@ class Row extends React.Component {
     mouseEnterHandler = () => {
         this.setState({
             showActions: true
-        })
+        });
     }
 
     mouseLeaveHandler = () => {
         this.setState({
             showActions: false
-        })
+        });
     }
 
     render() {
         //TRADUCCION
         return (
-            <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', background: this.state.showActions ? "gainsboro" : "", paddingRight: "0.25em", paddingLeft: "0.25em", paddingBottom: "0.25em", paddingTop: "0.25em", }}
+            <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', background: this.state.showActions ? 'gainsboro' : '', paddingRight: '0.25em', paddingLeft: '0.25em', paddingBottom: '0.25em', paddingTop: '0.25em', }}
                 onMouseOver={this.mouseEnterHandler}
                 onMouseLeave={this.mouseLeaveHandler}
             >
@@ -210,13 +210,13 @@ class Row extends React.Component {
                         {this.props.value}
                     </div>
                 }
-                <div onClick={this.copy} style={{ overflow: "hidden", width: '3%' }}>
+                <div onClick={this.copy} style={{ overflow: 'hidden', width: '3%' }}>
                     {this.state.showActions && (
                         <FontAwesome
-                            name={"copy"}
+                            name={'copy'}
                             style={{
-                                textAlign: "right",
-                                fontSize: "0.9em",
+                                textAlign: 'right',
+                                fontSize: '0.9em',
                                 cursor: 'pointer'
                             }}
                         />
@@ -224,7 +224,7 @@ class Row extends React.Component {
                 </div>
 
             </div>
-        )
+        );
     }
 }
 

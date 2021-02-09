@@ -17,7 +17,7 @@ const DevAdminPage = ({ data, toggleFeature }) => {
             }
         });
         data.refetch();
-    }
+    };
 
     const config = {};
 
@@ -28,7 +28,7 @@ const DevAdminPage = ({ data, toggleFeature }) => {
         }
 
         if(data.loading){
-            return <LoadingSection />
+            return <LoadingSection />;
         }
 
         return (
@@ -54,8 +54,8 @@ const DevAdminPage = ({ data, toggleFeature }) => {
                     </GridItem>
                 </Grid>
             </div>
-        )
-}
+        );
+};
 
 const removeException = gql`
     mutation removeException($id: Int!){
@@ -105,7 +105,7 @@ const uploadDomainImage = gql`
             message
         }
     }
-`
+`;
 
 const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
     const [data, setData] = React.useState({
@@ -120,9 +120,9 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
             variables: {
                 id
             }
-        })
+        });
         refetch();
-    }
+    };
 
 
     const addException = async () => {
@@ -131,7 +131,7 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
             variables: data
         });
         refetch();
-    }
+    };
 
     const create = async () => {
         const response = await client.mutate({
@@ -160,7 +160,7 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
         });
 
         console.log(response);
-    }
+    };
 
     const createCe = async () => {
         const response = await client.mutate({
@@ -237,7 +237,7 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
         });
 
         console.log(response);
-    }
+    };
 
     const getDrafts = async () => {
         const response = await client.query({
@@ -249,7 +249,7 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
         });
 
         console.log(response);
-    }
+    };
 
     const convene = async () => {
         const response = await client.mutate({
@@ -260,7 +260,7 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
         });
 
         console.log(response);
-    }
+    };
 
     return (
         <div>
@@ -333,7 +333,7 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
                 </div>
             ))}
         </div>
-    )
+    );
 });
 
 const SubdomainImage = ({ client }) => {
@@ -353,7 +353,7 @@ const SubdomainImage = ({ client }) => {
 		reader.onload = async () => {
             setImage(reader.result);
 		};
-    }
+    };
 
     const upload = async () => {
         const response = await client.mutate({
@@ -366,7 +366,7 @@ const SubdomainImage = ({ client }) => {
         });
 
         console.log(response);
-    }
+    };
 
 
     return (
@@ -376,10 +376,10 @@ const SubdomainImage = ({ client }) => {
                 image
                 color={'cyan'}
                 textStyle={{
-                    color: "white",
-                    fontWeight: "700",
-                    fontSize: "0.9em",
-                    textTransform: "none"
+                    color: 'white',
+                    fontWeight: '700',
+                    fontSize: '0.9em',
+                    textTransform: 'none'
                 }}
                 onChange={handleFile}
             />
@@ -392,8 +392,8 @@ const SubdomainImage = ({ client }) => {
                 onClick={upload}
             />
         </div>
-    )
-}
+    );
+};
 
 
 const Features = ({ value, toggleFeature }) => {
@@ -416,8 +416,8 @@ const Features = ({ value, toggleFeature }) => {
                 />
             ))}
         </React.Fragment>
-    )
-}
+    );
+};
 
 const queryTags = gql`
     query draftTagSearch($companyId: Int!, $tags: [String]){

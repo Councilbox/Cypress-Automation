@@ -3,8 +3,8 @@ import { graphql } from 'react-apollo';
 import CompanyDraftForm from '../../company/drafts/CompanyDraftForm';
 import { CardPageLayout, BasicButton, ButtonIcon } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
-import { checkRequiredFields } from "../../../utils/CBX";
-import { createCorporationDraft } from "../../../queries";
+import { checkRequiredFields } from '../../../utils/CBX';
+import { createCorporationDraft } from '../../../queries';
 
 
 export const company_types = [{
@@ -90,17 +90,17 @@ export const getRootStatutes = companyType => {
     }
 
     return rootStatutes;
-}
+};
 
 
 class NewCorporationDraft extends React.PureComponent {
     state = {
         data: {
-            title: "",
+            title: '',
             statuteId: -1,
             type: -1,
-            description: "",
-            text: "",
+            description: '',
+            text: '',
             companyType: 0,
             language: 'es',
             corporationId: 1,
@@ -134,13 +134,13 @@ class NewCorporationDraft extends React.PureComponent {
 		this.setState({
 			errors: {},
 			draft: {
-				title: "",
+				title: '',
 				statuteId: -1,
                 type: -1,
                 language: 'es',
                 corporationId: 1,
-				description: "",
-				text: "",
+				description: '',
+				text: '',
 				votationType: -1,
 				majorityType: -1,
 				majority: null,
@@ -192,21 +192,21 @@ class NewCorporationDraft extends React.PureComponent {
                         loading={this.state.loading}
                         success={this.state.success}
                         textStyle={{
-                            color: "white",
-                            fontWeight: "700"
+                            color: 'white',
+                            fontWeight: '700'
                         }}
                         onClick={() => this.createCorporationDraft()}
                         icon={<ButtonIcon type="save" color="white" />}
                     />
                 </div>
             </CardPageLayout>
-        )
+        );
     }
 }
 
 export default graphql(createCorporationDraft, {
-    name: "createCorporationDraft",
+    name: 'createCorporationDraft',
     options: {
-        errorPolicy: "all"
+        errorPolicy: 'all'
     }
 })(NewCorporationDraft);

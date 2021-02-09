@@ -20,11 +20,11 @@ const ActPointStateManager = ({ agenda, council, translate, refetch, ...props })
                     className="fa fa-lock"
                     style={{
                         color: getSecondary(),
-                        fontSize: "2em"
+                        fontSize: '2em'
                     }}
                 />
             </Tooltip>
-        )
+        );
     }
 
     return (
@@ -58,7 +58,7 @@ const ActPointStateManager = ({ agenda, council, translate, refetch, ...props })
                 />
             }
         </React.Fragment>
-    )
-}
+    );
+};
 
 export default ActPointStateManager;

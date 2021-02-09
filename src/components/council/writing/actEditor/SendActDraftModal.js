@@ -1,6 +1,6 @@
-import React from "react";
-import { Typography, TableRowColumn, TableRow, Table, TableCell } from "material-ui";
-import { compose, graphql } from "react-apollo";
+import React from 'react';
+import { Typography, TableRowColumn, TableRow, Table, TableCell } from 'material-ui';
+import { compose, graphql } from 'react-apollo';
 import FontAwesome from 'react-fontawesome';
 import {
 	AlertConfirm,
@@ -14,12 +14,12 @@ import {
 	CollapsibleSection,
 	SuccessMessage,
 	Checkbox
-} from "../../../../displayComponents";
-import { DELEGATION_USERS_LOAD } from "../../../../constants";
+} from '../../../../displayComponents';
+import { DELEGATION_USERS_LOAD } from '../../../../constants';
 import { getPrimary, secondary, getSecondary } from '../../../../styles/colors';
 import { checkValidEmail } from '../../../../utils/validation';
 import { sendActDraft, councilParticipantsActSends } from '../../../../queries';
-import { isMobile } from "../../../../utils/screen";
+import { isMobile } from '../../../../utils/screen';
 
 
 class SendActDraftModal extends React.Component {
@@ -101,7 +101,7 @@ class SendActDraftModal extends React.Component {
 		await this.props.data.refetch({
 			filters: [
 				{
-					field: "fullName",
+					field: 'fullName',
 					text
 				}
 			]
@@ -127,7 +127,7 @@ class SendActDraftModal extends React.Component {
 				errors: {
 					newEmail: this.props.translate.tooltip_invalid_email_address
 				}
-			})
+			});
 		}
 	};
 
@@ -146,7 +146,7 @@ class SendActDraftModal extends React.Component {
 	}
 
 	_section = () => (
-			<div style={{ width: '100%', display: 'flex', flexDirection: 'column', paddingBottom: "1.5em", border: "1px solid " + getSecondary(), borderRadius: "4px", padding: "1em", marginTop: "1em" }}>
+			<div style={{ width: '100%', display: 'flex', flexDirection: 'column', paddingBottom: '1.5em', border: '1px solid ' + getSecondary(), borderRadius: '4px', padding: '1em', marginTop: '1em' }}>
 				<div style={{ width: '100%', paddingTop: '1em', paddingBottom: '1em', display: 'flex', flexDirection: 'row' }}>
 					<div style={{ width: '75%', marginRight: '0.8em' }}>
 						<TextInput
@@ -157,10 +157,10 @@ class SendActDraftModal extends React.Component {
 							errorText={this.state.errors.newEmail}
 						/>
 					</div>
-					<div style={{ display: "flex", alignItems: "center" }}>
+					<div style={{ display: 'flex', alignItems: 'center' }}>
 						<BasicButton
 							text={this.props.translate.add_email}
-							textStyle={{ textTransform: 'none', color: 'white', fontSize: '700', boxShadow: "none", borderRadius: "4px" }}
+							textStyle={{ textTransform: 'none', color: 'white', fontSize: '700', boxShadow: 'none', borderRadius: '4px' }}
 							color={getPrimary()}
 							onClick={() => this.addEmail()}
 						/>
@@ -200,24 +200,24 @@ class SendActDraftModal extends React.Component {
 		return (
 			<BasicButton
 				text={this.props.translate.add_email}
-				color={"white"}
+				color={'white'}
 				textStyle={{
 					color: primary,
-					fontWeight: "700",
-					fontSize: "0.9em",
-					textTransform: "none"
+					fontWeight: '700',
+					fontSize: '0.9em',
+					textTransform: 'none'
 				}}
 				textPosition="after"
 				icon={<ButtonIcon type="add" color={primary} />}
 				onClick={() => this.setState({ modal: true })}
 				buttonStyle={{
-					marginRight: "1em",
+					marginRight: '1em',
 					border: `1px solid ${primary}`,
-					borderRadius: "4px",
-					boxShadow: "none"
+					borderRadius: '4px',
+					boxShadow: 'none'
 				}}
 			/>
-		)
+		);
 	}
 
 	sendActDraft = async () => {
@@ -244,11 +244,11 @@ class SendActDraftModal extends React.Component {
 			const index = this.state.emailList.findIndex(email => email === item);
 			return !!index;
 		});
-		const emails = []
-		emails.push(...this.state.emailList)
+		const emails = [];
+		emails.push(...this.state.emailList);
 		for (let i = 0; i < filteredEmails.length; i++) {
 			if (emails.findIndex(email => email === filteredEmails[i]) === -1) {
-				emails.push(filteredEmails[i])
+				emails.push(filteredEmails[i]);
 			}
 		}
 		this.setState({
@@ -260,11 +260,11 @@ class SendActDraftModal extends React.Component {
 	cambiarCheck = (mail) => {
 		let isChecked = this.isChecked(mail);
 		if (isChecked) {
-			isChecked = false
+			isChecked = false;
 		} else {
-			isChecked = true
+			isChecked = true;
 		}
-		this.checkRow(mail, isChecked)
+		this.checkRow(mail, isChecked);
 	}
 
 	_modalBody() {
@@ -287,35 +287,35 @@ class SendActDraftModal extends React.Component {
 						trigger={this._button}
 						collapse={this._section}
 					/>
-					<div style={{ display: "flex", justifyContent: "flex-end" }}>
-						<div style={{ width: "200px" }}>
+					<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+						<div style={{ width: '200px' }}>
 							<TextInput
-								adornment={<Icon style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
-								floatingText={" "}
+								adornment={<Icon style={{ background: '#f0f3f6', paddingLeft: '5px', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>search</Icon>}
+								floatingText={' '}
 								type="text"
 								value={this.state.filterText}
 								onChange={event => {
 									this.updateFilterText(event.target.value);
 								}}
 								disableUnderline={true}
-								styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
-								stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+								styleInInput={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px' }}
+								stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px' }}
 								placeholder={translate.search}
 							/>
 						</div>
 					</div>
 					<div
 						style={{
-							height: "300px",
-							overflow: "hidden",
-							position: "relative",
+							height: '300px',
+							overflow: 'hidden',
+							position: 'relative',
 						}}
 					>
 
-						<Table style={{ width: "600px", margin: "0 auto" }}>
+						<Table style={{ width: '600px', margin: '0 auto' }}>
 							<TableRow>
-								<TableCell style={{ width: "50px", padding: "0px", paddingLeft: "10px" }}></TableCell>
-								<TableCell style={{ width: "305px" }}>{translate.participant_data}</TableCell>
+								<TableCell style={{ width: '50px', padding: '0px', paddingLeft: '10px' }}></TableCell>
+								<TableCell style={{ width: '305px' }}>{translate.participant_data}</TableCell>
 								<TableCell>{translate.email}</TableCell>
 							</TableRow>
 						</Table>
@@ -323,20 +323,20 @@ class SendActDraftModal extends React.Component {
 						{loading ? (
 							<LoadingSection />
 						) : (
-								<div style={{ height: "calc( 100% - 4em )", marginBottom: '0.5em', width: "600px", margin: "0 auto" }}>
+								<div style={{ height: 'calc( 100% - 4em )', marginBottom: '0.5em', width: '600px', margin: '0 auto' }}>
 									<Scrollbar option={{ suppressScrollX: true }}>
-										<Table style={{ marginBottom: "1em", width: "600px", margin: "0 auto" }}>
+										<Table style={{ marginBottom: '1em', width: '600px', margin: '0 auto' }}>
 											{participants.length > 0 ? (
 												participants.filter(p => !!p.email).map(participant => (
 														<TableRow key={'participant_' + participant.id}>
-															<TableCell style={{ width: "50px", padding: "0px", paddingLeft: "10px" }}>
+															<TableCell style={{ width: '50px', padding: '0px', paddingLeft: '10px' }}>
 																<Checkbox
 																	value={this.isChecked(participant.email)}
 																	onChange={(event, isInputChecked) => this.checkRow(participant.email, isInputChecked)
 																	}
 																/>
 															</TableCell>
-															<TableCell style={{ width: "305px" }}>
+															<TableCell style={{ width: '305px' }}>
 																<div style={{
 																	whiteSpace: 'nowrap',
 																	overflow: 'hidden',
@@ -394,9 +394,9 @@ class SendActDraftModal extends React.Component {
 						participants.length < total - 1 && (
 							<div
 								style={{
-									width: "100%",
-									display: "flex",
-									justifyContent: "flex-end"
+									width: '100%',
+									display: 'flex',
+									justifyContent: 'flex-end'
 								}}
 							>
 								<BasicButton
@@ -409,7 +409,7 @@ class SendActDraftModal extends React.Component {
 									}
 									color={secondary}
 									onClick={this.loadMore}
-									textStyle={{ color: "white" }}
+									textStyle={{ color: 'white' }}
 								/>
 							</div>
 							// <div onClick={this.loadMore}>
@@ -432,14 +432,14 @@ class SendActDraftModal extends React.Component {
 					changeImage={true}
 					message={translate.email_sent_success}
 				/>
-			)
+			);
 		}
 
 		return (
-			<div style={{ width: "600px" }}>
+			<div style={{ width: '600px' }}>
 				{this._renderEmails()}
 			</div>
-		)
+		);
 	}
 
 	render() {
@@ -454,7 +454,7 @@ class SendActDraftModal extends React.Component {
 
 		return (
 			<AlertConfirm
-				bodyStyle={{ minHeight: "430px", paddingTop: this.state.step === 2 ? "5px" : "0", ...sylesSend }}
+				bodyStyle={{ minHeight: '430px', paddingTop: this.state.step === 2 ? '5px' : '0', ...sylesSend }}
 				requestClose={this.close}
 				open={this.props.show}
 				acceptAction={this.state.step === 1 ? this.secondStep : this.sendActDraft}
@@ -477,13 +477,13 @@ class RowTabla extends React.Component {
 	mouseEnterHandler = () => {
 		this.setState({
 			showActions: true
-		})
+		});
 	}
 
 	mouseLeaveHandler = () => {
 		this.setState({
 			showActions: false
-		})
+		});
 	}
 
 	render() {
@@ -492,18 +492,18 @@ class RowTabla extends React.Component {
 			< div
 				onMouseOver={this.mouseEnterHandler}
 				onMouseLeave={this.mouseLeaveHandler}
-				className={"hoverEnTabla"}
-				style={{ display: 'flex', padding: '15px', background: (index % 2) ? "" : "#f2f2f2", }}
+				className={'hoverEnTabla'}
+				style={{ display: 'flex', padding: '15px', background: (index % 2) ? '' : '#f2f2f2', }}
 			>
-				<div style={{ width: "80%" }}>
+				<div style={{ width: '80%' }}>
 					{email}
 				</div>
-				<div style={{ width: "20%", textAlign: "center" }}>
+				<div style={{ width: '20%', textAlign: 'center' }}>
 					{this.state.showActions && (
 						< FontAwesome
-							name={"times"}
+							name={'times'}
 							style={{
-								fontSize: "1.2em",
+								fontSize: '1.2em',
 								color: 'red',
 								cursor: 'pointer'
 							}}

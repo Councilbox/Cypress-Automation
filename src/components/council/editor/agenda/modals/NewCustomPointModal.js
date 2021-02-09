@@ -1,7 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
-import { AlertConfirm } from "../../../../../displayComponents";
+import { AlertConfirm } from '../../../../../displayComponents';
 import CustomPointForm from './CustomPointForm';
 import { checkRepeatedItemValue } from '../../../../../utils/CBX';
 import { INPUT_REGEX } from '../../../../../constants';
@@ -12,21 +12,21 @@ const defaultPollOptions = {
     maxSelections: 1,
     minSelections: 1,
     multiselect: false
-}
+};
 
 const defaultValues = {
-    agendaSubject: "",
+    agendaSubject: '',
     subjectType: 6,
-    description: "",
-}
+    description: '',
+};
 
 export const useValidateAgenda = (translate, setErrors) => (items, options, agenda) => {
     let hasError = false;
-    const regex = new RegExp("^[a-zA-Z0-9-äÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ ]{0}\.+$")
+    const regex = new RegExp('^[a-zA-Z0-9-äÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ ]{0}\.+$');
 
     const newErrors = {
         items: items.map(item => ({ error: '' }))
-    }
+    };
 
     if (items.length === 0) {
         newErrors.itemsLength = translate.necessary_add_least_one_option;
@@ -60,11 +60,11 @@ export const useValidateAgenda = (translate, setErrors) => (items, options, agen
         hasError = true;
     }
 
-    if (options.maxSelections == "") {
+    if (options.maxSelections == '') {
         newErrors.maxSelections = translate.not_indicated_value_option;
         hasError = true;
     }
-    if (options.minSelections == "") {
+    if (options.minSelections == '') {
         newErrors.minSelections = translate.not_indicated_value_option;
         hasError = true;
     }
@@ -92,7 +92,7 @@ export const useValidateAgenda = (translate, setErrors) => (items, options, agen
 
     setErrors(newErrors);
     return hasError;
-}
+};
 
 const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
     const [agenda, setAgenda] = React.useState({
@@ -124,7 +124,7 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
             setLoading(false);
             props.requestClose();
         }
-    }
+    };
 
     const addOption = () => {
         setItems([
@@ -137,33 +137,33 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
             ...errors,
             itemsLength: null
         });
-    }
+    };
 
     const updateItem = (index, value) => {
         const newItems = [...items];
         newItems[index].value = value;
         setItems(newItems);
-    }
+    };
 
     const removeItem = (index) => {
         const newItems = [...items];
         newItems.splice(index, 1);
         setItems(newItems);
-    }
+    };
 
     const updateOptions = object => {
         setOptions({
             ...options,
             ...object
         });
-    }
+    };
 
     const updateAgenda = object => {
         setAgenda({
             ...agenda,
             ...object
         });
-    }
+    };
 
     const renderBody = () => (
             <div style={{ marginTop: '1em', marginBottom: '2em', width: window.innerWidth > 720 ? '720px' : '100%' }}>
@@ -186,7 +186,7 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
                     }}
                 />
             </div>
-        )
+        );
 
     return (
         <AlertConfirm
@@ -199,8 +199,8 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
             bodyText={renderBody()}
             title={translate.new_custom_point}
         />
-    )
-}
+    );
+};
 
 const addCustomAgenda = gql`
     mutation AddCustomAgenda($agenda: AgendaInput!, $options: PollOptionsInput!, $items: [PollItemInput]!){

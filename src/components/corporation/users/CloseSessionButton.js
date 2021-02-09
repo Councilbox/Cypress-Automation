@@ -21,7 +21,7 @@ class CloseSessionButton extends React.PureComponent {
                 color={getSecondary()}
                 onClick={this.closeUserSessions}
             />
-        )
+        );
     }
 }
 

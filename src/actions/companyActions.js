@@ -1,10 +1,10 @@
 
-import { client, store } from "../containers/App";
-import { loadingFinished } from "./mainActions";
-import { companies, setCompanyAsSelected } from "../queries";
+import { client, store } from '../containers/App';
+import { loadingFinished } from './mainActions';
+import { companies, setCompanyAsSelected } from '../queries';
 
 export const saveSignUpInfo = info => ({
-		type: "SIGN_UP_INFO",
+		type: 'SIGN_UP_INFO',
 		value: info
 	});
 
@@ -13,7 +13,7 @@ export const getCompanies = userId => async dispatch => {
 			const response = await client.query({
 				query: companies,
 				variables: { userId },
-				fetchPolicy: "network-only"
+				fetchPolicy: 'network-only'
 			});
 			const selectedCompany = response.data.userCompanies.findIndex(element => element.actived === 1);
 			if(response.data.userCompanies.length === 0){
@@ -22,7 +22,7 @@ export const getCompanies = userId => async dispatch => {
 				});
 			}else{
 				dispatch({
-					type: "COMPANIES",
+					type: 'COMPANIES',
 					value: response.data.userCompanies.map(item => ({ ...item.company })),
 					selected: selectedCompany !== -1 ? selectedCompany : 0
 				});
@@ -36,7 +36,7 @@ export const setCompany = company => {
 	const companies = [...store.getState().companies.list];
 	companies[index] = company;
 	return {
-		type: "COMPANIES",
+		type: 'COMPANIES',
 		value: companies,
 		selected: index
 	};
@@ -51,14 +51,14 @@ export const addSpecificTranslations = company => {
 	const specificTranslations = getSpecificTranslations(initialTranslations.selectedLanguage, company);
 
 	return {
-		type: "LOADED_LANG",
+		type: 'LOADED_LANG',
 		value: {
 			...initialTranslations,
 			...specificTranslations
 		},
 		selected: initialTranslations.selectedLanguage
 	};
-}
+};
 
 const getSpecificTranslations = (language, company) => {
 	const { type, id } = company;
@@ -76,7 +76,7 @@ const getSpecificTranslations = (language, company) => {
 			votes_in_favor_for_approve: 'Coeficiente necesario',
 			total_votes: 'Coeficiente total'
 		}
-	}
+	};
 
 	const idTranslations = {
 		658: {
@@ -84,7 +84,7 @@ const getSpecificTranslations = (language, company) => {
 			delegates: 'Representado por',
 			representations_delegations: 'Representaciones'
 		}
-	}
+	};
 
 	const extraTranslations = {
 		...(specificTranslations[type] ? specificTranslations[type] : specificTranslations.society),
@@ -92,7 +92,7 @@ const getSpecificTranslations = (language, company) => {
 	};
 
 	return extraTranslations;
-}
+};
 
 export const changeCompany = (index, id) => async dispatch => {
 		const companies = [...store.getState().companies.list];
@@ -105,7 +105,7 @@ export const changeCompany = (index, id) => async dispatch => {
 		});
 		//dispatch());
 		dispatch({
-			type: "CHANGE_SELECTED",
+			type: 'CHANGE_SELECTED',
 			value: index
 		});
 	};

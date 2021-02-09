@@ -15,39 +15,39 @@ const ShareCapital = ({ translate, updateFileData, updateCompany, data, ...props
         const newOwners = [...shareowners, { aqui: 'otro' }];
         updateFileData({
             shareowners: newOwners
-        })
-    }
+        });
+    };
 
     const deleteRow = index => {
         const newOwners = [...shareowners];
         newOwners.splice(index, 1);
         updateFileData({
             shareowners: newOwners
-        })
-    }
+        });
+    };
 
     const updateShareowner = (newData, index) => {
         const list = [...shareowners];
         list[index] = {
             ...list[index],
             ...newData
-        }
+        };
 
         updateFileData({
             shareowners: [...list]
-        })
-    }
+        });
+    };
 
     return (
-        <div style={{ height: "100%" }}>
+        <div style={{ height: '100%' }}>
             <div style={{ padding: '0px 1em 1em', height: '100%', }}>
-                <div style={{ height: "100%", }}>
-                    <div style={{ padding: "0 1em", fontWeight: "bold", color: primary, display: "flex", justifyContent: "space-between", paddingLeft: '24px', paddingRight: '24px' }}>
-                        <div style={{ width: '33%', display: "flex", cursor: 'pointer' }} onClick={addRow}>
-                            <div style={{ border: "1px solid" + primary, padding: "0.6em 5px", display: 'flex' }}>
+                <div style={{ height: '100%', }}>
+                    <div style={{ padding: '0 1em', fontWeight: 'bold', color: primary, display: 'flex', justifyContent: 'space-between', paddingLeft: '24px', paddingRight: '24px' }}>
+                        <div style={{ width: '33%', display: 'flex', cursor: 'pointer' }} onClick={addRow}>
+                            <div style={{ border: '1px solid' + primary, padding: '0.6em 5px', display: 'flex' }}>
                                 {translate.add}
                                 <div>
-                                    <i className="fa fa-plus-circle" style={{ color: primary, paddingRight: "5px", marginLeft: '5px', fontSize: "16px" }}></i>
+                                    <i className="fa fa-plus-circle" style={{ color: primary, paddingRight: '5px', marginLeft: '5px', fontSize: '16px' }}></i>
                                 </div>
                             </div>
                         </div>
@@ -55,13 +55,13 @@ const ShareCapital = ({ translate, updateFileData, updateCompany, data, ...props
                         <div style={{ width: '33%' }}>{translate.percentage}</div>
                     </div>
                     <Scrollbar>
-                        <div style={{ width: "100%", height: "calc( 100% - 3em )", padding: "0 1em" }}>
+                        <div style={{ width: '100%', height: 'calc( 100% - 3em )', padding: '0 1em' }}>
                             {shareowners.length > 0 ?
                                 shareowners.map((owner, index) => (
                                     <div key={`book_${index}`}>
-                                        <Card style={{ marginTop: "1em" }}>
-                                            <div style={{ position: "relative" }}>
-                                                <div style={{ color: 'black', display: "flex", justifyContent: "space-between", fontSize: "15px", paddingLeft: '24px', paddingRight: '24px', paddingTop: "3em", paddingBottom: "3em" }}>
+                                        <Card style={{ marginTop: '1em' }}>
+                                            <div style={{ position: 'relative' }}>
+                                                <div style={{ color: 'black', display: 'flex', justifyContent: 'space-between', fontSize: '15px', paddingLeft: '24px', paddingRight: '24px', paddingTop: '3em', paddingBottom: '3em' }}>
                                                     <div style={{ width: '33%' }}>
                                                         <ContentEditable
                                                             style={{ color: 'black', minWidth: '10em' }}
@@ -69,7 +69,7 @@ const ShareCapital = ({ translate, updateFileData, updateCompany, data, ...props
                                                             onChange={event => {
                                                                 updateShareowner({
                                                                     name: event.target.value
-                                                                }, index)
+                                                                }, index);
                                                             }}
                                                         />
 
@@ -81,7 +81,7 @@ const ShareCapital = ({ translate, updateFileData, updateCompany, data, ...props
                                                             onChange={event => {
                                                                 updateShareowner({
                                                                     totalShares: event.target.value
-                                                                }, index)
+                                                                }, index);
                                                             }}
                                                         />
                                                     </div>
@@ -92,19 +92,19 @@ const ShareCapital = ({ translate, updateFileData, updateCompany, data, ...props
                                                             onChange={event => {
                                                                 updateShareowner({
                                                                     percentage: event.target.value
-                                                                }, index)
+                                                                }, index);
                                                             }}
                                                         />
                                                         <IconButton
                                                             onClick={() => deleteRow(index)}
                                                             aria-label="Show more"
-                                                            className={"expandButtonModal"}
+                                                            className={'expandButtonModal'}
                                                         >
                                                             <i
-                                                                className={"fa fa-times-circle"}
+                                                                className={'fa fa-times-circle'}
                                                                 style={{
                                                                     color: primary,
-                                                                    transition: "all 0.3s"
+                                                                    transition: 'all 0.3s'
                                                                 }}
                                                             />
                                                         </IconButton>
@@ -139,8 +139,8 @@ const ShareCapital = ({ translate, updateFileData, updateCompany, data, ...props
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 
 export default withTranslations()(ShareCapital);

@@ -1,9 +1,9 @@
-import React from "react";
-import { TableCell, TableRow } from "material-ui/Table";
-import { Tooltip, Card } from "material-ui";
-import { compose, graphql, withApollo } from "react-apollo";
-import { getSecondary } from "../../../styles/colors";
-import * as CBX from "../../../utils/CBX";
+import React from 'react';
+import { TableCell, TableRow } from 'material-ui/Table';
+import { Tooltip, Card } from 'material-ui';
+import { compose, graphql, withApollo } from 'react-apollo';
+import { getSecondary } from '../../../styles/colors';
+import * as CBX from '../../../utils/CBX';
 import {
 	BasicButton,
 	ButtonIcon,
@@ -11,18 +11,18 @@ import {
 	EnhancedTable,
 	Grid,
 	GridItem
-} from "../../../displayComponents";
-import { downloadCBXData, updateConveneSends } from "../../../queries";
-import { convenedcouncilParticipants } from "../../../queries/councilParticipant";
-import { COUNCIL_TYPES, PARTICIPANTS_LIMITS, PARTICIPANT_STATES, PARTICIPANT_TYPE } from "../../../constants";
-import NotificationFilters from "./NotificationFilters";
-import DownloadCBXDataButton from "./DownloadCBXDataButton";
-import AddConvenedParticipantButton from "./modals/AddConvenedParticipantButton";
-import ConvenedParticipantEditor from "./modals/ConvenedParticipantEditor";
-import AttendIntentionIcon from "../live/participants/AttendIntentionIcon";
-import AttendComment from "./modals/AttendComment";
-import { isMobile } from "../../../utils/screen";
-import { useOldState, usePolling } from "../../../hooks";
+} from '../../../displayComponents';
+import { downloadCBXData, updateConveneSends } from '../../../queries';
+import { convenedcouncilParticipants } from '../../../queries/councilParticipant';
+import { COUNCIL_TYPES, PARTICIPANTS_LIMITS, PARTICIPANT_STATES, PARTICIPANT_TYPE } from '../../../constants';
+import NotificationFilters from './NotificationFilters';
+import DownloadCBXDataButton from './DownloadCBXDataButton';
+import AddConvenedParticipantButton from './modals/AddConvenedParticipantButton';
+import ConvenedParticipantEditor from './modals/ConvenedParticipantEditor';
+import AttendIntentionIcon from '../live/participants/AttendIntentionIcon';
+import AttendComment from './modals/AttendComment';
+import { isMobile } from '../../../utils/screen';
+import { useOldState, usePolling } from '../../../hooks';
 
 
 const ConvenedParticipantsTable = ({ client, translate, council, participations, hideNotifications, hideAddParticipant, ...props }) => {
@@ -67,7 +67,7 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 
 		setData(response.data);
 		setLoading(false);
-	}, [council.id, filters])
+	}, [council.id, filters]);
 
 	React.useEffect(() => {
 		getData();
@@ -112,29 +112,29 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 			...object
 		});
 		table.current.setPage(1);
-	}
+	};
 
 	const updateFilters = object => {
 		setFilters({
 			...filters,
 			...object
 		});
-	}
+	};
 
 	const resetPage = () => {
 		table.current.setPage(filters.page);
-	}
+	};
 
 	const showModalComment = comment => event => {
 		event.stopPropagation();
 		setState({
 			showCommentModal: true,
 			showComment: comment
-		})
-	}
+		});
+	};
 
 	if (loading) {
-		return <LoadingSection />
+		return <LoadingSection />;
 	}
 
 	const refetch = getData;
@@ -144,12 +144,12 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 	const headers = [
 		{
 			text: translate.name,
-			name: "name",
+			name: 'name',
 			canOrder: true
 		},
 		{
 			text: translate.dni,
-			name: "dni",
+			name: 'dni',
 			canOrder: true
 		},
 		{ text: translate.position },
@@ -158,13 +158,13 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 	if(council.councilType !== COUNCIL_TYPES.ONE_ON_ONE){
 		headers.push({
 			text: translate.votes,
-			name: "numParticipations",
+			name: 'numParticipations',
 			canOrder: true
 		});
 		if (participations) {
 			headers.push({
 				text: translate.census_type_social_capital,
-				name: "socialCapital",
+				name: 'socialCapital',
 				canOrder: true
 			});
 		}
@@ -185,9 +185,9 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 
 	headers.push({ text: '' });
 	return (
-		<div style={{ width: "100%", height: '100%' }}>
+		<div style={{ width: '100%', height: '100%' }}>
 			<React.Fragment>
-				<Grid style={{ margin: "0.5em 0" }}>
+				<Grid style={{ margin: '0.5em 0' }}>
 					<GridItem xs={12} lg={6} md={6}>
 						{!hideNotifications &&
 							<NotificationFilters
@@ -217,14 +217,14 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 												color={getSecondary()}
 												loading={refreshing}
 												buttonStyle={{
-													margin: "0",
+													margin: '0',
 													marginRight: '1.2em'
 												}}
 												textStyle={{
-													color: "white",
-													fontWeight: "700",
-													fontSize: "0.9em",
-													textTransform: "none"
+													color: 'white',
+													fontWeight: '700',
+													fontSize: '0.9em',
+													textTransform: 'none'
 												}}
 												icon={
 													<ButtonIcon
@@ -252,8 +252,8 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 							</div>
 						}
 						defaultLimit={filters.options.limit}
-						defaultFilter={"fullName"}
-						defaultOrder={["name", "asc"]}
+						defaultFilter={'fullName'}
+						defaultOrder={['name', 'asc']}
 						limits={PARTICIPANTS_LIMITS}
 						page={filters.page}
 						loading={loading}
@@ -281,7 +281,7 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 													setState({
 														editingParticipant: true,
 														participant
-													})
+													});
 											}}
 											council={council}
 											{...props}
@@ -328,7 +328,7 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 			{props.children}
 		</div>
 	);
-}
+};
 
 class HoverableRow extends React.Component {
 	state = {
@@ -446,7 +446,7 @@ class HoverableRow extends React.Component {
 						/>
 					</div>
 				</Card>
-			)
+			);
 		}
 
 		return (
@@ -456,7 +456,7 @@ class HoverableRow extends React.Component {
 				onMouseLeave={this.mouseLeaveHandler}
 				onClick={editParticipant}
 				style={{
-					cursor: "pointer"
+					cursor: 'pointer'
 				}}
 			>
 				<TableCell>
@@ -551,9 +551,9 @@ class HoverableRow extends React.Component {
 										<img
 											style={{
 												height:
-													"2.1em",
+													'2.1em',
 												width:
-													"auto"
+													'auto'
 											}}
 											src={CBX.getEmailIconByReqCode(
 												notifications[0].reqCode
@@ -562,7 +562,7 @@ class HoverableRow extends React.Component {
 										/>
 									</Tooltip>
 								) : (
-									""
+									''
 								)}
 						</TableCell>
 						{CBX.councilHasAssistanceConfirmation(
@@ -589,7 +589,7 @@ class HoverableRow extends React.Component {
 					</React.Fragment>
 				}
 			</TableRow>
-		)
+		);
 	}
 }
 
@@ -600,24 +600,24 @@ const formatParticipant = participant => {
 		newParticipant = {
 			...participant,
 			representative: participant.representatives[0]
-		}
+		};
 	}
 
 	if (participant.live.state === PARTICIPANT_STATES.DELEGATED) {
 		newParticipant = {
 			...newParticipant,
 			delegate: participant.live.representative
-		}
+		};
 	}
 	return newParticipant;
-}
+};
 
 export default compose(
 	graphql(updateConveneSends, {
-		name: "updateConveneSends"
+		name: 'updateConveneSends'
 	}),
 	graphql(downloadCBXData, {
-		name: "downloadCBXData"
+		name: 'downloadCBXData'
 	}),
 	withApollo
 )(ConvenedParticipantsTable);

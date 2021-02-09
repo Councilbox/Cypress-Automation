@@ -21,28 +21,28 @@ const CouncilInfoMenu = ({ translate, council, participant, agendaNoSession, noS
             ...state,
             showConvene: false
         });
-    }
+    };
 
     const closeInfoModal = () => {
         setState({
             ...state,
             showCouncilInfo: false
-        })
-    }
+        });
+    };
 
     const closeParticipantInfoModal = () => {
         setState({
             ...state,
             showParticipantInfo: false
-        })
-    }
+        });
+    };
 
     const _renderCouncilInfo = () => (
             <CouncilInfo
                 council={council}
                 translate={translate}
             />
-        )
+        );
 
     const _renderConveneBody = () => (
             <div>
@@ -52,13 +52,13 @@ const CouncilInfoMenu = ({ translate, council, participant, agendaNoSession, noS
                     agendaNoSession={agendaNoSession}
                 />
             </div>
-        )
+        );
 
-    const calculateParticipantVotes = () => participant.delegatedVotes.reduce((a, b) => a + b.numParticipations, participant.numParticipations)
+    const calculateParticipantVotes = () => participant.delegatedVotes.reduce((a, b) => a + b.numParticipations, participant.numParticipations);
 
     const _renderParticipantInfo = () => (
             <div>
-                <Card style={{ padding: "20px" }}>
+                <Card style={{ padding: '20px' }}>
                     <div>
                         <b>&#8226; {`${translate.name}`}</b>: {`${participant.name} ${participant.surname || ''}`}
                     </div>
@@ -77,32 +77,32 @@ const CouncilInfoMenu = ({ translate, council, participant, agendaNoSession, noS
                     {`${translate.total_votes}: ${calculateParticipantVotes()}`}
                 </Card>
             </div>
-        )
+        );
 
     const secondary = getSecondary();
-    const fecha1 = moment(new Date(council.closeDate))
-    const fecha2 = moment(new Date())
+    const fecha1 = moment(new Date(council.closeDate));
+    const fecha2 = moment(new Date());
 
-    const duration = fecha1.diff(fecha2)
+    const duration = fecha1.diff(fecha2);
     const diffDuration = moment.duration(duration);
-    const dias = diffDuration.days() ? diffDuration.days() + "d " : ""
-    let finalizado = false
+    const dias = diffDuration.days() ? diffDuration.days() + 'd ' : '';
+    let finalizado = false;
     if (diffDuration.hours() < 0 && (diffDuration.minutes() == 0 && diffDuration.seconds() == 0)) {
-        finalizado = '00:00'
+        finalizado = '00:00';
     }
-    const date = dias + (finalizado || (diffDuration.hours() < 10 ? "0" + diffDuration.hours() : diffDuration.hours()) + ":" + (diffDuration.minutes() < 10 ? "0" + diffDuration.minutes() : diffDuration.minutes()) + ":" + (diffDuration.seconds() < 10 ? "0" + diffDuration.seconds() : diffDuration.seconds()));
+    const date = dias + (finalizado || (diffDuration.hours() < 10 ? '0' + diffDuration.hours() : diffDuration.hours()) + ':' + (diffDuration.minutes() < 10 ? '0' + diffDuration.minutes() : diffDuration.minutes()) + ':' + (diffDuration.seconds() < 10 ? '0' + diffDuration.seconds() : diffDuration.seconds()));
     return (
         <React.Fragment>
-            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                 {!noSession && !CBX.checkSecondDateAfterFirst(fecha1, fecha2) &&
-                    <div style={{ display: "flex", color: secondary, alignItems: "center" }} >
+                    <div style={{ display: 'flex', color: secondary, alignItems: 'center' }} >
                         {date}
                         <i className="fa fa-hourglass-half"
                             style={{
                                 outline: 0,
                                 color: secondary,
                                 fontSize: '16px',
-                                paddingLeft: " 0.2em"
+                                paddingLeft: ' 0.2em'
                             }}
                         ></i>
                     </div>
@@ -119,9 +119,9 @@ const CouncilInfoMenu = ({ translate, council, participant, agendaNoSession, noS
                         outline: 0,
                         color: secondary,
                         cursor: 'pointer',
-                        width: "42px"
+                        width: '42px'
                     }}
-                    title={"information"}
+                    title={'information'}
                 >
                     <i className="fa fa-info"></i>
                 </IconButton>
@@ -134,12 +134,12 @@ const CouncilInfoMenu = ({ translate, council, participant, agendaNoSession, noS
                     buttonAccept={translate.accept}
                     bodyText={_renderCouncilInfo()}
                     title={translate.council_info}
-                    bodyStyle={{ paddingTop: "5px", margin: "10px" }}
+                    bodyStyle={{ paddingTop: '5px', margin: '10px' }}
                 />
             }
         </React.Fragment>
     );
-}
+};
 // class CouncilInfoMenu extends React.Component {
 
 //     state = {

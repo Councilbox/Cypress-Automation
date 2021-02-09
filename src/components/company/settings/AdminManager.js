@@ -1,8 +1,8 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
-import { AlertConfirm, BasicButton, LoadingSection } from "../../../displayComponents";
-import { getPrimary } from "../../../styles/colors";
+import { AlertConfirm, BasicButton, LoadingSection } from '../../../displayComponents';
+import { getPrimary } from '../../../styles/colors';
 import AddAdmin from './AddAdmin';
 
 const AdminManager = ({ company, translate, client }) => {
@@ -40,7 +40,7 @@ const AdminManager = ({ company, translate, client }) => {
 
     const renderModalBody = () => {
         if(!admins){
-            return <LoadingSection />
+            return <LoadingSection />;
         }
 
         if(page === 3){
@@ -62,10 +62,10 @@ const AdminManager = ({ company, translate, client }) => {
                         color={primary}
                         floatRight
                         textStyle={{
-                            color: "white",
-                            fontWeight: "700"
+                            color: 'white',
+                            fontWeight: '700'
                         }}
-                        buttonStyle={{ marginRight: "1.2em" }}
+                        buttonStyle={{ marginRight: '1.2em' }}
                         onClick={() => setPage(3)}
                     />
                 </div>
@@ -78,8 +78,8 @@ const AdminManager = ({ company, translate, client }) => {
                 </div>
 
             </div>
-        )
-    }
+        );
+    };
 
     return (
         <React.Fragment>
@@ -88,10 +88,10 @@ const AdminManager = ({ company, translate, client }) => {
                 color={primary}
                 floatRight
                 textStyle={{
-                    color: "white",
-                    fontWeight: "700"
+                    color: 'white',
+                    fontWeight: '700'
                 }}
-                buttonStyle={{ marginRight: "1.2em" }}
+                buttonStyle={{ marginRight: '1.2em' }}
                 onClick={() => setModal(true)}
             />
             <AlertConfirm
@@ -99,12 +99,12 @@ const AdminManager = ({ company, translate, client }) => {
                 bodyText={renderModalBody()}
                 title={translate.admins}
                 requestClose={() => {
-                    page === 1 ? setModal(false) : setPage(1)
+                    page === 1 ? setModal(false) : setPage(1);
 }
                 }
             />
         </React.Fragment>
-    )
-}
+    );
+};
 
 export default withApollo(AdminManager);

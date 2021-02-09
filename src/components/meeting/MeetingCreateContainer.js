@@ -1,17 +1,17 @@
-import React from "react";
+import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { compose, graphql } from "react-apollo";
+import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Paper } from 'material-ui';
-import { LoadingMainApp } from "../../displayComponents";
-import { darkGrey, getPrimary } from "../../styles/colors";
+import { LoadingMainApp } from '../../displayComponents';
+import { darkGrey, getPrimary } from '../../styles/colors';
 import withSharedProps from '../../HOCs/withSharedProps';
-import LiveHeader from "../council/live/LiveHeader";
+import LiveHeader from '../council/live/LiveHeader';
 
 let logo;
 let icon;
-import("../../assets/img/logo-icono.png").then(data => icon = data);
-import("../../assets/img/logo-white.png").then(data => logo = data);
+import('../../assets/img/logo-icono.png').then(data => icon = data);
+import('../../assets/img/logo-white.png').then(data => logo = data);
 
 
 class MeetingCreateContainer extends React.Component {
@@ -42,10 +42,10 @@ class MeetingCreateContainer extends React.Component {
 			return(
 				<div
 					style={{
-						height: "100vh",
-						overflow: "hidden",
+						height: '100vh',
+						overflow: 'hidden',
 						backgroundColor: darkGrey,
-						fontSize: "1em"
+						fontSize: '1em'
 					}}
 				>
 					<LiveHeader
@@ -77,11 +77,11 @@ class MeetingCreateContainer extends React.Component {
 					</div>
 
 				</div>
-			)
+			);
 		}
 
 		if(!this.state.created){
-            return <LoadingMainApp />
+            return <LoadingMainApp />;
 		}
 
 		return (

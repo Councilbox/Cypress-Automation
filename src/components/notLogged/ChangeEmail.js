@@ -7,7 +7,7 @@ import { bHistory } from '../../containers/App';
 import withTranslations from '../../HOCs/withTranslations';
 import { getPrimary } from '../../styles/colors';
 import { LoadingSection, BasicButton, NotLoggedLayout } from '../../displayComponents';
-import logo from "../../assets/img/logo-icono.png";
+import logo from '../../assets/img/logo-icono.png';
 
 
 
@@ -16,7 +16,7 @@ const ChangeEmail = ({ match, translate, ...props }) => {
         loading: true,
         success: false,
         error: ''
-    })
+    });
 
     React.useEffect(() => {
         const confirEmailUser = async () => {
@@ -38,8 +38,8 @@ const ChangeEmail = ({ match, translate, ...props }) => {
                     error: response.errors[0].code
                 });
             }
-        }
-        confirEmailUser()
+        };
+        confirEmailUser();
     }, []);
 
 
@@ -55,7 +55,7 @@ const ChangeEmail = ({ match, translate, ...props }) => {
             >
                 FAIL
             </div>
-        )
+        );
 
 
 
@@ -69,10 +69,10 @@ const ChangeEmail = ({ match, translate, ...props }) => {
             <div
                 className="row"
                 style={{
-                    width: "100%",
+                    width: '100%',
                     margin: 0,
-                    fontSize: "0.85em",
-                    height: "100%",
+                    fontSize: '0.85em',
+                    height: '100%',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center'
@@ -98,7 +98,7 @@ const ChangeEmail = ({ match, translate, ...props }) => {
                                 errorWrapper()
                             }
                             {state.success &&
-                                <div style={{ margin: "1em" }}>
+                                <div style={{ margin: '1em' }}>
                                 Gracias por confirmar el nuevo email
                                 </div>
                             }
@@ -115,8 +115,8 @@ const ChangeEmail = ({ match, translate, ...props }) => {
                 </Paper>
             </div>
         </NotLoggedLayout>
-    )
-}
+    );
+};
 
 const updateEmail = gql`
     mutation updateEmail($token: String!){

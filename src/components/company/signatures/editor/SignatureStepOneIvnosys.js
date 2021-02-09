@@ -53,7 +53,7 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
         editDocument: false,
         errors: {},
         errorState: false
-    })
+    });
 
     const { data } = state;
 
@@ -74,7 +74,7 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
                 }
             });
         }
-    }
+    };
 
     const handleFile = async event => {
         const file = event.nativeEvent.target.files[0];
@@ -123,7 +123,7 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
                                     ...response.data.saveSignatureDocument
                                 }
                             }
-                        })
+                        });
                     }
                     refetch();
                 }
@@ -134,7 +134,7 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
                         ...state.errors,
                         file: props.translate.majority_percentage
                     }
-                })
+                });
             }
         };
     };
@@ -150,7 +150,7 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
             }
         });
         return response;
-    }
+    };
     let toastId = null;
     const checkRequiredFields = () => {
         const errors = {
@@ -158,7 +158,7 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
             title: '',
             description: '',
             file: ''
-        }
+        };
 
         const { data: dataState } = state;
 
@@ -196,8 +196,8 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
                 />, {
                 position: toast.POSITION.TOP_RIGHT,
                 autoClose: true,
-                onClose: () => { toastId = null },
-                className: "errorToast"
+                onClose: () => { toastId = null; },
+                className: 'errorToast'
             }
             );
         }
@@ -213,7 +213,7 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
         });
 
         return hasError;
-    }
+    };
 
     const nextStepIn = async () => {
         if (!checkRequiredFields()) {
@@ -222,7 +222,7 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
                 nextStep();
             }
         }
-    }
+    };
 
 
 
@@ -364,16 +364,16 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
                                         text={translate.new_add}
                                         accept='application/pdf'
                                         style={{
-                                            marginTop: "2em",
-                                            width: "100%"
+                                            marginTop: '2em',
+                                            width: '100%'
                                         }}
-                                        buttonStyle={{ width: "100%" }}
+                                        buttonStyle={{ width: '100%' }}
                                         color={getPrimary()}
                                         textStyle={{
-                                            color: "white",
-                                            fontWeight: "700",
-                                            fontSize: "0.9em",
-                                            textTransform: "none"
+                                            color: 'white',
+                                            fontWeight: '700',
+                                            fontSize: '0.9em',
+                                            textTransform: 'none'
                                         }}
                                         loading={state.uploading}
                                         icon={
@@ -410,7 +410,7 @@ const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, clie
                 </div>
             }
         />
-    )
-}
+    );
+};
 
 export default (withApollo(SignatureStepOneIvnosys));

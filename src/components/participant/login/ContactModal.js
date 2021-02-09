@@ -9,7 +9,7 @@ const ContactModal = ({ open, requestClose, participant, council, translate }) =
                 translate={translate}
                 council={council}
             />
-        )
+        );
 
     return (
         <AlertConfirm
@@ -18,7 +18,7 @@ const ContactModal = ({ open, requestClose, participant, council, translate }) =
             requestClose={requestClose}
             bodyText={renderBody()}
         />
-    )
-}
+    );
+};
 
 export default ContactModal;

@@ -41,7 +41,7 @@ const CouncilAttachmentsModal = ({ translate, council, participant }) => {
                 }
             />
         </>
-    )
-}
+    );
+};
 
 export default CouncilAttachmentsModal;

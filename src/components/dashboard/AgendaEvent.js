@@ -1,8 +1,8 @@
-import React from "react";
-import { Tooltip } from "material-ui";
-import { AlertConfirm } from "../../displayComponents";
-import withTranslations from "../../HOCs/withTranslations";
-import CouncilDetails from "../council/display/CouncilDetails"
+import React from 'react';
+import { Tooltip } from 'material-ui';
+import { AlertConfirm } from '../../displayComponents';
+import withTranslations from '../../HOCs/withTranslations';
+import CouncilDetails from '../council/display/CouncilDetails';
 
 
 
@@ -16,7 +16,7 @@ class AgendaEvent extends React.Component {
 	closeCouncilsModal = () => {
 		this.setState({
 			open: false
-		})
+		});
 	}
 
 	showCouncilsModal = () => {
@@ -29,7 +29,7 @@ class AgendaEvent extends React.Component {
 		this.setState({
 			modal: true,
 			reunion: event
-		})
+		});
 	}
 
 	closeModal = () => {
@@ -45,16 +45,16 @@ class AgendaEvent extends React.Component {
 			10: translate.companies_calendar,
 			20: translate.companies_live,
 			30: translate.companies_live
-		}
-		const objectClass = { 5: "fa fa-calendar-o", 10: "fa fa-calendar-o", 20: "fa fa-users", 30: "fa fa-users" }
+		};
+		const objectClass = { 5: 'fa fa-calendar-o', 10: 'fa fa-calendar-o', 20: 'fa fa-users', 30: 'fa fa-users' };
 		return (
 			<div>
-				<div style={{ display: "flex", cursor: "pointer", }} onClick={this.selectEvent}>
+				<div style={{ display: 'flex', cursor: 'pointer', }} onClick={this.selectEvent}>
 					<Tooltip title={objectNames[event.state]}>
-						<div style={{ marginRight: "7px" }}><i className={objectClass[event.state]}></i></div>
+						<div style={{ marginRight: '7px' }}><i className={objectClass[event.state]}></i></div>
 					</Tooltip>
 					<Tooltip title={event.title}>
-						<div style={{ width: "100%", margin: "0 auto", }}>
+						<div style={{ width: '100%', margin: '0 auto', }}>
 							{event.title}
 						</div>
 					</Tooltip>
@@ -66,7 +66,7 @@ class AgendaEvent extends React.Component {
 						<CouncilDetails council={event} translate={translate} inIndex={true} />
 					}
 					title={translate.meeting_header}
-					widthModal={{ width: "50%" }}
+					widthModal={{ width: '50%' }}
 				/>
 			</div>
 		);

@@ -12,10 +12,10 @@ const reducer = (state, action) => {
             status: 'ERROR',
             message: action.payload
         })
-    }
+    };
 
     return actions[action.type] ? actions[action.type]() : state;
-}
+};
 
 
 const CertModal = ({ open, participant, handleSuccess }) => {
@@ -26,17 +26,17 @@ const CertModal = ({ open, participant, handleSuccess }) => {
         const json = await response.json();
 
         if(json.success){
-            dispatch({ type: 'SUCCESS' })
+            dispatch({ type: 'SUCCESS' });
         } else {
-            dispatch({ type: 'ERROR', payload: json.error })
+            dispatch({ type: 'ERROR', payload: json.error });
         }
-    }
+    };
 
     React.useEffect(() => {
         if(open){
             getData();
         }
-    }, [open])
+    }, [open]);
 
 
     return (
@@ -63,7 +63,7 @@ const CertModal = ({ open, participant, handleSuccess }) => {
                         </>
             }
         />
-    )
-}
+    );
+};
 
 export default CertModal;

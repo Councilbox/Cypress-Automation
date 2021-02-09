@@ -22,7 +22,7 @@ const ApproveRequestButton = ({ request, client, refetch, translate }) => {
             }
         });
         refetch();
-    }
+    };
 
     return (
         <>
@@ -38,7 +38,7 @@ const ApproveRequestButton = ({ request, client, refetch, translate }) => {
                 //onClick={approveRequest}
             />
         </>
-    )
-}
+    );
+};
 
 export default withApollo(ApproveRequestButton);

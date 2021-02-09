@@ -5,7 +5,7 @@ import * as CBX from '../../../utils/CBX';
 
 const TranslationForm = ({ data, errors, updateState, flagEdit }) => (
     <Grid>
-        <GridItem xs={12} md={12} lg={12} style={{ display: "flex" }}>
+        <GridItem xs={12} md={12} lg={12} style={{ display: 'flex' }}>
             <Row
                 value={data.label}
                 disabled={flagEdit}
@@ -15,7 +15,7 @@ const TranslationForm = ({ data, errors, updateState, flagEdit }) => (
                 flagEdit={flagEdit}>
             </Row>
         </GridItem>
-        <GridItem xs={12} md={12} lg={12} style={{ display: "flex" }}>
+        <GridItem xs={12} md={12} lg={12} style={{ display: 'flex' }}>
             <TextInput
                 value={data.es}
                 errorText={errors.es}
@@ -23,7 +23,7 @@ const TranslationForm = ({ data, errors, updateState, flagEdit }) => (
                 onChange={event => updateState({ es: event.target.value })}
             />
         </GridItem>
-        <GridItem xs={12} md={12} lg={12} style={{ display: "flex" }}>
+        <GridItem xs={12} md={12} lg={12} style={{ display: 'flex' }}>
             <TextInput
                 value={data.en}
                 errorText={errors.en}
@@ -31,7 +31,7 @@ const TranslationForm = ({ data, errors, updateState, flagEdit }) => (
                 onChange={event => updateState({ en: event.target.value })}
             />
         </GridItem>
-        <GridItem xs={12} md={12} lg={12} style={{ display: "flex" }}>
+        <GridItem xs={12} md={12} lg={12} style={{ display: 'flex' }}>
             <TextInput
                 value={data.gal}
                 errorText={errors.gal}
@@ -39,7 +39,7 @@ const TranslationForm = ({ data, errors, updateState, flagEdit }) => (
                 onChange={event => updateState({ gal: event.target.value })}
             />
         </GridItem>
-        <GridItem xs={12} md={12} lg={12} style={{ display: "flex" }}>
+        <GridItem xs={12} md={12} lg={12} style={{ display: 'flex' }}>
             <TextInput
                 value={data.pt}
                 errorText={errors.pt}
@@ -47,7 +47,7 @@ const TranslationForm = ({ data, errors, updateState, flagEdit }) => (
                 onChange={event => updateState({ pt: event.target.value })}
             />
         </GridItem>
-        <GridItem xs={12} md={12} lg={12} style={{ display: "flex" }}>
+        <GridItem xs={12} md={12} lg={12} style={{ display: 'flex' }}>
             <TextInput
                 value={data.cat}
                 errorText={errors.cat}
@@ -56,7 +56,7 @@ const TranslationForm = ({ data, errors, updateState, flagEdit }) => (
             />
         </GridItem>
     </Grid>
-)
+);
 
 class Row extends React.Component {
     state = {
@@ -89,20 +89,20 @@ class Row extends React.Component {
     mouseEnterHandler = () => {
         this.setState({
             showActions: true
-        })
+        });
     }
 
     mouseLeaveHandler = () => {
         this.setState({
             showActions: false
-        })
+        });
     }
 
     render() {
         //TRADUCCION
         const { value, disabled, floatingText, errorText, onChange, flagEdit } = this.props;
         return (
-            <div onClick={flagEdit && this.copy} style={{ overflow: "hidden", width: '100%', display: "flex", }}>
+            <div onClick={flagEdit && this.copy} style={{ overflow: 'hidden', width: '100%', display: 'flex', }}>
                 <Tooltip title={'copiado'} open={this.state.showCopyTooltip}>
                     <TextInput
                         pointerInput={true}
@@ -116,8 +116,8 @@ class Row extends React.Component {
 
 
             </div>
-        )
+        );
     }
 }
 
-export default TranslationForm
+export default TranslationForm;

@@ -19,7 +19,7 @@ const ActHTML = ({ council, client }) => {
 
         setAct(response.data.councilAct);
         setLoading(false);
-    }
+    };
 
     React.useEffect(() => {
         getData();
@@ -27,15 +27,15 @@ const ActHTML = ({ council, client }) => {
 
 
     if(loading){
-        return <LoadingSection />
+        return <LoadingSection />;
     }
 
     return(
         <div style={{ width: '100%', position: 'relative' }}>
             <div dangerouslySetInnerHTML={{ __html: act.emailAct }} />
         </div>
-    )
-}
+    );
+};
 
 
 

@@ -1,7 +1,7 @@
-import React from "react";
-import { Tooltip } from "material-ui";
-import { Icon } from "../../../../displayComponents";
-import { mediumGrey, lightGrey, turquoise } from "../../../../styles/colors";
+import React from 'react';
+import { Tooltip } from 'material-ui';
+import { Icon } from '../../../../displayComponents';
+import { mediumGrey, lightGrey, turquoise } from '../../../../styles/colors';
 
 const VideoParticipantsStats = ({
 	videoFullScreen,
@@ -11,13 +11,13 @@ const VideoParticipantsStats = ({
 }) => (
 	<div
 		style={{
-			height: videoFullScreen ? "100%" : "3em",
-			width: "100%",
-			display: "flex",
-			cursor: videoFullScreen ? "pointer" : "",
-			flexDirection: videoFullScreen ? "column" : "row",
+			height: videoFullScreen ? '100%' : '3em',
+			width: '100%',
+			display: 'flex',
+			cursor: videoFullScreen ? 'pointer' : '',
+			flexDirection: videoFullScreen ? 'column' : 'row',
 			backgroundColor: mediumGrey,
-			alignItems: "center"
+			alignItems: 'center'
 		}}
 		{...(videoFullScreen ? { onClick: toggleFullScreen } : {})}
 		className="withShadow"
@@ -25,18 +25,18 @@ const VideoParticipantsStats = ({
 		<Tooltip title={translate.current_remote_census}>
 			<div
 				style={{
-					marginLeft: "1em",
-					marginRight: "0.5em",
-					height: videoFullScreen ? "3em" : "100%",
-					display: "flex",
-					alignItems: "center"
+					marginLeft: '1em',
+					marginRight: '0.5em',
+					height: videoFullScreen ? '3em' : '100%',
+					display: 'flex',
+					alignItems: 'center'
 				}}
 			>
 				<Icon
 					className="material-icons"
 					style={{
-						fontSize: "1.1em",
-						marginRight: "0.3em",
+						fontSize: '1.1em',
+						marginRight: '0.3em',
 						color: lightGrey
 					}}
 				>
@@ -44,9 +44,9 @@ const VideoParticipantsStats = ({
 				</Icon>
 				<span
 					style={{
-						fontWeight: "700",
-						color: "white",
-						fontSize: "0.8em"
+						fontWeight: '700',
+						color: 'white',
+						fontSize: '0.8em'
 					}}
 				>
 					{stats.total}
@@ -56,18 +56,18 @@ const VideoParticipantsStats = ({
 		<Tooltip title={translate.present.toLowerCase().capitalize()}>
 			<div
 				style={{
-					marginLeft: "1em",
-					marginRight: "0.5em",
-					height: videoFullScreen ? "3em" : "100%",
-					display: "flex",
-					alignItems: "center"
+					marginLeft: '1em',
+					marginRight: '0.5em',
+					height: videoFullScreen ? '3em' : '100%',
+					display: 'flex',
+					alignItems: 'center'
 				}}
 			>
 				<Icon
 					className="material-icons"
 					style={{
-						fontSize: "1.1em",
-						marginRight: "0.3em",
+						fontSize: '1.1em',
+						marginRight: '0.3em',
 						color: turquoise
 					}}
 				>
@@ -75,9 +75,9 @@ const VideoParticipantsStats = ({
 				</Icon>
 				<span
 					style={{
-						fontWeight: "700",
-						color: "white",
-						fontSize: "0.8em"
+						fontWeight: '700',
+						color: 'white',
+						fontSize: '0.8em'
 					}}
 				>
 					{stats.online}
@@ -88,28 +88,28 @@ const VideoParticipantsStats = ({
 		<Tooltip title={translate.absents}>
 			<div
 				style={{
-					marginLeft: "1em",
-					marginRight: "0.5em",
-					height: videoFullScreen ? "3em" : "100%",
-					display: "flex",
-					alignItems: "center"
+					marginLeft: '1em',
+					marginRight: '0.5em',
+					height: videoFullScreen ? '3em' : '100%',
+					display: 'flex',
+					alignItems: 'center'
 				}}
 			>
 				<Icon
 					className="material-icons"
 					style={{
-						fontSize: "1.1em",
-						marginRight: "0.3em",
-						color: "crimson"
+						fontSize: '1.1em',
+						marginRight: '0.3em',
+						color: 'crimson'
 					}}
 				>
 					language
 				</Icon>
 				<span
 					style={{
-						fontWeight: "700",
-						color: "white",
-						fontSize: "0.8em"
+						fontWeight: '700',
+						color: 'white',
+						fontSize: '0.8em'
 					}}
 				>
 					{stats.offline}
@@ -119,18 +119,18 @@ const VideoParticipantsStats = ({
 		<Tooltip title={translate.broadcasting}>
 			<div
 				style={{
-					marginLeft: "1em",
-					marginRight: "0.5em",
-					height: videoFullScreen ? "3em" : "100%",
-					display: "flex",
-					alignItems: "center"
+					marginLeft: '1em',
+					marginRight: '0.5em',
+					height: videoFullScreen ? '3em' : '100%',
+					display: 'flex',
+					alignItems: 'center'
 				}}
 			>
 				<Icon
 					className="material-icons"
 					style={{
-						fontSize: "1.1em",
-						marginRight: "0.3em",
+						fontSize: '1.1em',
+						marginRight: '0.3em',
 						color: turquoise
 					}}
 				>
@@ -138,9 +138,9 @@ const VideoParticipantsStats = ({
 				</Icon>
 				<span
 					style={{
-						fontWeight: "700",
-						color: "white",
-						fontSize: "0.8em"
+						fontWeight: '700',
+						color: 'white',
+						fontSize: '0.8em'
 					}}
 				>
 					{stats.broadcasting}
@@ -150,28 +150,28 @@ const VideoParticipantsStats = ({
 		<Tooltip title={translate.banned}>
 			<div
 				style={{
-					marginLeft: "1em",
-					marginRight: "0.5em",
-					height: videoFullScreen ? "3em" : "100%",
-					display: "flex",
-					alignItems: "center"
+					marginLeft: '1em',
+					marginRight: '0.5em',
+					height: videoFullScreen ? '3em' : '100%',
+					display: 'flex',
+					alignItems: 'center'
 				}}
 			>
 				<Icon
 					className="material-icons"
 					style={{
-						fontSize: "1.1em",
-						marginRight: "0.3em",
-						color: "crimson"
+						fontSize: '1.1em',
+						marginRight: '0.3em',
+						color: 'crimson'
 					}}
 				>
 					block
 				</Icon>
 				<span
 					style={{
-						fontWeight: "700",
-						color: "white",
-						fontSize: "0.8em"
+						fontWeight: '700',
+						color: 'white',
+						fontSize: '0.8em'
 					}}
 				>
 					{stats.banned}
@@ -181,19 +181,19 @@ const VideoParticipantsStats = ({
 		<Tooltip title={translate.asking_word}>
 			<div
 				style={{
-					marginLeft: "1em",
-					marginRight: "0.5em",
-					height: videoFullScreen ? "3em" : "100%",
-					display: "flex",
-					alignItems: "center"
+					marginLeft: '1em',
+					marginRight: '0.5em',
+					height: videoFullScreen ? '3em' : '100%',
+					display: 'flex',
+					alignItems: 'center'
 				}}
 				{...(stats.askingForWord > 0 ? { className: 'fadeToggle' } : {})}
 			>
 				<Icon
 					className="material-icons"
 					style={{
-						fontSize: "1.1em",
-						marginRight: "0.3em",
+						fontSize: '1.1em',
+						marginRight: '0.3em',
 						color: turquoise
 					}}
 				>
@@ -201,9 +201,9 @@ const VideoParticipantsStats = ({
 				</Icon>
 				<span
 					style={{
-						fontWeight: "700",
-						color: "white",
-						fontSize: "0.8em"
+						fontWeight: '700',
+						color: 'white',
+						fontSize: '0.8em'
 					}}
 				>
 					{stats.askingForWord}
@@ -213,18 +213,18 @@ const VideoParticipantsStats = ({
 		<Tooltip title={translate.waiting_room}>
 			<div
 				style={{
-					marginLeft: "1em",
-					marginRight: "0.5em",
-					height: videoFullScreen ? "3em" : "100%",
-					display: "flex",
-					alignItems: "center"
+					marginLeft: '1em',
+					marginRight: '0.5em',
+					height: videoFullScreen ? '3em' : '100%',
+					display: 'flex',
+					alignItems: 'center'
 				}}
 			>
 				<Icon
 					className="material-icons"
 					style={{
-						fontSize: "1.1em",
-						marginRight: "0.3em",
+						fontSize: '1.1em',
+						marginRight: '0.3em',
 						color: turquoise
 					}}
 				>
@@ -232,9 +232,9 @@ const VideoParticipantsStats = ({
 				</Icon>
 				<span
 					style={{
-						fontWeight: "700",
-						color: "white",
-						fontSize: "0.8em"
+						fontWeight: '700',
+						color: 'white',
+						fontSize: '0.8em'
 					}}
 				>
 					{stats.waitingRoom}

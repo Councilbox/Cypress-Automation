@@ -1,15 +1,15 @@
-import React from "react";
-import { graphql, compose } from "react-apollo";
+import React from 'react';
+import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import {
 	CustomDialog,
     BasicButton,
     LoadingSection,
     Checkbox
-} from "../../../../displayComponents";
-import RichTextInput from "../../../../displayComponents/RichTextInput";
+} from '../../../../displayComponents';
+import RichTextInput from '../../../../displayComponents/RichTextInput';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
-import { removeHTMLTags } from "../../../../utils/CBX";
+import { removeHTMLTags } from '../../../../utils/CBX';
 
 const CHAR_LIMIT = 300;
 
@@ -41,7 +41,7 @@ class AnnouncementModal extends React.Component {
                         participantId: -1
                     }
                 }
-            })
+            });
             this.props.requestClose();
         } else {
             this.setState({
@@ -69,11 +69,11 @@ class AnnouncementModal extends React.Component {
         }
 
 		return (
-			<div style={{ width: "650px" }}>
+			<div style={{ width: '650px' }}>
                  <Checkbox
                     label={translate.notice_block_check}
-                    styleInLabel={{ color: primary, fontSize: "12px" }}
-                    colorCheckbox={"primary"}
+                    styleInLabel={{ color: primary, fontSize: '12px' }}
+                    colorCheckbox={'primary'}
                     value={this.state.blockUser}
                     onChange={() => this.setState({ blockUser: !this.state.blockUser })}
                 />
@@ -163,7 +163,7 @@ const closeRoomAnnouncement = gql`
 
 export default compose(
     graphql(addRoomAnnouncement, {
-	    name: "addRoomAnnouncement"
+	    name: 'addRoomAnnouncement'
     }),
     graphql(closeRoomAnnouncement, {
         name: 'closeRoomAnnouncement'

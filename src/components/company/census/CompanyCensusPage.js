@@ -1,10 +1,10 @@
-import React from "react";
-import { compose, graphql } from "react-apollo";
+import React from 'react';
+import { compose, graphql } from 'react-apollo';
 import { Tooltip, Card } from 'material-ui';
-import { TableCell, TableRow } from "material-ui/Table";
+import { TableCell, TableRow } from 'material-ui/Table';
 import { withRouter } from 'react-router-dom';
-import FontAwesome from "react-fontawesome";
-import { censuses, deleteCensus, setDefaultCensus } from "../../../queries/census";
+import FontAwesome from 'react-fontawesome';
+import { censuses, deleteCensus, setDefaultCensus } from '../../../queries/census';
 import {
 	AlertConfirm,
 	CardPageLayout,
@@ -14,15 +14,15 @@ import {
 	GridItem,
 	EnhancedTable,
 	LoadingSection
-} from "../../../displayComponents";
-import { getPrimary, getSecondary } from "../../../styles/colors";
+} from '../../../displayComponents';
+import { getPrimary, getSecondary } from '../../../styles/colors';
 import withSharedProps from '../../../HOCs/withSharedProps';
-import CloneCensusModal from "./CloneCensusModal";
-import AddCensusButton from "./AddCensusButton";
+import CloneCensusModal from './CloneCensusModal';
+import AddCensusButton from './AddCensusButton';
 import EditCensusModal from './censusEditor/modals/EditCensusModal';
-import { bHistory } from "../../../containers/App";
-import { CENSUS_LIMITS } from "../../../constants";
-import { isMobile } from "../../../utils/screen";
+import { bHistory } from '../../../containers/App';
+import { CENSUS_LIMITS } from '../../../constants';
+import { isMobile } from '../../../utils/screen';
 
 class CompanyCensusPage extends React.Component {
 	state = {
@@ -69,7 +69,7 @@ class CompanyCensusPage extends React.Component {
 	updateState = object => {
 		this.setState({
 			...object
-		})
+		});
 	}
 
 	openCensusEdit = censusId => {
@@ -89,7 +89,7 @@ class CompanyCensusPage extends React.Component {
 				<EnhancedTable
 					translate={translate}
 					defaultLimit={CENSUS_LIMITS[0]}
-					defaultFilter={"censusName"}
+					defaultFilter={'censusName'}
 					limits={CENSUS_LIMITS}
 					page={1}
 					menuButtons={
@@ -112,24 +112,24 @@ class CompanyCensusPage extends React.Component {
 					headers={[
 						{
 							text: translate.name,
-							name: "censusName",
+							name: 'censusName',
 							canOrder: true
 						},
 						{
 							text: translate.creation_date,
-							name: "creationDate",
+							name: 'creationDate',
 							canOrder: true
 						},
 						{
-							name: "lastEdit",
+							name: 'lastEdit',
 							text: translate.last_edit,
 							canOrder: true
 						},
 						{
-							name: "creator",
+							name: 'creator',
 							text: translate.creator,
 						},
-						{ name: "" }
+						{ name: '' }
 					]}
 				>
 					{censuses.list.map((census, index) => (
@@ -188,13 +188,13 @@ class HoverableRow extends React.PureComponent {
     mouseEnterHandler = () => {
         this.setState({
             showActions: true
-        })
+        });
     }
 
     mouseLeaveHandler = () => {
         this.setState({
             showActions: false
-        })
+        });
     }
 
     deleteIcon = (councilID) => {
@@ -222,7 +222,7 @@ class HoverableRow extends React.PureComponent {
 			this.props.changingDefault ? (
 				<div
 					style={{
-						display: "inline-block"
+						display: 'inline-block'
 					}}
 				>
 					<LoadingSection size={20} />
@@ -233,12 +233,12 @@ class HoverableRow extends React.PureComponent {
 						name={
 							census.defaultCensus ===
 							1
-								? "star"
-								: "star-o"
+								? 'star'
+								: 'star-o'
 						}
 						style={{
-							cursor: "pointer",
-							fontSize: "2em",
+							cursor: 'pointer',
+							fontSize: '2em',
 							color: primary
 						}}
 						onClick={event => {
@@ -253,26 +253,26 @@ class HoverableRow extends React.PureComponent {
 			)}
 			<Tooltip title={translate.manage_participants}>
 				<FontAwesome
-					name={"users"}
+					name={'users'}
 					style={{
-						cursor: "pointer",
-						fontSize: "1.8em",
-						marginLeft: "0.2em",
+						cursor: 'pointer',
+						fontSize: '1.8em',
+						marginLeft: '0.2em',
 						color: primary
 					}}
 					onClick={event => {
 						event.stopPropagation();
-						this.props.openCensusEdit(census.id)
+						this.props.openCensusEdit(census.id);
 					}}
 				/>
 			</Tooltip>
 			<Tooltip title={translate.edit}>
 				<FontAwesome
-					name={"edit"}
+					name={'edit'}
 					style={{
-						cursor: "pointer",
-						fontSize: "1.8em",
-						marginLeft: "0.2em",
+						cursor: 'pointer',
+						fontSize: '1.8em',
+						marginLeft: '0.2em',
 						color: primary
 					}}
 					onClick={event => {
@@ -285,11 +285,11 @@ class HoverableRow extends React.PureComponent {
 			</Tooltip>
 			<Tooltip title={translate.clone_census}>
 				<FontAwesome
-					name={"clone"}
+					name={'clone'}
 					style={{
-						cursor: "pointer",
-						fontSize: "1.8em",
-						marginLeft: "0.2em",
+						cursor: 'pointer',
+						fontSize: '1.8em',
+						marginLeft: '0.2em',
 						color: primary
 					}}
 					onClick={event => {
@@ -306,7 +306,7 @@ class HoverableRow extends React.PureComponent {
 					<CloseIcon
 						style={{
 							color: primary,
-							marginTop: "-10px"
+							marginTop: '-10px'
 						}}
 						onClick={event => {
 							event.stopPropagation();
@@ -318,7 +318,7 @@ class HoverableRow extends React.PureComponent {
 					/>
 				</span>
 			</Tooltip>
-		</React.Fragment>
+		</React.Fragment>;
 
 		if(isMobile){
             return(
@@ -334,10 +334,10 @@ class HoverableRow extends React.PureComponent {
 							{census.defaultCensus === 1 &&
 								<Tooltip title={translate.default_census} >
 									<FontAwesome
-										name={"star"}
+										name={'star'}
 										style={{
-											cursor: "pointer",
-											fontSize: "1.2em",
+											cursor: 'pointer',
+											fontSize: '1.2em',
 											marginRight: '0.6em',
 											color: secondary
 										}}
@@ -380,7 +380,7 @@ class HoverableRow extends React.PureComponent {
 
                     </Grid>
                 </Card>
-            )
+            );
         }
 
         return (
@@ -388,17 +388,17 @@ class HoverableRow extends React.PureComponent {
 				hover
 				onMouseOver={this.mouseEnterHandler}
 				onMouseLeave={this.mouseLeaveHandler}
-				style={{ cursor: "pointer" }}
+				style={{ cursor: 'pointer' }}
 				onClick={() => this.props.openCensusEdit(census.id)}
 			>
 				<TableCell>
 					{census.defaultCensus === 1 &&
 						<Tooltip title={translate.default_census} >
 							<FontAwesome
-								name={"star"}
+								name={'star'}
 								style={{
-									cursor: "pointer",
-									fontSize: "1.2em",
+									cursor: 'pointer',
+									fontSize: '1.2em',
 									marginRight: '0.6em',
 									color: secondary
 								}}
@@ -423,20 +423,20 @@ class HoverableRow extends React.PureComponent {
 					{`${census.creator ? census.creator.name : ''} ${census.creator ? census.creator.surname : ''}`}
 				</TableCell>
 				<TableCell>
-					<div style={{ width: '12.5em', float: "right" }}>
+					<div style={{ width: '12.5em', float: 'right' }}>
 						{this.state.showActions &&
 							actions
 						}
 					</div>
 				</TableCell>
 			</TableRow>
-        )
+        );
     }
 }
 
 export default compose(
 	graphql(censuses, {
-		name: "data",
+		name: 'data',
 		options: props => ({
 			variables: {
 				companyId: +props.match.params.company,
@@ -449,9 +449,9 @@ export default compose(
 		})
 	}),
 	graphql(deleteCensus, {
-		name: "deleteCensus"
+		name: 'deleteCensus'
 	}),
 	graphql(setDefaultCensus, {
-		name: "setDefaultCensus"
+		name: 'setDefaultCensus'
 	})
 )(withSharedProps()(withRouter(CompanyCensusPage)));

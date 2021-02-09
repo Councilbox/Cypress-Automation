@@ -45,7 +45,7 @@ class SignatureStepOne extends React.Component {
                     ...object
                 }
             }
-        })
+        });
     }
 
     removeDocument = async () => {
@@ -111,7 +111,7 @@ class SignatureStepOne extends React.Component {
                                     ...response.data.saveSignatureDocument
                                 }
                             }
-                        })
+                        });
                     }
                     this.props.data.refetch();
                 }
@@ -121,7 +121,7 @@ class SignatureStepOne extends React.Component {
                         ...this.state.errors,
                         file: this.props.translate.majority_percentage
                     }
-                })
+                });
             }
 		};
     };
@@ -153,7 +153,7 @@ class SignatureStepOne extends React.Component {
             title: '',
             description: '',
             file: ''
-        }
+        };
 
         const { data } = this.state;
         const { translate } = this.props;
@@ -186,7 +186,7 @@ class SignatureStepOne extends React.Component {
 						position: toast.POSITION.TOP_RIGHT,
                         autoClose: true,
                         onClose: () => this.toastId = null,
-						className: "errorToast"
+						className: 'errorToast'
 					}
 				);
             }
@@ -230,9 +230,9 @@ class SignatureStepOne extends React.Component {
                                 onChange={date => {
                                     const newDate = new Date(date);
                                     const dateString = newDate.toISOString();
-                                    this.updateState({ expirationDateToSign: dateString })
+                                    this.updateState({ expirationDateToSign: dateString });
                                 }}
-                                minDateMessage={""}
+                                minDateMessage={''}
                                 acceptText={translate.accept}
                                 cancelText={translate.cancel}
                                 label={translate.signature_expiration_date}
@@ -301,16 +301,16 @@ class SignatureStepOne extends React.Component {
                                             text={translate.new_add}
                                             accept='application/pdf'
                                             style={{
-                                                marginTop: "2em",
-                                                width: "100%"
+                                                marginTop: '2em',
+                                                width: '100%'
                                             }}
-                                            buttonStyle={{ width: "100%" }}
+                                            buttonStyle={{ width: '100%' }}
                                             color={primary}
                                             textStyle={{
-                                                color: "white",
-                                                fontWeight: "700",
-                                                fontSize: "0.9em",
-                                                textTransform: "none"
+                                                color: 'white',
+                                                fontWeight: '700',
+                                                fontSize: '0.9em',
+                                                textTransform: 'none'
                                             }}
                                             loading={this.state.uploading}
                                             icon={
@@ -347,7 +347,7 @@ class SignatureStepOne extends React.Component {
                     </div>
                 }
             />
-        )
+        );
     }
 }
 

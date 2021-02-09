@@ -24,7 +24,7 @@ const DeleteConvenedParticipantButton = ({ translate, participant, client, refet
         });
         refetch();
         setModal(false);
-    }
+    };
 
     return (
         <>
@@ -49,7 +49,7 @@ const DeleteConvenedParticipantButton = ({ translate, participant, client, refet
                 bodyText={ `Estás seguro que quieres matar a ${participant.name} ${participant.surname || ''}`}
             />
         </>
-    )
-}
+    );
+};
 
 export default withApollo(DeleteConvenedParticipantButton);

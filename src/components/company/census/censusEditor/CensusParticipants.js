@@ -1,16 +1,16 @@
-import React from "react";
-import { TableCell, TableRow, Card } from "material-ui";
-import { compose, graphql } from "react-apollo";
-import gql from "graphql-tag";
-import { getPrimary, getSecondary } from "../../../../styles/colors";
-import { CloseIcon, EnhancedTable, Grid, GridItem, BasicButton, Checkbox, AlertConfirm } from "../../../../displayComponents";
+import React from 'react';
+import { TableCell, TableRow, Card } from 'material-ui';
+import { compose, graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+import { getPrimary, getSecondary } from '../../../../styles/colors';
+import { CloseIcon, EnhancedTable, Grid, GridItem, BasicButton, Checkbox, AlertConfirm } from '../../../../displayComponents';
 import * as CBX from '../../../../utils/CBX';
-import { censusParticipants } from "../../../../queries/census";
-import AddCensusParticipantButton from "./modals/AddCensusParticipantButton";
-import { PARTICIPANTS_LIMITS } from "../../../../constants";
-import CensusParticipantEditor from "./modals/CensusParticipantEditor";
+import { censusParticipants } from '../../../../queries/census';
+import AddCensusParticipantButton from './modals/AddCensusParticipantButton';
+import { PARTICIPANTS_LIMITS } from '../../../../constants';
+import CensusParticipantEditor from './modals/CensusParticipantEditor';
 import ImportCensusExcel from '../ImportCensusExcel';
-import { isMobile } from "../../../../utils/screen";
+import { isMobile } from '../../../../utils/screen';
 
 class CensusParticipants extends React.Component {
 	state = {
@@ -42,7 +42,7 @@ class CensusParticipants extends React.Component {
 		if(this.state.selectedIds.size !== this.props.data.censusParticipants.list.length){
 			this.props.data.censusParticipants.list.forEach(participant => {
 				newSelected.set(participant.id, 'selected');
-			})
+			});
 		}
 
 		this.setState({
@@ -76,7 +76,7 @@ class CensusParticipants extends React.Component {
 				selectedIds: new Map(),
 				singleId: null,
 				deleteModal: false
-			})
+			});
 			this.props.data.refetch();
 			this.props.refetch();
 		}
@@ -85,14 +85,14 @@ class CensusParticipants extends React.Component {
 	openDeleteModal = () => {
 		this.setState({
 			deleteModal: true
-		})
+		});
 	}
 
 	closeModal = () => {
 		this.setState({
 			deleteModal: false,
 			singleId: null
-		})
+		});
 	}
 
 
@@ -107,7 +107,7 @@ class CensusParticipants extends React.Component {
 					this.setState({
 						singleId: participantID,
 						deleteModal: true
-					})
+					});
 				}}
 			/>
 		);
@@ -127,22 +127,22 @@ class CensusParticipants extends React.Component {
 				selectAll: <Checkbox onChange={this.selectAll} value={this.state.selectedIds.size > 0 && this.state.selectedIds.size === (censusParticipants.list ? censusParticipants.list.length : -1)}/>
 			},
 			{
-				name: "name",
+				name: 'name',
 				text: translate.participant_data,
 				canOrder: true
 			},
 			{
-				name: "dni",
+				name: 'dni',
 				text: translate.dni,
 				canOrder: true
 			},
 			{
-				name: "position",
+				name: 'position',
 				text: translate.position,
 				canOrder: true
 			},
 			{
-				name: "numParticipations",
+				name: 'numParticipations',
 				text: translate.votes,
 				canOrder: true
 			}
@@ -150,7 +150,7 @@ class CensusParticipants extends React.Component {
 		if (census.quorumPrototype === 1) {
 			headers.push({
 				text: translate.social_capital,
-				name: "socialCapital",
+				name: 'socialCapital',
 				canOrder: true
 			});
 		}
@@ -195,7 +195,7 @@ class CensusParticipants extends React.Component {
 					<EnhancedTable
 						headers={headers}
 						translate={translate}
-						defaultFilter={"fullName"}
+						defaultFilter={'fullName'}
 						defaultLimit={PARTICIPANTS_LIMITS[0]}
 						limits={PARTICIPANTS_LIMITS}
 						page={1}
@@ -214,15 +214,15 @@ class CensusParticipants extends React.Component {
 						total={censusParticipants.total}
 						fields={[
 							{
-								value: "fullName",
+								value: 'fullName',
 								translation: translate.participant_data
 							},
 							{
-								value: "dni",
+								value: 'dni',
 								translation: translate.dni
 							},
 							{
-								value: "position",
+								value: 'position',
 								translation: translate.position
 							}
 						]}
@@ -257,7 +257,7 @@ class CensusParticipants extends React.Component {
 						opened={this.state.editingParticipant}
 						refetch={() => {
 							this.props.data.refetch();
-							this.props.refetch()
+							this.props.refetch();
 						}}
 					/>
 				}
@@ -284,13 +284,13 @@ class HoverableRow extends React.PureComponent {
 	mouseEnterHandler = () => {
 		this.setState({
 			showActions: true
-		})
+		});
 	}
 
 	mouseLeaveHandler = () => {
 		this.setState({
 			showActions: false
-		})
+		});
 	}
 
 
@@ -376,7 +376,7 @@ class HoverableRow extends React.PureComponent {
 							_renderDeleteIcon(participant.id)}
                     </div>
                 </Card>
-            )
+            );
         }
 
 		return(
@@ -387,8 +387,8 @@ class HoverableRow extends React.PureComponent {
 				onClick={() => this.props.editParticipant(participant)
 				}
 				style={{
-					cursor: "pointer",
-					fontSize: "0.5em"
+					cursor: 'pointer',
+					fontSize: '0.5em'
 				}}
 			>
 				<TableCell onClick={event => event.stopPropagation()} style={{ cursor: 'auto' }}>
@@ -467,7 +467,7 @@ class HoverableRow extends React.PureComponent {
 					</div>
 				</TableCell>
 			</TableRow>
-		)
+		);
 	}
 }
 
@@ -484,7 +484,7 @@ const deleteCensusParticipant = gql`
 
 export default compose(
 	graphql(deleteCensusParticipant, {
-		name: "deleteCensusParticipant"
+		name: 'deleteCensusParticipant'
 	}),
 	graphql(censusParticipants, {
 		options: props => ({

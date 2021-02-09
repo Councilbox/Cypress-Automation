@@ -1,8 +1,8 @@
 import React from 'react';
 import { Tabs, Tab } from 'material-ui';
-import * as CBX from "../../../../utils/CBX";
+import * as CBX from '../../../../utils/CBX';
 import { Scrollbar } from '../../../../displayComponents';
-import Votings from "../Votings";
+import Votings from '../Votings';
 import RecountSection from '../RecountSection';
 import Comments from '../Comments';
 import ActHTMLTab from '../../writing/actViewer/ActHTMLTab';
@@ -15,7 +15,7 @@ const ActPointTabs = ({ agenda, translate, council, company, ...props }) => {
 
     const handleChange = (event, index) => {
         setSelectedTab(index);
-    }
+    };
 
 
     return(
@@ -78,7 +78,7 @@ const ActPointTabs = ({ agenda, translate, council, company, ...props }) => {
                 </Scrollbar>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default withSharedProps()(ActPointTabs);

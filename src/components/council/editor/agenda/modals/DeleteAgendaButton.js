@@ -27,7 +27,7 @@ const DeleteAgendaButton = ({ agenda, council, translate, client, refetch, reque
 			requestClose();
 		}
 		setModal(false);
-	}
+	};
 
 	return (
 		<>
@@ -52,7 +52,7 @@ const DeleteAgendaButton = ({ agenda, council, translate, client, refetch, reque
 				onClick={() => setModal(true)}
 			/>
 		</>
-	)
-}
+	);
+};
 
-export default withApollo(DeleteAgendaButton)
+export default withApollo(DeleteAgendaButton);

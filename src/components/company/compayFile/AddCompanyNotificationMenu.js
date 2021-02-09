@@ -11,7 +11,7 @@ const AddCompanyNotificationMenu = ({ refetch, company, translate, client }) => 
         description: '',
         action: '',
         companyId: company.id
-    }
+    };
 
     const [notification, setNotification] = React.useState(defaultState);
 
@@ -32,11 +32,11 @@ const AddCompanyNotificationMenu = ({ refetch, company, translate, client }) => 
 
         setNotification(defaultState);
         refetch();
-    }
+    };
 
     return (
         <div style={{ width: '100%' }}>
-            <div style={{ color: "black" }}>
+            <div style={{ color: 'black' }}>
                 <DateTimePicker
                     format="L"
                     onlyDate
@@ -49,13 +49,13 @@ const AddCompanyNotificationMenu = ({ refetch, company, translate, client }) => 
                         setNotification({
                             ...notification,
                             limitDate: dateString
-                        })
+                        });
                     }}
 
                     value={notification.limitDate}
                 />
             </div>
-            <div style={{ color: "black" }}>
+            <div style={{ color: 'black' }}>
                 <TextInput
                     floatingText={'Acción'}
                     value={notification.action}
@@ -63,11 +63,11 @@ const AddCompanyNotificationMenu = ({ refetch, company, translate, client }) => 
                         setNotification({
                             ...notification,
                             action: event.target.value
-                        })
+                        });
                     }}
                 />
             </div>
-            <div style={{ color: "black" }}>
+            <div style={{ color: 'black' }}>
                 <TextInput
                     floatingText={translate.description}
                     value={notification.description}
@@ -75,7 +75,7 @@ const AddCompanyNotificationMenu = ({ refetch, company, translate, client }) => 
                         setNotification({
                             ...notification,
                             description: event.target.value
-                        })
+                        });
                     }}
                 />
             </div>
@@ -84,7 +84,7 @@ const AddCompanyNotificationMenu = ({ refetch, company, translate, client }) => 
                 onClick={createNotification}
             />
         </div>
-    )
-}
+    );
+};
 
-export default withApollo(AddCompanyNotificationMenu)
+export default withApollo(AddCompanyNotificationMenu);

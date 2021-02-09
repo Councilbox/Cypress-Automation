@@ -11,7 +11,7 @@ import { usePolling } from '../../../hooks';
 const UserSendsList = ({ translate, enRoot, client, ...props }) => {
     const [sending, setSending] = React.useState(false);
     const secondary = getSecondary();
-    const [sends, setSends] = React.useState(null)
+    const [sends, setSends] = React.useState(null);
 
     const getData = React.useCallback(async () => {
         const response = await client.query({
@@ -37,19 +37,19 @@ const UserSendsList = ({ translate, enRoot, client, ...props }) => {
 
     React.useEffect(() => {
         getData();
-    }, [getData])
+    }, [getData]);
 
     const refreshUserSends = async () => {
         const response = await props.refreshUserSends({
             variables: {
                 userId: props.user.id
             }
-        })
+        });
 
         if(!response.errors){
             getData();
         }
-    }
+    };
 
     usePolling(refreshUserSends, 60000);
 
@@ -68,14 +68,14 @@ const UserSendsList = ({ translate, enRoot, client, ...props }) => {
         });
         getData();
 		setSending(false);
-    }
+    };
 
     if(!sends){
         return null;
     }
 
     return(
-        <div style={{ marginBottom: "3em" }}>
+        <div style={{ marginBottom: '3em' }}>
             <div style={{ width: '100%', display: 'flex', flexDirection: 'row', marginTop: '0.8em', alignItems: 'center' }}>
                 <Typography variant="subheading" style={{ color: getPrimary(), marginRight: '0.6em' }}>
                     {translate.sends}
@@ -86,7 +86,7 @@ const UserSendsList = ({ translate, enRoot, client, ...props }) => {
                         color={secondary}
                         loading={sending}
                         textStyle={{
-                            color: "white"
+                            color: 'white'
                         }}
                         onClick={resend}
                     />
@@ -100,8 +100,8 @@ const UserSendsList = ({ translate, enRoot, client, ...props }) => {
                 <NotificationsTable notifications={sends} translate={translate} visib={true} />
             </div>
         </div>
-    )
-}
+    );
+};
 
 
 const refreshUserSends = gql`

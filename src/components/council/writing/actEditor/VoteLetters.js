@@ -85,7 +85,7 @@ const DelegationDocuments = ({ council, translate, client }) => {
                 </>
             }
         </div>
-    )
-}
+    );
+};
 
 export default withApollo(DelegationDocuments);

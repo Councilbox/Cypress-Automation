@@ -23,7 +23,7 @@ const GicarLoginContainer = ({ match }) => {
             </div>
         </div>
 
-    )
-}
+    );
+};
 
 export default GicarLoginContainer;

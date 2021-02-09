@@ -12,7 +12,7 @@ const AttendanceTextEditor = ({ translate, text, setText, updateAttendanceText, 
         if(isModal.modal){
             initialValue.current = text;
         }
-    }, [isModal.modal])
+    }, [isModal.modal]);
 
     const renderBody = () => (
             <RichTextInput
@@ -20,7 +20,7 @@ const AttendanceTextEditor = ({ translate, text, setText, updateAttendanceText, 
                 value={text}
                 onChange={value => setText(value)}
             />
-        )
+        );
 
     const handleClose = ev => {
         ev.preventDefault();
@@ -29,14 +29,14 @@ const AttendanceTextEditor = ({ translate, text, setText, updateAttendanceText, 
         } else {
             setIsmodal({ ...isModal, modal: false, unsavedModal: false });
         }
-    }
+    };
     const discardText = ev => {
         ev.preventDefault();
         if (text !== initialValue.current){
-            setIsmodal({ ...isModal, modal: false, unsavedModal: false })
+            setIsmodal({ ...isModal, modal: false, unsavedModal: false });
             setText(initialValue.current);
         }
-    }
+    };
 
     return (
         <>
@@ -62,13 +62,13 @@ const AttendanceTextEditor = ({ translate, text, setText, updateAttendanceText, 
                 translate={translate}
                 open={isModal.unsavedModal}
                 requestClose={() => {
-                    setIsmodal({ ...isModal, modal: true, unsavedModal: false })
+                    setIsmodal({ ...isModal, modal: true, unsavedModal: false });
                 }}
                 acceptAction={updateAttendanceText}
                 cancelAction={discardText}
             />
         </>
-    )
-}
+    );
+};
 
 export default withApollo(AttendanceTextEditor);

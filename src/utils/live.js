@@ -1,5 +1,5 @@
-import { store } from "../containers/App";
-import { AGENDA_TYPES } from "../constants";
+import { store } from '../containers/App';
+import { AGENDA_TYPES } from '../constants';
 
 class LiveUtil {
 	static qualityVoteRequirements(agenda, council) {

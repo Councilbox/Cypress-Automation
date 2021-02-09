@@ -4,8 +4,8 @@ class ParticipantDetails extends React.Component {
     render(){
         return(
             <div></div>
-        )
+        );
     }
 }
 
-export default ParticipantDetails
+export default ParticipantDetails;

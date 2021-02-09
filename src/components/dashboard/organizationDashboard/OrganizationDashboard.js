@@ -1,15 +1,15 @@
 
 
 
-import React from "react";
-import { Avatar } from "antd";
+import React from 'react';
+import { Avatar } from 'antd';
 import Calendar from 'react-calendar';
-import { Icon, withStyles, Divider, } from "material-ui";
-import { Doughnut, Chart } from "react-chartjs-2";
+import { Icon, withStyles, Divider, } from 'material-ui';
+import { Doughnut, Chart } from 'react-chartjs-2';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { getPrimary } from "../../../styles/colors";
-import { moment } from "../../../containers/App";
+import { getPrimary } from '../../../styles/colors';
+import { moment } from '../../../containers/App';
 import { ConfigContext } from '../../../containers/AppControl';
 import {
 	Grid,
@@ -21,15 +21,15 @@ import {
 	PaginationFooter,
 	DropDownMenu,
 	MenuItem,
-} from "../../../displayComponents";
-import GraficaEstadisiticas from "../GraficaEstadisiticas";
-import { isMobile } from "../../../utils/screen";
-import OneOnOneItem from "../OneOnOne/OneOnOneItem";
-import { usePolling } from "../../../hooks";
-import ImportOneOneOne from "../OneOnOne/ImportOneOnOne";
-import UsersTable from "./UsersTable";
-import EntitiesTable from "./EntitiesTable";
-import { isOrganization } from "../../../utils/CBX";
+} from '../../../displayComponents';
+import GraficaEstadisiticas from '../GraficaEstadisiticas';
+import { isMobile } from '../../../utils/screen';
+import OneOnOneItem from '../OneOnOne/OneOnOneItem';
+import { usePolling } from '../../../hooks';
+import ImportOneOneOne from '../OneOnOne/ImportOneOnOne';
+import UsersTable from './UsersTable';
+import EntitiesTable from './EntitiesTable';
+import { isOrganization } from '../../../utils/CBX';
 
 
 const styles = {
@@ -45,7 +45,7 @@ const DEFAULT_OPTIONS = {
 	limit: 10,
 	offset: 0,
 	orderDirection: 'DESC'
-}
+};
 
 const OrganizationDashboard = ({ translate, company, user, client, setAddUser, setEntidades, ...props }) => {
 	const [reuniones, setReuniones] = React.useState(false);
@@ -54,7 +54,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 		dateStart: moment().startOf('month').toDate(),
 		dateEnd: moment().endOf('month').toDate(),
 		type: 'all'
-	})
+	});
 	const [reunionesLoading, setReunionesLoading] = React.useState(true);
 	const [inputSearch, setInputSearch] = React.useState(false);
 	const [toggleReunionesCalendario, setToggleReunionesCalendario] = React.useState(translate.councils_link);
@@ -75,13 +75,13 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 
 	const getTileClassName = ({ date }) => {
 		if (reuniones.length > 0) {
-			const array = reuniones.find(reunion => moment(reunion.dateStart).format("MMM Do YY") === moment(date).format("MMM Do YY"))
+			const array = reuniones.find(reunion => moment(reunion.dateStart).format('MMM Do YY') === moment(date).format('MMM Do YY'));
 			if (array) {
 				return 'selectedDate';
 			}
 		}
 		return '';
-	}
+	};
 
 	const getReuniones = React.useCallback(async () => {
 		const response = await client.query({
@@ -109,14 +109,14 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 			celebracionPorcentaje: response.data.organizationCouncils.roomOpened,
 			redActaPorcentaje: response.data.organizationCouncils.saved,
 			max: response.data.organizationCouncils.max
-		})
+		});
 		setReunionesLoading(false);
 	}, [filters.dateStart, filters.dateEnd, filters.page, company.id, filterReuniones]);
 
 	usePolling(getReuniones, 12000);
 
 	React.useEffect(() => {
-		getReuniones()
+		getReuniones();
 	}, [getReuniones]);
 
 	const changeMonthBack = () => {
@@ -126,7 +126,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 			dateEnd: moment(filters.dateStart).subtract(1, 'months').endOf('month'),
 			selectedDay: null
 		});
-	}
+	};
 	const changeMonthFront = () => {
 		setFilters({
 			...filters,
@@ -134,7 +134,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 			dateEnd: moment(filters.dateStart).add(1, 'months').endOf('month'),
 			selectedDay: null
 		});
-	}
+	};
 
 	const onChangeDay = date => {
 		if (String(filters.dateStart) === String(date)) {
@@ -152,7 +152,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 				selectedDay: date
 			});
 		}
-	}
+	};
 
 	const renderTables = () => (
 			usuariosEntidades === translate.users ?
@@ -167,46 +167,46 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 					textFilter={state.textFilter || ''}
 					translate={translate}
 				/>
-		)
+		);
 
 	if (isMobile) {
 		return (
-			<div style={{ width: "100%", height: "100%" }}>
+			<div style={{ width: '100%', height: '100%' }}>
 				<div style={{
-					width: "100%",
-					padding: "1em",
-					background: "white",
-					borderRadius: "5px",
-					height: "100%",
-					boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
-					marginBottom: "0.5em"
+					width: '100%',
+					padding: '1em',
+					background: 'white',
+					borderRadius: '5px',
+					height: '100%',
+					boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)',
+					marginBottom: '0.5em'
 				}}>
 					<div style={{
-						display: "flex",
-						justifyContent: "space-between",
-						alignContent: "center",
-						marginBottom: "0.3em"
+						display: 'flex',
+						justifyContent: 'space-between',
+						alignContent: 'center',
+						marginBottom: '0.3em'
 					}}>
 						{config.oneOnOneDashboard ?
-							<div style={{ marginBottom: "1em", fontWeight: 'bold', color: "#a09b9e" }}>Citas en curso</div>
+							<div style={{ marginBottom: '1em', fontWeight: 'bold', color: '#a09b9e' }}>Citas en curso</div>
 							:
-							<div style={{ marginBottom: "1em", fontWeight: 'bold', color: "#a09b9e" }}>Reuniones en curso</div>
+							<div style={{ marginBottom: '1em', fontWeight: 'bold', color: '#a09b9e' }}>Reuniones en curso</div>
 						}
 						<div style={{
-							display: "flex",
-							alignContent: "inherit",
-							justifyContent: "center"
+							display: 'flex',
+							alignContent: 'inherit',
+							justifyContent: 'center'
 						}}
 						>
-							<div style={{ color: "#c196c3", fontSize: "13px", marginRight: "0.5em", display: 'flex', alignItems: 'center' }}>
+							<div style={{ color: '#c196c3', fontSize: '13px', marginRight: '0.5em', display: 'flex', alignItems: 'center' }}>
 								<DropDownMenu
 									color={'white'}
 									loading={false}
 									// // {...(!!Component ? (Component = { Component }) : {})}
-									text={<span style={{ color: "#c196c3", }} >{filterReuniones}</span>}
-									textStyle={{ fontWeight: 'bold', color: "#c196c3", boxShadow: "none", padding: "0", margin: "0", minWidth: "0" }}
+									text={<span style={{ color: '#c196c3', }} >{filterReuniones}</span>}
+									textStyle={{ fontWeight: 'bold', color: '#c196c3', boxShadow: 'none', padding: '0', margin: '0', minWidth: '0' }}
 									// icon={<ButtonIcon type="add" color="white" />}
-									backgroundColor={{ color: "#a09b9e" }}
+									backgroundColor={{ color: '#a09b9e' }}
 									anchorOrigin={{
 										vertical: 'bottom',
 										horizontal: 'left',
@@ -216,12 +216,12 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 											<MenuItem onClick={() => setFilterReuniones(translate.all)} >
 												<div
 													style={{
-														width: "100%",
-														display: "flex",
-														flexDirection: "row",
-														justifyContent: "space-between",
-														color: "#c196c3",
-														fontWeight: "bold"
+														width: '100%',
+														display: 'flex',
+														flexDirection: 'row',
+														justifyContent: 'space-between',
+														color: '#c196c3',
+														fontWeight: 'bold'
 													}}
 												>
 													{translate.all}
@@ -231,12 +231,12 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 											<MenuItem onClick={() => setFilterReuniones(translate.companies_calendar)} >
 												<div
 													style={{
-														width: "100%",
-														display: "flex",
-														flexDirection: "row",
-														justifyContent: "space-between",
-														color: "#c196c3",
-														fontWeight: "bold"
+														width: '100%',
+														display: 'flex',
+														flexDirection: 'row',
+														justifyContent: 'space-between',
+														color: '#c196c3',
+														fontWeight: 'bold'
 													}}
 												>
 													{translate.companies_calendar}
@@ -246,12 +246,12 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 											<MenuItem onClick={() => setFilterReuniones(translate.companies_live)}>
 												<div
 													style={{
-														width: "100%",
-														display: "flex",
-														flexDirection: "row",
-														justifyContent: "space-between",
-														color: "#c196c3",
-														fontWeight: "bold"
+														width: '100%',
+														display: 'flex',
+														flexDirection: 'row',
+														justifyContent: 'space-between',
+														color: '#c196c3',
+														fontWeight: 'bold'
 													}}
 												>
 													{translate.companies_live}
@@ -261,12 +261,12 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 											<MenuItem onClick={() => setFilterReuniones(translate.companies_writing)}>
 												<div
 													style={{
-														width: "100%",
-														display: "flex",
-														flexDirection: "row",
-														justifyContent: "space-between",
-														color: "#c196c3",
-														fontWeight: "bold"
+														width: '100%',
+														display: 'flex',
+														flexDirection: 'row',
+														justifyContent: 'space-between',
+														color: '#c196c3',
+														fontWeight: 'bold'
 													}}
 												>
 													{translate.companies_writing}
@@ -276,23 +276,23 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 									}
 								/>
 							</div>
-							<div style={{ color: "#c196c3", marginRight: "0.5em", display: 'flex', alignItems: 'center' }}>
+							<div style={{ color: '#c196c3', marginRight: '0.5em', display: 'flex', alignItems: 'center' }}>
 								<i className="fa fa-filter" ></i>
 							</div>
 							{toggleReunionesCalendario === translate.councils_link ?
-								<div style={{ position: "relative", color: "black", display: 'flex', alignItems: 'center' }} onClick={() => setToggleReunionesCalendario("calendario")} >
-									<i className={'fa fa-calendar-o'} style={{ position: "relative", fontSize: "18px" }}></i>
-									<i className={'fa fa-clock-o'} style={{ position: "relative", left: "-5px", bottom: "-5px" }}></i>
+								<div style={{ position: 'relative', color: 'black', display: 'flex', alignItems: 'center' }} onClick={() => setToggleReunionesCalendario('calendario')} >
+									<i className={'fa fa-calendar-o'} style={{ position: 'relative', fontSize: '18px' }}></i>
+									<i className={'fa fa-clock-o'} style={{ position: 'relative', left: '-5px', bottom: '-5px' }}></i>
 								</div>
 								:
-								<div style={{ color: "black", fontSize: "18px", display: 'flex', alignItems: 'center' }} onClick={() => setToggleReunionesCalendario(translate.councils_link)} >
-									<i className={"fa fa-list"}></i>
+								<div style={{ color: 'black', fontSize: '18px', display: 'flex', alignItems: 'center' }} onClick={() => setToggleReunionesCalendario(translate.councils_link)} >
+									<i className={'fa fa-list'}></i>
 								</div>
 							}
 						</div>
 					</div>
 					{toggleReunionesCalendario === translate.councils_link ?
-						<div style={{ height: "20em" }}>
+						<div style={{ height: '20em' }}>
 							<Scrollbar>
 								{reuniones.length === undefined || reunionesLoading ?
 									<LoadingSection />
@@ -300,13 +300,13 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 									<div>
 										{reuniones.map((item, index) => (
 												<TablaReunionesEnCurso
-													key={index + "_reuniones"}
+													key={index + '_reuniones'}
 													item={item}
 													index={index}
 													translate={translate}
 												/>
 											))}
-										<Grid style={{ marginTop: "1em" }}>
+										<Grid style={{ marginTop: '1em' }}>
 											<PaginationFooter
 												page={filters.page}
 												translate={translate}
@@ -322,7 +322,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 							</Scrollbar>
 						</div>
 						:
-						<div style={{ padding: "1em", display: 'flex', justifyContent: "center" }}>
+						<div style={{ padding: '1em', display: 'flex', justifyContent: 'center' }}>
 							{reuniones.length === undefined ?
 								<LoadingSection />
 								:
@@ -349,13 +349,13 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 					}
 				</div>
 				<div style={{
-					width: "100%",
-					padding: "1em",
-					background: "white",
-					borderRadius: "5px",
-					height: "100%",
-					boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
-					marginBottom: "0.5em"
+					width: '100%',
+					padding: '1em',
+					background: 'white',
+					borderRadius: '5px',
+					height: '100%',
+					boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)',
+					marginBottom: '0.5em'
 				}}>
 					{reuniones.length === undefined ?
 						<LoadingSection />
@@ -390,7 +390,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 									</div>
 								</GridItem>
 							</Grid>
-							<div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: '3em', padding: '1em' }}>
+							<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '3em', padding: '1em' }}>
 								<GraficaEstadisiticas
 									porcentaje={'75'}
 									color={'#85a9ca'}
@@ -401,57 +401,57 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 				</div>
 				{!config.oneOnOneDashboard &&
 					<div style={{
-						width: "100%",
-						padding: "1em",
-						background: "white",
-						borderRadius: "5px",
-						height: "100%",
-						boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
+						width: '100%',
+						padding: '1em',
+						background: 'white',
+						borderRadius: '5px',
+						height: '100%',
+						boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)',
 					}}>
 						<div style={{
-							display: "flex",
-							justifyContent: "space-between",
-							alignContent: "center",
-							marginBottom: "0.3em"
+							display: 'flex',
+							justifyContent: 'space-between',
+							alignContent: 'center',
+							marginBottom: '0.3em'
 						}}>
-							<div style={{ fontWeight: 'bold', color: "#a09b9e", display: 'flex', alignItems: 'center' }}>{usuariosEntidades === translate.users ? translate.users : translate.entities}</div>
+							<div style={{ fontWeight: 'bold', color: '#a09b9e', display: 'flex', alignItems: 'center' }}>{usuariosEntidades === translate.users ? translate.users : translate.entities}</div>
 							<div style={{
-								display: "flex",
-								alignContent: "inherit",
-								justifyContent: "center"
+								display: 'flex',
+								alignContent: 'inherit',
+								justifyContent: 'center'
 							}}
 							>
 								{/* <div style={{ color: "#c196c3", fontSize: "13px", marginRight: "0.5em", display: 'flex', alignItems: 'center' }}>{translate.connecteds}</div> */}
-								<div style={{ color: "#c196c3", marginRight: "0.5em", display: 'flex', alignItems: 'center' }}>
+								<div style={{ color: '#c196c3', marginRight: '0.5em', display: 'flex', alignItems: 'center' }}>
 									<i className="fa fa-filter" ></i>
 								</div>
 								<TextInput
-									className={isMobile && !inputSearch ? "openInput" : ""}
+									className={isMobile && !inputSearch ? 'openInput' : ''}
 									disableUnderline={true}
-									styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", padding: isMobile && inputSearch && "4px 5px", paddingLeft: !isMobile && "5px", marginTop: '0px' }}
-									stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: isMobile && inputSearch ? "8px" : "4px" }}
-									floatingText={" "}
-									adornment={<Icon onClick={() => setInputSearch(!inputSearch)} style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
+									styleInInput={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', padding: isMobile && inputSearch && '4px 5px', paddingLeft: !isMobile && '5px', marginTop: '0px' }}
+									stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: isMobile && inputSearch ? '8px' : '4px' }}
+									floatingText={' '}
+									adornment={<Icon onClick={() => setInputSearch(!inputSearch)} style={{ background: '#f0f3f6', paddingLeft: '5px', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>search</Icon>}
 									type="text"
-									styles={{ marginTop: '-16px', marginBottom: "-8px" }}
-									value={state.textFilter || ""}
+									styles={{ marginTop: '-16px', marginBottom: '-8px' }}
+									value={state.textFilter || ''}
 									onChange={event => {
 										setState({
 											...state,
 											textFilter: event.target.value
-										})
+										});
 									}}
 								/>
 							</div>
 						</div>
-						<Grid style={{ justifyContent: "space-between", alignItems: "center" }}>
-							<GridItem xs={6} md={6} lg={4} style={{ display: "flex" }}>
-								<div style={{ height: "100%", fontWeight: "bold", padding: "0.5em", display: "flex", borderRadius: "5px", boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)", }}>
+						<Grid style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+							<GridItem xs={6} md={6} lg={4} style={{ display: 'flex' }}>
+								<div style={{ height: '100%', fontWeight: 'bold', padding: '0.5em', display: 'flex', borderRadius: '5px', boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)', }}>
 									<div style={{
-										cursor: "pointer",
-										paddingRight: "0.5em",
-										color: usuariosEntidades === translate.users ? primary : "#9f9a9d",
-										borderRight: "1px solid gainsboro"
+										cursor: 'pointer',
+										paddingRight: '0.5em',
+										color: usuariosEntidades === translate.users ? primary : '#9f9a9d',
+										borderRight: '1px solid gainsboro'
 									}}
 										onClick={() => setUsuariosEntidades(translate.users)}
 									>
@@ -459,9 +459,9 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 									</div>
 									<div
 										style={{
-											cursor: "pointer",
-											paddingLeft: "0.5em",
-											color: usuariosEntidades === translate.entities ? primary : "#9f9a9d"
+											cursor: 'pointer',
+											paddingLeft: '0.5em',
+											color: usuariosEntidades === translate.entities ? primary : '#9f9a9d'
 										}}
 										onClick={() => setUsuariosEntidades(translate.entities)}
 									>
@@ -469,20 +469,20 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 									</div>
 								</div>
 							</GridItem>
-							<GridItem xs={6} md={6} lg={8} style={{ display: 'flex', justifyContent: "flex-end" }}>
-								<div style={{ display: "flex", alignItems: "center" }}>
+							<GridItem xs={6} md={6} lg={8} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+								<div style={{ display: 'flex', alignItems: 'center' }}>
 									{usuariosEntidades === translate.users ?
 										<BasicButton
-											buttonStyle={{ boxShadow: "none", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
-											backgroundColor={{ backgroundColor: "white" }}
+											buttonStyle={{ boxShadow: 'none', borderRadius: '4px', border: `1px solid ${primary}`, padding: '0.2em 0.4em', marginTop: '5px', color: primary, }}
+											backgroundColor={{ backgroundColor: 'white' }}
 											text={translate.add}
 											onClick={() => setAddUser(true)}
 										/>
 										:
 										isOrganization(company) &&
 											<BasicButton
-												buttonStyle={{ boxShadow: "none", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
-												backgroundColor={{ backgroundColor: "white" }}
+												buttonStyle={{ boxShadow: 'none', borderRadius: '4px', border: `1px solid ${primary}`, padding: '0.2em 0.4em', marginTop: '5px', color: primary, }}
+												backgroundColor={{ backgroundColor: 'white' }}
 												text={translate.add}
 												onClick={() => setEntidades(true)}
 											/>
@@ -502,33 +502,33 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 	}
 
 	return (
-		<div style={{ width: "100%" }}>
+		<div style={{ width: '100%' }}>
 			<Grid style={{
-				padding: "1em",
+				padding: '1em',
 			}}>
 				<Grid style={{
-					background: "white",
-					boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
-					padding: "1em",
-					borderRadius: "5px",
-					textAlign: "left",
-					overflow: "hidden"
+					background: 'white',
+					boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)',
+					padding: '1em',
+					borderRadius: '5px',
+					textAlign: 'left',
+					overflow: 'hidden'
 				}}>
-					<GridItem xs={8} md={8} lg={8} style={{ overflow: "hidden" }}>
+					<GridItem xs={8} md={8} lg={8} style={{ overflow: 'hidden' }}>
 						{config.oneOnOneDashboard ?
-							<div style={{ marginBottom: "1em", fontWeight: 'bold', color: "#a09b9e" }}>Citas en curso</div>
+							<div style={{ marginBottom: '1em', fontWeight: 'bold', color: '#a09b9e' }}>Citas en curso</div>
 							:
-							<div style={{ marginBottom: "1em", fontWeight: 'bold', color: "#a09b9e" }}>Reuniones en curso</div>
+							<div style={{ marginBottom: '1em', fontWeight: 'bold', color: '#a09b9e' }}>Reuniones en curso</div>
 						}
 						{config.oneOnOneDashboard &&
-							<div style={{ display: "flex", alignItems: "center", marginBottom: "1em" }}>
-								<div style={{ display: "flex", marginRight: "1em" }}>
+							<div style={{ display: 'flex', alignItems: 'center', marginBottom: '1em' }}>
+								<div style={{ display: 'flex', marginRight: '1em' }}>
 									<BasicButton
 										text="Ver documentaciones pendientes"
 										onClick={() => setFilterReuniones('withoutAttachments')}
 										backgroundColor={{
-											fontSize: "12px",
-											fontStyle: "Lato",
+											fontSize: '12px',
+											fontStyle: 'Lato',
 											fontWeight: 'bold',
 											color: filterReuniones === 'withoutAttachments' ? 'white' : primary,
 											backgroundColor: filterReuniones === 'withoutAttachments' ? primary : 'white',
@@ -542,8 +542,8 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 										text="Ver todas las citas"
 										onClick={() => setFilterReuniones(translate.all_plural)}
 										backgroundColor={{
-											fontSize: "12px",
-											fontStyle: "Lato",
+											fontSize: '12px',
+											fontStyle: 'Lato',
 											fontWeight: 'bold',
 											color: filterReuniones === translate.all_plural ? 'white' : primary,
 											backgroundColor: filterReuniones === translate.all_plural ? primary : 'white',
@@ -552,7 +552,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 										}}
 									/>
 								</div>
-								<div style={{ marginLeft: "1em" }}>
+								<div style={{ marginLeft: '1em' }}>
 									<ImportOneOneOne
 										company={company}
 										translate={translate}
@@ -560,7 +560,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 								</div>
 							</div>
 						}
-						<Grid style={{ overflow: "hidden", height: `calc(90% - ${config.oneOnOneDashboard ? '4em' : '0px'})` }}>
+						<Grid style={{ overflow: 'hidden', height: `calc(90% - ${config.oneOnOneDashboard ? '4em' : '0px'})` }}>
 							<Scrollbar>
 								{reuniones.length === undefined || reunionesLoading ?
 										<LoadingSection />
@@ -568,13 +568,13 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 										<div>
 											{reuniones.map((item, index) => (
 													<TablaReunionesEnCurso
-														key={index + "_reuniones"}
+														key={index + '_reuniones'}
 														item={item}
 														index={index}
 														translate={translate}
 													/>
 												))}
-											<Grid style={{ marginTop: "1em" }}>
+											<Grid style={{ marginTop: '1em' }}>
 												<PaginationFooter
 													page={filters.page}
 													translate={translate}
@@ -585,7 +585,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 														setFilters({
 															...filters,
 															page
-														})
+														});
 													}}
 												/>
 											</Grid>
@@ -596,7 +596,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 						</Grid>
 					</GridItem>
 					<GridItem xs={4} md={4} lg={4} style={{ height: '35em' }}>
-						<div style={{ padding: "1em", display: 'flex', justifyContent: "center" }}>
+						<div style={{ padding: '1em', display: 'flex', justifyContent: 'center' }}>
 							{reuniones.length === undefined ?
 								<LoadingSection />
 								:
@@ -625,7 +625,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 				<Grid
 					style={{
 						marginTop: '2em',
-						display: "flex",
+						display: 'flex',
 						justifyContent: 'space-between'
 					}}>
 					<GridItem
@@ -633,10 +633,10 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 						xs={(!config.oneOnOneDashboard || company.id === company.corporationId) ? 4 : 12}
 						xs={(!config.oneOnOneDashboard || company.id === company.corporationId) ? 4 : 12}
 						style={{
-							background: "white",
-							boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
-							padding: "1em",
-							borderRadius: "5px"
+							background: 'white',
+							boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)',
+							padding: '1em',
+							borderRadius: '5px'
 						}}>
 						{reuniones.length === undefined ?
 							<LoadingSection />
@@ -644,7 +644,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 							<div>
 								<Grid>
 									<GridItem xs={12} md={6} lg={4}>
-										<div style={{ color: "black", marginBottom: "1em" }}>{translate.companies_calendar}</div>
+										<div style={{ color: 'black', marginBottom: '1em' }}>{translate.companies_calendar}</div>
 										<div style={{ width: '100%', }}>
 											<GraficaDoughnut
 												porcentaje={porcentajes.convocadaPorcentaje || 0}
@@ -654,7 +654,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 										</div>
 									</GridItem>
 									<GridItem xs={12} md={6} lg={4}>
-										<div style={{ color: "black", marginBottom: "1em" }}>{translate.companies_live}</div>
+										<div style={{ color: 'black', marginBottom: '1em' }}>{translate.companies_live}</div>
 										<div style={{ width: '100%', }}>
 											<GraficaDoughnut
 												porcentaje={porcentajes.celebracionPorcentaje || 0}
@@ -664,7 +664,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 										</div>
 									</GridItem>
 									<GridItem xs={12} md={6} lg={4}>
-										<div style={{ color: "black", marginBottom: "1em" }}>{translate.companies_writing}</div>
+										<div style={{ color: 'black', marginBottom: '1em' }}>{translate.companies_writing}</div>
 										<div style={{ width: '100%', }}>
 											<GraficaDoughnut
 												porcentaje={porcentajes.redActaPorcentaje || 0}
@@ -674,7 +674,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 										</div>
 									</GridItem>
 								</Grid>
-								<div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: '3em' }}>
+								<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '3em' }}>
 									<GraficaEstadisiticas
 										porcentaje={'75'}
 										color={'#85a9ca'}
@@ -685,19 +685,19 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 					</GridItem>
 					{(!config.oneOnOneDashboard || company.id === company.corporationId) &&
 						<GridItem xs={7} md={7} lg={7} style={{
-							background: "white",
-							boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)",
-							padding: "1em",
-							borderRadius: "5px"
+							background: 'white',
+							boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)',
+							padding: '1em',
+							borderRadius: '5px'
 						}}>
-							<Grid style={{ justifyContent: "space-between", alignItems: "center" }}>
-								<GridItem xs={12} md={6} lg={4} style={{ display: "flex" }}>
-									<div style={{ height: "100%", fontWeight: "bold", padding: "0.5em", display: "flex", borderRadius: "5px", boxShadow: "0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)", }}>
+							<Grid style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+								<GridItem xs={12} md={6} lg={4} style={{ display: 'flex' }}>
+									<div style={{ height: '100%', fontWeight: 'bold', padding: '0.5em', display: 'flex', borderRadius: '5px', boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12)', }}>
 										<div style={{
-											cursor: "pointer",
-											paddingRight: "0.5em",
-											color: usuariosEntidades === translate.users ? primary : "#9f9a9d",
-											borderRight: "1px solid gainsboro"
+											cursor: 'pointer',
+											paddingRight: '0.5em',
+											color: usuariosEntidades === translate.users ? primary : '#9f9a9d',
+											borderRight: '1px solid gainsboro'
 										}}
 											onClick={() => setUsuariosEntidades(translate.users)}
 										>
@@ -705,9 +705,9 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 										</div>
 										<div
 											style={{
-												cursor: "pointer",
-												paddingLeft: "0.5em",
-												color: usuariosEntidades === translate.entities ? primary : "#9f9a9d"
+												cursor: 'pointer',
+												paddingLeft: '0.5em',
+												color: usuariosEntidades === translate.entities ? primary : '#9f9a9d'
 											}}
 											onClick={() => setUsuariosEntidades(translate.entities)}
 										>
@@ -715,40 +715,40 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 										</div>
 									</div>
 								</GridItem>
-								<GridItem xs={12} md={6} lg={8} style={{ display: 'flex', justifyContent: "flex-end" }}>
-									<div style={{ padding: "0.5em", display: "flex", alignItems: "center" }}>
+								<GridItem xs={12} md={6} lg={8} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+									<div style={{ padding: '0.5em', display: 'flex', alignItems: 'center' }}>
 										{usuariosEntidades === translate.users ?
 											<BasicButton
-												buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
-												backgroundColor={{ backgroundColor: "white" }}
+												buttonStyle={{ boxShadow: 'none', marginRight: '1em', borderRadius: '4px', border: `1px solid ${primary}`, padding: '0.2em 0.4em', marginTop: '5px', color: primary, }}
+												backgroundColor={{ backgroundColor: 'white' }}
 												text={translate.add}
 												onClick={() => setAddUser(true)}
 											/>
 											:
 											<BasicButton
-												buttonStyle={{ boxShadow: "none", marginRight: "1em", borderRadius: "4px", border: `1px solid ${primary}`, padding: "0.2em 0.4em", marginTop: "5px", color: primary, }}
-												backgroundColor={{ backgroundColor: "white" }}
+												buttonStyle={{ boxShadow: 'none', marginRight: '1em', borderRadius: '4px', border: `1px solid ${primary}`, padding: '0.2em 0.4em', marginTop: '5px', color: primary, }}
+												backgroundColor={{ backgroundColor: 'white' }}
 												text={translate.add}
 												onClick={() => setEntidades(true)}
 											/>
 										}
 
-										<div style={{ padding: "0px 8px", fontSize: "24px", color: "#c196c3" }}>
+										<div style={{ padding: '0px 8px', fontSize: '24px', color: '#c196c3' }}>
 											<i className="fa fa-filter"></i>
 										</div>
 										<TextInput
 											placeholder={translate.search}
-											adornment={<Icon style={{ background: "#f0f3f6", paddingLeft: "5px", height: '100%', display: "flex", alignItems: "center", justifyContent: "center" }}>search</Icon>}
+											adornment={<Icon style={{ background: '#f0f3f6', paddingLeft: '5px', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>search</Icon>}
 											type="text"
-											value={state.textFilter || ""}
-											styleInInput={{ fontSize: "12px", color: "rgba(0, 0, 0, 0.54)", background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+											value={state.textFilter || ''}
+											styleInInput={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px' }}
 											disableUnderline={true}
-											stylesAdornment={{ background: "#f0f3f6", marginLeft: "0", paddingLeft: "8px" }}
+											stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px' }}
 											onChange={event => {
 												setState({
 													...state,
 													textFilter: event.target.value
-												})
+												});
 											}}
 										/>
 
@@ -766,7 +766,7 @@ const OrganizationDashboard = ({ translate, company, user, client, setAddUser, s
 			</Grid>
 		</div>
 	);
-}
+};
 
 const TablaReunionesEnCurso = ({ item, index, translate }) => {
 	if (item.councilType === 5) {
@@ -777,13 +777,13 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 				council={item}
 				translate={translate}
 			/>
-		)
+		);
 	}
 
 	if (isMobile) {
 		return (
-			<GridItem key={item.id} style={{ background: index % 2 ? "#edf4fb" : "", padding: "0.7em 1em", }} xs={12} md={12} lg={12}>
-				<div style={{ display: "flex", justifyContent: "space-between" }}>
+			<GridItem key={item.id} style={{ background: index % 2 ? '#edf4fb' : '', padding: '0.7em 1em', }} xs={12} md={12} lg={12}>
+				<div style={{ display: 'flex', justifyContent: 'space-between' }}>
 					<div style={{ marginRight: '0.2em' }}>
 						{item.logo ?
 							<Avatar alt="Foto" src={item.logo} />
@@ -802,12 +802,12 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 					</div>
 				</div>
 			</GridItem>
-		)
+		);
 	}
 
 	return (
-		<GridItem key={item.id} style={{ background: index % 2 ? "#edf4fb" : "", padding: "0.7em 1em", }} xs={12} md={12} lg={12}>
-			<Grid style={{ alignItems: "center" }}>
+		<GridItem key={item.id} style={{ background: index % 2 ? '#edf4fb' : '', padding: '0.7em 1em', }} xs={12} md={12} lg={12}>
+			<Grid style={{ alignItems: 'center' }}>
 				<GridItem xs={1} md={1} lg={1}>
 					{item.logo ?
 						<Avatar alt="Foto" src={item.logo} />
@@ -819,12 +819,12 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 					}
 				</GridItem>
 				<GridItem xs={4} md={4} lg={4}>
-					<b>{item.company ? item.company.businessName : ""}</b>
+					<b>{item.company ? item.company.businessName : ''}</b>
 				</GridItem>
 				<GridItem xs={4} md={4} lg={4}>
 					{item.name} - {moment(item.dateStart).format('DD/MM/YYYY HH:mm')}
 				</GridItem>
-				<GridItem xs={3} md={3} lg={3} style={{ display: "flex", alignItems: "center", justifyContent: 'center' }}>
+				<GridItem xs={3} md={3} lg={3} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 					{(item.state === 5 || item.state === 10) &&
 						translate.convened
 					}
@@ -840,8 +840,8 @@ const TablaReunionesEnCurso = ({ item, index, translate }) => {
 				</GridItem>
 			</Grid>
 		</GridItem>
-	)
-}
+	);
+};
 
 const GraficaDoughnut = ({ porcentaje, color, max }) => {
 	Chart.pluginService.register({
@@ -854,7 +854,7 @@ const GraficaDoughnut = ({ porcentaje, color, max }) => {
 					radius: (chart.outerRadius + chart.innerRadius) / 2,
 					thickness: (chart.outerRadius - chart.innerRadius) / 2 - 2,
 					backgroundColor: arc._model.backgroundColor
-				}
+				};
 			}
 		},
 
@@ -901,7 +901,7 @@ const GraficaDoughnut = ({ porcentaje, color, max }) => {
 							fontSize -= 1;
 							break;
 						}
-					} while (true)
+					} while (true);
 					ctx.restore();
 				}
 				chart.center = {
@@ -925,28 +925,28 @@ const GraficaDoughnut = ({ porcentaje, color, max }) => {
 				ctx.restore();
 			}
 		},
-	})
+	});
 
 	return (
 		<Doughnut
 			data={{
 				labels: [
-					"Red",
-					"Gray"
+					'Red',
+					'Gray'
 				],
 				datasets: [{
 					data: [porcentaje, porcentaje - max === 0 ? 10 : max - porcentaje],
 					backgroundColor: [
 						color,
-						"#491f77"
+						'#491f77'
 					],
 					hoverBackgroundColor: [
 						color,
-						"#491f77"
+						'#491f77'
 					],
 					borderColor: '#cfe7f4',
 					borderWidth: 4,
-					hoverBorderColor: ["#cfe7f4", '#cfe7f4']
+					hoverBorderColor: ['#cfe7f4', '#cfe7f4']
 				}]
 			}}
 			options={{
@@ -974,8 +974,8 @@ const GraficaDoughnut = ({ porcentaje, color, max }) => {
 				}
 			}}
 		/>
-	)
-}
+	);
+};
 
 const corporationConvenedLiveCouncils = gql`
     query corporationConvenedLiveCouncils(

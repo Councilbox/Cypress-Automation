@@ -74,7 +74,7 @@ class SignatureEditorPage extends React.Component {
                     }
                 </div>
             </CardPageLayout >
-        )
+        );
     }
 }
 

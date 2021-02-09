@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { Icon } from "../../../displayComponents";
-import { darkGrey } from "../../../styles/colors";
-import { LIVE_COLLAPSIBLE_HEIGHT } from "../../../styles/constants";
-import CommentsTable from "./comments/CommentsTable";
+import React, { Component } from 'react';
+import { Icon } from '../../../displayComponents';
+import { darkGrey } from '../../../styles/colors';
+import { LIVE_COLLAPSIBLE_HEIGHT } from '../../../styles/constants';
+import CommentsTable from './comments/CommentsTable';
 
 
 class CommentsSection extends Component {
@@ -17,28 +17,28 @@ class CommentsSection extends Component {
 			<div
 				style={{
 					height: LIVE_COLLAPSIBLE_HEIGHT,
-					display: "flex",
-					justifyContent: "space-between",
-					alignItems: "center"
+					display: 'flex',
+					justifyContent: 'space-between',
+					alignItems: 'center'
 				}}
 			>
 				<div
 					style={{
-						width: "25%",
+						width: '25%',
 						height: LIVE_COLLAPSIBLE_HEIGHT,
-						display: "flex",
-						alignItems: "center",
-						paddingLeft: "1.5em"
+						display: 'flex',
+						alignItems: 'center',
+						paddingLeft: '1.5em'
 					}}
 				>
-					<Icon className="material-icons" style={{ color: "grey" }}>
+					<Icon className="material-icons" style={{ color: 'grey' }}>
 						assignment
 					</Icon>
 					<span
 						style={{
-							marginLeft: "0.7em",
+							marginLeft: '0.7em',
 							color: darkGrey,
-							fontWeight: "700"
+							fontWeight: '700'
 						}}
 					>
 						{council.statute.existsAct
@@ -48,13 +48,13 @@ class CommentsSection extends Component {
 				</div>
 				<div
 					style={{
-						width: "25%",
-						display: "flex",
-						justifyContent: "flex-end",
-						paddingRight: "2em"
+						width: '25%',
+						display: 'flex',
+						justifyContent: 'flex-end',
+						paddingRight: '2em'
 					}}
 				>
-					<Icon className="material-icons" style={{ color: "grey" }}>
+					<Icon className="material-icons" style={{ color: 'grey' }}>
 						keyboard_arrow_down
 					</Icon>
 				</div>
@@ -78,9 +78,9 @@ class CommentsSection extends Component {
 		return (
 			<div
 				style={{
-					width: "100%",
+					width: '100%',
 					//backgroundColor: "lightgrey",
-					position: "relative"
+					position: 'relative'
 				}}
 			>
 				{/* <CollapsibleSection

@@ -1,17 +1,17 @@
-import React from "react";
-import { graphql, withApollo } from "react-apollo";
-import FontAwesome from "react-fontawesome";
-import * as CBX from "../../../../utils/CBX";
-import { isLandscape } from "../../../../utils/screen";
-import { getPrimary, getSecondary } from "../../../../styles/colors";
-import { PARTICIPANT_STATES } from "../../../../constants";
-import { changeParticipantState } from "../../../../queries/liveParticipant";
-import { FilterButton, Grid, GridItem } from "../../../../displayComponents";
-import AddRepresentativeModal from "../AddRepresentativeModal";
-import DelegateOwnVoteModal from "../DelegateOwnVoteModal";
-import DelegateVoteModal from "../DelegateVoteModal";
-import StateIcon from "./StateIcon";
-import { removeLiveParticipantSignature } from "./modals/SignatureModal";
+import React from 'react';
+import { graphql, withApollo } from 'react-apollo';
+import FontAwesome from 'react-fontawesome';
+import * as CBX from '../../../../utils/CBX';
+import { isLandscape } from '../../../../utils/screen';
+import { getPrimary, getSecondary } from '../../../../styles/colors';
+import { PARTICIPANT_STATES } from '../../../../constants';
+import { changeParticipantState } from '../../../../queries/liveParticipant';
+import { FilterButton, Grid, GridItem } from '../../../../displayComponents';
+import AddRepresentativeModal from '../AddRepresentativeModal';
+import DelegateOwnVoteModal from '../DelegateOwnVoteModal';
+import DelegateVoteModal from '../DelegateVoteModal';
+import StateIcon from './StateIcon';
+import { removeLiveParticipantSignature } from './modals/SignatureModal';
 
 
 const ParticipantStateSelector = ({ participant, translate, council, inDropDown, client, ...props }) => {
@@ -39,7 +39,7 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 				variables: {
 					participantId: participant.id
 				}
-			})
+			});
 		}
 
 		if (response) {
@@ -51,10 +51,10 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 	return (
 		<Grid
 			style={{
-				width: "100%",
-				display: "flex",
-				flexDirection: "row",
-				alignItems: "center"
+				width: '100%',
+				display: 'flex',
+				flexDirection: 'row',
+				alignItems: 'center'
 			}}
 		>
 			<GridItem xs={landscape ? 6 : 12} md={inDropDown ? 12 : 6} lg={inDropDown ? 12 : 6} >
@@ -137,7 +137,7 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 					</div>
 				)}
 			</GridItem>
-			<GridItem xs={landscape ? 6 : 12} md={6} lg={6} style={{ display: inDropDown ? "none" : "block" }}>
+			<GridItem xs={landscape ? 6 : 12} md={6} lg={6} style={{ display: inDropDown ? 'none' : 'block' }}>
 				{CBX.canHaveRepresentative(participant) &&
 					<div style={{ display: 'flex', alignItems: 'center' }}>
 
@@ -194,20 +194,20 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 							}
 						>
 							<FontAwesome
-								name={"user"}
+								name={'user'}
 								style={{
-									position: "absolute",
+									position: 'absolute',
 									color: secondary,
-									fontSize: "1.5em"
+									fontSize: '1.5em'
 								}}
 							/>
 							<FontAwesome
-								name={"mail-reply"}
+								name={'mail-reply'}
 								style={{
-									position: "absolute",
+									position: 'absolute',
 									color: primary,
-									right: "0.7em",
-									fontSize: "0.8em"
+									right: '0.7em',
+									fontSize: '0.8em'
 								}}
 							/>
 						</FilterButton>
@@ -253,9 +253,9 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 			</GridItem>
 		</Grid>
 	);
-}
+};
 
 
 export default graphql(changeParticipantState, {
-	name: "changeParticipantState"
+	name: 'changeParticipantState'
 })(withApollo(ParticipantStateSelector));

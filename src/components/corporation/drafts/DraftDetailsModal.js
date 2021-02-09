@@ -8,15 +8,15 @@ import { isMobile } from '../../../utils/screen';
 const DraftDetailsModal = ({ draft, requestClose, translate, companyStatutes }) => {
     const TagColumn = props => (
         <div style={{
-            display: "flex",
-            color: "#ffffff",
-            fontSize: "12px",
-            marginBottom: "0.5em ",
+            display: 'flex',
+            color: '#ffffff',
+            fontSize: '12px',
+            marginBottom: '0.5em ',
             flexDirection: 'column'
         }}>
             {props.children}
         </div>
-    )
+    );
 
     const _renderDraftDetails = () => {
         const columns = buildTagColumns(draft, formatLabelFromName(companyStatutes, translate));
@@ -30,7 +30,7 @@ const DraftDetailsModal = ({ draft, requestClose, translate, companyStatutes }) 
                     <span style={{ fontWeight: '700' }}>{translate.description}</span>{`: ${draft.description}`}
                 </GridItem>
                 <GridItem xs={12} lg={12} md={12}>
-                    <div style={{ display: isMobile ? "" : 'flex' }}>
+                    <div style={{ display: isMobile ? '' : 'flex' }}>
                         {Object.keys(columns).map((key, index) => (
                             <TagColumn key={`column_${index}`}>
                                 {columns[key].map(tag => (
@@ -52,8 +52,8 @@ const DraftDetailsModal = ({ draft, requestClose, translate, companyStatutes }) 
                     }} />
                 </GridItem>
             </Grid>
-        )
-    }
+        );
+    };
 
     return (
         <AlertConfirm
@@ -65,8 +65,8 @@ const DraftDetailsModal = ({ draft, requestClose, translate, companyStatutes }) 
             bodyText={draft ? _renderDraftDetails() : <span />}
             title={translate.draft_details}
         />
-    )
-}
+    );
+};
 
 export default DraftDetailsModal;
 

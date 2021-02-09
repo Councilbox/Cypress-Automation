@@ -29,14 +29,14 @@ const PauseCouncilModal = ({ open, council, requestClose, client, translate, ref
 
         setStatus('SUCCESS');
 		refetch();
-    }
+    };
 
     React.useEffect(() => {
         if(!open && status !== 'IDDLE'){
             setMessage('');
             setStatus('IDDLE');
         }
-    }, [open])
+    }, [open]);
 
     return (
         <AlertConfirm
@@ -56,7 +56,7 @@ const PauseCouncilModal = ({ open, council, requestClose, client, translate, ref
                             translate={translate}
                             value={message}
                             onChange={value => {
-                                setMessage(value)
+                                setMessage(value);
                             }}
                         />
                     :
@@ -86,7 +86,7 @@ const PauseCouncilModal = ({ open, council, requestClose, client, translate, ref
                 </>
             }
         />
-    )
-}
+    );
+};
 
 export default withApollo(PauseCouncilModal);

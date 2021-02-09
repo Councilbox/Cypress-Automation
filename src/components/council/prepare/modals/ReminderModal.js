@@ -1,18 +1,18 @@
-import React from "react";
-import { Typography } from "material-ui";
-import { graphql } from "react-apollo";
+import React from 'react';
+import { Typography } from 'material-ui';
+import { graphql } from 'react-apollo';
 import {
 	AlertConfirm,
 	Icon,
 	Radio
-} from "../../../../displayComponents/index";
-import { sendReminder } from "../../../../queries/council";
+} from '../../../../displayComponents/index';
+import { sendReminder } from '../../../../queries/council';
 
 
 class ReminderModal extends React.Component {
 	state = {
-		success: "",
-		error: "",
+		success: '',
+		error: '',
 		sending: false,
 		sendAgenda: false,
 		group: 'all'
@@ -111,24 +111,24 @@ class ReminderModal extends React.Component {
 }
 
 export default graphql(sendReminder, {
-	name: "sendReminder"
+	name: 'sendReminder'
 })(ReminderModal);
 
 const SuccessMessage = ({ message }) => (
 	<div
 		style={{
-			width: "500px",
-			display: "flex",
-			alignItems: "center",
-			alignContent: "center",
-			flexDirection: "column"
+			width: '500px',
+			display: 'flex',
+			alignItems: 'center',
+			alignContent: 'center',
+			flexDirection: 'column'
 		}}
 	>
 		<Icon
 			className="material-icons"
 			style={{
-				fontSize: "6em",
-				color: "green"
+				fontSize: '6em',
+				color: 'green'
 			}}
 		>
 			check_circle

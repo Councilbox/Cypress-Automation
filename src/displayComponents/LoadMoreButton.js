@@ -1,7 +1,7 @@
-import React from "react";
-import { Card, MenuItem } from "material-ui";
-import { LoadingSection } from ".";
-import withTranslations from "../HOCs/withTranslations";
+import React from 'react';
+import { Card, MenuItem } from 'material-ui';
+import { LoadingSection } from '.';
+import withTranslations from '../HOCs/withTranslations';
 
 const LoadMoreButton = ({ loading, onClick }) => (
         <Card
@@ -28,6 +28,6 @@ const LoadMoreButton = ({ loading, onClick }) => (
                 }
             </MenuItem>
         </Card>
-    )
+    );
 
 export default withTranslations()(LoadMoreButton);

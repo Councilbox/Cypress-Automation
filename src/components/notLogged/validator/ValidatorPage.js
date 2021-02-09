@@ -18,7 +18,7 @@ class ValidatorPage extends React.Component {
 
     async componentDidMount() {
         if (this.props.match.params.uuid) {
-            await this.searchCode(this.props.match.params.uuid)
+            await this.searchCode(this.props.match.params.uuid);
         }
     }
 
@@ -82,7 +82,7 @@ class ValidatorPage extends React.Component {
             loading: false,
             error: '',
             data: response.data.evidenceContent
-        })
+        });
     }
 
     render() {
@@ -94,12 +94,12 @@ class ValidatorPage extends React.Component {
                 <div style={{ width: '100%', overflow: 'auto' }}>
                      <div style={{ width: isMobile ? '100%' : '70%', margin: '4em auto', padding: '1em', display: 'block' }}>
                         {this.state.loading &&
-                            <Card style={{ padding: "2em", margin: '1.5em' }} elevation={4}>
+                            <Card style={{ padding: '2em', margin: '1.5em' }} elevation={4}>
                                 <LoadingSection />
                             </Card>
                         }
                         {this.state.error &&
-                            <Card style={{ padding: "2em", margin: '1.5em' }} elevation={4}>
+                            <Card style={{ padding: '2em', margin: '1.5em' }} elevation={4}>
                                 <div style={{ fontWeight: '700', color: 'red', marginTop: '1em', fonSize: '1.1em' }}>
                                     {this.state.error}
                                 </div>
@@ -107,7 +107,7 @@ class ValidatorPage extends React.Component {
                         }
 
                         {this.state.data &&
-                            <Card style={{ padding: "2em", margin: '1.5em' }} elevation={4}>
+                            <Card style={{ padding: '2em', margin: '1.5em' }} elevation={4}>
                                 <EvidenceContentDisplay content={this.state.data.content} cbxEvidence={this.state.data.cbxEvidence} />
                                 <hr></hr>
                                 <ExplorerLink txHash={this.state.data.cbxEvidence.tx_hash} translate={this.props.translate} />
@@ -118,7 +118,7 @@ class ValidatorPage extends React.Component {
                     </div>
                 </div>
             </NotLoggedLayout>
-        )
+        );
     }
 }
 
@@ -126,20 +126,20 @@ class ValidatorPage extends React.Component {
 export const ExplorerLink = ({ txHash, translate }) => (
         <React.Fragment>
             {txHash ?
-                <Button style={{ marginLeft: "1.2em" }} size="small" color="primary" href={`${EXPLORER_URL}/transaction/${txHash}`} target="_blank" rel="noreferrer noopener">
+                <Button style={{ marginLeft: '1.2em' }} size="small" color="primary" href={`${EXPLORER_URL}/transaction/${txHash}`} target="_blank" rel="noreferrer noopener">
                     {translate.see_blockchain_explorer.toUpperCase()}
                 </Button>
                 :
                 ''
             }
         </React.Fragment>
-    )
+    );
 
 export const ValidatorLink = ({ prvHash, translate }) => (
         <Button size="small" color="primary" href={`${window.location.origin}/evidence/${prvHash}`} target="_blank" rel="noreferrer noopener">
             {translate.read_details.toUpperCase()}
         </Button>
-    )
+    );
 
 const EvidenceContentDisplay = ({ content, cbxEvidence }) => {
     const parsedContent = JSON.parse(content);
@@ -147,8 +147,8 @@ const EvidenceContentDisplay = ({ content, cbxEvidence }) => {
         <div>
             {getEvidenceComponent(parsedContent, cbxEvidence)}
         </div>
-    )
-}
+    );
+};
 
 const UserEvidence = withTranslations()(({ evidence, translate, cbxEvidence }) => (
         <div>
@@ -160,7 +160,7 @@ const UserEvidence = withTranslations()(({ evidence, translate, cbxEvidence }) =
 const blur = {
     textShadow: '0 0 6px black',
     color: 'transparent'
-}
+};
 
 export const CouncilEvidence = withTranslations()(({ evidence, translate, cbxEvidence }) => (
         <React.Fragment>
@@ -175,7 +175,7 @@ export const CouncilEvidence = withTranslations()(({ evidence, translate, cbxEvi
                     Datos de la evidencia
                     <hr style={{ margin: '0.5em 0em' }}></hr>
                 </div>
-                <div style={{ display: "flex" }}>
+                <div style={{ display: 'flex' }}>
                     <div style={{ width: '100px' }}>
                         <b>Evhash:</b>
                     </div>
@@ -183,7 +183,7 @@ export const CouncilEvidence = withTranslations()(({ evidence, translate, cbxEvi
                         {cbxEvidence.evhash}
                     </div>
                 </div>
-                <div style={{ display: "flex", marginBottom: '1em' }}>
+                <div style={{ display: 'flex', marginBottom: '1em' }}>
                     <div style={{ width: '100px' }}>
                         <b>Tx hash:</b>
                     </div>
@@ -217,7 +217,7 @@ const UserSection = ({ evidence, translate }) => (
                 <hr style={{ margin: '0.5em 0em' }}></hr>
             </div>
             <div>
-                <div style={{ display: "flex" }}>
+                <div style={{ display: 'flex' }}>
                     <div style={{ width: '100px' }}>
                         <b>{translate.email}:</b>
                     </div>
@@ -225,7 +225,7 @@ const UserSection = ({ evidence, translate }) => (
                         {evidence.data.user.email}
                     </div>
                 </div>
-                <div style={{ display: "flex" }}>
+                <div style={{ display: 'flex' }}>
                     <div style={{ width: '100px' }}>
                         <b>{translate.name}:</b>
                     </div>
@@ -233,7 +233,7 @@ const UserSection = ({ evidence, translate }) => (
                         {evidence.data.user.name}
                     </div>
                 </div>
-                <div style={{ display: "flex" }}>
+                <div style={{ display: 'flex' }}>
                     <div style={{ width: '100px' }}>
                         <b>{translate.surname || ''}:</b>
                     </div>
@@ -243,7 +243,7 @@ const UserSection = ({ evidence, translate }) => (
                 </div>
             </div>
         </div>
-    )
+    );
 
 const ParticipantSection = ({ evidence, translate }) => (
         <div style={{ marginBottom: '1em' }}>
@@ -252,7 +252,7 @@ const ParticipantSection = ({ evidence, translate }) => (
                 <hr style={{ margin: '0.5em 0em' }}></hr>
             </div>
             <div>
-                <div style={{ display: "flex" }}>
+                <div style={{ display: 'flex' }}>
                     <div style={{ width: '100px' }}>
                         <b>{translate.email}:</b>
                     </div>
@@ -260,7 +260,7 @@ const ParticipantSection = ({ evidence, translate }) => (
                         {evidence.data.participant.email}
                     </div>
                 </div>
-                <div style={{ display: "flex" }}>
+                <div style={{ display: 'flex' }}>
                     <div style={{ width: '100px' }}>
                         <b>{translate.name}:</b>
                     </div>
@@ -268,7 +268,7 @@ const ParticipantSection = ({ evidence, translate }) => (
                         {evidence.data.participant.name}
                     </div>
                 </div>
-                <div style={{ display: "flex" }}>
+                <div style={{ display: 'flex' }}>
                     <div style={{ width: '100px' }}>
                         <b>{translate.surname || ''}:</b>
                     </div>
@@ -276,7 +276,7 @@ const ParticipantSection = ({ evidence, translate }) => (
                         {evidence.data.participant.surname || ''}
                     </div>
                 </div>
-                <div style={{ display: "flex" }}>
+                <div style={{ display: 'flex' }}>
                     <div style={{ width: '100px' }}>
                         <b>{translate.dni}:</b>
                     </div>
@@ -286,7 +286,7 @@ const ParticipantSection = ({ evidence, translate }) => (
                 </div>
             </div>
         </div>
-    )
+    );
 
 const AgendaPointSection = ({ evidence, translate }) => (
         <div style={{ marginBottom: '1em' }}>
@@ -295,7 +295,7 @@ const AgendaPointSection = ({ evidence, translate }) => (
                 <hr style={{ margin: '0.5em 0em' }}></hr>
             </div>
 
-            <div style={{ display: "flex" }}>
+            <div style={{ display: 'flex' }}>
                 <div style={{ width: '100px' }}>
                     <b>{translate.type}:</b>
                 </div>
@@ -303,7 +303,7 @@ const AgendaPointSection = ({ evidence, translate }) => (
                     {translate[getTypeTranslation(evidence.agendaPoint.type)]}
                 </div>
             </div>
-            <div style={{ display: "flex" }}>
+            <div style={{ display: 'flex' }}>
                 <div style={{ width: '100px' }}>
                     <b>{translate.name}:</b>
                 </div>
@@ -313,7 +313,7 @@ const AgendaPointSection = ({ evidence, translate }) => (
             </div>
 
         </div>
-    )
+    );
 
 const CouncilSection = ({ evidence, translate }) => (
         <div style={{ /*paddingLeft: '1.5em'*/ marginBottom: '1em' }}>
@@ -325,7 +325,7 @@ const CouncilSection = ({ evidence, translate }) => (
                 {evidence.agendaPoint &&
                     <React.Fragment>
                         {evidence.agendaPoint.company &&
-                            <div style={{ display: "flex" }}>
+                            <div style={{ display: 'flex' }}>
                                 <div style={{ width: '100px' }}>
                                     <b>{`${translate.company}:`}</b>
                                 </div>
@@ -334,7 +334,7 @@ const CouncilSection = ({ evidence, translate }) => (
                                 </div>
                             </div>
                         }
-                        <div style={{ display: "flex" }}>
+                        <div style={{ display: 'flex' }}>
                             <div style={{ width: '100px' }}>
                                 <b>{translate.name}:</b>
                             </div>
@@ -342,7 +342,7 @@ const CouncilSection = ({ evidence, translate }) => (
                                 {evidence.agendaPoint.council.name}
                             </div>
                         </div>
-                        <div style={{ display: "flex" }}>
+                        <div style={{ display: 'flex' }}>
                             <div style={{ width: '100px' }}>
                                 <b>{translate.date_real_start}:</b>
                             </div>
@@ -355,7 +355,7 @@ const CouncilSection = ({ evidence, translate }) => (
                 {evidence.council &&
                     <React.Fragment>
                         {evidence.council.company &&
-                            <div style={{ display: "flex" }}>
+                            <div style={{ display: 'flex' }}>
                                 <div style={{ width: '100px' }}>
                                     <b>{`${translate.company}:`}</b>
                                 </div>
@@ -364,7 +364,7 @@ const CouncilSection = ({ evidence, translate }) => (
                                 </div>
                             </div>
                         }
-                        <div style={{ display: "flex" }}>
+                        <div style={{ display: 'flex' }}>
                             <div style={{ width: '100px' }}>
                                 <b>{translate.name}:</b>
                             </div>
@@ -372,7 +372,7 @@ const CouncilSection = ({ evidence, translate }) => (
                                 {evidence.council.name}
                             </div>
                         </div>
-                        <div style={{ display: "flex" }}>
+                        <div style={{ display: 'flex' }}>
                             <div style={{ width: '100px' }}>
                                 <b>{translate.date_real_start}:</b>
                             </div>
@@ -384,11 +384,11 @@ const CouncilSection = ({ evidence, translate }) => (
                 }
             </div>
         </div>
-    )
+    );
 
 const EvidenceDisplay = ({ evidence, translate, cbxEvidence }) => {
     const type = getTranslateFieldFromType(evidence.data.type);
-    const primerasLetras = translate[type].split(' ').map(palabra => palabra.toUpperCase().substr(0, 1))
+    const primerasLetras = translate[type].split(' ').map(palabra => palabra.toUpperCase().substr(0, 1));
 
     return (
         <div style={{ display: 'flex' }}>
@@ -415,7 +415,7 @@ const EvidenceDisplay = ({ evidence, translate, cbxEvidence }) => {
                 </div>
             </div>
         </div>
-    )
+    );
 };
 
 export const getTranslateFieldFromType = type => {
@@ -444,10 +444,10 @@ export const getTranslateFieldFromType = type => {
         'VOTE': 'has_voted',
         'VOTE_DELEGATION': 'vote_delegation',
         default: () => type
-    }
+    };
 
     return types[type] ? types[type] : types.default();
-}
+};
 
 const getTypeTranslation = type => {
     const translations = {
@@ -456,19 +456,19 @@ const getTypeTranslation = type => {
         ANONYMOUS: 'private_voting',
         NOMINAL_ACT: 'public_act',
         DEFAULT: 'custom_point'
-    }
+    };
 
     return translations[type] || translations.default;
-}
+};
 
 
 const getEvidenceComponent = (evidence, cbxEvidence) => {
     if (evidence.data.type === 'LOGIN') {
-        return <UserEvidence evidence={evidence} cbxEvidence={cbxEvidence} />
+        return <UserEvidence evidence={evidence} cbxEvidence={cbxEvidence} />;
     }
 
-    return <CouncilEvidence evidence={evidence} cbxEvidence={cbxEvidence} />
-}
+    return <CouncilEvidence evidence={evidence} cbxEvidence={cbxEvidence} />;
+};
 
 const getData = gql`
     query EvidenceContent($code: String!){

@@ -2,8 +2,8 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import { CLIENT_VERSION } from '../config';
-import icono from "../assets/img/logo-icono.png";
-import logo from "../assets/img/logo.png";
+import icono from '../assets/img/logo-icono.png';
+import logo from '../assets/img/logo.png';
 import { lightGrey } from '../styles/colors';
 import { Scrollbar } from '../displayComponents';
 import withWindowSize from '../HOCs/withWindowSize';
@@ -107,10 +107,10 @@ class ErrorHandler extends React.Component {
                         </div>
                     </Scrollbar>
                 </div>
-            )
+            );
         }
 
-        return this.props.children
+        return this.props.children;
     }
 }
 

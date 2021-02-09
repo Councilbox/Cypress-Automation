@@ -28,8 +28,8 @@ const AgendaCheckItem = ({ agenda, translate, updatePoints, checked }) => (
             </Typography>
         </div>
     </Card>
-)
+);
 
-const checkIfSelected = (id, array) => !!array.find((item) => item === id)
+const checkIfSelected = (id, array) => !!array.find((item) => item === id);
 
 export default AgendaCheckItem;

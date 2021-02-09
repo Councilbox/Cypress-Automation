@@ -47,7 +47,7 @@ const SignatureStepper = ({ translate, active, goToPage, windowSize }) => {
                     <XsIcon icon='team' page={2} />
                 </Tooltip>
             </div>
-        )
+        );
     }
 
     return(
@@ -87,7 +87,7 @@ const SignatureStepper = ({ translate, active, goToPage, windowSize }) => {
                 icon={<Icon type="team" style={{ color: active === 1 ? primary : secondary }} />}
             />
         </Steps>
-    )
-}
+    );
+};
 
 export default withWindowSize(SignatureStepper);

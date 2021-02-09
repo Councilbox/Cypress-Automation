@@ -1,22 +1,22 @@
-import React from "react";
-import { Typography } from "material-ui";
-import { graphql } from "react-apollo";
+import React from 'react';
+import { Typography } from 'material-ui';
+import { graphql } from 'react-apollo';
 import {
 	AlertConfirm,
 	Grid,
 	GridItem,
 	Icon
-} from "../../../../displayComponents/index";
-import { sendConvene } from "../../../../queries";
+} from '../../../../displayComponents/index';
+import { sendConvene } from '../../../../queries';
 
 class SendConveneModal extends React.Component {
 	state = {
-		success: "",
-		error: "",
+		success: '',
+		error: '',
 		sendAgenda: false,
 		dateStart: this.props.council.dateStart,
 		dateStart2NdCall: this.props.council.dateStart2NdCall || null,
-		error2NdCall: ""
+		error2NdCall: ''
 	};
 
 	close = () => {
@@ -25,7 +25,7 @@ class SendConveneModal extends React.Component {
 			sending: false,
 			error: false,
 			unsavedChanges: false,
-			error2NdCall: ""
+			error2NdCall: ''
 		});
 		this.props.refetch();
 		this.props.requestClose();
@@ -73,7 +73,7 @@ class SendConveneModal extends React.Component {
 		}
 
 		return (
-			<Grid style={{ width: "450px" }}>
+			<Grid style={{ width: '450px' }}>
 				<GridItem xs={12} md={12} lg={12}>
 					{translate.proceed_send_convene}
 				</GridItem>
@@ -104,24 +104,24 @@ class SendConveneModal extends React.Component {
 }
 
 export default graphql(sendConvene, {
-	name: "sendConvene"
+	name: 'sendConvene'
 })(SendConveneModal);
 
 const SuccessMessage = ({ message }) => (
 	<div
 		style={{
-			width: "500px",
-			display: "flex",
-			alignItems: "center",
-			alignContent: "center",
-			flexDirection: "column"
+			width: '500px',
+			display: 'flex',
+			alignItems: 'center',
+			alignContent: 'center',
+			flexDirection: 'column'
 		}}
 	>
 		<Icon
 			className="material-icons"
 			style={{
-				fontSize: "6em",
-				color: "green"
+				fontSize: '6em',
+				color: 'green'
 			}}
 		>
 			check_circle

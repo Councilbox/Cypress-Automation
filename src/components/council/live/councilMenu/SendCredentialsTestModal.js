@@ -1,16 +1,16 @@
-import React from "react";
-import { Typography } from "material-ui";
-import { graphql } from "react-apollo";
-import { AlertConfirm, Icon, TextInput } from "../../../../displayComponents";
-import { sendVideoEmailTest } from "../../../../queries";
-import { checkValidEmail } from "../../../../utils/validation";
+import React from 'react';
+import { Typography } from 'material-ui';
+import { graphql } from 'react-apollo';
+import { AlertConfirm, Icon, TextInput } from '../../../../displayComponents';
+import { sendVideoEmailTest } from '../../../../queries';
+import { checkValidEmail } from '../../../../utils/validation';
 import { moment } from '../../../../containers/App';
 
 class SendCredentialsTestModal extends React.Component {
 	state = {
-		success: "",
-		emailError: "",
-		email: ""
+		success: '',
+		emailError: '',
+		email: ''
 	};
 
 	close = () => {
@@ -18,7 +18,7 @@ class SendCredentialsTestModal extends React.Component {
 		this.setState({
 			success: false,
 			sending: false,
-			emailError: "",
+			emailError: '',
 			error: false,
 			sendAgenda: false
 		});
@@ -58,7 +58,7 @@ class SendCredentialsTestModal extends React.Component {
 			});
 		} else {
 			this.setState({
-				emailError: ""
+				emailError: ''
 			});
 		}
 		if (event.nativeEvent.keyCode === 13) {
@@ -74,7 +74,7 @@ class SendCredentialsTestModal extends React.Component {
 		}
 
 		return (
-			<div style={{ width: "500px" }}>
+			<div style={{ width: '500px' }}>
 				<TextInput
 					required
 					floatingText={translate.email}
@@ -115,24 +115,24 @@ class SendCredentialsTestModal extends React.Component {
 }
 
 export default graphql(sendVideoEmailTest, {
-	name: "sendVideoEmailTest"
+	name: 'sendVideoEmailTest'
 })(SendCredentialsTestModal);
 
 const SuccessMessage = ({ message }) => (
 	<div
 		style={{
-			width: "500px",
-			display: "flex",
-			alignItems: "center",
-			alignContent: "center",
-			flexDirection: "column"
+			width: '500px',
+			display: 'flex',
+			alignItems: 'center',
+			alignContent: 'center',
+			flexDirection: 'column'
 		}}
 	>
 		<Icon
 			className="material-icons"
 			style={{
-				fontSize: "6em",
-				color: "green"
+				fontSize: '6em',
+				color: 'green'
 			}}
 		>
 			check_circle

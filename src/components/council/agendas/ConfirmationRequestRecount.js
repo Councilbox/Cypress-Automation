@@ -17,12 +17,12 @@ const ConfirmationRequestRecount = ({ translate, agenda, recount, client }) => {
                 agendaId: agenda.id
             }
         });
-        setData(response.data.agendaRecount)
+        setData(response.data.agendaRecount);
     }, [agenda.id]);
 
     React.useEffect(() => {
         getData();
-    }, [getData])
+    }, [getData]);
 
     usePolling(getData, 10000);
 
@@ -59,8 +59,8 @@ const ConfirmationRequestRecount = ({ translate, agenda, recount, client }) => {
 
             }
         </div>
-    )
-}
+    );
+};
 
 const PercentageSection = ({ value, color, tooltip, text = '', textColor = 'white' }) => {
     const [showValue, setShowValue] = React.useState(false);
@@ -75,7 +75,7 @@ const PercentageSection = ({ value, color, tooltip, text = '', textColor = 'whit
                 setShowValue(false);
             }
         }, 800);
-    }, [value, block.current])
+    }, [value, block.current]);
 
 
     const renderSection = () => (
@@ -102,17 +102,17 @@ const PercentageSection = ({ value, color, tooltip, text = '', textColor = 'whit
         >
             {(text && showValue) && text}
         </div>
-    )
+    );
 
     if(tooltip && value > 0){
         return (
             <Tooltip title={tooltip}>
                 {renderSection()}
             </Tooltip>
-        )
+        );
     }
 
     return renderSection();
-}
+};
 
 export default withApollo(ConfirmationRequestRecount);

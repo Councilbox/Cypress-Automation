@@ -1,18 +1,18 @@
-import React from "react";
-import { Card } from "material-ui";
-import { withApollo } from "react-apollo";
+import React from 'react';
+import { Card } from 'material-ui';
+import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import AgendaSelector from "./AgendaSelector";
-import AgendaDetailsSection from "./AgendaDetailsSection";
-import { LoadingSection, Scrollbar, AlertConfirm } from "../../../displayComponents";
+import AgendaSelector from './AgendaSelector';
+import AgendaDetailsSection from './AgendaDetailsSection';
+import { LoadingSection, Scrollbar, AlertConfirm } from '../../../displayComponents';
 import { AGENDA_STATES } from '../../../constants';
-import { useOldState, usePolling } from "../../../hooks";
-import { isMobile } from "../../../utils/screen";
+import { useOldState, usePolling } from '../../../hooks';
+import { isMobile } from '../../../utils/screen';
 
 const getInitialSelectedPoint = agendas => {
 	const index = agendas.findIndex(agenda => agenda.pointState === AGENDA_STATES.DISCUSSION);
 	return index !== -1 ? index : 0;
-}
+};
 
 const reducer = (state, action) => {
 	const actions = {
@@ -33,10 +33,10 @@ const reducer = (state, action) => {
 			...state,
 			selectedPoint: action.value
 		})
-	}
+	};
 
 	return actions[action.type] ? actions[action.type]() : state;
-}
+};
 
 
 const AgendaManager = ({ translate, council, company, stylesDiv, client, ...props }, ref) => {
@@ -93,8 +93,8 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 	const changeEditedVotings = value => {
 		setState({
 			editedVotings: value
-		})
-	}
+		});
+	};
 
 	const showVotingsAlert = cb => {
 		setState({
@@ -104,16 +104,16 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 				setState({
 					editedVotings: false,
 					votingsAlert: false
-				})
+				});
 			}
 		});
-	}
+	};
 
 	const closeVotingsAlert = () => {
 		setState({
 			votingsAlert: false
 		});
-	}
+	};
 
 	const changeSelectedPoint = index => {
 		const cb = () => dispatch({ type: 'SET_SELECTED_POINT', value: index });
@@ -127,17 +127,17 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 
 	const nextPoint = () => {
 		if(selectedPoint < data.agendas.length - 1){
-			dispatch({ type: 'NEXT_POINT' })
+			dispatch({ type: 'NEXT_POINT' });
 			// setState({
 			// 	selectedPoint: state.selectedPoint + 1
 			// });
 		}
-	}
+	};
 
 	React.useImperativeHandle(ref, () => ({
 		showVotingsAlert,
 		state
-	}))
+	}));
 
 	if (!data.agendas || selectedPoint === null) {
 		return <LoadingSection />;
@@ -149,12 +149,12 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 		return (
 			<div
 				style={{
-					width: "calc(100% - 2px)",
-					height: "100%",
+					width: 'calc(100% - 2px)',
+					height: '100%',
 					maxHeight: 'calc(100% - 3em)',
 					borderLeft: '1px solid gainsboro',
-					overflow: "hidden",
-					backgroundColor: "white",
+					overflow: 'hidden',
+					backgroundColor: 'white',
 				}}
 				onClick={props.openMenu}
 			>
@@ -180,19 +180,19 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 	return (
 		<div
 			style={{
-				width: "100%",
-				height: "100%",
-				display: "flex",
-				flexDirection: "row",
+				width: '100%',
+				height: '100%',
+				display: 'flex',
+				flexDirection: 'row',
 			}}
 		>
 			<Card
 				style={{
-					width: isMobile ? '3em' : "5em",
-					height: "100%",
+					width: isMobile ? '3em' : '5em',
+					height: '100%',
 					borderLeft: '1px solid gainsboro',
-					overflow: "auto",
-					backgroundColor: "white"
+					overflow: 'auto',
+					backgroundColor: 'white'
 				}}
 			>
 				<Scrollbar autoHide={true}>
@@ -214,10 +214,10 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 			<div
 				style={{
 					width: `calc(100% - ${isMobile ? '3em' : '5em'})`,
-					height: "100%",
-					padding: "0",
-					display: "flex",
-					flexDirection: "row",
+					height: '100%',
+					padding: '0',
+					display: 'flex',
+					flexDirection: 'row',
 					outline: 0
 				}}
 				tabIndex="0"
@@ -263,7 +263,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 			/>
 		</div>
 	);
-}
+};
 
 export const agendaManager = gql`
 	query AgendaManagerFields($companyId: Int!, $councilId: Int!) {

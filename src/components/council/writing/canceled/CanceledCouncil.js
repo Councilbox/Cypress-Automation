@@ -22,6 +22,6 @@ const CanceledCouncil = ({ council, translate }) => (
                 </Card>
             }
         </CardPageLayout>
-    )
+    );
 
 export default CanceledCouncil;

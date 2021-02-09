@@ -15,7 +15,7 @@ const EarlyVoteModal = ({ state, setState, acceptState, participant, council, tr
                     assistanceIntention: acceptState,
                     requireDoc: false,
                     earlyVotes: Array.from(selected.values())
-                })
+                });
                 requestClose();
             }}
             open={open}
@@ -34,7 +34,7 @@ const EarlyVoteModal = ({ state, setState, acceptState, participant, council, tr
             }
             requestClose={requestClose}
         />
-    )
-}
+    );
+};
 
 export default EarlyVoteModal;

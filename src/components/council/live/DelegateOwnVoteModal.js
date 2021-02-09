@@ -1,7 +1,7 @@
-import React from "react";
-import { Typography, Card, MenuItem } from "material-ui";
-import { graphql, withApollo } from "react-apollo";
-import { toast } from "react-toastify";
+import React from 'react';
+import { Typography, Card, MenuItem } from 'material-ui';
+import { graphql, withApollo } from 'react-apollo';
+import { toast } from 'react-toastify';
 import {
 	AlertConfirm,
 	Icon,
@@ -10,10 +10,10 @@ import {
 	TextInput,
 	Scrollbar,
 	LiveToast
-} from "../../../displayComponents";
-import { participantsToDelegate } from "../../../queries";
-import { DELEGATION_USERS_LOAD } from "../../../constants";
-import { addDelegation } from "../../../queries/liveParticipant";
+} from '../../../displayComponents';
+import { participantsToDelegate } from '../../../queries';
+import { DELEGATION_USERS_LOAD } from '../../../constants';
+import { addDelegation } from '../../../queries/liveParticipant';
 
 const DelegateOwnVoteModal = ({ translate, participant, show, client, council, inModal, setInModal, ...props }) => {
 	const [data, setData] = React.useState({});
@@ -24,7 +24,7 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, i
 	const [options, setOptions] = React.useState({
 		offset: 0,
 		limit: DELEGATION_USERS_LOAD
-	})
+	});
 
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
@@ -68,29 +68,29 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, i
 		const variables = {
 			councilId: council.id,
 			participantId: participant.id,
-		}
+		};
 
 		if (filters.text) {
 			variables.filters = [{
-				field: "fullName",
+				field: 'fullName',
 				text: filters.text.trim()
-			}]
+			}];
 		}
 
 		variables.options = options;
 		return variables;
-	}
+	};
 
 	const loadMore = () => {
 		setOptions({
 			offset: data.liveParticipantsToDelegate.list.length,
 			limit: DELEGATION_USERS_LOAD
 		});
-	}
+	};
 
 	const close = () => {
 		props.requestClose();
-	}
+	};
 
 	const delegateVote = async id => {
 		if (props.addRepresentative) {
@@ -114,9 +114,9 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, i
 					/>, {
 					position: toast.POSITION.TOP_RIGHT,
 					autoClose: true,
-					className: "errorToast"
+					className: 'errorToast'
 				}
-				)
+				);
 			} else if (response.errors[0].code === 711) {
 				toast(
 					<LiveToast
@@ -124,9 +124,9 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, i
 					/>, {
 					position: toast.POSITION.TOP_RIGHT,
 					autoClose: true,
-					className: "errorToast"
+					className: 'errorToast'
 				}
-				)
+				);
 			} else if (response.errors[0].code === 715) {
 				toast(
 					<LiveToast
@@ -134,12 +134,12 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, i
 					/>, {
 					position: toast.POSITION.TOP_RIGHT,
 					autoClose: true,
-					className: "errorToast"
+					className: 'errorToast'
 				}
-				)
+				);
 			}
 		}
-	}
+	};
 
 	const updateFilterText = text => {
 		setOptions({
@@ -147,7 +147,7 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, i
 			limit: DELEGATION_USERS_LOAD
 		});
 		setFilters({ text });
-	}
+	};
 
 	function _renderBody() {
 		const participants = loading ? [] : data.liveParticipantsToDelegate.list;
@@ -155,10 +155,10 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, i
 		const rest = total - participants.length - 1;
 
 		return (
-			<div style={{ width: "600px" }}>
+			<div style={{ width: '600px' }}>
 				<TextInput
 					adornment={<Icon>search</Icon>}
-					floatingText={" "}
+					floatingText={' '}
 					type="text"
 					value={filters.text}
 					onChange={event => {
@@ -168,9 +168,9 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, i
 
 				<div
 					style={{
-						height: "300px",
-						overflow: "hidden",
-						position: "relative"
+						height: '300px',
+						overflow: 'hidden',
+						position: 'relative'
 					}}
 				>
 					{loading ? (
@@ -236,7 +236,7 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, i
 		);
 	}
 	if (inModal) {
-		return(<div>{_renderBody()}</div>)
+		return(<div>{_renderBody()}</div>);
 	}
 		return (
 			<AlertConfirm
@@ -247,9 +247,9 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, i
 				title={translate.to_delegate_vote}
 			/>
 		);
-}
+};
 
 
 export default graphql(addDelegation, {
-	name: "delegateVote"
+	name: 'delegateVote'
 })(withApollo(DelegateOwnVoteModal));

@@ -1,7 +1,7 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import TextArea from "antd/lib/input/TextArea";
+import TextArea from 'antd/lib/input/TextArea';
 import { moment } from '../../../containers/App';
 import { AlertConfirm, BasicButton, Scrollbar } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
@@ -26,7 +26,7 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
     });
     const { loading, error, setStatus } = useStatus(STATUS.LOADING);
 
-    const [errors, setErrors] = React.useState({})
+    const [errors, setErrors] = React.useState({});
     const subdomain = useSubdomain();
 
     const checkRequiredFields = () => {
@@ -50,7 +50,7 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
 
         setErrors(newErrors);
         return Object.keys(newErrors).length > 0;
-    }
+    };
 
     const getData = React.useCallback(async () => {
         const response = await client.query({
@@ -77,7 +77,7 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
             }
         }
         setStatus(STATUS.IDDLE);
-    }, [participant.id, client])
+    }, [participant.id, client]);
 
     const resetAndClose = () => {
         timeout = setTimeout(() => {
@@ -85,13 +85,13 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
             setStatus(STATUS.IDDLE);
             requestClose();
         }, 1800);
-    }
+    };
 
     React.useEffect(() => {
         if (!open) {
             return () => clearTimeout(timeout);
         }
-    }, [open])
+    }, [open]);
 
     const sendSurvey = async () => {
         if (!checkRequiredFields()) {
@@ -112,7 +112,7 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
             });
             resetAndClose();
         }
-    }
+    };
 
     // const updateSurvey = async () => {
     //     if(!checkRequiredFields()){
@@ -138,25 +138,25 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
 
     React.useEffect(() => {
         getData();
-    }, [getData])
+    }, [getData]);
 
     const disabled = !!state.id;
 
     return (
         <AlertConfirm
-            bodyStyle={{ minWidth: "60vw", overflow: 'hidden', minHeight: '70vh', maxHeight: '95vh', height: '50px', padding: '1.5em' }}
+            bodyStyle={{ minWidth: '60vw', overflow: 'hidden', minHeight: '70vh', maxHeight: '95vh', height: '50px', padding: '1.5em' }}
             bodyText={
-                <Scrollbar style={{ marginTop: "1rem" }}>
+                <Scrollbar style={{ marginTop: '1rem' }}>
                     <div style={{ padding: '1em' }}>
                         <div style={{
-                            width: "100%",
+                            width: '100%',
                             borderRadius: '3px',
                             marginBottom: '1em',
                             background: 'linear-gradient(to top,#b6d1dc -30%, #7976b0 120%)'
                         }}>
-                            <div style={{ display: "flex", justifyContent: "center", alignItems: 'center', padding: "0 1em" }}>
+                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0 1em' }}>
                                 <div>
-                                    <div style={{ fontWeight: "800", color: "white", fontSize: '.9rem', padding: '1rem' }} >
+                                    <div style={{ fontWeight: '800', color: 'white', fontSize: '.9rem', padding: '1rem' }} >
                                         <p style={{ margin: '0' }}>
                                             {translate.rate_app.replace(/{{appName}}/, subdomain.name || 'Councilbox')}
                                         </p>
@@ -164,14 +164,14 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
                                 </div>
                             </div>
                         </div>
-                        <div style={{ border: "none", borderRadius: "1px", textAlign: 'left', color: "black", fontSize: '14px' }}>
+                        <div style={{ border: 'none', borderRadius: '1px', textAlign: 'left', color: 'black', fontSize: '14px' }}>
                             <div>
                                 {/* <Scrollbar> */}
                                 <div>
                                     <div>{translate.rate_the_satisfaction.replace(/{{appName}}/, subdomain.name || 'Councilbox')}</div>
                                     <div>
                                         <Stars
-                                            name={"satisfaction"}
+                                            name={'satisfaction'}
                                             value={state.data.satisfaction}
                                             disabled={disabled}
                                             error={errors.satisfaction}
@@ -182,7 +182,7 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
                                                         ...state.data,
                                                         satisfaction: +value
                                                     }
-                                                })
+                                                });
                                             }}
                                         />
                                     </div>
@@ -191,7 +191,7 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
                                     <div>{translate.rate_performance.replace(/{{appName}}/, subdomain.name || 'Councilbox')}.</div>
                                     <div>
                                         <Stars
-                                            name={"performance"}
+                                            name={'performance'}
                                             value={state.data.performance}
                                             error={errors.performance}
                                             disabled={disabled}
@@ -202,7 +202,7 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
                                                         ...state.data,
                                                         performance: +value
                                                     }
-                                                })
+                                                });
                                             }}
                                         />
                                     </div>
@@ -211,7 +211,7 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
                                     <div>{translate.degree_recomend_use.replace(/{{appName}}/, subdomain.name || 'Councilbox')}.</div>
                                     <div>
                                         <Stars
-                                            name={"recommend"}
+                                            name={'recommend'}
                                             value={state.data.recommend}
                                             error={errors.recommend}
                                             disabled={disabled}
@@ -222,7 +222,7 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
                                                         ...state.data,
                                                         recommend: +value
                                                     }
-                                                })
+                                                });
                                             }}
                                         />
                                     </div>
@@ -231,7 +231,7 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
                                     <div>{translate.rate_care_received}</div>
                                     <div>
                                         <Stars
-                                            name={"care"}
+                                            name={'care'}
                                             value={state.data.care}
                                             error={errors.care}
                                             disabled={disabled}
@@ -242,21 +242,21 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
                                                         ...state.data,
                                                         care: +value
                                                     }
-                                                })
+                                                });
                                             }}
                                         />
                                     </div>
                                 </div>
                                 <div>
                                     <div>{translate.what_would_you_improve.replace(/{{appName}}/, subdomain.name || 'Councilbox')}</div>
-                                    <div style={{ marginTop: "0.5em" }}>
+                                    <div style={{ marginTop: '0.5em' }}>
                                         <TextArea
                                             style={{
                                                 width: '100%',
                                                 resize: 'none',
                                                 border: 'none',
                                                 padding: '.2rem',
-                                                background: "#d0d0d080"
+                                                background: '#d0d0d080'
                                             }}
                                             value={state.data.suggestions}
                                             disabled={disabled}
@@ -267,7 +267,7 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
                                                         ...state.data,
                                                         suggestions: event.target.value
                                                     }
-                                                })
+                                                });
                                             }}
                                         />
                                     </div>
@@ -281,7 +281,7 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
                             }
 
                             <div>
-                                <div style={{ marginTop: "1.5em", display: 'flex', flexDirection: 'row', padding: '1rem' }}>
+                                <div style={{ marginTop: '1.5em', display: 'flex', flexDirection: 'row', padding: '1rem' }}>
                                     {!disabled &&
                                         <BasicButton
                                             onClick={sendSurvey}
@@ -290,10 +290,10 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
                                             error={error}
                                             backgroundColor={{
                                                 background: getPrimary(),
-                                                color: "white",
-                                                borderRadius: "1px",
-                                                padding: "1em 3em 1em 3em",
-                                                marginRight: "1em"
+                                                color: 'white',
+                                                borderRadius: '1px',
+                                                padding: '1em 3em 1em 3em',
+                                                marginRight: '1em'
                                             }}
                                         >
                                         </BasicButton>
@@ -310,10 +310,10 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
                                         backgroundColor={{
                                             background: 'white',
                                             color: getPrimary(),
-                                            borderRadius: "1px",
+                                            borderRadius: '1px',
                                             fontWeight: '700',
-                                            padding: "1em 3em 1em 3em",
-                                            boxShadow: "none"
+                                            padding: '1em 3em 1em 3em',
+                                            boxShadow: 'none'
                                         }}
                                     >
                                     </BasicButton>
@@ -326,7 +326,7 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
             open={open}
             requestClose={requestClose}
         />
-    )
-}
+    );
+};
 
 export default withApollo(CouncilSurveyModal);

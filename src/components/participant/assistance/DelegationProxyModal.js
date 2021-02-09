@@ -6,7 +6,7 @@ import { AlertConfirm, Grid, GridItem, ReactSignature, BasicButton, Scrollbar, H
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import withWindowSize from '../../../HOCs/withWindowSize';
 import { moment } from '../../../containers/App';
-import { isMobile } from "../../../utils/screen";
+import { isMobile } from '../../../utils/screen';
 import DownloadUnsignedProxy from './DownloadUnsignedProxy';
 import { voteValuesText } from '../../../utils/CBX';
 
@@ -61,22 +61,22 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
 					height: (signatureContainer.current.getBoundingClientRect().height),
                 });
             }
-		}, 150)
+		}, 150);
 		return () => clearTimeout(timeout);
-    }, [open, innerWidth])
+    }, [open, innerWidth]);
 
     const getSignaturePreview = () => {
         if(signaturePreview.current){
             signaturePreview.current.fromDataURL(signature.current.toDataURL());
         }
-    }
+    };
 
     const sendDelegationData = async signature => {
         setLoading(true);
         await action(signature);
         setLoading(false);
         requestClose();
-    }
+    };
 
     React.useEffect(() => {
         if (signaturePreview.current) {
@@ -101,7 +101,7 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                 disabled
                 ref={signaturePreview}
             />
-        )
+        );
 
         const buildCustomProxy = proxy => {
             const segments = proxy.split('{{signature}}');
@@ -112,7 +112,7 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                         <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(proxy, { council, participant, delegate: delegation }) }}></div>
                         {signature}
                     </>
-                )
+                );
             }
 
             return (
@@ -125,8 +125,8 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
 
                         </>
                     ))
-            )
-        }
+            );
+        };
 
         const getProxyBody = () => {
             const proxyBody = <>
@@ -148,7 +148,7 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                         <div>{proxyTranslate.sir}  {participant.name} {participant.surname || ''} </div>
                     </>
                 }
-            </>
+            </>;
 
             if(council.statute.doubleColumnDocs){
                 return (
@@ -168,16 +168,16 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                             proxyBody
                         }
                     </div>
-                )
+                );
             }
 
 
             if(council.statute.proxy){
-                return <div dangerouslySetInnerHTML={{ __html: council.statute.proxy }}></div>
+                return <div dangerouslySetInnerHTML={{ __html: council.statute.proxy }}></div>;
             }
 
             return proxyBody;
-        }
+        };
 
         return (
             delegation &&
@@ -191,17 +191,17 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                     <br/>
                     {getProxyBody()}
                 </Card>
-        )
-    }
+        );
+    };
 
-    const disableSendButton = () => existingProxy && (delegation && existingProxy.delegateId === delegation.id)
+    const disableSendButton = () => existingProxy && (delegation && existingProxy.delegateId === delegation.id);
 
     return (
         <AlertConfirm
             open={open}
             loadingAction={loading}
             bodyStyle={{
-                width: isMobile ? '100%' : council.statute.doubleColumnDocs ? "80vw" : "60vw",
+                width: isMobile ? '100%' : council.statute.doubleColumnDocs ? '80vw' : '60vw',
             }}
             PaperProps={{
                 style: {
@@ -211,8 +211,8 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
             requestClose={requestClose}
             title={translate.create_proxy_document}
             bodyText={
-                <Grid style={{ marginTop: "15px", height: "100%" }}>
-                    <GridItem xs={12} md={6} lg={7} style={{ ...(isMobile ? {} : { height: "70vh" }) }} >
+                <Grid style={{ marginTop: '15px', height: '100%' }}>
+                    <GridItem xs={12} md={6} lg={7} style={{ ...(isMobile ? {} : { height: '70vh' }) }} >
                         {isMobile ?
                             proxyPreview()
                         :
@@ -233,9 +233,9 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                             style={{
                                 border: 'solid 2px silver',
                                 color: '#a09aa0',
-                                padding: "0",
+                                padding: '0',
                                 borderRadius: '3px',
-                                marginBottom: "1em",
+                                marginBottom: '1em',
                                 height: isMobile ? '250px' : '300px'
                             }}
                             onMouseDown={() => setSigned(true)}
@@ -268,7 +268,7 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                                 textStyle={{
                                     color: secondary,
                                     border: `1px solid ${secondary}`,
-                                    width: "30%"
+                                    width: '30%'
                                 }}
                                 onClick={clear}
                             />
@@ -278,8 +278,8 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                                 disabled={!signed || disableSendButton()}
                                 loading={loading}
                                 textStyle={{
-                                    color: "white",
-                                    width: "65%"
+                                    color: 'white',
+                                    width: '65%'
                                 }}
                                 onClick={() => sendDelegationData(signature.current.toDataURL())}
                             />
@@ -289,8 +289,8 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
                 </Grid>
             }
         />
-    )
-}
+    );
+};
 
 export default withApollo(withWindowSize(DelegationProxyModal));
 
@@ -326,7 +326,7 @@ const proxyTranslations = {
         salute: 'Salutacions',
         sir: 'D,'
     }
-}
+};
 
 
 
@@ -345,7 +345,7 @@ export const replaceDocsTags = (text, data = {}) => {
             'in_favor_btn': 'In favor',
             'abstention': 'Abstention'
         }
-    }
+    };
 
     const translate = translations[data.language] ? translations[data.language] : translations.es;
 
@@ -367,10 +367,10 @@ export const replaceDocsTags = (text, data = {}) => {
                     <b>${point.agendaSubject}</b>
                 </div>
                 ${translate[voteValuesText(vote.value)]}
-            `
+            `;
 
             return acc;
-        }, ''))
+        }, ''));
     }
 
     text = text.replace(/{{business_name}}/g, data.council.company.businessName);
@@ -380,4 +380,4 @@ export const replaceDocsTags = (text, data = {}) => {
     text = text.replace(/{{dateSecondCall}}/g, moment(data.council.dateStart2ndCall).format('DD/MM/YYYY hh:mm'));
 
     return text;
-}
+};

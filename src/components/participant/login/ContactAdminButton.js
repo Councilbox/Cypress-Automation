@@ -16,7 +16,7 @@ const ContactAdminButton = ({ participant, translate, council, styles, fullWidth
                 fullWidth={fullWidth}
                 color={primary}
                 textStyle={{ color: getPrimary() }}
-                backgroundColor={{ borderRadius: '4px', border: `solid 1px ${getPrimary()}`, backgroundColor: "white", minWidth: "200px", ...styles }}
+                backgroundColor={{ borderRadius: '4px', border: `solid 1px ${getPrimary()}`, backgroundColor: 'white', minWidth: '200px', ...styles }}
             />
             <ContactModal
                 open={modal}
@@ -26,7 +26,7 @@ const ContactAdminButton = ({ participant, translate, council, styles, fullWidth
                 council={council}
             />
         </React.Fragment>
-    )
-}
+    );
+};
 
 export default withApollo(ContactAdminButton);

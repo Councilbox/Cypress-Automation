@@ -52,7 +52,7 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
     const addCompanyDocumentCouncilAttachment = async id => {
         setAttachments([...attachments, id]);
         setCompanyDocumentsModal(false);
-    }
+    };
 
     const sendAttachments = async () => {
         if(!await validateForm()){
@@ -92,7 +92,7 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
             setStep(2);
             notifyAttachmentsAdded(addedAttachments);
         }
-    }
+    };
 
     const validateForm = async () => {
         const errors = {};
@@ -120,14 +120,14 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
         }
 
         return false;
-    }
+    };
 
     const resetAndClose = () => {
         requestClose();
         setStep(0);
         setAttachments([]);
         setMessage('');
-    }
+    };
 
     const notifyAttachmentsAdded = async attachments => {
         const response = await client.mutate({
@@ -146,11 +146,11 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
         });
         refetch();
         setStep(3);
-    }
+    };
 
     const documentIsAlreadyUsed = filename => (errors.repeatedAttachments ? ((errors.repeatedAttachments.findIndex(item => item === filename) !== -1) ?
             translate.used_attachment_error
-        : null) : null)
+        : null) : null);
 
     const modalBody = () => {
         if(step === 1){
@@ -172,29 +172,29 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                         ))
                     )}
                 </>
-            )
+            );
         }
 
         if(step === 2){
             return (
                 <LoadingSection />
-            )
+            );
         }
 
         if(step === 3){
-            return <SuccessMessage />
+            return <SuccessMessage />;
         }
 
         return (
             <>
                 <input
                     type="file"
-                    id={"raised-button-file"}
+                    id={'raised-button-file'}
                     onChange={handleFile}
                     //disabled={uploading}
                     style={{
-                        cursor: "pointer",
-                        position: "absolute",
+                        cursor: 'pointer',
+                        position: 'absolute',
                         top: 0,
                         width: 0,
                         bottom: 0,
@@ -205,15 +205,15 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                 />
                 <DropDownMenu
                     color="transparent"
-                    styleComponent={{ width: "" }}
+                    styleComponent={{ width: '' }}
                     Component={() => <BasicButton
                             color={primary}
-                            icon={<i className={"fa fa-plus"}
+                            icon={<i className={'fa fa-plus'}
                             style={{
                                 cursor: 'pointer',
                                 color: 'white',
                                 fontWeight: '700',
-                                paddingLeft: "5px"
+                                paddingLeft: '5px'
                             }}></i>}
                             text={translate.add}
                             textStyle={{
@@ -232,25 +232,25 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                     }}
                     type="flat"
                     items={
-                        <div style={{ padding: "1em" }}>
+                        <div style={{ padding: '1em' }}>
                             <label htmlFor="raised-button-file">
-                                <div style={{ display: "flex", color: "black", padding: ".5em 0em", cursor: "pointer" }}>
-                                    <div style={{ paddingLeft: "10px" }}>
+                                <div style={{ display: 'flex', color: 'black', padding: '.5em 0em', cursor: 'pointer' }}>
+                                    <div style={{ paddingLeft: '10px' }}>
                                         {translate.upload_file}
                                     </div>
                                 </div>
                             </label>
                         <div
                             style={{
-                                display: "flex",
-                                color: "black",
-                                padding: ".5em 0em",
-                                borderTop: "1px solid" + primary,
-                                cursor: "pointer"
+                                display: 'flex',
+                                color: 'black',
+                                padding: '.5em 0em',
+                                borderTop: '1px solid' + primary,
+                                cursor: 'pointer'
                             }}
                             onClick={() => setCompanyDocumentsModal(true)}
                         >
-                            <div style={{ paddingLeft: "10px" }} >
+                            <div style={{ paddingLeft: '10px' }} >
                                 {translate.my_documentation}
                             </div>
                         </div>
@@ -274,7 +274,7 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                             icon={
                                 <CloseIcon
                                     style={{
-                                        float: "right",
+                                        float: 'right',
                                         color: primary
                                     }}
                                     onClick={() => {
@@ -294,8 +294,8 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                 </div>
 
             </>
-        )
-    }
+        );
+    };
 
     return (
         <>
@@ -324,8 +324,8 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                 }
             />
         </>
-    )
-}
+    );
+};
 
 
 export default AttachmentsModal;

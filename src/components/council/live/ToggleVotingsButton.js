@@ -1,13 +1,13 @@
-import React from "react";
-import { compose, graphql } from "react-apollo";
+import React from 'react';
+import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { closeAgendaVoting, openAgendaVoting } from "../../../queries";
-import { BasicButton, ButtonIcon } from "../../../displayComponents";
-import { moment } from "../../../containers/App";
-import { getPrimary } from "../../../styles/colors";
-import { useOldState } from "../../../hooks";
+import { closeAgendaVoting, openAgendaVoting } from '../../../queries';
+import { BasicButton, ButtonIcon } from '../../../displayComponents';
+import { moment } from '../../../containers/App';
+import { getPrimary } from '../../../styles/colors';
+import { useOldState } from '../../../hooks';
 import { isAnonym, isConfirmationRequest } from '../../../utils/CBX';
-import { isMobile } from "../../../utils/screen";
+import { isMobile } from '../../../utils/screen';
 
 const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 	const [loading, setLoading] = React.useState(false);
@@ -36,7 +36,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 			setLoading(false);
 			props.refetch();
 		}
-	}
+	};
 
 	const openHybridVotings = async () => {
 		setLoading(true);
@@ -47,7 +47,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 		});
 		setLoading(false);
 		props.refetch();
-	}
+	};
 
 	const reopenAgendaVoting = async () => {
 		setLoading(true);
@@ -60,7 +60,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 			setLoading(false);
 			props.refetch();
 		}
-	}
+	};
 
 	const closeAgendaVoting = async () => {
 		const cb = async () => {
@@ -74,22 +74,22 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 				setLoading(false);
 				props.refetch();
 			}
-		}
+		};
 
 		if (!props.editedVotings) {
 			cb();
 		} else {
 			props.showVotingsAlert(cb);
 		}
-	}
+	};
 
 	const getVotingClosedSection = () => {
 		if (isAnonym(agenda.subjectType)) {
-			return <span />
+			return <span />;
 		}
 
 		return (
-			<div style={{ width: "100%", ...(!isMobile ? { float: 'right' } : {}) }}>
+			<div style={{ width: '100%', ...(!isMobile ? { float: 'right' } : {}) }}>
 				<BasicButton
 					text={isConfirmationRequest(agenda.subjectType) ? translate.open_to_answer : translate.reopen_voting}
 					color={'white'}
@@ -103,26 +103,26 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 						/>
 					}
 					floatRight={!isMobile}
-					buttonStyle={{ width: "18em" }}
+					buttonStyle={{ width: '18em' }}
 					onClick={reopenAgendaVoting}
 					textStyle={{
-						fontSize: "0.75em",
-						fontWeight: "700",
-						textTransform: "none",
+						fontSize: '0.75em',
+						fontWeight: '700',
+						textTransform: 'none',
 						color: primary,
 					}}
 				/>
 			</div>
-		)
-	}
+		);
+	};
 
 	return (
 		<React.Fragment >
 			{agenda.votingState === 0 && (
-				<div style={{ width: "100%", ...(!isMobile ? { float: 'right' } : {}) }}>
+				<div style={{ width: '100%', ...(!isMobile ? { float: 'right' } : {}) }}>
 					<BasicButton
 						text={isConfirmationRequest(agenda.subjectType) ? translate.open_to_answer : translate.active_votings}
-						color={"white"}
+						color={'white'}
 						loading={loading}
 						disabled={loading}
 						onClick={openVoting}
@@ -134,11 +134,11 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 							/>
 						}
 						floatRight={!isMobile}
-						buttonStyle={{ minWidth: "11em" }}
+						buttonStyle={{ minWidth: '11em' }}
 						textStyle={{
-							fontSize: "0.75em",
-							fontWeight: "700",
-							textTransform: "none",
+							fontSize: '0.75em',
+							fontWeight: '700',
+							textTransform: 'none',
 							color: primary
 						}}
 					/>
@@ -163,19 +163,19 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 										/>
 									}
 									floatRight={!isMobile}
-									buttonStyle={{ width: "18em" }}
+									buttonStyle={{ width: '18em' }}
 									onClick={closeAgendaVoting}
 									textStyle={{
-										fontSize: "0.75em",
-										fontWeight: "700",
-										textTransform: "none",
-										color: "white"
+										fontSize: '0.75em',
+										fontWeight: '700',
+										textTransform: 'none',
+										color: 'white'
 									}}
 								/>
 							</div>
 						</div>
 						:
-						<div style={{ width: "100%", ...(!isMobile ? { float: 'right' } : {}) }}>
+						<div style={{ width: '100%', ...(!isMobile ? { float: 'right' } : {}) }}>
 							<BasicButton
 								text={isConfirmationRequest(agenda.subjectType) ? translate.close_answers : translate.close_point_votations}
 								color={primary}
@@ -189,13 +189,13 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 									/>
 								}
 								floatRight={!isMobile}
-								buttonStyle={{ width: "18em" }}
+								buttonStyle={{ width: '18em' }}
 								onClick={closeAgendaVoting}
 								textStyle={{
-									fontSize: "0.75em",
-									fontWeight: "700",
-									textTransform: "none",
-									color: "white"
+									fontSize: '0.75em',
+									fontWeight: '700',
+									textTransform: 'none',
+									color: 'white'
 								}}
 							/>
 						</div>
@@ -204,7 +204,7 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 			)}
 			{agenda.votingState === 2 && getVotingClosedSection()}
 			{agenda.votingState === 4 &&
-				<div style={{ width: "100%", ...(!isMobile ? { float: 'right' } : {}) }}>
+				<div style={{ width: '100%', ...(!isMobile ? { float: 'right' } : {}) }}>
 					<BasicButton
 						text={translate.close_point_votations}
 						color={primary}
@@ -218,22 +218,22 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 							/>
 						}
 						floatRight={!isMobile}
-						buttonStyle={{ width: "18em" }}
+						buttonStyle={{ width: '18em' }}
 						onClick={closeAgendaVoting}
 						textStyle={{
-							fontSize: "0.75em",
-							fontWeight: "700",
-							textTransform: "none",
-							color: "white",
+							fontSize: '0.75em',
+							fontWeight: '700',
+							textTransform: 'none',
+							color: 'white',
 						}}
 					/>
 				</div>
 			}
 			{agenda.votingState === 3 &&
-				<div style={{ width: "100%", ...(!isMobile ? { float: 'right' } : {}) }}>
+				<div style={{ width: '100%', ...(!isMobile ? { float: 'right' } : {}) }}>
 					<BasicButton
 						text={translate.open_in_person_votings}
-						color={"white"}
+						color={'white'}
 						loading={loading}
 						disabled={loading}
 						onClick={openHybridVotings}
@@ -245,19 +245,19 @@ const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
 							/>
 						}
 						floatRight={!isMobile}
-						buttonStyle={{ minWidth: "11em" }}
+						buttonStyle={{ minWidth: '11em' }}
 						textStyle={{
-							fontSize: "0.75em",
-							fontWeight: "700",
-							textTransform: "none",
+							fontSize: '0.75em',
+							fontWeight: '700',
+							textTransform: 'none',
 							color: primary
 						}}
 					/>
 				</div>
 			}
 		</React.Fragment>
-	)
-}
+	);
+};
 
 const reopenAgendaVoting = gql`
 	mutation ReopenAgendaVoting($agendaId: Int!){
@@ -279,17 +279,17 @@ const openHybridVoting = gql`
 
 export default compose(
 	graphql(openAgendaVoting, {
-		name: "openAgendaVoting"
+		name: 'openAgendaVoting'
 	}),
 
 	graphql(openHybridVoting, {
-		name: "openHybridVoting"
+		name: 'openHybridVoting'
 	}),
 
 	graphql(closeAgendaVoting, {
-		name: "closeAgendaVoting"
+		name: 'closeAgendaVoting'
 	}),
 	graphql(reopenAgendaVoting, {
-		name: "reopenAgendaVoting"
+		name: 'reopenAgendaVoting'
 	})
 )(ToggleVotingsButton);

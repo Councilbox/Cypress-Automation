@@ -1,6 +1,6 @@
-import React from "react";
-import { TextInput } from "./index";
-import * as CBX from "../utils/CBX";
+import React from 'react';
+import { TextInput } from './index';
+import * as CBX from '../utils/CBX';
 
 const MajorityInput = ({
 	type,
@@ -14,14 +14,14 @@ const MajorityInput = ({
 }) => {
 	if (CBX.isMajorityPercentage(type)) {
 		return (
-			<div style={{ width: "100%", ...style }}>
+			<div style={{ width: '100%', ...style }}>
 				<TextInput
-					type={"number"}
+					type={'number'}
 					value={value}
 					errorText={majorityError}
 					min={1}
 					max={100}
-					adornment={"%"}
+					adornment={'%'}
 					onChange={event => onChange(event.target.value <= 1 ? 1 : event.target.value > 100 ? 100 : event.nativeEvent.target.value)}
 				/>
 			</div>
@@ -30,10 +30,10 @@ const MajorityInput = ({
 
 	if (CBX.isMajorityFraction(type)) {
 		return (
-			<div style={{ width: "100%", display: 'flex', alignItems: 'center', ...style }}>
+			<div style={{ width: '100%', display: 'flex', alignItems: 'center', ...style }}>
 				<div style={{ width: '5em', display: 'flex', alignItems: 'center' }}>
 					<TextInput
-						type={"number"}
+						type={'number'}
 						value={value}
 						min="1"
 						errorText={majorityError}
@@ -44,7 +44,7 @@ const MajorityInput = ({
 				/
 				<div style={{ width: '5em', marginLeft: '0.8em', isplay: 'flex', alignItems: 'center' }}>
 					<TextInput
-						type={"number"}
+						type={'number'}
 						value={divider}
 						min="1"
 						errorText={dividerError}
@@ -61,7 +61,7 @@ const MajorityInput = ({
 		return (
 			<div style={{ width: '6em', ...style }}>
 				<TextInput
-					type={"number"}
+					type={'number'}
 					min="1"
 					value={value}
 					errorText={majorityError}

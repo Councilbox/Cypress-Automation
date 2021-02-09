@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 import 'antd/lib/tabs/style/index.css';
 import Tabs from 'antd/lib/tabs';
-import "../styles/react-tabs.css";
+import '../styles/react-tabs.css';
 import Link from './LinkWithoutStyling';
-import { bHistory } from "../containers/App";
+import { bHistory } from '../containers/App';
 
 const TabsScreen = ({ selected, controlled, tabsIndex, tabsInfo, linked, windowSize, styles }) => {
 	const [selectedTab, setSelected] = React.useState(0);
@@ -22,18 +22,18 @@ const TabsScreen = ({ selected, controlled, tabsIndex, tabsInfo, linked, windowS
 		} else {
 			setSelected(tabIndex);
 		}
-	}
+	};
 
 	return (
 		<div
 			style={{
-				overflowY: "hidden",
-				width: "100%",
-				height: "100%",
-				display: "flex",
+				overflowY: 'hidden',
+				width: '100%',
+				height: '100%',
+				display: 'flex',
 				...(windowSize === 'xs' ? { paddingBottom: '3.5em' } : {}),
-				alignItems: "center",
-				flexDirection: "column",
+				alignItems: 'center',
+				flexDirection: 'column',
 				borderBottom: '1px solid gainsboro',
 				borderRadius: '4px',
 				...styles
@@ -56,13 +56,13 @@ const TabsScreen = ({ selected, controlled, tabsIndex, tabsInfo, linked, windowS
 							}
 							key={'' + index}
 							style={{
-								height: "calc(100% - 40px) !important",
-								overflow: "hidden",
+								height: 'calc(100% - 40px) !important',
+								overflow: 'hidden',
 								border: '1px solid #e8e8e8',
 								borderTop: 'none',
 								boxShadow:
-									"0 1px 4px 0 rgba(0, 0, 0, 0.14)",
-								borderRadius: "0px 5px 5px 5px"
+									'0 1px 4px 0 rgba(0, 0, 0, 0.14)',
+								borderRadius: '0px 5px 5px 5px'
 							}}
 						>
 							<div style={{ width: '100%', height: '100%' }}>
@@ -73,7 +73,7 @@ const TabsScreen = ({ selected, controlled, tabsIndex, tabsInfo, linked, windowS
 			</Tabs>
 		</div>
 	);
-}
+};
 
 
 export default TabsScreen;

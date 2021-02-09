@@ -1,10 +1,10 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { CardPageLayout, TabsScreen, Scrollbar } from "../../../../displayComponents";
+import { CardPageLayout, TabsScreen, Scrollbar } from '../../../../displayComponents';
 import ActConvenedParticipants from './ActConvenedParticipants';
-import ActAttendantsTable from "./ActAttendantsTable";
-import ActEditor from "./ActEditor";
+import ActAttendantsTable from './ActAttendantsTable';
+import ActEditor from './ActEditor';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import Convene from '../../convene/Convene';
 import SendActPage from './SendActPage';
@@ -69,7 +69,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
             component: () => (
                     props.confirmed ?
                         <div style={{ height: '100%' }}>
-                            <div style={{ height: "calc(100%)", overflow: 'hidden', position: 'relative', }}>
+                            <div style={{ height: 'calc(100%)', overflow: 'hidden', position: 'relative', }}>
                                 <Scrollbar>
                                     <div style={{ padding: '1.5em', overflow: 'hidden', position: 'relative' }}>
                                         <ActHTMLTab council={council} translate={translate} company={props.company} />
@@ -245,7 +245,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                         />
                     </Scrollbar>
                 )
-        })
+        });
     }
 
     tabs.push({
@@ -262,7 +262,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
 
     return (
 
-            <div style={{ height: '100%', paddingTop: "0px", width: '100%' }}>
+            <div style={{ height: '100%', paddingTop: '0px', width: '100%' }}>
                 <div style={{ width: '100%', height: '100%', backgroundColor: 'white' }}>
                     <NavigationHeader
                         translate={translate}
@@ -279,7 +279,7 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                                 <div key={`tab_${tab.value}`} style={{ width: '100%', height: state.tab === tab.value ? 'calc(100% - 2em)' : '0', overflow: 'hidden' }}>
                                     {tab.component()}
                                 </div>
-                            )
+                            );
                         }
 
                         if (state.tab === tab.value) {
@@ -287,22 +287,22 @@ const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
                                 <div key={`tab_${tab.value}`} style={{ width: '100%', height: 'calc(100% - 2em)' }}>
                                     {tab.component()}
                                 </div>
-                            )
+                            );
                         }
 
-                        return null
+                        return null;
                     })}
                 </div>
             </div>
 
-    )
-}
+    );
+};
 
 const TabContainer = ({ children, style }) => (
     <div style={{ height: 'calc(100% - 40px)', ...style }}>
         {children}
     </div>
-)
+);
 
 
 const recordingsIframe = gql`

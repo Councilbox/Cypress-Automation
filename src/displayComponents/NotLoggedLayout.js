@@ -12,7 +12,7 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
     const imgUrl = window.location.pathname.includes('participant') ?
         customRoomBackground || (customBackground || bg)
         :
-        customBackground || bg
+        customBackground || bg;
 
     React.useEffect(() => {
         const img = new Image();
@@ -21,17 +21,17 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
     }, [customBackground, customRoomBackground]);
 
     if (loadingImg) {
-        return <LoadingMainApp />
+        return <LoadingMainApp />;
     }
 
     return (
         <div
             style={{
-                display: "flex",
+                display: 'flex',
                 flex: 1,
-                flexDirection: "column",
-                height: "100%",
-                overflow: "auto",
+                flexDirection: 'column',
+                height: '100%',
+                overflow: 'auto',
                 background: `url(${imgUrl})`,
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
@@ -51,24 +51,24 @@ const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, coun
                 councilIsFinished={councilIsFinished}
                 setSelectHeadFinished={setSelectHeadFinished}
                 selectHeadFinished={selectHeadFinished}
-                contactAdmin={window.location.pathname.search("attendance")}
+                contactAdmin={window.location.pathname.search('attendance')}
                 council={props.council}
                 participant={props.participant}
             />
             <div
                 className="row"
                 style={{
-                    width: "100%",
+                    width: '100%',
                     margin: 0,
                     backgroundColor: 'rgba(0, 0, 0, 0.05)',
-                    fontSize: "0.85em",
-                    height: "100%",
+                    fontSize: '0.85em',
+                    height: '100%',
                 }}
             >
                 {children}
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default NotLoggedLayout;

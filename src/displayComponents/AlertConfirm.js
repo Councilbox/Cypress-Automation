@@ -1,13 +1,13 @@
-import React, { Fragment } from "react";
+import React, { Fragment } from 'react';
 import Dialog, {
 	DialogActions,
 	DialogContent,
 	DialogTitle
-} from "material-ui/Dialog";
-import FontAwesome from "react-fontawesome";
-import BasicButton from "./BasicButton";
-import { getPrimary, getSecondary } from "../styles/colors";
-import { isMobile } from "../utils/screen";
+} from 'material-ui/Dialog';
+import FontAwesome from 'react-fontawesome';
+import BasicButton from './BasicButton';
+import { getPrimary, getSecondary } from '../styles/colors';
+import { isMobile } from '../utils/screen';
 
 const AlertConfirm = ({
 	title,
@@ -39,8 +39,8 @@ const AlertConfirm = ({
 				<BasicButton
 					text={buttonCancel}
 					textStyle={{
-						textTransform: "none",
-						fontWeight: "700",
+						textTransform: 'none',
+						fontWeight: '700',
 					}}
 					primary={true}
 					color='transparent'
@@ -60,11 +60,11 @@ const AlertConfirm = ({
 						loading={loadingAction}
 						success={successAction}
 						textStyle={{
-							color: "white",
-							textTransform: "none",
-							fontWeight: "700"
+							color: 'white',
+							textTransform: 'none',
+							fontWeight: '700'
 						}}
-						buttonStyle={{ marginLeft: "1em" }}
+						buttonStyle={{ marginLeft: '1em' }}
 						color={primary}
 						onClick={acceptAction}
 						claseHover={'buttonAceptarDeModalAlert'}
@@ -88,14 +88,14 @@ const AlertConfirm = ({
 		>
 			{!!requestClose && (
 				< FontAwesome
-					name={"close"}
+					name={'close'}
 					style={{
-						cursor: "pointer",
-						fontSize: "1.5em",
+						cursor: 'pointer',
+						fontSize: '1.5em',
 						color: getSecondary(),
-						position: "absolute",
-						right: "12px",
-						top: "18px"
+						position: 'absolute',
+						right: '12px',
+						top: '18px'
 					}}
 					onClick={requestClose}
 				/>
@@ -104,17 +104,17 @@ const AlertConfirm = ({
 				<DialogTitle
 					style={{
 						margin: '0px 8px 0.8em',
-						padding: "1.1em 2em 1.1em 1em",
-						fontSize: "1.2em",
-						borderBottom: "1px solid gainsboro",
-						overflow: "hidden"
+						padding: '1.1em 2em 1.1em 1em',
+						fontSize: '1.2em',
+						borderBottom: '1px solid gainsboro',
+						overflow: 'hidden'
 					}}
 				>
 					{titleRigth ?
 						(
-							<div style={{ display: "flex", width: "95%", justifyContent: "space-between" }}>
+							<div style={{ display: 'flex', width: '95%', justifyContent: 'space-between' }}>
 								<div>{title}</div>
-								<div style={{ color: ' rgba(0, 0, 0, 0.37)', fontSize: "17px" }}>{titleRigth}</div>
+								<div style={{ color: ' rgba(0, 0, 0, 0.37)', fontSize: '17px' }}>{titleRigth}</div>
 							</div>
 						)
 						:
@@ -127,8 +127,8 @@ const AlertConfirm = ({
 
 			<DialogContent
 				style={{
-					minWidth: "40vw",
-					maxWidth: "95vw",
+					minWidth: '40vw',
+					maxWidth: '95vw',
 					...bodyStyle
 				}}
 			>
@@ -137,8 +137,8 @@ const AlertConfirm = ({
 			{(!!buttonCancel || !!buttonAccept) &&
 				<DialogActions
 					style={{
-						paddingRight: "0.6em",
-						borderTop: "1px solid gainsboro",
+						paddingRight: '0.6em',
+						borderTop: '1px solid gainsboro',
 						paddingTop: '0.5em',
 						margin: '8px 8px',
 						minHeight: '25px'
@@ -150,8 +150,8 @@ const AlertConfirm = ({
 			{actions &&
 				<DialogActions
 					style={{
-						paddingRight: "0.6em",
-						borderTop: "1px solid gainsboro",
+						paddingRight: '0.6em',
+						borderTop: '1px solid gainsboro',
 						paddingTop: '0.5em',
 						margin: '8px 8px',
 						minHeight: '25px'

@@ -197,27 +197,27 @@ const DelegateVoteButton = ({ request, client, refetch, setRepresentative, text,
         });
         await getParticipant();
         await refetch();
-    }
+    };
 
     React.useEffect(() => {
         getParticipant();
-    }, [getParticipant])
+    }, [getParticipant]);
 
     if (loading) {
         return '';
     }
 
     const closeModals = () => {
-        setModal(request)
+        setModal(request);
         if (!inModal && setInModal) {
-            setInModal(true)
+            setInModal(true);
         }
-    }
+    };
 
     const participant = data.councilParticipant;
 
     if (participant.live.state === PARTICIPANT_STATES.DELEGATED || participant.live.state === PARTICIPANT_STATES.REPRESENTATED) {
-        setRepresentative(true)
+        setRepresentative(true);
     }
 
     if (inModal) {
@@ -228,12 +228,12 @@ const DelegateVoteButton = ({ request, client, refetch, setRepresentative, text,
                     council={data.council}
                     participant={participant.live}
                     refetch={sendNotification}
-                    requestClose={() => { setInModal(false); closeModalAlert() }}
+                    requestClose={() => { setInModal(false); closeModalAlert(); }}
                     translate={translate}
                     inModal={inModal}
                 />
             </>
-        )
+        );
     }
         return (
             <>
@@ -260,8 +260,8 @@ const DelegateVoteButton = ({ request, client, refetch, setRepresentative, text,
                     inModal={inModal}
                 />
             </>
-        )
-}
+        );
+};
 
 export default withApollo(DelegateVoteButton);
 

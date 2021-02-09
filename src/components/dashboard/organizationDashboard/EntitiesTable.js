@@ -22,7 +22,7 @@ const corporationCompanies = gql`
 const OrganizationEntitiesTable = ({ translate, company, client, textFilter }) => {
     const [filters, setFilters] = React.useState({
         page: 1
-    })
+    });
 	const [companies, setCompanies] = React.useState(false);
     const [companiesTotal, setCompaniesTotal] = React.useState(false);
 
@@ -41,14 +41,14 @@ const OrganizationEntitiesTable = ({ translate, company, client, textFilter }) =
 		});
 
 		if (response.data.corporationCompanies.list) {
-			setCompanies(response.data.corporationCompanies.list)
-			setCompaniesTotal(response.data.corporationCompanies.total)
+			setCompanies(response.data.corporationCompanies.list);
+			setCompaniesTotal(response.data.corporationCompanies.total);
 		}
-    }, [textFilter, filters.page, company.id])
+    }, [textFilter, filters.page, company.id]);
 
     React.useEffect(() => {
         getCompanies();
-    }, [getCompanies])
+    }, [getCompanies]);
 
     const primary = getPrimary();
 
@@ -57,28 +57,28 @@ const OrganizationEntitiesTable = ({ translate, company, client, textFilter }) =
     }
 
 	return (
-		<div style={{ fontSize: "13px" }}>
-			<div style={{ display: "flex", justifyContent: "space-between", padding: "1em", }}>
-				<div style={{ color: primary, fontWeight: "bold", width: 'calc( 100% / 3 )', textAlign: 'left' }}>
+		<div style={{ fontSize: '13px' }}>
+			<div style={{ display: 'flex', justifyContent: 'space-between', padding: '1em', }}>
+				<div style={{ color: primary, fontWeight: 'bold', width: 'calc( 100% / 3 )', textAlign: 'left' }}>
 
 				</div>
-				<div style={{ color: primary, fontWeight: "bold", width: 'calc( 100% / 3 )', textAlign: 'left' }}>
+				<div style={{ color: primary, fontWeight: 'bold', width: 'calc( 100% / 3 )', textAlign: 'left' }}>
 					Id
 				</div>
-				<div style={{ color: primary, fontWeight: "bold", width: 'calc( 100% / 3 )', textAlign: 'left' }}>
+				<div style={{ color: primary, fontWeight: 'bold', width: 'calc( 100% / 3 )', textAlign: 'left' }}>
 					{translate.name}
 				</div>
 			</div>
-			<div style={{ height: "300px" }}>
+			<div style={{ height: '300px' }}>
 				<Scrollbar>
 					{companies.map((item, index) => (
 							<div
 								key={item.id}
 								style={{
-									display: "flex",
-									justifyContent: "space-between",
-									padding: "1em",
-									background: index % 2 ? "#edf4fb" : "",
+									display: 'flex',
+									justifyContent: 'space-between',
+									padding: '1em',
+									background: index % 2 ? '#edf4fb' : '',
 								}}>
 								<CellAvatar width={3} avatar={item.logo} />
 								<Cell width={3} text={item.id} />
@@ -87,7 +87,7 @@ const OrganizationEntitiesTable = ({ translate, company, client, textFilter }) =
 						))}
 				</Scrollbar>
 			</div>
-			<Grid style={{ marginTop: "1em" }}>
+			<Grid style={{ marginTop: '1em' }}>
 				<PaginationFooter
 					page={filters.page}
 					translate={translate}
@@ -98,7 +98,7 @@ const OrganizationEntitiesTable = ({ translate, company, client, textFilter }) =
 				/>
 			</Grid>
 		</div>
-	)
-}
+	);
+};
 
 export default withApollo(OrganizationEntitiesTable);

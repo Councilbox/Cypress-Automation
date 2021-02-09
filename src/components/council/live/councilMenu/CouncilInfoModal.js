@@ -1,15 +1,15 @@
-import React from "react";
-import { Paper, Collapse, Tooltip } from "material-ui";
-import { withApollo } from "react-apollo";
-import gql from "graphql-tag";
-import { AlertConfirm, Grid, GridItem, Scrollbar } from "../../../../displayComponents";
-import { hasSecondCall, agendaPointNotOpened, agendaClosed, agendaPointOpened, agendaVotingsOpened } from "../../../../utils/CBX";
+import React from 'react';
+import { Paper, Collapse, Tooltip } from 'material-ui';
+import { withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
+import { AlertConfirm, Grid, GridItem, Scrollbar } from '../../../../displayComponents';
+import { hasSecondCall, agendaPointNotOpened, agendaClosed, agendaPointOpened, agendaVotingsOpened } from '../../../../utils/CBX';
 import { moment } from '../../../../containers/App';
-import { StatuteDisplay } from "../../display/StatuteDisplay";
+import { StatuteDisplay } from '../../display/StatuteDisplay';
 
-import { isMobile } from "../../../../utils/screen";
+import { isMobile } from '../../../../utils/screen';
 
-import { councilTypesInfo } from "../../../../constants";
+import { councilTypesInfo } from '../../../../constants';
 
 export const agendaManager = gql`
 	query AgendaManagerFields($councilId: Int!) {
@@ -72,26 +72,26 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client }) =>
         }
 
         let icon = 'fa fa-lock';
-        let color = ""
+        let color = '';
         if (agendaPointNotOpened(agenda) || agendaClosed(agenda)) {
-            icon = "fa fa-lock colorGrey";
+            icon = 'fa fa-lock colorGrey';
             title = translate.closed;
         }
         if (agendaPointOpened(agenda)) {
-            icon = "fa fa-unlock-alt colorGren";
-            color = "#278289";
+            icon = 'fa fa-unlock-alt colorGren';
+            color = '#278289';
             title = translate.in_discussion;
         }
         return (
             <Tooltip title={title}>
                 <i
                     className={icon}
-                    aria-label={icon === "fa fa-lock colorGrey" ? "punto cerrado" : "punto abierto"}
-                    style={{ marginRight: '0.6em', cursor: 'auto', fontSize: "18px", color }}
+                    aria-label={icon === 'fa fa-lock colorGrey' ? 'punto cerrado' : 'punto abierto'}
+                    style={{ marginRight: '0.6em', cursor: 'auto', fontSize: '18px', color }}
                 ></i>
             </Tooltip>
         );
-	}
+	};
 
 	const agendaVotingIcon = agenda => {
         const mostrar = agenda.subjectType !== 0;
@@ -100,14 +100,14 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client }) =>
             let color = 'default';
             if (agendaVotingsOpened(agenda)) {
                 title = translate.opened_votings;
-                color = "#278289";
+                color = '#278289';
             }
             return (
                 <Tooltip title={title}>
                     <i
-                        className={"material-icons"}
+                        className={'material-icons'}
                         aria-label={title}
-                        style={{ marginRight: '0.6em', fontSize: "18px", color, cursor: 'context-menu', }}
+                        style={{ marginRight: '0.6em', fontSize: '18px', color, cursor: 'context-menu', }}
                     >
                         how_to_vote
                     </i>
@@ -115,43 +115,43 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client }) =>
             );
         }
         return <span />;
-    }
+    };
 
 	const getTypeText = subjectType => {
-		const votingType = data.votingTypes.find(item => item.value === subjectType)
+		const votingType = data.votingTypes.find(item => item.value === subjectType);
 		return votingType ? translate[votingType.label] : '';
-	}
+	};
 
 	return (
 		<AlertConfirm
 			requestClose={requestClose}
 			open={show}
-			bodyStyle={{ width: isMobile && "560px", height: "100%" }}
-			widthModal={{ height: "100%" }}
+			bodyStyle={{ width: isMobile && '560px', height: '100%' }}
+			widthModal={{ height: '100%' }}
 			bodyText={
-				<Grid style={{ color: "black", height: "100%" }}>
+				<Grid style={{ color: 'black', height: '100%' }}>
 					<Scrollbar>
-						<GridItem xs={12} lg={12} md={12} style={{ marginRight: "1em", marginBottom: "1em" }}>
-							<div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: "18px" }}>
+						<GridItem xs={12} lg={12} md={12} style={{ marginRight: '1em', marginBottom: '1em' }}>
+							<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '18px' }}>
 								<div>{council.businessName}</div>
 							</div>
 						</GridItem>
 						<GridItem xs={12} lg={12} md={12}
 							style={{
-								marginTop: "1em",
-								marginBottom: "1em",
-								marginRight: "1em",
+								marginTop: '1em',
+								marginBottom: '1em',
+								marginRight: '1em',
 								boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
 								border: '1px solid rgb(97, 171, 183)',
 								borderRadius: '4px',
-								padding: "1em"
+								padding: '1em'
 							}}
 						>
 							<div>
-								<div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-									<div style={{ display: "flex", alignItems: "center" }}>
-										<div style={{ width: "25px", height: "100%", marginRight: "1em" }}>
-											<img src={councilTypesInfo[council.councilType].logo} style={{ width: "100%" }} />
+								<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+									<div style={{ display: 'flex', alignItems: 'center' }}>
+										<div style={{ width: '25px', height: '100%', marginRight: '1em' }}>
+											<img src={councilTypesInfo[council.councilType].logo} style={{ width: '100%' }} />
 										</div>
 										<div>
 											{translate[councilTypesInfo[council.councilType].name]}
@@ -159,30 +159,30 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client }) =>
 									</div>
 									<div>
 										{open ?
-											<i className="material-icons" style={{ fontSize: "27px", cursor: "pointer" }} onClick={() => setOpen(false)}>
+											<i className="material-icons" style={{ fontSize: '27px', cursor: 'pointer' }} onClick={() => setOpen(false)}>
 												arrow_drop_up
 											</i>
 											:
-											<i className="material-icons" style={{ fontSize: "27px", cursor: "pointer" }} onClick={() => setOpen(true)}>
+											<i className="material-icons" style={{ fontSize: '27px', cursor: 'pointer' }} onClick={() => setOpen(true)}>
 												arrow_drop_down
 											</i>
 										}
 									</div>
 								</div>
 								<Collapse in={open} timeout="auto" unmountOnExit >
-									<div style={{ fontSize: "13px" }}>{translate[councilTypesInfo[council.councilType].description]}</div>
+									<div style={{ fontSize: '13px' }}>{translate[councilTypesInfo[council.councilType].description]}</div>
 								</Collapse>
 							</div>
 						</GridItem>
 						<GridItem xs={12} lg={12} md={12}
 							style={{
-								marginTop: "1em",
-								marginBottom: "1em",
-								marginRight: "1em",
+								marginTop: '1em',
+								marginBottom: '1em',
+								marginRight: '1em',
 								boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
 								border: '1px solid rgb(97, 171, 183)',
 								borderRadius: '4px',
-								padding: "1em"
+								padding: '1em'
 							}}
 						>
 							<div>
@@ -193,15 +193,15 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client }) =>
 									})`}
 								<div>
 								</div>
-								{`${translate["1st_call_date"]}: ${moment(
+								{`${translate['1st_call_date']}: ${moment(
 									council.dateStart
-								).format("LLL")}`}
+								).format('LLL')}`}
 							</div>
 							<div>
 								{hasSecondCall(council.statute) &&
-									`${translate["2nd_call_date"]}: ${council.dateStart2NdCall ? moment(
+									`${translate['2nd_call_date']}: ${council.dateStart2NdCall ? moment(
 										council.dateStart2NdCall
-									).format("LLL") : '-'}`}
+									).format('LLL') : '-'}`}
 							</div>
 							<div>
 								{council.autoClose === 1 &&
@@ -213,36 +213,36 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client }) =>
 							</div>
 						</GridItem>
 						<GridItem xs={12} lg={12} md={12} style={{
-							marginTop: "1em",
-							marginBottom: "1em",
-							marginRight: "1em",
+							marginTop: '1em',
+							marginBottom: '1em',
+							marginRight: '1em',
 							boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
 							border: '1px solid rgb(97, 171, 183)',
 							borderRadius: '4px',
-							padding: "1em"
+							padding: '1em'
 						}}>
 							<div>
 								<b>{council.name}</b>
 							</div>
 
-							<div style={{ marginBottom: "0px" }} className={"marginP0"} dangerouslySetInnerHTML={{
+							<div style={{ marginBottom: '0px' }} className={'marginP0'} dangerouslySetInnerHTML={{
 								__html: council.conveneText
 							}}></div>
 							<div>
 								<div>
-									<div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-										<div style={{ display: "flex", alignItems: "center" }}>
+									<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+										<div style={{ display: 'flex', alignItems: 'center' }}>
 											<div>
 												{translate.agenda_points}
 											</div>
 										</div>
 										<div>
 											{openPoints ?
-												<i className="material-icons" style={{ fontSize: "27px", cursor: "pointer" }} onClick={() => setOpenPoints(false)}>
+												<i className="material-icons" style={{ fontSize: '27px', cursor: 'pointer' }} onClick={() => setOpenPoints(false)}>
 													arrow_drop_up
 												</i>
 												:
-												<i className="material-icons" style={{ fontSize: "27px", cursor: "pointer" }} onClick={() => setOpenPoints(true)}>
+												<i className="material-icons" style={{ fontSize: '27px', cursor: 'pointer' }} onClick={() => setOpenPoints(true)}>
 													arrow_drop_down
 												</i>
 											}
@@ -280,13 +280,13 @@ boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
 						</GridItem>
 						<GridItem xs={12} lg={12} md={12}
 							style={{
-								marginTop: "1em",
-								marginBottom: "1em",
-								marginRight: "1em",
+								marginTop: '1em',
+								marginBottom: '1em',
+								marginRight: '1em',
 								boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
 								border: '1px solid rgb(97, 171, 183)',
 								borderRadius: '4px',
-								padding: "1em"
+								padding: '1em'
 							}}
 						>
 							{!loading &&
@@ -304,6 +304,6 @@ boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
 			title={translate.council_info}
 		/>
 	);
-}
+};
 
 export default withApollo(CouncilInfoModal);

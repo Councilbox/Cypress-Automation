@@ -10,12 +10,12 @@ const DownloadCompanyDocument = ({ file, trigger, color = getSecondary() }) => {
 
     const download = async () => {
         setDownloading(true);
-		const token = sessionStorage.getItem("token");
+		const token = sessionStorage.getItem('token');
 		const apiToken = sessionStorage.getItem('apiToken');
-		const participantToken = sessionStorage.getItem("participantToken");
+		const participantToken = sessionStorage.getItem('participantToken');
 		const response = await fetch(`${SERVER_URL}/companyDocument/${file.id}`, {
 			headers: new Headers({
-				"x-jwt-token": token || (apiToken || participantToken),
+				'x-jwt-token': token || (apiToken || participantToken),
 			})
 		});
 
@@ -30,7 +30,7 @@ const DownloadCompanyDocument = ({ file, trigger, color = getSecondary() }) => {
             a.remove();
 		}
 		setDownloading(false);
-    }
+    };
 
     return (
         <>
@@ -53,7 +53,7 @@ const DownloadCompanyDocument = ({ file, trigger, color = getSecondary() }) => {
                 </>
             }
         </>
-    )
-}
+    );
+};
 
 export default DownloadCompanyDocument;

@@ -1,6 +1,6 @@
-import React, { Fragment } from "react";
-import { MenuItem } from "material-ui";
-import { withApollo } from "react-apollo";
+import React, { Fragment } from 'react';
+import { MenuItem } from 'material-ui';
+import { withApollo } from 'react-apollo';
 import {
 	Checkbox,
 	Grid,
@@ -8,15 +8,15 @@ import {
 	SectionTitle,
 	SelectInput,
 	TextInput,
-} from "../../../displayComponents";
-import * as CBX from "../../../utils/CBX";
-import { draftDetails } from "../../../queries";
-import { getPrimary } from "../../../styles/colors";
-import QuorumInput from "../../../displayComponents/QuorumInput";
-import { ConfigContext } from "../../../containers/AppControl";
-import StatuteDocSection from "./StatuteDocSection";
-import { useValidRTMP } from "../../../hooks";
-import withSharedProps from "../../../HOCs/withSharedProps";
+} from '../../../displayComponents';
+import * as CBX from '../../../utils/CBX';
+import { draftDetails } from '../../../queries';
+import { getPrimary } from '../../../styles/colors';
+import QuorumInput from '../../../displayComponents/QuorumInput';
+import { ConfigContext } from '../../../containers/AppControl';
+import StatuteDocSection from './StatuteDocSection';
+import { useValidRTMP } from '../../../hooks';
+import withSharedProps from '../../../HOCs/withSharedProps';
 
 const StatuteEditor = ({ statute, translate, updateState, errors, client, disabled, company, ...props }) => {
 	const [data, setData] = React.useState({});
@@ -30,7 +30,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, disabl
 		});
 		setData(response.data);
 		setLoading(false);
-	}, [statute.id])
+	}, [statute.id]);
 
 	React.useEffect(() => {
 		getData();
@@ -40,13 +40,13 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, disabl
 	const { quorumTypes } = data;
 	return (
 		<Fragment>
-			<Grid style={{ overflow: "hidden" }}>
+			<Grid style={{ overflow: 'hidden' }}>
 				<SectionTitle
 					text={translate.convene}
 					color={primary}
 				/>
 				<br />
-				<Grid style={{ overflow: "hidden" }}>
+				<Grid style={{ overflow: 'hidden' }}>
 					{props.organization &&
 						<>
 							<GridItem xs={12} md={12} lg={12}>
@@ -170,11 +170,11 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, disabl
 									if (!Number.isNaN(Number(event.target.value)) && +event.target.value > 0) {
 										updateState({
 											minimumSeparationBetweenCall: parseInt(event.target.value, 10)
-										})
+										});
 									} else {
 										updateState({
 											minimumSeparationBetweenCall: 5
-										})
+										});
 									}
 								}}
 							/>
@@ -185,7 +185,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, disabl
 					text={translate.assistance}
 					color={primary}
 					style={{
-						marginTop: "1em"
+						marginTop: '1em'
 					}}
 				/>
 				<br />
@@ -208,13 +208,13 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, disabl
 						</SelectInput>
 					</GridItem>
 					<GridItem xs={12} md={6} lg={6}>
-						{" "}
+						{' '}
 					</GridItem>
 					<GridItem xs={6} md={6} lg={6}>
 						<SelectInput
 							floatingText={translate.exist_quorum_assistance_first_call}
 							value={statute.firstCallQuorumType}
-							styleLabel={{ minWidth: "240px" }}
+							styleLabel={{ minWidth: '240px' }}
 							onChange={event => updateState({
 									firstCallQuorumType: event.target.value
 								})
@@ -237,7 +237,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, disabl
 						{CBX.quorumNeedsInput(statute.firstCallQuorumType) && (
 							<QuorumInput
 								type={statute.firstCallQuorumType}
-								style={{ marginLeft: "1em" }}
+								style={{ marginLeft: '1em' }}
 								value={statute.firstCallQuorum}
 								divider={statute.firstCallQuorumDivider}
 								quorumError={errors.firstCallQuorum}
@@ -258,7 +258,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, disabl
 							<SelectInput
 								floatingText={translate.exist_quorum_assistance_second_call}
 								value={statute.secondCallQuorumType}
-								styleLabel={{ minWidth: "240px" }}
+								styleLabel={{ minWidth: '240px' }}
 								onChange={event => updateState({
 										secondCallQuorumType: event.target.value
 									})
@@ -282,7 +282,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, disabl
 							{CBX.quorumNeedsInput(statute.secondCallQuorumType) && (
 								<QuorumInput
 									type={statute.secondCallQuorumType}
-									style={{ marginLeft: "1em" }}
+									style={{ marginLeft: '1em' }}
 									value={statute.secondCallQuorum}
 									divider={statute.secondCallQuorumDivider}
 									quorumError={errors.secondCallQuorum}
@@ -364,11 +364,11 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, disabl
 									if (Number.isNaN(Number(event.target.value)) && +event.target.value > 0) {
 										updateState({
 											maxNumDelegatedVotes: parseInt(event.target.value, 10)
-										})
+										});
 									} else {
 										updateState({
 											maxNumDelegatedVotes: 1
-										})
+										});
 									}
 								}}
 							/>
@@ -401,11 +401,11 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, disabl
 									if (Number.isNaN(Number(event.target.value)) && +event.target.value > 0) {
 										updateState({
 											limitedAccessRoomMinutes: parseInt(event.target.value, 10)
-										})
+										});
 									} else {
 										updateState({
 											limitedAccessRoomMinutes: 1
-										})
+										});
 									}
 								}}
 							/>
@@ -417,8 +417,8 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, disabl
 					text={translate.celebration_and_agreements}
 					color={primary}
 					style={{
-						marginTop: "2em",
-						marginBottom: "1em"
+						marginTop: '2em',
+						marginBottom: '1em'
 					}}
 				/>
 				<Grid>
@@ -569,15 +569,15 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, disabl
 					text={translate.census}
 					color={primary}
 					style={{
-						marginTop: "2em",
-						marginBottom: "1em"
+						marginTop: '2em',
+						marginBottom: '1em'
 					}}
 				/>
-				<Grid style={{ overflow: "hidden" }}>
+				<Grid style={{ overflow: 'hidden' }}>
 					<GridItem xs={12} md={4} lg={4}>
 						<SelectInput
 							floatingText={translate.associated_census}
-							value={statute.censusId || "-1"}
+							value={statute.censusId || '-1'}
 							onChange={event => updateState({
 									censusId: event.target.value
 								})
@@ -622,7 +622,7 @@ const StatuteEditor = ({ statute, translate, updateState, errors, client, disabl
 			</Grid>
 		</Fragment>
 	);
-}
+};
 
 
 const VideoSection = ({ updateState, statute, translate }) => {
@@ -636,11 +636,11 @@ const VideoSection = ({ updateState, statute, translate }) => {
 				text={translate.video_config}
 				color={primary}
 				style={{
-					marginTop: "2em",
-					marginBottom: "1em"
+					marginTop: '2em',
+					marginBottom: '1em'
 				}}
 			/>
-			<Grid style={{ overflow: "hidden" }}>
+			<Grid style={{ overflow: 'hidden' }}>
 				<GridItem xs={12} md={8} lg={6}>
 					<TextInput
 						floatingText={'RTMP'}
@@ -653,14 +653,14 @@ const VideoSection = ({ updateState, statute, translate }) => {
 									...statute.videoConfig,
 									rtmp: event.target.value
 								}
-							})
+							});
 						}}
 					/>
 				</GridItem>
 			</Grid>
 		</>
-	)
-}
+	);
+};
 
 export default withApollo(withSharedProps()(StatuteEditor));
 

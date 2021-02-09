@@ -1,18 +1,18 @@
-import React from "react";
-import { compose, graphql, withApollo } from "react-apollo";
-import { BasicButton, CustomDialog, AlertConfirm, Scrollbar } from "../../../../displayComponents/index";
-import { getPrimary, secondary } from "../../../../styles/colors";
-import { languages } from "../../../../queries/masters";
-import ParticipantForm from "../../participants/ParticipantForm";
+import React from 'react';
+import { compose, graphql, withApollo } from 'react-apollo';
+import { BasicButton, CustomDialog, AlertConfirm, Scrollbar } from '../../../../displayComponents/index';
+import { getPrimary, secondary } from '../../../../styles/colors';
+import { languages } from '../../../../queries/masters';
+import ParticipantForm from '../../participants/ParticipantForm';
 import {
 	checkRequiredFieldsParticipant,
 	checkRequiredFieldsRepresentative
-} from "../../../../utils/validation";
-import RepresentativeForm from "../../../company/census/censusEditor/RepresentativeForm";
-import { upsertConvenedParticipant, checkUniqueCouncilEmails } from "../../../../queries/councilParticipant";
-import { PARTICIPANT_STATES, COUNCIL_TYPES } from "../../../../constants";
-import withSharedProps from "../../../../HOCs/withSharedProps";
-import SelectRepresentative from "../../editor/census/modals/SelectRepresentative";
+} from '../../../../utils/validation';
+import RepresentativeForm from '../../../company/census/censusEditor/RepresentativeForm';
+import { upsertConvenedParticipant, checkUniqueCouncilEmails } from '../../../../queries/councilParticipant';
+import { PARTICIPANT_STATES, COUNCIL_TYPES } from '../../../../constants';
+import withSharedProps from '../../../../HOCs/withSharedProps';
+import SelectRepresentative from '../../editor/census/modals/SelectRepresentative';
 
 class ConvenedParticipantEditor extends React.Component {
 	state = {
@@ -180,7 +180,7 @@ class ConvenedParticipantEditor extends React.Component {
 						errorsRepresentative.errors.email = translate.register_exists_email;
 						errorsRepresentative.hasError = true;
 					}
-				})
+				});
 			}
 			if (participant.email === representative.email) {
 				errorsRepresentative.errors.email = translate.repeated_email;
@@ -225,13 +225,13 @@ class ConvenedParticipantEditor extends React.Component {
 								selectRepresentative: false
 							})}
 						/>
-						<div style={{ marginRight: "1em" }}>
+						<div style={{ marginRight: '1em' }}>
 							<div style={{
 								boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
 								border: '1px solid rgb(97, 171, 183)',
 								borderRadius: '4px',
 								padding: '1em',
-								marginBottom: "1em",
+								marginBottom: '1em',
 								color: 'black',
 							}}>
 								<ParticipantForm
@@ -251,7 +251,7 @@ class ConvenedParticipantEditor extends React.Component {
 								borderRadius: '4px',
 								padding: '1em',
 								color: 'black',
-								marginBottom: ".5em",
+								marginBottom: '.5em',
 							}}>
 								<RepresentativeForm
 									translate={translate}
@@ -277,23 +277,23 @@ class ConvenedParticipantEditor extends React.Component {
 							text={translate.cancel}
 							color="transparent"
 							textStyle={{
-								boxShadow: "none",
+								boxShadow: 'none',
 								borderRadius: '4px',
-								textTransform: "none",
-								fontWeight: "700",
+								textTransform: 'none',
+								fontWeight: '700',
 							}}
 							onClick={this.props.close}
 						/>
 						<BasicButton
 							text={this.props.council.councilType === COUNCIL_TYPES.BOARD_WITHOUT_SESSION ? translate.save_and_notify : translate.save_changes_and_send}
 							textStyle={{
-								boxShadow: "none",
+								boxShadow: 'none',
 								borderRadius: '4px',
-								color: "white",
-								textTransform: "none",
-								fontWeight: "700"
+								color: 'white',
+								textTransform: 'none',
+								fontWeight: '700'
 							}}
-							buttonStyle={{ marginLeft: "1em" }}
+							buttonStyle={{ marginLeft: '1em' }}
 							color={secondary}
 							onClick={() => {
 								this.updateConvenedParticipant(true);
@@ -302,13 +302,13 @@ class ConvenedParticipantEditor extends React.Component {
 						<BasicButton
 							text={translate.save_changes}
 							textStyle={{
-								boxShadow: "none",
+								boxShadow: 'none',
 								borderRadius: '4px',
-								color: "white",
-								textTransform: "none",
-								fontWeight: "700"
+								color: 'white',
+								textTransform: 'none',
+								fontWeight: '700'
 							}}
-							buttonStyle={{ marginLeft: "1em" }}
+							buttonStyle={{ marginLeft: '1em' }}
 							color={primary}
 							onClick={() => {
 								this.updateConvenedParticipant(false);
@@ -325,9 +325,9 @@ class ConvenedParticipantEditor extends React.Component {
 
 export default compose(
 	graphql(upsertConvenedParticipant, {
-		name: "updateConvenedParticipant",
+		name: 'updateConvenedParticipant',
 		options: {
-			errorPolicy: "all"
+			errorPolicy: 'all'
 		}
 	}),
 	graphql(languages),
@@ -336,14 +336,14 @@ export default compose(
 
 const initialRepresentative = {
 	hasRepresentative: false,
-	language: "es",
+	language: 'es',
 	type: 2,
-	name: "",
-	surname: "",
-	position: "",
-	email: "",
-	phone: "",
-	dni: ""
+	name: '',
+	surname: '',
+	position: '',
+	email: '',
+	phone: '',
+	dni: ''
 };
 
 function extractTypeName(object) {

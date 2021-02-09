@@ -29,12 +29,12 @@ const RemoveDelegationButton = ({ participant, delegatedVote, translate, client,
             setLoading(false);
 			refetch();
 		}
-    }
+    };
 
     const renderModalBody = () => translate.remove_delegation_warning.replace('delegatedName', delegatedVote.name)
             .replace('delegatedSurname', delegatedVote.surname || '')
             .replace('name', participant.name)
-            .replace('surname', participant.surname || '')
+            .replace('surname', participant.surname || '');
 
     return (
         <React.Fragment>
@@ -58,7 +58,7 @@ const RemoveDelegationButton = ({ participant, delegatedVote, translate, client,
             />
 
         </React.Fragment>
-    )
-}
+    );
+};
 
 export default withApollo(RemoveDelegationButton);

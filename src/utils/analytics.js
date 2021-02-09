@@ -13,13 +13,13 @@ const checkShouldTrack = () => {
     }
 
     return true;
-}
+};
 
 export const init = () => {
     if(checkShouldTrack()){
         ReactGa.initialize(process.env.REACT_APP_GTAG_ID);
     }
-}
+};
 
 export const sendGAevent = args => {
     if(window.location.hostname.includes('localhost')) {
@@ -28,10 +28,10 @@ export const sendGAevent = args => {
     if(checkShouldTrack()){
         ReactGa.event(args);
     }
-}
+};
 
 export const pageView = () => {
     if(checkShouldTrack()){
         ReactGa.pageview(window.location.pathname.replace(/\d+\//g, '').replace(/\/\d+$/g, '') + window.location.search);
     }
-}
+};

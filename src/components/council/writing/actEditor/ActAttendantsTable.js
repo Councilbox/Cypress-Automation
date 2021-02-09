@@ -14,7 +14,7 @@ import CbxDataModal from './CbxDataModal';
 
 
 const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
-    const [total, setTotal] = React.useState(null)
+    const [total, setTotal] = React.useState(null);
     const [councilAttendantsData, setCouncilAttendantsData] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
 
@@ -27,18 +27,18 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
                 options: value && value.filters ? value.options : {
                     limit: PARTICIPANTS_LIMITS[0],
                     offset: 0,
-                    orderBy: "name",
-                    orderDirection: "asc"
+                    orderBy: 'name',
+                    orderDirection: 'asc'
                 },
             },
         });
 
         setCouncilAttendantsData(response.data.councilAttendants);
-        setLoading(false)
-    }
+        setLoading(false);
+    };
 
     React.useEffect(() => {
-        getCouncilAttendants()
+        getCouncilAttendants();
     }, []);
 
     React.useEffect(() => {
@@ -50,7 +50,7 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
     const secondary = getSecondary();
 
     return (
-        <div style={{ height: "100%", overflow: 'hidden', position: 'relative' }}>
+        <div style={{ height: '100%', overflow: 'hidden', position: 'relative' }}>
             {loading ?
                 <LoadingSection />
                 :
@@ -75,8 +75,8 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
                                     <EnhancedTable
                                         translate={translate}
                                         defaultLimit={PARTICIPANTS_LIMITS[0]}
-                                        defaultFilter={"fullName"}
-                                        defaultOrder={["name", "asc"]}
+                                        defaultFilter={'fullName'}
+                                        defaultOrder={['name', 'asc']}
                                         limits={PARTICIPANTS_LIMITS}
                                         page={1}
                                         loading={loading}
@@ -85,15 +85,15 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
                                         refetch={getCouncilAttendants}
                                         fields={[
                                             {
-                                                value: "fullName",
+                                                value: 'fullName',
                                                 translation: translate.participant_data
                                             },
                                             {
-                                                value: "dni",
+                                                value: 'dni',
                                                 translation: translate.dni
                                             },
                                             {
-                                                value: "position",
+                                                value: 'position',
                                                 translation: translate.position
                                             }
                                         ]}
@@ -150,8 +150,8 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
                     </Scrollbar>
             }
         </div>
-    )
-}
+    );
+};
 
 const HoverableRow = ({ translate, participant, delegatedVotes }) => {
     const [showActions, rowHandlers] = useHoverRow();
@@ -213,8 +213,8 @@ const HoverableRow = ({ translate, participant, delegatedVotes }) => {
                 </TableCell>
             </TableRow>
         </>
-    )
-}
+    );
+};
 
 const formatParticipant = participant => {
     const { representing, ...newParticipant } = participant;
@@ -225,10 +225,10 @@ const formatParticipant = participant => {
             ...representing,
             notifications: rest.notifications,
             representative: rest
-        }
+        };
     }
     return currentParticipant;
-}
+};
 
 
 const applyFilters = (participants, filters) => applyOrder(participants.filter(item => {
@@ -282,12 +282,12 @@ const applyFilters = (participants, filters) => applyOrder(participants.filter(i
         }
 
         return true;
-    }), filters.orderBy, filters.orderDirection)
+    }), filters.orderBy, filters.orderDirection);
 
 const applyOrder = (participants, orderBy) => participants.sort((a, b) => {
         const participantA = formatParticipant(a);
         const participantB = formatParticipant(b);
-        return participantA[orderBy] > participantB[orderBy]
-    })
+        return participantA[orderBy] > participantB[orderBy];
+    });
 
 export default withApollo(ActAttendantsTable);

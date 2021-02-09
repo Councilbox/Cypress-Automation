@@ -22,7 +22,7 @@ const CreateNoBoard = ({ setOptions, options, translate, hybrid, errors, company
         setLoading(false);
         setOptions({
             statuteId: response.data.companyStatutes[0].id
-        })
+        });
     }, [company.id]);
 
     React.useEffect(() => {
@@ -54,7 +54,7 @@ const CreateNoBoard = ({ setOptions, options, translate, hybrid, errors, company
                     ))}
             </SelectInput>
         </div>
-    )
-}
+    );
+};
 
 export default withSharedProps()(withApollo(CreateNoBoard));

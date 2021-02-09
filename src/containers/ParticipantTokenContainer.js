@@ -1,20 +1,20 @@
-import React from "react";
-import { Redirect } from "react-router-dom";
-import { graphql, withApollo } from "react-apollo";
-import gql from "graphql-tag";
+import React from 'react';
+import { Redirect } from 'react-router-dom';
+import { graphql, withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
 import { bindActionCreators } from 'redux';
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 import * as mainActions from '../actions/mainActions';
-import { LoadingMainApp } from "../displayComponents";
-import InvalidUrl from "../components/participant/InvalidUrl";
-import { refreshWSLink } from "./App";
+import { LoadingMainApp } from '../displayComponents';
+import InvalidUrl from '../components/participant/InvalidUrl';
+import { refreshWSLink } from './App';
 
 const initialState = {
 	loading: true,
 	error: false,
 	participant: null,
 	token: null
-}
+};
 
 const getMe = gql`
 	query participantMe {
@@ -42,10 +42,10 @@ const reducer = (state, action) => {
 			error: action.value,
 			loading: false
 		})
-	}
+	};
 
 	return actions[action.type] ? actions[action.type]() : state;
-}
+};
 
 const ParticipantTokenContainer = ({ participantToken, match, client, translate }) => {
 	const [state, dispatch] = React.useReducer(reducer, initialState);
@@ -61,15 +61,15 @@ const ParticipantTokenContainer = ({ participantToken, match, client, translate 
 				} else {
 					const response = await participantToken();
 					if(response.errors){
-						throw new Error("Error getting participant token");
+						throw new Error('Error getting participant token');
 					}
 					token = response.data.participantToken;
 				}
-				sessionStorage.setItem("participantToken", token);
+				sessionStorage.setItem('participantToken', token);
 				const responseQueryMe = await client.query({
 					query: getMe,
 					variables: {},
-					fetchPolicy: "network-only"
+					fetchPolicy: 'network-only'
 				});
 				const participant = responseQueryMe.data.participantMe;
 				refreshWSLink();
@@ -83,7 +83,7 @@ const ParticipantTokenContainer = ({ participantToken, match, client, translate 
 			} catch (error) {
 				dispatch({ type: 'SET_ERROR', value: true });
 			}
-		}
+		};
 
 		if(!state.participant){
 			getData();
@@ -107,7 +107,7 @@ const ParticipantTokenContainer = ({ participantToken, match, client, translate 
 			}
 		</React.Fragment>
 	);
-}
+};
 
 const mapStateToProps = state => ({
 	main: state.main,
@@ -116,7 +116,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
         actions: bindActionCreators(mainActions, dispatch)
-    })
+    });
 
 const participantToken = gql`
 	mutation participantToken($token: String!) {
@@ -126,11 +126,11 @@ const participantToken = gql`
 
 
 export default graphql(participantToken, {
-	name: "participantToken",
+	name: 'participantToken',
 	options: props => ({
 		variables: {
 			token: props.match.params.token
 		},
-		errorPolicy: "all"
+		errorPolicy: 'all'
 	})
 })(withApollo(connect(mapStateToProps, mapDispatchToProps)(ParticipantTokenContainer)));

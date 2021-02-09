@@ -1,5 +1,5 @@
-import React from "react";
-import { FormControl, TextField } from "material-ui";
+import React from 'react';
+import { FormControl, TextField } from 'material-ui';
 
 const TextInputChat = ({
 	type,
@@ -16,7 +16,7 @@ const TextInputChat = ({
 }) => (
 		<FormControl
 			style={{
-				width: "100%",
+				width: '100%',
 				marginTop: 0
 			}}
 		>
@@ -33,7 +33,7 @@ const TextInputChat = ({
 				multiline={multiline}
 				style={{
 					marginTop: 0,
-					width: "100%",
+					width: '100%',
 					...style,
 				}}
 				FormHelperTextProps={{

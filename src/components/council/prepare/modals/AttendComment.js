@@ -12,6 +12,6 @@ const AttendComment = ({ translate, requestClose, open, comment }) => (
             <div dangerouslySetInnerHTML={{ __html: comment.text }} />
         }
     />
-)
+);
 
 export default AttendComment;

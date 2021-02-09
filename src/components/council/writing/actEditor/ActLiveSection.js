@@ -1,14 +1,14 @@
-import React from "react";
+import React from 'react';
 import { graphql } from 'react-apollo';
-import { LoadingSection, Icon } from "../../../../displayComponents";
-import RichTextInput from "../../../../displayComponents/RichTextInput";
-import { darkGrey } from "../../../../styles/colors";
-import { LIVE_COLLAPSIBLE_HEIGHT } from "../../../../styles/constants";
-import { changeVariablesToValues, checkForUnclosedBraces, generateStatuteTag } from "../../../../utils/CBX";
+import { LoadingSection, Icon } from '../../../../displayComponents';
+import RichTextInput from '../../../../displayComponents/RichTextInput';
+import { darkGrey } from '../../../../styles/colors';
+import { LIVE_COLLAPSIBLE_HEIGHT } from '../../../../styles/constants';
+import { changeVariablesToValues, checkForUnclosedBraces, generateStatuteTag } from '../../../../utils/CBX';
 import LoadDraftModal from '../../../company/drafts/LoadDraftModal';
 import { updateCouncilAct } from '../../../../queries';
-import { TAG_TYPES } from "../../../company/drafts/draftTags/utils";
-import withSharedProps from "../../../../HOCs/withSharedProps";
+import { TAG_TYPES } from '../../../company/drafts/draftTags/utils';
+import withSharedProps from '../../../../HOCs/withSharedProps';
 
 
 class ActLiveSection extends React.Component {
@@ -58,28 +58,28 @@ class ActLiveSection extends React.Component {
 			<div
 				style={{
 					height: LIVE_COLLAPSIBLE_HEIGHT,
-					display: "flex",
-					justifyContent: "space-between",
-					alignItems: "center"
+					display: 'flex',
+					justifyContent: 'space-between',
+					alignItems: 'center'
 				}}
 			>
 				<div
 					style={{
-						width: "25%",
+						width: '25%',
 						height: LIVE_COLLAPSIBLE_HEIGHT,
-						display: "flex",
-						alignItems: "center",
-						paddingLeft: "1.5em"
+						display: 'flex',
+						alignItems: 'center',
+						paddingLeft: '1.5em'
 					}}
 				>
-					<Icon className="material-icons" style={{ color: "grey" }}>
+					<Icon className="material-icons" style={{ color: 'grey' }}>
 						book
 					</Icon>
 					<span
 						style={{
-							marginLeft: "0.7em",
+							marginLeft: '0.7em',
 							color: darkGrey,
-							fontWeight: "700"
+							fontWeight: '700'
 						}}
 					>
 						{translate.proposed_act}
@@ -87,13 +87,13 @@ class ActLiveSection extends React.Component {
 				</div>
 				<div
 					style={{
-						width: "25%",
-						display: "flex",
-						justifyContent: "flex-end",
-						paddingRight: "2em"
+						width: '25%',
+						display: 'flex',
+						justifyContent: 'flex-end',
+						paddingRight: '2em'
 					}}
 				>
-					<Icon className="material-icons" style={{ color: "grey" }}>
+					<Icon className="material-icons" style={{ color: 'grey' }}>
 						keyboard_arrow_down
 					</Icon>
 				</div>
@@ -110,8 +110,8 @@ class ActLiveSection extends React.Component {
 		return (
         	<div
 				style={{
-					paddingTop: "1.2em",
-					backgroundColor: "white"
+					paddingTop: '1.2em',
+					backgroundColor: 'white'
 				}}
 			>
 				<RichTextInput
@@ -127,7 +127,7 @@ class ActLiveSection extends React.Component {
 							statute={council.statute}
 							statutes={this.props.data.companyStatutes}
 							defaultTags={{
-								"conclusion": {
+								'conclusion': {
 									active: true,
 									type: TAG_TYPES.DRAFT_TYPE,
 									name: 'conclusion',
@@ -148,12 +148,12 @@ class ActLiveSection extends React.Component {
                         }
 					]}
 					floatingText={translate.conclusion}
-					value={this.props.council.act.conclusion || ""}
+					value={this.props.council.act.conclusion || ''}
 					onChange={value => {
 						this.setState({
 							conclusion: value
-						})
-						this.startUpdateTimeout()
+						});
+						this.startUpdateTimeout();
 					}}
 				/>
 			</div>
@@ -174,8 +174,8 @@ class ActLiveSection extends React.Component {
 		return (
 			<div
 				style={{
-					width: "100%",
-					position: "relative"
+					width: '100%',
+					position: 'relative'
 				}}
 			>
 				{/* <CollapsibleSection

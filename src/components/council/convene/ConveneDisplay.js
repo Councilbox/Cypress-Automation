@@ -23,7 +23,7 @@ const ConveneDisplay = ({ match, client, translate, ...props }) => {
                 }
             `,
             variables: { councilId: +match.params.id },
-            fetchPolicy: "network-only"
+            fetchPolicy: 'network-only'
         });
 
         if(response.errors){
@@ -31,9 +31,9 @@ const ConveneDisplay = ({ match, client, translate, ...props }) => {
         }
 
         if(response.data.councilPublicConvene){
-            setConvene(response.data.councilPublicConvene)
+            setConvene(response.data.councilPublicConvene);
         }
-    }
+    };
 
     return (
         <div
@@ -57,9 +57,9 @@ const ConveneDisplay = ({ match, client, translate, ...props }) => {
                     <div
                         dangerouslySetInnerHTML={{ __html: convene }}
                         style={{
-                            padding: "2em",
+                            padding: '2em',
                             cursor: 'pointer',
-                            margin: "0 auto"
+                            margin: '0 auto'
                         }}
                     />
                 :
@@ -87,7 +87,7 @@ const ConveneDisplay = ({ match, client, translate, ...props }) => {
             </Paper>
             <CBXFooter />
         </div>
-    )
-}
+    );
+};
 
 export default withTranslations()(withWindowSize(withApollo(ConveneDisplay)));

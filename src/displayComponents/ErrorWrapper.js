@@ -1,14 +1,14 @@
-import React from "react";
+import React from 'react';
 
 const ErrorWrapper = ({ error }) => (
 	<div>
 		<span
 			style={{
-				fontWeight: "700",
-				color: "red"
+				fontWeight: '700',
+				color: 'red'
 			}}
 		>
-			{error.code}{" "}
+			{error.code}{' '}
 		</span>
 		{error.message}
 	</div>

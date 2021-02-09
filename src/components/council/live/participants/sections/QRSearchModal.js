@@ -1,7 +1,7 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import jsQR from "jsqr";
+import jsQR from 'jsqr';
 import { AlertConfirm, BasicButton, ReactSignature, ParticipantDisplay, Checkbox, LoadingSection } from '../../../../../displayComponents';
 import { PARTICIPANT_STATES } from '../../../../../constants';
 import { canBePresentWithRemoteVote } from '../../../../../utils/CBX';
@@ -44,18 +44,18 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                 });
                 streamRef.current = stream;
                 videoRef.current.srcObject = stream;
-                setLoadingCamera(false)
+                setLoadingCamera(false);
             } else {
-                setErrorMedia("Intentando acceder a la camara")
-                setLoadingCamera(false)
+                setErrorMedia('Intentando acceder a la camara');
+                setLoadingCamera(false);
             }
         } catch (e) {
-            if (e.message === "Requested device not found") {
-                setErrorMedia("No hay camara")
-                setLoadingCamera(false)
+            if (e.message === 'Requested device not found') {
+                setErrorMedia('No hay camara');
+                setLoadingCamera(false);
             }
         }
-    }
+    };
 
     React.useLayoutEffect(() => {
         let interval;
@@ -74,7 +74,7 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
             interval = setInterval(check, 500);
         }
         return () => clearInterval(interval);
-    }, [council.id, open, videoRef.current])
+    }, [council.id, open, videoRef.current]);
 
     const drawLine = (begin, end, color) => {
         const canvasCTX = canvasRef2.current.getContext('2d');
@@ -84,16 +84,16 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
         canvasCTX.lineWidth = 4;
         canvasCTX.strokeStyle = color;
         canvasCTX.stroke();
-    }
+    };
 
     React.useLayoutEffect(() => {
         if (code) {
-            drawLine(code.location.topLeftCorner, code.location.topRightCorner, "#FF3B58");
-            drawLine(code.location.topRightCorner, code.location.bottomRightCorner, "#FF3B58");
-            drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, "#FF3B58");
-            drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, "#FF3B58");
+            drawLine(code.location.topLeftCorner, code.location.topRightCorner, '#FF3B58');
+            drawLine(code.location.topRightCorner, code.location.bottomRightCorner, '#FF3B58');
+            drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, '#FF3B58');
+            drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, '#FF3B58');
         }
-    }, [code])
+    }, [code]);
 
 
     const check = () => {
@@ -109,7 +109,7 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                 setCode(result);
             }
         }
-    }
+    };
 
     const _canBePresentWithRemoteVote = canBePresentWithRemoteVote(
         council.statute
@@ -144,7 +144,7 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
             });
 
             if (!response.data.liveParticipantQRSearch) {
-                setError('404')
+                setError('404');
             } else {
                 setParticipant(response.data.liveParticipantQRSearch);
             }
@@ -167,9 +167,9 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
 
     React.useEffect(() => {
         searchParticipant();
-    }, [searchParticipant])
+    }, [searchParticipant]);
 
-    const isPresent = state => state === PARTICIPANT_STATES.PHYSICALLY_PRESENT || state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
+    const isPresent = state => state === PARTICIPANT_STATES.PHYSICALLY_PRESENT || state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE;
 
     const setParticipantAsPresent = async () => {
         let response;
@@ -180,7 +180,7 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                     participantId: participant.id,
                     state: participantState
                 }
-            })
+            });
         } else {
             const signatureData = signature.current.toDataURL();
             response = await client.mutate({
@@ -199,7 +199,7 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
         if (!response.errors) {
             reset();
         }
-    }
+    };
 
     const signatureSection = () => {
         const maxWidth = 600;
@@ -215,18 +215,18 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
             <div>
                 <div
                     style={{
-                        height: "400px",
+                        height: '400px',
                         width: '100%',
                         display: 'flex',
                         alignItems: 'center',
                         flexDirection: 'column',
-                        position: "relative"
+                        position: 'relative'
                     }}
                 >
                     <div
                         style={{
                             width: '100%',
-                            textAlign: "left"
+                            textAlign: 'left'
                         }}
                     >
                         <ParticipantDisplay
@@ -255,14 +255,14 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                             width={width}
                             dotSize={1}
                             onEnd={() => setWithSignature(true)}
-                            style={{ border: "solid 1px" }}
+                            style={{ border: 'solid 1px' }}
                             ref={signature}
                         />
                     </div>
                 </div>
             </div>
-        )
-    }
+        );
+    };
 
     const reset = () => {
         setSearch(null);
@@ -270,7 +270,7 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
         setWithSignature(false);
         setParticipantState(5);
         setError(null);
-    }
+    };
 
     const renderBody = () => {
         if (participant) {
@@ -315,42 +315,42 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                         </div>
                     </React.Fragment>
                 </div>
-            )
+            );
         }
 
         return (
             <div
                 style={{
                     borderRadius: '27px',
-                    background: "white",
+                    background: 'white',
                     display: 'flex',
                     flexGrow: 1,
                     alignItems: 'center',
                     justifyContent: 'center',
-                    overflow: "hidden",
+                    overflow: 'hidden',
                     flexDirection: 'column',
                     minHeight: '300px',
                     minWidth: '300px',
-                    zIndex: "1",
+                    zIndex: '1',
                 }}
             >
                 {loadingCamera &&
                     <LoadingSection />
                 }
                 {errorMedia &&
-                    <div style={{ color: '#dc7373', display: "flex", justifyContent: "center", fontSize: "25px" }}>
+                    <div style={{ color: '#dc7373', display: 'flex', justifyContent: 'center', fontSize: '25px' }}>
                         <div>
-                            <i className={"fa fa-exclamation-triangle"} style={{ fontSize: "40px" }}></i>
+                            <i className={'fa fa-exclamation-triangle'} style={{ fontSize: '40px' }}></i>
                         </div>
                         <div>{errorMedia}</div>
                     </div>
                 }
-                <div style={{ color: '#dc7373', paddingBottom: "1em" }}>
+                <div style={{ color: '#dc7373', paddingBottom: '1em' }}>
                     {error &&
                         translate.no_participant_found_code
                     }
                 </div>
-                <div style={{ overflow: "hidden", width: "520px", height: "370px", position: 'relative', borderRadius: "30px", }} >
+                <div style={{ overflow: 'hidden', width: '520px', height: '370px', position: 'relative', borderRadius: '30px', }} >
                     <canvas id="canvas2" ref={canvasRef2}
                         style={{
                             zIndex: 99999,
@@ -370,8 +370,8 @@ left: 0,
                     </canvas>
                 </div>
             </div >
-        )
-    }
+        );
+    };
 
     return (
         <AlertConfirm
@@ -384,7 +384,7 @@ left: 0,
             title={translate.search}
             bodyText={renderBody()}
         />
-    )
-}
+    );
+};
 
 export default withApollo(QRSearchModal);

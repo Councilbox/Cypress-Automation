@@ -1,8 +1,8 @@
-import React from "react";
-import { IconButton, Paper, Tooltip } from "material-ui";
-import { AlertConfirm, CloseIcon, Grid, GridItem } from "../../displayComponents/index";
-import { getPrimary, getSecondary } from "../../styles/colors";
-import { formatSize } from "../../utils/CBX";
+import React from 'react';
+import { IconButton, Paper, Tooltip } from 'material-ui';
+import { AlertConfirm, CloseIcon, Grid, GridItem } from '../../displayComponents/index';
+import { getPrimary, getSecondary } from '../../styles/colors';
+import { formatSize } from '../../utils/CBX';
 
 
 const AttachmentItem = ({ attachment, removeAttachment, icon, editName, edit, loading, translate, loadingId, error }) => {
@@ -12,15 +12,15 @@ const AttachmentItem = ({ attachment, removeAttachment, icon, editName, edit, lo
 
 	const removeItem = attachment => {
 		removeAttachment(attachment.id);
-	}
+	};
 
 	return (
 		<Paper
 			style={{
-				width: "100%",
-				padding: "1vw",
+				width: '100%',
+				padding: '1vw',
 				paddingRight: '3em',
-				marginTop: "0.6em",
+				marginTop: '0.6em',
 				...(attachment.state === 2 ? { backgroundColor: 'whiteSmoke' } : {}),
 				...(error ? {
 					border: '1px solid red'
@@ -31,8 +31,8 @@ const AttachmentItem = ({ attachment, removeAttachment, icon, editName, edit, lo
 				<GridItem xs={6}>
 					<div
 						style={{
-							fontWeight: "600",
-							fontSize: "1em",
+							fontWeight: '600',
+							fontSize: '1em',
 							display: 'flex',
 							alignItems: 'center',
 							flexDirection: 'row',
@@ -49,7 +49,7 @@ const AttachmentItem = ({ attachment, removeAttachment, icon, editName, edit, lo
 								<div>
 									<IconButton
 										style={{
-											height: "28px",
+											height: '28px',
 											outline: 0,
 											marginLeft: '0.3em'
 										}}
@@ -69,7 +69,7 @@ const AttachmentItem = ({ attachment, removeAttachment, icon, editName, edit, lo
 						{(edit || loading) &&
 							<CloseIcon
 								style={{
-									float: "right",
+									float: 'right',
 									color: primary
 								}}
 								loading={loadingId === attachment.id || loading}
@@ -97,6 +97,6 @@ const AttachmentItem = ({ attachment, removeAttachment, icon, editName, edit, lo
 			/>
 		</Paper>
 	);
-}
+};
 
 export default AttachmentItem;

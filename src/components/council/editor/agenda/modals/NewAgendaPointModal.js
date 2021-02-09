@@ -1,9 +1,9 @@
-import React from "react";
-import { graphql, withApollo } from "react-apollo";
+import React from 'react';
+import { graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { MenuItem } from "material-ui";
+import { MenuItem } from 'material-ui';
 import { toast } from 'react-toastify';
-import { withRouter } from "react-router-dom";
+import { withRouter } from 'react-router-dom';
 import {
 	AlertConfirm,
 	BasicButton,
@@ -12,26 +12,26 @@ import {
 	MajorityInput,
 	SelectInput,
 	TextInput
-} from "../../../../../displayComponents/index";
-import RichTextInput from "../../../../../displayComponents/RichTextInput";
-import LoadDraft from "../../../../company/drafts/LoadDraft";
-import { addAgenda } from "../../../../../queries/agenda";
-import * as CBX from "../../../../../utils/CBX";
-import { getSecondary } from "../../../../../styles/colors";
-import { checkRequiredFieldsAgenda, checkValidMajority } from "../../../../../utils/validation";
-import { useOldState } from "../../../../../hooks";
-import PointAttachments from "./PointAttachments";
-import { addAgendaAttachment } from "../../../../../queries";
-import { AGENDA_TYPES } from "../../../../../constants";
+} from '../../../../../displayComponents/index';
+import RichTextInput from '../../../../../displayComponents/RichTextInput';
+import LoadDraft from '../../../../company/drafts/LoadDraft';
+import { addAgenda } from '../../../../../queries/agenda';
+import * as CBX from '../../../../../utils/CBX';
+import { getSecondary } from '../../../../../styles/colors';
+import { checkRequiredFieldsAgenda, checkValidMajority } from '../../../../../utils/validation';
+import { useOldState } from '../../../../../hooks';
+import PointAttachments from './PointAttachments';
+import { addAgendaAttachment } from '../../../../../queries';
+import { AGENDA_TYPES } from '../../../../../constants';
 
 const defaultValues = {
-	agendaSubject: "",
+	agendaSubject: '',
 	subjectType: 0,
-	description: "",
+	description: '',
 	majority: null,
 	majorityType: 1,
 	majorityDivider: null
-}
+};
 
 
 const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council, company, companyStatutes, confirmation, showLoadDraft = true, ...props }) => {
@@ -48,9 +48,9 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 		saveAsDraft: false,
 
 		errors: {
-			agendaSubject: "",
-			subjectType: "",
-			description: ""
+			agendaSubject: '',
+			subjectType: '',
+			description: ''
 		}
 	});
 	const editor = React.useRef(null);
@@ -109,8 +109,8 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 							variables: {
 								attachment: fileInfo
 							}
-						})
-				}))
+						});
+				}));
 			}
 
 			if (response) {
@@ -120,7 +120,7 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 				props.refetch();
 			}
 		}
-	}
+	};
 
 	const close = () => {
 		setState({
@@ -128,14 +128,14 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 			newPointModal: false,
 			loadDraft: false,
 			errors: {
-				agendaSubject: "",
-				subjectType: "",
-				description: ""
+				agendaSubject: '',
+				subjectType: '',
+				description: ''
 			}
 		});
 		setSending(false);
 		props.requestClose();
-	}
+	};
 
 	const updateState = object => {
 		setState({
@@ -161,11 +161,11 @@ subjectType = 0;
 			const { segments } = draft.tags.agenda;
 			if(segments){
 				if(segments[1]){
-					subjectType = votingTypes.filter(type => draft.tags.agenda.segments[1] === type.label)[0].value
+					subjectType = votingTypes.filter(type => draft.tags.agenda.segments[1] === type.label)[0].value;
 				}
 
 				if(segments[2]){
-					majorityType = props.majorityTypes.filter(type => draft.tags.agenda.segments[2] === type.label)[0].value
+					majorityType = props.majorityTypes.filter(type => draft.tags.agenda.segments[2] === type.label)[0].value;
 				}
 			}
 		}
@@ -185,7 +185,7 @@ subjectType = 0;
 		});
 
 		editor.current.setValue(correctedText);
-	}
+	};
 
 	const _renderNewPointBody = () => {
 		const errors = state.errors;
@@ -207,15 +207,15 @@ subjectType = 0;
 						draftType={1}
 						defaultTags={{
 							...(state.newPoint.subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST ? {
-								"confirmation_request": {
+								'confirmation_request': {
 									active: true,
 									childs: null,
 									label: translate.confirmation_request,
-									name: "confirmation_request",
+									name: 'confirmation_request',
 									type: 3
 								},
 							} : {
-								"agenda": {
+								'agenda': {
 									active: true,
 									type: 2,
 									name: 'agenda',
@@ -227,7 +227,7 @@ subjectType = 0;
 					/>
 				)}
 
-				<div style={{ display: state.loadDraft && "none" }}>
+				<div style={{ display: state.loadDraft && 'none' }}>
 					<Grid>
 						<GridItem xs={12} md={9} lg={9}>
 							<TextInput
@@ -264,7 +264,7 @@ subjectType = 0;
 							:
 								<SelectInput
 									floatingText={translate.type}
-									value={"" + agenda.subjectType}
+									value={'' + agenda.subjectType}
 									onChange={event => updateState({
 											subjectType: +event.target.value
 										})
@@ -273,7 +273,7 @@ subjectType = 0;
 								>
 									{filteredTypes.map(voting => (
 											<MenuItem
-												value={"" + voting.value}
+												value={'' + voting.value}
 												key={`voting${voting.value}`}
 											>
 												{translate[voting.label]}
@@ -288,7 +288,7 @@ subjectType = 0;
 							<GridItem xs={6} lg={3} md={3}>
 								<SelectInput
 									floatingText={translate.majority_label}
-									value={"" + agenda.majorityType}
+									value={'' + agenda.majorityType}
 									errorText={errors.majorityType}
 									onChange={event => updateState({
 											majorityType: +event.target.value
@@ -298,7 +298,7 @@ subjectType = 0;
 								>
 									{props.majorityTypes.map(majority => (
 											<MenuItem
-												value={"" + majority.value}
+												value={'' + majority.value}
 												key={`majorityType_${
 													majority.value
 													}`}
@@ -354,13 +354,13 @@ subjectType = 0;
 									text={translate.load_draft}
 									color={secondary}
 									textStyle={{
-										color: "white",
-										fontWeight: "600",
-										fontSize: "0.8em",
-										textTransform: "none",
-										marginLeft: "0.4em",
+										color: 'white',
+										fontWeight: '600',
+										fontSize: '0.8em',
+										textTransform: 'none',
+										marginLeft: '0.4em',
 										minHeight: 0,
-										lineHeight: "1em"
+										lineHeight: '1em'
 									}}
 									textPosition="after"
 									onClick={() => setState({ loadDraft: true })}
@@ -416,9 +416,9 @@ subjectType = 0;
 			/>
 		</React.Fragment>
 	);
-}
+};
 
 
 export default graphql(addAgenda, {
-	name: "addAgenda"
+	name: 'addAgenda'
 })(withRouter(withApollo(NewAgendaPointModal)));

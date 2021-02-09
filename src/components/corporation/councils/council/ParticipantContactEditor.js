@@ -3,7 +3,7 @@ import { graphql, compose, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { TextInput, BasicButton } from '../../../../displayComponents';
 import { getSecondary } from '../../../../styles/colors';
-import { resendRoomEmails as changeResendRoomEmails } from "../../../../queries/liveParticipant";
+import { resendRoomEmails as changeResendRoomEmails } from '../../../../queries/liveParticipant';
 import { moment } from '../../../../containers/App';
 import { useOldState } from '../../../../hooks';
 import { updateParticipantSends as changeParticipantSends } from '../../../../queries';
@@ -32,11 +32,11 @@ const ParticipantContactEditor = ({ translate, council, client, updateParticipan
                 email: state.email,
                 phone: state.phone
             }
-        })
+        });
         setState({
             loading: false
         });
-    }
+    };
 
     const getParticipantRoomLink = async () => {
         const response = await client.query({
@@ -50,7 +50,7 @@ const ParticipantContactEditor = ({ translate, council, client, updateParticipan
             }
         });
         setRoomLink(response.data.participantRoomLink);
-    }
+    };
 
     const resendRoomEmails = async () => {
         setState({
@@ -70,7 +70,7 @@ const ParticipantContactEditor = ({ translate, council, client, updateParticipan
         setState({
             sendsLoading: false
         });
-    }
+    };
 
     const sendParticipantPortalAccessMail = async () => {
          await client.mutate({
@@ -85,8 +85,8 @@ const ParticipantContactEditor = ({ translate, council, client, updateParticipan
                 participantId: participant.participantId,
                 type: 'ACCESS'
             }
-        })
-    }
+        });
+    };
 
     const refreshEmailStates = async () => {
 		setState({
@@ -132,37 +132,37 @@ const ParticipantContactEditor = ({ translate, council, client, updateParticipan
             });
             props.refetch();
         }
-    }
+    };
 
     const updateEmail = event => {
         setState({
             email: event.target.value
         });
-    }
+    };
 
     const updatePhone = event => {
         setState({
             phone: event.target.value
         });
-    }
+    };
 
     return (
         <div>
-            <div style={{ display: 'flex', alignItems: 'center', paddingBottom: "10px" }}>
+            <div style={{ display: 'flex', alignItems: 'center', paddingBottom: '10px' }}>
                 <TextInput
                     value={state.email}
                     floatingText={translate.email}
                     onChange={updateEmail}
                 />
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', paddingBottom: "10px" }}>
+            <div style={{ display: 'flex', alignItems: 'center', paddingBottom: '10px' }}>
                 <TextInput
                     value={state.phone}
                     floatingText={translate.phone}
                     onChange={updatePhone}
                 />
             </div>
-            <div style={{ display: 'flex', justifyContent: "space-between", paddingBottom: "10px" }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', paddingBottom: '10px' }}>
                 <BasicButton
                     color={secondary}
                     text="Reenviar credenciales a este participante"
@@ -216,8 +216,8 @@ const ParticipantContactEditor = ({ translate, council, client, updateParticipan
                 />
             }
         </div>
-    )
-}
+    );
+};
 
 
 const updateParticipantContactInfo = gql`
@@ -243,7 +243,7 @@ export default compose(
         name: 'updateParticipantContactInfo'
     }),
     graphql(changeParticipantSends, {
-		name: "updateParticipantSends"
+		name: 'updateParticipantSends'
 	}),
     graphql(changeResendRoomEmails, {
         name: 'resendRoomEmails'

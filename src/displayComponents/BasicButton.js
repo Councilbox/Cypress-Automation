@@ -1,7 +1,7 @@
-import React from "react";
-import { Button } from "material-ui";
-import { CircularProgress } from "material-ui/Progress";
-import { ButtonIcon } from "./index";
+import React from 'react';
+import { Button } from 'material-ui';
+import { CircularProgress } from 'material-ui/Progress';
+import { ButtonIcon } from './index';
 
 const BasicButton = ({
 	color,
@@ -9,7 +9,7 @@ const BasicButton = ({
 	error,
 	text,
 	resetDelay = 2700,
-	loadingColor = "white",
+	loadingColor = 'white',
 	textStyle,
 	reset,
 	buttonStyle,
@@ -32,7 +32,7 @@ const BasicButton = ({
 			timeout = setTimeout(reset, resetDelay);
 		}
 		return () => {
-			clearTimeout(timeout)
+			clearTimeout(timeout);
 		};
 	}, [error, success, reset, resetDelay]);
 
@@ -45,9 +45,9 @@ const BasicButton = ({
 				textTransform: 'none',
 				...buttonStyle,
 				...textStyle,
-				backgroundColor: success ? "green" : error ? "red" : color,
-				float: floatRight && "right",
-				outline: "0",
+				backgroundColor: success ? 'green' : error ? 'red' : color,
+				float: floatRight && 'right',
+				outline: '0',
 				cursor: loading ? 'wait' : 'pointer',
 				...backgroundColor,
 			}}
@@ -87,10 +87,10 @@ const BasicButton = ({
 						<div
 							style={{
 								color: loadingColor,
-								marginLeft: "0.3em"
+								marginLeft: '0.3em'
 							}}
 						>
-							<CircularProgress size={12} color={"inherit"} />
+							<CircularProgress size={12} color={'inherit'} />
 						</div>
 					)
 			) : (

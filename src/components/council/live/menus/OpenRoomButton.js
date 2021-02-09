@@ -1,6 +1,6 @@
-import React from "react";
-import { graphql } from "react-apollo";
-import { openCouncilRoom } from "../../../../queries/live";
+import React from 'react';
+import { graphql } from 'react-apollo';
+import { openCouncilRoom } from '../../../../queries/live';
 import {
 	AlertConfirm,
 	BasicButton,
@@ -8,14 +8,14 @@ import {
 	Icon,
 	Radio,
 	HelpPopover
-} from "../../../../displayComponents";
-import { getPrimary } from "../../../../styles/colors";
+} from '../../../../displayComponents';
+import { getPrimary } from '../../../../styles/colors';
 import { moment } from '../../../../containers/App';
-import { useOldState } from "../../../../hooks";
-import LiveSMS from "../councilMenu/LiveSMS";
-import FailedSMSMessage from "../councilMenu/FailedSMSMessage";
-import { isMobile } from "../../../../utils/screen";
-import { COUNCIL_TYPES } from "../../../../constants";
+import { useOldState } from '../../../../hooks';
+import LiveSMS from '../councilMenu/LiveSMS';
+import FailedSMSMessage from '../councilMenu/FailedSMSMessage';
+import { isMobile } from '../../../../utils/screen';
+import { COUNCIL_TYPES } from '../../../../constants';
 
 
 const OpenRoomButton = ({ council, translate, ...props }) => {
@@ -48,7 +48,7 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 				setState({ confirmModal: false });
 			}
 		}
-	}
+	};
 
 	const getBody = () => {
 		if(state.showSMS){
@@ -57,11 +57,11 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 					translate={translate}
 					council={council}
 				/>
-			)
+			);
 		}
 
 		if(error === 'Failed SMS'){
-			return <FailedSMSMessage translate={translate} onClick={() => setState({ showSMS: true })} />
+			return <FailedSMSMessage translate={translate} onClick={() => setState({ showSMS: true })} />;
 		}
 
 		if(council.councilType === COUNCIL_TYPES.ONE_ON_ONE){
@@ -79,7 +79,7 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 						style={{ color: primary }}
 					/>
 				</a>
-			)
+			);
 		}
 
 		return (
@@ -100,7 +100,7 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 				{state.sendCredentials &&
 					<>
 						<Radio
-							value={"all"}
+							value={'all'}
 							checked={state.sendOptions === 'all'}
 							onChange={event => setState({
 									sendOptions: event.target.value
@@ -110,7 +110,7 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 							label={translate.all_plural}
 						/>
 						<Radio
-							value={"remotes"}
+							value={'remotes'}
 							checked={state.sendOptions === 'remotes'}
 							onChange={event => setState({
 									sendOptions: event.target.value
@@ -140,8 +140,8 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 					/>
 				</a>
 			</React.Fragment>
-		)
-	}
+		);
+	};
 
 	return (
 		<React.Fragment>
@@ -158,19 +158,19 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 							<Icon
 								className="material-icons"
 								style={{
-									fontSize: "1.1em",
-									color: "white"
+									fontSize: '1.1em',
+									color: 'white'
 								}}
 							>
 								play_arrow
 							</Icon>
 						}
-						buttonStyle={{ width: "11em" }}
+						buttonStyle={{ width: '11em' }}
 						textStyle={{
-							color: "white",
-							fontSize: "0.75em",
-							fontWeight: "700",
-							textTransform: "none"
+							color: 'white',
+							fontSize: '0.75em',
+							fontWeight: '700',
+							textTransform: 'none'
 						}}
 					/>
 				}
@@ -186,14 +186,14 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 				modal={true}
 				acceptAction={handleOpenCouncilRoom}
 				requestClose={() => setState({ confirmModal: false })}
-				classNameDialog={isMobile ? "noMarginM" : 'noMargin'}
+				classNameDialog={isMobile ? 'noMarginM' : 'noMargin'}
 				bodyStyle={{ ...((!!error || state.showSMS) ?
-					{ overflowY: "hidden", height: "50vh", width: "100%", maxWidth: isMobile && "100vw" } : {}) }}
+					{ overflowY: 'hidden', height: '50vh', width: '100%', maxWidth: isMobile && '100vw' } : {}) }}
 			/>
 		</React.Fragment>
 	);
-}
+};
 
 export default graphql(openCouncilRoom, {
-	name: "openCouncilRoom"
+	name: 'openCouncilRoom'
 })(OpenRoomButton);

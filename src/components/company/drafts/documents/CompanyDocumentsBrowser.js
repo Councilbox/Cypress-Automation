@@ -13,7 +13,7 @@ const CompanyDocumentsBrowser = ({ company, translate, action, open, requestClos
                 hideUpload={true}
                 action={action}
             />
-        )
+        );
 
     return (
         <AlertConfirm
@@ -28,7 +28,7 @@ const CompanyDocumentsBrowser = ({ company, translate, action, open, requestClos
             title={translate.my_documentation}
             bodyText={renderBody()}
         />
-    )
-}
+    );
+};
 
 export default CompanyDocumentsBrowser;

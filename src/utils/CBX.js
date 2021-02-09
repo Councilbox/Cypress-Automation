@@ -1,5 +1,5 @@
 import React from 'react';
-import fileSize from "filesize";
+import fileSize from 'filesize';
 import {
 	MAX_COUNCIL_FILE_SIZE,
 	PARTICIPANT_STATES,
@@ -17,19 +17,19 @@ import {
 	COUNCIL_TYPES,
 	GOVERNING_BODY_TYPES,
 	ACTIVE_STATES
-} from "../constants";
-import dropped from "../assets/img/dropped.png";
-import delivered from "../assets/img/delivered.png";
-import invalidEmailAddress from "../assets/img/invalid_email_address.png";
-import notSent from "../assets/img/not_sent.png";
-import opened from "../assets/img/opened.png";
-import pendingShipping from "../assets/img/pending_shipping.png";
-import spam from "../assets/img/spam.png";
+} from '../constants';
+import dropped from '../assets/img/dropped.png';
+import delivered from '../assets/img/delivered.png';
+import invalidEmailAddress from '../assets/img/invalid_email_address.png';
+import notSent from '../assets/img/not_sent.png';
+import opened from '../assets/img/opened.png';
+import pendingShipping from '../assets/img/pending_shipping.png';
+import spam from '../assets/img/spam.png';
 import LiveUtil from './live';
 import { LiveToast } from '../displayComponents';
 import { moment, client, store } from '../containers/App';
-import { query } from "../components/company/drafts/companyTags/CompanyTags";
-import { TAG_TYPES } from "../components/company/drafts/draftTags/utils";
+import { query } from '../components/company/drafts/companyTags/CompanyTags';
+import { TAG_TYPES } from '../components/company/drafts/draftTags/utils';
 
 export const canReorderPoints = council => council.statute.canReorderPoints === 1;
 
@@ -45,16 +45,16 @@ export const formatInt = num => {
 .replace(/(?=\d*\.?)(\d{3})/g, '$1 ');
 	num = num.split('').reverse().join('').replace(/^[\.]/, '');
 	return num;
-}
+};
 
 export const getPercentage = (num, total, decimals = 3) => {
     const percentage = ((num * 100) / (total)).toFixed(decimals);
     const zero = 0;
     if (Number.isNaN(percentage)) {
-        return zero.toFixed(decimals)
+        return zero.toFixed(decimals);
 	}
     return percentage;
-}
+};
 
 export const getActiveVote = agendaVoting => {
 	if(!agendaVoting.fixed) {
@@ -63,7 +63,7 @@ export const getActiveVote = agendaVoting => {
 
 	const activedDelegated = agendaVoting.delegatedVotes.find(vote => !vote.fixed);
 	return activedDelegated || agendaVoting;
-}
+};
 
 
 export const showNumParticipations = (numParticipations, company, statute) => {
@@ -80,7 +80,7 @@ export const showNumParticipations = (numParticipations, company, statute) => {
 	}
 
 	return formatInt(numParticipations);
-}
+};
 
 export const splitExtensionFilename = filename => {
 	const array = filename.split('.');
@@ -90,8 +90,8 @@ export const splitExtensionFilename = filename => {
 	return {
 		filename: array.slice(0, -1).join('.'),
 		extension: array[array.length - 1]
-	}
-}
+	};
+};
 
 export const showAddCouncilAttachment = () => true;
 
@@ -101,7 +101,7 @@ export const hasAccessKey = council => {
 	}
 
 	return (council.securityType === 1 || council.securityType === 2);
-}
+};
 
 export const canAddCouncilAttachment = (council, filesize) => (
 		council.attachments.reduce((a, b) => a + parseInt(b.filesize, 10), 0) +
@@ -112,7 +112,7 @@ export const canAddCouncilAttachment = (council, filesize) => (
 export const trialDaysLeft = (company, date, trialDays) => {
 	const left = trialDays - date(new Date()).diff(date(company.creationDate), 'days');
 	return left <= 0 || Number.isNaN(left) ? 0 : left;
-}
+};
 
 export const councilStarted = council => council.councilStarted === 1;
 
@@ -127,12 +127,12 @@ export const showAgendaVotingsToggle = (council, agenda) => (
 export const showSendCredentials = participantState => participantState !== PARTICIPANT_STATES.PRESENT &&
 		participantState !== PARTICIPANT_STATES.PHYSICALLY_PRESENT &&
 		participantState !== PARTICIPANT_STATES.DELEGATED &&
-		participantState !== PARTICIPANT_STATES.REPRESENTATED
+		participantState !== PARTICIPANT_STATES.REPRESENTATED;
 
 export const showAgendaVotingsTable = agenda => (
 		agenda.votingState > 0 &&
 		agenda.subjectType !== 0
-	)
+	);
 
 export const getAgendaResult = (agenda, type, data = {}) => {
 	const totalVotes = agenda.positiveVotings + agenda.positiveManual + agenda.negativeVotings + agenda.negativeManual + agenda.abstentionVotings + agenda.abstentionManual + agenda.noVoteVotings + agenda.noVoteManual;
@@ -144,7 +144,7 @@ export const getAgendaResult = (agenda, type, data = {}) => {
 		ABSTENTION: `${showNumParticipations(agenda.abstentionVotings + agenda.abstentionManual, data.company, data.council ? data.council.statute : {})} (${getPercentage((agenda.abstentionVotings + agenda.abstentionManual), (totalVotes))}%)`,
 		NO_VOTE: `${showNumParticipations(agenda.noVoteVotings + agenda.noVoteManual, data.company, data.council ? data.council.statute : {})} (${getPercentage((agenda.noVoteVotings + agenda.noVoteManual), (totalVotes))}%)`,
 		NUM_NO_VOTE: `${agenda.recount.numNoVote} (${getPercentage((agenda.recount.numNoVote), (agenda.recount.numTotal))}%)`,
-	}
+	};
 
 	return types[type];
 };
@@ -159,7 +159,7 @@ export const userCanCreateCompany = (user, companies) => {
 		return true;
 	}
 	return user.actived === USER_ACTIVATIONS.PREMIUM;
-}
+};
 
 export const agendaVotingsOpened = agenda => agenda.votingState === AGENDA_STATES.DISCUSSION || agenda.votingState === 4;
 
@@ -177,7 +177,7 @@ export const checkForUnclosedBraces = text => {
 	}
 
 	return false;
-}
+};
 
 export const councilHasParticipations = council => council.statute.quorumPrototype === 1;
 
@@ -199,7 +199,7 @@ export const copyStringToClipboard = str => {
 	el.select();
 	document.execCommand('copy');
 	document.body.removeChild(el);
-}
+};
 
 export const majorityNeedsInput = majorityType => majorityType === MAJORITY_TYPES.PERCENTAGE
 		|| majorityType === MAJORITY_TYPES.NUMBER
@@ -214,14 +214,14 @@ export const canEditPresentVotings = agenda => (agenda.votingState === AGENDA_ST
 		agenda.subjectType === AGENDA_TYPES.FAKE_PUBLIC_VOTING ||
 		agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING ||
 		agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE ||
-		agenda.subjectType === AGENDA_TYPES.CUSTOM_PUBLIC)
+		agenda.subjectType === AGENDA_TYPES.CUSTOM_PUBLIC);
 
 export const approvedByQualityVote = agenda => {
 	if(agenda && agenda.qualityVoteSense){
 		return agenda.qualityVoteSense === VOTE_VALUES.POSITIVE;
 	}
 	return false;
-}
+};
 
 export const voteValuesText = vote => {
 	switch (vote) {
@@ -234,9 +234,9 @@ export const voteValuesText = vote => {
 		case VOTE_VALUES.ABSTENTION:
 			return 'abstention';
 		default:
-			return "-";
+			return '-';
 	}
-}
+};
 
 export const isMajorityPercentage = majorityType => majorityType === 0;
 
@@ -252,7 +252,7 @@ export const isQuorumFraction = quorumType => quorumType === 2;
 
 export const isQuorumNumber = quorumType => quorumType === 3;
 
-export const voteAllAtOnce = data => data.council.councilType === 3
+export const voteAllAtOnce = data => data.council.councilType === 3;
 
 export const findOwnVote = (votings, participant) => {
 	if(participant.type !== PARTICIPANT_TYPE.REPRESENTATIVE){
@@ -266,7 +266,7 @@ export const findOwnVote = (votings, participant) => {
 		|| voting.delegateId === participant.id ||
 		voting.author.representative.id === participant.id
 	) && !voting.author.voteDenied));
-}
+};
 
 export const hasAct = statute => statute.existsAct === 1;
 
@@ -293,25 +293,25 @@ export const delegatedVotesLimitReached = (statute, length) => (
 export const isCustomPoint = subjectType => {
 	const customPoint = CUSTOM_AGENDA_VOTING_TYPES.find(type => subjectType === type.value);
 	return !!customPoint;
-}
+};
 
-export const isConfirmationRequest = subjectType => subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST
+export const isConfirmationRequest = subjectType => subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST;
 
 export const hasParticipations = (statute = {}) => statute.quorumPrototype === 1;
 
 export const canBePresentWithRemoteVote = statute => statute.existsPresentWithRemoteVote === 1;
 
-export const isAnonym = subjectType => subjectType === AGENDA_TYPES.PRIVATE_VOTING || subjectType === AGENDA_TYPES.CUSTOM_PRIVATE
+export const isAnonym = subjectType => subjectType === AGENDA_TYPES.PRIVATE_VOTING || subjectType === AGENDA_TYPES.CUSTOM_PRIVATE;
 export const getSMSStatusByCode = reqCode => {
     const status = {
         22: 'Entregado',
         20: 'Enviado',
         '-2': <span style={{ color: 'red' }}>Número no válido</span>,
         default: <span style={{ color: 'red' }}>Fallido</span>
-    }
+    };
 
     return status[reqCode] ? status[reqCode] : status.default;
-}
+};
 
 export const filterAgendaVotingTypes = (votingTypes, _, council = {}) => {
 	if(council.councilType === 2){
@@ -352,27 +352,27 @@ export const checkMinimumDistanceBetweenCalls = (
 		new Date(secondCall).toISOString(),
 		moment.ISO_8601
 	);
-	const difference = secondDate.diff(firstDate, "minutes");
+	const difference = secondDate.diff(firstDate, 'minutes');
 	return difference >= statute.minimumSeparationBetweenCall;
 };
 
 export const checkSecondDateAfterFirst = (firstDate, secondDate) => {
 	const first = moment(new Date(firstDate).toISOString(), moment.ISO_8601);
 	const second = moment(new Date(secondDate).toISOString(), moment.ISO_8601);
-	const difference = second.diff(first, "minutes");
+	const difference = second.diff(first, 'minutes');
 	return difference > 0;
 };
 
 export const addMinimumDistance = (date, statute) => {
 	const momentDate = moment(new Date(date).toISOString());
-	return momentDate.add(statute.minimumSeparationBetweenCall, "minutes");
+	return momentDate.add(statute.minimumSeparationBetweenCall, 'minutes');
 };
 
 export const replaceSpecials = string => {
-	const specials = ["-", "[", "]", "/", "{", "}", "(", ")", "*", "+", "?", ".", "\\", "^", "$", "|"];
+	const specials = ['-', '[', ']', '/', '{', '}', '(', ')', '*', '+', '?', '.', '\\', '^', '$', '|'];
 	const regex = RegExp('[' + specials.join('\\') + ']', 'g');
-	return string.replace(regex, "\\$&");
-}
+	return string.replace(regex, '\\$&');
+};
 
 
 export const getArticles = () => {
@@ -382,9 +382,9 @@ export const getArticles = () => {
 				es: 'El',
 				en: 'The',
 				gal: 'O',
-				cat: "El",
+				cat: 'El',
 				pt: 'O'
-			}
+			};
 			return languages[language];
 		},
 		la: language => {
@@ -392,9 +392,9 @@ export const getArticles = () => {
 				es: 'La',
 				en: 'The',
 				gal: 'A',
-				cat: "La",
+				cat: 'La',
 				pt: 'A'
-			}
+			};
 			return languages[language];
 		},
 		los: language => {
@@ -404,7 +404,7 @@ export const getArticles = () => {
 				gal: 'Os',
 				cat: 'Els',
 				pt: 'Os'
-			}
+			};
 			return languages[language];
 		},
 		las: language => {
@@ -414,13 +414,13 @@ export const getArticles = () => {
 				gal: 'As',
 				cat: 'Les',
 				pt: 'As'
-			}
+			};
 			return languages[language];
 		}
-	}
+	};
 
 	return articles;
-}
+};
 
 export const getDecides = () => {
 	const articles = {
@@ -429,9 +429,9 @@ export const getDecides = () => {
 				es: 'decide',
 				en: 'decides',
 				gal: 'decide',
-				cat: "decideix",
+				cat: 'decideix',
 				pt: 'decide'
-			}
+			};
 			return languages[language];
 		},
 		acuerda: language => {
@@ -439,9 +439,9 @@ export const getDecides = () => {
 				es: 'acuerda',
 				en: 'agrees',
 				gal: 'acorda',
-				cat: "acorda",
+				cat: 'acorda',
 				pt: 'concorda'
-			}
+			};
 			return languages[language];
 		},
 		acuerdan: language => {
@@ -449,15 +449,15 @@ export const getDecides = () => {
 				es: 'acuerdan',
 				en: 'agrees',
 				gal: 'acordan',
-				cat: "acordan",
+				cat: 'acordan',
 				pt: 'concordan'
-			}
+			};
 			return languages[language];
 		}
-	}
+	};
 
 	return articles;
-}
+};
 
 export const generateGBDecidesText = (translate, type) => {
 	const articles = getArticles();
@@ -469,10 +469,10 @@ export const generateGBDecidesText = (translate, type) => {
 		3: `${articles.los(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.JOINT_ADMIN.label]} ${decides.acuerdan(translate.selectedLanguage)}`,
 		4: `${articles.el(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.SOLIDARY_ADMIN.label]} ${decides.decide(translate.selectedLanguage)}`,
 		5: `${articles.el(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.COUNCIL.label]} ${decides.acuerda(translate.selectedLanguage)}`
-	}
+	};
 
 	return labels[type] ? labels[type] : labels[0];
-}
+};
 
 export const generateGBAgreements = (translate, type) => {
 	const labels = {
@@ -482,10 +482,10 @@ export const generateGBAgreements = (translate, type) => {
 		3: translate.jointly_decides,
 		4: translate.in_solidarity_decides,
 		5: ''
-	}
+	};
 
 	return labels[type] ? labels[type] : labels[0];
-}
+};
 
 
 export const getGoverningText = (translate, type) => {
@@ -498,10 +498,10 @@ export const getGoverningText = (translate, type) => {
 		3: `${articles.los(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.JOINT_ADMIN.label]}`,
 		4: `${articles.el(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.SOLIDARY_ADMIN.label]}`,
 		5: `${articles.el(translate.selectedLanguage)} ${translate[GOVERNING_BODY_TYPES.COUNCIL.label]}`
-	}
+	};
 
 	return labels[type] ? labels[type] : labels[0];
-}
+};
 
 
 const sir = {
@@ -510,7 +510,7 @@ const sir = {
 	pt: 'D. / D.ª',
 	cat: 'D. / D.ª',
 	gal: 'D. / D.ª'
-}
+};
 
 export const generateGBSoleDecidesText = (translate, type) => {
 	const labels = {
@@ -520,10 +520,10 @@ export const generateGBSoleDecidesText = (translate, type) => {
 		7: `${translate.the_sole_shareholder} ${translate.agrees}`,
 		8: `${translate.the_sole_shareholder} ${translate.agrees}`,
 		9: `${translate.the_sole_shareholder} ${translate.agrees}`
-	}
+	};
 
 	return labels[type] ? labels[type] : labels[0];
-}
+};
 
 export const generateGBSoleProposeText = (translate, type) => {
 	const labels = {
@@ -533,10 +533,10 @@ export const generateGBSoleProposeText = (translate, type) => {
 		7: translate.the_sole_shareholder,
 		8: translate.the_sole_shareholder,
 		9: translate.the_sole_shareholder
-	}
+	};
 
 	return labels[type] ? labels[type] : labels[0];
-}
+};
 
 export const getGoverningBodySignatories = (translate, type, data) => {
 	const blankSpaces = '&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp';
@@ -547,13 +547,13 @@ export const getGoverningBodySignatories = (translate, type, data) => {
 		3: () => data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length - 1) ? blankSpaces : ''}`, ''),
 		4: () => data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length - 1) ? blankSpaces : ''}`, ''),
 		5: () => data.list.filter(admin => admin.sign).reduce((acc, curr, index, array) => acc + `${curr.name} ${curr.surname || ''}${(index < array.length - 1) ? blankSpaces : ''}`, ''),
-	}
+	};
 
 
 	return labels[type] ? labels[type]() : labels[0]();
-}
+};
 
-export const generateAgendaText = (translate, agenda) => agenda.reduce((acc, curr, index) => acc + `<br/>${index + 1}. ${curr.agendaSubject}`, '')
+export const generateAgendaText = (translate, agenda) => agenda.reduce((acc, curr, index) => acc + `<br/>${index + 1}. ${curr.agendaSubject}`, '');
 
 export const buildDelegationsString = (delegated, council, translate) => {
 	if(!delegated || delegated.length === 0){
@@ -566,7 +566,7 @@ export const buildDelegationsString = (delegated, council, translate) => {
 		gal: 'dono de',
 		cat: 'con',
 		pt: 'proprietário de'
-	}
+	};
 
 	return delegated.reduce((acc, vote) => acc + `<p style="border: 1px solid black; padding: 5px;">-${
 			vote.name} ${
@@ -574,7 +574,7 @@ export const buildDelegationsString = (delegated, council, translate) => {
 				council.quorumPrototype === 1 ? translate.census_type_social_capital.toLowerCase() : translate.votes.toLowerCase()} ${
 			translate.delegates.toLowerCase()} ${
 			vote.representative && vote.representative.name} ${(vote.representative && vote.representative.surname) || ''} </p><br/>`, '');
-}
+};
 
 export const buildAttendantString = ({ attendant, council, total, type }) => {
 	if(type === 'counselors'){
@@ -592,7 +592,7 @@ export const buildAttendantString = ({ attendant, council, total, type }) => {
 			type === 'partners' ? 'participaciones' : 'ações'}, representant el PERCENTAGE% de l'capital social `,
 		pt: `${sir[council.language]} NAME SURNAME proprietário de SHARES ${
 			type === 'partners' ? 'participacions' : 'accions'}, representando o PERCENTAGE% do capital social `,
-	}
+	};
 
 	const representativeOf = {
 		es: 'representante de ',
@@ -600,7 +600,7 @@ export const buildAttendantString = ({ attendant, council, total, type }) => {
 		gal: 'representante de ',
 		cat: 'representant de ',
 		pt: 'representante de ',
-	}
+	};
 
 	const representativeText = {
 		es: `RNAME RSURNAME con SHARES ${
@@ -613,11 +613,11 @@ export const buildAttendantString = ({ attendant, council, total, type }) => {
 			type === 'partners' ? 'participaciones' : 'ações'}, representant el PERCENTAGE% de l'capital social `,
 		pt: `RNAME RSURNAME con SHARES ${
 			type === 'partners' ? 'participacions' : 'accions'}, representando o PERCENTAGE% do capital social `,
-	}
+	};
 
 	if(attendant.type === PARTICIPANT_TYPE.REPRESENTATIVE){
 		return `${sir[council.language]} ${attendant.name} ${attendant.surname || ''} ${representativeOf[council.language]} ${
-			attendant.delegationsAndRepresentations.reduce((acc, representated, index) => (acc + (index > 0 ? ',' : ' ') + representativeText[council.language].replace('RNAME RSURNAME ', `${representated.name} ${representated.surname ? representated.surname + " " : ''}`)
+			attendant.delegationsAndRepresentations.reduce((acc, representated, index) => (acc + (index > 0 ? ',' : ' ') + representativeText[council.language].replace('RNAME RSURNAME ', `${representated.name} ${representated.surname ? representated.surname + ' ' : ''}`)
 					.replace('SHARES', representated.socialCapital)
 					.replace('PERCENTAGE', ((representated.socialCapital / total) * 100).toFixed(2))), '')}`;
 	}
@@ -626,9 +626,9 @@ export const buildAttendantString = ({ attendant, council, total, type }) => {
 		.replace('NAME SURNAME', `${attendant.name} ${attendant.surname || ''}`)
 		.replace('SHARES', attendant.socialCapital)
 		.replace('PERCENTAGE', ((attendant.socialCapital / total) * 100).toFixed(2));
-}
+};
 
-export const isActiveState = state => ACTIVE_STATES.findIndex(item => state === item) !== -1
+export const isActiveState = state => ACTIVE_STATES.findIndex(item => state === item) !== -1;
 
 export const buildAttendantsString = ({ council, total, type }) => (acc, curr) => {
 	if(!hasParticipations(council)){
@@ -637,11 +637,11 @@ export const buildAttendantsString = ({ council, total, type }) => (acc, curr) =
 	return acc + buildAttendantString({ attendant: curr, council, total, type });
 };
 
-export const isAdmin = user => user.roles === 'admin' || user.roles === 'devAdmin'
+export const isAdmin = user => user.roles === 'admin' || user.roles === 'devAdmin';
 
-export const isOrganization = company => company.id === company.corporationId
+export const isOrganization = company => company.id === company.corporationId;
 
-export const showOrganizationDashboard = (company, config, user = {}) => (company.type === 12 && (config.oneOnOneDashboard || config.newDashboard)) || (isOrganization(company) && config.organizationDashboard && isAdmin(user))
+export const showOrganizationDashboard = (company, config, user = {}) => (company.type === 12 && (config.oneOnOneDashboard || config.newDashboard)) || (isOrganization(company) && config.organizationDashboard && isAdmin(user));
 
 export const generateCompanyAdminsText = ({ council, company, list }) => {
 	const data = company.governingBodyData;
@@ -653,10 +653,10 @@ export const generateCompanyAdminsText = ({ council, company, list }) => {
 		gal: 'Administradores',
 		cat: 'Administradors',
 		pt: 'Administradores'
-	}
+	};
 
 	const buildMultipleAdmins = adminList => adminList.reduce((acc, curr, index, array) => acc + `${sir[council.language]} ${
-			curr.name} ${curr.surname || ''}${(index < array.length - 1) ? list ? '<br>' : ', ' : ''}`, list ? `${admins[council.language]}: <br>` : '')
+			curr.name} ${curr.surname || ''}${(index < array.length - 1) ? list ? '<br>' : ', ' : ''}`, list ? `${admins[council.language]}: <br>` : '');
 
 	const labels = {
 		0: () => '',
@@ -665,14 +665,14 @@ export const generateCompanyAdminsText = ({ council, company, list }) => {
 		3: () => buildMultipleAdmins(data.list),
 		4: () => buildMultipleAdmins(data.list),
 		5: () => buildMultipleAdmins(data.list),
-	}
+	};
 
 	return labels[governingType] ? labels[governingType]() : labels[0]();
-}
+};
 
 export const checkIfHasVote = attendant => (attendant.numParticipations > 0 || attendant.socialCapital > 0) ||
 		attendant.delegationsAndRepresentations
-			.filter(item => item.state === PARTICIPANT_STATES.REPRESENTATED && (item.numParticipations > 0 || item.socialCapital > 0)).length > 0
+			.filter(item => item.state === PARTICIPANT_STATES.REPRESENTATED && (item.numParticipations > 0 || item.socialCapital > 0)).length > 0;
 
 export const buildGuestString = ({ guest, council }) => {
 	const inQualityOf = {
@@ -681,10 +681,10 @@ export const buildGuestString = ({ guest, council }) => {
 		gal: 'na sua calidade de',
 		cat: 'en la seva qualitat de',
 		pt: 'na sua capacidade como'
-	}
+	};
 
 	return `${sir[council.language]} ${guest.name} ${guest.surname || ''} ${guest.position ? `${inQualityOf[council.language]} ${guest.position}` : ''}`;
-}
+};
 
 export const buildShareholdersList = ({ council, total, type }) => {
 	if(!council.attendants || council.attendants.length === 0){
@@ -697,7 +697,7 @@ export const buildShareholdersList = ({ council, total, type }) => {
 		gal: 'Accionistas',
 		cat: 'Accionistes',
 		pt: 'Acionistas'
-	}
+	};
 
 	const partnersText = {
 		es: 'Socios',
@@ -705,7 +705,7 @@ export const buildShareholdersList = ({ council, total, type }) => {
 		gal: 'Socios',
 		cat: 'Socis',
 		pt: 'Parceiros'
-	}
+	};
 
 	const counselorsList = {
 		es: 'Consejeros',
@@ -713,7 +713,7 @@ export const buildShareholdersList = ({ council, total, type }) => {
 		gal: 'Conselleiros',
 		cat: 'Consellers',
 		pt: 'Conselheiros'
-	}
+	};
 
 	return council.attendants.filter(checkIfHasVote)
 		.reduce((acc, curr) => `${acc}<br>${buildAttendantString({ attendant: curr, total, council, type })}`, `${
@@ -724,7 +724,7 @@ export const buildShareholdersList = ({ council, total, type }) => {
 					counselorsList[council.language]
 				:
 					shareholdersText[council.language]}:`);
-}
+};
 
 
 export const buildGuestList = ({ council, total }) => {
@@ -738,22 +738,22 @@ export const buildGuestList = ({ council, total }) => {
 		gal: 'Outros asistentes',
 		cat: 'Altres assistents',
 		pt: 'Outros atendentes'
-	}
+	};
 
 	return council.attendants.filter(attendant => !checkIfHasVote(attendant))
 		.reduce((acc, curr) => `${acc}<br>${buildGuestString({ guest: curr, total, council })}`, `${otherAttendants[council.language]}:`);
-}
+};
 
 export const changeVariablesToValues = async (text, data, translate) => {
 	if (!data || !data.company || !data.council) {
-		throw new Error("Missing data");
+		throw new Error('Missing data');
 	}
 
 	const state = store.getState();
 	const company = state.companies.list[state.companies.selected];
 
 	if (!text) {
-		return "";
+		return '';
 	}
 
 	if(company){
@@ -769,7 +769,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 		if(companyTags && companyTags.length > 0){
 			companyTags.forEach(tag => {
 				text = text.replace(new RegExp(`{{${replaceSpecials(tag.key)}}}`, 'g'), tag.value);
-			})
+			});
 		}
 	}
 
@@ -783,7 +783,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 				moment(
 					new Date(data.council.dateStart).toISOString(),
 					moment.ISO_8601
-				).format("LLL")
+				).format('LLL')
 				}</span>`
 			);
 		} else {
@@ -793,7 +793,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 				moment(
 					new Date(data.council.dateStart).toISOString(),
 					moment.ISO_8601
-				).format("LLL")
+				).format('LLL')
 				}</span>`
 			);
 		}
@@ -809,7 +809,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 				moment(
 					new Date(data.council.dateStart).toISOString(),
 					moment.ISO_8601
-				).format("LLL")
+				).format('LLL')
 				}</span>`
 			);
 		} else {
@@ -819,7 +819,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 				moment(
 					new Date(data.council.dateStart2NdCall).toISOString(),
 					moment.ISO_8601
-				).format("LLL")
+				).format('LLL')
 				}</span>`
 			);
 		}
@@ -838,11 +838,11 @@ export const changeVariablesToValues = async (text, data, translate) => {
 	text = text.replace(/{{numParticipationsRepresented}}/g, data.council.numParticipationsRepresented);
 	text = text.replace(/{{delegations}}/, buildDelegationsString(data.council.delegatedVotes, data.council, translate));
 	text = text.replace(/{{dateRealStart}}/g, data.council.dateRealStart ? moment(new Date(data.council.dateRealStart).toISOString(),
-		moment.ISO_8601).format("LLL") : '');
+		moment.ISO_8601).format('LLL') : '');
 	text = text.replace(/{{dateSecondCall}}/g, data.council.dateStart2NdCall ? moment(new Date(data.council.dateStart2NdCall).toISOString(),
-		moment.ISO_8601).format("LLL") : '');
+		moment.ISO_8601).format('LLL') : '');
 	text = text.replace(/{{dateEnd}}/g, data.council.dateEnd ? moment(new Date(data.council.dateEnd).toISOString(),
-		moment.ISO_8601).format("LLL") : '');
+		moment.ISO_8601).format('LLL') : '');
 	text = text.replace(
 		/{{firstOrSecondCall}}/g, data.council.firstOrSecondConvene === 1 ?
 		translate.first_call
@@ -857,7 +857,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 
 	text = text.replace(/{{president}}/g, data.council.president);
 	text = text.replace(/{{secretary}}/g, data.council.secretary);
-	text = text.replace(/{{address}}/g, `${data.council.street} ${data.council.country}`)
+	text = text.replace(/{{address}}/g, `${data.council.street} ${data.council.country}`);
 	text = text.replace(/{{business_name}}/g, data.company.businessName);
 	text = text.replace(/{{city}}/g, data.council.city);
 	text = text.replace(/{{attendants|Attendants}}/g, data.council.attendants ? data.council.attendants.reduce(buildAttendantsString(data.council, base), '') : '');
@@ -894,7 +894,7 @@ export const changeVariablesToValues = async (text, data, translate) => {
 
 
 	text = text.replace(/{{Agenda}}|{{agenda}}/g, data.council.agenda ? generateAgendaText(translate, data.council.agenda) : '');
-	text = text.replace(/{{dateEnd}}/g, moment(new Date(data.council.dateEnd)).format("LLL"));
+	text = text.replace(/{{dateEnd}}/g, moment(new Date(data.council.dateEnd)).format('LLL'));
 	text = text.replace(/{{numberOfShares}}/g, data.council.currentQuorum);
 	text = text.replace(/{{percentageOfShares}}/g, (data.council.currentQuorum / (parseInt(base, 10) * 100)).toFixed(3));
 	text = text.replace(/{{country_state}}/g, data.council.countryState);
@@ -922,18 +922,18 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 	const tags = {
 		dateFirstCall: {
 			value: '{{dateFirstCall}}',
-			label: translate["1st_call_date"]
+			label: translate['1st_call_date']
 		},
 		dateSecondCall: {
 			value: '{{dateSecondCall}}',
-			label: translate["2nd_call_date"]
+			label: translate['2nd_call_date']
 		},
 		businessName: {
 			value: '{{business_name}}',
 			label: translate.business_name
 		},
 		street: {
-			value: `{{street}}`,
+			value: '{{street}}',
 			label: translate.new_location_of_celebrate
 		},
 		city: {
@@ -1120,7 +1120,7 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			value: '{{delegations}}',
 			label: translate.delegations
 		}
-	}
+	};
 
 	const handler = {
 		get: (target, name) => {
@@ -1130,7 +1130,7 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 
 			return target[name];
 		}
-	}
+	};
 
 	const smartTags = new Proxy(tags, handler);
 
@@ -1266,10 +1266,10 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 			smartTags.negativeSCPresent,
 			smartTags.abstentionSCPresent
 		]
-	}
+	};
 
 	return types[draftType] ? types[draftType] : Object.keys(tags).map(key => tags[key]);
-}
+};
 
 export const isRepresentative = participant => participant.type === 2;
 
@@ -1277,7 +1277,7 @@ export const isRepresented = participant => participant.state === PARTICIPANT_ST
 
 export const getSendType = value => SEND_TYPES[value];
 
-export const removeHTMLTags = string => string.replace(/<(?:.|\n)*?>/gm, "").replace(/&#(\d+);/g, function (match, dec) {
+export const removeHTMLTags = string => string.replace(/<(?:.|\n)*?>/gm, '').replace(/&#(\d+);/g, function (match, dec) {
 		return String.fromCharCode(dec);
 	}).replace(/&nbsp;/g, ' ');
 
@@ -1291,14 +1291,14 @@ export const generateStatuteTag = (statute, translate) => ({
 			name: `statute_${statute.statuteId}`,
 			type: TAG_TYPES.STATUTE
 		}
-	})
+	});
 
 export const generateInitialDates = (statute) => {
 	if (statute.existsAdvanceNoticeDays === 1) {
 		const momentDate = moment(new Date().toISOString());
 		const dates = {
-			dateStart: momentDate.add(statute.advanceNoticeDays, "days").toISOString()
-		}
+			dateStart: momentDate.add(statute.advanceNoticeDays, 'days').toISOString()
+		};
 		if (hasSecondCall(statute)) {
 			dates.dateStart2NdCall = addMinimumDistance(dates.dateStart, statute);
 		}
@@ -1308,8 +1308,8 @@ export const generateInitialDates = (statute) => {
 	return {
 		dateStart: new Date(),
 		...(hasSecondCall(statute) ? { dateStart2NdCall: new Date() } : {})
-	}
-}
+	};
+};
 
 export const checkMinimumAdvance = (date, statute) => {
 	if (statute.existsAdvanceNoticeDays === 1) {
@@ -1321,12 +1321,12 @@ export const checkMinimumAdvance = (date, statute) => {
 			new Date().toISOString(),
 			moment.ISO_8601
 		);
-		const difference = firstDate.diff(secondDate, "days");
+		const difference = firstDate.diff(secondDate, 'days');
 		return difference >= statute.advanceNoticeDays;
 	}
 
 	return true;
-}
+};
 
 export const showUserUniqueKeyMessage = council => council.securityType === 1 || council.securityType === 2;
 
@@ -1352,7 +1352,7 @@ export const checkRepeatedItemValue = items => {
         }
     });
     return Array.from(found.values());
-}
+};
 
 export const councilIsPreparing = council => (
 		council.state === COUNCIL_STATES.PREPARING || council.state === COUNCIL_STATES.SAVED
@@ -1378,7 +1378,7 @@ export const isPresentVote = vote => vote.presentVote === 5 || vote.presentVote 
 
 export const addDecimals = (num, fixed) => {
 	num = num.toString();
-	return num.slice(0, num.indexOf(".") + fixed + 1);
+	return num.slice(0, num.indexOf('.') + fixed + 1);
 };
 
 function s2ab(s) {
@@ -1392,7 +1392,7 @@ export const unaccent = string => {
 	if (!string) {
 		return '';
 	}
-	return string.normalize('NFD').replace(/[\u0300-\u036f]/g, "")
+	return string.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 };
 
 function dataURItoBlob(dataURI) {
@@ -1411,7 +1411,7 @@ export const downloadFile = (base64, filetype, filename) => {
 	if (window.navigator.msSaveOrOpenBlob) {
 		const fileData = [bufferArray];
 		const blobObject = new Blob(fileData, {
-			type: "data:application/stream;base64"
+			type: 'data:application/stream;base64'
 		});
 		return window.navigator.msSaveOrOpenBlob(blobObject, filename);
 	}
@@ -1428,11 +1428,11 @@ export const downloadFile = (base64, filetype, filename) => {
 	}
 
 	const objectUrl = URL.createObjectURL(blob);
-	const a = document.createElement("a");
-	a.style.cssText = "display: none";
+	const a = document.createElement('a');
+	a.style.cssText = 'display: none';
 	document.body.appendChild(a);
 	a.href = objectUrl;
-	a.download = filename//.replace(/\./, '');
+	a.download = filename;//.replace(/\./, '');
 	a.click();
 };
 
@@ -1457,29 +1457,29 @@ export const getSignerStatusTranslateField = status => {
 		default:
 			return 'error';
 	}
-}
+};
 
 export const checkCouncilState = (council, company, bHistory, expected) => {
 	switch (council.state) {
 		case COUNCIL_STATES.DRAFT:
-			if (expected !== "draft") {
+			if (expected !== 'draft') {
 				bHistory.replace(`/company/${company.id}/council/${council.id}`);
 			}
 			break;
 		case COUNCIL_STATES.PRECONVENE:
-			if (expected !== "draft") {
+			if (expected !== 'draft') {
 				bHistory.replace(`/company/${company.id}/council/${council.id}`);
 			}
 			break;
 		case COUNCIL_STATES.SAVED:
-			if (expected !== "convened" && expected !== "live") {
+			if (expected !== 'convened' && expected !== 'live') {
 				bHistory.replace(
 					`/company/${company.id}/council/${council.id}/prepare`
 				);
 			}
 			break;
 		case COUNCIL_STATES.PREPARING:
-			if (expected !== "convened" && expected !== "live") {
+			if (expected !== 'convened' && expected !== 'live') {
 				bHistory.replace(
 					`/company/${company.id}/council/${council.id}/prepare`
 				);
@@ -1488,7 +1488,7 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
 		case COUNCIL_STATES.ROOM_OPENED:
 		case COUNCIL_STATES.PAUSED:
 		case COUNCIL_STATES.APPROVING_ACT_DRAFT:
-			if (expected !== "live") {
+			if (expected !== 'live') {
 				bHistory.replace(
 					`/company/${company.id}/council/${council.id}/live`
 				);
@@ -1500,7 +1500,7 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
 		case COUNCIL_STATES.CANCELED:
 		case COUNCIL_STATES.NOT_CELEBRATED:
 		case COUNCIL_STATES.FINISHED_WITHOUT_ACT:
-			if (expected !== "finished") {
+			if (expected !== 'finished') {
 				bHistory.replace(
 					`/company/${company.id}/council/${council.id}/finished`
 				);
@@ -1536,7 +1536,7 @@ export const getAttendanceIntentionTooltip = intention => {
 		default:
 			break;
 	}
-}
+};
 
 export const getAttendanceIntentionIcon = (intention, style) => {
 	switch(intention) {
@@ -1554,7 +1554,7 @@ export const getAttendanceIntentionIcon = (intention, style) => {
 		default:
 			return 'fa fa-question';
 	}
-}
+};
 
 export const getEmailIconByReqCode = reqCode => {
 	switch (reqCode) {
@@ -1573,7 +1573,7 @@ export const getEmailIconByReqCode = reqCode => {
 			return opened;
 
 		case 32:
-			return "clicked";
+			return 'clicked';
 
 		case 35:
 			return spam;
@@ -1619,32 +1619,32 @@ export const getAgendaTypeLabel = agenda => {
 		default:
 			return 'custom_point';
 	}
-}
+};
 
 export const getTranslationReqCode = reqCode => {
 	switch (reqCode) {
-		case "ALL":
-			return "all_plural";
+		case 'ALL':
+			return 'all_plural';
 		case -1:
-			return "tooltip_failed_shipping";
+			return 'tooltip_failed_shipping';
 		case 0:
-			return "tooltip_not_sent";
+			return 'tooltip_not_sent';
 		case 20:
-			return "tooltip_pending_shipping";
+			return 'tooltip_pending_shipping';
 		case 22:
-			return "tooltip_inbox";
+			return 'tooltip_inbox';
 		case 25:
-			return "tooltip_opened";
+			return 'tooltip_opened';
 		case 32:
-			return "clicked";
+			return 'clicked';
 		case 35:
-			return "tooltip_spam";
+			return 'tooltip_spam';
 		case 36:
-			return "tooltip_invalid_email_address";
+			return 'tooltip_invalid_email_address';
 		case 37:
-			return "tooltip_dropped";
+			return 'tooltip_dropped';
 		case 40:
-			return "tooltip_dropped";
+			return 'tooltip_dropped';
 		default:
 			break;
 	}
@@ -1652,13 +1652,13 @@ export const getTranslationReqCode = reqCode => {
 
 export const printSessionExpiredError = () => {
 	const messages = {
-		es: "Su sesión ha caducado",
-		en: "Session expired",
-		cat: "La seva sessió ha caducat",
-		gl: "A súa sesión caducou",
-		pt: "A sua sessão expirou"
+		es: 'Su sesión ha caducado',
+		en: 'Session expired',
+		cat: 'La seva sessió ha caducat',
+		gl: 'A súa sesión caducou',
+		pt: 'A sua sessão expirou'
 	};
-	const selectedLanguage = sessionStorage.getItem("language");
+	const selectedLanguage = sessionStorage.getItem('language');
 	if (selectedLanguage) {
 		return messages[selectedLanguage];
 	}
@@ -1668,13 +1668,13 @@ export const printSessionExpiredError = () => {
 export const printCifAlreadyUsed = () => {
 	//vat_previosly_save
 	const messages = {
-		pt: "Este NIF já foi previamente guardado",
-		es: "Este CIF ha sido guardado previamente",
-		en: " This VAT has been previously saved",
-		cat: "Aquest CIF ha estat guardat prèviament",
-		gal: "Este CIF foi gardado previamente"
+		pt: 'Este NIF já foi previamente guardado',
+		es: 'Este CIF ha sido guardado previamente',
+		en: ' This VAT has been previously saved',
+		cat: 'Aquest CIF ha estat guardat prèviament',
+		gal: 'Este CIF foi gardado previamente'
 	};
-	const selectedLanguage = sessionStorage.getItem("language");
+	const selectedLanguage = sessionStorage.getItem('language');
 	if (selectedLanguage) {
 		return messages[selectedLanguage];
 	}
@@ -1684,13 +1684,13 @@ export const printCifAlreadyUsed = () => {
 export const printTrialEnded = () => {
 	//vat_previosly_save
 	const messages = {
-		pt: "Período de prova finalizado",
-		es: "Período de prueba finalizado",
-		en: " Trial period ended",
-		cat: "Període de prova finalitzat",
-		gal: "Período de proba finalizado"
+		pt: 'Período de prova finalizado',
+		es: 'Período de prueba finalizado',
+		en: ' Trial period ended',
+		cat: 'Període de prova finalitzat',
+		gal: 'Período de proba finalizado'
 	};
-	const selectedLanguage = sessionStorage.getItem("language");
+	const selectedLanguage = sessionStorage.getItem('language');
 	if (selectedLanguage) {
 		return messages[selectedLanguage];
 	}
@@ -1699,7 +1699,7 @@ export const printTrialEnded = () => {
 
 export const showVideo = council => (council.state >= 20 && council.state <= 30) && councilHasVideo(council);
 
-export const getMainRepresentative = participant => ((participant.representatives && participant.representatives.length > 0) ? participant.representatives[0] : null)
+export const getMainRepresentative = participant => ((participant.representatives && participant.representatives.length > 0) ? participant.representatives[0] : null);
 
 export const canAddPoints = council => council.statute.canAddPoints === 1;
 
@@ -1708,28 +1708,28 @@ export const hasHisVoteDelegated = participant => participant.state === 4;
 export const getParticipantStateString = state => {
 	switch (state) {
 		case PARTICIPANT_STATES.REMOTE:
-			return "REMOTE";
+			return 'REMOTE';
 
 		case PARTICIPANT_STATES.PRESENT:
-			return "PRESENT";
+			return 'PRESENT';
 
 		case PARTICIPANT_STATES.REPRESENTATED:
-			return "REPRESENTATED";
+			return 'REPRESENTATED';
 
 		case PARTICIPANT_STATES.DELEGATED:
-			return "DELEGATED";
+			return 'DELEGATED';
 
 		case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
-			return "PHYSICALLY_PRESENT";
+			return 'PHYSICALLY_PRESENT';
 
 		case PARTICIPANT_STATES.NO_PARTICIPATE:
-			return "NO_PARTICIPATE";
+			return 'NO_PARTICIPATE';
 
 		case PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE:
-			return "PRESENT_WITH_REMOTE_VOTE";
+			return 'PRESENT_WITH_REMOTE_VOTE';
 
 		default:
-			return "INVALID_STATE";
+			return 'INVALID_STATE';
 	}
 };
 
@@ -1737,31 +1737,31 @@ export const multipleGoverningBody = type => !![
 		GOVERNING_BODY_TYPES.COUNCIL,
 		GOVERNING_BODY_TYPES.JOINT_ADMIN,
 		GOVERNING_BODY_TYPES.SOLIDARY_ADMIN
-	].find(item => type === item.value)
+	].find(item => type === item.value);
 
 export const getParticipantStateField = participant => {
 	switch (participant.state) {
 		case 0:
-			return "remote_assistance";
+			return 'remote_assistance';
 		case 1:
-			return "physically_present_assistance";
+			return 'physically_present_assistance';
 		case 2:
-			return "representated";
+			return 'representated';
 		case 4:
-			return "delegated";
+			return 'delegated';
 		case 5:
-			return "physically_present_assistance";
+			return 'physically_present_assistance';
 		case 6:
-			return "no_participate";
+			return 'no_participate';
 		case 7:
-			return "physically_present_with_remote_vote";
+			return 'physically_present_with_remote_vote';
 		case 8:
 			return 'participant_vote_fixed';
 		case 11:
 			return 'left_the_council';
 
 		default:
-			return "remote_assistance";
+			return 'remote_assistance';
 	}
 };
 
@@ -1769,14 +1769,14 @@ export const isAskingForWord = participant => participant.requestWord === 1;
 
 export const participantIsBlocked = participant => participant.blocked === 1;
 
-export const participantNeverConnected = participant => participant.online === 0
+export const participantNeverConnected = participant => participant.online === 0;
 
 export const canUnblockParticipant = council => council.statute.canUnblock === 1;
 
 export const haveGrantedWord = participant => participant.requestWord === 2;
 
 export const exceedsOnlineTimeout = date => {
-	const timeout = -moment(new Date(date)).diff(moment(), "seconds");
+	const timeout = -moment(new Date(date)).diff(moment(), 'seconds');
 	return timeout > 15;
 };
 
@@ -1805,18 +1805,18 @@ export const formatCountryName = (country, language) => {
 	};
 
 	return texts[language][country] ? texts[language][country] : country;
-}
+};
 
 export const checkRequiredFields = (translate, draft, updateErrors, corporation, toast) => {
 	const errors = {
-		title: "",
-		text: "",
-		statuteId: "",
-		type: "",
-		votingType: "",
-		majority: "",
-		majorityDivider: "",
-		majorityType: ""
+		title: '',
+		text: '',
+		statuteId: '',
+		type: '',
+		votingType: '',
+		majority: '',
+		majorityDivider: '',
+		majorityType: ''
 	};
 
 	let hasError = false;
@@ -1835,7 +1835,7 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 			/>, {
 				position: toast.POSITION.TOP_RIGHT,
 				autoClose: true,
-				className: "errorToast"
+				className: 'errorToast'
 			}
 		);
 	}
@@ -1849,7 +1849,7 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 			/>, {
 				position: toast.POSITION.TOP_RIGHT,
 				autoClose: true,
-				className: "errorToast"
+				className: 'errorToast'
 			}
 		);
 	}
@@ -1861,7 +1861,7 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 export const cleanAgendaObject = agenda => {
 	const { attachments, ballots, items, options, __typename, votings, qualityVoteSense, votingsRecount, ...clean } = agenda;
 	return clean;
-}
+};
 
 export const checkHybridConditions = council => {
 	if(council.councilType !== 3){
@@ -1871,26 +1871,26 @@ export const checkHybridConditions = council => {
 	if(checkSecondDateAfterFirst(council.closeDate, new Date())){
 		return true;
 	}
-}
+};
 
 export const prepareTextForFilename = text => {
 	if(!text) return '';
 	return text.replace(/ /g, '_').replace(/\./g, '_');
-}
+};
 
 export const formatSize = size => {
 	const mb = 1024 ** 2;
 	const kb = 1024;
 
 	if ((size >= 1024) ^ 2) {
-		return Math.ceil((size / mb) * 100) / 100 + " MB";
+		return Math.ceil((size / mb) * 100) / 100 + ' MB';
 	}
 
 	if (size >= 1024) {
-		return Math.ceil((size / kb) * 100) / 100 + " KB";
+		return Math.ceil((size / kb) * 100) / 100 + ' KB';
 	}
 
-	return size + " Bytes";
+	return size + ' Bytes';
 };
 
 export const calculateMajorityAgenda = (agenda, company, council, recount) => {
@@ -1899,7 +1899,7 @@ export const calculateMajorityAgenda = (agenda, company, council, recount) => {
 		specialSL = true;
 	}
 	return LiveUtil.calculateMajority(specialSL, recount.partTotal, agenda.presentCensus + agenda.currentRemoteCensus, agenda.majorityType, agenda.majority, agenda.majorityDivider, agenda.negativeVotings + agenda.negativeManual, council.statute.quorumPrototype);
-}
+};
 
 export const calculateQuorum = (council, recount) => {
 	let base;
@@ -1914,11 +1914,11 @@ export const calculateQuorum = (council, recount) => {
 	}
 
 	return LiveUtil.calculateQuorum(base, council.statute.secondCallQuorumType, council.statute.secondCallQuorum, council.statute.secondCallQuorumDivider);
-}
+};
 
 
 export const councilHasSession = council => !((council.councilType > 1 &&
 		council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION &&
 		council.councilType !== COUNCIL_TYPES.ONE_ON_ONE
-	) || (council.councilType === COUNCIL_TYPES.NO_VIDEO && council.autoClose === 1))
+	) || (council.councilType === COUNCIL_TYPES.NO_VIDEO && council.autoClose === 1));
 

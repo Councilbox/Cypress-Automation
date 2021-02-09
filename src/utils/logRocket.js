@@ -3,7 +3,7 @@ import setupLogRocketReact from 'logrocket-react';
 
 const logRocketState = {
     initialized: false
-}
+};
 
 export const initLogRocket = user => {
     if(logRocketState.initialized) {
@@ -28,4 +28,4 @@ export const initLogRocket = user => {
             console.error(error);
         }
     }
-}
+};

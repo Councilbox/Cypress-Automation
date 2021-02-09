@@ -1,11 +1,11 @@
 import React from 'react';
-import { TableRow, TableCell, withStyles, Card, CardContent, Tooltip, MenuItem } from "material-ui";
+import { TableRow, TableCell, withStyles, Card, CardContent, Tooltip, MenuItem } from 'material-ui';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
-import FontAwesome from "react-fontawesome";
-import PropTypes from "prop-types";
-import { VOTE_VALUES, AGENDA_TYPES, PARTICIPANT_STATES, COUNCIL_TYPES } from "../../../../constants";
-import { getPrimary, getSecondary } from "../../../../styles/colors";
+import FontAwesome from 'react-fontawesome';
+import PropTypes from 'prop-types';
+import { VOTE_VALUES, AGENDA_TYPES, PARTICIPANT_STATES, COUNCIL_TYPES } from '../../../../constants';
+import { getPrimary, getSecondary } from '../../../../styles/colors';
 import {
 	LoadingSection,
 	DropDownMenu,
@@ -18,11 +18,11 @@ import {
 	Table,
 	GridItem,
 	AlertConfirm
-} from "../../../../displayComponents";
-import VotingValueIcon from "./VotingValueIcon";
-import PresentVoteMenu from "./PresentVoteMenu";
+} from '../../../../displayComponents';
+import VotingValueIcon from './VotingValueIcon';
+import PresentVoteMenu from './PresentVoteMenu';
 
-import { isPresentVote, agendaVotingsOpened, isCustomPoint, showNumParticipations, getPercentage, getActiveVote, isConfirmationRequest } from "../../../../utils/CBX";
+import { isPresentVote, agendaVotingsOpened, isCustomPoint, showNumParticipations, getPercentage, getActiveVote, isConfirmationRequest } from '../../../../utils/CBX';
 import NominalCustomVoting, { DisplayVoting } from './NominalCustomVoting';
 import { isMobile } from '../../../../utils/screen';
 import withSharedProps from '../../../../HOCs/withSharedProps';
@@ -45,7 +45,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 			case VOTE_VALUES.ABSTENTION:
 				return translate.abstention;
 			default:
-				return "-";
+				return '-';
 		}
 	};
 
@@ -54,12 +54,12 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 			case 1:
 				return (
 					<FontAwesome
-						name={"user"}
+						name={'user'}
 						color={primary}
 						style={{
-							margin: "0.5em",
+							margin: '0.5em',
 							color: secondary,
-							fontSize: "1.1em"
+							fontSize: '1.1em'
 						}}
 					/>
 				);
@@ -67,12 +67,12 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 			case 0:
 				return (
 					<FontAwesome
-						name={"globe"}
+						name={'globe'}
 						color={primary}
 						style={{
-							margin: "0.5em",
+							margin: '0.5em',
 							color: secondary,
-							fontSize: "1.1em"
+							fontSize: '1.1em'
 						}}
 					/>
 				);
@@ -93,8 +93,8 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 			return '';
 		}
 
-		return `(${getPercentage(value, props.recount.partTotal)}%)`
-	}
+		return `(${getPercentage(value, props.recount.partTotal)}%)`;
+	};
 
 	let votings = [];
 
@@ -169,8 +169,8 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 					</>
 				}
 			</>
-		)
-	}
+		);
+	};
 
 	const renderParticipantInfo = vote => (
 			<div style={{ minWidth: '7em' }}>
@@ -251,15 +251,15 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 					}
 				</React.Fragment>
 			</div>
-		)
+		);
 
 	return (
 		<Grid
 			style={{
-				width: "100%",
+				width: '100%',
 				paddingTop: 0,
-				backgroundColor: "white",
-				margin: "0px",
+				backgroundColor: 'white',
+				margin: '0px',
 				// overflow: "hidden"
 
 			}}
@@ -269,20 +269,20 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 				md={6}
 				lg={6}
 				style={{
-					display: "flex",
-					alignItems: "center",
-					width: "100%",
-					overflow: "hidden",
-					margin: "0px"
+					display: 'flex',
+					alignItems: 'center',
+					width: '100%',
+					overflow: 'hidden',
+					margin: '0px'
 				}}
 			>
 				{(agenda.subjectType !== AGENDA_TYPES.PRIVATE_VOTING && !isCustomPoint(agenda.subjectType)) &&
 					<React.Fragment>
-						<div style={{ display: isMobile ? "block" : "flex", flexDirection: "row", alignItems: 'center', width: "100%", padding: "0px", }}>
+						<div style={{ display: isMobile ? 'block' : 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', padding: '0px', }}>
 							<div >
 								<span>{translate.filter_by}</span>
 							</div>
-							<div style={{ display: "flex" }}>
+							<div style={{ display: 'flex' }}>
 								<FilterButton
 									onClick={() => props.changeVoteFilter(VOTE_VALUES.NO_VOTE)}
 									active={state.voteFilter === VOTE_VALUES.NO_VOTE}
@@ -372,7 +372,7 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 			<GridItem xs={8} md={4} lg={4}>
 				<TextInput
 					adornment={<Icon>search</Icon>}
-					floatingText={" "}
+					floatingText={' '}
 					type="text"
 					value={state.filterText}
 					onChange={event => {
@@ -381,14 +381,14 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 				/>
 			</GridItem>
 
-			<div style={{ width: "100%", }}>
+			<div style={{ width: '100%', }}>
 				{!data.agendaVotings ? (
 					<LoadingSection />
 				) : data.agendaVotings.list.length > 0 ? (
 					isMobile ?
 						<React.Fragment>
 							{votings.map(vote => (
-								<Card key={vote.id} style={{ marginBottom: "1em", fontSize: '0.9em' }}>
+								<Card key={vote.id} style={{ marginBottom: '1em', fontSize: '0.9em' }}>
 									<CardContent>
 										{renderParticipantInfo(vote)}
 										<div>
@@ -398,16 +398,16 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 												`${vote.numParticipations > 0 ? `${showNumParticipations(vote.numParticipations, props.company, props.council.statute)}${printPercentage(vote.numParticipations)}` : 0}`
 											}
 										</div>
-										<div style={{ marginLeft: "-5px" }}>
+										<div style={{ marginLeft: '-5px' }}>
 											{vote.author.numParticipations === 0 && vote.representing && vote.representing[0].author.numParticipations === 0 ?
 												'-'
 												:
 												<div
 													style={{
-														display: "flex",
-														flexDirection: "row",
-														alignItems: "center",
-														fontSize: "0.8rem"
+														display: 'flex',
+														flexDirection: 'row',
+														alignItems: 'center',
+														fontSize: '0.8rem'
 													}}
 												>
 													{vote.delegateId && vote.author.state !== PARTICIPANT_STATES.REPRESENTATED ?
@@ -454,10 +454,10 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 												:
 												<div
 													style={{
-														display: "flex",
+														display: 'flex',
 														flexDirection:
-															"row",
-														alignItems: "center",
+															'row',
+														alignItems: 'center',
 													}}
 												>
 													{vote.delegateId && vote.author.state !== PARTICIPANT_STATES.REPRESENTATED ?
@@ -509,13 +509,13 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 							</Table>
 							<div
 								style={{
-									width: "90%",
-									display: "flex",
-									flexDirection: "row",
-									alignItems: "center",
-									justifyContent: "space-between",
-									marginTop: "1em",
-									paddinRight: "10em"
+									width: '90%',
+									display: 'flex',
+									flexDirection: 'row',
+									alignItems: 'center',
+									justifyContent: 'space-between',
+									marginTop: '1em',
+									paddinRight: '10em'
 								}}
 							>
 								<PaginationFooter
@@ -535,14 +535,14 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 
 		</Grid>
 	);
-}
+};
 
 const RemoveRemoteVoteAlert = ({ translate, open, requestClose, vote, ...props }) => {
 	const body = () => (
 			<div>
 				{translate.void_remote_vote_warning}
 			</div>
-		)
+		);
 
 	return (
 		<AlertConfirm
@@ -554,8 +554,8 @@ const RemoveRemoteVoteAlert = ({ translate, open, requestClose, vote, ...props }
 			bodyText={body()}
 			title={translate.warning}
 		/>
-	)
-}
+	);
+};
 
 
 const PrivateVotingDisplay = compose(
@@ -566,7 +566,7 @@ const PrivateVotingDisplay = compose(
 				}
 				}
 	`, {
-			name: "togglePresentVote"
+			name: 'togglePresentVote'
 		}),
 	graphql(gql`
 		mutation cancelRemoteVote($votingId: Int!){
@@ -575,7 +575,7 @@ const PrivateVotingDisplay = compose(
 				}
 				}
 	`, {
-			name: "cancelRemoteVote"
+			name: 'cancelRemoteVote'
 		})
 )(({ translate, agenda, vote, refetch, togglePresentVote, cancelRemoteVote, council, ...props }) => {
 	const [loading, setLoading] = React.useState(false);
@@ -583,7 +583,7 @@ const PrivateVotingDisplay = compose(
 
 	const closeModal = () => {
 		setModal(false);
-	}
+	};
 
 	const toggleVote = () => {
 		setLoading(true);
@@ -593,7 +593,7 @@ const PrivateVotingDisplay = compose(
 			return;
 		}
 		setVoting();
-	}
+	};
 
 	const setVoting = async () => {
 		if (isCustomPoint(agenda.subjectType) && agenda.votingState === 4 && vote.vote === 3) {
@@ -617,7 +617,7 @@ const PrivateVotingDisplay = compose(
 				setModal(false);
 			}
 		}, 1500);
-	}
+	};
 
 	//
 
@@ -692,8 +692,8 @@ const PrivateVotingDisplay = compose(
 					</React.Fragment>
 			}
 		</React.Fragment>
-	)
-})
+	);
+});
 
 
 const setAllPresentVotingsMutation = gql`
@@ -723,7 +723,7 @@ const SelectAllMenu = graphql(setAllPresentVotingsMutation, {
 		refetch();
 
 		setLoading(false);
-	}
+	};
 
 	return (
 		<DropDownMenu
@@ -747,14 +747,14 @@ const SelectAllMenu = graphql(setAllPresentVotingsMutation, {
 				</React.Fragment>
 			}
 		/>
-	)
-})
+	);
+});
 
 const regularCardStyle = {
 	cardTitle: {
-		fontSize: "1em",
+		fontSize: '1em',
 	},
-}
+};
 
 VotingsTable.propTypes = {
 	classes: PropTypes.object.isRequired,

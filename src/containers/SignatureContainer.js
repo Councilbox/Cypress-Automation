@@ -1,19 +1,19 @@
-import React from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import React from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { Tooltip } from 'material-ui';
-import { TabsScreen, FabButton, Icon, AlertConfirm } from "../displayComponents";
-import Signatures from "../components/dashboard/Signatures";
+import { TabsScreen, FabButton, Icon, AlertConfirm } from '../displayComponents';
+import Signatures from '../components/dashboard/Signatures';
 import { lightGrey } from '../styles/colors';
 import withWindowSize from '../HOCs/withWindowSize';
 import CBXContactButton from '../components/noCompany/CBXContactButton';
-import { bHistory, moment } from "./App";
-import { TRIAL_DAYS } from "../config";
-import { trialDaysLeft } from "../utils/CBX";
+import { bHistory, moment } from './App';
+import { TRIAL_DAYS } from '../config';
+import { trialDaysLeft } from '../utils/CBX';
 
-import CantCreateCouncilsModal from "../components/dashboard/CantCreateCouncilsModal";
-import { sendGAevent } from "../utils/analytics";
-import { ConfigContext } from "./AppControl";
+import CantCreateCouncilsModal from '../components/dashboard/CantCreateCouncilsModal';
+import { sendGAevent } from '../utils/analytics';
+import { ConfigContext } from './AppControl';
 
 const SignatureContainer = ({ match, company, translate, windowSize }) => {
 	const [cantCreate, setCantCreate] = React.useState(false);
@@ -23,24 +23,24 @@ const SignatureContainer = ({ match, company, translate, windowSize }) => {
 	React.useEffect(() => {
         sendGAevent({
             category: 'Firmas',
-            action: `Entrada a la sección de firmas`,
+            action: 'Entrada a la sección de firmas',
             label: company.businessName
         });
-    }, [sendGAevent])
+    }, [sendGAevent]);
 
 	const showCantAccessPremiumModal = () => {
 		setNoPremiumModal(true);
-	}
+	};
 
 	const showCantAccessSignatures = () => {
-		setCantCreate(true)
-	}
+		setCantCreate(true);
+	};
 
-	const canCreateSignature = () => config.signature
+	const canCreateSignature = () => config.signature;
 
 	const closeCantAccessPremiumModal = () => {
-		setNoPremiumModal(false)
-	}
+		setNoPremiumModal(false);
+	};
 
 	const tabsIndex = {
 		drafts: 0,
@@ -60,7 +60,7 @@ const SignatureContainer = ({ match, company, translate, windowSize }) => {
 						translate={translate}
 						title={translate.document_signature_drafts}
 						desc={translate.signature_of_documents_drafts_desc}
-						icon={"pencil-square-o"}
+						icon={'pencil-square-o'}
 						state={[0]}
 					/>
 				)
@@ -75,7 +75,7 @@ const SignatureContainer = ({ match, company, translate, windowSize }) => {
 						translate={translate}
 						title={translate.signature_of_documents_sent}
 						desc={translate.signature_of_documents_desc}
-						icon={"paper-plane-o"}
+						icon={'paper-plane-o'}
 						state={[10]}
 					/>
 				)
@@ -90,7 +90,7 @@ const SignatureContainer = ({ match, company, translate, windowSize }) => {
 						disabled={cantAccessPremium}
 						title={translate.signature_of_documents_completed}
 						desc={translate.signature_of_documents_completed_desc}
-						icon={"check-square-o"}
+						icon={'check-square-o'}
 						state={[20]}
 					/>
 				)
@@ -123,7 +123,7 @@ const SignatureContainer = ({ match, company, translate, windowSize }) => {
 				}}
 			>
 				<Tooltip title={`${translate.dashboard_new_signature}`}>
-					<div style={{ marginBottom: "0.3em" }}>
+					<div style={{ marginBottom: '0.3em' }}>
 						<FabButton
 							{...(cantAccessPremium || !canCreateSignature() ? { color: 'grey' } : {})}
 							icon={
@@ -167,7 +167,7 @@ const SignatureContainer = ({ match, company, translate, windowSize }) => {
 			/>
 		</div>
 	);
-}
+};
 
 
 const mapStateToProps = state => ({

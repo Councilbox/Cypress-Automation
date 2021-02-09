@@ -7,53 +7,53 @@ import ParticipantCouncilAttachments from '../agendas/ParticipantCouncilAttachme
 
 const styles = {
     loginContainerMax: {
-        width: "100%",
-        height: "100%",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        position: "relative"
+        width: '100%',
+        height: '100%',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative'
     },
     loginContainer: {
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        position: "relative"
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative'
     },
     splittedLoginContainer: {
-        width: "100%",
-        height: "100%",
+        width: '100%',
+        height: '100%',
         padding: '1em',
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-        position: "relative"
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative'
     },
     councilInfoContainer: {
-        display: "flex",
+        display: 'flex',
         width: '100%',
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "15px",
-        textAlign: "center"
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '15px',
+        textAlign: 'center'
     },
     loginFormContainer: {
-        display: "flex",
+        display: 'flex',
         width: '100%',
-        alignItems: "center",
-        justifyContent: "center",
-        padding: "15px"
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '15px'
     },
     enterButtonContainer: {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        marginTop: "35px"
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: '35px'
     }
 };
 
@@ -79,12 +79,12 @@ const OneOnOneDocumentation = ({ translate, participant, council }) => (
                     }} elevation={6}>
                         <div style={{
                             ...styles.loginContainerMax,
-                            height: "",
+                            height: '',
                         }}>
                             <div style={{
                                 ...styles.loginContainerMax,
                                 ...(council.securityType !== 0 ? {
-                                    height: ""
+                                    height: ''
                                 } : {}),
                             }}>
                                 <ParticipantCouncilAttachments
@@ -99,6 +99,6 @@ const OneOnOneDocumentation = ({ translate, participant, council }) => (
             </Scrollbar>
         </NotLoggedLayout>
 
-    )
+    );
 
 export default OneOnOneDocumentation;

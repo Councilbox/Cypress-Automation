@@ -33,7 +33,7 @@ const KPI = ({ translate, client }) => {
 
     React.useEffect(() => {
         getData();
-    }, [getData])
+    }, [getData]);
 
     return (
         <div style={{ padding: '2em', overflow: 'auto', height: '100%' }}>
@@ -54,7 +54,7 @@ const KPI = ({ translate, client }) => {
                 translate={translate}
             />
         </div>
-    )
-}
+    );
+};
 
 export default withSharedProps()(withApollo(KPI));

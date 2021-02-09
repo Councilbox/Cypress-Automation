@@ -12,11 +12,11 @@ const FailedSMSList = ({ council, translate }) => {
 
     const closeModal = () => {
         setModal(false);
-    }
+    };
 
     const showModal = () => {
         setModal(true);
-    }
+    };
 
     return (
         <React.Fragment>
@@ -34,8 +34,8 @@ const FailedSMSList = ({ council, translate }) => {
                 // buttonCancel={translate.cancel}
                 modal={true}
                 requestClose={closeModal}
-                classNameDialog={isMobile ? "noMarginM" : 'noMargin'}
-                bodyStyle={{ overflowY: "hidden", height: "50vh", width: "100%", maxWidth: isMobile && "100vw" }}
+                classNameDialog={isMobile ? 'noMarginM' : 'noMargin'}
+                bodyStyle={{ overflowY: 'hidden', height: '50vh', width: '100%', maxWidth: isMobile && '100vw' }}
             />
 
             {/* <AlertConfirm
@@ -52,8 +52,8 @@ const FailedSMSList = ({ council, translate }) => {
                 title={'Lista de SMS'}
             /> */}
         </React.Fragment>
-    )
-}
+    );
+};
 
 export const sendParticipantRoomKey = gql`
     mutation SendParticipantRoomKey($participantIds: [Int]!, $councilId: Int!, $timezone: String!, $newPhone: String){

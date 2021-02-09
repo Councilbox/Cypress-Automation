@@ -37,7 +37,7 @@ const SignersStatusRecount = ({ data, translate, signature, client }) => {
     }, [getData]);
 
     if(!count){
-        return <span />
+        return <span />;
     }
 
     return (
@@ -79,7 +79,7 @@ const SignersStatusRecount = ({ data, translate, signature, client }) => {
             }
 
         </Grid>
-    )
-}
+    );
+};
 
 export default withApollo(SignersStatusRecount);

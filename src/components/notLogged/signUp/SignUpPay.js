@@ -1,5 +1,5 @@
-import React from "react";
-import { MenuItem } from "material-ui/Menu";
+import React from 'react';
+import { MenuItem } from 'material-ui/Menu';
 import {
 	BasicButton,
 	ButtonIcon,
@@ -8,9 +8,9 @@ import {
 	GridItem,
 	SelectInput,
 	TextInput
-} from "../../../displayComponents";
-import { getPrimary, secondary } from "../../../styles/colors";
-import TermsModal from "./TermsModal";
+} from '../../../displayComponents';
+import { getPrimary, secondary } from '../../../styles/colors';
+import TermsModal from './TermsModal';
 
 class SignUpPay extends React.Component {
 	state = {
@@ -40,7 +40,7 @@ class SignUpPay extends React.Component {
 		const { translate } = this.props;
 
 		const errors = {
-			termsCheck: ""
+			termsCheck: ''
 		};
 		let hasError = false;
 
@@ -56,7 +56,7 @@ class SignUpPay extends React.Component {
 
 	checkTerms() {
 		const errors = {
-			termsCheck: ""
+			termsCheck: ''
 		};
 
 		let hasError = false;
@@ -91,21 +91,21 @@ class SignUpPay extends React.Component {
 		return (
 			<div
 				style={{
-					width: "100%",
-					padding: "6%"
+					width: '100%',
+					padding: '6%'
 				}}
 				onKeyUp={this.handleKeyUp}
 			>
 				<div
 					style={{
-						fontSize: "1.3em",
-						fontWeight: "700",
+						fontSize: '1.3em',
+						fontWeight: '700',
 						color: primary
 					}}
 				>
 					{translate.billing_information}
 				</div>
-				<Grid style={{ marginTop: "2em" }}>
+				<Grid style={{ marginTop: '2em' }}>
 					<GridItem xs={12} md={4} lg={4}>
 						<SelectInput
 							floatingText={translate.type_of_subscription}
@@ -185,7 +185,7 @@ class SignUpPay extends React.Component {
 							</a>
 						</div>
 						{this.props.errors.termsCheck && (
-							<div style={{ color: "red" }}>
+							<div style={{ color: 'red' }}>
 								{this.props.errors.termsCheck}
 							</div>
 						)}
@@ -195,8 +195,8 @@ class SignUpPay extends React.Component {
 							text={translate.back}
 							color={secondary}
 							textStyle={{
-								color: "white",
-								fontWeight: "700"
+								color: 'white',
+								fontWeight: '700'
 							}}
 							onClick={this.previousPage}
 							fullWidth
@@ -210,8 +210,8 @@ class SignUpPay extends React.Component {
 							text={translate.send}
 							color={primary}
 							textStyle={{
-								color: "white",
-								fontWeight: "700"
+								color: 'white',
+								fontWeight: '700'
 							}}
 							onClick={this.endForm}
 							fullWidth

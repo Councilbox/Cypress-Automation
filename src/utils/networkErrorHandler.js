@@ -1,4 +1,4 @@
-import { noServerResponse, serverRestored } from "../actions/mainActions";
+import { noServerResponse, serverRestored } from '../actions/mainActions';
 import { sendGraphQLError } from '../queries';
 import { CLIENT_VERSION } from '../config';
 
@@ -29,4 +29,4 @@ export const networkErrorHandler = async (networkError, toast, store, apolloClie
             });
         }
     }
-}
+};

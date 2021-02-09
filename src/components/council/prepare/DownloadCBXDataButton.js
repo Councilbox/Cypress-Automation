@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { graphql } from "react-apollo";
-import { Tooltip } from "material-ui";
-import FontAwesome from "react-fontawesome";
-import { downloadFile } from "../../../utils/CBX";
-import { LoadingSection } from "../../../displayComponents/index";
-import { downloadCBXData } from "../../../queries";
-import { getSecondary } from "../../../styles/colors";
-import { moment } from "../../../containers/App";
+import React, { Component } from 'react';
+import { graphql } from 'react-apollo';
+import { Tooltip } from 'material-ui';
+import FontAwesome from 'react-fontawesome';
+import { downloadFile } from '../../../utils/CBX';
+import { LoadingSection } from '../../../displayComponents/index';
+import { downloadCBXData } from '../../../queries';
+import { getSecondary } from '../../../styles/colors';
+import { moment } from '../../../containers/App';
 
 const DownloadCBXDataButton = props => {
 	const [loading, setLoading] = React.useState(false);
@@ -26,7 +26,7 @@ const DownloadCBXDataButton = props => {
 			if (response.data.cbxData) {
 				downloadFile(
 					response.data.cbxData,
-					"application/pdf",
+					'application/pdf',
 					`CbxData_${id}`
 				);
 				setLoading(false);
@@ -35,7 +35,7 @@ const DownloadCBXDataButton = props => {
 				}
 			}
 		}
-	}
+	};
 
 	const secondary = getSecondary();
 
@@ -47,35 +47,35 @@ const DownloadCBXDataButton = props => {
 					downloadCBXData(props.participantId);
 				}}
 				style={{
-					height: "1.8em",
-					width: "3em",
-					marginLeft: "1.5em",
+					height: '1.8em',
+					width: '3em',
+					marginLeft: '1.5em',
 					backgroundColor: 'white',
-					display: "flex",
-					alignItems: "center",
-					justifyContent: "center",
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
 					border: `1px solid ${secondary}`,
-					borderRadius: "3px",
+					borderRadius: '3px',
 					...props.style
 				}}
 			>
 				{loading ? (
-					<LoadingSection size={14} color={"secondary"} />
+					<LoadingSection size={14} color={'secondary'} />
 				) : (
 					<FontAwesome
-						name={"download"}
+						name={'download'}
 						style={{
-							cursor: "pointer",
-							fontSize: "1.1em",
+							cursor: 'pointer',
+							fontSize: '1.1em',
 							color: secondary
 						}}
 					/>
 				)}
 			</div>
 		</Tooltip>
-	)
-}
+	);
+};
 
-export default graphql(downloadCBXData, { name: "downloadCBXData" })(
+export default graphql(downloadCBXData, { name: 'downloadCBXData' })(
 	DownloadCBXDataButton
 );

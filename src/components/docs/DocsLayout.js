@@ -15,22 +15,22 @@ const DocsLayout = props => {
             ...state,
             login: account,
         });
-    }
+    };
 
     const logout = () => {
-        sessionStorage.removeItem("apiToken");
-        sessionStorage.removeItem("refreshToken");
+        sessionStorage.removeItem('apiToken');
+        sessionStorage.removeItem('refreshToken');
         setState({
             ...state,
             login: false
         });
-    }
+    };
 
     const value = {
         ...state,
         logout,
         loginSuccess
-    }
+    };
 
 
     return (
@@ -69,8 +69,8 @@ const DocsLayout = props => {
                 </div>
             </div>
         </DocsContext.Provider>
-    )
-}
+    );
+};
 
 export default DocsLayout;
 

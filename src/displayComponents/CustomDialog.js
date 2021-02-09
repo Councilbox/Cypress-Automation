@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 import Dialog, {
 	DialogActions,
 	DialogContent,
 	DialogTitle
-} from "material-ui/Dialog";
-import FontAwesome from "react-fontawesome";
-import { getSecondary } from "../styles/colors";
+} from 'material-ui/Dialog';
+import FontAwesome from 'react-fontawesome';
+import { getSecondary } from '../styles/colors';
 
 const CustomDialog = ({
 	title,
@@ -29,22 +29,22 @@ const CustomDialog = ({
 			onEntered={onEntered}
 		>
 			<FontAwesome
-				name={"close"}
+				name={'close'}
 				style={{
-					cursor: "pointer",
-					fontSize: "1.5em",
+					cursor: 'pointer',
+					fontSize: '1.5em',
 					color: getSecondary(),
-					position: "absolute",
-					right: "12px",
-					top: "9px"
+					position: 'absolute',
+					right: '12px',
+					top: '9px'
 				}}
 				onClick={() => requestClose()}
 			/>
 			{!!title && (
 				<DialogTitle
 					style={{
-						padding: "0.6em 2em 0.8em 1.2em",
-						fontSize: "1.2em"
+						padding: '0.6em 2em 0.8em 1.2em',
+						fontSize: '1.2em'
 					}}
 				>
 					{title}
@@ -52,16 +52,16 @@ const CustomDialog = ({
 			)}
 			<DialogContent
 				style={{
-					minWidth: "40vw",
-					maxWidth: "95vw"
+					minWidth: '40vw',
+					maxWidth: '95vw'
 				}}
 			>
 				{children}
 			</DialogContent>
 			<DialogActions
 				style={{
-					paddingRight: "0.6em",
-					textAlign: "right",
+					paddingRight: '0.6em',
+					textAlign: 'right',
 					...dialogActionsStyles
 				}}
 			>

@@ -18,7 +18,7 @@ class RootUserSettings extends React.Component {
                 variables: {
                     pass: this.state.settingsPassword
                 }
-            })
+            });
 
             if(response.data.checkRootSettingsKey.success){
                 this.setState({
@@ -28,12 +28,12 @@ class RootUserSettings extends React.Component {
                 this.setState({
                     locked: true,
                     passError: 'Clave incorrecta'
-                })
+                });
             }
         } else {
             this.setState({
                 passError: 'Campo requerido'
-            })
+            });
         }
     }
 
@@ -71,7 +71,7 @@ class RootUserSettings extends React.Component {
                     <UserSettingsPage />
                 }
             </div>
-        )
+        );
     }
 }
 

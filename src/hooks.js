@@ -24,7 +24,7 @@ export const useInterval = (callback, delay, deps = []) => {
 			return () => clearInterval(id);
 		}
     }, [delay, ...deps]);
-}
+};
 
 export const useOldState = initialValue => {
 	const [state, setState] = React.useState(initialValue);
@@ -34,25 +34,25 @@ export const useOldState = initialValue => {
 			...previousState,
 			...object
 		}));
-	}
+	};
 
 	return [state, oldSetState];
-}
+};
 
 export const useHoverRow = () => {
 	const [showActions, setShowActions] = React.useState(false);
 
 	const mouseEnterHandler = () => {
 		setShowActions(true);
-	}
+	};
 
 	const mouseLeaveHandler = () => {
 		setShowActions(false);
-	}
+	};
 
 
 	return [showActions, { onMouseOver: mouseEnterHandler, onMouseLeave: mouseLeaveHandler }];
-}
+};
 
 export const STATUS = {
 	ERROR: 'ERROR',
@@ -84,10 +84,10 @@ const statusReducer = (state, action) => {
 			status: 'IDDLE',
 			data: null
 		}),
-	}
+	};
 
 	return actions[action.type] ? actions[action.type]() : state;
-}
+};
 
 export const useStatus = initialStatus => {
 	const [{ status, data }, dispatch] = React.useReducer(statusReducer, {
@@ -96,7 +96,7 @@ export const useStatus = initialStatus => {
 
 	const setStatus = (type, payload) => {
 		dispatch({ type, payload });
-	}
+	};
 
 	return {
 		loading: status === STATUS.LOADING,
@@ -106,8 +106,8 @@ export const useStatus = initialStatus => {
 		data,
 		STATUS,
 		setStatus
-	}
-}
+	};
+};
 
 
 export const usePolling = (cb, interval, deps = []) => {
@@ -130,14 +130,14 @@ export const usePolling = (cb, interval, deps = []) => {
 	}
 
     React.useEffect(() => {
-		document.addEventListener("visibilitychange", handleVisibilityChange, false);
+		document.addEventListener('visibilitychange', handleVisibilityChange, false);
 		window.addEventListener('online', handleConnectionChange);
 		window.addEventListener('offline', handleConnectionChange);
         return () => {
-			document.removeEventListener("visibilitychange", handleVisibilityChange);
+			document.removeEventListener('visibilitychange', handleVisibilityChange);
 			window.removeEventListener('online', handleConnectionChange);
 			window.removeEventListener('offline', handleConnectionChange);
-		}
+		};
 	}, []);
 
 
@@ -146,13 +146,13 @@ export const usePolling = (cb, interval, deps = []) => {
 			cb();
 			inThrottle.current = true;
 			setTimeout(() => {
-				inThrottle.current = false
+				inThrottle.current = false;
 			}, interval);
 		}
 	}, [visible, online]);
 
 	useInterval(cb, !online ? interval * 1000 : visible ? interval : interval * 10, deps);
-}
+};
 
 
 export const useRoomUpdated = config => {
@@ -169,8 +169,8 @@ export const useRoomUpdated = config => {
 				refetch();
 			}
         }
-    }, [JSON.stringify(props.subs.roomUpdated)])
-}
+    }, [JSON.stringify(props.subs.roomUpdated)]);
+};
 
 
 export const useValidRTMP = statute => {
@@ -183,12 +183,12 @@ export const useValidRTMP = statute => {
 				setValidURL(valid);
 			}
 		}
-	}, [statute.videoConfig])
+	}, [statute.videoConfig]);
 
 	return {
 		validURL
-	}
-}
+	};
+};
 
 export const useParticipantContactEdit = ({ participant, client, translate, council }) => {
 	const [edit, setEdit] = React.useState(false);
@@ -206,11 +206,11 @@ export const useParticipantContactEdit = ({ participant, client, translate, coun
 
 		if(success){
 			timeout = setTimeout(() => {
-				setSuccess(false)
-			}, 3000)
+				setSuccess(false);
+			}, 3000);
 		}
 		return () => clearTimeout(timeout);
-	}, [success])
+	}, [success]);
 
 	const checkRequiredFields = async () => {
 		const newErrors = {};
@@ -261,7 +261,7 @@ export const useParticipantContactEdit = ({ participant, client, translate, coun
 
 		setErrors(newErrors);
 		return Object.keys(newErrors).length > 0;
-	}
+	};
 
 	const updateParticipantContactInfo = async () => {
 		setSaving(true);
@@ -286,7 +286,7 @@ export const useParticipantContactEdit = ({ participant, client, translate, coun
 			}
 		}
 		setSaving(false);
-	}
+	};
 
 	return {
 		edit,
@@ -299,8 +299,8 @@ export const useParticipantContactEdit = ({ participant, client, translate, coun
 		setPhone,
 		errors,
 		updateParticipantContactInfo
-	}
-}
+	};
+};
 
 
 export const useCouncilAgendas = ({
@@ -344,17 +344,17 @@ export const useCouncilAgendas = ({
 
         setData(response.data);
         setLoading(false);
-	}
+	};
 
 	React.useEffect(() => {
         getData();
-    }, [councilId])
+    }, [councilId]);
 
 	return {
 		data,
 		loading
-	}
-}
+	};
+};
 
 export const useSendRoomKey = client => {
 	const [loading, setLoading] = React.useState(false);
@@ -373,11 +373,11 @@ export const useSendRoomKey = client => {
 
 		setLoading(false);
 		return response;
-	}
+	};
 
 
 	return [loading, sendKey];
-}
+};
 
 
 export const useCountdown = time => {
@@ -394,8 +394,8 @@ export const useCountdown = time => {
 	return {
 		secondsLeft,
 		setCountdown
-	}
-}
+	};
+};
 
 const queryReducer = (state, action) => {
 	const actions = {
@@ -408,10 +408,10 @@ const queryReducer = (state, action) => {
 			...state,
 			loading: true
 		})
-	}
+	};
 
 	return actions[action.type] ? actions[action.type]() : state;
-}
+};
 
 export const useQueryReducer = ({ client, query, variables }) => {
 	const [{ data, errors, loading }, dispatch] = React.useReducer(queryReducer, { data: null, loading: true, errors: null });
@@ -438,8 +438,8 @@ export const useQueryReducer = ({ client, query, variables }) => {
 		data,
 		errors,
 		loading
-	}
-}
+	};
+};
 
 export const useDownloadHTMLAsPDF = () => {
 	const [downloading, setDownloading] = React.useState(false);
@@ -460,10 +460,10 @@ export const useDownloadHTMLAsPDF = () => {
         const blob = await response.blob();
 		FileSaver.saveAs(blob, `${name}.pdf`);
 		setDownloading(false);
-	}
+	};
 
 	return {
 		downloading,
 		downloadHTMLAsPDF
-	}
-}
+	};
+};

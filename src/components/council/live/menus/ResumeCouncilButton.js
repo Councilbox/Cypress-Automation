@@ -1,10 +1,10 @@
-import React from "react";
-import { withApollo } from "react-apollo";
-import gql from "graphql-tag";
+import React from 'react';
+import { withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
 import {
 	BasicButton,
-	Icon } from "../../../../displayComponents";
-import { getPrimary } from "../../../../styles/colors";
+	Icon } from '../../../../displayComponents';
+import { getPrimary } from '../../../../styles/colors';
 
 
 const ResumeCouncilButton = ({ council, translate, client, refetch }) => {
@@ -27,7 +27,7 @@ const ResumeCouncilButton = ({ council, translate, client, refetch }) => {
         });
         refetch();
         setLoading(false);
-	}
+	};
 
 	return (
 		<>
@@ -43,23 +43,23 @@ const ResumeCouncilButton = ({ council, translate, client, refetch }) => {
                     <Icon
                         className="material-icons"
                         style={{
-                            fontSize: "1.1em",
-                            color: "white"
+                            fontSize: '1.1em',
+                            color: 'white'
                         }}
                     >
                         play_arrow
                     </Icon>
                 }
-                buttonStyle={{ width: "11em" }}
+                buttonStyle={{ width: '11em' }}
                 textStyle={{
-                    color: "white",
-                    fontSize: "0.75em",
-                    fontWeight: "700",
-                    textTransform: "none"
+                    color: 'white',
+                    fontSize: '0.75em',
+                    fontWeight: '700',
+                    textTransform: 'none'
                 }}
             />
 		</>
 	);
-}
+};
 
 export default withApollo(ResumeCouncilButton);

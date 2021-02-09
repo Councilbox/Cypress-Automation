@@ -1,9 +1,9 @@
 import React from 'react';
-import { TableCell, TableRow } from "material-ui/Table";
-import { Tooltip } from "material-ui";
-import { compose, graphql, withApollo } from "react-apollo";
-import { getSecondary, getPrimary } from "../../../../styles/colors";
-import * as CBX from "../../../../utils/CBX";
+import { TableCell, TableRow } from 'material-ui/Table';
+import { Tooltip } from 'material-ui';
+import { compose, graphql, withApollo } from 'react-apollo';
+import { getSecondary, getPrimary } from '../../../../styles/colors';
+import * as CBX from '../../../../utils/CBX';
 import {
 	BasicButton,
 	ButtonIcon,
@@ -13,11 +13,11 @@ import {
 	GridItem,
 	AlertConfirm,
 	Scrollbar
-} from "../../../../displayComponents";
-import { downloadCBXData, updateConveneSends } from "../../../../queries";
-import { convenedcouncilParticipants } from "../../../../queries/councilParticipant";
-import { PARTICIPANTS_LIMITS, PARTICIPANT_STATES } from "../../../../constants";
-import { useOldState, usePolling } from "../../../../hooks";
+} from '../../../../displayComponents';
+import { downloadCBXData, updateConveneSends } from '../../../../queries';
+import { convenedcouncilParticipants } from '../../../../queries/councilParticipant';
+import { PARTICIPANTS_LIMITS, PARTICIPANT_STATES } from '../../../../constants';
+import { useOldState, usePolling } from '../../../../hooks';
 import AttendIntentionIcon from '../../../council/live/participants/AttendIntentionIcon';
 import DownloadCBXDataButton from '../../../council/prepare/DownloadCBXDataButton';
 import NotificationFilters from '../../../council/prepare/NotificationFilters';
@@ -76,7 +76,7 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 
 		setData(response.data);
 		setLoading(false);
-	}, [council.id, filters])
+	}, [council.id, filters]);
 
 	React.useEffect(() => {
 		getData();
@@ -113,14 +113,14 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 			...filters,
 			...object
 		});
-	}
+	};
 
 	const updateFilters = object => {
 		setFilters({
 			...filters,
 			...object
-		})
-	}
+		});
+	};
 
 
 	const showModalComment = comment => event => {
@@ -128,11 +128,11 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 		setState({
 			showCommentModal: true,
 			showComment: comment
-		})
-	}
+		});
+	};
 
 	if (loading) {
-		return <LoadingSection />
+		return <LoadingSection />;
 	}
 
 	const refetch = getData;
@@ -142,23 +142,23 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 	const headers = [
 		{
 			text: translate.state,
-			name: "name",
+			name: 'name',
 			canOrder: false
 		},
 		{
 			text: translate.name,
-			name: "name",
+			name: 'name',
 			canOrder: true
 		},
 		{
 			text: translate.dni,
-			name: "dni",
+			name: 'dni',
 			canOrder: true
 		},
 		{ text: translate.position },
 		{
 			text: translate.votes,
-			name: "numParticipations",
+			name: 'numParticipations',
 			canOrder: true
 		}
 	];
@@ -166,7 +166,7 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 	if (participations) {
 		headers.push({
 			text: translate.census_type_social_capital,
-			name: "socialCapital",
+			name: 'socialCapital',
 			canOrder: true
 		});
 	}
@@ -206,14 +206,14 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 								color={secondary}
 								loading={refreshing}
 								buttonStyle={{
-									margin: "0",
+									margin: '0',
 									marginRight: '1.2em'
 								}}
 								textStyle={{
-									color: "white",
-									fontWeight: "700",
-									fontSize: "0.9em",
-									textTransform: "none"
+									color: 'white',
+									fontWeight: '700',
+									fontSize: '0.9em',
+									textTransform: 'none'
 								}}
 								icon={
 									<ButtonIcon
@@ -234,15 +234,15 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 						text={translate.add_guest}
 						color="white"
 						buttonStyle={{
-							margin: "0",
+							margin: '0',
 							marginRight: '1.2em',
 							border: `1px solid ${secondary}`
 						}}
 						textStyle={{
 							color: secondary,
-							fontWeight: "700",
-							fontSize: "0.9em",
-							textTransform: "none"
+							fontWeight: '700',
+							fontSize: '0.9em',
+							textTransform: 'none'
 						}}
 						textPosition="after"
 						onClick={() => setAddGuest(true)}
@@ -268,12 +268,12 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 				}
 			</div>
 		</>
-	)
+	);
 
 	return (
-		<div style={{ width: "100%", height: 'calc( 100%  - 10em )', marginTop: "3.5em" }}>
+		<div style={{ width: '100%', height: 'calc( 100%  - 10em )', marginTop: '3.5em' }}>
 			<React.Fragment>
-				<Grid style={{ margin: "0.5em 0.5em" }}>
+				<Grid style={{ margin: '0.5em 0.5em' }}>
 					<GridItem xs={12} lg={6} md={6}>
 						{!hideNotifications &&
 							<NotificationFilters
@@ -285,15 +285,15 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 					</GridItem>
 				</Grid>
 				<Scrollbar>
-					<div style={{ padding: "1em", }}>
+					<div style={{ padding: '1em', }}>
 						{councilParticipants ?
 							<EnhancedTable
 								ref={table}
 								translate={translate}
 								menuButtons={menuButtons()}
 								defaultLimit={filters.options.limit}
-								defaultFilter={"fullName"}
-								defaultOrder={["name", "asc"]}
+								defaultFilter={'fullName'}
+								defaultOrder={['name', 'asc']}
 								limits={PARTICIPANTS_LIMITS}
 								page={filters.page}
 								loading={loading}
@@ -321,7 +321,7 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 															setState({
 																editingParticipant: true,
 																participant: formatDataParticipant
-															})
+															});
 													}}
 													council={council}
 													totalVotes={data.councilTotalVotes}
@@ -375,18 +375,18 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 			{props.children}
 		</div>
 	);
-}
+};
 // editar credenciales solo del representante
 const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant, representative, refetch, ...props }) => {
 	const [showActions, setShowActions] = React.useState(false);
 	const [credentials, setCredentials] = React.useState(false);
 	const mouseEnterHandler = () => {
-		setShowActions(true)
-	}
+		setShowActions(true);
+	};
 
 	const mouseLeaveHandler = () => {
-		setShowActions(false)
-	}
+		setShowActions(false);
+	};
 	const { delegate, notifications } = participant;
 
 	const voteParticipantInfo = (
@@ -411,9 +411,9 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 				open={!!credentials}
 				buttonCancel={translate.cancel}
 				bodyText={
-					credentials == "participant" ?
+					credentials == 'participant' ?
 						<div>
-							<div style={{ color: "black", marginBottom: ".5em" }}>Credenciales de: {`${participant.name} ${participant.surname
+							<div style={{ color: 'black', marginBottom: '.5em' }}>Credenciales de: {`${participant.name} ${participant.surname
 								}  ${(participant.live.state === PARTICIPANT_STATES.DELEGATED &&
 									participant.representatives.length > 0) ? ` - ${translate.represented_by}: ${participant.representatives[0].name} ${participant.representatives[0].surname || ''}` : ''}`}</div>
 							<div style={{}}>
@@ -425,7 +425,7 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 									council={council}
 								/>
 							</div>
-							<div style={{ padding: "1em 0px" }}>
+							<div style={{ padding: '1em 0px' }}>
 								<NotificationsTable
 									maxEmail={{ maxWidth: '100px' }}
 									translate={translate}
@@ -436,7 +436,7 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 						:
 						representative && representative.live &&
 						<div>
-							<div style={{ color: "black", marginBottom: ".5em" }}>Credenciales de: {representative.live.name} {representative.live.surname}</div>
+							<div style={{ color: 'black', marginBottom: '.5em' }}>Credenciales de: {representative.live.name} {representative.live.surname}</div>
 							<div style={{}}>
 								<ParticipantContactEditor
 									participant={representative.live}
@@ -446,7 +446,7 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 									council={council}
 								/>
 							</div>
-							<div style={{ padding: "1em 0px" }}>
+							<div style={{ padding: '1em 0px' }}>
 								<NotificationsTable
 									maxEmail={{ maxWidth: '100px' }}
 									translate={translate}
@@ -463,7 +463,7 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 				onMouseLeave={mouseLeaveHandler}
 
 				style={{
-					height: "7em"
+					height: '7em'
 				}}
 			>
 				<TableCell>
@@ -477,14 +477,14 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 					}
 				</TableCell>
 				<TableCell>
-					<div style={{ fontWeight: '700', marginBottom: "0.2em" }}>{`${participant.name} ${participant.surname
+					<div style={{ fontWeight: '700', marginBottom: '0.2em' }}>{`${participant.name} ${participant.surname
 						}  ${(participant.live.state === PARTICIPANT_STATES.DELEGATED &&
 							participant.representatives.length > 0) ? ` - ${translate.represented_by}: ${participant.representatives[0].name} ${participant.representatives[0].surname || ''}` : ''}`}
 					</div>
 					{voteParticipantInfo}
 				</TableCell>
 				<TableCell>
-					<div style={{ marginBottom: "0.2em" }}>{participant.dni}</div>
+					<div style={{ marginBottom: '0.2em' }}>{participant.dni}</div>
 					{!!representative &&
 						<React.Fragment>
 							<br />
@@ -493,7 +493,7 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 					}
 				</TableCell>
 				<TableCell>
-					<div style={{ marginBottom: "0.2em" }}>{participant.position}</div>
+					<div style={{ marginBottom: '0.2em' }}>{participant.position}</div>
 					{!!representative &&
 						<React.Fragment>
 							<br />
@@ -554,9 +554,9 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 									<img
 										style={{
 											height:
-												"2.1em",
+												'2.1em',
 											width:
-												"auto"
+												'auto'
 										}}
 										src={CBX.getEmailIconByReqCode(
 											notifications[0].reqCode
@@ -565,7 +565,7 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 									/>
 								</Tooltip>
 							) : (
-									""
+									''
 								)}
 						</TableCell>
 						{CBX.councilHasAssistanceConfirmation(council) &&
@@ -590,7 +590,7 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 							)}
 						<TableCell>
 							<div style={{ display: 'flex' }}>
-								<div style={{ color: getPrimary(), position: "relative", marginRight: "1.5em", cursor: "pointer", }} onClick={editParticipant}>
+								<div style={{ color: getPrimary(), position: 'relative', marginRight: '1.5em', cursor: 'pointer', }} onClick={editParticipant}>
 									<div style={{ fontSize: '20px' }}>
 										<i className="fa fa-pencil-square-o" aria-hidden="true"></i>
 									</div>
@@ -608,8 +608,8 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 				}
 			</TableRow>
 		</React.Fragment>
-	)
-}
+	);
+};
 
 const formatParticipant = participant => {
 	const { representing, ...newParticipant } = participant;
@@ -619,17 +619,17 @@ const formatParticipant = participant => {
 		currentParticipant = {
 			...newParticipant,
 			representative: participant.representatives[0]
-		}
+		};
 	}
 
 	if (participant.live.state === PARTICIPANT_STATES.DELEGATED) {
 		currentParticipant = {
 			...newParticipant,
 			delegate: participant.live.representative
-		}
+		};
 	}
 	return currentParticipant;
-}
+};
 
 const applyFilters = (participants, filters) => applyOrder(participants.filter(item => {
 	const participant = formatParticipant(item);
@@ -682,21 +682,21 @@ const applyFilters = (participants, filters) => applyOrder(participants.filter(i
 	}
 
 	return true;
-}), filters.orderBy, filters.orderDirection)
+}), filters.orderBy, filters.orderDirection);
 
 
 const applyOrder = (participants, orderBy, orderDirection) => participants.sort((a, b) => {
 	const participantA = formatParticipant(a);
 	const participantB = formatParticipant(b);
-	return participantA[orderBy] > participantB[orderBy]
-})
+	return participantA[orderBy] > participantB[orderBy];
+});
 
 export default compose(
 	graphql(updateConveneSends, {
-		name: "updateConveneSends"
+		name: 'updateConveneSends'
 	}),
 	graphql(downloadCBXData, {
-		name: "downloadCBXData"
+		name: 'downloadCBXData'
 	}),
 	withApollo
 )(CouncilDetailsParticipants);
