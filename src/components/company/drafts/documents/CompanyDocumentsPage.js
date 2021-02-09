@@ -79,10 +79,10 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
         getData();
     }, [getData])
 
-    const navigateTo = folder => {
+    const navigateTo = doc => {
         breadCrumbs.push({
-            value: folder.id,
-            label: folder.name
+            value: doc.id,
+            label: doc.name
         });
 
         setBreadCrumbs([...breadCrumbs]);
@@ -90,7 +90,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
 
     const deleteDocument = async () => {
         setDeleting(true);
-        const response = await client.mutate({
+        await client.mutate({
             mutation: gql`
                 mutation DeleteCompanyDocument($documentId: Int!){
                     deleteCompanyDocument(documentId: $documentId){
@@ -113,13 +113,13 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
     }
 
     const updateQueueItem = (value, id) => {
-        const index = queue.findIndex(item => item.id = id);
+        const index = queue.findIndex(item => item.id === id);
         queue[index].uploaded = value;
         setQueue([...queue]);
     }
 
     const removeFromQueue = id => {
-        const index = queue.findIndex(item => item.id = id);
+        const index = queue.findIndex(item => item.id === id);
         queue.splice(index, 1);
         setQueue([...queue]);
     }
@@ -167,7 +167,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                 console.log(e);
             };
 
-            xhr.upload.onprogress = function (e) {
+            xhr.upload.onprogress = (e) => {
                 if (e.loaded === e.total) {
                     removeFromQueue(id);
                 } else {
@@ -177,7 +177,7 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
 
             xhr.open('POST', `${SERVER_URL}/api/companyDocument`, true);
             xhr.setRequestHeader('x-jwt-token', sessionStorage.getItem("token"));
-            xhr.onreadystatechange = function () {
+            xhr.onreadystatechange = () => {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                     const response = JSON.parse(xhr.responseText);
                     if (response.success) {

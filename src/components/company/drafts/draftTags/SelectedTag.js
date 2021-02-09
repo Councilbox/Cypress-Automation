@@ -28,7 +28,6 @@ const SelectedTag = ({ text, color, action, list, count, stylesEtiqueta, despleg
 						marginRight: "0.5em",
 						marginTop: "0.25em",
 						marginBottom: "0.25em",
-						padding: "8px",
 						maxWidth: "150px",
 						...stylesEtiqueta,
 						color,

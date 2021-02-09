@@ -3,11 +3,11 @@ import { graphql, compose, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { TextInput, BasicButton } from '../../../../displayComponents';
 import { getSecondary } from '../../../../styles/colors';
-import { resendRoomEmails } from "../../../../queries/liveParticipant";
+import { resendRoomEmails as changeResendRoomEmails } from "../../../../queries/liveParticipant";
 import { moment } from '../../../../containers/App';
 import { useOldState } from '../../../../hooks';
-import { updateParticipantSends } from '../../../../queries';
-import { hasAccessKey, copyStringToClipboard } from '../../../../utils/CBX';
+import { updateParticipantSends as changeParticipantSends } from '../../../../queries';
+import { hasAccessKey } from '../../../../utils/CBX';
 
 
 const ParticipantContactEditor = ({ translate, council, client, updateParticipantSends, sendAccessKey, participant, ...props }) => {
@@ -73,7 +73,7 @@ const ParticipantContactEditor = ({ translate, council, client, updateParticipan
     }
 
     const sendParticipantPortalAccessMail = async () => {
-        const response = await client.mutate({
+         await client.mutate({
             mutation: gql`
                 mutation sendPortalConfirmation($participantId: Int!, $type: String){
                     sendShareholderConfirmation(participantId: $participantId, type: $type){
@@ -132,16 +132,6 @@ const ParticipantContactEditor = ({ translate, council, client, updateParticipan
             });
             props.refetch();
         }
-    }
-
-    const copy = text => {
-        const el = document.createElement('textarea');
-        el.value = text;
-        document.body.appendChild(el);
-        el.select();
-        document.execCommand('copy');
-        document.body.removeChild(el);
-        //copyStringToClipboard(value);
     }
 
     const updateEmail = event => {
@@ -252,10 +242,10 @@ export default compose(
     graphql(updateParticipantContactInfo, {
         name: 'updateParticipantContactInfo'
     }),
-    graphql(updateParticipantSends, {
+    graphql(changeParticipantSends, {
 		name: "updateParticipantSends"
 	}),
-    graphql(resendRoomEmails, {
+    graphql(changeResendRoomEmails, {
         name: 'resendRoomEmails'
     }),
     graphql(sendParticipantRoomKey, {
