@@ -23,6 +23,19 @@ import { isMobile } from "../../../utils/screen";
 
 const queryLimit = 20;
 
+const corporationCompanies = gql`
+query corporationCompanies($filters: [FilterInput], $options: OptionsInput, $corporationId: Int){
+corporationCompanies(filters: $filters, options: $options, corporationId: $corporationId){
+	list{
+		id
+		businessName
+		logo
+	}
+	total
+}
+}
+`;
+
 const TablaCompanies = ({ client, translate, company }) => {
 	const [companies, setCompanies] = React.useState(false);
 	const [companiesPage, setCompaniesPage] = React.useState(1);
@@ -36,18 +49,7 @@ const TablaCompanies = ({ client, translate, company }) => {
 	});
 	const primary = getPrimary();
 
-	const corporationCompanies = gql`
-    query corporationCompanies($filters: [FilterInput], $options: OptionsInput, $corporationId: Int){
-		corporationCompanies(filters: $filters, options: $options, corporationId: $corporationId){
-			list{
-				id
-				businessName
-				logo
-			}
-			total
-		}
-	}
-`;
+
 
 	const getCompanies = async () => {
 		const response = await client.query({
