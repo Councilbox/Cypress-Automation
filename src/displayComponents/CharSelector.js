@@ -31,7 +31,9 @@ const CharSelector = ({ onClick, ...props }) => {
     }
 
     return (
-        <div style={{ height: '100%', width: '1.5em', display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <div style={{
+ height: '100%', width: '1.5em', display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'space-between'
+}}>
                 {chars.map(char => (
                     <div
                         key={`char_selector_${char}`}

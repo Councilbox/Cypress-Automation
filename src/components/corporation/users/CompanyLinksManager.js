@@ -1,8 +1,12 @@
 import React from 'react';
-import { Typography, Table, TableHead, TableRow, TableCell } from 'material-ui';
+import {
+ Typography, Table, TableHead, TableRow, TableCell
+} from 'material-ui';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
-import { BasicButton, AlertConfirm, ButtonIcon, LoadingSection, TextInput, Icon, Grid, PaginationFooter, SelectInput, MenuItem } from '../../../displayComponents';
+import {
+ BasicButton, AlertConfirm, ButtonIcon, LoadingSection, TextInput, Icon, Grid, PaginationFooter, SelectInput, MenuItem
+} from '../../../displayComponents';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import CompanyItem from '../companies/CompanyItem';
 
@@ -90,7 +94,9 @@ const CompanyLinksManager = ({ translate, client, ...props }) => {
 
     return (
         <div> {/** "calc( 100% - 16em )" */}
-            < div style={{ width: '100%', display: 'flex', flexDirection: 'row', marginTop: '2em', alignItems: 'center', justifyContent: 'space-between' }}>
+            < div style={{
+ width: '100%', display: 'flex', flexDirection: 'row', marginTop: '2em', alignItems: 'center', justifyContent: 'space-between'
+}}>
                 <Typography variant="subheading" style={{ color: getPrimary(), marginRight: '0.6em' }}>
                     {props.linkedCompanies.length} {translate.linked_companies}
                 </Typography>
@@ -160,7 +166,9 @@ const CompanyLinksManager = ({ translate, client, ...props }) => {
 };
 
 
-const LinksCompanies = ({ translate, companies, setPage, page, state, setState, loading }) => {
+const LinksCompanies = ({
+ translate, companies, setPage, page, state, setState, loading
+}) => {
     const isChecked = id => {
         const item = state.checked.find(company => company.id === id);
         return !!item;

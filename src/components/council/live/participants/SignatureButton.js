@@ -3,7 +3,9 @@ import { BasicButton } from '../../../../displayComponents';
 import { getSecondary } from '../../../../styles/colors';
 import SignatureModal from './modals/SignatureModal';
 
-const SignatureButton = ({ participant, translate, council, refetch }) => {
+const SignatureButton = ({
+ participant, translate, council, refetch
+}) => {
     const [modal, setModal] = React.useState(false);
     const secondary = getSecondary();
 
@@ -20,7 +22,9 @@ const SignatureButton = ({ participant, translate, council, refetch }) => {
             <BasicButton
                 text={participant.signed ? translate.user_signed : translate.to_sign}
                 fullWidth
-                buttonStyle={{ borderRadius: '4px', marginRight: '10px', width: '150px', border: `1px solid ${secondary}` }}
+                buttonStyle={{
+ borderRadius: '4px', marginRight: '10px', width: '150px', border: `1px solid ${secondary}`
+}}
                 type="flat"
                 color={participant.signed ? secondary : 'white'}
                 onClick={() => setModal(true)}

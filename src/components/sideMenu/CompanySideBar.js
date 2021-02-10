@@ -393,7 +393,9 @@ class Sidebar extends React.Component {
 					translate={this.props.translate}
 					requestClose={this.toggleCompanyMenu}
 				/>
-				<div style={{ float: 'left', zIndex: '0', height: '100vh', position: isMobile && isLandscape() && 'fixed' }}>
+				<div style={{
+ float: 'left', zIndex: '0', height: '100vh', position: isMobile && isLandscape() && 'fixed'
+}}>
 
 					<div style={{
 						backgroundColor: darkGrey,

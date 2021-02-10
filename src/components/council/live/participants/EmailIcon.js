@@ -47,7 +47,9 @@ const _renderIcon = (color, reqCode, number, translate, ratio) => {
 
 class EmailIcon extends React.PureComponent {
 	render() {
-		const { color = 'grey', reqCode, number, translate, ratio = 1 } = this.props;
+		const {
+ color = 'grey', reqCode, number, translate, ratio = 1
+} = this.props;
 		return _renderIcon(color, reqCode, number, translate, ratio);
 	}
 }

@@ -1,7 +1,9 @@
 import React from 'react';
 import { Collapse } from 'material-ui';
 
-const Tag = ({ text, color, childs, width, action }) => {
+const Tag = ({
+ text, color, childs, width, action
+}) => {
 	const [open, setOpen] = React.useState(false);
 	const [openTimeOut, setOpenTimeOut] = React.useState(false);
 

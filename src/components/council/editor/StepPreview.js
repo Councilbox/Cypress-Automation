@@ -1,7 +1,9 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose, graphql, withApollo } from 'react-apollo';
-import { Icon, MenuItem, Paper, Typography } from 'material-ui';
+import {
+ Icon, MenuItem, Paper, Typography
+} from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 import { toast } from 'react-toastify';
 import {
@@ -33,7 +35,9 @@ import EditorStepLayout from './EditorStepLayout';
 import { useOldState } from '../../../hooks';
 
 
-const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
+const StepPreview = ({
+ translate, company, client, dateStart, ...props
+}) => {
 	const [loading, setLoading] = React.useState(false);
 	const [fetchLoading, setFetchLoading] = React.useState(true);
 	const [errors, setErrors] = React.useState({});

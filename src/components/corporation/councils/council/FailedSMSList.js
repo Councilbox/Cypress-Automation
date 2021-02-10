@@ -35,7 +35,9 @@ const FailedSMSList = ({ council, translate }) => {
                 modal={true}
                 requestClose={closeModal}
                 classNameDialog={isMobile ? 'noMarginM' : 'noMargin'}
-                bodyStyle={{ overflowY: 'hidden', height: '50vh', width: '100%', maxWidth: isMobile && '100vw' }}
+                bodyStyle={{
+ overflowY: 'hidden', height: '50vh', width: '100%', maxWidth: isMobile && '100vw'
+}}
             />
 
             {/* <AlertConfirm

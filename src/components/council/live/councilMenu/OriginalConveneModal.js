@@ -1,7 +1,9 @@
 import React from 'react';
 import { AlertConfirm } from '../../../../displayComponents';
 
-const OriginalConveneModal = ({ council, requestClose, show, translate }) => (
+const OriginalConveneModal = ({
+ council, requestClose, show, translate
+}) => (
 	<AlertConfirm
 		requestClose={requestClose}
 		open={show}

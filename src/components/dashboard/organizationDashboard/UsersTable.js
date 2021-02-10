@@ -2,12 +2,16 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 import { corporationUsers } from '../../../queries/corporation';
 import { getPrimary } from '../../../styles/colors';
-import { PaginationFooter, Scrollbar, Grid, LoadingSection } from '../../../displayComponents';
+import {
+ PaginationFooter, Scrollbar, Grid, LoadingSection
+} from '../../../displayComponents';
 import { getActivationText } from '../../company/settings/CompanySettingsPage';
 import { moment } from '../../../containers/App';
 import Cell from './Cell';
 
-const OrganizationUsersTable = ({ company, translate, textFilter, client }) => {
+const OrganizationUsersTable = ({
+ company, translate, textFilter, client
+}) => {
     const [filters, setFilters] = React.useState({
         page: 1
     });
@@ -54,19 +58,29 @@ const OrganizationUsersTable = ({ company, translate, textFilter, client }) => {
 		<div style={{}}>
 			<div style={{ fontSize: '13px' }}>
 				<div style={{ display: 'flex', justifyContent: 'space-between', padding: '1em', }}>
-					<div style={{ color: primary, fontWeight: 'bold', width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+					<div style={{
+ color: primary, fontWeight: 'bold', width: 'calc( 100% / 5 )', textAlign: 'left'
+}}>
 						{translate.state}
 					</div>
-					<div style={{ color: primary, fontWeight: 'bold', width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+					<div style={{
+ color: primary, fontWeight: 'bold', width: 'calc( 100% / 5 )', textAlign: 'left'
+}}>
 						Id
 					</div>
-					<div style={{ color: primary, fontWeight: 'bold', width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+					<div style={{
+ color: primary, fontWeight: 'bold', width: 'calc( 100% / 5 )', textAlign: 'left'
+}}>
 						{translate.name}
 					</div>
-					<div style={{ color: primary, fontWeight: 'bold', overflow: 'hidden', width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+					<div style={{
+ color: primary, fontWeight: 'bold', overflow: 'hidden', width: 'calc( 100% / 5 )', textAlign: 'left'
+}}>
 						{translate.email}
 					</div>
-					<div style={{ color: primary, fontWeight: 'bold', overflow: 'hidden', width: 'calc( 100% / 5 )', textAlign: 'left' }}>
+					<div style={{
+ color: primary, fontWeight: 'bold', overflow: 'hidden', width: 'calc( 100% / 5 )', textAlign: 'left'
+}}>
 						{translate.last_connection}
 					</div>
 				</div>

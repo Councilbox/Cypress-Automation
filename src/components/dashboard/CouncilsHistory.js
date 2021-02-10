@@ -1,6 +1,10 @@
 import React from 'react';
-import { TableRow, TableCell, Card, Tooltip } from 'material-ui';
-import { Table, DateWrapper, BasicButton, Grid, GridItem } from '../../displayComponents';
+import {
+ TableRow, TableCell, Card, Tooltip
+} from 'material-ui';
+import {
+ Table, DateWrapper, BasicButton, Grid, GridItem
+} from '../../displayComponents';
 import { bHistory, moment } from '../../containers/App';
 import TableStyles from '../../styles/table';
 import { getPrimary, getSecondary } from '../../styles/colors';
@@ -32,7 +36,9 @@ class CouncilsHistory extends React.Component {
     }
 
     render() {
-        const { councils, translate, openDeleteModal, company } = this.props;
+        const {
+ councils, translate, openDeleteModal, company
+} = this.props;
 
         return (
             <Table
@@ -166,7 +172,9 @@ class HoverableRow extends React.Component {
                         </GridItem>
                         <GridItem xs={12} md={12}>
                             {(council.promoCode !== 'COUNCILBOX' && council.state >= 40)
-                                && <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '10px' }}>
+                                && <div style={{
+ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '10px'
+}}>
                                     <BasicButton
                                         text={translate.certificates}
                                         color="white"

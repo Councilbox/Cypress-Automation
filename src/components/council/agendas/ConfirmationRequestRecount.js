@@ -35,7 +35,9 @@ const ConfirmationRequestRecount = ({ translate, agenda, client }) => {
     return (
         <div>
             {agenda.votingState !== AGENDA_STATES.INITIAL
-                && <div style={{ display: 'flex', width: '100%', border: '1px solid grey', height: '1.6em', borderRadius: '2px' }}>
+                && <div style={{
+ display: 'flex', width: '100%', border: '1px solid grey', height: '1.6em', borderRadius: '2px'
+}}>
                     <PercentageSection
                         tooltip={`${translate.they_accept}: ${data.numPositive} (${positivePercentage}%)`}
                         value={positivePercentage}
@@ -62,7 +64,9 @@ const ConfirmationRequestRecount = ({ translate, agenda, client }) => {
     );
 };
 
-const PercentageSection = ({ value, color, tooltip, text = '', textColor = 'white' }) => {
+const PercentageSection = ({
+ value, color, tooltip, text = '', textColor = 'white'
+}) => {
     const [showValue, setShowValue] = React.useState(false);
     const block = React.useRef();
     const [showActions, { onMouseOver, onMouseLeave }] = useHoverRow();

@@ -1,6 +1,8 @@
 import React from 'react';
 import { DateTimePicker, DatePicker } from 'material-ui-pickers';
-import { Icon, IconButton, InputAdornment, Typography } from 'material-ui';
+import {
+ Icon, IconButton, InputAdornment, Typography
+} from 'material-ui';
 import withTranslations from '../HOCs/withTranslations';
 
 const DateTimePickerWrapper = ({

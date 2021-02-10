@@ -5,7 +5,9 @@ import { getCustomBackground, getCustomRoomBackground } from '../utils/subdomain
 import LoadingMainApp from './LoadingMainApp';
 
 
-const NotLoggedLayout = ({ children, translate, helpIcon, languageSelector, councilIsFinished, setSelectHeadFinished, selectHeadFinished, styleFix, ...props }) => {
+const NotLoggedLayout = ({
+ children, translate, helpIcon, languageSelector, councilIsFinished, setSelectHeadFinished, selectHeadFinished, styleFix, ...props
+}) => {
     const [loadingImg, setLoadingImg] = React.useState(true);
     const customBackground = getCustomBackground();
     const customRoomBackground = getCustomRoomBackground();

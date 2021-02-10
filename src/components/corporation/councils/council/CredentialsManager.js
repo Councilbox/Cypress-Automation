@@ -1,9 +1,13 @@
 import React from 'react';
-import { InputAdornment, Card, IconButton, CardHeader, Typography, Collapse, CardContent } from 'material-ui';
+import {
+ InputAdornment, Card, IconButton, CardHeader, Typography, Collapse, CardContent
+} from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
-import { LoadingSection, BasicButton, TextInput, Scrollbar } from '../../../../displayComponents';
+import {
+ LoadingSection, BasicButton, TextInput, Scrollbar
+} from '../../../../displayComponents';
 import NotificationsTable from '../../../notifications/NotificationsTable';
 import { updateParticipantSends } from '../../../../queries';
 import ParticipantContactEditor from './ParticipantContactEditor';
@@ -82,13 +86,19 @@ const CredentialsManager = ({ translate, ...props }) => {
                                     />
                                 </div>
                             ))}
-                            <div style={{ height: '4em', display: 'flex', fontWeight: '700', alignItems: 'center', paddingTop: '0.5em' }}>
+                            <div style={{
+ height: '4em', display: 'flex', fontWeight: '700', alignItems: 'center', paddingTop: '0.5em'
+}}>
                                 {state.page > 1
-                                    && <div onClick={() => updatePage(state.page - 1)} style={{ userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer' }}>{'<'}</div>
+                                    && <div onClick={() => updatePage(state.page - 1)} style={{
+ userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer'
+}}>{'<'}</div>
                                 }
                                 <div style={{ margin: '0 0.3em', paddingBottom: '2em' }}>{state.page}</div>
                                 {(state.page < (props.data.liveParticipants.total / limit))
-                                    && <div onClick={() => updatePage(state.page + 1)} style={{ userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer' }}>{'>'}</div>
+                                    && <div onClick={() => updatePage(state.page + 1)} style={{
+ userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer'
+}}>{'>'}</div>
                                 }
 
                             </div>
@@ -100,7 +110,9 @@ const CredentialsManager = ({ translate, ...props }) => {
 };
 
 
-const Content = ({ participant, translate, refetch, council }) => {
+const Content = ({
+ participant, translate, refetch, council
+}) => {
     const [expanded, setExpanded] = React.useState(false);
 
     const toggleExpanded = () => {

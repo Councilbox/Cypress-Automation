@@ -51,7 +51,9 @@ const formatParticipant = participant => {
 };
 
 
-const CouncilDetailsParticipants = ({ client, translate, council, participations, hideNotifications, hideAddParticipant, ...props }) => {
+const CouncilDetailsParticipants = ({
+ client, translate, council, participations, hideNotifications, hideAddParticipant, ...props
+}) => {
 	const [filters, setFilters] = React.useState({
 		options: {
 			limit: PARTICIPANTS_LIMITS[0],
@@ -213,7 +215,9 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 
 	const menuButtons = () => (
 		<>
-			<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '0.3em' }}>
+			<div style={{
+ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '0.3em'
+}}>
 				{!hideNotifications
 					&& <Tooltip
 						title={
@@ -398,7 +402,9 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 	);
 };
 // editar credenciales solo del representante
-const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant, representative, refetch, ...props }) => {
+const HoverableRow = ({
+ translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant, representative, refetch, ...props
+}) => {
 	const [showActions, setShowActions] = React.useState(false);
 	const [credentials, setCredentials] = React.useState(false);
 	const mouseEnterHandler = () => {
@@ -431,7 +437,7 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 				open={!!credentials}
 				buttonCancel={translate.cancel}
 				bodyText={
-					credentials == 'participant' ?
+					credentials === 'participant' ?
 						<div>
 							<div style={{ color: 'black', marginBottom: '.5em' }}>Credenciales de: {`${participant.name} ${participant.surname
 								}  ${(participant.live.state === PARTICIPANT_STATES.DELEGATED
@@ -606,7 +612,9 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 							)}
 						<TableCell>
 							<div style={{ display: 'flex' }}>
-								<div style={{ color: getPrimary(), position: 'relative', marginRight: '1.5em', cursor: 'pointer', }} onClick={editParticipant}>
+								<div style={{
+ color: getPrimary(), position: 'relative', marginRight: '1.5em', cursor: 'pointer',
+}} onClick={editParticipant}>
 									<div style={{ fontSize: '20px' }}>
 										<i className="fa fa-pencil-square-o" aria-hidden="true"></i>
 									</div>

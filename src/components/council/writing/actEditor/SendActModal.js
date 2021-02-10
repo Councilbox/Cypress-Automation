@@ -1,5 +1,7 @@
 import React from 'react';
-import { Typography, Card, TableRow, Table, TableCell } from 'material-ui';
+import {
+ Typography, Card, TableRow, Table, TableCell
+} from 'material-ui';
 import { compose, graphql } from 'react-apollo';
 import FontAwesome from 'react-fontawesome';
 import {
@@ -17,6 +19,7 @@ import { DELEGATION_USERS_LOAD } from '../../../../constants';
 
 import { useOldState } from '../../../../hooks';
 import { getSecondary } from '../../../../styles/colors';
+import { removeTypenameField } from '../../../../utils/CBX';
 
 
 const SendActModal = ({ translate, data, ...props }) => {
@@ -77,8 +80,7 @@ const SendActModal = ({ translate, data, ...props }) => {
 	const checkRow = (participant, check) => {
 		let participants = [...state.participants];
 		if (check) {
-			const { __typename, ...participantData } = participant;
-			participants = [...participants, participantData];
+			participants = [...participants, removeTypenameField(participant)];
 		} else {
 			const index = participants.findIndex(item => item.id === participant.id);
 			participants.splice(index, 1);
@@ -218,7 +220,9 @@ const SendActModal = ({ translate, data, ...props }) => {
 						{loadingParticipants ? (
 							<LoadingSection />
 						) : (
-							<div style={{ height: 'calc( 100% - 4em )', marginBottom: '0.5em', width: '600px', margin: '0 auto' }}>
+							<div style={{
+ height: 'calc( 100% - 4em )', marginBottom: '0.5em', width: '600px', margin: '0 auto'
+}}>
 								<Scrollbar option={{ suppressScrollX: true }}>
 									<Table style={{ marginBottom: '1em', width: '600px', margin: '0 auto' }}>
 										{participants.length > 0 ? (

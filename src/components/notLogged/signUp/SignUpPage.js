@@ -190,7 +190,9 @@ const SignUpPage = ({ translate, windowSize, mutate }) => {
 							}}
 						>
 							{translate.register_successfully}
-							<div style={{ marginTop: '0.9em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+							<div style={{
+ marginTop: '0.9em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'
+}}>
 								<BasicButton
 									text={translate.back}
 									textStyle={{ fontWeight: '700', textTransform: 'none', color: 'white' }}

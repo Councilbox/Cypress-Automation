@@ -2,7 +2,9 @@ import React from 'react';
 import fileSize from 'filesize';
 import Dropzone from 'react-dropzone';
 import gql from 'graphql-tag';
-import { Card, Table, TableCell, TableBody, TableRow } from 'material-ui';
+import {
+ Card, Table, TableCell, TableBody, TableRow
+} from 'material-ui';
 import { withApollo } from 'react-apollo';
 import { isMobile } from 'react-device-detect';
 import { BasicButton, Checkbox, AlertConfirm } from '../../../displayComponents';
@@ -11,7 +13,9 @@ import { moment } from '../../../containers/App';
 import { getPrimary } from '../../../styles/colors';
 import upload from '../../../assets/img/upload.svg';
 
-const ParticipantCouncilAttachments = ({ translate, participant, client, council }) => {
+const ParticipantCouncilAttachments = ({
+ translate, participant, client, council
+}) => {
     const [data, setData] = React.useState(null);
     const [confirmationModal, setConfirmationModal] = React.useState(false);
     const [check, setCheck] = React.useState(false);
@@ -87,7 +91,9 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
     };
 
     return (
-        <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
+        <div style={{
+ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center',
+}}>
             <AlertConfirm
                 open={confirmationModal}
                 title={translate.warning}
@@ -113,7 +119,9 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
                         </>
                     }
                 </div>
-                <div style={{ padding: '1em', paddingBottom: '1em', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #154481' }}>
+                <div style={{
+ padding: '1em', paddingBottom: '1em', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #154481'
+}}>
                     <div>
                         <BasicButton
                             text={
@@ -147,7 +155,9 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
                     </div>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-                    <div style={{ marginTop: '2em', height: '100%', marginBottom: '2em', width: '100%' }}>
+                    <div style={{
+ marginTop: '2em', height: '100%', marginBottom: '2em', width: '100%'
+}}>
                         {isMobile ?
                             <>
                                 {data && data.map(attachment => (
@@ -253,7 +263,9 @@ const ParticipantCouncilAttachments = ({ translate, participant, client, council
                                     {...getRootProps()}
                                 >
                                     <input {...getInputProps()} />
-                                    <div style={{ color: 'black', fontSize: '20px', marginBottom: '1em', textAlign: 'center' }}>Seleccione los archivos de su ordenador</div>
+                                    <div style={{
+ color: 'black', fontSize: '20px', marginBottom: '1em', textAlign: 'center'
+}}>Seleccione los archivos de su ordenador</div>
                                     <div
                                         style={{ marginBottom: '1em', display: 'flex', justifyContent: 'center' }}
                                     >

@@ -1,5 +1,7 @@
 import React from 'react';
-import { Tooltip, Badge, Tabs, Tab } from 'material-ui';
+import {
+ Tooltip, Badge, Tabs, Tab
+} from 'material-ui';
 import { DisabledSection, FabButton, Icon } from '../../../displayComponents';
 import LiveHeader from './LiveHeader';
 import { darkGrey, lightGrey } from '../../../styles/colors';
@@ -423,7 +425,9 @@ const CouncilLivePage = ({ translate, data, company }) => {
 								{(showParticipants && !state.fullScreen)
 									&& <div style={{ height: 'calc( 100% - 2em )' }}>
 										<ParticipantsManager
-											stylesDiv={{ margin: '0', height: 'calc( 100% - 1.8em )', borderTop: '1px solid #e7e7e7', width: '100%' }}
+											stylesDiv={{
+ margin: '0', height: 'calc( 100% - 1.8em )', borderTop: '1px solid #e7e7e7', width: '100%'
+}}
 											translate={translate}
 											participants={data.council.participants}
 											council={council}

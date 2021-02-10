@@ -5,7 +5,9 @@ import {
 
 class ContentButtonDirectAccess extends React.Component {
 	render() {
-		const { children, disabled, disabledOnClick, link } = this.props;
+		const {
+ children, disabled, disabledOnClick, link
+} = this.props;
 
 		const card
 			= <div

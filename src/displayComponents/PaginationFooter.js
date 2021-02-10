@@ -112,7 +112,9 @@ const PaginationFooter = ({
 						}`
 						: translate.table_no_results}
 				</div>
-				<div style={{ marginTop: '0.6em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+				<div style={{
+ marginTop: '0.6em', display: 'flex', alignItems: 'center', justifyContent: 'center'
+}}>
 					<React.Fragment>
 						{page > 1 && (
 							<span

@@ -23,7 +23,9 @@ const styles = {
 };
 
 
-const ContactForm = ({ participant = {}, translate, client, match, ...props }) => {
+const ContactForm = ({
+ participant = {}, translate, client, match, ...props
+}) => {
     const [state, setState] = useOldState({
         replyTo: participant.email,
         subject: '',
@@ -144,7 +146,9 @@ const ContactForm = ({ participant = {}, translate, client, match, ...props }) =
                         errorText={errors.body}
                     />
                 </div>
-                <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', marginTop: '0.6em' }}>
+                <div style={{
+ width: '100%', display: 'flex', justifyContent: 'flex-end', marginTop: '0.6em'
+}}>
                     <BasicButton
                         text={translate.send}
                         color={primary}

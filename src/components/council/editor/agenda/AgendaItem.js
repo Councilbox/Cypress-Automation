@@ -7,7 +7,9 @@ import { getPrimary, getSecondary } from '../../../../styles/colors';
 import withTranslations from '../../../../HOCs/withTranslations';
 import { getSubjectAbrv } from '../../../../displayComponents/AgendaNumber';
 
-const AgendaItem = ({ agenda, typeText, selectAgenda, translate, removeAgenda, saveAsDraft }) => {
+const AgendaItem = ({
+ agenda, typeText, selectAgenda, translate, removeAgenda, saveAsDraft
+}) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 

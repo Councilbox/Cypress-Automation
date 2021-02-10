@@ -4,7 +4,9 @@ import gql from 'graphql-tag';
 import { DateTimePicker, BasicButton, TextInput } from '../../../displayComponents';
 
 
-const AddCompanyNotificationMenu = ({ refetch, company, translate, client }) => {
+const AddCompanyNotificationMenu = ({
+ refetch, company, translate, client
+}) => {
     const defaultState = {
         limitDate: null,
         description: '',

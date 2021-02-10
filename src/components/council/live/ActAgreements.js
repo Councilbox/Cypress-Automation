@@ -7,7 +7,9 @@ import RichTextInput from '../../../displayComponents/RichTextInput';
 import { updateAgenda } from '../../../queries/agenda';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import LoadDraftModal from '../../company/drafts/LoadDraftModal';
-import { changeVariablesToValues, checkForUnclosedBraces, hasParticipations, generateGBDecidesText, generateStatuteTag } from '../../../utils/CBX';
+import {
+ changeVariablesToValues, checkForUnclosedBraces, hasParticipations, generateGBDecidesText, generateStatuteTag
+} from '../../../utils/CBX';
 import { moment } from '../../../containers/App';
 import { AGENDA_STATES } from '../../../constants';
 import { TAG_TYPES } from '../../company/drafts/draftTags/utils';
@@ -35,7 +37,9 @@ export const agendaRecountQuery = gql`
 	}
 `;
 
-const ActAgreements = ({ translate, council, company, agenda, recount, ...props }) => {
+const ActAgreements = ({
+ translate, council, company, agenda, recount, ...props
+}) => {
 	const [error, setError] = React.useState(false);
 	const timeout = React.useRef(null);
 	const editor = React.useRef(null);
@@ -96,7 +100,9 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 	};
 
 	const getCorrectedText = async (text, translations) => {
-		const { numPositive, numNegative, numAbstention, numNoVote } = data;
+		const {
+ numPositive, numNegative, numAbstention, numNoVote
+} = data;
 		const { positiveSC, negativeSC, abstentionSC } = data;
 		const participations = hasParticipations(council);
 		const totalPresent = agenda.socialCapitalPresent + agenda.socialCapitalCurrentRemote;
@@ -193,7 +199,9 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 		const shouldPasteValue = votingState => votingState === 2;
 
 		if (data) {
-			const { numPositive, numNegative, numAbstention, numNoVote } = data;
+			const {
+ numPositive, numNegative, numAbstention, numNoVote
+} = data;
 			const { positiveSC, negativeSC, abstentionSC } = data;
 			const participations = hasParticipations(council);
 

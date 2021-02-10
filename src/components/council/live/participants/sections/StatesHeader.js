@@ -11,7 +11,9 @@ const selectedStyle = {
 };
 
 
-const StatesHeader = ({ translate, setSelected, stateRecount, selected }) => (
+const StatesHeader = ({
+ translate, setSelected, stateRecount, selected
+}) => (
 		<React.Fragment>
 			<Grid
 				style={{

@@ -24,7 +24,9 @@ export const getTypeText = (text, translate) => {
 };
 
 
-const CheckShareholderRequest = ({ request, translate, refetch, client, council }) => {
+const CheckShareholderRequest = ({
+ request, translate, refetch, client, council
+}) => {
     const [modal, setModal] = React.useState(false);
     const [modalAlert, setModalAlert] = React.useState(false);
     const [inModal, setInModal] = React.useState(null);

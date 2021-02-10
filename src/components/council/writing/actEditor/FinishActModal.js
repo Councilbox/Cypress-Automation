@@ -24,7 +24,9 @@ const dropzoneStyles = {
 };
 
 
-const FinishActModal = ({ requestClose, updateAct, translate, preview, council, finishInModal, ...props }) => {
+const FinishActModal = ({
+ requestClose, updateAct, translate, preview, council, finishInModal, ...props
+}) => {
 	const [state, setState] = useOldState({
 		loading: false,
 		step: 1,

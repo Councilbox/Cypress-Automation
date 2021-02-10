@@ -7,7 +7,9 @@ import withTranslations from '../../../HOCs/withTranslations';
 import { lightGrey } from '../../../styles/colors';
 import { CBXFooter } from '../../../displayComponents';
 
-const ConveneDisplay = ({ match, client, translate, ...props }) => {
+const ConveneDisplay = ({
+ match, client, translate, ...props
+}) => {
     const [convene, setConvene] = React.useState(null);
     const [error, setError] = React.useState(null);
 

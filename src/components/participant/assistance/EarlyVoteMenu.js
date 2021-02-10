@@ -7,7 +7,9 @@ import { isConfirmationRequest, isCustomPoint } from '../../../utils/CBX';
 import { LoadingSection } from '../../../displayComponents';
 import { useCouncilAgendas } from '../../../hooks';
 
-const EarlyVoteMenu = ({ selected, setSelected, state, setState, translate, client, council, participant }) => {
+const EarlyVoteMenu = ({
+ selected, setSelected, state, setState, translate, client, council, participant
+}) => {
     const { data, loading } = useCouncilAgendas({
         councilId: council.id,
         participantId: participant.id,

@@ -5,7 +5,9 @@ import { AlertConfirm, LoadingSection } from '../../../displayComponents';
 import { useQueryReducer } from '../../../hooks';
 import AttachmentDownload from '../../attachments/AttachmentDownload';
 
-const OneOnOneAttachmentsModal = ({ client, translate, council, open, requestClose }) => {
+const OneOnOneAttachmentsModal = ({
+ client, translate, council, open, requestClose
+}) => {
     const { data, loading } = useQueryReducer({
         client,
         query: gql`

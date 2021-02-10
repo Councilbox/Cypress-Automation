@@ -1,7 +1,9 @@
 import React from 'react';
 import { graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { Card, MenuItem, Typography, withStyles, CardHeader } from 'material-ui';
+import {
+ Card, MenuItem, Typography, withStyles, CardHeader
+} from 'material-ui';
 import {
 	AlertConfirm,
 	Icon,
@@ -24,7 +26,9 @@ const styles = {
 };
 
 
-const SelectCensusParticipantRepresentative = ({ open, data, translate, participantsTable, ...props }) => {
+const SelectCensusParticipantRepresentative = ({
+ open, data, translate, participantsTable, ...props
+}) => {
 	const loadMore = () => {
 		data.fetchMore({
 			variables: {
@@ -94,7 +98,9 @@ const SelectCensusParticipantRepresentative = ({ open, data, translate, particip
 							adornment={<Icon>search</Icon>}
 							type="text"
 							// value={searchModalPlantillas}
-							styleInInput={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px' }}
+							styleInInput={{
+ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px'
+}}
 							classes={{ input: props.classes.input, formControl: props.classes.formControl }}
 							disableUnderline={true}
 							stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px' }}
@@ -104,7 +110,9 @@ const SelectCensusParticipantRepresentative = ({ open, data, translate, particip
 						/>
 					</GridItem>
 				</Grid>
-				<div style={{ marginTop: '1em', borderTop: '2px solid #dcdcdc', overflow: 'hidden', height: isMobile ? 'calc( 100% - 5em )' : '100%', }}>
+				<div style={{
+ marginTop: '1em', borderTop: '2px solid #dcdcdc', overflow: 'hidden', height: isMobile ? 'calc( 100% - 5em )' : '100%',
+}}>
 					{loading ? (
 						<LoadingSection />
 					) : (
@@ -143,7 +151,9 @@ const SelectCensusParticipantRepresentative = ({ open, data, translate, particip
 															elevation={1}
 															onClick={loadMore}
 														>
-															<MenuItem style={{ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
+															<MenuItem style={{
+ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'
+}}>
 																{`DESCARGAR ${rest > DELEGATION_USERS_LOAD ?
 																	`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
 																	: translate.all_plural.toLowerCase()
@@ -183,7 +193,9 @@ const SelectCensusParticipantRepresentative = ({ open, data, translate, particip
 			buttonCancel={translate.close}
 			bodyText={renderBody()}
 			title={translate.select}
-			bodyStyle={{ minWidth: '50vw', overflow: isMobile && 'hidden', width: isMobile && '100%', height: isMobile && '100%' }}
+			bodyStyle={{
+ minWidth: '50vw', overflow: isMobile && 'hidden', width: isMobile && '100%', height: isMobile && '100%'
+}}
 		/>
 	);
 };
@@ -201,7 +213,9 @@ const regularCardStyle = {
 };
 
 
-const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, onClick, index }) => {
+const CardPlantillas = withStyles(regularCardStyle)(({
+ item, classes, onClick, index
+}) => {
 	const [hover, setHover] = React.useState(false);
 
 	const mouseEnterHandler = () => {

@@ -2,8 +2,12 @@ import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
-import { Table, TableHead, TableRow, TableCell, TableBody, } from 'material-ui';
-import { LoadingSection, BasicButton, AlertConfirm, Scrollbar } from '../../../../displayComponents';
+import {
+ Table, TableHead, TableRow, TableCell, TableBody,
+} from 'material-ui';
+import {
+ LoadingSection, BasicButton, AlertConfirm, Scrollbar
+} from '../../../../displayComponents';
 import CouncilItem from '../CouncilItem';
 import { getSecondary } from '../../../../styles/colors';
 import DownloadAttendantsPDF from '../../../council/writing/actEditor/DownloadAttendantsPDF';
@@ -231,7 +235,9 @@ class CouncilDetails extends React.Component {
 							<i className="fa fa-hourglass-end" aria-hidden="true" style={{ color: 'grey', fontSize: '6em' }}></i>
 							REUNIÓN FINALIZADA
 						</div>
-						:						<div style={{ backgroundColor: 'white', height: '100%', border: '2px solid black', position: 'relative' }}>
+						:						<div style={{
+ backgroundColor: 'white', height: '100%', border: '2px solid black', position: 'relative'
+}}>
 							<AgendaManager
 								recount={this.state.data.councilRecount}
 								council={council}
@@ -243,7 +249,9 @@ class CouncilDetails extends React.Component {
 								openMenu={() => { }}
 							/>
 							{this.state.locked
-								&& <div style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', zIndex: 10000 }} onClick={() => alert('Se mira pero no se toca')}>
+								&& <div style={{
+ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', zIndex: 10000
+}} onClick={() => alert('Se mira pero no se toca')}>
 
 								</div>
 							}
@@ -322,7 +330,9 @@ class CouncilDetails extends React.Component {
 						{council.state >= 20 ?
 							<>
 								<ParticipantsManager
-									stylesDiv={{ margin: '0', marginTop: '3.5em', height: 'calc( 100% - 10em )', borderTop: '1px solid #e7e7e7', width: '100%' }}
+									stylesDiv={{
+ margin: '0', marginTop: '3.5em', height: 'calc( 100% - 10em )', borderTop: '1px solid #e7e7e7', width: '100%'
+}}
 									translate={translate}
 									council={council}
 									root={true}
@@ -367,7 +377,9 @@ class CouncilDetails extends React.Component {
 								// alignItems: 'center'
 							}}
 						>
-							<div style={{ fontSize: '1rem', marginLeft: '0.6em', justifyContent: 'flex-end', display: 'flex' }}>
+							<div style={{
+ fontSize: '1rem', marginLeft: '0.6em', justifyContent: 'flex-end', display: 'flex'
+}}>
 								<MergeCouncilsButton
 									council={council}
 									translate={translate}
@@ -386,7 +398,9 @@ class CouncilDetails extends React.Component {
 								<BasicButton
 									text="Ver tipo de reunión"
 									color={secondary}
-									textStyle={{ fontWeight: '700', color: 'white', marginTop: '0.5em', marginBottom: '1.4em', marginLeft: '1.5em' }}
+									textStyle={{
+ fontWeight: '700', color: 'white', marginTop: '0.5em', marginBottom: '1.4em', marginLeft: '1.5em'
+}}
 									onClick={this.showCouncilType}
 								/>
 								<AlertConfirm
@@ -413,7 +427,9 @@ class CouncilDetails extends React.Component {
 								<BasicButton
 									text="Configurar reunión"
 									color={secondary}
-									textStyle={{ fontWeight: '700', color: 'white', marginTop: '0.5em', marginBottom: '1.4em', marginLeft: '1.5em' }}
+									textStyle={{
+ fontWeight: '700', color: 'white', marginTop: '0.5em', marginBottom: '1.4em', marginLeft: '1.5em'
+}}
 									onClick={() => this.setState({ councilConfigEditor: true })}
 								/>
 								<AlertConfirm
@@ -503,7 +519,9 @@ class CouncilDetails extends React.Component {
 								open={this.state.credManager}
 								buttonCancel={'Cancelar'}
 								classNameDialog={'height100'}
-								bodyStyle={{ minWidth: '100vh', maxWidth: '100vh', height: '100%', overflowY: 'hidden' }}
+								bodyStyle={{
+ minWidth: '100vh', maxWidth: '100vh', height: '100%', overflowY: 'hidden'
+}}
 								bodyText={
 									<CredentialsManager
 										council={council}
@@ -588,7 +606,9 @@ class CouncilDetails extends React.Component {
 const FailPageSearchId = ({ id }) => (
 		<div>
 			<SearchCouncils reload={true} />
-			<div style={{ fontSize: '25px', color: 'black', display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'center', marginTop: '4em' }}>
+			<div style={{
+ fontSize: '25px', color: 'black', display: 'flex', alignItems: 'center', width: '100%', justifyContent: 'center', marginTop: '4em'
+}}>
 				<div style={{ color: '#dc7373', fontSize: '35px', marginRight: '1em' }}>
 					<i className="fa fa-exclamation-triangle" />
 				</div>

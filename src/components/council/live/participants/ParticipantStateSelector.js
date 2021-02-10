@@ -14,7 +14,9 @@ import StateIcon from './StateIcon';
 import { removeLiveParticipantSignature } from './modals/SignatureModal';
 
 
-const ParticipantStateSelector = ({ participant, translate, council, inDropDown, client, ...props }) => {
+const ParticipantStateSelector = ({
+ participant, translate, council, inDropDown, client, ...props
+}) => {
 	const [loading, setLoading] = React.useState(false);
 	const [delegateVote, setDelegateVote] = React.useState(false);
 	const [delegateOwnVote, setDelegateOwnVote] = React.useState(false);

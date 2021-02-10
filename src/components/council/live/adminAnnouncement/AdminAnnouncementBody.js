@@ -4,13 +4,17 @@ import aviso from '../../../../assets/img/aviso.svg';
 import { getPrimary } from '../../../../styles/colors';
 
 
-const AdminAnnouncementBody = ({ announcement, updateAnnouncement, admin, blockUser, translate }) => {
+const AdminAnnouncementBody = ({
+ announcement, updateAnnouncement, admin, blockUser, translate
+}) => {
     const primary = getPrimary();
     const [showInfo, setShowInfo] = React.useState(true);
 
     return (
         <>
-            <div style={{ display: 'flex', alignItems: 'center', color: 'black', marginBottom: '0.5em' }}>
+            <div style={{
+ display: 'flex', alignItems: 'center', color: 'black', marginBottom: '0.5em'
+}}>
                 <div style={{ paddingRight: '0.5em' }}><img src={aviso}></img></div>
                 <div style={{ fontSize: '18px', color: 'black' }}>{translate.admin_announcement}</div>
                 {(announcement.blockUser && !admin)
@@ -18,7 +22,9 @@ const AdminAnnouncementBody = ({ announcement, updateAnnouncement, admin, blockU
                         <div style={{ paddingLeft: '0.5em', width: announcement.blockUser && '230px', display: 'flex' }} >
                         <i
                             className="material-icons"
-                            style={{ color: primary, fontSize: '14px', paddingRight: '0.3em', cursor: 'pointer' }}
+                            style={{
+ color: primary, fontSize: '14px', paddingRight: '0.3em', cursor: 'pointer'
+}}
                             onClick={() => setShowInfo(!showInfo)}
                         >
                             help

@@ -6,7 +6,9 @@ import { downloadFile } from '../../../utils/CBX';
 import { getPrimary } from '../../../styles/colors';
 
 
-const DownloadUnsignedProxy = ({ action, translate, client, participant, delegation }) => {
+const DownloadUnsignedProxy = ({
+ action, translate, client, participant, delegation
+}) => {
     const [loading, setLoading] = React.useState(false);
     const primary = getPrimary();
 

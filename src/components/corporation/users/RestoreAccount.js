@@ -4,7 +4,9 @@ import { withApollo } from 'react-apollo';
 import { AlertConfirm } from '../../../displayComponents';
 
 
-const RestoreAccount = ({ render, translate, client, user, refetch }) => {
+const RestoreAccount = ({
+ render, translate, client, user, refetch
+}) => {
     const [modal, setModal] = React.useState(false);
 
     const showModal = () => {

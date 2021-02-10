@@ -7,7 +7,9 @@ import { councilStarted, showNumParticipations } from '../../../utils/CBX';
 import RefusedDelegationDisabled from './RefusedDelegationDisabled';
 
 
-const DelegationsModal = ({ open, requestClose, translate, refetch, council, participant }) => {
+const DelegationsModal = ({
+ open, requestClose, translate, refetch, council, participant
+}) => {
     const [delegation, setDelegation] = React.useState(false);
     const [refusedDisabledModal, setRefusedDisabledModal] = React.useState(false);
 
@@ -35,7 +37,9 @@ const DelegationsModal = ({ open, requestClose, translate, refetch, council, par
                     && translate.you_have_following_delegated_votes
                 }
                 {delegations.map(vote => (
-                        <div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div key={`delegatedVote_${vote.id}`} style={{
+ padding: '0.3em', display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+}}>
                             <div>
                                 <span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${showNumParticipations(vote.numParticipations, council.company, council.statute, council.statute)}`}</span>
                                 {vote.voteDenied

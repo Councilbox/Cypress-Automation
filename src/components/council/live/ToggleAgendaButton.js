@@ -9,7 +9,9 @@ import { getPrimary, getSecondary } from '../../../styles/colors';
 import { councilHasSession, getActPointSubjectType } from '../../../utils/CBX';
 import { AGENDA_STATES } from '../../../constants';
 
-const ToggleAgendaButton = ({ agenda, council, active, translate, ...props }) => {
+const ToggleAgendaButton = ({
+ agenda, council, active, translate, ...props
+}) => {
 	const openAgenda = async () => {
 		if (agenda.subjectType === getActPointSubjectType()) {
 			const response = await props.openActPoint({

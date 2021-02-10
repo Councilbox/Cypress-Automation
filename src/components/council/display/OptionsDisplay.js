@@ -1,5 +1,23 @@
 import React from 'react';
 
+const getSelectionIcon = value => {
+    if (value === 1) {
+        return <i className="fa fa-check" style={{ color: 'limegreen', marginRight: '0.4em', width: '15px' }} aria-hidden="true"></i>;
+    }
+
+    return <i className="fa fa-times" style={{ color: 'red', marginRight: '0.4em', width: '15px' }} aria-hidden="true"></i>;
+};
+
+const getSecurityTypeText = (type, translate) => {
+    const texts = {
+        0: translate.new_security_none,
+        1: translate.new_security_email,
+        2: translate.new_security_sms
+    };
+
+    return texts[type];
+};
+
 
 export const OptionsDisplay = ({ council, translate }) => (
     <div>
@@ -53,23 +71,5 @@ export const OptionsDisplayIconIzq = ({ council, translate }) => (
         </div>
     </div>
 );
-
-const getSelectionIcon = value => {
-    if (value == 1) {
-        return <i className="fa fa-check" style={{ color: 'limegreen', marginRight: '0.4em', width: '15px' }} aria-hidden="true"></i>;
-    }
-
-    return <i className="fa fa-times" style={{ color: 'red', marginRight: '0.4em', width: '15px' }} aria-hidden="true"></i>;
-};
-
-const getSecurityTypeText = (type, translate) => {
-    const texts = {
-        0: translate.new_security_none,
-        1: translate.new_security_email,
-        2: translate.new_security_sms
-    };
-
-    return texts[type];
-};
 
 export default OptionsDisplay;

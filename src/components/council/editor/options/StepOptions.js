@@ -30,7 +30,9 @@ import VoteLetterWithSenseOption from './VoteLetterWithSenseOption';
 import AttendanceTextEditor from './AttendanceTextEditor';
 
 
-const StepOptions = ({ translate, data, client, ...props }) => {
+const StepOptions = ({
+ translate, data, client, ...props
+}) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 	const config = React.useContext(ConfigContext);
@@ -82,7 +84,9 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 			...state,
 			loading: true
 		});
-		const { __typename, statute, platform, room, ...rest } = state.data.council;
+		const {
+ __typename, statute, platform, room, ...rest
+} = state.data.council;
 		const { __typename: t, ...councilRoom } = room;
 
 		await client.mutate({
@@ -587,7 +591,9 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 										</div>
 										{council.approveActDraft === 1 && (
 											<div>
-												<div style={{ display: 'flex', flexDirection: 'row', marginLeft: '1.1em', alignItems: 'center' }}>
+												<div style={{
+ display: 'flex', flexDirection: 'row', marginLeft: '1.1em', alignItems: 'center'
+}}>
 													<div>
 														<SelectInput
 															floatingLabelText={

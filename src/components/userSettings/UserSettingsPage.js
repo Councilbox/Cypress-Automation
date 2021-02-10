@@ -29,7 +29,9 @@ const userQuery = gql`
     }
 `;
 
-const UserSettingsPage = ({ data, user, translate, company, match, client }) => {
+const UserSettingsPage = ({
+ data, user, translate, company, match, client
+}) => {
 	const [dataUser, setDataUser] = React.useState(user.id !== match.params.id ? null : user);
 
 	const getData = React.useCallback(async () => {

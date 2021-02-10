@@ -9,7 +9,9 @@ import { useOldState } from '../../../hooks';
 import { isAnonym, isConfirmationRequest } from '../../../utils/CBX';
 import { isMobile } from '../../../utils/screen';
 
-const ToggleVotingsButton = ({ agenda, translate, council, ...props }) => {
+const ToggleVotingsButton = ({
+ agenda, translate, council, ...props
+}) => {
 	const [loading, setLoading] = React.useState(false);
 	const [state, setState] = useOldState({
 		sendCredentials: !council.videoEmailsDate,

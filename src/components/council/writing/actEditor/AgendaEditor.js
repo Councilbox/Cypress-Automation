@@ -2,14 +2,18 @@ import React from 'react';
 import { toast } from 'react-toastify';
 import { graphql, compose } from 'react-apollo';
 import Dialog, { DialogContent, DialogTitle } from 'material-ui/Dialog';
-import { Grid, GridItem, TabsScreen, BasicButton, LiveToast } from '../../../../displayComponents';
+import {
+ Grid, GridItem, TabsScreen, BasicButton, LiveToast
+} from '../../../../displayComponents';
 import RichTextInput from '../../../../displayComponents/RichTextInput';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import AgendaRecount from '../../agendas/AgendaRecount';
 import { AGENDA_TYPES, DRAFT_TYPES } from '../../../../constants';
 import VotingsTableFiltersContainer from '../../live/voting/VotingsTableFiltersContainer';
 import CommentsTable from '../../live/comments/CommentsTable';
-import { checkForUnclosedBraces, changeVariablesToValues, hasParticipations, isCustomPoint, cleanAgendaObject, generateStatuteTag, isConfirmationRequest } from '../../../../utils/CBX';
+import {
+ checkForUnclosedBraces, changeVariablesToValues, hasParticipations, isCustomPoint, cleanAgendaObject, generateStatuteTag, isConfirmationRequest
+} from '../../../../utils/CBX';
 import LoadDraft from '../../../company/drafts/LoadDraft';
 import AgendaDescriptionModal from '../../live/AgendaDescriptionModal';
 import { updateAgenda as updateAgendaMutation } from '../../../../queries/agenda';
@@ -20,7 +24,9 @@ import { moment } from '../../../../containers/App';
 import ConfirmationRequestRecount from '../../agendas/ConfirmationRequestRecount';
 
 
-const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTypes, typeText, data, company, translate, council, ...props }) => {
+const AgendaEditor = ({
+ agenda, agendaData, error, recount, readOnly, majorityTypes, typeText, data, company, translate, council, ...props
+}) => {
 	const [comment, setComment] = React.useState(agenda.comment);
 	const editor = React.useRef();
 	const [state, setState] = useOldState({
@@ -68,7 +74,9 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 	};
 
 	const loadDraft = async draft => {
-		const { numPositive, numNegative, numAbstention, numNoVote } = agendaData.agendaRecount;
+		const {
+ numPositive, numNegative, numAbstention, numNoVote
+} = agendaData.agendaRecount;
 		const { positiveSC, negativeSC, abstentionSC } = agendaData.agendaRecount;
 		const participations = hasParticipations(council);
 		const totalPresent = agenda.socialCapitalPresent + agenda.socialCapitalCurrentRemote;
@@ -105,7 +113,9 @@ const AgendaEditor = ({ agenda, agendaData, error, recount, readOnly, majorityTy
 		return <span />;
 	}
 	const tabs = [];
-	const { numPositive, numNegative, numAbstention, numNoVote } = agendaData.agendaRecount;
+	const {
+ numPositive, numNegative, numAbstention, numNoVote
+} = agendaData.agendaRecount;
 	const { positiveSC, negativeSC, abstentionSC } = agendaData.agendaRecount;
 	const participations = hasParticipations(council);
 	const totalPresent = agenda.socialCapitalPresent + agenda.socialCapitalRemote;

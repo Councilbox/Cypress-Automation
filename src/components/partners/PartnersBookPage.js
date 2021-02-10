@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { TableRow, TableCell, Card } from 'material-ui';
 import gql from 'graphql-tag';
@@ -159,7 +160,6 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
         const arrayFinal = [];
         for (let index = 0; index < lista.length; index++) {
             let arrayRepresentative;
-            // eslint-disable-next-line no-unused-vars
             const { representative, __typename, name, dni, state: s, position, surname, subscribeDate, unsubscribeDate, unsubscribeActNumber, subscribeActNumber, id } = lista[index];
             const listaFinal = {
                 id,

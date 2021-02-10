@@ -56,8 +56,7 @@ export function generateCertAgendaBlocks(data, language = 'es') {
 }
 
 
-const getCustomRecount = (ballots, itemId) => ballots.filter(ballot => ballot.itemId == itemId).reduce((a, b) => a + b.weight, 0);
-
+const getCustomRecount = (ballots, itemId) => ballots.filter(ballot => ballot.itemId === itemId).reduce((a, b) => a + b.weight, 0);
 
 const buildAgendaText = (agenda, translate, data) => {
     if (isCustomPoint(agenda.subjectType)) {

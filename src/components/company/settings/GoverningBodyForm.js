@@ -1,5 +1,7 @@
 import React from 'react';
-import { MenuItem, TableBody, Table, TableHead, TableRow, TableCell } from 'material-ui';
+import {
+ MenuItem, TableBody, Table, TableHead, TableRow, TableCell
+} from 'material-ui';
 import ContentEditable from 'react-contenteditable';
 import { GridItem, DropDownMenu } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
@@ -89,13 +91,17 @@ const SingleAdminForm = ({ translate, setData, data = {} }) => {
     return (
         <div style={{ width: '100%', display: 'flex', }}>
             <div style={{ height: '100%', width: '100%' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', padding: '1em' }}>
+                <div style={{
+ display: 'flex', justifyContent: 'space-between', width: '100%', padding: '1em'
+}}>
                     <div style={{ textTransform: 'uppercase', color: primary, width: '25%' }}>{translate.name}</div>
                     <div style={{ textTransform: 'uppercase', color: primary, width: '25%' }}>{translate.dni}</div>
                     <div style={{ textTransform: 'uppercase', color: primary, width: '25%' }}>{translate.email}</div>
                     <div style={{ textTransform: 'uppercase', color: primary, width: '25%' }}>{translate.phone}</div>
                 </div>
-                <div style={{ color: 'black', display: 'flex', justifyContent: 'space-between', width: '100%', padding: '1em' }}>
+                <div style={{
+ color: 'black', display: 'flex', justifyContent: 'space-between', width: '100%', padding: '1em'
+}}>
                     <div style={{ width: '25%', paddingRight: '1.2em' }}>
                         <ContentEditable
                             html={data.name || ''}
@@ -164,13 +170,17 @@ const primary = getPrimary();
                     />
                 </div>
                 <div style={{ marginTop: '1em', color: 'black', fontWeight: '700' }}>{translate.representative}</div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', padding: '1em' }}>
+                <div style={{
+ display: 'flex', justifyContent: 'space-between', width: '100%', padding: '1em'
+}}>
                     <div style={{ textTransform: 'uppercase', color: primary, width: '25%' }}>{translate.name}</div>
                     <div style={{ textTransform: 'uppercase', color: primary, width: '25%' }}>{translate.dni}</div>
                     <div style={{ textTransform: 'uppercase', color: primary, width: '25%' }}>{translate.email}</div>
                     <div style={{ textTransform: 'uppercase', color: primary, width: '25%' }}>{translate.phone}</div>
                 </div>
-                <div style={{ color: 'black', display: 'flex', justifyContent: 'space-between', width: '100%', padding: '1em' }}>
+                <div style={{
+ color: 'black', display: 'flex', justifyContent: 'space-between', width: '100%', padding: '1em'
+}}>
                     <div style={{ width: '25%', paddingRight: '1.2em' }}>
                         <ContentEditable
                             html={data.name || ''}
@@ -275,7 +285,9 @@ const ListAdminForm = ({ translate, setData, data }) => {
                 {translate.admins}
                 <i
                     className={'fa fa-plus-circle'}
-                    style={{ color: primary, marginLeft: '4px', fontSize: '22px', cursor: 'pointer' }}
+                    style={{
+ color: primary, marginLeft: '4px', fontSize: '22px', cursor: 'pointer'
+}}
                     onClick={addRow}
                 ></i>
             </div>

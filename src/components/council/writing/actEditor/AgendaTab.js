@@ -13,7 +13,9 @@ const AgendaTab = ({ council, translate, data }) => {
 	};
 
 	return (
-		<div style={{ height: '100%', overflow: 'hidden', position: 'relative', paddingBottom: '2em' }}>
+		<div style={{
+ height: '100%', overflow: 'hidden', position: 'relative', paddingBottom: '2em'
+}}>
 			<Scrollbar>
 				{!!data.agendas && (
 					<React.Fragment>

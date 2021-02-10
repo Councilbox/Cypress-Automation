@@ -7,7 +7,9 @@ import DownloadParticipantProxy from '../../prepare/DownloadParticipantProxy';
 import DownloadParticipantVoteLetter from '../../prepare/DownloadParticipantVoteLetter';
 import { getAttendanceIntentionIcon } from '../../../../utils/CBX';
 
-const AttendIntentionIcon = ({ participant, representative, council, translate, size = '1.3em', color = getPrimary(), showCommentIcon, onCommentClick }) => {
+const AttendIntentionIcon = ({
+ participant, representative, council, translate, size = '1.3em', color = getPrimary(), showCommentIcon, onCommentClick
+}) => {
     let tooltip = translate.not_confirmed_assistance;
     const iconStyle = {
         margin: '0.3em',
@@ -68,7 +70,9 @@ const AttendIntentionIcon = ({ participant, representative, council, translate, 
     }
 
     return (
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+        <div style={{
+ display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative'
+}}>
             <Tooltip title={tooltip}>
                 {icon}
             </Tooltip>

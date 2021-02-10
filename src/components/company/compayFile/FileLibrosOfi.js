@@ -7,7 +7,9 @@ import withTranslations from '../../../HOCs/withTranslations';
 import { getPrimary } from '../../../styles/colors';
 
 
-const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...props }) => {
+const FileLibrosOfi = ({
+ translate, updateFileData, updateCompany, data, ...props
+}) => {
     const primary = getPrimary();
     const books = (data.file && data.file.books) ? data.file.books : [];
 
@@ -42,12 +44,16 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
         <div style={{ height: '100%' }}>
             <div style={{ padding: '0px 1em 1em', height: '100%', }}>
                 <div style={{ height: '100%', }}>
-                    <div style={{ padding: '0 1em', fontWeight: 'bold', color: primary, display: 'flex', justifyContent: 'space-between', paddingLeft: '24px', paddingRight: '24px' }}>
+                    <div style={{
+ padding: '0 1em', fontWeight: 'bold', color: primary, display: 'flex', justifyContent: 'space-between', paddingLeft: '24px', paddingRight: '24px'
+}}>
                         <div style={{ width: '15%', display: 'flex', cursor: 'pointer' }} onClick={addRow}>
                             <div style={{ border: `1px solid${primary}`, padding: '0.6em 5px', display: 'flex' }}>
                                 {translate.act_book}
                                 <div>
-                                    <i className="fa fa-plus-circle" style={{ color: primary, paddingRight: '5px', marginLeft: '5px', fontSize: '16px' }}></i>
+                                    <i className="fa fa-plus-circle" style={{
+ color: primary, paddingRight: '5px', marginLeft: '5px', fontSize: '16px'
+}}></i>
                                 </div>
                             </div>
                         </div>
@@ -64,7 +70,9 @@ const FileLibrosOfi = ({ translate, updateFileData, updateCompany, data, ...prop
                                     <div key={`book_${index}`}>
                                         <Card style={{ marginTop: '1em' }}>
                                             <div style={{ position: 'relative' }}>
-                                                <div style={{ color: 'black', display: 'flex', justifyContent: 'space-between', fontSize: '15px', paddingLeft: '24px', paddingRight: '24px', paddingTop: '3em', paddingBottom: '3em' }}>
+                                                <div style={{
+ color: 'black', display: 'flex', justifyContent: 'space-between', fontSize: '15px', paddingLeft: '24px', paddingRight: '24px', paddingTop: '3em', paddingBottom: '3em'
+}}>
                                                     <div style={{ width: '15%' }}>
                                                         <ContentEditable
                                                             style={{ color: 'black', minWidth: '10em' }}

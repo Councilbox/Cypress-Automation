@@ -9,7 +9,9 @@ import CustomAgendaManualVotings from './CustomAgendaManualVotings';
 
 const pageLimit = 10;
 
-const VotingsTableFiltersContainer = ({ agenda, council, client, ...props }) => {
+const VotingsTableFiltersContainer = ({
+ agenda, council, client, ...props
+}) => {
 	const [state, setState] = useOldState({
 		open: false,
 		voteFilter: 'all',

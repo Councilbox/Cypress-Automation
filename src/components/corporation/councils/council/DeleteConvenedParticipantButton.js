@@ -5,7 +5,9 @@ import { AlertConfirm, BasicButton } from '../../../../displayComponents';
 import { getSecondary } from '../../../../styles/colors';
 
 
-const DeleteConvenedParticipantButton = ({ translate, participant, client, refetch }) => {
+const DeleteConvenedParticipantButton = ({
+ translate, participant, client, refetch
+}) => {
     const [modal, setModal] = React.useState(false);
 
     const killParticipant = async () => {

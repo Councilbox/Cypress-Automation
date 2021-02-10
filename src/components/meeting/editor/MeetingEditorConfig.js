@@ -14,6 +14,7 @@ import {
 import RichTextInput from '../../../displayComponents/RichTextInput';
 import { getPrimary } from '../../../styles/colors';
 import { meetingStepOne, updateCouncil } from '../../../queries';
+import { removeTypenameField } from '../../../utils/CBX';
 
 class MeetingEditorConfig extends Component {
 	constructor(props) {
@@ -52,11 +53,10 @@ class MeetingEditorConfig extends Component {
 	};
 
 	updateCouncil = () => {
-		const { __typename, ...council } = this.state.data;
 		this.props.updateCouncil({
 			variables: {
 				council: {
-					...council,
+					...removeTypenameField(this.state.data),
 					step: this.props.actualStep > 1 ? this.props.actualStep : 1
 				}
 			}

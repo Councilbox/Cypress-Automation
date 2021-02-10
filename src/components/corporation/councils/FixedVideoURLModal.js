@@ -3,7 +3,10 @@ import { withApollo, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { MenuItem } from 'material-ui';
 import { primary } from '../../../styles/colors';
-import { AlertConfirm, BasicButton, TextInput, LoadingSection, Checkbox, SelectInput } from '../../../displayComponents';
+import {
+ AlertConfirm, BasicButton, TextInput, LoadingSection, Checkbox, SelectInput
+} from '../../../displayComponents';
+import { removeTypenameField } from '../../../utils/CBX';
 
 let interval = null;
 
@@ -36,7 +39,7 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
         });
 
         if (response.data.councilRoom) {
-            const { __typename, ...councilRoom } = response.data.councilRoom;
+            const councilRoom = removeTypenameField(response.data.councilRoom);
             setData({
                 platformVideo: councilRoom.platformVideo || null,
                 videoLink: councilRoom.videoLink || '',

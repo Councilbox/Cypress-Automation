@@ -7,6 +7,7 @@ import {
 import { census, updateCensus } from '../../../../../queries/census';
 import CensusInfoForm from '../../CensusInfoForm';
 import { INPUT_REGEX } from '../../../../../constants';
+import { removeTypenameField } from '../../../../../utils/CBX';
 
 const EditCensusButton = ({ translate, client, ...props }) => {
     const [initInfo, setInitInfo] = React.useState({});
@@ -77,7 +78,7 @@ const EditCensusButton = ({ translate, client, ...props }) => {
 
     const updateCensusFunction = async () => {
         if (!checkRequiredFields()) {
-            const { __typename, ...censusData } = state.data;
+            const censusData = removeTypenameField(state.data);
             const response = await client.mutate({
                 mutation: updateCensus,
                 variables: {

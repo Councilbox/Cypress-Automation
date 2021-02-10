@@ -1,7 +1,11 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
-import { MenuItem, Table, TableRow, TableCell, InputAdornment, TableHead } from 'material-ui';
-import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Link, Scrollbar } from '../../../displayComponents';
+import {
+ MenuItem, Table, TableRow, TableCell, InputAdornment, TableHead
+} from 'material-ui';
+import {
+ LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Link, Scrollbar
+} from '../../../displayComponents';
 import UserItem from './UserItem';
 import NewUser from './NewUser';
 import { corporationUsers as corporationUsersQuery } from '../../../queries/corporation';
@@ -84,7 +88,9 @@ const UsersDashboard = ({ translate, client }) => {
                 }}
             >
 
-                <div style={{ width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}>
+                <div style={{
+ width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'
+}}>
                     <div style={{ marginLeft: '0.6em', justifyContent: 'flex-end' }}>
                         {/* //REVISAR este es el buscador que se vuelve loco al escribir... va para adelante y atras sin sentido y no busca */}
                         <TextInput
@@ -106,7 +112,9 @@ const UsersDashboard = ({ translate, client }) => {
                 flexDirection: 'column',
                 padding: '1em'
             }}>
-                <div style={{ display: 'flex', padding: '1em', justifyContent: 'space-between', paddingTop: '0px', alignItems: 'center' }}>
+                <div style={{
+ display: 'flex', padding: '1em', justifyContent: 'space-between', paddingTop: '0px', alignItems: 'center'
+}}>
                     <div style={{ fontSize: '13px', }}>
                         <MenuSuperiorTabs
                         // TRADUCCION

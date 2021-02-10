@@ -5,7 +5,9 @@ import { AlertConfirm } from '../../../../displayComponents';
 import DocumentPreview from '../../../documentEditor/DocumentPreview';
 
 
-const SendActToVote = ({ requestClose, translate, updateAct, agenda, council, refetch, ...props }) => {
+const SendActToVote = ({
+ requestClose, translate, updateAct, agenda, council, refetch, ...props
+}) => {
 	const [loading, setLoading] = React.useState(false);
 
 	const close = () => {

@@ -11,7 +11,9 @@ import { usePolling } from '../../../../hooks';
 import { AlertConfirm } from '../../../../displayComponents';
 
 
-const RecordingButton = ({ data, council, translate, client, ...props }) => {
+const RecordingButton = ({
+ data, council, translate, client, ...props
+}) => {
     const [loading, setLoading] = React.useState(false);
     const [autoHybridModal, setAutoHybridModal] = React.useState(false);
     const showRecordingButton = (props.config.recording && (council.fullVideoRecord === 0 || (council.fullVideoRecord === 1 && council.councilStarted === 1)));
@@ -150,13 +152,17 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
                             {sessionStatus.streaming ?
                                 <img
                                     src={BroadcastingTower}
-                                    style={{ width: 'auto', height: '0.8em', marginLeft: showRecordingButton ? '0.4em' : '0', cursor: 'pointer' }}
+                                    style={{
+ width: 'auto', height: '0.8em', marginLeft: showRecordingButton ? '0.4em' : '0', cursor: 'pointer'
+}}
                                     onClick={stopStreamingAlert}
                                 // onClick={stopStreaming}
                                 />
                                 : <img
                                     src={Tower}
-                                    style={{ width: 'auto', height: '0.8em', marginLeft: showRecordingButton ? '0.4em' : '0', cursor: 'pointer' }}
+                                    style={{
+ width: 'auto', height: '0.8em', marginLeft: showRecordingButton ? '0.4em' : '0', cursor: 'pointer'
+}}
                                     onClick={startStreaming}
                                 />
                             }
@@ -170,7 +176,9 @@ const RecordingButton = ({ data, council, translate, client, ...props }) => {
                             buttonAccept={translate.accept}
                             buttonCancel={translate.cancel}
                             bodyText={
-                                <div style={{ margin: '1em', color: 'black', display: 'flex', alignItems: 'center', marginTop: '2em', fontSize: '21px' }}>
+                                <div style={{
+ margin: '1em', color: 'black', display: 'flex', alignItems: 'center', marginTop: '2em', fontSize: '21px'
+}}>
                                     <div>
                                         <i className="fa fa-exclamation-triangle" aria-hidden="true" style={{ color: '#dc7373', fontSize: '25px', marginRight: '22px' }}></i>
                                     </div>

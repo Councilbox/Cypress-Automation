@@ -2,7 +2,9 @@ import React from 'react';
 import { Checkbox } from '../../../../displayComponents';
 
 
-const StartCouncilVideoOptions = ({ council, translate, data, updateData }) => (
+const StartCouncilVideoOptions = ({
+ council, translate, data, updateData
+}) => (
         <div>
             <Checkbox
                 label={`${translate.to_start_recording} ${council.fullVideoRecord === 1 ? `(${translate.full_record})` : ''}`}

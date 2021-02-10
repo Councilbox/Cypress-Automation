@@ -2,8 +2,10 @@ import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { corporationDraft, updateCorporationDraft } from '../../../queries';
-import { LoadingSection, CardPageLayout, BasicButton, ButtonIcon } from '../../../displayComponents';
-import { checkRequiredFields } from '../../../utils/CBX';
+import {
+    LoadingSection, CardPageLayout, BasicButton, ButtonIcon
+} from '../../../displayComponents';
+import { checkRequiredFields, removeTypenameField } from '../../../utils/CBX';
 import { getPrimary } from '../../../styles/colors';
 import withTranslations from '../../../HOCs/withTranslations';
 import CompanyDraftForm from '../../company/drafts/CompanyDraftForm';
@@ -46,7 +48,7 @@ class DraftEditPage extends React.PureComponent {
     }
 
     updateCorporationDraft = async () => {
-        const { __typename, ...draft } = this.state.data;
+        const draft = removeTypenameField(this.state.data);
         if (!checkRequiredFields(this.props.translate, draft, this.updateErrors, true)) {
             this.setState({ loading: true });
 			const response = await this.props.updateCorporationDraft({
@@ -87,7 +89,9 @@ class DraftEditPage extends React.PureComponent {
                         updateState={this.updateState}
                         {...this.props.data}
                     />
-                    <div style={{ width: '100%', marginTop: '0.9em', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
+                    <div style={{
+ width: '100%', marginTop: '0.9em', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end'
+}}>
                         <div>
                             <BasicButton
                                 text={this.props.translate.back}

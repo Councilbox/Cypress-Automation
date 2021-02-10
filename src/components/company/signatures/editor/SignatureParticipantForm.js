@@ -1,8 +1,12 @@
 import React from 'react';
 import { MenuItem } from 'material-ui';
-import { SelectInput, TextInput, Grid, GridItem } from '../../../../displayComponents';
+import {
+ SelectInput, TextInput, Grid, GridItem
+} from '../../../../displayComponents';
 
-const SignatureParticipantForm = ({ participant, translate, updateState, errors, languages }) => (
+const SignatureParticipantForm = ({
+ participant, translate, updateState, errors, languages
+}) => (
         <Grid>
             <GridItem xs={12} md={6} lg={6}>
                 <TextInput

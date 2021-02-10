@@ -4,7 +4,9 @@ import { PARTICIPANT_STATES } from '../../../constants';
 import EarlyVoteModal from './EarlyVoteModal';
 import { getSecondary } from '../../../styles/colors';
 
-const FixDelegationVoteButton = ({ translate, setState, state, council, participant }) => {
+const FixDelegationVoteButton = ({
+ translate, setState, state, council, participant
+}) => {
     const [modal, setModal] = React.useState(false);
     const secondary = getSecondary();
 

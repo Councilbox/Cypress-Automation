@@ -8,7 +8,9 @@ import { isMobile } from '../../utils/screen';
 import { ConfigContext } from '../../containers/AppControl';
 
 
-const LateralMenuOptions = ({ translate, company, stylesMenu, clase, menuType }) => {
+const LateralMenuOptions = ({
+ translate, company, stylesMenu, clase, menuType
+}) => {
 	const config = React.useContext(ConfigContext);
 
 	const renderMenuOptions = type => {

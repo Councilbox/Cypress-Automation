@@ -7,7 +7,9 @@ import * as CBX from '../../../utils/CBX';
 import QuorumWrapper from '../quorum/QuorumWrapper';
 import { usePolling } from '../../../hooks';
 
-const ActualQuorum = withApollo(({ council, translate, client, socialCapital, totalVotes }) => {
+const ActualQuorum = withApollo(({
+ council, translate, client, socialCapital, totalVotes
+}) => {
     const [data, setData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
 
@@ -69,7 +71,9 @@ const ActualQuorum = withApollo(({ council, translate, client, socialCapital, to
 });
 
 
-const ConveneSelector = ({ translate, council, recount, convene, changeConvene }) => {
+const ConveneSelector = ({
+ translate, council, recount, convene, changeConvene
+}) => {
     const renderParticipationsText = () => `${recount.socialCapitalRightVoting} (${((recount.socialCapitalRightVoting / recount.socialCapitalTotal) * 100).toFixed(3)}%) ${translate.social_capital.toLowerCase()}`;
 
     return (

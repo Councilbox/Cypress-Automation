@@ -12,7 +12,9 @@ import { getSecondary } from '../../../../styles/colors';
 import { isMobile } from '../../../../utils/screen';
 import withWindowSize from '../../../../HOCs/withWindowSize';
 
-const Action = ({ children, loading, onClick, disabled = false, styles }) => (
+const Action = ({
+ children, loading, onClick, disabled = false, styles
+}) => (
 		<div
 			style={{
 				display: 'flex',
@@ -60,10 +62,12 @@ const RepresentativeForm = ({
 
 	return (
 		<Grid>
-			<GridItem xs={12} lg={12} md={12} style={{ display: isMobile && windowSize == 'xs' ? '' : 'flex' }}>
+			<GridItem xs={12} lg={12} md={12} style={{ display: isMobile && windowSize === 'xs' ? '' : 'flex' }}>
 				<Action
 					disabled={disabled}
-					style={{ display: 'flex', alignItems: 'center', overflow: 'hidden', cursor: 'pointer' }}
+					style={{
+						display: 'flex', alignItems: 'center', overflow: 'hidden', cursor: 'pointer'
+					}}
 					onClick={() => updateState({
 							hasRepresentative: !state.hasRepresentative
 						})
@@ -74,7 +78,9 @@ const RepresentativeForm = ({
 						<i className={'fa fa-user-o'} style={{ position: 'relative', fontSize: '20px' }}></i>
 						<i className={'fa fa-user'} style={{ position: 'relative', left: '-5px' }}></i>
 					</div>
-					<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: disabled ? 'grey' : getSecondary() }}>
+					<div style={{
+ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: disabled ? 'grey' : getSecondary()
+}}>
 						<span style={{ fontSize: '0.9em' }}>{state.hasRepresentative ? translate.remove_representative : translate.add_representative}</span>
 					</div>
 				</Action>
@@ -90,7 +96,9 @@ const RepresentativeForm = ({
 							<i className={'fa fa-user-o'} style={{ position: 'relative', fontSize: '20px' }}></i>
 							<i className={'fa fa-user'} style={{ position: 'relative', left: '-5px' }}></i>
 						</div>
-						<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: disabled ? 'grey' : getSecondary() }}>
+						<div style={{
+ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: disabled ? 'grey' : getSecondary()
+}}>
 							<span style={{ fontSize: '0.9em' }}>{translate.select_representative}</span>
 						</div>
 					</div>

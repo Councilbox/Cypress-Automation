@@ -1,8 +1,12 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { Table, TableHead, TableRow, TableCell, TableBody, IconButton, Icon, Divider } from 'material-ui';
-import { CloseIcon, Scrollbar, Grid, GridItem, TextInput, AlertConfirm } from '../../../../displayComponents';
+import {
+ Table, TableHead, TableRow, TableCell, TableBody, IconButton, Icon, Divider
+} from 'material-ui';
+import {
+ CloseIcon, Scrollbar, Grid, GridItem, TextInput, AlertConfirm
+} from '../../../../displayComponents';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import { useHoverRow } from '../../../../hooks';
 import { getPrimary } from '../../../../styles/colors';
@@ -102,7 +106,9 @@ const CompanyTags = ({ client, translate, company }) => {
                         <TextInput
                             className={isMobile && !inputSearch ? 'openInput' : ''}
                             disableUnderline={true}
-                            styleInInput={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px', padding: isMobile && inputSearch && '4px 5px' }}
+                            styleInInput={{
+ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px', padding: isMobile && inputSearch && '4px 5px'
+}}
                             stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: isMobile && inputSearch ? '8px' : '4px' }}
                             adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
                             floatingText={' '}
@@ -129,7 +135,9 @@ const CompanyTags = ({ client, translate, company }) => {
                 {data
                     && <Grid style={{ width: '100%', height: '100%', marginTop: '1em' }}>
                         <GridItem xs={12} md={12} lg={12} style={{ width: '99%', height: 'calc( 100% - 3em )' }}>
-                            <div style={{ border: `1px solid ${getPrimary()}`, boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)', borderRadius: '2px', height: '100%', overflow: 'hidden', marginBottom: '4em', paddingBottom: '1em' }}>
+                            <div style={{
+ border: `1px solid ${getPrimary()}`, boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)', borderRadius: '2px', height: '100%', overflow: 'hidden', marginBottom: '4em', paddingBottom: '1em'
+}}>
                                 <Divider />
                                 <div style={{ height: '100%' }}>
                                     <div style={{ height: '100%' }}>
@@ -142,11 +150,17 @@ const CompanyTags = ({ client, translate, company }) => {
                                                                 <TableCell style={{ color: 'black', fontSize: '16px', border: 'none' }}>
                                                                     <div>{translate.key}</div>
                                                                 </TableCell>
-                                                                <TableCell style={{ color: 'black', fontSize: '16px', display: 'flex', border: 'none' }}>
+                                                                <TableCell style={{
+ color: 'black', fontSize: '16px', display: 'flex', border: 'none'
+}}>
                                                                     <div>
-                                                                        <div style={{ display: 'flex', alignItems: 'center', color: '#969696', minHeight: '42px', marginBottom: '0.5em' }}>
+                                                                        <div style={{
+ display: 'flex', alignItems: 'center', color: '#969696', minHeight: '42px', marginBottom: '0.5em'
+}}>
                                                                             <div style={{}} onClick={() => setToggleText(!toggleText)}>
-                                                                                <i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', paddingRight: '0.3em', cursor: 'pointer' }} >
+                                                                                <i className="material-icons" style={{
+ color: getPrimary(), fontSize: '14px', paddingRight: '0.3em', cursor: 'pointer'
+}} >
                                                                                     help
                                                                             </i>
                                                                             </div>
@@ -212,9 +226,13 @@ const CompanyTags = ({ client, translate, company }) => {
                     && <Grid style={{ width: '100%', height: '100%', marginTop: '1em' }}>
                         <Scrollbar>
                             <GridItem xs={12} md={12} lg={12} style={{ width: '99%', height: 'calc( 100% - 3em )' }}>
-                                <div style={{ display: 'flex', alignItems: 'center', color: '#969696', minHeight: '42px', marginBottom: '0.5em' }}>
+                                <div style={{
+ display: 'flex', alignItems: 'center', color: '#969696', minHeight: '42px', marginBottom: '0.5em'
+}}>
                                     <div style={{}} onClick={() => setToggleText(!toggleText)}>
-                                        <i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', paddingRight: '0.3em', cursor: 'pointer' }} >
+                                        <i className="material-icons" style={{
+ color: getPrimary(), fontSize: '14px', paddingRight: '0.3em', cursor: 'pointer'
+}} >
                                             help
 								</i>
                                     </div>
@@ -224,7 +242,9 @@ const CompanyTags = ({ client, translate, company }) => {
                                         }
                                     </div>
                                 </div>
-                                <div style={{ border: `1px solid ${getPrimary()}`, boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)', borderRadius: '2px', height: '390px', overflow: 'hidden', marginBottom: '4em', paddingBottom: '4em' }}>
+                                <div style={{
+ border: `1px solid ${getPrimary()}`, boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)', borderRadius: '2px', height: '390px', overflow: 'hidden', marginBottom: '4em', paddingBottom: '4em'
+}}>
                                     <div style={{ width: '100%' }}>
                                         <div style={{ maxWidth: '10em', marginLeft: '1em' }}>
                                             <TextInput
@@ -290,7 +310,9 @@ const CompanyTags = ({ client, translate, company }) => {
         );
 };
 
-const HoverableRow = ({ translate, tag, deleteTag, editTag }) => {
+const HoverableRow = ({
+ translate, tag, deleteTag, editTag
+}) => {
     const [show, handlers] = useHoverRow();
     const primary = getPrimary();
     const [modal, setModal] = React.useState(false);
@@ -307,7 +329,9 @@ const HoverableRow = ({ translate, tag, deleteTag, editTag }) => {
                     {tag.key}
                 </TableCell>
                 <TableCell>
-                    <div style={{ width: '4em', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{
+ width: '4em', display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+}}>
                         <React.Fragment>
                             <IconButton
                                 onClick={event => {
@@ -370,7 +394,9 @@ const HoverableRow = ({ translate, tag, deleteTag, editTag }) => {
                     {tag.description}
                 </TableCell>
                 <TableCell>
-                    <div style={{ width: '4em', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{
+ width: '4em', display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+}}>
                         {show
                             && <React.Fragment>
                                 <IconButton

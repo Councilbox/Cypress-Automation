@@ -60,7 +60,9 @@ const DocsPage = () => (
                         Este token tiene que ser subministrado con cabecera &quot;x-jwt-token&quot;.
 
                         <br />Ejemplo:<br />
-                    <div style={{ backgroundColor: '#424242', color: 'white', padding: '1em', marginBottom: '2em' }}>
+                    <div style={{
+ backgroundColor: '#424242', color: 'white', padding: '1em', marginBottom: '2em'
+}}>
                         <pre style={{ color: 'white' }}>
                             {postRequest2}
                         </pre>

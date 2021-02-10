@@ -9,7 +9,9 @@ import ActHTMLTab from '../../writing/actViewer/ActHTMLTab';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 
 
-const ActPointTabs = ({ agenda, translate, council, company, ...props }) => {
+const ActPointTabs = ({
+ agenda, translate, council, company, ...props
+}) => {
     const [selectedTab, setSelectedTab] = React.useState(0);
     const votings = React.useRef(null);
 

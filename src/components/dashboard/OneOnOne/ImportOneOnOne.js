@@ -3,7 +3,9 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { getPrimary } from '../../../styles/colors';
 import { moment } from '../../../containers/App';
-import { AlertConfirm, BasicButton, FileUploadButton, ButtonIcon, LoadingSection } from '../../../displayComponents';
+import {
+ AlertConfirm, BasicButton, FileUploadButton, ButtonIcon, LoadingSection
+} from '../../../displayComponents';
 
 let XLSX;
 import('xlsx').then(data => { XLSX = data; });

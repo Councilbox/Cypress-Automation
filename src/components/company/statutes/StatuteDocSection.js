@@ -1,7 +1,9 @@
 import React from 'react';
 import { Tooltip } from 'material-ui';
 import { isMobile } from 'react-device-detect';
-import { SectionTitle, GridItem, Checkbox, Grid } from '../../../displayComponents';
+import {
+ SectionTitle, GridItem, Checkbox, Grid
+} from '../../../displayComponents';
 import RichTextInput from '../../../displayComponents/RichTextInput';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import { TAG_TYPES } from '../drafts/draftTags/utils';
@@ -52,7 +54,9 @@ const getTagsByActSection = (section, translate) => {
 };
 
 
-const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...props }) => {
+const StatuteDocSection = ({
+ statute, updateState, errors, translate, data, ...props
+}) => {
 	const internalState = React.useRef({
 		intro: statute.intro,
 		constitution: statute.constitution,
@@ -560,7 +564,9 @@ export default StatuteDocSection;
 
 const SaveDraftIcon = ({ onClick, translate }) => (
 	<Tooltip title={translate.new_save}>
-		<div onClick={onClick} style={{ marginLeft: '0.6em', height: '100%', display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+		<div onClick={onClick} style={{
+ marginLeft: '0.6em', height: '100%', display: 'flex', alignItems: 'center', cursor: 'pointer'
+}}>
 			<i className="fa fa-save" style={{ color: getSecondary(), fontSize: '1.75em' }}></i>
 		</div>
 	</Tooltip>

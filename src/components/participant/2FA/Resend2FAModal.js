@@ -8,7 +8,9 @@ import { useCountdown } from '../../../hooks';
 import { getPrimary } from '../../../styles/colors';
 
 
-const Resend2FAModal = ({ translate, open, requestClose, match, client }) => {
+const Resend2FAModal = ({
+ translate, open, requestClose, match, client
+}) => {
     const [data, setData] = React.useState(null);
     const { secondsLeft, setCountdown } = useCountdown(0);
     const [timeDifference, setTimeDifference] = React.useState(0);

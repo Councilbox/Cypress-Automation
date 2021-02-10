@@ -3,7 +3,9 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Card } from 'material-ui';
 import DelegationsRestrictionModal from './DelegationsRestrictionModal';
-import { AlertConfirm, BasicButton, SectionTitle, ButtonIcon } from '../../../displayComponents';
+import {
+ AlertConfirm, BasicButton, SectionTitle, ButtonIcon
+} from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
 import { isMobile } from '../../../utils/screen';
 
@@ -36,7 +38,9 @@ const removeCouncilDelegateMutation = gql`
     }
 `;
 
-const DelegationRestriction = ({ translate, council, client, fullScreen }) => {
+const DelegationRestriction = ({
+ translate, council, client, fullScreen
+}) => {
     const [participants, setParticipants] = React.useState([]);
     const [modal, setModal] = React.useState(false);
     const [selectedIds, setselectedIds] = React.useState(new Map());
@@ -263,7 +267,9 @@ const DelegationRestriction = ({ translate, council, client, fullScreen }) => {
                     </div>
                     {participants.map(participant => (
                         <div key={`participant_${participant.id}`}>
-                            <Card style={{ padding: '1em', display: 'flex', justifyContent: 'space-between', marginBottom: '1em' }}>
+                            <Card style={{
+ padding: '1em', display: 'flex', justifyContent: 'space-between', marginBottom: '1em'
+}}>
                                 <div>
                                     <div><b> {translate.name} </b>: {participant.name}</div>
                                     <div><b> {translate.surname || ''} </b>: {participant.surname || ''}</div>
@@ -313,13 +319,17 @@ const DelegationRestriction = ({ translate, council, client, fullScreen }) => {
             <div>
                 {renderBody()}
             </div>
-            : <div style={{ padding: '1em', paddingLeft: 0, marginTop: '1em', maxWidth: isMobile ? '100%' : '70%' }}>
+            : <div style={{
+ padding: '1em', paddingLeft: 0, marginTop: '1em', maxWidth: isMobile ? '100%' : '70%'
+}}>
                 {renderBody()}
             </div>
     );
 };
 
-const Etiqueta = ({ participant, removeCouncilDelegate, openDeleteWarning, council, empty, translate }) => {
+const Etiqueta = ({
+ participant, removeCouncilDelegate, openDeleteWarning, council, empty, translate
+}) => {
     if (empty) {
         return (
             <div
@@ -339,7 +349,9 @@ const Etiqueta = ({ participant, removeCouncilDelegate, openDeleteWarning, counc
                     minWidth: '100px'
                 }}
             >
-                <div style={{ padding: '8px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <div style={{
+ padding: '8px', display: 'flex', justifyContent: 'center', alignItems: 'center'
+}}>
                     <div style={{ marginLeft: '15px', marginRight: '15px', }}>
                         {translate.all_plural}
                     </div>
@@ -366,7 +378,9 @@ const Etiqueta = ({ participant, removeCouncilDelegate, openDeleteWarning, counc
                     minWidth: '100px'
                 }}
             >
-                <div style={{ padding: '8px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <div style={{
+ padding: '8px', display: 'flex', justifyContent: 'center', alignItems: 'center'
+}}>
                     <div style={{
                         marginLeft: '15px',
                         whiteSpace: 'nowrap',

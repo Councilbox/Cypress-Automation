@@ -1,8 +1,12 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { Card, Table, TableBody, TableRow, TableHead, TableCell } from 'material-ui';
-import { LoadingSection, CollapsibleSection, BasicButton, Scrollbar, TextInput, Grid, PaginationFooter } from '../../../displayComponents';
+import {
+ Card, Table, TableBody, TableRow, TableHead, TableCell
+} from 'material-ui';
+import {
+ LoadingSection, CollapsibleSection, BasicButton, Scrollbar, TextInput, Grid, PaginationFooter
+} from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
 import { lightGrey, getSecondary, secondary } from '../../../styles/colors';
 import CouncilItem from './CouncilItem';
@@ -278,7 +282,7 @@ export const SearchCouncils = withApollo(({ client, reload }) => {
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <TextInput
                             type="text"
-                            value={idCouncilSearch == 0 ? '' : idCouncilSearch}
+                            value={idCouncilSearch === 0 ? '' : idCouncilSearch}
                             disableUnderline={true}
                             styles={{ fontWeight: 'bold', width: '300px', }}
                             styleInInput={{ backgroundColor: '#ececec', paddingLeft: '5px', border: !!error && '2px solid red' }}
@@ -294,11 +298,15 @@ export const SearchCouncils = withApollo(({ client, reload }) => {
                         <BasicButton
                             text={<i className={loading ? 'fa fa-circle-o-notch fa-spin' : 'fa fa-search'} style={{ color: 'black' }} />}
                             onClick={goToId}
-                            backgroundColor={{ backgroundColor: 'white', minWidth: '0', marginLeft: '1em', minHeight: '0px', boxShadow: 'none', borderRadius: '4px', border: ' 1px solid black' }}
+                            backgroundColor={{
+ backgroundColor: 'white', minWidth: '0', marginLeft: '1em', minHeight: '0px', boxShadow: 'none', borderRadius: '4px', border: ' 1px solid black'
+}}
                         />
                     </div>
                     {error
-                        && <div style={{ display: 'flex', alignItems: 'center', marginTop: '6px', marginLeft: '15px', color: 'red', fontWeight: 'bold' }}>
+                        && <div style={{
+ display: 'flex', alignItems: 'center', marginTop: '6px', marginLeft: '15px', color: 'red', fontWeight: 'bold'
+}}>
                             {error}
                         </div>
                     }

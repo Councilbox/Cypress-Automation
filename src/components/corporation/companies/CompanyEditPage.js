@@ -7,7 +7,9 @@ import withSharedProps from '../../../HOCs/withSharedProps';
 import { company as queryCompany } from '../../../queries';
 import { bHistory } from '../../../containers/App';
 
-const CompanyEditPage = ({ data, user, company, translate }) => {
+const CompanyEditPage = ({
+ data, user, company, translate
+}) => {
     if (data.loading) {
         return <LoadingSection />;
     }

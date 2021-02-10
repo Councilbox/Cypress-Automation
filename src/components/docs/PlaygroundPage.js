@@ -84,7 +84,9 @@ const PlaygroundPage = ({ client }) => {
                                 loading={loading}
                             /> */}
                         </PlaygroundContext.Provider>
-                    : <div style={{ width: '100%', height: '100%', padding: '1em', paddingTop: '3em' }}>
+                    : <div style={{
+ width: '100%', height: '100%', padding: '1em', paddingTop: '3em'
+}}>
                             <Card style={{
                                 backgroundColor: '#212121',
                                 padding: '2em'

@@ -25,7 +25,9 @@ import DeleteAgendaButton from './DeleteAgendaButton';
 import { AGENDA_TYPES } from '../../../../../constants';
 
 
-const PointEditor = ({ agenda, translate, company, council, requestClose, open, ...props }) => {
+const PointEditor = ({
+ agenda, translate, company, council, requestClose, open, ...props
+}) => {
 	const [state, setState] = useOldState({
 		...agenda,
 	});

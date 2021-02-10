@@ -1,5 +1,7 @@
 import React from 'react';
-import { Input, Icon, Collapse, withStyles } from 'material-ui';
+import {
+ Input, Icon, Collapse, withStyles
+} from 'material-ui';
 import PropTypes from 'prop-types';
 import { withApollo } from 'react-apollo';
 import {
@@ -37,7 +39,9 @@ const styles = {
 	}
 };
 
-const CompanyDraftForm = ({ translate, draft, errors, company, updateState, companyStatutes, draftTypes, rootStatutes, languages, votingTypes, majorityTypes, match, client, ...props }) => {
+const CompanyDraftForm = ({
+ translate, draft, errors, company, updateState, companyStatutes, draftTypes, rootStatutes, languages, votingTypes, majorityTypes, match, client, ...props
+}) => {
 	const [search, setSearch] = React.useState('');
 	const [testTags, setTestTags] = React.useState({});
 	const tagsSend = [];
@@ -291,7 +295,9 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 				</div>
 			</div>
 			<div style={{ minHeight: props.innerWidth > 960 ? '300px' : '', height: 'calc( 100% - 4em )' }}>
-				<div style={{ boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7', marginTop: '1em', height: '100%', paddingBottom: isMobile && '1em' }}>
+				<div style={{
+ boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7', marginTop: '1em', height: '100%', paddingBottom: isMobile && '1em'
+}}>
 					<div style={{ paddingLeft: '1em', paddingRight: '1em' }}>
 						<div style={{ marginBottom: '1em', display: 'flex' }}>
 							<TextInput
@@ -474,7 +480,9 @@ const Fade = ({ show, children }) => {
 };
 
 
-export const EtiquetasModal = ({ color, title, tags, addTag }) => (
+export const EtiquetasModal = ({
+ color, title, tags, addTag
+}) => (
 	<div>
 		<div style={{ fontWeight: '700' }} >
 			<div>{title}</div>
@@ -508,7 +516,9 @@ export const EtiquetasModal = ({ color, title, tags, addTag }) => (
 );
 
 
-export const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, addTag, translate, search }) => {
+export const ContenedorEtiquetas = ({
+ stylesContent, color, last, title, tags, addTag, translate, search
+}) => {
 	const [open, setOpen] = React.useState(false);
 
 	const toggle = () => {
@@ -554,7 +564,9 @@ export const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, a
 			...stylesContent
 		}}
 		>
-			<div style={{ alignItems: 'center', justifyContent: 'space-between', display: 'flex', width: '100%', cursor: 'pointer', }} onClick={toggle}>
+			<div style={{
+ alignItems: 'center', justifyContent: 'space-between', display: 'flex', width: '100%', cursor: 'pointer',
+}} onClick={toggle}>
 				<div>{title}</div>
 				<div style={{ display: 'flex', alignItems: 'center' }}>
 					{open ?

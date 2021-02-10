@@ -18,7 +18,9 @@ import ContactModal from './participant/login/ContactModal';
 import { HEADER_HEIGHT } from '../styles/constants';
 
 
-const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon, translate, councilIsFinished, setSelectHeadFinished, selectHeadFinished, contactAdmin, ...props }) => {
+const Header = ({
+ actions, backButton, windowSize, languageSelector, drawerIcon, translate, councilIsFinished, setSelectHeadFinished, selectHeadFinished, contactAdmin, ...props
+}) => {
 	const [modal, setModal] = React.useState(false);
 	const language = translate && translate.selectedLanguage;
 	const customIcon = getCustomIcon();
@@ -88,7 +90,9 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 							horizontal: 'left',
 						}}
 						color="transparent"
-						Component={() => <div style={{ color: getPrimary(), marginRight: '1em', marginTop: '0.5em', cursor: 'pointer' }}>
+						Component={() => <div style={{
+ color: getPrimary(), marginRight: '1em', marginTop: '0.5em', cursor: 'pointer'
+}}>
 								<div>
 									<i className="material-icons" >
 										dehaze

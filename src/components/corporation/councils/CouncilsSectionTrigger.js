@@ -46,7 +46,9 @@ const CouncilsSectionTrigger = ({ text, description, icon }) => (
                 </div>
             </div>
         </div>
-        <div style={{ widht: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{
+ widht: '3em', display: 'flex', alignItems: 'center', justifyContent: 'center'
+}}>
             <FontAwesome
                 name={'chevron-down'}
                 style={{

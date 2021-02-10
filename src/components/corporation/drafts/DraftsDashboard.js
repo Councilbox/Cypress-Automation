@@ -1,8 +1,12 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
-import { MenuItem, Table, TableRow, TableHead, TableCell, TableBody, InputAdornment } from 'material-ui';
+import {
+ MenuItem, Table, TableRow, TableHead, TableCell, TableBody, InputAdornment
+} from 'material-ui';
 import { corporationDrafts, deleteCorporationDraft } from '../../../queries';
-import { LoadingSection, SelectInput, TextInput, AlertConfirm, CloseIcon, BasicButton, ButtonIcon, Scrollbar } from '../../../displayComponents';
+import {
+ LoadingSection, SelectInput, TextInput, AlertConfirm, CloseIcon, BasicButton, ButtonIcon, Scrollbar
+} from '../../../displayComponents';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import withTranslations from '../../../HOCs/withTranslations';
 import NewCorporationDraft from './NewCorporationDraft';
@@ -151,7 +155,9 @@ class DraftsDashboard extends React.PureComponent {
                 >
 
 
-                    <div style={{ width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}>
+                    <div style={{
+ width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'
+}}>
                         <div>
                             <TextInput
                                 startAdornment={

@@ -14,7 +14,9 @@ const GicarLoginContainer = ({ match }) => {
     }, []);
 
     return (
-        <div style={{ width: '100%', height: '100%', display: 'flex', alignContent: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+        <div style={{
+ width: '100%', height: '100%', display: 'flex', alignContent: 'center', justifyContent: 'center', flexDirection: 'column'
+}}>
             <div>
                 <LoadingSection />
             </div>

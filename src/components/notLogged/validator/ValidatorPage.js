@@ -1,5 +1,7 @@
 import React from 'react';
-import { Card, Button, CardHeader, Avatar, CardContent } from 'material-ui';
+import {
+ Card, Button, CardHeader, Avatar, CardContent
+} from 'material-ui';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
 import { NotLoggedLayout, LoadingSection } from '../../../displayComponents';
@@ -132,7 +134,9 @@ class ValidatorPage extends React.Component {
                 languageSelector={true}
             >
                 <div style={{ width: '100%', overflow: 'auto' }}>
-                     <div style={{ width: isMobile ? '100%' : '70%', margin: '4em auto', padding: '1em', display: 'block' }}>
+                     <div style={{
+ width: isMobile ? '100%' : '70%', margin: '4em auto', padding: '1em', display: 'block'
+}}>
                         {this.state.loading
                             && <Card style={{ padding: '2em', margin: '1.5em' }} elevation={4}>
                                 <LoadingSection />
@@ -140,7 +144,9 @@ class ValidatorPage extends React.Component {
                         }
                         {this.state.error
                             && <Card style={{ padding: '2em', margin: '1.5em' }} elevation={4}>
-                                <div style={{ fontWeight: '700', color: 'red', marginTop: '1em', fonSize: '1.1em' }}>
+                                <div style={{
+ fontWeight: '700', color: 'red', marginTop: '1em', fonSize: '1.1em'
+}}>
                                     {this.state.error}
                                 </div>
                             </Card>
@@ -461,7 +467,9 @@ const EvidenceDisplay = ({ evidence, translate, cbxEvidence }) => {
                     {primerasLetras}
                 </Avatar>
                 <ToolTip text={cbxEvidence.tx_hash ? translate.blockchain_registered_content : translate.blockchain_pending_content}>
-                    <i className="material-icons" style={{ position: 'absolute', top: '60%', left: '60%', fontSize: '20px', color: cbxEvidence.tx_hash ? 'green' : 'red' }}>
+                    <i className="material-icons" style={{
+ position: 'absolute', top: '60%', left: '60%', fontSize: '20px', color: cbxEvidence.tx_hash ? 'green' : 'red'
+}}>
                         {cbxEvidence.tx_hash ?
                             'verified_user'
                             : 'query_builder'

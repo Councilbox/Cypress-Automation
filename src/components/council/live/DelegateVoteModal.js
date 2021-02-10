@@ -16,7 +16,9 @@ import { DELEGATION_USERS_LOAD } from '../../../constants';
 import { delegatedVotesLimitReached } from '../../../utils/CBX';
 import { addDelegation as addDelegationMutation } from '../../../queries/liveParticipant';
 
-const DelegateVoteModal = ({ translate, participant, client, council, ...props }) => {
+const DelegateVoteModal = ({
+ translate, participant, client, council, ...props
+}) => {
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
 	const [filters, setFilters] = React.useState({
@@ -215,7 +217,9 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 												elevation={1}
 												onClick={loadMore}
 											>
-												<MenuItem style={{ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
+												<MenuItem style={{
+ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'
+}}>
 													{`DESCARGAR ${
 														rest > DELEGATION_USERS_LOAD ?
 															`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`

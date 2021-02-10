@@ -4,7 +4,9 @@ import gql from 'graphql-tag';
 import { BasicButton, AlertConfirm } from '../../../../displayComponents';
 import { getSecondary } from '../../../../styles/colors';
 
-const RemoveDelegationButton = ({ participant, delegatedVote, translate, client, refetch }) => {
+const RemoveDelegationButton = ({
+ participant, delegatedVote, translate, client, refetch
+}) => {
     const [modal, setModal] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const secondary = getSecondary();

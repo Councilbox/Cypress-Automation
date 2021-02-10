@@ -5,7 +5,9 @@ import * as CBX from '../../../utils/CBX';
 import { QUORUM_TYPES } from '../../../constants';
 import { liveRecount } from '../../../queries/live';
 
-const QuorumWrapper = ({ translate, council, recount, secondCall }) => {
+const QuorumWrapper = ({
+ translate, council, recount, secondCall
+}) => {
     const statute = secondCall ?
         {
             type: council.statute.secondCallQuorumType,

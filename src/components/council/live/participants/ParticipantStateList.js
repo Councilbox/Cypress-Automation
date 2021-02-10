@@ -4,7 +4,9 @@ import * as CBX from '../../../../utils/CBX';
 import { getSecondary } from '../../../../styles/colors';
 import { PARTICIPANT_STATES } from '../../../../constants';
 import { changeParticipantState } from '../../../../queries/liveParticipant';
-import { FilterButton, Grid, AlertConfirm, DropDownMenu } from '../../../../displayComponents';
+import {
+ FilterButton, Grid, AlertConfirm, DropDownMenu
+} from '../../../../displayComponents';
 import StateIcon from './StateIcon';
 import { useOldState } from '../../../../hooks';
 import { removeLiveParticipantSignature } from './modals/SignatureModal';
@@ -18,7 +20,9 @@ const getActualParticipant = (participant, representative) => {
 };
 
 
-const ParticipantStateList = ({ participant: p, representative, translate, council, inDropDown, client, ...props }) => {
+const ParticipantStateList = ({
+ participant: p, representative, translate, council, inDropDown, client, ...props
+}) => {
 	const [state, setState] = useOldState({
 		loading: false,
 		delegateVote: false,
@@ -111,9 +115,13 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 							}}
 						>
 
-							<div style={{ display: 'flex', alignItems: 'center', padding: '0px', width: '100%' }}>
+							<div style={{
+ display: 'flex', alignItems: 'center', padding: '0px', width: '100%'
+}}>
 								<FilterButton
-									styles={{ width: '100%', border: 'none', boxShadow: 'none', margin: 'none', borderRadius: '0' }}
+									styles={{
+ width: '100%', border: 'none', boxShadow: 'none', margin: 'none', borderRadius: '0'
+}}
 									tooltip={translate.change_to_no_participate}
 									loading={loading === 0}
 									size="2.8em"
@@ -138,7 +146,9 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 							{council.councilType !== 1
 								&& <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
 									<FilterButton
-										styles={{ width: '100%', border: 'none', boxShadow: 'none', margin: 'none', borderRadius: '0' }}
+										styles={{
+ width: '100%', border: 'none', boxShadow: 'none', margin: 'none', borderRadius: '0'
+}}
 										tooltip={translate.change_to_remote}
 										loading={loading === 1}
 										size="2.8em"
@@ -159,9 +169,13 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 									</FilterButton>
 								</div>
 							}
-							<div style={{ display: 'flex', alignItems: 'center', margin: 'none', borderRadius: '0', width: '100%' }}>
+							<div style={{
+ display: 'flex', alignItems: 'center', margin: 'none', borderRadius: '0', width: '100%'
+}}>
 								<FilterButton
-									styles={{ width: '100%', border: 'none', boxShadow: 'none', margin: 'none', }}
+									styles={{
+ width: '100%', border: 'none', boxShadow: 'none', margin: 'none',
+}}
 									tooltip={translate.physically_present_assistance}
 									loading={loading === 2}
 									size="2.8em"
@@ -187,10 +201,14 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 							{((participant.state === PARTICIPANT_STATES.PHYSICALLY_PRESENT
 								|| participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
 							) && council.councilType < 2) && (
-									<div style={{ display: 'flex', alignItems: 'center', margin: 'none', borderRadius: '0', width: '100%' }}>
+									<div style={{
+ display: 'flex', alignItems: 'center', margin: 'none', borderRadius: '0', width: '100%'
+}}>
 										<FilterButton
 											tooltip={translate.change_to_present_with_remote_vote}
-											styles={{ width: '100%', border: 'none', boxShadow: 'none', margin: 'none', }}
+											styles={{
+ width: '100%', border: 'none', boxShadow: 'none', margin: 'none',
+}}
 											loading={loading === 3}
 											size="2.8em"
 											onClick={() => setLeaveAlert(true)}
@@ -214,10 +232,14 @@ const ParticipantStateList = ({ participant: p, representative, translate, counc
 									</div>
 								)}
 							{CBX.canBePresentWithRemoteVote(council.statute) && (
-								<div style={{ display: 'flex', alignItems: 'center', margin: 'none', borderRadius: '0', width: '100%' }}>
+								<div style={{
+ display: 'flex', alignItems: 'center', margin: 'none', borderRadius: '0', width: '100%'
+}}>
 									<FilterButton
 										tooltip={translate.change_to_present_with_remote_vote}
-										styles={{ width: '100%', border: 'none', boxShadow: 'none', margin: 'none', }}
+										styles={{
+ width: '100%', border: 'none', boxShadow: 'none', margin: 'none',
+}}
 										loading={loading === 3}
 										size="2.8em"
 										onClick={() => updateParticipantState(7, 3, null)}

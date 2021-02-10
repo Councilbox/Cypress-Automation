@@ -6,7 +6,9 @@ import PrivateRecountMessage from './PrivateRecountMessage';
 import { AGENDA_STATES } from '../../../../constants';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 
-const CustomPointVotingsLive = ({ agenda, council, recount, translate, refetch, data: fetchedData, company, ...props }) => (
+const CustomPointVotingsLive = ({
+ agenda, council, recount, translate, refetch, data: fetchedData, company, ...props
+}) => (
         <div>
             <Grid style={{ width: '100%', display: 'flex' }}>
                 {agenda.subjectType === 7 && agenda.votingState !== AGENDA_STATES.CLOSED ?

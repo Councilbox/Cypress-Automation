@@ -6,9 +6,13 @@ import ShareholderEditor from './ShareholderEditor';
 import { getSecondary } from '../../../../styles/colors';
 
 
-const ApproveRequestButton = ({ request, client, refetch, council }) => {
+const ApproveRequestButton = ({
+ request, client, refetch, council
+}) => {
     const [modal, setModal] = React.useState(null);
-    const { requestType, legalTermsAccepted, attachments, earlyVotes, representative, ...cleanData } = request.data;
+    const {
+ requestType, legalTermsAccepted, attachments, earlyVotes, representative, ...cleanData
+} = request.data;
     cleanData.numParticipations = +cleanData.numParticipations || 1;
     cleanData.socialCapital = cleanData.numParticipations || 1;
     cleanData.personOrEntity = cleanData.personOrEntity ? +cleanData.personOrEntity : 0;

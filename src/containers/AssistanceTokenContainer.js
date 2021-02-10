@@ -17,7 +17,9 @@ const getMe = gql`
 	}
 `;
 
-const AssistanceTokenContainer = ({ participantToken, client, translate, match }) => {
+const AssistanceTokenContainer = ({
+ participantToken, client, translate, match
+}) => {
 	const [loading, setLoading] = React.useState(true);
 	const [error, setError] = React.useState(false);
 	const [participant, setParticipant] = React.useState(null);

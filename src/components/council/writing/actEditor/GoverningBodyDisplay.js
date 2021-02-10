@@ -96,7 +96,9 @@ const Row = ({ value, field }) => {
         );
 
     return (
-        <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', background: showActions ? 'gainsboro' : '', paddingRight: '0.25em', paddingLeft: '0.25em', paddingBottom: '0.25em', paddingTop: '0.25em', }}
+        <div style={{
+ width: '100%', display: 'flex', justifyContent: 'space-between', background: showActions ? 'gainsboro' : '', paddingRight: '0.25em', paddingLeft: '0.25em', paddingBottom: '0.25em', paddingTop: '0.25em',
+}}
             {...handlers}
         >
             {field

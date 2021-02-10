@@ -1,11 +1,15 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { Table, TableBody, TableRow, MenuItem, TableHead, TableCell } from 'material-ui';
+import {
+ Table, TableBody, TableRow, MenuItem, TableHead, TableCell
+} from 'material-ui';
 
 
 import { usePolling } from '../../../../hooks';
-import { LoadingSection, PaginationFooter, DropDownMenu, Scrollbar, TextInput, Icon, Grid } from '../../../../displayComponents';
+import {
+ LoadingSection, PaginationFooter, DropDownMenu, Scrollbar, TextInput, Icon, Grid
+} from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
 import CheckShareholderRequest, { getTypeText } from './CheckShareholderRequest';
 import { isMobile } from '../../../../utils/screen';
@@ -105,7 +109,9 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                     <TextInput
                         className={isMobile && !searchText ? 'openInput' : ''}
                         disableUnderline={true}
-                        styleInInput={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', padding: isMobile && searchText && '4px 5px', paddingLeft: !isMobile && '5px' }}
+                        styleInInput={{
+ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', padding: isMobile && searchText && '4px 5px', paddingLeft: !isMobile && '5px'
+}}
                         stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: isMobile && searchText ? '8px' : '4px' }}
                         adornment={<Icon onClick={() => setSearchText(!searchText)} >search</Icon>}
                         floatingText={' '}
@@ -121,25 +127,39 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
                 </div>
                 <Table>
                     <TableHead>
-                        <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: '0.75rem' }}>
+                        <TableCell style={{
+ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: '0.75rem'
+}}>
                             {translate.name}
                         </TableCell>
-                        <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: '0.75rem' }}>
+                        <TableCell style={{
+ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: '0.75rem'
+}}>
                             {translate.email}
                         </TableCell>
-                        <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: '0.75rem' }}>
+                        <TableCell style={{
+ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: '0.75rem'
+}}>
                             {translate.dni}
                         </TableCell>
-                        <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: '0.75rem' }}>
+                        <TableCell style={{
+ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: '0.75rem'
+}}>
                             {translate.type}
                         </TableCell>
-                        <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: '0.75rem' }}>
+                        <TableCell style={{
+ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: '0.75rem'
+}}>
                             {translate.date}
                         </TableCell>
-                        <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: '0.75rem' }}>
+                        <TableCell style={{
+ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: '0.75rem'
+}}>
                             {translate.state}
                         </TableCell>
-                        <TableCell style={{ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: '0.75rem' }}>
+                        <TableCell style={{
+ color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: '0.75rem'
+}}>
                             Aprobar
                         </TableCell>
                     </TableHead>

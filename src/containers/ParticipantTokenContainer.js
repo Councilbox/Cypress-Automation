@@ -47,7 +47,9 @@ const reducer = (state, action) => {
 	return actions[action.type] ? actions[action.type]() : state;
 };
 
-const ParticipantTokenContainer = ({ participantToken, match, client, translate }) => {
+const ParticipantTokenContainer = ({
+ participantToken, match, client, translate
+}) => {
 	const [state, dispatch] = React.useReducer(reducer, initialState);
 
 	React.useEffect(() => {
@@ -74,7 +76,8 @@ const ParticipantTokenContainer = ({ participantToken, match, client, translate 
 				const participant = responseQueryMe.data.participantMe;
 				refreshWSLink();
 
-				dispatch({ type: 'SET_DATA',
+				dispatch({
+ type: 'SET_DATA',
 					value: {
 						token,
 						participant

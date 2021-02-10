@@ -5,7 +5,9 @@ import { Grid, Button } from 'material-ui';
 import { withApollo, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import ResultsTimeline from '../ResultsTimeline';
-import { darkGrey, secondary, getSecondary, getPrimary } from '../../../styles/colors';
+import {
+ darkGrey, secondary, getSecondary, getPrimary
+} from '../../../styles/colors';
 import { AlertConfirm, Badge } from '../../../displayComponents';
 import iconVoteInsert from '../../../assets/img/dropping-vote-in-box2.svg';
 import { usePolling } from '../../../hooks';
@@ -52,7 +54,9 @@ const createEvidenceRead = gql`
 `;
 
 
-const CouncilSidebar = ({ translate, council, participant, agendas, ...props }) => {
+const CouncilSidebar = ({
+ translate, council, participant, agendas, ...props
+}) => {
     const prevAgendas = React.useRef(null);
     const [votingsWarning, setVotingsWarning] = React.useState(null);
 
@@ -162,7 +166,9 @@ margin: '0',
                         <div style={{ color: getSecondary(), whiteSpace: 'nowrap', marginRight: '10px' }}>
                             {translate.opened_votings} ({votingsWarning.opened.length})
                         </div>
-                        <div style={{ maxWidth: '40%', color: '#3b3b3b', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}>
+                        <div style={{
+ maxWidth: '40%', color: '#3b3b3b', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis'
+}}>
                             {votingsWarning.opened[votingsWarning.opened.length - 1].agendaSubject}
                         </div>
                     </div>
@@ -209,7 +215,9 @@ margin: '0',
                         }}>
                             calendar_today
                             {activeIcon
-                                && <img src={iconVoteInsert} style={{ color: secondary, position: 'absolute', left: '5.2px', width: '13px' }}></img>
+                                && <img src={iconVoteInsert} style={{
+ color: secondary, position: 'absolute', left: '5.2px', width: '13px'
+}}></img>
                             }
                         </i>
                     </div>
@@ -269,7 +277,9 @@ margin: '0',
                 open={true}
                 classNameDialog={'modal100SinMenu'}
                 PaperProps={{
-                    style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: '0px' }
+                    style: {
+ margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: '0px'
+}
                 }}
                 bodyStyle={{ maxWidth: '100vw', width: '100%', padding: '0', }}
                 bodyText={
@@ -302,7 +312,9 @@ margin: '0',
                     // overflow: 'hidden',
                     fontSize: '0.55em'
                 }}>
-                    <div style={{ height: '3.5rem', width: '100vw', display: 'flex', color: '#ffffffcc', }}>
+                    <div style={{
+ height: '3.5rem', width: '100vw', display: 'flex', color: '#ffffffcc',
+}}>
 
                         <div style={{ width: '20%', textAlign: 'center', paddingTop: '0.35rem', }}>
                             {!props.modalContent ?
@@ -404,9 +416,13 @@ margin: '0',
                     classNameDialog={props.modalContent ? 'modal100block' : 'modal100none'}
                     PaperProps={{
                         // style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: "0px" }
-                        style: { margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: '0px', display: props.modalContent ? 'block' : 'none' }
+                        style: {
+ margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: '0px', display: props.modalContent ? 'block' : 'none'
+}
                     }}
-                    bodyStyle={{ maxWidth: '100vw', width: '100%', padding: '0', height: '100%  ' }}
+                    bodyStyle={{
+ maxWidth: '100vw', width: '100%', padding: '0', height: '100%  '
+}}
                     bodyText={
                         <div style={{ height: '100%' }}>
                             {props.modalContent === 'agenda'
@@ -525,7 +541,9 @@ margin: '0',
                         >
                             {renderAgendaButton()}
                         </div>
-                        <div style={{ width: '50%', textAlign: 'center', paddingTop: '0.35rem', borderTop: '1px solid dimgrey', borderRight: '1px solid dimgrey', }}>
+                        <div style={{
+ width: '50%', textAlign: 'center', paddingTop: '0.35rem', borderTop: '1px solid dimgrey', borderRight: '1px solid dimgrey',
+}}>
                             <TimelineButton
                                 council={council}
                                 onClick={() => props.setContent('timeline')}
@@ -587,7 +605,9 @@ options: props => ({
         councilId: props.council.id
     }
 })
-})(withApollo(({ onClick, actived, council, translate, client, participant, timelineTotal }) => {
+})(withApollo(({
+ onClick, actived, council, translate, client, participant, timelineTotal
+}) => {
     const [total, setTotal] = React.useState(0);
     const [lastEvidenceId, setlastEvidenceId] = React.useState(0);
     const [timelineLastRead, setTimelineLastRead] = React.useState(0);

@@ -6,7 +6,9 @@ import GoverningBodyForm from '../settings/GoverningBodyForm';
 import { getPrimary } from '../../../styles/colors';
 
 
-const FileOrgAdm = ({ translate, data, updateCompanyData, updateCompany, ...props }) => (
+const FileOrgAdm = ({
+ translate, data, updateCompanyData, updateCompany, ...props
+}) => (
         <div style={{ height: '100%' }}>
             <div style={{ padding: '0px 1em 1em', height: '100%', }}>
                 <div style={{ height: '100%', }}>

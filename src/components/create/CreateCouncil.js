@@ -49,7 +49,9 @@ const steps = {
 	ONE_ON_ONE: 'ONE_ON_ONE'
 };
 
-const CreateCouncilModal = ({ history, company, createCouncil, translate, config }) => {
+const CreateCouncilModal = ({
+ history, company, createCouncil, translate, config
+}) => {
 	const [options, setOptions] = React.useState(null);
 	const [step, setStep] = React.useState(1);
 	const [errors, setErrors] = React.useState({});
@@ -152,25 +154,62 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 				}
 			}}
 			bodyText={
-				<div style={{ height: '100%', paddingTop: step != 10 && '3em' }}>
+				<div style={{ height: '100%', paddingTop: step !== 10 && '3em' }}>
 					<Scrollbar>
 						<div style={{}}>
 							{step === 1
 								&& <div style={{ height: '100%', padding: isMobile ? '0em 1em 0em' : '0em 2em 2em 2em' }}>
-									<div style={{ display: !isMobile && 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5em' }}>
+									<div
+										style={{
+											display: !isMobile && 'flex',
+											alignItems: 'center',
+											justifyContent: 'space-between',
+											marginBottom: '0.5em'
+										}}
+									>
 										<div style={{ display: 'flex' }}>
 											<div style={{ color: primary, fontSize: isMobile ? '17px' : '24px', fontStyle: 'italic' }}>
 												{translate.create_council_title}
 											</div>
 											{!isMobile
-												&& <div style={{ display: 'flex', justifyContent: 'center', textAlign: 'center', marginLeft: '15px' }}>
+												&& <div
+														style={{
+															display: 'flex',
+															justifyContent: 'center',
+															textAlign: 'center',
+															marginLeft: '15px'
+														}}
+													>
 													<img src={emptyMeetingTable} style={{ width: '70px', }} alt="empty-table" />
 												</div>
 											}
 										</div>
-										<div style={{ color: 'black', cursor: 'pointer', paddingTop: '8px', paddingBottom: '8px' }} onClick={() => setStep(10)}>
-											<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px' }}>
-												<i className="material-icons" style={{ color: primary, fontSize: '13px', paddingRight: '0.3em', marginTop: '4px' }} >
+										<div
+											style={{
+												color: 'black',
+												cursor: 'pointer',
+												paddingTop: '8px',
+												paddingBottom: '8px'
+											}}
+											onClick={() => setStep(10)}
+										>
+											<div
+												style={{
+													display: 'flex',
+													alignItems: 'center',
+													justifyContent: 'center',
+													fontSize: '13px'
+												}}
+											>
+												<i
+													className="material-icons"
+													style={{
+														color: primary,
+														fontSize: '13px',
+														paddingRight: '0.3em',
+														marginTop: '4px'
+													}}
+												>
 													help
 												</i>
 												{translate.create_council_help}
@@ -336,7 +375,7 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 			acceptAction={() => sendCreateCouncil(step === steps.HYBRID_VOTING ?
 				3
 			: step === steps.BOARD_NO_SESSION ? 4 : 2)}
-			requestClose={step != 10 && history.goBack}
+			requestClose={step !== 10 && history.goBack}
 			cancelAction={history.goBack}
 			buttonCancel={translate.cancel}
 		/>
@@ -386,7 +425,7 @@ const ButtonCreateCouncil = ({ title, icon, list, styleButton, onClick }) => {
 					...styleButton
 				}}
 			>
-				<div style={{ display: 'flex', padding: '1.5em', background: hover ? 'rgba(97, 171, 183, 0.22)' : '', cursor: 'pointer', }}
+				<div style={{ display: 'flex', padding: '1.5em', background: hover ? 'rgba(97, 171, 183, 0.22)' : '', cursor: 'pointer' }}
 					onClick={onClick}
 					{...hoverHandlers}
 				>
@@ -400,7 +439,9 @@ const ButtonCreateCouncil = ({ title, icon, list, styleButton, onClick }) => {
 		);
 };
 
-const ButtonInfoCouncil = ({ title, icon, list, styleButton, infoExtra }) => (
+const ButtonInfoCouncil = ({
+ title, icon, list, styleButton, infoExtra
+}) => (
 	<Paper
 		elevation={6}
 		style={{

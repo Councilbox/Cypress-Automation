@@ -2,7 +2,9 @@ import React from 'react';
 import { Card } from 'material-ui';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { AlertConfirm, Grid, GridItem, ReactSignature, BasicButton, Scrollbar } from '../../../displayComponents';
+import {
+ AlertConfirm, Grid, GridItem, ReactSignature, BasicButton, Scrollbar
+} from '../../../displayComponents';
 import { getSecondary } from '../../../styles/colors';
 import withWindowSize from '../../../HOCs/withWindowSize';
 import { moment } from '../../../containers/App';
@@ -94,7 +96,9 @@ export const replaceDocsTags = (initialText, data = {}) => {
 };
 
 
-const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, translate, participant, requestClose, action }) => {
+const DelegationProxyModal = ({
+ open, council, client, innerWidth, delegation, translate, participant, requestClose, action
+}) => {
     const signature = React.useRef();
     const [loading, setLoading] = React.useState(false);
     const [existingProxy, setExistingProxy] = React.useState(null);
@@ -261,7 +265,9 @@ const DelegationProxyModal = ({ open, council, client, innerWidth, delegation, t
 
         return (
             delegation
-                && <Card style={{ padding: '0.6em', paddingBottom: '1em', width: '96%', marginLeft: '2%' }}>
+                && <Card style={{
+ padding: '0.6em', paddingBottom: '1em', width: '96%', marginLeft: '2%'
+}}>
                     <div>{council.company.businessName}</div>
                     <div>{council.street}</div>
                     <div>{council.countryState} {council.countryState}</div>

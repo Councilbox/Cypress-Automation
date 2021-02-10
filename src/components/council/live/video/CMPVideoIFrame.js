@@ -137,7 +137,9 @@ const CMPVideoIFrame = props => {
 };
 
 const AdminAlreadyLoguedScreen = ({ translate }) => (
-    <div style={{ width: '100%', height: '100%', padding: '2em', display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+    <div style={{
+ width: '100%', height: '100%', padding: '2em', display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'
+}}>
         <div style={{ fontWeight: '700' }}>
             {translate.mod_already_streaming_retrying}
         </div>
@@ -148,7 +150,9 @@ const AdminAlreadyLoguedScreen = ({ translate }) => (
 );
 
 const CMPVideoError = ({ translate }) => (
-    <div style={{ width: '100%', height: '100%', padding: '2em', display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+    <div style={{
+ width: '100%', height: '100%', padding: '2em', display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'
+}}>
         <div style={{ fontWeight: '700' }}>
             {translate.something_failed_cmp}
         </div>

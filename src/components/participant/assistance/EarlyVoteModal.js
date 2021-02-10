@@ -2,7 +2,9 @@ import React from 'react';
 import { AlertConfirm } from '../../../displayComponents';
 import EarlyVoteMenu from './EarlyVoteMenu';
 
-const EarlyVoteModal = ({ state, setState, acceptState, participant, council, translate, open, requestClose }) => {
+const EarlyVoteModal = ({
+ state, setState, acceptState, participant, council, translate, open, requestClose
+}) => {
     const [selected, setSelected] = React.useState(new Map());
 
     return (

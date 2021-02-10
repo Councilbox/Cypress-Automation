@@ -1,6 +1,8 @@
 import React from 'react';
 import { graphql, withApollo } from 'react-apollo';
-import { Card, MenuItem, Typography, withStyles, CardHeader } from 'material-ui';
+import {
+ Card, MenuItem, Typography, withStyles, CardHeader
+} from 'material-ui';
 import {
 	AlertConfirm,
 	Icon,
@@ -27,7 +29,9 @@ const styles = {
 };
 
 
-const DelegationsRestrictionModal = ({ open, data, translate, participantsTable, ...props }) => {
+const DelegationsRestrictionModal = ({
+ open, data, translate, participantsTable, ...props
+}) => {
 	const loadMore = () => {
 		data.fetchMore({
 			variables: {
@@ -97,7 +101,9 @@ const DelegationsRestrictionModal = ({ open, data, translate, participantsTable,
 							adornment={<Icon>search</Icon>}
 							type="text"
 							// value={searchModalPlantillas}
-							styleInInput={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px' }}
+							styleInInput={{
+ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px'
+}}
 							classes={{ input: props.classes.input, formControl: props.classes.formControl }}
 							disableUnderline={true}
 							stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px' }}
@@ -150,7 +156,9 @@ const DelegationsRestrictionModal = ({ open, data, translate, participantsTable,
 															elevation={1}
 															onClick={loadMore}
 														>
-															<MenuItem style={{ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
+															<MenuItem style={{
+ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'
+}}>
 																{`DESCARGAR ${
 																	rest > DELEGATION_USERS_LOAD ?
 																		`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
@@ -193,9 +201,13 @@ const DelegationsRestrictionModal = ({ open, data, translate, participantsTable,
 			title={
 				<div style={{ display: isMobile ? '' : 'flex', justifyContent: 'space-between' }}>
 					<div>{translate.select}</div>
-					<div style={{ display: 'flex', alignItems: !isMobile && 'center', color: ' rgba(0, 0, 0, 0.37)', fontSize: isMobile && '12px' }}>
+					<div style={{
+ display: 'flex', alignItems: !isMobile && 'center', color: ' rgba(0, 0, 0, 0.37)', fontSize: isMobile && '12px'
+}}>
 						<div>
-							<ButtonIcon className="material-icons" style={{ color: getPrimary(), fontSize: '15px', marginTop: '5px', marginRight: '5px', marginLeft: isMobile ? '0px' : '2em' }} type={'help'} />
+							<ButtonIcon className="material-icons" style={{
+ color: getPrimary(), fontSize: '15px', marginTop: '5px', marginRight: '5px', marginLeft: isMobile ? '0px' : '2em'
+}} type={'help'} />
 						</div>
 						{translate.select_who_can_receive_delegations}
 					</div>
@@ -224,7 +236,9 @@ const regularCardStyle = {
 };
 
 
-const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, onClick, index }) => {
+const CardPlantillas = withStyles(regularCardStyle)(({
+ item, classes, onClick, index
+}) => {
 	const [hover, setHover] = React.useState(false);
 
 	const mouseEnterHandler = () => {

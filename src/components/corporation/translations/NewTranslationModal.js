@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import { AlertConfirm } from '../../../displayComponents';
 import TranslationForm from './TranslationForm';
 import { useOldState } from '../../../hooks';
+import { removeTypenameField } from '../../../utils/CBX';
 
 const NewTranslationModal = ({ translate, ...props }) => {
     const [state, setState] = useOldState({
@@ -100,7 +101,7 @@ const NewTranslationModal = ({ translate, ...props }) => {
 
     const updateTranslationAction = async () => {
         if (!checkRequiredFields()) {
-            const { __typename, ...translation } = state.data;
+            const translation = removeTypenameField(state.data);
             const response = await props.updateTranslation({
                 variables: {
                     translation

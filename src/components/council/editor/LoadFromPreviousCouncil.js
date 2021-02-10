@@ -10,7 +10,9 @@ import { ConfigContext } from '../../../containers/AppControl';
 import CouncilDetails from '../display/CouncilDetails';
 import { useOldState } from '../../../hooks';
 
-const LoadFromPreviousCouncil = ({ translate, data, council, ...props }) => {
+const LoadFromPreviousCouncil = ({
+ translate, data, council, ...props
+}) => {
     const [state, setState] = useOldState({
         modal: false,
         council: null

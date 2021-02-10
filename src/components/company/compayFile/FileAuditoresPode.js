@@ -8,7 +8,9 @@ import { getPrimary } from '../../../styles/colors';
 
 const FileAuditoresPode = props => (
         <div style={{ height: '100%' }} >
-            <div style={{ padding: '0.5em', display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+            <div style={{
+ padding: '0.5em', display: 'flex', alignItems: 'center', justifyContent: 'flex-end'
+}}>
             </div>
             <div style={{ padding: '0px 1em 1em', height: '100%', }}>
                 <div style={{ height: '100%', }}>
@@ -75,12 +77,16 @@ const AuditorsForm = ({ data, updateFileData, translate }) => {
     return (
         <>
             <div style={{}}>
-                <div style={{ fontWeight: 'bold', color: primary, paddingBottom: '1em', display: 'flex', alignItems: 'center' }}>
+                <div style={{
+ fontWeight: 'bold', color: primary, paddingBottom: '1em', display: 'flex', alignItems: 'center'
+}}>
                     Auditores
                     <i
                         className={'fa fa-plus-circle'}
                         onClick={addRow}
-                        style={{ color: primary, cursor: 'pointer', fontSize: '25px', paddingLeft: '5px' }}
+                        style={{
+ color: primary, cursor: 'pointer', fontSize: '25px', paddingLeft: '5px'
+}}
                     />
                 </div>
                 <div style={{
@@ -95,7 +101,9 @@ const AuditorsForm = ({ data, updateFileData, translate }) => {
                 }}>
                     <div style={{ width: '100%', display: 'flex', }}>
                         <div style={{ height: '100%', width: '100%' }}>
-                            <div style={{ display: 'flex', width: '100%', padding: '1em', borderBottom: `1px solid${primary}`, }}>
+                            <div style={{
+ display: 'flex', width: '100%', padding: '1em', borderBottom: `1px solid${primary}`,
+}}>
                                 <div style={{ textTransform: 'uppercase', color: primary, width: '20%', }}>{translate.name}</div>
                                 <div style={{ textTransform: 'uppercase', color: primary, width: '25%', }}>Inscripción en el registro mercantil</div>
                                 <div style={{ textTransform: 'uppercase', color: primary, width: '20%', }}>Fecha Nomb.</div>
@@ -103,7 +111,9 @@ const AuditorsForm = ({ data, updateFileData, translate }) => {
                             </div>
                             {auditors.length > 0 ?
                                 auditors.map((auditor, index) => (
-                                    <div key={`auditor_key_${index}`} style={{ color: 'black', display: 'flex', width: '100%', padding: '1em' }}>
+                                    <div key={`auditor_key_${index}`} style={{
+ color: 'black', display: 'flex', width: '100%', padding: '1em'
+}}>
                                         <div style={{ width: '20%', paddingTop: '8px' }}>
                                             <ContentEditable
                                                 style={{ color: 'black', maxWidth: '90%', borderBottom: '1px solid black' }}
@@ -168,7 +178,9 @@ const AuditorsForm = ({ data, updateFileData, translate }) => {
                                                 />
                                             </div>
                                         </div>
-                                        <div style={{ background: 'white', width: '10%', color: primary, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '25px' }}>
+                                        <div style={{
+ background: 'white', width: '10%', color: primary, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '25px'
+}}>
                                             <i className={'fa fa-times-circle'} onClick={() => deleteRow(index)} style={{ cursor: 'pointer', }} ></i>
                                         </div>
                                     </div>
@@ -221,12 +233,16 @@ const PowersForm = ({ data, updateFileData, translate }) => {
     return (
         <>
             <div style={{ marginTop: '2em', marginBottom: '1em' }}>
-                <div style={{ fontWeight: 'bold', color: primary, paddingBottom: '1em', display: 'flex', alignItems: 'center' }}>
+                <div style={{
+ fontWeight: 'bold', color: primary, paddingBottom: '1em', display: 'flex', alignItems: 'center'
+}}>
                     Poderes
                     <i
                         className={'fa fa-plus-circle'}
                         onClick={addRow}
-                        style={{ color: primary, cursor: 'pointer', fontSize: '25px', paddingLeft: '5px' }}
+                        style={{
+ color: primary, cursor: 'pointer', fontSize: '25px', paddingLeft: '5px'
+}}
                     />
                 </div>
                 <div style={{
@@ -242,7 +258,9 @@ const PowersForm = ({ data, updateFileData, translate }) => {
                     <div style={{ width: '100%', display: 'flex', }}>
                         <div style={{ height: '100%', width: '100%' }}>
 
-                        <div style={{ display: 'flex', width: '100%', padding: '1em', borderBottom: `1px solid${primary}`, }}>
+                        <div style={{
+ display: 'flex', width: '100%', padding: '1em', borderBottom: `1px solid${primary}`,
+}}>
                                 <div style={{ textTransform: 'uppercase', color: primary, width: '20%' }}>{translate.name}</div>
                                 <div style={{ textTransform: 'uppercase', color: primary, width: '15%' }}>F. Otorgamiento</div>
                                 <div style={{ textTransform: 'uppercase', color: primary, width: '20%' }}>Forma ejercicio</div>
@@ -251,7 +269,9 @@ const PowersForm = ({ data, updateFileData, translate }) => {
                             </div>
                             {powers.length > 0 ?
                                 powers.map((power, index) => (
-                                    <div key={`power_key_${index}`} style={{ color: 'black', display: 'flex', width: '100%', padding: '1em' }}>
+                                    <div key={`power_key_${index}`} style={{
+ color: 'black', display: 'flex', width: '100%', padding: '1em'
+}}>
                                         <div style={{ width: '20%', paddingTop: '8px' }}>
                                             <ContentEditable
                                                 style={{ color: 'black', maxWidth: '90%', borderBottom: '1px solid black' }}
@@ -317,7 +337,9 @@ const PowersForm = ({ data, updateFileData, translate }) => {
                                                 }}
                                             />
                                         </div>
-                                        <div style={{ background: 'white', width: '10%', color: primary, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '25px' }}>
+                                        <div style={{
+ background: 'white', width: '10%', color: primary, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '25px'
+}}>
                                             <i className={'fa fa-times-circle'} onClick={() => deleteRow(index)} style={{ cursor: 'pointer', }} ></i>
                                         </div>
                                     </div>

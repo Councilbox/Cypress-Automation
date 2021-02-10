@@ -4,7 +4,9 @@ import { BasicButton } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
 import ContactModal from './ContactModal';
 
-const ContactAdminButton = ({ participant, translate, council, styles, fullWidth }) => {
+const ContactAdminButton = ({
+ participant, translate, council, styles, fullWidth
+}) => {
     const primary = getPrimary();
     const [modal, setModal] = React.useState(false);
 
@@ -16,7 +18,9 @@ const ContactAdminButton = ({ participant, translate, council, styles, fullWidth
                 fullWidth={fullWidth}
                 color={primary}
                 textStyle={{ color: getPrimary() }}
-                backgroundColor={{ borderRadius: '4px', border: `solid 1px ${getPrimary()}`, backgroundColor: 'white', minWidth: '200px', ...styles }}
+                backgroundColor={{
+ borderRadius: '4px', border: `solid 1px ${getPrimary()}`, backgroundColor: 'white', minWidth: '200px', ...styles
+}}
             />
             <ContactModal
                 open={modal}

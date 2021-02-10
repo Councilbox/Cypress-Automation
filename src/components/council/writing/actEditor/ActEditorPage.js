@@ -23,7 +23,9 @@ import { hasParticipations } from '../../../../utils/CBX';
 import CommenWallList from './CommenWallList';
 
 
-const ActEditorPage = ({ council, translate, withoutAct, ...props }) => {
+const ActEditorPage = ({
+ council, translate, withoutAct, ...props
+}) => {
     const [state, setState] = React.useState({
         participants: false,
         sendReminder: false,

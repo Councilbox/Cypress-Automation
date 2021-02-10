@@ -2,7 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Tooltip } from 'material-ui';
-import { TabsScreen, FabButton, Icon, AlertConfirm } from '../displayComponents';
+import {
+ TabsScreen, FabButton, Icon, AlertConfirm
+} from '../displayComponents';
 import Signatures from '../components/dashboard/Signatures';
 import { lightGrey } from '../styles/colors';
 import withWindowSize from '../HOCs/withWindowSize';
@@ -15,7 +17,9 @@ import CantCreateCouncilsModal from '../components/dashboard/CantCreateCouncilsM
 import { sendGAevent } from '../utils/analytics';
 import { ConfigContext } from './AppControl';
 
-const SignatureContainer = ({ match, company, translate, windowSize }) => {
+const SignatureContainer = ({
+ match, company, translate, windowSize
+}) => {
 	const [cantCreate, setCantCreate] = React.useState(false);
 	const [noPremiumModal, setNoPremiumModal] = React.useState(false);
 	const config = React.useContext(ConfigContext);
@@ -104,7 +108,9 @@ const SignatureContainer = ({ match, company, translate, windowSize }) => {
 				height: '100%',
 				padding: '2em',
 				position: 'relative',
-				...(windowSize === 'xs' ? { padding: 0, paddingTop: '1em', height: 'calc(100% - 1.6rem)', width: '98%', margin: '0px auto' } : {}),
+				...(windowSize === 'xs' ? {
+ padding: 0, paddingTop: '1em', height: 'calc(100% - 1.6rem)', width: '98%', margin: '0px auto'
+} : {}),
 				backgroundColor: lightGrey
 			}}
 		>
@@ -148,7 +154,9 @@ const SignatureContainer = ({ match, company, translate, windowSize }) => {
 				buttonCancel={translate.close}
 				requestClose={() => setCantCreate(false)}
 				bodyText={
-					<div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+					<div style={{
+ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'
+}}>
 						<div style={{ marginBottom: '0.8em' }}>
 							{translate.you_dont_have_this_feature}
 						</div>

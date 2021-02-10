@@ -2,7 +2,9 @@ import gql from 'graphql-tag';
 import { Input } from 'material-ui';
 import React from 'react';
 import { withApollo } from 'react-apollo';
-import { AlertConfirm, BasicButton, ButtonIcon, CloseIcon, FileUploadButton, SuccessMessage } from '../../../displayComponents';
+import {
+ AlertConfirm, BasicButton, ButtonIcon, CloseIcon, FileUploadButton, SuccessMessage
+} from '../../../displayComponents';
 import RichTextInput from '../../../displayComponents/RichTextInput';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { useOldState } from '../../../hooks';
@@ -10,7 +12,9 @@ import { getPrimary } from '../../../styles/colors';
 import AttachmentItem from '../../attachments/AttachmentItem';
 
 
-const SendMessageToParticipant = ({ participantId, translate, council, open, requestClose, client, user }) => {
+const SendMessageToParticipant = ({
+ participantId, translate, council, open, requestClose, client, user
+}) => {
     const [status, setStatus] = React.useState('IDDLE');
     const [state, setState] = useOldState({
         subject: '',
@@ -210,7 +214,9 @@ const SendMessageToParticipant = ({ participantId, translate, council, open, req
                                     errorText={errors.body}
                                 />
                             </div>
-                            <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', marginTop: '0.6em' }}>
+                            <div style={{
+ width: '100%', display: 'flex', justifyContent: 'flex-end', marginTop: '0.6em'
+}}>
                                 <BasicButton
                                     text={translate.send}
                                     color={primary}

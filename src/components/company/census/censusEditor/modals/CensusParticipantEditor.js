@@ -4,7 +4,7 @@ import { Card } from 'material-ui';
 import { AlertConfirm } from '../../../../../displayComponents/index';
 import { updateCensusParticipant } from '../../../../../queries/census';
 import { languages as languagesQuery } from '../../../../../queries/masters';
-import { censusHasParticipations } from '../../../../../utils/CBX';
+import { censusHasParticipations, removeTypenameField } from '../../../../../utils/CBX';
 import RepresentativeForm from '../RepresentativeForm';
 import ParticipantForm from '../../../../council/participants/ParticipantForm';
 import {
@@ -26,11 +26,6 @@ const initialRepresentative = {
 	dni: ''
 };
 
-function extractTypeName(object) {
-	const { __typename, ...rest } = object;
-	return rest;
-}
-
 class CensusParticipantEditor extends React.Component {
 	state = {
 		modal: false,
@@ -42,13 +37,13 @@ class CensusParticipantEditor extends React.Component {
 
 	componentDidMount() {
 		// eslint-disable-next-line prefer-const
-		let { representative, ...participant } = extractTypeName(
+		let { representative, ...participant } = removeTypenameField(
 			this.props.participant
 		);
 		representative = representative ?
 			{
 				hasRepresentative: true,
-				...extractTypeName(representative)
+				...removeTypenameField(representative)
 			}
 			: initialRepresentative;
 		this.setState({
@@ -59,11 +54,11 @@ class CensusParticipantEditor extends React.Component {
 
 	componentWillUnmount() {
 		// eslint-disable-next-line prefer-const
-		let { representative, ...participant } = extractTypeName(this.props.participant);
+		let { representative, ...participant } = removeTypenameField(this.props.participant);
 		representative = representative ?
 			{
 				hasRepresentative: true,
-				...extractTypeName(representative)
+				...removeTypenameField(representative)
 			}
 			: initialRepresentative;
 		this.setState({

@@ -8,7 +8,9 @@ import { getPrimary } from '../../../../styles/colors';
 import AdminAnnouncementBody from './AdminAnnouncementBody';
 
 
-const AdminAnnouncement = ({ data, council, closeButton, translate, closeRoomAnnouncement, updateAdminAnnouncement, openHelp, isAdmin, ...props }) => {
+const AdminAnnouncement = ({
+ data, council, closeButton, translate, closeRoomAnnouncement, updateAdminAnnouncement, openHelp, isAdmin, ...props
+}) => {
     const context = React.useContext(ConfigContext);
     const [announcement, setAnnouncement] = React.useState(null);
     const [blockUser, setBlockUser] = React.useState(false);

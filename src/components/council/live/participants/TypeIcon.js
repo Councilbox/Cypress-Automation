@@ -56,7 +56,9 @@ const _renderIcon = (color, type, number, translate, ratio) => {
 		case PARTICIPANT_TYPE.GUEST:
 			return (
 				<Tooltip title={translate.guest}>
-					<div style={{ display: 'flex', alignItems: 'center', marginTop: '3px', padding: '0.5em' }}>
+					<div style={{
+ display: 'flex', alignItems: 'center', marginTop: '3px', padding: '0.5em'
+}}>
 						<FontAwesome
 							name={'user-o'}
 							style={styleMainIcon(color, ratio)}
@@ -76,7 +78,9 @@ const _renderIcon = (color, type, number, translate, ratio) => {
 
 class TypeIcon extends React.PureComponent {
 	render() {
-		const { color = 'grey', type, number, translate, ratio = 1 } = this.props;
+		const {
+ color = 'grey', type, number, translate, ratio = 1
+} = this.props;
 		return _renderIcon(color, type, number, translate, ratio);
 	}
 }

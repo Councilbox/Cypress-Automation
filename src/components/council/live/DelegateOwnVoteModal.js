@@ -15,7 +15,9 @@ import { participantsToDelegate } from '../../../queries';
 import { DELEGATION_USERS_LOAD } from '../../../constants';
 import { addDelegation } from '../../../queries/liveParticipant';
 
-const DelegateOwnVoteModal = ({ translate, participant, show, client, council, inModal, setInModal, ...props }) => {
+const DelegateOwnVoteModal = ({
+ translate, participant, show, client, council, inModal, setInModal, ...props
+}) => {
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
 	const [filters, setFilters] = React.useState({
@@ -211,7 +213,9 @@ const DelegateOwnVoteModal = ({ translate, participant, show, client, council, i
 												elevation={1}
 												onClick={loadMore}
 											>
-												<MenuItem style={{ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
+												<MenuItem style={{
+ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'
+}}>
 													{`DESCARGAR ${
 														rest > DELEGATION_USERS_LOAD ?
 															`${1} de ${rest} RESTANTES`

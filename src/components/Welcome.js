@@ -1,7 +1,9 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Button, Card, CardActions, CardContent } from 'material-ui';
+import {
+ Button, Card, CardActions, CardContent
+} from 'material-ui';
 import { Link } from 'react-router-dom';
 import Header from './Header';
 import * as mainActions from '../actions/mainActions';

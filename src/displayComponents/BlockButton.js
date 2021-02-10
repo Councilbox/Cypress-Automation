@@ -2,7 +2,9 @@ import React from 'react';
 import { Card } from 'material-ui';
 import { darkGrey } from '../styles/styles';
 
-const BlockButton = ({ text, icon, onClick, color = darkGrey }) => (
+const BlockButton = ({
+ text, icon, onClick, color = darkGrey
+}) => (
 		<Card
 			onClick={onClick}
 			style={{

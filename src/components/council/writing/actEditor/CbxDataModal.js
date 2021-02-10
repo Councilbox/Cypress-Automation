@@ -10,7 +10,9 @@ import { downloadFile } from '../../../../utils/CBX';
 import CBXDocumentLayout from '../../../documentEditor/CBXDocumentLayout';
 
 
-const CbxDataModal = ({ open, requestClose, participant, translate, client, company }) => {
+const CbxDataModal = ({
+ open, requestClose, participant, translate, client, company
+}) => {
     const [html, setHtml] = React.useState('');
     const [loading, setLoading] = React.useState(true);
     const secondary = getSecondary();

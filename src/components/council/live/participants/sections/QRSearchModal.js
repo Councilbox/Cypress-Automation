@@ -2,7 +2,9 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import jsQR from 'jsqr';
-import { AlertConfirm, BasicButton, ReactSignature, ParticipantDisplay, Checkbox, LoadingSection } from '../../../../../displayComponents';
+import {
+ AlertConfirm, BasicButton, ReactSignature, ParticipantDisplay, Checkbox, LoadingSection
+} from '../../../../../displayComponents';
 import { PARTICIPANT_STATES } from '../../../../../constants';
 import { canBePresentWithRemoteVote } from '../../../../../utils/CBX';
 import { changeParticipantState, setLiveParticipantSignature } from '../../../../../queries/liveParticipant';
@@ -10,7 +12,9 @@ import { getPrimary } from '../../../../../styles/colors';
 import { isMobile } from '../../../../../utils/screen';
 
 
-const QRSearchModal = ({ open, requestClose, client, council, translate }) => {
+const QRSearchModal = ({
+ open, requestClose, client, council, translate
+}) => {
     const [search, setSearch] = React.useState('');
     const [participant, setParticipant] = React.useState(null);
     const [error, setError] = React.useState(null);
@@ -273,7 +277,9 @@ const QRSearchModal = ({ open, requestClose, client, council, translate }) => {
                 <div>
                     <React.Fragment>
                         {isPresent(participant.state)
-                            && <div style={{ width: '100%', padding: '1em', color: primary, fontWeight: '700', border: `1px solid ${primary}`, borderRadius: '5px' }}>
+                            && <div style={{
+ width: '100%', padding: '1em', color: primary, fontWeight: '700', border: `1px solid ${primary}`, borderRadius: '5px'
+}}>
                                 {translate.participant_already_present}
                             </div>
                         }
@@ -333,7 +339,9 @@ const QRSearchModal = ({ open, requestClose, client, council, translate }) => {
                     && <LoadingSection />
                 }
                 {errorMedia
-                    && <div style={{ color: '#dc7373', display: 'flex', justifyContent: 'center', fontSize: '25px' }}>
+                    && <div style={{
+ color: '#dc7373', display: 'flex', justifyContent: 'center', fontSize: '25px'
+}}>
                         <div>
                             <i className={'fa fa-exclamation-triangle'} style={{ fontSize: '40px' }}></i>
                         </div>
@@ -345,7 +353,9 @@ const QRSearchModal = ({ open, requestClose, client, council, translate }) => {
                         && translate.no_participant_found_code
                     }
                 </div>
-                <div style={{ overflow: 'hidden', width: '520px', height: '370px', position: 'relative', borderRadius: '30px', }} >
+                <div style={{
+ overflow: 'hidden', width: '520px', height: '370px', position: 'relative', borderRadius: '30px',
+}} >
                     <canvas id="canvas2" ref={canvasRef2}
                         style={{
                             zIndex: 99999,
@@ -356,7 +366,9 @@ const QRSearchModal = ({ open, requestClose, client, council, translate }) => {
                             left: 0,
                         }}
                     ></canvas>
-                    <video autoPlay style={{ width: '100%', height: 'auto', position: 'absolute', top: 0, left: 0, }} ref={videoRef} id='video' />
+                    <video autoPlay style={{
+ width: '100%', height: 'auto', position: 'absolute', top: 0, left: 0,
+}} ref={videoRef} id='video' />
                     <canvas id="canvas" ref={canvasRef}
                         style={{
                             height: videoRef.current ? videoRef.current.offsetHeight : '',

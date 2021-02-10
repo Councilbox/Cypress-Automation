@@ -3,7 +3,9 @@ import { Tooltip } from 'material-ui';
 import { TextInput, Grid, GridItem } from '../../../displayComponents';
 import * as CBX from '../../../utils/CBX';
 
-const TranslationForm = ({ data, errors, updateState, flagEdit }) => (
+const TranslationForm = ({
+ data, errors, updateState, flagEdit
+}) => (
     <Grid>
         <GridItem xs={12} md={12} lg={12} style={{ display: 'flex' }}>
             <Row
@@ -100,7 +102,9 @@ class Row extends React.Component {
 
     render() {
         // TRADUCCION
-        const { value, disabled, floatingText, errorText, onChange, flagEdit } = this.props;
+        const {
+ value, disabled, floatingText, errorText, onChange, flagEdit
+} = this.props;
         return (
             <div onClick={flagEdit && this.copy} style={{ overflow: 'hidden', width: '100%', display: 'flex', }}>
                 <Tooltip title={'copiado'} open={this.state.showCopyTooltip}>

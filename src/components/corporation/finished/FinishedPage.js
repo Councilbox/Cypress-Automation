@@ -3,7 +3,9 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { MenuItem } from 'material-ui';
 import { moment } from '../../../containers/App';
-import { TextInput, SelectInput, BasicButton, Grid, GridItem, LoadingSection, Scrollbar } from '../../../displayComponents';
+import {
+ TextInput, SelectInput, BasicButton, Grid, GridItem, LoadingSection, Scrollbar
+} from '../../../displayComponents';
 import CouncilItem from '../councils/CouncilItem';
 import withTranslations from '../../../HOCs/withTranslations';
 

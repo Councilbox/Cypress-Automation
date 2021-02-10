@@ -3,7 +3,9 @@ import { Typography } from 'material-ui';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import { toast } from 'react-toastify';
-import { TextInput, DateTimePicker, BasicButton, FileUploadButton, ButtonIcon, LiveToast } from '../../../../displayComponents';
+import {
+ TextInput, DateTimePicker, BasicButton, FileUploadButton, ButtonIcon, LiveToast
+} from '../../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import EditorStepLayout from '../../../council/editor/EditorStepLayout';
 import RichTextInput from '../../../../displayComponents/RichTextInput';

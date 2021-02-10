@@ -10,7 +10,9 @@ import VotingValueIcon from './VotingValueIcon';
 import { isMobile } from '../../../../utils/screen';
 
 
-const EarlyVotes = ({ agenda, translate, client, ...props }) => {
+const EarlyVotes = ({
+ agenda, translate, client, ...props
+}) => {
     const [earlyVotes, setEarlyVotes] = React.useState(null);
     const [recount, setRecount] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
@@ -192,7 +194,7 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
                                 translate.cant_vote_this_point
                             : <>
                                     {(hasRightToVote(vote.author) ? `${showNumParticipations(vote.author.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.author.numParticipations)}` : 0)}
-                                    {(vote.author.state == PARTICIPANT_STATES.REPRESENTATED)
+                                    {(vote.author.state === PARTICIPANT_STATES.REPRESENTATED)
                                         && <>
                                             <br/>
                                             {hasRightToVote(vote.author.representative) ? `${showNumParticipations(vote.author.representative.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.author.representative.numParticipations)}` : '-'}

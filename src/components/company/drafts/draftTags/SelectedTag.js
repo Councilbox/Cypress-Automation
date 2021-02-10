@@ -3,7 +3,9 @@ import { Tooltip } from 'material-ui';
 import { isMobile } from '../../../../utils/screen';
 
 
-const SelectedTag = ({ text, color, action, list, count, stylesEtiqueta, desplegarEtiquetas, mouseEnterHandler, mouseLeaveHandler, sinTitulos, props }) => {
+const SelectedTag = ({
+ text, color, action, list, count, stylesEtiqueta, desplegarEtiquetas, mouseEnterHandler, mouseLeaveHandler, sinTitulos, props
+}) => {
 	const anchoRef = React.useRef();
 	const [tooltip, setTooltip] = React.useState(false);
 
@@ -39,7 +41,9 @@ const SelectedTag = ({ text, color, action, list, count, stylesEtiqueta, despleg
 				>
 					{sinTitulos ?
 						count
-						&& <div style={{ color: 'white', position: 'absolute', top: '-8px', left: '0px' }}>
+						&& <div style={{
+ color: 'white', position: 'absolute', top: '-8px', left: '0px'
+}}>
 							+{count}
 						</div>
 						:						<div style={{ display: 'flex', justifyContent: 'space-between', color: 'white', }}>
@@ -51,7 +55,9 @@ const SelectedTag = ({ text, color, action, list, count, stylesEtiqueta, despleg
 							}
 							{count
 								&& <div>
-									<div style={{ background: 'white', color, borderRadius: '50%', width: '20px', paddingLeft: '2px', fontWeight: '900' }}>
+									<div style={{
+ background: 'white', color, borderRadius: '50%', width: '20px', paddingLeft: '2px', fontWeight: '900'
+}}>
 										+{count}
 									</div>
 								</div>
@@ -87,7 +93,9 @@ const SelectedTag = ({ text, color, action, list, count, stylesEtiqueta, despleg
 						<div>
 							<i
 								className="fa fa-times"
-								style={{ cursor: 'pointer', background: ' #ffffff', color, borderRadius: '6px', padding: '0em 1px' }}
+								style={{
+ cursor: 'pointer', background: ' #ffffff', color, borderRadius: '6px', padding: '0em 1px'
+}}
 								aria-hidden="true"
 								onClick={action}
 							>

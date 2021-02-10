@@ -1,7 +1,11 @@
 import React from 'react';
-import { TableRow, TableCell, Card, Tooltip } from 'material-ui';
+import {
+ TableRow, TableCell, Card, Tooltip
+} from 'material-ui';
 import { withRouter } from 'react-router-dom';
-import { Table, CloseIcon, DateWrapper, Checkbox, Grid, GridItem } from '../../displayComponents';
+import {
+ Table, CloseIcon, DateWrapper, Checkbox, Grid, GridItem
+} from '../../displayComponents';
 import { bHistory, moment } from '../../containers/App';
 import TableStyles from '../../styles/table';
 import { getPrimary, getSecondary } from '../../styles/colors';
@@ -13,7 +17,9 @@ import { useHoverRow } from '../../hooks';
 import { isMobile } from '../../utils/screen';
 
 
-const CouncilsList = ({ councils, translate, openDeleteModal, company, link, selectedIds, ...props }) => {
+const CouncilsList = ({
+ councils, translate, openDeleteModal, company, link, selectedIds, ...props
+}) => {
     const [open, setOpen] = React.useState(false);
 
     const openCantAccessModal = () => {
@@ -68,7 +74,9 @@ const CouncilsList = ({ councils, translate, openDeleteModal, company, link, sel
 };
 
 
-const CouncilListItem = withRouter(({ council, company, link, translate, selected, ...props }) => {
+const CouncilListItem = withRouter(({
+ council, company, link, translate, selected, ...props
+}) => {
     const [show, handlers] = useHoverRow();
     const primary = getPrimary();
 

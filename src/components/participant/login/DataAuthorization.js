@@ -58,7 +58,9 @@ const DataAuthorization = ({ client, refetch }) => {
 
     return (
         <div style={styles.loginContainerMax}>
-            <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div style={{
+ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'
+}}>
                 <div style={{
                     width: '100%',
                     paddingLeft: '4px',
@@ -77,7 +79,9 @@ const DataAuthorization = ({ client, refetch }) => {
                             <div>Almacenamiento de datos</div>
                         </div>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'center', color: 'black', maxWidth: '600px', marginBottom: '1em' }}>
+                    <div style={{
+ display: 'flex', justifyContent: 'center', color: 'black', maxWidth: '600px', marginBottom: '1em'
+}}>
                         <div>
                             <Checkbox
                                 value={checked}
@@ -89,7 +93,9 @@ const DataAuthorization = ({ client, refetch }) => {
                             />
                         </div>
                     </div>
-                    <div style={{ textAlign: 'center', padding: '1em', paddingBottom: '2em', display: 'flex', justifyContent: 'center' }}>
+                    <div style={{
+ textAlign: 'center', padding: '1em', paddingBottom: '2em', display: 'flex', justifyContent: 'center'
+}}>
                         <BasicButton
                             text={'Acceso seguro'}
                             disabled={!checked}

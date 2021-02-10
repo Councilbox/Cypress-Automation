@@ -83,7 +83,9 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 			<Scrollbar>
 				<div style={{ height: '100%', display: 'flex', alignItems: 'center', }}>
 					<div style={{ width: '100%', padding: '0.5em', height: '100%', }}>
-						<Grid style={{ boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)', border: CBX.hasHisVoteDelegated(participant) ? '' : 'solid 1px #61abb7', borderRadius: '4px', padding: '1em' }}>
+						<Grid style={{
+ boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)', border: CBX.hasHisVoteDelegated(participant) ? '' : 'solid 1px #61abb7', borderRadius: '4px', padding: '1em'
+}}>
 							<GridItem xs={12} md={4} lg={4}>
 								<Typography variant="body2" >
 									<div style={{ paddingLeft: '1em' }}>
@@ -256,7 +258,9 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	);
 };
 
-const ParticipantBlock = withApollo(({ children, translate, type, client, data, action, active, participant, ...props }) => {
+const ParticipantBlock = withApollo(({
+ children, translate, type, client, data, action, active, participant, ...props
+}) => {
 	const {
 		edit,
 		setEdit,
@@ -268,7 +272,9 @@ const ParticipantBlock = withApollo(({ children, translate, type, client, data, 
 		setPhone,
 		errors,
 		updateParticipantContactInfo
-	} = useParticipantContactEdit({ participant, client, translate, council: props.council });
+	} = useParticipantContactEdit({
+ participant, client, translate, council: props.council
+});
 
 	const secondary = getSecondary();
 
@@ -281,13 +287,19 @@ const ParticipantBlock = withApollo(({ children, translate, type, client, data, 
 	const text = texts[type];
 
 	return (
-		<Grid style={{ marginBottom: '1em', display: 'flex', alignItems: 'center', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)', border: 'solid 1px #61abb7', borderRadius: '4px', padding: '1em', marginTop: '1em', justifyContent: 'space-between' }}>
+		<Grid style={{
+ marginBottom: '1em', display: 'flex', alignItems: 'center', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)', border: 'solid 1px #61abb7', borderRadius: '4px', padding: '1em', marginTop: '1em', justifyContent: 'space-between'
+}}>
 			<GridItem xs={12} md={4} lg={3}>
 				<div style={{ display: 'flex' }}>
-					<div style={{ color: secondary, position: 'relative', width: '24px', minWidth: '24px' }}>
+					<div style={{
+ color: secondary, position: 'relative', width: '24px', minWidth: '24px'
+}}>
 						<i
 							className={type === PARTICIPANT_STATES.REPRESENTATED ? 'fa fa-user-o' : 'fa fa-user'}
-							style={{ position: 'absolute', left: '0', top: '0', fontSize: '19px' }}
+							style={{
+ position: 'absolute', left: '0', top: '0', fontSize: '19px'
+}}
 						/>
 						<i
 							className={'fa fa-user'}
@@ -436,7 +448,9 @@ const setMainRepresentative = gql`
 }`;
 
 
-const GrantVoteButton = withApollo(({ participant, representative, refetch, translate, client }) => {
+const GrantVoteButton = withApollo(({
+ participant, representative, refetch, translate, client
+}) => {
 	const secondary = getSecondary();
 
 	const appointRepresentative = async () => {

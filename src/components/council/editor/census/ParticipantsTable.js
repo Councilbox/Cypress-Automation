@@ -4,7 +4,9 @@ import { Card } from 'material-ui';
 import { compose, graphql } from 'react-apollo';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import * as CBX from '../../../../utils/CBX';
-import { CloseIcon, EnhancedTable, BasicButton, Checkbox, Grid, GridItem, AlertConfirm } from '../../../../displayComponents';
+import {
+ CloseIcon, EnhancedTable, BasicButton, Checkbox, Grid, GridItem, AlertConfirm
+} from '../../../../displayComponents';
 import { deleteParticipant as deleteParticipantMutation } from '../../../../queries/councilParticipant';
 import { COUNCIL_TYPES, PARTICIPANTS_LIMITS } from '../../../../constants';
 import ChangeCensusMenu from './ChangeCensusMenu';
@@ -13,7 +15,9 @@ import { useOldState, useHoverRow } from '../../../../hooks';
 import { isMobile } from '../../../../utils/screen';
 
 
-const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, participations, council, ...props }) => {
+const ParticipantsTable = ({
+ translate, data, totalVotes, totalSocialCapital, participations, council, ...props
+}) => {
 	const [state, setState] = useOldState({
 		editingParticipant: false,
 		participantToEdit: {},
@@ -267,7 +271,9 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 	);
 };
 
-const HoverableRow = ({ participant, editParticipant, renderDeleteIcon, council, totalVotes, totalSocialCapital, representative, selected, translate, participations, ...props }) => {
+const HoverableRow = ({
+ participant, editParticipant, renderDeleteIcon, council, totalVotes, totalSocialCapital, representative, selected, translate, participations, ...props
+}) => {
 	const [showActions, rowHandlers] = useHoverRow();
 
 	if (isMobile) {

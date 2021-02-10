@@ -42,7 +42,9 @@ const EarlyVotingModal = props => {
     );
 };
 
-const EarlyVotingBody = withApollo(({ council, participant, translate, client }) => {
+const EarlyVotingBody = withApollo(({
+ council, participant, translate, client
+}) => {
     const [data, setData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
 

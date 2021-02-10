@@ -34,7 +34,9 @@ const defaultValues = {
 };
 
 
-const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council, company, companyStatutes, confirmation, showLoadDraft = true, ...props }) => {
+const NewAgendaPointModal = ({
+ translate, votingTypes, agendas, statute, council, company, companyStatutes, confirmation, showLoadDraft = true, ...props
+}) => {
 	const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute, council);
 	const secondary = getSecondary();
 	const [attachments, setAttachments] = React.useState([]);

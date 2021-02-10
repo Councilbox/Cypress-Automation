@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { compose, graphql, withApollo } from 'react-apollo';
-import { Card, Collapse, IconButton, Icon, CardActions, CardContent, CardHeader, withStyles } from 'material-ui';
+import {
+ Card, Collapse, IconButton, Icon, CardActions, CardContent, CardHeader, withStyles
+} from 'material-ui';
 import { TableCell, TableRow } from 'material-ui/Table';
 import {
 	companyDrafts as query,
@@ -103,7 +105,9 @@ export const useTags = translate => {
 	};
 };
 
-const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDraft, classes, ...props }) => {
+const CompanyDraftList = ({
+ translate, company, client, setMostrarMenu, searchDraft, classes, ...props
+}) => {
 	const [data, setData] = React.useState({});
 	const [state, setState] = useOldState({
 		deleteModal: false,
@@ -113,7 +117,9 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 	});
 	const [inputSearch, setInputSearch] = React.useState(false);
 	const [search, setSearch] = React.useState('');
-	const { testTags, vars, setVars, removeTag, addTag, filteredTags, setTagText, tagText } = useTags(translate);
+	const {
+ testTags, vars, setVars, removeTag, addTag, filteredTags, setTagText, tagText
+} = useTags(translate);
 
 	const primary = getPrimary();
 
@@ -221,7 +227,9 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 		getData();
 	}, [company.id]);
 
-	const { companyDrafts, draftTypes, loading, error } = data;
+	const {
+ companyDrafts, draftTypes, loading, error
+} = data;
 
 	if (state.newForm) {
 		setMostrarMenu(false);
@@ -250,7 +258,9 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 	return (
 		<React.Fragment>
 			<div style={{ height: isMobile ? ' calc( 100% - 3.5em )' : ' calc( 100% - 6em )' }}>
-				<div style={{ marginRight: '0.8em', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '0.5em' }}>
+				<div style={{
+ marginRight: '0.8em', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '0.5em'
+}}>
 					<div>
 						<BasicButton
 							text={translate.drafts_new}
@@ -362,7 +372,9 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 								<TextInput
 									className={isMobile && !inputSearch ? 'openInput' : ''}
 									disableUnderline={true}
-									styleInInput={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', padding: isMobile && inputSearch && '4px 5px', paddingLeft: !isMobile && '5px' }}
+									styleInInput={{
+ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', padding: isMobile && inputSearch && '4px 5px', paddingLeft: !isMobile && '5px'
+}}
 									stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: isMobile && inputSearch ? '8px' : '4px' }}
 									adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
 									floatingText={' '}
@@ -465,7 +477,9 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 	);
 };
 
-export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatutes, translate, info, index, stylesBackground, classes, ...props }) => {
+export const DraftRow = ({
+ draft, draftTypes, company, selectable, companyStatutes, translate, info, index, stylesBackground, classes, ...props
+}) => {
 	const [show, handlers] = useHoverRow();
 	const [expanded, setExpanded] = React.useState(false);
 	const [expandedCard, setExpandedCard] = React.useState(false);
@@ -516,7 +530,9 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 			<Grid style={{ height: '100%', width: '100%', overflow: 'hidden' }} >
 				{columns
 					&& <Card
-						style={{ width: '100%', border: 'none', boxShadow: 'none', ...stylesBackground, overflow: 'hidden' }}>
+						style={{
+ width: '100%', border: 'none', boxShadow: 'none', ...stylesBackground, overflow: 'hidden'
+}}>
 						<CardHeader
 							classes={{
 								content: classes.cardTitle,
@@ -538,9 +554,13 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 									/>
 								</IconButton>
 							}
-							style={{ padding: '10px 16px 10px 16px', width: '100%', overflow: 'hidden', display: 'flex', justifyContent: 'space-between', }}
+							style={{
+ padding: '10px 16px 10px 16px', width: '100%', overflow: 'hidden', display: 'flex', justifyContent: 'space-between',
+}}
 							title={
-								<div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px', padding: '0px' }} >
+								<div style={{
+ display: 'flex', justifyContent: 'space-between', fontSize: '14px', padding: '0px'
+}} >
 									{selectable
 										&& <div>
 											<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

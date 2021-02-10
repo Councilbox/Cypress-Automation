@@ -10,7 +10,9 @@ import oval from '../../../assets/img/oval.png';
 import { councilStarted } from '../../../utils/CBX';
 
 
-const OneOnOneItem = ({ translate, council, index, company }) => {
+const OneOnOneItem = ({
+ translate, council, index, company
+}) => {
     const [attachmentsModal, setAttachmentsModal] = React.useState(false);
     const [messageModal, setMessageModal] = React.useState(false);
     const primary = getPrimary();
@@ -65,7 +67,9 @@ const OneOnOneItem = ({ translate, council, index, company }) => {
                                 : <BasicButton
                                         text="Acceder"
                                         onClick={() => bHistory.push(`/company/${company.id}/council/${council.id}/live`)}
-                                        backgroundColor={{ fontSize: '12px', fontStyle: 'Lato', fontWeight: 'bold', color: '#ffffff', backgroundColor: primary, borderRadius: '4px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}
+                                        backgroundColor={{
+ fontSize: '12px', fontStyle: 'Lato', fontWeight: 'bold', color: '#ffffff', backgroundColor: primary, borderRadius: '4px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)'
+}}
                                     />
                                 }
                             </div>
@@ -77,7 +81,9 @@ const OneOnOneItem = ({ translate, council, index, company }) => {
                                             event.stopPropagation();
                                             setAttachmentsModal(true);
                                         }}
-                                        backgroundColor={{ fontSize: '12px', fontStyle: 'Lato', fontWeight: 'bold', color: primary, backgroundColor: '#ffffff', borderRadius: '4px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}
+                                        backgroundColor={{
+ fontSize: '12px', fontStyle: 'Lato', fontWeight: 'bold', color: primary, backgroundColor: '#ffffff', borderRadius: '4px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)'
+}}
                                     />
                                 : 'Sin documentación'
                                 }

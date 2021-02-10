@@ -3,7 +3,9 @@ import { withApollo } from 'react-apollo';
 import { MenuItem, Paper } from 'material-ui';
 import gql from 'graphql-tag';
 import { getSecondary, getPrimary } from '../../../../styles/colors';
-import { FilterButton, SelectInput, Grid, GridItem, CollapsibleSection, LoadingSection } from '../../../../displayComponents';
+import {
+ FilterButton, SelectInput, Grid, GridItem, CollapsibleSection, LoadingSection
+} from '../../../../displayComponents';
 import ParticipantsPage from './sections/ParticipantsPage';
 import { useOldState } from '../../../../hooks';
 import { isMobile } from '../../../../utils/screen';
@@ -17,7 +19,9 @@ const initialState = {
     view: 'STATES' // CONVENE, CREDENTIALS, ATTENDANCE, TYPE
 };
 
-const ParticipantsManager = ({ client, translate, council, stylesDiv, root }) => {
+const ParticipantsManager = ({
+ client, translate, council, stylesDiv, root
+}) => {
     const [state, setState] = React.useState(initialState);
     const [participants, setParticipants] = React.useState(null);
     const [filters, setFilters] = useOldState({

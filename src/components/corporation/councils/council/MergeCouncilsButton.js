@@ -2,7 +2,9 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
 import FontAwesome from 'react-fontawesome';
-import { BasicButton, AlertConfirm, TextInput, Checkbox, LoadingSection } from '../../../../displayComponents';
+import {
+ BasicButton, AlertConfirm, TextInput, Checkbox, LoadingSection
+} from '../../../../displayComponents';
 
 const reducer = (state, action) => {
     const actions = {
@@ -31,7 +33,9 @@ const reducer = (state, action) => {
 };
 
 
-const MergeCouncilsButton = ({ translate, color, council, client }) => {
+const MergeCouncilsButton = ({
+ translate, color, council, client
+}) => {
     const [modal, setModal] = React.useState(false);
     const [from, setFrom] = React.useState(null);
     const [force, setForce] = React.useState(false);

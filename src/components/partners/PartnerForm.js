@@ -3,7 +3,9 @@ import { MenuItem, Paper } from 'material-ui';
 import { graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import RichTextInput from '../../displayComponents/RichTextInput';
-import { SelectInput, TextInput, Grid, GridItem, Radio, DateTimePicker, SectionTitle } from '../../displayComponents';
+import {
+ SelectInput, TextInput, Grid, GridItem, Radio, DateTimePicker, SectionTitle
+} from '../../displayComponents';
 import { getPrimary } from '../../styles/colors';
 
 class PartnerForm extends React.PureComponent {
@@ -19,7 +21,9 @@ class PartnerForm extends React.PureComponent {
     }
 
     render() {
-        const { participant, translate, updateState, errors, checkEmail, representative, updateRepresentative } = this.props;
+        const {
+ participant, translate, updateState, errors, checkEmail, representative, updateRepresentative
+} = this.props;
         const primary = getPrimary();
 
         return (

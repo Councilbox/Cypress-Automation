@@ -1,7 +1,9 @@
 import React from 'react';
 import { TextInput } from '../../../../displayComponents';
 
-const CompanyTagForm = ({ tag, translate, setTag, errors }) => (
+const CompanyTagForm = ({
+ tag, translate, setTag, errors
+}) => (
             <React.Fragment>
                 <TextInput
                     value={tag.key}

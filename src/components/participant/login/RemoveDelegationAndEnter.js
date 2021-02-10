@@ -13,7 +13,9 @@ const setMainRepresentative = gql`
 }`;
 
 
-const RemoveDelegationAndEnter = ({ participant, represented, client, refetch }) => {
+const RemoveDelegationAndEnter = ({
+ participant, represented, client, refetch
+}) => {
     const [loading, setLoading] = React.useState(false);
     const secondary = getSecondary();
 

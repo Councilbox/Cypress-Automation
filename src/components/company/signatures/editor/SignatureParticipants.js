@@ -3,7 +3,9 @@ import { TableRow, TableCell, MenuItem } from 'material-ui';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import { PARTICIPANTS_LIMITS } from '../../../../constants';
-import { EnhancedTable, CloseIcon, BasicButton, ButtonIcon, SelectInput, AlertConfirm } from '../../../../displayComponents';
+import {
+ EnhancedTable, CloseIcon, BasicButton, ButtonIcon, SelectInput, AlertConfirm
+} from '../../../../displayComponents';
 import { getPrimary } from '../../../../styles/colors';
 import NewParticipantModal from './NewParticipantModal';
 import ParticipantEditorModal from './ParticipantEditorModal';
@@ -213,7 +215,9 @@ class SignatureParticipants extends React.Component {
                     title={translate.census}
                 />
                  {this.props.error
-                    && <div style={{ width: '100%', display: 'flex', justifyContent: 'center', color: 'red', fontWeight: '700' }}>{this.props.error}</div>
+                    && <div style={{
+ width: '100%', display: 'flex', justifyContent: 'center', color: 'red', fontWeight: '700'
+}}>{this.props.error}</div>
                 }
             </React.Fragment>
         );

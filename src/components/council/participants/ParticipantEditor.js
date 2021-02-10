@@ -13,6 +13,7 @@ import RepresentativeForm from './RepresentativeForm';
 import ParticipantForm from './ParticipantForm';
 import { checkValidEmail, errorHandler } from '../../../utils';
 import { updateCouncilParticipant } from '../../../queries/councilParticipant';
+import { removeTypenameField } from '../../../utils/CBX';
 
 const newRepresentativeInitialValues = {
 	language: 'es',
@@ -37,19 +38,17 @@ class ParticipantEditor extends Component {
 
 	updateParticipant = async () => {
 		if (!this.checkRequiredFields()) {
-			const { __typename, ...participant } = this.state.data;
 			const { translate } = this.props;
 
 			const variables = {
 				participant: {
-					...participant
+					...removeTypenameField(this.state.data)
 				}
 			};
 
 			if (this.state.addRepresentative) {
 				// eslint-disable-next-line no-shadow
-				const { __typename, ...representative } = this.state.data;
-				variables.representative = representative;
+				variables.representative = removeTypenameField(this.state.data);
 			}
 
 			const response = await this.props.updateParticipant({

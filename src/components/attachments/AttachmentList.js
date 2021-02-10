@@ -6,7 +6,9 @@ import AttachmentItem from './AttachmentItem';
 import { splitExtensionFilename } from '../../utils/CBX';
 
 
-const AttachmentList = ({ translate, attachments, isAgendaAttachment, ...props }) => {
+const AttachmentList = ({
+ translate, attachments, isAgendaAttachment, ...props
+}) => {
 	const [state, setState] = React.useState({
 		showModal: false,
 		data: {

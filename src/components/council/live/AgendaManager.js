@@ -38,7 +38,9 @@ const reducer = (state, action) => {
 };
 
 
-const AgendaManager = ({ translate, council, company, stylesDiv, client, ...props }, ref) => {
+const AgendaManager = ({
+ translate, council, company, stylesDiv, client, ...props
+}, ref) => {
 	const [{ data, loading, selectedPoint }, dispatch] = React.useReducer(reducer, {
 		data: {},
 		loading: true,

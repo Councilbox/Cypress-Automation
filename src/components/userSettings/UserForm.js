@@ -9,7 +9,9 @@ import {
 import { getPrimary } from '../../styles/colors';
 import { isMobile } from '../../utils/screen';
 
-const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate, admin = false }) => (
+const UserForm = ({
+ data, updateState, errors, languages, onKeyUp, translate, admin = false
+}) => (
     <Grid style={{ justifyContent: 'space-between', color: '#61abb7' }}>
         <GridItem xs={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center', }}>
             <div style={{ width: '120px', color: getPrimary(), fontWeight: 'bold' }}>
@@ -95,7 +97,9 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate, ad
             </GridItem>
         }
         <GridItem xs={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center', }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+            <div style={{
+ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%'
+}}>
                 <div style={{ display: 'flex', alignItems: 'center', }}>
                     <div style={{ width: '120px', color: getPrimary(), fontWeight: 'bold' }}>
                         {translate.phone}
@@ -117,7 +121,9 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate, ad
                 </div>
                 {!isMobile
                     && <div style={{ display: 'flex', alignItems: 'center', }}>
-                        <div style={{ width: '90px', color: getPrimary(), fontWeight: 'bold', marginTop: '4px' }}>
+                        <div style={{
+ width: '90px', color: getPrimary(), fontWeight: 'bold', marginTop: '4px'
+}}>
                             {translate.language}
                         </div>
                         <div>
@@ -154,7 +160,9 @@ const UserForm = ({ data, updateState, errors, languages, onKeyUp, translate, ad
         {isMobile
             && <GridItem xs={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center', }}>
                 <div style={{ display: 'flex', alignItems: 'center', }}>
-                    <div style={{ width: '90px', color: getPrimary(), fontWeight: 'bold', marginTop: '4px' }}>
+                    <div style={{
+ width: '90px', color: getPrimary(), fontWeight: 'bold', marginTop: '4px'
+}}>
                         {translate.language}
                     </div>
                     <div>

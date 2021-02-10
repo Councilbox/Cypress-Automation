@@ -37,7 +37,7 @@ const CouncilInfoMenu = ({ translate, council, noSession }) => {
     const diffDuration = moment.duration(duration);
     const dias = diffDuration.days() ? `${diffDuration.days()}d ` : '';
     let finalizado = false;
-    if (diffDuration.hours() < 0 && (diffDuration.minutes() == 0 && diffDuration.seconds() == 0)) {
+    if (diffDuration.hours() < 0 && (+diffDuration.minutes() === 0 && +diffDuration.seconds() === 0)) {
         finalizado = '00:00';
     }
     const date = dias + (finalizado || `${diffDuration.hours() < 10 ? `0${diffDuration.hours()}` : diffDuration.hours()}:${diffDuration.minutes() < 10 ? `0${diffDuration.minutes()}` : diffDuration.minutes()}:${diffDuration.seconds() < 10 ? `0${diffDuration.seconds()}` : diffDuration.seconds()}`);

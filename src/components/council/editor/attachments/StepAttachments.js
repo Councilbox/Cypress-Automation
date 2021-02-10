@@ -263,7 +263,9 @@ const StepAttachments = ({ client, translate, ...props }) => {
 										items={
 											<div style={{ padding: '1em' }}>
 												<label htmlFor="raised-button-file">
-													<div style={{ display: 'flex', color: 'black', padding: '.5em 0em', cursor: 'pointer' }}>
+													<div style={{
+ display: 'flex', color: 'black', padding: '.5em 0em', cursor: 'pointer'
+}}>
 														<div style={{ paddingLeft: '10px' }}>
 															{translate.upload_file}
 														</div>

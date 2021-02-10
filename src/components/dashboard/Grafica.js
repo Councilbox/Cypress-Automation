@@ -4,7 +4,9 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 class Grafica extends React.Component {
 	render() {
-		const { translate, info, totalReuniones, textCentral, stylesGrafica } = this.props;
+		const {
+ translate, info, totalReuniones, textCentral, stylesGrafica
+} = this.props;
 		const mesesArray = translate.datepicker_months.split(',');
 
 		const originalDoughnutDraw = Chart.controllers.doughnut.prototype.draw;
@@ -85,7 +87,9 @@ class Grafica extends React.Component {
 			);
 		}
 			return (
-				<div style={{ display: 'inline-flex', alignItems: 'center', justifontent: 'center', height: '220px' }}>
+				<div style={{
+ display: 'inline-flex', alignItems: 'center', justifontent: 'center', height: '220px'
+}}>
 					<div>Aun no hay reuniones</div>
 				</div>
 			);

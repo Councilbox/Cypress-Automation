@@ -1,10 +1,14 @@
 import React from 'react';
-import { TableRow, TableCell, withStyles, Card, CardContent, Tooltip, MenuItem } from 'material-ui';
+import {
+ TableRow, TableCell, withStyles, Card, CardContent, Tooltip, MenuItem
+} from 'material-ui';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import FontAwesome from 'react-fontawesome';
 import PropTypes from 'prop-types';
-import { VOTE_VALUES, AGENDA_TYPES, PARTICIPANT_STATES, COUNCIL_TYPES } from '../../../../constants';
+import {
+ VOTE_VALUES, AGENDA_TYPES, PARTICIPANT_STATES, COUNCIL_TYPES
+} from '../../../../constants';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import {
 	LoadingSection,
@@ -22,7 +26,9 @@ import {
 import VotingValueIcon from './VotingValueIcon';
 import PresentVoteMenu from './PresentVoteMenu';
 
-import { isPresentVote, agendaVotingsOpened, isCustomPoint, showNumParticipations, getPercentage, getActiveVote, isConfirmationRequest } from '../../../../utils/CBX';
+import {
+ isPresentVote, agendaVotingsOpened, isCustomPoint, showNumParticipations, getPercentage, getActiveVote, isConfirmationRequest
+} from '../../../../utils/CBX';
 import NominalCustomVoting, { DisplayVoting } from './NominalCustomVoting';
 import { isMobile } from '../../../../utils/screen';
 import withSharedProps from '../../../../HOCs/withSharedProps';
@@ -30,7 +36,9 @@ import withSharedProps from '../../../../HOCs/withSharedProps';
 
 const timeout = null;
 
-const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => {
+const VotingsTable = ({
+ data, agenda, translate, state, classes, ...props
+}) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 
@@ -275,7 +283,9 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 			>
 				{(agenda.subjectType !== AGENDA_TYPES.PRIVATE_VOTING && !isCustomPoint(agenda.subjectType))
 					&& <React.Fragment>
-						<div style={{ display: isMobile ? 'block' : 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', padding: '0px', }}>
+						<div style={{
+ display: isMobile ? 'block' : 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', padding: '0px',
+}}>
 							<div >
 								<span>{translate.filter_by}</span>
 							</div>
@@ -524,7 +534,9 @@ const VotingsTable = ({ data, agenda, translate, state, classes, ...props }) => 
 	);
 };
 
-const RemoveRemoteVoteAlert = ({ translate, open, requestClose, vote, ...props }) => {
+const RemoveRemoteVoteAlert = ({
+ translate, open, requestClose, vote, ...props
+}) => {
 	const body = () => (
 			<div>
 				{translate.void_remote_vote_warning}
@@ -564,7 +576,9 @@ const PrivateVotingDisplay = compose(
 	`, {
 			name: 'cancelRemoteVote'
 		})
-)(({ translate, agenda, vote, refetch, togglePresentVote, cancelRemoteVote, council }) => {
+)(({
+ translate, agenda, vote, refetch, togglePresentVote, cancelRemoteVote, council
+}) => {
 	const [loading, setLoading] = React.useState(false);
 	const [modal, setModal] = React.useState(false);
 
@@ -619,7 +633,9 @@ const PrivateVotingDisplay = compose(
 			{agenda.votingState === 4 ?
 				<React.Fragment>
 					{loading ?
-						<div style={{ width: '100%', textAlign: 'left', display: 'flex', justifyContent: 'flex-start' }}>
+						<div style={{
+ width: '100%', textAlign: 'left', display: 'flex', justifyContent: 'flex-start'
+}}>
 							<div>
 								<LoadingSection size={16} />
 							</div>
@@ -645,7 +661,9 @@ const PrivateVotingDisplay = compose(
 				:				council.councilType === 3 ?
 					<React.Fragment>
 						{loading ?
-							<div style={{ width: '100%', textAlign: 'left', display: 'flex', justifyContent: 'flex-start' }}>
+							<div style={{
+ width: '100%', textAlign: 'left', display: 'flex', justifyContent: 'flex-start'
+}}>
 								<div>
 									<LoadingSection size={16} />
 								</div>
@@ -685,7 +703,9 @@ const setAllPresentVotingsMutation = gql`
 
 const SelectAllMenu = graphql(setAllPresentVotingsMutation, {
 	name: 'setAllPresentVotings'
-})(({ agenda, setAllPresentVotings, refetch, translate }) => {
+})(({
+ agenda, setAllPresentVotings, refetch, translate
+}) => {
 	const [loading, setLoading] = React.useState(false);
 
 	const setAllPresents = async vote => {

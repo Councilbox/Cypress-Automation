@@ -1,7 +1,9 @@
 import React from 'react';
 import { MenuItem, Card } from 'material-ui';
 import { CUSTOM_AGENDA_VOTING_TYPES } from '../../../../../constants';
-import { Radio, SectionTitle, TextInput, Grid, GridItem, SelectInput, BasicButton } from '../../../../../displayComponents';
+import {
+ Radio, SectionTitle, TextInput, Grid, GridItem, SelectInput, BasicButton
+} from '../../../../../displayComponents';
 import RichTextInput from '../../../../../displayComponents/RichTextInput';
 import { getPrimary, getSecondary } from '../../../../../styles/colors';
 

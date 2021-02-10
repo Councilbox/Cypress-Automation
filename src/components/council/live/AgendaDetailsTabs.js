@@ -20,7 +20,9 @@ const styles = () => ({
     }
 });
 
-const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...props }) => {
+const AgendaDetailsTabs = ({
+ agenda, translate, council, refetch, classes, ...props
+}) => {
     const [selected, setSelected] = React.useState(0);
 
     const showEarlyVotings = !council.statute.canEarlyVote === 1 && (!CBX.councilStarted(council) || !CBX.showAgendaVotingsTable(agenda));

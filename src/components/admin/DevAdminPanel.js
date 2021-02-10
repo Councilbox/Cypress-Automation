@@ -3,7 +3,9 @@ import React from 'react';
 import { graphql, compose, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Switch, FormControlLabel, MenuItem } from 'material-ui';
-import { Grid, GridItem, LoadingSection, BasicButton, TextInput, SelectInput, FileUploadButton } from '../../displayComponents';
+import {
+ Grid, GridItem, LoadingSection, BasicButton, TextInput, SelectInput, FileUploadButton
+} from '../../displayComponents';
 import ToggleRecordings from './featureControl/ToggleRecordings';
 import ToggleVideo from './featureControl/ToggleVideo';
 import LogoutUser from './featureControl/LogoutUser';
@@ -118,7 +120,9 @@ const uploadDomainImage = gql`
     }
 `;
 
-const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
+const Exceptions = withApollo(({
+ exceptions, features, refetch, client
+}) => {
     const [data, setData] = React.useState({
         companyId: '',
         featureName: features[0].name,

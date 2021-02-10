@@ -35,7 +35,9 @@ const appConfig = gql`
 
 export { ConfigContext };
 
-const AppControl = ({ companies, user = {}, children, client }) => {
+const AppControl = ({
+ companies, user = {}, children, client
+}) => {
     const [config, setConfig] = React.useState({});
     const [loading, setLoading] = React.useState(true);
 

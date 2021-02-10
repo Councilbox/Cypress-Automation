@@ -5,7 +5,9 @@ import gql from 'graphql-tag';
 import SendActModal from './SendActModal';
 import ParticipantsWithActTable from './ParticipantsWithActTable';
 import { getPrimary } from '../../../../styles/colors';
-import { BasicButton, DropDownMenu, AlertConfirm, SuccessMessage } from '../../../../displayComponents';
+import {
+ BasicButton, DropDownMenu, AlertConfirm, SuccessMessage
+} from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
 
 class SendActPage extends React.Component {
@@ -83,7 +85,9 @@ class SendActPage extends React.Component {
         const { translate, council } = this.props;
 
         return (
-            <div style={{ width: '100%', padding: '1.2em', display: 'flex', justifyContent: 'center', flexDirection: 'column' }}>
+            <div style={{
+ width: '100%', padding: '1.2em', display: 'flex', justifyContent: 'center', flexDirection: 'column'
+}}>
                 <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                     <Typography style={{ marginRight: '0.6em' }}>
                         {council.sendActDate ?

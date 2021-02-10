@@ -1,5 +1,7 @@
 import gql from 'graphql-tag';
-import { TableBody, TableHead, TableRow, TableCell, Table } from 'material-ui';
+import {
+ TableBody, TableHead, TableRow, TableCell, Table
+} from 'material-ui';
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import { AlertConfirm, Grid, PaginationFooter } from '../../displayComponents';
@@ -7,7 +9,9 @@ import { moment } from '../../containers/App';
 import KPISends from './KPISends';
 
 
-const CouncilsByRange = ({ client, dateStart, dateEnd, translate }) => {
+const CouncilsByRange = ({
+ client, dateStart, dateEnd, translate
+}) => {
     const [data, setData] = React.useState(null);
     const [page, setPage] = React.useState(1);
     const [sendsModal, setSendsModal] = React.useState(null);

@@ -15,7 +15,9 @@ import { PARTICIPANT_STATES } from '../../../../../constants';
 import { useOldState } from '../../../../../hooks';
 import { isMobile } from '../../../../../utils/screen';
 
-const SignatureModal = ({ data, translate, council, participant, ...props }) => {
+const SignatureModal = ({
+ data, translate, council, participant, ...props
+}) => {
 	const [state, setState] = useOldState({
 		success: '',
 		errors: {},

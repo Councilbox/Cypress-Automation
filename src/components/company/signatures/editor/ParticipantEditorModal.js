@@ -5,6 +5,7 @@ import { AlertConfirm } from '../../../../displayComponents';
 import SignatureParticipantForm from './SignatureParticipantForm';
 import { languages } from '../../../../queries/masters';
 import { checkValidEmail } from '../../../../utils/validation';
+import { removeTypenameField } from '../../../../utils/CBX';
 
 const checkSignatureEmail = gql`
     query CheckSignatureParticipantEmail($email: String!, $signatureId: Int!){
@@ -39,7 +40,7 @@ class ParticipantEditorModal extends React.Component {
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (!nextProps.data.loading && nextProps.data.signatureParticipant) {
-            const { __typename, ...participant } = nextProps.data.signatureParticipant;
+            const participant = removeTypenameField(nextProps.data.signatureParticipant);
             if (participant.id !== prevState.data.id) {
                 return {
                     data: participant

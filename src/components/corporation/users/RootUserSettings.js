@@ -47,7 +47,9 @@ class RootUserSettings extends React.Component {
         return (
             <div style={{ height: 'calc(100% - 3em)' }}>
                 {this.state.locked ?
-                    <div style={{ width: '100%', height: '100%', padding: '1em', display: 'flex', justifyContent: 'center' }}>
+                    <div style={{
+ width: '100%', height: '100%', padding: '1em', display: 'flex', justifyContent: 'center'
+}}>
                         <Card style={{ width: '100%', padding: '1em' }}>
                             <TextInput
                                 floatingText="Settings password"

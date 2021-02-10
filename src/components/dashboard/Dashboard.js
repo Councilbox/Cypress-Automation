@@ -85,7 +85,9 @@ const Dashboard = ({ translate, company, user }) => {
 								}}
 							>
 							</div>
-							<div style={{ display: 'flex', flexDirection: 'column', fontWeight: '700', alignItems: 'center' }}>
+							<div style={{
+ display: 'flex', flexDirection: 'column', fontWeight: '700', alignItems: 'center'
+}}>
 								<div>
 									{company.logo
 										&& <img src={company.logo} alt="company-logo" style={{ height: '4.5em', width: 'auto' }} />

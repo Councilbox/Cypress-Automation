@@ -7,7 +7,9 @@ import Dialog, {
 import BasicButton from './BasicButton';
 import { getPrimary } from '../styles/colors';
 
-const ErrorAlert = ({ title, buttonAccept, open, requestClose, bodyText }) => {
+const ErrorAlert = ({
+ title, buttonAccept, open, requestClose, bodyText
+}) => {
 	const primary = getPrimary();
 
 	const buttons = (

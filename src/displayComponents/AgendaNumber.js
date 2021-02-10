@@ -9,7 +9,7 @@ export const getSubjectAbrv = text => {
 	let start = '';
 	let index = 0;
 
-	if (typeof text == 'object') {
+	if (typeof text === 'object') {
 		return text;
 	}
 

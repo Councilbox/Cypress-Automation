@@ -4,7 +4,9 @@ import { Checkbox } from '.';
 import { delegatedVotesLimitReached } from '../utils/CBX';
 import withTranslations from '../HOCs/withTranslations';
 
-const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, selected, onChange, stylesPaper, translate, clases }) => {
+const ParticipantRow = ({
+ participant, onClick, checkBox, toDelegate, council, selected, onChange, stylesPaper, translate, clases
+}) => {
 	let limitReached = null;
 	if (toDelegate) {
 		limitReached = delegatedVotesLimitReached(council.statute, participant.delegatedVotes.filter(p => p.type !== 3).length);

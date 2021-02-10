@@ -42,7 +42,9 @@ class ParticipantSelectActions extends React.Component {
 	};
 
 	render() {
-		const { translate, participant, council, onlyButtonDelegateVote } = this.props;
+		const {
+ translate, participant, council, onlyButtonDelegateVote
+} = this.props;
 		const { loading } = this.state;
 		if (onlyButtonDelegateVote) {
 			return (
@@ -62,7 +64,9 @@ class ParticipantSelectActions extends React.Component {
 							<div
 								style={{ display: 'flex', alignItems: 'center' }}
 							>
-								<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+								<div style={{
+ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
+}}>
 									<span style={{ fontSize: '0.9em' }}>{translate.add_delegated}</span>
 								</div>
 							</div>
@@ -115,7 +119,9 @@ class ParticipantSelectActions extends React.Component {
 											styles={{ padding: '0em' }}
 										/>
 									</div>
-									<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+									<div style={{
+ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
+}}>
 										<span style={{ fontSize: '0.9em' }}>{participant.representative ? translate.change_representative : translate.add_representative}</span>
 									</div>
 								</div>
@@ -136,7 +142,9 @@ class ParticipantSelectActions extends React.Component {
 							<div
 								style={{ display: 'flex', alignItems: 'center' }}
 							>
-								<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+								<div style={{
+ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
+}}>
 									<span style={{ fontSize: '0.9em' }}>{translate.to_delegate_vote}</span>
 								</div>
 							</div>
@@ -157,7 +165,9 @@ class ParticipantSelectActions extends React.Component {
 							<div
 								style={{ display: 'flex', alignItems: 'center' }}
 							>
-								<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+								<div style={{
+ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
+}}>
 									<span style={{ fontSize: '0.9em' }}>{translate.add_delegated}</span>
 								</div>
 							</div>
@@ -210,7 +220,9 @@ class ParticipantSelectActions extends React.Component {
 
 
 // active poner background
-const ButtonActions = ({ children, loading, onClick, active }) => (
+const ButtonActions = ({
+ children, loading, onClick, active
+}) => (
 	<div
 		style={{
 			display: 'flex',

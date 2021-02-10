@@ -33,7 +33,9 @@ import { moment } from '../../../containers/App';
 import { TAG_TYPES } from '../../company/drafts/draftTags/utils';
 
 
-const StepNotice = ({ data, translate, company, ...props }) => {
+const StepNotice = ({
+ data, translate, company, ...props
+}) => {
 	const [council, setCouncil] = React.useState({});
 	const [placeModal, setPlaceModal] = React.useState(false);
 	const [statuteModal, setStatuteModal] = React.useState(false);

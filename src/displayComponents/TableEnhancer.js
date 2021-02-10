@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { MenuItem } from 'material-ui';
-import { Grid, GridItem, SelectInput, TextInput } from './index';
+import {
+ Grid, GridItem, SelectInput, TextInput
+} from './index';
 
 class TableEnhancer extends Component {
 	updateFilterText = async value => {
@@ -111,7 +113,9 @@ class TableEnhancer extends Component {
 			length,
 			loading
 		} = this.props;
-		const { filterText, filterField, limit, page } = this.state;
+		const {
+ filterText, filterField, limit, page
+} = this.state;
 
 		return (
 			<React.Fragment>

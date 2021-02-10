@@ -11,7 +11,9 @@ const selectedStyle = {
 };
 
 
-const TypesHeader = ({ translate, setSelected, participantTypeRecount, selected }) => (
+const TypesHeader = ({
+ translate, setSelected, participantTypeRecount, selected
+}) => (
 		<React.Fragment>
 				<Grid
 					spacing={0}

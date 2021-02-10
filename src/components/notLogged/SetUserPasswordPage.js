@@ -6,7 +6,9 @@ import gql from 'graphql-tag';
 import { bHistory } from '../../containers/App';
 import withTranslations from '../../HOCs/withTranslations';
 import { getPrimary } from '../../styles/colors';
-import { LoadingSection, BasicButton, TextInput, NotLoggedLayout } from '../../displayComponents';
+import {
+ LoadingSection, BasicButton, TextInput, NotLoggedLayout
+} from '../../displayComponents';
 import { useSubdomain } from '../../utils/subdomain';
 
 const SetUserPasswordPage = ({ translate, match, ...props }) => {

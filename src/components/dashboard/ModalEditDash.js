@@ -1,11 +1,15 @@
 import React from 'react';
 import { getSecondary } from '../../styles/colors';
-import { BasicButton, AlertConfirm, GridItem, Grid } from '../../displayComponents';
+import {
+ BasicButton, AlertConfirm, GridItem, Grid
+} from '../../displayComponents';
 
 
 class ModalEditDash extends React.Component {
 	render() {
-		const { itemStorage, requestClose, open, title, items } = this.props;
+		const {
+ itemStorage, requestClose, open, title, items
+} = this.props;
 		const secondary = getSecondary();
 
 		return (

@@ -1,7 +1,9 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { Card, CardHeader, Avatar, CardActions } from 'material-ui';
+import {
+ Card, CardHeader, Avatar, CardActions
+} from 'material-ui';
 import { LoadingSection } from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
 import { getTranslateFieldFromType, ExplorerLink, ValidatorLink } from '../../../notLogged/validator/ValidatorPage';
@@ -20,7 +22,9 @@ const EvidencesPage = ({ data, translate }) => {
                 const parsedContent = JSON.parse(evidence.content);
                 const primerasLetras = `${translate[getTranslateFieldFromType(evidence.type)] || getTranslateFieldFromType(evidence.type)}`.split(' ').map(palabra => palabra.toUpperCase().substr(0, 1));
                 return (
-                    <Card key={`${evidence.id}`} style={{ padding: '0.6em', userSelect: 'text', width: isMobile ? '90%' : '65%', margin: '0 auto', marginBottom: '1.5em', marginTop: index === 0 ? '1.6em' : '0' }}>
+                    <Card key={`${evidence.id}`} style={{
+ padding: '0.6em', userSelect: 'text', width: isMobile ? '90%' : '65%', margin: '0 auto', marginBottom: '1.5em', marginTop: index === 0 ? '1.6em' : '0'
+}}>
                         <CardHeader
                             avatar={
                                 <div style={{ position: 'relative' }}>
@@ -28,7 +32,9 @@ const EvidencesPage = ({ data, translate }) => {
                                         {primerasLetras}
                                     </Avatar>
                                     <ToolTip text={evidence.cbxEvidence ? 'Contenido registrado en blockchain' : 'Contenido pendiente de registro en blockchain'}>
-                                        <i className="material-icons" style={{ position: 'absolute', top: '60%', left: '60%', fontSize: '20px', color: evidence.cbxEvidence ? 'green' : 'red' }}>
+                                        <i className="material-icons" style={{
+ position: 'absolute', top: '60%', left: '60%', fontSize: '20px', color: evidence.cbxEvidence ? 'green' : 'red'
+}}>
                                             {evidence.cbxEvidence ?
                                                 'verified_user'
                                                 : 'query_builder'

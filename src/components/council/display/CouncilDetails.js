@@ -2,7 +2,9 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Paper } from 'material-ui';
-import { LoadingSection, Grid, GridItem, CollapsibleSection, AgendaNumber, TabsScreen } from '../../../displayComponents';
+import {
+ LoadingSection, Grid, GridItem, CollapsibleSection, AgendaNumber, TabsScreen
+} from '../../../displayComponents';
 import { moment } from '../../../containers/App';
 import { OptionsDisplay, OptionsDisplayIconIzq } from './OptionsDisplay';
 import { StatuteDisplay, StatuteDisplayIconsIzq } from './StatuteDisplay';
@@ -77,7 +79,9 @@ class CouncilDetails extends React.Component {
                 Censo seleccionado: {this.getCensusName()}
                 {!inIndex ? (
                     <div>
-                        <div style={{ padding: '1em', paddingTop: '0', border: '1px solid gainsboro', marginTop: '1em' }}>
+                        <div style={{
+ padding: '1em', paddingTop: '0', border: '1px solid gainsboro', marginTop: '1em'
+}}>
                             <CollapsibleSection
                                 trigger={() => <div
                                         style={{
@@ -117,7 +121,9 @@ class CouncilDetails extends React.Component {
                                     ))}
                             />
                         </div>
-                        <div style={{ padding: '1em', paddingTop: '0', border: '1px solid gainsboro', marginTop: '1em' }}>
+                        <div style={{
+ padding: '1em', paddingTop: '0', border: '1px solid gainsboro', marginTop: '1em'
+}}>
                             <CollapsibleSection
                                 trigger={() => <div
                                         style={{
@@ -140,7 +146,9 @@ class CouncilDetails extends React.Component {
                                 )}
                             />
                         </div>
-                        <div style={{ padding: '1em', paddingTop: '0', border: '1px solid gainsboro', marginTop: '1em' }}>
+                        <div style={{
+ padding: '1em', paddingTop: '0', border: '1px solid gainsboro', marginTop: '1em'
+}}>
                             <CollapsibleSection
                                 trigger={() => <div
                                         style={{
@@ -180,7 +188,9 @@ class CouncilDetails extends React.Component {
                                         text: translate.agenda,
                                         component: () => (
                                                 <div style={{ marginTop: '0.8em' }}>
-                                                    <div style={{ display: 'flex', marginLeft: '58px', justifyContent: 'space-between', fontWeight: ' 700', marginBottom: '10px' }}>
+                                                    <div style={{
+ display: 'flex', marginLeft: '58px', justifyContent: 'space-between', fontWeight: ' 700', marginBottom: '10px'
+}}>
                                                         <div>{translate.certificate_title}</div>
                                                         <div style={{ marginRight: '57px' }}>{translate.type}</div>
                                                     </div>
@@ -206,13 +216,19 @@ class CouncilDetails extends React.Component {
                                                                     voting={agenda.votingState === 1 && agenda.subjectType !== 0}
                                                                     translate={translate}
                                                                     secondaryColor={getSecondary()}
-                                                                    moreStyles={{ minWidth: '44px', minHeight: '44px', width: '50px', height: '44px', maxWidth: '53px', maxHeight: '44px', borderRadius: '2em' }}
+                                                                    moreStyles={{
+ minWidth: '44px', minHeight: '44px', width: '50px', height: '44px', maxWidth: '53px', maxHeight: '44px', borderRadius: '2em'
+}}
                                                                     onlyShowCalendar={true}
 
                                                                 />
-                                                                <div style={{ marginLeft: '15px', display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                                                                <div style={{
+ marginLeft: '15px', display: 'flex', justifyContent: 'space-between', width: '100%'
+}}>
                                                                     <div>
-                                                                        <div style={{ whiteSpace: 'nowrap', maxWidth: '215px', maxHeight: '45px', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                                                        <div style={{
+ whiteSpace: 'nowrap', maxWidth: '215px', maxHeight: '45px', overflow: 'hidden', textOverflow: 'ellipsis'
+}}>
                                                                             {agenda.agendaSubject}
                                                                         </div>
                                                                         {/* <div>

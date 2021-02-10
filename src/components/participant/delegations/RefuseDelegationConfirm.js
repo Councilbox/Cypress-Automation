@@ -4,7 +4,9 @@ import gql from 'graphql-tag';
 import { AlertConfirm } from '../../../displayComponents';
 
 
-const RefuseDelegationConfirm = withApollo(({ delegation, client, translate, refetch, requestClose }) => {
+const RefuseDelegationConfirm = withApollo(({
+ delegation, client, translate, refetch, requestClose
+}) => {
     const [loading, setLoading] = React.useState(false);
 
     const refuseDelegation = async () => {

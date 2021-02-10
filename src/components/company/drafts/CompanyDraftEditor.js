@@ -14,7 +14,7 @@ import {
 	getCompanyDraftData,
 	updateCompanyDraft as updateCompanyDraftMutation
 } from '../../../queries/companyDrafts';
-import { checkRequiredFields } from '../../../utils/CBX';
+import { checkRequiredFields, removeTypenameField } from '../../../utils/CBX';
 import { getPrimary } from '../../../styles/colors';
 import { sendGAevent } from '../../../utils/analytics';
 import withSharedProps from '../../../HOCs/withSharedProps';
@@ -100,7 +100,7 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 
 			if (!hasError) {
 				setLoading(true);
-				const { __typename, ...cleanData } = data;
+				const cleanData = removeTypenameField(data);
 				const response = await props.updateCompanyDraft({
 					variables: {
 						draft: {
@@ -140,7 +140,9 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 		<CardPageLayout title={translate.edit_draft} disableScroll={true}>
 			{!fetching && (
 				<div style={{ height: 'calc( 100% - 5em )' }}>
-					<div style={{ marginTop: '1.8em', height: '100%', overflow: 'hidden', padding: '0px 25px' }}>
+					<div style={{
+ marginTop: '1.8em', height: '100%', overflow: 'hidden', padding: '0px 25px'
+}}>
 						<CompanyDraftForm
 							translate={translate}
 							errors={errors}

@@ -1,5 +1,7 @@
 import React from 'react';
-import { Typography, TableRow, TableHead, Table, TableBody, TableCell, Divider } from 'material-ui';
+import {
+ Typography, TableRow, TableHead, Table, TableBody, TableCell, Divider
+} from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 import { isChrome } from 'react-device-detect';
 import { withApollo } from 'react-apollo';
@@ -101,7 +103,9 @@ class RichTextInput extends React.Component {
 
 
 	render() {
-		const { tags, loadDraft, errorText, required, borderless, translate, styles, stylesQuill, placeholder } = this.props;
+		const {
+ tags, loadDraft, errorText, required, borderless, translate, styles, stylesQuill, placeholder
+} = this.props;
 		const modules = {
 			toolbar: {
 				container: [
@@ -225,7 +229,9 @@ class RichTextInput extends React.Component {
 }
 
 
-const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, translate, tags, paste, client, setData }) => {
+const SmartTags = withApollo(withSharedProps()(({
+ open, requestClose, company, translate, tags, paste, client, setData
+}) => {
 	const primary = getPrimary();
 	const [companyTags, setCompanyTags] = React.useState(null);
 	const [ocultar, setOcultar] = React.useState(false);
@@ -351,8 +357,12 @@ const SmartTags = withApollo(withSharedProps()(({ open, requestClose, company, t
 							margin: '1em'
 						}}
 					>
-						<div style={{ fontSize: '14px', display: 'flex', alignItems: 'center', color: '#969696', minWidth: '700px', marginBottom: '0.5em' }} >
-							<i className="material-icons" style={{ color: primary, fontSize: '14px', cursor: 'pointer', paddingRight: '0.3em' }} onClick={() => setOcultar(!ocultar)}>
+						<div style={{
+ fontSize: '14px', display: 'flex', alignItems: 'center', color: '#969696', minWidth: '700px', marginBottom: '0.5em'
+}} >
+							<i className="material-icons" style={{
+ color: primary, fontSize: '14px', cursor: 'pointer', paddingRight: '0.3em'
+}} onClick={() => setOcultar(!ocultar)}>
 								help
 							</i>
 							{!ocultar

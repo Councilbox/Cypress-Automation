@@ -26,11 +26,13 @@ import { setUnsavedChanges } from '../../../actions/mainActions';
 import StatuteEditor from './StatuteEditor';
 import StatuteNameEditor from './StatuteNameEditor';
 import { getPrimary, getSecondary } from '../../../styles/colors';
-import { checkForUnclosedBraces } from '../../../utils/CBX';
+import { checkForUnclosedBraces, removeTypenameField } from '../../../utils/CBX';
 import { isMobile } from '../../../utils/screen';
 
 
-const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props }) => {
+const StatutesPage = ({
+ data, translate, client, hideCardPageLayout, ...props
+}) => {
 	const [state, setState] = React.useState({
 		selectedStatute: 0,
 		newStatute: false,
@@ -203,8 +205,7 @@ const StatutesPage = ({ data, translate, client, hideCardPageLayout, ...props })
 				...state,
 				loading: true
 			});
-			const { __typename, ...statute } = state.statute;
-
+			const statute = removeTypenameField(state.statute);
 			const response = await props.updateStatute({
 				variables: {
 					statute

@@ -31,7 +31,9 @@ const buttonStyle = primary => ({
 });
 
 
-const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
+const StartCouncilButton = ({
+ council, translate, data, client, ...props
+}) => {
 	const [loadingSteps, setLoadingSteps] = React.useState({
 		steps: [],
 		status: 'idle'

@@ -12,7 +12,9 @@ import { ConfigContext } from '../../../containers/AppControl';
 import { AECOC_ID } from './Assistance';
 
 
-const AttendanceOptions = ({ translate, state, setState, council, participant, showDelegationModal, refetch }) => {
+const AttendanceOptions = ({
+ translate, state, setState, council, participant, showDelegationModal, refetch
+}) => {
     const primary = getPrimary();
     const config = React.useContext(ConfigContext);
 
@@ -39,7 +41,9 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
         return (
             <>
                 <div style={{ width: '100%', marginBottom: '1em' }}>
-                    <div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
+                    <div style={{
+ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em',
+}}>
                         {translate.wizard_options}
                     </div>
                 </div>
@@ -96,7 +100,9 @@ const AttendanceOptions = ({ translate, state, setState, council, participant, s
     return (
         <>
             <div style={{ width: '100%', marginBottom: '1em' }}>
-                <div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
+                <div style={{
+ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em',
+}}>
                     {AECOC_ID ?
                         translate.vote_delegation
                     : translate.indicate_status

@@ -1,7 +1,9 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import FloatGroup from 'react-float-button';
-import { LoadingMainApp, FabButton, Icon, BasicButton } from '../../../../displayComponents';
+import {
+ LoadingMainApp, FabButton, Icon, BasicButton
+} from '../../../../displayComponents';
 import { showVideo } from '../../../../utils/CBX';
 import { councilLiveQuery } from '../../../../queries';
 import ParticipantsManager from '../participants/ParticipantsManager';
@@ -11,7 +13,9 @@ import CommentWall from '../CommentWall';
 import LiveParticipantsDrawer from './LiveParticipantsDrawer';
 import { getSecondary } from '../../../../styles/colors';
 
-const CouncilLiveMobilePage = ({ client, companies, data, translate }) => {
+const CouncilLiveMobilePage = ({
+ client, companies, data, translate
+}) => {
     const [state, setState] = React.useState({
         participants: true,
         wall: false,
@@ -102,7 +106,9 @@ const CouncilLiveMobilePage = ({ client, companies, data, translate }) => {
                     zIndex: 2
                 }}
             >
-                <FloatGroup delay={0.02} style={{ display: 'flex', justifyContent: 'flex-end', width: state.open ? '13em' : '', marginBottom: '0.4em' }}>
+                <FloatGroup delay={0.02} style={{
+ display: 'flex', justifyContent: 'flex-end', width: state.open ? '13em' : '', marginBottom: '0.4em'
+}}>
                     <FabButton
                         icon={
                             <Icon className="material-icons">

@@ -2,7 +2,9 @@ import React from 'react';
 import { Card } from 'material-ui';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { AlertConfirm, Grid, GridItem, ReactSignature, BasicButton, Scrollbar } from '../../../displayComponents';
+import {
+ AlertConfirm, Grid, GridItem, ReactSignature, BasicButton, Scrollbar
+} from '../../../displayComponents';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import withWindowSize from '../../../HOCs/withWindowSize';
 import { moment } from '../../../containers/App';
@@ -60,7 +62,9 @@ const getVoteLetterTranslation = ({ language, withVoteSense }) => {
 };
 
 
-const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, participant, requestClose, action, ...props }) => {
+const VoteLetter = ({
+ open, council, client, innerWidth, delegation, translate, participant, requestClose, action, ...props
+}) => {
     const initialStep = council.statute.canEarlyVote ? 1 : 2;
     const [step, setStep] = React.useState(initialStep);
     const signature = React.useRef();
@@ -121,7 +125,9 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
                             council={council}
                             translate={translate}
                         />
-                        <div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', marginTop: '1em' }}>
+                        <div style={{
+ width: '100%', display: 'flex', justifyContent: 'flex-end', marginTop: '1em'
+}}>
                             <div>
                                 <BasicButton
                                     text={translate.next}
@@ -160,7 +166,9 @@ const VoteLetter = ({ open, council, client, innerWidth, delegation, translate, 
 };
 
 
-const SignatureStep = ({ signature, loading, participant, votes, council, innerWidth, translate, sendVote, client, delegation }) => {
+const SignatureStep = ({
+ signature, loading, participant, votes, council, innerWidth, translate, sendVote, client, delegation
+}) => {
     const [existingProxy, setExistingProxy] = React.useState(false);
     const signatureContainer = React.useRef();
     const signaturePreview = React.useRef();
@@ -338,7 +346,11 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
                         : docBody
                         }
                         {council.statute.voteLetterWithSenseSecondary ?
-                            <div dangerouslySetInnerHTML={{ __html: replaceDocsTags(council.statute.voteLetterWithSenseSecondary, { council, participant, votes, language: 'en' }) }} style={{ width: '48%' }}></div>
+                            <div dangerouslySetInnerHTML={{
+ __html: replaceDocsTags(council.statute.voteLetterWithSenseSecondary, {
+ council, participant, votes, language: 'en'
+})
+}} style={{ width: '48%' }}></div>
                         : docBody
                         }
                     </div>
@@ -354,7 +366,9 @@ const SignatureStep = ({ signature, loading, participant, votes, council, innerW
 
 
         return (
-            <Card style={{ padding: '0.6em', paddingBottom: '1em', width: '96%', marginLeft: '2%' }}>
+            <Card style={{
+ padding: '0.6em', paddingBottom: '1em', width: '96%', marginLeft: '2%'
+}}>
                 <div>{council.company.businessName}</div>
                 <div>{council.street}</div>
                 <div>{council.countryState} {council.countryState}</div>

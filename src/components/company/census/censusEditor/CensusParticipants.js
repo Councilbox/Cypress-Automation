@@ -3,7 +3,9 @@ import { TableCell, TableRow, Card } from 'material-ui';
 import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
-import { CloseIcon, EnhancedTable, Grid, GridItem, BasicButton, Checkbox, AlertConfirm } from '../../../../displayComponents';
+import {
+ CloseIcon, EnhancedTable, Grid, GridItem, BasicButton, Checkbox, AlertConfirm
+} from '../../../../displayComponents';
 import * as CBX from '../../../../utils/CBX';
 import { censusParticipants as censusParticipantsQuery } from '../../../../queries/census';
 import AddCensusParticipantButton from './modals/AddCensusParticipantButton';
@@ -295,7 +297,9 @@ class HoverableRow extends React.PureComponent {
 
 
 	render() {
-		const { participant, _renderDeleteIcon, representative, selected, translate } = this.props;
+		const {
+ participant, _renderDeleteIcon, representative, selected, translate
+} = this.props;
 
 		if (isMobile) {
             return (

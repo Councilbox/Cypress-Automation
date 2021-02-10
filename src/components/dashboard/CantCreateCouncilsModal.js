@@ -11,7 +11,9 @@ const CantCreateCouncilsModal = props => (
             buttonCancel={props.translate.close}
             requestClose={props.requestClose}
             bodyText={
-                <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center' }}>
+                <div style={{
+ display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'
+}}>
                     <div style={{ marginBottom: '0.8em' }}>
                         {props.translate.action_need_premium}
                     </div>

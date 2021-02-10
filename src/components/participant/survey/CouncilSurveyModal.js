@@ -11,7 +11,9 @@ import { useStatus, STATUS } from '../../../hooks';
 
 let timeout;
 
-const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, participant }) => {
+const CouncilSurveyModal = ({
+ open, requestClose, autoOpen, translate, client, participant
+}) => {
     const [state, setState] = React.useState({
         creationDate: null,
         id: null,
@@ -143,7 +145,9 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
 
     return (
         <AlertConfirm
-            bodyStyle={{ minWidth: '60vw', overflow: 'hidden', minHeight: '70vh', maxHeight: '95vh', height: '50px', padding: '1.5em' }}
+            bodyStyle={{
+ minWidth: '60vw', overflow: 'hidden', minHeight: '70vh', maxHeight: '95vh', height: '50px', padding: '1.5em'
+}}
             bodyText={
                 <Scrollbar style={{ marginTop: '1rem' }}>
                     <div style={{ padding: '1em' }}>
@@ -153,9 +157,13 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
                             marginBottom: '1em',
                             background: 'linear-gradient(to top,#b6d1dc -30%, #7976b0 120%)'
                         }}>
-                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0 1em' }}>
+                            <div style={{
+ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0 1em'
+}}>
                                 <div>
-                                    <div style={{ fontWeight: '800', color: 'white', fontSize: '.9rem', padding: '1rem' }} >
+                                    <div style={{
+ fontWeight: '800', color: 'white', fontSize: '.9rem', padding: '1rem'
+}} >
                                         <p style={{ margin: '0' }}>
                                             {translate.rate_app.replace(/{{appName}}/, subdomain.name || 'Councilbox')}
                                         </p>
@@ -163,7 +171,9 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
                                 </div>
                             </div>
                         </div>
-                        <div style={{ border: 'none', borderRadius: '1px', textAlign: 'left', color: 'black', fontSize: '14px' }}>
+                        <div style={{
+ border: 'none', borderRadius: '1px', textAlign: 'left', color: 'black', fontSize: '14px'
+}}>
                             <div>
                                 {/* <Scrollbar> */}
                                 <div>
@@ -280,7 +290,9 @@ const CouncilSurveyModal = ({ open, requestClose, autoOpen, translate, client, p
                             }
 
                             <div>
-                                <div style={{ marginTop: '1.5em', display: 'flex', flexDirection: 'row', padding: '1rem' }}>
+                                <div style={{
+ marginTop: '1.5em', display: 'flex', flexDirection: 'row', padding: '1rem'
+}}>
                                     {!disabled
                                         && <BasicButton
                                             onClick={sendSurvey}

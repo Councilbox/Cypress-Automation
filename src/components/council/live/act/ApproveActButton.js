@@ -4,7 +4,9 @@ import { BasicButton, Icon } from '../../../../displayComponents';
 import { getPrimary } from '../../../../styles/colors';
 import { approveAct } from '../../../../queries';
 
-const ApproveActButton = ({ translate, council, client, refetch }) => {
+const ApproveActButton = ({
+ translate, council, client, refetch
+}) => {
     const primary = getPrimary();
 
     const finishAct = async () => {

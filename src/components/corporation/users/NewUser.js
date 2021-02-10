@@ -1,7 +1,9 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
-import { CardPageLayout, ButtonIcon, BasicButton, LoadingSection } from '../../../displayComponents';
+import {
+ CardPageLayout, ButtonIcon, BasicButton, LoadingSection
+} from '../../../displayComponents';
 import { languages } from '../../../queries/masters';
 import UserForm from '../../userSettings/UserForm';
 import { getPrimary } from '../../../styles/colors';
@@ -12,7 +14,9 @@ import { useOldState } from '../../../hooks';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { isMobile } from '../../../utils/screen';
 
-const NewUser = ({ fixedCompany, translate, company, ...props }) => {
+const NewUser = ({
+ fixedCompany, translate, company, ...props
+}) => {
     const [state, setState] = useOldState({
         data: {
             email: '',
@@ -127,7 +131,9 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
                     />
                 }
             </div>
-            <div style={{ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginTop: '2em' }}>
+            <div style={{
+ width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginTop: '2em'
+}}>
                 {!success ?
                     <React.Fragment>
                         <BasicButton

@@ -106,7 +106,9 @@ const councilTypes = [
 ];
 
 
-const PlatformDraftDetails = ({ translate, draft, close, data }) => {
+const PlatformDraftDetails = ({
+ translate, draft, close, data
+}) => {
 	if (data.loading) {
 		return <LoadingSection />;
 	}

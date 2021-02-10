@@ -3,11 +3,14 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import {
 	BasicButton,
-	Icon } from '../../../../displayComponents';
+	Icon
+} from '../../../../displayComponents';
 import { getPrimary } from '../../../../styles/colors';
 
 
-const ResumeCouncilButton = ({ council, translate, client, refetch }) => {
+const ResumeCouncilButton = ({
+ council, translate, client, refetch
+}) => {
     const [loading, setLoading] = React.useState(false);
 	const primary = getPrimary();
 

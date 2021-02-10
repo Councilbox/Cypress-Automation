@@ -7,7 +7,9 @@ import * as CBX from '../../../utils/CBX';
 import { AGENDA_TYPES, AGENDA_STATES, COUNCIL_STATES } from '../../../constants';
 import { AddAgendaPoint } from '../editor/agenda/StepAgenda';
 
-const AgendaSelector = ({ agendas, translate, council, onClick, selected, stylesDiv, ...props }) => {
+const AgendaSelector = ({
+ agendas, translate, council, onClick, selected, stylesDiv, ...props
+}) => {
 	const canAddPoints = () => {
 		const activePoint = agendas.find(agenda => agenda.pointState === AGENDA_STATES.DISCUSSION);
 		if (activePoint) {

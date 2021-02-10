@@ -1,8 +1,12 @@
 import React from 'react';
 import { MenuItem } from 'material-ui';
-import { TextInput, SelectInput, Grid, GridItem } from '../../../displayComponents';
+import {
+ TextInput, SelectInput, Grid, GridItem
+} from '../../../displayComponents';
 
-const CensusInfoForm = ({ translate, census, updateState, errors }) => (
+const CensusInfoForm = ({
+ translate, census, updateState, errors
+}) => (
             <Grid>
                 <GridItem xs={12} md={6} lg={6}>
                     <TextInput

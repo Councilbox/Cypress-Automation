@@ -6,7 +6,9 @@ import withTranslations from '../../../HOCs/withTranslations';
 import { getPrimary } from '../../../styles/colors';
 
 
-const FileEstatutos = ({ translate, data, updateFileData, updateCompany, ...props }) => {
+const FileEstatutos = ({
+ translate, data, updateFileData, updateCompany, ...props
+}) => {
     const defaultStatutes = [
         {
             label: 'Denominación',
@@ -65,12 +67,16 @@ const FileEstatutos = ({ translate, data, updateFileData, updateCompany, ...prop
         <div style={{ height: '100%' }}>
             <div style={{ padding: '0px 1em 1em', height: '100%', }}>
                 <div style={{ height: '100%', }}>
-                    <div style={{ fontWeight: 'bold', color: primary, paddingBottom: '1em', display: 'flex', alignItems: 'center' }}>
+                    <div style={{
+ fontWeight: 'bold', color: primary, paddingBottom: '1em', display: 'flex', alignItems: 'center'
+}}>
                         {translate.add}
                         <i
                             className={'fa fa-plus-circle'}
                             onClick={addRow}
-                            style={{ color: primary, cursor: 'pointer', fontSize: '25px', paddingLeft: '5px' }}
+                            style={{
+ color: primary, cursor: 'pointer', fontSize: '25px', paddingLeft: '5px'
+}}
                         />
                     </div>
                     <Scrollbar>
@@ -78,7 +84,9 @@ const FileEstatutos = ({ translate, data, updateFileData, updateCompany, ...prop
                             {statutes.map((statute, index) => (
                                 <div key={index} style={{ borderBottom: `1px solid${primary}`, display: 'flex' }}>
                                     <div style={{ display: 'flex', padding: '1em', width: '100%' }} >
-                                        <div style={{ marginRight: '1em', width: '15%', color: primary, fontWeight: 'bold' }}>
+                                        <div style={{
+ marginRight: '1em', width: '15%', color: primary, fontWeight: 'bold'
+}}>
                                             <ContentEditable
                                                 style={{ color: primary, minWidth: '10em', borderBottom: !statute.label && '1px solid black' }}
                                                 html={statute.label || ''}
@@ -89,7 +97,9 @@ const FileEstatutos = ({ translate, data, updateFileData, updateCompany, ...prop
                                                 }}
                                             />
                                         </div>
-                                        <div style={{ marginRight: '1em', width: '85%', display: 'flex', flexGrow: 1, justifyContent: 'space-between' }}>
+                                        <div style={{
+ marginRight: '1em', width: '85%', display: 'flex', flexGrow: 1, justifyContent: 'space-between'
+}}>
                                             <ContentEditable
                                                 style={{ color: 'black', minWidth: '10em', borderBottom: !statute.value && '1px solid black' }}
                                                 html={statute.value || ''}
@@ -99,7 +109,9 @@ const FileEstatutos = ({ translate, data, updateFileData, updateCompany, ...prop
                                                     }, index);
                                                 }}
                                             />
-                                            <div style={{ background: 'white', width: '10%', color: primary, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '25px' }}>
+                                            <div style={{
+ background: 'white', width: '10%', color: primary, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '25px'
+}}>
                                                 <i className={'fa fa-times-circle'} onClick={() => deleteRow(index)} style={{ cursor: 'pointer', }} ></i>
                                             </div>
                                         </div>

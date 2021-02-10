@@ -5,7 +5,9 @@ import { Input } from 'material-ui';
 import { AlertConfirm } from '../../../../displayComponents';
 
 
-const CreateDocumentFolder = ({ translate, refetch, open, requestClose, client, company, parentFolder }) => {
+const CreateDocumentFolder = ({
+ translate, refetch, open, requestClose, client, company, parentFolder
+}) => {
     const [name, setName] = React.useState('');
 
     const createDocumentFolder = async () => {

@@ -1,5 +1,7 @@
 import React from 'react';
-import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import {
+ Switch, Route, Redirect, withRouter
+} from 'react-router-dom';
 import Loadable from 'react-loadable';
 import { LoadingMainApp } from '../displayComponents';
 import Dashboard from '../components/dashboard/Dashboard';

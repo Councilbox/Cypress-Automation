@@ -43,7 +43,9 @@ const formatParticipant = participant => {
 	return newParticipant;
 };
 
-const ConvenedParticipantsTable = ({ client, translate, council, participations, hideNotifications, hideAddParticipant, ...props }) => {
+const ConvenedParticipantsTable = ({
+ client, translate, council, participations, hideNotifications, hideAddParticipant, ...props
+}) => {
 	const [filters, setFilters] = React.useState({
 		options: {
 			limit: PARTICIPANTS_LIMITS[0],
@@ -216,7 +218,9 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 						ref={table}
 						translate={translate}
 						menuButtons={
-							<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '0.3em' }}>
+							<div style={{
+ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '0.3em'
+}}>
 								{!hideNotifications
 									&& <Tooltip
 										title={
@@ -361,7 +365,9 @@ class HoverableRow extends React.Component {
 	}
 
 	render() {
-		const { translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant } = this.props;
+		const {
+ translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant
+} = this.props;
 		const { representative } = this.props;
 		const { delegate, notifications } = participant;
 

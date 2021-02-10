@@ -1,8 +1,12 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { MenuItem, Table, TableCell, TableRow, TableHead, InputAdornment } from 'material-ui';
-import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Link, Scrollbar } from '../../../displayComponents';
+import {
+ MenuItem, Table, TableCell, TableRow, TableHead, InputAdornment
+} from 'material-ui';
+import {
+ LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Link, Scrollbar
+} from '../../../displayComponents';
 import CompanyItem from './CompanyItem';
 import NewCompanyPage from '../../company/new/NewCompanyPage';
 import withTranslations from '../../../HOCs/withTranslations';
@@ -73,7 +77,9 @@ class CompaniesDashboard extends React.PureComponent {
                     }}
                 >
 
-                    <div style={{ width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' }}>
+                    <div style={{
+ width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end'
+}}>
                         <div style={{ marginLeft: '0.6em' }}>
                             <TextInput
                                 startAdornment={

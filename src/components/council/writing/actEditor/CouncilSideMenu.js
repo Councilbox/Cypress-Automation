@@ -17,7 +17,9 @@ class CouncilSideMenu extends React.Component {
     }
 
     render() {
-        const { council, translate, company, councilRecount, councilAttendants } = this.props;
+        const {
+ council, translate, company, councilRecount, councilAttendants
+} = this.props;
 
         // TRADUCCION
         if (!this.props.open) {
@@ -191,7 +193,9 @@ class Row extends React.Component {
     render() {
         // TRADUCCION
         return (
-            <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between', background: this.state.showActions ? 'gainsboro' : '', paddingRight: '0.25em', paddingLeft: '0.25em', paddingBottom: '0.25em', paddingTop: '0.25em', }}
+            <div style={{
+ width: '100%', display: 'flex', justifyContent: 'space-between', background: this.state.showActions ? 'gainsboro' : '', paddingRight: '0.25em', paddingLeft: '0.25em', paddingBottom: '0.25em', paddingTop: '0.25em',
+}}
                 onMouseOver={this.mouseEnterHandler}
                 onMouseLeave={this.mouseLeaveHandler}
             >

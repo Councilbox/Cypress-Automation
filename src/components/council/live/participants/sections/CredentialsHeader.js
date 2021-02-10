@@ -12,7 +12,9 @@ const selectedStyle = {
 };
 
 
-const CredentialsHeader = ({ translate, setSelected, crendentialSendRecount, selected }) => (
+const CredentialsHeader = ({
+ translate, setSelected, crendentialSendRecount, selected
+}) => (
 		<React.Fragment>
 			<Grid
 				spacing={0}

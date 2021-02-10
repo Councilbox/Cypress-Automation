@@ -1,7 +1,11 @@
 import React from 'react';
-import { Tooltip, Paper, MenuItem, IconButton } from 'material-ui';
+import {
+ Tooltip, Paper, MenuItem, IconButton
+} from 'material-ui';
 import FontAwesome from 'react-fontawesome';
-import { CloseIcon, Grid, GridItem, SelectInput, Icon } from './index';
+import {
+ CloseIcon, Grid, GridItem, SelectInput, Icon
+} from './index';
 import { getPrimary, getSecondary } from '../styles/colors';
 import withWindowSize from '../HOCs/withWindowSize';
 import '../styles/react-tabs.css';
@@ -87,8 +91,12 @@ const Vtabs = ({
 							</GridItem>
 							<GridItem xs={6} style={{ display: 'flex' }}>
 								{additionalTab && (
-									<Paper style={{ margin: 0, padding: 0, backgroundColor: secondary, width: '2em', height: '2em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-										<MenuItem onClick={additionalTabAction} style={{ margin: 0, padding: 0, width: '2em', height: '2em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+									<Paper style={{
+ margin: 0, padding: 0, backgroundColor: secondary, width: '2em', height: '2em', display: 'flex', alignItems: 'center', justifyContent: 'center'
+}}>
+										<MenuItem onClick={additionalTabAction} style={{
+ margin: 0, padding: 0, width: '2em', height: '2em', display: 'flex', alignItems: 'center', justifyContent: 'center'
+}}>
 											<i className="fa fa-plus" style={{ color: 'white' }} />
 										</MenuItem>
 									</Paper>
@@ -182,7 +190,9 @@ const Vtabs = ({
 export default withWindowSize(Vtabs);
 
 
-const HoverableTab = ({ tab, mapIndex, index, deleteAction, editAction, disabled, ...props }) => {
+const HoverableTab = ({
+ tab, mapIndex, index, deleteAction, editAction, disabled, ...props
+}) => {
 	const [state, setState] = React.useState({
 		showAction: false
 	});
@@ -201,7 +211,9 @@ const HoverableTab = ({ tab, mapIndex, index, deleteAction, editAction, disabled
 
 
 	return (
-		<div style={{ display: 'flex', width: '22em', alignItems: 'center', justifyContent: 'space-between' }}
+		<div style={{
+ display: 'flex', width: '22em', alignItems: 'center', justifyContent: 'space-between'
+}}
 			onMouseOver={mouseEnterHandler}
 			onMouseLeave={mouseLeaveHandler}
 		>

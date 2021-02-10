@@ -14,9 +14,13 @@ class RecordingsSection extends React.Component {
 
         if (!this.props.data.recordingsIframe) {
             return (
-                <div style={{ width: '100%', height: '100%', paddingTop: '8em', fontSize: '20px', display: 'flex', fontWeight: '700', flexDirection: 'column', alignItems: 'center' }}>
+                <div style={{
+ width: '100%', height: '100%', paddingTop: '8em', fontSize: '20px', display: 'flex', fontWeight: '700', flexDirection: 'column', alignItems: 'center'
+}}>
                     {legacyRecordings ?
-                        <div style={{ width: '100%', padding: '1em', display: 'flex', justifyContent: 'center' }}>
+                        <div style={{
+ width: '100%', padding: '1em', display: 'flex', justifyContent: 'center'
+}}>
                             La visualización de este contenido no está disponible en estos momentos, estamos trabajando para que esté disponible lo antes posible. <br />
                             En caso de necesitarlo, puede ponerse en contacto con el equipo de Councilbox.
                         </div>

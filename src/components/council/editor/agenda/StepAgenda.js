@@ -167,7 +167,9 @@ const StepAgenda = ({ client, translate, ...props }) => {
 	};
 
 	const { errors, saveAsDraftId } = state;
-	const { votingTypes, council, majorityTypes, draftTypes } = data;
+	const {
+ votingTypes, council, majorityTypes, draftTypes
+} = data;
 
 	let agendas = null;
 	let newDraft;

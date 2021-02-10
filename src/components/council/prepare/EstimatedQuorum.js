@@ -6,7 +6,9 @@ import { usePolling } from '../../../hooks';
 import { COUNCIL_TYPES } from '../../../constants';
 
 
-const EstimatedQuorum = ({ council, translate, client, socialCapital, totalVotes, company }) => {
+const EstimatedQuorum = ({
+ council, translate, client, socialCapital, totalVotes, company
+}) => {
     const [data, setData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
 

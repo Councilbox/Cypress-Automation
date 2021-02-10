@@ -60,7 +60,9 @@ const styles = {
 };
 
 
-const SMSAuthForm = ({ value, updateValue, send, translate, error }) => {
+const SMSAuthForm = ({
+ value, updateValue, send, translate, error
+}) => {
     const [resendModal, setResendModal] = React.useState(false);
 
     return (
@@ -88,7 +90,9 @@ const SMSAuthForm = ({ value, updateValue, send, translate, error }) => {
                         ...styles.loginContainerMax,
                         height: '',
                     }}>
-                        <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '1em 3em 1em 3em', }}>
+                        <div style={{
+ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '1em 3em 1em 3em',
+}}>
                             <div style={{
                                 width: '100%',
                                 paddingLeft: '4px',

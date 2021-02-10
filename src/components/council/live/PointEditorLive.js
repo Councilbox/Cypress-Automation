@@ -1,14 +1,20 @@
 import React from 'react';
 import { MenuItem } from 'material-ui';
 import { graphql } from 'react-apollo';
-import { AlertConfirm, SelectInput, Grid, GridItem, MajorityInput } from '../../../displayComponents';
-import { filterAgendaVotingTypes, hasVotation, majorityNeedsInput, isCustomPoint } from '../../../utils/CBX';
+import {
+ AlertConfirm, SelectInput, Grid, GridItem, MajorityInput
+} from '../../../displayComponents';
+import {
+ filterAgendaVotingTypes, hasVotation, majorityNeedsInput, isCustomPoint
+} from '../../../utils/CBX';
 import { checkValidMajority } from '../../../utils/validation';
 import { updateAgenda as updateAgendaMutation } from '../../../queries/agenda';
 import { CUSTOM_AGENDA_VOTING_TYPES } from '../../../constants';
 import { useOldState } from '../../../hooks';
 
-const PointEditorLive = ({ agenda, translate, council, ...props }) => {
+const PointEditorLive = ({
+ agenda, translate, council, ...props
+}) => {
     const [state, setState] = useOldState({
         id: agenda.id,
         councilId: council.id,
@@ -34,7 +40,9 @@ const PointEditorLive = ({ agenda, translate, council, ...props }) => {
             });
             return;
         }
-        const { majorityError, items, ballots, options, ...rest } = state;
+        const {
+ majorityError, items, ballots, options, ...rest
+} = state;
         await props.updateAgenda({
             variables: {
                 agenda: rest

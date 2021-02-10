@@ -1,5 +1,7 @@
 import React from 'react';
-import { TableRow, TableCell, Card, CardContent } from 'material-ui';
+import {
+ TableRow, TableCell, Card, CardContent
+} from 'material-ui';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { EnhancedTable, RefreshButton, LoadingSection } from '../../../../displayComponents';

@@ -10,7 +10,9 @@ import SendToSignButton from './SendToSignButton';
 import { ConfigContext } from '../../../../containers/AppControl';
 
 
-const ActHTML = ({ translate, company, council, client, toolbar }) => {
+const ActHTML = ({
+ translate, company, council, client, toolbar
+}) => {
 	const [data, setData] = React.useState(null);
 	const config = React.useContext(ConfigContext);
 	const [loading, setLoading] = React.useState(true);

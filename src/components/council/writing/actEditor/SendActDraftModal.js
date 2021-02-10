@@ -1,5 +1,7 @@
 import React from 'react';
-import { Typography, TableRow, Table, TableCell } from 'material-ui';
+import {
+ Typography, TableRow, Table, TableCell
+} from 'material-ui';
 import { compose, graphql } from 'react-apollo';
 import FontAwesome from 'react-fontawesome';
 import {
@@ -144,8 +146,12 @@ class SendActDraftModal extends React.Component {
 	}
 
 	_section = () => (
-			<div style={{ width: '100%', display: 'flex', flexDirection: 'column', paddingBottom: '1.5em', border: `1px solid ${getSecondary()}`, borderRadius: '4px', padding: '1em', marginTop: '1em' }}>
-				<div style={{ width: '100%', paddingTop: '1em', paddingBottom: '1em', display: 'flex', flexDirection: 'row' }}>
+			<div style={{
+ width: '100%', display: 'flex', flexDirection: 'column', paddingBottom: '1.5em', border: `1px solid ${getSecondary()}`, borderRadius: '4px', padding: '1em', marginTop: '1em'
+}}>
+				<div style={{
+ width: '100%', paddingTop: '1em', paddingBottom: '1em', display: 'flex', flexDirection: 'row'
+}}>
 					<div style={{ width: '75%', marginRight: '0.8em' }}>
 						<TextInput
 							value={this.state.newEmail}
@@ -158,13 +164,17 @@ class SendActDraftModal extends React.Component {
 					<div style={{ display: 'flex', alignItems: 'center' }}>
 						<BasicButton
 							text={this.props.translate.add_email}
-							textStyle={{ textTransform: 'none', color: 'white', fontSize: '700', boxShadow: 'none', borderRadius: '4px' }}
+							textStyle={{
+ textTransform: 'none', color: 'white', fontSize: '700', boxShadow: 'none', borderRadius: '4px'
+}}
 							color={getPrimary()}
 							onClick={() => this.addEmail()}
 						/>
 					</div>
 				</div>
-				<div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+				<div style={{
+ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'
+}}>
 					{this._renderEmails()}
 				</div>
 			</div>
@@ -287,7 +297,9 @@ class SendActDraftModal extends React.Component {
 					<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
 						<div style={{ width: '200px' }}>
 							<TextInput
-								adornment={<Icon style={{ background: '#f0f3f6', paddingLeft: '5px', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>search</Icon>}
+								adornment={<Icon style={{
+ background: '#f0f3f6', paddingLeft: '5px', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'
+}}>search</Icon>}
 								floatingText={' '}
 								type="text"
 								value={this.state.filterText}
@@ -295,7 +307,9 @@ class SendActDraftModal extends React.Component {
 									this.updateFilterText(event.target.value);
 								}}
 								disableUnderline={true}
-								styleInInput={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px' }}
+								styleInInput={{
+ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px'
+}}
 								stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px' }}
 								placeholder={translate.search}
 							/>
@@ -320,7 +334,9 @@ class SendActDraftModal extends React.Component {
 						{loading ? (
 							<LoadingSection />
 						) : (
-								<div style={{ height: 'calc( 100% - 4em )', marginBottom: '0.5em', width: '600px', margin: '0 auto' }}>
+								<div style={{
+ height: 'calc( 100% - 4em )', marginBottom: '0.5em', width: '600px', margin: '0 auto'
+}}>
 									<Scrollbar option={{ suppressScrollX: true }}>
 										<Table style={{ marginBottom: '1em', width: '600px', margin: '0 auto' }}>
 											{participants.length > 0 ? (

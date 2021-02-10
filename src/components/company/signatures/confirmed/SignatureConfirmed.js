@@ -1,7 +1,9 @@
 import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
-import { LoadingSection, CardPageLayout, BasicButton, ButtonIcon, Grid, GridItem } from '../../../../displayComponents';
+import {
+ LoadingSection, CardPageLayout, BasicButton, ButtonIcon, Grid, GridItem
+} from '../../../../displayComponents';
 import SignersList from './SignersList';
 import SignersStatusRecount from './SignersStatusRecount';
 import { SIGNATURE_STATES } from '../../../../constants';

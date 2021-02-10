@@ -7,7 +7,9 @@ import { DropDownMenu } from '../../displayComponents';
 import { downloadFile, prepareTextForFilename } from '../../utils/CBX';
 import { buildDocVariable } from './utils';
 
-const DownloadDoc = ({ client, doc, council, options, translate, filename }) => {
+const DownloadDoc = ({
+ client, doc, council, options, translate, filename
+}) => {
     const getLanguageView = () => {
         const texts = {
             es: {

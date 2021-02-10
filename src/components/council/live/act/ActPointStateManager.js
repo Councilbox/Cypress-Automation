@@ -7,7 +7,9 @@ import ToggleAgendaButton from '../ToggleAgendaButton';
 import ToggleVotingsButton from '../ToggleVotingsButton';
 
 
-const ActPointStateManager = ({ agenda, council, translate, refetch, ...props }) => {
+const ActPointStateManager = ({
+ agenda, council, translate, refetch, ...props
+}) => {
      if (!props.active) {
         return (
             <Tooltip title={translate.warning_unclosed_agenda}>

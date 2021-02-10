@@ -1,10 +1,14 @@
 import React from 'react';
 import FontAwesome from 'react-fontawesome';
-import { MenuItem, Table, TableRow, TableCell } from 'material-ui';
+import {
+ MenuItem, Table, TableRow, TableCell
+} from 'material-ui';
 import { Checkbox } from '../../../displayComponents';
 import { isMobile } from '../../../utils/screen';
 
-const CompanyItem = ({ company, onCheck, checkable, checked, tableRoot }) => {
+const CompanyItem = ({
+ company, onCheck, checkable, checked, tableRoot
+}) => {
     if (tableRoot) {
         if (isMobile) {
             return (
@@ -35,7 +39,9 @@ const CompanyItem = ({ company, onCheck, checkable, checked, tableRoot }) => {
             return (
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                     {checkable
-                        && <div style={{ width: '5em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        && <div style={{
+ width: '5em', display: 'flex', alignItems: 'center', justifyContent: 'center'
+}}>
                             <Checkbox
                                 value={checked}
                                 onChange={(event, isInputChecked) => {
@@ -109,7 +115,9 @@ const CompanyItem = ({ company, onCheck, checkable, checked, tableRoot }) => {
         return (
             <div style={{ display: 'flex', flexDirection: 'row' }}>
                 {checkable
-                    && <div style={{ width: '5em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    && <div style={{
+ width: '5em', display: 'flex', alignItems: 'center', justifyContent: 'center'
+}}>
                         <Checkbox
                             value={checked}
                             onChange={(event, isInputChecked) => {

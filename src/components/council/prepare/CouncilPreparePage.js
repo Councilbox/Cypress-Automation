@@ -33,7 +33,9 @@ import AttachmentsModal from './AttachmentsModal';
 import { COUNCIL_TYPES } from '../../../constants';
 
 
-const CouncilPreparePage = ({ company, translate, data, ...props }) => {
+const CouncilPreparePage = ({
+ company, translate, data, ...props
+}) => {
 	const [state, setState] = useOldState({
 		participants: false,
 		sendReminder: false,
@@ -67,7 +69,9 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 		);
 	};
 
-	const { council, error, loading, refetch } = data;
+	const {
+ council, error, loading, refetch
+} = data;
 
 	if (loading) {
 		return <LoadingSection />;
@@ -104,7 +108,9 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 
 	return (
 		<CardPageLayout title={translate.prepare_room} disableScroll>
-			<div style={{ width: '100%', padding: '1.7em', paddingBottom: '0.5em', height: 'calc(100% - 3.5em)', paddingTop: '0em' }}>
+			<div style={{
+ width: '100%', padding: '1.7em', paddingBottom: '0.5em', height: 'calc(100% - 3.5em)', paddingTop: '0em'
+}}>
 				<div style={{ display: 'flex', marginTop: '0.6em' }}>
 					<div style={{ fontSize: '13px', }}>
 						<MenuSuperiorTabs
@@ -117,7 +123,9 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 				{selecteReuniones === translate.convene
 					&& <div style={{ height: 'calc(100% - 38px)' }}>
 						<Scrollbar>
-							<div style={{ width: '100%', position: 'relative', padding: '1em', paddingBottom: '1.3em' }}>
+							<div style={{
+ width: '100%', position: 'relative', padding: '1em', paddingBottom: '1.3em'
+}}>
 								<Convene
 									council={council}
 									translate={translate}

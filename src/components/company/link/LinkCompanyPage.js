@@ -124,7 +124,9 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 		}
 	};
 
-	const { data, errors, requestError, success, request } = state;
+	const {
+ data, errors, requestError, success, request
+} = state;
 
 
 	return (

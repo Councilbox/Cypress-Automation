@@ -13,11 +13,7 @@ import { upsertConvenedParticipant, checkUniqueCouncilEmails } from '../../../..
 import { COUNCIL_TYPES } from '../../../../constants';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import SelectRepresentative from '../../editor/census/modals/SelectRepresentative';
-
-function extractTypeName(object) {
-	const { __typename, ...rest } = object;
-	return rest;
-}
+import { removeTypenameField } from '../../../../utils/CBX';
 
 const initialRepresentative = {
 	hasRepresentative: false,
@@ -50,14 +46,13 @@ class ConvenedParticipantEditor extends React.Component {
 
 	setParticipantData() {
 		// eslint-disable-next-line prefer-const
-		let { representative, delegateId, delegateUuid, __typename, councilId, ...participant } = extractTypeName(
+		let { representative, delegateId, delegateUuid, __typename, councilId, ...participant } = removeTypenameField(
 			this.props.participant
 		);
-
 		representative = (participant.representatives.length > 0) ?
 			{
 				hasRepresentative: true,
-				...extractTypeName(participant.representatives[0])
+				...removeTypenameField(participant.representatives[0])
 			}
 			: initialRepresentative;
 

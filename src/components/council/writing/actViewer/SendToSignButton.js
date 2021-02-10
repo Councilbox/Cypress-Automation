@@ -7,7 +7,9 @@ import { downloadAct } from '../../../../queries';
 import { bHistory } from '../../../../containers/App';
 
 
-const SendToSignButton = ({ styles, council, translate, client }) => {
+const SendToSignButton = ({
+ styles, council, translate, client
+}) => {
     const [loading, setLoading] = React.useState(false);
     const [signatureId, setSignatureId] = React.useState(null);
     const secondary = getSecondary();

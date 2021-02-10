@@ -6,7 +6,9 @@ import AssistanceOption from './AssistanceOption';
 import EarlyVoteModal from './EarlyVoteModal';
 
 
-const EarlyVoteOption = ({ setState, state, participant, council, translate }) => {
+const EarlyVoteOption = ({
+ setState, state, participant, council, translate
+}) => {
     const [modal, setModal] = React.useState(false);
 
     return (

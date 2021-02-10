@@ -4,7 +4,9 @@ import { EMAIL_TRACK_STATES } from '../../../../../constants';
 import EmailIcon from '../EmailIcon';
 
 
-const ConveneHeader = ({ conveneSendRecount, selected, setSelected, translate }) => (
+const ConveneHeader = ({
+ conveneSendRecount, selected, setSelected, translate
+}) => (
 		<React.Fragment>
 			<Grid
 				spacing={0}

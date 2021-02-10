@@ -1,11 +1,15 @@
 import React from 'react';
 import { HorizontalBar } from 'react-chartjs-2';
-import { Table, TableCell, TableRow, TableHead, TableBody } from 'material-ui';
+import {
+ Table, TableCell, TableRow, TableHead, TableBody
+} from 'material-ui';
 import { Grid, GridItem } from '../../../../displayComponents';
 import { showNumParticipations } from '../../../../utils/CBX';
 
 
-const CustomAgendaRecount = ({ agenda, translate, council, company }) => {
+const CustomAgendaRecount = ({
+ agenda, translate, council, company
+}) => {
     const data = formatDataFromAgenda(agenda);
     return (
         <Grid>

@@ -13,7 +13,9 @@ import { checkCouncilState } from '../utils/CBX';
 import { councilLiveQuery } from '../queries';
 import { usePolling } from '../hooks';
 
-const CouncilLiveContainer = ({ main, companies, translate, match, client }) => {
+const CouncilLiveContainer = ({
+ main, companies, translate, match, client
+}) => {
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
 

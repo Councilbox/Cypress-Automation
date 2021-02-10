@@ -4,7 +4,9 @@ import { withApollo } from 'react-apollo';
 import { AlertConfirm } from '../../../displayComponents';
 
 
-const RemoveCompany = ({ company, render, refetch, translate, styles, client }) => {
+const RemoveCompany = ({
+ company, render, refetch, translate, styles, client
+}) => {
     const [modal, setModal] = React.useState(false);
 
     const openModal = () => {

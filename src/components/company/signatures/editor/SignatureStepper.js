@@ -7,7 +7,9 @@ import { getSecondary, getPrimary } from '../../../../styles/colors';
 import withWindowSize from '../../../../HOCs/withWindowSize';
 
 
-const SignatureStepper = ({ translate, active, goToPage, windowSize }) => {
+const SignatureStepper = ({
+ translate, active, goToPage, windowSize
+}) => {
     const secondary = getSecondary();
     const primary = getPrimary();
 

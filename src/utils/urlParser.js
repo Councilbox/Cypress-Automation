@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 const urlParser = obj => {
 	let query = '';
 		let name;

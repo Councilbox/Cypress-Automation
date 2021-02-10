@@ -9,7 +9,9 @@ import CBXFooter from './CBXFooter';
 import { bHistory } from '../containers/App';
 
 
-const CardPageLayout = ({ children, title, footer, windowSize, stylesNoScroll, avatar, disableScroll = false, inMenuExact }) => {
+const CardPageLayout = ({
+ children, title, footer, windowSize, stylesNoScroll, avatar, disableScroll = false, inMenuExact
+}) => {
 	const goBack = () => {
 		if (inMenuExact) {
 			bHistory.push('/company/569/drafts/plantillas');
@@ -70,7 +72,9 @@ const CardPageLayout = ({ children, title, footer, windowSize, stylesNoScroll, a
 						</span>
 					</div>
 					{(title && avatar)
-						&& <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '0.6em' }}>
+						&& <div style={{
+ display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '0.6em'
+}}>
 							<Avatar src={avatar} alt="Foto" style={{ border: `1px solid${getPrimary()}` }} />
 						</div>
 					}

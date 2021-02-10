@@ -1,7 +1,9 @@
 import React from 'react';
 import VotingsTableFiltersContainer from './voting/VotingsTableFiltersContainer';
 
-const Votings = ({ translate, agenda, council, ...props }) => {
+const Votings = ({
+ translate, agenda, council, ...props
+}) => {
 	const _section = () => (
 			<div style={{ backgroundColor: 'white', paddingTop: '1em' }}>
 				<VotingsTableFiltersContainer

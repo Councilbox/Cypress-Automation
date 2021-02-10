@@ -69,7 +69,9 @@ class AgendaDescriptionModal extends React.Component {
 	};
 
     renderBody = () => {
-        const { translate, council, agenda, company } = this.props;
+        const {
+ translate, council, agenda, company
+} = this.props;
         // const width = window.innerWidth < 800? window.innerWidth : 800;
         return (
             <React.Fragment>

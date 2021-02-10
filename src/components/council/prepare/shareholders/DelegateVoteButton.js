@@ -7,7 +7,9 @@ import DelegateOwnVoteModal from '../../live/DelegateOwnVoteModal';
 import { PARTICIPANT_STATES } from '../../../../constants';
 
 
-const DelegateVoteButton = ({ request, client, refetch, setRepresentative, text, translate, inModal, setInModal, closeModalAlert }) => {
+const DelegateVoteButton = ({
+ request, client, refetch, setRepresentative, text, translate, inModal, setInModal, closeModalAlert
+}) => {
     const [modal, setModal] = React.useState(null);
     const [data, setData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);

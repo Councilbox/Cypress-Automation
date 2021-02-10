@@ -10,7 +10,9 @@ import { updateParticipantSends as changeParticipantSends } from '../../../../qu
 import { hasAccessKey } from '../../../../utils/CBX';
 
 
-const ParticipantContactEditor = ({ translate, council, client, updateParticipantSends, sendAccessKey, participant, ...props }) => {
+const ParticipantContactEditor = ({
+ translate, council, client, updateParticipantSends, sendAccessKey, participant, ...props
+}) => {
     const [state, setState] = useOldState({
         email: participant.email,
         phone: participant.phone,

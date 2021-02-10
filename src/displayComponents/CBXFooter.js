@@ -8,7 +8,9 @@ const date = new Date();
 const year = date.getFullYear();
 
 const CBXFooter = ({ style = {} }) => (
-    <div style={{ fontSize: '11px', marginTop: isMobile ? '1.2em' : '0.2em', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '1em', ...style }}>
+    <div style={{
+ fontSize: '11px', marginTop: isMobile ? '1.2em' : '0.2em', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '1em', ...style
+}}>
         <div
             dangerouslySetInnerHTML={{ __html: `Copyright &copy ${year}` }}
         />

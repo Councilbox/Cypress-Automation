@@ -14,11 +14,7 @@ import RepresentativeForm from '../../../../company/census/censusEditor/Represen
 import withSharedProps from '../../../../../HOCs/withSharedProps';
 import SelectRepresentative from './SelectRepresentative';
 import { COUNCIL_TYPES } from '../../../../../constants';
-
-function extractTypeName(object) {
-	const { __typename, ...rest } = object;
-	return rest;
-}
+import { removeTypenameField } from '../../../../../utils/CBX';
 
 const initialRepresentative = {
 	hasRepresentative: false,
@@ -45,13 +41,11 @@ class CouncilParticipantEditor extends React.Component {
 
 	updateParticipantData() {
 		// eslint-disable-next-line prefer-const
-		let { representative, representatives, representing, ...participant } = extractTypeName(
-			this.props.participant
-		);
+		let { representative, representatives, representing, ...participant } = removeTypenameField(this.props.participant);
 		representative = representative ?
 			{
 				hasRepresentative: true,
-				...extractTypeName(representative)
+				...removeTypenameField(representative)
 			}
 			: initialRepresentative;
 		this.setState({

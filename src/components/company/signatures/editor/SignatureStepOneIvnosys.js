@@ -3,7 +3,9 @@ import { Typography, MenuItem } from 'material-ui';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { toast } from 'react-toastify';
-import { TextInput, BasicButton, FileUploadButton, ButtonIcon, LiveToast, SelectInput } from '../../../../displayComponents';
+import {
+ TextInput, BasicButton, FileUploadButton, ButtonIcon, LiveToast, SelectInput
+} from '../../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import EditorStepLayout from '../../../council/editor/EditorStepLayout';
 import RichTextInput from '../../../../displayComponents/RichTextInput';
@@ -45,7 +47,9 @@ const saveSignature = gql`
     }
 `;
 
-const SignatureStepOneIvnosys = ({ translate, signature, refetch, nextStep, client, ...props }) => {
+const SignatureStepOneIvnosys = ({
+ translate, signature, refetch, nextStep, client, ...props
+}) => {
     const [state, setState] = React.useState({
         data: {
             ...signature,

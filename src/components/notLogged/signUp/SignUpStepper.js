@@ -7,7 +7,9 @@ import { getSecondary, getPrimary } from '../../../styles/colors';
 
 const { Step } = Steps;
 
-const SignUpStepper = ({ active, translate, windowSize, goToPage }) => {
+const SignUpStepper = ({
+ active, translate, windowSize, goToPage
+}) => {
 	const secondary = getSecondary();
 	const primary = getPrimary();
 

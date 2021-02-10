@@ -19,7 +19,9 @@ const DisabledSection = ({ children }) => (
             }}
             onClick={event => event.stopPropagation()}
         >
-            <div style={{ padding: '3em', border: '2px solid black', backgroundColor: 'white', borderRadius: '8px' }}>
+            <div style={{
+ padding: '3em', border: '2px solid black', backgroundColor: 'white', borderRadius: '8px'
+}}>
                 {children}
             </div>
         </div>

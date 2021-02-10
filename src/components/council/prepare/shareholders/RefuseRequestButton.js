@@ -4,7 +4,9 @@ import gql from 'graphql-tag';
 import { BasicButton, AlertConfirm } from '../../../../displayComponents';
 
 
-const RefuseRequestButton = ({ request, client, refetch, translate }) => {
+const RefuseRequestButton = ({
+ request, client, refetch, translate
+}) => {
     const [modal, setModal] = React.useState(null);
     const buttonColor = request.participantCreated ? 'grey' : 'red';
 

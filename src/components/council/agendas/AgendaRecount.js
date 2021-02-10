@@ -1,5 +1,7 @@
 import React from 'react';
-import { TableRow, TableCell, Tooltip, Card, CardHeader, CardContent, withStyles, Input } from 'material-ui';
+import {
+ TableRow, TableCell, Tooltip, Card, CardHeader, CardContent, withStyles, Input
+} from 'material-ui';
 import { graphql } from 'react-apollo';
 import FontAwesome from 'react-fontawesome';
 import PropTypes from 'prop-types';
@@ -28,7 +30,9 @@ const itemStyle = {
     alignItems: 'center'
 };
 
-const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, editable, translate, classes }) => {
+const AgendaRecount = ({
+ agenda, recount, majorityTypes, council, company, editable, translate, classes
+}) => {
     const agendaNeededMajority = CBX.calculateMajorityAgenda(agenda, company, council, recount);
     const activatePresentOneVote = false;
     const approvedByQualityVote = CBX.haveQualityVoteConditions(agenda, council) && CBX.approvedByQualityVote(agenda, council.qualityVoteId);
@@ -311,7 +315,9 @@ const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, edita
     return (
         <React.Fragment>
             {council.autoClose !== 1
-                && <Grid style={{ border: `1px solid ${getSecondary()}`, margin: 'auto', marginTop: '1em', marginBottom: '2em' }}>
+                && <Grid style={{
+ border: `1px solid ${getSecondary()}`, margin: 'auto', marginTop: '1em', marginBottom: '2em'
+}}>
                     <GridItem xs={3} lg={3} md={3} style={columnStyle}>
                         {renderTotal()}
                     </GridItem>

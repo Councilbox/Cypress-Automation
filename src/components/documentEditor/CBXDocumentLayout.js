@@ -4,7 +4,9 @@ import { LoadingSection } from '../../displayComponents';
 import withTranslations from '../../HOCs/withTranslations';
 
 
-const CBXDocumentLayout = ({ options, loading, preview, company, finishInModal, translate }) => (
+const CBXDocumentLayout = ({
+ options, loading, preview, company, finishInModal, translate
+}) => (
         <div style={{ display: 'flex', height: '100%', maxWidth: '210mm' }} >
             <div style={{ width: '20%', maxWidth: '95px' }}>
                 {options.stamp
@@ -17,7 +19,9 @@ const CBXDocumentLayout = ({ options, loading, preview, company, finishInModal, 
             </div>
             <div style={{ width: '100%' }}>
                 <div style={{ width: '100%' }}>
-                    <div style={{ width: '13%', marginTop: '1em', marginRight: '4em', maxWidth: '125px', float: 'right' }}>
+                    <div style={{
+ width: '13%', marginTop: '1em', marginRight: '4em', maxWidth: '125px', float: 'right'
+}}>
                         <img style={{ maxHeight: '2.8em', width: 'auto', float: 'right' }} src={company.logo}></img>
                     </div>
                 </div>

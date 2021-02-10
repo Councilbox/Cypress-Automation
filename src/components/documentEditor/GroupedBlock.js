@@ -1,7 +1,9 @@
 import React from 'react';
 import Block from './Block';
 
-const GroupedBlock = ({ translate, item, expand, hoverFijo, hoverAndSave, setText, ...props }) => {
+const GroupedBlock = ({
+ translate, item, expand, hoverFijo, hoverAndSave, setText, ...props
+}) => {
     const updateBlock = (index, text) => props.editBlock(item.items[index].id, text);
 
     const removeBlock = index => {

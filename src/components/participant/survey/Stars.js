@@ -1,6 +1,8 @@
 import React from 'react';
 
-const Stars = ({ name, lowStars, onClick, value, error, disabled = false }) => (
+const Stars = ({
+ name, lowStars, onClick, value, error, disabled = false
+}) => (
 		<div style={{ display: 'inline-block' }}>
 			{error && <span style={{ color: 'red', fontWeight: '700', marginBottom: '1em' }}>{error}</span>}
 			<form id={`ratingForm${name}`}>

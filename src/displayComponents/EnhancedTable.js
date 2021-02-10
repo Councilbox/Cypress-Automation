@@ -167,7 +167,9 @@ class EnhancedTable extends React.Component {
 					&& this.props.menuButtons
 				}
 				{this.props.searchInMovil
-					&& <div style={{ width: '100%', justifyContent: 'flex-end', display: 'flex', marginTop: '0.5em' }}>
+					&& <div style={{
+ width: '100%', justifyContent: 'flex-end', display: 'flex', marginTop: '0.5em'
+}}>
 						{fields && (
 							<div style={{ minWidth: '12em', marginRight: '0.8em' }}>
 								<SelectInput
@@ -198,7 +200,9 @@ class EnhancedTable extends React.Component {
 						/>
 					</div>
 				}
-				<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
+				<div style={{
+ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%'
+}}>
 					{limits && (
 						<div style={{ width: '5em' }}>
 							<SelectInput

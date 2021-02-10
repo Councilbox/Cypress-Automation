@@ -5,7 +5,9 @@ import { restorePwd } from '../../queries/restorePwd';
 import { getPrimary, secondary } from '../../styles/colors';
 import withWindowSize from '../../HOCs/withWindowSize';
 import withSharedProps from '../../HOCs/withSharedProps';
-import { BasicButton, ButtonIcon, TextInput, NotLoggedLayout } from '../../displayComponents';
+import {
+ BasicButton, ButtonIcon, TextInput, NotLoggedLayout
+} from '../../displayComponents';
 import { checkValidEmail } from '../../utils/validation';
 
 class ForgetPwd extends React.PureComponent {

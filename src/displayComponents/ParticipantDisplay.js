@@ -11,7 +11,9 @@ import TextInput from './TextInput';
 import { useParticipantContactEdit } from '../hooks';
 import { COUNCIL_TYPES, PARTICIPANT_STATES } from '../constants';
 
-const ParticipantDisplay = ({ participant, translate, refetch, council, delegate, company, client, canEdit }) => {
+const ParticipantDisplay = ({
+ participant, translate, refetch, council, delegate, company, client, canEdit
+}) => {
 	const {
 		edit,
 		setEdit,
@@ -23,7 +25,9 @@ const ParticipantDisplay = ({ participant, translate, refetch, council, delegate
 		setPhone,
 		errors,
 		updateParticipantContactInfo
-	} = useParticipantContactEdit({ participant, client, translate, council });
+	} = useParticipantContactEdit({
+ participant, client, translate, council
+});
 
 	const secondary = getSecondary();
 

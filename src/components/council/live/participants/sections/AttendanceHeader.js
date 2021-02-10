@@ -10,7 +10,9 @@ const selectedStyle = {
 	fontWeight: '700'
 };
 
-const AttendanceHeader = ({ attendanceRecount, selected, setSelected, translate }) => (
+const AttendanceHeader = ({
+ attendanceRecount, selected, setSelected, translate
+}) => (
 		<React.Fragment>
 			<Grid
 				spacing={0}

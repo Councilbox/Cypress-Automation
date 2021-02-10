@@ -2,8 +2,12 @@ import React from 'react';
 import { Paper, Collapse, Tooltip } from 'material-ui';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { AlertConfirm, Grid, GridItem, Scrollbar } from '../../../../displayComponents';
-import { hasSecondCall, agendaPointNotOpened, agendaClosed, agendaPointOpened, agendaVotingsOpened } from '../../../../utils/CBX';
+import {
+ AlertConfirm, Grid, GridItem, Scrollbar
+} from '../../../../displayComponents';
+import {
+ hasSecondCall, agendaPointNotOpened, agendaClosed, agendaPointOpened, agendaVotingsOpened
+} from '../../../../utils/CBX';
 import { moment } from '../../../../containers/App';
 import { StatuteDisplay } from '../../display/StatuteDisplay';
 
@@ -41,7 +45,9 @@ export const agendaManager = gql`
 	}
 `;
 
-const CouncilInfoModal = ({ council, requestClose, show, translate, client }) => {
+const CouncilInfoModal = ({
+ council, requestClose, show, translate, client
+}) => {
 	const [open, setOpen] = React.useState(false);
 	const [openPoints, setOpenPoints] = React.useState(false);
 	const [data, setData] = React.useState(false);
@@ -87,7 +93,9 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client }) =>
                 <i
                     className={icon}
                     aria-label={icon === 'fa fa-lock colorGrey' ? 'punto cerrado' : 'punto abierto'}
-                    style={{ marginRight: '0.6em', cursor: 'auto', fontSize: '18px', color }}
+                    style={{
+ marginRight: '0.6em', cursor: 'auto', fontSize: '18px', color
+}}
                 ></i>
             </Tooltip>
         );
@@ -107,7 +115,9 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client }) =>
                     <i
                         className={'material-icons'}
                         aria-label={title}
-                        style={{ marginRight: '0.6em', fontSize: '18px', color, cursor: 'context-menu', }}
+                        style={{
+ marginRight: '0.6em', fontSize: '18px', color, cursor: 'context-menu',
+}}
                     >
                         how_to_vote
                     </i>
@@ -132,7 +142,9 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client }) =>
 				<Grid style={{ color: 'black', height: '100%' }}>
 					<Scrollbar>
 						<GridItem xs={12} lg={12} md={12} style={{ marginRight: '1em', marginBottom: '1em' }}>
-							<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '18px' }}>
+							<div style={{
+ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '18px'
+}}>
 								<div>{council.businessName}</div>
 							</div>
 						</GridItem>
@@ -249,12 +261,14 @@ const CouncilInfoModal = ({ council, requestClose, show, translate, client }) =>
 									<Collapse in={openPoints} timeout="auto" unmountOnExit >
 										{!loading
 											&& <div>{data.agendas.map(agenda => (
-												<Paper style={{ marginTop: '0.8em',
+												<Paper style={{
+ marginTop: '0.8em',
 padding: '0.8em',
 margin: '0.3em',
 boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
 												border: `${agendaPointOpened(agenda) ? '2' : '1'}px solid rgb(125, 33, 128, 0.58)`,
-												borderRadius: '4px', }} key={`agenda_${agenda.id}`}>
+												borderRadius: '4px',
+}} key={`agenda_${agenda.id}`}>
 													<Grid>
 														<GridItem xs={12} md={12} lg={12}>
 															<div style={{ display: 'flex', justifyContent: 'space-between' }}>

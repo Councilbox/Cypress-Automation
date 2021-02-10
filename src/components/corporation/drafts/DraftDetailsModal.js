@@ -5,7 +5,9 @@ import SelectedTag from '../../company/drafts/draftTags/SelectedTag';
 import { getTagColor } from '../../company/drafts/draftTags/utils';
 import { isMobile } from '../../../utils/screen';
 
-const DraftDetailsModal = ({ draft, requestClose, translate, companyStatutes }) => {
+const DraftDetailsModal = ({
+ draft, requestClose, translate, companyStatutes
+}) => {
     const TagColumn = props => (
         <div style={{
             display: 'flex',

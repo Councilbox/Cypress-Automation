@@ -2,7 +2,9 @@ import React from 'react';
 import { graphql, withApollo, compose } from 'react-apollo';
 import FontAwesome from 'react-fontawesome';
 import gql from 'graphql-tag';
-import { Typography, Paper, Tooltip, Switch, FormControlLabel } from 'material-ui';
+import {
+ Typography, Paper, Tooltip, Switch, FormControlLabel
+} from 'material-ui';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import { updateCouncil, downloadConvenePDF } from '../../../queries';
 import {

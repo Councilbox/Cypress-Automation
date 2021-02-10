@@ -114,7 +114,9 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 				<div>
 					<Grid >
 						<GridItem xs={landscape ? 12 : 12} md={4} style={{ marginBottom: '0.8em', padding: '0' }}>
-							<div style={{ width: '100%', borderBottom: '1px solid gainsboro', textAlign: 'center', marginBottom: '0.8em' }}>
+							<div style={{
+ width: '100%', borderBottom: '1px solid gainsboro', textAlign: 'center', marginBottom: '0.8em'
+}}>
 								<h4 style={{ width: '100%' }}>Info</h4>
 							</div>
 							<div style={{ display: 'flex', padding: '5px' }} >
@@ -144,7 +146,9 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 							</div>
 						</GridItem>
 						<GridItem xs={landscape ? 12 : 12} md={4} style={{ marginBottom: '0.8em', padding: '0' }}>
-							<div style={{ width: '100%', borderBottom: '1px solid gainsboro', textAlign: 'center', minHeight: '2px', marginBottom: '0.8em' }}>
+							<div style={{
+ width: '100%', borderBottom: '1px solid gainsboro', textAlign: 'center', minHeight: '2px', marginBottom: '0.8em'
+}}>
 								{participant.personOrEntity !== 1
 									&& <h4 style={{ width: '100%' }}>{translate.state}</h4>
 								}
@@ -206,7 +210,9 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 							</div>
 						</GridItem>
 						<GridItem xs={landscape ? 12 : 12} md={4} style={{ marginBottom: '0.8em', padding: '0' }}>
-							<div style={{ width: '100%', borderBottom: '1px solid gainsboro', textAlign: 'center', marginBottom: '0.8em' }}>
+							<div style={{
+ width: '100%', borderBottom: '1px solid gainsboro', textAlign: 'center', marginBottom: '0.8em'
+}}>
 								<h4 style={{ width: '100%' }}>{translate.actions}</h4>
 							</div>
 							<div style={{ display: 'flex', padding: '5px' }} >
@@ -442,7 +448,9 @@ const setMainRepresentative = gql`
 	}
 `;
 
-const RepresentativeMenu = ({ participant, translate, data, ...props }) => {
+const RepresentativeMenu = ({
+ participant, translate, data, ...props
+}) => {
 	const [signatureModal, setSignatureModal] = React.useState(false);
 	const representative = CBX.getMainRepresentative(participant);
 	const secondary = getSecondary();
@@ -590,7 +598,9 @@ const ParticipantTable = ({
 );
 
 
-const HoverableRow = ({ primary, participant, quitDelegatedVote, enableActions, representative }) => {
+const HoverableRow = ({
+ primary, participant, quitDelegatedVote, enableActions, representative
+}) => {
 	const [showActions, rowHandlers] = useHoverRow();
 
 	return (

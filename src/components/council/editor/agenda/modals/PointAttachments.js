@@ -3,8 +3,11 @@ import { DropDownMenu, BasicButton } from '../../../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../../../styles/colors';
 import withSharedProps from '../../../../../HOCs/withSharedProps';
 import CompanyDocumentsBrowser from '../../../../company/drafts/documents/CompanyDocumentsBrowser';
+import { removeTypenameField } from '../../../../../utils/CBX';
 
-const PointAttachments = ({ translate, company, attachments, setAttachments, setDeletedAttachments, deletedAttachments }) => {
+const PointAttachments = ({
+ translate, company, attachments, setAttachments, setDeletedAttachments, deletedAttachments
+}) => {
     const primary = getPrimary();
     const secondary = getSecondary();
     const [companyDocumentsModal, setCompanyDocumentsModal] = React.useState(false);
@@ -53,7 +56,7 @@ const PointAttachments = ({ translate, company, attachments, setAttachments, set
                 open={companyDocumentsModal}
                 requestClose={() => setCompanyDocumentsModal(false)}
                 action={file => {
-                    const { __typename, ...data } = file;
+                    const data = removeTypenameField(file);
                     setAttachments([...attachments, data]);
                     setCompanyDocumentsModal(false);
                 }}
@@ -106,7 +109,9 @@ const PointAttachments = ({ translate, company, attachments, setAttachments, set
                 items={
                     <div style={{ padding: '1em' }}>
                         <label htmlFor="raised-button-file">
-                            <div style={{ display: 'flex', color: 'black', padding: '.5em 0em', cursor: 'pointer' }}>
+                            <div style={{
+ display: 'flex', color: 'black', padding: '.5em 0em', cursor: 'pointer'
+}}>
                                 <div style={{ paddingLeft: '10px' }}>
                                     {translate.upload_file}
                                 </div>

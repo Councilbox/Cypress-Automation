@@ -169,7 +169,9 @@ class ChangePasswordForm extends React.Component {
 
 	render() {
 		const { translate } = this.props;
-		const { data, errors, success, loading, error } = this.state;
+		const {
+ data, errors, success, loading, error
+} = this.state;
 		const primary = getPrimary();
 		return (
 			<Fragment>
@@ -219,7 +221,9 @@ class ChangePasswordForm extends React.Component {
 								/>
 							</div>
 							{data.newPassword
-								&& <div style={{ width: isMobile ? '100%' : '40%', display: 'flex', alignItems: 'center', minHeight: isMobile ? '50px' : '' }}>
+								&& <div style={{
+ width: isMobile ? '100%' : '40%', display: 'flex', alignItems: 'center', minHeight: isMobile ? '50px' : ''
+}}>
 									<div style={{ width: '50%', marginRight: '3em' }}>
 										<LinearProgress
 											variant="determinate"

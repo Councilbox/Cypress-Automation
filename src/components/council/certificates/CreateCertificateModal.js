@@ -15,7 +15,9 @@ export const createCertificateMutation = gql`
 	}
 `;
 
-const CreateCertificateModal = ({ doc, open, requestClose, setError, client, councilId, options, generatePreview, company, translate, closeEditor }) => {
+const CreateCertificateModal = ({
+ doc, open, requestClose, setError, client, councilId, options, generatePreview, company, translate, closeEditor
+}) => {
     const [loading, setLoading] = React.useState(false);
 
     const createCertificate = async () => {

@@ -4,7 +4,9 @@ import CompanyDocumentsPage from './CompanyDocumentsPage';
 import { isMobile } from '../../../../utils/screen';
 
 
-const CompanyDocumentsBrowser = ({ company, translate, action, open, requestClose, trigger }) => {
+const CompanyDocumentsBrowser = ({
+ company, translate, action, open, requestClose, trigger
+}) => {
     const renderBody = () => (
             <CompanyDocumentsPage
                 translate={translate}

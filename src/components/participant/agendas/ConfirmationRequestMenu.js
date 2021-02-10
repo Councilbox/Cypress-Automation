@@ -26,7 +26,9 @@ const styles = {
     }
 };
 
-const ConfirmationRequestMenu = ({ translate, singleVoteMode, agenda, council, votings, client, disabledColor, hasVideo, ...props }) => {
+const ConfirmationRequestMenu = ({
+ translate, singleVoteMode, agenda, council, votings, client, disabledColor, hasVideo, ...props
+}) => {
     const [loading, setLoading] = React.useState(false);
     const config = React.useContext(ConfigContext);
     const [modal, setModal] = React.useState(false);
@@ -209,7 +211,9 @@ export const DeniedDisplay = ({ denied }) => (
 );
 
 
-export const VotingButton = ({ onClick, text, selected, icon, loading, onChange, disabled, styleButton, selectCheckBox, color, disabledColor }) => {
+export const VotingButton = ({
+ onClick, text, selected, icon, loading, onChange, disabled, styleButton, selectCheckBox, color, disabledColor
+}) => {
     const primary = getPrimary();
     return (
         <GridItem xs={12} md={12} lg={12} style={isMobile ? styles.divisionM : styles.division}>

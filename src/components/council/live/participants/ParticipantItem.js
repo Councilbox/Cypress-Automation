@@ -1,19 +1,25 @@
 import React from 'react';
-import { MenuItem, Typography, Tooltip, Card } from 'material-ui';
+import {
+ MenuItem, Typography, Tooltip, Card
+} from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 import { GridItem, Grid, BasicButton } from '../../../../displayComponents';
 import { getSecondary, getPrimary } from '../../../../styles/colors';
 import StateIcon from './StateIcon';
 import EmailIcon from './EmailIcon';
 import TypeIcon from './TypeIcon';
-import { removeHTMLTags, isRepresented, hasHisVoteDelegated, getMainRepresentative } from '../../../../utils/CBX';
+import {
+ removeHTMLTags, isRepresented, hasHisVoteDelegated, getMainRepresentative
+} from '../../../../utils/CBX';
 import withWindowSize from '../../../../HOCs/withWindowSize';
 import AttendIntentionIcon from './AttendIntentionIcon';
 import ParticipantStateList from './ParticipantStateList';
 import { COUNCIL_TYPES } from '../../../../constants';
 
 
-const ParticipantItem = ({ participant, translate, layout, editParticipant, mode, council, ...props }) => {
+const ParticipantItem = ({
+ participant, translate, layout, editParticipant, mode, council, ...props
+}) => {
 	const secondary = getSecondary();
 	const gridSize = window.innerWidth < 1350 ? 6 : 6;
 
@@ -87,7 +93,9 @@ const ParticipantItem = ({ participant, translate, layout, editParticipant, mode
 	);
 };
 
-const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, secondary, council, refetch }) => {
+const CompactItemLayout = ({
+ participant, translate, mode, showSignatureModal, secondary, council, refetch
+}) => {
 	const primary = getPrimary();
 	const representative = getMainRepresentative(participant);
 
@@ -129,7 +137,9 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 								justifyContent: 'center'
 							}}
 						>
-							{_getIcon({ mode, participant, translate, council, representative })}
+							{_getIcon({
+ mode, participant, translate, council, representative
+})}
 						</div>
 					}
 				</div>
@@ -193,7 +203,9 @@ const CompactItemLayout = ({ participant, translate, mode, showSignatureModal, s
 
 const participantRepresentativeSigned = participant => participant.representatives && participant.representatives.length > 0 && getMainRepresentative(participant).signed;
 
-const TabletItem = ({ participant, translate, secondary, mode, showSignatureModal, council, refetch }) => {
+const TabletItem = ({
+ participant, translate, secondary, mode, showSignatureModal, council, refetch
+}) => {
 	const representative = getMainRepresentative(participant);
 	const primary = getPrimary();
 
@@ -231,7 +243,9 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 									justifyContent: 'center'
 								}}
 							>
-								{_getIcon({ mode, participant, translate, council, representative })}
+								{_getIcon({
+ mode, participant, translate, council, representative
+})}
 							</div>
 						}
 					</div>
@@ -507,7 +521,9 @@ const TabletItem = ({ participant, translate, secondary, mode, showSignatureModa
 	);
 };
 
-const _getIcon = ({ mode, participant, translate, council, representative }) => {
+const _getIcon = ({
+ mode, participant, translate, council, representative
+}) => {
 	switch (mode) {
 		case 'STATES':
 			return <StateIcon translate={translate} state={participant.state} />;

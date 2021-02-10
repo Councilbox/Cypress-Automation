@@ -4,7 +4,9 @@ import LiveSMS from './LiveSMS';
 import { isMobile } from '../../../../utils/screen';
 
 
-const SMSManagerModal = ({ open, translate, council, requestClose }) => (
+const SMSManagerModal = ({
+ open, translate, council, requestClose
+}) => (
         <div>
             <AlertConfirm
 				title={'SMS Manager'}
@@ -14,7 +16,9 @@ const SMSManagerModal = ({ open, translate, council, requestClose }) => (
 				modal={true}
 				requestClose={requestClose}
 				classNameDialog={isMobile ? 'noMarginM' : 'noMargin'}
-				bodyStyle={{ overflowY: 'hidden', height: '50vh', width: '100%', maxWidth: isMobile && '100vw' }}
+				bodyStyle={{
+ overflowY: 'hidden', height: '50vh', width: '100%', maxWidth: isMobile && '100vw'
+}}
 			/>
         </div>
     );

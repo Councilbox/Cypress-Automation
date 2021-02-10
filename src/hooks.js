@@ -191,7 +191,9 @@ export const useValidRTMP = statute => {
 	};
 };
 
-export const useParticipantContactEdit = ({ participant, client, translate, council }) => {
+export const useParticipantContactEdit = ({
+ participant, client, translate, council
+}) => {
 	const [edit, setEdit] = React.useState(false);
 	const [saving, setSaving] = React.useState(false);
 	const [success, setSuccess] = React.useState(false);

@@ -9,7 +9,8 @@ import {
 import { getPrimary } from '../../../../../styles/colors';
 import { addParticipant, checkUniqueCouncilEmails } from '../../../../../queries/councilParticipant';
 import { languages as languagesQuery } from '../../../../../queries/masters';
-import { checkValidEmail,
+import {
+ checkValidEmail,
 	checkRequiredFieldsParticipant,
 	checkRequiredFieldsRepresentative,
 } from '../../../../../utils/validation';
@@ -54,7 +55,8 @@ const initialRepresentative = {
 class AddCouncilParticipantButton extends React.Component {
 	state = {
 		modal: false,
-		data: { ...initialParticipant,
+		data: {
+ ...initialParticipant,
 			...(this.props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ? {
 				initialState: 2
 			} : {})

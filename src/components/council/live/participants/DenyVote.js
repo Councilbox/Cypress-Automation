@@ -6,7 +6,9 @@ import { getSecondary } from '../../../../styles/colors';
 import { ConfigContext } from '../../../../containers/AppControl';
 import { AlertConfirm, TextInput } from '../../../../displayComponents';
 
-const DenyVote = ({ translate, client, refetch, participant }) => {
+const DenyVote = ({
+ translate, client, refetch, participant
+}) => {
     const [modal, setModal] = React.useState(false);
     const [text, setText] = React.useState(participant.voteDeniedReason ? participant.voteDeniedReason : '');
     const secondary = getSecondary();

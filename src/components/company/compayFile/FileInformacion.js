@@ -1,12 +1,16 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import ContentEditable from 'react-contenteditable';
-import { Scrollbar, BasicButton, Grid, GridItem } from '../../../displayComponents';
+import {
+ Scrollbar, BasicButton, Grid, GridItem
+} from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
 import { getPrimary } from '../../../styles/colors';
 
 
-const FileInformacion = ({ translate, data, updateCompanyData, updateCompanyFile, updateCompany, updateFileData, ...props }) => {
+const FileInformacion = ({
+ translate, data, updateCompanyData, updateCompanyFile, updateCompany, updateFileData, ...props
+}) => {
     const primary = getPrimary();
     return (
         <div style={{ height: '100%' }}>

@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import React from 'react';
 import { Route, Router, Switch } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
@@ -20,7 +21,9 @@ import { API_URL, CLIENT_VERSION, WS_URL } from '../config';
 import AppRouter from './AppRouter';
 import { graphQLErrorHandler, refreshToken, networkErrorHandler } from '../utils';
 import AppControl from './AppControl';
-import { initUserData, loadingFinished, loadSubdomainConfig, setLanguage, noServerResponse, serverRestored } from '../actions/mainActions';
+import {
+ initUserData, loadingFinished, loadSubdomainConfig, setLanguage, noServerResponse, serverRestored
+} from '../actions/mainActions';
 import ErrorHandler from '../components/ErrorHandler';
 import ThemeProvider from '../displayComponents/ThemeProvider';
 import configureStore from '../store/store';
@@ -37,9 +40,6 @@ const httpLink = new HttpLink({
 });
 
 export const bHistory = createHistory();
-console.log(bHistory);
-
-
 export const store = configureStore();
 
 const getToken = () => {
@@ -126,6 +126,7 @@ const PlaygroundPage = Loadable({
 	loading: LoadingMainApp
 });
 
+// eslint-disable-next-line no-extend-native, func-names
 String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
@@ -150,11 +151,11 @@ const addStatusLink = new ApolloLink((operation, forward) => forward(operation).
 	}));
 
 
-const logoutLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
+const logoutLink = onError(({
+ graphQLErrors, networkError, operation, forward
+}) => {
 	console.info(graphQLErrors);
-	// console.error(graphQLErrors);
 	console.info(networkError);
-	// console.error(networkError);
 
 	if (graphQLErrors) {
 		if (graphQLErrors[0].code === 440) {

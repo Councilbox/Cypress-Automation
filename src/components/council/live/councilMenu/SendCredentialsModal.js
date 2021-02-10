@@ -9,7 +9,9 @@ import FailedSMSMessage from './FailedSMSMessage';
 import LiveSMS from './LiveSMS';
 
 
-const SendCredentialsModal = ({ translate, council, requestClose, ...props }) => {
+const SendCredentialsModal = ({
+ translate, council, requestClose, ...props
+}) => {
 	const [state, setState] = useOldState({
 		success: '',
 		error: '',
@@ -86,7 +88,9 @@ const SendCredentialsModal = ({ translate, council, requestClose, ...props }) =>
 
 		if (state.success) {
 			return (
-				<div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+				<div style={{
+ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'
+}}>
 					<SuccessMessage message={translate.sent} />
 				</div>
 			);

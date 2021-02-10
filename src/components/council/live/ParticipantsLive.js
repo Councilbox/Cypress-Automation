@@ -13,7 +13,9 @@ import {
 	AlertConfirm
 } from '../../../displayComponents';
 import { changeRequestWord, videoParticipants as videoParticipantsQuery, banParticipant as banParticipantMutation } from '../../../queries';
-import { exceedsOnlineTimeout, participantIsBlocked, isAskingForWord, formatCountryName, councilStarted } from '../../../utils/CBX';
+import {
+ exceedsOnlineTimeout, participantIsBlocked, isAskingForWord, formatCountryName, councilStarted
+} from '../../../utils/CBX';
 import VideoParticipantMenu from './videoParticipants/VideoParticipantMenu';
 import ChangeRequestWordButton from './videoParticipants/ChangeRequestWordButton';
 import VideoParticipantsStats from './videoParticipants/VideoParticipantsStats';
@@ -26,7 +28,9 @@ import imgCouncilbox from '../../../assets/img/imago-councilbox-inverse-mini.png
 import imgCouncilbox2 from '../../../assets/img/logo-white-mini.png';
 import { COUNCIL_STATES } from '../../../constants';
 
-const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) => {
+const ParticipantsLive = ({
+ screenSize, council, translate, client, ...props
+}) => {
 	const [stats, setStats] = React.useState({
 		online: '-',
 		offline: '-',
@@ -327,13 +331,19 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 	);
 
 	const paginationFooter = participants => (
-		<div style={{ display: 'flex', color: 'white', fontWeight: '700', alignItems: 'center', paddingTop: '0.5em' }}>
+		<div style={{
+ display: 'flex', color: 'white', fontWeight: '700', alignItems: 'center', paddingTop: '0.5em'
+}}>
 			{options.page > 1
-				&& <div onClick={() => setOptions({ ...options, page: options.page - 1 })} style={{ color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer' }}>{'<'}</div>
+				&& <div onClick={() => setOptions({ ...options, page: options.page - 1 })} style={{
+ color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer'
+}}>{'<'}</div>
 			}
 			<div style={{ margin: '0 0.3em' }}>{options.page}</div>
 			{(options.page < (participants.total / options.limit))
-				&& <div onClick={() => setOptions({ ...options, page: options.page + 1 })} style={{ color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer' }}>{'>'}</div>
+				&& <div onClick={() => setOptions({ ...options, page: options.page + 1 })} style={{
+ color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer'
+}}>{'>'}</div>
 			}
 		</div>
 	);
@@ -347,18 +357,24 @@ const ParticipantsLive = ({ screenSize, council, translate, client, ...props }) 
 		}
 
 		return (
-			<div style={{ backgroundColor: darkGrey, width: '100%', height: isMobile ? '430px' : `calc(100vh - ${props.videoHeight} - 5em)`, padding: '0.75em', position: 'relative', overflow: 'hidden' }}>
+			<div style={{
+ backgroundColor: darkGrey, width: '100%', height: isMobile ? '430px' : `calc(100vh - ${props.videoHeight} - 5em)`, padding: '0.75em', position: 'relative', overflow: 'hidden'
+}}>
 				<div style={{ height: `calc(100% - ${videoParticipants.total > options.limit ? '4em' : '2em'})` }}>
 					<Scrollbar>
 						{videoParticipants.list.map(participant => participantEntry(participant))}
 					</Scrollbar>
 				</div>
 				{videoParticipants.total > options.limit
-					&& <div style={{ height: '2em', display: 'flex', alignItems: 'center', borderTop: '1px solid gainsboro', width: '100%', justifyContent: 'flex-end', paddingTop: '0.3em' }}>
+					&& <div style={{
+ height: '2em', display: 'flex', alignItems: 'center', borderTop: '1px solid gainsboro', width: '100%', justifyContent: 'flex-end', paddingTop: '0.3em'
+}}>
 						{paginationFooter(videoParticipants)}
 					</div>
 				}
-				<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '3px' }}>
+				<div style={{
+ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '3px'
+}}>
 					<div style={{ width: '17px', marginRight: '5px', display: 'flex', }}>
 						<img src={imgCouncilbox} style={{ width: '100%' }}></img>
 					</div>

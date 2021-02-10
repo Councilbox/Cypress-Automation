@@ -1,5 +1,7 @@
 import React from 'react';
-import { Grid, LoadMoreButton, Scrollbar, LoadingSection, AlertConfirm } from '../../../../displayComponents';
+import {
+ Grid, LoadMoreButton, Scrollbar, LoadingSection, AlertConfirm
+} from '../../../../displayComponents';
 
 import ParticipantItem from './ParticipantItem';
 import SignatureModal from './modals/SignatureModal';
@@ -9,7 +11,9 @@ import { PARTICIPANT_STATES } from '../../../../constants';
 import { getMainRepresentative } from '../../../../utils/CBX';
 import { isMobile } from '../../../../utils/screen';
 
-const ParticipantsList = ({ mode, translate, layout, council, refetch, loadMore, loading, loadingMore, participants }) => {
+const ParticipantsList = ({
+ mode, translate, layout, council, refetch, loadMore, loading, loadingMore, participants
+}) => {
 	const [state, setState] = useOldState({
 		showSignatureModal: false,
 		participantToSign: null,

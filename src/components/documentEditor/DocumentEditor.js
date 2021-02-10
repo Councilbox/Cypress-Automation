@@ -14,7 +14,9 @@ import Timbrado from './Timbrado';
 import DocumentPreview from './DocumentPreview';
 
 
-const DocumentEditor = ({ translate, company, data, documentId, editBlock, blocks, column, updateDocument, doc, client, setDoc, documentMenu, options, setOptions, withDrawer, ...props }) => {
+const DocumentEditor = ({
+ translate, company, data, documentId, editBlock, blocks, column, updateDocument, doc, client, setDoc, documentMenu, options, setOptions, withDrawer, ...props
+}) => {
     function filterBlocks() {
         if (doc && blocks) {
             return blocks.filter(block => block.type === 'text' || !doc.find(item => item.type === block.type));
@@ -104,7 +106,9 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
     const opcionesMenu = () => (
             <React.Fragment>
                 <div style={{ width: '98%', display: 'flex', padding: '1em 1em ' }}>
-                    <i className="material-icons" style={{ color: primary, fontSize: '14px', cursor: 'pointer', paddingRight: '0.3em', marginTop: '4px' }} onClick={() => setState({
+                    <i className="material-icons" style={{
+ color: primary, fontSize: '14px', cursor: 'pointer', paddingRight: '0.3em', marginTop: '4px'
+}} onClick={() => setState({
                         ...state,
                         hide: !hide
                     })}>
@@ -122,7 +126,9 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
 
                 <div style={{ height: withDrawer ? 'calc( 100% - 6em )' : 'calc( 100% - 3em )', borderRadius: '8px' }}>
                     <Scrollbar>
-                        <Grid style={{ justifyContent: 'space-between', width: '98%', padding: '1em', paddingTop: '1em', paddingBottom: '3em' }}>
+                        <Grid style={{
+ justifyContent: 'space-between', width: '98%', padding: '1em', paddingTop: '1em', paddingBottom: '3em'
+}}>
                             <React.Fragment>
                                 <OptionsMenu
                                     translate={translate}
@@ -164,14 +170,18 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                         >
                             {opcionesMenu()}
                         </DrawerOptions>
-                        : <div style={{ width: '700px', maxWidth: '700px', transition: 'max-width 0.5s linear', overflow: 'hidden', height: 'calc( 100% - 3em )', display: collapse ? 'none' : '' }}>
+                        : <div style={{
+ width: '700px', maxWidth: '700px', transition: 'max-width 0.5s linear', overflow: 'hidden', height: 'calc( 100% - 3em )', display: collapse ? 'none' : ''
+}}>
                             {opcionesMenu()}
                         </div>
 
                     }
 
 
-                    <div style={{ width: '100%', position: collapse && 'relative', height: 'calc( 100% - 3.5em )', justifyContent: collapse ? 'center' : '', display: collapse ? 'flex' : '' }}>
+                    <div style={{
+ width: '100%', position: collapse && 'relative', height: 'calc( 100% - 3.5em )', justifyContent: collapse ? 'center' : '', display: collapse ? 'flex' : ''
+}}>
                         {!collapse
                             && <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1em 0em ' }}>
                                 <div style={{ display: 'flex' }}>
@@ -312,7 +322,9 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                 </Tooltip>
                             }
                         </div>
-                        <div style={{ height: 'calc( 100% - 3em )', border: '1px solid gainsboro', marginTop: collapse && '4em', borderRadius: '8px', background: 'white', maxWidth: collapse ? '210mm' : '', width: collapse ? '100%' : '' }}>
+                        <div style={{
+ height: 'calc( 100% - 3em )', border: '1px solid gainsboro', marginTop: collapse && '4em', borderRadius: '8px', background: 'white', maxWidth: collapse ? '210mm' : '', width: collapse ? '100%' : ''
+}}>
                             <Scrollbar ref={scroll}>
                                 {preview ?
                                     <DocumentPreview
@@ -336,11 +348,15 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
                                         </div>
                                         <div style={{ width: '100%' }}>
                                             <div style={{ width: '100%' }}>
-                                                <div style={{ marginTop: '1em', marginRight: '4em', maxWidth: '125px', float: 'right' }}>
+                                                <div style={{
+ marginTop: '1em', marginRight: '4em', maxWidth: '125px', float: 'right'
+}}>
                                                     <img style={{ width: 'auto', maxHeight: '3em', float: 'right' }} src={company.logo}></img>
                                                 </div>
                                             </div>
-                                            <div style={{ padding: '1em', clear: 'both', paddingLeft: '0.5em', marginRight: '3em', marginBottom: '3em' }} className={'actaLienzo'}>
+                                            <div style={{
+ padding: '1em', clear: 'both', paddingLeft: '0.5em', marginRight: '3em', marginBottom: '3em'
+}} className={'actaLienzo'}>
                                                 <SortableList
                                                     axis={'y'}
                                                     lockAxis={'y'}
@@ -374,7 +390,9 @@ const DocumentEditor = ({ translate, company, data, documentId, editBlock, block
     );
 };
 
-const SortableList = SortableContainer(({ items, column, editBlock, state, edit, translate, offset = 0, moveUp, moveDown, remove, ...props }) => {
+const SortableList = SortableContainer(({
+ items, column, editBlock, state, edit, translate, offset = 0, moveUp, moveDown, remove, ...props
+}) => {
     if (edit) {
         return (
             <div>
@@ -465,7 +483,9 @@ const DraggableBlock = SortableElement(props => {
         >
             <div style={{ paddingRight: '4px', background: props.value.colorBorder ? props.value.colorBorder : getPrimary(), borderRadius: '15px', }}></div>
             <div style={{ marginLeft: '4px', width: '95%', minHeight: '90px' }}>
-                <div style={{ width: '25px', cursor: 'pointer', position: 'absolute', top: '5px', right: '35px' }}>
+                <div style={{
+ width: '25px', cursor: 'pointer', position: 'absolute', top: '5px', right: '35px'
+}}>
                     {props.expand
                         && <IconsDragActions
                             turn={'expand'}
@@ -478,7 +498,9 @@ const DraggableBlock = SortableElement(props => {
                         />
                     }
                 </div>
-                <div style={{ width: '25px', cursor: 'pointer', position: 'absolute', top: '5px', right: '0', }}>
+                <div style={{
+ width: '25px', cursor: 'pointer', position: 'absolute', top: '5px', right: '0',
+}}>
                     {!props.value.hideDelete
                         && <IconsDragActions
                             turn={'cross'}
@@ -490,7 +512,9 @@ const DraggableBlock = SortableElement(props => {
                         />
                     }
                 </div>
-                <div style={{ width: '25px', cursor: 'pointer', position: 'absolute', top: !props.noBorrar ? '35px' : '10px', right: '1px', }}>
+                <div style={{
+ width: '25px', cursor: 'pointer', position: 'absolute', top: !props.noBorrar ? '35px' : '10px', right: '1px',
+}}>
                     <div>
                         <IconsDragActions
                             turn={'up'}
@@ -628,15 +652,23 @@ const NoDraggableBlock = props => {
 const LogicBlocks = ({ automaticos, addItem, translate }) => {
     const [open, setOpen] = React.useState(true);
     return (
-        <div style={{ width: '100%', background: 'white', boxShadow: ' 0 2px 4px 5px rgba(0, 0, 0, 0.11)', borderRadius: '4px', marginBottom: '0.8em', }}>
+        <div style={{
+ width: '100%', background: 'white', boxShadow: ' 0 2px 4px 5px rgba(0, 0, 0, 0.11)', borderRadius: '4px', marginBottom: '0.8em',
+}}>
             <div style={{ width: '100%', display: 'flex', }}>
                 <div style={{ paddingRight: '4px', }}></div>
-                <div style={{ marginLeft: '0.5em', paddingTop: '0.8em', paddingBottom: '0.8em', width: '100%' }}>
-                    <div style={{ width: '100%', fontSize: '16px', color: '#a09aa0', display: 'flex', fontWeight: 'bold' }}>
+                <div style={{
+ marginLeft: '0.5em', paddingTop: '0.8em', paddingBottom: '0.8em', width: '100%'
+}}>
+                    <div style={{
+ width: '100%', fontSize: '16px', color: '#a09aa0', display: 'flex', fontWeight: 'bold'
+}}>
                         <div style={{ marginRight: '1em', width: '15em' }}>{translate.auto_blocks}</div>
                         <div style={{ display: 'flex', width: '100%' }}>
                             <div>
-                                <i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', cursor: 'pointer', paddingRight: '0.3em', marginTop: '4px' }} onClick={() => setOpen(!open)}>
+                                <i className="material-icons" style={{
+ color: getPrimary(), fontSize: '14px', cursor: 'pointer', paddingRight: '0.3em', marginTop: '4px'
+}} onClick={() => setOpen(!open)}>
                                     help
 							</i>
                             </div>
@@ -662,15 +694,21 @@ const LogicBlocks = ({ automaticos, addItem, translate }) => {
     );
 };
 
-const CajaLogicBlocks = ({ item, addItem, itemInfo, translate }) => (
+const CajaLogicBlocks = ({
+ item, addItem, itemInfo, translate
+}) => (
         <div style={{ display: 'flex', width: '100%', marginBottom: '0.8em' }}>
-            <div style={{ color: getPrimary(), fontWeight: 'bold', fontSize: '16px', display: 'flex' }}>
+            <div style={{
+ color: getPrimary(), fontWeight: 'bold', fontSize: '16px', display: 'flex'
+}}>
                 <div>
                     <img src={item.icon} />
                 </div>
             </div>
             <div style={{ justifyContent: 'space-between', display: 'flex', width: '100%' }}>
-                <div style={{ marginLeft: '0.3em', width: '100%', whiteSpace: 'nowrap', fontSize: ' 16px', overflow: 'hidden', textOverflow: 'ellipsis', color: '#000000' }}>
+                <div style={{
+ marginLeft: '0.3em', width: '100%', whiteSpace: 'nowrap', fontSize: ' 16px', overflow: 'hidden', textOverflow: 'ellipsis', color: '#000000'
+}}>
                     {translate[item.label] || item.label}
                 </div>
                 <div style={{ marginLeft: '0.3em', marginRight: '0.3em' }}>
@@ -683,7 +721,9 @@ const CajaLogicBlocks = ({ item, addItem, itemInfo, translate }) => (
     );
 
 
-export const IconsDragActions = ({ click, id, indexItem, turn, expand }) => {
+export const IconsDragActions = ({
+ click, id, indexItem, turn, expand
+}) => {
     const [hover, setHover] = React.useState(false);
 
     const onMouseEnter = () => {
@@ -699,7 +739,9 @@ export const IconsDragActions = ({ click, id, indexItem, turn, expand }) => {
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
                 className={'material-icons'}
-                style={{ background: hover && 'gainsboro', borderRadius: '20px', color: '#a09aa0', transform: 'rotate(-90deg)' }}
+                style={{
+ background: hover && 'gainsboro', borderRadius: '20px', color: '#a09aa0', transform: 'rotate(-90deg)'
+}}
                 aria-hidden="true"
                 onClick={() => click(id, indexItem)}
             >
@@ -713,7 +755,9 @@ export const IconsDragActions = ({ click, id, indexItem, turn, expand }) => {
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
                 className={'fa fa-compress'}
-                style={{ background: hover && 'gainsboro', borderRadius: '20px', color: expand ? 'black' : '#a09aa0', padding: '5px', fontSize: '16px', }}
+                style={{
+ background: hover && 'gainsboro', borderRadius: '20px', color: expand ? 'black' : '#a09aa0', padding: '5px', fontSize: '16px',
+}}
                 aria-hidden="true"
                 onClick={() => click(id, indexItem)}
             >
@@ -740,7 +784,9 @@ export const IconsDragActions = ({ click, id, indexItem, turn, expand }) => {
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
                 className={'material-icons'}
-                style={{ background: hover && 'gainsboro', borderRadius: '20px', color: '#a09aa0', transform: 'rotate(90deg)' }}
+                style={{
+ background: hover && 'gainsboro', borderRadius: '20px', color: '#a09aa0', transform: 'rotate(90deg)'
+}}
                 aria-hidden="true"
                 onClick={() => click(id, indexItem)}
             >

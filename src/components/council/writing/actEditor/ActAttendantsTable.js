@@ -12,7 +12,9 @@ import { moment } from '../../../../containers/App';
 import CbxDataModal from './CbxDataModal';
 
 
-const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
+const ActAttendantsTable = ({
+ data, translate, client, council, ...props
+}) => {
     const [total, setTotal] = React.useState(null);
     const [councilAttendantsData, setCouncilAttendantsData] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
@@ -53,7 +55,9 @@ const ActAttendantsTable = ({ data, translate, client, council, ...props }) => {
             {loading ?
                 <LoadingSection />
                 : total <= 0 && total !== null ?
-                    <div style={{ display: 'flex', fontSize: '1.2em', flexDirection: 'column', fontWeight: '700', height: '80%', alignItems: 'center', justifyContent: 'center' }}>
+                    <div style={{
+ display: 'flex', fontSize: '1.2em', flexDirection: 'column', fontWeight: '700', height: '80%', alignItems: 'center', justifyContent: 'center'
+}}>
                         <i className="fa fa-user-times" aria-hidden="true" style={{ fontSize: '6em', color: secondary }}></i>
                         {translate.no_participant_attended}
                     </div>

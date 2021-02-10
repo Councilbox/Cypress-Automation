@@ -93,7 +93,9 @@ class CompanyCensusPage extends React.Component {
 					limits={CENSUS_LIMITS}
 					page={1}
 					menuButtons={
-						<div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: isMobile ? 'flex-start' : 'center' }}>
+						<div style={{
+ height: '100%', display: 'flex', alignItems: 'center', justifyContent: isMobile ? 'flex-start' : 'center'
+}}>
 							<div>
 								<AddCensusButton
 									translate={translate}

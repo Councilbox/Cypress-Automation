@@ -34,7 +34,9 @@ export const useDownloadCouncilAttendants = client => {
     return { loading, downloadPDF };
 };
 
-const DownloadAttendantsPDF = ({ translate, color, council, client }) => {
+const DownloadAttendantsPDF = ({
+ translate, color, council, client
+}) => {
     const { loading, downloadPDF } = useDownloadCouncilAttendants(client);
 
     return (

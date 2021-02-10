@@ -12,7 +12,9 @@ import { wallComments } from '../../../queries';
 import { Icon, LoadingSection, Scrollbar } from '../../../displayComponents';
 import { moment } from '../../../containers/App';
 
-const CommentWall = ({ open, data, council, translate, subscribeToWallComments, requestClose, updateState, unreadComments }) => {
+const CommentWall = ({
+ open, data, council, translate, subscribeToWallComments, requestClose, updateState, unreadComments
+}) => {
 	const [commentsRead, setCommentsRead] = React.useState(sessionStorage.getItem(`readMessages_${council.id}`) || 0);
 	const scrollbar = React.useRef();
 

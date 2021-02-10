@@ -577,7 +577,9 @@ export const buildDelegationsString = (delegated, council, translate) => {
 			vote.representative && vote.representative.name} ${(vote.representative && vote.representative.surname) || ''} </p><br/>`, '');
 };
 
-export const buildAttendantString = ({ attendant, council, total, type }) => {
+export const buildAttendantString = ({
+ attendant, council, total, type
+}) => {
 	if (type === 'counselors') {
 		return `${sir[council.language]} ${attendant.name} ${attendant.surname || ''}`;
 	}
@@ -635,7 +637,9 @@ export const buildAttendantsString = ({ council, total, type }) => (acc, curr) =
 	if (!hasParticipations(council)) {
 		return `${acc}${curr.name} ${curr.surname || ''} <br/>`;
 	}
-	return acc + buildAttendantString({ attendant: curr, council, total, type });
+	return acc + buildAttendantString({
+ attendant: curr, council, total, type
+});
 };
 
 export const isAdmin = user => user.roles === 'admin' || user.roles === 'devAdmin';
@@ -719,7 +723,9 @@ export const buildShareholdersList = ({ council, total, type }) => {
 	};
 
 	return council.attendants.filter(checkIfHasVote)
-		.reduce((acc, curr) => `${acc}<br>${buildAttendantString({ attendant: curr, total, council, type })}`, `${
+		.reduce((acc, curr) => `${acc}<br>${buildAttendantString({
+ attendant: curr, total, council, type
+})}`, `${
 			type === 'partners' ?
 				partnersText[council.language]
 			:				type === 'counselors' ?
@@ -887,7 +893,9 @@ export const changeVariablesToValues = async (initialText, data, translate) => {
 	text = text.replace(/{{GBAgreements}}/g, generateGBAgreements({ translate, company: data.company.governingBodyType }));
 	text = text.replace(/{{companyAdmins}}/, generateCompanyAdminsText({ translate, company: data.company, council: data.council }));
 	text = text.replace(/{{shareholdersList}}/, buildShareholdersList({ council: data.council, total: base }));
-	text = text.replace(/{{companyAdminsList}}/, generateCompanyAdminsText({ translate, company: data.company, council: data.council, list: true }));
+	text = text.replace(/{{companyAdminsList}}/, generateCompanyAdminsText({
+ translate, company: data.company, council: data.council, list: true
+}));
 	text = text.replace(/{{guestList}}/, buildGuestList({ council: data.council, total: base }));
 	text = text.replace(/{{partnersList}}/, buildShareholdersList({ council: data.council, total: base, type: 'partners' }));
 	text = text.replace(/{{counselorsList}}/, buildShareholdersList({ council: data.council, total: base, type: 'counselors' }));
@@ -1856,6 +1864,11 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 
 	updateErrors(errors);
 	return hasError;
+};
+
+export const removeTypenameField = object => {
+	const { __typename, ...rest } = object;
+	return rest;
 };
 
 export const cleanAgendaObject = agenda => {

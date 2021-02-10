@@ -21,7 +21,9 @@ import {
 	buildDelegationsString
 } from '../../../../utils/CBX';
 import DocumentEditor from '../../../documentEditor/DocumentEditor';
-import { buildDoc, useDoc, buildDocBlock, buildDocVariable } from '../../../documentEditor/utils';
+import {
+ buildDoc, useDoc, buildDocBlock, buildDocVariable
+} from '../../../documentEditor/utils';
 import DownloadDoc from '../../../documentEditor/DownloadDoc';
 import { actBlocks } from '../../../documentEditor/actBlocks';
 import SendActToVote from '../../live/act/SendActToVote';
@@ -241,7 +243,9 @@ export const generateCouncilSmartTagsValues = data => {
 };
 
 export const ActContext = React.createContext();
-const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, refetch, withDrawer, liveMode }) => {
+const ActEditor = ({
+ translate, updateCouncilAct, councilID, client, company, refetch, withDrawer, liveMode
+}) => {
 	const [saving, setSaving] = React.useState(false);
 	const [sendToVote, setSendToVote] = React.useState(false);
 	const [sendActDraft, setSendActDraft] = React.useState(false);

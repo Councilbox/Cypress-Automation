@@ -9,7 +9,9 @@ import { getCustomLogo, getCustomIcon } from '../../../../utils/subdomain';
 import CouncilMenu from '../councilMenu/CouncilMenu';
 import CouncilStateButton from '../menus/CouncilStateButton';
 
-const LiveMobileHeader = React.memo(({ windowSize, translate, council, recount, participants, refetch }) => {
+const LiveMobileHeader = React.memo(({
+ windowSize, translate, council, recount, participants, refetch
+}) => {
 	const [showConfirm, setShowConfirm] = React.useState(false);
 	const primary = getPrimary();
 	const customLogo = getCustomLogo();

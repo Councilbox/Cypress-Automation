@@ -8,7 +8,9 @@ import { login as loginMutation } from '../../queries';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import withWindowSize from '../../HOCs/withWindowSize';
 import withTranslations from '../../HOCs/withTranslations';
-import { BasicButton, ButtonIcon, Link, TextInput, NotLoggedLayout, Grid, GridItem, CBXFooter } from '../../displayComponents';
+import {
+ BasicButton, ButtonIcon, Link, TextInput, NotLoggedLayout, Grid, GridItem, CBXFooter
+} from '../../displayComponents';
 import { useOldState } from '../../hooks';
 import { useSubdomain, getCustomLogo } from '../../utils/subdomain';
 import { isMobile } from '../../utils/screen';
@@ -141,7 +143,9 @@ const Login = ({ translate, windowSize, ...props }) => {
 			helpIcon={true}
 			languageSelector={true}
 		>
-			<Grid style={{ width: '100%', overflowX: 'hidden', padding: '0', margin: '0' }}>
+			<Grid style={{
+ width: '100%', overflowX: 'hidden', padding: '0', margin: '0'
+}}>
 				<GridItem xs={12} md={7} lg={7}
 					style={{
 						color: 'white',
@@ -204,7 +208,9 @@ const Login = ({ translate, windowSize, ...props }) => {
 												color={'transparent'}
 												fullWidth
 												buttonStyle={{ backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em' }}
-												textStyle={{ color: 'white', fontWeight: '700', fontSize: '0.8rem', textTransform: 'none' }}
+												textStyle={{
+ color: 'white', fontWeight: '700', fontSize: '0.8rem', textTransform: 'none'
+}}
 											/>
 										</Link>
 									</div>

@@ -45,7 +45,9 @@ class AgendaEvent extends React.Component {
 			20: translate.companies_live,
 			30: translate.companies_live
 		};
-		const objectClass = { 5: 'fa fa-calendar-o', 10: 'fa fa-calendar-o', 20: 'fa fa-users', 30: 'fa fa-users' };
+		const objectClass = {
+ 5: 'fa fa-calendar-o', 10: 'fa fa-calendar-o', 20: 'fa fa-users', 30: 'fa fa-users'
+};
 		return (
 			<div>
 				<div style={{ display: 'flex', cursor: 'pointer', }} onClick={this.selectEvent}>

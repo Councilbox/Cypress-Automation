@@ -1,7 +1,9 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
-import { Table, TableHead, TableCell, TableRow, TableBody, MenuItem } from 'material-ui';
+import {
+ Table, TableHead, TableCell, TableRow, TableBody, MenuItem
+} from 'material-ui';
 import { DropDownMenu, LoadingSection } from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
 import { getSecondary } from '../../../../styles/colors';
@@ -64,7 +66,9 @@ const CommenWallList = ({ council, translate, client }) => {
     }
 
     return (
-        <div style={{ width: '95%', margin: 'auto', paddingBottom: '5em', marginTop: '1em' }}>
+        <div style={{
+ width: '95%', margin: 'auto', paddingBottom: '5em', marginTop: '1em'
+}}>
             {data.participantComments.length === 0 ?
                 translate.no_results
             : <>

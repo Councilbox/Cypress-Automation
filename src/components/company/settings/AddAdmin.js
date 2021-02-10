@@ -5,7 +5,9 @@ import { corporationUsers } from '../../../queries/corporation';
 import { LoadingSection, PaginationFooter, AlertConfirm } from '../../../displayComponents';
 
 
-const AddAdmin = ({ translate, company, refetch, admins, client }) => {
+const AddAdmin = ({
+ translate, company, refetch, admins, client
+}) => {
     const [users, setUsers] = React.useState({
         list: null,
         page: 1,

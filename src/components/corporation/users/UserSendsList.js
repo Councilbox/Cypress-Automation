@@ -8,7 +8,9 @@ import NotificationsTable from '../../notifications/NotificationsTable';
 import { usePolling } from '../../../hooks';
 
 
-const UserSendsList = ({ translate, enRoot, client, ...props }) => {
+const UserSendsList = ({
+ translate, enRoot, client, ...props
+}) => {
     const [sending, setSending] = React.useState(false);
     const secondary = getSecondary();
     const [sends, setSends] = React.useState(null);
@@ -76,7 +78,9 @@ const UserSendsList = ({ translate, enRoot, client, ...props }) => {
 
     return (
         <div style={{ marginBottom: '3em' }}>
-            <div style={{ width: '100%', display: 'flex', flexDirection: 'row', marginTop: '0.8em', alignItems: 'center' }}>
+            <div style={{
+ width: '100%', display: 'flex', flexDirection: 'row', marginTop: '0.8em', alignItems: 'center'
+}}>
                 <Typography variant="subheading" style={{ color: getPrimary(), marginRight: '0.6em' }}>
                     {translate.sends}
                 </Typography>

@@ -3,7 +3,9 @@ import FilterButton from './FilterButton';
 import Icon from './Icon';
 import { getSecondary } from '../styles/colors';
 
-const RefreshButton = ({ tooltip, loading, onClick, elevation, buttonStyle }) => (
+const RefreshButton = ({
+ tooltip, loading, onClick, elevation, buttonStyle
+}) => (
 	<FilterButton
 		tooltip={tooltip}
 		loading={loading}

@@ -47,7 +47,9 @@ class EditorStepLayout extends React.Component {
                     height: 'calc(100% - 4em)'
                 }}
             >
-                <div style={{ height: '100%', overflow: 'hidden', position: 'relative', borderTop: '1px solid gainsboro', }}>
+                <div style={{
+ height: '100%', overflow: 'hidden', position: 'relative', borderTop: '1px solid gainsboro',
+}}>
                     <Scrollbar
                         ref={ref => {
                             this.scrollbar = ref;
@@ -59,7 +61,9 @@ class EditorStepLayout extends React.Component {
                         </div>
                     </Scrollbar>
                 </div>
-                <div style={{ height: '3.5em', borderTop: '1px solid gainsboro', paddingRight: '0.8em', width: '100%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+                <div style={{
+ height: '3.5em', borderTop: '1px solid gainsboro', paddingRight: '0.8em', width: '100%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center'
+}}>
                     {buttons}
                 </div>
             </div>

@@ -5,7 +5,9 @@ import { AlertConfirm, LoadingSection } from '../../../../displayComponents';
 import RichTextInput from '../../../../displayComponents/RichTextInput';
 
 
-const PauseCouncilModal = ({ open, council, requestClose, client, translate, refetch }) => {
+const PauseCouncilModal = ({
+ open, council, requestClose, client, translate, refetch
+}) => {
     const [status, setStatus] = React.useState('IDDLE');
     const [message, setMessage] = React.useState('');
 

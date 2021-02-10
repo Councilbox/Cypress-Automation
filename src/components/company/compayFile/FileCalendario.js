@@ -108,12 +108,16 @@ const FileCalendario = ({ translate, company, client }) => {
                 />
                 <div style={{ marginTop: '1em' }}>
                     <div>
-                        <div style={{ fontWeight: 'bold', color: primary, display: 'flex', alignItems: 'center' }}>
+                        <div style={{
+ fontWeight: 'bold', color: primary, display: 'flex', alignItems: 'center'
+}}>
                             {translate.add}
                             <i
                                 className={'fa fa-plus-circle'}
                                 onClick={() => setShowCreateMenu(!showCreateMenu)}
-                                style={{ color: primary, cursor: 'pointer', fontSize: '25px', paddingLeft: '5px' }}
+                                style={{
+ color: primary, cursor: 'pointer', fontSize: '25px', paddingLeft: '5px'
+}}
                             />
                         </div>
                         {showCreateMenu

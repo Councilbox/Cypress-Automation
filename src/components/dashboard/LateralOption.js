@@ -3,7 +3,9 @@ import { ListItem } from 'material-ui';
 import { Icon } from '../../displayComponents';
 import { bHistory } from '../../containers/App';
 
-const LateralOption = ({ icon, text, link, customIcon, style }) => {
+const LateralOption = ({
+ icon, text, link, customIcon, style
+}) => {
 	const followLink = path => {
 		bHistory.push(path);
 	};
@@ -42,7 +44,9 @@ const LateralOption = ({ icon, text, link, customIcon, style }) => {
 						borderRadius: '3px'
 					}}
 				>
-					<div style={{ textAlign: 'center', alignItems: 'center', justifyContent: 'center', display: 'flex', }}>
+					<div style={{
+ textAlign: 'center', alignItems: 'center', justifyContent: 'center', display: 'flex',
+}}>
 						{!customIcon ? (
 							<Icon
 								className="material-icons"

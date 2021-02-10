@@ -13,7 +13,9 @@ import { getPrimary, getSecondary } from '../../../../../styles/colors';
 import { moment } from '../../../../../containers/App';
 import { isMobile } from '../../../../../utils/screen';
 
-const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council, ...props }) => {
+const ResendCredentialsModal = ({
+ translate, participant, sendAccessKey, council, ...props
+}) => {
 	const [modal, setModal] = React.useState(false);
 	const primary = getPrimary();
 	const translation = translate.sure_send_video.replace(

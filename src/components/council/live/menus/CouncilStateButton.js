@@ -8,7 +8,9 @@ import { councilStarted, pointIsClosed } from '../../../../utils/CBX';
 import { LoadingSection } from '../../../../displayComponents';
 import ResumeCouncilButton from './ResumeCouncilButton';
 
-const CouncilStateButton = ({ translate, data, council, participants, refetch, recount, ...props }) => {
+const CouncilStateButton = ({
+ translate, data, council, participants, refetch, recount, ...props
+}) => {
     const [unclosedAgendas, setUnclosedAgendas] = React.useState([]);
 
     React.useEffect(() => {

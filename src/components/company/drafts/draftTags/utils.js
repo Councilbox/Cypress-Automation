@@ -39,7 +39,9 @@ export const createTag = (data, type, translate) => {
 			type
 		}),
 		3: () => {
-			const { votingTypes, majorityTypes, addTag, ...draft } = data;
+			const {
+ votingTypes, majorityTypes, addTag, ...draft
+} = data;
 			return ({
 				name: draft.label,
 				label: translate[draft.label],

@@ -9,7 +9,9 @@ import Table, {
 import TableStyles from '../styles/table';
 import { isMobile } from '../utils/screen';
 
-const TableWrapper = ({ headers = [], children, forceMobileTable, stylesHeader, stylesHeaderRow }) => (
+const TableWrapper = ({
+ headers = [], children, forceMobileTable, stylesHeader, stylesHeaderRow
+}) => (
 	<React.Fragment>
 		{isMobile && !forceMobileTable ?
 			children

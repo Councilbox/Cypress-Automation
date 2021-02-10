@@ -2,7 +2,14 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
 import { Table, TableBody, TableHead, TableRow, TableCell, MenuItem } from 'material-ui';
-import { showNumParticipations, councilHasSession, hasParticipations, hasVotation, isConfirmationRequest, isCustomPoint } from '../../../../utils/CBX';
+import {
+    showNumParticipations,
+    councilHasSession,
+    hasParticipations,
+    hasVotation,
+    isConfirmationRequest,
+    isCustomPoint
+} from '../../../../utils/CBX';
 import { getSecondary } from '../../../../styles/colors';
 import { useDownloadHTMLAsPDF, usePolling } from '../../../../hooks';
 import { AlertConfirm, DropDownMenu, Scrollbar } from '../../../../displayComponents';
@@ -10,11 +17,13 @@ import { moment } from '../../../../containers/App';
 import { COUNCIL_TYPES } from '../../../../constants';
 
 
-const QuorumDisplay = ({ council, recount, translate, company }) => {
+const QuorumDisplay = ({
+ council, recount, translate, company
+}) => {
     const secondary = getSecondary();
     const [modal, setModal] = React.useState(false);
 
-    const councilStarted = () => (council.state === 20 || council.state === 30) && council.councilStarted == 1;
+    const councilStarted = () => (council.state === 20 || council.state === 30) && council.councilStarted === 1;
 
     if (council.councilType === COUNCIL_TYPES.ONE_ON_ONE) {
         return null;
@@ -73,7 +82,9 @@ const mainRowsStyle = {
     fontSize: '14px'
 };
 
-export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas = [], company, translate, recount, totalVotes, socialCapital, client }) => {
+export const QuorumDetails = withApollo(({
+ council, renderVotingsTable, agendas = [], company, translate, recount, totalVotes, socialCapital, client
+}) => {
     const [data, setData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
     const secondary = getSecondary();

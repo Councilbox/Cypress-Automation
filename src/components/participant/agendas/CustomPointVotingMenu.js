@@ -4,7 +4,9 @@ import gql from 'graphql-tag';
 import { AGENDA_TYPES, AGENDA_STATES } from '../../../constants';
 import { VotingButton, DeniedDisplay } from './VotingMenu';
 import { VotingContext } from './AgendaNoSession';
-import { agendaPointOpened, councilHasSession, getAgendaTypeLabel, showNumParticipations, voteAllAtOnce } from '../../../utils/CBX';
+import {
+    agendaPointOpened, councilHasSession, getAgendaTypeLabel, removeTypenameField, showNumParticipations, voteAllAtOnce
+} from '../../../utils/CBX';
 import { ConfigContext } from '../../../containers/AppControl';
 
 const createSelectionsFromBallots = (ballots = [], participantId) => ballots
@@ -26,6 +28,21 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
 
     const disabled = agenda.votingState !== AGENDA_STATES.DISCUSSION || cantVote;
 
+    const sendCustomAgendaVote = async selected => {
+        if (voteAllAtOnce({ council })) {
+            votingContext.responses.set(ownVote.id, selected);
+            votingContext.setResponses(new Map(votingContext.responses));
+        } else {
+            await updateCustomPointVoting({
+                variables: {
+                    selections: selected,
+                    votingId: ownVote.id
+                }
+            });
+            await props.refetch();
+        }
+    };
+
     const buildRecountText = itemId => {
         if (!agenda.votingsRecount) {
             return '';
@@ -46,10 +63,10 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
     };
 
     const addSelection = item => {
-        let newSelections = [...selections, cleanObject(item)];
+        let newSelections = [...selections, removeTypenameField(item)];
         if (selections.length === 1) {
             if (selections[0].id === -1) {
-                newSelections = [cleanObject(item)];
+                newSelections = [removeTypenameField(item)];
             }
         }
         setSelections(newSelections);
@@ -70,8 +87,8 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
     };
 
     const setSelection = item => {
-        setSelections([cleanObject(item)]);
-        sendCustomAgendaVote([cleanObject(item)]);
+        setSelections([removeTypenameField(item)]);
+        sendCustomAgendaVote([removeTypenameField(item)]);
     };
 
     const setAbstentionOption = () => {
@@ -82,21 +99,6 @@ const CustomPointVotingMenu = ({ agenda, translate, ownVote, council, updateCust
     const resetSelections = () => {
         setSelections([]);
         sendCustomAgendaVote([]);
-    };
-
-    const sendCustomAgendaVote = async selected => {
-        if (voteAllAtOnce({ council })) {
-            votingContext.responses.set(ownVote.id, selected);
-            votingContext.setResponses(new Map(votingContext.responses));
-        } else {
-            await updateCustomPointVoting({
-                variables: {
-                    selections: selected,
-                    votingId: ownVote.id
-                }
-            });
-            await props.refetch();
-        }
     };
 
     const getRemainingOptions = () => {
@@ -265,11 +267,6 @@ export const updateCustomPointVoting = gql`
         }
     }
 `;
-
-const cleanObject = object => {
-    const { __typename, ...rest } = object;
-    return rest;
-};
 
 export default graphql(updateCustomPointVoting, {
     name: 'updateCustomPointVoting'

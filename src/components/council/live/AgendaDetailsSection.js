@@ -7,7 +7,9 @@ import * as CBX from '../../../utils/CBX';
 import { AGENDA_TYPES, AGENDA_STATES } from '../../../constants';
 import ActPointStateManager from './act/ActPointStateManager';
 import ActPointInfoDisplay from './act/ActPointInfoDisplay';
-import { BasicButton, Grid, GridItem, TextInput } from '../../../displayComponents';
+import {
+ BasicButton, Grid, GridItem, TextInput
+} from '../../../displayComponents';
 import { getSecondary, secondary, getPrimary } from '../../../styles/colors';
 import AgendaDetailsTabs from './AgendaDetailsTabs';
 import { updateAgenda as updateAgendaMutation } from '../../../queries/agenda';
@@ -23,7 +25,9 @@ const calculateOpenIndex = agendas => {
 };
 
 
-const AgendaDetailsSection = ({ agendas, translate, council, participants, refetch, updateAgenda, ...props }) => {
+const AgendaDetailsSection = ({
+ agendas, translate, council, participants, refetch, updateAgenda, ...props
+}) => {
 	const [openIndex, setOpenIndex] = React.useState(calculateOpenIndex(agendas));
 	const [expanded, setExpanded] = React.useState(false);
 	const [pointEditor, setPointEditor] = React.useState(false);
@@ -71,8 +75,12 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 					padding: '1em 0 1em 1em',
 				}}
 			>
-				<GridItem xs={12} md={12} style={{ display: 'flex', minHeight: '6.5em', flexDirection: 'column', justifyContent: 'space-between', paddingRight: '1em' }}>
-					<div style={{ fontWeight: '700', width: '100%', display: 'flex', justifyContent: 'space-between' }}>
+				<GridItem xs={12} md={12} style={{
+ display: 'flex', minHeight: '6.5em', flexDirection: 'column', justifyContent: 'space-between', paddingRight: '1em'
+}}>
+					<div style={{
+ fontWeight: '700', width: '100%', display: 'flex', justifyContent: 'space-between'
+}}>
 						{pointNameEditor ?
 							<EditTitlePoint
 								title={agenda.agendaSubject}
@@ -226,9 +234,13 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 					</Grid>
 				</GridItem>
 			</Grid>
-			<div style={{ borderTop: '1px solid gainsboro', position: 'relative', width: '100%', height: `calc( ${smallLayout ? '100vh' : '100%'} - ${smallLayout ? '14em' : '6.5em'})`, overflow: 'hidden' }}>
+			<div style={{
+ borderTop: '1px solid gainsboro', position: 'relative', width: '100%', height: `calc( ${smallLayout ? '100vh' : '100%'} - ${smallLayout ? '14em' : '6.5em'})`, overflow: 'hidden'
+}}>
 				{agenda.description
-					&& <Collapse isOpened={expanded} style={{ position: 'absolute', zIndex: '1', borderBottom: '1px solid gainsboro', width: '100%' }}>
+					&& <Collapse isOpened={expanded} style={{
+ position: 'absolute', zIndex: '1', borderBottom: '1px solid gainsboro', width: '100%'
+}}>
 						<div
 							style={{
 								fontSize: '0.9em',
@@ -279,7 +291,9 @@ const AgendaDetailsSection = ({ agendas, translate, council, participants, refet
 };
 
 
-const EditTitlePoint = ({ title, translate, setPointNameEditor, updateAgenda, agenda, council, refetch }) => {
+const EditTitlePoint = ({
+ title, translate, setPointNameEditor, updateAgenda, agenda, council, refetch
+}) => {
 	const [pointNameEditorText, setPointNameEditorText] = React.useState('');
 	const [error, setError] = React.useState('');
 
@@ -314,7 +328,9 @@ const EditTitlePoint = ({ title, translate, setPointNameEditor, updateAgenda, ag
 				<TextInput
 					value={pointNameEditorText}
 					disableUnderline={true}
-					styleInInput={{ marginRight: '0.5em', color: 'rgba(0, 0, 0, 0.54)', background: '#e6e6e6', paddingLeft: '5px' }}
+					styleInInput={{
+ marginRight: '0.5em', color: 'rgba(0, 0, 0, 0.54)', background: '#e6e6e6', paddingLeft: '5px'
+}}
 					styles={{ marginTop: '-16px' }}
 					stylesTextField={{ marginBottom: '0px' }}
 					onChange={event => setPointNameEditorText(event.target.value)}

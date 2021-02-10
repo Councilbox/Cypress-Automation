@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import { AlertConfirm, UnsavedChangesModal } from '../../../../displayComponents';
 import CompanyTagForm from './CompanyTagForm';
 import { checkUsedKey } from './AddCompanyTag';
+import { removeTypenameField } from '../../../../utils/CBX';
 
 const mutation = gql`
     mutation updateCompanyTag($tag: CompanyTagInput!){
@@ -14,7 +15,9 @@ const mutation = gql`
     }
 `;
 
-const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, client, requestClose }) => {
+const EditTagModal = ({
+ tag: initialValue, open, translate, company, refetch, client, requestClose
+}) => {
     const [tag, setTag] = React.useState(initialValue || { key: '', value: '', description: '' });
     const [errors, setErrors] = React.useState({});
     const [initInfo] = React.useState(tag);
@@ -57,7 +60,7 @@ const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, cl
 
     const updateTag = async () => {
         if (!await checkRequiredFields()) {
-            const { __typename, ...data } = tag;
+            const data = removeTypenameField(tag);
             await client.mutate({
                 mutation,
                 variables: {

@@ -18,7 +18,9 @@ const updateCommentMutation = gql`
     }
 `;
 
-const CommentModal = ({ translate, agenda, participant, council, client, ...props }) => {
+const CommentModal = ({
+ translate, agenda, participant, council, client, ...props
+}) => {
     const [loading, setLoading] = React.useState(false);
     const [state, setState] = React.useState({
         open: false,

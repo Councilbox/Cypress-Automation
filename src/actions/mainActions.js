@@ -1,7 +1,9 @@
 import DetectRTC from 'detectrtc';
 import gql from 'graphql-tag';
 import { getCompanies } from './companyActions';
-import { client, bHistory, refreshWSLink, moment } from '../containers/App';
+import {
+ client, bHistory, refreshWSLink, moment
+} from '../containers/App';
 import { getMe, getTranslations } from '../queries';
 import { initLogRocket } from '../utils/logRocket';
 
@@ -122,7 +124,8 @@ export const loadSubdomainConfig = () => {
 			document.title = config.title;
 		}
 
-		dispatch({ type: 'LOAD_SUBDOMAIN_CONFIG',
+		dispatch({
+ type: 'LOAD_SUBDOMAIN_CONFIG',
 			value: {
 				...response.data.subdomainConfig,
 				name: subdomain

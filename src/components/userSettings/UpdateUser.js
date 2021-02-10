@@ -47,13 +47,6 @@ class UpdateUserForm extends React.Component {
 				loading: true
 			});
 			const { __typename, type, actived, roles, companies, sends, ...data } = this.state.data;
-
-			// if (this.props.user.email !== data.email) {
-			// 	this.setState({
-			// 		modal: true
-			// 	});
-			// }
-
 			const response = await this.props.updateUser({
 				variables: {
 					user: data,
@@ -173,7 +166,7 @@ class UpdateUserForm extends React.Component {
 		return response.data.checkEmailExists.success;
 	}
 
-	_renderBodyModal = () => (
+	renderBodyModal = () => (
 			<React.Fragment>
 				Se va a enviar un Email para confirmar el cambio de Email.
 			</React.Fragment>
@@ -181,7 +174,9 @@ class UpdateUserForm extends React.Component {
 
 	render() {
 		const { translate, company } = this.props;
-		const { data, errors, error, success, loading } = this.state;
+		const {
+ data, errors, error, success, loading
+} = this.state;
 		const primary = getPrimary();
 
 		return (
@@ -316,7 +311,9 @@ class UpdateUserForm extends React.Component {
 						}
 					</Scrollbar>
 				</div> */}
-				<div style={{ height: '3.5em', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginRight: '1em', }}>
+				<div style={{
+ height: '3.5em', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginRight: '1em',
+}}>
 					<BasicButton
 						text={translate.save}
 						color={primary}
@@ -339,7 +336,7 @@ class UpdateUserForm extends React.Component {
 					open={this.state.modal}
 					acceptAction={() => this.setState({ modal: false })}
 					buttonAccept={translate.accept}
-					bodyText={this._renderBodyModal()}
+					bodyText={this.renderBodyModal()}
 					title={'Envio Email'}
 				/>
 			</div >

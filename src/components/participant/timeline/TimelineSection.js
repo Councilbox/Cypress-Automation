@@ -1,7 +1,9 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
-import { Stepper, Step, StepLabel, StepContent } from 'material-ui';
+import {
+ Stepper, Step, StepLabel, StepContent
+} from 'material-ui';
 import { LoadingSection } from '../../../displayComponents';
 import { moment } from '../../../containers/App';
 import CouncilInfoMenu from '../menus/CouncilInfoMenu';
@@ -21,7 +23,9 @@ export const councilTimelineQuery = gql`
     }
 `;
 
-export const getTimelineTranslation = ({ type, content, translate, council }) => {
+export const getTimelineTranslation = ({
+ type, content, translate, council
+}) => {
     const types = {
         START_COUNCIL: () => translate.council_started,
         START_AUTO_COUNCIL: () => translate.council_started,
@@ -45,7 +49,9 @@ export const getTimelineTranslation = ({ type, content, translate, council }) =>
     return types[type] ? types[type]() : types.default();
 };
 
-export const getTimelineTranslationReverse = ({ type, content, translate, council }) => {
+export const getTimelineTranslationReverse = ({
+ type, content, translate, council
+}) => {
     const types = {
         START_COUNCIL: () => <b>{translate.council_started}</b>,
         START_AUTO_COUNCIL: () => translate.council_started,
@@ -83,7 +89,9 @@ const isValidResult = type => {
     return types[type] ? !types[type] : types.default;
 };
 
-const TimelineSection = ({ translate, participant, council, scrollToBottom, isMobile, client, endPage }) => {
+const TimelineSection = ({
+ translate, participant, council, scrollToBottom, isMobile, client, endPage
+}) => {
     const [timeline, setTimeline] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
     const [loaded, setLoaded] = React.useState(false);
@@ -121,7 +129,9 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
                 <LoadingSection />
                 : <React.Fragment>
                     {isMobile
-                        && <div style={{ position: 'fixed', top: '50px', right: '15px', background: 'gainsboro', width: '47px', height: '32px', borderRadius: '25px' }}>
+                        && <div style={{
+ position: 'fixed', top: '50px', right: '15px', background: 'gainsboro', width: '47px', height: '32px', borderRadius: '25px'
+}}>
                             <CouncilInfoMenu
                                 translate={translate}
                                 participant={participant}
@@ -141,7 +151,9 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
                                     council
                                 })} Hora: ${moment(event.date).format('LLL')}`} >
                                     <StepLabel style={{ textAlign: 'left' }}>
-                                        {getTimelineTranslationReverse({ type: event.type, content, translate, council })}<br />
+                                        {getTimelineTranslationReverse({
+ type: event.type, content, translate, council
+})}<br />
                                         <span style={{ fontSize: '0.9em', color: 'grey' }}>{moment(event.date).format('LLL')}</span>
                                     </StepLabel>
                                     <StepContent style={{ fontSize: '0.9em', textAlign: 'left' }}>
@@ -169,7 +181,9 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
                 <LoadingSection />
                 : <React.Fragment>
                     {isMobile
-                        && <div style={{ position: 'fixed', top: '50px', right: '15px', background: 'gainsboro', width: '47px', height: '32px', borderRadius: '25px' }}>
+                        && <div style={{
+ position: 'fixed', top: '50px', right: '15px', background: 'gainsboro', width: '47px', height: '32px', borderRadius: '25px'
+}}>
                             <CouncilInfoMenu
                                 translate={translate}
                                 participant={participant}
@@ -182,7 +196,9 @@ const TimelineSection = ({ translate, participant, council, scrollToBottom, isMo
                         {timeline.map(event => {
                             const content = JSON.parse(event.content);
                             return (
-                                <Step active key={`event_${event.id}`} aria-label={`${getTimelineTranslation({ event: event.type, content, translate, council })} Hora: ${moment(event.date).format('LLL')}`} >
+                                <Step active key={`event_${event.id}`} aria-label={`${getTimelineTranslation({
+ event: event.type, content, translate, council
+})} Hora: ${moment(event.date).format('LLL')}`} >
                                     <StepLabel>
                                         <b>{getTimelineTranslation({ type: event.type, content, translate })}</b><br />
                                         <span style={{ fontSize: '0.9em' }}>{moment(event.date).format('LLL')}</span>

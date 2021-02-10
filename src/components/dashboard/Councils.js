@@ -185,8 +185,12 @@ const Councils = ({ translate, client, ...props }) => {
 				position: 'relative'
 			}}
 		>
-			<div style={{ width: '100%', height: '100%', padding: '1em', paddingTop: '0px' }}>
-				<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.6em' }}>
+			<div style={{
+ width: '100%', height: '100%', padding: '1em', paddingTop: '0px'
+}}>
+				<div style={{
+ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.6em'
+}}>
 					<div>
 						<MenuSuperiorTabs
 							items={[

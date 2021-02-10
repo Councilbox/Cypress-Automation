@@ -274,7 +274,9 @@ class NewCompanyPage extends React.PureComponent {
 
 	render() {
 		const { translate, requestClose, buttonBack } = this.props;
-		const { data, errors, requestError, success, request } = this.state;
+		const {
+ data, errors, requestError, success, request
+} = this.state;
 		const primary = getPrimary();
 		const secondary = getSecondary();
 
@@ -612,7 +614,9 @@ class NewCompanyPage extends React.PureComponent {
 						</div>
 						<br />
 						<div style={{ marginTop: '3em' }}>
-							<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginBottom: '2em' }} >
+							<div style={{
+ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginBottom: '2em'
+}} >
 								{buttonBack ?
 									<React.Fragment>
 										<BasicButton

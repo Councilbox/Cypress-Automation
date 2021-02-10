@@ -2,7 +2,9 @@ import React from 'react';
 import { BasicButton, ButtonIcon } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
 
-const LoginWithCert = ({ participant, handleSuccess, translate, dispatch, status }) => {
+const LoginWithCert = ({
+    participant, handleSuccess, translate, dispatch, status
+}) => {
     const primary = getPrimary();
 
     const getData = async () => {
@@ -12,20 +14,22 @@ const LoginWithCert = ({ participant, handleSuccess, translate, dispatch, status
             const json = await response.json();
 
             if (json.success) {
-                dispatch({ type: 'SUCCESS',
+                dispatch({
+                    type: 'SUCCESS',
                     payload: {
                         message: translate.cert_success,
                     }
                 });
             } else {
                 let message = json.error;
-                if (response.status == 403) {
+                if (+response.status === 403) {
                     message = translate.cert_doesnt_match;
                 }
-                if (response.status === 401) {
+                if (+response.status === 401) {
                     message = translate.cert_missing;
                 }
-                dispatch({ type: 'ERROR',
+                dispatch({
+                    type: 'ERROR',
                     payload: {
                         message
                     }

@@ -3,7 +3,9 @@ import { BasicButton, AlertConfirm } from '../../../displayComponents';
 import { getSecondary } from '../../../styles/colors';
 import LoadDraft from './LoadDraft';
 
-const LoadDraftModal = ({ translate, companyId, councilType, draftType, statutes, statute, defaultTags, ...props }, ref) => {
+const LoadDraftModal = ({
+ translate, companyId, councilType, draftType, statutes, statute, defaultTags, ...props
+}, ref) => {
 	// const modal = React.useRef();
 
 	const [state, setState] = React.useState({

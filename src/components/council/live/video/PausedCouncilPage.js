@@ -6,7 +6,9 @@ import { getPrimary } from '../../../../styles/colors';
 import pausedImg from '../../../../assets/img/paused.png';
 
 
-const PausedCouncilPage = ({ council, client, translate, heightImg = '15em' }) => {
+const PausedCouncilPage = ({
+ council, client, translate, heightImg = '15em'
+}) => {
     const [message, setMessage] = React.useState('');
     const primary = getPrimary();
 
@@ -47,7 +49,9 @@ const PausedCouncilPage = ({ council, client, translate, heightImg = '15em' }) =
                 <div
                     dangerouslySetInnerHTML={{ __html: message }}
                 ></div>
-                <img src={pausedImg} style={{ height: heightImg, width: 'auto', marginLeft: '7%', marginTop: '0.6em' }} alt="Council paused img" />
+                <img src={pausedImg} style={{
+ height: heightImg, width: 'auto', marginLeft: '7%', marginTop: '0.6em'
+}} alt="Council paused img" />
             </div>
         </div>
     );

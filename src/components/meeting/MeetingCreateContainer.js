@@ -57,7 +57,9 @@ class MeetingCreateContainer extends React.Component {
 						councilName={this.props.translate.dashboard_new_meeting}
 						translate={this.props.translate}
 					/>
-					<div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center' }}>
+					<div style={{
+ width: '100%', height: '100%', display: 'flex', justifyContent: 'center'
+}}>
 						<Paper
 							elevation={8}
 							style={{
@@ -73,7 +75,9 @@ class MeetingCreateContainer extends React.Component {
 							<div>
 								<img src={icon} alt="councilbox-icon" style={{ width: 'auto', height: '7em' }} />
 							</div>
-							<div style={{ textAlign: 'center', padding: '1.1em', fontWeight: '700', marginTop: '1em' }}>
+							<div style={{
+ textAlign: 'center', padding: '1.1em', fontWeight: '700', marginTop: '1em'
+}}>
 								<span style={{ fontSize: '1.1em', color: primary }}>ERROR</span><br/>
 								HA HABIDO UN PROBLEMA AL CONECTAR CON EL SERVIDOR, POR FAVOR INTÉNTELO MÁS TARDE
 							</div>

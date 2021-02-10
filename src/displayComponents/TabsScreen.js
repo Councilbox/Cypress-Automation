@@ -5,7 +5,9 @@ import '../styles/react-tabs.css';
 import Link from './LinkWithoutStyling';
 import { bHistory } from '../containers/App';
 
-const TabsScreen = ({ selected, controlled, tabsIndex, tabsInfo, linked, windowSize, styles }) => {
+const TabsScreen = ({
+ selected, controlled, tabsIndex, tabsInfo, linked, windowSize, styles
+}) => {
 	const [selectedTab, setSelected] = React.useState(0);
 
 	React.useEffect(() => {

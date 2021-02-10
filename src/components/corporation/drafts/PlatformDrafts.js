@@ -52,14 +52,18 @@ const statuteTypes = [
 	}];
 
 
-const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
+const PlatformDrafts = ({
+ client, company, translate, classes, ...props
+}) => {
 	const [state, setState] = useOldState({
 		selectedIndex: -1,
 		selectedValues: [],
 		draft: null
 	});
 	const [data, setData] = React.useState(null);
-	const { testTags, vars, setVars, removeTag, addTag, filteredTags, tagText, setTagText, } = useTags(translate);
+	const {
+ testTags, vars, setVars, removeTag, addTag, filteredTags, tagText, setTagText,
+} = useTags(translate);
 	const [search, setSearch] = React.useState('');
 	const [inputSearch, setInputSearch] = React.useState(false);
 
@@ -259,7 +263,9 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 		});
 	};
 
-	const { loading, error, platformDrafts, draftTypes } = data;
+	const {
+ loading, error, platformDrafts, draftTypes
+} = data;
 	const { selectedIndex, selectedValues } = state;
 	const primary = getPrimary();
 
@@ -326,7 +332,9 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 											)}
 										</div>
 										{isMobile ?
-											<div style={{ marginRight: '0.8em', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginTop: '.3em', marginBottom: '0.3em' }}>
+											<div style={{
+ marginRight: '0.8em', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginTop: '.3em', marginBottom: '0.3em'
+}}>
 												<div style={{ marginRight: isMobile ? '0.5em' : '3em' }}>
 													<DropdownEtiquetas
 														translate={translate}
@@ -355,7 +363,9 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 													<TextInput
 														className={isMobile && !inputSearch ? 'openInput' : ''}
 														disableUnderline={true}
-														styleInInput={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', padding: isMobile && inputSearch && '4px 5px', paddingLeft: !isMobile && '5px' }}
+														styleInInput={{
+ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', padding: isMobile && inputSearch && '4px 5px', paddingLeft: !isMobile && '5px'
+}}
 														stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: isMobile && inputSearch ? '8px' : '4px' }}
 														adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
 														floatingText={' '}
@@ -397,7 +407,9 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 												<div>
 													<TextInput
 														disableUnderline={true}
-														styleInInput={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px', padding: '4px 5px' }}
+														styleInInput={{
+ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px', padding: '4px 5px'
+}}
 														stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px' }}
 														adornment={<Icon>search</Icon>}
 														floatingText={' '}

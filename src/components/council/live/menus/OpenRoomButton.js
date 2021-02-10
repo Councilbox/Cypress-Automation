@@ -187,8 +187,12 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 				acceptAction={handleOpenCouncilRoom}
 				requestClose={() => setState({ confirmModal: false })}
 				classNameDialog={isMobile ? 'noMarginM' : 'noMargin'}
-				bodyStyle={{ ...((!!error || state.showSMS) ?
-					{ overflowY: 'hidden', height: '50vh', width: '100%', maxWidth: isMobile && '100vw' } : {}) }}
+				bodyStyle={{
+ ...((!!error || state.showSMS) ?
+					{
+ overflowY: 'hidden', height: '50vh', width: '100%', maxWidth: isMobile && '100vw'
+} : {})
+}}
 			/>
 		</React.Fragment>
 	);

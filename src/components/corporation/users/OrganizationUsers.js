@@ -5,7 +5,9 @@ import { Icon, Card, CardActions } from 'material-ui';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { corporationUsers } from '../../../queries/corporation';
 import { getPrimary } from '../../../styles/colors';
-import { Scrollbar, Grid, PaginationFooter, LoadingSection, CardPageLayout, BasicButton, TextInput, Link, GridItem, AlertConfirm } from '../../../displayComponents';
+import {
+ Scrollbar, Grid, PaginationFooter, LoadingSection, CardPageLayout, BasicButton, TextInput, Link, GridItem, AlertConfirm
+} from '../../../displayComponents';
 import { moment } from '../../../containers/App';
 import { USER_ACTIVATIONS } from '../../../constants';
 import NewUser from './NewUser';
@@ -92,11 +94,17 @@ const OrganizationUsers = ({ client, translate, company }) => {
 
     return (
         <CardPageLayout title={translate.users} stylesNoScroll={{ height: '100%' }} disableScroll={true}>
-            <div style={{ fontSize: '13px', padding: '1.5em 1.5em 1.5em', height: '100%', paddingTop: '0px' }}>
+            <div style={{
+ fontSize: '13px', padding: '1.5em 1.5em 1.5em', height: '100%', paddingTop: '0px'
+}}>
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <div style={{ padding: '0.5em', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingTop: '0px' }}>
+                    <div style={{
+ padding: '0.5em', display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingTop: '0px'
+}}>
                         <BasicButton
-                            buttonStyle={{ boxShadow: 'none', marginRight: '1em', borderRadius: '4px', border: `1px solid ${primary}`, padding: '0.2em 0.4em', marginTop: '5px', color: primary, }}
+                            buttonStyle={{
+ boxShadow: 'none', marginRight: '1em', borderRadius: '4px', border: `1px solid ${primary}`, padding: '0.2em 0.4em', marginTop: '5px', color: primary,
+}}
                             backgroundColor={{ backgroundColor: 'white' }}
                             onClick={() => setAddUser(true)}
                             text={translate.add}
@@ -109,7 +117,9 @@ const OrganizationUsers = ({ client, translate, company }) => {
                         <TextInput
                             className={isMobile && !inputSearch ? 'openInput' : ''}
                             disableUnderline={true}
-                            styleInInput={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', padding: isMobile && inputSearch && '4px 5px', paddingLeft: !isMobile && '5px' }}
+                            styleInInput={{
+ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', padding: isMobile && inputSearch && '4px 5px', paddingLeft: !isMobile && '5px'
+}}
                             stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: isMobile && inputSearch ? '8px' : '4px' }}
                             adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
                             placeholder={isMobile ? '' : translate.search}
@@ -143,7 +153,9 @@ const OrganizationUsers = ({ client, translate, company }) => {
 };
 
 
-const TablaUsuarios = withApollo(({ users, translate, company, total, changePageUsuarios, usersPage, client }) => {
+const TablaUsuarios = withApollo(({
+ users, translate, company, total, changePageUsuarios, usersPage, client
+}) => {
     const primary = getPrimary();
     const [modalBloquear, setModalBloquear] = React.useState(false);
     const [loadingBlock, setLoadingBlock] = React.useState(false);
@@ -297,22 +309,34 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
             <div style={{ height: '100%' }}>
                 <div style={{ fontSize: '13px', height: '100%' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1em', }}>
-                        <div style={{ color: primary, fontWeight: 'bold', width: '10%', textAlign: 'left' }}>
+                        <div style={{
+ color: primary, fontWeight: 'bold', width: '10%', textAlign: 'left'
+}}>
                             {translate.state}
                         </div>
-                        <div style={{ color: primary, fontWeight: 'bold', width: '10%', textAlign: 'left' }}>
+                        <div style={{
+ color: primary, fontWeight: 'bold', width: '10%', textAlign: 'left'
+}}>
                             Id
                         </div>
-                        <div style={{ color: primary, fontWeight: 'bold', width: '20%', textAlign: 'left' }}>
+                        <div style={{
+ color: primary, fontWeight: 'bold', width: '20%', textAlign: 'left'
+}}>
                             {translate.name}
                         </div>
-                        <div style={{ color: primary, fontWeight: 'bold', overflow: 'hidden', width: '20%', textAlign: 'left' }}>
+                        <div style={{
+ color: primary, fontWeight: 'bold', overflow: 'hidden', width: '20%', textAlign: 'left'
+}}>
                             Email
                         </div>
-                        <div style={{ color: primary, fontWeight: 'bold', overflow: 'hidden', width: '20%', textAlign: 'left' }}>
+                        <div style={{
+ color: primary, fontWeight: 'bold', overflow: 'hidden', width: '20%', textAlign: 'left'
+}}>
                             {translate.last_connection}
                         </div>
-                        <div style={{ color: primary, fontWeight: 'bold', overflow: 'hidden', width: '20%', textAlign: 'left' }}>
+                        <div style={{
+ color: primary, fontWeight: 'bold', overflow: 'hidden', width: '20%', textAlign: 'left'
+}}>
                         </div>
                     </div>
                     <div style={{ height: 'calc( 100% - 13em )' }}>

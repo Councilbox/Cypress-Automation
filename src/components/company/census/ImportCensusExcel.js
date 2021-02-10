@@ -607,7 +607,9 @@ class ImportCensusButton extends React.Component {
 												>
 													{this.state.readedParticipants.map((item, index) => (
 														<Paper
-															style={{ margin: '0.4em', marginBottom: 0, fontSize: '14px', padding: '0.4em' }}
+															style={{
+ margin: '0.4em', marginBottom: 0, fontSize: '14px', padding: '0.4em'
+}}
 															key={`excelParticipant_${index}`}
 														>
 															<FontAwesome

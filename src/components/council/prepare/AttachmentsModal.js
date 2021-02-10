@@ -1,7 +1,9 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { MainContext } from '../../../containers/App';
-import { AlertConfirm, DropDownMenu, BasicButton, SuccessMessage, LoadingSection, CloseIcon } from '../../../displayComponents';
+import {
+ AlertConfirm, DropDownMenu, BasicButton, SuccessMessage, LoadingSection, CloseIcon
+} from '../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import { addCouncilAttachment } from '../../../queries';
 import CompanyDocumentsBrowser from '../../company/drafts/documents/CompanyDocumentsBrowser';
@@ -9,7 +11,9 @@ import AttachmentItem from '../../attachments/AttachmentItem';
 import RichTextInput from '../../../displayComponents/RichTextInput';
 
 
-const AttachmentsModal = ({ open, requestClose, company, council, translate, refetch }) => {
+const AttachmentsModal = ({
+ open, requestClose, company, council, translate, refetch
+}) => {
     const { client } = React.useContext(MainContext);
     const primary = getPrimary();
     const secondary = getSecondary();
@@ -236,7 +240,9 @@ const AttachmentsModal = ({ open, requestClose, company, council, translate, ref
                     items={
                         <div style={{ padding: '1em' }}>
                             <label htmlFor="raised-button-file">
-                                <div style={{ display: 'flex', color: 'black', padding: '.5em 0em', cursor: 'pointer' }}>
+                                <div style={{
+ display: 'flex', color: 'black', padding: '.5em 0em', cursor: 'pointer'
+}}>
                                     <div style={{ paddingLeft: '10px' }}>
                                         {translate.upload_file}
                                     </div>

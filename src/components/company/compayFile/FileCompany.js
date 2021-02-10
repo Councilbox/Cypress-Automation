@@ -188,7 +188,9 @@ const FileCompany = ({ translate, match, client }) => {
         <CardPageLayout title={`Ficha de ${data.businessName}`} disableScroll avatar={data.logo}>
             {/* company.icon */}
             <div style={{ padding: '1em', height: '100%', paddingTop: '0px' }}>
-                <div style={{ display: 'flex', padding: '1em', justifyContent: 'space-between', paddingTop: '0px', alignItems: 'center' }}>
+                <div style={{
+ display: 'flex', padding: '1em', justifyContent: 'space-between', paddingTop: '0px', alignItems: 'center'
+}}>
                     <div style={{ fontSize: '13px', }}>
                         <MenuSuperiorTabs
                             items={[translate.information, translate.social_capital_desc, translate.board_of_directors, translate.official_books, translate.auditors_and_powers, translate.statutes, translate.calendar]}

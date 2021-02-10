@@ -2,13 +2,16 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import { CardPageLayout, LoadingSection, Scrollbar, BasicButton } from '../../displayComponents';
+import {
+ CardPageLayout, LoadingSection, Scrollbar, BasicButton
+} from '../../displayComponents';
 import withTranslations from '../../HOCs/withTranslations';
 import { bHistory } from '../../containers/App';
 import { getPrimary } from '../../styles/colors';
 import PartnerForm from './PartnerForm';
 import { checkValidEmail } from '../../utils';
 import { INPUT_REGEX } from '../../constants';
+import { removeTypenameField } from '../../utils/CBX';
 
 class Page extends React.PureComponent {
     state = {
@@ -54,9 +57,8 @@ class Page extends React.PureComponent {
             };
 
             if (this.state.data.personOrEntity === 1 && this.state.representative) {
-                const { __typename, ...cleanedRepresentative } = this.state.representative;
                 variables.representative = {
-                    ...cleanedRepresentative,
+                    ...removeTypenameField(this.state.representative),
                     companyId: this.state.data.companyId
                 };
             }

@@ -57,7 +57,9 @@ const participantQuery = gql`
 
 export const ConnectionInfoContext = React.createContext(null);
 
-const ParticipantContainer = ({ client, council, match, detectRTC, main, actions, translate, ...props }) => {
+const ParticipantContainer = ({
+ client, council, match, detectRTC, main, actions, translate, ...props
+}) => {
 	const [data, setData] = React.useState(null);
 	const config = React.useContext(ConfigContext);
 	const [companyId, setCompanyId] = React.useState();

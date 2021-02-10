@@ -13,7 +13,9 @@ import { getSecondary } from '../../../../styles/colors';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 
 
-const ChangeCensusMenu = ({ disabled, handleCensusChange, reloadCensus, council, company, translate, censuses, totalVotes, totalSocialCapital, participations, refetch }) => (
+const ChangeCensusMenu = ({
+ disabled, handleCensusChange, reloadCensus, council, company, translate, censuses, totalVotes, totalSocialCapital, participations, refetch
+}) => (
 	<Grid>
 		{council.councilType === 5 ?
 			<GridItem xs={12} md={9} lg={9}></GridItem>

@@ -1,5 +1,7 @@
 import React from 'react';
-import { Button, Collapse, Dialog, DialogTitle, DialogContent } from 'material-ui';
+import {
+ Button, Collapse, Dialog, DialogTitle, DialogContent
+} from 'material-ui';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import RichTextInput from '../../displayComponents/RichTextInput';
 import { BasicButton } from '../../displayComponents';
@@ -8,7 +10,9 @@ import withSharedProps from '../../HOCs/withSharedProps';
 import { getDefaultTagsByBlockType } from './utils';
 
 
-const Block = ({ expand, setExpand, company, translate, ...props }) => {
+const Block = ({
+ expand, setExpand, company, translate, ...props
+}) => {
     const [editMode, setEditMode] = React.useState(false);
     const [text, setText] = React.useState(props.column === 2 ? props.value.secondaryText : props.value.text);
     const [draftModal, setDraftModal] = React.useState(false);
@@ -96,7 +100,9 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
     return (
         <div style={{ padding: '1em', paddingRight: '1.5em', width: '100%' }}>
             <div style={{ display: 'flex', fontSize: '19px' }} >
-                <div style={{ color: getPrimary(), fontWeight: 'bold', display: 'flex', paddingRight: '1em', }}>
+                <div style={{
+ color: getPrimary(), fontWeight: 'bold', display: 'flex', paddingRight: '1em',
+}}>
                     {props.value.icon ?
                         <React.Fragment>
                             <div>
@@ -173,13 +179,21 @@ const Block = ({ expand, setExpand, company, translate, ...props }) => {
 };
 
 
-export const BorderBox = ({ colorBorder, children, addItem, itemInfo, icon, stylesBody, toggle, removeBlock, id, noIcon }) => (
-        <div style={{ width: '100%', background: 'white', boxShadow: ' 0 2px 4px 5px rgba(0, 0, 0, 0.11)', borderRadius: '4px', margin: '0.8em 0px', ...stylesBody }}>
+export const BorderBox = ({
+ colorBorder, children, addItem, itemInfo, icon, stylesBody, toggle, removeBlock, id, noIcon
+}) => (
+        <div style={{
+ width: '100%', background: 'white', boxShadow: ' 0 2px 4px 5px rgba(0, 0, 0, 0.11)', borderRadius: '4px', margin: '0.8em 0px', ...stylesBody
+}}>
             <div style={{ width: '100%', display: 'flex', }}>
                 <div style={{ paddingRight: '4px', background: colorBorder || getPrimary(), borderRadius: '15px', }}></div>
-                <div style={{ marginLeft: '0.5em', paddingTop: '0.8em', paddingBottom: '0.8em', width: '100%' }}>
+                <div style={{
+ marginLeft: '0.5em', paddingTop: '0.8em', paddingBottom: '0.8em', width: '100%'
+}}>
                     <div style={{ display: 'flex', width: '100%' }}>
-                        <div style={{ color: getPrimary(), fontWeight: 'bold', fontSize: '16px', display: 'flex' }}>
+                        <div style={{
+ color: getPrimary(), fontWeight: 'bold', fontSize: '16px', display: 'flex'
+}}>
                             {icon ?
                                 <React.Fragment>
                                     <div>
@@ -197,10 +211,14 @@ export const BorderBox = ({ colorBorder, children, addItem, itemInfo, icon, styl
 
                         </div>
                         <div style={{ justifyContent: 'space-between', display: 'flex', width: '100%' }}>
-                            <div style={{ marginLeft: '0.3em', width: '100%', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }}>
+                            <div style={{
+ marginLeft: '0.3em', width: '100%', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+}}>
                                 {children}
                             </div>
-                            <div style={{ marginLeft: '0.3em', marginRight: '0.8em', height: '100%', display: 'flex', alignItems: 'center' }}>
+                            <div style={{
+ marginLeft: '0.3em', marginRight: '0.8em', height: '100%', display: 'flex', alignItems: 'center'
+}}>
                                 {toggle ?
                                     <span style={{ cursor: 'pointer', color: colorBorder }} onClick={() => removeBlock(id)}>
                                         {!itemInfo.hide ?

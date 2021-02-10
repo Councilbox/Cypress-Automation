@@ -5,7 +5,9 @@ import { AlertConfirm, BasicButton, UnsavedChangesModal } from '../../../../disp
 import { getSecondary } from '../../../../styles/colors';
 
 
-const AttendanceTextEditor = ({ translate, text, setText, updateAttendanceText, isModal, setIsmodal }) => {
+const AttendanceTextEditor = ({
+ translate, text, setText, updateAttendanceText, isModal, setIsmodal
+}) => {
     const initialValue = React.useRef(text);
 
     React.useEffect(() => {

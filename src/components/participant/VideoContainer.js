@@ -14,7 +14,9 @@ const videoURLQuery = gql`
     }
 `;
 
-const VideoContainer = ({ setVideoURL, videoURL, announcement, client, ...props }) => {
+const VideoContainer = ({
+ setVideoURL, videoURL, announcement, client, ...props
+}) => {
     const [url, setUrl] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
 

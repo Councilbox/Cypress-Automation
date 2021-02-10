@@ -7,7 +7,9 @@ import { getSecondary, getPrimary } from '../../../styles/colors';
 import withWindowSize from '../../../HOCs/withWindowSize';
 import { isMobile } from '../../../utils/screen';
 
-const EditorStepper = ({ translate, active, goToPage, windowSize }) => {
+const EditorStepper = ({
+ translate, active, goToPage, windowSize
+}) => {
     const secondary = getSecondary();
     const primary = getPrimary();
 

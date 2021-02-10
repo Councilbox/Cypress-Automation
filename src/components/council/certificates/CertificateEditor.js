@@ -4,7 +4,9 @@ import gql from 'graphql-tag';
 import { BasicButton, LoadingSection } from '../../../displayComponents';
 import { getSecondary } from '../../../styles/colors';
 import { changeVariablesToValues, prepareTextForFilename } from '../../../utils/CBX';
-import { buildDoc, useDoc, buildDocBlock, buildDocVariable } from '../../documentEditor/utils';
+import {
+ buildDoc, useDoc, buildDocBlock, buildDocVariable
+} from '../../documentEditor/utils';
 import { certBlocks } from '../../documentEditor/actBlocks';
 import DocumentEditor from '../../documentEditor/DocumentEditor';
 import withSharedProps from '../../../HOCs/withSharedProps';
@@ -34,7 +36,9 @@ const dataReducer = (state, action) => {
 };
 
 
-const CerficateEditor = ({ translate, council, company, client, ...props }) => {
+const CerficateEditor = ({
+ translate, council, company, client, ...props
+}) => {
     const [{ data, loading }, dispatch] = React.useReducer(dataReducer, initialState);
 	const [error, setError] = React.useState(null);
     const [createModal, setCreateModal] = React.useState(false);

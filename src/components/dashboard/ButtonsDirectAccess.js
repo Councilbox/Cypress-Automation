@@ -41,10 +41,14 @@ class ButtonsDirectAccess extends React.Component {
 					requestClose={this.closeCouncilsModal}
 					translate={translate}
 				/>
-				<GridItem xs={6} md={3} lg={2} style={{ marginBottom: isMobile ? '1em' : '', display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
+				<GridItem xs={6} md={3} lg={2} style={{
+ marginBottom: isMobile ? '1em' : '', display: 'flex', alignItems: 'center', justifyContent: 'center',
+}}>
 					<Card elevation={6} style={{ width: '155px', borderRadius: '5px 5px 5px 5px', backgroundColor: 'transparent' }} >
 						<Link to={`/company/${company.id}/statutes`}>
-							<div style={{ background: '#a0000b', maxWidth: '155px', padding: '1em', borderRadius: '5px 5px 0px 0px' }}>
+							<div style={{
+ background: '#a0000b', maxWidth: '155px', padding: '1em', borderRadius: '5px 5px 0px 0px'
+}}>
 								<Icon
 									className="material-icons"
 									style={{
@@ -55,21 +59,27 @@ class ButtonsDirectAccess extends React.Component {
 									{'gavel'}
 								</Icon>
 							</div>
-							<div style={{ marginTop: '1px', background: darkGrey, maxWidth: '155px', padding: '1em', borderRadius: '0px 0px 5px 5px', color: 'white' }}>
+							<div style={{
+ marginTop: '1px', background: darkGrey, maxWidth: '155px', padding: '1em', borderRadius: '0px 0px 5px 5px', color: 'white'
+}}>
 								{translate.council_types}
 							</div>
 						</Link>
 					</Card>
 				</GridItem>
 
-				<GridItem xs={6} md={3} lg={2} style={{ marginBottom: isMobile ? '1em' : '', display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
+				<GridItem xs={6} md={3} lg={2} style={{
+ marginBottom: isMobile ? '1em' : '', display: 'flex', alignItems: 'center', justifyContent: 'center',
+}}>
 					<Card elevation={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0 ? 0 : 6} style={{ width: '155px', borderRadius: '5px 5px 5px 5px', backgroundColor: 'transparent' }} >
 						<ContentButtonDirectAccess
 							link={`/company/${company.id}/book`}
 							disabled={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0}
 							disabledOnClick={this.showCouncilsModal}
 						>
-							<div style={{ background: company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0 ? '#0051844a' : '#005184', maxWidth: '155px', padding: '1em', borderRadius: '5px 5px 0px 0px' }}>
+							<div style={{
+ background: company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0 ? '#0051844a' : '#005184', maxWidth: '155px', padding: '1em', borderRadius: '5px 5px 0px 0px'
+}}>
 								<Icon
 									className="material-icons"
 									style={{
@@ -80,17 +90,23 @@ class ButtonsDirectAccess extends React.Component {
 									{'contacts'}
 								</Icon>
 							</div>
-							<div style={{ marginTop: '1px', background: company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0 ? '#3b3b3b4a' : darkGrey, maxWidth: '155px', padding: '1em', borderRadius: '0px 0px 5px 5px', color: 'white' }}>
+							<div style={{
+ marginTop: '1px', background: company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0 ? '#3b3b3b4a' : darkGrey, maxWidth: '155px', padding: '1em', borderRadius: '0px 0px 5px 5px', color: 'white'
+}}>
 								{translate.book}
 							</div>
 						</ContentButtonDirectAccess>
 					</Card>
 				</GridItem>
 
-				<GridItem xs={6} md={3} lg={2} style={{ marginBottom: isMobile ? '1em' : '', display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
+				<GridItem xs={6} md={3} lg={2} style={{
+ marginBottom: isMobile ? '1em' : '', display: 'flex', alignItems: 'center', justifyContent: 'center',
+}}>
 					<Card elevation={6} style={{ width: '155px', borderRadius: '5px 5px 5px 5px', backgroundColor: 'transparent' }} >
 						<Link to={`/company/${company.id}/censuses`} >
-							<div style={{ background: '#e66d24', maxWidth: '155px', padding: '1em', borderRadius: '5px 5px 0px 0px' }}>
+							<div style={{
+ background: '#e66d24', maxWidth: '155px', padding: '1em', borderRadius: '5px 5px 0px 0px'
+}}>
 								<Icon
 									className="material-icons"
 									style={{
@@ -101,17 +117,23 @@ class ButtonsDirectAccess extends React.Component {
 									{'person'}
 								</Icon>
 							</div>
-							<div style={{ marginTop: '1px', background: darkGrey, maxWidth: '155px', padding: '1em', borderRadius: '0px 0px 5px 5px', color: 'white' }}>
+							<div style={{
+ marginTop: '1px', background: darkGrey, maxWidth: '155px', padding: '1em', borderRadius: '0px 0px 5px 5px', color: 'white'
+}}>
 								{translate.censuses}
 							</div>
 						</Link>
 					</Card>
 				</GridItem>
 
-				<GridItem xs={6} md={3} lg={2} style={{ marginBottom: isMobile ? '1em' : '', display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
+				<GridItem xs={6} md={3} lg={2} style={{
+ marginBottom: isMobile ? '1em' : '', display: 'flex', alignItems: 'center', justifyContent: 'center',
+}}>
 					<Card elevation={6} style={{ width: '155px', borderRadius: '5px 5px 5px 5px', background: 'transparent' }} >
 						<Link to={`/company/${company.id}/drafts`} >
-							<div style={{ background: '#6c9c37', maxWidth: '155px', padding: '1em', borderRadius: '5px 5px 0px 0px' }}>
+							<div style={{
+ background: '#6c9c37', maxWidth: '155px', padding: '1em', borderRadius: '5px 5px 0px 0px'
+}}>
 								<Icon
 									className="material-icons"
 									style={{
@@ -122,21 +144,27 @@ class ButtonsDirectAccess extends React.Component {
 									{'class'}
 								</Icon>
 							</div>
-							<div style={{ marginTop: '1px', background: darkGrey, maxWidth: '155px', padding: '1em', borderRadius: '0px 0px 5px 5px', color: 'white' }}>
+							<div style={{
+ marginTop: '1px', background: darkGrey, maxWidth: '155px', padding: '1em', borderRadius: '0px 0px 5px 5px', color: 'white'
+}}>
 								{translate.drafts}
 							</div>
 						</Link>
 					</Card>
 				</GridItem>
 
-				<GridItem xs={6} md={3} lg={2} style={{ marginBottom: isMobile ? '1em' : '', display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
+				<GridItem xs={6} md={3} lg={2} style={{
+ marginBottom: isMobile ? '1em' : '', display: 'flex', alignItems: 'center', justifyContent: 'center',
+}}>
 					<Card elevation={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0 ? 0 : 6} style={{ width: '155px', borderRadius: '5px 5px 5px 5px', backgroundColor: 'transparent' }} >
 						<ContentButtonDirectAccess
 							link={`/company/${company.id}/book`}
 							disabled={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0}
 							disabledOnClick={this.showCouncilsModal}
 						>
-							<div style={{ background: company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0 ? '#cecece4a' : '#cecece', maxWidth: '155px', padding: '1em', borderRadius: '5px 5px 0px 0px' }}>
+							<div style={{
+ background: company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0 ? '#cecece4a' : '#cecece', maxWidth: '155px', padding: '1em', borderRadius: '5px 5px 0px 0px'
+}}>
 								<img src={logo} style={{
 									height: '4.4em',
 									width: 'auto',
@@ -144,7 +172,9 @@ class ButtonsDirectAccess extends React.Component {
 								}}
 									alt="councilbox-logo" />
 							</div>
-							<div style={{ marginTop: '1px', background: company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0 ? '#3b3b3b4a' : darkGrey, maxWidth: '155px', padding: '1em', borderRadius: '0px 0px 5px 5px', color: 'white' }}>
+							<div style={{
+ marginTop: '1px', background: company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0 ? '#3b3b3b4a' : darkGrey, maxWidth: '155px', padding: '1em', borderRadius: '0px 0px 5px 5px', color: 'white'
+}}>
 								{translate.dashboard_new}
 							</div>
 
@@ -152,10 +182,14 @@ class ButtonsDirectAccess extends React.Component {
 					</Card>
 				</GridItem>
 
-				<GridItem xs={6} md={3} lg={2} style={{ marginBottom: isMobile ? '1em' : '', display: 'flex', alignItems: 'center', justifyContent: 'center', }}>
+				<GridItem xs={6} md={3} lg={2} style={{
+ marginBottom: isMobile ? '1em' : '', display: 'flex', alignItems: 'center', justifyContent: 'center',
+}}>
 					<Card elevation={6} style={{ width: '155px', borderRadius: '5px 5px 5px 5px', backgroundColor: 'transparent' }} >
 						<Link to={`/company/${company.id}/meeting/new`}>
-							<div style={{ background: '#67379c', maxWidth: '155px', padding: '1em', borderRadius: '5px 5px 0px 0px' }}>
+							<div style={{
+ background: '#67379c', maxWidth: '155px', padding: '1em', borderRadius: '5px 5px 0px 0px'
+}}>
 								<Icon
 									className="material-icons"
 									style={{
@@ -166,7 +200,9 @@ class ButtonsDirectAccess extends React.Component {
 									{'video_call'}
 								</Icon>
 							</div>
-							<div style={{ marginTop: '1px', background: darkGrey, maxWidth: '155px', padding: '1em', borderRadius: '0px 0px 5px 5px', color: 'white' }}>
+							<div style={{
+ marginTop: '1px', background: darkGrey, maxWidth: '155px', padding: '1em', borderRadius: '0px 0px 5px 5px', color: 'white'
+}}>
 								{translate.start_conference}
 							</div>
 						</Link>

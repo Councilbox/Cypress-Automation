@@ -8,7 +8,9 @@ import {
     downloadCertificate as downloadCertificateMutation
 } from '../../../queries';
 import { getSecondary } from '../../../styles/colors';
-import { LoadingSection, CardPageLayout, ButtonIcon, BasicButton, Table, DateWrapper } from '../../../displayComponents';
+import {
+ LoadingSection, CardPageLayout, ButtonIcon, BasicButton, Table, DateWrapper
+} from '../../../displayComponents';
 import { downloadFile } from '../../../utils/CBX';
 import CertificateEditor from './CertificateEditor';
 import { useHoverRow } from '../../../hooks';
@@ -114,7 +116,9 @@ const CouncilCertificates = ({ data, translate, ...props }) => {
 };
 
 
-const HoverableRow = ({ certificate, downloading, translate, ...props }) => {
+const HoverableRow = ({
+ certificate, downloading, translate, ...props
+}) => {
     const [show, handlers] = useHoverRow();
     const secondary = getSecondary();
 

@@ -162,7 +162,9 @@ class Recommendations extends React.Component {
                                         <ButtonIcon
                                             type="videocam"
                                             color={primary}
-                                            style={{ marginLeft: '15px', fontSize: '3em', cursor: 'pointer', marginBottom: '-0.25em' }}
+                                            style={{
+ marginLeft: '15px', fontSize: '3em', cursor: 'pointer', marginBottom: '-0.25em'
+}}
                                             onClick={() => {
                                                 bHistory.push(`/test/${translate.selectedLanguage}`);
                                             }}
@@ -298,7 +300,9 @@ class Recommendations extends React.Component {
                                         <ButtonIcon
                                             type="videocam"
                                             color={primary}
-                                            style={{ marginLeft: '15px', fontSize: '3em', cursor: 'pointer', marginBottom: '-0.25em' }}
+                                            style={{
+ marginLeft: '15px', fontSize: '3em', cursor: 'pointer', marginBottom: '-0.25em'
+}}
                                             onClick={() => {
                                                 bHistory.push(`/test/${translate.selectedLanguage}`);
                                             }}

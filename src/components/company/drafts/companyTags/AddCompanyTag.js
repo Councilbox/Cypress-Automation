@@ -25,7 +25,9 @@ export const checkUsedKey = gql`
 `;
 
 
-const AddCompanyTag = ({ company, translate, refetch, client, styles }) => {
+const AddCompanyTag = ({
+ company, translate, refetch, client, styles
+}) => {
     const [modal, setModal] = React.useState(false);
     const [errors, setErrors] = React.useState({
         key: '',

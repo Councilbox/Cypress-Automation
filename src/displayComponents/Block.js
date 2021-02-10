@@ -6,7 +6,9 @@ import { sendGAevent } from '../utils/analytics';
 import { bHistory } from '../containers/App';
 import withSharedProps from '../HOCs/withSharedProps';
 
-const Block = withSharedProps()(({ button, link, icon, text, id, customIcon, disabled, disabledOnClick, company }) => {
+const Block = withSharedProps()(({
+ button, link, icon, text, id, customIcon, disabled, disabledOnClick, company
+}) => {
 	const followLink = () => {
 		sendGAevent({
 			category: 'Dashboard',

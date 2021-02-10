@@ -58,11 +58,11 @@ export const useValidateAgenda = (translate, setErrors) => (items, options, agen
         hasError = true;
     }
 
-    if (options.maxSelections == '') {
+    if (!options.maxSelections) {
         newErrors.maxSelections = translate.not_indicated_value_option;
         hasError = true;
     }
-    if (options.minSelections == '') {
+    if (!options.minSelections) {
         newErrors.minSelections = translate.not_indicated_value_option;
         hasError = true;
     }

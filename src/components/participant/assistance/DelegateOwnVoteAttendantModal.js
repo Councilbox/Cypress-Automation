@@ -15,7 +15,9 @@ import { participantsToDelegate } from '../../../queries';
 import { DELEGATION_USERS_LOAD } from '../../../constants';
 import { getPrimary } from '../../../styles/colors';
 
-const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
+const DelegateOwnVoteAttendantModal = ({
+ show, data, translate, ...props
+}) => {
 	const loadMore = () => {
 		data.fetchMore({
 			variables: {
@@ -75,7 +77,9 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 					adornment={<Icon>search</Icon>}
 					floatingText={' '}
 					type="text"
-					styleInInput={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px' }}
+					styleInInput={{
+ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px'
+}}
 					stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: '4px' }}
 					onChange={event => {
 						updateFilterText(event.target.value);
@@ -132,7 +136,9 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 													elevation={1}
 													onClick={loadMore}
 												>
-													<MenuItem style={{ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
+													<MenuItem style={{
+ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'
+}}>
 														{`DESCARGAR ${
 															rest > DELEGATION_USERS_LOAD ?
 																`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
@@ -173,8 +179,12 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 					<div>
 						{translate.to_delegate_vote}
 					</div>
-					<div style={{ fontSize: '15px', color: '#0000005e', display: 'flex', alignItems: 'center' }}>
-						<i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', paddingRight: '0.3em', cursor: 'pointer' }} >
+					<div style={{
+ fontSize: '15px', color: '#0000005e', display: 'flex', alignItems: 'center'
+}}>
+						<i className="material-icons" style={{
+ color: getPrimary(), fontSize: '14px', paddingRight: '0.3em', cursor: 'pointer'
+}} >
 							help
 						</i>
 						{translate.select_who_will_be_delegate}

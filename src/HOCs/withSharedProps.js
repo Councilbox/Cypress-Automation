@@ -8,7 +8,9 @@ const mapStateToProps = state => ({
 });
 
 const withSharedProps = () => WrappedComponent => {
-	const WithSharedProps = ({ companies, translate, user, ...restProps }) => (
+	const WithSharedProps = ({
+ companies, translate, user, ...restProps
+}) => (
 			<WrappedComponent
 				company={companies.list.length > 0 ? companies.list[companies.selected] : null}
 				companies={companies}

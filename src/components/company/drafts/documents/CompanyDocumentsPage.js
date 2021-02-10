@@ -1,21 +1,27 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
-import { Icon, Table, TableRow, TableCell, TableBody, Input } from 'material-ui';
+import {
+ Icon, Table, TableRow, TableCell, TableBody, Input
+} from 'material-ui';
 import filesize from 'filesize';
 import folder from '../../../../assets/img/folder.png';
 import folderIcon from '../../../../assets/img/folder.svg';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import upload from '../../../../assets/img/upload.png';
 import { isMobile } from '../../../../utils/screen';
-import { TextInput, ProgressBar, DropDownMenu, AlertConfirm, Scrollbar } from '../../../../displayComponents';
+import {
+ TextInput, ProgressBar, DropDownMenu, AlertConfirm, Scrollbar
+} from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
 import CreateDocumentFolder from './CreateDocumentFolder';
 
 import { SERVER_URL } from '../../../../config';
 import DownloadCompanyDocument from './DownloadCompanyDocument';
 
-const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hideUpload }) => {
+const CompanyDocumentsPage = ({
+ translate, company, client, action, trigger, hideUpload
+}) => {
     const [inputSearch, setInputSearch] = React.useState(false);
     const [breadCrumbs, setBreadCrumbs] = React.useState([{
         value: '-1',
@@ -190,7 +196,9 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
     };
 
     return (
-        <div style={{ width: '100%', height: '100%', padding: '1em', paddingBottom: '2em', paddingTop: isMobile && '0em' }}>
+        <div style={{
+ width: '100%', height: '100%', padding: '1em', paddingBottom: '2em', paddingTop: isMobile && '0em'
+}}>
             <div>
                 <AlertConfirm
                     open={deleteModal}
@@ -248,7 +256,9 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                         opacity: 0
                     }}
                 />
-                <div style={{ display: 'flex', borderBottom: `1px solid${primary}`, alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{
+ display: 'flex', borderBottom: `1px solid${primary}`, alignItems: 'center', justifyContent: 'space-between'
+}}>
                     <div style={{ display: 'flex', alignItems: 'center', }}>
                         {breadCrumbs.map((item, index) => (
                             <React.Fragment key={index}>
@@ -259,7 +269,9 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                     <DropDownMenu
                                         color="transparent"
                                         styleComponent={{ width: '' }}
-                                        Component={() => <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.5em', paddingRight: '1em', position: 'relative' }}>
+                                        Component={() => <div style={{
+ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.5em', paddingRight: '1em', position: 'relative'
+}}>
                                                 <div
                                                     style={{
                                                         cursor: 'pointer'
@@ -288,7 +300,9 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                                         items={
                                             <div style={{ padding: '1em' }}>
                                                 <label htmlFor="raised-button-file">
-                                                    <div style={{ display: 'flex', color: 'black', padding: '.5em 0em', cursor: 'pointer' }}>
+                                                    <div style={{
+ display: 'flex', color: 'black', padding: '.5em 0em', cursor: 'pointer'
+}}>
                                                         <div style={{ width: '15px' }}>
                                                             <img src={upload} style={{ width: '100%' }}></img>
                                                         </div>
@@ -342,14 +356,18 @@ const CompanyDocumentsPage = ({ translate, company, client, action, trigger, hid
                         {quota
                             && `${filesize(quota.used)} / ${filesize(quota.total)}`
                         }
-                        <div style={{ padding: '0px 8px', fontSize: '24px', color: '#c196c3', display: 'flex', alignContent: 'center' }}>
+                        <div style={{
+ padding: '0px 8px', fontSize: '24px', color: '#c196c3', display: 'flex', alignContent: 'center'
+}}>
                             <i className="fa fa-filter"></i>
                         </div>
                         <div>
                             <TextInput
                                 className={isMobile && !inputSearch ? 'openInput' : ''}
                                 disableUnderline={true}
-                                styleInInput={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', padding: isMobile && inputSearch && '4px 5px', paddingLeft: !isMobile && '5px' }}
+                                styleInInput={{
+ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', padding: isMobile && inputSearch && '4px 5px', paddingLeft: !isMobile && '5px'
+}}
                                 stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: isMobile && inputSearch ? '8px' : '4px' }}
                                 adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
                                 floatingText={' '}
@@ -546,7 +564,9 @@ const DelayedRow = ({ children, delay }) => {
 };
 
 
-const EditFolder = withApollo(({ client, translate, file, refetch, modal, setModal }) => {
+const EditFolder = withApollo(({
+ client, translate, file, refetch, modal, setModal
+}) => {
     const [filename, setFilename] = React.useState(file.name);
     const [error, setError] = React.useState('');
 
@@ -615,7 +635,9 @@ const EditFolder = withApollo(({ client, translate, file, refetch, modal, setMod
     );
 });
 
-const FileRow = withApollo(({ client, translate, file, refetch, setDeleteModal, action, trigger }) => {
+const FileRow = withApollo(({
+ client, translate, file, refetch, setDeleteModal, action, trigger
+}) => {
     const nameData = file.name.split('.');
     const extension = nameData.pop();
     const name = nameData.join('.');

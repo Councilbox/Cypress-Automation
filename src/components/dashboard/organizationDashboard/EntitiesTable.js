@@ -1,7 +1,9 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { PaginationFooter, Grid, Scrollbar, LoadingSection } from '../../../displayComponents';
+import {
+ PaginationFooter, Grid, Scrollbar, LoadingSection
+} from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
 import CellAvatar from './CellAvatar';
 import Cell from './Cell';
@@ -19,7 +21,9 @@ const corporationCompanies = gql`
     }
 `;
 
-const OrganizationEntitiesTable = ({ translate, company, client, textFilter }) => {
+const OrganizationEntitiesTable = ({
+ translate, company, client, textFilter
+}) => {
     const [filters, setFilters] = React.useState({
         page: 1
     });
@@ -59,13 +63,19 @@ const OrganizationEntitiesTable = ({ translate, company, client, textFilter }) =
 	return (
 		<div style={{ fontSize: '13px' }}>
 			<div style={{ display: 'flex', justifyContent: 'space-between', padding: '1em', }}>
-				<div style={{ color: primary, fontWeight: 'bold', width: 'calc( 100% / 3 )', textAlign: 'left' }}>
+				<div style={{
+ color: primary, fontWeight: 'bold', width: 'calc( 100% / 3 )', textAlign: 'left'
+}}>
 
 				</div>
-				<div style={{ color: primary, fontWeight: 'bold', width: 'calc( 100% / 3 )', textAlign: 'left' }}>
+				<div style={{
+ color: primary, fontWeight: 'bold', width: 'calc( 100% / 3 )', textAlign: 'left'
+}}>
 					Id
 				</div>
-				<div style={{ color: primary, fontWeight: 'bold', width: 'calc( 100% / 3 )', textAlign: 'left' }}>
+				<div style={{
+ color: primary, fontWeight: 'bold', width: 'calc( 100% / 3 )', textAlign: 'left'
+}}>
 					{translate.name}
 				</div>
 			</div>

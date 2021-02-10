@@ -15,7 +15,9 @@ const styles = {
 	overflow: 'hidden'
 };
 
-const UserMenu = ({ user, actions, translate, company }) => {
+const UserMenu = ({
+ user, actions, translate, company
+}) => {
 	const secondary = getSecondary();
 
 	return company ? (

@@ -22,7 +22,9 @@ class SignatureEditorPage extends React.Component {
 
         return (
             <CardPageLayout title={title} disableScroll>
-                <div style={{ marginBottom: '1.2em', marginTop: '0.8em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingRight: '1.5em' }}>
+                <div style={{
+ marginBottom: '1.2em', marginTop: '0.8em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingRight: '1.5em'
+}}>
                     <div style={{ maxWidth: '600px', width: '100%' }}>
                         <SignatureStepper
                             translate={translate}

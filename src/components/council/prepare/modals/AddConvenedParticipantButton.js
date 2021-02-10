@@ -54,7 +54,9 @@ const initialRepresentative = {
 	dni: ''
 };
 
-const AddConvenedParticipantButton = ({ translate, council, participations, client, company, ...props }) => {
+const AddConvenedParticipantButton = ({
+ translate, council, participations, client, company, ...props
+}) => {
 	const [state, setState] = useOldState({
 		modal: false,
 		data: { ...initialParticipant },

@@ -30,7 +30,9 @@ import { hasParticipations } from '../../../../../utils/CBX';
 import { COUNCIL_TYPES } from '../../../../../constants';
 
 
-const ParticipantsPage = ({ translate, council, orientation, participants, loading, data, filters, setFilters, ...props }) => {
+const ParticipantsPage = ({
+ translate, council, orientation, participants, loading, data, filters, setFilters, ...props
+}) => {
 	const [addGuest, setAddGuest] = React.useState(false);
 	const [QRModal, setQRModal] = React.useState(false);
 	const [widthOffset, setwidthOffset] = React.useState(false);
@@ -179,7 +181,9 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 			>
 				{_renderHeader()}
 			</div>
-			<Grid style={{ padding: '0 8px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+			<Grid style={{
+ padding: '0 8px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+}}>
 				<GridItem xs={orientation === 'landscape' ? 4 : 6} md={6} lg={3} style={{ display: 'flex', alignItems: 'center', height: '3.5em' }}>
 					{_renderAddGuestButton()}
 				</GridItem>

@@ -155,11 +155,15 @@ class AgendaAttachmentsManager extends React.Component {
 			>
 				{this.props.attachments.length > 0 ?
 					this._section()
-				:					<div style={{ display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center', paddingTop: '4em' }}>
+				:					<div style={{
+ display: 'flex', flexDirection: 'column', width: '100%', alignItems: 'center', paddingTop: '4em'
+}}>
 						{this.props.translate.no_results}
 					</div>
 				}
-				<div style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '1em' }}>
+				<div style={{
+ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '1em'
+}}>
 					<FileUploadButton
 						color={'white'}
 						text={this.props.translate.add_attachment}

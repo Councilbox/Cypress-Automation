@@ -9,7 +9,9 @@ import {
 } from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
 
-const ParticipantHistory = ({ data, participant, translate, requestClose }) => (
+const ParticipantHistory = ({
+ data, participant, translate, requestClose
+}) => (
 	<AlertConfirm
 		requestClose={requestClose}
 		open={!!participant}
