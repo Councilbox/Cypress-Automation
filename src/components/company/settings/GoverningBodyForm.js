@@ -4,7 +4,6 @@ import ContentEditable from 'react-contenteditable';
 import { TextInput, GridItem, DropDownMenu } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
 import { GOVERNING_BODY_TYPES } from '../../../constants';
-
 import CheckBox from '../../../displayComponents/CheckBox';
 
 
@@ -478,105 +477,5 @@ export const getCouncilAdminPosition = (index, translate) => {
 
     return positions[index];
 };
-
-const CouncilAdminForm = ({ translate, setData, data }) => {
-    React.useEffect(() => {
-        if (!data.list || data.list.length !== 4) {
-            setData({
-                list: [baseUser, baseUser, baseUser, baseUser]
-            });
-        }
-    }, [data.list]);
-
-    const setAdminData = (newData, index) => {
-        const list = [...data.list];
-        list[index] = {
-            ...list[index],
-            ...newData
-        };
-
-        setData({
-            list: [...list]
-        });
-    };
-
-
-    return (
-        <div style={{ width: '100%', overflowX: 'auto' }}>
-            <Table style={{ maxWidth: '100%', tableLayout: 'auto' }}>
-                <TableHead>
-                    <TableCell>
-                        {translate.new_signature}
-                    </TableCell>
-                    <TableCell>
-                        {translate.position}
-                    </TableCell>
-                    <TableCell>
-                        {translate.name}
-                    </TableCell>
-                    <TableCell>
-                        {translate.surname || ''}
-                    </TableCell>
-                    <TableCell>
-                        {translate.dni}
-                    </TableCell>
-                    <TableCell>
-                        {translate.email}
-                    </TableCell>
-                    <TableCell>
-                        {translate.phone}
-                    </TableCell>
-                </TableHead>
-                <TableBody>
-                    {data.list && data.list.map((item, index) => (
-                        <TableRow key={`item_${item.id}`} style={{ marginTop: '1em', ...(index > 0 ? { borderTop: '1px solid gainsboro' } : {}) }}>
-                            <TableCell>
-                                <CheckBox
-                                    value={item ? item.sign : false}
-                                    onChange={(event, checked) => setAdminData({ sign: checked }, index)}
-                                />
-                            </TableCell>
-                            <TableCell>
-                                {getCouncilAdminPosition(index, translate)}
-                            </TableCell>
-                            <TableCell>
-                                <TextInput
-                                    value={item ? item.name : ''}
-                                    onChange={event => setAdminData({ name: event.target.value }, index)}
-                                />
-                            </TableCell>
-                            <TableCell>
-                                <TextInput
-                                    value={item ? item.surname : ''}
-                                    onChange={event => setAdminData({ surname: event.target.value }, index)}
-                                />
-                            </TableCell>
-                            <TableCell>
-                                <TextInput
-                                    value={item ? item.dni : ''}
-                                    onChange={event => setAdminData({ dni: event.target.value }, index)}
-                                />
-                            </TableCell>
-                            <TableCell>
-                                <TextInput
-                                    value={item ? item.email : ''}
-                                    onChange={event => setAdminData({ email: event.target.value }, index)}
-                                />
-                            </TableCell>
-                            <TableCell>
-                                <TextInput
-                                    value={item ? item.phone : ''}
-                                    style={{ maxWidth: '10em' }}
-                                    onChange={event => setAdminData({ phone: event.target.value }, index)}
-                                />
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </div>
-    );
-};
-
 
 export default GoverningBodyForm;

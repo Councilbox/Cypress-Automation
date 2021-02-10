@@ -438,13 +438,13 @@ const StepNotice = ({ data, translate, company, ...props }) => {
 										onChange={event => changeStatute(+event.target.value)
 										}
 									>
-										{companyStatutes.map(statute => (
+										{companyStatutes.map(mappedStatute => (
 												<MenuItem
-													value={statute.id}
-													key={`statutes_${statute.id}`}
+													value={mappedStatute.id}
+													key={`statutes_${mappedStatute.id}`}
 												>
-													{translate[statute.title]
-														|| statute.title}
+													{translate[mappedStatute.title]
+														|| mappedStatute.title}
 												</MenuItem>
 											))}
 									</SelectInput>

@@ -3,7 +3,10 @@ import { graphql, compose } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { TableRow, TableCell, Typography } from 'material-ui';
 import withSharedProps from '../../../HOCs/withSharedProps';
-import { councilCertificates, downloadCertificate } from '../../../queries';
+import {
+    councilCertificates as councilCertificatesQuery,
+    downloadCertificate as downloadCertificateMutation
+} from '../../../queries';
 import { getSecondary } from '../../../styles/colors';
 import { LoadingSection, CardPageLayout, ButtonIcon, BasicButton, Table, DateWrapper } from '../../../displayComponents';
 import { downloadFile } from '../../../utils/CBX';
@@ -148,14 +151,14 @@ const HoverableRow = ({ certificate, downloading, translate, ...props }) => {
 
 
 export default compose(
-    graphql(councilCertificates, {
+    graphql(councilCertificatesQuery, {
         options: props => ({
             variables: {
                 councilId: +props.match.params.council
             }
         })
     }),
-    graphql(downloadCertificate, {
+    graphql(downloadCertificateMutation, {
         name: 'downloadCertificate'
     })
 )(withSharedProps()(withRouter(CouncilCertificates)));

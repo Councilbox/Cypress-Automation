@@ -197,7 +197,7 @@ const corporationCompanies = gql`
 `;
 
 export default graphql(corporationCompanies, {
-    options: props => ({
+    options: () => ({
         variables: {
             options: DEFAULT_OPTIONS
         }

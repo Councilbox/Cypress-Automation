@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon, IconButton, withStyles } from 'material-ui';
+import { Icon, withStyles } from 'material-ui';
 import { compose, graphql, withApollo } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import gql from 'graphql-tag';
@@ -11,10 +11,9 @@ import {
 	LoadingSection,
 	EnhancedTable,
 	ErrorWrapper,
-	TextInput,
-	CloseIcon
+	TextInput
 } from '../../../displayComponents';
-import { cloneDrafts, platformDrafts as query } from '../../../queries';
+import { cloneDrafts as cloneDraftsMutation, platformDrafts as query } from '../../../queries';
 import { getPrimary } from '../../../styles/colors';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import PlatformDraftDetails from './PlatformDraftDetails';
@@ -27,7 +26,7 @@ import { DropdownEtiquetas } from '../../company/drafts/LoadDraft';
 import { isMobile } from '../../../utils/screen';
 import { bHistory } from '../../../containers/App';
 
-export const statute_types = [
+const statuteTypes = [
 	{
 		prototype: 1,
 		title: 'ordinary_general_assembly',
@@ -121,7 +120,7 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 
 		setVars({
 			...response.data,
-			companyStatutes: statute_types
+			companyStatutes: statuteTypes
 		});
 	};
 
@@ -276,10 +275,10 @@ const PlatformDrafts = ({ client, company, translate, classes, ...props }) => {
 					<React.Fragment>
 						{error ? (
 							<div>
-								{error.graphQLErrors.map((error, index) => (
+								{error.graphQLErrors.map((err, index) => (
 										<ErrorWrapper
 											key={`error_${index}`}
-											error={error}
+											error={err}
 											translate={translate}
 										/>
 									))}
@@ -471,7 +470,7 @@ const regularCardStyle = {
 
 export default withSharedProps()(
 	compose(
-		graphql(cloneDrafts, {
+		graphql(cloneDraftsMutation, {
 			name: 'cloneDrafts'
 		})
 	)(withRouter(withApollo(withStyles(regularCardStyle)(PlatformDrafts))))

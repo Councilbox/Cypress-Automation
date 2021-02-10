@@ -3,11 +3,11 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 import { AGENDA_STATES } from '../../../constants';
 import { useHoverRow, usePolling } from '../../../hooks';
-import { agendaVotingsOpened, getPercentage } from '../../../utils/CBX';
+import { getPercentage } from '../../../utils/CBX';
 import { agendaRecountQuery } from '../live/ActAgreements';
 
 
-const ConfirmationRequestRecount = ({ translate, agenda, recount, client }) => {
+const ConfirmationRequestRecount = ({ translate, agenda, client }) => {
     const [data, setData] = React.useState(null);
 
     const getData = React.useCallback(async () => {

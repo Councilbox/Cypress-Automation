@@ -19,7 +19,7 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, translate, removeAgenda, s
 				marginTop: '0.6em',
 				cursor: 'pointer'
 			}}
-			onClick={event => {
+			onClick={() => {
 				selectAgenda(agenda.orderIndex);
 			}}
 		>

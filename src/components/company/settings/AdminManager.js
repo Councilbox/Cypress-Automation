@@ -98,9 +98,12 @@ const AdminManager = ({ company, translate, client }) => {
                 bodyText={renderModalBody()}
                 title={translate.admins}
                 requestClose={() => {
-                    page === 1 ? setModal(false) : setPage(1);
-}
-                }
+                    if (page === 1) {
+                        setModal(false);
+                    } else {
+                        setPage(1);
+                    }
+                }}
             />
         </React.Fragment>
     );

@@ -3,7 +3,11 @@ import { Link } from 'react-router-dom';
 import { compose, graphql, withApollo } from 'react-apollo';
 import { Card, Collapse, IconButton, Icon, CardActions, CardContent, CardHeader, withStyles } from 'material-ui';
 import { TableCell, TableRow } from 'material-ui/Table';
-import { companyDrafts as query, deleteDraft, getCompanyDraftDataNoCompany } from '../../../queries/companyDrafts.js';
+import {
+	companyDrafts as query,
+	deleteDraft as deleteDraftMutation,
+	getCompanyDraftDataNoCompany
+} from '../../../queries/companyDrafts';
 import {
 	AlertConfirm,
 	BasicButton,
@@ -22,14 +26,14 @@ import withSharedProps from '../../../HOCs/withSharedProps';
 import { DRAFTS_LIMITS, GOVERNING_BODY_TYPES } from '../../../constants';
 import TableStyles from '../../../styles/table';
 import { bHistory } from '../../../containers/App';
-import { sendGAevent } from '../../../utils/analytics.js';
-import { useOldState, useHoverRow } from '../../../hooks.js';
-import { getTagColor, createTag } from './draftTags/utils.js';
-import SelectedTag from './draftTags/SelectedTag.js';
-import withWindowSize from '../../../HOCs/withWindowSize.js';
-import { DropdownEtiquetas } from './LoadDraft.js';
-import { buildTagColumns, formatLabelFromName } from '../../../utils/templateTags.js';
-import { isMobile } from '../../../utils/screen.js';
+import { sendGAevent } from '../../../utils/analytics';
+import { useOldState, useHoverRow } from '../../../hooks';
+import { getTagColor, createTag } from './draftTags/utils';
+import SelectedTag from './draftTags/SelectedTag';
+import withWindowSize from '../../../HOCs/withWindowSize';
+import { DropdownEtiquetas } from './LoadDraft';
+import { buildTagColumns, formatLabelFromName } from '../../../utils/templateTags';
+import { isMobile } from '../../../utils/screen';
 
 const { NONE, ...governingBodyTypes } = GOVERNING_BODY_TYPES;
 
@@ -138,40 +142,40 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 		});
 	}, [sendGAevent]);
 
-	const _renderDeleteIcon = draftID => (
-			<div style={{ display: 'flex', marginLeft: isMobile && '1em' }}>
-				<IconButton
-					onClick={() => {
-						bHistory.push(`/company/${company.id}/draft/${draftID}`);
-					}}
-					style={{
-						color: primary,
-						height: '32px',
-						width: '32px',
-						outline: 0,
-						marginRight: isMobile && '1em'
-					}}
-				>
-					<i className="fa fa-pencil-square-o">
-					</i>
-				</IconButton>
-
-				<CloseIcon
-					style={{ color: primary }}
-					onClick={event => {
-						openDeleteModal(draftID);
-						event.stopPropagation();
-					}}
-				/>
-			</div>
-		);
-
 	const openDeleteModal = draftID => {
 		setState({
 			deleteModal: true,
 			draftID
 		});
 	};
+
+	const renderDeleteIcon = draftID => (
+		<div style={{ display: 'flex', marginLeft: isMobile && '1em' }}>
+			<IconButton
+				onClick={() => {
+					bHistory.push(`/company/${company.id}/draft/${draftID}`);
+				}}
+				style={{
+					color: primary,
+					height: '32px',
+					width: '32px',
+					outline: 0,
+					marginRight: isMobile && '1em'
+				}}
+			>
+				<i className="fa fa-pencil-square-o">
+				</i>
+			</IconButton>
+
+			<CloseIcon
+				style={{ color: primary }}
+				onClick={event => {
+					openDeleteModal(draftID);
+					event.stopPropagation();
+				}}
+			/>
+		</div>
+	);
 
 	const deleteDraft = async () => {
 		const response = await props.deleteDraft({
@@ -379,10 +383,10 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 					<div style={{ height: '100%', paddingRight: !isMobile && '1em' }}>
 						{error ? (
 							<div>
-								{error.graphQLErrors.map((error, index) => (
+								{error.graphQLErrors.map((err, index) => (
 										<ErrorWrapper
 											key={`error_${index}`}
-											error={error}
+											error={err}
 											translate={translate}
 										/>
 									))}
@@ -422,7 +426,7 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 													text: ''
 												}
 											]}
-											action={_renderDeleteIcon}
+											action={renderDeleteIcon}
 											companyID={company.id}
 										>
 											{companyDrafts.list.map((draft, index) => (
@@ -432,7 +436,7 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 														key={`draft${draft.id}${draft.title}`}
 														translate={translate}
 														action={() => bHistory.push(`/company/${company.id}/draft/${draft.id}`)}
-														renderDeleteIcon={_renderDeleteIcon}
+														renderDeleteIcon={renderDeleteIcon}
 														draft={draft}
 														companyStatutes={vars.companyStatutes}
 														draftTypes={draftTypes}
@@ -464,28 +468,19 @@ const CompanyDraftList = ({ translate, company, client, setMostrarMenu, searchDr
 export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatutes, translate, info, index, stylesBackground, classes, ...props }) => {
 	const [show, handlers] = useHoverRow();
 	const [expanded, setExpanded] = React.useState(false);
-	const [showActions, setShowActions] = React.useState(false);
 	const [expandedCard, setExpandedCard] = React.useState(false);
 
-	const TagColumn = props => (
-			<div style={{
-				display: 'flex',
-				color: '#ffffff',
-				fontSize: '12px',
-				marginBottom: '0.5em ',
-				flexDirection: 'column'
-			}}>
-				{props.children}
-			</div>
-		);
-
-	const mouseEnterHandler = () => {
-		setShowActions(true);
-	};
-
-	const mouseLeaveHandler = () => {
-		setShowActions(false);
-	};
+	const TagColumn = tagProps => (
+		<div style={{
+			display: 'flex',
+			color: '#ffffff',
+			fontSize: '12px',
+			marginBottom: '0.5em ',
+			flexDirection: 'column'
+		}}>
+			{tagProps.children}
+		</div>
+	);
 
 	const desplegarEtiquetas = event => {
 		event.preventDefault();
@@ -578,9 +573,9 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 													const columnaLength = columns[key].length;
 													return (
 														<TagColumn key={`column_${key}`}>
-															{columns[key].map((tag, index) => (
-																	index > 0 ?
-																		<Collapse key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}_`} in={expanded} timeout="auto" unmountOnExit>
+															{columns[key].map((tag, i) => (
+																	i > 0 ?
+																		<Collapse key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}_`} in={expanded} timeout="auto" unmountOnExit>
 																			<SelectedTag
 																				text={''}
 																				color={getTagColor(key)}
@@ -590,15 +585,15 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 																				count={''}
 																			/>
 																		</Collapse>
-																		:																		<SelectedTag
-																			key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}`}
-																			text={''}
-																			color={getTagColor(key)}
-																			props={props}
-																			sinTitulos={true}
-																			list={true}
-																			count={columnaLength > 1 ? expanded ? '' : columnaLength : ''}
-																		/>
+																		:	<SelectedTag
+																				key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}`}
+																				text={''}
+																				color={getTagColor(key)}
+																				props={props}
+																				sinTitulos={true}
+																				list={true}
+																				count={columnaLength > 1 ? expanded ? '' : columnaLength : ''}
+																			/>
 																))}
 														</TagColumn>
 													);
@@ -618,9 +613,9 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 												const columnaLength = columns[key].length;
 												return (
 													<TagColumn key={`column_${key}`}>
-														{columns[key].map((tag, index) => (
-																index > 0 ?
-																	<Collapse key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}_`} in={expanded} timeout="auto" unmountOnExit>
+														{columns[key].map((tag, i) => (
+																i > 0 ?
+																	<Collapse key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}_`} in={expanded} timeout="auto" unmountOnExit>
 																		<SelectedTag
 																			text={translate[tag.label] || tag.label}
 																			color={getTagColor(key)}
@@ -629,18 +624,16 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 																			count={''}
 																		/>
 																	</Collapse>
-																	:																	<SelectedTag
-																		key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}`}
-																		text={translate[tag.label] || tag.label}
-																		color={getTagColor(key)}
-																		props={props}
-																		list={true}
-																		count={columnaLength > 1 ? expanded ? '' : columnaLength : ''}
-																		stylesEtiqueta={{ cursor: columnaLength > 1 ? 'pointer' : '', }}
-																		desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ''}
-																		mouseEnterHandler={columnaLength > 1 ? mouseEnterHandler : ''}
-																		mouseLeaveHandler={columnaLength > 1 ? mouseLeaveHandler : ''}
-																	/>
+																	:	<SelectedTag
+																			key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}`}
+																			text={translate[tag.label] || tag.label}
+																			color={getTagColor(key)}
+																			props={props}
+																			list={true}
+																			count={columnaLength > 1 ? expanded ? '' : columnaLength : ''}
+																			stylesEtiqueta={{ cursor: columnaLength > 1 ? 'pointer' : '', }}
+																			desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ''}
+																		/>
 															))}
 													</TagColumn>
 												);
@@ -699,11 +692,11 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 								const columnaLength = columns[key].length;
 								return (
 									<TagColumn key={`column_${key}`}>
-										{columns[key].map((tag, index) => (
-												index > 0 ?
-													<Collapse in={expanded} timeout="auto" unmountOnExit key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}_1`}>
+										{columns[key].map((tag, i) => (
+												i > 0 ?
+													<Collapse in={expanded} timeout="auto" unmountOnExit key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}_1`}>
 														<SelectedTag
-															key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}_`}
+															key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}_`}
 															text={translate[tag.label] || tag.label}
 															color={getTagColor(key)}
 															props={props}
@@ -712,7 +705,7 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 														/>
 													</Collapse>
 													:													<SelectedTag
-														key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}`}
+														key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}`}
 														text={translate[tag.label] || tag.label}
 														color={getTagColor(key)}
 														props={props}
@@ -720,8 +713,6 @@ export const DraftRow = ({ draft, draftTypes, company, selectable, companyStatut
 														count={columnaLength > 1 ? expanded ? '' : columnaLength : ''}
 														stylesEtiqueta={{ cursor: columnaLength > 1 ? 'pointer' : '', }}
 														desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ''}
-														mouseEnterHandler={columnaLength > 1 ? mouseEnterHandler : ''}
-														mouseLeaveHandler={columnaLength > 1 ? mouseLeaveHandler : ''}
 													/>
 											))}
 									</TagColumn>
@@ -748,7 +739,7 @@ const regularCardStyle = {
 
 export default withApollo((withSharedProps()(
 	compose(
-		graphql(deleteDraft, {
+		graphql(deleteDraftMutation, {
 			name: 'deleteDraft',
 			options: {
 				errorPolicy: 'all'

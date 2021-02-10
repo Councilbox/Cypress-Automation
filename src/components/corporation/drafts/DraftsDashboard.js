@@ -391,7 +391,7 @@ class DraftsDashboard extends React.PureComponent {
 
 export default compose(
     graphql(corporationDrafts, {
-        options: props => ({
+        options: () => ({
             variables: {
                 filters: [{ field: 'language', text: 'es' }],
                 options: DEFAULT_OPTIONS

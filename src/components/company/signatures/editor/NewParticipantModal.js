@@ -3,8 +3,16 @@ import { graphql, compose, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { AlertConfirm } from '../../../../displayComponents';
 import SignatureParticipantForm from './SignatureParticipantForm';
-import { languages } from '../../../../queries/masters';
+import { languages as languagesQuery } from '../../../../queries/masters';
 import { checkValidEmail } from '../../../../utils/validation';
+
+const checkSignatureEmail = gql`
+    query CheckSignatureParticipantEmail($email: String!, $signatureId: Int!){
+        checkSignatureParticipantEmail(email: $email, signatureId: $signatureId){
+            success
+        }
+    }
+`;
 
 class NewParticipantModal extends React.Component {
     state = {
@@ -23,7 +31,7 @@ class NewParticipantModal extends React.Component {
 
     initialState = this.state;
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         if (prevProps.open && !this.props.open) {
             this.setState(this.initialState);
         }
@@ -115,7 +123,7 @@ class NewParticipantModal extends React.Component {
         return hasError;
     }
 
-    _renderBody = () => {
+    renderBody = () => {
         const { languages = {} } = this.props.data;
         return (
             <div
@@ -145,7 +153,7 @@ class NewParticipantModal extends React.Component {
                 acceptAction={this.addSignatureParticipant}
                 buttonAccept={translate.accept}
                 buttonCancel={translate.cancel}
-                bodyText={this._renderBody()}
+                bodyText={this.renderBody()}
                 title={translate.add_participant}
             />
         );
@@ -160,16 +168,8 @@ const addSignatureParticipant = gql`
     }
 `;
 
-const checkSignatureEmail = gql`
-    query CheckSignatureParticipantEmail($email: String!, $signatureId: Int!){
-        checkSignatureParticipantEmail(email: $email, signatureId: $signatureId){
-            success
-        }
-    }
-`;
-
 export default compose(
-    graphql(languages),
+    graphql(languagesQuery),
     graphql(addSignatureParticipant, {
         name: 'addSignatureParticipant'
     }),

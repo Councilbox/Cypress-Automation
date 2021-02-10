@@ -3,8 +3,6 @@ import { withRouter } from 'react-router-dom';
 import { CardPageLayout, LoadingSection } from '../../../../displayComponents';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import SignatureStepper from './SignatureStepper';
-import SignatureStepOne from './SignatureStepOne';
-import SignatureStepTwo from './SignatureStepTwo';
 import SignatureStepTwoIvnosys from './SignatureStepTwoIvnosys';
 import SignatureStepOneIvnosys from './SignatureStepOneIvnosys';
 

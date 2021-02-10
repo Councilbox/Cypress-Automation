@@ -41,7 +41,7 @@ class CreateSignature extends React.Component {
 		}
 	}
 
-	render() {
+	static render() {
 		return <LoadingMainApp />;
 	}
 }

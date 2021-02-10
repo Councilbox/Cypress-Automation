@@ -9,7 +9,7 @@ const DeleteAgendaButton = ({ agenda, council, translate, client, refetch, reque
 	const [modal, setModal] = React.useState(false);
 
 	const removeAgendaPoint = async () => {
-		const response = await client.mutate({
+		await client.mutate({
 			mutation: gql`
 				mutation removeAgenda($councilId: Int!, $agendaId: Int!) {
 					removeAgenda(councilId: $councilId, agendaId: $agendaId) {

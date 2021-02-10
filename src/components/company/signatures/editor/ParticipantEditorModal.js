@@ -6,6 +6,14 @@ import SignatureParticipantForm from './SignatureParticipantForm';
 import { languages } from '../../../../queries/masters';
 import { checkValidEmail } from '../../../../utils/validation';
 
+const checkSignatureEmail = gql`
+    query CheckSignatureParticipantEmail($email: String!, $signatureId: Int!){
+        checkSignatureParticipantEmail(email: $email, signatureId: $signatureId){
+            success
+        }
+    }
+`;
+
 class ParticipantEditorModal extends React.Component {
     state = {
         data: {
@@ -23,7 +31,7 @@ class ParticipantEditorModal extends React.Component {
 
     initialState = this.state;
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         if (prevProps.open && !this.props.open) {
             this.setState(this.initialState);
         }
@@ -130,7 +138,7 @@ class ParticipantEditorModal extends React.Component {
         return hasError;
     }
 
-    _renderBody = () => (
+    renderBody = () => (
             <div
                 style={{
                     minWidth: '650px',
@@ -157,7 +165,7 @@ class ParticipantEditorModal extends React.Component {
                 acceptAction={this.updateSignatureParticipant}
                 buttonAccept={translate.accept}
                 buttonCancel={translate.cancel}
-                bodyText={this._renderBody()}
+                bodyText={this.renderBody()}
                 title={translate.add_participant}
             />
         );
@@ -182,15 +190,6 @@ const signatureParticipant = gql`
 const updateSignatureParticipant = gql`
     mutation UpdateSignatureParticipant($participant: SignatureParticipantInput!){
         updateSignatureParticipant(participant: $participant){
-            success
-        }
-    }
-`;
-
-
-const checkSignatureEmail = gql`
-    query CheckSignatureParticipantEmail($email: String!, $signatureId: Int!){
-        checkSignatureParticipantEmail(email: $email, signatureId: $signatureId){
             success
         }
     }

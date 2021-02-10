@@ -1,6 +1,6 @@
 import React from 'react';
 import { BasicButton } from '../../../../displayComponents';
-import { getPrimary, getSecondary } from '../../../../styles/colors';
+import { getSecondary } from '../../../../styles/colors';
 import SignatureModal from './modals/SignatureModal';
 
 const SignatureButton = ({ participant, translate, council, refetch }) => {

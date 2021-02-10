@@ -34,32 +34,6 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
         });
     };
 
-    const createUserWithoutPassword = async () => {
-        if (!checkRequiredFields()) {
-            const response = await props.createUserWithoutPassword({
-                variables: {
-                    user: state.data,
-                    companies: state.companies.map(company => company.id),
-                    corporationId: company ? company.corporationId : null
-                }
-            });
-
-            if (!response.errors) {
-                if (response.data.createUserWithoutPassword.id && !fixedCompany) {
-                    bHistory.push(`/users/edit/${response.data.createUserWithoutPassword.id}`);
-                } else {
-                    setSuccess(true);
-                }
-            } else if (response.errors[0].message === 'Email already registered') {
-                    setState({
-                        errors: {
-                            email: translate.register_exists_email
-                        }
-                    });
-                }
-        }
-    };
-
     function checkRequiredFields() {
         const errors = {
             email: '',
@@ -95,6 +69,32 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
 
         return hasError;
     }
+
+    const createUserWithoutPassword = async () => {
+        if (!checkRequiredFields()) {
+            const response = await props.createUserWithoutPassword({
+                variables: {
+                    user: state.data,
+                    companies: state.companies.map(item => item.id),
+                    corporationId: company ? company.corporationId : null
+                }
+            });
+
+            if (!response.errors) {
+                if (response.data.createUserWithoutPassword.id && !fixedCompany) {
+                    bHistory.push(`/users/edit/${response.data.createUserWithoutPassword.id}`);
+                } else {
+                    setSuccess(true);
+                }
+            } else if (response.errors[0].message === 'Email already registered') {
+                    setState({
+                        errors: {
+                            email: translate.register_exists_email
+                        }
+                    });
+                }
+        }
+    };
 
     if (props.data.loading) {
         return <LoadingSection />;
@@ -132,10 +132,8 @@ const NewUser = ({ fixedCompany, translate, company, ...props }) => {
                     <React.Fragment>
                         <BasicButton
                             text={translate.back}
-                            textStyle={{ textTransform: 'none', color: 'black', fontWeight: '700' }}
                             onClick={props.requestClose}
                             buttonStyle={{ marginRight: '1em' }}
-
                             textStyle={{
                                 textTransform: 'none',
                                 fontWeight: '700',

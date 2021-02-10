@@ -53,7 +53,7 @@ class RootUserSettings extends React.Component {
                                 floatingText="Settings password"
                                 type="password"
                                 value={this.state.settingsPassword}
-                                onKeyUp={event => this.handleKeyUp}
+                                onKeyUp={this.handleKeyUp}
                                 errorText={this.state.passError}
                                 onChange={event => this.setState({
                                     settingsPassword: event.target.value

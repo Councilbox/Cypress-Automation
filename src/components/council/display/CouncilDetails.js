@@ -44,7 +44,7 @@ class CouncilDetails extends React.Component {
     }
 
     getCensusName = () => {
-        const census = this.props.data.censuses.list.find(census => census.id === this.props.data.council.selectedCensusId);
+        const census = this.props.data.censuses.list.find(item => item.id === this.props.data.council.selectedCensusId);
         return census ? census.censusName : '';
     }
 
@@ -232,43 +232,41 @@ class CouncilDetails extends React.Component {
                                     {
                                         text: translate.options,
                                         component: () => (
-                                                <React.Fragment>
-                                                    <div style={{
-                                                        fontWeight: '700',
-                                                        display: 'flex',
-                                                        justifyContent: 'space-between',
-                                                        fontWeight: ' 700'
-                                                    }}>
-                                                        {translate.options}
-                                                    </div>
-                                                    <div style={{ marginTop: '1em' }}>
-                                                        <OptionsDisplayIconIzq council={council} translate={translate} />
+                                            <React.Fragment>
+                                                <div style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'space-between',
+                                                    fontWeight: ' 700'
+                                                }}>
+                                                    {translate.options}
+                                                </div>
+                                                <div style={{ marginTop: '1em' }}>
+                                                    <OptionsDisplayIconIzq council={council} translate={translate} />
 
-                                                    </div>
-                                                </React.Fragment>
-                                            )
+                                                </div>
+                                            </React.Fragment>
+                                        )
                                     },
                                     {
                                         text: translate.council_type,
                                         component: () => (
-                                                <React.Fragment>
-                                                    <div style={{
-                                                        fontWeight: '700',
-                                                        display: 'flex',
-                                                        justifyContent: 'space-between',
-                                                        fontWeight: ' 700'
-                                                    }}>
-                                                        {translate.council_type}
-                                                    </div>
-                                                    <div style={{ marginTop: '1em' }}>
-                                                        <StatuteDisplayIconsIzq
-                                                            statute={council.statute}
-                                                            translate={translate}
-                                                            quorumTypes={this.props.data.quorumTypes}
-                                                        />
-                                                    </div>
-                                                </React.Fragment>
-                                            )
+                                            <React.Fragment>
+                                                <div style={{
+                                                    display: 'flex',
+                                                    justifyContent: 'space-between',
+                                                    fontWeight: ' 700'
+                                                }}>
+                                                    {translate.council_type}
+                                                </div>
+                                                <div style={{ marginTop: '1em' }}>
+                                                    <StatuteDisplayIconsIzq
+                                                        statute={council.statute}
+                                                        translate={translate}
+                                                        quorumTypes={this.props.data.quorumTypes}
+                                                    />
+                                                </div>
+                                            </React.Fragment>
+                                        )
                                     },
                                 ]
                                 }

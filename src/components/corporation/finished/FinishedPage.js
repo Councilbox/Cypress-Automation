@@ -7,14 +7,34 @@ import { TextInput, SelectInput, BasicButton, Grid, GridItem, LoadingSection, Sc
 import CouncilItem from '../councils/CouncilItem';
 import withTranslations from '../../../HOCs/withTranslations';
 
-const date = new moment();
+const date = moment();
 const months = moment.months();
 const years = [];
 for (let i = 2015; i <= +date.format('Y'); i++) {
     years.push(i);
 }
 
-const FinishedPage = ({ client, translate, ...props }) => {
+const finishedCouncils = gql`
+    query rootFinishedCouncils($month: Int, $year: Int, $companyId: Int){
+        rootFinishedCouncils(month: $month, year: $year, companyId: $companyId){
+            id
+            name
+            state
+            dateStart
+            councilType
+            prototype
+            participants {
+                id
+            }
+            company{
+                id
+                businessName
+            }
+        }
+    }
+`;
+
+const FinishedPage = ({ client, translate }) => {
     const [options, setOptions] = React.useState({
         month: +date.format('M'),
         year: +date.format('Y'),
@@ -65,7 +85,7 @@ const FinishedPage = ({ client, translate, ...props }) => {
                             value={options.year}
                             onChange={event => setOptions({ ...options, year: event.target.value })}
                         >
-                            {years.map((year, index) => (
+                            {years.map(year => (
                                 <MenuItem value={year} key={`year_${year}`}>
                                     {year}
                                 </MenuItem>
@@ -105,25 +125,5 @@ const FinishedPage = ({ client, translate, ...props }) => {
         </div>
     );
 };
-
-const finishedCouncils = gql`
-    query rootFinishedCouncils($month: Int, $year: Int, $companyId: Int){
-        rootFinishedCouncils(month: $month, year: $year, companyId: $companyId){
-            id
-            name
-            state
-            dateStart
-            councilType
-            prototype
-            participants {
-                id
-            }
-            company{
-                id
-                businessName
-            }
-        }
-    }
-`;
 
 export default withTranslations()(withApollo(FinishedPage));

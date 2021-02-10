@@ -5,7 +5,6 @@ import { Radio, SectionTitle, TextInput, Grid, GridItem, SelectInput, BasicButto
 import RichTextInput from '../../../../../displayComponents/RichTextInput';
 import { getPrimary, getSecondary } from '../../../../../styles/colors';
 
-
 const CustomPointForm = ({
     errors,
     translate,
@@ -19,14 +18,12 @@ const CustomPointForm = ({
     updateOptions,
     updateItem,
     removeItem,
-    ...props
 }) => {
-    const [loadDraftModal, setLoadDraft] = React.useState(false);
     const editor = React.useRef();
     const validateNumber = number => {
-        if (number < 0 || isNaN(number)) {
+        if (number < 0 || Number.isNaN(number)) {
             const value = Math.abs(parseInt(number, 10));
-            if (isNaN(value)) {
+            if (Number.isNaN(value)) {
                 return '';
             }
             return value;
@@ -116,7 +113,7 @@ const CustomPointForm = ({
                 <div>
                     <Radio
                         checked={!!options.multiselect}
-                        onChange={event => updateOptions({
+                        onChange={() => updateOptions({
                             multiselect: true,
                             maxSelections: 2
                         })}
@@ -125,7 +122,7 @@ const CustomPointForm = ({
                     />
                     <Radio
                         checked={!options.multiselect}
-                        onChange={event => updateOptions({
+                        onChange={() => updateOptions({
                             multiselect: false,
                             maxSelections: 1
                         })}

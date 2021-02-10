@@ -16,7 +16,7 @@ const RestoreAccount = ({ render, translate, client, user, refetch }) => {
     };
 
     const deactivateUser = async () => {
-        const response = await client.mutate({
+        await client.mutate({
             mutation: gql`
                 mutation DeactivateUser($userId: Int!){
                     restoreUser(userId: $userId){

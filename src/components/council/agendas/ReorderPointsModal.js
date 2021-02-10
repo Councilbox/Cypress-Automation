@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import { arrayMove } from 'react-sortable-hoc';
 import { AlertConfirm } from '../../../displayComponents';
-import { updateAgendas } from '../../../queries/agenda';
+import { updateAgendas as updateAgendasMutation } from '../../../queries/agenda';
 import SortableList from '../../../displayComponents/SortableList';
 import * as CBX from '../../../utils/CBX';
 
@@ -42,7 +42,7 @@ const ReorderPointsModal = ({ updateAgendas, translate, ...props }) => {
 		setAgendas(arrayMove(agendas, oldIndex, newIndex));
 	};
 
-	const _renderNewPointBody = () => {
+	const renderNewPointBody = () => {
 		const opened = [];
 		const unOpened = [];
 		agendas.forEach(agenda => {
@@ -100,13 +100,13 @@ const ReorderPointsModal = ({ updateAgendas, translate, ...props }) => {
 				buttonAccept={translate.save}
 				scrollable={true}
 				buttonCancel={translate.cancel}
-				bodyText={_renderNewPointBody()}
+				bodyText={renderNewPointBody()}
 				title={translate.reorder_agenda_points}
 			/>
 		</React.Fragment>
 	);
 };
 
-export default graphql(updateAgendas, {
+export default graphql(updateAgendasMutation, {
 	name: 'updateAgendas'
 })(ReorderPointsModal);

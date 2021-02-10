@@ -162,7 +162,7 @@ const CompanyLinksManager = ({ translate, client, ...props }) => {
 
 const LinksCompanies = ({ translate, companies, setPage, page, state, setState, loading }) => {
     const isChecked = id => {
-        const item = state.checked.find(item => item.id === id);
+        const item = state.checked.find(company => company.id === id);
         return !!item;
     };
 

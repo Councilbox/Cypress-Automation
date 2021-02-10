@@ -14,7 +14,7 @@ import { LoadingMainApp } from '../../displayComponents';
 import Header from '../Header';
 import { getCorporation } from '../../queries/corporation';
 import Sidebar from './menus/Sidebar';
-import appStyle from '../../styles/appStyle.jsx';
+import appStyle from '../../styles/appStyle';
 import { lightGrey } from '../../styles/colors';
 import CouncilDetails from './councils/council/CouncilDetails';
 import RootUserSettings from './users/RootUserSettings';

@@ -9,7 +9,7 @@ import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
 import { isMobile } from '../../../utils/screen';
 import { DropdownEtiquetas } from './LoadDraft';
 import { DRAFTS_LIMITS } from '../../../constants';
-import { companyDrafts as query, getCompanyDraftDataNoCompany } from '../../../queries/companyDrafts.js';
+import { companyDrafts as query, getCompanyDraftDataNoCompany } from '../../../queries/companyDrafts';
 import CompanyDocumentsPage from './documents/CompanyDocumentsPage';
 import { showOrganizationDashboard } from '../../../utils/CBX';
 import { ConfigContext } from '../../../containers/AppControl';
@@ -19,7 +19,6 @@ import { bHistory } from '../../../containers/App';
 
 const CompanyDraftsPage = ({ translate, client, ...props }) => {
     const config = React.useContext(ConfigContext);
-    const [data, setData] = React.useState({});
     const tabs = showOrganizationDashboard(props.company, config, props.user) ?
         [translate.dasboard_documentation, translate.drafts, '<Tags>', translate.council_types]
         : [translate.dasboard_documentation, translate.drafts, '<Tags>'];
@@ -31,39 +30,6 @@ const CompanyDraftsPage = ({ translate, client, ...props }) => {
     const [inputSearch, setInputSearch] = React.useState(false);
     const [search, setSearch] = React.useState('');
     const { testTags, vars, setVars, removeTag, addTag, filteredTags, setTagText, tagText } = useTags(translate);
-
-    const getDrafts = async variables => {
-        const response = await client.query({
-            query,
-            variables: {
-                companyId: props.company.id,
-                options: {
-                    limit: DRAFTS_LIMITS[0],
-                    offset: 0
-                },
-                ...variables
-            }
-
-        });
-
-        setData(response.data);
-    };
-
-    React.useEffect(() => {
-        getDrafts({
-            companyId: props.company.id,
-            ...(search ? {
-                filters: [
-                    {
-                        field: 'title',
-                        text: search
-                    },
-                ]
-            } : {}),
-            tags: Object.keys(testTags).map(key => testTags[key].name),
-        });
-    }, [testTags, search]);
-
 
     const getData = async () => {
         const response = await client.query({

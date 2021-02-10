@@ -2,7 +2,7 @@ import React from 'react';
 import { Typography } from 'material-ui';
 import { graphql } from 'react-apollo';
 import { AlertConfirm, Icon, Radio } from '../../../../displayComponents';
-import { sendVideoEmails } from '../../../../queries';
+import { sendVideoEmails as sendVideoEmailsMutation } from '../../../../queries';
 import { moment } from '../../../../containers/App';
 import { useOldState } from '../../../../hooks';
 import FailedSMSMessage from './FailedSMSMessage';
@@ -66,7 +66,7 @@ const SendCredentialsModal = ({ translate, council, requestClose, ...props }) =>
 		}
 	};
 
-	function _renderBody() {
+	function renderBody() {
 		if (state.sending) {
 			return <div>{translate.sending}</div>;
 		}
@@ -122,14 +122,14 @@ const SendCredentialsModal = ({ translate, council, requestClose, ...props }) =>
 			buttonAccept={state.success ? translate.accept : translate.send}
 			hideAccept={state.error || state.showSMS}
 			buttonCancel={translate.close}
-			bodyText={_renderBody()}
+			bodyText={renderBody()}
 			title={translate.send_video_credentials}
 		/>
 	);
 };
 
 
-export default graphql(sendVideoEmails, {
+export default graphql(sendVideoEmailsMutation, {
 	name: 'sendVideoEmails'
 })(SendCredentialsModal);
 

@@ -2,8 +2,9 @@ import React from 'react';
 import { Card, Typography } from 'material-ui';
 import { Checkbox } from '../../../displayComponents';
 
+const checkIfSelected = (id, array) => !!array.find(item => item === id);
 
-const AgendaCheckItem = ({ agenda, translate, updatePoints, checked }) => (
+const AgendaCheckItem = ({ agenda, updatePoints, checked }) => (
     <Card style={{
         width: '100%',
         padding: '0.5em',
@@ -29,7 +30,5 @@ const AgendaCheckItem = ({ agenda, translate, updatePoints, checked }) => (
         </div>
     </Card>
 );
-
-const checkIfSelected = (id, array) => !!array.find(item => item === id);
 
 export default AgendaCheckItem;

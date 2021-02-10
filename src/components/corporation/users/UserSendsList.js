@@ -55,7 +55,7 @@ const UserSendsList = ({ translate, enRoot, client, ...props }) => {
 
     const resend = async () => {
 		setSending(true);
-		 await client.mutate({
+		await client.mutate({
 			mutation: gql`
                 mutation SendEmailNoConfirmed($userId: Int!){
                 sendEmailNoConfirmed(userId: $userId){

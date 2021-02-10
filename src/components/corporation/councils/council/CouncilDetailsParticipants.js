@@ -30,6 +30,27 @@ import NotificationsTable from '../../../notifications/NotificationsTable';
 import AddGuestModal from '../../../council/live/participants/AddGuestModal';
 import DeleteConvenedParticipantButton from './DeleteConvenedParticipantButton';
 
+const formatParticipant = participant => {
+	const { representing, ...newParticipant } = participant;
+	let currentParticipant = newParticipant;
+
+	if (participant.representatives.length > 0) {
+		currentParticipant = {
+			...newParticipant,
+			representative: participant.representatives[0]
+		};
+	}
+
+	if (participant.live.state === PARTICIPANT_STATES.DELEGATED) {
+		currentParticipant = {
+			...newParticipant,
+			delegate: participant.live.representative
+		};
+	}
+	return currentParticipant;
+};
+
+
 const CouncilDetailsParticipants = ({ client, translate, council, participations, hideNotifications, hideAddParticipant, ...props }) => {
 	const [filters, setFilters] = React.useState({
 		options: {
@@ -317,11 +338,12 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 													cbxData={false}
 													participations={participations}
 													editParticipant={() => {
-														!props.cantEdit
-															&& setState({
+														if (!props.cantEdit) {
+															setState({
 																editingParticipant: true,
 																participant: formatDataParticipant
 															});
+														}
 													}}
 													council={council}
 													totalVotes={data.councilTotalVotes}
@@ -604,86 +626,6 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 		</React.Fragment>
 	);
 };
-
-const formatParticipant = participant => {
-	const { representing, ...newParticipant } = participant;
-	let currentParticipant = newParticipant;
-
-	if (participant.representatives.length > 0) {
-		currentParticipant = {
-			...newParticipant,
-			representative: participant.representatives[0]
-		};
-	}
-
-	if (participant.live.state === PARTICIPANT_STATES.DELEGATED) {
-		currentParticipant = {
-			...newParticipant,
-			delegate: participant.live.representative
-		};
-	}
-	return currentParticipant;
-};
-
-const applyFilters = (participants, filters) => applyOrder(participants.filter(item => {
-	const participant = formatParticipant(item);
-	if (filters.text) {
-		const unaccentedText = CBX.unaccent(filters.text.toLowerCase());
-
-		if (filters.field === 'fullName') {
-			const fullName = `${participant.name} ${participant.surname || ''}`;
-			let repreName = '';
-			if (participant.representative) {
-				repreName = `${participant.representative.name} ${participant.representative.surname || ''}`;
-			}
-			if (!CBX.unaccent(fullName.toLowerCase()).includes(unaccentedText)
-				&& !CBX.unaccent(repreName.toLowerCase()).includes(unaccentedText)) {
-				return false;
-			}
-		}
-
-		if (filters.field === 'position') {
-			if (participant.representative) {
-				if (!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText)
-					&& !CBX.unaccent(participant.representative.position.toLowerCase()).includes(unaccentedText)) {
-					return false;
-				}
-			} else if (!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText)) {
-				return false;
-			}
-		}
-
-		if (filters.field === 'dni') {
-			if (participant.representative) {
-				if (!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText)
-					&& !CBX.unaccent(participant.representative.dni.toLowerCase()).includes(unaccentedText)) {
-					return false;
-				}
-			} else if (!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText)) {
-				return false;
-			}
-		}
-	}
-
-	if (filters.notificationStatus) {
-		if (participant.representative) {
-			if (participant.representative.notifications[0].reqCode !== filters.notificationStatus) {
-				return false;
-			}
-		} else if (participant.notifications[0].reqCode !== filters.notificationStatus) {
-			return false;
-		}
-	}
-
-	return true;
-}), filters.orderBy, filters.orderDirection);
-
-
-const applyOrder = (participants, orderBy, orderDirection) => participants.sort((a, b) => {
-	const participantA = formatParticipant(a);
-	const participantB = formatParticipant(b);
-	return participantA[orderBy] > participantB[orderBy];
-});
 
 export default compose(
 	graphql(updateConveneSends, {

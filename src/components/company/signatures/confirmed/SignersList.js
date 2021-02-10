@@ -52,16 +52,6 @@ const SignersList = ({ translate, client, ...props }) => {
         getData();
     }, [getData]);
 
-
-    const removeSignature = async id => {
-        const response = await client.mutate({
-            mutation: removeSignatureParticipant,
-            variables: {
-                participantId: ''
-            }
-        });
-    };
-
     const refresh = async () => {
         setRefreshing(true);
         await props.refetch();
@@ -195,14 +185,5 @@ const SignersList = ({ translate, client, ...props }) => {
         </React.Fragment>
     );
 };
-
-const removeSignatureParticipant = gql`
-    mutation RemoveSignatureParticipant($participantId: Int!){
-        removeSignatureParticipant(id: $participantId){
-            success
-            message
-        }
-    }
-`;
 
 export default withApollo(SignersList);

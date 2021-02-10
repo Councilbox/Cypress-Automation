@@ -1,17 +1,14 @@
 import React from 'react';
-import { graphql, withApollo } from 'react-apollo';
-import { toast } from 'react-toastify';
+import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { TextInput, BasicButton, CardPageLayout, Scrollbar, LoadingSection, SectionTitle, LiveToast } from '../../../displayComponents';
-import { getSecondary, getPrimary } from '../../../styles/colors';
-import { checkForUnclosedBraces, changeVariablesToValues, generateStatuteTag, prepareTextForFilename } from '../../../utils/CBX';
+import { BasicButton, LoadingSection } from '../../../displayComponents';
+import { getSecondary } from '../../../styles/colors';
+import { changeVariablesToValues, prepareTextForFilename } from '../../../utils/CBX';
 import { buildDoc, useDoc, buildDocBlock, buildDocVariable } from '../../documentEditor/utils';
 import { certBlocks } from '../../documentEditor/actBlocks';
 import DocumentEditor from '../../documentEditor/DocumentEditor';
 import withSharedProps from '../../../HOCs/withSharedProps';
-import { generateActTags, CouncilActData, generateCouncilSmartTagsValues } from '../writing/actEditor/ActEditor';
-import GoverningBodyDisplay from '../writing/actEditor/GoverningBodyDisplay';
-import { GOVERNING_BODY_TYPES } from '../../../constants';
+import { CouncilActData, generateCouncilSmartTagsValues } from '../writing/actEditor/ActEditor';
 import DownloadDoc from '../../documentEditor/DownloadDoc';
 import CreateCertificateModal from './CreateCertificateModal';
 import { ConfigContext } from '../../../containers/AppControl';
@@ -39,7 +36,6 @@ const dataReducer = (state, action) => {
 
 const CerficateEditor = ({ translate, council, company, client, ...props }) => {
     const [{ data, loading }, dispatch] = React.useReducer(dataReducer, initialState);
-	const [infoMenu, setInfoMenu] = React.useState(false);
 	const [error, setError] = React.useState(null);
     const [createModal, setCreateModal] = React.useState(false);
     const {
@@ -54,7 +50,6 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 			company
         }, translate)
 	});
-	const primary = getPrimary();
 	const config = React.useContext(ConfigContext);
     const secondary = getSecondary();
 

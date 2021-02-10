@@ -14,7 +14,7 @@ import {
 import { participantsWhoCanDelegate } from '../../../queries';
 import { DELEGATION_USERS_LOAD } from '../../../constants';
 import { delegatedVotesLimitReached } from '../../../utils/CBX';
-import { addDelegation } from '../../../queries/liveParticipant';
+import { addDelegation as addDelegationMutation } from '../../../queries/liveParticipant';
 
 const DelegateVoteModal = ({ translate, participant, client, council, ...props }) => {
 	const [data, setData] = React.useState({});
@@ -26,6 +26,23 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 		offset: 0,
 		limit: DELEGATION_USERS_LOAD
 	});
+
+	const buildVariables = () => {
+		const variables = {
+			councilId: council.id,
+			participantId: participant.id,
+		};
+
+		if (filters.text) {
+			variables.filters = [{
+				field: 'fullName',
+				text: filters.text.trim()
+			}];
+		}
+
+		variables.options = options;
+		return variables;
+	};
 
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
@@ -64,23 +81,6 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 	React.useEffect(() => {
 		getData();
 	}, [getData]);
-
-	const buildVariables = () => {
-		const variables = {
-			councilId: council.id,
-			participantId: participant.id,
-		};
-
-		if (filters.text) {
-			variables.filters = [{
-				field: 'fullName',
-				text: filters.text.trim()
-			}];
-		}
-
-		variables.options = options;
-		return variables;
-	};
 
 	const loadMore = () => {
 		setOptions({
@@ -148,7 +148,7 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 	};
 
 
-	function _modalBody() {
+	function modalBody() {
 		const participants = loading ? [] : data.liveParticipantsWhoCanDelegate.list;
 		const { total } = loading ? 0 : data.liveParticipantsWhoCanDelegate;
 		const rest = total - participants.length - 1;
@@ -245,12 +245,12 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 			requestClose={close}
 			open={props.show}
 			buttonCancel={translate.close}
-			bodyText={_modalBody()}
+			bodyText={modalBody()}
 			title={translate.to_delegate_vote}
 		/>
 	);
 };
 
-export default graphql(addDelegation, {
+export default graphql(addDelegationMutation, {
 	name: 'addDelegation'
 })(withApollo(DelegateVoteModal));

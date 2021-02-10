@@ -7,7 +7,6 @@ import { Grid, GridItem, Table } from '../../../displayComponents';
 import { getSecondary } from '../../../styles/colors';
 import { updateAgenda } from '../../../queries/agenda';
 import * as CBX from '../../../utils/CBX';
-
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { CONSENTIO_ID } from '../../../config';
 import { isMobile } from '../../../utils/screen';
@@ -29,7 +28,7 @@ const itemStyle = {
     alignItems: 'center'
 };
 
-const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, refetch, editable, translate, updateAgenda, classes }) => {
+const AgendaRecount = ({ agenda, recount, majorityTypes, council, company, editable, translate, classes }) => {
     const agendaNeededMajority = CBX.calculateMajorityAgenda(agenda, company, council, recount);
     const activatePresentOneVote = false;
     const approvedByQualityVote = CBX.haveQualityVoteConditions(agenda, council) && CBX.approvedByQualityVote(agenda, council.qualityVoteId);

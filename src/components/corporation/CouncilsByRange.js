@@ -1,7 +1,5 @@
 import gql from 'graphql-tag';
 import { TableBody, TableHead, TableRow, TableCell, Table } from 'material-ui';
-
-
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import { AlertConfirm, Grid, PaginationFooter } from '../../displayComponents';
@@ -38,8 +36,8 @@ const CouncilsByRange = ({ client, dateStart, dateEnd, translate }) => {
     }, [dateStart, dateEnd, page]);
 
 
-    const changePage = page => {
-        setPage(page);
+    const changePage = pageNumber => {
+        setPage(pageNumber);
     };
 
     React.useEffect(() => {

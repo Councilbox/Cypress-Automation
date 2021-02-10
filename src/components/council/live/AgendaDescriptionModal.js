@@ -68,7 +68,7 @@ class AgendaDescriptionModal extends React.Component {
 		this.editor.setValue(correctedText);
 	};
 
-    _renderBody = () => {
+    renderBody = () => {
         const { translate, council, agenda, company } = this.props;
         // const width = window.innerWidth < 800? window.innerWidth : 800;
         return (
@@ -86,7 +86,9 @@ class AgendaDescriptionModal extends React.Component {
                 }
                 <div style={{ /* width: width, */ display: this.state.loadDraft && 'none' }}>
                     <RichTextInput
-                        ref={editor => (this.editor = editor)}
+                        ref={editor => {
+                            this.editor = editor;
+                        }}
                         floatingText={translate.description}
                         type="text"
                         translate={translate}
@@ -153,7 +155,7 @@ class AgendaDescriptionModal extends React.Component {
                     buttonAccept={this.props.translate.accept}
                     loadingAction={this.state.loading}
                     buttonCancel={this.props.translate.close}
-                    bodyText={this._renderBody()}
+                    bodyText={this.renderBody()}
                     title={this.props.translate.edit_description}
                 />
             </React.Fragment>

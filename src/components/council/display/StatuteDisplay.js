@@ -1,5 +1,21 @@
 import React from 'react';
 
+const getSelectionIcon = value => {
+    if (value === 1) {
+        return <i className="fa fa-check" style={{ color: 'limegreen', marginRight: '0.4em', width: '15px' }} aria-hidden="true"></i>;
+    }
+
+    return <i className="fa fa-times" style={{ color: 'red', marginRight: '0.4em', width: '15px' }} aria-hidden="true"></i>;
+};
+
+const getQuorumType = (type, quorumTypes) => {
+    const quorum = quorumTypes.find(item => type === item.value);
+    if (quorum && quorum !== 0) {
+        return quorum.label;
+    }
+    return '-';
+};
+
 export const StatuteDisplay = ({ statute, translate, quorumTypes }) => (
     <div style={{ maxWidth: '900px' }}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -150,19 +166,3 @@ export const StatuteDisplayIconsIzq = ({ statute, translate, quorumTypes }) => (
         </div>
     </div>
 );
-
-const getSelectionIcon = value => {
-    if (value === 1) {
-        return <i className="fa fa-check" style={{ color: 'limegreen', marginRight: '0.4em', width: '15px' }} aria-hidden="true"></i>;
-    }
-
-    return <i className="fa fa-times" style={{ color: 'red', marginRight: '0.4em', width: '15px' }} aria-hidden="true"></i>;
-};
-
-const getQuorumType = (type, quorumTypes) => {
-    const quorum = quorumTypes.find(quorum => type === quorum.value);
-    if (quorum && quorum !== 0) {
-        return quorum.label;
-    }
-    return '-';
-};

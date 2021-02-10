@@ -14,7 +14,7 @@ import {
 import { getPrimary } from '../../../styles/colors';
 import { bHistory, store } from '../../../containers/App';
 import { getCompanies } from '../../../actions/companyActions';
-import { linkCompany } from '../../../queries/company';
+import { linkCompany as linkCompanyMutation } from '../../../queries/company';
 import { useOldState } from '../../../hooks';
 import { sendGAevent } from '../../../utils/analytics';
 
@@ -215,7 +215,7 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 };
 
 
-export default graphql(linkCompany, {
+export default graphql(linkCompanyMutation, {
 	name: 'linkCompany',
 	options: {
 		errorPolicy: 'all'

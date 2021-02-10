@@ -1,10 +1,10 @@
 import React from 'react';
-import { graphql, compose, withApollo } from 'react-apollo';
+import { withApollo } from 'react-apollo';
 import { MenuItem, Table, TableRow, TableCell, InputAdornment, TableHead } from 'material-ui';
 import { LoadingSection, TextInput, ButtonIcon, SelectInput, BasicButton, Link, Scrollbar } from '../../../displayComponents';
 import UserItem from './UserItem';
 import NewUser from './NewUser';
-import { corporationUsers } from '../../../queries/corporation';
+import { corporationUsers as corporationUsersQuery } from '../../../queries/corporation';
 import withTranslations from '../../../HOCs/withTranslations';
 import { getSecondary } from '../../../styles/colors';
 
@@ -17,7 +17,7 @@ const DEFAULT_OPTIONS = {
     orderDirection: 'DESC'
 };
 
-const UsersDashboard = ({ translate, client, ...props }) => {
+const UsersDashboard = ({ translate, client }) => {
     const [filterText, setFilterText] = React.useState('');
     const [state, setState] = React.useState({
         filterText: '',
@@ -27,13 +27,10 @@ const UsersDashboard = ({ translate, client, ...props }) => {
         loading: true
     });
 
-
-    const timeout = null;
-
     const getData = async () => {
         setState({ ...state, loading: true });
         const response = await client.query({
-            query: corporationUsers,
+            query: corporationUsersQuery,
             variables: {
                 options: DEFAULT_OPTIONS,
                 actived: state.selecteOptionMenu === 'Registrados',
@@ -61,20 +58,8 @@ const UsersDashboard = ({ translate, client, ...props }) => {
         setState({
             ...state,
             limit: value
-        }
-            // , () => refresh()
-        );
+        });
     };
-
-    // const refresh = () => {
-    //     let variables = {
-    //         options: DEFAULT_OPTIONS
-    //     };
-    //     variables.options.limit = state.limit;
-    //     variables.filters = [{ field: 'fullName', text: state.filterText }];
-    //     props.data.refetch(variables);
-    // }
-
 
     if (state.addUser) {
         return <NewUser translate={translate} requestClose={() => setState({ addUser: false })} />;

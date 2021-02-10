@@ -1,7 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
-import { Icon, Avatar, Card, CardActions } from 'material-ui';
+import { Icon, Card, CardActions } from 'material-ui';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { corporationUsers } from '../../../queries/corporation';
 import { getPrimary } from '../../../styles/colors';
@@ -13,6 +13,17 @@ import { isMobile } from '../../../utils/screen';
 
 const queryLimit = 20;
 
+const getActivationText = (value, translate) => {
+    const activations = {
+        // TRADUCCION
+        [USER_ACTIVATIONS.NOT_CONFIRMED]: 'No confirmado',
+        [USER_ACTIVATIONS.CONFIRMED]: translate.confirmed,
+        [USER_ACTIVATIONS.DEACTIVATED]: translate.disabled,
+        [USER_ACTIVATIONS.UNSUBSCRIBED]: translate.blocked
+    };
+
+    return activations[value] ? activations[value] : activations[USER_ACTIVATIONS.CONFIRMED];
+};
 
 const OrganizationUsers = ({ client, translate, company }) => {
     const [inputSearch, setInputSearch] = React.useState(false);
@@ -70,7 +81,6 @@ const OrganizationUsers = ({ client, translate, company }) => {
                 translate={translate}
                 requestClose={() => setAddUser(false)}
                 styles={{
-                    width: '100%',
                     height: '100%',
                     display: 'flex',
                     width: '100%',
@@ -144,8 +154,7 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
 
     const userBloquear = async () => {
         setLoadingBlock(true);
-
-        const response = await client.mutate({
+        await client.mutate({
             mutation: gql`
                 mutation unsubscribeUser($userId: Int!){
                     unsubscribeUser(userId: $userId){
@@ -252,7 +261,6 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
                                                 <BasicButton
                                                     onClick={() => setUserBloquear(item)}
                                                     backgroundColor={{
-                                                        color: primary,
                                                         background: 'white',
                                                         padding: '0',
                                                         margin: '0',
@@ -294,13 +302,13 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
                         </div>
                         <div style={{ color: primary, fontWeight: 'bold', width: '10%', textAlign: 'left' }}>
                             Id
-				        </div>
+                        </div>
                         <div style={{ color: primary, fontWeight: 'bold', width: '20%', textAlign: 'left' }}>
                             {translate.name}
                         </div>
                         <div style={{ color: primary, fontWeight: 'bold', overflow: 'hidden', width: '20%', textAlign: 'left' }}>
                             Email
-				        </div>
+                        </div>
                         <div style={{ color: primary, fontWeight: 'bold', overflow: 'hidden', width: '20%', textAlign: 'left' }}>
                             {translate.last_connection}
                         </div>
@@ -347,7 +355,6 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
                                                     <BasicButton
                                                         onClick={() => setUserBloquear(item)}
                                                         backgroundColor={{
-                                                            color: primary,
                                                             background: 'white',
                                                             color: primary,
                                                         }}
@@ -377,20 +384,16 @@ const TablaUsuarios = withApollo(({ users, translate, company, total, changePage
         );
 });
 
-const getActivationText = (value, translate) => {
-    const activations = {
-        // TRADUCCION
-        [USER_ACTIVATIONS.NOT_CONFIRMED]: 'No confirmado',
-        [USER_ACTIVATIONS.CONFIRMED]: translate.confirmed,
-        [USER_ACTIVATIONS.DEACTIVATED]: translate.disabled,
-        [USER_ACTIVATIONS.UNSUBSCRIBED]: translate.blocked
-    };
-
-    return activations[value] ? activations[value] : activations[USER_ACTIVATIONS.CONFIRMED];
-};
-
 const Cell = ({ text, width, styles }) => (
-        <div style={{ overflow: 'hidden', width: `${width}%`, textAlign: 'left', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', paddingRight: '10px', ...styles }}>
+        <div style={{
+            width: `${width}%`,
+            textAlign: 'left',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            paddingRight: '10px',
+            ...styles
+        }}>
             {text}
         </div>
     );

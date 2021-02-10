@@ -700,7 +700,7 @@ const createCompany = gql`
 export default compose(
 	graphql(info, {
 		name: 'info',
-		options: props => ({
+		options: () => ({
 			variables: {
 				countryId: 1
 			}

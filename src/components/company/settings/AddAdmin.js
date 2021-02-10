@@ -13,10 +13,9 @@ const AddAdmin = ({ translate, company, refetch, admins, client }) => {
     });
     const [modal, setModal] = React.useState(false);
     const [loading, setLoading] = React.useState(true);
-    const [text, setText] = React.useState('');
 
     const addAdmin = async () => {
-        const response = await client.mutate({
+        await client.mutate({
             mutation: gql`
                 mutation AddAdmin($companyId: Int!, $userId: Int!){
                     addCompanyAdmin(companyId: $companyId, userId: $userId){
@@ -34,7 +33,6 @@ const AddAdmin = ({ translate, company, refetch, admins, client }) => {
         const response = await client.query({
 			query: corporationUsers,
 			variables: {
-				filters: [{ field: 'fullName', text }],
 				options: {
 					limit: 10,
 					offset: (users.page - 1) * 10,
@@ -50,7 +48,7 @@ const AddAdmin = ({ translate, company, refetch, admins, client }) => {
             ...response.data.corporationUsers
         });
         setLoading(false);
-    }, [company.id, text, users.page]);
+    }, [company.id, users.page]);
 
     React.useEffect(() => {
         getUsers();

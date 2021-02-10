@@ -82,12 +82,12 @@ class SignatureStepOne extends React.Component {
 		const reader = new FileReader();
 		reader.readAsBinaryString(file);
 
-		reader.onload = async event => {
+		reader.onload = async loadEvent => {
 			const fileInfo = {
 				filename: file.name,
 				filetype: file.type,
-				filesize: event.loaded.toString(),
-				base64: btoa(event.target.result),
+				filesize: loadEvent.loaded.toString(),
+				base64: btoa(loadEvent.target.result),
 				signatureId: this.state.data.id
             };
             if (fileInfo.filetype === 'application/pdf') {
@@ -185,7 +185,9 @@ class SignatureStepOne extends React.Component {
 					/>, {
 						position: toast.POSITION.TOP_RIGHT,
                         autoClose: true,
-                        onClose: () => this.toastId = null,
+                        onClose: () => {
+                            this.toastId = null;
+                        },
 						className: 'errorToast'
 					}
 				);

@@ -24,12 +24,12 @@ const PointAttachments = ({ translate, company, attachments, setAttachments, set
 		const reader = new FileReader();
 		reader.readAsBinaryString(file);
 
-		reader.onload = async event => {
+		reader.onload = async loadEvent => {
 			const fileInfo = {
 				filename: file.name,
 				filetype: file.type,
-				filesize: event.loaded.toString(),
-				base64: btoa(event.target.result)
+				filesize: loadEvent.loaded.toString(),
+				base64: btoa(loadEvent.target.result)
             };
             setAttachments([...attachments, fileInfo]);
 		};

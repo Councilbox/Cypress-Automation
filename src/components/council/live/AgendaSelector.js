@@ -69,7 +69,7 @@ const AgendaSelector = ({ agendas, translate, council, onClick, selected, styles
 						<div style={{ marginBottom: '0.8em' }}>
 							<AddAgendaPoint
 								translate={translate}
-								Component={props => (
+								Component={localProps => (
 									<Tooltip
 										title={translate.add_agenda_point}
 										placement="top-end"
@@ -77,7 +77,7 @@ const AgendaSelector = ({ agendas, translate, council, onClick, selected, styles
 										<div>
 											<AgendaNumber
 												index={'+'}
-												onClick={props.onClick}
+												onClick={localProps.onClick}
 												active={false}
 												secondaryColor={'#888888'}
 											/>

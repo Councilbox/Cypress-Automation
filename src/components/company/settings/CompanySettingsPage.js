@@ -22,7 +22,7 @@ import {
 } from '../../../displayComponents';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { provinces as provincesQuery } from '../../../queries/masters';
-import { unlinkCompany, updateCompany } from '../../../queries/company';
+import { unlinkCompany as unlinkCompanyMutation, updateCompany } from '../../../queries/company';
 import { getPrimary, getSecondary, primary } from '../../../styles/colors';
 import { bHistory, store, moment } from '../../../containers/App';
 import { getCompanies, setCompany } from '../../../actions/companyActions';
@@ -54,6 +54,51 @@ export const info = gql`
 	}
 `;
 
+const companyUsersQuery = gql`
+	query CompanyUsers($companyId: Int!, $filters: [FilterInput], $options: OptionsInput,) {
+		companyUsers(companyId: $companyId, filters: $filters, options: $options,) {
+			list {
+				id
+				name
+				surname
+				actived
+				email
+				lastConnectionDate
+			}
+			total
+		}
+	}
+`;
+
+const linkCompanyUsers = gql`
+    mutation linkCompanyUsers($companyTin: String!, $usersIds: [Int]){
+			linkCompanyUsers(companyTin: $companyTin, usersIds: $usersIds){
+			success
+			message
+		}
+	}
+`;
+
+const unlinkCompanyUser = gql`
+	mutation unlinkCompanyUser($companyTin: String!, $userId: Int!){
+		unlinkCompanyUser(companyTin: $companyTin, userId: $userId){
+			success
+			message
+		}
+	}
+`;
+
+export const getActivationText = (value, translate) => {
+	const activations = {
+		[USER_ACTIVATIONS.NOT_CONFIRMED]: translate.not_confirmed,
+		[USER_ACTIVATIONS.CONFIRMED]: translate.confirmed,
+		[USER_ACTIVATIONS.DEACTIVATED]: translate.disabled,
+		[USER_ACTIVATIONS.UNSUBSCRIBED]: translate.blocked
+	};
+
+	return activations[value] ? activations[value] : activations[USER_ACTIVATIONS.CONFIRMED];
+};
+
 const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 	const [countryInput, setCountryInput] = React.useState(false);
 	const [provinces, setProvinces] = React.useState([]);
@@ -77,6 +122,19 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 			label: company.businessName
 		});
 	}, [company.id]);
+
+	const updateProvinces = async countryID => {
+		const response = await client.query({
+			query: provincesQuery,
+			variables: {
+				countryId: countryID
+			}
+		});
+
+		if (!response.errors) {
+			setProvinces(response.data.provinces);
+		}
+	};
 
 	React.useEffect(() => {
 		if (!props.info.loading && provinces.length === 0) {
@@ -126,20 +184,6 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 		}
 	};
 
-
-	const updateProvinces = async countryID => {
-		const response = await client.query({
-			query: provincesQuery,
-			variables: {
-				countryId: countryID
-			}
-		});
-
-		if (!response.errors) {
-			setProvinces(response.data.provinces);
-		}
-	};
-
 	const handleFile = event => {
 		const file = event.nativeEvent.target.files[0];
 		if (!file) {
@@ -177,6 +221,31 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 		};
 	};
 
+	function checkRequiredFields() {
+		const errors = {
+			businessName: '',
+			tin: ''
+		};
+
+		const { data } = state;
+		let hasError = false;
+
+		if (!data.businessName) {
+			hasError = true;
+			errors.businessName = translate.field_required;
+		}
+
+		if (!data.tin) {
+			hasError = true;
+			errors.tin = translate.field_required;
+		}
+
+		setState({
+			...state,
+			errors
+		});
+		return hasError;
+	}
 
 	const saveCompany = async () => {
 		if (!checkRequiredFields()) {
@@ -246,34 +315,6 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 			}
 		}
 	};
-
-
-	function checkRequiredFields() {
-		const errors = {
-			businessName: '',
-			tin: ''
-		};
-
-		const { data } = state;
-		let hasError = false;
-
-		if (!data.businessName) {
-			hasError = true;
-			errors.businessName = translate.field_required;
-		}
-
-		if (!data.tin) {
-			hasError = true;
-			errors.tin = translate.field_required;
-		}
-
-		setState({
-			...state,
-			errors
-		});
-		return hasError;
-	}
-
 
 	const { data, errors, success, request } = state;
 	const updateError = state.error;
@@ -546,19 +587,17 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 									})
 									}
 								/>
-								:								<SelectInput
-									id={'addSociedadProvincia'}
-									floatingText={translate.company_new_country_state}
-									value={data.countryState}
-									errorText={errors.countryState}
-									onChange={event => updateState({
-										countryState: event.target.value
-									})
-									}
-								>
-									{provinces.map(province =>
-									// {state.provinces.map(province => {
-									(
+								:	<SelectInput
+										id={'addSociedadProvincia'}
+										floatingText={translate.company_new_country_state}
+										value={data.countryState}
+										errorText={errors.countryState}
+										onChange={event => updateState({
+											countryState: event.target.value
+										})
+										}
+									>
+									{provinces.map(province => (
 										<MenuItem
 											className={'addSociedadProvinciaOptions'}
 											key={province.deno}
@@ -745,12 +784,11 @@ const CompanySettingsPage = ({ company, client, translate, ...props }) => {
 	);
 };
 
-const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkCompany, companyTin }) => {
+const TablaUsuarios = ({ translate, client, companyId, corporationId, companyTin }) => {
 	const [users, setUsers] = React.useState(false);
 	const [usersPage, setUsersPage] = React.useState(1);
 	const [usersTotal, setUsersTotal] = React.useState(false);
 	const [addAdmins, setAddAdmins] = React.useState(false);
-	const [checkedItems, setCheckedItems] = React.useState([]);
 	const [unlink, setUnlink] = React.useState(false);
 	const [unlinkIdRemove, setUnlinkIdRemove] = React.useState(false);
 	const [inputSearch, setInputSearch] = React.useState(false);
@@ -760,7 +798,7 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkComp
 
 	const getUsers = async () => {
 		const response = await client.query({
-			query: companyUsers,
+			query: companyUsersQuery,
 			variables: {
 				companyId,
 				options: {
@@ -788,7 +826,7 @@ const TablaUsuarios = ({ translate, client, companyId, corporationId, unlinkComp
 	};
 
 	const unlinkCompanyU = async () => {
-		const response = await client.mutate({
+		await client.mutate({
 			mutation: unlinkCompanyUser,
 			variables: {
 				userId: unlinkIdRemove,
@@ -1095,6 +1133,8 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 		checked: [],
 	});
 
+	const comparer = otherArray => current => otherArray.filter(other => (other.id == current.id)).length == 0;
+
 	const getUsersModal = async () => {
 		const response = await client.query({
 			query: corporationUsers,
@@ -1116,16 +1156,12 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 		}
 	};
 
-	const comparer = otherArray => function (current) {
-		return otherArray.filter(other => (other.id == current.id)).length == 0;
-	};
-
 	React.useEffect(() => {
 		getUsersModal();
 	}, [state.filterTextUsuarios, usersPage, usersCompany]);
 
 	const saveUsersInCompany = async () => {
-		const response = await client.mutate({
+		await client.mutate({
 			mutation: linkCompanyUsers,
 			variables: {
 				companyTin: companyId,
@@ -1151,7 +1187,7 @@ const TablaUsuariosAdmin = ({ translate, client, corporationId, companyId, users
 	};
 
 	const isChecked = id => {
-		const item = state.checked.find(item => item.id === id);
+		const item = state.checked.find(checkedItem => checkedItem.id === id);
 		return !!item;
 	};
 
@@ -1441,58 +1477,10 @@ const AddAdmin = ({ translate, company, open, requestClose }) => {
 	);
 };
 
-export const getActivationText = (value, translate) => {
-	const activations = {
-		[USER_ACTIVATIONS.NOT_CONFIRMED]: translate.not_confirmed,
-		[USER_ACTIVATIONS.CONFIRMED]: translate.confirmed,
-		[USER_ACTIVATIONS.DEACTIVATED]: translate.disabled,
-		[USER_ACTIVATIONS.UNSUBSCRIBED]: translate.blocked
-	};
-
-	return activations[value] ? activations[value] : activations[USER_ACTIVATIONS.CONFIRMED];
-};
-
-const linkCompanyUsers = gql`
-    mutation linkCompanyUsers($companyTin: String!, $usersIds: [Int]){
-			linkCompanyUsers(companyTin: $companyTin, usersIds: $usersIds){
-			success
-			message
-		}
-	}
-`;
-
-
-const companyUsers = gql`
-query CompanyUsers($companyId: Int!, $filters: [FilterInput], $options: OptionsInput,) {
-	companyUsers(companyId: $companyId, filters: $filters, options: $options,) {
-		list {
-			id
-			name
-			surname
-			actived
-			email
-			lastConnectionDate
-		}
-		total
-	}
-}
-`;
-
-
-const unlinkCompanyUser = gql`
-mutation unlinkCompanyUser($companyTin: String!, $userId: Int!){
-	unlinkCompanyUser(companyTin: $companyTin, userId: $userId){
-		success
-		message
-	}
-}
-`;
-
-
 export default compose(
 	graphql(info, {
 		name: 'info',
-		options: props => ({
+		options: () => ({
 			notifyOnNetworkStatusChange: true
 		})
 	}),
@@ -1502,7 +1490,7 @@ export default compose(
 			errorPolicy: 'all'
 		}
 	}),
-	graphql(unlinkCompany, {
+	graphql(unlinkCompanyMutation, {
 		name: 'unlinkCompany'
 	})
 )(withApollo(withSharedProps()(CompanySettingsPage)));

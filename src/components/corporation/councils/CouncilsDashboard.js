@@ -65,7 +65,7 @@ const CouncilDetailsRoot = gql`
 
 
 const CouncilsDashboard = ({ translate, client }) => {
-    const _convenedTrigger = () => (
+    const convenedTrigger = () => (
             <CouncilsSectionTrigger
                 text={translate.companies_calendar}
                 icon={'calendar-o'}
@@ -73,7 +73,7 @@ const CouncilsDashboard = ({ translate, client }) => {
             />
         );
 
-    const _convenedSection = () => (
+    const convenedSection = () => (
             <Councils
                 translate={translate}
                 client={client}
@@ -81,7 +81,7 @@ const CouncilsDashboard = ({ translate, client }) => {
             />
         );
 
-    const _celebrationTrigger = () => (
+    const celebrationTrigger = () => (
             <CouncilsSectionTrigger
                 text={translate.companies_live}
                 icon={'users'}
@@ -89,8 +89,7 @@ const CouncilsDashboard = ({ translate, client }) => {
             />
         );
 
-    const _celebrationSection = () => (
-
+    const celebrationSection = () => (
             <Councils
                 translate={translate}
                 client={client}
@@ -126,10 +125,10 @@ const CouncilsDashboard = ({ translate, client }) => {
                 </div>
                 <SearchCouncils />
                 <Card style={{ margin: '1.4em' }}>
-                    <CollapsibleSection trigger={_convenedTrigger} collapse={_convenedSection} />
+                    <CollapsibleSection trigger={convenedTrigger} collapse={convenedSection} />
                 </Card>
                 <Card style={{ margin: '1.4em' }}>
-                    <CollapsibleSection trigger={_celebrationTrigger} collapse={_celebrationSection} />
+                    <CollapsibleSection trigger={celebrationTrigger} collapse={celebrationSection} />
                 </Card>
 
 
@@ -158,7 +157,7 @@ const Councils = ({ translate, client, query }) => {
         });
 
         if (response.data) {
-            Object.entries(response.data).map(([name, value]) => {
+            Object.entries(response.data).forEach(([name, value]) => {
                 if (name === 'corporationLiveCouncils' || name === 'corporationConvenedCouncils') {
                     setCouncils(value);
                 }
@@ -238,7 +237,7 @@ export const SearchCouncils = withApollo(({ client, reload }) => {
     const [loading, setLoading] = React.useState(false);
 
     const goToId = async () => {
-        if (!isNaN(idCouncilSearch) || idCouncilSearch !== 0) {
+        if (!Number.isNaN(idCouncilSearch) || idCouncilSearch !== 0) {
             setLoading(true);
             const response = await client.query({
                 query: CouncilDetailsRoot,

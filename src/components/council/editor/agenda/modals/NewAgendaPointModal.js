@@ -15,7 +15,7 @@ import {
 } from '../../../../../displayComponents/index';
 import RichTextInput from '../../../../../displayComponents/RichTextInput';
 import LoadDraft from '../../../../company/drafts/LoadDraft';
-import { addAgenda } from '../../../../../queries/agenda';
+import { addAgenda as addAgendaMutation } from '../../../../../queries/agenda';
 import * as CBX from '../../../../../utils/CBX';
 import { getSecondary } from '../../../../../styles/colors';
 import { checkRequiredFieldsAgenda, checkValidMajority } from '../../../../../utils/validation';
@@ -55,6 +55,32 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 	});
 	const editor = React.useRef(null);
 	const [sending, setSending] = React.useState(false);
+
+	const close = () => {
+		setState({
+			newPoint: defaultValues,
+			newPointModal: false,
+			loadDraft: false,
+			errors: {
+				agendaSubject: '',
+				subjectType: '',
+				description: ''
+			}
+		});
+		setSending(false);
+		props.requestClose();
+	};
+
+	function checkRequiredFields() {
+		const agenda = state.newPoint;
+		const errors = checkRequiredFieldsAgenda(agenda, translate, toast);
+		const majorityCheckResult = checkValidMajority(agenda.majority, agenda.majorityDivider, agenda.majorityType);
+		setState({
+			errors: errors.errors,
+			majorityError: majorityCheckResult.message
+		});
+		return errors.hasError || majorityCheckResult.error;
+	}
 
 	const addAgenda = async () => {
 		if (!checkRequiredFields() && !sending) {
@@ -122,21 +148,6 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 		}
 	};
 
-	const close = () => {
-		setState({
-			newPoint: defaultValues,
-			newPointModal: false,
-			loadDraft: false,
-			errors: {
-				agendaSubject: '',
-				subjectType: '',
-				description: ''
-			}
-		});
-		setSending(false);
-		props.requestClose();
-	};
-
 	const updateState = object => {
 		setState({
 			newPoint: {
@@ -147,15 +158,13 @@ const NewAgendaPointModal = ({ translate, votingTypes, agendas, statute, council
 		});
 	};
 
-
 	const loadDraft = async draft => {
 		const correctedText = await CBX.changeVariablesToValues(draft.text, {
 			company,
 			council
 		}, translate);
-		let majorityType = 0; let
-subjectType = 0;
-
+		let majorityType = 0;
+		let subjectType = 0;
 
 		if (draft.tags.agenda) {
 			const { segments } = draft.tags.agenda;
@@ -187,7 +196,7 @@ subjectType = 0;
 		editor.current.setValue(correctedText);
 	};
 
-	const _renderNewPointBody = () => {
+	const renderNewPointBody = () => {
 		const { errors } = state;
 		const agenda = state.newPoint;
 		return (
@@ -391,17 +400,6 @@ subjectType = 0;
 		);
 	};
 
-	function checkRequiredFields() {
-		const agenda = state.newPoint;
-		const errors = checkRequiredFieldsAgenda(agenda, translate, toast);
-		const majorityCheckResult = checkValidMajority(agenda.majority, agenda.majorityDivider, agenda.majorityType);
-		setState({
-			errors: errors.errors,
-			majorityError: majorityCheckResult.message
-		});
-		return errors.hasError || majorityCheckResult.error;
-	}
-
 	return (
 		<React.Fragment>
 			<AlertConfirm
@@ -410,7 +408,7 @@ subjectType = 0;
 				acceptAction={addAgenda}
 				buttonAccept={translate.accept}
 				buttonCancel={translate.cancel}
-				bodyText={_renderNewPointBody()}
+				bodyText={renderNewPointBody()}
 				title={state.newPoint.subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST ? translate.new_point : translate.new_approving_point}
 			/>
 		</React.Fragment>
@@ -418,6 +416,6 @@ subjectType = 0;
 };
 
 
-export default graphql(addAgenda, {
+export default graphql(addAgendaMutation, {
 	name: 'addAgenda'
 })(withRouter(withApollo(NewAgendaPointModal)));

@@ -35,6 +35,72 @@ const cancelAct = gql`
 	}
 `;
 
+const showSendsRecount = sends => {
+	const list = {
+		'-1': 'Preconvocatoria',
+		0: 'Convocatoria',
+		1: 'Recordatorio',
+		2: 'Aviso de reprogramación',
+		3: 'Reunión cancelada',
+		4: 'Acceso a sala',
+		5: 'Clave de acceso',
+		6: 'Acta',
+		13: 'Propuesta de acta',
+		16: 'Notificación de apertura de votación',
+		18: 'Delegación de voto',
+		19: 'Rechazo de delegación',
+		20: 'Delegación retirada',
+		21: 'Notificación de delegación'
+	};
+
+	const recount = {
+		Preconvocatoria: 0,
+		Convocatoria: 0,
+		Recordatorio: 0,
+		'Aviso de reprogramación': 0,
+		'Reunión cancelada': 0,
+		'Acceso a sala': 0,
+		'Clave de acceso': 0,
+		Acta: 0,
+		'Propuesta de acta': 0,
+		'Notificación de apertura de votación': 0,
+		'Notificación de delegación': 0,
+		'Delegación de voto': 0,
+		'Rechazo de delegación': 0,
+		'Delegación retirada': 0,
+		Otros: 0
+	};
+
+	sends.forEach(send => {
+		if (recount[list[send.sendType]] !== undefined) {
+			recount[list[send.sendType]]++;
+		} else {
+			recount.Otros++;
+		}
+	});
+
+
+	return (
+		<React.Fragment>
+			{Object.keys(recount).filter(key => recount[key] > 0).map(key => (
+				<TableRow key={key}>
+					<TableCell style={{ textTransform: 'capitalize' }}>
+						{`${key}`}
+					</TableCell>
+					<TableCell >
+						{`${recount[key]}`}
+					</TableCell>
+				</TableRow>
+			))}
+
+
+			<TableRow>
+				<TableCell>Total</TableCell>
+				<TableCell colSpan={3}>{sends.length}</TableCell>
+			</TableRow>
+		</React.Fragment>
+	);
+};
 
 class CouncilDetails extends React.Component {
 	state = {
@@ -560,7 +626,7 @@ const showGroupAttendees = attendees => {
 	});
 
 	return (
-		Object.keys(list).map((key, index) => (
+		Object.keys(list).map(key => (
 			<TableRow key={key}>
 				<TableCell style={{ textTransform: 'capitalize' }} >
 					{`${key}`}
@@ -570,74 +636,6 @@ const showGroupAttendees = attendees => {
 				</TableCell>
 			</TableRow>
 		))
-	);
-};
-
-
-const showSendsRecount = sends => {
-	const list = {
-		'-1': 'Preconvocatoria',
-		0: 'Convocatoria',
-		1: 'Recordatorio',
-		2: 'Aviso de reprogramación',
-		3: 'Reunión cancelada',
-		4: 'Acceso a sala',
-		5: 'Clave de acceso',
-		6: 'Acta',
-		13: 'Propuesta de acta',
-		16: 'Notificación de apertura de votación',
-		18: 'Delegación de voto',
-		19: 'Rechazo de delegación',
-		20: 'Delegación retirada',
-		21: 'Notificación de delegación'
-	};
-
-	const recount = {
-		Preconvocatoria: 0,
-		Convocatoria: 0,
-		Recordatorio: 0,
-		'Aviso de reprogramación': 0,
-		'Reunión cancelada': 0,
-		'Acceso a sala': 0,
-		'Clave de acceso': 0,
-		Acta: 0,
-		'Propuesta de acta': 0,
-		'Notificación de apertura de votación': 0,
-		'Notificación de delegación': 0,
-		'Delegación de voto': 0,
-		'Rechazo de delegación': 0,
-		'Delegación retirada': 0,
-		Otros: 0
-	};
-
-	sends.forEach(send => {
-		if (recount[list[send.sendType]] !== undefined) {
-			recount[list[send.sendType]]++;
-		} else {
-			recount.Otros++;
-		}
-	});
-
-
-	return (
-		<React.Fragment>
-			{Object.keys(recount).filter(key => recount[key] > 0).map(key => (
-				<TableRow key={key}>
-					<TableCell style={{ textTransform: 'capitalize' }}>
-						{`${key}`}
-					</TableCell>
-					<TableCell >
-						{`${recount[key]}`}
-					</TableCell>
-				</TableRow>
-			))}
-
-
-			<TableRow>
-				<TableCell>Total</TableCell>
-				<TableCell colSpan={3}>{sends.length}</TableCell>
-			</TableRow>
-		</React.Fragment>
 	);
 };
 

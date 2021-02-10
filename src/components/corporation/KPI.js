@@ -6,7 +6,7 @@ import withSharedProps from '../../HOCs/withSharedProps';
 import { moment } from '../../containers/App';
 import CouncilsByRange from './CouncilsByRange';
 
-const KPI = ({ translate, client }) => {
+const KPIDisplay = ({ translate, client }) => {
     const month = new Date().getMonth();
     const [dateStart, setDateStart] = React.useState(moment(`2020/${month + 1}/01`));
     const [dateEnd, setDateEnd] = React.useState(moment(`2020/${((month + 1) % 12) + 1}/01`));
@@ -57,4 +57,4 @@ const KPI = ({ translate, client }) => {
     );
 };
 
-export default withSharedProps()(withApollo(KPI));
+export default withSharedProps()(withApollo(KPIDisplay));
