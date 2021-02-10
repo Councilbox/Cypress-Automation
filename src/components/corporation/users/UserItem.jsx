@@ -1,10 +1,10 @@
-import React from "react";
-import { getSecondary, getPrimary } from "../../../styles/colors";
+import React from 'react';
 import { MenuItem } from 'material-ui';
-import { DateWrapper, BasicButton } from '../../../displayComponents';
-import { USER_ACTIVATIONS } from '../../../constants';
 import gql from 'graphql-tag';
 import { graphql, compose } from 'react-apollo';
+import { getSecondary, getPrimary } from '../../../styles/colors';
+import { DateWrapper, BasicButton } from '../../../displayComponents';
+import { USER_ACTIVATIONS } from '../../../constants';
 
 const UserItem = ({ user, translate, clickable, closeSession, ...props }) => {
 	const secondary = getSecondary();
@@ -20,7 +20,7 @@ const UserItem = ({ user, translate, clickable, closeSession, ...props }) => {
 		if (!response.errors) {
 			props.refetch();
 		}
-	}
+	};
 
 	const cancelUserPremium = async event => {
 		event.stopPropagation();
@@ -33,7 +33,7 @@ const UserItem = ({ user, translate, clickable, closeSession, ...props }) => {
 		if (!response.errors) {
 			props.refetch();
 		}
-	}
+	};
 
 	const unsubscribeUser = async event => {
 		event.stopPropagation();
@@ -44,7 +44,7 @@ const UserItem = ({ user, translate, clickable, closeSession, ...props }) => {
 		});
 
 		props.refetch();
-	}
+	};
 
 	const blockUser = async event => {
 		event.stopPropagation();
@@ -55,12 +55,12 @@ const UserItem = ({ user, translate, clickable, closeSession, ...props }) => {
 		});
 
 		props.refetch();
-	}
+	};
 
 	const bodyTable = centrado => (
 		<React.Fragment>
-			<div style={{ display: "flex", width: "100%", alignItems: "center", justifyContent: centrado ? "space-between" : "", padding: centrado ? "0px 2em" : "" }}>
-				<div style={{ width: centrado ? "" : "15%", padding: centrado ? "" : "4px 70px 4px 0px" }}>
+			<div style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: centrado ? 'space-between' : '', padding: centrado ? '0px 2em' : '' }}>
+				<div style={{ width: centrado ? '' : '15%', padding: centrado ? '' : '4px 70px 4px 0px' }}>
 					<div
 						style={{
 							width: '100%',
@@ -75,13 +75,13 @@ const UserItem = ({ user, translate, clickable, closeSession, ...props }) => {
 							<React.Fragment>
 								<i className="fa fa-user" aria-hidden="true" style={{ fontSize: '1.7em', color: 'grey' }}></i>
 Confirmado
-</React.Fragment>
+							</React.Fragment>
 						}
 						{user.actived === USER_ACTIVATIONS.NOT_CONFIRMED &&
 							<React.Fragment>
 								<i className="fa fa-user-times" aria-hidden="true" style={{ fontSize: '1.7em', color: 'grey' }}></i>
 No confirmado
-</React.Fragment>
+							</React.Fragment>
 						}
 						{user.actived === USER_ACTIVATIONS.FREE_TRIAL &&
 							<React.Fragment>
@@ -99,20 +99,20 @@ No confirmado
 							<React.Fragment>
 								<i className="fa fa-user" aria-hidden="true" style={{ fontSize: '1.7em', color: getPrimary() }}></i>
 Premium
-</React.Fragment>
+							</React.Fragment>
 						}
 					</div>
 				</div>
-				<div style={{ width: centrado ? "" : "10%", padding: centrado ? "" : "4px 8px 4px 0px", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+				<div style={{ width: centrado ? '' : '10%', padding: centrado ? '' : '4px 8px 4px 0px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
 					<span style={{ fontSize: '0.8rem', fontWeight: '700' }}>{`${user.id}`}</span>
 				</div>
-				<div style={{ width: centrado ? "" : "25%", padding: centrado ? "" : "4px 8px 4px 0px", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+				<div style={{ width: centrado ? '' : '25%', padding: centrado ? '' : '4px 8px 4px 0px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
 					<span style={{ fontSize: '0.8rem', fontWeight: '700' }}>{`${user.name} ${user.surname || ''}`}</span>
 				</div>
-				<div style={{ width: centrado ? "" : "25%", padding: centrado ? "" : "4px 8px 4px 0px", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+				<div style={{ width: centrado ? '' : '25%', padding: centrado ? '' : '4px 8px 4px 0px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
 					<span style={{ fontSize: '0.9rem' }}>{`${user.email || '-'}`}</span>
 				</div>
-				<div style={{ width: centrado ? "" : "25%", padding: centrado ? "" : "4px 8px 4px 0px", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+				<div style={{ width: centrado ? '' : '25%', padding: centrado ? '' : '4px 8px 4px 0px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
 					{!!user.lastConnectionDate ?
 						<DateWrapper
 							format="DD/MM/YYYY HH:mm"
@@ -125,7 +125,7 @@ Premium
 				</div>
 			</div>
 		</React.Fragment>
-	)
+	);
 
 	return (
 		clickable ?
@@ -141,8 +141,8 @@ Premium
 				{bodyTable()}
 			</MenuItem>
 			:
-			<div style={{ width: "100%", }}>
-				<div style={{ width: "100%", display: "flex", justifyContent: "flex-end", marginBottom: "1em" }}>
+			<div style={{ width: '100%', }}>
+				<div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', marginBottom: '1em' }}>
 					{props.unsubscribeUser &&
 						<div
 							style={{
@@ -223,8 +223,8 @@ Premium
 				</div>
 			</div>
 
-	)
-}
+	);
+};
 
 
 const activateUserPremium = gql`

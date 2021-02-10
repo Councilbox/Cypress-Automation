@@ -50,7 +50,7 @@ module.exports = {
 		"newline-per-chained-call": "warn",
 		'arrow-parens': ['error', 'as-needed'],
 		"no-extend-native": "warn",
-		'operator-linebreak': ['warn', 'before', { overrides: { '?': 'after' } }],
+		'operator-linebreak': "off",
 		"react/display-name": "off",
 		"react/prop-types": "off",
 		"no-underscore-dangle": "warn",

@@ -158,213 +158,212 @@ const CreateCouncilModal = ({
 					<Scrollbar>
 						<div style={{}}>
 							{step === 1
-&& <div style={{ height: '100%', padding: isMobile ? '0em 1em 0em' : '0em 2em 2em 2em' }}>
-	<div
-		style={{
-			display: !isMobile && 'flex',
-			alignItems: 'center',
-			justifyContent: 'space-between',
-			marginBottom: '0.5em'
-		}}
-	>
-		<div style={{ display: 'flex' }}>
-			<div style={{ color: primary, fontSize: isMobile ? '17px' : '24px', fontStyle: 'italic' }}>
-				{translate.create_council_title}
-			</div>
-			{!isMobile
-&& <div
-	style={{
-		display: 'flex',
-		justifyContent: 'center',
-		textAlign: 'center',
-		marginLeft: '15px'
-	}}
->
-	<img src={emptyMeetingTable} style={{ width: '70px', }} alt="empty-table" />
-</div>
-			}
-		</div>
-		<div
-			style={{
-				color: 'black',
-				cursor: 'pointer',
-				paddingTop: '8px',
-				paddingBottom: '8px'
-			}}
-			onClick={() => setStep(10)}
-		>
-			<div
-				style={{
-					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'center',
-					fontSize: '13px'
-				}}
-			>
-				<i
-					className="material-icons"
-					style={{
-						color: primary,
-						fontSize: '13px',
-						paddingRight: '0.3em',
-						marginTop: '4px'
-					}}
-				>
-help
-				</i>
-				{translate.create_council_help}
-			</div>
-		</div>
-	</div>
-	<div style={{ height: '100%' }}>
-		<ButtonCreateCouncil
-			onClick={councilStep}
-			title={translate.with_session}
-			styleButton={{ marginRight: '3%' }}
-			icon={<img src={conSesionIcon}></img>}
-			isMobile={isMobile}
-			list={
-				<div>{translate.with_session_description}</div>
-			}
-		/>
-		<ButtonCreateCouncil
-			onClick={noSessionStep}
-			title={translate.without_session}
-			styleButton={{ marginRight: '3%' }}
-			icon={<img src={sinSesionIcon}></img>}
-			isMobile={isMobile}
-			list={
-				<div>{translate.without_session_description}</div>
-			}
-		/>
-		{config.boardWithoutSession
-&& <ButtonCreateCouncil
-	onClick={boardWithoutSessionStep}
-	title={translate.board_without_session}
-	styleButton={{ marginRight: '3%' }}
-	icon={<img src={consejoSinSesion}></img>}
-	isMobile={isMobile}
-	list={
-		<div>{translate.board_without_session_description}</div>
-	}
-/>
-		}
-		{config['2stepsCouncil']
-&& <ButtonCreateCouncil
-	onClick={noSessionHybridStep}
-	title={translate.elections}
-	icon={<img src={elecciones}></img>}
-	isMobile={isMobile}
-	list={
-		<div>{translate.elections_description}</div>
-	}
-/>
-		}
-		{config.onOnOneCouncil
-&& <ButtonCreateCouncil
-	onClick={createOneOneOne}
-	title={'Cita 1 a 1'}
-	icon={<img src={oneOnOne}></img>}
-	isMobile={isMobile}
-	list={
-		<div>{translate.one_on_one_description}</div>
-	}
-/>
-		}
-	</div>
-</div>
+								&& <div style={{ height: '100%', padding: isMobile ? '0em 1em 0em' : '0em 2em 2em 2em' }}>
+									<div
+										style={{
+											display: !isMobile && 'flex',
+											alignItems: 'center',
+											justifyContent: 'space-between',
+											marginBottom: '0.5em'
+										}}
+									>
+										<div style={{ display: 'flex' }}>
+											<div style={{ color: primary, fontSize: isMobile ? '17px' : '24px', fontStyle: 'italic' }}>
+												{translate.create_council_title}
+											</div>
+											{!isMobile
+												&& <div
+													style={{
+														display: 'flex',
+														justifyContent: 'center',
+														textAlign: 'center',
+														marginLeft: '15px'
+													}}
+												>
+													<img src={emptyMeetingTable} style={{ width: '70px', }} alt="empty-table" />
+												</div>
+											}
+										</div>
+										<div
+											style={{
+												color: 'black',
+												cursor: 'pointer',
+												paddingTop: '8px',
+												paddingBottom: '8px'
+											}}
+											onClick={() => setStep(10)}
+										>
+											<div
+												style={{
+													display: 'flex',
+													alignItems: 'center',
+													justifyContent: 'center',
+													fontSize: '13px'
+												}}
+											>
+												<i
+													className="material-icons"
+													style={{
+														color: primary,
+														fontSize: '13px',
+														paddingRight: '0.3em',
+														marginTop: '4px'
+													}}
+												>
+								help
+												</i>
+												{translate.create_council_help}
+											</div>
+										</div>
+									</div>
+									<div style={{ height: '100%' }}>
+										<ButtonCreateCouncil
+											onClick={councilStep}
+											title={translate.with_session}
+											styleButton={{ marginRight: '3%' }}
+											icon={<img src={conSesionIcon}></img>}
+											isMobile={isMobile}
+											list={
+												<div>{translate.with_session_description}</div>
+											}
+										/>
+										<ButtonCreateCouncil
+											onClick={noSessionStep}
+											title={translate.without_session}
+											styleButton={{ marginRight: '3%' }}
+											icon={<img src={sinSesionIcon}></img>}
+											isMobile={isMobile}
+											list={
+												<div>{translate.without_session_description}</div>
+											}
+										/>
+										{config.boardWithoutSession
+											&& <ButtonCreateCouncil
+												onClick={boardWithoutSessionStep}
+												title={translate.board_without_session}
+												styleButton={{ marginRight: '3%' }}
+												icon={<img src={consejoSinSesion}></img>}
+												isMobile={isMobile}
+												list={
+													<div>{translate.board_without_session_description}</div>
+												}
+											/>
+										}
+										{config['2stepsCouncil']
+											&& <ButtonCreateCouncil
+												onClick={noSessionHybridStep}
+												title={translate.elections}
+												icon={<img src={elecciones}></img>}
+												isMobile={isMobile}
+												list={
+													<div>{translate.elections_description}</div>
+												}
+											/>
+										}
+										{config.onOnOneCouncil
+											&& <ButtonCreateCouncil
+												onClick={createOneOneOne}
+												title={'Cita 1 a 1'}
+												icon={<img src={oneOnOne}></img>}
+												isMobile={isMobile}
+												list={
+													<div>{translate.one_on_one_description}</div>
+												}
+											/>
+										}
+									</div>
+								</div>
 							}
 							{step === 10
-&& <div style={{ height: '100%', padding: isMobile ? '0em 1em 0em' : '0em 2em 2em 2em' }}>
-	<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', }}>
-		<div onClick={() => setStep(1)} style={{ color: getSecondary(), cursor: 'pointer', paddingBottom: '1em' }}>
-			{translate.back}
-		</div>
-	</div>
+								&& <div style={{ height: '100%', padding: isMobile ? '0em 1em 0em' : '0em 2em 2em 2em' }}>
+									<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', }}>
+										<div onClick={() => setStep(1)} style={{ color: getSecondary(), cursor: 'pointer', paddingBottom: '1em' }}>
+											{translate.back}
+										</div>
+									</div>
 
-	<ButtonInfoCouncil
-		title={translate.with_session}
-		styleButton={{ marginRight: '3%' }}
-		icon={<img src={conSesionIcon} style={{ width: '100%' }}></img>}
-		isMobile={isMobile}
-		infoExtra={
-			<div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-				<div style={{ width: '35px', paddingRight: '15px', display: 'flex' }}>
-					<img src={admin} style={{ width: '100%' }} ></img>
-				</div>
-				{translate.admin_required}
-			</div>
-		}
-		list={
-			<div style={{ fontSize: '15px' }}>
-				{translate.with_session_description}
-			</div>
-		}
-	/>
-	<ButtonInfoCouncil
-		title={translate.without_session}
-		styleButton={{ marginRight: '3%' }}
-		icon={<img src={sinSesionIcon} style={{ width: '100%' }}></img>}
-		isMobile={isMobile}
-		list={
-			<div style={{ fontSize: '15px' }}>
-				{translate.without_session_description}
-			</div>
-		}
-	/>
-	{config.boardWithoutSession
-&& <ButtonInfoCouncil
-	title={translate.board_without_session}
-	styleButton={{ marginRight: '3%' }}
-	icon={<img src={consejoSinSesion} style={{ width: '100%' }}></img>}
-	isMobile={isMobile}
-	list={
-		<div style={{ fontSize: '15px' }}>
-			{translate.board_without_session_description}
-		</div>
-	}
-/>
-	}
-	{config['2stepsCouncil']
-&& <ButtonInfoCouncil
-	title={translate.elections}
-	icon={<img src={elecciones} style={{ width: '100%' }}></img>}
-	isMobile={isMobile}
-	list={
-		<div style={{ fontSize: '15px' }}>
-			{translate.elections_description}
-		</div>
-	}
-/>
-	}
-</div>
+									<ButtonInfoCouncil
+										title={translate.with_session}
+										styleButton={{ marginRight: '3%' }}
+										icon={<img src={conSesionIcon} style={{ width: '100%' }}></img>}
+										isMobile={isMobile}
+										infoExtra={
+											<div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+												<div style={{ width: '35px', paddingRight: '15px', display: 'flex' }}>
+													<img src={admin} style={{ width: '100%' }} ></img>
+												</div>
+												{translate.admin_required}
+											</div>
+										}
+										list={
+											<div style={{ fontSize: '15px' }}>
+												{translate.with_session_description}
+											</div>
+										}
+									/>
+									<ButtonInfoCouncil
+										title={translate.without_session}
+										styleButton={{ marginRight: '3%' }}
+										icon={<img src={sinSesionIcon} style={{ width: '100%' }}></img>}
+										isMobile={isMobile}
+										list={
+											<div style={{ fontSize: '15px' }}>
+												{translate.without_session_description}
+											</div>
+										}
+									/>
+									{config.boardWithoutSession
+										&& <ButtonInfoCouncil
+											title={translate.board_without_session}
+											styleButton={{ marginRight: '3%' }}
+											icon={<img src={consejoSinSesion} style={{ width: '100%' }}></img>}
+											isMobile={isMobile}
+											list={
+												<div style={{ fontSize: '15px' }}>
+													{translate.board_without_session_description}
+												</div>
+											}
+										/>}
+									{config['2stepsCouncil']
+										&& <ButtonInfoCouncil
+											title={translate.elections}
+											icon={<img src={elecciones} style={{ width: '100%' }}></img>}
+											isMobile={isMobile}
+											list={
+												<div style={{ fontSize: '15px' }}>
+													{translate.elections_description}
+												</div>
+											}
+										/>
+									}
+								</div>
 							}
 							{step === steps.NO_SESSION
-&& <CreateWithoutSession
-	hybrid={false}
-	setOptions={setOptions}
-	translate={translate}
-	errors={errors}
-/>
+								&& <CreateWithoutSession
+									hybrid={false}
+									setOptions={setOptions}
+									translate={translate}
+									errors={errors}
+								/>
 							}
 							{step === steps.BOARD_NO_SESSION
-&& <CreateNoBoard
-	setOptions={setOptions}
-	translate={translate}
-	options={options}
-	errors={errors}
-/>
+								&& <CreateNoBoard
+									setOptions={setOptions}
+									translate={translate}
+									options={options}
+									errors={errors}
+								/>
 							}
 							{step === steps.COUNCIL
-&& <CreateWithSession setOptions={setOptions} />
+								& <CreateWithSession setOptions={setOptions} />
 							}
 							{step === steps.HYBRID_VOTING
-&& <CreateWithoutSession
-	hybrid={true}
-	setOptions={setOptions}
-	translate={translate}
-	errors={errors}
-/>
+								&& <CreateWithoutSession
+									hybrid={true}
+									setOptions={setOptions}
+									translate={translate}
+									errors={errors}
+								/>
 							}
 						</div>
 					</Scrollbar>
