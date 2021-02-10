@@ -12,7 +12,7 @@ import CouncilStateButton from './menus/CouncilStateButton';
 import CouncilMenu from './councilMenu/CouncilMenu';
 import { HEADER_HEIGHT } from '../../../styles/constants';
 
-const LiveHeader = ({ councilName, translate, windowSize, participants, user, council, recount, refetch, ...props }) => {
+const LiveHeader = ({ councilName, translate, windowSize, participants, user, council, recount, refetch }) => {
 	const [showConfirm, setShowConfirm] = React.useState(false);
 	const subdomain = useSubdomain();
 	const primary = getPrimary();

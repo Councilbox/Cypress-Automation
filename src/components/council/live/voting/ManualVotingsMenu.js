@@ -1,12 +1,21 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
-import { TextInput, Grid, GridItem, BasicButton, LoadingSection } from '../../../../displayComponents';
+import { TextInput, Grid, GridItem, BasicButton } from '../../../../displayComponents';
 import { getSecondary } from '../../../../styles/colors';
 import { updateAgenda } from '../../../../queries/agenda';
 import { useOldState } from '../../../../hooks';
 import { cleanAgendaObject } from '../../../../utils/CBX';
 import { isMobile } from '../../../../utils/screen';
 
+const calculateValidNumber = (max, actual, newValue) => {
+    if (Number.isNaN(newValue)) {
+        return 0;
+    }
+    if ((max + actual) >= newValue) {
+        return newValue;
+    }
+        return max + actual;
+};
 
 const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
     const [state, setState] = useOldState({
@@ -163,16 +172,6 @@ const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
             </div>
         </div>
     );
-};
-
-const calculateValidNumber = (max, actual, newValue) => {
-    if (isNaN(newValue)) {
-        return 0;
-    }
-    if ((max + actual) >= newValue) {
-        return newValue;
-    }
-        return max + actual;
 };
 
 export default graphql(updateAgenda, {

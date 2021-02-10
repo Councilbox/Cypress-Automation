@@ -1,20 +1,17 @@
 import React from 'react';
 import { graphql, withApollo } from 'react-apollo';
-import { Card, MenuItem, Typography, withStyles, IconButton, CardHeader, Collapse } from 'material-ui';
+import { Card, MenuItem, Typography, withStyles, CardHeader } from 'material-ui';
 import {
 	AlertConfirm,
 	Icon,
 	LoadingSection,
-	ParticipantRow,
 	Scrollbar,
 	TextInput,
 	GridItem,
-	ButtonIcon,
 	Grid
 } from '../../../../../displayComponents';
 import { DELEGATION_USERS_LOAD } from '../../../../../constants';
 import { councilParticipantsFilterIds } from '../../../../../queries/councilParticipant';
-import { getPrimary } from '../../../../../styles/colors';
 import { isMobile } from '../../../../../utils/screen';
 
 
@@ -76,7 +73,7 @@ const DelegationsRestrictionModal = ({ open, data, translate, participantsTable,
 	}, [participantsTable]);
 
 
-	function _renderBody() {
+	function renderBody() {
 		const { loading } = data;
 		let participants = {};
 		if (data.councilParticipantsFilterIds) {
@@ -108,7 +105,7 @@ const DelegationsRestrictionModal = ({ open, data, translate, participantsTable,
 						/>
 					</GridItem>
 				</Grid>
-				<div style={{ marginTop: '1em', borderTop: '2px solid #dcdcdc', height: '0', overflow: 'hidden', height: isMobile ? 'calc( 100% - 5em )' : '100%', }}>
+				<div style={{ marginTop: '1em', borderTop: '2px solid #dcdcdc', overflow: 'hidden', height: isMobile ? 'calc( 100% - 5em )' : '100%', }}>
 					{loading ? (
 						<LoadingSection />
 					) : (
@@ -124,8 +121,8 @@ const DelegationsRestrictionModal = ({ open, data, translate, participantsTable,
 																key={`delegateVote_${participant.id}`}
 																item={participant}
 																onClick={() => {
-                                                                    const { __typename, representative, ...data } = participant;
-                                                                    props.updateRepresentative(data);
+                                                                    const { __typename, representative, ...restData } = participant;
+                                                                    props.updateRepresentative(restData);
                                                                     close();
 																}}
 																index={index}
@@ -186,9 +183,14 @@ const DelegationsRestrictionModal = ({ open, data, translate, participantsTable,
 			open={open}
 			widthModal={{ height: '100%' }}
 			buttonCancel={translate.close}
-			bodyText={_renderBody()}
+			bodyText={renderBody()}
 			title={translate.select}
-			bodyStyle={{ width: '75vw', minWidth: '50vw', overflow: isMobile && 'hidden', width: isMobile && '100%', height: isMobile && '100%' }}
+			bodyStyle={{
+				minWidth: '50vw',
+				overflow: isMobile && 'hidden',
+				width: isMobile && '100%',
+				height: isMobile && '100%'
+			}}
 		/>
 	);
 };
@@ -206,7 +208,7 @@ const regularCardStyle = {
 };
 
 
-const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, translate, onClick, index }) => {
+const CardPlantillas = withStyles(regularCardStyle)(({ item, classes, onClick, index }) => {
 	const [hover, setHover] = React.useState(false);
 
 	const mouseEnterHandler = () => {

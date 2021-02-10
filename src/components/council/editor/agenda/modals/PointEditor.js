@@ -18,7 +18,6 @@ import * as CBX from '../../../../../utils/CBX';
 import LoadDraft from '../../../../company/drafts/LoadDraft';
 import { getSecondary } from '../../../../../styles/colors';
 import { checkRequiredFieldsAgenda } from '../../../../../utils/validation';
-import { TAG_TYPES } from '../../../../company/drafts/draftTags/utils';
 import PointAttachments from './PointAttachments';
 import { addAgendaAttachment } from '../../../../../queries';
 import { useOldState } from '../../../../../hooks';
@@ -49,8 +48,8 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 			company,
 			council
 		}, translate);
-		let majorityType = 0; let
-subjectType = 0;
+		let majorityType = 0;
+		let subjectType = 0;
 
 		if (draft.tags.agenda) {
 			const { segments } = draft.tags.agenda;
@@ -79,6 +78,12 @@ subjectType = 0;
 		editor.current.setValue(correctedText);
 	};
 
+	function checkRequiredFields() {
+		const newErrors = checkRequiredFieldsAgenda(state, translate, toast);
+		setErrors(newErrors);
+		return newErrors.hasError;
+	}
+
 	const saveChanges = async () => {
 		if (!checkRequiredFields()) {
 			const { __typename, items, options, ballots, attachments: a, qualityVoteSense, votingsRecount, ...data } = state;
@@ -90,6 +95,7 @@ subjectType = 0;
 				}
 			});
 			if (attachments.length > 0) {
+				// eslint-disable-next-line no-underscore-dangle
 				await Promise.all(attachments.filter(attachment => !attachment.__typename).map(attachment => {
 					if (attachment.filename) {
 						const fileInfo = {
@@ -163,13 +169,14 @@ subjectType = 0;
 	};
 
 
-	const _renderModalBody = () => {
+	const renderModalBody = () => {
 		const {
 			votingTypes,
 			statute,
 			draftTypes,
 			companyStatutes
 		} = props;
+		// eslint-disable-next-line no-shadow
 		const agenda = state;
 		const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute, council);
 
@@ -372,12 +379,6 @@ subjectType = 0;
 		);
 	};
 
-	function checkRequiredFields() {
-		const errors = checkRequiredFieldsAgenda(state, translate, toast);
-		setErrors(errors);
-		return errors.hasError;
-	}
-
 	return (
 		<AlertConfirm
 			requestClose={loadDraftModal ? () => setLoadDraftModal(false) : requestClose}
@@ -395,7 +396,7 @@ subjectType = 0;
 			}
 			buttonAccept={translate.accept}
 			buttonCancel={translate.cancel}
-			bodyText={_renderModalBody()}
+			bodyText={renderModalBody()}
 			title={translate.edit}
 		/>
 	);

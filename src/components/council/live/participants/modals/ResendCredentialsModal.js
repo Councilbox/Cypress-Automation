@@ -15,7 +15,6 @@ import { isMobile } from '../../../../../utils/screen';
 
 const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council, ...props }) => {
 	const [modal, setModal] = React.useState(false);
-	const [phoneError, setPhoneError] = React.useState(false);
 	const primary = getPrimary();
 	const translation = translate.sure_send_video.replace(
 		'{{name}}',
@@ -42,7 +41,7 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
 	};
 
 	const sendKey = async type => {
-        const response = await sendAccessKey({
+        await sendAccessKey({
             variables: {
                 councilId: council.id,
 				participantIds: [participant.id],
@@ -51,13 +50,7 @@ const ResendCredentialsModal = ({ translate, participant, sendAccessKey, council
             }
         });
 
-        if (response.errors) {
-            if (response.errors[0].message === 'Invalid phone number') {
-                setPhoneError(true);
-            }
-        } else {
-            props.refetch();
-        }
+        props.refetch();
 	};
 
 	const openModal = () => {

@@ -11,7 +11,7 @@ import CommentWall from '../CommentWall';
 import LiveParticipantsDrawer from './LiveParticipantsDrawer';
 import { getSecondary } from '../../../../styles/colors';
 
-const CouncilLiveMobilePage = ({ client, companies, data, translate, ...props }) => {
+const CouncilLiveMobilePage = ({ client, companies, data, translate }) => {
     const [state, setState] = React.useState({
         participants: true,
         wall: false,
@@ -182,7 +182,6 @@ const CouncilLiveMobilePage = ({ client, companies, data, translate, ...props })
                         council={data.council}
                     />
                     : <AgendaManager
-                        ref={agendaManager => (agendaManager = agendaManager)}
                         recount={data.councilRecount}
                         council={council}
                         company={company}

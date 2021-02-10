@@ -44,7 +44,7 @@ const EditorStepper = ({ translate, active, goToPage, windowSize }) => {
         },
     ];
 
-    const XsIcon = ({ icon, page, selected }) => (
+    const XsIcon = ({ icon, page }) => (
         <Icon
             type={icon}
             style={{
@@ -149,78 +149,3 @@ const EditorStepper = ({ translate, active, goToPage, windowSize }) => {
 };
 
 export default withWindowSize(EditorStepper);
-
-
-/* { windowSize === "xs" ? (
-	<MobileStepper active={this.state.step - 1} total={6} />
-) : (
-	<Stepper
-		alternativeLabel
-		activeStep={this.state.step - 1}
-		orientation="horizontal"
-	>
-		<Step
-			{...(this.state.step > 1
-				? {
-						onClick: () => this.goToPage(1),
-						style: pointerStep
-				  }
-				: {})}
-		>
-			<StepLabel style={{marginTop: 0}}>
-				{translate.wizard_convene}
-			</StepLabel>
-		</Step>
-		<Step
-			{...(this.state.step > 2
-				? {
-						onClick: () => this.goToPage(2),
-						style: pointerStep
-				  }
-				: {})}
-		>
-			<StepLabel>{translate.census}</StepLabel>
-		</Step>
-		<Step
-			{...(this.state.step > 3
-				? {
-						onClick: () => this.goToPage(3),
-						style: pointerStep
-				  }
-				: {})}
-		>
-			<StepLabel>{translate.wizard_agenda}</StepLabel>
-		</Step>
-		<Step
-			{...(this.state.step > 4
-				? {
-						onClick: () => this.goToPage(4),
-						style: pointerStep
-				  }
-				: {})}
-		>
-			<StepLabel>
-				{translate.wizard_attached_documentation}
-			</StepLabel>
-		</Step>
-		<Step
-			{...(this.state.step > 5
-				? {
-						onClick: () => this.goToPage(5),
-						style: pointerStep
-				  }
-				: {})}
-		>
-			<StepLabel>
-				{translate.wizard_options}
-			</StepLabel>
-		</Step>
-		<Step>
-			<StepLabel>
-				{translate.wizard_preview}
-			</StepLabel>
-		</Step>
-	</Stepper>
-)} */
-
-

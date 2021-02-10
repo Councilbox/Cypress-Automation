@@ -1,19 +1,14 @@
 import React from 'react';
 import { Tooltip } from 'material-ui';
-import { BasicButton } from '../../../../displayComponents';
 import { AGENDA_STATES } from '../../../../constants';
-import { getPrimary, getSecondary } from '../../../../styles/colors';
+import { getSecondary } from '../../../../styles/colors';
 import ApproveActButton from './ApproveActButton';
-import SendActToVote from './SendActToVote';
 import ToggleAgendaButton from '../ToggleAgendaButton';
 import ToggleVotingsButton from '../ToggleVotingsButton';
 
 
 const ActPointStateManager = ({ agenda, council, translate, refetch, ...props }) => {
-    const [sendAct, setSendAct] = React.useState(false);
-    const primary = getPrimary();
-
-    if (!props.active) {
+     if (!props.active) {
         return (
             <Tooltip title={translate.warning_unclosed_agenda}>
                 <i

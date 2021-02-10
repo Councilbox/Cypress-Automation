@@ -24,7 +24,7 @@ const ParticipantStateSelector = ({ participant, translate, council, inDropDown,
 	const landscape = isLandscape() || window.innerWidth > 700;
 	const primary = getPrimary();
 
-	const handleParticipantState = async (state, index) => {
+	const handleParticipantState = async state => {
 		setLoading(state);
 		const response = await props.changeParticipantState({
 			variables: {

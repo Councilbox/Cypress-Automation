@@ -10,7 +10,7 @@ import { getPrimary } from '../../../../../styles/colors';
 import { isMobile } from '../../../../../utils/screen';
 
 
-const QRSearchModal = ({ updateSearch, open, requestClose, client, council, translate }) => {
+const QRSearchModal = ({ open, requestClose, client, council, translate }) => {
     const [search, setSearch] = React.useState('');
     const [participant, setParticipant] = React.useState(null);
     const [error, setError] = React.useState(null);
@@ -57,6 +57,21 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
         }
     };
 
+    const check = () => {
+        const canvasElement = document.getElementById('canvas');
+        const canvasCTX2 = canvasRef2.current.getContext('2d');
+        canvasCTX2.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+        if (canvasElement) {
+            const canvasCTX = canvasRef.current.getContext('2d');
+            canvasCTX.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
+            const result = jsQR(canvasCTX.getImageData(0, 0, canvasRef.current.width, canvasRef.current.height).data, canvasRef.current.width, canvasRef.current.height);
+            if (result) {
+                setSearch(result);
+                setCode(result);
+            }
+        }
+    };
+
     React.useLayoutEffect(() => {
         let interval;
         if (open && videoRef.current && !videoRef.current.srcObject) {
@@ -94,26 +109,6 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
             drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, '#FF3B58');
         }
     }, [code]);
-
-
-    const check = () => {
-        const canvasElement = document.getElementById('canvas');
-        const canvasCTX2 = canvasRef2.current.getContext('2d');
-        canvasCTX2.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-        if (canvasElement) {
-            const canvasCTX = canvasRef.current.getContext('2d');
-            canvasCTX.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
-            const result = jsQR(canvasCTX.getImageData(0, 0, canvasRef.current.width, canvasRef.current.height).data, canvasRef.current.width, canvasRef.current.height);
-            if (result) {
-                setSearch(result);
-                setCode(result);
-            }
-        }
-    };
-
-    const _canBePresentWithRemoteVote = canBePresentWithRemoteVote(
-        council.statute
-    );
 
     const searchParticipant = React.useCallback(async () => {
         if (search) {
@@ -170,6 +165,14 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
     }, [searchParticipant]);
 
     const isPresent = state => state === PARTICIPANT_STATES.PHYSICALLY_PRESENT || state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE;
+
+    const reset = () => {
+        setSearch(null);
+        setParticipant(null);
+        setWithSignature(false);
+        setParticipantState(5);
+        setError(null);
+    };
 
     const setParticipantAsPresent = async () => {
         let response;
@@ -236,7 +239,7 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                             council={council}
                         />
                     </div>
-                    {_canBePresentWithRemoteVote ? (
+                    {canBePresentWithRemoteVote(council.statute) ? (
                         <div>
                             <Checkbox
                                 label={translate.has_remote_vote}
@@ -262,14 +265,6 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                 </div>
             </div>
         );
-    };
-
-    const reset = () => {
-        setSearch(null);
-        setParticipant(null);
-        setWithSignature(false);
-        setParticipantState(5);
-        setError(null);
     };
 
     const renderBody = () => {
@@ -355,10 +350,10 @@ const QRSearchModal = ({ updateSearch, open, requestClose, client, council, tran
                         style={{
                             zIndex: 99999,
                             width: '100%',
-height: '100%',
-position: 'absolute',
-top: 0,
-left: 0,
+                            height: '100%',
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
                         }}
                     ></canvas>
                     <video autoPlay style={{ width: '100%', height: 'auto', position: 'absolute', top: 0, left: 0, }} ref={videoRef} id='video' />
@@ -376,6 +371,7 @@ left: 0,
     return (
         <AlertConfirm
             open={open}
+            loadingAction={loading}
             bodyStyle={{ padding: '1em 2em', margin: '0' }}
             requestClose={() => {
                 requestClose();

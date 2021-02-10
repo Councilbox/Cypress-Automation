@@ -5,7 +5,7 @@ import { CircularProgress } from 'material-ui/Progress';
 import { VOTE_VALUES } from '../../../../constants';
 import { agendaVotingsOpened, getActiveVote } from '../../../../utils/CBX';
 import VotingValueIcon from './VotingValueIcon';
-import { updateAgendaVoting } from '../../../../queries/agenda';
+import { updateAgendaVoting as updateAgendaVotingMutation } from '../../../../queries/agenda';
 import withTranslations from '../../../../HOCs/withTranslations';
 
 const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
@@ -14,7 +14,7 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 
 	const vote = getActiveVote(agendaVoting);
 
-	const checkFixed = () => agendaVoting.fixed && agendaVoting.delegatedVotes.filter(vote => !vote.fixed).length === 0;
+	const checkFixed = () => agendaVoting.fixed && agendaVoting.delegatedVotes.filter(item => !item.fixed).length === 0;
 
 	const fixed = checkFixed();
 
@@ -36,9 +36,9 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 		props.refetch();
 	};
 
-	const _block = (value, active) => {
+	const block = (value, enabled) => {
 		if (!agendaVotingsOpened(agenda)) {
-			if (!active) {
+			if (!enabled) {
 				return <span />;
 			}
 		}
@@ -101,9 +101,9 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 					</React.Fragment>
 
 				:					<React.Fragment>
-						{_block(VOTE_VALUES.POSITIVE, active === VOTE_VALUES.POSITIVE)}
-						{_block(VOTE_VALUES.NEGATIVE, active === VOTE_VALUES.NEGATIVE)}
-						{_block(VOTE_VALUES.ABSTENTION, active === VOTE_VALUES.ABSTENTION)}
+						{block(VOTE_VALUES.POSITIVE, active === VOTE_VALUES.POSITIVE)}
+						{block(VOTE_VALUES.NEGATIVE, active === VOTE_VALUES.NEGATIVE)}
+						{block(VOTE_VALUES.ABSTENTION, active === VOTE_VALUES.ABSTENTION)}
 					</React.Fragment>
 				}
 			</div>
@@ -112,6 +112,6 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 };
 
 
-export default graphql(updateAgendaVoting, {
+export default graphql(updateAgendaVotingMutation, {
 	name: 'updateAgendaVoting'
 })(withTranslations()(PresentVoteMenu));

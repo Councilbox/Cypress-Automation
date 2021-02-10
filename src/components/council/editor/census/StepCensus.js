@@ -13,7 +13,7 @@ import {
 	LoadingSection
 } from '../../../../displayComponents/index';
 import {
-	councilParticipants
+	councilParticipants as councilParticipantsQuery
 } from '../../../../queries/councilParticipant';
 import { PARTICIPANTS_LIMITS } from '../../../../constants';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
@@ -154,7 +154,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 		}
 	};
 
-	function _renderCensusChangeButtons(selectedCensusId) {
+	function renderCensusChangeButtons(selectedCensusId) {
 		if (selectedCensusId) {
 			return (
 				<React.Fragment>
@@ -303,7 +303,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 										)}
 									</DialogContent>
 									<DialogActions>
-										{_renderCensusChangeButtons(council.selectedCensusId || state.censusChangeId)}
+										{renderCensusChangeButtons(council.selectedCensusId || state.censusChangeId)}
 									</DialogActions>
 								</div>
 								:								<div style={{ minWidth: '500px' }}>
@@ -311,7 +311,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 										{translate.need_pick_census}
 									</DialogContent>
 									<DialogActions>
-										{_renderCensusChangeButtons(council.selectedCensusId || state.censusChangeId)}
+										{renderCensusChangeButtons(council.selectedCensusId || state.censusChangeId)}
 									</DialogActions>
 								</div>
 						}
@@ -325,7 +325,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 								)}
 							</DialogContent>
 								<DialogActions>
-									{_renderCensusChangeButtons()}
+									{renderCensusChangeButtons()}
 								</DialogActions>
 							</div>
 							:
@@ -410,7 +410,7 @@ export default compose(
 			notifyOnNetworkStatusChange: true
 		})
 	}),
-	graphql(councilParticipants, {
+	graphql(councilParticipantsQuery, {
 		name: 'participants',
 		options: props => ({
 			variables: {

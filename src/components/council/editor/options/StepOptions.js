@@ -16,7 +16,7 @@ import {
 	TextInput,
 	GridItem
 } from '../../../../displayComponents';
-import { councilStepFive, updateCouncil } from '../../../../queries';
+import { councilStepFive, updateCouncil as updateCouncilMutation } from '../../../../queries';
 import { checkValidMajority } from '../../../../utils/validation';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import * as CBX from '../../../../utils/CBX';
@@ -82,10 +82,10 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 			...state,
 			loading: true
 		});
-		const { __typename, statute, platform, room, ...council } = state.data.council;
+		const { __typename, statute, platform, room, ...rest } = state.data.council;
 		const { __typename: t, ...councilRoom } = room;
 
-		const response = await client.mutate({
+		await client.mutate({
 			mutation: gql`
 				mutation UpdateCouncilRoom($councilRoom: CouncilRoomInput!, $councilId: Int!){
 					updateCouncilRoom(councilRoom: $councilRoom, councilId: $councilId){
@@ -102,14 +102,13 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 		await props.updateCouncil({
 			variables: {
 				council: {
-					...council,
+					...rest,
 					sendPointsMode: !CBX.councilHasVideo({ councilType: council.councilType }) ? 0 : 1,
 					closeDate: council.closeDate ? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm'),
 					step
 				}
 			}
 		});
-
 
 		setState({
 			...state,
@@ -174,21 +173,17 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 			}
 		}
 
-		if (council.councilType === 3) {
-
-		}
-
 		return false;
 	};
 
 
-	function updateCouncilData(data) {
+	function updateCouncilData(newData) {
 		setState({
 			...state,
 			data: {
 				council: {
 					...state.data.council,
-					...data,
+					...newData,
 					...(!config.video ? {
 						councilType: 1
 					} : {})
@@ -425,7 +420,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 		return councilOptions[type] ? councilOptions[type] : councilOptions[1];
 	}
 
-	function _renderDelegationRestriction() {
+	function renderDelegationRestriction() {
 		return (
 			<DelegationRestriction
 				translate={translate}
@@ -434,7 +429,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 		);
 	}
 
-	function _renderSecurityForm() {
+	function renderSecurityForm() {
 		return (
 			<div style={{ display: 'inline-grid' }}>
 				<Radio
@@ -544,12 +539,12 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 											marginTop: '1.6em'
 										}}
 									/>
-									{_renderSecurityForm()}
+									{renderSecurityForm()}
 
 								</>
 							}
 							{(council.statute.existsDelegatedVote === 1 && config.councilDelegates && council.councilType !== 5)
-								&& _renderDelegationRestriction()
+								&& renderDelegationRestriction()
 							}
 							<SectionTitle
 								text={translate.options}
@@ -627,24 +622,24 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 														{CBX.majorityNeedsInput(
 															council.actPointMajorityType
 														) && (
-																<MajorityInput
-																	type={council.actPointMajorityType}
-																	style={{ marginLeft: '1em' }}
-																	value={council.actPointMajority}
-																	divider={
-																		council.actPointMajorityDivider
-																	}
-																	mayori
-																	onChange={value => updateCouncilData({
-																			actPointMajority: +value
-																		})
-																	}
-																	onChangeDivider={value => updateCouncilData({
-																			actPointMajorityDivider: +value
-																		})
-																	}
-																/>
-															)}
+															<MajorityInput
+																type={council.actPointMajorityType}
+																style={{ marginLeft: '1em' }}
+																value={council.actPointMajority}
+																divider={
+																	council.actPointMajorityDivider
+																}
+																mayori
+																onChange={value => updateCouncilData({
+																		actPointMajority: +value
+																	})
+																}
+																onChangeDivider={value => updateCouncilData({
+																		actPointMajorityDivider: +value
+																	})
+																}
+															/>
+														)}
 													</div>
 												</div>
 											</div>
@@ -733,7 +728,7 @@ export default compose(
 		})
 	}),
 	withApollo,
-	graphql(updateCouncil, {
+	graphql(updateCouncilMutation, {
 		name: 'updateCouncil'
 	})
 )(withWindowSize(StepOptions));
@@ -748,7 +743,7 @@ const RTMPField = ({ data, updateData, translate }) => {
 			errorText={!validURL ? translate.invalid_url : ''}
 			floatingText={'RTMP'}
 			value={(data.room && data.room.videoConfig) ? data.room.videoConfig.rtmp : ''}
-			onChange={(event, isInputChecked) => updateData({
+			onChange={event => updateData({
 					room: {
 						videoConfig: {
 							...data.room.videoConfig,

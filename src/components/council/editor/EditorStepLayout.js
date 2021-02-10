@@ -48,7 +48,12 @@ class EditorStepLayout extends React.Component {
                 }}
             >
                 <div style={{ height: '100%', overflow: 'hidden', position: 'relative', borderTop: '1px solid gainsboro', }}>
-                    <Scrollbar ref={ref => this.scrollbar = ref} onScrollStop={() => this.updateStickToBottom()}>
+                    <Scrollbar
+                        ref={ref => {
+                            this.scrollbar = ref
+                        }}
+                        onScrollStop={() => this.updateStickToBottom()}
+                    >
                         <div style={{ padding: '1.2em' }}>
                             {body}
                         </div>

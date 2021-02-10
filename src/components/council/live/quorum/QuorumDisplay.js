@@ -25,12 +25,12 @@ const QuorumDisplay = ({ council, recount, translate, company }) => {
             {council.statute.quorumPrototype === 0 ?
                 <b>{`${translate.current_quorum}: ${showNumParticipations(recount.partRightVoting, company, council.statute)} (${((recount.partRightVoting / (recount.partTotal ? recount.partTotal : 1)) * 100).toFixed(3)}%)${(councilStarted() && council.councilStarted === 1 && councilHasSession(council)) ?
                     ` / ${translate.initial_quorum}: ${council.initialQuorum ? showNumParticipations(council.initialQuorum, company, council.statute) : showNumParticipations(council.currentQuorum, company, council.statute)
-                    } (${((council.initialQuorum / (recount.partTotal ? recount.partTotal : 1) * 100).toFixed(3))}%)`
+                    } (${((council.initialQuorum / ((recount.partTotal ? recount.partTotal : 1) * 100)).toFixed(3))}%)`
                     : ''
                     }`}</b>
                 : <b>{`${translate.current_quorum}: ${showNumParticipations(recount.socialCapitalRightVoting, company, council.statute)} (${((recount.socialCapitalRightVoting / (recount.socialCapitalTotal ? recount.socialCapitalTotal : 1)) * 100).toFixed(3)}%)${(councilStarted() && council.councilStarted === 1 && councilHasSession(council)) ?
                     ` / ${translate.initial_quorum}: ${council.initialQuorum ? showNumParticipations(council.initialQuorum, company, council.statute) : showNumParticipations(council.currentQuorum, company, council.statute)
-                    } (${((council.initialQuorum / (recount.socialCapitalTotal ? recount.socialCapitalTotal : 1) * 100).toFixed(3))}%)`
+                    } (${((council.initialQuorum / ((recount.socialCapitalTotal ? recount.socialCapitalTotal : 1) * 100)).toFixed(3))}%)`
                     : ''
                     }`}</b>
             }
@@ -350,7 +350,7 @@ export const QuorumDetails = withApollo(({ council, renderVotingsTable, agendas 
                                 </TableHead>
                                 <TableBody>
                                     {agendas.map(point => (
-                                        <TableRow>
+                                        <TableRow key={point.id}>
                                             <TableCell>
                                                 <div className="truncate" style={{ width: '6em' }}>
                                                     {point.agendaSubject.substr(0, 10)}

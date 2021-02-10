@@ -7,7 +7,7 @@ import {
 	participantIsBlocked,
 	canUnblockParticipant
 } from '../../../../utils/CBX';
-import { unbanParticipant, changeRequestWord } from '../../../../queries';
+import { unbanParticipant as unbanParticipantMutation, changeRequestWord } from '../../../../queries';
 
 const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 	const secondary = getSecondary();
@@ -145,7 +145,7 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 };
 
 
-export default graphql(unbanParticipant, {
+export default graphql(unbanParticipantMutation, {
 	name: 'unbanParticipant'
 })(graphql(changeRequestWord, {
 	name: 'changeRequestWord'

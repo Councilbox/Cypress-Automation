@@ -46,7 +46,6 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 		visib: false
 	});
 	const primary = getPrimary();
-	const secondary = getSecondary();
 	const landscape = isLandscape() || window.innerWidth > 700;
 
 	const openSignModal = () => {
@@ -79,8 +78,6 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 		}
 	};
 
-	const showStateMenu = () => !(participant.representatives && participant.representatives.length > 0);
-
 	const handleToggleVisib = () => {
 		const visib = !state.visib;
 		setState({
@@ -92,9 +89,11 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 		return <LoadingSection />;
 	}
 
-	let participant = { ...data.liveParticipant };
+	const participant = { ...data.liveParticipant };
 	participant.representing = participant.delegatedVotes.find(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
 	participant.delegatedVotes = participant.delegatedVotes.filter(vote => vote.state !== PARTICIPANT_STATES.REPRESENTATED);
+
+	const showStateMenu = () => !(participant.representatives && participant.representatives.length > 0);
 
 	return (
 		<div
@@ -158,10 +157,10 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 												{showStateMenu()
 													&& <ParticipantStateList
 														participant={participant}
-														council={council}
+														council={props.council}
 														translate={translate}
 														inDropDown={true}
-														refetch={refetch}
+														refetch={data.refetch}
 													/>
 												}
 											</div>
@@ -273,7 +272,6 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 										translate={translate}
 										participants={[participant.representing]}
 										enableActions
-										quitDelegatedVote={removeDelegatedVote}
 										primary={primary}
 									/>
 								</GridItem>
@@ -289,7 +287,6 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 										translate={translate}
 										participants={participant.delegatedVotes}
 										enableActions
-										quitDelegatedVote={removeDelegatedVote}
 										primary={primary}
 									/>
 								</GridItem>

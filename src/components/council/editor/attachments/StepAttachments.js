@@ -6,19 +6,22 @@ import {
 	BasicButton,
 	ButtonIcon,
 	ErrorAlert,
-	FileUploadButton,
 	Grid,
 	GridItem,
 	LoadingSection,
 	ProgressBar,
 	DropDownMenu
 } from '../../../../displayComponents/index';
-import upload from '../../../../assets/img/upload.png';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import { MAX_FILE_SIZE } from '../../../../constants';
 import AttachmentList from '../../../attachments/AttachmentList';
 import { formatSize, showAddCouncilAttachment } from '../../../../utils/CBX';
-import { addCouncilAttachment, councilStepFour, removeCouncilAttachment, updateCouncil } from '../../../../queries';
+import {
+	addCouncilAttachment,
+	councilStepFour,
+	removeCouncilAttachment as removeCouncilAttachmentMutation,
+	updateCouncil as updateCouncilMutation
+} from '../../../../queries';
 import EditorStepLayout from '../EditorStepLayout';
 import CompanyDocumentsBrowser from '../../../company/drafts/documents/CompanyDocumentsBrowser';
 import withSharedProps from '../../../../HOCs/withSharedProps';
@@ -49,18 +52,18 @@ const StepAttachments = ({ client, translate, ...props }) => {
 		setData(response.data);
 		const { attachments } = response.data.council;
 
-		let totalSize = 0;
+		let size = 0;
 		if (attachments.length !== 0) {
 			if (attachments.length > 1) {
-				totalSize = attachments.reduce(
+				size = attachments.reduce(
 					(a, b) => a + +b.filesize / 1000,
 					0
 				);
 			} else {
-				totalSize = attachments[0].filesize / 1000;
+				size = attachments[0].filesize / 1000;
 			}
 		}
-		setTotalSize(totalSize);
+		setTotalSize(size);
 		setLoading(false);
 	}, [props.councilID]);
 
@@ -70,7 +73,7 @@ const StepAttachments = ({ client, translate, ...props }) => {
 
 
 	const addCompanyDocumentCouncilAttachment = async id => {
-		const response = await client.mutate({
+		await client.mutate({
 			mutation: gql`
 				mutation AttachCompanyDocumentToCouncil($councilId: Int!, $companyDocumentId: Int!){
 					attachCompanyDocumentToCouncil(councilId: $councilId, companyDocumentId: $companyDocumentId){
@@ -103,12 +106,12 @@ const StepAttachments = ({ client, translate, ...props }) => {
 		const reader = new FileReader();
 		reader.readAsBinaryString(file);
 
-		reader.onload = async event => {
+		reader.onload = async loadEvent => {
 			const fileInfo = {
 				filename: file.name,
 				filetype: file.type,
-				filesize: event.loaded,
-				base64: btoa(event.target.result),
+				filesize: loadEvent.loaded,
+				base64: btoa(loadEvent.target.result),
 				councilId: props.councilID
 			};
 
@@ -290,7 +293,7 @@ const StepAttachments = ({ client, translate, ...props }) => {
 
 					{loading ?
 							<LoadingSection />
-						:						attachments.length > 0 && (
+						:	attachments.length > 0 && (
 							<AttachmentList
 								attachments={attachments}
 								refetch={getData}
@@ -369,11 +372,11 @@ export default compose(
 		name: 'addAttachment'
 	}),
 
-	graphql(updateCouncil, {
+	graphql(updateCouncilMutation, {
 		name: 'updateCouncil'
 	}),
 
-	graphql(removeCouncilAttachment, {
+	graphql(removeCouncilAttachmentMutation, {
 		name: 'removeCouncilAttachment'
 	})
 )(StepAttachments);

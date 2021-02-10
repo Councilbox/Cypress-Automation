@@ -10,7 +10,7 @@ import ActPointInfoDisplay from './act/ActPointInfoDisplay';
 import { BasicButton, Grid, GridItem, TextInput } from '../../../displayComponents';
 import { getSecondary, secondary, getPrimary } from '../../../styles/colors';
 import AgendaDetailsTabs from './AgendaDetailsTabs';
-import { updateAgenda } from '../../../queries/agenda';
+import { updateAgenda as updateAgendaMutation } from '../../../queries/agenda';
 import ToolTip from '../../../displayComponents/Tooltip';
 import PointEditor from '../editor/agenda/modals/PointEditor';
 import CustomPointEditor from '../editor/agenda/modals/CustomPointEditor';
@@ -340,7 +340,7 @@ const EditTitlePoint = ({ title, translate, setPointNameEditor, updateAgenda, ag
 					border: `1px solid${getSecondary()}`,
 					padding: '0px',
 					borderRadius: '4px',
-color: getSecondary(),
+					color: getSecondary(),
 					minHeight: '30px',
 				}}
 				onClick={() => setPointNameEditor(false)}
@@ -353,6 +353,6 @@ color: getSecondary(),
 };
 
 
-export default graphql(updateAgenda, {
+export default graphql(updateAgendaMutation, {
 	name: 'updateAgenda'
 })(AgendaDetailsSection);

@@ -24,9 +24,9 @@ const LoadFromPreviousCouncil = ({ translate, data, council, ...props }) => {
         });
     };
 
-    const showCouncilDetails = council => {
+    const showCouncilDetails = newCouncil => {
         setState({
-            council
+            council: newCouncil
         });
     };
 
@@ -54,7 +54,7 @@ const LoadFromPreviousCouncil = ({ translate, data, council, ...props }) => {
         });
     };
 
-    const _renderBody = () => {
+    const renderBody = () => {
         if (!data.loading && data.councils.length === 0) {
             return <span>{translate.no_celebrated_councils}</span>;
         }
@@ -69,9 +69,9 @@ const LoadFromPreviousCouncil = ({ translate, data, council, ...props }) => {
 
         return (
             <div>
-                {data.councils.list.map(council => (
+                {data.councils.list.map(item => (
                     <Paper
-                        key={`loadFromCouncil_${council.id}`}
+                        key={`loadFromCouncil_${item.id}`}
                         style={{
                             width: '100%',
                             marginBottom: '0.6em',
@@ -80,10 +80,10 @@ const LoadFromPreviousCouncil = ({ translate, data, council, ...props }) => {
                             display: 'flex',
                             justifyContent: 'space-between'
                         }}
-                        onClick={loadFromCouncil(council)}
+                        onClick={loadFromCouncil(item)}
                     >
                         <div className="truncate" style={{ width: '70%' }}>
-                            {council.name}
+                            {item.name}
                         </div>
                         <BasicButton
                             text={translate.read_details}
@@ -91,7 +91,7 @@ const LoadFromPreviousCouncil = ({ translate, data, council, ...props }) => {
                             textStyle={{ color: getSecondary(), fontWeight: '700' }}
                             onClick={event => {
                                 event.stopPropagation();
-                                showCouncilDetails(council);
+                                showCouncilDetails(item);
                             }}
                         />
                     </Paper>
@@ -127,7 +127,7 @@ const LoadFromPreviousCouncil = ({ translate, data, council, ...props }) => {
                     hideAccept={!!state.council || data.loading || (!data.loading && data.councils.length === 0)}
                     buttonAccept={translate.accept}
                     buttonCancel={state.council ? translate.back : translate.cancel}
-                    bodyText={_renderBody()}
+                    bodyText={renderBody()}
                     title={'Cargar una reunión pasada'/* TRADUCCION */}
                 />
             </React.Fragment>
@@ -144,6 +144,14 @@ const loadFromPreviousCouncil = gql`
     }
 `;
 
+const filterCouncilStates = state => (
+    state !== COUNCIL_STATES.CANCELED
+    && state !== COUNCIL_STATES.DRAFT
+    && state !== COUNCIL_STATES.PRECONVENE
+    && state !== COUNCIL_STATES.PREPARING
+    && state !== COUNCIL_STATES.SAVED
+);
+
 export default compose(
     graphql(loadFromPreviousCouncil, { name: 'loadFromPreviousCouncil' }),
     graphql(councils, {
@@ -158,11 +166,3 @@ export default compose(
         })
     })
 )(LoadFromPreviousCouncil);
-
-const filterCouncilStates = state => (
-    state !== COUNCIL_STATES.CANCELED
-    && state !== COUNCIL_STATES.DRAFT
-    && state !== COUNCIL_STATES.PRECONVENE
-    && state !== COUNCIL_STATES.PREPARING
-    && state !== COUNCIL_STATES.SAVED
-);

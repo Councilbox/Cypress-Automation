@@ -26,7 +26,6 @@ import ParticipantSelectActions from './ParticipantSelectActions';
 import ResendCredentialsModal from './modals/ResendCredentialsModal';
 import { PARTICIPANT_STATES } from '../../../../constants';
 import SignatureButton from './SignatureButton';
-import { client } from '../../../../containers/App';
 import RemoveDelegationButton from './RemoveDelegationButton';
 import { useParticipantContactEdit } from '../../../../hooks';
 
@@ -35,6 +34,8 @@ import EarlyVotingModal from './EarlyVotingModal';
 const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	const landscape = isLandscape() || window.innerWidth > 700;
 	const participant = { ...data.liveParticipant };
+
+	const showStateMenu = () => !(participant.representatives && participant.representatives.length > 0);
 
 	const refreshEmailStates = async () => {
 		const response = await props.updateParticipantSends({
@@ -56,10 +57,6 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 		}
 		return () => clearInterval(interval);
 	}, [participant.id]);
-
-
-	const showStateMenu = () => !(participant.representatives && participant.representatives.length > 0);
-
 
 	if (!data.liveParticipant) {
 		return <LoadingSection />;
@@ -439,7 +436,7 @@ const setMainRepresentative = gql`
 }`;
 
 
-const GrantVoteButton = ({ participant, representative, refetch, translate }) => {
+const GrantVoteButton = withApollo(({ participant, representative, refetch, translate, client }) => {
 	const secondary = getSecondary();
 
 	const appointRepresentative = async () => {
@@ -466,7 +463,7 @@ const GrantVoteButton = ({ participant, representative, refetch, translate }) =>
 			buttonStyle={{ border: `1px solid ${secondary}` }}
 		/>
 	);
-};
+});
 
 export default compose(
 	graphql(liveParticipant, {

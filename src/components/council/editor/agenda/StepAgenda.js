@@ -10,9 +10,8 @@ import {
 	LoadingSection,
 	AlertConfirm
 } from '../../../../displayComponents/index';
-import { councilStepThree, updateCouncil } from '../../../../queries';
-import { removeAgenda } from '../../../../queries/agenda';
-
+import { councilStepThree, updateCouncil as updateCouncilMutation } from '../../../../queries';
+import { removeAgenda as removeAgendaMutation } from '../../../../queries/agenda';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import NewAgendaPointModal from './modals/NewAgendaPointModal';
 import PointEditor from './modals/PointEditor';
@@ -55,12 +54,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 
-	React.useEffect(() => {
-		getData();
-	}, [props.councilID]);
-
-
-	const getData = async () => {
+	const getData = React.useCallback(async () => {
 		setLoading(true);
 		const response = await client.query({
 			query: councilStepThree,
@@ -75,8 +69,11 @@ const StepAgenda = ({ client, translate, ...props }) => {
 		}
 
 		setLoading(false);
-	};
+	}, [props.councilID]);
 
+	React.useEffect(() => {
+		getData();
+	}, [getData]);
 
 	const updateCouncil = async step => {
 		setState({ loading: true });
@@ -135,13 +132,6 @@ const StepAgenda = ({ client, translate, ...props }) => {
 		}
 	};
 
-	const nextPage = async () => {
-		if (data.council.statute.canAddPoints === 1 || checkConditions()) {
-			await updateCouncil(4);
-			props.nextStep();
-		}
-	};
-
 	const checkConditions = () => {
 		const { errors } = state;
 		const { agendas } = data.council;
@@ -149,13 +139,20 @@ const StepAgenda = ({ client, translate, ...props }) => {
 		if (agendas.length !== 0) {
 			return true;
 		}
-			setState({
-				errors: {
-					...errors,
-					emptyAgendas: translate.required_agendas
-				}
-			});
-			return false;
+		setState({
+			errors: {
+				...errors,
+				emptyAgendas: translate.required_agendas
+			}
+		});
+		return false;
+	};
+
+	const nextPage = async () => {
+		if (data.council.statute.canAddPoints === 1 || checkConditions()) {
+			await updateCouncil(4);
+			props.nextStep();
+		}
 	};
 
 	const previousPage = async () => {
@@ -506,7 +503,7 @@ export const AddAgendaPoint = ({
 					color={primary}
 					id={'newPuntoDelDiaOrdenDelDiaNew'}
 					loading={false}
-					{...(Component ? (Component = { Component }) : {})}
+					{...(Component ? ({ Component }) : {})}
 					text={
 						<div style={{ display: 'flex', alignItems: 'center' }}>
 							<div>{translate.add_agenda_point}</div>
@@ -621,15 +618,15 @@ export const AddAgendaPoint = ({
 			) : Component ? (
 				<Component onClick={showYesNoModal} />
 			) : (
-						<BasicButton
-							text={translate.add_agenda_point}
-							color={primary}
-							onClick={showYesNoModal}
-							textStyle={buttonStyle}
-							icon={<ButtonIcon type="add" color="white" />}
-							textPosition="after"
-						/>
-					)}
+				<BasicButton
+					text={translate.add_agenda_point}
+					color={primary}
+					onClick={showYesNoModal}
+					textStyle={buttonStyle}
+					icon={<ButtonIcon type="add" color="white" />}
+					textPosition="after"
+				/>
+			)}
 			{state.yesNoModal && (
 				<NewAgendaPointModal
 					translate={translate}
@@ -686,6 +683,6 @@ export const AddAgendaPoint = ({
 };
 
 export default compose(
-	graphql(removeAgenda, { name: 'removeAgenda' }),
-	graphql(updateCouncil, { name: 'updateCouncil' })
+	graphql(removeAgendaMutation, { name: 'removeAgenda' }),
+	graphql(updateCouncilMutation, { name: 'updateCouncil' })
 )(withApollo(StepAgenda));

@@ -36,7 +36,7 @@ const removeCouncilDelegateMutation = gql`
     }
 `;
 
-const DelegationRestriction = ({ translate, council, client, fullScreen, ...props }) => {
+const DelegationRestriction = ({ translate, council, client, fullScreen }) => {
     const [participants, setParticipants] = React.useState([]);
     const [modal, setModal] = React.useState(false);
     const [selectedIds, setselectedIds] = React.useState(new Map());
@@ -129,7 +129,7 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
     }, [getData]);
 
 
-    const _renderBody = () => {
+    const renderBody = () => {
         if (!isMobile) {
             return (
                 <div style={{ width: '100%', height: '100%' }}>
@@ -147,7 +147,6 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                                     color={'transparent'}
                                     textStyle={{
                                         color: getPrimary(),
-                                        fontWeight: '700',
                                         fontSize: '0.9em',
                                         textTransform: 'none',
                                         fontWeight: '500',
@@ -170,7 +169,6 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
                                         color={'white'}
                                         textStyle={{
                                             color: primary,
-                                            fontWeight: '700',
                                             fontSize: '0.9em',
                                             textTransform: 'none',
                                             fontWeight: '500',
@@ -313,10 +311,10 @@ const DelegationRestriction = ({ translate, council, client, fullScreen, ...prop
     return (
         fullScreen ?
             <div>
-                {_renderBody()}
+                {renderBody()}
             </div>
             : <div style={{ padding: '1em', paddingLeft: 0, marginTop: '1em', maxWidth: isMobile ? '100%' : '70%' }}>
-                {_renderBody()}
+                {renderBody()}
             </div>
     );
 };
@@ -329,7 +327,6 @@ const Etiqueta = ({ participant, removeCouncilDelegate, openDeleteWarning, counc
                 style={{
                     background: 'white',
                     color: 'black',
-                    fontWeight: '700',
                     fontSize: '0.9em',
                     textTransform: 'none',
                     fontWeight: '500',
@@ -356,7 +353,6 @@ const Etiqueta = ({ participant, removeCouncilDelegate, openDeleteWarning, counc
                 style={{
                     background: 'white',
                     color: 'black',
-                    fontWeight: '700',
                     fontSize: '0.9em',
                     textTransform: 'none',
                     fontWeight: '500',

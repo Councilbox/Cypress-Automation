@@ -4,8 +4,6 @@ import { graphql } from 'react-apollo';
 import { AlertConfirm } from '../../../../../displayComponents';
 import CustomPointForm from './CustomPointForm';
 import { checkRepeatedItemValue } from '../../../../../utils/CBX';
-import { INPUT_REGEX } from '../../../../../constants';
-
 
 const defaultPollOptions = {
     writeIn: false,
@@ -25,7 +23,7 @@ export const useValidateAgenda = (translate, setErrors) => (items, options, agen
     const regex = new RegExp('^[a-zA-Z0-9-äÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ ]{0}\.+$');
 
     const newErrors = {
-        items: items.map(item => ({ error: '' }))
+        items: items.map(() => ({ error: '' }))
     };
 
     if (items.length === 0) {

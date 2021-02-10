@@ -20,10 +20,10 @@ import {
 	councilStepSix
 } from '../../../queries';
 import {
-	conveneWithNotice,
-	conveneWithoutNotice,
-	sendConveneTest,
-	sendPreConvene
+	conveneWithNotice as conveneWithNoticeMutation,
+	conveneWithoutNotice as conveneWithoutNoticeMutation,
+	sendConveneTest as sendConveneTestMutation,
+	sendPreConvene as sendPreConveneMutation
 } from '../../../queries/council';
 import { bHistory, moment } from '../../../containers/App';
 import * as CBX from '../../../utils/CBX';
@@ -78,6 +78,50 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 	React.useEffect(() => {
 		getData();
 	}, [getData]);
+
+	const checkInvalidDates = () => {
+		let hasError = false;
+		const newErrors = {};
+		const { council } = data;
+
+		if (council.councilType === 2 || council.councilType === 3) {
+			if (!council.dateStart) {
+				hasError = true;
+				newErrors.dateStart = {
+					message: translate.required_field,
+					action: () => props.goToPage(1)
+				};
+			}
+			if (!council.closeDate) {
+				hasError = true;
+				newErrors.closeDate = {
+					message: translate.required_field,
+					action: () => props.goToPage(5)
+				};
+			}
+
+			if (council.dateStart && council.closeDate) {
+				if (CBX.checkSecondDateAfterFirst(council.dateStart, new Date())) {
+					hasError = true;
+					newErrors.dateStart = {
+						message: 'La fecha de comienzo es posterior a la actual, por favor actualice el valor', // TRADUCCION
+						action: () => props.goToPage(1)
+					};
+				}
+				if (!CBX.checkSecondDateAfterFirst(council.dateStart, council.closeDate)) {
+					hasError = true;
+					newErrors.closeDate = {
+						message: 'La fecha de fin no puede ser anterior a la de comienzo, por favor corrija ese valor', // TRADUCCION
+						action: () => props.goToPage(5)
+					};
+				}
+			}
+		}
+
+		setErrors(newErrors);
+
+		return hasError;
+	};
 
 	const conveneWithNotice = async () => {
 		const { __typename, selectedCensusId, ...council } = data.council;
@@ -182,50 +226,6 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 		setErrors({});
 	};
 
-	const checkInvalidDates = () => {
-		let hasError = false;
-		const errors = {};
-		const { council } = data;
-
-		if (council.councilType === 2 || council.councilType === 3) {
-			if (!council.dateStart) {
-				hasError = true;
-				errors.dateStart = {
-					message: translate.required_field,
-					action: () => props.goToPage(1)
-				};
-			}
-			if (!council.closeDate) {
-				hasError = true;
-				errors.closeDate = {
-					message: translate.required_field,
-					action: () => props.goToPage(5)
-				};
-			}
-
-			if (council.dateStart && council.closeDate) {
-				if (CBX.checkSecondDateAfterFirst(council.dateStart, new Date())) {
-					hasError = true;
-					errors.dateStart = {
-						message: 'La fecha de comienzo es posterior a la actual, por favor actualice el valor', // TRADUCCION
-						action: () => props.goToPage(1)
-					};
-				}
-				if (!CBX.checkSecondDateAfterFirst(council.dateStart, council.closeDate)) {
-					hasError = true;
-					errors.closeDate = {
-						message: 'La fecha de fin no puede ser anterior a la de comienzo, por favor corrija ese valor', // TRADUCCION
-						action: () => props.goToPage(5)
-					};
-				}
-			}
-		}
-
-		setErrors(errors);
-
-		return hasError;
-	};
-
 	const sendConveneWithoutNotice = async () => {
 		if (!checkInvalidDates()) {
 			setLoading(true);
@@ -256,7 +256,7 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 		}
 	};
 
-	const _renderPreConveneModalBody = () => {
+	const renderPreConveneModalBody = () => {
 		if (state.preConveneSuccess) {
 			return <SuccessMessage message={translate.sent} />;
 		}
@@ -268,17 +268,18 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 		);
 	};
 
-	const _renderSendConveneWithoutNoticeBody = () => <div>{translate.new_save_convene}</div>;
-
-	const _renderErrorModalBody = () => {
+	const renderErrorModalBody = () => {
 		if (Object.keys(errors).length === 0) {
 			return <div />;
 		}
 
 		return (
 			<div>
-				{Object.keys(errors).map(key => (
-					<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+				{Object.keys(errors).map((key, index) => (
+					<div
+						style={{ display: 'flex', justifyContent: 'space-between' }}
+						key={`error_${index}`}
+					>
 						<div>{errors[key].message}</div>
 						<BasicButton
 							onClick={errors[key].action}
@@ -292,8 +293,7 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 		);
 	};
 
-	function _renderConveneTestModalBody() {
-		const { data, errors } = state;
+	function renderConveneTestModalBody() {
 		const texts = CBX.removeHTMLTags(translate.send_convene_test_email_modal_text).split('.');
 
 		if (state.conveneTestSuccess) {
@@ -366,7 +366,7 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 								: translate.send
 						}
 						buttonCancel={translate.close}
-						bodyText={_renderConveneTestModalBody()}
+						bodyText={renderConveneTestModalBody()}
 						title={translate.send_test_convene}
 					/>
 					<AlertConfirm
@@ -381,7 +381,7 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 						buttonAccept={translate.send}
 						hideAccept={state.preConveneSuccess}
 						buttonCancel={translate.close}
-						bodyText={_renderPreConveneModalBody()}
+						bodyText={renderPreConveneModalBody()}
 						title={translate.send_preconvene}
 					/>
 					<AlertConfirm
@@ -389,7 +389,7 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 						open={Object.keys(errors).length > 0}
 						acceptAction={resetErrors}
 						buttonAccept={translate.accept}
-						bodyText={_renderErrorModalBody()}
+						bodyText={renderErrorModalBody()}
 						title={translate.warning}
 					/>
 					<AlertConfirm
@@ -590,19 +590,19 @@ const StepPreview = ({ translate, company, client, dateStart, ...props }) => {
 
 
 export default compose(
-	graphql(conveneWithNotice, {
+	graphql(conveneWithNoticeMutation, {
 		name: 'conveneWithNotice'
 	}),
 
-	graphql(sendConveneTest, {
+	graphql(sendConveneTestMutation, {
 		name: 'sendConveneTest'
 	}),
 
-	graphql(sendPreConvene, {
+	graphql(sendPreConveneMutation, {
 		name: 'sendPreConvene'
 	}),
 
-	graphql(conveneWithoutNotice, {
+	graphql(conveneWithoutNoticeMutation, {
 		name: 'conveneWithoutNotice',
 		options: {
 			errorPolicy: 'all'

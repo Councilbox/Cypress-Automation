@@ -42,10 +42,9 @@ const EarlyVotingModal = props => {
     );
 };
 
-const EarlyVotingBody = withApollo(({ council, participant, translate, client, ...props }) => {
+const EarlyVotingBody = withApollo(({ council, participant, translate, client }) => {
     const [data, setData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
-    const [loadingVote, setLoadingVote] = React.useState(false);
 
     const getData = async () => {
         const response = await client.query({
@@ -117,7 +116,6 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
     };
 
     const setVotingRightDenied = async agendaId => {
-        setLoadingVote(agendaId);
         await client.mutate({
             mutation: gql`
                 mutation SetVotingRightDenied($participantId: Int!, $agendaId: Int!){
@@ -131,12 +129,10 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                 agendaId
             }
         });
-        setLoadingVote(null);
         getData();
     };
 
     const setEarlyVote = async (agendaId, value) => {
-        setLoadingVote(agendaId);
         await client.mutate({
             mutation: gql`
                 mutation SetEarlyVote($participantId: Int!, $agendaId: Int!, $value: Int!){
@@ -151,8 +147,6 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
                 value
             }
         });
-
-        setLoadingVote(null);
         getData();
     };
 
@@ -303,14 +297,13 @@ const EarlyVotingBody = withApollo(({ council, participant, translate, client, .
 
                     const selections = point.items.reduce((acc, curr) => {
                         if (getProxyVote(point.id, curr.id, true)) {
-                            acc++;
-                            return acc;
+                            const newValue = acc + 1;
+                            return newValue;
                         }
                         return acc;
                     }, 0);
 
                     const getRemainingOptions = () => {
-                        console.log(selections);
                         if (((point.options.minSelections - selections) < 0)) {
                             return point.options.minSelections;
                         }

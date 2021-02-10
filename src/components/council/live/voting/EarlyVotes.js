@@ -1,11 +1,11 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
-import { TableRow, TableCell, withStyles, Card, CardContent, Tooltip } from 'material-ui';
+import { TableRow, TableCell, Tooltip } from 'material-ui';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import { PARTICIPANT_STATES, AGENDA_TYPES } from '../../../../constants';
-import { Table, PaginationFooter } from '../../../../displayComponents';
-import { showNumParticipations, getPercentage } from '../../../../utils/CBX';
+import { Table } from '../../../../displayComponents';
+import { showNumParticipations, getPercentage, filterDelegatedVotes, hasRightToVote } from '../../../../utils/CBX';
 import VotingValueIcon from './VotingValueIcon';
 import { isMobile } from '../../../../utils/screen';
 
@@ -113,7 +113,7 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
 				</span>
                 <React.Fragment>
 					{!!vote.author.delegatedVotes
-						&& vote.author.delegatedVotes.filter(vote => vote.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
+						&& vote.author.delegatedVotes.filter(item => item.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
 							<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
                                 <br/>
 								{`${delegatedVote.name} ${delegatedVote.surname || ''} ${delegatedVote.position ? ` - ${delegatedVote.position}` : ''} (Ha delegado su voto) ${isMobile ? ` - ${showNumParticipations(delegatedVote.numParticipations, props.company)} ` : ''}`}
@@ -165,7 +165,7 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
                 {earlyVotes.map(vote => (
                     <TableRow key={`vote_${vote.id}`}>
                         <TableCell style={{ fontSize: '0.95em' }}>
-                            {vote.author.numParticipations === 0 && vote.represented && vote.represented[0].author.numParticipations === 0 ?
+                            {(!hasRightToVote(vote.author) && vote.represented && !hasRightToVote(vote.represented[0].author)) ?
                                 '-'
                                 : <div
                                     style={{
@@ -188,18 +188,18 @@ const EarlyVotes = ({ agenda, translate, client, ...props }) => {
                             {renderParticipantInfo(vote)}
                         </TableCell>
                         <TableCell style={{ fontSize: '0.95em' }}>
-                            {vote.numParticipations === 0 ?
+                            {!hasRightToVote(vote) ?
                                 translate.cant_vote_this_point
                             : <>
-                                    {(vote.author.numParticipations > 0 ? `${showNumParticipations(vote.author.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.author.numParticipations)}` : 0)}
+                                    {(hasRightToVote(vote.author) ? `${showNumParticipations(vote.author.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.author.numParticipations)}` : 0)}
                                     {(vote.author.state == PARTICIPANT_STATES.REPRESENTATED)
                                         && <>
                                             <br/>
-                                            {vote.author.representative.numParticipations > 0 ? `${showNumParticipations(vote.author.representative.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.author.representative.numParticipations)}` : '-'}
+                                            {hasRightToVote(vote.author.representative) ? `${showNumParticipations(vote.author.representative.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.author.representative.numParticipations)}` : '-'}
                                         </>
                                     }
                                     {!!vote.author.delegatedVotes
-                                        && vote.author.delegatedVotes.filter(vote => vote.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
+                                        && vote.author.delegatedVotes.filter(filterDelegatedVotes).map(delegatedVote => (
                                             <React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
                                                 <br/>
                                                 {`${showNumParticipations(delegatedVote.numParticipations, props.company, props.council.statute)} ${printPercentage(delegatedVote.numParticipations)}`}

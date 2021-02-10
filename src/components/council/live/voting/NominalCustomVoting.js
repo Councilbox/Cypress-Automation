@@ -4,7 +4,7 @@ import { getSecondary } from '../../../../styles/colors';
 import CustomPointVotingMenu from '../../../participant/agendas/CustomPointVotingMenu';
 import { isMobile } from '../../../../utils/screen';
 
-const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, council, ...props }) => {
+const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, council }) => {
     const [modal, setModal] = React.useState(false);
     const secondary = getSecondary();
 
@@ -17,16 +17,16 @@ const NominalCustomVoting = ({ translate, agendaVoting, agenda, refetch, council
     };
 
     const renderVotingMenu = () => (
-            <div style={{ width: '600px' }}>
-                <CustomPointVotingMenu
-                    agenda={agenda}
-                    translate={translate}
-                    refetch={refetch}
-                    council={council}
-                    ownVote={agendaVoting}
-                />
-            </div>
-        );
+        <div style={{ width: '600px' }}>
+            <CustomPointVotingMenu
+                agenda={agenda}
+                translate={translate}
+                refetch={refetch}
+                council={council}
+                ownVote={agendaVoting}
+            />
+        </div>
+    );
 
     return (
         <div>
@@ -80,8 +80,16 @@ export const DisplayVoting = ({ ballots, translate, items = [] }) => {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', marginTop: isMobile ? '0.6em' : 'inherit' }}>
             {isMobile && 'Selección:'}
-            {ballots.map(ballot => (
-                <div className="truncate" style={{ marginTop: '0.3em', maxWidth: '20em', fontWeight: isMobile ? '700' : '400', whiteSpace: 'pre-wrap' }}>
+            {ballots.map((ballot, index) => (
+                <div
+                    key={`ballot_${index}`}
+                    className="truncate"
+                    style={{
+                        marginTop: '0.3em',
+                        maxWidth: '20em',
+                        fontWeight: isMobile ? '700' : '400',
+                        whiteSpace: 'pre-wrap'
+                    }}>
                     {getVoteValueText(ballot)}
                 </div>
             ))}

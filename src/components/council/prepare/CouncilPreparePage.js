@@ -44,8 +44,6 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 	});
 	const config = React.useContext(ConfigContext);
 	const [selecteReuniones, setSelecteReuniones] = React.useState(translate.convene);
-	const [selectComponent, setSelectComponent] = React.useState({});
-
 	const primary = getPrimary();
 	const secondary = getSecondary();
 
@@ -101,12 +99,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 			});
 		}
 
-		const tabsListNames = [];
-		tabs.map(item => {
-			tabsListNames.push(item.text);
-		});
-
-		return tabsListNames;
+		return tabs.map(item => item.text);
 	};
 
 	return (

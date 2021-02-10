@@ -1,6 +1,5 @@
 import React from 'react';
-import { Paper } from 'material-ui';
-import { BasicButton, Checkbox, Scrollbar } from '../../../../displayComponents';
+import { Checkbox, Scrollbar } from '../../../../displayComponents';
 import aviso from '../../../../assets/img/aviso.svg';
 import { getPrimary } from '../../../../styles/colors';
 

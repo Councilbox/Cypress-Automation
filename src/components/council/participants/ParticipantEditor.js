@@ -14,6 +14,17 @@ import ParticipantForm from './ParticipantForm';
 import { checkValidEmail, errorHandler } from '../../../utils';
 import { updateCouncilParticipant } from '../../../queries/councilParticipant';
 
+const newRepresentativeInitialValues = {
+	language: 'es',
+	personOrEntity: 0,
+	name: '',
+	surname: '',
+	position: '',
+	dni: '',
+	email: '',
+	phone: ''
+};
+
 class ParticipantEditor extends Component {
 	updateParticipantData = object => {
 		this.setState({
@@ -36,6 +47,7 @@ class ParticipantEditor extends Component {
 			};
 
 			if (this.state.addRepresentative) {
+				// eslint-disable-next-line no-shadow
 				const { __typename, ...representative } = this.state.data;
 				variables.representative = representative;
 			}
@@ -218,7 +230,7 @@ class ParticipantEditor extends Component {
 		return hasError;
 	}
 
-	_renderRepresentativeCheckbox() {
+	renderRepresentativeCheckbox() {
 		return (
 			<Grid>
 				<GridItem xs={12} lg={12} md={12}>
@@ -233,7 +245,7 @@ class ParticipantEditor extends Component {
 		);
 	}
 
-	_renderAddParticipantButtons() {
+	renderAddParticipantButtons() {
 		const { translate } = this.props;
 		const primary = getPrimary();
 
@@ -306,7 +318,7 @@ class ParticipantEditor extends Component {
 							/>
 						}
 					</Paper>
-					{this._renderRepresentativeCheckbox()}
+					{this.renderRepresentativeCheckbox()}
 					{this.state.addRepresentative && (
 						<Paper
 							style={{
@@ -325,7 +337,7 @@ class ParticipantEditor extends Component {
 							}
 						</Paper>
 					)}
-					{this._renderAddParticipantButtons()}
+					{this.renderAddParticipantButtons()}
 				</Grid>
 			</Fragment>
 		);
@@ -335,14 +347,3 @@ class ParticipantEditor extends Component {
 export default graphql(updateCouncilParticipant, {
 	name: 'updateCouncilParticipant'
 })(ParticipantEditor);
-
-const newRepresentativeInitialValues = {
-	language: 'es',
-	personOrEntity: 0,
-	name: '',
-	surname: '',
-	position: '',
-	dni: '',
-	email: '',
-	phone: ''
-};

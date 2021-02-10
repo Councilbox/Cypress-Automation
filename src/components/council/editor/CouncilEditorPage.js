@@ -12,7 +12,7 @@ import { checkCouncilState } from '../../../utils/CBX';
 import EditorStepper from './EditorStepper';
 
 
-const CouncilEditorPage = ({ council, translate, company, ...props }) => {
+const CouncilEditorPage = ({ council, translate, company }) => {
 	const [step, setStep] = React.useState(council.step);
 	const actualStep = React.useRef(council.step);
 

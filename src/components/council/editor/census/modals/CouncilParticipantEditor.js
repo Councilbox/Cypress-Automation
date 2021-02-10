@@ -3,7 +3,7 @@ import { compose, graphql, withApollo } from 'react-apollo';
 import { Card } from 'material-ui';
 import { AlertConfirm } from '../../../../../displayComponents/index';
 import { updateCouncilParticipant, checkUniqueCouncilEmails } from '../../../../../queries/councilParticipant';
-import { languages } from '../../../../../queries/masters';
+import { languages as languagesQuery } from '../../../../../queries/masters';
 import ParticipantForm from '../../../participants/ParticipantForm';
 import {
 	checkRequiredFieldsParticipant,
@@ -14,6 +14,24 @@ import RepresentativeForm from '../../../../company/census/censusEditor/Represen
 import withSharedProps from '../../../../../HOCs/withSharedProps';
 import SelectRepresentative from './SelectRepresentative';
 import { COUNCIL_TYPES } from '../../../../../constants';
+
+function extractTypeName(object) {
+	const { __typename, ...rest } = object;
+	return rest;
+}
+
+const initialRepresentative = {
+	hasRepresentative: false,
+	language: 'es',
+	initialState: 0,
+	type: 2,
+	name: '',
+	surname: '',
+	position: '',
+	email: '',
+	phone: '',
+	dni: ''
+};
 
 class CouncilParticipantEditor extends React.Component {
 	state = {
@@ -26,6 +44,7 @@ class CouncilParticipantEditor extends React.Component {
 	};
 
 	updateParticipantData() {
+		// eslint-disable-next-line prefer-const
 		let { representative, representatives, representing, ...participant } = extractTypeName(
 			this.props.participant
 		);
@@ -215,11 +234,11 @@ class CouncilParticipantEditor extends React.Component {
 
 					if (!response.data.checkUniqueCouncilEmails.success) {
 						const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
-						data.duplicatedEmails.forEach(email => {
-							if (this.state.data.email === email) {
+						data.duplicatedEmails.forEach(duplicatedEmail => {
+							if (this.state.data.email === duplicatedEmail) {
 								error = translate.register_exists_email;
 							}
-							if (this.state.representative.email === email) {
+							if (this.state.representative.email === duplicatedEmail) {
 								error = translate.register_exists_email;
 							}
 						});
@@ -255,7 +274,7 @@ class CouncilParticipantEditor extends React.Component {
 		}, 400);
 	}
 
-	_renderBody() {
+	renderBody() {
 		const participant = this.state.data;
 		const { representative, errors, representativeErrors } = this.state;
 		const { translate, participations } = this.props;
@@ -266,9 +285,9 @@ class CouncilParticipantEditor extends React.Component {
 					open={this.state.selectRepresentative}
 					council={this.props.council}
 					translate={translate}
-					updateRepresentative={representative => {
+					updateRepresentative={repre => {
 						this.updateRepresentative({
-							...representative,
+							...repre,
 							hasRepresentative: true
 						});
 					}}
@@ -329,7 +348,7 @@ class CouncilParticipantEditor extends React.Component {
 					acceptAction={this.updateCouncilParticipant}
 					buttonAccept={translate.accept}
 					buttonCancel={translate.cancel}
-					bodyText={this._renderBody()}
+					bodyText={this.renderBody()}
 					title={translate.edit_participant}
 				/>
 			</React.Fragment>
@@ -344,24 +363,7 @@ export default compose(
 			errorPolicy: 'all'
 		}
 	}),
-	graphql(languages),
+	graphql(languagesQuery),
 	withSharedProps()
 )(withApollo(CouncilParticipantEditor));
 
-const initialRepresentative = {
-	hasRepresentative: false,
-	language: 'es',
-	initialState: 0,
-	type: 2,
-	name: '',
-	surname: '',
-	position: '',
-	email: '',
-	phone: '',
-	dni: ''
-};
-
-function extractTypeName(object) {
-	const { __typename, ...rest } = object;
-	return rest;
-}

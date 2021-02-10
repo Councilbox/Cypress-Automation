@@ -3,11 +3,11 @@ import { compose, graphql } from 'react-apollo';
 import FontAwesome from 'react-fontawesome';
 import { Tooltip } from 'material-ui';
 import { toast } from 'react-toastify';
-import { closeAgenda, openAgenda, openActPoint } from '../../../queries';
+import { closeAgenda as closeAgendaMutation, openAgenda as openAgendaMutation, openActPoint } from '../../../queries';
 import { BasicButton, Icon, LiveToast } from '../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import { councilHasSession, getActPointSubjectType } from '../../../utils/CBX';
-import { AGENDA_STATES, COUNCIL_TYPES } from '../../../constants';
+import { AGENDA_STATES } from '../../../constants';
 
 const ToggleAgendaButton = ({ agenda, council, active, translate, ...props }) => {
 	const openAgenda = async () => {
@@ -133,13 +133,13 @@ const ToggleAgendaButton = ({ agenda, council, active, translate, ...props }) =>
 
 
 export default compose(
-	graphql(openAgenda, {
+	graphql(openAgendaMutation, {
 		name: 'openAgenda'
 	}),
 	graphql(openActPoint, {
 		name: 'openActPoint'
 	}),
-	graphql(closeAgenda, {
+	graphql(closeAgendaMutation, {
 		name: 'closeAgenda'
 	})
 )(ToggleAgendaButton);

@@ -56,6 +56,8 @@ export const getPercentage = (num, total, decimals = 3) => {
     return percentage;
 };
 
+export const filterDelegatedVotes = vote => vote.state !== PARTICIPANT_STATES.REPRESENTATED;
+
 export const getActiveVote = agendaVoting => {
 	if (!agendaVoting.fixed) {
 		return agendaVoting;
@@ -669,9 +671,11 @@ export const generateCompanyAdminsText = ({ council, company, list }) => {
 	return labels[governingType] ? labels[governingType]() : labels[0]();
 };
 
-export const checkIfHasVote = attendant => (attendant.numParticipations > 0 || attendant.socialCapital > 0)
+export const hasRightToVote = participant => participant.numParticipations > 0;
+
+export const checkIfHasVote = attendant => (hasRightToVote(attendant) || attendant.socialCapital > 0)
 		|| attendant.delegationsAndRepresentations
-			.filter(item => item.state === PARTICIPANT_STATES.REPRESENTATED && (item.numParticipations > 0 || item.socialCapital > 0)).length > 0;
+			.filter(item => item.state === PARTICIPANT_STATES.REPRESENTATED && (hasRightToVote(item) || item.socialCapital > 0)).length > 0;
 
 export const buildGuestString = ({ guest, council }) => {
 	const inQualityOf = {

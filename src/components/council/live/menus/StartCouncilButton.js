@@ -18,7 +18,7 @@ import { getPrimary } from '../../../../styles/colors';
 import { COUNCIL_TYPES, DELEGATION_USERS_LOAD } from '../../../../constants';
 import { existsQualityVote, councilHasVideo } from '../../../../utils/CBX';
 import ConveneSelector from '../ConveneSelector';
-import { startCouncil } from '../../../../queries/council';
+import { startCouncil as startCouncilMutation } from '../../../../queries/council';
 import { useOldState } from '../../../../hooks';
 import StartCouncilVideoOptions from './StartCouncilVideoOptions';
 
@@ -61,118 +61,6 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 	});
 	const primary = getPrimary();
 
-
-	const wait = async () => new Promise(resolve => {
-			setTimeout(resolve, 3000);
-		});
-
-	const startCouncil = async () => {
-		if (!checkRequiredFields()) {
-			if (state.video.startRecording) {
-				const step = {
-					text: translate.start_recording,
-					status: 'loading'
-				};
-
-				setLoadingSteps(loadingSteps => ({
-					steps: [...loadingSteps.steps, step],
-					status: 'loading'
-				}));
-
-				// await wait();
-
-				await client.mutate({
-					mutation: gql`
-						mutation StartRecording($councilId: Int!){
-							startRecording(councilId: $councilId){
-								success
-								message
-							}
-						}
-					`,
-					variables: {
-						councilId: council.id
-					}
-				});
-
-				step.status = 'done';
-				setLoadingSteps(loadingSteps => ({
-					steps: [...loadingSteps.steps],
-					status: 'loading'
-				}));
-			}
-
-			if (state.video.startStreaming) {
-				const step = {
-					text: translate.starting_broadcast,
-					status: 'loading'
-				};
-
-				setLoadingSteps(loadingSteps => ({
-					steps: [...loadingSteps.steps, step],
-					status: 'loading'
-				}));
-
-				// await wait();
-
-				await client.mutate({
-					mutation: gql`
-						mutation StartStreaming($councilId: Int!){
-							startStreaming(councilId: $councilId){
-								success
-								message
-							}
-						}
-					`,
-					variables: {
-						councilId: council.id
-					}
-				});
-
-				step.status = 'done';
-				setLoadingSteps(loadingSteps => ({
-					steps: [...loadingSteps.steps],
-					status: 'loading'
-				}));
-			}
-
-			const step = {
-				text: translate.starting_council,
-				status: 'loading'
-			};
-
-			setLoadingSteps(loadingSteps => ({
-				steps: [...loadingSteps.steps, step],
-				status: 'loading'
-			}));
-
-			// await wait();
-			const { startCouncil } = props;
-			const {
-				presidentId,
-				secretaryId,
-				qualityVoteId,
-				firstOrSecondConvene
-			} = state.data;
-			await startCouncil({
-				variables: {
-					councilId: council.id,
-					presidentId,
-					secretaryId,
-					qualityVoteId,
-					firstOrSecondConvene,
-					videoOptions: state.video
-				}
-			});
-
-			step.status = 'done';
-			setLoadingSteps(loadingSteps => ({
-				steps: [...loadingSteps.steps],
-				status: 'done'
-			}));
-		}
-	};
-
 	const checkRequiredFields = () => {
 		let hasError = false;
 		const errors = {
@@ -203,6 +91,111 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 		});
 
 		return hasError;
+	};
+
+	const startCouncil = async () => {
+		if (!checkRequiredFields()) {
+			if (state.video.startRecording) {
+				const step = {
+					text: translate.start_recording,
+					status: 'loading'
+				};
+
+				setLoadingSteps(items => ({
+					steps: [...items.steps, step],
+					status: 'loading'
+				}));
+
+				// await wait();
+
+				await client.mutate({
+					mutation: gql`
+						mutation StartRecording($councilId: Int!){
+							startRecording(councilId: $councilId){
+								success
+								message
+							}
+						}
+					`,
+					variables: {
+						councilId: council.id
+					}
+				});
+
+				step.status = 'done';
+				setLoadingSteps(items => ({
+					steps: [...items.steps],
+					status: 'loading'
+				}));
+			}
+
+			if (state.video.startStreaming) {
+				const step = {
+					text: translate.starting_broadcast,
+					status: 'loading'
+				};
+
+				setLoadingSteps(items => ({
+					steps: [...items.steps, step],
+					status: 'loading'
+				}));
+
+				// await wait();
+
+				await client.mutate({
+					mutation: gql`
+						mutation StartStreaming($councilId: Int!){
+							startStreaming(councilId: $councilId){
+								success
+								message
+							}
+						}
+					`,
+					variables: {
+						councilId: council.id
+					}
+				});
+
+				step.status = 'done';
+				setLoadingSteps(items => ({
+					steps: [...items.steps],
+					status: 'loading'
+				}));
+			}
+
+			const step = {
+				text: translate.starting_council,
+				status: 'loading'
+			};
+
+			setLoadingSteps(items => ({
+				steps: [...items.steps, step],
+				status: 'loading'
+			}));
+
+			const {
+				presidentId,
+				secretaryId,
+				qualityVoteId,
+				firstOrSecondConvene
+			} = state.data;
+			await props.startCouncil({
+				variables: {
+					councilId: council.id,
+					presidentId,
+					secretaryId,
+					qualityVoteId,
+					firstOrSecondConvene,
+					videoOptions: state.video
+				}
+			});
+
+			step.status = 'done';
+			setLoadingSteps(items => ({
+				steps: [...items.steps],
+				status: 'done'
+			}));
+		}
 	};
 
 	const actionSwitch = () => {
@@ -306,7 +299,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 			</div>
 		);
 
-	const _startCouncilForm = () => {
+	const startCouncilForm = () => {
 		const { loading } = data;
 
 		const participants = loading ? [] : data.councilOfficials.list;
@@ -607,7 +600,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 			/>
 			<AlertConfirm
 				title={translate.start_council}
-				bodyText={_startCouncilForm()}
+				bodyText={startCouncilForm()}
 				open={state.alert}
 				loadingAction={state.loading || loadingSteps.status === 'loading'}
 				buttonAccept={translate.accept}
@@ -641,7 +634,7 @@ const startAutoCouncil = gql`
 
 
 export default compose(
-	graphql(startCouncil, { name: 'startCouncil' }),
+	graphql(startCouncilMutation, { name: 'startCouncil' }),
 	graphql(startAutoCouncil, { name: 'startAutoCouncil' }),
 	withApollo,
 	graphql(councilOfficials, {

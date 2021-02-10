@@ -1,7 +1,7 @@
 import React from 'react';
 import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { closeAgendaVoting, openAgendaVoting } from '../../../queries';
+import { closeAgendaVoting as closeAgendaVotingMutation, openAgendaVoting } from '../../../queries';
 import { BasicButton, ButtonIcon } from '../../../displayComponents';
 import { moment } from '../../../containers/App';
 import { getPrimary } from '../../../styles/colors';
@@ -285,7 +285,7 @@ export default compose(
 		name: 'openHybridVoting'
 	}),
 
-	graphql(closeAgendaVoting, {
+	graphql(closeAgendaVotingMutation, {
 		name: 'closeAgendaVoting'
 	}),
 	graphql(reopenAgendaVoting, {

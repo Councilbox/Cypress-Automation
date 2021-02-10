@@ -5,7 +5,7 @@ import { compose, graphql } from 'react-apollo';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import * as CBX from '../../../../utils/CBX';
 import { CloseIcon, EnhancedTable, BasicButton, Checkbox, Grid, GridItem, AlertConfirm } from '../../../../displayComponents';
-import { deleteParticipant } from '../../../../queries/councilParticipant';
+import { deleteParticipant as deleteParticipantMutation } from '../../../../queries/councilParticipant';
 import { COUNCIL_TYPES, PARTICIPANTS_LIMITS } from '../../../../constants';
 import ChangeCensusMenu from './ChangeCensusMenu';
 import CouncilParticipantEditor from './modals/CouncilParticipantEditor';
@@ -16,7 +16,7 @@ import { isMobile } from '../../../../utils/screen';
 const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, participations, council, ...props }) => {
 	const [state, setState] = useOldState({
 		editingParticipant: false,
-		participant: {},
+		participantToEdit: {},
 		selectedIds: new Map(),
 		deleteModal: false,
 		singleId: null
@@ -76,7 +76,7 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 		}
 	};
 
-	function _renderDeleteIcon(participantID) {
+	function renderDeleteIcon(participantID) {
 		return (
 			<CloseIcon
 				style={{ color: primary }}
@@ -107,7 +107,7 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 		props.refetch();
 	};
 
-	const { editingParticipant, participant } = state;
+	const { editingParticipant, participantToEdit } = state;
 	const { councilParticipants } = data;
 
 	const headers = [
@@ -185,10 +185,10 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 				&& <CouncilParticipantEditor
 					translate={translate}
 					close={closeParticipantEditor}
-					key={participant.id}
+					key={participantToEdit.id}
 					council={council}
 					participations={participations}
-					participant={participant}
+					participant={participantToEdit}
 					opened={editingParticipant}
 					refetch={refresh}
 				/>
@@ -218,7 +218,7 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 						length={councilParticipants.list.length}
 						total={councilParticipants.total}
 						refetch={data.refetch}
-						action={_renderDeleteIcon}
+						action={renderDeleteIcon}
 						fields={[
 							{
 								value: 'fullName',
@@ -244,7 +244,7 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 											participant={participant}
 											editParticipant={() => setState({
 												editingParticipant: true,
-												participant
+												participantToEdit: participant
 											})}
 											select={select}
 											selected={state.selectedIds.has(participant.id)}
@@ -254,7 +254,7 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 											participations={participations}
 											translate={translate}
 											representative={participant.representative}
-											_renderDeleteIcon={() => _renderDeleteIcon(participant.id)}
+											renderDeleteIcon={() => renderDeleteIcon(participant.id)}
 										/>
 									</React.Fragment>
 								)
@@ -267,7 +267,7 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 	);
 };
 
-const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council, totalVotes, totalSocialCapital, representative, selected, translate, participations, ...props }) => {
+const HoverableRow = ({ participant, editParticipant, renderDeleteIcon, council, totalVotes, totalSocialCapital, representative, selected, translate, participations, ...props }) => {
 	const [showActions, rowHandlers] = useHoverRow();
 
 	if (isMobile) {
@@ -344,7 +344,7 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council
 				</Grid>
 				<div style={{ position: 'absolute', top: '5px', right: '5px' }}>
 					{!CBX.isRepresentative(participant)
-						&& _renderDeleteIcon(participant.id)}
+						&& renderDeleteIcon(participant.id)}
 				</div>
 			</Card>
 		);
@@ -445,7 +445,7 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council
 						&& !CBX.isRepresentative(
 							participant
 						)
-							&& _renderDeleteIcon(
+							&& renderDeleteIcon(
 								participant.id
 							)
 					}
@@ -460,5 +460,5 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council
 
 
 export default compose(
-	graphql(deleteParticipant)
+	graphql(deleteParticipantMutation)
 )(ParticipantsTable);

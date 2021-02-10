@@ -6,7 +6,7 @@ import ActAgreements from './ActAgreements';
 import Comments from './Comments';
 import RecountSection from './RecountSection';
 import Votings from './Votings';
-import { AGENDA_TYPES, COUNCIL_TYPES } from '../../../constants';
+import { AGENDA_TYPES } from '../../../constants';
 import AgendaAttachmentsManager from './AgendaAttachmentsManager';
 import PrivateRecountMessage from './voting/PrivateRecountMessage';
 import CustomPointVotingsLive from './voting/CustomPointVotingsLive';
@@ -14,11 +14,12 @@ import { isLandscape, isMobile } from '../../../utils/screen';
 import EarlyVotes from './voting/EarlyVotes';
 import ConfirmationRequestRecount from '../agendas/ConfirmationRequestRecount';
 
-const styles = theme => ({
+const styles = () => ({
     scrollable: {
         overflow: 'hidden'
     }
 });
+
 const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...props }) => {
     const [selected, setSelected] = React.useState(0);
 
@@ -58,11 +59,25 @@ const AgendaDetailsTabs = ({ agenda, translate, council, refetch, classes, ...pr
                 onChange={handleChange}
             >
                 {[
-                    <Tab label={isMobile ? translate.agreements : translate.comments_and_agreements} />,
-                    <Tab label={isMobile ? translate.comments : translate.act_comments} disabled={!CBX.councilStarted(council)} />,
+                    <Tab
+                        label={isMobile ? translate.agreements : translate.comments_and_agreements}
+                        key={translate.comments_and_agreements}
+                    />,
+                    <Tab
+                        label={isMobile ? translate.comments : translate.act_comments}
+                        disabled={!CBX.councilStarted(council)}
+                        key={translate.act_comments}
+                    />,
                     agenda.subjectType !== AGENDA_TYPES.INFORMATIVE
-                        && <Tab label={CBX.isConfirmationRequest(agenda.subjectType) ? translate.answers : translate.voting} disabled={showEarlyVotings}/>,
-                    <Tab label={isMobile ? translate.attachments : translate.attachment_files} />
+                        && <Tab
+                                label={CBX.isConfirmationRequest(agenda.subjectType) ? translate.answers : translate.voting}
+                                disabled={showEarlyVotings}
+                                key={translate.voting}
+                            />,
+                    <Tab
+                        label={isMobile ? translate.attachments : translate.attachment_files}
+                        key={translate.attachment_files}
+                    />
                 ]}
             </Tabs>
             <div style={{ borderTop: '1px solid gainsboro', height: isMobile ? isLandscape() ? '100%' : 'calc(100% - 5em)' : 'calc(100% - 4em)' }}> {/** height: isMobile ? 'calc(100% - 5em)' : 'calc(100% - 4em)' */}

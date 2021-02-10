@@ -8,18 +8,48 @@ import {
 } from '../../../../../displayComponents/index';
 import { getPrimary } from '../../../../../styles/colors';
 import { addParticipant, checkUniqueCouncilEmails } from '../../../../../queries/councilParticipant';
-import { languages } from '../../../../../queries/masters';
+import { languages as languagesQuery } from '../../../../../queries/masters';
 import { checkValidEmail,
 	checkRequiredFieldsParticipant,
 	checkRequiredFieldsRepresentative,
 } from '../../../../../utils/validation';
 import ParticipantForm from '../../../participants/ParticipantForm';
-
 import RepresentativeForm from '../../../../company/census/censusEditor/RepresentativeForm';
 import withSharedProps from '../../../../../HOCs/withSharedProps';
 import SelectRepresentative from './SelectRepresentative';
 import { COUNCIL_TYPES, INPUT_REGEX } from '../../../../../constants';
 
+const initialParticipant = {
+	name: '',
+	surname: '',
+	position: '',
+	email: '',
+	phone: '',
+	dni: '',
+	initialState: 0,
+	type: 0,
+	delegateId: null,
+	numParticipations: 1,
+	socialCapital: 1,
+	uuid: null,
+	delegateUuid: null,
+	language: 'es',
+	city: '',
+	personOrEntity: 0
+};
+
+const initialRepresentative = {
+	hasRepresentative: false,
+	language: 'es',
+	type: 2,
+	initialState: 0,
+	name: '',
+	surname: '',
+	position: '',
+	email: '',
+	phone: '',
+	dni: ''
+};
 
 class AddCouncilParticipantButton extends React.Component {
 	state = {
@@ -71,21 +101,21 @@ class AddCouncilParticipantButton extends React.Component {
 					representativeErrors: {}
 				});
 			} else if (response.errors[0].message === 'Too many granted words') {
-					this.setState({
-						loading: false,
-						...(this.state.data.initialState === 2 ? {
-							errors: {
-								initialState: this.props.translate.initial_granted_word_error
-							}
-						} : {}),
-						...(representative && representative.initialState === 2 ? {
-							representativeErrors: {
-								initialState: this.props.translate.initial_granted_word_error
-							}
-						} : {})
+				this.setState({
+					loading: false,
+					...(this.state.data.initialState === 2 ? {
+						errors: {
+							initialState: this.props.translate.initial_granted_word_error
+						}
+					} : {}),
+					...(representative && representative.initialState === 2 ? {
+						representativeErrors: {
+							initialState: this.props.translate.initial_granted_word_error
+						}
+					} : {})
 
-					});
-				}
+				});
+			}
 		}
 	};
 
@@ -230,11 +260,11 @@ class AddCouncilParticipantButton extends React.Component {
 
 					if (!response.data.checkUniqueCouncilEmails.success) {
 						const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
-						data.duplicatedEmails.forEach(email => {
-							if (this.state.data.email === email) {
+						data.duplicatedEmails.forEach(duplicatedEmail => {
+							if (this.state.data.email === duplicatedEmail) {
 								error = translate.register_exists_email;
 							}
-							if (this.state.representative.email === email) {
+							if (this.state.representative.email === duplicatedEmail) {
 								error = translate.register_exists_email;
 							}
 						});
@@ -270,7 +300,7 @@ class AddCouncilParticipantButton extends React.Component {
 		}, 400);
 	}
 
-	_renderBody() {
+	renderBody() {
 		const participant = this.state.data;
 		const { errors } = this.state;
 		const { translate, participations } = this.props;
@@ -369,7 +399,7 @@ class AddCouncilParticipantButton extends React.Component {
 					acceptAction={this.addParticipant}
 					buttonAccept={translate.accept}
 					buttonCancel={translate.cancel}
-					bodyText={this._renderBody()}
+					bodyText={this.renderBody()}
 					title={translate.add_participant}
 				/>
 			</React.Fragment>
@@ -385,38 +415,7 @@ export default compose(
 			errorPolicy: 'all'
 		}
 	}),
-	graphql(languages),
+	graphql(languagesQuery),
 	withSharedProps()
 )(withApollo(AddCouncilParticipantButton));
 
-const initialParticipant = {
-	name: '',
-	surname: '',
-	position: '',
-	email: '',
-	phone: '',
-	dni: '',
-	initialState: 0,
-	type: 0,
-	delegateId: null,
-	numParticipations: 1,
-	socialCapital: 1,
-	uuid: null,
-	delegateUuid: null,
-	language: 'es',
-	city: '',
-	personOrEntity: 0
-};
-
-const initialRepresentative = {
-	hasRepresentative: false,
-	language: 'es',
-	type: 2,
-	initialState: 0,
-	name: '',
-	surname: '',
-	position: '',
-	email: '',
-	phone: '',
-	dni: ''
-};

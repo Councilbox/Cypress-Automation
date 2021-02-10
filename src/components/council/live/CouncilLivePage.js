@@ -60,7 +60,7 @@ const initScreenSizes = size => {
 };
 
 
-const CouncilLivePage = ({ translate, data, company, ...props }) => {
+const CouncilLivePage = ({ translate, data, company }) => {
 	const [state, setState] = useOldState({
 		tab: data.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ? 'ATTACHMENTS' : 'AGENDA',
 		wall: false,
@@ -138,19 +138,19 @@ const CouncilLivePage = ({ translate, data, company, ...props }) => {
 		}
 	};
 
-	const renderVideoParticipants = () => (
-			<ParticipantsLive
-				councilId={council.id}
-				council={council}
-				videoURL={state.videoURL}
-				translate={translate}
-				videoHeight={state.videoHeight}
-				screenSize={state.screenSize}
-				toggleFullScreen={toggleFullScreen}
-			/>
-		);
-
 	const { council } = data;
+
+	const renderVideoParticipants = () => (
+		<ParticipantsLive
+			councilId={council.id}
+			council={council}
+			videoURL={state.videoURL}
+			translate={translate}
+			videoHeight={state.videoHeight}
+			screenSize={state.screenSize}
+			toggleFullScreen={toggleFullScreen}
+		/>
+	);
 
 	const councilStartedState = () => council.state >= 20 && council.state <= 30;
 

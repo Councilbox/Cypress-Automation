@@ -4,7 +4,7 @@ import { graphql } from 'react-apollo';
 import { AlertConfirm, SelectInput, Grid, GridItem, MajorityInput } from '../../../displayComponents';
 import { filterAgendaVotingTypes, hasVotation, majorityNeedsInput, isCustomPoint } from '../../../utils/CBX';
 import { checkValidMajority } from '../../../utils/validation';
-import { updateAgenda } from '../../../queries/agenda';
+import { updateAgenda as updateAgendaMutation } from '../../../queries/agenda';
 import { CUSTOM_AGENDA_VOTING_TYPES } from '../../../constants';
 import { useOldState } from '../../../hooks';
 
@@ -34,10 +34,10 @@ const PointEditorLive = ({ agenda, translate, council, ...props }) => {
             });
             return;
         }
-        const { majorityError, items, ballots, options, ...agenda } = state;
+        const { majorityError, items, ballots, options, ...rest } = state;
         await props.updateAgenda({
             variables: {
-                agenda
+                agenda: rest
             }
         });
 
@@ -45,7 +45,7 @@ const PointEditorLive = ({ agenda, translate, council, ...props }) => {
         props.requestClose();
     };
 
-    const _renderModalBody = () => {
+    const renderModalBody = () => {
         const filteredTypes = filterAgendaVotingTypes(props.votingTypes, council.statute, council);
 
         if (isCustomPoint(agenda.subjectType)) {
@@ -141,7 +141,7 @@ const PointEditorLive = ({ agenda, translate, council, ...props }) => {
         <AlertConfirm
             open={props.open}
             requestClose={props.requestClose}
-            bodyText={_renderModalBody()}
+            bodyText={renderModalBody()}
             title={translate.edit}
             buttonAccept={translate.save}
             buttonCancel={translate.cancel}
@@ -152,6 +152,6 @@ const PointEditorLive = ({ agenda, translate, council, ...props }) => {
 };
 
 
-export default graphql(updateAgenda, {
+export default graphql(updateAgendaMutation, {
     name: 'updateAgenda'
 })(PointEditorLive);

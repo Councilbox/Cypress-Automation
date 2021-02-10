@@ -20,7 +20,7 @@ class AnnouncementModal extends React.Component {
         errorText: ''
     };
 
-    static getDerivedStateFromProps(nextProps, prevProps) {
+    static getDerivedStateFromProps(nextProps) {
         if (!nextProps.data.loading && nextProps.data.adminAnnouncemment) {
             return {
                 text: nextProps.data.adminAnnouncement.text
@@ -32,7 +32,7 @@ class AnnouncementModal extends React.Component {
 
     addAnnouncement = async () => {
         if (removeHTMLTags(this.state.text.toString()).length <= CHAR_LIMIT) {
-            const response = await this.props.addRoomAnnouncement({
+            await this.props.addRoomAnnouncement({
                 variables: {
                     message: {
                         councilId: this.props.council.id,
@@ -51,7 +51,7 @@ class AnnouncementModal extends React.Component {
     }
 
     closeAnnouncement = async () => {
-        const response = await this.props.closeRoomAnnouncement({
+        await this.props.closeRoomAnnouncement({
             variables: {
                 councilId: this.props.council.id
             }
@@ -60,7 +60,7 @@ class AnnouncementModal extends React.Component {
         this.props.requestClose();
     }
 
-	_renderBody() {
+	renderBody() {
         const { translate } = this.props;
         const primary = getPrimary();
 
@@ -127,9 +127,10 @@ class AnnouncementModal extends React.Component {
                         />
                     </React.Fragment>
                 }
-                children={this._renderBody()}
                 title={translate.show_announcement}
-            />
+            >
+                {this.renderBody()}
+            </CustomDialog>
 		);
 	}
 }
@@ -163,7 +164,7 @@ const closeRoomAnnouncement = gql`
 
 export default compose(
     graphql(addRoomAnnouncement, {
-	    name: 'addRoomAnnouncement'
+        name: 'addRoomAnnouncement'
     }),
     graphql(closeRoomAnnouncement, {
         name: 'closeRoomAnnouncement'

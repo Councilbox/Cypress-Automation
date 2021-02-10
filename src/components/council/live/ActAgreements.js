@@ -2,7 +2,7 @@ import React from 'react';
 import { compose, graphql, withApollo } from 'react-apollo';
 import { toast } from 'react-toastify';
 import gql from 'graphql-tag';
-import { LiveToast, BasicButton } from '../../../displayComponents';
+import { LiveToast } from '../../../displayComponents';
 import RichTextInput from '../../../displayComponents/RichTextInput';
 import { updateAgenda } from '../../../queries/agenda';
 import withSharedProps from '../../../HOCs/withSharedProps';
@@ -10,7 +10,6 @@ import LoadDraftModal from '../../company/drafts/LoadDraftModal';
 import { changeVariablesToValues, checkForUnclosedBraces, hasParticipations, generateGBDecidesText, generateStatuteTag } from '../../../utils/CBX';
 import { moment } from '../../../containers/App';
 import { AGENDA_STATES } from '../../../constants';
-import { getSecondary } from '../../../styles/colors';
 import { TAG_TYPES } from '../../company/drafts/draftTags/utils';
 import { getTranslations } from '../../../queries';
 import { buildTranslateObject } from '../../../actions/mainActions';
@@ -43,65 +42,7 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 	const editorRightColumn = React.useRef();
 	const [comment, setComment] = React.useState(agenda.comment);
 	const [commentRightColumn, setCommentRightColumn] = React.useState(agenda.commentRightColumn);
-	const modal = React.useRef(null);
 	const [data, setData] = React.useState(null);
-	const secondary = getSecondary();
-
-	React.useEffect(() => {
-		if (comment !== agenda.comment || commentRightColumn !== agenda.commentRightColumn) {
-			timeout.current = setTimeout(() => {
-				updateAgreement(comment);
-			}, 300);
-		}
-
-		return () => clearTimeout(timeout.current);
-	}, [comment, commentRightColumn]);
-
-	React.useEffect(() => {
-		if (agenda.comment !== comment) {
-			setComment(agenda.comment);
-		}
-	}, [agenda]);
-
-	const updateComment = value => {
-		setComment(value);
-	};
-
-	const updateText = async () => {
-		const correctedText = await getCorrectedText(comment, translate);
-		if (editorRightColumn.current && council.statute.doubleColumnDocs === 1) {
-			await handleSecondaryText(commentRightColumn, true);
-		}
-		editor.current.setValue(correctedText);
-		updateAgreement(correctedText);
-	};
-
-	React.useEffect(() => {
-		if (agenda.votingState === AGENDA_STATES.CLOSED && data) {
-			if (/{{/.test(comment)) {
-				updateText();
-			}
-		}
-	}, [agenda.votingState, data]);
-
-	const getData = React.useCallback(async () => {
-		const response = await props.client.query({
-			query: agendaRecountQuery,
-			variables: {
-				agendaId: agenda.id
-			}
-		});
-
-		setData(response.data.agendaRecount);
-	}, [agenda.id]);
-
-	React.useEffect(() => {
-		let interval;
-		getData();
-		interval = setInterval(getData, 8000);
-		return () => clearInterval(interval);
-	}, [getData]);
-
 
 	const updateAgreement = async value => {
 		if (checkForUnclosedBraces(value)) {
@@ -134,7 +75,27 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 		}
 	};
 
-	const getCorrectedText = async (text, translate) => {
+	React.useEffect(() => {
+		if (comment !== agenda.comment || commentRightColumn !== agenda.commentRightColumn) {
+			timeout.current = setTimeout(() => {
+				updateAgreement(comment);
+			}, 300);
+		}
+
+		return () => clearTimeout(timeout.current);
+	}, [comment, commentRightColumn]);
+
+	React.useEffect(() => {
+		if (agenda.comment !== comment) {
+			setComment(agenda.comment);
+		}
+	}, [agenda]);
+
+	const updateComment = value => {
+		setComment(value);
+	};
+
+	const getCorrectedText = async (text, translations) => {
 		const { numPositive, numNegative, numAbstention, numNoVote } = data;
 		const { positiveSC, negativeSC, abstentionSC } = data;
 		const participations = hasParticipations(council);
@@ -161,18 +122,8 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 					numNoVote
 				}
 			} : {})
-		}, translate);
+		}, translations);
 		return correctedText;
-	};
-
-	const loadDraft = async draft => {
-		const correctedText = await getCorrectedText(draft.text, translate);
-
-		if (editorRightColumn.current && council.statute.doubleColumnDocs === 1) {
-			await handleSecondaryText(draft.secondaryText, false);
-		}
-		editor.current.paste(correctedText);
-		updateAgreement(correctedText);
 	};
 
 	const handleSecondaryText = async (text, replace) => {
@@ -192,11 +143,54 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 		}
 	};
 
+	const updateText = async () => {
+		const correctedText = await getCorrectedText(comment, translate);
+		if (editorRightColumn.current && council.statute.doubleColumnDocs === 1) {
+			await handleSecondaryText(commentRightColumn, true);
+		}
+		editor.current.setValue(correctedText);
+		updateAgreement(correctedText);
+	};
 
-	const _section = () => {
+	React.useEffect(() => {
+		if (agenda.votingState === AGENDA_STATES.CLOSED && data) {
+			if (/{{/.test(comment)) {
+				updateText();
+			}
+		}
+	}, [agenda.votingState, data]);
+
+	const getData = React.useCallback(async () => {
+		const response = await props.client.query({
+			query: agendaRecountQuery,
+			variables: {
+				agendaId: agenda.id
+			}
+		});
+
+		setData(response.data.agendaRecount);
+	}, [agenda.id]);
+
+	React.useEffect(() => {
+		getData();
+		const interval = setInterval(getData, 8000);
+		return () => clearInterval(interval);
+	}, [getData]);
+
+	const loadDraft = async draft => {
+		const correctedText = await getCorrectedText(draft.text, translate);
+
+		if (editorRightColumn.current && council.statute.doubleColumnDocs === 1) {
+			await handleSecondaryText(draft.secondaryText, false);
+		}
+		editor.current.paste(correctedText);
+		updateAgreement(correctedText);
+	};
+
+	const section = () => {
 		let tags = [];
 
-		const shouldPasteValue = agenda => agenda.votingState === 2;
+		const shouldPasteValue = votingState => votingState === 2;
 
 		if (data) {
 			const { numPositive, numNegative, numAbstention, numNoVote } = data;
@@ -232,55 +226,55 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 					label: translate.company_new_country
 				},
 				{
-					value: shouldPasteValue(agenda) ? numPositive : '{{numPositive}}',
+					value: shouldPasteValue(agenda.votingState) ? numPositive : '{{numPositive}}',
 					label: translate.num_positive
 				},
 				{
-					value: shouldPasteValue(agenda) ? numNegative : '{{numNegative}}',
+					value: shouldPasteValue(agenda.votingState) ? numNegative : '{{numNegative}}',
 					label: translate.num_negative
 				},
 				{
-					value: shouldPasteValue(agenda) ? numAbstention : '{{numAbstention}}',
+					value: shouldPasteValue(agenda.votingState) ? numAbstention : '{{numAbstention}}',
 					label: translate.num_abstention
 				},
 				{
-					value: shouldPasteValue(agenda) ? numNoVote : '{{numNoVote}}',
+					value: shouldPasteValue(agenda.votingState) ? numNoVote : '{{numNoVote}}',
 					label: translate.num_no_vote
 				},
 			];
 
 			if (participations) {
 				tags.push({
-					value: shouldPasteValue(agenda) ? `${((positiveSC / totalSC) * 100).toFixed(3)}%` : '{{positiveSCTotal}}',
+					value: shouldPasteValue(agenda.votingState) ? `${((positiveSC / totalSC) * 100).toFixed(3)}%` : '{{positiveSCTotal}}',
 					label: '% a favor / total capital social'
 				},
 				{
-					value: shouldPasteValue(agenda) ? `${((negativeSC / totalSC) * 100).toFixed(3)}%` : '{{negativeSCTotal}}',
+					value: shouldPasteValue(agenda.votingState) ? `${((negativeSC / totalSC) * 100).toFixed(3)}%` : '{{negativeSCTotal}}',
 					label: '% en contra / total capital social'
 				},
 				{
-					value: shouldPasteValue(agenda) ? `${((abstentionSC / totalSC) * 100).toFixed(3)}%` : '{{abstentionSCTotal}}',
+					value: shouldPasteValue(agenda.votingState) ? `${((abstentionSC / totalSC) * 100).toFixed(3)}%` : '{{abstentionSCTotal}}',
 					label: '% abstención / total capital social'
 				},
 				{
-					value: shouldPasteValue(agenda) ? `${((positiveSC / totalPresent) * 100).toFixed(3)}%` : '{{positiveSCPresent}}',
+					value: shouldPasteValue(agenda.votingState) ? `${((positiveSC / totalPresent) * 100).toFixed(3)}%` : '{{positiveSCPresent}}',
 					label: '% a favor / capital social presente'
 				},
 				{
-					value: shouldPasteValue(agenda) ? `${((negativeSC / totalPresent) * 100).toFixed(3)}%` : '{{negativeSCPresent}}',
+					value: shouldPasteValue(agenda.votingState) ? `${((negativeSC / totalPresent) * 100).toFixed(3)}%` : '{{negativeSCPresent}}',
 					label: '% en contra / capital social presente'
 				},
 				{
-					value: shouldPasteValue(agenda) ? `${((abstentionSC / totalPresent) * 100).toFixed(3)}%` : '{{abstentionSCPresent}}',
+					value: shouldPasteValue(agenda.votingState) ? `${((abstentionSC / totalPresent) * 100).toFixed(3)}%` : '{{abstentionSCPresent}}',
 					label: '% abstención / capital social presente'
 				});
 			} else {
 				tags.push({
-					value: shouldPasteValue(agenda) ? `${agenda.positiveVotings + agenda.positiveManual} ` : '{{positiveVotings}}',
+					value: shouldPasteValue(agenda.votingState) ? `${agenda.positiveVotings + agenda.positiveManual} ` : '{{positiveVotings}}',
 					label: translate.positive_votings
 				},
 				{
-					value: shouldPasteValue(agenda) ? `${agenda.negativeVotings + agenda.negativeManual} ` : '{{negativeVotings}}',
+					value: shouldPasteValue(agenda.votingState) ? `${agenda.negativeVotings + agenda.negativeManual} ` : '{{negativeVotings}}',
 					label: translate.negative_votings
 				});
 			}
@@ -348,7 +342,7 @@ const ActAgreements = ({ translate, council, company, agenda, recount, ...props 
 				position: 'relative'
 			}}
 		>
-			{_section()}
+			{section()}
 		</div>
 	);
 };
