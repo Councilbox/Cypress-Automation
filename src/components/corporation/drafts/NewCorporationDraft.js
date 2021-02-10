@@ -6,8 +6,7 @@ import { getPrimary } from '../../../styles/colors';
 import { checkRequiredFields } from '../../../utils/CBX';
 import { createCorporationDraft } from '../../../queries';
 
-
-export const company_types = [{
+export const companyTypes = [{
     company_type: 0, // 's_a'
     statutes: [{
         prototype: 1,
@@ -82,8 +81,8 @@ export const company_types = [{
 }];
 
 export const getRootStatutes = companyType => {
-    let rootStatutes = company_types[0].statutes;
-    const filterStatutes = company_types.filter(list => list.company_type === companyType);
+    let rootStatutes = companyTypes[0].statutes;
+    const filterStatutes = companyTypes.filter(list => list.company_type === companyType);
 
     if (filterStatutes && filterStatutes.length > 0) {
         rootStatutes = filterStatutes[0].statutes;

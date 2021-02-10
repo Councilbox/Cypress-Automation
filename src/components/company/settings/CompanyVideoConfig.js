@@ -16,7 +16,7 @@ const CompanyVideoConfig = ({ client, company, translate }) => {
 
     const updatePlatform = async () => {
         setSaving(true);
-        const response = await client.mutate({
+        await client.mutate({
             mutation: gql`
                 mutation updateCompanyPlatform($companyPlatform: CompanyPlatformInput){
                     updateCompanyPlatform(companyPlatform: $companyPlatform){

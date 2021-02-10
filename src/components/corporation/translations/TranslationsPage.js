@@ -226,7 +226,7 @@ const rootTranslations = gql`
 `;
 
 export default graphql(rootTranslations, {
-	options: props => ({
+	options: () => ({
 		variables: {
 			options: {
 				limit: 10,

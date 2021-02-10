@@ -8,7 +8,7 @@ import {
 } from '../../../../../displayComponents/index';
 import { getPrimary } from '../../../../../styles/colors';
 import { addCensusParticipant, checkUniqueCensusEmails } from '../../../../../queries/census';
-import { languages } from '../../../../../queries/masters';
+import { languages as languagesQuery } from '../../../../../queries/masters';
 import { censusHasParticipations } from '../../../../../utils/CBX';
 import RepresentativeForm from '../RepresentativeForm';
 import ParticipantForm from '../../../../council/participants/ParticipantForm';
@@ -65,10 +65,10 @@ class AddCensusParticipantButton extends React.Component {
 		const { hasRepresentative, ...data } = this.state.representative;
 		const representative = this.state.representative.hasRepresentative ?
 			{
-					...data,
-					companyId: this.props.census.companyId,
-					censusId: this.props.census.id
-			  }
+				...data,
+				companyId: this.props.census.companyId,
+				censusId: this.props.census.id
+			}
 			: null;
 
 		if (!await this.checkRequiredFields()) {
@@ -92,21 +92,21 @@ class AddCensusParticipantButton extends React.Component {
 					representativeErrors: {}
 				});
 			} else if (response.errors[0].message === 'Too many granted words') {
-					this.setState({
-						loading: false,
-						...(this.state.data.initialState === 2 ? {
-							errors: {
-								initialState: this.props.translate.initial_granted_word_error
-							}
-						} : {}),
-						...(representative && representative.initialState === 2 ? {
-							representativeErrors: {
-								initialState: this.props.translate.initial_granted_word_error
-							}
-						} : {})
+				this.setState({
+					loading: false,
+					...(this.state.data.initialState === 2 ? {
+						errors: {
+							initialState: this.props.translate.initial_granted_word_error
+						}
+					} : {}),
+					...(representative && representative.initialState === 2 ? {
+						representativeErrors: {
+							initialState: this.props.translate.initial_granted_word_error
+						}
+					} : {})
 
-					});
-				}
+				});
+			}
 		}
 	};
 
@@ -203,7 +203,7 @@ class AddCensusParticipantButton extends React.Component {
 		return errorsParticipant.hasError || errorsRepresentative.hasError;
 	}
 
-	_renderBody() {
+	renderBody() {
 		const participant = this.state.data;
 		const { errors } = this.state;
 		const { translate } = this.props;
@@ -294,7 +294,7 @@ class AddCensusParticipantButton extends React.Component {
 					acceptAction={this.addCensusParticipant}
 					buttonAccept={translate.save}
 					buttonCancel={translate.cancel}
-					bodyText={this._renderBody()}
+					bodyText={this.renderBody()}
 					title={translate.add_participant}
 				/>
 			</React.Fragment>
@@ -309,6 +309,6 @@ export default compose(
 			errorPolicy: 'all'
 		}
 	}),
-	graphql(languages)
+	graphql(languagesQuery)
 )(withApollo(AddCensusParticipantButton));
 

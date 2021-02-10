@@ -14,10 +14,10 @@ const mutation = gql`
     }
 `;
 
-const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, client, requestClose, ...props }) => {
+const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, client, requestClose }) => {
     const [tag, setTag] = React.useState(initialValue || { key: '', value: '', description: '' });
     const [errors, setErrors] = React.useState({});
-    const [initInfo, setInitInfo] = React.useState(tag);
+    const [initInfo] = React.useState(tag);
     const [unsavedAlert, setUnsavedAlert] = React.useState(false);
 
     const updateTagData = object => {

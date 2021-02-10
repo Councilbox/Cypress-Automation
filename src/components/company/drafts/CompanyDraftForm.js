@@ -40,9 +40,9 @@ const styles = {
 const CompanyDraftForm = ({ translate, draft, errors, company, updateState, companyStatutes, draftTypes, rootStatutes, languages, votingTypes, majorityTypes, match, client, ...props }) => {
 	const [search, setSearch] = React.useState('');
 	const [testTags, setTestTags] = React.useState({});
-	const [tagsSend, setTagsSend] = React.useState([]);
+	const tagsSend = [];
 	const [companyT, setCompanyT] = React.useState([]);
-	const [openSelectorEtiquetas, setOpenSelectorEtiquetas] = React.useState(true);
+	const openSelectorEtiquetas = true;
 
 	const removeTag = tag => {
 		delete testTags[tag];
@@ -61,7 +61,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 		if (tag.type === 1) {
 			let statute = null;
 			if (companyStatutes) {
-				statute = companyStatutes.find(statute => statute.id === +tag.name.split('_')[tag.name.split('_').length - 1]);
+				statute = companyStatutes.find(companyStatute => companyStatute.id === +tag.name.split('_')[tag.name.split('_').length - 1]);
 			}
 			const title = statute ? translate[statute.title] ? translate[statute.title] : statute.title : tag.label;
 			return translate[title] || title;
@@ -158,7 +158,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 
 
 	const renderEtiquetasSeleccionadas = () => {
-		const TagColumn = props => (
+		const TagColumn = tagProps => (
 			<div style={{
 				display: 'flex',
 				color: '#ffffff',
@@ -166,7 +166,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 				marginBottom: '0.5em ',
 				flexDirection: 'column'
 			}}>
-				{props.children}
+				{tagProps.children}
 			</div>
 		);
 
@@ -267,8 +267,8 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 		tagsSearch.push(createTag(governingBodyTypes[key], TAG_TYPES.GOVERNING_BODY, translate))
 	));
 
-	draftTypes.filter(type => !testTags[type.label]).forEach(draft => tagsSearch.push(createTag({
-		...draft,
+	draftTypes.filter(type => !testTags[type.label]).forEach(item => tagsSearch.push(createTag({
+		...item,
 		votingTypes,
 		majorityTypes,
 		addTag,
@@ -372,8 +372,8 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 											border: `1px solid ${getTagColor(TAG_TYPES.DRAFT_TYPE)}`,
 											color: getTagColor(TAG_TYPES.DRAFT_TYPE),
 										}}
-										tags={draftTypes.filter(type => !testTags[type.label]).map(draft => createTag({
-											...draft,
+										tags={draftTypes.filter(type => !testTags[type.label]).map(item => createTag({
+											...item,
 											votingTypes,
 											majorityTypes,
 											addTag,

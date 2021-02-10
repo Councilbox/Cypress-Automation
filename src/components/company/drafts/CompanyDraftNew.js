@@ -10,7 +10,7 @@ import {
 	CardPageLayout,
 	UnsavedChangesModal
 } from '../../../displayComponents';
-import { createCompanyDraft, draftData } from '../../../queries/companyDrafts';
+import { createCompanyDraft as createCompanyDraftMutation, draftData } from '../../../queries/companyDrafts';
 import { getPrimary } from '../../../styles/colors';
 import { checkRequiredFields } from '../../../utils/CBX';
 import CompanyDraftForm from './CompanyDraftForm';
@@ -21,18 +21,20 @@ import { INPUT_REGEX } from '../../../constants';
 let timeout;
 
 const CompanyDraftNew = ({ translate, ...props }) => {
-	const [dataInit, setDataInit] = React.useState({ draft: {
-		title: '',
-		statuteId: -1,
-		type: -1,
-		description: '',
-		text: '',
-		votationType: -1,
-		majorityType: -1,
-		majority: null,
-		majorityDivider: null,
-		companyId: +props.match.params.company
-	}, });
+	const dataInit = {
+		draft: {
+			title: '',
+			statuteId: -1,
+			type: -1,
+			description: '',
+			text: '',
+			votationType: -1,
+			majorityType: -1,
+			majority: null,
+			majorityDivider: null,
+			companyId: +props.match.params.company
+		}
+	};
 	const [unsavedAlert, setUnsavedAlert] = React.useState(false);
 	const [state, setState] = React.useState({
 		draft: {
@@ -61,43 +63,11 @@ const CompanyDraftNew = ({ translate, ...props }) => {
 		});
 	};
 
-	const updateErrors = errors => {
+	const updateErrors = errs => {
 		setErrors({
-			...errors,
+			...errs,
 			errors
 		});
-	};
-
-	const createCompanyDraft = async () => {
-		const { draft } = state;
-		const errors = {
-			title: '',
-		};
-		let hasError = false;
-		const regex = INPUT_REGEX;
-		if (!checkRequiredFields(translate, draft, updateErrors, null, toast)) {
-			if (state.draft.title) {
-				if (!(regex.test(state.draft.title)) || !state.draft.title.trim()) {
-					hasError = true;
-					errors.title = translate.invalid_field;
-					updateErrors(errors);
-				}
-			}
-
-			if (!hasError) {
-				setState({ ...state, loading: true });
-				const response = await props.createCompanyDraft({
-					variables: {
-						draft: state.draft
-					}
-				});
-
-				if (!response.errors) {
-					setState({ ...state, success: true });
-					timeout = setTimeout(() => resetAndClose(), 2000);
-				}
-			}
-		}
 	};
 
 	const resetAndClose = () => {
@@ -120,6 +90,38 @@ const CompanyDraftNew = ({ translate, ...props }) => {
 			success: false
 		});
 		bHistory.back();
+	};
+
+	const createCompanyDraft = async () => {
+		const { draft } = state;
+		const newErrors = {
+			title: '',
+		};
+		let hasError = false;
+		const regex = INPUT_REGEX;
+		if (!checkRequiredFields(translate, draft, updateErrors, null, toast)) {
+			if (state.draft.title) {
+				if (!(regex.test(state.draft.title)) || !state.draft.title.trim()) {
+					hasError = true;
+					newErrors.title = translate.invalid_field;
+					updateErrors(newErrors);
+				}
+			}
+
+			if (!hasError) {
+				setState({ ...state, loading: true });
+				const response = await props.createCompanyDraft({
+					variables: {
+						draft: state.draft
+					}
+				});
+
+				if (!response.errors) {
+					setState({ ...state, success: true });
+					timeout = setTimeout(() => resetAndClose(), 2000);
+				}
+			}
+		}
 	};
 
 	const comprobateChanges = () => JSON.stringify(state) !== JSON.stringify(dataInit);
@@ -203,7 +205,7 @@ const CompanyDraftNew = ({ translate, ...props }) => {
 };
 
 export default compose(
-	graphql(createCompanyDraft, {
+	graphql(createCompanyDraftMutation, {
 		name: 'createCompanyDraft',
 		options: {
 			errorPolicy: 'all'

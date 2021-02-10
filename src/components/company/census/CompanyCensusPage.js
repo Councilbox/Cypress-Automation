@@ -4,7 +4,7 @@ import { Tooltip, Card } from 'material-ui';
 import { TableCell, TableRow } from 'material-ui/Table';
 import { withRouter } from 'react-router-dom';
 import FontAwesome from 'react-fontawesome';
-import { censuses, deleteCensus, setDefaultCensus } from '../../../queries/census';
+import { censuses as censusesQuery, deleteCensus, setDefaultCensus } from '../../../queries/census';
 import {
 	AlertConfirm,
 	CardPageLayout,
@@ -369,13 +369,13 @@ class HoverableRow extends React.PureComponent {
 
 						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
                             {translate.creator}
-                        </GridItem>
+						</GridItem>
                         <GridItem xs={7} md={7}>
 							{`${census.creator ? census.creator.name : ''} ${census.creator ? census.creator.surname : ''}`}
                         </GridItem>
 
                         <GridItem xs={12} md={12} >
-                        	{actions}
+							{actions}
                         </GridItem>
 
                     </Grid>
@@ -435,7 +435,7 @@ class HoverableRow extends React.PureComponent {
 }
 
 export default compose(
-	graphql(censuses, {
+	graphql(censusesQuery, {
 		name: 'data',
 		options: props => ({
 			variables: {

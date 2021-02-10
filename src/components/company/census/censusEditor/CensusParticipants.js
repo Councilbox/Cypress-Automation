@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import { CloseIcon, EnhancedTable, Grid, GridItem, BasicButton, Checkbox, AlertConfirm } from '../../../../displayComponents';
 import * as CBX from '../../../../utils/CBX';
-import { censusParticipants } from '../../../../queries/census';
+import { censusParticipants as censusParticipantsQuery } from '../../../../queries/census';
 import AddCensusParticipantButton from './modals/AddCensusParticipantButton';
 import { PARTICIPANTS_LIMITS } from '../../../../constants';
 import CensusParticipantEditor from './modals/CensusParticipantEditor';
@@ -484,7 +484,7 @@ export default compose(
 	graphql(deleteCensusParticipant, {
 		name: 'deleteCensusParticipant'
 	}),
-	graphql(censusParticipants, {
+	graphql(censusParticipantsQuery, {
 		options: props => ({
 			variables: {
 				censusId: props.census.id,

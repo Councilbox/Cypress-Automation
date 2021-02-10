@@ -15,7 +15,7 @@ const AddCompanyNotificationMenu = ({ refetch, company, translate, client }) => 
     const [notification, setNotification] = React.useState(defaultState);
 
     const createNotification = async () => {
-        const response = await client.mutate({
+        await client.mutate({
             mutation: gql`
                 mutation CreateCompanyNotification($notification: CompanyNotificationInput){
                     createCompanyNotification(notification: $notification){

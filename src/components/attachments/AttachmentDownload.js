@@ -10,7 +10,7 @@ const API_URL
 		`http://${process.env.REACT_APP_LOCAL_API}`
 		: `https://${process.env.REACT_APP_API_URL}`;
 
-const AttachmentDownload = ({ agenda, translate, attachment, ...props }) => {
+const AttachmentDownload = ({ agenda, attachment }) => {
 	const [downloading, setDownloading] = React.useState(false);
 	const secondary = getSecondary();
 

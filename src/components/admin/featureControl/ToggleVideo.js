@@ -3,7 +3,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { BasicButton } from '../../../displayComponents';
 
-const ToggleVideo = ({ toggleVideo }) => (
+const ToggleVideo = () => (
         <BasicButton
             text="Toggle video"
 

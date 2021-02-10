@@ -3,11 +3,11 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { BasicButton } from '../../../displayComponents';
 
-const ToggleRecordings = ({ toggleRecordings }) => (
-        <BasicButton
-            text="Toggle recordings"
-        />
-    );
+const ToggleRecordings = () => (
+    <BasicButton
+        text="Toggle recordings"
+    />
+);
 
 
 const toggleRecordings = gql`

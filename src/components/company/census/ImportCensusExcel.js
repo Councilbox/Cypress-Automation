@@ -68,7 +68,6 @@ const original = {
 
 const excelToDBColumns = Object.keys(original).reduce((acc, curr) => {
 	acc[curr.toLowerCase()] = original[curr];
-
 	return acc;
 }, {});
 
@@ -80,7 +79,7 @@ const languages = {
 	galego: 'gal'
 };
 
-function to_json(workbook) {
+function toJSON(workbook) {
 	const result = {};
 	workbook.SheetNames.forEach(sheetName => {
 		const roa = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
@@ -130,7 +129,7 @@ class ImportCensusButton extends React.Component {
 
 	read = workbook => {
 		const wb = XLSX.read(workbook, { type: 'binary' });
-		return to_json(wb);
+		return toJSON(wb);
 	};
 
 	close = () => {
@@ -257,8 +256,6 @@ class ImportCensusButton extends React.Component {
 						});
 					}
 				}
-			} else {
-				console.error(result);
 			}
 		};
 	};
@@ -717,179 +714,6 @@ class ImportCensusButton extends React.Component {
 					}
 					title={translate.import_census}
 				/>
-
-				{/* <CustomDialog
-					requestClose={this.close}
-					open={this.state.modal}
-					title={translate.import_census}
-					{...(step === 3 ? {
-						actions:
-							<BasicButton
-								text={translate.send}
-								color={primary}
-								icon={<ButtonIcon type="send" color="white" />}
-								textStyle={{ fontWeight: '700', color: 'white', textTransform: 'none' }}
-								onClick={this.sendImportedParticipants}
-							/>
-					} : {})}
-				>
-					{step === 1 && (
-						<React.Fragment>
-							<Grid>
-								<GridItem xs={6} md={6} lg={6} style={{ display: 'flex', justifyContent: 'center' }}>
-									<div>
-										<BasicButton
-											text={translate.download_template}
-											color={secondary}
-											disabled={this.state.loading}
-											textStyle={{
-												color: 'white',
-												fontWeight: "700",
-												fontSize: "0.9em",
-												textTransform: "none"
-											}}
-											loading={downloading}
-											textPosition="after"
-											icon={<ButtonIcon type="add" color="white" />}
-											onClick={this.getCensusTemplate}
-											buttonStyle={{
-												marginRight: "1em",
-											}}
-										/>
-									</div>
-								</GridItem>
-								<GridItem xs={6} md={6} lg={6}>
-									<FileUploadButton
-										accept=".xlsx"
-										loading={this.state.loading}
-										text={translate.import_template}
-										style={{
-											width: "100%"
-										}}
-										buttonStyle={{ width: "100%" }}
-										color={primary}
-										textStyle={{
-											color: "white",
-											fontWeight: "700",
-											fontSize: "0.9em",
-											textTransform: "none"
-										}}
-										icon={
-											<ButtonIcon type="publish" color="white" />
-										}
-										onChange={this.handleFile}
-									/>
-									{this.state.loading &&
-										<span style={{ fontSize: '0.85em' }}>
-											{this.state.processing ? `Procesando ${this.state.processing} participantes` : 'Cargando archivo'}
-										</span>
-									}
-								</GridItem>
-							</Grid>
-						</React.Fragment>
-					)}
-					{step === 2 && (
-						<div
-							style={{ height: '100px' }}
-						>
-							{translate.no_valid_participants}
-						</div>
-					)}
-					{step === 3 && (
-						<div
-							style={{ height: '70vh' }}
-						>
-							{translate.result_reading_press_confirm}:
-							<Scrollbar>
-								<div
-									style={{ width: '100%' }}
-								>
-									{this.state.readedParticipants.map((item, index) => (
-										<Paper
-											style={{ margin: '0.4em', marginBottom: 0, fontSize: '14px', padding: '0.4em' }}
-											key={`excelParticipant_${index}`}
-										>
-											<FontAwesome
-												name={"tag"}
-												style={{
-													color: secondary,
-													fontSize: "0.8em",
-													marginRight: '0.3em'
-												}}
-											/>{`${item.participant.name} ${item.participant.surname || ''} - ${item.participant.dni || ''}`}<br />
-											<FontAwesome
-												name={"at"}
-												style={{
-													color: secondary,
-													fontSize: "0.8em",
-													marginRight: '0.3em'
-												}}
-											/>{`${item.participant.email || ''}`}<br />
-											{!!item.representative &&
-												<React.Fragment>
-													{`${translate.represented_by}: ${item.representative.name} ${item.representative.surname || ''}`}
-													<br />
-												</React.Fragment>
-											}
-										</Paper>
-									))}
-								</div>
-							</Scrollbar>
-						</div>
-					)}
-					{step === 4 && (
-						<div style={{ minHeight: '10em', overflow: 'hidden', position: 'relative', maxWidth: '700px' }}>
-							<div
-								style={{
-									fontSize: '1.2em',
-									color: primary,
-									fontWeight: '700',
-								}}
-							>
-								{translate.attention}
-							</div>
-							{translate.import_can_not_be_done}<br />
-							{translate.please_correct_errors_and_resend}
-							<div
-								style={{ width: '100%' }}
-							>
-								{this.state.invalidEmails.map((item, index) => (
-									<React.Fragment key={`invalidEmails_${item.line}`}>
-										{this.buildErrorString(item)}<br />
-									</React.Fragment>
-								))}
-							</div>
-						</div>
-					)}
-					{step === 5 && (
-						<div style={{ minHeight: '10em', overflow: 'hidden', position: 'relative', maxWidth: '700px' }}>
-							<div
-								style={{
-									fontSize: '1.2em',
-									color: primary,
-									fontWeight: '700',
-								}}
-							>
-								{translate.attention}
-							</div>
-							No se puede realizar la importación.<br />
-							{this.state.duplicatedType === 'DB' ?
-								translate.following_emails_already_present_in_current_census
-								:
-								translate.following_emails_are_duplicated_in_sent_file
-							}
-							<div
-								style={{ width: '100%' }}
-							>
-								{this.state.invalidEmails.map((item, index) => (
-									<React.Fragment key={`invalidEmails_${item[0]}`}>
-										{`${translate.entry} ${item[1]}: ${item[0]}`}<br />
-									</React.Fragment>
-								))}
-							</div>
-						</div>
-					)}
-				</CustomDialog> */}
 			</React.Fragment>
 		);
 	}

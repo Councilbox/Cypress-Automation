@@ -1,10 +1,9 @@
 import React from 'react';
 import { MenuItem, TableBody, Table, TableHead, TableRow, TableCell } from 'material-ui';
 import ContentEditable from 'react-contenteditable';
-import { TextInput, GridItem, DropDownMenu } from '../../../displayComponents';
+import { GridItem, DropDownMenu } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
 import { GOVERNING_BODY_TYPES } from '../../../constants';
-import CheckBox from '../../../displayComponents/CheckBox';
 
 
 const GoverningBodyForm = ({ translate, state, updateState }) => {
@@ -458,14 +457,6 @@ const ListAdminForm = ({ translate, setData, data }) => {
     );
 };
 
-const baseUser = {
-    name: '',
-    surname: '',
-    dni: '',
-    phone: '',
-    email: '',
-    id: new Date()
-};
 
 export const getCouncilAdminPosition = (index, translate) => {
     const positions = {

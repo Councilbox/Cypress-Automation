@@ -10,8 +10,8 @@ const AttachmentItem = ({ attachment, removeAttachment, icon, editName, edit, lo
 	const primary = getPrimary();
 	const secondary = getSecondary();
 
-	const removeItem = attachment => {
-		removeAttachment(attachment.id);
+	const removeItem = item => {
+		removeAttachment(item.id);
 	};
 
 	return (

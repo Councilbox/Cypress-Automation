@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import { graphql, compose, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -8,6 +9,16 @@ import ToggleVideo from './featureControl/ToggleVideo';
 import LogoutUser from './featureControl/LogoutUser';
 import RefreshUser from './featureControl/RefreshUser';
 
+const queryTags = gql`
+    query draftTagSearch($companyId: Int!, $tags: [String]){
+        draftTagSearch(companyId: $companyId, tags: $tags){
+            list {
+                id
+                title
+            }
+        }
+    }
+`;
 
 const DevAdminPage = ({ data, toggleFeature }) => {
     const toggle = async name => {
@@ -126,7 +137,7 @@ const Exceptions = withApollo(({ exceptions, features, refetch, client }) => {
 
 
     const addException = async () => {
-        const response = await client.mutate({
+        await client.mutate({
             mutation: addExceptionMutation,
             variables: data
         });
@@ -418,17 +429,6 @@ const Features = ({ value, toggleFeature }) => {
         </React.Fragment>
     );
 };
-
-const queryTags = gql`
-    query draftTagSearch($companyId: Int!, $tags: [String]){
-        draftTagSearch(companyId: $companyId, tags: $tags){
-            list {
-                id
-                title
-            }
-        }
-    }
-`;
 
 const toggleFeature = gql`
     mutation ToggleFeature($name: String!){

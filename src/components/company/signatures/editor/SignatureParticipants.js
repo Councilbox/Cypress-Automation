@@ -100,7 +100,9 @@ class SignatureParticipants extends React.Component {
                     />
                 }
                 <EnhancedTable
-                    ref={table => (this.table = table)}
+                    ref={table => {
+                        this.table = table;
+                    }}
                     translate={translate}
                     defaultLimit={PARTICIPANTS_LIMITS[0]}
                     defaultFilter={'fullName'}

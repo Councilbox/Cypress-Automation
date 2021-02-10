@@ -12,7 +12,7 @@ import {
 import CompanyDraftForm from './CompanyDraftForm';
 import {
 	getCompanyDraftData,
-	updateCompanyDraft
+	updateCompanyDraft as updateCompanyDraftMutation
 } from '../../../queries/companyDrafts';
 import { checkRequiredFields } from '../../../utils/CBX';
 import { getPrimary } from '../../../styles/colors';
@@ -79,12 +79,12 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 		setSuccess(false);
 	};
 
-	const updateErrors = errors => {
-		setErrors(errors);
+	const updateErrors = newErrors => {
+		setErrors(newErrors);
 	};
 
 	const updateCompanyDraft = async () => {
-		const errors = {
+		const newErrors = {
 			title: '',
 		};
 		let hasError = false;
@@ -93,8 +93,8 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 			if (data.title) {
 				if (!(regex.test(data.title)) || !data.title.trim()) {
 					hasError = true;
-					errors.title = translate.invalid_field;
-					updateErrors(errors);
+					newErrors.title = translate.invalid_field;
+					updateErrors(newErrors);
 				}
 			}
 
@@ -208,5 +208,5 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 
 export default compose(
 	withApollo,
-	graphql(updateCompanyDraft, { name: 'updateCompanyDraft' })
+	graphql(updateCompanyDraftMutation, { name: 'updateCompanyDraft' })
 )(withRouter(withSharedProps()(CompanyDraftEditor)));

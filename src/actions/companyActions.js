@@ -1,7 +1,7 @@
 
 import { client, store } from '../containers/App';
 import { loadingFinished } from './mainActions';
-import { companies, setCompanyAsSelected } from '../queries';
+import { companies as companiesQuery, setCompanyAsSelected } from '../queries';
 
 export const saveSignUpInfo = info => ({
 		type: 'SIGN_UP_INFO',
@@ -11,7 +11,7 @@ export const saveSignUpInfo = info => ({
 export const getCompanies = userId => async dispatch => {
 		if (userId) {
 			const response = await client.query({
-				query: companies,
+				query: companiesQuery,
 				variables: { userId },
 				fetchPolicy: 'network-only'
 			});
@@ -44,21 +44,6 @@ export const setCompany = company => {
 
 let initialTranslations = null;
 
-export const addSpecificTranslations = company => {
-	if (!initialTranslations) {
-		initialTranslations = store.getState().translate;
-	}
-	const specificTranslations = getSpecificTranslations(initialTranslations.selectedLanguage, company);
-
-	return {
-		type: 'LOADED_LANG',
-		value: {
-			...initialTranslations,
-			...specificTranslations
-		},
-		selected: initialTranslations.selectedLanguage
-	};
-};
 
 const getSpecificTranslations = (language, company) => {
 	const { type, id } = company;
@@ -91,6 +76,22 @@ const getSpecificTranslations = (language, company) => {
 	};
 
 	return extraTranslations;
+};
+
+export const addSpecificTranslations = company => {
+	if (!initialTranslations) {
+		initialTranslations = store.getState().translate;
+	}
+	const specificTranslations = getSpecificTranslations(initialTranslations.selectedLanguage, company);
+
+	return {
+		type: 'LOADED_LANG',
+		value: {
+			...initialTranslations,
+			...specificTranslations
+		},
+		selected: initialTranslations.selectedLanguage
+	};
 };
 
 export const changeCompany = (index, id) => async dispatch => {

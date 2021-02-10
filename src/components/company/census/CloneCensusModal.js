@@ -61,7 +61,7 @@ class CloneCensusModal extends Component {
 		}
 	};
 
-	_renderNewPointBody = () => {
+	renderNewPointBody = () => {
 		const { translate } = this.props;
 		const { errors } = this.state;
 		const census = this.state.data;
@@ -128,7 +128,7 @@ class CloneCensusModal extends Component {
 		});
 	}
 
-	checkRequiredFields() {
+	static heckRequiredFields() {
 		return true;
 	}
 
@@ -143,7 +143,7 @@ class CloneCensusModal extends Component {
 					acceptAction={this.cloneCensus}
 					buttonAccept={translate.accept}
 					buttonCancel={translate.cancel}
-					bodyText={this._renderNewPointBody()}
+					bodyText={this.renderNewPointBody()}
 					title={translate.clone_census}
 				/>
 			</Fragment>

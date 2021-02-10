@@ -1,10 +1,10 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { Grid, GridItem, LoadingSection } from '../../../../displayComponents';
+import { Grid, GridItem } from '../../../../displayComponents';
 import { SIGNATURE_STATES } from '../../../../constants';
 
-const SignersStatusRecount = ({ data, translate, signature, client }) => {
+const SignersStatusRecount = ({ translate, signature, client }) => {
     const [count, setRecount] = React.useState(null);
 
     const getData = React.useCallback(async () => {

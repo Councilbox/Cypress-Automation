@@ -3,7 +3,7 @@ import { compose, graphql } from 'react-apollo';
 import { Card } from 'material-ui';
 import { AlertConfirm } from '../../../../../displayComponents/index';
 import { updateCensusParticipant } from '../../../../../queries/census';
-import { languages } from '../../../../../queries/masters';
+import { languages as languagesQuery } from '../../../../../queries/masters';
 import { censusHasParticipations } from '../../../../../utils/CBX';
 import RepresentativeForm from '../RepresentativeForm';
 import ParticipantForm from '../../../../council/participants/ParticipantForm';
@@ -41,6 +41,7 @@ class CensusParticipantEditor extends React.Component {
 	};
 
 	componentDidMount() {
+		// eslint-disable-next-line prefer-const
 		let { representative, ...participant } = extractTypeName(
 			this.props.participant
 		);
@@ -57,9 +58,8 @@ class CensusParticipantEditor extends React.Component {
 	}
 
 	componentWillUnmount() {
-		let { representative, ...participant } = extractTypeName(
-			this.props.participant
-		);
+		// eslint-disable-next-line prefer-const
+		let { representative, ...participant } = extractTypeName(this.props.participant);
 		representative = representative ?
 			{
 				hasRepresentative: true,
@@ -164,7 +164,7 @@ class CensusParticipantEditor extends React.Component {
 		return errorsParticipant.hasError || errorsRepresentative.hasError;
 	}
 
-	_renderBody() {
+	renderBody() {
 		const participant = this.state.data;
 		const { errors } = this.state;
 		const { translate } = this.props;
@@ -238,7 +238,7 @@ class CensusParticipantEditor extends React.Component {
 					acceptAction={this.updateCensusParticipant}
 					buttonAccept={translate.accept}
 					buttonCancel={translate.cancel}
-					bodyText={this._renderBody()}
+					bodyText={this.renderBody()}
 					title={translate.edit_participant}
 				/>
 			</React.Fragment>
@@ -253,6 +253,6 @@ export default compose(
 			errorPolicy: 'all'
 		}
 	}),
-	graphql(languages)
+	graphql(languagesQuery)
 )(CensusParticipantEditor);
 

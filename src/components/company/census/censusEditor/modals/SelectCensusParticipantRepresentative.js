@@ -72,7 +72,7 @@ const SelectCensusParticipantRepresentative = ({ open, data, translate, particip
 	}, [participantsTable]);
 
 
-	function _renderBody() {
+	function renderBody() {
 		const { loading } = data;
 		let participants = {};
 		if (data.censusParticipantWhoCanBeRepresentatives) {
@@ -120,8 +120,8 @@ const SelectCensusParticipantRepresentative = ({ open, data, translate, particip
 															key={`delegateVote_${participant.id}`}
 															item={participant}
 															onClick={() => {
-																const { __typename, representative, ...data } = participant;
-																props.updateRepresentative(data);
+																const { __typename, representative, ...filteredData } = participant;
+																props.updateRepresentative(filteredData);
 																close();
 															}}
 															index={index}
@@ -181,7 +181,7 @@ const SelectCensusParticipantRepresentative = ({ open, data, translate, particip
 			open={open}
 			widthModal={{ height: '100%' }}
 			buttonCancel={translate.close}
-			bodyText={_renderBody()}
+			bodyText={renderBody()}
 			title={translate.select}
 			bodyStyle={{ minWidth: '50vw', overflow: isMobile && 'hidden', width: isMobile && '100%', height: isMobile && '100%' }}
 		/>

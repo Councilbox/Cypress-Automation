@@ -73,9 +73,7 @@ module.exports = {
 		"max-classes-per-file": 'warn',
 		"arrow-body-style": 'warn',
 		"import/no-cycle": "off",
-		"space-before-blocks": 'error',
-		"no-mixed-spaces-and-tabs": 'error',
-		"object-curly-newline": "off",
+		"object-curly-newline": "warn",
 		"no-use-before-define": 'warn',
 		"no-tabs": "off"
 	},

@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import { census } from '../../../../queries/census';
+import { census as censusQuery } from '../../../../queries/census';
 import {
 	CardPageLayout,
 	LoadingSection,
@@ -60,7 +60,7 @@ class CensusEditorPage extends React.Component {
 }
 
 export default withSharedProps()(
-	graphql(census, {
+	graphql(censusQuery, {
 		options: props => ({
 			variables: {
 				id: +props.match.params.id
