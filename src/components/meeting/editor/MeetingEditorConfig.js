@@ -98,8 +98,8 @@ class MeetingEditorConfig extends Component {
 					value={'0'}
 					checked={council.securityType === 0}
 					onChange={event => this.updateCouncilData({
-							securityType: parseInt(event.target.value, 10)
-						})
+						securityType: parseInt(event.target.value, 10)
+					})
 					}
 					name="security"
 					label={translate.new_security_none}
@@ -108,8 +108,8 @@ class MeetingEditorConfig extends Component {
 					value={'1'}
 					checked={council.securityType === 1}
 					onChange={event => this.updateCouncilData({
-							securityType: parseInt(event.target.value, 10)
-						})
+						securityType: parseInt(event.target.value, 10)
+					})
 					}
 					name="security"
 					label={translate.new_security_email}
@@ -118,8 +118,8 @@ class MeetingEditorConfig extends Component {
 					value={'2'}
 					checked={council.securityType === 2}
 					onChange={event => this.updateCouncilData({
-							securityType: parseInt(event.target.value, 10)
-						})
+						securityType: parseInt(event.target.value, 10)
+					})
 					}
 					name="security"
 					label={translate.new_security_sms}
@@ -148,7 +148,7 @@ class MeetingEditorConfig extends Component {
 			>
 				<div className="row">
 					<div className="col-lg-4 col-md-4 col-xs-6">
-					<DateTimePicker
+						<DateTimePicker
 							required
 							onChange={date => {
 								const newDate = new Date(date);
@@ -171,12 +171,12 @@ class MeetingEditorConfig extends Component {
 							errorText={this.state.errors.name}
 							value={council.name || ''}
 							onChange={event => this.setState({
-									...this.state,
-									data: {
-										...this.state.data,
-										name: event.nativeEvent.target.value
-									}
-								})
+								...this.state,
+								data: {
+									...this.state.data,
+									name: event.nativeEvent.target.value
+								}
+							})
 							}
 						/>
 					</div>
@@ -190,12 +190,12 @@ class MeetingEditorConfig extends Component {
 							floatingText={translate.convene_info}
 							value={council.conveneText || ''}
 							onChange={value => this.setState({
-									...this.state,
-									data: {
-										...this.state.data,
-										conveneText: value
-									}
-								})
+								...this.state,
+								data: {
+									...this.state.data,
+									conveneText: value
+								}
+							})
 							}
 						/>
 					</div>
@@ -211,8 +211,8 @@ class MeetingEditorConfig extends Component {
 						label={translate.full_video_record}
 						value={council.fullVideoRecord !== 0}
 						onChange={(event, isInputChecked) => this.updateCouncilData({
-								fullVideoRecord: isInputChecked ? 1 : 0
-							})
+							fullVideoRecord: isInputChecked ? 1 : 0
+						})
 						}
 					/>
 					<Typography

@@ -32,6 +32,6 @@ const withWindowOrientation = WrappedComponent => class WithWindowOrientation ex
 				/>
 			);
 		}
-	};
+};
 
 export default withWindowOrientation;

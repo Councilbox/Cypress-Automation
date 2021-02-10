@@ -237,22 +237,22 @@ const StepAttachments = ({ client, translate, ...props }) => {
 										color="transparent"
 										styleComponent={{ width: '' }}
 										Component={() => <BasicButton
-												color={primary}
-												icon={<i className={'fa fa-plus'}
+											color={primary}
+											icon={<i className={'fa fa-plus'}
 												style={{
 													cursor: 'pointer',
 													color: 'white',
 													fontWeight: '700',
 													paddingLeft: '5px'
 												}}></i>}
-												text={translate.add}
-												textStyle={{
-													color: 'white'
-												}}
-												buttonStyle={{
-													width: '100%'
-												}}
-											/>
+											text={translate.add}
+											textStyle={{
+												color: 'white'
+											}}
+											buttonStyle={{
+												width: '100%'
+											}}
+										/>
 										}
 										textStyle={{ color: primary }}
 										anchorOrigin={{
@@ -264,28 +264,28 @@ const StepAttachments = ({ client, translate, ...props }) => {
 											<div style={{ padding: '1em' }}>
 												<label htmlFor="raised-button-file">
 													<div style={{
- display: 'flex', color: 'black', padding: '.5em 0em', cursor: 'pointer'
-}}>
+														display: 'flex', color: 'black', padding: '.5em 0em', cursor: 'pointer'
+													}}>
 														<div style={{ paddingLeft: '10px' }}>
 															{translate.upload_file}
 														</div>
 													</div>
 												</label>
-											<div
-												style={{
-													display: 'flex',
-													color: 'black',
-													padding: '.5em 0em',
-													borderTop: `1px solid${primary}`,
-													cursor: 'pointer'
-												}}
-												onClick={() => setCompanyDocumentsModal(true)}
-											>
-												<div style={{ paddingLeft: '10px' }} >
-													{translate.my_documentation}
+												<div
+													style={{
+														display: 'flex',
+														color: 'black',
+														padding: '.5em 0em',
+														borderTop: `1px solid${primary}`,
+														cursor: 'pointer'
+													}}
+													onClick={() => setCompanyDocumentsModal(true)}
+												>
+													<div style={{ paddingLeft: '10px' }} >
+														{translate.my_documentation}
+													</div>
 												</div>
 											</div>
-										</div>
 										}
 									/>
 								</>
@@ -294,7 +294,7 @@ const StepAttachments = ({ client, translate, ...props }) => {
 					</Grid>
 
 					{loading ?
-							<LoadingSection />
+						<LoadingSection />
 						:	attachments.length > 0 && (
 							<AttachmentList
 								attachments={attachments}

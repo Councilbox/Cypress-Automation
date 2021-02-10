@@ -6,7 +6,7 @@ import DocumentPreview from '../../../documentEditor/DocumentPreview';
 
 
 const SendActToVote = ({
- requestClose, translate, updateAct, agenda, council, refetch, ...props
+	requestClose, translate, updateAct, agenda, council, refetch, ...props
 }) => {
 	const [loading, setLoading] = React.useState(false);
 
@@ -30,16 +30,16 @@ const SendActToVote = ({
 	};
 
 	const modalBody = () => (
-			<div style={{ marginTop: '12px', height: '100%', border: '1px solid gainsboro' }}>
-				<DocumentPreview
-					translate={translate}
-					options={props.options}
-					doc={props.doc}
-					generatePreview={props.generatePreview}
-					company={props.company}
-				/>
-			</div>
-		);
+		<div style={{ marginTop: '12px', height: '100%', border: '1px solid gainsboro' }}>
+			<DocumentPreview
+				translate={translate}
+				options={props.options}
+				doc={props.doc}
+				generatePreview={props.generatePreview}
+				company={props.company}
+			/>
+		</div>
+	);
 
 	return (
 		<AlertConfirm

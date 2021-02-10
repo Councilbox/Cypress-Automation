@@ -10,7 +10,7 @@ import { isAnonym, isConfirmationRequest } from '../../../utils/CBX';
 import { isMobile } from '../../../utils/screen';
 
 const ToggleVotingsButton = ({
- agenda, translate, council, ...props
+	agenda, translate, council, ...props
 }) => {
 	const [loading, setLoading] = React.useState(false);
 	const [state, setState] = useOldState({
@@ -205,56 +205,56 @@ const ToggleVotingsButton = ({
 			)}
 			{agenda.votingState === 2 && getVotingClosedSection()}
 			{agenda.votingState === 4
-				&& <div style={{ width: '100%', ...(!isMobile ? { float: 'right' } : {}) }}>
-					<BasicButton
-						text={translate.close_point_votations}
-						color={primary}
-						loading={loading}
-						disabled={loading}
-						textPosition="before"
-						icon={
-							<ButtonIcon
-								type="lock_open"
-								color="white"
-							/>
-						}
-						floatRight={!isMobile}
-						buttonStyle={{ width: '18em' }}
-						onClick={closeAgendaVoting}
-						textStyle={{
-							fontSize: '0.75em',
-							fontWeight: '700',
-							textTransform: 'none',
-							color: 'white',
-						}}
-					/>
-				</div>
+&& <div style={{ width: '100%', ...(!isMobile ? { float: 'right' } : {}) }}>
+	<BasicButton
+		text={translate.close_point_votations}
+		color={primary}
+		loading={loading}
+		disabled={loading}
+		textPosition="before"
+		icon={
+			<ButtonIcon
+				type="lock_open"
+				color="white"
+			/>
+		}
+		floatRight={!isMobile}
+		buttonStyle={{ width: '18em' }}
+		onClick={closeAgendaVoting}
+		textStyle={{
+			fontSize: '0.75em',
+			fontWeight: '700',
+			textTransform: 'none',
+			color: 'white',
+		}}
+	/>
+</div>
 			}
 			{agenda.votingState === 3
-				&& <div style={{ width: '100%', ...(!isMobile ? { float: 'right' } : {}) }}>
-					<BasicButton
-						text={translate.open_in_person_votings}
-						color={'white'}
-						loading={loading}
-						disabled={loading}
-						onClick={openHybridVotings}
-						textPosition="before"
-						icon={
-							<ButtonIcon
-								type="thumbs_up_down"
-								color={primary}
-							/>
-						}
-						floatRight={!isMobile}
-						buttonStyle={{ minWidth: '11em' }}
-						textStyle={{
-							fontSize: '0.75em',
-							fontWeight: '700',
-							textTransform: 'none',
-							color: primary
-						}}
-					/>
-				</div>
+&& <div style={{ width: '100%', ...(!isMobile ? { float: 'right' } : {}) }}>
+	<BasicButton
+		text={translate.open_in_person_votings}
+		color={'white'}
+		loading={loading}
+		disabled={loading}
+		onClick={openHybridVotings}
+		textPosition="before"
+		icon={
+			<ButtonIcon
+				type="thumbs_up_down"
+				color={primary}
+			/>
+		}
+		floatRight={!isMobile}
+		buttonStyle={{ minWidth: '11em' }}
+		textStyle={{
+			fontSize: '0.75em',
+			fontWeight: '700',
+			textTransform: 'none',
+			color: primary
+		}}
+	/>
+</div>
 			}
 		</React.Fragment>
 	);

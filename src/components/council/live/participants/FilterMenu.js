@@ -142,26 +142,26 @@ const FilterMenu = ({
 			</div>
 
 			{state.tableType === 'participantSend'
-				&& <React.Fragment>
-					<Typography
-						variant="subheading"
-						style={{
-							textTransform: 'uppercase',
-							color: 'grey',
-							marginTop: '1.2em',
-							fontWeight: '700'
-						}}
-					>
-						{translate.refresh_convened}
-					</Typography>
-					<RefreshButton
-						tooltip={`${
-							translate.tooltip_refresh_convene_email_state_assistance
-						} (ALT + R)`}
-						loading={state.refreshing}
-						onClick={refreshEmailStates}
-					/>
-				</React.Fragment>
+&& <React.Fragment>
+	<Typography
+		variant="subheading"
+		style={{
+			textTransform: 'uppercase',
+			color: 'grey',
+			marginTop: '1.2em',
+			fontWeight: '700'
+		}}
+	>
+		{translate.refresh_convened}
+	</Typography>
+	<RefreshButton
+		tooltip={`${
+			translate.tooltip_refresh_convene_email_state_assistance
+		} (ALT + R)`}
+		loading={state.refreshing}
+		onClick={refreshEmailStates}
+	/>
+</React.Fragment>
 			}
 
 			<Typography
@@ -300,7 +300,7 @@ const FilterMenu = ({
 								fontSize: '1.2em'
 							}}
 						>
-							face
+face
 						</Icon>
 					</div>
 				</FilterButton>

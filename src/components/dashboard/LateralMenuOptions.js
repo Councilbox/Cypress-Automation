@@ -9,7 +9,7 @@ import { ConfigContext } from '../../containers/AppControl';
 
 
 const LateralMenuOptions = ({
- translate, company, stylesMenu, clase, menuType
+	translate, company, stylesMenu, clase, menuType
 }) => {
 	const config = React.useContext(ConfigContext);
 
@@ -57,7 +57,7 @@ const LateralMenuOptions = ({
 					<LateralOption
 						customIcon={
 							<Icon>
-								import_contacts
+import_contacts
 							</Icon>
 						}
 						text={translate.all_plural_fem}
@@ -75,11 +75,11 @@ const LateralMenuOptions = ({
 						style={{ marginTop: '10px' }}
 					/>
 					{(config.partnerBook && company.type !== 10)
-						&& <LateralOption
-							icon={'contacts'}
-							text={translate.book}
-							link={`/company/${company.id}/book`}
-						/>
+&& <LateralOption
+	icon={'contacts'}
+	text={translate.book}
+	link={`/company/${company.id}/book`}
+/>
 					}
 					<LateralOption
 						link={`/company/${company.id}/censuses`}
@@ -113,39 +113,39 @@ const LateralMenuOptions = ({
 
 	return (
 		!isMobile
-		&& <div className={clase} style={{
-			background: 'transparent',
-			width: '130px',
-			position: 'fixed',
-			top: '45px',
-			left: '75px',
-			zIndex: '1',
-			border: 'none',
-			boxShadow: 'none',
-			...stylesMenu
-		}
-		}>
-			<div style={{
-				background: darkGrey,
-				height: '100%',
-				width: '117px',
-				left: '12px',
-				position: 'relative',
-				boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)'
-			}}>
-				<div style={{
-					width: '100%',
-					display: 'flex',
-					flexDirection: 'column',
-					alignItems: 'center',
-					justifyContent: 'center',
-				}}>
+&& <div className={clase} style={{
+	background: 'transparent',
+	width: '130px',
+	position: 'fixed',
+	top: '45px',
+	left: '75px',
+	zIndex: '1',
+	border: 'none',
+	boxShadow: 'none',
+	...stylesMenu
+}
+}>
+	<div style={{
+		background: darkGrey,
+		height: '100%',
+		width: '117px',
+		left: '12px',
+		position: 'relative',
+		boxShadow: '0px 8px 16px 0px rgba(0,0,0,0.2)'
+	}}>
+		<div style={{
+			width: '100%',
+			display: 'flex',
+			flexDirection: 'column',
+			alignItems: 'center',
+			justifyContent: 'center',
+		}}>
 
-					{renderMenuOptions(menuType)}
+			{renderMenuOptions(menuType)}
 
-				</div>
-			</div>
 		</div>
+	</div>
+</div>
 	);
 };
 

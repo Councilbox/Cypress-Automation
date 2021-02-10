@@ -58,7 +58,7 @@ const participantQuery = gql`
 export const ConnectionInfoContext = React.createContext(null);
 
 const ParticipantContainer = ({
- client, council, match, detectRTC, main, actions, translate, ...props
+	client, council, match, detectRTC, main, actions, translate, ...props
 }) => {
 	const [data, setData] = React.useState(null);
 	const config = React.useContext(ConfigContext);
@@ -76,7 +76,7 @@ const ParticipantContainer = ({
 	}, [participant.id]);
 
 	const getReqData = React.useCallback(async () => {
-        // const response = await fetch(`${SERVER_URL}/connectionInfo`);
+		// const response = await fetch(`${SERVER_URL}/connectionInfo`);
 		let json = {};// await response.json();
 
 		const getDataFromBackend = async () => {
@@ -110,15 +110,15 @@ const ParticipantContainer = ({
 			}, {
 				timeout: 2000
 			});
-        } else {
+		} else {
 			json = await getDataFromBackend();
 			setConnectionData(json);
 		}
 	}, []);
 
-    React.useEffect(() => {
-        getReqData();
-    }, [getReqData]);
+	React.useEffect(() => {
+		getReqData();
+	}, [getReqData]);
 
 
 	React.useEffect(() => {
@@ -166,8 +166,8 @@ const ParticipantContainer = ({
 					window.location.replace(`${window.location.origin.replace(actualSubdomain, subdomain)}/participant/redirect/${sessionStorage.getItem('participantToken')}`);
 				}
 			} else if (shouldLoadSubdomain()) {
-					window.location.replace(`${window.location.origin.replace(actualSubdomain, 'app')}/participant/redirect/${sessionStorage.getItem('participantToken')}`);
-				}
+				window.location.replace(`${window.location.origin.replace(actualSubdomain, 'app')}/participant/redirect/${sessionStorage.getItem('participantToken')}`);
+			}
 		}
 	}, [council]);
 
@@ -198,10 +198,10 @@ const ParticipantContainer = ({
 		const { code } = data.errors[0];
 		if (
 			code === PARTICIPANT_ERRORS.PARTICIPANT_BLOCKED
-			|| code === PARTICIPANT_ERRORS.PARTICIPANT_IS_NOT_REMOTE
-			|| code === PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED
-			|| code === PARTICIPANT_ERRORS.REPRESENTED_DELEGATED
-			|| code === PARTICIPANT_ERRORS.REPRESENTATIVE_WITHOUT_REPRESENTED
+|| code === PARTICIPANT_ERRORS.PARTICIPANT_IS_NOT_REMOTE
+|| code === PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED
+|| code === PARTICIPANT_ERRORS.REPRESENTED_DELEGATED
+|| code === PARTICIPANT_ERRORS.REPRESENTATIVE_WITHOUT_REPRESENTED
 		) {
 			if (!council.councilVideo) {
 				return <LoadingMainApp />;
@@ -214,7 +214,7 @@ const ParticipantContainer = ({
 				/>
 			);
 		}
-			return <InvalidUrl error={data.errors[0]} />;
+		return <InvalidUrl error={data.errors[0]} />;
 	}
 
 	if (!data.participant || !council.councilVideo || Object.keys(detectRTC).length === 0) {
@@ -241,35 +241,35 @@ const ParticipantContainer = ({
 			>
 				<React.Fragment>
 					{main.isParticipantLogged ?
-							<React.Fragment>
-								{match.path.includes('meet') ?
-										<Meet
-											participant={data.participant}
-											reqData={reqData}
-											council={{
-												...council.councilVideo
-											}}
-											company={council.councilVideo.company}
-										/>
-									:										<Council
-											participant={data.participant}
-											reqData={reqData}
-											council={{
-												...council.councilVideo
-											}}
-											company={council.councilVideo.company}
-											refetchParticipant={getData}
-										/>
-								}
-							</React.Fragment>
+						<React.Fragment>
+							{match.path.includes('meet') ?
+								<Meet
+									participant={data.participant}
+									reqData={reqData}
+									council={{
+										...council.councilVideo
+									}}
+									company={council.councilVideo.company}
+								/>
+								:										<Council
+									participant={data.participant}
+									reqData={reqData}
+									council={{
+										...council.councilVideo
+									}}
+									company={council.councilVideo.company}
+									refetchParticipant={getData}
+								/>
+							}
+						</React.Fragment>
 						:							<ParticipantLogin
-								participant={data.participant}
-								council={{
-									...council.councilVideo
-								}}
-								refetch={getData}
-								company={council.councilVideo.company}
-							/>
+							participant={data.participant}
+							council={{
+								...council.councilVideo
+							}}
+							refetch={getData}
+							company={council.councilVideo.company}
+						/>
 					}
 				</React.Fragment>
 			</div>
@@ -388,8 +388,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-        actions: bindActionCreators(mainActions, dispatch)
-    });
+	actions: bindActionCreators(mainActions, dispatch)
+});
 
 export default graphql(councilQuery, {
 	name: 'council',
@@ -402,30 +402,30 @@ export default graphql(councilQuery, {
 	props: props => ({
 		...props,
 		subscribeToCouncilStateUpdated: params => props.council.subscribeToMore({
-				document: gql`
-					subscription councilStateUpdated($councilId: Int!){
-						councilStateUpdated(councilId: $councilId){
-							state
-							councilStarted
-							subdomain
-						}
-					}`,
-				variables: {
-					councilId: +params.councilId
-				},
-				updateQuery: (prev, { subscriptionData }) => {
-					const newData = subscriptionData.data.councilStateUpdated;
-
-					return ({
-						...prev,
-						councilVideo: {
-							...prev.councilVideo,
-							state: newData.state ? newData.state : prev.councilVideo.state,
-							subdomain: (newData.subdomain !== null) ? newData.subdomain : prev.councilVideo.subdomain,
-							councilStarted: (newData.councilStarted !== null) ? newData.councilStarted : prev.councilVideo.councilStarted
-						}
-					});
+			document: gql`
+				subscription councilStateUpdated($councilId: Int!){
+					councilStateUpdated(councilId: $councilId){
+					state
+					councilStarted
+					subdomain
 				}
-			})
+			}`,
+			variables: {
+				councilId: +params.councilId
+			},
+			updateQuery: (prev, { subscriptionData }) => {
+				const newData = subscriptionData.data.councilStateUpdated;
+
+				return ({
+					...prev,
+					councilVideo: {
+						...prev.councilVideo,
+						state: newData.state ? newData.state : prev.councilVideo.state,
+						subdomain: (newData.subdomain !== null) ? newData.subdomain : prev.councilVideo.subdomain,
+						councilStarted: (newData.councilStarted !== null) ? newData.councilStarted : prev.councilVideo.councilStarted
+					}
+				});
+			}
 		})
+	})
 })(withApollo(withDetectRTC()(withTranslations()(connect(mapStateToProps, mapDispatchToProps)(ParticipantContainer)))));

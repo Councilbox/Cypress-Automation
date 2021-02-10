@@ -13,12 +13,16 @@ module.exports = {
 			}
 		}
 	},
+	plugins: ['graphql'],
 	"parser": "babel-eslint",
 	extends: [
 		'airbnb-base',
 		"plugin:cypress/recommended",
 		"plugin:react/recommended"
 	],
+	"overrides": [{
+		"files": ["*.jsx", "*.js"]
+	}],
 	parserOptions: {
 		ecmaVersion: 11,
 		ecmaFeatures: {
@@ -29,7 +33,7 @@ module.exports = {
 	ignorePatterns: ['.github', '/cypress/*', 'public/*', '/src/displayComponents/ReactSignature/*'],
 	rules: {
 		"import/no-named-as-default": "off",
-		"indent": ["off", 4],
+		"indent": ["error", "tab"],
 		"no-new": 'warn',
 		"import/extensions": [
 			"error",

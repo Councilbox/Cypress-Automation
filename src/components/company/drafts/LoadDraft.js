@@ -3,10 +3,10 @@ import { graphql, withApollo } from 'react-apollo';
 import { compose } from 'react-apollo/index';
 import gql from 'graphql-tag';
 import {
- MenuItem, TableCell, TableRow, Divider, withStyles, IconButton, Collapse
+	MenuItem, TableCell, TableRow, Divider, withStyles, IconButton, Collapse
 } from 'material-ui';
 import {
- Scrollbar, TextInput, Icon, DropDownMenu, Grid, GridItem, EnhancedTable
+	Scrollbar, TextInput, Icon, DropDownMenu, Grid, GridItem, EnhancedTable
 } from '../../../displayComponents/index';
 import { companyDrafts, getCompanyDraftDataNoCompany } from '../../../queries/companyDrafts';
 import { DRAFTS_LIMITS, GOVERNING_BODY_TYPES } from '../../../constants';
@@ -50,7 +50,7 @@ const styles = {
 };
 
 const LoadDraft = withApollo(withSharedProps()(({
- majorityTypes, company, translate, client, match, defaultTags, ...props
+	majorityTypes, company, translate, client, match, defaultTags, ...props
 }) => {
 	const [search, setSearchModal] = React.useState('');
 	const [searchModalPlantillas, setSearchModalPlantillas] = React.useState('');
@@ -234,8 +234,8 @@ const LoadDraft = withApollo(withSharedProps()(({
 										type="text"
 										value={searchModalPlantillas}
 										styleInInput={{
- fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px'
-}}
+											fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px'
+										}}
 										classes={{ input: props.classes.input, formControl: props.classes.formControl }}
 										disableUnderline={true}
 										stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px' }}
@@ -259,69 +259,69 @@ const LoadDraft = withApollo(withSharedProps()(({
 					{renderSelectedTags()}
 				</div>
 				<div style={{
- marginTop: '1em', borderTop: '2px solid #dcdcdc', minHeight: '20em', height: '0', overflow: 'hidden'
-}}>
+					marginTop: '1em', borderTop: '2px solid #dcdcdc', minHeight: '20em', height: '0', overflow: 'hidden'
+				}}>
 					<Scrollbar>
 						<Grid style={{ width: '100%', margin: '0 auto', height: 'calc( 100% - 3em )' }}>
 							<GridItem xs={12} lg={12} md={12} style={{ width: '100%', height: '100%' }}>
 								<div id={'contenedorPlantillasEnModal'} style={{ width: '100%', height: '100%' }}>
 									{!!drafts.list
-										&& <EnhancedTable
-											hideTextFilter={true}
-											translate={translate}
-											defaultFilter={'title'}
-											page={1}
-											refetch={getData}
-											defaultLimit={DRAFTS_LIMITS[0]}
-											loading={draftLoading}
-											length={drafts.list.length}
-											total={drafts.total}
-											selectedCategories={[{
-												field: 'type',
-												value: 'all',
-												label: translate.all_plural
-											}]}
-											headers={[
-												{
-													text: translate.name,
-													name: 'title',
-													canOrder: true
-												},
-												{
-													name: 'type',
-													text: translate.tags,
-													canOrder: true
-												},
-												{
-													name: '',
-													text: ''
-												}
-											]}
-											companyID={company.id}
-											stylesDivSuperior={{ height: '100%' }}
-										>
-											{!draftLoading
-												&& draftsRender.map(item => (
-													<HoverableRow
-														key={`key__${item.id}`}
-														translate={translate}
-														draft={item}
-														classes={props.classes}
-														draftTypes={draftTypes}
-														company={company}
-														companyStatutes={vars.companyStatutes}
-														info={props}
-														onClick={() => {
-															sendGAevent({
-																category: 'Borradores',
-																action: 'Carga de borrador',
-															});
-															props.loadDraft(item);
-														}}
-													/>
-												))
-											}
-										</EnhancedTable>
+&& <EnhancedTable
+	hideTextFilter={true}
+	translate={translate}
+	defaultFilter={'title'}
+	page={1}
+	refetch={getData}
+	defaultLimit={DRAFTS_LIMITS[0]}
+	loading={draftLoading}
+	length={drafts.list.length}
+	total={drafts.total}
+	selectedCategories={[{
+		field: 'type',
+		value: 'all',
+		label: translate.all_plural
+	}]}
+	headers={[
+		{
+			text: translate.name,
+			name: 'title',
+			canOrder: true
+		},
+		{
+			name: 'type',
+			text: translate.tags,
+			canOrder: true
+		},
+		{
+			name: '',
+			text: ''
+		}
+	]}
+	companyID={company.id}
+	stylesDivSuperior={{ height: '100%' }}
+>
+	{!draftLoading
+&& draftsRender.map(item => (
+	<HoverableRow
+		key={`key__${item.id}`}
+		translate={translate}
+		draft={item}
+		classes={props.classes}
+		draftTypes={draftTypes}
+		company={company}
+		companyStatutes={vars.companyStatutes}
+		info={props}
+		onClick={() => {
+			sendGAevent({
+				category: 'Borradores',
+				action: 'Carga de borrador',
+			});
+			props.loadDraft(item);
+		}}
+	/>
+))
+	}
+</EnhancedTable>
 									}
 								</div>
 							</GridItem>
@@ -338,7 +338,7 @@ const LoadDraft = withApollo(withSharedProps()(({
 
 
 const HoverableRow = ({
- draft, company, translate, info, onClick, companyStatutes, classes, ...props
+	draft, company, translate, info, onClick, companyStatutes, classes, ...props
 }) => {
 	const [show, handlers] = useHoverRow();
 	const [expanded, setExpanded] = React.useState(false);
@@ -440,45 +440,45 @@ const HoverableRow = ({
 				{draft.title}
 
 				{expanded
-					&& <React.Fragment>
-						<div style={{ fontWeight: '700', marginTop: '1em' }}>{translate.content}</div>
-						<div dangerouslySetInnerHTML={{ __html: draft.text }} />
-					</React.Fragment>
+&& <React.Fragment>
+	<div style={{ fontWeight: '700', marginTop: '1em' }}>{translate.content}</div>
+	<div dangerouslySetInnerHTML={{ __html: draft.text }} />
+</React.Fragment>
 				}
 			</TableCell>
 			<TableCell>
 				<div style={{ display: 'flex' }}>
 					{columns
-						&& Object.keys(columns).map(key => {
-							const columnaLength = columns[key].length;
-							return (
-								<TagColumn key={`column_${key}`}>
-									{columns[key].map((tag, index) => (
-										index > 0 ?
-											<Collapse in={expanded} timeout="auto" unmountOnExit>
-												<SelectedTag
-													key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}_`}
-													text={translate[tag.label] || tag.label}
-													color={getTagColor(tag.type)}
-													props={props}
-													list={true}
-													count={''}
-												/>
-											</Collapse>
-											:											<SelectedTag
-												key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}`}
-												text={translate[tag.label] || tag.label}
-												color={getTagColor(tag.type)}
-												props={props}
-												list={true}
-												count={columnaLength > 1 ? expanded ? '' : columnaLength : ''}
-												stylesEtiqueta={{ cursor: columnaLength > 1 ? 'pointer' : '', }}
-												desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ''}
-											/>
-									))}
-								</TagColumn>
-							);
-						})
+&& Object.keys(columns).map(key => {
+	const columnaLength = columns[key].length;
+	return (
+		<TagColumn key={`column_${key}`}>
+			{columns[key].map((tag, index) => (
+				index > 0 ?
+					<Collapse in={expanded} timeout="auto" unmountOnExit>
+						<SelectedTag
+							key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}_`}
+							text={translate[tag.label] || tag.label}
+							color={getTagColor(tag.type)}
+							props={props}
+							list={true}
+							count={''}
+						/>
+					</Collapse>
+					:											<SelectedTag
+						key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}`}
+						text={translate[tag.label] || tag.label}
+						color={getTagColor(tag.type)}
+						props={props}
+						list={true}
+						count={columnaLength > 1 ? expanded ? '' : columnaLength : ''}
+						stylesEtiqueta={{ cursor: columnaLength > 1 ? 'pointer' : '', }}
+						desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ''}
+					/>
+			))}
+		</TagColumn>
+	);
+})
 					}
 				</div>
 			</TableCell>
@@ -493,7 +493,7 @@ const HoverableRow = ({
 
 
 export const DropdownEtiquetas = withStyles(styles)(({
- stylesMenuItem, translate, corporation, search, setSearchModal, matchSearch, addTag, vars, testTags, styleBody, anchorOrigin, transformOrigin, removeTag, soloIcono, ...props
+	stylesMenuItem, translate, corporation, search, setSearchModal, matchSearch, addTag, vars, testTags, styleBody, anchorOrigin, transformOrigin, removeTag, soloIcono, ...props
 }) => (
 	<DropDownMenu
 		id={'cargarPlantillasSelectorEtiquetas'}
@@ -504,8 +504,8 @@ export const DropdownEtiquetas = withStyles(styles)(({
 		transformOrigin={transformOrigin}
 		Component={() => (soloIcono ?
 			<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: '20px', paddingRight: '10px' }}>
-				local_offer
-					</i>
+local_offer
+			</i>
 			:			<MenuItem
 				style={{
 					height: '100%',
@@ -523,8 +523,8 @@ export const DropdownEtiquetas = withStyles(styles)(({
 				}}
 			>
 				<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: '20px', paddingLeft: '10px' }}>
-					local_offer
-						</i>
+local_offer
+				</i>
 				{translate.filter_by}
 			</MenuItem>)
 		}
@@ -554,8 +554,8 @@ export const DropdownEtiquetas = withStyles(styles)(({
 						}}
 						>
 							<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: '20px', paddingLeft: '10px' }}>
-								local_offer
-								</i>
+local_offer
+							</i>
 							{translate.tags}
 						</div>
 						<div>
@@ -603,18 +603,18 @@ export const DropdownEtiquetas = withStyles(styles)(({
 							}}>
 								<div style={{ width: '100%' }}>
 									{!!vars.companyStatutes
-										&& <EtiquetasModal
-											color={getTagColor(TAG_TYPES.STATUTE)}
-											addTag={addTag}
-											title={translate.council_type}
-											stylesContent={{
-												border: '1px solid #c196c3',
-												color: getTagColor(TAG_TYPES.STATUTE),
-											}}
-											tags={vars.companyStatutes.map(statute => createTag(statute, TAG_TYPES.STATUTE, translate))}
-											testTags={testTags}
-											removeTag={removeTag}
-										/>
+&& <EtiquetasModal
+	color={getTagColor(TAG_TYPES.STATUTE)}
+	addTag={addTag}
+	title={translate.council_type}
+	stylesContent={{
+		border: '1px solid #c196c3',
+		color: getTagColor(TAG_TYPES.STATUTE),
+	}}
+	tags={vars.companyStatutes.map(statute => createTag(statute, TAG_TYPES.STATUTE, translate))}
+	testTags={testTags}
+	removeTag={removeTag}
+/>
 									}
 								</div>
 							</GridItem>
@@ -643,42 +643,42 @@ export const DropdownEtiquetas = withStyles(styles)(({
 							}}>
 								<div style={{ display: 'flex', width: '100%' }}>
 									{!!vars.draftTypes
-										&& <EtiquetasModal
-											color={getTagColor(TAG_TYPES.DRAFT_TYPE)}
-											addTag={addTag}
-											title={translate.draft_type}
-											stylesContent={{
-												border: '1px solid #7fa5b6',
-												color: getTagColor(TAG_TYPES.DRAFT_TYPE),
-											}}
-											tags={vars.draftTypes.map(draft => createTag(draft, TAG_TYPES.DRAFT_TYPE, translate))}
-											testTags={testTags}
-											removeTag={removeTag}
-										/>
+&& <EtiquetasModal
+	color={getTagColor(TAG_TYPES.DRAFT_TYPE)}
+	addTag={addTag}
+	title={translate.draft_type}
+	stylesContent={{
+		border: '1px solid #7fa5b6',
+		color: getTagColor(TAG_TYPES.DRAFT_TYPE),
+	}}
+	tags={vars.draftTypes.map(draft => createTag(draft, TAG_TYPES.DRAFT_TYPE, translate))}
+	testTags={testTags}
+	removeTag={removeTag}
+/>
 									}
 								</div>
 							</GridItem>
 							{((props.company && props.company.id === props.company.corporationId) || corporation)
-								&& <GridItem xs={3} lg={3} md={3} style={{
-									width: '100%',
-								}}>
-									<div style={{ display: 'flex', width: '100%' }}>
-										{!!vars.companyTypes
-											&& <EtiquetasModal
-												color={getTagColor(TAG_TYPES.COMPANY_TYPE)}
-												addTag={addTag}
-												title={translate.company_type}
-												stylesContent={{
-													border: `1px solid ${getTagColor(TAG_TYPES.COMPANY_TYPE)}`,
-													color: getTagColor(TAG_TYPES.COMPANY_TYPE),
-												}}
-												tags={vars.companyTypes.map(draft => createTag(draft, TAG_TYPES.DRAFT_TYPE, translate))}
-												testTags={testTags}
-												removeTag={removeTag}
-											/>
-										}
-									</div>
-								</GridItem>
+&& <GridItem xs={3} lg={3} md={3} style={{
+	width: '100%',
+}}>
+	<div style={{ display: 'flex', width: '100%' }}>
+		{!!vars.companyTypes
+&& <EtiquetasModal
+	color={getTagColor(TAG_TYPES.COMPANY_TYPE)}
+	addTag={addTag}
+	title={translate.company_type}
+	stylesContent={{
+		border: `1px solid ${getTagColor(TAG_TYPES.COMPANY_TYPE)}`,
+		color: getTagColor(TAG_TYPES.COMPANY_TYPE),
+	}}
+	tags={vars.companyTypes.map(draft => createTag(draft, TAG_TYPES.DRAFT_TYPE, translate))}
+	testTags={testTags}
+	removeTag={removeTag}
+/>
+		}
+	</div>
+</GridItem>
 							}
 						</Grid>
 					}
@@ -689,7 +689,7 @@ export const DropdownEtiquetas = withStyles(styles)(({
 ));
 
 const EtiquetasModal = ({
- color, title, tags, addTag, testTags, removeTag
+	color, title, tags, addTag, testTags, removeTag
 }) => (
 	<div style={{ width: '100%' }}>
 		<div style={{ fontWeight: '700' }}>
@@ -702,7 +702,7 @@ const EtiquetasModal = ({
 				// maxHeight: '150px',
 				width: '100%'
 			}}
-				id={'tipoDeReunion'}
+			id={'tipoDeReunion'}
 			>
 				{tags.map(tag => (
 					<div

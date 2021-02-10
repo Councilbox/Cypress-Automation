@@ -79,7 +79,7 @@ class ParticipantStatsBanner extends React.Component {
 									marginRight: '0.5em'
 								}}
 							>
-								face
+face
 							</Icon>
 							{/* {this.getStateCount(5)} */}
 						</div>

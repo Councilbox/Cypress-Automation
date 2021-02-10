@@ -2,7 +2,7 @@ import React from 'react';
 import Button from 'material-ui/Button';
 
 const FabButton = ({
- onClick, color, icon, style, mode
+	onClick, color, icon, style, mode
 }) => (
 	<Button
 		variant="fab"

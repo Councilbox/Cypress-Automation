@@ -14,7 +14,7 @@ import { COUNCIL_STATES } from '../../../constants';
 import CanceledCouncil from './canceled/CanceledCouncil';
 
 const CouncilFinishedPage = ({
- translate, client, match, company
+	translate, client, match, company
 }) => {
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);

@@ -31,7 +31,7 @@ import { COUNCIL_TYPES } from '../../../../../constants';
 
 
 const ParticipantsPage = ({
- translate, council, orientation, participants, loading, data, filters, setFilters, ...props
+	translate, council, orientation, participants, loading, data, filters, setFilters, ...props
 }) => {
 	const [addGuest, setAddGuest] = React.useState(false);
 	const [QRModal, setQRModal] = React.useState(false);
@@ -40,19 +40,19 @@ const ParticipantsPage = ({
 	const config = React.useContext(ConfigContext);
 	const divWidth = React.useRef();
 	const _getFilters = () => [
-			{
-				value: 'fullName',
-				translation: translate.participant_data
-			},
-			{
-				value: 'dni',
-				translation: translate.dni
-			},
-			{
-				value: 'position',
-				translation: translate.position
-			}
-		];
+		{
+			value: 'fullName',
+			translation: translate.participant_data
+		},
+		{
+			value: 'dni',
+			translation: translate.dni
+		},
+		{
+			value: 'position',
+			translation: translate.position
+		}
+	];
 
 	React.useLayoutEffect(() => {
 		if (divWidth && divWidth.current && divWidth.current.offsetWidth < 648) {
@@ -182,8 +182,8 @@ const ParticipantsPage = ({
 				{_renderHeader()}
 			</div>
 			<Grid style={{
- padding: '0 8px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between'
-}}>
+				padding: '0 8px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+			}}>
 				<GridItem xs={orientation === 'landscape' ? 4 : 6} md={6} lg={3} style={{ display: 'flex', alignItems: 'center', height: '3.5em' }}>
 					{_renderAddGuestButton()}
 				</GridItem>
@@ -197,17 +197,17 @@ const ParticipantsPage = ({
 						onClick={toggleOnlyNotSigned}
 					/>
 					{props.root
-						&& <AddConvenedParticipantButton
-							participations={hasParticipations(council)}
-							translate={translate}
-							councilId={council.id}
-							refetch={data.refetch}
-							council={council}
-						/>
+&& <AddConvenedParticipantButton
+	participations={hasParticipations(council)}
+	translate={translate}
+	councilId={council.id}
+	refetch={data.refetch}
+	council={council}
+/>
 					}
 
 					{props.view === 'CREDENTIALS'
-						&& <RefreshCredsSendsButton translate={translate} council={council} />
+&& <RefreshCredsSendsButton translate={translate} council={council} />
 					}
 				</GridItem>
 				<GridItem xs={orientation === 'landscape' ? 12 : 12} md={12} lg={6}
@@ -218,37 +218,37 @@ const ParticipantsPage = ({
 						justifyContent: orientation === 'portrait' ? 'space-between' : 'flex-end'
 					}}>
 					{orientation === 'landscape' && isMobile
-						&& <CharSelector
-							onClick={toggleCharFilter}
-							translate={translate}
-							selectedChar={filters.charFilter}
-						/>
+&& <CharSelector
+	onClick={toggleCharFilter}
+	translate={translate}
+	selectedChar={filters.charFilter}
+/>
 					}
 					{(config.quickAccess && council.councilType < 2)
-						&& <React.Fragment>
-							<QRSearchModal
-								open={QRModal}
-								translate={translate}
-								council={council}
-								requestClose={() => setQRModal(false)}
-							/>
-							<div
-								style={{
-									height: '100%',
-									display: 'flex',
-									padding: '0.6em',
-									marginRight: '1em',
-									alignItems: 'center',
-									justifyContent: 'center',
-									border: '1px solid gainsboro',
-									cursor: 'pointer'
-								}}
-								className="withShadow"
-								onClick={() => setQRModal(true)}
-							>
-								<i className="fa fa-qrcode" aria-hidden="true" style={{ fontSize: '2em', marginLeft: '5px', color: secondary }}></i>
-							</div>
-						</React.Fragment>
+&& <React.Fragment>
+	<QRSearchModal
+		open={QRModal}
+		translate={translate}
+		council={council}
+		requestClose={() => setQRModal(false)}
+	/>
+	<div
+		style={{
+			height: '100%',
+			display: 'flex',
+			padding: '0.6em',
+			marginRight: '1em',
+			alignItems: 'center',
+			justifyContent: 'center',
+			border: '1px solid gainsboro',
+			cursor: 'pointer'
+		}}
+		className="withShadow"
+		onClick={() => setQRModal(true)}
+	>
+		<i className="fa fa-qrcode" aria-hidden="true" style={{ fontSize: '2em', marginLeft: '5px', color: secondary }}></i>
+	</div>
+</React.Fragment>
 					}
 					<div
 						style={{
@@ -301,11 +301,11 @@ const ParticipantsPage = ({
 				}}
 			>
 				{(!isMobile || orientation !== 'landscape')
-					&& <CharSelector
-						onClick={toggleCharFilter}
-						translate={translate}
-						selectedChar={filters.charFilter}
-					/>
+&& <CharSelector
+	onClick={toggleCharFilter}
+	translate={translate}
+	selectedChar={filters.charFilter}
+/>
 				}
 				{!data[getSection(props.view)] ?
 					<LoadingSection />

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
- Tooltip, Badge, Tabs, Tab
+	Tooltip, Badge, Tabs, Tab
 } from 'material-ui';
 import { DisabledSection, FabButton, Icon } from '../../../displayComponents';
 import LiveHeader from './LiveHeader';
@@ -110,7 +110,7 @@ const CouncilLivePage = ({ translate, data, company }) => {
 				if (agendaManager.current.wrappedInstance.state.editedVotings) {
 					return agendaManager.current.wrappedInstance.showVotingsAlert(cb);
 				}
-					return cb();
+				return cb();
 			}
 		}
 		cb();
@@ -192,50 +192,50 @@ const CouncilLivePage = ({ translate, data, company }) => {
 				}}
 			>
 				{(councilStartedState() && council.wallActive === 1)
-					&& <Tooltip title={`${translate.wall} - (ALT + W)`} open={state.wallTooltip}>
-						<div>
-							{state.unreadComments > 0 ?
-								<Badge
-									classes={{
-										badge: 'fadeToggle'
-									}}
-									badgeContent={
-										<span
-											style={{
-												color: 'white',
-												fontWeight: '700',
-											}}
-										>
-											{state.unreadComments}
-										</span>
-									}
-									color="secondary"
-								>
-									<div style={{ marginBottom: '0.3em' }}>
-										<FabButton
-											mode="intermitent"
-											icon={
-												<Icon className="material-icons">
-													chat
-												</Icon>
-											}
-											onClick={toggleWall}
-										/>
-									</div>
-								</Badge>
-								:								<div style={{ marginBottom: '0.3em' }}>
-									<FabButton
-										icon={
-											<Icon className="material-icons">
-												chat
-											</Icon>
-										}
-										onClick={toggleWall}
-									/>
-								</div>
-							}
-						</div>
-					</Tooltip>
+&& <Tooltip title={`${translate.wall} - (ALT + W)`} open={state.wallTooltip}>
+	<div>
+		{state.unreadComments > 0 ?
+			<Badge
+				classes={{
+					badge: 'fadeToggle'
+				}}
+				badgeContent={
+					<span
+						style={{
+							color: 'white',
+							fontWeight: '700',
+						}}
+					>
+						{state.unreadComments}
+					</span>
+				}
+				color="secondary"
+			>
+				<div style={{ marginBottom: '0.3em' }}>
+					<FabButton
+						mode="intermitent"
+						icon={
+							<Icon className="material-icons">
+chat
+							</Icon>
+						}
+						onClick={toggleWall}
+					/>
+				</div>
+			</Badge>
+			:								<div style={{ marginBottom: '0.3em' }}>
+				<FabButton
+					icon={
+						<Icon className="material-icons">
+chat
+						</Icon>
+					}
+					onClick={toggleWall}
+				/>
+			</div>
+		}
+	</div>
+</Tooltip>
 				}
 			</div>
 
@@ -298,18 +298,18 @@ const CouncilLivePage = ({ translate, data, company }) => {
 									}}
 								>
 									{(config.videoEnabled && config.videoVersion === videoVersions.CMP)
-										&& <CMPVideoIFrame
-											council={council}
-											translate={translate}
-											videoURL={state.videoURL}
-											setVideoURL={setVideoURL}
-										/>
+&& <CMPVideoIFrame
+	council={council}
+	translate={translate}
+	videoURL={state.videoURL}
+	setVideoURL={setVideoURL}
+/>
 									}
 									{(council.room && council.room.htmlVideoCouncil && config.videoEnabled && config.videoVersion !== videoVersions.CMP)
-										&& <div
-											style={{ height: '100%', width: '100%' }}
-											dangerouslySetInnerHTML={{ __html: council.room.htmlVideoCouncil }}
-										/>
+&& <div
+	style={{ height: '100%', width: '100%' }}
+	dangerouslySetInnerHTML={{ __html: council.room.htmlVideoCouncil }}
+/>
 									}
 									<div
 										style={{
@@ -319,7 +319,7 @@ const CouncilLivePage = ({ translate, data, company }) => {
 											right: '5%',
 											top: '16px',
 											backgroundColor:
-												'rgba(0, 0, 0, 0.5)',
+'rgba(0, 0, 0, 0.5)',
 											width: '2.9em',
 											height: '2.9em',
 											display: 'flex',
@@ -361,7 +361,7 @@ const CouncilLivePage = ({ translate, data, company }) => {
 							showVideo(council) ?
 								100 - state.videoWidth - '0.5'
 								: 100
-							}%`,
+						}%`,
 						height: '100%',
 						marginLeft: '5px',
 						position: 'relative'
@@ -375,105 +375,105 @@ const CouncilLivePage = ({ translate, data, company }) => {
 								council={council}
 							/>
 						) : (
-								<AgendaManager
-									ref={agendaManager}
-									recount={data.councilRecount}
-									council={council}
-									company={company}
-									translate={translate}
-									fullScreen={state.fullScreen}
-									refetch={data.refetch}
-									openMenu={() => setState({
-											videoWidth: minVideoWidth,
-											videoHeight: minVideoHeight,
-											fullScreen: false
-										})
-									}
-								/>
-							)
+							<AgendaManager
+								ref={agendaManager}
+								recount={data.councilRecount}
+								council={council}
+								company={company}
+								translate={translate}
+								fullScreen={state.fullScreen}
+								refetch={data.refetch}
+								openMenu={() => setState({
+									videoWidth: minVideoWidth,
+									videoHeight: minVideoHeight,
+									fullScreen: false
+								})
+								}
+							/>
+						)
 						:						<React.Fragment>
 							{!state.fullScreen
-								&& <Tabs value={state.tab}>
-									<Tab value={'PARTICIPANTS'} label={translate.participants} onClick={() => toggleScreens('PARTICIPANTS')} />
-									<Tab value={'AGENDA'} label={translate.agenda} onClick={() => toggleScreens('AGENDA')} id={'ordenDelDiaParticipantesButton'} />
-									{council.councilType === COUNCIL_TYPES.ONE_ON_ONE
-										&& <Tab value={'ATTACHMENTS'} label={translate.attachments} onClick={() => toggleScreens('ATTACHMENTS')} id={'councilAttachmentsButton'} />
-									}
-									<div style={{
-										width: '100%',
-										display: 'flex',
-										justifyContent: 'flex-end',
-										alignItems: 'center',
-										paddingRight: '1em'
-									}}>
-										{data.councilRecount
-											&& <>
-												<QuorumDisplay
-													company={company}
-													recount={data.councilRecount}
-													council={council}
-													translate={translate}
-												/>
-											</>
+&& <Tabs value={state.tab}>
+	<Tab value={'PARTICIPANTS'} label={translate.participants} onClick={() => toggleScreens('PARTICIPANTS')} />
+	<Tab value={'AGENDA'} label={translate.agenda} onClick={() => toggleScreens('AGENDA')} id={'ordenDelDiaParticipantesButton'} />
+	{council.councilType === COUNCIL_TYPES.ONE_ON_ONE
+&& <Tab value={'ATTACHMENTS'} label={translate.attachments} onClick={() => toggleScreens('ATTACHMENTS')} id={'councilAttachmentsButton'} />
+	}
+	<div style={{
+		width: '100%',
+		display: 'flex',
+		justifyContent: 'flex-end',
+		alignItems: 'center',
+		paddingRight: '1em'
+	}}>
+		{data.councilRecount
+&& <>
+	<QuorumDisplay
+		company={company}
+		recount={data.councilRecount}
+		council={council}
+		translate={translate}
+	/>
+</>
 
-										}
+		}
 
-									</div>
-								</Tabs>
+	</div>
+</Tabs>
 							}
 							<div style={{ height: '100%' }}>
 								{(showParticipants && !state.fullScreen)
-									&& <div style={{ height: 'calc( 100% - 2em )' }}>
-										<ParticipantsManager
-											stylesDiv={{
- margin: '0', height: 'calc( 100% - 1.8em )', borderTop: '1px solid #e7e7e7', width: '100%'
-}}
-											translate={translate}
-											participants={data.council.participants}
-											council={council}
-										/>
-									</div>
+&& <div style={{ height: 'calc( 100% - 2em )' }}>
+	<ParticipantsManager
+		stylesDiv={{
+			margin: '0', height: 'calc( 100% - 1.8em )', borderTop: '1px solid #e7e7e7', width: '100%'
+		}}
+		translate={translate}
+		participants={data.council.participants}
+		council={council}
+	/>
+</div>
 								}
 								{(state.tab === 'ATTACHMENTS' && !state.fullScreen)
-									&& <div style={{ height: 'calc( 100% - 2em )' }}>
-										<OneOnOneAttachmentsList
-											council={council}
-											translate={translate}
-										/>
-									</div>
+&& <div style={{ height: 'calc( 100% - 2em )' }}>
+	<OneOnOneAttachmentsList
+		council={council}
+		translate={translate}
+	/>
+</div>
 								}
 								{(state.tab === 'AGENDA' || state.fullScreen)
-									&& <div style={{ height: 'calc( 100% - 2em )', position: 'relative' }}>
-										{council.state === COUNCIL_STATES.PAUSED
-											&& <DisabledSection>
-												<div style={{ marginBottom: '1em' }}>
-													{translate.council_paused}
-												</div>
-												<ResumeCouncilButton
-													council={council}
-													translate={translate}
-													refetch={data.refetch}
-												/>
-											</DisabledSection>
-										}
-										<div style={{ borderTop: '1px solid #e7e7e7', height: 'calc( 100% - 1.8em )', width: '100%' }}>
-											<AgendaManager
-												ref={agendaManager}
-												recount={data.councilRecount}
-												council={council}
-												company={company}
-												translate={translate}
-												fullScreen={state.fullScreen}
-												refetch={data.refetch}
-												openMenu={() => setState({
-														videoWidth: minVideoWidth,
-														videoHeight: minVideoHeight,
-														fullScreen: false
-													})
-												}
-											/>
-										</div>
-									</div>
+&& <div style={{ height: 'calc( 100% - 2em )', position: 'relative' }}>
+	{council.state === COUNCIL_STATES.PAUSED
+&& <DisabledSection>
+	<div style={{ marginBottom: '1em' }}>
+		{translate.council_paused}
+	</div>
+	<ResumeCouncilButton
+		council={council}
+		translate={translate}
+		refetch={data.refetch}
+	/>
+</DisabledSection>
+	}
+	<div style={{ borderTop: '1px solid #e7e7e7', height: 'calc( 100% - 1.8em )', width: '100%' }}>
+		<AgendaManager
+			ref={agendaManager}
+			recount={data.councilRecount}
+			council={council}
+			company={company}
+			translate={translate}
+			fullScreen={state.fullScreen}
+			refetch={data.refetch}
+			openMenu={() => setState({
+				videoWidth: minVideoWidth,
+				videoHeight: minVideoHeight,
+				fullScreen: false
+			})
+			}
+		/>
+	</div>
+</div>
 								}
 							</div>
 						</React.Fragment>

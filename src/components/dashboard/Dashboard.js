@@ -86,18 +86,18 @@ const Dashboard = ({ translate, company, user }) => {
 							>
 							</div>
 							<div style={{
- display: 'flex', flexDirection: 'column', fontWeight: '700', alignItems: 'center'
-}}>
+								display: 'flex', flexDirection: 'column', fontWeight: '700', alignItems: 'center'
+							}}>
 								<div>
 									{company.logo
-										&& <img src={company.logo} alt="company-logo" style={{ height: '4.5em', width: 'auto' }} />
+&& <img src={company.logo} alt="company-logo" style={{ height: '4.5em', width: 'auto' }} />
 									}
 								</div>
 								<div>
 									{company.businessName}
 									{/*
-										{company.demo === 1 && ` (${translate.free_trial_remaining} ${trialDays <= 0 ? 0 : trialDays} ${translate.input_group_days})`}
-									*/}
+{company.demo === 1 && ` (${translate.free_trial_remaining} ${trialDays <= 0 ? 0 : trialDays} ${translate.input_group_days})`}
+*/}
 								</div>
 							</div>
 							<TopSectionBlocks

@@ -105,16 +105,16 @@ const PaginationFooter = ({
 				<div>
 					{length > 0 ?
 						`${translate.table_showing_part1} ${(page - 1) * limit
-						+ 1} ${translate.table_showing_part2} ${(page - 1)
-						* limit
-						+ length} ${translate.table_showing_part3} ${total} ${
-						translate.table_showing_part4
++ 1} ${translate.table_showing_part2} ${(page - 1)
+* limit
++ length} ${translate.table_showing_part3} ${total} ${
+							translate.table_showing_part4
 						}`
 						: translate.table_no_results}
 				</div>
 				<div style={{
- marginTop: '0.6em', display: 'flex', alignItems: 'center', justifyContent: 'center'
-}}>
+					marginTop: '0.6em', display: 'flex', alignItems: 'center', justifyContent: 'center'
+				}}>
 					<React.Fragment>
 						{page > 1 && (
 							<span
@@ -145,10 +145,10 @@ const PaginationFooter = ({
 			<GridItem xs={window.innerWidth < 480 ? 12 : xs || 5} lg={lg || 5} md={md || 6} style={{ fontSize: '0.7rem' }}>
 				{length > 0 ?
 					`${translate.table_showing_part1} ${(page - 1) * limit
-					+ 1} ${translate.table_showing_part2} ${(page - 1)
-					* limit
-					+ length} ${translate.table_showing_part3} ${total} ${
-					translate.table_showing_part4
++ 1} ${translate.table_showing_part2} ${(page - 1)
+* limit
++ length} ${translate.table_showing_part3} ${total} ${
+						translate.table_showing_part4
 					}`
 					: translate.table_no_results}
 			</GridItem>

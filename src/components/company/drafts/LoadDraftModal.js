@@ -4,9 +4,9 @@ import { getSecondary } from '../../../styles/colors';
 import LoadDraft from './LoadDraft';
 
 const LoadDraftModal = ({
- translate, companyId, councilType, draftType, statutes, statute, defaultTags, ...props
+	translate, companyId, councilType, draftType, statutes, statute, defaultTags, ...props
 }, ref) => {
-	// const modal = React.useRef();
+// const modal = React.useRef();
 
 	const [state, setState] = React.useState({
 		loadDraft: false
@@ -23,25 +23,25 @@ const LoadDraftModal = ({
 	}));
 
 	const _renderModalBody = () => (
-			<div>
-				<LoadDraft
-					defaultTags={defaultTags}
-					match={props.match}
-					companyId={companyId}
-					councilType={councilType}
-					draftType={draftType}
-					translate={translate}
-					statutes={statutes}
-					statute={statute}
-					loadDraft={value => {
-						props.loadDraft(value);
-						setState({
-							loadDraft: false
-						});
-					}}
-				/>
-			</div>
-		);
+		<div>
+			<LoadDraft
+				defaultTags={defaultTags}
+				match={props.match}
+				companyId={companyId}
+				councilType={councilType}
+				draftType={draftType}
+				translate={translate}
+				statutes={statutes}
+				statute={statute}
+				loadDraft={value => {
+					props.loadDraft(value);
+					setState({
+						loadDraft: false
+					});
+				}}
+			/>
+		</div>
+	);
 
 
 	const secondary = getSecondary();

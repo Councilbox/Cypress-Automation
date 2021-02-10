@@ -17,11 +17,11 @@ const DownloadCBXDataButton = props => {
 			props.updateState({ loading: true });
 		}
 		const response = await props.client.query({
-            query: gql`
-                query voteLetterPDF($participantId: Int!){
-                    voteLetterPDF(participantId: $participantId)
-                }
-            `,
+			query: gql`
+				query voteLetterPDF($participantId: Int!){
+					voteLetterPDF(participantId: $participantId)
+				}
+			`,
 			variables: {
 				participantId: id,
 				timezone: moment().utcOffset().toString()
@@ -48,16 +48,16 @@ const DownloadCBXDataButton = props => {
 	if (props.trigger) {
 		return (
 			loading ? (
-			<LoadingSection size={14} color={'secondary'} />
-		) : (
-			<div
-			onClick={event => {
-				event.stopPropagation();
-				downloadCBXData(props.participantId);
-			}}>
-				{props.trigger}
-			</div>
-		));
+				<LoadingSection size={14} color={'secondary'} />
+			) : (
+				<div
+					onClick={event => {
+						event.stopPropagation();
+						downloadCBXData(props.participantId);
+					}}>
+					{props.trigger}
+				</div>
+			));
 	}
 
 	return (

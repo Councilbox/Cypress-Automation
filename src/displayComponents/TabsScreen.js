@@ -6,7 +6,7 @@ import Link from './LinkWithoutStyling';
 import { bHistory } from '../containers/App';
 
 const TabsScreen = ({
- selected, controlled, tabsIndex, tabsInfo, linked, windowSize, styles
+	selected, controlled, tabsIndex, tabsInfo, linked, windowSize, styles
 }) => {
 	const [selectedTab, setSelected] = React.useState(0);
 
@@ -49,28 +49,28 @@ const TabsScreen = ({
 				onChange={handleChange}
 			>
 				{tabsInfo.map((tab, index) => (
-						<Tabs.TabPane
-							tab={
-								linked ?
+					<Tabs.TabPane
+						tab={
+							linked ?
 								<Link to={tab.link}>{tab.text}</Link>
 								:									tab.text
-							}
-							key={`${index}`}
-							style={{
-								height: 'calc(100% - 40px) !important',
-								overflow: 'hidden',
-								border: '1px solid #e8e8e8',
-								borderTop: 'none',
-								boxShadow:
-									'0 1px 4px 0 rgba(0, 0, 0, 0.14)',
-								borderRadius: '0px 5px 5px 5px'
-							}}
-						>
-							<div style={{ width: '100%', height: '100%' }}>
-								{!!tab.component && tab.component()}
-							</div>
-						</Tabs.TabPane>
-					))}
+						}
+						key={`${index}`}
+						style={{
+							height: 'calc(100% - 40px) !important',
+							overflow: 'hidden',
+							border: '1px solid #e8e8e8',
+							borderTop: 'none',
+							boxShadow:
+'0 1px 4px 0 rgba(0, 0, 0, 0.14)',
+							borderRadius: '0px 5px 5px 5px'
+						}}
+					>
+						<div style={{ width: '100%', height: '100%' }}>
+							{!!tab.component && tab.component()}
+						</div>
+					</Tabs.TabPane>
+				))}
 			</Tabs>
 		</div>
 	);

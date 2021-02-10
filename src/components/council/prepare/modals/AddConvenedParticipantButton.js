@@ -55,7 +55,7 @@ const initialRepresentative = {
 };
 
 const AddConvenedParticipantButton = ({
- translate, council, participations, client, company, ...props
+	translate, council, participations, client, company, ...props
 }) => {
 	const [state, setState] = useOldState({
 		modal: false,
@@ -175,20 +175,20 @@ const AddConvenedParticipantButton = ({
 					representativeErrors: {}
 				});
 			} else if (response.errors[0].message === 'Too many granted words') {
-					setState({
-						...(state.data.initialState === 2 ? {
-							errors: {
-								initialState: translate.initial_granted_word_error
-							}
-						} : {}),
-						...(representative && representative.initialState === 2 ? {
-							representativeErrors: {
-								initialState: translate.initial_granted_word_error
-							}
-						} : {})
+				setState({
+					...(state.data.initialState === 2 ? {
+						errors: {
+							initialState: translate.initial_granted_word_error
+						}
+					} : {}),
+					...(representative && representative.initialState === 2 ? {
+						representativeErrors: {
+							initialState: translate.initial_granted_word_error
+						}
+					} : {})
 
-					});
-				}
+				});
+			}
 		}
 	};
 

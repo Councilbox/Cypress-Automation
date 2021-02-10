@@ -52,7 +52,7 @@ const formatParticipant = participant => {
 
 
 const CouncilDetailsParticipants = ({
- client, translate, council, participations, hideNotifications, hideAddParticipant, ...props
+	client, translate, council, participations, hideNotifications, hideAddParticipant, ...props
 }) => {
 	const [filters, setFilters] = React.useState({
 		options: {
@@ -216,41 +216,41 @@ const CouncilDetailsParticipants = ({
 	const menuButtons = () => (
 		<>
 			<div style={{
- display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '0.3em'
-}}>
+				display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '0.3em'
+			}}>
 				{!hideNotifications
-					&& <Tooltip
-						title={
-							translate.tooltip_refresh_convene_email_state_assistance
-						}
-					>
-						<div>
-							<BasicButton
-								floatRight
-								text={translate.refresh_convened}
-								color={secondary}
-								loading={refreshing}
-								buttonStyle={{
-									margin: '0',
-									marginRight: '1.2em'
-								}}
-								textStyle={{
-									color: 'white',
-									fontWeight: '700',
-									fontSize: '0.9em',
-									textTransform: 'none'
-								}}
-								icon={
-									<ButtonIcon
-										color="white"
-										type="refresh"
-									/>
-								}
-								textPosition="after"
-								onClick={refreshEmailStates}
-							/>
-						</div>
-					</Tooltip>
+&& <Tooltip
+	title={
+		translate.tooltip_refresh_convene_email_state_assistance
+	}
+>
+	<div>
+		<BasicButton
+			floatRight
+			text={translate.refresh_convened}
+			color={secondary}
+			loading={refreshing}
+			buttonStyle={{
+				margin: '0',
+				marginRight: '1.2em'
+			}}
+			textStyle={{
+				color: 'white',
+				fontWeight: '700',
+				fontSize: '0.9em',
+				textTransform: 'none'
+			}}
+			icon={
+				<ButtonIcon
+					color="white"
+					type="refresh"
+				/>
+			}
+			textPosition="after"
+			onClick={refreshEmailStates}
+		/>
+	</div>
+</Tooltip>
 				}
 				<>
 					<BasicButton
@@ -281,15 +281,15 @@ const CouncilDetailsParticipants = ({
 					/>
 				</>
 				{!hideAddParticipant
-					&& <div>
-						<AddConvenedParticipantButton
-							participations={participations}
-							translate={translate}
-							councilId={council.id}
-							council={council}
-							refetch={refetch}
-						/>
-					</div>
+&& <div>
+	<AddConvenedParticipantButton
+		participations={participations}
+		translate={translate}
+		councilId={council.id}
+		council={council}
+		refetch={refetch}
+	/>
+</div>
 				}
 			</div>
 		</>
@@ -301,11 +301,11 @@ const CouncilDetailsParticipants = ({
 				<Grid style={{ margin: '0.5em 0.5em' }}>
 					<GridItem xs={12} lg={6} md={6}>
 						{!hideNotifications
-							&& <NotificationFilters
-								translate={translate}
-								refetch={updateNotificationFilter}
-								council={council}
-							/>
+&& <NotificationFilters
+	translate={translate}
+	refetch={updateNotificationFilter}
+	council={council}
+/>
 						}
 					</GridItem>
 				</Grid>
@@ -373,17 +373,17 @@ const CouncilDetailsParticipants = ({
 					</div>
 				</Scrollbar>
 				{editingParticipant
-					&& <ConvenedParticipantEditor
-						key={participant.id}
-						translate={translate}
-						close={closeParticipantEditor}
-						councilId={council.id}
-						council={council}
-						participations={participations}
-						participant={participant}
-						opened={editingParticipant}
-						refetch={refetch}
-					/>
+&& <ConvenedParticipantEditor
+	key={participant.id}
+	translate={translate}
+	close={closeParticipantEditor}
+	councilId={council.id}
+	council={council}
+	participations={participations}
+	participant={participant}
+	opened={editingParticipant}
+	refetch={refetch}
+/>
 				}
 
 
@@ -403,7 +403,7 @@ const CouncilDetailsParticipants = ({
 };
 // editar credenciales solo del representante
 const HoverableRow = ({
- translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant, representative, refetch, ...props
+	translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant, representative, refetch, ...props
 }) => {
 	const [showActions, setShowActions] = React.useState(false);
 	const [credentials, setCredentials] = React.useState(false);
@@ -423,10 +423,10 @@ const HoverableRow = ({
 				{`${translate.delegated_in}: ${delegate.name} ${delegate.surname || ''}`}
 			</React.Fragment>
 			:			!!representative
-			&& <React.Fragment>
-				<br />
-				{`${translate.represented_by}: ${representative.name} ${representative.surname || ''}`}
-			</React.Fragment>
+&& <React.Fragment>
+	<br />
+	{`${translate.represented_by}: ${representative.name} ${representative.surname || ''}`}
+</React.Fragment>
 	);
 
 
@@ -440,8 +440,8 @@ const HoverableRow = ({
 					credentials === 'participant' ?
 						<div>
 							<div style={{ color: 'black', marginBottom: '.5em' }}>Credenciales de: {`${participant.name} ${participant.surname
-								}  ${(participant.live.state === PARTICIPANT_STATES.DELEGATED
-									&& participant.representatives.length > 0) ? ` - ${translate.represented_by}: ${participant.representatives[0].name} ${participant.representatives[0].surname || ''}` : ''}`}</div>
+							}  ${(participant.live.state === PARTICIPANT_STATES.DELEGATED
+&& participant.representatives.length > 0) ? ` - ${translate.represented_by}: ${participant.representatives[0].name} ${participant.representatives[0].surname || ''}` : ''}`}</div>
 							<div style={{}}>
 								<ParticipantContactEditor
 									participant={participant.live}
@@ -460,25 +460,25 @@ const HoverableRow = ({
 							</div>
 						</div>
 						:						representative && representative.live
-						&& <div>
-							<div style={{ color: 'black', marginBottom: '.5em' }}>Credenciales de: {representative.live.name} {representative.live.surname}</div>
-							<div style={{}}>
-								<ParticipantContactEditor
-									participant={representative.live}
-									translate={translate}
-									refetch={refetch}
-									key={representative.live.id}
-									council={council}
-								/>
-							</div>
-							<div style={{ padding: '1em 0px' }}>
-								<NotificationsTable
-									maxEmail={{ maxWidth: '100px' }}
-									translate={translate}
-									notifications={representative.live.notifications}
-								/>
-							</div>
-						</div>
+&& <div>
+	<div style={{ color: 'black', marginBottom: '.5em' }}>Credenciales de: {representative.live.name} {representative.live.surname}</div>
+	<div style={{}}>
+		<ParticipantContactEditor
+			participant={representative.live}
+			translate={translate}
+			refetch={refetch}
+			key={representative.live.id}
+			council={council}
+		/>
+	</div>
+	<div style={{ padding: '1em 0px' }}>
+		<NotificationsTable
+			maxEmail={{ maxWidth: '100px' }}
+			translate={translate}
+			notifications={representative.live.notifications}
+		/>
+	</div>
+</div>
 				}
 				title={'Administrador de credenciales'}
 			/>
@@ -502,133 +502,133 @@ const HoverableRow = ({
 				</TableCell>
 				<TableCell>
 					<div style={{ fontWeight: '700', marginBottom: '0.2em' }}>{`${participant.name} ${participant.surname
-						}  ${(participant.live.state === PARTICIPANT_STATES.DELEGATED
-							&& participant.representatives.length > 0) ? ` - ${translate.represented_by}: ${participant.representatives[0].name} ${participant.representatives[0].surname || ''}` : ''}`}
+					}  ${(participant.live.state === PARTICIPANT_STATES.DELEGATED
+&& participant.representatives.length > 0) ? ` - ${translate.represented_by}: ${participant.representatives[0].name} ${participant.representatives[0].surname || ''}` : ''}`}
 					</div>
 					{voteParticipantInfo}
 				</TableCell>
 				<TableCell>
 					<div style={{ marginBottom: '0.2em' }}>{participant.dni}</div>
 					{!!representative
-						&& <React.Fragment>
-							<br />
-							{representative.dni}
-						</React.Fragment>
+&& <React.Fragment>
+	<br />
+	{representative.dni}
+</React.Fragment>
 					}
 				</TableCell>
 				<TableCell>
 					<div style={{ marginBottom: '0.2em' }}>{participant.position}</div>
 					{!!representative
-						&& <React.Fragment>
-							<br />
-							{representative.position}
-						</React.Fragment>
+&& <React.Fragment>
+	<br />
+	{representative.position}
+</React.Fragment>
 					}
 				</TableCell>
 				<TableCell>
 					{`${participant.numParticipations
-						} (${participant.numParticipations > 0 ? (
-							(participant.numParticipations
-								/ totalVotes)
-							* 100
-						).toFixed(2) : 0}%)`}
+					} (${participant.numParticipations > 0 ? (
+						(participant.numParticipations
+/ totalVotes)
+* 100
+					).toFixed(2) : 0}%)`}
 					{!!representative
-						&& <React.Fragment>
-							<br />
-						</React.Fragment>
+&& <React.Fragment>
+	<br />
+</React.Fragment>
 					}
 				</TableCell>
 				{props.participations && (
 					<TableCell>
 						{`${participant.socialCapital
-							} (${participant.socialCapital > 0 ?
-								((participant.socialCapital / socialCapital) * 100).toFixed(2)
-								:								0
-							}%)`}
+						} (${participant.socialCapital > 0 ?
+							((participant.socialCapital / socialCapital) * 100).toFixed(2)
+							:								0
+						}%)`}
 						{!!representative
-							&& <React.Fragment>
-								<br />
-							</React.Fragment>
+&& <React.Fragment>
+	<br />
+</React.Fragment>
 						}
 					</TableCell>
 				)}
 
 				{props.cbxData
-					&& <TableCell>
-						<div style={{ width: '4em' }}>
-							{showActions
-								&& <DownloadCBXDataButton
-									translate={translate}
-									participantId={participant.live.id}
-								/>
-							}
-						</div>
-					</TableCell>
+&& <TableCell>
+	<div style={{ width: '4em' }}>
+		{showActions
+&& <DownloadCBXDataButton
+	translate={translate}
+	participantId={participant.live.id}
+/>
+		}
+	</div>
+</TableCell>
 
 				}
 
 				{!hideNotifications
-					&& <React.Fragment>
-						<TableCell>
-							{notifications.length > 0 ? (
-								<Tooltip
-									title={translate[CBX.getTranslationReqCode(notifications[0].reqCode)]}
-								>
-									<img
-										style={{
-											height:
-												'2.1em',
-											width:
-												'auto'
-										}}
-										src={CBX.getEmailIconByReqCode(
-											notifications[0].reqCode
-										)}
-										alt="email-state-icon"
-									/>
-								</Tooltip>
-							) : (
-									''
-								)}
-						</TableCell>
-						{CBX.councilHasAssistanceConfirmation(council)
-							&& (
-								<TableCell>
-									<AttendIntentionIcon
-										participant={participant.live}
-										representative={participant.representatives.length > 0 ? participant.representative.live : null}
-										council={council}
-										showCommentIcon={participant.representatives.length > 0 ? !!participant.representative.live.assistanceComment : !!participant.live.assistanceComment}
-										onCommentClick={props.showModalComment({
-											text: participant.representatives.length > 0 ? participant.representative.live.assistanceComment : participant.live.assistanceComment,
-											author: participant.representatives.length > 0 ?
-												`${participant.name} ${participant.surname || ''} - ${translate.represented_by} ${representative.name} ${representative.surname || ''}`
-												:												`${participant.name} ${participant.surname || ''}`
-										})}
-										translate={translate}
-										size="2em"
-									/>
-								</TableCell>
-							)}
-						<TableCell>
-							<div style={{ display: 'flex' }}>
-								<div style={{
- color: getPrimary(), position: 'relative', marginRight: '1.5em', cursor: 'pointer',
-}} onClick={editParticipant}>
-									<div style={{ fontSize: '20px' }}>
-										<i className="fa fa-pencil-square-o" aria-hidden="true"></i>
-									</div>
-								</div>
-								<div>
-									<DeleteConvenedParticipantButton
-										translate={translate}
-										participant={participant}
-										refetch={refetch}
-									/>
-								</div>
-							</div>
-						</TableCell>
-					</React.Fragment>
+&& <React.Fragment>
+	<TableCell>
+		{notifications.length > 0 ? (
+			<Tooltip
+				title={translate[CBX.getTranslationReqCode(notifications[0].reqCode)]}
+			>
+				<img
+					style={{
+						height:
+'2.1em',
+						width:
+'auto'
+					}}
+					src={CBX.getEmailIconByReqCode(
+						notifications[0].reqCode
+					)}
+					alt="email-state-icon"
+				/>
+			</Tooltip>
+		) : (
+			''
+		)}
+	</TableCell>
+	{CBX.councilHasAssistanceConfirmation(council)
+&& (
+	<TableCell>
+		<AttendIntentionIcon
+			participant={participant.live}
+			representative={participant.representatives.length > 0 ? participant.representative.live : null}
+			council={council}
+			showCommentIcon={participant.representatives.length > 0 ? !!participant.representative.live.assistanceComment : !!participant.live.assistanceComment}
+			onCommentClick={props.showModalComment({
+				text: participant.representatives.length > 0 ? participant.representative.live.assistanceComment : participant.live.assistanceComment,
+				author: participant.representatives.length > 0 ?
+					`${participant.name} ${participant.surname || ''} - ${translate.represented_by} ${representative.name} ${representative.surname || ''}`
+					:												`${participant.name} ${participant.surname || ''}`
+			})}
+			translate={translate}
+			size="2em"
+		/>
+	</TableCell>
+)}
+	<TableCell>
+		<div style={{ display: 'flex' }}>
+			<div style={{
+				color: getPrimary(), position: 'relative', marginRight: '1.5em', cursor: 'pointer',
+			}} onClick={editParticipant}>
+				<div style={{ fontSize: '20px' }}>
+					<i className="fa fa-pencil-square-o" aria-hidden="true"></i>
+				</div>
+			</div>
+			<div>
+				<DeleteConvenedParticipantButton
+					translate={translate}
+					participant={participant}
+					refetch={refetch}
+				/>
+			</div>
+		</div>
+	</TableCell>
+</React.Fragment>
 				}
 			</TableRow>
 		</React.Fragment>

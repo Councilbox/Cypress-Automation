@@ -10,7 +10,7 @@ import { bHistory } from '../containers/App';
 
 
 const CardPageLayout = ({
- children, title, footer, windowSize, stylesNoScroll, avatar, disableScroll = false, inMenuExact
+	children, title, footer, windowSize, stylesNoScroll, avatar, disableScroll = false, inMenuExact
 }) => {
 	const goBack = () => {
 		if (inMenuExact) {
@@ -49,11 +49,11 @@ const CardPageLayout = ({
 					// height: windowSize !== "xs" ? "2.8em" : "2em",
 					zIndex: title ? '20' : -1,
 					marginLeft:
-						windowSize !== 'xs' ?
-							windowSize === 'xl' ?
-								'8%'
-								: '2em'
-							: '1em',
+windowSize !== 'xs' ?
+	windowSize === 'xl' ?
+		'8%'
+		: '2em'
+	: '1em',
 					marginRight: windowSize !== 'xs' && '1em',
 					position: 'relative',
 					fontWeight: '300',
@@ -68,15 +68,15 @@ const CardPageLayout = ({
 					<div style={{ cursor: 'pointer', visibility: title ? 'visible' : 'hidden' }} onClick={goBack}>
 						<i className="fa fa-angle-left" ></i>
 						<span style={{ fontStyle: 'normal', marginRight: '8px', marginLeft: '5px' }}>
-							|
+|
 						</span>
 					</div>
 					{(title && avatar)
-						&& <div style={{
- display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '0.6em'
+&& <div style={{
+	display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: '0.6em'
 }}>
-							<Avatar src={avatar} alt="Foto" style={{ border: `1px solid${getPrimary()}` }} />
-						</div>
+	<Avatar src={avatar} alt="Foto" style={{ border: `1px solid${getPrimary()}` }} />
+</div>
 					}
 					<div>
 						{title || ''}
@@ -85,17 +85,17 @@ const CardPageLayout = ({
 				<Paper
 					style={{
 						height:
-							windowSize !== 'xs' ?
-								'calc(100% - 2em)'
-								: 'calc(100% - 1.5em)',
+windowSize !== 'xs' ?
+	'calc(100% - 2em)'
+	: 'calc(100% - 1.5em)',
 						backgroundColor: 'white',
 						borderRadius: '3px',
 						width:
-							windowSize !== 'xs' ?
-								windowSize === 'xl' ?
-									'90%'
-									: '96%'
-								: '98%',
+windowSize !== 'xs' ?
+	windowSize === 'xl' ?
+		'90%'
+		: '96%'
+	: '98%',
 						margin: '0 auto',
 						marginTop: '-4em'
 					}}
@@ -140,17 +140,17 @@ const CardPageLayout = ({
 						)}
 					</div>
 					{!!footer
-						&& <div
-							style={{
-								width: '100%',
-								height: '2.5em',
-								position: 'absolute',
-								bottom: 0,
-								right: 0,
-							}}
-						>
-							{footer}
-						</div>
+&& <div
+	style={{
+		width: '100%',
+		height: '2.5em',
+		position: 'absolute',
+		bottom: 0,
+		right: 0,
+	}}
+>
+	{footer}
+</div>
 					}
 				</Paper>
 			</div>

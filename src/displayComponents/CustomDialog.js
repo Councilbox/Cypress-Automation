@@ -19,55 +19,55 @@ const CustomDialog = ({
 	onEntered,
 	dialogActionsStyles
 }) => (
-		<Dialog
-			disableBackdropClick={disableBackdropClick}
-			fullWidth={fullWidth}
-			fullScreen={fullScreen}
-			maxWidth={false}
-			open={open}
-			onClose={requestClose}
-			onEntered={onEntered}
+	<Dialog
+		disableBackdropClick={disableBackdropClick}
+		fullWidth={fullWidth}
+		fullScreen={fullScreen}
+		maxWidth={false}
+		open={open}
+		onClose={requestClose}
+		onEntered={onEntered}
+	>
+		<FontAwesome
+			name={'close'}
+			style={{
+				cursor: 'pointer',
+				fontSize: '1.5em',
+				color: getSecondary(),
+				position: 'absolute',
+				right: '12px',
+				top: '9px'
+			}}
+			onClick={() => requestClose()}
+		/>
+		{!!title && (
+			<DialogTitle
+				style={{
+					padding: '0.6em 2em 0.8em 1.2em',
+					fontSize: '1.2em'
+				}}
+			>
+				{title}
+			</DialogTitle>
+		)}
+		<DialogContent
+			style={{
+				minWidth: '40vw',
+				maxWidth: '95vw'
+			}}
 		>
-			<FontAwesome
-				name={'close'}
-				style={{
-					cursor: 'pointer',
-					fontSize: '1.5em',
-					color: getSecondary(),
-					position: 'absolute',
-					right: '12px',
-					top: '9px'
-				}}
-				onClick={() => requestClose()}
-			/>
-			{!!title && (
-				<DialogTitle
-					style={{
-						padding: '0.6em 2em 0.8em 1.2em',
-						fontSize: '1.2em'
-					}}
-				>
-					{title}
-				</DialogTitle>
-			)}
-			<DialogContent
-				style={{
-					minWidth: '40vw',
-					maxWidth: '95vw'
-				}}
-			>
-				{children}
-			</DialogContent>
-			<DialogActions
-				style={{
-					paddingRight: '0.6em',
-					textAlign: 'right',
-					...dialogActionsStyles
-				}}
-			>
-				{actions}
-			</DialogActions>
-		</Dialog>
-	);
+			{children}
+		</DialogContent>
+		<DialogActions
+			style={{
+				paddingRight: '0.6em',
+				textAlign: 'right',
+				...dialogActionsStyles
+			}}
+		>
+			{actions}
+		</DialogActions>
+	</Dialog>
+);
 
 export default CustomDialog;

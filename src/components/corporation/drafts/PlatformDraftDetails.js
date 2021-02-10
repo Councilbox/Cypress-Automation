@@ -107,7 +107,7 @@ const councilTypes = [
 
 
 const PlatformDraftDetails = ({
- translate, draft, close, data
+	translate, draft, close, data
 }) => {
 	if (data.loading) {
 		return <LoadingSection />;
@@ -154,7 +154,7 @@ const PlatformDraftDetails = ({
 					<Typography variant="caption">
 						{draft.companyType ?
 							translate[
-							data.companyTypes[draft.companyType].label
+								data.companyTypes[draft.companyType].label
 							]
 							: '-'}
 					</Typography>
@@ -166,7 +166,7 @@ const PlatformDraftDetails = ({
 					<Typography variant="caption">
 						{draft.prototype ?
 							translate[
-							councilTypes[draft.prototype - 1].title
+								councilTypes[draft.prototype - 1].title
 							]
 							: '-'}
 					</Typography>

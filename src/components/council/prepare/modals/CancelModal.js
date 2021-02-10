@@ -7,101 +7,101 @@ import { bHistory, moment } from '../../../../containers/App';
 import RichTextInput from '../../../../displayComponents/RichTextInput';
 
 class CancelModal extends React.Component {
-	state = {
-		success: false,
-		sending: false,
-		message: '',
-		error: ''
-	};
+state = {
+	success: false,
+	sending: false,
+	message: '',
+	error: ''
+};
 
-	close = () => {
-		this.props.requestClose();
-		bHistory.push('/');
-	};
+close = () => {
+	this.props.requestClose();
+	bHistory.push('/');
+};
 
-	hide = () => {
-		this.props.requestClose();
-	};
+hide = () => {
+	this.props.requestClose();
+};
 
-	cancelCouncil = async () => {
+cancelCouncil = async () => {
+	this.setState({
+		sending: true
+	});
+	const response = await this.props.cancelCouncil({
+		variables: {
+			councilId: this.props.council.id,
+			timezone: moment().utcOffset().toString(),
+			message: this.state.message
+		}
+	});
+	if (response.data.cancelCouncil.success) {
 		this.setState({
-			sending: true
+			sending: false,
+			success: true
 		});
-		const response = await this.props.cancelCouncil({
-			variables: {
-				councilId: this.props.council.id,
-				timezone: moment().utcOffset().toString(),
-				message: this.state.message
-			}
+	} else {
+		this.setState({
+			sending: false,
+			error: true
 		});
-		if (response.data.cancelCouncil.success) {
-			this.setState({
-				sending: false,
-				success: true
-			});
-		} else {
-			this.setState({
-				sending: false,
-				error: true
-			});
-		}
-	};
+	}
+};
 
-	renderCancelBody() {
-		const { translate } = this.props;
+renderCancelBody() {
+	const { translate } = this.props;
 
-		if (this.state.sending) {
-			return (
-				<div>
-					<LoadingSection size={50} />
-				</div>
-			);
-		}
-
-		if (this.state.success) {
-			return <SuccessMessage message={translate.canceled_council} />;
-		}
-
+	if (this.state.sending) {
 		return (
-			<React.Fragment>
-				{translate.cancel_council_desc}
-				<RichTextInput
-					translate={translate}
-					floatingText={translate.message}
-					value={this.state.message}
-					onChange={value => this.setState({
-							message: value
-						})
-					}
-				/>
-			</React.Fragment>
+			<div>
+				<LoadingSection size={50} />
+			</div>
 		);
 	}
 
-	render() {
-		const { translate } = this.props;
+	if (this.state.success) {
+		return <SuccessMessage message={translate.canceled_council} />;
+	}
 
-		return (
-			<AlertConfirm
-				requestClose={this.hide}
-				open={this.props.show}
-				loadingAction={this.state.sending}
-				acceptAction={
-					this.state.success ? () => this.close() : this.cancelCouncil
+	return (
+		<React.Fragment>
+			{translate.cancel_council_desc}
+			<RichTextInput
+				translate={translate}
+				floatingText={translate.message}
+				value={this.state.message}
+				onChange={value => this.setState({
+					message: value
+				})
 				}
-				buttonAccept={
-					!this.state.sending ?
-						this.state.success ?
-							translate.accept
-							: translate.cancel_council
-						: ''
-				}
-				buttonCancel={translate.close}
-				bodyText={this.renderCancelBody()}
-				title={translate.cancel_council}
 			/>
-		);
-	}
+		</React.Fragment>
+	);
+}
+
+render() {
+	const { translate } = this.props;
+
+	return (
+		<AlertConfirm
+			requestClose={this.hide}
+			open={this.props.show}
+			loadingAction={this.state.sending}
+			acceptAction={
+				this.state.success ? () => this.close() : this.cancelCouncil
+			}
+			buttonAccept={
+				!this.state.sending ?
+					this.state.success ?
+						translate.accept
+						: translate.cancel_council
+					: ''
+			}
+			buttonCancel={translate.close}
+			bodyText={this.renderCancelBody()}
+			title={translate.cancel_council}
+		/>
+	);
+}
 }
 
 export default graphql(cancelCouncil, {

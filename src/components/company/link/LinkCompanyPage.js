@@ -90,43 +90,43 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 					<LiveToast
 						message={translate.company_link_success_title}
 					/>, {
-					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,
-					className: 'successToast'
-				}
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,
+						className: 'successToast'
+					}
 				);
 				store.dispatch(getCompanies(props.user.id));
 				bHistory.push('/');
 			} else {
 				switch (response.data.linkCompany.message) {
-					case 'Wrong linkKey':
-						setState({
-							errors: {
-								linkKey: translate.incorrect_master_key
-							}
-						});
-						break;
-					case 'Already Linked':
-						setState({
-							errors: {
-								cif: translate.company_already_linked
-							}
-						});
-						break;
-					default:
-						setState({
-							errors: {
-								linkKey: translate.incorrect_master_key
-							}
-						});
+				case 'Wrong linkKey':
+					setState({
+						errors: {
+							linkKey: translate.incorrect_master_key
+						}
+					});
+					break;
+				case 'Already Linked':
+					setState({
+						errors: {
+							cif: translate.company_already_linked
+						}
+					});
+					break;
+				default:
+					setState({
+						errors: {
+							linkKey: translate.incorrect_master_key
+						}
+					});
 				}
 			}
 		}
 	};
 
 	const {
- data, errors, requestError, success, request
-} = state;
+		data, errors, requestError, success, request
+	} = state;
 
 
 	return (
@@ -146,8 +146,8 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 							value={data.cif}
 							errorText={errors.cif}
 							onChange={event => updateState({
-									cif: event.target.value
-								})
+								cif: event.target.value
+							})
 							}
 						/>
 					</div>
@@ -167,8 +167,8 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 									: 'password'
 							}
 							passwordToggler={() => setState({
-									showPassword: !state.showPassword
-								})
+								showPassword: !state.showPassword
+							})
 							}
 							showPassword={state.showPassword}
 							required
@@ -178,8 +178,8 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 							value={data.linkKey}
 							errorText={errors.linkKey}
 							onChange={event => updateState({
-									linkKey: event.target.value
-								})
+								linkKey: event.target.value
+							})
 							}
 						/>
 						<br />

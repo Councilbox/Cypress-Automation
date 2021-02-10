@@ -48,12 +48,12 @@ export const formatInt = num => {
 };
 
 export const getPercentage = (num, total, decimals = 3) => {
-    const percentage = ((num * 100) / (total)).toFixed(decimals);
-    const zero = 0;
-    if (Number.isNaN(percentage)) {
-        return zero.toFixed(decimals);
+	const percentage = ((num * 100) / (total)).toFixed(decimals);
+	const zero = 0;
+	if (Number.isNaN(percentage)) {
+		return zero.toFixed(decimals);
 	}
-    return percentage;
+	return percentage;
 };
 
 export const filterDelegatedVotes = vote => vote.state !== PARTICIPANT_STATES.REPRESENTATED;
@@ -107,7 +107,7 @@ export const hasAccessKey = council => {
 
 export const canAddCouncilAttachment = (council, filesize) => (
 	(council.attachments.reduce((a, b) => a + parseInt(b.filesize, 10), 0)
-		+ filesize) < MAX_COUNCIL_FILE_SIZE
++ filesize) < MAX_COUNCIL_FILE_SIZE
 );
 
 export const trialDaysLeft = (company, date, trialDays) => {
@@ -120,20 +120,20 @@ export const councilStarted = council => council.councilStarted === 1;
 export const existsQualityVote = statute => statute.existsQualityVote === 1;
 
 export const showAgendaVotingsToggle = (council, agenda) => (
-		council.councilStarted === 1
-		&& agenda.subjectType !== 0
-		&& agenda.votingState !== 2
-	);
+	council.councilStarted === 1
+&& agenda.subjectType !== 0
+&& agenda.votingState !== 2
+);
 
 export const showSendCredentials = participantState => participantState !== PARTICIPANT_STATES.PRESENT
-		&& participantState !== PARTICIPANT_STATES.PHYSICALLY_PRESENT
-		&& participantState !== PARTICIPANT_STATES.DELEGATED
-		&& participantState !== PARTICIPANT_STATES.REPRESENTATED;
+&& participantState !== PARTICIPANT_STATES.PHYSICALLY_PRESENT
+&& participantState !== PARTICIPANT_STATES.DELEGATED
+&& participantState !== PARTICIPANT_STATES.REPRESENTATED;
 
 export const showAgendaVotingsTable = agenda => (
-		agenda.votingState > 0
-		&& agenda.subjectType !== 0
-	);
+	agenda.votingState > 0
+&& agenda.subjectType !== 0
+);
 
 export const getAgendaResult = (agenda, type, data = {}) => {
 	const totalVotes = agenda.positiveVotings + agenda.positiveManual + agenda.negativeVotings + agenda.negativeManual + agenda.abstentionVotings + agenda.abstentionManual + agenda.noVoteVotings + agenda.noVoteManual;
@@ -203,19 +203,19 @@ export const copyStringToClipboard = str => {
 };
 
 export const majorityNeedsInput = majorityType => majorityType === MAJORITY_TYPES.PERCENTAGE
-		|| majorityType === MAJORITY_TYPES.NUMBER
-		|| majorityType === MAJORITY_TYPES.FRACTION;
+|| majorityType === MAJORITY_TYPES.NUMBER
+|| majorityType === MAJORITY_TYPES.FRACTION;
 
 export const haveQualityVoteConditions = (agenda, council) => ((agenda.subjectType === AGENDA_TYPES.PUBLIC_ACT || agenda.subjectType === AGENDA_TYPES.PUBLIC_VOTING)
-		&& (agenda.majorityType === 1) && (agenda.positiveVotings + agenda.positiveManual) === (agenda.negativeVotings
-			+ agenda.negativeManual) && council.statute.existsQualityVote === 1);
+&& (agenda.majorityType === 1) && (agenda.positiveVotings + agenda.positiveManual) === (agenda.negativeVotings
++ agenda.negativeManual) && council.statute.existsQualityVote === 1);
 
 export const canEditPresentVotings = agenda => (agenda.votingState === AGENDA_STATES.DISCUSSION
-		|| agenda.votingState === 4) && (
-		agenda.subjectType === AGENDA_TYPES.FAKE_PUBLIC_VOTING
-		|| agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING
-		|| agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE
-		|| agenda.subjectType === AGENDA_TYPES.CUSTOM_PUBLIC);
+|| agenda.votingState === 4) && (
+	agenda.subjectType === AGENDA_TYPES.FAKE_PUBLIC_VOTING
+|| agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING
+|| agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE
+|| agenda.subjectType === AGENDA_TYPES.CUSTOM_PUBLIC);
 
 export const approvedByQualityVote = agenda => {
 	if (agenda && agenda.qualityVoteSense) {
@@ -226,16 +226,16 @@ export const approvedByQualityVote = agenda => {
 
 export const voteValuesText = vote => {
 	switch (vote) {
-		case VOTE_VALUES.NO_VOTE:
-			return 'no_vote';
-		case VOTE_VALUES.NEGATIVE:
-			return 'against_btn';
-		case VOTE_VALUES.POSITIVE:
-			return 'in_favor_btn';
-		case VOTE_VALUES.ABSTENTION:
-			return 'abstention';
-		default:
-			return '-';
+	case VOTE_VALUES.NO_VOTE:
+		return 'no_vote';
+	case VOTE_VALUES.NEGATIVE:
+		return 'against_btn';
+	case VOTE_VALUES.POSITIVE:
+		return 'in_favor_btn';
+	case VOTE_VALUES.ABSTENTION:
+		return 'abstention';
+	default:
+		return '-';
 	}
 };
 
@@ -264,9 +264,9 @@ export const findOwnVote = (votings, participant) => {
 
 	return votings.find(voting => (
 		(voting.participantId === participant.id
-		|| voting.delegateId === participant.id
-		|| voting.author.representative.id === participant.id
-	) && !voting.author.voteDenied));
+|| voting.delegateId === participant.id
+|| voting.author.representative.id === participant.id
+		) && !voting.author.voteDenied));
 };
 
 export const hasAct = statute => statute.existsAct === 1;
@@ -274,22 +274,22 @@ export const hasAct = statute => statute.existsAct === 1;
 export const councilHasComments = statute => statute.existsComments === 1;
 
 export const canDelegateVotes = (statute, participant) => (statute.existsDelegatedVote === 1
-		&& !(participant.delegatedVotes.filter(p => p.state !== PARTICIPANT_STATES.REPRESENTATED).length > 0)
-		&& participant.type !== PARTICIPANT_TYPE.GUEST
-	);
+&& !(participant.delegatedVotes.filter(p => p.state !== PARTICIPANT_STATES.REPRESENTATED).length > 0)
+&& participant.type !== PARTICIPANT_TYPE.GUEST
+);
 export const canAddDelegateVotes = (statute, participant) => (
-		statute.existsDelegatedVote === 1
-		&& (participant.type === PARTICIPANT_TYPE.PARTICIPANT || participant.type === PARTICIPANT_TYPE.REPRESENTATIVE)
-		&& (participant.state !== PARTICIPANT_STATES.DELEGATED && participant.state !== PARTICIPANT_STATES.REPRESENTATED)
-		&& participant.personOrEntity !== 1
-	);
+	statute.existsDelegatedVote === 1
+&& (participant.type === PARTICIPANT_TYPE.PARTICIPANT || participant.type === PARTICIPANT_TYPE.REPRESENTATIVE)
+&& (participant.state !== PARTICIPANT_STATES.DELEGATED && participant.state !== PARTICIPANT_STATES.REPRESENTATED)
+&& participant.personOrEntity !== 1
+);
 
 export const canHaveRepresentative = participant => participant.type === PARTICIPANT_TYPE.PARTICIPANT || participant.type === PARTICIPANT_TYPE.REPRESENTATED;
 
 export const delegatedVotesLimitReached = (statute, length) => (
-		statute.existMaxNumDelegatedVotes === 1
-		&& length >= statute.maxNumDelegatedVotes
-	);
+	statute.existMaxNumDelegatedVotes === 1
+&& length >= statute.maxNumDelegatedVotes
+);
 
 export const isCustomPoint = subjectType => {
 	const customPoint = CUSTOM_AGENDA_VOTING_TYPES.find(type => subjectType === type.value);
@@ -304,23 +304,23 @@ export const canBePresentWithRemoteVote = statute => statute.existsPresentWithRe
 
 export const isAnonym = subjectType => subjectType === AGENDA_TYPES.PRIVATE_VOTING || subjectType === AGENDA_TYPES.CUSTOM_PRIVATE;
 export const getSMSStatusByCode = reqCode => {
-    const status = {
-        22: 'Entregado',
-        20: 'Enviado',
-        '-2': <span style={{ color: 'red' }}>Número no válido</span>,
-        default: <span style={{ color: 'red' }}>Fallido</span>
-    };
+	const status = {
+		22: 'Entregado',
+		20: 'Enviado',
+		'-2': <span style={{ color: 'red' }}>Número no válido</span>,
+		default: <span style={{ color: 'red' }}>Fallido</span>
+	};
 
-    return status[reqCode] ? status[reqCode] : status.default;
+	return status[reqCode] ? status[reqCode] : status.default;
 };
 
 export const filterAgendaVotingTypes = (votingTypes, _, council = {}) => {
 	if (council.councilType === 2) {
 		return votingTypes.filter(type => (
 			type.label !== 'text'
-			&& type.label !== 'custom_nominal_point'
-			&& type.label !== 'custom_anonym_point'
-			&& type.label !== 'custom_public_point' && type.value !== AGENDA_TYPES.CONFIRMATION_REQUEST
+&& type.label !== 'custom_nominal_point'
+&& type.label !== 'custom_anonym_point'
+&& type.label !== 'custom_public_point' && type.value !== AGENDA_TYPES.CONFIRMATION_REQUEST
 		));
 	}
 
@@ -328,9 +328,9 @@ export const filterAgendaVotingTypes = (votingTypes, _, council = {}) => {
 		return votingTypes.filter(type => type.label === 'private_votation');
 	}
 	return votingTypes.filter(type => type.value !== AGENDA_TYPES.CUSTOM_NOMINAL
-		&& type.value !== AGENDA_TYPES.CUSTOM_PRIVATE
-		&& type.value !== AGENDA_TYPES.CUSTOM_PUBLIC
-		&& type.value !== AGENDA_TYPES.CONFIRMATION_REQUEST);
+&& type.value !== AGENDA_TYPES.CUSTOM_PRIVATE
+&& type.value !== AGENDA_TYPES.CUSTOM_PUBLIC
+&& type.value !== AGENDA_TYPES.CONFIRMATION_REQUEST);
 };
 
 export const hasSecondCall = statute => {
@@ -570,15 +570,15 @@ export const buildDelegationsString = (delegated, council, translate) => {
 	};
 
 	return delegated.reduce((acc, vote) => `${acc}<p style="border: 1px solid black; padding: 5px;">-${
-			vote.name} ${
-			vote.surname || ''} ${texts[council.language]} ${vote.numParticipations} ${
-				council.quorumPrototype === 1 ? translate.census_type_social_capital.toLowerCase() : translate.votes.toLowerCase()} ${
-			translate.delegates.toLowerCase()} ${
-			vote.representative && vote.representative.name} ${(vote.representative && vote.representative.surname) || ''} </p><br/>`, '');
+		vote.name} ${
+		vote.surname || ''} ${texts[council.language]} ${vote.numParticipations} ${
+		council.quorumPrototype === 1 ? translate.census_type_social_capital.toLowerCase() : translate.votes.toLowerCase()} ${
+		translate.delegates.toLowerCase()} ${
+		vote.representative && vote.representative.name} ${(vote.representative && vote.representative.surname) || ''} </p><br/>`, '');
 };
 
 export const buildAttendantString = ({
- attendant, council, total, type
+	attendant, council, total, type
 }) => {
 	if (type === 'counselors') {
 		return `${sir[council.language]} ${attendant.name} ${attendant.surname || ''}`;
@@ -621,8 +621,8 @@ export const buildAttendantString = ({
 	if (attendant.type === PARTICIPANT_TYPE.REPRESENTATIVE) {
 		return `${sir[council.language]} ${attendant.name} ${attendant.surname || ''} ${representativeOf[council.language]} ${
 			attendant.delegationsAndRepresentations.reduce((acc, representated, index) => (acc + (index > 0 ? ',' : ' ') + representativeText[council.language].replace('RNAME RSURNAME ', `${representated.name} ${representated.surname ? `${representated.surname} ` : ''}`)
-					.replace('SHARES', representated.socialCapital)
-					.replace('PERCENTAGE', ((representated.socialCapital / total) * 100).toFixed(2))), '')}`;
+				.replace('SHARES', representated.socialCapital)
+				.replace('PERCENTAGE', ((representated.socialCapital / total) * 100).toFixed(2))), '')}`;
 	}
 
 	return texts[council.language]
@@ -638,8 +638,8 @@ export const buildAttendantsString = ({ council, total, type }) => (acc, curr) =
 		return `${acc}${curr.name} ${curr.surname || ''} <br/>`;
 	}
 	return acc + buildAttendantString({
- attendant: curr, council, total, type
-});
+		attendant: curr, council, total, type
+	});
 };
 
 export const isAdmin = user => user.roles === 'admin' || user.roles === 'devAdmin';
@@ -661,7 +661,7 @@ export const generateCompanyAdminsText = ({ council, company, list }) => {
 	};
 
 	const buildMultipleAdmins = adminList => adminList.reduce((acc, curr, index, array) => `${acc}${sir[council.language]} ${
-			curr.name} ${curr.surname || ''}${(index < array.length - 1) ? list ? '<br>' : ', ' : ''}`, list ? `${admins[council.language]}: <br>` : '');
+		curr.name} ${curr.surname || ''}${(index < array.length - 1) ? list ? '<br>' : ', ' : ''}`, list ? `${admins[council.language]}: <br>` : '');
 
 	const labels = {
 		0: () => '',
@@ -678,8 +678,8 @@ export const generateCompanyAdminsText = ({ council, company, list }) => {
 export const hasRightToVote = participant => participant.numParticipations > 0;
 
 export const checkIfHasVote = attendant => (hasRightToVote(attendant) || attendant.socialCapital > 0)
-		|| attendant.delegationsAndRepresentations
-			.filter(item => item.state === PARTICIPANT_STATES.REPRESENTATED && (hasRightToVote(item) || item.socialCapital > 0)).length > 0;
+|| attendant.delegationsAndRepresentations
+	.filter(item => item.state === PARTICIPANT_STATES.REPRESENTATED && (hasRightToVote(item) || item.socialCapital > 0)).length > 0;
 
 export const buildGuestString = ({ guest, council }) => {
 	const inQualityOf = {
@@ -724,13 +724,13 @@ export const buildShareholdersList = ({ council, total, type }) => {
 
 	return council.attendants.filter(checkIfHasVote)
 		.reduce((acc, curr) => `${acc}<br>${buildAttendantString({
- attendant: curr, total, council, type
-})}`, `${
+			attendant: curr, total, council, type
+		})}`, `${
 			type === 'partners' ?
 				partnersText[council.language]
-			:				type === 'counselors' ?
+				:				type === 'counselors' ?
 					counselorsList[council.language]
-				:					shareholdersText[council.language]}:`);
+					:					shareholdersText[council.language]}:`);
 };
 
 
@@ -788,20 +788,20 @@ export const changeVariablesToValues = async (initialText, data, translate) => {
 			text = text.replace(
 				/<span id="{{dateFirstCall}}">(.*?|\n)<\/span>/ig,
 				`<span id="{{dateFirstCall}}">${
-				moment(
-					new Date(data.council.dateStart).toISOString(),
-					moment.ISO_8601
-				).format('LLL')
+					moment(
+						new Date(data.council.dateStart).toISOString(),
+						moment.ISO_8601
+					).format('LLL')
 				}</span>`
 			);
 		} else {
 			text = text.replace(
 				/{{dateFirstCall}}/g,
 				`<span id="{{dateFirstCall}}">${
-				moment(
-					new Date(data.council.dateStart).toISOString(),
-					moment.ISO_8601
-				).format('LLL')
+					moment(
+						new Date(data.council.dateStart).toISOString(),
+						moment.ISO_8601
+					).format('LLL')
 				}</span>`
 			);
 		}
@@ -814,20 +814,20 @@ export const changeVariablesToValues = async (initialText, data, translate) => {
 			text = text.replace(
 				/<span id="{{dateSecondCall}}">(.*?|\n)<\/span>/ig,
 				`<span id="{{dateSecondCall}}">${
-				moment(
-					new Date(data.council.dateStart).toISOString(),
-					moment.ISO_8601
-				).format('LLL')
+					moment(
+						new Date(data.council.dateStart).toISOString(),
+						moment.ISO_8601
+					).format('LLL')
 				}</span>`
 			);
 		} else {
 			text = text.replace(
 				/{{dateSecondCall}}/g,
 				`<span id="{{dateSecondCall}}">${
-				moment(
-					new Date(data.council.dateStart2NdCall).toISOString(),
-					moment.ISO_8601
-				).format('LLL')
+					moment(
+						new Date(data.council.dateStart2NdCall).toISOString(),
+						moment.ISO_8601
+					).format('LLL')
 				}</span>`
 			);
 		}
@@ -853,10 +853,10 @@ export const changeVariablesToValues = async (initialText, data, translate) => {
 		moment.ISO_8601).format('LLL') : '');
 	text = text.replace(
 		/{{firstOrSecondCall}}/g, data.council.firstOrSecondConvene === 1 ?
-		translate.first_call
-		:		data.council.firstOrSecondCall === 2 ?
-			translate.second_call
-			:			''
+			translate.first_call
+			:		data.council.firstOrSecondCall === 2 ?
+				translate.second_call
+				:			''
 	);
 
 	const base = data.council.partTotal;
@@ -894,8 +894,8 @@ export const changeVariablesToValues = async (initialText, data, translate) => {
 	text = text.replace(/{{companyAdmins}}/, generateCompanyAdminsText({ translate, company: data.company, council: data.council }));
 	text = text.replace(/{{shareholdersList}}/, buildShareholdersList({ council: data.council, total: base }));
 	text = text.replace(/{{companyAdminsList}}/, generateCompanyAdminsText({
- translate, company: data.company, council: data.council, list: true
-}));
+		translate, company: data.company, council: data.council, list: true
+	}));
 	text = text.replace(/{{guestList}}/, buildGuestList({ council: data.council, total: base }));
 	text = text.replace(/{{partnersList}}/, buildShareholdersList({ council: data.council, total: base, type: 'partners' }));
 	text = text.replace(/{{counselorsList}}/, buildShareholdersList({ council: data.council, total: base, type: 'counselors' }));
@@ -1292,12 +1292,12 @@ export const councilHasActPoint = council => council.approveActDraft === 1;
 export const getActPointSubjectType = () => 2;
 
 export const generateStatuteTag = (statute, translate) => ({
-		[`statute_${statute.statuteId}`]: {
-			label: translate[statute.title] || statute.title,
-			name: `statute_${statute.statuteId}`,
-			type: TAG_TYPES.STATUTE
-		}
-	});
+	[`statute_${statute.statuteId}`]: {
+		label: translate[statute.title] || statute.title,
+		name: `statute_${statute.statuteId}`,
+		type: TAG_TYPES.STATUTE
+	}
+});
 
 export const generateInitialDates = statute => {
 	if (statute.existsAdvanceNoticeDays === 1) {
@@ -1341,38 +1341,38 @@ export const councilIsNotified = council => council.state === 10;
 export const councilIsInTrash = council => council.state === COUNCIL_STATES.CANCELED;
 
 export const councilIsNotLiveYet = council => (
-		council.state < COUNCIL_STATES.ROOM_OPENED
-		&& council.state > COUNCIL_STATES.CANCELED
-	);
+	council.state < COUNCIL_STATES.ROOM_OPENED
+&& council.state > COUNCIL_STATES.CANCELED
+);
 
 export const checkRepeatedItemValue = items => {
-    const differentValues = new Map();
-    const found = new Set();
-    items.forEach((item, index) => {
-        if (item.value) {
-            if (differentValues.has(item.value)) {
-                found.add(differentValues.get(item.value));
-                found.add(index);
-            }
-            differentValues.set(item.value, index);
-        }
-    });
-    return Array.from(found.values());
+	const differentValues = new Map();
+	const found = new Set();
+	items.forEach((item, index) => {
+		if (item.value) {
+			if (differentValues.has(item.value)) {
+				found.add(differentValues.get(item.value));
+				found.add(index);
+			}
+			differentValues.set(item.value, index);
+		}
+	});
+	return Array.from(found.values());
 };
 
 export const councilIsPreparing = council => (
-		council.state === COUNCIL_STATES.PREPARING || council.state === COUNCIL_STATES.SAVED
-	);
+	council.state === COUNCIL_STATES.PREPARING || council.state === COUNCIL_STATES.SAVED
+);
 
 export const councilIsLive = council => (
-		council.state >= COUNCIL_STATES.ROOM_OPENED
-		&& council.state < COUNCIL_STATES.FINISHED
-	);
+	council.state >= COUNCIL_STATES.ROOM_OPENED
+&& council.state < COUNCIL_STATES.FINISHED
+);
 
 export const councilIsFinished = council => (
-		council.state >= COUNCIL_STATES.FINISHED
-		&& council.state !== COUNCIL_STATES.NOT_CELEBRATED
-	);
+	council.state >= COUNCIL_STATES.FINISHED
+&& council.state !== COUNCIL_STATES.NOT_CELEBRATED
+);
 
 export const councilIsNotCelebrated = council => council.state === COUNCIL_STATES.NOT_CELEBRATED || council.active === 0;
 
@@ -1446,76 +1446,76 @@ export const downloadFile = (base64, filetype, filename) => {
 
 export const getSignerStatusTranslateField = status => {
 	switch (status) {
-		case SIGNATURE_PARTICIPANTS_STATES.IN_QUEUE:
-			return 'in_queue';
-		case SIGNATURE_PARTICIPANTS_STATES.SENT:
-			return 'sent';
-		case SIGNATURE_PARTICIPANTS_STATES.OPENED:
-			return 'opened';
-		case SIGNATURE_PARTICIPANTS_STATES.SIGNING:
-			return 'signing';
-		case SIGNATURE_PARTICIPANTS_STATES.SIGNED:
-			return 'signed';
-		case SIGNATURE_PARTICIPANTS_STATES.EXPIRED:
-			return 'expired';
-		case SIGNATURE_PARTICIPANTS_STATES.CANCELED:
-			return 'canceled';
-		case SIGNATURE_PARTICIPANTS_STATES.REJECTED:
-			return 'rejected';
-		default:
-			return 'error';
+	case SIGNATURE_PARTICIPANTS_STATES.IN_QUEUE:
+		return 'in_queue';
+	case SIGNATURE_PARTICIPANTS_STATES.SENT:
+		return 'sent';
+	case SIGNATURE_PARTICIPANTS_STATES.OPENED:
+		return 'opened';
+	case SIGNATURE_PARTICIPANTS_STATES.SIGNING:
+		return 'signing';
+	case SIGNATURE_PARTICIPANTS_STATES.SIGNED:
+		return 'signed';
+	case SIGNATURE_PARTICIPANTS_STATES.EXPIRED:
+		return 'expired';
+	case SIGNATURE_PARTICIPANTS_STATES.CANCELED:
+		return 'canceled';
+	case SIGNATURE_PARTICIPANTS_STATES.REJECTED:
+		return 'rejected';
+	default:
+		return 'error';
 	}
 };
 
 export const checkCouncilState = (council, company, bHistory, expected) => {
 	switch (council.state) {
-		case COUNCIL_STATES.DRAFT:
-			if (expected !== 'draft') {
-				bHistory.replace(`/company/${company.id}/council/${council.id}`);
-			}
-			break;
-		case COUNCIL_STATES.PRECONVENE:
-			if (expected !== 'draft') {
-				bHistory.replace(`/company/${company.id}/council/${council.id}`);
-			}
-			break;
-		case COUNCIL_STATES.SAVED:
-			if (expected !== 'convened' && expected !== 'live') {
-				bHistory.replace(
-					`/company/${company.id}/council/${council.id}/prepare`
-				);
-			}
-			break;
-		case COUNCIL_STATES.PREPARING:
-			if (expected !== 'convened' && expected !== 'live') {
-				bHistory.replace(
-					`/company/${company.id}/council/${council.id}/prepare`
-				);
-			}
-			break;
-		case COUNCIL_STATES.ROOM_OPENED:
-		case COUNCIL_STATES.PAUSED:
-		case COUNCIL_STATES.APPROVING_ACT_DRAFT:
-			if (expected !== 'live') {
-				bHistory.replace(
-					`/company/${company.id}/council/${council.id}/live`
-				);
-			}
-			break;
-		case COUNCIL_STATES.FINISHED:
-		case COUNCIL_STATES.APPROVED:
-		case COUNCIL_STATES.FINAL_ACT_SENT:
-		case COUNCIL_STATES.CANCELED:
-		case COUNCIL_STATES.NOT_CELEBRATED:
-		case COUNCIL_STATES.FINISHED_WITHOUT_ACT:
-			if (expected !== 'finished') {
-				bHistory.replace(
-					`/company/${company.id}/council/${council.id}/finished`
-				);
-			}
-			break;
-		default:
-			break;
+	case COUNCIL_STATES.DRAFT:
+		if (expected !== 'draft') {
+			bHistory.replace(`/company/${company.id}/council/${council.id}`);
+		}
+		break;
+	case COUNCIL_STATES.PRECONVENE:
+		if (expected !== 'draft') {
+			bHistory.replace(`/company/${company.id}/council/${council.id}`);
+		}
+		break;
+	case COUNCIL_STATES.SAVED:
+		if (expected !== 'convened' && expected !== 'live') {
+			bHistory.replace(
+				`/company/${company.id}/council/${council.id}/prepare`
+			);
+		}
+		break;
+	case COUNCIL_STATES.PREPARING:
+		if (expected !== 'convened' && expected !== 'live') {
+			bHistory.replace(
+				`/company/${company.id}/council/${council.id}/prepare`
+			);
+		}
+		break;
+	case COUNCIL_STATES.ROOM_OPENED:
+	case COUNCIL_STATES.PAUSED:
+	case COUNCIL_STATES.APPROVING_ACT_DRAFT:
+		if (expected !== 'live') {
+			bHistory.replace(
+				`/company/${company.id}/council/${council.id}/live`
+			);
+		}
+		break;
+	case COUNCIL_STATES.FINISHED:
+	case COUNCIL_STATES.APPROVED:
+	case COUNCIL_STATES.FINAL_ACT_SENT:
+	case COUNCIL_STATES.CANCELED:
+	case COUNCIL_STATES.NOT_CELEBRATED:
+	case COUNCIL_STATES.FINISHED_WITHOUT_ACT:
+		if (expected !== 'finished') {
+			bHistory.replace(
+				`/company/${company.id}/council/${council.id}/finished`
+			);
+		}
+		break;
+	default:
+		break;
 	}
 };
 
@@ -1524,77 +1524,77 @@ export const participantIsRepresentative = participant => participant.type === P
 
 export const getAttendanceIntentionTooltip = intention => {
 	switch (intention) {
-		case PARTICIPANT_STATES.REMOTE:
-			return 'remote_assistance_short';
+	case PARTICIPANT_STATES.REMOTE:
+		return 'remote_assistance_short';
 
-		case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
-			return 'confirmed_assistance';
+	case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
+		return 'confirmed_assistance';
 
-		case PARTICIPANT_STATES.NO_PARTICIPATE:
-			return 'no_assist_assistance';
+	case PARTICIPANT_STATES.NO_PARTICIPATE:
+		return 'no_assist_assistance';
 
-		case PARTICIPANT_STATES.DELEGATED:
-			return 'delegated_in';
+	case PARTICIPANT_STATES.DELEGATED:
+		return 'delegated_in';
 
-		case PARTICIPANT_STATES.SENT_VOTE_LETTER:
-			return 'vote_letter_sent';
+	case PARTICIPANT_STATES.SENT_VOTE_LETTER:
+		return 'vote_letter_sent';
 
-		case PARTICIPANT_STATES.EARLY_VOTE:
-			return 'participant_vote_fixed';
-		default:
-			return '';
+	case PARTICIPANT_STATES.EARLY_VOTE:
+		return 'participant_vote_fixed';
+	default:
+		return '';
 	}
 };
 
 export const getAttendanceIntentionIcon = (intention, style) => {
 	switch (intention) {
-		case PARTICIPANT_STATES.REMOTE:
-			return <i className={'fa fa-globe'} style={style}></i>;
-		case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
-			return <i className={'fa fa-user'} style={style}></i>;
-		case PARTICIPANT_STATES.DELEGATED:
-			return <i className={'fa fa-users'} style={style}></i>;
-		case PARTICIPANT_STATES.NO_PARTICIPATE:
-			return <i className={'fa fa-times'} style={style}></i>;
-		case PARTICIPANT_STATES.EARLY_VOTE:
-		case PARTICIPANT_STATES.SENT_VOTE_LETTER:
-			return <i className="material-icons" style={{ ...style, transform: 'scale(0.8)' }}>how_to_vote</i>;
-		default:
-			return 'fa fa-question';
+	case PARTICIPANT_STATES.REMOTE:
+		return <i className={'fa fa-globe'} style={style}></i>;
+	case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
+		return <i className={'fa fa-user'} style={style}></i>;
+	case PARTICIPANT_STATES.DELEGATED:
+		return <i className={'fa fa-users'} style={style}></i>;
+	case PARTICIPANT_STATES.NO_PARTICIPATE:
+		return <i className={'fa fa-times'} style={style}></i>;
+	case PARTICIPANT_STATES.EARLY_VOTE:
+	case PARTICIPANT_STATES.SENT_VOTE_LETTER:
+		return <i className="material-icons" style={{ ...style, transform: 'scale(0.8)' }}>how_to_vote</i>;
+	default:
+		return 'fa fa-question';
 	}
 };
 
 export const getEmailIconByReqCode = reqCode => {
 	switch (reqCode) {
-		case -1:
-			return notSent;
-		case 0:
-			return notSent;
+	case -1:
+		return notSent;
+	case 0:
+		return notSent;
 
-		case 20:
-			return pendingShipping;
+	case 20:
+		return pendingShipping;
 
-		case 22:
-			return delivered;
+	case 22:
+		return delivered;
 
-		case 25:
-			return opened;
+	case 25:
+		return opened;
 
-		case 32:
-			return 'clicked';
+	case 32:
+		return 'clicked';
 
-		case 35:
-			return spam;
+	case 35:
+		return spam;
 
-		case 36:
-			return invalidEmailAddress;
+	case 36:
+		return invalidEmailAddress;
 
-		case 37:
-		case 39:
-		case 40:
-			return dropped;
-		default:
-			return null;
+	case 37:
+	case 39:
+	case 40:
+		return dropped;
+	default:
+		return null;
 	}
 };
 
@@ -1604,57 +1604,57 @@ export const agendaPointNotOpened = agenda => agenda.pointState === AGENDA_STATE
 
 export const getAgendaTypeLabel = agenda => {
 	switch (agenda.subjectType) {
-		case AGENDA_TYPES.INFORMATIVE:
-			return 'informative';
-		case AGENDA_TYPES.PUBLIC_VOTING:
-			return 'public_votation';
-		case AGENDA_TYPES.PUBLIC_ACT:
-			return 'public_act';
-		case AGENDA_TYPES.FAKE_PUBLIC_VOTING:
-			return 'fake_public_votation';
-		case AGENDA_TYPES.PRIVATE_ACT:
-			return 'public_act';
-		case AGENDA_TYPES.PRIVATE_VOTING:
-			return 'private_votation';
-		case AGENDA_TYPES.CUSTOM_PUBLIC:
-			return 'fake_public_votation';
-		case AGENDA_TYPES.CUSTOM_PRIVATE:
-			return 'private_votation';
-		case AGENDA_TYPES.CUSTOM_NOMINAL:
-			return 'public_votation';
-		case AGENDA_TYPES.CONFIRMATION_REQUEST:
-			return 'confirmation_request';
-		default:
-			return 'custom_point';
+	case AGENDA_TYPES.INFORMATIVE:
+		return 'informative';
+	case AGENDA_TYPES.PUBLIC_VOTING:
+		return 'public_votation';
+	case AGENDA_TYPES.PUBLIC_ACT:
+		return 'public_act';
+	case AGENDA_TYPES.FAKE_PUBLIC_VOTING:
+		return 'fake_public_votation';
+	case AGENDA_TYPES.PRIVATE_ACT:
+		return 'public_act';
+	case AGENDA_TYPES.PRIVATE_VOTING:
+		return 'private_votation';
+	case AGENDA_TYPES.CUSTOM_PUBLIC:
+		return 'fake_public_votation';
+	case AGENDA_TYPES.CUSTOM_PRIVATE:
+		return 'private_votation';
+	case AGENDA_TYPES.CUSTOM_NOMINAL:
+		return 'public_votation';
+	case AGENDA_TYPES.CONFIRMATION_REQUEST:
+		return 'confirmation_request';
+	default:
+		return 'custom_point';
 	}
 };
 
 export const getTranslationReqCode = reqCode => {
 	switch (reqCode) {
-		case 'ALL':
-			return 'all_plural';
-		case -1:
-			return 'tooltip_failed_shipping';
-		case 0:
-			return 'tooltip_not_sent';
-		case 20:
-			return 'tooltip_pending_shipping';
-		case 22:
-			return 'tooltip_inbox';
-		case 25:
-			return 'tooltip_opened';
-		case 32:
-			return 'clicked';
-		case 35:
-			return 'tooltip_spam';
-		case 36:
-			return 'tooltip_invalid_email_address';
-		case 37:
-			return 'tooltip_dropped';
-		case 40:
-			return 'tooltip_dropped';
-		default:
-			return '';
+	case 'ALL':
+		return 'all_plural';
+	case -1:
+		return 'tooltip_failed_shipping';
+	case 0:
+		return 'tooltip_not_sent';
+	case 20:
+		return 'tooltip_pending_shipping';
+	case 22:
+		return 'tooltip_inbox';
+	case 25:
+		return 'tooltip_opened';
+	case 32:
+		return 'clicked';
+	case 35:
+		return 'tooltip_spam';
+	case 36:
+		return 'tooltip_invalid_email_address';
+	case 37:
+		return 'tooltip_dropped';
+	case 40:
+		return 'tooltip_dropped';
+	default:
+		return '';
 	}
 };
 
@@ -1674,7 +1674,7 @@ export const printSessionExpiredError = () => {
 };
 
 export const printCifAlreadyUsed = () => {
-	// vat_previosly_save
+// vat_previosly_save
 	const messages = {
 		pt: 'Este NIF já foi previamente guardado',
 		es: 'Este CIF ha sido guardado previamente',
@@ -1690,7 +1690,7 @@ export const printCifAlreadyUsed = () => {
 };
 
 export const printTrialEnded = () => {
-	// vat_previosly_save
+// vat_previosly_save
 	const messages = {
 		pt: 'Período de prova finalizado',
 		es: 'Período de prueba finalizado',
@@ -1715,61 +1715,61 @@ export const hasHisVoteDelegated = participant => participant.state === 4;
 
 export const getParticipantStateString = state => {
 	switch (state) {
-		case PARTICIPANT_STATES.REMOTE:
-			return 'REMOTE';
+	case PARTICIPANT_STATES.REMOTE:
+		return 'REMOTE';
 
-		case PARTICIPANT_STATES.PRESENT:
-			return 'PRESENT';
+	case PARTICIPANT_STATES.PRESENT:
+		return 'PRESENT';
 
-		case PARTICIPANT_STATES.REPRESENTATED:
-			return 'REPRESENTATED';
+	case PARTICIPANT_STATES.REPRESENTATED:
+		return 'REPRESENTATED';
 
-		case PARTICIPANT_STATES.DELEGATED:
-			return 'DELEGATED';
+	case PARTICIPANT_STATES.DELEGATED:
+		return 'DELEGATED';
 
-		case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
-			return 'PHYSICALLY_PRESENT';
+	case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
+		return 'PHYSICALLY_PRESENT';
 
-		case PARTICIPANT_STATES.NO_PARTICIPATE:
-			return 'NO_PARTICIPATE';
+	case PARTICIPANT_STATES.NO_PARTICIPATE:
+		return 'NO_PARTICIPATE';
 
-		case PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE:
-			return 'PRESENT_WITH_REMOTE_VOTE';
+	case PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE:
+		return 'PRESENT_WITH_REMOTE_VOTE';
 
-		default:
-			return 'INVALID_STATE';
+	default:
+		return 'INVALID_STATE';
 	}
 };
 
 export const multipleGoverningBody = type => !![
-		GOVERNING_BODY_TYPES.COUNCIL,
-		GOVERNING_BODY_TYPES.JOINT_ADMIN,
-		GOVERNING_BODY_TYPES.SOLIDARY_ADMIN
-	].find(item => type === item.value);
+	GOVERNING_BODY_TYPES.COUNCIL,
+	GOVERNING_BODY_TYPES.JOINT_ADMIN,
+	GOVERNING_BODY_TYPES.SOLIDARY_ADMIN
+].find(item => type === item.value);
 
 export const getParticipantStateField = participant => {
 	switch (participant.state) {
-		case 0:
-			return 'remote_assistance';
-		case 1:
-			return 'physically_present_assistance';
-		case 2:
-			return 'representated';
-		case 4:
-			return 'delegated';
-		case 5:
-			return 'physically_present_assistance';
-		case 6:
-			return 'no_participate';
-		case 7:
-			return 'physically_present_with_remote_vote';
-		case 8:
-			return 'participant_vote_fixed';
-		case 11:
-			return 'left_the_council';
+	case 0:
+		return 'remote_assistance';
+	case 1:
+		return 'physically_present_assistance';
+	case 2:
+		return 'representated';
+	case 4:
+		return 'delegated';
+	case 5:
+		return 'physically_present_assistance';
+	case 6:
+		return 'no_participate';
+	case 7:
+		return 'physically_present_with_remote_vote';
+	case 8:
+		return 'participant_vote_fixed';
+	case 11:
+		return 'left_the_council';
 
-		default:
-			return 'remote_assistance';
+	default:
+		return 'remote_assistance';
 	}
 };
 
@@ -1933,7 +1933,7 @@ export const calculateQuorum = (council, recount) => {
 
 
 export const councilHasSession = council => !((council.councilType > 1
-		&& council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION
-		&& council.councilType !== COUNCIL_TYPES.ONE_ON_ONE
-	) || (council.councilType === COUNCIL_TYPES.NO_VIDEO && council.autoClose === 1));
+&& council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION
+&& council.councilType !== COUNCIL_TYPES.ONE_ON_ONE
+) || (council.councilType === COUNCIL_TYPES.NO_VIDEO && council.autoClose === 1));
 

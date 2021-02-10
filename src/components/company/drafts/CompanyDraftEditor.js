@@ -141,8 +141,8 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 			{!fetching && (
 				<div style={{ height: 'calc( 100% - 5em )' }}>
 					<div style={{
- marginTop: '1.8em', height: '100%', overflow: 'hidden', padding: '0px 25px'
-}}>
+						marginTop: '1.8em', height: '100%', overflow: 'hidden', padding: '0px 25px'
+					}}>
 						<CompanyDraftForm
 							translate={translate}
 							errors={errors}

@@ -2,7 +2,7 @@ import React from 'react';
 import { Collapse } from 'material-ui';
 
 const Tag = ({
- text, color, childs, width, action
+	text, color, childs, width, action
 }) => {
 	const [open, setOpen] = React.useState(false);
 	const [openTimeOut, setOpenTimeOut] = React.useState(false);
@@ -36,30 +36,30 @@ const Tag = ({
 						<div style={{ marginTop: '-5px', height: '5px' }}>
 							{open ?
 								<i className="material-icons" style={{ fontSize: '27px' }} >
-									arrow_drop_up
+arrow_drop_up
 								</i>
 								:								<i className="material-icons" style={{ fontSize: '27px' }}>
-									arrow_drop_down
+arrow_drop_down
 								</i>
 							}
 						</div>
 					</div>
 					{childs
-						&& <Collapse in={open} timeout="auto" unmountOnExit >
-							<div>
-								{childs}
-							</div>
-						</Collapse>
+&& <Collapse in={open} timeout="auto" unmountOnExit >
+	<div>
+		{childs}
+	</div>
+</Collapse>
 					}
 				</div>
 			</div>
 		);
 	}
-		return (
-			<div style={{ ...styles }} onClick={action}>
-				{text}
-			</div>
-		);
+	return (
+		<div style={{ ...styles }} onClick={action}>
+			{text}
+		</div>
+	);
 };
 
 export default Tag;

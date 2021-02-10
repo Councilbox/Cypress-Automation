@@ -5,7 +5,7 @@ import { BasicButton, LoadingSection } from '../../../displayComponents';
 import { getSecondary } from '../../../styles/colors';
 import { changeVariablesToValues, prepareTextForFilename } from '../../../utils/CBX';
 import {
- buildDoc, useDoc, buildDocBlock, buildDocVariable
+	buildDoc, useDoc, buildDocBlock, buildDocVariable
 } from '../../documentEditor/utils';
 import { certBlocks } from '../../documentEditor/actBlocks';
 import DocumentEditor from '../../documentEditor/DocumentEditor';
@@ -17,58 +17,58 @@ import { ConfigContext } from '../../../containers/AppControl';
 
 
 const initialState = {
-    loading: true,
-    data: null
+	loading: true,
+	data: null
 };
 
 const dataReducer = (state, action) => {
-    const actions = {
-        LOADED: {
-            ...state,
-            loading: false,
-            data: action.value
-        },
+	const actions = {
+		LOADED: {
+			...state,
+			loading: false,
+			data: action.value
+		},
 
-        default: state
-    };
+		default: state
+	};
 
-    return actions[action.type] ? actions[action.type] : actions.default;
+	return actions[action.type] ? actions[action.type] : actions.default;
 };
 
 
 const CerficateEditor = ({
- translate, council, company, client, ...props
+	translate, council, company, client, ...props
 }) => {
-    const [{ data, loading }, dispatch] = React.useReducer(dataReducer, initialState);
+	const [{ data, loading }, dispatch] = React.useReducer(dataReducer, initialState);
 	const [error, setError] = React.useState(null);
-    const [createModal, setCreateModal] = React.useState(false);
-    const {
+	const [createModal, setCreateModal] = React.useState(false);
+	const {
 		doc,
-        options,
-        ...handlers
+		options,
+		...handlers
 	} = useDoc({
 		transformText: async text => changeVariablesToValues(text, {
 			council: {
 				...generateCouncilSmartTagsValues(data),
 			},
 			company
-        }, translate)
+		}, translate)
 	});
 	const config = React.useContext(ConfigContext);
-    const secondary = getSecondary();
+	const secondary = getSecondary();
 
 
-    const getData = React.useCallback(async () => {
-        const response = await client.query({
-            query: CouncilActData,
-            variables: {
-                councilID: council.id,
-                companyId: council.companyId,
-                options: {
-                    limit: 10000,
-                    offset: 0
-                }
-            }
+	const getData = React.useCallback(async () => {
+		const response = await client.query({
+			query: CouncilActData,
+			variables: {
+				councilID: council.id,
+				companyId: council.companyId,
+				options: {
+					limit: 10000,
+					offset: 0
+				}
+			}
 		});
 		handlers.initializeDoc({
 			doc: buildDoc(response.data, translate, 'certificate'),
@@ -80,11 +80,11 @@ const CerficateEditor = ({
 			}
 		});
 		dispatch({ type: 'LOADED', value: response.data });
-    }, [council.id]);
+	}, [council.id]);
 
-    React.useEffect(() => {
-        getData();
-    }, [getData]);
+	React.useEffect(() => {
+		getData();
+	}, [getData]);
 
 
 	const generatePreview = async () => {
@@ -102,11 +102,11 @@ const CerficateEditor = ({
 		return response.data.generateDocumentHTML;
 	};
 
-    if (loading) {
-        return <LoadingSection />;
-    }
+	if (loading) {
+		return <LoadingSection />;
+	}
 
-    return (
+	return (
 		<React.Fragment>
 			<DocumentEditor
 				doc={doc}
@@ -145,9 +145,9 @@ const CerficateEditor = ({
 							/>
 						</div>
 						{error
-							&& <div style={{ color: 'red', fontWeight: '700', marginTop: '1em' }}>
-								{error}
-							</div>
+&& <div style={{ color: 'red', fontWeight: '700', marginTop: '1em' }}>
+	{error}
+</div>
 						}
 					</div>
 				}
@@ -171,7 +171,7 @@ const CerficateEditor = ({
 
 export const query = gql`
 	query DraftData($companyId: Int!, $councilId: Int!, $options: OptionsInput) {
-        council(id: $councilId) {
+		council(id: $councilId) {
 			id
 			businessName
 			country
@@ -179,8 +179,8 @@ export const query = gql`
 			currentQuorum
 			quorumPrototype
 			secretary
-            president
-            emailText
+			president
+			emailText
 			street
 			city
 			name

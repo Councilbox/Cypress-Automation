@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { compose, graphql, withApollo } from 'react-apollo';
 import {
- Card, Collapse, IconButton, Icon, CardActions, CardContent, CardHeader, withStyles
+	Card, Collapse, IconButton, Icon, CardActions, CardContent, CardHeader, withStyles
 } from 'material-ui';
 import { TableCell, TableRow } from 'material-ui/Table';
 import {
@@ -45,11 +45,11 @@ export const useTags = translate => {
 	const [vars, setVars] = React.useState({});
 
 	const formatTagLabel = tag => (tag.segments ?
-			`${tag.segments.reduce((acc, curr) => {
-				if (curr !== tag.label) return `${acc + (translate[curr] || curr)}. `;
-				return acc;
-			}, '')}`
-			:			tag.label);
+		`${tag.segments.reduce((acc, curr) => {
+			if (curr !== tag.label) return `${acc + (translate[curr] || curr)}. `;
+			return acc;
+		}, '')}`
+		:			tag.label);
 
 	const removeTag = tag => {
 		delete testTags[tag.name];
@@ -106,7 +106,7 @@ export const useTags = translate => {
 };
 
 const CompanyDraftList = ({
- translate, company, client, setMostrarMenu, searchDraft, classes, ...props
+	translate, company, client, setMostrarMenu, searchDraft, classes, ...props
 }) => {
 	const [data, setData] = React.useState({});
 	const [state, setState] = useOldState({
@@ -118,8 +118,8 @@ const CompanyDraftList = ({
 	const [inputSearch, setInputSearch] = React.useState(false);
 	const [search, setSearch] = React.useState('');
 	const {
- testTags, vars, setVars, removeTag, addTag, filteredTags, setTagText, tagText
-} = useTags(translate);
+		testTags, vars, setVars, removeTag, addTag, filteredTags, setTagText, tagText
+	} = useTags(translate);
 
 	const primary = getPrimary();
 
@@ -228,8 +228,8 @@ const CompanyDraftList = ({
 	}, [company.id]);
 
 	const {
- companyDrafts, draftTypes, loading, error
-} = data;
+		companyDrafts, draftTypes, loading, error
+	} = data;
 
 	if (state.newForm) {
 		setMostrarMenu(false);
@@ -259,8 +259,8 @@ const CompanyDraftList = ({
 		<React.Fragment>
 			<div style={{ height: isMobile ? ' calc( 100% - 3.5em )' : ' calc( 100% - 6em )' }}>
 				<div style={{
- marginRight: '0.8em', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '0.5em'
-}}>
+					marginRight: '0.8em', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: '0.5em'
+				}}>
 					<div>
 						<BasicButton
 							text={translate.drafts_new}
@@ -373,8 +373,8 @@ const CompanyDraftList = ({
 									className={isMobile && !inputSearch ? 'openInput' : ''}
 									disableUnderline={true}
 									styleInInput={{
- fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', padding: isMobile && inputSearch && '4px 5px', paddingLeft: !isMobile && '5px'
-}}
+										fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', padding: isMobile && inputSearch && '4px 5px', paddingLeft: !isMobile && '5px'
+									}}
 									stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: isMobile && inputSearch ? '8px' : '4px' }}
 									adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
 									floatingText={' '}
@@ -396,69 +396,69 @@ const CompanyDraftList = ({
 						{error ? (
 							<div>
 								{error.graphQLErrors.map((err, index) => (
-										<ErrorWrapper
-											key={`error_${index}`}
-											error={err}
-											translate={translate}
-										/>
-									))}
+									<ErrorWrapper
+										key={`error_${index}`}
+										error={err}
+										translate={translate}
+									/>
+								))}
 							</div>
 						) : (
-								!!companyDrafts && (
-									<div style={{ padding: '0.5em', overflow: 'hidden' }}>
-										<EnhancedTable
-											hideTextFilter={true}
-											translate={translate}
-											defaultLimit={DRAFTS_LIMITS[0]}
-											defaultFilter={'title'}
-											// limits={DRAFTS_LIMITS}
-											page={1}
-											loading={loading}
-											length={companyDrafts.list.length}
-											total={companyDrafts.total}
-											selectedCategories={[{
-												field: 'type',
-												value: 'all',
-												label: translate.all_plural
-											}]}
-											refetch={getDrafts}
-											headers={[
-												{
-													text: translate.name,
-													name: 'title',
-													canOrder: true
-												},
-												{
-													name: 'type',
-													text: translate.labels,
-													canOrder: true
-												},
-												{
-													name: '',
-													text: ''
-												}
-											]}
-											action={renderDeleteIcon}
-											companyID={company.id}
-										>
-											{companyDrafts.list.map((draft, index) => (
-													<DraftRow
-														classes={classes}
-														stylesBackground={{ background: index % 2 ? '#edf4fb' : '' }}
-														key={`draft${draft.id}${draft.title}`}
-														translate={translate}
-														action={() => bHistory.push(`/company/${company.id}/draft/${draft.id}`)}
-														renderDeleteIcon={renderDeleteIcon}
-														draft={draft}
-														companyStatutes={vars.companyStatutes}
-														draftTypes={draftTypes}
-														company={company}
-														info={props}
-													/>
-												))}
-										</EnhancedTable>
-									</div>
-								))}
+							!!companyDrafts && (
+								<div style={{ padding: '0.5em', overflow: 'hidden' }}>
+									<EnhancedTable
+										hideTextFilter={true}
+										translate={translate}
+										defaultLimit={DRAFTS_LIMITS[0]}
+										defaultFilter={'title'}
+										// limits={DRAFTS_LIMITS}
+										page={1}
+										loading={loading}
+										length={companyDrafts.list.length}
+										total={companyDrafts.total}
+										selectedCategories={[{
+											field: 'type',
+											value: 'all',
+											label: translate.all_plural
+										}]}
+										refetch={getDrafts}
+										headers={[
+											{
+												text: translate.name,
+												name: 'title',
+												canOrder: true
+											},
+											{
+												name: 'type',
+												text: translate.labels,
+												canOrder: true
+											},
+											{
+												name: '',
+												text: ''
+											}
+										]}
+										action={renderDeleteIcon}
+										companyID={company.id}
+									>
+										{companyDrafts.list.map((draft, index) => (
+											<DraftRow
+												classes={classes}
+												stylesBackground={{ background: index % 2 ? '#edf4fb' : '' }}
+												key={`draft${draft.id}${draft.title}`}
+												translate={translate}
+												action={() => bHistory.push(`/company/${company.id}/draft/${draft.id}`)}
+												renderDeleteIcon={renderDeleteIcon}
+												draft={draft}
+												companyStatutes={vars.companyStatutes}
+												draftTypes={draftTypes}
+												company={company}
+												info={props}
+											/>
+										))}
+									</EnhancedTable>
+								</div>
+							))}
 					</div>
 					<AlertConfirm
 						title={translate.attention}
@@ -478,7 +478,7 @@ const CompanyDraftList = ({
 };
 
 export const DraftRow = ({
- draft, draftTypes, company, selectable, companyStatutes, translate, info, index, stylesBackground, classes, ...props
+	draft, draftTypes, company, selectable, companyStatutes, translate, info, index, stylesBackground, classes, ...props
 }) => {
 	const [show, handlers] = useHoverRow();
 	const [expanded, setExpanded] = React.useState(false);
@@ -531,8 +531,8 @@ export const DraftRow = ({
 				{columns
 					&& <Card
 						style={{
- width: '100%', border: 'none', boxShadow: 'none', ...stylesBackground, overflow: 'hidden'
-}}>
+							width: '100%', border: 'none', boxShadow: 'none', ...stylesBackground, overflow: 'hidden'
+						}}>
 						<CardHeader
 							classes={{
 								content: classes.cardTitle,
@@ -555,12 +555,12 @@ export const DraftRow = ({
 								</IconButton>
 							}
 							style={{
- padding: '10px 16px 10px 16px', width: '100%', overflow: 'hidden', display: 'flex', justifyContent: 'space-between',
-}}
+								padding: '10px 16px 10px 16px', width: '100%', overflow: 'hidden', display: 'flex', justifyContent: 'space-between',
+							}}
 							title={
 								<div style={{
- display: 'flex', justifyContent: 'space-between', fontSize: '14px', padding: '0px'
-}} >
+									display: 'flex', justifyContent: 'space-between', fontSize: '14px', padding: '0px'
+								}} >
 									{selectable
 										&& <div>
 											<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -594,27 +594,27 @@ export const DraftRow = ({
 													return (
 														<TagColumn key={`column_${key}`}>
 															{columns[key].map((tag, i) => (
-																	i > 0 ?
-																		<Collapse key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}_`} in={expanded} timeout="auto" unmountOnExit>
-																			<SelectedTag
-																				text={''}
-																				color={getTagColor(key)}
-																				props={props}
-																				sinTitulos={true}
-																				list={true}
-																				count={''}
-																			/>
-																		</Collapse>
-																		:	<SelectedTag
-																				key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}`}
-																				text={''}
-																				color={getTagColor(key)}
-																				props={props}
-																				sinTitulos={true}
-																				list={true}
-																				count={columnaLength > 1 ? expanded ? '' : columnaLength : ''}
-																			/>
-																))}
+																i > 0 ?
+																	<Collapse key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}_`} in={expanded} timeout="auto" unmountOnExit>
+																		<SelectedTag
+																			text={''}
+																			color={getTagColor(key)}
+																			props={props}
+																			sinTitulos={true}
+																			list={true}
+																			count={''}
+																		/>
+																	</Collapse>
+																	:	<SelectedTag
+																		key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}`}
+																		text={''}
+																		color={getTagColor(key)}
+																		props={props}
+																		sinTitulos={true}
+																		list={true}
+																		count={columnaLength > 1 ? expanded ? '' : columnaLength : ''}
+																	/>
+															))}
 														</TagColumn>
 													);
 												})
@@ -634,27 +634,27 @@ export const DraftRow = ({
 												return (
 													<TagColumn key={`column_${key}`}>
 														{columns[key].map((tag, i) => (
-																i > 0 ?
-																	<Collapse key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}_`} in={expanded} timeout="auto" unmountOnExit>
-																		<SelectedTag
-																			text={translate[tag.label] || tag.label}
-																			color={getTagColor(key)}
-																			props={props}
-																			list={true}
-																			count={''}
-																		/>
-																	</Collapse>
-																	:	<SelectedTag
-																			key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}`}
-																			text={translate[tag.label] || tag.label}
-																			color={getTagColor(key)}
-																			props={props}
-																			list={true}
-																			count={columnaLength > 1 ? expanded ? '' : columnaLength : ''}
-																			stylesEtiqueta={{ cursor: columnaLength > 1 ? 'pointer' : '', }}
-																			desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ''}
-																		/>
-															))}
+															i > 0 ?
+																<Collapse key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}_`} in={expanded} timeout="auto" unmountOnExit>
+																	<SelectedTag
+																		text={translate[tag.label] || tag.label}
+																		color={getTagColor(key)}
+																		props={props}
+																		list={true}
+																		count={''}
+																	/>
+																</Collapse>
+																:	<SelectedTag
+																	key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}`}
+																	text={translate[tag.label] || tag.label}
+																	color={getTagColor(key)}
+																	props={props}
+																	list={true}
+																	count={columnaLength > 1 ? expanded ? '' : columnaLength : ''}
+																	stylesEtiqueta={{ cursor: columnaLength > 1 ? 'pointer' : '', }}
+																	desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ''}
+																/>
+														))}
 													</TagColumn>
 												);
 											})
@@ -673,12 +673,12 @@ export const DraftRow = ({
 			</Grid>
 		);
 	}
-		return (
-			<TableRow
-				{...handlers}
-				hover
-			>
-				{selectable
+	return (
+		<TableRow
+			{...handlers}
+			hover
+		>
+			{selectable
 					&& <TableCell
 						style={TableStyles.TD}
 					>
@@ -695,59 +695,59 @@ export const DraftRow = ({
 							}
 						</div>
 					</TableCell>
-				}
-				<TableCell
-					style={{
-						...TableStyles.TD,
-						cursor: 'pointer'
-					}}
-					onClick={props.action}
-				>
-					{draft.title}
-				</TableCell>
-				<TableCell>
-					<div style={{ display: 'flex' }}>
-						{columns
+			}
+			<TableCell
+				style={{
+					...TableStyles.TD,
+					cursor: 'pointer'
+				}}
+				onClick={props.action}
+			>
+				{draft.title}
+			</TableCell>
+			<TableCell>
+				<div style={{ display: 'flex' }}>
+					{columns
 							&& Object.keys(columns).map(key => {
 								const columnaLength = columns[key].length;
 								return (
 									<TagColumn key={`column_${key}`}>
 										{columns[key].map((tag, i) => (
-												i > 0 ?
-													<Collapse in={expanded} timeout="auto" unmountOnExit key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}_1`}>
-														<SelectedTag
-															key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}_`}
-															text={translate[tag.label] || tag.label}
-															color={getTagColor(key)}
-															props={props}
-															list={true}
-															count={''}
-														/>
-													</Collapse>
-													:													<SelectedTag
-														key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}`}
+											i > 0 ?
+												<Collapse in={expanded} timeout="auto" unmountOnExit key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}_1`}>
+													<SelectedTag
+														key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}_`}
 														text={translate[tag.label] || tag.label}
 														color={getTagColor(key)}
 														props={props}
 														list={true}
-														count={columnaLength > 1 ? expanded ? '' : columnaLength : ''}
-														stylesEtiqueta={{ cursor: columnaLength > 1 ? 'pointer' : '', }}
-														desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ''}
+														count={''}
 													/>
-											))}
+												</Collapse>
+												:													<SelectedTag
+													key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}`}
+													text={translate[tag.label] || tag.label}
+													color={getTagColor(key)}
+													props={props}
+													list={true}
+													count={columnaLength > 1 ? expanded ? '' : columnaLength : ''}
+													stylesEtiqueta={{ cursor: columnaLength > 1 ? 'pointer' : '', }}
+													desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ''}
+												/>
+										))}
 									</TagColumn>
 								);
 							})
-						}
-					</div>
-				</TableCell>
-				<TableCell>
-					<div style={{ width: '3em' }}>
-						{(show && props.renderDeleteIcon) ? props.renderDeleteIcon(draft.id) : ''}
-					</div>
-				</TableCell>
-			</TableRow>
-		);
+					}
+				</div>
+			</TableCell>
+			<TableCell>
+				<div style={{ width: '3em' }}>
+					{(show && props.renderDeleteIcon) ? props.renderDeleteIcon(draft.id) : ''}
+				</div>
+			</TableCell>
+		</TableRow>
+	);
 };
 
 const regularCardStyle = {

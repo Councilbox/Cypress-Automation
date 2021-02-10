@@ -48,19 +48,19 @@ const SaveDraftModal = ({ translate, ...props }) => {
 	};
 
 	const renderNewPointBody = () => (
-			<div style={{ width: '800px', height: '60vh' }}>
-				<CompanyDraftForm
-					translate={translate}
-					errors={errors}
-					updateState={updateState}
-					draft={data}
-					companyStatutes={props.companyStatutes}
-					draftTypes={props.draftTypes}
-					votingTypes={props.votingTypes}
-					majorityTypes={props.majorityTypes}
-				/>
-			</div>
-		);
+		<div style={{ width: '800px', height: '60vh' }}>
+			<CompanyDraftForm
+				translate={translate}
+				errors={errors}
+				updateState={updateState}
+				draft={data}
+				companyStatutes={props.companyStatutes}
+				draftTypes={props.draftTypes}
+				votingTypes={props.votingTypes}
+				majorityTypes={props.majorityTypes}
+			/>
+		</div>
+	);
 
 	return (
 		<AlertConfirm

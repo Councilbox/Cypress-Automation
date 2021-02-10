@@ -5,91 +5,91 @@ import { AlertConfirm, TextInput } from '../../../../displayComponents';
 import { splitExtensionFilename } from '../../../../utils/CBX';
 
 class DocumentNameEditor extends React.Component {
-	state = {
+state = {
+	data: {
+		...splitExtensionFilename(this.props.attachment.filename)
+	},
+	errors: {
+		filename: ''
+	}
+};
+
+updateState = object => {
+	this.setState({
 		data: {
-			...splitExtensionFilename(this.props.attachment.filename)
-		},
-		errors: {
-			filename: ''
+			...this.state.data,
+			...object
 		}
-	};
+	});
+};
 
-	updateState = object => {
-		this.setState({
-			data: {
-				...this.state.data,
-				...object
-			}
-		});
-	};
+_renderModalBody = () => {
+	const { translate } = this.props;
+	const { errors } = this.state;
 
-	_renderModalBody = () => {
-		const { translate } = this.props;
-		const { errors } = this.state;
+	return (
+		<div style={{ width: '650px' }}>
+			<TextInput
+				floatingText={translate.name}
+				type="text"
+				errorText={errors.filename}
+				value={this.state.data.filename}
+				onChange={event => this.updateState({
+					filename: event.target.value
+				})
+				}
+			/>
+		</div>
+	);
+};
 
-		return (
-			<div style={{ width: '650px' }}>
-				<TextInput
-					floatingText={translate.name}
-					type="text"
-					errorText={errors.filename}
-					value={this.state.data.filename}
-					onChange={event => this.updateState({
-							filename: event.target.value
-						})
-					}
-				/>
-			</div>
-		);
-	};
-
-	updateAttachment = async () => {
-		const response = await this.props.updateSignatureDocumentName({
-			variables: {
-				id: this.props.attachment.id,
-				name: `${this.state.data.filename}.${this.state.data.extension}`
-			}
-		});
-		if (response) {
-            if (response.data.updateSignatureDocumentName.success) {
-                this.props.updateAttachment({
-                    filename: `${this.state.data.filename}.${this.state.data.extension}`
-                });
-                this.props.requestClose();
-            }
+updateAttachment = async () => {
+	const response = await this.props.updateSignatureDocumentName({
+		variables: {
+			id: this.props.attachment.id,
+			name: `${this.state.data.filename}.${this.state.data.extension}`
 		}
-	};
+	});
+	if (response) {
+		if (response.data.updateSignatureDocumentName.success) {
+			this.props.updateAttachment({
+				filename: `${this.state.data.filename}.${this.state.data.extension}`
+			});
+			this.props.requestClose();
+		}
+	}
+};
 
-    render() {
-        const { translate } = this.props;
-        return (
-			<div
-				style={{
-					width: '100%'
-				}}
-			>
-				<AlertConfirm
-					requestClose={this.props.requestClose}
-					open={this.props.open}
-					acceptAction={this.updateAttachment}
-					buttonAccept={translate.accept}
-					buttonCancel={translate.cancel}
-					bodyText={this._renderModalBody()}
-					title={translate.edit}
-				/>
-			</div>
-        );
-    }
+render() {
+	const { translate } = this.props;
+	return (
+		<div
+			style={{
+				width: '100%'
+			}}
+		>
+			<AlertConfirm
+				requestClose={this.props.requestClose}
+				open={this.props.open}
+				acceptAction={this.updateAttachment}
+				buttonAccept={translate.accept}
+				buttonCancel={translate.cancel}
+				bodyText={this._renderModalBody()}
+				title={translate.edit}
+			/>
+		</div>
+	);
+}
 }
 
 const updateSignatureDocumentName = gql`
-    mutation updateSignatureDocumentName($id: Int!, $name: String!){
-        updateSignatureDocumentName(id: $id, name: $name){
-            success
-            message
-        }
-    }
+	mutation updateSignatureDocumentName($id: Int!, $name: String!){
+		updateSignatureDocumentName(id: $id, name: $name){
+			success
+			message
+		}
+	}
 `;
 export default graphql(updateSignatureDocumentName, {
-    name: 'updateSignatureDocumentName'
+	name: 'updateSignatureDocumentName'
 })(DocumentNameEditor);

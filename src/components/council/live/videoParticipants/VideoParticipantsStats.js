@@ -40,7 +40,7 @@ const VideoParticipantsStats = ({
 						color: lightGrey
 					}}
 				>
-					person
+person
 				</Icon>
 				<span
 					style={{
@@ -71,7 +71,7 @@ const VideoParticipantsStats = ({
 						color: turquoise
 					}}
 				>
-					language
+language
 				</Icon>
 				<span
 					style={{
@@ -103,7 +103,7 @@ const VideoParticipantsStats = ({
 						color: 'crimson'
 					}}
 				>
-					language
+language
 				</Icon>
 				<span
 					style={{
@@ -134,7 +134,7 @@ const VideoParticipantsStats = ({
 						color: turquoise
 					}}
 				>
-					videocam
+videocam
 				</Icon>
 				<span
 					style={{
@@ -165,7 +165,7 @@ const VideoParticipantsStats = ({
 						color: 'crimson'
 					}}
 				>
-					block
+block
 				</Icon>
 				<span
 					style={{
@@ -197,7 +197,7 @@ const VideoParticipantsStats = ({
 						color: turquoise
 					}}
 				>
-					pan_tool
+pan_tool
 				</Icon>
 				<span
 					style={{
@@ -228,7 +228,7 @@ const VideoParticipantsStats = ({
 						color: turquoise
 					}}
 				>
-					tv_off
+tv_off
 				</Icon>
 				<span
 					style={{

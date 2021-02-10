@@ -6,13 +6,13 @@ export default function translateReducer(
 	action
 ) {
 	switch (action.type) {
-		case 'LOADED_DETECTRTC':
-			return {
-				...action.detectRTC
-			};
-		default:
-			return {
-				...state
-			};
+	case 'LOADED_DETECTRTC':
+		return {
+			...action.detectRTC
+		};
+	default:
+		return {
+			...state
+		};
 	}
 }

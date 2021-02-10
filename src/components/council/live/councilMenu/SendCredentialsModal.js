@@ -10,7 +10,7 @@ import LiveSMS from './LiveSMS';
 
 
 const SendCredentialsModal = ({
- translate, council, requestClose, ...props
+	translate, council, requestClose, ...props
 }) => {
 	const [state, setState] = useOldState({
 		success: '',
@@ -89,8 +89,8 @@ const SendCredentialsModal = ({
 		if (state.success) {
 			return (
 				<div style={{
- width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'
-}}>
+					width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'
+				}}>
 					<SuccessMessage message={translate.sent} />
 				</div>
 			);
@@ -154,7 +154,7 @@ const SuccessMessage = ({ message }) => (
 				color: 'green'
 			}}
 		>
-			check_circle
+check_circle
 		</Icon>
 		<Typography variant="subheading">{message}</Typography>
 	</div>

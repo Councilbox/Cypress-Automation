@@ -17,7 +17,7 @@ import { delegatedVotesLimitReached } from '../../../utils/CBX';
 import { addDelegation as addDelegationMutation } from '../../../queries/liveParticipant';
 
 const DelegateVoteModal = ({
- translate, participant, client, council, ...props
+	translate, participant, client, council, ...props
 }) => {
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
@@ -185,60 +185,60 @@ const DelegateVoteModal = ({
 					{loading ? (
 						<LoadingSection />
 					) : (
-							<Scrollbar option={{ suppressScrollX: true }}>
-								{participants.length > 0 ? (
-									<React.Fragment>
-										{participants.map(liveParticipant => {
-											if (liveParticipant.id !== participant.id) {
-												return (
-													<ParticipantRow
-														key={`delegateParticipant_${liveParticipant.id}`}
-														participant={liveParticipant}
-														onClick={() => addDelegation(liveParticipant.id)
-														}
-													/>
-												);
-											}
-											return false;
-										})}
-										{participants.length < total - 1 && (
-											<Card
-												style={{
-													width: '90%',
-													border: '2px solid grey',
-													margin: 'auto',
-													marginBottom: '1.2em',
-													marginTop: '0.6em',
-													cursor: 'pointer',
-													display: 'flex',
-													alignItems: 'center',
-													justifyContent: 'center'
-												}}
-												elevation={1}
-												onClick={loadMore}
-											>
-												<MenuItem style={{
- padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'
-}}>
-													{`DESCARGAR ${
-														rest > DELEGATION_USERS_LOAD ?
-															`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-															: translate.all_plural.toLowerCase()
-														}`}
-													{loading
-														&& <div>
-															<LoadingSection size={25} />
-														</div>
+						<Scrollbar option={{ suppressScrollX: true }}>
+							{participants.length > 0 ? (
+								<React.Fragment>
+									{participants.map(liveParticipant => {
+										if (liveParticipant.id !== participant.id) {
+											return (
+												<ParticipantRow
+													key={`delegateParticipant_${liveParticipant.id}`}
+													participant={liveParticipant}
+													onClick={() => addDelegation(liveParticipant.id)
 													}
-												</MenuItem>
-											</Card>
-										)}
-									</React.Fragment>
-								) : (
-										<Typography>{translate.no_results}</Typography>
+												/>
+											);
+										}
+										return false;
+									})}
+									{participants.length < total - 1 && (
+										<Card
+											style={{
+												width: '90%',
+												border: '2px solid grey',
+												margin: 'auto',
+												marginBottom: '1.2em',
+												marginTop: '0.6em',
+												cursor: 'pointer',
+												display: 'flex',
+												alignItems: 'center',
+												justifyContent: 'center'
+											}}
+											elevation={1}
+											onClick={loadMore}
+										>
+											<MenuItem style={{
+												padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'
+											}}>
+												{`DESCARGAR ${
+													rest > DELEGATION_USERS_LOAD ?
+														`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+														: translate.all_plural.toLowerCase()
+												}`}
+												{loading
+&& <div>
+	<LoadingSection size={25} />
+</div>
+												}
+											</MenuItem>
+										</Card>
 									)}
-							</Scrollbar>
-						)}
+								</React.Fragment>
+							) : (
+								<Typography>{translate.no_results}</Typography>
+							)}
+						</Scrollbar>
+					)}
 				</div>
 			</div>
 		);

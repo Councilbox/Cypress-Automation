@@ -27,47 +27,47 @@ import('../../assets/img/sidebar-2.jpg').then(data => { image = data; });
 
 
 const Router = ({
- user, translate, location, data, classes
+	user, translate, location, data, classes
 }) => {
-    if (data.loading) {
-        return <LoadingMainApp />;
-    }
+	if (data.loading) {
+		return <LoadingMainApp />;
+	}
 
-    return (
-        <div>
-            <Sidebar
-                company={data.corporation}
-                image={image}
-                translate={translate}
-                color="blue"
-            />
-            <div className={classes.mainPanel} style={{ backgroundColor: lightGrey }}>
-                <Header
-                    user={user}
-                    translate={translate}
-                    backButton={location.pathname !== '/'}
-                />
-                <div style={{ width: '100%', height: `calc(100% - ${HEADER_HEIGHT})` }}>
-                    <Switch>
-                        <Route exact path="/" component={() => <Redirect to="/councils" />} />
-                        <Route path="/councils" component={() => <CouncilsDashboard corporation={data.corporation} />} />
-                        <Route path="/finished" component={FinishedPage} />
-                        <Route path="/council/:id" component={CouncilDetails} />
-                        <Route path="/user/:id" component={RootUserSettings} />
-                        <Route path="/kpi" component={KPI} />
-                        <Route exact path="/companies" component={CompaniesDashboard} />
-                        <Route exact path="/translations" component={TranslationsPage} />
-                        <Route path="/companies/edit/:id" component={CompanyEditPage} />
-                        <Route exact path="/users" component={UsersDashboard} />
-                        <Route path="/users/edit/:id" component={UserEdit} />
-                        <Route exact path="/drafts" component={DraftsDashboard} />
-                        <Route path="/drafts/edit/:id" component={DraftEditPage} />
-                        <Route path="*" component={() => <Redirect to="/" />} />
-                    </Switch>
-                </div>
+	return (
+		<div>
+			<Sidebar
+				company={data.corporation}
+				image={image}
+				translate={translate}
+				color="blue"
+			/>
+			<div className={classes.mainPanel} style={{ backgroundColor: lightGrey }}>
+				<Header
+					user={user}
+					translate={translate}
+					backButton={location.pathname !== '/'}
+				/>
+				<div style={{ width: '100%', height: `calc(100% - ${HEADER_HEIGHT})` }}>
+					<Switch>
+						<Route exact path="/" component={() => <Redirect to="/councils" />} />
+						<Route path="/councils" component={() => <CouncilsDashboard corporation={data.corporation} />} />
+						<Route path="/finished" component={FinishedPage} />
+						<Route path="/council/:id" component={CouncilDetails} />
+						<Route path="/user/:id" component={RootUserSettings} />
+						<Route path="/kpi" component={KPI} />
+						<Route exact path="/companies" component={CompaniesDashboard} />
+						<Route exact path="/translations" component={TranslationsPage} />
+						<Route path="/companies/edit/:id" component={CompanyEditPage} />
+						<Route exact path="/users" component={UsersDashboard} />
+						<Route path="/users/edit/:id" component={UserEdit} />
+						<Route exact path="/drafts" component={DraftsDashboard} />
+						<Route path="/drafts/edit/:id" component={DraftEditPage} />
+						<Route path="*" component={() => <Redirect to="/" />} />
+					</Switch>
+				</div>
 
-            </div>
-        </div>
+			</div>
+		</div>
 	);
 };
 

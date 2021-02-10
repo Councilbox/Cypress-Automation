@@ -413,22 +413,22 @@ describe('Check if the security type needs to show extra info to the user', () =
 });
 
 /*
- - STATUTES
+- STATUTES
 
- EXISTE ACTA - DEPENDEN DE ESO ->
- Se incluye en el libro de actas
- Se incluye lista de participantes en acta
- Plantillas de acta
+EXISTE ACTA - DEPENDEN DE ESO ->
+Se incluye en el libro de actas
+Se incluye lista de participantes en acta
+Plantillas de acta
 
- EXISTE SEGUNDA CONVOCATORIA ->
- Separación mínima entre 1.ª y 2.ª convocatoria1
- Quorum asistencia 2.ª convocatoria
+EXISTE SEGUNDA CONVOCATORIA ->
+Separación mínima entre 1.ª y 2.ª convocatoria1
+Quorum asistencia 2.ª convocatoria
 
- EXISTE VOTO DELEGADO
- Existe n.º máximo de votos delegados
+EXISTE VOTO DELEGADO
+Existe n.º máximo de votos delegados
 
- SE LIMITA EL ACCESO A SALA DESPUES DEL INICIO REUNIÓN
- Tiempo máximo acceso permitido
+SE LIMITA EL ACCESO A SALA DESPUES DEL INICIO REUNIÓN
+Tiempo máximo acceso permitido
 
 
- */
+*/

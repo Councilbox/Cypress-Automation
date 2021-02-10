@@ -13,12 +13,12 @@ const participantHeaderLimit = 15;
 
 
 const UsersHeader = graphql(gql`
-	subscription participantsOnlineCount($councilId: Int!){
-		participantsOnlineCount(councilId: $councilId){
-			online
-			presents
-		}
-	}`, {
+    subscription participantsOnlineCount($councilId: Int!){
+        participantsOnlineCount(councilId: $councilId){
+            online
+            presents
+    }
+    }`, {
 	name: 'onlineCount',
 	options: props => ({
 		variables: {
@@ -43,7 +43,7 @@ const UsersHeader = graphql(gql`
 	});
 
 	React.useEffect(() => {
-		if(onlineCount.participantsOnlineCount){
+		if (onlineCount.participantsOnlineCount) {
 			setRecount(onlineCount.participantsOnlineCount);
 		}
 	}, [JSON.stringify(onlineCount)])
@@ -57,12 +57,12 @@ const UsersHeader = graphql(gql`
 	}, [council.id]);
 
 	React.useEffect(() => {
-		if(drawerTop){
+		if (drawerTop) {
 			getData();
 		}
 	}, [drawerTop])
 
-	usePolling(getData, drawerTop? 8000 : 100000);
+	usePolling(getData, drawerTop ? 8000 : 100000);
 
 	const getarticipantsOnline = async () => {
 		const response = await client.query({
@@ -71,7 +71,7 @@ const UsersHeader = graphql(gql`
 				councilId: council.id
 			}
 		});
-		
+
 		setParticipantsOnline(response.data.roomLiveParticipantsOnline);
 		setParticipantsPresents(response.data.roomLiveParticipantsPresents);
 		setRecount({
@@ -536,47 +536,47 @@ const styles = {
 
 
 const roomLiveParticipantsOnline = gql`
-query roomLiveParticipantsOnline ( $councilId: Int!, $filters: [FilterInput], $options: OptionsInput ) {
-	roomLiveParticipantsOnline( councilId: $councilId, filters: $filters, options: $options) {
-		list {
-			id
-			state
-			councilId
-			name
-			personOrEntity
-			position
-			type
-			assistanceLastDateConfirmed
-			online
-			requestWord
-			numParticipations
-			surname
+	query roomLiveParticipantsOnline ( $councilId: Int!, $filters: [FilterInput], $options: OptionsInput ) {
+		roomLiveParticipantsOnline( councilId: $councilId, filters: $filters, options: $options) {
+			list {
+				id
+				state
+				councilId
+				name
+				personOrEntity
+				position
+				type
+				assistanceLastDateConfirmed
+				online
+				requestWord
+				numParticipations
+				surname
+			}
+			total
 		}
-		total
-	}
-	roomLiveParticipantsPresents( councilId: $councilId, filters: $filters, options: $options ) {
-		list {
-			id
-			state
-			councilId
-			name
-			personOrEntity
-			position
-			email
-			phone
-			dni
-			type
-			signed
-			assistanceIntention
-			assistanceLastDateConfirmed
-			online
-			requestWord
-			numParticipations
-			surname
+		roomLiveParticipantsPresents( councilId: $councilId, filters: $filters, options: $options ) {
+			list {
+				id
+				state
+				councilId
+				name
+				personOrEntity
+				position
+				email
+				phone
+				dni
+				type
+				signed
+				assistanceIntention
+				assistanceLastDateConfirmed
+				online
+				requestWord
+				numParticipations
+				surname
+			}
+			total
 		}
-		total
 	}
-}
 `;
 
 

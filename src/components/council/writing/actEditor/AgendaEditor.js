@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { graphql, compose } from 'react-apollo';
 import Dialog, { DialogContent, DialogTitle } from 'material-ui/Dialog';
 import {
- Grid, GridItem, TabsScreen, BasicButton, LiveToast
+	Grid, GridItem, TabsScreen, BasicButton, LiveToast
 } from '../../../../displayComponents';
 import RichTextInput from '../../../../displayComponents/RichTextInput';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
@@ -12,7 +12,7 @@ import { AGENDA_TYPES, DRAFT_TYPES } from '../../../../constants';
 import VotingsTableFiltersContainer from '../../live/voting/VotingsTableFiltersContainer';
 import CommentsTable from '../../live/comments/CommentsTable';
 import {
- checkForUnclosedBraces, changeVariablesToValues, hasParticipations, isCustomPoint, cleanAgendaObject, generateStatuteTag, isConfirmationRequest
+	checkForUnclosedBraces, changeVariablesToValues, hasParticipations, isCustomPoint, cleanAgendaObject, generateStatuteTag, isConfirmationRequest
 } from '../../../../utils/CBX';
 import LoadDraft from '../../../company/drafts/LoadDraft';
 import AgendaDescriptionModal from '../../live/AgendaDescriptionModal';
@@ -25,7 +25,7 @@ import ConfirmationRequestRecount from '../../agendas/ConfirmationRequestRecount
 
 
 const AgendaEditor = ({
- agenda, agendaData, error, recount, readOnly, majorityTypes, typeText, data, company, translate, council, ...props
+	agenda, agendaData, error, recount, readOnly, majorityTypes, typeText, data, company, translate, council, ...props
 }) => {
 	const [comment, setComment] = React.useState(agenda.comment);
 	const editor = React.useRef();
@@ -75,8 +75,8 @@ const AgendaEditor = ({
 
 	const loadDraft = async draft => {
 		const {
- numPositive, numNegative, numAbstention, numNoVote
-} = agendaData.agendaRecount;
+			numPositive, numNegative, numAbstention, numNoVote
+		} = agendaData.agendaRecount;
 		const { positiveSC, negativeSC, abstentionSC } = agendaData.agendaRecount;
 		const participations = hasParticipations(council);
 		const totalPresent = agenda.socialCapitalPresent + agenda.socialCapitalCurrentRemote;
@@ -114,8 +114,8 @@ const AgendaEditor = ({
 	}
 	const tabs = [];
 	const {
- numPositive, numNegative, numAbstention, numNoVote
-} = agendaData.agendaRecount;
+		numPositive, numNegative, numAbstention, numNoVote
+	} = agendaData.agendaRecount;
 	const { positiveSC, negativeSC, abstentionSC } = agendaData.agendaRecount;
 	const participations = hasParticipations(council);
 	const totalPresent = agenda.socialCapitalPresent + agenda.socialCapitalRemote;
@@ -184,97 +184,97 @@ const AgendaEditor = ({
 		tabs.push({
 			text: translate.comments_and_agreements,
 			component: () => (
-					<div style={{ padding: '1em' }}>
-						<RichTextInput
-							ref={editor}
-							translate={translate}
-							type="text"
-							errorText={error}
-							loadDraft={
-								<BasicButton
-									text={translate.load_draft}
-									color={secondary}
-									textStyle={{
-										color: 'white',
-										fontWeight: '600',
-										fontSize: '0.8em',
-										textTransform: 'none',
-										marginLeft: '0.4em',
-										minHeight: 0,
-										lineHeight: '1em'
-									}}
-									textPosition="after"
-									onClick={() => setState({
-											loadDraft: true,
-											draftType: DRAFT_TYPES.COMMENTS_AND_AGREEMENTS
-										})
-									}
-								/>
-							}
-							tags={tags}
-							value={agenda.comment || ''}
-							onChange={value => {
-								if (value !== agenda.comment) {
-									setComment(value);
+				<div style={{ padding: '1em' }}>
+					<RichTextInput
+						ref={editor}
+						translate={translate}
+						type="text"
+						errorText={error}
+						loadDraft={
+							<BasicButton
+								text={translate.load_draft}
+								color={secondary}
+								textStyle={{
+									color: 'white',
+									fontWeight: '600',
+									fontSize: '0.8em',
+									textTransform: 'none',
+									marginLeft: '0.4em',
+									minHeight: 0,
+									lineHeight: '1em'
+								}}
+								textPosition="after"
+								onClick={() => setState({
+									loadDraft: true,
+									draftType: DRAFT_TYPES.COMMENTS_AND_AGREEMENTS
+								})
 								}
-							}}
-						/>
-					</div>
-				)
+							/>
+						}
+						tags={tags}
+						value={agenda.comment || ''}
+						onChange={value => {
+							if (value !== agenda.comment) {
+								setComment(value);
+							}
+						}}
+					/>
+				</div>
+			)
 		});
 	}
 
 	tabs.push({
 		text: translate.act_comments,
 		component: () => (
-				<div style={{ minHeight: '8em', padding: '1em', paddingBottom: '1.4em' }}>
-					<CommentsTable
-						translate={translate}
-						agenda={agenda}
-						council={council}
-					/>
-				</div>
-			)
+			<div style={{ minHeight: '8em', padding: '1em', paddingBottom: '1.4em' }}>
+				<CommentsTable
+					translate={translate}
+					agenda={agenda}
+					council={council}
+				/>
+			</div>
+		)
 	});
 
 	if (agenda.subjectType !== AGENDA_TYPES.INFORMATIVE) {
 		tabs.push({
 			text: isConfirmationRequest(agenda.subjectType) ? translate.answers : translate.voting,
 			component: () => (
-					<div style={{ minHeight: '8em', padding: '1em' }}>
-						{isCustomPoint(agenda.subjectType)
-							&& <CustomAgendaRecount
-								agenda={agenda}
-								company={company}
-								translate={translate}
-								council={council}
-							/>
-						}
-						{isConfirmationRequest(agenda.subjectType) ?
-							<ConfirmationRequestRecount
-								agenda={agenda}
-								council={council}
-								translate={translate}
-								recount={recount}
-								majorityTypes={majorityTypes}
-							/>
-						:							<AgendaRecount
-								agenda={agenda}
-								council={council}
-								translate={translate}
-								recount={recount}
-								majorityTypes={majorityTypes}
-							/>
-						}
-						<VotingsTableFiltersContainer
-							translate={translate}
-							hideStatus
-							council={council}
-							recount={recount}
+				<div style={{ minHeight: '8em', padding: '1em' }}>
+					{isCustomPoint(agenda.subjectType)
+&& <CustomAgendaRecount
+	agenda={agenda}
+	company={company}
+	translate={translate}
+	council={council}
+/>
+					}
+					{isConfirmationRequest(agenda.subjectType) ?
+						<ConfirmationRequestRecount
 							agenda={agenda}
+							council={council}
+							translate={translate}
+							recount={recount}
+							majorityTypes={majorityTypes}
 						/>
-					</div>
-				)
+						:							<AgendaRecount
+							agenda={agenda}
+							council={council}
+							translate={translate}
+							recount={recount}
+							majorityTypes={majorityTypes}
+						/>
+					}
+					<VotingsTableFiltersContainer
+						translate={translate}
+						hideStatus
+						council={council}
+						recount={recount}
+						agenda={agenda}
+					/>
+				</div>
+			)
 		});
 	}
 
@@ -352,13 +352,13 @@ const AgendaEditor = ({
 						defaultTags={
 							{
 								comments_and_agreements: {
-								active: true,
-								type: 2,
-								name: 'comments_and_agreements',
-								label: translate.comments_and_agreements
-							},
-							...generateStatuteTag(council.statute, translate)
-						}}
+									active: true,
+									type: 2,
+									name: 'comments_and_agreements',
+									label: translate.comments_and_agreements
+								},
+								...generateStatuteTag(council.statute, translate)
+							}}
 						draftType={state.draftType}
 					/>
 				</DialogContent>

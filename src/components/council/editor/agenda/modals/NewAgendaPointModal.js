@@ -35,7 +35,7 @@ const defaultValues = {
 
 
 const NewAgendaPointModal = ({
- translate, votingTypes, agendas, statute, council, company, companyStatutes, confirmation, showLoadDraft = true, ...props
+	translate, votingTypes, agendas, statute, council, company, companyStatutes, confirmation, showLoadDraft = true, ...props
 }) => {
 	const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute, council);
 	const secondary = getSecondary();
@@ -116,28 +116,28 @@ const NewAgendaPointModal = ({
 							}
 						});
 					}
-						const fileInfo = {
-							filename: attachment.name,
-							filesize: attachment.filesize.toString(),
-							documentId: attachment.id,
-							filetype: attachment.filetype,
-							state: 0,
-							agendaId: response.data.addAgenda.id,
-							councilId: council.id
-						};
+					const fileInfo = {
+						filename: attachment.name,
+						filesize: attachment.filesize.toString(),
+						documentId: attachment.id,
+						filetype: attachment.filetype,
+						state: 0,
+						agendaId: response.data.addAgenda.id,
+						councilId: council.id
+					};
 
-						return props.client.mutate({
-							mutation: gql`
-								mutation attachCompanyDocumentToAgenda($attachment: AgendaAttachmentInput){
-									attachCompanyDocumentToAgenda(attachment: $attachment){
-										id
-									}
+					return props.client.mutate({
+						mutation: gql`
+							mutation attachCompanyDocumentToAgenda($attachment: AgendaAttachmentInput){
+								attachCompanyDocumentToAgenda(attachment: $attachment){
+									id
 								}
-							`,
-							variables: {
-								attachment: fileInfo
 							}
-						});
+						`,
+						variables: {
+							attachment: fileInfo
+						}
+					});
 				}));
 			}
 
@@ -248,8 +248,8 @@ const NewAgendaPointModal = ({
 								value={agenda.agendaSubject}
 								id={'tituloPuntoDelDiaModal'}
 								onChange={event => updateState({
-										agendaSubject: event.target.value
-									})
+									agendaSubject: event.target.value
+								})
 								}
 								required
 							/>
@@ -261,8 +261,8 @@ const NewAgendaPointModal = ({
 									value={AGENDA_TYPES.CONFIRMATION_REQUEST}
 									disabled={true}
 									onChange={event => updateState({
-											subjectType: +event.target.value
-										})
+										subjectType: +event.target.value
+									})
 									}
 									required
 								>
@@ -272,23 +272,23 @@ const NewAgendaPointModal = ({
 										{translate.confirmation_request}
 									</MenuItem>
 								</SelectInput>
-							:								<SelectInput
+								:								<SelectInput
 									floatingText={translate.type}
 									value={`${agenda.subjectType}`}
 									onChange={event => updateState({
-											subjectType: +event.target.value
-										})
+										subjectType: +event.target.value
+									})
 									}
 									required
 								>
 									{filteredTypes.map(voting => (
-											<MenuItem
-												value={`${voting.value}`}
-												key={`voting${voting.value}`}
-											>
-												{translate[voting.label]}
-											</MenuItem>
-										))}
+										<MenuItem
+											value={`${voting.value}`}
+											key={`voting${voting.value}`}
+										>
+											{translate[voting.label]}
+										</MenuItem>
+									))}
 								</SelectInput>
 							}
 						</GridItem>
@@ -301,43 +301,43 @@ const NewAgendaPointModal = ({
 									value={`${agenda.majorityType}`}
 									errorText={errors.majorityType}
 									onChange={event => updateState({
-											majorityType: +event.target.value
-										})
+										majorityType: +event.target.value
+									})
 									}
 									required
 								>
 									{props.majorityTypes.map(majority => (
-											<MenuItem
-												value={`${majority.value}`}
-												key={`majorityType_${
-													majority.value
-													}`}
-											>
-												{translate[majority.label]}
-											</MenuItem>
-										))}
+										<MenuItem
+											value={`${majority.value}`}
+											key={`majorityType_${
+												majority.value
+											}`}
+										>
+											{translate[majority.label]}
+										</MenuItem>
+									))}
 								</SelectInput>
 							</GridItem>
 							<GridItem xs={6} lg={3} md={3}>
 								{CBX.majorityNeedsInput(
 									agenda.majorityType
 								) && (
-										<MajorityInput
-											type={agenda.majorityType}
-											value={agenda.majority}
-											majorityError={!!state.majorityError || errors.majority}
-											dividerError={!!state.majorityError}
-											divider={agenda.majorityDivider}
-											onChange={value => updateState({
-													majority: +value
-												})
-											}
-											onChangeDivider={value => updateState({
-													majorityDivider: +value
-												})
-											}
-										/>
-									)}
+									<MajorityInput
+										type={agenda.majorityType}
+										value={agenda.majority}
+										majorityError={!!state.majorityError || errors.majority}
+										dividerError={!!state.majorityError}
+										divider={agenda.majorityDivider}
+										onChange={value => updateState({
+											majority: +value
+										})
+										}
+										onChangeDivider={value => updateState({
+											majorityDivider: +value
+										})
+										}
+									/>
+								)}
 							</GridItem>
 
 						</Grid>
@@ -360,21 +360,21 @@ const NewAgendaPointModal = ({
 						type="text"
 						loadDraft={
 							showLoadDraft
-								&& <BasicButton
-									text={translate.load_draft}
-									color={secondary}
-									textStyle={{
-										color: 'white',
-										fontWeight: '600',
-										fontSize: '0.8em',
-										textTransform: 'none',
-										marginLeft: '0.4em',
-										minHeight: 0,
-										lineHeight: '1em'
-									}}
-									textPosition="after"
-									onClick={() => setState({ loadDraft: true })}
-								/>
+&& <BasicButton
+	text={translate.load_draft}
+	color={secondary}
+	textStyle={{
+		color: 'white',
+		fontWeight: '600',
+		fontSize: '0.8em',
+		textTransform: 'none',
+		marginLeft: '0.4em',
+		minHeight: 0,
+		lineHeight: '1em'
+	}}
+	textPosition="after"
+	onClick={() => setState({ loadDraft: true })}
+/>
 						}
 						tags={[
 							{
@@ -393,8 +393,8 @@ const NewAgendaPointModal = ({
 						errorText={errors.description}
 						value={agenda.description}
 						onChange={value => updateState({
-								description: value
-							})
+							description: value
+						})
 						}
 					/>
 				</div>

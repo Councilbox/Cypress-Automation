@@ -94,7 +94,7 @@ class Sidebar extends React.Component {
 				}
 				const listItemClasses = cx({
 					[` ${
-					this.props.classes[this.props.color]}`]: this.activeRoute(key)
+						this.props.classes[this.props.color]}`]: this.activeRoute(key)
 				});
 				const whiteFontClasses = cx({
 					[` ${this.props.classes.whiteFont}`]: this.activeRoute(key)
@@ -203,8 +203,8 @@ class Sidebar extends React.Component {
 			items={
 				<React.Fragment>
 					{this.props.companies
-					.filter(company => company.id !== this.props.company.id)
-					.map((company, index) => (
+						.filter(company => company.id !== this.props.company.id)
+						.map((company, index) => (
 							<MenuItem
 								key={`company_${company.id}`}
 								onClick={() => this.changeCompany(index)}

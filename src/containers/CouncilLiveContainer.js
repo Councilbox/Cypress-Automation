@@ -14,7 +14,7 @@ import { councilLiveQuery } from '../queries';
 import { usePolling } from '../hooks';
 
 const CouncilLiveContainer = ({
- main, companies, translate, match, client
+	main, companies, translate, match, client
 }) => {
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
@@ -85,7 +85,7 @@ const CouncilLiveContainer = ({
 			}}
 		>
 			{!main.serverStatus
-				&& <NoConnectionModal open={!main.serverStatus} />
+&& <NoConnectionModal open={!main.serverStatus} />
 			}
 			{!isMobile ?
 				<CouncilLivePage
@@ -94,7 +94,7 @@ const CouncilLiveContainer = ({
 					translate={translate}
 					data={data}
 				/>
-			:				<CouncilLiveMobilePage
+				:				<CouncilLiveMobilePage
 					companies={companies}
 					data={data}
 					translate={translate}

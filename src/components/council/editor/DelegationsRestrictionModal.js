@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql, withApollo } from 'react-apollo';
 import {
- Card, MenuItem, Typography, withStyles, CardHeader
+	Card, MenuItem, Typography, withStyles, CardHeader
 } from 'material-ui';
 import {
 	AlertConfirm,
@@ -30,7 +30,7 @@ const styles = {
 
 
 const DelegationsRestrictionModal = ({
- open, data, translate, participantsTable, ...props
+	open, data, translate, participantsTable, ...props
 }) => {
 	const loadMore = () => {
 		data.fetchMore({
@@ -102,8 +102,8 @@ const DelegationsRestrictionModal = ({
 							type="text"
 							// value={searchModalPlantillas}
 							styleInInput={{
- fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px'
-}}
+								fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px'
+							}}
 							classes={{ input: props.classes.input, formControl: props.classes.formControl }}
 							disableUnderline={true}
 							stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px' }}
@@ -119,72 +119,72 @@ const DelegationsRestrictionModal = ({
 						borderTop: '2px solid #dcdcdc',
 						overflow: 'hidden',
 						height: isMobile ? 'calc( 100% - 5em )' : '100%',
-						}}
-					>
+					}}
+				>
 					{loading ? (
 						<LoadingSection />
 					) : (
-							<Scrollbar>
-								<Grid style={{ width: '95%', margin: '0 auto', marginTop: '1em', }}>
-									<GridItem xs={12} lg={12} md={12} >
-										<Grid style={{ display: 'flex' }}>
-											{participants.length > 0 ? (
-												<React.Fragment>
-													{participants.map((participant, index) => (
-															<CardPlantillas
-																translate={translate}
-																key={`delegateVote_${participant.id}`}
-																item={participant}
-																onClick={() => props.addCouncilDelegate(participant.id)
-																}
-																index={index}
-															/>
-														))}
-													{participants.length < total - 1 && (
-														<Card
-															style={{
-																width: '90%',
-																border: '2px solid grey',
-																margin: 'auto',
-																marginBottom: '1.2em',
-																marginTop: '0.6em',
-																cursor: 'pointer',
-																display: 'flex',
-																alignItems: 'center',
-																justifyContent: 'center'
-															}}
-															elevation={1}
-															onClick={loadMore}
-														>
-															<MenuItem style={{
- padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'
-}}>
-																{`DESCARGAR ${
-																	rest > DELEGATION_USERS_LOAD ?
-																		`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-																		: translate.all_plural.toLowerCase()
-																	}`
-																}
-																{loading
-																	&& <div>
-																		<LoadingSection size={25} />
-																	</div>
-																}
-															</MenuItem>
-														</Card>
-													)}
-												</React.Fragment>
-											) : (
-													<Typography>{translate.no_results}</Typography>
-												)
-											}
+						<Scrollbar>
+							<Grid style={{ width: '95%', margin: '0 auto', marginTop: '1em', }}>
+								<GridItem xs={12} lg={12} md={12} >
+									<Grid style={{ display: 'flex' }}>
+										{participants.length > 0 ? (
+											<React.Fragment>
+												{participants.map((participant, index) => (
+													<CardPlantillas
+														translate={translate}
+														key={`delegateVote_${participant.id}`}
+														item={participant}
+														onClick={() => props.addCouncilDelegate(participant.id)
+														}
+														index={index}
+													/>
+												))}
+												{participants.length < total - 1 && (
+													<Card
+														style={{
+															width: '90%',
+															border: '2px solid grey',
+															margin: 'auto',
+															marginBottom: '1.2em',
+															marginTop: '0.6em',
+															cursor: 'pointer',
+															display: 'flex',
+															alignItems: 'center',
+															justifyContent: 'center'
+														}}
+														elevation={1}
+														onClick={loadMore}
+													>
+														<MenuItem style={{
+															padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'
+														}}>
+															{`DESCARGAR ${
+																rest > DELEGATION_USERS_LOAD ?
+																	`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+																	: translate.all_plural.toLowerCase()
+															}`
+															}
+															{loading
+&& <div>
+	<LoadingSection size={25} />
+</div>
+															}
+														</MenuItem>
+													</Card>
+												)}
+											</React.Fragment>
+										) : (
+											<Typography>{translate.no_results}</Typography>
+										)
+										}
 
 
-										</Grid>
-									</GridItem>
-								</Grid>
-							</Scrollbar>
-						)}
+									</Grid>
+								</GridItem>
+							</Grid>
+						</Scrollbar>
+					)}
 				</div>
 			</div>
 		);
@@ -202,12 +202,12 @@ const DelegationsRestrictionModal = ({
 				<div style={{ display: isMobile ? '' : 'flex', justifyContent: 'space-between' }}>
 					<div>{translate.select}</div>
 					<div style={{
- display: 'flex', alignItems: !isMobile && 'center', color: ' rgba(0, 0, 0, 0.37)', fontSize: isMobile && '12px'
-}}>
+						display: 'flex', alignItems: !isMobile && 'center', color: ' rgba(0, 0, 0, 0.37)', fontSize: isMobile && '12px'
+					}}>
 						<div>
 							<ButtonIcon className="material-icons" style={{
- color: getPrimary(), fontSize: '15px', marginTop: '5px', marginRight: '5px', marginLeft: isMobile ? '0px' : '2em'
-}} type={'help'} />
+								color: getPrimary(), fontSize: '15px', marginTop: '5px', marginRight: '5px', marginLeft: isMobile ? '0px' : '2em'
+							}} type={'help'} />
 						</div>
 						{translate.select_who_can_receive_delegations}
 					</div>
@@ -237,7 +237,7 @@ const regularCardStyle = {
 
 
 const CardPlantillas = withStyles(regularCardStyle)(({
- item, classes, onClick, index
+	item, classes, onClick, index
 }) => {
 	const [hover, setHover] = React.useState(false);
 
@@ -292,7 +292,7 @@ const CardPlantillas = withStyles(regularCardStyle)(({
 				</Card>
 			</GridItem>
 			{index % 2 === 0
-				&& <GridItem xs={2} lg={2} md={2}></GridItem>
+&& <GridItem xs={2} lg={2} md={2}></GridItem>
 			}
 		</React.Fragment>
 	);

@@ -2,7 +2,7 @@ import React from 'react';
 import { FormControl, RadioGroup } from 'material-ui';
 
 const RadioGroupComponent = ({
- children, value, onChange, name, style
+	children, value, onChange, name, style
 }) => (
 	<FormControl component="fieldset">
 		<RadioGroup

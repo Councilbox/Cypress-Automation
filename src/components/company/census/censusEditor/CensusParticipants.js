@@ -4,7 +4,7 @@ import { compose, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import {
- CloseIcon, EnhancedTable, Grid, GridItem, BasicButton, Checkbox, AlertConfirm
+	CloseIcon, EnhancedTable, Grid, GridItem, BasicButton, Checkbox, AlertConfirm
 } from '../../../../displayComponents';
 import * as CBX from '../../../../utils/CBX';
 import { censusParticipants as censusParticipantsQuery } from '../../../../queries/census';
@@ -28,15 +28,15 @@ class CensusParticipants extends React.Component {
 	};
 
 	select = id => {
-        if (this.state.selectedIds.has(id)) {
-            this.state.selectedIds.delete(id);
-        } else {
-            this.state.selectedIds.set(id, 'selected');
-        }
+		if (this.state.selectedIds.has(id)) {
+			this.state.selectedIds.delete(id);
+		} else {
+			this.state.selectedIds.set(id, 'selected');
+		}
 
-        this.setState({
-            selectedIds: new Map(this.state.selectedIds)
-        });
+		this.setState({
+			selectedIds: new Map(this.state.selectedIds)
+		});
 	}
 
 	selectAll = () => {
@@ -232,20 +232,20 @@ class CensusParticipants extends React.Component {
 						action={this._renderDeleteIcon}
 					>
 						{censusParticipants.list.map(participant => (
-								<React.Fragment key={`participant_${participant.id}`}>
-									<HoverableRow
-										participant={participant}
-										translate={translate}
-										selected={this.state.selectedIds.has(participant.id)}
-										select={this.select}
-										census={census}
-										participations={census.quorumPrototype === 1}
-										representative={participant.representative}
-										_renderDeleteIcon={this._renderDeleteIcon}
-										editParticipant={this.editParticipant}
-									/>
-								</React.Fragment>
-							))}
+							<React.Fragment key={`participant_${participant.id}`}>
+								<HoverableRow
+									participant={participant}
+									translate={translate}
+									selected={this.state.selectedIds.has(participant.id)}
+									select={this.select}
+									census={census}
+									participations={census.quorumPrototype === 1}
+									representative={participant.representative}
+									_renderDeleteIcon={this._renderDeleteIcon}
+									editParticipant={this.editParticipant}
+								/>
+							</React.Fragment>
+						))}
 					</EnhancedTable>
 				)}
 				{this.state.editingParticipant
@@ -298,21 +298,21 @@ class HoverableRow extends React.PureComponent {
 
 	render() {
 		const {
- participant, _renderDeleteIcon, representative, selected, translate
-} = this.props;
+			participant, _renderDeleteIcon, representative, selected, translate
+		} = this.props;
 
 		if (isMobile) {
-            return (
-                <Card
-                    style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
+			return (
+				<Card
+					style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
 					onClick={() => this.props.editParticipant(participant)
 					}
-                >
-                    <Grid>
-                        <GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
-                            {translate.participant_data}
-                        </GridItem>
-                        <GridItem xs={7} md={7}>
+				>
+					<Grid>
+						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
+							{translate.participant_data}
+						</GridItem>
+						<GridItem xs={7} md={7}>
 							<span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname || ''}`}</span>
 							{!!representative
 								&& <React.Fragment>
@@ -320,33 +320,33 @@ class HoverableRow extends React.PureComponent {
 									{`${this.props.translate.represented_by}: ${representative.name} ${representative.surname || ''}`}
 								</React.Fragment>
 							}
-                        </GridItem>
+						</GridItem>
 						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
-                            {translate.dni}
-                        </GridItem>
-                        <GridItem xs={7} md={7}>
+							{translate.dni}
+						</GridItem>
+						<GridItem xs={7} md={7}>
 							{representative ?
 								<React.Fragment>
 									{representative.dni}
 								</React.Fragment>
-							:								participant.dni
+								:								participant.dni
 							}
-                        </GridItem>
+						</GridItem>
 						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
-                            {translate.position}
-                        </GridItem>
-                        <GridItem xs={7} md={7}>
+							{translate.position}
+						</GridItem>
+						<GridItem xs={7} md={7}>
 							{representative ?
 								<React.Fragment>
 									{representative.position}
 								</React.Fragment>
-							:								participant.position
+								:								participant.position
 							}
-                        </GridItem>
+						</GridItem>
 						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
-                            {translate.votes}
-                        </GridItem>
-                        <GridItem xs={7} md={7}>
+							{translate.votes}
+						</GridItem>
+						<GridItem xs={7} md={7}>
 							{!CBX.isRepresentative(
 								participant
 							)
@@ -357,7 +357,7 @@ class HoverableRow extends React.PureComponent {
 							{!!representative
 								&& <br/>
 							}
-                        </GridItem>
+						</GridItem>
 						{this.props.participations && (
 							<React.Fragment>
 								{!CBX.isRepresentative(
@@ -372,14 +372,14 @@ class HoverableRow extends React.PureComponent {
 								}
 							</React.Fragment>
 						)}
-                    </Grid>
-                    <div style={{ position: 'absolute', top: '5px', right: '5px' }}>
+					</Grid>
+					<div style={{ position: 'absolute', top: '5px', right: '5px' }}>
 						{!CBX.isRepresentative(participant)
 							&& _renderDeleteIcon(participant.id)}
-                    </div>
-                </Card>
-            );
-        }
+					</div>
+				</Card>
+			);
+		}
 
 		return (
 			<TableRow

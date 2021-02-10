@@ -6,7 +6,7 @@ import { getSecondary } from '../../../../../styles/colors';
 
 
 const DeleteAgendaButton = ({
- agenda, council, translate, client, refetch, requestClose
+	agenda, council, translate, client, refetch, requestClose
 }) => {
 	const [modal, setModal] = React.useState(false);
 

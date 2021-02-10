@@ -22,7 +22,7 @@ import {
 } from '../../../../utils/CBX';
 import DocumentEditor from '../../../documentEditor/DocumentEditor';
 import {
- buildDoc, useDoc, buildDocBlock, buildDocVariable
+	buildDoc, useDoc, buildDocBlock, buildDocVariable
 } from '../../../documentEditor/utils';
 import DownloadDoc from '../../../documentEditor/DownloadDoc';
 import { actBlocks } from '../../../documentEditor/actBlocks';
@@ -80,6 +80,7 @@ export const CouncilActData = gql`
 				existsComments
 			}
 		}
+
 		agendas(councilId: $councilID) {
 			id
 			orderIndex
@@ -128,6 +129,7 @@ export const CouncilActData = gql`
 			comment
 			commentRightColumn
 		}
+			
 		councilRecount(councilId: $councilID){
 			socialCapitalTotal
 			partTotal
@@ -157,10 +159,12 @@ export const CouncilActData = gql`
 				surname
 			}
 		}
+
 		votingTypes {
 			label
 			value
 		}
+
 		councilAttendants(
 			councilId: $councilID
 			options: $options
@@ -186,11 +190,13 @@ export const CouncilActData = gql`
 				lastDateConnection
 			}
 		}
+
 		companyStatutes(companyId: $companyId) {
 			id
 			title
 			censusId
 		}
+
 		majorityTypes {
 			label
 			value
@@ -244,7 +250,7 @@ export const generateCouncilSmartTagsValues = data => {
 
 export const ActContext = React.createContext();
 const ActEditor = ({
- translate, updateCouncilAct, councilID, client, company, refetch, withDrawer, liveMode
+	translate, updateCouncilAct, councilID, client, company, refetch, withDrawer, liveMode
 }) => {
 	const [saving, setSaving] = React.useState(false);
 	const [sendToVote, setSendToVote] = React.useState(false);
@@ -292,14 +298,14 @@ const ActEditor = ({
 			doc: actDocument.fragments,
 			options: actDocument.options
 		} : {
-				doc: buildDoc(response.data, translate, 'act'),
-				options: {
-					stamp: !config.disableDocumentStamps,
-					doubleColumn: response.data.council.statute.doubleColumnDocs === 1,
-					language: response.data.council.language,
-					secondaryLanguage: 'en'
-				}
-			});
+			doc: buildDoc(response.data, translate, 'act'),
+			options: {
+				stamp: !config.disableDocumentStamps,
+				doubleColumn: response.data.council.statute.doubleColumnDocs === 1,
+				language: response.data.council.language,
+				secondaryLanguage: 'en'
+			}
+		});
 		setLoading(false);
 	}, [councilID]);
 
@@ -310,7 +316,7 @@ const ActEditor = ({
 	const generatePreview = async () => {
 		const response = await client.mutate({
 			mutation: gql`
-				mutation ACTHTML($doc: Document, $councilId: Int!){
+			mutation ACTHTML($doc: Document, $councilId: Int!){
 					generateDocumentHTML(document: $doc, councilId: $councilId)
 				}
 			`,
@@ -354,103 +360,103 @@ const ActEditor = ({
 
 
 	const finishedToolbar = () => (
-			<>
-				<DownloadDoc
-					translate={translate}
-					doc={doc}
-					options={options}
-					council={data.council}
-					styles={{
-						whiteSpace: 'nowrap',
-						overflow: 'hidden',
-						textOverflow: 'ellipsis',
-					}}
-				/>
-				<BasicButton
-					text={translate.save}
-					color={primary}
-					onClick={updateAct}
-					loading={saving}
-					textStyle={{
-						color: 'white',
-						fontSize: '0.9em',
-						textTransform: 'none'
-					}}
-					textPosition="after"
-					iconInit={<i style={{ marginRight: '0.3em', fontSize: '18px' }} className="fa fa-floppy-o" aria-hidden="true"></i>}
-					buttonStyle={{
-						marginRight: '1em',
-						boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-						borderRadius: '3px'
-					}}
-				/>
-				<BasicButton
-					text={translate.send_draft_phone_button}
-					color={secondary}
-					onClick={() => setSendActDraft(true)}
-					loading={saving}
-					textStyle={{
-						color: 'white',
-						fontSize: '0.9em',
-						textTransform: 'none'
-					}}
-					textPosition="after"
-					iconInit={<i style={{ marginRight: '0.3em', fontSize: '18px' }} className="fa fa-file-text-o" aria-hidden="true"></i>}
-					buttonStyle={{
-						marginRight: '1em',
-						boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-						borderRadius: '3px'
-					}}
-				/>
-				<SendActDraftModal
-					translate={translate}
-					council={council}
-					updateAct={updateAct}
-					show={sendActDraft}
-					requestClose={() => setSendActDraft(false)}
-				/>
-				<FinishActModal
-					finishInModal={true}
-					show={finishModal}
-					generatePreview={generatePreview}
-					doc={doc}
-					options={options}
-					refetch={refetch}
-					company={company}
-					updateAct={updateAct}
-					translate={translate}
-					council={data.council}
-					requestClose={() => {
-						setFinishModal(false);
-					}}
-				/>
-				<BasicButton
-					text={
-						<span style={{
+		<>
+			<DownloadDoc
+				translate={translate}
+				doc={doc}
+				options={options}
+				council={data.council}
+				styles={{
+					whiteSpace: 'nowrap',
+					overflow: 'hidden',
+					textOverflow: 'ellipsis',
+				}}
+			/>
+			<BasicButton
+				text={translate.save}
+				color={primary}
+				onClick={updateAct}
+				loading={saving}
+				textStyle={{
+					color: 'white',
+					fontSize: '0.9em',
+					textTransform: 'none'
+				}}
+				textPosition="after"
+				iconInit={<i style={{ marginRight: '0.3em', fontSize: '18px' }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+				buttonStyle={{
+					marginRight: '1em',
+					boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+					borderRadius: '3px'
+				}}
+			/>
+			<BasicButton
+				text={translate.send_draft_phone_button}
+				color={secondary}
+				onClick={() => setSendActDraft(true)}
+				loading={saving}
+				textStyle={{
+					color: 'white',
+					fontSize: '0.9em',
+					textTransform: 'none'
+				}}
+				textPosition="after"
+				iconInit={<i style={{ marginRight: '0.3em', fontSize: '18px' }} className="fa fa-file-text-o" aria-hidden="true"></i>}
+				buttonStyle={{
+					marginRight: '1em',
+					boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+					borderRadius: '3px'
+				}}
+			/>
+			<SendActDraftModal
+				translate={translate}
+				council={council}
+				updateAct={updateAct}
+				show={sendActDraft}
+				requestClose={() => setSendActDraft(false)}
+			/>
+			<FinishActModal
+				finishInModal={true}
+				show={finishModal}
+				generatePreview={generatePreview}
+				doc={doc}
+				options={options}
+				refetch={refetch}
+				company={company}
+				updateAct={updateAct}
+				translate={translate}
+				council={data.council}
+				requestClose={() => {
+					setFinishModal(false);
+				}}
+			/>
+			<BasicButton
+				text={
+					<span style={{
 
-						}}>
-							{translate.finish_and_aprove_act}
-						</span>
-					}
-					color={secondary}
-					textStyle={{
-						color: 'white',
-						fontSize: '0.9em',
-						textTransform: 'none'
-					}}
-					onClick={finishAct}
-					textPosition="after"
-					iconInit={<i style={{ marginRight: '0.3em', fontSize: '18px' }} className="fa fa-check" aria-hidden="true"></i>}
-					buttonStyle={{
-						marginRight: '1em',
-						boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-						borderRadius: '3px',
-						overflow: 'hidden'
-					}}
-				/>
+					}}>
+						{translate.finish_and_aprove_act}
+					</span>
+				}
+				color={secondary}
+				textStyle={{
+					color: 'white',
+					fontSize: '0.9em',
+					textTransform: 'none'
+				}}
+				onClick={finishAct}
+				textPosition="after"
+				iconInit={<i style={{ marginRight: '0.3em', fontSize: '18px' }} className="fa fa-check" aria-hidden="true"></i>}
+				buttonStyle={{
+					marginRight: '1em',
+					boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+					borderRadius: '3px',
+					overflow: 'hidden'
+				}}
+			/>
 
-			</>
-		);
+		</>
+	);
 
 	const liveToolbar = () => {
 		const actPoint = data.agendas[data.agendas.length - 1];
@@ -500,7 +506,7 @@ const ActEditor = ({
 						/>
 					</>
 
-				:					<>
+					:					<>
 						<BasicButton
 							text={translate.save_preview_act}
 							color={'white'}
@@ -605,7 +611,7 @@ export const generateActTags = (type, data, translate) => {
 				council.firstOrSecondConvene ?
 					translate.first
 					: translate.second
-				} `,
+			} `,
 			label: translate.first_or_second_call
 		},
 		location: {
@@ -697,21 +703,21 @@ export const generateActTags = (type, data, translate) => {
 	};
 
 	switch (type) {
-		case 'intro':
-			tags = [
-				smartTags.businessName,
-				smartTags.dateStart
-			];
+	case 'intro':
+		tags = [
+			smartTags.businessName,
+			smartTags.dateStart
+		];
 
-			if (hasSecondCall(council.statute)) {
-				tags = [...tags, smartTags.dateStart2NdCall];
-			}
+		if (hasSecondCall(council.statute)) {
+			tags = [...tags, smartTags.dateStart2NdCall];
+		}
 
-			if (council.remoteCelebration !== 1) {
-				tags = [...tags, smartTags.city, smartTags.country];
-			}
+		if (council.remoteCelebration !== 1) {
+			tags = [...tags, smartTags.city, smartTags.country];
+		}
 
-			tags = [...tags,
+		tags = [...tags,
 			smartTags.dateRealStart,
 			smartTags.firstOrSecondConvene,
 			smartTags.president,
@@ -729,25 +735,25 @@ export const generateActTags = (type, data, translate) => {
 			smartTags.percentageSCPresent,
 			smartTags.percentageSCDelegated,
 			smartTags.percentageSCTotal
-			];
+		];
 
-			return tags;
+		return tags;
 
-		case 'certHeader':
-			tags = [
-				smartTags.businessName,
-				smartTags.dateStart
-			];
+	case 'certHeader':
+		tags = [
+			smartTags.businessName,
+			smartTags.dateStart
+		];
 
-			if (hasSecondCall(council.statute)) {
-				tags = [...tags, smartTags.dateStart2NdCall];
-			}
+		if (hasSecondCall(council.statute)) {
+			tags = [...tags, smartTags.dateStart2NdCall];
+		}
 
-			if (council.remoteCelebration !== 1) {
-				tags = [...tags, smartTags.city, smartTags.country];
-			}
+		if (council.remoteCelebration !== 1) {
+			tags = [...tags, smartTags.city, smartTags.country];
+		}
 
-			tags = [...tags,
+		tags = [...tags,
 			smartTags.dateRealStart,
 			smartTags.firstOrSecondConvene,
 			smartTags.president,
@@ -765,29 +771,29 @@ export const generateActTags = (type, data, translate) => {
 			smartTags.percentageSCPresent,
 			smartTags.percentageSCDelegated,
 			smartTags.percentageSCTotal
-			];
-			return tags;
+		];
+		return tags;
 
-		case 'constitution':
-			tags = [
-				smartTags.businessName,
-				smartTags.now,
-				smartTags.president,
-				smartTags.secretary,
-				smartTags.percentageShares,
-				smartTags.location,
-				smartTags.dateRealStart,
-				smartTags.percentageSCPresent,
-				smartTags.percentageSCDelegated,
-				smartTags.percentageSCTotal
-			];
+	case 'constitution':
+		tags = [
+			smartTags.businessName,
+			smartTags.now,
+			smartTags.president,
+			smartTags.secretary,
+			smartTags.percentageShares,
+			smartTags.location,
+			smartTags.dateRealStart,
+			smartTags.percentageSCPresent,
+			smartTags.percentageSCDelegated,
+			smartTags.percentageSCTotal
+		];
 
-			if (council.remoteCelebration !== 1) {
-				tags = [...tags, smartTags.city, smartTags.country];
-			}
+		if (council.remoteCelebration !== 1) {
+			tags = [...tags, smartTags.city, smartTags.country];
+		}
 
 
-			tags = [...tags,
+		tags = [...tags,
 			smartTags.attendants,
 			smartTags.delegatedVotes,
 			smartTags.numPresentOrRemote,
@@ -795,35 +801,35 @@ export const generateActTags = (type, data, translate) => {
 			smartTags.numParticipationsPresent,
 			smartTags.numParticipationsRepresented,
 			smartTags.currentQuorum,
-			];
+		];
 
-			return tags;
+		return tags;
 
-		case 'conclusion':
-			tags = [
-				smartTags.president,
-				smartTags.secretary,
-				smartTags.dateEnd,
-				smartTags.attendants,
-				smartTags.delegatedVotes,
-				smartTags.numDelegations
-			];
-			return tags;
+	case 'conclusion':
+		tags = [
+			smartTags.president,
+			smartTags.secretary,
+			smartTags.dateEnd,
+			smartTags.attendants,
+			smartTags.delegatedVotes,
+			smartTags.numDelegations
+		];
+		return tags;
 
-		case 'certFooter': {
-			tags = [
-				smartTags.president,
-				smartTags.secretary,
-				smartTags.signatories,
-				smartTags.now,
-				smartTags.dateEnd,
-				smartTags.attendants,
-				smartTags.delegatedVotes,
-				smartTags.numDelegations
-			];
-			return tags;
-		}
-		default:
-			return [];
+	case 'certFooter': {
+		tags = [
+			smartTags.president,
+			smartTags.secretary,
+			smartTags.signatories,
+			smartTags.now,
+			smartTags.dateEnd,
+			smartTags.attendants,
+			smartTags.delegatedVotes,
+			smartTags.numDelegations
+		];
+		return tags;
+	}
+	default:
+		return [];
 	}
 };

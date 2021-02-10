@@ -22,7 +22,7 @@ const reducer = (state, action) => {
 			loading: false,
 			selectedPoint: (state.selectedPoint >= action.value.agendas.length && action.value.agendas.length !== 0) ?
 				action.value.agendas.length - 1
-			:				state.selectedPoint !== null ? state.selectedPoint : getInitialSelectedPoint(action.value.agendas)
+				:				state.selectedPoint !== null ? state.selectedPoint : getInitialSelectedPoint(action.value.agendas)
 		}),
 		NEXT_POINT: () => ({
 			...state,
@@ -39,7 +39,7 @@ const reducer = (state, action) => {
 
 
 const AgendaManager = ({
- translate, council, company, stylesDiv, client, ...props
+	translate, council, company, stylesDiv, client, ...props
 }, ref) => {
 	const [{ data, loading, selectedPoint }, dispatch] = React.useReducer(reducer, {
 		data: {},
@@ -247,10 +247,10 @@ const AgendaManager = ({
 						refetchCouncil={props.refetch}
 						refetch={getData}
 					/>
-				:					<div style={{ margin: '2em' }}>
+					:					<div style={{ margin: '2em' }}>
 						{translate.empty_agendas}
 					</div>
-					}
+				}
 			</div>
 			<AlertConfirm
 				requestClose={closeVotingsAlert}
@@ -347,6 +347,7 @@ export const agendaManager = gql`
 			totalVotings
 			votingState
 		}
+
 		languages {
 			desc
 			columnName

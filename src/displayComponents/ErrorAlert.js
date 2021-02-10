@@ -8,7 +8,7 @@ import BasicButton from './BasicButton';
 import { getPrimary } from '../styles/colors';
 
 const ErrorAlert = ({
- title, buttonAccept, open, requestClose, bodyText
+	title, buttonAccept, open, requestClose, bodyText
 }) => {
 	const primary = getPrimary();
 

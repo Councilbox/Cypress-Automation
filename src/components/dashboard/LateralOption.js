@@ -4,7 +4,7 @@ import { Icon } from '../../displayComponents';
 import { bHistory } from '../../containers/App';
 
 const LateralOption = ({
- icon, text, link, customIcon, style
+	icon, text, link, customIcon, style
 }) => {
 	const followLink = path => {
 		bHistory.push(path);
@@ -45,8 +45,8 @@ const LateralOption = ({
 					}}
 				>
 					<div style={{
- textAlign: 'center', alignItems: 'center', justifyContent: 'center', display: 'flex',
-}}>
+						textAlign: 'center', alignItems: 'center', justifyContent: 'center', display: 'flex',
+					}}>
 						{!customIcon ? (
 							<Icon
 								className="material-icons"
@@ -57,21 +57,21 @@ const LateralOption = ({
 								{icon}
 							</Icon>
 						) : (
-								<div
-									style={{
-										alignItems: 'center',
-										justifyContent: 'center',
-										display: 'flex',
-										width: '1em',
-										height: '1em',
-										overflow: 'hidden',
-										fontSize: '24px',
-										userSelect: 'none',
-									}}
-								>
-									{customIcon}
-								</div>
-							)}
+							<div
+								style={{
+									alignItems: 'center',
+									justifyContent: 'center',
+									display: 'flex',
+									width: '1em',
+									height: '1em',
+									overflow: 'hidden',
+									fontSize: '24px',
+									userSelect: 'none',
+								}}
+							>
+								{customIcon}
+							</div>
+						)}
 					</div>
 					<div style={{
 						marginTop: '10px',

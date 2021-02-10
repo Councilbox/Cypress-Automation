@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Tooltip } from 'material-ui';
 import {
- TabsScreen, FabButton, Icon, AlertConfirm
+	TabsScreen, FabButton, Icon, AlertConfirm
 } from '../displayComponents';
 import Signatures from '../components/dashboard/Signatures';
 import { lightGrey } from '../styles/colors';
@@ -18,19 +18,19 @@ import { sendGAevent } from '../utils/analytics';
 import { ConfigContext } from './AppControl';
 
 const SignatureContainer = ({
- match, company, translate, windowSize
+	match, company, translate, windowSize
 }) => {
 	const [cantCreate, setCantCreate] = React.useState(false);
 	const [noPremiumModal, setNoPremiumModal] = React.useState(false);
 	const config = React.useContext(ConfigContext);
 
 	React.useEffect(() => {
-        sendGAevent({
-            category: 'Firmas',
-            action: 'Entrada a la sección de firmas',
-            label: company.businessName
-        });
-    }, [sendGAevent]);
+		sendGAevent({
+			category: 'Firmas',
+			action: 'Entrada a la sección de firmas',
+			label: company.businessName
+		});
+	}, [sendGAevent]);
 
 	const showCantAccessPremiumModal = () => {
 		setNoPremiumModal(true);
@@ -58,46 +58,46 @@ const SignatureContainer = ({
 			text: translate.document_signature_drafts,
 			link: `/company/${company.id}/signatures/drafts`,
 			component: () => (
-					<Signatures
-						company={company}
-						disabled={cantAccessPremium}
-						translate={translate}
-						title={translate.document_signature_drafts}
-						desc={translate.signature_of_documents_drafts_desc}
-						icon={'pencil-square-o'}
-						state={[0]}
-					/>
-				)
+				<Signatures
+					company={company}
+					disabled={cantAccessPremium}
+					translate={translate}
+					title={translate.document_signature_drafts}
+					desc={translate.signature_of_documents_drafts_desc}
+					icon={'pencil-square-o'}
+					state={[0]}
+				/>
+			)
 		},
 		{
 			text: translate.signature_of_documents_sent,
 			link: `/company/${company.id}/signatures/live`,
 			component: () => (
-					<Signatures
-						company={company}
-						disabled={cantAccessPremium}
-						translate={translate}
-						title={translate.signature_of_documents_sent}
-						desc={translate.signature_of_documents_desc}
-						icon={'paper-plane-o'}
-						state={[10]}
-					/>
-				)
+				<Signatures
+					company={company}
+					disabled={cantAccessPremium}
+					translate={translate}
+					title={translate.signature_of_documents_sent}
+					desc={translate.signature_of_documents_desc}
+					icon={'paper-plane-o'}
+					state={[10]}
+				/>
+			)
 		},
 		{
 			text: translate.signature_of_documents_completed,
 			link: `/company/${company.id}/signatures/finished`,
 			component: () => (
-					<Signatures
-						company={company}
-						translate={translate}
-						disabled={cantAccessPremium}
-						title={translate.signature_of_documents_completed}
-						desc={translate.signature_of_documents_completed_desc}
-						icon={'check-square-o'}
-						state={[20]}
-					/>
-				)
+				<Signatures
+					company={company}
+					translate={translate}
+					disabled={cantAccessPremium}
+					title={translate.signature_of_documents_completed}
+					desc={translate.signature_of_documents_completed_desc}
+					icon={'check-square-o'}
+					state={[20]}
+				/>
+			)
 		}
 	];
 
@@ -109,8 +109,8 @@ const SignatureContainer = ({
 				padding: '2em',
 				position: 'relative',
 				...(windowSize === 'xs' ? {
- padding: 0, paddingTop: '1em', height: 'calc(100% - 1.6rem)', width: '98%', margin: '0px auto'
-} : {}),
+					padding: 0, paddingTop: '1em', height: 'calc(100% - 1.6rem)', width: '98%', margin: '0px auto'
+				} : {}),
 				backgroundColor: lightGrey
 			}}
 		>
@@ -134,13 +134,13 @@ const SignatureContainer = ({
 							{...(cantAccessPremium || !canCreateSignature() ? { color: 'grey' } : {})}
 							icon={
 								<Icon className="material-icons">
-									add
+add
 								</Icon>
 							}
 							onClick={() => (cantAccessPremium ?
-									showCantAccessPremiumModal()
+								showCantAccessPremiumModal()
 								:									!canCreateSignature() ?
-										showCantAccessSignatures()
+									showCantAccessSignatures()
 									:										bHistory.push(`/company/${company.id}/signature/new`))
 							}
 						/>
@@ -155,8 +155,8 @@ const SignatureContainer = ({
 				requestClose={() => setCantCreate(false)}
 				bodyText={
 					<div style={{
- display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'
-}}>
+						display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center'
+					}}>
 						<div style={{ marginBottom: '0.8em' }}>
 							{translate.you_dont_have_this_feature}
 						</div>

@@ -9,9 +9,9 @@ import withSharedProps from '../../HOCs/withSharedProps';
 import influencer from '../../assets/img/influencer.svg';
 
 const userQuery = gql`
-    query user($id: Int!){
-        user(id: $id){
-            actived
+	query user($id: Int!){
+		user(id: $id){
+			actived
 			email
 			phone
 			code
@@ -23,14 +23,14 @@ const userQuery = gql`
 				logo
 				businessName
 			}
-            name
+			name
 			surname
-        }
-    }
+		}
+	}
 `;
 
 const UserSettingsPage = ({
- data, user, translate, company, match, client
+	data, user, translate, company, match, client
 }) => {
 	const [dataUser, setDataUser] = React.useState(user.id !== match.params.id ? null : user);
 

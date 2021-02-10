@@ -48,7 +48,7 @@ const reducer = (state, action) => {
 };
 
 const ParticipantTokenContainer = ({
- participantToken, match, client, translate
+	participantToken, match, client, translate
 }) => {
 	const [state, dispatch] = React.useReducer(reducer, initialState);
 
@@ -77,7 +77,7 @@ const ParticipantTokenContainer = ({
 				refreshWSLink();
 
 				dispatch({
- type: 'SET_DATA',
+					type: 'SET_DATA',
 					value: {
 						token,
 						participant
@@ -106,7 +106,7 @@ const ParticipantTokenContainer = ({
 	return (
 		<React.Fragment>
 			{participant
-				&& <Redirect to={`/participant/${participant.id}/council/${participant.councilId}/login`} />
+&& <Redirect to={`/participant/${participant.id}/council/${participant.councilId}/login`} />
 			}
 		</React.Fragment>
 	);
@@ -118,8 +118,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-        actions: bindActionCreators(mainActions, dispatch)
-    });
+	actions: bindActionCreators(mainActions, dispatch)
+});
 
 const participantToken = gql`
 	mutation participantToken($token: String!) {

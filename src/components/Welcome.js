@@ -2,7 +2,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
- Button, Card, CardActions, CardContent
+	Button, Card, CardActions, CardContent
 } from 'material-ui';
 import { Link } from 'react-router-dom';
 import Header from './Header';
@@ -61,7 +61,7 @@ const Welcome = () => {
 								color: 'green'
 							}}
 						>
-							verified_user
+verified_user
 						</Icon>
 						<div
 							style={{
@@ -70,9 +70,9 @@ const Welcome = () => {
 								margin: '2em'
 							}}
 						>
-							Para poder entrar hemos enviado un enlace a tu
-							email con el que podrás activar tu cuenta
-							CouncilBox
+Para poder entrar hemos enviado un enlace a tu
+email con el que podrás activar tu cuenta
+CouncilBox
 						</div>
 					</div>
 				</CardContent>
@@ -102,7 +102,7 @@ const Welcome = () => {
 									className="material-icons"
 									style={{ color: 'white' }}
 								>
-									arrow_forward
+arrow_forward
 								</Icon>
 							}
 						/>

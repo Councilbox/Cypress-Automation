@@ -2,7 +2,7 @@ import DetectRTC from 'detectrtc';
 import gql from 'graphql-tag';
 import { getCompanies } from './companyActions';
 import {
- client, bHistory, refreshWSLink, moment
+	client, bHistory, refreshWSLink, moment
 } from '../containers/App';
 import { getMe, getTranslations } from '../queries';
 import { initLogRocket } from '../utils/logRocket';
@@ -70,13 +70,13 @@ export const initUserData = () => async dispatch => {
 };
 
 export const loginSuccess = (token, refreshToken) => dispatch => {
-		sessionStorage.setItem('token', token);
-		sessionStorage.setItem('refreshToken', refreshToken);
-		refreshWSLink();
-		dispatch(initUserData());
-		dispatch(getCompanies());
-		dispatch({ type: 'LOGIN_SUCCESS' });
-	};
+	sessionStorage.setItem('token', token);
+	sessionStorage.setItem('refreshToken', refreshToken);
+	refreshWSLink();
+	dispatch(initUserData());
+	dispatch(getCompanies());
+	dispatch({ type: 'LOGIN_SUCCESS' });
+};
 
 export const setUnsavedChanges = value => (
 	{ type: 'UNSAVED_CHANGES', value }
@@ -125,7 +125,7 @@ export const loadSubdomainConfig = () => {
 		}
 
 		dispatch({
- type: 'LOAD_SUBDOMAIN_CONFIG',
+			type: 'LOAD_SUBDOMAIN_CONFIG',
 			value: {
 				...response.data.subdomainConfig,
 				name: subdomain
@@ -135,19 +135,19 @@ export const loadSubdomainConfig = () => {
 };
 
 export const participantLoginSuccess = () => dispatch => {
-		sessionStorage.setItem('participantLoginSuccess', true);
-		dispatch({ type: 'PARTICIPANT_LOGIN_SUCCESS' });
-	};
+	sessionStorage.setItem('participantLoginSuccess', true);
+	dispatch({ type: 'PARTICIPANT_LOGIN_SUCCESS' });
+};
 
 export const loadingFinished = () => ({ type: 'LOADING_FINISHED' });
 
 export const setUserData = user => dispatch => {
-		dispatch({
-			type: 'SET_USER_DATA',
-			value: user
-		});
-		dispatch(setLanguage(user.preferredLanguage));
-	};
+	dispatch({
+		type: 'SET_USER_DATA',
+		value: user
+	});
+	dispatch(setLanguage(user.preferredLanguage));
+};
 
 export const noServerResponse = () => ({ type: 'NO_SERVER_RESPONSE' });
 

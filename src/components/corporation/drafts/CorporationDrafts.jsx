@@ -9,99 +9,99 @@ import { DRAFTS_LIMITS } from "../../../constants";
 import TableStyles from "../../../styles/table";
 
 class CorporationDrafts extends React.Component {
-    state = {
-        selectedIndex: -1,
-        selectedValues: []
-    };
+state = {
+selectedIndex: -1,
+selectedValues: []
+};
 
-    componentDidMount() {
-        this.props.data.refetch();
-    }
+componentDidMount() {
+this.props.data.refetch();
+}
 
-    render() {
-        const { translate } = this.props;
-        const { loading, error, corporationDrafts, draftTypes } = this.props.data;
+render() {
+const { translate } = this.props;
+const { loading, error, corporationDrafts, draftTypes } = this.props.data;
 
-        return (
-            <CardPageLayout title={translate.general_drafts}>
-                {error ? (
-                    <div>
-                        {error.graphQLErrors.map((error, index) => {
-                            return (
-                                <ErrorWrapper
-                                    key={`error_${index}`}
-                                    error={error}
-                                    translate={translate}
-                                />
-                            );
-                        })}
-                    </div>
-                ) : (
-                        !!corporationDrafts && (
-                            <EnhancedTable
-                                translate={translate}
-                                defaultLimit={DRAFTS_LIMITS[0]}
-                                defaultFilter={"title"}
-                                defaultOrder={["title", "asc"]}
-                                limits={DRAFTS_LIMITS}
-                                page={1}
-                                loading={loading}
-                                length={corporationDrafts.list.length}
-                                total={corporationDrafts.total}
-                                refetch={this.props.data.refetch}
-                                headers={[
-                                    {
-                                        name: "title",
-                                        text: translate.name,
-                                        canOrder: true
-                                    },
-                                    {
-                                        name: "type",
-                                        text: translate.type,
-                                        canOrder: true
-                                    }
-                                ]}
-                            >
-                                {corporationDrafts.list.map(
-                                    (draft, index) => {
-                                        return (
-                                            <TableRow
-                                                key={`draft${draft.id}`}
-                                            >
-                                                <TableCell
-                                                    style={
-                                                        TableStyles.TD
-                                                    }
-                                                    onClick={() =>
-                                                        this.setState({
-                                                            selectedIndex: index
-                                                        })
-                                                    }
-                                                >
-                                                    {draft.title}
-                                                </TableCell>
-                                                <TableCell>
-                                                    {translate[draftTypes[draft.type].label]}
-                                                </TableCell>
-                                            </TableRow>
-                                        );
-                                    }
-                                )}
-                            </EnhancedTable>
-                        )
-                    )}
+return (
+<CardPageLayout title={translate.general_drafts}>
+{error ? (
+<div>
+{error.graphQLErrors.map((error, index) => {
+return (
+<ErrorWrapper
+key={`error_${index}`}
+error={error}
+translate={translate}
+/>
+);
+})}
+</div>
+) : (
+!!corporationDrafts && (
+<EnhancedTable
+translate={translate}
+defaultLimit={DRAFTS_LIMITS[0]}
+defaultFilter={"title"}
+defaultOrder={["title", "asc"]}
+limits={DRAFTS_LIMITS}
+page={1}
+loading={loading}
+length={corporationDrafts.list.length}
+total={corporationDrafts.total}
+refetch={this.props.data.refetch}
+headers={[
+{
+name: "title",
+text: translate.name,
+canOrder: true
+},
+{
+name: "type",
+text: translate.type,
+canOrder: true
+}
+]}
+>
+{corporationDrafts.list.map(
+(draft, index) => {
+return (
+<TableRow
+key={`draft${draft.id}`}
+>
+<TableCell
+style={
+TableStyles.TD
+}
+onClick={() =>
+this.setState({
+selectedIndex: index
+})
+}
+>
+{draft.title}
+</TableCell>
+<TableCell>
+{translate[draftTypes[draft.type].label]}
+</TableCell>
+</TableRow>
+);
+}
+)}
+</EnhancedTable>
+)
+)}
 
-            </CardPageLayout>
-        );
-    }
+</CardPageLayout>
+);
+}
 }
 
 export default withSharedProps()(
-    compose(
-        graphql(corporationDrafts, {
-            options: props => ({
-                notifyOnNetworkStatusChange: true
-            })
-        })
-    )(withRouter(withApollo(CorporationDrafts)))
+compose(
+graphql(corporationDrafts, {
+options: props => ({
+notifyOnNetworkStatusChange: true
+})
+})
+)(withRouter(withApollo(CorporationDrafts)))
 );

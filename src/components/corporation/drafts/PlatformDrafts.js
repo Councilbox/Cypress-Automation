@@ -53,7 +53,7 @@ const statuteTypes = [
 
 
 const PlatformDrafts = ({
- client, company, translate, classes, ...props
+	client, company, translate, classes, ...props
 }) => {
 	const [state, setState] = useOldState({
 		selectedIndex: -1,
@@ -62,8 +62,8 @@ const PlatformDrafts = ({
 	});
 	const [data, setData] = React.useState(null);
 	const {
- testTags, vars, setVars, removeTag, addTag, filteredTags, tagText, setTagText,
-} = useTags(translate);
+		testTags, vars, setVars, removeTag, addTag, filteredTags, tagText, setTagText,
+	} = useTags(translate);
 	const [search, setSearch] = React.useState('');
 	const [inputSearch, setInputSearch] = React.useState(false);
 
@@ -101,25 +101,25 @@ const PlatformDrafts = ({
 	const getVars = async () => {
 		const response = await client.query({
 			query: gql`
-			query getVars {
-				majorityTypes {
-					label
-					value
+				query getVars {
+					majorityTypes {
+						label
+						value
+					}
+					companyTypes {
+						label
+						value
+					}
+					draftTypes {
+						label
+						value
+					}
+					votingTypes {
+						label
+						value
+					}
 				}
-				companyTypes {
-					label
-					value
-				}
-				draftTypes {
-					label
-					value
-				}
-				votingTypes {
-					label
-					value
-				}
-			}
-		`,
+			`,
 		});
 
 		setVars({
@@ -264,8 +264,8 @@ const PlatformDrafts = ({
 	};
 
 	const {
- loading, error, platformDrafts, draftTypes
-} = data;
+		loading, error, platformDrafts, draftTypes
+	} = data;
 	const { selectedIndex, selectedValues } = state;
 	const primary = getPrimary();
 
@@ -278,188 +278,188 @@ const PlatformDrafts = ({
 					translate={translate}
 				/>
 			) : (
-					<React.Fragment>
-						{error ? (
-							<div>
-								{error.graphQLErrors.map((err, index) => (
-										<ErrorWrapper
-											key={`error_${index}`}
-											error={err}
-											translate={translate}
-										/>
-									))}
-							</div>
-						) : (
-								!!platformDrafts && (
-									<React.Fragment>
-										<div style={{ display: 'flex' }}>
-											<AllSelector
-												selectAll={selectAll}
-												deselectAll={deselectAll}
-												anySelected={anySelected()}
-												allSelected={allSelected()}
-												translate={translate}
+				<React.Fragment>
+					{error ? (
+						<div>
+							{error.graphQLErrors.map((err, index) => (
+								<ErrorWrapper
+									key={`error_${index}`}
+									error={err}
+									translate={translate}
+								/>
+							))}
+						</div>
+					) : (
+						!!platformDrafts && (
+							<React.Fragment>
+								<div style={{ display: 'flex' }}>
+									<AllSelector
+										selectAll={selectAll}
+										deselectAll={deselectAll}
+										anySelected={anySelected()}
+										allSelected={allSelected()}
+										translate={translate}
+									/>
+									{selectedValues.length > 0 && (
+										<div>
+											<BasicButton
+												text={`${translate.download} ${
+													selectedValues.length
+												} ${translate.drafts} ${
+													translate.to
+												} '${translate.my_drafts}'`
+												}
+												color={'white'}
+												textStyle={{
+													color: primary,
+													fontWeight: '700',
+													textTransform: 'none'
+												}}
+												textPosition="after"
+												icon={
+													<ButtonIcon
+														type="add"
+														color={primary}
+													/>
+												}
+												onClick={cloneDrafts}
+												buttonStyle={{
+													marginRight: '1em',
+													border: `2px solid ${primary}`,
+												}}
 											/>
-											{selectedValues.length > 0 && (
-												<div>
-													<BasicButton
-														text={`${translate.download} ${
-															selectedValues.length
-															} ${translate.drafts} ${
-															translate.to
-															} '${translate.my_drafts}'`
-														}
-														color={'white'}
-														textStyle={{
-															color: primary,
-															fontWeight: '700',
-															textTransform: 'none'
-														}}
-														textPosition="after"
-														icon={
-															<ButtonIcon
-																type="add"
-																color={primary}
-															/>
-														}
-														onClick={cloneDrafts}
-														buttonStyle={{
-															marginRight: '1em',
-															border: `2px solid ${primary}`,
-														}}
-													/>
-												</div>
-											)}
 										</div>
-										{isMobile ?
-											<div style={{
- marginRight: '0.8em', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginTop: '.3em', marginBottom: '0.3em'
-}}>
-												<div style={{ marginRight: isMobile ? '0.5em' : '3em' }}>
-													<DropdownEtiquetas
-														translate={translate}
-														search={tagText}
-														setSearchModal={setTagText}
-														matchSearch={filteredTags}
-														company={props.company}
-														vars={vars}
-														testTags={testTags}
-														addTag={addTag}
-														styleBody={{ minWidth: '50vw' }}
-														anchorOrigin={{
-															vertical: 'top',
-															horizontal: 'right',
-														}}
-														transformOrigin={{
-															vertical: 'top',
-															horizontal: 'right',
-														}}
-														removeTag={removeTag}
-														stylesMenuItem={{ padding: '3px 3px', marginTop: isMobile && '0', width: isMobile && '' }}
-														soloIcono={true}
-													/>
-												</div>
-												<div>
-													<TextInput
-														className={isMobile && !inputSearch ? 'openInput' : ''}
-														disableUnderline={true}
-														styleInInput={{
- fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', padding: isMobile && inputSearch && '4px 5px', paddingLeft: !isMobile && '5px'
-}}
-														stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: isMobile && inputSearch ? '8px' : '4px' }}
-														adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
-														floatingText={' '}
-														type="text"
-														value={search}
-														styles={{ marginTop: '-16px' }}
-														stylesTextField={{ marginBottom: '0px' }}
-														placeholder={isMobile ? '' : translate.search}
-														onChange={event => {
-															setSearch(event.target.value);
-														}}
-													/>
-												</div>
-											</div>
-											:											<div style={{ marginRight: '0.8em', display: 'flex', justifyContent: 'flex-end' }}>
-												<div style={{ marginRight: '3em' }}>
-													<DropdownEtiquetas
-														translate={translate}
-														search={tagText}
-														setSearchModal={setTagText}
-														matchSearch={filteredTags}
-														corporation={true}
-														company={company}
-														vars={vars}
-														testTags={testTags}
-														addTag={addTag}
-														styleBody={{ minWidth: '50vw' }}
-														anchorOrigin={{
-															vertical: 'top',
-															horizontal: 'right',
-														}}
-														transformOrigin={{
-															vertical: 'top',
-															horizontal: 'right',
-														}}
-														removeTag={removeTag}
-													/>
-												</div>
-												<div>
-													<TextInput
-														disableUnderline={true}
-														styleInInput={{
- fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px', padding: '4px 5px'
-}}
-														stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px' }}
-														adornment={<Icon>search</Icon>}
-														floatingText={' '}
-														type="text"
-														value={search}
-														placeholder={translate.search_templates}
-														onChange={event => {
-															setSearch(event.target.value);
-														}}
-													/>
-												</div>
-											</div>
-										}
-										<EnhancedTable
-											translate={translate}
-											page={1}
-											hideTextFilter
-											loading={loading}
-											length={platformDrafts.list.length}
-											total={platformDrafts.total}
-											refetch={getData}
-											headers={[]}
-											defaultLimit={25}
-										>
-											{platformDrafts.list.map(
-												(draft, index) => (
-														<DraftRow
-															classes={classes}
-															key={`draft${draft.id}${draft.title}`}
-															translate={translate}
-															action={() => { showDraftDetails(draft); }}
-															draft={draft}
-															selectable={true}
-															companyStatutes={vars.companyStatutes}
-															draftTypes={draftTypes}
-															company={company}
-															isChecked={isChecked}
-															alreadySaved={alreadySaved}
-															updateSelectedValues={updateSelectedValues}
-															stylesBackground={{ background: index % 2 ? '#edf4fb' : '' }}
-															info={props}
-														/>
-													)
-											)}
-										</EnhancedTable>
-									</React.Fragment>
-								)
-							)}
-					</React.Fragment>
-				)}
+									)}
+								</div>
+								{isMobile ?
+									<div style={{
+										marginRight: '0.8em', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginTop: '.3em', marginBottom: '0.3em'
+									}}>
+										<div style={{ marginRight: isMobile ? '0.5em' : '3em' }}>
+											<DropdownEtiquetas
+												translate={translate}
+												search={tagText}
+												setSearchModal={setTagText}
+												matchSearch={filteredTags}
+												company={props.company}
+												vars={vars}
+												testTags={testTags}
+												addTag={addTag}
+												styleBody={{ minWidth: '50vw' }}
+												anchorOrigin={{
+													vertical: 'top',
+													horizontal: 'right',
+												}}
+												transformOrigin={{
+													vertical: 'top',
+													horizontal: 'right',
+												}}
+												removeTag={removeTag}
+												stylesMenuItem={{ padding: '3px 3px', marginTop: isMobile && '0', width: isMobile && '' }}
+												soloIcono={true}
+											/>
+										</div>
+										<div>
+											<TextInput
+												className={isMobile && !inputSearch ? 'openInput' : ''}
+												disableUnderline={true}
+												styleInInput={{
+													fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', padding: isMobile && inputSearch && '4px 5px', paddingLeft: !isMobile && '5px'
+												}}
+												stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: isMobile && inputSearch ? '8px' : '4px' }}
+												adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
+												floatingText={' '}
+												type="text"
+												value={search}
+												styles={{ marginTop: '-16px' }}
+												stylesTextField={{ marginBottom: '0px' }}
+												placeholder={isMobile ? '' : translate.search}
+												onChange={event => {
+													setSearch(event.target.value);
+												}}
+											/>
+										</div>
+									</div>
+									:											<div style={{ marginRight: '0.8em', display: 'flex', justifyContent: 'flex-end' }}>
+										<div style={{ marginRight: '3em' }}>
+											<DropdownEtiquetas
+												translate={translate}
+												search={tagText}
+												setSearchModal={setTagText}
+												matchSearch={filteredTags}
+												corporation={true}
+												company={company}
+												vars={vars}
+												testTags={testTags}
+												addTag={addTag}
+												styleBody={{ minWidth: '50vw' }}
+												anchorOrigin={{
+													vertical: 'top',
+													horizontal: 'right',
+												}}
+												transformOrigin={{
+													vertical: 'top',
+													horizontal: 'right',
+												}}
+												removeTag={removeTag}
+											/>
+										</div>
+										<div>
+											<TextInput
+												disableUnderline={true}
+												styleInInput={{
+													fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px', padding: '4px 5px'
+												}}
+												stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px' }}
+												adornment={<Icon>search</Icon>}
+												floatingText={' '}
+												type="text"
+												value={search}
+												placeholder={translate.search_templates}
+												onChange={event => {
+													setSearch(event.target.value);
+												}}
+											/>
+										</div>
+									</div>
+								}
+								<EnhancedTable
+									translate={translate}
+									page={1}
+									hideTextFilter
+									loading={loading}
+									length={platformDrafts.list.length}
+									total={platformDrafts.total}
+									refetch={getData}
+									headers={[]}
+									defaultLimit={25}
+								>
+									{platformDrafts.list.map(
+										(draft, index) => (
+											<DraftRow
+												classes={classes}
+												key={`draft${draft.id}${draft.title}`}
+												translate={translate}
+												action={() => { showDraftDetails(draft); }}
+												draft={draft}
+												selectable={true}
+												companyStatutes={vars.companyStatutes}
+												draftTypes={draftTypes}
+												company={company}
+												isChecked={isChecked}
+												alreadySaved={alreadySaved}
+												updateSelectedValues={updateSelectedValues}
+												stylesBackground={{ background: index % 2 ? '#edf4fb' : '' }}
+												info={props}
+											/>
+										)
+									)}
+								</EnhancedTable>
+							</React.Fragment>
+						)
+					)}
+				</React.Fragment>
+			)}
 			<DraftDetailsModal
 				draft={state.draftModal}
 				requestClose={closeDraftDetails}

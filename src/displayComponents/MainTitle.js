@@ -6,7 +6,7 @@ import { isLandscape, isMobile } from '../utils/screen';
 
 
 const MainTitle = ({
- icon, title, subtitle, size
+	icon, title, subtitle, size
 }) => (
 	size === 'xs' && isLandscape() ?
 		<div
@@ -64,10 +64,10 @@ const MainTitle = ({
 				}}
 			>
 				<h3 style={{
- fontWeight: '600', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%'
-}}>{title}</h3>
+					fontWeight: '600', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%'
+				}}>{title}</h3>
 				{!isMobile
-					&& <Typography style={{ fontSize: '13px' }}>{subtitle}</Typography>
+&& <Typography style={{ fontSize: '13px' }}>{subtitle}</Typography>
 				}
 			</div>
 		</div>

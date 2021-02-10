@@ -63,15 +63,15 @@ class CommentsSection extends Component {
 	};
 
 	_section = () => (
-			this.props.council.statute.existsComments === 1 ?
-				<CommentsTable
-					translate={this.props.translate}
-					agenda={this.props.agenda}
-					council={this.props.council}
-					key={this.props.agenda.id}
-				/>
+		this.props.council.statute.existsComments === 1 ?
+			<CommentsTable
+				translate={this.props.translate}
+				agenda={this.props.agenda}
+				council={this.props.council}
+				key={this.props.agenda.id}
+			/>
 			:				<div style={{ padding: '1em' }}>Los comentarios están desactivados en esta reunión</div>
-		);
+	);
 
 	render() {
 		return (

@@ -74,7 +74,7 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 				>
 					{loading === value ?
 						<CircularProgress size={12} thickness={7} color={'primary'} style={{ marginBottom: '0.35em' }} />
-					:						<VotingValueIcon
+						:						<VotingValueIcon
 							vote={value}
 							color={active ? undefined : 'grey'}
 						/>
@@ -100,7 +100,7 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 						</Tooltip>
 					</React.Fragment>
 
-				:					<React.Fragment>
+					:					<React.Fragment>
 						{block(VOTE_VALUES.POSITIVE, active === VOTE_VALUES.POSITIVE)}
 						{block(VOTE_VALUES.NEGATIVE, active === VOTE_VALUES.NEGATIVE)}
 						{block(VOTE_VALUES.ABSTENTION, active === VOTE_VALUES.ABSTENTION)}

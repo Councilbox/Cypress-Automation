@@ -8,7 +8,7 @@ import { updateAgenda } from '../../../queries/agenda';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import LoadDraftModal from '../../company/drafts/LoadDraftModal';
 import {
- changeVariablesToValues, checkForUnclosedBraces, hasParticipations, generateGBDecidesText, generateStatuteTag
+	changeVariablesToValues, checkForUnclosedBraces, hasParticipations, generateGBDecidesText, generateStatuteTag
 } from '../../../utils/CBX';
 import { moment } from '../../../containers/App';
 import { AGENDA_STATES } from '../../../constants';
@@ -21,7 +21,7 @@ export const agendaRecountQuery = gql`
 	query AgendaRecount($agendaId: Int!) {
 		agendaRecount(agendaId: $agendaId){
 			positiveVotings
-            negativeVotings
+			negativeVotings
 			abstentionVotings
 			noVotes
 			numPositive
@@ -38,7 +38,7 @@ export const agendaRecountQuery = gql`
 `;
 
 const ActAgreements = ({
- translate, council, company, agenda, recount, ...props
+	translate, council, company, agenda, recount, ...props
 }) => {
 	const [error, setError] = React.useState(false);
 	const timeout = React.useRef(null);
@@ -52,14 +52,14 @@ const ActAgreements = ({
 		if (checkForUnclosedBraces(value)) {
 			toast.dismiss();
 			toast(
-                <LiveToast
-                    message={translate.revise_text}
-                />, {
-                    position: toast.POSITION.TOP_RIGHT,
-                    autoClose: true,
-                    className: 'errorToast'
-                }
-            );
+				<LiveToast
+					message={translate.revise_text}
+				/>, {
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: 'errorToast'
+				}
+			);
 			setError(true);
 			return;
 		}
@@ -101,8 +101,8 @@ const ActAgreements = ({
 
 	const getCorrectedText = async (text, translations) => {
 		const {
- numPositive, numNegative, numAbstention, numNoVote
-} = data;
+			numPositive, numNegative, numAbstention, numNoVote
+		} = data;
 		const { positiveSC, negativeSC, abstentionSC } = data;
 		const participations = hasParticipations(council);
 		const totalPresent = agenda.socialCapitalPresent + agenda.socialCapitalCurrentRemote;
@@ -200,8 +200,8 @@ const ActAgreements = ({
 
 		if (data) {
 			const {
- numPositive, numNegative, numAbstention, numNoVote
-} = data;
+				numPositive, numNegative, numAbstention, numNoVote
+			} = data;
 			const { positiveSC, negativeSC, abstentionSC } = data;
 			const participations = hasParticipations(council);
 
@@ -310,13 +310,13 @@ const ActAgreements = ({
 							defaultTags={
 								{
 									comments_and_agreements: {
-									active: true,
-									type: TAG_TYPES.DRAFT_TYPE,
-									name: 'comments_and_agreements',
-									label: translate.comments_and_agreements
-								},
-								...generateStatuteTag(council.statute, translate)
-							}}
+										active: true,
+										type: TAG_TYPES.DRAFT_TYPE,
+										name: 'comments_and_agreements',
+										label: translate.comments_and_agreements
+									},
+									...generateStatuteTag(council.statute, translate)
+								}}
 						/>
 					}
 					tags={tags}
@@ -326,17 +326,17 @@ const ActAgreements = ({
 					}}
 				/>
 				{council.statute.doubleColumnDocs === 1
-					&& <div style={{ marginTop: '1em' }}>
-						<RichTextInput
-							ref={editorRightColumn}
-							floatingText={translate.decision_making_right_column}
-							errorText={error}
-							translate={translate}
-							tags={tags}
-							value={commentRightColumn || ''}
-							onChange={value => setCommentRightColumn(value)}
-						/>
-					</div>
+&& <div style={{ marginTop: '1em' }}>
+	<RichTextInput
+		ref={editorRightColumn}
+		floatingText={translate.decision_making_right_column}
+		errorText={error}
+		translate={translate}
+		tags={tags}
+		value={commentRightColumn || ''}
+		onChange={value => setCommentRightColumn(value)}
+	/>
+</div>
 				}
 
 			</div>

@@ -18,7 +18,7 @@ const getMe = gql`
 `;
 
 const AssistanceTokenContainer = ({
- participantToken, client, translate, match
+	participantToken, client, translate, match
 }) => {
 	const [loading, setLoading] = React.useState(true);
 	const [error, setError] = React.useState(false);
@@ -94,7 +94,7 @@ const AssistanceTokenContainer = ({
 				<Redirect
 					to={`/attendance/participant/${participant.id}/council/${
 						participant.councilId
-						}`}
+					}`}
 				/>
 			) : <div>Not found</div>}
 		</React.Fragment>

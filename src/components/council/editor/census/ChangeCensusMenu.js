@@ -14,12 +14,12 @@ import withSharedProps from '../../../../HOCs/withSharedProps';
 
 
 const ChangeCensusMenu = ({
- disabled, handleCensusChange, reloadCensus, council, company, translate, censuses, totalVotes, totalSocialCapital, participations, refetch
+	disabled, handleCensusChange, reloadCensus, council, company, translate, censuses, totalVotes, totalSocialCapital, participations, refetch
 }) => (
 	<Grid>
 		{council.councilType === 5 ?
 			<GridItem xs={12} md={9} lg={9}></GridItem>
-		:				<>
+			:				<>
 				<GridItem
 					lg={3}
 					md={3}
@@ -36,22 +36,22 @@ const ChangeCensusMenu = ({
 							onChange={handleCensusChange}
 						>
 							{censuses.list.map(census => (
-									<MenuItem
-										value={parseInt(census.id, 10)}
-										key={`census${census.id}`}
-									>
-										{census.censusName}
-									</MenuItem>
-								))}
-							{(CBX.multipleGoverningBody(company.governingBodyType)
-								&& company.governingBodyData
-								&& company.governingBodyData.list
-								&& company.governingBodyData.list.length > 0)
-								&& <MenuItem
-									value={parseInt(-1, 10)}
+								<MenuItem
+									value={parseInt(census.id, 10)}
+									key={`census${census.id}`}
 								>
-									{translate.governing_body}
+									{census.censusName}
 								</MenuItem>
+							))}
+							{(CBX.multipleGoverningBody(company.governingBodyType)
+&& company.governingBodyData
+&& company.governingBodyData.list
+&& company.governingBodyData.list.length > 0)
+&& <MenuItem
+	value={parseInt(-1, 10)}
+>
+	{translate.governing_body}
+</MenuItem>
 							}
 						</SelectInput>
 						: <span>{translate.empty_censuses}</span>
@@ -109,16 +109,16 @@ const ChangeCensusMenu = ({
 						{`${translate.total_votes}: ${totalVotes || 0}`}
 					</Typography>
 					{CBX.hasParticipations(council)
-						&& <Typography
-							variant="body2"
-							style={{
-								padding: '1.1em 1em 0 1em',
-								fontWeight: '600',
-								fontSize: '1em'
-							}}
-						>
-							{`${translate.total_social_capital}: ${totalSocialCapital || 0}`}
-						</Typography>
+&& <Typography
+	variant="body2"
+	style={{
+		padding: '1.1em 1em 0 1em',
+		fontWeight: '600',
+		fontSize: '1em'
+	}}
+>
+	{`${translate.total_social_capital}: ${totalSocialCapital || 0}`}
+</Typography>
 					}
 				</GridItem>
 			</>

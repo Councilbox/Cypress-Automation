@@ -187,23 +187,23 @@ const StepCensus = ({ translate, data, ...props }) => {
 				</React.Fragment>
 			);
 		}
-			return (
-				<React.Fragment>
-					<BasicButton
-						text={translate.cancel}
-						color={'white'}
-						type="flat"
-						textStyle={{
-							fontWeight: '700',
-							fontSize: '0.9em',
-							textTransform: 'none'
-						}}
-						textPosition="after"
-						onClick={() => setState({ censusChangeAlert: false })}
-						buttonStyle={{ marginRight: '1em' }}
-					/>
-				</React.Fragment>
-			);
+		return (
+			<React.Fragment>
+				<BasicButton
+					text={translate.cancel}
+					color={'white'}
+					type="flat"
+					textStyle={{
+						fontWeight: '700',
+						fontSize: '0.9em',
+						textTransform: 'none'
+					}}
+					textPosition="after"
+					onClick={() => setState({ censusChangeAlert: false })}
+					buttonStyle={{ marginRight: '1em' }}
+				/>
+			</React.Fragment>
+		);
 	}
 
 	const checkParticipants = () => !data.loading && state.participantsLength <= 0;

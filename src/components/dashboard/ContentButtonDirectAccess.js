@@ -6,17 +6,17 @@ import {
 class ContentButtonDirectAccess extends React.Component {
 	render() {
 		const {
- children, disabled, disabledOnClick, link
-} = this.props;
+			children, disabled, disabledOnClick, link
+		} = this.props;
 
 		const card
-			= <div
-				style={{
-					...(!disabled ? {} : { filter: 'grayscale(80%)' })
-				}}
-			>
-				{children}
-			</div>;
+= <div
+	style={{
+		...(!disabled ? {} : { filter: 'grayscale(80%)' })
+	}}
+>
+	{children}
+</div>;
 
 
 		return (

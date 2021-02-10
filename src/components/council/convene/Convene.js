@@ -3,7 +3,7 @@ import { graphql, withApollo, compose } from 'react-apollo';
 import FontAwesome from 'react-fontawesome';
 import gql from 'graphql-tag';
 import {
- Typography, Paper, Tooltip, Switch, FormControlLabel
+	Typography, Paper, Tooltip, Switch, FormControlLabel
 } from 'material-ui';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import { updateCouncil, downloadConvenePDF } from '../../../queries';
@@ -67,7 +67,7 @@ class Convene extends React.Component {
 					response.data.downloadConvenePDF,
 					'application/pdf',
 					`${this.props.translate.convene.replace(/ /g, '_')}-${
-					this.props.council.name.replace(/ /g, '_').replace(/\./, '')
+						this.props.council.name.replace(/ /g, '_').replace(/\./, '')
 					}`
 				);
 			}
@@ -148,16 +148,16 @@ class Convene extends React.Component {
 							<div style={{ marginTop: '1em' }}>
 								<Grid>
 									{council.attachments.map(attachment => (
-											<GridItem
-												key={`attachment${attachment.id}`}
-											>
-												<AttachmentDownload
-													attachment={attachment}
-													loading={this.state.downloading}
-													spacing={0.5}
-												/>
-											</GridItem>
-										))}
+										<GridItem
+											key={`attachment${attachment.id}`}
+										>
+											<AttachmentDownload
+												attachment={attachment}
+												loading={this.state.downloading}
+												spacing={0.5}
+											/>
+										</GridItem>
+									))}
 								</Grid>
 							</div>
 						</div>
@@ -264,39 +264,39 @@ class Convene extends React.Component {
 				</React.Fragment>
 			);
 		}
-			return (
-				<React.Fragment>
-					{council.attachments.length > 0 && !this.props.hideAttachments && (
-						<div
-							style={{
-								paddingTop: '1em 0',
-								width: '98%'
-							}}
+		return (
+			<React.Fragment>
+				{council.attachments.length > 0 && !this.props.hideAttachments && (
+					<div
+						style={{
+							paddingTop: '1em 0',
+							width: '98%'
+						}}
+					>
+						<Typography
+							variant="title"
+							style={{ color: getPrimary() }}
 						>
-							<Typography
-								variant="title"
-								style={{ color: getPrimary() }}
-							>
-								{translate.new_files_title}
-							</Typography>
-							<div style={{ marginTop: '1em' }}>
-								<Grid>
-									{council.attachments.map(attachment => (
-											<GridItem
-												key={`attachment${attachment.id}`}
-											>
-												<AttachmentDownload
-													attachment={attachment}
-													loading={this.state.downloading}
-													spacing={0.5}
-												/>
-											</GridItem>
-										))}
-								</Grid>
-							</div>
+							{translate.new_files_title}
+						</Typography>
+						<div style={{ marginTop: '1em' }}>
+							<Grid>
+								{council.attachments.map(attachment => (
+									<GridItem
+										key={`attachment${attachment.id}`}
+									>
+										<AttachmentDownload
+											attachment={attachment}
+											loading={this.state.downloading}
+											spacing={0.5}
+										/>
+									</GridItem>
+								))}
+							</Grid>
 						</div>
-					)}
-					{!noButtonsDownload
+					</div>
+				)}
+				{!noButtonsDownload
 						&& <React.Fragment>
 							<div>
 								<BasicButton
@@ -359,45 +359,45 @@ class Convene extends React.Component {
 
 							</div>
 						</React.Fragment>
-					}
-					<Tooltip title={'Html copiado'} open={this.state.htmlCopiedTooltip}>
-						<div
-							style={{
-								display: 'flex',
-								flexDirection: 'column',
-								alignItems: 'center',
-								justifyContent: 'center',
-								marginTop: '0.8em'
-							}}
+				}
+				<Tooltip title={'Html copiado'} open={this.state.htmlCopiedTooltip}>
+					<div
+						style={{
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+							justifyContent: 'center',
+							marginTop: '0.8em'
+						}}
+					>
+						<Paper
+							className={this.props.windowSize !== 'xs' ? 'htmlPreview' : ''}
 						>
-							<Paper
-								className={this.props.windowSize !== 'xs' ? 'htmlPreview' : ''}
-							>
-								<div
-									dangerouslySetInnerHTML={{ __html: council.emailText }}
-									style={{
-										padding: '2em',
-										cursor: 'pointer',
-										margin: '0 auto'
-									}}
-									onClick={this.copyConveneHTML}
-								/>
-							</Paper>
-						</div>
-					</Tooltip>
-					<AlertConfirm
-						requestClose={() => this.setState({ publicConveneModal: false })}
-						open={this.state.publicConveneModal}
-						acceptAction={this.togglePublicConvene}
-						buttonAccept={translate.accept}
-						buttonCancel={translate.cancel}
-						bodyText={<div>
-							{translate.public_convene_warning}
+							<div
+								dangerouslySetInnerHTML={{ __html: council.emailText }}
+								style={{
+									padding: '2em',
+									cursor: 'pointer',
+									margin: '0 auto'
+								}}
+								onClick={this.copyConveneHTML}
+							/>
+						</Paper>
+					</div>
+				</Tooltip>
+				<AlertConfirm
+					requestClose={() => this.setState({ publicConveneModal: false })}
+					open={this.state.publicConveneModal}
+					acceptAction={this.togglePublicConvene}
+					buttonAccept={translate.accept}
+					buttonCancel={translate.cancel}
+					bodyText={<div>
+						{translate.public_convene_warning}
 					</div>}
-						title={translate.warning}
-					/>
-				</React.Fragment>
-			);
+					title={translate.warning}
+				/>
+			</React.Fragment>
+		);
 	}
 }
 

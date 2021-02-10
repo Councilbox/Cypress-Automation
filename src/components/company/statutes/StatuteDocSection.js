@@ -2,7 +2,7 @@ import React from 'react';
 import { Tooltip } from 'material-ui';
 import { isMobile } from 'react-device-detect';
 import {
- SectionTitle, GridItem, Checkbox, Grid
+	SectionTitle, GridItem, Checkbox, Grid
 } from '../../../displayComponents';
 import RichTextInput from '../../../displayComponents/RichTextInput';
 import { getPrimary, getSecondary } from '../../../styles/colors';
@@ -18,44 +18,44 @@ let timeout;
 
 const getTagsByActSection = (section, translate) => {
 	switch (section) {
-		case 'conveneHeader':
-			return [
-				{
-					value: '{{dateFirstCall}}',
-					label: translate.date
-				},
-				{
-					value: '{{business_name}}',
-					label: translate.business_name
-				},
-				{
-					value: '{{address}}',
-					label: translate.new_location_of_celebrate
-				},
-				{
-					value: '{{city}}',
-					label: translate.company_new_locality
-				},
-				{
-					value: '{{country_state}}',
-					label: translate.company_new_country_state
-				},
-			];
+	case 'conveneHeader':
+		return [
+			{
+				value: '{{dateFirstCall}}',
+				label: translate.date
+			},
+			{
+				value: '{{business_name}}',
+				label: translate.business_name
+			},
+			{
+				value: '{{address}}',
+				label: translate.new_location_of_celebrate
+			},
+			{
+				value: '{{city}}',
+				label: translate.company_new_locality
+			},
+			{
+				value: '{{country_state}}',
+				label: translate.company_new_country_state
+			},
+		];
 
-		case 'intro':
-			return CBX.getTagVariablesByDraftType(DRAFT_TYPES.INTRO, translate);
-		case 'constitution':
-			return CBX.getTagVariablesByDraftType(DRAFT_TYPES.CONSTITUTION, translate);
-		case 'conclusion':
-			return CBX.getTagVariablesByDraftType(DRAFT_TYPES.CONCLUSION, translate);
-		default:
-			return [];
+	case 'intro':
+		return CBX.getTagVariablesByDraftType(DRAFT_TYPES.INTRO, translate);
+	case 'constitution':
+		return CBX.getTagVariablesByDraftType(DRAFT_TYPES.CONSTITUTION, translate);
+	case 'conclusion':
+		return CBX.getTagVariablesByDraftType(DRAFT_TYPES.CONCLUSION, translate);
+	default:
+		return [];
 	}
 };
 
 
 const StatuteDocSection = ({
- statute, updateState, errors, translate, data, ...props
+	statute, updateState, errors, translate, data, ...props
 }) => {
 	const internalState = React.useRef({
 		intro: statute.intro,
@@ -298,15 +298,15 @@ const StatuteDocSection = ({
 			)}
 
 			{config.proxies
-				&& <ProxiesTemplates
-					translate={translate}
-					key={statute.id}
-					statute={statute}
-					data={data}
-					updateState={updateState}
-					errors={errors}
-					{...props}
-				/>
+&& <ProxiesTemplates
+	translate={translate}
+	key={statute.id}
+	statute={statute}
+	data={data}
+	updateState={updateState}
+	errors={errors}
+	{...props}
+/>
 			}
 
 			{statute.existsAct === 1 && (
@@ -520,38 +520,38 @@ const StatuteDocSection = ({
 						</GridItem>
 					</Grid>
 					{!!saveDraft
-						&& <SaveDraftModal
-							key={saveDraft}
-							open={!!saveDraft}
-							data={{
-								text: getText(saveDraft),
-								description: '',
-								title: '',
-								votationType: 0,
-								type: DRAFT_TYPES[saveDraft],
-								statuteId: statute.id,
-								tags: {
-									[`statute_${statute.id}`]: {
-										label: translate[statute.title] || statute.title,
-										name: `statute_${statute.id}`,
-										active: true,
-										type: TAG_TYPES.STATUTE
-									},
-									[saveDraft.toLowerCase()]: {
-										type: TAG_TYPES.DRAFT_TYPE,
-										active: true,
-										label: translate[saveDraft.toLowerCase()],
-										name: saveDraft.toLowerCase()
-									}
-								}
-							}}
-							company={props.company}
-							requestClose={closeDraftModal}
-							companyStatutes={props.companyStatutes}
-							votingTypes={data.votingTypes}
-							majorityTypes={data.majorityTypes}
-							draftTypes={data.draftTypes}
-						/>
+&& <SaveDraftModal
+	key={saveDraft}
+	open={!!saveDraft}
+	data={{
+		text: getText(saveDraft),
+		description: '',
+		title: '',
+		votationType: 0,
+		type: DRAFT_TYPES[saveDraft],
+		statuteId: statute.id,
+		tags: {
+			[`statute_${statute.id}`]: {
+				label: translate[statute.title] || statute.title,
+				name: `statute_${statute.id}`,
+				active: true,
+				type: TAG_TYPES.STATUTE
+			},
+			[saveDraft.toLowerCase()]: {
+				type: TAG_TYPES.DRAFT_TYPE,
+				active: true,
+				label: translate[saveDraft.toLowerCase()],
+				name: saveDraft.toLowerCase()
+			}
+		}
+	}}
+	company={props.company}
+	requestClose={closeDraftModal}
+	companyStatutes={props.companyStatutes}
+	votingTypes={data.votingTypes}
+	majorityTypes={data.majorityTypes}
+	draftTypes={data.draftTypes}
+/>
 					}
 
 				</div>
@@ -565,8 +565,8 @@ export default StatuteDocSection;
 const SaveDraftIcon = ({ onClick, translate }) => (
 	<Tooltip title={translate.new_save}>
 		<div onClick={onClick} style={{
- marginLeft: '0.6em', height: '100%', display: 'flex', alignItems: 'center', cursor: 'pointer'
-}}>
+			marginLeft: '0.6em', height: '100%', display: 'flex', alignItems: 'center', cursor: 'pointer'
+		}}>
 			<i className="fa fa-save" style={{ color: getSecondary(), fontSize: '1.75em' }}></i>
 		</div>
 	</Tooltip>

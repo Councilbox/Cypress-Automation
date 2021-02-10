@@ -10,7 +10,7 @@ import { councilHasSession, getActPointSubjectType } from '../../../utils/CBX';
 import { AGENDA_STATES } from '../../../constants';
 
 const ToggleAgendaButton = ({
- agenda, council, active, translate, ...props
+	agenda, council, active, translate, ...props
 }) => {
 	const openAgenda = async () => {
 		if (agenda.subjectType === getActPointSubjectType()) {
@@ -80,7 +80,7 @@ const ToggleAgendaButton = ({
 									color: primary
 								}}
 							>
-								lock_open
+lock_open
 							</Icon>
 						}
 						buttonStyle={{ width: '11em' }}
@@ -116,7 +116,7 @@ const ToggleAgendaButton = ({
 								color: 'white'
 							}}
 						>
-							lock_open
+lock_open
 						</Icon>
 					}
 					buttonStyle={{ width: '11em' }}

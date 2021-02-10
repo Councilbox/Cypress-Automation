@@ -13,7 +13,7 @@ import CouncilMenu from './councilMenu/CouncilMenu';
 import { HEADER_HEIGHT } from '../../../styles/constants';
 
 const LiveHeader = ({
- councilName, translate, windowSize, participants, user, council, recount, refetch
+	councilName, translate, windowSize, participants, user, council, recount, refetch
 }) => {
 	const [showConfirm, setShowConfirm] = React.useState(false);
 	const subdomain = useSubdomain();
@@ -65,8 +65,8 @@ const LiveHeader = ({
 								onClick={() => setShowConfirm(true)
 								}
 							>
-								save_alt
-						</Icon>
+save_alt
+							</Icon>
 							<div style={{
 								background: 'white',
 								width: '19px',
@@ -88,8 +88,8 @@ const LiveHeader = ({
 								onClick={() => setShowConfirm(true)
 								}
 							>
-								keyboard_backspace
-						</Icon>
+keyboard_backspace
+							</Icon>
 							<AlertConfirm
 								title={translate.exit}
 								bodyText={translate.exit_desc}
@@ -145,28 +145,28 @@ const LiveHeader = ({
 					</div>
 				</div>
 				{council
-					&& <>
-						<div style={{ display: 'flex', paddingRight: '2em' }}>
-							<div style={{ marginRight: '1em' }}>
-								<CouncilMenu
-									council={council}
-									translate={translate}
-									refetch={refetch}
-									logo={logo}
-								/>
-							</div>
-							<div style={{}}>
-								<CouncilStateButton
-									council={council}
-									translate={translate}
-									participants={participants}
-									recount={recount}
-									// agendas={agendas}
-									refetch={refetch}
-								/>
-							</div>
-						</div>
-					</>
+&& <>
+	<div style={{ display: 'flex', paddingRight: '2em' }}>
+		<div style={{ marginRight: '1em' }}>
+			<CouncilMenu
+				council={council}
+				translate={translate}
+				refetch={refetch}
+				logo={logo}
+			/>
+		</div>
+		<div style={{}}>
+			<CouncilStateButton
+				council={council}
+				translate={translate}
+				participants={participants}
+				recount={recount}
+				// agendas={agendas}
+				refetch={refetch}
+			/>
+		</div>
+	</div>
+</>
 				}
 			</Paper>
 			<div

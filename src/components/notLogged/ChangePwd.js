@@ -39,14 +39,14 @@ class ChangePwd extends React.PureComponent {
 			});
 			if (response.errors) {
 				switch (response.errors[0].code) {
-					case 402:
-						this.setState({
-							linkExpired: true
-						});
-						break;
+				case 402:
+					this.setState({
+						linkExpired: true
+					});
+					break;
 
-					default:
-						return;
+				default:
+					return;
 				}
 			}
 			if (response.data.changePwd.success) {
@@ -65,13 +65,13 @@ class ChangePwd extends React.PureComponent {
 		});
 		if (response.errors) {
 			switch (response.errors[0].code) {
-				case 440:
-					this.setState({
-						linkExpired: true
-					});
-					break;
+			case 440:
+				this.setState({
+					linkExpired: true
+				});
+				break;
 
-				default:
+			default:
 			}
 		}
 	};
@@ -167,10 +167,10 @@ class ChangePwd extends React.PureComponent {
 											type="password"
 											value={this.state.pwd}
 											onChange={event => this.setState({
-													pwd:
+												pwd:
 														event.nativeEvent.target
 															.value
-												})
+											})
 											}
 										/>
 									</div>
@@ -184,10 +184,10 @@ class ChangePwd extends React.PureComponent {
 											type="password"
 											value={this.state.repeatPwd}
 											onChange={event => this.setState({
-													repeatPwd:
+												repeatPwd:
 														event.nativeEvent.target
 															.value
-												})
+											})
 											}
 										/>
 									</div>

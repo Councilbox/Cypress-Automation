@@ -5,7 +5,7 @@ import { compose, graphql } from 'react-apollo';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import * as CBX from '../../../../utils/CBX';
 import {
- CloseIcon, EnhancedTable, BasicButton, Checkbox, Grid, GridItem, AlertConfirm
+	CloseIcon, EnhancedTable, BasicButton, Checkbox, Grid, GridItem, AlertConfirm
 } from '../../../../displayComponents';
 import { deleteParticipant as deleteParticipantMutation } from '../../../../queries/councilParticipant';
 import { COUNCIL_TYPES, PARTICIPANTS_LIMITS } from '../../../../constants';
@@ -16,7 +16,7 @@ import { isMobile } from '../../../../utils/screen';
 
 
 const ParticipantsTable = ({
- translate, data, totalVotes, totalSocialCapital, participations, council, ...props
+	translate, data, totalVotes, totalSocialCapital, participations, council, ...props
 }) => {
 	const [state, setState] = useOldState({
 		editingParticipant: false,
@@ -33,15 +33,15 @@ const ParticipantsTable = ({
 	};
 
 	const select = id => {
-        if (state.selectedIds.has(id)) {
-            state.selectedIds.delete(id);
-        } else {
-            state.selectedIds.set(id, 'selected');
-        }
+		if (state.selectedIds.has(id)) {
+			state.selectedIds.delete(id);
+		} else {
+			state.selectedIds.set(id, 'selected');
+		}
 
-        setState({
-            selectedIds: new Map(state.selectedIds)
-        });
+		setState({
+			selectedIds: new Map(state.selectedIds)
+		});
 	};
 
 	const selectAll = () => {
@@ -241,27 +241,27 @@ const ParticipantsTable = ({
 					>
 						{councilParticipants.list.map(
 							participant => (
-									<React.Fragment
-										key={`participant${participant.id}`}
-									>
-										<HoverableRow
-											participant={participant}
-											editParticipant={() => setState({
-												editingParticipant: true,
-												participantToEdit: participant
-											})}
-											select={select}
-											selected={state.selectedIds.has(participant.id)}
-											totalSocialCapital={totalSocialCapital}
-											totalVotes={totalVotes}
-											council={council}
-											participations={participations}
-											translate={translate}
-											representative={participant.representative}
-											renderDeleteIcon={() => renderDeleteIcon(participant.id)}
-										/>
-									</React.Fragment>
-								)
+								<React.Fragment
+									key={`participant${participant.id}`}
+								>
+									<HoverableRow
+										participant={participant}
+										editParticipant={() => setState({
+											editingParticipant: true,
+											participantToEdit: participant
+										})}
+										select={select}
+										selected={state.selectedIds.has(participant.id)}
+										totalSocialCapital={totalSocialCapital}
+										totalVotes={totalVotes}
+										council={council}
+										participations={participations}
+										translate={translate}
+										representative={participant.representative}
+										renderDeleteIcon={() => renderDeleteIcon(participant.id)}
+									/>
+								</React.Fragment>
+							)
 						)}
 					</EnhancedTable>
 				</React.Fragment>
@@ -272,7 +272,7 @@ const ParticipantsTable = ({
 };
 
 const HoverableRow = ({
- participant, editParticipant, renderDeleteIcon, council, totalVotes, totalSocialCapital, representative, selected, translate, participations, ...props
+	participant, editParticipant, renderDeleteIcon, council, totalVotes, totalSocialCapital, representative, selected, translate, participations, ...props
 }) => {
 	const [showActions, rowHandlers] = useHoverRow();
 
@@ -303,7 +303,7 @@ const HoverableRow = ({
 							<React.Fragment>
 								{representative.dni}
 							</React.Fragment>
-						:							participant.dni
+							:							participant.dni
 						}
 					</GridItem>
 					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
@@ -314,7 +314,7 @@ const HoverableRow = ({
 							<React.Fragment>
 								{representative.position}
 							</React.Fragment>
-						:							participant.position
+							:							participant.position
 						}
 					</GridItem>
 					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
@@ -339,7 +339,7 @@ const HoverableRow = ({
 							<GridItem xs={7} md={7}>
 								{!CBX.isRepresentative(participant)
 									&& `${participant.socialCapital} (${participant.socialCapital > 0 ? (
-									(participant.socialCapital
+										(participant.socialCapital
 										/ totalSocialCapital)
 									* 100).toFixed(2) : 0}%)`
 								}

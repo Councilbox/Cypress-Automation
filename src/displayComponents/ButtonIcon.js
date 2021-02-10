@@ -2,7 +2,7 @@ import React from 'react';
 import { Icon } from './index';
 
 const ButtonIcon = ({
- type, color, style, onClick = () => {}
+	type, color, style, onClick = () => {}
 }) => (
 	<Icon
 		className="material-icons"

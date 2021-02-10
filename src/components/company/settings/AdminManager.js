@@ -6,107 +6,107 @@ import { getPrimary } from '../../../styles/colors';
 import AddAdmin from './AddAdmin';
 
 const AdminManager = ({ company, translate, client }) => {
-    const [modal, setModal] = React.useState(false);
-    const [admins, setAdmins] = React.useState(null);
-    const [page, setPage] = React.useState(1);
-    const primary = getPrimary();
+	const [modal, setModal] = React.useState(false);
+	const [admins, setAdmins] = React.useState(null);
+	const [page, setPage] = React.useState(1);
+	const primary = getPrimary();
 
-    const getAdmins = React.useCallback(async () => {
-        const response = await client.query({
-            query: gql`
-                query company($companyId: Int!){
-                    companyAdmins(companyId: $companyId){
-                        name
-                        surname
-                        email
-                        id
-                        lastConnectionDate
-                    }
-                }
-            `,
-            variables: {
-                companyId: company.id
-            }
-        });
+	const getAdmins = React.useCallback(async () => {
+		const response = await client.query({
+			query: gql`
+				query company($companyId: Int!){
+					companyAdmins(companyId: $companyId){
+						name
+						surname
+						email
+						id
+						lastConnectionDate
+					}
+				}
+			`,
+			variables: {
+				companyId: company.id
+			}
+		});
 
-        setAdmins(response.data.companyAdmins);
-    }, [company.id]);
+		setAdmins(response.data.companyAdmins);
+	}, [company.id]);
 
-    React.useEffect(() => {
-        if (modal) {
-            getAdmins();
-        }
-    }, [getAdmins, modal]);
+	React.useEffect(() => {
+		if (modal) {
+			getAdmins();
+		}
+	}, [getAdmins, modal]);
 
-    const renderModalBody = () => {
-        if (!admins) {
-            return <LoadingSection />;
-        }
+	const renderModalBody = () => {
+		if (!admins) {
+			return <LoadingSection />;
+		}
 
-        if (page === 3) {
-            return (
-                <AddAdmin
-                    company={company}
-                    admins={admins}
-                    translate={translate}
-                    refetch={getAdmins}
-                />
-            );
-        }
+		if (page === 3) {
+			return (
+				<AddAdmin
+					company={company}
+					admins={admins}
+					translate={translate}
+					refetch={getAdmins}
+				/>
+			);
+		}
 
-        return (
-            <div>
-                <div>
-                    <BasicButton
-                        text={translate.select_user}
-                        color={primary}
-                        floatRight
-                        textStyle={{
-                            color: 'white',
-                            fontWeight: '700'
-                        }}
-                        buttonStyle={{ marginRight: '1.2em' }}
-                        onClick={() => setPage(3)}
-                    />
-                </div>
-                <div>
-                    {admins.length > 0 ?
-                        admins.map((admin, index) => <div key={`admin_id${index}`}>{`${admin.name} ${admin.surname || ''} - ${admin.email}`}</div>)
-                    : translate.no_results
-                    }
-                </div>
+		return (
+			<div>
+				<div>
+					<BasicButton
+						text={translate.select_user}
+						color={primary}
+						floatRight
+						textStyle={{
+							color: 'white',
+							fontWeight: '700'
+						}}
+						buttonStyle={{ marginRight: '1.2em' }}
+						onClick={() => setPage(3)}
+					/>
+				</div>
+				<div>
+					{admins.length > 0 ?
+						admins.map((admin, index) => <div key={`admin_id${index}`}>{`${admin.name} ${admin.surname || ''} - ${admin.email}`}</div>)
+						: translate.no_results
+					}
+				</div>
 
-            </div>
-        );
-    };
+			</div>
+		);
+	};
 
-    return (
-        <React.Fragment>
-            <BasicButton
-                text={translate.admins}
-                color={primary}
-                floatRight
-                textStyle={{
-                    color: 'white',
-                    fontWeight: '700'
-                }}
-                buttonStyle={{ marginRight: '1.2em' }}
-                onClick={() => setModal(true)}
-            />
-            <AlertConfirm
-                open={modal}
-                bodyText={renderModalBody()}
-                title={translate.admins}
-                requestClose={() => {
-                    if (page === 1) {
-                        setModal(false);
-                    } else {
-                        setPage(1);
-                    }
-                }}
-            />
-        </React.Fragment>
-    );
+	return (
+		<React.Fragment>
+			<BasicButton
+				text={translate.admins}
+				color={primary}
+				floatRight
+				textStyle={{
+					color: 'white',
+					fontWeight: '700'
+				}}
+				buttonStyle={{ marginRight: '1.2em' }}
+				onClick={() => setModal(true)}
+			/>
+			<AlertConfirm
+				open={modal}
+				bodyText={renderModalBody()}
+				title={translate.admins}
+				requestClose={() => {
+					if (page === 1) {
+						setModal(false);
+					} else {
+						setPage(1);
+					}
+				}}
+			/>
+		</React.Fragment>
+	);
 };
 
 export default withApollo(AdminManager);

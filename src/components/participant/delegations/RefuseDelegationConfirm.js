@@ -5,11 +5,11 @@ import { AlertConfirm } from '../../../displayComponents';
 
 
 const RefuseDelegationConfirm = withApollo(({
- delegation, client, translate, refetch, requestClose
+	delegation, client, translate, refetch, requestClose
 }) => {
-    const [loading, setLoading] = React.useState(false);
+	const [loading, setLoading] = React.useState(false);
 
-    const refuseDelegation = async () => {
+	const refuseDelegation = async () => {
 		setLoading(true);
 
 		const response = await client.mutate({
@@ -20,29 +20,29 @@ const RefuseDelegationConfirm = withApollo(({
 		});
 
 		if (response.data.refuseDelegation.success) {
-            setLoading(false);
-            refetch();
-            requestClose();
+			setLoading(false);
+			refetch();
+			requestClose();
 		}
 	};
 
-    return (
-        <AlertConfirm
-            open={true}
-            title={translate.warning}
-            acceptAction={refuseDelegation}
-            buttonAccept={translate.accept}
-            requestClose={requestClose}
-            cancelAction={requestClose}
-            buttonCancel={translate.cancel}
-            loadingAction={loading}
-            bodyText={
-                <div>
-                    {translate.refuse_delegation_warning.replace('name', delegation.name).replace('surname', delegation.surname)}
-                </div>
-            }
-        />
-    );
+	return (
+		<AlertConfirm
+			open={true}
+			title={translate.warning}
+			acceptAction={refuseDelegation}
+			buttonAccept={translate.accept}
+			requestClose={requestClose}
+			cancelAction={requestClose}
+			buttonCancel={translate.cancel}
+			loadingAction={loading}
+			bodyText={
+				<div>
+					{translate.refuse_delegation_warning.replace('name', delegation.name).replace('surname', delegation.surname)}
+				</div>
+			}
+		/>
+	);
 });
 
 const refuseDelegationMutation = gql`

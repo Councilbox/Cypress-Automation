@@ -31,7 +31,7 @@ import AttendanceTextEditor from './AttendanceTextEditor';
 
 
 const StepOptions = ({
- translate, data, client, ...props
+	translate, data, client, ...props
 }) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
@@ -85,8 +85,8 @@ const StepOptions = ({
 			loading: true
 		});
 		const {
- __typename, statute, platform, room, ...rest
-} = state.data.council;
+			__typename, statute, platform, room, ...rest
+		} = state.data.council;
 		const { __typename: t, ...councilRoom } = room;
 
 		await client.mutate({
@@ -224,10 +224,10 @@ const StepOptions = ({
 						disabled={!config.video}
 						value={council.councilType === 0}
 						onChange={(event, isInputChecked) => updateCouncilData({
-								councilType: isInputChecked ? 0 : 1,
-								autoClose: 0,
-								fullVideoRecord: 0
-							})
+							councilType: isInputChecked ? 0 : 1,
+							autoClose: 0,
+							fullVideoRecord: 0
+						})
 						}
 					/>
 					<Checkbox
@@ -235,16 +235,16 @@ const StepOptions = ({
 						label={translate.full_video_record}
 						value={council.fullVideoRecord !== 0}
 						onChange={(event, isInputChecked) => updateCouncilData({
-								fullVideoRecord: isInputChecked ? 1 : 0
-							})
+							fullVideoRecord: isInputChecked ? 1 : 0
+						})
 						}
 					/>
 					<Checkbox
 						label={translate.wall}
 						value={council.wallActive !== 0}
 						onChange={(event, isInputChecked) => updateCouncilData({
-								wallActive: isInputChecked ? 1 : 0
-							})
+							wallActive: isInputChecked ? 1 : 0
+						})
 						}
 					/>
 					<Checkbox
@@ -252,8 +252,8 @@ const StepOptions = ({
 						label={translate.can_ask_word}
 						value={council.askWordMenu}
 						onChange={(event, isInputChecked) => updateCouncilData({
-								askWordMenu: isInputChecked
-							})
+							askWordMenu: isInputChecked
+						})
 						}
 					/>
 					<div style={{ display: 'flex' }}>
@@ -262,8 +262,8 @@ const StepOptions = ({
 							label={translate.auto_close}
 							value={council.autoClose !== 0}
 							onChange={(event, isInputChecked) => updateCouncilData({
-									autoClose: isInputChecked ? 1 : 0
-								})
+								autoClose: isInputChecked ? 1 : 0
+							})
 							}
 						/>
 						{council.autoClose === 1
@@ -375,8 +375,8 @@ const StepOptions = ({
 								label={translate.in_person_vote_prevails}
 								value={council.presentVoteOverwrite === 1}
 								onChange={(event, isInputChecked) => updateCouncilData({
-										presentVoteOverwrite: isInputChecked ? 1 : 0
-									})
+									presentVoteOverwrite: isInputChecked ? 1 : 0
+								})
 								}
 							/>
 						</div>
@@ -413,8 +413,8 @@ const StepOptions = ({
 						label={translate.full_video_record}
 						value={council.fullVideoRecord !== 0}
 						onChange={(event, isInputChecked) => updateCouncilData({
-								fullVideoRecord: isInputChecked ? 1 : 0
-							})
+							fullVideoRecord: isInputChecked ? 1 : 0
+						})
 						}
 					/>
 				</>
@@ -440,8 +440,8 @@ const StepOptions = ({
 					value={'0'}
 					checked={council.securityType === 0}
 					onChange={event => updateCouncilData({
-							securityType: parseInt(event.target.value, 10)
-						})
+						securityType: parseInt(event.target.value, 10)
+					})
 					}
 					name="security"
 					label={translate.new_security_none}
@@ -450,8 +450,8 @@ const StepOptions = ({
 					value={'1'}
 					checked={council.securityType === 1}
 					onChange={event => updateCouncilData({
-							securityType: parseInt(event.target.value, 10)
-						})
+						securityType: parseInt(event.target.value, 10)
+					})
 					}
 					name="security"
 					label={translate.new_security_email}
@@ -460,8 +460,8 @@ const StepOptions = ({
 					value={'2'}
 					checked={council.securityType === 2}
 					onChange={event => updateCouncilData({
-							securityType: parseInt(event.target.value, 10)
-						})
+						securityType: parseInt(event.target.value, 10)
+					})
 					}
 					name="security"
 					label={translate.new_security_sms}
@@ -470,8 +470,8 @@ const StepOptions = ({
 					value={'3'}
 					checked={council.securityType === 3}
 					onChange={event => updateCouncilData({
-							securityType: parseInt(event.target.value, 10)
-						})
+						securityType: parseInt(event.target.value, 10)
+					})
 					}
 					name="security"
 					label={translate.council_security_cert}
@@ -513,8 +513,8 @@ const StepOptions = ({
 										label={translate.confirm_assistance_desc}
 										value={council.confirmAssistance === 1}
 										onChange={(event, isInputChecked) => updateCouncilData({
-												confirmAssistance: isInputChecked ? 1 : 0
-											})
+											confirmAssistance: isInputChecked ? 1 : 0
+										})
 										}
 									/>
 									{council.confirmAssistance === 1
@@ -561,8 +561,8 @@ const StepOptions = ({
 								label={translate.test_meeting}
 								value={council.promoCode === 'COUNCILBOX'}
 								onChange={(event, isInputChecked) => updateCouncilData({
-										promoCode: isInputChecked ? 'COUNCILBOX' : null
-									})
+									promoCode: isInputChecked ? 'COUNCILBOX' : null
+								})
 								}
 							/>
 							{CBX.hasAct(council.statute) && council.councilType < 2 && (
@@ -584,16 +584,16 @@ const StepOptions = ({
 												label={translate.approve_act_draft_at_end_desc}
 												value={council.approveActDraft !== 0}
 												onChange={(event, isInputChecked) => updateCouncilData({
-														approveActDraft: isInputChecked ? 1 : 0
-													})
+													approveActDraft: isInputChecked ? 1 : 0
+												})
 												}
 											/>
 										</div>
 										{council.approveActDraft === 1 && (
 											<div>
 												<div style={{
- display: 'flex', flexDirection: 'row', marginLeft: '1.1em', alignItems: 'center'
-}}>
+													display: 'flex', flexDirection: 'row', marginLeft: '1.1em', alignItems: 'center'
+												}}>
 													<div>
 														<SelectInput
 															floatingLabelText={
@@ -609,18 +609,18 @@ const StepOptions = ({
 														>
 															{data.majorityTypes.map(
 																majority => (
-																		<MenuItem
-																			value={majority.value}
-																			key={`majority${majority.value
-																				}`}
-																		>
-																			{
-																				translate[
+																	<MenuItem
+																		value={majority.value}
+																		key={`majority${majority.value
+																		}`}
+																	>
+																		{
+																			translate[
 																				majority.label
-																				]
-																			}
-																		</MenuItem>
-																	)
+																			]
+																		}
+																	</MenuItem>
+																)
 															)}
 														</SelectInput>
 													</div>
@@ -637,12 +637,12 @@ const StepOptions = ({
 																}
 																mayori
 																onChange={value => updateCouncilData({
-																		actPointMajority: +value
-																	})
+																	actPointMajority: +value
+																})
 																}
 																onChangeDivider={value => updateCouncilData({
-																		actPointMajorityDivider: +value
-																	})
+																	actPointMajorityDivider: +value
+																})
 																}
 															/>
 														)}
@@ -750,13 +750,13 @@ const RTMPField = ({ data, updateData, translate }) => {
 			floatingText={'RTMP'}
 			value={(data.room && data.room.videoConfig) ? data.room.videoConfig.rtmp : ''}
 			onChange={event => updateData({
-					room: {
-						videoConfig: {
-							...data.room.videoConfig,
-							rtmp: event.target.value
-						}
+				room: {
+					videoConfig: {
+						...data.room.videoConfig,
+						rtmp: event.target.value
 					}
-				})
+				}
+			})
 			}
 		/>
 	);

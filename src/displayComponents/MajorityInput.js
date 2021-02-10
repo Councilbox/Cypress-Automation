@@ -31,8 +31,8 @@ const MajorityInput = ({
 	if (CBX.isMajorityFraction(type)) {
 		return (
 			<div style={{
- width: '100%', display: 'flex', alignItems: 'center', ...style
-}}>
+				width: '100%', display: 'flex', alignItems: 'center', ...style
+			}}>
 				<div style={{ width: '5em', display: 'flex', alignItems: 'center' }}>
 					<TextInput
 						type={'number'}
@@ -43,10 +43,10 @@ const MajorityInput = ({
 						}
 					/>
 				</div>
-				/
+/
 				<div style={{
- width: '5em', marginLeft: '0.8em', isplay: 'flex', alignItems: 'center'
-}}>
+					width: '5em', marginLeft: '0.8em', isplay: 'flex', alignItems: 'center'
+				}}>
 					<TextInput
 						type={'number'}
 						value={divider}

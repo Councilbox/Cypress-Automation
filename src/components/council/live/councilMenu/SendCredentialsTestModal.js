@@ -7,111 +7,111 @@ import { checkValidEmail } from '../../../../utils/validation';
 import { moment } from '../../../../containers/App';
 
 class SendCredentialsTestModal extends React.Component {
-	state = {
-		success: '',
+state = {
+	success: '',
+	emailError: '',
+	email: ''
+};
+
+close = () => {
+	this.props.requestClose();
+	this.setState({
+		success: false,
+		sending: false,
 		emailError: '',
-		email: ''
-	};
+		error: false,
+		sendAgenda: false
+	});
+};
 
-	close = () => {
-		this.props.requestClose();
+sendVideoEmailTest = async () => {
+	this.setState({
+		sending: true
+	});
+	const response = await this.props.sendVideoEmailTest({
+		variables: {
+			councilId: this.props.council.id,
+			email: this.state.email,
+			phone: '',
+			timezone: moment().utcOffset().toString()
+
+		}
+	});
+
+	if (response.data.sendRoomEmailTest.success) {
 		this.setState({
-			success: false,
 			sending: false,
-			emailError: '',
-			error: false,
-			sendAgenda: false
+			success: true
 		});
-	};
-
-	sendVideoEmailTest = async () => {
+	} else {
 		this.setState({
-			sending: true
+			sending: false,
+			error: true
 		});
-		const response = await this.props.sendVideoEmailTest({
-			variables: {
-				councilId: this.props.council.id,
-				email: this.state.email,
-				phone: '',
-				timezone: moment().utcOffset().toString()
+	}
+};
 
-			}
+onKeyUp = event => {
+	if (!checkValidEmail(this.state.email)) {
+		this.setState({
+			emailError: this.props.translate.tooltip_invalid_email_address
 		});
+	} else {
+		this.setState({
+			emailError: ''
+		});
+	}
+	if (event.nativeEvent.keyCode === 13) {
+		this.sendVideoEmailTest();
+	}
+};
 
-		if (response.data.sendRoomEmailTest.success) {
-			this.setState({
-				sending: false,
-				success: true
-			});
-		} else {
-			this.setState({
-				sending: false,
-				error: true
-			});
-		}
-	};
+_renderBody() {
+	const { translate } = this.props;
 
-	onKeyUp = event => {
-		if (!checkValidEmail(this.state.email)) {
-			this.setState({
-				emailError: this.props.translate.tooltip_invalid_email_address
-			});
-		} else {
-			this.setState({
-				emailError: ''
-			});
-		}
-		if (event.nativeEvent.keyCode === 13) {
-			this.sendVideoEmailTest();
-		}
-	};
-
-	_renderBody() {
-		const { translate } = this.props;
-
-		if (this.state.success) {
-			return <SuccessMessage message={translate.sent} />;
-		}
-
-		return (
-			<div style={{ width: '500px' }}>
-				<TextInput
-					required
-					floatingText={translate.email}
-					onKeyUp={this.onKeyUp}
-					type="text"
-					errorText={this.state.emailError}
-					value={this.state.email}
-					onChange={event => this.setState({
-							email: event.nativeEvent.target.value
-						})
-					}
-				/>
-			</div>
-		);
+	if (this.state.success) {
+		return <SuccessMessage message={translate.sent} />;
 	}
 
-	render() {
-		const { translate } = this.props;
-
-		return (
-			<AlertConfirm
-				requestClose={this.close}
-				open={this.props.show}
-				acceptAction={
-					this.state.success ?
-						() => this.close()
-						: this.sendVideoEmailTest
+	return (
+		<div style={{ width: '500px' }}>
+			<TextInput
+				required
+				floatingText={translate.email}
+				onKeyUp={this.onKeyUp}
+				type="text"
+				errorText={this.state.emailError}
+				value={this.state.email}
+				onChange={event => this.setState({
+					email: event.nativeEvent.target.value
+				})
 				}
-				buttonAccept={
-					this.state.success ? translate.accept : translate.send
-				}
-				buttonCancel={translate.close}
-				bodyText={this._renderBody()}
-				title={translate.send_video_test}
 			/>
-		);
-	}
+		</div>
+	);
+}
+
+render() {
+	const { translate } = this.props;
+
+	return (
+		<AlertConfirm
+			requestClose={this.close}
+			open={this.props.show}
+			acceptAction={
+				this.state.success ?
+					() => this.close()
+					: this.sendVideoEmailTest
+			}
+			buttonAccept={
+				this.state.success ? translate.accept : translate.send
+			}
+			buttonCancel={translate.close}
+			bodyText={this._renderBody()}
+			title={translate.send_video_test}
+		/>
+	);
+}
 }
 
 export default graphql(sendVideoEmailTest, {
@@ -135,7 +135,7 @@ const SuccessMessage = ({ message }) => (
 				color: 'green'
 			}}
 		>
-			check_circle
+check_circle
 		</Icon>
 		<Typography variant="subheading">{message}</Typography>
 	</div>

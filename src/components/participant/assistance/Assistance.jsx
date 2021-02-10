@@ -27,469 +27,469 @@ import AttendanceConfirmation from "./AttendanceConfirmation";
 export const AECOC_ID = 286;
 
 const styles = {
-	viewContainer: {
-		width: "100vw",
-		height: "100vh",
-		position: "relative"
-	},
-	mainContainer: {
-		width: "100%",
-		height: "100%",
-		display: "flex",
-		flexDirection: "column",
-		alignItems: "center",
-		justifyContent: "center",
-		position: "relative",
-		padding: '0'
-	},
-	cardContainer: {
-		margin: isMobile ? '5px' : "20px",
-		maxWidth: "100%",
-		height: 'calc(100% - 40px)'
-	},
-	buttonSection: {
-		height: '3.5em',
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'flex-end',
-		paddingRight: '1.2em',
-		borderTop: '1px solid gainsboro'
-	}
+viewContainer: {
+width: "100vw",
+height: "100vh",
+position: "relative"
+},
+mainContainer: {
+width: "100%",
+height: "100%",
+display: "flex",
+flexDirection: "column",
+alignItems: "center",
+justifyContent: "center",
+position: "relative",
+padding: '0'
+},
+cardContainer: {
+margin: isMobile ? '5px' : "20px",
+maxWidth: "100%",
+height: 'calc(100% - 40px)'
+},
+buttonSection: {
+height: '3.5em',
+display: 'flex',
+alignItems: 'center',
+justifyContent: 'flex-end',
+paddingRight: '1.2em',
+borderTop: '1px solid gainsboro'
+}
 };
 
 const Assistance = ({ participant, data, translate, council, company, refetch, setAssistanceComment, setAssistanceIntention }) => {
-	const [state, setState] = React.useState({
-		participant: {},
-		savingAssistanceComment: false,
-		delegationModal: false,
-		addRepresentative: false,
-		noAttendWarning: false,
-		clean: true,
-		...generateAttendanceData()
-	});
-	const primary = getPrimary();
+const [state, setState] = React.useState({
+participant: {},
+savingAssistanceComment: false,
+delegationModal: false,
+addRepresentative: false,
+noAttendWarning: false,
+clean: true,
+...generateAttendanceData()
+});
+const primary = getPrimary();
 
-	const [attendanceConfirmation, setAttendanceConfirmation] = React.useState(false);
-	const [selecteAssistance, setSelecteAssistance] = React.useState(translate.council);
-	const [openModalFirmasModal, setOpenModalFirmasModal] = React.useState(false);
-	const [openModalVoteLetter, setOpenModalVoteLetter] = React.useState(false);
-	const [check, setCheck] = React.useState(!council.statute.attendanceText);
-	const [checkError, setCheckError] = React.useState(false);
-	const config = React.useContext(ConfigContext);
+const [attendanceConfirmation, setAttendanceConfirmation] = React.useState(false);
+const [selecteAssistance, setSelecteAssistance] = React.useState(translate.council);
+const [openModalFirmasModal, setOpenModalFirmasModal] = React.useState(false);
+const [openModalVoteLetter, setOpenModalVoteLetter] = React.useState(false);
+const [check, setCheck] = React.useState(!council.statute.attendanceText);
+const [checkError, setCheckError] = React.useState(false);
+const config = React.useContext(ConfigContext);
 
-	function generateAttendanceData() {
+function generateAttendanceData() {
 
-		let defaultIntention;
+let defaultIntention;
 
-		switch (council.councilType) {
-			case 0:
-				defaultIntention = PARTICIPANT_STATES.REMOTE;
-			case 4:
-				defaultIntention = PARTICIPANT_STATES.SENT_VOTE_LETTER;
-			default:
-				defaultIntention = PARTICIPANT_STATES.PRESENT;
-		}
+switch (council.councilType) {
+case 0:
+defaultIntention = PARTICIPANT_STATES.REMOTE;
+case 4:
+defaultIntention = PARTICIPANT_STATES.SENT_VOTE_LETTER;
+default:
+defaultIntention = PARTICIPANT_STATES.PRESENT;
+}
 
-		if(participant.personOrEntity === 1 && !participant.delegateId){
-			return {
-				assistanceIntention: null
-			}
-		}
+if(participant.personOrEntity === 1 && !participant.delegateId){
+return {
+assistanceIntention: null
+}
+}
 
-		if (participant.represented && participant.represented.length > 0) {
-			const represented = participant.represented[0];
-			if (represented.assistanceIntention === PARTICIPANT_STATES.DELEGATED) {
-				return {
-					assistanceIntention: represented.assistanceIntention || defaultIntention,
-					delegateId: represented.delegateId,
-					delegateInfoUser: represented.state === PARTICIPANT_STATES.DELEGATED ? represented.representative : null
-				}
-			}
-		}
+if (participant.represented && participant.represented.length > 0) {
+const represented = participant.represented[0];
+if (represented.assistanceIntention === PARTICIPANT_STATES.DELEGATED) {
+return {
+assistanceIntention: represented.assistanceIntention || defaultIntention,
+delegateId: represented.delegateId,
+delegateInfoUser: represented.state === PARTICIPANT_STATES.DELEGATED ? represented.representative : null
+}
+}
+}
 
-		return {
-			assistanceIntention: isNaN(participant.assistanceIntention) ? defaultIntention : participant.assistanceIntention,
-			delegateId: participant.delegateId,
-			delegateInfoUser: participant.representative
-		}
-	}
-
-
-	React.useEffect(() => {
-		setState({
-			...state,
-			...generateAttendanceData()
-		});
-	}, [participant.state]);
+return {
+assistanceIntention: isNaN(participant.assistanceIntention) ? defaultIntention : participant.assistanceIntention,
+delegateId: participant.delegateId,
+delegateInfoUser: participant.representative
+}
+}
 
 
-	const resetButtonStates = () => {
-		setState({
-			...state,
-			success: false,
-			savingAssistanceComment: false,
-		});
-	}
-
-	const selectDelegation = async delegateId => {
-		const delegateInfoUser = data.liveParticipantsToDelegate.list.find(user => user.id === delegateId);
-		setState({
-			...state,
-			delegateId: delegateId,
-			locked: false,
-			delegationModal: false,
-			delegateInfoUser: delegateInfoUser,
-			assistanceIntention: PARTICIPANT_STATES.DELEGATED
-		});
-	}
-
-	const selectSimpleOption = async (option, signature) => {
-		const quitRepresentative = option !== PARTICIPANT_STATES.DELEGATED;
-		const response = await setAssistanceIntention({
-			variables: {
-				assistanceIntention: option,
-				representativeId: quitRepresentative ? null : state.participant.delegateId,
-				...(signature ? {
-					signature
-				} : {}),
-				...(isValidEarlyVoteState(state.assistanceIntention) ? {
-					earlyVotes: state.earlyVotes
-				} : {})
-			}
-		});
-
-		if (response) {
-			if (response.data.setAssistanceIntention.success) {
-				setState({
-					...state,
-					participant: {
-						...state.participant,
-						assistanteIntention: option,
-						delegateInfoUser: null,
-						...(quitRepresentative ? { representative: null } : {})
-					}
-				})
-			}
-			await refetch();
-		}
-	}
-
-	const openModalFirmas = async () => {
-		setOpenModalFirmasModal(true);
-	}
-
-	const isValidEarlyVoteState = intention => {
-		return intention === PARTICIPANT_STATES.EARLY_VOTE || intention === PARTICIPANT_STATES.DELEGATED || intention === PARTICIPANT_STATES.SENT_VOTE_LETTER
-	}
-
-	const sendAttendanceIntention = async signature => {
-		if(state.assistanceIntention === null || (participant.personOrEntity === 1 && state.delegateId === null)){
-			setState({
-				...state,
-				error: true,
-				invalidIntentioError: true
-			});
-	
-			return;
-		}
-
-		setState({
-			...state,
-			invalidIntentioError: false,
-			loading: true
-		});
-
-		const { assistanceComment } = state.participant;
-
-		if (!checkForUnclosedBraces(assistanceComment)) {
-			if (participant.state !== PARTICIPANT_STATES.REPRESENTATED) {
-				if (state.delegateId !== null) {
-					await setAssistanceIntention({
-						variables: {
-							assistanceIntention: state.assistanceIntention,
-							representativeId: state.delegateId,
-							...(signature ? {
-								signature
-							} : {}),
-							...(isValidEarlyVoteState(state.assistanceIntention) ? {
-								earlyVotes: state.earlyVotes
-							} : {})
-						}
-					});
-				} else {
-					await selectSimpleOption(state.assistanceIntention, signature);
-				}
-			}
-
-			if (council.companyId === 708) {
-				setAttendanceConfirmation(true);
-			}
-
-			await setAssistanceComment({
-				variables: {
-					assistanceComment: assistanceComment || ''
-				}
-			});
-
-			setState({
-				...state,
-				loading: false,
-				locked: true,
-				success: true,
-				invalidIntentioError: false,
-			})
-			refetch();
-		} else {
-			setState({
-				...state,
-				commentError: true,
-				invalidIntentioError: false,
-			})
-			toast(
-				<LiveToast
-					message={translate.revise_text}
-				/>, {
-				position: toast.POSITION.TOP_RIGHT,
-				autoClose: true,
-				className: "errorToast"
-			}
-			);
-		}
-	}
+React.useEffect(() => {
+setState({
+...state,
+...generateAttendanceData()
+});
+}, [participant.state]);
 
 
-	const showDelegation = () => {
-		setState({
-			...state,
-			delegationModal: true
-		});
-	}
+const resetButtonStates = () => {
+setState({
+...state,
+success: false,
+savingAssistanceComment: false,
+});
+}
 
-	const sendButtonAction = () => {
-		if (council.statute.requireProxy && state.assistanceIntention === PARTICIPANT_STATES.DELEGATED) {
-			return openModalFirmas();
-		}
+const selectDelegation = async delegateId => {
+const delegateInfoUser = data.liveParticipantsToDelegate.list.find(user => user.id === delegateId);
+setState({
+...state,
+delegateId: delegateId,
+locked: false,
+delegationModal: false,
+delegateInfoUser: delegateInfoUser,
+assistanceIntention: PARTICIPANT_STATES.DELEGATED
+});
+}
 
-		if (state.assistanceIntention === PARTICIPANT_STATES.SENT_VOTE_LETTER) {
-			return setOpenModalVoteLetter(true);
-		}
+const selectSimpleOption = async (option, signature) => {
+const quitRepresentative = option !== PARTICIPANT_STATES.DELEGATED;
+const response = await setAssistanceIntention({
+variables: {
+assistanceIntention: option,
+representativeId: quitRepresentative ? null : state.participant.delegateId,
+...(signature ? {
+signature
+} : {}),
+...(isValidEarlyVoteState(state.assistanceIntention) ? {
+earlyVotes: state.earlyVotes
+} : {})
+}
+});
 
-		return sendAttendanceIntention();
-	}
+if (response) {
+if (response.data.setAssistanceIntention.success) {
+setState({
+...state,
+participant: {
+...state.participant,
+assistanteIntention: option,
+delegateInfoUser: null,
+...(quitRepresentative ? { representative: null } : {})
+}
+})
+}
+await refetch();
+}
+}
 
-	const calculateVotesTabNumber = () => {
-		if (participant.state === PARTICIPANT_STATES.DELEGATED) {
-			return participant.delegatedVotes.length + participant.represented.length;
-		}
+const openModalFirmas = async () => {
+setOpenModalFirmasModal(true);
+}
 
-		return participant.delegatedVotes.length;
-	}
+const isValidEarlyVoteState = intention => {
+return intention === PARTICIPANT_STATES.EARLY_VOTE || intention === PARTICIPANT_STATES.DELEGATED || intention === PARTICIPANT_STATES.SENT_VOTE_LETTER
+}
+
+const sendAttendanceIntention = async signature => {
+if(state.assistanceIntention === null || (participant.personOrEntity === 1 && state.delegateId === null)){
+setState({
+...state,
+error: true,
+invalidIntentioError: true
+});
+
+return;
+}
+
+setState({
+...state,
+invalidIntentioError: false,
+loading: true
+});
+
+const { assistanceComment } = state.participant;
+
+if (!checkForUnclosedBraces(assistanceComment)) {
+if (participant.state !== PARTICIPANT_STATES.REPRESENTATED) {
+if (state.delegateId !== null) {
+await setAssistanceIntention({
+variables: {
+assistanceIntention: state.assistanceIntention,
+representativeId: state.delegateId,
+...(signature ? {
+signature
+} : {}),
+...(isValidEarlyVoteState(state.assistanceIntention) ? {
+earlyVotes: state.earlyVotes
+} : {})
+}
+});
+} else {
+await selectSimpleOption(state.assistanceIntention, signature);
+}
+}
+
+if (council.companyId === 708) {
+setAttendanceConfirmation(true);
+}
+
+await setAssistanceComment({
+variables: {
+assistanceComment: assistanceComment || ''
+}
+});
+
+setState({
+...state,
+loading: false,
+locked: true,
+success: true,
+invalidIntentioError: false,
+})
+refetch();
+} else {
+setState({
+...state,
+commentError: true,
+invalidIntentioError: false,
+})
+toast(
+<LiveToast
+message={translate.revise_text}
+/>, {
+position: toast.POSITION.TOP_RIGHT,
+autoClose: true,
+className: "errorToast"
+}
+);
+}
+}
 
 
-	const delegatedVotesNumber = calculateVotesTabNumber();
+const showDelegation = () => {
+setState({
+...state,
+delegationModal: true
+});
+}
 
-	React.useEffect(() => {
-		if (selecteAssistance.includes(translate.representations_delegations)) {
-			setSelecteAssistance(`${translate.representations_delegations} (${delegatedVotesNumber})`);
-		}
-	}, [delegatedVotesNumber]);
+const sendButtonAction = () => {
+if (council.statute.requireProxy && state.assistanceIntention === PARTICIPANT_STATES.DELEGATED) {
+return openModalFirmas();
+}
 
+if (state.assistanceIntention === PARTICIPANT_STATES.SENT_VOTE_LETTER) {
+return setOpenModalVoteLetter(true);
+}
 
-	if (council.active === 0) {
-		return (
-			<NotLoggedLayout
-				translate={translate}
-				helpIcon={true}
-				languageSelector={true}
-			>
-				<div style={styles.mainContainer}>
-					<Card style={styles.cardContainer}>
-						<div
-							style={{
-								height: '100%',
-								width: window.innerWidth * 0.95 > 680 ? '680px' : '95vw',
-								maxWidth: '98vw',
-								display: 'flex',
-								alignItems: 'center',
-								flexDirection: 'column'
-							}}
-						>
-							<div style={{ width: '100%', marginTop: '5em', textAlign: 'center', marginBottom: '2em' }}>
-								<img src={emptyMeetingTable} style={{ width: '55%', height: 'auto', margin: 'auto' }} alt="empty-table" />
-							</div>
-							<div style={{ fontWeight: '700', fontSize: '1.2em' }} >
-								Lo sentimos, esta reunión ha sido eliminada.{/*TRADUCCION*/}
-							</div>
-						</div>
-					</Card>
-				</div>
-			</NotLoggedLayout>
-		)
-	}
+return sendAttendanceIntention();
+}
+
+const calculateVotesTabNumber = () => {
+if (participant.state === PARTICIPANT_STATES.DELEGATED) {
+return participant.delegatedVotes.length + participant.represented.length;
+}
+
+return participant.delegatedVotes.length;
+}
 
 
-	const getReunionActual = () => {
-		return (
-			<div style={{}}>
-				{state.invalidIntentioError && 
-					<span style={{ color: 'red', fontSize: '16px', fontWeight: '700' }}>{translate.must_select_valid_option}</span>
-				}
-				<div style={{ marginTop: "2em" }}>
-					{council.confirmAssistance !== 0 &&
-						<React.Fragment>
-							<AttendanceOptions
-								translate={translate}
-								refetch={refetch}
-								setState={setState}
-								showDelegationModal={showDelegation}
-								state={state}
-								participant={participant}
-								council={council}
-							/>
-						</React.Fragment>
-					}
-					<br />
-				</div>
+const delegatedVotesNumber = calculateVotesTabNumber();
 
-				<div style={{ display: "flex", justifyContent: "space-between", flexDirection: isMobile ? 'column' : 'row' }}>
-					<div style={{ width: "100%" }}>
-						{council.companyId === AECOC_ID ?
-							<>
-								<AssistanceOption
-									translate={translate}
-									title={'Quiero delegar el voto en otro socio (indique razón social y nombre de la persona):'}
-									select={() => {
-										setState({
-											...state,
-											assistanceIntention: PARTICIPANT_STATES.NO_PARTICIPATE,
-											locked: false,
-											noAttendWarning: false,
-											delegateId: null
-										})
-									}}
-									value={PARTICIPANT_STATES.NO_PARTICIPATE}
-									selected={state.assistanceIntention}
-								/>
-								{state.assistanceIntention === PARTICIPANT_STATES.NO_PARTICIPATE &&
-									<RichTextInput
-										errorText={state.commentError}
-										translate={translate}
-										value={
-											!!participant.assistanceComment
-												? participant.assistanceComment
-												: ""
-										}
-										placeholder={council.companyId !== AECOC_ID ? translate.attendance_comment : ''}
-										stylesQuill={{ background: "#f0f3f6" }}
-										onChange={value =>
-											setState({
-												...state,
-												participant: {
-													...state.participant,
-													assistanceComment: value
-												},
-												locked: false
-											})
-										}
-										quillEditorButtonsEmpty={'quillEditorButtonsEmpty'}
-									/>
-								}
-							</>
-							:
-							config.attendanceComment &&
-							<>
-								<div style={{ width: '100%', marginBottom: "1em" }}>
-									<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
-										{translate.comments}
-									</div>
-								</div>
-								<RichTextInput
-									errorText={state.commentError}
-									translate={translate}
-									value={
-										!!participant.assistanceComment
-											? participant.assistanceComment
-											: ""
-									}
-									placeholder={council.companyId !== AECOC_ID ? translate.attendance_comment : ''}
-									stylesQuill={{ background: "#f0f3f6" }}
-									onChange={value =>
-										setState({
-											...state,
-											participant: {
-												...state.participant,
-												assistanceComment: value
-											},
-											locked: false
-										})
-									}
-									quillEditorButtonsEmpty={'quillEditorButtonsEmpty'}
-								/>
-							</>
-						}
+React.useEffect(() => {
+if (selecteAssistance.includes(translate.representations_delegations)) {
+setSelecteAssistance(`${translate.representations_delegations} (${delegatedVotesNumber})`);
+}
+}, [delegatedVotesNumber]);
 
-					</div>
-					<div style={{ marginLeft: isMobile ? '0' : "5em", marginTop: isMobile ? '1em' : '0', display: "flex", alignItems: "flex-end" }}>
-						<div>
-							{council.confirmAssistance !== 0 &&
-								<BasicButton
-									text={(state.success || state.locked) ? translate.tooltip_sent : translate.send}
-									color={(state.locked || !check) ? 'grey' : primary}
-									floatRight={!isMobile}
-									success={state.success}
-									disabled={state.locked}
-									reset={resetButtonStates}
-									textStyle={{
-										color: "white",
-										fontWeight: "700"
-									}}
-									loading={state.loading}
-									onClick={!check? () => {
-										setCheckError(translate.accept_conditions_need);
-									} : sendButtonAction}
-									icon={<ButtonIcon type="save" color="white" />}
-								/>
-							}
-						</div>
-					</div>
-				</div>
-				<DelegateOwnVoteAttendantModal
-					show={state.delegationModal}
-					council={council}
-					participant={participant}
-					addRepresentative={selectDelegation}
-					requestClose={() => setState({ ...state, delegationModal: false })}
-					translate={translate}
-				/>
-				<VoteLetter
-					participant={participant}
-					delegation={state.delegateInfoUser}
-					setState={setState}
-					state={state}
-					council={council}
-					action={sendAttendanceIntention}
-					translate={translate}
-					open={openModalVoteLetter}
-					requestClose={() => setOpenModalVoteLetter(false)}
-				/>
-				<DelegationProxyModal
-					participant={participant}
-					delegation={state.delegateInfoUser}
-					council={council}
-					action={sendAttendanceIntention}
-					translate={translate}
-					open={openModalFirmasModal}
-					requestClose={() => setOpenModalFirmasModal(false)}
-				/>
-			</div>
-		)
-	}
 
-	/*
+if (council.active === 0) {
+return (
+<NotLoggedLayout
+translate={translate}
+helpIcon={true}
+languageSelector={true}
+>
+<div style={styles.mainContainer}>
+<Card style={styles.cardContainer}>
+<div
+style={{
+height: '100%',
+width: window.innerWidth * 0.95 > 680 ? '680px' : '95vw',
+maxWidth: '98vw',
+display: 'flex',
+alignItems: 'center',
+flexDirection: 'column'
+}}
+>
+<div style={{ width: '100%', marginTop: '5em', textAlign: 'center', marginBottom: '2em' }}>
+<img src={emptyMeetingTable} style={{ width: '55%', height: 'auto', margin: 'auto' }} alt="empty-table" />
+</div>
+<div style={{ fontWeight: '700', fontSize: '1.2em' }} >
+Lo sentimos, esta reunión ha sido eliminada.{/*TRADUCCION*/}
+</div>
+</div>
+</Card>
+</div>
+</NotLoggedLayout>
+)
+}
+
+
+const getReunionActual = () => {
+return (
+<div style={{}}>
+{state.invalidIntentioError && 
+<span style={{ color: 'red', fontSize: '16px', fontWeight: '700' }}>{translate.must_select_valid_option}</span>
+}
+<div style={{ marginTop: "2em" }}>
+{council.confirmAssistance !== 0 &&
+<React.Fragment>
+<AttendanceOptions
+translate={translate}
+refetch={refetch}
+setState={setState}
+showDelegationModal={showDelegation}
+state={state}
+participant={participant}
+council={council}
+/>
+</React.Fragment>
+}
+<br />
+</div>
+
+<div style={{ display: "flex", justifyContent: "space-between", flexDirection: isMobile ? 'column' : 'row' }}>
+<div style={{ width: "100%" }}>
+{council.companyId === AECOC_ID ?
+<>
+<AssistanceOption
+translate={translate}
+title={'Quiero delegar el voto en otro socio (indique razón social y nombre de la persona):'}
+select={() => {
+setState({
+...state,
+assistanceIntention: PARTICIPANT_STATES.NO_PARTICIPATE,
+locked: false,
+noAttendWarning: false,
+delegateId: null
+})
+}}
+value={PARTICIPANT_STATES.NO_PARTICIPATE}
+selected={state.assistanceIntention}
+/>
+{state.assistanceIntention === PARTICIPANT_STATES.NO_PARTICIPATE &&
+<RichTextInput
+errorText={state.commentError}
+translate={translate}
+value={
+!!participant.assistanceComment
+? participant.assistanceComment
+: ""
+}
+placeholder={council.companyId !== AECOC_ID ? translate.attendance_comment : ''}
+stylesQuill={{ background: "#f0f3f6" }}
+onChange={value =>
+setState({
+...state,
+participant: {
+...state.participant,
+assistanceComment: value
+},
+locked: false
+})
+}
+quillEditorButtonsEmpty={'quillEditorButtonsEmpty'}
+/>
+}
+</>
+:
+config.attendanceComment &&
+<>
+<div style={{ width: '100%', marginBottom: "1em" }}>
+<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
+{translate.comments}
+</div>
+</div>
+<RichTextInput
+errorText={state.commentError}
+translate={translate}
+value={
+!!participant.assistanceComment
+? participant.assistanceComment
+: ""
+}
+placeholder={council.companyId !== AECOC_ID ? translate.attendance_comment : ''}
+stylesQuill={{ background: "#f0f3f6" }}
+onChange={value =>
+setState({
+...state,
+participant: {
+...state.participant,
+assistanceComment: value
+},
+locked: false
+})
+}
+quillEditorButtonsEmpty={'quillEditorButtonsEmpty'}
+/>
+</>
+}
+
+</div>
+<div style={{ marginLeft: isMobile ? '0' : "5em", marginTop: isMobile ? '1em' : '0', display: "flex", alignItems: "flex-end" }}>
+<div>
+{council.confirmAssistance !== 0 &&
+<BasicButton
+text={(state.success || state.locked) ? translate.tooltip_sent : translate.send}
+color={(state.locked || !check) ? 'grey' : primary}
+floatRight={!isMobile}
+success={state.success}
+disabled={state.locked}
+reset={resetButtonStates}
+textStyle={{
+color: "white",
+fontWeight: "700"
+}}
+loading={state.loading}
+onClick={!check? () => {
+setCheckError(translate.accept_conditions_need);
+} : sendButtonAction}
+icon={<ButtonIcon type="save" color="white" />}
+/>
+}
+</div>
+</div>
+</div>
+<DelegateOwnVoteAttendantModal
+show={state.delegationModal}
+council={council}
+participant={participant}
+addRepresentative={selectDelegation}
+requestClose={() => setState({ ...state, delegationModal: false })}
+translate={translate}
+/>
+<VoteLetter
+participant={participant}
+delegation={state.delegateInfoUser}
+setState={setState}
+state={state}
+council={council}
+action={sendAttendanceIntention}
+translate={translate}
+open={openModalVoteLetter}
+requestClose={() => setOpenModalVoteLetter(false)}
+/>
+<DelegationProxyModal
+participant={participant}
+delegation={state.delegateInfoUser}
+council={council}
+action={sendAttendanceIntention}
+translate={translate}
+open={openModalFirmasModal}
+requestClose={() => setOpenModalFirmasModal(false)}
+/>
+</div>
+)
+}
+
+/*
 en las council type === 4 se generan los votos para todos como una sin sesión
 al crear una carta de voto se crea un proxy vote,
 al borrar una carta de voto se elimina el proxy vote
-	*/
+*/
 
 	const getVotosDelegados = () => {
 		//TRADUCCION

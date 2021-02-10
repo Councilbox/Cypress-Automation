@@ -16,31 +16,31 @@ const MeetingsContainer = ({ company, match, translate }) => {
 			text: translate.companies_draft,
 			link: `/company/${company.id}/meetings/drafts`,
 			component: () => (
-					<Meetings
-						company={company}
-						translate={translate}
-						state={[0]}
-						link={''}
-						title={translate.companies_draft}
-						desc={translate.companies_draft_desc}
-						icon={'pencil-square-o'}
-					/>
-				)
+				<Meetings
+					company={company}
+					translate={translate}
+					state={[0]}
+					link={''}
+					title={translate.companies_draft}
+					desc={translate.companies_draft_desc}
+					icon={'pencil-square-o'}
+				/>
+			)
 		},
 		{
 			text: translate.companies_live,
 			link: `/company/${company.id}/meetings/live`,
 			component: () => (
-					<Meetings
-						company={company}
-						translate={translate}
-						state={[20]}
-						link={'/live'}
-						title={translate.companies_live}
-						desc={translate.companies_live_desc}
-						icon={'users'}
-					/>
-				)
+				<Meetings
+					company={company}
+					translate={translate}
+					state={[20]}
+					link={'/live'}
+					title={translate.companies_live}
+					desc={translate.companies_live_desc}
+					icon={'users'}
+				/>
+			)
 		},
 		{
 			text: `${translate.dashboard_new_meeting}`,

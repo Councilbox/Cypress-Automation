@@ -2,7 +2,7 @@ import React from 'react';
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover';
 
 const PopMenu = ({
- anchorTo, open, requestClose, menu
+	anchorTo, open, requestClose, menu
 }) => (
 	<Popover
 		open={open}

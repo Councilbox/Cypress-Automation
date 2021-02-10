@@ -34,7 +34,7 @@ import { TAG_TYPES } from '../../company/drafts/draftTags/utils';
 
 
 const StepNotice = ({
- data, translate, company, ...props
+	data, translate, company, ...props
 }) => {
 	const [council, setCouncil] = React.useState({});
 	const [placeModal, setPlaceModal] = React.useState(false);
@@ -212,17 +212,17 @@ const StepNotice = ({
 		) {
 			newErrors.conveneText = translate.field_required;
 		} else if (CBX.checkForUnclosedBraces(council.conveneText)) {
-				newErrors.conveneText = translate.revise_text;
-				toast(
-					<LiveToast
-						message={translate.revise_text}
-					/>, {
+			newErrors.conveneText = translate.revise_text;
+			toast(
+				<LiveToast
+					message={translate.revise_text}
+				/>, {
 					position: toast.POSITION.TOP_RIGHT,
 					autoClose: true,
 					className: 'errorToast'
 				}
-				);
-			}
+			);
+		}
 
 		const hasError = Object.keys(newErrors).length > 0;
 
@@ -329,8 +329,8 @@ const StepNotice = ({
 
 			const name = council.name.replace(new RegExp(`${translate[oldTitle] ?
 				translate[oldTitle] : oldTitle}`),
-				translate[response.data.changeCouncilStatute.title] ?
-					translate[response.data.changeCouncilStatute.title] : response.data.changeCouncilStatute.title);
+			translate[response.data.changeCouncilStatute.title] ?
+				translate[response.data.changeCouncilStatute.title] : response.data.changeCouncilStatute.title);
 			updateState({
 				name
 			});
@@ -381,16 +381,16 @@ const StepNotice = ({
 	}
 
 	tags = [...tags,
-	{
-		value: company.businessName,
-		label: translate.business_name
-	},
-	{
-		value: council.remoteCelebration === 1 ? translate.remote_celebration : `${council.street}, ${
-			council.country
+		{
+			value: company.businessName,
+			label: translate.business_name
+		},
+		{
+			value: council.remoteCelebration === 1 ? translate.remote_celebration : `${council.street}, ${
+				council.country
 			}`,
-		label: translate.new_location_of_celebrate
-	}
+			label: translate.new_location_of_celebrate
+		}
 	];
 
 	if (council.remoteCelebration !== 1) {
@@ -441,14 +441,14 @@ const StepNotice = ({
 										}
 									>
 										{companyStatutes.map(mappedStatute => (
-												<MenuItem
-													value={mappedStatute.id}
-													key={`statutes_${mappedStatute.id}`}
-												>
-													{translate[mappedStatute.title]
+											<MenuItem
+												value={mappedStatute.id}
+												key={`statutes_${mappedStatute.id}`}
+											>
+												{translate[mappedStatute.title]
 														|| mappedStatute.title}
-												</MenuItem>
-											))}
+											</MenuItem>
+										))}
 									</SelectInput>
 									<div onClick={showStatuteDetailsModal} style={{ cursor: 'pointer', color: secondary }}>
 										{translate.read_details}
@@ -536,8 +536,8 @@ const StepNotice = ({
 										errorText={errors.name}
 										value={council.name || ''}
 										onChange={event => updateState({
-												name: event.nativeEvent.target.value
-											})
+											name: event.nativeEvent.target.value
+										})
 										}
 									/>
 								</GridItem>
@@ -570,8 +570,8 @@ const StepNotice = ({
 										floatingText={translate.convene_info}
 										value={council.conveneText || ''}
 										onChange={value => updateState({
-												conveneText: value
-											})
+											conveneText: value
+										})
 										}
 									/>
 								</GridItem>
@@ -606,8 +606,8 @@ const StepNotice = ({
 										floatingText={translate.convene_footer}
 										value={council.conveneFooter || ''}
 										onChange={value => updateState({
-												conveneFooter: value
-											})
+											conveneFooter: value
+										})
 										}
 									/>
 								</GridItem>

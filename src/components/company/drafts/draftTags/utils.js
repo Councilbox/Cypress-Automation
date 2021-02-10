@@ -3,11 +3,11 @@ import * as CBX from '../../../../utils/CBX';
 import Tag from './Tag';
 
 export const TAG_TYPES = {
-    COMPANY_TYPE: 0,
-    STATUTE: 1,
-    GOVERNING_BODY: 2,
-    DRAFT_TYPE: 3,
-    CUSTOM: 99
+	COMPANY_TYPE: 0,
+	STATUTE: 1,
+	GOVERNING_BODY: 2,
+	DRAFT_TYPE: 3,
+	CUSTOM: 99
 };
 
 export const getTagColor = type => {
@@ -40,41 +40,41 @@ export const createTag = (data, type, translate) => {
 		}),
 		3: () => {
 			const {
- votingTypes, majorityTypes, addTag, ...draft
-} = data;
+				votingTypes, majorityTypes, addTag, ...draft
+			} = data;
 			return ({
 				name: draft.label,
 				label: translate[draft.label],
 				type,
 				childs: (draft.label === 'agenda' && votingTypes) ?
 					CBX.filterAgendaVotingTypes(votingTypes).map(votingType => (
-							<Tag
-								childs={CBX.hasVotation(votingType.value) ?
-									majorityTypes.map(majority => (
-												<Tag
-													key={`tag_${majority.value}`}
-													text={translate[majority.label]}
-													color={getTagColor(type)}
-													action={() => addTag({
-														name: draft.label,
-														segments: [draft.label, votingType.label, majority.label],
-														label: translate[majority.label],
-														type,
-													})}
-												/>
-											)) : null}
-								text={translate[votingType.label]}
-								color={getTagColor(type)}
-								action={() => addTag({
-									name: draft.label,
-									segments: [draft.label, votingType.label],
-									label: translate[votingType.label],
-									type,
-								})}
-								key={`tag_${votingType.value}`}
-							/>
-						))
-				: null
+						<Tag
+							childs={CBX.hasVotation(votingType.value) ?
+								majorityTypes.map(majority => (
+									<Tag
+										key={`tag_${majority.value}`}
+										text={translate[majority.label]}
+										color={getTagColor(type)}
+										action={() => addTag({
+											name: draft.label,
+											segments: [draft.label, votingType.label, majority.label],
+											label: translate[majority.label],
+											type,
+										})}
+									/>
+								)) : null}
+							text={translate[votingType.label]}
+							color={getTagColor(type)}
+							action={() => addTag({
+								name: draft.label,
+								segments: [draft.label, votingType.label],
+								label: translate[votingType.label],
+								type,
+							})}
+							key={`tag_${votingType.value}`}
+						/>
+					))
+					: null
 			});
 		}
 	};

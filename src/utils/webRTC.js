@@ -10,8 +10,8 @@ export const checkIsUnsupportedWindowsVersion = detectRTC => {
 
 	if (
 		detectRTC.osName.indexOf('Windows') !== -1
-		&& (detectRTC.osVersion.indexOf('Vista') !== -1
-			|| detectRTC.osVersion.indexOf('XP') !== -1)
+&& (detectRTC.osVersion.indexOf('Vista') !== -1
+|| detectRTC.osVersion.indexOf('XP') !== -1)
 	) {
 		isUnsupportedWindowsVersion = true;
 	}

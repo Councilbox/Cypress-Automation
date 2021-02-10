@@ -7,93 +7,93 @@ import { bHistory } from '../../../../containers/App';
 import { isMobile } from '../../../../utils/screen';
 
 class EndCouncilButton extends React.Component {
-	state = {
-		confirmModal: false
-	};
+state = {
+	confirmModal: false
+};
 
-	endCouncil = async () => {
-		const { council } = this.props;
-		const response = await this.props.endCouncil({
-			variables: {
-				councilId: council.id
-			}
-		});
-		if (!response.errors) {
-			bHistory.push(
-				`/company/${council.companyId}/council/${
-				council.id
-				}/finished`
-			);
+endCouncil = async () => {
+	const { council } = this.props;
+	const response = await this.props.endCouncil({
+		variables: {
+			councilId: council.id
 		}
-	};
-
-	render() {
-		const { translate } = this.props;
-		const unclosed = this.props.unclosedAgendas;
-		const primary = getPrimary();
-		const secondary = getSecondary();
-
-		return (
-			<React.Fragment>
-				<div>
-					<BasicButton
-						text={translate.finish_council}
-						id={'finalizarReunionEnReunion'}
-						color={unclosed.length === 0 ? primary : secondary}
-						onClick={() => this.setState({ confirmModal: true })}
-						textPosition="before"
-						icon={
-							<Icon
-								className="material-icons"
-								style={{
-									fontSize: '1.1em',
-									color: 'white'
-								}}
-							>
-								play_arrow
-							</Icon>
-						}
-						buttonStyle={{ minWidth: isMobile ? '' : '13em' }}
-						textStyle={{
-							color: 'white',
-							fontSize: '0.75em',
-							fontWeight: '700',
-							textTransform: 'none'
-						}}
-					/>
-				</div>
-				<AlertConfirm
-					title={translate.finish_council}
-					bodyText={
-						<React.Fragment>
-							{unclosed.length > 0 ? (
-								<React.Fragment>
-									<div>{translate.unclosed_points_desc}</div>
-									<ul>
-										{unclosed.map(agenda => (
-												<li
-													key={`unclosed${agenda.id}`}
-												>
-													{agenda.agendaSubject}
-												</li>
-											))}
-									</ul>
-								</React.Fragment>
-							) : (
-								<div>{translate.council_will_be_end}</div>
-							)}
-						</React.Fragment>
-					}
-					open={this.state.confirmModal}
-					buttonAccept={translate.accept}
-					buttonCancel={translate.cancel}
-					modal={true}
-					acceptAction={this.endCouncil}
-					requestClose={() => this.setState({ confirmModal: false })}
-				/>
-			</React.Fragment>
+	});
+	if (!response.errors) {
+		bHistory.push(
+			`/company/${council.companyId}/council/${
+				council.id
+			}/finished`
 		);
 	}
+};
+
+render() {
+	const { translate } = this.props;
+	const unclosed = this.props.unclosedAgendas;
+	const primary = getPrimary();
+	const secondary = getSecondary();
+
+	return (
+		<React.Fragment>
+			<div>
+				<BasicButton
+					text={translate.finish_council}
+					id={'finalizarReunionEnReunion'}
+					color={unclosed.length === 0 ? primary : secondary}
+					onClick={() => this.setState({ confirmModal: true })}
+					textPosition="before"
+					icon={
+						<Icon
+							className="material-icons"
+							style={{
+								fontSize: '1.1em',
+								color: 'white'
+							}}
+						>
+play_arrow
+						</Icon>
+					}
+					buttonStyle={{ minWidth: isMobile ? '' : '13em' }}
+					textStyle={{
+						color: 'white',
+						fontSize: '0.75em',
+						fontWeight: '700',
+						textTransform: 'none'
+					}}
+				/>
+			</div>
+			<AlertConfirm
+				title={translate.finish_council}
+				bodyText={
+					<React.Fragment>
+						{unclosed.length > 0 ? (
+							<React.Fragment>
+								<div>{translate.unclosed_points_desc}</div>
+								<ul>
+									{unclosed.map(agenda => (
+										<li
+											key={`unclosed${agenda.id}`}
+										>
+											{agenda.agendaSubject}
+										</li>
+									))}
+								</ul>
+							</React.Fragment>
+						) : (
+							<div>{translate.council_will_be_end}</div>
+						)}
+					</React.Fragment>
+				}
+				open={this.state.confirmModal}
+				buttonAccept={translate.accept}
+				buttonCancel={translate.cancel}
+				modal={true}
+				acceptAction={this.endCouncil}
+				requestClose={() => this.setState({ confirmModal: false })}
+			/>
+		</React.Fragment>
+	);
+}
 }
 
 export default graphql(endCouncil, {

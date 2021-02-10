@@ -144,8 +144,8 @@ const CompanyDraftNew = ({ translate, ...props }) => {
 		<CardPageLayout title={translate.new_draft} disableScroll={true}>
 			<div style={{ height: 'calc( 100% - 5em )' }}>
 				<div style={{
- marginTop: '1.8em', height: '100%', overflow: 'hidden', padding: '0px 25px'
-}}>
+					marginTop: '1.8em', height: '100%', overflow: 'hidden', padding: '0px 25px'
+				}}>
 					<CompanyDraftForm
 						draft={state.draft}
 						errors={errors}

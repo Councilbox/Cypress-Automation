@@ -30,7 +30,7 @@ class ParticipantPage extends Component {
 					allowFullScreen={true}
 					style={{ border: 'none !important' }}
 				>
-					Something wrong...
+Something wrong...
 				</iframe>
 			</div>
 		);

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
- MenuItem, Icon, Card, CardActions
+	MenuItem, Icon, Card, CardActions
 } from 'material-ui';
 import { compose, graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -73,8 +73,8 @@ const companyUsersQuery = gql`
 `;
 
 const linkCompanyUsers = gql`
-    mutation linkCompanyUsers($companyTin: String!, $usersIds: [Int]){
-			linkCompanyUsers(companyTin: $companyTin, usersIds: $usersIds){
+	mutation linkCompanyUsers($companyTin: String!, $usersIds: [Int]){
+		linkCompanyUsers(companyTin: $companyTin, usersIds: $usersIds){
 			success
 			message
 		}
@@ -102,7 +102,7 @@ export const getActivationText = (value, translate) => {
 };
 
 const CompanySettingsPage = ({
- company, client, translate, ...props
+	company, client, translate, ...props
 }) => {
 	const [countryInput, setCountryInput] = React.useState(false);
 	const [provinces, setProvinces] = React.useState([]);
@@ -281,10 +281,10 @@ const CompanySettingsPage = ({
 					<LiveToast
 						message={translate.changes_saved}
 					/>, {
-					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,
-					className: 'successToast'
-				}
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,
+						className: 'successToast'
+					}
 				);
 				if (!props.organization) {
 					store.dispatch(setCompany(response.data.updateCompany));
@@ -309,10 +309,10 @@ const CompanySettingsPage = ({
 					<LiveToast
 						message={translate.company_link_unliked_title}
 					/>, {
-					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,
-					className: 'successToast'
-				}
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,
+						className: 'successToast'
+					}
 				);
 				bHistory.back();
 			}
@@ -320,8 +320,8 @@ const CompanySettingsPage = ({
 	};
 
 	const {
- data, errors, success, request
-} = state;
+		data, errors, success, request
+	} = state;
 	const updateError = state.error;
 	const { loading } = props.info;
 
@@ -332,8 +332,8 @@ const CompanySettingsPage = ({
 	return (
 		<CardPageLayout title={translate.company_settings}>
 			<div style={{
- width: '100%', height: '100%', padding: '1.5em', paddingBottom: isMobile ? '3em' : '6em'
-}}>
+				width: '100%', height: '100%', padding: '1.5em', paddingBottom: isMobile ? '3em' : '6em'
+			}}>
 				<SectionTitle
 					text={translate.fiscal_data}
 					color={primary}
@@ -375,7 +375,7 @@ const CompanySettingsPage = ({
 											>
 												{
 													translate[
-													companyType.label
+														companyType.label
 													]
 												}
 											</MenuItem>
@@ -427,30 +427,30 @@ const CompanySettingsPage = ({
 								/>
 							</GridItem>
 							{props.root
-								&& <>
-									<GridItem xs={12} md={6} lg={4}>
-										<TextInput
-											floatingText={'Saldo'}
-											type="text"
-											value={data.balance || ''}
-											onChange={event => updateState({
-												balance: event.target.value
-											})
-											}
-										/>
-									</GridItem>
-									<GridItem xs={12} md={6} lg={4}>
-										<TextInput
-											floatingText={'Código cliente'}
-											type="text"
-											value={data.customerCode || ''}
-											onChange={event => updateState({
-												customerCode: event.target.value
-											})
-											}
-										/>
-									</GridItem>
-								</>
+&& <>
+	<GridItem xs={12} md={6} lg={4}>
+		<TextInput
+			floatingText={'Saldo'}
+			type="text"
+			value={data.balance || ''}
+			onChange={event => updateState({
+				balance: event.target.value
+			})
+			}
+		/>
+	</GridItem>
+	<GridItem xs={12} md={6} lg={4}>
+		<TextInput
+			floatingText={'Código cliente'}
+			type="text"
+			value={data.customerCode || ''}
+			onChange={event => updateState({
+				customerCode: event.target.value
+			})
+			}
+		/>
+	</GridItem>
+</>
 							}
 							<GridItem xs={12} md={6} lg={4}>
 								<TextInput
@@ -547,41 +547,41 @@ const CompanySettingsPage = ({
 					<React.Fragment>
 						<GridItem xs={12} md={6} lg={3}>
 							{data.country
-								&& <SelectInput
-									floatingText={translate.company_new_country}
-									value={countryInput ? 'otro' : data.country}
-									onChange={handleCountryChange}
-									errorText={errors.country}
-								>
-									{props.info.countries.map(country => (
-										<MenuItem
-											key={country.deno}
-											value={country.deno}
-										>
-											{country.deno}
-										</MenuItem>
-									))}
-									<MenuItem
-										key={'otro'}
-										value={'otro'}
-									>
-										{translate.other}
-									</MenuItem>
-								</SelectInput>
+&& <SelectInput
+	floatingText={translate.company_new_country}
+	value={countryInput ? 'otro' : data.country}
+	onChange={handleCountryChange}
+	errorText={errors.country}
+>
+	{props.info.countries.map(country => (
+		<MenuItem
+			key={country.deno}
+			value={country.deno}
+		>
+			{country.deno}
+		</MenuItem>
+	))}
+	<MenuItem
+		key={'otro'}
+		value={'otro'}
+	>
+		{translate.other}
+	</MenuItem>
+</SelectInput>
 							}
 						</GridItem>
 						{countryInput
-							&& <GridItem xs={12} md={6} lg={3}>
-								<TextInput
-									floatingText={translate.company_new_country}
-									value={data.country}
-									errorText={errors.country}
-									onChange={event => updateState({
-										country: event.target.value
-									})
-									}
-								/>
-							</GridItem>
+&& <GridItem xs={12} md={6} lg={3}>
+	<TextInput
+		floatingText={translate.company_new_country}
+		value={data.country}
+		errorText={errors.country}
+		onChange={event => updateState({
+			country: event.target.value
+		})
+		}
+	/>
+</GridItem>
 						}
 						<GridItem xs={12} md={6} lg={3}>
 							{provinces.length === 0 ?
@@ -595,15 +595,15 @@ const CompanySettingsPage = ({
 									}
 								/>
 								:	<SelectInput
-										id={'addSociedadProvincia'}
-										floatingText={translate.company_new_country_state}
-										value={data.countryState}
-										errorText={errors.countryState}
-										onChange={event => updateState({
-											countryState: event.target.value
-										})
-										}
-									>
+									id={'addSociedadProvincia'}
+									floatingText={translate.company_new_country_state}
+									value={data.countryState}
+									errorText={errors.countryState}
+									onChange={event => updateState({
+										countryState: event.target.value
+									})
+									}
+								>
 									{provinces.map(province => (
 										<MenuItem
 											className={'addSociedadProvinciaOptions'}
@@ -642,47 +642,47 @@ const CompanySettingsPage = ({
 							errorText={errors.language}
 						>
 							{props.info.languages
-								&& props.info.languages.map(language => (
-									<MenuItem
-										key={`language_${language.columnName}`}
-										value={language.columnName}
-									>
-										{language.desc}
-									</MenuItem>
-								))}
+&& props.info.languages.map(language => (
+	<MenuItem
+		key={`language_${language.columnName}`}
+		value={language.columnName}
+	>
+		{language.desc}
+	</MenuItem>
+))}
 						</SelectInput>
 					</GridItem>
 					{props.root
-						&& <GridItem xs={12} md={6} lg={3}>
-							<SelectInput
-								floatingText={'Categoría'}
-								value={data.category}
-								onChange={event => updateState({
-									category: event.target.value
-								})
-								}
-								errorText={errors.language}
-							>
-								<MenuItem value="society">
-									Sociedad
-								</MenuItem>
-								<MenuItem value="realEstate">
-									Administración de fincas
-								</MenuItem>
-							</SelectInput>
-						</GridItem>
+&& <GridItem xs={12} md={6} lg={3}>
+	<SelectInput
+		floatingText={'Categoría'}
+		value={data.category}
+		onChange={event => updateState({
+			category: event.target.value
+		})
+		}
+		errorText={errors.language}
+	>
+		<MenuItem value="society">
+Sociedad
+		</MenuItem>
+		<MenuItem value="realEstate">
+Administración de fincas
+		</MenuItem>
+	</SelectInput>
+</GridItem>
 					}
 					{props.root
-						&& <GridItem xs={12} md={12} lg={12}>
-							<TablaUsuarios
-								translate={translate}
-								client={client}
-								companyId={company.id}
-								companyTin={company.tin}
-								corporationId={company.corporationId}
-								unlinkCompany={props.unlinkCompany}
-							/>
-						</GridItem>
+&& <GridItem xs={12} md={12} lg={12}>
+	<TablaUsuarios
+		translate={translate}
+		client={client}
+		companyId={company.id}
+		companyTin={company.tin}
+		corporationId={company.corporationId}
+		unlinkCompany={props.unlinkCompany}
+	/>
+</GridItem>
 					}
 				</Grid>
 				<br />
@@ -704,60 +704,60 @@ const CompanySettingsPage = ({
 						icon={<ButtonIcon type="save" color="white" />}
 					/>
 					{company.corporationId !== 1
-						&& <BasicButton
-							text={'Añadir administrador'}
-							color={primary}
-							floatRight
-							textStyle={{
-								color: 'white',
-								fontWeight: '700'
-							}}
-							buttonStyle={{ marginRight: '1.2em' }}
-							onClick={() => setState({
-								...state,
-								addAdminModal: true
-							})
-							}
-						/>
+&& <BasicButton
+	text={'Añadir administrador'}
+	color={primary}
+	floatRight
+	textStyle={{
+		color: 'white',
+		fontWeight: '700'
+	}}
+	buttonStyle={{ marginRight: '1.2em' }}
+	onClick={() => setState({
+		...state,
+		addAdminModal: true
+	})
+	}
+/>
 					}
 					{props.linkButton
-						&& <BasicButton
-							text={translate.unlink}
-							color={primary}
-							floatRight
-							textStyle={{
-								color: 'white',
-								fontWeight: '700'
-							}}
-							buttonStyle={{ marginRight: '1.2em' }}
-							onClick={() => setState({
-								...state,
-								unlinkModal: true
-							})
-							}
-							icon={<ButtonIcon type="link_off" color="white" />}
-						/>
+&& <BasicButton
+	text={translate.unlink}
+	color={primary}
+	floatRight
+	textStyle={{
+		color: 'white',
+		fontWeight: '700'
+	}}
+	buttonStyle={{ marginRight: '1.2em' }}
+	onClick={() => setState({
+		...state,
+		unlinkModal: true
+	})
+	}
+	icon={<ButtonIcon type="link_off" color="white" />}
+/>
 					}
 
 					{props.confirmCompany
-						&& <ConfirmCompanyButton
-							translate={translate}
-							company={company}
-							refetch={props.refetch}
-						/>
+&& <ConfirmCompanyButton
+	translate={translate}
+	company={company}
+	refetch={props.refetch}
+/>
 					}
 					{props.root
-						&& <DeleteCompanyButton
-							translate={translate}
-							company={company}
-						/>
+&& <DeleteCompanyButton
+	translate={translate}
+	company={company}
+/>
 					}
 					{
 						props.root
-						&& <CompanyVideoConfig
-							company={company}
-							translate={translate}
-						/>
+&& <CompanyVideoConfig
+	company={company}
+	translate={translate}
+/>
 
 					}
 				</div>
@@ -792,7 +792,7 @@ const CompanySettingsPage = ({
 };
 
 const TablaUsuarios = ({
- translate, client, companyId, corporationId, companyTin
+	translate, client, companyId, corporationId, companyTin
 }) => {
 	const [users, setUsers] = React.useState(false);
 	const [usersPage, setUsersPage] = React.useState(1);
@@ -854,8 +854,8 @@ const TablaUsuarios = ({
 					<div style={{ padding: '0.5em', display: 'flex', alignItems: 'center' }}>
 						<BasicButton
 							buttonStyle={{
- boxShadow: 'none', marginRight: '1em', borderRadius: '4px', border: `1px solid ${primary}`, padding: '0.2em 0.4em', marginTop: '5px', color: primary,
-}}
+								boxShadow: 'none', marginRight: '1em', borderRadius: '4px', border: `1px solid ${primary}`, padding: '0.2em 0.4em', marginTop: '5px', color: primary,
+							}}
 							backgroundColor={{ backgroundColor: 'white' }}
 							text={translate.add}
 							// Falta añadir usuarios
@@ -868,8 +868,8 @@ const TablaUsuarios = ({
 						<TextInput
 							className={isMobile && !inputSearch ? 'openInput' : ''}
 							styleInInput={{
- fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', padding: isMobile && inputSearch && '4px 5px', paddingLeft: !isMobile && '5px'
-}}
+								fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', padding: isMobile && inputSearch && '4px 5px', paddingLeft: !isMobile && '5px'
+							}}
 							stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: isMobile && inputSearch ? '8px' : '4px' }}
 							adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
 							placeholder={isMobile ? '' : translate.search}
@@ -906,70 +906,70 @@ const TablaUsuarios = ({
 					<Scrollbar>
 						<Grid style={{ padding: '1em', height: '100%' }}>
 							{users
-								&& users.map(item => (
-									<Card style={{ marginBottom: '0.5em', padding: '1em' }} key={item.id}>
-										<Grid>
-											<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
-												{translate.state}
-											</GridItem>
-											<GridItem xs={8} md={8} lg={8} style={{
-												whiteSpace: 'nowrap',
-												overflow: 'hidden',
-												textOverflow: 'ellipsis'
-											}}>
-												{getActivationText(item.actived, translate)}
-											</GridItem>
-											<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
-												{translate.name}
-											</GridItem>
-											<GridItem xs={8} md={8} lg={8} style={{
-												whiteSpace: 'nowrap',
-												overflow: 'hidden',
-												textOverflow: 'ellipsis'
-											}}>
-												{`${item.name} ${item.surname}` || ''}
-											</GridItem>
-											<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
-												{translate.email}
-											</GridItem>
-											<GridItem xs={8} md={8} lg={8} style={{
-												whiteSpace: 'nowrap',
-												overflow: 'hidden',
-												textOverflow: 'ellipsis'
-											}}>
-												{item.email}
-											</GridItem>
-											<GridItem xs={4} md={4} lg={4} style={{
-												fontWeight: '700',
-												whiteSpace: 'nowrap',
-												overflow: 'hidden',
-												textOverflow: 'ellipsis'
-											}}>
-												Últ.Conexión
-												</GridItem>
-											<GridItem xs={8} md={8} lg={8} style={{
-												whiteSpace: 'nowrap',
-												overflow: 'hidden',
-												textOverflow: 'ellipsis'
-											}}>
-												{moment(item.lastConnectionDate).format('LLL')}
-											</GridItem>
-										</Grid>
-										<CardActions>
-											<BasicButton
-												text={translate.unlink}
-												color={'white'}
-												textStyle={{
-													color: primary,
-													marginRight: '1em',
-													boxShadow: 'none',
-													padding: '0px'
-												}}
-												onClick={() => unlinkId(item.id)}
-											/>
-										</CardActions>
-									</Card>
-								))}
+&& users.map(item => (
+	<Card style={{ marginBottom: '0.5em', padding: '1em' }} key={item.id}>
+		<Grid>
+			<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+				{translate.state}
+			</GridItem>
+			<GridItem xs={8} md={8} lg={8} style={{
+				whiteSpace: 'nowrap',
+				overflow: 'hidden',
+				textOverflow: 'ellipsis'
+			}}>
+				{getActivationText(item.actived, translate)}
+			</GridItem>
+			<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+				{translate.name}
+			</GridItem>
+			<GridItem xs={8} md={8} lg={8} style={{
+				whiteSpace: 'nowrap',
+				overflow: 'hidden',
+				textOverflow: 'ellipsis'
+			}}>
+				{`${item.name} ${item.surname}` || ''}
+			</GridItem>
+			<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+				{translate.email}
+			</GridItem>
+			<GridItem xs={8} md={8} lg={8} style={{
+				whiteSpace: 'nowrap',
+				overflow: 'hidden',
+				textOverflow: 'ellipsis'
+			}}>
+				{item.email}
+			</GridItem>
+			<GridItem xs={4} md={4} lg={4} style={{
+				fontWeight: '700',
+				whiteSpace: 'nowrap',
+				overflow: 'hidden',
+				textOverflow: 'ellipsis'
+			}}>
+Últ.Conexión
+			</GridItem>
+			<GridItem xs={8} md={8} lg={8} style={{
+				whiteSpace: 'nowrap',
+				overflow: 'hidden',
+				textOverflow: 'ellipsis'
+			}}>
+				{moment(item.lastConnectionDate).format('LLL')}
+			</GridItem>
+		</Grid>
+		<CardActions>
+			<BasicButton
+				text={translate.unlink}
+				color={'white'}
+				textStyle={{
+					color: primary,
+					marginRight: '1em',
+					boxShadow: 'none',
+					padding: '0px'
+				}}
+				onClick={() => unlinkId(item.id)}
+			/>
+		</CardActions>
+	</Card>
+))}
 							<AlertConfirm
 								requestClose={() => setUnlink(false)}
 								open={unlink}
@@ -1005,8 +1005,8 @@ const TablaUsuarios = ({
 				<div style={{ padding: '0.5em', display: 'flex', alignItems: 'center' }}>
 					<BasicButton
 						buttonStyle={{
- boxShadow: 'none', marginRight: '1em', borderRadius: '4px', border: `1px solid ${primary}`, padding: '0.2em 0.4em', marginTop: '5px', color: primary,
-}}
+							boxShadow: 'none', marginRight: '1em', borderRadius: '4px', border: `1px solid ${primary}`, padding: '0.2em 0.4em', marginTop: '5px', color: primary,
+						}}
 						backgroundColor={{ backgroundColor: 'white' }}
 						text={translate.add}
 						// Falta añadir usuarios
@@ -1019,13 +1019,13 @@ const TablaUsuarios = ({
 					<TextInput
 						placeholder={translate.search}
 						adornment={<Icon style={{
- background: '#f0f3f6', paddingLeft: '5px', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'
-}}>search</Icon>}
+							background: '#f0f3f6', paddingLeft: '5px', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'
+						}}>search</Icon>}
 						type="text"
 						value={state.filterTextUsuarios || ''}
 						styleInInput={{
- fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px'
-}}
+							fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px'
+						}}
 						disableUnderline={true}
 						stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px' }}
 						onChange={event => {
@@ -1058,70 +1058,70 @@ const TablaUsuarios = ({
 				<div style={{ fontSize: '13px' }}>
 					<div style={{ display: 'flex', justifyContent: 'space-between', padding: isMobile ? '0' : '1em', }}>
 						<div style={{
- color: getPrimary(), fontWeight: 'bold', width: 'calc( 100% / 5 )', textAlign: 'left'
-}}>
+							color: getPrimary(), fontWeight: 'bold', width: 'calc( 100% / 5 )', textAlign: 'left'
+						}}>
 							{translate.state}
 						</div>
 						<div style={{
- color: getPrimary(), fontWeight: 'bold', width: 'calc( 100% / 5 )', textAlign: 'left'
-}}>
+							color: getPrimary(), fontWeight: 'bold', width: 'calc( 100% / 5 )', textAlign: 'left'
+						}}>
 							{translate.name}
 						</div>
 						<div style={{
- color: getPrimary(), fontWeight: 'bold', overflow: 'hidden', width: 'calc( 100% / 5 )', textAlign: 'left'
-}}>
+							color: getPrimary(), fontWeight: 'bold', overflow: 'hidden', width: 'calc( 100% / 5 )', textAlign: 'left'
+						}}>
 							{translate.email}
 						</div>
 						<div style={{
- color: getPrimary(), fontWeight: 'bold', overflow: 'hidden', width: 'calc( 100% / 5 )', textAlign: 'left'
-}}>
-							Últ.Conexión
-							</div>
+							color: getPrimary(), fontWeight: 'bold', overflow: 'hidden', width: 'calc( 100% / 5 )', textAlign: 'left'
+						}}>
+Últ.Conexión
+						</div>
 						<div style={{
- color: getPrimary(), fontWeight: 'bold', overflow: 'hidden', width: 'calc( 100% / 5 )', textAlign: 'left'
-}}>
+							color: getPrimary(), fontWeight: 'bold', overflow: 'hidden', width: 'calc( 100% / 5 )', textAlign: 'left'
+						}}>
 
 						</div>
 					</div>
 					<div style={{ height: '300px' }}>
 						<Scrollbar>
 							{users
-								&& users.map(item => (
-									<div
-										key={item.id}
-										style={{
-											display: 'flex',
-											justifyContent: 'space-between',
-											padding: '1em',
-											alignItems: 'center'
-										}}>
-										<Cell text={getActivationText(item.actived, translate)} />
-										<Cell text={`${item.name} ${item.surname}` || ''} />
-										<Cell text={item.email} />
-										<Cell text={item.lastConnectionDate && moment(item.lastConnectionDate).format('LLL')} />
-										<Cell
-											styles={{ padding: '3px' }}
-											text={
-												<BasicButton
-													text={translate.unlink}
-													color={'white'}
-													textStyle={{
-														color: primary,
-														background: 'white',
-														borderRadius: '4px',
-														boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)',
-														display: 'flex',
-														alignItems: 'center',
-														justifyContent: 'center',
-														padding: '0.3em',
-														marginRight: '1em',
-														width: '100px'
-													}}
-													onClick={() => unlinkId(item.id)}
-												/>
-											} />
-									</div>
-								))}
+&& users.map(item => (
+	<div
+		key={item.id}
+		style={{
+			display: 'flex',
+			justifyContent: 'space-between',
+			padding: '1em',
+			alignItems: 'center'
+		}}>
+		<Cell text={getActivationText(item.actived, translate)} />
+		<Cell text={`${item.name} ${item.surname}` || ''} />
+		<Cell text={item.email} />
+		<Cell text={item.lastConnectionDate && moment(item.lastConnectionDate).format('LLL')} />
+		<Cell
+			styles={{ padding: '3px' }}
+			text={
+				<BasicButton
+					text={translate.unlink}
+					color={'white'}
+					textStyle={{
+						color: primary,
+						background: 'white',
+						borderRadius: '4px',
+						boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)',
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center',
+						padding: '0.3em',
+						marginRight: '1em',
+						width: '100px'
+					}}
+					onClick={() => unlinkId(item.id)}
+				/>
+			} />
+	</div>
+))}
 						</Scrollbar>
 					</div>
 					<AlertConfirm
@@ -1154,7 +1154,7 @@ const TablaUsuarios = ({
 };
 
 const TablaUsuariosAdmin = ({
- translate, client, corporationId, companyId, usersCompany, getUsersCompany, closeModal
+	translate, client, corporationId, companyId, usersCompany, getUsersCompany, closeModal
 }) => {
 	const [users, setUsers] = React.useState(false);
 	const [usersPage, setUsersPage] = React.useState(1);
@@ -1233,13 +1233,13 @@ const TablaUsuariosAdmin = ({
 						<TextInput
 							placeholder={translate.search}
 							adornment={<Icon style={{
- background: '#f0f3f6', paddingLeft: '5px', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'
-}}>search</Icon>}
+								background: '#f0f3f6', paddingLeft: '5px', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'
+							}}>search</Icon>}
 							type="text"
 							value={state.filterTextUsuarios || ''}
 							styleInInput={{
- fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px'
-}}
+								fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px'
+							}}
 							disableUnderline={true}
 							stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px' }}
 							onChange={event => {
@@ -1255,67 +1255,67 @@ const TablaUsuariosAdmin = ({
 					<Scrollbar>
 						<Grid style={{ padding: '1em', height: '100%' }}>
 							{users
-								&& users.map(item => (
-									<Card style={{ marginBottom: '0.5em', padding: '1em' }} key={item.id}>
-										<Grid style={{ position: 'relative' }}>
-											<div style={{
- display: 'flex', justifyContent: 'flex-end', position: 'absolute', right: '-18px', top: '-14px'
-}}>
-												<Checkbox
-													value={isChecked(item.id)}
-													onChange={(event, isInputChecked) => {
-														checkUser(item, isInputChecked);
-													}}
-												/>
-											</div>
-											<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
-												{translate.state}
-											</GridItem>
-											<GridItem xs={8} md={8} lg={8} style={{
-												whiteSpace: 'nowrap',
-												overflow: 'hidden',
-												textOverflow: 'ellipsis'
-											}}>
-												{getActivationText(item.actived, translate)}
-											</GridItem>
-											<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
-												{translate.name}
-											</GridItem>
-											<GridItem xs={8} md={8} lg={8} style={{
-												whiteSpace: 'nowrap',
-												overflow: 'hidden',
-												textOverflow: 'ellipsis'
-											}}>
-												{`${item.name} ${item.surname}` || ''}
-											</GridItem>
-											<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
-												{translate.email}
-											</GridItem>
-											<GridItem xs={8} md={8} lg={8} style={{
-												whiteSpace: 'nowrap',
-												overflow: 'hidden',
-												textOverflow: 'ellipsis'
-											}}>
-												{item.email}
-											</GridItem>
-											<GridItem xs={4} md={4} lg={4} style={{
-												fontWeight: '700',
-												whiteSpace: 'nowrap',
-												overflow: 'hidden',
-												textOverflow: 'ellipsis'
-											}}>
-												Últ.Conexión
-												</GridItem>
-											<GridItem xs={8} md={8} lg={8} style={{
-												whiteSpace: 'nowrap',
-												overflow: 'hidden',
-												textOverflow: 'ellipsis'
-											}}>
-												{moment(item.lastConnectionDate).format('LLL')}
-											</GridItem>
-										</Grid>
-									</Card>
-								))}
+&& users.map(item => (
+	<Card style={{ marginBottom: '0.5em', padding: '1em' }} key={item.id}>
+		<Grid style={{ position: 'relative' }}>
+			<div style={{
+				display: 'flex', justifyContent: 'flex-end', position: 'absolute', right: '-18px', top: '-14px'
+			}}>
+				<Checkbox
+					value={isChecked(item.id)}
+					onChange={(event, isInputChecked) => {
+						checkUser(item, isInputChecked);
+					}}
+				/>
+			</div>
+			<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+				{translate.state}
+			</GridItem>
+			<GridItem xs={8} md={8} lg={8} style={{
+				whiteSpace: 'nowrap',
+				overflow: 'hidden',
+				textOverflow: 'ellipsis'
+			}}>
+				{getActivationText(item.actived, translate)}
+			</GridItem>
+			<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+				{translate.name}
+			</GridItem>
+			<GridItem xs={8} md={8} lg={8} style={{
+				whiteSpace: 'nowrap',
+				overflow: 'hidden',
+				textOverflow: 'ellipsis'
+			}}>
+				{`${item.name} ${item.surname}` || ''}
+			</GridItem>
+			<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+				{translate.email}
+			</GridItem>
+			<GridItem xs={8} md={8} lg={8} style={{
+				whiteSpace: 'nowrap',
+				overflow: 'hidden',
+				textOverflow: 'ellipsis'
+			}}>
+				{item.email}
+			</GridItem>
+			<GridItem xs={4} md={4} lg={4} style={{
+				fontWeight: '700',
+				whiteSpace: 'nowrap',
+				overflow: 'hidden',
+				textOverflow: 'ellipsis'
+			}}>
+Últ.Conexión
+			</GridItem>
+			<GridItem xs={8} md={8} lg={8} style={{
+				whiteSpace: 'nowrap',
+				overflow: 'hidden',
+				textOverflow: 'ellipsis'
+			}}>
+				{moment(item.lastConnectionDate).format('LLL')}
+			</GridItem>
+		</Grid>
+	</Card>
+))}
 							<Grid style={{ marginTop: '1em' }}>
 								<PaginationFooter
 									page={usersPage}
@@ -1375,13 +1375,13 @@ const TablaUsuariosAdmin = ({
 					<TextInput
 						placeholder={translate.search}
 						adornment={<Icon style={{
- background: '#f0f3f6', paddingLeft: '5px', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'
-}}>search</Icon>}
+							background: '#f0f3f6', paddingLeft: '5px', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'
+						}}>search</Icon>}
 						type="text"
 						value={state.filterTextUsuarios || ''}
 						styleInInput={{
- fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px'
-}}
+							fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px'
+						}}
 						disableUnderline={true}
 						stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px' }}
 						onChange={event => {
@@ -1397,59 +1397,59 @@ const TablaUsuariosAdmin = ({
 				<div style={{ fontSize: '13px' }}>
 					<div style={{ display: 'flex', justifyContent: 'space-between', padding: '1em', }}>
 						<div style={{
- color: getPrimary(), fontWeight: 'bold', width: '3em', textAlign: 'left'
-}}></div>
+							color: getPrimary(), fontWeight: 'bold', width: '3em', textAlign: 'left'
+						}}></div>
 						<div style={{
- color: getPrimary(), fontWeight: 'bold', width: 'calc( 100% / 5 )', textAlign: 'left'
-}}>
+							color: getPrimary(), fontWeight: 'bold', width: 'calc( 100% / 5 )', textAlign: 'left'
+						}}>
 							{translate.state}
 						</div>
 						<div style={{
- color: getPrimary(), fontWeight: 'bold', width: 'calc( 100% / 5 )', textAlign: 'left'
-}}>
+							color: getPrimary(), fontWeight: 'bold', width: 'calc( 100% / 5 )', textAlign: 'left'
+						}}>
 							{translate.name}
 						</div>
 						<div style={{
- color: getPrimary(), fontWeight: 'bold', overflow: 'hidden', width: 'calc( 100% / 5 )', textAlign: 'left'
-}}>
+							color: getPrimary(), fontWeight: 'bold', overflow: 'hidden', width: 'calc( 100% / 5 )', textAlign: 'left'
+						}}>
 							{translate.email}
 						</div>
 						<div style={{
- color: getPrimary(), fontWeight: 'bold', overflow: 'hidden', width: 'calc( 100% / 5 )', textAlign: 'left'
-}}>
+							color: getPrimary(), fontWeight: 'bold', overflow: 'hidden', width: 'calc( 100% / 5 )', textAlign: 'left'
+						}}>
 							{translate.last_connection}
 						</div>
 					</div>
 					<div style={{ height: '300px' }}>
 						<Scrollbar>
 							{users
-								&& users.map(item => (
-									<div
-										key={item.id}
-										style={{
-											display: 'flex',
-											justifyContent: 'space-between',
-											padding: '1em',
-											alignItems: 'center'
-										}}>
-										<Cell
-											styles={{ width: '3em' }}
-											text={
-												<Checkbox
-													value={isChecked(item.id)}
-													onChange={(event, isInputChecked) => {
-														checkUser(item, isInputChecked);
-													}}
-												/>
-											}
-										/>
-										<Cell text={getActivationText(item.actived, translate)} />
-										<Cell text={`${item.name} ${item.surname}` || ''} />
-										<Cell text={item.email} />
-										<Cell text={item.lastConnectionDate && moment(item.lastConnectionDate).format('LLL')} />
-									</div>
+&& users.map(item => (
+	<div
+		key={item.id}
+		style={{
+			display: 'flex',
+			justifyContent: 'space-between',
+			padding: '1em',
+			alignItems: 'center'
+		}}>
+		<Cell
+			styles={{ width: '3em' }}
+			text={
+				<Checkbox
+					value={isChecked(item.id)}
+					onChange={(event, isInputChecked) => {
+						checkUser(item, isInputChecked);
+					}}
+				/>
+			}
+		/>
+		<Cell text={getActivationText(item.actived, translate)} />
+		<Cell text={`${item.name} ${item.surname}` || ''} />
+		<Cell text={item.email} />
+		<Cell text={item.lastConnectionDate && moment(item.lastConnectionDate).format('LLL')} />
+	</div>
 
-								))}
+))}
 						</Scrollbar>
 					</div>
 					<Grid style={{ marginTop: '1em' }}>
@@ -1503,15 +1503,15 @@ const TablaUsuariosAdmin = ({
 
 const Cell = ({ text, width, styles }) => (
 	<div style={{
- overflow: 'hidden', width: width ? `calc( 100% / ${width})` : 'calc( 100% / 5 )', textAlign: 'left', whiteSpace: 'nowrap', textOverflow: 'ellipsis', paddingRight: '10px', ...styles
-}}>
+		overflow: 'hidden', width: width ? `calc( 100% / ${width})` : 'calc( 100% / 5 )', textAlign: 'left', whiteSpace: 'nowrap', textOverflow: 'ellipsis', paddingRight: '10px', ...styles
+	}}>
 		{text}
 	</div>
 );
 
 
 const AddAdmin = ({
- translate, company, open, requestClose
+	translate, company, open, requestClose
 }) => {
 	const renderBody = () => (
 		<NewUser

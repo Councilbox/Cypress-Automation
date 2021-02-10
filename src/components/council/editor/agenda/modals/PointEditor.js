@@ -26,7 +26,7 @@ import { AGENDA_TYPES } from '../../../../../constants';
 
 
 const PointEditor = ({
- agenda, translate, company, council, requestClose, open, ...props
+	agenda, translate, company, council, requestClose, open, ...props
 }) => {
 	const [state, setState] = useOldState({
 		...agenda,
@@ -114,44 +114,44 @@ const PointEditor = ({
 							}
 						});
 					}
-						const fileInfo = {
-							filename: attachment.name,
-							filesize: attachment.filesize.toString(),
-							documentId: attachment.id,
-							filetype: attachment.filetype,
-							state: 0,
-							agendaId: agenda.id,
-							councilId: council.id
-						};
+					const fileInfo = {
+						filename: attachment.name,
+						filesize: attachment.filesize.toString(),
+						documentId: attachment.id,
+						filetype: attachment.filetype,
+						state: 0,
+						agendaId: agenda.id,
+						councilId: council.id
+					};
 
-						return props.client.mutate({
-							mutation: gql`
-								mutation attachCompanyDocumentToAgenda($attachment: AgendaAttachmentInput){
-									attachCompanyDocumentToAgenda(attachment: $attachment){
-										id
-									}
+					return props.client.mutate({
+						mutation: gql`
+							mutation attachCompanyDocumentToAgenda($attachment: AgendaAttachmentInput){
+								attachCompanyDocumentToAgenda(attachment: $attachment){
+									id
 								}
-							`,
-							variables: {
-								attachment: fileInfo
 							}
-						});
+						`,
+						variables: {
+							attachment: fileInfo
+						}
+					});
 				}));
 			}
 
 			if (attachmentsToRemove.length > 0) {
 				await Promise.all(attachmentsToRemove.map(item => props.client.mutate({
-						mutation: gql`
-							mutation deleteAgendaAttachment($attachmentId: Int!){
-								deleteAgendaAttachment(attachmentId: $attachmentId){
-									success
-								}
+					mutation: gql`
+						mutation deleteAgendaAttachment($attachmentId: Int!){
+							deleteAgendaAttachment(attachmentId: $attachmentId){
+								success
 							}
-						`,
-						variables: {
-							attachmentId: item.id
 						}
-					})));
+					`,
+					variables: {
+						attachmentId: item.id
+					}
+				})));
 			}
 
 
@@ -228,8 +228,8 @@ const PointEditor = ({
 								errorText={errors.agendaSubject}
 								value={agenda.agendaSubject}
 								onChange={event => updateState({
-										agendaSubject: event.target.value
-									})
+									agendaSubject: event.target.value
+								})
 								}
 								required
 							/>
@@ -241,8 +241,8 @@ const PointEditor = ({
 									value={AGENDA_TYPES.CONFIRMATION_REQUEST}
 									disabled={true}
 									onChange={event => updateState({
-											subjectType: +event.target.value
-										})
+										subjectType: +event.target.value
+									})
 									}
 									required
 								>
@@ -252,24 +252,24 @@ const PointEditor = ({
 										{translate.confirmation_request}
 									</MenuItem>
 								</SelectInput>
-							:								<SelectInput
+								:								<SelectInput
 									floatingText={translate.type}
 									value={agenda.subjectType}
 									errorText={errors.subjectType}
 									onChange={event => updateState({
-											subjectType: event.target.value
-										})
+										subjectType: event.target.value
+									})
 									}
 									required
 								>
 									{filteredTypes.map(voting => (
-											<MenuItem
-												value={voting.value}
-												key={`voting${voting.value}`}
-											>
-												{translate[voting.label]}
-											</MenuItem>
-										))}
+										<MenuItem
+											value={voting.value}
+											key={`voting${voting.value}`}
+										>
+											{translate[voting.label]}
+										</MenuItem>
+									))}
 								</SelectInput>
 							}
 						</GridItem>
@@ -283,21 +283,21 @@ const PointEditor = ({
 									value={`${agenda.majorityType}`}
 									errorText={errors.majorityType}
 									onChange={event => updateState({
-											majorityType: +event.target.value
-										})
+										majorityType: +event.target.value
+									})
 									}
 									required
 								>
 									{props.majorityTypes.map(majority => (
-											<MenuItem
-												value={`${majority.value}`}
-												key={`majorityType_${
-													majority.value
-												}`}
-											>
-												{translate[majority.label]}
-											</MenuItem>
-										))}
+										<MenuItem
+											value={`${majority.value}`}
+											key={`majorityType_${
+												majority.value
+											}`}
+										>
+											{translate[majority.label]}
+										</MenuItem>
+									))}
 								</SelectInput>
 							</GridItem>
 							<GridItem xs={6} lg={3} md={3}>
@@ -311,12 +311,12 @@ const PointEditor = ({
 										majorityError={errors.majority}
 										dividerError={errors.majorityDivider}
 										onChange={value => updateState({
-												majority: +value
-											})
+											majority: +value
+										})
 										}
 										onChangeDivider={value => updateState({
-												majorityDivider: +value
-											})
+											majorityDivider: +value
+										})
 										}
 									/>
 								)}
@@ -372,8 +372,8 @@ const PointEditor = ({
 						errorText={errors.description}
 						value={agenda.description}
 						onChange={value => updateState({
-								description: value
-							})
+							description: value
+						})
 						}
 					/>
 				</div>
@@ -388,13 +388,13 @@ const PointEditor = ({
 			acceptAction={saveChanges}
 			extraActions={
 				props.deleteButton
-					&& <DeleteAgendaButton
-						agenda={agenda}
-						requestClose={requestClose}
-						refetch={props.refetch}
-						council={council}
-						translate={translate}
-					/>
+&& <DeleteAgendaButton
+	agenda={agenda}
+	requestClose={requestClose}
+	refetch={props.refetch}
+	council={council}
+	translate={translate}
+/>
 			}
 			buttonAccept={translate.accept}
 			buttonCancel={translate.cancel}

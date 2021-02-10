@@ -1,13 +1,13 @@
 /* eslint-disable no-restricted-syntax */
 const urlParser = obj => {
 	let query = '';
-		let name;
-		let value;
-		let fullSubName;
-		let subName;
-		let subValue;
-		let innerObj;
-		let i;
+	let name;
+	let value;
+	let fullSubName;
+	let subName;
+	let subValue;
+	let innerObj;
+	let i;
 
 	for (name in obj) {
 		if (name) {
@@ -33,7 +33,7 @@ const urlParser = obj => {
 				}
 			} else if (value !== undefined && value !== null) {
 				query
-					+= `${encodeURIComponent(name)
++= `${encodeURIComponent(name)
 					}=${
 						encodeURIComponent(value)
 					}&`;

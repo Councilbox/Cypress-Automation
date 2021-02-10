@@ -2,35 +2,35 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import {
- PaginationFooter, Grid, Scrollbar, LoadingSection
+	PaginationFooter, Grid, Scrollbar, LoadingSection
 } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
 import CellAvatar from './CellAvatar';
 import Cell from './Cell';
 
 const corporationCompanies = gql`
-    query corporationCompanies($filters: [FilterInput], $options: OptionsInput, $corporationId: Int!){
-        corporationCompanies(filters: $filters, options: $options, corporationId: $corporationId){
-            list{
-                id
-                businessName
-                logo
-            }
-            total
-        }
-    }
+	query corporationCompanies($filters: [FilterInput], $options: OptionsInput, $corporationId: Int!){
+		corporationCompanies(filters: $filters, options: $options, corporationId: $corporationId){
+			list{
+				id
+				businessName
+				logo
+			}
+			total
+		}
+	}
 `;
 
 const OrganizationEntitiesTable = ({
- translate, company, client, textFilter
+	translate, company, client, textFilter
 }) => {
-    const [filters, setFilters] = React.useState({
-        page: 1
-    });
+	const [filters, setFilters] = React.useState({
+		page: 1
+	});
 	const [companies, setCompanies] = React.useState(false);
-    const [companiesTotal, setCompaniesTotal] = React.useState(false);
+	const [companiesTotal, setCompaniesTotal] = React.useState(false);
 
-    const getCompanies = React.useCallback(async () => {
+	const getCompanies = React.useCallback(async () => {
 		const response = await client.query({
 			query: corporationCompanies,
 			variables: {
@@ -48,53 +48,53 @@ const OrganizationEntitiesTable = ({
 			setCompanies(response.data.corporationCompanies.list);
 			setCompaniesTotal(response.data.corporationCompanies.total);
 		}
-    }, [textFilter, filters.page, company.id]);
+	}, [textFilter, filters.page, company.id]);
 
-    React.useEffect(() => {
-        getCompanies();
-    }, [getCompanies]);
+	React.useEffect(() => {
+		getCompanies();
+	}, [getCompanies]);
 
-    const primary = getPrimary();
+	const primary = getPrimary();
 
-    if (!companies) {
-        return <LoadingSection />;
-    }
+	if (!companies) {
+		return <LoadingSection />;
+	}
 
 	return (
 		<div style={{ fontSize: '13px' }}>
 			<div style={{ display: 'flex', justifyContent: 'space-between', padding: '1em', }}>
 				<div style={{
- color: primary, fontWeight: 'bold', width: 'calc( 100% / 3 )', textAlign: 'left'
-}}>
+					color: primary, fontWeight: 'bold', width: 'calc( 100% / 3 )', textAlign: 'left'
+				}}>
 
 				</div>
 				<div style={{
- color: primary, fontWeight: 'bold', width: 'calc( 100% / 3 )', textAlign: 'left'
-}}>
-					Id
+					color: primary, fontWeight: 'bold', width: 'calc( 100% / 3 )', textAlign: 'left'
+				}}>
+Id
 				</div>
 				<div style={{
- color: primary, fontWeight: 'bold', width: 'calc( 100% / 3 )', textAlign: 'left'
-}}>
+					color: primary, fontWeight: 'bold', width: 'calc( 100% / 3 )', textAlign: 'left'
+				}}>
 					{translate.name}
 				</div>
 			</div>
 			<div style={{ height: '300px' }}>
 				<Scrollbar>
 					{companies.map((item, index) => (
-							<div
-								key={item.id}
-								style={{
-									display: 'flex',
-									justifyContent: 'space-between',
-									padding: '1em',
-									background: index % 2 ? '#edf4fb' : '',
-								}}>
-								<CellAvatar width={3} avatar={item.logo} />
-								<Cell width={3} text={item.id} />
-								<Cell width={3} text={item.businessName} />
-							</div>
-						))}
+						<div
+							key={item.id}
+							style={{
+								display: 'flex',
+								justifyContent: 'space-between',
+								padding: '1em',
+								background: index % 2 ? '#edf4fb' : '',
+							}}>
+							<CellAvatar width={3} avatar={item.logo} />
+							<Cell width={3} text={item.id} />
+							<Cell width={3} text={item.businessName} />
+						</div>
+					))}
 				</Scrollbar>
 			</div>
 			<Grid style={{ marginTop: '1em' }}>

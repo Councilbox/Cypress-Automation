@@ -16,7 +16,7 @@ import { DELEGATION_USERS_LOAD } from '../../../constants';
 import { addDelegation } from '../../../queries/liveParticipant';
 
 const DelegateOwnVoteModal = ({
- translate, participant, show, client, council, inModal, setInModal, ...props
+	translate, participant, show, client, council, inModal, setInModal, ...props
 }) => {
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
@@ -114,30 +114,30 @@ const DelegateOwnVoteModal = ({
 					<LiveToast
 						message={translate.just_delegate_vote}
 					/>, {
-					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,
-					className: 'errorToast'
-				}
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,
+						className: 'errorToast'
+					}
 				);
 			} else if (response.errors[0].code === 711) {
 				toast(
 					<LiveToast
 						message={translate.number_of_delegated_votes_exceeded}
 					/>, {
-					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,
-					className: 'errorToast'
-				}
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,
+						className: 'errorToast'
+					}
 				);
 			} else if (response.errors[0].code === 715) {
 				toast(
 					<LiveToast
 						message={translate.cant_delegate_has_delegated_votes}
 					/>, {
-					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,
-					className: 'errorToast'
-				}
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,
+						className: 'errorToast'
+					}
 				);
 			}
 		}
@@ -178,63 +178,63 @@ const DelegateOwnVoteModal = ({
 					{loading ? (
 						<LoadingSection />
 					) : (
-							<Scrollbar>
-								{participants.length > 0 ? (
-									<React.Fragment>
-										{participants.map(liveParticipant => {
-											if (liveParticipant.id !== participant.id) {
-												return (
-													<ParticipantRow
-														key={`delegateVote_${
-															liveParticipant.id
-															}`}
-														council={council}
-														toDelegate={true}
-														participant={liveParticipant}
-														onClick={() => delegateVote(liveParticipant.id)}
-													/>
-												);
-											}
-											return false;
-										})}
-										{participants.length < total && (
-											<Card
-												style={{
-													width: '90%',
-													border: '2px solid grey',
-													margin: 'auto',
-													marginBottom: '1.2em',
-													marginTop: '0.6em',
-													cursor: 'pointer',
-													display: 'flex',
-													alignItems: 'center',
-													justifyContent: 'center'
-												}}
-												elevation={1}
-												onClick={loadMore}
-											>
-												<MenuItem style={{
- padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'
-}}>
-													{`DESCARGAR ${
-														rest > DELEGATION_USERS_LOAD ?
-															`${1} de ${rest} RESTANTES`
-															: translate.all_plural.toLowerCase()
-														}`}
-													{loading
-														&& <div>
-															<LoadingSection size={25} />
-														</div>
-													}
-												</MenuItem>
-											</Card>
-										)}
-									</React.Fragment>
-								) : (
-										<Typography>{translate.no_results}</Typography>
+						<Scrollbar>
+							{participants.length > 0 ? (
+								<React.Fragment>
+									{participants.map(liveParticipant => {
+										if (liveParticipant.id !== participant.id) {
+											return (
+												<ParticipantRow
+													key={`delegateVote_${
+														liveParticipant.id
+													}`}
+													council={council}
+													toDelegate={true}
+													participant={liveParticipant}
+													onClick={() => delegateVote(liveParticipant.id)}
+												/>
+											);
+										}
+										return false;
+									})}
+									{participants.length < total && (
+										<Card
+											style={{
+												width: '90%',
+												border: '2px solid grey',
+												margin: 'auto',
+												marginBottom: '1.2em',
+												marginTop: '0.6em',
+												cursor: 'pointer',
+												display: 'flex',
+												alignItems: 'center',
+												justifyContent: 'center'
+											}}
+											elevation={1}
+											onClick={loadMore}
+										>
+											<MenuItem style={{
+												padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'
+											}}>
+												{`DESCARGAR ${
+													rest > DELEGATION_USERS_LOAD ?
+														`${1} de ${rest} RESTANTES`
+														: translate.all_plural.toLowerCase()
+												}`}
+												{loading
+&& <div>
+	<LoadingSection size={25} />
+</div>
+												}
+											</MenuItem>
+										</Card>
 									)}
-							</Scrollbar>
-						)}
+								</React.Fragment>
+							) : (
+								<Typography>{translate.no_results}</Typography>
+							)}
+						</Scrollbar>
+					)}
 				</div>
 			</div>
 		);
@@ -242,15 +242,15 @@ const DelegateOwnVoteModal = ({
 	if (inModal) {
 		return (<div>{_renderBody()}</div>);
 	}
-		return (
-			<AlertConfirm
-				requestClose={close}
-				open={show}
-				buttonCancel={translate.close}
-				bodyText={_renderBody()}
-				title={translate.to_delegate_vote}
-			/>
-		);
+	return (
+		<AlertConfirm
+			requestClose={close}
+			open={show}
+			buttonCancel={translate.close}
+			bodyText={_renderBody()}
+			title={translate.to_delegate_vote}
+		/>
+	);
 };
 
 

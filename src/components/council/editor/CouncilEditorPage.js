@@ -60,8 +60,8 @@ const CouncilEditorPage = ({ council, translate, company }) => {
 				}}
 			>
 				<div style={{
- marginBottom: '1.2em', marginTop: '0.8em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingRight: '1.5em'
-}}>
+					marginBottom: '1.2em', marginTop: '0.8em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingRight: '1.5em'
+				}}>
 					<EditorStepper
 						translate={translate}
 						active={step - 1}

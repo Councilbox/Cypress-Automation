@@ -168,8 +168,8 @@ const StepAgenda = ({ client, translate, ...props }) => {
 
 	const { errors, saveAsDraftId } = state;
 	const {
- votingTypes, council, majorityTypes, draftTypes
-} = data;
+		votingTypes, council, majorityTypes, draftTypes
+	} = data;
 
 	let agendas = null;
 	let newDraft;
@@ -250,88 +250,88 @@ const StepAgenda = ({ client, translate, ...props }) => {
 										}}
 									>
 										{agendas.map((agenda, index) => (
-												<AgendaItem
-													agenda={agenda}
-													key={`agenda${index}`}
-													typeText={
-														translate[
+											<AgendaItem
+												agenda={agenda}
+												key={`agenda${index}`}
+												typeText={
+													translate[
 														votingTypes.find(
 															item => item.value
-																=== agenda.subjectType
+=== agenda.subjectType
 														) ? votingTypes.find(
-															item => item.value
-																=== agenda.subjectType
-														).label : ''
-														]
-													}
+																item => item.value
+=== agenda.subjectType
+															).label : ''
+													]
+												}
 
-													removeAgenda={() => setDeleteModal(agenda.id)}
-													selectAgenda={selectAgenda}
-													saveAsDraft={saveAsAgendaDraft}
-												/>
-											))}
+												removeAgenda={() => setDeleteModal(agenda.id)}
+												selectAgenda={selectAgenda}
+												saveAsDraft={saveAsAgendaDraft}
+											/>
+										))}
 									</div>
 								</React.Fragment>
 							) : (
-										<div
-											style={{
-												width: '100%',
-												display: 'flex',
-												flexDirection: 'column',
-												alignItems: 'center',
-												marginTop: '2em',
-												marginBottom: '3em'
-											}}
-										>
-											<Typography variant="subheading">
-												{translate.empty_agendas}
-											</Typography>
-											<br />
-											<div>
-												<AddAgendaPoint
-													translate={translate}
-													agendas={council.agendas}
-													votingTypes={votingTypes}
-													majorityTypes={majorityTypes}
-													draftTypes={draftTypes}
-													statute={council.statute}
-													company={props.company}
-													council={council}
-													companyStatutes={data.companyStatutes}
-													refetch={getData}
-												/>
-											</div>
-											<Typography
-												variant="subheading"
-												style={{
-													color: 'red',
-													fontWeight: '700',
-													marginTop: '1.2em'
-												}}
-											>
-												{errors.emptyAgendas}
-											</Typography>
-										</div>
-									)}
+								<div
+									style={{
+										width: '100%',
+										display: 'flex',
+										flexDirection: 'column',
+										alignItems: 'center',
+										marginTop: '2em',
+										marginBottom: '3em'
+									}}
+								>
+									<Typography variant="subheading">
+										{translate.empty_agendas}
+									</Typography>
+									<br />
+									<div>
+										<AddAgendaPoint
+											translate={translate}
+											agendas={council.agendas}
+											votingTypes={votingTypes}
+											majorityTypes={majorityTypes}
+											draftTypes={draftTypes}
+											statute={council.statute}
+											company={props.company}
+											council={council}
+											companyStatutes={data.companyStatutes}
+											refetch={getData}
+										/>
+									</div>
+									<Typography
+										variant="subheading"
+										style={{
+											color: 'red',
+											fontWeight: '700',
+											marginTop: '1.2em'
+										}}
+									>
+										{errors.emptyAgendas}
+									</Typography>
+								</div>
+							)}
 						</Grid>
 						{!loading && (
 							<React.Fragment>
 								{!!state.editAgenda
-									&& <PointEditor
-										translate={translate}
-										draftTypes={draftTypes}
-										statute={council.statute}
-										company={props.company}
-										council={council}
-										companyStatutes={data.companyStatutes}
-										open={!!state.editAgenda}
-										agenda={state.editAgenda}
-										votingTypes={votingTypes}
-										majorityTypes={majorityTypes}
-										refetch={getData}
-										requestClose={() => setState({ editAgenda: null })
-										}
-									/>
+&& <PointEditor
+	translate={translate}
+	draftTypes={draftTypes}
+	statute={council.statute}
+	company={props.company}
+	council={council}
+	companyStatutes={data.companyStatutes}
+	open={!!state.editAgenda}
+	agenda={state.editAgenda}
+	votingTypes={votingTypes}
+	majorityTypes={majorityTypes}
+	refetch={getData}
+	requestClose={() => setState({ editAgenda: null })
+	}
+/>
 								}
 								{!!state.editCustomAgenda && (
 									<CustomPointEditor
@@ -351,44 +351,44 @@ const StepAgenda = ({ client, translate, ...props }) => {
 									/>
 								)}
 								{saveAsDraftId
-									&& newDraft && (
-										<SaveDraftModal
-											open={saveAsDraftId}
-											statute={council.statute}
-											data={{
-												...newDraft,
-												text: newDraft.description,
-												description: '',
-												title: newDraft.agendaSubject,
-												votationType: newDraft.subjectType,
-												type: draftTypes.filter(
-													draft => draft.label === 'agenda'
-												)[0].value,
-												tags: {
-													[`statute_${council.statute.statuteId}`]: {
-														label: translate[council.statute.title] || council.statute.title,
-														name: `statute_${council.statute.statuteId}`,
-														type: TAG_TYPES.STATUTE,
-														active: true
-													},
-													agenda: {
-														type: TAG_TYPES.DRAFT_TYPE,
-														label: translate.agenda,
-														name: 'agenda',
-														active: true
-													}
+&& newDraft && (
+									<SaveDraftModal
+										open={saveAsDraftId}
+										statute={council.statute}
+										data={{
+											...newDraft,
+											text: newDraft.description,
+											description: '',
+											title: newDraft.agendaSubject,
+											votationType: newDraft.subjectType,
+											type: draftTypes.filter(
+												draft => draft.label === 'agenda'
+											)[0].value,
+											tags: {
+												[`statute_${council.statute.statuteId}`]: {
+													label: translate[council.statute.title] || council.statute.title,
+													name: `statute_${council.statute.statuteId}`,
+													type: TAG_TYPES.STATUTE,
+													active: true
 												},
-												statuteId: council.statute.statuteId
-											}}
-											company={props.company}
-											requestClose={() => setState({ saveAsDraftId: null })
-											}
-											companyStatutes={data.companyStatutes}
-											votingTypes={votingTypes}
-											majorityTypes={majorityTypes}
-											draftTypes={draftTypes}
-										/>
-									)}
+												agenda: {
+													type: TAG_TYPES.DRAFT_TYPE,
+													label: translate.agenda,
+													name: 'agenda',
+													active: true
+												}
+											},
+											statuteId: council.statute.statuteId
+										}}
+										company={props.company}
+										requestClose={() => setState({ saveAsDraftId: null })
+										}
+										companyStatutes={data.companyStatutes}
+										votingTypes={votingTypes}
+										majorityTypes={majorityTypes}
+										draftTypes={draftTypes}
+									/>
+								)}
 							</React.Fragment>
 						)}
 					</React.Fragment>
@@ -537,7 +537,7 @@ export const AddAgendaPoint = ({
 											color: secondary
 										}}
 									>
-										thumbs_up_down
+thumbs_up_down
 									</i>
 									<span
 										style={{
@@ -568,7 +568,7 @@ export const AddAgendaPoint = ({
 											color: secondary
 										}}
 									>
-										poll
+poll
 									</i>
 									<span
 										style={{
@@ -581,38 +581,38 @@ export const AddAgendaPoint = ({
 								</div>
 							</MenuItem>
 							{config.confirmationRequestPoint
-								&& <>
-									<Divider />
-									<MenuItem onClick={() => setState({ ...state, confirmationRequestModal: true })}>
-										<div
-											id={'puntoPersonalizado'}
-											style={{
-												width: '100%',
-												display: 'flex',
-												flexDirection: 'row',
-												justifyContent: 'space-between'
-											}}
-										>
-											<i
-												className="material-icons"
-												style={{
-													fontSize: '1.2em',
-													color: secondary
-												}}
-											>
-												check_circle_outline
-											</i>
-											<span
-												style={{
-													marginLeft: '2.5em',
-													marginRight: '0.8em'
-												}}
-											>
-												{translate.confirmation_request}
-											</span>
-										</div>
-									</MenuItem>
-								</>
+&& <>
+	<Divider />
+	<MenuItem onClick={() => setState({ ...state, confirmationRequestModal: true })}>
+		<div
+			id={'puntoPersonalizado'}
+			style={{
+				width: '100%',
+				display: 'flex',
+				flexDirection: 'row',
+				justifyContent: 'space-between'
+			}}
+		>
+			<i
+				className="material-icons"
+				style={{
+					fontSize: '1.2em',
+					color: secondary
+				}}
+			>
+check_circle_outline
+			</i>
+			<span
+				style={{
+					marginLeft: '2.5em',
+					marginRight: '0.8em'
+				}}
+			>
+				{translate.confirmation_request}
+			</span>
+		</div>
+	</MenuItem>
+</>
 							}
 						</React.Fragment>
 					}

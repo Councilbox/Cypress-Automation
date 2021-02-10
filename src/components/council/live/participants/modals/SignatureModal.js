@@ -16,7 +16,7 @@ import { useOldState } from '../../../../../hooks';
 import { isMobile } from '../../../../../utils/screen';
 
 const SignatureModal = ({
- data, translate, council, participant, ...props
+	data, translate, council, participant, ...props
 }) => {
 	const [state, setState] = useOldState({
 		success: '',
@@ -186,7 +186,7 @@ const SignatureModal = ({
 									label={translate.has_remote_vote}
 									value={
 										participantState
-										=== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
+=== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
 									}
 									onChange={(event, isInputChecked) => setState({
 										participantState: isInputChecked ?
@@ -197,8 +197,8 @@ const SignatureModal = ({
 								/>
 							</div>
 						) : (
-								<br />
-							)}
+							<br />
+						)}
 						<div
 							style={{ width: 'calc(100% - 2em)', display: 'flex', justifyContent: 'center' }}
 							onMouseDown={() => setState({ clean: false })}

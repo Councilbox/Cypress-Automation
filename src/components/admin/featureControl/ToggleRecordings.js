@@ -4,20 +4,20 @@ import gql from 'graphql-tag';
 import { BasicButton } from '../../../displayComponents';
 
 const ToggleRecordings = () => (
-    <BasicButton
-        text="Toggle recordings"
-    />
+	<BasicButton
+		text="Toggle recordings"
+	/>
 );
 
 
 const toggleRecordings = gql`
-    mutation ToggleFeature($id: Int!) {
-        toggleFeature(id: $id){
-            success
-        }
-    }
+	mutation ToggleFeature($id: Int!) {
+		toggleFeature(id: $id){
+			success
+		}
+	}
 `;
 
 export default graphql(toggleRecordings, {
-    name: 'toggleRecordings'
+	name: 'toggleRecordings'
 })(ToggleRecordings);

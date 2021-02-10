@@ -17,11 +17,11 @@ const DownloadCBXDataButton = props => {
 			props.updateState({ loading: true });
 		}
 		const response = await props.client.query({
-            query: gql`
-                query proxyPDF($participantId: Int!){
-                    proxyPDF(participantId: $participantId)
-                }
-            `,
+			query: gql`
+				query proxyPDF($participantId: Int!){
+					proxyPDF(participantId: $participantId)
+				}
+			`,
 			variables: {
 				participantId: id,
 				timezone: moment().utcOffset().toString()

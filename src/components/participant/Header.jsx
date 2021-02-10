@@ -48,10 +48,10 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 			mutation: gql`
 				mutation LeaveRoom {
 					participantLeaveRoom{
-						success
-					}
+					success
 				}
-			`
+			}
+		`
 		});
 		props.actions.logoutParticipant(participant, council);
 	}
@@ -224,7 +224,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 						}}
 					>
 						list_alt
-					</Icon>
+</Icon>
 				</Tooltip>
 			}
 			{council &&
@@ -253,7 +253,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 								}}
 							>
 								person
-						</Icon>
+</Icon>
 						</Tooltip>
 					}
 					{(council && logoutButton) && (
@@ -283,7 +283,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 									}}
 								>
 									exit_to_app
-								</Icon>
+</Icon>
 							</IconButton>
 						</>
 					)
@@ -358,7 +358,7 @@ const Marquee = ({ children, isMobile }) => {
 			if (title.length > 45) {
 				style = stylesMove
 			} else {
-				style = stylesNoMove
+				style = stylesNoMove;
 			}
 		}
 	}
@@ -366,8 +366,8 @@ const Marquee = ({ children, isMobile }) => {
 	const toggle = () => {
 		setState({
 			stop: !state.stop
-		})
-	}
+		});
+	};
 
 	return (
 		<div className={'marquee'} style={{
@@ -377,7 +377,7 @@ const Marquee = ({ children, isMobile }) => {
 			overflow: 'hidden',
 			boxSizing: 'border-box'
 		}}
-			onClick={toggle}
+		onClick={toggle}
 		>
 			<p style={state.stop ? stylesNoMove : style}>
 				{title}

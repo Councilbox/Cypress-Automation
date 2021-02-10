@@ -153,9 +153,9 @@ export const SEND_TYPES = [
 	'security',
 	'act',
 	'welcome',
-    'restore_pwd',
-    'point',
-    'welcome'
+	'restore_pwd',
+	'point',
+	'welcome'
 ];
 
 export const COUNCIL_EVIDENCES = [

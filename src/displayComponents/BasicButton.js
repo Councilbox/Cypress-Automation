@@ -58,7 +58,7 @@ const BasicButton = ({
 			className={claseHover}
 		>
 			{iconInit
-			&& iconInit
+&& iconInit
 			}
 			{text}
 			{success ? (
@@ -94,8 +94,8 @@ const BasicButton = ({
 						</div>
 					)
 			) : (
-							icon
-						)}
+				icon
+			)}
 		</Button>
 	);
 };

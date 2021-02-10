@@ -13,7 +13,7 @@ import { Icon, LoadingSection, Scrollbar } from '../../../displayComponents';
 import { moment } from '../../../containers/App';
 
 const CommentWall = ({
- open, data, council, translate, subscribeToWallComments, requestClose, updateState, unreadComments
+	open, data, council, translate, subscribeToWallComments, requestClose, updateState, unreadComments
 }) => {
 	const [commentsRead, setCommentsRead] = React.useState(sessionStorage.getItem(`readMessages_${council.id}`) || 0);
 	const scrollbar = React.useRef();
@@ -136,7 +136,7 @@ const CommentWall = ({
 																color: getPrimary()
 															}}
 														>{`${comment.author.name} ${comment.author.surname || ''} ${
-															comment.author.position ? `- ${comment.author.position}` : ''}
+																comment.author.position ? `- ${comment.author.position}` : ''}
 														`}</span>
 													) : (
 														<span
@@ -195,32 +195,32 @@ export default graphql(wallComments, {
 		pollInterval: 30000
 	}),
 	props: props => ({
-			...props,
-			subscribeToWallComments: params => props.data.subscribeToMore({
-					document: roomMessagesSubscription,
-					variables: {
-						councilId: +params.councilId
-					},
-					updateQuery: (prev, { subscriptionData }) => {
-						if (!subscriptionData.data.roomMessageAdded) {
-							return prev;
-						}
+		...props,
+		subscribeToWallComments: params => props.data.subscribeToMore({
+			document: roomMessagesSubscription,
+			variables: {
+				councilId: +params.councilId
+			},
+			updateQuery: (prev, { subscriptionData }) => {
+				if (!subscriptionData.data.roomMessageAdded) {
+					return prev;
+				}
 
-						const messagesMap = new Map();
+				const messagesMap = new Map();
 
-						const newMessageList = [
-							...prev.councilRoomMessages,
-							...[subscriptionData.data.roomMessageAdded]
-						];
+				const newMessageList = [
+					...prev.councilRoomMessages,
+					...[subscriptionData.data.roomMessageAdded]
+				];
 
-						newMessageList.forEach(message => {
-							messagesMap.set(message.id, message);
-						});
+				newMessageList.forEach(message => {
+					messagesMap.set(message.id, message);
+				});
 
-						return ({
-							councilRoomMessages: Array.from(messagesMap.values())
-						});
-					}
-				})
+				return ({
+					councilRoomMessages: Array.from(messagesMap.values())
+				});
+			}
 		})
+	})
 })(CommentWall);

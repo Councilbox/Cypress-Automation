@@ -7,7 +7,7 @@ import { bHistory } from '../containers/App';
 import withSharedProps from '../HOCs/withSharedProps';
 
 const Block = withSharedProps()(({
- button, link, icon, text, id, customIcon, disabled, disabledOnClick, company
+	button, link, icon, text, id, customIcon, disabled, disabledOnClick, company
 }) => {
 	const followLink = () => {
 		sendGAevent({
@@ -53,14 +53,14 @@ const Block = withSharedProps()(({
 				}}
 			>
 				{customIcon || <Icon
-						className="material-icons"
-						style={{
-							fontSize: '7em',
-							color: getSecondary()
-						}}
-					>
-						{icon}
-					</Icon>
+					className="material-icons"
+					style={{
+						fontSize: '7em',
+						color: getSecondary()
+					}}
+				>
+					{icon}
+				</Icon>
 				}
 
 				<span style={{ fontSize: '13px' }}>{text}</span>
@@ -74,7 +74,7 @@ const Block = withSharedProps()(({
 				<div onClick={disabledOnClick}>
 					{card}
 				</div>
-			:				<div onClick={followLink}>
+				:				<div onClick={followLink}>
 					{card}
 				</div>
 			}

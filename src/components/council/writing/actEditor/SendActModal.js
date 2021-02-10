@@ -1,6 +1,6 @@
 import React from 'react';
 import {
- Typography, Card, TableRow, Table, TableCell
+	Typography, Card, TableRow, Table, TableCell
 } from 'material-ui';
 import { compose, graphql } from 'react-apollo';
 import FontAwesome from 'react-fontawesome';
@@ -116,41 +116,41 @@ const SendActModal = ({ translate, data, ...props }) => {
 	};
 
 	const renderEmails = () => (
-			<div style={{ width: '100%' }}>
-				{state.participants.length > 0 ?
-					state.participants.map(participant => (
-						<Card
+		<div style={{ width: '100%' }}>
+			{state.participants.length > 0 ?
+				state.participants.map(participant => (
+					<Card
+						style={{
+							width: '98%',
+							padding: '0.8em',
+							margin: 'auto',
+							marginBottom: '0.8em',
+							display: 'flex',
+							justifyContent: 'space-between',
+							alignItems: 'center',
+							flexDirection: 'row'
+						}}
+						key={`participants_${participant.id}`}
+						elevation={2}
+					>
+						{participant.email}
+						<FontAwesome
+							name={'times'}
 							style={{
-								width: '98%',
-								padding: '0.8em',
-								margin: 'auto',
-								marginBottom: '0.8em',
-								display: 'flex',
-								justifyContent: 'space-between',
-								alignItems: 'center',
-								flexDirection: 'row'
+								fontSize: '0.9em',
+								color: 'red',
+								cursor: 'pointer'
 							}}
-							key={`participants_${participant.id}`}
-							elevation={2}
-						>
-							{participant.email}
-							<FontAwesome
-								name={'times'}
-								style={{
-									fontSize: '0.9em',
-									color: 'red',
-									cursor: 'pointer'
-								}}
-								onClick={() => deleteEmailFromList(participant.id)}
-							/>
-						</Card>
-					))
+							onClick={() => deleteEmailFromList(participant.id)}
+						/>
+					</Card>
+				))
 				:					<div>
-						{translate.not_added}
-					</div>
-				}
-			</div>
-		);
+					{translate.not_added}
+				</div>
+			}
+		</div>
+	);
 
 	const sendAct = async () => {
 		setLoading(true);
@@ -221,30 +221,30 @@ const SendActModal = ({ translate, data, ...props }) => {
 							<LoadingSection />
 						) : (
 							<div style={{
- height: 'calc( 100% - 4em )', marginBottom: '0.5em', width: '600px', margin: '0 auto'
-}}>
+								height: 'calc( 100% - 4em )', marginBottom: '0.5em', width: '600px', margin: '0 auto'
+							}}>
 								<Scrollbar option={{ suppressScrollX: true }}>
 									<Table style={{ marginBottom: '1em', width: '600px', margin: '0 auto' }}>
 										{participants.length > 0 ? (
 											participants.filter(p => !!p.email).map(participant => (
-													<TableRow key={participant.id}>
-														<TableCell style={{ width: '50px', padding: '0px', paddingLeft: '10px' }}>
-															<Checkbox
-																value={isChecked(participant.id)}
-																onChange={(event, isInputChecked) => checkRow(participant, isInputChecked)
-																}
-															/>
-														</TableCell>
-														<TableCell style={{ width: '305px' }}>
-															<div style={{
-																whiteSpace: 'nowrap',
-																overflow: 'hidden',
-																textOverflow: 'ellipsis',
-																width: '200px',
-															}}>
-																{`${participant.name} ${participant.surname || ''}`}
-															</div>
-														</TableCell>
+												<TableRow key={participant.id}>
+													<TableCell style={{ width: '50px', padding: '0px', paddingLeft: '10px' }}>
+														<Checkbox
+															value={isChecked(participant.id)}
+															onChange={(event, isInputChecked) => checkRow(participant, isInputChecked)
+															}
+														/>
+													</TableCell>
+													<TableCell style={{ width: '305px' }}>
+														<div style={{
+															whiteSpace: 'nowrap',
+															overflow: 'hidden',
+															textOverflow: 'ellipsis',
+															width: '200px',
+														}}>
+															{`${participant.name} ${participant.surname || ''}`}
+														</div>
+													</TableCell>
 													<TableCell>
 														<div style={{
 															whiteSpace: 'nowrap',
@@ -255,10 +255,10 @@ const SendActModal = ({ translate, data, ...props }) => {
 															{participant.email}
 														</div>
 													</TableCell>
-													</TableRow>
-												))) : (
-												<Typography>{translate.no_results}</Typography>
-											)
+												</TableRow>
+											))) : (
+											<Typography>{translate.no_results}</Typography>
+										)
 										}
 									</Table>
 								</Scrollbar>
@@ -277,9 +277,9 @@ const SendActModal = ({ translate, data, ...props }) => {
 								<BasicButton
 									text={
 										`DESCARGAR ${
-										rest > DELEGATION_USERS_LOAD ?
-											`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-											: translate.all_plural.toLowerCase()
+											rest > DELEGATION_USERS_LOAD ?
+												`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+												: translate.all_plural.toLowerCase()
 										}`
 									}
 									color={getSecondary()}
@@ -316,13 +316,13 @@ const SendActModal = ({ translate, data, ...props }) => {
 			buttonAccept={state.step === 1 ? translate.continue : translate.send}
 			cancelAction={state.success ?
 				close
-			:				state.step !== 1 ?
-						() => setState({ step: 1, success: false })
+				:				state.step !== 1 ?
+					() => setState({ step: 1, success: false })
 					:						null
 			}
 			buttonCancel={state.success ?
 				translate.close
-			:				state.step === 1 ? translate.close : translate.back}
+				:				state.step === 1 ? translate.close : translate.back}
 			bodyText={modalBody()}
 			title={translate.sending_the_minutes}
 		/>

@@ -1,6 +1,6 @@
 import React from 'react';
 import {
- Input, Icon, Collapse, withStyles
+	Input, Icon, Collapse, withStyles
 } from 'material-ui';
 import PropTypes from 'prop-types';
 import { withApollo } from 'react-apollo';
@@ -40,7 +40,7 @@ const styles = {
 };
 
 const CompanyDraftForm = ({
- translate, draft, errors, company, updateState, companyStatutes, draftTypes, rootStatutes, languages, votingTypes, majorityTypes, match, client, ...props
+	translate, draft, errors, company, updateState, companyStatutes, draftTypes, rootStatutes, languages, votingTypes, majorityTypes, match, client, ...props
 }) => {
 	const [search, setSearch] = React.useState('');
 	const [testTags, setTestTags] = React.useState({});
@@ -291,13 +291,13 @@ const CompanyDraftForm = ({
 				<div>
 					<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: '20px' }}>
 						local_offer
-						</i>
+					</i>
 				</div>
 			</div>
 			<div style={{ minHeight: props.innerWidth > 960 ? '300px' : '', height: 'calc( 100% - 4em )' }}>
 				<div style={{
- boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7', marginTop: '1em', height: '100%', paddingBottom: isMobile && '1em'
-}}>
+					boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7', marginTop: '1em', height: '100%', paddingBottom: isMobile && '1em'
+				}}>
 					<div style={{ paddingLeft: '1em', paddingRight: '1em' }}>
 						<div style={{ marginBottom: '1em', display: 'flex' }}>
 							<TextInput
@@ -481,7 +481,7 @@ const Fade = ({ show, children }) => {
 
 
 export const EtiquetasModal = ({
- color, title, tags, addTag
+	color, title, tags, addTag
 }) => (
 	<div>
 		<div style={{ fontWeight: '700' }} >
@@ -517,7 +517,7 @@ export const EtiquetasModal = ({
 
 
 export const ContenedorEtiquetas = ({
- stylesContent, color, last, title, tags, addTag, translate, search
+	stylesContent, color, last, title, tags, addTag, translate, search
 }) => {
 	const [open, setOpen] = React.useState(false);
 
@@ -565,17 +565,17 @@ export const ContenedorEtiquetas = ({
 		}}
 		>
 			<div style={{
- alignItems: 'center', justifyContent: 'space-between', display: 'flex', width: '100%', cursor: 'pointer',
-}} onClick={toggle}>
+				alignItems: 'center', justifyContent: 'space-between', display: 'flex', width: '100%', cursor: 'pointer',
+			}} onClick={toggle}>
 				<div>{title}</div>
 				<div style={{ display: 'flex', alignItems: 'center' }}>
 					{open ?
 						<i className="material-icons" style={{ fontSize: '40px' }}>
 							arrow_drop_up
-							</i>
+						</i>
 						:						<i className="material-icons" style={{ fontSize: '40px' }}>
 							arrow_drop_down
-							</i>
+						</i>
 					}
 				</div>
 			</div>

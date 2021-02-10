@@ -79,8 +79,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-        actions: bindActionCreators(mainActions, dispatch)
-    });
+	actions: bindActionCreators(mainActions, dispatch)
+});
 
 const participantQuery = gql`
 	query info($councilId: Int!) {

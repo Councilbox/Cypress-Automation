@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose, graphql, withApollo } from 'react-apollo';
 import {
- Icon, MenuItem, Paper, Typography
+	Icon, MenuItem, Paper, Typography
 } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 import { toast } from 'react-toastify';
@@ -36,7 +36,7 @@ import { useOldState } from '../../../hooks';
 
 
 const StepPreview = ({
- translate, company, client, dateStart, ...props
+	translate, company, client, dateStart, ...props
 }) => {
 	const [loading, setLoading] = React.useState(false);
 	const [fetchLoading, setFetchLoading] = React.useState(true);
@@ -145,10 +145,10 @@ const StepPreview = ({
 						<LiveToast
 							message={translate.council_sended}
 						/>, {
-						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,
-						className: 'successToast'
-					}
+							position: toast.POSITION.TOP_RIGHT,
+							autoClose: true,
+							className: 'successToast'
+						}
 					);
 					bHistory.push(`/company/${company.id}/council/${council.id}/prepare`);
 				}
@@ -249,10 +249,10 @@ const StepPreview = ({
 						<LiveToast
 							message={translate.changes_saved}
 						/>, {
-						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,
-						className: 'successToast'
-					}
+							position: toast.POSITION.TOP_RIGHT,
+							autoClose: true,
+							className: 'successToast'
+						}
 					);
 					bHistory.push(`/company/${company.id}/council/${data.council.id}/prepare`);
 				}
@@ -319,8 +319,8 @@ const StepPreview = ({
 						errorText={errors.conveneTestEmail}
 						value={data.conveneTestEmail}
 						onChange={event => updateState({
-								conveneTestEmail: event.nativeEvent.target.value
-							})
+							conveneTestEmail: event.nativeEvent.target.value
+						})
 						}
 					/>
 				</div>
@@ -398,9 +398,9 @@ const StepPreview = ({
 					/>
 					<AlertConfirm
 						requestClose={() => setState({
-								sendConveneWithoutNoticeModal: false,
-								sendWithoutNoticeSuccess: false
-							})
+							sendConveneWithoutNoticeModal: false,
+							sendWithoutNoticeSuccess: false
+						})
 						}
 						open={state.sendConveneWithoutNoticeModal}
 						loadingAction={loading}
@@ -448,97 +448,97 @@ const StepPreview = ({
 									id={'desplegablePrevisualizacionNew'}
 									color="transparent"
 									Component={() => <Paper
-											elevation={1}
+										elevation={1}
+										style={{
+											boxSizing: 'border-box',
+											padding: '0',
+											width: '5em',
+											height: '36px',
+											display: 'flex',
+											alignItems: 'center',
+											justifyContent: 'center',
+											border: `1px solid ${primary}`,
+											marginLeft: '0.3em'
+										}}
+									>
+										<MenuItem
 											style={{
-												boxSizing: 'border-box',
-												padding: '0',
-												width: '5em',
-												height: '36px',
+												width: '100%',
+												height: '100%',
+												margin: 0,
+												padding: 0,
 												display: 'flex',
 												alignItems: 'center',
-												justifyContent: 'center',
-												border: `1px solid ${primary}`,
-												marginLeft: '0.3em'
+												justifyContent: 'center'
 											}}
 										>
-											<MenuItem
+											<FontAwesome
+												name={'bars'}
 												style={{
-													width: '100%',
-													height: '100%',
-													margin: 0,
-													padding: 0,
-													display: 'flex',
-													alignItems: 'center',
-													justifyContent: 'center'
+													cursor: 'pointer',
+													fontSize: '0.8em',
+													height: '0.8em',
+													color: primary
 												}}
+											/>
+											<Icon
+												className="material-icons"
+												style={{ color: primary }}
 											>
-												<FontAwesome
-													name={'bars'}
-													style={{
-														cursor: 'pointer',
-														fontSize: '0.8em',
-														height: '0.8em',
-														color: primary
-													}}
-												/>
-												<Icon
-													className="material-icons"
-													style={{ color: primary }}
-												>
-													keyboard_arrow_down
-												</Icon>
-											</MenuItem>
-										</Paper>
+keyboard_arrow_down
+											</Icon>
+										</MenuItem>
+									</Paper>
 									}
 									textStyle={{ color: primary }}
 									type="flat"
 									items={
 										<React.Fragment>
 											{data.council.councilType !== 4
-												&& <>
-													<MenuItem
-														onClick={() => setState({
-																conveneTestModal: true
-															})
-														}
-													>
-														<Icon
-															className="fa fa-flask"
-															style={{
-																color: secondary,
-																marginLeft: '0.4em',
-																marginRight: '0.4em'
-															}}
-														>
-															{' '}
-														</Icon>
-														{translate.send_test_convene}
-													</MenuItem>
-													<MenuItem
-														onClick={() => setState({
-																preConveneModal: true
-															})
-														}
-													>
-														<Icon
-															className="material-icons"
-															style={{
-																color: secondary,
-																marginLeft: '0.4em',
-																marginRight: '0.4em'
-															}}
-														>
-															query_builder
-														</Icon>
-														{translate.send_preconvene}
-													</MenuItem>
-												</>
+&& <>
+	<MenuItem
+		onClick={() => setState({
+			conveneTestModal: true
+		})
+		}
+	>
+		<Icon
+			className="fa fa-flask"
+			style={{
+				color: secondary,
+				marginLeft: '0.4em',
+				marginRight: '0.4em'
+			}}
+		>
+			{' '}
+		</Icon>
+		{translate.send_test_convene}
+	</MenuItem>
+	<MenuItem
+		onClick={() => setState({
+			preConveneModal: true
+		})
+		}
+	>
+		<Icon
+			className="material-icons"
+			style={{
+				color: secondary,
+				marginLeft: '0.4em',
+				marginRight: '0.4em'
+			}}
+		>
+query_builder
+		</Icon>
+		{translate.send_preconvene}
+	</MenuItem>
+</>
 											}
 											<MenuItem
 												id={'convocarSinNotificarNew'}
 												onClick={() => setState({
-														sendConveneWithoutNoticeModal: true
-													})
+													sendConveneWithoutNoticeModal: true
+												})
 												}
 											>
 												<Icon
@@ -549,7 +549,7 @@ const StepPreview = ({
 														marginRight: '0.4em'
 													}}
 												>
-													notifications_off
+notifications_off
 												</Icon>
 												{data.council.councilType === 4 ? translate.confirm_without_notifying : translate.new_save_convene}
 											</MenuItem>
