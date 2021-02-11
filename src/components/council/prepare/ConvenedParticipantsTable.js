@@ -205,11 +205,11 @@ const ConvenedParticipantsTable = ({
 				<Grid style={{ margin: '0.5em 0' }}>
 					<GridItem xs={12} lg={6} md={6}>
 						{!hideNotifications
-&& <NotificationFilters
-	translate={translate}
-	refetch={updateNotificationFilter}
-	council={council}
-/>
+							&& <NotificationFilters
+								translate={translate}
+								refetch={updateNotificationFilter}
+								council={council}
+							/>
 						}
 					</GridItem>
 				</Grid>
@@ -222,49 +222,49 @@ const ConvenedParticipantsTable = ({
 								display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '0.3em'
 							}}>
 								{!hideNotifications
-&& <Tooltip
-	title={
-		translate.tooltip_refresh_convene_email_state_assistance
-	}
->
-	<div>
-		<BasicButton
-			floatRight
-			text={translate.refresh_convened}
-			color={getSecondary()}
-			loading={refreshing}
-			buttonStyle={{
-				margin: '0',
-				marginRight: '1.2em'
-			}}
-			textStyle={{
-				color: 'white',
-				fontWeight: '700',
-				fontSize: '0.9em',
-				textTransform: 'none'
-			}}
-			icon={
-				<ButtonIcon
-					color="white"
-					type="refresh"
-				/>
-			}
-			textPosition="after"
-			onClick={refreshEmailStates}
-		/>
-	</div>
-</Tooltip>
+									&& <Tooltip
+										title={
+											translate.tooltip_refresh_convene_email_state_assistance
+										}
+									>
+										<div>
+											<BasicButton
+												floatRight
+												text={translate.refresh_convened}
+												color={getSecondary()}
+												loading={refreshing}
+												buttonStyle={{
+													margin: '0',
+													marginRight: '1.2em'
+												}}
+												textStyle={{
+													color: 'white',
+													fontWeight: '700',
+													fontSize: '0.9em',
+													textTransform: 'none'
+												}}
+												icon={
+													<ButtonIcon
+														color="white"
+														type="refresh"
+													/>
+												}
+												textPosition="after"
+												onClick={refreshEmailStates}
+											/>
+										</div>
+									</Tooltip>
 								}
 								{!hideAddParticipant
-&& <div>
-	<AddConvenedParticipantButton
-		participations={participations}
-		translate={translate}
-		councilId={council.id}
-		council={council}
-		refetch={refetch}
-	/>
-</div>
+									&& <div>
+										<AddConvenedParticipantButton
+											participations={participations}
+											translate={translate}
+											councilId={council.id}
+											council={council}
+											refetch={refetch}
+										/>
+									</div>
 								}
 							</div>
 						}
@@ -297,7 +297,7 @@ const ConvenedParticipantsTable = ({
 												if (!props.cantEdit) {
 													setState({
 														editingParticipant: true,
-														participant
+														participant: participantData
 													});
 												}
 											}}
@@ -309,7 +309,7 @@ const ConvenedParticipantsTable = ({
 							}
 						)}
 					</EnhancedTable>
-					:					<div
+					: <div
 						style={{
 							height: '10em',
 							display: 'flex',
@@ -320,17 +320,17 @@ const ConvenedParticipantsTable = ({
 					</div>
 				}
 				{editingParticipant
-&& <ConvenedParticipantEditor
-	key={participant.id}
-	translate={translate}
-	close={closeParticipantEditor}
-	councilId={council.id}
-	council={council}
-	participations={participations}
-	participant={participant}
-	opened={editingParticipant}
-	refetch={refetch}
-/>
+					&& <ConvenedParticipantEditor
+						key={participant.id}
+						translate={translate}
+						close={closeParticipantEditor}
+						councilId={council.id}
+						council={council}
+						participations={participations}
+						participant={participant}
+						opened={editingParticipant}
+						refetch={refetch}
+					/>
 				}
 				<AttendComment
 					requestClose={() => setState({
@@ -366,7 +366,13 @@ mouseLeaveHandler = () => {
 
 render() {
 	const {
-		translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant
+		translate,
+		participant,
+		hideNotifications,
+		totalVotes,
+		socialCapital,
+		council,
+		editParticipant
 	} = this.props;
 	const { representative } = this.props;
 	const { delegate, notifications } = participant;
@@ -377,11 +383,11 @@ render() {
 				<br />
 				{`${translate.delegated_in}: ${delegate.name} ${delegate.surname || ''}`}
 			</React.Fragment>
-			:				!!representative
-&& <React.Fragment>
-	<br />
-	{`${translate.represented_by}: ${representative.name} ${representative.surname || ''}`}
-</React.Fragment>
+			: !!representative
+				&& <React.Fragment>
+					<br />
+					{`${translate.represented_by}: ${representative.name} ${representative.surname || ''}`}
+				</React.Fragment>
 	);
 
 	if (isMobile) {

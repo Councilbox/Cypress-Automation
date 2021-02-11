@@ -268,18 +268,18 @@ render() {
 			<Route exact path="/test/:language" component={Test} />
 			<Route exact path="/test/:language/:token" component={Test} />
 			{this.props.main.isParticipantLogged
-&& [<Route
-	key='route_participant_meet'
-	exact
-	path="/participant/:id/council/:councilId/meet"
-	component={ParticipantContainer}
-/>,
-<Route
-	key='route_participant_council'
-	exact
-	path="/participant/:id/council/:councilId/council"
-	component={ParticipantContainer}
-/>]
+				&& [<Route
+					key='route_participant_meet'
+					exact
+					path="/participant/:id/council/:councilId/meet"
+					component={ParticipantContainer}
+				/>,
+				<Route
+					key='route_participant_council'
+					exact
+					path="/participant/:id/council/:councilId/council"
+					component={ParticipantContainer}
+				/>]
 			}
 			<Route
 				exact
@@ -307,9 +307,7 @@ render() {
 				path="/attendance/participant/:participantId/council/:councilId"
 				component={AttendanceContainer}
 			/>
-
 			<Route path="/activeUser/email/:token" component={ChangeEmail} />
-
 			<Route path="*" component={this.redirectToRoot} />
 		</Switch>
 	);

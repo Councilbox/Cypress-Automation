@@ -83,10 +83,6 @@ export const refreshWSLink = () => {
 const authLink = setContext((_, { headers }) => ({
 	headers: {
 		...headers,
-		/* authorization: token
-? `Bearer ${token}`
-: apiToken? `Bearer ${apiToken}` :
-`Bearer ${participantToken}`, */
 		'x-jwt-token': getToken(),
 		'cbx-client-v': CLIENT_VERSION
 	}

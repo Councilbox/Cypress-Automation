@@ -15,9 +15,7 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 	const vote = getActiveVote(agendaVoting);
 
 	const checkFixed = () => agendaVoting.fixed && agendaVoting.delegatedVotes.filter(item => !item.fixed).length === 0;
-
 	const fixed = checkFixed();
-
 	const active = vote ? vote.vote : null;
 
 	const updateAgendaVoting = async value => {
@@ -59,7 +57,7 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 				onClick={() => (fixed ? setFixedAlert(!fixedAlert) : updateAgendaVoting(value))}
 			>
 				<MenuItem
-					selected={active}
+					selected={enabled}
 					disabled={fixed}
 					style={{
 						display: 'flex',
@@ -74,9 +72,10 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 				>
 					{loading === value ?
 						<CircularProgress size={12} thickness={7} color={'primary'} style={{ marginBottom: '0.35em' }} />
-						:						<VotingValueIcon
+						:
+						<VotingValueIcon
 							vote={value}
-							color={active ? undefined : 'grey'}
+							color={enabled ? undefined : 'grey'}
 						/>
 					}
 				</MenuItem>
@@ -99,8 +98,8 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 							<div>Derecho a voto denegado</div>
 						</Tooltip>
 					</React.Fragment>
-
-					:					<React.Fragment>
+					: 
+					<React.Fragment>
 						{block(VOTE_VALUES.POSITIVE, active === VOTE_VALUES.POSITIVE)}
 						{block(VOTE_VALUES.NEGATIVE, active === VOTE_VALUES.NEGATIVE)}
 						{block(VOTE_VALUES.ABSTENTION, active === VOTE_VALUES.ABSTENTION)}

@@ -66,11 +66,11 @@ const MainRouter = ({ company, user, location }) => {
 				component={redirect(company)}
 			/>
 			{user.roles === 'devAdmin'
-&& <Route
-	exact
-	path="/admin"
-	component={DevAdminPanel}
-/>
+				&& <Route
+					exact
+					path="/admin"
+					component={DevAdminPanel}
+				/>
 			}
 			<Route
 				exact
