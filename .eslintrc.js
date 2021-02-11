@@ -13,7 +13,6 @@ module.exports = {
 			}
 		}
 	},
-	plugins: ['graphql'],
 	"parser": "babel-eslint",
 	extends: [
 		'airbnb-base',
