@@ -124,193 +124,191 @@ const CouncilSurveyModal = ({
 	return (
 		<AlertConfirm
 			bodyStyle={{
-				minWidth: '60vw', overflow: 'hidden', minHeight: '70vh', maxHeight: '95vh', height: '50px', padding: '1.5em'
+				minWidth: '60vw',
+				padding: '1.5em'
 			}}
 			bodyText={
-				<Scrollbar style={{ marginTop: '1rem' }}>
-					<div style={{ padding: '1em' }}>
+				<div style={{ padding: '1em' }}>
+					<div style={{
+						width: '100%',
+						borderRadius: '3px',
+						marginBottom: '1em',
+						background: 'linear-gradient(to top,#b6d1dc -30%, #7976b0 120%)'
+					}}>
 						<div style={{
-							width: '100%',
-							borderRadius: '3px',
-							marginBottom: '1em',
-							background: 'linear-gradient(to top,#b6d1dc -30%, #7976b0 120%)'
+							display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0 1em'
 						}}>
-							<div style={{
-								display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0 1em'
-							}}>
-								<div>
-									<div style={{
-										fontWeight: '800', color: 'white', fontSize: '.9rem', padding: '1rem'
-									}} >
-										<p style={{ margin: '0' }}>
-											{translate.rate_app.replace(/{{appName}}/, subdomain.name || 'Councilbox')}
-										</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div style={{
-							border: 'none', borderRadius: '1px', textAlign: 'left', color: 'black', fontSize: '14px'
-						}}>
-							<div>
-								{/* <Scrollbar> */}
-								<div>
-									<div>{translate.rate_the_satisfaction.replace(/{{appName}}/, subdomain.name || 'Councilbox')}</div>
-									<div>
-										<Stars
-											name={'satisfaction'}
-											value={state.data.satisfaction}
-											disabled={disabled}
-											error={errors.satisfaction}
-											onClick={value => {
-												setState({
-													...state,
-													data: {
-														...state.data,
-														satisfaction: +value
-													}
-												});
-											}}
-										/>
-									</div>
-								</div>
-								<div>
-									<div>{translate.rate_performance.replace(/{{appName}}/, subdomain.name || 'Councilbox')}.</div>
-									<div>
-										<Stars
-											name={'performance'}
-											value={state.data.performance}
-											error={errors.performance}
-											disabled={disabled}
-											onClick={value => {
-												setState({
-													...state,
-													data: {
-														...state.data,
-														performance: +value
-													}
-												});
-											}}
-										/>
-									</div>
-								</div>
-								<div>
-									<div>{translate.degree_recomend_use.replace(/{{appName}}/, subdomain.name || 'Councilbox')}.</div>
-									<div>
-										<Stars
-											name={'recommend'}
-											value={state.data.recommend}
-											error={errors.recommend}
-											disabled={disabled}
-											onClick={value => {
-												setState({
-													...state,
-													data: {
-														...state.data,
-														recommend: +value
-													}
-												});
-											}}
-										/>
-									</div>
-								</div>
-								<div>
-									<div>{translate.rate_care_received}</div>
-									<div>
-										<Stars
-											name={'care'}
-											value={state.data.care}
-											error={errors.care}
-											disabled={disabled}
-											onClick={value => {
-												setState({
-													...state,
-													data: {
-														...state.data,
-														care: +value
-													}
-												});
-											}}
-										/>
-									</div>
-								</div>
-								<div>
-									<div>{translate.what_would_you_improve.replace(/{{appName}}/, subdomain.name || 'Councilbox')}</div>
-									<div style={{ marginTop: '0.5em' }}>
-										<TextArea
-											style={{
-												width: '100%',
-												resize: 'none',
-												border: 'none',
-												padding: '.2rem',
-												background: '#d0d0d080'
-											}}
-											value={state.data.suggestions}
-											disabled={disabled}
-											onChange={event => {
-												setState({
-													...state,
-													data: {
-														...state.data,
-														suggestions: event.target.value
-													}
-												});
-											}}
-										/>
-									</div>
-								</div>
-								{/* </Scrollbar> */}
-							</div>
-							{state.creationDate
-&& <div style={{ marginBottom: '1em', marginTop: '1em' }}>
-	{translate.sent_fem}: {moment(state.creationDate).format('LLL')}
-</div>
-							}
-
 							<div>
 								<div style={{
-									marginTop: '1.5em', display: 'flex', flexDirection: 'row', padding: '1rem'
-								}}>
-									{!disabled
-&& <BasicButton
-	onClick={sendSurvey}
-	text={translate.send}
-	loading={loading}
-	error={error}
-	backgroundColor={{
-		background: getPrimary(),
-		color: 'white',
-		borderRadius: '1px',
-		padding: '1em 3em 1em 3em',
-		marginRight: '1em'
-	}}
->
-</BasicButton>
-									}
-
-									<BasicButton
-										onClick={() => {
-											localStorage.setItem('cbx-survey-closed', JSON.stringify({
-												[participant.id]: true
-											}));
-											requestClose();
-										}}
-										text={translate.close}
-										backgroundColor={{
-											background: 'white',
-											color: getPrimary(),
-											borderRadius: '1px',
-											fontWeight: '700',
-											padding: '1em 3em 1em 3em',
-											boxShadow: 'none'
-										}}
-									>
-									</BasicButton>
+									fontWeight: '800', color: 'white', fontSize: '.9rem', padding: '1rem'
+								}} >
+									<p style={{ margin: '0' }}>
+										{translate.rate_app.replace(/{{appName}}/, subdomain.name || 'Councilbox')}
+									</p>
 								</div>
 							</div>
 						</div>
 					</div>
-				</Scrollbar>
+					<div style={{
+						border: 'none', borderRadius: '1px', textAlign: 'left', color: 'black', fontSize: '14px'
+					}}>
+						<div>
+							{/* <Scrollbar> */}
+							<div>
+								<div>{translate.rate_the_satisfaction.replace(/{{appName}}/, subdomain.name || 'Councilbox')}</div>
+								<div>
+									<Stars
+										name={'satisfaction'}
+										value={state.data.satisfaction}
+										disabled={disabled}
+										error={errors.satisfaction}
+										onClick={value => {
+											setState({
+												...state,
+												data: {
+													...state.data,
+													satisfaction: +value
+												}
+											});
+										}}
+									/>
+								</div>
+							</div>
+							<div>
+								<div>{translate.rate_performance.replace(/{{appName}}/, subdomain.name || 'Councilbox')}.</div>
+								<div>
+									<Stars
+										name={'performance'}
+										value={state.data.performance}
+										error={errors.performance}
+										disabled={disabled}
+										onClick={value => {
+											setState({
+												...state,
+												data: {
+													...state.data,
+													performance: +value
+												}
+											});
+										}}
+									/>
+								</div>
+							</div>
+							<div>
+								<div>{translate.degree_recomend_use.replace(/{{appName}}/, subdomain.name || 'Councilbox')}.</div>
+								<div>
+									<Stars
+										name={'recommend'}
+										value={state.data.recommend}
+										error={errors.recommend}
+										disabled={disabled}
+										onClick={value => {
+											setState({
+												...state,
+												data: {
+													...state.data,
+													recommend: +value
+												}
+											});
+										}}
+									/>
+								</div>
+							</div>
+							<div>
+								<div>{translate.rate_care_received}</div>
+								<div>
+									<Stars
+										name={'care'}
+										value={state.data.care}
+										error={errors.care}
+										disabled={disabled}
+										onClick={value => {
+											setState({
+												...state,
+												data: {
+													...state.data,
+													care: +value
+												}
+											});
+										}}
+									/>
+								</div>
+							</div>
+							<div>
+								<div>{translate.what_would_you_improve.replace(/{{appName}}/, subdomain.name || 'Councilbox')}</div>
+								<div style={{ marginTop: '0.5em' }}>
+									<TextArea
+										style={{
+											width: '100%',
+											resize: 'none',
+											border: 'none',
+											padding: '.2rem',
+											background: '#d0d0d080'
+										}}
+										value={state.data.suggestions}
+										disabled={disabled}
+										onChange={event => {
+											setState({
+												...state,
+												data: {
+													...state.data,
+													suggestions: event.target.value
+												}
+											});
+										}}
+									/>
+								</div>
+							</div>
+						</div>
+						{state.creationDate
+							&& <div style={{ marginBottom: '1em', marginTop: '1em' }}>
+								{translate.sent_fem}: {moment(state.creationDate).format('LLL')}
+							</div>
+						}
+
+						<div>
+							<div style={{
+								marginTop: '1.5em', display: 'flex', flexDirection: 'row', padding: '1rem'
+							}}>
+								{!disabled
+									&& <BasicButton
+										onClick={sendSurvey}
+										text={translate.send}
+										loading={loading}
+										error={error}
+										backgroundColor={{
+											background: getPrimary(),
+											color: 'white',
+											borderRadius: '1px',
+											padding: '1em 3em 1em 3em',
+											marginRight: '1em'
+										}}
+									>
+									</BasicButton>
+								}
+
+								<BasicButton
+									onClick={() => {
+										localStorage.setItem('cbx-survey-closed', JSON.stringify({
+											[participant.id]: true
+										}));
+										requestClose();
+									}}
+									text={translate.close}
+									backgroundColor={{
+										background: 'white',
+										color: getPrimary(),
+										borderRadius: '1px',
+										fontWeight: '700',
+										padding: '1em 3em 1em 3em',
+										boxShadow: 'none'
+									}}
+								>
+								</BasicButton>
+							</div>
+						</div>
+					</div>
+				</div>
 			}
 			open={open}
 			requestClose={requestClose}

@@ -165,16 +165,10 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 	};
 
 	React.useLayoutEffect(() => {
-		let id = '';
-		data.agendas.forEach(agenda => {
-			if (CBX.agendaPointOpened(agenda)) {
-				id = agenda.id;
-			}
-		});
-
-		if (id !== idActive) {
-			scrollTo(id);
-			setIdActive(id);
+		const activeAgenda = data.agendas.find(agenda => CBX.agendaPointOpened(agenda));
+		if (activeAgenda && activeAgenda.id !== idActive) {
+			scrollTo(activeAgenda.id);
+			setIdActive(activeAgenda.id);
 		}
 
 		if (props.timeline && idActive) {
