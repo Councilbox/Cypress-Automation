@@ -12,16 +12,15 @@ import {
 import CompanyDraftForm from './CompanyDraftForm';
 import {
 	getCompanyDraftData,
-	updateCompanyDraft
+	updateCompanyDraft as updateCompanyDraftMutation
 } from '../../../queries/companyDrafts';
-import { checkRequiredFields } from '../../../utils/CBX';
+import { checkRequiredFields, removeTypenameField } from '../../../utils/CBX';
 import { getPrimary } from '../../../styles/colors';
 import { sendGAevent } from '../../../utils/analytics';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { bHistory } from '../../../containers/App';
 import { isMobile } from '../../../utils/screen';
 import { INPUT_REGEX } from '../../../constants';
-
 
 
 const CompanyDraftEditor = ({ translate, client, ...props }) => {
@@ -80,12 +79,12 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 		setSuccess(false);
 	};
 
-	const updateErrors = errors => {
-		setErrors(errors);
+	const updateErrors = newErrors => {
+		setErrors(newErrors);
 	};
 
 	const updateCompanyDraft = async () => {
-		const errors = {
+		const newErrors = {
 			title: '',
 		};
 		let hasError = false;
@@ -94,14 +93,14 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 			if (data.title) {
 				if (!(regex.test(data.title)) || !data.title.trim()) {
 					hasError = true;
-					errors.title = translate.invalid_field;
-					updateErrors(errors);
+					newErrors.title = translate.invalid_field;
+					updateErrors(newErrors);
 				}
 			}
 
 			if (!hasError) {
 				setLoading(true);
-				const { __typename, ...cleanData } = data;
+				const cleanData = removeTypenameField(data);
 				const response = await props.updateCompanyDraft({
 					variables: {
 						draft: {
@@ -121,7 +120,7 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 				if (!response.errors) {
 					setSuccess(true);
 					setLoading(false);
-					bHistory.goBack();
+					bHistory.back();
 				}
 			}
 		}
@@ -130,8 +129,8 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 	const comprobateChanges = () => JSON.stringify(data) !== JSON.stringify(dataInit);
 
 	const goBack = () => {
-		if(!comprobateChanges()){
-			bHistory.goBack();
+		if (!comprobateChanges()) {
+			bHistory.back();
 		} else {
 			setUnsavedAlert(true);
 		}
@@ -141,7 +140,9 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 		<CardPageLayout title={translate.edit_draft} disableScroll={true}>
 			{!fetching && (
 				<div style={{ height: 'calc( 100% - 5em )' }}>
-					<div style={{ marginTop: '1.8em', height: '100%', overflow: 'hidden', padding: '0px 25px' }}>
+					<div style={{
+						marginTop: '1.8em', height: '100%', overflow: 'hidden', padding: '0px 25px'
+					}}>
 						<CompanyDraftForm
 							translate={translate}
 							errors={errors}
@@ -197,7 +198,7 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 			)}
 			<UnsavedChangesModal
 				acceptAction={updateCompanyDraft}
-				cancelAction={() => bHistory.goBack()}
+				cancelAction={() => bHistory.back()}
 				requestClose={() => setUnsavedAlert(false)}
 				successAction={success}
 				loadingAction={loading}
@@ -209,5 +210,5 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 
 export default compose(
 	withApollo,
-	graphql(updateCompanyDraft, { name: 'updateCompanyDraft' })
+	graphql(updateCompanyDraftMutation, { name: 'updateCompanyDraft' })
 )(withRouter(withSharedProps()(CompanyDraftEditor)));

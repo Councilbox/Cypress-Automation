@@ -1,14 +1,14 @@
 import { shouldLoadSubdomain } from './utils/subdomain';
 
-export const SERVER_URL =
-	process.env.REACT_APP_MODE === 'dev'
-		? `http://${window.location.hostname}:5000`
+export const SERVER_URL
+	= process.env.REACT_APP_MODE === 'dev' ?
+		`http://${window.location.hostname}:5000`
 		: `https://${process.env.REACT_APP_API_URL}`;
 
 export const WS_URL = process.env.REACT_APP_MODE === 'dev' ? `ws://${window.location.hostname}:5000/subscriptions` : `wss://${process.env.REACT_APP_API_URL}/subscriptions`;
 export const singleVoteCompanies = [449];
-if(process.env.REACT_APP_MODE === 'dev'){
-	//singleVoteCompanies.push(375);
+if (process.env.REACT_APP_MODE === 'dev') {
+	// singleVoteCompanies.push(375);
 }
 
 export const variants = {
@@ -16,7 +16,7 @@ export const variants = {
 };
 
 const getVariant = () => {
-	if(shouldLoadSubdomain()) return 'CUSTOM';
+	if (shouldLoadSubdomain()) return 'CUSTOM';
 	return false;
 };
 
@@ -31,7 +31,7 @@ export const videoVersions = {
 };
 export const config = {
 	videoEnabled: true,
-	videoVersion: videoVersions.CMP //OLD - CMP
+	videoVersion: videoVersions.CMP // OLD - CMP
 };
 
 export const CONTACT_URL = 'https://www.councilbox.com/contactar/';

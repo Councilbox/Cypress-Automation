@@ -1,5 +1,7 @@
 import React from 'react';
-import { Input, Icon, Collapse, withStyles } from 'material-ui';
+import {
+	Input, Icon, Collapse, withStyles
+} from 'material-ui';
 import PropTypes from 'prop-types';
 import { withApollo } from 'react-apollo';
 import {
@@ -26,7 +28,7 @@ const { NONE, ...governingBodyTypes } = GOVERNING_BODY_TYPES;
 
 export const levelColor = ['#866666', '#b47fb6', '#7fa5b6', '#7f94b6'];
 const styles = {
-	'input': {
+	input: {
 		'&::placeholder': {
 			textOverflow: 'ellipsis !important',
 			color: '#0000005c'
@@ -37,12 +39,14 @@ const styles = {
 	}
 };
 
-const CompanyDraftForm = ({ translate, draft, errors, company, updateState, companyStatutes, draftTypes, rootStatutes, languages, votingTypes, majorityTypes, match, client, ...props }) => {
+const CompanyDraftForm = ({
+	translate, draft, errors, company, updateState, companyStatutes, draftTypes, rootStatutes, languages, votingTypes, majorityTypes, match, client, ...props
+}) => {
 	const [search, setSearch] = React.useState('');
 	const [testTags, setTestTags] = React.useState({});
-	const [tagsSend, setTagsSend] = React.useState([]);
+	const tagsSend = [];
 	const [companyT, setCompanyT] = React.useState([]);
-	const [openSelectorEtiquetas, setOpenSelectorEtiquetas] = React.useState(true);
+	const openSelectorEtiquetas = true;
 
 	const removeTag = tag => {
 		delete testTags[tag];
@@ -52,17 +56,16 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 
 	const formatTagLabel = tag => (tag.segments ?
 		`${tag.segments.reduce((acc, curr) => {
-			if (curr !== tag.label) return acc + (translate[curr] || curr) + '. ';
+			if (curr !== tag.label) return `${acc + (translate[curr] || curr)}. `;
 			return acc;
 		}, '')}`
-		:
-		tag.label);
+		:		tag.label);
 
 	const formatLabelFromName = tag => {
 		if (tag.type === 1) {
 			let statute = null;
 			if (companyStatutes) {
-				statute = companyStatutes.find(statute => statute.id === +tag.name.split('_')[tag.name.split('_').length - 1]);
+				statute = companyStatutes.find(companyStatute => companyStatute.id === +tag.name.split('_')[tag.name.split('_').length - 1]);
 			}
 			const title = statute ? translate[statute.title] ? translate[statute.title] : statute.title : tag.label;
 			return translate[title] || title;
@@ -70,11 +73,10 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 
 		return tag.segments ?
 			`${tag.segments.reduce((acc, curr) => {
-				if (curr !== tag.label) return acc + (translate[curr] || curr) + '. ';
+				if (curr !== tag.label) return `${acc + (translate[curr] || curr)}. `;
 				return acc;
 			}, '')}`
-			:
-			translate[tag.name] ? translate[tag.name] : tag.name;
+			:			translate[tag.name] ? translate[tag.name] : tag.name;
 	};
 
 	const reduceTagName = tag => tag.name;
@@ -151,8 +153,8 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 					classes={{ input: props.classes.input }}
 				>
 				</Input>
-				{!!errors.title &&
-					<span style={{ color: 'red' }}>{errors.title}</span>
+				{!!errors.title
+					&& <span style={{ color: 'red' }}>{errors.title}</span>
 				}
 			</div>
 		</React.Fragment>
@@ -160,7 +162,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 
 
 	const renderEtiquetasSeleccionadas = () => {
-		const TagColumn = props => (
+		const TagColumn = tagProps => (
 			<div style={{
 				display: 'flex',
 				color: '#ffffff',
@@ -168,7 +170,7 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 				marginBottom: '0.5em ',
 				flexDirection: 'column'
 			}}>
-				{props.children}
+				{tagProps.children}
 			</div>
 		);
 
@@ -269,8 +271,8 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 		tagsSearch.push(createTag(governingBodyTypes[key], TAG_TYPES.GOVERNING_BODY, translate))
 	));
 
-	draftTypes.filter(type => !testTags[type.label]).forEach(draft => tagsSearch.push(createTag({
-		...draft,
+	draftTypes.filter(type => !testTags[type.label]).forEach(item => tagsSearch.push(createTag({
+		...item,
 		votingTypes,
 		majorityTypes,
 		addTag,
@@ -289,11 +291,13 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 				<div>
 					<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: '20px' }}>
 						local_offer
-						</i>
+					</i>
 				</div>
 			</div>
 			<div style={{ minHeight: props.innerWidth > 960 ? '300px' : '', height: 'calc( 100% - 4em )' }}>
-				<div style={{ boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7', marginTop: '1em', height: '100%', paddingBottom: isMobile && '1em' }}>
+				<div style={{
+					boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7', marginTop: '1em', height: '100%', paddingBottom: isMobile && '1em'
+				}}>
 					<div style={{ paddingLeft: '1em', paddingRight: '1em' }}>
 						<div style={{ marginBottom: '1em', display: 'flex' }}>
 							<TextInput
@@ -311,9 +315,9 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 						</div>
 						<Collapse in={openSelectorEtiquetas} timeout="auto" unmountOnExit >
 							<div style={{ display: matchSearch.length > 0 ? 'block' : 'none' }}>
-								{matchSearch &&
-									!!companyStatutes &&
-									<ContenedorEtiquetas
+								{matchSearch
+									&& !!companyStatutes
+									&& <ContenedorEtiquetas
 										search={true}
 										color={'rgba(128, 78, 33, 0.58)'}
 										addTag={addTag}
@@ -324,8 +328,8 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 								}
 							</div>
 							<div style={{}}>
-								{company.id === company.corporationId &&
-									<ContenedorEtiquetas
+								{company.id === company.corporationId
+									&& <ContenedorEtiquetas
 										color={getTagColor(TAG_TYPES.COMPANY_TYPE)}
 										translate={translate}
 										addTag={addTag}
@@ -338,8 +342,8 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 									/>
 								}
 
-								{!!companyStatutes &&
-									<ContenedorEtiquetas
+								{!!companyStatutes
+									&& <ContenedorEtiquetas
 										color={'#b47fb6'}
 										translate={translate}
 										addTag={addTag}
@@ -364,8 +368,8 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 										.map(key => createTag(governingBodyTypes[key], TAG_TYPES.GOVERNING_BODY, translate))}
 								/>
 
-								{!!draftTypes &&
-									<ContenedorEtiquetas
+								{!!draftTypes
+									&& <ContenedorEtiquetas
 										color={'#7fa5b6'}
 										addTag={addTag}
 										translate={translate}
@@ -374,8 +378,8 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 											border: `1px solid ${getTagColor(TAG_TYPES.DRAFT_TYPE)}`,
 											color: getTagColor(TAG_TYPES.DRAFT_TYPE),
 										}}
-										tags={draftTypes.filter(type => !testTags[type.label]).map(draft => createTag({
-											...draft,
+										tags={draftTypes.filter(type => !testTags[type.label]).map(item => createTag({
+											...item,
 											votingTypes,
 											majorityTypes,
 											addTag,
@@ -401,13 +405,13 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 							<GridItem xs={12} lg={12} md={12} style={{ height: '120px ' }} >
 								{renderTitle()}
 							</GridItem>
-							{Object.keys(testTags).length > 0 &&
-								<GridItem xs={12} lg={12} md={12} style={{}}>
+							{Object.keys(testTags).length > 0
+								&& <GridItem xs={12} lg={12} md={12} style={{}}>
 									{renderEtiquetasSeleccionadas()}
 								</GridItem>
 							}
-							{openSelectorEtiquetas &&
-								<Fade show={openSelectorEtiquetas}>
+							{openSelectorEtiquetas
+								&& <Fade show={openSelectorEtiquetas}>
 									{renderRichEditor()}
 								</Fade>
 							}
@@ -416,8 +420,8 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 					<GridItem xs={12} lg={4} md={4} style={{}}>
 						{renderSelectorEtiquetas()}
 					</GridItem>
-					{!openSelectorEtiquetas &&
-						<Fade show={!openSelectorEtiquetas}>
+					{!openSelectorEtiquetas
+						&& <Fade show={!openSelectorEtiquetas}>
 							{renderRichEditor()}
 						</Fade>
 					}
@@ -433,8 +437,8 @@ const CompanyDraftForm = ({ translate, draft, errors, company, updateState, comp
 						<GridItem xs={12} lg={8} md={8} >
 							{renderTitle()}
 						</GridItem>
-						{Object.keys(testTags).length > 0 &&
-							<GridItem xs={12} lg={12} md={12} style={{}}>
+						{Object.keys(testTags).length > 0
+							&& <GridItem xs={12} lg={12} md={12} style={{}}>
 								{renderEtiquetasSeleccionadas()}
 							</GridItem>
 						}
@@ -476,7 +480,9 @@ const Fade = ({ show, children }) => {
 };
 
 
-export const EtiquetasModal = ({ color, title, tags, addTag }) => (
+export const EtiquetasModal = ({
+	color, title, tags, addTag
+}) => (
 	<div>
 		<div style={{ fontWeight: '700' }} >
 			<div>{title}</div>
@@ -510,8 +516,9 @@ export const EtiquetasModal = ({ color, title, tags, addTag }) => (
 );
 
 
-
-export const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, addTag, translate, search }) => {
+export const ContenedorEtiquetas = ({
+	stylesContent, color, last, title, tags, addTag, translate, search
+}) => {
 	const [open, setOpen] = React.useState(false);
 
 	const toggle = () => {
@@ -557,17 +564,18 @@ export const ContenedorEtiquetas = ({ stylesContent, color, last, title, tags, a
 			...stylesContent
 		}}
 		>
-			<div style={{ alignItems: 'center', justifyContent: 'space-between', display: 'flex', width: '100%', cursor: 'pointer', }} onClick={toggle}>
+			<div style={{
+				alignItems: 'center', justifyContent: 'space-between', display: 'flex', width: '100%', cursor: 'pointer',
+			}} onClick={toggle}>
 				<div>{title}</div>
 				<div style={{ display: 'flex', alignItems: 'center' }}>
 					{open ?
 						<i className="material-icons" style={{ fontSize: '40px' }}>
 							arrow_drop_up
-							</i>
-						:
-						<i className="material-icons" style={{ fontSize: '40px' }}>
+						</i>
+						:						<i className="material-icons" style={{ fontSize: '40px' }}>
 							arrow_drop_down
-							</i>
+						</i>
 					}
 				</div>
 			</div>

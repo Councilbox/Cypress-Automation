@@ -16,7 +16,7 @@ import {
 	TextInput,
 	GridItem
 } from '../../../../displayComponents';
-import { councilStepFive, updateCouncil } from '../../../../queries';
+import { councilStepFive, updateCouncil as updateCouncilMutation } from '../../../../queries';
 import { checkValidMajority } from '../../../../utils/validation';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import * as CBX from '../../../../utils/CBX';
@@ -30,8 +30,9 @@ import VoteLetterWithSenseOption from './VoteLetterWithSenseOption';
 import AttendanceTextEditor from './AttendanceTextEditor';
 
 
-
-const StepOptions = ({ translate, data, client, ...props }) => {
+const StepOptions = ({
+	translate, data, client, ...props
+}) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 	const config = React.useContext(ConfigContext);
@@ -75,7 +76,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 			}
 		}
 	});
-	const council = state.data.council;
+	const { council } = state.data;
 
 
 	const updateCouncil = async step => {
@@ -83,10 +84,12 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 			...state,
 			loading: true
 		});
-		const { __typename, statute, platform, room, ...council } = state.data.council;
+		const {
+			__typename, statute, platform, room, ...rest
+		} = state.data.council;
 		const { __typename: t, ...councilRoom } = room;
 
-		const response = await client.mutate({
+		await client.mutate({
 			mutation: gql`
 				mutation UpdateCouncilRoom($councilRoom: CouncilRoomInput!, $councilId: Int!){
 					updateCouncilRoom(councilRoom: $councilRoom, councilId: $councilId){
@@ -103,15 +106,13 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 		await props.updateCouncil({
 			variables: {
 				council: {
-					...council,
+					...rest,
 					sendPointsMode: !CBX.councilHasVideo({ councilType: council.councilType }) ? 0 : 1,
 					closeDate: council.closeDate ? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm'),
 					step
 				}
 			}
 		});
-
-
 
 		setState({
 			...state,
@@ -136,7 +137,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 				}
 			}
 		});
-		if(response){
+		if (response) {
 			setIsmodal({ ...isModal, modal: false, unsavedModal: false });
 		}
 	};
@@ -163,7 +164,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 		}
 
 		if (council.autoClose === 1) {
-			//TRADUCCION
+			// TRADUCCION
 			if (!CBX.checkSecondDateAfterFirst(council.dateStart, council.closeDate)) {
 				setState({
 					...state,
@@ -176,22 +177,17 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 			}
 		}
 
-		if (council.councilType === 3) {
-
-		}
-
 		return false;
 	};
 
 
-
-	function updateCouncilData(data) {
+	function updateCouncilData(newData) {
 		setState({
 			...state,
 			data: {
 				council: {
 					...state.data.council,
-					...data,
+					...newData,
 					...(!config.video ? {
 						councilType: 1
 					} : {})
@@ -228,10 +224,10 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 						disabled={!config.video}
 						value={council.councilType === 0}
 						onChange={(event, isInputChecked) => updateCouncilData({
-								councilType: isInputChecked ? 0 : 1,
-								autoClose: 0,
-								fullVideoRecord: 0
-							})
+							councilType: isInputChecked ? 0 : 1,
+							autoClose: 0,
+							fullVideoRecord: 0
+						})
 						}
 					/>
 					<Checkbox
@@ -239,16 +235,16 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 						label={translate.full_video_record}
 						value={council.fullVideoRecord !== 0}
 						onChange={(event, isInputChecked) => updateCouncilData({
-								fullVideoRecord: isInputChecked ? 1 : 0
-							})
+							fullVideoRecord: isInputChecked ? 1 : 0
+						})
 						}
 					/>
 					<Checkbox
 						label={translate.wall}
 						value={council.wallActive !== 0}
 						onChange={(event, isInputChecked) => updateCouncilData({
-								wallActive: isInputChecked ? 1 : 0
-							})
+							wallActive: isInputChecked ? 1 : 0
+						})
 						}
 					/>
 					<Checkbox
@@ -256,8 +252,8 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 						label={translate.can_ask_word}
 						value={council.askWordMenu}
 						onChange={(event, isInputChecked) => updateCouncilData({
-								askWordMenu: isInputChecked
-							})
+							askWordMenu: isInputChecked
+						})
 						}
 					/>
 					<div style={{ display: 'flex' }}>
@@ -266,12 +262,12 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 							label={translate.auto_close}
 							value={council.autoClose !== 0}
 							onChange={(event, isInputChecked) => updateCouncilData({
-									autoClose: isInputChecked ? 1 : 0
-								})
+								autoClose: isInputChecked ? 1 : 0
+							})
 							}
 						/>
-						{council.autoClose === 1 &&
-							<div style={{ width: '22em', marginLeft: '0.9em' }}>
+						{council.autoClose === 1
+							&& <div style={{ width: '22em', marginLeft: '0.9em' }}>
 								<DateTimePicker
 									required
 									minDate={moment(new Date(council.dateStart)).add(1, 'm')}
@@ -290,8 +286,8 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 							</div>
 						}
 					</div>
-					{council.councilType === 0 &&
-						<GridItem xs={12} md={8} lg={6}>
+					{council.councilType === 0
+						&& <GridItem xs={12} md={8} lg={6}>
 							<RTMPField
 								data={council}
 								updateData={updateCouncilData}
@@ -312,8 +308,8 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 					/>
 
 					<div style={{ display: 'flex' }}>
-						{council.autoClose === 1 &&
-							<div style={{ width: '22em' }}>
+						{council.autoClose === 1
+							&& <div style={{ width: '22em' }}>
 								<DateTimePicker
 									required
 									errorText={state.errors.closeDate}
@@ -345,8 +341,8 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 						}}
 					/>
 					<div style={{ display: 'flex' }}>
-						{council.autoClose === 1 &&
-							<div style={{ width: '22em' }}>
+						{council.autoClose === 1
+							&& <div style={{ width: '22em' }}>
 								<DateTimePicker
 									required
 									errorText={state.errors.closeDate}
@@ -379,8 +375,8 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 								label={translate.in_person_vote_prevails}
 								value={council.presentVoteOverwrite === 1}
 								onChange={(event, isInputChecked) => updateCouncilData({
-										presentVoteOverwrite: isInputChecked ? 1 : 0
-									})
+									presentVoteOverwrite: isInputChecked ? 1 : 0
+								})
 								}
 							/>
 						</div>
@@ -417,8 +413,8 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 						label={translate.full_video_record}
 						value={council.fullVideoRecord !== 0}
 						onChange={(event, isInputChecked) => updateCouncilData({
-								fullVideoRecord: isInputChecked ? 1 : 0
-							})
+							fullVideoRecord: isInputChecked ? 1 : 0
+						})
 						}
 					/>
 				</>
@@ -428,7 +424,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 		return councilOptions[type] ? councilOptions[type] : councilOptions[1];
 	}
 
-	function _renderDelegationRestriction() {
+	function renderDelegationRestriction() {
 		return (
 			<DelegationRestriction
 				translate={translate}
@@ -437,15 +433,15 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 		);
 	}
 
-	function _renderSecurityForm() {
+	function renderSecurityForm() {
 		return (
 			<div style={{ display: 'inline-grid' }}>
 				<Radio
 					value={'0'}
 					checked={council.securityType === 0}
 					onChange={event => updateCouncilData({
-							securityType: parseInt(event.target.value, 10)
-						})
+						securityType: parseInt(event.target.value, 10)
+					})
 					}
 					name="security"
 					label={translate.new_security_none}
@@ -454,8 +450,8 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 					value={'1'}
 					checked={council.securityType === 1}
 					onChange={event => updateCouncilData({
-							securityType: parseInt(event.target.value, 10)
-						})
+						securityType: parseInt(event.target.value, 10)
+					})
 					}
 					name="security"
 					label={translate.new_security_email}
@@ -464,8 +460,8 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 					value={'2'}
 					checked={council.securityType === 2}
 					onChange={event => updateCouncilData({
-							securityType: parseInt(event.target.value, 10)
-						})
+						securityType: parseInt(event.target.value, 10)
+					})
 					}
 					name="security"
 					label={translate.new_security_sms}
@@ -474,8 +470,8 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 					value={'3'}
 					checked={council.securityType === 3}
 					onChange={event => updateCouncilData({
-							securityType: parseInt(event.target.value, 10)
-						})
+						securityType: parseInt(event.target.value, 10)
+					})
 					}
 					name="security"
 					label={translate.council_security_cert}
@@ -506,8 +502,7 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 						>
 							<LoadingSection />
 						</div>
-						:
-						<div style={{ marginLeft: '1em' }}>
+						:						<div style={{ marginLeft: '1em' }}>
 							{council.councilType < 2 && (
 								<React.Fragment>
 									<SectionTitle
@@ -518,12 +513,12 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 										label={translate.confirm_assistance_desc}
 										value={council.confirmAssistance === 1}
 										onChange={(event, isInputChecked) => updateCouncilData({
-												confirmAssistance: isInputChecked ? 1 : 0
-											})
+											confirmAssistance: isInputChecked ? 1 : 0
+										})
 										}
 									/>
-									{council.confirmAssistance === 1 &&
-										<>
+									{council.confirmAssistance === 1
+										&& <>
 											<AttendanceTextEditor
 												council={council}
 												translate={translate}
@@ -539,8 +534,8 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 							)}
 							{renderCouncilTypeSpecificOptions(council.councilType)}
 
-							{council.councilType !== 4 &&
-								<>
+							{council.councilType !== 4
+								&& <>
 									<SectionTitle
 										text={translate.security}
 										color={primary}
@@ -548,12 +543,12 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 											marginTop: '1.6em'
 										}}
 									/>
-									{_renderSecurityForm()}
+									{renderSecurityForm()}
 
 								</>
 							}
 							{(council.statute.existsDelegatedVote === 1 && config.councilDelegates && council.councilType !== 5)
-								&& _renderDelegationRestriction()
+								&& renderDelegationRestriction()
 							}
 							<SectionTitle
 								text={translate.options}
@@ -566,8 +561,8 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 								label={translate.test_meeting}
 								value={council.promoCode === 'COUNCILBOX'}
 								onChange={(event, isInputChecked) => updateCouncilData({
-										promoCode: isInputChecked ? 'COUNCILBOX' : null
-									})
+									promoCode: isInputChecked ? 'COUNCILBOX' : null
+								})
 								}
 							/>
 							{CBX.hasAct(council.statute) && council.councilType < 2 && (
@@ -589,14 +584,16 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 												label={translate.approve_act_draft_at_end_desc}
 												value={council.approveActDraft !== 0}
 												onChange={(event, isInputChecked) => updateCouncilData({
-														approveActDraft: isInputChecked ? 1 : 0
-													})
+													approveActDraft: isInputChecked ? 1 : 0
+												})
 												}
 											/>
 										</div>
 										{council.approveActDraft === 1 && (
 											<div>
-												<div style={{ display: 'flex', flexDirection: 'row', marginLeft: '1.1em', alignItems: 'center' }}>
+												<div style={{
+													display: 'flex', flexDirection: 'row', marginLeft: '1.1em', alignItems: 'center'
+												}}>
 													<div>
 														<SelectInput
 															floatingLabelText={
@@ -612,18 +609,18 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 														>
 															{data.majorityTypes.map(
 																majority => (
-																		<MenuItem
-																			value={majority.value}
-																			key={`majority${majority.value
-																				}`}
-																		>
-																			{
-																				translate[
+																	<MenuItem
+																		value={majority.value}
+																		key={`majority${majority.value
+																		}`}
+																	>
+																		{
+																			translate[
 																				majority.label
-																				]
-																			}
-																		</MenuItem>
-																	)
+																			]
+																		}
+																	</MenuItem>
+																)
 															)}
 														</SelectInput>
 													</div>
@@ -631,24 +628,24 @@ const StepOptions = ({ translate, data, client, ...props }) => {
 														{CBX.majorityNeedsInput(
 															council.actPointMajorityType
 														) && (
-																<MajorityInput
-																	type={council.actPointMajorityType}
-																	style={{ marginLeft: '1em' }}
-																	value={council.actPointMajority}
-																	divider={
-																		council.actPointMajorityDivider
-																	}
-																	mayori
-																	onChange={value => updateCouncilData({
-																			actPointMajority: +value
-																		})
-																	}
-																	onChangeDivider={value => updateCouncilData({
-																			actPointMajorityDivider: +value
-																		})
-																	}
-																/>
-															)}
+															<MajorityInput
+																type={council.actPointMajorityType}
+																style={{ marginLeft: '1em' }}
+																value={council.actPointMajority}
+																divider={
+																	council.actPointMajorityDivider
+																}
+																mayori
+																onChange={value => updateCouncilData({
+																	actPointMajority: +value
+																})
+																}
+																onChangeDivider={value => updateCouncilData({
+																	actPointMajorityDivider: +value
+																})
+																}
+															/>
+														)}
 													</div>
 												</div>
 											</div>
@@ -737,11 +734,10 @@ export default compose(
 		})
 	}),
 	withApollo,
-	graphql(updateCouncil, {
+	graphql(updateCouncilMutation, {
 		name: 'updateCouncil'
 	})
 )(withWindowSize(StepOptions));
-
 
 
 const RTMPField = ({ data, updateData, translate }) => {
@@ -753,14 +749,14 @@ const RTMPField = ({ data, updateData, translate }) => {
 			errorText={!validURL ? translate.invalid_url : ''}
 			floatingText={'RTMP'}
 			value={(data.room && data.room.videoConfig) ? data.room.videoConfig.rtmp : ''}
-			onChange={(event, isInputChecked) => updateData({
-					room: {
-						videoConfig: {
-							...data.room.videoConfig,
-							rtmp: event.target.value
-						}
+			onChange={event => updateData({
+				room: {
+					videoConfig: {
+						...data.room.videoConfig,
+						rtmp: event.target.value
 					}
-				})
+				}
+			})
 			}
 		/>
 	);

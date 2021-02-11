@@ -15,7 +15,9 @@ import { PARTICIPANT_STATES } from '../../../../../constants';
 import { useOldState } from '../../../../../hooks';
 import { isMobile } from '../../../../../utils/screen';
 
-const SignatureModal = ({ data, translate, council, participant, ...props }) => {
+const SignatureModal = ({
+	data, translate, council, participant, ...props
+}) => {
 	const [state, setState] = useOldState({
 		success: '',
 		errors: {},
@@ -154,7 +156,7 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 					</Fragment>
 				}
 			>
-				<div> {/**style={{ width: `calc(${width}px +  2em)`}} */}
+				<div> {/** style={{ width: `calc(${width}px +  2em)`}} */}
 					<div
 						style={{
 							height: '400px',
@@ -183,20 +185,20 @@ const SignatureModal = ({ data, translate, council, participant, ...props }) => 
 								<Checkbox
 									label={translate.has_remote_vote}
 									value={
-										participantState ===
-										PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
+										participantState
+=== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
 									}
 									onChange={(event, isInputChecked) => setState({
-										participantState: isInputChecked
-											? PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
+										participantState: isInputChecked ?
+											PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
 											: PARTICIPANT_STATES.PHYSICALLY_PRESENT
 									})
 									}
 								/>
 							</div>
 						) : (
-								<br />
-							)}
+							<br />
+						)}
 						<div
 							style={{ width: 'calc(100% - 2em)', display: 'flex', justifyContent: 'center' }}
 							onMouseDown={() => setState({ clean: false })}

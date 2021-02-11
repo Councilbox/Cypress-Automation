@@ -10,7 +10,9 @@ import SendToSignButton from './SendToSignButton';
 import { ConfigContext } from '../../../../containers/AppControl';
 
 
-const ActHTML = ({ translate, company, council, client, toolbar }) => {
+const ActHTML = ({
+	translate, company, council, client, toolbar
+}) => {
 	const [data, setData] = React.useState(null);
 	const config = React.useContext(ConfigContext);
 	const [loading, setLoading] = React.useState(true);
@@ -43,22 +45,21 @@ const ActHTML = ({ translate, company, council, client, toolbar }) => {
 		<React.Fragment>
 			{toolbar ?
 				toolbar()
-			:
-				data.councilAct.type === 0 &&
-					<>
-						<DownloadActPDF
-							translate={translate}
-							council={council}
-						/>
-						{config.sendActToSign &&
-							<SendToSignButton
-								council={council}
-								company={company}
-								translate={translate}
-								styles={{ marginLeft: '1em' }}
-							/>
-						}
-					</>
+				:				data.councilAct.type === 0
+&& <>
+	<DownloadActPDF
+		translate={translate}
+		council={council}
+	/>
+	{config.sendActToSign
+&& <SendToSignButton
+	council={council}
+	company={company}
+	translate={translate}
+	styles={{ marginLeft: '1em' }}
+/>
+	}
+</>
 			}
 
 
@@ -80,17 +81,16 @@ const ActHTML = ({ translate, company, council, client, toolbar }) => {
 							translate={translate}
 							council={council}
 						/>
-						{config.sendActToSign &&
-							<SendToSignButton
-								council={council}
-								company={company}
-								translate={translate}
-								styles={{ marginLeft: '1em' }}
-							/>
+						{config.sendActToSign
+&& <SendToSignButton
+	council={council}
+	company={company}
+	translate={translate}
+	styles={{ marginLeft: '1em' }}
+/>
 						}
 					</React.Fragment>
-				:
-					<div style={{ border: '1px solid gainsboro' }}>
+					:					<div style={{ border: '1px solid gainsboro' }}>
 						<CBXDocumentLayout
 							preview={data.councilAct.emailAct}
 							loading={false}

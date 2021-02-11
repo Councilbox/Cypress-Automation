@@ -49,27 +49,27 @@ const AlertConfirm = ({
 				/>
 			)}
 
-			{extraActions &&
-				extraActions
+			{extraActions
+&& extraActions
 			}
 
-			{!hideAccept &&
-				!!buttonAccept && (
-					<BasicButton
-						text={buttonAccept}
-						loading={loadingAction}
-						success={successAction}
-						textStyle={{
-							color: 'white',
-							textTransform: 'none',
-							fontWeight: '700'
-						}}
-						buttonStyle={{ marginLeft: '1em' }}
-						color={primary}
-						onClick={acceptAction}
-						claseHover={'buttonAceptarDeModalAlert'}
-					/>
-				)}
+			{!hideAccept
+&& !!buttonAccept && (
+				<BasicButton
+					text={buttonAccept}
+					loading={loadingAction}
+					success={successAction}
+					textStyle={{
+						color: 'white',
+						textTransform: 'none',
+						fontWeight: '700'
+					}}
+					buttonStyle={{ marginLeft: '1em' }}
+					color={primary}
+					onClick={acceptAction}
+					claseHover={'buttonAceptarDeModalAlert'}
+				/>
+			)}
 		</Fragment>
 	);
 
@@ -117,8 +117,7 @@ const AlertConfirm = ({
 								<div style={{ color: ' rgba(0, 0, 0, 0.37)', fontSize: '17px' }}>{titleRigth}</div>
 							</div>
 						)
-						:
-						(
+						:						(
 							title
 						)
 					}
@@ -134,31 +133,31 @@ const AlertConfirm = ({
 			>
 				{bodyText}
 			</DialogContent>
-			{(!!buttonCancel || !!buttonAccept) &&
-				<DialogActions
-					style={{
-						paddingRight: '0.6em',
-						borderTop: '1px solid gainsboro',
-						paddingTop: '0.5em',
-						margin: '8px 8px',
-						minHeight: '25px'
-					}}
-				>
-					{buttons}
-				</DialogActions>
+			{(!!buttonCancel || !!buttonAccept)
+&& <DialogActions
+	style={{
+		paddingRight: '0.6em',
+		borderTop: '1px solid gainsboro',
+		paddingTop: '0.5em',
+		margin: '8px 8px',
+		minHeight: '25px'
+	}}
+>
+	{buttons}
+</DialogActions>
 			}
-			{actions &&
-				<DialogActions
-					style={{
-						paddingRight: '0.6em',
-						borderTop: '1px solid gainsboro',
-						paddingTop: '0.5em',
-						margin: '8px 8px',
-						minHeight: '25px'
-					}}
-				>
-					{actions}
-				</DialogActions>
+			{actions
+&& <DialogActions
+	style={{
+		paddingRight: '0.6em',
+		borderTop: '1px solid gainsboro',
+		paddingTop: '0.5em',
+		margin: '8px 8px',
+		minHeight: '25px'
+	}}
+>
+	{actions}
+</DialogActions>
 			}
 		</Dialog>
 	);

@@ -2,14 +2,16 @@ import React from 'react';
 import { Typography } from 'material-ui';
 import { graphql } from 'react-apollo';
 import { AlertConfirm, Icon, Radio } from '../../../../displayComponents';
-import { sendVideoEmails } from '../../../../queries';
+import { sendVideoEmails as sendVideoEmailsMutation } from '../../../../queries';
 import { moment } from '../../../../containers/App';
 import { useOldState } from '../../../../hooks';
 import FailedSMSMessage from './FailedSMSMessage';
 import LiveSMS from './LiveSMS';
 
 
-const SendCredentialsModal = ({ translate, council, requestClose, ...props }) => {
+const SendCredentialsModal = ({
+	translate, council, requestClose, ...props
+}) => {
 	const [state, setState] = useOldState({
 		success: '',
 		error: '',
@@ -66,12 +68,12 @@ const SendCredentialsModal = ({ translate, council, requestClose, ...props }) =>
 		}
 	};
 
-	function _renderBody() {
+	function renderBody() {
 		if (state.sending) {
 			return <div>{translate.sending}</div>;
 		}
 
-		if(state.showSMS){
+		if (state.showSMS) {
 			return (
 				<LiveSMS
 					translate={translate}
@@ -80,13 +82,15 @@ const SendCredentialsModal = ({ translate, council, requestClose, ...props }) =>
 			);
 		}
 
-		if(state.error === 'Failed SMS'){
+		if (state.error === 'Failed SMS') {
 			return <FailedSMSMessage translate={translate} onClick={() => setState({ showSMS: true })} />;
 		}
 
 		if (state.success) {
 			return (
-				<div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+				<div style={{
+					width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'
+				}}>
 					<SuccessMessage message={translate.sent} />
 				</div>
 			);
@@ -122,14 +126,14 @@ const SendCredentialsModal = ({ translate, council, requestClose, ...props }) =>
 			buttonAccept={state.success ? translate.accept : translate.send}
 			hideAccept={state.error || state.showSMS}
 			buttonCancel={translate.close}
-			bodyText={_renderBody()}
+			bodyText={renderBody()}
 			title={translate.send_video_credentials}
 		/>
 	);
 };
 
 
-export default graphql(sendVideoEmails, {
+export default graphql(sendVideoEmailsMutation, {
 	name: 'sendVideoEmails'
 })(SendCredentialsModal);
 
@@ -150,7 +154,7 @@ const SuccessMessage = ({ message }) => (
 				color: 'green'
 			}}
 		>
-			check_circle
+check_circle
 		</Icon>
 		<Typography variant="subheading">{message}</Typography>
 	</div>

@@ -7,33 +7,33 @@ import withTranslations from '../HOCs/withTranslations';
 import * as mainActions from '../actions/mainActions';
 
 const RoomAdminContainer = ({ match, client, actions }) => {
-    const getAdminToken = async () => {
-        const response = await client.mutate({
-            mutation: gql`
-                mutation adminToken($token: String!){
-                    adminToken(token: $token){
-                        token
-                    }
-                }
-            `,
-            variables: {
-                token: match.params.token
-            }
-        });
+	const getAdminToken = async () => {
+		const response = await client.mutate({
+			mutation: gql`
+				mutation adminToken($token: String!){
+					adminToken(token: $token){
+						token
+					}
+				}
+			`,
+			variables: {
+				token: match.params.token
+			}
+		});
 
-        if(response.data.adminToken){
-            actions.loginSuccess(response.data.adminToken.token);
-        }
-    };
+		if (response.data.adminToken) {
+			actions.loginSuccess(response.data.adminToken.token);
+		}
+	};
 
 
-    React.useEffect(() => {
-        getAdminToken();
-    }, [match.params.token]);
+	React.useEffect(() => {
+		getAdminToken();
+	}, [match.params.token]);
 
-    return (
-        <div/>
-    );
+	return (
+		<div/>
+	);
 };
 
 

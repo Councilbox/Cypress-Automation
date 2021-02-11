@@ -16,20 +16,19 @@ const getInitialSelectedPoint = agendas => {
 
 const reducer = (state, action) => {
 	const actions = {
-		'LOAD_DATA': () => ({
+		LOAD_DATA: () => ({
 			...state,
 			data: action.value,
 			loading: false,
 			selectedPoint: (state.selectedPoint >= action.value.agendas.length && action.value.agendas.length !== 0) ?
 				action.value.agendas.length - 1
-			:
-				state.selectedPoint !== null ? state.selectedPoint : getInitialSelectedPoint(action.value.agendas)
+				:				state.selectedPoint !== null ? state.selectedPoint : getInitialSelectedPoint(action.value.agendas)
 		}),
-		'NEXT_POINT': () => ({
+		NEXT_POINT: () => ({
 			...state,
 			selectedPoint: state.selectedPoint + 1
 		}),
-		'SET_SELECTED_POINT': () => ({
+		SET_SELECTED_POINT: () => ({
 			...state,
 			selectedPoint: action.value
 		})
@@ -39,7 +38,9 @@ const reducer = (state, action) => {
 };
 
 
-const AgendaManager = ({ translate, council, company, stylesDiv, client, ...props }, ref) => {
+const AgendaManager = ({
+	translate, council, company, stylesDiv, client, ...props
+}, ref) => {
 	const [{ data, loading, selectedPoint }, dispatch] = React.useReducer(reducer, {
 		data: {},
 		loading: true,
@@ -47,7 +48,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 	});
 
 	const [state, setState] = useOldState({
-		//selectedPoint: null,
+		// selectedPoint: null,
 		loaded: false,
 		editedVotings: false,
 		votingsAlert: false
@@ -55,7 +56,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 	const agendaDetails = React.useRef();
 
 	const getData = React.useCallback(async () => {
-		if(!council){
+		if (!council) {
 			return;
 		}
 
@@ -73,7 +74,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 	usePolling(getData, 5000);
 
 	React.useEffect(() => {
-		if(!loading){
+		if (!loading) {
 			setState({
 				loaded: true
 			});
@@ -118,7 +119,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 	const changeSelectedPoint = index => {
 		const cb = () => dispatch({ type: 'SET_SELECTED_POINT', value: index });
 
-		if(state.editedVotings){
+		if (state.editedVotings) {
 			showVotingsAlert(cb);
 		} else {
 			cb();
@@ -126,7 +127,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 	};
 
 	const nextPoint = () => {
-		if(selectedPoint < data.agendas.length - 1){
+		if (selectedPoint < data.agendas.length - 1) {
 			dispatch({ type: 'NEXT_POINT' });
 			// setState({
 			// 	selectedPoint: state.selectedPoint + 1
@@ -246,11 +247,10 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 						refetchCouncil={props.refetch}
 						refetch={getData}
 					/>
-				:
-					<div style={{ margin: '2em' }}>
+					:					<div style={{ margin: '2em' }}>
 						{translate.empty_agendas}
 					</div>
-					}
+				}
 			</div>
 			<AlertConfirm
 				requestClose={closeVotingsAlert}
@@ -347,6 +347,7 @@ export const agendaManager = gql`
 			totalVotings
 			votingState
 		}
+
 		languages {
 			desc
 			columnName

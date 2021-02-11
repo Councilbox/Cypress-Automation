@@ -14,7 +14,7 @@ import {
 } from '../../../displayComponents';
 import { downloadCBXData, updateConveneSends } from '../../../queries';
 import { convenedcouncilParticipants } from '../../../queries/councilParticipant';
-import { COUNCIL_TYPES, PARTICIPANTS_LIMITS, PARTICIPANT_STATES, PARTICIPANT_TYPE } from '../../../constants';
+import { COUNCIL_TYPES, PARTICIPANTS_LIMITS, PARTICIPANT_STATES } from '../../../constants';
 import NotificationFilters from './NotificationFilters';
 import DownloadCBXDataButton from './DownloadCBXDataButton';
 import AddConvenedParticipantButton from './modals/AddConvenedParticipantButton';
@@ -24,12 +24,32 @@ import AttendComment from './modals/AttendComment';
 import { isMobile } from '../../../utils/screen';
 import { useOldState, usePolling } from '../../../hooks';
 
+const formatParticipant = participant => {
+	let { ...newParticipant } = participant;
 
-const ConvenedParticipantsTable = ({ client, translate, council, participations, hideNotifications, hideAddParticipant, ...props }) => {
+	if (participant.representatives.length > 0) {
+		newParticipant = {
+			...participant,
+			representative: participant.representatives[0]
+		};
+	}
+
+	if (participant.live.state === PARTICIPANT_STATES.DELEGATED) {
+		newParticipant = {
+			...newParticipant,
+			delegate: participant.live.representative
+		};
+	}
+	return newParticipant;
+};
+
+const ConvenedParticipantsTable = ({
+	client, translate, council, participations, hideNotifications, hideAddParticipant, ...props
+}) => {
 	const [filters, setFilters] = React.useState({
 		options: {
 			limit: PARTICIPANTS_LIMITS[0],
-			//page: 1,
+			// page: 1,
 			offset: 0,
 			orderBy: 'name',
 			orderDirection: 'asc',
@@ -75,11 +95,6 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 
 	usePolling(getData, 9000);
 
-	React.useEffect(() => {
-		refreshEmailStates();
-	}, [council.id]);
-
-
 	const refreshEmailStates = async () => {
 		setRefreshing(true);
 		const response = await props.updateConveneSends({
@@ -93,6 +108,10 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 			setRefreshing(false);
 		}
 	};
+
+	React.useEffect(() => {
+		refreshEmailStates();
+	}, [council.id]);
 
 	usePolling(CBX.councilIsNotified(council) ? refreshEmailStates : () => {}, 60000);
 
@@ -119,10 +138,6 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 			...filters,
 			...object
 		});
-	};
-
-	const resetPage = () => {
-		table.current.setPage(filters.page);
 	};
 
 	const showModalComment = comment => event => {
@@ -155,7 +170,7 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 		{ text: translate.position },
 	];
 
-	if(council.councilType !== COUNCIL_TYPES.ONE_ON_ONE){
+	if (council.councilType !== COUNCIL_TYPES.ONE_ON_ONE) {
 		headers.push({
 			text: translate.votes,
 			name: 'numParticipations',
@@ -189,8 +204,8 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 			<React.Fragment>
 				<Grid style={{ margin: '0.5em 0' }}>
 					<GridItem xs={12} lg={6} md={6}>
-						{!hideNotifications &&
-							<NotificationFilters
+						{!hideNotifications
+							&& <NotificationFilters
 								translate={translate}
 								refetch={updateNotificationFilter}
 								council={council}
@@ -203,9 +218,11 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 						ref={table}
 						translate={translate}
 						menuButtons={
-							<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '0.3em' }}>
-								{!hideNotifications &&
-									<Tooltip
+							<div style={{
+								display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '0.3em'
+							}}>
+								{!hideNotifications
+									&& <Tooltip
 										title={
 											translate.tooltip_refresh_convene_email_state_assistance
 										}
@@ -238,8 +255,8 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 										</div>
 									</Tooltip>
 								}
-								{!hideAddParticipant &&
-									<div>
+								{!hideAddParticipant
+									&& <div>
 										<AddConvenedParticipantButton
 											participations={participations}
 											translate={translate}
@@ -264,24 +281,25 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 					>
 						{councilParticipants.list.map(
 							item => {
-								const participant = formatParticipant(item);
+								const participantData = formatParticipant(item);
 								return (
 									<React.Fragment
-										key={`participant${participant.id}_${filters.notificationStatus}`}
+										key={`participant${participantData.id}_${filters.notificationStatus}`}
 									>
 										<HoverableRow
 											translate={translate}
-											participant={participant}
-											representative={participant.representative}
+											participant={participantData}
+											representative={participantData.representative}
 											showModalComment={showModalComment}
 											cbxData={false}
 											participations={participations}
 											editParticipant={() => {
-												!props.cantEdit &&
+												if (!props.cantEdit) {
 													setState({
 														editingParticipant: true,
-														participant
+														participant: participantData
 													});
+												}
 											}}
 											council={council}
 											{...props}
@@ -291,8 +309,7 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 							}
 						)}
 					</EnhancedTable>
-					:
-					<div
+					: <div
 						style={{
 							height: '10em',
 							display: 'flex',
@@ -302,8 +319,8 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 						<LoadingSection />
 					</div>
 				}
-				{editingParticipant &&
-					<ConvenedParticipantEditor
+				{editingParticipant
+					&& <ConvenedParticipantEditor
 						key={participant.id}
 						translate={translate}
 						close={closeParticipantEditor}
@@ -331,286 +348,270 @@ const ConvenedParticipantsTable = ({ client, translate, council, participations,
 };
 
 class HoverableRow extends React.Component {
-	state = {
+state = {
+	showActions: false
+}
+
+mouseEnterHandler = () => {
+	this.setState({
+		showActions: true
+	});
+}
+
+mouseLeaveHandler = () => {
+	this.setState({
 		showActions: false
-	}
+	});
+}
 
-	mouseEnterHandler = () => {
-		this.setState({
-			showActions: true
-		});
-	}
+render() {
+	const {
+		translate,
+		participant,
+		hideNotifications,
+		totalVotes,
+		socialCapital,
+		council,
+		editParticipant
+	} = this.props;
+	const { representative } = this.props;
+	const { delegate, notifications } = participant;
 
-	mouseLeaveHandler = () => {
-		this.setState({
-			showActions: false
-		});
-	}
-
-	render() {
-		const { translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant } = this.props;
-		const representative = this.props.representative;
-		const { delegate, notifications } = participant;
-
-		const voteParticipantInfo = (
-			(participant.live.state === PARTICIPANT_STATES.DELEGATED && delegate) ?
-				<React.Fragment>
-					<br />
-					{`${translate.delegated_in}: ${delegate.name} ${delegate.surname || ''}`}
-				</React.Fragment>
-				:
-				!!representative &&
-				<React.Fragment>
+	const voteParticipantInfo = (
+		(participant.live.state === PARTICIPANT_STATES.DELEGATED && delegate) ?
+			<React.Fragment>
+				<br />
+				{`${translate.delegated_in}: ${delegate.name} ${delegate.surname || ''}`}
+			</React.Fragment>
+			: !!representative
+				&& <React.Fragment>
 					<br />
 					{`${translate.represented_by}: ${representative.name} ${representative.surname || ''}`}
 				</React.Fragment>
-		);
+	);
 
-		if (isMobile) {
-			return (
-				<Card
-					style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
-					onClick={editParticipant}
-				>
-					<Grid>
-						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
-							{translate.participant_data}
-						</GridItem>
-						<GridItem xs={7} md={7}>
-							<span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname || ''} ${
-								representative ? ` - ${translate.represented_by}: ${representative.name} ${representative.surname || ''}` : ''}`}</span>
-							{voteParticipantInfo}
-						</GridItem>
-						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
-							{translate.dni}
-						</GridItem>
-						<GridItem xs={7} md={7}>
-							{representative ?
-								<React.Fragment>
-									{representative.dni}
-								</React.Fragment>
-								:
-								participant.dni
-							}
-						</GridItem>
-						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
-							{translate.position}
-						</GridItem>
-						<GridItem xs={7} md={7}>
-							{representative ?
-								<React.Fragment>
-									{representative.position}
-								</React.Fragment>
-								:
-								participant.position
-							}
-						</GridItem>
-						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
-							{translate.votes}
-						</GridItem>
-						<GridItem xs={7} md={7}>
-							{`${
-								CBX.showNumParticipations(participant.numParticipations, this.props.company, council.statute)
-								} (${participant.numParticipations > 0 ? (
-									(participant.numParticipations /
-										totalVotes) *
-									100
-								).toFixed(2) : 0}%)`}
-							{!!representative &&
-								<React.Fragment>
-									<br />
-								</React.Fragment>
-							}
-						</GridItem>
-						{this.props.participations && (
-							<React.Fragment>
-								<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
-									{translate.census_type_social_capital}
-								</GridItem>
-								<GridItem xs={7} md={7}>
-									{!CBX.isRepresentative(participant) &&
-										`${participant.socialCapital} (${participant.socialCapital > 0 ? (
-											(participant.socialCapital /
-												socialCapital) *
-											100).toFixed(2) : 0}%)`
-									}
-
-								</GridItem>
-							</React.Fragment>
-						)}
-					</Grid>
-					<div style={{ position: 'absolute', top: '5px', right: '5px' }}>
-						<DownloadCBXDataButton
-							translate={translate}
-							participantId={participant.live.id}
-						/>
-					</div>
-				</Card>
-			);
-		}
-
+	if (isMobile) {
 		return (
-			<TableRow
-				hover
-				onMouseOver={this.mouseEnterHandler}
-				onMouseLeave={this.mouseLeaveHandler}
+			<Card
+				style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
 				onClick={editParticipant}
-				style={{
-					cursor: 'pointer'
-				}}
 			>
-				<TableCell>
-					<span style={{ fontWeight: '700' }}>{`${participant.name} ${
-						participant.surname
-						}  ${(participant.live.state === PARTICIPANT_STATES.DELEGATED &&
-							participant.representatives.length > 0) ? ` - ${translate.represented_by}: ${
-							participant.representatives[0].name} ${
-							participant.representatives[0].surname || ''}` : ''}`}</span>
-					{voteParticipantInfo}
-				</TableCell>
-				<TableCell>
-					{participant.dni}
-					{!!representative &&
+				<Grid>
+					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
+						{translate.participant_data}
+					</GridItem>
+					<GridItem xs={7} md={7}>
+						<span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname || ''} ${
+							representative ? ` - ${translate.represented_by}: ${representative.name} ${representative.surname || ''}` : ''}`}</span>
+						{voteParticipantInfo}
+					</GridItem>
+					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
+						{translate.dni}
+					</GridItem>
+					<GridItem xs={7} md={7}>
+						{representative ?
+							<React.Fragment>
+								{representative.dni}
+							</React.Fragment>
+							:								participant.dni
+						}
+					</GridItem>
+					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
+						{translate.position}
+					</GridItem>
+					<GridItem xs={7} md={7}>
+						{representative ?
+							<React.Fragment>
+								{representative.position}
+							</React.Fragment>
+							:								participant.position
+						}
+					</GridItem>
+					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
+						{translate.votes}
+					</GridItem>
+					<GridItem xs={7} md={7}>
+						{`${
+							CBX.showNumParticipations(participant.numParticipations, this.props.company, council.statute)
+						} (${participant.numParticipations > 0 ? (
+							(participant.numParticipations
+/ totalVotes)
+* 100
+						).toFixed(2) : 0}%)`}
+						{!!representative
+&& <React.Fragment>
+	<br />
+</React.Fragment>
+						}
+					</GridItem>
+					{this.props.participations && (
 						<React.Fragment>
-							<br />
-							{representative.dni}
-						</React.Fragment>
-					}
-				</TableCell>
-				<TableCell>
-					{participant.position}
-					{!!representative &&
-						<React.Fragment>
-							<br />
-							{representative.position}
-						</React.Fragment>
-					}
-				</TableCell>
-				{council.councilType !== COUNCIL_TYPES.ONE_ON_ONE &&
-					<>
-						<TableCell>
-							{`${
-								CBX.showNumParticipations(participant.numParticipations, this.props.company, council.statute)
-								} (${participant.numParticipations > 0 ? (
-									(participant.numParticipations /
-										totalVotes) *
-									100
-								).toFixed(2) : 0}%)`}
-							{!!representative &&
-								<React.Fragment>
-									<br />
-								</React.Fragment>
-							}
-						</TableCell>
-						{this.props.participations && (
-							<TableCell>
-								{`${
-									CBX.showNumParticipations(participant.socialCapital, this.props.company, council.statute)
-									} (${participant.socialCapital > 0 ?
-										((participant.socialCapital / socialCapital) * 100).toFixed(2)
-										:
-										0
-									}%)`}
-								{!!representative &&
-									<React.Fragment>
-										<br />
-									</React.Fragment>
+							<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
+								{translate.census_type_social_capital}
+							</GridItem>
+							<GridItem xs={7} md={7}>
+								{!CBX.isRepresentative(participant)
+&& `${participant.socialCapital} (${participant.socialCapital > 0 ? (
+	(participant.socialCapital
+/ socialCapital)
+* 100).toFixed(2) : 0}%)`
 								}
-							</TableCell>
-						)}
-					</>
 
-				}
-				{this.props.cbxData &&
-					<TableCell>
-						<div style={{ width: '4em' }}>
-							{this.state.showActions &&
-								<DownloadCBXDataButton
-									translate={translate}
-									participantId={participant.live.id}
-								/>
-							}
-						</div>
-					</TableCell>
-
-				}
-				{!hideNotifications &&
-					<React.Fragment>
-						<TableCell>
-
-							{notifications.length > 0 ? (
-									<Tooltip
-										title={
-											translate[
-											CBX.getTranslationReqCode(
-												notifications[0].reqCode
-											)
-											]
-										}
-									>
-										<img
-											style={{
-												height:
-													'2.1em',
-												width:
-													'auto'
-											}}
-											src={CBX.getEmailIconByReqCode(
-												notifications[0].reqCode
-											)}
-											alt="email-state-icon"
-										/>
-									</Tooltip>
-								) : (
-									''
-								)}
-						</TableCell>
-						{CBX.councilHasAssistanceConfirmation(
-							council
-						) && (
-								<TableCell>
-									<AttendIntentionIcon
-										participant={participant.live}
-										representative={participant.representatives.length > 0 ? participant.representative.live : null}
-										council={council}
-										showCommentIcon={participant.representatives.length > 0 ? !!participant.representative.live.assistanceComment : !!participant.live.assistanceComment}
-										onCommentClick={this.props.showModalComment({
-											text: participant.representatives.length > 0 ? participant.representative.live.assistanceComment : participant.live.assistanceComment,
-											author: participant.representatives.length > 0 ?
-												`${participant.name} ${participant.surname || ''} - ${translate.represented_by} ${representative.name} ${representative.surname || ''}`
-												:
-												`${participant.name} ${participant.surname || ''}`
-										})}
-										translate={translate}
-										size="2em"
-									/>
-								</TableCell>
-							)}
-					</React.Fragment>
-				}
-			</TableRow>
+							</GridItem>
+						</React.Fragment>
+					)}
+				</Grid>
+				<div style={{ position: 'absolute', top: '5px', right: '5px' }}>
+					<DownloadCBXDataButton
+						translate={translate}
+						participantId={participant.live.id}
+					/>
+				</div>
+			</Card>
 		);
 	}
+
+	return (
+		<TableRow
+			hover
+			onMouseOver={this.mouseEnterHandler}
+			onMouseLeave={this.mouseLeaveHandler}
+			onClick={editParticipant}
+			style={{
+				cursor: 'pointer'
+			}}
+		>
+			<TableCell>
+				<span style={{ fontWeight: '700' }}>{`${participant.name} ${
+					participant.surname
+				}  ${(participant.live.state === PARTICIPANT_STATES.DELEGATED
+&& participant.representatives.length > 0) ? ` - ${translate.represented_by}: ${
+						participant.representatives[0].name} ${
+						participant.representatives[0].surname || ''}` : ''}`}</span>
+				{voteParticipantInfo}
+			</TableCell>
+			<TableCell>
+				{participant.dni}
+				{!!representative
+&& <React.Fragment>
+	<br />
+	{representative.dni}
+</React.Fragment>
+				}
+			</TableCell>
+			<TableCell>
+				{participant.position}
+				{!!representative
+&& <React.Fragment>
+	<br />
+	{representative.position}
+</React.Fragment>
+				}
+			</TableCell>
+			{council.councilType !== COUNCIL_TYPES.ONE_ON_ONE
+&& <>
+	<TableCell>
+		{`${
+			CBX.showNumParticipations(participant.numParticipations, this.props.company, council.statute)
+		} (${participant.numParticipations > 0 ? (
+			(participant.numParticipations
+/ totalVotes)
+* 100
+		).toFixed(2) : 0}%)`}
+		{!!representative
+&& <React.Fragment>
+	<br />
+</React.Fragment>
+		}
+	</TableCell>
+	{this.props.participations && (
+		<TableCell>
+			{`${
+				CBX.showNumParticipations(participant.socialCapital, this.props.company, council.statute)
+			} (${participant.socialCapital > 0 ?
+				((participant.socialCapital / socialCapital) * 100).toFixed(2)
+				:										0
+			}%)`}
+			{!!representative
+&& <React.Fragment>
+	<br />
+</React.Fragment>
+			}
+		</TableCell>
+	)}
+</>
+
+			}
+			{this.props.cbxData
+&& <TableCell>
+	<div style={{ width: '4em' }}>
+		{this.state.showActions
+&& <DownloadCBXDataButton
+	translate={translate}
+	participantId={participant.live.id}
+/>
+		}
+	</div>
+</TableCell>
+
+			}
+			{!hideNotifications
+&& <React.Fragment>
+	<TableCell>
+
+		{notifications.length > 0 ? (
+			<Tooltip
+				title={
+					translate[
+						CBX.getTranslationReqCode(
+							notifications[0].reqCode
+						)
+					]
+				}
+			>
+				<img
+					style={{
+						height:
+'2.1em',
+						width:
+'auto'
+					}}
+					src={CBX.getEmailIconByReqCode(
+						notifications[0].reqCode
+					)}
+					alt="email-state-icon"
+				/>
+			</Tooltip>
+		) : (
+			''
+		)}
+	</TableCell>
+	{CBX.councilHasAssistanceConfirmation(
+		council
+	) && (
+		<TableCell>
+			<AttendIntentionIcon
+				participant={participant.live}
+				representative={participant.representatives.length > 0 ? participant.representative.live : null}
+				council={council}
+				showCommentIcon={participant.representatives.length > 0 ? !!participant.representative.live.assistanceComment : !!participant.live.assistanceComment}
+				onCommentClick={this.props.showModalComment({
+					text: participant.representatives.length > 0 ? participant.representative.live.assistanceComment : participant.live.assistanceComment,
+					author: participant.representatives.length > 0 ?
+						`${participant.name} ${participant.surname || ''} - ${translate.represented_by} ${representative.name} ${representative.surname || ''}`
+						:												`${participant.name} ${participant.surname || ''}`
+				})}
+				translate={translate}
+				size="2em"
+			/>
+		</TableCell>
+	)}
+</React.Fragment>
+			}
+		</TableRow>
+	);
 }
-
-const formatParticipant = participant => {
-	let { ...newParticipant } = participant;
-
-	if (participant.representatives.length > 0) {
-		newParticipant = {
-			...participant,
-			representative: participant.representatives[0]
-		};
-	}
-
-	if (participant.live.state === PARTICIPANT_STATES.DELEGATED) {
-		newParticipant = {
-			...newParticipant,
-			delegate: participant.live.representative
-		};
-	}
-	return newParticipant;
-};
+}
 
 export default compose(
 	graphql(updateConveneSends, {

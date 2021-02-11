@@ -20,165 +20,165 @@ const newGuestInitialValues = {
 };
 
 class AddGuestModal extends React.Component {
-	state = {
-		success: '',
-		errors: {},
-		guest: {
-			...newGuestInitialValues
-		}
-	};
-
-	initialState = this.state;
-
-	close = () => {
-		this.props.requestClose();
-		this.resetForm();
-	};
-
-	addGuest = async () => {
-		if(!await this.checkRequiredFields()){
-			const response = await this.props.addGuest({
-				variables: {
-					guest: {
-						...this.state.guest,
-						position: this.props.translate.guest,
-						councilId: this.props.council.id
-					}
-				}
-			});
-			if (response) {
-				if (response.data.addGuest.success) {
-					this.props.refetch();
-					this.close();
-				} else if (response.data.addGuest.message === '601') {
-						this.setState({
-							errors: {
-								email: this.props.translate.repeated_email
-							}
-						});
-					}
-			}
-		}
-	};
-
-	checkRequiredFields = async (emailOnly) => {
-		const errors = {
-			name: '',
-			surname: '',
-			dni: '',
-			email: '',
-			phone: ''
-		};
-		let hasError = false;
-		const { guest } = this.state;
-		const { translate } = this.props;
-
-
-		if(!guest.email){
-			errors.email = translate.required_field;
-			hasError = true;
-		}else if(!checkValidEmail(guest.email)){
-				errors.email = translate.valid_email_required;
-				hasError = true;
-			}else{
-				const response = await this.props.client.query({
-					query: checkUniqueCouncilEmails,
-					variables: {
-						councilId: this.props.council.id,
-						emailList: [guest.email]
-					}
-				});
-				if(!response.data.checkUniqueCouncilEmails.success){
-					errors.email = translate.register_exists_email;
-					hasError = true;
-				}
-			}
-
-		if(!emailOnly){
-			if(!guest.name){
-				errors.name = translate.required_field;
-				hasError = true;
-			}
-
-			if(!guest.surname){
-				errors.surname = translate.required_field;
-				hasError = true;
-			}
-
-			if(!guest.dni){
-				errors.dni = translate.required_field;
-				hasError = true;
-			}
-
-			if(!guest.phone){
-				errors.phone = translate.required_field;
-				hasError = true;
-			}
-		}
-
-		this.setState({ errors });
-
-		return hasError;
+state = {
+	success: '',
+	errors: {},
+	guest: {
+		...newGuestInitialValues
 	}
+};
 
-	resetForm = () => {
-		this.setState(this.initialState);
-	};
+initialState = this.state;
 
-	updateGuest = object => {
-		this.setState({
-			guest: {
-				...this.state.guest,
-				...object
+close = () => {
+	this.props.requestClose();
+	this.resetForm();
+};
+
+addGuest = async () => {
+	if (!await this.checkRequiredFields()) {
+		const response = await this.props.addGuest({
+			variables: {
+				guest: {
+					...this.state.guest,
+					position: this.props.translate.guest,
+					councilId: this.props.council.id
+				}
 			}
 		});
-	};
+		if (response) {
+			if (response.data.addGuest.success) {
+				this.props.refetch();
+				this.close();
+			} else if (response.data.addGuest.message === '601') {
+				this.setState({
+					errors: {
+						email: this.props.translate.repeated_email
+					}
+				});
+			}
+		}
+	}
+};
 
-	emailKeyUp = () => {
-		clearTimeout(this.timeout);
-		this.timeout = setTimeout(() => {
-			this.checkRequiredFields(true);
-			clearTimeout(this.timeout);
-		}, 400);
+checkRequiredFields = async emailOnly => {
+	const errors = {
+		name: '',
+		surname: '',
+		dni: '',
+		email: '',
+		phone: ''
+	};
+	let hasError = false;
+	const { guest } = this.state;
+	const { translate } = this.props;
+
+
+	if (!guest.email) {
+		errors.email = translate.required_field;
+		hasError = true;
+	} else if (!checkValidEmail(guest.email)) {
+		errors.email = translate.valid_email_required;
+		hasError = true;
+	} else {
+		const response = await this.props.client.query({
+			query: checkUniqueCouncilEmails,
+			variables: {
+				councilId: this.props.council.id,
+				emailList: [guest.email]
+			}
+		});
+		if (!response.data.checkUniqueCouncilEmails.success) {
+			errors.email = translate.register_exists_email;
+			hasError = true;
+		}
 	}
 
-	_renderReminderBody() {
-		const { translate } = this.props;
-
-		if (this.state.sending) {
-			return <div>{translate.sending_convene_reminder}</div>;
+	if (!emailOnly) {
+		if (!guest.name) {
+			errors.name = translate.required_field;
+			hasError = true;
 		}
 
-		return (
-			<div style={{ maxWidth: '850px' }}>
-				<RepresentativeForm
-					guest={true}
-					checkEmail={this.emailKeyUp}
-					translate={this.props.translate}
-					representative={this.state.guest}
-					updateState={this.updateGuest}
-					errors={this.state.errors}
-					languages={this.props.data.languages}
-				/>
-			</div>
-		);
+		if (!guest.surname) {
+			errors.surname = translate.required_field;
+			hasError = true;
+		}
+
+		if (!guest.dni) {
+			errors.dni = translate.required_field;
+			hasError = true;
+		}
+
+		if (!guest.phone) {
+			errors.phone = translate.required_field;
+			hasError = true;
+		}
 	}
 
-	render() {
-		const { translate } = this.props;
+	this.setState({ errors });
 
-		return (
-			<AlertConfirm
-				requestClose={this.close}
-				open={this.props.show}
-				acceptAction={this.addGuest}
-				buttonAccept={translate.send}
-				buttonCancel={translate.close}
-				bodyText={this._renderReminderBody()}
-				title={translate.add_guest}
+	return hasError;
+}
+
+resetForm = () => {
+	this.setState(this.initialState);
+};
+
+updateGuest = object => {
+	this.setState({
+		guest: {
+			...this.state.guest,
+			...object
+		}
+	});
+};
+
+emailKeyUp = () => {
+	clearTimeout(this.timeout);
+	this.timeout = setTimeout(() => {
+		this.checkRequiredFields(true);
+		clearTimeout(this.timeout);
+	}, 400);
+}
+
+_renderReminderBody() {
+	const { translate } = this.props;
+
+	if (this.state.sending) {
+		return <div>{translate.sending_convene_reminder}</div>;
+	}
+
+	return (
+		<div style={{ maxWidth: '850px' }}>
+			<RepresentativeForm
+				guest={true}
+				checkEmail={this.emailKeyUp}
+				translate={this.props.translate}
+				representative={this.state.guest}
+				updateState={this.updateGuest}
+				errors={this.state.errors}
+				languages={this.props.data.languages}
 			/>
-		);
-	}
+		</div>
+	);
+}
+
+render() {
+	const { translate } = this.props;
+
+	return (
+		<AlertConfirm
+			requestClose={this.close}
+			open={this.props.show}
+			acceptAction={this.addGuest}
+			buttonAccept={translate.send}
+			buttonCancel={translate.close}
+			bodyText={this._renderReminderBody()}
+			title={translate.add_guest}
+		/>
+	);
+}
 }
 
 export default compose(

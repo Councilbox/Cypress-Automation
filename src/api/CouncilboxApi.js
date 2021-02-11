@@ -1,16 +1,16 @@
 import { urlParser } from '../utils';
 
-/*const apiURLs = {
- prod: {
- url: 'https://video.councilbox.com/#/login/',
- api: 'https://app.councilbox.com/server/api/'
- },
+/* const apiURLs = {
+prod: {
+url: 'https://video.councilbox.com/#/login/',
+api: 'https://app.councilbox.com/server/api/'
+},
 
- beta: {
- url: 'https://videobeta.councilbox.com/#/login/',
- api: 'https://beta.councilbox.com/server/api/'
- }
- }*/
+beta: {
+url: 'https://videobeta.councilbox.com/#/login/',
+api: 'https://beta.councilbox.com/server/api/'
+}
+} */
 
 class CouncilboxApi {
 	static login(userData) {
@@ -162,7 +162,7 @@ class CouncilboxApi {
 			terms: 1,
 			census_name: 'Por defecto',
 			census_description:
-				'Primer censo creado automáticamente cuando se crea la sociedad'
+'Primer censo creado automáticamente cuando se crea la sociedad'
 		};
 
 		const data = urlParser(body);
@@ -183,8 +183,8 @@ class CouncilboxApi {
 			.catch(error => {
 				throw error;
 			});
-		//return Promise.resolve({code: 200});
-		//return Promise.reject({code: 602})
+		// return Promise.resolve({code: 200});
+		// return Promise.reject({code: 602})
 	}
 
 	static async getTranslations(language) {

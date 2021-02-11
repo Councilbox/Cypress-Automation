@@ -5,15 +5,15 @@ import { PARTICIPANT_STATES } from '../../../../constants';
 import { Icon } from '../../../../displayComponents';
 
 const styleMainIcon = (color, ratio) => ({
-		fontSize: `${1.5 * ratio}em`,
-		color
-	});
+	fontSize: `${1.5 * ratio}em`,
+	color
+});
 const styleSubIcon = (color, ratio) => ({
-		marginLeft: `${-0.3 * ratio}em`,
-		marginTop: `${0.4 * ratio}em`,
-		fontSize: `${1 * ratio}em`,
-		color
-	});
+	marginLeft: `${-0.3 * ratio}em`,
+	marginTop: `${0.4 * ratio}em`,
+	fontSize: `${1 * ratio}em`,
+	color
+});
 
 const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 	switch (state) {
@@ -33,15 +33,15 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 			return (
 				<Tooltip disableHoverListener={hideTooltip} title={translate.no_participate}>
 					<div style={{ padding: '0.5em', display: 'flex' }}>
-							<FontAwesome
-								name={'user-o'}
-								style={styleMainIcon(color, ratio)}
-							/>
+						<FontAwesome
+							name={'user-o'}
+							style={styleMainIcon(color, ratio)}
+						/>
 
-							<FontAwesome
-								name={'times'}
-								style={styleSubIcon(color, ratio)}
-							/>
+						<FontAwesome
+							name={'times'}
+							style={styleSubIcon(color, ratio)}
+						/>
 
 						{(!!number || number === 0) && <span style={{ paddingLeft: '1em' }}>{number}</span>}
 					</div>
@@ -64,7 +64,7 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 				<Tooltip disableHoverListener={hideTooltip} title={translate.customer_present}>
 					<div
 						style={{
-							// display: "flex",
+						// display: "flex",
 							alignItems: 'center',
 							padding: '0.51em'
 						}}
@@ -73,7 +73,7 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 							className="material-icons"
 							style={{ ...styleMainIcon(color, ratio), paddingTop: '0.1em' }}
 						>
-							face
+face
 						</Icon>
 						{(!!number || number === 0) && <span style={{ padding: '1em' }}>{number}</span>}
 					</div>
@@ -84,7 +84,7 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 				<Tooltip disableHoverListener={hideTooltip} title={translate.physically_present_with_remote_vote}>
 					<div
 						style={{
-							// display: "flex",
+						// display: "flex",
 							alignItems: 'center',
 							padding: '0.51em'
 						}}
@@ -93,7 +93,7 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 							className="material-icons"
 							style={{ ...styleMainIcon(color, ratio), paddingTop: '0.1em' }}
 						>
-							face
+face
 						</Icon>
 						<FontAwesome
 							name={'mobile'}
@@ -145,18 +145,18 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 				</Tooltip>
 			);
 		case PARTICIPANT_STATES.SENT_VOTE_LETTER:
-				return (
-					<Tooltip disableHoverListener={hideTooltip} title={translate.participant_vote_fixed}>
-						<div style={{ padding: '0.5em' }}>
-							<span className="material-icons"
-								style={styleMainIcon(color, ratio)}
-							>
-								how_to_vote
-							</span>
-							{(!!number || number === 0) && <span style={{ padding: '1em' }}>{number}</span>}
-						</div>
-					</Tooltip>
-				);
+			return (
+				<Tooltip disableHoverListener={hideTooltip} title={translate.participant_vote_fixed}>
+					<div style={{ padding: '0.5em' }}>
+						<span className="material-icons"
+							style={styleMainIcon(color, ratio)}
+						>
+how_to_vote
+						</span>
+						{(!!number || number === 0) && <span style={{ padding: '1em' }}>{number}</span>}
+					</div>
+				</Tooltip>
+			);
 		case PARTICIPANT_STATES.EARLY_VOTE:
 			return (
 				<Tooltip disableHoverListener={hideTooltip} title={translate.participant_vote_fixed}>
@@ -164,7 +164,7 @@ const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 						<span className="material-icons"
 							style={styleMainIcon(color, ratio)}
 						>
-							how_to_vote
+how_to_vote
 						</span>
 						{(!!number || number === 0) && <span style={{ padding: '1em' }}>{number}</span>}
 					</div>

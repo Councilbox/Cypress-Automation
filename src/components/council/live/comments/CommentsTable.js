@@ -45,7 +45,7 @@ const CommentsTable = props => {
 		};
 
 		if (this.state.filterText) {
-			const filterText = state.filterText;
+			const { filterText } = state;
 			variables = {
 				...variables,
 				authorFilters: {
@@ -92,46 +92,46 @@ const CommentsTable = props => {
 			) : props.data.agendaComments && props.data.agendaComments.list.length > 0 ? (
 				<React.Fragment>
 					{props.data.agendaComments.list.map(voting => (
-							<GridItem
-								xs={6}
-								lg={6}
-								md={6}
-								key={`voting_${voting.author.id}`}
+						<GridItem
+							xs={6}
+							lg={6}
+							md={6}
+							key={`voting_${voting.author.id}`}
+							style={{
+								paddingBottom: '0.5em',
+								paddingLeft: '2em',
+								paddingRight: '2em'
+							}}
+						>
+							<div
 								style={{
-									paddingBottom: '0.5em',
-									paddingLeft: '2em',
-									paddingRight: '2em'
+									borderBottom: '1px solid black'
 								}}
 							>
 								<div
-									style={{
-										borderBottom: '1px solid black'
+									dangerouslySetInnerHTML={{
+										__html: voting.comment
 									}}
-								>
-									<div
-										dangerouslySetInnerHTML={{
-											__html: voting.comment
-										}}
-										style={{
-											fontStyle: 'italic',
-											fontSize: '0.85em'
-										}}
-									></div>
-									<span
-										style={{ fontSize: '0.73rem', fontWeight: '700' }}
-									>{`${voting.author.name} ${voting.author.surname || ''} ${voting.author.representative ? `- ${props.translate.represented_by}: ${
-											voting.author.representative.name} ${
-											voting.author.representative.surname || ''
-											}` : ''}`}
-									</span>
-									{voting.author.position &&
-										<span style={{ fontSize: '0.73rem' }}>{` - ${
-											voting.author.position
-										}`}</span>
-									}
-								</div>
-							</GridItem>
-						))}
+									style={{
+										fontStyle: 'italic',
+										fontSize: '0.85em'
+									}}
+								></div>
+								<span
+									style={{ fontSize: '0.73rem', fontWeight: '700' }}
+								>{`${voting.author.name} ${voting.author.surname || ''} ${voting.author.representative ? `- ${props.translate.represented_by}: ${
+										voting.author.representative.name} ${
+										voting.author.representative.surname || ''
+									}` : ''}`}
+								</span>
+								{voting.author.position
+&& <span style={{ fontSize: '0.73rem' }}>{` - ${
+	voting.author.position
+}`}</span>
+								}
+							</div>
+						</GridItem>
+					))}
 					<GridItem
 						xs={11}
 						lg={11}

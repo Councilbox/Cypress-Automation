@@ -1,5 +1,7 @@
 import React from 'react';
-import { Typography, Card, TableRow, Table, TableCell } from 'material-ui';
+import {
+	Typography, Card, TableRow, Table, TableCell
+} from 'material-ui';
 import { compose, graphql } from 'react-apollo';
 import FontAwesome from 'react-fontawesome';
 import {
@@ -12,11 +14,12 @@ import {
 	Checkbox,
 	SuccessMessage
 } from '../../../../displayComponents';
-import { councilParticipantsActSends, sendAct } from '../../../../queries';
+import { councilParticipantsActSends, sendAct as sendActMutation } from '../../../../queries';
 import { DELEGATION_USERS_LOAD } from '../../../../constants';
 
 import { useOldState } from '../../../../hooks';
 import { getSecondary } from '../../../../styles/colors';
+import { removeTypenameField } from '../../../../utils/CBX';
 
 
 const SendActModal = ({ translate, data, ...props }) => {
@@ -30,7 +33,7 @@ const SendActModal = ({ translate, data, ...props }) => {
 	});
 
 	React.useEffect(() => {
-		if(props.show){
+		if (props.show) {
 			data.refetch();
 		}
 	}, [props.show]);
@@ -76,10 +79,9 @@ const SendActModal = ({ translate, data, ...props }) => {
 
 	const checkRow = (participant, check) => {
 		let participants = [...state.participants];
-		if(check){
-			const { __typename, ...participantData } = participant;
-			participants = [...participants, participantData];
-		}else{
+		if (check) {
+			participants = [...participants, removeTypenameField(participant)];
+		} else {
 			const index = participants.findIndex(item => item.id === participant.id);
 			participants.splice(index, 1);
 		}
@@ -89,7 +91,7 @@ const SendActModal = ({ translate, data, ...props }) => {
 	};
 
 	const isChecked = id => {
-		const item = state.participants.find(item => item.id === id);
+		const item = state.participants.find(participant => participant.id === id);
 		return !!item;
 	};
 
@@ -113,43 +115,42 @@ const SendActModal = ({ translate, data, ...props }) => {
 		});
 	};
 
-	const _renderEmails = () => (
-			<div style={{ width: '100%' }}>
-				{state.participants.length > 0 ?
-					state.participants.map((participant, index) => (
-						<Card
+	const renderEmails = () => (
+		<div style={{ width: '100%' }}>
+			{state.participants.length > 0 ?
+				state.participants.map(participant => (
+					<Card
+						style={{
+							width: '98%',
+							padding: '0.8em',
+							margin: 'auto',
+							marginBottom: '0.8em',
+							display: 'flex',
+							justifyContent: 'space-between',
+							alignItems: 'center',
+							flexDirection: 'row'
+						}}
+						key={`participants_${participant.id}`}
+						elevation={2}
+					>
+						{participant.email}
+						<FontAwesome
+							name={'times'}
 							style={{
-								width: '98%',
-								padding: '0.8em',
-								margin: 'auto',
-								marginBottom: '0.8em',
-								display: 'flex',
-								justifyContent: 'space-between',
-								alignItems: 'center',
-								flexDirection: 'row'
+								fontSize: '0.9em',
+								color: 'red',
+								cursor: 'pointer'
 							}}
-							key={`participants_${participant.id}`}
-							elevation={2}
-						>
-							{participant.email}
-							<FontAwesome
-								name={'times'}
-								style={{
-									fontSize: '0.9em',
-									color: 'red',
-									cursor: 'pointer'
-								}}
-								onClick={() => deleteEmailFromList(participant.id)}
-							/>
-						</Card>
-					))
-				:
-					<div>
-						{translate.not_added}
-					</div>
-				}
-			</div>
-		);
+							onClick={() => deleteEmailFromList(participant.id)}
+						/>
+					</Card>
+				))
+				:					<div>
+					{translate.not_added}
+				</div>
+			}
+		</div>
+	);
 
 	const sendAct = async () => {
 		setLoading(true);
@@ -160,8 +161,8 @@ const SendActModal = ({ translate, data, ...props }) => {
 				participantsIds
 			}
 		});
-		if(response){
-			if(!response.data.errors){
+		if (response) {
+			if (!response.data.errors) {
 				setState({
 					success: true
 				});
@@ -179,18 +180,17 @@ const SendActModal = ({ translate, data, ...props }) => {
 	};
 
 
-	function _modalBody() {
-		const { loading } = data;
-
-		const participants = loading
-			? []
+	function modalBody() {
+		const loadingParticipants = data.loading;
+		const participants = loadingParticipants ?
+			[]
 			: data.councilParticipantsActSends.list;
-		const { total } = loading
-			? 0
+		const { total } = loadingParticipants ?
+			0
 			: data.councilParticipantsActSends;
 		const rest = total - participants.length - 1;
 
-		if(state.step === 1){
+		if (state.step === 1) {
 			return (
 				<div style={{ width: '600px' }}>
 					<TextInput
@@ -217,32 +217,34 @@ const SendActModal = ({ translate, data, ...props }) => {
 							</TableRow>
 						</Table>
 
-						{loading ? (
+						{loadingParticipants ? (
 							<LoadingSection />
 						) : (
-							<div style={{ height: 'calc( 100% - 4em )', marginBottom: '0.5em', width: '600px', margin: '0 auto' }}>
+							<div style={{
+								height: 'calc( 100% - 4em )', marginBottom: '0.5em', width: '600px', margin: '0 auto'
+							}}>
 								<Scrollbar option={{ suppressScrollX: true }}>
 									<Table style={{ marginBottom: '1em', width: '600px', margin: '0 auto' }}>
 										{participants.length > 0 ? (
 											participants.filter(p => !!p.email).map(participant => (
-													<TableRow key={participant.id}>
-														<TableCell style={{ width: '50px', padding: '0px', paddingLeft: '10px' }}>
-															<Checkbox
-																value={isChecked(participant.id)}
-																onChange={(event, isInputChecked) => checkRow(participant, isInputChecked)
-																}
-															/>
-														</TableCell>
-														<TableCell style={{ width: '305px' }}>
-															<div style={{
-																whiteSpace: 'nowrap',
-																overflow: 'hidden',
-																textOverflow: 'ellipsis',
-																width: '200px',
-															}}>
-																{`${participant.name} ${participant.surname || ''}`}
-															</div>
-														</TableCell>
+												<TableRow key={participant.id}>
+													<TableCell style={{ width: '50px', padding: '0px', paddingLeft: '10px' }}>
+														<Checkbox
+															value={isChecked(participant.id)}
+															onChange={(event, isInputChecked) => checkRow(participant, isInputChecked)
+															}
+														/>
+													</TableCell>
+													<TableCell style={{ width: '305px' }}>
+														<div style={{
+															whiteSpace: 'nowrap',
+															overflow: 'hidden',
+															textOverflow: 'ellipsis',
+															width: '200px',
+														}}>
+															{`${participant.name} ${participant.surname || ''}`}
+														</div>
+													</TableCell>
 													<TableCell>
 														<div style={{
 															whiteSpace: 'nowrap',
@@ -253,10 +255,10 @@ const SendActModal = ({ translate, data, ...props }) => {
 															{participant.email}
 														</div>
 													</TableCell>
-													</TableRow>
-												))) : (
-												<Typography>{translate.no_results}</Typography>
-											)
+												</TableRow>
+											))) : (
+											<Typography>{translate.no_results}</Typography>
+										)
 										}
 									</Table>
 								</Scrollbar>
@@ -275,9 +277,9 @@ const SendActModal = ({ translate, data, ...props }) => {
 								<BasicButton
 									text={
 										`DESCARGAR ${
-										rest > DELEGATION_USERS_LOAD
-											? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-											: translate.all_plural.toLowerCase()
+											rest > DELEGATION_USERS_LOAD ?
+												`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+												: translate.all_plural.toLowerCase()
 										}`
 									}
 									color={getSecondary()}
@@ -285,28 +287,21 @@ const SendActModal = ({ translate, data, ...props }) => {
 									textStyle={{ color: 'white' }}
 								/>
 							</div>
-							// <div onClick={this.loadMore}>
-							// 	{`DESCARGAR ${
-							// 		rest > DELEGATION_USERS_LOAD
-							// 			? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-							// 			: translate.all_plural.toLowerCase()
-							// 		}`}
-							// </div>
 						)
 					))}
 				</div>
 			);
 		}
 
-		if(state.success){
-			return(
+		if (state.success) {
+			return (
 				<SuccessMessage />
 			);
 		}
 
-		return(
+		return (
 			<div style={{ width: '600px' }}>
-				{_renderEmails()}
+				{renderEmails()}
 			</div>
 		);
 	}
@@ -321,17 +316,14 @@ const SendActModal = ({ translate, data, ...props }) => {
 			buttonAccept={state.step === 1 ? translate.continue : translate.send}
 			cancelAction={state.success ?
 				close
-			:
-				state.step !== 1 ?
-						() => setState({ step: 1, success: false })
-					:
-						null
+				:				state.step !== 1 ?
+					() => setState({ step: 1, success: false })
+					:						null
 			}
 			buttonCancel={state.success ?
 				translate.close
-			:
-				state.step === 1 ? translate.close : translate.back}
-			bodyText={_modalBody()}
+				:				state.step === 1 ? translate.close : translate.back}
+			bodyText={modalBody()}
 			title={translate.sending_the_minutes}
 		/>
 	);
@@ -351,7 +343,7 @@ export default compose(
 		})
 	}),
 
-	graphql(sendAct, {
+	graphql(sendActMutation, {
 		name: 'sendAct'
 	})
 )(SendActModal);

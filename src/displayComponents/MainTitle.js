@@ -5,7 +5,9 @@ import { getPrimary } from '../styles/colors';
 import { isLandscape, isMobile } from '../utils/screen';
 
 
-const MainTitle = ({ icon, title, subtitle, size }) => (
+const MainTitle = ({
+	icon, title, subtitle, size
+}) => (
 	size === 'xs' && isLandscape() ?
 		<div
 			style={{
@@ -35,8 +37,7 @@ const MainTitle = ({ icon, title, subtitle, size }) => (
 				<h5 style={{ fontWeight: '700' }}><Typography>{title}</Typography></h5>
 			</div>
 		</div>
-		:
-		<div
+		:		<div
 			style={{
 				display: 'flex',
 				flexDirection: 'row',
@@ -62,9 +63,11 @@ const MainTitle = ({ icon, title, subtitle, size }) => (
 					overflow: 'hidden'
 				}}
 			>
-				<h3 style={{ fontWeight: '600', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%' }}>{title}</h3>
-				{!isMobile &&
-					<Typography style={{ fontSize: '13px' }}>{subtitle}</Typography>
+				<h3 style={{
+					fontWeight: '600', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', width: '100%'
+				}}>{title}</h3>
+				{!isMobile
+&& <Typography style={{ fontSize: '13px' }}>{subtitle}</Typography>
 				}
 			</div>
 		</div>

@@ -7,7 +7,7 @@ import { SERVER_URL } from './config';
 
 
 export const useInterval = (callback, delay, deps = []) => {
-    const savedCallback = useRef();
+	const savedCallback = useRef();
 
 	// Remember the latest callback.
 	useEffect(() => {
@@ -23,7 +23,7 @@ export const useInterval = (callback, delay, deps = []) => {
 			const id = setInterval(tick, delay);
 			return () => clearInterval(id);
 		}
-    }, [delay, ...deps]);
+	}, [delay, ...deps]);
 };
 
 export const useOldState = initialValue => {
@@ -63,24 +63,24 @@ export const STATUS = {
 };
 
 const statusReducer = (state, action) => {
-    const actions = {
-        [STATUS.ERROR]: () => ({
-            ...state,
+	const actions = {
+		[STATUS.ERROR]: () => ({
+			...state,
 			status: 'ERROR',
 			data: action.payload
 		}),
 		[STATUS.SUCCESS]: () => ({
-            ...state,
+			...state,
 			status: 'SUCCESS',
 			data: action.payload
 		}),
 		[STATUS.LOADING]: () => ({
-            ...state,
+			...state,
 			status: 'LOADING',
 			data: null
 		}),
 		[STATUS.IDDLE]: () => ({
-            ...state,
+			...state,
 			status: 'IDDLE',
 			data: null
 		}),
@@ -115,25 +115,25 @@ export const usePolling = (cb, interval, deps = []) => {
 	const [online, setOnline] = React.useState(navigator.onLine);
 	const inThrottle = React.useRef(false);
 
-    function handleVisibilityChange(){
-        setVisible(!document.hidden);
+	function handleVisibilityChange() {
+		setVisible(!document.hidden);
 	}
 
-	function handleConnectionChange(event){
-		if(event.type === 'online'){
+	function handleConnectionChange(event) {
+		if (event.type === 'online') {
 			setOnline(true);
 		}
 
-		if(event.type === 'offline'){
+		if (event.type === 'offline') {
 			setOnline(false);
 		}
 	}
 
-    React.useEffect(() => {
+	React.useEffect(() => {
 		document.addEventListener('visibilitychange', handleVisibilityChange, false);
 		window.addEventListener('online', handleConnectionChange);
 		window.addEventListener('offline', handleConnectionChange);
-        return () => {
+		return () => {
 			document.removeEventListener('visibilitychange', handleVisibilityChange);
 			window.removeEventListener('online', handleConnectionChange);
 			window.removeEventListener('offline', handleConnectionChange);
@@ -141,8 +141,8 @@ export const usePolling = (cb, interval, deps = []) => {
 	}, []);
 
 
-    React.useEffect(() => {
-        if(visible && online && !inThrottle.current){
+	React.useEffect(() => {
+		if (visible && online && !inThrottle.current) {
 			cb();
 			inThrottle.current = true;
 			setTimeout(() => {
@@ -158,18 +158,18 @@ export const usePolling = (cb, interval, deps = []) => {
 export const useRoomUpdated = config => {
 	const { refetch, props, participant } = config;
 
-    React.useEffect(() => {
-        if(props.subs && props.subs.roomUpdated){
+	React.useEffect(() => {
+		if (props.subs && props.subs.roomUpdated) {
 			const roomConfig = props.subs.roomUpdated;
-			if(roomConfig.videoConfig){
-				if(participant){
+			if (roomConfig.videoConfig) {
+				if (participant) {
 					refetch();
 				}
 			} else {
 				refetch();
 			}
-        }
-    }, [JSON.stringify(props.subs.roomUpdated)]);
+		}
+	}, [JSON.stringify(props.subs.roomUpdated)]);
 };
 
 
@@ -177,9 +177,9 @@ export const useValidRTMP = statute => {
 	const [validURL, setValidURL] = React.useState(true);
 
 	React.useEffect(() => {
-		if(statute.videoConfig && statute.videoConfig.rtmp){
+		if (statute.videoConfig && statute.videoConfig.rtmp) {
 			const valid = /rtmp?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(statute.videoConfig.rtmp);
-			if(valid !== validURL){
+			if (valid !== validURL) {
 				setValidURL(valid);
 			}
 		}
@@ -190,7 +190,9 @@ export const useValidRTMP = statute => {
 	};
 };
 
-export const useParticipantContactEdit = ({ participant, client, translate, council }) => {
+export const useParticipantContactEdit = ({
+	participant, client, translate, council
+}) => {
 	const [edit, setEdit] = React.useState(false);
 	const [saving, setSaving] = React.useState(false);
 	const [success, setSuccess] = React.useState(false);
@@ -204,7 +206,7 @@ export const useParticipantContactEdit = ({ participant, client, translate, coun
 	React.useEffect(() => {
 		let timeout;
 
-		if(success){
+		if (success) {
 			timeout = setTimeout(() => {
 				setSuccess(false);
 			}, 3000);
@@ -215,11 +217,11 @@ export const useParticipantContactEdit = ({ participant, client, translate, coun
 	const checkRequiredFields = async () => {
 		const newErrors = {};
 
-		if(email !== participant.email){
-			if(!email){
+		if (email !== participant.email) {
+			if (!email) {
 				newErrors.email = translate.required_field;
-			} else if(!checkValidEmail(email.toLocaleLowerCase())){
-					newErrors.email = translate.valid_email_required;
+			} else if (!checkValidEmail(email.toLocaleLowerCase())) {
+				newErrors.email = translate.valid_email_required;
 			} else {
 				const response = await client.query({
 					query: checkUniqueCouncilEmails,
@@ -229,14 +231,14 @@ export const useParticipantContactEdit = ({ participant, client, translate, coun
 					}
 				});
 
-				if(!response.data.checkUniqueCouncilEmails.success){
+				if (!response.data.checkUniqueCouncilEmails.success) {
 					newErrors.email = translate.register_exists_email;
 				}
 			}
 		}
 
-		if(phone !== participant.phone){
-			if(!phone){
+		if (phone !== participant.phone) {
+			if (!phone) {
 				newErrors.phone = translate.required_field;
 			} else {
 				const response = await client.query({
@@ -253,7 +255,7 @@ export const useParticipantContactEdit = ({ participant, client, translate, coun
 					}
 				});
 
-				if(!response.data.phoneLookup.success){
+				if (!response.data.phoneLookup.success) {
 					errors.phone = translate.invalid_phone;
 				}
 			}
@@ -265,7 +267,7 @@ export const useParticipantContactEdit = ({ participant, client, translate, coun
 
 	const updateParticipantContactInfo = async () => {
 		setSaving(true);
-		if(!await checkRequiredFields()){
+		if (!await checkRequiredFields()) {
 			const response = await client.mutate({
 				mutation: gql`
 					mutation UpdateParticipantContactInfo($participantId: Int!, $email: String!, $phone: String!){
@@ -281,7 +283,7 @@ export const useParticipantContactEdit = ({ participant, client, translate, coun
 					phone
 				}
 			});
-			if(response.data.updateParticipantContactInfo.success){
+			if (response.data.updateParticipantContactInfo.success) {
 				setSuccess(true);
 			}
 		}
@@ -309,15 +311,15 @@ export const useCouncilAgendas = ({
 	client
 }) => {
 	const [data, setData] = React.useState(null);
-    const [loading, setLoading] = React.useState(true);
+	const [loading, setLoading] = React.useState(true);
 
-    const getData = async () => {
-        const response = await client.query({
-            query: gql`
-                query agendas($councilId: Int!, $participantId: Int!){
-                    agendas(councilId: $councilId){
-                        id
-                        agendaSubject
+	const getData = async () => {
+		const response = await client.query({
+			query: gql`
+				query agendas($councilId: Int!, $participantId: Int!){
+					agendas(councilId: $councilId){
+						id
+						agendaSubject
 						subjectType
 						options {
 							maxSelections
@@ -327,28 +329,28 @@ export const useCouncilAgendas = ({
 							value
 							id
 						}
-                    }
-                    proxyVotes(participantId: $participantId){
-                        value
+					}
+					proxyVotes(participantId: $participantId){
+						value
 						agendaId
 						participantId
-                        id
-                    }
-                }
-            `,
-            variables: {
-                councilId,
-                participantId
-            }
-        });
+						id
+					}
+				}
+			`,
+			variables: {
+				councilId,
+				participantId
+			}
+		});
 
-        setData(response.data);
-        setLoading(false);
+		setData(response.data);
+		setLoading(false);
 	};
 
 	React.useEffect(() => {
-        getData();
-    }, [councilId]);
+		getData();
+	}, [councilId]);
 
 	return {
 		data,
@@ -368,7 +370,7 @@ export const useSendRoomKey = client => {
 						success
 					}
 				}
-            `,
+			`,
 		});
 
 		setLoading(false);
@@ -399,12 +401,12 @@ export const useCountdown = time => {
 
 const queryReducer = (state, action) => {
 	const actions = {
-		'DATA_LOADED': () => ({
+		DATA_LOADED: () => ({
 			...state,
 			loading: false,
 			data: action.payload
 		}),
-		'LOADING': () => ({
+		LOADING: () => ({
 			...state,
 			loading: true
 		})
@@ -423,7 +425,7 @@ export const useQueryReducer = ({ client, query, variables }) => {
 			variables
 		});
 
-		if(!response.errors){
+		if (!response.errors) {
 			dispatch({ type: 'DATA_LOADED', payload: response.data });
 		}
 	}, [JSON.stringify(variables)]);
@@ -446,18 +448,18 @@ export const useDownloadHTMLAsPDF = () => {
 
 	const downloadHTMLAsPDF = async ({ name, companyId, html }) => {
 		setDownloading(true);
-        const response = await fetch(`${SERVER_URL}/pdf/build`, {
-            headers: {
-                'Content-type': 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify({
-                html,
-                companyId
-            })
-        });
+		const response = await fetch(`${SERVER_URL}/pdf/build`, {
+			headers: {
+				'Content-type': 'application/json'
+			},
+			method: 'POST',
+			body: JSON.stringify({
+				html,
+				companyId
+			})
+		});
 
-        const blob = await response.blob();
+		const blob = await response.blob();
 		FileSaver.saveAs(blob, `${name}.pdf`);
 		setDownloading(false);
 	};

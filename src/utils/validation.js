@@ -217,10 +217,10 @@ export const checkRequiredFieldsAgenda = (agenda, translate, toast) => {
 				<LiveToast
 					message={translate.revise_text}
 				/>, {
-				position: toast.POSITION.TOP_RIGHT,
-				autoClose: true,
-				className: 'errorToast'
-			}
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: 'errorToast'
+				}
 			);
 		}
 	}
@@ -231,9 +231,9 @@ export const checkRequiredFieldsAgenda = (agenda, translate, toast) => {
 			errors.majorityType = translate.field_required;
 		}
 		if (
-			agenda.majorityType === 0 ||
-			agenda.majorityType === 5 ||
-			agenda.majorityType === 6
+			agenda.majorityType === 0
+|| agenda.majorityType === 5
+|| agenda.majorityType === 6
 		) {
 			if (!agenda.majority) {
 				hasError = true;

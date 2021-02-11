@@ -30,11 +30,34 @@ import NotificationsTable from '../../../notifications/NotificationsTable';
 import AddGuestModal from '../../../council/live/participants/AddGuestModal';
 import DeleteConvenedParticipantButton from './DeleteConvenedParticipantButton';
 
-const CouncilDetailsParticipants = ({ client, translate, council, participations, hideNotifications, hideAddParticipant, ...props }) => {
+const formatParticipant = participant => {
+	const { representing, ...newParticipant } = participant;
+	let currentParticipant = newParticipant;
+
+	if (participant.representatives.length > 0) {
+		currentParticipant = {
+			...newParticipant,
+			representative: participant.representatives[0]
+		};
+	}
+
+	if (participant.live.state === PARTICIPANT_STATES.DELEGATED) {
+		currentParticipant = {
+			...newParticipant,
+			delegate: participant.live.representative
+		};
+	}
+	return currentParticipant;
+};
+
+
+const CouncilDetailsParticipants = ({
+	client, translate, council, participations, hideNotifications, hideAddParticipant, ...props
+}) => {
 	const [filters, setFilters] = React.useState({
 		options: {
 			limit: PARTICIPANTS_LIMITS[0],
-			//page: 1,
+			// page: 1,
 			offset: 0,
 			orderBy: 'fullName',
 			orderDirection: 'asc',
@@ -60,7 +83,7 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 	const secondary = getSecondary();
 
 	const getData = React.useCallback(async () => {
-		//liveParticipantsCredentials
+		// liveParticipantsCredentials
 
 		const response = await client.query({
 			query: convenedcouncilParticipants,
@@ -85,7 +108,7 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 	usePolling(getData, 9000);
 
 	React.useEffect(() => {
-		//refreshEmailStates();
+		// refreshEmailStates();
 	}, [council.id]);
 
 
@@ -192,40 +215,42 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 
 	const menuButtons = () => (
 		<>
-			<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '0.3em' }}>
-				{!hideNotifications &&
-					<Tooltip
-						title={
-							translate.tooltip_refresh_convene_email_state_assistance
-						}
-					>
-						<div>
-							<BasicButton
-								floatRight
-								text={translate.refresh_convened}
-								color={secondary}
-								loading={refreshing}
-								buttonStyle={{
-									margin: '0',
-									marginRight: '1.2em'
-								}}
-								textStyle={{
-									color: 'white',
-									fontWeight: '700',
-									fontSize: '0.9em',
-									textTransform: 'none'
-								}}
-								icon={
-									<ButtonIcon
-										color="white"
-										type="refresh"
-									/>
-								}
-								textPosition="after"
-								onClick={refreshEmailStates}
-							/>
-						</div>
-					</Tooltip>
+			<div style={{
+				display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '0.3em'
+			}}>
+				{!hideNotifications
+&& <Tooltip
+	title={
+		translate.tooltip_refresh_convene_email_state_assistance
+	}
+>
+	<div>
+		<BasicButton
+			floatRight
+			text={translate.refresh_convened}
+			color={secondary}
+			loading={refreshing}
+			buttonStyle={{
+				margin: '0',
+				marginRight: '1.2em'
+			}}
+			textStyle={{
+				color: 'white',
+				fontWeight: '700',
+				fontSize: '0.9em',
+				textTransform: 'none'
+			}}
+			icon={
+				<ButtonIcon
+					color="white"
+					type="refresh"
+				/>
+			}
+			textPosition="after"
+			onClick={refreshEmailStates}
+		/>
+	</div>
+</Tooltip>
 				}
 				<>
 					<BasicButton
@@ -255,16 +280,16 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 						translate={translate}
 					/>
 				</>
-				{!hideAddParticipant &&
-					<div>
-						<AddConvenedParticipantButton
-							participations={participations}
-							translate={translate}
-							councilId={council.id}
-							council={council}
-							refetch={refetch}
-						/>
-					</div>
+				{!hideAddParticipant
+&& <div>
+	<AddConvenedParticipantButton
+		participations={participations}
+		translate={translate}
+		councilId={council.id}
+		council={council}
+		refetch={refetch}
+	/>
+</div>
 				}
 			</div>
 		</>
@@ -275,12 +300,12 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 			<React.Fragment>
 				<Grid style={{ margin: '0.5em 0.5em' }}>
 					<GridItem xs={12} lg={6} md={6}>
-						{!hideNotifications &&
-							<NotificationFilters
-								translate={translate}
-								refetch={updateNotificationFilter}
-								council={council}
-							/>
+						{!hideNotifications
+&& <NotificationFilters
+	translate={translate}
+	refetch={updateNotificationFilter}
+	council={council}
+/>
 						}
 					</GridItem>
 				</Grid>
@@ -317,11 +342,12 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 													cbxData={false}
 													participations={participations}
 													editParticipant={() => {
-														!props.cantEdit &&
+														if (!props.cantEdit) {
 															setState({
 																editingParticipant: true,
 																participant: formatDataParticipant
 															});
+														}
 													}}
 													council={council}
 													totalVotes={data.councilTotalVotes}
@@ -334,8 +360,7 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 									}
 								)}
 							</EnhancedTable>
-							:
-							<div
+							:							<div
 								style={{
 									height: '10em',
 									display: 'flex',
@@ -347,18 +372,18 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 						}
 					</div>
 				</Scrollbar>
-				{editingParticipant &&
-					<ConvenedParticipantEditor
-						key={participant.id}
-						translate={translate}
-						close={closeParticipantEditor}
-						councilId={council.id}
-						council={council}
-						participations={participations}
-						participant={participant}
-						opened={editingParticipant}
-						refetch={refetch}
-					/>
+				{editingParticipant
+&& <ConvenedParticipantEditor
+	key={participant.id}
+	translate={translate}
+	close={closeParticipantEditor}
+	councilId={council.id}
+	council={council}
+	participations={participations}
+	participant={participant}
+	opened={editingParticipant}
+	refetch={refetch}
+/>
 				}
 
 
@@ -377,7 +402,9 @@ const CouncilDetailsParticipants = ({ client, translate, council, participations
 	);
 };
 // editar credenciales solo del representante
-const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant, representative, refetch, ...props }) => {
+const HoverableRow = ({
+	translate, participant, hideNotifications, totalVotes, socialCapital, council, editParticipant, representative, refetch, ...props
+}) => {
 	const [showActions, setShowActions] = React.useState(false);
 	const [credentials, setCredentials] = React.useState(false);
 	const mouseEnterHandler = () => {
@@ -395,12 +422,11 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 				<br />
 				{`${translate.delegated_in}: ${delegate.name} ${delegate.surname || ''}`}
 			</React.Fragment>
-			:
-			!!representative &&
-			<React.Fragment>
-				<br />
-				{`${translate.represented_by}: ${representative.name} ${representative.surname || ''}`}
-			</React.Fragment>
+			:			!!representative
+&& <React.Fragment>
+	<br />
+	{`${translate.represented_by}: ${representative.name} ${representative.surname || ''}`}
+</React.Fragment>
 	);
 
 
@@ -411,11 +437,11 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 				open={!!credentials}
 				buttonCancel={translate.cancel}
 				bodyText={
-					credentials == 'participant' ?
+					credentials === 'participant' ?
 						<div>
 							<div style={{ color: 'black', marginBottom: '.5em' }}>Credenciales de: {`${participant.name} ${participant.surname
-								}  ${(participant.live.state === PARTICIPANT_STATES.DELEGATED &&
-									participant.representatives.length > 0) ? ` - ${translate.represented_by}: ${participant.representatives[0].name} ${participant.representatives[0].surname || ''}` : ''}`}</div>
+							}  ${(participant.live.state === PARTICIPANT_STATES.DELEGATED
+&& participant.representatives.length > 0) ? ` - ${translate.represented_by}: ${participant.representatives[0].name} ${participant.representatives[0].surname || ''}` : ''}`}</div>
 							<div style={{}}>
 								<ParticipantContactEditor
 									participant={participant.live}
@@ -433,27 +459,26 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 								/>
 							</div>
 						</div>
-						:
-						representative && representative.live &&
-						<div>
-							<div style={{ color: 'black', marginBottom: '.5em' }}>Credenciales de: {representative.live.name} {representative.live.surname}</div>
-							<div style={{}}>
-								<ParticipantContactEditor
-									participant={representative.live}
-									translate={translate}
-									refetch={refetch}
-									key={representative.live.id}
-									council={council}
-								/>
-							</div>
-							<div style={{ padding: '1em 0px' }}>
-								<NotificationsTable
-									maxEmail={{ maxWidth: '100px' }}
-									translate={translate}
-									notifications={representative.live.notifications}
-								/>
-							</div>
-						</div>
+						:						representative && representative.live
+&& <div>
+	<div style={{ color: 'black', marginBottom: '.5em' }}>Credenciales de: {representative.live.name} {representative.live.surname}</div>
+	<div style={{}}>
+		<ParticipantContactEditor
+			participant={representative.live}
+			translate={translate}
+			refetch={refetch}
+			key={representative.live.id}
+			council={council}
+		/>
+	</div>
+	<div style={{ padding: '1em 0px' }}>
+		<NotificationsTable
+			maxEmail={{ maxWidth: '100px' }}
+			translate={translate}
+			notifications={representative.live.notifications}
+		/>
+	</div>
+</div>
 				}
 				title={'Administrador de credenciales'}
 			/>
@@ -472,224 +497,143 @@ const HoverableRow = ({ translate, participant, hideNotifications, totalVotes, s
 							<div><StateIcon state={participant.live.state} translate={translate} ratio={1.4} /></div>
 							<div><StateIcon state={representative.live.state} translate={translate} ratio={1.4} /></div>
 						</div>
-						:
-						<StateIcon state={participant.live.state} translate={translate} ratio={1.4} />
+						:						<StateIcon state={participant.live.state} translate={translate} ratio={1.4} />
 					}
 				</TableCell>
 				<TableCell>
 					<div style={{ fontWeight: '700', marginBottom: '0.2em' }}>{`${participant.name} ${participant.surname
-						}  ${(participant.live.state === PARTICIPANT_STATES.DELEGATED &&
-							participant.representatives.length > 0) ? ` - ${translate.represented_by}: ${participant.representatives[0].name} ${participant.representatives[0].surname || ''}` : ''}`}
+					}  ${(participant.live.state === PARTICIPANT_STATES.DELEGATED
+&& participant.representatives.length > 0) ? ` - ${translate.represented_by}: ${participant.representatives[0].name} ${participant.representatives[0].surname || ''}` : ''}`}
 					</div>
 					{voteParticipantInfo}
 				</TableCell>
 				<TableCell>
 					<div style={{ marginBottom: '0.2em' }}>{participant.dni}</div>
-					{!!representative &&
-						<React.Fragment>
-							<br />
-							{representative.dni}
-						</React.Fragment>
+					{!!representative
+&& <React.Fragment>
+	<br />
+	{representative.dni}
+</React.Fragment>
 					}
 				</TableCell>
 				<TableCell>
 					<div style={{ marginBottom: '0.2em' }}>{participant.position}</div>
-					{!!representative &&
-						<React.Fragment>
-							<br />
-							{representative.position}
-						</React.Fragment>
+					{!!representative
+&& <React.Fragment>
+	<br />
+	{representative.position}
+</React.Fragment>
 					}
 				</TableCell>
 				<TableCell>
 					{`${participant.numParticipations
-						} (${participant.numParticipations > 0 ? (
-							(participant.numParticipations /
-								totalVotes) *
-							100
-						).toFixed(2) : 0}%)`}
-					{!!representative &&
-						<React.Fragment>
-							<br />
-						</React.Fragment>
+					} (${participant.numParticipations > 0 ? (
+						(participant.numParticipations
+/ totalVotes)
+* 100
+					).toFixed(2) : 0}%)`}
+					{!!representative
+&& <React.Fragment>
+	<br />
+</React.Fragment>
 					}
 				</TableCell>
 				{props.participations && (
 					<TableCell>
 						{`${participant.socialCapital
-							} (${participant.socialCapital > 0 ?
-								((participant.socialCapital / socialCapital) * 100).toFixed(2)
-								:
-								0
-							}%)`}
-						{!!representative &&
-							<React.Fragment>
-								<br />
-							</React.Fragment>
+						} (${participant.socialCapital > 0 ?
+							((participant.socialCapital / socialCapital) * 100).toFixed(2)
+							:								0
+						}%)`}
+						{!!representative
+&& <React.Fragment>
+	<br />
+</React.Fragment>
 						}
 					</TableCell>
 				)}
 
-				{props.cbxData &&
-					<TableCell>
-						<div style={{ width: '4em' }}>
-							{showActions &&
-								<DownloadCBXDataButton
-									translate={translate}
-									participantId={participant.live.id}
-								/>
-							}
-						</div>
-					</TableCell>
+				{props.cbxData
+&& <TableCell>
+	<div style={{ width: '4em' }}>
+		{showActions
+&& <DownloadCBXDataButton
+	translate={translate}
+	participantId={participant.live.id}
+/>
+		}
+	</div>
+</TableCell>
 
 				}
 
-				{!hideNotifications &&
-					<React.Fragment>
-						<TableCell>
-							{notifications.length > 0 ? (
-								<Tooltip
-									title={translate[CBX.getTranslationReqCode(notifications[0].reqCode)]}
-								>
-									<img
-										style={{
-											height:
-												'2.1em',
-											width:
-												'auto'
-										}}
-										src={CBX.getEmailIconByReqCode(
-											notifications[0].reqCode
-										)}
-										alt="email-state-icon"
-									/>
-								</Tooltip>
-							) : (
-									''
-								)}
-						</TableCell>
-						{CBX.councilHasAssistanceConfirmation(council) &&
-							(
-								<TableCell>
-									<AttendIntentionIcon
-										participant={participant.live}
-										representative={participant.representatives.length > 0 ? participant.representative.live : null}
-										council={council}
-										showCommentIcon={participant.representatives.length > 0 ? !!participant.representative.live.assistanceComment : !!participant.live.assistanceComment}
-										onCommentClick={props.showModalComment({
-											text: participant.representatives.length > 0 ? participant.representative.live.assistanceComment : participant.live.assistanceComment,
-											author: participant.representatives.length > 0 ?
-												`${participant.name} ${participant.surname || ''} - ${translate.represented_by} ${representative.name} ${representative.surname || ''}`
-												:
-												`${participant.name} ${participant.surname || ''}`
-										})}
-										translate={translate}
-										size="2em"
-									/>
-								</TableCell>
-							)}
-						<TableCell>
-							<div style={{ display: 'flex' }}>
-								<div style={{ color: getPrimary(), position: 'relative', marginRight: '1.5em', cursor: 'pointer', }} onClick={editParticipant}>
-									<div style={{ fontSize: '20px' }}>
-										<i className="fa fa-pencil-square-o" aria-hidden="true"></i>
-									</div>
-								</div>
-								<div>
-									<DeleteConvenedParticipantButton
-										translate={translate}
-										participant={participant}
-										refetch={refetch}
-									/>
-								</div>
-							</div>
-						</TableCell>
-					</React.Fragment>
+				{!hideNotifications
+&& <React.Fragment>
+	<TableCell>
+		{notifications.length > 0 ? (
+			<Tooltip
+				title={translate[CBX.getTranslationReqCode(notifications[0].reqCode)]}
+			>
+				<img
+					style={{
+						height:
+'2.1em',
+						width:
+'auto'
+					}}
+					src={CBX.getEmailIconByReqCode(
+						notifications[0].reqCode
+					)}
+					alt="email-state-icon"
+				/>
+			</Tooltip>
+		) : (
+			''
+		)}
+	</TableCell>
+	{CBX.councilHasAssistanceConfirmation(council)
+&& (
+	<TableCell>
+		<AttendIntentionIcon
+			participant={participant.live}
+			representative={participant.representatives.length > 0 ? participant.representative.live : null}
+			council={council}
+			showCommentIcon={participant.representatives.length > 0 ? !!participant.representative.live.assistanceComment : !!participant.live.assistanceComment}
+			onCommentClick={props.showModalComment({
+				text: participant.representatives.length > 0 ? participant.representative.live.assistanceComment : participant.live.assistanceComment,
+				author: participant.representatives.length > 0 ?
+					`${participant.name} ${participant.surname || ''} - ${translate.represented_by} ${representative.name} ${representative.surname || ''}`
+					:												`${participant.name} ${participant.surname || ''}`
+			})}
+			translate={translate}
+			size="2em"
+		/>
+	</TableCell>
+)}
+	<TableCell>
+		<div style={{ display: 'flex' }}>
+			<div style={{
+				color: getPrimary(), position: 'relative', marginRight: '1.5em', cursor: 'pointer',
+			}} onClick={editParticipant}>
+				<div style={{ fontSize: '20px' }}>
+					<i className="fa fa-pencil-square-o" aria-hidden="true"></i>
+				</div>
+			</div>
+			<div>
+				<DeleteConvenedParticipantButton
+					translate={translate}
+					participant={participant}
+					refetch={refetch}
+				/>
+			</div>
+		</div>
+	</TableCell>
+</React.Fragment>
 				}
 			</TableRow>
 		</React.Fragment>
 	);
 };
-
-const formatParticipant = participant => {
-	const { representing, ...newParticipant } = participant;
-	let currentParticipant = newParticipant;
-
-	if (participant.representatives.length > 0) {
-		currentParticipant = {
-			...newParticipant,
-			representative: participant.representatives[0]
-		};
-	}
-
-	if (participant.live.state === PARTICIPANT_STATES.DELEGATED) {
-		currentParticipant = {
-			...newParticipant,
-			delegate: participant.live.representative
-		};
-	}
-	return currentParticipant;
-};
-
-const applyFilters = (participants, filters) => applyOrder(participants.filter(item => {
-	const participant = formatParticipant(item);
-	if (filters.text) {
-		const unaccentedText = CBX.unaccent(filters.text.toLowerCase());
-
-		if (filters.field === 'fullName') {
-			const fullName = `${participant.name} ${participant.surname || ''}`;
-			let repreName = '';
-			if (participant.representative) {
-				repreName = `${participant.representative.name} ${participant.representative.surname || ''}`;
-			}
-			if (!CBX.unaccent(fullName.toLowerCase()).includes(unaccentedText)
-				&& !CBX.unaccent(repreName.toLowerCase()).includes(unaccentedText)) {
-				return false;
-			}
-		}
-
-		if (filters.field === 'position') {
-			if (participant.representative) {
-				if (!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText) &&
-					!CBX.unaccent(participant.representative.position.toLowerCase()).includes(unaccentedText)) {
-					return false;
-				}
-			} else if (!CBX.unaccent(participant.position.toLowerCase()).includes(unaccentedText)) {
-				return false;
-			}
-		}
-
-		if (filters.field === 'dni') {
-			if (participant.representative) {
-				if (!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText) &&
-					!CBX.unaccent(participant.representative.dni.toLowerCase()).includes(unaccentedText)) {
-					return false;
-				}
-			} else if (!CBX.unaccent(participant.dni.toLowerCase()).includes(unaccentedText)) {
-				return false;
-			}
-		}
-	}
-
-	if (filters.notificationStatus) {
-		if (participant.representative) {
-			if (participant.representative.notifications[0].reqCode !== filters.notificationStatus) {
-				return false;
-			}
-		} else if (participant.notifications[0].reqCode !== filters.notificationStatus) {
-			return false;
-		}
-	}
-
-	return true;
-}), filters.orderBy, filters.orderDirection);
-
-
-const applyOrder = (participants, orderBy, orderDirection) => participants.sort((a, b) => {
-	const participantA = formatParticipant(a);
-	const participantB = formatParticipant(b);
-	return participantA[orderBy] > participantB[orderBy];
-});
 
 export default compose(
 	graphql(updateConveneSends, {

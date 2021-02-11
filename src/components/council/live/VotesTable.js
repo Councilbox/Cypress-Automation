@@ -94,32 +94,32 @@ const VotesTable = ({ agenda, translate }) => (
 			<tr>
 				<td className="">Total</td>
 				<td className=" text-center">
-					{`${agenda.positive_votings +
-						agenda.positive_manual}  ${LiveUtil.parsePercentaje(
-						agenda.positive_votings + agenda.positive_manual,
-						agenda.current_remote_census + agenda.present_census
-					)}%`}
+					{`${agenda.positive_votings
++ agenda.positive_manual}  ${LiveUtil.parsePercentaje(
+	agenda.positive_votings + agenda.positive_manual,
+	agenda.current_remote_census + agenda.present_census
+)}%`}
 				</td>
 				<td className=" text-center">
-					{`${agenda.negative_votings +
-						agenda.negative_manual} ${LiveUtil.parsePercentaje(
-						agenda.negative_votings + agenda.negative_manual,
-						agenda.current_remote_census + agenda.present_census
-					)}%`}
+					{`${agenda.negative_votings
++ agenda.negative_manual} ${LiveUtil.parsePercentaje(
+	agenda.negative_votings + agenda.negative_manual,
+	agenda.current_remote_census + agenda.present_census
+)}%`}
 				</td>
 				<td className=" text-center">
-					{`${agenda.abstention_votings +
-						agenda.abstention_manual} ${LiveUtil.parsePercentaje(
-						agenda.abstention_votings + agenda.abstention_manual,
-						agenda.current_remote_census + agenda.present_census
-					)}%`}
+					{`${agenda.abstention_votings
++ agenda.abstention_manual} ${LiveUtil.parsePercentaje(
+	agenda.abstention_votings + agenda.abstention_manual,
+	agenda.current_remote_census + agenda.present_census
+)}%`}
 				</td>
 				<td className=" text-center">
-					{`${agenda.no_vote_votings +
-						agenda.no_vote_manual} ${LiveUtil.parsePercentaje(
-						agenda.no_vote_votings + agenda.no_vote_manual,
-						agenda.current_remote_census + agenda.present_census
-					)}%`}
+					{`${agenda.no_vote_votings
++ agenda.no_vote_manual} ${LiveUtil.parsePercentaje(
+	agenda.no_vote_votings + agenda.no_vote_manual,
+	agenda.current_remote_census + agenda.present_census
+)}%`}
 				</td>
 			</tr>
 		</tbody>

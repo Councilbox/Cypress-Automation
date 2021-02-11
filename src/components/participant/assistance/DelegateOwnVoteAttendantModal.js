@@ -15,7 +15,9 @@ import { participantsToDelegate } from '../../../queries';
 import { DELEGATION_USERS_LOAD } from '../../../constants';
 import { getPrimary } from '../../../styles/colors';
 
-const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
+const DelegateOwnVoteAttendantModal = ({
+	show, data, translate, ...props
+}) => {
 	const loadMore = () => {
 		data.fetchMore({
 			variables: {
@@ -60,11 +62,11 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 	function _renderBody() {
 		const { loading } = data;
 
-		const participants = loading
-			? []
+		const participants = loading ?
+			[]
 			: data.liveParticipantsToDelegate.list;
-		const { total } = loading
-			? 0
+		const { total } = loading ?
+			0
 			: data.liveParticipantsToDelegate;
 		const rest = total - participants.length - 1;
 
@@ -75,7 +77,9 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 					adornment={<Icon>search</Icon>}
 					floatingText={' '}
 					type="text"
-					styleInInput={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px' }}
+					styleInInput={{
+						fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px'
+					}}
 					stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: '4px' }}
 					onChange={event => {
 						updateFilterText(event.target.value);
@@ -90,71 +94,73 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 					{loading ? (
 						<LoadingSection />
 					) : (
-							<div style={{ height: '100%' }}>
-								<Scrollbar>
-									{participants.length > 0 ? (
-										<div style={{ display: 'flex', }}>
-											<Grid style={{ padding: '10px' }}>
-												{participants.map(participant => {
-													if (participant.id !== props.participant.id) {
-														return (
-															<GridItem xs={12} md={4} lg={4} key={`delegateVote_${participant.id}`}>
-																<React.Fragment >
-																	<ParticipantRow
-																		council={props.council}
-																		toDelegate={true}
-																		cantDelegate={false}
-																		participant={participant}
-																		onClick={() => props.addRepresentative(participant.id)
-																		}
-																		stylesPaper={{ borderRadius: '5px', width: '100%' }}
-																	/>
-																</React.Fragment>
-															</GridItem>
-														);
+						<div style={{ height: '100%' }}>
+							<Scrollbar>
+								{participants.length > 0 ? (
+									<div style={{ display: 'flex', }}>
+										<Grid style={{ padding: '10px' }}>
+											{participants.map(participant => {
+												if (participant.id !== props.participant.id) {
+													return (
+														<GridItem xs={12} md={4} lg={4} key={`delegateVote_${participant.id}`}>
+															<React.Fragment >
+																<ParticipantRow
+																	council={props.council}
+																	toDelegate={true}
+																	cantDelegate={false}
+																	participant={participant}
+																	onClick={() => props.addRepresentative(participant.id)
+																	}
+																	stylesPaper={{ borderRadius: '5px', width: '100%' }}
+																/>
+															</React.Fragment>
+														</GridItem>
+													);
+												}
+												return false;
+											})}
+										</Grid>
+										{participants.length < total - 1 && (
+											<Card
+												style={{
+													width: '90%',
+													border: '2px solid grey',
+													margin: 'auto',
+													marginBottom: '1.2em',
+													marginTop: '0.6em',
+													cursor: 'pointer',
+													display: 'flex',
+													alignItems: 'center',
+													justifyContent: 'center'
+												}}
+												elevation={1}
+												onClick={loadMore}
+											>
+												<MenuItem style={{
+													padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'
+												}}>
+													{`DESCARGAR ${
+														rest > DELEGATION_USERS_LOAD ?
+															`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+															: translate.all_plural.toLowerCase()
+													}`
 													}
-													return false;
-												})}
-											</Grid>
-											{participants.length < total - 1 && (
-												<Card
-													style={{
-														width: '90%',
-														border: '2px solid grey',
-														margin: 'auto',
-														marginBottom: '1.2em',
-														marginTop: '0.6em',
-														cursor: 'pointer',
-														display: 'flex',
-														alignItems: 'center',
-														justifyContent: 'center'
-													}}
-													elevation={1}
-													onClick={loadMore}
-												>
-													<MenuItem style={{ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
-														{`DESCARGAR ${
-															rest > DELEGATION_USERS_LOAD
-																? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-																: translate.all_plural.toLowerCase()
-															}`
-														}
-														{loading &&
-															<div>
-																<LoadingSection size={25} />
-															</div>
-														}
-													</MenuItem>
-												</Card>
-											)}
-										</div>
-									) : (
-											<Typography>{translate.no_results}</Typography>
-										)
-									}
-								</Scrollbar>
-							</div>
-						)}
+													{loading
+&& <div>
+	<LoadingSection size={25} />
+</div>
+													}
+												</MenuItem>
+											</Card>
+										)}
+									</div>
+								) : (
+									<Typography>{translate.no_results}</Typography>
+								)
+								}
+							</Scrollbar>
+						</div>
+					)}
 				</div>
 			</div>
 		);
@@ -173,9 +179,13 @@ const DelegateOwnVoteAttendantModal = ({ show, data, translate, ...props }) => {
 					<div>
 						{translate.to_delegate_vote}
 					</div>
-					<div style={{ fontSize: '15px', color: '#0000005e', display: 'flex', alignItems: 'center' }}>
-						<i className="material-icons" style={{ color: getPrimary(), fontSize: '14px', paddingRight: '0.3em', cursor: 'pointer' }} >
-							help
+					<div style={{
+						fontSize: '15px', color: '#0000005e', display: 'flex', alignItems: 'center'
+					}}>
+						<i className="material-icons" style={{
+							color: getPrimary(), fontSize: '14px', paddingRight: '0.3em', cursor: 'pointer'
+						}} >
+help
 						</i>
 						{translate.select_who_will_be_delegate}
 					</div>
@@ -189,7 +199,7 @@ export default graphql(participantsToDelegate, {
 	options: props => ({
 		variables: {
 			councilId: props.council.id,
-			//participantId: props.participant.id,
+			// participantId: props.participant.id,
 			options: {
 				offset: 0,
 				limit: DELEGATION_USERS_LOAD

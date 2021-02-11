@@ -14,7 +14,7 @@ import {
 import { getPrimary } from '../../../styles/colors';
 import { bHistory, store } from '../../../containers/App';
 import { getCompanies } from '../../../actions/companyActions';
-import { linkCompany } from '../../../queries/company';
+import { linkCompany as linkCompanyMutation } from '../../../queries/company';
 import { useOldState } from '../../../hooks';
 import { sendGAevent } from '../../../utils/analytics';
 
@@ -90,10 +90,10 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 					<LiveToast
 						message={translate.company_link_success_title}
 					/>, {
-					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,
-					className: 'successToast'
-				}
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,
+						className: 'successToast'
+					}
 				);
 				store.dispatch(getCompanies(props.user.id));
 				bHistory.push('/');
@@ -124,7 +124,9 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 		}
 	};
 
-	const { data, errors, requestError, success, request } = state;
+	const {
+		data, errors, requestError, success, request
+	} = state;
 
 
 	return (
@@ -144,8 +146,8 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 							value={data.cif}
 							errorText={errors.cif}
 							onChange={event => updateState({
-									cif: event.target.value
-								})
+								cif: event.target.value
+							})
 							}
 						/>
 					</div>
@@ -160,13 +162,13 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 						<TextInput
 							floatingText={translate.company_new_key}
 							type={
-								state.showPassword
-									? 'text'
+								state.showPassword ?
+									'text'
 									: 'password'
 							}
 							passwordToggler={() => setState({
-									showPassword: !state.showPassword
-								})
+								showPassword: !state.showPassword
+							})
 							}
 							showPassword={state.showPassword}
 							required
@@ -176,8 +178,8 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 							value={data.linkKey}
 							errorText={errors.linkKey}
 							onChange={event => updateState({
-									linkKey: event.target.value
-								})
+								linkKey: event.target.value
+							})
 							}
 						/>
 						<br />
@@ -215,8 +217,7 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 };
 
 
-
-export default graphql(linkCompany, {
+export default graphql(linkCompanyMutation, {
 	name: 'linkCompany',
 	options: {
 		errorPolicy: 'all'

@@ -5,16 +5,18 @@ import {
 
 class ContentButtonDirectAccess extends React.Component {
 	render() {
-		const { children, disabled, disabledOnClick, link } = this.props;
+		const {
+			children, disabled, disabledOnClick, link
+		} = this.props;
 
-		const card =
-			<div
-				style={{
-					...(!disabled ? {} : { filter: 'grayscale(80%)' })
-				}}
-			>
-				{children}
-			</div>;
+		const card
+= <div
+	style={{
+		...(!disabled ? {} : { filter: 'grayscale(80%)' })
+	}}
+>
+	{children}
+</div>;
 
 
 		return (
@@ -23,8 +25,7 @@ class ContentButtonDirectAccess extends React.Component {
 					<div onClick={disabledOnClick}>
 						{card}
 					</div>
-					:
-					<Link to={link}>
+					:					<Link to={link}>
 						{card}
 					</Link>
 				}

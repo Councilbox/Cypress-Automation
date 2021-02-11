@@ -1,7 +1,7 @@
 import React from 'react';
 
-const CreateWithSession = ({ setOptions, ...props }) => (
-        <div />
-    );
+const CreateWithSession = () => (
+	<div />
+);
 
 export default CreateWithSession;

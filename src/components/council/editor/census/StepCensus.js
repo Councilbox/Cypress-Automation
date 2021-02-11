@@ -13,7 +13,7 @@ import {
 	LoadingSection
 } from '../../../../displayComponents/index';
 import {
-	councilParticipants
+	councilParticipants as councilParticipantsQuery
 } from '../../../../queries/councilParticipant';
 import { PARTICIPANTS_LIMITS } from '../../../../constants';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
@@ -154,7 +154,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 		}
 	};
 
-	function _renderCensusChangeButtons(selectedCensusId) {
+	function renderCensusChangeButtons(selectedCensusId) {
 		if (selectedCensusId) {
 			return (
 				<React.Fragment>
@@ -187,23 +187,23 @@ const StepCensus = ({ translate, data, ...props }) => {
 				</React.Fragment>
 			);
 		}
-			return (
-				<React.Fragment>
-					<BasicButton
-						text={translate.cancel}
-						color={'white'}
-						type="flat"
-						textStyle={{
-							fontWeight: '700',
-							fontSize: '0.9em',
-							textTransform: 'none'
-						}}
-						textPosition="after"
-						onClick={() => setState({ censusChangeAlert: false })}
-						buttonStyle={{ marginRight: '1em' }}
-					/>
-				</React.Fragment>
-			);
+		return (
+			<React.Fragment>
+				<BasicButton
+					text={translate.cancel}
+					color={'white'}
+					type="flat"
+					textStyle={{
+						fontWeight: '700',
+						fontSize: '0.9em',
+						textTransform: 'none'
+					}}
+					textPosition="after"
+					onClick={() => setState({ censusChangeAlert: false })}
+					buttonStyle={{ marginRight: '1em' }}
+				/>
+			</React.Fragment>
+		);
 	}
 
 	const checkParticipants = () => !data.loading && state.participantsLength <= 0;
@@ -244,8 +244,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 						>
 							<LoadingSection />
 						</div>
-						:
-						<React.Fragment>
+						:						<React.Fragment>
 							<ParticipantsTable
 								translate={translate}
 								data={props.participants}
@@ -269,8 +268,8 @@ const StepCensus = ({ translate, data, ...props }) => {
 								totalSocialCapital={data.councilSocialCapital}
 								participations={CBX.hasParticipations(council)}
 							/>
-							{checkParticipants() &&
-								<div
+							{checkParticipants()
+								&& <div
 									style={{
 										color: 'red',
 										fontWeight: '700',
@@ -295,8 +294,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 						<DialogTitle>{translate.census_change}</DialogTitle>
 						{!council ?
 							<LoadingSection />
-							:
-							council.selectedCensusId !== null || state.censusChangeId ?
+							:							council.selectedCensusId !== null || state.censusChangeId ?
 								<div>
 									<DialogContent>
 										{translate.census_change_warning.replace(
@@ -305,16 +303,15 @@ const StepCensus = ({ translate, data, ...props }) => {
 										)}
 									</DialogContent>
 									<DialogActions>
-										{_renderCensusChangeButtons(council.selectedCensusId || state.censusChangeId)}
+										{renderCensusChangeButtons(council.selectedCensusId || state.censusChangeId)}
 									</DialogActions>
 								</div>
-								:
-								<div style={{ minWidth: '500px' }}>
+								:								<div style={{ minWidth: '500px' }}>
 									<DialogContent>
 										{translate.need_pick_census}
 									</DialogContent>
 									<DialogActions>
-										{_renderCensusChangeButtons(council.selectedCensusId || state.censusChangeId)}
+										{renderCensusChangeButtons(council.selectedCensusId || state.censusChangeId)}
 									</DialogActions>
 								</div>
 						}
@@ -328,7 +325,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 								)}
 							</DialogContent>
 								<DialogActions>
-									{_renderCensusChangeButtons()}
+									{renderCensusChangeButtons()}
 								</DialogActions>
 							</div>
 							:
@@ -413,7 +410,7 @@ export default compose(
 			notifyOnNetworkStatusChange: true
 		})
 	}),
-	graphql(councilParticipants, {
+	graphql(councilParticipantsQuery, {
 		name: 'participants',
 		options: props => ({
 			variables: {

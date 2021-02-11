@@ -10,364 +10,358 @@ import { isConfirmationRequest, isCustomPoint } from '../../../../utils/CBX';
 
 
 const EarlyVotingModal = props => {
-    const [modal, setModal] = React.useState(false);
-    const config = React.useContext(ConfigContext);
+	const [modal, setModal] = React.useState(false);
+	const config = React.useContext(ConfigContext);
 
-    if (!config.earlyVoting) {
-        return null;
-    }
+	if (!config.earlyVoting) {
+		return null;
+	}
 
-    return (
-        <>
-            <BasicButton
-                color="white"
-                text={props.translate.anticipate_vote}
-                type="flat"
-                buttonStyle={{
-                    border: `1px solid ${getSecondary()}`,
-                    marginTop: '0.3em'
-                }}
-                onClick={() => setModal(!modal)}
-                textStyle={{
-                    color: getSecondary()
-                }}
-            />
-            <AlertConfirm
-                open={modal}
-                requestClose={() => setModal(false)}
-                title={'Fijar sentido del voto'}
-                bodyText={<EarlyVotingBody {...props} />}
-            />
-        </>
-    );
+	return (
+		<>
+			<BasicButton
+				color="white"
+				text={props.translate.anticipate_vote}
+				type="flat"
+				buttonStyle={{
+					border: `1px solid ${getSecondary()}`,
+					marginTop: '0.3em'
+				}}
+				onClick={() => setModal(!modal)}
+				textStyle={{
+					color: getSecondary()
+				}}
+			/>
+			<AlertConfirm
+				open={modal}
+				requestClose={() => setModal(false)}
+				title={'Fijar sentido del voto'}
+				bodyText={<EarlyVotingBody {...props} />}
+			/>
+		</>
+	);
 };
 
-const EarlyVotingBody = withApollo(({ council, participant, translate, client, ...props }) => {
-    const [data, setData] = React.useState(null);
-    const [loading, setLoading] = React.useState(true);
-    const [loadingVote, setLoadingVote] = React.useState(false);
+const EarlyVotingBody = withApollo(({
+	council, participant, translate, client
+}) => {
+	const [data, setData] = React.useState(null);
+	const [loading, setLoading] = React.useState(true);
 
-    const getData = async () => {
-        const response = await client.query({
-            query: gql`
-                query agendas($councilId: Int!, $participantId: Int!){
-                    agendas(councilId: $councilId){
-                        id
-                        agendaSubject
-                        subjectType
-                        votingState
-                        items {
-                            id
-                            value
-                        }
-                        options {
-                            id
-                            maxSelections
-                            minSelections
-                        }
-                    }
-                    proxyVotes(participantId: $participantId){
-                        value
-                        agendaId
-                        id
-                    }
-                }
-            `,
-            variables: {
-                councilId: council.id,
-                participantId: participant.id
-            }
-        });
+	const getData = async () => {
+		const response = await client.query({
+			query: gql`
+				query agendas($councilId: Int!, $participantId: Int!){
+					agendas(councilId: $councilId){
+						id
+						agendaSubject
+						subjectType
+						votingState
+						items {
+							id
+							value
+						}
+						options {
+							id
+							maxSelections
+							minSelections
+						}
+					}
+					proxyVotes(participantId: $participantId){
+						value
+						agendaId
+						id
+					}
+				}
+			`,
+			variables: {
+				councilId: council.id,
+				participantId: participant.id
+			}
+		});
 
-        setData(response.data);
-        setLoading(false);
-    };
+		setData(response.data);
+		setLoading(false);
+	};
 
-    const getProxyVote = (agendaId, value, custom) => {
-        const vote = data.proxyVotes.find(proxy => {
-            if (!custom) {
-                return proxy.agendaId === agendaId;
-            }
-            return proxy.agendaId === agendaId && value === proxy.value;
-        });
+	const getProxyVote = (agendaId, value, custom) => {
+		const vote = data.proxyVotes.find(proxy => {
+			if (!custom) {
+				return proxy.agendaId === agendaId;
+			}
+			return proxy.agendaId === agendaId && value === proxy.value;
+		});
 
-        if (!vote) {
-            return false;
-        }
+		if (!vote) {
+			return false;
+		}
 
-        return vote;
-    };
+		return vote;
+	};
 
-    const deleteProxyVote = async (agendaId, participantId) => {
-        await client.mutate({
-            mutation: gql`
-                mutation DeleteProxyVote( $agendaId: Int!, $participantId: Int!){
-                    deleteProxyVote(agendaId: $agendaId, participantId: $participantId){
-                        success
-                    }
-                }
-            `,
-            variables: {
-                agendaId,
-                participantId
-            }
-        });
+	const deleteProxyVote = async (agendaId, participantId) => {
+		await client.mutate({
+			mutation: gql`
+				mutation DeleteProxyVote( $agendaId: Int!, $participantId: Int!){
+					deleteProxyVote(agendaId: $agendaId, participantId: $participantId){
+						success
+					}
+				}
+			`,
+			variables: {
+				agendaId,
+				participantId
+			}
+		});
 
-        getData();
-    };
+		getData();
+	};
 
-    const setVotingRightDenied = async agendaId => {
-        setLoadingVote(agendaId);
-        await client.mutate({
-            mutation: gql`
-                mutation SetVotingRightDenied($participantId: Int!, $agendaId: Int!){
-                    setVotingRightDenied(participantId: $participantId, agendaId: $agendaId){
-                        id
-                    }
-                }
-            `,
-            variables: {
-                participantId: participant.id,
-                agendaId
-            }
-        });
-        setLoadingVote(null);
-        getData();
-    };
+	const setVotingRightDenied = async agendaId => {
+		await client.mutate({
+			mutation: gql`
+				mutation SetVotingRightDenied($participantId: Int!, $agendaId: Int!){
+					setVotingRightDenied(participantId: $participantId, agendaId: $agendaId){
+						id
+					}
+				}
+			`,
+			variables: {
+				participantId: participant.id,
+				agendaId
+			}
+		});
+		getData();
+	};
 
-    const setEarlyVote = async (agendaId, value) => {
-        setLoadingVote(agendaId);
-        await client.mutate({
-            mutation: gql`
-                mutation SetEarlyVote($participantId: Int!, $agendaId: Int!, $value: Int!){
-                    setProxyVote(participantId: $participantId, agendaId: $agendaId, value: $value){
-                        id
-                    }
-                }
-            `,
-            variables: {
-                participantId: participant.id,
-                agendaId,
-                value
-            }
-        });
+	const setEarlyVote = async (agendaId, value) => {
+		await client.mutate({
+			mutation: gql`
+				mutation SetEarlyVote($participantId: Int!, $agendaId: Int!, $value: Int!){
+					setProxyVote(participantId: $participantId, agendaId: $agendaId, value: $value){
+						id
+					}
+				}
+			`,
+			variables: {
+				participantId: participant.id,
+				agendaId,
+				value
+			}
+		});
+		getData();
+	};
 
-        setLoadingVote(null);
-        getData();
-    };
+	React.useEffect(() => {
+		getData();
+	}, [council.id]);
 
-    React.useEffect(() => {
-        getData();
-    }, [council.id]);
-
-    const renderPointTitle = point => (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-            <div style={{ fontWeight: '700', marginTop: '1em' }}>{point.agendaSubject}</div>
-            {!!getProxyVote(point.id) &&
-                <div style={{ marginLeft: '10px', marginTop: '10px' }}>
-                    <BasicButton
-                        color="white"
-                        text={translate.delete}
-                        backgroundColor={{
-                            border: '1px solid ' + getSecondary(),
-                            borderRadius: '4px',
-                            marginTotop: '0.3em',
-                            color: getSecondary(),
-                            backgroundColor: 'white',
-                            outline: '0px',
-                        }}
-                        onClick={() => deleteProxyVote(point.id, participant.id)}
-                    />
-                </div>
-            }
-        </div>
-    );
+	const renderPointTitle = point => (
+		<div style={{ display: 'flex', alignItems: 'center' }}>
+			<div style={{ fontWeight: '700', marginTop: '1em' }}>{point.agendaSubject}</div>
+			{!!getProxyVote(point.id)
+&& <div style={{ marginLeft: '10px', marginTop: '10px' }}>
+	<BasicButton
+		color="white"
+		text={translate.delete}
+		backgroundColor={{
+			border: `1px solid ${getSecondary()}`,
+			borderRadius: '4px',
+			marginTotop: '0.3em',
+			color: getSecondary(),
+			backgroundColor: 'white',
+			outline: '0px',
+		}}
+		onClick={() => deleteProxyVote(point.id, participant.id)}
+	/>
+</div>
+			}
+		</div>
+	);
 
 
-    return (
-        <>
-            {loading ?
-                <LoadingSection />
-                :
-                data.agendas.filter(point => point.subjectType !== AGENDA_TYPES.INFORMATIVE).map(point => {
-                    const disabled = point.votingState !== AGENDA_STATES.INITIAL;
+	return (
+		<>
+			{loading ?
+				<LoadingSection />
+				: data.agendas.filter(point => point.subjectType !== AGENDA_TYPES.INFORMATIVE).map(point => {
+					const disabled = point.votingState !== AGENDA_STATES.INITIAL;
 
-                    if (isConfirmationRequest(point.subjectType)) {
-                        return (
-                            <div key={`point_${point.id}`}>
-                                {renderPointTitle(point)}
-                                <div>
-                                    {[{
-                                        value: VOTE_VALUES.POSITIVE,
-                                        label: translate.accept,
-                                        icon: 'fa fa-check'
-                                    }, {
-                                        value: VOTE_VALUES.NEGATIVE,
-                                        label: translate.refuse,
-                                        icon: 'fa fa-times'
-                                    }].map(vote => {
-                                        const proxyVote = getProxyVote(point.id, vote.value);
-                                        const active = vote.value === proxyVote.value;
-                                        return (
-                                            <div
-                                                key={`vote_${vote.value}`}
-                                                style={{
-                                                    marginRight: '0.2em',
-                                                    borderRadius: '3px',
-                                                    display: 'flex',
-                                                    cursor: 'pointer',
-                                                    alignItems: 'center',
-                                                    justifyContent: 'center'
-                                                }}
-                                                onClick={() => {
-                                                    setEarlyVote(point.id, vote.value);
-                                                }}
-                                            >
-                                                <VotingButton
-                                                    text={vote.label}
-                                                    selected={active}
-                                                    disabledColor={disabled ? 'grey' : null}
-                                                    disabled={disabled}
-                                                    icon={<i className={vote.icon} aria-hidden="true" style={{ marginLeft: '0.2em', color: active ? getPrimary() : 'silver' }}></i>}
-                                                />
-                                            </div>
-                                        );
-                                    })}
-                                    <VotingButton
-                                        text={translate.cant_vote_this_point}
-                                        selected={getProxyVote(point.id, null) ? getProxyVote(point.id, null).value === null : false}
-                                        disabledColor={disabled ? 'grey' : null}
-                                        disabled={disabled}
-                                        onClick={() => setVotingRightDenied(point.id)}
-                                    />
-                                </div>
-                            </div>
-                        );
-                    }
+					if (isConfirmationRequest(point.subjectType)) {
+						return (
+							<div key={`point_${point.id}`}>
+								{renderPointTitle(point)}
+								<div>
+									{[{
+										value: VOTE_VALUES.POSITIVE,
+										label: translate.accept,
+										icon: 'fa fa-check'
+									}, {
+										value: VOTE_VALUES.NEGATIVE,
+										label: translate.refuse,
+										icon: 'fa fa-times'
+									}].map(vote => {
+										const proxyVote = getProxyVote(point.id, vote.value);
+										const active = vote.value === proxyVote.value;
+										return (
+											<div
+												key={`vote_${vote.value}`}
+												style={{
+													marginRight: '0.2em',
+													borderRadius: '3px',
+													display: 'flex',
+													cursor: 'pointer',
+													alignItems: 'center',
+													justifyContent: 'center'
+												}}
+												onClick={() => {
+													setEarlyVote(point.id, vote.value);
+												}}
+											>
+												<VotingButton
+													text={vote.label}
+													selected={active}
+													disabledColor={disabled ? 'grey' : null}
+													disabled={disabled}
+													icon={<i className={vote.icon} aria-hidden="true" style={{ marginLeft: '0.2em', color: active ? getPrimary() : 'silver' }}></i>}
+												/>
+											</div>
+										);
+									})}
+									<VotingButton
+										text={translate.cant_vote_this_point}
+										selected={getProxyVote(point.id, null) ? getProxyVote(point.id, null).value === null : false}
+										disabledColor={disabled ? 'grey' : null}
+										disabled={disabled}
+										onClick={() => setVotingRightDenied(point.id)}
+									/>
+								</div>
+							</div>
+						);
+					}
 
-                    if (!isCustomPoint(point.subjectType)) {
-                        return (
-                            <div key={`point_${point.id}`}>
-                                {renderPointTitle(point)}
-                                <div>
-                                    {[{
-                                        value: VOTE_VALUES.POSITIVE,
-                                        label: translate.in_favor_btn,
-                                        icon: 'fa fa-check'
-                                    }, {
-                                        value: VOTE_VALUES.NEGATIVE,
-                                        label: translate.against_btn,
-                                        icon: 'fa fa-times'
-                                    }, {
-                                        value: VOTE_VALUES.ABSTENTION,
-                                        label: translate.abstention_btn,
-                                        icon: 'fa fa-circle-o'
-                                    }].map(vote => {
-                                        const proxyVote = getProxyVote(point.id, vote.value);
-                                        const active = vote.value === proxyVote.value;
-                                        return (
-                                            <div
-                                                key={`vote_${vote.value}`}
-                                                style={{
-                                                    marginRight: '0.2em',
-                                                    borderRadius: '3px',
-                                                    display: 'flex',
-                                                    cursor: 'pointer',
-                                                    alignItems: 'center',
-                                                    justifyContent: 'center'
-                                                }}
-                                                onClick={() => {
-                                                    setEarlyVote(point.id, vote.value);
-                                                }}
-                                            >
-                                                <VotingButton
-                                                    text={vote.label}
-                                                    selected={active}
-                                                    disabledColor={disabled ? 'grey' : null}
-                                                    disabled={disabled}
-                                                    icon={<i className={vote.icon} aria-hidden="true" style={{ marginLeft: '0.2em', color: active ? getPrimary() : 'silver' }}></i>}
-                                                />
-                                            </div>
-                                        );
-                                    })}
-                                    <VotingButton
-                                        text={translate.cant_vote_this_point}
-                                        selected={getProxyVote(point.id, null) ? getProxyVote(point.id, null).value === null : false}
-                                        disabledColor={disabled ? 'grey' : null}
-                                        disabled={disabled}
-                                        onClick={() => setVotingRightDenied(point.id)}
-                                    />
-                                </div>
-                            </div>
-                        );
-                    }
+					if (!isCustomPoint(point.subjectType)) {
+						return (
+							<div key={`point_${point.id}`}>
+								{renderPointTitle(point)}
+								<div>
+									{[{
+										value: VOTE_VALUES.POSITIVE,
+										label: translate.in_favor_btn,
+										icon: 'fa fa-check'
+									}, {
+										value: VOTE_VALUES.NEGATIVE,
+										label: translate.against_btn,
+										icon: 'fa fa-times'
+									}, {
+										value: VOTE_VALUES.ABSTENTION,
+										label: translate.abstention_btn,
+										icon: 'fa fa-circle-o'
+									}].map(vote => {
+										const proxyVote = getProxyVote(point.id, vote.value);
+										const active = vote.value === proxyVote.value;
+										return (
+											<div
+												key={`vote_${vote.value}`}
+												style={{
+													marginRight: '0.2em',
+													borderRadius: '3px',
+													display: 'flex',
+													cursor: 'pointer',
+													alignItems: 'center',
+													justifyContent: 'center'
+												}}
+												onClick={() => {
+													setEarlyVote(point.id, vote.value);
+												}}
+											>
+												<VotingButton
+													text={vote.label}
+													selected={active}
+													disabledColor={disabled ? 'grey' : null}
+													disabled={disabled}
+													icon={<i className={vote.icon} aria-hidden="true" style={{ marginLeft: '0.2em', color: active ? getPrimary() : 'silver' }}></i>}
+												/>
+											</div>
+										);
+									})}
+									<VotingButton
+										text={translate.cant_vote_this_point}
+										selected={getProxyVote(point.id, null) ? getProxyVote(point.id, null).value === null : false}
+										disabledColor={disabled ? 'grey' : null}
+										disabled={disabled}
+										onClick={() => setVotingRightDenied(point.id)}
+									/>
+								</div>
+							</div>
+						);
+					}
 
-                    const selections = point.items.reduce((acc, curr) => {
-                        if (getProxyVote(point.id, curr.id, true)) {
-                            acc++;
-                            return acc;
-                        }
-                        return acc;
-                    }, 0);
+					const selections = point.items.reduce((acc, curr) => {
+						if (getProxyVote(point.id, curr.id, true)) {
+							const newValue = acc + 1;
+							return newValue;
+						}
+						return acc;
+					}, 0);
 
-                    const getRemainingOptions = () => {
-                        console.log(selections);
-                        if (((point.options.minSelections - selections) < 0)) {
-                            return point.options.minSelections;
-                        }
-                        return point.options.minSelections - selections;
-                    };
+					const getRemainingOptions = () => {
+						if (((point.options.minSelections - selections) < 0)) {
+							return point.options.minSelections;
+						}
+						return point.options.minSelections - selections;
+					};
 
-                    const disableCustom = (selections >= point.options.maxSelections) || disabled;
+					const disableCustom = (selections >= point.options.maxSelections) || disabled;
 
-                    return (
-                        <div key={`point_${point.id}`} style={{ marginTop: '1.3em' }}>
-                            {renderPointTitle(point)}
-                            {(point.options.maxSelections > 1) &&
-                                < div > {
-                                    translate.can_select_between_min_max
-                                        .replace('{{min}}', point.options.minSelections)
-                                        .replace('{{max}}', point.options.maxSelections)
-                                }
-                                </div>
-                            }
-                            <div>
-                                {(selections < point.options.minSelections && point.options.minSelections > 1) &&
-                                    <React.Fragment>{translate.need_select_more.replace('{{options}}', getRemainingOptions())}</React.Fragment>
-                                }
-                            </div>
-                            <div>
-                                {point.items.map(item => {
-                                    const proxyVote = getProxyVote(point.id, item.id, true);
-                                    const active = proxyVote.value === item.id;
-                                    return (
-                                        <VotingButton
-                                            key={`voting_${item.id}`}
-                                            disabled={disableCustom && !active}
-                                            disabledColor={disableCustom && !active}
-                                            styleButton={{ padding: '0', width: '100%' }}
-                                            selectCheckBox={active}
-                                            onClick={() => {
-                                                setEarlyVote(point.id, item.id);
-                                            }}
-                                            text={item.value}
-                                        />
-                                    );
-                                })}
-                                <VotingButton
-                                    text={translate.cant_vote_this_point}
-                                    selected={getProxyVote(point.id, null) ? getProxyVote(point.id, null).value === null : false}
-                                    disabledColor={disabled ? 'grey' : null}
-                                    disabled={disabled}
-                                    onClick={() => setVotingRightDenied(point.id)}
-                                />
-                            </div>
-                        </div>
-                    );
-                })
-            }
-        </>
-    );
+					return (
+						<div key={`point_${point.id}`} style={{ marginTop: '1.3em' }}>
+							{renderPointTitle(point)}
+							{(point.options.maxSelections > 1)
+&& < div > {
+	translate.can_select_between_min_max
+		.replace('{{min}}', point.options.minSelections)
+		.replace('{{max}}', point.options.maxSelections)
+}
+</div>
+							}
+							<div>
+								{(selections < point.options.minSelections && point.options.minSelections > 1)
+&& <React.Fragment>{translate.need_select_more.replace('{{options}}', getRemainingOptions())}</React.Fragment>
+								}
+							</div>
+							<div>
+								{point.items.map(item => {
+									const proxyVote = getProxyVote(point.id, item.id, true);
+									const active = proxyVote.value === item.id;
+									return (
+										<VotingButton
+											key={`voting_${item.id}`}
+											disabled={disableCustom && !active}
+											disabledColor={disableCustom && !active}
+											styleButton={{ padding: '0', width: '100%' }}
+											selectCheckBox={active}
+											onClick={() => {
+												setEarlyVote(point.id, item.id);
+											}}
+											text={item.value}
+										/>
+									);
+								})}
+								<VotingButton
+									text={translate.cant_vote_this_point}
+									selected={getProxyVote(point.id, null) ? getProxyVote(point.id, null).value === null : false}
+									disabledColor={disabled ? 'grey' : null}
+									disabled={disabled}
+									onClick={() => setVotingRightDenied(point.id)}
+								/>
+							</div>
+						</div>
+					);
+				})
+			}
+		</>
+	);
 });
 
 export default EarlyVotingModal;

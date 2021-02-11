@@ -14,9 +14,11 @@ import {
 import { participantsWhoCanDelegate } from '../../../queries';
 import { DELEGATION_USERS_LOAD } from '../../../constants';
 import { delegatedVotesLimitReached } from '../../../utils/CBX';
-import { addDelegation } from '../../../queries/liveParticipant';
+import { addDelegation as addDelegationMutation } from '../../../queries/liveParticipant';
 
-const DelegateVoteModal = ({ translate, participant, client, council, ...props }) => {
+const DelegateVoteModal = ({
+	translate, participant, client, council, ...props
+}) => {
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
 	const [filters, setFilters] = React.useState({
@@ -26,6 +28,23 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 		offset: 0,
 		limit: DELEGATION_USERS_LOAD
 	});
+
+	const buildVariables = () => {
+		const variables = {
+			councilId: council.id,
+			participantId: participant.id,
+		};
+
+		if (filters.text) {
+			variables.filters = [{
+				field: 'fullName',
+				text: filters.text.trim()
+			}];
+		}
+
+		variables.options = options;
+		return variables;
+	};
 
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
@@ -64,23 +83,6 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 	React.useEffect(() => {
 		getData();
 	}, [getData]);
-
-	const buildVariables = () => {
-		const variables = {
-			councilId: council.id,
-			participantId: participant.id,
-		};
-
-		if (filters.text) {
-			variables.filters = [{
-				field: 'fullName',
-				text: filters.text.trim()
-			}];
-		}
-
-		variables.options = options;
-		return variables;
-	};
 
 	const loadMore = () => {
 		setOptions({
@@ -148,7 +150,7 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 	};
 
 
-	function _modalBody() {
+	function modalBody() {
 		const participants = loading ? [] : data.liveParticipantsWhoCanDelegate.list;
 		const { total } = loading ? 0 : data.liveParticipantsWhoCanDelegate;
 		const rest = total - participants.length - 1;
@@ -183,58 +185,60 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 					{loading ? (
 						<LoadingSection />
 					) : (
-							<Scrollbar option={{ suppressScrollX: true }}>
-								{participants.length > 0 ? (
-									<React.Fragment>
-										{participants.map(liveParticipant => {
-											if (liveParticipant.id !== participant.id) {
-												return (
-													<ParticipantRow
-														key={`delegateParticipant_${liveParticipant.id}`}
-														participant={liveParticipant}
-														onClick={() => addDelegation(liveParticipant.id)
-														}
-													/>
-												);
-											}
-											return false;
-										})}
-										{participants.length < total - 1 && (
-											<Card
-												style={{
-													width: '90%',
-													border: '2px solid grey',
-													margin: 'auto',
-													marginBottom: '1.2em',
-													marginTop: '0.6em',
-													cursor: 'pointer',
-													display: 'flex',
-													alignItems: 'center',
-													justifyContent: 'center'
-												}}
-												elevation={1}
-												onClick={loadMore}
-											>
-												<MenuItem style={{ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
-													{`DESCARGAR ${
-														rest > DELEGATION_USERS_LOAD
-															? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-															: translate.all_plural.toLowerCase()
-														}`}
-													{loading &&
-														<div>
-															<LoadingSection size={25} />
-														</div>
+						<Scrollbar option={{ suppressScrollX: true }}>
+							{participants.length > 0 ? (
+								<React.Fragment>
+									{participants.map(liveParticipant => {
+										if (liveParticipant.id !== participant.id) {
+											return (
+												<ParticipantRow
+													key={`delegateParticipant_${liveParticipant.id}`}
+													participant={liveParticipant}
+													onClick={() => addDelegation(liveParticipant.id)
 													}
-												</MenuItem>
-											</Card>
-										)}
-									</React.Fragment>
-								) : (
-										<Typography>{translate.no_results}</Typography>
+												/>
+											);
+										}
+										return false;
+									})}
+									{participants.length < total - 1 && (
+										<Card
+											style={{
+												width: '90%',
+												border: '2px solid grey',
+												margin: 'auto',
+												marginBottom: '1.2em',
+												marginTop: '0.6em',
+												cursor: 'pointer',
+												display: 'flex',
+												alignItems: 'center',
+												justifyContent: 'center'
+											}}
+											elevation={1}
+											onClick={loadMore}
+										>
+											<MenuItem style={{
+												padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'
+											}}>
+												{`DESCARGAR ${
+													rest > DELEGATION_USERS_LOAD ?
+														`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+														: translate.all_plural.toLowerCase()
+												}`}
+												{loading
+&& <div>
+	<LoadingSection size={25} />
+</div>
+												}
+											</MenuItem>
+										</Card>
 									)}
-							</Scrollbar>
-						)}
+								</React.Fragment>
+							) : (
+								<Typography>{translate.no_results}</Typography>
+							)}
+						</Scrollbar>
+					)}
 				</div>
 			</div>
 		);
@@ -245,12 +249,12 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 			requestClose={close}
 			open={props.show}
 			buttonCancel={translate.close}
-			bodyText={_modalBody()}
+			bodyText={modalBody()}
 			title={translate.to_delegate_vote}
 		/>
 	);
 };
 
-export default graphql(addDelegation, {
+export default graphql(addDelegationMutation, {
 	name: 'addDelegation'
 })(withApollo(DelegateVoteModal));

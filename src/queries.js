@@ -1086,24 +1086,6 @@ export const councilStepFive = gql`
 	}
 `;
 
-/*
- platforms {
- act
- company_id
- council_id
- emails
- id
- room
- room_access
- security_email
- security_sms
- signature
- video
- }
-
- previewHtml
- }*/
-
 export const councilStepSix = gql`
 	query CouncilStepSix($id: Int!, $timezone: String) {
 		council(id: $id) {
@@ -2263,8 +2245,6 @@ export const agendaComments = gql`
 		}
 	}
 `;
-
-//OLD VERSION
 
 export const participantsQuery = gql`
 	query Participants($councilID: ID!) {

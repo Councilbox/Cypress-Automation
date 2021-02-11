@@ -8,7 +8,7 @@ import {
 } from '../../../../../displayComponents/index';
 import { getPrimary } from '../../../../../styles/colors';
 import { addCensusParticipant, checkUniqueCensusEmails } from '../../../../../queries/census';
-import { languages } from '../../../../../queries/masters';
+import { languages as languagesQuery } from '../../../../../queries/masters';
 import { censusHasParticipations } from '../../../../../utils/CBX';
 import RepresentativeForm from '../RepresentativeForm';
 import ParticipantForm from '../../../../council/participants/ParticipantForm';
@@ -52,7 +52,6 @@ const initialRepresentative = {
 };
 
 
-
 class AddCensusParticipantButton extends React.Component {
 	state = {
 		modal: false,
@@ -64,12 +63,12 @@ class AddCensusParticipantButton extends React.Component {
 
 	addCensusParticipant = async () => {
 		const { hasRepresentative, ...data } = this.state.representative;
-		const representative = this.state.representative.hasRepresentative
-			? {
-					...data,
-					companyId: this.props.census.companyId,
-					censusId: this.props.census.id
-			  }
+		const representative = this.state.representative.hasRepresentative ?
+			{
+				...data,
+				companyId: this.props.census.companyId,
+				censusId: this.props.census.id
+			}
 			: null;
 
 		if (!await this.checkRequiredFields()) {
@@ -92,22 +91,22 @@ class AddCensusParticipantButton extends React.Component {
 					errors: {},
 					representativeErrors: {}
 				});
-			} else if(response.errors[0].message === 'Too many granted words'){
-					this.setState({
-						loading: false,
-						...(this.state.data.initialState === 2 ? {
-							errors: {
-								initialState: this.props.translate.initial_granted_word_error
-							}
-						} : {}),
-						...(representative && representative.initialState === 2 ? {
-							representativeErrors: {
-								initialState: this.props.translate.initial_granted_word_error
-							}
-						} : {})
+			} else if (response.errors[0].message === 'Too many granted words') {
+				this.setState({
+					loading: false,
+					...(this.state.data.initialState === 2 ? {
+						errors: {
+							initialState: this.props.translate.initial_granted_word_error
+						}
+					} : {}),
+					...(representative && representative.initialState === 2 ? {
+						representativeErrors: {
+							initialState: this.props.translate.initial_granted_word_error
+						}
+					} : {})
 
-					});
-				}
+				});
+			}
 		}
 	};
 
@@ -131,7 +130,7 @@ class AddCensusParticipantButton extends React.Component {
 
 	async checkRequiredFields() {
 		const participant = this.state.data;
-		const representative = this.state.representative;
+		const { representative } = this.state;
 		const { translate, company } = this.props;
 		const hasSocialCapital = censusHasParticipations(this.props.census);
 		const errorsParticipant = checkRequiredFieldsParticipant(
@@ -143,8 +142,8 @@ class AddCensusParticipantButton extends React.Component {
 
 		const emailsToCheck = [];
 
-		if(this.props.company.type !== 10){
-			if(participant.personOrEntity === 0 && participant.email){
+		if (this.props.company.type !== 10) {
+			if (participant.personOrEntity === 0 && participant.email) {
 				emailsToCheck.push(participant.email);
 			}
 		}
@@ -159,12 +158,12 @@ class AddCensusParticipantButton extends React.Component {
 				translate
 			);
 
-			if(!representative.id){
+			if (!representative.id) {
 				emailsToCheck.push(representative.email);
 			}
 		}
 
-		if(emailsToCheck.length > 0){
+		if (emailsToCheck.length > 0) {
 			const response = await this.props.client.query({
 				query: checkUniqueCensusEmails,
 				variables: {
@@ -173,21 +172,21 @@ class AddCensusParticipantButton extends React.Component {
 				}
 			});
 
-			if(!response.data.checkUniqueCensusEmails.success){
+			if (!response.data.checkUniqueCensusEmails.success) {
 				const data = JSON.parse(response.data.checkUniqueCensusEmails.message);
 				data.duplicatedEmails.forEach(email => {
-					if(participant.email === email){
+					if (participant.email === email) {
 						errorsParticipant.errors.email = translate.register_exists_email;
 						errorsParticipant.hasError = true;
 					}
-					if(representative.email === email){
+					if (representative.email === email) {
 						errorsRepresentative.errors.email = translate.register_exists_email;
 						errorsRepresentative.hasError = true;
 					}
 				});
 			}
 
-			if(participant.email === representative.email){
+			if (participant.email === representative.email) {
 				errorsRepresentative.errors.email = translate.repeated_email;
 				errorsParticipant.errors.email = translate.repeated_email;
 				errorsParticipant.hasError = true;
@@ -204,9 +203,9 @@ class AddCensusParticipantButton extends React.Component {
 		return errorsParticipant.hasError || errorsRepresentative.hasError;
 	}
 
-	_renderBody() {
+	renderBody() {
 		const participant = this.state.data;
-		const errors = this.state.errors;
+		const { errors } = this.state;
 		const { translate } = this.props;
 		const { languages } = this.props.data;
 		return (
@@ -295,7 +294,7 @@ class AddCensusParticipantButton extends React.Component {
 					acceptAction={this.addCensusParticipant}
 					buttonAccept={translate.save}
 					buttonCancel={translate.cancel}
-					bodyText={this._renderBody()}
+					bodyText={this.renderBody()}
 					title={translate.add_participant}
 				/>
 			</React.Fragment>
@@ -310,6 +309,6 @@ export default compose(
 			errorPolicy: 'all'
 		}
 	}),
-	graphql(languages)
+	graphql(languagesQuery)
 )(withApollo(AddCensusParticipantButton));
 

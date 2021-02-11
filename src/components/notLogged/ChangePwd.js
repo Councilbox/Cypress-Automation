@@ -167,10 +167,10 @@ class ChangePwd extends React.PureComponent {
 											type="password"
 											value={this.state.pwd}
 											onChange={event => this.setState({
-													pwd:
+												pwd:
 														event.nativeEvent.target
 															.value
-												})
+											})
 											}
 										/>
 									</div>
@@ -184,10 +184,10 @@ class ChangePwd extends React.PureComponent {
 											type="password"
 											value={this.state.repeatPwd}
 											onChange={event => this.setState({
-													repeatPwd:
+												repeatPwd:
 														event.nativeEvent.target
 															.value
-												})
+											})
 											}
 										/>
 									</div>

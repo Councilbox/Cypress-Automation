@@ -57,16 +57,16 @@ const BasicButton = ({
 			fullWidth={fullWidth}
 			className={claseHover}
 		>
-			{iconInit &&
-			iconInit
+			{iconInit
+&& iconInit
 			}
 			{text}
 			{success ? (
 				successSoloColor ?
 					(
 						<div></div>
-					) :
-					(
+					)
+					: (
 						<ButtonIcon type="checkIcon" color="white" />
 					)
 
@@ -74,16 +74,16 @@ const BasicButton = ({
 				successSoloColor ?
 					(
 						<div></div>
-					) :
-					(
+					)
+					: (
 						<ButtonIcon type="clear" color="white" />
 					)
 			) : loading ? (
 				successSoloColor ?
 					(
 						<div></div>
-					) :
-					(
+					)
+					: (
 						<div
 							style={{
 								color: loadingColor,
@@ -94,8 +94,8 @@ const BasicButton = ({
 						</div>
 					)
 			) : (
-							icon
-						)}
+				icon
+			)}
 		</Button>
 	);
 };

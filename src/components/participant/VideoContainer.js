@@ -9,93 +9,95 @@ import PausedCouncilPage from '../council/live/video/PausedCouncilPage';
 const rand = Math.random();
 
 const videoURLQuery = gql`
-    query participantVideoURL($participantId: Int!){
-        participantVideoURL(participantId: $participantId)
-    }
+	query participantVideoURL($participantId: Int!){
+		participantVideoURL(participantId: $participantId)
+	}
 `;
 
-const VideoContainer = ({ setVideoURL, videoURL, announcement, client, ...props }) => {
-    const [url, setUrl] = React.useState(null);
-    const [loading, setLoading] = React.useState(true);
+const VideoContainer = ({
+	setVideoURL, videoURL, announcement, client, ...props
+}) => {
+	const [url, setUrl] = React.useState(null);
+	const [loading, setLoading] = React.useState(true);
 
-    const updateUrl = async newUrl => {
-        if(newUrl){
-            if(newUrl !== url){
-                setUrl(newUrl);
-            }
-            if(loading){
-                setLoading(false);
-            }
-        } else {
-            setTimeout(getData, 5000);
-        }
-    };
+	const updateUrl = async newUrl => {
+		if (newUrl) {
+			if (newUrl !== url) {
+				setUrl(newUrl);
+			}
+			if (loading) {
+				setLoading(false);
+			}
+		} else {
+			setTimeout(getData, 5000);
+		}
+	};
 
-    const getData = React.useCallback(async () => {
-        const response = await client.query({
-            query: videoURLQuery,
-            variables: {
-                participantId: +props.participant.id
-            }
-        });
+	const getData = React.useCallback(async () => {
+		const response = await client.query({
+			query: videoURLQuery,
+			variables: {
+				participantId: +props.participant.id
+			}
+		});
 
-        updateUrl(response.data.participantVideoURL);
-    }, [props.participant.id]);
+		updateUrl(response.data.participantVideoURL);
+	}, [props.participant.id]);
 
-    useRoomUpdated({
-        refetch: updateUrl,
-        props,
-        participant: props.participant
-    });
+	useRoomUpdated({
+		refetch: updateUrl,
+		props,
+		participant: props.participant
+	});
 
-    const requestWord = props.participant.requestWord;
+	const { requestWord } = props.participant;
 
-    React.useEffect(() => {
-        getData();
-    }, [requestWord, getData]);
+	React.useEffect(() => {
+		getData();
+	}, [requestWord, getData]);
 
-    if(props.council.state === COUNCIL_STATES.PAUSED){
-        return (
-            <PausedCouncilPage
-                council={props.council}
-                translate={props.translate}
-            />
-        );
-    }
+	if (props.council.state === COUNCIL_STATES.PAUSED) {
+		return (
+			<PausedCouncilPage
+				council={props.council}
+				translate={props.translate}
+			/>
+		);
+	}
 
 
-    if(!loading){
-        if(!videoURL){
-            setVideoURL(url || 'Error reaching CMP');
-        }
-        return(
-            <iframe
-                title="meetingScreen"
-                allow="geolocation; microphone; camera; autoplay"
-                scrolling="no"
-                className="temp_video"
-                src={`https://${url}?rand=${rand}`}
-                allowFullScreen={true}
-                style={{
-                    border: 'none !important',
-                }}
-            >
-                Something wrong...
-            </iframe>
-        );
-    }
+	if (!loading) {
+		if (!videoURL) {
+			setVideoURL(url || 'Error reaching CMP');
+		}
+		return (
+			<iframe
+				title="meetingScreen"
+				allow="geolocation; microphone; camera; autoplay"
+				scrolling="no"
+				className="temp_video"
+				src={`https://${url}?rand=${rand}`}
+				allowFullScreen={true}
+				style={{
+					border: 'none !important',
+				}}
+			>
+Something wrong...
+			</iframe>
+		);
+	}
 
-    return <div/>;
+	return <div/>;
 };
 
 export default compose(
-    graphql(roomUpdateSubscription, {
-        name: 'subs',
-        options: props => ({
+	graphql(roomUpdateSubscription, {
+		name: 'subs',
+		options: props => ({
 			variables: {
 				councilId: props.council.id
 			}
 		})
-    }),
-    withApollo
+	}),
+	withApollo
 )(VideoContainer);

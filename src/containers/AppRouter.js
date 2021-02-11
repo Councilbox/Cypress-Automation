@@ -1,5 +1,7 @@
 import React from 'react';
-import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
+import {
+	Route, Switch, withRouter, Redirect
+} from 'react-router-dom';
 import { connect } from 'react-redux';
 import withStyles from 'material-ui/styles/withStyles';
 import Loadable from 'react-loadable';
@@ -11,7 +13,6 @@ import image from '../assets/img/sidebar-2.jpg';
 import GicarLoginContainer from './GicarLoginContainer';
 import RoomAdminContainer from './RoomAdminContainer';
 import { HEADER_HEIGHT } from '../styles/constants';
-
 
 
 const LoadRecommendations = Loadable({
@@ -122,197 +123,195 @@ const AttendanceContainer = Loadable({
 
 
 class AppRouter extends React.Component {
-	handleDrawerToggle = () => {
-		this.setState({ mobileOpen: !this.state.mobileOpen });
-	};
+handleDrawerToggle = () => {
+	this.setState({ mobileOpen: !this.state.mobileOpen });
+};
 
-	showVerticalLayout = () => this.props.windowSize === 'xs' && !isLandscape()
+showVerticalLayout = () => this.props.windowSize === 'xs' && !isLandscape()
 
-	state = {
-		sideWidth: 5,
-		mobileOpen: false
-	};
+state = {
+	sideWidth: 5,
+	mobileOpen: false
+};
 
-	redirectToRoot = () => <Redirect to="/" />
+redirectToRoot = () => <Redirect to="/" />
 
-	render() {
-		const { translate } = this.props;
-		const verticalLayout = this.showVerticalLayout();
+render() {
+	const { translate } = this.props;
+	const verticalLayout = this.showVerticalLayout();
 
-		if (window.location.hash) {
-			if (window.location.hash.includes('#/videoTest')) {
-				return <Redirect to="/test/es" />;
-			}
+	if (window.location.hash) {
+		if (window.location.hash.includes('#/videoTest')) {
+			return <Redirect to="/test/es" />;
 		}
+	}
 
-		if (this.props.main.loading || !this.props.translate || !this.props.translate.back) {
-			return <LoadingMainApp />;
-		}
+	if (this.props.main.loading || !this.props.translate || !this.props.translate.back) {
+		return <LoadingMainApp />;
+	}
 
-		if (this.props.main.isLogged && this.props.main.noCompanies) {
-			return (
-				<LoadNoCompanyTree
-					translate={this.props.translate}
-					user={this.props.user}
-					location={this.props.location}
-				/>
-			);
-		}
+	if (this.props.main.isLogged && this.props.main.noCompanies) {
+		return (
+			<LoadNoCompanyTree
+				translate={this.props.translate}
+				user={this.props.user}
+				location={this.props.location}
+			/>
+		);
+	}
 
-		if (this.props.main.isLogged && !(this.props.companies.list.length > 0) && !this.props.companies.selected) {
-			return <LoadingMainApp />;
-		}
+	if (this.props.main.isLogged && !(this.props.companies.list.length > 0) && !this.props.companies.selected) {
+		return <LoadingMainApp />;
+	}
 
-		if (this.props.user.roles === 'root') {
-			return (
-				<LoadCorporationTree
-					translate={this.props.translate}
-					user={this.props.user}
-					location={this.props.location}
-				/>
-			);
-		}
+	if (this.props.user.roles === 'root') {
+		return (
+			<LoadCorporationTree
+				translate={this.props.translate}
+				user={this.props.user}
+				location={this.props.location}
+			/>
+		);
+	}
 
-		if(this.props.user.accessLimitedTo) {
-			return (
-				<RoomAdminRouter user={this.props.user} location={this.props.location} />
-			);
-		}
+	if (this.props.user.accessLimitedTo) {
+		return (
+			<RoomAdminRouter user={this.props.user} location={this.props.location} />
+		);
+	}
 
-		return this.props.main.isLogged && this.props.user.type === 'company' ? (
-			<div style={{ width: '100%', height: '100%', position: isMobile ? 'relative' : '' }}>
-				<SidebarLite
-					companies={this.props.companies.list}
-					company={this.props.companies.list[this.props.companies.selected]}
-					open={this.state.mobileOpen}
-					user={this.props.user}
-					handleDrawerToggle={this.handleDrawerToggle}
-					image={image}
-					translate={translate}
-					color="blue"
-				/>
+	return this.props.main.isLogged && this.props.user.type === 'company' ? (
+		<div style={{ width: '100%', height: '100%', position: isMobile ? 'relative' : '' }}>
+			<SidebarLite
+				companies={this.props.companies.list}
+				company={this.props.companies.list[this.props.companies.selected]}
+				open={this.state.mobileOpen}
+				user={this.props.user}
+				handleDrawerToggle={this.handleDrawerToggle}
+				image={image}
+				translate={translate}
+				color="blue"
+			/>
 
-				<div
-					style={{
-						width: '100%',
-						height: '100%',
-						position: 'fixed',
-						overflow: 'hidden',
-						marginLeft: isMobile && isLandscape() && '5em'
-					}}
-				>
-					<LoadNoConnectionModal open={!this.props.main.serverStatus} />
+			<div
+				style={{
+					width: '100%',
+					height: '100%',
+					position: 'fixed',
+					overflow: 'hidden',
+					marginLeft: isMobile && isLandscape() && '5em'
+				}}
+			>
+				<LoadNoConnectionModal open={!this.props.main.serverStatus} />
 
 
-					<div className={this.props.classes.mainPanelLite} style={{
-						width: '100%',
-						height: '100%',
-						...(!verticalLayout ?
-							{
-								marginLeft: isMobile && isLandscape() ? '0em' : '5em',
-								width: 'calc(100% - 5em)'
-							} : {}
-						)
-					}}>
-						<Header
-							commandLine={true}
-							companyMenu={true}
-							company={this.props.companies.list[this.props.companies.selected]}
-							companies={this.props.companies.list}
-							user={this.props.user}
-							main={this.props.main}
-							drawerIcon={this.state.mobileOpen}
-							translate={this.props.translate}
-							backButton={
-								this.props.location.pathname !== `/company/${
+				<div className={this.props.classes.mainPanelLite} style={{
+					width: '100%',
+					height: '100%',
+					...(!verticalLayout ?
+						{
+							marginLeft: isMobile && isLandscape() ? '0em' : '5em',
+							width: 'calc(100% - 5em)'
+						} : {}
+					)
+				}}>
+					<Header
+						commandLine={true}
+						companyMenu={true}
+						company={this.props.companies.list[this.props.companies.selected]}
+						companies={this.props.companies.list}
+						user={this.props.user}
+						main={this.props.main}
+						drawerIcon={this.state.mobileOpen}
+						translate={this.props.translate}
+						backButton={
+							this.props.location.pathname !== `/company/${
 								this.props.companies.list[this.props.companies.selected].id
-								}`
-							}
-						/>
-						<div
-							style={{
-								// height: '100%',
-								height: `calc(100% - ${isMobile ? isLandscape() ? '3.5em' : '6.5rem' : HEADER_HEIGHT})`,
-								display: 'flex',
-								width: '100%',
-								overflow: 'hidden',
-								...(verticalLayout ? {
-									// paddingBottom: '3.5rem'
-									// paddingBottom: '10.5rem'
-								} : {})
-							}}
-						>
-							<LoadMainTree company={this.props.companies.list[this.props.companies.selected]} user={this.props.user} />
-						</div>
+							}`
+						}
+					/>
+					<div
+						style={{
+							// height: '100%',
+							height: `calc(100% - ${isMobile ? isLandscape() ? '3.5em' : '6.5rem' : HEADER_HEIGHT})`,
+							display: 'flex',
+							width: '100%',
+							overflow: 'hidden',
+							...(verticalLayout ? {
+								// paddingBottom: '3.5rem'
+								// paddingBottom: '10.5rem'
+							} : {})
+						}}
+					>
+						<LoadMainTree company={this.props.companies.list[this.props.companies.selected]} user={this.props.user} />
 					</div>
 				</div>
 			</div>
-		) : (
-			<Switch>
-					<Route exact path="/" component={Login} />
-					<Route path="/signup" component={SignUpPage} />
-					<Route path="/sso/gicar/token/:token/refresh/:refresh" component={GicarLoginContainer} />
-					<Route path="/forgetPwd" component={ForgetPwd} />
-					<Route path="/roomAdmin/:token" component={RoomAdminContainer} />
-					<Route path="/activeUser/token/:token" component={ActiveUserPage} />
-					<Route path="/activeUserAndSetPwd/token/:token" component={SetUserPasswordPage} />
-					<Route path="/recommendations/:language" component={LoadRecommendations} />
-					<Route
-						exact
-						path="/changePwd/:language/:token"
-						component={ChangePwd}
-					/>
-					<Route path="/welcome" component={Welcome} />
+		</div>
+	) : (
+		<Switch>
+			<Route exact path="/" component={Login} />
+			<Route path="/signup" component={SignUpPage} />
+			<Route path="/sso/gicar/token/:token/refresh/:refresh" component={GicarLoginContainer} />
+			<Route path="/forgetPwd" component={ForgetPwd} />
+			<Route path="/roomAdmin/:token" component={RoomAdminContainer} />
+			<Route path="/activeUser/token/:token" component={ActiveUserPage} />
+			<Route path="/activeUserAndSetPwd/token/:token" component={SetUserPasswordPage} />
+			<Route path="/recommendations/:language" component={LoadRecommendations} />
+			<Route
+				exact
+				path="/changePwd/:language/:token"
+				component={ChangePwd}
+			/>
+			<Route path="/welcome" component={Welcome} />
 
-					<Route exact path="/test/:language" component={Test} />
-					<Route exact path="/test/:language/:token" component={Test} />
-					{this.props.main.isParticipantLogged &&
-						[<Route
-							key='route_participant_meet'
-							exact
-							path="/participant/:id/council/:councilId/meet"
-							component={ParticipantContainer}
-						/>,
-						<Route
-							key='route_participant_council'
-							exact
-							path="/participant/:id/council/:councilId/council"
-							component={ParticipantContainer}
-						/>]
-					}
-					<Route
-						exact
-						path="/participant/token/:token"
-						component={ParticipantTokenContainer}
-					/>
-					<Route
-						exact
-						path="/participant/redirect/:creds"
-						component={ParticipantTokenContainer}
-					/>
-					<Route
-						exact
-						path="/attendance/token/:token/"
-						component={AssistanceTokenContainer}
-					/>
+			<Route exact path="/test/:language" component={Test} />
+			<Route exact path="/test/:language/:token" component={Test} />
+			{this.props.main.isParticipantLogged
+				&& [<Route
+					key='route_participant_meet'
+					exact
+					path="/participant/:id/council/:councilId/meet"
+					component={ParticipantContainer}
+				/>,
+				<Route
+					key='route_participant_council'
+					exact
+					path="/participant/:id/council/:councilId/council"
+					component={ParticipantContainer}
+				/>]
+			}
+			<Route
+				exact
+				path="/participant/token/:token"
+				component={ParticipantTokenContainer}
+			/>
+			<Route
+				exact
+				path="/participant/redirect/:creds"
+				component={ParticipantTokenContainer}
+			/>
+			<Route
+				exact
+				path="/attendance/token/:token/"
+				component={AssistanceTokenContainer}
+			/>
 
-					<Route
-						exact
-						path="/participant/:id/council/:councilId/:segment?"
-						component={ParticipantContainer}
-					/>
-					<Route
-						exact
-						path="/attendance/participant/:participantId/council/:councilId"
-						component={AttendanceContainer}
-					/>
-
-					<Route path="/activeUser/email/:token" component={ChangeEmail} />
-
-					<Route path="*" component={this.redirectToRoot} />
-				</Switch>
-			);
-	}
+			<Route
+				exact
+				path="/participant/:id/council/:councilId/:segment?"
+				component={ParticipantContainer}
+			/>
+			<Route
+				exact
+				path="/attendance/participant/:participantId/council/:councilId"
+				component={AttendanceContainer}
+			/>
+			<Route path="/activeUser/email/:token" component={ChangeEmail} />
+			<Route path="*" component={this.redirectToRoot} />
+		</Switch>
+	);
+}
 }
 
 const mapStateToProps = state => ({

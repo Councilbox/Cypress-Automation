@@ -4,9 +4,8 @@ import TopSectionBlocks from './TopSectionBlocks';
 import { darkGrey, lightGrey } from '../../styles/colors';
 import withSharedProps from '../../HOCs/withSharedProps';
 import { Scrollbar, CBXFooter, LoadingMainApp } from '../../displayComponents';
-import { moment, store } from '../../containers/App';
-import { TRIAL_DAYS } from '../../config';
-import { trialDaysLeft, showOrganizationDashboard } from '../../utils/CBX';
+import { store } from '../../containers/App';
+import { showOrganizationDashboard } from '../../utils/CBX';
 import { addSpecificTranslations } from '../../actions/companyActions';
 import NewCompanyPage from '../company/new/NewCompanyPage';
 import NewUser from '../corporation/users/NewUser';
@@ -18,7 +17,6 @@ const OrganizationDashboard = Loadable({
 });
 
 const Dashboard = ({ translate, company, user }) => {
-	const trialDays = trialDaysLeft(company, moment, TRIAL_DAYS);
 	const [addUser, setAddUser] = React.useState(false);
 	const [addEntidades, setEntidades] = React.useState(false);
 	const config = React.useContext(ConfigContext);
@@ -29,7 +27,6 @@ const Dashboard = ({ translate, company, user }) => {
 
 	if (addUser) {
 		return <NewUser translate={translate} requestClose={() => setAddUser(false)} styles={{
-			width: '100%',
 			height: '100%',
 			display: 'flex',
 			width: '100%',
@@ -48,7 +45,6 @@ const Dashboard = ({ translate, company, user }) => {
 				width: '100%',
 				backgroundColor: lightGrey,
 				padding: 0,
-				height: '100%',
 				display: 'flex',
 				alignItems: 'center',
 				flexDirection: 'column',
@@ -79,8 +75,7 @@ const Dashboard = ({ translate, company, user }) => {
 							setAddUser={setAddUser}
 							setEntidades={setEntidades}
 						/>
-						:
-						<React.Fragment>
+						:						<React.Fragment>
 							<div
 								style={{
 									fontWeight: '700',
@@ -90,17 +85,19 @@ const Dashboard = ({ translate, company, user }) => {
 								}}
 							>
 							</div>
-							<div style={{ display: 'flex', flexDirection: 'column', fontWeight: '700', alignItems: 'center' }}>
+							<div style={{
+								display: 'flex', flexDirection: 'column', fontWeight: '700', alignItems: 'center'
+							}}>
 								<div>
-									{company.logo &&
-										<img src={company.logo} alt="company-logo" style={{ height: '4.5em', width: 'auto' }} />
+									{company.logo
+&& <img src={company.logo} alt="company-logo" style={{ height: '4.5em', width: 'auto' }} />
 									}
 								</div>
 								<div>
 									{company.businessName}
 									{/*
-										{company.demo === 1 && ` (${translate.free_trial_remaining} ${trialDays <= 0 ? 0 : trialDays} ${translate.input_group_days})`}
-									*/}
+{company.demo === 1 && ` (${translate.free_trial_remaining} ${trialDays <= 0 ? 0 : trialDays} ${translate.input_group_days})`}
+*/}
 								</div>
 							</div>
 							<TopSectionBlocks

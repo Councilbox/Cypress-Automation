@@ -5,12 +5,12 @@ import FontAwesome from 'react-fontawesome';
 import { getSecondary } from '../../styles/colors';
 import { printPrettyFilesize } from '../../utils/CBX';
 
-const API_URL =
-	process.env.REACT_APP_MODE === 'dev'
-		? `http://${process.env.REACT_APP_LOCAL_API}`
+const API_URL
+	= process.env.REACT_APP_MODE === 'dev' ?
+		`http://${process.env.REACT_APP_LOCAL_API}`
 		: `https://${process.env.REACT_APP_API_URL}`;
 
-const AttachmentDownload = ({ agenda, translate, attachment, ...props }) => {
+const AttachmentDownload = ({ agenda, attachment }) => {
 	const [downloading, setDownloading] = React.useState(false);
 	const secondary = getSecondary();
 
@@ -26,15 +26,15 @@ const AttachmentDownload = ({ agenda, translate, attachment, ...props }) => {
 			})
 		});
 
-		if(response.status === 200){
+		if (response.status === 200) {
 			const blob = await response.blob();
 			const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = attachment.filename;
-            document.body.appendChild(a);
-            a.click();
-            a.remove();
+			const a = document.createElement('a');
+			a.href = url;
+			a.download = attachment.filename;
+			document.body.appendChild(a);
+			a.click();
+			a.remove();
 		}
 		setDownloading(false);
 	};

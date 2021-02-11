@@ -1,13 +1,13 @@
 import React from 'react';
-import { compose, graphql, withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
-import { sendActToVote, openAgendaVoting } from '../../../../queries';
-
+import { compose, graphql } from 'react-apollo';
+import { sendActToVote as sendActToVoteMutation, openAgendaVoting } from '../../../../queries';
 import { AlertConfirm } from '../../../../displayComponents';
 import DocumentPreview from '../../../documentEditor/DocumentPreview';
 
 
-const SendActToVote = ({ requestClose, translate, updateAct, agenda, council, refetch, ...props }) => {
+const SendActToVote = ({
+	requestClose, translate, updateAct, agenda, council, refetch, ...props
+}) => {
 	const [loading, setLoading] = React.useState(false);
 
 	const close = () => {
@@ -29,17 +29,17 @@ const SendActToVote = ({ requestClose, translate, updateAct, agenda, council, re
 		setLoading(false);
 	};
 
-	const _modalBody = () => (
-			<div style={{ marginTop: '12px', height: '100%', border: '1px solid gainsboro' }}>
-				<DocumentPreview
-					translate={translate}
-					options={props.options}
-					doc={props.doc}
-					generatePreview={props.generatePreview}
-					company={props.company}
-				/>
-			</div>
-		);
+	const modalBody = () => (
+		<div style={{ marginTop: '12px', height: '100%', border: '1px solid gainsboro' }}>
+			<DocumentPreview
+				translate={translate}
+				options={props.options}
+				doc={props.doc}
+				generatePreview={props.generatePreview}
+				company={props.company}
+			/>
+		</div>
+	);
 
 	return (
 		<AlertConfirm
@@ -49,7 +49,7 @@ const SendActToVote = ({ requestClose, translate, updateAct, agenda, council, re
 			loadingAction={loading}
 			buttonAccept={translate.save_preview_act}
 			buttonCancel={translate.close}
-			bodyText={_modalBody()}
+			bodyText={modalBody()}
 			title={translate.save_preview_act}
 		/>
 	);
@@ -57,7 +57,7 @@ const SendActToVote = ({ requestClose, translate, updateAct, agenda, council, re
 
 
 export default compose(
-	graphql(sendActToVote, {
+	graphql(sendActToVoteMutation, {
 		name: 'sendActToVote'
 	}),
 

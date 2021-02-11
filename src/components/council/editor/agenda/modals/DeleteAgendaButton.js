@@ -5,11 +5,13 @@ import { AlertConfirm, BasicButton } from '../../../../../displayComponents';
 import { getSecondary } from '../../../../../styles/colors';
 
 
-const DeleteAgendaButton = ({ agenda, council, translate, client, refetch, requestClose }) => {
+const DeleteAgendaButton = ({
+	agenda, council, translate, client, refetch, requestClose
+}) => {
 	const [modal, setModal] = React.useState(false);
 
 	const removeAgendaPoint = async () => {
-		const response = await client.mutate({
+		await client.mutate({
 			mutation: gql`
 				mutation removeAgenda($councilId: Int!, $agendaId: Int!) {
 					removeAgenda(councilId: $councilId, agendaId: $agendaId) {
@@ -23,7 +25,7 @@ const DeleteAgendaButton = ({ agenda, council, translate, client, refetch, reque
 			}
 		});
 		refetch();
-		if(requestClose){
+		if (requestClose) {
 			requestClose();
 		}
 		setModal(false);

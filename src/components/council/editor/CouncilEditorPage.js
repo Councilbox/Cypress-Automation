@@ -12,7 +12,7 @@ import { checkCouncilState } from '../../../utils/CBX';
 import EditorStepper from './EditorStepper';
 
 
-const CouncilEditorPage = ({ council, translate, company, ...props }) => {
+const CouncilEditorPage = ({ council, translate, company }) => {
 	const [step, setStep] = React.useState(council.step);
 	const actualStep = React.useRef(council.step);
 
@@ -59,7 +59,9 @@ const CouncilEditorPage = ({ council, translate, company, ...props }) => {
 					textAlign: 'center',
 				}}
 			>
-				<div style={{ marginBottom: '1.2em', marginTop: '0.8em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingRight: '1.5em' }}>
+				<div style={{
+					marginBottom: '1.2em', marginTop: '0.8em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingRight: '1.5em'
+				}}>
 					<EditorStepper
 						translate={translate}
 						active={step - 1}
@@ -134,7 +136,6 @@ const CouncilEditorPage = ({ council, translate, company, ...props }) => {
 		</CardPageLayout>
 	);
 };
-
 
 
 export default withRouter(CouncilEditorPage);

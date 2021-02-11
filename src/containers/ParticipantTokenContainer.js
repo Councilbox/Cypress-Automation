@@ -28,16 +28,16 @@ const getMe = gql`
 
 const reducer = (state, action) => {
 	const actions = {
-		'SET_LOADING': () => ({
+		SET_LOADING: () => ({
 			...state,
 			loading: action.value
 		}),
-		'SET_DATA': () => ({
+		SET_DATA: () => ({
 			...state,
 			...action.value,
 			loading: false
 		}),
-		'SET_ERROR': () => ({
+		SET_ERROR: () => ({
 			...state,
 			error: action.value,
 			loading: false
@@ -47,7 +47,9 @@ const reducer = (state, action) => {
 	return actions[action.type] ? actions[action.type]() : state;
 };
 
-const ParticipantTokenContainer = ({ participantToken, match, client, translate }) => {
+const ParticipantTokenContainer = ({
+	participantToken, match, client, translate
+}) => {
 	const [state, dispatch] = React.useReducer(reducer, initialState);
 
 	React.useEffect(() => {
@@ -56,11 +58,11 @@ const ParticipantTokenContainer = ({ participantToken, match, client, translate 
 			try {
 				let token;
 
-				if(match.params.creds){
+				if (match.params.creds) {
 					token = match.params.creds;
 				} else {
 					const response = await participantToken();
-					if(response.errors){
+					if (response.errors) {
 						throw new Error('Error getting participant token');
 					}
 					token = response.data.participantToken;
@@ -74,7 +76,8 @@ const ParticipantTokenContainer = ({ participantToken, match, client, translate 
 				const participant = responseQueryMe.data.participantMe;
 				refreshWSLink();
 
-				dispatch({ type: 'SET_DATA',
+				dispatch({
+					type: 'SET_DATA',
 					value: {
 						token,
 						participant
@@ -85,7 +88,7 @@ const ParticipantTokenContainer = ({ participantToken, match, client, translate 
 			}
 		};
 
-		if(!state.participant){
+		if (!state.participant) {
 			getData();
 		}
 	}, [participantToken]);
@@ -102,8 +105,8 @@ const ParticipantTokenContainer = ({ participantToken, match, client, translate 
 
 	return (
 		<React.Fragment>
-			{participant &&
-				<Redirect to={`/participant/${participant.id}/council/${participant.councilId}/login`} />
+			{participant
+&& <Redirect to={`/participant/${participant.id}/council/${participant.councilId}/login`} />
 			}
 		</React.Fragment>
 	);
@@ -115,8 +118,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-        actions: bindActionCreators(mainActions, dispatch)
-    });
+	actions: bindActionCreators(mainActions, dispatch)
+});
 
 const participantToken = gql`
 	mutation participantToken($token: String!) {

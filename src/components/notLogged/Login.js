@@ -4,17 +4,18 @@ import { connect } from 'react-redux';
 import { Card } from 'material-ui';
 import { graphql } from 'react-apollo';
 import * as mainActions from '../../actions/mainActions';
-import { login } from '../../queries';
+import { login as loginMutation } from '../../queries';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import withWindowSize from '../../HOCs/withWindowSize';
 import withTranslations from '../../HOCs/withTranslations';
-import { BasicButton, ButtonIcon, Link, TextInput, NotLoggedLayout, Grid, GridItem, CBXFooter } from '../../displayComponents';
+import {
+	BasicButton, ButtonIcon, Link, TextInput, NotLoggedLayout, Grid, GridItem, CBXFooter
+} from '../../displayComponents';
 import { useOldState } from '../../hooks';
 import { useSubdomain, getCustomLogo } from '../../utils/subdomain';
 import { isMobile } from '../../utils/screen';
 import GenCatLogin from './GenCatLogin';
 import { ConfigContext } from '../../containers/AppControl';
-
 
 
 const Login = ({ translate, windowSize, ...props }) => {
@@ -32,6 +33,32 @@ const Login = ({ translate, windowSize, ...props }) => {
 	const secondary = getSecondary();
 	const subdomain = useSubdomain();
 	const config = React.useContext(ConfigContext);
+
+	function checkRequiredFields() {
+		const errors = {
+			user: '',
+			password: ''
+		};
+
+		let hasError = false;
+
+		if (!state.user) {
+			hasError = true;
+			errors.user = translate.field_required;
+		}
+
+		if (!state.password) {
+			hasError = true;
+			errors.password = translate.field_required;
+		}
+
+		setState({
+			...state,
+			errors
+		});
+
+		return hasError;
+	}
 
 	const login = async () => {
 		const { user, password } = state;
@@ -110,40 +137,15 @@ const Login = ({ translate, windowSize, ...props }) => {
 		}
 	};
 
-	function checkRequiredFields() {
-		const errors = {
-			user: '',
-			password: ''
-		};
-
-		let hasError = false;
-
-		if (!state.user) {
-			hasError = true;
-			errors.user = translate.field_required;
-		}
-
-		if (!state.password) {
-			hasError = true;
-			errors.password = translate.field_required;
-		}
-
-		setState({
-			...state,
-			errors
-		});
-
-		return hasError;
-	}
-
-
 	return (
 		<NotLoggedLayout
 			translate={translate}
 			helpIcon={true}
 			languageSelector={true}
 		>
-			<Grid style={{ width: '100%', overflowX: 'hidden', padding: '0', margin: '0' }}>
+			<Grid style={{
+				width: '100%', overflowX: 'hidden', padding: '0', margin: '0'
+			}}>
 				<GridItem xs={12} md={7} lg={7}
 					style={{
 						color: 'white',
@@ -155,84 +157,86 @@ const Login = ({ translate, windowSize, ...props }) => {
 						paddingTop: windowSize === 'xs' ? '8%' : '12em'
 					}}
 				>
-					{!subdomain.hideSignUp &&
-						<div
-							style={{
-								width: '70%',
-								fontSize: '0.9em',
-								textAlign: 'center',
-							}}
-						>
-							<h6
-								style={{
-									fontWeight: '300',
-									marginBottom: '1.2em',
-									fontSize: '1.7em',
-									color: 'white'
-								}}
-							>
-								{translate.account_question}
-							</h6>
-							{windowSize !== 'xs' && (
-								<span
-									style={{
-										fontSize: '0.76rem',
-										marginBottom: '1em',
-										marginTop: '0.7em',
-										textAlign: 'center',
-										alignSelf: 'center'
-									}}
-								>
-									{translate.login_desc}
-								</span>
-							)}
-							<br />
-							<div
-								className="row"
-								style={{
-									display: 'flex',
-									flexDirection: 'row',
-									marginTop: windowSize === 'xs' ? 0 : '1em'
-								}}
-							>
-								{config.meeting &&
-									<div
-										className="col-lg-6 col-md-6 col-xs-6"
-										style={{ padding: '1em' }}
-									>
-										<Link to="/meeting/new">
-											<BasicButton
-												text={translate.start_conference_test}
-												color={'transparent'}
-												fullWidth
-												buttonStyle={{ backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em' }}
-												textStyle={{ color: 'white', fontWeight: '700', fontSize: '0.8rem', textTransform: 'none' }}
-											/>
-										</Link>
-									</div>
-								}
+					{!subdomain.hideSignUp
+&& <div
+	style={{
+		width: '70%',
+		fontSize: '0.9em',
+		textAlign: 'center',
+	}}
+>
+	<h6
+		style={{
+			fontWeight: '300',
+			marginBottom: '1.2em',
+			fontSize: '1.7em',
+			color: 'white'
+		}}
+	>
+		{translate.account_question}
+	</h6>
+	{windowSize !== 'xs' && (
+		<span
+			style={{
+				fontSize: '0.76rem',
+				marginBottom: '1em',
+				marginTop: '0.7em',
+				textAlign: 'center',
+				alignSelf: 'center'
+			}}
+		>
+			{translate.login_desc}
+		</span>
+	)}
+	<br />
+	<div
+		className="row"
+		style={{
+			display: 'flex',
+			flexDirection: 'row',
+			marginTop: windowSize === 'xs' ? 0 : '1em'
+		}}
+	>
+		{config.meeting
+&& <div
+	className="col-lg-6 col-md-6 col-xs-6"
+	style={{ padding: '1em' }}
+>
+	<Link to="/meeting/new">
+		<BasicButton
+			text={translate.start_conference_test}
+			color={'transparent'}
+			fullWidth
+			buttonStyle={{ backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em' }}
+			textStyle={{
+				color: 'white', fontWeight: '700', fontSize: '0.8rem', textTransform: 'none'
+			}}
+		/>
+	</Link>
+</div>
+		}
 
-								<div
-									className="col-lg-6 col-md-6 col-xs-6"
-									style={{ padding: '1em' }}
-								>
-									<Link to="/signup">
-										<BasicButton
-											text={translate.login_check_in}
-											color={'white'}
-											fullWidth
-											textStyle={{
-												color: primary,
-												fontWeight: '700',
-												fontSize: '0.8rem',
-												textTransform: 'none'
-											}}
-											textPosition="before"
-										/>
-									</Link>
-								</div>
-							</div>
-						</div>
+		<div
+			className="col-lg-6 col-md-6 col-xs-6"
+			style={{ padding: '1em' }}
+		>
+			<Link to="/signup">
+				<BasicButton
+					text={translate.login_check_in}
+					color={'white'}
+					fullWidth
+					textStyle={{
+						color: primary,
+						fontWeight: '700',
+						fontSize: '0.8rem',
+						textTransform: 'none'
+					}}
+					textPosition="before"
+				/>
+			</Link>
+		</div>
+	</div>
+</div>
 					}
 				</GridItem>
 				<GridItem lg={5} md={5} xs={12}
@@ -272,22 +276,22 @@ const Login = ({ translate, windowSize, ...props }) => {
 								} : {})
 							}}
 						>
-							{(subdomain.logo && isMobile) &&
-								<React.Fragment>
-									<img
-										src={getCustomLogo()}
-										className="App-logo"
-										style={{
-											height: '1.5em',
-											marginLeft: '1em',
-											// marginLeft: "2em",
-											alignSelf: 'center',
-											userSelect: 'none'
-										}}
-										alt="logo"
-									/>
-									<br />
-								</React.Fragment>
+							{(subdomain.logo && isMobile)
+&& <React.Fragment>
+	<img
+		src={getCustomLogo()}
+		className="App-logo"
+		style={{
+			height: '1.5em',
+			marginLeft: '1em',
+			// marginLeft: "2em",
+			alignSelf: 'center',
+			userSelect: 'none'
+		}}
+		alt="logo"
+	/>
+	<br />
+</React.Fragment>
 							}
 							{`${translate.login_signin_header} ${subdomain.title ? subdomain.title : 'Councilbox'}`}
 						</div>
@@ -306,8 +310,8 @@ const Login = ({ translate, windowSize, ...props }) => {
 									type="text"
 									value={state.user}
 									onChange={event => setState({
-											user: event.nativeEvent.target.value
-										})
+										user: event.nativeEvent.target.value
+									})
 									}
 								/>
 							</div>
@@ -321,21 +325,21 @@ const Login = ({ translate, windowSize, ...props }) => {
 									floatingText={translate.login_password}
 									id={'password'}
 									type={
-										state.showPassword
-											? 'text'
+										state.showPassword ?
+											'text'
 											: 'password'
 									}
 									passwordToggler={() => setState({
-											showPassword: !state.showPassword
-										})
+										showPassword: !state.showPassword
+									})
 									}
 									showPassword={state.showPassword}
 									onKeyUp={handleKeyUp}
 									value={state.password}
 									errorText={state.errors.password}
 									onChange={event => setState({
-											password: event.nativeEvent.target.value
-										})
+										password: event.nativeEvent.target.value
+									})
 									}
 								/>
 							</div>
@@ -361,12 +365,12 @@ const Login = ({ translate, windowSize, ...props }) => {
 								}
 							/>
 						</div>
-						{(!!subdomain.name && subdomain.name.includes('gencat')) &&
-							<div style={{ marginTop: '1em' }}>
-								<GenCatLogin
-									loginSuccess={props.actions.loginSuccess}
-								/>
-							</div>
+						{(!!subdomain.name && subdomain.name.includes('gencat'))
+&& <div style={{ marginTop: '1em' }}>
+	<GenCatLogin
+		loginSuccess={props.actions.loginSuccess}
+	/>
+</div>
 						}
 						<div
 							style={{
@@ -378,10 +382,10 @@ const Login = ({ translate, windowSize, ...props }) => {
 								{translate.login_forgot}
 							</Link>
 						</div>
-						{(!!subdomain.name && subdomain.name === 'madrid') &&
-							<div style={{ width: '100%', textAlign: 'center' }}>
-								<img src="/img/logo-1.png" style={{ marginTop: '2.5em', height: '3.5em', width: 'auto' }} alt="logo-seneca" />
-							</div>
+						{(!!subdomain.name && subdomain.name === 'madrid')
+&& <div style={{ width: '100%', textAlign: 'center' }}>
+	<img src="/img/logo-1.png" style={{ marginTop: '2.5em', height: '3.5em', width: 'auto' }} alt="logo-seneca" />
+</div>
 						}
 						<CBXFooter style={{ marginTop: '5em' }} />
 					</Card>
@@ -401,4 +405,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
 	null,
 	mapDispatchToProps
-)(graphql(login, { options: { errorPolicy: 'all' } })(withWindowSize(withTranslations()(Login))));
+)(graphql(loginMutation, { options: { errorPolicy: 'all' } })(withWindowSize(withTranslations()(Login))));

@@ -1,68 +1,68 @@
 .ant-tabs {
-    font-family: 'Lato' !important;
-    user-select: none;
-    height: 100%;
+font-family: 'Lato' !important;
+user-select: none;
+height: 100%;
 }
 
 .ant-tabs-bar {
-    margin: 0 !important;
+margin: 0 !important;
 }
 
 .card-container > .ant-tabs-card > .ant-tabs-content {
 }
 
 .card-container > .ant-tabs-card > .ant-tabs-content > .ant-tabs-tabpane {
-    background: #fff;
+background: #fff;
 }
 
 .card-container > .ant-tabs-card > .ant-tabs-bar {
-    border-color: #fff;
+border-color: #fff;
 }
 
 .card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab {
-    border-color: transparent;
-    background: transparent;
-    font-weight: 500;
+border-color: transparent;
+background: transparent;
+font-weight: 500;
 }
 
 .card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab > a{
-    color: black;
-    user-select: none;
-    font-weight: 500;
+color: black;
+user-select: none;
+font-weight: 500;
 }
 
 .card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active > a {
-    font-weight: 700;
-    font-family: 'Lato';
-    user-select: none;
-    color: var(--primary) !important;
+font-weight: 700;
+font-family: 'Lato';
+user-select: none;
+color: var(--primary) !important;
 }
 
 .card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active {
-    font-weight: 500;
-    font-family: 'Lato';
-    color: var(--primary) !important;
+font-weight: 500;
+font-family: 'Lato';
+color: var(--primary) !important;
 }
 
 .ant-tabs-tabpane {
-    height: 100%;
+height: 100%;
 }
 
 .ant-tabs-tab-active > div {
-    font-weight: 500;
-    font-family: 'Lato';
-    color: var(--primary) !important;
+font-weight: 500;
+font-family: 'Lato';
+color: var(--primary) !important;
 }
 
 .ant-tabs-content {
-    height: 100%;
-    overflow: hidden;
+height: 100%;
+overflow: hidden;
 }
 
 .ant-tabs-ink-bar {
-    background-color: var(--primary) !important;
+background-color: var(--primary) !important;
 }
 
 .ant-tabs-vertical > .ant-tabs-bar .ant-tabs-ink-bar {
-    width: 4px !important;
+width: 4px !important;
 }

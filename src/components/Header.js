@@ -18,7 +18,9 @@ import ContactModal from './participant/login/ContactModal';
 import { HEADER_HEIGHT } from '../styles/constants';
 
 
-const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon, translate, councilIsFinished, setSelectHeadFinished, selectHeadFinished, contactAdmin, ...props }) => {
+const Header = ({
+	actions, backButton, windowSize, languageSelector, drawerIcon, translate, councilIsFinished, setSelectHeadFinished, selectHeadFinished, contactAdmin, ...props
+}) => {
 	const [modal, setModal] = React.useState(false);
 	const language = translate && translate.selectedLanguage;
 	const customIcon = getCustomIcon();
@@ -70,8 +72,8 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 				</Link>
 			</div>
 
-			{props.commandLine && false &&
-				<CommandLine />
+			{props.commandLine && false
+				&& <CommandLine />
 			}
 
 			<div
@@ -81,32 +83,34 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 					alignItems: 'center'
 				}}
 			>
-				{councilIsFinished &&
-					<DropDownMenu
+				{councilIsFinished
+					&& <DropDownMenu
 						anchorOrigin={{
 							vertical: 'bottom',
 							horizontal: 'left',
 						}}
 						color="transparent"
-						Component={() => <div style={{ color: getPrimary(), marginRight: '1em', marginTop: '0.5em', cursor: 'pointer' }}>
-								<div>
-									<i className="material-icons" >
+						Component={() => <div style={{
+							color: getPrimary(), marginRight: '1em', marginTop: '0.5em', cursor: 'pointer'
+						}}>
+							<div>
+								<i className="material-icons" >
 										dehaze
-									</i>
-								</div>
+								</i>
 							</div>
+						</div>
 						}
 						textStyle={{ color: getPrimary() }}
 						type="flat"
 						items={
 							<div style={{ color: getPrimary() }}>
-								{selectHeadFinished !== 'participacion' &&
-									<MenuItem onClick={() => setSelectHeadFinished('participacion')} >
+								{selectHeadFinished !== 'participacion'
+									&& <MenuItem onClick={() => setSelectHeadFinished('participacion')} >
 										{translate.my_participation}
 									</MenuItem>
 								}
-								{selectHeadFinished !== 'contactAdmin' &&
-									<MenuItem onClick={() => setSelectHeadFinished('contactAdmin')} >
+								{selectHeadFinished !== 'contactAdmin'
+									&& <MenuItem onClick={() => setSelectHeadFinished('contactAdmin')} >
 										{translate.mail_contact_admin}
 									</MenuItem>
 								}
@@ -118,8 +122,8 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 					/>
 				}
 
-				{contactAdmin === 1 &&
-					<BasicButton
+				{contactAdmin === 1
+					&& <BasicButton
 						onClick={() => setModal(true)}
 						textStyle={{
 							color: ` ${primary}`,
@@ -131,7 +135,7 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 								<i className={'fa fa-envelope-o'} style={{ marginLeft: '5px' }}></i>
 							</div>}
 						buttonStyle={{
-							border: '1px solid ' + getPrimary(),
+							border: `1px solid ${getPrimary()}`,
 							color: getPrimary(),
 							boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
 							padding: '4px 15px',
@@ -150,8 +154,8 @@ const Header = ({ actions, backButton, windowSize, languageSelector, drawerIcon,
 					translate={translate}
 					council={props.council}
 				/>
-				{languageSelector &&
-					<span style={{ fontSize: '0.85em' }}>
+				{languageSelector
+					&& <span style={{ fontSize: '0.85em' }}>
 						{`v${CLIENT_VERSION}`}
 					</span>
 				}

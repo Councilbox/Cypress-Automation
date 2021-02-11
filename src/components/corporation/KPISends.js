@@ -3,9 +3,9 @@ import { withApollo } from 'react-apollo';
 
 
 const KPISends = () => (
-        <div>
-            PRUEBA
-        </div>
-    );
+	<div>
+PRUEBA
+	</div>
+);
 
 export default withApollo(KPISends);

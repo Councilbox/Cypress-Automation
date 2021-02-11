@@ -49,7 +49,9 @@ const steps = {
 	ONE_ON_ONE: 'ONE_ON_ONE'
 };
 
-const CreateCouncilModal = ({ history, company, createCouncil, translate, config }) => {
+const CreateCouncilModal = ({
+	history, company, createCouncil, translate, config
+}) => {
 	const [options, setOptions] = React.useState(null);
 	const [step, setStep] = React.useState(1);
 	const [errors, setErrors] = React.useState({});
@@ -109,10 +111,10 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 					<LiveToast
 						message={translate.no_statutes}
 					/>, {
-					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,
-					className: 'errorToast'
-				}
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,
+						className: 'errorToast'
+					}
 				);
 			}
 		}
@@ -152,26 +154,63 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 				}
 			}}
 			bodyText={
-				<div style={{ height: '100%', paddingTop: step != 10 && '3em' }}>
+				<div style={{ height: '100%', paddingTop: step !== 10 && '3em' }}>
 					<Scrollbar>
 						<div style={{}}>
-							{step === 1 &&
-								<div style={{ height: '100%', padding: isMobile ? '0em 1em 0em' : '0em 2em 2em 2em' }}>
-									<div style={{ display: !isMobile && 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5em' }}>
+							{step === 1
+								&& <div style={{ height: '100%', padding: isMobile ? '0em 1em 0em' : '0em 2em 2em 2em' }}>
+									<div
+										style={{
+											display: !isMobile && 'flex',
+											alignItems: 'center',
+											justifyContent: 'space-between',
+											marginBottom: '0.5em'
+										}}
+									>
 										<div style={{ display: 'flex' }}>
 											<div style={{ color: primary, fontSize: isMobile ? '17px' : '24px', fontStyle: 'italic' }}>
 												{translate.create_council_title}
 											</div>
-											{!isMobile &&
-												<div style={{ display: 'flex', justifyContent: 'center', textAlign: 'center', marginLeft: '15px' }}>
+											{!isMobile
+												&& <div
+													style={{
+														display: 'flex',
+														justifyContent: 'center',
+														textAlign: 'center',
+														marginLeft: '15px'
+													}}
+												>
 													<img src={emptyMeetingTable} style={{ width: '70px', }} alt="empty-table" />
 												</div>
 											}
 										</div>
-										<div style={{ color: 'black', cursor: 'pointer', paddingTop: '8px', paddingBottom: '8px' }} onClick={() => setStep(10)}>
-											<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px' }}>
-												<i className="material-icons" style={{ color: primary, fontSize: '13px', paddingRight: '0.3em', marginTop: '4px' }} >
-													help
+										<div
+											style={{
+												color: 'black',
+												cursor: 'pointer',
+												paddingTop: '8px',
+												paddingBottom: '8px'
+											}}
+											onClick={() => setStep(10)}
+										>
+											<div
+												style={{
+													display: 'flex',
+													alignItems: 'center',
+													justifyContent: 'center',
+													fontSize: '13px'
+												}}
+											>
+												<i
+													className="material-icons"
+													style={{
+														color: primary,
+														fontSize: '13px',
+														paddingRight: '0.3em',
+														marginTop: '4px'
+													}}
+												>
+								help
 												</i>
 												{translate.create_council_help}
 											</div>
@@ -195,11 +234,11 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 											icon={<img src={sinSesionIcon}></img>}
 											isMobile={isMobile}
 											list={
-											<div>{translate.without_session_description}</div>
+												<div>{translate.without_session_description}</div>
 											}
 										/>
-										{config.boardWithoutSession &&
-											<ButtonCreateCouncil
+										{config.boardWithoutSession
+											&& <ButtonCreateCouncil
 												onClick={boardWithoutSessionStep}
 												title={translate.board_without_session}
 												styleButton={{ marginRight: '3%' }}
@@ -210,8 +249,8 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 												}
 											/>
 										}
-										{config['2stepsCouncil'] &&
-											<ButtonCreateCouncil
+										{config['2stepsCouncil']
+											&& <ButtonCreateCouncil
 												onClick={noSessionHybridStep}
 												title={translate.elections}
 												icon={<img src={elecciones}></img>}
@@ -221,8 +260,8 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 												}
 											/>
 										}
-										{config.onOnOneCouncil &&
-											<ButtonCreateCouncil
+										{config.onOnOneCouncil
+											&& <ButtonCreateCouncil
 												onClick={createOneOneOne}
 												title={'Cita 1 a 1'}
 												icon={<img src={oneOnOne}></img>}
@@ -235,8 +274,8 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 									</div>
 								</div>
 							}
-							{step === 10 &&
-								<div style={{ height: '100%', padding: isMobile ? '0em 1em 0em' : '0em 2em 2em 2em' }}>
+							{step === 10
+								&& <div style={{ height: '100%', padding: isMobile ? '0em 1em 0em' : '0em 2em 2em 2em' }}>
 									<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', }}>
 										<div onClick={() => setStep(1)} style={{ color: getSecondary(), cursor: 'pointer', paddingBottom: '1em' }}>
 											{translate.back}
@@ -273,8 +312,8 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 											</div>
 										}
 									/>
-									{config.boardWithoutSession &&
-										<ButtonInfoCouncil
+									{config.boardWithoutSession
+										&& <ButtonInfoCouncil
 											title={translate.board_without_session}
 											styleButton={{ marginRight: '3%' }}
 											icon={<img src={consejoSinSesion} style={{ width: '100%' }}></img>}
@@ -284,10 +323,9 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 													{translate.board_without_session_description}
 												</div>
 											}
-										/>
-									}
-									{config['2stepsCouncil'] &&
-										<ButtonInfoCouncil
+										/>}
+									{config['2stepsCouncil']
+										&& <ButtonInfoCouncil
 											title={translate.elections}
 											icon={<img src={elecciones} style={{ width: '100%' }}></img>}
 											isMobile={isMobile}
@@ -300,27 +338,27 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 									}
 								</div>
 							}
-							{step === steps.NO_SESSION &&
-								<CreateWithoutSession
+							{step === steps.NO_SESSION
+								&& <CreateWithoutSession
 									hybrid={false}
 									setOptions={setOptions}
 									translate={translate}
 									errors={errors}
 								/>
 							}
-							{step === steps.BOARD_NO_SESSION &&
-								<CreateNoBoard
+							{step === steps.BOARD_NO_SESSION
+								&& <CreateNoBoard
 									setOptions={setOptions}
 									translate={translate}
 									options={options}
 									errors={errors}
 								/>
 							}
-							{step === steps.COUNCIL &&
-								<CreateWithSession setOptions={setOptions} />
+							{step === steps.COUNCIL
+								& <CreateWithSession setOptions={setOptions} />
 							}
-							{step === steps.HYBRID_VOTING &&
-								<CreateWithoutSession
+							{step === steps.HYBRID_VOTING
+								&& <CreateWithoutSession
 									hybrid={true}
 									setOptions={setOptions}
 									translate={translate}
@@ -334,15 +372,14 @@ const CreateCouncilModal = ({ history, company, createCouncil, translate, config
 			hideAccept={step === steps.COUNCIL || step === 1 || step === 10}
 			buttonAccept={translate.accept}
 			acceptAction={() => sendCreateCouncil(step === steps.HYBRID_VOTING ?
-				3 :
-			step === steps.BOARD_NO_SESSION ? 4 : 2)}
-			requestClose={step != 10 && history.goBack}
+				3
+				: step === steps.BOARD_NO_SESSION ? 4 : 2)}
+			requestClose={step !== 10 && history.goBack}
 			cancelAction={history.goBack}
 			buttonCancel={translate.cancel}
 		/>
 	);
 };
-
 
 
 const ButtonCreateCouncil = ({ title, icon, list, styleButton, onClick }) => {
@@ -374,34 +411,36 @@ const ButtonCreateCouncil = ({ title, icon, list, styleButton, onClick }) => {
 			</Paper>
 		);
 	}
-		return (
-			<Paper
-				elevation={6}
-				style={{
-					width: '100%',
-					// height: "450px",
-					overflow: 'hidden',
-					borderRadius: '8px',
-					marginBottom: '1em',
-					boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
-					...styleButton
-				}}
+	return (
+		<Paper
+			elevation={6}
+			style={{
+				width: '100%',
+				// height: "450px",
+				overflow: 'hidden',
+				borderRadius: '8px',
+				marginBottom: '1em',
+				boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
+				...styleButton
+			}}
+		>
+			<div style={{ display: 'flex', padding: '1.5em', background: hover ? 'rgba(97, 171, 183, 0.22)' : '', cursor: 'pointer' }}
+				onClick={onClick}
+				{...hoverHandlers}
 			>
-				<div style={{ display: 'flex', padding: '1.5em', background: hover ? 'rgba(97, 171, 183, 0.22)' : '', cursor: 'pointer', }}
-					onClick={onClick}
-					{...hoverHandlers}
-				>
-					<div style={{ width: '90px', display: 'flex', alignItems: 'center' }}>{icon}</div>
-					<div style={{ color: 'black', marginLeft: '2em' }}>
-						<div style={{ fontSize: '24px' }}>{title}</div>
-						<div style={{ fontSize: '14px' }}>{list}</div>
-					</div>
+				<div style={{ width: '90px', display: 'flex', alignItems: 'center' }}>{icon}</div>
+				<div style={{ color: 'black', marginLeft: '2em' }}>
+					<div style={{ fontSize: '24px' }}>{title}</div>
+					<div style={{ fontSize: '14px' }}>{list}</div>
 				</div>
-			</Paper>
-		);
+			</div>
+		</Paper>
+	);
 };
 
-const ButtonInfoCouncil = ({ title, icon, list, styleButton, infoExtra }) => (
+const ButtonInfoCouncil = ({
+	title, icon, list, styleButton, infoExtra
+}) => (
 	<Paper
 		elevation={6}
 		style={{

@@ -9,7 +9,9 @@ import { getCustomLogo, getCustomIcon } from '../../../../utils/subdomain';
 import CouncilMenu from '../councilMenu/CouncilMenu';
 import CouncilStateButton from '../menus/CouncilStateButton';
 
-const LiveMobileHeader = React.memo(({ windowSize, translate, council, recount, participants, refetch }) => {
+const LiveMobileHeader = React.memo(({
+	windowSize, translate, council, recount, participants, refetch
+}) => {
 	const [showConfirm, setShowConfirm] = React.useState(false);
 	const primary = getPrimary();
 	const customLogo = getCustomLogo();
@@ -58,7 +60,7 @@ const LiveMobileHeader = React.memo(({ windowSize, translate, council, recount, 
 							onClick={() => setShowConfirm(true)
 							}
 						>
-							save_alt
+save_alt
 						</Icon>
 						<div style={{
 							background: 'white',
@@ -81,7 +83,7 @@ const LiveMobileHeader = React.memo(({ windowSize, translate, council, recount, 
 							onClick={() => setShowConfirm(true)
 							}
 						>
-							keyboard_backspace
+keyboard_backspace
 						</Icon>
 						<AlertConfirm
 							title={translate.exit}
@@ -107,21 +109,21 @@ const LiveMobileHeader = React.memo(({ windowSize, translate, council, recount, 
 					</div>
 				</div>
 				{/* <div style={{ display: "flex" }}>
-					<div
-						style={{
-							width: "40%",
-							fontWeight: '700',
-							whiteSpace: 'nowrap',
-							overflow: 'hidden',
-							textOverflow: 'ellipsis',
-							textAlign: 'center'
-						}}
-					>
-						<span style={{ alignSelf: "center" }}>
-							{councilName}
-						</span>
-					</div>
-				</div> */}
+<div
+style={{
+width: "40%",
+fontWeight: '700',
+whiteSpace: 'nowrap',
+overflow: 'hidden',
+textOverflow: 'ellipsis',
+textAlign: 'center'
+}}
+>
+<span style={{ alignSelf: "center" }}>
+{councilName}
+</span>
+</div>
+</div> */}
 				<div style={{ display: 'flex', paddingRight: '1em' }}>
 					<div style={{ marginRight: '1em' }}>
 						<CouncilMenu

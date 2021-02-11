@@ -3,9 +3,11 @@ import { ListItem } from 'material-ui';
 import { Icon } from '../../displayComponents';
 import { bHistory } from '../../containers/App';
 
-const LateralOption = ({ icon, text, link, customIcon, style }) => {
-	const followLink = link => {
-		bHistory.push(link);
+const LateralOption = ({
+	icon, text, link, customIcon, style
+}) => {
+	const followLink = path => {
+		bHistory.push(path);
 	};
 
 	return (
@@ -42,7 +44,9 @@ const LateralOption = ({ icon, text, link, customIcon, style }) => {
 						borderRadius: '3px'
 					}}
 				>
-					<div style={{ textAlign: 'center', alignItems: 'center', justifyContent: 'center', display: 'flex', }}>
+					<div style={{
+						textAlign: 'center', alignItems: 'center', justifyContent: 'center', display: 'flex',
+					}}>
 						{!customIcon ? (
 							<Icon
 								className="material-icons"
@@ -53,21 +57,21 @@ const LateralOption = ({ icon, text, link, customIcon, style }) => {
 								{icon}
 							</Icon>
 						) : (
-								<div
-									style={{
-										alignItems: 'center',
-										justifyContent: 'center',
-										display: 'flex',
-										width: '1em',
-										height: '1em',
-										overflow: 'hidden',
-										fontSize: '24px',
-										userSelect: 'none',
-									}}
-								>
-									{customIcon}
-								</div>
-							)}
+							<div
+								style={{
+									alignItems: 'center',
+									justifyContent: 'center',
+									display: 'flex',
+									width: '1em',
+									height: '1em',
+									overflow: 'hidden',
+									fontSize: '24px',
+									userSelect: 'none',
+								}}
+							>
+								{customIcon}
+							</div>
+						)}
 					</div>
 					<div style={{
 						marginTop: '10px',

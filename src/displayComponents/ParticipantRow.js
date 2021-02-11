@@ -4,7 +4,9 @@ import { Checkbox } from '.';
 import { delegatedVotesLimitReached } from '../utils/CBX';
 import withTranslations from '../HOCs/withTranslations';
 
-const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, selected, onChange, stylesPaper, translate, clases }) => {
+const ParticipantRow = ({
+	participant, onClick, checkBox, toDelegate, council, selected, onChange, stylesPaper, translate, clases
+}) => {
 	let limitReached = null;
 	if (toDelegate) {
 		limitReached = delegatedVotesLimitReached(council.statute, participant.delegatedVotes.filter(p => p.type !== 3).length);
@@ -20,11 +22,11 @@ const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, s
 
 		}}
 		>
-			{checkBox &&
-				<Checkbox
-					value={selected}
-					onChange={onChange}
-				/>
+			{checkBox
+&& <Checkbox
+	value={selected}
+	onChange={onChange}
+/>
 			}
 			<div
 				onClick={toDelegate ? !limitReached ? onClick : () => { } : onClick}
@@ -42,8 +44,8 @@ const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, s
 				>
 					{`${participant.name} ${participant.surname || ''} ${toDelegate && limitReached ? ` - ${translate.cant_delegate_more}` : ''}`}
 				</div>
-				{toDelegate && participant.assistanceIntention === 6 &&
-					<div style={{ fontSize: '0.9rem', fontWeight: '700' }}>{translate.participant_wont_attend}</div>
+				{toDelegate && participant.assistanceIntention === 6
+&& <div style={{ fontSize: '0.9rem', fontWeight: '700' }}>{translate.participant_wont_attend}</div>
 				}
 			</div>
 		</Paper>

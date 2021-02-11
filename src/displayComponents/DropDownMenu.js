@@ -27,7 +27,7 @@ const DropDownMenu = ({
 	const [anchorEl, setAnchorEl] = React.useState(null);
 
 	React.useEffect(() => {
-		if(open){
+		if (open) {
 			setAnchorEl(open);
 		} else {
 			setAnchorEl(null);
@@ -41,7 +41,7 @@ const DropDownMenu = ({
 
 	const handleClose = event => {
 		event.stopPropagation();
-		if(requestClose){
+		if (requestClose) {
 			requestClose();
 		}
 		setAnchorEl(null);
@@ -54,24 +54,24 @@ const DropDownMenu = ({
 					<Component />
 				</div>
 			) : (
-					<BasicButton
-						claseHover={claseHover}
-						type={type}
-						id={id}
-						loading={loading}
-						loadingColor={loadingColor}
-						onClick={handleClick}
-						textStyle={{
-							...textStyle,
-							textTransform: 'none',
-						}}
-						color={color}
-						icon={icon}
-						buttonStyle={buttonStyle}
-						text={text}
-						backgroundColor={backgroundColor}
-					/>
-				)}
+				<BasicButton
+					claseHover={claseHover}
+					type={type}
+					id={id}
+					loading={loading}
+					loadingColor={loadingColor}
+					onClick={handleClick}
+					textStyle={{
+						...textStyle,
+						textTransform: 'none',
+					}}
+					color={color}
+					icon={icon}
+					buttonStyle={buttonStyle}
+					text={text}
+					backgroundColor={backgroundColor}
+				/>
+			)}
 			<Popover
 				PaperProps={{
 					style: {
@@ -84,14 +84,14 @@ const DropDownMenu = ({
 				onClose={handleClose}
 				anchorOrigin={anchorOrigin}
 				transformOrigin={transformOrigin}
-			// anchorOrigin={{
-			// 	vertical: 'top',
-			// 	horizontal: 'left',
-			//   }}
-			//   transformOrigin={{
-			// 	vertical: 'top',
-			// 	horizontal: 'left',
-			//   }}
+				// anchorOrigin={{
+				// 	vertical: 'top',
+				// 	horizontal: 'left',
+				//   }}
+				//   transformOrigin={{
+				// 	vertical: 'top',
+				// 	horizontal: 'left',
+				//   }}
 			>
 				<div onClick={props.persistent ? () => { } : handleClose}>
 					{items}

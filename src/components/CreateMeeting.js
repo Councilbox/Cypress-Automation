@@ -15,8 +15,8 @@ class CreateMeeting extends Component {
 
 	componentDidMount() {
 		if (
-			this.props.match.url === `/company/${this.props.match.params.company}/meeting/new` &&
-			!this.state.creating
+			this.props.match.url === `/company/${this.props.match.params.company}/meeting/new`
+			&& !this.state.creating
 		) {
 			this.setState({
 				creating: true
@@ -25,7 +25,7 @@ class CreateMeeting extends Component {
 		}
 	}
 
-	render() {
+	static render() {
 		return <LoadingMainApp />;
 	}
 }

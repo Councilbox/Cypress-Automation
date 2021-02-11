@@ -3,7 +3,7 @@ import { compose, graphql, withApollo } from 'react-apollo';
 import { Card } from 'material-ui';
 import { AlertConfirm } from '../../../../../displayComponents/index';
 import { updateCouncilParticipant, checkUniqueCouncilEmails } from '../../../../../queries/councilParticipant';
-import { languages } from '../../../../../queries/masters';
+import { languages as languagesQuery } from '../../../../../queries/masters';
 import ParticipantForm from '../../../participants/ParticipantForm';
 import {
 	checkRequiredFieldsParticipant,
@@ -14,6 +14,20 @@ import RepresentativeForm from '../../../../company/census/censusEditor/Represen
 import withSharedProps from '../../../../../HOCs/withSharedProps';
 import SelectRepresentative from './SelectRepresentative';
 import { COUNCIL_TYPES } from '../../../../../constants';
+import { removeTypenameField } from '../../../../../utils/CBX';
+
+const initialRepresentative = {
+	hasRepresentative: false,
+	language: 'es',
+	initialState: 0,
+	type: 2,
+	name: '',
+	surname: '',
+	position: '',
+	email: '',
+	phone: '',
+	dni: ''
+};
 
 class CouncilParticipantEditor extends React.Component {
 	state = {
@@ -26,13 +40,12 @@ class CouncilParticipantEditor extends React.Component {
 	};
 
 	updateParticipantData() {
-		let { representative, representatives, representing, ...participant } = extractTypeName(
-			this.props.participant
-		);
-		representative = representative
-			? {
+		// eslint-disable-next-line prefer-const
+		let { representative, representatives, representing, ...participant } = removeTypenameField(this.props.participant);
+		representative = representative ?
+			{
 				hasRepresentative: true,
-				...extractTypeName(representative)
+				...removeTypenameField(representative)
 			}
 			: initialRepresentative;
 		this.setState({
@@ -52,8 +65,8 @@ class CouncilParticipantEditor extends React.Component {
 
 	updateCouncilParticipant = async () => {
 		const { hasRepresentative, ...data } = this.state.representative;
-		const representative = this.state.representative.hasRepresentative
-			? {
+		const representative = this.state.representative.hasRepresentative ?
+			{
 				...data,
 				councilId: this.props.council.id
 			}
@@ -73,20 +86,20 @@ class CouncilParticipantEditor extends React.Component {
 				this.props.refetch();
 				this.props.close();
 			} else if (response.errors[0].message === 'Too many granted words') {
-					this.setState({
-						...(this.state.data.initialState === 2 ? {
-							errors: {
-								initialState: this.props.translate.initial_granted_word_error
-							}
-						} : {}),
-						...(representative && representative.initialState === 2 ? {
-							representativeErrors: {
-								initialState: this.props.translate.initial_granted_word_error
-							}
-						} : {})
+				this.setState({
+					...(this.state.data.initialState === 2 ? {
+						errors: {
+							initialState: this.props.translate.initial_granted_word_error
+						}
+					} : {}),
+					...(representative && representative.initialState === 2 ? {
+						representativeErrors: {
+							initialState: this.props.translate.initial_granted_word_error
+						}
+					} : {})
 
-					});
-				}
+				});
+			}
 		}
 	};
 
@@ -119,7 +132,7 @@ class CouncilParticipantEditor extends React.Component {
 	async checkRequiredFields() {
 		const testPhone = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
 		const participant = this.state.data;
-		const representative = this.state.representative;
+		const { representative } = this.state;
 		const { translate, participations, company } = this.props;
 		const hasSocialCapital = participations;
 		const errorsParticipant = checkRequiredFieldsParticipant(
@@ -215,11 +228,11 @@ class CouncilParticipantEditor extends React.Component {
 
 					if (!response.data.checkUniqueCouncilEmails.success) {
 						const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
-						data.duplicatedEmails.forEach(email => {
-							if (this.state.data.email === email) {
+						data.duplicatedEmails.forEach(duplicatedEmail => {
+							if (this.state.data.email === duplicatedEmail) {
 								error = translate.register_exists_email;
 							}
-							if (this.state.representative.email === email) {
+							if (this.state.representative.email === duplicatedEmail) {
 								error = translate.register_exists_email;
 							}
 						});
@@ -248,14 +261,14 @@ class CouncilParticipantEditor extends React.Component {
 
 	emailKeyUp = (event, type) => {
 		clearTimeout(this.timeout);
-		const value = event.target.value;
+		const { value } = event.target;
 		this.timeout = setTimeout(() => {
 			this.checkEmail(value, type);
 			clearTimeout(this.timeout);
 		}, 400);
 	}
 
-	_renderBody() {
+	renderBody() {
 		const participant = this.state.data;
 		const { representative, errors, representativeErrors } = this.state;
 		const { translate, participations } = this.props;
@@ -266,9 +279,9 @@ class CouncilParticipantEditor extends React.Component {
 					open={this.state.selectRepresentative}
 					council={this.props.council}
 					translate={translate}
-					updateRepresentative={representative => {
+					updateRepresentative={repre => {
 						this.updateRepresentative({
-							...representative,
+							...repre,
 							hasRepresentative: true
 						});
 					}}
@@ -329,7 +342,7 @@ class CouncilParticipantEditor extends React.Component {
 					acceptAction={this.updateCouncilParticipant}
 					buttonAccept={translate.accept}
 					buttonCancel={translate.cancel}
-					bodyText={this._renderBody()}
+					bodyText={this.renderBody()}
 					title={translate.edit_participant}
 				/>
 			</React.Fragment>
@@ -344,24 +357,7 @@ export default compose(
 			errorPolicy: 'all'
 		}
 	}),
-	graphql(languages),
+	graphql(languagesQuery),
 	withSharedProps()
 )(withApollo(CouncilParticipantEditor));
 
-const initialRepresentative = {
-	hasRepresentative: false,
-	language: 'es',
-	initialState: 0,
-	type: 2,
-	name: '',
-	surname: '',
-	position: '',
-	email: '',
-	phone: '',
-	dni: ''
-};
-
-function extractTypeName(object) {
-	const { __typename, ...rest } = object;
-	return rest;
-}

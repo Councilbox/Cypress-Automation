@@ -106,7 +106,9 @@ const councilTypes = [
 ];
 
 
-const PlatformDraftDetails = ({ translate, draft, close, data }) => {
+const PlatformDraftDetails = ({
+	translate, draft, close, data
+}) => {
 	if (data.loading) {
 		return <LoadingSection />;
 	}
@@ -150,9 +152,9 @@ const PlatformDraftDetails = ({ translate, draft, close, data }) => {
 						{translate.company_type}
 					</Typography>
 					<Typography variant="caption">
-						{draft.companyType
-							? translate[
-							data.companyTypes[draft.companyType].label
+						{draft.companyType ?
+							translate[
+								data.companyTypes[draft.companyType].label
 							]
 							: '-'}
 					</Typography>
@@ -162,9 +164,9 @@ const PlatformDraftDetails = ({ translate, draft, close, data }) => {
 						{translate.council_type}
 					</Typography>
 					<Typography variant="caption">
-						{draft.prototype
-							? translate[
-							councilTypes[draft.prototype - 1].title
+						{draft.prototype ?
+							translate[
+								councilTypes[draft.prototype - 1].title
 							]
 							: '-'}
 					</Typography>

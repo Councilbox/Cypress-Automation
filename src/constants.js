@@ -153,9 +153,9 @@ export const SEND_TYPES = [
 	'security',
 	'act',
 	'welcome',
-    'restore_pwd',
-    'point',
-    'welcome'
+	'restore_pwd',
+	'point',
+	'welcome'
 ];
 
 export const COUNCIL_EVIDENCES = [
@@ -241,7 +241,7 @@ export const GOVERNING_BODY_TYPES = {
 	}
 };
 
-//CONTINUATION OF AGENDA_TYPES
+// CONTINUATION OF AGENDA_TYPES
 export const CUSTOM_AGENDA_VOTING_TYPES = [
 	{
 		label: 'public_voting',

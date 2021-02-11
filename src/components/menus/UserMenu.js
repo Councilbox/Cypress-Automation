@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { MenuItem, Divider, Tooltip } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 import { DropDownMenu, Icon, Link } from '../../displayComponents';
-
 import * as mainActions from '../../actions/mainActions';
 import { getSecondary } from '../../styles/colors';
 import { isMobile } from '../../utils/screen';
@@ -16,7 +15,9 @@ const styles = {
 	overflow: 'hidden'
 };
 
-const UserMenu = ({ user, actions, translate, company }) => {
+const UserMenu = ({
+	user, actions, translate, company
+}) => {
 	const secondary = getSecondary();
 
 	return company ? (
@@ -48,8 +49,7 @@ const UserMenu = ({ user, actions, translate, company }) => {
 										maxWidth: '100px'
 									}}
 								/>
-							:
-								<i className="fa fa-building-o" style={{
+								:								<i className="fa fa-building-o" style={{
 									fontSize: '2em',
 									width: 'auto',
 									color: 'grey',
@@ -64,7 +64,7 @@ const UserMenu = ({ user, actions, translate, company }) => {
 							className="material-icons"
 							style={{ color: secondary }}
 						>
-							account_circle
+account_circle
 						</Icon>
 					</div>
 				</Tooltip>
@@ -78,7 +78,7 @@ const UserMenu = ({ user, actions, translate, company }) => {
 			type="flat"
 			icon={
 				<Icon className="material-icons" style={{ color: secondary }}>
-					keyboard_arrow_down
+keyboard_arrow_down
 				</Icon>
 			}
 			anchorOrigin={{
@@ -117,7 +117,7 @@ const UserMenu = ({ user, actions, translate, company }) => {
 											display: 'block',
 											width: '100%',
 										}}>
-											{user.name + ' ' + user.surname || ''}{' '}
+											{`${user.name} ${user.surname}` || ''}{' '}
 										</b>
 										<div>{user.phone}</div>
 										<div style={styles}>{user.email}</div>
@@ -142,67 +142,67 @@ const UserMenu = ({ user, actions, translate, company }) => {
 							</MenuItem>
 						</Link>
 						<Divider />
-						{isAdmin(user) &&
-							<Link to={`/company/${company.id}/settings`}>
-								<MenuItem style={{ height: '100%', maxWidth: '270px' }}>
-									<div
-										style={{
-											display: 'flex',
-											paddingBottom: '1em',
-											paddingTop: '0.5em',
-											width: '100%',
-											justifyContent: 'center',
-											alignItems: 'center',
-										}}
-									>
-										<div
-											style={{
-												minWidth: '75px',
-												height: '75px',
-												width: '20%',
-												position: 'relative',
-												borderRadius: '50%',
-												overflow: 'hidden',
-												marginRight: '1.5em',
-											}}
-										>
-											<ImageCircular
-												src={
-													!company.logo
-														? ''
-														: company.logo
-												}
-												styles={{
-													width: '80px',
-													height: '80px'
-												}}
-											/>
-										</div>
-										<div
-											style={{
-												width: '65%',
-												padding: '0.4em',
-												...styles
-											}}
-										>
-											<b>{company.businessName}</b>
-											<div style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>{company.tin}</div>
-										</div>
-										<div style={{ width: '10%' }}>
-											<Icon
-												className="material-icons"
-												style={{
-													cursor: 'pointer',
-													fontSize: '1.6em',
-													color: secondary
-												}}
-											>
-												settings
-											</Icon>
-										</div>
-									</div>
-								</MenuItem>
-							</Link>
+						{isAdmin(user)
+&& <Link to={`/company/${company.id}/settings`}>
+	<MenuItem style={{ height: '100%', maxWidth: '270px' }}>
+		<div
+			style={{
+				display: 'flex',
+				paddingBottom: '1em',
+				paddingTop: '0.5em',
+				width: '100%',
+				justifyContent: 'center',
+				alignItems: 'center',
+			}}
+		>
+			<div
+				style={{
+					minWidth: '75px',
+					height: '75px',
+					width: '20%',
+					position: 'relative',
+					borderRadius: '50%',
+					overflow: 'hidden',
+					marginRight: '1.5em',
+				}}
+			>
+				<ImageCircular
+					src={
+						!company.logo ?
+							''
+							: company.logo
+					}
+					styles={{
+						width: '80px',
+						height: '80px'
+					}}
+				/>
+			</div>
+			<div
+				style={{
+					width: '65%',
+					padding: '0.4em',
+					...styles
+				}}
+			>
+				<b>{company.businessName}</b>
+				<div style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>{company.tin}</div>
+			</div>
+			<div style={{ width: '10%' }}>
+				<Icon
+					className="material-icons"
+					style={{
+						cursor: 'pointer',
+						fontSize: '1.6em',
+						color: secondary
+					}}
+				>
+settings
+				</Icon>
+			</div>
+		</div>
+	</MenuItem>
+</Link>
 						}
 						{user.roles === 'devAdmin' && (
 							<React.Fragment>
@@ -231,7 +231,7 @@ const UserMenu = ({ user, actions, translate, company }) => {
 													color: 'white'
 												}}
 											>
-												Panel devAdmin
+Panel devAdmin
 											</div>
 											<div
 												style={{
@@ -298,55 +298,25 @@ const UserMenu = ({ user, actions, translate, company }) => {
 			}
 		/>
 	) : (
-			<DropDownMenu
-				color="transparent"
-				id={'user-menu-trigger'}
-				text={
-					<Icon className="material-icons" style={{ color: secondary }}>
-						account_circle
-					</Icon>
-				}
-				textStyle={{ color: secondary }}
-				type="flat"
-				icon={
-					<Icon className="material-icons" style={{ color: secondary }}>
-						keyboard_arrow_down
-					</Icon>
-				}
-				items={
-					<Fragment>
-						<MenuItem>
-							<Link to={`/user/${user.id}`}>
-								<div
-									style={{
-										width: '100%',
-										display: 'flex',
-										flexDirection: 'row',
-										justifyContent: 'space-between'
-									}}
-									id={'user-menu-settings'}
-								>
-									<FontAwesome
-										name={'edit'}
-										style={{
-											cursor: 'pointer',
-											fontSize: '1.2em',
-											color: secondary
-										}}
-									/>
-									<span
-										style={{
-											marginLeft: '2.5em',
-											marginRight: '0.8em'
-										}}
-									>
-										{translate.settings}
-									</span>
-								</div>
-							</Link>
-						</MenuItem>
-						<Divider />
-						<MenuItem onClick={actions.logout}>
+		<DropDownMenu
+			color="transparent"
+			id={'user-menu-trigger'}
+			text={
+				<Icon className="material-icons" style={{ color: secondary }}>
+account_circle
+				</Icon>
+			}
+			textStyle={{ color: secondary }}
+			type="flat"
+			icon={
+				<Icon className="material-icons" style={{ color: secondary }}>
+keyboard_arrow_down
+				</Icon>
+			}
+			items={
+				<Fragment>
+					<MenuItem>
+						<Link to={`/user/${user.id}`}>
 							<div
 								style={{
 									width: '100%',
@@ -354,14 +324,14 @@ const UserMenu = ({ user, actions, translate, company }) => {
 									flexDirection: 'row',
 									justifyContent: 'space-between'
 								}}
-								id={'user-menu-logout'}
+								id={'user-menu-settings'}
 							>
 								<FontAwesome
-									name={'external-link'}
+									name={'edit'}
 									style={{
 										cursor: 'pointer',
 										fontSize: '1.2em',
-										color: 'red'
+										color: secondary
 									}}
 								/>
 								<span
@@ -370,32 +340,62 @@ const UserMenu = ({ user, actions, translate, company }) => {
 										marginRight: '0.8em'
 									}}
 								>
-									{translate.logout}
+									{translate.settings}
 								</span>
 							</div>
-						</MenuItem>
-					</Fragment>
-				}
-			/>
-		);
+						</Link>
+					</MenuItem>
+					<Divider />
+					<MenuItem onClick={actions.logout}>
+						<div
+							style={{
+								width: '100%',
+								display: 'flex',
+								flexDirection: 'row',
+								justifyContent: 'space-between'
+							}}
+							id={'user-menu-logout'}
+						>
+							<FontAwesome
+								name={'external-link'}
+								style={{
+									cursor: 'pointer',
+									fontSize: '1.2em',
+									color: 'red'
+								}}
+							/>
+							<span
+								style={{
+									marginLeft: '2.5em',
+									marginRight: '0.8em'
+								}}
+							>
+								{translate.logout}
+							</span>
+						</div>
+					</MenuItem>
+				</Fragment>
+			}
+		/>
+	);
 };
 
-const ImageCircular = ({ src, styles, children }) => (
-		<div
-			className={!src ? 'imageAfter' : ''}
-			style={{
-				height: '100px',
-				width: '100px',
-				backgroundRepeat: 'no-repeat',
-				backgroundPosition: '50% center',
-				backgroundSize: 'cover',
-				backgroundImage: `url(${src})`,
-				...styles
-			}}
-		>
-			{children}
-		</div>
-	);
+const ImageCircular = ({ src, styles: style, children }) => (
+	<div
+		className={!src ? 'imageAfter' : ''}
+		style={{
+			height: '100px',
+			width: '100px',
+			backgroundRepeat: 'no-repeat',
+			backgroundPosition: '50% center',
+			backgroundSize: 'cover',
+			backgroundImage: `url(${src})`,
+			...style
+		}}
+	>
+		{children}
+	</div>
+);
 
 function mapDispatchToProps(dispatch) {
 	return {

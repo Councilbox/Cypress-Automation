@@ -16,7 +16,7 @@ const CouncilEditorContainer = ({
 		return <LoadingMainApp />;
 	}
 
-	if (!data.council){
+	if (!data.council) {
 		return <Redirect to="/" />;
 	}
 

@@ -71,29 +71,29 @@ export const corporationUsers = gql`
 `;
 
 export const getCorporationUser = gql`
-  query getCorporationUser (
-    $id: Int!
-  ) {
-    corporationUser (id: $id){
-      id
-      usr
-      name
-      surname
-      email
-      phone
-      lastConnectionDate
-      companies{
-        id
-        businessName
-        logo
-      }
-      sends{
-        id
-        sendDate
-        impositionDate
-        sendType
-        reqCode
-      }
+    query getCorporationUser (
+        $id: Int!
+    ) {
+        corporationUser (id: $id){
+            id
+            usr
+            name
+            surname
+            email
+            phone
+            lastConnectionDate
+            companies{
+                id
+                businessName
+                logo
+            }
+            sends{
+                id
+                sendDate
+                impositionDate
+                sendType
+                reqCode
+            }
+        }
     }
-  }
 `;

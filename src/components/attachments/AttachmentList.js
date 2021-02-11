@@ -6,7 +6,9 @@ import AttachmentItem from './AttachmentItem';
 import { splitExtensionFilename } from '../../utils/CBX';
 
 
-const AttachmentList = ({ translate, attachments, isAgendaAttachment, ...props }) => {
+const AttachmentList = ({
+	translate, attachments, isAgendaAttachment, ...props
+}) => {
 	const [state, setState] = React.useState({
 		showModal: false,
 		data: {
@@ -28,19 +30,19 @@ const AttachmentList = ({ translate, attachments, isAgendaAttachment, ...props }
 	};
 
 	const _renderModalBody = () => (
-			<div style={{ width: window.innerWidth > 650 ? '650px' : '100%' }}>
-				<TextInput
-					floatingText={translate.name}
-					type="text"
-					errorText={state.errors.name}
-					value={state.data.filename}
-					onChange={event => updateState({
-							filename: event.target.value
-						})
-					}
-				/>
-			</div>
-		);
+		<div style={{ width: window.innerWidth > 650 ? '650px' : '100%' }}>
+			<TextInput
+				floatingText={translate.name}
+				type="text"
+				errorText={state.errors.name}
+				value={state.data.filename}
+				onChange={event => updateState({
+					filename: event.target.value
+				})
+				}
+			/>
+		</div>
+	);
 
 	const editIndex = index => {
 		setState({
@@ -96,18 +98,18 @@ const AttachmentList = ({ translate, attachments, isAgendaAttachment, ...props }
 			}}
 		>
 			{attachments.map((attachment, index) => (
-					<AttachmentItem
-						edit={true}
-						key={`attachment${index}`}
-						attachment={attachment}
-						translate={translate}
-						loadingId={props.loadingId}
-						removeAttachment={deleteAttachment}
-						editName={() => {
-							editIndex(index);
-						}}
-					/>
-				))}
+				<AttachmentItem
+					edit={true}
+					key={`attachment${index}`}
+					attachment={attachment}
+					translate={translate}
+					loadingId={props.loadingId}
+					removeAttachment={deleteAttachment}
+					editName={() => {
+						editIndex(index);
+					}}
+				/>
+			))}
 			<AlertConfirm
 				requestClose={() => setState({ ...state, showModal: false })}
 				open={state.showModal}

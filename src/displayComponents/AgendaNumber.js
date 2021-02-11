@@ -9,7 +9,7 @@ export const getSubjectAbrv = text => {
 	let start = '';
 	let index = 0;
 
-	if (typeof text == 'object') {
+	if (typeof text === 'object') {
 		return text;
 	}
 
@@ -18,7 +18,7 @@ export const getSubjectAbrv = text => {
 	}
 
 	if (!Number.isNaN(text)) {
-		text = '' + text;
+		text = `${text}`;
 	}
 
 	while (!isChar) {
@@ -72,21 +72,21 @@ const AgendaNumber = ({
 		}}
 		onClick={onClick}
 	>
-		{voting &&
-			<Tooltip title={translate.opened_votings}>
-				<FontAwesome
-					name={'envelope'}
-					style={{
-						position: 'absolute',
-						fontSize: '0.7em',
-						height: '0.8em',
-						backgroundColor: 'white',
-						color: secondaryColor,
-						top: -5,
-						right: -5
-					}}
-				/>
-			</Tooltip>
+		{voting
+&& <Tooltip title={translate.opened_votings}>
+	<FontAwesome
+		name={'envelope'}
+		style={{
+			position: 'absolute',
+			fontSize: '0.7em',
+			height: '0.8em',
+			backgroundColor: 'white',
+			color: secondaryColor,
+			top: -5,
+			right: -5
+		}}
+	/>
+</Tooltip>
 		}
 		<div>
 			{getSubjectAbrv(index)}

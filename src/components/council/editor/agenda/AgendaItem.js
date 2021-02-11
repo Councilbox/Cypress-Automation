@@ -7,7 +7,9 @@ import { getPrimary, getSecondary } from '../../../../styles/colors';
 import withTranslations from '../../../../HOCs/withTranslations';
 import { getSubjectAbrv } from '../../../../displayComponents/AgendaNumber';
 
-const AgendaItem = ({ agenda, typeText, selectAgenda, translate, removeAgenda, saveAsDraft }) => {
+const AgendaItem = ({
+	agenda, typeText, selectAgenda, translate, removeAgenda, saveAsDraft
+}) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 
@@ -19,7 +21,7 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, translate, removeAgenda, s
 				marginTop: '0.6em',
 				cursor: 'pointer'
 			}}
-			onClick={event => {
+			onClick={() => {
 				selectAgenda(agenda.orderIndex);
 			}}
 		>
@@ -74,18 +76,18 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, translate, removeAgenda, s
 								))}
 							</GridItem>
 						</GridItem>
-						{agenda.items.length > 0 &&
-							<GridItem xs={12} md={12} lg={12} style={{ marginTop: '2em' }}>
-								{`${translate.answers_options}: ${translate.max}: ${agenda.options.maxSelections}${agenda.options.minSelections > 1 ? ` - ${translate.min}: ${agenda.options.minSelections}` : ''
-									}`}
-								<ul>
-									{agenda.items.map(item => (
-										<li key={`agenda_item_${item.id}`} style={{ whiteSpace: 'pre-wrap', marginTop: '0.3em' }}>
-											{item.value}
-										</li>
-									))}
-								</ul>
-							</GridItem>
+						{agenda.items.length > 0
+&& <GridItem xs={12} md={12} lg={12} style={{ marginTop: '2em' }}>
+	{`${translate.answers_options}: ${translate.max}: ${agenda.options.maxSelections}${agenda.options.minSelections > 1 ? ` - ${translate.min}: ${agenda.options.minSelections}` : ''
+	}`}
+	<ul>
+		{agenda.items.map(item => (
+			<li key={`agenda_item_${item.id}`} style={{ whiteSpace: 'pre-wrap', marginTop: '0.3em' }}>
+				{item.value}
+			</li>
+		))}
+	</ul>
+</GridItem>
 						}
 					</Grid>
 				</GridItem>
@@ -111,23 +113,23 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, translate, removeAgenda, s
 									removeAgenda(agenda.id);
 								}}
 							/>
-							{!isCustomPoint(agenda.subjectType) &&
-								<IconButton
-									style={{
-										float: 'right',
-										height: '28px',
-										outline: 0
-									}}
-									onClick={event => {
-										event.stopPropagation();
-										saveAsDraft(agenda.id);
-									}}
-								>
-									<i
-										className="fa fa-save"
-										style={{ color: secondary }}
-									/>
-								</IconButton>
+							{!isCustomPoint(agenda.subjectType)
+&& <IconButton
+	style={{
+		float: 'right',
+		height: '28px',
+		outline: 0
+	}}
+	onClick={event => {
+		event.stopPropagation();
+		saveAsDraft(agenda.id);
+	}}
+>
+	<i
+		className="fa fa-save"
+		style={{ color: secondary }}
+	/>
+</IconButton>
 							}
 						</GridItem>
 					</Grid>

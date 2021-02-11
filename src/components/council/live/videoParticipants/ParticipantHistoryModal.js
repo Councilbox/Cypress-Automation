@@ -9,7 +9,9 @@ import {
 } from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
 
-const ParticipantHistory = ({ data, participant, translate, requestClose }) => (
+const ParticipantHistory = ({
+	data, participant, translate, requestClose
+}) => (
 	<AlertConfirm
 		requestClose={requestClose}
 		open={!!participant}
@@ -36,32 +38,32 @@ const ParticipantHistory = ({ data, participant, translate, requestClose }) => (
 								]}
 							>
 								{data.participantHistory.map(history => (
-										<TableRow key={`history_${history.id}`}>
-											<TableCell>
-												{moment(
-													new Date(history.date)
-												).format('LLL')}
-											</TableCell>
-											<TableCell>
-												{getLogText(history.typeText, translate)}
-											</TableCell>
-											<TableCell>
-												{`${history.trackInfo.ua.browser
-													.name || '-'} ${history
+									<TableRow key={`history_${history.id}`}>
+										<TableCell>
+											{moment(
+												new Date(history.date)
+											).format('LLL')}
+										</TableCell>
+										<TableCell>
+											{getLogText(history.typeText, translate)}
+										</TableCell>
+										<TableCell>
+											{`${history.trackInfo.ua.browser
+												.name || '-'} ${history
 													.trackInfo.ua.browser
 													.version || '-'}`}
-											</TableCell>
-											<TableCell>
-												{`${history.trackInfo.ua.os
-													.name || '-'} ${history
-													.trackInfo.ua.os.version ||
-													'-'}`}
-											</TableCell>
-											<TableCell>
-												{history.trackInfo.ip}
-											</TableCell>
-										</TableRow>
-									))}
+										</TableCell>
+										<TableCell>
+											{`${history.trackInfo.ua.os
+												.name || '-'} ${history
+													.trackInfo.ua.os.version
+|| '-'}`}
+										</TableCell>
+										<TableCell>
+											{history.trackInfo.ip}
+										</TableCell>
+									</TableRow>
+								))}
 							</Table>
 						)}
 					</React.Fragment>
@@ -73,7 +75,7 @@ const ParticipantHistory = ({ data, participant, translate, requestClose }) => (
 );
 
 const getLogText = (type, translate) => {
-	switch(type){
+	switch (type) {
 		case 'CONNECT':
 			return 'Conectado';
 

@@ -1,7 +1,8 @@
+/* eslint-disable no-use-before-define */
 import React from 'react';
 import { Route, Router, Switch } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
-import createHistory from 'history/createBrowserHistory';
+import { createBrowserHistory as createHistory } from 'history';
 import Loadable from 'react-loadable';
 import { Provider } from 'react-redux';
 import { ApolloClient } from 'apollo-client';
@@ -20,7 +21,9 @@ import { API_URL, CLIENT_VERSION, WS_URL } from '../config';
 import AppRouter from './AppRouter';
 import { graphQLErrorHandler, refreshToken, networkErrorHandler } from '../utils';
 import AppControl from './AppControl';
-import { initUserData, loadingFinished, loadSubdomainConfig, setLanguage, noServerResponse, serverRestored } from '../actions/mainActions';
+import {
+	initUserData, loadingFinished, loadSubdomainConfig, setLanguage, noServerResponse, serverRestored
+} from '../actions/mainActions';
 import ErrorHandler from '../components/ErrorHandler';
 import ThemeProvider from '../displayComponents/ThemeProvider';
 import configureStore from '../store/store';
@@ -48,11 +51,11 @@ const getToken = () => {
 
 function getDefaultLanguage() {
 	const languages = {
-		'es': 'es',
-		'ca': 'cat',
-		'en': 'en',
-		'gl': 'gal',
-		'pt': 'pt'
+		es: 'es',
+		ca: 'cat',
+		en: 'en',
+		gl: 'gal',
+		pt: 'pt'
 	};
 
 	const languageCode = navigator.language || navigator.userLanguage;
@@ -78,16 +81,12 @@ export const refreshWSLink = () => {
 
 
 const authLink = setContext((_, { headers }) => ({
-		headers: {
-			...headers,
-			/* authorization: token
-				? `Bearer ${token}`
-				: apiToken? `Bearer ${apiToken}` :
-				`Bearer ${participantToken}`, */
-			'x-jwt-token': getToken(),
-			'cbx-client-v': CLIENT_VERSION
-		}
-	}));
+	headers: {
+		...headers,
+		'x-jwt-token': getToken(),
+		'cbx-client-v': CLIENT_VERSION
+	}
+}));
 
 const link = split(
 	({ query }) => {
@@ -123,8 +122,9 @@ const PlaygroundPage = Loadable({
 	loading: LoadingMainApp
 });
 
+// eslint-disable-next-line no-extend-native, func-names
 String.prototype.capitalize = function () {
-    return this.charAt(0).toUpperCase() + this.slice(1);
+	return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
 const retryLink = new RetryLink({
@@ -141,19 +141,19 @@ const retryLink = new RetryLink({
 	}
 });
 
-const addStatusLink = new ApolloLink((operation, forward) => forward(operation).map((response) => {
-		networkErrorHandler(null, toast, store);
-		return response;
-	}));
+const addStatusLink = new ApolloLink((operation, forward) => forward(operation).map(response => {
+	networkErrorHandler(null, toast, store);
+	return response;
+}));
 
 
-const logoutLink = onError(({ graphQLErrors, networkError, operation, forward }) => {
+const logoutLink = onError(({
+	graphQLErrors, networkError, operation, forward
+}) => {
 	console.info(graphQLErrors);
-	// console.error(graphQLErrors);
 	console.info(networkError);
-	// console.error(networkError);
 
- 	if (graphQLErrors) {
+	if (graphQLErrors) {
 		if (graphQLErrors[0].code === 440) {
 			return new Observable(observable => {
 				let sub = null;
@@ -163,10 +163,10 @@ const logoutLink = onError(({ graphQLErrors, networkError, operation, forward })
 					operation.setContext({
 						headers: {
 							...operation.getContext().headers,
-							authorization: token
-								? `Bearer ${token}`
+							authorization: token ?
+								`Bearer ${token}`
 								: `Bearer ${participantToken}`,
-							//"x-jwt-token": token ? token : participantToken
+							// "x-jwt-token": token ? token : participantToken
 						}
 					});
 					sub = forward(operation).subscribe(observable);
@@ -178,7 +178,7 @@ const logoutLink = onError(({ graphQLErrors, networkError, operation, forward })
 		graphQLErrors.map(error => graphQLErrorHandler(error, toast, store, client, operation, bHistory));
 	}
 
-	if(networkError){
+	if (networkError) {
 		networkErrorHandler(networkError, toast, store, client, operation);
 	}
 });
@@ -213,36 +213,36 @@ if (sessionStorage.getItem('token')) {
 	store.dispatch(loadingFinished());
 }
 
-if(shouldLoadSubdomain()){
+if (shouldLoadSubdomain()) {
 	store.dispatch(loadSubdomainConfig());
 }
 
-if(sessionStorage.getItem('participantLoginSuccess')){
+if (sessionStorage.getItem('participantLoginSuccess')) {
 	store.dispatch({ type: 'PARTICIPANT_LOGIN_SUCCESS' });
 }
 
 export const MainContext = React.createContext();
 
 const App = () => (
-		<ApolloProvider client={client}>
-			<Provider store={store}>
-				<ThemeProvider>
-					<ErrorHandler>
-						<AppControl>
-							<MainContext.Provider value={{
-								client,
-								bHistory
-							}}>
-								<Router history={bHistory}>
-									<RouterWrapper />
-								</Router>
-							</MainContext.Provider>
-						</AppControl>
-					</ErrorHandler>
-				</ThemeProvider>
-			</Provider>
-		</ApolloProvider>
-	);
+	<ApolloProvider client={client}>
+		<Provider store={store}>
+			<ThemeProvider>
+				<ErrorHandler>
+					<AppControl>
+						<MainContext.Provider value={{
+							client,
+							bHistory
+						}}>
+							<Router history={bHistory}>
+								<RouterWrapper />
+							</Router>
+						</MainContext.Provider>
+					</AppControl>
+				</ErrorHandler>
+			</ThemeProvider>
+		</Provider>
+	</ApolloProvider>
+);
 
 const RouterWrapper = () => {
 	React.useEffect(() => {
@@ -272,20 +272,20 @@ const RouterWrapper = () => {
 					path="/convene/:id"
 					component={ConveneDisplay}
 				/>
-				{!window.location.hostname.includes('app.councilbox') &&
-						<Route
-							exact
-							path="/docs"
-							component={DocsPage}
-						/>
-					}
-					{!window.location.hostname.includes('app.councilbox') &&
-						<Route
-							exact
-							path="/docs/tryit"
-							component={PlaygroundPage}
-						/>
-					}
+				{!window.location.hostname.includes('app.councilbox')
+&& <Route
+	exact
+	path="/docs"
+	component={DocsPage}
+/>
+				}
+				{!window.location.hostname.includes('app.councilbox')
+&& <Route
+	exact
+	path="/docs/tryit"
+	component={PlaygroundPage}
+/>
+				}
 				<Route
 					exact
 					path="/company/:company/meeting/live"

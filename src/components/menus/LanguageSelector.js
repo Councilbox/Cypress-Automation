@@ -10,32 +10,32 @@ import { store } from '../../containers/App';
 const secondary = getSecondary();
 
 const LanguageSelector = ({ selectedLanguage, data }) => (
-		<DropDownMenu
-			color="transparent"
-			text={selectedLanguage ? selectedLanguage.toUpperCase() : 'ES'}
-			textStyle={{ color: secondary }}
-			type="flat"
-			icon={
-				<Icon className="material-icons" style={{ color: secondary }}>
-					keyboard_arrow_down
-				</Icon>
-			}
-			items={
-				<Fragment>
-					{!!data.languages &&
-						data.languages.map(language => (
-							<MenuItem
-								key={`language_${language.columnName}`}
-								onClick={() => changeLanguage(language.columnName)}
-							>
-								{language.columnName.toUpperCase()}
-							</MenuItem>
-						))
-					}
-				</Fragment>
-			}
-		/>
-	);
+	<DropDownMenu
+		color="transparent"
+		text={selectedLanguage ? selectedLanguage.toUpperCase() : 'ES'}
+		textStyle={{ color: secondary }}
+		type="flat"
+		icon={
+			<Icon className="material-icons" style={{ color: secondary }}>
+keyboard_arrow_down
+			</Icon>
+		}
+		items={
+			<Fragment>
+				{!!data.languages
+&& data.languages.map(language => (
+	<MenuItem
+		key={`language_${language.columnName}`}
+		onClick={() => changeLanguage(language.columnName)}
+	>
+		{language.columnName.toUpperCase()}
+	</MenuItem>
+))
+				}
+			</Fragment>
+		}
+	/>
+);
 
 const changeLanguage = language => {
 	store.dispatch(setLanguage(language));

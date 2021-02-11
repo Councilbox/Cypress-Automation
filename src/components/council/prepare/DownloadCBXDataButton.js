@@ -1,19 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { graphql } from 'react-apollo';
 import { Tooltip } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 import { downloadFile } from '../../../utils/CBX';
 import { LoadingSection } from '../../../displayComponents/index';
-import { downloadCBXData } from '../../../queries';
+import { downloadCBXData as downloadCBXDataQuery } from '../../../queries';
 import { getSecondary } from '../../../styles/colors';
-import { moment } from '../../../containers/App';
 
 const DownloadCBXDataButton = props => {
 	const [loading, setLoading] = React.useState(false);
 
 	const downloadCBXData = async id => {
 		setLoading(true);
-		if(props.updateState){
+		if (props.updateState) {
 			props.updateState({ loading: true });
 		}
 		const response = await props.downloadCBXData({
@@ -30,7 +29,7 @@ const DownloadCBXDataButton = props => {
 					`CbxData_${id}`
 				);
 				setLoading(false);
-				if(props.updateState){
+				if (props.updateState) {
 					props.updateState({ loading: false });
 				}
 			}
@@ -76,6 +75,6 @@ const DownloadCBXDataButton = props => {
 	);
 };
 
-export default graphql(downloadCBXData, { name: 'downloadCBXData' })(
+export default graphql(downloadCBXDataQuery, { name: 'downloadCBXData' })(
 	DownloadCBXDataButton
 );

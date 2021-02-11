@@ -6,7 +6,7 @@ import {
 	AlertConfirm,
 	BasicButton,
 } from '../../../../displayComponents';
-import { approveAct } from '../../../../queries';
+import { approveAct as approveActMutation } from '../../../../queries';
 import { getSecondary } from '../../../../styles/colors';
 import { useOldState } from '../../../../hooks';
 import { isMobile } from '../../../../utils/screen';
@@ -24,7 +24,9 @@ const dropzoneStyles = {
 };
 
 
-const FinishActModal = ({ requestClose, updateAct, translate, preview, council, finishInModal, ...props }) => {
+const FinishActModal = ({
+	requestClose, updateAct, translate, preview, council, finishInModal, ...props
+}) => {
 	const [state, setState] = useOldState({
 		loading: false,
 		step: 1,
@@ -103,7 +105,7 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 		});
 	};
 
-	function _modalBody() {
+	function modalBody() {
 		if (state.step === 2) {
 			if (state.file) {
 				return (
@@ -140,25 +142,25 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 			bodyStyle={{ minWidth: '50vw', height: isMobile ? '26em' : '100%' }}
 			requestClose={close}
 			open={props.show}
-			extraActions={state.step === 1 &&
-				<BasicButton
-					color="white"
-					buttonStyle={{
-						border: `1px solid ${secondary}`
-					}}
-					textStyle={{
-						color: secondary
-					}}
-					text={translate.upload_pdf_act}
-					onClick={goToDropZone}
-				/>
+			extraActions={state.step === 1
+&& <BasicButton
+	color="white"
+	buttonStyle={{
+		border: `1px solid ${secondary}`
+	}}
+	textStyle={{
+		color: secondary
+	}}
+	text={translate.upload_pdf_act}
+	onClick={goToDropZone}
+/>
 			}
 			acceptAction={state.step === 2 ? approveActWithUserPDF : approveAct}
 			hideAccept={state.step === 2 && !state.file}
 			loadingAction={state.loading}
 			buttonAccept={state.step === 2 ? translate.send : translate.finish_and_aprove_act}
 			buttonCancel={translate.close}
-			bodyText={_modalBody()}
+			bodyText={modalBody()}
 			title={translate.finish_and_aprove_act}
 		/>
 	);
@@ -171,21 +173,20 @@ const UploadAct = ({ ...props }) => {
 		const reader = new FileReader();
 		reader.readAsDataURL(file);
 
-		/*TODO ADD LIMIT TO FILE*/
+		/* TODO ADD LIMIT TO FILE */
 
 		reader.onload = async () => {
 			props.setFile(reader.result, file.name);
 		};
 	};
 
-	const onDrop = (accepted) => {
+	const onDrop = accepted => {
 		if (accepted.length === 0) {
-			setError('Tipo de archivo no válido, solo son admiten archivos PDF'/*TRADUCCION*/);
+			setError('Tipo de archivo no válido, solo son admiten archivos PDF'/* TRADUCCION */);
 			return;
 		}
 		handleFile(accepted[0]);
 	};
-
 
 
 	return (
@@ -209,17 +210,14 @@ const UploadAct = ({ ...props }) => {
 				>
 					<input {...getInputProps()} />
 					{error || (isDragActive ?
-						<p>Arrastre los archivos aquí</p>//TRADUCCION
-						:
-						<p>Arrastre el archivo o haga click para seleccionarlo.</p>)
+						<p>Arrastre los archivos aquí</p>// TRADUCCION
+						:						<p>Arrastre el archivo o haga click para seleccionarlo.</p>)
 					}
 				</div>
 			)}
 		</Dropzone>
 	);
 };
-
-
 
 
 export const approveActUserPDF = gql`
@@ -232,7 +230,7 @@ export const approveActUserPDF = gql`
 `;
 
 export default compose(
-	graphql(approveAct, {
+	graphql(approveActMutation, {
 		name: 'approveAct'
 	}),
 	graphql(approveActUserPDF, {

@@ -14,7 +14,6 @@ const withWindowOrientation = WrappedComponent => class WithWindowOrientation ex
 		};
 
 
-
 		componentDidMount() {
 			this.updateOrientation();
 			window.addEventListener('resize', this.updateOrientation);
@@ -33,6 +32,6 @@ const withWindowOrientation = WrappedComponent => class WithWindowOrientation ex
 				/>
 			);
 		}
-	};
+};
 
 export default withWindowOrientation;

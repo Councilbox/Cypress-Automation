@@ -42,7 +42,7 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 	const blankSize = 3;
 
 
-	return(
+	return (
 		<Grid
 			style={{
 				width: '90%',
@@ -83,8 +83,7 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 						text={translate.book}
 					/>
 				</GridItem>
-			:
-				<GridItem xs={12} md={3} lg={3}>
+				:				<GridItem xs={12} md={3} lg={3}>
 					<Block
 						link={`/company/${company.id}/settings`}
 						customIcon={
@@ -144,15 +143,15 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 					text={translate.start_conference}
 				/>
 			</GridItem>
-			{user.roles === 'devAdmin' && false &&
-				<GridItem xs={12} md={size} lg={size}>
-					<Block
-						link={'/admin'}
-						customIcon={<i className="fa fa-user-secret" aria-hidden="true" style={{ fontSize: '7em' }}></i>}
-						id={'admin-panel'}
-						text={'Panel devAdmin'}
-					/>
-				</GridItem>
+			{user.roles === 'devAdmin' && false
+&& <GridItem xs={12} md={size} lg={size}>
+	<Block
+		link={'/admin'}
+		customIcon={<i className="fa fa-user-secret" aria-hidden="true" style={{ fontSize: '7em' }}></i>}
+		id={'admin-panel'}
+		text={'Panel devAdmin'}
+	/>
+</GridItem>
 			}
 		</Grid>
 	);

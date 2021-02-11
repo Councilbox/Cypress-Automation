@@ -3,12 +3,11 @@ import { compose, graphql, withApollo } from 'react-apollo';
 import {
 	BasicButton,
 	ButtonIcon,
-	CustomDialog,
 	AlertConfirm,
 	Scrollbar
 } from '../../../../displayComponents';
 import { getPrimary, secondary } from '../../../../styles/colors';
-import { languages } from '../../../../queries/masters';
+import { languages as languagesQuery } from '../../../../queries/masters';
 import ParticipantForm from '../../participants/ParticipantForm';
 import {
 	checkRequiredFieldsParticipant,
@@ -23,9 +22,41 @@ import { COUNCIL_TYPES } from '../../../../constants';
 import { councilIsFinished } from '../../../../utils/CBX';
 import SelectRepresentative from '../../editor/census/modals/SelectRepresentative';
 
+const initialParticipant = {
+	name: '',
+	surname: '',
+	position: '',
+	email: '',
+	phone: '',
+	dni: '',
+	type: 0,
+	delegateId: null,
+	numParticipations: 1,
+	socialCapital: 1,
+	uuid: null,
+	initialState: 0,
+	delegateUuid: null,
+	language: 'es',
+	city: '',
+	personOrEntity: 0
+};
 
+const initialRepresentative = {
+	hasRepresentative: false,
+	language: 'es',
+	type: 2,
+	name: '',
+	surname: '',
+	position: '',
+	email: '',
+	initialState: 0,
+	phone: '',
+	dni: ''
+};
 
-const AddConvenedParticipantButton = ({ translate, council, participations, client, company, ...props }) => {
+const AddConvenedParticipantButton = ({
+	translate, council, participations, client, company, ...props
+}) => {
 	const [state, setState] = useOldState({
 		modal: false,
 		data: { ...initialParticipant },
@@ -35,75 +66,9 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 	});
 	const primary = getPrimary();
 
-
-	const addParticipant = async sendConvene => {
-		const { hasRepresentative, ...data } = state.representative;
-		const representative = state.representative.hasRepresentative
-			? {
-				...data,
-				councilId: props.councilId
-			}
-			: null;
-
-		if (!await checkRequiredFields()) {
-			const response = await props.addParticipant({
-				variables: {
-					participant: {
-						...state.data,
-						councilId: props.councilId
-					},
-					representative,
-					sendConvene
-				}
-			});
-			if (!response.errors) {
-				props.refetch();
-				setState({
-					modal: false,
-					data: { ...initialParticipant },
-					representative: { ...initialRepresentative },
-					errors: {},
-					representativeErrors: {}
-				});
-			} else if(response.errors[0].message === 'Too many granted words'){
-					setState({
-						...(state.data.initialState === 2 ? {
-							errors: {
-								initialState: translate.initial_granted_word_error
-							}
-						} : {}),
-						...(representative && representative.initialState === 2 ? {
-							representativeErrors: {
-								initialState: translate.initial_granted_word_error
-							}
-						} : {})
-
-					});
-				}
-		}
-	};
-
-	const updateState = object => {
-		setState({
-			data: {
-				...state.data,
-				...object
-			}
-		});
-	};
-
-	const updateRepresentative = object => {
-		setState({
-			representative: {
-				...state.representative,
-				...object
-			}
-		});
-	};
-
 	async function checkRequiredFields(onlyEmail) {
 		const participant = state.data;
-		const representative = state.representative;
+		const { representative } = state;
 
 		let errorsParticipant = {
 			errors: {},
@@ -123,7 +88,6 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 			errors: {},
 			hasError: false
 		};
-
 
 
 		if (representative.hasRepresentative) {
@@ -181,6 +145,71 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 		return errorsParticipant.hasError || errorsRepresentative.hasError;
 	}
 
+	const addParticipant = async sendConvene => {
+		const { hasRepresentative, ...data } = state.representative;
+		const representative = state.representative.hasRepresentative ?
+			{
+				...data,
+				councilId: props.councilId
+			}
+			: null;
+
+		if (!await checkRequiredFields()) {
+			const response = await props.addParticipant({
+				variables: {
+					participant: {
+						...state.data,
+						councilId: props.councilId
+					},
+					representative,
+					sendConvene
+				}
+			});
+			if (!response.errors) {
+				props.refetch();
+				setState({
+					modal: false,
+					data: { ...initialParticipant },
+					representative: { ...initialRepresentative },
+					errors: {},
+					representativeErrors: {}
+				});
+			} else if (response.errors[0].message === 'Too many granted words') {
+				setState({
+					...(state.data.initialState === 2 ? {
+						errors: {
+							initialState: translate.initial_granted_word_error
+						}
+					} : {}),
+					...(representative && representative.initialState === 2 ? {
+						representativeErrors: {
+							initialState: translate.initial_granted_word_error
+						}
+					} : {})
+
+				});
+			}
+		}
+	};
+
+	const updateState = object => {
+		setState({
+			data: {
+				...state.data,
+				...object
+			}
+		});
+	};
+
+	const updateRepresentative = object => {
+		setState({
+			representative: {
+				...state.representative,
+				...object
+			}
+		});
+	};
+
 	const {
 		data: participant,
 		errors,
@@ -219,9 +248,9 @@ const AddConvenedParticipantButton = ({ translate, council, participations, clie
 							open={state.selectRepresentative}
 							council={council}
 							translate={translate}
-							updateRepresentative={representative => {
+							updateRepresentative={repre => {
 								updateRepresentative({
-									...representative,
+									...repre,
 									hasRepresentative: true
 								});
 							}}
@@ -328,38 +357,7 @@ export default compose(
 			errorPolicy: 'all'
 		}
 	}),
-	graphql(languages),
+	graphql(languagesQuery),
 	withSharedProps()
 )(withApollo(AddConvenedParticipantButton));
 
-const initialParticipant = {
-	name: '',
-	surname: '',
-	position: '',
-	email: '',
-	phone: '',
-	dni: '',
-	type: 0,
-	delegateId: null,
-	numParticipations: 1,
-	socialCapital: 1,
-	uuid: null,
-	initialState: 0,
-	delegateUuid: null,
-	language: 'es',
-	city: '',
-	personOrEntity: 0
-};
-
-const initialRepresentative = {
-	hasRepresentative: false,
-	language: 'es',
-	type: 2,
-	name: '',
-	surname: '',
-	position: '',
-	email: '',
-	initialState: 0,
-	phone: '',
-	dni: ''
-};

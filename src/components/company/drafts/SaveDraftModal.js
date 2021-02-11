@@ -3,7 +3,7 @@ import { graphql } from 'react-apollo';
 import { AlertConfirm } from '../../../displayComponents';
 import CompanyDraftForm from './CompanyDraftForm';
 import withTranslations from '../../../HOCs/withTranslations';
-import { createCompanyDraft } from '../../../queries/companyDrafts';
+import { createCompanyDraft as createCompanyDraftMutation } from '../../../queries/companyDrafts';
 import { checkRequiredFields } from '../../../utils/CBX';
 
 const SaveDraftModal = ({ translate, ...props }) => {
@@ -47,20 +47,20 @@ const SaveDraftModal = ({ translate, ...props }) => {
 		}
 	};
 
-	const _renderNewPointBody = () => (
-			<div style={{ width: '800px', height: '60vh' }}>
-				<CompanyDraftForm
-					translate={translate}
-					errors={errors}
-					updateState={updateState}
-					draft={data}
-					companyStatutes={props.companyStatutes}
-					draftTypes={props.draftTypes}
-					votingTypes={props.votingTypes}
-					majorityTypes={props.majorityTypes}
-				/>
-			</div>
-		);
+	const renderNewPointBody = () => (
+		<div style={{ width: '800px', height: '60vh' }}>
+			<CompanyDraftForm
+				translate={translate}
+				errors={errors}
+				updateState={updateState}
+				draft={data}
+				companyStatutes={props.companyStatutes}
+				draftTypes={props.draftTypes}
+				votingTypes={props.votingTypes}
+				majorityTypes={props.majorityTypes}
+			/>
+		</div>
+	);
 
 	return (
 		<AlertConfirm
@@ -70,13 +70,13 @@ const SaveDraftModal = ({ translate, ...props }) => {
 			cancelAction={props.requestClose}
 			buttonAccept={translate.accept}
 			buttonCancel={translate.cancel}
-			bodyText={_renderNewPointBody()}
+			bodyText={renderNewPointBody()}
 			title={translate.new_draft}
 		/>
 	);
 };
 
 
-export default graphql(createCompanyDraft, { name: 'createCompanyDraft' })(
+export default graphql(createCompanyDraftMutation, { name: 'createCompanyDraft' })(
 	withTranslations()(SaveDraftModal)
 );

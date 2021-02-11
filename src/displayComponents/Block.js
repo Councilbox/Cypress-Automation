@@ -6,7 +6,9 @@ import { sendGAevent } from '../utils/analytics';
 import { bHistory } from '../containers/App';
 import withSharedProps from '../HOCs/withSharedProps';
 
-const Block = withSharedProps()(({ button, link, icon, text, id, customIcon, disabled, disabledOnClick, company }) => {
+const Block = withSharedProps()(({
+	button, link, icon, text, id, customIcon, disabled, disabledOnClick, company
+}) => {
 	const followLink = () => {
 		sendGAevent({
 			category: 'Dashboard',
@@ -51,14 +53,14 @@ const Block = withSharedProps()(({ button, link, icon, text, id, customIcon, dis
 				}}
 			>
 				{customIcon || <Icon
-						className="material-icons"
-						style={{
-							fontSize: '7em',
-							color: getSecondary()
-						}}
-					>
-						{icon}
-					</Icon>
+					className="material-icons"
+					style={{
+						fontSize: '7em',
+						color: getSecondary()
+					}}
+				>
+					{icon}
+				</Icon>
 				}
 
 				<span style={{ fontSize: '13px' }}>{text}</span>
@@ -72,8 +74,7 @@ const Block = withSharedProps()(({ button, link, icon, text, id, customIcon, dis
 				<div onClick={disabledOnClick}>
 					{card}
 				</div>
-			:
-				<div onClick={followLink}>
+				:				<div onClick={followLink}>
 					{card}
 				</div>
 			}

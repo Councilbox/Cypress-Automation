@@ -4,14 +4,14 @@ import FontAwesome from 'react-fontawesome';
 import { getTranslationReqCode, getEmailIconByReqCode } from '../../../../utils/CBX';
 
 const styleMainIcon = (color, ratio) => ({
-		fontSize: `${1.5 * ratio}em`,
-		color
-	});
+	fontSize: `${1.5 * ratio}em`,
+	color
+});
 
-const styleImageIcon = (ratio) => ({
-		height: `${1.6 * ratio}em`,
-		width: 'auto'
-	});
+const styleImageIcon = ratio => ({
+	height: `${1.6 * ratio}em`,
+	width: 'auto'
+});
 
 const _renderIcon = (color, reqCode, number, translate, ratio) => {
 	const translation = reqCode === -2 ? translate.tooltip_dropped : translate[getTranslationReqCode(reqCode)];
@@ -47,7 +47,9 @@ const _renderIcon = (color, reqCode, number, translate, ratio) => {
 
 class EmailIcon extends React.PureComponent {
 	render() {
-		const { color = 'grey', reqCode, number, translate, ratio = 1 } = this.props;
+		const {
+			color = 'grey', reqCode, number, translate, ratio = 1
+		} = this.props;
 		return _renderIcon(color, reqCode, number, translate, ratio);
 	}
 }

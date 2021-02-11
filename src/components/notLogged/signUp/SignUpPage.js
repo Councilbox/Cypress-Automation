@@ -1,9 +1,7 @@
 import React from 'react';
 import { Card, CardContent } from 'material-ui';
 import { graphql } from 'react-apollo';
-import SignUpEnterprise from './SignUpEnterprise';
 import SignUpUser from './SignUpUser';
-import SignUpPay from './SignUpPay';
 import { getPrimary } from '../../../styles/colors';
 import SignUpStepper from './SignUpStepper';
 import { BasicButton, NotLoggedLayout, Scrollbar } from '../../../displayComponents';
@@ -14,20 +12,20 @@ import withTranslations from '../../../HOCs/withTranslations';
 
 const stateReducer = (state, action) => {
 	const actions = {
-		'UPDATE_ERRORS': () => ({
-				...state,
-				errors: action.payload
-			}),
-		'SUCCESS': () => ({
-				...state,
-				loading: false,
-				success: true
-			}),
-		'LOADING': () => ({
-				...state,
-				loading: true,
-				success: false
-			})
+		UPDATE_ERRORS: () => ({
+			...state,
+			errors: action.payload
+		}),
+		SUCCESS: () => ({
+			...state,
+			loading: false,
+			success: true
+		}),
+		LOADING: () => ({
+			...state,
+			loading: true,
+			success: false
+		})
 	};
 
 	return actions[action.type] ? actions[action.type]() : state;
@@ -125,11 +123,11 @@ const SignUpPage = ({ translate, windowSize, mutate }) => {
 								style={{
 									display: 'flex',
 									flexDirection:
-										windowSize !== 'xs' ? 'row' : 'column',
+windowSize !== 'xs' ? 'row' : 'column',
 									height:
-										windowSize !== 'xs'
-											? '72vh'
-											: 'calc(100vh - 3em)',
+windowSize !== 'xs' ?
+	'72vh'
+	: 'calc(100vh - 3em)',
 									width: '100%'
 								}}
 							>
@@ -137,7 +135,7 @@ const SignUpPage = ({ translate, windowSize, mutate }) => {
 									style={{
 										backgroundColor: 'WhiteSmoke',
 										height:
-											windowSize !== 'xs' ? '100%' : '5em'
+windowSize !== 'xs' ? '100%' : '5em'
 									}}
 								>
 									<SignUpStepper
@@ -153,9 +151,9 @@ const SignUpPage = ({ translate, windowSize, mutate }) => {
 										position: 'relative',
 										overflowY: 'hidden',
 										height:
-											windowSize !== 'xs'
-												? '100%'
-												: 'calc(100vh - 8em - 11.5%)'
+windowSize !== 'xs' ?
+	'100%'
+	: 'calc(100vh - 8em - 11.5%)'
 									}}
 								>
 									<Scrollbar>
@@ -166,7 +164,7 @@ const SignUpPage = ({ translate, windowSize, mutate }) => {
 												loading={loading}
 												signUp={createUser}
 												updateState={updateData}
-												updateErrors={errors => dispatch({ type: 'UPDATE_ERRORS', payload: errors })}
+												updateErrors={errs => dispatch({ type: 'UPDATE_ERRORS', payload: errs })}
 												translate={translate}
 											/>
 										</div>
@@ -192,7 +190,9 @@ const SignUpPage = ({ translate, windowSize, mutate }) => {
 							}}
 						>
 							{translate.register_successfully}
-							<div style={{ marginTop: '0.9em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+							<div style={{
+								marginTop: '0.9em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'
+							}}>
 								<BasicButton
 									text={translate.back}
 									textStyle={{ fontWeight: '700', textTransform: 'none', color: 'white' }}

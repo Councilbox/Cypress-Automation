@@ -7,7 +7,7 @@ import {
 	participantIsBlocked,
 	canUnblockParticipant
 } from '../../../../utils/CBX';
-import { unbanParticipant, changeRequestWord } from '../../../../queries';
+import { unbanParticipant as unbanParticipantMutation, changeRequestWord } from '../../../../queries';
 
 const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 	const secondary = getSecondary();
@@ -68,7 +68,7 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 								color: 'white'
 							}}
 						>
-							keyboard_arrow_down
+keyboard_arrow_down
 						</Icon>
 					</MenuItem>
 				</Card>
@@ -87,7 +87,7 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 										marginRight: '0.4em'
 									}}
 								>
-									rotate_right
+rotate_right
 								</Icon>
 								{translate.unban_participant}
 							</MenuItem>
@@ -103,13 +103,13 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 									marginRight: '0.4em'
 								}}
 							>
-								block
+block
 							</Icon>
 							{translate.ban_participant}
 						</MenuItem>
 					)}
 					{participant.requestWord !== 3 && (
-							<MenuItem
+						<MenuItem
 							onClick={() => changeWordState(participant.id, 3)}
 						>
 							<Icon
@@ -119,7 +119,7 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 									marginRight: '0.4em'
 								}}
 							>
-								launch
+launch
 							</Icon>
 							{translate.send_to_waiting_room}
 						</MenuItem>
@@ -134,7 +134,7 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 								marginRight: '0.4em'
 							}}
 						>
-							storage
+storage
 						</Icon>
 						{translate.video_logs_list}
 					</MenuItem>
@@ -145,7 +145,7 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 };
 
 
-export default graphql(unbanParticipant, {
+export default graphql(unbanParticipantMutation, {
 	name: 'unbanParticipant'
 })(graphql(changeRequestWord, {
 	name: 'changeRequestWord'

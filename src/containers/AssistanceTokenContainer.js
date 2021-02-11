@@ -17,7 +17,9 @@ const getMe = gql`
 	}
 `;
 
-const AssistanceTokenContainer = ({ participantToken, client, translate, match }) => {
+const AssistanceTokenContainer = ({
+	participantToken, client, translate, match
+}) => {
 	const [loading, setLoading] = React.useState(true);
 	const [error, setError] = React.useState(false);
 	const [participant, setParticipant] = React.useState(null);
@@ -66,7 +68,7 @@ const AssistanceTokenContainer = ({ participantToken, client, translate, match }
 	}
 
 	if (error) {
-		if(error.message === '2FA enabled' || error.message === 'Invalid key'){
+		if (error.message === '2FA enabled' || error.message === 'Invalid key') {
 			return (
 				<SMSAuthForm
 					value={key}
@@ -92,7 +94,7 @@ const AssistanceTokenContainer = ({ participantToken, client, translate, match }
 				<Redirect
 					to={`/attendance/participant/${participant.id}/council/${
 						participant.councilId
-						}`}
+					}`}
 				/>
 			) : <div>Not found</div>}
 		</React.Fragment>

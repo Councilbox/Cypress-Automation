@@ -12,37 +12,39 @@ import { getSecondary } from '../../../../styles/colors';
 import { isMobile } from '../../../../utils/screen';
 import withWindowSize from '../../../../HOCs/withWindowSize';
 
-const Action = ({ children, loading, onClick, disabled = false, styles }) => (
-		<div
-			style={{
-				display: 'flex',
-				alignItems: 'center',
-				height: '37px',
-				borderRadius: '4px',
-				border: `solid 1px ${disabled ? 'grey' : getSecondary()}`,
-				padding: isMobile ? '0.3em 0.3em' : '0.3em 1.3em',
-				cursor: disabled ? 'auto' : 'pointer',
-				marginRight: '0.5em',
-				marginBottom: isMobile && '0.5em',
-				...styles
-			}}
-			onClick={!disabled ? onClick : () => { }}
-		>
-			{loading ? (
-				<div
-					style={{
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'center',
-					}}
-				>
-					<LoadingSection size={20} />
-				</div>
-			) : (
-					children
-				)}
-		</div>
-	);
+const Action = ({
+	children, loading, onClick, disabled = false, styles
+}) => (
+	<div
+		style={{
+			display: 'flex',
+			alignItems: 'center',
+			height: '37px',
+			borderRadius: '4px',
+			border: `solid 1px ${disabled ? 'grey' : getSecondary()}`,
+			padding: isMobile ? '0.3em 0.3em' : '0.3em 1.3em',
+			cursor: disabled ? 'auto' : 'pointer',
+			marginRight: '0.5em',
+			marginBottom: isMobile && '0.5em',
+			...styles
+		}}
+		onClick={!disabled ? onClick : () => { }}
+	>
+		{loading ? (
+			<div
+				style={{
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+				}}
+			>
+				<LoadingSection size={20} />
+			</div>
+		) : (
+			children
+		)}
+	</div>
+);
 
 
 const RepresentativeForm = ({
@@ -60,13 +62,15 @@ const RepresentativeForm = ({
 
 	return (
 		<Grid>
-			<GridItem xs={12} lg={12} md={12} style={{ display: isMobile && windowSize == 'xs' ? '' : 'flex' }}>
+			<GridItem xs={12} lg={12} md={12} style={{ display: isMobile && windowSize === 'xs' ? '' : 'flex' }}>
 				<Action
 					disabled={disabled}
-					style={{ display: 'flex', alignItems: 'center', overflow: 'hidden', cursor: 'pointer' }}
+					style={{
+						display: 'flex', alignItems: 'center', overflow: 'hidden', cursor: 'pointer'
+					}}
 					onClick={() => updateState({
-							hasRepresentative: !state.hasRepresentative
-						})
+						hasRepresentative: !state.hasRepresentative
+					})
 					}
 				>
 					<div style={{ width: '3em', color: disabled ? 'grey' : getSecondary() }}>
@@ -74,7 +78,9 @@ const RepresentativeForm = ({
 						<i className={'fa fa-user-o'} style={{ position: 'relative', fontSize: '20px' }}></i>
 						<i className={'fa fa-user'} style={{ position: 'relative', left: '-5px' }}></i>
 					</div>
-					<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: disabled ? 'grey' : getSecondary() }}>
+					<div style={{
+						display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: disabled ? 'grey' : getSecondary()
+					}}>
 						<span style={{ fontSize: '0.9em' }}>{state.hasRepresentative ? translate.remove_representative : translate.add_representative}</span>
 					</div>
 				</Action>
@@ -90,16 +96,18 @@ const RepresentativeForm = ({
 							<i className={'fa fa-user-o'} style={{ position: 'relative', fontSize: '20px' }}></i>
 							<i className={'fa fa-user'} style={{ position: 'relative', left: '-5px' }}></i>
 						</div>
-						<div style={{ display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: disabled ? 'grey' : getSecondary() }}>
+						<div style={{
+							display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: disabled ? 'grey' : getSecondary()
+						}}>
 							<span style={{ fontSize: '0.9em' }}>{translate.select_representative}</span>
 						</div>
 					</div>
 				</Action>
 			</GridItem>
-			{disabled &&
-				<div style={{ width: '100%', padding: '1em' }}>
-					{translate.cant_add_representative}
-				</div>
+			{disabled
+&& <div style={{ width: '100%', padding: '1em' }}>
+	{translate.cant_add_representative}
+</div>
 			}
 			<Collapse in={state.hasRepresentative} >
 				{state.hasRepresentative && (
@@ -111,8 +119,8 @@ const RepresentativeForm = ({
 								errorText={errors.name}
 								value={representative.name || ''}
 								onChange={event => updateState({
-										name: event.nativeEvent.target.value
-									})
+									name: event.nativeEvent.target.value
+								})
 								}
 							/>
 						</GridItem>
@@ -123,8 +131,8 @@ const RepresentativeForm = ({
 								errorText={errors.surname || ''}
 								value={representative.surname || ''}
 								onChange={event => updateState({
-										surname: event.nativeEvent.target.value
-									})
+									surname: event.nativeEvent.target.value
+								})
 								}
 							/>
 						</GridItem>
@@ -135,8 +143,8 @@ const RepresentativeForm = ({
 								errorText={errors.dni}
 								value={representative.dni || ''}
 								onChange={event => updateState({
-										dni: event.nativeEvent.target.value
-									})
+									dni: event.nativeEvent.target.value
+								})
 								}
 							/>
 						</GridItem>
@@ -147,21 +155,21 @@ const RepresentativeForm = ({
 								errorText={errors.position}
 								value={representative.position || ''}
 								onChange={event => updateState({
-										position: event.nativeEvent.target.value
-									})
+									position: event.nativeEvent.target.value
+								})
 								}
 							/>
 						</GridItem>
 						<GridItem xs={6} md={4} lg={3}>
 							<TextInput
-								{...(checkEmail ? { onKeyUp: (event) => checkEmail(event, 'representative') } : {})}
+								{...(checkEmail ? { onKeyUp: event => checkEmail(event, 'representative') } : {})}
 								floatingText={translate.email}
 								type="text"
 								errorText={errors.email}
 								value={representative.email || ''}
 								onChange={event => updateState({
-										email: event.nativeEvent.target.value
-									})
+									email: event.nativeEvent.target.value
+								})
 								}
 							/>
 						</GridItem>
@@ -185,8 +193,8 @@ const RepresentativeForm = ({
 								errorText={errors.phone}
 								value={representative.phone || ''}
 								onChange={event => updateState({
-										phone: event.nativeEvent.target.value
-									})
+									phone: event.nativeEvent.target.value
+								})
 								}
 							/>
 						</GridItem>
@@ -195,29 +203,29 @@ const RepresentativeForm = ({
 								floatingText={translate.language}
 								value={representative.language}
 								onChange={event => updateState({
-										language: event.target.value
-									})
+									language: event.target.value
+								})
 								}
 							>
 								{languages.map(language => (
-										<MenuItem
-											value={language.columnName}
-											key={`languagerepresentative_${language.columnName
-												}`}
-										>
-											{language.desc}
-										</MenuItem>
-									))}
+									<MenuItem
+										value={language.columnName}
+										key={`languagerepresentative_${language.columnName
+										}`}
+									>
+										{language.desc}
+									</MenuItem>
+								))}
 							</SelectInput>
 						</GridItem>
 						<GridItem xs={6} md={4} lg={3}>
 							<SelectInput
 								floatingText={translate.participation_type}
 								errorText={errors.initialState}
-								value={'' + representative.initialState}
+								value={`${representative.initialState}`}
 								onChange={event => updateState({
-										initialState: +event.target.value
-									})
+									initialState: +event.target.value
+								})
 								}
 							>
 								<MenuItem
