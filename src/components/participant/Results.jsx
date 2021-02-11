@@ -8,14 +8,14 @@ import { AGENDA_TYPES } from '../../constants';
 
 const getVote = (vote, translate) => {
 	switch (vote) {
-	case 1:
-		return translate.in_favor_btn;
-	case 0:
-		return translate.against_btn;
-	case 2:
-		return translate.abstention_btn;
-	default:
-		return translate.no_vote_lowercase;
+		case 1:
+			return translate.in_favor_btn;
+		case 0:
+			return translate.against_btn;
+		case 2:
+			return translate.abstention_btn;
+		default:
+			return translate.no_vote_lowercase;
 	}
 };
 
@@ -32,23 +32,84 @@ const Results = ({ data, translate, requestClose, open, participant, stylesHead,
 
 
 	if (data.agendas) {
-		agendas = data.agendas.map(agenda => {
-			return {
-				...agenda,
-				voting: data.participantVotings.find(voting => voting.agendaId === agenda.id)
-			};
-		});
+		agendas = data.agendas.map(agenda => ({
+			...agenda,
+			voting: data.participantVotings.find(voting => voting.agendaId === agenda.id)
+		}));
 	}
 
 	if (endPage) {
 		return (
 			<div style={{ ...stylesHead }}>
-				{agendas.map((agenda, index) => {
-					return (
+				{agendas.map((agenda, index) => (
+					<div style={{ marginBottom: '1.2em' }} key={`agenda_${agenda.id}`}>
+						<div
+							style={{
+								display: 'flex',
+							}}
+						>
+							<AgendaNumber
+								index={index + 1}
+								open={agenda.pointState === 1}
+								active={false}
+								activeColor={primary}
+								voting={agenda.votingState === 1 && agenda.subjectType !== 0}
+								translate={translate}
+								secondaryColor={secondary}
+								small={true}
+								style={{
+									position: 'static',
+								}}
+								moreStyles={{
+									border: `1px solid ${getSecondary()}`,
+								}}
+							/>
+							<span style={{ marginLeft: '0.6em' }}>
+								{agenda.agendaSubject}
+							</span>
+						</div>
+						<div style={{ textAlign: 'left', paddingLeft: ' 33px' }}>
+							{`${translate.type}: ${translate[getAgendaTypeLabel(agenda)]}`}
+						</div>
+						{(hasVotation(agenda.subjectType) && agenda.subjectType !== getActPointSubjectType()) &&
+								<div style={{ textAlign: 'left', paddingLeft: ' 33px' }}>
+									{agenda.voting ?
+										<VoteDisplay voting={agenda.voting} translate={translate} agenda={agenda} endPage={endPage} />
+										:
+										translate.not_present_at_time_of_voting
+									}
+								</div>
+						}
+						{agenda.subjectType === getActPointSubjectType() &&
+								<div style={{ textAlign: 'left', paddingLeft: ' 33px' }}>
+									{agenda.voting ?
+										<VoteDisplay voting={agenda.voting} translate={translate} agenda={agenda} endPage={endPage} />
+										:
+										translate.not_present_at_time_of_voting
+									}
+								</div>
+						}
+					</div>
+				))}
+			</div>
+
+		);
+	}
+	return (
+		<AlertConfirm
+			requestClose={requestClose}
+			open={open}
+			acceptAction={requestClose}
+			buttonAccept={translate.accept}
+			bodyText={
+				<div>
+					{agendas.map((agenda, index) => (
 						<div style={{ marginBottom: '1.2em' }} key={`agenda_${agenda.id}`}>
 							<div
 								style={{
 									display: 'flex',
+									width: '22px',
+									height: '22px'
 								}}
 							>
 								<AgendaNumber
@@ -63,101 +124,34 @@ const Results = ({ data, translate, requestClose, open, participant, stylesHead,
 									style={{
 										position: 'static',
 									}}
-									moreStyles={{
-										border: `1px solid ${getSecondary()}`,
-									}}
 								/>
-								<span style={{ marginLeft: '0.6em' }}>
+								<span style={{ fontWeight: '700', marginLeft: '0.6em' }}>
 									{agenda.agendaSubject}
 								</span>
 							</div>
-							<div style={{ textAlign: 'left', paddingLeft: ' 33px' }}>
+							<div>
 								{`${translate.type}: ${translate[getAgendaTypeLabel(agenda)]}`}
 							</div>
 							{(hasVotation(agenda.subjectType) && agenda.subjectType !== getActPointSubjectType()) &&
-								<div style={{ textAlign: 'left', paddingLeft: ' 33px' }}>
-									{agenda.voting ?
-										<VoteDisplay voting={agenda.voting} translate={translate} agenda={agenda} endPage={endPage} />
-										:
-										translate.not_present_at_time_of_voting
-									}
-								</div>
+									<React.Fragment>
+										{agenda.voting ?
+											<VoteDisplay voting={agenda.voting} translate={translate} agenda={agenda} />
+											:
+											translate.not_present_at_time_of_voting
+										}
+									</React.Fragment>
 							}
 							{agenda.subjectType === getActPointSubjectType() &&
-								<div style={{ textAlign: 'left', paddingLeft: ' 33px' }}>
-									{agenda.voting ?
-										<VoteDisplay voting={agenda.voting} translate={translate} agenda={agenda} endPage={endPage} />
-										:
-										translate.not_present_at_time_of_voting
-									}
-								</div>
+									<React.Fragment>
+										{agenda.voting ?
+											<VoteDisplay voting={agenda.voting} translate={translate} agenda={agenda} />
+											:
+											translate.not_present_at_time_of_voting
+										}
+									</React.Fragment>
 							}
 						</div>
-					);
-				})}
-			</div>
-
-		);
-	}
-	return (
-		<AlertConfirm
-			requestClose={requestClose}
-			open={open}
-			acceptAction={requestClose}
-			buttonAccept={translate.accept}
-			bodyText={
-				<div>
-					{agendas.map((agenda, index) => {
-						return (
-							<div style={{ marginBottom: '1.2em' }} key={`agenda_${agenda.id}`}>
-								<div
-									style={{
-										display: 'flex',
-										width: '22px',
-										height: '22px'
-									}}
-								>
-									<AgendaNumber
-										index={index + 1}
-										open={agenda.pointState === 1}
-										active={false}
-										activeColor={primary}
-										voting={agenda.votingState === 1 && agenda.subjectType !== 0}
-										translate={translate}
-										secondaryColor={secondary}
-										small={true}
-										style={{
-											position: 'static',
-										}}
-									/>
-									<span style={{ fontWeight: '700', marginLeft: '0.6em' }}>
-										{agenda.agendaSubject}
-									</span>
-								</div>
-								<div>
-									{`${translate.type}: ${translate[getAgendaTypeLabel(agenda)]}`}
-								</div>
-								{(hasVotation(agenda.subjectType) && agenda.subjectType !== getActPointSubjectType()) &&
-									<React.Fragment>
-										{agenda.voting ?
-											<VoteDisplay voting={agenda.voting} translate={translate} agenda={agenda} />
-											:
-											translate.not_present_at_time_of_voting
-										}
-									</React.Fragment>
-								}
-								{agenda.subjectType === getActPointSubjectType() &&
-									<React.Fragment>
-										{agenda.voting ?
-											<VoteDisplay voting={agenda.voting} translate={translate} agenda={agenda} />
-											:
-											translate.not_present_at_time_of_voting
-										}
-									</React.Fragment>
-								}
-							</div>
-						);
-					})}
+					))}
 				</div>
 			}
 			title={`${participant.name} ${participant.surname || ''}`}

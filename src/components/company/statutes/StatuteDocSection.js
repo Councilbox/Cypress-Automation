@@ -18,38 +18,38 @@ let timeout;
 
 const getTagsByActSection = (section, translate) => {
 	switch (section) {
-	case 'conveneHeader':
-		return [
-			{
-				value: '{{dateFirstCall}}',
-				label: translate.date
-			},
-			{
-				value: '{{business_name}}',
-				label: translate.business_name
-			},
-			{
-				value: '{{address}}',
-				label: translate.new_location_of_celebrate
-			},
-			{
-				value: '{{city}}',
-				label: translate.company_new_locality
-			},
-			{
-				value: '{{country_state}}',
-				label: translate.company_new_country_state
-			},
-		];
+		case 'conveneHeader':
+			return [
+				{
+					value: '{{dateFirstCall}}',
+					label: translate.date
+				},
+				{
+					value: '{{business_name}}',
+					label: translate.business_name
+				},
+				{
+					value: '{{address}}',
+					label: translate.new_location_of_celebrate
+				},
+				{
+					value: '{{city}}',
+					label: translate.company_new_locality
+				},
+				{
+					value: '{{country_state}}',
+					label: translate.company_new_country_state
+				},
+			];
 
-	case 'intro':
-		return CBX.getTagVariablesByDraftType(DRAFT_TYPES.INTRO, translate);
-	case 'constitution':
-		return CBX.getTagVariablesByDraftType(DRAFT_TYPES.CONSTITUTION, translate);
-	case 'conclusion':
-		return CBX.getTagVariablesByDraftType(DRAFT_TYPES.CONCLUSION, translate);
-	default:
-		return [];
+		case 'intro':
+			return CBX.getTagVariablesByDraftType(DRAFT_TYPES.INTRO, translate);
+		case 'constitution':
+			return CBX.getTagVariablesByDraftType(DRAFT_TYPES.CONSTITUTION, translate);
+		case 'conclusion':
+			return CBX.getTagVariablesByDraftType(DRAFT_TYPES.CONCLUSION, translate);
+		default:
+			return [];
 	}
 };
 

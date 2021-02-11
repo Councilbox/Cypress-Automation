@@ -703,133 +703,133 @@ export const generateActTags = (type, data, translate) => {
 	};
 
 	switch (type) {
-	case 'intro':
-		tags = [
-			smartTags.businessName,
-			smartTags.dateStart
-		];
+		case 'intro':
+			tags = [
+				smartTags.businessName,
+				smartTags.dateStart
+			];
 
-		if (hasSecondCall(council.statute)) {
-			tags = [...tags, smartTags.dateStart2NdCall];
+			if (hasSecondCall(council.statute)) {
+				tags = [...tags, smartTags.dateStart2NdCall];
+			}
+
+			if (council.remoteCelebration !== 1) {
+				tags = [...tags, smartTags.city, smartTags.country];
+			}
+
+			tags = [...tags,
+				smartTags.dateRealStart,
+				smartTags.firstOrSecondConvene,
+				smartTags.president,
+				smartTags.secretary,
+				smartTags.location,
+				smartTags.now,
+				smartTags.convene,
+				smartTags.attendants,
+				smartTags.agenda,
+				smartTags.delegatedVotes,
+				smartTags.numPresentOrRemote,
+				smartTags.numDelegations,
+				smartTags.numParticipationsPresent,
+				smartTags.numParticipationsRepresented,
+				smartTags.percentageSCPresent,
+				smartTags.percentageSCDelegated,
+				smartTags.percentageSCTotal
+			];
+
+			return tags;
+
+		case 'certHeader':
+			tags = [
+				smartTags.businessName,
+				smartTags.dateStart
+			];
+
+			if (hasSecondCall(council.statute)) {
+				tags = [...tags, smartTags.dateStart2NdCall];
+			}
+
+			if (council.remoteCelebration !== 1) {
+				tags = [...tags, smartTags.city, smartTags.country];
+			}
+
+			tags = [...tags,
+				smartTags.dateRealStart,
+				smartTags.firstOrSecondConvene,
+				smartTags.president,
+				smartTags.secretary,
+				smartTags.location,
+				smartTags.now,
+				smartTags.convene,
+				smartTags.agenda,
+				smartTags.attendants,
+				smartTags.delegatedVotes,
+				smartTags.numPresentOrRemote,
+				smartTags.numDelegations,
+				smartTags.numParticipationsPresent,
+				smartTags.numParticipationsRepresented,
+				smartTags.percentageSCPresent,
+				smartTags.percentageSCDelegated,
+				smartTags.percentageSCTotal
+			];
+			return tags;
+
+		case 'constitution':
+			tags = [
+				smartTags.businessName,
+				smartTags.now,
+				smartTags.president,
+				smartTags.secretary,
+				smartTags.percentageShares,
+				smartTags.location,
+				smartTags.dateRealStart,
+				smartTags.percentageSCPresent,
+				smartTags.percentageSCDelegated,
+				smartTags.percentageSCTotal
+			];
+
+			if (council.remoteCelebration !== 1) {
+				tags = [...tags, smartTags.city, smartTags.country];
+			}
+
+
+			tags = [...tags,
+				smartTags.attendants,
+				smartTags.delegatedVotes,
+				smartTags.numPresentOrRemote,
+				smartTags.numDelegations,
+				smartTags.numParticipationsPresent,
+				smartTags.numParticipationsRepresented,
+				smartTags.currentQuorum,
+			];
+
+			return tags;
+
+		case 'conclusion':
+			tags = [
+				smartTags.president,
+				smartTags.secretary,
+				smartTags.dateEnd,
+				smartTags.attendants,
+				smartTags.delegatedVotes,
+				smartTags.numDelegations
+			];
+			return tags;
+
+		case 'certFooter': {
+			tags = [
+				smartTags.president,
+				smartTags.secretary,
+				smartTags.signatories,
+				smartTags.now,
+				smartTags.dateEnd,
+				smartTags.attendants,
+				smartTags.delegatedVotes,
+				smartTags.numDelegations
+			];
+			return tags;
 		}
-
-		if (council.remoteCelebration !== 1) {
-			tags = [...tags, smartTags.city, smartTags.country];
-		}
-
-		tags = [...tags,
-			smartTags.dateRealStart,
-			smartTags.firstOrSecondConvene,
-			smartTags.president,
-			smartTags.secretary,
-			smartTags.location,
-			smartTags.now,
-			smartTags.convene,
-			smartTags.attendants,
-			smartTags.agenda,
-			smartTags.delegatedVotes,
-			smartTags.numPresentOrRemote,
-			smartTags.numDelegations,
-			smartTags.numParticipationsPresent,
-			smartTags.numParticipationsRepresented,
-			smartTags.percentageSCPresent,
-			smartTags.percentageSCDelegated,
-			smartTags.percentageSCTotal
-		];
-
-		return tags;
-
-	case 'certHeader':
-		tags = [
-			smartTags.businessName,
-			smartTags.dateStart
-		];
-
-		if (hasSecondCall(council.statute)) {
-			tags = [...tags, smartTags.dateStart2NdCall];
-		}
-
-		if (council.remoteCelebration !== 1) {
-			tags = [...tags, smartTags.city, smartTags.country];
-		}
-
-		tags = [...tags,
-			smartTags.dateRealStart,
-			smartTags.firstOrSecondConvene,
-			smartTags.president,
-			smartTags.secretary,
-			smartTags.location,
-			smartTags.now,
-			smartTags.convene,
-			smartTags.agenda,
-			smartTags.attendants,
-			smartTags.delegatedVotes,
-			smartTags.numPresentOrRemote,
-			smartTags.numDelegations,
-			smartTags.numParticipationsPresent,
-			smartTags.numParticipationsRepresented,
-			smartTags.percentageSCPresent,
-			smartTags.percentageSCDelegated,
-			smartTags.percentageSCTotal
-		];
-		return tags;
-
-	case 'constitution':
-		tags = [
-			smartTags.businessName,
-			smartTags.now,
-			smartTags.president,
-			smartTags.secretary,
-			smartTags.percentageShares,
-			smartTags.location,
-			smartTags.dateRealStart,
-			smartTags.percentageSCPresent,
-			smartTags.percentageSCDelegated,
-			smartTags.percentageSCTotal
-		];
-
-		if (council.remoteCelebration !== 1) {
-			tags = [...tags, smartTags.city, smartTags.country];
-		}
-
-
-		tags = [...tags,
-			smartTags.attendants,
-			smartTags.delegatedVotes,
-			smartTags.numPresentOrRemote,
-			smartTags.numDelegations,
-			smartTags.numParticipationsPresent,
-			smartTags.numParticipationsRepresented,
-			smartTags.currentQuorum,
-		];
-
-		return tags;
-
-	case 'conclusion':
-		tags = [
-			smartTags.president,
-			smartTags.secretary,
-			smartTags.dateEnd,
-			smartTags.attendants,
-			smartTags.delegatedVotes,
-			smartTags.numDelegations
-		];
-		return tags;
-
-	case 'certFooter': {
-		tags = [
-			smartTags.president,
-			smartTags.secretary,
-			smartTags.signatories,
-			smartTags.now,
-			smartTags.dateEnd,
-			smartTags.attendants,
-			smartTags.delegatedVotes,
-			smartTags.numDelegations
-		];
-		return tags;
-	}
-	default:
-		return [];
+		default:
+			return [];
 	}
 };

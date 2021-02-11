@@ -81,9 +81,7 @@ agendaVotingMessage = () => {
 	return translate.voting_open;
 }
 
-canComment = () => {
-	return true;
-}
+canComment = () => true
 
 agendaStateMessage = () => {
 	const { translate, agenda } = this.props;
@@ -109,8 +107,7 @@ render() {
 				{/* {this.agendaStateMessage()} */}
 			</Typography>
 			{agenda.attachments &&
-agenda.attachments.filter(attachment => attachment.state !== 2).map(attachment => <AttachmentDownload attachment={attachment} key={`attachment_${attachment.id}`} agenda />
-)
+agenda.attachments.filter(attachment => attachment.state !== 2).map(attachment => <AttachmentDownload attachment={attachment} key={`attachment_${attachment.id}`} agenda />)
 			}
 			{(CBX.hasVotation(agenda.subjectType) && agenda.subjectType !== CBX.getActPointSubjectType() && this.props.participant.type !== PARTICIPANT_TYPE.GUEST) &&
 <React.Fragment>

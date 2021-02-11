@@ -577,11 +577,9 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
 };
 
 
-const mapDispatchToProps = dispatch => {
-	return {
-		actions: bindActionCreators(mainActions, dispatch)
-	};
-};
+const mapDispatchToProps = dispatch => ({
+	actions: bindActionCreators(mainActions, dispatch)
+});
 
 const checkParticipantKey = gql`
     mutation CheckParticipantKey($participantId: Int!, $key: Int!){

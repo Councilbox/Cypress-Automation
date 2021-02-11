@@ -23,49 +23,49 @@ const AttendIntentionIcon = ({
 
 	if (confirmationDate) {
 		switch (intention) {
-		case PARTICIPANT_STATES.REMOTE:
-			tooltip = translate.remote_assistance_short;
-			icon = getAttendanceIntentionIcon(intention, iconStyle);
-			break;
+			case PARTICIPANT_STATES.REMOTE:
+				tooltip = translate.remote_assistance_short;
+				icon = getAttendanceIntentionIcon(intention, iconStyle);
+				break;
 
-		case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
-			tooltip = translate.confirmed_assistance;
-			icon = getAttendanceIntentionIcon(intention, iconStyle);
-			break;
+			case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
+				tooltip = translate.confirmed_assistance;
+				icon = getAttendanceIntentionIcon(intention, iconStyle);
+				break;
 
-		case PARTICIPANT_STATES.NO_PARTICIPATE:
-			tooltip = translate.no_assist_assistance;
-			icon = getAttendanceIntentionIcon(intention, iconStyle);
-			break;
+			case PARTICIPANT_STATES.NO_PARTICIPATE:
+				tooltip = translate.no_assist_assistance;
+				icon = getAttendanceIntentionIcon(intention, iconStyle);
+				break;
 
-		case PARTICIPANT_STATES.EARLY_VOTE:
-			tooltip = translate.participant_vote_fixed;
-			icon = <span className="material-icons" style={iconStyle}>
+			case PARTICIPANT_STATES.EARLY_VOTE:
+				tooltip = translate.participant_vote_fixed;
+				icon = <span className="material-icons" style={iconStyle}>
 how_to_vote
-			</span>;
-			break;
+				</span>;
+				break;
 
 
-		case PARTICIPANT_STATES.DELEGATED:
-			if ((representative && participant.delegateId !== representative.id) || (!representative && participant.delegateId)) {
-				tooltip = `${translate.delegated_in}: ${participant.representative.name} ${participant.representative.surname || ''}`;
-			} else {
-				tooltip = translate.will_delegate;
-			}
-			icon = getAttendanceIntentionIcon(intention, iconStyle);
-			break;
-		case PARTICIPANT_STATES.SENT_VOTE_LETTER:
-			tooltip = translate.vote_letter_sent;
-			icon = <DownloadParticipantVoteLetter
-				translate={translate}
-				participantId={participant.id}
-				participant={participant}
-				trigger={<i className='fa fa-sticky-note' style={iconStyle}></i>}
-			/>;
-			break;
+			case PARTICIPANT_STATES.DELEGATED:
+				if ((representative && participant.delegateId !== representative.id) || (!representative && participant.delegateId)) {
+					tooltip = `${translate.delegated_in}: ${participant.representative.name} ${participant.representative.surname || ''}`;
+				} else {
+					tooltip = translate.will_delegate;
+				}
+				icon = getAttendanceIntentionIcon(intention, iconStyle);
+				break;
+			case PARTICIPANT_STATES.SENT_VOTE_LETTER:
+				tooltip = translate.vote_letter_sent;
+				icon = <DownloadParticipantVoteLetter
+					translate={translate}
+					participantId={participant.id}
+					participant={participant}
+					trigger={<i className='fa fa-sticky-note' style={iconStyle}></i>}
+				/>;
+				break;
 
-		default:
-			break;
+			default:
+				break;
 		}
 	}
 

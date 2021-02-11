@@ -42,13 +42,11 @@ const styles = {
 
 const reducer = (state, action) => {
 	const actions = {
-		SUCCESS: () => {
-			return ({
-				...state,
-				status: 'SUCCESS',
-				message: action.payload.message
-			});
-		},
+		SUCCESS: () => ({
+			...state,
+			status: 'SUCCESS',
+			message: action.payload.message
+		}),
 		ERROR: () => ({
 			...state,
 			status: 'ERROR',

@@ -191,24 +191,22 @@ const UsersHeader = graphql(gql`
 								{state.loading ?
 									<LoadingSection />
 									:
-									participantsOnline.list.map(item => {
-										return (
-											<div key={item.id} style={{ display: 'flex', alignItems: 'center', fontSize: '14px', marginBottom: '0.2em', width: '90%' }} >
-												{CBX.haveGrantedWord(item) &&
+									participantsOnline.list.map(item => (
+										<div key={item.id} style={{ display: 'flex', alignItems: 'center', fontSize: '14px', marginBottom: '0.2em', width: '90%' }} >
+											{CBX.haveGrantedWord(item) &&
 													<i className={'fa fa-video-camera'} style={{ marginRight: '0.5em', color: item.online === 1 ? 'white' : 'darkgrey' }}></i>
-												}
-												{CBX.isAskingForWord(item) &&
+											}
+											{CBX.isAskingForWord(item) &&
 													<i className={'material-icons'} style={{ marginRight: '0.5em', fontSize: '12px', color: item.online === 1 ? 'white' : 'darkgrey' }}>pan_tool</i>
-												}
-												{item.requestWord === 3 &&
+											}
+											{item.requestWord === 3 &&
 													<i className={'material-icons'} style={{ marginRight: '0.5em', fontSize: '12px', color: item.online === 1 ? 'white' : 'darkgrey' }}>input</i>
-												}
-												<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: item.online === 1 ? 'white' : 'darkgrey' }} >
-													{`${item.name} ${item.surname || ''}`}
-												</div>
+											}
+											<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: item.online === 1 ? 'white' : 'darkgrey' }} >
+												{`${item.name} ${item.surname || ''}`}
 											</div>
-										);
-									})
+										</div>
+									))
 								}
 
 							</div>
@@ -221,16 +219,13 @@ const UsersHeader = graphql(gql`
 								{state.loading ?
 									<LoadingSection />
 									:
-									participantsPresents.list.map(item => {
-										return (
-											<div key={`${item.id}_presents`} style={{ display: 'flex', alignItems: 'center', fontSize: '14px', marginBottom: '0.2em', width: '90%' }} >
-												<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }} >
-													{`${item.name} ${item.surname || ''}`}
-												</div>
+									participantsPresents.list.map(item => (
+										<div key={`${item.id}_presents`} style={{ display: 'flex', alignItems: 'center', fontSize: '14px', marginBottom: '0.2em', width: '90%' }} >
+											<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', }} >
+												{`${item.name} ${item.surname || ''}`}
 											</div>
-										);
-									}
-									)
+										</div>
+									))
 								}
 							</div>
 						</Scrollbar>

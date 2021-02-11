@@ -56,36 +56,32 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 		props.actions.logoutParticipant(participant, council);
 	};
 
-	const renderConveneBody = () => {
-		return (
-			<div style={{ borderTop: `5px solid ${primary}`, marginBottom: '1em', }}>
-				<div style={{ marginTop: '1em', marginRight: '1em', justifyContent: 'flex-end', display: 'flex' }}>
-					< i
-						className={'fa fa-close'}
-						style={{
-							cursor: 'pointer',
-							fontSize: '1.5em',
-							color: secondary
-						}}
-						onClick={() => setState({ drawerTop: false })}
-					/>
-				</div>
-				<div style={{ margin: '0 auto' }}>
-					<Convene
-						noButtonsDownload={true}
-						council={council}
-						translate={translate}
-						agendaNoSession={props.agendaNoSession}
-					/>
-				</div>
+	const renderConveneBody = () => (
+		<div style={{ borderTop: `5px solid ${primary}`, marginBottom: '1em', }}>
+			<div style={{ marginTop: '1em', marginRight: '1em', justifyContent: 'flex-end', display: 'flex' }}>
+				< i
+					className={'fa fa-close'}
+					style={{
+						cursor: 'pointer',
+						fontSize: '1.5em',
+						color: secondary
+					}}
+					onClick={() => setState({ drawerTop: false })}
+				/>
 			</div>
-		);
-	};
+			<div style={{ margin: '0 auto' }}>
+				<Convene
+					noButtonsDownload={true}
+					council={council}
+					translate={translate}
+					agendaNoSession={props.agendaNoSession}
+				/>
+			</div>
+		</div>
+	);
 
 
-	const calculateParticipantVotes = () => {
-		return showNumParticipations(participant.delegatedVotes.reduce((a, b) => a + b.numParticipations, participant.numParticipations), council.company, council.statute);
-	};
+	const calculateParticipantVotes = () => showNumParticipations(participant.delegatedVotes.reduce((a, b) => a + b.numParticipations, participant.numParticipations), council.company, council.statute);
 
 	const renderParticipantInfo = () => {
 		const delegations = participant.delegatedVotes.filter(vote => vote.state === PARTICIPANT_STATES.DELEGATED);
@@ -120,8 +116,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 								<span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
 							}
 						</div>
-					)
-					)}
+					))}
 					{representations.length > 0 &&
 						translate.representative_of
 					}
@@ -132,8 +127,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 								<span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
 							}
 						</div>
-					)
-					)}
+					))}
 					{council.councilType !== COUNCIL_TYPES.ONE_ON_ONE &&
 						`${translate.total_votes}: ${calculateParticipantVotes()}`
 					}
@@ -395,14 +389,13 @@ const mapStateToProps = state => ({
 	main: state.main
 });
 
-const mapDispatchToProps = dispatch => {
-	return {
-		actions: bindActionCreators(mainActions, dispatch)
-	};
-};
+const mapDispatchToProps = dispatch => ({
+	actions: bindActionCreators(mainActions, dispatch)
+});
 
 export default withApollo(
 	connect(
 		mapStateToProps,
 		mapDispatchToProps
-	)(withWindowSize(withStyles(styles)(withSharedProps()(Header)))));
+	)(withWindowSize(withStyles(styles)(withSharedProps()(Header))))
+);

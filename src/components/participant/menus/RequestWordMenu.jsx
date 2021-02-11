@@ -88,11 +88,9 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
 		});
 	};
 
-	const updateRTC = () => {
-		return new Promise(resolve => {
-			DetectRTC.load(() => resolve());
-		});
-	};
+	const updateRTC = () => new Promise(resolve => {
+		DetectRTC.load(() => resolve());
+	});
 
 	const cancelAskForWord = async () => {
 		await props.changeRequestWord({

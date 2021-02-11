@@ -1,7 +1,6 @@
 import React from 'react';
 import 'antd/lib/tabs/style/index.css';
 import Tabs from 'antd/lib/tabs';
-import '../styles/react-tabs.css';
 import Link from './LinkWithoutStyling';
 import { bHistory } from '../containers/App';
 

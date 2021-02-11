@@ -92,28 +92,28 @@ handleMouseLeave = () => {
 getCouncilState = state => {
 	const { translate } = this.props;
 	switch (state) {
-	case COUNCIL_STATES.DRAFT:
-	case COUNCIL_STATES.PRECONVENE:
-		return translate.dasboard_draft;
-	case COUNCIL_STATES.SAVED:
-	case COUNCIL_STATES.PREPARING:
-		return translate.convened;
-	case COUNCIL_STATES.ROOM_OPENED:
-	case COUNCIL_STATES.APPROVING_ACT_DRAFT:
-		return translate.companies_live;
-	case COUNCIL_STATES.NOT_CELEBRATED:
-		return translate.not_held_council;
-	case COUNCIL_STATES.FINISHED:
-	case COUNCIL_STATES.FINISHED_WITHOUT_ACT:
-		return translate.council_finished;
-	case COUNCIL_STATES.APPROVED:
-		return translate.minutes_not_sent;
-	case COUNCIL_STATES.FINAL_ACT_SENT:
-		return translate.minutes_sent;
-	case COUNCIL_STATES.CANCELED:
-		return translate.not_held_council;
-	default:
-		return translate.council_finished;
+		case COUNCIL_STATES.DRAFT:
+		case COUNCIL_STATES.PRECONVENE:
+			return translate.dasboard_draft;
+		case COUNCIL_STATES.SAVED:
+		case COUNCIL_STATES.PREPARING:
+			return translate.convened;
+		case COUNCIL_STATES.ROOM_OPENED:
+		case COUNCIL_STATES.APPROVING_ACT_DRAFT:
+			return translate.companies_live;
+		case COUNCIL_STATES.NOT_CELEBRATED:
+			return translate.not_held_council;
+		case COUNCIL_STATES.FINISHED:
+		case COUNCIL_STATES.FINISHED_WITHOUT_ACT:
+			return translate.council_finished;
+		case COUNCIL_STATES.APPROVED:
+			return translate.minutes_not_sent;
+		case COUNCIL_STATES.FINAL_ACT_SENT:
+			return translate.minutes_sent;
+		case COUNCIL_STATES.CANCELED:
+			return translate.not_held_council;
+		default:
+			return translate.council_finished;
 	}
 }
 

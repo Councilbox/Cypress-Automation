@@ -26,15 +26,13 @@ render() {
 		<CardPageLayout title={translate.general_drafts}>
 			{error ? (
 				<div>
-					{error.graphQLErrors.map((err, index) => {
-						return (
-							<ErrorWrapper
-								key={`error_${index}`}
-								error={err}
-								translate={translate}
-							/>
-						);
-					})}
+					{error.graphQLErrors.map((err, index) => (
+						<ErrorWrapper
+							key={`error_${index}`}
+							error={err}
+							translate={translate}
+						/>
+					))}
 				</div>
 			) : (
 				!!corporationDrafts && (
@@ -63,28 +61,26 @@ render() {
 						]}
 					>
 						{corporationDrafts.list.map(
-							(draft, index) => {
-								return (
-									<TableRow
-										key={`draft${draft.id}`}
+							(draft, index) => (
+								<TableRow
+									key={`draft${draft.id}`}
+								>
+									<TableCell
+										style={
+											TableStyles.TD
+										}
+										onClick={() => this.setState({
+											selectedIndex: index
+										})
+										}
 									>
-										<TableCell
-											style={
-												TableStyles.TD
-											}
-											onClick={() => this.setState({
-												selectedIndex: index
-											})
-											}
-										>
-											{draft.title}
-										</TableCell>
-										<TableCell>
-											{translate[draftTypes[draft.type].label]}
-										</TableCell>
-									</TableRow>
-								);
-							}
+										{draft.title}
+									</TableCell>
+									<TableCell>
+										{translate[draftTypes[draft.type].label]}
+									</TableCell>
+								</TableRow>
+							)
 						)}
 					</EnhancedTable>
 				)

@@ -525,28 +525,28 @@ const _getIcon = ({
 	mode, participant, translate, council, representative
 }) => {
 	switch (mode) {
-	case 'STATES':
-		return <StateIcon translate={translate} state={participant.state} />;
-	case 'CONVENE':
-		return <EmailIcon translate={translate} reqCode={participant.sendConvene.reqCode} />;
-	case 'CREDENTIALS':
-		if (participant.sendCredentials) {
-			return <EmailIcon translate={translate} reqCode={participant.sendCredentials.reqCode} />;
-		}
-		return '-';
-	case 'TYPE':
-		return <TypeIcon translate={translate} type={participant.type} />;
-	case 'ATTENDANCE':
-		return <AttendIntentionIcon
-			participant={participant}
-			translate={translate}
-			council={council}
-			size="2em"
-			color={getSecondary()}
-			representative={representative}
-		/>;
-	default:
-		break;
+		case 'STATES':
+			return <StateIcon translate={translate} state={participant.state} />;
+		case 'CONVENE':
+			return <EmailIcon translate={translate} reqCode={participant.sendConvene.reqCode} />;
+		case 'CREDENTIALS':
+			if (participant.sendCredentials) {
+				return <EmailIcon translate={translate} reqCode={participant.sendCredentials.reqCode} />;
+			}
+			return '-';
+		case 'TYPE':
+			return <TypeIcon translate={translate} type={participant.type} />;
+		case 'ATTENDANCE':
+			return <AttendIntentionIcon
+				participant={participant}
+				translate={translate}
+				council={council}
+				size="2em"
+				color={getSecondary()}
+				representative={representative}
+			/>;
+		default:
+			break;
 	}
 };
 

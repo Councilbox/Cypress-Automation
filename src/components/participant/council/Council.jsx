@@ -269,10 +269,10 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
 					padding: '1em'
 				}}>
 					<span className="material-icons" style={{ color: getPrimary(), fontSize: '50px' }}>
-tv_off
+						tv_off
 					</span>
 					<div style={{ textAlign: 'center' }}>En la <strong style={{ color: getPrimary(), marginRight: '0.5em' }}>sala de espera.</strong>
-Podrá acceder a la emisión cuando el administrador de sala le conceda la entrada.
+						Podrá acceder a la emisión cuando el administrador de sala le conceda la entrada.
 					</div>
 				</div>
 			);
@@ -301,36 +301,32 @@ Podrá acceder a la emisión cuando el administrador de sala le conceda la entra
 		);
 	};
 
-	const renderRequestWordMenu = () => {
-		return (
-			<RequestWordMenu
-				translate={translate}
-				participant={participant}
-				council={council}
-				videoURL={state.videoURL}
-				refetchParticipant={props.refetchParticipant}
-				isSidebar={true}
-				isPc={!isMobile}
-				avisoVideoState={state.avisoVideo}
-				avisoVideoStateCerrar={() => setState({ ...state, avisoVideo: false })}
-			/>
-		);
-	};
+	const renderRequestWordMenu = () => (
+		<RequestWordMenu
+			translate={translate}
+			participant={participant}
+			council={council}
+			videoURL={state.videoURL}
+			refetchParticipant={props.refetchParticipant}
+			isSidebar={true}
+			isPc={!isMobile}
+			avisoVideoState={state.avisoVideo}
+			avisoVideoStateCerrar={() => setState({ ...state, avisoVideo: false })}
+		/>
+	);
 
-	const renderAdminMessageMenu = () => {
-		return (
-			<AdminPrivateMessage
-				translate={translate}
-				council={council}
-				participant={participant}
-				setAdminMessage={setAdminMessage}
-				menuRender={true}
-				activeInput={() => setState({ ...state, activeInput: true })}
-				onFocus={() => setState({ ...state, activeInput: true })}
-				onblur={() => setState({ ...state, activeInput: false })}
-			/>
-		);
-	};
+	const renderAdminMessageMenu = () => (
+		<AdminPrivateMessage
+			translate={translate}
+			council={council}
+			participant={participant}
+			setAdminMessage={setAdminMessage}
+			menuRender={true}
+			activeInput={() => setState({ ...state, activeInput: true })}
+			onFocus={() => setState({ ...state, activeInput: true })}
+			onblur={() => setState({ ...state, activeInput: false })}
+		/>
+	);
 
 	const _renderAgendaSectionMobile = () => {
 		const noSession = state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE;
@@ -349,23 +345,19 @@ Podrá acceder a la emisión cuando el administrador de sala le conceda la entra
 		);
 	};
 
-	const renderAdminAnnouncement = () => {
-		// es aqui
-		return (
-			<AdminAnnouncement
-				openHelp={true}
-				council={council}
-				translate={translate}
-				closeButton={false}
-			/>
-		);
-	};
-
+	const renderAdminAnnouncement = () => (
+		<AdminAnnouncement
+			openHelp={true}
+			council={council}
+			translate={translate}
+			closeButton={false}
+		/>
+	);
 	const { agendasAnchor } = state;
 	const noSession = state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE;
 	let titleHeader = null;
 	if (agendas) {
-		titleHeader = agendas.agendas.filter(item => { return CBX.agendaPointOpened(item); });
+		titleHeader = agendas.agendas.filter(item => CBX.agendaPointOpened(item));
 	} else {
 		return <LoadingSection />;
 	}
@@ -377,16 +369,16 @@ Podrá acceder a la emisión cuando el administrador de sala le conceda la entra
 			return (
 				<div style={{ height: '100vh', overflow: 'hidden', position: ' fixed', width: '100vw' }}>
 					{state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
-<Grid item xs={12} md={12} style={{ height: '100%' }}>
-	<div style={{ height: '100%' }}>
-		<div style={{ height: '100%', position: 'relative' }}>
-			{renderAdminAnnouncement()}
-			<div style={{ height: '100%' }}>
-				{renderVideoContainer()}
-			</div>
-		</div>
-	</div>
-</Grid>
+						<Grid item xs={12} md={12} style={{ height: '100%' }}>
+							<div style={{ height: '100%' }}>
+								<div style={{ height: '100%', position: 'relative' }}>
+									{renderAdminAnnouncement()}
+									<div style={{ height: '100%' }}>
+										{renderVideoContainer()}
+									</div>
+								</div>
+							</div>
+						</Grid>
 					}
 				</div>
 			);
@@ -394,44 +386,44 @@ Podrá acceder a la emisión cuando el administrador de sala le conceda la entra
 		return (
 			<div style={styles.viewContainerM}>
 				{!landscape &&
-<React.Fragment>
-	<CouncilSidebar
-		agendas={agendas}
-		noSession={noSession}
-		isMobile={isMobile}
-		council={council}
-		translate={translate}
-		setAgendaBadge={setAgendaBadge}
-		agendaBadge={agendaBadge}
-		setContent={setContent}
-		adminMessage={state.adminMessage}
-		setAdminMessage={setAdminMessage}
-		modalContent={state.modalContent}
-		agenda={_renderAgendaSectionMobile()}
-		full={() => setState({ ...state, full: true, middle: false })}
-		middle={() => setState({ ...state, full: false, middle: true })}
-		click={state.activeInput}
-		participant={participant}
-		comentario={renderAdminMessageMenu()}
-		askWordMenu={renderRequestWordMenu()}
-	/>
-	<Header
-		logoutButton={true}
-		participant={participant}
-		council={council}
-		primaryColor={'white'}
-		titleHeader={titleHeader}
-	/>
-	{config.participantsHeader &&
-<UsersHeader
-	isMobile={isMobile}
-	council={council}
-	translate={translate}
-	drawerTop={drawerTop}
-	setDrawerTop={drawerTopToggle}
-/>
-	}
-</React.Fragment>
+					<React.Fragment>
+						<CouncilSidebar
+							agendas={agendas}
+							noSession={noSession}
+							isMobile={isMobile}
+							council={council}
+							translate={translate}
+							setAgendaBadge={setAgendaBadge}
+							agendaBadge={agendaBadge}
+							setContent={setContent}
+							adminMessage={state.adminMessage}
+							setAdminMessage={setAdminMessage}
+							modalContent={state.modalContent}
+							agenda={_renderAgendaSectionMobile()}
+							full={() => setState({ ...state, full: true, middle: false })}
+							middle={() => setState({ ...state, full: false, middle: true })}
+							click={state.activeInput}
+							participant={participant}
+							comentario={renderAdminMessageMenu()}
+							askWordMenu={renderRequestWordMenu()}
+						/>
+						<Header
+							logoutButton={true}
+							participant={participant}
+							council={council}
+							primaryColor={'white'}
+							titleHeader={titleHeader}
+						/>
+						{config.participantsHeader &&
+							<UsersHeader
+								isMobile={isMobile}
+								council={council}
+								translate={translate}
+								drawerTop={drawerTop}
+								setDrawerTop={drawerTopToggle}
+							/>
+						}
+					</React.Fragment>
 				}
 
 				<div style={!landscape ? {
@@ -449,20 +441,20 @@ Podrá acceder a la emisión cuando el administrador de sala le conceda la entra
 						} : {})
 					}}>
 						{state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
-<Grid item xs={12} md={12} style={{ height: '100%' }}>
-	<div style={
-		state.full ? stylesVideo.portrait[0].fullPadre :
-			landscape ? 'height: 100%' :
-				isLandscape() ? stylesVideo.landscape[0].middlePadre :
-					stylesVideo.portrait[0].middlePadre}>
-		<div style={{ height: '100%' }}>
-			{renderAdminAnnouncement()}
-			<div style={state.full ? stylesVideo.portrait[0].fullHijo : isLandscape() ? stylesVideo.landscape[0].middleHijo : stylesVideo.portrait[0].middleHijo}>
-				{renderVideoContainer()}
-			</div>
-		</div>
-	</div>
-</Grid>
+							<Grid item xs={12} md={12} style={{ height: '100%' }}>
+								<div style={
+									state.full ? stylesVideo.portrait[0].fullPadre :
+										landscape ? 'height: 100%' :
+											isLandscape() ? stylesVideo.landscape[0].middlePadre :
+												stylesVideo.portrait[0].middlePadre}>
+									<div style={{ height: '100%' }}>
+										{renderAdminAnnouncement()}
+										<div style={state.full ? stylesVideo.portrait[0].fullHijo : isLandscape() ? stylesVideo.landscape[0].middleHijo : stylesVideo.portrait[0].middleHijo}>
+											{renderVideoContainer()}
+										</div>
+									</div>
+								</div>
+							</Grid>
 						}
 					</Grid>
 				</div>
@@ -488,51 +480,51 @@ Podrá acceder a la emisión cuando el administrador de sala le conceda la entra
 					} : {})
 				}}>
 					{state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
-<Grid item xs={6} md={8} style={{ height: 'calc( 100% - 3.5em + 1px)' }}>
-	<div style={{ marginBottom: '5px' }}>
-		{config.participantsHeader &&
-<UsersHeader
-	isMobile={isMobile}
-	council={council}
-	translate={translate}
-	drawerTop={drawerTop}
-	setDrawerTop={drawerTopToggle}
-/>
-		}
-	</div>
-	<div style={{ transition: 'all .3s ease-in-out', width: '100%', height: state.avisoVideo ? 'calc( 100% - 55px )' : '100%', position: 'relative', top: state.avisoVideo ? '55px' : '0px' }}>
-		{renderAdminAnnouncement()}
-		<div style={{ height: `calc( 100% - ${config.participantsHeader ? state.adminMessage ? '6.3em' : '3em' : '0px'} - 5px )`, width: '100%', }}>
-			{renderVideoContainer()}
-		</div>
-	</div>
-</Grid>
+						<Grid item xs={6} md={8} style={{ height: 'calc( 100% - 3.5em + 1px)' }}>
+							<div style={{ marginBottom: '5px' }}>
+								{config.participantsHeader &&
+									<UsersHeader
+										isMobile={isMobile}
+										council={council}
+										translate={translate}
+										drawerTop={drawerTop}
+										setDrawerTop={drawerTopToggle}
+									/>
+								}
+							</div>
+							<div style={{ transition: 'all .3s ease-in-out', width: '100%', height: state.avisoVideo ? 'calc( 100% - 55px )' : '100%', position: 'relative', top: state.avisoVideo ? '55px' : '0px' }}>
+								{renderAdminAnnouncement()}
+								<div style={{ height: `calc( 100% - ${config.participantsHeader ? state.adminMessage ? '6.3em' : '3em' : '0px'} - 5px )`, width: '100%', }}>
+									{renderVideoContainer()}
+								</div>
+							</div>
+						</Grid>
 					}
 					{agendasAnchor === 'right' &&
-_renderAgendaSection()
+						_renderAgendaSection()
 					}
 					{state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
-<div style={{ width: '100%', height: 'calc( 3.5rem + 1px )' }}>
-	<CouncilSidebar
-		isMobile={isMobile}
-		council={council}
-		agendas={agendas}
-		translate={translate}
-		setAgendaBadge={setAgendaBadge}
-		agendaBadge={agendaBadge}
-		full={() => setState({ ...state, full: true, middle: false })}
-		middle={() => setState({ ...state, full: false, middle: true })}
-		click={state.activeInput}
-		agenda={_renderAgendaSection()}
-		setContent={setContent}
-		adminMessage={state.adminMessage}
-		setAdminMessage={setAdminMessage}
-		modalContent={state.modalContent}
-		participant={participant}
-		comentario={renderAdminMessageMenu()}
-		askWordMenu={renderRequestWordMenu()}
-	/>
-</div>
+						<div style={{ width: '100%', height: 'calc( 3.5rem + 1px )' }}>
+							<CouncilSidebar
+								isMobile={isMobile}
+								council={council}
+								agendas={agendas}
+								translate={translate}
+								setAgendaBadge={setAgendaBadge}
+								agendaBadge={agendaBadge}
+								full={() => setState({ ...state, full: true, middle: false })}
+								middle={() => setState({ ...state, full: false, middle: true })}
+								click={state.activeInput}
+								agenda={_renderAgendaSection()}
+								setContent={setContent}
+								adminMessage={state.adminMessage}
+								setAdminMessage={setAdminMessage}
+								modalContent={state.modalContent}
+								participant={participant}
+								comentario={renderAdminMessageMenu()}
+								askWordMenu={renderRequestWordMenu()}
+							/>
+						</div>
 					}
 				</Grid>
 			</div>

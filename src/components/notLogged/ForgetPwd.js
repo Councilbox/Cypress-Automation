@@ -30,22 +30,22 @@ restorePdw = async () => {
 		});
 		if (response.errors) {
 			switch (response.errors[0].message) {
-			case 'Not found':
-				this.setState({
-					errors: {
-						user: translate.email_not_found
-					}
-				});
+				case 'Not found':
+					this.setState({
+						errors: {
+							user: translate.email_not_found
+						}
+					});
 
-				break;
-			case 'Not actived':
-				this.setState({
-					errors: {
-						user: translate.email_not_found
-					}
-				});
-				break;
-			default:
+					break;
+				case 'Not actived':
+					this.setState({
+						errors: {
+							user: translate.email_not_found
+						}
+					});
+					break;
+				default:
 			}
 		} else if (response.data.restorePwd.success) {
 			this.setState({

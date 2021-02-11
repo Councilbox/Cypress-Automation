@@ -33,7 +33,10 @@ module.exports = {
 	ignorePatterns: ['.github', '/cypress/*', 'public/*', '/src/displayComponents/ReactSignature/*'],
 	rules: {
 		"import/no-named-as-default": "off",
-		"indent": ["error", "tab"],
+		"indent": ["error", "tab", {
+			"ignoredNodes": ["TemplateLiteral"],
+			"SwitchCase": 1
+		}],
 		"no-new": 'warn',
 		"import/extensions": [
 			"error",

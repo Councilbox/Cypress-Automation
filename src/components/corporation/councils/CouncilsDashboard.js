@@ -208,14 +208,14 @@ const Councils = ({ translate, client, query }) => {
 						</TableHead>
 						<TableBody>
 							{councils.list
-&& councils.list.map((council, index) => (
-	<CouncilItem
-		index={index}
-		key={`council_${council.id}`}
-		council={council}
-		translate={translate}
-	/>
-))}
+								&& councils.list.map((council, index) => (
+									<CouncilItem
+										index={index}
+										key={`council_${council.id}`}
+										council={council}
+										translate={translate}
+									/>
+								))}
 						</TableBody>
 					</Table>
 
@@ -305,11 +305,11 @@ export const SearchCouncils = withApollo(({ client, reload }) => {
 						/>
 					</div>
 					{error
-&& <div style={{
-	display: 'flex', alignItems: 'center', marginTop: '6px', marginLeft: '15px', color: 'red', fontWeight: 'bold'
-}}>
-	{error}
-</div>
+						&& <div style={{
+							display: 'flex', alignItems: 'center', marginTop: '6px', marginLeft: '15px', color: 'red', fontWeight: 'bold'
+						}}>
+							{error}
+						</div>
 					}
 				</div>
 			</div>

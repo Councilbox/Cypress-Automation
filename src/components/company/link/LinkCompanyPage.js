@@ -99,26 +99,26 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 				bHistory.push('/');
 			} else {
 				switch (response.data.linkCompany.message) {
-				case 'Wrong linkKey':
-					setState({
-						errors: {
-							linkKey: translate.incorrect_master_key
-						}
-					});
-					break;
-				case 'Already Linked':
-					setState({
-						errors: {
-							cif: translate.company_already_linked
-						}
-					});
-					break;
-				default:
-					setState({
-						errors: {
-							linkKey: translate.incorrect_master_key
-						}
-					});
+					case 'Wrong linkKey':
+						setState({
+							errors: {
+								linkKey: translate.incorrect_master_key
+							}
+						});
+						break;
+					case 'Already Linked':
+						setState({
+							errors: {
+								cif: translate.company_already_linked
+							}
+						});
+						break;
+					default:
+						setState({
+							errors: {
+								linkKey: translate.incorrect_master_key
+							}
+						});
 				}
 			}
 		}

@@ -25,12 +25,12 @@ class ErrorHandler extends React.Component {
 	async componentDidCatch(error, info) {
 	// console.log(error);
 	// console.log(info);
-	console.log(error.message);
-	console.log(error.name);
-	console.log(error.toString());
-	console.log(info);
-	console.trace(error);
-	console.log(error.stack);
+		console.log(error.message);
+		console.log(error.name);
+		console.log(error.toString());
+		console.log(info);
+		console.trace(error);
+		console.log(error.stack);
 		await this.props.sendRuntimeError({
 			variables: {
 				error: {
@@ -38,7 +38,7 @@ class ErrorHandler extends React.Component {
 					componentStack: JSON.stringify(info),
 					additionalInfo: `Client version: ${
 						CLIENT_VERSION}, userId: ${
-							this.props.user? this.props.user.id : null}, companyId: ${
+							this.props.user ? this.props.user.id : null}, companyId: ${
 								this.props.company?.id}`
 				}
 			}

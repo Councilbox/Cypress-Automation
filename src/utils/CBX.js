@@ -226,16 +226,16 @@ export const approvedByQualityVote = agenda => {
 
 export const voteValuesText = vote => {
 	switch (vote) {
-	case VOTE_VALUES.NO_VOTE:
-		return 'no_vote';
-	case VOTE_VALUES.NEGATIVE:
-		return 'against_btn';
-	case VOTE_VALUES.POSITIVE:
-		return 'in_favor_btn';
-	case VOTE_VALUES.ABSTENTION:
-		return 'abstention';
-	default:
-		return '-';
+		case VOTE_VALUES.NO_VOTE:
+			return 'no_vote';
+		case VOTE_VALUES.NEGATIVE:
+			return 'against_btn';
+		case VOTE_VALUES.POSITIVE:
+			return 'in_favor_btn';
+		case VOTE_VALUES.ABSTENTION:
+			return 'abstention';
+		default:
+			return '-';
 	}
 };
 
@@ -1446,76 +1446,76 @@ export const downloadFile = (base64, filetype, filename) => {
 
 export const getSignerStatusTranslateField = status => {
 	switch (status) {
-	case SIGNATURE_PARTICIPANTS_STATES.IN_QUEUE:
-		return 'in_queue';
-	case SIGNATURE_PARTICIPANTS_STATES.SENT:
-		return 'sent';
-	case SIGNATURE_PARTICIPANTS_STATES.OPENED:
-		return 'opened';
-	case SIGNATURE_PARTICIPANTS_STATES.SIGNING:
-		return 'signing';
-	case SIGNATURE_PARTICIPANTS_STATES.SIGNED:
-		return 'signed';
-	case SIGNATURE_PARTICIPANTS_STATES.EXPIRED:
-		return 'expired';
-	case SIGNATURE_PARTICIPANTS_STATES.CANCELED:
-		return 'canceled';
-	case SIGNATURE_PARTICIPANTS_STATES.REJECTED:
-		return 'rejected';
-	default:
-		return 'error';
+		case SIGNATURE_PARTICIPANTS_STATES.IN_QUEUE:
+			return 'in_queue';
+		case SIGNATURE_PARTICIPANTS_STATES.SENT:
+			return 'sent';
+		case SIGNATURE_PARTICIPANTS_STATES.OPENED:
+			return 'opened';
+		case SIGNATURE_PARTICIPANTS_STATES.SIGNING:
+			return 'signing';
+		case SIGNATURE_PARTICIPANTS_STATES.SIGNED:
+			return 'signed';
+		case SIGNATURE_PARTICIPANTS_STATES.EXPIRED:
+			return 'expired';
+		case SIGNATURE_PARTICIPANTS_STATES.CANCELED:
+			return 'canceled';
+		case SIGNATURE_PARTICIPANTS_STATES.REJECTED:
+			return 'rejected';
+		default:
+			return 'error';
 	}
 };
 
 export const checkCouncilState = (council, company, bHistory, expected) => {
 	switch (council.state) {
-	case COUNCIL_STATES.DRAFT:
-		if (expected !== 'draft') {
-			bHistory.replace(`/company/${company.id}/council/${council.id}`);
-		}
-		break;
-	case COUNCIL_STATES.PRECONVENE:
-		if (expected !== 'draft') {
-			bHistory.replace(`/company/${company.id}/council/${council.id}`);
-		}
-		break;
-	case COUNCIL_STATES.SAVED:
-		if (expected !== 'convened' && expected !== 'live') {
-			bHistory.replace(
+		case COUNCIL_STATES.DRAFT:
+			if (expected !== 'draft') {
+				bHistory.replace(`/company/${company.id}/council/${council.id}`);
+			}
+			break;
+		case COUNCIL_STATES.PRECONVENE:
+			if (expected !== 'draft') {
+				bHistory.replace(`/company/${company.id}/council/${council.id}`);
+			}
+			break;
+		case COUNCIL_STATES.SAVED:
+			if (expected !== 'convened' && expected !== 'live') {
+				bHistory.replace(
 				`/company/${company.id}/council/${council.id}/prepare`
-			);
-		}
-		break;
-	case COUNCIL_STATES.PREPARING:
-		if (expected !== 'convened' && expected !== 'live') {
-			bHistory.replace(
+				);
+			}
+			break;
+		case COUNCIL_STATES.PREPARING:
+			if (expected !== 'convened' && expected !== 'live') {
+				bHistory.replace(
 				`/company/${company.id}/council/${council.id}/prepare`
-			);
-		}
-		break;
-	case COUNCIL_STATES.ROOM_OPENED:
-	case COUNCIL_STATES.PAUSED:
-	case COUNCIL_STATES.APPROVING_ACT_DRAFT:
-		if (expected !== 'live') {
-			bHistory.replace(
+				);
+			}
+			break;
+		case COUNCIL_STATES.ROOM_OPENED:
+		case COUNCIL_STATES.PAUSED:
+		case COUNCIL_STATES.APPROVING_ACT_DRAFT:
+			if (expected !== 'live') {
+				bHistory.replace(
 				`/company/${company.id}/council/${council.id}/live`
-			);
-		}
-		break;
-	case COUNCIL_STATES.FINISHED:
-	case COUNCIL_STATES.APPROVED:
-	case COUNCIL_STATES.FINAL_ACT_SENT:
-	case COUNCIL_STATES.CANCELED:
-	case COUNCIL_STATES.NOT_CELEBRATED:
-	case COUNCIL_STATES.FINISHED_WITHOUT_ACT:
-		if (expected !== 'finished') {
-			bHistory.replace(
+				);
+			}
+			break;
+		case COUNCIL_STATES.FINISHED:
+		case COUNCIL_STATES.APPROVED:
+		case COUNCIL_STATES.FINAL_ACT_SENT:
+		case COUNCIL_STATES.CANCELED:
+		case COUNCIL_STATES.NOT_CELEBRATED:
+		case COUNCIL_STATES.FINISHED_WITHOUT_ACT:
+			if (expected !== 'finished') {
+				bHistory.replace(
 				`/company/${company.id}/council/${council.id}/finished`
-			);
-		}
-		break;
-	default:
-		break;
+				);
+			}
+			break;
+		default:
+			break;
 	}
 };
 
@@ -1524,77 +1524,77 @@ export const participantIsRepresentative = participant => participant.type === P
 
 export const getAttendanceIntentionTooltip = intention => {
 	switch (intention) {
-	case PARTICIPANT_STATES.REMOTE:
-		return 'remote_assistance_short';
+		case PARTICIPANT_STATES.REMOTE:
+			return 'remote_assistance_short';
 
-	case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
-		return 'confirmed_assistance';
+		case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
+			return 'confirmed_assistance';
 
-	case PARTICIPANT_STATES.NO_PARTICIPATE:
-		return 'no_assist_assistance';
+		case PARTICIPANT_STATES.NO_PARTICIPATE:
+			return 'no_assist_assistance';
 
-	case PARTICIPANT_STATES.DELEGATED:
-		return 'delegated_in';
+		case PARTICIPANT_STATES.DELEGATED:
+			return 'delegated_in';
 
-	case PARTICIPANT_STATES.SENT_VOTE_LETTER:
-		return 'vote_letter_sent';
+		case PARTICIPANT_STATES.SENT_VOTE_LETTER:
+			return 'vote_letter_sent';
 
-	case PARTICIPANT_STATES.EARLY_VOTE:
-		return 'participant_vote_fixed';
-	default:
-		return '';
+		case PARTICIPANT_STATES.EARLY_VOTE:
+			return 'participant_vote_fixed';
+		default:
+			return '';
 	}
 };
 
 export const getAttendanceIntentionIcon = (intention, style) => {
 	switch (intention) {
-	case PARTICIPANT_STATES.REMOTE:
-		return <i className={'fa fa-globe'} style={style}></i>;
-	case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
-		return <i className={'fa fa-user'} style={style}></i>;
-	case PARTICIPANT_STATES.DELEGATED:
-		return <i className={'fa fa-users'} style={style}></i>;
-	case PARTICIPANT_STATES.NO_PARTICIPATE:
-		return <i className={'fa fa-times'} style={style}></i>;
-	case PARTICIPANT_STATES.EARLY_VOTE:
-	case PARTICIPANT_STATES.SENT_VOTE_LETTER:
-		return <i className="material-icons" style={{ ...style, transform: 'scale(0.8)' }}>how_to_vote</i>;
-	default:
-		return 'fa fa-question';
+		case PARTICIPANT_STATES.REMOTE:
+			return <i className={'fa fa-globe'} style={style}></i>;
+		case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
+			return <i className={'fa fa-user'} style={style}></i>;
+		case PARTICIPANT_STATES.DELEGATED:
+			return <i className={'fa fa-users'} style={style}></i>;
+		case PARTICIPANT_STATES.NO_PARTICIPATE:
+			return <i className={'fa fa-times'} style={style}></i>;
+		case PARTICIPANT_STATES.EARLY_VOTE:
+		case PARTICIPANT_STATES.SENT_VOTE_LETTER:
+			return <i className="material-icons" style={{ ...style, transform: 'scale(0.8)' }}>how_to_vote</i>;
+		default:
+			return 'fa fa-question';
 	}
 };
 
 export const getEmailIconByReqCode = reqCode => {
 	switch (reqCode) {
-	case -1:
-		return notSent;
-	case 0:
-		return notSent;
+		case -1:
+			return notSent;
+		case 0:
+			return notSent;
 
-	case 20:
-		return pendingShipping;
+		case 20:
+			return pendingShipping;
 
-	case 22:
-		return delivered;
+		case 22:
+			return delivered;
 
-	case 25:
-		return opened;
+		case 25:
+			return opened;
 
-	case 32:
-		return 'clicked';
+		case 32:
+			return 'clicked';
 
-	case 35:
-		return spam;
+		case 35:
+			return spam;
 
-	case 36:
-		return invalidEmailAddress;
+		case 36:
+			return invalidEmailAddress;
 
-	case 37:
-	case 39:
-	case 40:
-		return dropped;
-	default:
-		return null;
+		case 37:
+		case 39:
+		case 40:
+			return dropped;
+		default:
+			return null;
 	}
 };
 
@@ -1604,57 +1604,57 @@ export const agendaPointNotOpened = agenda => agenda.pointState === AGENDA_STATE
 
 export const getAgendaTypeLabel = agenda => {
 	switch (agenda.subjectType) {
-	case AGENDA_TYPES.INFORMATIVE:
-		return 'informative';
-	case AGENDA_TYPES.PUBLIC_VOTING:
-		return 'public_votation';
-	case AGENDA_TYPES.PUBLIC_ACT:
-		return 'public_act';
-	case AGENDA_TYPES.FAKE_PUBLIC_VOTING:
-		return 'fake_public_votation';
-	case AGENDA_TYPES.PRIVATE_ACT:
-		return 'public_act';
-	case AGENDA_TYPES.PRIVATE_VOTING:
-		return 'private_votation';
-	case AGENDA_TYPES.CUSTOM_PUBLIC:
-		return 'fake_public_votation';
-	case AGENDA_TYPES.CUSTOM_PRIVATE:
-		return 'private_votation';
-	case AGENDA_TYPES.CUSTOM_NOMINAL:
-		return 'public_votation';
-	case AGENDA_TYPES.CONFIRMATION_REQUEST:
-		return 'confirmation_request';
-	default:
-		return 'custom_point';
+		case AGENDA_TYPES.INFORMATIVE:
+			return 'informative';
+		case AGENDA_TYPES.PUBLIC_VOTING:
+			return 'public_votation';
+		case AGENDA_TYPES.PUBLIC_ACT:
+			return 'public_act';
+		case AGENDA_TYPES.FAKE_PUBLIC_VOTING:
+			return 'fake_public_votation';
+		case AGENDA_TYPES.PRIVATE_ACT:
+			return 'public_act';
+		case AGENDA_TYPES.PRIVATE_VOTING:
+			return 'private_votation';
+		case AGENDA_TYPES.CUSTOM_PUBLIC:
+			return 'fake_public_votation';
+		case AGENDA_TYPES.CUSTOM_PRIVATE:
+			return 'private_votation';
+		case AGENDA_TYPES.CUSTOM_NOMINAL:
+			return 'public_votation';
+		case AGENDA_TYPES.CONFIRMATION_REQUEST:
+			return 'confirmation_request';
+		default:
+			return 'custom_point';
 	}
 };
 
 export const getTranslationReqCode = reqCode => {
 	switch (reqCode) {
-	case 'ALL':
-		return 'all_plural';
-	case -1:
-		return 'tooltip_failed_shipping';
-	case 0:
-		return 'tooltip_not_sent';
-	case 20:
-		return 'tooltip_pending_shipping';
-	case 22:
-		return 'tooltip_inbox';
-	case 25:
-		return 'tooltip_opened';
-	case 32:
-		return 'clicked';
-	case 35:
-		return 'tooltip_spam';
-	case 36:
-		return 'tooltip_invalid_email_address';
-	case 37:
-		return 'tooltip_dropped';
-	case 40:
-		return 'tooltip_dropped';
-	default:
-		return '';
+		case 'ALL':
+			return 'all_plural';
+		case -1:
+			return 'tooltip_failed_shipping';
+		case 0:
+			return 'tooltip_not_sent';
+		case 20:
+			return 'tooltip_pending_shipping';
+		case 22:
+			return 'tooltip_inbox';
+		case 25:
+			return 'tooltip_opened';
+		case 32:
+			return 'clicked';
+		case 35:
+			return 'tooltip_spam';
+		case 36:
+			return 'tooltip_invalid_email_address';
+		case 37:
+			return 'tooltip_dropped';
+		case 40:
+			return 'tooltip_dropped';
+		default:
+			return '';
 	}
 };
 
@@ -1715,29 +1715,29 @@ export const hasHisVoteDelegated = participant => participant.state === 4;
 
 export const getParticipantStateString = state => {
 	switch (state) {
-	case PARTICIPANT_STATES.REMOTE:
-		return 'REMOTE';
+		case PARTICIPANT_STATES.REMOTE:
+			return 'REMOTE';
 
-	case PARTICIPANT_STATES.PRESENT:
-		return 'PRESENT';
+		case PARTICIPANT_STATES.PRESENT:
+			return 'PRESENT';
 
-	case PARTICIPANT_STATES.REPRESENTATED:
-		return 'REPRESENTATED';
+		case PARTICIPANT_STATES.REPRESENTATED:
+			return 'REPRESENTATED';
 
-	case PARTICIPANT_STATES.DELEGATED:
-		return 'DELEGATED';
+		case PARTICIPANT_STATES.DELEGATED:
+			return 'DELEGATED';
 
-	case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
-		return 'PHYSICALLY_PRESENT';
+		case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
+			return 'PHYSICALLY_PRESENT';
 
-	case PARTICIPANT_STATES.NO_PARTICIPATE:
-		return 'NO_PARTICIPATE';
+		case PARTICIPANT_STATES.NO_PARTICIPATE:
+			return 'NO_PARTICIPATE';
 
-	case PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE:
-		return 'PRESENT_WITH_REMOTE_VOTE';
+		case PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE:
+			return 'PRESENT_WITH_REMOTE_VOTE';
 
-	default:
-		return 'INVALID_STATE';
+		default:
+			return 'INVALID_STATE';
 	}
 };
 
@@ -1749,27 +1749,27 @@ export const multipleGoverningBody = type => !![
 
 export const getParticipantStateField = participant => {
 	switch (participant.state) {
-	case 0:
-		return 'remote_assistance';
-	case 1:
-		return 'physically_present_assistance';
-	case 2:
-		return 'representated';
-	case 4:
-		return 'delegated';
-	case 5:
-		return 'physically_present_assistance';
-	case 6:
-		return 'no_participate';
-	case 7:
-		return 'physically_present_with_remote_vote';
-	case 8:
-		return 'participant_vote_fixed';
-	case 11:
-		return 'left_the_council';
+		case 0:
+			return 'remote_assistance';
+		case 1:
+			return 'physically_present_assistance';
+		case 2:
+			return 'representated';
+		case 4:
+			return 'delegated';
+		case 5:
+			return 'physically_present_assistance';
+		case 6:
+			return 'no_participate';
+		case 7:
+			return 'physically_present_with_remote_vote';
+		case 8:
+			return 'participant_vote_fixed';
+		case 11:
+			return 'left_the_council';
 
-	default:
-		return 'remote_assistance';
+		default:
+			return 'remote_assistance';
 	}
 };
 

@@ -51,12 +51,10 @@ const ResultsTimeline = ({ data, translate, council, classes, client, disableScr
 
 
 		if (data.agendas) {
-			agendas = data.agendas.map(agenda => {
-				return {
-					...agenda,
-					voting: data.participantVotings.find(voting => voting.agendaId === agenda.id)
-				};
-			});
+			agendas = data.agendas.map(agenda => ({
+				...agenda,
+				voting: data.participantVotings.find(voting => voting.agendaId === agenda.id)
+			}));
 		}
 
 		return (
@@ -77,20 +75,20 @@ const ResultsTimeline = ({ data, translate, council, classes, client, disableScr
 						content = JSON.parse(event.content);
 					}
 					switch (event.type) {
-					case 'START_COUNCIL':
-					case 'END_COUNCIL':
-					case 'COUNCIL_PAUSED':
-					case 'COUNCIL_RESUMED':
-						return getStepInit(event, content, translate, classes, council);
-					case 'START_AUTO_COUNCIL':
-					case 'CLOSE_REMOTE_VOTINGS':
-					case 'OPEN_POINT_DISCUSSION':
-					case 'CLOSE_POINT_DISCUSSION':
-					case 'CLOSE_VOTING':
-					case 'REOPEN_VOTING':
-						return getStepColor(event, content, translate, classes, council);
-					default:
-						return getStepConNumero(content, translate, agendas, council);
+						case 'START_COUNCIL':
+						case 'END_COUNCIL':
+						case 'COUNCIL_PAUSED':
+						case 'COUNCIL_RESUMED':
+							return getStepInit(event, content, translate, classes, council);
+						case 'START_AUTO_COUNCIL':
+						case 'CLOSE_REMOTE_VOTINGS':
+						case 'OPEN_POINT_DISCUSSION':
+						case 'CLOSE_POINT_DISCUSSION':
+						case 'CLOSE_VOTING':
+						case 'REOPEN_VOTING':
+							return getStepColor(event, content, translate, classes, council);
+						default:
+							return getStepConNumero(content, translate, agendas, council);
 					}
 				})}
 			</Stepper>
@@ -172,47 +170,46 @@ const VoteDisplay = ({ voting, translate, agenda, endPage }) => {
 
 export const getVote = (vote, translate) => {
 	switch (vote) {
-	case 1:
-		return translate.in_favor_btn;
+		case 1:
+			return translate.in_favor_btn;
 
-	case 0:
-		return translate.against_btn;
+		case 0:
+			return translate.against_btn;
 
-	case 2:
-		return translate.abstention_btn;
-	default:
-		return translate.no_vote_lowercase;
+		case 2:
+			return translate.abstention_btn;
+		default:
+			return translate.no_vote_lowercase;
 	}
 };
 
 
-const getStepInit = (event, content, translate, classes, council) => {
-	return (
-		<Step active
-			key={event.id}
-		>
-			<StepLabel
-				icon={
-					<div
-						style={{
-							color: 'white',
-							border: '1px solid' + getPrimary(),
-							height: '10px',
-							width: '10px',
-							borderRadius: '15px',
-							marginLeft: '8px',
-						}}
-					>
-					</div>
-				}
-				style={{ textAlign: 'left', fontSize: '13px' }}>
-				<span style={{ fontSize: '13px', fontWeight: 'normal' }}>{getTimelineTranslationReverse({ type: event.type, content, translate, council })}</span><br />
-				<span style={{ color: 'grey', fontSize: '13px' }}>{moment(event.date).format('LLL')}</span>
-			</StepLabel>
-			<StepContent classes={{
-				root: classes.root
-			}} style={{ fontSize: '0.9em', textAlign: 'left' }}>
-				{(event.type === 'CLOSE_VOTING' && isValidResult(content.data.agendaPoint.type)) &&
+const getStepInit = (event, content, translate, classes, council) => (
+	<Step active
+		key={event.id}
+	>
+		<StepLabel
+			icon={
+				<div
+					style={{
+						color: 'white',
+						border: `1px solid${getPrimary()}`,
+						height: '10px',
+						width: '10px',
+						borderRadius: '15px',
+						marginLeft: '8px',
+					}}
+				>
+				</div>
+			}
+			style={{ textAlign: 'left', fontSize: '13px' }}>
+			<span style={{ fontSize: '13px', fontWeight: 'normal' }}>{getTimelineTranslationReverse({ type: event.type, content, translate, council })}</span><br />
+			<span style={{ color: 'grey', fontSize: '13px' }}>{moment(event.date).format('LLL')}</span>
+		</StepLabel>
+		<StepContent classes={{
+			root: classes.root
+		}} style={{ fontSize: '0.9em', textAlign: 'left' }}>
+			{(event.type === 'CLOSE_VOTING' && isValidResult(content.data.agendaPoint.type)) &&
 					<React.Fragment>
 						<span>
 							{`${translate.recount}:`}
@@ -221,38 +218,36 @@ const getStepInit = (event, content, translate, classes, council) => {
 							<div aria-label={`${translate.abstention}: ${content.data.agendaPoint.results.abstention}`}>{translate.abstention}: {content.data.agendaPoint.results.abstention}</div>
 							<div aria-label={`${translate.no_vote_lowercase}: ${content.data.agendaPoint.results.noVote}`}>{translate.no_vote_lowercase}: {content.data.agendaPoint.results.noVote}</div>                                            </span>
 					</React.Fragment>
-				}
-			</StepContent>
-		</Step>
-	);
-};
-
-const getStepColor = (event, content, translate, classes, council) => {
-	return (
-		<Step active key={event.id}>
-			<StepLabel icon={
-				<div
-					style={{
-						display: 'flex',
-						justifyContent: 'center',
-						alignItems: 'center',
-						height: '23px',
-						width: '23px',
-						margin: '0',
-						marginLeft: '1px',
-						borderRadius: '12px',
-						backgroundColor: getPrimary(),
-						fontSize: '13px'
-					}}
-				>
-				</div>
 			}
-			style={{ textAlign: 'left', fontSize: '13px' }}>
-				<span style={{ fontSize: '13px' }}>{getTimelineTranslationReverse({ type: event.type, content, translate, council })}</span><br />
-				<span style={{ fontSize: '13px', color: 'grey', }}>{moment(event.date).format('LLL')}</span>
-			</StepLabel>
-			<StepContent style={{ fontSize: '0.9em' }}>
-				{(event.type === 'CLOSE_VOTING' && isValidResult(content.data.agendaPoint.type)) &&
+		</StepContent>
+	</Step>
+);
+
+const getStepColor = (event, content, translate, classes, council) => (
+	<Step active key={event.id}>
+		<StepLabel icon={
+			<div
+				style={{
+					display: 'flex',
+					justifyContent: 'center',
+					alignItems: 'center',
+					height: '23px',
+					width: '23px',
+					margin: '0',
+					marginLeft: '1px',
+					borderRadius: '12px',
+					backgroundColor: getPrimary(),
+					fontSize: '13px'
+				}}
+			>
+			</div>
+		}
+		style={{ textAlign: 'left', fontSize: '13px' }}>
+			<span style={{ fontSize: '13px' }}>{getTimelineTranslationReverse({ type: event.type, content, translate, council })}</span><br />
+			<span style={{ fontSize: '13px', color: 'grey', }}>{moment(event.date).format('LLL')}</span>
+		</StepLabel>
+		<StepContent style={{ fontSize: '0.9em' }}>
+			{(event.type === 'CLOSE_VOTING' && isValidResult(content.data.agendaPoint.type)) &&
 					<React.Fragment>
 						<span>
 							{`${translate.recount}: `}
@@ -261,11 +256,10 @@ const getStepColor = (event, content, translate, classes, council) => {
 							<div aria-label={`${translate.abstention}: ${content.data.agendaPoint.results.abstention}`}>{translate.abstention}: {content.data.agendaPoint.results.abstention}</div>
 							<div aria-label={`${translate.no_vote_lowercase}: ${content.data.agendaPoint.results.noVote}`}>{translate.no_vote_lowercase}: {content.data.agendaPoint.results.noVote}</div>                                            </span>
 					</React.Fragment>
-				}
-			</StepContent>
-		</Step>
-	);
-};
+			}
+		</StepContent>
+	</Step>
+);
 
 const getStepConNumero = (event, translate, agendas, council) => {
 	const agenda = agendas.find(item => item.id === event.data.agendaPoint.id);

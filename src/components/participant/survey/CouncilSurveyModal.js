@@ -3,7 +3,7 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import TextArea from 'antd/lib/input/TextArea';
 import { moment } from '../../../containers/App';
-import { AlertConfirm, BasicButton, Scrollbar } from '../../../displayComponents';
+import { AlertConfirm, BasicButton } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
 import Stars from './Stars';
 import { useSubdomain } from '../../../utils/subdomain';

@@ -57,8 +57,8 @@ const SignUpPage = ({ translate, windowSize, mutate }) => {
 		});
 		if (response.errors) {
 			switch (response.errors[0].message) {
-			default:
-				return;
+				default:
+					return;
 			}
 		}
 		if (response.data.userAndCompanySignUp.success) {

@@ -17,171 +17,171 @@ const styleSubIcon = (color, ratio) => ({
 
 const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 	switch (state) {
-	case 'ALL':
-		return (
-			<Tooltip disableHoverListener={hideTooltip} title={translate.all_plural}>
-				<div style={{ padding: '0.5em' }}>
-					<FontAwesome
-						name={'users'}
-						style={styleMainIcon(color, ratio)}
-					/>
-					{(!!number || number === 0) && <span style={{ padding: '1em' }}>{number}</span>}
-				</div>
-			</Tooltip>
-		);
-	case PARTICIPANT_STATES.NO_PARTICIPATE:
-		return (
-			<Tooltip disableHoverListener={hideTooltip} title={translate.no_participate}>
-				<div style={{ padding: '0.5em', display: 'flex' }}>
-					<FontAwesome
-						name={'user-o'}
-						style={styleMainIcon(color, ratio)}
-					/>
+		case 'ALL':
+			return (
+				<Tooltip disableHoverListener={hideTooltip} title={translate.all_plural}>
+					<div style={{ padding: '0.5em' }}>
+						<FontAwesome
+							name={'users'}
+							style={styleMainIcon(color, ratio)}
+						/>
+						{(!!number || number === 0) && <span style={{ padding: '1em' }}>{number}</span>}
+					</div>
+				</Tooltip>
+			);
+		case PARTICIPANT_STATES.NO_PARTICIPATE:
+			return (
+				<Tooltip disableHoverListener={hideTooltip} title={translate.no_participate}>
+					<div style={{ padding: '0.5em', display: 'flex' }}>
+						<FontAwesome
+							name={'user-o'}
+							style={styleMainIcon(color, ratio)}
+						/>
 
-					<FontAwesome
-						name={'times'}
-						style={styleSubIcon(color, ratio)}
-					/>
+						<FontAwesome
+							name={'times'}
+							style={styleSubIcon(color, ratio)}
+						/>
 
-					{(!!number || number === 0) && <span style={{ paddingLeft: '1em' }}>{number}</span>}
-				</div>
-			</Tooltip>
-		);
-	case PARTICIPANT_STATES.REMOTE:
-		return (
-			<Tooltip disableHoverListener={hideTooltip} title={translate.customer_initial}>
-				<div style={{ padding: '0.5em' }}>
-					<FontAwesome
-						name={'globe'}
-						style={styleMainIcon(color, ratio)}
-					/>
-					{(!!number || number === 0) && <span style={{ padding: '1em' }}>{number}</span>}
-				</div>
-			</Tooltip>
-		);
-	case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
-		return (
-			<Tooltip disableHoverListener={hideTooltip} title={translate.customer_present}>
-				<div
-					style={{
+						{(!!number || number === 0) && <span style={{ paddingLeft: '1em' }}>{number}</span>}
+					</div>
+				</Tooltip>
+			);
+		case PARTICIPANT_STATES.REMOTE:
+			return (
+				<Tooltip disableHoverListener={hideTooltip} title={translate.customer_initial}>
+					<div style={{ padding: '0.5em' }}>
+						<FontAwesome
+							name={'globe'}
+							style={styleMainIcon(color, ratio)}
+						/>
+						{(!!number || number === 0) && <span style={{ padding: '1em' }}>{number}</span>}
+					</div>
+				</Tooltip>
+			);
+		case PARTICIPANT_STATES.PHYSICALLY_PRESENT:
+			return (
+				<Tooltip disableHoverListener={hideTooltip} title={translate.customer_present}>
+					<div
+						style={{
 						// display: "flex",
-						alignItems: 'center',
-						padding: '0.51em'
-					}}
-				>
-					<Icon
-						className="material-icons"
-						style={{ ...styleMainIcon(color, ratio), paddingTop: '0.1em' }}
+							alignItems: 'center',
+							padding: '0.51em'
+						}}
 					>
+						<Icon
+							className="material-icons"
+							style={{ ...styleMainIcon(color, ratio), paddingTop: '0.1em' }}
+						>
 face
-					</Icon>
-					{(!!number || number === 0) && <span style={{ padding: '1em' }}>{number}</span>}
-				</div>
-			</Tooltip>
-		);
-	case PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE:
-		return (
-			<Tooltip disableHoverListener={hideTooltip} title={translate.physically_present_with_remote_vote}>
-				<div
-					style={{
+						</Icon>
+						{(!!number || number === 0) && <span style={{ padding: '1em' }}>{number}</span>}
+					</div>
+				</Tooltip>
+			);
+		case PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE:
+			return (
+				<Tooltip disableHoverListener={hideTooltip} title={translate.physically_present_with_remote_vote}>
+					<div
+						style={{
 						// display: "flex",
-						alignItems: 'center',
-						padding: '0.51em'
-					}}
-				>
-					<Icon
-						className="material-icons"
-						style={{ ...styleMainIcon(color, ratio), paddingTop: '0.1em' }}
+							alignItems: 'center',
+							padding: '0.51em'
+						}}
 					>
+						<Icon
+							className="material-icons"
+							style={{ ...styleMainIcon(color, ratio), paddingTop: '0.1em' }}
+						>
 face
-					</Icon>
-					<FontAwesome
-						name={'mobile'}
-						style={styleSubIcon(color, ratio)}
-					/>
-					{(!!number || number === 0) && <span style={{ padding: '1em' }}>{number}</span>}
-				</div>
-			</Tooltip>
-		);
-	case PARTICIPANT_STATES.DELEGATED:
-		return (
-			<Tooltip disableHoverListener={hideTooltip} title={translate.customer_delegated}>
-				<div style={{ padding: '0.5em' }}>
-					<FontAwesome
-						name={'user'}
-						style={styleMainIcon(color, ratio)}
-					/>
-					<FontAwesome
-						name={'user'}
-						style={styleSubIcon(color, ratio)}
-					/>
-					{(!!number || number === 0) && <span style={{ padding: '1em' }}>{number}</span>}
-				</div>
-			</Tooltip>
-		);
-	case PARTICIPANT_STATES.REPRESENTATED:
-		return (
-			<Tooltip disableHoverListener={hideTooltip} title={translate.customer_representated}>
-				<div style={{ padding: '0.5em' }}>
-					<FontAwesome
-						name={'user-o'}
-						style={styleMainIcon(color, ratio)}
-					/>
-					<FontAwesome
-						name={'user'}
-						style={styleSubIcon(color, ratio)}
-					/>
-					{(!!number || number === 0) && <span style={{ padding: '1em' }}>{number}</span>}
-				</div>
-			</Tooltip>
-		);
-	case PARTICIPANT_STATES.LEFT:
-		return (
-			<Tooltip disableHoverListener={hideTooltip} title={translate.left_the_council}>
-				<div style={{ padding: '0.5em' }}>
-					<i className="fa fa-sign-out" aria-hidden="true" style={styleMainIcon(color, ratio)}></i>
-					{(!!number || number === 0) && <span style={{ padding: '1em' }}>{number}</span>}
-				</div>
-			</Tooltip>
-		);
-	case PARTICIPANT_STATES.SENT_VOTE_LETTER:
-		return (
-			<Tooltip disableHoverListener={hideTooltip} title={translate.participant_vote_fixed}>
-				<div style={{ padding: '0.5em' }}>
-					<span className="material-icons"
-						style={styleMainIcon(color, ratio)}
-					>
+						</Icon>
+						<FontAwesome
+							name={'mobile'}
+							style={styleSubIcon(color, ratio)}
+						/>
+						{(!!number || number === 0) && <span style={{ padding: '1em' }}>{number}</span>}
+					</div>
+				</Tooltip>
+			);
+		case PARTICIPANT_STATES.DELEGATED:
+			return (
+				<Tooltip disableHoverListener={hideTooltip} title={translate.customer_delegated}>
+					<div style={{ padding: '0.5em' }}>
+						<FontAwesome
+							name={'user'}
+							style={styleMainIcon(color, ratio)}
+						/>
+						<FontAwesome
+							name={'user'}
+							style={styleSubIcon(color, ratio)}
+						/>
+						{(!!number || number === 0) && <span style={{ padding: '1em' }}>{number}</span>}
+					</div>
+				</Tooltip>
+			);
+		case PARTICIPANT_STATES.REPRESENTATED:
+			return (
+				<Tooltip disableHoverListener={hideTooltip} title={translate.customer_representated}>
+					<div style={{ padding: '0.5em' }}>
+						<FontAwesome
+							name={'user-o'}
+							style={styleMainIcon(color, ratio)}
+						/>
+						<FontAwesome
+							name={'user'}
+							style={styleSubIcon(color, ratio)}
+						/>
+						{(!!number || number === 0) && <span style={{ padding: '1em' }}>{number}</span>}
+					</div>
+				</Tooltip>
+			);
+		case PARTICIPANT_STATES.LEFT:
+			return (
+				<Tooltip disableHoverListener={hideTooltip} title={translate.left_the_council}>
+					<div style={{ padding: '0.5em' }}>
+						<i className="fa fa-sign-out" aria-hidden="true" style={styleMainIcon(color, ratio)}></i>
+						{(!!number || number === 0) && <span style={{ padding: '1em' }}>{number}</span>}
+					</div>
+				</Tooltip>
+			);
+		case PARTICIPANT_STATES.SENT_VOTE_LETTER:
+			return (
+				<Tooltip disableHoverListener={hideTooltip} title={translate.participant_vote_fixed}>
+					<div style={{ padding: '0.5em' }}>
+						<span className="material-icons"
+							style={styleMainIcon(color, ratio)}
+						>
 how_to_vote
-					</span>
-					{(!!number || number === 0) && <span style={{ padding: '1em' }}>{number}</span>}
-				</div>
-			</Tooltip>
-		);
-	case PARTICIPANT_STATES.EARLY_VOTE:
-		return (
-			<Tooltip disableHoverListener={hideTooltip} title={translate.participant_vote_fixed}>
-				<div style={{ padding: '0.5em' }}>
-					<span className="material-icons"
-						style={styleMainIcon(color, ratio)}
-					>
+						</span>
+						{(!!number || number === 0) && <span style={{ padding: '1em' }}>{number}</span>}
+					</div>
+				</Tooltip>
+			);
+		case PARTICIPANT_STATES.EARLY_VOTE:
+			return (
+				<Tooltip disableHoverListener={hideTooltip} title={translate.participant_vote_fixed}>
+					<div style={{ padding: '0.5em' }}>
+						<span className="material-icons"
+							style={styleMainIcon(color, ratio)}
+						>
 how_to_vote
-					</span>
-					{(!!number || number === 0) && <span style={{ padding: '1em' }}>{number}</span>}
-				</div>
-			</Tooltip>
-		);
-	default:
-		return (
-			<Tooltip disableHoverListener={hideTooltip} title={translate.not_confirmed_assistance}>
-				<div style={{ padding: '0.5em' }}>
-					<FontAwesome
-						name={'question'}
-						style={styleMainIcon(color, ratio)}
-					/>
-					{(!!number || number === 0) && <span style={{ padding: '1em' }}>{number}</span>}
-				</div>
-			</Tooltip>
-		);
+						</span>
+						{(!!number || number === 0) && <span style={{ padding: '1em' }}>{number}</span>}
+					</div>
+				</Tooltip>
+			);
+		default:
+			return (
+				<Tooltip disableHoverListener={hideTooltip} title={translate.not_confirmed_assistance}>
+					<div style={{ padding: '0.5em' }}>
+						<FontAwesome
+							name={'question'}
+							style={styleMainIcon(color, ratio)}
+						/>
+						{(!!number || number === 0) && <span style={{ padding: '1em' }}>{number}</span>}
+					</div>
+				</Tooltip>
+			);
 	}
 };
 

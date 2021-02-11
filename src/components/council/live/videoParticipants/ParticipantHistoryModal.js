@@ -50,13 +50,13 @@ const ParticipantHistory = ({
 										<TableCell>
 											{`${history.trackInfo.ua.browser
 												.name || '-'} ${history
-												.trackInfo.ua.browser
-												.version || '-'}`}
+													.trackInfo.ua.browser
+													.version || '-'}`}
 										</TableCell>
 										<TableCell>
 											{`${history.trackInfo.ua.os
 												.name || '-'} ${history
-												.trackInfo.ua.os.version
+													.trackInfo.ua.os.version
 || '-'}`}
 										</TableCell>
 										<TableCell>
@@ -76,26 +76,26 @@ const ParticipantHistory = ({
 
 const getLogText = (type, translate) => {
 	switch (type) {
-	case 'CONNECT':
-		return 'Conectado';
+		case 'CONNECT':
+			return 'Conectado';
 
-	case 'DISCONNECT':
-		return 'Desconectado';
+		case 'DISCONNECT':
+			return 'Desconectado';
 
-	case 'ASKED WORD':
-		return 'Petición de palabra';
+		case 'ASKED WORD':
+			return 'Petición de palabra';
 
-	case 'CANCELED WORD PETITION':
-		return 'Canceló petición de palabra';
+		case 'CANCELED WORD PETITION':
+			return 'Canceló petición de palabra';
 
-	case 'CANCELED WORD BY ADMIN':
-		return 'El administrador le retiró la palabra';
+		case 'CANCELED WORD BY ADMIN':
+			return 'El administrador le retiró la palabra';
 
-	case 'GRANTED WORD':
-		return translate.granted_word;
+		case 'GRANTED WORD':
+			return translate.granted_word;
 
-	default:
-		return type;
+		default:
+			return type;
 	}
 };
 

@@ -41,14 +41,14 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
 	}
 
 	const handleFreezing = (newVote, previousVote) => {
-		const ownParticipations = agenda.votings.reduce((acc, curr) => { return acc + curr.numParticipations; }, 0);
+		const ownParticipations = agenda.votings.reduce((acc, curr) => acc + curr.numParticipations, 0);
 		const getFieldByValue = value => {
 			switch (value) {
-			case 0: return 'negativeVotings';
-			case 1: return 'positiveVotings';
-			case 2: return 'abstentionVotings';
-			case -1: return 'noVoteVotings';
-			default: return 'noVoteVotings';
+				case 0: return 'negativeVotings';
+				case 1: return 'positiveVotings';
+				case 2: return 'abstentionVotings';
+				case -1: return 'noVoteVotings';
+				default: return 'noVoteVotings';
 			}
 		};
 
@@ -112,8 +112,7 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
 					vote: newVote,
 				}
 			}
-		})
-		));
+		})));
 
 		if (response) {
 			handleFreezing(vote, previousVote);
@@ -178,13 +177,14 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
 						translate.in_favor_btn
 						:
 						translate.in_favor_btn +
-					buildRecountText(
-						CBX.showNumParticipations(
-							freezed.current ? freezed.current.positiveVotings + agenda.votingsRecount.positiveManual :
-								agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual,
-							council.company,
-							council.statute
-						))
+						buildRecountText(
+							CBX.showNumParticipations(
+								freezed.current ? freezed.current.positiveVotings + agenda.votingsRecount.positiveManual :
+									agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual,
+								council.company,
+								council.statute
+							)
+						)
 				}
 				loading={loading === 1}
 				disabledColor={disabledColor}
@@ -211,7 +211,8 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
 									agenda.votingsRecount.negativeVotings + agenda.votingsRecount.negativeManual,
 								council.company,
 								council.statute
-							))
+							)
+						)
 				}
 				loading={loading === 0}
 				disabledColor={disabledColor}
@@ -228,90 +229,89 @@ const VotingMenu = ({ translate, singleVoteMode, agenda, council, votings, clien
 			/>
 
 			{!config.hideAbstentionButton &&
-<VotingButton
-	text={
-		!hasSession ?
-			translate.abstention_btn
-			:
-			translate.abstention_btn +
-buildRecountText(
-	CBX.showNumParticipations(
-		freezed.current ? freezed.current.abstentionVotings + agenda.votingsRecount.abstentionManual :
-			agenda.votingsRecount.abstentionVotings + agenda.votingsRecount.abstentionManual,
-		council.company,
-		council.statute
-	))
-	}
-	loading={loading === 2}
-	disabledColor={disabledColor}
-	disabled={disabled}
-	icon={<i className="fa fa-circle-o" aria-hidden="true" style={{ marginLeft: '0.2em', color: getSelected(2) ? primary : 'silver' }}></i>}
-	selected={getSelected(2)}
-	onClick={() => {
-		if (voteAtTheEnd) {
-			setAgendaVoting(2);
-		} else {
-			updateAgendaVoting(2);
-		}
-	}}
-/>
+				<VotingButton
+					text={
+						!hasSession ?
+							translate.abstention_btn
+							:
+							translate.abstention_btn +
+							buildRecountText(
+								CBX.showNumParticipations(
+									freezed.current ? freezed.current.abstentionVotings + agenda.votingsRecount.abstentionManual :
+										agenda.votingsRecount.abstentionVotings + agenda.votingsRecount.abstentionManual,
+									council.company,
+									council.statute
+								)
+							)
+					}
+					loading={loading === 2}
+					disabledColor={disabledColor}
+					disabled={disabled}
+					icon={<i className="fa fa-circle-o" aria-hidden="true" style={{ marginLeft: '0.2em', color: getSelected(2) ? primary : 'silver' }}></i>}
+					selected={getSelected(2)}
+					onClick={() => {
+						if (voteAtTheEnd) {
+							setAgendaVoting(2);
+						} else {
+							updateAgendaVoting(2);
+						}
+					}}
+				/>
 			}
 			{!config.hideNoVoteButton &&
-<VotingButton
-	text={
-		!hasSession ?
-			translate.dont_vote
-			:
-			translate.dont_vote +
-buildRecountText(
-	CBX.showNumParticipations(
-		freezed.current ? freezed.current.noVoteVotings + agenda.votingsRecount.noVoteManual :
-			agenda.votingsRecount.noVoteVotings + agenda.votingsRecount.noVoteManual,
-		council.company,
-		council.statute
-	))
-	}
-	loading={loading === -1}
-	disabled={disabled}
-	disabledColor={disabledColor}
-	selected={getSelected(-1)}
-	onClick={() => {
-		if (voteAtTheEnd) {
-			setAgendaVoting(-1);
-		} else {
-			updateAgendaVoting(-1);
-		}
-	}}
-/>
+				<VotingButton
+					text={
+						!hasSession ?
+							translate.dont_vote
+							:
+							translate.dont_vote +
+							buildRecountText(
+								CBX.showNumParticipations(
+									freezed.current ? freezed.current.noVoteVotings + agenda.votingsRecount.noVoteManual :
+										agenda.votingsRecount.noVoteVotings + agenda.votingsRecount.noVoteManual,
+									council.company,
+									council.statute
+								)
+							)
+					}
+					loading={loading === -1}
+					disabled={disabled}
+					disabledColor={disabledColor}
+					selected={getSelected(-1)}
+					onClick={() => {
+						if (voteAtTheEnd) {
+							setAgendaVoting(-1);
+						} else {
+							updateAgendaVoting(-1);
+						}
+					}}
+				/>
 			}
 			{voteAtTheEnd &&
-<VoteConfirmationModal
-	open={modal}
-	requestClose={closeModal}
-	translate={translate}
-	acceptAction={() => updateAgendaVoting(vote)}
-/>
+				<VoteConfirmationModal
+					open={modal}
+					requestClose={closeModal}
+					translate={translate}
+					acceptAction={() => updateAgendaVoting(vote)}
+				/>
 			}
 		</Grid>
 	);
 };
 
-export const DeniedDisplay = ({ denied }) => {
-// TRADUCCION
-	return (
-		<div>
-			No puede ejercer su derecho a voto
-			<br />
-			{denied.map(deniedVote => (
-				<React.Fragment key={`denied_vote_${deniedVote.id}`}>
-					<br />
-					{`${deniedVote.author.name} ${deniedVote.author.surname || ''} ${deniedVote.author.voteDeniedReason ? `: ${deniedVote.author.voteDeniedReason}` : ''}`}
-				</React.Fragment>
-			))}
+export const DeniedDisplay = ({ denied }) => (
+	<div>
+	No puede ejercer su derecho a voto
+		<br />
+		{denied.map(deniedVote => (
+			<React.Fragment key={`denied_vote_${deniedVote.id}`}>
+				<br />
+				{`${deniedVote.author.name} ${deniedVote.author.surname || ''} ${deniedVote.author.voteDeniedReason ? `: ${deniedVote.author.voteDeniedReason}` : ''}`}
+			</React.Fragment>
+		))}
 
-		</div>
-	);
-};
+	</div>
+);
 
 export const VotingButton = ({ onClick, text, selected, icon, loading, onChange, disabled, styleButton, selectCheckBox, color, disabledColor }) => {
 	const primary = getPrimary();

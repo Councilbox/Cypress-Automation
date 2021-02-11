@@ -98,7 +98,7 @@ const PresentVoteMenu = ({ agenda, agendaVoting, ...props }) => {
 							<div>Derecho a voto denegado</div>
 						</Tooltip>
 					</React.Fragment>
-					: 
+					:
 					<React.Fragment>
 						{block(VOTE_VALUES.POSITIVE, active === VOTE_VALUES.POSITIVE)}
 						{block(VOTE_VALUES.NEGATIVE, active === VOTE_VALUES.NEGATIVE)}

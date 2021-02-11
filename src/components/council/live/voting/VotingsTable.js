@@ -44,49 +44,49 @@ const VotingsTable = ({
 
 	const getTooltip = vote => {
 		switch (vote) {
-		case VOTE_VALUES.NO_VOTE:
-			return translate.no_vote;
-		case VOTE_VALUES.NEGATIVE:
-			return translate.against_btn;
-		case VOTE_VALUES.POSITIVE:
-			return translate.in_favor_btn;
-		case VOTE_VALUES.ABSTENTION:
-			return translate.abstention;
-		default:
-			return '-';
+			case VOTE_VALUES.NO_VOTE:
+				return translate.no_vote;
+			case VOTE_VALUES.NEGATIVE:
+				return translate.against_btn;
+			case VOTE_VALUES.POSITIVE:
+				return translate.in_favor_btn;
+			case VOTE_VALUES.ABSTENTION:
+				return translate.abstention;
+			default:
+				return '-';
 		}
 	};
 
 	const getStateIcon = vote => {
 		switch (vote) {
-		case 1:
-			return (
-				<FontAwesome
-					name={'user'}
-					color={primary}
-					style={{
-						margin: '0.5em',
-						color: secondary,
-						fontSize: '1.1em'
-					}}
-				/>
-			);
+			case 1:
+				return (
+					<FontAwesome
+						name={'user'}
+						color={primary}
+						style={{
+							margin: '0.5em',
+							color: secondary,
+							fontSize: '1.1em'
+						}}
+					/>
+				);
 
-		case 0:
-			return (
-				<FontAwesome
-					name={'globe'}
-					color={primary}
-					style={{
-						margin: '0.5em',
-						color: secondary,
-						fontSize: '1.1em'
-					}}
-				/>
-			);
+			case 0:
+				return (
+					<FontAwesome
+						name={'globe'}
+						color={primary}
+						style={{
+							margin: '0.5em',
+							color: secondary,
+							fontSize: '1.1em'
+						}}
+					/>
+				);
 
-		default:
-			return <div> </div>;
+			default:
+				return <div> </div>;
 		}
 	};
 

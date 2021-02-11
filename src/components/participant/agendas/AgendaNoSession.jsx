@@ -65,20 +65,18 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 
 	const itemRefs = [];
 
-	const renderAgendaCard = agenda => {
-		return (
-			<AgendaCard
-				agenda={agenda}
-				council={council}
-				translate={translate}
-				participant={participant}
-				refetch={data.refetch}
-				responses={responses}
-				setResponse={setResponses}
-				client={client}
-			/>
-		);
-	};
+	const renderAgendaCard = agenda => (
+		<AgendaCard
+			agenda={agenda}
+			council={council}
+			translate={translate}
+			participant={participant}
+			refetch={data.refetch}
+			responses={responses}
+			setResponse={setResponses}
+			client={client}
+		/>
+	);
 
 	const showFinishModal = () => {
 		setFinishModal(true);
@@ -133,26 +131,24 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 		}
 	}, [data]);
 
-	const renderModalBody = () => {
-		return (
-			<div style={{ width: '100%', height: '100%' }}>
-				<div style={{ height: '100%', marginTop: '1em', overflow: 'hidden', padding: '1em' }}>
-					<div style={{ marginBottom: '1em' }}>{translate.my_participation} - <span style={{ color: getPrimary() }}>{participant.name} {participant.surname || ''}</span></div>
-					<div style={{ height: 'calc( 100% - 2.5em )', }}>
-						<Scrollbar>
-							<Results
-								stylesHead={{ marginTop: '1em', }}
-								council={council}
-								participant={participant}
-								translate={translate}
-								endPage={true}
-							/>
-						</Scrollbar>
-					</div>
+	const renderModalBody = () => (
+		<div style={{ width: '100%', height: '100%' }}>
+			<div style={{ height: '100%', marginTop: '1em', overflow: 'hidden', padding: '1em' }}>
+				<div style={{ marginBottom: '1em' }}>{translate.my_participation} - <span style={{ color: getPrimary() }}>{participant.name} {participant.surname || ''}</span></div>
+				<div style={{ height: 'calc( 100% - 2.5em )', }}>
+					<Scrollbar>
+						<Results
+							stylesHead={{ marginTop: '1em', }}
+							council={council}
+							participant={participant}
+							translate={translate}
+							endPage={true}
+						/>
+					</Scrollbar>
 				</div>
 			</div>
-		);
-	};
+		</div>
+	);
 
 	const logout = () => {
 		store.dispatch(logoutParticipant(participant, council));
@@ -241,12 +237,10 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 	);
 
 	if (data.agendas) {
-		agendas = data.agendas.map(agenda => {
-			return {
-				...agenda,
-				votings: data.participantVotings.filter(voting => voting.agendaId === agenda.id)
-			};
-		});
+		agendas = data.agendas.map(agenda => ({
+			...agenda,
+			votings: data.participantVotings.filter(voting => voting.agendaId === agenda.id)
+		}));
 	}
 
 	if (props.inPc) {
@@ -354,15 +348,13 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 									}
 									{data.agendas ?
 										<React.Fragment>
-											{agendas.map((agenda, index) => {
-												return (
-													<React.Fragment key={`agenda_card_${index}`} >
-														<div ref={el => { itemRefs[agenda.id] = el; }}>
-															{renderAgendaCard(agenda)}
-														</div>
-													</React.Fragment>
-												);
-											})}
+											{agendas.map((agenda, index) => (
+												<React.Fragment key={`agenda_card_${index}`} >
+													<div ref={el => { itemRefs[agenda.id] = el; }}>
+														{renderAgendaCard(agenda)}
+													</div>
+												</React.Fragment>
+											))}
 										</React.Fragment>
 										:
 										<LoadingSection />
@@ -437,15 +429,13 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 					}
 					{data.agendas ?
 						<React.Fragment>
-							{agendas.map((agenda, index) => {
-								return (
-									<React.Fragment key={`agenda_card_${index}`} >
-										<div ref={el => { itemRefs[agenda.id] = el; }}>
-											{renderAgendaCard(agenda)}
-										</div>
-									</React.Fragment>
-								);
-							})}
+							{agendas.map((agenda, index) => (
+								<React.Fragment key={`agenda_card_${index}`} >
+									<div ref={el => { itemRefs[agenda.id] = el; }}>
+										{renderAgendaCard(agenda)}
+									</div>
+								</React.Fragment>
+							))}
 							{!noSession &&
 								<div style={{ marginTop: '0.5em', display: 'flex', justifyContent: 'flex-end' }}>
 									{renderExitButton()}

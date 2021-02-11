@@ -39,14 +39,14 @@ class ChangePwd extends React.PureComponent {
 			});
 			if (response.errors) {
 				switch (response.errors[0].code) {
-				case 402:
-					this.setState({
-						linkExpired: true
-					});
-					break;
+					case 402:
+						this.setState({
+							linkExpired: true
+						});
+						break;
 
-				default:
-					return;
+					default:
+						return;
 				}
 			}
 			if (response.data.changePwd.success) {
@@ -65,13 +65,13 @@ class ChangePwd extends React.PureComponent {
 		});
 		if (response.errors) {
 			switch (response.errors[0].code) {
-			case 440:
-				this.setState({
-					linkExpired: true
-				});
-				break;
+				case 440:
+					this.setState({
+						linkExpired: true
+					});
+					break;
 
-			default:
+				default:
 			}
 		}
 	};

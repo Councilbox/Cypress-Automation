@@ -65,14 +65,14 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 		let defaultIntention;
 
 		switch (council.councilType) {
-		case 0:
-			defaultIntention = PARTICIPANT_STATES.REMOTE;
-			break;
-		case 4:
-			defaultIntention = PARTICIPANT_STATES.SENT_VOTE_LETTER;
-			break;
-		default:
-			defaultIntention = PARTICIPANT_STATES.PRESENT;
+			case 0:
+				defaultIntention = PARTICIPANT_STATES.REMOTE;
+				break;
+			case 4:
+				defaultIntention = PARTICIPANT_STATES.SENT_VOTE_LETTER;
+				break;
+			default:
+				defaultIntention = PARTICIPANT_STATES.PRESENT;
 		}
 
 		if (participant.personOrEntity === 1 && !participant.delegateId) {
@@ -146,9 +146,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 		});
 	};
 
-	const isValidEarlyVoteState = intention => {
-		return intention === PARTICIPANT_STATES.EARLY_VOTE || intention === PARTICIPANT_STATES.DELEGATED || intention === PARTICIPANT_STATES.SENT_VOTE_LETTER;
-	};
+	const isValidEarlyVoteState = intention => intention === PARTICIPANT_STATES.EARLY_VOTE || intention === PARTICIPANT_STATES.DELEGATED || intention === PARTICIPANT_STATES.SENT_VOTE_LETTER;
 
 	const selectSimpleOption = async (option, signature) => {
 		const quitRepresentative = option !== PARTICIPANT_STATES.DELEGATED;
@@ -331,14 +329,13 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 	}
 
 
-	const getReunionActual = () => {
-		return (
-			<div style={{}}>
-				{state.invalidIntentioError &&
+	const getReunionActual = () => (
+		<div style={{}}>
+			{state.invalidIntentioError &&
 <span style={{ color: 'red', fontSize: '16px', fontWeight: '700' }}>{translate.must_select_valid_option}</span>
-				}
-				<div style={{ marginTop: '2em' }}>
-					{council.confirmAssistance !== 0 &&
+			}
+			<div style={{ marginTop: '2em' }}>
+				{council.confirmAssistance !== 0 &&
 <React.Fragment>
 	<AttendanceOptions
 		translate={translate}
@@ -350,35 +347,35 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 		council={council}
 	/>
 </React.Fragment>
-					}
-					<br />
-				</div>
+				}
+				<br />
+			</div>
 
-				<div style={{ display: 'flex', justifyContent: 'space-between', flexDirection: isMobile ? 'column' : 'row' }}>
-					<div style={{ width: '100%' }}>
-						{council.companyId === AECOC_ID ?
-							<>
-								<AssistanceOption
-									translate={translate}
-									title={'Quiero delegar el voto en otro socio (indique razón social y nombre de la persona):'}
-									select={() => {
-										setState({
-											...state,
-											assistanceIntention: PARTICIPANT_STATES.NO_PARTICIPATE,
-											locked: false,
-											noAttendWarning: false,
-											delegateId: null
-										});
-									}}
-									value={PARTICIPANT_STATES.NO_PARTICIPATE}
-									selected={state.assistanceIntention}
-								/>
-								{state.assistanceIntention === PARTICIPANT_STATES.NO_PARTICIPATE &&
+			<div style={{ display: 'flex', justifyContent: 'space-between', flexDirection: isMobile ? 'column' : 'row' }}>
+				<div style={{ width: '100%' }}>
+					{council.companyId === AECOC_ID ?
+						<>
+							<AssistanceOption
+								translate={translate}
+								title={'Quiero delegar el voto en otro socio (indique razón social y nombre de la persona):'}
+								select={() => {
+									setState({
+										...state,
+										assistanceIntention: PARTICIPANT_STATES.NO_PARTICIPATE,
+										locked: false,
+										noAttendWarning: false,
+										delegateId: null
+									});
+								}}
+								value={PARTICIPANT_STATES.NO_PARTICIPATE}
+								selected={state.assistanceIntention}
+							/>
+							{state.assistanceIntention === PARTICIPANT_STATES.NO_PARTICIPATE &&
 <RichTextInput
 	errorText={state.commentError}
 	translate={translate}
 	value={
-		!!participant.assistanceComment
+		participant.assistanceComment
 			? participant.assistanceComment
 			: ''
 	}
@@ -395,10 +392,10 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 	}
 	quillEditorButtonsEmpty={'quillEditorButtonsEmpty'}
 />
-								}
-							</>
-							:
-							config.attendanceComment &&
+							}
+						</>
+						:
+						config.attendanceComment &&
 <>
 	<div style={{ width: '100%', marginBottom: '1em' }}>
 		<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
@@ -409,7 +406,7 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 		errorText={state.commentError}
 		translate={translate}
 		value={
-			!!participant.assistanceComment
+			participant.assistanceComment
 				? participant.assistanceComment
 				: ''
 		}
@@ -427,12 +424,12 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 		quillEditorButtonsEmpty={'quillEditorButtonsEmpty'}
 	/>
 </>
-						}
+					}
 
-					</div>
-					<div style={{ marginLeft: isMobile ? '0' : '5em', marginTop: isMobile ? '1em' : '0', display: 'flex', alignItems: 'flex-end' }}>
-						<div>
-							{council.confirmAssistance !== 0 &&
+				</div>
+				<div style={{ marginLeft: isMobile ? '0' : '5em', marginTop: isMobile ? '1em' : '0', display: 'flex', alignItems: 'flex-end' }}>
+					<div>
+						{council.confirmAssistance !== 0 &&
 <BasicButton
 	text={(state.success || state.locked) ? translate.tooltip_sent : translate.send}
 	color={(state.locked || !check) ? 'grey' : primary}
@@ -450,41 +447,40 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 	} : sendButtonAction}
 	icon={<ButtonIcon type="save" color="white" />}
 />
-							}
-						</div>
+						}
 					</div>
 				</div>
-				<DelegateOwnVoteAttendantModal
-					show={state.delegationModal}
-					council={council}
-					participant={participant}
-					addRepresentative={selectDelegation}
-					requestClose={() => setState({ ...state, delegationModal: false })}
-					translate={translate}
-				/>
-				<VoteLetter
-					participant={participant}
-					delegation={state.delegateInfoUser}
-					setState={setState}
-					state={state}
-					council={council}
-					action={sendAttendanceIntention}
-					translate={translate}
-					open={openModalVoteLetter}
-					requestClose={() => setOpenModalVoteLetter(false)}
-				/>
-				<DelegationProxyModal
-					participant={participant}
-					delegation={state.delegateInfoUser}
-					council={council}
-					action={sendAttendanceIntention}
-					translate={translate}
-					open={openModalFirmasModal}
-					requestClose={() => setOpenModalFirmasModal(false)}
-				/>
 			</div>
-		);
-	};
+			<DelegateOwnVoteAttendantModal
+				show={state.delegationModal}
+				council={council}
+				participant={participant}
+				addRepresentative={selectDelegation}
+				requestClose={() => setState({ ...state, delegationModal: false })}
+				translate={translate}
+			/>
+			<VoteLetter
+				participant={participant}
+				delegation={state.delegateInfoUser}
+				setState={setState}
+				state={state}
+				council={council}
+				action={sendAttendanceIntention}
+				translate={translate}
+				open={openModalVoteLetter}
+				requestClose={() => setOpenModalVoteLetter(false)}
+			/>
+			<DelegationProxyModal
+				participant={participant}
+				delegation={state.delegateInfoUser}
+				council={council}
+				action={sendAttendanceIntention}
+				translate={translate}
+				open={openModalFirmasModal}
+				requestClose={() => setOpenModalFirmasModal(false)}
+			/>
+		</div>
+	);
 
 	/*
 en las council type === 4 se generan los votos para todos como una sin sesión
@@ -540,35 +536,33 @@ al borrar una carta de voto se elimina el proxy vote
 		);
 	};
 
-	const getHistorialReuniones = () => {
-		return (
-			<div>
-				<div style={{ marginTop: '2em' }}>
-					<div style={{ width: '100%' }}>
-						<div style={{ width: '100%', marginBottom: '1em' }}>
-							<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
-								{translate.comments}
-							</div>
-							<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
+	const getHistorialReuniones = () => (
+		<div>
+			<div style={{ marginTop: '2em' }}>
+				<div style={{ width: '100%' }}>
+					<div style={{ width: '100%', marginBottom: '1em' }}>
+						<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
+							{translate.comments}
+						</div>
+						<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
 
-							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		);
-	};
+		</div>
+	);
 
 	const getDatos = () => {
 		switch (selecteAssistance) {
-		case translate.council:
-			return getReunionActual();
-		case `${translate.representations_delegations} (${delegatedVotesNumber})`:
-			return getVotosDelegados();
-		case 'Historial de reuniones':
-			return getHistorialReuniones();
-		default:
-			break;
+			case translate.council:
+				return getReunionActual();
+			case `${translate.representations_delegations} (${delegatedVotesNumber})`:
+				return getVotosDelegados();
+			case 'Historial de reuniones':
+				return getHistorialReuniones();
+			default:
+				break;
 		}
 	};
 
@@ -718,11 +712,10 @@ const DelegationSection = ({ delegatedVotes, translate, refetch, representations
 				/>
 			}
 
-			{delegatedVotes.map(vote => {
-				return (
-					<Card key={vote.id} style={{ display: 'flex', color: '#000000', fontSize: '14px', padding: '0.5em 1em', marginBottom: '0.5em' }}>
-						<div>{vote.name} {vote.surname || ''}</div>
-						{!representations &&
+			{delegatedVotes.map(vote => (
+				<Card key={vote.id} style={{ display: 'flex', color: '#000000', fontSize: '14px', padding: '0.5em 1em', marginBottom: '0.5em' }}>
+					<div>{vote.name} {vote.surname || ''}</div>
+					{!representations &&
 							<div>
 								<i
 									onClick={() => setDelegation(vote)}
@@ -735,10 +728,9 @@ const DelegationSection = ({ delegatedVotes, translate, refetch, representations
 									}}
 								></i>
 							</div>
-						}
-					</Card>
-				);
-			})}
+					}
+				</Card>
+			))}
 		</div>
 	);
 };

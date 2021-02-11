@@ -113,7 +113,7 @@ Premium
 					<span style={{ fontSize: '0.9rem' }}>{`${user.email || '-'}`}</span>
 				</div>
 				<div style={{ width: centrado ? '' : '25%', padding: centrado ? '' : '4px 8px 4px 0px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-					{!!user.lastConnectionDate ?
+					{user.lastConnectionDate ?
 						<DateWrapper
 							format="DD/MM/YYYY HH:mm"
 							date={user.lastConnectionDate}

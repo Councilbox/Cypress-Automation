@@ -8,7 +8,6 @@ import {
 } from './index';
 import { getPrimary, getSecondary } from '../styles/colors';
 import withWindowSize from '../HOCs/withWindowSize';
-import '../styles/react-tabs.css';
 import Scrollbar from './Scrollbar';
 import { isMobile } from '../utils/screen';
 

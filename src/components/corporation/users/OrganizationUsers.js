@@ -9,23 +9,11 @@ import {
 	Scrollbar, Grid, PaginationFooter, LoadingSection, CardPageLayout, BasicButton, TextInput, Link, GridItem, AlertConfirm
 } from '../../../displayComponents';
 import { moment } from '../../../containers/App';
-import { USER_ACTIVATIONS } from '../../../constants';
 import NewUser from './NewUser';
 import { isMobile } from '../../../utils/screen';
+import { getActivationText } from '../../company/settings/CompanySettingsPage';
 
 const queryLimit = 20;
-
-const getActivationText = (value, translate) => {
-	const activations = {
-		// TRADUCCION
-		[USER_ACTIVATIONS.NOT_CONFIRMED]: 'No confirmado',
-		[USER_ACTIVATIONS.CONFIRMED]: translate.confirmed,
-		[USER_ACTIVATIONS.DEACTIVATED]: translate.disabled,
-		[USER_ACTIVATIONS.UNSUBSCRIBED]: translate.blocked
-	};
-
-	return activations[value] ? activations[value] : activations[USER_ACTIVATIONS.CONFIRMED];
-};
 
 const OrganizationUsers = ({ client, translate, company }) => {
 	const [inputSearch, setInputSearch] = React.useState(false);
@@ -218,7 +206,7 @@ const TablaUsuarios = withApollo(({
 											{getActivationText(item.actived, translate)}
 										</GridItem>
 										<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
-Id
+											Id
 										</GridItem>
 										<GridItem xs={8} md={8} lg={8} style={{
 											whiteSpace: 'nowrap',
@@ -317,7 +305,7 @@ Id
 					<div style={{
 						color: primary, fontWeight: 'bold', width: '10%', textAlign: 'left'
 					}}>
-Id
+						Id
 					</div>
 					<div style={{
 						color: primary, fontWeight: 'bold', width: '20%', textAlign: 'left'
@@ -327,7 +315,7 @@ Id
 					<div style={{
 						color: primary, fontWeight: 'bold', overflow: 'hidden', width: '20%', textAlign: 'left'
 					}}>
-Email
+						Email
 					</div>
 					<div style={{
 						color: primary, fontWeight: 'bold', overflow: 'hidden', width: '20%', textAlign: 'left'

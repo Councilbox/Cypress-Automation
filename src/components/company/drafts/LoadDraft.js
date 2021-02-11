@@ -2,12 +2,8 @@ import React from 'react';
 import { graphql, withApollo } from 'react-apollo';
 import { compose } from 'react-apollo/index';
 import gql from 'graphql-tag';
-import {
-	MenuItem, TableCell, TableRow, Divider, withStyles, IconButton, Collapse
-} from 'material-ui';
-import {
-	Scrollbar, TextInput, Icon, DropDownMenu, Grid, GridItem, EnhancedTable
-} from '../../../displayComponents/index';
+import { MenuItem, TableCell, TableRow, Divider, withStyles, IconButton, Collapse } from 'material-ui';
+import { Scrollbar, TextInput, Icon, DropDownMenu, Grid, GridItem, EnhancedTable } from '../../../displayComponents/index';
 import { companyDrafts, getCompanyDraftDataNoCompany } from '../../../queries/companyDrafts';
 import { DRAFTS_LIMITS, GOVERNING_BODY_TYPES } from '../../../constants';
 import { sendGAevent } from '../../../utils/analytics';
@@ -22,7 +18,7 @@ import { DraftRow } from './CompanyDraftList';
 
 const { NONE, ...governingBodyTypes } = GOVERNING_BODY_TYPES;
 
-export const draftTypes = gql`
+export const draftTypesQuery = gql`
 	query draftTypes {
 		draftTypes {
 			id
@@ -49,16 +45,13 @@ const styles = {
 	},
 };
 
-const LoadDraft = withApollo(withSharedProps()(({
-	majorityTypes, company, translate, client, match, defaultTags, ...props
-}) => {
+const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, translate, client, match, defaultTags, ...props }) => {
 	const [search, setSearchModal] = React.useState('');
 	const [searchModalPlantillas, setSearchModalPlantillas] = React.useState('');
 	const [testTags, setTestTags] = React.useState(null);
 	const [draftLoading, setDraftLoading] = React.useState(true);
 	const [draftsRender, setDraftsRender] = React.useState([]);
 	const [drafts, setDrafts] = React.useState([]);
-
 	const [vars, setVars] = React.useState({});
 	const [varsLoading, setVarsLoading] = React.useState(true);
 
@@ -115,13 +108,6 @@ const LoadDraft = withApollo(withSharedProps()(({
 		setTestTags(defaultTags ? { ...defaultTags } : {});
 	}, []);
 
-	const formatTagLabel = tag => (tag.segments ?
-		`${tag.segments.reduce((acc, curr) => {
-			if (curr !== tag.label) return `${acc + (translate[curr] || curr)}. `;
-			return acc;
-		}, '')}`
-		:		tag.label);
-
 	const addTag = tag => {
 		setTestTags({
 			...testTags,
@@ -138,6 +124,14 @@ const LoadDraft = withApollo(withSharedProps()(({
 		delete testTags[tag.name];
 		setTestTags({ ...testTags });
 	};
+
+	const formatTagLabel = tag => (tag.segments ?
+		`${tag.segments.reduce((acc, curr) => {
+			if (curr !== tag.label) return `${acc + (translate[curr] || curr)}. `;
+			return acc;
+		}, '')}`
+		:
+		tag.label);
 
 	if (!varsLoading) {
 		const tagsSearch = [];
@@ -158,7 +152,7 @@ const LoadDraft = withApollo(withSharedProps()(({
 			matchSearch = tagsSearch.filter(tag => tag.label.toLowerCase().includes(search.toLowerCase()));
 		}
 
-		const renderSelectedTags = () => {
+		const renderEtiquetasSeleccionadas = () => {
 			const TagColumn = localProps => (
 				<div style={{
 					display: 'flex',
@@ -233,9 +227,7 @@ const LoadDraft = withApollo(withSharedProps()(({
 										adornment={<Icon>search</Icon>}
 										type="text"
 										value={searchModalPlantillas}
-										styleInInput={{
-											fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px'
-										}}
+										styleInInput={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px' }}
 										classes={{ input: props.classes.input, formControl: props.classes.formControl }}
 										disableUnderline={true}
 										stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px' }}
@@ -256,72 +248,70 @@ const LoadDraft = withApollo(withSharedProps()(({
 					flexDirection: 'column',
 					minHeight: '3em'
 				}}>
-					{renderSelectedTags()}
+					{renderEtiquetasSeleccionadas()}
 				</div>
-				<div style={{
-					marginTop: '1em', borderTop: '2px solid #dcdcdc', minHeight: '20em', height: '0', overflow: 'hidden'
-				}}>
+				<div style={{ marginTop: '1em', borderTop: '2px solid #dcdcdc', minHeight: '20em', height: '0', overflow: 'hidden' }}>
 					<Scrollbar>
 						<Grid style={{ width: '100%', margin: '0 auto', height: 'calc( 100% - 3em )' }}>
 							<GridItem xs={12} lg={12} md={12} style={{ width: '100%', height: '100%' }}>
 								<div id={'contenedorPlantillasEnModal'} style={{ width: '100%', height: '100%' }}>
-									{!!drafts.list
-&& <EnhancedTable
-	hideTextFilter={true}
-	translate={translate}
-	defaultFilter={'title'}
-	page={1}
-	refetch={getData}
-	defaultLimit={DRAFTS_LIMITS[0]}
-	loading={draftLoading}
-	length={drafts.list.length}
-	total={drafts.total}
-	selectedCategories={[{
-		field: 'type',
-		value: 'all',
-		label: translate.all_plural
-	}]}
-	headers={[
-		{
-			text: translate.name,
-			name: 'title',
-			canOrder: true
-		},
-		{
-			name: 'type',
-			text: translate.tags,
-			canOrder: true
-		},
-		{
-			name: '',
-			text: ''
-		}
-	]}
-	companyID={company.id}
-	stylesDivSuperior={{ height: '100%' }}
->
-	{!draftLoading
-&& draftsRender.map(item => (
-	<HoverableRow
-		key={`key__${item.id}`}
-		translate={translate}
-		draft={item}
-		classes={props.classes}
-		draftTypes={draftTypes}
-		company={company}
-		companyStatutes={vars.companyStatutes}
-		info={props}
-		onClick={() => {
-			sendGAevent({
-				category: 'Borradores',
-				action: 'Carga de borrador',
-			});
-			props.loadDraft(item);
-		}}
-	/>
-))
-	}
-</EnhancedTable>
+									{!!drafts.list &&
+										<EnhancedTable
+											hideTextFilter={true}
+											translate={translate}
+											defaultFilter={'title'}
+											page={1}
+											refetch={getData}
+											defaultLimit={DRAFTS_LIMITS[0]}
+											loading={draftLoading}
+											length={drafts.list.length}
+											total={drafts.total}
+											selectedCategories={[{
+												field: 'type',
+												value: 'all',
+												label: translate.all_plural
+											}]}
+											headers={[
+												{
+													text: translate.name,
+													name: 'title',
+													canOrder: true
+												},
+												{
+													name: 'type',
+													text: translate.tags,
+													canOrder: true
+												},
+												{
+													name: '',
+													text: ''
+												}
+											]}
+											companyID={company.id}
+											stylesDivSuperior={{ height: '100%' }}
+										>
+											{!draftLoading &&
+												draftsRender.map(item => (
+													<HoverableRow
+														key={`key__${item.id}`}
+														translate={translate}
+														draft={item}
+														classes={props.classes}
+														draftTypes={props.info.draftTypes}
+														company={company}
+														companyStatutes={vars.companyStatutes}
+														info={props}
+														onClick={() => {
+															sendGAevent({
+																category: 'Borradores',
+																action: 'Carga de borrador',
+															});
+															props.loadDraft(item);
+														}}
+													/>
+												))
+											}
+										</EnhancedTable>
 									}
 								</div>
 							</GridItem>
@@ -337,9 +327,7 @@ const LoadDraft = withApollo(withSharedProps()(({
 }));
 
 
-const HoverableRow = ({
-	draft, company, translate, info, onClick, companyStatutes, classes, ...props
-}) => {
+const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, companyStatutes, classes, ...props }) => {
 	const [show, handlers] = useHoverRow();
 	const [expanded, setExpanded] = React.useState(false);
 
@@ -357,7 +345,7 @@ const HoverableRow = ({
 
 	const formatLabelFromName = tag => {
 		if (tag.type === 1) {
-			const statute = companyStatutes.find(companyStatute => companyStatute.id === +tag.name.split('_')[tag.name.split('_').length - 1]);
+			const statute = companyStatutes.find(item => item.id === +tag.name.split('_')[tag.name.split('_').length - 1]);
 			const title = statute ? statute.title : tag.label;
 			return translate[title] || title;
 		}
@@ -367,7 +355,8 @@ const HoverableRow = ({
 				if (curr !== tag.label) return `${acc + (translate[curr] || curr)}. `;
 				return acc;
 			}, '')}`
-			:			translate[tag.name] ? translate[tag.name] : tag.name;
+			:
+			translate[tag.name] ? translate[tag.name] : tag.name;
 	};
 
 	const renderEyeIcon = () => (
@@ -439,46 +428,47 @@ const HoverableRow = ({
 			<TableCell>
 				{draft.title}
 
-				{expanded
-&& <React.Fragment>
-	<div style={{ fontWeight: '700', marginTop: '1em' }}>{translate.content}</div>
-	<div dangerouslySetInnerHTML={{ __html: draft.text }} />
-</React.Fragment>
+				{expanded &&
+					<React.Fragment>
+						<div style={{ fontWeight: '700', marginTop: '1em' }}>{translate.content}</div>
+						<div dangerouslySetInnerHTML={{ __html: draft.text }} />
+					</React.Fragment>
 				}
 			</TableCell>
 			<TableCell>
 				<div style={{ display: 'flex' }}>
-					{columns
-&& Object.keys(columns).map(key => {
-	const columnaLength = columns[key].length;
-	return (
-		<TagColumn key={`column_${key}`}>
-			{columns[key].map((tag, index) => (
-				index > 0 ?
-					<Collapse in={expanded} timeout="auto" unmountOnExit>
-						<SelectedTag
-							key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}_`}
-							text={translate[tag.label] || tag.label}
-							color={getTagColor(tag.type)}
-							props={props}
-							list={true}
-							count={''}
-						/>
-					</Collapse>
-					:											<SelectedTag
-						key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}`}
-						text={translate[tag.label] || tag.label}
-						color={getTagColor(tag.type)}
-						props={props}
-						list={true}
-						count={columnaLength > 1 ? expanded ? '' : columnaLength : ''}
-						stylesEtiqueta={{ cursor: columnaLength > 1 ? 'pointer' : '', }}
-						desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ''}
-					/>
-			))}
-		</TagColumn>
-	);
-})
+					{columns &&
+						Object.keys(columns).map(key => {
+							const columnaLength = columns[key].length;
+							return (
+								<TagColumn key={`column_${key}`}>
+									{columns[key].map((tag, index) => (
+										index > 0 ?
+											<Collapse in={expanded} timeout="auto" unmountOnExit>
+												<SelectedTag
+													key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}_`}
+													text={translate[tag.label] || tag.label}
+													color={getTagColor(tag.type)}
+													props={props}
+													list={true}
+													count={''}
+												/>
+											</Collapse>
+											:
+											<SelectedTag
+												key={`tag_${translate[tag.label] || tag.label}_${key}_${index}_${tag.name}`}
+												text={translate[tag.label] || tag.label}
+												color={getTagColor(tag.type)}
+												props={props}
+												list={true}
+												count={columnaLength > 1 ? expanded ? '' : columnaLength : ''}
+												stylesEtiqueta={{ cursor: columnaLength > 1 ? 'pointer' : '', }}
+												desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ''}
+											/>
+									))}
+								</TagColumn>
+							);
+						})
 					}
 				</div>
 			</TableCell>
@@ -492,9 +482,7 @@ const HoverableRow = ({
 };
 
 
-export const DropdownEtiquetas = withStyles(styles)(({
-	stylesMenuItem, translate, corporation, search, setSearchModal, matchSearch, addTag, vars, testTags, styleBody, anchorOrigin, transformOrigin, removeTag, soloIcono, ...props
-}) => (
+export const DropdownEtiquetas = withStyles(styles)(({ stylesMenuItem, translate, corporation, search, setSearchModal, matchSearch, addTag, vars, testTags, styleBody, anchorOrigin, transformOrigin, removeTag, soloIcono, ...props }) => (
 	<DropDownMenu
 		id={'cargarPlantillasSelectorEtiquetas'}
 		color={primary}
@@ -504,9 +492,10 @@ export const DropdownEtiquetas = withStyles(styles)(({
 		transformOrigin={transformOrigin}
 		Component={() => (soloIcono ?
 			<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: '20px', paddingRight: '10px' }}>
-local_offer
+				local_offer
 			</i>
-			:			<MenuItem
+			:
+			<MenuItem
 				style={{
 					height: '100%',
 					border: ' solid 1px #35343496',
@@ -523,7 +512,7 @@ local_offer
 				}}
 			>
 				<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: '20px', paddingLeft: '10px' }}>
-local_offer
+					local_offer
 				</i>
 				{translate.filter_by}
 			</MenuItem>)
@@ -540,10 +529,9 @@ local_offer
 					...styleBody
 				}}>
 					<div style={{
-						width: '100%',
 						display: 'flex',
-						// flexDirection: "row",
 						justifyContent: 'space-between',
+						width: '100%'
 					}}
 					>
 						<div style={{
@@ -554,7 +542,7 @@ local_offer
 						}}
 						>
 							<i className="material-icons" style={{ transform: 'scaleX(-1)', fontSize: '20px', paddingLeft: '10px' }}>
-local_offer
+								local_offer
 							</i>
 							{translate.tags}
 						</div>
@@ -595,26 +583,28 @@ local_offer
 							title={translate.council_type}
 							tags={matchSearch}
 						/>
-						:						<Grid style={{
+						:
+
+						<Grid style={{
 							width: '100%',
 						}}>
 							<GridItem xs={3} lg={3} md={3} style={{
 								width: '100%',
 							}}>
 								<div style={{ width: '100%' }}>
-									{!!vars.companyStatutes
-&& <EtiquetasModal
-	color={getTagColor(TAG_TYPES.STATUTE)}
-	addTag={addTag}
-	title={translate.council_type}
-	stylesContent={{
-		border: '1px solid #c196c3',
-		color: getTagColor(TAG_TYPES.STATUTE),
-	}}
-	tags={vars.companyStatutes.map(statute => createTag(statute, TAG_TYPES.STATUTE, translate))}
-	testTags={testTags}
-	removeTag={removeTag}
-/>
+									{!!vars.companyStatutes &&
+										<EtiquetasModal
+											color={getTagColor(TAG_TYPES.STATUTE)}
+											addTag={addTag}
+											title={translate.council_type}
+											stylesContent={{
+												border: '1px solid #c196c3',
+												color: getTagColor(TAG_TYPES.STATUTE),
+											}}
+											tags={vars.companyStatutes.map(statute => createTag(statute, TAG_TYPES.STATUTE, translate))}
+											testTags={testTags}
+											removeTag={removeTag}
+										/>
 									}
 								</div>
 							</GridItem>
@@ -642,43 +632,43 @@ local_offer
 								width: '100%',
 							}}>
 								<div style={{ display: 'flex', width: '100%' }}>
-									{!!vars.draftTypes
-&& <EtiquetasModal
-	color={getTagColor(TAG_TYPES.DRAFT_TYPE)}
-	addTag={addTag}
-	title={translate.draft_type}
-	stylesContent={{
-		border: '1px solid #7fa5b6',
-		color: getTagColor(TAG_TYPES.DRAFT_TYPE),
-	}}
-	tags={vars.draftTypes.map(draft => createTag(draft, TAG_TYPES.DRAFT_TYPE, translate))}
-	testTags={testTags}
-	removeTag={removeTag}
-/>
+									{!!vars.draftTypes &&
+										<EtiquetasModal
+											color={getTagColor(TAG_TYPES.DRAFT_TYPE)}
+											addTag={addTag}
+											title={translate.draft_type}
+											stylesContent={{
+												border: '1px solid #7fa5b6',
+												color: getTagColor(TAG_TYPES.DRAFT_TYPE),
+											}}
+											tags={vars.draftTypes.map(draft => createTag(draft, TAG_TYPES.DRAFT_TYPE, translate))}
+											testTags={testTags}
+											removeTag={removeTag}
+										/>
 									}
 								</div>
 							</GridItem>
-							{((props.company && props.company.id === props.company.corporationId) || corporation)
-&& <GridItem xs={3} lg={3} md={3} style={{
-	width: '100%',
-}}>
-	<div style={{ display: 'flex', width: '100%' }}>
-		{!!vars.companyTypes
-&& <EtiquetasModal
-	color={getTagColor(TAG_TYPES.COMPANY_TYPE)}
-	addTag={addTag}
-	title={translate.company_type}
-	stylesContent={{
-		border: `1px solid ${getTagColor(TAG_TYPES.COMPANY_TYPE)}`,
-		color: getTagColor(TAG_TYPES.COMPANY_TYPE),
-	}}
-	tags={vars.companyTypes.map(draft => createTag(draft, TAG_TYPES.DRAFT_TYPE, translate))}
-	testTags={testTags}
-	removeTag={removeTag}
-/>
-		}
-	</div>
-</GridItem>
+							{((props.company && props.company.id === props.company.corporationId) || corporation) &&
+								<GridItem xs={3} lg={3} md={3} style={{
+									width: '100%',
+								}}>
+									<div style={{ display: 'flex', width: '100%' }}>
+										{!!vars.companyTypes &&
+											<EtiquetasModal
+												color={getTagColor(TAG_TYPES.COMPANY_TYPE)}
+												addTag={addTag}
+												title={translate.company_type}
+												stylesContent={{
+													border: `1px solid ${getTagColor(TAG_TYPES.COMPANY_TYPE)}`,
+													color: getTagColor(TAG_TYPES.COMPANY_TYPE),
+												}}
+												tags={vars.companyTypes.map(draft => createTag(draft, TAG_TYPES.DRAFT_TYPE, translate))}
+												testTags={testTags}
+												removeTag={removeTag}
+											/>
+										}
+									</div>
+								</GridItem>
 							}
 						</Grid>
 					}
@@ -688,47 +678,59 @@ local_offer
 	/>
 ));
 
-const EtiquetasModal = ({
-	color, title, tags, addTag, testTags, removeTag
-}) => (
-	<div style={{ width: '100%' }}>
-		<div style={{ fontWeight: '700' }}>
-			<div>{title}</div>
-		</div>
-		<div style={{ color, width: '100%' }}>
-			<div style={{
-				display: 'flex',
-				flexFlow: 'wrap column',
-				// maxHeight: '150px',
-				width: '100%'
-			}}
-			id={'tipoDeReunion'}
-			>
-				{tags.map(tag => (
-					<div
-						style={{
-							width: '100%',
-							marginRight: '1em',
-							cursor: 'pointer',
-							whiteSpace: 'nowrap',
-							overflow: 'hidden',
-							textOverflow: 'ellipsis',
-							maxWidth: tags.length > 6 ? '150px' : '220px',
-							...(testTags[tag.name] ? {
-								...styles
-							} : {}),
-						}}
-						key={`tag_${tag.label}`}
-						onClick={() => (testTags[tag.name] ? removeTag(tag) : addTag(tag))}
-					>
-						{tag.label}
-					</div>
-				))}
+
+const EtiquetasModal = ({ color, title, tags, addTag, testTags, removeTag }) => {
+	const tagStyles = {
+		borderRadius: '20px',
+		background: color,
+		padding: '0 0.5em',
+		display: 'inline-block',
+		marginRight: '0.5em',
+		marginBottom: '3px',
+		color: 'white'
+	};
+
+
+	return (
+		<div style={{ width: '100%' }}>
+			<div style={{ fontWeight: '700' }}>
+				<div>{title}</div>
+			</div>
+			<div style={{ color, width: '100%' }}>
+				<div style={{
+					display: 'flex',
+					flexFlow: 'wrap column',
+					// maxHeight: '150px',
+					width: '100%'
+				}}
+				id={'tipoDeReunion'}
+				>
+					{tags.map(tag => (
+						<div
+							style={{
+								width: '100%',
+								marginRight: '1em',
+								cursor: 'pointer',
+								whiteSpace: 'nowrap',
+								overflow: 'hidden',
+								textOverflow: 'ellipsis',
+								maxWidth: tags.length > 6 ? '150px' : '220px',
+								...(testTags[tag.name] ? {
+									...tagStyles
+								} : {}),
+							}}
+							key={`tag_${tag.label}`}
+							onClick={() => (testTags[tag.name] ? removeTag(tag) : addTag(tag))}
+						>
+							{tag.label}
+						</div>
+					))}
+				</div>
 			</div>
 		</div>
-	</div>
-);
+	);
+};
 
 export default compose(
-	graphql(draftTypes, { name: 'info' })
+	graphql(draftTypesQuery, { name: 'info' })
 )(withStyles(styles)(LoadDraft));

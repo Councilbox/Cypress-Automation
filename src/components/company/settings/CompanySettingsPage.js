@@ -427,30 +427,30 @@ const CompanySettingsPage = ({
 								/>
 							</GridItem>
 							{props.root
-&& <>
-	<GridItem xs={12} md={6} lg={4}>
-		<TextInput
-			floatingText={'Saldo'}
-			type="text"
-			value={data.balance || ''}
-			onChange={event => updateState({
-				balance: event.target.value
-			})
-			}
-		/>
-	</GridItem>
-	<GridItem xs={12} md={6} lg={4}>
-		<TextInput
-			floatingText={'Código cliente'}
-			type="text"
-			value={data.customerCode || ''}
-			onChange={event => updateState({
-				customerCode: event.target.value
-			})
-			}
-		/>
-	</GridItem>
-</>
+								&& <>
+									<GridItem xs={12} md={6} lg={4}>
+										<TextInput
+											floatingText={'Saldo'}
+											type="text"
+											value={data.balance || ''}
+											onChange={event => updateState({
+												balance: event.target.value
+											})
+											}
+										/>
+									</GridItem>
+									<GridItem xs={12} md={6} lg={4}>
+										<TextInput
+											floatingText={'Código cliente'}
+											type="text"
+											value={data.customerCode || ''}
+											onChange={event => updateState({
+												customerCode: event.target.value
+											})
+											}
+										/>
+									</GridItem>
+								</>
 							}
 							<GridItem xs={12} md={6} lg={4}>
 								<TextInput
@@ -547,41 +547,41 @@ const CompanySettingsPage = ({
 					<React.Fragment>
 						<GridItem xs={12} md={6} lg={3}>
 							{data.country
-&& <SelectInput
-	floatingText={translate.company_new_country}
-	value={countryInput ? 'otro' : data.country}
-	onChange={handleCountryChange}
-	errorText={errors.country}
->
-	{props.info.countries.map(country => (
-		<MenuItem
-			key={country.deno}
-			value={country.deno}
-		>
-			{country.deno}
-		</MenuItem>
-	))}
-	<MenuItem
-		key={'otro'}
-		value={'otro'}
-	>
-		{translate.other}
-	</MenuItem>
-</SelectInput>
+								&& <SelectInput
+									floatingText={translate.company_new_country}
+									value={countryInput ? 'otro' : data.country}
+									onChange={handleCountryChange}
+									errorText={errors.country}
+								>
+									{props.info.countries.map(country => (
+										<MenuItem
+											key={country.deno}
+											value={country.deno}
+										>
+											{country.deno}
+										</MenuItem>
+									))}
+									<MenuItem
+										key={'otro'}
+										value={'otro'}
+									>
+										{translate.other}
+									</MenuItem>
+								</SelectInput>
 							}
 						</GridItem>
 						{countryInput
-&& <GridItem xs={12} md={6} lg={3}>
-	<TextInput
-		floatingText={translate.company_new_country}
-		value={data.country}
-		errorText={errors.country}
-		onChange={event => updateState({
-			country: event.target.value
-		})
-		}
-	/>
-</GridItem>
+							&& <GridItem xs={12} md={6} lg={3}>
+								<TextInput
+									floatingText={translate.company_new_country}
+									value={data.country}
+									errorText={errors.country}
+									onChange={event => updateState({
+										country: event.target.value
+									})
+									}
+								/>
+							</GridItem>
 						}
 						<GridItem xs={12} md={6} lg={3}>
 							{provinces.length === 0 ?
@@ -594,7 +594,7 @@ const CompanySettingsPage = ({
 									})
 									}
 								/>
-								:	<SelectInput
+								: <SelectInput
 									id={'addSociedadProvincia'}
 									floatingText={translate.company_new_country_state}
 									value={data.countryState}
@@ -642,47 +642,47 @@ const CompanySettingsPage = ({
 							errorText={errors.language}
 						>
 							{props.info.languages
-&& props.info.languages.map(language => (
-	<MenuItem
-		key={`language_${language.columnName}`}
-		value={language.columnName}
-	>
-		{language.desc}
-	</MenuItem>
-))}
+								&& props.info.languages.map(language => (
+									<MenuItem
+										key={`language_${language.columnName}`}
+										value={language.columnName}
+									>
+										{language.desc}
+									</MenuItem>
+								))}
 						</SelectInput>
 					</GridItem>
 					{props.root
-&& <GridItem xs={12} md={6} lg={3}>
-	<SelectInput
-		floatingText={'Categoría'}
-		value={data.category}
-		onChange={event => updateState({
-			category: event.target.value
-		})
-		}
-		errorText={errors.language}
-	>
-		<MenuItem value="society">
-Sociedad
-		</MenuItem>
-		<MenuItem value="realEstate">
-Administración de fincas
-		</MenuItem>
-	</SelectInput>
-</GridItem>
+						&& <GridItem xs={12} md={6} lg={3}>
+							<SelectInput
+								floatingText={'Categoría'}
+								value={data.category}
+								onChange={event => updateState({
+									category: event.target.value
+								})
+								}
+								errorText={errors.language}
+							>
+								<MenuItem value="society">
+									Sociedad
+								</MenuItem>
+								<MenuItem value="realEstate">
+									Administración de fincas
+								</MenuItem>
+							</SelectInput>
+						</GridItem>
 					}
 					{props.root
-&& <GridItem xs={12} md={12} lg={12}>
-	<TablaUsuarios
-		translate={translate}
-		client={client}
-		companyId={company.id}
-		companyTin={company.tin}
-		corporationId={company.corporationId}
-		unlinkCompany={props.unlinkCompany}
-	/>
-</GridItem>
+						&& <GridItem xs={12} md={12} lg={12}>
+							<TablaUsuarios
+								translate={translate}
+								client={client}
+								companyId={company.id}
+								companyTin={company.tin}
+								corporationId={company.corporationId}
+								unlinkCompany={props.unlinkCompany}
+							/>
+						</GridItem>
 					}
 				</Grid>
 				<br />
@@ -704,60 +704,60 @@ Administración de fincas
 						icon={<ButtonIcon type="save" color="white" />}
 					/>
 					{company.corporationId !== 1
-&& <BasicButton
-	text={'Añadir administrador'}
-	color={primary}
-	floatRight
-	textStyle={{
-		color: 'white',
-		fontWeight: '700'
-	}}
-	buttonStyle={{ marginRight: '1.2em' }}
-	onClick={() => setState({
-		...state,
-		addAdminModal: true
-	})
-	}
-/>
+						&& <BasicButton
+							text={'Añadir administrador'}
+							color={primary}
+							floatRight
+							textStyle={{
+								color: 'white',
+								fontWeight: '700'
+							}}
+							buttonStyle={{ marginRight: '1.2em' }}
+							onClick={() => setState({
+								...state,
+								addAdminModal: true
+							})
+							}
+						/>
 					}
 					{props.linkButton
-&& <BasicButton
-	text={translate.unlink}
-	color={primary}
-	floatRight
-	textStyle={{
-		color: 'white',
-		fontWeight: '700'
-	}}
-	buttonStyle={{ marginRight: '1.2em' }}
-	onClick={() => setState({
-		...state,
-		unlinkModal: true
-	})
-	}
-	icon={<ButtonIcon type="link_off" color="white" />}
-/>
+						&& <BasicButton
+							text={translate.unlink}
+							color={primary}
+							floatRight
+							textStyle={{
+								color: 'white',
+								fontWeight: '700'
+							}}
+							buttonStyle={{ marginRight: '1.2em' }}
+							onClick={() => setState({
+								...state,
+								unlinkModal: true
+							})
+							}
+							icon={<ButtonIcon type="link_off" color="white" />}
+						/>
 					}
 
 					{props.confirmCompany
-&& <ConfirmCompanyButton
-	translate={translate}
-	company={company}
-	refetch={props.refetch}
-/>
+						&& <ConfirmCompanyButton
+							translate={translate}
+							company={company}
+							refetch={props.refetch}
+						/>
 					}
 					{props.root
-&& <DeleteCompanyButton
-	translate={translate}
-	company={company}
-/>
+						&& <DeleteCompanyButton
+							translate={translate}
+							company={company}
+						/>
 					}
 					{
 						props.root
-&& <CompanyVideoConfig
-	company={company}
-	translate={translate}
-/>
+						&& <CompanyVideoConfig
+							company={company}
+							translate={translate}
+						/>
 
 					}
 				</div>
@@ -906,70 +906,70 @@ const TablaUsuarios = ({
 					<Scrollbar>
 						<Grid style={{ padding: '1em', height: '100%' }}>
 							{users
-&& users.map(item => (
-	<Card style={{ marginBottom: '0.5em', padding: '1em' }} key={item.id}>
-		<Grid>
-			<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
-				{translate.state}
-			</GridItem>
-			<GridItem xs={8} md={8} lg={8} style={{
-				whiteSpace: 'nowrap',
-				overflow: 'hidden',
-				textOverflow: 'ellipsis'
-			}}>
-				{getActivationText(item.actived, translate)}
-			</GridItem>
-			<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
-				{translate.name}
-			</GridItem>
-			<GridItem xs={8} md={8} lg={8} style={{
-				whiteSpace: 'nowrap',
-				overflow: 'hidden',
-				textOverflow: 'ellipsis'
-			}}>
-				{`${item.name} ${item.surname}` || ''}
-			</GridItem>
-			<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
-				{translate.email}
-			</GridItem>
-			<GridItem xs={8} md={8} lg={8} style={{
-				whiteSpace: 'nowrap',
-				overflow: 'hidden',
-				textOverflow: 'ellipsis'
-			}}>
-				{item.email}
-			</GridItem>
-			<GridItem xs={4} md={4} lg={4} style={{
-				fontWeight: '700',
-				whiteSpace: 'nowrap',
-				overflow: 'hidden',
-				textOverflow: 'ellipsis'
-			}}>
-Últ.Conexión
-			</GridItem>
-			<GridItem xs={8} md={8} lg={8} style={{
-				whiteSpace: 'nowrap',
-				overflow: 'hidden',
-				textOverflow: 'ellipsis'
-			}}>
-				{moment(item.lastConnectionDate).format('LLL')}
-			</GridItem>
-		</Grid>
-		<CardActions>
-			<BasicButton
-				text={translate.unlink}
-				color={'white'}
-				textStyle={{
-					color: primary,
-					marginRight: '1em',
-					boxShadow: 'none',
-					padding: '0px'
-				}}
-				onClick={() => unlinkId(item.id)}
-			/>
-		</CardActions>
-	</Card>
-))}
+								&& users.map(item => (
+									<Card style={{ marginBottom: '0.5em', padding: '1em' }} key={item.id}>
+										<Grid>
+											<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+												{translate.state}
+											</GridItem>
+											<GridItem xs={8} md={8} lg={8} style={{
+												whiteSpace: 'nowrap',
+												overflow: 'hidden',
+												textOverflow: 'ellipsis'
+											}}>
+												{getActivationText(item.actived, translate)}
+											</GridItem>
+											<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+												{translate.name}
+											</GridItem>
+											<GridItem xs={8} md={8} lg={8} style={{
+												whiteSpace: 'nowrap',
+												overflow: 'hidden',
+												textOverflow: 'ellipsis'
+											}}>
+												{`${item.name} ${item.surname}` || ''}
+											</GridItem>
+											<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+												{translate.email}
+											</GridItem>
+											<GridItem xs={8} md={8} lg={8} style={{
+												whiteSpace: 'nowrap',
+												overflow: 'hidden',
+												textOverflow: 'ellipsis'
+											}}>
+												{item.email}
+											</GridItem>
+											<GridItem xs={4} md={4} lg={4} style={{
+												fontWeight: '700',
+												whiteSpace: 'nowrap',
+												overflow: 'hidden',
+												textOverflow: 'ellipsis'
+											}}>
+												Últ.Conexión
+											</GridItem>
+											<GridItem xs={8} md={8} lg={8} style={{
+												whiteSpace: 'nowrap',
+												overflow: 'hidden',
+												textOverflow: 'ellipsis'
+											}}>
+												{moment(item.lastConnectionDate).format('LLL')}
+											</GridItem>
+										</Grid>
+										<CardActions>
+											<BasicButton
+												text={translate.unlink}
+												color={'white'}
+												textStyle={{
+													color: primary,
+													marginRight: '1em',
+													boxShadow: 'none',
+													padding: '0px'
+												}}
+												onClick={() => unlinkId(item.id)}
+											/>
+										</CardActions>
+									</Card>
+								))}
 							<AlertConfirm
 								requestClose={() => setUnlink(false)}
 								open={unlink}
@@ -1075,7 +1075,7 @@ const TablaUsuarios = ({
 						<div style={{
 							color: getPrimary(), fontWeight: 'bold', overflow: 'hidden', width: 'calc( 100% / 5 )', textAlign: 'left'
 						}}>
-Últ.Conexión
+							Últ.Conexión
 						</div>
 						<div style={{
 							color: getPrimary(), fontWeight: 'bold', overflow: 'hidden', width: 'calc( 100% / 5 )', textAlign: 'left'
@@ -1086,42 +1086,42 @@ const TablaUsuarios = ({
 					<div style={{ height: '300px' }}>
 						<Scrollbar>
 							{users
-&& users.map(item => (
-	<div
-		key={item.id}
-		style={{
-			display: 'flex',
-			justifyContent: 'space-between',
-			padding: '1em',
-			alignItems: 'center'
-		}}>
-		<Cell text={getActivationText(item.actived, translate)} />
-		<Cell text={`${item.name} ${item.surname}` || ''} />
-		<Cell text={item.email} />
-		<Cell text={item.lastConnectionDate && moment(item.lastConnectionDate).format('LLL')} />
-		<Cell
-			styles={{ padding: '3px' }}
-			text={
-				<BasicButton
-					text={translate.unlink}
-					color={'white'}
-					textStyle={{
-						color: primary,
-						background: 'white',
-						borderRadius: '4px',
-						boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)',
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'center',
-						padding: '0.3em',
-						marginRight: '1em',
-						width: '100px'
-					}}
-					onClick={() => unlinkId(item.id)}
-				/>
-			} />
-	</div>
-))}
+								&& users.map(item => (
+									<div
+										key={item.id}
+										style={{
+											display: 'flex',
+											justifyContent: 'space-between',
+											padding: '1em',
+											alignItems: 'center'
+										}}>
+										<Cell text={getActivationText(item.actived, translate)} />
+										<Cell text={`${item.name} ${item.surname}` || ''} />
+										<Cell text={item.email} />
+										<Cell text={item.lastConnectionDate && moment(item.lastConnectionDate).format('LLL')} />
+										<Cell
+											styles={{ padding: '3px' }}
+											text={
+												<BasicButton
+													text={translate.unlink}
+													color={'white'}
+													textStyle={{
+														color: primary,
+														background: 'white',
+														borderRadius: '4px',
+														boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)',
+														display: 'flex',
+														alignItems: 'center',
+														justifyContent: 'center',
+														padding: '0.3em',
+														marginRight: '1em',
+														width: '100px'
+													}}
+													onClick={() => unlinkId(item.id)}
+												/>
+											} />
+									</div>
+								))}
 						</Scrollbar>
 					</div>
 					<AlertConfirm
@@ -1255,67 +1255,67 @@ const TablaUsuariosAdmin = ({
 					<Scrollbar>
 						<Grid style={{ padding: '1em', height: '100%' }}>
 							{users
-&& users.map(item => (
-	<Card style={{ marginBottom: '0.5em', padding: '1em' }} key={item.id}>
-		<Grid style={{ position: 'relative' }}>
-			<div style={{
-				display: 'flex', justifyContent: 'flex-end', position: 'absolute', right: '-18px', top: '-14px'
-			}}>
-				<Checkbox
-					value={isChecked(item.id)}
-					onChange={(event, isInputChecked) => {
-						checkUser(item, isInputChecked);
-					}}
-				/>
-			</div>
-			<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
-				{translate.state}
-			</GridItem>
-			<GridItem xs={8} md={8} lg={8} style={{
-				whiteSpace: 'nowrap',
-				overflow: 'hidden',
-				textOverflow: 'ellipsis'
-			}}>
-				{getActivationText(item.actived, translate)}
-			</GridItem>
-			<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
-				{translate.name}
-			</GridItem>
-			<GridItem xs={8} md={8} lg={8} style={{
-				whiteSpace: 'nowrap',
-				overflow: 'hidden',
-				textOverflow: 'ellipsis'
-			}}>
-				{`${item.name} ${item.surname}` || ''}
-			</GridItem>
-			<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
-				{translate.email}
-			</GridItem>
-			<GridItem xs={8} md={8} lg={8} style={{
-				whiteSpace: 'nowrap',
-				overflow: 'hidden',
-				textOverflow: 'ellipsis'
-			}}>
-				{item.email}
-			</GridItem>
-			<GridItem xs={4} md={4} lg={4} style={{
-				fontWeight: '700',
-				whiteSpace: 'nowrap',
-				overflow: 'hidden',
-				textOverflow: 'ellipsis'
-			}}>
-Últ.Conexión
-			</GridItem>
-			<GridItem xs={8} md={8} lg={8} style={{
-				whiteSpace: 'nowrap',
-				overflow: 'hidden',
-				textOverflow: 'ellipsis'
-			}}>
-				{moment(item.lastConnectionDate).format('LLL')}
-			</GridItem>
-		</Grid>
-	</Card>
-))}
+								&& users.map(item => (
+									<Card style={{ marginBottom: '0.5em', padding: '1em' }} key={item.id}>
+										<Grid style={{ position: 'relative' }}>
+											<div style={{
+												display: 'flex', justifyContent: 'flex-end', position: 'absolute', right: '-18px', top: '-14px'
+											}}>
+												<Checkbox
+													value={isChecked(item.id)}
+													onChange={(event, isInputChecked) => {
+														checkUser(item, isInputChecked);
+													}}
+												/>
+											</div>
+											<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+												{translate.state}
+											</GridItem>
+											<GridItem xs={8} md={8} lg={8} style={{
+												whiteSpace: 'nowrap',
+												overflow: 'hidden',
+												textOverflow: 'ellipsis'
+											}}>
+												{getActivationText(item.actived, translate)}
+											</GridItem>
+											<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+												{translate.name}
+											</GridItem>
+											<GridItem xs={8} md={8} lg={8} style={{
+												whiteSpace: 'nowrap',
+												overflow: 'hidden',
+												textOverflow: 'ellipsis'
+											}}>
+												{`${item.name} ${item.surname}` || ''}
+											</GridItem>
+											<GridItem xs={4} md={4} lg={4} style={{ fontWeight: '700' }}>
+												{translate.email}
+											</GridItem>
+											<GridItem xs={8} md={8} lg={8} style={{
+												whiteSpace: 'nowrap',
+												overflow: 'hidden',
+												textOverflow: 'ellipsis'
+											}}>
+												{item.email}
+											</GridItem>
+											<GridItem xs={4} md={4} lg={4} style={{
+												fontWeight: '700',
+												whiteSpace: 'nowrap',
+												overflow: 'hidden',
+												textOverflow: 'ellipsis'
+											}}>
+												Últ.Conexión
+											</GridItem>
+											<GridItem xs={8} md={8} lg={8} style={{
+												whiteSpace: 'nowrap',
+												overflow: 'hidden',
+												textOverflow: 'ellipsis'
+											}}>
+												{moment(item.lastConnectionDate).format('LLL')}
+											</GridItem>
+										</Grid>
+									</Card>
+								))}
 							<Grid style={{ marginTop: '1em' }}>
 								<PaginationFooter
 									page={usersPage}
@@ -1423,33 +1423,33 @@ const TablaUsuariosAdmin = ({
 					<div style={{ height: '300px' }}>
 						<Scrollbar>
 							{users
-&& users.map(item => (
-	<div
-		key={item.id}
-		style={{
-			display: 'flex',
-			justifyContent: 'space-between',
-			padding: '1em',
-			alignItems: 'center'
-		}}>
-		<Cell
-			styles={{ width: '3em' }}
-			text={
-				<Checkbox
-					value={isChecked(item.id)}
-					onChange={(event, isInputChecked) => {
-						checkUser(item, isInputChecked);
-					}}
-				/>
-			}
-		/>
-		<Cell text={getActivationText(item.actived, translate)} />
-		<Cell text={`${item.name} ${item.surname}` || ''} />
-		<Cell text={item.email} />
-		<Cell text={item.lastConnectionDate && moment(item.lastConnectionDate).format('LLL')} />
-	</div>
+								&& users.map(item => (
+									<div
+										key={item.id}
+										style={{
+											display: 'flex',
+											justifyContent: 'space-between',
+											padding: '1em',
+											alignItems: 'center'
+										}}>
+										<Cell
+											styles={{ width: '3em' }}
+											text={
+												<Checkbox
+													value={isChecked(item.id)}
+													onChange={(event, isInputChecked) => {
+														checkUser(item, isInputChecked);
+													}}
+												/>
+											}
+										/>
+										<Cell text={getActivationText(item.actived, translate)} />
+										<Cell text={`${item.name} ${item.surname}` || ''} />
+										<Cell text={item.email} />
+										<Cell text={item.lastConnectionDate && moment(item.lastConnectionDate).format('LLL')} />
+									</div>
 
-))}
+								))}
 						</Scrollbar>
 					</div>
 					<Grid style={{ marginTop: '1em' }}>
@@ -1525,7 +1525,6 @@ const AddAdmin = ({
 		<AlertConfirm
 			requestClose={requestClose}
 			open={open}
-			buttonCancel={translate.accept}
 			bodyText={renderBody()}
 			title={translate.users_add}
 		/>

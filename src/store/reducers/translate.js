@@ -6,14 +6,14 @@ export default function translateReducer(
 	action
 ) {
 	switch (action.type) {
-	case 'LOADED_LANG':
-		return {
-			...action.value,
-			selectedLanguage: action.selected
-		};
-	default:
-		return {
-			...state
-		};
+		case 'LOADED_LANG':
+			return {
+				...action.value,
+				selectedLanguage: action.selected
+			};
+		default:
+			return {
+				...state
+			};
 	}
 }

@@ -50,16 +50,16 @@ class ErrorState extends React.Component {
 handleNotCompatible = status => {
 	const { translate, windowSize, windowOrientation } = this.props;
 	switch (status) {
-	case UNSUPORTED_WINDOWS_VERSION:
-		return <UnsuportedWindowsVersion translate={translate} windowSize={windowSize} windowOrientation={windowOrientation} />;
+		case UNSUPORTED_WINDOWS_VERSION:
+			return <UnsuportedWindowsVersion translate={translate} windowSize={windowSize} windowOrientation={windowOrientation} />;
 
-	case IOS_DEVICE:
-		return <IOSDevice translate={translate} windowSize={windowSize} windowOrientation={windowOrientation} />;
+		case IOS_DEVICE:
+			return <IOSDevice translate={translate} windowSize={windowSize} windowOrientation={windowOrientation} />;
 
-	case NOT_COMPATIBLE_BROWSER:
-		return <NotCompatibleBrowser translate={translate} windowSize={windowSize} windowOrientation={windowOrientation} />;
-	default:
-		return <div />;
+		case NOT_COMPATIBLE_BROWSER:
+			return <NotCompatibleBrowser translate={translate} windowSize={windowSize} windowOrientation={windowOrientation} />;
+		default:
+			return <div />;
 	}
 };
 
