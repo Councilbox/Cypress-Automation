@@ -21,6 +21,7 @@ import VoteLetters from './VoteLetters';
 import Results from './Results';
 import { hasParticipations } from '../../../../utils/CBX';
 import CommenWallList from './CommenWallList';
+import CouncilSurveyRecounts from './CouncilSurveyRecounts';
 
 
 const ActEditorPage = ({
@@ -137,6 +138,21 @@ const ActEditorPage = ({
 						council={council}
 						translate={translate}
 						refetch={props.refetch}
+					/>
+				</Scrollbar>
+			)
+		});
+	}
+
+	if (config.councilSurvey) {
+		tabs.push({
+			label: 'Encuesta',
+			value: 'survey',
+			component: () => (
+				<Scrollbar>
+					<CouncilSurveyRecounts
+						council={council}
+						translate={translate}
 					/>
 				</Scrollbar>
 			)

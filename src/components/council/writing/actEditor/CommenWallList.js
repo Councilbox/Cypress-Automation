@@ -61,13 +61,9 @@ const CommenWallList = ({ council, translate, client }) => {
 		return <LoadingSection />;
 	}
 
-	if (data.participantComments.length === 0) {
-		return translate.no_results;
-	}
-
 	return (
 		<div style={{
-			width: '95%', margin: 'auto', paddingBottom: '5em', marginTop: '1em'
+			width: '95%', margin: 'auto', padding: '1em', paddingBottom: '5em', marginTop: '1em'
 		}}>
 			{data.participantComments.length === 0 ?
 				translate.no_results
@@ -108,7 +104,7 @@ const CommenWallList = ({ council, translate, client }) => {
 											}}
 											/>
 											<span style={{ marginLeft: '2.5em', marginRight: '0.8em' }}>
-PDF
+												PDF
 											</span>
 										</div>
 									</MenuItem>
