@@ -73,10 +73,75 @@ const CouncilSurveyRecounts = ({ council, translate, client }) => {
 							</div>
 						</div>
 					))}
+					<CouncilSurveyComments
+						council={council}
+						translate={translate}
+					/>
 				</>
 				: translate.no_results}
 		</div>
 	);
 };
+
+const CouncilSurveyComments = withApollo(({ council, translate, client }) => {
+	const { data, loading } = useQueryReducer({
+		client,
+		query: gql`
+            query councilSurveySuggestions($councilId: Int!){
+                councilSurveySuggestions(councilId: $councilId){
+                    suggestions
+					creationDate
+					id
+                    participant {
+						name
+						surname
+					}
+                }
+            }
+        `,
+		variables: {
+			councilId: council.id
+		},
+		pollInterval: 60000
+	});
+
+	if (loading && !data) {
+		return <LoadingSection />;
+	}
+
+	return (
+		<div style={{ marginTop: '2em' }}>
+			{data.councilSurveySuggestions.length > 0 ?
+				<>
+					<h4 style={{ marginBottom: '1em' }}>{translate.suggestions}</h4>
+					{data.councilSurveySuggestions.map(suggestion => (
+						<div
+							key={`suggestion_${suggestion.id}`}
+							style={{
+								borderBottom: '1px solid black',
+								paddingBottom: '0.6em'
+							}}
+						>
+							<div
+								dangerouslySetInnerHTML={{
+									__html: suggestion.suggestions
+								}}
+								style={{
+									fontStyle: 'italic',
+									fontSize: '0.85em'
+								}}
+							></div>
+							<span
+								style={{ fontSize: '0.73rem', fontWeight: '700' }}
+							>{`${suggestion.participant.name} ${suggestion.participant.surname || ''}`}
+							</span>
+						</div>
+
+					))}
+				</>
+				: ''}
+		</div>
+	);
+});
 
 export default withApollo(CouncilSurveyRecounts);
