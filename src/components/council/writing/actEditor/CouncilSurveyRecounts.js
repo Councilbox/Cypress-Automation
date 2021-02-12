@@ -12,11 +12,11 @@ const labels = {
 	performance: 'rate_performance',
 	recommend: 'degree_recomend_use',
 	care: 'rate_care_received'
-}
+};
 
 const CouncilSurveyRecounts = ({ council, translate, client }) => {
 	const primary = getPrimary();
-	const { data, errors, loading } = useQueryReducer({
+	const { data, loading } = useQueryReducer({
 		client,
 		query: gql`
             query CouncilSurveyRecount($councilId: Int!){
