@@ -133,21 +133,24 @@ class TranslationsPage extends React.Component {
 						alignItems: 'center'
 					}}
 				>
-					<BasicButton
-						text={
-							<div>
-								Nueva traducción
-								<i
-									className="fa fa-plus"
-									aria-hidden="true"
-									style={{ paddingLeft: '0.5em' }}
-								/>
-							</div>
-						}
-						onClick={this.showNewModal}
-						color={secondary}
-						textStyle={{ color: 'white' }}
-					/>
+					{window.location.hostname.split('.')[0] === 'localhost' &&
+						<BasicButton
+							text={
+								<div>
+									Nueva traducción
+									<i
+										className="fa fa-plus"
+										aria-hidden="true"
+										style={{ paddingLeft: '0.5em' }}
+									/>
+								</div>
+							}
+							onClick={this.showNewModal}
+							color={secondary}
+							textStyle={{ color: 'white' }}
+						/>
+					}
+
 					<NewTranslationModal
 						open={this.state.newModal}
 						requestClose={this.closeNewModal}
@@ -196,11 +199,13 @@ class TranslationsPage extends React.Component {
 								</CardContent>
 								<CardActions>
 									<div>
-										<EditTranslationsModal
-											translation={translation}
-											translate={this.props.translate}
-											refresh={this.refresh}
-										/>
+										{window.location.hostname.split('.')[0] === 'localhost' &&
+											<EditTranslationsModal
+												translation={translation}
+												translate={this.props.translate}
+												refresh={this.refresh}
+											/>
+										}
 									</div>
 								</CardActions>
 							</Card>

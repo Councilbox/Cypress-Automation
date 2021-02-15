@@ -115,7 +115,7 @@ const NewTranslationModal = ({ translate, ...props }) => {
 		}
 	};
 
-	const _renderModalBody = () => (
+	const renderModalBody = () => (
 		<TranslationForm
 			errors={state.errors}
 			updateState={updateState}
@@ -128,10 +128,11 @@ const NewTranslationModal = ({ translate, ...props }) => {
 		<AlertConfirm
 			requestClose={props.requestClose}
 			open={props.open}
+			hideAccept={window.location.hostname.split('.')[0] !== 'localhost'}
 			acceptAction={props.values ? updateTranslationAction : saveNewTranslation}
 			buttonAccept={translate.accept}
 			buttonCancel={translate.cancel}
-			bodyText={_renderModalBody()}
+			bodyText={renderModalBody()}
 			title={props.values ? translate.edit : 'Nueva traducción'}
 		/>
 	);

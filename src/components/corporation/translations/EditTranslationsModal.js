@@ -18,7 +18,7 @@ const EditTranslationsModal = ({ translation, translate, refresh }) => {
 		<React.Fragment>
 
 			<Button size="small" color="primary" onClick={showEditTraductions} >
-Editar
+				Editar
 				<i className="fa fa-pencil-square-o" style={{ paddingLeft: '5px', paddingTop: '2px', fontSize: '16px' }}></i>
 			</Button>
 
