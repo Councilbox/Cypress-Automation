@@ -256,7 +256,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 												{council.name}
 											</div>
 											<div style={{ display: 'flex' }} >
--
+												-
 											</div>
 										</div>
 										<div>
@@ -282,24 +282,24 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 										</div>
 										<div style={{ marginTop: '1em', height: '100%' }}>
 											{selectHeadFinished === 'participacion' &&
-<div style={{ paddingBottom: '1em', height: '100%' }}>
-	<ResultsTimeline
-		disableScroll={true}
-		council={council}
-		participant={props.participant}
-		translate={translate}
-		endPage={true}
-	/>
-</div>
+												<div style={{ paddingBottom: '1em', height: '100%' }}>
+													<ResultsTimeline
+														disableScroll={true}
+														council={council}
+														participant={props.participant}
+														translate={translate}
+														endPage={true}
+													/>
+												</div>
 											}
 											{selectHeadFinished === 'contactAdmin' &&
-<div style={{ paddingBottom: '1em' }}>
-	<ContactForm
-		participant={props.participant}
-		translate={translate}
-		council={council}
-	/>
-</div>
+												<div style={{ paddingBottom: '1em' }}>
+													<ContactForm
+														participant={props.participant}
+														translate={translate}
+														council={council}
+													/>
+												</div>
 											}
 										</div>
 									</div>
@@ -307,7 +307,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 							</Scrollbar>
 						</div>
 						:
-					// <div style={{ width: "100%", padding: "0.5em", paddingTop: "1.5em", fontSize: "15px" }}>
+						// <div style={{ width: "100%", padding: "0.5em", paddingTop: "1.5em", fontSize: "15px" }}>
 						<div style={{ height: '100%', width: '100%', padding: '0.5em', paddingTop: '1.5em', fontSize: '15px', overflow: 'hidden' }}>
 							<div style={{ width: '100%', background: 'white', padding: '0.8em 1em', borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}>
 								<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '1em', marginBottom: '2em' }}>
@@ -395,7 +395,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 				style={{
 					...styles.textContainer,
 					...(windowSize === 'xs' &&
-windowOrientation === 'portrait'
+						windowOrientation === 'portrait'
 						? { maxWidth: '100%', width: '100%' }
 						: { maxWidth: '85%', minWidth: '100%' }),
 					// : { maxWidth: "50%", minWidth: "50%" }),
@@ -442,8 +442,7 @@ const TextRender = ({ title, text, isHtmlText, council, company, translate, wind
 				</p>
 			)}
 
-			{council.noCelebrateComment &&
-council.noCelebrateComment.trim() !== '' && (
+			{(council.noCelebrateComment && council.noCelebrateComment.trim() !== '') && (
 				<div style={{ maxWidth: '100%', position: 'relative' }}>
 					<p style={{ marginBottom: '0px' }}>
 						{translate.reason_not_held_council}:
@@ -479,7 +478,7 @@ council.noCelebrateComment.trim() !== '' && (
 };
 
 
-const CouncilInfoCardRender = ({ council, windowOrientation }) => (
+export const CouncilInfoCardRender = ({ council, windowOrientation }) => (
 	<React.Fragment>
 		<div
 			style={{
@@ -510,7 +509,7 @@ const TextDialog = ({ open, handleClose, title, text }) => (
 	>
 		{title && (
 			<DialogTitle id="simple-dialog-title">
-Set backup account
+				Set backup account
 			</DialogTitle>
 		)}
 		<DialogContent>

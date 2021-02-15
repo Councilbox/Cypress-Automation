@@ -10,6 +10,8 @@ import Assistance from '../components/participant/assistance/Assistance';
 import { ConfigContext } from './AppControl';
 import { COUNCIL_TYPES } from '../constants';
 import OneOnOneDocumentation from '../components/participant/assistance/OneOnOneDocumentation';
+import CanceledCouncil from '../components/CanceledCouncil';
+
 
 const AttendanceContainer = ({ data, translate, actions }) => {
 	const [companyId, setCompanyId] = React.useState(null);
@@ -49,6 +51,10 @@ const AttendanceContainer = ({ data, translate, actions }) => {
 
 	if (translate.selectedLanguage !== data.participant.language) {
 		return <LoadingMainApp />;
+	}
+
+	if (data.councilVideo.state === -1) {
+		return <CanceledCouncil council={data.councilVideo} translate={translate} />;
 	}
 
 	if (data.councilVideo.councilType === COUNCIL_TYPES.ONE_ON_ONE) {
@@ -155,6 +161,7 @@ const participantQuery = gql`
 			hasLimitDate
 			id
 			confirmAssistance
+			noCelebrateComment
 			remoteCelebration
 			limitDateResponse
 			name
