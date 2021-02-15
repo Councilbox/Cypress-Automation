@@ -143,7 +143,7 @@ const CouncilSurveyModal = ({
 									fontWeight: '800', color: 'white', fontSize: '.9rem', padding: '1rem'
 								}} >
 									<p style={{ margin: '0' }}>
-										{translate.rate_app.replace(/{{appName}}/, subdomain.title || 'Councilbox')}
+										{translate.satisfaction_survey}
 									</p>
 								</div>
 							</div>
@@ -155,7 +155,7 @@ const CouncilSurveyModal = ({
 						<div>
 							{/* <Scrollbar> */}
 							<div>
-								<div>{translate.rate_the_satisfaction.replace(/{{appName}}/, subdomain.title || 'Councilbox')}</div>
+								<div>{translate.rate_the_satisfaction.replace(/{{appName}}/, subdomain.title || 'Councilbox')}.</div>
 								<div>
 									<Stars
 										name={'satisfaction'}
