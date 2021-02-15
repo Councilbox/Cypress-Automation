@@ -31,206 +31,206 @@ const AlignStyle = Quill.import('attributors/style/align');
 Quill.register(AlignStyle, true);
 
 class RichTextInput extends React.Component {
-state = {
-	value: this.props.value,
-	showTags: false,
-	companyTags: []
-};
-
-componentDidMount() {
-	this.setState({
-		value: this.props.value
-	});
-}
-
-shouldComponentUpdate(prevProps, prevState) {
-	return (prevProps.value !== this.props.value
-|| prevProps.tags !== this.props.tags
-|| prevProps.errorText !== this.props.errorText) || prevState !== this.state;
-}
-
-changeShowTags = () => {
-	this.setState({
-		showTags: !this.state.showTags
-	});
-};
-
-onChange = value => {
-	if (!this.rtEditor) {
-		return;
-	}
-	const html = value.toString('html');
-
-	this.setState({ value });
-	if (this.props.onChange) {
-		if (removeHTMLTags(html).length > 0) {
-			this.props.onChange(
-				html.replace(/<a /g, '<a target="_blank" ')
-			);
-		} else {
-			this.props.onChange('');
-		}
-	}
-};
-
-setValue = value => {
-	this.setState({
-		value
-	});
-};
-
-paste = text => {
-	const quill = this.rtEditor.getEditor();
-	let selection = quill.getSelection();
-	if (!selection) {
-		this.rtEditor.focus();
-		selection = quill.getSelection();
-	}
-	quill.clipboard.dangerouslyPasteHTML(selection.index, text);
-	setTimeout(() => {
-		// this.rtEditor.focus();
-		quill.setSelection(selection.index + removeHTMLTags(text).length, 0);
-	}, 500);
-};
-
-checkCharacterCount = event => {
-	if (this.props.maxChars) {
-		if (removeHTMLTags(this.state.value.toString()).length >= this.props.maxChars && event.key !== 'Backspace') {
-			event.preventDefault();
-		}
-	}
-}
-
-
-render() {
-	const {
-		tags, loadDraft, errorText, required, borderless, translate, styles, stylesQuill, placeholder
-	} = this.props;
-	const modules = {
-		toolbar: {
-			container: [
-				[{ color: [] }, { background: [] }], ['bold', 'italic', 'underline', 'link', 'strike'],
-				['blockquote', 'code-block', { list: 'ordered' }, { list: 'bullet' }],
-				[{ header: 1 }, { header: 2 }],
-				[{ align: 'justify' }], [((this.state.companyTags && this.state.companyTags.length > 0) || (tags && tags.length > 0)) ? 'custom' : '']
-			],
-			handlers: {
-				// 'custom': (...args) => {
-				// 	console.log(args);
-				// 	console.log(document.getElementById('pruebas'));
-				// 	//this.setState({ showTags: true })
-				// }
-			}
-		},
-		clipboard: {
-			matchVisual: false,
-		},
+	state = {
+		value: this.props.value,
+		showTags: false,
+		companyTags: []
 	};
 
-	if (styles) {
-		const style = document.createElement('style');
-		style.innerHTML = `.ql-editor{ ${styles} }`;
-		document.head.appendChild(style);
+	componentDidMount() {
+		this.setState({
+			value: this.props.value
+		});
 	}
 
-	return (
-		<React.Fragment>
-			<Typography
-				variant="body1"
-				style={{ color: errorText ? 'red' : 'inherit' }}
-			>
-				{this.props.floatingText}
-				{!!required && '*'}
-				{!!errorText
-&& <FontAwesome
-	name={'times'}
-	style={{
-		fontSize: '13px',
-		color: 'red',
-		marginLeft: '0.2em'
-	}}
-/>
+	shouldComponentUpdate(prevProps, prevState) {
+		return (prevProps.value !== this.props.value
+			|| prevProps.tags !== this.props.tags
+			|| prevProps.errorText !== this.props.errorText) || prevState !== this.state;
+	}
+
+	changeShowTags = () => {
+		this.setState({
+			showTags: !this.state.showTags
+		});
+	};
+
+	onChange = value => {
+		if (!this.rtEditor) {
+			return;
+		}
+		const html = value.toString('html');
+
+		this.setState({ value });
+		if (this.props.onChange) {
+			if (removeHTMLTags(html).length > 0) {
+				this.props.onChange(
+					html.replace(/<a /g, '<a target="_blank" ')
+				);
+			} else {
+				this.props.onChange('');
+			}
+		}
+	};
+
+	setValue = value => {
+		this.setState({
+			value
+		});
+	};
+
+	paste = text => {
+		const quill = this.rtEditor.getEditor();
+		let selection = quill.getSelection();
+		if (!selection) {
+			this.rtEditor.focus();
+			selection = quill.getSelection();
+		}
+		quill.clipboard.dangerouslyPasteHTML(selection.index, text);
+		setTimeout(() => {
+			// this.rtEditor.focus();
+			quill.setSelection(selection.index + removeHTMLTags(text).length, 0);
+		}, 500);
+	};
+
+	checkCharacterCount = event => {
+		if (this.props.maxChars) {
+			if (removeHTMLTags(this.state.value.toString()).length >= this.props.maxChars && event.key !== 'Backspace') {
+				event.preventDefault();
+			}
+		}
+	}
+
+
+	render() {
+		const {
+			tags, loadDraft, errorText, required, borderless, translate, styles, stylesQuill, placeholder
+		} = this.props;
+		const modules = {
+			toolbar: {
+				container: [
+					[{ color: [] }, { background: [] }], ['bold', 'italic', 'underline', 'link', 'strike'],
+					['blockquote', 'code-block', { list: 'ordered' }, { list: 'bullet' }],
+					[{ header: 1 }, { header: 2 }],
+					[{ align: 'justify' }], [((this.state.companyTags && this.state.companyTags.length > 0) || (tags && tags.length > 0)) ? 'custom' : '']
+				],
+				handlers: {
+					// 'custom': (...args) => {
+					// 	console.log(args);
+					// 	console.log(document.getElementById('pruebas'));
+					// 	//this.setState({ showTags: true })
+					// }
 				}
-			</Typography>
-			<Grid>
-				<GridItem xs={12}>
-					<div
-						style={{
-							marginTop: '0.7em',
-							marginBottom: '-0.7em',
-							paddingRight: '0.8em'
-						}}
-					>
-						{
-							<React.Fragment>
-								<div
-									style={{
-										display: 'flex',
-										float: 'right',
-									}}
-								>
-									<div style={{
-										display: 'flex',
-										alignItems: 'center',
-										justifyContent: 'flex-end'
-									}}>
-										<SmartTags
-											tags={tags}
-											open={this.state.showTags}
-											translate={translate}
-											requestClose={() => this.setState({ showTags: false })}
-											paste={this.paste}
-											setData={e => this.setState({ companyTags: e })}
-										/>
-										<div>
-											{!!loadDraft && loadDraft}
-										</div>
-										{!!this.props.saveDraft
-&& this.props.saveDraft
-										}
-									</div>
-								</div>
-							</React.Fragment>
-						}
-					</div>
-					<div
-						onClick={event => {
-							if (event.target.className === 'ql-custom') {
-								this.setState({
-									showTags: event.target
-								});
-							}
-						}}
-					>
-						<ReactQuill
-							value={this.state.value}
-							onChange={this.onChange}
-							modules={modules}
-							onKeyDown={this.checkCharacterCount}
-							placeholder={placeholder || ''}
-							ref={editor => {
-								this.rtEditor = editor;
+			},
+			clipboard: {
+				matchVisual: false,
+			},
+		};
+
+		if (styles) {
+			const style = document.createElement('style');
+			style.innerHTML = `.ql-editor{ ${styles} }`;
+			document.head.appendChild(style);
+		}
+
+		return (
+			<React.Fragment>
+				<Typography
+					variant="body1"
+					style={{ color: errorText ? 'red' : 'inherit' }}
+				>
+					{this.props.floatingText}
+					{!!required && '*'}
+					{!!errorText
+						&& <FontAwesome
+							name={'times'}
+							style={{
+								fontSize: '13px',
+								color: 'red',
+								marginLeft: '0.2em'
 							}}
-							id={this.props.id}
-							style={{ ...stylesQuill }}
-							className={`text-editor ${this.props.quillEditorButtonsEmpty} ${errorText ? 'text-editor-error' : ''} ${borderless ? 'borderless-text-editor' : ''}`}
 						/>
-						{this.props.maxChars
-&& <span style={{ color: removeHTMLTags(this.state.value.toString()).length >= this.props.maxChars ? 'red' : 'inherit' }}>
-	{`${removeHTMLTags(this.state.value.toString()).length} / ${this.props.maxChars}`}
-</span>
-						}
-					</div>
-				</GridItem>
-			</Grid>
-		</React.Fragment>
-	);
-}
+					}
+				</Typography>
+				<Grid>
+					<GridItem xs={12}>
+						<div
+							style={{
+								marginTop: '0.7em',
+								marginBottom: '-0.7em',
+								paddingRight: '0.8em'
+							}}
+						>
+							{
+								<React.Fragment>
+									<div
+										style={{
+											display: 'flex',
+											float: 'right',
+										}}
+									>
+										<div style={{
+											display: 'flex',
+											alignItems: 'center',
+											justifyContent: 'flex-end'
+										}}>
+											<SmartTags
+												tags={tags}
+												open={this.state.showTags}
+												translate={translate}
+												requestClose={() => this.setState({ showTags: false })}
+												paste={this.paste}
+												setData={e => this.setState({ companyTags: e })}
+											/>
+											<div>
+												{!!loadDraft && loadDraft}
+											</div>
+											{!!this.props.saveDraft
+												&& this.props.saveDraft
+											}
+										</div>
+									</div>
+								</React.Fragment>
+							}
+						</div>
+						<div
+							onClick={event => {
+								if (event.target.className === 'ql-custom') {
+									this.setState({
+										showTags: event.target
+									});
+								}
+							}}
+						>
+							<ReactQuill
+								value={this.state.value}
+								onChange={this.onChange}
+								modules={modules}
+								onKeyDown={this.checkCharacterCount}
+								placeholder={placeholder || ''}
+								ref={editor => {
+									this.rtEditor = editor;
+								}}
+								id={this.props.id}
+								style={{ ...stylesQuill }}
+								className={`text-editor ${this.props.quillEditorButtonsEmpty} ${errorText ? 'text-editor-error' : ''} ${borderless ? 'borderless-text-editor' : ''}`}
+							/>
+							{this.props.maxChars
+								&& <span style={{ color: removeHTMLTags(this.state.value.toString()).length >= this.props.maxChars ? 'red' : 'inherit' }}>
+									{`${removeHTMLTags(this.state.value.toString()).length} / ${this.props.maxChars}`}
+								</span>
+							}
+						</div>
+					</GridItem>
+				</Grid>
+			</React.Fragment>
+		);
+	}
 }
 
 
 const SmartTags = withApollo(withSharedProps()(({
-	open, requestClose, company, translate, tags, paste, client, setData
+	open, requestClose, company, translate, tags = [], paste, client, setData
 }) => {
 	const primary = getPrimary();
 	const [companyTags, setCompanyTags] = React.useState(null);
@@ -344,7 +344,7 @@ const SmartTags = withApollo(withSharedProps()(({
 								/>
 							</div>
 							<div style={{ color: primary }}>
-&lt;tags&gt;
+								&lt;tags&gt;
 							</div>
 						</div>
 					</div>
@@ -363,10 +363,10 @@ const SmartTags = withApollo(withSharedProps()(({
 							<i className="material-icons" style={{
 								color: primary, fontSize: '14px', cursor: 'pointer', paddingRight: '0.3em'
 							}} onClick={() => setOcultar(!ocultar)}>
-help
+								help
 							</i>
 							{!ocultar
-&& <div>{translate.tags_description.split('.')[0]}. <u style={{ cursor: 'pointer' }} onClick={() => setOcultar(true)}>({translate.hide})</u></div>
+								&& <div>{translate.tags_description.split('.')[0]}. <u style={{ cursor: 'pointer' }} onClick={() => setOcultar(true)}>({translate.hide})</u></div>
 							}
 						</div>
 						<div style={{ width: '97%', height: '30vh' }} >
@@ -397,19 +397,6 @@ help
 														}}
 													/>
 												))}
-												{/* {(!loading && companyTags) && companyTags.map(tag => {
-return (
-<HoverableRow
-key={`tag_${tag.id}`}
-tag={tag}
-translate={translate}
-onClick={() => {
-paste(`<span id="${tag.id}">${getTextToPaste(tag)}</span>`)
-requestClose();
-}}
-/>
-)
-})} */}
 											</TableBody>
 										</Table>
 									</div>
