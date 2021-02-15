@@ -17,6 +17,10 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
 		loading: false,
 		success: false
 	});
+	const [vimeoErrors, setVimeoErrors] = React.useState({
+		vimeoId: '',
+		vimeoKey: ''
+	});
 
 	const [data, setData] = React.useState(null);
 	const [videoConfig, setVideoConfig] = React.useState(null);
@@ -101,6 +105,29 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
 	};
 
 	const updateCouncilRoomLink = async () => {
+		if (data.videoConfig.hybridMode === 'VIMEO') {
+			const newErrors = {
+				vimeoId: '',
+				vimeoKey: ''
+			};
+
+			let hasError = false;
+
+			if (!data.videoConfig.vimeoId) {
+				newErrors.vimeoId = 'Campo requerido';
+				hasError = true;
+			}
+			if (!data.videoConfig.vimeoKey) {
+				newErrors.vimeoKey = 'Campo requerid';
+				hasError = true;
+			}
+
+			setVimeoErrors(newErrors);
+
+			if (hasError) {
+				return;
+			}
+		}
 		clearInterval(interval);
 		setState({
 			...state,
@@ -130,21 +157,21 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
 		}
 	};
 
-	const _renderBody = () => (
+	const renderBody = () => (
 		<>
 			{videoConfig
-&& <>
-	<div style={{ marginBottom: '1em' }}>
-		<h5>Video config:</h5>
-		<div>
-Número de instancias disponibles: {videoConfig.instances}
-		</div>
-		<div>
-En rotación: {videoConfig.availableSlots}
-		</div>
-	</div>
+				&& <>
+					<div style={{ marginBottom: '1em' }}>
+						<h5>Video config:</h5>
+						<div>
+							Número de instancias disponibles: {videoConfig.instances}
+						</div>
+						<div>
+							En rotación: {videoConfig.availableSlots}
+						</div>
+					</div>
 
-</>
+				</>
 			}
 
 			<TextInput
@@ -197,33 +224,66 @@ En rotación: {videoConfig.availableSlots}
 				})}
 			/>
 			{data.videoConfig.autoHybrid
-&& <>
-	{/* <SelectInput
-value={data.videoConfig.hybridMode}
-floatingText={'Sistema híbrido'}
-onChange={event => setData({ ...data, videoConfig: {
-...data.videoConfig,
-hybridMode: event.target.value
-}})}
->
-<MenuItem value={'STREAMING'}>Streaming</MenuItem>
-<MenuItem value={'WEBRTC'}>WebRTC</MenuItem>
-</SelectInput> */}
-	<SelectInput
-		value={data.videoConfig.rtmpType}
-		floatingText={'Tipo de streaming híbrido'}
-		onChange={event => setData({
-			...data,
-			videoConfig: {
-				...data.videoConfig,
-				rtmpType: event.target.value
-			}
-		})}
-	>
-		<MenuItem value={'presenter'}>Presentador</MenuItem>
-		<MenuItem value={'multi'}>Pantalla partida</MenuItem>
-	</SelectInput>
-</>
+				&& <>
+					<SelectInput
+						value={data.videoConfig.hybridMode}
+						floatingText={'Sistema híbrido'}
+						onChange={event => setData({
+							...data,
+							videoConfig: {
+								...data.videoConfig,
+								hybridMode: event.target.value
+							}
+						})}
+					>
+						<MenuItem value={'VIMEO'}>Vimeo</MenuItem>
+						<MenuItem value={'WEBRTC'}>WebRTC</MenuItem>
+					</SelectInput>
+					<SelectInput
+						value={data.videoConfig.rtmpType}
+						floatingText={'Tipo de streaming híbrido'}
+						onChange={event => setData({
+							...data,
+							videoConfig: {
+								...data.videoConfig,
+								rtmpType: event.target.value
+							}
+						})}
+					>
+						<MenuItem value={'presenter'}>Presentador</MenuItem>
+						<MenuItem value={'multi'}>Pantalla partida</MenuItem>
+					</SelectInput>
+					{data.videoConfig.hybridMode === 'VIMEO' &&
+						<>
+							<TextInput
+								value={data.videoConfig.vimeoId}
+								onKeyUp={handleEnter}
+								floatingText="Vimeo ID"
+								errorText={vimeoErrors.vimeoId}
+								onChange={event => setData({
+									...data,
+									videoConfig: {
+										...data.videoConfig,
+										vimeoId: event.target.value
+									}
+								})}
+							/>
+							<TextInput
+								value={data.videoConfig.vimeoKey}
+								onKeyUp={handleEnter}
+								floatingText="Vimeo key"
+								errorText={vimeoErrors.vimeoKey}
+								onChange={event => setData({
+									...data,
+									videoConfig: {
+										...data.videoConfig,
+										vimeoKey: event.target.value
+									}
+								})}
+							/>
+						</>
+					}
+				</>
 
 			}
 
@@ -259,7 +319,7 @@ hybridMode: event.target.value
 				acceptAction={updateCouncilRoomLink}
 				buttonAccept={'Aceptar'}
 				buttonCancel={'Cancelar'}
-				bodyText={_renderBody()}
+				bodyText={renderBody()}
 				title={'Fijar video URL'}
 			/>
 		</>
