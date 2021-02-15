@@ -47,7 +47,7 @@ const CouncilSurveyRecounts = ({ council, translate, client }) => {
 							key={key}
 						>
 							<div>
-								{labels[key] ? translate[labels[key]].replace(/{{appName}}/, subdomain.name || 'Councilbox') : key}
+								{labels[key] ? translate[labels[key]].replace(/{{appName}}/, subdomain.title || 'Councilbox') : key}
 							</div>
 							<div
 								style={{

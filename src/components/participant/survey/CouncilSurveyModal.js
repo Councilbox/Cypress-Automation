@@ -143,7 +143,7 @@ const CouncilSurveyModal = ({
 									fontWeight: '800', color: 'white', fontSize: '.9rem', padding: '1rem'
 								}} >
 									<p style={{ margin: '0' }}>
-										{translate.rate_app.replace(/{{appName}}/, subdomain.name || 'Councilbox')}
+										{translate.rate_app.replace(/{{appName}}/, subdomain.title || 'Councilbox')}
 									</p>
 								</div>
 							</div>
@@ -155,7 +155,7 @@ const CouncilSurveyModal = ({
 						<div>
 							{/* <Scrollbar> */}
 							<div>
-								<div>{translate.rate_the_satisfaction.replace(/{{appName}}/, subdomain.name || 'Councilbox')}</div>
+								<div>{translate.rate_the_satisfaction.replace(/{{appName}}/, subdomain.title || 'Councilbox')}</div>
 								<div>
 									<Stars
 										name={'satisfaction'}
@@ -175,7 +175,7 @@ const CouncilSurveyModal = ({
 								</div>
 							</div>
 							<div>
-								<div>{translate.rate_performance.replace(/{{appName}}/, subdomain.name || 'Councilbox')}.</div>
+								<div>{translate.rate_performance.replace(/{{appName}}/, subdomain.title || 'Councilbox')}.</div>
 								<div>
 									<Stars
 										name={'performance'}
@@ -195,7 +195,7 @@ const CouncilSurveyModal = ({
 								</div>
 							</div>
 							<div>
-								<div>{translate.degree_recomend_use.replace(/{{appName}}/, subdomain.name || 'Councilbox')}.</div>
+								<div>{translate.degree_recomend_use.replace(/{{appName}}/, subdomain.title || 'Councilbox')}.</div>
 								<div>
 									<Stars
 										name={'recommend'}
@@ -235,7 +235,7 @@ const CouncilSurveyModal = ({
 								</div>
 							</div>
 							<div>
-								<div>{translate.what_would_you_improve.replace(/{{appName}}/, subdomain.name || 'Councilbox')}</div>
+								<div>{translate.what_would_you_improve.replace(/{{appName}}/, subdomain.title || 'Councilbox')}</div>
 								<div style={{ marginTop: '0.5em' }}>
 									<TextArea
 										style={{
