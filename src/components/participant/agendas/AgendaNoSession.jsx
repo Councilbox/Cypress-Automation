@@ -490,10 +490,10 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council }) => {
 	const agendaVotingIcon = () => {
 		const mostrar = agenda.subjectType !== 0;
 		if (mostrar) {
-			let title = translate.closed_votings;
+			let title = CBX.isConfirmationRequest(agenda.subjectType) ? translate.closed : translate.closed_votings;
 			let color = 'default';
 			if (CBX.agendaVotingsOpened(agenda)) {
-				title = translate.opened_votings;
+				title = CBX.isConfirmationRequest(agenda.subjectType) ? translate.confirm : translate.opened_votings;
 				color = '#278289';
 			}
 			return (
