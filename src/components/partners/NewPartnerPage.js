@@ -9,6 +9,7 @@ import { bHistory } from '../../containers/App';
 import { checkValidEmail } from '../../utils';
 import { INPUT_REGEX } from '../../constants';
 
+
 class NewPartnerPage extends React.Component {
 	state = {
 		data: {
