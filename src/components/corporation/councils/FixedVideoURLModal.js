@@ -281,6 +281,18 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
 									}
 								})}
 							/>
+							<TextInput
+								value={data.videoConfig.videoPrivId}
+								onKeyUp={handleEnter}
+								floatingText="Vimeo private key"
+								onChange={event => setData({
+									...data,
+									videoConfig: {
+										...data.videoConfig,
+										videoPrivId: event.target.value
+									}
+								})}
+							/>
 						</>
 					}
 				</>
