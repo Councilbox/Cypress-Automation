@@ -21,7 +21,7 @@ jobs:
         run: yarn install --check-files
 
       - name: Run linters
-        run:  yarn run eslint ./
+        run:  yarn lint
 
       # PENDIENTE DE IMPLEMENTACION
       # - name: Run unit test
