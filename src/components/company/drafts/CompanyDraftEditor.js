@@ -176,7 +176,7 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 								fontWeight: '700',
 								marginRight: '1em'
 							}}
-							onClick={() => goBack()}
+							onClick={goBack}
 						/>
 						<BasicButton
 							id={'saveDraftinEdit'}

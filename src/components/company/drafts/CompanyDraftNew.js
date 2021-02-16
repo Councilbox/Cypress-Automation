@@ -175,7 +175,7 @@ const CompanyDraftNew = ({ translate, ...props }) => {
 							fontWeight: '700',
 							marginRight: '1em'
 						}}
-						onClick={() => goBack()}
+						onClick={goBack}
 					/>
 					<BasicButton
 						id={'saveDraft'}

@@ -80,9 +80,9 @@ const MeetingLivePage = () => {
 							color: 'white',
 							cursor: 'pointer'
 						}}
-						onClick={bHistory.goBack}
+						onClick={bHistory.back}
 					>
-exit_to_app
+						exit_to_app
 					</Icon>
 				</div>
 			</div>
