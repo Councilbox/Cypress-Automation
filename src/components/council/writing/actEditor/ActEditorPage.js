@@ -146,7 +146,7 @@ const ActEditorPage = ({
 
 	if (config.councilSurvey) {
 		tabs.push({
-			label: 'Encuesta',
+			label: translate.survey,
 			value: 'survey',
 			component: () => (
 				<Scrollbar>
