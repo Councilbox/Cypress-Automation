@@ -78,7 +78,6 @@ const corporationConvenedLiveCouncils = gql`
 				company{
 					id
 					businessName
-					logo
 				}
 			}
 			total,
