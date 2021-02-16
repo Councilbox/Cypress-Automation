@@ -50,72 +50,68 @@ const StatuteEditor = ({
 				<br />
 				<Grid style={{ overflow: 'hidden' }}>
 					{props.organization
-&& <>
-	<GridItem xs={12} md={12} lg={12}>
-		<div style={{ maxWidth: '20em' }}>
-			<SelectInput
-				disabled={disabled}
-				floatingText={translate.company_type}
-				value={`${statute.companyType}` || '-1'}
-				onChange={event => updateState({
-					companyType: +event.target.value
-				})
-				}
-				errorText={errors.type}
-			>
-				<MenuItem
-					value={'-1'}
-				>
-					{translate.all_plural}
-				</MenuItem>
-				{data.companyTypes && data.companyTypes.map(
-					companyType => (
-						<MenuItem
-							key={companyType.label}
-							value={`${companyType.value}`}
-						>
-							{
-								translate[
-									companyType.label
-								]
-							}
-						</MenuItem>
-					)
-				)}
-			</SelectInput>
-		</div>
-	</GridItem>
-	<GridItem xs={12} md={12} lg={12}>
-		<div style={{ maxWidth: '20em' }}>
-			<SelectInput
-				disabled={disabled}
-				floatingText={translate.language}
-				value={statute.language || 'all'}
-				onChange={event => updateState({
-					language: event.target.value
-				})
-				}
-				errorText={errors.language}
-			>
-				<MenuItem
-					value={'all'}
-				>
-					{translate.all_plural}
-				</MenuItem>
-				{data.languages && data.languages.map(
-					language => (
-						<MenuItem
-							key={language.columnName}
-							value={language.columnName}
-						>
-							{language.desc}
-						</MenuItem>
-					)
-				)}
-			</SelectInput>
-		</div>
-	</GridItem>
-</>
+						&& <>
+							<GridItem xs={12} md={12} lg={12}>
+								<div style={{ maxWidth: '20em' }}>
+									<SelectInput
+										disabled={disabled}
+										floatingText={translate.company_type}
+										value={`${statute.companyType}` || '-1'}
+										onChange={event => updateState({
+											companyType: +event.target.value
+										})
+										}
+										errorText={errors.type}
+									>
+										<MenuItem
+											value={'-1'}
+										>
+											{translate.all_plural}
+										</MenuItem>
+										{data.companyTypes && data.companyTypes.map(
+											companyType => (
+												<MenuItem
+													key={companyType.label}
+													value={`${companyType.value}`}
+												>
+													{translate[companyType.label]}
+												</MenuItem>
+											)
+										)}
+									</SelectInput>
+								</div>
+							</GridItem>
+							<GridItem xs={12} md={12} lg={12}>
+								<div style={{ maxWidth: '20em' }}>
+									<SelectInput
+										disabled={disabled}
+										floatingText={translate.language}
+										value={statute.language || 'all'}
+										onChange={event => updateState({
+											language: event.target.value
+										})
+										}
+										errorText={errors.language}
+									>
+										<MenuItem
+											value={'all'}
+										>
+											{translate.all_plural}
+										</MenuItem>
+										{data.languages && data.languages.map(
+											language => (
+												<MenuItem
+													key={language.columnName}
+													value={language.columnName}
+												>
+													{language.desc}
+												</MenuItem>
+											)
+										)}
+									</SelectInput>
+								</div>
+							</GridItem>
+						</>
 					}
 
 					<GridItem xs={12} md={6} lg={6}>
@@ -223,15 +219,15 @@ const StatuteEditor = ({
 							}
 						>
 							{quorumTypes !== undefined
-&& !loading
-&& quorumTypes.map(quorumType => (
-	<MenuItem
-		value={quorumType.value}
-		key={`quorum_${quorumType.label}`}
-	>
-		{translate[quorumType.label]}
-	</MenuItem>
-))
+								&& !loading
+								&& quorumTypes.map(quorumType => (
+									<MenuItem
+										value={quorumType.value}
+										key={`quorum_${quorumType.label}`}
+									>
+										{translate[quorumType.label]}
+									</MenuItem>
+								))
 							}
 						</SelectInput>
 					</GridItem>
@@ -267,15 +263,15 @@ const StatuteEditor = ({
 								}
 							>
 								{!loading
-&& quorumTypes.map(quorumType => (
-	<MenuItem
-		value={quorumType.value}
-		key={`quorum_${quorumType.label
-		}`}
-	>
-		{translate[quorumType.label]}
-	</MenuItem>
-))}
+									&& quorumTypes.map(quorumType => (
+										<MenuItem
+											value={quorumType.value}
+											key={`quorum_${quorumType.label
+												}`}
+										>
+											{translate[quorumType.label]}
+										</MenuItem>
+									))}
 							</SelectInput>
 						</GridItem>
 					)}
@@ -314,29 +310,29 @@ const StatuteEditor = ({
 						/>
 					</GridItem>
 					{config.earlyVoting
-&& <>
-	<GridItem xs={12} md={7} lg={7}>
-		<Checkbox
-			disabled={statute.existsDelegatedVote !== 1}
-			label={translate.can_sense_vote_delegation}
-			value={statute.canSenseVoteDelegate === 1}
-			onChange={(event, isInputChecked) => updateState({
-				canSenseVoteDelegate: isInputChecked ? 1 : 0
-			})
-			}
-		/>
-	</GridItem>
-	<GridItem xs={12} md={7} lg={7}>
-		<Checkbox
-			label={translate.exists_early_voting}
-			value={statute.canEarlyVote === 1}
-			onChange={(event, isInputChecked) => updateState({
-				canEarlyVote: isInputChecked ? 1 : 0
-			})
-			}
-		/>
-	</GridItem>
-</>
+						&& <>
+							<GridItem xs={12} md={7} lg={7}>
+								<Checkbox
+									disabled={statute.existsDelegatedVote !== 1}
+									label={translate.can_sense_vote_delegation}
+									value={statute.canSenseVoteDelegate === 1}
+									onChange={(event, isInputChecked) => updateState({
+										canSenseVoteDelegate: isInputChecked ? 1 : 0
+									})
+									}
+								/>
+							</GridItem>
+							<GridItem xs={12} md={7} lg={7}>
+								<Checkbox
+									label={translate.exists_early_voting}
+									value={statute.canEarlyVote === 1}
+									onChange={(event, isInputChecked) => updateState({
+										canEarlyVote: isInputChecked ? 1 : 0
+									})
+									}
+								/>
+							</GridItem>
+						</>
 					}
 					<GridItem xs={10} md={6} lg={6} style={{ display: 'flex', alignItems: 'center' }}>
 						<Checkbox
@@ -399,17 +395,12 @@ const StatuteEditor = ({
 								type="tel"
 								errorText={errors.limitedAccessRoomMinutes}
 								value={statute.limitedAccessRoomMinutes}
-								onChange={event => {
-									if (Number.isNaN(Number(event.target.value)) && +event.target.value > 0) {
-										updateState({
-											limitedAccessRoomMinutes: parseInt(event.target.value, 10)
-										});
-									} else {
-										updateState({
-											limitedAccessRoomMinutes: 1
-										});
-									}
-								}}
+								onBlur={event => updateState({
+									limitedAccessRoomMinutes: parseInt(event.target.value, 10) || 1
+								})}
+								onChange={event => updateState({
+									limitedAccessRoomMinutes: Number.isNaN(Number(event.target.value)) ? '' : parseInt(event.target.value, 10) || ''
+								})}
 							/>
 						)}
 					</GridItem>
@@ -586,26 +577,26 @@ const StatuteEditor = ({
 							}
 						>
 							{!!props.censusList && !props.censusList.loading
-&& props.censusList.censuses.list.map(
-	census => (
-		<MenuItem
-			value={census.id}
-			key={`census_${census.id}`}
-		>
-			{census.censusName}
-		</MenuItem>
-	)
-)
+								&& props.censusList.censuses.list.map(
+									census => (
+										<MenuItem
+											value={census.id}
+											key={`census_${census.id}`}
+										>
+											{census.censusName}
+										</MenuItem>
+									)
+								)
 							}
 							{(CBX.multipleGoverningBody(company.governingBodyType)
-&& company.governingBodyData
-&& company.governingBodyData.list
-&& company.governingBodyData.list.length > 0)
-&& <MenuItem
-	value={parseInt(-1, 10)}
->
-	{translate.governing_body}
-</MenuItem>
+								&& company.governingBodyData
+								&& company.governingBodyData.list
+								&& company.governingBodyData.list.length > 0)
+								&& <MenuItem
+									value={parseInt(-1, 10)}
+								>
+									{translate.governing_body}
+								</MenuItem>
 							}
 						</SelectInput>
 					</GridItem>
