@@ -265,7 +265,6 @@ const CouncilSurveyModal = ({
 								{translate.sent_fem}: {moment(state.creationDate).format('LLL')}
 							</div>
 						}
-
 						<div>
 							<div style={{
 								marginTop: '1.5em', display: 'flex', flexDirection: 'row', padding: '1rem'

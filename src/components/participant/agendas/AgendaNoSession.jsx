@@ -124,7 +124,7 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 		if (data.participantVotings && responses.size === 0) {
 			data.participantVotings.filter(voting => (
 				voting.participantId === participant.id
-				|| voting.delegateId === participant.id || voting.author.representative.id === participant.id)).forEach(voting => {
+			|| voting.delegateId === participant.id || voting.author.representative.id === participant.id)).forEach(voting => {
 				responses.set(voting.id, -1);
 			});
 			setResponses(new Map(responses));
@@ -252,63 +252,63 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 				{renderFinishModal()}
 				<Paper style={!noSession ? styles.container : styles.container100} elevation={4}>
 					{(council.state === COUNCIL_STATES.PAUSED && !props.timeline) &&
-<DisabledSection>
-	{translate.council_paused}
-</DisabledSection>
+						<DisabledSection>
+							{translate.council_paused}
+						</DisabledSection>
 					}
 
 					<div style={{ height: 'calc(100% - 2.5em)' }}>
 						{!props.sinCabecera &&
-<React.Fragment>
-	<div style={{
-		// display: 'flex',
-		// alignItems: 'center',
-		padding: '8px',
-		// justifyContent: 'space-between'
-		position: 'relative',
-		textAlign: 'center'
-	}}>
-		{/* <div style={styles.agendasHeader}> */}
-		<div style={{}}>
-			{/* <div style={{ width: '8em' }}> */}
-		</div>
-		{props.timeline ?
-			(
-				<React.Fragment>
-					<Typography variant="title" style={{ fontWeight: '700' }}>{translate.summary}</Typography>
-				</React.Fragment>
-			) : (
-				<React.Fragment>
-					<Typography variant="title" style={{ fontWeight: '700' }}>{council.councilType === 5 ? translate.council : translate.agenda}</Typography>
-				</React.Fragment>
-			)
-		}
-		<div style={{ position: 'absolute', top: '3px', right: '5px' }}>
-			{/* <div style={{ width: '9em' }}> */}
-			<CouncilInfoMenu
-				{...props}
-				translate={translate}
-				participant={participant}
-				council={council}
-				agendaNoSession={true}
-				noSession={noSession}
-			/>
+							<React.Fragment>
+								<div style={{
+									// display: 'flex',
+									// alignItems: 'center',
+									padding: '8px',
+									// justifyContent: 'space-between'
+									position: 'relative',
+									textAlign: 'center'
+								}}>
+									{/* <div style={styles.agendasHeader}> */}
+									<div style={{}}>
+										{/* <div style={{ width: '8em' }}> */}
+									</div>
+									{props.timeline ?
+										(
+											<React.Fragment>
+												<Typography variant="title" style={{ fontWeight: '700' }}>{translate.summary}</Typography>
+											</React.Fragment>
+										) : (
+											<React.Fragment>
+												<Typography variant="title" style={{ fontWeight: '700' }}>{council.councilType === 5 ? translate.council : translate.agenda}</Typography>
+											</React.Fragment>
+										)
+									}
+									<div style={{ position: 'absolute', top: '3px', right: '5px' }}>
+										{/* <div style={{ width: '9em' }}> */}
+										<CouncilInfoMenu
+											{...props}
+											translate={translate}
+											participant={participant}
+											council={council}
+											agendaNoSession={true}
+											noSession={noSession}
+										/>
 
-		</div>
-	</div>
-	<Divider />
-</React.Fragment>
+									</div>
+								</div>
+								<Divider />
+							</React.Fragment>
 						}
 						{props.sinCabecera &&
-<div style={{ position: 'fixed', top: '50px', right: '15px', background: 'gainsboro', width: '47px', height: '32px', borderRadius: '25px' }}>
-	<CouncilInfoMenu
-		{...props}
-		noSession={noSession}
-		translate={translate}
-		participant={participant}
-		council={council}
-	/>
-</div>
+							<div style={{ position: 'fixed', top: '50px', right: '15px', background: 'gainsboro', width: '47px', height: '32px', borderRadius: '25px' }}>
+								<CouncilInfoMenu
+									{...props}
+									noSession={noSession}
+									translate={translate}
+									participant={participant}
+									council={council}
+								/>
+							</div>
 						}
 						{props.timeline ? (
 							<div style={{ height: '100%', paddingBottom: '3em' }}>
@@ -322,29 +322,29 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 						) : (
 							<Scrollbar ref={scrollbar}>
 								{!councilStarted(council) &&
-<div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
-	{translate.council_not_started_yet}
-</div>
+									<div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
+										{translate.council_not_started_yet}
+									</div>
 								}
 								{council.company.logo &&
-<div
-	style={{
-		width: '100%',
-		display: 'flex',
-		justifyContent: 'center',
-		height: '2.5em'
-	}}
->
-	<img src={council.company.logo} style={{ height: '100%', width: 'auto', marginTop: '0.6em' }}></img>
-</div>
+									<div
+										style={{
+											width: '100%',
+											display: 'flex',
+											justifyContent: 'center',
+											height: '2.5em'
+										}}
+									>
+										<img src={council.company.logo} style={{ height: '100%', width: 'auto', marginTop: '0.6em' }}></img>
+									</div>
 								}
 								<div style={{ marginTop: '20px', marginBottom: '5rem', height: '100%' }}>
 									{council.councilType === COUNCIL_TYPES.ONE_ON_ONE &&
-<CouncilAttachmentsModal
-	council={council}
-	participant={participant}
-	translate={translate}
-/>
+										<CouncilAttachmentsModal
+											council={council}
+											participant={participant}
+											translate={translate}
+										/>
 									}
 									{data.agendas ?
 										<React.Fragment>
@@ -365,9 +365,9 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 					</div>
 				</Paper>
 				{!noSession &&
-<div style={{ marginTop: '0.5em', display: 'flex', justifyContent: 'flex-end' }}>
-	{renderExitButton()}
-</div>
+					<div style={{ marginTop: '0.5em', display: 'flex', justifyContent: 'flex-end' }}>
+						{renderExitButton()}
+					</div>
 				}
 				{renderExitModal()}
 			</VotingContext.Provider>
@@ -382,50 +382,50 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 			{renderFinishModal()}
 			<div style={{ height: !noSession ? 'calc( 100% - 3em )' : '100%' }}>
 				{(council.state === COUNCIL_STATES.PAUSED && !props.timeline) &&
-<DisabledSection>
-	{translate.council_paused}
-</DisabledSection>
+					<DisabledSection>
+						{translate.council_paused}
+					</DisabledSection>
 				}
 				{!props.sinCabecera &&
-<React.Fragment>
-	<div style={styles.agendasHeader}>
-		<Typography variant="title" style={{ fontWeight: '700' }}>{council.councilType === 5 ? translate.council : translate.agenda}</Typography>
-		<div style={{ width: '3em' }}>
-			<CouncilInfoMenu
-				{...props}
-				translate={translate}
-				participant={participant}
-				council={council}
-				noSession={noSession}
-			/>
-		</div>
-	</div>
-	<Divider />
-</React.Fragment>
+					<React.Fragment>
+						<div style={styles.agendasHeader}>
+							<Typography variant="title" style={{ fontWeight: '700' }}>{council.councilType === 5 ? translate.council : translate.agenda}</Typography>
+							<div style={{ width: '3em' }}>
+								<CouncilInfoMenu
+									{...props}
+									translate={translate}
+									participant={participant}
+									council={council}
+									noSession={noSession}
+								/>
+							</div>
+						</div>
+						<Divider />
+					</React.Fragment>
 				}
 				{props.sinCabecera &&
-<div style={{ position: 'relative', top: '5px', width: '100%', height: '32px', }}>
-	<CouncilInfoMenu
-		noSession={noSession}
-		{...props}
-		translate={translate}
-		participant={participant}
-		council={council}
-	/>
-</div>
+					<div style={{ position: 'relative', top: '5px', width: '100%', height: '32px', }}>
+						<CouncilInfoMenu
+							noSession={noSession}
+							{...props}
+							translate={translate}
+							participant={participant}
+							council={council}
+						/>
+					</div>
 				}
 				{!councilStarted(council) &&
-<div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
-	{translate.council_not_started_yet}
-</div>
+					<div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
+						{translate.council_not_started_yet}
+					</div>
 				}
 				<div style={{ padding: '0.6em' }}> {/* marginTop: '10px', */}
 					{council.councilType === 5 &&
-<CouncilAttachmentsModal
-	council={council}
-	participant={participant}
-	translate={translate}
-/>
+						<CouncilAttachmentsModal
+							council={council}
+							participant={participant}
+							translate={translate}
+						/>
 					}
 					{data.agendas ?
 						<React.Fragment>
