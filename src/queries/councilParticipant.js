@@ -122,7 +122,7 @@ export const addParticipant = gql`
 			participant: $participant
 			representative: $representative
 		) {
-			success
+			id
 		}
 	}
 `;
@@ -177,8 +177,7 @@ export const addConvenedParticipant = gql`
 			representative: $representative
 			sendConvene: $sendConvene
 		) {
-			success
-			message
+			id
 		}
 	}
 `;
