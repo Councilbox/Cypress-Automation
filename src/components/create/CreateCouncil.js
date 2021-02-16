@@ -210,7 +210,7 @@ const CreateCouncilModal = ({
 														marginTop: '4px'
 													}}
 												>
-								help
+													help
 												</i>
 												{translate.create_council_help}
 											</div>
@@ -355,7 +355,7 @@ const CreateCouncilModal = ({
 								/>
 							}
 							{step === steps.COUNCIL
-								& <CreateWithSession setOptions={setOptions} />
+								&& <CreateWithSession setOptions={setOptions} />
 							}
 							{step === steps.HYBRID_VOTING
 								&& <CreateWithoutSession
