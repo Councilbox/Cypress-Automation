@@ -374,8 +374,8 @@ const CreateCouncilModal = ({
 			acceptAction={() => sendCreateCouncil(step === steps.HYBRID_VOTING ?
 				3
 				: step === steps.BOARD_NO_SESSION ? 4 : 2)}
-			requestClose={step !== 10 && history.goBack}
-			cancelAction={history.goBack}
+			requestClose={step !== 10 && history.back}
+			cancelAction={history.back}
 			buttonCancel={translate.cancel}
 		/>
 	);
