@@ -1,6 +1,6 @@
 {
   "name": "councilbox_client",
-  "version": "7.6.0",
+  "version": "7.7.0",
   "private": true,
   "dependencies": {
     "antd": "^3.6.4",
