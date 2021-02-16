@@ -358,17 +358,12 @@ const StatuteEditor = ({
 								min="1"
 								errorText={errors.maxNumDelegatedVotes}
 								value={statute.maxNumDelegatedVotes}
-								onChange={event => {
-									if (Number.isNaN(Number(event.target.value)) && +event.target.value > 0) {
-										updateState({
-											maxNumDelegatedVotes: parseInt(event.target.value, 10)
-										});
-									} else {
-										updateState({
-											maxNumDelegatedVotes: 1
-										});
-									}
-								}}
+								onBlur={event => updateState({
+									maxNumDelegatedVotes: parseInt(event.target.value, 10) || 1
+								})}
+								onChange={event => updateState({
+									maxNumDelegatedVotes: Number.isNaN(Number(event.target.value)) ? '' : parseInt(event.target.value, 10) || ''
+								})}
 							/>
 						)}
 					</GridItem>
