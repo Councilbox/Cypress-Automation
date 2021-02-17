@@ -588,6 +588,7 @@ const CompanySettingsPage = ({
 								<TextInput
 									floatingText={translate.company_new_country_state}
 									value={data.countryState}
+									id={'country-state-input'}
 									errorText={errors.countryState}
 									onChange={event => updateState({
 										countryState: event.target.value
@@ -595,7 +596,7 @@ const CompanySettingsPage = ({
 									}
 								/>
 								: <SelectInput
-									id={'addSociedadProvincia'}
+									id={'country-state-select'}
 									floatingText={translate.company_new_country_state}
 									value={data.countryState}
 									errorText={errors.countryState}
