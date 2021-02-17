@@ -15,7 +15,7 @@ export const useCouncilAttachments = ({ client }) => {
 		if (response) {
 			setLoading(false);
 		}
-	}
+	};
 
 	const removeCouncilAttachment = async ({
 		attachmentId,
@@ -32,7 +32,7 @@ export const useCouncilAttachments = ({ client }) => {
 		if (response) {
 			setLoading(false);
 		}
-	}
+	};
 
 	return {
 		addCouncilAttachment,

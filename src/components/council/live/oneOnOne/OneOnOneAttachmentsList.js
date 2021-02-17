@@ -2,8 +2,9 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 import { LoadingSection } from '../../../../displayComponents';
 import AttachmentDownload from '../../../attachments/AttachmentDownload';
+import AddAdminAttachment from './AddAdminAttachment';
 
-const OneOnOneAttachmentsList = ({ council, translate }) => (
+const OneOnOneAttachmentsList = ({ company, council, translate }) => (
 	<div style={{ padding: '1em' }}>
 		<h4>{translate.dasboard_documentation}</h4>
 		{council ?
@@ -17,7 +18,13 @@ const OneOnOneAttachmentsList = ({ council, translate }) => (
 			))
 				: translate.no_results
 
-			: <LoadingSection /> }
+			: <LoadingSection />
+		}
+		<AddAdminAttachment
+			company={company}
+			council={council}
+			translate={translate}
+		/>
 	</div>
 );
 
