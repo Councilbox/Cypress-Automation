@@ -12,7 +12,11 @@ import { AGENDA_STATES } from '../../../constants';
 const ToggleAgendaButton = ({
 	agenda, council, active, translate, ...props
 }) => {
+	const [loading, setLoading] = React.useState(false);
+
 	const openAgenda = async () => {
+		setLoading(true);
+
 		if (agenda.subjectType === getActPointSubjectType()) {
 			const response = await props.openActPoint({
 				variables: {
@@ -43,6 +47,7 @@ const ToggleAgendaButton = ({
 				props.refetch();
 			}
 		}
+		setLoading(true);
 	};
 
 	const closeAgenda = async () => {
@@ -71,6 +76,8 @@ const ToggleAgendaButton = ({
 					<BasicButton
 						text={translate.discuss_agenda}
 						color={'white'}
+						loading={loading}
+						loadingColor={getPrimary()}
 						textPosition="before"
 						icon={
 							<Icon
@@ -80,7 +87,7 @@ const ToggleAgendaButton = ({
 									color: primary
 								}}
 							>
-lock_open
+								lock_open
 							</Icon>
 						}
 						buttonStyle={{ width: '11em' }}
@@ -116,7 +123,7 @@ lock_open
 								color: 'white'
 							}}
 						>
-lock_open
+							lock_open
 						</Icon>
 					}
 					buttonStyle={{ width: '11em' }}
