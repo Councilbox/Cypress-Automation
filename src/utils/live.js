@@ -5,11 +5,11 @@ class LiveUtil {
 	static qualityVoteRequirements(agenda, council) {
 		return (
 			(agenda.subject_type === AGENDA_TYPES.PUBLIC_ACT
-|| agenda.subject_type === AGENDA_TYPES.PUBLIC_VOTING)
-&& agenda.majorityType === 1
-&& agenda.positive_votings + agenda.positive_manual
-=== agenda.negative_votings + agenda.negative_manual
-&& council.statute.exists_quality_vote
+				|| agenda.subject_type === AGENDA_TYPES.PUBLIC_VOTING)
+				&& agenda.majorityType === 1
+				&& agenda.positive_votings + agenda.positive_manual
+				=== agenda.negative_votings + agenda.negative_manual
+				&& council.statute.exists_quality_vote
 		);
 	}
 
