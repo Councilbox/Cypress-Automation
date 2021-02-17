@@ -8,11 +8,14 @@ const AddCouncilAttachmentButton = ({
 	company,
 	loading,
 	translate,
+	text,
 	handleCompanyDocumentFile
 }) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 	const [companyDocumentsModal, setCompanyDocumentsModal] = React.useState(false);
+
+	const buttonLabel = text || translate.add;
 
 	return (
 		<>
@@ -59,7 +62,7 @@ const AddCouncilAttachmentButton = ({
 							fontWeight: '700',
 							paddingLeft: '5px'
 						}}></i>}
-					text={translate.add}
+					text={buttonLabel}
 					textStyle={{
 						color: 'white'
 					}}

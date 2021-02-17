@@ -121,70 +121,70 @@ const CouncilPreparePage = ({
 					</div>
 				</div>
 				{selecteReuniones === translate.convene
-&& <div style={{ height: 'calc(100% - 38px)' }}>
-	<Scrollbar>
-		<div style={{
-			width: '100%', position: 'relative', padding: '1em', paddingBottom: '1.3em'
-		}}>
-			<Convene
-				council={council}
-				translate={translate}
-			/>
-		</div>
-	</Scrollbar>
-</div>
+					&& <div style={{ height: 'calc(100% - 38px)' }}>
+						<Scrollbar>
+							<div style={{
+								width: '100%', position: 'relative', padding: '1em', paddingBottom: '1.3em'
+							}}>
+								<Convene
+									council={council}
+									translate={translate}
+								/>
+							</div>
+						</Scrollbar>
+					</div>
 				}
 				{selecteReuniones === translate.new_list_called
-&& <div style={{ height: 'calc(100% - 38px)' }}>
-	<Scrollbar>
-		<div
-			style={{
-				padding: '1.2em',
-				height: '100%'
-			}}
-		>
-			{(CBX.councilHasAssistanceConfirmation(council) && council.councilType !== COUNCIL_TYPES.ONE_ON_ONE)
-&& <EstimatedQuorum
-	council={council}
-	company={company}
-	totalVotes={data.councilTotalVotes}
-	socialCapital={data.councilSocialCapital}
-	translate={translate}
-/>
-			}
-			<ConvenedParticipantsTable
-				council={council}
-				company={company}
-				hideAddParticipant={council.councilType === 5}
-				totalVotes={data.councilTotalVotes}
-				socialCapital={data.councilSocialCapital}
-				participations={CBX.hasParticipations(council)}
-				translate={translate}
-				refetch={refetch}
-			/>
-		</div>
-	</Scrollbar>
-</div>
+					&& <div style={{ height: 'calc(100% - 38px)' }}>
+						<Scrollbar>
+							<div
+								style={{
+									padding: '1.2em',
+									height: '100%'
+								}}
+							>
+								{(CBX.councilHasAssistanceConfirmation(council) && council.councilType !== COUNCIL_TYPES.ONE_ON_ONE)
+									&& <EstimatedQuorum
+										council={council}
+										company={company}
+										totalVotes={data.councilTotalVotes}
+										socialCapital={data.councilSocialCapital}
+										translate={translate}
+									/>
+								}
+								<ConvenedParticipantsTable
+									council={council}
+									company={company}
+									hideAddParticipant={council.councilType === 5}
+									totalVotes={data.councilTotalVotes}
+									socialCapital={data.councilSocialCapital}
+									participations={CBX.hasParticipations(council)}
+									translate={translate}
+									refetch={refetch}
+								/>
+							</div>
+						</Scrollbar>
+					</div>
 				}
 				{selecteReuniones === translate.delegations
-&& <div style={{ height: 'calc(100% - 38px)' }}>
-	<Scrollbar>
-		<div
-			style={{
-				padding: '1.2em',
-				height: '100%'
-			}}
-		>
-			<DelegationRestriction translate={translate} council={council} fullScreen={true} />
-		</div>
-	</Scrollbar>
-</div>
+					&& <div style={{ height: 'calc(100% - 38px)' }}>
+						<Scrollbar>
+							<div
+								style={{
+									padding: '1.2em',
+									height: '100%'
+								}}
+							>
+								<DelegationRestriction translate={translate} council={council} fullScreen={true} />
+							</div>
+						</Scrollbar>
+					</div>
 				}
 				{selecteReuniones === 'Solicitudes de participación'
-&& <ShareholdersRequestsPage
-	council={council}
-	translate={translate}
-/>
+					&& <ShareholdersRequestsPage
+						council={council}
+						translate={translate}
+					/>
 				}
 			</div>
 			{/* <div style={{ height: '100%' }}>
@@ -312,7 +312,7 @@ tabsInfo={getTabs()}
 									className="material-icons"
 									style={{ color: primary }}
 								>
-keyboard_arrow_down
+									keyboard_arrow_down
 								</Icon>
 							</MenuItem>
 						</Paper>
@@ -334,7 +334,7 @@ keyboard_arrow_down
 												marginRight: '0.4em'
 											}}
 										>
-update
+											update
 										</Icon>
 										{translate.send_reminder}
 									</MenuItem>
@@ -352,7 +352,7 @@ update
 												marginRight: '0.4em'
 											}}
 										>
-notifications
+											notifications
 										</Icon>
 										{translate.send_notification}
 									</MenuItem>
@@ -370,9 +370,9 @@ notifications
 											marginRight: '0.4em'
 										}}
 									>
-attach_file
+										attach_file
 									</Icon>
-									{translate.add_documentation}
+									{translate.add_additional_documentation}
 								</MenuItem>
 								<MenuItem
 									onClick={() => setState({
@@ -387,7 +387,7 @@ attach_file
 											marginRight: '0.4em'
 										}}
 									>
-schedule
+										schedule
 									</Icon>
 									{translate.reschedule_council}
 								</MenuItem>
@@ -403,7 +403,7 @@ schedule
 											marginRight: '0.4em'
 										}}
 									>
-highlight_off
+										highlight_off
 									</Icon>
 									{translate.cancel_council}
 								</MenuItem>

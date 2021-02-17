@@ -438,6 +438,7 @@ const CouncilLivePage = ({ translate, data, company }) => {
 										<OneOnOneAttachmentsList
 											council={council}
 											company={company}
+											refetch={data.refetch}
 											translate={translate}
 										/>
 									</div>

@@ -4,7 +4,7 @@ import { useCouncilAttachments } from '../../../../hooks/council';
 import AddCouncilAttachmentButton from '../../editor/attachments/AddCouncilAttachmentButton';
 
 
-const AddAdminAttachment = ({ company, translate, council, client }) => {
+const AddAdminAttachment = ({ company, translate, council, client, refetch }) => {
 	const {
 		addCouncilAttachment,
 		loading
@@ -28,17 +28,22 @@ const AddAdminAttachment = ({ company, translate, council, client }) => {
 				councilId: council.id
 			};
 			await addCouncilAttachment(fileInfo);
+			refetch();
 		};
 	};
 
 	return (
 		<>
-			<AddCouncilAttachmentButton
-				company={company}
-				handleFile={handleFile}
-				loading={loading}
-				translate={translate}
-			/>
+			<div style={{ maxWidth: '20em', marginTop: '1em' }}>
+				<AddCouncilAttachmentButton
+					company={company}
+					text={translate.add_documentation}
+					handleFile={handleFile}
+					loading={loading}
+					translate={translate}
+				/>
+			</div>
+
 		</>
 	);
 };

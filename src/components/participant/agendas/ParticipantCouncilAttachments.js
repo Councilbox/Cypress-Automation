@@ -12,12 +12,14 @@ import { addCouncilAttachment, removeCouncilAttachment } from '../../../queries'
 import { moment } from '../../../containers/App';
 import { getPrimary } from '../../../styles/colors';
 import upload from '../../../assets/img/upload.svg';
+import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
 
 const ParticipantCouncilAttachments = ({
 	translate, participant, client, council
 }) => {
 	const [data, setData] = React.useState(null);
 	const [confirmationModal, setConfirmationModal] = React.useState(false);
+	const [tab, setTab] = React.useState('Su documentación');
 	const [check, setCheck] = React.useState(false);
 	const [checkError, setCheckError] = React.useState('');
 	const [uploadFile, setUploadFile] = React.useState(false);
@@ -26,19 +28,33 @@ const ParticipantCouncilAttachments = ({
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
 			query: gql`
-				query ParticipantCouncilAttachments{
-					participantCouncilAttachments{
+				query CouncilAttachments($councilId: Int!){
+					councilAttachments(councilId: $councilId){
 						id
 						filename
 						creationDate
 						filesize
+						participantId
 						filetype
 					}
 				}
-			`
+			`,
+			variables: {
+				councilId: council.id
+			}
 		});
-		setData(response.data.participantCouncilAttachments);
+		setData(response.data.councilAttachments);
 	});
+
+	const councilAttachments = tab === 'Documentación administración';
+
+	const filterAttachments = attachment => {
+		if (councilAttachments) {
+			return !attachment.participantId;
+		}
+
+		return attachment.participantId;
+	}
 
 	React.useEffect(() => {
 		getData();
@@ -102,7 +118,7 @@ const ParticipantCouncilAttachments = ({
 				acceptAction={() => deleteAttachment(confirmationModal.id)}
 				bodyText={
 					<div>
-¿Desea eliminar el documento {confirmationModal.filename}?
+						¿Desea eliminar el documento {confirmationModal.filename}?
 					</div>
 				}
 				requestClose={() => setConfirmationModal(false)}
@@ -113,10 +129,23 @@ const ParticipantCouncilAttachments = ({
 			}}>
 				<div style={{ padding: '1em', paddingTop: '2em', display: 'flex' }} >
 					{!isMobile
-&& <>
-	<div style={{ color: '#154481', fontSize: '1.9em', marginRight: '1em' }}>{`${participant.name} ${participant.surname || ''}`}</div>
-	<div style={{ color: 'black', fontSize: '1.9em', }}>Su documentación</div>
-</>
+						&& <>
+							<div
+								style={{
+									color: '#154481',
+									fontSize: '1.9em',
+									marginRight: '1em'
+								}}
+							>{`${participant.name} ${participant.surname || ''}`}</div>
+							<MenuSuperiorTabs
+								items={[
+									'Su documentación',
+									'Documentación administración'
+								]}
+								setSelect={setTab}
+								selected={tab}
+							/>
+						</>
 					}
 				</div>
 				<div style={{
@@ -135,7 +164,7 @@ const ParticipantCouncilAttachments = ({
 										/>
 									</div>
 									<div>
-Subir nuevo
+										Subir nuevo
 									</div>
 								</div>
 							}
@@ -160,7 +189,7 @@ Subir nuevo
 					}}>
 						{isMobile ?
 							<>
-								{data && data.map(attachment => (
+								{data && data.filter(filterAttachments).map(attachment => (
 									<Card style={{ position: 'relative', padding: '1.2em', marginTop: '5px' }} key={attachment.id}>
 										<i
 											className="fa fa-trash-o"
@@ -218,7 +247,7 @@ Subir nuevo
 											borderBottom: '1px solid #979797'
 										}} />
 									</TableRow>
-									{data && data.map(attachment => (
+									{data && data.filter(filterAttachments).map(attachment => (
 										<TableRow key={`attachment_${attachment.id}`}>
 											<TableCell>
 												{attachment.filename}
@@ -233,11 +262,14 @@ Subir nuevo
 												{fileSize(attachment.filesize)}
 											</TableCell>
 											<TableCell>
-												<i
-													className="fa fa-trash-o"
-													style={{ color: 'red', fontSize: '18px', cursor: 'pointer' }}
-													onClick={() => setConfirmationModal(attachment)}
-												></i>
+												{!councilAttachments &&
+													<i
+														className="fa fa-trash-o"
+														style={{ color: 'red', fontSize: '18px', cursor: 'pointer' }}
+														onClick={() => setConfirmationModal(attachment)}
+													></i>
+												}
+
 											</TableCell>
 										</TableRow>
 									))}
@@ -297,9 +329,9 @@ Subir nuevo
 								</div>
 								<div style={{ color: '#154481', textAlign: 'center', marginBottom: '2em' }}>O arrastrelos y suéltelos en esta pantalla</div>
 								{(!check && checkError)
-&& <div style={{ color: 'red', fontWeight: '700' }}>
-Es necesaria la confirmación para poder enviar
-</div>
+									&& <div style={{ color: 'red', fontWeight: '700' }}>
+											Es necesaria la confirmación para poder enviar
+									</div>
 								}
 								<div style={{ color: 'black', marginBottom: '1em', }}>
 									<Checkbox
