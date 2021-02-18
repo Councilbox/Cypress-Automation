@@ -179,9 +179,7 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
 			};
 			if (representative !== null) {
 				// eslint-disable-next-line no-shadow
-				const {
-					id, dni, name, position, state, surname
-				} = representative;
+				const { id, dni, name, position, state, surname } = representative;
 				arrayRepresentative = {
 					rId: id,
 					[`r${translate.state}`]: state === 1 ? 'Alta' : 'Baja',

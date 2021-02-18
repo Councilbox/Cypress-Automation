@@ -77,6 +77,7 @@ const ImportOneOneOne = ({ translate, client }) => {
 		for (let i = 0; i < councilsToCreate.length; i++) {
 			const newCouncil = councilsToCreate[i];
 			setCreatingIndex(i);
+			// eslint-disable-next-line no-await-in-loop
 			const response = await createOneOnOneCouncil(newCouncil);
 			createdCouncils.push(response);
 			setCreatedCouncils([...createdCouncils]);
@@ -172,87 +173,87 @@ const ImportOneOneOne = ({ translate, client }) => {
 				bodyText={
 					<div>
 						{step === 1
-&& <FileUploadButton
-	accept=".xlsx"
-	// loading={this.state.loading}
-	text={translate.import_template}
-	style={{
-		width: '100%'
-	}}
-	buttonStyle={{ width: '100%' }}
-	color={primary}
-	textStyle={{
-		color: 'white',
-		fontWeight: '700',
-		fontSize: '0.9em',
-		textTransform: 'none'
-	}}
-	icon={
-		<ButtonIcon type="publish" color="white" />
-	}
-	onChange={handleFile}
-/>
+							&& <FileUploadButton
+								accept=".xlsx"
+								// loading={this.state.loading}
+								text={translate.import_template}
+								style={{
+									width: '100%'
+								}}
+								buttonStyle={{ width: '100%' }}
+								color={primary}
+								textStyle={{
+									color: 'white',
+									fontWeight: '700',
+									fontSize: '0.9em',
+									textTransform: 'none'
+								}}
+								icon={
+									<ButtonIcon type="publish" color="white" />
+								}
+								onChange={handleFile}
+							/>
 						}
 						{step === 2
-&& <>
-	<h5>Citas que se van a crear</h5>
-	{councilsToCreate.length > 0 ?
-		councilsToCreate.map((item, index) => {
-			const result = createdCouncils[index];
-			const hasError = result && result.errors && !!result.errors[0];
+							&& <>
+								<h5>Citas que se van a crear</h5>
+								{councilsToCreate.length > 0 ?
+									councilsToCreate.map((item, index) => {
+										const result = createdCouncils[index];
+										const hasError = result && result.errors && !!result.errors[0];
 
-			return (
-				<div
-					key={`council_to_create_${index}`}
-					ref={el => { itemRefs[index] = el; }}
-					style={{
-						display: 'flex',
-						justifyContent: 'space-between',
-						color: hasError ? 'red' : 'inherit'
-					}}
-				>
-					<div>
-						<b>
-							{item.council.externalId && `${item.council.externalId} - `}
-							{item.council.name}
-						</b>{' - '}
-						<span>{moment(item.council.dateStart).format('DD/MM/YYYY HH:mm')}</span>
-						{hasError
-&& <>
-	<br />
-	{result.errors[0].message === 'The request has invalid values'
-&& 'La cita contiene valores no válidos'
-	}
-	{result.errors[0].message === 'External ID already used'
-&& 'El código de cita ya está registrado'
-	}
-</>
-						}
-					</div>
-					{status !== 'IDDLE'
-&& <div>
-	{result ?
-		<>
-			{(result.data.createOneOnOneCouncil && result.data.createOneOnOneCouncil.id)
-&& <i className="fa fa-check" style={{ color: 'green' }}></i>
-			}
-			{hasError
-&& <i className="fa fa-times" style={{ color: 'red' }}></i>
-			}
-		</>
-		: creatingIndex === index ?
-			<LoadingSection size={12} />
-			: 'En cola'
-	}
-</div>
-					}
-				</div>
-			);
-		})
-		: 'Sin citas válidas'
-	}
+										return (
+											<div
+												key={`council_to_create_${index}`}
+												ref={el => { itemRefs[index] = el; }}
+												style={{
+													display: 'flex',
+													justifyContent: 'space-between',
+													color: hasError ? 'red' : 'inherit'
+												}}
+											>
+												<div>
+													<b>
+														{item.council.externalId && `${item.council.externalId} - `}
+														{item.council.name}
+													</b>{' - '}
+													<span>{moment(item.council.dateStart).format('DD/MM/YYYY HH:mm')}</span>
+													{hasError
+														&& <>
+															<br />
+															{result.errors[0].message === 'The request has invalid values'
+																&& 'La cita contiene valores no válidos'
+															}
+															{result.errors[0].message === 'External ID already used'
+																&& 'El código de cita ya está registrado'
+															}
+														</>
+													}
+												</div>
+												{status !== 'IDDLE'
+													&& <div>
+														{result ?
+															<>
+																{(result.data.createOneOnOneCouncil && result.data.createOneOnOneCouncil.id)
+																	&& <i className="fa fa-check" style={{ color: 'green' }}></i>
+																}
+																{hasError
+																	&& <i className="fa fa-times" style={{ color: 'red' }}></i>
+																}
+															</>
+															: creatingIndex === index ?
+																<LoadingSection size={12} />
+																: 'En cola'
+														}
+													</div>
+												}
+											</div>
+										);
+									})
+									: 'Sin citas válidas'
+								}
 
-</>
+							</>
 						}
 					</div>
 				}

@@ -132,7 +132,7 @@ const ParticipantsManager = ({
 		});
 	};
 
-	const _renderSection = () => {
+	const renderSection = () => {
 		const { layout, addGuest } = state;
 		if (participants === null) {
 			return (
@@ -161,7 +161,7 @@ const ParticipantsManager = ({
 	};
 
 
-	const _renderTableOptions = () => (
+	const renderTableOptions = () => (
 		<div
 			style={{
 				display: 'flex',
@@ -179,23 +179,23 @@ const ParticipantsManager = ({
 					tooltip={translate.grid}
 					onClick={() => setState({ ...state, layout: 'squares', open: false })}
 					active={state.layout === 'squares'}
-					size= {'2.55em'}
+					size={'2.55em'}
 				>
 					<i className="fa fa-th-large" style={{
 						color: primary,
 						fontSize: '0.9em'
-					}}/>
+					}} />
 				</FilterButton>
 				<FilterButton
 					tooltip={translate.table}
 					onClick={() => setState({ ...state, layout: 'table', open: false })}
 					active={state.layout === 'table'}
-					size= {'2.55em'}
+					size={'2.55em'}
 				>
 					<i className="fa fa-th-list" style={{
 						color: primary,
 						fontSize: '0.9em'
-					}}/>
+					}} />
 				</FilterButton>
 			</div>
 
@@ -249,7 +249,7 @@ const ParticipantsManager = ({
 				}}
 				onClick={toggleSettings}
 			>
-settings
+				settings
 			</i>
 			<Grid spacing={0} style={{
 				height: '100%',
@@ -270,12 +270,12 @@ settings
 						}}
 					>
 						<CollapsibleSection
-							trigger={() => <span/>}
+							trigger={() => <span />}
 							open={state.open}
-							collapse={_renderTableOptions}
+							collapse={renderTableOptions}
 						/>
 						{state.editParticipant}
-						{_renderSection()}
+						{renderSection()}
 					</Paper>
 				</GridItem>
 			</Grid>

@@ -258,7 +258,7 @@ const AgendaEditor = ({
 							recount={recount}
 							majorityTypes={majorityTypes}
 						/>
-						:							<AgendaRecount
+						: <AgendaRecount
 							agenda={agenda}
 							council={council}
 							translate={translate}

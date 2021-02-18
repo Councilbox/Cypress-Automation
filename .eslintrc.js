@@ -35,6 +35,7 @@ module.exports = {
 		"react/prop-types": "off",
 		'no-use-before-define': 'warn',
 		"react/no-find-dom-node": "warn",
+		"object-curly-newline": 'warn',
 		"import/no-cycle": 'warn',
 		"no-bitwise": 'warn',
 		'consistent-return': 'warn'

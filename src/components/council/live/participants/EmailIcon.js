@@ -13,7 +13,7 @@ const styleImageIcon = ratio => ({
 	width: 'auto'
 });
 
-const _renderIcon = (color, reqCode, number, translate, ratio) => {
+const renderIcon = (color, reqCode, number, translate, ratio) => {
 	const translation = reqCode === -2 ? translate.tooltip_dropped : translate[getTranslationReqCode(reqCode)];
 	const src = getEmailIconByReqCode(reqCode);
 	if (reqCode === 'ALL') {
@@ -50,7 +50,7 @@ class EmailIcon extends React.PureComponent {
 		const {
 			color = 'grey', reqCode, number, translate, ratio = 1
 		} = this.props;
-		return _renderIcon(color, reqCode, number, translate, ratio);
+		return renderIcon(color, reqCode, number, translate, ratio);
 	}
 }
 

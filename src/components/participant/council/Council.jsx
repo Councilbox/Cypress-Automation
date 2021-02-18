@@ -236,10 +236,10 @@ const ParticipantCouncil = ({
 		setDrawerTop(!drawerTop);
 	};
 
-	const _renderAgendaSection = () => {
+	const renderAgendaSection = () => {
 		const noSession = state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE;
 		return (
-			<Grid item xs={isLandscape() && state.hasVideo ? 6 : 12} md={state.hasVideo ? 4 : 6} style={{}}> {/* minHeight: '45%', */}
+			<Grid item xs={isLandscape() && state.hasVideo ? 6 : 12} md={state.hasVideo ? 4 : 6} style={{}}>
 				<Agendas
 					noSession={noSession}
 					participant={participant}
@@ -330,7 +330,7 @@ const ParticipantCouncil = ({
 		/>
 	);
 
-	const _renderAgendaSectionMobile = () => {
+	const renderAgendaSectionMobile = () => {
 		const noSession = state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE;
 		return (
 			<Agendas
@@ -403,7 +403,7 @@ const ParticipantCouncil = ({
 							adminMessage={state.adminMessage}
 							setAdminMessage={setAdminMessage}
 							modalContent={state.modalContent}
-							agenda={_renderAgendaSectionMobile()}
+							agenda={renderAgendaSectionMobile()}
 							full={() => setState({ ...state, full: true, middle: false })}
 							middle={() => setState({ ...state, full: false, middle: true })}
 							click={state.activeInput}
@@ -507,7 +507,7 @@ const ParticipantCouncil = ({
 						</Grid>
 					}
 					{agendasAnchor === 'right' &&
-						_renderAgendaSection()
+						renderAgendaSection()
 					}
 					{state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
 						<div style={{ width: '100%', height: 'calc( 3.5rem + 1px )' }}>
@@ -521,7 +521,7 @@ const ParticipantCouncil = ({
 								full={() => setState({ ...state, full: true, middle: false })}
 								middle={() => setState({ ...state, full: false, middle: true })}
 								click={state.activeInput}
-								agenda={_renderAgendaSection()}
+								agenda={renderAgendaSection()}
 								setContent={setContent}
 								adminMessage={state.adminMessage}
 								setAdminMessage={setAdminMessage}

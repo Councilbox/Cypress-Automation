@@ -99,7 +99,7 @@ class CensusParticipants extends React.Component {
 	}
 
 
-	_renderDeleteIcon = participantID => {
+	renderDeleteIcon = participantID => {
 		const primary = getPrimary();
 
 		return (
@@ -230,7 +230,7 @@ class CensusParticipants extends React.Component {
 							}
 						]}
 						refetch={this.props.data.refetch}
-						action={this._renderDeleteIcon}
+						action={this.renderDeleteIcon}
 					>
 						{censusParticipants.list.map(participant => (
 							<React.Fragment key={`participant_${participant.id}`}>
@@ -242,7 +242,7 @@ class CensusParticipants extends React.Component {
 									census={census}
 									participations={census.quorumPrototype === 1}
 									representative={participant.representative}
-									_renderDeleteIcon={this._renderDeleteIcon}
+									renderDeleteIcon={this.renderDeleteIcon}
 									editParticipant={this.editParticipant}
 								/>
 							</React.Fragment>
@@ -299,7 +299,7 @@ class HoverableRow extends React.PureComponent {
 
 	render() {
 		const {
-			participant, _renderDeleteIcon, representative, selected, translate
+			participant, renderDeleteIcon, representative, selected, translate
 		} = this.props;
 
 		if (isMobile) {
@@ -376,7 +376,7 @@ class HoverableRow extends React.PureComponent {
 					</Grid>
 					<div style={{ position: 'absolute', top: '5px', right: '5px' }}>
 						{!CBX.isRepresentative(participant)
-							&& _renderDeleteIcon(participant.id)}
+							&& renderDeleteIcon(participant.id)}
 					</div>
 				</Card>
 			);
@@ -462,7 +462,7 @@ class HoverableRow extends React.PureComponent {
 					<div style={{ width: '6em' }}>
 
 						{this.state.showActions
-							&& !CBX.isRepresentative(participant) && _renderDeleteIcon(participant.id)
+							&& !CBX.isRepresentative(participant) && renderDeleteIcon(participant.id)
 						}
 						{!!representative
 							&& <br/>

@@ -4,7 +4,7 @@ import VotingsTableFiltersContainer from './voting/VotingsTableFiltersContainer'
 const Votings = ({
 	translate, agenda, council, ...props
 }) => {
-	const _section = () => (
+	const section = () => (
 		<div style={{ backgroundColor: 'white', paddingTop: '1em' }}>
 			<VotingsTableFiltersContainer
 				recount={props.recount}
@@ -25,7 +25,7 @@ const Votings = ({
 				position: 'relative'
 			}}
 		>
-			{_section()}
+			{section()}
 		</div>
 	);
 };

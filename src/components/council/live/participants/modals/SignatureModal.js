@@ -95,7 +95,7 @@ const SignatureModal = ({
 
 	const { participantState } = state;
 
-	const _canBePresentWithRemoteVote = canBePresentWithRemoteVote(
+	const checkCanBePresent = canBePresentWithRemoteVote(
 		council.statute
 	);
 
@@ -180,13 +180,13 @@ const SignatureModal = ({
 								council={council}
 							/>
 						</div>
-						{_canBePresentWithRemoteVote ? (
+						{checkCanBePresent ? (
 							<div>
 								<Checkbox
 									label={translate.has_remote_vote}
 									value={
 										participantState
-=== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
+										=== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
 									}
 									onChange={(event, isInputChecked) => setState({
 										participantState: isInputChecked ?

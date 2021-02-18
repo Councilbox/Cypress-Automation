@@ -94,7 +94,7 @@ const CouncilLiveContainer = ({
 					translate={translate}
 					data={data}
 				/>
-				:				<CouncilLiveMobilePage
+				: <CouncilLiveMobilePage
 					companies={companies}
 					data={data}
 					translate={translate}

@@ -59,7 +59,7 @@ const DelegateOwnVoteAttendantModal = ({
 		});
 	};
 
-	function _renderBody() {
+	function renderBody() {
 		const { loading } = data;
 
 		const participants = loading ?
@@ -109,8 +109,7 @@ const DelegateOwnVoteAttendantModal = ({
 																	toDelegate={true}
 																	cantDelegate={false}
 																	participant={participant}
-																	onClick={() => props.addRepresentative(participant.id)
-																	}
+																	onClick={() => props.addRepresentative(participant.id)}
 																	stylesPaper={{ borderRadius: '5px', width: '100%' }}
 																/>
 															</React.Fragment>
@@ -173,7 +172,7 @@ const DelegateOwnVoteAttendantModal = ({
 			requestClose={close}
 			open={show}
 			buttonCancel={translate.close}
-			bodyText={_renderBody()}
+			bodyText={renderBody()}
 			title={
 				<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 					<div>

@@ -53,6 +53,7 @@ const AppControl = ({
 		});
 		if (response.data) {
 			const newConfig = {};
+			// eslint-disable-next-line no-restricted-syntax
 			for (const field of response.data.appConfig) {
 				newConfig[field.name] = field.active;
 			}
@@ -94,6 +95,7 @@ const AppControl = ({
 
 					if (!subscriptionData.data.appControlChange.config) return;
 					const newConfig = {};
+					// eslint-disable-next-line no-restricted-syntax
 					for (const field of subscriptionData.data.appControlChange.config) {
 						newConfig[field.name] = field.active;
 					}

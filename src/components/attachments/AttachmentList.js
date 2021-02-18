@@ -29,7 +29,7 @@ const AttachmentList = ({
 		});
 	};
 
-	const _renderModalBody = () => (
+	const renderModalBody = () => (
 		<div style={{ width: window.innerWidth > 650 ? '650px' : '100%' }}>
 			<TextInput
 				floatingText={translate.name}
@@ -116,7 +116,7 @@ const AttachmentList = ({
 				acceptAction={updateAttachment}
 				buttonAccept={translate.accept}
 				buttonCancel={translate.cancel}
-				bodyText={_renderModalBody()}
+				bodyText={renderModalBody()}
 				title={translate.edit}
 			/>
 		</div>
