@@ -1,8 +1,12 @@
 import React from 'react';
-import { Paper, Typography, Divider, Card, CardHeader, CardContent, Collapse, CardActions, Tooltip, Button } from 'material-ui';
+import {
+	Paper, Typography, Divider, Card, CardHeader, CardContent, Collapse, CardActions, Tooltip, Button
+} from 'material-ui';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { LoadingSection, Scrollbar, AlertConfirm, DisabledSection } from '../../../displayComponents';
+import {
+	LoadingSection, Scrollbar, AlertConfirm, DisabledSection
+} from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
 import AgendaMenu from './AgendaMenu';
 import AgendaDescription from './AgendaDescription';
@@ -54,7 +58,9 @@ const updateAgendaVoting = gql`
 `;
 
 
-const AgendaNoSession = ({ translate, council, participant, data, noSession, client, updateComment, ...props }) => {
+const AgendaNoSession = ({
+	translate, council, participant, data, noSession, client, updateComment, ...props
+}) => {
 	const primary = getPrimary();
 	const scrollbar = React.useRef();
 	let agendas = [];
@@ -133,12 +139,14 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 
 	const renderModalBody = () => (
 		<div style={{ width: '100%', height: '100%' }}>
-			<div style={{ height: '100%', marginTop: '1em', overflow: 'hidden', padding: '1em' }}>
+			<div style={{
+				height: '100%', marginTop: '1em', overflow: 'hidden', padding: '1em'
+			}}>
 				<div style={{ marginBottom: '1em' }}>{translate.my_participation} - <span style={{ color: getPrimary() }}>{participant.name} {participant.surname || ''}</span></div>
-				<div style={{ height: 'calc( 100% - 2.5em )', }}>
+				<div style={{ height: 'calc( 100% - 2.5em )' }}>
 					<Scrollbar>
 						<Results
-							stylesHead={{ marginTop: '1em', }}
+							stylesHead={{ marginTop: '1em' }}
 							council={council}
 							participant={participant}
 							translate={translate}
@@ -300,7 +308,9 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 							</React.Fragment>
 						}
 						{props.sinCabecera &&
-							<div style={{ position: 'fixed', top: '50px', right: '15px', background: 'gainsboro', width: '47px', height: '32px', borderRadius: '25px' }}>
+							<div style={{
+								position: 'fixed', top: '50px', right: '15px', background: 'gainsboro', width: '47px', height: '32px', borderRadius: '25px'
+							}}>
 								<CouncilInfoMenu
 									{...props}
 									noSession={noSession}
@@ -322,7 +332,9 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 						) : (
 							<Scrollbar ref={scrollbar}>
 								{!councilStarted(council) &&
-									<div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
+									<div style={{
+										backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700'
+									}}>
 										{translate.council_not_started_yet}
 									</div>
 								}
@@ -404,7 +416,9 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 					</React.Fragment>
 				}
 				{props.sinCabecera &&
-					<div style={{ position: 'relative', top: '5px', width: '100%', height: '32px', }}>
+					<div style={{
+						position: 'relative', top: '5px', width: '100%', height: '32px'
+					}}>
 						<CouncilInfoMenu
 							noSession={noSession}
 							{...props}
@@ -415,7 +429,9 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 					</div>
 				}
 				{!councilStarted(council) &&
-					<div style={{ backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700' }}>
+					<div style={{
+						backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700'
+					}}>
 						{translate.council_not_started_yet}
 					</div>
 				}
@@ -454,7 +470,9 @@ const AgendaNoSession = ({ translate, council, participant, data, noSession, cli
 	);
 };
 
-const AgendaCard = ({ agenda, translate, participant, refetch, council }) => {
+const AgendaCard = ({
+	agenda, translate, participant, refetch, council
+}) => {
 	const ownVote = CBX.findOwnVote(agenda.votings, participant);
 	const primary = getPrimary();
 
@@ -480,7 +498,9 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council }) => {
 				<i
 					className={icon}
 					aria-label={icon === 'fa fa-lock colorGrey' ? 'punto cerrado' : 'punto abierto'}
-					style={{ marginRight: '0.6em', cursor: 'auto', fontSize: '18px', color }}
+					style={{
+						marginRight: '0.6em', cursor: 'auto', fontSize: '18px', color
+					}}
 				></i>
 			</Tooltip>
 		);
@@ -501,7 +521,9 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council }) => {
 					<i
 						className={'material-icons'}
 						aria-label={title}
-						style={{ marginRight: '0.6em', fontSize: '20px', color, cursor: 'context-menu', }}
+						style={{
+							marginRight: '0.6em', fontSize: '20px', color, cursor: 'context-menu'
+						}}
 					>
 						how_to_vote
 					</i>
@@ -513,7 +535,7 @@ const AgendaCard = ({ agenda, translate, participant, refetch, council }) => {
 
 
 	return (
-		<div style={{ margin: '0 auto', marginBottom: '15px', width: isMobile ? '100%' : '93%', }} key={agenda.id}>
+		<div style={{ margin: '0 auto', marginBottom: '15px', width: isMobile ? '100%' : '93%' }} key={agenda.id}>
 			<Card
 				aria-label={`punto${agenda.orderIndex + 1} ${translate[getAgendaTypeLabel(agenda)]} título ${agenda.agendaSubject}`}
 				style={{ border: CBX.agendaPointOpened(agenda) ? '1px solid purple' : 'none' }}

@@ -58,7 +58,9 @@ const styles = {
 	}
 };
 
-const ErrorState = ({ code, translate, data, windowSize, windowOrientation, refetch }) => {
+const ErrorState = ({
+	code, translate, data, windowSize, windowOrientation, refetch
+}) => {
 	const customBackground = getCustomBackground();
 
 	const renderError = errorCode => {

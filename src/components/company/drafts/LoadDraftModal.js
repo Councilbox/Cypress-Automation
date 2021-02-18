@@ -69,7 +69,7 @@ const LoadDraftModal = ({
 				buttonCancel={translate.close}
 				bodyText={_renderModalBody()}
 				title={translate.load_draft}
-				bodyStyle={{ width: '75vw', minWidth: '50vw', }}
+				bodyStyle={{ width: '75vw', minWidth: '50vw' }}
 			/>
 		</React.Fragment>
 	);

@@ -75,7 +75,7 @@ const Dashboard = ({ translate, company, user }) => {
 							setAddUser={setAddUser}
 							setEntidades={setEntidades}
 						/>
-						:						<React.Fragment>
+						: <React.Fragment>
 							<div
 								style={{
 									fontWeight: '700',

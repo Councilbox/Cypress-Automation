@@ -20,7 +20,9 @@ componentDidMount() {
 
 render() {
 	const { translate } = this.props;
-	const { loading, error, corporationDrafts, draftTypes } = this.props.data;
+	const {
+		loading, error, corporationDrafts, draftTypes
+	} = this.props.data;
 
 	return (
 		<CardPageLayout title={translate.general_drafts}>

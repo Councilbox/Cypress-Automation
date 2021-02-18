@@ -86,17 +86,14 @@ const FileCompany = ({ translate, match, client }) => {
 			hasError = true;
 			errors.tin = translate.field_required;
 		}
-
-		// setState({
-		// 	...state,
-		// 	errors: errors
-		// });
 		return hasError;
 	}
 
 	const saveCompany = async () => {
 		if (!checkRequiredFields()) {
-			const { __typename, creatorId, creationDate, corporationId, ...newData } = data;
+			const {
+				__typename, creatorId, creationDate, corporationId, ...newData
+			} = data;
 			setUpdateState('LOADING');
 			await client.mutate({
 				mutation: updateCompany,
@@ -191,7 +188,7 @@ const FileCompany = ({ translate, match, client }) => {
 				<div style={{
 					display: 'flex', padding: '1em', justifyContent: 'space-between', paddingTop: '0px', alignItems: 'center'
 				}}>
-					<div style={{ fontSize: '13px', }}>
+					<div style={{ fontSize: '13px' }}>
 						<MenuSuperiorTabs
 							items={[translate.information, translate.social_capital_desc, translate.board_of_directors, translate.official_books, translate.auditors_and_powers, translate.statutes, translate.calendar]}
 							setSelect={setSelecteOptionMenu}
@@ -200,25 +197,25 @@ const FileCompany = ({ translate, match, client }) => {
 					</div>
 				</div>
 				{selecteOptionMenu === translate.information
-                    && getInformacion()
+					&& getInformacion()
 				}
 				{selecteOptionMenu === translate.board_of_directors
-                    && OrgAdministracion()
+					&& OrgAdministracion()
 				}
 				{selecteOptionMenu === translate.social_capital_desc
-                    && getShareCapital()
+					&& getShareCapital()
 				}
 				{selecteOptionMenu === translate.official_books
-                    && librosOficiales()
+					&& librosOficiales()
 				}
 				{selecteOptionMenu === translate.auditors_and_powers
-                    && auditoresPoderes()
+					&& auditoresPoderes()
 				}
 				{selecteOptionMenu === translate.statutes
-                    && estatutos()
+					&& estatutos()
 				}
 				{selecteOptionMenu === translate.calendar
-                    && calendario()
+					&& calendario()
 				}
 			</div>
 		</CardPageLayout>

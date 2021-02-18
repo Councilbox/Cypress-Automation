@@ -17,7 +17,7 @@ const CheckBox = ({
 			control={
 				loading ?
 					<LoadingSection />
-					:				<Checkbox checked={value} onChange={onChange} disabled={disabled} id={id} color={colorCheckbox} />
+					: <Checkbox checked={value} onChange={onChange} disabled={disabled} id={id} color={colorCheckbox} />
 			}
 			label={
 				<React.Fragment>

@@ -83,7 +83,7 @@ render() {
 						>
 							{(this.props.participant.videoParticipant && this.props.participant.videoParticipant.mutedMic) ?
 								<i className="fa fa-microphone-slash" aria-hidden="true" style={{ transform: 'scaleX(-1)' }}></i>
-								:									<i className="fa fa-microphone" aria-hidden="true"></i>
+								: <i className="fa fa-microphone" aria-hidden="true"></i>
 							}
 						</MenuItem>
 					</Card>

@@ -4,11 +4,15 @@ import gql from 'graphql-tag';
 import { toast } from 'react-toastify';
 import { Typography } from 'material-ui';
 import RichTextInput from '../../../displayComponents/RichTextInput';
-import { BasicButton, ButtonIcon, CollapsibleSection, LiveToast } from '../../../displayComponents';
+import {
+	BasicButton, ButtonIcon, CollapsibleSection, LiveToast
+} from '../../../displayComponents';
 import { getSecondary } from '../../../styles/colors';
 import { checkForUnclosedBraces, removeHTMLTags } from '../../../utils/CBX';
 
-const CommentMenu = ({ agenda, translate, participant, ...props }) => {
+const CommentMenu = ({
+	agenda, translate, participant, ...props
+}) => {
 	const [vote, setVote] = React.useState(getVote());
 	const [state, setState] = React.useState({
 		open: false,

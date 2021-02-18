@@ -47,7 +47,9 @@ class ConvenedParticipantEditor extends React.Component {
 
 	setParticipantData() {
 		// eslint-disable-next-line prefer-const
-		let { representative, delegateId, delegateUuid, __typename, councilId, ...participant } = removeTypenameField(
+		let {
+			representative, delegateId, delegateUuid, __typename, councilId, ...participant
+		} = removeTypenameField(
 			this.props.participant
 		);
 		console.log(this.props.participant);

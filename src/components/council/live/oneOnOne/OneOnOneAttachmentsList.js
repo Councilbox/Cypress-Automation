@@ -4,8 +4,9 @@ import { LoadingSection } from '../../../../displayComponents';
 import AttachmentDownload from '../../../attachments/AttachmentDownload';
 import AddAdminAttachment from './AddAdminAttachment';
 
-const OneOnOneAttachmentsList = ({ company, council, translate, refetch }) => {
-
+const OneOnOneAttachmentsList = ({
+	company, council, translate, refetch
+}) => {
 	const participantAttachments = council.attachments.filter(a => a.participantId);
 	const adminAttachments = council.attachments.filter(a => !a.participantId);
 

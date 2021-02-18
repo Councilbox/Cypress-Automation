@@ -111,7 +111,9 @@ const stylesVideo = {
 	}],
 };
 
-const ParticipantCouncil = ({ translate, participant, council, client, ...props }) => {
+const ParticipantCouncil = ({
+	translate, participant, council, client, ...props
+}) => {
 	const [state, setState] = React.useState({
 		agendasAnchor: 'right',
 		hasVideo: councilHasVideo(council),
@@ -367,7 +369,9 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
 	if (isMobile) {
 		if (landscape) {
 			return (
-				<div style={{ height: '100vh', overflow: 'hidden', position: ' fixed', width: '100vw' }}>
+				<div style={{
+					height: '100vh', overflow: 'hidden', position: ' fixed', width: '100vw'
+				}}>
 					{state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE &&
 						<Grid item xs={12} md={12} style={{ height: '100%' }}>
 							<div style={{ height: '100%' }}>
@@ -492,9 +496,11 @@ const ParticipantCouncil = ({ translate, participant, council, client, ...props 
 									/>
 								}
 							</div>
-							<div style={{ transition: 'all .3s ease-in-out', width: '100%', height: state.avisoVideo ? 'calc( 100% - 55px )' : '100%', position: 'relative', top: state.avisoVideo ? '55px' : '0px' }}>
+							<div style={{
+								transition: 'all .3s ease-in-out', width: '100%', height: state.avisoVideo ? 'calc( 100% - 55px )' : '100%', position: 'relative', top: state.avisoVideo ? '55px' : '0px'
+							}}>
 								{renderAdminAnnouncement()}
-								<div style={{ height: `calc( 100% - ${config.participantsHeader ? state.adminMessage ? '6.3em' : '3em' : '0px'} - 5px )`, width: '100%', }}>
+								<div style={{ height: `calc( 100% - ${config.participantsHeader ? state.adminMessage ? '6.3em' : '3em' : '0px'} - 5px )`, width: '100%' }}>
 									{renderVideoContainer()}
 								</div>
 							</div>

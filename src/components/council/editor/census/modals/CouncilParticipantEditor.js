@@ -41,7 +41,9 @@ class CouncilParticipantEditor extends React.Component {
 
 	updateParticipantData() {
 		// eslint-disable-next-line prefer-const
-		let { representative, representatives, representing, ...participant } = removeTypenameField(this.props.participant);
+		let {
+			representative, representatives, representing, ...participant
+		} = removeTypenameField(this.props.participant);
 		representative = representative ?
 			{
 				hasRepresentative: true,

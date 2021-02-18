@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import React from 'react';
 import { TableCell, TableRow, Card } from 'material-ui';
 import { compose, graphql } from 'react-apollo';
@@ -329,7 +330,7 @@ class HoverableRow extends React.PureComponent {
 								<React.Fragment>
 									{representative.dni}
 								</React.Fragment>
-								:								participant.dni
+								: participant.dni
 							}
 						</GridItem>
 						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
@@ -340,7 +341,7 @@ class HoverableRow extends React.PureComponent {
 								<React.Fragment>
 									{representative.position}
 								</React.Fragment>
-								:								participant.position
+								: participant.position
 							}
 						</GridItem>
 						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>

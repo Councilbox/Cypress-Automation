@@ -244,7 +244,7 @@ render() {
 			<TableCell>
 				{this.state.showActions ?
 					this.deleteIcon(signature.id)
-					:						<div style={{ width: '5em' }} />
+					: <div style={{ width: '5em' }} />
 				}
 			</TableCell>
 		</TableRow>

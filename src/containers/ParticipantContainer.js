@@ -251,7 +251,7 @@ const ParticipantContainer = ({
 									}}
 									company={council.councilVideo.company}
 								/>
-								:										<Council
+								: <Council
 									participant={data.participant}
 									reqData={reqData}
 									council={{
@@ -262,7 +262,7 @@ const ParticipantContainer = ({
 								/>
 							}
 						</React.Fragment>
-						:							<ParticipantLogin
+						: <ParticipantLogin
 							participant={data.participant}
 							council={{
 								...council.councilVideo

@@ -50,7 +50,7 @@ const ParticipantsList = ({
 					<LoadingSection />
 				</div>
 
-				:				participants.list.length > 0 ? (
+				: participants.list.length > 0 ? (
 					<Scrollbar>
 						<Grid spacing={0} style={{ paddingBottom: '6em', padding: '1em' }}>
 							{participants.list.map(
@@ -70,8 +70,7 @@ const ParticipantsList = ({
 									/>
 								</React.Fragment>
 							)}
-							{participants.list.length
-< participants.total && (
+							{(participants.list.length < participants.total) && (
 								<LoadMoreButton
 									onClick={loadMore}
 									loading={loadingMore}
@@ -79,49 +78,49 @@ const ParticipantsList = ({
 							)}
 						</Grid>
 						{state.showSignatureModal
-&& <SignatureModal
-	show={state.showSignatureModal}
-	council={council}
-	participant={state.participantToSign}
-	refetch={refetch}
-	requestClose={() => {
-		setState({ showSignatureModal: false, participantToSign: null });
-	}
-	}
-	translate={translate}
-/>
+							&& <SignatureModal
+								show={state.showSignatureModal}
+								council={council}
+								participant={state.participantToSign}
+								refetch={refetch}
+								requestClose={() => {
+									setState({ showSignatureModal: false, participantToSign: null });
+								}
+								}
+								translate={translate}
+							/>
 						}
 						{state.editParticipant
-&& <AlertConfirm
-	open={!!state.editParticipant}
-	classNameDialog={isMobile ? 'livePArticipants' : ''}
-	bodyStyle={
-		isMobile ? { padding: '0.3em', maxWidth: '100%' } : { minWidth: '90vw', overflowY: 'hidden' }
-	}
-	fullWidth={true}
-	// fullScreen={true}
-	requestClose={() => {
-		setState({
-			editParticipant: undefined
-		});
-		refetch();
-	}}
-	bodyText={
-		<div style={{ height: '70vh' }}>
-			<LiveParticipantEditor
-				translate={translate}
-				council={council}
-				refetch={refetch}
-				id={state.editParticipant}
+							&& <AlertConfirm
+								open={!!state.editParticipant}
+								classNameDialog={isMobile ? 'livePArticipants' : ''}
+								bodyStyle={
+									isMobile ? { padding: '0.3em', maxWidth: '100%' } : { minWidth: '90vw', overflowY: 'hidden' }
+								}
+								fullWidth={true}
+								// fullScreen={true}
+								requestClose={() => {
+									setState({
+										editParticipant: undefined
+									});
+									refetch();
+								}}
+								bodyText={
+									<div style={{ height: '70vh' }}>
+										<LiveParticipantEditor
+											translate={translate}
+											council={council}
+											refetch={refetch}
+											id={state.editParticipant}
 
-			/>
-		</div>
-	}
-/>
+										/>
+									</div>
+								}
+							/>
 						}
 					</Scrollbar>
 				)
-					:					(
+					: (
 						<div style={{ marginLeft: '2em' }}>
 							{translate.no_results}
 						</div>

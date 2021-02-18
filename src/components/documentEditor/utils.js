@@ -3,7 +3,9 @@ import { blocks } from './actBlocks';
 import iconVotaciones from '../../assets/img/handshake.svg';
 import iconAsistentes from '../../assets/img/meeting.svg';
 import iconAgendaComments from '../../assets/img/speech-bubbles-comment-option.svg';
-import { getAgendaResult, hasVotation, isConfirmationRequest, isCustomPoint, showNumParticipations } from '../../utils/CBX';
+import {
+	getAgendaResult, hasVotation, isConfirmationRequest, isCustomPoint, showNumParticipations
+} from '../../utils/CBX';
 import iconDelegaciones from '../../assets/img/networking.svg';
 import { TAG_TYPES } from '../company/drafts/draftTags/utils';
 import { translations } from './translations';

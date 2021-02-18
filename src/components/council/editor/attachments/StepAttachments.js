@@ -207,7 +207,7 @@ const StepAttachments = ({ client, translate, ...props }) => {
 
 					{loading ?
 						<LoadingSection />
-						:	attachments.length > 0 && (
+						: attachments.length > 0 && (
 							<AttachmentList
 								attachments={attachments}
 								refetch={getData}

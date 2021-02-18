@@ -7,7 +7,9 @@ import { withRouter } from 'react-router-dom';
 import withTranslations from '../../HOCs/withTranslations';
 import { getPrimary } from '../../styles/colors';
 import { bHistory, moment } from '../../containers/App';
-import { CardPageLayout, EnhancedTable, LoadingSection, CloseIcon, BasicButton, Grid, GridItem, AlertConfirm } from '../../displayComponents';
+import {
+	CardPageLayout, EnhancedTable, LoadingSection, CloseIcon, BasicButton, Grid, GridItem, AlertConfirm
+} from '../../displayComponents';
 import { isMobile } from '../../utils/screen';
 
 let XLSX;
@@ -160,7 +162,9 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
 		const arrayFinal = [];
 		for (let index = 0; index < lista.length; index++) {
 			let arrayRepresentative;
-			const { representative, __typename, name, dni, state: s, position, surname, subscribeDate, unsubscribeDate, unsubscribeActNumber, subscribeActNumber, id } = lista[index];
+			const {
+				representative, __typename, name, dni, state: s, position, surname, subscribeDate, unsubscribeDate, unsubscribeActNumber, subscribeActNumber, id
+			} = lista[index];
 			const listaFinal = {
 				id,
 				[translate.state]: state === 1 ? 'Alta' : 'Baja',
@@ -175,7 +179,9 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
 			};
 			if (representative !== null) {
 				// eslint-disable-next-line no-shadow
-				const { id, dni, name, position, state, surname } = representative;
+				const {
+					id, dni, name, position, state, surname
+				} = representative;
 				arrayRepresentative = {
 					rId: id,
 					[`r${translate.state}`]: state === 1 ? 'Alta' : 'Baja',

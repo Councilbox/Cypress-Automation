@@ -54,7 +54,7 @@ const ParticipantCouncilAttachments = ({
 		}
 
 		return attachment.participantId;
-	}
+	};
 
 	React.useEffect(() => {
 		getData();
@@ -333,7 +333,7 @@ const ParticipantCouncilAttachments = ({
 											Es necesaria la confirmación para poder enviar
 									</div>
 								}
-								<div style={{ color: 'black', marginBottom: '1em', }}>
+								<div style={{ color: 'black', marginBottom: '1em' }}>
 									<Checkbox
 										value={check}
 										onChange={(event, isInputChecked) => {

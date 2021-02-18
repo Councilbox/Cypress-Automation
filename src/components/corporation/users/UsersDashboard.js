@@ -115,7 +115,7 @@ const UsersDashboard = ({ translate, client }) => {
 				<div style={{
 					display: 'flex', padding: '1em', justifyContent: 'space-between', paddingTop: '0px', alignItems: 'center'
 				}}>
-					<div style={{ fontSize: '13px', }}>
+					<div style={{ fontSize: '13px' }}>
 						<MenuSuperiorTabs
 							// TRADUCCION
 							items={['Registrados', 'Pendientes de confirmar']}

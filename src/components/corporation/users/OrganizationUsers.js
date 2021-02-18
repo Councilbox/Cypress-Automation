@@ -296,7 +296,7 @@ const TablaUsuarios = withApollo(({
 	return (
 		<div style={{ height: '100%' }}>
 			<div style={{ fontSize: '13px', height: '100%' }}>
-				<div style={{ display: 'flex', justifyContent: 'space-between', padding: '1em', }}>
+				<div style={{ display: 'flex', justifyContent: 'space-between', padding: '1em' }}>
 					<div style={{
 						color: primary, fontWeight: 'bold', width: '10%', textAlign: 'left'
 					}}>

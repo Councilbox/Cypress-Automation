@@ -73,7 +73,7 @@ const CredentialsManager = ({ translate, ...props }) => {
 				loading={state.sendsLoading}
 				onClick={toggleFilter}
 			/>
-			<div style={{ overflow: 'hidden', height: 'calc( 100% - 70px )', }}>
+			<div style={{ overflow: 'hidden', height: 'calc( 100% - 70px )' }}>
 				<Scrollbar>
 					<div>
 						{slicedParticipants.map(participant => (
@@ -129,7 +129,7 @@ const Content = ({
 				}
 				action={
 					<IconButton
-						style={{ top: '20px', }}
+						style={{ top: '20px' }}
 						onClick={toggleExpanded}
 						aria-expanded={expanded}
 						aria-label="Show more"

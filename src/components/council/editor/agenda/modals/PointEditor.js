@@ -88,7 +88,9 @@ const PointEditor = ({
 
 	const saveChanges = async () => {
 		if (!checkRequiredFields()) {
-			const { __typename, items, options, ballots, attachments: a, qualityVoteSense, votingsRecount, ...data } = state;
+			const {
+				__typename, items, options, ballots, attachments: a, qualityVoteSense, votingsRecount, ...data
+			} = state;
 			const response = await props.updateAgenda({
 				variables: {
 					agenda: {
@@ -252,7 +254,7 @@ const PointEditor = ({
 										{translate.confirmation_request}
 									</MenuItem>
 								</SelectInput>
-								:								<SelectInput
+								: <SelectInput
 									floatingText={translate.type}
 									value={agenda.subjectType}
 									errorText={errors.subjectType}

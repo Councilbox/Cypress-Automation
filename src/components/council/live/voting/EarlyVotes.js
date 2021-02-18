@@ -5,7 +5,9 @@ import { TableRow, TableCell, Tooltip } from 'material-ui';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import { PARTICIPANT_STATES, AGENDA_TYPES } from '../../../../constants';
 import { Table } from '../../../../displayComponents';
-import { showNumParticipations, getPercentage, filterDelegatedVotes, hasRightToVote } from '../../../../utils/CBX';
+import {
+	showNumParticipations, getPercentage, filterDelegatedVotes, hasRightToVote
+} from '../../../../utils/CBX';
 import VotingValueIcon from './VotingValueIcon';
 import { isMobile } from '../../../../utils/screen';
 
@@ -84,7 +86,7 @@ const EarlyVotes = ({
 		<React.Fragment>
 			{agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING || agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE || props.council.councilType === 3 ?
 				translate.has_voted
-				:				<VotingValueIcon
+				: <VotingValueIcon
 					vote={vote.value}
 				/>
 			}
@@ -156,7 +158,7 @@ const EarlyVotes = ({
 			</Table>
 
 			<Table
-				style={{ width: '100%', }}
+				style={{ width: '100%' }}
 				forceMobileTable={true}
 				headers={[
 					{ name: '' },

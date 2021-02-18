@@ -4,7 +4,9 @@ import { useCouncilAttachments } from '../../../../hooks/council';
 import AddCouncilAttachmentButton from '../../editor/attachments/AddCouncilAttachmentButton';
 
 
-const AddAdminAttachment = ({ company, translate, council, client, refetch }) => {
+const AddAdminAttachment = ({
+	company, translate, council, client, refetch
+}) => {
 	const {
 		addCouncilAttachment,
 		loading

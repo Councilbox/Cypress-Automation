@@ -119,7 +119,7 @@ const CouncilInfoModal = ({
 							marginRight: '0.6em', fontSize: '18px', color, cursor: 'context-menu',
 						}}
 					>
-how_to_vote
+						how_to_vote
 					</i>
 				</Tooltip>
 			);
@@ -172,10 +172,10 @@ how_to_vote
 									<div>
 										{open ?
 											<i className="material-icons" style={{ fontSize: '27px', cursor: 'pointer' }} onClick={() => setOpen(false)}>
-arrow_drop_up
+												arrow_drop_up
 											</i>
-											:											<i className="material-icons" style={{ fontSize: '27px', cursor: 'pointer' }} onClick={() => setOpen(true)}>
-arrow_drop_down
+											: <i className="material-icons" style={{ fontSize: '27px', cursor: 'pointer' }} onClick={() => setOpen(true)}>
+												arrow_drop_down
 											</i>
 										}
 									</div>
@@ -197,11 +197,9 @@ arrow_drop_down
 							}}
 						>
 							<div>
-								{`${translate.new_location_of_celebrate}: ${
-									council.street
-								}, ${council.zipcode}, ${council.countryState}, (${
-									council.country
-								})`}
+								{`${translate.new_location_of_celebrate}: ${council.street
+									}, ${council.zipcode}, ${council.countryState}, (${council.country
+									})`}
 								<div>
 								</div>
 								{`${translate['1st_call_date']}: ${moment(
@@ -210,16 +208,16 @@ arrow_drop_down
 							</div>
 							<div>
 								{hasSecondCall(council.statute)
-&& `${translate['2nd_call_date']}: ${council.dateStart2NdCall ? moment(
-	council.dateStart2NdCall
-).format('LLL') : '-'}`}
+									&& `${translate['2nd_call_date']}: ${council.dateStart2NdCall ? moment(
+										council.dateStart2NdCall
+									).format('LLL') : '-'}`}
 							</div>
 							<div>
 								{council.autoClose === 1
-&& <span>{translate.date_end}: {moment(council.closeDate).format('LLL')}</span>
+									&& <span>{translate.date_end}: {moment(council.closeDate).format('LLL')}</span>
 								}
 								{council.dateEnd
-&& <span>{translate.date_end}: {moment(council.dateEnd).format('LLL')}</span>
+									&& <span>{translate.date_end}: {moment(council.dateEnd).format('LLL')}</span>
 								}
 							</div>
 						</GridItem>
@@ -250,41 +248,41 @@ arrow_drop_down
 										<div>
 											{openPoints ?
 												<i className="material-icons" style={{ fontSize: '27px', cursor: 'pointer' }} onClick={() => setOpenPoints(false)}>
-arrow_drop_up
+													arrow_drop_up
 												</i>
-												:												<i className="material-icons" style={{ fontSize: '27px', cursor: 'pointer' }} onClick={() => setOpenPoints(true)}>
-arrow_drop_down
+												: <i className="material-icons" style={{ fontSize: '27px', cursor: 'pointer' }} onClick={() => setOpenPoints(true)}>
+													arrow_drop_down
 												</i>
 											}
 										</div>
 									</div>
 									<Collapse in={openPoints} timeout="auto" unmountOnExit >
 										{!loading
-&& <div>{data.agendas.map(agenda => (
-	<Paper style={{
-		marginTop: '0.8em',
-		padding: '0.8em',
-		margin: '0.3em',
-		boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
-		border: `${agendaPointOpened(agenda) ? '2' : '1'}px solid rgb(125, 33, 128, 0.58)`,
-		borderRadius: '4px',
-	}} key={`agenda_${agenda.id}`}>
-		<Grid>
-			<GridItem xs={12} md={12} lg={12}>
-				<div style={{ display: 'flex', justifyContent: 'space-between' }}>
-					<div style={{ display: 'flex', alignItems: 'center', width: '80%' }}>
-						{agendaStateIcon(agenda)}
-						{agendaVotingIcon(agenda)}
-						{agenda.agendaSubject}
-					</div>
-					<div>
-						{getTypeText(agenda.subjectType)}
-					</div>
-				</div>
-			</GridItem>
-		</Grid>
-	</Paper>
-))}</div>
+											&& <div>{data.agendas.map(agenda => (
+												<Paper style={{
+													marginTop: '0.8em',
+													padding: '0.8em',
+													margin: '0.3em',
+													boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
+													border: `${agendaPointOpened(agenda) ? '2' : '1'}px solid rgb(125, 33, 128, 0.58)`,
+													borderRadius: '4px',
+												}} key={`agenda_${agenda.id}`}>
+													<Grid>
+														<GridItem xs={12} md={12} lg={12}>
+															<div style={{ display: 'flex', justifyContent: 'space-between' }}>
+																<div style={{ display: 'flex', alignItems: 'center', width: '80%' }}>
+																	{agendaStateIcon(agenda)}
+																	{agendaVotingIcon(agenda)}
+																	{agenda.agendaSubject}
+																</div>
+																<div>
+																	{getTypeText(agenda.subjectType)}
+																</div>
+															</div>
+														</GridItem>
+													</Grid>
+												</Paper>
+											))}</div>
 										}
 									</Collapse>
 								</div>
@@ -302,11 +300,11 @@ arrow_drop_down
 							}}
 						>
 							{!loading
-&& <StatuteDisplay
-	statute={council.statute}
-	translate={translate}
-	quorumTypes={data.quorumTypes}
-/>
+								&& <StatuteDisplay
+									statute={council.statute}
+									translate={translate}
+									quorumTypes={data.quorumTypes}
+								/>
 							}
 
 						</GridItem>

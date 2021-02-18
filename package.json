@@ -3,6 +3,7 @@
   "version": "7.7.0",
   "private": true,
   "dependencies": {
+    "@councilbox/eslint-config-base": "^0.0.1",
     "antd": "^3.6.4",
     "apollo-cache-inmemory": "^1.2.5",
     "apollo-client": "^2.3.5",

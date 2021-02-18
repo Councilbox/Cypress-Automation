@@ -106,7 +106,7 @@ render() {
 		value, disabled, floatingText, errorText, onChange, flagEdit
 	} = this.props;
 	return (
-		<div onClick={flagEdit && this.copy} style={{ overflow: 'hidden', width: '100%', display: 'flex', }}>
+		<div onClick={flagEdit && this.copy} style={{ overflow: 'hidden', width: '100%', display: 'flex' }}>
 			<Tooltip title={'copiado'} open={this.state.showCopyTooltip}>
 				<TextInput
 					pointerInput={true}

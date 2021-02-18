@@ -112,7 +112,7 @@ const CouncilPreparePage = ({
 				width: '100%', padding: '1.7em', paddingBottom: '0.5em', height: 'calc(100% - 3.5em)', paddingTop: '0em'
 			}}>
 				<div style={{ display: 'flex', marginTop: '0.6em' }}>
-					<div style={{ fontSize: '13px', }}>
+					<div style={{ fontSize: '13px' }}>
 						<MenuSuperiorTabs
 							items={getTabs()}
 							setSelect={setSelecteReuniones}

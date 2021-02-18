@@ -91,23 +91,24 @@ const AgendaDetailsSection = ({
 								agenda={agenda}
 								council={council}
 							/>
-							:							<div style={{ display: 'flex', alignItems: 'center', maxWidth: 'calc(100% - 11em)' }}>
+							: <div style={{ display: 'flex', alignItems: 'center', maxWidth: 'calc(100% - 11em)' }}>
 								<div>
 									<ToolTip text={agenda.agendaSubject}>
-										<div style={{
-											display: '-webkit-box',
-											maxWidth: '100%',
-											WebkitLineClamp: 3,
-											WebkitBoxOrient: 'vertical',
-											overflow: 'hidden',
-											textOverflow: 'ellipsis',
-											paddingRight: '0.5em'
-										}}
-										onClick={() => {
-											if ((agenda.pointState === AGENDA_STATES.INITIAL || props.root)) {
-												setPointNameEditor(true);
-											}
-										}}
+										<div
+											style={{
+												display: '-webkit-box',
+												maxWidth: '100%',
+												WebkitLineClamp: 3,
+												WebkitBoxOrient: 'vertical',
+												overflow: 'hidden',
+												textOverflow: 'ellipsis',
+												paddingRight: '0.5em'
+											}}
+											onClick={() => {
+												if ((agenda.pointState === AGENDA_STATES.INITIAL || props.root)) {
+													setPointNameEditor(true);
+												}
+											}}
 										>
 											{`${agenda.agendaSubject}`}
 										</div>
@@ -132,68 +133,68 @@ const AgendaDetailsSection = ({
 										}}
 									></i>
 									{pointEditor
-&& <>
-	{CBX.isCustomPoint(agenda.subjectType) ?
-		<CustomPointEditor
-			translate={translate}
-			draftTypes={props.draftTypes}
-			statute={council.statute}
-			company={props.company}
-			council={council}
-			companyStatutes={props.companyStatutes}
-			open={pointEditor}
-			agenda={agenda}
-			deleteButton={!!council.statute.canAddPoints}
-			votingTypes={props.votingTypes}
-			majorityTypes={props.majorityTypes}
-			refetch={refetch}
-			requestClose={closePointEditor}
-		/>
-		:												<PointEditor
-			translate={translate}
-			draftTypes={props.draftTypes}
-			statute={council.statute}
-			company={props.company}
-			council={council}
-			companyStatutes={props.companyStatutes}
-			open={pointEditor}
-			agenda={agenda}
-			deleteButton={!!council.statute.canAddPoints}
-			votingTypes={props.votingTypes}
-			majorityTypes={props.majorityTypes}
-			refetch={refetch}
-			requestClose={closePointEditor}
-		/>
-	}
+										&& <>
+											{CBX.isCustomPoint(agenda.subjectType) ?
+												<CustomPointEditor
+													translate={translate}
+													draftTypes={props.draftTypes}
+													statute={council.statute}
+													company={props.company}
+													council={council}
+													companyStatutes={props.companyStatutes}
+													open={pointEditor}
+													agenda={agenda}
+													deleteButton={!!council.statute.canAddPoints}
+													votingTypes={props.votingTypes}
+													majorityTypes={props.majorityTypes}
+													refetch={refetch}
+													requestClose={closePointEditor}
+												/>
+												: <PointEditor
+													translate={translate}
+													draftTypes={props.draftTypes}
+													statute={council.statute}
+													company={props.company}
+													council={council}
+													companyStatutes={props.companyStatutes}
+													open={pointEditor}
+													agenda={agenda}
+													deleteButton={!!council.statute.canAddPoints}
+													votingTypes={props.votingTypes}
+													majorityTypes={props.majorityTypes}
+													refetch={refetch}
+													requestClose={closePointEditor}
+												/>
+											}
 
-</>
+										</>
 
 									}
 
 								</React.Fragment>
-								:								translate[CBX.getAgendaTypeLabel(agenda)]
+								: translate[CBX.getAgendaTypeLabel(agenda)]
 							}
 						</div>
 					</div>
 					<Grid>
 						<GridItem xs={normalLayout ? 3 : 12} md={normalLayout ? 3 : 12} lg={3} style={{ display: 'flex', alignItems: 'center' }}>
 							{agenda.subjectType !== CBX.getActPointSubjectType()
-&& <React.Fragment>
-	{agenda.description ?
-		<BasicButton
-			text={translate.description}
-			color={'white'}
-			textStyle={{
-				textTransform: 'none',
-				fontWeight: '700',
-				color: getSecondary(),
-				fontSize: '0.85em',
-			}}
-			onClick={() => setExpanded(!expanded)}
-		/>
-		:										<span style={{ marginRight: '0.6em' }}>{translate.no_description}</span>
-	}
-</React.Fragment>
+								&& <React.Fragment>
+									{agenda.description ?
+										<BasicButton
+											text={translate.description}
+											color={'white'}
+											textStyle={{
+												textTransform: 'none',
+												fontWeight: '700',
+												color: getSecondary(),
+												fontSize: '0.85em',
+											}}
+											onClick={() => setExpanded(!expanded)}
+										/>
+										: <span style={{ marginRight: '0.6em' }}>{translate.no_description}</span>
+									}
+								</React.Fragment>
 							}
 						</GridItem>
 						<GridItem xs={normalLayout ? 4 : 12} md={normalLayout ? 4 : 5} lg={4} style={{ display: 'flex', alignItems: 'center' }}>
@@ -207,7 +208,7 @@ const AgendaDetailsSection = ({
 											refetch={props.refetchCouncil}
 											active={agenda.orderIndex === openIndex}
 										/>
-										:										<ToggleAgendaButton
+										: <ToggleAgendaButton
 											agenda={agenda}
 											council={council}
 											nextPoint={props.nextPoint}
@@ -238,24 +239,24 @@ const AgendaDetailsSection = ({
 				borderTop: '1px solid gainsboro', position: 'relative', width: '100%', height: `calc( ${smallLayout ? '100vh' : '100%'} - ${smallLayout ? '14em' : '6.5em'})`, overflow: 'hidden'
 			}}>
 				{agenda.description
-&& <Collapse isOpened={expanded} style={{
-	position: 'absolute', zIndex: '1', borderBottom: '1px solid gainsboro', width: '100%'
-}}>
-	<div
-		style={{
-			fontSize: '0.9em',
-			padding: '1em',
-			paddingBottom: '1em',
-			lineHeight: '1.2em',
-			width: '100%',
-			backgroundColor: 'white',
-		}}
-		onClick={toggleDescription}
-		dangerouslySetInnerHTML={{
-			__html: agenda.description
-		}}
-	/>
-</Collapse>
+					&& <Collapse isOpened={expanded} style={{
+						position: 'absolute', zIndex: '1', borderBottom: '1px solid gainsboro', width: '100%'
+					}}>
+						<div
+							style={{
+								fontSize: '0.9em',
+								padding: '1em',
+								paddingBottom: '1em',
+								lineHeight: '1.2em',
+								width: '100%',
+								backgroundColor: 'white',
+							}}
+							onClick={toggleDescription}
+							dangerouslySetInnerHTML={{
+								__html: agenda.description
+							}}
+						/>
+					</Collapse>
 				}
 				{agenda.subjectType !== CBX.getActPointSubjectType() ?
 					<AgendaDetailsTabs
@@ -271,7 +272,7 @@ const AgendaDetailsSection = ({
 						recount={props.recount}
 						majorityTypes={props.majorityTypes}
 					/>
-					:					<ActPointInfoDisplay
+					: <ActPointInfoDisplay
 						council={council}
 						data={props.data}
 						agenda={agenda}
@@ -362,7 +363,7 @@ const EditTitlePoint = ({
 				onClick={() => setPointNameEditor(false)}
 			/>
 			{error
-&& <span style={{ color: 'red', marginLeft: '0.6em' }}>{error}</span>
+				&& <span style={{ color: 'red', marginLeft: '0.6em' }}>{error}</span>
 			}
 		</div>
 	);

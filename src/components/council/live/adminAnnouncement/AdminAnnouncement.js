@@ -119,7 +119,7 @@ const AdminAnnouncement = ({
 							{isAdmin
 && <BasicButton
 	text={translate.hide_announcement}
-	textStyle={{ textTransform: 'none', color: 'white', }}
+	textStyle={{ textTransform: 'none', color: 'white' }}
 	onClick={closeAnnouncement}
 	buttonStyle={{ marginTop: '.8em', width: '100%' }}
 	backgroundColor={{ backgroundColor: getPrimary(), boxShadow: 'none', borderRadius: '0' }}
@@ -128,7 +128,7 @@ const AdminAnnouncement = ({
 							{!isAdmin && !data.adminAnnouncement.blockUser
 && <BasicButton
 	text={translate.hide_announcement}
-	textStyle={{ textTransform: 'none', color: 'white', }}
+	textStyle={{ textTransform: 'none', color: 'white' }}
 	onClick={() => setShowInParticipant(false)}
 	buttonStyle={{ marginTop: '.8em', width: '100%' }}
 	backgroundColor={{ backgroundColor: getPrimary(), boxShadow: 'none', borderRadius: '0' }}

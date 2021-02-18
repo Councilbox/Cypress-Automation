@@ -89,7 +89,7 @@ const GoverningBodyForm = ({ translate, state, updateState }) => {
 const SingleAdminForm = ({ translate, setData, data = {} }) => {
 	const primary = getPrimary();
 	return (
-		<div style={{ width: '100%', display: 'flex', }}>
+		<div style={{ width: '100%', display: 'flex' }}>
 			<div style={{ height: '100%', width: '100%' }}>
 				<div style={{
 					display: 'flex', justifyContent: 'space-between', width: '100%', padding: '1em'
@@ -155,7 +155,7 @@ const SingleAdminForm = ({ translate, setData, data = {} }) => {
 const EntityAdminForm = ({ translate, setData, data = {} }) => {
 	const primary = getPrimary();
 	return (
-		<div style={{ width: '100%', display: 'flex', }}>
+		<div style={{ width: '100%', display: 'flex' }}>
 			<div style={{ height: '100%', width: '100%' }}>
 				<div style={{ marginTop: '1em', color: 'black', fontWeight: '700' }}>{translate.entity}</div>
 				<div>

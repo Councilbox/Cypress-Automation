@@ -11,7 +11,7 @@ import { Grid } from '../../displayComponents';
 const tableCellStyle = {
 	padding: '0.2em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
 };
-const tableCellStyleTh = { width: '20%', };
+const tableCellStyleTh = { width: '20%' };
 
 const NotificationsTable = ({
 	notifications, translate, maxEmail, liveMobil

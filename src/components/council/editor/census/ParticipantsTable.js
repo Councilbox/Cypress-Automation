@@ -303,7 +303,7 @@ const HoverableRow = ({
 							<React.Fragment>
 								{representative.dni}
 							</React.Fragment>
-							:							participant.dni
+							: participant.dni
 						}
 					</GridItem>
 					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
@@ -314,7 +314,7 @@ const HoverableRow = ({
 							<React.Fragment>
 								{representative.position}
 							</React.Fragment>
-							:							participant.position
+							: participant.position
 						}
 					</GridItem>
 					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>

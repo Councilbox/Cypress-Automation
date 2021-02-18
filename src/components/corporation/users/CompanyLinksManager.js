@@ -194,7 +194,7 @@ const LinksCompanies = ({
 
 	if (state.step === 1) {
 		return (
-			<div style={{ width: '650px', }}>
+			<div style={{ width: '650px' }}>
 				<div style={{ display: 'flex' }}>
 					<div style={{ width: '100px', marginRight: '1em' }}>
 						<SelectInput

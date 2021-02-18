@@ -211,7 +211,7 @@ const UploadAct = ({ ...props }) => {
 					<input {...getInputProps()} />
 					{error || (isDragActive ?
 						<p>Arrastre los archivos aquí</p>// TRADUCCION
-						:						<p>Arrastre el archivo o haga click para seleccionarlo.</p>)
+						: <p>Arrastre el archivo o haga click para seleccionarlo.</p>)
 					}
 				</div>
 			)}

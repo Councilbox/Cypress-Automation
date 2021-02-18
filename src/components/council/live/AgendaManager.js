@@ -22,7 +22,7 @@ const reducer = (state, action) => {
 			loading: false,
 			selectedPoint: (state.selectedPoint >= action.value.agendas.length && action.value.agendas.length !== 0) ?
 				action.value.agendas.length - 1
-				:				state.selectedPoint !== null ? state.selectedPoint : getInitialSelectedPoint(action.value.agendas)
+				: state.selectedPoint !== null ? state.selectedPoint : getInitialSelectedPoint(action.value.agendas)
 		}),
 		NEXT_POINT: () => ({
 			...state,
@@ -81,16 +81,6 @@ const AgendaManager = ({
 		}
 	}, [loading]);
 
-
-	React.useEffect(() => {
-		// if(state.loaded && state.selectedPoint === null){
-		// 	setState({
-		// 		selectedPoint: getInitialSelectedPoint()
-		// 	})
-		// }
-	}, [state.loaded]);
-
-
 	const changeEditedVotings = value => {
 		setState({
 			editedVotings: value
@@ -129,9 +119,6 @@ const AgendaManager = ({
 	const nextPoint = () => {
 		if (selectedPoint < data.agendas.length - 1) {
 			dispatch({ type: 'NEXT_POINT' });
-			// setState({
-			// 	selectedPoint: state.selectedPoint + 1
-			// });
 		}
 	};
 
@@ -247,7 +234,7 @@ const AgendaManager = ({
 						refetchCouncil={props.refetch}
 						refetch={getData}
 					/>
-					:					<div style={{ margin: '2em' }}>
+					: <div style={{ margin: '2em' }}>
 						{translate.empty_agendas}
 					</div>
 				}

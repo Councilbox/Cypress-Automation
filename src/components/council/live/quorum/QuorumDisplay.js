@@ -1,7 +1,9 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
-import { Table, TableBody, TableHead, TableRow, TableCell, MenuItem } from 'material-ui';
+import {
+	Table, TableBody, TableHead, TableRow, TableCell, MenuItem
+} from 'material-ui';
 import {
 	showNumParticipations,
 	councilHasSession,

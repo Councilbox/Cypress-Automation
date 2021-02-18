@@ -380,7 +380,7 @@ const PlatformDrafts = ({
 											/>
 										</div>
 									</div>
-									:											<div style={{ marginRight: '0.8em', display: 'flex', justifyContent: 'flex-end' }}>
+									: <div style={{ marginRight: '0.8em', display: 'flex', justifyContent: 'flex-end' }}>
 										<div style={{ marginRight: '3em' }}>
 											<DropdownEtiquetas
 												translate={translate}

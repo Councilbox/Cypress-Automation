@@ -88,7 +88,9 @@ const styles = {
 };
 
 
-const CouncilState = ({ translate, council, company, windowSize, windowOrientation, isAssistance, selectHeadFinished, ...props }) => {
+const CouncilState = ({
+	translate, council, company, windowSize, windowOrientation, isAssistance, selectHeadFinished, ...props
+}) => {
 	const [modal, setModal] = React.useState(false);
 	const [state, setState] = React.useState({
 		width: window.innerWidth,
@@ -232,9 +234,13 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 			return (
 				<React.Fragment>
 					{isMobile ?
-						<div style={{ height: '100%', width: '100%', padding: '0.5em', paddingTop: '1.5em', fontSize: '15px', overflow: 'hidden' }}>
+						<div style={{
+							height: '100%', width: '100%', padding: '0.5em', paddingTop: '1.5em', fontSize: '15px', overflow: 'hidden'
+						}}>
 							<Scrollbar>
-								<div style={{ width: '100%', height: '100%', background: 'white', padding: '0.8em 1em', borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}>
+								<div style={{
+									width: '100%', height: '100%', background: 'white', padding: '0.8em 1em', borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)'
+								}}>
 									<div>
 										<h3 style={{
 											color: primary,
@@ -270,12 +276,16 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 									</div>
 									{renderCouncilSurvey()}
 								</div>
-								<div style={{ marginTop: '1em', background: 'white', padding: '0.5em', boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
+								<div style={{
+									marginTop: '1em', background: 'white', padding: '0.5em', boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7'
+								}}>
 									<div>
 										{council.dateEnd ? moment(council.dateEnd).format('LLL') : '-'}
 									</div>
 								</div>
-								<div style={{ marginTop: '1em', height: '100%', background: 'white', padding: '0.5em', boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
+								<div style={{
+									marginTop: '1em', height: '100%', background: 'white', padding: '0.5em', boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7'
+								}}>
 									<div style={{ padding: '1em 1em', height: '100%' }}>
 										<div style={{ textAlign: 'center' }}>
 											{translate.my_participation} - <span style={{ color: primary }}>{`${props.participant.name} ${props.participant.surname}` || ''}</span>
@@ -308,9 +318,15 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 						</div>
 						:
 						// <div style={{ width: "100%", padding: "0.5em", paddingTop: "1.5em", fontSize: "15px" }}>
-						<div style={{ height: '100%', width: '100%', padding: '0.5em', paddingTop: '1.5em', fontSize: '15px', overflow: 'hidden' }}>
-							<div style={{ width: '100%', background: 'white', padding: '0.8em 1em', borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}>
-								<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '1em', marginBottom: '2em' }}>
+						<div style={{
+							height: '100%', width: '100%', padding: '0.5em', paddingTop: '1.5em', fontSize: '15px', overflow: 'hidden'
+						}}>
+							<div style={{
+								width: '100%', background: 'white', padding: '0.8em 1em', borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)'
+							}}>
+								<div style={{
+									display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '1em', marginBottom: '2em'
+								}}>
 									<div>
 										<h3 style={{
 											color: primary,
@@ -344,7 +360,9 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 								</div>
 								<div style={{ display: 'flex', justifyContent: 'center', padding: '0 1em' }}>
 									<div>
-										<div style={{ display: 'flex', marginBottom: '1em', fontWeight: '900', color: '#000000' }} >
+										<div style={{
+											display: 'flex', marginBottom: '1em', fontWeight: '900', color: '#000000'
+										}} >
 											{council.name}
 										</div>
 									</div>
@@ -353,7 +371,9 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 									{renderCouncilSurvey()}
 								</div>
 							</div>
-							<div style={{ height: 'calc( 100% - 13em )', marginBottom: '4em', marginTop: '1em', background: 'white', padding: '0.5em', boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
+							<div style={{
+								height: 'calc( 100% - 13em )', marginBottom: '4em', marginTop: '1em', background: 'white', padding: '0.5em', boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7'
+							}}>
 								<div style={{ padding: '1em 1em', minHeight: '400px' }}>
 									<div style={{ textAlign: 'left' }}>
 										{translate.my_participation} - <span style={{ color: primary }}>{`${props.participant.name} ${props.participant.surname}` || ''}</span>
@@ -415,7 +435,9 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 };
 
 
-const TextRender = ({ title, text, isHtmlText, council, company, translate, windowOrientation }) => {
+const TextRender = ({
+	title, text, isHtmlText, council, company, translate, windowOrientation
+}) => {
 	const [modal, setModal] = React.useState(false);
 	const primary = getPrimary();
 
@@ -501,7 +523,9 @@ export const CouncilInfoCardRender = ({ council, windowOrientation }) => (
 	</React.Fragment>
 );
 
-const TextDialog = ({ open, handleClose, title, text }) => (
+const TextDialog = ({
+	open, handleClose, title, text
+}) => (
 	<Dialog
 		open={open}
 		onClose={handleClose}
@@ -529,7 +553,9 @@ const TextDialog = ({ open, handleClose, title, text }) => (
 	</Dialog>
 );
 
-const Image = ({ src, widths, windowOrientation, styles: localStyles }) => (
+const Image = ({
+	src, widths, windowOrientation, styles: localStyles
+}) => (
 	<div
 		style={{
 			width: widths < 690 ? '60%' : '33%',
@@ -546,7 +572,9 @@ const Image = ({ src, widths, windowOrientation, styles: localStyles }) => (
 	</div>
 );
 
-const StateContainer = ({ widths, windowOrientation, heights, children }) => (
+const StateContainer = ({
+	widths, windowOrientation, heights, children
+}) => (
 	<div
 		style={{
 			overflow: 'hidden',

@@ -145,7 +145,7 @@ const CreateCouncilModal = ({
 			fullWidth={isMobile && true}
 			classNameDialog={isMobile && 'noMarginM'}
 			open={true}
-			widthModal={{ borderRadius: '8px', }}
+			widthModal={{ borderRadius: '8px' }}
 			bodyStyle={{ overflow: 'hidden', maxWidth: !isMobile && '75vw' }}
 			PaperProps={{
 				style: {
@@ -180,7 +180,7 @@ const CreateCouncilModal = ({
 														marginLeft: '15px'
 													}}
 												>
-													<img src={emptyMeetingTable} style={{ width: '70px', }} alt="empty-table" />
+													<img src={emptyMeetingTable} style={{ width: '70px' }} alt="empty-table" />
 												</div>
 											}
 										</div>
@@ -276,7 +276,7 @@ const CreateCouncilModal = ({
 							}
 							{step === 10
 								&& <div style={{ height: '100%', padding: isMobile ? '0em 1em 0em' : '0em 2em 2em 2em' }}>
-									<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', }}>
+									<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
 										<div onClick={() => setStep(1)} style={{ color: getSecondary(), cursor: 'pointer', paddingBottom: '1em' }}>
 											{translate.back}
 										</div>
@@ -382,7 +382,9 @@ const CreateCouncilModal = ({
 };
 
 
-const ButtonCreateCouncil = ({ title, icon, list, styleButton, onClick }) => {
+const ButtonCreateCouncil = ({
+	title, icon, list, styleButton, onClick
+}) => {
 	const [hover, hoverHandlers] = useHoverRow();
 
 	if (isMobile) {
@@ -398,7 +400,7 @@ const ButtonCreateCouncil = ({ title, icon, list, styleButton, onClick }) => {
 					...styleButton
 				}}
 			>
-				<div style={{ padding: '1.5em', background: hover ? 'rgba(97, 171, 183, 0.22)' : '', cursor: 'pointer', }}
+				<div style={{ padding: '1.5em', background: hover ? 'rgba(97, 171, 183, 0.22)' : '', cursor: 'pointer' }}
 					onClick={onClick}
 					{...hoverHandlers}
 				>
@@ -424,9 +426,11 @@ const ButtonCreateCouncil = ({ title, icon, list, styleButton, onClick }) => {
 				...styleButton
 			}}
 		>
-			<div style={{ display: 'flex', padding: '1.5em', background: hover ? 'rgba(97, 171, 183, 0.22)' : '', cursor: 'pointer' }}
-				onClick={onClick}
-				{...hoverHandlers}
+			<div style={{
+				display: 'flex', padding: '1.5em', background: hover ? 'rgba(97, 171, 183, 0.22)' : '', cursor: 'pointer'
+			}}
+			onClick={onClick}
+			{...hoverHandlers}
 			>
 				<div style={{ width: '90px', display: 'flex', alignItems: 'center' }}>{icon}</div>
 				<div style={{ color: 'black', marginLeft: '2em' }}>
@@ -453,7 +457,7 @@ const ButtonInfoCouncil = ({
 			...styleButton
 		}}
 	>
-		<div style={{ padding: '1.5em', }}>
+		<div style={{ padding: '1.5em' }}>
 			<div style={{ display: 'flex' }}>
 				<div style={{ width: '80px' }}>{icon}</div>
 				<div style={{ fontSize: '22px', color: 'black', marginLeft: '1em' }}>{title}</div>

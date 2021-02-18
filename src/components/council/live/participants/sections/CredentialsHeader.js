@@ -41,7 +41,7 @@ const CredentialsHeader = ({
 					cursor: 'pointer',
 					...(selected === null ?
 						selectedStyle
-						:							{}
+						: {}
 					)
 				}}
 			>
@@ -62,7 +62,7 @@ const CredentialsHeader = ({
 					cursor: 'pointer',
 					...(selected === EMAIL_TRACK_STATES.FAILED ?
 						selectedStyle
-						:							{}
+						: {}
 					)
 				}}
 			>
@@ -82,7 +82,7 @@ const CredentialsHeader = ({
 					cursor: 'pointer',
 					...(selected === EMAIL_TRACK_STATES.NOT_SENT ?
 						selectedStyle
-						:							{}
+						: {}
 					)
 				}}
 			>
@@ -102,7 +102,7 @@ const CredentialsHeader = ({
 					cursor: 'pointer',
 					...(selected === EMAIL_TRACK_STATES.INVALID_EMAIL_ADDRESS ?
 						selectedStyle
-						:							{}
+						: {}
 					)
 				}}
 			>
@@ -120,7 +120,7 @@ const CredentialsHeader = ({
 					cursor: 'pointer',
 					...(selected === EMAIL_TRACK_STATES.SPAM ?
 						selectedStyle
-						:							{}
+						: {}
 					)
 				}}
 			>
@@ -140,7 +140,7 @@ const CredentialsHeader = ({
 					cursor: 'pointer',
 					...(selected === EMAIL_TRACK_STATES.PENDING_SHIPPING ?
 						selectedStyle
-						:							{}
+						: {}
 					)
 				}}
 			>
@@ -160,7 +160,7 @@ const CredentialsHeader = ({
 					cursor: 'pointer',
 					...(selected === EMAIL_TRACK_STATES.DELIVERED ?
 						selectedStyle
-						:							{}
+						: {}
 					)
 				}}
 			>
@@ -180,7 +180,7 @@ const CredentialsHeader = ({
 					cursor: 'pointer',
 					...(selected === EMAIL_TRACK_STATES.OPENED ?
 						selectedStyle
-						:							{}
+						: {}
 					)
 				}}
 			>

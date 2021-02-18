@@ -88,7 +88,7 @@ const ResendCredentialsModal = ({
 						</React.Fragment>
 					}
 				/>
-				:				<ResendButton
+				: <ResendButton
 					action={openModal}
 					translate={translate}
 					active={participant.signed === 1}
