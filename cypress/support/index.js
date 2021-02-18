@@ -16,5 +16,10 @@
 // Import commands.js using ES2015 syntax:
 import './commands'
 
+
+Cypress.config('UniqueNumber', `${Math.floor(Math.random() * 10000000000000)}`)
+
+require('cypress-xpath')
+
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

@@ -276,9 +276,9 @@ export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = '
 				label: texts.agenda,
 				text: puntos,
 				secondaryText: `
-<b>${secondaryTexts.agenda}</b> </br>
-${data.agendas.reduce((acc, curr) => `${acc}- ${curr.agendaSubject}</br>`, '')}
-`
+                <b>${secondaryTexts.agenda}</b> <br>
+                ${data.agendas.reduce((acc, curr) => `${acc}- ${curr.agendaSubject}<br>`, '')}
+                `
 			};
 		},
 		attendants: () => ({
