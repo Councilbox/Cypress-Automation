@@ -159,10 +159,10 @@ const StatutesPage = ({
 				<LiveToast
 					message={translate.revise_text}
 				/>, {
-					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,
-					className: 'errorToast'
-				}
+				position: toast.POSITION.TOP_RIGHT,
+				autoClose: true,
+				className: 'errorToast'
+			}
 			);
 		}
 
@@ -305,6 +305,7 @@ const StatutesPage = ({
 					}
 					setState({
 						...state,
+						newStatuteName: '',
 						newStatute: false,
 						newLoading: false
 					});
@@ -418,34 +419,34 @@ const StatutesPage = ({
 								<div style={{ position: 'relative', overflow: 'hidden', height: 'calc(100% - 4.5em)' }}>
 									<Scrollbar>
 										{disabled
-&& <>
-	<div
-		style={{
-			position: 'absolute',
-			top: '0',
-			left: '0',
-			width: '100%',
-			height: editorHeight,
-			// backgroundColor: 'red',
-			zIndex: 1000000
-		}}
-		onClick={() => {}}
-	/>
-	<div
-		style={{
-			width: '100%',
-			textAlign: 'center',
-			border: '1px solid black',
-			borderRadius: '4px',
-			fontWeight: '700',
-			padding: '0.6em 0',
-			margin: '1em 0'
-		}}
-	>
-		{translate.organization_statute} <br/>
-		{translate.read_only}
-	</div>
-</>
+											&& <>
+												<div
+													style={{
+														position: 'absolute',
+														top: '0',
+														left: '0',
+														width: '100%',
+														height: editorHeight,
+														// backgroundColor: 'red',
+														zIndex: 1000000
+													}}
+													onClick={() => { }}
+												/>
+												<div
+													style={{
+														width: '100%',
+														textAlign: 'center',
+														border: '1px solid black',
+														borderRadius: '4px',
+														fontWeight: '700',
+														padding: '0.6em 0',
+														margin: '1em 0'
+													}}
+												>
+													{translate.organization_statute} <br />
+													{translate.read_only}
+												</div>
+											</>
 										}
 										<div style={{ paddingLeft: '1em', paddingRight: '1.5em', overflow: 'hidden' }} ref={statuteEditorRef}>
 											<StatuteEditor
@@ -477,51 +478,51 @@ const StatutesPage = ({
 								>
 									<div>
 										{state.unsavedChanges
-&& <BasicButton
-	text={translate.undo_changes}
-	color={getSecondary()}
-	textStyle={{
-		color: 'white',
-		fontWeight: '700',
-		textTransform: 'none'
-	}}
-	buttonStyle={{
-		marginRight: '0.8em'
-	}}
-	onClick={() => setState({
-		...state,
-		rollbackAlert: true
-	})}
-	icon={
-		<ButtonIcon
-			type={'replay'}
-			color="white"
-		/>
-	}
-/>
+											&& <BasicButton
+												text={translate.undo_changes}
+												color={getSecondary()}
+												textStyle={{
+													color: 'white',
+													fontWeight: '700',
+													textTransform: 'none'
+												}}
+												buttonStyle={{
+													marginRight: '0.8em'
+												}}
+												onClick={() => setState({
+													...state,
+													rollbackAlert: true
+												})}
+												icon={
+													<ButtonIcon
+														type={'replay'}
+														color="white"
+													/>
+												}
+											/>
 										}
 										{!disabled
-&& <BasicButton
-	text={translate.save}
-	disabled={state.error}
-	color={success ? 'green' : getPrimary()}
-	textStyle={{
-		color: 'white',
-		fontWeight: '700',
-		textTransform: 'none'
-	}}
-	onClick={updateStatute}
-	loading={state.loading}
-	error={state.error}
-	reset={resetButtonStates}
-	success={success}
-	icon={
-		<ButtonIcon
-			type={'save'}
-			color="white"
-		/>
-	}
-/>
+											&& <BasicButton
+												text={translate.save}
+												disabled={state.error}
+												color={success ? 'green' : getPrimary()}
+												textStyle={{
+													color: 'white',
+													fontWeight: '700',
+													textTransform: 'none'
+												}}
+												onClick={updateStatute}
+												loading={state.loading}
+												error={state.error}
+												reset={resetButtonStates}
+												success={success}
+												icon={
+													<ButtonIcon
+														type={'save'}
+														color="white"
+													/>
+												}
+											/>
 										}
 									</div>
 								</div>
@@ -551,10 +552,7 @@ const StatutesPage = ({
 						onClick={showNewStatute}
 					/>
 				</div>
-			)
-
-			}
-
+			)}
 			<AlertConfirm
 				title={translate.attention}
 				bodyText={translate.question_delete}
@@ -600,23 +598,21 @@ const StatutesPage = ({
 						value={statute ? statute.newStatuteName : state.newStatuteName}
 						onChange={event => setState({
 							...state,
-							newStatuteName:
-event.target.value
-						})
-						}
+							newStatuteName: event.target.value
+						})}
 					/>
 				}
 				title={translate.add_council_type}
 			/>
 			{state.editModal !== false
-&& <StatuteNameEditor
-	requestClose={() => setState({ ...state, editModal: false })
-	}
-	key={companyStatutes[state.editModal].id}
-	statute={companyStatutes[state.editModal]}
-	translate={translate}
-	refetch={data.refetch}
-/>
+				&& <StatuteNameEditor
+					requestClose={() => setState({ ...state, editModal: false })
+					}
+					key={companyStatutes[state.editModal].id}
+					statute={companyStatutes[state.editModal]}
+					translate={translate}
+					refetch={data.refetch}
+				/>
 			}
 		</>
 	);
