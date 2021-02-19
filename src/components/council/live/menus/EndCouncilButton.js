@@ -1,8 +1,7 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
 import { endCouncil as endCouncilMutation } from '../../../../queries/council';
-import { AlertConfirm, BasicButton, Icon } from '../../../../displayComponents';
+import { AlertConfirm, BasicButton, Icon, LoadingSection } from '../../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import { bHistory } from '../../../../containers/App';
 import { isMobile } from '../../../../utils/screen';
@@ -15,19 +14,22 @@ import { sendAct } from '../../writing/actEditor/SendActPage';
 
 const buildFinishSteps = council => {
 	const steps = [{
-		name: 'endCouncil',
+		name: 'finish_council',
+		action: 'endCouncil',
 		status: 'IDDLE'
 	}];
 
-	if (council.statute.autoApproveAct) {
+	if (council.statute.existsAct && council.statute.autoApproveAct) {
 		steps.push({
-			name: 'autoApproveAct',
+			name: 'auto_approve_act',
+			action: 'autoApproveAct',
 			status: 'IDDLE'
 		});
 
 		if (council.statute.autoSendAct) {
 			steps.push({
-				name: 'autoSendAct',
+				name: 'auto_send_act',
+				action: 'autoSendAct',
 				status: 'IDDLE'
 			});
 		}
@@ -112,7 +114,6 @@ const EndCouncilButton = ({ client, council, translate, ...props }) => {
 		autoSendAct
 	};
 
-
 	const startEndCouncilProcess = async () => {
 		setLoading(true);
 		councilLiveContext.disableCouncilStateCheck(true);
@@ -125,7 +126,7 @@ const EndCouncilButton = ({ client, council, translate, ...props }) => {
 			});
 
 			// eslint-disable-next-line no-await-in-loop
-			await actions[step.name]();
+			await actions[step.action]();
 
 			setSteps(oldSteps => {
 				oldSteps[i].status = 'DONE';
@@ -168,9 +169,20 @@ const EndCouncilButton = ({ client, council, translate, ...props }) => {
 		return (
 			<>
 				{steps.map(step => (
-					<div key={`step_${step.name}`}>
-						{step.name}: {step.status}
+					<div style={{ width: '90%', display: 'flex', justifyContent: 'space-between' }} key={`step_${step.name}`}>
+						<div>
+							{translate[step.name]}
+						</div>
+						<div>
+							{step.status === 'LOADING'
+								&& <LoadingSection size={14} />
+							}
+							{step.status === 'DONE'
+								&& <i className="fa fa-check" style={{ color: 'green' }}></i>
+							}
+						</div>
 					</div>
+
 				))}
 			</>
 		);
