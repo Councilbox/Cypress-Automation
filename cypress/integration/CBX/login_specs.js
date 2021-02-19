@@ -109,115 +109,10 @@ describe("The user is able to create a new account in Councilbox", function() {
 
 });
 
-describe("Council box login - no username or password added", function() {
-    before(function() {
-        cy.deleteLocalStorage();
-        
-    });
-
-    it("Visits the councilbox web page", function() {
-       
-        cy.clearLocalStorage();
-        cy.saveLocalStorage();
-        cy.visit(login_url);
-        cy.wait(2000)
-        cy.contains("Sign in to Councilbox");
-    });
-
-    it("Clicks to enter button", function() {
-        cy.contains("To enter").click();
-    });
-
-    it("Email and password required label shown", function() {
-        cy.contains("This field is required");
-    }); 
-
-    it("User is not logged in", function() {
-        cy.url().should("include", login_url);
-    });
-});
-
-describe("Councilbox login - invalid username and valid password", function() {
-
-    before(function() {
-        cy.deleteLocalStorage();
-    });
-
-    it("Visits the Councilbox web page", function() {
-        cy.clearLocalStorage();
-        cy.saveLocalStorage();
-        cy.visit(login_url);
-        cy.wait(2000)
-        cy.contains("Sign in to Councilbox");
-    });
-
-    it("Enters invalid email address", function() {
-        cy.get('input').eq(0)
-            .type("councilbox@mail.com")    
-            .should("have.value", "councilbox@mail.com")
-    });
-
-    it("Enters password", function() {
-        cy.get('input').eq(1)
-            .type(valid_password)
-            .should("have.value", valid_password)
-    });
-
-    it("Clicks login button", function() {
-        cy.contains("To enter").click();
-    });
-
-    it("Email is not verified or does not exist label shown", function() {
-        cy.contains("The email is not verified or does not exist.");
-    });
-
-    it("User is not logged in", function() {
-        cy.url().should("include", login_url);
-    });
-});
-
-describe("Councilbox login - valid username and invalid password", function() {
-    it("Visits the Councilbox web page", function() {
-        cy.visit(login_url);
-    });
-
-    it("Enters existing, valid email address", function() {
-        cy.get('input').eq(0)
-            .type(valid_email)    
-            .should("have.value", valid_email)
-    });
-
-    it("Enters invalid password", function() {
-        cy.get('input').eq(1)
-            .type("WrongPassword")    
-            .should("have.value", "WrongPassword")
-    });
-
-    it("Clicks login button", function() {
-        cy.get('#login-button').click();
-    });
-
-    it("Password incorrect label shown", function() {
-        cy.contains("Incorrect password");
-    });
-
-    it("User is not logged in", function() {
-        cy.url().should("include", login_url);
-    });
-});
-
-
-
-
-
 
 
 
 describe("Councilbox login - valid username and password", function() {
-
-     before(function() {
-        cy.deleteLocalStorage();
-    });
 
 
     it("Visits the Councilbox web page", function() {
@@ -271,6 +166,8 @@ describe("The user is able to add company in the Councilbox", function() {
     });
 
     */
+
+    
 
     it("Populate “Razón social*” field", function() {
         cy.get('input').eq(0).type('Test')
@@ -406,6 +303,8 @@ describe("The user is able to Link company", function() {
 });
 
 
+
+
 describe("The user is able to add a new type of meeting in the 'Tipos de reunion' section", function() {
 
     it("From the menu choose and click on the 'Tipos de reunion' button", function() {
@@ -421,11 +320,15 @@ describe("The user is able to add a new type of meeting in the 'Tipos de reunion
     });
 
     it("Populate required field and click on the 'Aceptar' button", function() {
-        cy.get('#anadirTipoDeReunionInputEnModal').type('Test')
+        cy.get('#anadirTipoDeReunionInputEnModal').type('Test'+Cypress.config('UniqueNumber'))
         cy.contains('Aceptar').click()
     });
 
 });
+
+
+
+
 
 
 describe("The user is able to add a partner in the 'Libro de socios' section", function() {
@@ -439,42 +342,38 @@ describe("The user is able to add a partner in the 'Libro de socios' section", f
 
     it("Click on the 'Anadir socio' form", function() {
         cy.get('#anadirSocioLibroSocios').click()
+        cy.wait(1000)
 
     });
 
     it("Populate “Nombre” field", function() {
 
-        cy.get('#anadirSocioNombre').type('Test')
+        cy.get('#anadirSocioNombre').type('Test'+Cypress.config('UniqueNumber'))
     
     });
 
     it("Populate “Apelidos” field", function() {
 
-        cy.get('#anadirSocioApellido').type('Test')
+        cy.get('#anadirSocioApellido').type('Test'+Cypress.config('UniqueNumber'))
     
     });
 
-    it("Populate “Nombre” field", function() {
-
-        cy.get('#anadirSocioNombre').type('Test')
-    
-    });
 
     it("Populate “DNI/NIF” field", function() {
 
-        cy.get('#anadirSocioDni').type('Test')
+        cy.get('#anadirSocioDni').type('Test'+Cypress.config('UniqueNumber'))
     
     });
 
     it("Populate “Nacionalidad” field", function() {
 
-        cy.get('#anadirSocioNAcionalidad').type('Test')
+        cy.get('#anadirSocioNAcionalidad').type('Test'+Cypress.config('UniqueNumber'))
     
     });
 
     it("Populate “Email” field", function() {
 
-        cy.get('#anadirSocioMail').type('automationTestPartnet@test.com')
+        cy.get('#anadirSocioMail').type('automationTest@test.com')
     
     });
 
@@ -484,11 +383,6 @@ describe("The user is able to add a partner in the 'Libro de socios' section", f
     
     });
 
-    it("Populate “DNI/NIF” field", function() {
-
-        cy.get('#anadirSocioDni').type('Test')
-    
-    });
 
     it("Populate “Telefono Fijo” field", function() {
 
@@ -498,7 +392,7 @@ describe("The user is able to add a partner in the 'Libro de socios' section", f
 
     it("Populate “TIpo de Socio” field", function() {
 
-        cy.get('#anadirSocioTipoSocio').type('test')
+        cy.get('#anadirSocioTipoSocio').type('test'+Cypress.config('UniqueNumber'))
     
     });
 
@@ -509,9 +403,13 @@ describe("The user is able to add a partner in the 'Libro de socios' section", f
     
     });
 
+    /*
+
     it("Select “Votos”", function() {
 
-        cy.xpath('(//*[@class="jss2050 jss2053"])[1]').type('1')
+        cy.get('input').eq(10)
+            .type('5')    
+            
     
     });
 
@@ -523,27 +421,417 @@ describe("The user is able to add a partner in the 'Libro de socios' section", f
     
     });
 
+    */
+
     it("Navigate to the “Ficha” section and populate “Nº de acta de alta” field", function() {
 
-        cy.get('#anadirSocioActaAlta').type('12345')
+        cy.get('#anadirSocioActaAlta').type(Cypress.config('UniqueNumber'))
     
     });
 
     it("Populate “Nº de acta de baja” field", function() {
 
-        cy.get('#anadirSocioActaBaja').type('54321')
+        cy.get('#anadirSocioActaBaja').type(Cypress.config('UniqueNumber'))
     
     });
 
 
     it("Select “Fecha de apertura de ficha”", function() {
 
-        cy.xpath('(//*[@class="jss620"])[11]').click()
+        cy.get('#anadirSocioAperturaFicha').click()
         cy.contains('Ok').click()
+       
     
     });
 
- 
+
+    it("Select “Fecha de alta”", function() {
+
+        cy.get('#anadirSocioFechaAlta').click()
+        cy.contains('Ok').click()
+       
     
+    });
+
+
+    it("Select “Acta de alta”", function() {
+
+        cy.get('#anadirSocioFechaActaAlta2').click()
+        cy.contains('Ok').click()
+       
+    
+    });
+
+
+    it("Select “Fecha de baja”", function() {
+
+        cy.get('#anadirSocioFechaActaBaja').click()
+        cy.contains('Ok').click()
+       
+    
+    });
+
+
+    it("Select “Acta de baja”", function() {
+
+        cy.get('#anadirSocioFechaActaBaja2').click()
+        cy.contains('Ok').click()
+       
+    
+    });
+
+
+     it("Navigate to the “Datos adicionales” section and populate “Dirección” field", function() {
+
+        cy.get('#anadirSocioDireccion').type('AutomationTest')
+    
+    });
+
+     it("Populate “Localidad” field", function() {
+
+        cy.get('#anadirSocioLocalidad').type('AutomationTest')
+       
+    
+    });
+
+      it("Select “Provincia”", function() {
+
+        cy.get('#anadirSocioProvincia').type('Catalonia')
+       
+       
+    
+    });
+
+      it("Populate “Codigo Postal” field", function() {
+
+        cy.get('#anadirSocioCP').type(Cypress.config('UniqueNumber'))
+       
+    
+    });
+
+
+      it("Select “Idioma”", function() {
+
+        cy.contains('Español').click()
+        cy.wait(1000)
+        cy.contains('English').click({force : true})
+       
+    
+    });
+
+       it("Click on the 'Guardar cambios' button", function() {
+
+        cy.get('#guardarAnadirSocio').click()
+        cy.wait(3000)
+       
+    
+    });
+ 
 
 });
+
+
+
+
+
+
+
+
+describe("The user is able to add census in the 'Censos' section [tipo Assistentes]", function() {
+
+    it("From the menu choose and click on the 'Censos' button", function() {
+        cy.contains('dashboard').click({ force: true })
+        cy.wait(3000)
+        cy.get('#edit-censuses-block').click()
+        cy.wait(3000)
+
+    });
+
+
+    it("Click on 'Anadir censo+' button", function() {
+        cy.contains('Añadir censo').click()
+
+    });
+
+    it("Populate “Nombre” field", function() {
+        cy.get('input').eq(2)
+            .type('AutomationTest'+Cypress.config('UniqueNumber'))    
+            .should("have.value", 'AutomationTest'+Cypress.config('UniqueNumber'))
+    });
+
+
+    it("“Select the “Assistentes” tipo de census", function() {
+        cy.contains('Asistentes').click()
+        cy.wait(2000)
+        cy.contains('Participaciones').click()
+
+    });
+
+    it("Populate “Descripcion” field", function() {
+        cy.get('input').eq(4)
+            .type('TestAutomation')    
+            .should("have.value", 'TestAutomation')
+    });
+
+    it("Click on the 'Aceptar' button", function() {
+        cy.contains('Aceptar').click()
+    });
+
+
+
+    
+});
+
+
+describe("The user is able to add a new document in the 'Base de conocimiento' section", function() {
+
+   
+
+    });
+
+
+describe("The user is able to create a new template in the 'Base de conocimiento' section", function() {
+
+    it("From the menu choose and click on the 'Base de conocimiento' button", function() {
+        cy.contains('dashboard').click({ force: true })
+        cy.get('#edit-drafts-block').click()
+
+    });
+
+
+    it("Click on the 'Plantillas' button", function() {
+        cy.contains('Plantillas').click()
+
+    });
+
+    it("Click on the 'Nueva plantilla' button", function() {
+        cy.get('#newDraft').click()
+    });
+
+
+    it("Populate “Titulo” field", function() {
+        cy.get('#titleDraft')
+            .type('TestAutomation'+Cypress.config('UniqueNumber'))    
+            
+          
+    });
+
+    it("Click on the 'Guardar' button", function() {
+        cy.get('#saveDraft').click()
+        cy.wait(5000)
+          
+    });
+
+
+
+    
+});
+
+
+
+describe("The user is able to add new tag in the 'Base de conocimiento' section", function() {
+
+    it("From the menu choose and click on the 'Base de conocimiento' button", function() {
+        cy.contains('dashboard').click({ force: true })
+        cy.get('#edit-drafts-block').click()
+
+    });
+
+
+    it("Click on the 'Tags' button", function() {
+        cy.contains('<Tags>').click()
+
+    });
+
+    it("Click on the 'Anadir' button", function() {
+        cy.get('#idAddEtiqueta').click()
+        cy.wait(3000)
+    });
+
+
+    it("Populate “Clave” field", function() {
+        cy.get('input').eq(1)
+            .type('TestAutomation'+Cypress.config('UniqueNumber'))    
+            
+          
+    });
+
+    it("Populate “Valor” field", function() {
+        cy.get('input').eq(2)
+            .type('TestAutomation'+Cypress.config('UniqueNumber'))    
+            
+          
+    });
+
+    it("Populate “Descripcion” field", function() {
+     
+         cy.get('input').eq(3)
+            .type('TestAutomation')  
+            
+          
+    });
+
+    it("Click on the 'Aceptar' button", function() {
+        cy.contains('Aceptar').click()
+          
+    });
+
+
+
+    
+});
+
+
+
+
+describe("The user is able to create a new call with session in the 'Nueva reunion' section", function() {
+
+    it("Click on the 'Nueva reunion' button", function() {
+        cy.contains('dashboard').click({ force: true })
+        cy.get('#create-council-block').click()
+
+    });
+
+
+    it("Click on the 'Con sesion' button and populate all required fields then click on the 'Aceptar' button", function() {
+        cy.contains('Con sesión').click()
+        cy.wait(10000)
+
+    });
+
+    it("Populate all required fields and click on the 'Siguiente' button", function() {
+        cy.xpath('(//*[@class="ql-editor ql-blank" ])[1]').type('AutomationTest'+Cypress.config('UniqueNumber'))
+        cy.wait(1000)
+        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+    });
+
+
+    it("Click on the 'Anadir participante' button and populate all required fields then click on the 'Siguiente' button", function() {
+        cy.get('#anadirParticipanteEnCensoNewReunio').click()
+        cy.wait(1000)
+        cy.get('input').eq(0)
+            .type('TestAutomation'+Cypress.config('UniqueNumber'))    
+            .should("have.value", 'TestAutomation'+Cypress.config('UniqueNumber'))
+        cy.get('input').eq(1)
+            .type('TestAutomation'+Cypress.config('UniqueNumber'))    
+            .should("have.value", 'TestAutomation'+Cypress.config('UniqueNumber'))
+        cy.get('input').eq(2)
+            .type('TestAutomation'+Cypress.config('UniqueNumber'))    
+            .should("have.value", 'TestAutomation'+Cypress.config('UniqueNumber'))
+        cy.get('input').eq(3)
+            .type('TestAutomation'+Cypress.config('UniqueNumber'))    
+            .should("have.value", 'TestAutomation'+Cypress.config('UniqueNumber'))
+        cy.get('input').eq(4)
+            .type('TestAutomation'+Cypress.config('UniqueNumber'))    
+            .should("have.value", 'TestAutomation'+Cypress.config('UniqueNumber'))
+        cy.get('input').eq(5)
+            .type('TestAutomation'+Cypress.config('UniqueNumber'))    
+            .should("have.value", 'TestAutomation'+Cypress.config('UniqueNumber'))
+        cy.get('input').eq(6)
+            .type('TestAutomation'+Cypress.config('UniqueNumber'))    
+            .should("have.value", 'TestAutomation'+Cypress.config('UniqueNumber'))
+          
+    });
+
+  
+
+    it("Click on the 'Aceptar' button", function() {
+        cy.contains('Aceptar').click()
+          
+    });
+
+
+
+    
+});
+
+
+describe("The user is able to create a new call without session in the 'Nueva reunion' section", function() {
+
+    it("Click on the 'Nueva reunion' button", function() {
+        cy.contains('dashboard').click({ force: true })
+        cy.get('#create-council-block').click()
+
+    });
+
+
+    it("Click on the 'Sin sesion' button and populate all required fields then click on the 'Aceptar' button", function() {
+        cy.contains('Sin sesión').click()
+        cy.wait(3000)
+        cy.xpath('(//*[@class="material-icons jss4252 jss4253"])[1]').click()
+        cy.contains('Ok').click()
+        cy.xpath('(//*[@class="material-icons jss4252 jss4253"])[2]').click()
+        cy.contains('Ok').click()
+
+
+    });
+
+
+
+
+
+
+    it("Click on the 'Aceptar' button", function() {
+        cy.contains('Aceptar').click()
+    });
+
+    
+});
+
+describe("The user is able to start conference", function() {
+
+    it("Click on the 'Iniciar conferencia' button", function() {
+        cy.contains('dashboard').click({ force: true })
+        cy.get('#init-meeting-block').click()
+        cy.wait(10000)
+
+    });
+
+
+    it("Populate required field and click on the 'Join' button", function() {
+
+        cy.get('#iframe').then($iframe => {
+  const $body = $iframe.contents().find('body'); 
+  cy.wrap($body)
+    .get('#participant-name-input')
+    .type('AutomationTest')
+    cy.contains('Join').click()
+    cy.wait(10000)
+    
+});
+
+        });
+
+    });
+
+
+/*
+describe("The user is able to create a new document signature in the 'Signatures' section", function() {
+
+    it("On the left side of the page find the menu and click on the 'Firmas' button", function() {
+        cy.contains('Firmas').click()
+
+    });
+
+     it("Click on the 'Nueva firma de documentos' button", function() {
+        cy.contains('Nueva firma de documentos').click()
+
+    });
+
+     it("Populate all required fields", function() {
+        cy.contains('Nueva firma de documentos').click()
+
+    });
+
+     
+
+
+
+
+
+
+
+});
+
+
+*/
