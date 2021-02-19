@@ -159,10 +159,10 @@ const StatutesPage = ({
 				<LiveToast
 					message={translate.revise_text}
 				/>, {
-				position: toast.POSITION.TOP_RIGHT,
-				autoClose: true,
-				className: 'errorToast'
-			}
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: 'errorToast'
+				}
 			);
 		}
 
