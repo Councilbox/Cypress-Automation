@@ -733,6 +733,8 @@ export const statutes = gql`
 			companyType
 			defaultVote
 			videoConfig
+			autoSendAct
+			autoApproveAct
 			hideVotingsRecountFinished
 			addParticipantsListToAct
 			existsAdvanceNoticeDays

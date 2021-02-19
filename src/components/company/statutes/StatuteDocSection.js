@@ -173,14 +173,36 @@ const StatuteDocSection = ({
 						}
 					/>
 				</GridItem>
+				{(statute.existsAct === 1 && config.autoActActions) &&
+					<>
+						<GridItem xs={12} md={7} lg={7}>
+							<Checkbox
+								label={translate.auto_approve_act}
+								value={statute.autoApproveAct === 1}
+								onChange={(event, isInputChecked) => updateState({
+									autoApproveAct: isInputChecked ? 1 : 0
+								})}
+							/>
+						</GridItem>
+						<GridItem xs={12} md={7} lg={7}>
+							<Checkbox
+								label={translate.auto_send_act}
+								disabled={!statute.autoApproveAct}
+								value={statute.autoSendAct === 1}
+								onChange={(event, isInputChecked) => updateState({
+									autoSendAct: isInputChecked ? 1 : 0
+								})}
+							/>
+						</GridItem>
+					</>
+				}
 				<GridItem xs={12} md={7} lg={7}>
 					<Checkbox
 						label={translate.included_in_act_book}
 						value={statute.includedInActBook === 1}
 						onChange={(event, isInputChecked) => updateState({
 							includedInActBook: isInputChecked ? 1 : 0
-						})
-						}
+						})}
 					/>
 				</GridItem>
 				<GridItem xs={12} md={7} lg={7}>
@@ -298,15 +320,15 @@ const StatuteDocSection = ({
 			)}
 
 			{config.proxies
-&& <ProxiesTemplates
-	translate={translate}
-	key={statute.id}
-	statute={statute}
-	data={data}
-	updateState={updateState}
-	errors={errors}
-	{...props}
-/>
+				&& <ProxiesTemplates
+					translate={translate}
+					key={statute.id}
+					statute={statute}
+					data={data}
+					updateState={updateState}
+					errors={errors}
+					{...props}
+				/>
 			}
 
 			{statute.existsAct === 1 && (
@@ -520,38 +542,38 @@ const StatuteDocSection = ({
 						</GridItem>
 					</Grid>
 					{!!saveDraft
-&& <SaveDraftModal
-	key={saveDraft}
-	open={!!saveDraft}
-	data={{
-		text: getText(saveDraft),
-		description: '',
-		title: '',
-		votationType: 0,
-		type: DRAFT_TYPES[saveDraft],
-		statuteId: statute.id,
-		tags: {
-			[`statute_${statute.id}`]: {
-				label: translate[statute.title] || statute.title,
-				name: `statute_${statute.id}`,
-				active: true,
-				type: TAG_TYPES.STATUTE
-			},
-			[saveDraft.toLowerCase()]: {
-				type: TAG_TYPES.DRAFT_TYPE,
-				active: true,
-				label: translate[saveDraft.toLowerCase()],
-				name: saveDraft.toLowerCase()
-			}
-		}
-	}}
-	company={props.company}
-	requestClose={closeDraftModal}
-	companyStatutes={props.companyStatutes}
-	votingTypes={data.votingTypes}
-	majorityTypes={data.majorityTypes}
-	draftTypes={data.draftTypes}
-/>
+						&& <SaveDraftModal
+							key={saveDraft}
+							open={!!saveDraft}
+							data={{
+								text: getText(saveDraft),
+								description: '',
+								title: '',
+								votationType: 0,
+								type: DRAFT_TYPES[saveDraft],
+								statuteId: statute.id,
+								tags: {
+									[`statute_${statute.id}`]: {
+										label: translate[statute.title] || statute.title,
+										name: `statute_${statute.id}`,
+										active: true,
+										type: TAG_TYPES.STATUTE
+									},
+									[saveDraft.toLowerCase()]: {
+										type: TAG_TYPES.DRAFT_TYPE,
+										active: true,
+										label: translate[saveDraft.toLowerCase()],
+										name: saveDraft.toLowerCase()
+									}
+								}
+							}}
+							company={props.company}
+							requestClose={closeDraftModal}
+							companyStatutes={props.companyStatutes}
+							votingTypes={data.votingTypes}
+							majorityTypes={data.majorityTypes}
+							draftTypes={data.draftTypes}
+						/>
 					}
 
 				</div>
