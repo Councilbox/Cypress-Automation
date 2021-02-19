@@ -1,8 +1,9 @@
+/* eslint-disable class-methods-use-this */
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
 class NotFound extends Component {
-	static render() {
+	render() {
 		return <Redirect to={'/'} />;
 	}
 }
