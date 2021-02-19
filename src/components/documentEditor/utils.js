@@ -265,9 +265,9 @@ export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = '
             secondaryText: data.council.act.conclusionRightColumn || '',
         }),
         agendaList: () => {
-            let puntos = `<b>${texts.agenda}</b> </br>`
+            let puntos = `<b>${texts.agenda}</b> <br>`
             data.agendas.forEach(element => {
-                puntos += "- " + element.agendaSubject + "</br>";
+                puntos += "- " + element.agendaSubject + "<br>";
             });
             return {
                 ...item,
@@ -275,8 +275,8 @@ export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = '
                 label: texts.agenda,
                 text: puntos,
                 secondaryText: `
-                    <b>${secondaryTexts.agenda}</b> </br>
-                    ${data.agendas.reduce((acc, curr) => `${acc}- ${curr.agendaSubject}</br>`, '')}
+                    <b>${secondaryTexts.agenda}</b> <br>
+                    ${data.agendas.reduce((acc, curr) => `${acc}- ${curr.agendaSubject}<br>`, '')}
                 `
             }
         },
