@@ -1472,6 +1472,8 @@ export const councilLiveQuery = gql`
 				id
 				prototype
 				councilId
+				autoApproveAct
+				autoSendAct
 				statuteId
 				title
 				existPublicUrl

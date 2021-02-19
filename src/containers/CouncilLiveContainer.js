@@ -13,11 +13,14 @@ import { checkCouncilState } from '../utils/CBX';
 import { councilLiveQuery } from '../queries';
 import { usePolling } from '../hooks';
 
+export const CouncilLiveContext = React.createContext();
+
 const CouncilLiveContainer = ({
 	main, companies, translate, match, client
 }) => {
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
+	const [disableCheck, setDisableCheck] = React.useState(false);
 
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
@@ -52,15 +55,21 @@ const CouncilLiveContainer = ({
 		if (!loading) {
 			const company = companies.list[companies.selected];
 
-			checkCouncilState(
-				{
-					state: data.council.state,
-					id: data.council.id
-				},
-				company,
-				bHistory,
-				'live'
-			);
+			if (!company) {
+				return;
+			}
+
+			if (!disableCheck) {
+				checkCouncilState(
+					{
+						state: data.council.state,
+						id: data.council.id
+					},
+					company,
+					bHistory,
+					'live'
+				);
+			}
 		}
 	}, [loading, data.council]);
 
@@ -84,22 +93,26 @@ const CouncilLiveContainer = ({
 				position: 'fixed'
 			}}
 		>
-			{!main.serverStatus
-&& <NoConnectionModal open={!main.serverStatus} />
-			}
-			{!isMobile ?
-				<CouncilLivePage
-					company={companies.list[companies.selected]}
-					companies={companies}
-					translate={translate}
-					data={data}
-				/>
-				: <CouncilLiveMobilePage
-					companies={companies}
-					data={data}
-					translate={translate}
-				/>
-			}
+			<CouncilLiveContext.Provider value={{
+				disableCouncilStateCheck: flag => setDisableCheck(flag)
+			}}>
+				{!main.serverStatus
+					&& <NoConnectionModal open={!main.serverStatus} />
+				}
+				{!isMobile ?
+					<CouncilLivePage
+						company={companies.list[companies.selected]}
+						companies={companies}
+						translate={translate}
+						data={data}
+					/>
+					: <CouncilLiveMobilePage
+						companies={companies}
+						data={data}
+						translate={translate}
+					/>
+				}
+			</CouncilLiveContext.Provider>
 		</div>
 	);
 };

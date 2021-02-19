@@ -16,7 +16,6 @@ import {
 } from '../../../../displayComponents';
 import { councilParticipantsActSends, sendAct as sendActMutation } from '../../../../queries';
 import { DELEGATION_USERS_LOAD } from '../../../../constants';
-
 import { useOldState } from '../../../../hooks';
 import { getSecondary } from '../../../../styles/colors';
 import { removeTypenameField } from '../../../../utils/CBX';
