@@ -10,6 +10,7 @@ import { ConfigContext } from '../../../../containers/AppControl';
 import { approveAct, updateCouncilAct } from '../../../../queries';
 import { CouncilLiveContext } from '../../../../containers/CouncilLiveContainer';
 import { sendAct } from '../../writing/actEditor/SendActPage';
+import { isMobile } from '../../../../utils/screen';
 
 const buildFinishSteps = council => {
 	const steps = [{
@@ -194,6 +195,13 @@ const EndCouncilButton = ({ client, council, translate, ...props }) => {
 					text={translate.finish_council}
 					id={'finalizarReunionEnReunion'}
 					color={unclosed.length === 0 ? primary : secondary}
+					buttonStyle={{ minWidth: isMobile ? '' : '13em' }}
+					textStyle={{
+						color: 'white',
+						fontSize: '0.75em',
+						fontWeight: '700',
+						textTransform: 'none'
+					}}
 					onClick={() => setConfirmModal(true)}
 					textPosition="before"
 					icon={
@@ -207,12 +215,6 @@ const EndCouncilButton = ({ client, council, translate, ...props }) => {
 							play_arrow
 						</Icon>
 					}
-					open={this.state.confirmModal}
-					buttonAccept={translate.accept}
-					buttonCancel={translate.cancel}
-					modal={true}
-					acceptAction={this.endCouncil}
-					requestClose={() => this.setState({ confirmModal: false })}
 				/>
 			</div>
 			<AlertConfirm
