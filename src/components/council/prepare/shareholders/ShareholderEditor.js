@@ -138,7 +138,7 @@ const AddConvenedParticipantButton = ({
 				}
 			});
 			if (!response.errors) {
-				props.refetch(JSON.parse(response.data.addConvenedParticipant.message));
+				props.refetch(response.data.addConvenedParticipant);
 				setState({
 					modal: false,
 					data: { ...initialParticipant },
