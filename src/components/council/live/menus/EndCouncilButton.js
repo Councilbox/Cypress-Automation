@@ -4,7 +4,6 @@ import { endCouncil as endCouncilMutation } from '../../../../queries/council';
 import { AlertConfirm, BasicButton, Icon, LoadingSection } from '../../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import { bHistory } from '../../../../containers/App';
-import { isMobile } from '../../../../utils/screen';
 import { CouncilActData } from '../../writing/actEditor/ActEditor';
 import { buildDoc } from '../../../documentEditor/utils';
 import { ConfigContext } from '../../../../containers/AppControl';

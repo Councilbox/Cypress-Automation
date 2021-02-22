@@ -48,9 +48,9 @@ class ForgetPwd extends React.PureComponent {
 					default:
 				}
 			} else if (response.data.restorePwd.success) {
-				// this.setState({
-				// sent: true
-				// });
+				this.setState({
+					sent: true
+				});
 			}
 		}
 	};
