@@ -10,97 +10,97 @@ import {
 import { sendConvene } from '../../../../queries';
 
 class SendConveneModal extends React.Component {
-state = {
-	success: '',
-	error: '',
-	sendAgenda: false,
-	dateStart: this.props.council.dateStart,
-	dateStart2NdCall: this.props.council.dateStart2NdCall || null,
-	error2NdCall: ''
-};
-
-close = () => {
-	this.setState({
-		success: false,
-		sending: false,
-		error: false,
-		unsavedChanges: false,
+	state = {
+		success: '',
+		error: '',
+		sendAgenda: false,
+		dateStart: this.props.council.dateStart,
+		dateStart2NdCall: this.props.council.dateStart2NdCall || null,
 		error2NdCall: ''
-	});
-	this.props.refetch();
-	this.props.requestClose();
-};
+	};
 
-sendConvene = async () => {
-	this.setState({
-		sending: true
-	});
-	const response = await this.props.sendConvene({
-		variables: {
-			councilId: this.props.council.id
+	close = () => {
+		this.setState({
+			success: false,
+			sending: false,
+			error: false,
+			unsavedChanges: false,
+			error2NdCall: ''
+		});
+		this.props.refetch();
+		this.props.requestClose();
+	};
+
+	sendConvene = async () => {
+		this.setState({
+			sending: true
+		});
+		const response = await this.props.sendConvene({
+			variables: {
+				councilId: this.props.council.id
+			}
+		});
+		if (response.data.sendConvene.success) {
+			this.setState({
+				sending: false,
+				success: true,
+				unsavedChanges: false
+			});
+		} else {
+			this.setState({
+				sending: false,
+				error: true
+			});
 		}
-	});
-	if (response.data.sendConvene.success) {
+	};
+
+	updateState = object => {
 		this.setState({
-			sending: false,
-			success: true,
-			unsavedChanges: false
+			...object,
+			unsavedChanges: true
 		});
-	} else {
-		this.setState({
-			sending: false,
-			error: true
-		});
-	}
-};
+	};
 
-updateState = object => {
-	this.setState({
-		...object,
-		unsavedChanges: true
-	});
-};
+	sendConveneBody() {
+		const { translate } = this.props;
 
-_sendConveneBody() {
-	const { translate } = this.props;
+		if (this.state.sending) {
+			return <div>{translate.new_sending_convene}</div>;
+		}
 
-	if (this.state.sending) {
-		return <div>{translate.new_sending_convene}</div>;
-	}
+		if (this.state.success) {
+			return <SuccessMessage message={translate.council_sended} />;
+		}
 
-	if (this.state.success) {
-		return <SuccessMessage message={translate.council_sended} />;
+		return (
+			<Grid style={{ width: '450px' }}>
+				<GridItem xs={12} md={12} lg={12}>
+					{translate.proceed_send_convene}
+				</GridItem>
+			</Grid>
+		);
 	}
 
-	return (
-		<Grid style={{ width: '450px' }}>
-			<GridItem xs={12} md={12} lg={12}>
-				{translate.proceed_send_convene}
-			</GridItem>
-		</Grid>
-	);
-}
+	render() {
+		const { translate } = this.props;
 
-render() {
-	const { translate } = this.props;
-
-	return (
-		<AlertConfirm
-			requestClose={this.close}
-			open={this.props.show}
-			loadingAction={this.state.sending}
-			acceptAction={
-				this.state.success ? () => this.close() : this.sendConvene
-			}
-			buttonAccept={
-				this.state.success ? translate.accept : translate.send
-			}
-			buttonCancel={translate.close}
-			bodyText={this._sendConveneBody()}
-			title={translate.send_notification}
-		/>
-	);
-}
+		return (
+			<AlertConfirm
+				requestClose={this.close}
+				open={this.props.show}
+				loadingAction={this.state.sending}
+				acceptAction={
+					this.state.success ? () => this.close() : this.sendConvene
+				}
+				buttonAccept={
+					this.state.success ? translate.accept : translate.send
+				}
+				buttonCancel={translate.close}
+				bodyText={this.sendConveneBody()}
+				title={translate.send_notification}
+			/>
+		);
+	}
 }
 
 export default graphql(sendConvene, {
@@ -124,7 +124,7 @@ const SuccessMessage = ({ message }) => (
 				color: 'green'
 			}}
 		>
-check_circle
+			check_circle
 		</Icon>
 		<Typography variant="subheading">{message}</Typography>
 	</div>

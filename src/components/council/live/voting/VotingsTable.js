@@ -124,15 +124,15 @@ const VotingsTable = ({
 						translate={translate}
 						refetch={refreshTable}
 					/>
-					:					<>
+					: <>
 						{!isCustomPoint(agenda.subjectType)
-&& <Tooltip
-	title={vote ? vote.vote : null}
->
-	<VotingValueIcon
-		vote={vote.vote}
-	/>
-</Tooltip>
+							&& <Tooltip
+								title={vote ? vote.vote : null}
+							>
+								<VotingValueIcon
+									vote={vote.vote}
+								/>
+							</Tooltip>
 						}
 
 						{isPresentVote(agendaVoting) && (
@@ -146,7 +146,7 @@ const VotingsTable = ({
 										council={props.council}
 										refetch={refreshTable}
 									/>
-									:									<PresentVoteMenu
+									: <PresentVoteMenu
 										agenda={agenda}
 										agendaVoting={agendaVoting}
 										refetch={refreshTable}
@@ -166,11 +166,11 @@ const VotingsTable = ({
 							{getStateIcon(agendaVoting.presentVote)}
 						</Tooltip>
 						{isCustomPoint(agenda.subjectType) && !isPresentVote(agendaVoting)
-&& <DisplayVoting
-	ballots={agendaVoting.ballots}
-	translate={translate}
-	items={agenda.items}
-/>
+							&& <DisplayVoting
+								ballots={agendaVoting.ballots}
+								translate={translate}
+								items={agenda.items}
+							/>
 						}
 					</>
 				}
@@ -185,14 +185,14 @@ const VotingsTable = ({
 					<React.Fragment>
 						{`${vote.authorRepresentative.name} ${vote.authorRepresentative.surname || ''} ${vote.authorRepresentative.position ? ` - ${vote.authorRepresentative.position}` : ''}`}
 					</React.Fragment>
-					:						<React.Fragment>
+					: <React.Fragment>
 						{`${vote.author.name} ${vote.author.surname || ''} ${vote.author.position ? ` - ${vote.author.position}` : ''}`}
 						{vote.author.voteDenied
-&& <Tooltip title={vote.author.voteDeniedReason}>
-	<span style={{ color: 'red', fontWeight: '700' }}>
-(Voto denegado)
-	</span>
-</Tooltip>
+							&& <Tooltip title={vote.author.voteDeniedReason}>
+								<span style={{ color: 'red', fontWeight: '700' }}>
+									(Voto denegado)
+								</span>
+							</Tooltip>
 						}
 					</React.Fragment>
 
@@ -200,59 +200,56 @@ const VotingsTable = ({
 			</span>
 			<b>
 				{!!vote.delegatedVotes
-&& vote.delegatedVotes.filter(item => item.author.state === PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
-	<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
-		<br />
-		{delegatedVote.fixed
-&& <Tooltip
-	title={getTooltip(delegatedVote.vote)}
->
-	<VotingValueIcon
-		vote={delegatedVote.vote}
-		fixed
-	/>
-</Tooltip>
-		}
-		{`${translate.representative_of} ${delegatedVote.author.name} ${
-			delegatedVote.author.surname || ''} ${delegatedVote.author.position ? ` - ${
-			delegatedVote.author.position}` : ''} ${isMobile ? ` - ${
-			showNumParticipations(delegatedVote.numParticipations, props.company, props.council.statute)} ${printPercentage(delegatedVote.numParticipations)}` : ''}`}
-		{delegatedVote.author.voteDenied
-&& <Tooltip title={delegatedVote.author.voteDeniedReason}>
-	<span style={{ color: 'red', fontWeight: '700' }}>
-(Voto denegado)
-	</span>
-</Tooltip>
-		}
-	</React.Fragment>
-))
+					&& vote.delegatedVotes.filter(item => item.author.state === PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
+						<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
+							<br />
+							{delegatedVote.fixed
+								&& <Tooltip
+									title={getTooltip(delegatedVote.vote)}
+								>
+									<VotingValueIcon
+										vote={delegatedVote.vote}
+										fixed
+									/>
+								</Tooltip>
+							}
+							{`${translate.representative_of} ${delegatedVote.author.name} ${delegatedVote.author.surname || ''} ${delegatedVote.author.position ? ` - ${delegatedVote.author.position}` : ''} ${isMobile ? ` - ${showNumParticipations(delegatedVote.numParticipations, props.company, props.council.statute)} ${printPercentage(delegatedVote.numParticipations)}` : ''}`}
+							{delegatedVote.author.voteDenied
+								&& <Tooltip title={delegatedVote.author.voteDeniedReason}>
+									<span style={{ color: 'red', fontWeight: '700' }}>
+										(Voto denegado)
+									</span>
+								</Tooltip>
+							}
+						</React.Fragment>
+					))
 				}
 			</b>
 			<React.Fragment>
 				{!!vote.delegatedVotes
-&& vote.delegatedVotes.filter(item => item.author.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
-	<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
-		<br />
-		{delegatedVote.fixed
-&& <Tooltip
-	title={getTooltip(delegatedVote.vote)}
->
-	<VotingValueIcon
-		vote={delegatedVote.vote}
-		fixed
-	/>
-</Tooltip>
-		}
-		{`${delegatedVote.author.name} ${delegatedVote.author.surname || ''} ${delegatedVote.author.position ? ` - ${delegatedVote.author.position}` : ''} (Ha delegado su voto) ${isMobile ? ` - ${showNumParticipations(delegatedVote.author.numParticipations, props.company, props.council.statute)} ` : ''}`}
-		{delegatedVote.author.voteDenied
-&& <Tooltip title={delegatedVote.author.voteDeniedReason}>
-	<span style={{ color: 'red', fontWeight: '700' }}>
-(Voto denegado)
-	</span>
-</Tooltip>
-		}
-	</React.Fragment>
-))
+					&& vote.delegatedVotes.filter(item => item.author.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
+						<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
+							<br />
+							{delegatedVote.fixed
+								&& <Tooltip
+									title={getTooltip(delegatedVote.vote)}
+								>
+									<VotingValueIcon
+										vote={delegatedVote.vote}
+										fixed
+									/>
+								</Tooltip>
+							}
+							{`${delegatedVote.author.name} ${delegatedVote.author.surname || ''} ${delegatedVote.author.position ? ` - ${delegatedVote.author.position}` : ''} (Ha delegado su voto) ${isMobile ? ` - ${showNumParticipations(delegatedVote.author.numParticipations, props.company, props.council.statute)} ` : ''}`}
+							{delegatedVote.author.voteDenied
+								&& <Tooltip title={delegatedVote.author.voteDeniedReason}>
+									<span style={{ color: 'red', fontWeight: '700' }}>
+										(Voto denegado)
+									</span>
+								</Tooltip>
+							}
+						</React.Fragment>
+					))
 				}
 			</React.Fragment>
 		</div>
@@ -282,93 +279,90 @@ const VotingsTable = ({
 				}}
 			>
 				{(agenda.subjectType !== AGENDA_TYPES.PRIVATE_VOTING && !isCustomPoint(agenda.subjectType))
-&& <React.Fragment>
-	<div style={{
-		display: isMobile ? 'block' : 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', padding: '0px',
-	}}>
-		<div >
-			<span>{translate.filter_by}</span>
-		</div>
-		<div style={{ display: 'flex' }}>
-			<FilterButton
-				onClick={() => props.changeVoteFilter(VOTE_VALUES.NO_VOTE)}
-				active={state.voteFilter === VOTE_VALUES.NO_VOTE}
-				tooltip={`${translate.filter_by} - ${
-					props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ?
-						translate.without_selection
-						:											translate.no_vote
-				}`}
-			>
-				<VotingValueIcon vote={VOTE_VALUES.NO_VOTE} />
-			</FilterButton>
-			<FilterButton
-				onClick={() => props.changeVoteFilter(VOTE_VALUES.POSITIVE)}
-				active={state.voteFilter === VOTE_VALUES.POSITIVE}
-				tooltip={`${translate.filter_by} - ${
-					props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ?
-						translate.they_accept
-						:											translate.positive_votings
-				}`}
-			>
-				<VotingValueIcon vote={VOTE_VALUES.POSITIVE} />
-			</FilterButton>
-			<FilterButton
-				tooltip={`${translate.filter_by} - ${
-					props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ?
-						translate.they_refuse
-						:											translate.negative_votings
-				}`}
-				active={state.voteFilter === VOTE_VALUES.NEGATIVE}
-				onClick={() => props.changeVoteFilter(VOTE_VALUES.NEGATIVE)}
-			>
-				<VotingValueIcon vote={VOTE_VALUES.NEGATIVE} />
-			</FilterButton>
-			{!isConfirmationRequest(agenda.subjectType)
-&& <FilterButton
-	tooltip={`${translate.filter_by} - ${translate.abstention}`}
-	active={state.voteFilter === VOTE_VALUES.ABSTENTION}
-	onClick={() => props.changeVoteFilter(VOTE_VALUES.ABSTENTION)}
->
-	<VotingValueIcon vote={VOTE_VALUES.ABSTENTION} />
-</FilterButton>
-			}
-			{agenda.subjectType === AGENDA_TYPES.PUBLIC_VOTING
-&& <React.Fragment>
-	<FilterButton
-		onClick={() => props.changeStateFilter(5)}
-		active={state.stateFilter === 5}
-		tooltip={`${translate.filter_by} - ${translate.present_vote}`}
-	>
-		{getStateIcon(1)}
-	</FilterButton>
-	<FilterButton
-		onClick={() => props.changeStateFilter(0)}
-		active={state.stateFilter === 0}
-		tooltip={`${translate.filter_by} - ${translate.remote_vote}`}
-	>
-		{getStateIcon(0)}
-	</FilterButton>
-</React.Fragment>
-			}
-		</div>
-	</div>
-</React.Fragment>
+					&& <React.Fragment>
+						<div style={{
+							display: isMobile ? 'block' : 'flex', flexDirection: 'row', alignItems: 'center', width: '100%', padding: '0px',
+						}}>
+							<div >
+								<span>{translate.filter_by}</span>
+							</div>
+							<div style={{ display: 'flex' }}>
+								<FilterButton
+									onClick={() => props.changeVoteFilter(VOTE_VALUES.NO_VOTE)}
+									active={state.voteFilter === VOTE_VALUES.NO_VOTE}
+									tooltip={`${translate.filter_by} - ${props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ?
+										translate.without_selection
+										: translate.no_vote
+									}`}
+								>
+									<VotingValueIcon vote={VOTE_VALUES.NO_VOTE} />
+								</FilterButton>
+								<FilterButton
+									onClick={() => props.changeVoteFilter(VOTE_VALUES.POSITIVE)}
+									active={state.voteFilter === VOTE_VALUES.POSITIVE}
+									tooltip={`${translate.filter_by} - ${props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ?
+										translate.they_accept
+										: translate.positive_votings
+									}`}
+								>
+									<VotingValueIcon vote={VOTE_VALUES.POSITIVE} />
+								</FilterButton>
+								<FilterButton
+									tooltip={`${translate.filter_by} - ${props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ?
+										translate.they_refuse
+										: translate.negative_votings
+									}`}
+									active={state.voteFilter === VOTE_VALUES.NEGATIVE}
+									onClick={() => props.changeVoteFilter(VOTE_VALUES.NEGATIVE)}
+								>
+									<VotingValueIcon vote={VOTE_VALUES.NEGATIVE} />
+								</FilterButton>
+								{!isConfirmationRequest(agenda.subjectType)
+									&& <FilterButton
+										tooltip={`${translate.filter_by} - ${translate.abstention}`}
+										active={state.voteFilter === VOTE_VALUES.ABSTENTION}
+										onClick={() => props.changeVoteFilter(VOTE_VALUES.ABSTENTION)}
+									>
+										<VotingValueIcon vote={VOTE_VALUES.ABSTENTION} />
+									</FilterButton>
+								}
+								{agenda.subjectType === AGENDA_TYPES.PUBLIC_VOTING
+									&& <React.Fragment>
+										<FilterButton
+											onClick={() => props.changeStateFilter(5)}
+											active={state.stateFilter === 5}
+											tooltip={`${translate.filter_by} - ${translate.present_vote}`}
+										>
+											{getStateIcon(1)}
+										</FilterButton>
+										<FilterButton
+											onClick={() => props.changeStateFilter(0)}
+											active={state.stateFilter === 0}
+											tooltip={`${translate.filter_by} - ${translate.remote_vote}`}
+										>
+											{getStateIcon(0)}
+										</FilterButton>
+									</React.Fragment>
+								}
+							</div>
+						</div>
+					</React.Fragment>
 				}
 			</GridItem>
 			{!agendaVotingsOpened(agenda) && !props.hideStatus
-&& <GridItem xs={12} md={12} lg={12}
-	style={{
-		margin: '1em 0em',
-		border: '1px solid gainsboro',
-		fontWeight: '700',
-		padding: '2em 0em',
-		textAlign: 'center'
-	}}>
-	{isConfirmationRequest(agenda.subjectType) ?
-		translate.closed
-		:						translate.closed_votings
-	}
-</GridItem>
+				&& <GridItem xs={12} md={12} lg={12}
+					style={{
+						margin: '1em 0em',
+						border: '1px solid gainsboro',
+						fontWeight: '700',
+						padding: '2em 0em',
+						textAlign: 'center'
+					}}>
+					{isConfirmationRequest(agenda.subjectType) ?
+						translate.closed
+						: translate.closed_votings
+					}
+				</GridItem>
 			}
 			<GridItem xs={4} md={8} lg={8}>
 			</GridItem>
@@ -384,7 +378,7 @@ const VotingsTable = ({
 				/>
 			</GridItem>
 
-			<div style={{ width: '100%', }}>
+			<div style={{ width: '100%' }}>
 				{!data.agendaVotings ? (
 					<LoadingSection />
 				) : data.agendaVotings.list.length > 0 ? (
@@ -398,13 +392,13 @@ const VotingsTable = ({
 											{translate.votes}:
 											{vote.numParticipations > 0 ? `${showNumParticipations(vote.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.numParticipations)}` : 0}
 											{!!vote.representing
-&& `${vote.numParticipations > 0 ? `${showNumParticipations(vote.numParticipations, props.company, props.council.statute)}${printPercentage(vote.numParticipations)}` : 0}`
+												&& `${vote.numParticipations > 0 ? `${showNumParticipations(vote.numParticipations, props.company, props.council.statute)}${printPercentage(vote.numParticipations)}` : 0}`
 											}
 										</div>
 										<div style={{ marginLeft: '-5px' }}>
 											{vote.author.numParticipations === 0 && vote.representing && vote.representing[0].author.numParticipations === 0 ?
 												'-'
-												:												<div
+												: <div
 													style={{
 														display: 'flex',
 														flexDirection: 'row',
@@ -414,7 +408,7 @@ const VotingsTable = ({
 												>
 													{vote.delegateId && vote.author.state !== PARTICIPANT_STATES.REPRESENTATED ?
 														translate.customer_delegated
-														:														<React.Fragment>
+														: <React.Fragment>
 															{renderVotingMenu(vote)}
 														</React.Fragment>
 													}
@@ -425,22 +419,22 @@ const VotingsTable = ({
 								</Card>
 							))}
 						</React.Fragment>
-						:						<React.Fragment>
+						: <React.Fragment>
 							<Table
-								style={{ width: '100%', }}
+								style={{ width: '100%' }}
 								forceMobileTable={true}
 								headers={[
 									(agenda.presentCensus > 0
-&& !isCustomPoint(agenda.subjectType)
-&& !isConfirmationRequest(agenda.subjectType)
-&& props.council.councilType !== 3) ?
+										&& !isCustomPoint(agenda.subjectType)
+										&& !isConfirmationRequest(agenda.subjectType)
+										&& props.council.councilType !== 3) ?
 										{
 											name:
-<SelectAllMenu
-	translate={translate}
-	agenda={agenda}
-	refetch={refreshTable}
-/>
+												<SelectAllMenu
+													translate={translate}
+													agenda={agenda}
+													refetch={refreshTable}
+												/>
 										} : { name: '' },
 									{ name: translate.participant_data },
 									{ name: isConfirmationRequest(agenda.subjectType) ? '' : translate.votes }
@@ -451,17 +445,17 @@ const VotingsTable = ({
 										<TableCell style={{ fontSize: '0.95em' }}>
 											{vote.author.numParticipations === 0 && vote.representing && vote.representing[0].author.numParticipations === 0 ?
 												'-'
-												:												<div
+												: <div
 													style={{
 														display: 'flex',
 														flexDirection:
-'row',
+															'row',
 														alignItems: 'center',
 													}}
 												>
 													{vote.delegateId && vote.author.state !== PARTICIPANT_STATES.REPRESENTATED ?
 														translate.customer_delegated
-														:														<React.Fragment>
+														: <React.Fragment>
 															{renderVotingMenu(vote)}
 														</React.Fragment>
 													}
@@ -472,33 +466,33 @@ const VotingsTable = ({
 											{renderParticipantInfo(vote)}
 										</TableCell>
 										{!isConfirmationRequest(agenda.subjectType)
-&& <TableCell style={{ fontSize: '0.95em' }}>
-	{(vote.author.state !== PARTICIPANT_STATES.REPRESENTATED) ?
-		(vote.numParticipations > 0 ? `${showNumParticipations(vote.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.numParticipations)}` : 0)
-		:													vote.authorRepresentative.numParticipations > 0 ? `${showNumParticipations(vote.authorRepresentative.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.authorRepresentative.numParticipations)}` : '-'
-	}
+											&& <TableCell style={{ fontSize: '0.95em' }}>
+												{(vote.author.state !== PARTICIPANT_STATES.REPRESENTATED) ?
+													(vote.numParticipations > 0 ? `${showNumParticipations(vote.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.numParticipations)}` : 0)
+													: vote.authorRepresentative.numParticipations > 0 ? `${showNumParticipations(vote.authorRepresentative.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.authorRepresentative.numParticipations)}` : '-'
+												}
 
-	<React.Fragment>
-		{!!vote.delegatedVotes
-&& vote.delegatedVotes.filter(item => item.author.state === PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
-	<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
-		<br />
-		{`${delegatedVote.author.numParticipations > 0 ? `${showNumParticipations(delegatedVote.numParticipations, props.company, props.council.statute)} ${printPercentage(delegatedVote.numParticipations)}` : '-'}`}
-	</React.Fragment>
-))
-		}
-	</React.Fragment>
-	<React.Fragment>
-		{!!vote.delegatedVotes
-&& vote.delegatedVotes.filter(item => item.author.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
-	<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
-		<br />
-		{`${delegatedVote.author.numParticipations > 0 ? `${showNumParticipations(delegatedVote.author.numParticipations, props.company, props.council.statute)}  ${printPercentage(delegatedVote.author.numParticipations)}` : 0}`}
-	</React.Fragment>
-))
-		}
-	</React.Fragment>
-</TableCell>
+												<React.Fragment>
+													{!!vote.delegatedVotes
+														&& vote.delegatedVotes.filter(item => item.author.state === PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
+															<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
+																<br />
+																{`${delegatedVote.author.numParticipations > 0 ? `${showNumParticipations(delegatedVote.numParticipations, props.company, props.council.statute)} ${printPercentage(delegatedVote.numParticipations)}` : '-'}`}
+															</React.Fragment>
+														))
+													}
+												</React.Fragment>
+												<React.Fragment>
+													{!!vote.delegatedVotes
+														&& vote.delegatedVotes.filter(item => item.author.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
+															<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
+																<br />
+																{`${delegatedVote.author.numParticipations > 0 ? `${showNumParticipations(delegatedVote.author.numParticipations, props.company, props.council.statute)}  ${printPercentage(delegatedVote.author.numParticipations)}` : 0}`}
+															</React.Fragment>
+														))
+													}
+												</React.Fragment>
+											</TableCell>
 										}
 
 									</TableRow>
@@ -640,17 +634,17 @@ const PrivateVotingDisplay = compose(
 								<LoadingSection size={16} />
 							</div>
 						</div>
-						:						vote.vote === 3 && council.presentVoteOverwrite === 1 ?
+						: vote.vote === 3 && council.presentVoteOverwrite === 1 ?
 							<div onClick={toggleVote} style={{ cursor: 'pointer' }}>
 								<i className="fa fa-times" style={{ marginRight: '1em' }} />
 								{translate.vote_remote_vote}
 							</div>
-							:							<Checkbox
+							: <Checkbox
 								label={vote.vote === -1 ?
 									translate.mark_voted_in_person
 									: vote.vote === -3 ?
 										`${translate.remote_vote_voided} - ${translate.voted_in_person}`
-										:										translate.voted_in_person
+										: translate.voted_in_person
 								}
 								onChange={toggleVote}
 								loading={loading}
@@ -658,7 +652,7 @@ const PrivateVotingDisplay = compose(
 							/>
 					}
 				</React.Fragment>
-				:				council.councilType === 3 ?
+				: council.councilType === 3 ?
 					<React.Fragment>
 						{loading ?
 							<div style={{
@@ -668,22 +662,22 @@ const PrivateVotingDisplay = compose(
 									<LoadingSection size={16} />
 								</div>
 							</div>
-							:							vote.vote === 3 && council.presentVoteOverwrite === 1 ?
+							: vote.vote === 3 && council.presentVoteOverwrite === 1 ?
 								<div onClick={toggleVote} style={{ cursor: 'pointer' }}>
 									<i className="fa fa-times" style={{ marginRight: '1em' }} />
 									{'Anular voto telemático'}
 								</div>
-								:								vote.vote === -1 ?
+								: vote.vote === -1 ?
 									'No ha votado presencialmente'
 									: vote.vote === -3 ?
 										'Voto remoto anulado - Ha votado presencialmente'
-										:										'Ha votado presencialmente'
+										: 'Ha votado presencialmente'
 						}
 					</React.Fragment>
-					:					<React.Fragment>
+					: <React.Fragment>
 						{vote.vote !== -1 ?
 							translate.has_voted
-							:							translate.no_vote_lowercase
+							: translate.no_vote_lowercase
 						}
 					</React.Fragment>
 			}

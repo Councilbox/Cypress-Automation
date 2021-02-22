@@ -46,7 +46,9 @@ saveUser = async () => {
 		this.setState({
 			loading: true
 		});
-		const { __typename, type, actived, roles, companies, sends, ...data } = this.state.data;
+		const {
+			__typename, type, actived, roles, companies, sends, ...data
+		} = this.state.data;
 		const response = await this.props.updateUser({
 			variables: {
 				user: data,

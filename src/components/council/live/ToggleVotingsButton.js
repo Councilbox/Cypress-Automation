@@ -176,7 +176,7 @@ const ToggleVotingsButton = ({
 								/>
 							</div>
 						</div>
-						:						<div style={{ width: '100%', ...(!isMobile ? { float: 'right' } : {}) }}>
+						: <div style={{ width: '100%', ...(!isMobile ? { float: 'right' } : {}) }}>
 							<BasicButton
 								text={isConfirmationRequest(agenda.subjectType) ? translate.close_answers : translate.close_point_votations}
 								color={primary}

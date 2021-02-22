@@ -6,7 +6,9 @@ import { getSecondary, getPrimary } from '../../../styles/colors';
 import { DateWrapper, BasicButton } from '../../../displayComponents';
 import { USER_ACTIVATIONS } from '../../../constants';
 
-const UserItem = ({ user, translate, clickable, closeSession, ...props }) => {
+const UserItem = ({
+	user, translate, clickable, closeSession, ...props
+}) => {
 	const secondary = getSecondary();
 
 	const activatePremium = async event => {
@@ -59,7 +61,9 @@ const UserItem = ({ user, translate, clickable, closeSession, ...props }) => {
 
 	const bodyTable = centrado => (
 		<React.Fragment>
-			<div style={{ display: 'flex', width: '100%', alignItems: 'center', justifyContent: centrado ? 'space-between' : '', padding: centrado ? '0px 2em' : '' }}>
+			<div style={{
+				display: 'flex', width: '100%', alignItems: 'center', justifyContent: centrado ? 'space-between' : '', padding: centrado ? '0px 2em' : ''
+			}}>
 				<div style={{ width: centrado ? '' : '15%', padding: centrado ? '' : '4px 70px 4px 0px' }}>
 					<div
 						style={{
@@ -103,16 +107,24 @@ Premium
 						}
 					</div>
 				</div>
-				<div style={{ width: centrado ? '' : '10%', padding: centrado ? '' : '4px 8px 4px 0px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+				<div style={{
+					width: centrado ? '' : '10%', padding: centrado ? '' : '4px 8px 4px 0px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
+				}}>
 					<span style={{ fontSize: '0.8rem', fontWeight: '700' }}>{`${user.id}`}</span>
 				</div>
-				<div style={{ width: centrado ? '' : '25%', padding: centrado ? '' : '4px 8px 4px 0px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+				<div style={{
+					width: centrado ? '' : '25%', padding: centrado ? '' : '4px 8px 4px 0px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
+				}}>
 					<span style={{ fontSize: '0.8rem', fontWeight: '700' }}>{`${user.name} ${user.surname || ''}`}</span>
 				</div>
-				<div style={{ width: centrado ? '' : '25%', padding: centrado ? '' : '4px 8px 4px 0px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+				<div style={{
+					width: centrado ? '' : '25%', padding: centrado ? '' : '4px 8px 4px 0px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
+				}}>
 					<span style={{ fontSize: '0.9rem' }}>{`${user.email || '-'}`}</span>
 				</div>
-				<div style={{ width: centrado ? '' : '25%', padding: centrado ? '' : '4px 8px 4px 0px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+				<div style={{
+					width: centrado ? '' : '25%', padding: centrado ? '' : '4px 8px 4px 0px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
+				}}>
 					{user.lastConnectionDate ?
 						<DateWrapper
 							format="DD/MM/YYYY HH:mm"
@@ -141,8 +153,10 @@ Premium
 				{bodyTable()}
 			</MenuItem>
 			:
-			<div style={{ width: '100%', }}>
-				<div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', marginBottom: '1em' }}>
+			<div style={{ width: '100%' }}>
+				<div style={{
+					width: '100%', display: 'flex', justifyContent: 'flex-end', marginBottom: '1em'
+				}}>
 					{props.unsubscribeUser &&
 						<div
 							style={{

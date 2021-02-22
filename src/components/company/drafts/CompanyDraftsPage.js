@@ -68,7 +68,7 @@ const CompanyDraftsPage = ({ translate, client, ...props }) => {
 					&& <div style={{
 						display: 'flex', padding: '1em', justifyContent: 'space-between', paddingTop: '0px'
 					}}>
-						<div style={{ fontSize: '13px', }}>
+						<div style={{ fontSize: '13px' }}>
 							<MenuSuperiorTabs
 								items={tabs}
 								setSelect={setSelecteDraftPadre}

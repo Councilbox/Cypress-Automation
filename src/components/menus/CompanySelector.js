@@ -51,7 +51,7 @@ render() {
 										height: 'auto'
 									}}
 								/>
-								:									<FontAwesome
+								: <FontAwesome
 									name={'building-o'}
 									style={{
 										fontSize: '2em',

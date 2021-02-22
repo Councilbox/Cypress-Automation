@@ -42,8 +42,8 @@ const FileLibrosOfi = ({
 
 	return (
 		<div style={{ height: '100%' }}>
-			<div style={{ padding: '0px 1em 1em', height: '100%', }}>
-				<div style={{ height: '100%', }}>
+			<div style={{ padding: '0px 1em 1em', height: '100%' }}>
+				<div style={{ height: '100%' }}>
 					<div style={{
 						padding: '0 1em', fontWeight: 'bold', color: primary, display: 'flex', justifyContent: 'space-between', paddingLeft: '24px', paddingRight: '24px'
 					}}>

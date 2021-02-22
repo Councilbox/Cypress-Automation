@@ -12,8 +12,8 @@ const FileAuditoresPode = props => (
 			padding: '0.5em', display: 'flex', alignItems: 'center', justifyContent: 'flex-end'
 		}}>
 		</div>
-		<div style={{ padding: '0px 1em 1em', height: '100%', }}>
-			<div style={{ height: '100%', }}>
+		<div style={{ padding: '0px 1em 1em', height: '100%' }}>
+			<div style={{ height: '100%' }}>
 				<Scrollbar>
 					<div style={{ width: '100%', padding: '0 1em' }}>
 						<AuditorsForm
@@ -99,15 +99,15 @@ const AuditorsForm = ({ data, updateFileData, translate }) => {
 					paddingBottom: '2.5em',
 					transition: 'max-height 0.5s'
 				}}>
-					<div style={{ width: '100%', display: 'flex', }}>
+					<div style={{ width: '100%', display: 'flex' }}>
 						<div style={{ height: '100%', width: '100%' }}>
 							<div style={{
 								display: 'flex', width: '100%', padding: '1em', borderBottom: `1px solid${primary}`,
 							}}>
-								<div style={{ textTransform: 'uppercase', color: primary, width: '20%', }}>{translate.name}</div>
-								<div style={{ textTransform: 'uppercase', color: primary, width: '25%', }}>Inscripción en el registro mercantil</div>
-								<div style={{ textTransform: 'uppercase', color: primary, width: '20%', }}>Fecha Nomb.</div>
-								<div style={{ textTransform: 'uppercase', color: primary, width: '20%', }}>Fecha Caducidad</div>
+								<div style={{ textTransform: 'uppercase', color: primary, width: '20%' }}>{translate.name}</div>
+								<div style={{ textTransform: 'uppercase', color: primary, width: '25%' }}>Inscripción en el registro mercantil</div>
+								<div style={{ textTransform: 'uppercase', color: primary, width: '20%' }}>Fecha Nomb.</div>
+								<div style={{ textTransform: 'uppercase', color: primary, width: '20%' }}>Fecha Caducidad</div>
 							</div>
 							{auditors.length > 0 ?
 								auditors.map((auditor, index) => (
@@ -181,7 +181,7 @@ const AuditorsForm = ({ data, updateFileData, translate }) => {
 										<div style={{
 											background: 'white', width: '10%', color: primary, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '25px'
 										}}>
-											<i className={'fa fa-times-circle'} onClick={() => deleteRow(index)} style={{ cursor: 'pointer', }} ></i>
+											<i className={'fa fa-times-circle'} onClick={() => deleteRow(index)} style={{ cursor: 'pointer' }} ></i>
 										</div>
 									</div>
 								))
@@ -255,7 +255,7 @@ const PowersForm = ({ data, updateFileData, translate }) => {
 					paddingBottom: '2.5em',
 					transition: 'max-height 0.5s'
 				}}>
-					<div style={{ width: '100%', display: 'flex', }}>
+					<div style={{ width: '100%', display: 'flex' }}>
 						<div style={{ height: '100%', width: '100%' }}>
 
 							<div style={{
@@ -340,7 +340,7 @@ const PowersForm = ({ data, updateFileData, translate }) => {
 										<div style={{
 											background: 'white', width: '10%', color: primary, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '25px'
 										}}>
-											<i className={'fa fa-times-circle'} onClick={() => deleteRow(index)} style={{ cursor: 'pointer', }} ></i>
+											<i className={'fa fa-times-circle'} onClick={() => deleteRow(index)} style={{ cursor: 'pointer' }} ></i>
 										</div>
 									</div>
 								))

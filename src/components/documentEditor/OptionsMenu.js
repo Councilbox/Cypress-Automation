@@ -2,7 +2,7 @@ import React from 'react';
 import CheckBox from '../../displayComponents/CheckBox';
 
 const OptionsMenu = ({ setOptions, translate, options }) => (
-	<div style={{ display: 'flex', width: '100%', }} >
+	<div style={{ display: 'flex', width: '100%' }} >
 		<div style={{
 			width: '100%', background: 'white', boxShadow: ' 0 2px 4px 5px rgba(0, 0, 0, 0.11)', borderRadius: '4px', margin: '0.8em 0px', marginRight: '1.5em'
 		}}>

@@ -88,7 +88,7 @@ const TablaCompanies = ({ client, translate, company }) => {
 		return (
 			companies.length === undefined ?
 				<LoadingSection />
-				:				<CardPageLayout title={translate.entities} stylesNoScroll={{ height: '100%' }} disableScroll={true}>
+				: <CardPageLayout title={translate.entities} stylesNoScroll={{ height: '100%' }} disableScroll={true}>
 					<div style={{
 						fontSize: '13px', padding: '1.5em 1.5em 1.5em', height: '100%', paddingTop: '0px'
 					}}>
@@ -155,7 +155,7 @@ const TablaCompanies = ({ client, translate, company }) => {
 														{item.businessName}
 													</GridItem>
 													<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
-Id
+														Id
 													</GridItem>
 													<GridItem xs={7} md={7}>
 														{item.id}
@@ -164,7 +164,7 @@ Id
 														{translate.company_type}
 													</GridItem>
 													<GridItem xs={7} md={7}>
-S.L.
+														S.L.
 													</GridItem>
 												</Grid>
 											</CardContent>
@@ -184,7 +184,7 @@ S.L.
 													}}
 													render={
 														<span style={{}}>
-Expulsar
+															Expulsar
 														</span>
 													}
 												/>
@@ -255,7 +255,7 @@ Expulsar
 	return (
 		companies.length === undefined ?
 			<LoadingSection />
-			:				<CardPageLayout title={translate.entities} stylesNoScroll={{ height: '100%' }} disableScroll={true}>
+			: <CardPageLayout title={translate.entities} stylesNoScroll={{ height: '100%' }} disableScroll={true}>
 				<div style={{
 					fontSize: '13px', padding: '1.5em 1.5em 1.5em', height: '100%', paddingTop: '0px'
 				}}>
@@ -297,7 +297,7 @@ Expulsar
 							/>
 						</div>
 					</div>
-					<div style={{ display: 'flex', justifyContent: 'space-between', padding: '1em', }}>
+					<div style={{ display: 'flex', justifyContent: 'space-between', padding: '1em' }}>
 						<div style={{
 							color: primary, fontWeight: 'bold', width: 'calc( 5% )', textAlign: 'left'
 						}}>
@@ -311,7 +311,7 @@ Expulsar
 						<div style={{
 							color: primary, fontWeight: 'bold', width: 'calc( 10% )', textAlign: 'left'
 						}}>
-Id
+							Id
 						</div>
 						<div style={{
 							color: primary, fontWeight: 'bold', width: 'calc( 15% )', textAlign: 'left'
@@ -342,7 +342,7 @@ Id
 										{item.id}
 									</Cell>
 									<Cell width={15}>
-S.L.
+										S.L.
 										{/* {item.companyType} */}
 									</Cell>
 									<Cell width={40} style={{ display: 'flex', overflow: '' }}>
@@ -364,7 +364,7 @@ S.L.
 											}}
 											render={
 												<span style={{}}>
-Expulsar
+													Expulsar
 												</span>
 											}
 										/>
@@ -450,7 +450,7 @@ const CellAvatar = ({ avatar, width }) => (
 			<div style={{ height: '1.7em', width: '1.7em', borderRadius: '0.9em' }}>
 				<img src={avatar} alt="Foto" style={{ height: '100%', width: '100%' }} />
 			</div>
-			:				<i style={{ color: 'lightgrey', fontSize: '1.7em', marginLeft: '6px' }} className={'fa fa-building-o'} />
+			: <i style={{ color: 'lightgrey', fontSize: '1.7em', marginLeft: '6px' }} className={'fa fa-building-o'} />
 		}
 	</div>
 );

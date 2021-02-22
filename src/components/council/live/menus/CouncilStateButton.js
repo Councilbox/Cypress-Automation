@@ -99,7 +99,7 @@ const CouncilStateButton = ({
 				council={council}
 				refetch={refetch}
 			/>
-			{(council.state === 20 || council.state === 30) && (
+			{(council.state === 20 || council.state === 30 || council.state === 40 || council.state === 60) && (
 				!councilStarted(council) ? (
 					<div>
 						<StartCouncilButton
@@ -121,11 +121,11 @@ const CouncilStateButton = ({
 				)
 			)}
 			{council.state === 25
-&& <ResumeCouncilButton
-	translate={translate}
-	refetch={refetch}
-	council={council}
-/>
+				&& <ResumeCouncilButton
+					translate={translate}
+					refetch={refetch}
+					council={council}
+				/>
 			}
 		</React.Fragment>
 

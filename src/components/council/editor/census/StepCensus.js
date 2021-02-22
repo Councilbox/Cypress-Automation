@@ -79,7 +79,9 @@ const StepCensus = ({ translate, data, ...props }) => {
 		setState({
 			loading: true
 		});
-		const { __typename, participants, selectedCensusId, ...council } = data.council;
+		const {
+			__typename, participants, selectedCensusId, ...council
+		} = data.council;
 		await props.updateCouncil({
 			variables: {
 				council: {
@@ -206,7 +208,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 		);
 	}
 
-	const checkParticipants = () => !data.loading && state.participantsLength <= 0;
+	const checkParticipants = () => !props.participants.loading && state.participantsLength <= 0;
 
 	const { council, error } = data;
 
@@ -244,7 +246,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 						>
 							<LoadingSection />
 						</div>
-						:						<React.Fragment>
+						: <React.Fragment>
 							<ParticipantsTable
 								translate={translate}
 								data={props.participants}
@@ -294,7 +296,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 						<DialogTitle>{translate.census_change}</DialogTitle>
 						{!council ?
 							<LoadingSection />
-							:							council.selectedCensusId !== null || state.censusChangeId ?
+							: council.selectedCensusId !== null || state.censusChangeId ?
 								<div>
 									<DialogContent>
 										{translate.census_change_warning.replace(
@@ -306,7 +308,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 										{renderCensusChangeButtons(council.selectedCensusId || state.censusChangeId)}
 									</DialogActions>
 								</div>
-								:								<div style={{ minWidth: '500px' }}>
+								: <div style={{ minWidth: '500px' }}>
 									<DialogContent>
 										{translate.need_pick_census}
 									</DialogContent>

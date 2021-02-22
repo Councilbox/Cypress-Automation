@@ -506,7 +506,7 @@ const ActEditor = ({
 						/>
 					</>
 
-					:					<>
+					: <>
 						<BasicButton
 							text={translate.save_preview_act}
 							color={'white'}

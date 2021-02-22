@@ -39,7 +39,7 @@ const ParticipantsPage = ({
 	const secondary = getSecondary();
 	const config = React.useContext(ConfigContext);
 	const divWidth = React.useRef();
-	const _getFilters = () => [
+	const getFilters = () => [
 		{
 			value: 'fullName',
 			translation: translate.participant_data
@@ -61,7 +61,7 @@ const ParticipantsPage = ({
 	});
 
 
-	const _renderAddGuestButton = () => {
+	const renderAddGuestButton = () => {
 		if (council.councilType === COUNCIL_TYPES.ONE_ON_ONE) {
 			return null;
 		}
@@ -125,7 +125,7 @@ const ParticipantsPage = ({
 		});
 	};
 
-	const _renderHeader = () => {
+	const renderHeader = () => {
 		if (!data[getSection(props.view)]) {
 			return <div />;
 		}
@@ -168,7 +168,7 @@ const ParticipantsPage = ({
 		};
 		return headers[props.view];
 	};
-	const fields = _getFilters();
+	const fields = getFilters();
 
 	return (
 		<React.Fragment>
@@ -179,13 +179,13 @@ const ParticipantsPage = ({
 					overflow: 'hidden'
 				}}
 			>
-				{_renderHeader()}
+				{renderHeader()}
 			</div>
 			<Grid style={{
 				padding: '0 8px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between'
 			}}>
 				<GridItem xs={orientation === 'landscape' ? 4 : 6} md={6} lg={3} style={{ display: 'flex', alignItems: 'center', height: '3.5em' }}>
-					{_renderAddGuestButton()}
+					{renderAddGuestButton()}
 				</GridItem>
 				<GridItem xs={orientation === 'landscape' ? 4 : 6} md={6} lg={3} style={{ display: 'flex', justifyContent: orientation === 'landscape' ? 'flex-start' : 'flex-end' }}>
 					<BasicButton
@@ -197,17 +197,17 @@ const ParticipantsPage = ({
 						onClick={toggleOnlyNotSigned}
 					/>
 					{props.root
-&& <AddConvenedParticipantButton
-	participations={hasParticipations(council)}
-	translate={translate}
-	councilId={council.id}
-	refetch={data.refetch}
-	council={council}
-/>
+						&& <AddConvenedParticipantButton
+							participations={hasParticipations(council)}
+							translate={translate}
+							councilId={council.id}
+							refetch={data.refetch}
+							council={council}
+						/>
 					}
 
 					{props.view === 'CREDENTIALS'
-&& <RefreshCredsSendsButton translate={translate} council={council} />
+						&& <RefreshCredsSendsButton translate={translate} council={council} />
 					}
 				</GridItem>
 				<GridItem xs={orientation === 'landscape' ? 12 : 12} md={12} lg={6}
@@ -218,37 +218,37 @@ const ParticipantsPage = ({
 						justifyContent: orientation === 'portrait' ? 'space-between' : 'flex-end'
 					}}>
 					{orientation === 'landscape' && isMobile
-&& <CharSelector
-	onClick={toggleCharFilter}
-	translate={translate}
-	selectedChar={filters.charFilter}
-/>
+						&& <CharSelector
+							onClick={toggleCharFilter}
+							translate={translate}
+							selectedChar={filters.charFilter}
+						/>
 					}
 					{(config.quickAccess && council.councilType < 2)
-&& <React.Fragment>
-	<QRSearchModal
-		open={QRModal}
-		translate={translate}
-		council={council}
-		requestClose={() => setQRModal(false)}
-	/>
-	<div
-		style={{
-			height: '100%',
-			display: 'flex',
-			padding: '0.6em',
-			marginRight: '1em',
-			alignItems: 'center',
-			justifyContent: 'center',
-			border: '1px solid gainsboro',
-			cursor: 'pointer'
-		}}
-		className="withShadow"
-		onClick={() => setQRModal(true)}
-	>
-		<i className="fa fa-qrcode" aria-hidden="true" style={{ fontSize: '2em', marginLeft: '5px', color: secondary }}></i>
-	</div>
-</React.Fragment>
+						&& <React.Fragment>
+							<QRSearchModal
+								open={QRModal}
+								translate={translate}
+								council={council}
+								requestClose={() => setQRModal(false)}
+							/>
+							<div
+								style={{
+									height: '100%',
+									display: 'flex',
+									padding: '0.6em',
+									marginRight: '1em',
+									alignItems: 'center',
+									justifyContent: 'center',
+									border: '1px solid gainsboro',
+									cursor: 'pointer'
+								}}
+								className="withShadow"
+								onClick={() => setQRModal(true)}
+							>
+								<i className="fa fa-qrcode" aria-hidden="true" style={{ fontSize: '2em', marginLeft: '5px', color: secondary }}></i>
+							</div>
+						</React.Fragment>
 					}
 					<div
 						style={{
@@ -301,19 +301,19 @@ const ParticipantsPage = ({
 				}}
 			>
 				{(!isMobile || orientation !== 'landscape')
-&& <CharSelector
-	onClick={toggleCharFilter}
-	translate={translate}
-	selectedChar={filters.charFilter}
-/>
+					&& <CharSelector
+						onClick={toggleCharFilter}
+						translate={translate}
+						selectedChar={filters.charFilter}
+					/>
 				}
 				{!data[getSection(props.view)] ?
 					<LoadingSection />
-					:					<ParticipantsList
+					: <ParticipantsList
 						loadMore={loadMore}
 						loading={loading}
 						loadingMore={loading}
-						renderHeader={_renderHeader}
+						renderHeader={renderHeader}
 						refetch={data.refetch}
 						participants={data[getSection(props.view)]}
 						layout={props.layout}

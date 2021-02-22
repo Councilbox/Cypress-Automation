@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 import React from 'react';
 import { Tooltip } from 'material-ui';
 import FontAwesome from 'react-fontawesome';

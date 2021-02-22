@@ -134,7 +134,7 @@ const IOSDevice = ({ translate, windowSize, windowOrientation }) => (
 				</div>
 
 			</React.Fragment>
-			:				<React.Fragment>
+			: <React.Fragment>
 				<div
 					style={styles.textContainer}
 				>

@@ -105,7 +105,9 @@ renderMenu = () => (
 )
 
 renderMenuMobil = () => (
-	<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', maxHeight: '130px', minHeight: '50px', width: '95%', }}>
+	<div style={{
+		display: 'flex', justifyContent: 'center', alignItems: 'center', maxHeight: '130px', minHeight: '50px', width: '95%'
+	}}>
 		<TextInputChat
 			key={'adminPivate'}
 			floatingText={this.props.translate.message}

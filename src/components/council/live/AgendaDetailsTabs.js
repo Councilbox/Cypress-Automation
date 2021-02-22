@@ -71,11 +71,11 @@ const AgendaDetailsTabs = ({
 						key={translate.act_comments}
 					/>,
 					agenda.subjectType !== AGENDA_TYPES.INFORMATIVE
-&& <Tab
-	label={CBX.isConfirmationRequest(agenda.subjectType) ? translate.answers : translate.voting}
-	disabled={showEarlyVotings}
-	key={translate.voting}
-/>,
+					&& <Tab
+						label={CBX.isConfirmationRequest(agenda.subjectType) ? translate.answers : translate.voting}
+						disabled={showEarlyVotings}
+						key={translate.voting}
+					/>,
 					<Tab
 						label={isMobile ? translate.attachments : translate.attachment_files}
 						key={translate.attachment_files}
@@ -86,120 +86,120 @@ const AgendaDetailsTabs = ({
 				<Scrollbar>
 					<>
 						{selected === 0
-&& <div style={{ padding: '1em' }}>
-	<ActAgreements
-		agenda={agenda}
-		key={`agendaAgreements_${agenda.id}`}
-		translate={translate}
-		recount={props.recount}
-		council={council}
-		refetch={refetch}
-		data={props.data}
-	/>
-</div>
+							&& <div style={{ padding: '1em' }}>
+								<ActAgreements
+									agenda={agenda}
+									key={`agendaAgreements_${agenda.id}`}
+									translate={translate}
+									recount={props.recount}
+									council={council}
+									refetch={refetch}
+									data={props.data}
+								/>
+							</div>
 						}
 						{selected === 1
-&& <div style={{ marginTop: '6px' }}>
-	<Comments
-		agenda={agenda}
-		council={council}
-		translate={translate}
-	/>
-</div>
+							&& <div style={{ marginTop: '6px' }}>
+								<Comments
+									agenda={agenda}
+									council={council}
+									translate={translate}
+								/>
+							</div>
 						}
 						{agenda.subjectType !== AGENDA_TYPES.INFORMATIVE ?
 							<React.Fragment>
 								{selected === 2
-&& <div style={{ padding: '1em' }}>
-	{CBX.isCustomPoint(agenda.subjectType) ?
-		<CustomPointVotingsLive
-			agenda={agenda}
-			key={`agendaVotings_${agenda.id}`}
-			refetch={refetch}
-			changeEditedVotings={props.changeEditedVotings}
-			editedVotings={props.editedVotings}
-			council={council}
-			recount={props.recount}
-			translate={translate}
-		/>
-		: CBX.isConfirmationRequest(agenda.subjectType) ?
-			<div style={{ padding: '1em' }}>
-				<ConfirmationRequestRecount
-					agenda={agenda}
-					translate={translate}
-					recount={props.recount}
-				/>
-				<Votings
-					key={`agendaVotings_${agenda.id}`}
-					refetch={refetch}
-					changeEditedVotings={props.changeEditedVotings}
-					editedVotings={props.editedVotings}
-					agenda={agenda}
-					council={council}
-					recount={props.recount}
-					translate={translate}
-				/>
-			</div>
-			: <>
-				{(council.statute.canEarlyVote === 1 && (!CBX.councilStarted(council))) ?
-					<EarlyVotes
-						translate={translate}
-						agenda={agenda}
-						council={council}
-						recount={props.recount}
-					/>
-					: <>
-						{agenda.votingState !== 2 && agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING ?
-							<PrivateRecountMessage translate={translate} />
-							: <RecountSection
-								agenda={agenda}
-								key={`agendaRecount_${agenda.id}`}
-								council={council}
-								translate={translate}
-								recount={props.recount}
-								refetch={refetch}
-								majorityTypes={props.majorityTypes}
-							/>
-						}
-						<Votings
-							key={`agendaVotings_${agenda.id}`}
-							refetch={refetch}
-							changeEditedVotings={props.changeEditedVotings}
-							editedVotings={props.editedVotings}
-							agenda={agenda}
-							council={council}
-							recount={props.recount}
-							translate={translate}
-						/>
-					</>
-				}
-			</>
-	}
-</div>
+									&& <div style={{ padding: '1em' }}>
+										{CBX.isCustomPoint(agenda.subjectType) ?
+											<CustomPointVotingsLive
+												agenda={agenda}
+												key={`agendaVotings_${agenda.id}`}
+												refetch={refetch}
+												changeEditedVotings={props.changeEditedVotings}
+												editedVotings={props.editedVotings}
+												council={council}
+												recount={props.recount}
+												translate={translate}
+											/>
+											: CBX.isConfirmationRequest(agenda.subjectType) ?
+												<div style={{ padding: '1em' }}>
+													<ConfirmationRequestRecount
+														agenda={agenda}
+														translate={translate}
+														recount={props.recount}
+													/>
+													<Votings
+														key={`agendaVotings_${agenda.id}`}
+														refetch={refetch}
+														changeEditedVotings={props.changeEditedVotings}
+														editedVotings={props.editedVotings}
+														agenda={agenda}
+														council={council}
+														recount={props.recount}
+														translate={translate}
+													/>
+												</div>
+												: <>
+													{(council.statute.canEarlyVote === 1 && (!CBX.councilStarted(council))) ?
+														<EarlyVotes
+															translate={translate}
+															agenda={agenda}
+															council={council}
+															recount={props.recount}
+														/>
+														: <>
+															{agenda.votingState !== 2 && agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING ?
+																<PrivateRecountMessage translate={translate} />
+																: <RecountSection
+																	agenda={agenda}
+																	key={`agendaRecount_${agenda.id}`}
+																	council={council}
+																	translate={translate}
+																	recount={props.recount}
+																	refetch={refetch}
+																	majorityTypes={props.majorityTypes}
+																/>
+															}
+															<Votings
+																key={`agendaVotings_${agenda.id}`}
+																refetch={refetch}
+																changeEditedVotings={props.changeEditedVotings}
+																editedVotings={props.editedVotings}
+																agenda={agenda}
+																council={council}
+																recount={props.recount}
+																translate={translate}
+															/>
+														</>
+													}
+												</>
+										}
+									</div>
 								}
 							</React.Fragment>
 							: <React.Fragment>
 								{selected === 2
-&& <AgendaAttachmentsManager
-	attachments={agenda.attachments}
-	translate={translate}
-	key={`agendaAttachments_${agenda.id}`}
-	councilID={council.id}
-	refetch={refetch}
-	agendaID={agenda.id}
-/>
+									&& <AgendaAttachmentsManager
+										attachments={agenda.attachments}
+										translate={translate}
+										key={`agendaAttachments_${agenda.id}`}
+										councilID={council.id}
+										refetch={refetch}
+										agendaID={agenda.id}
+									/>
 								}
 							</React.Fragment>
 						}
 						{selected === 3
-&& <AgendaAttachmentsManager
-	attachments={agenda.attachments}
-	translate={translate}
-	key={`agendaAttachments_${agenda.id}`}
-	councilID={council.id}
-	refetch={refetch}
-	agendaID={agenda.id}
-/>
+							&& <AgendaAttachmentsManager
+								attachments={agenda.attachments}
+								translate={translate}
+								key={`agendaAttachments_${agenda.id}`}
+								councilID={council.id}
+								refetch={refetch}
+								agendaID={agenda.id}
+							/>
 						}
 					</>
 				</Scrollbar>

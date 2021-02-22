@@ -66,7 +66,7 @@ const FinishedPage = ({ client, translate }) => {
 				height: '100%',
 			}}
 		>
-			<div style={{ padding: '1em', height: 'calc( 100% - 3em )', }}>
+			<div style={{ padding: '1em', height: 'calc( 100% - 3em )' }}>
 				<Grid style={{ display: 'flex', alignItems: 'center' }}>
 					<GridItem xs={12} md={3} lg={3}>
 						<SelectInput

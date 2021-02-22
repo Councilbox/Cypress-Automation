@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import React, { Component } from 'react';
 import { isMobile } from '../utils/screen';
 

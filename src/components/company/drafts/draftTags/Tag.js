@@ -31,25 +31,25 @@ const Tag = ({
 		return (
 			<div style={{ ...styles }} >
 				<div style={{}}>
-					<div style={{ display: 'flex', justifyContent: open && 'space-between', cursor: 'pointer', }} onClick={toggle} >
+					<div style={{ display: 'flex', justifyContent: open && 'space-between', cursor: 'pointer' }} onClick={toggle} >
 						<div>{text}</div>
 						<div style={{ marginTop: '-5px', height: '5px' }}>
 							{open ?
 								<i className="material-icons" style={{ fontSize: '27px' }} >
-arrow_drop_up
+									arrow_drop_up
 								</i>
-								:								<i className="material-icons" style={{ fontSize: '27px' }}>
-arrow_drop_down
+								: <i className="material-icons" style={{ fontSize: '27px' }}>
+									arrow_drop_down
 								</i>
 							}
 						</div>
 					</div>
 					{childs
-&& <Collapse in={open} timeout="auto" unmountOnExit >
-	<div>
-		{childs}
-	</div>
-</Collapse>
+						&& <Collapse in={open} timeout="auto" unmountOnExit >
+							<div>
+								{childs}
+							</div>
+						</Collapse>
 					}
 				</div>
 			</div>

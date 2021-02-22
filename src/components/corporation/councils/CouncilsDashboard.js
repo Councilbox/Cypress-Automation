@@ -285,7 +285,7 @@ export const SearchCouncils = withApollo(({ client, reload }) => {
 							type="text"
 							value={idCouncilSearch === 0 ? '' : idCouncilSearch}
 							disableUnderline={true}
-							styles={{ fontWeight: 'bold', width: '300px', }}
+							styles={{ fontWeight: 'bold', width: '300px' }}
 							styleInInput={{ backgroundColor: '#ececec', paddingLeft: '5px', border: !!error && '2px solid red' }}
 							onKeyUp={event => {
 								if (event.keyCode === 13) {

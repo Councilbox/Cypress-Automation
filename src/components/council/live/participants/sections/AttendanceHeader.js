@@ -39,7 +39,7 @@ const AttendanceHeader = ({
 					cursor: 'pointer',
 					...(selected === null ?
 						selectedStyle
-						:							{}
+						: {}
 					)
 				}}
 			>
@@ -58,7 +58,7 @@ const AttendanceHeader = ({
 					cursor: 'pointer',
 					...(selected === -1 ?
 						selectedStyle
-						:							{}
+						: {}
 					)
 				}}
 			>
@@ -79,7 +79,7 @@ const AttendanceHeader = ({
 					cursor: 'pointer',
 					...(selected === PARTICIPANT_STATES.NO_PARTICIPATE ?
 						selectedStyle
-						:							{}
+						: {}
 					)
 				}}
 			>
@@ -98,7 +98,7 @@ const AttendanceHeader = ({
 					cursor: 'pointer',
 					...(selected === PARTICIPANT_STATES.REMOTE ?
 						selectedStyle
-						:							{}
+						: {}
 					)
 				}}
 			>
@@ -119,7 +119,7 @@ const AttendanceHeader = ({
 					cursor: 'pointer',
 					...(selected === PARTICIPANT_STATES.PHYSICALLY_PRESENT ?
 						selectedStyle
-						:							{}
+						: {}
 					)
 				}}
 			>
@@ -143,7 +143,7 @@ const AttendanceHeader = ({
 					cursor: 'pointer',
 					...(selected === PARTICIPANT_STATES.DELEGATED ?
 						selectedStyle
-						:							{}
+						: {}
 					)
 				}}
 			>
@@ -164,7 +164,7 @@ const AttendanceHeader = ({
 					cursor: 'pointer',
 					...(selected === PARTICIPANT_STATES.REPRESENTATED ?
 						selectedStyle
-						:							{}
+						: {}
 					)
 				}}
 			>

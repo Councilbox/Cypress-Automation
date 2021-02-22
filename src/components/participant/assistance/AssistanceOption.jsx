@@ -1,7 +1,9 @@
 import React from 'react';
 import { Radio, HelpPopover } from '../../../displayComponents';
 
-const AssistanceOption = ({ title, value, disabled, translate, selected, select, delegationItem }) => (
+const AssistanceOption = ({
+	title, value, disabled, translate, selected, select, delegationItem
+}) => (
 	<div style={{ display: 'flex' }}>
 		<div onClick={!disabled ? select : () => { }}>
 			<Radio

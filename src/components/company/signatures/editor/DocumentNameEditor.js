@@ -23,7 +23,7 @@ updateState = object => {
 	});
 };
 
-_renderModalBody = () => {
+renderModalBody = () => {
 	const { translate } = this.props;
 	const { errors } = this.state;
 
@@ -74,7 +74,7 @@ render() {
 				acceptAction={this.updateAttachment}
 				buttonAccept={translate.accept}
 				buttonCancel={translate.cancel}
-				bodyText={this._renderModalBody()}
+				bodyText={this.renderModalBody()}
 				title={translate.edit}
 			/>
 		</div>

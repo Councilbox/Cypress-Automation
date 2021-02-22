@@ -66,10 +66,10 @@ const DataAuthorization = ({ client, refetch }) => {
 					paddingLeft: '4px',
 					color: '#154481',
 				}}>
-					<div style={{ textAlign: 'center', padding: '1em', paddingTop: '2em', }} >
-						<h3 style={{ color: '#154481', fontSize: '14px', }}>Para acceder debe confirmar la aceptacion del tratamiento de sus datos </h3>
+					<div style={{ textAlign: 'center', padding: '1em', paddingTop: '2em' }} >
+						<h3 style={{ color: '#154481', fontSize: '14px' }}>Para acceder debe confirmar la aceptacion del tratamiento de sus datos </h3>
 					</div>
-					<div style={{ display: 'flex', justifyContent: 'center', }}>
+					<div style={{ display: 'flex', justifyContent: 'center' }}>
 						<div style={{ textAlign: 'center', padding: '1em', paddingRight: '3em' }}>
 							<VideoCamera style={{ marginRight: '0.6em', marginBottom: '0.5em' }} fill={secondary} />
 							<div>Grabación de voz y video</div>

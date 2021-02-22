@@ -117,7 +117,7 @@ const SelectCensusParticipantRepresentative = ({
 						<LoadingSection />
 					) : (
 						<Scrollbar>
-							<Grid style={{ width: '95%', margin: '0 auto', marginTop: '1em', }}>
+							<Grid style={{ width: '95%', margin: '0 auto', marginTop: '1em' }}>
 								<GridItem xs={12} lg={12} md={12} >
 									<Grid style={{ display: 'flex' }}>
 										{participants.length > 0 ? (

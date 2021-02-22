@@ -49,7 +49,7 @@ export const useTags = translate => {
 			if (curr !== tag.label) return `${acc + (translate[curr] || curr)}. `;
 			return acc;
 		}, '')}`
-		:			tag.label);
+		: tag.label);
 
 	const removeTag = tag => {
 		delete testTags[tag.name];
@@ -234,21 +234,6 @@ const CompanyDraftList = ({
 	if (state.newForm) {
 		setMostrarMenu(false);
 		bHistory.push(`/company/${company.id}/draft/new`);
-		// return (
-		// 	<CompanyDraftNew
-		// 		translate={translate}
-		// 		closeForm={() => {
-		// 			setState({ newForm: false });
-		// 			getDrafts();
-		// 			setMostrarMenu(true)
-		// 		}}
-		// 		company={company}
-		// 		back={() => {
-		// 			setState({ newForm: false });
-		// 			setMostrarMenu(true);
-		// 		}}
-		// 	/>
-		// );
 	}
 
 	if (!vars.companyStatutes) {
@@ -296,11 +281,7 @@ const CompanyDraftList = ({
 									}
 								)
 							}}
-							onClick={() => bHistory.push(`/company/${company.id}/draft/new`)
-								// setState({
-								// 	newForm: true
-								// })
-							}
+							onClick={() => bHistory.push(`/company/${company.id}/draft/new`)}
 						/>
 					</div>
 					<div style={{ marginLeft: '1em' }}>
@@ -539,7 +520,7 @@ export const DraftRow = ({
 							}}
 							action={
 								<IconButton
-									style={{ top: '5px', }}
+									style={{ top: '5px' }}
 									onClick={event => clickMobilExpand(event)}
 									aria-expanded={expandedCard}
 									aria-label="Show more"
@@ -605,7 +586,7 @@ export const DraftRow = ({
 																			count={''}
 																		/>
 																	</Collapse>
-																	:	<SelectedTag
+																	: <SelectedTag
 																		key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}`}
 																		text={''}
 																		color={getTagColor(key)}
@@ -644,14 +625,14 @@ export const DraftRow = ({
 																		count={''}
 																	/>
 																</Collapse>
-																:	<SelectedTag
+																: <SelectedTag
 																	key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}`}
 																	text={translate[tag.label] || tag.label}
 																	color={getTagColor(key)}
 																	props={props}
 																	list={true}
 																	count={columnaLength > 1 ? expanded ? '' : columnaLength : ''}
-																	stylesEtiqueta={{ cursor: columnaLength > 1 ? 'pointer' : '', }}
+																	stylesEtiqueta={{ cursor: columnaLength > 1 ? 'pointer' : '' }}
 																	desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ''}
 																/>
 														))}
@@ -679,22 +660,22 @@ export const DraftRow = ({
 			hover
 		>
 			{selectable
-					&& <TableCell
-						style={TableStyles.TD}
-					>
-						<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-							{getCheckbox()}
-							{props.alreadySaved(draft.id)
-								&& <i className="fa fa-floppy-o"
-									style={{
-										cursor: 'pointer',
-										fontSize: '2em',
-										color: getSecondary()
-									}}
-								/>
-							}
-						</div>
-					</TableCell>
+				&& <TableCell
+					style={TableStyles.TD}
+				>
+					<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+						{getCheckbox()}
+						{props.alreadySaved(draft.id)
+							&& <i className="fa fa-floppy-o"
+								style={{
+									cursor: 'pointer',
+									fontSize: '2em',
+									color: getSecondary()
+								}}
+							/>
+						}
+					</div>
+				</TableCell>
 			}
 			<TableCell
 				style={{
@@ -708,36 +689,36 @@ export const DraftRow = ({
 			<TableCell>
 				<div style={{ display: 'flex' }}>
 					{columns
-							&& Object.keys(columns).map(key => {
-								const columnaLength = columns[key].length;
-								return (
-									<TagColumn key={`column_${key}`}>
-										{columns[key].map((tag, i) => (
-											i > 0 ?
-												<Collapse in={expanded} timeout="auto" unmountOnExit key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}_1`}>
-													<SelectedTag
-														key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}_`}
-														text={translate[tag.label] || tag.label}
-														color={getTagColor(key)}
-														props={props}
-														list={true}
-														count={''}
-													/>
-												</Collapse>
-												:													<SelectedTag
-													key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}`}
+						&& Object.keys(columns).map(key => {
+							const columnaLength = columns[key].length;
+							return (
+								<TagColumn key={`column_${key}`}>
+									{columns[key].map((tag, i) => (
+										i > 0 ?
+											<Collapse in={expanded} timeout="auto" unmountOnExit key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}_1`}>
+												<SelectedTag
+													key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}_`}
 													text={translate[tag.label] || tag.label}
 													color={getTagColor(key)}
 													props={props}
 													list={true}
-													count={columnaLength > 1 ? expanded ? '' : columnaLength : ''}
-													stylesEtiqueta={{ cursor: columnaLength > 1 ? 'pointer' : '', }}
-													desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ''}
+													count={''}
 												/>
-										))}
-									</TagColumn>
-								);
-							})
+											</Collapse>
+											: <SelectedTag
+												key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}`}
+												text={translate[tag.label] || tag.label}
+												color={getTagColor(key)}
+												props={props}
+												list={true}
+												count={columnaLength > 1 ? expanded ? '' : columnaLength : ''}
+												stylesEtiqueta={{ cursor: columnaLength > 1 ? 'pointer' : '' }}
+												desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ''}
+											/>
+									))}
+								</TagColumn>
+							);
+						})
 					}
 				</div>
 			</TableCell>

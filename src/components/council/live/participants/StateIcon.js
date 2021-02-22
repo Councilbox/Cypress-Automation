@@ -15,7 +15,7 @@ const styleSubIcon = (color, ratio) => ({
 	color
 });
 
-const _renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
+const renderIcon = (color, state, number, translate, ratio, hideTooltip) => {
 	switch (state) {
 		case 'ALL':
 			return (
@@ -192,6 +192,6 @@ const StateIcon = ({
 	translate,
 	ratio = 1,
 	hideTooltip = false
-}) => _renderIcon(color, state, number, translate, ratio, hideTooltip);
+}) => renderIcon(color, state, number, translate, ratio, hideTooltip);
 
 export default StateIcon;

@@ -84,14 +84,6 @@ const DropDownMenu = ({
 				onClose={handleClose}
 				anchorOrigin={anchorOrigin}
 				transformOrigin={transformOrigin}
-				// anchorOrigin={{
-				// 	vertical: 'top',
-				// 	horizontal: 'left',
-				//   }}
-				//   transformOrigin={{
-				// 	vertical: 'top',
-				// 	horizontal: 'left',
-				//   }}
 			>
 				<div onClick={props.persistent ? () => { } : handleClose}>
 					{items}

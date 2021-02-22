@@ -352,7 +352,7 @@ const Etiqueta = ({
 				<div style={{
 					padding: '8px', display: 'flex', justifyContent: 'center', alignItems: 'center'
 				}}>
-					<div style={{ marginLeft: '15px', marginRight: '15px', }}>
+					<div style={{ marginLeft: '15px', marginRight: '15px' }}>
 						{translate.all_plural}
 					</div>
 				</div>

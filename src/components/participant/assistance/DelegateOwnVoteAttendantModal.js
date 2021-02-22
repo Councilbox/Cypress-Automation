@@ -59,7 +59,7 @@ const DelegateOwnVoteAttendantModal = ({
 		});
 	};
 
-	function _renderBody() {
+	function renderBody() {
 		const { loading } = data;
 
 		const participants = loading ?
@@ -97,7 +97,7 @@ const DelegateOwnVoteAttendantModal = ({
 						<div style={{ height: '100%' }}>
 							<Scrollbar>
 								{participants.length > 0 ? (
-									<div style={{ display: 'flex', }}>
+									<div style={{ display: 'flex' }}>
 										<Grid style={{ padding: '10px' }}>
 											{participants.map(participant => {
 												if (participant.id !== props.participant.id) {
@@ -109,8 +109,7 @@ const DelegateOwnVoteAttendantModal = ({
 																	toDelegate={true}
 																	cantDelegate={false}
 																	participant={participant}
-																	onClick={() => props.addRepresentative(participant.id)
-																	}
+																	onClick={() => props.addRepresentative(participant.id)}
 																	stylesPaper={{ borderRadius: '5px', width: '100%' }}
 																/>
 															</React.Fragment>
@@ -173,7 +172,7 @@ const DelegateOwnVoteAttendantModal = ({
 			requestClose={close}
 			open={show}
 			buttonCancel={translate.close}
-			bodyText={_renderBody()}
+			bodyText={renderBody()}
 			title={
 				<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 					<div>

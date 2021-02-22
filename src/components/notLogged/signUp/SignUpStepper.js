@@ -39,27 +39,6 @@ const SignUpStepper = ({
 						onClick={() => goToPage(1)}
 						icon={<Icon type="user" style={{ color: active === 0 ? primary : secondary }} />}
 					/>
-					{/* <Step
-onClick={() => goToPage(2)}
-title={
-<React.Fragment>
-<span style={{cursor: active + 1 > 2 ? "pointer" : "inherited"}}>
-{`${translate.company_new_data} (${translate.optional})`}
-</span>
-<br />
-<br />
-</React.Fragment>
-}
-icon={<Icon type="profile" style={{color: active === 1? primary : secondary}} />}
-/>
-<Step
-title={
-<span style={{cursor: active + 1 > 2 ? "pointer" : "inherited" , marginBottom: '2em'}}>
-{`${translate.billing_information} (${translate.optional})`}
-</span>
-}
-icon={<Icon type="credit-card" style={{color: active === 2? primary : secondary}} />}
-/> */}
 				</Steps>
 			</div>
 		);
@@ -82,12 +61,6 @@ icon={<Icon type="credit-card" style={{color: active === 2? primary : secondary}
 			<Tooltip title={translate.user_data}>
 				<Icon type="user" style={{ color: active === 0 ? primary : secondary }} />
 			</Tooltip>
-			{/* 			<Tooltip title={`Datos de entidad (opcional)`}>
-<Icon type="profile" style={{color: active === 1? primary : secondary}} />
-</Tooltip>
-<Tooltip title={`${translate.billing_information} (opcional)`}>
-<Icon type="credit-card" style={{color: active === 2? primary : secondary}} />
-</Tooltip> */}
 		</div>
 	);
 };

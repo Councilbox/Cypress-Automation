@@ -59,7 +59,7 @@ const CompanyDraftForm = ({
 			if (curr !== tag.label) return `${acc + (translate[curr] || curr)}. `;
 			return acc;
 		}, '')}`
-		:		tag.label);
+		: tag.label);
 
 	const formatLabelFromName = tag => {
 		if (tag.type === 1) {
@@ -76,7 +76,7 @@ const CompanyDraftForm = ({
 				if (curr !== tag.label) return `${acc + (translate[curr] || curr)}. `;
 				return acc;
 			}, '')}`
-			:			translate[tag.name] ? translate[tag.name] : tag.name;
+			: translate[tag.name] ? translate[tag.name] : tag.name;
 	};
 
 	const reduceTagName = tag => tag.name;
@@ -206,22 +206,6 @@ const CompanyDraftForm = ({
 	};
 
 	const renderRichEditor = () => {
-		// const types = Object.keys(testTags).filter(key => testTags[key].type === TAG_TYPES.DRAFT_TYPE).map(key => {
-		// 	const result = draftTypes.find(type => testTags[key].name === type.label);
-		// 	return result;
-		// });
-
-		// const tags = types.reduce((acc, curr) => {
-		// 	const draftTags = CBX.getTagVariablesByDraftType(curr.value, translate);
-
-		// 	draftTags.forEach(tag => {
-		// 		if(!acc.has(tag.value)){
-		// 			acc.set(tag.value, tag);
-		// 		}
-		// 	})
-		// 	return acc;
-		// }, new Map());
-
 		const tags = CBX.getTagVariablesByDraftType(null, translate);
 
 		return (
@@ -573,7 +557,7 @@ export const ContenedorEtiquetas = ({
 						<i className="material-icons" style={{ fontSize: '40px' }}>
 							arrow_drop_up
 						</i>
-						:						<i className="material-icons" style={{ fontSize: '40px' }}>
+						: <i className="material-icons" style={{ fontSize: '40px' }}>
 							arrow_drop_down
 						</i>
 					}

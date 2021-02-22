@@ -2,7 +2,9 @@ import React from 'react';
 import { Stepper, Step, StepLabel } from 'material-ui';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 
-const SteperAcceso = ({ resendKey, translate, responseSMS, error }) => {
+const SteperAcceso = ({
+	resendKey, translate, responseSMS, error
+}) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 

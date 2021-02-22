@@ -170,7 +170,8 @@ class ConvenedParticipantEditor extends React.Component {
 		if (participant.email && participant.email !== this.props.participant.email && company.type !== 10) {
 			const emailsToCheck = [participant.email];
 
-			if (representative.email && ((this.props.participant.representative && representative.email !== this.props.participant.representative.email) || !this.props.participant.representative)) {
+			if (representative.email && ((this.props.participant.representative
+				&& representative.email !== this.props.participant.representative.email) || !this.props.participant.representative)) {
 				emailsToCheck.push(representative.email);
 			}
 
@@ -298,7 +299,8 @@ class ConvenedParticipantEditor extends React.Component {
 							onClick={this.props.close}
 						/>
 						<BasicButton
-							text={this.props.council.councilType === COUNCIL_TYPES.BOARD_WITHOUT_SESSION ? translate.save_and_notify : translate.save_changes_and_send}
+							text={this.props.council.councilType === COUNCIL_TYPES.BOARD_WITHOUT_SESSION ?
+								translate.save_and_notify : translate.save_changes_and_send}
 							textStyle={{
 								boxShadow: 'none',
 								borderRadius: '4px',

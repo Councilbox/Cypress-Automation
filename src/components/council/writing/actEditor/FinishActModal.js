@@ -143,17 +143,17 @@ const FinishActModal = ({
 			requestClose={close}
 			open={props.show}
 			extraActions={state.step === 1
-&& <BasicButton
-	color="white"
-	buttonStyle={{
-		border: `1px solid ${secondary}`
-	}}
-	textStyle={{
-		color: secondary
-	}}
-	text={translate.upload_pdf_act}
-	onClick={goToDropZone}
-/>
+				&& <BasicButton
+					color="white"
+					buttonStyle={{
+						border: `1px solid ${secondary}`
+					}}
+					textStyle={{
+						color: secondary
+					}}
+					text={translate.upload_pdf_act}
+					onClick={goToDropZone}
+				/>
 			}
 			acceptAction={state.step === 2 ? approveActWithUserPDF : approveAct}
 			hideAccept={state.step === 2 && !state.file}
@@ -211,7 +211,7 @@ const UploadAct = ({ ...props }) => {
 					<input {...getInputProps()} />
 					{error || (isDragActive ?
 						<p>Arrastre los archivos aquí</p>// TRADUCCION
-						:						<p>Arrastre el archivo o haga click para seleccionarlo.</p>)
+						: <p>Arrastre el archivo o haga click para seleccionarlo.</p>)
 					}
 				</div>
 			)}

@@ -10,7 +10,7 @@ import AnnouncementModal from './AnnouncementModal';
 import NoCelebrateModal from './NoCelebrateModal';
 import OriginalConveneModal from './OriginalConveneModal';
 import CouncilInfoModal from './CouncilInfoModal';
-import { councilHasVideo, councilIsLive, councilStarted, } from '../../../../utils/CBX';
+import { councilHasVideo, councilIsLive, councilStarted } from '../../../../utils/CBX';
 import { ConfigContext } from '../../../../containers/AppControl';
 import SMSManagerModal from './SMSManagerModal';
 import { isMobile } from '../../../../utils/screen';

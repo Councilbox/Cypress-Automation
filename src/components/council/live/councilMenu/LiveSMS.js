@@ -89,7 +89,7 @@ const LiveSMS = ({
 								textStyle={{ color: '#000000de', border: `1px solid ${getSecondary()}` }}
 							/>
 						</div>
-						<div style={{ height: 'calc( 100% - 2em )', }}>
+						<div style={{ height: 'calc( 100% - 2em )' }}>
 							<Scrollbar>
 								{data.sendsSMS.list.map(send => (
 									<Card style={{ margin: '5px', marginBottom: '15px' }} key={send.id}>
@@ -136,7 +136,7 @@ const LiveSMS = ({
 							textStyle={{ color: '#000000de', border: `1px solid ${getSecondary()}` }}
 						/>
 					</div>
-					<div style={{ height: 'calc( 100% - 5em )', }}>
+					<div style={{ height: 'calc( 100% - 5em )' }}>
 						<Scrollbar>
 							<Table style={{ maxWidth: '100%', width: '100%' }} >
 								<TableHead>
@@ -181,7 +181,7 @@ const LiveSMS = ({
 								</TableBody>
 							</Table>
 						</Scrollbar>
-						<div style={{ display: 'flex', width: '100%', padding: '0.5em', }}>
+						<div style={{ display: 'flex', width: '100%', padding: '0.5em' }}>
 							{loading ?
 								<div></div>
 								: <PaginationFooter

@@ -57,7 +57,6 @@ render() {
 				length={this.props.data.loading ? [] : this.props.data.councilParticipantsWithActSends.list.length}
 				total={this.props.data.loading ? [] : this.props.data.councilParticipantsWithActSends.total}
 				refetch={this.props.data.refetch}
-				action={this._renderDeleteIcon}
 				headers={[]}
 			>
 				{this.props.data.loading ?

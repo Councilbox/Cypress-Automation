@@ -375,7 +375,7 @@ videocam
 				<div style={{
 					display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '3px'
 				}}>
-					<div style={{ width: '17px', marginRight: '5px', display: 'flex', }}>
+					<div style={{ width: '17px', marginRight: '5px', display: 'flex' }}>
 						<img src={imgCouncilbox} style={{ width: '100%' }}></img>
 					</div>
 					<div style={{ width: '84px', display: 'flex', marginTop: '1px' }}>
@@ -400,7 +400,7 @@ videocam
 		controlled={true}
 		collapse={section}
 		open={true}
-		style={{ cursor: 'auto', }}
+		style={{ cursor: 'auto' }}
 	/>
 	<AlertConfirm
 		requestClose={() => setOptions({ ...options, banParticipant: false })
