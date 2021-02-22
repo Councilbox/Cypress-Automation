@@ -79,7 +79,7 @@ render() {
 							textAlign: 'center', padding: '1.1em', fontWeight: '700', marginTop: '1em'
 						}}>
 							<span style={{ fontSize: '1.1em', color: primary }}>ERROR</span><br/>
-HA HABIDO UN PROBLEMA AL CONECTAR CON EL SERVIDOR, POR FAVOR INTÉNTELO MÁS TARDE
+							HA HABIDO UN PROBLEMA AL CONECTAR CON EL SERVIDOR, POR FAVOR INTÉNTELO MÁS TARDE
 						</div>
 					</Paper>
 				</div>

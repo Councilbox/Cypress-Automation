@@ -305,6 +305,7 @@ const StatutesPage = ({
 					}
 					setState({
 						...state,
+						newStatuteName: '',
 						newStatute: false,
 						newLoading: false
 					});
@@ -597,10 +598,8 @@ const StatutesPage = ({
 						value={statute ? statute.newStatuteName : state.newStatuteName}
 						onChange={event => setState({
 							...state,
-							newStatuteName:
-								event.target.value
-						})
-						}
+							newStatuteName: event.target.value
+						})}
 					/>
 				}
 				title={translate.add_council_type}

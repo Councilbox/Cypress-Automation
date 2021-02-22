@@ -208,13 +208,12 @@ const EndCouncilButton = ({ client, council, translate, ...props }) => {
 							play_arrow
 						</Icon>
 					}
-					buttonStyle={{ minWidth: isMobile ? '' : '13em' }}
-					textStyle={{
-						color: 'white',
-						fontSize: '0.75em',
-						fontWeight: '700',
-						textTransform: 'none'
-					}}
+					open={this.state.confirmModal}
+					buttonAccept={translate.accept}
+					buttonCancel={translate.cancel}
+					modal={true}
+					acceptAction={this.endCouncil}
+					requestClose={() => this.setState({ confirmModal: false })}
 				/>
 			</div>
 			<AlertConfirm

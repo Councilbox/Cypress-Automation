@@ -219,6 +219,7 @@ class PartnerForm extends React.PureComponent {
 							<TextInput
 								floatingText={translate.votes}
 								type="number"
+								id="add-partner-votes"
 								errorText={errors.numParticipations}
 								value={participant.numParticipations || ''}
 								onChange={event => updateState({
@@ -231,12 +232,12 @@ class PartnerForm extends React.PureComponent {
 							<TextInput
 								floatingText={translate.social_capital}
 								type="number"
+								id="add-partner-social-capital"
 								errorText={errors.socialCapital}
 								value={participant.socialCapital || ''}
 								onChange={event => updateState({
 									socialCapital: +event.target.value
-								})
-								}
+								})}
 							/>
 						</GridItem>
 					</Grid>
@@ -634,8 +635,7 @@ class PartnerForm extends React.PureComponent {
 											value={representative.zipcode || ''}
 											onChange={event => updateRepresentative({
 												zipcode: this.onParse(event.nativeEvent.target.value)
-											})
-											}
+											})}
 										/>
 									</GridItem>
 									<GridItem xs={6} md={4} lg={2}>
