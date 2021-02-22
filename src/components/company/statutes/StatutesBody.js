@@ -388,7 +388,7 @@ const StatutesPage = ({
 	const body = () => (
 		<>
 			{companyStatutes.length > 0 ? (
-				<div style={{ height: `calc( 100% ${isMobile ? '- 2em' : ''})`, paddingRight: '0', display: !isMobile && 'flex', }}>
+				<div style={{ height: `calc( 100% ${isMobile ? '- 2em' : ''})`, paddingRight: '0', display: !isMobile && 'flex' }}>
 					<div>
 						<VTabs
 							tabs={tabs}

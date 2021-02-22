@@ -504,10 +504,6 @@ render() {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 
-	// if(isMobile){
-	// 	return <span />
-	// }
-
 	return (
 		<React.Fragment>
 			<BasicButton
@@ -693,10 +689,10 @@ render() {
 											>
 												{translate.attention}
 											</div>
-No se puede realizar la importación.<br />
+											No se puede realizar la importación.<br />
 											{this.state.duplicatedType === 'DB' ?
 												translate.following_emails_already_present_in_current_census
-												:													translate.following_emails_are_duplicated_in_sent_file
+												: translate.following_emails_are_duplicated_in_sent_file
 											}
 											<div
 												style={{ width: '100%' }}

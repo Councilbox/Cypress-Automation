@@ -151,7 +151,7 @@ const DelegateOwnVoteModal = ({
 		setFilters({ text });
 	};
 
-	function _renderBody() {
+	function renderBody() {
 		const participants = loading ? [] : data.liveParticipantsToDelegate.list;
 		const { total } = loading ? 0 : data.liveParticipantsToDelegate;
 		const rest = total - participants.length - 1;
@@ -185,9 +185,8 @@ const DelegateOwnVoteModal = ({
 										if (liveParticipant.id !== participant.id) {
 											return (
 												<ParticipantRow
-													key={`delegateVote_${
-														liveParticipant.id
-													}`}
+													key={`delegateVote_${liveParticipant.id
+														}`}
 													council={council}
 													toDelegate={true}
 													participant={liveParticipant}
@@ -216,15 +215,14 @@ const DelegateOwnVoteModal = ({
 											<MenuItem style={{
 												padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'
 											}}>
-												{`DESCARGAR ${
-													rest > DELEGATION_USERS_LOAD ?
-														`${1} de ${rest} RESTANTES`
-														: translate.all_plural.toLowerCase()
+												{`DESCARGAR ${rest > DELEGATION_USERS_LOAD ?
+													`${1} de ${rest} RESTANTES`
+													: translate.all_plural.toLowerCase()
 												}`}
 												{loading
-&& <div>
-	<LoadingSection size={25} />
-</div>
+													&& <div>
+														<LoadingSection size={25} />
+													</div>
 												}
 											</MenuItem>
 										</Card>
@@ -240,14 +238,14 @@ const DelegateOwnVoteModal = ({
 		);
 	}
 	if (inModal) {
-		return (<div>{_renderBody()}</div>);
+		return (<div>{renderBody()}</div>);
 	}
 	return (
 		<AlertConfirm
 			requestClose={close}
 			open={show}
 			buttonCancel={translate.close}
-			bodyText={_renderBody()}
+			bodyText={renderBody()}
 			title={translate.to_delegate_vote}
 		/>
 	);

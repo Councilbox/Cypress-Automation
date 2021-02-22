@@ -70,7 +70,7 @@ const SMSAuthForm = ({
 			translate={translate}
 			helpIcon={true}
 			languageSelector={false}
-			styleFix={{ overflow: 'hidden', }}
+			styleFix={{ overflow: 'hidden' }}
 		>
 			<div style={{
 				...styles.mainContainer,
@@ -97,17 +97,17 @@ const SMSAuthForm = ({
 								width: '100%',
 								paddingLeft: '4px',
 							}}>
-								<div style={{ textAlign: 'center', padding: '1em', paddingTop: '2em', }} >
-									<h3 style={{ color: 'black', fontSize: '1.7em', }}>
+								<div style={{ textAlign: 'center', padding: '1em', paddingTop: '2em' }} >
+									<h3 style={{ color: 'black', fontSize: '1.7em' }}>
 Bienvenido, para acceder introduzca el código que se ha enviado a su teléfono {error.originalError.data ?
 											`(terminado en ${error.originalError.data.phone})`
 											: ''
 										}
 									</h3>
 								</div>
-								<div style={{ display: 'flex', justifyContent: 'center', }}>
-									<div style={{ width: '280px', }}>
-										<div style={{ textAlign: 'center', padding: '1em', }}>
+								<div style={{ display: 'flex', justifyContent: 'center' }}>
+									<div style={{ width: '280px' }}>
+										<div style={{ textAlign: 'center', padding: '1em' }}>
 											<TextInput
 												styleFloatText={{ fontSize: '20px', color: getSecondary() }}
 												floatingText={'Código recibido por SMS'}

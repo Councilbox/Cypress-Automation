@@ -240,7 +240,9 @@ const StepNotice = ({
 			...state,
 			loading: true
 		});
-		const { __typename, statute, councilType, selectedCensusId, ...rest } = council;
+		const {
+			__typename, statute, councilType, selectedCensusId, ...rest
+		} = council;
 		const response = await props.updateCouncil({
 			variables: {
 				council: {
@@ -421,7 +423,7 @@ const StepNotice = ({
 						>
 							<LoadingSection />
 						</div>
-						:						<React.Fragment>
+						: <React.Fragment>
 							{
 								<LoadFromPreviousCouncil
 									council={council}

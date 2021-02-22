@@ -1,10 +1,14 @@
 import React from 'react';
 import { graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { Stepper, Step, StepLabel, StepContent, withStyles } from 'material-ui';
+import {
+	Stepper, Step, StepLabel, StepContent, withStyles
+} from 'material-ui';
 import StepConnector from 'material-ui/Stepper/StepConnector';
 import { LoadingSection, Scrollbar } from '../../displayComponents';
-import { getAgendaTypeLabel, hasVotation, getActPointSubjectType, isCustomPoint, isConfirmationRequest } from '../../utils/CBX';
+import {
+	getAgendaTypeLabel, hasVotation, getActPointSubjectType, isCustomPoint, isConfirmationRequest
+} from '../../utils/CBX';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import { AGENDA_TYPES, COUNCIL_TYPES } from '../../constants';
 import { councilTimelineQuery, getTimelineTranslationReverse } from './timeline/TimelineSection';
@@ -14,7 +18,9 @@ import { isMobile } from '../../utils/screen';
 import { getSubjectAbrv } from '../../displayComponents/AgendaNumber';
 
 
-const ResultsTimeline = ({ data, translate, council, classes, client, disableScroll }) => {
+const ResultsTimeline = ({
+	data, translate, council, classes, client, disableScroll
+}) => {
 	const [timeline, setTimeline] = React.useState([]);
 	const [loaded, setLoaded] = React.useState(false);
 	const scrollbar = React.useRef();
@@ -113,7 +119,9 @@ const ResultsTimeline = ({ data, translate, council, classes, client, disableScr
 	);
 };
 
-const VoteDisplay = ({ voting, translate, agenda, endPage }) => {
+const VoteDisplay = ({
+	voting, translate, agenda, endPage
+}) => {
 	const votes = new Set();
 
 
@@ -203,7 +211,9 @@ const getStepInit = (event, content, translate, classes, council) => (
 				</div>
 			}
 			style={{ textAlign: 'left', fontSize: '13px' }}>
-			<span style={{ fontSize: '13px', fontWeight: 'normal' }}>{getTimelineTranslationReverse({ type: event.type, content, translate, council })}</span><br />
+			<span style={{ fontSize: '13px', fontWeight: 'normal' }}>{getTimelineTranslationReverse({
+				type: event.type, content, translate, council
+			})}</span><br />
 			<span style={{ color: 'grey', fontSize: '13px' }}>{moment(event.date).format('LLL')}</span>
 		</StepLabel>
 		<StepContent classes={{
@@ -243,8 +253,10 @@ const getStepColor = (event, content, translate, classes, council) => (
 			</div>
 		}
 		style={{ textAlign: 'left', fontSize: '13px' }}>
-			<span style={{ fontSize: '13px' }}>{getTimelineTranslationReverse({ type: event.type, content, translate, council })}</span><br />
-			<span style={{ fontSize: '13px', color: 'grey', }}>{moment(event.date).format('LLL')}</span>
+			<span style={{ fontSize: '13px' }}>{getTimelineTranslationReverse({
+				type: event.type, content, translate, council
+			})}</span><br />
+			<span style={{ fontSize: '13px', color: 'grey' }}>{moment(event.date).format('LLL')}</span>
 		</StepLabel>
 		<StepContent style={{ fontSize: '0.9em' }}>
 			{(event.type === 'CLOSE_VOTING' && isValidResult(content.data.agendaPoint.type)) &&
@@ -302,8 +314,8 @@ const getStepConNumero = (event, translate, agendas, council) => {
 					}: </span>
 					<span style={{ fontWeight: 'bold' }}>{agenda.agendaSubject}</span>
 				</span>
-				<div style={{ textAlign: 'left', fontSize: '13px', color: 'grey', }}>
-					<span style={{ fontSize: '13px', color: 'grey', }}>{agenda.dateStartVotation ? moment(agenda.dateStartVotation).format('LLL') : ''}</span><br />
+				<div style={{ textAlign: 'left', fontSize: '13px', color: 'grey' }}>
+					<span style={{ fontSize: '13px', color: 'grey' }}>{agenda.dateStartVotation ? moment(agenda.dateStartVotation).format('LLL') : ''}</span><br />
 					{`${translate.type}: ${translate[getAgendaTypeLabel(agenda)]}`}
 				</div>
 				{(hasVotation(agenda.subjectType) && agenda.subjectType !== getActPointSubjectType()) &&

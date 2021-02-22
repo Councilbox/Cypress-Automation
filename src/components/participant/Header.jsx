@@ -1,7 +1,9 @@
 import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { IconButton, Tooltip, Card, Drawer, withStyles } from 'material-ui';
+import {
+	IconButton, Tooltip, Card, Drawer, withStyles
+} from 'material-ui';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import * as mainActions from '../../actions/mainActions';
@@ -20,7 +22,9 @@ import { isMobile } from '../../utils/screen';
 import { HEADER_HEIGHT } from '../../styles/constants';
 
 
-const Header = ({ participant, council, translate, logoutButton, windowSize, primaryColor, titleHeader, classes, info, ...props }) => {
+const Header = ({
+	participant, council, translate, logoutButton, windowSize, primaryColor, titleHeader, classes, info, ...props
+}) => {
 	const [state, setState] = useOldState({
 		showConvene: false,
 		showCouncilInfo: false,
@@ -57,8 +61,10 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 	};
 
 	const renderConveneBody = () => (
-		<div style={{ borderTop: `5px solid ${primary}`, marginBottom: '1em', }}>
-			<div style={{ marginTop: '1em', marginRight: '1em', justifyContent: 'flex-end', display: 'flex' }}>
+		<div style={{ borderTop: `5px solid ${primary}`, marginBottom: '1em' }}>
+			<div style={{
+				marginTop: '1em', marginRight: '1em', justifyContent: 'flex-end', display: 'flex'
+			}}>
 				< i
 					className={'fa fa-close'}
 					style={{
@@ -94,7 +100,9 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
 						<b>&#8226; {`${translate.name}`}</b>: {`${participant.name} ${participant.surname || ''}`}
 					</div>
-					<div style={{ marginBottom: '1em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+					<div style={{
+						marginBottom: '1em', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
+					}}>
 						<b>&#8226; {`${translate.email}`}</b>: {`${participant.email}`}
 					</div>
 					{participant.voteDenied &&
@@ -110,7 +118,9 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 						translate.you_have_following_delegated_votes
 					}
 					{delegations.map(vote => (
-						<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
+						<div key={`delegatedVote_${vote.id}`} style={{
+							padding: '0.3em', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'
+						}}>
 							<span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${showNumParticipations(vote.numParticipations, council.company, council.statute)}`}</span>
 							{vote.voteDenied &&
 								<span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
@@ -121,7 +131,9 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 						translate.representative_of
 					}
 					{representations.map(vote => (
-						<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
+						<div key={`delegatedVote_${vote.id}`} style={{
+							padding: '0.3em', display: 'flex', justifyContent: 'flex-start', alignItems: 'center'
+						}}>
 							<span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${showNumParticipations(vote.numParticipations, council.company, council.statute)}`}</span>
 							{vote.voteDenied &&
 								<span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>

@@ -49,7 +49,7 @@ const UserMenu = ({
 										maxWidth: '100px'
 									}}
 								/>
-								:								<i className="fa fa-building-o" style={{
+								: <i className="fa fa-building-o" style={{
 									fontSize: '2em',
 									width: 'auto',
 									color: 'grey',
@@ -64,7 +64,7 @@ const UserMenu = ({
 							className="material-icons"
 							style={{ color: secondary }}
 						>
-account_circle
+							account_circle
 						</Icon>
 					</div>
 				</Tooltip>
@@ -78,7 +78,7 @@ account_circle
 			type="flat"
 			icon={
 				<Icon className="material-icons" style={{ color: secondary }}>
-keyboard_arrow_down
+					keyboard_arrow_down
 				</Icon>
 			}
 			anchorOrigin={{
@@ -143,66 +143,66 @@ keyboard_arrow_down
 						</Link>
 						<Divider />
 						{isAdmin(user)
-&& <Link to={`/company/${company.id}/settings`}>
-	<MenuItem style={{ height: '100%', maxWidth: '270px' }}>
-		<div
-			style={{
-				display: 'flex',
-				paddingBottom: '1em',
-				paddingTop: '0.5em',
-				width: '100%',
-				justifyContent: 'center',
-				alignItems: 'center',
-			}}
-		>
-			<div
-				style={{
-					minWidth: '75px',
-					height: '75px',
-					width: '20%',
-					position: 'relative',
-					borderRadius: '50%',
-					overflow: 'hidden',
-					marginRight: '1.5em',
-				}}
-			>
-				<ImageCircular
-					src={
-						!company.logo ?
-							''
-							: company.logo
-					}
-					styles={{
-						width: '80px',
-						height: '80px'
-					}}
-				/>
-			</div>
-			<div
-				style={{
-					width: '65%',
-					padding: '0.4em',
-					...styles
-				}}
-			>
-				<b>{company.businessName}</b>
-				<div style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>{company.tin}</div>
-			</div>
-			<div style={{ width: '10%' }}>
-				<Icon
-					className="material-icons"
-					style={{
-						cursor: 'pointer',
-						fontSize: '1.6em',
-						color: secondary
-					}}
-				>
-settings
-				</Icon>
-			</div>
-		</div>
-	</MenuItem>
-</Link>
+							&& <Link to={`/company/${company.id}/settings`}>
+								<MenuItem style={{ height: '100%', maxWidth: '270px' }}>
+									<div
+										style={{
+											display: 'flex',
+											paddingBottom: '1em',
+											paddingTop: '0.5em',
+											width: '100%',
+											justifyContent: 'center',
+											alignItems: 'center',
+										}}
+									>
+										<div
+											style={{
+												minWidth: '75px',
+												height: '75px',
+												width: '20%',
+												position: 'relative',
+												borderRadius: '50%',
+												overflow: 'hidden',
+												marginRight: '1.5em',
+											}}
+										>
+											<ImageCircular
+												src={
+													!company.logo ?
+														''
+														: company.logo
+												}
+												styles={{
+													width: '80px',
+													height: '80px'
+												}}
+											/>
+										</div>
+										<div
+											style={{
+												width: '65%',
+												padding: '0.4em',
+												...styles
+											}}
+										>
+											<b>{company.businessName}</b>
+											<div style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>{company.tin}</div>
+										</div>
+										<div style={{ width: '10%' }}>
+											<Icon
+												className="material-icons"
+												style={{
+													cursor: 'pointer',
+													fontSize: '1.6em',
+													color: secondary
+												}}
+											>
+												settings
+											</Icon>
+										</div>
+									</div>
+								</MenuItem>
+							</Link>
 						}
 						{user.roles === 'devAdmin' && (
 							<React.Fragment>
@@ -231,7 +231,7 @@ settings
 													color: 'white'
 												}}
 											>
-Panel devAdmin
+												Panel devAdmin
 											</div>
 											<div
 												style={{
@@ -303,14 +303,14 @@ Panel devAdmin
 			id={'user-menu-trigger'}
 			text={
 				<Icon className="material-icons" style={{ color: secondary }}>
-account_circle
+					account_circle
 				</Icon>
 			}
 			textStyle={{ color: secondary }}
 			type="flat"
 			icon={
 				<Icon className="material-icons" style={{ color: secondary }}>
-keyboard_arrow_down
+					keyboard_arrow_down
 				</Icon>
 			}
 			items={

@@ -4,9 +4,11 @@ import { getSecondary } from '../../../styles/colors';
 
 
 const DelegationItem = ({ participant }) => (
-	<Card elevation={4} style={{ marginTop: '5px', borderTop: '1px solid gainsboro', marginBottom: '10px', borderRadius: '5px', color: 'white', background: getSecondary() }}>
+	<Card elevation={4} style={{
+		marginTop: '5px', borderTop: '1px solid gainsboro', marginBottom: '10px', borderRadius: '5px', color: 'white', background: getSecondary()
+	}}>
 		<div style={{}}>
-			<div style={{ display: 'flex', }}>
+			<div style={{ display: 'flex' }}>
 				<div style={{ margin: '0.5em 1em' }}>
 					{participant.name} {participant.surname || ''}
 				</div>

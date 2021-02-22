@@ -44,7 +44,7 @@ const TabsScreen = ({
 			<Tabs
 				activeKey={`${selectedTab}`}
 				type="card"
-				style={{ width: '100%', height: '100%', paddingBottom: '1em', }}
+				style={{ width: '100%', height: '100%', paddingBottom: '1em' }}
 				onChange={handleChange}
 			>
 				{tabsInfo.map((tab, index) => (
@@ -52,7 +52,7 @@ const TabsScreen = ({
 						tab={
 							linked ?
 								<Link to={tab.link}>{tab.text}</Link>
-								:									tab.text
+								: tab.text
 						}
 						key={`${index}`}
 						style={{
@@ -60,8 +60,7 @@ const TabsScreen = ({
 							overflow: 'hidden',
 							border: '1px solid #e8e8e8',
 							borderTop: 'none',
-							boxShadow:
-'0 1px 4px 0 rgba(0, 0, 0, 0.14)',
+							boxShadow: '0 1px 4px 0 rgba(0, 0, 0, 0.14)',
 							borderRadius: '0px 5px 5px 5px'
 						}}
 					>

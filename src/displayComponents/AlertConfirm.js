@@ -117,7 +117,7 @@ const AlertConfirm = ({
 								<div style={{ color: ' rgba(0, 0, 0, 0.37)', fontSize: '17px' }}>{titleRigth}</div>
 							</div>
 						)
-						:						(
+						: (
 							title
 						)
 					}

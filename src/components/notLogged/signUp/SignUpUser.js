@@ -144,8 +144,8 @@ checkRequiredFields = async () => {
 	}
 
 	// if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,}$/.test(data.pwd))) {
-	// 	hasError = true;
-	// 	errors.pwd = "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"; //TRADUCCION
+	// hasError = true;
+	// errors.pwd = "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"; //TRADUCCION
 	// }
 
 	this.props.updateErrors({

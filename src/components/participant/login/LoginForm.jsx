@@ -11,9 +11,13 @@ import withTranslations from '../../../HOCs/withTranslations';
 import withWindowSize from '../../../HOCs/withWindowSize';
 import withWindowOrientation from '../../../HOCs/withWindowOrientation';
 import { getPrimary, getSecondary } from '../../../styles/colors';
-import { ButtonIcon, TextInput, BasicButton, AlertConfirm, HelpPopover, LoadingSection } from '../../../displayComponents';
+import {
+	ButtonIcon, TextInput, BasicButton, AlertConfirm, HelpPopover, LoadingSection
+} from '../../../displayComponents';
 import { councilStarted, participantNeverConnected, hasAccessKey } from '../../../utils/CBX';
-import { useOldState, useCountdown, useSendRoomKey, useInterval } from '../../../hooks';
+import {
+	useOldState, useCountdown, useSendRoomKey, useInterval
+} from '../../../hooks';
 import LoginWithCert from './LoginWithCert';
 import ContactAdminButton from './ContactAdminButton';
 import SMSStepper from './SMSAccess/SMSStepper';
@@ -95,7 +99,9 @@ const participantSend = gql`
     }
 `;
 
-const LoginForm = ({ participant, translate, company, council, client, ...props }) => {
+const LoginForm = ({
+	participant, translate, company, council, client, ...props
+}) => {
 	const [loading, setLoading] = React.useState(true);
 	const [state, setState] = useOldState({
 		password: '',
@@ -308,7 +314,9 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
 
 		const disabled = secondsLeft > 0 && error;
 
-		const buttons = <div style={{ margin: '0 auto', marginTop: '1em', display: isMobile ? '' : 'flex', justifyContent: 'space-between', width: '90%', }}>
+		const buttons = <div style={{
+			margin: '0 auto', marginTop: '1em', display: isMobile ? '' : 'flex', justifyContent: 'space-between', width: '90%'
+		}}>
 			<ContactAdminButton
 				participant={participant}
 				council={council}
@@ -361,8 +369,10 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
 											`${translate.sms_sent_to_phone} ...${showHiddenPhone(participant.phone)}`
 												}
 												{error &&
-											<div style={{ fontWeight: 'bold', color: '#f11a1a', marginTop: '2em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-												<div style={{ width: '90%', }}>
+											<div style={{
+												fontWeight: 'bold', color: '#f11a1a', marginTop: '2em', display: 'flex', alignItems: 'center', justifyContent: 'center'
+											}}>
+												<div style={{ width: '90%' }}>
 													{translate.sms_error_description}
 												</div>
 											</div>
@@ -370,7 +380,9 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
 											</>
 										}
 									</div>
-									<div style={{ margin: '0 auto', marginTop: '1em', display: isMobile ? '' : 'flex', justifyContent: 'space-between', width: '90%', }}>
+									<div style={{
+										margin: '0 auto', marginTop: '1em', display: isMobile ? '' : 'flex', justifyContent: 'space-between', width: '90%'
+									}}>
 										<ContactAdminButton
 											participant={participant}
 											council={council}
@@ -437,7 +449,9 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
 				height: ''
 			} : {}),
 		}}>
-			<div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+			<div style={{
+				width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'
+			}}>
 				<div style={{
 					width: '100%',
 					paddingLeft: '4px'
@@ -551,14 +565,18 @@ const LoginForm = ({ participant, translate, company, council, client, ...props 
 						</form>
 					</Card>
 					{error &&
-						<div style={{ fontWeight: 'bold', color: '#f11a1a', marginTop: '2em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-							<div style={{ width: '90%', }}>
+						<div style={{
+							fontWeight: 'bold', color: '#f11a1a', marginTop: '2em', display: 'flex', alignItems: 'center', justifyContent: 'center'
+						}}>
+							<div style={{ width: '90%' }}>
 								{translate.sms_error_description}
 							</div>
 						</div>
 					}
 					{council.securityType === 2 &&
-						<div style={{ marginTop: '1em', marginBottom: '1em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+						<div style={{
+							marginTop: '1em', marginBottom: '1em', display: 'flex', alignItems: 'center', justifyContent: 'center'
+						}}>
 							<div style={{ width: '100%' }}>
 								<SMSStepper
 									council={council}

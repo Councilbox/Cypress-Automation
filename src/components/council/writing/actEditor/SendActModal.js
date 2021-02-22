@@ -16,7 +16,6 @@ import {
 } from '../../../../displayComponents';
 import { councilParticipantsActSends, sendAct as sendActMutation } from '../../../../queries';
 import { DELEGATION_USERS_LOAD } from '../../../../constants';
-
 import { useOldState } from '../../../../hooks';
 import { getSecondary } from '../../../../styles/colors';
 import { removeTypenameField } from '../../../../utils/CBX';
@@ -145,7 +144,7 @@ const SendActModal = ({ translate, data, ...props }) => {
 						/>
 					</Card>
 				))
-				:					<div>
+				: <div>
 					{translate.not_added}
 				</div>
 			}
@@ -258,8 +257,7 @@ const SendActModal = ({ translate, data, ...props }) => {
 												</TableRow>
 											))) : (
 											<Typography>{translate.no_results}</Typography>
-										)
-										}
+										)}
 									</Table>
 								</Scrollbar>
 							</div>
@@ -276,10 +274,9 @@ const SendActModal = ({ translate, data, ...props }) => {
 							>
 								<BasicButton
 									text={
-										`DESCARGAR ${
-											rest > DELEGATION_USERS_LOAD ?
-												`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-												: translate.all_plural.toLowerCase()
+										`DESCARGAR ${rest > DELEGATION_USERS_LOAD ?
+											`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+											: translate.all_plural.toLowerCase()
 										}`
 									}
 									color={getSecondary()}
@@ -316,13 +313,13 @@ const SendActModal = ({ translate, data, ...props }) => {
 			buttonAccept={state.step === 1 ? translate.continue : translate.send}
 			cancelAction={state.success ?
 				close
-				:				state.step !== 1 ?
+				: state.step !== 1 ?
 					() => setState({ step: 1, success: false })
-					:						null
+					: null
 			}
 			buttonCancel={state.success ?
 				translate.close
-				:				state.step === 1 ? translate.close : translate.back}
+				: state.step === 1 ? translate.close : translate.back}
 			bodyText={modalBody()}
 			title={translate.sending_the_minutes}
 		/>

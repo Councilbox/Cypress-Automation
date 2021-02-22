@@ -49,7 +49,7 @@ class ForgetPwd extends React.PureComponent {
 				}
 			} else if (response.data.restorePwd.success) {
 				// this.setState({
-				// 	sent: true
+				// sent: true
 				// });
 			}
 		}

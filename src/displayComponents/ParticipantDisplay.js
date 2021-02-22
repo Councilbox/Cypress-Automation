@@ -168,7 +168,7 @@ const ParticipantDisplay = ({
 						onChange={event => setEmail(event.target.value)
 						}
 					/>
-					:					<Typography variant="body1" className="truncate">
+					: <Typography variant="body1" className="truncate">
 						{`${participant.email || '-'}`}
 					</Typography>
 				}
@@ -210,7 +210,7 @@ const ParticipantDisplay = ({
 			onChange={event => setPhone(event.target.value)
 			}
 		/>
-		:						<Typography variant="body1" className="truncate">
+		: <Typography variant="body1" className="truncate">
 			{`${participant.phone || '-'}`}
 		</Typography>
 	}

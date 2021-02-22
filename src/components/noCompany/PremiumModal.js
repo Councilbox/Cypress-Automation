@@ -59,7 +59,7 @@ render() {
 		<BasicButton
 			text={translate.free_trial}
 			color={primary}
-			textStyle={{ fontWeight: '700', color: 'white', fontSize: '18px', }}
+			textStyle={{ fontWeight: '700', color: 'white', fontSize: '18px' }}
 			onClick={this.activateTrial}
 		/>
 	</div>
@@ -100,7 +100,7 @@ render() {
 				loading={this.state.loading}
 				success={this.state.success}
 				color={primary}
-				textStyle={{ fontWeight: '700', color: 'white', fontSize: '18px', }}
+				textStyle={{ fontWeight: '700', color: 'white', fontSize: '18px' }}
 				onClick={this.activateTrial}
 			/>
 		</div>

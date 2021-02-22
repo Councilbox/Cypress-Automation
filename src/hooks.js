@@ -415,7 +415,9 @@ const queryReducer = (state, action) => {
 	return actions[action.type] ? actions[action.type]() : state;
 };
 
-export const useQueryReducer = ({ client, query, variables, pollInterval = 10000 }) => {
+export const useQueryReducer = ({
+	client, query, variables, pollInterval = 10000
+}) => {
 	const [{ data, errors, loading }, dispatch] = React.useReducer(queryReducer, { data: null, loading: true, errors: null });
 
 	const getData = React.useCallback(async () => {

@@ -72,7 +72,7 @@ const ActEditorPage = ({
 			component: () => (
 				props.confirmed ?
 					<div style={{ height: '100%' }}>
-						<div style={{ height: 'calc(100%)', overflow: 'hidden', position: 'relative', }}>
+						<div style={{ height: 'calc(100%)', overflow: 'hidden', position: 'relative' }}>
 							<Scrollbar>
 								<div style={{ padding: '1.5em', overflow: 'hidden', position: 'relative' }}>
 									<ActHTMLTab council={council} translate={translate} company={props.company} />

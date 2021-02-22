@@ -48,20 +48,20 @@ const Block = ({
 
 	if (Object.prototype.hasOwnProperty.call(props.value, 'toggleable')) {
 		return (
-			<div style={{ overflow: 'hidden', padding: '1em 1.5em 1em 1em', width: '100%', }}>
+			<div style={{ overflow: 'hidden', padding: '1em 1.5em 1em 1em', width: '100%' }}>
 				<BorderBox
 					itemInfo={props.value}
 					icon={props.value.icon ? props.value.icon : ''}
 					id={props.id}
 					column={props.column}
 					colorBorder={props.value.colorBorder}
-					stylesBody={{ width: '100%', margin: '0em', }}
+					stylesBody={{ width: '100%', margin: '0em' }}
 					removeBlock={props.removeBlock}
 					toggle={props.value.toggleable}
 					noIcon={true}
 				>
 					<div >
-						<div style={{ fontSize: '16px', fontWeight: 'bold', }}>{props.value.label}</div>
+						<div style={{ fontSize: '16px', fontWeight: 'bold' }}>{props.value.label}</div>
 					</div>
 				</BorderBox>
 			</div>
@@ -147,7 +147,7 @@ const Block = ({
 					/>
 			}
 
-			<div style={{ marginTop: '1em', }}>
+			<div style={{ marginTop: '1em' }}>
 				{props.value.editButton
 && <Button style={{ color: getPrimary(), minWidth: '0', padding: '0' }} onClick={() => hoverAndSave(props.id, text)}>
 	{/* onClick={props.updateCouncilActa} */}
@@ -185,8 +185,8 @@ export const BorderBox = ({
 	<div style={{
 		width: '100%', background: 'white', boxShadow: ' 0 2px 4px 5px rgba(0, 0, 0, 0.11)', borderRadius: '4px', margin: '0.8em 0px', ...stylesBody
 	}}>
-		<div style={{ width: '100%', display: 'flex', }}>
-			<div style={{ paddingRight: '4px', background: colorBorder || getPrimary(), borderRadius: '15px', }}></div>
+		<div style={{ width: '100%', display: 'flex' }}>
+			<div style={{ paddingRight: '4px', background: colorBorder || getPrimary(), borderRadius: '15px' }}></div>
 			<div style={{
 				marginLeft: '0.5em', paddingTop: '0.8em', paddingBottom: '0.8em', width: '100%'
 			}}>
@@ -222,7 +222,7 @@ export const BorderBox = ({
 							{toggle ?
 								<span style={{ cursor: 'pointer', color: colorBorder }} onClick={() => removeBlock(id)}>
 									{!itemInfo.hide ?
-										<i className="fa fa-check-square-o" aria-hidden="true" style={{ color: 'green', fontSize: '20px', }}></i>
+										<i className="fa fa-check-square-o" aria-hidden="true" style={{ color: 'green', fontSize: '20px' }}></i>
 										: <i className="fa fa-square-o" aria-hidden="true" style={{ color: 'grey', fontSize: '20px' }}></i>
 									}
 								</span>

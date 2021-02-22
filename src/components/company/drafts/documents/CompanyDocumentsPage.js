@@ -260,7 +260,7 @@ const CompanyDocumentsPage = ({
 				<div style={{
 					display: 'flex', borderBottom: `1px solid${primary}`, alignItems: 'center', justifyContent: 'space-between'
 				}}>
-					<div style={{ display: 'flex', alignItems: 'center', }}>
+					<div style={{ display: 'flex', alignItems: 'center' }}>
 						{breadCrumbs.map((item, index) => (
 							<React.Fragment key={index}>
 								{index > 0

@@ -3,52 +3,6 @@ import { Select } from 'material-ui';
 import Input, { InputLabel } from 'material-ui/Input';
 import { FormControl } from 'material-ui/Form';
 
-// const styles = {
-// 	'#b47fb6': {
-// 		color: '#b47fb6',
-// 		'&:after': {
-// 			borderBottom: `2px solid #b47fb6`,
-// 		},
-// 		'&$focused:after': {
-// 			borderBottomColor: `#b47fb6`,
-// 		},
-// 		'&$error:after': {
-// 			borderBottomColor: `#b47fb6`,
-// 		},
-// 		'&:before': {
-// 			borderBottom: `1px solid #b47fb6`,
-// 		},
-// 		'&:hover:not($disabled):not($focused):not($error):before': {
-// 			borderBottom: `2px solid #b47fb6`,
-// 		},
-// 		'&$disabled:before': {
-// 			borderBottom: `1px dotted #b47fb6`,
-// 		},
-// 	},
-// 	'#7fa5b6': {
-// 		color: '#7fa5b6',
-// 		'&:after': {
-// 			borderBottom: `2px solid #7fa5b6`,
-// 		},
-// 		'&$focused:after': {
-// 			borderBottomColor: `#7fa5b6`,
-// 		},
-// 		'&$error:after': {
-// 			borderBottomColor: `#7fa5b6`,
-// 		},
-// 		'&:before': {
-// 			borderBottom: `1px solid #7fa5b6`,
-// 		},
-// 		'&:hover:not($disabled):not($focused):not($error):before': {
-// 			borderBottom: `2px solid #7fa5b6`,
-// 		},
-// 		'&$disabled:before': {
-// 			borderBottom: `1px dotted #7fa5b6`,
-// 		},
-// 	},
-
-// };
-
 const SelectInput = ({
 	floatingText,
 	id,
@@ -90,7 +44,7 @@ const SelectInput = ({
 			input={
 				<Input
 					// classes={{
-					// 	underline: props.classes[colorText],
+					// underline: props.classes[colorText],
 					// }}
 				/>
 			}
@@ -111,7 +65,7 @@ const SelectInput = ({
 
 
 // SelectInput.propTypes = {
-// 	classes: PropTypes.object.isRequired,
+// classes: PropTypes.object.isRequired,
 // };
 
 export default SelectInput;

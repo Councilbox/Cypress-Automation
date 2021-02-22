@@ -13,7 +13,7 @@ const UserForm = ({
 	data, updateState, errors, languages, onKeyUp, translate, admin = false
 }) => (
 	<Grid style={{ justifyContent: 'space-between', color: '#61abb7' }}>
-		<GridItem xs={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center', }}>
+		<GridItem xs={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center' }}>
 			<div style={{ width: '120px', color: getPrimary(), fontWeight: 'bold' }}>
 				{translate.name}
 			</div>
@@ -33,7 +33,7 @@ const UserForm = ({
 				/>
 			</div>
 		</GridItem>
-		<GridItem xs={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center', }}>
+		<GridItem xs={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center' }}>
 			<div style={{ width: '120px', color: getPrimary(), fontWeight: 'bold' }}>
 				{translate.surname}
 			</div>
@@ -53,7 +53,7 @@ const UserForm = ({
 				/>
 			</div>
 		</GridItem>
-		<GridItem xs={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center', }}>
+		<GridItem xs={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center' }}>
 			<div style={{ width: '120px', color: getPrimary(), fontWeight: 'bold' }}>
 				{translate.email}
 			</div>
@@ -75,7 +75,7 @@ const UserForm = ({
 			</div>
 		</GridItem>
 		{admin
-&& <GridItem xs={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center', }}>
+&& <GridItem xs={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center' }}>
 	<div style={{ width: '120px', color: getPrimary(), fontWeight: 'bold' }}>
 		{translate.license_code}
 	</div>
@@ -96,11 +96,11 @@ const UserForm = ({
 	</div>
 </GridItem>
 		}
-		<GridItem xs={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center', }}>
+		<GridItem xs={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center' }}>
 			<div style={{
 				display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%'
 			}}>
-				<div style={{ display: 'flex', alignItems: 'center', }}>
+				<div style={{ display: 'flex', alignItems: 'center' }}>
 					<div style={{ width: '120px', color: getPrimary(), fontWeight: 'bold' }}>
 						{translate.phone}
 					</div>
@@ -120,7 +120,7 @@ const UserForm = ({
 					</div>
 				</div>
 				{!isMobile
-&& <div style={{ display: 'flex', alignItems: 'center', }}>
+&& <div style={{ display: 'flex', alignItems: 'center' }}>
 	<div style={{
 		width: '90px', color: getPrimary(), fontWeight: 'bold', marginTop: '4px'
 	}}>
@@ -158,8 +158,8 @@ arrow_drop_down
 			</div>
 		</GridItem>
 		{isMobile
-&& <GridItem xs={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center', }}>
-	<div style={{ display: 'flex', alignItems: 'center', }}>
+&& <GridItem xs={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center' }}>
+	<div style={{ display: 'flex', alignItems: 'center' }}>
 		<div style={{
 			width: '90px', color: getPrimary(), fontWeight: 'bold', marginTop: '4px'
 		}}>

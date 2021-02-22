@@ -84,7 +84,7 @@ const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
 	}
 
 	return (
-		<div style={{ width: '100%', backgroundColor: 'white', }}> {/** padding: '0 1em' */}
+		<div style={{ width: '100%', backgroundColor: 'white' }}> {/** padding: '0 1em' */}
 			<div
 				style={{
 					backgroundColor: 'white',

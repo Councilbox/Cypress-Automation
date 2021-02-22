@@ -249,7 +249,7 @@ help
 					<div style={{ maxWidth: '10em', marginLeft: '1em' }}>
 						<TextInput
 							disableUnderline={true}
-							styleInInput={{ fontSize: '12px', color: getPrimary(), }}
+							styleInInput={{ fontSize: '12px', color: getPrimary() }}
 							stylesAdornment={{}}
 							adornment={<Icon style={{ color: getPrimary() }}>search</Icon>}
 							type="text"

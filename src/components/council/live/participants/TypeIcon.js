@@ -14,7 +14,7 @@ const styleSubIcon = (color, ratio) => ({
 	color
 });
 
-const _renderIcon = (color, type, number, translate, ratio) => {
+const renderIcon = (color, type, number, translate, ratio) => {
 	switch (type) {
 		case 'ALL':
 			return (
@@ -81,7 +81,7 @@ class TypeIcon extends React.PureComponent {
 		const {
 			color = 'grey', type, number, translate, ratio = 1
 		} = this.props;
-		return _renderIcon(color, type, number, translate, ratio);
+		return renderIcon(color, type, number, translate, ratio);
 	}
 }
 

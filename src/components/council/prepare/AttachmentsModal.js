@@ -29,13 +29,6 @@ const AttachmentsModal = ({
 		if (!file) {
 			return;
 		}
-		// if ((file.size / 1000 + totalSize) > MAX_FILE_SIZE) {
-		// 	setState({
-		// 		...state,
-		// 		alert: true
-		// 	});
-		// 	return;
-		// }
 		const reader = new FileReader();
 		reader.readAsBinaryString(file);
 
