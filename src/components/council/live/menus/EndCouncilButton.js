@@ -186,8 +186,7 @@ const EndCouncilButton = ({ client, council, translate, ...props }) => {
 				))}
 			</>
 		);
-
-	}
+	};
 
 	return (
 		<React.Fragment>
