@@ -8,7 +8,8 @@ import {
 	hasParticipations,
 	hasVotation,
 	isConfirmationRequest,
-	isCustomPoint
+	isCustomPoint,
+	getPercentage
 } from '../../../../utils/CBX';
 import { getSecondary } from '../../../../styles/colors';
 import { useDownloadHTMLAsPDF, usePolling } from '../../../../hooks';
@@ -29,18 +30,27 @@ const QuorumDisplay = ({
 		return null;
 	}
 
+	console.log(council.initialQuorum, recount);
+
+
+
 	return (
 		<>
 			{council.statute.quorumPrototype === 0 ?
-				<b>{`${translate.current_quorum}: ${showNumParticipations(recount.partRightVoting, company, council.statute)} (${((recount.partRightVoting / (recount.partTotal ? recount.partTotal : 1)) * 100).toFixed(3)}%)${(councilStarted() && council.councilStarted === 1 && councilHasSession(council)) ?
+				<b>{`${translate.current_quorum}: ${showNumParticipations(recount.partRightVoting, company, council.statute)} (${
+					getPercentage(recount.partRightVoting, (recount.partTotal || 1))}%)${(councilStarted() && council.councilStarted === 1 && councilHasSession(council)) ?
 					` / ${translate.initial_quorum}: ${council.initialQuorum ? showNumParticipations(council.initialQuorum, company, council.statute) : showNumParticipations(council.currentQuorum, company, council.statute)
-					} (${((council.initialQuorum / ((recount.partTotal ? recount.partTotal : 1) * 100)).toFixed(3))}%)`
-					: ''
+					} (${getPercentage(council.initialQuorum, (recount.partTotal || 1))}%)`
+						: ''
 				}`}</b>
-				: <b>{`${translate.current_quorum}: ${showNumParticipations(recount.socialCapitalRightVoting, company, council.statute)} (${((recount.socialCapitalRightVoting / (recount.socialCapitalTotal ? recount.socialCapitalTotal : 1)) * 100).toFixed(3)}%)${(councilStarted() && council.councilStarted === 1 && councilHasSession(council)) ?
-					` / ${translate.initial_quorum}: ${council.initialQuorum ? showNumParticipations(council.initialQuorum, company, council.statute) : showNumParticipations(council.currentQuorum, company, council.statute)
-					} (${((council.initialQuorum / ((recount.socialCapitalTotal ? recount.socialCapitalTotal : 1) * 100)).toFixed(3))}%)`
-					: ''
+				: <b>{`${translate.current_quorum}: ${
+					showNumParticipations(recount.socialCapitalRightVoting, company, council.statute)
+				} (${getPercentage(recount.socialCapitalRightVoting, (recount.socialCapitalTotal || 1))}%)${
+					(councilStarted() && council.councilStarted === 1 && councilHasSession(council)) ?
+						` / ${translate.initial_quorum}: ${council.initialQuorum ? showNumParticipations(council.initialQuorum, company, council.statute)
+							: showNumParticipations(council.currentQuorum, company, council.statute)
+							} (${getPercentage(council.initialQuorum, (recount.socialCapitalTotal || 1))}%)`
+						: ''
 				}`}</b>
 			}
 			<div
