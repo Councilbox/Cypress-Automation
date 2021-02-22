@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { graphql } from 'react-apollo';
@@ -41,7 +42,7 @@ class CreateSignature extends React.Component {
 		}
 	}
 
-	static render() {
+	render() {
 		return <LoadingMainApp />;
 	}
 }

@@ -41,7 +41,6 @@ class ConvenedParticipantEditor extends React.Component {
 	}
 
 	componentWillUnmount() {
-		console.log(this.props);
 		this.setParticipantData();
 	}
 
@@ -50,7 +49,6 @@ class ConvenedParticipantEditor extends React.Component {
 		let { representative, delegateId, delegateUuid, __typename, councilId, ...participant } = removeTypenameField(
 			this.props.participant
 		);
-		console.log(this.props.participant);
 
 		representative = (participant.representatives.length > 0) ?
 			{

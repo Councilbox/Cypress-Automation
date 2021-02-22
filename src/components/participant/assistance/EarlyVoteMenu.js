@@ -16,7 +16,6 @@ const EarlyVoteMenu = ({
 		client
 	});
 
-
 	React.useEffect(() => {
 		if (!loading) {
 			if (data.proxyVotes) {
@@ -80,7 +79,7 @@ const EarlyVoteMenu = ({
 											setSelected(new Map(selected.set(`${point.id}_${participantInfo.id}`, {
 												value: vote.value,
 												agendaId: point.id,
-												participantInfoId: participantInfo.id
+												participantId: participantInfo.id
 											})));
 											// setEarlyVote(point.id, vote)
 										}}
@@ -132,7 +131,7 @@ const EarlyVoteMenu = ({
 											setSelected(new Map(selected.set(`${point.id}_${participantInfo.id}`, {
 												value: vote.value,
 												agendaId: point.id,
-												participantInfoId: participantInfo.id
+												participantId: participantInfo.id
 											})));
 											// setEarlyVote(point.id, vote)
 										}}
@@ -153,7 +152,7 @@ const EarlyVoteMenu = ({
 			const selections = point.items.reduce((acc, curr) => {
 				const key = `${point.id}_${curr.id}_${participantInfo.id}`;
 				if (isActive(key, curr.id)) {
-					acc++;
+					acc += 1;
 					return acc;
 				}
 				return acc;
@@ -162,7 +161,7 @@ const EarlyVoteMenu = ({
 			const disabled = selections >= point.options.maxSelections;
 			return (
 				<div key={`point_${point.id}`} style={{ marginTop: '1.3em' }}>
-Punto: {point.agendaSubject}
+					Punto: {point.agendaSubject}
 					<div>
 						{point.items.map(item => {
 							const key = `${point.id}_${item.id}_${participantInfo.id}`;
@@ -182,7 +181,7 @@ Punto: {point.agendaSubject}
 											setSelected(new Map(selected.set(key, {
 												value: item.id,
 												agendaId: point.id,
-												participantInfoId: participantInfo.id
+												participantId: participantInfo.id
 											})));
 										}
 									}}

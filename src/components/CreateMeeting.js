@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -25,7 +26,7 @@ class CreateMeeting extends Component {
 		}
 	}
 
-	static render() {
+	render() {
 		return <LoadingMainApp />;
 	}
 }

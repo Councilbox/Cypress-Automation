@@ -101,19 +101,20 @@ const MeetingLivePage = () => {
 				}}
 			>
 				{!!state.url
-&& <iframe
-	title="meetingScreen"
-	allow="geolocation; microphone; camera"
-	scrolling="no"
-	className="temp_video"
-	src={`https://${state.url}?rand=${rand}`}
-	allowFullScreen={true}
-	style={{
-		border: 'none !important'
-	}}
->
-Something wrong...
-</iframe>
+					&& <iframe
+						id="meeting-iframe"
+						title="meetingScreen"
+						allow="geolocation; microphone; camera"
+						scrolling="no"
+						className="temp_video"
+						src={`https://${state.url}?rand=${rand}`}
+						allowFullScreen={true}
+						style={{
+							border: 'none !important'
+						}}
+					>
+						Something wrong...
+					</iframe>
 				}
 			</div>
 		</div>
