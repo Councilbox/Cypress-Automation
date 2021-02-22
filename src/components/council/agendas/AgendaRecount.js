@@ -33,7 +33,10 @@ const itemStyle = {
 const AgendaRecount = ({
 	agenda, recount, majorityTypes, council, company, editable, translate, classes
 }) => {
-	const agendaNeededMajority = CBX.calculateMajorityAgenda(agenda, company, council, recount);
+	const agendaNeededMajority = CBX.calculateMajorityAgenda({
+		...agenda,
+		...agenda.votingsRecount
+	}, company, council, recount);
 	const activatePresentOneVote = false;
 	const approvedByQualityVote = CBX.haveQualityVoteConditions(agenda, council) && CBX.approvedByQualityVote(agenda, council.qualityVoteId);
 
@@ -177,18 +180,18 @@ const AgendaRecount = ({
 					</GridItem>
 					<GridItem xs={4} lg={4} md={4} style={columnStyle}>
 						{CBX.haveQualityVoteConditions(agenda, council)
-&& <div style={itemStyle}>
-	{approvedByQualityVote ?
-		`${translate.approved} ${translate.by_quality_vote}`
-		: `${translate.not_approved} ${translate.by_quality_vote}`
-	}
-</div>
+							&& <div style={itemStyle}>
+								{approvedByQualityVote ?
+									`${translate.approved} ${translate.by_quality_vote}`
+									: `${translate.not_approved} ${translate.by_quality_vote}`
+								}
+							</div>
 						}
 					</GridItem>
 					<GridItem xs={4} lg={4} md={4} style={columnStyle}>
 						<div style={itemStyle}>
 							{`${translate.votes_in_favor_for_approve}: ${agendaNeededMajority}`}
-							{(agendaNeededMajority > (agenda.positiveVotings + agenda.positiveManual) && !approvedByQualityVote) ? (
+							{(agendaNeededMajority > (agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual) && !approvedByQualityVote) ? (
 								<FontAwesome
 									name={'times'}
 									style={{
@@ -246,7 +249,7 @@ const AgendaRecount = ({
 										{translate.in_favor} :
 										<EditableCell
 											inCard={true}
-											value={agenda.positiveManual}
+											value={agenda.votingsRecount.positiveManual}
 											translate={translate}
 										/>
 									</div>
@@ -254,7 +257,7 @@ const AgendaRecount = ({
 										{translate.against} :
 										<EditableCell
 											inCard={true}
-											value={agenda.negativeManual}
+											value={agenda.votingsRecount.negativeManual}
 											translate={translate}
 										/>
 									</div>
@@ -315,22 +318,22 @@ const AgendaRecount = ({
 	return (
 		<React.Fragment>
 			{council.autoClose !== 1
-&& <Grid style={{
-	border: `1px solid ${getSecondary()}`, margin: 'auto', marginTop: '1em', marginBottom: '2em'
-}}>
-	<GridItem xs={3} lg={3} md={3} style={columnStyle}>
-		{renderTotal()}
-	</GridItem>
-	<GridItem xs={3} lg={3} md={3} style={columnStyle}>
-		{renderPresentTotal()}
-	</GridItem>
-	<GridItem xs={3} lg={3} md={3} style={columnStyle}>
-		{renderRemoteTotal()}
-	</GridItem>
-	<GridItem xs={3} lg={3} md={3} style={{ ...columnStyle, backgroundColor: 'lightcyan' }}>
-		{renderCurrentTotal()}
-	</GridItem>
-</Grid>
+				&& <Grid style={{
+					border: `1px solid ${getSecondary()}`, margin: 'auto', marginTop: '1em', marginBottom: '2em'
+				}}>
+					<GridItem xs={3} lg={3} md={3} style={columnStyle}>
+						{renderTotal()}
+					</GridItem>
+					<GridItem xs={3} lg={3} md={3} style={columnStyle}>
+						{renderPresentTotal()}
+					</GridItem>
+					<GridItem xs={3} lg={3} md={3} style={columnStyle}>
+						{renderRemoteTotal()}
+					</GridItem>
+					<GridItem xs={3} lg={3} md={3} style={{ ...columnStyle, backgroundColor: 'lightcyan' }}>
+						{renderCurrentTotal()}
+					</GridItem>
+				</Grid>
 			}
 			<Grid style={{ border: `1px solid ${getSecondary()}`, margin: 'auto', marginTop: '1em' }}>
 				<GridItem xs={4} lg={4} md={4} style={columnStyle}>
@@ -343,18 +346,18 @@ const AgendaRecount = ({
 				</GridItem>
 				<GridItem xs={4} lg={4} md={4} style={columnStyle}>
 					{CBX.haveQualityVoteConditions(agenda, council)
-&& <div style={itemStyle}>
-	{CBX.approvedByQualityVote(agenda, council.qualityVoteId) ?
-		`${translate.approved} ${translate.by_quality_vote}`
-		: `${translate.not_approved} ${translate.by_quality_vote}`
-	}
-</div>
+						&& <div style={itemStyle}>
+							{CBX.approvedByQualityVote(agenda, council.qualityVoteId) ?
+								`${translate.approved} ${translate.by_quality_vote}`
+								: `${translate.not_approved} ${translate.by_quality_vote}`
+							}
+						</div>
 					}
 				</GridItem>
 				<GridItem xs={4} lg={4} md={4} style={columnStyle}>
 					<div style={itemStyle}>
 						{`${translate.votes_in_favor_for_approve}: ${CBX.showNumParticipations(agendaNeededMajority, company, council.statute)}`}
-						{(agendaNeededMajority > (agenda.positiveVotings + agenda.positiveManual) && !approvedByQualityVote) ? (
+						{(agendaNeededMajority > (agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual) && !approvedByQualityVote) ? (
 							<FontAwesome
 								name={'times'}
 								style={{
@@ -410,15 +413,15 @@ const AgendaRecount = ({
 					{editable ?
 						<React.Fragment>
 							<EditableCell
-								value={agenda.positiveManual}
+								value={agenda.votingsRecount.positiveManual}
 								translate={translate}
 							/>
 							<EditableCell
-								value={agenda.negativeManual}
+								value={agenda.votingsRecount.negativeManual}
 								translate={translate}
 							/>
 							<EditableCell
-								value={agenda.abstentionManual}
+								value={agenda.votingsRecount.abstentionManual}
 								translate={translate}
 							/>
 							<EditableCell
@@ -444,7 +447,7 @@ const AgendaRecount = ({
 				</TableRow>
 				<TableRow>
 					<TableCell>
-Total
+						Total
 					</TableCell>
 					<TableCell>
 						{printPositiveTotal()}
@@ -474,136 +477,136 @@ export default withSharedProps()(graphql(updateAgenda, {
 })(withStyles(regularCardStyle)(AgendaRecount)));
 
 class EditableCell extends React.Component {
-state = {
-	showEdit: false,
-	edit: false,
-	tooltip: false,
-	value: this.props.value
-}
-
-show = () => {
-	this.setState({
-		edit: true
-	});
-}
-
-hide = () => {
-	this.setState({
-		showEdit: false
-	});
-}
-
-toggleEdit = () => {
-	this.setState({
-		edit: !this.state.edit
-	});
-}
-
-showTooltip = () => {
-	this.setState({
-		tooltip: true
-	});
-}
-
-handleKeyUp = event => {
-	const key = event.nativeEvent;
-
-	if (key.keyCode === 13) {
-		this.saveValue();
+	state = {
+		showEdit: false,
+		edit: false,
+		tooltip: false,
+		value: this.props.value
 	}
-}
 
-saveValue = () => {
-	if (this.state.value !== this.props.value) {
-		this.props.blurAction(this.state.value);
+	show = () => {
+		this.setState({
+			edit: true
+		});
 	}
-	this.toggleEdit();
-}
 
-render() {
-	const { inCard } = this.props;
-	if (inCard) {
+	hide = () => {
+		this.setState({
+			showEdit: false
+		});
+	}
+
+	toggleEdit = () => {
+		this.setState({
+			edit: !this.state.edit
+		});
+	}
+
+	showTooltip = () => {
+		this.setState({
+			tooltip: true
+		});
+	}
+
+	handleKeyUp = event => {
+		const key = event.nativeEvent;
+
+		if (key.keyCode === 13) {
+			this.saveValue();
+		}
+	}
+
+	saveValue = () => {
+		if (this.state.value !== this.props.value) {
+			this.props.blurAction(this.state.value);
+		}
+		this.toggleEdit();
+	}
+
+	render() {
+		const { inCard } = this.props;
+		if (inCard) {
+			return (
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'row',
+						paddingLeft: '2px'
+					}}
+					onMouseOver={this.show}
+					onMouseLeave={this.hide}
+				>
+					{this.state.edit ?
+						<Tooltip title={this.props.max === 0 ? this.props.translate.max_votes_reached : `${this.props.translate.enter_num_between_0_and} ${this.props.max}`}>
+							<div style={{ width: '4em' }}>
+								<Input
+									type="number"
+									fullWidth
+									onKeyUp={this.handleKeyUp}
+									max={this.props.max}
+									min={0}
+									onBlur={this.saveValue}
+									value={this.state.value}
+									onChange={event => {
+										if (event.target.value >= 0 && event.target.value <= this.props.max) {
+											this.setState({
+												value: parseInt(event.target.value, 10)
+											});
+										} else {
+											this.showTooltip();
+										}
+									}}
+								/>
+							</div>
+						</Tooltip>
+
+						: this.state.value
+					}
+				</div>
+			);
+		}
 		return (
-			<div
-				style={{
-					display: 'flex',
-					flexDirection: 'row',
-					paddingLeft: '2px'
-				}}
+			<TableCell
 				onMouseOver={this.show}
 				onMouseLeave={this.hide}
 			>
-				{this.state.edit ?
-					<Tooltip title={this.props.max === 0 ? this.props.translate.max_votes_reached : `${this.props.translate.enter_num_between_0_and} ${this.props.max}`}>
-						<div style={{ width: '4em' }}>
-							<Input
-								type="number"
-								fullWidth
-								onKeyUp={this.handleKeyUp}
-								max={this.props.max}
-								min={0}
-								onBlur={this.saveValue}
-								value={this.state.value}
-								onChange={event => {
-									if (event.target.value >= 0 && event.target.value <= this.props.max) {
-										this.setState({
-											value: parseInt(event.target.value, 10)
-										});
-									} else {
-										this.showTooltip();
-									}
-								}}
-							/>
-						</div>
-					</Tooltip>
+				<div
+					style={{
+						display: 'flex',
+						flexDirection: 'row',
+					}}
+				>
+					{this.state.edit ?
+						<Tooltip title={this.props.max === 0 ? this.props.translate.max_votes_reached : `${this.props.translate.enter_num_between_0_and} ${this.props.max}`}>
+							<div style={{ width: '4em' }}>
+								<Input
+									type="number"
+									fullWidth
+									onKeyUp={this.handleKeyUp}
+									max={this.props.max}
+									min={0}
+									onBlur={this.saveValue}
+									value={this.state.value}
+									onChange={event => {
+										if (event.target.value >= 0 && event.target.value <= this.props.max) {
+											this.setState({
+												value: parseInt(event.target.value, 10)
+											});
+										} else {
+											this.showTooltip();
+										}
+									}}
+								/>
+							</div>
+						</Tooltip>
 
-					: this.state.value
-				}
-			</div>
+						: this.state.value
+					}
+
+				</div>
+			</TableCell>
 		);
 	}
-	return (
-		<TableCell
-			onMouseOver={this.show}
-			onMouseLeave={this.hide}
-		>
-			<div
-				style={{
-					display: 'flex',
-					flexDirection: 'row',
-				}}
-			>
-				{this.state.edit ?
-					<Tooltip title={this.props.max === 0 ? this.props.translate.max_votes_reached : `${this.props.translate.enter_num_between_0_and} ${this.props.max}`}>
-						<div style={{ width: '4em' }}>
-							<Input
-								type="number"
-								fullWidth
-								onKeyUp={this.handleKeyUp}
-								max={this.props.max}
-								min={0}
-								onBlur={this.saveValue}
-								value={this.state.value}
-								onChange={event => {
-									if (event.target.value >= 0 && event.target.value <= this.props.max) {
-										this.setState({
-											value: parseInt(event.target.value, 10)
-										});
-									} else {
-										this.showTooltip();
-									}
-								}}
-							/>
-						</div>
-					</Tooltip>
-
-					: this.state.value
-				}
-
-			</div>
-		</TableCell>
-	);
-}
 }
 
 AgendaRecount.propTypes = {
