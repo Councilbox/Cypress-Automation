@@ -9,7 +9,6 @@ import { LiveToast, AlertConfirm, Scrollbar } from '../../displayComponents';
 import { bHistory } from '../../containers/App';
 import { ConfigContext } from '../../containers/AppControl';
 import { getSecondary, getPrimary } from '../../styles/colors';
-import CreateWithSession from './CreateWithSession';
 import CreateWithoutSession from './CreateWithoutSession';
 import CreateNoBoard from './CreateNoBoard';
 import { checkSecondDateAfterFirst } from '../../utils/CBX';
@@ -353,9 +352,6 @@ const CreateCouncilModal = ({
 									options={options}
 									errors={errors}
 								/>
-							}
-							{step === steps.COUNCIL
-								&& <CreateWithSession setOptions={setOptions} />
 							}
 							{step === steps.HYBRID_VOTING
 								&& <CreateWithoutSession
