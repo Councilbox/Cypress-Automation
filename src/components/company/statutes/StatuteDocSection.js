@@ -1,14 +1,16 @@
 import React from 'react';
 import { Tooltip } from 'material-ui';
 import { isMobile } from 'react-device-detect';
-import { SectionTitle, GridItem, Checkbox, Grid } from '../../../displayComponents';
+import {
+	SectionTitle, GridItem, Checkbox, Grid
+} from '../../../displayComponents';
 import RichTextInput from '../../../displayComponents/RichTextInput';
 import { getPrimary, getSecondary } from '../../../styles/colors';
-import { TAG_TYPES } from "../drafts/draftTags/utils";
-import LoadDraftModal from "../drafts/LoadDraftModal";
-import { DRAFT_TYPES } from "../../../constants";
-import * as CBX from "../../../utils/CBX";
-import SaveDraftModal from "../drafts/SaveDraftModal";
+import { TAG_TYPES } from '../drafts/draftTags/utils';
+import LoadDraftModal from '../drafts/LoadDraftModal';
+import { DRAFT_TYPES } from '../../../constants';
+import * as CBX from '../../../utils/CBX';
+import SaveDraftModal from '../drafts/SaveDraftModal';
 import { ConfigContext } from '../../../containers/AppControl';
 import ProxiesTemplates from './docTemplates/ProxiesTemplates';
 
@@ -49,10 +51,12 @@ const getTagsByActSection = (section, translate) => {
 		default:
 			return [];
 	}
-}
+};
 
 
-const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...props }) => {
+const StatuteDocSection = ({
+	statute, updateState, errors, translate, data, ...props
+}) => {
 	const internalState = React.useRef({
 		intro: statute.intro,
 		constitution: statute.constitution,
@@ -79,7 +83,7 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 		if (intro.current) {
 			intro.current.setValue(statute.intro || '');
 		}
-		if(introSecondary.current) {
+		if (introSecondary.current) {
 			introSecondary.current.setValue(statute.introSecondary || '');
 		}
 		if (footer.current) {
@@ -88,10 +92,10 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 		if (constitution.current) {
 			constitution.current.setValue(statute.constitution || '');
 		}
-		if(constitutionSecondary.current) {
+		if (constitutionSecondary.current) {
 			constitutionSecondary.current.setValue(statute.constitutionSecondary || '');
 		}
-		if(conclusionSecondary.current) {
+		if (conclusionSecondary.current) {
 			conclusionSecondary.current.setValue(statute.conclusionSecondary || '');
 		}
 		if (conclusion.current) {
@@ -101,32 +105,32 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 
 	const closeDraftModal = () => {
 		setSaveDraft(false);
-	}
+	};
 
 	const showSaveDraft = type => () => {
 		setSaveDraft(type);
-	}
+	};
 
 	const handleUpdate = object => {
 		clearTimeout(timeout);
 		internalState.current = {
 			...internalState.current,
 			...object
-		}
+		};
 
 		timeout = setTimeout(() => {
-			updateState(internalState.current)
+			updateState(internalState.current);
 		}, 350);
-	}
+	};
 
 	const getText = type => {
 		const types = {
-			'CONVENE_HEADER': statute.conveneHeader,
-			'CONVENE_FOOTER': statute.conveneFooter,
+			CONVENE_HEADER: statute.conveneHeader,
+			CONVENE_FOOTER: statute.conveneFooter,
 			default: statute[type.toString().toLowerCase()]
-		}
+		};
 		return types[type] ? types[type] : types.default;
-	}
+	};
 
 	const loadDraft = draft => {
 		updateState({
@@ -154,8 +158,8 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 				text={translate.act_and_documentation}
 				color={primary}
 				style={{
-					marginTop: "2em",
-					marginBottom: "1em"
+					marginTop: '2em',
+					marginBottom: '1em'
 				}}
 			/>
 			<Grid>
@@ -164,8 +168,8 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 						label={translate.exists_act}
 						value={statute.existsAct === 1}
 						onChange={(event, isInputChecked) => updateState({
-								existsAct: isInputChecked ? 1 : 0
-							})
+							existsAct: isInputChecked ? 1 : 0
+						})
 						}
 					/>
 				</GridItem>
@@ -174,8 +178,8 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 						label={translate.included_in_act_book}
 						value={statute.includedInActBook === 1}
 						onChange={(event, isInputChecked) => updateState({
-								includedInActBook: isInputChecked ? 1 : 0
-							})
+							includedInActBook: isInputChecked ? 1 : 0
+						})
 						}
 					/>
 				</GridItem>
@@ -184,10 +188,10 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 						label={translate.include_participants_list_in_act}
 						value={statute.includeParticipantsList === 1}
 						onChange={(event, isInputChecked) => updateState({
-								includeParticipantsList: isInputChecked
-									? 1
-									: 0
-							})
+							includeParticipantsList: isInputChecked ?
+								1
+								: 0
+						})
 						}
 					/>
 				</GridItem>
@@ -199,8 +203,8 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 						text={translate.call_template}
 						color={primary}
 						style={{
-							marginTop: "2em",
-							marginBottom: "1em"
+							marginTop: '2em',
+							marginBottom: '1em'
 						}}
 					/>
 					<GridItem xs={12} md={12} lg={12}>
@@ -210,13 +214,13 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 							translate={translate}
 							floatingText={translate.convene_header}
 							value={
-								internalState.conveneHeader
-									? internalState.conveneHeader
-									: ""
+								internalState.conveneHeader ?
+									internalState.conveneHeader
+									: ''
 							}
 							onChange={value => handleUpdate({
-									conveneHeader: value
-								})
+								conveneHeader: value
+							})
 							}
 							saveDraft={
 								<SaveDraftIcon
@@ -235,7 +239,7 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 										statuteId: statute.id
 									}}
 									defaultTags={{
-										"convene_header": {
+										convene_header: {
 											active: true,
 											type: TAG_TYPES.DRAFT_TYPE,
 											name: 'convene_header',
@@ -272,7 +276,7 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 									statuteId: statute.id
 								}}
 								defaultTags={{
-									"convene_footer": {
+									convene_footer: {
 										active: true,
 										type: TAG_TYPES.DRAFT_TYPE,
 										name: 'convene_footer',
@@ -284,35 +288,35 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 							/>
 						}
 						floatingText={translate.convene_footer}
-						value={internalState.conveneFooter || ""}
+						value={internalState.conveneFooter || ''}
 						onChange={value => handleUpdate({
-								conveneFooter: value
-							})
+							conveneFooter: value
+						})
 						}
 					/>
 				</GridItem>
 			)}
 
-			{config.proxies &&
-				<ProxiesTemplates
-					translate={translate}
-					key={statute.id}
-					statute={statute}
-					data={data}
-					updateState={updateState}
-					errors={errors}
-					{...props}
-				/>
+			{config.proxies
+&& <ProxiesTemplates
+	translate={translate}
+	key={statute.id}
+	statute={statute}
+	data={data}
+	updateState={updateState}
+	errors={errors}
+	{...props}
+/>
 			}
 
 			{statute.existsAct === 1 && (
-				<div style={{ overflow: "hidden", width: isMobile && '98%' }}>
+				<div style={{ overflow: 'hidden', width: isMobile && '98%' }}>
 					<SectionTitle
 						text={translate.act_templates}
 						color={primary}
 						style={{
-							marginTop: "2em",
-							marginBottom: "1em"
+							marginTop: '2em',
+							marginBottom: '1em'
 						}}
 					/>
 					{/* aki */}
@@ -323,10 +327,10 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 								floatingText={translate.intro}
 								translate={translate}
 								errorText={errors.intro}
-								value={internalState.intro || ""}
+								value={internalState.intro || ''}
 								onChange={value => handleUpdate({
-										intro: value
-									})
+									intro: value
+								})
 								}
 								saveDraft={
 									<SaveDraftIcon
@@ -343,12 +347,12 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 											updateState({
 												intro: draft.text,
 												introSecondary: draft.secondaryText || ''
-											})
+											});
 											intro.current.setValue(draft.text);
 											introSecondary.current.setValue(draft.secondaryText);
 										}}
 										defaultTags={{
-											"intro": {
+											intro: {
 												active: true,
 												type: TAG_TYPES.DRAFT_TYPE,
 												name: 'intro',
@@ -371,13 +375,13 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 								translate={translate}
 								floatingText={translate.right_column_introduction}
 								value={
-									internalState.introSecondary
-										? internalState.introSecondary
-										: ""
+									internalState.introSecondary ?
+										internalState.introSecondary
+										: ''
 								}
 								onChange={value => handleUpdate({
-										introSecondary: value
-									})
+									introSecondary: value
+								})
 								}
 								tags={introTags}
 							/>
@@ -389,10 +393,10 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 								ref={constitution}
 								floatingText={translate.constitution}
 								translate={translate}
-								value={internalState.constitution || ""}
+								value={internalState.constitution || ''}
 								onChange={value => handleUpdate({
-										constitution: value
-									})
+									constitution: value
+								})
 								}
 								saveDraft={
 									<SaveDraftIcon
@@ -406,7 +410,7 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 										translate={translate}
 										companyId={props.company.id}
 										defaultTags={{
-											"constitution": {
+											constitution: {
 												active: true,
 												type: TAG_TYPES.DRAFT_TYPE,
 												name: 'constitution',
@@ -417,7 +421,7 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 											updateState({
 												constitution: draft.text,
 												constitutionSecondary: draft.secondaryText || ''
-											})
+											});
 											constitution.current.setValue(draft.text);
 											constitutionSecondary.current.setValue(draft.secondaryText);
 										}}
@@ -437,13 +441,13 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 								translate={translate}
 								floatingText={translate.constitution_right_column}
 								value={
-									internalState.constitutionSecondary
-										? internalState.constitutionSecondary
-										: ""
+									internalState.constitutionSecondary ?
+										internalState.constitutionSecondary
+										: ''
 								}
 								onChange={value => handleUpdate({
-										constitutionSecondary: value
-									})
+									constitutionSecondary: value
+								})
 								}
 								tags={constitutionTags}
 							/>
@@ -455,10 +459,10 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 								ref={conclusion}
 								floatingText={translate.conclusion}
 								translate={translate}
-								value={internalState.conclusion || ""}
+								value={internalState.conclusion || ''}
 								onChange={value => handleUpdate({
-										conclusion: value
-									})
+									conclusion: value
+								})
 								}
 								saveDraft={
 									<SaveDraftIcon
@@ -471,7 +475,7 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 									<LoadDraftModal
 										translate={translate}
 										defaultTags={{
-											"conclusion": {
+											conclusion: {
 												active: true,
 												type: TAG_TYPES.DRAFT_TYPE,
 												name: 'conclusion',
@@ -483,7 +487,7 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 											updateState({
 												conclusion: draft.text,
 												conclusionSecondary: draft.secondaryText
-											})
+											});
 											conclusion.current.setValue(draft.text);
 											conclusionSecondary.current.setValue(draft.secondaryText);
 										}}
@@ -503,66 +507,67 @@ const StatuteDocSection = ({ statute, updateState, errors, translate, data, ...p
 								translate={translate}
 								floatingText={translate.right_column_conclusion}
 								value={
-									internalState.conclusionSecondary
-										? internalState.conclusionSecondary
-										: ""
+									internalState.conclusionSecondary ?
+										internalState.conclusionSecondary
+										: ''
 								}
 								onChange={value => handleUpdate({
-										conclusionSecondary: value
-									})
+									conclusionSecondary: value
+								})
 								}
 								tags={conclusionTags}
 							/>
 						</GridItem>
 					</Grid>
-					{!!saveDraft &&
-						<SaveDraftModal
-							key={saveDraft}
-							open={!!saveDraft}
-							data={{
-								text: getText(saveDraft),
-								description: "",
-								title: '',
-								votationType: 0,
-								type: DRAFT_TYPES[saveDraft],
-								statuteId: statute.id,
-								tags: {
-									[`statute_${statute.id}`]: {
-										label: translate[statute.title] || statute.title,
-										name: `statute_${statute.id}`,
-										active: true,
-										type: TAG_TYPES.STATUTE
-									},
-									[saveDraft.toLowerCase()]: {
-										type: TAG_TYPES.DRAFT_TYPE,
-										active: true,
-										label: translate[saveDraft.toLowerCase()],
-										name: saveDraft.toLowerCase()
-									}
-								}
-							}}
-							company={props.company}
-							requestClose={closeDraftModal}
-							companyStatutes={props.companyStatutes}
-							votingTypes={data.votingTypes}
-							majorityTypes={data.majorityTypes}
-							draftTypes={data.draftTypes}
-						/>
+					{!!saveDraft
+&& <SaveDraftModal
+	key={saveDraft}
+	open={!!saveDraft}
+	data={{
+		text: getText(saveDraft),
+		description: '',
+		title: '',
+		votationType: 0,
+		type: DRAFT_TYPES[saveDraft],
+		statuteId: statute.id,
+		tags: {
+			[`statute_${statute.id}`]: {
+				label: translate[statute.title] || statute.title,
+				name: `statute_${statute.id}`,
+				active: true,
+				type: TAG_TYPES.STATUTE
+			},
+			[saveDraft.toLowerCase()]: {
+				type: TAG_TYPES.DRAFT_TYPE,
+				active: true,
+				label: translate[saveDraft.toLowerCase()],
+				name: saveDraft.toLowerCase()
+			}
+		}
+	}}
+	company={props.company}
+	requestClose={closeDraftModal}
+	companyStatutes={props.companyStatutes}
+	votingTypes={data.votingTypes}
+	majorityTypes={data.majorityTypes}
+	draftTypes={data.draftTypes}
+/>
 					}
 
 				</div>
 			)}
 		</>
-	)
-}
+	);
+};
 
 export default StatuteDocSection;
 
-
 const SaveDraftIcon = ({ onClick, translate }) => (
-		<Tooltip title={translate.new_save}>
-			<div onClick={onClick} style={{ marginLeft: '0.6em', height: '100%', display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
-				<i className="fa fa-save" style={{ color: getSecondary(), fontSize: '1.75em' }}></i>
-			</div>
-		</Tooltip>
-	)
+	<Tooltip title={translate.new_save}>
+		<div onClick={onClick} style={{
+			marginLeft: '0.6em', height: '100%', display: 'flex', alignItems: 'center', cursor: 'pointer'
+		}}>
+			<i className="fa fa-save" style={{ color: getSecondary(), fontSize: '1.75em' }}></i>
+		</div>
+	</Tooltip>
+);

@@ -1,11 +1,11 @@
-import React from "react";
-import { Redirect } from "react-router-dom";
-import { graphql, withApollo } from "react-apollo";
-import gql from "graphql-tag";
-import { connect } from "react-redux";
-import { LoadingMainApp } from "../displayComponents";
-import InvalidUrl from "../components/participant/InvalidUrl";
-import SMSAuthForm from "../components/participant/2FA/SMSAuthForm";
+import React from 'react';
+import { Redirect } from 'react-router-dom';
+import { graphql, withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
+import { connect } from 'react-redux';
+import { LoadingMainApp } from '../displayComponents';
+import InvalidUrl from '../components/participant/InvalidUrl';
+import SMSAuthForm from '../components/participant/2FA/SMSAuthForm';
 
 const getMe = gql`
 	query participantMe {
@@ -17,24 +17,26 @@ const getMe = gql`
 	}
 `;
 
-const AssistanceTokenContainer = ({ participantToken, client, translate, match }) => {
+const AssistanceTokenContainer = ({
+	participantToken, client, translate, match
+}) => {
 	const [loading, setLoading] = React.useState(true);
 	const [error, setError] = React.useState(false);
 	const [participant, setParticipant] = React.useState(null);
 	const [key, setKey] = React.useState('');
 
 	const handleSuccessfulLogin = async token => {
-		sessionStorage.setItem("participantToken", token);
+		sessionStorage.setItem('participantToken', token);
 		const responseQueryMe = await client.query({
 			query: getMe,
 			variables: {},
-			fetchPolicy: "network-only"
+			fetchPolicy: 'network-only'
 		});
 		const newParticipant = responseQueryMe.data.participantMe;
 
 		setParticipant(newParticipant);
 		setLoading(false);
-	}
+	};
 
 	const getData = React.useCallback(async () => {
 		try {
@@ -66,7 +68,7 @@ const AssistanceTokenContainer = ({ participantToken, client, translate, match }
 	}
 
 	if (error) {
-		if(error.message === '2FA enabled' || error.message === 'Invalid key'){
+		if (error.message === '2FA enabled' || error.message === 'Invalid key') {
 			return (
 				<SMSAuthForm
 					value={key}
@@ -92,12 +94,12 @@ const AssistanceTokenContainer = ({ participantToken, client, translate, match }
 				<Redirect
 					to={`/attendance/participant/${participant.id}/council/${
 						participant.councilId
-						}`}
+					}`}
 				/>
 			) : <div>Not found</div>}
 		</React.Fragment>
 	);
-}
+};
 
 
 const mapStateToProps = state => ({
@@ -112,11 +114,11 @@ const participantToken = gql`
 `;
 
 export default graphql(participantToken, {
-	name: "participantToken",
+	name: 'participantToken',
 	options: props => ({
 		variables: {
 			token: props.match.params.token
 		},
-		errorPolicy: "all"
+		errorPolicy: 'all'
 	})
 })(withApollo(connect(mapStateToProps)(AssistanceTokenContainer)));

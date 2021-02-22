@@ -1,9 +1,9 @@
-import React from "react";
-import { createMuiTheme, MuiThemeProvider } from "material-ui/styles";
+import React from 'react';
+import { createMuiTheme, MuiThemeProvider } from 'material-ui/styles';
 import { connect } from 'react-redux';
-import MomentUtils from "material-ui-pickers/utils/moment-utils";
-import MuiPickersUtilsProvider from "material-ui-pickers/utils/MuiPickersUtilsProvider";
-import { getPrimary, getSecondary } from "../styles/colors";
+import MomentUtils from 'material-ui-pickers/utils/moment-utils';
+import MuiPickersUtilsProvider from 'material-ui-pickers/utils/MuiPickersUtilsProvider';
+import { getPrimary, getSecondary } from '../styles/colors';
 import { moment } from '../containers/App';
 
 const ThemeProvider = ({ children }) => {
@@ -49,11 +49,11 @@ const ThemeProvider = ({ children }) => {
 			},
 			MuiInput: {
 				underline: {
-					"&:hover:not($disabled):before": {
-						//underline color when hovered
+					'&:hover:not($disabled):before': {
+						// underline color when hovered
 						backgroundColor: secondary
 					},
-					"&:after": {
+					'&:after': {
 						backgroundColor: secondary
 					}
 				}
@@ -80,7 +80,7 @@ const ThemeProvider = ({ children }) => {
 			},
 			MuiStepper: {
 				root: {
-					backgroundColor: "transparent",
+					backgroundColor: 'transparent',
 				},
 				horizontal: {
 					height: '6em',
@@ -111,23 +111,23 @@ const ThemeProvider = ({ children }) => {
 			},
 			MuiTable: {
 				root: {
-					maxWidth: "90%",
+					maxWidth: '90%',
 					fontSize: '0.8rem'
 				}
 			},
 			MuiTableRow: {
 				root: {
-					width: "50%"
+					width: '50%'
 				}
 			},
 			MuiTooltip: {
 				tooltip: {
-					fontSize: "0.7rem"
+					fontSize: '0.7rem'
 				}
 			},
 			MuiTypography: {
 				title: {
-					fontSize: "1.25rem"
+					fontSize: '1.25rem'
 				}
 			}
 		}
@@ -143,7 +143,7 @@ const ThemeProvider = ({ children }) => {
 				{children}
 			</MuiPickersUtilsProvider>
 		</MuiThemeProvider>
-	)
+	);
 };
 
 const mapStateToProps = state => ({

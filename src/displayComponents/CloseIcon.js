@@ -1,8 +1,8 @@
-import React, { Fragment } from "react";
-//import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
-import Close from "material-ui-icons/Close";
-import { IconButton } from "material-ui";
-import { CircularProgress } from "material-ui/Progress";
+import React, { Fragment } from 'react';
+// import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
+import Close from 'material-ui-icons/Close';
+import { IconButton } from 'material-ui';
+import { CircularProgress } from 'material-ui/Progress';
 
 const CloseIcon = ({ style, onClick, loading }) => (
 	<Fragment>
@@ -11,8 +11,8 @@ const CloseIcon = ({ style, onClick, loading }) => (
 				onClick={onClick}
 				style={{
 					...style,
-					height: "32px",
-					width: "32px",
+					height: '32px',
+					width: '32px',
 					outline: 0
 				}}
 				className={'closeIcon'}
@@ -20,7 +20,9 @@ const CloseIcon = ({ style, onClick, loading }) => (
 				<Close />
 			</IconButton>
 		) : (
-			<div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+			<div style={{
+				width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'
+			}}>
 				<CircularProgress size={15} color="primary" />
 			</div>
 		)}

@@ -1,14 +1,14 @@
 const TH = {
-	paddingBottom: "0"
+	paddingBottom: '0'
 };
 
 const TD = {
-	paddingTop: "0.1em",
-	paddingBottom: "0.1em"
+	paddingTop: '0.1em',
+	paddingBottom: '0.1em'
 };
 
 const ROW = {
-	cursor: "pointer"
+	cursor: 'pointer'
 };
 
 export default {

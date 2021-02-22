@@ -1,34 +1,36 @@
-import React from "react";
-//import Stepper, { Step, StepContent, StepLabel } from "material-ui/Stepper";
+import React from 'react';
+// import Stepper, { Step, StepContent, StepLabel } from "material-ui/Stepper";
 import Steps from 'antd/lib/steps';
 import { Tooltip } from 'material-ui';
 import Icon from 'antd/lib/icon';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 
-const Step = Steps.Step;
+const { Step } = Steps;
 
-const SignUpStepper = ({ active, translate, windowSize, goToPage }) => {
+const SignUpStepper = ({
+	active, translate, windowSize, goToPage
+}) => {
 	const secondary = getSecondary();
 	const primary = getPrimary();
 
-	if(windowSize !== 'xs'){
+	if (windowSize !== 'xs') {
 		return (
 			<div
 				style={{
 					paddingLeft: '1.5em',
-					paddingTop: "2em"
+					paddingTop: '2em'
 				}}
 			>
-				<Steps current={active} direction={windowSize === 'xs' ? "horizontal" : "vertical"} size="small">
+				<Steps current={active} direction={windowSize === 'xs' ? 'horizontal' : 'vertical'} size="small">
 					<Step
 						style={{
-							cursor: active + 1 > 1 ? "pointer" : "inherited",
+							cursor: active + 1 > 1 ? 'pointer' : 'inherited',
 							marginBottom: '2em'
 						}}
 						title={
 							<React.Fragment>
-								<span style={{ cursor: active + 1 > 2 ? "pointer" : "inherited" }}>
-								{translate.user_data}
+								<span style={{ cursor: active + 1 > 2 ? 'pointer' : 'inherited' }}>
+									{translate.user_data}
 								</span>
 								<br />
 								<br />
@@ -38,26 +40,26 @@ const SignUpStepper = ({ active, translate, windowSize, goToPage }) => {
 						icon={<Icon type="user" style={{ color: active === 0 ? primary : secondary }} />}
 					/>
 					{/* <Step
-						onClick={() => goToPage(2)}
-						title={
-							<React.Fragment>
-								<span style={{cursor: active + 1 > 2 ? "pointer" : "inherited"}}>
-									{`${translate.company_new_data} (${translate.optional})`}
-								</span>
-								<br />
-								<br />
-							</React.Fragment>
-						}
-						icon={<Icon type="profile" style={{color: active === 1? primary : secondary}} />}
-					/>
-					<Step
-						title={
-							<span style={{cursor: active + 1 > 2 ? "pointer" : "inherited" , marginBottom: '2em'}}>
-								{`${translate.billing_information} (${translate.optional})`}
-							</span>
-						}
-						icon={<Icon type="credit-card" style={{color: active === 2? primary : secondary}} />}
-					/> */}
+onClick={() => goToPage(2)}
+title={
+<React.Fragment>
+<span style={{cursor: active + 1 > 2 ? "pointer" : "inherited"}}>
+{`${translate.company_new_data} (${translate.optional})`}
+</span>
+<br />
+<br />
+</React.Fragment>
+}
+icon={<Icon type="profile" style={{color: active === 1? primary : secondary}} />}
+/>
+<Step
+title={
+<span style={{cursor: active + 1 > 2 ? "pointer" : "inherited" , marginBottom: '2em'}}>
+{`${translate.billing_information} (${translate.optional})`}
+</span>
+}
+icon={<Icon type="credit-card" style={{color: active === 2? primary : secondary}} />}
+/> */}
 				</Steps>
 			</div>
 		);
@@ -80,12 +82,12 @@ const SignUpStepper = ({ active, translate, windowSize, goToPage }) => {
 			<Tooltip title={translate.user_data}>
 				<Icon type="user" style={{ color: active === 0 ? primary : secondary }} />
 			</Tooltip>
-{/* 			<Tooltip title={`Datos de entidad (opcional)`}>
-				<Icon type="profile" style={{color: active === 1? primary : secondary}} />
-			</Tooltip>
-			<Tooltip title={`${translate.billing_information} (opcional)`}>
-				<Icon type="credit-card" style={{color: active === 2? primary : secondary}} />
-			</Tooltip> */}
+			{/* 			<Tooltip title={`Datos de entidad (opcional)`}>
+<Icon type="profile" style={{color: active === 1? primary : secondary}} />
+</Tooltip>
+<Tooltip title={`${translate.billing_information} (opcional)`}>
+<Icon type="credit-card" style={{color: active === 2? primary : secondary}} />
+</Tooltip> */}
 		</div>
 	);
 };

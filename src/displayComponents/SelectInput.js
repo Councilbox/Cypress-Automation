@@ -1,7 +1,7 @@
-import React from "react";
-import { Select } from "material-ui";
-import Input, { InputLabel } from "material-ui/Input";
-import { FormControl } from "material-ui/Form";
+import React from 'react';
+import { Select } from 'material-ui';
+import Input, { InputLabel } from 'material-ui/Input';
+import { FormControl } from 'material-ui/Form';
 
 // const styles = {
 // 	'#b47fb6': {
@@ -65,49 +65,49 @@ const SelectInput = ({
 	disableUnderline = false,
 	styleLabel
 }) => (
-		<FormControl
-			error={!!errorText}
-			style={{
-				width: "100%",
-				marginTop: "0",
-				marginBottom: "8px"
+	<FormControl
+		error={!!errorText}
+		style={{
+			width: '100%',
+			marginTop: '0',
+			marginBottom: '8px'
+		}}
+	>
+		{!noLabel && (
+			<InputLabel style={{ ...styleLabel }} htmlFor={id}>{`${floatingText || ''}${required ? '*' : ''
+			}`}</InputLabel>
+		)}
+		<Select
+			disableUnderline={disableUnderline}
+			inputProps={{
+				name: floatingText,
+				id,
+				style: {
+					fontSize: '12px !important',
+					...labelStyle
+				}
 			}}
-		>
-			{!noLabel && (
-				<InputLabel style={{ ...styleLabel }} htmlFor={id}>{`${floatingText || ""}${required ? "*" : ""
-					}`}</InputLabel>
-			)}
-			<Select
-				disableUnderline={disableUnderline}
-				inputProps={{
-					name: floatingText,
-					id,
-					style: {
-						fontSize: '12px !important',
-						...labelStyle
-					}
-				}}
-				input={
-					<Input
+			input={
+				<Input
 					// classes={{
 					// 	underline: props.classes[colorText],
 					// }}
-					/>
-				}
-				// classes={{ select: props.classes[colorText], icon: props.classes[colorText] }}
-				autoWidth={autoWidth}
-				disabled={!!disabled}
-				value={value}
-				onChange={onChange}
-				error={!!errorText}
-				style={{ ...styles }}
+				/>
+			}
+			// classes={{ select: props.classes[colorText], icon: props.classes[colorText] }}
+			autoWidth={autoWidth}
+			disabled={!!disabled}
+			value={value}
+			onChange={onChange}
+			error={!!errorText}
+			style={{ ...styles }}
 			// color={'red'}
-			>
-				{children}
-			</Select>
-			{errorText && <span style={{ color: 'red', fontSize: '12px' }}>{errorText}</span>}
-		</FormControl>
-	)
+		>
+			{children}
+		</Select>
+		{errorText && <span style={{ color: 'red', fontSize: '12px' }}>{errorText}</span>}
+	</FormControl>
+);
 
 
 // SelectInput.propTypes = {

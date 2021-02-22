@@ -1,237 +1,232 @@
 import React from 'react';
-import { getSecondary } from '../../../styles/colors';
 import { Tooltip, IconButton } from 'material-ui';
-import { TextInput, BasicButton, LiveToast } from '../../../displayComponents';
 import Popover from 'antd/lib/popover';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
-import TextInputChat from '../../../displayComponents/TextInputChat';
 import { toast } from 'react-toastify';
+import TextInputChat from '../../../displayComponents/TextInputChat';
+import { TextInput, BasicButton, LiveToast } from '../../../displayComponents';
+import { getSecondary } from '../../../styles/colors';
 
 class AdminPrivateMessage extends React.Component {
-    state = {
-        visible: false,
-        tooltip: false,
-        text: ''
-    };
+state = {
+	visible: false,
+	tooltip: false,
+	text: ''
+};
 
-    onVisibleChange = visible => {
-        this.setState({
-            visible
-        });
-    }
+onVisibleChange = visible => {
+	this.setState({
+		visible
+	});
+}
 
-    toggleVisible = () => {
-        this.setState({
-            visible: !this.state.visible,
-            tooltip: this.state.visible
-        });
-    }
+toggleVisible = () => {
+	this.setState({
+		visible: !this.state.visible,
+		tooltip: this.state.visible
+	});
+}
 
-    sendCouncilRoomMessage = async () => {
-        if (this.state.text) {
-            this.setState({
-                loading: true
-            })
-            const response = await this.props.addCouncilRoomMessage({
-                variables: {
-                    message: {
-                        councilId: this.props.council.id,
-                        participantId: this.props.participant.id,
-                        text: this.state.text
-                    }
-                }
-            });
+sendCouncilRoomMessage = async () => {
+	if (this.state.text) {
+		this.setState({
+			loading: true
+		});
+		const response = await this.props.addCouncilRoomMessage({
+			variables: {
+				message: {
+					councilId: this.props.council.id,
+					participantId: this.props.participant.id,
+					text: this.state.text
+				}
+			}
+		});
 
-            if (response.data) {
-                if (response.data.addCouncilRoomMessage.success) {
-                    this.setState({
-                        success: true,
-                        loading: false,
-                        text: ''
-                    })
-                    if (this.props.setAdminMessage) {
-                        this.props.setAdminMessage(false);
-                    }
-                    toast(
-                        <LiveToast
-                            message={this.props.translate.tooltip_sent}
-                        />, {
-                        position: toast.POSITION.TOP_RIGHT,
-                        autoClose: true,
-                        className: "successToast"
-                    }
-                    );
-                }
-            }
-        } else {
-            this.setState({
-                errorText: this.props.translate.required_field
-            })
-        }
-    }
+		if (response.data) {
+			if (response.data.addCouncilRoomMessage.success) {
+				this.setState({
+					success: true,
+					loading: false,
+					text: ''
+				});
+				if (this.props.setAdminMessage) {
+					this.props.setAdminMessage(false);
+				}
+				toast(
+					<LiveToast
+						message={this.props.translate.tooltip_sent}
+					/>, {
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,
+						className: 'successToast'
+					}
+				);
+			}
+		}
+	} else {
+		this.setState({
+			errorText: this.props.translate.required_field
+		});
+	}
+}
 
-    resetButtonStates = () => {
-        this.setState({
-            success: false,
-            loading: false,
-            error: false
-        })
-    }
+resetButtonStates = () => {
+	this.setState({
+		success: false,
+		loading: false,
+		error: false
+	});
+}
 
-    renderMenu = () => {
-        
-        return (
-            <div>
-                <TextInput
-                    floatingText={this.props.translate.message}
-                    value={this.state.text}
-                    multiline={true}
-                    onChange={event => this.setState({ text: event.target.value, success: false })}
-                    onClick={this.props.activeInput}
-                    onBlur={this.props.onblur}
-                />
-                <BasicButton
-                    text={this.state.success ? this.props.translate.tooltip_sent : this.props.translate.send}
-                    onClick={this.sendCouncilRoomMessage}
-                    loading={this.state.loading}
-                    success={this.state.success}
-                    reset={this.resetButtonStates}
-                    color={getSecondary()}
-                    textStyle={{
-                        color: 'white',
-                        fontWeight: '700'
-                    }}
-                />
-            </div>
-        )
-    }
-    renderMenuMobil = () => {
-    
-        return (
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", maxHeight: "130px", minHeight: "50px", width: '95%', }}>
-                <TextInputChat
-                    key={"adminPivate"}
-                    floatingText={this.props.translate.message}
-                    value={this.state.text}
-                    multiline={true}
-                    onChange={event => this.setState({ text: event.target.value, success: false })}
-                    onClick={this.props.activeInput}
-                    onBlur={this.props.onblur}
-                    onFocus={this.props.onFocus}
-                    style={{
-                        margin: "2.5px 0 2.5px 0 ",
-                        border: "1px solid gainsboro",
-                        paddingLeft: "16px",
-                        paddingRight: "16px",
-                        overflow: "hidden",
-                        minHeight: '32px',
-                        maxHeight: '120px',
-                        borderRadius: '25px',
-                        backgroundColor: "white"
-                    }}
-                />
-                {/* <TextInputChat
-                    floatingText={this.props.translate.message}
-                    value={this.state.text}
-                  
-                    onChange={event => this.setState({ text: event.target.value, success: false })}
-                    onClick={this.props.activeInput}
-                    onBlur={this.props.onblur}
-                    onFocus={this.props.onFocus}
-                   
-                /> */}
-                <BasicButton
-                    text={
-                        <i className="material-icons"
-                            style={{
-                                fontSize: '15px',
-                                padding: '0',
-                                margin: "0",
-                                width: '1em',
-                                height: '1em',
-                                overflow: 'hidden',
-                                userSelect: 'none',
-                                color: 'white',
-                            }}
-                        >
-                            send
-                        </i>
-                    }
-                    // text={this.state.success ? this.props.translate.tooltip_sent : this.props.translate.send}
-                    onClick={this.sendCouncilRoomMessage}
-                    loading={this.state.loading}
-                    success={this.state.success}
-                    reset={this.resetButtonStates}
-                    successSoloColor={true}
-                    color={getSecondary()}
-                    textStyle={{
-                        color: 'white',
-                        fontSize: '15px'
-                    }}
-                    buttonStyle={{
-                        width: '32px',
-                        height: '28px',
-                        borderRadius: '1em',
-                        padding: "0px",
-                        margin: "0px",
-                        minHeight: "0px",
-                        minWidth: "0px",
-                        marginLeft: "10px",
-                    }}
-                />
-            </div>
-        )
-    }
+renderMenu = () => (
+	<div>
+		<TextInput
+			floatingText={this.props.translate.message}
+			value={this.state.text}
+			multiline={true}
+			onChange={event => this.setState({ text: event.target.value, success: false })}
+			onClick={this.props.activeInput}
+			onBlur={this.props.onblur}
+		/>
+		<BasicButton
+			text={this.state.success ? this.props.translate.tooltip_sent : this.props.translate.send}
+			onClick={this.sendCouncilRoomMessage}
+			loading={this.state.loading}
+			success={this.state.success}
+			reset={this.resetButtonStates}
+			color={getSecondary()}
+			textStyle={{
+				color: 'white',
+				fontWeight: '700'
+			}}
+		/>
+	</div>
+)
+
+renderMenuMobil = () => (
+	<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', maxHeight: '130px', minHeight: '50px', width: '95%', }}>
+		<TextInputChat
+			key={'adminPivate'}
+			floatingText={this.props.translate.message}
+			value={this.state.text}
+			multiline={true}
+			onChange={event => this.setState({ text: event.target.value, success: false })}
+			onClick={this.props.activeInput}
+			onBlur={this.props.onblur}
+			onFocus={this.props.onFocus}
+			style={{
+				margin: '2.5px 0 2.5px 0 ',
+				border: '1px solid gainsboro',
+				paddingLeft: '16px',
+				paddingRight: '16px',
+				overflow: 'hidden',
+				minHeight: '32px',
+				maxHeight: '120px',
+				borderRadius: '25px',
+				backgroundColor: 'white'
+			}}
+		/>
+		{/* <TextInputChat
+floatingText={this.props.translate.message}
+value={this.state.text}
+
+onChange={event => this.setState({ text: event.target.value, success: false })}
+onClick={this.props.activeInput}
+onBlur={this.props.onblur}
+onFocus={this.props.onFocus}
+
+/> */}
+		<BasicButton
+			text={
+				<i className="material-icons"
+					style={{
+						fontSize: '15px',
+						padding: '0',
+						margin: '0',
+						width: '1em',
+						height: '1em',
+						overflow: 'hidden',
+						userSelect: 'none',
+						color: 'white',
+					}}
+				>
+send
+				</i>
+			}
+			// text={this.state.success ? this.props.translate.tooltip_sent : this.props.translate.send}
+			onClick={this.sendCouncilRoomMessage}
+			loading={this.state.loading}
+			success={this.state.success}
+			reset={this.resetButtonStates}
+			successSoloColor={true}
+			color={getSecondary()}
+			textStyle={{
+				color: 'white',
+				fontSize: '15px'
+			}}
+			buttonStyle={{
+				width: '32px',
+				height: '28px',
+				borderRadius: '1em',
+				padding: '0px',
+				margin: '0px',
+				minHeight: '0px',
+				minWidth: '0px',
+				marginLeft: '10px',
+			}}
+		/>
+	</div>
+)
 
 
-    render() {
-        const secondary = getSecondary();
-        const { menuRender } = this.props
+render() {
+	const secondary = getSecondary();
+	const { menuRender } = this.props;
 
 
-        if (menuRender) {
-            return (
-                this.renderMenuMobil()
-            )
-        } else {
-            return (
-                <Popover
-                    title={this.props.translate.private_comment_for_room_admin}
-                    content={this.renderMenu()}
-                    visible={this.state.visible}
-                    onVisibleChange={this.onVisibleChange}
-                    trigger={'click'}
-                >
-                    <Tooltip
-                        title={this.props.translate.private_comment_for_room_admin}
-                        placement="top"
-                        open={this.state.tooltip}
-                    >
-                        <IconButton
-                            size={'small'}
-                            onMouseOver={() => this.setState({ tooltip: true })}
-                            onMouseLeave={() => this.setState({ tooltip: false })}
-                            style={{
-                                outline: 0,
-                                color: this.state.visible ? 'white' : secondary,
-                                backgroundColor: this.state.visible ? secondary : 'inherit',
-                                width: '50%',
-                                borderRadius: 0,
-                                height: '100%'
-                            }}
-                            onClick={this.toggleVisible}
-                        >
-                            <i className="material-icons" style={{ width: '1em' }}>
-                                chat_buble_outline
-                            </i>
-                        </IconButton>
-                    </Tooltip>
-                </Popover>
-            )
-        }
-        // )
-    }
+	if (menuRender) {
+		return (
+			this.renderMenuMobil()
+		);
+	}
+	return (
+		<Popover
+			title={this.props.translate.private_comment_for_room_admin}
+			content={this.renderMenu()}
+			visible={this.state.visible}
+			onVisibleChange={this.onVisibleChange}
+			trigger={'click'}
+		>
+			<Tooltip
+				title={this.props.translate.private_comment_for_room_admin}
+				placement="top"
+				open={this.state.tooltip}
+			>
+				<IconButton
+					size={'small'}
+					onMouseOver={() => this.setState({ tooltip: true })}
+					onMouseLeave={() => this.setState({ tooltip: false })}
+					style={{
+						outline: 0,
+						color: this.state.visible ? 'white' : secondary,
+						backgroundColor: this.state.visible ? secondary : 'inherit',
+						width: '50%',
+						borderRadius: 0,
+						height: '100%'
+					}}
+					onClick={this.toggleVisible}
+				>
+					<i className="material-icons" style={{ width: '1em' }}>
+chat_buble_outline
+					</i>
+				</IconButton>
+			</Tooltip>
+		</Popover>
+	);
+
+// )
+}
 }
 
 const addCouncilRoomMessage = gql`
@@ -244,5 +239,5 @@ const addCouncilRoomMessage = gql`
 `;
 
 export default graphql(addCouncilRoomMessage, {
-    name: 'addCouncilRoomMessage'
+	name: 'addCouncilRoomMessage'
 })(AdminPrivateMessage);

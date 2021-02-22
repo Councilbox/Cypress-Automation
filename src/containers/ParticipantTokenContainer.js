@@ -1,20 +1,20 @@
-import React from "react";
-import { Redirect } from "react-router-dom";
-import { graphql, withApollo } from "react-apollo";
-import gql from "graphql-tag";
+import React from 'react';
+import { Redirect } from 'react-router-dom';
+import { graphql, withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
 import { bindActionCreators } from 'redux';
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 import * as mainActions from '../actions/mainActions';
-import { LoadingMainApp } from "../displayComponents";
-import InvalidUrl from "../components/participant/InvalidUrl";
-import { refreshWSLink } from "./App";
+import { LoadingMainApp } from '../displayComponents';
+import InvalidUrl from '../components/participant/InvalidUrl';
+import { refreshWSLink } from './App';
 
 const initialState = {
 	loading: true,
 	error: false,
 	participant: null,
 	token: null
-}
+};
 
 const getMe = gql`
 	query participantMe {
@@ -28,26 +28,28 @@ const getMe = gql`
 
 const reducer = (state, action) => {
 	const actions = {
-		'SET_LOADING': () => ({
+		SET_LOADING: () => ({
 			...state,
 			loading: action.value
 		}),
-		'SET_DATA': () => ({
+		SET_DATA: () => ({
 			...state,
 			...action.value,
 			loading: false
 		}),
-		'SET_ERROR': () => ({
+		SET_ERROR: () => ({
 			...state,
 			error: action.value,
 			loading: false
 		})
-	}
+	};
 
 	return actions[action.type] ? actions[action.type]() : state;
-}
+};
 
-const ParticipantTokenContainer = ({ participantToken, match, client, translate }) => {
+const ParticipantTokenContainer = ({
+	participantToken, match, client, translate
+}) => {
 	const [state, dispatch] = React.useReducer(reducer, initialState);
 
 	React.useEffect(() => {
@@ -56,25 +58,26 @@ const ParticipantTokenContainer = ({ participantToken, match, client, translate 
 			try {
 				let token;
 
-				if(match.params.creds){
+				if (match.params.creds) {
 					token = match.params.creds;
 				} else {
 					const response = await participantToken();
-					if(response.errors){
-						throw new Error("Error getting participant token");
+					if (response.errors) {
+						throw new Error('Error getting participant token');
 					}
 					token = response.data.participantToken;
 				}
-				sessionStorage.setItem("participantToken", token);
+				sessionStorage.setItem('participantToken', token);
 				const responseQueryMe = await client.query({
 					query: getMe,
 					variables: {},
-					fetchPolicy: "network-only"
+					fetchPolicy: 'network-only'
 				});
 				const participant = responseQueryMe.data.participantMe;
 				refreshWSLink();
 
-				dispatch({ type: 'SET_DATA',
+				dispatch({
+					type: 'SET_DATA',
 					value: {
 						token,
 						participant
@@ -83,9 +86,9 @@ const ParticipantTokenContainer = ({ participantToken, match, client, translate 
 			} catch (error) {
 				dispatch({ type: 'SET_ERROR', value: true });
 			}
-		}
+		};
 
-		if(!state.participant){
+		if (!state.participant) {
 			getData();
 		}
 	}, [participantToken]);
@@ -102,12 +105,12 @@ const ParticipantTokenContainer = ({ participantToken, match, client, translate 
 
 	return (
 		<React.Fragment>
-			{participant &&
-				<Redirect to={`/participant/${participant.id}/council/${participant.councilId}/login`} />
+			{participant
+&& <Redirect to={`/participant/${participant.id}/council/${participant.councilId}/login`} />
 			}
 		</React.Fragment>
 	);
-}
+};
 
 const mapStateToProps = state => ({
 	main: state.main,
@@ -115,8 +118,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-        actions: bindActionCreators(mainActions, dispatch)
-    })
+	actions: bindActionCreators(mainActions, dispatch)
+});
 
 const participantToken = gql`
 	mutation participantToken($token: String!) {
@@ -126,11 +129,11 @@ const participantToken = gql`
 
 
 export default graphql(participantToken, {
-	name: "participantToken",
+	name: 'participantToken',
 	options: props => ({
 		variables: {
 			token: props.match.params.token
 		},
-		errorPolicy: "all"
+		errorPolicy: 'all'
 	})
 })(withApollo(connect(mapStateToProps, mapDispatchToProps)(ParticipantTokenContainer)));

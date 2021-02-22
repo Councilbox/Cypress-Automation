@@ -1,8 +1,8 @@
-import React, { Fragment } from "react";
-//import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
-import DeleteForever from "material-ui-icons/DeleteForever";
-import { IconButton } from "material-ui";
-import { CircularProgress } from "material-ui/Progress";
+import React, { Fragment } from 'react';
+// import DeleteForever from 'material-ui/svg-icons/action/delete-forever';
+import DeleteForever from 'material-ui-icons/DeleteForever';
+import { IconButton } from 'material-ui';
+import { CircularProgress } from 'material-ui/Progress';
 
 const DeleteIcon = ({ style, onClick, loading }) => (
 	<Fragment>

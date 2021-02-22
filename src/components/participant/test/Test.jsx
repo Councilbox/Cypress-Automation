@@ -1,39 +1,36 @@
-import React from "react";
-import { graphql } from "react-apollo";
-import gql from "graphql-tag";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import Header from "./Header.jsx";
-import Iframe from "../../Iframe";
-import NeedHelpModal from "./NeedHelpModal.jsx";
+import React from 'react';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import DetectRTC from 'detectrtc';
+import Header from './Header';
+import Iframe from '../../Iframe';
+import NeedHelpModal from './NeedHelpModal';
 import {
 	BasicButton,
 	ButtonIcon,
 	LoadingMainApp
-} from "../../../displayComponents";
-import { primary, lightGrey } from "../../../styles/colors";
-import withWindowSize from "../../../HOCs/withWindowSize";
-import withTranslations from "../../../HOCs/withTranslations";
-import * as mainActions from "../../../actions/mainActions";
-import DetectRTC from "detectrtc";
-import { IncomingMessage } from "http";
-import IncompatibleDeviceBrowser from "../IncompatibleDeviceBrowser.jsx";
+} from '../../../displayComponents';
+import { primary, lightGrey } from '../../../styles/colors';
+import withWindowSize from '../../../HOCs/withWindowSize';
+import withTranslations from '../../../HOCs/withTranslations';
+import * as mainActions from '../../../actions/mainActions';
 
 const styles = {
 	viewContainer: {
-		width: "100vw",
-		height: "100vh"
+		width: '100vw',
+		height: '100vh'
 	},
 	container: {
-		width: "100%",
-		height: "calc(100% - 3em)",
-		display: "flex",
-		flexDirection: "row"
+		width: '100%',
+		height: 'calc(100% - 3em)',
+		display: 'flex',
+		flexDirection: 'row'
 	}
 };
 
 class Test extends React.Component {
-
 	state = {
 		loading: true,
 		language: this.props.match.params.language,
@@ -57,13 +54,10 @@ class Test extends React.Component {
 			this.props.actions.setLanguage(this.props.match.params.language);
 		}
 		DetectRTC.load(() => {
-			const isiOSDevice =
-				DetectRTC.isMobileDevice && DetectRTC.osName === "iOS"
-					? true
-					: false;
+			const isiOSDevice = !!(DetectRTC.isMobileDevice && DetectRTC.osName === 'iOS');
 			this.setState({
 				detectRTC: DetectRTC,
-				isiOSDevice: isiOSDevice
+				isiOSDevice
 			});
 		});
 	}
@@ -74,6 +68,7 @@ class Test extends React.Component {
 			modal: true
 		});
 	};
+
 	closeModal = () => {
 		this.setState({
 			modal: false
@@ -82,13 +77,13 @@ class Test extends React.Component {
 
 	render() {
 		const { translate, windowSize, getTestIframe } = this.props;
-		const { detectRTC, isiOSDevice, iframeRandomValue } = this.state;
+		const { detectRTC, iframeRandomValue } = this.state;
 
 		if (this.state.loading) {
 			return <LoadingMainApp />;
 		}
 
-		if(getTestIframe.loading){
+		if (getTestIframe.loading) {
 			return <LoadingMainApp />;
 		}
 
@@ -97,7 +92,7 @@ class Test extends React.Component {
 			<div style={styles.viewContainer}>
 				<Header helpModal={true} helpModalAction={this.openModal} />
 
-				{!!getTestIframe.error?
+				{getTestIframe.error ?
 					<div
 						style={{
 							width: '100%',
@@ -110,7 +105,7 @@ class Test extends React.Component {
 					>
 						{translate.video_error}
 					</div>
-				:
+					:
 					<React.Fragment>
 						<div style={styles.container}>
 							<Iframe
@@ -119,32 +114,32 @@ class Test extends React.Component {
 								}?rand=${iframeRandomValue}`}
 							/>
 
-							{windowSize !== "xs" && (
+							{windowSize !== 'xs' && (
 								<BasicButton
 									text={translate.need_help}
-									color={"white"}
+									color={'white'}
 									textStyle={{
 										color: primary,
-										fontWeight: "700",
-										fontSize: "0.9em",
-										textTransform: "none"
+										fontWeight: '700',
+										fontSize: '0.9em',
+										textTransform: 'none'
 									}}
 									textPosition="after"
 									icon={
 										<ButtonIcon
 											type="message"
 											color={primary}
-											style={{ marginLeft: "15px" }}
+											style={{ marginLeft: '15px' }}
 										/>
 									}
 									onClick={() => this.setState({ modal: true })}
 									buttonStyle={{
-										marginRight: "1em",
+										marginRight: '1em',
 										border: `2px solid ${primary}`,
-										boxShadow: "0px 8px 15px rgba(0, 0, 0, 0.1)",
-										position: "absolute",
-										bottom: "40px",
-										right: "40px"
+										boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)',
+										position: 'absolute',
+										bottom: '40px',
+										right: '40px'
 									}}
 								/>
 							)}
@@ -168,13 +163,13 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const getTestIframe = gql`
-	query participantTestIframe($language: String!) {
-		participantTestIframe(language: $language)
-	}
+    query participantTestIframe($language: String!) {
+        participantTestIframe(language: $language)
+    }
 `;
 
 export default graphql(getTestIframe, {
-	name: "getTestIframe",
+	name: 'getTestIframe',
 	options: props => ({
 		variables: {
 			language: props.match.params.language

@@ -1,5 +1,5 @@
-import gql from "graphql-tag";
-import { companyFragment } from "./queries/company";
+import gql from 'graphql-tag';
+import { companyFragment } from './queries/company';
 
 export const setCompanyAsSelected = gql`
 	mutation setCompanyAsSelected($userId: Int!, $companyId: Int!) {
@@ -1085,24 +1085,6 @@ export const councilStepFive = gql`
 		}
 	}
 `;
-
-/*
- platforms {
- act
- company_id
- council_id
- emails
- id
- room
- room_access
- security_email
- security_sms
- signature
- video
- }
-
- previewHtml
- }*/
 
 export const councilStepSix = gql`
 	query CouncilStepSix($id: Int!, $timezone: String) {
@@ -2263,8 +2245,6 @@ export const agendaComments = gql`
 		}
 	}
 `;
-
-//OLD VERSION
 
 export const participantsQuery = gql`
 	query Participants($councilID: ID!) {

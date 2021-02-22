@@ -1,9 +1,9 @@
-import React from "react";
-import { graphql } from "react-apollo";
-import { arrayMove } from "react-sortable-hoc";
-import { AlertConfirm } from "../../../displayComponents";
-import { updateAgendas } from "../../../queries/agenda";
-import SortableList from "../../../displayComponents/SortableList";
+import React from 'react';
+import { graphql } from 'react-apollo';
+import { arrayMove } from 'react-sortable-hoc';
+import { AlertConfirm } from '../../../displayComponents';
+import { updateAgendas as updateAgendasMutation } from '../../../queries/agenda';
+import SortableList from '../../../displayComponents/SortableList';
 import * as CBX from '../../../utils/CBX';
 
 
@@ -36,17 +36,17 @@ const ReorderPointsModal = ({ updateAgendas, translate, ...props }) => {
 	const reset = () => {
 		setReorderModal(false);
 		setAgendas(props.agendas);
-	}
+	};
 
 	const onSortEnd = ({ oldIndex, newIndex }) => {
 		setAgendas(arrayMove(agendas, oldIndex, newIndex));
 	};
 
-	const _renderNewPointBody = () => {
+	const renderNewPointBody = () => {
 		const opened = [];
 		const unOpened = [];
 		agendas.forEach(agenda => {
-			if(CBX.agendaPointNotOpened(agenda)){
+			if (CBX.agendaPointNotOpened(agenda)) {
 				unOpened.push(agenda);
 			} else {
 				opened.push(agenda);
@@ -54,21 +54,21 @@ const ReorderPointsModal = ({ updateAgendas, translate, ...props }) => {
 		});
 		return (
 			<React.Fragment>
-				{opened.map((agenda) => (
+				{opened.map(agenda => (
 					<li
 						key={`reorderAgenda_${agenda.id}`}
 						style={{
 							opacity: 1,
-							width: "100%",
+							width: '100%',
 							color: 'lightgrey',
-							display: "flex",
-							alignItems: "center",
-							padding: "0.5em",
-							height: "3em",
-							border: `2px solid lightgrey`,
-							listStyleType: "none",
-							borderRadius: "3px",
-							marginTop: "0.5em"
+							display: 'flex',
+							alignItems: 'center',
+							padding: '0.5em',
+							height: '3em',
+							border: '2px solid lightgrey',
+							listStyleType: 'none',
+							borderRadius: '3px',
+							marginTop: '0.5em'
 						}}
 						className="draggable"
 					>
@@ -100,13 +100,13 @@ const ReorderPointsModal = ({ updateAgendas, translate, ...props }) => {
 				buttonAccept={translate.save}
 				scrollable={true}
 				buttonCancel={translate.cancel}
-				bodyText={_renderNewPointBody()}
+				bodyText={renderNewPointBody()}
 				title={translate.reorder_agenda_points}
 			/>
 		</React.Fragment>
 	);
-}
+};
 
-export default graphql(updateAgendas, {
-	name: "updateAgendas"
+export default graphql(updateAgendasMutation, {
+	name: 'updateAgendas'
 })(ReorderPointsModal);

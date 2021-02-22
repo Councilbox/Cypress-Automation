@@ -1,13 +1,15 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-const LinkWithoutStyle = ({ to, children, id, styles }) => (
+const LinkWithoutStyle = ({
+	to, children, id, styles
+}) => (
 	<Link
 		to={to}
 		id={id}
 		style={{
-			textDecoration: "none",
-			color: "inherit",
+			textDecoration: 'none',
+			color: 'inherit',
 			...styles
 		}}
 	>

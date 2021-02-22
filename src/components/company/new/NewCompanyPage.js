@@ -1,9 +1,9 @@
-import React from "react";
-import { compose, graphql, withApollo } from "react-apollo";
-import { MenuItem, Typography } from "material-ui";
-import gql from "graphql-tag";
-import { toast } from "react-toastify";
-import withSharedProps from "../../../HOCs/withSharedProps";
+import React from 'react';
+import { compose, graphql, withApollo } from 'react-apollo';
+import { MenuItem } from 'material-ui';
+import gql from 'graphql-tag';
+import { toast } from 'react-toastify';
+import withSharedProps from '../../../HOCs/withSharedProps';
 import {
 	BasicButton,
 	ButtonIcon,
@@ -16,35 +16,35 @@ import {
 	SelectInput,
 	TextInput,
 	SectionTitle
-} from "../../../displayComponents";
-import { checkCifExists } from "../../../queries/userAndCompanySignUp";
+} from '../../../displayComponents';
+import { checkCifExists } from '../../../queries/userAndCompanySignUp';
 import { USER_ACTIVATIONS } from '../../../constants';
-import { getPrimary, getSecondary } from "../../../styles/colors";
-import { provinces as provincesQuery } from "../../../queries/masters";
-import { bHistory, store } from "../../../containers/App";
-import { getCompanies } from "../../../actions/companyActions";
-import { sendGAevent } from "../../../utils/analytics";
-import GoverningBodyForm from "../settings/GoverningBodyForm";
+import { getPrimary, getSecondary } from '../../../styles/colors';
+import { provinces as provincesQuery } from '../../../queries/masters';
+import { bHistory, store } from '../../../containers/App';
+import { getCompanies } from '../../../actions/companyActions';
+import { sendGAevent } from '../../../utils/analytics';
+import GoverningBodyForm from '../settings/GoverningBodyForm';
 
 
 class NewCompanyPage extends React.PureComponent {
 	state = {
 		data: {
-			businessName: "",
-			alias: "",
-			tin: "",
-			domain: "",
+			businessName: '',
+			alias: '',
+			tin: '',
+			domain: '',
 			type: 0,
-			linkKey: "",
-			address: "",
+			linkKey: '',
+			address: '',
 			governingBodyType: 0,
 			governingBodyData: {},
-			city: "",
-			zipcode: "",
-			country: "España",
+			city: '',
+			zipcode: '',
+			country: 'España',
 			creationCode: '',
 			countryState: '',
-			language: "es"
+			language: 'es'
 		},
 		step: 1,
 		hasError: false,
@@ -70,7 +70,7 @@ class NewCompanyPage extends React.PureComponent {
 		const selectedCountry = this.props.info.countries.find(
 			country => country.deno === event.target.value
 		);
-		if(selectedCountry){
+		if (selectedCountry) {
 			this.updateProvinces(selectedCountry.id);
 		} else {
 			this.setState({
@@ -170,14 +170,14 @@ class NewCompanyPage extends React.PureComponent {
 				if (response.data.createCompany.id) {
 					this.setState({ request: false });
 					await store.dispatch(getCompanies(this.props.user.id));
-					bHistory.push(`/`);
+					bHistory.push('/');
 					toast(
 						<LiveToast
 							message={this.props.translate.company_created}
 						/>, {
 							position: toast.POSITION.TOP_RIGHT,
 							autoClose: true,
-							className: "successToast"
+							className: 'successToast'
 						}
 					);
 				}
@@ -190,14 +190,14 @@ class NewCompanyPage extends React.PureComponent {
 
 		const { data } = this.state;
 		const errors = {
-			businessName: "",
-			type: "",
+			businessName: '',
+			type: '',
 			alias: '',
-			tin: "",
-			address: "",
-			city: "",
+			tin: '',
+			address: '',
+			city: '',
 			countryState: '',
-			country: "",
+			country: '',
 			zipcode: '',
 		};
 		let hasError = false;
@@ -207,7 +207,7 @@ class NewCompanyPage extends React.PureComponent {
 			errors.businessName = translate.field_required;
 		}
 
-		if (data.type === "") {
+		if (data.type === '') {
 			hasError = true;
 			errors.type = translate.field_required;
 		}
@@ -216,8 +216,8 @@ class NewCompanyPage extends React.PureComponent {
 
 		if (!data.tin || existsCif) {
 			hasError = true;
-			errors.tin = existsCif
-				? translate.vat_previosly_save
+			errors.tin = existsCif ?
+				translate.vat_previosly_save
 				: translate.field_required;
 		}
 
@@ -231,7 +231,7 @@ class NewCompanyPage extends React.PureComponent {
 			errors.city = translate.field_required;
 		}
 
-		if (data.countryState === "") {
+		if (data.countryState === '') {
 			hasError = true;
 			errors.countryState = translate.field_required;
 		}
@@ -241,7 +241,7 @@ class NewCompanyPage extends React.PureComponent {
 			errors.zipcode = translate.field_required;
 		}
 
-		if (data.type === "") {
+		if (data.type === '') {
 			hasError = true;
 			errors.province = translate.field_required;
 		}
@@ -274,7 +274,9 @@ class NewCompanyPage extends React.PureComponent {
 
 	render() {
 		const { translate, requestClose, buttonBack } = this.props;
-		const { data, errors, requestError, success, request } = this.state;
+		const {
+			data, errors, requestError, success, request
+		} = this.state;
 		const primary = getPrimary();
 		const secondary = getSecondary();
 
@@ -307,9 +309,9 @@ class NewCompanyPage extends React.PureComponent {
 												value={data.businessName}
 												errorText={errors.businessName}
 												onChange={event => this.updateState({
-														businessName:
-															event.target.value
-													})
+													businessName:
+														event.target.value
+												})
 												}
 												required
 											/>
@@ -319,29 +321,26 @@ class NewCompanyPage extends React.PureComponent {
 												floatingText={translate.company_type}
 												value={data.type}
 												onChange={event => this.updateState({
-														type: event.target.value
-													})
+													type: event.target.value
+												})
 												}
 												errorText={errors.type}
 											>
 												{this.props.info.companyTypes.map(
 													companyType => (
-															<MenuItem
-																key={
-																	companyType.label
-																}
-																value={
-																	companyType.value
-																}
-															>
-																{
-																	translate[
-																	companyType
-																		.label
-																	]
-																}
-															</MenuItem>
-														)
+														<MenuItem
+															key={
+																companyType.label
+															}
+															value={
+																companyType.value
+															}
+														>
+															{
+																translate[companyType.label]
+															}
+														</MenuItem>
+													)
 												)}
 											</SelectInput>
 										</GridItem>
@@ -354,8 +353,8 @@ class NewCompanyPage extends React.PureComponent {
 												value={data.tin}
 												errorText={errors.tin}
 												onChange={event => this.updateState({
-														tin: event.target.value
-													})
+													tin: event.target.value
+												})
 												}
 												required
 											/>
@@ -369,8 +368,8 @@ class NewCompanyPage extends React.PureComponent {
 												value={data.domain}
 												errorText={errors.domain}
 												onChange={event => this.updateState({
-														domain: event.target.value
-													})
+													domain: event.target.value
+												})
 												}
 											/>
 										</GridItem>
@@ -383,8 +382,8 @@ class NewCompanyPage extends React.PureComponent {
 												value={data.linkKey}
 												errorText={errors.linkKey}
 												onChange={event => this.updateState({
-														linkKey: event.target.value
-													})
+													linkKey: event.target.value
+												})
 												}
 											/>
 										</GridItem>
@@ -395,8 +394,8 @@ class NewCompanyPage extends React.PureComponent {
 												value={data.externalId}
 												errorText={errors.externalId}
 												onChange={event => this.updateState({
-														externalId: event.target.value
-													})
+													externalId: event.target.value
+												})
 												}
 											/>
 										</GridItem>
@@ -406,7 +405,7 @@ class NewCompanyPage extends React.PureComponent {
 									xs={12}
 									md={3}
 									lg={3}
-									style={{ textAlign: "center" }}
+									style={{ textAlign: 'center' }}
 								>
 									<GridItem xs={12} md={12} lg={12}>
 										{!!data.logo && (
@@ -414,9 +413,9 @@ class NewCompanyPage extends React.PureComponent {
 												src={data.logo}
 												alt="logo"
 												style={{
-													marginBottom: "0.6em",
-													maxHeight: "4em",
-													maxWidth: "100%"
+													marginBottom: '0.6em',
+													maxHeight: '4em',
+													maxWidth: '100%'
 												}}
 											/>
 										)}
@@ -427,10 +426,10 @@ class NewCompanyPage extends React.PureComponent {
 											image
 											color={secondary}
 											textStyle={{
-												color: "white",
-												fontWeight: "700",
-												fontSize: "0.9em",
-												textTransform: "none"
+												color: 'white',
+												fontWeight: '700',
+												fontSize: '0.9em',
+												textTransform: 'none'
 											}}
 											icon={
 												<ButtonIcon
@@ -465,8 +464,8 @@ class NewCompanyPage extends React.PureComponent {
 										value={data.address}
 										errorText={errors.address}
 										onChange={event => this.updateState({
-												address: event.target.value
-											})
+											address: event.target.value
+										})
 										}
 									/>
 								</GridItem>
@@ -479,8 +478,8 @@ class NewCompanyPage extends React.PureComponent {
 										value={data.city}
 										errorText={errors.city}
 										onChange={event => this.updateState({
-												city: event.target.value
-											})
+											city: event.target.value
+										})
 										}
 									/>
 								</GridItem>
@@ -492,13 +491,13 @@ class NewCompanyPage extends React.PureComponent {
 										errorText={errors.country}
 									>
 										{this.props.info.countries.map(country => (
-												<MenuItem
-													key={country.deno}
-													value={country.deno}
-												>
-													{country.deno}
-												</MenuItem>
-											))}
+											<MenuItem
+												key={country.deno}
+												value={country.deno}
+											>
+												{country.deno}
+											</MenuItem>
+										))}
 										<MenuItem
 											key={'other'}
 											value={'other'}
@@ -507,8 +506,8 @@ class NewCompanyPage extends React.PureComponent {
 										</MenuItem>
 									</SelectInput>
 								</GridItem>
-								{this.state.countryInput &&
-									<GridItem xs={12} md={6} lg={3}>
+								{this.state.countryInput
+									&& <GridItem xs={12} md={6} lg={3}>
 										<TextInput
 											floatingText={
 												translate.company_new_country
@@ -517,8 +516,8 @@ class NewCompanyPage extends React.PureComponent {
 											value={data.country}
 											errorText={errors.country}
 											onChange={event => this.updateState({
-													country: event.target.value
-												})
+												country: event.target.value
+											})
 											}
 										/>
 									</GridItem>
@@ -530,34 +529,35 @@ class NewCompanyPage extends React.PureComponent {
 												translate.company_new_country_state
 											}
 											type="text"
+											id="country-state-input"
 											value={data.countryState}
 											errorText={errors.countryState}
 											onChange={event => this.updateState({
-													countryState: event.target.value
-												})
+												countryState: event.target.value
+											})
 											}
 										/>
-									:
-										<SelectInput
+										: <SelectInput
 											floatingText={
 												translate.company_new_country_state
 											}
+											id="country-state-select"
 											value={data.countryState}
 											errorText={errors.countryState}
 											onChange={event => {
 												this.updateState({
 													countryState: event.target.value
-												}, () => this.handleKeyUp(event))
+												}, () => this.handleKeyUp(event));
 											}}
 										>
 											{this.state.provinces.map(province => (
-													<MenuItem
-														key={province.deno}
-														value={province.deno}
-													>
-														{province.deno}
-													</MenuItem>
-												))}
+												<MenuItem
+													key={province.deno}
+													value={province.deno}
+												>
+													{province.deno}
+												</MenuItem>
+											))}
 										</SelectInput>
 									}
 								</GridItem>
@@ -568,8 +568,8 @@ class NewCompanyPage extends React.PureComponent {
 										value={data.zipcode}
 										errorText={errors.zipcode}
 										onChange={event => this.updateState({
-												zipcode: event.target.value
-											})
+											zipcode: event.target.value
+										})
 										}
 									/>
 								</GridItem>
@@ -578,17 +578,16 @@ class NewCompanyPage extends React.PureComponent {
 										floatingText={translate.language}
 										value={data.language}
 										onChange={event => this.updateState({
-												language: event.target.value
-											})
+											language: event.target.value
+										})
 										}
 										errorText={errors.language}
 									>
-										{this.props.info.languages &&
-											this.props.info.languages.map(
+										{this.props.info.languages
+											&& this.props.info.languages.map(
 												language => (
 													<MenuItem
-														key={`language_${
-															language.columnName
+														key={`language_${language.columnName
 															}`}
 														value={language.columnName}
 													>
@@ -604,16 +603,18 @@ class NewCompanyPage extends React.PureComponent {
 										type="text"
 										value={data.creationCode}
 										onChange={event => this.updateState({
-												creationCode: event.target.value
-											})
+											creationCode: event.target.value
+										})
 										}
 									/>
 								</GridItem>
 							</Grid>
 						</div>
 						<br />
-						<div style={{ marginTop: "3em" }}>
-							<div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", marginBottom: "2em" }} >
+						<div style={{ marginTop: '3em' }}>
+							<div style={{
+								display: 'flex', alignItems: 'center', justifyContent: 'flex-end', marginBottom: '2em'
+							}} >
 								{buttonBack ?
 									<React.Fragment>
 										<BasicButton
@@ -621,11 +622,6 @@ class NewCompanyPage extends React.PureComponent {
 											textStyle={{ textTransform: 'none', color: 'black', fontWeight: '700' }}
 											onClick={requestClose}
 											buttonStyle={{ marginRight: '1em' }}
-
-											textStyle={{
-												textTransform: "none",
-												fontWeight: "700",
-											}}
 											primary={true}
 											color='transparent'
 											type="flat"
@@ -638,16 +634,15 @@ class NewCompanyPage extends React.PureComponent {
 											loading={request}
 											floatRight
 											textStyle={{
-												color: "white",
-												fontWeight: "700",
+												color: 'white',
+												fontWeight: '700',
 
 											}}
 											onClick={this.createCompany}
 											icon={<ButtonIcon type="add" color="white" />}
 										/>
 									</React.Fragment>
-									:
-									<BasicButton
+									: <BasicButton
 										text={translate.companies_add}
 										color={getPrimary()}
 										error={requestError}
@@ -655,9 +650,9 @@ class NewCompanyPage extends React.PureComponent {
 										loading={request}
 										floatRight
 										textStyle={{
-											color: "white",
-											fontWeight: "700",
-											marginBottom: "2em"
+											color: 'white',
+											fontWeight: '700',
+											marginBottom: '2em'
 										}}
 										onClick={this.createCompany}
 										icon={<ButtonIcon type="add" color="white" />}
@@ -667,8 +662,8 @@ class NewCompanyPage extends React.PureComponent {
 						</div>
 					</div>
 				) : (
-						<React.Fragment>STEP 2</React.Fragment>
-					)}
+					<React.Fragment>STEP 2</React.Fragment>
+				)}
 			</CardPageLayout>
 		);
 	}
@@ -688,7 +683,6 @@ export const info = gql`
 			deno
 			id
 		}
-
 		languages {
 			desc
 			columnName
@@ -706,17 +700,17 @@ const createCompany = gql`
 
 export default compose(
 	graphql(info, {
-		name: "info",
-		options: props => ({
+		name: 'info',
+		options: () => ({
 			variables: {
 				countryId: 1
 			}
 		})
 	}),
 	graphql(createCompany, {
-		name: "createCompany",
+		name: 'createCompany',
 		options: {
-			errorPolicy: "all"
+			errorPolicy: 'all'
 		}
 	})
 )(withSharedProps()(withApollo(NewCompanyPage)));

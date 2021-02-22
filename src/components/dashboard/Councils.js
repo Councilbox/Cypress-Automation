@@ -1,51 +1,47 @@
-import React from "react";
-import { compose, graphql, withApollo } from "react-apollo";
-import { councils, deleteCouncil } from "../../queries.js";
+import React from 'react';
+import { compose, graphql, withApollo } from 'react-apollo';
+import { councils, deleteCouncil as deleteCouncilMutation } from '../../queries';
 import {
 	AlertConfirm,
-	ErrorWrapper,
 	Scrollbar,
 	BasicButton,
 	Grid,
 	GridItem,
 	LoadingSection,
-	MainTitle,
 	PaginationFooter,
-	CardPageLayout,
-} from "../../displayComponents/index";
+} from '../../displayComponents/index';
 import { isLandscape, isMobile } from '../../utils/screen';
 import { getSecondary } from '../../styles/colors';
-import "react-perfect-scrollbar/dist/css/styles.css";
+import 'react-perfect-scrollbar/dist/css/styles.css';
 import withWindowSize from '../../HOCs/withWindowSize';
 import CouncilsList from './CouncilsList';
 import CouncilsHistory from './CouncilsHistory';
 import CouncilsFilters from './CouncilsFilters';
 import { useOldState } from '../../hooks';
-import { DRAFTS_LIMITS } from "../../constants.js";
-import MenuSuperiorTabs from "./MenuSuperiorTabs.js";
-import { bHistory } from "../../containers/App.js";
+import { DRAFTS_LIMITS } from '../../constants';
+import MenuSuperiorTabs from './MenuSuperiorTabs';
+import { bHistory } from '../../containers/App';
 
 const getSection = translate => {
 	const section = window.location.pathname.split('/').pop();
 	const sections = {
-		'drafts': translate.companies_draft,
-		'calendar': translate.companies_calendar,
-		'live': translate.companies_live,
-		'act': translate.companies_writing,
-		'confirmed': translate.act_book,
-		'history': translate.dashboard_historical,
-		'all': translate.all_plural_fem
-	}
+		drafts: translate.companies_draft,
+		calendar: translate.companies_calendar,
+		live: translate.companies_live,
+		act: translate.companies_writing,
+		confirmed: translate.act_book,
+		history: translate.dashboard_historical,
+		all: translate.all_plural_fem
+	};
 
 	return sections[section];
-}
+};
 
 const Councils = ({ translate, client, ...props }) => {
 	const [loading, setLoading] = React.useState(true);
 	const [councilsData, setCouncilsData] = React.useState(true);
-	const [error, setError] = React.useState(false);
 	const [state, setState] = useOldState({
-		councilToDelete: "",
+		councilToDelete: '',
 		deleteModal: false,
 		selectedIds: new Map(),
 		limit: DRAFTS_LIMITS[0],
@@ -59,7 +55,7 @@ const Councils = ({ translate, client, ...props }) => {
 		[translate.act_book]: `/company/${props.company.id}/councils/confirmed`,
 		[translate.dashboard_historical]: `/company/${props.company.id}/councils/history`,
 		[translate.all_plural_fem]: `/company/${props.company.id}/councils/all`
-	}
+	};
 	const statesTabInfo = {
 		[translate.companies_draft]: [0, 3],
 		[translate.companies_calendar]: [10, 5],
@@ -68,7 +64,7 @@ const Councils = ({ translate, client, ...props }) => {
 		[translate.act_book]: [60, 70],
 		[translate.dashboard_historical]: [-1, 40, 60, 70, 80, 90],
 		[translate.all_plural_fem]: null
-	}
+	};
 
 	const [selectedTab, setselectedTab] = React.useState(getSection(translate));
 	const [selectedTabLink, setselectedTabLink] = React.useState(statesTabLink[getSection(translate)]);
@@ -80,7 +76,11 @@ const Councils = ({ translate, client, ...props }) => {
 		}
 	}, [window.location.pathname]);
 
-	const getData = async (filters) => {
+	const handleChange = section => {
+		bHistory.push(statesTabLink[section]);
+	};
+
+	const getData = async filters => {
 		const response = await client.query({
 			query: councils,
 			variables: {
@@ -98,16 +98,16 @@ const Councils = ({ translate, client, ...props }) => {
 			errorPolicy: 'all',
 			notifyOnNetworkStatusChange: true
 		});
-		setCouncilsData(response.data.councils)
-		setLoading(false)
+		setCouncilsData(response.data.councils);
+		setLoading(false);
 		setselectedTabLink(statesTabLink[selectedTab]);
 		handleChange();
-	}
+	};
 
 	React.useEffect(() => {
 		setLoading(true);
 		getData();
-	}, [selectedTab, state.page])
+	}, [selectedTab, state.page]);
 
 	const select = id => {
 		if (state.selectedIds.has(id)) {
@@ -120,21 +120,21 @@ const Councils = ({ translate, client, ...props }) => {
 			...state,
 			selectedIds: new Map(state.selectedIds)
 		});
-	}
+	};
 
 	const selectAll = () => {
 		const newSelected = new Map();
 		if (state.selectedIds.size !== councilsData.length) {
 			councilsData.list.forEach(council => {
 				newSelected.set(council.id, 'selected');
-			})
+			});
 		}
 
 		setState({
 			...state,
 			selectedIds: newSelected
 		});
-	}
+	};
 
 	const openDeleteModal = councilID => {
 		if (Number.isInteger(councilID)) {
@@ -150,7 +150,7 @@ const Councils = ({ translate, client, ...props }) => {
 	};
 
 	const deleteCouncil = async () => {
-		setLoading(true)
+		setLoading(true);
 		const response = await props.mutate({
 			variables: {
 				councilId: Array.from(state.selectedIds.keys())
@@ -162,11 +162,11 @@ const Councils = ({ translate, client, ...props }) => {
 				deleteModal: false,
 				selectedIds: new Map()
 			});
-			getData()
+			getData();
 		}
 	};
 
-	const mobileLandscape = () => props.windowSize === 'xs' && isLandscape()
+	const mobileLandscape = () => props.windowSize === 'xs' && isLandscape();
 
 
 	const changePage = page => {
@@ -176,22 +176,21 @@ const Councils = ({ translate, client, ...props }) => {
 		});
 	};
 
-	const handleChange = section => {
-		bHistory.push(statesTabLink[section]);
-	}
-
-
 	return (
 		<div
 			style={{
 				height: '100%',
 				width: '100%',
-				overflow: "hidden",
-				position: "relative"
+				overflow: 'hidden',
+				position: 'relative'
 			}}
 		>
-			<div style={{ width: '100%', height: '100%', padding: '1em', paddingTop: "0px" }}>
-				<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "0.6em" }}>
+			<div style={{
+				width: '100%', height: '100%', padding: '1em', paddingTop: '0px'
+			}}>
+				<div style={{
+					display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.6em'
+				}}>
 					<div>
 						<MenuSuperiorTabs
 							items={[
@@ -207,7 +206,7 @@ const Councils = ({ translate, client, ...props }) => {
 							selected={selectedTab}
 						/>
 					</div>
-					<div style={{ display: "flex" }}>
+					<div style={{ display: 'flex' }}>
 						<div style={{
 							position: 'relative',
 							color: 'black',
@@ -230,20 +229,20 @@ const Councils = ({ translate, client, ...props }) => {
 					</div>
 				</div>
 				{/* <MainTitle
-					icon={props.icon}
-					title={props.title}
-					size={props.windowSize}
-					subtitle={props.desc}
-				/> */}
+icon={props.icon}
+title={props.title}
+size={props.windowSize}
+subtitle={props.desc}
+/> */}
 				<Grid style={{ marginTop: '0.6em' }}>
 					<GridItem xs={4} md={8} lg={9}>
-						{state.selectedIds.size > 0 &&
-							<BasicButton
-								text={state.selectedIds.size === 1 ? translate.delete_one_item : `${translate.new_delete} ${state.selectedIds.size} ${translate.items}`}
-								color={getSecondary()}
-								textStyle={{ color: 'white', fontWeight: '700' }}
-								onClick={openDeleteModal}
-							/>
+						{state.selectedIds.size > 0
+&& <BasicButton
+	text={state.selectedIds.size === 1 ? translate.delete_one_item : `${translate.new_delete} ${state.selectedIds.size} ${translate.items}`}
+	color={getSecondary()}
+	textStyle={{ color: 'white', fontWeight: '700' }}
+	onClick={openDeleteModal}
+/>
 						}
 					</GridItem>
 				</Grid>
@@ -258,32 +257,45 @@ const Councils = ({ translate, client, ...props }) => {
 						<LoadingSection />
 					</div>
 				) : (
-						<div style={{ height: `calc(100% - ${mobileLandscape() ? '7em' : '3em'})`, overflow: 'hidden' }}>
-							<Scrollbar>
-								<div style={{ padding: "1em", paddingTop: '2em' }}>
-									{false ? (
+					<div style={{ height: `calc(100% - ${mobileLandscape() ? '7em' : '3em'})`, overflow: 'hidden' }}>
+						<Scrollbar>
+							<div style={{ padding: '1em', paddingTop: '2em' }}>
+								{councilsData.list.length > 0 ? (
+									(selectedTab === translate.companies_writing
+|| selectedTab === translate.act_book
+|| selectedTab === translate.dashboard_historical
+|| selectedTab === translate.all_plural_fem) ?
 										<div>
-											{error.graphQLErrors.map((error, index) => (
-													<ErrorWrapper
-														key={`error_${index}`}
-														error={error}
-														translate={translate}
-													/>
-												))}
+											<CouncilsHistory
+												councils={councilsData.list}
+												openDeleteModal={openDeleteModal}
+												translate={translate}
+												company={props.company}
+											/>
+											<Grid style={{ padding: isMobile ? '1em 0em 0em 0em' : '2em 3em 1em 2em' }}>
+												<PaginationFooter
+													page={state.page}
+													translate={translate}
+													length={councilsData.list.length}
+													limit={state.limit}
+													total={councilsData.total}
+													changePage={changePage}
+												/>
+											</Grid>
 										</div>
-									) : councilsData.list.length > 0 ? (
-										(selectedTab === translate.companies_writing ||
-										selectedTab === translate.act_book ||
-										selectedTab === translate.dashboard_historical ||
-										selectedTab === translate.all_plural_fem) ?
+										: (
 											<div>
-												<CouncilsHistory
-													councils={councilsData.list}
+												<CouncilsList
 													openDeleteModal={openDeleteModal}
 													translate={translate}
+													select={select}
+													selectAll={selectAll}
+													selectedIds={state.selectedIds}
+													councils={councilsData.list}
 													company={props.company}
+													link={selectedTabLink}
 												/>
-												<Grid style={{ padding: isMobile ? "1em 0em 0em 0em" : '2em 3em 1em 2em' }}>
+												<Grid style={{ padding: isMobile ? '1em 0em 0em 0em' : '2em 3em 1em 2em' }}>
 													<PaginationFooter
 														page={state.page}
 														translate={translate}
@@ -294,53 +306,30 @@ const Councils = ({ translate, client, ...props }) => {
 													/>
 												</Grid>
 											</div>
-											: (
-												<div>
-													<CouncilsList
-														openDeleteModal={openDeleteModal}
-														translate={translate}
-														select={select}
-														selectAll={selectAll}
-														selectedIds={state.selectedIds}
-														councils={councilsData.list}
-														company={props.company}
-														link={selectedTabLink}
-													/>
-													<Grid style={{ padding: isMobile ? "1em 0em 0em 0em" : '2em 3em 1em 2em' }}>
-														<PaginationFooter
-															page={state.page}
-															translate={translate}
-															length={councilsData.list.length}
-															limit={state.limit}
-															total={councilsData.total}
-															changePage={changePage}
-														/>
-													</Grid>
-												</div>
-											)
-									) : (
-												<span>{translate.no_results}</span>
-											)}
-									<AlertConfirm
-										title={translate.send_to_trash}
-										bodyText={translate.delete_items}
-										open={state.deleteModal}
-										buttonAccept={translate.send_to_trash}
-										buttonCancel={translate.cancel}
-										modal={true}
-										acceptAction={deleteCouncil}
-										requestClose={() => setState({ ...state, deleteModal: false })
-										}
-									/>
-								</div>
-							</Scrollbar>
-						</div>
-					)}
+										)
+								) : (
+									<span>{translate.no_results}</span>
+								)}
+								<AlertConfirm
+									title={translate.send_to_trash}
+									bodyText={translate.delete_items}
+									open={state.deleteModal}
+									buttonAccept={translate.send_to_trash}
+									buttonCancel={translate.cancel}
+									modal={true}
+									acceptAction={deleteCouncil}
+									requestClose={() => setState({ ...state, deleteModal: false })
+									}
+								/>
+							</div>
+						</Scrollbar>
+					</div>
+				)}
 			</div>
 		</div>
 	);
-}
+};
 
 export default compose(
-	graphql(deleteCouncil),
+	graphql(deleteCouncilMutation),
 )(withWindowSize(withApollo(Councils)));

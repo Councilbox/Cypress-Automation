@@ -1,75 +1,74 @@
 import React from 'react';
-import { graphql, withApollo } from 'react-apollo';
-import { toast } from 'react-toastify';
+import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { TextInput, BasicButton, CardPageLayout, Scrollbar, LoadingSection, SectionTitle, LiveToast } from '../../../displayComponents';
-import { getSecondary, getPrimary } from '../../../styles/colors';
-import { checkForUnclosedBraces, changeVariablesToValues, generateStatuteTag, prepareTextForFilename } from '../../../utils/CBX';
-import { buildDoc, useDoc, buildDocBlock, buildDocVariable } from "../../documentEditor/utils";
-import { certBlocks } from "../../documentEditor/actBlocks";
-import DocumentEditor2 from "../../documentEditor/DocumentEditor2";
+import { BasicButton, LoadingSection } from '../../../displayComponents';
+import { getSecondary } from '../../../styles/colors';
+import { changeVariablesToValues, prepareTextForFilename } from '../../../utils/CBX';
+import {
+	buildDoc, useDoc, buildDocBlock, buildDocVariable
+} from '../../documentEditor/utils';
+import { certBlocks } from '../../documentEditor/actBlocks';
+import DocumentEditor from '../../documentEditor/DocumentEditor';
 import withSharedProps from '../../../HOCs/withSharedProps';
-import { generateActTags, CouncilActData, generateCouncilSmartTagsValues } from '../writing/actEditor/ActEditor';
-import GoverningBodyDisplay from '../writing/actEditor/GoverningBodyDisplay';
-import { GOVERNING_BODY_TYPES } from '../../../constants';
+import { CouncilActData, generateCouncilSmartTagsValues } from '../writing/actEditor/ActEditor';
 import DownloadDoc from '../../documentEditor/DownloadDoc';
 import CreateCertificateModal from './CreateCertificateModal';
 import { ConfigContext } from '../../../containers/AppControl';
 
 
 const initialState = {
-    loading: true,
-    data: null
-}
+	loading: true,
+	data: null
+};
 
 const dataReducer = (state, action) => {
-    const actions = {
-        'LOADED': {
-            ...state,
-            loading: false,
-            data: action.value
-        },
+	const actions = {
+		LOADED: {
+			...state,
+			loading: false,
+			data: action.value
+		},
 
-        default: state
-    }
+		default: state
+	};
 
-    return actions[action.type] ? actions[action.type] : actions.default;
-}
+	return actions[action.type] ? actions[action.type] : actions.default;
+};
 
 
-const CerficateEditor = ({ translate, council, company, client, ...props }) => {
-    const [{ data, loading }, dispatch] = React.useReducer(dataReducer, initialState);
-	const [infoMenu, setInfoMenu] = React.useState(false);
+const CerficateEditor = ({
+	translate, council, company, client, ...props
+}) => {
+	const [{ data, loading }, dispatch] = React.useReducer(dataReducer, initialState);
 	const [error, setError] = React.useState(null);
-    const [createModal, setCreateModal] = React.useState(false);
-    const {
+	const [createModal, setCreateModal] = React.useState(false);
+	const {
 		doc,
-        options,
-        ...handlers
+		options,
+		...handlers
 	} = useDoc({
 		transformText: async text => changeVariablesToValues(text, {
 			council: {
 				...generateCouncilSmartTagsValues(data),
 			},
 			company
-        }, translate)
+		}, translate)
 	});
-	const primary = getPrimary();
 	const config = React.useContext(ConfigContext);
-    const secondary = getSecondary();
+	const secondary = getSecondary();
 
 
-    const getData = React.useCallback(async () => {
-        const response = await client.query({
-            query: CouncilActData,
-            variables: {
-                councilID: council.id,
-                companyId: council.companyId,
-                options: {
-                    limit: 10000,
-                    offset: 0
-                }
-            }
+	const getData = React.useCallback(async () => {
+		const response = await client.query({
+			query: CouncilActData,
+			variables: {
+				councilID: council.id,
+				companyId: council.companyId,
+				options: {
+					limit: 10000,
+					offset: 0
+				}
+			}
 		});
 		handlers.initializeDoc({
 			doc: buildDoc(response.data, translate, 'certificate'),
@@ -81,11 +80,11 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 			}
 		});
 		dispatch({ type: 'LOADED', value: response.data });
-    }, [council.id]);
+	}, [council.id]);
 
-    React.useEffect(() => {
-        getData();
-    }, [getData]);
+	React.useEffect(() => {
+		getData();
+	}, [getData]);
 
 
 	const generatePreview = async () => {
@@ -101,59 +100,15 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 			}
 		});
 		return response.data.generateDocumentHTML;
+	};
+
+	if (loading) {
+		return <LoadingSection />;
 	}
 
-    function checkRequiredFields() {
-        const errors = {};
-        let notify = false;
-
-        if(!data.title){
-            errors.title = translate.field_required;
-        }
-
-        if(!data.header){
-            errors.header = translate.field_required;
-        } else if(checkForUnclosedBraces(data.header)){
-                errors.header = true;
-                notify = true;
-            }
-
-        if(!data.footer){
-            errors.footer = translate.field_required;
-        } else if(checkForUnclosedBraces(data.footer)){
-                errors.footer = true;
-                notify = true;
-            }
-
-        if(notify){
-            toast(
-                <LiveToast
-                    message={translate.revise_text}
-                />, {
-                    position: toast.POSITION.TOP_RIGHT,
-                    autoClose: true,
-                    className: "errorToast"
-                }
-            );
-        }
-
-        //setErrors(errors);
-
-        return Object.keys(errors).length > 0;
-    }
-
-    const toggleInfoMenu = () => {
-        setInfoMenu(!infoMenu);
-    }
-
-
-    if(loading){
-        return <LoadingSection />
-    }
-
-    return (
+	return (
 		<React.Fragment>
-			<DocumentEditor2
+			<DocumentEditor
 				doc={doc}
 				data={data}
 				{...handlers}
@@ -175,24 +130,24 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 								text={translate.certificate_generate}
 								color={secondary}
 								textStyle={{
-									color: "white",
-									fontSize: "0.9em",
-									textTransform: "none"
+									color: 'white',
+									fontSize: '0.9em',
+									textTransform: 'none'
 								}}
 								onClick={() => setCreateModal(true)}
 								textPosition="after"
-								iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+								iconInit={<i style={{ marginRight: '0.3em', fontSize: '18px' }} className="fa fa-floppy-o" aria-hidden="true"></i>}
 								buttonStyle={{
-									marginRight: "1em",
+									marginRight: '1em',
 									boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
 									borderRadius: '3px'
 								}}
 							/>
 						</div>
-						{error &&
-							<div style={{ color: 'red', fontWeight: '700', marginTop: '1em' }}>
-								{error}
-							</div>
+						{error
+&& <div style={{ color: 'red', fontWeight: '700', marginTop: '1em' }}>
+	{error}
+</div>
 						}
 					</div>
 				}
@@ -211,12 +166,12 @@ const CerficateEditor = ({ translate, council, company, client, ...props }) => {
 				requestClose={() => setCreateModal(false)}
 			/>
 		</React.Fragment>
-	)
-}
+	);
+};
 
 export const query = gql`
 	query DraftData($companyId: Int!, $councilId: Int!, $options: OptionsInput) {
-        council(id: $councilId) {
+		council(id: $councilId) {
 			id
 			businessName
 			country
@@ -224,8 +179,8 @@ export const query = gql`
 			currentQuorum
 			quorumPrototype
 			secretary
-            president
-            emailText
+			president
+			emailText
 			street
 			city
 			name

@@ -4,73 +4,73 @@ import { PlaygroundContext } from './PlaygroundPage';
 
 
 const PlaygroundSideMenu = () => {
-    const playgroundContext = React.useContext(PlaygroundContext);
+	const playgroundContext = React.useContext(PlaygroundContext);
 
-    return (
-        <div style={{
-            width: '250px',
-            height: '100%',
-            borderRight: '2px solid white'
-        }}>
-            <ExpansionPanel
-                square
-                expanded={true}
-                style={{
-                    backgroundColor: '#212121'
-                }}
-            >
-                <ExpansionPanelSummary>
+	return (
+		<div style={{
+			width: '250px',
+			height: '100%',
+			borderRight: '2px solid white'
+		}}>
+			<ExpansionPanel
+				square
+				expanded={true}
+				style={{
+					backgroundColor: '#212121'
+				}}
+			>
+				<ExpansionPanelSummary>
                     Cuenta
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                    <li style={{ cursor: 'pointer' }} onClick={() => playgroundContext.setOperation(operations.account)}>
+				</ExpansionPanelSummary>
+				<ExpansionPanelDetails>
+					<li style={{ cursor: 'pointer' }} onClick={() => playgroundContext.setOperation(operations.account)}>
                         Ver cuenta
-                    </li>
-                </ExpansionPanelDetails>
-            </ExpansionPanel>
-            <ExpansionPanel
-                square
-                expanded={true}
-                style={{
-                    backgroundColor: '#212121'
-                }}
-            >
-                <ExpansionPanelSummary>
+					</li>
+				</ExpansionPanelDetails>
+			</ExpansionPanel>
+			<ExpansionPanel
+				square
+				expanded={true}
+				style={{
+					backgroundColor: '#212121'
+				}}
+			>
+				<ExpansionPanelSummary>
                     Usuarios
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                    <li style={{ cursor: 'pointer' }} onClick={() => playgroundContext.setOperation(operations.create)}>
+				</ExpansionPanelSummary>
+				<ExpansionPanelDetails>
+					<li style={{ cursor: 'pointer' }} onClick={() => playgroundContext.setOperation(operations.create)}>
                         Crear usuario
-                    </li>
-                </ExpansionPanelDetails>
-            </ExpansionPanel>
-            <ExpansionPanel
-                square
-                expanded={true}
-                style={{
-                    backgroundColor: '#212121'
-                }}
-            >
-                <ExpansionPanelSummary>
+					</li>
+				</ExpansionPanelDetails>
+			</ExpansionPanel>
+			<ExpansionPanel
+				square
+				expanded={true}
+				style={{
+					backgroundColor: '#212121'
+				}}
+			>
+				<ExpansionPanelSummary>
                     Compañías
-                </ExpansionPanelSummary>
-                <ExpansionPanelDetails>
-                    <ul>
-                        <li style={{ cursor: 'pointer' }} onClick={() => playgroundContext.setOperation(operations.createCompany)}>
+				</ExpansionPanelSummary>
+				<ExpansionPanelDetails>
+					<ul>
+						<li style={{ cursor: 'pointer' }} onClick={() => playgroundContext.setOperation(operations.createCompany)}>
                             Crear compañía
-                        </li>
-                        <li style={{ cursor: 'pointer' }} onClick={() => playgroundContext.setOperation(operations.linkCompanyUser)}>
+						</li>
+						<li style={{ cursor: 'pointer' }} onClick={() => playgroundContext.setOperation(operations.linkCompanyUser)}>
                             Vincular compañía / usuario
-                        </li>
-                        <li style={{ cursor: 'pointer' }} onClick={() => playgroundContext.setOperation(operations.unlinkCompanyUser)}>
+						</li>
+						<li style={{ cursor: 'pointer' }} onClick={() => playgroundContext.setOperation(operations.unlinkCompanyUser)}>
                             Desvincular compañía / usuario
-                        </li>
-                    </ul>
-                </ExpansionPanelDetails>
-            </ExpansionPanel>
-        </div>
-    )
-}
+						</li>
+					</ul>
+				</ExpansionPanelDetails>
+			</ExpansionPanel>
+		</div>
+	);
+};
 
 const createUser = `
 mutation createUser($user: UserInput!){
@@ -83,30 +83,30 @@ mutation createUser($user: UserInput!){
 }`;
 
 const userInput = JSON.stringify({
-    user: {
-        email: 'aaron.fuentes.cocodin+568@gmail.com',
-        name: 'Aaron',
-        pwd: '1234',
-        surname: 'Fuentes',
-        preferredLanguage: 'es',
-        phone: '635480041'
-    }
+	user: {
+		email: 'aaron.fuentes.cocodin+568@gmail.com',
+		name: 'Aaron',
+		pwd: '1234',
+		surname: 'Fuentes',
+		preferredLanguage: 'es',
+		phone: '635480041'
+	}
 });
 
 const companyInput = JSON.stringify({
-    company: {
-        tin: '',
-        businessName: 'Councilbox',
-        address: 'C/',
-        city: 'SdC',
-        zipcode: '15454',
-        country: 'España',
-        countryState: 'A coruña',
-        linkKey: '1234',
-        domain: 'www.councilbox.com',
-        type: 1,
-        language: 'es',
-    }
+	company: {
+		tin: '',
+		businessName: 'Councilbox',
+		address: 'C/',
+		city: 'SdC',
+		zipcode: '15454',
+		country: 'España',
+		countryState: 'A coruña',
+		linkKey: '1234',
+		domain: 'www.councilbox.com',
+		type: 1,
+		language: 'es',
+	}
 });
 
 
@@ -147,32 +147,32 @@ const unlinkCompany = `
 `;
 
 const operations = {
-    account: {
-        query: getAccount,
-        variables: '{}'
-    },
-    create: {
-        query: createUser,
-        variables: userInput
-    },
-    createCompany: {
-        query: createCompany,
-        variables: companyInput
-    },
-    linkCompanyUser: {
-        query: linkCompany,
-        variables: JSON.stringify({
-            userId: 0,
-            companyTin: 0
-        })
-    },
-    unlinkCompanyUser: {
-        query: unlinkCompany,
-        variables: JSON.stringify({
-            userId: 0,
-            companyTin: 0
-        })
-    }
-}
+	account: {
+		query: getAccount,
+		variables: '{}'
+	},
+	create: {
+		query: createUser,
+		variables: userInput
+	},
+	createCompany: {
+		query: createCompany,
+		variables: companyInput
+	},
+	linkCompanyUser: {
+		query: linkCompany,
+		variables: JSON.stringify({
+			userId: 0,
+			companyTin: 0
+		})
+	},
+	unlinkCompanyUser: {
+		query: unlinkCompany,
+		variables: JSON.stringify({
+			userId: 0,
+			companyTin: 0
+		})
+	}
+};
 
 export default PlaygroundSideMenu;

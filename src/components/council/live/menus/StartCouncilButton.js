@@ -1,8 +1,8 @@
-import React from "react";
-import { compose, graphql, withApollo } from "react-apollo";
+import React from 'react';
+import { compose, graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { Typography } from "material-ui";
-import { councilOfficials } from "../../../../queries";
+import { Typography } from 'material-ui';
+import { councilOfficials } from '../../../../queries';
 import {
 	AlertConfirm,
 	BasicButton,
@@ -13,17 +13,17 @@ import {
 	ParticipantRow,
 	TextInput,
 	Scrollbar
-} from "../../../../displayComponents";
-import { getPrimary } from "../../../../styles/colors";
-import { COUNCIL_TYPES, DELEGATION_USERS_LOAD } from "../../../../constants";
-import { existsQualityVote, councilHasVideo } from "../../../../utils/CBX";
-import ConveneSelector from "../ConveneSelector";
-import { startCouncil } from "../../../../queries/council";
-import { useOldState } from "../../../../hooks";
-import StartCouncilVideoOptions from "./StartCouncilVideoOptions";
+} from '../../../../displayComponents';
+import { getPrimary } from '../../../../styles/colors';
+import { COUNCIL_TYPES, DELEGATION_USERS_LOAD } from '../../../../constants';
+import { existsQualityVote, councilHasVideo } from '../../../../utils/CBX';
+import ConveneSelector from '../ConveneSelector';
+import { startCouncil as startCouncilMutation } from '../../../../queries/council';
+import { useOldState } from '../../../../hooks';
+import StartCouncilVideoOptions from './StartCouncilVideoOptions';
 
 const buttonStyle = primary => ({
-	backgroundColor: "white",
+	backgroundColor: 'white',
 	border: `solid 1px ${primary}`,
 	color: primary,
 	cursor: 'pointer',
@@ -31,7 +31,9 @@ const buttonStyle = primary => ({
 });
 
 
-const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
+const StartCouncilButton = ({
+	council, translate, data, client, ...props
+}) => {
 	const [loadingSteps, setLoadingSteps] = React.useState({
 		steps: [],
 		status: 'idle'
@@ -50,135 +52,23 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 		},
 		video: {
 			startRecording: council.fullVideoRecord === 1,
-			//hasRTMP: (council.room.videoConfig && council.room.videoConfig.rtmp)? true : false,
+			// hasRTMP: (council.room.videoConfig && council.room.videoConfig.rtmp)? true : false,
 			startStreaming: !!((council.room.videoConfig && council.room.videoConfig.rtmp))
 		},
 		errors: {
-			president: "",
-			secretary: "",
-			qualityVote: ""
+			president: '',
+			secretary: '',
+			qualityVote: ''
 		}
 	});
 	const primary = getPrimary();
 
-
-	const wait = async () => new Promise(resolve => {
-			setTimeout(resolve, 3000);
-		})
-
-	const startCouncil = async () => {
-		if (!checkRequiredFields()) {
-			if (state.video.startRecording) {
-				const step = {
-					text: translate.start_recording,
-					status: 'loading'
-				};
-
-				setLoadingSteps(loadingSteps => ({
-					steps: [...loadingSteps.steps, step],
-					status: 'loading'
-				}));
-
-				//await wait();
-
-				await client.mutate({
-					mutation: gql`
-						mutation StartRecording($councilId: Int!){
-							startRecording(councilId: $councilId){
-								success
-								message
-							}
-						}
-					`,
-					variables: {
-						councilId: council.id
-					}
-				});
-
-				step.status = 'done';
-				setLoadingSteps(loadingSteps => ({
-					steps: [...loadingSteps.steps],
-					status: 'loading'
-				}));
-			}
-
-			if (state.video.startStreaming) {
-				const step = {
-					text: translate.starting_broadcast,
-					status: 'loading'
-				};
-
-				setLoadingSteps(loadingSteps => ({
-					steps: [...loadingSteps.steps, step],
-					status: 'loading'
-				}));
-
-				//await wait();
-
-				await client.mutate({
-					mutation: gql`
-						mutation StartStreaming($councilId: Int!){
-							startStreaming(councilId: $councilId){
-								success
-								message
-							}
-						}
-					`,
-					variables: {
-						councilId: council.id
-					}
-				});
-
-				step.status = 'done';
-				setLoadingSteps(loadingSteps => ({
-					steps: [...loadingSteps.steps],
-					status: 'loading'
-				}));
-			}
-
-			const step = {
-				text: translate.starting_council,
-				status: 'loading'
-			};
-
-			setLoadingSteps(loadingSteps => ({
-				steps: [...loadingSteps.steps, step],
-				status: 'loading'
-			}));
-
-			//await wait();
-			const { startCouncil } = props;
-			const {
-				presidentId,
-				secretaryId,
-				qualityVoteId,
-				firstOrSecondConvene
-			} = state.data;
-			await startCouncil({
-				variables: {
-					councilId: council.id,
-					presidentId,
-					secretaryId,
-					qualityVoteId,
-					firstOrSecondConvene,
-					videoOptions: state.video
-				}
-			});
-
-			step.status = 'done';
-			setLoadingSteps(loadingSteps => ({
-				steps: [...loadingSteps.steps],
-				status: 'done'
-			}));
-		}
-	}
-
 	const checkRequiredFields = () => {
 		let hasError = false;
 		const errors = {
-			president: "",
-			secretary: "",
-			qualityVote: ""
+			president: '',
+			secretary: '',
+			qualityVote: ''
 		};
 
 		if (council.statute.hasPresident === 1 && !state.data.president) {
@@ -203,11 +93,116 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 		});
 
 		return hasError;
-	}
+	};
+
+	const startCouncil = async () => {
+		if (!checkRequiredFields()) {
+			if (state.video.startRecording) {
+				const step = {
+					text: translate.start_recording,
+					status: 'loading'
+				};
+
+				setLoadingSteps(items => ({
+					steps: [...items.steps, step],
+					status: 'loading'
+				}));
+
+				// await wait();
+
+				await client.mutate({
+					mutation: gql`
+						mutation StartRecording($councilId: Int!){
+							startRecording(councilId: $councilId){
+								success
+								message
+							}
+						}
+					`,
+					variables: {
+						councilId: council.id
+					}
+				});
+
+				step.status = 'done';
+				setLoadingSteps(items => ({
+					steps: [...items.steps],
+					status: 'loading'
+				}));
+			}
+
+			if (state.video.startStreaming) {
+				const step = {
+					text: translate.starting_broadcast,
+					status: 'loading'
+				};
+
+				setLoadingSteps(items => ({
+					steps: [...items.steps, step],
+					status: 'loading'
+				}));
+
+				// await wait();
+
+				await client.mutate({
+					mutation: gql`
+						mutation StartStreaming($councilId: Int!){
+							startStreaming(councilId: $councilId){
+								success
+								message
+							}
+						}
+					`,
+					variables: {
+						councilId: council.id
+					}
+				});
+
+				step.status = 'done';
+				setLoadingSteps(items => ({
+					steps: [...items.steps],
+					status: 'loading'
+				}));
+			}
+
+			const step = {
+				text: translate.starting_council,
+				status: 'loading'
+			};
+
+			setLoadingSteps(items => ({
+				steps: [...items.steps, step],
+				status: 'loading'
+			}));
+
+			const {
+				presidentId,
+				secretaryId,
+				qualityVoteId,
+				firstOrSecondConvene
+			} = state.data;
+			await props.startCouncil({
+				variables: {
+					councilId: council.id,
+					presidentId,
+					secretaryId,
+					qualityVoteId,
+					firstOrSecondConvene,
+					videoOptions: state.video
+				}
+			});
+
+			step.status = 'done';
+			setLoadingSteps(items => ({
+				steps: [...items.steps],
+				status: 'done'
+			}));
+		}
+	};
 
 	const actionSwitch = () => {
 		const actions = {
-			'1': (id, name) => {
+			1: (id, name) => {
 				setState({
 					data: {
 						...state.data,
@@ -217,7 +212,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 					selecting: 0
 				});
 			},
-			'2': (id, name) => {
+			2: (id, name) => {
 				setState({
 					data: {
 						...state.data,
@@ -227,7 +222,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 					selecting: 0
 				});
 			},
-			'3': (id, name) => {
+			3: (id, name) => {
 				setState({
 					data: {
 						...state.data,
@@ -237,10 +232,10 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 					selecting: 0
 				});
 			}
-		}
+		};
 
 		return actions[state.selecting];
-	}
+	};
 
 	const changeConvene = value => {
 		setState({
@@ -263,7 +258,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 		if (response.data.startAutoCouncil.success) {
 			await props.refetch();
 		}
-	}
+	};
 
 	const loadMore = () => {
 		data.fetchMore({
@@ -289,7 +284,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 				};
 			}
 		});
-	}
+	};
 
 	const updateFilterText = text => {
 		data.refetch({
@@ -298,15 +293,15 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 				text
 			}]
 		});
-	}
+	};
 
 	const forceStartWarning = () => (
-			<div>
-				{translate.council_will_start}
-			</div>
-		)
+		<div>
+			{translate.council_will_start}
+		</div>
+	);
 
-	const _startCouncilForm = () => {
+	const startCouncilForm = () => {
 		const { loading } = data;
 
 		const participants = loading ? [] : data.councilOfficials.list;
@@ -320,11 +315,11 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 						{step.text}
 					</div>
 					<div>
-						{step.status === 'loading' &&
-							<LoadingSection size={14} />
+						{step.status === 'loading'
+&& <LoadingSection size={14} />
 						}
-						{step.status === 'done' &&
-							<i className="fa fa-check" style={{ color: 'green' }}></i>
+						{step.status === 'done'
+&& <i className="fa fa-check" style={{ color: 'green' }}></i>
 						}
 					</div>
 				</div>
@@ -333,10 +328,10 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 
 		if (state.selecting !== 0) {
 			return (
-				<div style={{ width: "600px" }}>
+				<div style={{ width: '600px' }}>
 					<TextInput
 						adornment={<Icon>search</Icon>}
-						floatingText={" "}
+						floatingText={' '}
 						type="text"
 						value={state.filterText}
 						onChange={event => {
@@ -346,125 +341,125 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 
 					<div
 						style={{
-							height: "300px",
-							overflow: "hidden",
-							position: "relative"
+							height: '300px',
+							overflow: 'hidden',
+							position: 'relative'
 						}}
 					>
 						{loading ? (
 							<LoadingSection />
 						) : (
-								<Scrollbar option={{ suppressScrollX: true }}>
-									{participants.length > 0 ? (
-										<div style={{ padding: '0.2em' }}>
-											{participants.map(participant => (
-												<ParticipantRow
-													clases={'itemsSeleccionEnModalUsersEnReunion'}
-													participant={participant}
-													key={`participant_${
-														participant.id
-														}`}
-													onClick={() => actionSwitch()(
-															participant.id,
-															`${participant.name} ${participant.surname || ''}`
-														)
-													}
-												/>
-											))}
-											{participants.length < total - 1 && (
-												<div onClick={loadMore} style={{
-													display: 'flex',
-													alignItems: 'center',
-													padding: '0.45em',
-													marginTop: '0.5em',
-													cursor: 'pointer',
-													justifyContent: 'center',
-													border: '1px solid gainsboro'
-												}} className="withShadow">
-													{`Descargar ${
-														rest > DELEGATION_USERS_LOAD
-															? `${DELEGATION_USERS_LOAD} de ${rest} restantes`
-															: translate.all_plural.toLowerCase()
-														}`}
-												</div>
-											)}
-										</div>
-									) : (
-											<Typography>
-												{translate.no_results}
-											</Typography>
+							<Scrollbar option={{ suppressScrollX: true }}>
+								{participants.length > 0 ? (
+									<div style={{ padding: '0.2em' }}>
+										{participants.map(participant => (
+											<ParticipantRow
+												clases={'itemsSeleccionEnModalUsersEnReunion'}
+												participant={participant}
+												key={`participant_${
+													participant.id
+												}`}
+												onClick={() => actionSwitch()(
+													participant.id,
+													`${participant.name} ${participant.surname || ''}`
+												)
+												}
+											/>
+										))}
+										{participants.length < total - 1 && (
+											<div onClick={loadMore} style={{
+												display: 'flex',
+												alignItems: 'center',
+												padding: '0.45em',
+												marginTop: '0.5em',
+												cursor: 'pointer',
+												justifyContent: 'center',
+												border: '1px solid gainsboro'
+											}} className="withShadow">
+												{`Descargar ${
+													rest > DELEGATION_USERS_LOAD ?
+														`${DELEGATION_USERS_LOAD} de ${rest} restantes`
+														: translate.all_plural.toLowerCase()
+												}`}
+											</div>
 										)}
-								</Scrollbar>
-							)}
+									</div>
+								) : (
+									<Typography>
+										{translate.no_results}
+									</Typography>
+								)}
+							</Scrollbar>
+						)}
 					</div>
 				</div>
 			);
 		}
 
 		return (
-			<Grid style={{ width: "600px" }}>
-				{council.statute.hasPresident === 1 &&
-					<React.Fragment>
-						<GridItem xs={3} md={3} lg={3}>
-							{translate.president}
-						</GridItem>
-						<GridItem xs={4} md={4} lg={4}>
-							<button
-								id={'seleccionaAlPresidenteEnReunion'}
-								style={buttonStyle(primary)}
-								onClick={() => setState({ selecting: 1 })}
-							>
-								{translate.select_president}
-							</button>
-						</GridItem>
-						<GridItem xs={5} md={5} lg={5}>
-							{state.data.president ? (
-								state.data.president
-							) : (
-									<span
-										style={{
-											color: state.errors.president
-												? "red"
-												: "inherit"
-										}}
-									>
-										{translate.not_selected}
-									</span>
-								)}
-						</GridItem>
-					</React.Fragment>
+			<Grid style={{ width: '600px' }}>
+				{council.statute.hasPresident === 1
+&& <React.Fragment>
+	<GridItem xs={3} md={3} lg={3}>
+		{translate.president}
+	</GridItem>
+	<GridItem xs={4} md={4} lg={4}>
+		<button
+			id={'seleccionaAlPresidenteEnReunion'}
+			style={buttonStyle(primary)}
+			onClick={() => setState({ selecting: 1 })}
+		>
+			{translate.select_president}
+		</button>
+	</GridItem>
+	<GridItem xs={5} md={5} lg={5}>
+		{state.data.president ? (
+			state.data.president
+		) : (
+			<span
+				style={{
+					color: state.errors.president ?
+						'red'
+						: 'inherit'
+				}}
+			>
+				{translate.not_selected}
+			</span>
+		)}
+	</GridItem>
+</React.Fragment>
 				}
 
-				{council.statute.hasSecretary === 1 &&
-					<React.Fragment>
-						<GridItem xs={3} md={3} lg={3}>
-							{translate.secretary}
-						</GridItem>
-						<GridItem xs={4} md={4} lg={4}>
-							<button
-								id={'seleccionaAlSecretarioEnReunion'}
-								style={buttonStyle(primary)}
-								onClick={() => setState({ selecting: 2 })}
-							>
-								{translate.select_secretary}
-							</button>
-						</GridItem>
-						<GridItem xs={5} md={5} lg={5}>
-							{state.data.secretary ? (
-								state.data.secretary
-							) : (
-									<span
-										style={{
-											color: state.errors.secretary
-												? "red"
-												: "inherit"
-										}}
-									>
-										{translate.not_selected}
-									</span>
-								)}
-						</GridItem>
-					</React.Fragment>
+				{council.statute.hasSecretary === 1
+&& <React.Fragment>
+	<GridItem xs={3} md={3} lg={3}>
+		{translate.secretary}
+	</GridItem>
+	<GridItem xs={4} md={4} lg={4}>
+		<button
+			id={'seleccionaAlSecretarioEnReunion'}
+			style={buttonStyle(primary)}
+			onClick={() => setState({ selecting: 2 })}
+		>
+			{translate.select_secretary}
+		</button>
+	</GridItem>
+	<GridItem xs={5} md={5} lg={5}>
+		{state.data.secretary ? (
+			state.data.secretary
+		) : (
+			<span
+				style={{
+					color: state.errors.secretary ?
+						'red'
+						: 'inherit'
+				}}
+			>
+				{translate.not_selected}
+			</span>
+		)}
+	</GridItem>
+</React.Fragment>
 
 				}
 				{existsQualityVote(council.statute) && (
@@ -484,48 +479,48 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 							{state.data.qualityVoteName ? (
 								state.data.qualityVoteName
 							) : (
-									<span
-										style={{
-											color: state.errors.qualityVote
-												? "red"
-												: "inherit"
-										}}
-									>
-										{translate.not_selected}
-									</span>
-								)}
+								<span
+									style={{
+										color: state.errors.qualityVote ?
+											'red'
+											: 'inherit'
+									}}
+								>
+									{translate.not_selected}
+								</span>
+							)}
 						</GridItem>
 					</React.Fragment>
 				)}
 
-				{councilHasVideo(council) &&
-					<StartCouncilVideoOptions
-						council={council}
-						data={state.video}
-						translate={translate}
-						updateData={object => {
-							setState({
-								...state,
-								video: {
-									...state.video,
-									...object
-								}
-							})
-						}}
-					/>
+				{councilHasVideo(council)
+&& <StartCouncilVideoOptions
+	council={council}
+	data={state.video}
+	translate={translate}
+	updateData={object => {
+		setState({
+			...state,
+			video: {
+				...state.video,
+				...object
+			}
+		});
+	}}
+/>
 				}
-				{council.councilType !== COUNCIL_TYPES.ONE_ON_ONE &&
-					<ConveneSelector
-						council={council}
-						translate={translate}
-						convene={state.data.firstOrSecondConvene}
-						changeConvene={changeConvene}
-						recount={props.recount}
-					/>
+				{council.councilType !== COUNCIL_TYPES.ONE_ON_ONE
+&& <ConveneSelector
+	council={council}
+	translate={translate}
+	convene={state.data.firstOrSecondConvene}
+	changeConvene={changeConvene}
+	recount={props.recount}
+/>
 				}
 			</Grid>
 		);
-	}
+	};
 
 	if (!data.councilOfficials) {
 		return <LoadingSection size={20} />;
@@ -539,26 +534,26 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 					color={primary}
 					textPosition="before"
 					onClick={() => setState({
-							alert: true
-						})
+						alert: true
+					})
 					}
 					icon={
 						<Icon
 							className="material-icons"
 							style={{
-								fontSize: "1.1em",
-								color: "white"
+								fontSize: '1.1em',
+								color: 'white'
 							}}
 						>
-							play_arrow
+play_arrow
 						</Icon>
 					}
-					buttonStyle={{ width: "11em" }}
+					buttonStyle={{ width: '11em' }}
 					textStyle={{
-						color: "white",
-						fontSize: "0.9em",
-						fontWeight: "700",
-						textTransform: "none"
+						color: 'white',
+						fontSize: '0.9em',
+						fontWeight: '700',
+						textTransform: 'none'
 					}}
 				/>
 				<AlertConfirm
@@ -572,7 +567,7 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 					requestClose={() => setState({ alert: false })}
 				/>
 			</React.Fragment>
-		)
+		);
 	}
 
 	return (
@@ -583,31 +578,31 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 				id={'iniciarReunionDentroDeReunion'}
 				textPosition="before"
 				onClick={() => setState({
-						alert: true
-					})
+					alert: true
+				})
 				}
 				icon={
 					<Icon
 						className="material-icons"
 						style={{
-							fontSize: "1.1em",
-							color: "white"
+							fontSize: '1.1em',
+							color: 'white'
 						}}
 					>
-						play_arrow
+play_arrow
 					</Icon>
 				}
-				buttonStyle={{ width: "11em" }}
+				buttonStyle={{ width: '11em' }}
 				textStyle={{
-					color: "white",
-					fontSize: "0.9em",
-					fontWeight: "700",
-					textTransform: "none"
+					color: 'white',
+					fontSize: '0.9em',
+					fontWeight: '700',
+					textTransform: 'none'
 				}}
 			/>
 			<AlertConfirm
 				title={translate.start_council}
-				bodyText={_startCouncilForm()}
+				bodyText={startCouncilForm()}
 				open={state.alert}
 				loadingAction={state.loading || loadingSteps.status === 'loading'}
 				buttonAccept={translate.accept}
@@ -619,17 +614,16 @@ const StartCouncilButton = ({ council, translate, data, client, ...props }) => {
 					loadingSteps.status === 'done' ?
 						() => {
 							props.refetch();
-							setState({ alert: false })
+							setState({ alert: false });
 						}
-						:
-						state.selecting === 0
-							? () => setState({ alert: false })
+						:						state.selecting === 0 ?
+							() => setState({ alert: false })
 							: () => setState({ selecting: 0 })
 				}
 			/>
 		</React.Fragment>
-	)
-}
+	);
+};
 
 const startAutoCouncil = gql`
 	mutation StartAutoCouncil($councilId: Int!){
@@ -642,8 +636,8 @@ const startAutoCouncil = gql`
 
 
 export default compose(
-	graphql(startCouncil, { name: "startCouncil" }),
-	graphql(startAutoCouncil, { name: "startAutoCouncil" }),
+	graphql(startCouncilMutation, { name: 'startCouncil' }),
+	graphql(startAutoCouncil, { name: 'startAutoCouncil' }),
 	withApollo,
 	graphql(councilOfficials, {
 		options: props => ({

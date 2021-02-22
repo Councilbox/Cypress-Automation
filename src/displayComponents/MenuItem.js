@@ -1,7 +1,9 @@
-import React from "react";
-import { MenuItem } from "material-ui";
+import React from 'react';
+import { MenuItem } from 'material-ui';
 
-const Item = ({ value, onClick, style, children }) => (
+const Item = ({
+	value, onClick, style, children
+}) => (
 	<MenuItem value={value} onClick={onClick} style={style}>
 		{children}
 	</MenuItem>

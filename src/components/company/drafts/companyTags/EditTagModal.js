@@ -4,113 +4,116 @@ import gql from 'graphql-tag';
 import { AlertConfirm, UnsavedChangesModal } from '../../../../displayComponents';
 import CompanyTagForm from './CompanyTagForm';
 import { checkUsedKey } from './AddCompanyTag';
+import { removeTypenameField } from '../../../../utils/CBX';
 
 const mutation = gql`
-    mutation updateCompanyTag($tag: CompanyTagInput!){
-        updateCompanyTag(tag: $tag){
-            success
-            message
-        }
-    }
+	mutation updateCompanyTag($tag: CompanyTagInput!){
+		updateCompanyTag(tag: $tag){
+			success
+			message
+		}
+	}
 `;
 
-const EditTagModal = ({ tag: initialValue, open, translate, company, refetch, client, requestClose, ...props }) => {
-    const [tag, setTag] = React.useState(initialValue || { key: '', value: '', description: "" });
-    const [errors, setErrors] = React.useState({});
-    const [initInfo, setInitInfo] = React.useState(tag)
-    const [unsavedAlert, setUnsavedAlert] = React.useState(false)
+const EditTagModal = ({
+	tag: initialValue, open, translate, company, refetch, client, requestClose
+}) => {
+	const [tag, setTag] = React.useState(initialValue || { key: '', value: '', description: '' });
+	const [errors, setErrors] = React.useState({});
+	const [initInfo] = React.useState(tag);
+	const [unsavedAlert, setUnsavedAlert] = React.useState(false);
 
-    const updateTagData = object => {
-        setTag({
-            ...tag,
-            ...object
-        });
-    }
+	const updateTagData = object => {
+		setTag({
+			...tag,
+			...object
+		});
+	};
 
-    const updateTag = async () => {
-        if (!await checkRequiredFields()) {
-            const { __typename, ...data } = tag;
-            await client.mutate({
-                mutation,
-                variables: {
-                    tag: data
-                }
-            });
+	const checkRequiredFields = async () => {
+		const checkErrors = {};
 
-            refetch();
-            requestClose();
-        }
-    }
+		if (!tag.key) {
+			checkErrors.key = translate.required_field;
+		} else {
+			const response = await client.query({
+				query: checkUsedKey,
+				variables: {
+					companyId: company.id,
+					key: tag.key
+				}
+			});
 
-    const checkRequiredFields = async () => {
-        const errors = {}
+			if (response.data.companyTagKeyUsed && tag.key !== initialValue.key) {
+				checkErrors.key = translate.key_already_used;
+			}
+		}
 
-        if (!tag.key) {
-            errors.key = translate.required_field;
-        } else {
-            const response = await client.query({
-                query: checkUsedKey,
-                variables: {
-                    companyId: company.id,
-                    key: tag.key
-                }
-            });
+		if (!tag.value) {
+			checkErrors.value = translate.required_field;
+		}
 
-            if (response.data.companyTagKeyUsed && tag.key !== initialValue.key) {
-                errors.key = translate.key_already_used;
-            }
-        }
+		setErrors(checkErrors);
 
-        if (!tag.value) {
-            errors.value = translate.required_field;
-        }
+		return Object.keys(checkErrors).length > 0;
+	};
 
-        setErrors(errors);
+	const updateTag = async () => {
+		if (!await checkRequiredFields()) {
+			const data = removeTypenameField(tag);
+			await client.mutate({
+				mutation,
+				variables: {
+					tag: data
+				}
+			});
 
-        return Object.keys(errors).length > 0;
-    }
+			refetch();
+			requestClose();
+		}
+	};
 
-    const renderBody = () => (
-            <CompanyTagForm
-                errors={errors}
-                tag={tag}
-                setTag={updateTagData}
-                translate={translate}
-            />
-        )
+	const renderBody = () => (
+		<CompanyTagForm
+			errors={errors}
+			tag={tag}
+			setTag={updateTagData}
+			translate={translate}
+		/>
+	);
 
-    const comprobateChanges = () => {
-        const unsavedAlert = JSON.stringify(initInfo) !== JSON.stringify(tag)
-        setUnsavedAlert(unsavedAlert)
-        return unsavedAlert
-    };
+	const comprobateChanges = () => {
+		const isUnsavedAlert = JSON.stringify(initInfo) !== JSON.stringify(tag);
+		setUnsavedAlert(isUnsavedAlert);
+		return isUnsavedAlert;
+	};
 
-    const closeModal = () => {
-        const equals = comprobateChanges();
-        if (!equals) {
-            requestClose()
-        }
-    }
+	const closeModal = () => {
+		const equals = comprobateChanges();
+		if (!equals) {
+			requestClose();
+		}
+	};
 
-    return (
-        <div>
-            <AlertConfirm
-                title={translate.edit_tag}
-                buttonAccept={translate.save}
-                open={open}
-                bodyText={renderBody()}
-                acceptAction={updateTag}
-                requestClose={closeModal}
-                buttonCancel={translate.cancel}
-            />
-            <UnsavedChangesModal
-                acceptAction={updateTag}
-                cancelAction={requestClose}
-                requestClose={() => setUnsavedAlert(false) }
-                open={unsavedAlert}
-            />
-        </div>
-    )
-}
+	return (
+		<div>
+			<AlertConfirm
+				title={translate.edit_tag}
+				buttonAccept={translate.save}
+				open={open}
+				bodyText={renderBody()}
+				acceptAction={updateTag}
+				requestClose={closeModal}
+				buttonCancel={translate.cancel}
+			/>
+			<UnsavedChangesModal
+				acceptAction={updateTag}
+				cancelAction={requestClose}
+				requestClose={() => setUnsavedAlert(false)}
+				open={unsavedAlert}
+			/>
+		</div>
+	);
+};
 
 export default withApollo(EditTagModal);

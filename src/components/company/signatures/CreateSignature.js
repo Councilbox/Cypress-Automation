@@ -1,9 +1,10 @@
-import React from "react";
-import { withRouter } from "react-router-dom";
+/* eslint-disable class-methods-use-this */
+import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { bHistory } from "../../../containers/App";
-import { LoadingMainApp } from "../../../displayComponents";
+import { bHistory } from '../../../containers/App';
+import { LoadingMainApp } from '../../../displayComponents';
 
 class CreateSignature extends React.Component {
 	state = {
@@ -29,7 +30,7 @@ class CreateSignature extends React.Component {
 			);
 			bHistory.replace(`/company/${this.props.match.params.company}/signature/${newSignatureId}`);
 		}
-		//Nueva forma de firmar signatureIvCert
+		// Nueva forma de firmar signatureIvCert
 		if (this.props.match.url === `/company/${this.props.match.params.company}/signatureIvCert/new` && !this.state.creating) {
 			this.setState({
 				creating: true

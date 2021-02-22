@@ -1,18 +1,20 @@
-import React from "react";
-import { Typography } from "material-ui";
-import { graphql } from "react-apollo";
-import { AlertConfirm, Icon, Radio } from "../../../../displayComponents";
-import { sendVideoEmails } from "../../../../queries";
+import React from 'react';
+import { Typography } from 'material-ui';
+import { graphql } from 'react-apollo';
+import { AlertConfirm, Icon, Radio } from '../../../../displayComponents';
+import { sendVideoEmails as sendVideoEmailsMutation } from '../../../../queries';
 import { moment } from '../../../../containers/App';
 import { useOldState } from '../../../../hooks';
-import FailedSMSMessage from "./FailedSMSMessage";
-import LiveSMS from "./LiveSMS";
+import FailedSMSMessage from './FailedSMSMessage';
+import LiveSMS from './LiveSMS';
 
 
-const SendCredentialsModal = ({ translate, council, requestClose, ...props }) => {
+const SendCredentialsModal = ({
+	translate, council, requestClose, ...props
+}) => {
 	const [state, setState] = useOldState({
-		success: "",
-		error: "",
+		success: '',
+		error: '',
 		sendAgenda: false,
 		sendType: 'all',
 		showSMS: false
@@ -25,7 +27,6 @@ const SendCredentialsModal = ({ translate, council, requestClose, ...props }) =>
 			error: null,
 			showSMS: false,
 			sending: false,
-			error: false,
 			sendAgenda: false
 		});
 	};
@@ -34,13 +35,13 @@ const SendCredentialsModal = ({ translate, council, requestClose, ...props }) =>
 		setState({
 			sendType: 'all'
 		});
-	}
+	};
 
 	const sendNoEnter = () => {
 		setState({
 			sendType: 'noEnter'
 		});
-	}
+	};
 
 	const sendVideoEmails = async () => {
 		setState({
@@ -65,29 +66,31 @@ const SendCredentialsModal = ({ translate, council, requestClose, ...props }) =>
 				error: true
 			});
 		}
-	}
+	};
 
-	function _renderBody() {
+	function renderBody() {
 		if (state.sending) {
 			return <div>{translate.sending}</div>;
 		}
 
-		if(state.showSMS){
+		if (state.showSMS) {
 			return (
 				<LiveSMS
 					translate={translate}
 					council={council}
 				/>
-			)
+			);
 		}
 
-		if(state.error === 'Failed SMS'){
-			return <FailedSMSMessage translate={translate} onClick={() => setState({ showSMS: true })} />
+		if (state.error === 'Failed SMS') {
+			return <FailedSMSMessage translate={translate} onClick={() => setState({ showSMS: true })} />;
 		}
 
 		if (state.success) {
 			return (
-				<div style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+				<div style={{
+					width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'
+				}}>
 					<SuccessMessage message={translate.sent} />
 				</div>
 			);
@@ -97,14 +100,14 @@ const SendCredentialsModal = ({ translate, council, requestClose, ...props }) =>
 				{translate.send_to}
 				<br/>
 				<Radio
-					value={"all"}
+					value={'all'}
 					checked={state.sendType === 'all'}
 					onChange={sendAll}
 					name="sendType"
 					label={translate.all_plural}
 				/><br/>
 				<Radio
-					value={"noEnter"}
+					value={'noEnter'}
 					checked={state.sendType === 'noEnter'}
 					onChange={sendNoEnter}
 					name="sendType"
@@ -123,35 +126,35 @@ const SendCredentialsModal = ({ translate, council, requestClose, ...props }) =>
 			buttonAccept={state.success ? translate.accept : translate.send}
 			hideAccept={state.error || state.showSMS}
 			buttonCancel={translate.close}
-			bodyText={_renderBody()}
+			bodyText={renderBody()}
 			title={translate.send_video_credentials}
 		/>
-	)
-}
+	);
+};
 
 
-export default graphql(sendVideoEmails, {
-	name: "sendVideoEmails"
+export default graphql(sendVideoEmailsMutation, {
+	name: 'sendVideoEmails'
 })(SendCredentialsModal);
 
 const SuccessMessage = ({ message }) => (
 	<div
 		style={{
-			width: "500px",
-			display: "flex",
-			alignItems: "center",
-			alignContent: "center",
-			flexDirection: "column"
+			width: '500px',
+			display: 'flex',
+			alignItems: 'center',
+			alignContent: 'center',
+			flexDirection: 'column'
 		}}
 	>
 		<Icon
 			className="material-icons"
 			style={{
-				fontSize: "6em",
-				color: "green"
+				fontSize: '6em',
+				color: 'green'
 			}}
 		>
-			check_circle
+check_circle
 		</Icon>
 		<Typography variant="subheading">{message}</Typography>
 	</div>

@@ -1,6 +1,6 @@
-import React from "react";
-import { graphql, withApollo } from "react-apollo";
-import { MenuItem } from "material-ui";
+import React from 'react';
+import { graphql, withApollo } from 'react-apollo';
+import { MenuItem } from 'material-ui';
 import { toast } from 'react-toastify';
 import gql from 'graphql-tag';
 import {
@@ -11,22 +11,23 @@ import {
 	MajorityInput,
 	SelectInput,
 	TextInput
-} from "../../../../../displayComponents/index";
-import RichTextInput from "../../../../../displayComponents/RichTextInput";
-import { updateAgenda } from "../../../../../queries/agenda";
-import * as CBX from "../../../../../utils/CBX";
-import LoadDraft from "../../../../company/drafts/LoadDraft";
-import { getSecondary } from "../../../../../styles/colors";
-import { checkRequiredFieldsAgenda } from "../../../../../utils/validation";
-import { TAG_TYPES } from "../../../../company/drafts/draftTags/utils";
-import PointAttachments from "./PointAttachments";
-import { addAgendaAttachment } from "../../../../../queries";
-import { useOldState } from "../../../../../hooks";
-import DeleteAgendaButton from "./DeleteAgendaButton";
-import { AGENDA_TYPES } from "../../../../../constants";
+} from '../../../../../displayComponents/index';
+import RichTextInput from '../../../../../displayComponents/RichTextInput';
+import { updateAgenda } from '../../../../../queries/agenda';
+import * as CBX from '../../../../../utils/CBX';
+import LoadDraft from '../../../../company/drafts/LoadDraft';
+import { getSecondary } from '../../../../../styles/colors';
+import { checkRequiredFieldsAgenda } from '../../../../../utils/validation';
+import PointAttachments from './PointAttachments';
+import { addAgendaAttachment } from '../../../../../queries';
+import { useOldState } from '../../../../../hooks';
+import DeleteAgendaButton from './DeleteAgendaButton';
+import { AGENDA_TYPES } from '../../../../../constants';
 
 
-const PointEditor = ({ agenda, translate, company, council, requestClose, open, ...props }) => {
+const PointEditor = ({
+	agenda, translate, company, council, requestClose, open, ...props
+}) => {
 	const [state, setState] = useOldState({
 		...agenda,
 	});
@@ -34,12 +35,12 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 	const [attachmentsToRemove, setAttachmentsToRemove] = React.useState([]);
 	const [loadDraftModal, setLoadDraftModal] = React.useState(false);
 	const [errors, setErrors] = useOldState({
-		agendaSubject: "",
-		subjectType: "",
-		description: "",
-		majorityType: "",
-		majority: "",
-		majorityDivider: ""
+		agendaSubject: '',
+		subjectType: '',
+		description: '',
+		majorityType: '',
+		majority: '',
+		majorityDivider: ''
 	});
 	const editor = React.useRef();
 	const secondary = getSecondary();
@@ -49,17 +50,17 @@ const PointEditor = ({ agenda, translate, company, council, requestClose, open, 
 			company,
 			council
 		}, translate);
-		let majorityType = 0; let
-subjectType = 0;
+		let majorityType = 0;
+		let subjectType = 0;
 
-		if(draft.tags.agenda){
+		if (draft.tags.agenda) {
 			const { segments } = draft.tags.agenda;
-			if(segments[1]){
-				subjectType = props.votingTypes.filter(type => draft.tags.agenda.segments[1] === type.label)[0].value
+			if (segments[1]) {
+				subjectType = props.votingTypes.filter(type => draft.tags.agenda.segments[1] === type.label)[0].value;
 			}
 
-			if(segments[2]){
-				majorityType = props.majorityTypes.filter(type => draft.tags.agenda.segments[2] === type.label)[0].value
+			if (segments[2]) {
+				majorityType = props.majorityTypes.filter(type => draft.tags.agenda.segments[2] === type.label)[0].value;
 			}
 		}
 
@@ -79,6 +80,12 @@ subjectType = 0;
 		editor.current.setValue(correctedText);
 	};
 
+	function checkRequiredFields() {
+		const newErrors = checkRequiredFieldsAgenda(state, translate, toast);
+		setErrors(newErrors);
+		return newErrors.hasError;
+	}
+
 	const saveChanges = async () => {
 		if (!checkRequiredFields()) {
 			const { __typename, items, options, ballots, attachments: a, qualityVoteSense, votingsRecount, ...data } = state;
@@ -89,9 +96,10 @@ subjectType = 0;
 					}
 				}
 			});
-			if(attachments.length > 0){
+			if (attachments.length > 0) {
+				// eslint-disable-next-line no-underscore-dangle
 				await Promise.all(attachments.filter(attachment => !attachment.__typename).map(attachment => {
-					if(attachment.filename){
+					if (attachment.filename) {
 						const fileInfo = {
 							...attachment,
 							state: 0,
@@ -106,46 +114,45 @@ subjectType = 0;
 							}
 						});
 					}
-						const fileInfo = {
-							filename: attachment.name,
-							filesize: attachment.filesize.toString(),
-							documentId: attachment.id,
-							filetype: attachment.filetype,
-							state: 0,
-							agendaId: agenda.id,
-							councilId: council.id
-						};
+					const fileInfo = {
+						filename: attachment.name,
+						filesize: attachment.filesize.toString(),
+						documentId: attachment.id,
+						filetype: attachment.filetype,
+						state: 0,
+						agendaId: agenda.id,
+						councilId: council.id
+					};
 
-						return props.client.mutate({
-							mutation: gql`
-								mutation attachCompanyDocumentToAgenda($attachment: AgendaAttachmentInput){
-									attachCompanyDocumentToAgenda(attachment: $attachment){
-										id
-									}
-								}
-							`,
-							variables: {
-								attachment: fileInfo
-							}
-						})
-				}));
-			}
-
-			if(attachmentsToRemove.length > 0){
-				await Promise.all(attachmentsToRemove.map(item => props.client.mutate({
+					return props.client.mutate({
 						mutation: gql`
-							mutation deleteAgendaAttachment($attachmentId: Int!){
-								deleteAgendaAttachment(attachmentId: $attachmentId){
-									success
+							mutation attachCompanyDocumentToAgenda($attachment: AgendaAttachmentInput){
+								attachCompanyDocumentToAgenda(attachment: $attachment){
+									id
 								}
 							}
 						`,
 						variables: {
-							attachmentId: item.id
+							attachment: fileInfo
 						}
-					})));
+					});
+				}));
 			}
 
+			if (attachmentsToRemove.length > 0) {
+				await Promise.all(attachmentsToRemove.map(item => props.client.mutate({
+					mutation: gql`
+						mutation deleteAgendaAttachment($attachmentId: Int!){
+							deleteAgendaAttachment(attachmentId: $attachmentId){
+								success
+							}
+						}
+					`,
+					variables: {
+						attachmentId: item.id
+					}
+				})));
+			}
 
 
 			if (response) {
@@ -164,20 +171,21 @@ subjectType = 0;
 	};
 
 
-	const _renderModalBody = () => {
+	const renderModalBody = () => {
 		const {
 			votingTypes,
 			statute,
 			draftTypes,
 			companyStatutes
 		} = props;
+		// eslint-disable-next-line no-shadow
 		const agenda = state;
 		const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute, council);
 
 		return (
 			<div
 				style={{
-					width: "70vw"
+					width: '70vw'
 				}}
 			>
 				{loadDraftModal && (
@@ -188,15 +196,15 @@ subjectType = 0;
 						statute={statute}
 						defaultTags={{
 							...(state.subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST ? {
-								"confirmation_request": {
+								confirmation_request: {
 									active: true,
 									childs: null,
 									label: translate.confirmation_request,
-									name: "confirmation_request",
+									name: 'confirmation_request',
 									type: 3
 								},
 							} : {
-								"agenda": {
+								agenda: {
 									active: true,
 									type: 2,
 									name: 'agenda',
@@ -211,7 +219,7 @@ subjectType = 0;
 					/>
 				)}
 
-				<div style={{ display: loadDraftModal && "none" }}>
+				<div style={{ display: loadDraftModal && 'none' }}>
 					<Grid>
 						<GridItem xs={12} md={9} lg={9}>
 							<TextInput
@@ -220,8 +228,8 @@ subjectType = 0;
 								errorText={errors.agendaSubject}
 								value={agenda.agendaSubject}
 								onChange={event => updateState({
-										agendaSubject: event.target.value
-									})
+									agendaSubject: event.target.value
+								})
 								}
 								required
 							/>
@@ -233,8 +241,8 @@ subjectType = 0;
 									value={AGENDA_TYPES.CONFIRMATION_REQUEST}
 									disabled={true}
 									onChange={event => updateState({
-											subjectType: +event.target.value
-										})
+										subjectType: +event.target.value
+									})
 									}
 									required
 								>
@@ -244,25 +252,24 @@ subjectType = 0;
 										{translate.confirmation_request}
 									</MenuItem>
 								</SelectInput>
-							:
-								<SelectInput
+								:								<SelectInput
 									floatingText={translate.type}
 									value={agenda.subjectType}
 									errorText={errors.subjectType}
 									onChange={event => updateState({
-											subjectType: event.target.value
-										})
+										subjectType: event.target.value
+									})
 									}
 									required
 								>
 									{filteredTypes.map(voting => (
-											<MenuItem
-												value={voting.value}
-												key={`voting${voting.value}`}
-											>
-												{translate[voting.label]}
-											</MenuItem>
-										))}
+										<MenuItem
+											value={voting.value}
+											key={`voting${voting.value}`}
+										>
+											{translate[voting.label]}
+										</MenuItem>
+									))}
 								</SelectInput>
 							}
 						</GridItem>
@@ -273,24 +280,24 @@ subjectType = 0;
 							<GridItem xs={6} lg={3} md={3}>
 								<SelectInput
 									floatingText={translate.majority_label}
-									value={"" + agenda.majorityType}
+									value={`${agenda.majorityType}`}
 									errorText={errors.majorityType}
 									onChange={event => updateState({
-											majorityType: +event.target.value
-										})
+										majorityType: +event.target.value
+									})
 									}
 									required
 								>
 									{props.majorityTypes.map(majority => (
-											<MenuItem
-												value={"" + majority.value}
-												key={`majorityType_${
-													majority.value
-												}`}
-											>
-												{translate[majority.label]}
-											</MenuItem>
-										))}
+										<MenuItem
+											value={`${majority.value}`}
+											key={`majorityType_${
+												majority.value
+											}`}
+										>
+											{translate[majority.label]}
+										</MenuItem>
+									))}
 								</SelectInput>
 							</GridItem>
 							<GridItem xs={6} lg={3} md={3}>
@@ -304,12 +311,12 @@ subjectType = 0;
 										majorityError={errors.majority}
 										dividerError={errors.majorityDivider}
 										onChange={value => updateState({
-												majority: +value
-											})
+											majority: +value
+										})
 										}
 										onChangeDivider={value => updateState({
-												majorityDivider: +value
-											})
+											majorityDivider: +value
+										})
 										}
 									/>
 								)}
@@ -336,13 +343,13 @@ subjectType = 0;
 								text={translate.load_draft}
 								color={secondary}
 								textStyle={{
-									color: "white",
-									fontWeight: "600",
-									fontSize: "0.8em",
-									textTransform: "none",
-									marginLeft: "0.4em",
+									color: 'white',
+									fontWeight: '600',
+									fontSize: '0.8em',
+									textTransform: 'none',
+									marginLeft: '0.4em',
 									minHeight: 0,
-									lineHeight: "1em"
+									lineHeight: '1em'
 								}}
 								textPosition="after"
 								onClick={() => setLoadDraftModal(true)}
@@ -365,8 +372,8 @@ subjectType = 0;
 						errorText={errors.description}
 						value={agenda.description}
 						onChange={value => updateState({
-								description: value
-							})
+							description: value
+						})
 						}
 					/>
 				</div>
@@ -374,33 +381,27 @@ subjectType = 0;
 		);
 	};
 
-	function checkRequiredFields() {
-		const errors = checkRequiredFieldsAgenda(state, translate, toast);
-		setErrors(errors);
-		return errors.hasError;
-	}
-
 	return (
 		<AlertConfirm
 			requestClose={loadDraftModal ? () => setLoadDraftModal(false) : requestClose}
 			open={open}
 			acceptAction={saveChanges}
 			extraActions={
-				props.deleteButton &&
-					<DeleteAgendaButton
-						agenda={agenda}
-						requestClose={requestClose}
-						refetch={props.refetch}
-						council={council}
-						translate={translate}
-					/>
+				props.deleteButton
+&& <DeleteAgendaButton
+	agenda={agenda}
+	requestClose={requestClose}
+	refetch={props.refetch}
+	council={council}
+	translate={translate}
+/>
 			}
 			buttonAccept={translate.accept}
 			buttonCancel={translate.cancel}
-			bodyText={_renderModalBody()}
+			bodyText={renderModalBody()}
 			title={translate.edit}
 		/>
 	);
-}
+};
 
-export default graphql(updateAgenda, { name: "updateAgenda" })(withApollo(PointEditor));
+export default graphql(updateAgenda, { name: 'updateAgenda' })(withApollo(PointEditor));

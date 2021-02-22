@@ -1,17 +1,17 @@
-import React from "react";
-import { graphql, withApollo } from "react-apollo";
-import { withRouter } from "react-router-dom";
+import React from 'react';
+import { graphql, withApollo } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 import gql from 'graphql-tag';
-import { CardPageLayout, LoadingSection } from "../../displayComponents";
-import UpdateUser from "./UpdateUser";
-import { languages } from "../../queries/masters";
+import { CardPageLayout, LoadingSection } from '../../displayComponents';
+import UpdateUser from './UpdateUser';
+import { languages } from '../../queries/masters';
 import withSharedProps from '../../HOCs/withSharedProps';
 import influencer from '../../assets/img/influencer.svg';
 
 const userQuery = gql`
-    query user($id: Int!){
-        user(id: $id){
-            actived
+	query user($id: Int!){
+		user(id: $id){
+			actived
 			email
 			phone
 			code
@@ -23,13 +23,15 @@ const userQuery = gql`
 				logo
 				businessName
 			}
-            name
+			name
 			surname
-        }
-    }
+		}
+	}
 `;
 
-const UserSettingsPage = ({ data, user, translate, company, match, client }) => {
+const UserSettingsPage = ({
+	data, user, translate, company, match, client
+}) => {
 	const [dataUser, setDataUser] = React.useState(user.id !== match.params.id ? null : user);
 
 	const getData = React.useCallback(async () => {
@@ -54,9 +56,9 @@ const UserSettingsPage = ({ data, user, translate, company, match, client }) => 
 
 	return (
 		<CardPageLayout title={
-			<div style={{ display: "flex", alignItems: "center" }}>
-				<div style={{ width: "1.2em", display: "flex" }}>
-					<img src={influencer} style={{ marginRight: '0.6em', width: "100%", height: "100%" }} />
+			<div style={{ display: 'flex', alignItems: 'center' }}>
+				<div style={{ width: '1.2em', display: 'flex' }}>
+					<img src={influencer} style={{ marginRight: '0.6em', width: '100%', height: '100%' }} />
 				</div>
 				<div>
 					{translate.user_data}
@@ -76,6 +78,6 @@ const UserSettingsPage = ({ data, user, translate, company, match, client }) => 
 			</div>
 		</CardPageLayout>
 	);
-}
+};
 
 export default graphql(languages)(withSharedProps()(withRouter(withApollo(UserSettingsPage))));

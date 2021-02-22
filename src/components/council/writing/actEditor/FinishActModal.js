@@ -1,24 +1,32 @@
-import React from "react";
-import { compose, graphql } from "react-apollo";
+import React from 'react';
+import { compose, graphql } from 'react-apollo';
 import Dropzone from 'react-dropzone';
 import gql from 'graphql-tag';
-import { Card } from 'material-ui';
 import {
 	AlertConfirm,
 	BasicButton,
-	Grid,
-	GridItem
-} from "../../../../displayComponents";
-import { approveAct } from '../../../../queries';
-import ActHTML from "../actViewer/ActHTML";
-import { getSecondary } from "../../../../styles/colors";
-import { useHoverRow, useOldState } from "../../../../hooks";
-import logo from '../../../../assets/img/logo-icono.png';
-import { isMobile } from "../../../../utils/screen";
-import DocumentPreview from "../../../documentEditor/DocumentPreview";
+} from '../../../../displayComponents';
+import { approveAct as approveActMutation } from '../../../../queries';
+import { getSecondary } from '../../../../styles/colors';
+import { useOldState } from '../../../../hooks';
+import { isMobile } from '../../../../utils/screen';
+import DocumentPreview from '../../../documentEditor/DocumentPreview';
+
+const dropzoneStyles = {
+	active: {
+		border: '2px dashed turquoise'
+	},
+
+	invalid: {
+		border: '2px dashed red',
+		color: 'red'
+	}
+};
 
 
-const FinishActModal = ({ requestClose, updateAct, translate, preview, council, finishInModal, ...props }) => {
+const FinishActModal = ({
+	requestClose, updateAct, translate, preview, council, finishInModal, ...props
+}) => {
 	const [state, setState] = useOldState({
 		loading: false,
 		step: 1,
@@ -26,8 +34,6 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 		filename: '',
 	});
 	const secondary = getSecondary();
-	const actViewer = React.useRef();
-
 
 	const close = () => {
 		setState({
@@ -59,7 +65,7 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 				props.refetch();
 			}
 		}
-	}
+	};
 
 	const approveActWithUserPDF = async () => {
 		setState({
@@ -84,29 +90,29 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 		setState({
 			loading: false
 		});
-	}
+	};
 
 	const goToDropZone = () => {
 		setState({
 			step: 2
 		});
-	}
+	};
 
 	const setFile = (file, filename) => {
 		setState({
 			file,
 			filename
 		});
-	}
+	};
 
-	function _modalBody() {
-		if(state.step === 2){
-			if(state.file){
+	function modalBody() {
+		if (state.step === 2) {
+			if (state.file) {
 				return (
 					<div>
 						{state.filename}
 					</div>
-				)
+				);
 			}
 
 			return (
@@ -114,7 +120,7 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 					council={council}
 					setFile={setFile}
 				/>
-			)
+			);
 		}
 
 		return (
@@ -133,54 +139,55 @@ const FinishActModal = ({ requestClose, updateAct, translate, preview, council, 
 
 	return (
 		<AlertConfirm
-			bodyStyle={{ minWidth: "50vw", height: isMobile ? '26em' : "100%" }}
+			bodyStyle={{ minWidth: '50vw', height: isMobile ? '26em' : '100%' }}
 			requestClose={close}
 			open={props.show}
-			extraActions={state.step === 1 &&
-				<BasicButton
-					color="white"
-					buttonStyle={{
-						border: `1px solid ${secondary}`
-					}}
-					textStyle={{
-						color: secondary
-					}}
-					text={translate.upload_pdf_act}
-					onClick={goToDropZone}
-				/>
+			extraActions={state.step === 1
+&& <BasicButton
+	color="white"
+	buttonStyle={{
+		border: `1px solid ${secondary}`
+	}}
+	textStyle={{
+		color: secondary
+	}}
+	text={translate.upload_pdf_act}
+	onClick={goToDropZone}
+/>
 			}
 			acceptAction={state.step === 2 ? approveActWithUserPDF : approveAct}
 			hideAccept={state.step === 2 && !state.file}
 			loadingAction={state.loading}
 			buttonAccept={state.step === 2 ? translate.send : translate.finish_and_aprove_act}
 			buttonCancel={translate.close}
-			bodyText={_modalBody()}
+			bodyText={modalBody()}
 			title={translate.finish_and_aprove_act}
 		/>
 	);
-}
+};
 
 const UploadAct = ({ ...props }) => {
 	const [error, setError] = React.useState('');
-
-	const onDrop = (accepted, rejected) => {
-		if (accepted.length === 0) {
-			setError('Tipo de archivo no válido, solo son admiten archivos PDF'/*TRADUCCION*/);
-			return;
-		}
-		handleFile(accepted[0]);
-	}
 
 	const handleFile = file => {
 		const reader = new FileReader();
 		reader.readAsDataURL(file);
 
-		/*TODO ADD LIMIT TO FILE*/
+		/* TODO ADD LIMIT TO FILE */
 
 		reader.onload = async () => {
 			props.setFile(reader.result, file.name);
 		};
-	}
+	};
+
+	const onDrop = accepted => {
+		if (accepted.length === 0) {
+			setError('Tipo de archivo no válido, solo son admiten archivos PDF'/* TRADUCCION */);
+			return;
+		}
+		handleFile(accepted[0]);
+	};
+
 
 	return (
 		<Dropzone
@@ -189,41 +196,29 @@ const UploadAct = ({ ...props }) => {
 			accept="application/pdf"
 		>
 			{({ getRootProps, getInputProps, isDragActive }) => (
-					<div
-						{...getRootProps()}
-						className={`dropzone`}
-						style={{
-							height: '8em',
-							border: '2px dashed gainsboro',
-							borderRadius: '3px',
-							padding: '0.6em',
-							...(error ? dropzoneStyles.invalid : {}),
-							...(isDragActive ? dropzoneStyles.active : {})
-						}}
-					>
-						<input {...getInputProps()} />
-						{error || (isDragActive ?
-								<p>Arrastre los archivos aquí</p>//TRADUCCION
-								:
-								<p>Arrastre el archivo o haga click para seleccionarlo.</p>)
-						}
-					</div>
-				)}
+				<div
+					{...getRootProps()}
+					className={'dropzone'}
+					style={{
+						height: '8em',
+						border: '2px dashed gainsboro',
+						borderRadius: '3px',
+						padding: '0.6em',
+						...(error ? dropzoneStyles.invalid : {}),
+						...(isDragActive ? dropzoneStyles.active : {})
+					}}
+				>
+					<input {...getInputProps()} />
+					{error || (isDragActive ?
+						<p>Arrastre los archivos aquí</p>// TRADUCCION
+						:						<p>Arrastre el archivo o haga click para seleccionarlo.</p>)
+					}
+				</div>
+			)}
 		</Dropzone>
-	)
-}
+	);
+};
 
-
-const dropzoneStyles = {
-	active: {
-		border: '2px dashed turquoise'
-	},
-
-	invalid: {
-		border: '2px dashed red',
-		color: 'red'
-	}
-}
 
 export const approveActUserPDF = gql`
 	mutation ApproveActUserPDF($base64: String!, $councilId: Int!, $closeCouncil: Boolean) {
@@ -235,7 +230,7 @@ export const approveActUserPDF = gql`
 `;
 
 export default compose(
-	graphql(approveAct, {
+	graphql(approveActMutation, {
 		name: 'approveAct'
 	}),
 	graphql(approveActUserPDF, {

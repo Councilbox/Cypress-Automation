@@ -1,27 +1,26 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 const withWindowOrientation = WrappedComponent => class WithWindowOrientation extends Component {
 		state = {
-			orientation: "landscape"
+			orientation: 'landscape'
 		};
 
 		updateOrientation = () => {
 			if (window.innerWidth < window.innerHeight) {
-				this.setState({ orientation: "portrait" });
+				this.setState({ orientation: 'portrait' });
 			} else if (window.innerWidth > window.innerHeight) {
-				this.setState({ orientation: "landscape" });
+				this.setState({ orientation: 'landscape' });
 			}
 		};
 
 
-
 		componentDidMount() {
 			this.updateOrientation();
-			window.addEventListener("resize", this.updateOrientation);
+			window.addEventListener('resize', this.updateOrientation);
 		}
 
 		componentWillUnmount() {
-			window.removeEventListener("resize", this.updateOrientation);
+			window.removeEventListener('resize', this.updateOrientation);
 		}
 
 		render() {
@@ -33,6 +32,6 @@ const withWindowOrientation = WrappedComponent => class WithWindowOrientation ex
 				/>
 			);
 		}
-	};
+};
 
 export default withWindowOrientation;

@@ -7,7 +7,7 @@ import { SERVER_URL } from './config';
 
 
 export const useInterval = (callback, delay, deps = []) => {
-    const savedCallback = useRef();
+	const savedCallback = useRef();
 
 	// Remember the latest callback.
 	useEffect(() => {
@@ -23,8 +23,8 @@ export const useInterval = (callback, delay, deps = []) => {
 			const id = setInterval(tick, delay);
 			return () => clearInterval(id);
 		}
-    }, [delay, ...deps]);
-}
+	}, [delay, ...deps]);
+};
 
 export const useOldState = initialValue => {
 	const [state, setState] = React.useState(initialValue);
@@ -34,25 +34,25 @@ export const useOldState = initialValue => {
 			...previousState,
 			...object
 		}));
-	}
+	};
 
 	return [state, oldSetState];
-}
+};
 
 export const useHoverRow = () => {
 	const [showActions, setShowActions] = React.useState(false);
 
 	const mouseEnterHandler = () => {
 		setShowActions(true);
-	}
+	};
 
 	const mouseLeaveHandler = () => {
 		setShowActions(false);
-	}
+	};
 
 
 	return [showActions, { onMouseOver: mouseEnterHandler, onMouseLeave: mouseLeaveHandler }];
-}
+};
 
 export const STATUS = {
 	ERROR: 'ERROR',
@@ -63,31 +63,31 @@ export const STATUS = {
 };
 
 const statusReducer = (state, action) => {
-    const actions = {
-        [STATUS.ERROR]: () => ({
-            ...state,
+	const actions = {
+		[STATUS.ERROR]: () => ({
+			...state,
 			status: 'ERROR',
 			data: action.payload
 		}),
 		[STATUS.SUCCESS]: () => ({
-            ...state,
+			...state,
 			status: 'SUCCESS',
 			data: action.payload
 		}),
 		[STATUS.LOADING]: () => ({
-            ...state,
+			...state,
 			status: 'LOADING',
 			data: null
 		}),
 		[STATUS.IDDLE]: () => ({
-            ...state,
+			...state,
 			status: 'IDDLE',
 			data: null
 		}),
-	}
+	};
 
 	return actions[action.type] ? actions[action.type]() : state;
-}
+};
 
 export const useStatus = initialStatus => {
 	const [{ status, data }, dispatch] = React.useReducer(statusReducer, {
@@ -96,7 +96,7 @@ export const useStatus = initialStatus => {
 
 	const setStatus = (type, payload) => {
 		dispatch({ type, payload });
-	}
+	};
 
 	return {
 		loading: status === STATUS.LOADING,
@@ -106,8 +106,8 @@ export const useStatus = initialStatus => {
 		data,
 		STATUS,
 		setStatus
-	}
-}
+	};
+};
 
 
 export const usePolling = (cb, interval, deps = []) => {
@@ -115,82 +115,84 @@ export const usePolling = (cb, interval, deps = []) => {
 	const [online, setOnline] = React.useState(navigator.onLine);
 	const inThrottle = React.useRef(false);
 
-    function handleVisibilityChange(){
-        setVisible(!document.hidden);
+	function handleVisibilityChange() {
+		setVisible(!document.hidden);
 	}
 
-	function handleConnectionChange(event){
-		if(event.type === 'online'){
+	function handleConnectionChange(event) {
+		if (event.type === 'online') {
 			setOnline(true);
 		}
 
-		if(event.type === 'offline'){
+		if (event.type === 'offline') {
 			setOnline(false);
 		}
 	}
 
-    React.useEffect(() => {
-		document.addEventListener("visibilitychange", handleVisibilityChange, false);
+	React.useEffect(() => {
+		document.addEventListener('visibilitychange', handleVisibilityChange, false);
 		window.addEventListener('online', handleConnectionChange);
 		window.addEventListener('offline', handleConnectionChange);
-        return () => {
-			document.removeEventListener("visibilitychange", handleVisibilityChange);
+		return () => {
+			document.removeEventListener('visibilitychange', handleVisibilityChange);
 			window.removeEventListener('online', handleConnectionChange);
 			window.removeEventListener('offline', handleConnectionChange);
-		}
+		};
 	}, []);
 
 
-    React.useEffect(() => {
-        if(visible && online && !inThrottle.current){
+	React.useEffect(() => {
+		if (visible && online && !inThrottle.current) {
 			cb();
 			inThrottle.current = true;
 			setTimeout(() => {
-				inThrottle.current = false
+				inThrottle.current = false;
 			}, interval);
 		}
 	}, [visible, online]);
 
 	useInterval(cb, !online ? interval * 1000 : visible ? interval : interval * 10, deps);
-}
+};
 
 
 export const useRoomUpdated = config => {
 	const { refetch, props, participant } = config;
 
-    React.useEffect(() => {
-        if(props.subs && props.subs.roomUpdated){
+	React.useEffect(() => {
+		if (props.subs && props.subs.roomUpdated) {
 			const roomConfig = props.subs.roomUpdated;
-			if(roomConfig.videoConfig){
-				if(participant){
+			if (roomConfig.videoConfig) {
+				if (participant) {
 					refetch();
 				}
 			} else {
 				refetch();
 			}
-        }
-    }, [JSON.stringify(props.subs.roomUpdated)])
-}
+		}
+	}, [JSON.stringify(props.subs.roomUpdated)]);
+};
 
 
 export const useValidRTMP = statute => {
 	const [validURL, setValidURL] = React.useState(true);
 
 	React.useEffect(() => {
-		if(statute.videoConfig && statute.videoConfig.rtmp){
+		if (statute.videoConfig && statute.videoConfig.rtmp) {
 			const valid = /rtmp?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/.test(statute.videoConfig.rtmp);
-			if(valid !== validURL){
+			if (valid !== validURL) {
 				setValidURL(valid);
 			}
 		}
-	}, [statute.videoConfig])
+	}, [statute.videoConfig]);
 
 	return {
 		validURL
-	}
-}
+	};
+};
 
-export const useParticipantContactEdit = ({ participant, client, translate, council }) => {
+export const useParticipantContactEdit = ({
+	participant, client, translate, council
+}) => {
 	const [edit, setEdit] = React.useState(false);
 	const [saving, setSaving] = React.useState(false);
 	const [success, setSuccess] = React.useState(false);
@@ -204,22 +206,22 @@ export const useParticipantContactEdit = ({ participant, client, translate, coun
 	React.useEffect(() => {
 		let timeout;
 
-		if(success){
+		if (success) {
 			timeout = setTimeout(() => {
-				setSuccess(false)
-			}, 3000)
+				setSuccess(false);
+			}, 3000);
 		}
 		return () => clearTimeout(timeout);
-	}, [success])
+	}, [success]);
 
 	const checkRequiredFields = async () => {
 		const newErrors = {};
 
-		if(email !== participant.email){
-			if(!email){
+		if (email !== participant.email) {
+			if (!email) {
 				newErrors.email = translate.required_field;
-			} else if(!checkValidEmail(email.toLocaleLowerCase())){
-					newErrors.email = translate.valid_email_required;
+			} else if (!checkValidEmail(email.toLocaleLowerCase())) {
+				newErrors.email = translate.valid_email_required;
 			} else {
 				const response = await client.query({
 					query: checkUniqueCouncilEmails,
@@ -229,14 +231,14 @@ export const useParticipantContactEdit = ({ participant, client, translate, coun
 					}
 				});
 
-				if(!response.data.checkUniqueCouncilEmails.success){
+				if (!response.data.checkUniqueCouncilEmails.success) {
 					newErrors.email = translate.register_exists_email;
 				}
 			}
 		}
 
-		if(phone !== participant.phone){
-			if(!phone){
+		if (phone !== participant.phone) {
+			if (!phone) {
 				newErrors.phone = translate.required_field;
 			} else {
 				const response = await client.query({
@@ -253,7 +255,7 @@ export const useParticipantContactEdit = ({ participant, client, translate, coun
 					}
 				});
 
-				if(!response.data.phoneLookup.success){
+				if (!response.data.phoneLookup.success) {
 					errors.phone = translate.invalid_phone;
 				}
 			}
@@ -261,11 +263,11 @@ export const useParticipantContactEdit = ({ participant, client, translate, coun
 
 		setErrors(newErrors);
 		return Object.keys(newErrors).length > 0;
-	}
+	};
 
 	const updateParticipantContactInfo = async () => {
 		setSaving(true);
-		if(!await checkRequiredFields()){
+		if (!await checkRequiredFields()) {
 			const response = await client.mutate({
 				mutation: gql`
 					mutation UpdateParticipantContactInfo($participantId: Int!, $email: String!, $phone: String!){
@@ -281,12 +283,12 @@ export const useParticipantContactEdit = ({ participant, client, translate, coun
 					phone
 				}
 			});
-			if(response.data.updateParticipantContactInfo.success){
+			if (response.data.updateParticipantContactInfo.success) {
 				setSuccess(true);
 			}
 		}
 		setSaving(false);
-	}
+	};
 
 	return {
 		edit,
@@ -299,8 +301,8 @@ export const useParticipantContactEdit = ({ participant, client, translate, coun
 		setPhone,
 		errors,
 		updateParticipantContactInfo
-	}
-}
+	};
+};
 
 
 export const useCouncilAgendas = ({
@@ -309,15 +311,15 @@ export const useCouncilAgendas = ({
 	client
 }) => {
 	const [data, setData] = React.useState(null);
-    const [loading, setLoading] = React.useState(true);
+	const [loading, setLoading] = React.useState(true);
 
-    const getData = async () => {
-        const response = await client.query({
-            query: gql`
-                query agendas($councilId: Int!, $participantId: Int!){
-                    agendas(councilId: $councilId){
-                        id
-                        agendaSubject
+	const getData = async () => {
+		const response = await client.query({
+			query: gql`
+				query agendas($councilId: Int!, $participantId: Int!){
+					agendas(councilId: $councilId){
+						id
+						agendaSubject
 						subjectType
 						options {
 							maxSelections
@@ -327,34 +329,34 @@ export const useCouncilAgendas = ({
 							value
 							id
 						}
-                    }
-                    proxyVotes(participantId: $participantId){
-                        value
+					}
+					proxyVotes(participantId: $participantId){
+						value
 						agendaId
 						participantId
-                        id
-                    }
-                }
-            `,
-            variables: {
-                councilId,
-                participantId
-            }
-        });
+						id
+					}
+				}
+			`,
+			variables: {
+				councilId,
+				participantId
+			}
+		});
 
-        setData(response.data);
-        setLoading(false);
-	}
+		setData(response.data);
+		setLoading(false);
+	};
 
 	React.useEffect(() => {
-        getData();
-    }, [councilId])
+		getData();
+	}, [councilId]);
 
 	return {
 		data,
 		loading
-	}
-}
+	};
+};
 
 export const useSendRoomKey = client => {
 	const [loading, setLoading] = React.useState(false);
@@ -368,16 +370,16 @@ export const useSendRoomKey = client => {
 						success
 					}
 				}
-            `,
+			`,
 		});
 
 		setLoading(false);
 		return response;
-	}
+	};
 
 
 	return [loading, sendKey];
-}
+};
 
 
 export const useCountdown = time => {
@@ -394,26 +396,26 @@ export const useCountdown = time => {
 	return {
 		secondsLeft,
 		setCountdown
-	}
-}
+	};
+};
 
 const queryReducer = (state, action) => {
 	const actions = {
-		'DATA_LOADED': () => ({
+		DATA_LOADED: () => ({
 			...state,
 			loading: false,
 			data: action.payload
 		}),
-		'LOADING': () => ({
+		LOADING: () => ({
 			...state,
 			loading: true
 		})
-	}
+	};
 
 	return actions[action.type] ? actions[action.type]() : state;
-}
+};
 
-export const useQueryReducer = ({ client, query, variables }) => {
+export const useQueryReducer = ({ client, query, variables, pollInterval = 10000 }) => {
 	const [{ data, errors, loading }, dispatch] = React.useReducer(queryReducer, { data: null, loading: true, errors: null });
 
 	const getData = React.useCallback(async () => {
@@ -423,12 +425,12 @@ export const useQueryReducer = ({ client, query, variables }) => {
 			variables
 		});
 
-		if(!response.errors){
+		if (!response.errors) {
 			dispatch({ type: 'DATA_LOADED', payload: response.data });
 		}
 	}, [JSON.stringify(variables)]);
 
-	usePolling(getData, 10000);
+	usePolling(getData, pollInterval);
 
 	React.useEffect(() => {
 		getData();
@@ -438,32 +440,32 @@ export const useQueryReducer = ({ client, query, variables }) => {
 		data,
 		errors,
 		loading
-	}
-}
+	};
+};
 
 export const useDownloadHTMLAsPDF = () => {
 	const [downloading, setDownloading] = React.useState(false);
 
 	const downloadHTMLAsPDF = async ({ name, companyId, html }) => {
 		setDownloading(true);
-        const response = await fetch(`${SERVER_URL}/pdf/build`, {
-            headers: {
-                'Content-type': 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify({
-                html,
-                companyId
-            })
-        });
+		const response = await fetch(`${SERVER_URL}/pdf/build`, {
+			headers: {
+				'Content-type': 'application/json'
+			},
+			method: 'POST',
+			body: JSON.stringify({
+				html,
+				companyId
+			})
+		});
 
-        const blob = await response.blob();
+		const blob = await response.blob();
 		FileSaver.saveAs(blob, `${name}.pdf`);
 		setDownloading(false);
-	}
+	};
 
 	return {
 		downloading,
 		downloadHTMLAsPDF
-	}
-}
+	};
+};

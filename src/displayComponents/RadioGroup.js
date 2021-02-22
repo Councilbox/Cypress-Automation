@@ -1,7 +1,9 @@
-import React from "react";
-import { FormControl, RadioGroup } from "material-ui";
+import React from 'react';
+import { FormControl, RadioGroup } from 'material-ui';
 
-const RadioGroupComponent = ({ children, value, onChange, name, style }) => (
+const RadioGroupComponent = ({
+	children, value, onChange, name, style
+}) => (
 	<FormControl component="fieldset">
 		<RadioGroup
 			name={name}

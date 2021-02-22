@@ -1,45 +1,46 @@
-import React from "react";
-import { Card } from "material-ui";
-import { withApollo } from "react-apollo";
+import React from 'react';
+import { Card } from 'material-ui';
+import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import AgendaSelector from "./AgendaSelector";
-import AgendaDetailsSection from "./AgendaDetailsSection";
-import { LoadingSection, Scrollbar, AlertConfirm } from "../../../displayComponents";
+import AgendaSelector from './AgendaSelector';
+import AgendaDetailsSection from './AgendaDetailsSection';
+import { LoadingSection, Scrollbar, AlertConfirm } from '../../../displayComponents';
 import { AGENDA_STATES } from '../../../constants';
-import { useOldState, usePolling } from "../../../hooks";
-import { isMobile } from "../../../utils/screen";
+import { useOldState, usePolling } from '../../../hooks';
+import { isMobile } from '../../../utils/screen';
 
 const getInitialSelectedPoint = agendas => {
 	const index = agendas.findIndex(agenda => agenda.pointState === AGENDA_STATES.DISCUSSION);
 	return index !== -1 ? index : 0;
-}
+};
 
 const reducer = (state, action) => {
 	const actions = {
-		'LOAD_DATA': () => ({
+		LOAD_DATA: () => ({
 			...state,
 			data: action.value,
 			loading: false,
 			selectedPoint: (state.selectedPoint >= action.value.agendas.length && action.value.agendas.length !== 0) ?
 				action.value.agendas.length - 1
-			:
-				state.selectedPoint !== null ? state.selectedPoint : getInitialSelectedPoint(action.value.agendas)
+				:				state.selectedPoint !== null ? state.selectedPoint : getInitialSelectedPoint(action.value.agendas)
 		}),
-		'NEXT_POINT': () => ({
+		NEXT_POINT: () => ({
 			...state,
 			selectedPoint: state.selectedPoint + 1
 		}),
-		'SET_SELECTED_POINT': () => ({
+		SET_SELECTED_POINT: () => ({
 			...state,
 			selectedPoint: action.value
 		})
-	}
+	};
 
 	return actions[action.type] ? actions[action.type]() : state;
-}
+};
 
 
-const AgendaManager = ({ translate, council, company, stylesDiv, client, ...props }, ref) => {
+const AgendaManager = ({
+	translate, council, company, stylesDiv, client, ...props
+}, ref) => {
 	const [{ data, loading, selectedPoint }, dispatch] = React.useReducer(reducer, {
 		data: {},
 		loading: true,
@@ -47,7 +48,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 	});
 
 	const [state, setState] = useOldState({
-		//selectedPoint: null,
+		// selectedPoint: null,
 		loaded: false,
 		editedVotings: false,
 		votingsAlert: false
@@ -55,7 +56,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 	const agendaDetails = React.useRef();
 
 	const getData = React.useCallback(async () => {
-		if(!council){
+		if (!council) {
 			return;
 		}
 
@@ -73,7 +74,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 	usePolling(getData, 5000);
 
 	React.useEffect(() => {
-		if(!loading){
+		if (!loading) {
 			setState({
 				loaded: true
 			});
@@ -93,8 +94,8 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 	const changeEditedVotings = value => {
 		setState({
 			editedVotings: value
-		})
-	}
+		});
+	};
 
 	const showVotingsAlert = cb => {
 		setState({
@@ -104,21 +105,21 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 				setState({
 					editedVotings: false,
 					votingsAlert: false
-				})
+				});
 			}
 		});
-	}
+	};
 
 	const closeVotingsAlert = () => {
 		setState({
 			votingsAlert: false
 		});
-	}
+	};
 
 	const changeSelectedPoint = index => {
 		const cb = () => dispatch({ type: 'SET_SELECTED_POINT', value: index });
 
-		if(state.editedVotings){
+		if (state.editedVotings) {
 			showVotingsAlert(cb);
 		} else {
 			cb();
@@ -126,18 +127,18 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 	};
 
 	const nextPoint = () => {
-		if(selectedPoint < data.agendas.length - 1){
-			dispatch({ type: 'NEXT_POINT' })
+		if (selectedPoint < data.agendas.length - 1) {
+			dispatch({ type: 'NEXT_POINT' });
 			// setState({
 			// 	selectedPoint: state.selectedPoint + 1
 			// });
 		}
-	}
+	};
 
 	React.useImperativeHandle(ref, () => ({
 		showVotingsAlert,
 		state
-	}))
+	}));
 
 	if (!data.agendas || selectedPoint === null) {
 		return <LoadingSection />;
@@ -149,12 +150,12 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 		return (
 			<div
 				style={{
-					width: "calc(100% - 2px)",
-					height: "100%",
+					width: 'calc(100% - 2px)',
+					height: '100%',
 					maxHeight: 'calc(100% - 3em)',
 					borderLeft: '1px solid gainsboro',
-					overflow: "hidden",
-					backgroundColor: "white",
+					overflow: 'hidden',
+					backgroundColor: 'white',
 				}}
 				onClick={props.openMenu}
 			>
@@ -180,19 +181,19 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 	return (
 		<div
 			style={{
-				width: "100%",
-				height: "100%",
-				display: "flex",
-				flexDirection: "row",
+				width: '100%',
+				height: '100%',
+				display: 'flex',
+				flexDirection: 'row',
 			}}
 		>
 			<Card
 				style={{
-					width: isMobile ? '3em' : "5em",
-					height: "100%",
+					width: isMobile ? '3em' : '5em',
+					height: '100%',
 					borderLeft: '1px solid gainsboro',
-					overflow: "auto",
-					backgroundColor: "white"
+					overflow: 'auto',
+					backgroundColor: 'white'
 				}}
 			>
 				<Scrollbar autoHide={true}>
@@ -214,10 +215,10 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 			<div
 				style={{
 					width: `calc(100% - ${isMobile ? '3em' : '5em'})`,
-					height: "100%",
-					padding: "0",
-					display: "flex",
-					flexDirection: "row",
+					height: '100%',
+					padding: '0',
+					display: 'flex',
+					flexDirection: 'row',
 					outline: 0
 				}}
 				tabIndex="0"
@@ -246,11 +247,10 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 						refetchCouncil={props.refetch}
 						refetch={getData}
 					/>
-				:
-					<div style={{ margin: '2em' }}>
+					:					<div style={{ margin: '2em' }}>
 						{translate.empty_agendas}
 					</div>
-					}
+				}
 			</div>
 			<AlertConfirm
 				requestClose={closeVotingsAlert}
@@ -263,7 +263,7 @@ const AgendaManager = ({ translate, council, company, stylesDiv, client, ...prop
 			/>
 		</div>
 	);
-}
+};
 
 export const agendaManager = gql`
 	query AgendaManagerFields($companyId: Int!, $councilId: Int!) {
@@ -347,6 +347,7 @@ export const agendaManager = gql`
 			totalVotings
 			votingState
 		}
+
 		languages {
 			desc
 			columnName

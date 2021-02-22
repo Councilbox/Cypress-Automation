@@ -1,17 +1,17 @@
-import React from "react";
+import React from 'react';
 import Dialog, {
 	DialogActions,
 	DialogContent,
 	DialogTitle
-} from "material-ui/Dialog";
+} from 'material-ui/Dialog';
 import {
 	BasicButton,
 	Checkbox,
 	LoadingSection,
 	TextInput
-} from "../../../displayComponents";
-import { getPrimary } from "../../../styles/colors";
-import { useOldState } from "../../../hooks";
+} from '../../../displayComponents';
+import { getPrimary } from '../../../styles/colors';
+import { useOldState } from '../../../hooks';
 
 
 const PlaceModal = ({ council, translate, ...props }) => {
@@ -27,11 +27,11 @@ const PlaceModal = ({ council, translate, ...props }) => {
 	const [state, setState] = useOldState({
 		remoteCelebration: council.remoteCelebration,
 		errors: {
-			address: "",
-			city: "",
-			country: "",
-			zipcode: "",
-			region: ""
+			address: '',
+			city: '',
+			country: '',
+			zipcode: '',
+			region: ''
 		}
 	});
 	const primary = getPrimary();
@@ -45,45 +45,45 @@ const PlaceModal = ({ council, translate, ...props }) => {
 				props.saveAndClose({
 					street: translate.remote_celebration,
 					remoteCelebration: 1,
-					country: "",
-					countryState: "",
-					city: "",
-					zipcode: ""
+					country: '',
+					countryState: '',
+					city: '',
+					zipcode: ''
 				});
 			}
 		}
-	}
+	};
 
 	const _renderActionButtons = () => (
-			<React.Fragment>
-				<BasicButton
-					text={translate.close}
-					id={'close-button'}
-					type="flat"
-					color={"white"}
-					textStyle={{
-						fontWeight: "700",
-						fontSize: "0.9em",
-						textTransform: "none"
-					}}
-					textPosition="after"
-					onClick={props.close}
-				/>
-				<BasicButton
-					text={translate.accept}
-					color={primary}
-					textStyle={{
-						color: "white",
-						fontWeight: "700",
-						fontSize: "0.9em",
-						textTransform: "none"
-					}}
-					buttonStyle={{ marginLeft: "1em" }}
-					textPosition="after"
-					onClick={saveAndClose}
-				/>
-			</React.Fragment>
-		)
+		<React.Fragment>
+			<BasicButton
+				text={translate.close}
+				id={'close-button'}
+				type="flat"
+				color={'white'}
+				textStyle={{
+					fontWeight: '700',
+					fontSize: '0.9em',
+					textTransform: 'none'
+				}}
+				textPosition="after"
+				onClick={props.close}
+			/>
+			<BasicButton
+				text={translate.accept}
+				color={primary}
+				textStyle={{
+					color: 'white',
+					fontWeight: '700',
+					fontSize: '0.9em',
+					textTransform: 'none'
+				}}
+				buttonStyle={{ marginLeft: '1em' }}
+				textPosition="after"
+				onClick={saveAndClose}
+			/>
+		</React.Fragment>
+	);
 
 	function checkRequiredFields() {
 		if (state.remoteCelebration) {
@@ -91,11 +91,11 @@ const PlaceModal = ({ council, translate, ...props }) => {
 		}
 
 		const errors = {
-			country: "",
-			countryState: "",
-			street: "",
-			zipcode: "",
-			city: ""
+			country: '',
+			countryState: '',
+			street: '',
+			zipcode: '',
+			city: ''
 		};
 
 		let hasError = false;
@@ -146,17 +146,17 @@ const PlaceModal = ({ council, translate, ...props }) => {
 					label={translate.remote_celebration}
 					value={state.remoteCelebration === 1}
 					onChange={(event, isInputChecked) => setState({
-							remoteCelebration: isInputChecked ? 1 : 0
-						})
+						remoteCelebration: isInputChecked ? 1 : 0
+					})
 					}
 				/>
 				{!state.remoteCelebration && (
 					<div
 						style={{
-							display: "flex",
-							flexDirection: "column",
-							alignItems: "center",
-							justifyContent: "center"
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+							justifyContent: 'center'
 						}}
 					>
 						<TextInput
@@ -165,9 +165,9 @@ const PlaceModal = ({ council, translate, ...props }) => {
 							errorText={state.errors.country}
 							value={data.country}
 							onChange={event => setData({
-									...data,
-									country: event.nativeEvent.target.value
-								})
+								...data,
+								country: event.nativeEvent.target.value
+							})
 							}
 						/>
 						<TextInput
@@ -176,9 +176,9 @@ const PlaceModal = ({ council, translate, ...props }) => {
 							errorText={state.errors.countryState}
 							value={data.countryState}
 							onChange={event => setData({
-									...data,
-									countryState: event.nativeEvent.target.value
-								})
+								...data,
+								countryState: event.nativeEvent.target.value
+							})
 							}
 						/>
 						<TextInput
@@ -187,9 +187,9 @@ const PlaceModal = ({ council, translate, ...props }) => {
 							errorText={state.errors.zipcode}
 							value={data.zipcode}
 							onChange={event => setData({
-									...data,
-									zipcode: event.nativeEvent.target.value
-								})
+								...data,
+								zipcode: event.nativeEvent.target.value
+							})
 							}
 						/>
 						<TextInput
@@ -198,9 +198,9 @@ const PlaceModal = ({ council, translate, ...props }) => {
 							errorText={state.errors.city}
 							value={data.city}
 							onChange={event => setData({
-									...data,
-									city: event.nativeEvent.target.value
-								})
+								...data,
+								city: event.nativeEvent.target.value
+							})
 							}
 						/>
 						<TextInput
@@ -209,9 +209,9 @@ const PlaceModal = ({ council, translate, ...props }) => {
 							errorText={state.errors.street}
 							value={data.street}
 							onChange={event => setData({
-									...data,
-									street: event.nativeEvent.target.value
-								})
+								...data,
+								street: event.nativeEvent.target.value
+							})
 							}
 						/>
 					</div>
@@ -219,8 +219,8 @@ const PlaceModal = ({ council, translate, ...props }) => {
 			</DialogContent>
 			<DialogActions>{_renderActionButtons()}</DialogActions>
 		</Dialog>
-	)
-}
+	);
+};
 
 
 export default PlaceModal;

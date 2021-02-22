@@ -1,24 +1,24 @@
-import React from "react";
-import { graphql } from "react-apollo";
-import { withRouter } from "react-router-dom";
-import { census } from "../../../../queries/census";
+import React from 'react';
+import { graphql } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
+import { census as censusQuery } from '../../../../queries/census';
 import {
 	CardPageLayout,
 	LoadingSection,
-} from "../../../../displayComponents";
-import withSharedProps from "../../../../HOCs/withSharedProps";
-import CensusParticipants from "./CensusParticipants";
-import { isMobile } from "../../../../utils/screen";
+} from '../../../../displayComponents';
+import withSharedProps from '../../../../HOCs/withSharedProps';
+import CensusParticipants from './CensusParticipants';
+import { isMobile } from '../../../../utils/screen';
 
 class CensusEditorPage extends React.Component {
 	state = {
 		data: {
 			id: '',
-			censusName: "",
-			censusDescription: ""
+			censusName: '',
+			censusDescription: ''
 		},
 		errors: {},
-		filterBy: ""
+		filterBy: ''
 	};
 
 	componentDidMount() {
@@ -60,7 +60,7 @@ class CensusEditorPage extends React.Component {
 }
 
 export default withSharedProps()(
-	graphql(census, {
+	graphql(censusQuery, {
 		options: props => ({
 			variables: {
 				id: +props.match.params.id

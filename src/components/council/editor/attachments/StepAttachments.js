@@ -1,27 +1,30 @@
-import React from "react";
-import { compose, graphql, withApollo } from "react-apollo";
-import { Typography } from "material-ui";
+import React from 'react';
+import { compose, graphql, withApollo } from 'react-apollo';
+import { Typography } from 'material-ui';
 import gql from 'graphql-tag';
 import {
 	BasicButton,
 	ButtonIcon,
 	ErrorAlert,
-	FileUploadButton,
 	Grid,
 	GridItem,
 	LoadingSection,
 	ProgressBar,
 	DropDownMenu
-} from "../../../../displayComponents/index";
-import upload from '../../../../assets/img/upload.png';
-import { getPrimary, getSecondary } from "../../../../styles/colors";
-import { MAX_FILE_SIZE } from "../../../../constants";
-import AttachmentList from "../../../attachments/AttachmentList";
-import { formatSize, showAddCouncilAttachment } from "../../../../utils/CBX";
-import { addCouncilAttachment, councilStepFour, removeCouncilAttachment, updateCouncil } from "../../../../queries";
+} from '../../../../displayComponents/index';
+import { getPrimary, getSecondary } from '../../../../styles/colors';
+import { MAX_FILE_SIZE } from '../../../../constants';
+import AttachmentList from '../../../attachments/AttachmentList';
+import { formatSize, showAddCouncilAttachment } from '../../../../utils/CBX';
+import {
+	addCouncilAttachment,
+	councilStepFour,
+	removeCouncilAttachment as removeCouncilAttachmentMutation,
+	updateCouncil as updateCouncilMutation
+} from '../../../../queries';
 import EditorStepLayout from '../EditorStepLayout';
-import CompanyDocumentsBrowser from "../../../company/drafts/documents/CompanyDocumentsBrowser";
-import withSharedProps from "../../../../HOCs/withSharedProps";
+import CompanyDocumentsBrowser from '../../../company/drafts/documents/CompanyDocumentsBrowser';
+import withSharedProps from '../../../../HOCs/withSharedProps';
 
 
 const StepAttachments = ({ client, translate, ...props }) => {
@@ -49,18 +52,18 @@ const StepAttachments = ({ client, translate, ...props }) => {
 		setData(response.data);
 		const { attachments } = response.data.council;
 
-		let totalSize = 0;
+		let size = 0;
 		if (attachments.length !== 0) {
 			if (attachments.length > 1) {
-				totalSize = attachments.reduce(
+				size = attachments.reduce(
 					(a, b) => a + +b.filesize / 1000,
 					0
 				);
 			} else {
-				totalSize = attachments[0].filesize / 1000;
+				size = attachments[0].filesize / 1000;
 			}
 		}
-		setTotalSize(totalSize);
+		setTotalSize(size);
 		setLoading(false);
 	}, [props.councilID]);
 
@@ -70,7 +73,7 @@ const StepAttachments = ({ client, translate, ...props }) => {
 
 
 	const addCompanyDocumentCouncilAttachment = async id => {
-		const response = await client.mutate({
+		await client.mutate({
 			mutation: gql`
 				mutation AttachCompanyDocumentToCouncil($councilId: Int!, $companyDocumentId: Int!){
 					attachCompanyDocumentToCouncil(councilId: $councilId, companyDocumentId: $companyDocumentId){
@@ -85,7 +88,7 @@ const StepAttachments = ({ client, translate, ...props }) => {
 		});
 		getData();
 		setCompanyDocumentsModal(false);
-	}
+	};
 
 
 	const handleFile = async event => {
@@ -103,12 +106,12 @@ const StepAttachments = ({ client, translate, ...props }) => {
 		const reader = new FileReader();
 		reader.readAsBinaryString(file);
 
-		reader.onload = async event => {
+		reader.onload = async loadEvent => {
 			const fileInfo = {
 				filename: file.name,
 				filetype: file.type,
-				filesize: event.loaded,
-				base64: btoa(event.target.result),
+				filesize: loadEvent.loaded,
+				base64: btoa(loadEvent.target.result),
 				councilId: props.councilID
 			};
 
@@ -139,7 +142,7 @@ const StepAttachments = ({ client, translate, ...props }) => {
 		setState({
 			...state,
 			loading: true
-		})
+		});
 		const { attachments, __typename, ...council } = data.council;
 		await props.updateCouncil({
 			variables: {
@@ -164,7 +167,7 @@ const StepAttachments = ({ client, translate, ...props }) => {
 			success: false,
 		});
 		setUploading(false);
-	}
+	};
 
 	const nextPage = async () => {
 		if (!uploading) {
@@ -174,7 +177,7 @@ const StepAttachments = ({ client, translate, ...props }) => {
 	};
 
 	let attachments = [];
-	if(!loading){
+	if (!loading) {
 		attachments = data.council.attachments;
 	}
 
@@ -198,13 +201,13 @@ const StepAttachments = ({ client, translate, ...props }) => {
 						<GridItem xs={12} md={10} style={{ marginTop: '0.5em' }}>
 							<ProgressBar
 								value={
-									totalSize > 0
-										? (totalSize / MAX_FILE_SIZE) *
-										100
+									totalSize > 0 ?
+										(totalSize / MAX_FILE_SIZE)
+										* 100
 										: 0
 								}
 								color={secondary}
-								style={{ height: "1.2em" }}
+								style={{ height: '1.2em' }}
 							/>
 
 							<Typography variant="caption">
@@ -216,12 +219,12 @@ const StepAttachments = ({ client, translate, ...props }) => {
 								<>
 									<input
 										type="file"
-										id={"raised-button-file"}
+										id={'raised-button-file'}
 										onChange={handleFile}
 										disabled={uploading}
 										style={{
-											cursor: "pointer",
-											position: "absolute",
+											cursor: 'pointer',
+											position: 'absolute',
 											top: 0,
 											width: 0,
 											bottom: 0,
@@ -232,24 +235,24 @@ const StepAttachments = ({ client, translate, ...props }) => {
 									/>
 									<DropDownMenu
 										color="transparent"
-										styleComponent={{ width: "" }}
+										styleComponent={{ width: '' }}
 										Component={() => <BasicButton
-												color={primary}
-												icon={<i className={"fa fa-plus"}
+											color={primary}
+											icon={<i className={'fa fa-plus'}
 												style={{
 													cursor: 'pointer',
 													color: 'white',
 													fontWeight: '700',
-													paddingLeft: "5px"
+													paddingLeft: '5px'
 												}}></i>}
-												text={translate.add}
-												textStyle={{
-													color: 'white'
-												}}
-												buttonStyle={{
-													width: '100%'
-												}}
-											/>
+											text={translate.add}
+											textStyle={{
+												color: 'white'
+											}}
+											buttonStyle={{
+												width: '100%'
+											}}
+										/>
 										}
 										textStyle={{ color: primary }}
 										anchorOrigin={{
@@ -258,29 +261,31 @@ const StepAttachments = ({ client, translate, ...props }) => {
 										}}
 										type="flat"
 										items={
-											<div style={{ padding: "1em" }}>
+											<div style={{ padding: '1em' }}>
 												<label htmlFor="raised-button-file">
-													<div style={{ display: "flex", color: "black", padding: ".5em 0em", cursor: "pointer" }}>
-														<div style={{ paddingLeft: "10px" }}>
+													<div style={{
+														display: 'flex', color: 'black', padding: '.5em 0em', cursor: 'pointer'
+													}}>
+														<div style={{ paddingLeft: '10px' }}>
 															{translate.upload_file}
 														</div>
 													</div>
 												</label>
-											<div
-												style={{
-													display: "flex",
-													color: "black",
-													padding: ".5em 0em",
-													borderTop: "1px solid" + primary,
-													cursor: "pointer"
-												}}
-												onClick={() => setCompanyDocumentsModal(true)}
-											>
-												<div style={{ paddingLeft: "10px" }} >
-													{translate.my_documentation}
+												<div
+													style={{
+														display: 'flex',
+														color: 'black',
+														padding: '.5em 0em',
+														borderTop: `1px solid${primary}`,
+														cursor: 'pointer'
+													}}
+													onClick={() => setCompanyDocumentsModal(true)}
+												>
+													<div style={{ paddingLeft: '10px' }} >
+														{translate.my_documentation}
+													</div>
 												</div>
 											</div>
-										</div>
 										}
 									/>
 								</>
@@ -289,9 +294,8 @@ const StepAttachments = ({ client, translate, ...props }) => {
 					</Grid>
 
 					{loading ?
-							<LoadingSection />
-						:
-						attachments.length > 0 && (
+						<LoadingSection />
+						:	attachments.length > 0 && (
 							<AttachmentList
 								attachments={attachments}
 								refetch={getData}
@@ -316,10 +320,10 @@ const StepAttachments = ({ client, translate, ...props }) => {
 						disabled={uploading}
 						color={secondary}
 						textStyle={{
-							color: "white",
-							fontWeight: "700",
-							fontSize: "0.9em",
-							textTransform: "none"
+							color: 'white',
+							fontWeight: '700',
+							fontSize: '0.9em',
+							textTransform: 'none'
 						}}
 						textPosition="after"
 						onClick={props.previousStep}
@@ -331,12 +335,12 @@ const StepAttachments = ({ client, translate, ...props }) => {
 						success={state.success}
 						reset={resetButtonStates}
 						textStyle={{
-							color: "white",
-							fontWeight: "700",
-							marginLeft: "0.5em",
-							marginRight: "0.5em",
-							fontSize: "0.9em",
-							textTransform: "none"
+							color: 'white',
+							fontWeight: '700',
+							marginLeft: '0.5em',
+							marginRight: '0.5em',
+							fontSize: '0.9em',
+							textTransform: 'none'
 						}}
 						icon={<ButtonIcon color="white" type="save" />}
 						textPosition="after"
@@ -349,10 +353,10 @@ const StepAttachments = ({ client, translate, ...props }) => {
 						loadingColor={'white'}
 						color={primary}
 						textStyle={{
-							color: "white",
-							fontWeight: "700",
-							fontSize: "0.9em",
-							textTransform: "none"
+							color: 'white',
+							fontWeight: '700',
+							fontSize: '0.9em',
+							textTransform: 'none'
 						}}
 						textPosition="after"
 						onClick={nextPage}
@@ -361,20 +365,20 @@ const StepAttachments = ({ client, translate, ...props }) => {
 			}
 		/>
 	);
-}
+};
 
 export default compose(
 	withApollo,
 	withSharedProps(),
 	graphql(addCouncilAttachment, {
-		name: "addAttachment"
+		name: 'addAttachment'
 	}),
 
-	graphql(updateCouncil, {
-		name: "updateCouncil"
+	graphql(updateCouncilMutation, {
+		name: 'updateCouncil'
 	}),
 
-	graphql(removeCouncilAttachment, {
-		name: "removeCouncilAttachment"
+	graphql(removeCouncilAttachmentMutation, {
+		name: 'removeCouncilAttachment'
 	})
 )(StepAttachments);

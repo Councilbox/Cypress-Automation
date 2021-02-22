@@ -1,9 +1,9 @@
-import React from "react";
-import { Divider, MenuItem, Paper } from "material-ui";
-import { graphql, withApollo } from "react-apollo";
+import React from 'react';
+import { Divider, MenuItem, Paper } from 'material-ui';
+import { graphql, withApollo } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
-import FontAwesome from "react-fontawesome";
-import gql from "graphql-tag";
+import FontAwesome from 'react-fontawesome';
+import gql from 'graphql-tag';
 import {
 	BasicButton,
 	CardPageLayout,
@@ -12,28 +12,30 @@ import {
 	Icon,
 	Scrollbar,
 	LoadingSection
-} from "../../../displayComponents";
-import { getPrimary, getSecondary } from "../../../styles/colors";
-import { bHistory } from "../../../containers/App";
-import * as CBX from "../../../utils/CBX";
-import ReminderModal from "./modals/ReminderModal";
-import RescheduleModal from "./modals/RescheduleModal";
-import SendConveneModal from "./modals/SendConveneModal";
-import CancelModal from "./modals/CancelModal";
-import Convene from "../convene/Convene";
+} from '../../../displayComponents';
+import { getPrimary, getSecondary } from '../../../styles/colors';
+import { bHistory } from '../../../containers/App';
+import * as CBX from '../../../utils/CBX';
+import ReminderModal from './modals/ReminderModal';
+import RescheduleModal from './modals/RescheduleModal';
+import SendConveneModal from './modals/SendConveneModal';
+import CancelModal from './modals/CancelModal';
+import Convene from '../convene/Convene';
 import withSharedProps from '../../../HOCs/withSharedProps';
-import ConvenedParticipantsTable from "./ConvenedParticipantsTable";
-import { useOldState } from "../../../hooks";
-import { ConfigContext } from "../../../containers/AppControl";
-import DelegationRestriction from "../editor/DelegationRestriction";
-import MenuSuperiorTabs from "../../dashboard/MenuSuperiorTabs";
-import ShareholdersRequestsPage from "./shareholders/ShareholdersRequestsPage";
-import EstimatedQuorum from "./EstimatedQuorum";
-import AttachmentsModal from "./AttachmentsModal";
-import { COUNCIL_TYPES } from "../../../constants";
+import ConvenedParticipantsTable from './ConvenedParticipantsTable';
+import { useOldState } from '../../../hooks';
+import { ConfigContext } from '../../../containers/AppControl';
+import DelegationRestriction from '../editor/DelegationRestriction';
+import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
+import ShareholdersRequestsPage from './shareholders/ShareholdersRequestsPage';
+import EstimatedQuorum from './EstimatedQuorum';
+import AttachmentsModal from './AttachmentsModal';
+import { COUNCIL_TYPES } from '../../../constants';
 
 
-const CouncilPreparePage = ({ company, translate, data, ...props }) => {
+const CouncilPreparePage = ({
+	company, translate, data, ...props
+}) => {
 	const [state, setState] = useOldState({
 		participants: false,
 		sendReminder: false,
@@ -44,8 +46,6 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 	});
 	const config = React.useContext(ConfigContext);
 	const [selecteReuniones, setSelecteReuniones] = React.useState(translate.convene);
-	const [selectComponent, setSelectComponent] = React.useState({});
-
 	const primary = getPrimary();
 	const secondary = getSecondary();
 
@@ -58,7 +58,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 				},
 				company,
 				bHistory,
-				"convened"
+				'convened'
 			);
 		}
 	}, [data]);
@@ -67,9 +67,11 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 		bHistory.push(
 			`/company/${company.id}/council/${props.match.params.id}/live`
 		);
-	}
+	};
 
-	const { council, error, loading, refetch } = data;
+	const {
+		council, error, loading, refetch
+	} = data;
 
 	if (loading) {
 		return <LoadingSection />;
@@ -85,35 +87,32 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 				text: translate.convene,
 			},
 			{
-				text: translate.new_list_called /**TRADUCCION CAMBIAR POR LISTA DE PARTICIPANTES*/,
+				text: translate.new_list_called /** TRADUCCION CAMBIAR POR LISTA DE PARTICIPANTES */,
 			},
 		];
 
 		if (config.councilDelegates && council.statute.existsDelegatedVote) {
 			tabs.push({
 				text: translate.delegations,
-			})
+			});
 		}
 
-		if(council.statute.shareholdersPortal){
+		if (council.statute.shareholdersPortal) {
 			tabs.push({
 				text: 'Solicitudes de participación'
 			});
 		}
 
-		const tabsListNames = [];
-		tabs.map(item => {
-			tabsListNames.push(item.text)
-		})
-
-		return tabsListNames;
-	}
+		return tabs.map(item => item.text);
+	};
 
 	return (
 		<CardPageLayout title={translate.prepare_room} disableScroll>
-			<div style={{ width: '100%', padding: '1.7em', paddingBottom: '0.5em', height: 'calc(100% - 3.5em)', paddingTop: '0em' }}>
+			<div style={{
+				width: '100%', padding: '1.7em', paddingBottom: '0.5em', height: 'calc(100% - 3.5em)', paddingTop: '0em'
+			}}>
 				<div style={{ display: 'flex', marginTop: '0.6em' }}>
-					<div style={{ fontSize: "13px", }}>
+					<div style={{ fontSize: '13px', }}>
 						<MenuSuperiorTabs
 							items={getTabs()}
 							setSelect={setSelecteReuniones}
@@ -121,80 +120,82 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 						/>
 					</div>
 				</div>
-				{selecteReuniones === translate.convene &&
-					<div style={{ height: 'calc(100% - 38px)' }}>
-						<Scrollbar>
-							<div style={{ width: '100%', position: 'relative', padding: '1em', paddingBottom: '1.3em' }}>
-								<Convene
-									council={council}
-									translate={translate}
-								/>
-							</div>
-						</Scrollbar>
-					</div>
+				{selecteReuniones === translate.convene
+&& <div style={{ height: 'calc(100% - 38px)' }}>
+	<Scrollbar>
+		<div style={{
+			width: '100%', position: 'relative', padding: '1em', paddingBottom: '1.3em'
+		}}>
+			<Convene
+				council={council}
+				translate={translate}
+			/>
+		</div>
+	</Scrollbar>
+</div>
 				}
-				{selecteReuniones === translate.new_list_called &&
-					<div style={{ height: 'calc(100% - 38px)' }}>
-						<Scrollbar>
-							<div
-								style={{
-									padding: '1.2em',
-									height: '100%'
-								}}
-							>
-								{(CBX.councilHasAssistanceConfirmation(council) && council.councilType !== COUNCIL_TYPES.ONE_ON_ONE) &&
-									<EstimatedQuorum
-										council={council}
-										company={company}
-										totalVotes={data.councilTotalVotes}
-										socialCapital={data.councilSocialCapital}
-										translate={translate}
-									/>
-								}
-								<ConvenedParticipantsTable
-									council={council}
-									company={company}
-									hideAddParticipant={council.councilType === 5}
-									totalVotes={data.councilTotalVotes}
-									socialCapital={data.councilSocialCapital}
-									participations={CBX.hasParticipations(council)}
-									translate={translate}
-									refetch={refetch}
-								/>
-							</div>
-						</Scrollbar>
-					</div>
+				{selecteReuniones === translate.new_list_called
+&& <div style={{ height: 'calc(100% - 38px)' }}>
+	<Scrollbar>
+		<div
+			style={{
+				padding: '1.2em',
+				height: '100%'
+			}}
+		>
+			{(CBX.councilHasAssistanceConfirmation(council) && council.councilType !== COUNCIL_TYPES.ONE_ON_ONE)
+&& <EstimatedQuorum
+	council={council}
+	company={company}
+	totalVotes={data.councilTotalVotes}
+	socialCapital={data.councilSocialCapital}
+	translate={translate}
+/>
+			}
+			<ConvenedParticipantsTable
+				council={council}
+				company={company}
+				hideAddParticipant={council.councilType === 5}
+				totalVotes={data.councilTotalVotes}
+				socialCapital={data.councilSocialCapital}
+				participations={CBX.hasParticipations(council)}
+				translate={translate}
+				refetch={refetch}
+			/>
+		</div>
+	</Scrollbar>
+</div>
 				}
-				{selecteReuniones === translate.delegations &&
-					<div style={{ height: 'calc(100% - 38px)' }}>
-						<Scrollbar>
-							<div
-								style={{
-									padding: '1.2em',
-									height: '100%'
-								}}
-							>
-								<DelegationRestriction translate={translate} council={council} fullScreen={true} />
-							</div>
-						</Scrollbar>
-					</div>
+				{selecteReuniones === translate.delegations
+&& <div style={{ height: 'calc(100% - 38px)' }}>
+	<Scrollbar>
+		<div
+			style={{
+				padding: '1.2em',
+				height: '100%'
+			}}
+		>
+			<DelegationRestriction translate={translate} council={council} fullScreen={true} />
+		</div>
+	</Scrollbar>
+</div>
 				}
-				{selecteReuniones === 'Solicitudes de participación' &&
-					<ShareholdersRequestsPage
-						council={council}
-						translate={translate}
-					/>
+				{selecteReuniones === 'Solicitudes de participación'
+&& <ShareholdersRequestsPage
+	council={council}
+	translate={translate}
+/>
 				}
 			</div>
 			{/* <div style={{ height: '100%' }}>
-				<div style={{ height: 'calc(100% - 3.5em)', padding: '1em', paddingTop: 0, paddingBottom: 0, overflow: 'hidden', position: 'relative' }}>
-					<div style={{ height: 'calc(100% - 1em)', borderBottom: '1px solid gainsboro' }}>
-						<TabsScreen
-							uncontrolled={true}
-							tabsInfo={getTabs()}
-						/>
-					</div>
-				</div> */}
+<div style={{ height: 'calc(100% - 3.5em)', padding: '1em', paddingTop: 0, paddingBottom: 0, overflow: 'hidden', position: 'relative' }}>
+<div style={{ height: 'calc(100% - 1em)', borderBottom: '1px solid gainsboro' }}>
+<TabsScreen
+uncontrolled={true}
+tabsInfo={getTabs()}
+/>
+</div>
+</div> */}
 			<ReminderModal
 				show={state.sendReminder}
 				council={council}
@@ -220,7 +221,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 				refetch={refetch}
 				company={company}
 				translate={translate}
-				requestClose={() => { setState({ ...state, attachmentsModal: false }) }}
+				requestClose={() => { setState({ ...state, attachmentsModal: false }); }}
 			/>
 			<RescheduleModal
 				show={state.rescheduleCouncil}
@@ -247,23 +248,23 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 							id={'prepararSalaNew'}
 							color={primary}
 							buttonStyle={{
-								margin: "0",
+								margin: '0',
 								minWidth: '12em'
 							}}
 							textStyle={{
-								color: "white",
-								fontWeight: "700",
-								marginLeft: "0.3em",
-								fontSize: "0.9em",
-								textTransform: "none"
+								color: 'white',
+								fontWeight: '700',
+								marginLeft: '0.3em',
+								fontSize: '0.9em',
+								textTransform: 'none'
 							}}
 							icon={
 								<FontAwesome
-									name={"user-plus"}
+									name={'user-plus'}
 									style={{
-										fontSize: "1em",
-										color: "white",
-										marginLeft: "0.3em"
+										fontSize: '1em',
+										color: 'white',
+										marginLeft: '0.3em'
 									}}
 								/>
 							}
@@ -274,47 +275,47 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 					<DropDownMenu
 						color="transparent"
 						Component={() => <Paper
-								elevation={1}
+							elevation={1}
+							style={{
+								boxSizing: 'border-box',
+								padding: '0',
+								width: '5em',
+								height: '36px',
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+								border: `1px solid ${primary}`,
+								marginLeft: '0.3em'
+							}}
+						>
+							<MenuItem
 								style={{
-									boxSizing: "border-box",
-									padding: "0",
-									width: '5em',
-									height: '36px',
+									width: '100%',
+									height: '100%',
+									margin: 0,
+									padding: 0,
 									display: 'flex',
 									alignItems: 'center',
-									justifyContent: 'center',
-									border: `1px solid ${primary}`,
-									marginLeft: "0.3em"
+									justifyContent: 'center'
 								}}
 							>
-								<MenuItem
+								<FontAwesome
+									name={'bars'}
 									style={{
-										width: '100%',
-										height: '100%',
-										margin: 0,
-										padding: 0,
-										display: 'flex',
-										alignItems: 'center',
-										justifyContent: 'center'
+										cursor: 'pointer',
+										fontSize: '0.8em',
+										height: '0.8em',
+										color: primary
 									}}
+								/>
+								<Icon
+									className="material-icons"
+									style={{ color: primary }}
 								>
-									<FontAwesome
-										name={"bars"}
-										style={{
-											cursor: "pointer",
-											fontSize: "0.8em",
-											height: "0.8em",
-											color: primary
-										}}
-									/>
-									<Icon
-										className="material-icons"
-										style={{ color: primary }}
-									>
-										keyboard_arrow_down
-									</Icon>
-								</MenuItem>
-							</Paper>
+keyboard_arrow_down
+								</Icon>
+							</MenuItem>
+						</Paper>
 						}
 						textStyle={{ color: primary }}
 						items={
@@ -322,72 +323,72 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 								{CBX.councilIsNotified(council) ? (
 									<MenuItem
 										onClick={() => setState({
-												sendReminder: true
-											})
+											sendReminder: true
+										})
 										}
 									>
 										<Icon
 											className="material-icons"
 											style={{
 												color: secondary,
-												marginRight: "0.4em"
+												marginRight: '0.4em'
 											}}
 										>
-											update
+update
 										</Icon>
 										{translate.send_reminder}
 									</MenuItem>
 								) : (
-										<MenuItem
-											onClick={() => setState({
-													sendConvene: true
-												})
-											}
+									<MenuItem
+										onClick={() => setState({
+											sendConvene: true
+										})
+										}
+									>
+										<Icon
+											className="material-icons"
+											style={{
+												color: secondary,
+												marginRight: '0.4em'
+											}}
 										>
-											<Icon
-												className="material-icons"
-												style={{
-													color: secondary,
-													marginRight: "0.4em"
-												}}
-											>
-												notifications
-											</Icon>
-											{translate.send_notification}
-										</MenuItem>
-									)}
+notifications
+										</Icon>
+										{translate.send_notification}
+									</MenuItem>
+								)}
 								<MenuItem
 									onClick={() => setState({
-											attachmentsModal: true
-										})
+										attachmentsModal: true
+									})
 									}
 								>
 									<Icon
 										className="material-icons"
 										style={{
 											color: secondary,
-											marginRight: "0.4em"
+											marginRight: '0.4em'
 										}}
 									>
-										attach_file
+attach_file
 									</Icon>
 									{translate.add_documentation}
 								</MenuItem>
 								<MenuItem
 									onClick={() => setState({
-											rescheduleCouncil: true
-										})
+										rescheduleCouncil: true
+									})
 									}
 								>
 									<Icon
 										className="material-icons"
 										style={{
 											color: secondary,
-											marginRight: "0.4em"
+											marginRight: '0.4em'
 										}}
 									>
-										schedule
-										</Icon>
+schedule
+									</Icon>
 									{translate.reschedule_council}
 								</MenuItem>
 								<Divider light />
@@ -398,12 +399,12 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 									<Icon
 										className="material-icons"
 										style={{
-											color: "red",
-											marginRight: "0.4em"
+											color: 'red',
+											marginRight: '0.4em'
 										}}
 									>
-										highlight_off
-										</Icon>
+highlight_off
+									</Icon>
 									{translate.cancel_council}
 								</MenuItem>
 							</React.Fragment>
@@ -413,7 +414,7 @@ const CouncilPreparePage = ({ company, translate, data, ...props }) => {
 			</div>
 		</CardPageLayout>
 	);
-}
+};
 
 
 export default graphql(gql`
@@ -525,7 +526,7 @@ export default graphql(gql`
 		councilSocialCapital(councilId: $councilID)
 	}
 `, {
-	name: "data",
+	name: 'data',
 	options: props => ({
 		variables: {
 			councilID: +props.match.params.id

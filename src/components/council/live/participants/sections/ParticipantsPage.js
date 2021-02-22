@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { Tooltip } from 'material-ui';
 import {
 	LoadingSection,
@@ -11,26 +11,28 @@ import {
 	CharSelector,
 	MenuItem,
 	TextInput
-} from "../../../../../displayComponents";
-import { getSecondary } from "../../../../../styles/colors";
-import withWindowSize from "../../../../../HOCs/withWindowSize";
-import ParticipantsList from "../ParticipantsList";
-import AddGuestModal from "../AddGuestModal";
+} from '../../../../../displayComponents';
+import { getSecondary } from '../../../../../styles/colors';
+import withWindowSize from '../../../../../HOCs/withWindowSize';
+import ParticipantsList from '../ParticipantsList';
+import AddGuestModal from '../AddGuestModal';
 import StatesHeader from './StatesHeader';
 import TypesHeader from './TypesHeader';
 import AttendanceHeader from './AttendanceHeader';
 import CredentialsHeader from './CredentialsHeader';
 import ConveneHeader from './ConveneHeader';
-import RefreshCredsSendsButton from "../RefreshCredsSendsButton";
-import QRSearchModal from "./QRSearchModal";
-import { ConfigContext } from "../../../../../containers/AppControl";
-import { isMobile } from "../../../../../utils/screen";
-import AddConvenedParticipantButton from "../../../prepare/modals/AddConvenedParticipantButton";
-import { hasParticipations } from "../../../../../utils/CBX";
-import { COUNCIL_TYPES } from "../../../../../constants";
+import RefreshCredsSendsButton from '../RefreshCredsSendsButton';
+import QRSearchModal from './QRSearchModal';
+import { ConfigContext } from '../../../../../containers/AppControl';
+import { isMobile } from '../../../../../utils/screen';
+import AddConvenedParticipantButton from '../../../prepare/modals/AddConvenedParticipantButton';
+import { hasParticipations } from '../../../../../utils/CBX';
+import { COUNCIL_TYPES } from '../../../../../constants';
 
 
-const ParticipantsPage = ({ translate, council, orientation, participants, loading, data, filters, setFilters, ...props }) => {
+const ParticipantsPage = ({
+	translate, council, orientation, participants, loading, data, filters, setFilters, ...props
+}) => {
 	const [addGuest, setAddGuest] = React.useState(false);
 	const [QRModal, setQRModal] = React.useState(false);
 	const [widthOffset, setwidthOffset] = React.useState(false);
@@ -38,29 +40,29 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 	const config = React.useContext(ConfigContext);
 	const divWidth = React.useRef();
 	const _getFilters = () => [
-			{
-				value: "fullName",
-				translation: translate.participant_data
-			},
-			{
-				value: "dni",
-				translation: translate.dni
-			},
-			{
-				value: "position",
-				translation: translate.position
-			}
-		]
+		{
+			value: 'fullName',
+			translation: translate.participant_data
+		},
+		{
+			value: 'dni',
+			translation: translate.dni
+		},
+		{
+			value: 'position',
+			translation: translate.position
+		}
+	];
 
 	React.useLayoutEffect(() => {
-		if(divWidth && divWidth.current && divWidth.current.offsetWidth < 648){
-			setwidthOffset(true)
+		if (divWidth && divWidth.current && divWidth.current.offsetWidth < 648) {
+			setwidthOffset(true);
 		}
 	});
 
 
 	const _renderAddGuestButton = () => {
-		if(council.councilType === COUNCIL_TYPES.ONE_ON_ONE){
+		if (council.councilType === COUNCIL_TYPES.ONE_ON_ONE) {
 			return null;
 		}
 
@@ -69,32 +71,32 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 				<div>
 					<BasicButton
 						text={isMobile ? translate.invite_guest : translate.add_guest}
-						color={"white"}
+						color={'white'}
 						textStyle={{
 							color: secondary,
-							fontWeight: "700",
-							fontSize: "0.9em",
-							textTransform: "none",
+							fontWeight: '700',
+							fontSize: '0.9em',
+							textTransform: 'none',
 						}}
 						textPosition="after"
 						type="flat"
 						icon={<ButtonIcon type="add" color={secondary} />}
 						onClick={() => setAddGuest(true)}
 						buttonStyle={{
-							marginRight: "1em",
+							marginRight: '1em',
 							border: `1px solid ${secondary}`,
 						}}
 					/>
 				</div>
 			</Tooltip>
-		)
-	}
+		);
+	};
 
 	const toggleCharFilter = char => {
 		setFilters({
 			charFilter: char === filters.charFilter ? null : char
 		});
-	}
+	};
 
 	const setSelectedType = newValue => {
 		setFilters({ type: newValue });
@@ -120,50 +122,50 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 	const toggleOnlyNotSigned = () => {
 		setFilters({
 			onlyNotSigned: !filters.onlyNotSigned
-		})
-	}
+		});
+	};
 
 	const _renderHeader = () => {
 		if (!data[getSection(props.view)]) {
-			return <div />
+			return <div />;
 		}
 
 		const headers = {
-			'STATES': <StatesHeader
+			STATES: <StatesHeader
 				translate={translate}
 				stateRecount={data.stateRecount}
 				selected={filters.type}
 				setSelected={setSelectedType}
 			/>,
 
-			'ATTENDANCE': <AttendanceHeader
+			ATTENDANCE: <AttendanceHeader
 				translate={translate}
 				attendanceRecount={data.attendanceRecount}
 				selected={filters.type}
 				setSelected={setSelectedType}
 			/>,
 
-			'CREDENTIALS': <CredentialsHeader
+			CREDENTIALS: <CredentialsHeader
 				translate={translate}
 				crendentialSendRecount={data.crendentialSendRecount}
 				selected={filters.type}
 				setSelected={setSelectedType}
 			/>,
 
-			'TYPE': <TypesHeader
+			TYPE: <TypesHeader
 				translate={translate}
 				participantTypeRecount={data.participantTypeRecount}
 				selected={filters.type}
 				setSelected={setSelectedType}
 			/>,
 
-			'CONVENE': <ConveneHeader
+			CONVENE: <ConveneHeader
 				translate={translate}
 				conveneSendRecount={data.conveneSendRecount}
 				selected={filters.type}
 				setSelected={setSelectedType}
 			/>,
-		}
+		};
 		return headers[props.view];
 	};
 	const fields = _getFilters();
@@ -172,14 +174,16 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 		<React.Fragment>
 			<div
 				style={{
-					minHeight: "3em",
+					minHeight: '3em',
 					maxHeight: '6em',
-					overflow: "hidden"
+					overflow: 'hidden'
 				}}
 			>
 				{_renderHeader()}
 			</div>
-			<Grid style={{ padding: "0 8px", width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+			<Grid style={{
+				padding: '0 8px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+			}}>
 				<GridItem xs={orientation === 'landscape' ? 4 : 6} md={6} lg={3} style={{ display: 'flex', alignItems: 'center', height: '3.5em' }}>
 					{_renderAddGuestButton()}
 				</GridItem>
@@ -192,18 +196,18 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 						textStyle={{ color: secondary, fontWeight: '700', border: `1px solid ${secondary}` }}
 						onClick={toggleOnlyNotSigned}
 					/>
-					{props.root &&
-						<AddConvenedParticipantButton
-							participations={hasParticipations(council)}
-							translate={translate}
-							councilId={council.id}
-							refetch={data.refetch}
-							council={council}
-						/>
+					{props.root
+&& <AddConvenedParticipantButton
+	participations={hasParticipations(council)}
+	translate={translate}
+	councilId={council.id}
+	refetch={data.refetch}
+	council={council}
+/>
 					}
 
-					{props.view === 'CREDENTIALS' &&
-						<RefreshCredsSendsButton translate={translate} council={council} />
+					{props.view === 'CREDENTIALS'
+&& <RefreshCredsSendsButton translate={translate} council={council} />
 					}
 				</GridItem>
 				<GridItem xs={orientation === 'landscape' ? 12 : 12} md={12} lg={6}
@@ -213,42 +217,42 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 						alignItems: 'center',
 						justifyContent: orientation === 'portrait' ? 'space-between' : 'flex-end'
 					}}>
-					{orientation === 'landscape' && isMobile &&
-						<CharSelector
-							onClick={toggleCharFilter}
-							translate={translate}
-							selectedChar={filters.charFilter}
-						/>
+					{orientation === 'landscape' && isMobile
+&& <CharSelector
+	onClick={toggleCharFilter}
+	translate={translate}
+	selectedChar={filters.charFilter}
+/>
 					}
-					{(config.quickAccess && council.councilType < 2) &&
-						<React.Fragment>
-							<QRSearchModal
-								open={QRModal}
-								translate={translate}
-								council={council}
-								requestClose={() => setQRModal(false)}
-							/>
-							<div
-								style={{
-									height: '100%',
-									display: 'flex',
-									padding: '0.6em',
-									marginRight: '1em',
-									alignItems: 'center',
-									justifyContent: 'center',
-									border: '1px solid gainsboro',
-									cursor: 'pointer'
-								}}
-								className="withShadow"
-								onClick={() => setQRModal(true)}
-							>
-								<i className="fa fa-qrcode" aria-hidden="true" style={{ fontSize: '2em', marginLeft: '5px', color: secondary }}></i>
-							</div>
-						</React.Fragment>
+					{(config.quickAccess && council.councilType < 2)
+&& <React.Fragment>
+	<QRSearchModal
+		open={QRModal}
+		translate={translate}
+		council={council}
+		requestClose={() => setQRModal(false)}
+	/>
+	<div
+		style={{
+			height: '100%',
+			display: 'flex',
+			padding: '0.6em',
+			marginRight: '1em',
+			alignItems: 'center',
+			justifyContent: 'center',
+			border: '1px solid gainsboro',
+			cursor: 'pointer'
+		}}
+		className="withShadow"
+		onClick={() => setQRModal(true)}
+	>
+		<i className="fa fa-qrcode" aria-hidden="true" style={{ fontSize: '2em', marginLeft: '5px', color: secondary }}></i>
+	</div>
+</React.Fragment>
 					}
 					<div
 						style={{
-							maxWidth: "8em"
+							maxWidth: '8em'
 							// maxWidth: "12em"
 						}}
 					>
@@ -270,14 +274,14 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 					</div>
 					<div
 						style={{
-							marginLeft: "0.8em",
+							marginLeft: '0.8em',
 							width: '8em'
 							// width: '10em'
 						}}
 					>
 						<TextInput
 							adornment={<Icon>search</Icon>}
-							floatingText={" "}
+							floatingText={' '}
 							type="text"
 							autoComplete="off"
 							value={filters.filterText}
@@ -292,21 +296,20 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 				ref={divWidth}
 				style={{
 					height: `calc(100% - 4em - ${isMobile && orientation === 'portrait' ? '8em' : `${props.menuOpen ? '6.5' : widthOffset ? '9.5' : '3.5'}em`}  )`,
-					overflow: "hidden",
+					overflow: 'hidden',
 					display: 'flex',
 				}}
 			>
-				{(!isMobile || orientation !== 'landscape') &&
-					<CharSelector
-						onClick={toggleCharFilter}
-						translate={translate}
-						selectedChar={filters.charFilter}
-					/>
+				{(!isMobile || orientation !== 'landscape')
+&& <CharSelector
+	onClick={toggleCharFilter}
+	translate={translate}
+	selectedChar={filters.charFilter}
+/>
 				}
 				{!data[getSection(props.view)] ?
 					<LoadingSection />
-					:
-					<ParticipantsList
+					:					<ParticipantsList
 						loadMore={loadMore}
 						loading={loading}
 						loadingMore={loading}
@@ -329,18 +332,18 @@ const ParticipantsPage = ({ translate, council, orientation, participants, loadi
 				translate={translate}
 			/>
 		</React.Fragment>
-	)
-}
+	);
+};
 
 const getSection = view => {
 	const sections = {
-		'STATES': 'liveParticipantsState',
-		'ATTENDANCE': 'liveParticipantsAttendance',
-		'CREDENTIALS': 'liveParticipantsCredentials',
-		'TYPE': 'liveParticipantsType',
-		'CONVENE': 'liveParticipantsConvene'
-	}
+		STATES: 'liveParticipantsState',
+		ATTENDANCE: 'liveParticipantsAttendance',
+		CREDENTIALS: 'liveParticipantsCredentials',
+		TYPE: 'liveParticipantsType',
+		CONVENE: 'liveParticipantsConvene'
+	};
 	return sections[view];
-}
+};
 
 export default withWindowSize(ParticipantsPage);
