@@ -19,8 +19,6 @@ const OrganizationUsersTable = ({
 	const [usersTotal, setUsersTotal] = React.useState(false);
 	const primary = getPrimary();
 
-	console.log(textFilter);
-
 	const getUsers = React.useCallback(async () => {
 		const response = await client.query({
 			query: corporationUsers,
@@ -44,7 +42,6 @@ const OrganizationUsersTable = ({
 	}, [textFilter, filters.page, company.id]);
 
 	React.useEffect(() => {
-		console.log('debería pedir de nuevo');
 		getUsers();
 	}, [getUsers]);
 

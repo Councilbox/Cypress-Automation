@@ -27,9 +27,6 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
 	const primary = getPrimary();
 	const subdomain = useSubdomain();
 
-	console.log(subdomain);
-
-
 	const confirmEmailAndSetPwd = async () => {
 		if (!checkRequiredFields()) {
 			setState({
