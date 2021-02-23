@@ -101,24 +101,38 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 			helpIcon={true}
 			languageSelector={false}
 			styleFix={{ overflow: 'hidden', }}
+			styleFixChildren={{
+				...(council.securityType === 2 && isMobile && {
+					overflow: "scroll"
+				}),
+			}}
 		>
 			{renderLogin ?
 				<>
 					{(participant.legalTermsAccepted || !config.participantTermsCheck) ?
 						<div style={{
 							...styles.mainContainer,
-							height: 'calc( 100% - 3em ) '
+							height: 'calc( 100% - 3em ) ',
+							...(council.securityType === 2 && isMobile && {
+								height: '',
+							}),
 						}}>
 							<Card style={{
 								...styles.cardContainer,
 								background: finishedVoted && 'transparent',
 								boxShadow: finishedVoted && 'none',
 								minWidth: window.innerWidth > 450 ? '550px' : '100%',
+								...(council.securityType === 2 && isMobile && {
+									margin: '10% 20% 5px'
+								}),
 							}} elevation={6}>
 								{loginForm()}
 							</Card>
 							<Card style={{
-								width: window.innerWidth > 450 ? '550px' : '100%'
+								width: window.innerWidth > 450 ? '550px' : '100%',
+								...(council.securityType === 2 && isMobile && {
+									marginBottom: "6em"
+								}),
 							}}>
 								<RequestDataInfo
 									data={{}}
