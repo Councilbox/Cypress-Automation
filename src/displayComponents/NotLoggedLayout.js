@@ -6,7 +6,7 @@ import LoadingMainApp from './LoadingMainApp';
 
 
 const NotLoggedLayout = ({
-	children, translate, helpIcon, languageSelector, councilIsFinished, setSelectHeadFinished, selectHeadFinished, styleFix, ...props
+	children, translate, helpIcon, languageSelector, councilIsFinished, setSelectHeadFinished, selectHeadFinished, styleFix, styleFixChildren, ...props
 }) => {
 	const [loadingImg, setLoadingImg] = React.useState(true);
 	const customBackground = getCustomBackground();
@@ -64,6 +64,7 @@ const NotLoggedLayout = ({
 					backgroundColor: 'rgba(0, 0, 0, 0.05)',
 					fontSize: '0.85em',
 					height: '100%',
+					...styleFixChildren
 				}}
 			>
 				{children}
