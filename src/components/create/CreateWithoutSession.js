@@ -43,7 +43,7 @@ const CreateWithoutSession = ({
 			<div>
 				<DateTimePicker
 					required
-					id="date-time-picker-date-start"
+					idIcon="date-time-picker-date-start"
 					onChange={date => {
 						const newDate = new Date(date);
 						const dateString = newDate.toISOString();
@@ -61,7 +61,7 @@ const CreateWithoutSession = ({
 			<div style={{ marginTop: '1em' }}>
 				<DateTimePicker
 					required
-					id="date-time-picker-date-end"
+					idIcon="date-time-picker-date-end"
 					onChange={date => {
 						const newDate = new Date(date);
 						const dateString = newDate.toISOString();

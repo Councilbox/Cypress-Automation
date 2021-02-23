@@ -15,6 +15,7 @@ const DateTimePickerWrapper = ({
 	value,
 	format,
 	minDate,
+	id,
 	minDateMessage,
 	acceptText,
 	cancelText,
@@ -30,6 +31,7 @@ const DateTimePickerWrapper = ({
 					format={format || 'LL'}
 					minDateMessage={minDateMessage}
 					okLabel={'Ok'}
+					id={id}
 					style={{ width: '100%' }}
 					clearable={clearable}
 					clearLabel={clearText && translate.new_delete }
