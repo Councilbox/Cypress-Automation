@@ -102,10 +102,10 @@ const ParticipantLogin = ({
 			translate={props.translate}
 			helpIcon={true}
 			languageSelector={false}
-			styleFix={{ overflow: 'hidden', }}
+			styleFix={{ overflow: 'hidden' }}
 			styleFixChildren={{
 				...(council.securityType === 2 && isMobile && {
-					overflow: "scroll"
+					overflow: 'scroll'
 				}),
 			}}
 		>
@@ -133,7 +133,7 @@ const ParticipantLogin = ({
 							<Card style={{
 								width: window.innerWidth > 450 ? '550px' : '100%',
 								...(council.securityType === 2 && isMobile && {
-									marginBottom: "6em"
+									marginBottom: '6em'
 								}),
 							}}>
 								<RequestDataInfo
