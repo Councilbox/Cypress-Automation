@@ -1,7 +1,7 @@
-import React from "react";
-import { Typography, Card, MenuItem } from "material-ui";
-import { withApollo, graphql } from "react-apollo";
-import { toast } from "react-toastify";
+import React from 'react';
+import { Typography, Card, MenuItem } from 'material-ui';
+import { withApollo, graphql } from 'react-apollo';
+import { toast } from 'react-toastify';
 import {
 	AlertConfirm,
 	Icon,
@@ -10,13 +10,15 @@ import {
 	TextInput,
 	Scrollbar,
 	LiveToast
-} from "../../../displayComponents";
-import { participantsWhoCanDelegate } from "../../../queries";
-import { DELEGATION_USERS_LOAD } from "../../../constants";
+} from '../../../displayComponents';
+import { participantsWhoCanDelegate } from '../../../queries';
+import { DELEGATION_USERS_LOAD } from '../../../constants';
 import { delegatedVotesLimitReached } from '../../../utils/CBX';
-import { addDelegation } from "../../../queries/liveParticipant";
+import { addDelegation as addDelegationMutation } from '../../../queries/liveParticipant';
 
-const DelegateVoteModal = ({ translate, participant, client, council, ...props }) => {
+const DelegateVoteModal = ({
+	translate, participant, client, council, ...props
+}) => {
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
 	const [filters, setFilters] = React.useState({
@@ -25,7 +27,24 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 	const [options, setOptions] = React.useState({
 		offset: 0,
 		limit: DELEGATION_USERS_LOAD
-	})
+	});
+
+	const buildVariables = () => {
+		const variables = {
+			councilId: council.id,
+			participantId: participant.id,
+		};
+
+		if (filters.text) {
+			variables.filters = [{
+				field: 'fullName',
+				text: filters.text.trim()
+			}];
+		}
+
+		variables.options = options;
+		return variables;
+	};
 
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
@@ -65,33 +84,16 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 		getData();
 	}, [getData]);
 
-	const buildVariables = () => {
-		const variables = {
-			councilId: council.id,
-			participantId: participant.id,
-		}
-
-		if (filters.text) {
-			variables.filters = [{
-				field: "fullName",
-				text: filters.text.trim()
-			}]
-		}
-
-		variables.options = options;
-		return variables;
-	}
-
 	const loadMore = () => {
 		setOptions({
 			offset: data.liveParticipantsWhoCanDelegate.list.length,
 			limit: DELEGATION_USERS_LOAD
 		});
-	}
+	};
 
 	const close = () => {
 		props.requestClose();
-	}
+	};
 
 	const addDelegation = async id => {
 		const response = await props.addDelegation(
@@ -113,9 +115,9 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 				/>, {
 					position: toast.POSITION.TOP_RIGHT,
 					autoClose: true,
-					className: "errorToast"
+					className: 'errorToast'
 				}
-			)
+			);
 		} else if (response.errors[0].code === 711) {
 			toast(
 				<LiveToast
@@ -123,9 +125,9 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 				/>, {
 					position: toast.POSITION.TOP_RIGHT,
 					autoClose: true,
-					className: "errorToast"
+					className: 'errorToast'
 				}
-			)
+			);
 		} else if (response.errors[0].code === 715) {
 			toast(
 				<LiveToast
@@ -133,11 +135,11 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 				/>, {
 					position: toast.POSITION.TOP_RIGHT,
 					autoClose: true,
-					className: "errorToast"
+					className: 'errorToast'
 				}
-			)
+			);
 		}
-	}
+	};
 
 	const updateFilterText = text => {
 		setOptions({
@@ -145,10 +147,10 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 			limit: DELEGATION_USERS_LOAD
 		});
 		setFilters({ text });
-	}
+	};
 
 
-	function _modalBody() {
+	function modalBody() {
 		const participants = loading ? [] : data.liveParticipantsWhoCanDelegate.list;
 		const { total } = loading ? 0 : data.liveParticipantsWhoCanDelegate;
 		const rest = total - participants.length - 1;
@@ -158,14 +160,14 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 				<div>
 					{translate.number_of_delegated_votes_exceeded}
 				</div>
-			)
+			);
 		}
 
 		return (
-			<div style={{ width: "600px" }}>
+			<div style={{ width: '600px' }}>
 				<TextInput
 					adornment={<Icon>search</Icon>}
-					floatingText={" "}
+					floatingText={' '}
 					type="text"
 					value={filters.text}
 					onChange={event => {
@@ -175,69 +177,71 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 
 				<div
 					style={{
-						height: "300px",
-						overflow: "hidden",
-						position: "relative"
+						height: '300px',
+						overflow: 'hidden',
+						position: 'relative'
 					}}
 				>
 					{loading ? (
 						<LoadingSection />
 					) : (
-							<Scrollbar option={{ suppressScrollX: true }}>
-								{participants.length > 0 ? (
-									<React.Fragment>
-										{participants.map(liveParticipant => {
-											if (liveParticipant.id !== participant.id) {
-												return (
-													<ParticipantRow
-														key={`delegateParticipant_${liveParticipant.id}`}
-														participant={liveParticipant}
-														onClick={() => addDelegation(liveParticipant.id)
-														}
-													/>
-												);
-											}
-											return false;
-										})}
-										{participants.length < total - 1 && (
-											<Card
-												style={{
-													width: '90%',
-													border: '2px solid grey',
-													margin: 'auto',
-													marginBottom: '1.2em',
-													marginTop: '0.6em',
-													cursor: 'pointer',
-													display: 'flex',
-													alignItems: 'center',
-													justifyContent: 'center'
-												}}
-												elevation={1}
-												onClick={loadMore}
-											>
-												<MenuItem style={{ padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
-													{`DESCARGAR ${
-														rest > DELEGATION_USERS_LOAD
-															? `${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-															: translate.all_plural.toLowerCase()
-														}`}
-													{loading &&
-														<div>
-															<LoadingSection size={25} />
-														</div>
+						<Scrollbar option={{ suppressScrollX: true }}>
+							{participants.length > 0 ? (
+								<React.Fragment>
+									{participants.map(liveParticipant => {
+										if (liveParticipant.id !== participant.id) {
+											return (
+												<ParticipantRow
+													key={`delegateParticipant_${liveParticipant.id}`}
+													participant={liveParticipant}
+													onClick={() => addDelegation(liveParticipant.id)
 													}
-												</MenuItem>
-											</Card>
-										)}
-									</React.Fragment>
-								) : (
-										<Typography>{translate.no_results}</Typography>
+												/>
+											);
+										}
+										return false;
+									})}
+									{participants.length < total - 1 && (
+										<Card
+											style={{
+												width: '90%',
+												border: '2px solid grey',
+												margin: 'auto',
+												marginBottom: '1.2em',
+												marginTop: '0.6em',
+												cursor: 'pointer',
+												display: 'flex',
+												alignItems: 'center',
+												justifyContent: 'center'
+											}}
+											elevation={1}
+											onClick={loadMore}
+										>
+											<MenuItem style={{
+												padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'
+											}}>
+												{`DESCARGAR ${
+													rest > DELEGATION_USERS_LOAD ?
+														`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+														: translate.all_plural.toLowerCase()
+												}`}
+												{loading
+&& <div>
+	<LoadingSection size={25} />
+</div>
+												}
+											</MenuItem>
+										</Card>
 									)}
-							</Scrollbar>
-						)}
+								</React.Fragment>
+							) : (
+								<Typography>{translate.no_results}</Typography>
+							)}
+						</Scrollbar>
+					)}
 				</div>
 			</div>
-		)
+		);
 	}
 
 	return (
@@ -245,12 +249,12 @@ const DelegateVoteModal = ({ translate, participant, client, council, ...props }
 			requestClose={close}
 			open={props.show}
 			buttonCancel={translate.close}
-			bodyText={_modalBody()}
+			bodyText={modalBody()}
 			title={translate.to_delegate_vote}
 		/>
 	);
-}
+};
 
-export default graphql(addDelegation, {
-	name: "addDelegation"
+export default graphql(addDelegationMutation, {
+	name: 'addDelegation'
 })(withApollo(DelegateVoteModal));

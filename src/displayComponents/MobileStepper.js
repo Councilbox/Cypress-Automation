@@ -1,5 +1,5 @@
-import React from "react";
-import MobileStepper from "material-ui/MobileStepper";
+import React from 'react';
+import MobileStepper from 'material-ui/MobileStepper';
 
 const MStepper = ({ active, total }) => (
 	<MobileStepper
@@ -7,7 +7,7 @@ const MStepper = ({ active, total }) => (
 		position="static"
 		steps={total}
 		activeStep={active}
-		classes={{ margin: "0 auto" }}
+		classes={{ margin: '0 auto' }}
 	/>
 );
 

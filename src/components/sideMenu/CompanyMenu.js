@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { Drawer, withStyles } from 'material-ui';
 import CompaniesManagerButton from '../menus/CompaniesManagerButton';
 import CompanySelector from '../menus/CompanySelector';
@@ -10,9 +10,9 @@ import icon from '../../assets/img/imago-councilbox-inverse-xl.png';
 
 const sidebarStyle = () => ({
 	paperAnchorLeft: {
-		marginLeft: "5em"
+		marginLeft: '5em'
 	}
-})
+});
 
 class CompanyMenu extends React.Component {
 	render() {
@@ -22,24 +22,24 @@ class CompanyMenu extends React.Component {
 			<Drawer
 				style={{
 					minWidth: `${sideWidth + isLandscape() ? 100 : 0}px`,
-					maxWidth: "100%",
-					display: !this.props.open && "none"
+					maxWidth: '100%',
+					display: !this.props.open && 'none'
 				}}
 				variant="persistent"
 				anchor="left"
 				open={this.props.open}
-				className={"prueba"}
+				className={'prueba'}
 				classes={{ paperAnchorLeft: isMobile && isLandscape() && this.props.classes.paperAnchorLeft }}
 			>
 				<div
 					style={{
-						height: "100%",
+						height: '100%',
 						minWidth: `calc(${sideWidth}px - 5em)`,
 						maxWidth: '100%',
 						backgroundColor: 'white',
-						paddingLeft: !isMobile ? "5em" : window.innerWidth > 851 ? '5em' : 0,
+						paddingLeft: !isMobile ? '5em' : window.innerWidth > 851 ? '5em' : 0,
 						// paddingLeft: isMobile && !isLandscape() ? 0 : '5em',
-						overflow: "hidden",
+						overflow: 'hidden',
 						display: 'flex',
 						flexDirection: 'column',
 						alignItems: 'center',

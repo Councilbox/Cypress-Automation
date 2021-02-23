@@ -1,19 +1,21 @@
-import React from "react";
-import { withApollo } from "react-apollo";
-import gql from "graphql-tag";
+import React from 'react';
+import { withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
 import {
 	ErrorWrapper,
 	LoadingSection
-} from "../../../displayComponents";
-import { bHistory } from "../../../containers/App";
-import { checkCouncilState } from "../../../utils/CBX";
+} from '../../../displayComponents';
+import { bHistory } from '../../../containers/App';
+import { checkCouncilState } from '../../../utils/CBX';
 import withSharedProps from '../../../HOCs/withSharedProps';
-import ActEditorPage from "./actEditor/ActEditorPage";
+import ActEditorPage from './actEditor/ActEditorPage';
 import { COUNCIL_STATES } from '../../../constants';
 import CanceledCouncil from './canceled/CanceledCouncil';
 
-const CouncilFinishedPage = ({ translate, client, match, company, ...props }) => {
+const CouncilFinishedPage = ({
+	translate, client, match, company
+}) => {
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
 
@@ -24,7 +26,7 @@ const CouncilFinishedPage = ({ translate, client, match, company, ...props }) =>
 				councilID: +match.params.council
 			}
 		});
-		if(response.data){
+		if (response.data) {
 			setData(response.data);
 		}
 		setLoading(false);
@@ -35,7 +37,7 @@ const CouncilFinishedPage = ({ translate, client, match, company, ...props }) =>
 	}, [getData]);
 
 	React.useEffect(() => {
-		if(data.council){
+		if (data.council) {
 			checkCouncilState(
 				{
 					state: data.council.state,
@@ -43,8 +45,8 @@ const CouncilFinishedPage = ({ translate, client, match, company, ...props }) =>
 				},
 				company,
 				bHistory,
-				"finished"
-			)
+				'finished'
+			);
 		}
 	});
 
@@ -58,7 +60,7 @@ const CouncilFinishedPage = ({ translate, client, match, company, ...props }) =>
 		return <ErrorWrapper error={error} translate={translate} />;
 	}
 
-	if(council.state === COUNCIL_STATES.FINISHED) {
+	if (council.state === COUNCIL_STATES.FINISHED) {
 		return (
 			<ActEditorPage
 				translate={translate}
@@ -73,7 +75,7 @@ const CouncilFinishedPage = ({ translate, client, match, company, ...props }) =>
 		);
 	}
 
-	if(council.state === COUNCIL_STATES.APPROVED || council.state === COUNCIL_STATES.FINAL_ACT_SENT){
+	if (council.state === COUNCIL_STATES.APPROVED || council.state === COUNCIL_STATES.FINAL_ACT_SENT) {
 		return (
 			<ActEditorPage
 				translate={translate}
@@ -86,11 +88,11 @@ const CouncilFinishedPage = ({ translate, client, match, company, ...props }) =>
 				socialCapital={data.councilSocialCapital}
 				totalVotes={data.councilTotalVotes}
 			/>
-		)
+		);
 	}
 
-	if(council.state === COUNCIL_STATES.FINISHED_WITHOUT_ACT){
-		return(
+	if (council.state === COUNCIL_STATES.FINISHED_WITHOUT_ACT) {
+		return (
 			<ActEditorPage
 				confirmed={true}
 				withoutAct={true}
@@ -104,22 +106,22 @@ const CouncilFinishedPage = ({ translate, client, match, company, ...props }) =>
 				{...data}
 				refetch={getData}
 			/>
-		)
+		);
 	}
 
-	if(council.state === COUNCIL_STATES.NOT_CELEBRATED || council.state === COUNCIL_STATES.CANCELED){
-		return(
+	if (council.state === COUNCIL_STATES.NOT_CELEBRATED || council.state === COUNCIL_STATES.CANCELED) {
+		return (
 			<CanceledCouncil
 				council={council}
 				translate={translate}
 				socialCapital={data.councilSocialCapital}
 				totalVotes={data.councilTotalVotes}
 			/>
-		)
+		);
 	}
 
 	return <LoadingSection />;
-}
+};
 
 export const councilDetails = gql`
 	query CouncilDetails($councilID: Int!) {

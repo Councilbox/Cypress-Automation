@@ -1,9 +1,10 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import { bindActionCreators } from "redux";
-import * as councilActions from "../actions/councilActions";
-import { LoadingMainApp } from "../displayComponents";
+/* eslint-disable class-methods-use-this */
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import * as councilActions from '../actions/councilActions';
+import { LoadingMainApp } from '../displayComponents';
 
 class CreateMeeting extends Component {
 	constructor(props) {
@@ -15,13 +16,13 @@ class CreateMeeting extends Component {
 
 	componentDidMount() {
 		if (
-			this.props.match.url === `/company/${this.props.match.params.company}/meeting/new` &&
-			!this.state.creating
+			this.props.match.url === `/company/${this.props.match.params.company}/meeting/new`
+			&& !this.state.creating
 		) {
 			this.setState({
 				creating: true
 			});
-			this.props.actions.create(this.props.match.params.company, "meeting");
+			this.props.actions.create(this.props.match.params.company, 'meeting');
 		}
 	}
 

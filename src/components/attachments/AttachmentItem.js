@@ -1,26 +1,30 @@
-import React from "react";
-import { IconButton, Paper, Tooltip } from "material-ui";
-import { AlertConfirm, CloseIcon, Grid, GridItem } from "../../displayComponents/index";
-import { getPrimary, getSecondary } from "../../styles/colors";
-import { formatSize } from "../../utils/CBX";
+import React from 'react';
+import { IconButton, Paper, Tooltip } from 'material-ui';
+import {
+	AlertConfirm, CloseIcon, Grid, GridItem
+} from '../../displayComponents/index';
+import { getPrimary, getSecondary } from '../../styles/colors';
+import { formatSize } from '../../utils/CBX';
 
 
-const AttachmentItem = ({ attachment, removeAttachment, icon, editName, edit, loading, translate, loadingId, error }) => {
+const AttachmentItem = ({
+	attachment, removeAttachment, icon, editName, edit, loading, translate, loadingId, error
+}) => {
 	const [deleteModal, setDeleteModal] = React.useState(false);
 	const primary = getPrimary();
 	const secondary = getSecondary();
 
-	const removeItem = attachment => {
-		removeAttachment(attachment.id);
-	}
+	const removeItem = item => {
+		removeAttachment(item.id);
+	};
 
 	return (
 		<Paper
 			style={{
-				width: "100%",
-				padding: "1vw",
+				width: '100%',
+				padding: '1vw',
 				paddingRight: '3em',
-				marginTop: "0.6em",
+				marginTop: '0.6em',
 				...(attachment.state === 2 ? { backgroundColor: 'whiteSmoke' } : {}),
 				...(error ? {
 					border: '1px solid red'
@@ -31,8 +35,8 @@ const AttachmentItem = ({ attachment, removeAttachment, icon, editName, edit, lo
 				<GridItem xs={6}>
 					<div
 						style={{
-							fontWeight: "600",
-							fontSize: "1em",
+							fontWeight: '600',
+							fontSize: '1em',
 							display: 'flex',
 							alignItems: 'center',
 							flexDirection: 'row',
@@ -41,15 +45,17 @@ const AttachmentItem = ({ attachment, removeAttachment, icon, editName, edit, lo
 						{attachment.filename}
 					</div>
 				</GridItem>
-				<GridItem xs={4} style={{ fontSize: '0.8em', display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>{attachment.state === 2 ? translate.deleted : formatSize(attachment.filesize)}</GridItem>
-				{attachment.state !== 2 &&
-					<GridItem xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
-						{edit && attachment.state !== 2 &&
-							<Tooltip title={translate.edit}>
+				<GridItem xs={4} style={{
+					fontSize: '0.8em', display: 'flex', alignItems: 'center', justifyContent: 'flex-start'
+				}}>{attachment.state === 2 ? translate.deleted : formatSize(attachment.filesize)}</GridItem>
+				{attachment.state !== 2
+					&& <GridItem xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
+						{edit && attachment.state !== 2
+							&& <Tooltip title={translate.edit}>
 								<div>
 									<IconButton
 										style={{
-											height: "28px",
+											height: '28px',
 											outline: 0,
 											marginLeft: '0.3em'
 										}}
@@ -66,10 +72,10 @@ const AttachmentItem = ({ attachment, removeAttachment, icon, editName, edit, lo
 								</div>
 							</Tooltip>
 						}
-						{(edit || loading) &&
-							<CloseIcon
+						{(edit || loading)
+							&& <CloseIcon
 								style={{
-									float: "right",
+									float: 'right',
 									color: primary
 								}}
 								loading={loadingId === attachment.id || loading}
@@ -79,8 +85,8 @@ const AttachmentItem = ({ attachment, removeAttachment, icon, editName, edit, lo
 						{icon && icon}
 					</GridItem>
 				}
-				{error &&
-					<>
+				{error
+					&& <>
 						<br />
 						{error}
 					</>
@@ -97,6 +103,6 @@ const AttachmentItem = ({ attachment, removeAttachment, icon, editName, edit, lo
 			/>
 		</Paper>
 	);
-}
+};
 
 export default AttachmentItem;

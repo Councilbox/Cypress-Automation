@@ -1,88 +1,88 @@
-import React from "react";
+import React from 'react';
 import { BasicButton } from '../../displayComponents';
-import withTranslations from "../../HOCs/withTranslations";
-import withWindowSize from "../../HOCs/withWindowSize";
-import withWindowOrientation from "../../HOCs/withWindowOrientation";
-import { primary, secondary } from "../../styles/colors";
-import { iOS_DEVICE, NOT_COMPATIBLE_BROWSER, UNSUPORTED_WINDOWS_VERSION } from '../../utils/webRTC';
+import withTranslations from '../../HOCs/withTranslations';
+import withWindowSize from '../../HOCs/withWindowSize';
+import withWindowOrientation from '../../HOCs/withWindowOrientation';
+import { primary, secondary } from '../../styles/colors';
+import { IOS_DEVICE, NOT_COMPATIBLE_BROWSER, UNSUPORTED_WINDOWS_VERSION } from '../../utils/webRTC';
 import notCompatibleBrowserIcon from '../../assets/img/not_compatible_device.svg';
 import notCompatiblePhoneIcon from '../../assets/img/no-compatible-phone.svg';
 
 const styles = {
 	container: {
-		width: "100%",
-		height: "100%",
-		display: "flex",
-		flexDirection: "column",
-		alignItems: "center",
-		justifyContent: "center",
-		position: "relative"
+		width: '100%',
+		height: '100%',
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		justifyContent: 'center',
+		position: 'relative'
 	},
 	splittedContainer: {
-		width: "100%",
-		height: "100%",
-		display: "flex",
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "center",
-		position: "relative"
+		width: '100%',
+		height: '100%',
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		position: 'relative'
 	},
 	textContainer: {
-		display: "flex",
-		flexDirection: "column",
-		alignItems: "center",
-		justifyContent: "center",
-		padding: "15px",
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		justifyContent: 'center',
+		padding: '15px',
 		paddingBottom: '0px',
-		textAlign: "center"
+		textAlign: 'center'
 	},
 	imageContainer: {
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
 		minHeight: '12em',
-		padding: "15px",
-		width: "100%"
+		padding: '15px',
+		width: '100%'
 	}
 };
 
 class ErrorState extends React.Component {
-	handleNotCompatible = status => {
-		const { translate, windowSize, windowOrientation } = this.props;
-		switch (status) {
-			case UNSUPORTED_WINDOWS_VERSION:
-				return <UnsuportedWindowsVersion translate={translate} windowSize={windowSize} windowOrientation={windowOrientation} />;
+handleNotCompatible = status => {
+	const { translate, windowSize, windowOrientation } = this.props;
+	switch (status) {
+		case UNSUPORTED_WINDOWS_VERSION:
+			return <UnsuportedWindowsVersion translate={translate} windowSize={windowSize} windowOrientation={windowOrientation} />;
 
-			case iOS_DEVICE:
-				return <IOSDevice translate={translate} windowSize={windowSize} windowOrientation={windowOrientation} />;
+		case IOS_DEVICE:
+			return <IOSDevice translate={translate} windowSize={windowSize} windowOrientation={windowOrientation} />;
 
-			case NOT_COMPATIBLE_BROWSER:
-				return <NotCompatibleBrowser translate={translate} windowSize={windowSize} windowOrientation={windowOrientation} />;
-			default:
-				return <div />
-		}
-	};
-
-	render() {
-		const {
-			status,
-			windowSize,
-			windowOrientation
-		} = this.props;
-
-		return (
-			<div
-				style={
-					windowSize === "xs" &&
-						windowOrientation === "portrait"
-						? styles.container
-						: styles.splittedContainer
-				}
-			>
-				{this.handleNotCompatible(status)}
-			</div>
-		);
+		case NOT_COMPATIBLE_BROWSER:
+			return <NotCompatibleBrowser translate={translate} windowSize={windowSize} windowOrientation={windowOrientation} />;
+		default:
+			return <div />;
 	}
+};
+
+render() {
+	const {
+		status,
+		windowSize,
+		windowOrientation
+	} = this.props;
+
+	return (
+		<div
+			style={
+				windowSize === 'xs'
+&& windowOrientation === 'portrait' ?
+					styles.container
+					: styles.splittedContainer
+			}
+		>
+			{this.handleNotCompatible(status)}
+		</div>
+	);
+}
 }
 
 const UnsuportedWindowsVersion = ({ translate, windowSize, windowOrientation }) => (
@@ -90,13 +90,13 @@ const UnsuportedWindowsVersion = ({ translate, windowSize, windowOrientation }) 
 		<div
 			style={{
 				...styles.textContainer,
-				...(windowSize === "xs" &&
-					windowOrientation === "portrait"
-					? { maxWidth: "100%" }
-					: { maxWidth: "50%", minWidth: "50%" })
+				...(windowSize === 'xs'
+&& windowOrientation === 'portrait' ?
+					{ maxWidth: '100%' }
+					: { maxWidth: '50%', minWidth: '50%' })
 			}}
 		>
-			<h5 style={{ color: primary, fontWeight: "bold" }}>
+			<h5 style={{ color: primary, fontWeight: 'bold' }}>
 				{translate.we_are_sorry}
 			</h5>
 
@@ -108,166 +108,64 @@ const UnsuportedWindowsVersion = ({ translate, windowSize, windowOrientation }) 
 		</div>
 
 		<div style={styles.imageContainer}>
-			<img src={notCompatibleBrowserIcon} alt={translate.unsupported_browser} style={{width: '8em', height: 'auto'}} />
+			<img src={notCompatibleBrowserIcon} alt={translate.unsupported_browser} style={{ width: '8em', height: 'auto' }} />
 		</div>
 	</React.Fragment>
 );
 
 
-const IOSDevice = ({ translate, windowSize, windowOrientation }) => {
-	//const protocol = window.location.protocol;
-	//const appLink = (window.location.href).replace(protocol, 'cbxapp:');
-	return (
-		<React.Fragment>
-			{(windowSize === "xs" && windowOrientation === "landscape") ?
-				<React.Fragment>
-					<div
-						style={{
-							...styles.textContainer,
-							...{ maxWidth: "100%" }
-						}}
-					>
-						<h5 style={{ color: primary, fontWeight: "bold" }}>
-							{translate.we_are_sorry}
-						</h5>
+const IOSDevice = ({ translate, windowSize, windowOrientation }) => (
+	<React.Fragment>
+		{(windowSize === 'xs' && windowOrientation === 'landscape') ?
+			<React.Fragment>
+				<div
+					style={{
+						...styles.textContainer,
+						...{ maxWidth: '100%' }
+					}}
+				>
+					<h5 style={{ color: primary, fontWeight: 'bold' }}>
+						{translate.we_are_sorry}
+					</h5>
 
-						<h6>
-							{translate.unsupported_device}
-						</h6>
+					<h6>
+						{translate.unsupported_device}
+					</h6>
+				</div>
 
-						{/* <h6 style={{ fontWeight: 'bold' }}>{translate.app_required}</h6>
+			</React.Fragment>
+			:				<React.Fragment>
+				<div
+					style={styles.textContainer}
+				>
+					<h5 style={{ color: primary, fontWeight: 'bold' }}>
+						{translate.we_are_sorry}
+					</h5>
 
-						<p>
-							{translate.app_required_msg}
-						</p>
+					<h6>
+						{translate.unsupported_device}
+					</h6>
+				</div>
 
-						<div style={{ marginBottom: '20px' }}>
-							<a
-								href="https://itunes.apple.com/es/app/councilbox/id1338823032?mt=8"
-								style={{
-									display: 'inline-block',
-									overflow: 'hidden',
-									background: 'url(https://linkmaker.itunes.apple.com/assets/shared/badges/es-es/appstore-lrg.svg) no-repeat',
-									width: '135px',
-									height: '40px',
-									backgroundSize: 'contain'
-								}}
-							>
-							</a>
-						</div> */}
-					</div>
-
-					{/* {window.location.href.includes('login') &&
-						<div
-							style={{
-								...styles.textContainer,
-								...{ maxWidth: "100%" }
-							}}
-						>
-							<p>
-								{translate.universal_link_msg}
-							</p>
-
-							<div>
-								<a href={appLink}>
-									<BasicButton
-										color={primary}
-										textStyle={{
-											color: 'white',
-											fontWeight: "700",
-											fontSize: "0.9em",
-											textTransform: "none"
-										}}
-										text={translate.open_in_app}
-										textPosition="after"
-										icon={<i className="fa fa-external-link" aria-hidden="true" style={{ marginLeft: '5px' }}></i>}
-									/>
-								</a>
-							</div>
-						</div>
-					} */}
-				</React.Fragment>
-				:
-				<React.Fragment>
-					<div
-						style={styles.textContainer}
-					>
-						<h5 style={{ color: primary, fontWeight: "bold" }}>
-							{translate.we_are_sorry}
-						</h5>
-
-						<h6>
-							{translate.unsupported_device}
-						</h6>
-
-						{/* <h6 style={{ fontWeight: 'bold' }}>{translate.app_required}</h6>
-
-						<p>
-							{translate.app_required_msg}
-						</p>
-
-						<div style={{ marginBottom: '20px' }}>
-							<a
-								href="https://itunes.apple.com/es/app/councilbox/id1338823032?mt=8"
-								style={{
-									display: 'inline-block',
-									overflow: 'hidden',
-									background: 'url(https://linkmaker.itunes.apple.com/assets/shared/badges/es-es/appstore-lrg.svg) no-repeat',
-									width: '135px',
-									height: '40px',
-									backgroundSize: 'contain'
-								}}
-							>
-							</a>
-						</div>
-
-						{window.location.href.includes('login') &&
-							<div>
-								<p>
-									{translate.universal_link_msg}
-								</p>
-
-								<div>
-									<a href={appLink}>
-										<BasicButton
-											color={primary}
-											textStyle={{
-												color: 'white',
-												fontWeight: "700",
-												fontSize: "0.9em",
-												textTransform: "none"
-											}}
-											text={translate.open_in_app}
-											textPosition="after"
-											icon={<i className="fa fa-external-link" aria-hidden="true" style={{ marginLeft: '5px' }}></i>}
-										/>
-									</a>
-								</div>
-							</div>
-						}*/}
-					</div>
-
-					<div style={styles.imageContainer}>
-						<img src={notCompatiblePhoneIcon} alt={translate.unsupported_device} style={{width: '8em', height: 'auto'}} />
-					</div>
-				</React.Fragment>
-			}
-		</React.Fragment>
-	);
-};
+				<div style={styles.imageContainer}>
+					<img src={notCompatiblePhoneIcon} alt={translate.unsupported_device} style={{ width: '8em', height: 'auto' }} />
+				</div>
+			</React.Fragment>
+		}
+	</React.Fragment>
+);
 
 const NotCompatibleBrowser = ({ translate, windowSize, windowOrientation }) => (
 	<React.Fragment>
 		<div
 			style={{
 				...styles.textContainer,
-				...(windowSize === "xs" &&
-					windowOrientation === "portrait"
-					? { maxWidth: "100%" }
-					: { maxWidth: "50%", minWidth: "50%" })
+				...((windowSize === 'xs' && windowOrientation === 'portrait') ?
+					{ maxWidth: '100%' }
+					: { maxWidth: '50%', minWidth: '50%' })
 			}}
 		>
-			<h5 style={{ color: primary, fontWeight: "bold" }}>
+			<h5 style={{ color: primary, fontWeight: 'bold' }}>
 				{translate.we_are_sorry}
 			</h5>
 
@@ -282,9 +180,9 @@ const NotCompatibleBrowser = ({ translate, windowSize, windowOrientation }) => (
 					color={secondary}
 					textStyle={{
 						color: 'white',
-						fontWeight: "700",
-						fontSize: "0.9em",
-						textTransform: "none"
+						fontWeight: '700',
+						fontSize: '0.9em',
+						textTransform: 'none'
 					}}
 					text={translate.download}
 					textPosition="after"
@@ -294,7 +192,7 @@ const NotCompatibleBrowser = ({ translate, windowSize, windowOrientation }) => (
 		</div>
 
 		<div style={styles.imageContainer}>
-			<img src={notCompatibleBrowserIcon} alt={translate.unsupported_browser} style={{width: '8em', height: 'auto'}} />
+			<img src={notCompatibleBrowserIcon} alt={translate.unsupported_browser} style={{ width: '8em', height: 'auto' }} />
 		</div>
 	</React.Fragment>
 );

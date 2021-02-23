@@ -1,27 +1,27 @@
-import React, { Component, Fragment } from "react";
-import { graphql } from "react-apollo";
-import { MenuItem } from "material-ui";
+import React, { Component, Fragment } from 'react';
+import { graphql } from 'react-apollo';
+import { MenuItem } from 'material-ui';
 import {
 	AlertConfirm,
 	SelectInput,
 	TextInput
-} from "../../../displayComponents";
-import RichTextInput from "../../../displayComponents/RichTextInput";
-import { cloneCensus } from "../../../queries/census";
+} from '../../../displayComponents';
+import RichTextInput from '../../../displayComponents/RichTextInput';
+import { cloneCensus } from '../../../queries/census';
 import { removeHTMLTags } from '../../../utils/CBX';
 
 class CloneCensusModal extends Component {
 	state = {
 		data: {
-			censusName: "",
+			censusName: '',
 			quorumPrototype: 0,
-			censusDescription: ""
+			censusDescription: ''
 		},
 
 		errors: {
-			censusName: "",
-			quorumPrototype: "",
-			censusDescription: ""
+			censusName: '',
+			quorumPrototype: '',
+			censusDescription: ''
 		}
 	};
 
@@ -31,39 +31,37 @@ class CloneCensusModal extends Component {
 				return {
 					data: {
 						...nextProps.census,
-						censusDescription: nextProps.census.censusDescription || ""
+						censusDescription: nextProps.census.censusDescription || ''
 					}
-				}
+				};
 			}
 		}
 		return null;
 	}
 
 	cloneCensus = async () => {
-		if (this.checkRequiredFields()) {
-			const { __typename, creator, creatorId, creationDate, lastEdit, defaultCensus, ...census } = this.state.data;
-			const response = await this.props.cloneCensus({
-				variables: {
-					census: {
-						...census,
-						censusDescription: removeHTMLTags(census.censusDescription),
-						creatorId: this.props.user.id
-					}
+		const { __typename, creator, creatorId, creationDate, lastEdit, defaultCensus, ...census } = this.state.data;
+		const response = await this.props.cloneCensus({
+			variables: {
+				census: {
+					...census,
+					censusDescription: removeHTMLTags(census.censusDescription),
+					creatorId: this.props.user.id
 				}
-			});
+			}
+		});
 
-			if (!response.errors) {
-				if (response.data.cloneCensus.success) {
-					this.props.refetch();
-					this.props.requestClose();
-				}
+		if (!response.errors) {
+			if (response.data.cloneCensus.success) {
+				this.props.refetch();
+				this.props.requestClose();
 			}
 		}
 	};
 
-	_renderNewPointBody = () => {
+	renderNewPointBody = () => {
 		const { translate } = this.props;
-		const errors = this.state.errors;
+		const { errors } = this.state;
 		const census = this.state.data;
 
 		return (
@@ -128,10 +126,6 @@ class CloneCensusModal extends Component {
 		});
 	}
 
-	checkRequiredFields() {
-		return true;
-	}
-
 	render() {
 		const { translate } = this.props;
 
@@ -143,7 +137,7 @@ class CloneCensusModal extends Component {
 					acceptAction={this.cloneCensus}
 					buttonAccept={translate.accept}
 					buttonCancel={translate.cancel}
-					bodyText={this._renderNewPointBody()}
+					bodyText={this.renderNewPointBody()}
 					title={translate.clone_census}
 				/>
 			</Fragment>
@@ -152,5 +146,5 @@ class CloneCensusModal extends Component {
 }
 
 export default graphql(cloneCensus, {
-	name: "cloneCensus"
+	name: 'cloneCensus'
 })(CloneCensusModal);

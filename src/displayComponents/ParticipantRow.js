@@ -1,10 +1,12 @@
-import React from "react";
+import React from 'react';
 import { Paper } from 'material-ui';
-import { Checkbox } from ".";
+import { Checkbox } from '.';
 import { delegatedVotesLimitReached } from '../utils/CBX';
-import withTranslations from "../HOCs/withTranslations";
+import withTranslations from '../HOCs/withTranslations';
 
-const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, selected, onChange, stylesPaper, translate, clases }) => {
+const ParticipantRow = ({
+	participant, onClick, checkBox, toDelegate, council, selected, onChange, stylesPaper, translate, clases
+}) => {
 	let limitReached = null;
 	if (toDelegate) {
 		limitReached = delegatedVotesLimitReached(council.statute, participant.delegatedVotes.filter(p => p.type !== 3).length);
@@ -14,41 +16,41 @@ const ParticipantRow = ({ participant, onClick, checkBox, toDelegate, council, s
 			display: 'flex',
 			cursor: 'pointer',
 			...stylesPaper,
-			marginBottom: "1em",
-			padding: "0.5em 1em",
-			marginRight: "2em",
+			marginBottom: '1em',
+			padding: '0.5em 1em',
+			marginRight: '2em',
 
 		}}
 		>
-			{checkBox &&
-				<Checkbox
-					value={selected}
-					onChange={onChange}
-				/>
+			{checkBox
+&& <Checkbox
+	value={selected}
+	onChange={onChange}
+/>
 			}
 			<div
 				onClick={toDelegate ? !limitReached ? onClick : () => { } : onClick}
 				style={{
-					width: "100%",
+					width: '100%',
 					backgroundColor: `${toDelegate ? !limitReached ? 'transparent' : 'gainsboro' : 'transparent'}`
 				}}
 			>
 				<div
 					style={{
-						fontSize: "0.9rem",
-						color: "black"
+						fontSize: '0.9rem',
+						color: 'black'
 					}}
 					className={clases}
 				>
 					{`${participant.name} ${participant.surname || ''} ${toDelegate && limitReached ? ` - ${translate.cant_delegate_more}` : ''}`}
 				</div>
-				{toDelegate && participant.assistanceIntention === 6 &&
-					<div style={{ fontSize: "0.9rem", fontWeight: '700' }}>{translate.participant_wont_attend}</div>
+				{toDelegate && participant.assistanceIntention === 6
+&& <div style={{ fontSize: '0.9rem', fontWeight: '700' }}>{translate.participant_wont_attend}</div>
 				}
 			</div>
 		</Paper>
 	);
-}
+};
 
 export default withTranslations()(ParticipantRow);
 

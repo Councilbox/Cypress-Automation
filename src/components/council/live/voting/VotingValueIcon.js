@@ -1,18 +1,18 @@
-import React from "react";
-import FontAwesome from "react-fontawesome";
-import { VOTE_VALUES } from "../../../../constants";
-import { getSecondary } from "../../../../styles/colors";
+import React from 'react';
+import FontAwesome from 'react-fontawesome';
+import { VOTE_VALUES } from '../../../../constants';
+import { getSecondary } from '../../../../styles/colors';
 
-const VotingValueIcon = ({ vote, color, fixed }) => {
+const VotingValueIcon = ({ vote, color }) => {
 	switch (vote) {
 		case VOTE_VALUES.NO_VOTE:
 			return (
 				<FontAwesome
-					name={"circle"}
+					name={'circle'}
 					style={{
-						margin: "0.5em",
-						color: color || "grey",
-						fontSize: "1em"
+						margin: '0.5em',
+						color: color || 'grey',
+						fontSize: '1em'
 					}}
 				/>
 			);
@@ -20,11 +20,11 @@ const VotingValueIcon = ({ vote, color, fixed }) => {
 		case VOTE_VALUES.NEGATIVE:
 			return (
 				<FontAwesome
-					name={"times"}
+					name={'times'}
 					style={{
-						margin: "0.5em",
-						color: color || "red",
-						fontSize: "1em"
+						margin: '0.5em',
+						color: color || 'red',
+						fontSize: '1em'
 					}}
 				/>
 			);
@@ -32,11 +32,11 @@ const VotingValueIcon = ({ vote, color, fixed }) => {
 		case VOTE_VALUES.POSITIVE:
 			return (
 				<FontAwesome
-					name={"check"}
+					name={'check'}
 					style={{
-						margin: "0.5em",
-						color: color || "green",
-						fontSize: "1em"
+						margin: '0.5em',
+						color: color || 'green',
+						fontSize: '1em'
 					}}
 				/>
 			);
@@ -44,11 +44,11 @@ const VotingValueIcon = ({ vote, color, fixed }) => {
 		case VOTE_VALUES.ABSTENTION:
 			return (
 				<FontAwesome
-					name={"circle-o"}
+					name={'circle-o'}
 					style={{
-						margin: "0.5em",
+						margin: '0.5em',
 						color: color || getSecondary(),
-						fontSize: "1em"
+						fontSize: '1em'
 					}}
 				/>
 			);

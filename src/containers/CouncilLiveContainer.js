@@ -1,19 +1,21 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Redirect, withRouter } from "react-router-dom";
-import { withApollo } from "react-apollo";
-import CouncilLivePage from "../components/council/live/CouncilLivePage";
-import { LoadingMainApp } from "../displayComponents";
-import CouncilLiveMobilePage from "../components/council/live/mobile/CouncilLiveMobilePage";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Redirect, withRouter } from 'react-router-dom';
+import { withApollo } from 'react-apollo';
+import CouncilLivePage from '../components/council/live/CouncilLivePage';
+import { LoadingMainApp } from '../displayComponents';
+import CouncilLiveMobilePage from '../components/council/live/mobile/CouncilLiveMobilePage';
 import NoConnectionModal from '../components/NoConnectionModal';
-import { isMobile } from "../utils/screen";
-import { bHistory, store } from "./App";
-import { addSpecificTranslations } from "../actions/companyActions";
-import { checkCouncilState } from "../utils/CBX";
-import { councilLiveQuery } from "../queries";
-import { usePolling } from "../hooks";
+import { isMobile } from '../utils/screen';
+import { bHistory, store } from './App';
+import { addSpecificTranslations } from '../actions/companyActions';
+import { checkCouncilState } from '../utils/CBX';
+import { councilLiveQuery } from '../queries';
+import { usePolling } from '../hooks';
 
-const CouncilLiveContainer = ({ main, companies, translate, match, client }) => {
+const CouncilLiveContainer = ({
+	main, companies, translate, match, client
+}) => {
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
 
@@ -28,20 +30,20 @@ const CouncilLiveContainer = ({ main, companies, translate, match, client }) => 
 			...response.data,
 			refetch: getData
 		});
-		if(loading){
+		if (loading) {
 			setLoading(false);
 		}
-	}, [match.params.id])
+	}, [match.params.id]);
 
 	React.useEffect(() => {
 		getData();
-	}, [getData])
+	}, [getData]);
 
-	usePolling(getData, 10000)
+	usePolling(getData, 10000);
 
 	React.useEffect(() => {
 		const company = companies.list[companies.selected];
-		if(company){
+		if (company) {
 			store.dispatch(addSpecificTranslations(company));
 		}
 	}, [store, companies.selected]);
@@ -57,7 +59,7 @@ const CouncilLiveContainer = ({ main, companies, translate, match, client }) => 
 				},
 				company,
 				bHistory,
-				"live"
+				'live'
 			);
 		}
 	}, [loading, data.council]);
@@ -79,11 +81,11 @@ const CouncilLiveContainer = ({ main, companies, translate, match, client }) => 
 				width: '100%',
 				height: '100%',
 				overflow: 'hidden',
-				position: "fixed"
+				position: 'fixed'
 			}}
 		>
-			{!main.serverStatus &&
-				<NoConnectionModal open={!main.serverStatus} />
+			{!main.serverStatus
+&& <NoConnectionModal open={!main.serverStatus} />
 			}
 			{!isMobile ?
 				<CouncilLivePage
@@ -92,8 +94,7 @@ const CouncilLiveContainer = ({ main, companies, translate, match, client }) => 
 					translate={translate}
 					data={data}
 				/>
-			:
-				<CouncilLiveMobilePage
+				:				<CouncilLiveMobilePage
 					companies={companies}
 					data={data}
 					translate={translate}

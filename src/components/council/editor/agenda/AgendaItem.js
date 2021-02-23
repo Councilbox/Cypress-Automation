@@ -1,25 +1,27 @@
-import React from "react";
-import { IconButton, Paper } from "material-ui";
-import { isMobile } from "react-device-detect";
-import { CloseIcon, Grid, GridItem } from "../../../../displayComponents";
-import { isCustomPoint } from "../../../../utils/CBX";
-import { getPrimary, getSecondary } from "../../../../styles/colors";
-import withTranslations from "../../../../HOCs/withTranslations";
-import { getSubjectAbrv } from "../../../../displayComponents/AgendaNumber";
+import React from 'react';
+import { IconButton, Paper } from 'material-ui';
+import { isMobile } from 'react-device-detect';
+import { CloseIcon, Grid, GridItem } from '../../../../displayComponents';
+import { isCustomPoint } from '../../../../utils/CBX';
+import { getPrimary, getSecondary } from '../../../../styles/colors';
+import withTranslations from '../../../../HOCs/withTranslations';
+import { getSubjectAbrv } from '../../../../displayComponents/AgendaNumber';
 
-const AgendaItem = ({ agenda, typeText, selectAgenda, translate, removeAgenda, saveAsDraft }) => {
+const AgendaItem = ({
+	agenda, typeText, selectAgenda, translate, removeAgenda, saveAsDraft
+}) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 
 	return (
 		<Paper
 			style={{
-				width: "100%",
-				padding: "1vw",
-				marginTop: "0.6em",
-				cursor: "pointer"
+				width: '100%',
+				padding: '1vw',
+				marginTop: '0.6em',
+				cursor: 'pointer'
 			}}
-			onClick={event => {
+			onClick={() => {
 				selectAgenda(agenda.orderIndex);
 			}}
 		>
@@ -30,10 +32,10 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, translate, removeAgenda, s
 							<div
 								style={{
 									color: primary,
-									width: "30px",
-									margin: "-0.25em 0",
-									fontWeight: "700",
-									fontSize: isMobile ? "1.1em" : "1.5em"
+									width: '30px',
+									margin: '-0.25em 0',
+									fontWeight: '700',
+									fontSize: isMobile ? '1.1em' : '1.5em'
 								}}
 							>
 								{getSubjectAbrv(agenda.agendaSubject)}
@@ -42,8 +44,8 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, translate, removeAgenda, s
 						<GridItem xs={9}>
 							<div
 								style={{
-									fontWeight: "600",
-									fontSize: isMobile ? "0.9em" : "1em"
+									fontWeight: '600',
+									fontSize: isMobile ? '0.9em' : '1em'
 								}}
 							>
 								{agenda.agendaSubject}
@@ -51,8 +53,8 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, translate, removeAgenda, s
 							{agenda.description && (
 								<div
 									style={{
-										width: "100%",
-										marginTop: "1em",
+										width: '100%',
+										marginTop: '1em',
 										fontSize: '0.9rem'
 									}}
 									dangerouslySetInnerHTML={{ __html: agenda.description }}
@@ -74,18 +76,18 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, translate, removeAgenda, s
 								))}
 							</GridItem>
 						</GridItem>
-						{agenda.items.length > 0 &&
-							<GridItem xs={12} md={12} lg={12} style={{ marginTop: '2em' }}>
-								{`${translate.answers_options}: ${translate.max}: ${agenda.options.maxSelections}${agenda.options.minSelections > 1 ? ` - ${translate.min}: ${agenda.options.minSelections}` : ''
-									}`}
-								<ul>
-									{agenda.items.map(item => (
-										<li key={`agenda_item_${item.id}`} style={{ whiteSpace: 'pre-wrap', marginTop: '0.3em' }}>
-											{item.value}
-										</li>
-									))}
-								</ul>
-							</GridItem>
+						{agenda.items.length > 0
+&& <GridItem xs={12} md={12} lg={12} style={{ marginTop: '2em' }}>
+	{`${translate.answers_options}: ${translate.max}: ${agenda.options.maxSelections}${agenda.options.minSelections > 1 ? ` - ${translate.min}: ${agenda.options.minSelections}` : ''
+	}`}
+	<ul>
+		{agenda.items.map(item => (
+			<li key={`agenda_item_${item.id}`} style={{ whiteSpace: 'pre-wrap', marginTop: '0.3em' }}>
+				{item.value}
+			</li>
+		))}
+	</ul>
+</GridItem>
 						}
 					</Grid>
 				</GridItem>
@@ -103,7 +105,7 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, translate, removeAgenda, s
 						<GridItem xs={6}>
 							<CloseIcon
 								style={{
-									float: "right",
+									float: 'right',
 									color: primary
 								}}
 								onClick={event => {
@@ -111,30 +113,30 @@ const AgendaItem = ({ agenda, typeText, selectAgenda, translate, removeAgenda, s
 									removeAgenda(agenda.id);
 								}}
 							/>
-							{!isCustomPoint(agenda.subjectType) &&
-								<IconButton
-									style={{
-										float: "right",
-										height: "28px",
-										outline: 0
-									}}
-									onClick={event => {
-										event.stopPropagation();
-										saveAsDraft(agenda.id);
-									}}
-								>
-									<i
-										className="fa fa-save"
-										style={{ color: secondary }}
-									/>
-								</IconButton>
+							{!isCustomPoint(agenda.subjectType)
+&& <IconButton
+	style={{
+		float: 'right',
+		height: '28px',
+		outline: 0
+	}}
+	onClick={event => {
+		event.stopPropagation();
+		saveAsDraft(agenda.id);
+	}}
+>
+	<i
+		className="fa fa-save"
+		style={{ color: secondary }}
+	/>
+</IconButton>
 							}
 						</GridItem>
 					</Grid>
 				</GridItem>
 			</Grid>
 		</Paper>
-	)
+	);
 };
 
 export default withTranslations()(AgendaItem);

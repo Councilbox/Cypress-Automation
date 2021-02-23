@@ -1,37 +1,64 @@
-import React from "react";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import { Card } from "material-ui";
-import { graphql } from "react-apollo";
-import * as mainActions from "../../actions/mainActions";
-import { login } from "../../queries";
-import { getPrimary, getSecondary } from "../../styles/colors";
-import withWindowSize from "../../HOCs/withWindowSize";
-import withTranslations from "../../HOCs/withTranslations";
-import { BasicButton, ButtonIcon, Link, TextInput, NotLoggedLayout, Grid, GridItem, CBXFooter } from "../../displayComponents";
-import { useOldState } from "../../hooks";
-import { useSubdomain, getCustomLogo } from "../../utils/subdomain";
-import { isMobile } from "../../utils/screen";
-import GenCatLogin from "./GenCatLogin";
-import { ConfigContext } from "../../containers/AppControl";
-
+import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { Card } from 'material-ui';
+import { graphql } from 'react-apollo';
+import * as mainActions from '../../actions/mainActions';
+import { login as loginMutation } from '../../queries';
+import { getPrimary, getSecondary } from '../../styles/colors';
+import withWindowSize from '../../HOCs/withWindowSize';
+import withTranslations from '../../HOCs/withTranslations';
+import {
+	BasicButton, ButtonIcon, Link, TextInput, NotLoggedLayout, Grid, GridItem, CBXFooter
+} from '../../displayComponents';
+import { useOldState } from '../../hooks';
+import { useSubdomain, getCustomLogo } from '../../utils/subdomain';
+import { isMobile } from '../../utils/screen';
+import GenCatLogin from './GenCatLogin';
+import { ConfigContext } from '../../containers/AppControl';
 
 
 const Login = ({ translate, windowSize, ...props }) => {
 	const [state, setState] = useOldState({
-		user: "",
-		password: "",
+		user: '',
+		password: '',
 		loading: false,
 		showPassword: false,
 		errors: {
-			user: "",
-			password: ""
+			user: '',
+			password: ''
 		}
 	});
 	const primary = getPrimary();
 	const secondary = getSecondary();
 	const subdomain = useSubdomain();
 	const config = React.useContext(ConfigContext);
+
+	function checkRequiredFields() {
+		const errors = {
+			user: '',
+			password: ''
+		};
+
+		let hasError = false;
+
+		if (!state.user) {
+			hasError = true;
+			errors.user = translate.field_required;
+		}
+
+		if (!state.password) {
+			hasError = true;
+			errors.password = translate.field_required;
+		}
+
+		setState({
+			...state,
+			errors
+		});
+
+		return hasError;
+	}
 
 	const login = async () => {
 		const { user, password } = state;
@@ -62,7 +89,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 							errors: {
 								user: translate.email_not_found
 							}
-						})
+						});
 					},
 
 					'Not found': () => {
@@ -80,7 +107,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 							errors: {
 								user: translate.domain_invalid_creds
 							}
-						})
+						});
 					},
 
 					'Unsubscribed account': () => {
@@ -89,9 +116,9 @@ const Login = ({ translate, windowSize, ...props }) => {
 							errors: {
 								user: 'Cuenta deshabilitada'
 							}
-						})
+						});
 					}
-				}
+				};
 
 				return errors[response.errors[0].message] ? errors[response.errors[0].message]() : null;
 			}
@@ -110,136 +137,113 @@ const Login = ({ translate, windowSize, ...props }) => {
 		}
 	};
 
-	function checkRequiredFields() {
-		const errors = {
-			user: "",
-			password: ""
-		};
-
-		let hasError = false;
-
-		if (!state.user) {
-			hasError = true;
-			errors.user = translate.field_required;
-		}
-
-		if (!state.password) {
-			hasError = true;
-			errors.password = translate.field_required;
-		}
-
-		setState({
-			...state,
-			errors
-		});
-
-		return hasError;
-	}
-
-
 	return (
 		<NotLoggedLayout
 			translate={translate}
 			helpIcon={true}
 			languageSelector={true}
 		>
-			<Grid style={{ width: '100%', overflowX: 'hidden', padding: '0', margin: '0' }}>
+			<Grid style={{
+				width: '100%', overflowX: 'hidden', padding: '0', margin: '0'
+			}}>
 				<GridItem xs={12} md={7} lg={7}
 					style={{
-						color: "white",
-						display: "flex",
-						paddingLeft: "3%",
-						flexDirection: "column",
-						alignItems: "center",
+						color: 'white',
+						display: 'flex',
+						paddingLeft: '3%',
+						flexDirection: 'column',
+						alignItems: 'center',
 						...((subdomain.hideSignUp && isMobile) ? { display: 'none' } : {}),
-						paddingTop: windowSize === "xs" ? "8%" : "12em"
+						paddingTop: windowSize === 'xs' ? '8%' : '12em'
 					}}
 				>
-					{!subdomain.hideSignUp &&
-						<div
-							style={{
-								width: "70%",
-								fontSize: "0.9em",
-								textAlign: 'center',
-							}}
-						>
-							<h6
-								style={{
-									fontWeight: "300",
-									marginBottom: "1.2em",
-									fontSize: "1.7em",
-									color: 'white'
-								}}
-							>
-								{translate.account_question}
-							</h6>
-							{windowSize !== "xs" && (
-								<span
-									style={{
-										fontSize: "0.76rem",
-										marginBottom: "1em",
-										marginTop: "0.7em",
-										textAlign: 'center',
-										alignSelf: 'center'
-									}}
-								>
-									{translate.login_desc}
-								</span>
-							)}
-							<br />
-							<div
-								className="row"
-								style={{
-									display: "flex",
-									flexDirection: "row",
-									marginTop: windowSize === "xs" ? 0 : "1em"
-								}}
-							>
-								{config.meeting &&
-									<div
-										className="col-lg-6 col-md-6 col-xs-6"
-										style={{ padding: "1em" }}
-									>
-										<Link to="/meeting/new">
-											<BasicButton
-												text={translate.start_conference_test}
-												color={'transparent'}
-												fullWidth
-												buttonStyle={{ backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em' }}
-												textStyle={{ color: 'white', fontWeight: '700', fontSize: '0.8rem', textTransform: 'none' }}
-											/>
-										</Link>
-									</div>
-								}
+					{!subdomain.hideSignUp
+&& <div
+	style={{
+		width: '70%',
+		fontSize: '0.9em',
+		textAlign: 'center',
+	}}
+>
+	<h6
+		style={{
+			fontWeight: '300',
+			marginBottom: '1.2em',
+			fontSize: '1.7em',
+			color: 'white'
+		}}
+	>
+		{translate.account_question}
+	</h6>
+	{windowSize !== 'xs' && (
+		<span
+			style={{
+				fontSize: '0.76rem',
+				marginBottom: '1em',
+				marginTop: '0.7em',
+				textAlign: 'center',
+				alignSelf: 'center'
+			}}
+		>
+			{translate.login_desc}
+		</span>
+	)}
+	<br />
+	<div
+		className="row"
+		style={{
+			display: 'flex',
+			flexDirection: 'row',
+			marginTop: windowSize === 'xs' ? 0 : '1em'
+		}}
+	>
+		{config.meeting
+&& <div
+	className="col-lg-6 col-md-6 col-xs-6"
+	style={{ padding: '1em' }}
+>
+	<Link to="/meeting/new">
+		<BasicButton
+			text={translate.start_conference_test}
+			color={'transparent'}
+			fullWidth
+			buttonStyle={{ backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em' }}
+			textStyle={{
+				color: 'white', fontWeight: '700', fontSize: '0.8rem', textTransform: 'none'
+			}}
+		/>
+	</Link>
+</div>
+		}
 
-								<div
-									className="col-lg-6 col-md-6 col-xs-6"
-									style={{ padding: "1em" }}
-								>
-									<Link to="/signup">
-										<BasicButton
-											text={translate.login_check_in}
-											color={"white"}
-											fullWidth
-											textStyle={{
-												color: primary,
-												fontWeight: "700",
-												fontSize: "0.8rem",
-												textTransform: "none"
-											}}
-											textPosition="before"
-										/>
-									</Link>
-								</div>
-							</div>
-						</div>
+		<div
+			className="col-lg-6 col-md-6 col-xs-6"
+			style={{ padding: '1em' }}
+		>
+			<Link to="/signup">
+				<BasicButton
+					text={translate.login_check_in}
+					color={'white'}
+					fullWidth
+					textStyle={{
+						color: primary,
+						fontWeight: '700',
+						fontSize: '0.8rem',
+						textTransform: 'none'
+					}}
+					textPosition="before"
+				/>
+			</Link>
+		</div>
+	</div>
+</div>
 					}
 				</GridItem>
 				<GridItem lg={5} md={5} xs={12}
 					style={{
-						display: "flex",
-						justifyContent: "center",
-						alignItems: "center",
+						display: 'flex',
+						justifyContent: 'center',
+						alignItems: 'center',
 						padding: 0,
 						margin: '0',
 						width: '100%'
@@ -248,22 +252,22 @@ const Login = ({ translate, windowSize, ...props }) => {
 					<Card
 						elevation={6}
 						style={{
-							minHeight: "60%",
-							width: windowSize === "xs" ? "100vw" : "70%",
-							padding: "8%",
+							minHeight: '60%',
+							width: windowSize === 'xs' ? '100vw' : '70%',
+							padding: '8%',
 							paddingBottom: '1em',
 							margin: '0',
 							position: 'relative',
-							marginBottom: windowSize === "xs" ? 0 : "5em",
-							marginRight: windowSize === "xs" ? 0 : "5em"
+							marginBottom: windowSize === 'xs' ? 0 : '5em',
+							marginRight: windowSize === 'xs' ? 0 : '5em'
 						}}
 					>
 						<div
 							style={{
 								marginBottom: 0,
 								paddingBottom: 0,
-								fontWeight: "700",
-								fontSize: "1.5em",
+								fontWeight: '700',
+								fontSize: '1.5em',
 								color: primary,
 								...(isMobile ? {
 									display: 'flex',
@@ -272,30 +276,30 @@ const Login = ({ translate, windowSize, ...props }) => {
 								} : {})
 							}}
 						>
-							{(subdomain.logo && isMobile) &&
-								<React.Fragment>
-									<img
-										src={getCustomLogo()}
-										className="App-logo"
-										style={{
-											height: "1.5em",
-											marginLeft: "1em",
-											// marginLeft: "2em",
-											alignSelf: 'center',
-											userSelect: 'none'
-										}}
-										alt="logo"
-									/>
-									<br />
-								</React.Fragment>
+							{(subdomain.logo && isMobile)
+&& <React.Fragment>
+	<img
+		src={getCustomLogo()}
+		className="App-logo"
+		style={{
+			height: '1.5em',
+			marginLeft: '1em',
+			// marginLeft: "2em",
+			alignSelf: 'center',
+			userSelect: 'none'
+		}}
+		alt="logo"
+	/>
+	<br />
+</React.Fragment>
 							}
 							{`${translate.login_signin_header} ${subdomain.title ? subdomain.title : 'Councilbox'}`}
 						</div>
 						<form>
 							<div
 								style={{
-									marginTop: "2em",
-									width: "95%"
+									marginTop: '2em',
+									width: '95%'
 								}}
 							>
 								<TextInput
@@ -306,49 +310,49 @@ const Login = ({ translate, windowSize, ...props }) => {
 									type="text"
 									value={state.user}
 									onChange={event => setState({
-											user: event.nativeEvent.target.value
-										})
+										user: event.nativeEvent.target.value
+									})
 									}
 								/>
 							</div>
 							<div
 								style={{
-									marginTop: "1.5em",
-									width: "95%"
+									marginTop: '1.5em',
+									width: '95%'
 								}}
 							>
 								<TextInput
 									floatingText={translate.login_password}
 									id={'password'}
 									type={
-										state.showPassword
-											? "text"
-											: "password"
+										state.showPassword ?
+											'text'
+											: 'password'
 									}
 									passwordToggler={() => setState({
-											showPassword: !state.showPassword
-										})
+										showPassword: !state.showPassword
+									})
 									}
 									showPassword={state.showPassword}
 									onKeyUp={handleKeyUp}
 									value={state.password}
 									errorText={state.errors.password}
 									onChange={event => setState({
-											password: event.nativeEvent.target.value
-										})
+										password: event.nativeEvent.target.value
+									})
 									}
 								/>
 							</div>
 						</form>
-						<div style={{ marginTop: "3em" }}>
+						<div style={{ marginTop: '3em' }}>
 							<BasicButton
 								text={translate.dashboard_enter}
 								color={primary}
 								loading={state.loading}
 								id={'login-button'}
 								textStyle={{
-									color: "white",
-									fontWeight: "700"
+									color: 'white',
+									fontWeight: '700'
 								}}
 								textPosition="before"
 								onClick={login}
@@ -361,8 +365,8 @@ const Login = ({ translate, windowSize, ...props }) => {
 								}
 							/>
 						</div>
-						{(!!subdomain.name && subdomain.name.includes('gencat')) &&
-							<div style={{ marginTop: "1em" }}>
+						{(!!subdomain.name && subdomain.name.includes('gencat'))
+							&& <div style={{ marginTop: '1em' }}>
 								<GenCatLogin
 									loginSuccess={props.actions.loginSuccess}
 								/>
@@ -370,7 +374,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 						}
 						<div
 							style={{
-								marginTop: "2em",
+								marginTop: '2em',
 								color: secondary
 							}}
 						>
@@ -378,9 +382,9 @@ const Login = ({ translate, windowSize, ...props }) => {
 								{translate.login_forgot}
 							</Link>
 						</div>
-						{(!!subdomain.name && subdomain.name === 'madrid') &&
-							<div style={{ width: '100%', textAlign: 'center' }}>
-								<img src="/img/logo-1.png" style={{ marginTop: "2.5em", height: '3.5em', width: 'auto' }} alt="logo-seneca" />
+						{(!!subdomain.name && subdomain.name === 'madrid')
+							&& <div style={{ width: '100%', textAlign: 'center' }}>
+								<img src="/img/logo-1.png" style={{ marginTop: '2.5em', height: '3.5em', width: 'auto' }} alt="logo-seneca" />
 							</div>
 						}
 						<CBXFooter style={{ marginTop: '5em' }} />
@@ -389,7 +393,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 			</Grid>
 		</NotLoggedLayout>
 	);
-}
+};
 
 
 function mapDispatchToProps(dispatch) {
@@ -401,4 +405,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
 	null,
 	mapDispatchToProps
-)(graphql(login, { options: { errorPolicy: "all" } })(withWindowSize(withTranslations()(Login))));
+)(graphql(loginMutation, { options: { errorPolicy: 'all' } })(withWindowSize(withTranslations()(Login))));

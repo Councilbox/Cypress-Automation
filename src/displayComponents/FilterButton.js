@@ -1,8 +1,8 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { Tooltip, MenuItem, Card } from "material-ui";
-import { LoadingSection } from ".";
-import { getLightGrey } from "../styles/colors";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Tooltip, MenuItem, Card } from 'material-ui';
+import { LoadingSection } from '.';
+import { getLightGrey } from '../styles/colors';
 
 
 const FilterButton = ({
@@ -12,7 +12,7 @@ const FilterButton = ({
 	elevation,
 	buttonStyle,
 	tooltip,
-	size = "2em",
+	size = '2em',
 	loading,
 	styles
 }) => {
@@ -29,33 +29,33 @@ const FilterButton = ({
 		<Tooltip title={tooltip}>
 			<Card
 				style={{
-					display: "flex",
-					alignItems: "center",
+					display: 'flex',
+					alignItems: 'center',
 					margin: '1px 0.2em',
 					// width: size,
-					justifyContent: "center",
-					cursor: "pointer",
-					overflow: "hidden",
+					justifyContent: 'center',
+					cursor: 'pointer',
+					overflow: 'hidden',
 					height: size,
 					outline: 0,
-					border: `1px solid gainsboro`,
-					borderRadius: "2px",
-					backgroundColor: active ? getLightGrey() : "transparent",
+					border: '1px solid gainsboro',
+					borderRadius: '2px',
+					backgroundColor: active ? getLightGrey() : 'transparent',
 					...buttonStyle,
 					...styles
 				}}
 				elevation={elevation || (active ? 0 : 1)}
-				ref={ref => { element = ref }}
+				ref={ref => { element = ref; }}
 				onKeyUp={onKeyUp}
 				onClick={onClick}
 			>
 				<MenuItem
 					selected={active}
 					style={{
-						display: "flex",
+						display: 'flex',
 						flexGrow: 1,
-						alignItems: "center",
-						justifyContent: "center",
+						alignItems: 'center',
+						justifyContent: 'center',
 						width: size,
 						padding: '5px'
 					}}
@@ -63,9 +63,9 @@ const FilterButton = ({
 					{loading ? (
 						<div
 							style={{
-								display: "flex",
-								alignItems: "center",
-								justifyContent: "center"
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center'
 							}}
 						>
 							<LoadingSection size={20} />

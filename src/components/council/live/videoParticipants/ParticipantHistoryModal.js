@@ -1,15 +1,17 @@
-import React from "react";
-import { TableRow, TableCell } from "material-ui";
-import { graphql } from "react-apollo";
-import gql from "graphql-tag";
+import React from 'react';
+import { TableRow, TableCell } from 'material-ui';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 import {
 	AlertConfirm,
 	LoadingSection,
 	Table
-} from "../../../../displayComponents";
+} from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
 
-const ParticipantHistory = ({ data, participant, translate, requestClose }) => (
+const ParticipantHistory = ({
+	data, participant, translate, requestClose
+}) => (
 	<AlertConfirm
 		requestClose={requestClose}
 		open={!!participant}
@@ -36,32 +38,32 @@ const ParticipantHistory = ({ data, participant, translate, requestClose }) => (
 								]}
 							>
 								{data.participantHistory.map(history => (
-										<TableRow key={`history_${history.id}`}>
-											<TableCell>
-												{moment(
-													new Date(history.date)
-												).format("LLL")}
-											</TableCell>
-											<TableCell>
-												{getLogText(history.typeText, translate)}
-											</TableCell>
-											<TableCell>
-												{`${history.trackInfo.ua.browser
-													.name || "-"} ${history
+									<TableRow key={`history_${history.id}`}>
+										<TableCell>
+											{moment(
+												new Date(history.date)
+											).format('LLL')}
+										</TableCell>
+										<TableCell>
+											{getLogText(history.typeText, translate)}
+										</TableCell>
+										<TableCell>
+											{`${history.trackInfo.ua.browser
+												.name || '-'} ${history
 													.trackInfo.ua.browser
-													.version || "-"}`}
-											</TableCell>
-											<TableCell>
-												{`${history.trackInfo.ua.os
-													.name || "-"} ${history
-													.trackInfo.ua.os.version ||
-													"-"}`}
-											</TableCell>
-											<TableCell>
-												{history.trackInfo.ip}
-											</TableCell>
-										</TableRow>
-									))}
+													.version || '-'}`}
+										</TableCell>
+										<TableCell>
+											{`${history.trackInfo.ua.os
+												.name || '-'} ${history
+													.trackInfo.ua.os.version
+|| '-'}`}
+										</TableCell>
+										<TableCell>
+											{history.trackInfo.ip}
+										</TableCell>
+									</TableRow>
+								))}
 							</Table>
 						)}
 					</React.Fragment>
@@ -73,7 +75,7 @@ const ParticipantHistory = ({ data, participant, translate, requestClose }) => (
 );
 
 const getLogText = (type, translate) => {
-	switch(type){
+	switch (type) {
 		case 'CONNECT':
 			return 'Conectado';
 
@@ -95,7 +97,7 @@ const getLogText = (type, translate) => {
 		default:
 			return type;
 	}
-}
+};
 
 const participantHistory = gql`
 	query participantHistory($participantId: Int!) {

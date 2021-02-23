@@ -1,15 +1,15 @@
-import React from "react";
-import { graphql, compose, withApollo } from "react-apollo";
-import gql from "graphql-tag";
-import { getSecondary, getPrimary } from "../../../../styles/colors";
+import React from 'react';
+import { graphql, compose, withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
+import { getSecondary, getPrimary } from '../../../../styles/colors';
 import {
 	BasicButton,
 	LoadingSection,
-} from "../../../../displayComponents";
-import { PARTICIPANT_STATES, AGENDA_STATES } from "../../../../constants";
-import withSharedProps from "../../../../HOCs/withSharedProps";
+} from '../../../../displayComponents';
+import { PARTICIPANT_STATES, AGENDA_STATES } from '../../../../constants';
+import withSharedProps from '../../../../HOCs/withSharedProps';
 import { moment } from '../../../../containers/App';
-import FinishActModal from "./FinishActModal";
+import FinishActModal from './FinishActModal';
 import { updateCouncilAct as updateMutation } from '../../../../queries';
 import { ConfigContext } from '../../../../containers/AppControl';
 import {
@@ -20,12 +20,14 @@ import {
 	getGoverningBodySignatories,
 	buildDelegationsString
 } from '../../../../utils/CBX';
-import DocumentEditor2 from "../../../documentEditor/DocumentEditor2";
-import { buildDoc, useDoc, buildDocBlock, buildDocVariable } from "../../../documentEditor/utils";
-import DownloadDoc from "../../../documentEditor/DownloadDoc";
-import { actBlocks } from "../../../documentEditor/actBlocks";
-import SendActToVote from "../../live/act/SendActToVote";
-import SendActDraftModal from "./SendActDraftModal";
+import DocumentEditor from '../../../documentEditor/DocumentEditor';
+import {
+	buildDoc, useDoc, buildDocBlock, buildDocVariable
+} from '../../../documentEditor/utils';
+import DownloadDoc from '../../../documentEditor/DownloadDoc';
+import { actBlocks } from '../../../documentEditor/actBlocks';
+import SendActToVote from '../../live/act/SendActToVote';
+import SendActDraftModal from './SendActDraftModal';
 
 
 export const CouncilActData = gql`
@@ -78,6 +80,7 @@ export const CouncilActData = gql`
 				existsComments
 			}
 		}
+
 		agendas(councilId: $councilID) {
 			id
 			orderIndex
@@ -126,6 +129,7 @@ export const CouncilActData = gql`
 			comment
 			commentRightColumn
 		}
+			
 		councilRecount(councilId: $councilID){
 			socialCapitalTotal
 			partTotal
@@ -155,10 +159,12 @@ export const CouncilActData = gql`
 				surname
 			}
 		}
+
 		votingTypes {
 			label
 			value
 		}
+
 		councilAttendants(
 			councilId: $councilID
 			options: $options
@@ -184,11 +190,13 @@ export const CouncilActData = gql`
 				lastDateConnection
 			}
 		}
+
 		companyStatutes(companyId: $companyId) {
 			id
 			title
 			censusId
 		}
+
 		majorityTypes {
 			label
 			value
@@ -234,14 +242,16 @@ export const generateCouncilSmartTagsValues = data => {
 		numParticipationsPresent,
 		numParticipationsRepresented,
 		percentageSCTotal: (+percentageSCDelegated + (+percentageSCPresent)).toFixed(3)
-	}
+	};
 
 	cache.set(string, calculatedObject);
 	return calculatedObject;
-}
+};
 
 export const ActContext = React.createContext();
-const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, refetch, withDrawer, liveMode }) => {
+const ActEditor = ({
+	translate, updateCouncilAct, councilID, client, company, refetch, withDrawer, liveMode
+}) => {
 	const [saving, setSaving] = React.useState(false);
 	const [sendToVote, setSendToVote] = React.useState(false);
 	const [sendActDraft, setSendActDraft] = React.useState(false);
@@ -288,14 +298,14 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 			doc: actDocument.fragments,
 			options: actDocument.options
 		} : {
-				doc: buildDoc(response.data, translate, 'act'),
-				options: {
-					stamp: !config.disableDocumentStamps,
-					doubleColumn: response.data.council.statute.doubleColumnDocs === 1,
-					language: response.data.council.language,
-					secondaryLanguage: 'en'
-				}
-			});
+			doc: buildDoc(response.data, translate, 'act'),
+			options: {
+				stamp: !config.disableDocumentStamps,
+				doubleColumn: response.data.council.statute.doubleColumnDocs === 1,
+				language: response.data.council.language,
+				secondaryLanguage: 'en'
+			}
+		});
 		setLoading(false);
 	}, [councilID]);
 
@@ -306,7 +316,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 	const generatePreview = async () => {
 		const response = await client.mutate({
 			mutation: gql`
-				mutation ACTHTML($doc: Document, $councilId: Int!){
+			mutation ACTHTML($doc: Document, $councilId: Int!){
 					generateDocumentHTML(document: $doc, councilId: $councilId)
 				}
 			`,
@@ -316,7 +326,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 			}
 		});
 		return response.data.generateDocumentHTML;
-	}
+	};
 
 	const updateAct = async () => {
 		setSaving(true);
@@ -334,11 +344,11 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 		if (response) {
 			setSaving(false);
 		}
-	}
+	};
 
 	const finishAct = async () => {
 		setFinishModal(true);
-	}
+	};
 
 	if (loading) {
 		return <LoadingSection />;
@@ -350,103 +360,103 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 
 
 	const finishedToolbar = () => (
-			<>
-				<DownloadDoc
-					translate={translate}
-					doc={doc}
-					options={options}
-					council={data.council}
-					styles={{
-						whiteSpace: 'nowrap',
-						overflow: 'hidden',
-						textOverflow: 'ellipsis',
-					}}
-				/>
-				<BasicButton
-					text={translate.save}
-					color={primary}
-					onClick={updateAct}
-					loading={saving}
-					textStyle={{
-						color: "white",
-						fontSize: "0.9em",
-						textTransform: "none"
-					}}
-					textPosition="after"
-					iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
-					buttonStyle={{
-						marginRight: "1em",
-						boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-						borderRadius: '3px'
-					}}
-				/>
-				<BasicButton
-					text={translate.send_draft_phone_button}
-					color={secondary}
-					onClick={() => setSendActDraft(true)}
-					loading={saving}
-					textStyle={{
-						color: "white",
-						fontSize: "0.9em",
-						textTransform: "none"
-					}}
-					textPosition="after"
-					iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-file-text-o" aria-hidden="true"></i>}
-					buttonStyle={{
-						marginRight: "1em",
-						boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-						borderRadius: '3px'
-					}}
-				/>
-				<SendActDraftModal
-					translate={translate}
-					council={council}
-					updateAct={updateAct}
-					show={sendActDraft}
-					requestClose={() => setSendActDraft(false)}
-				/>
-				<FinishActModal
-					finishInModal={true}
-					show={finishModal}
-					generatePreview={generatePreview}
-					doc={doc}
-					options={options}
-					refetch={refetch}
-					company={company}
-					updateAct={updateAct}
-					translate={translate}
-					council={data.council}
-					requestClose={() => {
-						setFinishModal(false)
-					}}
-				/>
-				<BasicButton
-					text={
-						<span style={{
+		<>
+			<DownloadDoc
+				translate={translate}
+				doc={doc}
+				options={options}
+				council={data.council}
+				styles={{
+					whiteSpace: 'nowrap',
+					overflow: 'hidden',
+					textOverflow: 'ellipsis',
+				}}
+			/>
+			<BasicButton
+				text={translate.save}
+				color={primary}
+				onClick={updateAct}
+				loading={saving}
+				textStyle={{
+					color: 'white',
+					fontSize: '0.9em',
+					textTransform: 'none'
+				}}
+				textPosition="after"
+				iconInit={<i style={{ marginRight: '0.3em', fontSize: '18px' }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+				buttonStyle={{
+					marginRight: '1em',
+					boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+					borderRadius: '3px'
+				}}
+			/>
+			<BasicButton
+				text={translate.send_draft_phone_button}
+				color={secondary}
+				onClick={() => setSendActDraft(true)}
+				loading={saving}
+				textStyle={{
+					color: 'white',
+					fontSize: '0.9em',
+					textTransform: 'none'
+				}}
+				textPosition="after"
+				iconInit={<i style={{ marginRight: '0.3em', fontSize: '18px' }} className="fa fa-file-text-o" aria-hidden="true"></i>}
+				buttonStyle={{
+					marginRight: '1em',
+					boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+					borderRadius: '3px'
+				}}
+			/>
+			<SendActDraftModal
+				translate={translate}
+				council={council}
+				updateAct={updateAct}
+				show={sendActDraft}
+				requestClose={() => setSendActDraft(false)}
+			/>
+			<FinishActModal
+				finishInModal={true}
+				show={finishModal}
+				generatePreview={generatePreview}
+				doc={doc}
+				options={options}
+				refetch={refetch}
+				company={company}
+				updateAct={updateAct}
+				translate={translate}
+				council={data.council}
+				requestClose={() => {
+					setFinishModal(false);
+				}}
+			/>
+			<BasicButton
+				text={
+					<span style={{
 
-						}}>
-							{translate.finish_and_aprove_act}
-						</span>
-					}
-					color={secondary}
-					textStyle={{
-						color: "white",
-						fontSize: "0.9em",
-						textTransform: "none"
-					}}
-					onClick={finishAct}
-					textPosition="after"
-					iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-check" aria-hidden="true"></i>}
-					buttonStyle={{
-						marginRight: "1em",
-						boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-						borderRadius: '3px',
-						overflow: "hidden"
-					}}
-				/>
+					}}>
+						{translate.finish_and_aprove_act}
+					</span>
+				}
+				color={secondary}
+				textStyle={{
+					color: 'white',
+					fontSize: '0.9em',
+					textTransform: 'none'
+				}}
+				onClick={finishAct}
+				textPosition="after"
+				iconInit={<i style={{ marginRight: '0.3em', fontSize: '18px' }} className="fa fa-check" aria-hidden="true"></i>}
+				buttonStyle={{
+					marginRight: '1em',
+					boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+					borderRadius: '3px',
+					overflow: 'hidden'
+				}}
+			/>
 
-			</>
-		)
+		</>
+	);
 
 	const liveToolbar = () => {
 		const actPoint = data.agendas[data.agendas.length - 1];
@@ -467,7 +477,7 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 							translate={translate}
 							council={data.council}
 							requestClose={() => {
-								setFinishModal(false)
+								setFinishModal(false);
 							}}
 						/>
 						<BasicButton
@@ -480,36 +490,35 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 							}
 							color={secondary}
 							textStyle={{
-								color: "white",
-								fontSize: "0.9em",
-								textTransform: "none"
+								color: 'white',
+								fontSize: '0.9em',
+								textTransform: 'none'
 							}}
 							onClick={finishAct}
 							textPosition="after"
-							iconInit={<i style={{ marginRight: "0.3em", fontSize: "18px" }} className="fa fa-floppy-o" aria-hidden="true"></i>}
+							iconInit={<i style={{ marginRight: '0.3em', fontSize: '18px' }} className="fa fa-floppy-o" aria-hidden="true"></i>}
 							buttonStyle={{
-								marginRight: "1em",
+								marginRight: '1em',
 								boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
 								borderRadius: '3px',
-								overflow: "hidden"
+								overflow: 'hidden'
 							}}
 						/>
 					</>
 
-				:
-					<>
+					:					<>
 						<BasicButton
 							text={translate.save_preview_act}
 							color={'white'}
 							textStyle={{
 								color: primary,
-								fontWeight: "700",
-								fontSize: "0.9em",
-								textTransform: "none"
+								fontWeight: '700',
+								fontSize: '0.9em',
+								textTransform: 'none'
 							}}
 							onClick={() => setSendToVote(true)}
 							buttonStyle={{
-								marginRight: "1em",
+								marginRight: '1em',
 								border: `2px solid ${primary}`
 							}}
 						/>
@@ -529,12 +538,12 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 					</>
 				}
 			</>
-		)
-	}
+		);
+	};
 
 	return (
 		<React.Fragment>
-			<DocumentEditor2
+			<DocumentEditor
 				withDrawer={withDrawer}
 				doc={doc}
 				data={data}
@@ -548,8 +557,8 @@ const ActEditor = ({ translate, updateCouncilAct, councilID, client, company, re
 				translate={translate}
 			/>
 		</React.Fragment>
-	)
-}
+	);
+};
 
 export default compose(
 	graphql(updateMutation, {
@@ -567,12 +576,12 @@ export const generateActTags = (type, data, translate) => {
 	let delegatedVotesString = cache.get(`${council.id}_delegated`);
 
 
-	if(!attendantsString){
+	if (!attendantsString) {
 		attendantsString = data.council.attendants.reduce(buildAttendantsString(council, base), '');
 		cache.set(`${council.id}_attendants`, attendantsString);
 	}
 
-	if(!delegatedVotesString){
+	if (!delegatedVotesString) {
 		delegatedVotesString = buildDelegationsString(council.delegatedVotes, council, translate);
 		cache.set(`${council.id}_delegated`, delegatedVotesString);
 	}
@@ -593,16 +602,16 @@ export const generateActTags = (type, data, translate) => {
 		},
 		dateRealStart: {
 			value: `${moment(council.dateRealStart).format(
-				"LLLL"
+				'LLLL'
 			)} `,
 			label: translate.date_real_start
 		},
 		firstOrSecondConvene: {
 			value: `${
-				council.firstOrSecondConvene
-					? translate.first
+				council.firstOrSecondConvene ?
+					translate.first
 					: translate.second
-				} `,
+			} `,
 			label: translate.first_or_second_call
 		},
 		location: {
@@ -651,7 +660,7 @@ export const generateActTags = (type, data, translate) => {
 		},
 		dateEnd: {
 			value: `${moment(council.dateEnd).format(
-				"LLLL"
+				'LLLL'
 			)} `,
 			label: translate.date_end
 		},
@@ -660,15 +669,15 @@ export const generateActTags = (type, data, translate) => {
 			label: translate.number_attentands_in_person
 		},
 		percentageSCPresent: {
-			value: council.percentageSCPresent + '%',
+			value: `${council.percentageSCPresent}%`,
 			label: translate.percentage_shares_personally
 		},
 		percentageSCDelegated: {
-			value: council.percentageSCDelegated + '%',
+			value: `${council.percentageSCDelegated}%`,
 			label: translate.percentage_shares_represented
 		},
 		percentageSCTotal: {
-			value: council.percentageSCTotal + '%',
+			value: `${council.percentageSCTotal}%`,
 			label: translate.percentage_quorum
 		},
 		numParticipationsPresent: {
@@ -691,14 +700,14 @@ export const generateActTags = (type, data, translate) => {
 			value: getGoverningBodySignatories(translate, company.governingBodyType, company.governingBodyData),
 			label: translate.signatories
 		}
-	}
+	};
 
 	switch (type) {
 		case 'intro':
 			tags = [
 				smartTags.businessName,
 				smartTags.dateStart
-			]
+			];
 
 			if (hasSecondCall(council.statute)) {
 				tags = [...tags, smartTags.dateStart2NdCall];
@@ -709,24 +718,24 @@ export const generateActTags = (type, data, translate) => {
 			}
 
 			tags = [...tags,
-			smartTags.dateRealStart,
-			smartTags.firstOrSecondConvene,
-			smartTags.president,
-			smartTags.secretary,
-			smartTags.location,
-			smartTags.now,
-			smartTags.convene,
-			smartTags.attendants,
-			smartTags.agenda,
-			smartTags.delegatedVotes,
-			smartTags.numPresentOrRemote,
-			smartTags.numDelegations,
-			smartTags.numParticipationsPresent,
-			smartTags.numParticipationsRepresented,
-			smartTags.percentageSCPresent,
-			smartTags.percentageSCDelegated,
-			smartTags.percentageSCTotal
-			]
+				smartTags.dateRealStart,
+				smartTags.firstOrSecondConvene,
+				smartTags.president,
+				smartTags.secretary,
+				smartTags.location,
+				smartTags.now,
+				smartTags.convene,
+				smartTags.attendants,
+				smartTags.agenda,
+				smartTags.delegatedVotes,
+				smartTags.numPresentOrRemote,
+				smartTags.numDelegations,
+				smartTags.numParticipationsPresent,
+				smartTags.numParticipationsRepresented,
+				smartTags.percentageSCPresent,
+				smartTags.percentageSCDelegated,
+				smartTags.percentageSCTotal
+			];
 
 			return tags;
 
@@ -734,7 +743,7 @@ export const generateActTags = (type, data, translate) => {
 			tags = [
 				smartTags.businessName,
 				smartTags.dateStart
-			]
+			];
 
 			if (hasSecondCall(council.statute)) {
 				tags = [...tags, smartTags.dateStart2NdCall];
@@ -745,24 +754,24 @@ export const generateActTags = (type, data, translate) => {
 			}
 
 			tags = [...tags,
-			smartTags.dateRealStart,
-			smartTags.firstOrSecondConvene,
-			smartTags.president,
-			smartTags.secretary,
-			smartTags.location,
-			smartTags.now,
-			smartTags.convene,
-			smartTags.agenda,
-			smartTags.attendants,
-			smartTags.delegatedVotes,
-			smartTags.numPresentOrRemote,
-			smartTags.numDelegations,
-			smartTags.numParticipationsPresent,
-			smartTags.numParticipationsRepresented,
-			smartTags.percentageSCPresent,
-			smartTags.percentageSCDelegated,
-			smartTags.percentageSCTotal
-			]
+				smartTags.dateRealStart,
+				smartTags.firstOrSecondConvene,
+				smartTags.president,
+				smartTags.secretary,
+				smartTags.location,
+				smartTags.now,
+				smartTags.convene,
+				smartTags.agenda,
+				smartTags.attendants,
+				smartTags.delegatedVotes,
+				smartTags.numPresentOrRemote,
+				smartTags.numDelegations,
+				smartTags.numParticipationsPresent,
+				smartTags.numParticipationsRepresented,
+				smartTags.percentageSCPresent,
+				smartTags.percentageSCDelegated,
+				smartTags.percentageSCTotal
+			];
 			return tags;
 
 		case 'constitution':
@@ -777,7 +786,7 @@ export const generateActTags = (type, data, translate) => {
 				smartTags.percentageSCPresent,
 				smartTags.percentageSCDelegated,
 				smartTags.percentageSCTotal
-			]
+			];
 
 			if (council.remoteCelebration !== 1) {
 				tags = [...tags, smartTags.city, smartTags.country];
@@ -785,13 +794,13 @@ export const generateActTags = (type, data, translate) => {
 
 
 			tags = [...tags,
-			smartTags.attendants,
-			smartTags.delegatedVotes,
-			smartTags.numPresentOrRemote,
-			smartTags.numDelegations,
-			smartTags.numParticipationsPresent,
-			smartTags.numParticipationsRepresented,
-			smartTags.currentQuorum,
+				smartTags.attendants,
+				smartTags.delegatedVotes,
+				smartTags.numPresentOrRemote,
+				smartTags.numDelegations,
+				smartTags.numParticipationsPresent,
+				smartTags.numParticipationsRepresented,
+				smartTags.currentQuorum,
 			];
 
 			return tags;
@@ -804,7 +813,7 @@ export const generateActTags = (type, data, translate) => {
 				smartTags.attendants,
 				smartTags.delegatedVotes,
 				smartTags.numDelegations
-			]
+			];
 			return tags;
 
 		case 'certFooter': {
@@ -817,10 +826,10 @@ export const generateActTags = (type, data, translate) => {
 				smartTags.attendants,
 				smartTags.delegatedVotes,
 				smartTags.numDelegations
-			]
+			];
 			return tags;
 		}
 		default:
 			return [];
 	}
-}
+};

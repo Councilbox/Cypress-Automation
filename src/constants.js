@@ -1,6 +1,6 @@
-import conSesionIcon from "./assets/img/con-sesion-icon.svg";
-import consejoSinSesion from "./assets/img/consejo-sin-sesion-icon.svg";
-import elecciones from "./assets/img/elecciones.svg";
+import conSesionIcon from './assets/img/con-sesion-icon.svg';
+import consejoSinSesion from './assets/img/consejo-sin-sesion-icon.svg';
+import elecciones from './assets/img/elecciones.svg';
 import sinSesionIcon from './assets/img/sin-sesion-icon.svg';
 
 export const MAX_FILE_SIZE = 15360;
@@ -9,15 +9,15 @@ export const MAX_COUNCIL_ATTACHMENTS = 5;
 export const ALPHA_RELEASE_DATE = '10/26/2018';
 
 
-export const INPUT_REGEX = new RegExp("[ A-Za-z0-9äÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]+");
+export const INPUT_REGEX = new RegExp('[ A-Za-z0-9äÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]+');
 
 export const agendaTypes = [
-	"text",
-	"public_voting",
-	"public_act",
-	"fake_public_votation",
-	"private_act",
-	"private_voting"
+	'text',
+	'public_voting',
+	'public_act',
+	'fake_public_votation',
+	'private_act',
+	'private_voting'
 ];
 
 export const COUNCIL_TYPES = {
@@ -27,7 +27,7 @@ export const COUNCIL_TYPES = {
 	ELECTIONS: 3,
 	BOARD_WITHOUT_SESSION: 4,
 	ONE_ON_ONE: 5
-}
+};
 
 export const councilTypesInfo = [
 	{ name: 'with_session', logo: conSesionIcon, description: 'with_session_description' },
@@ -36,7 +36,7 @@ export const councilTypesInfo = [
 	{ name: 'elections', logo: elecciones, description: 'elections_description' },
 	{ name: 'board_without_session', logo: consejoSinSesion, description: 'board_without_session_description' },
 	{ name: 'with_session', logo: conSesionIcon, description: 'with_session_description' },
-]
+];
 
 
 export const DRAFTS_LIMITS = [25, 50, 100, 250];
@@ -145,17 +145,17 @@ export const QUORUM_TYPES = [
 ];
 
 export const SEND_TYPES = [
-	"convene",
-	"reminder",
-	"rescheduled",
-	"cancellation",
-	"room_access",
-	"security",
-	"act",
+	'convene',
+	'reminder',
+	'rescheduled',
+	'cancellation',
+	'room_access',
+	'security',
+	'act',
 	'welcome',
-    'restore_pwd',
-    'point',
-    'welcome'
+	'restore_pwd',
+	'point',
+	'welcome'
 ];
 
 export const COUNCIL_EVIDENCES = [
@@ -175,7 +175,7 @@ export const COUNCIL_EVIDENCES = [
 
 export const USER_EVIDENCES = [
 	'LOGIN'
-]
+];
 
 export const COUNCIL_STATES = {
 	CANCELED: -1,
@@ -239,9 +239,9 @@ export const GOVERNING_BODY_TYPES = {
 		value: 5,
 		label: 'board_of_directors'
 	}
-}
+};
 
-//CONTINUATION OF AGENDA_TYPES
+// CONTINUATION OF AGENDA_TYPES
 export const CUSTOM_AGENDA_VOTING_TYPES = [
 	{
 		label: 'public_voting',

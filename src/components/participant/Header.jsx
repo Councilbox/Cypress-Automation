@@ -1,23 +1,23 @@
-import React from "react";
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
-import * as mainActions from "../../actions/mainActions";
-import logo from "../../assets/img/logo.png";
-import icon from "../../assets/img/logo-icono.png";
-import { Icon, AlertConfirm } from "../../displayComponents";
-import withWindowSize from "../../HOCs/withWindowSize";
-import { getPrimary, getSecondary } from "../../styles/colors";
-import { IconButton, Tooltip, Card, Drawer, withStyles } from "material-ui";
+import React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { IconButton, Tooltip, Card, Drawer, withStyles } from 'material-ui';
+import { withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
+import * as mainActions from '../../actions/mainActions';
+import logo from '../../assets/img/logo.png';
+import icon from '../../assets/img/logo-icono.png';
+import { Icon, AlertConfirm } from '../../displayComponents';
+import withWindowSize from '../../HOCs/withWindowSize';
+import { getPrimary, getSecondary } from '../../styles/colors';
 import { councilIsFinished, showNumParticipations } from '../../utils/CBX';
-import Convene from "../council/convene/Convene";
-import { useOldState } from "../../hooks";
-import withSharedProps from "../../HOCs/withSharedProps";
-import { COUNCIL_TYPES, PARTICIPANT_STATES } from "../../constants";
-import { getCustomLogo, getCustomIcon } from "../../utils/subdomain";
-import { withApollo } from "react-apollo";
-import gql from "graphql-tag";
-import { isMobile } from "../../utils/screen";
-import { HEADER_HEIGHT } from "../../styles/constants";
+import Convene from '../council/convene/Convene';
+import { useOldState } from '../../hooks';
+import withSharedProps from '../../HOCs/withSharedProps';
+import { COUNCIL_TYPES, PARTICIPANT_STATES } from '../../constants';
+import { getCustomLogo, getCustomIcon } from '../../utils/subdomain';
+import { isMobile } from '../../utils/screen';
+import { HEADER_HEIGHT } from '../../styles/constants';
 
 
 const Header = ({ participant, council, translate, logoutButton, windowSize, primaryColor, titleHeader, classes, info, ...props }) => {
@@ -33,68 +33,64 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 	const customLogo = getCustomLogo();
 	const customIcon = getCustomIcon();
 
+	const logout = () => {
+		props.actions.logoutParticipant(participant, council);
+	};
+
 	React.useEffect(() => {
 		if (council && councilIsFinished(council)) {
 			logout();
 		}
 	}, [council]);
 
-	const logout = () => {
-		props.actions.logoutParticipant(participant, council);
-	}
-
 	const leaveRoom = async () => {
 		await props.client.mutate({
 			mutation: gql`
 				mutation LeaveRoom {
 					participantLeaveRoom{
-						success
-					}
+					success
 				}
-			`
+			}
+		`
 		});
 		props.actions.logoutParticipant(participant, council);
-	}
+	};
 
-	const _renderConveneBody = () => {
-		return (
-			<div style={{ borderTop: `5px solid ${primary}`, marginBottom: "1em", }}>
-				<div style={{ marginTop: "1em", marginRight: "1em", justifyContent: "flex-end", display: "flex" }}>
-					< i
-						className={"fa fa-close"}
-						style={{
-							cursor: "pointer",
-							fontSize: "1.5em",
-							color: secondary
-						}}
-						onClick={() => setState({ drawerTop: false })}
-					/>
-				</div>
-				<div style={{ margin: "0 auto" }}>
-					<Convene
-						noButtonsDownload={true}
-						council={council}
-						translate={translate}
-						agendaNoSession={props.agendaNoSession}
-					/>
-				</div>
+	const renderConveneBody = () => (
+		<div style={{ borderTop: `5px solid ${primary}`, marginBottom: '1em', }}>
+			<div style={{ marginTop: '1em', marginRight: '1em', justifyContent: 'flex-end', display: 'flex' }}>
+				< i
+					className={'fa fa-close'}
+					style={{
+						cursor: 'pointer',
+						fontSize: '1.5em',
+						color: secondary
+					}}
+					onClick={() => setState({ drawerTop: false })}
+				/>
 			</div>
-		)
-	}
+			<div style={{ margin: '0 auto' }}>
+				<Convene
+					noButtonsDownload={true}
+					council={council}
+					translate={translate}
+					agendaNoSession={props.agendaNoSession}
+				/>
+			</div>
+		</div>
+	);
 
 
-	const calculateParticipantVotes = () => {
-		return showNumParticipations(participant.delegatedVotes.reduce((a, b) => a + b.numParticipations, participant.numParticipations), council.company, council.statute);
-	}
+	const calculateParticipantVotes = () => showNumParticipations(participant.delegatedVotes.reduce((a, b) => a + b.numParticipations, participant.numParticipations), council.company, council.statute);
 
-	const _renderParticipantInfo = () => {
+	const renderParticipantInfo = () => {
 		const delegations = participant.delegatedVotes.filter(vote => vote.state === PARTICIPANT_STATES.DELEGATED);
 		const representations = participant.delegatedVotes.filter(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
 
-		//TRADUCCION
+		// TRADUCCION
 		return (
 			<div>
-				<Card style={{ padding: "20px" }}>
+				<Card style={{ padding: '20px' }}>
 					<div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
 						<b>&#8226; {`${translate.name}`}</b>: {`${participant.name} ${participant.surname || ''}`}
 					</div>
@@ -120,8 +116,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 								<span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
 							}
 						</div>
-					)
-					)}
+					))}
 					{representations.length > 0 &&
 						translate.representative_of
 					}
@@ -132,47 +127,46 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 								<span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
 							}
 						</div>
-					)
-					)}
+					))}
 					{council.councilType !== COUNCIL_TYPES.ONE_ON_ONE &&
 						`${translate.total_votes}: ${calculateParticipantVotes()}`
 					}
 				</Card>
 			</div>
-		)
-	}
+		);
+	};
 
 	return (
 		<header
 			className="App-header"
 			style={{
 				height: HEADER_HEIGHT,
-				display: "flex",
-				flexDirection: "row",
-				width: "100%",
-				justifyContent: "space-between",
+				display: 'flex',
+				flexDirection: 'row',
+				width: '100%',
+				justifyContent: 'space-between',
 				borderBottom: '1px solid gainsboro',
-				alignItems: "center",
+				alignItems: 'center',
 				background: 'white',
 				color: primary
 			}}
 		>
 			<div
 				style={{
-					display: "flex",
-					flexDirection: "row",
-					height: "100%",
-					width: windowSize === "xs" ? '5em' : '15em',
-					alignItems: "center",
+					display: 'flex',
+					flexDirection: 'row',
+					height: '100%',
+					width: windowSize === 'xs' ? '5em' : '15em',
+					alignItems: 'center',
 				}}
 			>
-				<div style={{ position: "relative" }}>
+				<div style={{ position: 'relative' }}>
 					<img
-						src={windowSize !== "xs" ? customLogo ? customLogo : logo : customIcon ? customIcon : icon}
+						src={windowSize !== 'xs' ? customLogo || logo : customIcon || icon}
 						className="App-logo"
 						style={{
-							height: "1.5em",
-							marginLeft: "1em",
+							height: '1.5em',
+							marginLeft: '1em',
 							// marginLeft: "2em",
 							userSelect: 'none'
 						}}
@@ -217,10 +211,10 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 						onClick={() => setState({ drawerTop: !state.drawerTop })}
 						className="material-icons"
 						style={{
-							cursor: "pointer",
+							cursor: 'pointer',
 							color: primary,
-							marginRight: "0.4em",
-							width: "30px"
+							marginRight: '0.4em',
+							width: '30px'
 						}}
 					>
 						list_alt
@@ -230,30 +224,29 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 			{council &&
 				<div
 					style={{
-						display: "flex",
-						flexDirection: "row",
+						display: 'flex',
+						flexDirection: 'row',
 						justifyContent: 'flex-end',
-						width: windowSize === "xs" ? '6em' : '15em',
-						alignItems: "center"
+						width: windowSize === 'xs' ? '6em' : '15em',
+						alignItems: 'center'
 					}}
 				>
 					{participant &&
 						<Tooltip title={translate.participant_data}>
 							<Icon
-								onClick={() =>
-									setState({
-										showParticipantInfo: true
-									})
+								onClick={() => setState({
+									showParticipantInfo: true
+								})
 								}
 								className="material-icons"
 								style={{
 									cursor: 'pointer',
 									color: primary,
-									marginRight: "0.4em"
+									marginRight: '0.4em'
 								}}
 							>
 								person
-						</Icon>
+							</Icon>
 						</Tooltip>
 					}
 					{(council && logoutButton) && (
@@ -269,8 +262,8 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 							/>
 							<IconButton
 								style={{
-									marginRight: "0.5em",
-									outline: "0"
+									marginRight: '0.5em',
+									outline: '0'
 								}}
 								aria-label="help"
 								onClick={() => setExitModal(true)}
@@ -279,7 +272,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 									className="material-icons"
 									style={{
 										color: primaryColor ? primary : 'white',
-										fontSize: "0.9em"
+										fontSize: '0.9em'
 									}}
 								>
 									exit_to_app
@@ -293,9 +286,9 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 
 			{(council) &&
 				<Drawer
-					className={"drawerConveneRoot"}
+					className={'drawerConveneRoot'}
 					BackdropProps={{
-						className: "drawerConvene"
+						className: 'drawerConvene'
 					}}
 					classes={{
 						paperAnchorTop: classes.paperAnchorTop,
@@ -305,7 +298,7 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					transitionDuration={0}
 					onClose={() => setState({ drawerTop: false })}
 				>
-					{_renderConveneBody()}
+					{renderConveneBody()}
 				</Drawer>
 			}
 			{state.showParticipantInfo &&
@@ -314,19 +307,17 @@ const Header = ({ participant, council, translate, logoutButton, windowSize, pri
 					open={state.showParticipantInfo}
 					acceptAction={() => setState({ showParticipantInfo: false })}
 					buttonAccept={translate.accept}
-					bodyText={_renderParticipantInfo()}
+					bodyText={renderParticipantInfo()}
 					title={translate.participant_data}
-					bodyStyle={{ paddingTop: "5px", margin: "10px" }}
+					bodyStyle={{ paddingTop: '5px', margin: '10px' }}
 				/>
 			}
 		</header>
 	);
-
-}
-
+};
 
 
-const Marquee = ({ children, isMobile }) => {
+const Marquee = ({ children }) => {
 	const [state, setState] = React.useState({
 		stop: false
 	});
@@ -337,37 +328,35 @@ const Marquee = ({ children, isMobile }) => {
 		textIndent: '0',
 		animation: 'marquee 30s linear infinite',
 		marginBottom: '0'
-	}
+	};
 	const stylesNoMove = {
 		marginBottom: '0',
 		textAlign: 'center'
-	}
-	let style = {}
-	let title
+	};
+	let style = {};
+	let title;
 
 	if (children !== undefined && children !== null && children[0] !== undefined) {
-		title = children[0].agendaSubject
+		title = children[0].agendaSubject;
 
 		if (isMobile) {
 			if (title.length > 20) {
-				style = stylesMove
+				style = stylesMove;
 			} else {
-				style = stylesNoMove
+				style = stylesNoMove;
 			}
+		} else if (title.length > 45) {
+			style = stylesMove;
 		} else {
-			if (title.length > 45) {
-				style = stylesMove
-			} else {
-				style = stylesNoMove
-			}
+			style = stylesNoMove;
 		}
 	}
 
 	const toggle = () => {
 		setState({
 			stop: !state.stop
-		})
-	}
+		});
+	};
 
 	return (
 		<div className={'marquee'} style={{
@@ -377,37 +366,36 @@ const Marquee = ({ children, isMobile }) => {
 			overflow: 'hidden',
 			boxSizing: 'border-box'
 		}}
-			onClick={toggle}
+		onClick={toggle}
 		>
 			<p style={state.stop ? stylesNoMove : style}>
 				{title}
 			</p>
 		</div>
-	)
-}
+	);
+};
 
 const styles = {
 	paperAnchorTop: {
-		top: "44px",
+		top: '44px',
 		borderBottom: `5px solid ${getPrimary()}`,
 	},
 	paper: {
-		top: "44px",
+		top: '44px',
 	}
-}
+};
 
 const mapStateToProps = state => ({
 	main: state.main
 });
 
-const mapDispatchToProps = dispatch => {
-	return {
-		actions: bindActionCreators(mainActions, dispatch)
-	};
-}
+const mapDispatchToProps = dispatch => ({
+	actions: bindActionCreators(mainActions, dispatch)
+});
 
 export default withApollo(
 	connect(
 		mapStateToProps,
 		mapDispatchToProps
-	)(withWindowSize(withStyles(styles)(withSharedProps()(Header)))));
+	)(withWindowSize(withStyles(styles)(withSharedProps()(Header))))
+);

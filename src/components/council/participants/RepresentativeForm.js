@@ -1,11 +1,11 @@
-import React from "react";
-import { MenuItem } from "material-ui";
+import React from 'react';
+import { MenuItem } from 'material-ui';
 import {
 	Grid,
 	GridItem,
 	SelectInput,
 	TextInput
-} from "../../../displayComponents";
+} from '../../../displayComponents';
 
 const RepresentativeForm = ({
 	representative,
@@ -24,8 +24,8 @@ const RepresentativeForm = ({
 				errorText={errors.name}
 				value={representative.name}
 				onChange={event => updateState({
-						name: event.nativeEvent.target.value
-					})
+					name: event.nativeEvent.target.value
+				})
 				}
 			/>
 		</GridItem>
@@ -36,8 +36,8 @@ const RepresentativeForm = ({
 				errorText={errors.surname || ''}
 				value={representative.surname || ''}
 				onChange={event => updateState({
-						surname: event.nativeEvent.target.value
-					})
+					surname: event.nativeEvent.target.value
+				})
 				}
 			/>
 		</GridItem>
@@ -48,8 +48,8 @@ const RepresentativeForm = ({
 				errorText={errors.dni}
 				value={representative.dni}
 				onChange={event => updateState({
-						dni: event.nativeEvent.target.value
-					})
+					dni: event.nativeEvent.target.value
+				})
 				}
 			/>
 		</GridItem>
@@ -61,8 +61,8 @@ const RepresentativeForm = ({
 					errorText={errors.position}
 					value={representative.position}
 					onChange={event => updateState({
-							position: event.nativeEvent.target.value
-						})
+						position: event.nativeEvent.target.value
+					})
 					}
 				/>
 			</GridItem>
@@ -71,12 +71,12 @@ const RepresentativeForm = ({
 			<TextInput
 				floatingText={translate.email}
 				type="text"
-				{...(checkEmail ? { onKeyUp: (event) => checkEmail(event, 'representative') } : {})}
+				{...(checkEmail ? { onKeyUp: event => checkEmail(event, 'representative') } : {})}
 				errorText={errors.email}
 				value={representative.email}
 				onChange={event => updateState({
-						email: event.nativeEvent.target.value
-					})
+					email: event.nativeEvent.target.value
+				})
 				}
 			/>
 		</GridItem>
@@ -89,7 +89,7 @@ const RepresentativeForm = ({
 				onChange={event => {
 					updateState({
 						secondaryEmail: event.target.value
-					})
+					});
 				}}
 			/>
 		</GridItem>
@@ -100,8 +100,8 @@ const RepresentativeForm = ({
 				errorText={errors.phone}
 				value={representative.phone}
 				onChange={event => updateState({
-						phone: event.nativeEvent.target.value
-					})
+					phone: event.nativeEvent.target.value
+				})
 				}
 			/>
 		</GridItem>
@@ -110,35 +110,35 @@ const RepresentativeForm = ({
 				floatingText={translate.language}
 				value={representative.language}
 				onChange={event => updateState({
-						language: event.target.value
-					})
+					language: event.target.value
+				})
 				}
 			>
 				{languages.map(language => (
-						<MenuItem
-							value={
+					<MenuItem
+						value={
+							language.columnName ?
 								language.columnName
-									? language.columnName
-									: language.column_name
-							}
-							key={`language${
+								: language.column_name
+						}
+						key={`language${
+							language.columnName ?
 								language.columnName
-									? language.columnName
-									: language.column_name
-							}`}
-						>
-							{language.desc}
-						</MenuItem>
-					))}
+								: language.column_name
+						}`}
+					>
+						{language.desc}
+					</MenuItem>
+				))}
 			</SelectInput>
 		</GridItem>
 		<GridItem xs={6} md={4} lg={4}>
 			<SelectInput
 				floatingText={translate.participation_type}
-				value={'' + representative.initialState}
+				value={`${representative.initialState}`}
 				onChange={event => updateState({
-						initialState: +event.target.value
-					})
+					initialState: +event.target.value
+				})
 				}
 			>
 				<MenuItem

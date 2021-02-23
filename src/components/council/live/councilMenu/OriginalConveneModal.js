@@ -1,7 +1,9 @@
-import React from "react";
-import { AlertConfirm } from "../../../../displayComponents";
+import React from 'react';
+import { AlertConfirm } from '../../../../displayComponents';
 
-const OriginalConveneModal = ({ council, requestClose, show, translate }) => (
+const OriginalConveneModal = ({
+	council, requestClose, show, translate
+}) => (
 	<AlertConfirm
 		requestClose={requestClose}
 		open={show}
@@ -9,9 +11,9 @@ const OriginalConveneModal = ({ council, requestClose, show, translate }) => (
 			<div
 				dangerouslySetInnerHTML={{ __html: council.emailText }}
 				style={{
-					maxWidth: "750px",
-					minWidth: "450px",
-					width: "65%"
+					maxWidth: '750px',
+					minWidth: '450px',
+					width: '65%'
 				}}
 			/>
 		}

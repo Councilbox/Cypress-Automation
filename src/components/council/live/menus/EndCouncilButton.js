@@ -1,11 +1,10 @@
-import React from "react";
-import { graphql } from "react-apollo";
-import { endCouncil } from "../../../../queries/council";
-import { AlertConfirm, BasicButton, Icon } from "../../../../displayComponents";
-import { getPrimary, getSecondary } from "../../../../styles/colors";
-import { bHistory } from "../../../../containers/App";
-import { isMobile } from "../../../../utils/screen";
-import { AGENDA_STATES } from "../../../../constants";
+import React from 'react';
+import { graphql } from 'react-apollo';
+import { endCouncil } from '../../../../queries/council';
+import { AlertConfirm, BasicButton, Icon } from '../../../../displayComponents';
+import { getPrimary, getSecondary } from '../../../../styles/colors';
+import { bHistory } from '../../../../containers/App';
+import { isMobile } from '../../../../utils/screen';
 
 class EndCouncilButton extends React.Component {
 	state = {
@@ -21,8 +20,7 @@ class EndCouncilButton extends React.Component {
 		});
 		if (!response.errors) {
 			bHistory.push(
-				`/company/${council.companyId}/council/${
-				council.id
+				`/company/${council.companyId}/council/${council.id
 				}/finished`
 			);
 		}
@@ -40,7 +38,6 @@ class EndCouncilButton extends React.Component {
 					<BasicButton
 						text={translate.finish_council}
 						id={'finalizarReunionEnReunion'}
-						color={primary}
 						color={unclosed.length === 0 ? primary : secondary}
 						onClick={() => this.setState({ confirmModal: true })}
 						textPosition="before"
@@ -48,19 +45,19 @@ class EndCouncilButton extends React.Component {
 							<Icon
 								className="material-icons"
 								style={{
-									fontSize: "1.1em",
-									color: "white"
+									fontSize: '1.1em',
+									color: 'white'
 								}}
 							>
 								play_arrow
 							</Icon>
 						}
-						buttonStyle={{ minWidth: isMobile ? "" : "13em" }}
+						buttonStyle={{ minWidth: isMobile ? '' : '13em' }}
 						textStyle={{
-							color: "white",
-							fontSize: "0.75em",
-							fontWeight: "700",
-							textTransform: "none"
+							color: 'white',
+							fontSize: '0.75em',
+							fontWeight: '700',
+							textTransform: 'none'
 						}}
 					/>
 				</div>
@@ -73,12 +70,12 @@ class EndCouncilButton extends React.Component {
 									<div>{translate.unclosed_points_desc}</div>
 									<ul>
 										{unclosed.map(agenda => (
-												<li
-													key={`unclosed${agenda.id}`}
-												>
-													{agenda.agendaSubject}
-												</li>
-											))}
+											<li
+												key={`unclosed${agenda.id}`}
+											>
+												{agenda.agendaSubject}
+											</li>
+										))}
 									</ul>
 								</React.Fragment>
 							) : (
@@ -99,5 +96,5 @@ class EndCouncilButton extends React.Component {
 }
 
 export default graphql(endCouncil, {
-	name: "endCouncil"
+	name: 'endCouncil'
 })(EndCouncilButton);

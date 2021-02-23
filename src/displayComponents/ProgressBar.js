@@ -1,5 +1,5 @@
-import React from "react";
-import { LinearProgress } from "material-ui/Progress";
+import React from 'react';
+import { LinearProgress } from 'material-ui/Progress';
 
 const ProgressBar = ({ value, style }) => (
 	<LinearProgress
@@ -7,9 +7,9 @@ const ProgressBar = ({ value, style }) => (
 		value={value}
 		style={{
 			...style,
-			backgroundColor: "lightgrey"
+			backgroundColor: 'lightgrey'
 		}}
-		color={"secondary"}
+		color={'secondary'}
 	/>
 );
 

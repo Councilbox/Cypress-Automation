@@ -1,13 +1,13 @@
-import React from "react";
-import { MenuItem, Card } from "material-ui";
-import { graphql } from "react-apollo";
-import { DropDownMenu, Icon } from "../../../../displayComponents";
-import { getSecondary } from "../../../../styles/colors";
+import React from 'react';
+import { MenuItem, Card } from 'material-ui';
+import { graphql } from 'react-apollo';
+import { DropDownMenu, Icon } from '../../../../displayComponents';
+import { getSecondary } from '../../../../styles/colors';
 import {
 	participantIsBlocked,
 	canUnblockParticipant
-} from "../../../../utils/CBX";
-import { unbanParticipant, changeRequestWord } from "../../../../queries";
+} from '../../../../utils/CBX';
+import { unbanParticipant as unbanParticipantMutation, changeRequestWord } from '../../../../queries';
 
 const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 	const secondary = getSecondary();
@@ -24,7 +24,7 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 				props.refetch();
 			}
 		}
-	}
+	};
 
 	const changeWordState = async (id, value) => {
 		const response = await props.changeRequestWord({
@@ -44,31 +44,31 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 			Component={() => (
 				<Card
 					style={{
-						width: "1.6em",
-						height: "1.6em",
-						borderRadius: "0.1em",
+						width: '1.6em',
+						height: '1.6em',
+						borderRadius: '0.1em',
 						backgroundColor: secondary
 					}}
 				>
 					<MenuItem
 						style={{
-							height: "1.6em",
-							width: "1.6em",
+							height: '1.6em',
+							width: '1.6em',
 							padding: 0,
 							margin: 0,
-							display: "flex",
-							alignItems: "center",
-							justifyContent: "center"
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center'
 						}}
 					>
 						<Icon
 							className="material-icons"
 							style={{
-								fontSize: "0.92em",
-								color: "white"
+								fontSize: '0.92em',
+								color: 'white'
 							}}
 						>
-							keyboard_arrow_down
+keyboard_arrow_down
 						</Icon>
 					</MenuItem>
 				</Card>
@@ -83,11 +83,11 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 								<Icon
 									className="material-icons"
 									style={{
-										color: "green",
-										marginRight: "0.4em"
+										color: 'green',
+										marginRight: '0.4em'
 									}}
 								>
-									rotate_right
+rotate_right
 								</Icon>
 								{translate.unban_participant}
 							</MenuItem>
@@ -99,27 +99,27 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 							<Icon
 								className="material-icons"
 								style={{
-									color: "red",
-									marginRight: "0.4em"
+									color: 'red',
+									marginRight: '0.4em'
 								}}
 							>
-								block
+block
 							</Icon>
 							{translate.ban_participant}
 						</MenuItem>
 					)}
 					{participant.requestWord !== 3 && (
-							<MenuItem
+						<MenuItem
 							onClick={() => changeWordState(participant.id, 3)}
 						>
 							<Icon
 								className="material-icons"
 								style={{
 									color: secondary,
-									marginRight: "0.4em"
+									marginRight: '0.4em'
 								}}
 							>
-								launch
+launch
 							</Icon>
 							{translate.send_to_waiting_room}
 						</MenuItem>
@@ -131,10 +131,10 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 							className="material-icons"
 							style={{
 								color: secondary,
-								marginRight: "0.4em"
+								marginRight: '0.4em'
 							}}
 						>
-							storage
+storage
 						</Icon>
 						{translate.video_logs_list}
 					</MenuItem>
@@ -142,11 +142,11 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 			}
 		/>
 	);
-}
+};
 
 
-export default graphql(unbanParticipant, {
-	name: "unbanParticipant"
+export default graphql(unbanParticipantMutation, {
+	name: 'unbanParticipant'
 })(graphql(changeRequestWord, {
-	name: "changeRequestWord"
+	name: 'changeRequestWord'
 })(VideoParticipantMenu));

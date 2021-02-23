@@ -1,41 +1,43 @@
 import React from 'react';
-import { printCifAlreadyUsed, printSessionExpiredError, printTrialEnded } from "./CBX";
-import { logout } from "../actions/mainActions";
+import { printCifAlreadyUsed, printSessionExpiredError, printTrialEnded } from './CBX';
+import { logout } from '../actions/mainActions';
 import { refreshTokenQuery } from '../queries';
 import { LiveToast } from '../displayComponents';
 
 export const refreshToken = async (apolloClient, toast, store) => {
 	const rToken = sessionStorage.getItem('refreshToken');
-	if(rToken){
+	if (rToken) {
 		const response = await apolloClient.mutate({
 			mutation: refreshTokenQuery,
 			variables: {
 				token: rToken
 			}
 		});
-		if(!response.errors){
+		if (!response.errors) {
 			sessionStorage.setItem('token', response.data.refreshToken.token);
 			sessionStorage.setItem('refreshToken', response.data.refreshToken.refreshToken);
 			return response;
 		}
 	}
 
-	if(!sessionStorage.getItem('token') && !sessionStorage.getItem('participantToken')){
+	if (!sessionStorage.getItem('token') && !sessionStorage.getItem('participantToken')) {
 		toast(
 			<LiveToast
 				message={printSessionExpiredError()}
 			/>, {
 				position: toast.POSITION.TOP_RIGHT,
 				autoClose: true,
-				className: "errorToast"
+				className: 'errorToast'
 			}
 		);
 		store.dispatch(logout());
 	}
-}
+
+	return true;
+};
 
 export const graphQLErrorHandler = async (graphQLError, toast, store, apolloClient, operation, bHistory) => {
-	if (graphQLError.message === "Validation error") {
+	if (graphQLError.message === 'Validation error') {
 		if (graphQLError.originalError) {
 			if (graphQLError.originalError.fields) {
 				if (graphQLError.originalError.fields.tin) {
@@ -45,21 +47,21 @@ export const graphQLErrorHandler = async (graphQLError, toast, store, apolloClie
 						/>, {
 							position: toast.POSITION.TOP_RIGHT,
 							autoClose: true,
-							className: "errorToast"
+							className: 'errorToast'
 						}
 					);
 				}
 			}
 		}
 	}
-	if(graphQLError.message === 'Company trial ended'){
+	if (graphQLError.message === 'Company trial ended') {
 		toast(
 			<LiveToast
 				message={printTrialEnded()}
 			/>, {
 				position: toast.POSITION.TOP_RIGHT,
 				autoClose: true,
-				className: "errorToast"
+				className: 'errorToast'
 			}
 		);
 		bHistory.push('/');

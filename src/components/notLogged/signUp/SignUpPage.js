@@ -1,47 +1,45 @@
-import React from "react";
-import { Card, CardContent } from "material-ui";
-import { graphql } from "react-apollo";
-import SignUpEnterprise from "./SignUpEnterprise";
-import SignUpUser from "./SignUpUser";
-import SignUpPay from "./SignUpPay";
-import { getPrimary } from "../../../styles/colors";
-import SignUpStepper from "./SignUpStepper";
+import React from 'react';
+import { Card, CardContent } from 'material-ui';
+import { graphql } from 'react-apollo';
+import SignUpUser from './SignUpUser';
+import { getPrimary } from '../../../styles/colors';
+import SignUpStepper from './SignUpStepper';
 import { BasicButton, NotLoggedLayout, Scrollbar } from '../../../displayComponents';
 import { bHistory } from '../../../containers/App';
-import withWindowSize from "../../../HOCs/withWindowSize";
-import { userAndCompanySignUp } from "../../../queries/userAndCompanySignUp";
+import withWindowSize from '../../../HOCs/withWindowSize';
+import { userAndCompanySignUp } from '../../../queries/userAndCompanySignUp';
 import withTranslations from '../../../HOCs/withTranslations';
 
 const stateReducer = (state, action) => {
 	const actions = {
-		'UPDATE_ERRORS': () => ({
-				...state,
-				errors: action.payload
-			}),
-		'SUCCESS': () => ({
-				...state,
-				loading: false,
-				success: true
-			}),
-		'LOADING': () => ({
-				...state,
-				loading: true,
-				success: false
-			})
-	}
+		UPDATE_ERRORS: () => ({
+			...state,
+			errors: action.payload
+		}),
+		SUCCESS: () => ({
+			...state,
+			loading: false,
+			success: true
+		}),
+		LOADING: () => ({
+			...state,
+			loading: true,
+			success: false
+		})
+	};
 
 	return actions[action.type] ? actions[action.type]() : state;
-}
+};
 
 
 const SignUpPage = ({ translate, windowSize, mutate }) => {
 	const [data, setData] = React.useState({
-		name: "",
-		surname: "",
-		phone: "",
+		name: '',
+		surname: '',
+		phone: '',
 		preferredLanguage: translate.selectedLanguage,
-		email: "",
-		pwd: "",
+		email: '',
+		pwd: '',
 	});
 	const [{ success, loading, errors }, dispatch] = React.useReducer(stateReducer, {
 		success: false,
@@ -66,7 +64,7 @@ const SignUpPage = ({ translate, windowSize, mutate }) => {
 		if (response.data.userAndCompanySignUp.success) {
 			dispatch({ type: 'SUCCESS' });
 		}
-	}
+	};
 
 
 	const updateData = object => {
@@ -94,13 +92,13 @@ const SignUpPage = ({ translate, windowSize, mutate }) => {
 			>
 				<div
 					style={{
-						height: "13%",
-						display: "flex",
-						alignItems: "center",
+						height: '13%',
+						display: 'flex',
+						alignItems: 'center',
 						justifyContent: 'center'
 					}}
 				>
-					<h3 style={{ color: "white", fontWeight: '700' }}>
+					<h3 style={{ color: 'white', fontWeight: '700' }}>
 						{translate.sign_up_user}
 					</h3>
 				</div>
@@ -108,36 +106,36 @@ const SignUpPage = ({ translate, windowSize, mutate }) => {
 					<Card
 						elevation={8}
 						style={{
-							width: windowSize !== "xs" ? "65%" : "100%",
-							height: windowSize !== "xs" ? null : "100%",
+							width: windowSize !== 'xs' ? '65%' : '100%',
+							height: windowSize !== 'xs' ? null : '100%',
 							padding: 0,
-							borderRadius: windowSize !== "xs" ? "0.3em" : "0",
-							overflow: "hidden"
+							borderRadius: windowSize !== 'xs' ? '0.3em' : '0',
+							overflow: 'hidden'
 						}}
 					>
 						<CardContent
 							style={{
 								padding: 0,
-								width: "100%"
+								width: '100%'
 							}}
 						>
 							<div
 								style={{
-									display: "flex",
+									display: 'flex',
 									flexDirection:
-										windowSize !== "xs" ? "row" : "column",
+windowSize !== 'xs' ? 'row' : 'column',
 									height:
-										windowSize !== "xs"
-											? "72vh"
-											: "calc(100vh - 3em)",
-									width: "100%"
+windowSize !== 'xs' ?
+	'72vh'
+	: 'calc(100vh - 3em)',
+									width: '100%'
 								}}
 							>
 								<div
 									style={{
-										backgroundColor: "WhiteSmoke",
+										backgroundColor: 'WhiteSmoke',
 										height:
-											windowSize !== "xs" ? "100%" : "5em"
+windowSize !== 'xs' ? '100%' : '5em'
 									}}
 								>
 									<SignUpStepper
@@ -148,25 +146,25 @@ const SignUpPage = ({ translate, windowSize, mutate }) => {
 								</div>
 								<div
 									style={{
-										backgroundColor: "white",
-										width: "100%",
-										position: "relative",
-										overflowY: "hidden",
+										backgroundColor: 'white',
+										width: '100%',
+										position: 'relative',
+										overflowY: 'hidden',
 										height:
-											windowSize !== "xs"
-												? "100%"
-												: "calc(100vh - 8em - 11.5%)"
+windowSize !== 'xs' ?
+	'100%'
+	: 'calc(100vh - 8em - 11.5%)'
 									}}
 								>
 									<Scrollbar>
-										<div style={{ paddingBottom: "4.5em" }}>
+										<div style={{ paddingBottom: '4.5em' }}>
 											<SignUpUser
 												formData={data}
 												errors={errors}
 												loading={loading}
 												signUp={createUser}
 												updateState={updateData}
-												updateErrors={errors => dispatch({ type: 'UPDATE_ERRORS', payload: errors })}
+												updateErrors={errs => dispatch({ type: 'UPDATE_ERRORS', payload: errs })}
 												translate={translate}
 											/>
 										</div>
@@ -178,21 +176,23 @@ const SignUpPage = ({ translate, windowSize, mutate }) => {
 				) : (
 					<Card
 						style={{
-							width: windowSize === "xs" ? "100%" : "70%",
-							padding: "3vw"
+							width: windowSize === 'xs' ? '100%' : '70%',
+							padding: '3vw'
 						}}
 					>
 						<div
 							style={{
 								marginBottom: 0,
 								paddingBottom: 0,
-								fontWeight: "600",
-								fontSize: "1.2em",
+								fontWeight: '600',
+								fontSize: '1.2em',
 								color: primary
 							}}
 						>
 							{translate.register_successfully}
-							<div style={{ marginTop: '0.9em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+							<div style={{
+								marginTop: '0.9em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'
+							}}>
 								<BasicButton
 									text={translate.back}
 									textStyle={{ fontWeight: '700', textTransform: 'none', color: 'white' }}
@@ -206,8 +206,8 @@ const SignUpPage = ({ translate, windowSize, mutate }) => {
 			</div>
 		</NotLoggedLayout>
 	);
-}
+};
 
 export default graphql(userAndCompanySignUp, {
-	options: { errorPolicy: "all" }
+	options: { errorPolicy: 'all' }
 })(withWindowSize(withTranslations()(SignUpPage)));

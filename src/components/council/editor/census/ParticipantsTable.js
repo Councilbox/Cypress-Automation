@@ -1,22 +1,26 @@
-import React from "react";
-import { TableCell, TableRow } from "material-ui/Table";
+import React from 'react';
+import { TableCell, TableRow } from 'material-ui/Table';
 import { Card } from 'material-ui';
-import { compose, graphql } from "react-apollo";
-import { getPrimary, getSecondary } from "../../../../styles/colors";
-import * as CBX from "../../../../utils/CBX";
-import { CloseIcon, EnhancedTable, BasicButton, Checkbox, Grid, GridItem, AlertConfirm } from "../../../../displayComponents";
-import { deleteParticipant } from "../../../../queries/councilParticipant";
-import { COUNCIL_TYPES, PARTICIPANTS_LIMITS } from "../../../../constants";
-import ChangeCensusMenu from "./ChangeCensusMenu";
-import CouncilParticipantEditor from "./modals/CouncilParticipantEditor";
-import { useOldState, useHoverRow } from "../../../../hooks";
-import { isMobile } from "../../../../utils/screen";
+import { compose, graphql } from 'react-apollo';
+import { getPrimary, getSecondary } from '../../../../styles/colors';
+import * as CBX from '../../../../utils/CBX';
+import {
+	CloseIcon, EnhancedTable, BasicButton, Checkbox, Grid, GridItem, AlertConfirm
+} from '../../../../displayComponents';
+import { deleteParticipant as deleteParticipantMutation } from '../../../../queries/councilParticipant';
+import { COUNCIL_TYPES, PARTICIPANTS_LIMITS } from '../../../../constants';
+import ChangeCensusMenu from './ChangeCensusMenu';
+import CouncilParticipantEditor from './modals/CouncilParticipantEditor';
+import { useOldState, useHoverRow } from '../../../../hooks';
+import { isMobile } from '../../../../utils/screen';
 
 
-const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, participations, council, ...props }) => {
+const ParticipantsTable = ({
+	translate, data, totalVotes, totalSocialCapital, participations, council, ...props
+}) => {
 	const [state, setState] = useOldState({
 		editingParticipant: false,
-		participant: {},
+		participantToEdit: {},
 		selectedIds: new Map(),
 		deleteModal: false,
 		singleId: null
@@ -29,33 +33,33 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 	};
 
 	const select = id => {
-        if(state.selectedIds.has(id)){
-            state.selectedIds.delete(id);
-        } else {
-            state.selectedIds.set(id, 'selected');
-        }
+		if (state.selectedIds.has(id)) {
+			state.selectedIds.delete(id);
+		} else {
+			state.selectedIds.set(id, 'selected');
+		}
 
-        setState({
-            selectedIds: new Map(state.selectedIds)
-        });
-	}
+		setState({
+			selectedIds: new Map(state.selectedIds)
+		});
+	};
 
 	const selectAll = () => {
 		const newSelected = new Map();
-		if(state.selectedIds.size !== data.councilParticipants.list.length){
+		if (state.selectedIds.size !== data.councilParticipants.list.length) {
 			data.councilParticipants.list.forEach(participant => {
 				newSelected.set(participant.id, 'selected');
-			})
+			});
 		}
 
 		setState({
 			selectedIds: newSelected
 		});
-	}
+	};
 
 	const deleteParticipant = async () => {
 		let toDelete;
-		if(Number.isInteger(state.singleId)){
+		if (Number.isInteger(state.singleId)) {
 			toDelete = [state.singleId];
 		} else {
 			toDelete = Array.from(state.selectedIds.keys());
@@ -71,12 +75,12 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 				selectedIds: new Map(),
 				singleId: null,
 				deleteModal: false
-			})
+			});
 			await props.refetch('delete');
 		}
 	};
 
-	function _renderDeleteIcon(participantID) {
+	function renderDeleteIcon(participantID) {
 		return (
 			<CloseIcon
 				style={{ color: primary }}
@@ -85,7 +89,7 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 					setState({
 						singleId: participantID,
 						deleteModal: true
-					})
+					});
 				}}
 			/>
 		);
@@ -94,20 +98,20 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 	const openDeleteModal = () => {
 		setState({
 			deleteModal: true
-		})
-	}
+		});
+	};
 
 	const closeDeleteModal = () => {
 		setState({
 			deleteModal: false
-		})
-	}
+		});
+	};
 
 	const refresh = async () => {
 		props.refetch();
-	}
+	};
 
-	const { editingParticipant, participant } = state;
+	const { editingParticipant, participantToEdit } = state;
 	const { councilParticipants } = data;
 
 	const headers = [
@@ -115,39 +119,39 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 			selectAll:
 				<Checkbox
 					onChange={selectAll}
-					value={state.selectedIds.size > 0 &&
-						state.selectedIds.size === (councilParticipants.list ? councilParticipants.list.length : -1)}
+					value={state.selectedIds.size > 0
+						&& state.selectedIds.size === (councilParticipants.list ? councilParticipants.list.length : -1)}
 				/>
 		},
 		{
 			text: translate.participant_data,
-			name: "fullName",
+			name: 'fullName',
 			canOrder: true
 		},
 		{
 			text: translate.dni,
-			name: "dni",
+			name: 'dni',
 			canOrder: true
 		},
 		{
 			text: translate.position,
-			name: "position",
+			name: 'position',
 			canOrder: true
 		},
 
 	];
 
-	if(council.councilType !== COUNCIL_TYPES.ONE_ON_ONE){
+	if (council.councilType !== COUNCIL_TYPES.ONE_ON_ONE) {
 		headers.push({
 			text: translate.votes,
-			name: "numParticipations",
+			name: 'numParticipations',
 			canOrder: true
 		});
 
 		if (participations) {
 			headers.push({
 				text: translate.census_type_social_capital,
-				name: "socialCapital",
+				name: 'socialCapital',
 				canOrder: true
 			});
 		}
@@ -156,7 +160,7 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 	headers.push({ text: '' });
 
 	return (
-		<div style={{ width: "100%" }}>
+		<div style={{ width: '100%' }}>
 			<ChangeCensusMenu
 				translate={translate}
 				council={council}
@@ -181,14 +185,14 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 				requestClose={closeDeleteModal}
 			/>
 
-			{editingParticipant &&
-				<CouncilParticipantEditor
+			{editingParticipant
+				&& <CouncilParticipantEditor
 					translate={translate}
 					close={closeParticipantEditor}
-					key={participant.id}
+					key={participantToEdit.id}
 					council={council}
 					participations={participations}
-					participant={participant}
+					participant={participantToEdit}
 					opened={editingParticipant}
 					refetch={refresh}
 				/>
@@ -198,16 +202,16 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 					<EnhancedTable
 						translate={translate}
 						defaultLimit={PARTICIPANTS_LIMITS[0]}
-						defaultFilter={"fullName"}
-						defaultOrder={["fullName", "asc"]}
+						defaultFilter={'fullName'}
+						defaultOrder={['fullName', 'asc']}
 						limits={PARTICIPANTS_LIMITS}
 						page={1}
 						searchInMovil={isMobile}
 						hideTextFilter={isMobile}
 						menuButtons={
-							state.selectedIds.size > 0 &&
-								<BasicButton
-									text={state.selectedIds.size === 1 ? translate.remove_one_participant : translate.remove_one_participant.replace('1', state.selectedIds.size) + 's'}
+							state.selectedIds.size > 0
+								&& <BasicButton
+									text={state.selectedIds.size === 1 ? translate.remove_one_participant : `${translate.remove_one_participant.replace('1', state.selectedIds.size)}s`}
 									color={secondary}
 									buttonStyle={{ marginRight: '0.6em' }}
 									textStyle={{ color: 'white', fontWeight: '700' }}
@@ -218,18 +222,18 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 						length={councilParticipants.list.length}
 						total={councilParticipants.total}
 						refetch={data.refetch}
-						action={_renderDeleteIcon}
+						action={renderDeleteIcon}
 						fields={[
 							{
-								value: "fullName",
+								value: 'fullName',
 								translation: translate.participant_data
 							},
 							{
-								value: "dni",
+								value: 'dni',
 								translation: translate.dni
 							},
 							{
-								value: "position",
+								value: 'position',
 								translation: translate.position
 							}
 						]}
@@ -237,27 +241,27 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 					>
 						{councilParticipants.list.map(
 							participant => (
-									<React.Fragment
-										key={`participant${participant.id}`}
-									>
-										<HoverableRow
-											participant={participant}
-											editParticipant={() => setState({
-												editingParticipant: true,
-												participant
-											})}
-											select={select}
-											selected={state.selectedIds.has(participant.id)}
-											totalSocialCapital={totalSocialCapital}
-											totalVotes={totalVotes}
-											council={council}
-											participations={participations}
-											translate={translate}
-											representative={participant.representative}
-											_renderDeleteIcon={() => _renderDeleteIcon(participant.id)}
-										/>
-									</React.Fragment>
-								)
+								<React.Fragment
+									key={`participant${participant.id}`}
+								>
+									<HoverableRow
+										participant={participant}
+										editParticipant={() => setState({
+											editingParticipant: true,
+											participantToEdit: participant
+										})}
+										select={select}
+										selected={state.selectedIds.has(participant.id)}
+										totalSocialCapital={totalSocialCapital}
+										totalVotes={totalVotes}
+										council={council}
+										participations={participations}
+										translate={translate}
+										representative={participant.representative}
+										renderDeleteIcon={() => renderDeleteIcon(participant.id)}
+									/>
+								</React.Fragment>
+							)
 						)}
 					</EnhancedTable>
 				</React.Fragment>
@@ -265,13 +269,15 @@ const ParticipantsTable = ({ translate, data, totalVotes, totalSocialCapital, pa
 			{props.children}
 		</div>
 	);
-}
+};
 
-const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council, totalVotes, totalSocialCapital, representative, selected, translate, participations, ...props }) => {
+const HoverableRow = ({
+	participant, editParticipant, renderDeleteIcon, council, totalVotes, totalSocialCapital, representative, selected, translate, participations, ...props
+}) => {
 	const [showActions, rowHandlers] = useHoverRow();
 
-	if(isMobile){
-		return(
+	if (isMobile) {
+		return (
 			<Card
 				style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
 				onClick={editParticipant}
@@ -282,8 +288,8 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council
 					</GridItem>
 					<GridItem xs={7} md={7}>
 						<span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname || ''}`}</span>
-						{!!representative &&
-							<React.Fragment>
+						{!!representative
+							&& <React.Fragment>
 								<br />
 								{`${translate.represented_by}: ${representative.name} ${representative.surname || ''}`}
 							</React.Fragment>
@@ -297,8 +303,7 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council
 							<React.Fragment>
 								{representative.dni}
 							</React.Fragment>
-						:
-							participant.dni
+							:							participant.dni
 						}
 					</GridItem>
 					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
@@ -309,21 +314,20 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council
 							<React.Fragment>
 								{representative.position}
 							</React.Fragment>
-						:
-							participant.position
+							:							participant.position
 						}
 					</GridItem>
 					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
 						{translate.votes}
 					</GridItem>
 					<GridItem xs={7} md={7}>
-						{!CBX.isRepresentative(participant) &&
-							`${
+						{!CBX.isRepresentative(participant)
+							&& `${
 								participant.numParticipations
 							} (${participant.numParticipations > 0 ? (
-								(participant.numParticipations /
-									totalVotes) *
-								100
+								(participant.numParticipations
+									/ totalVotes)
+								* 100
 							).toFixed(2) : 0}%)`
 						}
 					</GridItem>
@@ -333,11 +337,11 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council
 								{translate.census_type_social_capital}
 							</GridItem>
 							<GridItem xs={7} md={7}>
-								{!CBX.isRepresentative(participant) &&
-									`${participant.socialCapital} (${participant.socialCapital > 0 ? (
-									(participant.socialCapital /
-										totalSocialCapital) *
-									100).toFixed(2) : 0}%)`
+								{!CBX.isRepresentative(participant)
+									&& `${participant.socialCapital} (${participant.socialCapital > 0 ? (
+										(participant.socialCapital
+										/ totalSocialCapital)
+									* 100).toFixed(2) : 0}%)`
 								}
 
 							</GridItem>
@@ -345,11 +349,11 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council
 					)}
 				</Grid>
 				<div style={{ position: 'absolute', top: '5px', right: '5px' }}>
-					{!CBX.isRepresentative(participant) &&
-						_renderDeleteIcon(participant.id)}
+					{!CBX.isRepresentative(participant)
+						&& renderDeleteIcon(participant.id)}
 				</div>
 			</Card>
-		)
+		);
 	}
 
 	return (
@@ -358,14 +362,14 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council
 			{...rowHandlers}
 			onClick={editParticipant}
 			style={{
-				cursor: "pointer",
-				fontSize: "0.5em"
+				cursor: 'pointer',
+				fontSize: '0.5em'
 			}}
 		>
 			<TableCell onClick={event => event.stopPropagation()} style={{ cursor: 'auto' }}>
 				<div style={{ width: '2em' }}>
-					{(showActions || selected) &&
-						<Checkbox
+					{(showActions || selected)
+						&& <Checkbox
 							value={selected}
 							onChange={() => props.select(participant.id)
 							}
@@ -375,8 +379,8 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council
 			</TableCell>
 			<TableCell>
 				<span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname || ''}`}</span>
-				{!!representative &&
-					<React.Fragment>
+				{!!representative
+					&& <React.Fragment>
 						<br/>
 						{`${translate.represented_by}: ${representative.name} ${representative.surname || ''}`}
 					</React.Fragment>
@@ -384,8 +388,8 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council
 			</TableCell>
 			<TableCell>
 				{participant.dni}
-				{!!representative &&
-					<React.Fragment>
+				{!!representative
+					&& <React.Fragment>
 						<br/>
 						{representative.dni}
 					</React.Fragment>
@@ -393,46 +397,46 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council
 			</TableCell>
 			<TableCell>
 				{participant.position}
-				{!!representative &&
-					<React.Fragment>
+				{!!representative
+					&& <React.Fragment>
 						<br/>
 						{representative.position}
 					</React.Fragment>
 				}
 			</TableCell>
-			{council.councilType !== COUNCIL_TYPES.ONE_ON_ONE &&
-				<>
+			{council.councilType !== COUNCIL_TYPES.ONE_ON_ONE
+				&& <>
 					<TableCell>
 						{!CBX.isRepresentative(
 							participant
-						) &&
-							`${
+						)
+							&& `${
 								participant.numParticipations
 							} (${participant.numParticipations > 0 ? (
-								(participant.numParticipations /
-									totalVotes) *
-								100
+								(participant.numParticipations
+									/ totalVotes)
+								* 100
 							).toFixed(2) : 0}%)`
 						}
-						{!!representative &&
-							<br/>
+						{!!representative
+							&& <br/>
 						}
 					</TableCell>
 					{participations && (
 						<TableCell>
 							{!CBX.isRepresentative(
 								participant
-							) &&
-								`${
+							)
+								&& `${
 									participant.socialCapital
 								} (${participant.socialCapital > 0 ? (
-									(participant.socialCapital /
-										totalSocialCapital) *
-									100
+									(participant.socialCapital
+										/ totalSocialCapital)
+									* 100
 								).toFixed(2) : 0}%)`
 							}
-							{!!representative &&
-								<br/>
+							{!!representative
+								&& <br/>
 							}
 						</TableCell>
 					)}
@@ -443,24 +447,24 @@ const HoverableRow = ({ participant, editParticipant, _renderDeleteIcon, council
 			<TableCell>
 				<div style={{ width: '6em' }}>
 
-					{showActions &&
-						!CBX.isRepresentative(
+					{showActions
+						&& !CBX.isRepresentative(
 							participant
-						) &&
-							_renderDeleteIcon(
+						)
+							&& renderDeleteIcon(
 								participant.id
 							)
 					}
-					{!!representative &&
-						<br/>
+					{!!representative
+						&& <br/>
 					}
 				</div>
 			</TableCell>
 		</TableRow>
-	)
-}
+	);
+};
 
 
 export default compose(
-	graphql(deleteParticipant)
+	graphql(deleteParticipantMutation)
 )(ParticipantsTable);

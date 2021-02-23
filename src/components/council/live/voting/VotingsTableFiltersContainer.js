@@ -1,7 +1,7 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import VotingsTable from './VotingsTable';
-import { agendaVotings } from "../../../../queries/agenda";
+import { agendaVotings } from '../../../../queries/agenda';
 import { useOldState, usePolling } from '../../../../hooks';
 import { canEditPresentVotings, agendaVotingsOpened, isCustomPoint } from '../../../../utils/CBX';
 import ManualVotingsMenu from './ManualVotingsMenu';
@@ -9,12 +9,14 @@ import CustomAgendaManualVotings from './CustomAgendaManualVotings';
 
 const pageLimit = 10;
 
-const VotingsTableFiltersContainer = ({ agenda, council, client, ...props }) => {
+const VotingsTableFiltersContainer = ({
+	agenda, council, client, ...props
+}) => {
 	const [state, setState] = useOldState({
 		open: false,
-		voteFilter: "all",
-		stateFilter: "all",
-		filterText: "",
+		voteFilter: 'all',
+		stateFilter: 'all',
+		filterText: '',
 		page: 1,
 		loading: true,
 		agendaId: agenda.id
@@ -31,12 +33,12 @@ const VotingsTableFiltersContainer = ({ agenda, council, client, ...props }) => 
 			}
 		});
 		setData(response.data);
-	}, [state.voteFilter, state.stateFilter, state.filterText, state.page])
+	}, [state.voteFilter, state.stateFilter, state.filterText, state.page]);
 
 	React.useEffect(() => {
 		const timeout = setTimeout(getData, 400);
 		return () => clearTimeout(timeout);
-	}, [getData])
+	}, [getData]);
 
 	usePolling(getData, council.state > 30 ? 60000 : 6000);
 
@@ -45,31 +47,31 @@ const VotingsTableFiltersContainer = ({ agenda, council, client, ...props }) => 
 			page: 1,
 			filterText: value
 		});
-	}
+	};
 
 	const changeVoteFilter = value => {
 		setState({
 			page: 1,
-			voteFilter: state.voteFilter === value ? "all" : value
+			voteFilter: state.voteFilter === value ? 'all' : value
 		});
-	}
+	};
 
 	const changeStateFilter = value => {
 		setState({
 			page: 1,
-			stateFilter: state.stateFilter === value ? "all" : value
+			stateFilter: state.stateFilter === value ? 'all' : value
 		});
-	}
+	};
 
 	const changePage = value => {
 		setData({});
 		setState({
-            page: value,
-            offset: pageLimit * (value - 1)
-        })
-    }
+			page: value,
+			offset: pageLimit * (value - 1)
+		});
+	};
 
-    const buildVariables = () => {
+	const buildVariables = () => {
 		let variables = {
 			filters: [],
 			authorFilters: null
@@ -78,12 +80,12 @@ const VotingsTableFiltersContainer = ({ agenda, council, client, ...props }) => 
 		variables.options = {
 			limit: pageLimit,
 			offset: (state.page - 1) * pageLimit
-		}
+		};
 
-		if (state.voteFilter !== "all") {
+		if (state.voteFilter !== 'all') {
 			variables.filters = [
 				{
-					field: "vote",
+					field: 'vote',
 					text: state.voteFilter
 				}
 			];
@@ -98,13 +100,13 @@ const VotingsTableFiltersContainer = ({ agenda, council, client, ...props }) => 
 			};
 		}
 
-		if (state.stateFilter !== "all") {
+		if (state.stateFilter !== 'all') {
 			variables = {
 				...variables,
 				filters: [
 					...variables.filters,
 					{
-						field: "presentVote",
+						field: 'presentVote',
 						text: state.stateFilter
 					}
 				]
@@ -112,15 +114,15 @@ const VotingsTableFiltersContainer = ({ agenda, council, client, ...props }) => 
 		}
 
 		return variables;
-	}
+	};
 
 	return (
 		<React.Fragment>
 			{!isCustomPoint(agenda.subjectType) ?
 				<React.Fragment>
 					{((canEditPresentVotings(agenda) && agendaVotingsOpened(agenda) && council.councilType !== 3)
-					|| (council.councilType === 3 && agenda.votingState === 4)) &&
-						<ManualVotingsMenu
+						|| (council.councilType === 3 && agenda.votingState === 4))
+						&& <ManualVotingsMenu
 							refetch={props.refetch}
 							changeEditedVotings={props.changeEditedVotings}
 							editedVotings={props.editedVotings}
@@ -130,11 +132,10 @@ const VotingsTableFiltersContainer = ({ agenda, council, client, ...props }) => 
 						/>
 					}
 				</React.Fragment>
-			:
-				<React.Fragment>
-					{((canEditPresentVotings(agenda) &&
-						agendaVotingsOpened(agenda) && council.councilType !== 3) || (council.councilType === 3 && agenda.votingState === 4)) &&
-						<CustomAgendaManualVotings
+				: <React.Fragment>
+					{((canEditPresentVotings(agenda)
+						&& agendaVotingsOpened(agenda) && council.councilType !== 3) || (council.councilType === 3 && agenda.votingState === 4))
+						&& <CustomAgendaManualVotings
 							agenda={agenda}
 							translate={props.translate}
 							votingsRecount={data.votingsRecount}
@@ -159,8 +160,8 @@ const VotingsTableFiltersContainer = ({ agenda, council, client, ...props }) => 
 				updateFilterText={updateFilterText}
 			/>
 		</React.Fragment>
-	)
-}
+	);
+};
 
 
 export default withApollo(VotingsTableFiltersContainer);

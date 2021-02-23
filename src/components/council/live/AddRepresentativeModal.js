@@ -1,24 +1,44 @@
-import React from "react";
-import { compose, graphql } from "react-apollo";
-import { AlertConfirm } from "../../../displayComponents";
-import { addRepresentative } from "../../../queries";
-import RepresentativeForm from "../participants/RepresentativeForm";
-import { languages } from "../../../queries/masters";
-import { useOldState } from "../../../hooks";
+import React from 'react';
+import { compose, graphql } from 'react-apollo';
+import { AlertConfirm } from '../../../displayComponents';
+import { addRepresentative as addRepresentativeMutation } from '../../../queries';
+import RepresentativeForm from '../participants/RepresentativeForm';
+import { languages } from '../../../queries/masters';
+import { useOldState } from '../../../hooks';
+
+const newRepresentativeInitialValues = {
+	language: 'es',
+	personOrEntity: 0,
+	name: '',
+	surname: '',
+	position: '',
+	initialState: 0,
+	dni: '',
+	email: '',
+	phone: ''
+};
 
 const AddRepresentativeModal = ({ translate, participant, ...props }) => {
 	const [state, setState] = useOldState({
-		success: "",
+		success: '',
 		errors: {},
 		representative: {
 			...newRepresentativeInitialValues
 		}
 	});
 
+	const resetForm = () => {
+		setState({
+			representative: {
+				...newRepresentativeInitialValues
+			}
+		});
+	};
+
 	const close = () => {
 		props.requestClose();
 		resetForm();
-	}
+	};
 
 	const addRepresentative = async () => {
 		const response = await props.addRepresentative({
@@ -33,23 +53,15 @@ const AddRepresentativeModal = ({ translate, participant, ...props }) => {
 				close();
 			}
 		}
-		if(response.errors){
-			if(response.errors[0].message = 'Email already used'){
+		if (response.errors) {
+			if (response.errors[0].message === 'Email already used') {
 				setState({
 					errors: {
 						email: translate.repeated_email
 					}
-				})
+				});
 			}
 		}
-	}
-
-	const resetForm = () => {
-		setState({
-			representative: {
-				...newRepresentativeInitialValues
-			}
-		});
 	};
 
 	const updateRepresentative = object => {
@@ -59,9 +71,9 @@ const AddRepresentativeModal = ({ translate, participant, ...props }) => {
 				...object
 			}
 		});
-	}
+	};
 
-	function _renderReminderBody() {
+	function renderReminderBody() {
 		if (state.sending) {
 			return <div>{translate.sending_convene_reminder}</div>;
 		}
@@ -84,30 +96,18 @@ const AddRepresentativeModal = ({ translate, participant, ...props }) => {
 			acceptAction={addRepresentative}
 			buttonAccept={translate.send}
 			buttonCancel={translate.close}
-			bodyText={_renderReminderBody()}
+			bodyText={renderReminderBody()}
 			title={participant.representative ? translate.change_representative : translate.add_representative}
 		/>
 	);
-}
+};
 
 export default compose(
-	graphql(addRepresentative, {
-		name: "addRepresentative",
+	graphql(addRepresentativeMutation, {
+		name: 'addRepresentative',
 		options: {
-			errorPolicy: "all"
+			errorPolicy: 'all'
 		}
 	}),
 	graphql(languages)
 )(AddRepresentativeModal);
-
-const newRepresentativeInitialValues = {
-	language: "es",
-	personOrEntity: 0,
-	name: "",
-	surname: "",
-	position: "",
-	initialState: 0,
-	dni: "",
-	email: "",
-	phone: ""
-};

@@ -1,17 +1,30 @@
-import React from "react";
-import { compose, graphql } from "react-apollo";
-import { Card } from "material-ui";
-import { AlertConfirm } from "../../../../../displayComponents/index";
-import { updateCensusParticipant } from "../../../../../queries/census";
-import { languages } from "../../../../../queries/masters";
-import { censusHasParticipations } from "../../../../../utils/CBX";
-import RepresentativeForm from "../RepresentativeForm";
-import ParticipantForm from "../../../../council/participants/ParticipantForm";
+import React from 'react';
+import { compose, graphql } from 'react-apollo';
+import { Card } from 'material-ui';
+import { AlertConfirm } from '../../../../../displayComponents/index';
+import { updateCensusParticipant } from '../../../../../queries/census';
+import { languages as languagesQuery } from '../../../../../queries/masters';
+import { censusHasParticipations, removeTypenameField } from '../../../../../utils/CBX';
+import RepresentativeForm from '../RepresentativeForm';
+import ParticipantForm from '../../../../council/participants/ParticipantForm';
 import {
 	checkRequiredFieldsParticipant,
 	checkRequiredFieldsRepresentative
-} from "../../../../../utils/validation";
-import SelectCensusParticipantRepresentative from "./SelectCensusParticipantRepresentative";
+} from '../../../../../utils/validation';
+import SelectCensusParticipantRepresentative from './SelectCensusParticipantRepresentative';
+
+const initialRepresentative = {
+	hasRepresentative: false,
+	language: 'es',
+	type: 2,
+	initialState: 0,
+	name: '',
+	surname: '',
+	position: '',
+	email: '',
+	phone: '',
+	dni: ''
+};
 
 class CensusParticipantEditor extends React.Component {
 	state = {
@@ -23,14 +36,15 @@ class CensusParticipantEditor extends React.Component {
 	};
 
 	componentDidMount() {
-		let { representative, ...participant } = extractTypeName(
+		// eslint-disable-next-line prefer-const
+		let { representative, ...participant } = removeTypenameField(
 			this.props.participant
 		);
-		representative = representative
-			? {
-					hasRepresentative: true,
-					...extractTypeName(representative)
-			  }
+		representative = representative ?
+			{
+				hasRepresentative: true,
+				...removeTypenameField(representative)
+			}
 			: initialRepresentative;
 		this.setState({
 			data: participant,
@@ -38,15 +52,14 @@ class CensusParticipantEditor extends React.Component {
 		});
 	}
 
-	componentWillUnmount(){
-		let { representative, ...participant } = extractTypeName(
-			this.props.participant
-		);
-		representative = representative
-			? {
-					hasRepresentative: true,
-					...extractTypeName(representative)
-			  }
+	componentWillUnmount() {
+		// eslint-disable-next-line prefer-const
+		let { representative, ...participant } = removeTypenameField(this.props.participant);
+		representative = representative ?
+			{
+				hasRepresentative: true,
+				...removeTypenameField(representative)
+			}
 			: initialRepresentative;
 		this.setState({
 			data: participant,
@@ -56,12 +69,12 @@ class CensusParticipantEditor extends React.Component {
 
 	updateCensusParticipant = async () => {
 		const { hasRepresentative, ...data } = this.state.representative;
-		const representative = this.state.representative.hasRepresentative
-			? {
-					...data,
-					companyId: this.props.census.companyId,
-					censusId: this.props.census.id
-			  }
+		const representative = this.state.representative.hasRepresentative ?
+			{
+				...data,
+				companyId: this.props.census.companyId,
+				censusId: this.props.census.id
+			}
 			: null;
 
 		if (!await this.checkRequiredFields()) {
@@ -78,21 +91,21 @@ class CensusParticipantEditor extends React.Component {
 			if (!response.errors) {
 				this.props.refetch();
 				this.props.close();
-			} else if(response.errors[0].message === 'Too many granted words'){
-					this.setState({
-						...(this.state.data.initialState === 2 ? {
-							errors: {
-								initialState: this.props.translate.initial_granted_word_error
-							}
-						} : {}),
-						...(representative && representative.initialState === 2 ? {
-							representativeErrors: {
-								initialState: this.props.translate.initial_granted_word_error
-							}
-						} : {})
+			} else if (response.errors[0].message === 'Too many granted words') {
+				this.setState({
+					...(this.state.data.initialState === 2 ? {
+						errors: {
+							initialState: this.props.translate.initial_granted_word_error
+						}
+					} : {}),
+					...(representative && representative.initialState === 2 ? {
+						representativeErrors: {
+							initialState: this.props.translate.initial_granted_word_error
+						}
+					} : {})
 
-					});
-				}
+				});
+			}
 		}
 	};
 
@@ -116,7 +129,7 @@ class CensusParticipantEditor extends React.Component {
 
 	async checkRequiredFields() {
 		const participant = this.state.data;
-		const representative = this.state.representative;
+		const { representative } = this.state;
 		const { translate, company } = this.props;
 		const hasSocialCapital = censusHasParticipations(this.props.census);
 		const errorsParticipant = checkRequiredFieldsParticipant(
@@ -146,9 +159,9 @@ class CensusParticipantEditor extends React.Component {
 		return errorsParticipant.hasError || errorsRepresentative.hasError;
 	}
 
-	_renderBody() {
+	renderBody() {
 		const participant = this.state.data;
-		const errors = this.state.errors;
+		const { errors } = this.state;
 		const { translate } = this.props;
 		const { languages } = this.props.data;
 		return (
@@ -168,10 +181,10 @@ class CensusParticipantEditor extends React.Component {
 							selectRepresentative: false
 						})}
 					/>
-					<div style={{ marginRight: "1em" }}>
+					<div style={{ marginRight: '1em' }}>
 						<Card style={{
 							padding: '1em',
-							marginBottom: "1em",
+							marginBottom: '1em',
 							color: 'black',
 						}}>
 							<ParticipantForm
@@ -186,7 +199,7 @@ class CensusParticipantEditor extends React.Component {
 						</Card>
 						<Card style={{
 							padding: '1em',
-							marginBottom: "1em",
+							marginBottom: '1em',
 							color: 'black',
 						}}>
 							<RepresentativeForm
@@ -220,7 +233,7 @@ class CensusParticipantEditor extends React.Component {
 					acceptAction={this.updateCensusParticipant}
 					buttonAccept={translate.accept}
 					buttonCancel={translate.cancel}
-					bodyText={this._renderBody()}
+					bodyText={this.renderBody()}
 					title={translate.edit_participant}
 				/>
 			</React.Fragment>
@@ -230,28 +243,11 @@ class CensusParticipantEditor extends React.Component {
 
 export default compose(
 	graphql(updateCensusParticipant, {
-		name: "updateCensusParticipant",
+		name: 'updateCensusParticipant',
 		options: {
-			errorPolicy: "all"
+			errorPolicy: 'all'
 		}
 	}),
-	graphql(languages)
+	graphql(languagesQuery)
 )(CensusParticipantEditor);
 
-const initialRepresentative = {
-	hasRepresentative: false,
-	language: "es",
-	type: 2,
-	initialState: 0,
-	name: "",
-	surname: "",
-	position: "",
-	email: "",
-	phone: "",
-	dni: ""
-};
-
-function extractTypeName(object) {
-	const { __typename, ...rest } = object;
-	return rest;
-}

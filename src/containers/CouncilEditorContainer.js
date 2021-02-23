@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
-import { connect } from "react-redux";
-import { graphql } from "react-apollo";
-import { LoadingMainApp } from "../displayComponents";
-import CouncilEditorPage from "../components/council/editor/CouncilEditorPage";
-import { council } from "../queries";
+import { connect } from 'react-redux';
+import { graphql } from 'react-apollo';
+import { LoadingMainApp } from '../displayComponents';
+import CouncilEditorPage from '../components/council/editor/CouncilEditorPage';
+import { council } from '../queries';
 
 const CouncilEditorContainer = ({
 	company,
@@ -16,8 +16,8 @@ const CouncilEditorContainer = ({
 		return <LoadingMainApp />;
 	}
 
-	if (!data.council){
-		return <Redirect to="/" />
+	if (!data.council) {
+		return <Redirect to="/" />;
 	}
 
 	return (

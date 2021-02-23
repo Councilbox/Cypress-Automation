@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export const companyFragment = `
 	alias
@@ -25,7 +25,7 @@ export const companyFragment = `
 	language
 	creationDate
 	corporationId
-`
+`;
 
 export const updateCompany = gql`
 	mutation updateCompany($company: CompanyInput) {

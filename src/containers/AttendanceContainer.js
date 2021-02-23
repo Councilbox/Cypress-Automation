@@ -1,57 +1,63 @@
-import React from "react";
-import { connect } from "react-redux";
-import { graphql, withApollo } from "react-apollo";
-import gql from "graphql-tag";
+import React from 'react';
+import { connect } from 'react-redux';
+import { graphql, withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
 import { bindActionCreators } from 'redux';
-import { LoadingMainApp } from "../displayComponents";
-import InvalidUrl from "../components/participant/InvalidUrl";
+import { LoadingMainApp } from '../displayComponents';
+import InvalidUrl from '../components/participant/InvalidUrl';
 import * as mainActions from '../actions/mainActions';
-import Assistance from "../components/participant/assistance/Assistance";
-import { ConfigContext } from "./AppControl";
-import { COUNCIL_TYPES } from "../constants";
-import OneOnOneDocumentation from "../components/participant/assistance/OneOnOneDocumentation";
+import Assistance from '../components/participant/assistance/Assistance';
+import { ConfigContext } from './AppControl';
+import { COUNCIL_TYPES } from '../constants';
+import OneOnOneDocumentation from '../components/participant/assistance/OneOnOneDocumentation';
+import CanceledCouncil from '../components/CanceledCouncil';
+
 
 const AttendanceContainer = ({ data, translate, actions }) => {
-	const [companyId, setCompanyId] = React.useState(null)
+	const [companyId, setCompanyId] = React.useState(null);
 	const config = React.useContext(ConfigContext);
 	const [loadingConfig, setLoadingConfig] = React.useState(true);
 
 	React.useEffect(() => {
-		if(!data.error && !data.loading && translate.selectedLanguage !== data.participant.language){
+		if (!data.error && !data.loading && translate.selectedLanguage !== data.participant.language) {
 			actions.setLanguage(data.participant.language);
 		}
 	}, [data.loading, data.participant]);
 
 	React.useEffect(() => {
-		if(data.councilVideo){
+		if (data.councilVideo) {
 			setCompanyId(data.councilVideo.companyId);
 		}
-	}, [data.councilVideo])
+	}, [data.councilVideo]);
 
 	const updateConfig = async id => {
 		await config.updateConfig(id);
 		setLoadingConfig(false);
-	}
+	};
 
 	React.useEffect(() => {
-		if(companyId){
+		if (companyId) {
 			updateConfig(companyId);
 		}
 	}, [companyId]);
 
-	if (data.error && data.error.graphQLErrors["0"]) {
-		return <InvalidUrl error={data.error.graphQLErrors["0"]} />;
+	if (data.error && data.error.graphQLErrors['0']) {
+		return <InvalidUrl error={data.error.graphQLErrors['0']} />;
 	}
 
 	if (!translate || data.loading || loadingConfig) {
 		return <LoadingMainApp />;
 	}
 
-	if(translate.selectedLanguage !== data.participant.language){
+	if (translate.selectedLanguage !== data.participant.language) {
 		return <LoadingMainApp />;
 	}
 
-	if(data.councilVideo.councilType === COUNCIL_TYPES.ONE_ON_ONE){
+	if (data.councilVideo.state === -1) {
+		return <CanceledCouncil council={data.councilVideo} translate={translate} />;
+	}
+
+	if (data.councilVideo.councilType === COUNCIL_TYPES.ONE_ON_ONE) {
 		return (
 			<OneOnOneDocumentation
 				translate={translate}
@@ -60,7 +66,7 @@ const AttendanceContainer = ({ data, translate, actions }) => {
 				company={data.councilVideo.company}
 				refetch={data.refetch}
 			/>
-		)
+		);
 	}
 
 	return (
@@ -71,16 +77,16 @@ const AttendanceContainer = ({ data, translate, actions }) => {
 			refetch={data.refetch}
 		/>
 	);
-}
+};
 
 const mapStateToProps = state => ({
 	main: state.main,
 	translate: state.translate
 });
 
-const mapDispatchToProps = (dispatch) => ({
-        actions: bindActionCreators(mainActions, dispatch)
-    })
+const mapDispatchToProps = dispatch => ({
+	actions: bindActionCreators(mainActions, dispatch)
+});
 
 const participantQuery = gql`
 	query info($councilId: Int!) {
@@ -155,6 +161,7 @@ const participantQuery = gql`
 			hasLimitDate
 			id
 			confirmAssistance
+			noCelebrateComment
 			remoteCelebration
 			limitDateResponse
 			name
@@ -191,6 +198,6 @@ export default graphql(participantQuery, {
 		variables: {
 			councilId: +props.match.params.councilId
 		},
-		fetchPolicy: "network-only"
+		fetchPolicy: 'network-only'
 	})
 })(withApollo(connect(mapStateToProps, mapDispatchToProps)(AttendanceContainer)));

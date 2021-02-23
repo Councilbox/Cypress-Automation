@@ -1,16 +1,16 @@
-import React from "react";
+import React from 'react';
 import {
 	CardHeader,
 	Dialog,
 	DialogTitle,
 	DialogContent
-} from "material-ui";
-import FontAwesome from "react-fontawesome";
+} from 'material-ui';
+import FontAwesome from 'react-fontawesome';
 import { Scrollbar } from '../../../displayComponents';
-import withTranslations from "../../../HOCs/withTranslations";
-import withWindowSize from "../../../HOCs/withWindowSize";
-import withWindowOrientation from "../../../HOCs/withWindowOrientation";
-import OverFlowText from "../../../displayComponents/OverFlowText";
+import withTranslations from '../../../HOCs/withTranslations';
+import withWindowSize from '../../../HOCs/withWindowSize';
+import withWindowOrientation from '../../../HOCs/withWindowOrientation';
+import OverFlowText from '../../../displayComponents/OverFlowText';
 import {
 	councilIsInTrash,
 	councilIsNotLiveYet,
@@ -18,66 +18,66 @@ import {
 	councilIsFinished,
 	councilIsLive,
 	checkHybridConditions
-} from "../../../utils/CBX";
+} from '../../../utils/CBX';
 import {
 	getPrimary,
 	lightTurquoise,
 	getSecondary
-} from "../../../styles/colors";
-import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
-import logoIcon from "../../../assets/img/logo-icono.png";
+} from '../../../styles/colors';
+import emptyMeetingTable from '../../../assets/img/empty_meeting_table.png';
+import logoIcon from '../../../assets/img/logo-icono.png';
 import { moment } from '../../../containers/App';
 import { isMobile } from '../../../utils/screen';
-import ContactModal from "./ContactModal";
-import ContactForm from "./ContactForm";
-import ResultsTimeline from "../ResultsTimeline";
-import CouncillParticipantSurvey from "../survey/CouncillParticipantSurvey";
+import ContactModal from './ContactModal';
+import ContactForm from './ContactForm';
+import ResultsTimeline from '../ResultsTimeline';
+import CouncillParticipantSurvey from '../survey/CouncillParticipantSurvey';
 
 
 const styles = {
 	container: {
-		width: "100%",
-		height: "100%",
-		display: "flex",
-		flexDirection: "column",
-		alignItems: "center",
-		justifyContent: "center",
-		position: "relative"
+		width: '100%',
+		height: '100%',
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		justifyContent: 'center',
+		position: 'relative'
 	},
 	splittedContainer: {
-		width: "100%",
-		height: "100%",
-		display: "flex",
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "center",
-		position: "relative"
+		width: '100%',
+		height: '100%',
+		display: 'flex',
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		position: 'relative'
 	},
 	textContainer: {
-		display: "flex",
-		flexDirection: "column",
-		alignItems: "center",
-		justifyContent: "center",
-		padding: isMobile ? "" : "15px",
-		textAlign: "center",
-		height: "100%"
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		justifyContent: 'center',
+		padding: isMobile ? '' : '15px',
+		textAlign: 'center',
+		height: '100%'
 	},
 	imageContainer: {
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
-		padding: "15px"
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		padding: '15px'
 	},
 	image: {
-		maxWidth: "60%"
+		maxWidth: '60%'
 	},
 	textAndImage: {
-		display: "flex",
-		alignItems: "center",
-		background: "blue"
+		display: 'flex',
+		alignItems: 'center',
+		background: 'blue'
 	},
 	displaiFlex: {
-		display: "flex"
+		display: 'flex'
 	},
 	bottom1: {
 		marginBottom: '1em'
@@ -102,11 +102,11 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 			width: window.innerWidth,
 			height: window.innerHeight
 		});
-	}
+	};
 
 	const closeContactModal = () => {
 		setModal(false);
-	}
+	};
 
 	const renderCouncilSurvey = () => (
 		<CouncillParticipantSurvey
@@ -114,7 +114,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 			participant={props.participant}
 			council={council}
 		/>
-	)
+	);
 
 
 	const getBody = () => {
@@ -125,7 +125,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 					heights={state.height}
 					windowOrientation={windowOrientation}
 				>
-					<div style={{ width: isMobile ? "100%" : "410px" }}>
+					<div style={{ width: isMobile ? '100%' : '410px' }}>
 						<TextRender
 							title={translate.we_are_sorry}
 							text={translate.not_held_council}
@@ -138,11 +138,11 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 						src={emptyMeetingTable}
 						widths={state.width}
 						windowOrientation={windowOrientation}
-						styles={{ marginLeft: "" }}
+						styles={{ marginLeft: '' }}
 					>
 					</Image>
 				</StateContainer>
-			)
+			);
 		}
 
 		if (isAssistance && councilIsLive(council)) {
@@ -171,7 +171,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 					>
 					</Image>
 				</StateContainer>
-			)
+			);
 		}
 
 		if (!isAssistance && councilIsNotLiveYet(council)) {
@@ -181,7 +181,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 					heights={state.height}
 					windowOrientation={windowOrientation}
 				>
-					<div style={{ width: isMobile ? "100%" : "410px" }}>
+					<div style={{ width: isMobile ? '100%' : '410px' }}>
 						<TextRender
 							title={translate.we_are_sorry}
 							text={translate.council_not_started_yet_retry_later}
@@ -198,7 +198,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 					>
 					</Image>
 				</StateContainer>
-			)
+			);
 		}
 
 		if (councilIsNotCelebrated(council)) {
@@ -208,7 +208,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 					heights={state.height}
 					windowOrientation={windowOrientation}
 				>
-					<div style={{ width: isMobile ? "100%" : "410px" }}>
+					<div style={{ width: isMobile ? '100%' : '410px' }}>
 						<TextRender
 							title={translate.we_are_sorry}
 							text={translate.not_held_council}
@@ -224,7 +224,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 					>
 					</Image>
 				</StateContainer>
-			)
+			);
 		}
 
 
@@ -232,37 +232,37 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 			return (
 				<React.Fragment>
 					{isMobile ?
-						<div style={{ height: "100%", width: "100%", padding: "0.5em", paddingTop: "1.5em", fontSize: "15px", overflow: "hidden" }}>
+						<div style={{ height: '100%', width: '100%', padding: '0.5em', paddingTop: '1.5em', fontSize: '15px', overflow: 'hidden' }}>
 							<Scrollbar>
-								<div style={{ width: "100%", height: '100%', background: "white", padding: "0.8em 1em", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}>
+								<div style={{ width: '100%', height: '100%', background: 'white', padding: '0.8em 1em', borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}>
 									<div>
 										<h3 style={{
 											color: primary,
-											fontSize: "28px",
-											paddingTop: "0.5em"
+											fontSize: '28px',
+											paddingTop: '0.5em'
 										}}
 										>
 											{props.participant.hasVoted ? translate.participation_summary
 												:
 												checkHybridConditions(council) ?
-													'Votaciones remotas finalizadas' //TRADUCCION
+													'Votaciones remotas finalizadas' // TRADUCCION
 													:
 													translate.concil_finished}
 										</h3>
 									</div>
-									<div style={{ display: "flex", justifyContent: "space-between", padding: "0 1em" }}>
+									<div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 1em' }}>
 										<div>
-											<div style={{ display: "flex", marginBottom: "1em", fontWeight: "900" }} >
+											<div style={{ display: 'flex', marginBottom: '1em', fontWeight: '900' }} >
 												{council.name}
 											</div>
-											<div style={{ display: "flex" }} >
+											<div style={{ display: 'flex' }} >
 												-
-												</div>
+											</div>
 										</div>
 										<div>
 											<Image
 												src={emptyMeetingTable}
-												styles={{ width: '77px', minWidth: "", marginLeft: "2em" }}
+												styles={{ width: '77px', minWidth: '', marginLeft: '2em' }}
 												windowOrientation={windowOrientation}
 											>
 											</Image>
@@ -270,19 +270,19 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 									</div>
 									{renderCouncilSurvey()}
 								</div>
-								<div style={{ marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
+								<div style={{ marginTop: '1em', background: 'white', padding: '0.5em', boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
 									<div>
 										{council.dateEnd ? moment(council.dateEnd).format('LLL') : '-'}
 									</div>
 								</div>
-								<div style={{ marginTop: "1em", height: '100%', background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
-									<div style={{ padding: "1em 1em", height: '100%' }}>
-										<div style={{ textAlign: "center" }}>
-											{translate.my_participation} - <span style={{ color: primary }}>{props.participant.name + " " + props.participant.surname || ''}</span>
+								<div style={{ marginTop: '1em', height: '100%', background: 'white', padding: '0.5em', boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
+									<div style={{ padding: '1em 1em', height: '100%' }}>
+										<div style={{ textAlign: 'center' }}>
+											{translate.my_participation} - <span style={{ color: primary }}>{`${props.participant.name} ${props.participant.surname}` || ''}</span>
 										</div>
-										<div style={{ marginTop: "1em", height: '100%' }}>
-											{selectHeadFinished === "participacion" &&
-												<div style={{ paddingBottom: "1em", height: '100%' }}>
+										<div style={{ marginTop: '1em', height: '100%' }}>
+											{selectHeadFinished === 'participacion' &&
+												<div style={{ paddingBottom: '1em', height: '100%' }}>
 													<ResultsTimeline
 														disableScroll={true}
 														council={council}
@@ -292,8 +292,8 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 													/>
 												</div>
 											}
-											{selectHeadFinished === "contactAdmin" &&
-												<div style={{ paddingBottom: "1em" }}>
+											{selectHeadFinished === 'contactAdmin' &&
+												<div style={{ paddingBottom: '1em' }}>
 													<ContactForm
 														participant={props.participant}
 														translate={translate}
@@ -308,27 +308,27 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 						</div>
 						:
 						// <div style={{ width: "100%", padding: "0.5em", paddingTop: "1.5em", fontSize: "15px" }}>
-						<div style={{ height: "100%", width: "100%", padding: "0.5em", paddingTop: "1.5em", fontSize: "15px", overflow: "hidden" }}>
-							<div style={{ width: "100%", background: "white", padding: "0.8em 1em", borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}>
-								<div style={{ display: "flex", alignItems: "center", justifyContent: "center", margin: "1em", marginBottom: "2em" }}>
+						<div style={{ height: '100%', width: '100%', padding: '0.5em', paddingTop: '1.5em', fontSize: '15px', overflow: 'hidden' }}>
+							<div style={{ width: '100%', background: 'white', padding: '0.8em 1em', borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)' }}>
+								<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '1em', marginBottom: '2em' }}>
 									<div>
 										<h3 style={{
 											color: primary,
-											fontSize: "28px",
-											paddingTop: "0.5em",
-											marginBottom: "0px"
+											fontSize: '28px',
+											paddingTop: '0.5em',
+											marginBottom: '0px'
 										}}
 										>
 											{props.participant.hasVoted ? translate.participation_summary
 												:
 												checkHybridConditions(council) ?
-													'Votaciones remotas finalizadas' //TRADUCCION
+													'Votaciones remotas finalizadas' // TRADUCCION
 													:
 													translate.concil_finished}
 										</h3>
 										<div style={{
 											color: primary,
-											paddingBottom: "0.5em",
+											paddingBottom: '0.5em',
 										}}>
 											{council.dateEnd ? moment(council.dateEnd).format('LLL') : '-'}
 										</div>
@@ -336,15 +336,15 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 									<div>
 										<Image
 											src={emptyMeetingTable}
-											styles={{ width: '90px', minWidth: "", marginLeft: "1em" }}
+											styles={{ width: '90px', minWidth: '', marginLeft: '1em' }}
 											windowOrientation={windowOrientation}
 										>
 										</Image>
 									</div>
 								</div>
-								<div style={{ display: "flex", justifyContent: "center", padding: "0 1em" }}>
+								<div style={{ display: 'flex', justifyContent: 'center', padding: '0 1em' }}>
 									<div>
-										<div style={{ display: "flex", marginBottom: "1em", fontWeight: "900", color: "#000000" }} >
+										<div style={{ display: 'flex', marginBottom: '1em', fontWeight: '900', color: '#000000' }} >
 											{council.name}
 										</div>
 									</div>
@@ -353,12 +353,12 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 									{renderCouncilSurvey()}
 								</div>
 							</div>
-							<div style={{ height: "calc( 100% - 13em )", marginBottom: "4em", marginTop: "1em", background: "white", padding: "0.5em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
-								<div style={{ padding: "1em 1em", minHeight: "400px" }}>
-									<div style={{ textAlign: "left" }}>
-										{translate.my_participation} - <span style={{ color: primary }}>{props.participant.name + " " + props.participant.surname || ''}</span>
+							<div style={{ height: 'calc( 100% - 13em )', marginBottom: '4em', marginTop: '1em', background: 'white', padding: '0.5em', boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7' }}>
+								<div style={{ padding: '1em 1em', minHeight: '400px' }}>
+									<div style={{ textAlign: 'left' }}>
+										{translate.my_participation} - <span style={{ color: primary }}>{`${props.participant.name} ${props.participant.surname}` || ''}</span>
 									</div>
-									<div style={{ marginTop: "1em", height: "600px" }}>
+									<div style={{ marginTop: '1em', height: '600px' }}>
 										<ResultsTimeline
 											council={council}
 											participant={props.participant}
@@ -371,12 +371,12 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 						</div>
 					}
 				</React.Fragment>
-			)
+			);
 		}
-	}
+	};
 
 	React.useEffect(() => {
-		window.addEventListener("resize", updateDimensions);
+		window.addEventListener('resize', updateDimensions);
 
 		return () => window.removeEventListener('resize', updateDimensions);
 	}, [council.id]);
@@ -386,7 +386,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 			style={{
 				backgroundColor: 'transparent',
 				// backgroundColor: 'white',
-				...(windowSize === "xs" && windowOrientation === "portrait"
+				...(windowSize === 'xs' && windowOrientation === 'portrait'
 					? styles.container
 					: styles.splittedContainer),
 			}}
@@ -394,10 +394,10 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 			<div
 				style={{
 					...styles.textContainer,
-					...(windowSize === "xs" &&
-						windowOrientation === "portrait"
-						? { maxWidth: "100%", width: "100%" }
-						: { maxWidth: "85%", minWidth: "100%" }),
+					...(windowSize === 'xs' &&
+						windowOrientation === 'portrait'
+						? { maxWidth: '100%', width: '100%' }
+						: { maxWidth: '85%', minWidth: '100%' }),
 					// : { maxWidth: "50%", minWidth: "50%" }),
 				}}
 			>
@@ -412,7 +412,7 @@ const CouncilState = ({ translate, council, company, windowSize, windowOrientati
 			/>
 		</div>
 	);
-}
+};
 
 
 const TextRender = ({ title, text, isHtmlText, council, company, translate, windowOrientation }) => {
@@ -421,51 +421,50 @@ const TextRender = ({ title, text, isHtmlText, council, company, translate, wind
 
 	const openModal = () => {
 		setModal(true);
-	}
+	};
 
 	const closeModal = () => {
 		setModal(false);
-	}
+	};
 
 
 	return (
 		<React.Fragment>
-			<h3 style={{ color: primary, marginBottom: windowOrientation === "landscape" ? "" : "1em" }}>{title}</h3>
+			<h3 style={{ color: primary, marginBottom: windowOrientation === 'landscape' ? '' : '1em' }}>{title}</h3>
 
 			{text && (
-				<p style={{ fontSize: '1.1em', marginBottom: windowOrientation === "landscape" ? "" : "2em" }}>
+				<p style={{ fontSize: '1.1em', marginBottom: windowOrientation === 'landscape' ? '' : '2em' }}>
 					{isHtmlText ? (
 						<span dangerouslySetInnerHTML={{ __html: text }} />
 					) : (
-							text
-						)}
+						text
+					)}
 				</p>
 			)}
 
-			{council.noCelebrateComment &&
-				council.noCelebrateComment.trim() !== "" && (
-					<div style={{ maxWidth: "100%", position: "relative" }}>
-						<p style={{ marginBottom: "0px" }}>
-							{translate.reason_not_held_council}:
-						</p>
-						<OverFlowText
-							icon={"info-circle"}
-							action={openModal}
+			{(council.noCelebrateComment && council.noCelebrateComment.trim() !== '') && (
+				<div style={{ maxWidth: '100%', position: 'relative' }}>
+					<p style={{ marginBottom: '0px' }}>
+						{translate.reason_not_held_council}:
+					</p>
+					<OverFlowText
+						icon={'info-circle'}
+						action={openModal}
+					>
+						<p
+							style={{
+								maxWidth: '100%',
+								marginBottom: '8px',
+								textOverflow: 'ellipsis',
+								whiteSpace: 'nowrap',
+								overflow: 'hidden'
+							}}
 						>
-							<p
-								style={{
-									maxWidth: "100%",
-									marginBottom: "8px",
-									textOverflow: "ellipsis",
-									whiteSpace: "nowrap",
-									overflow: "hidden"
-								}}
-							>
-								{council.noCelebrateComment}
-							</p>
-						</OverFlowText>
-					</div>
-				)}
+							{council.noCelebrateComment}
+						</p>
+					</OverFlowText>
+				</div>
+			)}
 
 			<CouncilInfoCardRender council={council} company={company} windowOrientation={windowOrientation} />
 
@@ -476,26 +475,26 @@ const TextRender = ({ title, text, isHtmlText, council, company, translate, wind
 			/>
 		</React.Fragment>
 	);
-}
+};
 
 
-const CouncilInfoCardRender = ({ council, windowOrientation }) => (
+export const CouncilInfoCardRender = ({ council, windowOrientation }) => (
 	<React.Fragment>
 		<div
 			style={{
 				backgroundColor: lightTurquoise,
-				borderRadius: "4px"
+				borderRadius: '4px'
 			}}
 		>
 			<CardHeader
 				title={
-					<div style={{ marginBottom: windowOrientation === "landscape" ? "" : "10px" }}>
-						<img src={logoIcon} style={{ height: logoIcon !== "" ? '2em' : '' }} alt="icono councilbox"></img>{logoIcon !== "" ? <br /> : ""}
+					<div style={{ marginBottom: windowOrientation === 'landscape' ? '' : '10px' }}>
+						<img src={logoIcon} style={{ height: logoIcon !== '' ? '2em' : '' }} alt="icono councilbox"></img>{logoIcon !== '' ? <br /> : ''}
 						<b>{council.name}</b>
 					</div>
 				}
 				subheader={moment(new Date(council.dateStart)).format(
-					"LLL"
+					'LLL'
 				)}
 			/>
 		</div>
@@ -515,12 +514,12 @@ const TextDialog = ({ open, handleClose, title, text }) => (
 		)}
 		<DialogContent>
 			<FontAwesome
-				name={"close"}
+				name={'close'}
 				style={{
-					position: "absolute",
-					right: "10px",
-					top: "5px",
-					cursor: "pointer",
+					position: 'absolute',
+					right: '10px',
+					top: '5px',
+					cursor: 'pointer',
 					color: getSecondary()
 				}}
 				onClick={handleClose}
@@ -533,10 +532,10 @@ const TextDialog = ({ open, handleClose, title, text }) => (
 const Image = ({ src, widths, windowOrientation, styles: localStyles }) => (
 	<div
 		style={{
-			width: widths < 690 ? "60%" : "33%",
-			minWidth: windowOrientation ? "" : '250px',
-			marginLeft: widths < 690 ? (windowOrientation === "landscape" ? "3em" : "") : "6em",
-			marginTop: widths < 690 ? (windowOrientation === "landscape" ? "" : "3em") : "",
+			width: widths < 690 ? '60%' : '33%',
+			minWidth: windowOrientation ? '' : '250px',
+			marginLeft: widths < 690 ? (windowOrientation === 'landscape' ? '3em' : '') : '6em',
+			marginTop: widths < 690 ? (windowOrientation === 'landscape' ? '' : '3em') : '',
 			...localStyles
 		}}>
 		<img
@@ -550,12 +549,12 @@ const Image = ({ src, widths, windowOrientation, styles: localStyles }) => (
 const StateContainer = ({ widths, windowOrientation, heights, children }) => (
 	<div
 		style={{
-			overflow: "hidden",
-			display: widths > 690 ? 'flex' : (windowOrientation === "landscape" ? "flex" : "contents"),
-			alignItems: "center",
-			margin: (windowOrientation === "landscape" ? "" : "3em"),
+			overflow: 'hidden',
+			display: widths > 690 ? 'flex' : (windowOrientation === 'landscape' ? 'flex' : 'contents'),
+			alignItems: 'center',
+			margin: (windowOrientation === 'landscape' ? '' : '3em'),
 			justifyContent: 'space-between',
-			fontSize: windowOrientation === "landscape" && heights < 370 ? "10px" : ""
+			fontSize: windowOrientation === 'landscape' && heights < 370 ? '10px' : ''
 		}}>
 		{children}
 	</div>

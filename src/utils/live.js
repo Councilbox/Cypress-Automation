@@ -1,15 +1,15 @@
-import { store } from "../containers/App";
-import { AGENDA_TYPES } from "../constants";
+import { store } from '../containers/App';
+import { AGENDA_TYPES } from '../constants';
 
 class LiveUtil {
 	static qualityVoteRequirements(agenda, council) {
 		return (
-			(agenda.subject_type === AGENDA_TYPES.PUBLIC_ACT ||
-				agenda.subject_type === AGENDA_TYPES.PUBLIC_VOTING) &&
-			agenda.majority_type === 1 &&
-			agenda.positive_votings + agenda.positive_manual ===
-				agenda.negative_votings + agenda.negative_manual &&
-			council.statute.exists_quality_vote
+			(agenda.subject_type === AGENDA_TYPES.PUBLIC_ACT
+				|| agenda.subject_type === AGENDA_TYPES.PUBLIC_VOTING)
+				&& agenda.majorityType === 1
+				&& agenda.positive_votings + agenda.positive_manual
+				=== agenda.negative_votings + agenda.negative_manual
+				&& council.statute.exists_quality_vote
 		);
 	}
 
@@ -23,7 +23,7 @@ class LiveUtil {
 	}
 
 	static calculateMayorityAgenda(agenda, council, recount) {
-		const companies = store.getState().companies;
+		const { companies } = store.getState();
 		const company = companies.list[companies.selected];
 		let specialSL = false;
 		if (company.type === 1 && council.statute.quorumPrototype === 1) {
@@ -32,7 +32,7 @@ class LiveUtil {
 		return this.calculateMajority(
 			specialSL,
 			recount.partTotal,
-			agenda.present_census + agenda.currentRemoteCensus,
+			agenda.presentCensus + agenda.currentRemoteCensus,
 			agenda.majorityType,
 			agenda.majority,
 			agenda.majorityDivider,
@@ -41,76 +41,76 @@ class LiveUtil {
 		);
 	}
 
-	static calculateQuorum(base, quorum_type, quorum, quorum_divider) {
-        switch (quorum_type) {
-            case 0:
-                return Math.ceil((base * quorum) / 100);
-            case 1:
-                return Math.ceil((base * 50) / 100) + 1;
-            case 2:
-                return Math.ceil((base * quorum) / quorum_divider);
-            case 3:
-                return quorum;
-            default:
-                return 0;
-        }
-    }
+	static calculateQuorum(base, quorumType, quorum, quorumDivider) {
+		switch (quorumType) {
+			case 0:
+				return Math.ceil((base * quorum) / 100);
+			case 1:
+				return Math.ceil((base * 50) / 100) + 1;
+			case 2:
+				return Math.ceil((base * quorum) / quorumDivider);
+			case 3:
+				return quorum;
+			default:
+				return 0;
+		}
+	}
 
 	static calculateMajority(
 		specialSL,
-		total_votes,
+		totalVotes,
 		votes,
-		majority_type,
+		majorityType,
 		majority,
-		majority_divider,
-		against_votes,
-		quorum_prototype
+		majorityDivider,
+		againstVotes,
+		quorumPrototype
 	) {
 		if (specialSL) {
 			return this.calculateMajoritySL(
-				total_votes,
-				majority_type,
+				totalVotes,
+				majorityType,
 				majority,
-				majority_divider,
-				against_votes,
-				quorum_prototype
+				majorityDivider,
+				againstVotes,
+				quorumPrototype
 			);
 		}
 
 		return this.calculateMajorityOther(
-			total_votes,
+			totalVotes,
 			votes,
-			majority_type,
+			majorityType,
 			majority,
-			majority_divider,
-			against_votes
+			majorityDivider,
+			againstVotes
 		);
 	}
 
 	static calculateMajorityOther(
-		total_votes,
+		totalVotes,
 		votes,
-		majority_type,
+		majorityType,
 		majority,
-		majority_divider,
-		against_votes
+		majorityDivider,
+		againstVotes
 	) {
-		switch (majority_type) {
+		switch (majorityType) {
 			case 0:
 				return Math.ceil((votes * majority) / 100);
 			case 1:
-				return against_votes + 1;
+				return againstVotes + 1;
 			case 2:
 				return Math.ceil((votes * 50) / 100) + 1;
 			case 3:
-				if ((votes / total_votes) * 100 >= 50) {
+				if ((votes / totalVotes) * 100 >= 50) {
 					return Math.ceil((votes * 50) / 100) + 1;
 				}
 				return Math.ceil((votes * 2) / 3);
 			case 4:
 				return Math.ceil((votes * 2) / 3);
 			case 5:
-				return Math.ceil((votes * majority) / majority_divider);
+				return Math.ceil((votes * majority) / majorityDivider);
 			case 6:
 				return majority;
 			default:
@@ -119,33 +119,32 @@ class LiveUtil {
 	}
 
 	static calculateMajoritySL(
-		total_votes,
-		majority_type,
+		totalVotes,
+		majorityType,
 		majority,
-		majority_divider,
-		against_votes,
-		quorum_prototype
+		majorityDivider,
+		againstVotes,
+		quorumPrototype
 	) {
-		switch (majority_type) {
+		switch (majorityType) {
 			case 0:
-				return Math.ceil((total_votes * majority) / 100);
+				return Math.ceil((totalVotes * majority) / 100);
 			case 1: {
-				const positiveNeeded = against_votes + 1;
-				if (quorum_prototype === 1) {
-					const minimumNeeded = Math.ceil(total_votes / 3);
-					return against_votes > (minimumNeeded / 2) ?
+				const positiveNeeded = againstVotes + 1;
+				if (quorumPrototype === 1) {
+					const minimumNeeded = Math.ceil(totalVotes / 3);
+					return againstVotes > (minimumNeeded / 2) ?
 						positiveNeeded
-					:
-						minimumNeeded - against_votes;
+						:						minimumNeeded - againstVotes;
 				}
 				return positiveNeeded;
 			}
 			case 2:
-				return Math.ceil((total_votes * 50) / 100) + 1;
+				return Math.ceil((totalVotes * 50) / 100) + 1;
 			case 4:
-				return Math.ceil((total_votes * 2) / 3);
+				return Math.ceil((totalVotes * 2) / 3);
 			case 5:
-				return Math.ceil((total_votes * majority) / majority_divider);
+				return Math.ceil((totalVotes * majority) / majorityDivider);
 			case 6:
 				return majority;
 			default:
