@@ -18,6 +18,73 @@ before(function() {
     cy.saveLocalStorage();
 });
 
+/*
+
+describe("Councilbox login - valid username and password", function() {
+
+     before(function() {
+        cy.deleteLocalStorage();
+    });
+
+
+    it("Visits the Councilbox web page", function() {
+        cy.visit(login_url);
+    });
+
+    it("Change language to Spanish", function() {
+        cy.contains('EN').click();
+        cy.contains('ES').click();
+    });
+
+    it("Enters email address", function() {
+        cy.get('input').eq(0)
+            .type('alem@qaengineers.net')    
+            .should("have.value", 'alem@qaengineers.net')
+    });
+
+    it("Enters password", function() {
+        cy.get('input').eq(1)
+            .type('Mostar123!')    
+            .should("have.value", 'Mostar123!')
+    });
+
+    it("Clicks login button", function() {
+        cy.contains("Entrar").click();
+        cy.wait(5000)
+    });
+
+});
+
+
+
+describe("The user is able to start conference", function() {
+
+    it("Click on the 'Iniciar conferencia' button", function() {
+        cy.contains('dashboard').click({ force: true })
+        cy.get('#init-meeting-block').click()
+        cy.wait(10000)
+
+    });
+
+
+    it("Populate required field and click on the 'Join' button", function() {
+
+        cy.get('#meeting-iframe').then($iframe => {
+  const $body = $iframe.contents().find('body');  cy.wrap($body)
+
+    .get('#participant-name-input')
+    .type('AutomationTest')
+    cy.contains('Join').click()
+    cy.wait(10000)
+
+   
+});
+
+        });
+
+    });
+
+    */
 
 
 describe("The user is able to create a new account in Councilbox", function() {
@@ -26,7 +93,6 @@ describe("The user is able to create a new account in Councilbox", function() {
     });
 
     
-
     it("Open the browser and enter the URL: https://app.councilbox.com/", function() {
         cy.clearLocalStorage();
         cy.saveLocalStorage();
@@ -57,18 +123,18 @@ describe("The user is able to create a new account in Councilbox", function() {
             .should("have.value", "123123123")
 
         cy.get('input').eq(4)
-            .type("alemtestqa10@yopmail.com")
-            .should("have.value", "alemtestqa10@yopmail.com")
+            .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
+            
 
         cy.get('input').eq(5)
-            .type("alemtestqa10@yopmail.com")
-            .should("have.value", "alemtestqa10@yopmail.com")
+            .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
+            
 
         cy.get('input').eq(6)
-            .type("AutomationTest123")
+            .type("Test12345")
 
         cy.get('input').eq(7)
-            .type("AutomationTest123")    
+            .type("Test12345")    
     });
 
     it("Click on the checkbox button to accept the 'términos y condiciones de councilbox'", function() {
@@ -89,7 +155,7 @@ describe("The user is able to create a new account in Councilbox", function() {
     it("Open email application and navigate to the activation email", function() {
        cy.visit('http://www.yopmail.com/en/')
 
-       cy.get('#login').type('alemtestqa10')
+       cy.get('#login').type("alem"+Cypress.config('UniqueNumber'))
        cy.get('.sbut').click()
 
 
@@ -97,8 +163,10 @@ describe("The user is able to create a new account in Councilbox", function() {
        
        cy.get('#ifmail').then($iframe => {
   const $body = $iframe.contents().find('body') ; cy.wrap($body)
-    .contains('Verify account')
-    .click({ force: true })
+
+
+    .contains('Verificar cuenta')
+    .click()
 
     cy.wait(3000)
 })
@@ -237,11 +305,70 @@ describe("Log Out", function() {
 });
 
 
+describe("The user is able to restore a password", function() {
+
+    it("Click on the 'Olvide mi contrasena?'' button", function() {
+        cy.contains('Olvidé mi contraseña').click()
+    });
+
+    it("Enter your Email and click on the 'Restablecer acceso' button", function() {
+        cy.get('input').eq(0).type('alemtestqa12@yopmail.com')
+        cy.contains('Restablecer acceso').click()
+    });
+
+    it("Open your email application", function() {
+       cy.visit('http://www.yopmail.com/en/')
+       cy.wai(15000)
+
+});
+     it("Open 'Restablecer contrasena' email and click on the 'Restablecer contrasena' button", function() {
+    
+       cy.get('#login').type('alemtestqa12')
+       cy.get('.sbut').click()
+
+
+    
+       
+       cy.get('#ifmail').then($iframe => {
+  const $body = $iframe.contents().find('body') ; cy.wrap($body)
+
+
+    .contains('Restablecer contraseña')
+    .click()
+
+    cy.wait(3000)
+})
+
+       
+   });
+
+
+     describe(" Populate all required fields", function() {
+
+    cy.get('input').eq(0).type('test12345')
+    cy.get('input').eq(1).type('test12345')
+
+});
+
+
+      describe("Click on 'Change Password'", function() {
+
+    cy.contains('Change password').click()
+
+});
+
+
+
+
+    
+});
+
+
 
 describe("Councilbox login - valid username and password", function() {
 
      before(function() {
-        cy.deleteLocalStorage();
+        
     });
 
 
@@ -403,11 +530,11 @@ describe("The user is able to add a partner in the 'Libro de socios' section", f
     
     });
 
-    /*
+    
 
     it("Select “Votos”", function() {
 
-        cy.get('input').eq(10)
+        cy.get('#add-partner-votes')
             .type('5')    
             
     
@@ -417,11 +544,12 @@ describe("The user is able to add a partner in the 'Libro de socios' section", f
 
     it("Select “Participaciones”", function() {
 
-        cy.xpath('(//*[@class="jss2050 jss2053"])[2]').type('5')
+        cy.get('#add-partner-social-capital')
+            .type('5')
     
     });
 
-    */
+    
 
     it("Navigate to the “Ficha” section and populate “Nº de acta de alta” field", function() {
 
@@ -584,6 +712,35 @@ describe("The user is able to add census in the 'Censos' section [tipo Assistent
 
 
 describe("The user is able to add a new document in the 'Base de conocimiento' section", function() {
+
+
+     it("From the menu choose and click on the 'Base de conocimiento' button", function() {
+        cy.contains('dashboard').click({ force: true })
+        cy.get('#edit-drafts-block').click()
+
+    });
+
+
+    it("Click on the 'Mi documentacion' button", function() {
+        cy.contains('Mi documentación').click()
+
+    });
+
+    it("From the drop down menu click on the 'Subir archivo' button", function() {
+        
+        const docFile = 'testDocument.txt';
+        cy.contains('Subir archivo').attachFile(docFile)
+
+    });
+
+
+
+    it("Choose the file you want to upload click on it and then click on 'Open' button", function() {
+        
+    });
+
+
+
 
    
 
@@ -778,6 +935,192 @@ describe("The user is able to create a new call without session in the 'Nueva re
     
 });
 
+describe("The user is able to start council in the 'New call with session' section", function() {
+
+    it("Click on the 'Nueva reunion' button", function() {
+        cy.contains('dashboard').click({ force: true })
+        cy.get('#create-council-block').click()
+
+    });
+
+
+    it("Click on the “Con sesion” button", function() {
+        cy.contains('Con sesión').click()
+        cy.wait(3000)
+    
+    });
+
+
+    it("Populate all required fields and click on the “Siguiente” button", function() {
+        cy.get('input').eq(0).type('Test')
+        cy.get('input').eq(1).type('Test')
+        cy.get('input').eq(2).type('Test')
+        cy.get('input').eq(3).type('Test')
+        cy.get('input').eq(4).type('Test')
+        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+        cy.wait(1000)
+
+    });
+
+
+    it("Click on the 'Anadir participante' button and populate all required fields then click on the “Siguiente” button", function() {
+        cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('input').eq(0).type('Test')
+        cy.get('input').eq(1).type('Automation')
+        cy.get('input').eq(4).type('alem@qaengineers.net')
+        cy.contains('Aceptar').click()
+        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+        cy.wait(1000)
+
+    });
+
+
+    it("Click on the “Anadir punto al orden del dia+” button", function() {
+        cy.get('#newPuntoDelDiaOrdenDelDiaNew').click()
+        
+
+    });
+
+
+    it("Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button", function() {
+        cy.get('#puntoSiNoAbstencion').click()
+        cy.get('#tituloPuntoDelDiaModal').type('Test')
+        cy.contains('Informativo').click()
+        cy.wait(1000)
+        cy.contains('Votación nominal').click()
+        cy.contains('Aceptar').click()
+        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+        cy.wait(1000)
+        
+
+    });
+
+
+    it("Click on the 'Anadir+'' button then click on the 'Subir archivo button and select the document you want to add and click on the next' button", function() {
+        cy.get('#puntoSiNoAbstencion').click()
+        cy.get('#tituloPuntoDelDiaModal').type('Test')
+        cy.contains('Informativo').click()
+        cy.wait(1000)
+        cy.contains('Votación nominal').click()
+        cy.contains('Aceptar').click()
+        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+        cy.wait(1000)
+        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+        cy.wait(1000)
+
+        
+
+    });
+
+
+     it("Populate all required fields and click on the “Siguiente” button", function() {
+        
+        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+        cy.wait(1000)
+        
+        
+
+    });
+
+
+      it("Click on the “Convocar y notificar” button", function() {
+        
+        cy.contains('Convocar y notificar').click()
+        
+        
+
+    });
+
+
+       it("Click on the “Preparar sala” button", function() {
+        
+        cy.get('#prepararSalaNew').click()
+        
+        
+
+    });
+
+
+         it("Navigate to the upper right corner and click on the “Abrir Sala” button", function() {
+        
+        cy.get('#abrirSalaEnReunion').click()
+        
+        
+
+    });
+
+
+           it("Populate all required fields and click on the “Aceptar” button", function() {
+        
+        cy.contains('Aceptar').click()
+        cy.wait(10000)
+        
+        
+
+    });
+
+
+           it("Navigate to the “Camera and microphone” form and click on the “Accept” button", function() {
+        
+            cy.get('#ifmail').then($iframe => {
+  const $body = $iframe.contents().find('body') ; cy.wrap($body)
+
+
+    .contains('Accept')
+    .click()
+
+    cy.wait(10000)
+})
+
+       
+   });
+
+
+            it("Navigate to the upper right corner and click on the “Iniciar reunion” button", function() {
+        
+        cy.get('#iniciarReunionDentroDeReunion').click()
+        
+        
+    
+    });
+
+
+             it("Populate all required fields and click on the “Aceptar” button", function() {
+        
+        cy.get('#iniciarReunionDentroDeReunion').click()
+        cy.get('#seleccionaAlPresidenteEnReunion').click()
+        cy.contains('test test').click()
+        cy.get('#seleccionaAlSecretarioEnReunion').click()
+        cy.contains('test test').click()
+        cy.contains('Aceptar').click()
+        
+        
+    
+    });
+
+
+        
+    
+
+
+
+
+
+
+
+
+
+    it("Click on the 'Aceptar' button", function() {
+        cy.contains('Aceptar').click()
+    });
+
+    
+});
+
+
+
+
+
 describe("The user is able to start conference", function() {
 
     it("Click on the 'Iniciar conferencia' button", function() {
@@ -790,7 +1133,7 @@ describe("The user is able to start conference", function() {
 
     it("Populate required field and click on the 'Join' button", function() {
 
-        cy.get('#iframe').then($iframe => {
+        cy.get('#meeting-iframe').then($iframe => {
   const $body = $iframe.contents().find('body'); 
   cy.wrap($body)
     .get('#participant-name-input')
@@ -823,13 +1166,7 @@ describe("The user is able to create a new document signature in the 'Signatures
 
     });
 
-     
-
-
-
-
-
-
+    
 
 });
 
