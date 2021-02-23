@@ -98,13 +98,14 @@ const CMPVideoIFrame = props => {
 			{!!data.roomVideoURL && config.video ?
 				<React.Fragment>
 					{(config.recording && data.roomVideoURL.includes('councilbox') && !data.roomVideoURL.includes('rivulet'))
-&& <RecordingButton
-	config={config}
-	council={props.council}
-	translate={props.translate}
-/>
+						&& <RecordingButton
+							config={config}
+							council={props.council}
+							translate={props.translate}
+						/>
 					}
 					<iframe
+						id="admin-room-iframe"
 						title="meetingScreen"
 						allow="geolocation; microphone; camera"
 						scrolling="no"
@@ -115,7 +116,7 @@ const CMPVideoIFrame = props => {
 							border: 'none !important'
 						}}
 					>
-Something wrong...
+						Something wrong...
 					</iframe>
 				</React.Fragment>
 				: <div

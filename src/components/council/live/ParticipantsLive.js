@@ -71,7 +71,7 @@ const ParticipantsLive = ({
 	const checkParticipantsStatus = async participants => {
 		const offline = participants.filter(participant => (
 			((participant.online !== 2 && exceedsOnlineTimeout(participant.lastDateConnection))
-			|| (participant.online === 2 && !councilStarted(council))
+				|| (participant.online === 2 && !councilStarted(council))
 			)));
 		if (offline.length > 0) {
 			await client.mutate({
@@ -127,7 +127,10 @@ const ParticipantsLive = ({
 			const videoConfig = council.room.videoConfig ? council.room.videoConfig : {};
 			const { videoParticipant } = participant;
 
-			if ((videoConfig.rtmp && videoConfig.viewerURL) || videoConfig.autoHybrid || videoConfig.fixedURL || council.room.videoLink) {
+			if ((videoConfig.rtmp && videoConfig.viewerURL)
+				|| videoConfig.autoHybrid
+				|| videoConfig.fixedURL
+				|| council.room.videoLink) {
 				if (participant.requestWord !== 2) {
 					return turquoise;
 				}
@@ -157,7 +160,7 @@ const ParticipantsLive = ({
 						color: 'crimson'
 					}}
 				>
-block
+					block
 				</Icon>
 			);
 		}
@@ -172,7 +175,7 @@ block
 						color: participantLiveColor(participant)
 					}}
 				>
-language
+					language
 				</Icon>
 			);
 		}
@@ -185,7 +188,7 @@ language
 					color: participantLiveColor(participant)
 				}}
 			>
-videocam
+				videocam
 			</Icon>
 		);
 	};
@@ -224,99 +227,99 @@ videocam
 					>
 						{`${participant.name} ${participant.surname || ''}`}<br />
 						{(participant.geoLocation && participant.geoLocation.city)
-&& <span style={{ fontSize: '0.85em' }}>
-	{`${participant.geoLocation.ip || participant.geoLocation.query}, ${formatCountryName(participant.geoLocation.country, translate.selectedLanguage)}`}
-</span>
+							&& <span style={{ fontSize: '0.85em' }}>
+								{`${participant.geoLocation.ip || participant.geoLocation.query}, ${formatCountryName(participant.geoLocation.country, translate.selectedLanguage)}`}
+							</span>
 						}
 					</div>
 				</Tooltip>
 			</GridItem>
 			{council.state !== COUNCIL_STATES.PAUSED
-&& <>
-	{!isMobile
-&& <GridItem xs={3} lg={3} md={3}>
-	<div
-		style={{
-			color: lightGrey,
-			marginLeft: '1em',
-			fontSize: '0.8em'
-		}}
-		className="truncate"
-	>
-		{participant.position}
-	</div>
-</GridItem>
-	}
-	<GridItem
-		xs={isMobile ? 2 : 1}
-		lg={isMobile ? 2 : 1}
-		md={isMobile ? 2 : 1}
-		style={{
-			display: 'flex',
-			flexDirection: 'row',
-			justifyContent: 'space-between'
-		}}
-	>
-		<MuteCamToggleButton
-			translate={translate}
-			participant={participant}
-			refetch={getData}
-		/>
-	</GridItem>
-	<GridItem
-		xs={isMobile ? 2 : 1}
-		lg={isMobile ? 2 : 1}
-		md={isMobile ? 2 : 1}
-		style={{
-			display: 'flex',
-			flexDirection: 'row',
-			justifyContent: 'space-between'
-		}}
-	>
-		<MuteToggleButton
-			translate={translate}
-			participant={participant}
-			refetch={getData}
-		/>
-	</GridItem>
-	<GridItem
-		xs={isMobile ? 2 : 1}
-		lg={isMobile ? 2 : 1}
-		md={isMobile ? 2 : 1}
-		style={{
-			display: 'flex',
-			flexDirection: 'row',
-			justifyContent: 'space-between'
-		}}
-	>
-		<ChangeRequestWordButton
-			translate={translate}
-			participant={participant}
-			refetch={getData}
-		/>
-	</GridItem>
-	<GridItem
-		xs={isMobile ? 2 : 1}
-		lg={isMobile ? 2 : 1}
-		md={isMobile ? 2 : 1}
-		style={{
-			display: 'flex',
-			flexDirection: 'row',
-			justifyContent: 'space-between'
-		}}
-	>
-		<VideoParticipantMenu
-			council={council}
-			participant={participant}
-			refetch={getData}
-			setBanParticipant={() => setOptions({ ...options, banParticipant: participant })
-			}
-			setParticipantHistory={() => setOptions({ ...options, participantHistory: participant })
-			}
-			translate={translate}
-		/>
-	</GridItem>
-</>
+				&& <>
+					{!isMobile
+						&& <GridItem xs={3} lg={3} md={3}>
+							<div
+								style={{
+									color: lightGrey,
+									marginLeft: '1em',
+									fontSize: '0.8em'
+								}}
+								className="truncate"
+							>
+								{participant.position}
+							</div>
+						</GridItem>
+					}
+					<GridItem
+						xs={isMobile ? 2 : 1}
+						lg={isMobile ? 2 : 1}
+						md={isMobile ? 2 : 1}
+						style={{
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'space-between'
+						}}
+					>
+						<MuteCamToggleButton
+							translate={translate}
+							participant={participant}
+							refetch={getData}
+						/>
+					</GridItem>
+					<GridItem
+						xs={isMobile ? 2 : 1}
+						lg={isMobile ? 2 : 1}
+						md={isMobile ? 2 : 1}
+						style={{
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'space-between'
+						}}
+					>
+						<MuteToggleButton
+							translate={translate}
+							participant={participant}
+							refetch={getData}
+						/>
+					</GridItem>
+					<GridItem
+						xs={isMobile ? 2 : 1}
+						lg={isMobile ? 2 : 1}
+						md={isMobile ? 2 : 1}
+						style={{
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'space-between'
+						}}
+					>
+						<ChangeRequestWordButton
+							translate={translate}
+							participant={participant}
+							refetch={getData}
+						/>
+					</GridItem>
+					<GridItem
+						xs={isMobile ? 2 : 1}
+						lg={isMobile ? 2 : 1}
+						md={isMobile ? 2 : 1}
+						style={{
+							display: 'flex',
+							flexDirection: 'row',
+							justifyContent: 'space-between'
+						}}
+					>
+						<VideoParticipantMenu
+							council={council}
+							participant={participant}
+							refetch={getData}
+							setBanParticipant={() => setOptions({ ...options, banParticipant: participant })
+							}
+							setParticipantHistory={() => setOptions({ ...options, participantHistory: participant })
+							}
+							translate={translate}
+						/>
+					</GridItem>
+				</>
 			}
 		</Grid>
 	);
@@ -335,15 +338,15 @@ videocam
 			display: 'flex', color: 'white', fontWeight: '700', alignItems: 'center', paddingTop: '0.5em'
 		}}>
 			{options.page > 1
-&& <div onClick={() => setOptions({ ...options, page: options.page - 1 })} style={{
-	color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer'
-}}>{'<'}</div>
+				&& <div onClick={() => setOptions({ ...options, page: options.page - 1 })} style={{
+					color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer'
+				}}>{'<'}</div>
 			}
 			<div style={{ margin: '0 0.3em' }}>{options.page}</div>
 			{(options.page < (participants.total / options.limit))
-&& <div onClick={() => setOptions({ ...options, page: options.page + 1 })} style={{
-	color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer'
-}}>{'>'}</div>
+				&& <div onClick={() => setOptions({ ...options, page: options.page + 1 })} style={{
+					color: 'white', userSelect: 'none', fontSize: '1em', border: '1px solid white', padding: '0 0.2em', cursor: 'pointer'
+				}}>{'>'}</div>
 			}
 		</div>
 	);
@@ -366,11 +369,11 @@ videocam
 					</Scrollbar>
 				</div>
 				{videoParticipants.total > options.limit
-&& <div style={{
-	height: '2em', display: 'flex', alignItems: 'center', borderTop: '1px solid gainsboro', width: '100%', justifyContent: 'flex-end', paddingTop: '0.3em'
-}}>
-	{paginationFooter(videoParticipants)}
-</div>
+					&& <div style={{
+						height: '2em', display: 'flex', alignItems: 'center', borderTop: '1px solid gainsboro', width: '100%', justifyContent: 'flex-end', paddingTop: '0.3em'
+					}}>
+						{paginationFooter(videoParticipants)}
+					</div>
 				}
 				<div style={{
 					display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '3px'
@@ -394,41 +397,41 @@ videocam
 	return (
 		<div style={{}}>
 			{CMPVideo
-&& <div style={{}}>
-	<CollapsibleSection
-		trigger={button}
-		controlled={true}
-		collapse={section}
-		open={true}
-		style={{ cursor: 'auto' }}
-	/>
-	<AlertConfirm
-		requestClose={() => setOptions({ ...options, banParticipant: false })
-		}
-		open={options.banParticipant}
-		acceptAction={banParticipant}
-		buttonAccept={translate.accept}
-		buttonCancel={translate.cancel}
-		bodyText={
-			<div>
-				{!!options.banParticipant
-&& `${translate.want_eject} ${options.banParticipant.name
-} ${options.banParticipant.surname || ''} ${translate.from_room
-}?`
-				}
-			</div>
-		}
-		title={translate.attention}
-	/>
-	{!!options.participantHistory && (
-		<ParticipantHistoryModal
-			requestClose={() => setOptions({ ...options, participantHistory: false })
-			}
-			participant={options.participantHistory}
-			translate={translate}
-		/>
-	)}
-</div>
+				&& <div style={{}}>
+					<CollapsibleSection
+						trigger={button}
+						controlled={true}
+						collapse={section}
+						open={true}
+						style={{ cursor: 'auto' }}
+					/>
+					<AlertConfirm
+						requestClose={() => setOptions({ ...options, banParticipant: false })
+						}
+						open={options.banParticipant}
+						acceptAction={banParticipant}
+						buttonAccept={translate.accept}
+						buttonCancel={translate.cancel}
+						bodyText={
+							<div>
+								{!!options.banParticipant
+									&& `${translate.want_eject} ${options.banParticipant.name
+									} ${options.banParticipant.surname || ''} ${translate.from_room
+									}?`
+								}
+							</div>
+						}
+						title={translate.attention}
+					/>
+					{!!options.participantHistory && (
+						<ParticipantHistoryModal
+							requestClose={() => setOptions({ ...options, participantHistory: false })
+							}
+							participant={options.participantHistory}
+							translate={translate}
+						/>
+					)}
+				</div>
 			}
 		</div>
 	);
