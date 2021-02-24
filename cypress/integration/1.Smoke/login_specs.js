@@ -318,7 +318,7 @@ describe("The user is able to restore a password", function() {
 
     it("Open your email application", function() {
        cy.visit('http://www.yopmail.com/en/')
-       cy.wai(15000)
+       cy.wait(20000)
 
 });
      it("Open 'Restablecer contrasena' email and click on the 'Restablecer contrasena' button", function() {
@@ -343,7 +343,7 @@ describe("The user is able to restore a password", function() {
    });
 
 
-     describe(" Populate all required fields", function() {
+     it("Populate all required fields", function() {
 
     cy.get('input').eq(0).type('test12345')
     cy.get('input').eq(1).type('test12345')
@@ -351,7 +351,7 @@ describe("The user is able to restore a password", function() {
 });
 
 
-      describe("Click on 'Change Password'", function() {
+      it("Click on 'Change Password'", function() {
 
     cy.contains('Change password').click()
 
@@ -850,15 +850,24 @@ describe("The user is able to create a new call with session in the 'Nueva reuni
     });
 
 
-    it("Click on the 'Con sesion' button and populate all required fields then click on the 'Aceptar' button", function() {
+    it("Click on the 'Con sesion' button", function() {
         cy.contains('Con sesión').click()
+
         cy.wait(10000)
+
+       
 
     });
 
     it("Populate all required fields and click on the 'Siguiente' button", function() {
-        cy.xpath('(//*[@class="ql-editor ql-blank" ])[1]').type('AutomationTest'+Cypress.config('UniqueNumber'))
-        cy.wait(1000)
+         cy.get('input').eq(0).type('Test')
+        cy.get('input').eq(1).type('Test')
+        cy.get('input').eq(2).type('Test')
+        cy.get('input').eq(3).type('Test')
+        cy.get('input').eq(4).type('Test')
+        cy.get('input').eq(5).type('Test')
+        cy.get('input').eq(6).type('Test')
+
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
     });
 
@@ -915,23 +924,18 @@ describe("The user is able to create a new call without session in the 'Nueva re
     it("Click on the 'Sin sesion' button and populate all required fields then click on the 'Aceptar' button", function() {
         cy.contains('Sin sesión').click()
         cy.wait(3000)
-        cy.xpath('(//*[@class="material-icons jss4252 jss4253"])[1]').click()
-        cy.contains('Ok').click()
-        cy.xpath('(//*[@class="material-icons jss4252 jss4253"])[2]').click()
-        cy.contains('Ok').click()
-
-
-    });
-
-
-
-
-
-
-    it("Click on the 'Aceptar' button", function() {
+        cy.get('#date-time-picker-date-end').click()
+        cy.contains('2021').click()
+        cy.contains('2022').click()
         cy.contains('Aceptar').click()
-    });
+        cy.get('#date-time-picker-date-start').click()
+        cy.wait(1000)
+        cy.contains('Aceptar').click()
+        
 
+
+
+    });
     
 });
 
@@ -1134,10 +1138,10 @@ describe("The user is able to start conference", function() {
     it("Populate required field and click on the 'Join' button", function() {
 
         cy.get('#meeting-iframe').then($iframe => {
-  const $body = $iframe.contents().find('body'); 
-  cy.wrap($body)
-    .get('#participant-name-input')
-    .type('AutomationTest')
+  const $body = $iframe.contents().find('body') ; cy.wrap($body)
+
+
+    cy.get('#participant-name-input').type('AutomationTest')
     cy.contains('Join').click()
     cy.wait(10000)
     
@@ -1145,8 +1149,8 @@ describe("The user is able to start conference", function() {
 
         });
 
-    });
-
+  
+ });
 
 /*
 describe("The user is able to create a new document signature in the 'Signatures' section", function() {
