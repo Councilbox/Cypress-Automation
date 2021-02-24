@@ -1,7 +1,7 @@
 import React from 'react';
 
 const getSelectionIcon = value => {
-	if (value === 1) {
+	if (value) {
 		return <i className="fa fa-check" style={{ color: 'limegreen', marginRight: '0.4em', width: '15px' }} aria-hidden="true"></i>;
 	}
 
