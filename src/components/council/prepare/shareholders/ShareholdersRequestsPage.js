@@ -4,8 +4,6 @@ import gql from 'graphql-tag';
 import {
 	Table, TableBody, TableRow, MenuItem, TableHead, TableCell
 } from 'material-ui';
-
-
 import { usePolling } from '../../../../hooks';
 import {
 	LoadingSection, PaginationFooter, DropDownMenu, Scrollbar, TextInput, Icon, Grid
@@ -22,7 +20,6 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
 	const [usersPage, setUsersPage] = React.useState(1);
 	const [usersTotal, setUsersTotal] = React.useState(false);
 	const [searchText, setSearchText] = React.useState('');
-
 
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
@@ -48,8 +45,8 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
 				options: {
 					limit: 10,
 					offset: (usersPage - 1) * 10,
-					orderDirection: 'ASC',
-
+					orderDirection: 'desc',
+					orderBy: 'date'
 				},
 				searchText
 			}
@@ -96,10 +93,10 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
 								<div style={{ color: '' }}>
 									{/* TRADUCCION */}
 									<MenuItem onClick={() => setSearch('1')} >
-Aceptada
+										Aceptada
 									</MenuItem>
 									<MenuItem onClick={() => setSearch('0')}>
-Pendiente
+										Pendiente
 									</MenuItem>
 								</div>
 							}
@@ -160,7 +157,7 @@ Pendiente
 						<TableCell style={{
 							color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: '0.75rem'
 						}}>
-Aprobar
+							Aprobar
 						</TableCell>
 					</TableHead>
 					<TableBody>
@@ -178,9 +175,6 @@ Aprobar
 								<TableCell style={{ color: 'black', borderBottom: 'none' }}>
 									{getTypeText(request.data.requestType, translate)}
 								</TableCell>
-								{/* <TableCell style={{ color: "black", borderBottom: 'none' }}>
-
-</TableCell> */}
 								<TableCell style={{ color: 'black', borderBottom: 'none' }}>
 									{moment(request.date).format('LLL')}
 								</TableCell>
