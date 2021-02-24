@@ -1,0 +1,11 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\cypress",
+    "\\cypress\\integration",
+    "\\cypress\\integration\\1.Smoke",
+    "\\cypress\\support"
+  ],
+  "SelectedNode": "\\cypress\\integration\\1.Smoke\\login_specs.js",
+  "PreviewInSolutionExplorer": false
+}

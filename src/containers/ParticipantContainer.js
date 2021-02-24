@@ -68,12 +68,14 @@ const ParticipantContainer = ({
 
 	const participant = data ? data.participant : {};
 
+	const participantId = participant ? participant.id : null;
+
 
 	React.useEffect(() => {
-		if (participant.id) {
+		if (participantId) {
 			initLogRocket(participant);
 		}
-	}, [participant.id]);
+	}, [participantId]);
 
 	const getReqData = React.useCallback(async () => {
 		// const response = await fetch(`${SERVER_URL}/connectionInfo`);

@@ -294,7 +294,11 @@ const RequestWordMenu = ({
 		);
 	};
 
-	const fixedURLMode = (props.videoURL && (!props.videoURL.includes('councilbox') && !props.videoURL.includes('rivulet') && !props.videoURL.includes('cbx')));
+	const fixedURLMode = (props.videoURL && (!props.videoURL.includes('councilbox')
+		&& !props.videoURL.includes('rivulet')
+		&& !props.videoURL.includes('cbx')
+		&& !props.videoURL.includes('streaminggalicia')
+	));
 
 	return (
 		<React.Fragment>
