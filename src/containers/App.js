@@ -244,6 +244,11 @@ const App = () => (
 	</ApolloProvider>
 );
 
+const LoadRecommendations = Loadable({
+	loader: () => import('../components/noCompany/Recommendations'),
+	loading: LoadingMainApp
+});
+
 const RouterWrapper = () => {
 	React.useEffect(() => {
 		pageView();
@@ -256,6 +261,10 @@ const RouterWrapper = () => {
 					exact
 					path="/company/:company/council/:id/live"
 					component={CouncilLiveContainer}
+				/>
+				<Route
+					path="/company/:company/council/:council/recommendations/:language"
+					component={LoadRecommendations}
 				/>
 				<Route
 					exact
