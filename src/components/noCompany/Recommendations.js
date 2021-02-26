@@ -2,11 +2,10 @@ import React from 'react';
 import { Paper, Card } from 'material-ui';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { NotLoggedLayout, ButtonIcon } from '../../displayComponents';
+import { NotLoggedLayout, ButtonIcon, Link } from '../../displayComponents';
 import { getPrimary, getLightGrey } from '../../styles/colors';
 import * as mainActions from '../../actions/mainActions';
 import withTranslations from '../../HOCs/withTranslations';
-import { bHistory } from '../../containers/App';
 
 const isMobile = {
 	Windows: () => /IEMobile/i.test(navigator.userAgent),
@@ -159,16 +158,16 @@ class Recommendations extends React.Component {
 										{
 											translate.video_instructions_android_step_four
 										}
-										<ButtonIcon
-											type="videocam"
-											color={primary}
-											style={{
-												marginLeft: '15px', fontSize: '3em', cursor: 'pointer', marginBottom: '-0.25em'
-											}}
-											onClick={() => {
-												bHistory.push(`/test/${translate.selectedLanguage}`);
-											}}
-										/>
+										<Link to={`/test/${translate.selectedLanguage}`}>
+											<ButtonIcon
+												type="videocam"
+												color={primary}
+												style={{
+													marginLeft: '15px', fontSize: '3em', cursor: 'pointer', marginBottom: '-0.25em'
+												}}
+											/>
+										</Link>
+
 									</li>
 									<li style={instructionListItemStyle}>
 										<span style={counter}>5</span>
@@ -291,16 +290,15 @@ class Recommendations extends React.Component {
 										{
 											translate.video_instructions_pc_step_four
 										}
-										<ButtonIcon
-											type="videocam"
-											color={primary}
-											style={{
-												marginLeft: '15px', fontSize: '3em', cursor: 'pointer', marginBottom: '-0.25em'
-											}}
-											onClick={() => {
-												bHistory.push(`/test/${translate.selectedLanguage}`);
-											}}
-										/>
+										<Link to={`/test/${translate.selectedLanguage}`}>
+											<ButtonIcon
+												type="videocam"
+												color={primary}
+												style={{
+													marginLeft: '15px', fontSize: '3em', cursor: 'pointer', marginBottom: '-0.25em'
+												}}
+											/>
+										</Link>
 									</li>
 									<li style={instructionListItemStyle}>
 										<span style={counter}>5</span>

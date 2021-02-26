@@ -32,6 +32,7 @@ import ValidatorPage from '../components/notLogged/validator/ValidatorPage';
 import ConveneDisplay from '../components/council/convene/ConveneDisplay';
 import { pageView } from '../utils/analytics';
 import { shouldLoadSubdomain } from '../utils/subdomain';
+import Test from '../components/participant/test/Test';
 
 export { moment };
 
@@ -262,6 +263,7 @@ const RouterWrapper = () => {
 					path="/company/:company/council/:id/live"
 					component={CouncilLiveContainer}
 				/>
+				<Route exact path="/test/:language" component={Test} />
 				<Route
 					path="/company/:company/council/:council/recommendations/:language"
 					component={LoadRecommendations}
@@ -282,18 +284,18 @@ const RouterWrapper = () => {
 					component={ConveneDisplay}
 				/>
 				{!window.location.hostname.includes('app.councilbox')
-&& <Route
-	exact
-	path="/docs"
-	component={DocsPage}
-/>
+					&& <Route
+						exact
+						path="/docs"
+						component={DocsPage}
+					/>
 				}
 				{!window.location.hostname.includes('app.councilbox')
-&& <Route
-	exact
-	path="/docs/tryit"
-	component={PlaygroundPage}
-/>
+					&& <Route
+						exact
+						path="/docs/tryit"
+						component={PlaygroundPage}
+					/>
 				}
 				<Route
 					exact

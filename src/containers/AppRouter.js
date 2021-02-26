@@ -258,6 +258,7 @@ render() {
 			<Route path="/activeUser/token/:token" component={ActiveUserPage} />
 			<Route path="/activeUserAndSetPwd/token/:token" component={SetUserPasswordPage} />
 			<Route path="/recommendations/:language" component={LoadRecommendations} />
+			<Route exact path="/test/:language/:token" component={Test} />
 			<Route
 				exact
 				path="/changePwd/:language/:token"
