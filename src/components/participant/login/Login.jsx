@@ -101,19 +101,8 @@ const ParticipantLogin = ({
 	}
 	const renderLogin = ((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council));
 
-	// return (
-	// 	<AccessClavePin2
-	// 		// value={key}
-	// 		// updateValue={setKey}
-	// 		council={council}
-	// 		translate={props.translate}
-	// 		// send={getData}
-	// 		error={false}
-	// 	/>
-	// )
-
 	return (
-		<AccessClavePin1
+		<AccessClavePin2
 			// value={key}
 			// updateValue={setKey}
 			council={council}
@@ -122,6 +111,17 @@ const ParticipantLogin = ({
 			error={false}
 		/>
 	)
+
+	// return (
+	// 	<AccessClavePin1
+	// 		// value={key}
+	// 		// updateValue={setKey}
+	// 		council={council}
+	// 		translate={props.translate}
+	// 		// send={getData}
+	// 		error={false}
+	// 	/>
+	// )
 
 	return (
 		<AccessPin1

@@ -107,79 +107,152 @@ const AccessClavePin2 = ({
 								<div style={{ display: 'flex', justifyContent: 'center' }}>
 									<div style={{ width: '440px' }}>
 										<div style={{ textAlign: 'center', padding: '1em', border: "1px solid gainsboro", marginBottom: "3em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', }}>
-											<div style={{ width: "50%" }}>
-												<TextInput
-													styleFloatText={{ fontSize: '20px', color: getSecondary() }}
-													floatingText={'NIF/NIE'}
-													type="email"
-													fullWidth
-													styleFloatText={{ color: 'black', }} //#154481
-													// onKeyUp={event => {
-													// 	if (event.keyCode === 13) {
-													// 		send();
-													// 	}
-													// }}
-													// errorText={error.message === 'Invalid key' ? 'Clave no válida' : ''}
-													value={value}
-													onChange={event => updateValue(event.target.value)}
-												/>
+											<div style={{ color: '#154481', textAlign: "left", marginBottom: '.5em' }}>
+												<i className="material-icons" style={{ fontSize: '25px', marginLeft: '-10px' }}>
+													keyboard_arrow_left
+												</i>
 											</div>
-											<div style={{ width: "50%" }}>
-												<TextInput
-													styleFloatText={{ fontSize: '20px', color: getSecondary() }}
-													floatingText={'Fecha validez/Nº soporte '}
-													helpPopover={true}
-													helpTitle={'titulo'}
-													helpDescription={'descripcion'}
-													colorHelp={"#80a5b7"}
-													type="text"
-													fullWidth
-													styleFloatText={{ color: '#154481' }} //black
-													// onKeyUp={event => {
-													// 	if (event.keyCode === 13) {
-													// 		send();
-													// 	}
-													// }}
-													// errorText={error.message === 'Invalid key' ? 'Clave no válida' : ''}
-													value={value}
-													onChange={event => updateValue(event.target.value)}
-												/>
+											<div style={{ width: "50%", marginBottom: '.5em' }}>
+												<div style={{ display: "flex", color: '#154481' }}>
+													Clave PIN
+													<HelpPopover
+														title={'titulo'}
+														content={'descripcion'}
+														colorHelp={"#80a5b7"}
+													/>
+												</div>
+												<div style={{ display: "flex" }}>
+													<TextInput
+														type="number"
+														stylesTextField={{ color: '#154481', border: "1px solid #154481", borderRadius: '8px', marginTop: '5px' }}
+														styles={{ marginRight: "12px", }}
+														styleInInput={{ textAlign: "center", margin: "2px ​0px", color: "#154481", fontWeight: "bold" }}
+														min={0}
+														max={9}
+														labelNone={true}
+														disableUnderline={true}
+														// onKeyUp={event => {
+														// 	if (event.keyCode === 13) {
+														// 		send();
+														// 	}
+														// }}
+														// errorText={error.message === 'Invalid key' ? 'Clave no válida' : ''}
+														value={value}
+													// onChange={event => updateValue(event.target.value)}
+													/>
+													<TextInput
+														type="number"
+														stylesTextField={{ color: '#154481', border: "1px solid #154481", borderRadius: '8px', marginTop: '5px' }}
+														styles={{ marginRight: "12px", }}
+														styleInInput={{ textAlign: "center", margin: "2px ​0px", color: "#154481", fontWeight: "bold" }}
+														min={0}
+														max={9}
+														labelNone={true}
+														disableUnderline={true}
+														// onKeyUp={event => {
+														// 	if (event.keyCode === 13) {
+														// 		send();
+														// 	}
+														// }}
+														// errorText={error.message === 'Invalid key' ? 'Clave no válida' : ''}
+														value={value}
+														onChange={event => updateValue(event.target.value)}
+													/>
+													<TextInput
+														type="number"
+														stylesTextField={{ color: '#154481', border: "1px solid #154481", borderRadius: '8px', marginTop: '5px' }}
+														styles={{ marginRight: "12px", }}
+														styleInInput={{ textAlign: "center", margin: "4px ​0px", color: "#154481", fontWeight: "bold" }}
+														min={0}
+														max={9}
+														labelNone={true}
+														disableUnderline={true}
+														// onKeyUp={event => {
+														// 	if (event.keyCode === 13) {
+														// 		send();
+														// 	}
+														// }}
+														// errorText={error.message === 'Invalid key' ? 'Clave no válida' : ''}
+														value={value}
+														onChange={event => updateValue(event.target.value)}
+													/>
+													<TextInput
+														type="number"
+														stylesTextField={{ color: '#154481', border: "1px solid #154481", borderRadius: '8px', marginTop: '5px' }}
+														styles={{ marginRight: "12px", }}
+														styleInInput={{ textAlign: "center", margin: "2px ​0px", color: "#154481", fontWeight: "bold" }}
+														min={0}
+														max={9}
+														labelNone={true}
+														disableUnderline={true}
+														// onKeyUp={event => {
+														// 	if (event.keyCode === 13) {
+														// 		send();
+														// 	}
+														// }}
+														// errorText={error.message === 'Invalid key' ? 'Clave no válida' : ''}
+														value={value}
+														onChange={event => updateValue(event.target.value)}
+													/>
+												</div>
 											</div>
-											<div style={{ display: "flex", alignItems: "flex-end" }}>
-												<Radio
-													value={'0'}
-													// checked={}
-													// onChange={}
-													styleLabel={{ color: '#154481' }}
-													name="security"
-													label={'Recibir PIN vía SMS'}
-												/>
-												<Radio
-													value={'1'}
-													// checked={}
-													// onChange={}
-													styleLabel={{  }}
-													name="security"
-													label={<div style={{color: '#154481'}}>'Recibir Pin vía APP'</div>}
-												/>
-											</div>
-											<div style={{ textAlign: 'left', padding: '1em 0em', }}>
+											<div style={{ display: "flex", alignItems: "flex-end", marginBottom: '4em' }}>
 												<BasicButton
-													text={'Solicitar Pin'}
+													text={'Solicitar PIN vía SMS'}
 													onClick={send}
 													backgroundColor={{
+														color: '#154481',
+														backgroundColor: "white",
+														border: "1px solid #154481",
+														borderRadius: "4px",
+														fontSize: '11px',
+														marginRight: "5px",
+														marginLeft: "5px",
+														padding: '0',
+														minHeight: '24px',
+														boxShadow: "none",
+														maxWidth: '150px'
+													}}
+													textPosition="before"
+													fullWidth={true}
+												/>
+												<BasicButton
+													text={'Solicitar PIN vía APP'}
+													onClick={send}
+													backgroundColor={{
+														color: '#154481',
+														backgroundColor: "white",
+														border: "1px solid #154481",
+														borderRadius: "4px",
+														fontSize: '11px',
+														padding: '0',
+														minHeight: '24px',
+														boxShadow: "none",
+														maxWidth: '150px'
+													}}
+													textPosition="before"
+													fullWidth={true}
+												/>
+											</div>
+											<div style={{ textAlign: 'center', padding: '1em 0em', }}>
+												<BasicButton
+													text={'Acceder'}
+													onClick={send}
+													backgroundColor={{
+														fontWeight: '700',
 														borderRadius: '4px',
 														boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
 														color: 'white',
 														backgroundColor: "#154481",
-														paddingTop: '.8em',
-														paddingBottom: '.8em'
 														// opacity: '0.4'
 													}}
 													textPosition="before"
-												// fullWidth={true}
+													fullWidth={true}
 												// disabled={true}
 												/>
+											</div>
+											<div style={{}}>
+												<i>Pin enviado 01/55/55 a las 10:00 al teléfono 54654656</i>
 											</div>
 										</div>
 									</div>
