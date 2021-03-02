@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from 'material-ui';
-import { BasicButton, TextInput, NotLoggedLayout, HelpPopover } from '../../../displayComponents';
+import { BasicButton, TextInput, NotLoggedLayout, HelpPopover, Radio } from '../../../displayComponents';
 import { isMobile } from '../../../utils/screen';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import Resend2FAModal from './Resend2FAModal';
@@ -62,7 +62,7 @@ const styles = {
 };
 
 
-const AccessPin1 = ({
+const AccessClavePin1 = ({
 	value, updateValue, send, translate, error, council
 }) => {
 	const [resendModal, setResendModal] = React.useState(false);
@@ -106,7 +106,7 @@ const AccessPin1 = ({
 								</div>
 								<div style={{ display: 'flex', justifyContent: 'center' }}>
 									<div style={{ width: '440px' }}>
-										<div style={{ textAlign: 'center', padding: '1em', border: "1px solid gainsboro", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', }}>
+										<div style={{ textAlign: 'center', padding: '1em', border: "1px solid gainsboro", marginBottom: "3em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', }}>
 											<div style={{ width: "50%" }}>
 												<TextInput
 													styleFloatText={{ fontSize: '20px', color: getSecondary() }}
@@ -146,75 +146,38 @@ const AccessPin1 = ({
 												/>
 											</div>
 											<div style={{ display: "flex", alignItems: "flex-end" }}>
-												<TextInput
-													stylesTextField={{ marginBottom: "0px" }}
-													styleFloatText={{ fontSize: '20px', color: getSecondary() }}
-													floatingText={'Clave Pin'}
-													helpPopover={true}
-													helpTitle={'titulo'}
-													helpDescription={'descripcion'}
-													colorHelp={"#80a5b7"}
-													type="text"
-													fullWidth
-													styleFloatText={{ color: '#154481' }}
-													// onKeyUp={event => {
-													// 	if (event.keyCode === 13) {
-													// 		send();
-													// 	}
-													// }}
-													// errorText={error.message === 'Invalid key' ? 'Clave no válida' : ''}
-													value={value}
-													onChange={event => updateValue(event.target.value)}
+												<Radio
+													value={'0'}
+													// checked={}
+													// onChange={}
+													styleLabel={{ color: '#154481' }}
+													name="security"
+													label={<div style={{ color: '#154481', fontSize: "13px" }}>Recibir PIN vía SMS</div>}
 												/>
-												<BasicButton
-													text={'Solicitar PIN vía SMS'}
-													onClick={send}
-													backgroundColor={{
-														color: '#154481',
-														backgroundColor: "white",
-														border: "1px solid #154481",
-														borderRadius: "4px",
-														fontSize: '11px',
-														marginRight: "5px",
-														marginLeft: "5px",
-														padding: '0',
-														minHeight: '24px',
-														boxShadow: "none"
-													}}
-													textPosition="before"
-													fullWidth={true}
-												/>
-												<BasicButton
-													text={'Solicitar PIN vía APP'}
-													onClick={send}
-													backgroundColor={{
-														color: '#154481',
-														backgroundColor: "white",
-														border: "1px solid #154481",
-														borderRadius: "4px",
-														fontSize: '11px',
-														padding: '0',
-														minHeight: '24px',
-														boxShadow: "none"
-													}}
-													textPosition="before"
-													fullWidth={true}
+												<Radio
+													value={'1'}
+													// checked={}
+													// onChange={}
+													styleLabel={{ color: '#154481' }}
+													name="security"
+													label={<div style={{ color: '#154481', fontSize: "13px" }}>Recibir Pin vía APP</div>}
 												/>
 											</div>
-											<div style={{ textAlign: 'center', padding: '1em 0em', }}>
+											<div style={{ textAlign: 'left', padding: '1em 0em', }}>
 												<BasicButton
-													text={'Acceder'}
+													text={'Solicitar Pin'}
 													onClick={send}
 													backgroundColor={{
-														fontWeight: '700',
 														borderRadius: '4px',
 														boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
 														color: 'white',
 														backgroundColor: "#154481",
+														paddingTop: '.8em',
+														paddingBottom: '.8em'
 														// opacity: '0.4'
 													}}
 													textPosition="before"
-													fullWidth={true}
+												// fullWidth={true}
 												// disabled={true}
 												/>
 											</div>
@@ -223,22 +186,11 @@ const AccessPin1 = ({
 								</div>
 							</div>
 						</div>
-						<div style={{ width: '100%' }}>
-							<SMSStepper
-								council={council}
-								translate={translate}
-								addClass={'Blue'}
-								// responseSMS={responseSMS}
-								// resendKey={sendParticipantRoomKey}
-								error={error}
-								color={"#154481"}
-							/>
-						</div>
 					</div>
 				</Card>
 			</div>
-		</NotLoggedLayout>
+		</NotLoggedLayout >
 	);
 };
 
-export default AccessPin1;
+export default AccessClavePin1;
