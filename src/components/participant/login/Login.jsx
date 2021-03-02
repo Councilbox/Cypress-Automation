@@ -10,6 +10,7 @@ import { isMobile } from '../../../utils/screen';
 import RequestDataInfo from './RequestDataInfo';
 import DataAuthorization from './DataAuthorization';
 import { ConfigContext } from '../../../containers/AppControl';
+import AccessPin1 from '../2FA/AccessPin1';
 
 // '850px'
 const width = window.innerWidth > 450 ? '850px' : '100%';
@@ -97,6 +98,18 @@ const ParticipantLogin = ({
 		);
 	}
 	const renderLogin = ((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council));
+
+	return (
+		<AccessPin1
+			// value={key}
+			// updateValue={setKey}
+			council={council}
+			translate={props.translate}
+			// send={getData}
+			error={false}
+		/>
+	)
+
 	return (
 		<NotLoggedLayout
 			translate={props.translate}
