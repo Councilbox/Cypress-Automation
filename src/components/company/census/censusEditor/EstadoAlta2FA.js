@@ -81,6 +81,7 @@ const EstadoAlta2FA = ({
 					</div>
 				</Action>
 			</GridItem>
+			
 			{/* <Collapse in={state.hasRepresentative} >
 			</Collapse> */}
 		</Grid>
