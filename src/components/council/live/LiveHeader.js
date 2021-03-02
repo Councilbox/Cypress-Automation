@@ -56,6 +56,7 @@ const LiveHeader = ({
 						>
 							<Icon
 								className="material-icons"
+								id="exit-live-room-button"
 								style={{
 									fontSize: '2em',
 									color: primary,
