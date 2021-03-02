@@ -22,38 +22,40 @@ import { SERVER_URL } from '../config';
 import { addSpecificTranslations } from '../actions/companyActions';
 import { initLogRocket } from '../utils/logRocket';
 
-const participantQuery = gql`
-	query info {
-		participant {
-			name
-			surname
-			id
-			legalTermsAccepted
-			type
-			voteDenied
-			voteDeniedReason
-			hasVoted
-			phone
-			numParticipations
-			delegatedVotes {
-				id
+const buildParticipantQuery = config => {
+	return (gql`
+		query info {
+			participant {
 				name
 				surname
-				numParticipations
+				id
+				${config.participantTermsCheck ? 'legalTermsAccepted' : ''}
+				type
 				voteDenied
 				voteDeniedReason
+				hasVoted
+				phone
+				numParticipations
+				delegatedVotes {
+					id
+					name
+					surname
+					numParticipations
+					voteDenied
+					voteDeniedReason
+					state
+					type
+				}
+				email
 				state
-				type
+				requestWord
+				language
+				online
+				roomType
 			}
-			email
-			state
-			requestWord
-			language
-			online
-			roomType
 		}
-	}
-`;
+	`);
+};
 
 export const ConnectionInfoContext = React.createContext(null);
 
@@ -176,7 +178,7 @@ const ParticipantContainer = ({
 
 	const getData = async () => {
 		const response = await client.query({
-			query: participantQuery
+			query: buildParticipantQuery(config)
 		});
 
 		if (response.errors) {
