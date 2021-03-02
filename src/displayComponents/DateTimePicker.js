@@ -69,9 +69,9 @@ const DateTimePickerWrapper = ({
 					ampm={false}
 					format={format || 'LLL'}
 					minDateMessage={minDateMessage}
-					okLabel={acceptText}
+					okLabel={ acceptText ? <span id="calendar-accept-button">{acceptText}</span> : null}
 					style={{ width: '100%' }}
-					cancelLabel={cancelText}
+					cancelLabel={ cancelText ? <span id="calendar-cancel-button">{cancelText}</span> : null}
 					{...(minDate ? { minDate } : {})}
 					InputProps={{
 						endAdornment: (
