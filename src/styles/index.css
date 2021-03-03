@@ -1003,6 +1003,77 @@ right: calc(-50% + 7px)!important;
 left: calc(50% + 7px)!important;
 right: calc(-50% + 7px)!important;
 }
+
+.stepperAccesoBlue svg {
+color: #154481!important;
+}
+
+.stepperAccesoBlue svg text {
+fill: #154481!important;
+}
+
+.stepperAccesoFailBlue svg {
+color: red!important;
+border: 2px solid #154481;
+border-radius: 50px;
+}
+
+.stepperAccesoFailBlue svg text {
+fill: red!important;
+}
+
+.stepperAccesoNoActivedBlue svg {
+color: white!important;
+border: 2px solid #154481;
+border-radius: 50px;
+}
+
+.stepperAccesoNoActivedBlue svg text {
+fill: white!important;
+}
+
+.stepperAccesoBlue div span {
+border-color: #154481!important;
+border: 1px solid;
+}
+
+.stepperAccesoFailBlue div span {
+border-color: #154481!important;
+border: 1px solid;
+}
+
+.stepperAccesoNoActivedBlue div span {
+border-color: #154481!important;
+border: 1px solid;
+}
+
+.stepperAccesoBlue span span {
+z-index: 1;
+}
+
+.stepperAccesoFailBlue span span {
+z-index: 1;
+}
+
+.stepperAccesoNoActivedBlue span span {
+z-index: 1;
+}
+
+.stepperAccesoBlue div {
+left: calc(50% + 7px)!important;
+right: calc(-50% + 7px)!important;
+}
+
+.stepperAccesoFailBlue div {
+left: calc(50% + 7px)!important;
+right: calc(-50% + 7px)!important;
+}
+
+.stepperAccesoNoActivedBlue div {
+left: calc(50% + 7px)!important;
+right: calc(-50% + 7px)!important;
+}
+
 .hearderReunionesTabla tr th {
 border-bottom: none;
 color: rgb(125, 33, 128);

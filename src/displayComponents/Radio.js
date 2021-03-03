@@ -16,7 +16,7 @@ const RadioButton = ({
 				name={name}
 			/>
 		}
-		style={{ ...styleLabel }}
+		style={{ ...styleLabel, color:"red" }}
 		label={label}
 	/>
 );

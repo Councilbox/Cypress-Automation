@@ -16,6 +16,7 @@ import {
 } from '../../../../../utils/validation';
 import ParticipantForm from '../../../participants/ParticipantForm';
 import RepresentativeForm from '../../../../company/census/censusEditor/RepresentativeForm';
+import EstadoAlta2FA from '../../../../company/census/censusEditor/EstadoAlta2FA';
 import withSharedProps from '../../../../../HOCs/withSharedProps';
 import SelectRepresentative from './SelectRepresentative';
 import { COUNCIL_TYPES, INPUT_REGEX } from '../../../../../constants';
@@ -358,6 +359,24 @@ class AddCouncilParticipantButton extends React.Component {
 							languages={this.props.data.languages}
 						/>
 					</Card>
+					{/* 2FA */}
+					{/* <Card style={{
+						padding: '1em',
+						marginBottom: '1em',
+						color: 'black',
+					}}>
+						<EstadoAlta2FA
+							translate={this.props.translate}
+							state={this.state.representative}
+							updateState={this.updateRepresentative}
+							setSelectRepresentative={value => this.setState({
+								selectRepresentative: value
+							})}
+							checkEmail={this.emailKeyUp}
+							errors={this.state.representativeErrors}
+							languages={this.props.data.languages}
+						/>
+					</Card> */}
 				</div>
 			</div>
 		);
