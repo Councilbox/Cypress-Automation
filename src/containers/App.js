@@ -33,6 +33,7 @@ import ConveneDisplay from '../components/council/convene/ConveneDisplay';
 import { pageView } from '../utils/analytics';
 import { shouldLoadSubdomain } from '../utils/subdomain';
 import Test from '../components/participant/test/Test';
+import DownloadFile from '../components/DownloadFile';
 
 export { moment };
 
@@ -258,6 +259,7 @@ const RouterWrapper = () => {
 	return (
 		<React.Fragment>
 			<Switch>
+				<Route path="/download/:token" component={DownloadFile} />
 				<Route
 					exact
 					path="/company/:company/council/:id/live"
