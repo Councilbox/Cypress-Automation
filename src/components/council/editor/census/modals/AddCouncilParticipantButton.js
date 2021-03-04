@@ -16,7 +16,7 @@ import {
 } from '../../../../../utils/validation';
 import ParticipantForm from '../../../participants/ParticipantForm';
 import RepresentativeForm from '../../../../company/census/censusEditor/RepresentativeForm';
-import EstadoAlta2FA from '../../../../company/census/censusEditor/EstadoAlta2FA';
+import CheckUserClavePin from '../../../participants/CheckParticipantRegisteredClavePin';
 import withSharedProps from '../../../../../HOCs/withSharedProps';
 import SelectRepresentative from './SelectRepresentative';
 import { COUNCIL_TYPES, INPUT_REGEX } from '../../../../../constants';
@@ -65,6 +65,7 @@ class AddCouncilParticipantButton extends React.Component {
 		representative: { ...initialRepresentative },
 		errors: {},
 		loading: false,
+		validated: !this.props.validateBeforeCreate,
 		representativeErrors: {}
 	};
 
@@ -80,6 +81,14 @@ class AddCouncilParticipantButton extends React.Component {
 			: null;
 
 		if (!await this.checkRequiredFields()) {
+			if (!this.state.validated) {
+				return this.setState({
+					errors: {
+						clavePin: 'false'
+					}
+				});
+			}
+
 			this.setState({
 				loading: true
 			});
@@ -360,12 +369,12 @@ class AddCouncilParticipantButton extends React.Component {
 						/>
 					</Card>
 					{/* 2FA */}
-					{/* <Card style={{
+					<Card style={{
 						padding: '1em',
 						marginBottom: '1em',
 						color: 'black',
 					}}>
-						<EstadoAlta2FA
+						<CheckUserClavePin
 							translate={this.props.translate}
 							state={this.state.representative}
 							updateState={this.updateRepresentative}
@@ -376,7 +385,12 @@ class AddCouncilParticipantButton extends React.Component {
 							errors={this.state.representativeErrors}
 							languages={this.props.data.languages}
 						/>
-					</Card> */}
+						{this.state.errors.clavePin &&
+							<div style={{ color: 'red', fontWeight: '700' }}>
+								{'Antes de poder crear el participante tiene que se comprobada su alta en el servicio cl@ve pin'}
+							</div>
+						}
+					</Card>
 				</div>
 			</div>
 		);

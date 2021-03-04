@@ -6,11 +6,12 @@ import {
 	GridItem,
 	SelectInput,
 	TextInput,
-	LoadingSection
-} from '../../../../displayComponents';
-import { getSecondary } from '../../../../styles/colors';
-import { isMobile } from '../../../../utils/screen';
-import withWindowSize from '../../../../HOCs/withWindowSize';
+	LoadingSection,
+	AlertConfirm
+} from '../../../displayComponents';
+import { getSecondary } from '../../../styles/colors';
+import { isMobile } from '../../../utils/screen';
+import withWindowSize from '../../../HOCs/withWindowSize';
 
 const Action = ({
 	children, loading, onClick, disabled = false, styles
@@ -41,31 +42,34 @@ const Action = ({
 				<LoadingSection size={20} />
 			</div>
 		) : (
-				children
-			)}
+			children
+		)}
 	</div>
 );
 
 
-const EstadoAlta2FA = ({
-	updateState,
+const CheckParticipantRegisteredClavePin = ({
 	translate,
-	state,
-	checkEmail,
-	errors,
-	languages,
 	disabled,
-	setSelectRepresentative,
 	windowSize
 }) => {
-	const representative = state;
+	const [modal, setModal] = React.useState(false);
 
 	return (
 		<Grid>
+			<AlertConfirm
+				open={modal}
+				title={'Comprobar alta clave pin'}
+				requestClose={() => setModal(false)}
+				bodyText={
+					<>
+						BODY DE COMPROBAR
+					</>
+				}
+			/>
 			<GridItem xs={12} lg={12} md={12} style={{ display: isMobile && windowSize === 'xs' ? '' : 'flex' }}>
 				<Action
-					onClick={() => setSelectRepresentative(true)}
-					disabled={disabled}
+					onClick={() => setModal(true)}
 				>
 					<div
 						style={{ display: 'flex', alignItems: 'center', overflow: 'hidden' }}
@@ -81,11 +85,8 @@ const EstadoAlta2FA = ({
 					</div>
 				</Action>
 			</GridItem>
-			
-			{/* <Collapse in={state.hasRepresentative} >
-			</Collapse> */}
 		</Grid>
 	);
 };
 
-export default withWindowSize(EstadoAlta2FA);
+export default withWindowSize(CheckParticipantRegisteredClavePin);
