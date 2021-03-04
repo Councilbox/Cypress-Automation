@@ -123,8 +123,8 @@ const TextInput = ({
 						{adornment}
 					</InputAdornment>
 				) : (
-							''
-						)
+					''
+				)
 			}}
 			FormHelperTextProps={{
 				error: !!errorText,

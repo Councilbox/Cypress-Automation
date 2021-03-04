@@ -19,7 +19,7 @@ import RepresentativeForm from '../../../../company/census/censusEditor/Represen
 import CheckUserClavePin from '../../../participants/CheckParticipantRegisteredClavePin';
 import withSharedProps from '../../../../../HOCs/withSharedProps';
 import SelectRepresentative from './SelectRepresentative';
-import { COUNCIL_TYPES, INPUT_REGEX } from '../../../../../constants';
+import { COUNCIL_TYPES, INPUT_REGEX, PARTICIPANT_VALIDATIONS } from '../../../../../constants';
 
 const initialParticipant = {
 	name: '',
@@ -84,7 +84,7 @@ class AddCouncilParticipantButton extends React.Component {
 			if (!this.state.validated) {
 				return this.setState({
 					errors: {
-						clavePin: 'false'
+						clavePin: 'Antes de poder crear el participante tiene que se comprobada su alta en el servicio cl@ve pin'
 					}
 				});
 			}
@@ -368,29 +368,44 @@ class AddCouncilParticipantButton extends React.Component {
 							languages={this.props.data.languages}
 						/>
 					</Card>
-					{/* 2FA */}
-					<Card style={{
-						padding: '1em',
-						marginBottom: '1em',
-						color: 'black',
-					}}>
-						<CheckUserClavePin
-							translate={this.props.translate}
-							state={this.state.representative}
-							updateState={this.updateRepresentative}
-							setSelectRepresentative={value => this.setState({
-								selectRepresentative: value
-							})}
-							checkEmail={this.emailKeyUp}
-							errors={this.state.representativeErrors}
-							languages={this.props.data.languages}
-						/>
-						{this.state.errors.clavePin &&
-							<div style={{ color: 'red', fontWeight: '700' }}>
-								{'Antes de poder crear el participante tiene que se comprobada su alta en el servicio cl@ve pin'}
-							</div>
-						}
-					</Card>
+					{this.props.council.statute.participantValidation === PARTICIPANT_VALIDATIONS.CLAVE_PIN &&
+						<Card style={{
+							padding: '1em',
+							marginBottom: '1em',
+							color: 'black',
+						}}>
+							<CheckUserClavePin
+								translate={this.props.translate}
+								participant={participant}
+								setPinError={error => {
+									this.setState({
+										errors: {
+											clavePin: error
+										}
+									});
+								}}
+								validateParticipant={() => {
+									this.setState({
+										validated: true,
+										errors: {
+											...this.state.errors,
+											clavePin: ''
+										}
+									});
+								}}
+							/>
+							{this.state.errors.clavePin &&
+								<div style={{ color: 'red', fontWeight: '700', padding: '0.6em' }}>
+									{this.state.errors.clavePin}
+								</div>
+							}
+							{this.state.validated &&
+								<div style={{ color: 'green', fontWeight: '700', padding: '0.6em' }}>
+									{'Alta validada'}
+								</div>
+							}
+						</Card>
+					}
 				</div>
 			</div>
 		);

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Card } from 'material-ui';
-import { BasicButton, TextInput, NotLoggedLayout, HelpPopover } from '../../../displayComponents';
+import { BasicButton, TextInput, NotLoggedLayout } from '../../../displayComponents';
 import { isMobile } from '../../../utils/screen';
-import { getPrimary, getSecondary } from '../../../styles/colors';
-import Resend2FAModal from './Resend2FAModal';
-import SMSStepper from '../../../components/participant/login/SMSAccess/SMSStepper';
+import { getSecondary } from '../../../styles/colors';
+//import Resend2FAModal from './Resend2FAModal';
+import SMSStepper from '../login/SMSAccess/SMSStepper';
 
 
 const styles = {
@@ -106,14 +106,14 @@ const AccessPin1 = ({
 								</div>
 								<div style={{ display: 'flex', justifyContent: 'center' }}>
 									<div style={{ width: '440px' }}>
-										<div style={{ textAlign: 'center', padding: '1em', border: "1px solid gainsboro", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', }}>
-											<div style={{ width: "50%" }}>
+										<div style={{ textAlign: 'center', padding: '1em', border: '1px solid gainsboro', boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)' }}>
+											<div style={{ width: '50%' }}>
 												<TextInput
 													styleFloatText={{ fontSize: '20px', color: getSecondary() }}
 													floatingText={'NIF/NIE'}
 													type="email"
 													fullWidth
-													styleFloatText={{ color: 'black', }} //#154481
+													styleFloatText={{ color: 'black' }} // #154481
 													// onKeyUp={event => {
 													// 	if (event.keyCode === 13) {
 													// 		send();
@@ -124,17 +124,17 @@ const AccessPin1 = ({
 													onChange={event => updateValue(event.target.value)}
 												/>
 											</div>
-											<div style={{ width: "50%" }}>
+											<div style={{ width: '50%' }}>
 												<TextInput
 													styleFloatText={{ fontSize: '20px', color: getSecondary() }}
 													floatingText={'Fecha validez/Nº soporte '}
 													helpPopover={true}
 													helpTitle={'titulo'}
 													helpDescription={'descripcion'}
-													colorHelp={"#80a5b7"}
+													colorHelp={'#80a5b7'}
 													type="text"
 													fullWidth
-													styleFloatText={{ color: '#154481' }} //black
+													styleFloatText={{ color: '#154481' }} // black
 													// onKeyUp={event => {
 													// 	if (event.keyCode === 13) {
 													// 		send();
@@ -145,15 +145,15 @@ const AccessPin1 = ({
 													onChange={event => updateValue(event.target.value)}
 												/>
 											</div>
-											<div style={{ display: "flex", alignItems: "flex-end" }}>
+											<div style={{ display: 'flex', alignItems: 'flex-end' }}>
 												<TextInput
-													stylesTextField={{ marginBottom: "0px" }}
+													stylesTextField={{ marginBottom: '0px' }}
 													styleFloatText={{ fontSize: '20px', color: getSecondary() }}
 													floatingText={'Clave Pin'}
 													helpPopover={true}
 													helpTitle={'titulo'}
 													helpDescription={'descripcion'}
-													colorHelp={"#80a5b7"}
+													colorHelp={'#80a5b7'}
 													type="text"
 													fullWidth
 													styleFloatText={{ color: '#154481' }}
@@ -171,15 +171,15 @@ const AccessPin1 = ({
 													onClick={send}
 													backgroundColor={{
 														color: '#154481',
-														backgroundColor: "white",
-														border: "1px solid #154481",
-														borderRadius: "4px",
+														backgroundColor: 'white',
+														border: '1px solid #154481',
+														borderRadius: '4px',
 														fontSize: '11px',
-														marginRight: "5px",
-														marginLeft: "5px",
+														marginRight: '5px',
+														marginLeft: '5px',
 														padding: '0',
 														minHeight: '24px',
-														boxShadow: "none"
+														boxShadow: 'none'
 													}}
 													textPosition="before"
 													fullWidth={true}
@@ -189,19 +189,19 @@ const AccessPin1 = ({
 													onClick={send}
 													backgroundColor={{
 														color: '#154481',
-														backgroundColor: "white",
-														border: "1px solid #154481",
-														borderRadius: "4px",
+														backgroundColor: 'white',
+														border: '1px solid #154481',
+														borderRadius: '4px',
 														fontSize: '11px',
 														padding: '0',
 														minHeight: '24px',
-														boxShadow: "none"
+														boxShadow: 'none'
 													}}
 													textPosition="before"
 													fullWidth={true}
 												/>
 											</div>
-											<div style={{ textAlign: 'center', padding: '1em 0em', }}>
+											<div style={{ textAlign: 'center', padding: '1em 0em' }}>
 												<BasicButton
 													text={'Acceder'}
 													onClick={send}
@@ -210,7 +210,7 @@ const AccessPin1 = ({
 														borderRadius: '4px',
 														boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
 														color: 'white',
-														backgroundColor: "#154481",
+														backgroundColor: '#154481',
 														// opacity: '0.4'
 													}}
 													textPosition="before"
@@ -231,7 +231,7 @@ const AccessPin1 = ({
 								// responseSMS={responseSMS}
 								// resendKey={sendParticipantRoomKey}
 								error={error}
-								color={"#154481"}
+								color={'#154481'}
 							/>
 						</div>
 					</div>

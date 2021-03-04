@@ -9,7 +9,7 @@ const DefaultTrigger = ({ onClick, color }) => {
 	return (
 		<span onClick={onClick}>
 			<i className="material-icons" style={{
-				color: color ? color : primary,
+				color: color || primary,
 				fontSize: '14px',
 				paddingRight: '0.3em',
 				cursor: 'pointer',
@@ -32,7 +32,7 @@ const HelpPopover = ({ ...props }) => {
 			...state,
 			visible
 		});
-	}
+	};
 
 	const toggleVisible = event => {
 		event.stopPropagation();
@@ -40,7 +40,7 @@ const HelpPopover = ({ ...props }) => {
 			...state,
 			visible: !state.visible
 		});
-	}
+	};
 
 
 	const {
@@ -66,6 +66,6 @@ const HelpPopover = ({ ...props }) => {
 			/>
 		</Popover>
 	);
-}
+};
 
 export default HelpPopover;

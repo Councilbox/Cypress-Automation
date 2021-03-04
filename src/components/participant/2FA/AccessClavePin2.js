@@ -4,7 +4,7 @@ import { BasicButton, TextInput, NotLoggedLayout, HelpPopover, Radio } from '../
 import { isMobile } from '../../../utils/screen';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import Resend2FAModal from './Resend2FAModal';
-import SMSStepper from '../../../components/participant/login/SMSAccess/SMSStepper';
+import SMSStepper from '../login/SMSAccess/SMSStepper';
 
 
 const styles = {
@@ -106,27 +106,27 @@ const AccessClavePin2 = ({
 								</div>
 								<div style={{ display: 'flex', justifyContent: 'center' }}>
 									<div style={{ width: '440px' }}>
-										<div style={{ textAlign: 'center', padding: '1em', border: "1px solid gainsboro", marginBottom: "3em", boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', }}>
-											<div style={{ color: '#154481', textAlign: "left", marginBottom: '.5em' }}>
+										<div style={{ textAlign: 'center', padding: '1em', border: '1px solid gainsboro', marginBottom: '3em', boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)' }}>
+											<div style={{ color: '#154481', textAlign: 'left', marginBottom: '.5em' }}>
 												<i className="material-icons" style={{ fontSize: '25px', marginLeft: '-10px' }}>
 													keyboard_arrow_left
 												</i>
 											</div>
-											<div style={{ width: "50%", marginBottom: '.5em' }}>
-												<div style={{ display: "flex", color: '#154481' }}>
+											<div style={{ width: '50%', marginBottom: '.5em' }}>
+												<div style={{ display: 'flex', color: '#154481' }}>
 													Clave PIN
 													<HelpPopover
 														title={'titulo'}
 														content={'descripcion'}
-														colorHelp={"#80a5b7"}
+														colorHelp={'#80a5b7'}
 													/>
 												</div>
-												<div style={{ display: "flex" }}>
+												<div style={{ display: 'flex' }}>
 													<TextInput
 														type="number"
-														stylesTextField={{ color: '#154481', border: "1px solid #154481", borderRadius: '8px', marginTop: '5px' }}
-														styles={{ marginRight: "12px", }}
-														styleInInput={{ textAlign: "center", margin: "2px ​0px", color: "#154481", fontWeight: "bold" }}
+														stylesTextField={{ color: '#154481', border: '1px solid #154481', borderRadius: '8px', marginTop: '5px' }}
+														styles={{ marginRight: '12px' }}
+														styleInInput={{ textAlign: 'center', margin: '2px ​0px', color: '#154481', fontWeight: 'bold' }}
 														min={0}
 														max={9}
 														labelNone={true}
@@ -142,9 +142,9 @@ const AccessClavePin2 = ({
 													/>
 													<TextInput
 														type="number"
-														stylesTextField={{ color: '#154481', border: "1px solid #154481", borderRadius: '8px', marginTop: '5px' }}
-														styles={{ marginRight: "12px", }}
-														styleInInput={{ textAlign: "center", margin: "2px ​0px", color: "#154481", fontWeight: "bold" }}
+														stylesTextField={{ color: '#154481', border: '1px solid #154481', borderRadius: '8px', marginTop: '5px' }}
+														styles={{ marginRight: '12px' }}
+														styleInInput={{ textAlign: 'center', margin: '2px ​0px', color: '#154481', fontWeight: 'bold' }}
 														min={0}
 														max={9}
 														labelNone={true}
@@ -160,9 +160,9 @@ const AccessClavePin2 = ({
 													/>
 													<TextInput
 														type="number"
-														stylesTextField={{ color: '#154481', border: "1px solid #154481", borderRadius: '8px', marginTop: '5px' }}
-														styles={{ marginRight: "12px", }}
-														styleInInput={{ textAlign: "center", margin: "4px ​0px", color: "#154481", fontWeight: "bold" }}
+														stylesTextField={{ color: '#154481', border: '1px solid #154481', borderRadius: '8px', marginTop: '5px' }}
+														styles={{ marginRight: '12px' }}
+														styleInInput={{ textAlign: 'center', margin: '4px ​0px', color: '#154481', fontWeight: 'bold' }}
 														min={0}
 														max={9}
 														labelNone={true}
@@ -178,9 +178,9 @@ const AccessClavePin2 = ({
 													/>
 													<TextInput
 														type="number"
-														stylesTextField={{ color: '#154481', border: "1px solid #154481", borderRadius: '8px', marginTop: '5px' }}
-														styles={{ marginRight: "12px", }}
-														styleInInput={{ textAlign: "center", margin: "2px ​0px", color: "#154481", fontWeight: "bold" }}
+														stylesTextField={{ color: '#154481', border: '1px solid #154481', borderRadius: '8px', marginTop: '5px' }}
+														styles={{ marginRight: '12px' }}
+														styleInInput={{ textAlign: 'center', margin: '2px ​0px', color: '#154481', fontWeight: 'bold' }}
 														min={0}
 														max={9}
 														labelNone={true}
@@ -196,21 +196,21 @@ const AccessClavePin2 = ({
 													/>
 												</div>
 											</div>
-											<div style={{ display: "flex", alignItems: "flex-end", marginBottom: '4em' }}>
+											<div style={{ display: 'flex', alignItems: 'flex-end', marginBottom: '4em' }}>
 												<BasicButton
 													text={'Solicitar PIN vía SMS'}
 													onClick={send}
 													backgroundColor={{
 														color: '#154481',
-														backgroundColor: "white",
-														border: "1px solid #154481",
-														borderRadius: "4px",
+														backgroundColor: 'white',
+														border: '1px solid #154481',
+														borderRadius: '4px',
 														fontSize: '11px',
-														marginRight: "5px",
-														marginLeft: "5px",
+														marginRight: '5px',
+														marginLeft: '5px',
 														padding: '0',
 														minHeight: '24px',
-														boxShadow: "none",
+														boxShadow: 'none',
 														maxWidth: '150px'
 													}}
 													textPosition="before"
@@ -221,20 +221,20 @@ const AccessClavePin2 = ({
 													onClick={send}
 													backgroundColor={{
 														color: '#154481',
-														backgroundColor: "white",
-														border: "1px solid #154481",
-														borderRadius: "4px",
+														backgroundColor: 'white',
+														border: '1px solid #154481',
+														borderRadius: '4px',
 														fontSize: '11px',
 														padding: '0',
 														minHeight: '24px',
-														boxShadow: "none",
+														boxShadow: 'none',
 														maxWidth: '150px'
 													}}
 													textPosition="before"
 													fullWidth={true}
 												/>
 											</div>
-											<div style={{ textAlign: 'center', padding: '1em 0em', }}>
+											<div style={{ textAlign: 'center', padding: '1em 0em' }}>
 												<BasicButton
 													text={'Acceder'}
 													onClick={send}
@@ -243,7 +243,7 @@ const AccessClavePin2 = ({
 														borderRadius: '4px',
 														boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
 														color: 'white',
-														backgroundColor: "#154481",
+														backgroundColor: '#154481',
 														// opacity: '0.4'
 													}}
 													textPosition="before"

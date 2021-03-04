@@ -1,13 +1,13 @@
 import React from 'react';
-import { MenuItem, Collapse } from 'material-ui';
-
+import gql from 'graphql-tag';
+import { withApollo } from 'react-apollo';
+import { DatePicker } from 'material-ui';
 import {
 	Grid,
 	GridItem,
-	SelectInput,
-	TextInput,
 	LoadingSection,
-	AlertConfirm
+	AlertConfirm,
+	DateTimePicker
 } from '../../../displayComponents';
 import { getSecondary } from '../../../styles/colors';
 import { isMobile } from '../../../utils/screen';
@@ -51,9 +51,45 @@ const Action = ({
 const CheckParticipantRegisteredClavePin = ({
 	translate,
 	disabled,
+	client,
+	validateParticipant,
+	setPinError,
+	participant,
 	windowSize
 }) => {
 	const [modal, setModal] = React.useState(false);
+	const [code, setCode] = React.useState(null);
+
+	const checkParticipantIsRegistered = async () => {
+		const response = await client.query({
+			query: gql`
+				query checkParticipantIsRegisteredClavePin($dni: String!, $code: String!){
+					checkParticipantIsRegisteredClavePin(dni: $dni, code: $code) {
+						success
+						message
+					}
+				}
+			`,
+			variables: {
+				dni: participant.dni,
+				code
+			}
+		});
+
+		if (response.data?.checkParticipantIsRegisteredClavePin) {
+			const { success } = response.data?.checkParticipantIsRegisteredClavePin;
+
+			if (success) {
+				validateParticipant();
+				setModal(false);
+			} else {
+				setPinError('El usuario no está de alta');
+				setModal(false);
+			}
+		}
+
+		console.log(response);
+	};
 
 	return (
 		<Grid>
@@ -61,9 +97,24 @@ const CheckParticipantRegisteredClavePin = ({
 				open={modal}
 				title={'Comprobar alta clave pin'}
 				requestClose={() => setModal(false)}
+				buttonAccept={translate.send}
+				acceptAction={checkParticipantIsRegistered}
 				bodyText={
 					<>
-						BODY DE COMPROBAR
+						Introduzca la Fecha de Validez de su DNI (o Fecha de Expedición si es un DNI Permanente)
+						<DateTimePicker
+							onlyDate={true}
+							format={'l'}
+							value={code}
+							onChange={date => {
+								let dateString = null;
+								if (date) {
+									const newDate = new Date(date);
+									dateString = newDate.toISOString();
+								}
+								setCode(dateString);
+							}}
+						/>
 					</>
 				}
 			/>
@@ -89,4 +140,4 @@ const CheckParticipantRegisteredClavePin = ({
 	);
 };
 
-export default withWindowSize(CheckParticipantRegisteredClavePin);
+export default withWindowSize(withApollo(CheckParticipantRegisteredClavePin));

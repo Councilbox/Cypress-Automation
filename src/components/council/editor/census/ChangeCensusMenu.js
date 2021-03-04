@@ -12,6 +12,7 @@ import AddCouncilParticipantButton from './modals/AddCouncilParticipantButton';
 import { getSecondary } from '../../../../styles/colors';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import { ConfigContext } from '../../../../containers/AppControl';
+import { PARTICIPANT_VALIDATIONS } from '../../../../constants';
 
 
 const ChangeCensusMenu = ({
@@ -150,7 +151,7 @@ const ChangeCensusMenu = ({
 			>
 				<AddCouncilParticipantButton
 					disabled={disabled}
-					validateBeforeCreate={true}
+					validateBeforeCreate={council.statute.participantValidation !== PARTICIPANT_VALIDATIONS.NONE}
 					participations={participations}
 					translate={translate}
 					council={council}
