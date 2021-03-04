@@ -10,8 +10,8 @@ const FileOrgAdm = ({
 	translate, data, updateCompanyData, updateCompany, ...props
 }) => (
 	<div style={{ height: '100%' }}>
-		<div style={{ padding: '0px 1em 1em', height: '100%', }}>
-			<div style={{ height: '100%', }}>
+		<div style={{ padding: '0px 1em 1em', height: '100%' }}>
+			<div style={{ height: '100%' }}>
 				<Scrollbar>
 					<div style={{ width: '100%', padding: '0 1em' }}>
 						<GoverningBodyForm translate={translate} state={data} updateState={updateCompanyData} />

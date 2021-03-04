@@ -35,6 +35,7 @@ const DevAdminPage = ({ data, toggleFeature }) => {
 	const config = {};
 
 	if (!data.loading) {
+		// eslint-disable-next-line no-restricted-syntax
 		for (const field of data.adminFeatures.features) {
 			config[field.name] = field.active;
 		}

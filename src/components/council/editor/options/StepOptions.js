@@ -502,7 +502,7 @@ const StepOptions = ({
 						>
 							<LoadingSection />
 						</div>
-						:						<div style={{ marginLeft: '1em' }}>
+						: <div style={{ marginLeft: '1em' }}>
 							{council.councilType < 2 && (
 								<React.Fragment>
 									<SectionTitle

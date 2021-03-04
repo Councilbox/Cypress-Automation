@@ -117,22 +117,22 @@ const AdminAnnouncement = ({
 							width: '80%'
 						}}>
 							{isAdmin
-&& <BasicButton
-	text={translate.hide_announcement}
-	textStyle={{ textTransform: 'none', color: 'white', }}
-	onClick={closeAnnouncement}
-	buttonStyle={{ marginTop: '.8em', width: '100%' }}
-	backgroundColor={{ backgroundColor: getPrimary(), boxShadow: 'none', borderRadius: '0' }}
-/>
+								&& <BasicButton
+									text={translate.hide_announcement}
+									textStyle={{ textTransform: 'none', color: 'white' }}
+									onClick={closeAnnouncement}
+									buttonStyle={{ marginTop: '.8em', width: '100%' }}
+									backgroundColor={{ backgroundColor: getPrimary(), boxShadow: 'none', borderRadius: '0' }}
+								/>
 							}
 							{!isAdmin && !data.adminAnnouncement.blockUser
-&& <BasicButton
-	text={translate.hide_announcement}
-	textStyle={{ textTransform: 'none', color: 'white', }}
-	onClick={() => setShowInParticipant(false)}
-	buttonStyle={{ marginTop: '.8em', width: '100%' }}
-	backgroundColor={{ backgroundColor: getPrimary(), boxShadow: 'none', borderRadius: '0' }}
-/>
+								&& <BasicButton
+									text={translate.hide_announcement}
+									textStyle={{ textTransform: 'none', color: 'white' }}
+									onClick={() => setShowInParticipant(false)}
+									buttonStyle={{ marginTop: '.8em', width: '100%' }}
+									backgroundColor={{ backgroundColor: getPrimary(), boxShadow: 'none', borderRadius: '0' }}
+								/>
 							}
 						</div>
 					</div>
@@ -177,7 +177,7 @@ export default compose(
 			variables: {
 				councilId: props.council.id
 			},
-			pollInterval: 15000,
+			pollInterval: 50000,
 		}),
 		props: props => ({
 			...props,

@@ -32,6 +32,8 @@ import ValidatorPage from '../components/notLogged/validator/ValidatorPage';
 import ConveneDisplay from '../components/council/convene/ConveneDisplay';
 import { pageView } from '../utils/analytics';
 import { shouldLoadSubdomain } from '../utils/subdomain';
+import Test from '../components/participant/test/Test';
+import DownloadFile from '../components/DownloadFile';
 
 export { moment };
 
@@ -244,6 +246,11 @@ const App = () => (
 	</ApolloProvider>
 );
 
+const LoadRecommendations = Loadable({
+	loader: () => import('../components/noCompany/Recommendations'),
+	loading: LoadingMainApp
+});
+
 const RouterWrapper = () => {
 	React.useEffect(() => {
 		pageView();
@@ -252,10 +259,16 @@ const RouterWrapper = () => {
 	return (
 		<React.Fragment>
 			<Switch>
+				<Route path="/download/:token" component={DownloadFile} />
 				<Route
 					exact
 					path="/company/:company/council/:id/live"
 					component={CouncilLiveContainer}
+				/>
+				<Route exact path="/test/:language" component={Test} />
+				<Route
+					path="/company/:company/council/:council/recommendations/:language"
+					component={LoadRecommendations}
 				/>
 				<Route
 					exact
@@ -273,18 +286,18 @@ const RouterWrapper = () => {
 					component={ConveneDisplay}
 				/>
 				{!window.location.hostname.includes('app.councilbox')
-&& <Route
-	exact
-	path="/docs"
-	component={DocsPage}
-/>
+					&& <Route
+						exact
+						path="/docs"
+						component={DocsPage}
+					/>
 				}
 				{!window.location.hostname.includes('app.councilbox')
-&& <Route
-	exact
-	path="/docs/tryit"
-	component={PlaygroundPage}
-/>
+					&& <Route
+						exact
+						path="/docs/tryit"
+						component={PlaygroundPage}
+					/>
 				}
 				<Route
 					exact

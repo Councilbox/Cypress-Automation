@@ -54,7 +54,7 @@ const OrganizationUsersTable = ({
 	return (
 		<div style={{}}>
 			<div style={{ fontSize: '13px' }}>
-				<div style={{ display: 'flex', justifyContent: 'space-between', padding: '1em', }}>
+				<div style={{ display: 'flex', justifyContent: 'space-between', padding: '1em' }}>
 					<div style={{
 						color: primary, fontWeight: 'bold', width: 'calc( 100% / 5 )', textAlign: 'left'
 					}}>

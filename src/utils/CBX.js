@@ -728,9 +728,9 @@ export const buildShareholdersList = ({ council, total, type }) => {
 		})}`, `${
 			type === 'partners' ?
 				partnersText[council.language]
-				:				type === 'counselors' ?
+				: type === 'counselors' ?
 					counselorsList[council.language]
-					:					shareholdersText[council.language]}:`);
+					: shareholdersText[council.language]}:`);
 };
 
 
@@ -854,9 +854,9 @@ export const changeVariablesToValues = async (initialText, data, translate) => {
 	text = text.replace(
 		/{{firstOrSecondCall}}/g, data.council.firstOrSecondConvene === 1 ?
 			translate.first_call
-			:		data.council.firstOrSecondCall === 2 ?
+			: data.council.firstOrSecondCall === 2 ?
 				translate.second_call
-				:			''
+				: ''
 	);
 
 	const base = data.council.partTotal;
@@ -1872,7 +1872,9 @@ export const removeTypenameField = object => {
 };
 
 export const cleanAgendaObject = agenda => {
-	const { attachments, ballots, items, options, __typename, votings, qualityVoteSense, votingsRecount, ...clean } = agenda;
+	const {
+		attachments, ballots, items, options, __typename, votings, qualityVoteSense, votingsRecount, ...clean
+	} = agenda;
 	return clean;
 };
 

@@ -70,7 +70,7 @@ const SendMessageToParticipant = ({
 						sendEmailtoParticipant(participantId: $participantId, message: $message, attachments: $attachments){
 							success
 						}
-					}	
+					}
 				`,
 				variables: {
 					participantId,

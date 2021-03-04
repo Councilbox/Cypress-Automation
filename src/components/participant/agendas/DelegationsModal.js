@@ -21,20 +21,20 @@ const DelegationsModal = ({
 	const representations = participant.delegatedVotes.filter(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
 
 	// TRADUCCION
-	function _renderDelegationsModalBody() {
+	function renderDelegationsModalBody() {
 		return (
 			<div>
 				{participant.voteDenied
-&& <div style={{ marginBottom: '1em' }}>
-Su derecho a voto <strong>ha sido denegado</strong>
-	{participant.voteDeniedReason
-&& <div>{`El motivo indicado es: ${participant.voteDeniedReason}`}</div>
-	}
-</div>
+					&& <div style={{ marginBottom: '1em' }}>
+						Su derecho a voto <strong>ha sido denegado</strong>
+						{participant.voteDeniedReason
+							&& <div>{`El motivo indicado es: ${participant.voteDeniedReason}`}</div>
+						}
+					</div>
 				}
 
 				{delegations.length > 0
-&& translate.you_have_following_delegated_votes
+					&& translate.you_have_following_delegated_votes
 				}
 				{delegations.map(vote => (
 					<div key={`delegatedVote_${vote.id}`} style={{
@@ -43,7 +43,7 @@ Su derecho a voto <strong>ha sido denegado</strong>
 						<div>
 							<span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${showNumParticipations(vote.numParticipations, council.company, council.statute, council.statute)}`}</span>
 							{vote.voteDenied
-&& <span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
+								&& <span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
 							}
 						</div>
 						<BasicButton
@@ -56,17 +56,17 @@ Su derecho a voto <strong>ha sido denegado</strong>
 					</div>
 				))}
 				{representations.length > 0
-&& `${translate.representative_of}:`
+					&& `${translate.representative_of}:`
 				}
 				{representations.map(vote => (
 					<div key={`delegatedVote_${vote.id}`} style={{ padding: '0.3em', display: 'flex', alignItems: 'center' }}>
 						<span>{`${vote.name} ${vote.surname || ''} - ${translate.votes}: ${showNumParticipations(vote.numParticipations, council.company, council.statute)}`}</span>
 						{vote.voteDenied
-&& <span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
+							&& <span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
 						}
 					</div>
 				))}
-				<br/>{translate.total_votes}: {calculateParticipantVotes()}
+				<br />{translate.total_votes}: {calculateParticipantVotes()}
 			</div>
 		);
 	}
@@ -80,7 +80,7 @@ Su derecho a voto <strong>ha sido denegado</strong>
 				open={open}
 				fullWidth={false}
 				buttonCancel={translate.close}
-				bodyText={_renderDelegationsModalBody()}
+				bodyText={renderDelegationsModalBody()}
 				title={translate.warning}
 			/>
 			<RefusedDelegationDisabled
@@ -89,12 +89,12 @@ Su derecho a voto <strong>ha sido denegado</strong>
 				requestClose={() => setRefusedDisabledModal(false)}
 			/>
 			{delegation
-&& <RefuseDelegationConfirm
-	delegation={delegation}
-	translate={translate}
-	requestClose={closeConfirm}
-	refetch={refetch}
-/>
+				&& <RefuseDelegationConfirm
+					delegation={delegation}
+					translate={translate}
+					requestClose={closeConfirm}
+					refetch={refetch}
+				/>
 			}
 		</React.Fragment>
 	);

@@ -263,7 +263,9 @@ const CompanySettingsPage = ({
 				...state,
 				loading: true
 			});
-			const { __typename, creatorId, creationDate, corporationId, ...data } = state.data;
+			const {
+				__typename, creatorId, creationDate, corporationId, ...data
+			} = state.data;
 			const response = await props.updateCompany({
 				variables: {
 					company: data
@@ -1057,7 +1059,7 @@ const TablaUsuarios = ({
 			</div>
 			<div style={{}}>
 				<div style={{ fontSize: '13px' }}>
-					<div style={{ display: 'flex', justifyContent: 'space-between', padding: isMobile ? '0' : '1em', }}>
+					<div style={{ display: 'flex', justifyContent: 'space-between', padding: isMobile ? '0' : '1em' }}>
 						<div style={{
 							color: getPrimary(), fontWeight: 'bold', width: 'calc( 100% / 5 )', textAlign: 'left'
 						}}>
@@ -1396,7 +1398,7 @@ const TablaUsuariosAdmin = ({
 			</div>
 			<div style={{}}>
 				<div style={{ fontSize: '13px' }}>
-					<div style={{ display: 'flex', justifyContent: 'space-between', padding: '1em', }}>
+					<div style={{ display: 'flex', justifyContent: 'space-between', padding: '1em' }}>
 						<div style={{
 							color: getPrimary(), fontWeight: 'bold', width: '3em', textAlign: 'left'
 						}}></div>

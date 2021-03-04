@@ -50,12 +50,12 @@ render() {
 	};
 	return (
 		<div>
-			<div style={{ display: 'flex', cursor: 'pointer', }} onClick={this.selectEvent}>
+			<div style={{ display: 'flex', cursor: 'pointer' }} onClick={this.selectEvent}>
 				<Tooltip title={objectNames[event.state]}>
 					<div style={{ marginRight: '7px' }}><i className={objectClass[event.state]}></i></div>
 				</Tooltip>
 				<Tooltip title={event.title}>
-					<div style={{ width: '100%', margin: '0 auto', }}>
+					<div style={{ width: '100%', margin: '0 auto' }}>
 						{event.title}
 					</div>
 				</Tooltip>

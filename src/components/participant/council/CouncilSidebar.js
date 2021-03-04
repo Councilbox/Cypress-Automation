@@ -281,7 +281,7 @@ chat_bubble_outline
 						margin: 0, width: '100%', borderRadius: '0', maxHeight: '100vh', height: '100%  ', boxShadow: 'none', top: '0px'
 					}
 				}}
-				bodyStyle={{ maxWidth: '100vw', width: '100%', padding: '0', }}
+				bodyStyle={{ maxWidth: '100vw', width: '100%', padding: '0' }}
 				bodyText={
 					<div style={{ height: '100%' }}>
 						{props.agenda}
@@ -316,7 +316,7 @@ chat_bubble_outline
 						height: '3.5rem', width: '100vw', display: 'flex', color: '#ffffffcc',
 					}}>
 
-						<div style={{ width: '20%', textAlign: 'center', paddingTop: '0.35rem', }}>
+						<div style={{ width: '20%', textAlign: 'center', paddingTop: '0.35rem' }}>
 							{!props.modalContent ?
 								<FloatGroup
 									delay={0.02}
@@ -392,14 +392,14 @@ chat_bubble_outline
 							}
 						</div>
 						{renderVotingsWarning()}
-						<div style={{ width: '20%', textAlign: 'center', paddingTop: '0.35rem', }}>
+						<div style={{ width: '20%', textAlign: 'center', paddingTop: '0.35rem' }}>
 							{renderAgendaButton()}
 						</div>
 						{props.askWordMenu}
-						<div style={{ width: '20%', textAlign: 'center', paddingTop: '0.35rem', }}>
+						<div style={{ width: '20%', textAlign: 'center', paddingTop: '0.35rem' }}>
 							{renderPrivateMessageButton()}
 						</div>
-						<div style={{ width: '20%', textAlign: 'center', paddingTop: '0.35rem', }}>
+						<div style={{ width: '20%', textAlign: 'center', paddingTop: '0.35rem' }}>
 							<TimelineButton
 								council={council}
 								translate={translate}
@@ -466,7 +466,7 @@ chat_bubble_outline
 							height: '100%',
 							background: '#f1f1f1'
 						}}>
-							<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
+							<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 								{props.comentario}
 							</div>
 						</div>
@@ -582,7 +582,7 @@ chat_bubble_outline
 			background: '#f1f1f1'
 		}}
 		>
-			<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', }}>
+			<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
 				{props.comentario}
 			</div>
 		</div>

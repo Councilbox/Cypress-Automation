@@ -15,7 +15,9 @@ import { isMobile } from '../../../utils/screen';
 import { COUNCIL_STATES, COUNCIL_TYPES } from '../../../constants';
 
 
-const RequestWordMenu = ({ translate, participant, council, ...props }) => {
+const RequestWordMenu = ({
+	translate, participant, council, ...props
+}) => {
 	const [state, setState] = useOldState({
 		alertCantRequestWord: false,
 		safariModal: false,
@@ -233,7 +235,9 @@ const RequestWordMenu = ({ translate, participant, council, ...props }) => {
 			return (
 				<Button
 					className={'NoOutline'}
-					style={{ width: '100%', height: '100%', minWidth: '0', padding: '0', margin: '0', fontSize: '10px', }}
+					style={{
+						width: '100%', height: '100%', minWidth: '0', padding: '0', margin: '0', fontSize: '10px'
+					}}
 					onClick={buttonAction}
 				>
 					<div style={{ display: 'unset' }}>

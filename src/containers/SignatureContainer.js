@@ -12,7 +12,6 @@ import CBXContactButton from '../components/noCompany/CBXContactButton';
 import { bHistory, moment } from './App';
 import { TRIAL_DAYS } from '../config';
 import { trialDaysLeft } from '../utils/CBX';
-
 import CantCreateCouncilsModal from '../components/dashboard/CantCreateCouncilsModal';
 import { sendGAevent } from '../utils/analytics';
 import { ConfigContext } from './AppControl';
@@ -134,14 +133,14 @@ const SignatureContainer = ({
 							{...(cantAccessPremium || !canCreateSignature() ? { color: 'grey' } : {})}
 							icon={
 								<Icon className="material-icons">
-add
+									add
 								</Icon>
 							}
 							onClick={() => (cantAccessPremium ?
 								showCantAccessPremiumModal()
-								:									!canCreateSignature() ?
+								: !canCreateSignature() ?
 									showCantAccessSignatures()
-									:										bHistory.push(`/company/${company.id}/signature/new`))
+									: bHistory.push(`/company/${company.id}/signature/new`))
 							}
 						/>
 					</div>

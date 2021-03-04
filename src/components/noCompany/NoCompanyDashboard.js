@@ -46,7 +46,7 @@ render() {
 		>
 			{user.roles === 'devAdmin' ?
 				<DevAdminPanel />
-				:					<div className="row" style={{ width: '100%' }}>
+				: <div className="row" style={{ width: '100%' }}>
 					<div
 						style={{
 							width: '100%',
@@ -93,7 +93,7 @@ render() {
 											text={translate.companies_add}
 										/>
 									</div>
-									:										<Block
+									: <Block
 										link={'/company/create'}
 										icon="add"
 										text={translate.companies_add}

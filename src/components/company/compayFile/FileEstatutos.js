@@ -65,8 +65,8 @@ const FileEstatutos = ({
 
 	return (
 		<div style={{ height: '100%' }}>
-			<div style={{ padding: '0px 1em 1em', height: '100%', }}>
-				<div style={{ height: '100%', }}>
+			<div style={{ padding: '0px 1em 1em', height: '100%' }}>
+				<div style={{ height: '100%' }}>
 					<div style={{
 						fontWeight: 'bold', color: primary, paddingBottom: '1em', display: 'flex', alignItems: 'center'
 					}}>
@@ -112,7 +112,7 @@ const FileEstatutos = ({
 											<div style={{
 												background: 'white', width: '10%', color: primary, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '25px'
 											}}>
-												<i className={'fa fa-times-circle'} onClick={() => deleteRow(index)} style={{ cursor: 'pointer', }} ></i>
+												<i className={'fa fa-times-circle'} onClick={() => deleteRow(index)} style={{ cursor: 'pointer' }} ></i>
 											</div>
 										</div>
 									</div>

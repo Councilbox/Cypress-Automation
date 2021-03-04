@@ -14,7 +14,7 @@ const FileInformacion = ({
 	const primary = getPrimary();
 	return (
 		<div style={{ height: '100%' }}>
-			<div style={{ padding: '0px 1em 1em', height: '100%', }}>
+			<div style={{ padding: '0px 1em 1em', height: '100%' }}>
 				<Scrollbar >
 					<div style={{ height: '100%' }}>
 						<div style={{

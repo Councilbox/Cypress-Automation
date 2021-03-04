@@ -25,7 +25,7 @@ class ContentButtonDirectAccess extends React.Component {
 					<div onClick={disabledOnClick}>
 						{card}
 					</div>
-					:					<Link to={link}>
+					: <Link to={link}>
 						{card}
 					</Link>
 				}

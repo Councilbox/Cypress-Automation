@@ -54,7 +54,7 @@ const PlaceModal = ({ council, translate, ...props }) => {
 		}
 	};
 
-	const _renderActionButtons = () => (
+	const renderActionButtons = () => (
 		<React.Fragment>
 			<BasicButton
 				text={translate.close}
@@ -217,7 +217,7 @@ const PlaceModal = ({ council, translate, ...props }) => {
 					</div>
 				)}
 			</DialogContent>
-			<DialogActions>{_renderActionButtons()}</DialogActions>
+			<DialogActions>{renderActionButtons()}</DialogActions>
 		</Dialog>
 	);
 };

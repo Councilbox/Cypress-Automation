@@ -13,6 +13,7 @@ import image from '../assets/img/sidebar-2.jpg';
 import GicarLoginContainer from './GicarLoginContainer';
 import RoomAdminContainer from './RoomAdminContainer';
 import { HEADER_HEIGHT } from '../styles/constants';
+import DownloadFile from '../components/DownloadFile';
 
 
 const LoadRecommendations = Loadable({
@@ -252,12 +253,14 @@ render() {
 		<Switch>
 			<Route exact path="/" component={Login} />
 			<Route path="/signup" component={SignUpPage} />
+			<Route path="/download/:token" component={DownloadFile} />
 			<Route path="/sso/gicar/token/:token/refresh/:refresh" component={GicarLoginContainer} />
 			<Route path="/forgetPwd" component={ForgetPwd} />
 			<Route path="/roomAdmin/:token" component={RoomAdminContainer} />
 			<Route path="/activeUser/token/:token" component={ActiveUserPage} />
 			<Route path="/activeUserAndSetPwd/token/:token" component={SetUserPasswordPage} />
 			<Route path="/recommendations/:language" component={LoadRecommendations} />
+			<Route exact path="/test/:language/:token" component={Test} />
 			<Route
 				exact
 				path="/changePwd/:language/:token"

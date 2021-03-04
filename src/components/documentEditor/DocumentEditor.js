@@ -481,7 +481,7 @@ const DraggableBlock = SortableElement(props => {
 	}}
 	className="draggable"
 >
-	<div style={{ paddingRight: '4px', background: props.value.colorBorder ? props.value.colorBorder : getPrimary(), borderRadius: '15px', }}></div>
+	<div style={{ paddingRight: '4px', background: props.value.colorBorder ? props.value.colorBorder : getPrimary(), borderRadius: '15px' }}></div>
 	<div style={{ marginLeft: '4px', width: '95%', minHeight: '90px' }}>
 		<div style={{
 			width: '25px', cursor: 'pointer', position: 'absolute', top: '5px', right: '35px'
@@ -655,8 +655,8 @@ const LogicBlocks = ({ automaticos, addItem, translate }) => {
 		<div style={{
 			width: '100%', background: 'white', boxShadow: ' 0 2px 4px 5px rgba(0, 0, 0, 0.11)', borderRadius: '4px', marginBottom: '0.8em',
 		}}>
-			<div style={{ width: '100%', display: 'flex', }}>
-				<div style={{ paddingRight: '4px', }}></div>
+			<div style={{ width: '100%', display: 'flex' }}>
+				<div style={{ paddingRight: '4px' }}></div>
 				<div style={{
 					marginLeft: '0.5em', paddingTop: '0.8em', paddingBottom: '0.8em', width: '100%'
 				}}>

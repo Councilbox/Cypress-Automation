@@ -135,7 +135,7 @@ class LiveUtil {
 					const minimumNeeded = Math.ceil(totalVotes / 3);
 					return againstVotes > (minimumNeeded / 2) ?
 						positiveNeeded
-						:						minimumNeeded - againstVotes;
+						: minimumNeeded - againstVotes;
 				}
 				return positiveNeeded;
 			}

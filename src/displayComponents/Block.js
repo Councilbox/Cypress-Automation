@@ -74,7 +74,7 @@ const Block = withSharedProps()(({
 				<div onClick={disabledOnClick}>
 					{card}
 				</div>
-				:				<div onClick={followLink}>
+				: <div onClick={followLink}>
 					{card}
 				</div>
 			}

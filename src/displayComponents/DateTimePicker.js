@@ -15,6 +15,7 @@ const DateTimePickerWrapper = ({
 	value,
 	format,
 	minDate,
+	id,
 	minDateMessage,
 	acceptText,
 	cancelText,
@@ -30,6 +31,7 @@ const DateTimePickerWrapper = ({
 					format={format || 'LL'}
 					minDateMessage={minDateMessage}
 					okLabel={'Ok'}
+					id={id}
 					style={{ width: '100%' }}
 					clearable={clearable}
 					clearLabel={clearText && translate.new_delete }
@@ -60,16 +62,16 @@ const DateTimePickerWrapper = ({
 				</Typography>
 			)}
 		</React.Fragment>
-		:			<React.Fragment>
+		: <React.Fragment>
 			<div style={{ width: '100%' }}>
 				<DateTimePicker
 					label={label ? `${label}${required && '*'}` : ''}
 					ampm={false}
 					format={format || 'LLL'}
 					minDateMessage={minDateMessage}
-					okLabel={acceptText}
+					okLabel={ acceptText ? <span id="calendar-accept-button">{acceptText}</span> : null}
 					style={{ width: '100%' }}
-					cancelLabel={cancelText}
+					cancelLabel={ cancelText ? <span id="calendar-cancel-button">{cancelText}</span> : null}
 					{...(minDate ? { minDate } : {})}
 					InputProps={{
 						endAdornment: (

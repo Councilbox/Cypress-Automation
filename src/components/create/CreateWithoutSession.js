@@ -43,6 +43,7 @@ const CreateWithoutSession = ({
 			<div>
 				<DateTimePicker
 					required
+					idIcon="date-time-picker-date-start"
 					onChange={date => {
 						const newDate = new Date(date);
 						const dateString = newDate.toISOString();
@@ -53,13 +54,14 @@ const CreateWithoutSession = ({
 					acceptText={translate.accept}
 					cancelText={translate.cancel}
 					minDate={Date.now()}
-					label={translate.start_beginning}// TRADUCCION
+					label={translate.start_beginning}
 					value={dates.dateStart}
 				/>
 			</div>
 			<div style={{ marginTop: '1em' }}>
 				<DateTimePicker
 					required
+					idIcon="date-time-picker-date-end"
 					onChange={date => {
 						const newDate = new Date(date);
 						const dateString = newDate.toISOString();
@@ -70,7 +72,7 @@ const CreateWithoutSession = ({
 					acceptText={translate.accept}
 					cancelText={translate.cancel}
 					minDate={moment().add(30, 'minutes')}
-					label={hybrid ? translate.remote_voting_closure : translate.date_end}// TRADUCCION
+					label={hybrid ? translate.remote_voting_closure : translate.date_end}
 					value={dates.closeDate}
 				/>
 			</div>

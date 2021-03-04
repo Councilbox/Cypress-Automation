@@ -57,7 +57,9 @@ const reducer = (state, action) => {
 	return actions[action.type] ? actions[action.type]() : state;
 };
 
-const ParticipantLogin = ({ participant, council, company, ...props }) => {
+const ParticipantLogin = ({
+	participant, council, company, ...props
+}) => {
 	const [selectHeadFinished, setSelectHeadFinished] = React.useState('participacion');
 	const [{ status, message }, updateState] = React.useReducer(reducer, { status: 'WAITING' });
 	const config = React.useContext(ConfigContext);
@@ -84,7 +86,7 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 				councilIsFinished={councilIsFinished(council)}
 				setSelectHeadFinished={setSelectHeadFinished}
 				selectHeadFinished={selectHeadFinished}
-				styleFix={{ overflow: 'hidden', }}
+				styleFix={{ overflow: 'hidden' }}
 			>
 				<div style={{ width: '100%', background: 'transparent', height: 'calc( 100% - 3em )' }} >
 					<div style={{ width: '100%', background: 'transparent', height: '100%' }}>
@@ -100,7 +102,7 @@ const ParticipantLogin = ({ participant, council, company, ...props }) => {
 			translate={props.translate}
 			helpIcon={true}
 			languageSelector={false}
-			styleFix={{ overflow: 'hidden', }}
+			styleFix={{ overflow: 'hidden' }}
 			styleFixChildren={{
 				...(council.securityType === 2 && isMobile && {
 					overflow: 'scroll'

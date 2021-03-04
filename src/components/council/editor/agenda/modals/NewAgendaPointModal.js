@@ -272,7 +272,7 @@ const NewAgendaPointModal = ({
 										{translate.confirmation_request}
 									</MenuItem>
 								</SelectInput>
-								:								<SelectInput
+								: <SelectInput
 									floatingText={translate.type}
 									value={`${agenda.subjectType}`}
 									onChange={event => updateState({

@@ -1,6 +1,6 @@
 {
   "name": "councilbox_client",
-  "version": "7.7.0",
+  "version": "7.9.0",
   "private": true,
   "dependencies": {
     "antd": "^3.6.4",
@@ -100,19 +100,17 @@
     "test": "npm run scripts || npm run posttest"
   },
   "devDependencies": {
+    "@councilbox/eslint-config-base": "^0.0.1",
     "@babel/core": "^7.13.1",
     "@babel/preset-env": "^7.13.5",
     "@cypress/webpack-preprocessor": "^5.6.0",
-    "babel-loader": "^8.2.2",
     "css-loader": "^0.28.8",
     "cypress": "^3.4.1",
     "cypress-file-upload": "^5.0.2",
     "cypress-multi-reporters": "^1.4.0",
     "cypress-xpath": "^1.6.2",
-    "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-cypress": "^2.11.2",
     "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-prettier": "^2.6.0",
     "eslint-plugin-react": "^7.22.0",
     "mocha": "^5.2.0",
     "mochawesome": "^6.2.2",

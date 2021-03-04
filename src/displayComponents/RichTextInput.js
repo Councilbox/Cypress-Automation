@@ -116,9 +116,9 @@ class RichTextInput extends React.Component {
 				],
 				handlers: {
 					// 'custom': (...args) => {
-					// 	console.log(args);
-					// 	console.log(document.getElementById('pruebas'));
-					// 	//this.setState({ showTags: true })
+					// console.log(args);
+					// console.log(document.getElementById('pruebas'));
+					// //this.setState({ showTags: true })
 					// }
 				}
 			},
@@ -306,7 +306,7 @@ const SmartTags = withApollo(withSharedProps()(({
 			requestClose={requestClose}
 			open={open}
 			loading={false}
-			paperPropsStyles={{ border: `solid 1px ${primary}`, borderRadius: '3px', }}
+			paperPropsStyles={{ border: `solid 1px ${primary}`, borderRadius: '3px' }}
 			styleBody={{}}
 			Component={() => <span />}
 			text={translate.add_agenda_point}

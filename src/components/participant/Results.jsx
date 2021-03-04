@@ -2,7 +2,9 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { AlertConfirm, LoadingSection, AgendaNumber } from '../../displayComponents';
-import { getAgendaTypeLabel, hasVotation, getActPointSubjectType, isCustomPoint } from '../../utils/CBX';
+import {
+	getAgendaTypeLabel, hasVotation, getActPointSubjectType, isCustomPoint
+} from '../../utils/CBX';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import { AGENDA_TYPES } from '../../constants';
 
@@ -20,7 +22,9 @@ const getVote = (vote, translate) => {
 };
 
 
-const Results = ({ data, translate, requestClose, open, participant, stylesHead, endPage }) => {
+const Results = ({
+	data, translate, requestClose, open, participant, stylesHead, endPage
+}) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 
@@ -159,7 +163,9 @@ const Results = ({ data, translate, requestClose, open, participant, stylesHead,
 	);
 };
 
-const VoteDisplay = ({ voting, translate, agenda, endPage }) => {
+const VoteDisplay = ({
+	voting, translate, agenda, endPage
+}) => {
 	const votes = new Set();
 
 	voting.ballots.forEach(ballot => votes.add(ballot.value));

@@ -95,7 +95,7 @@ const FileCalendario = ({ translate, company, client }) => {
 
 	return (
 		<div style={{ height: '100%' }}>
-			<div style={{ padding: '0px 1em 1em', height: '100%', }}>
+			<div style={{ padding: '0px 1em 1em', height: '100%' }}>
 				<AlertConfirm
 					open={modal}
 					requestClose={closeDeleteWarningModal}
@@ -172,7 +172,7 @@ Finalizada
 				fontSize: '25px',
 				marginLeft: '0.6em'
 			}}>
-				<i className={'fa fa-times-circle'} onClick={() => showDeleteWarningModal(notification.id)} style={{ cursor: 'pointer', }} ></i>
+				<i className={'fa fa-times-circle'} onClick={() => showDeleteWarningModal(notification.id)} style={{ cursor: 'pointer' }} ></i>
 			</div>
 		</TableCell>
 	</TableRow>

@@ -298,16 +298,14 @@ class NewPartnerPage extends React.Component {
 					}}
 				>
 					<div>
-						{bHistory.length > 0
-							&& <BasicButton
-								text={this.props.translate.back}
-								color={'white'}
-								type="flat"
-								textStyle={{ color: 'black', fontWeight: '700', textTransform: 'none' }}
-								onClick={this.goBack}
-								buttonStyle={{ marginRight: '0.8em' }}
-							/>
-						}
+						<BasicButton
+							text={this.props.translate.back}
+							color={'white'}
+							type="flat"
+							textStyle={{ color: 'black', fontWeight: '700', textTransform: 'none' }}
+							onClick={this.goBack}
+							buttonStyle={{ marginRight: '0.8em' }}
+						/>
 						<BasicButton
 							id={'guardarAnadirSocio'}
 							text={this.props.translate.save_changes}

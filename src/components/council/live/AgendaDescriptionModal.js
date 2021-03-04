@@ -150,7 +150,7 @@ render() {
 				></i>
 			</Tooltip>
 			<AlertConfirm
-				bodyStyle={{ width: '75vw', minWidth: '50vw', }}
+				bodyStyle={{ width: '75vw', minWidth: '50vw' }}
 				requestClose={this.closeModal}
 				open={this.state.modal}
 				acceptAction={this.updateAgenda}

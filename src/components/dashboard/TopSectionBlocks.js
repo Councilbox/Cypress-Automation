@@ -83,7 +83,7 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 						text={translate.book}
 					/>
 				</GridItem>
-				:				<GridItem xs={12} md={3} lg={3}>
+				: <GridItem xs={12} md={3} lg={3}>
 					<Block
 						link={`/company/${company.id}/settings`}
 						customIcon={

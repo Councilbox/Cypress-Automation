@@ -2,8 +2,12 @@ import React from 'react';
 import { graphql, withApollo } from 'react-apollo';
 import { compose } from 'react-apollo/index';
 import gql from 'graphql-tag';
-import { MenuItem, TableCell, TableRow, Divider, withStyles, IconButton, Collapse } from 'material-ui';
-import { Scrollbar, TextInput, Icon, DropDownMenu, Grid, GridItem, EnhancedTable } from '../../../displayComponents/index';
+import {
+	MenuItem, TableCell, TableRow, Divider, withStyles, IconButton, Collapse
+} from 'material-ui';
+import {
+	Scrollbar, TextInput, Icon, DropDownMenu, Grid, GridItem, EnhancedTable
+} from '../../../displayComponents/index';
 import { companyDrafts, getCompanyDraftDataNoCompany } from '../../../queries/companyDrafts';
 import { DRAFTS_LIMITS, GOVERNING_BODY_TYPES } from '../../../constants';
 import { sendGAevent } from '../../../utils/analytics';
@@ -45,7 +49,9 @@ const styles = {
 	},
 };
 
-const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, translate, client, match, defaultTags, ...props }) => {
+const LoadDraft = withApollo(withSharedProps()(({
+	majorityTypes, company, translate, client, match, defaultTags, ...props
+}) => {
 	const [search, setSearchModal] = React.useState('');
 	const [searchModalPlantillas, setSearchModalPlantillas] = React.useState('');
 	const [testTags, setTestTags] = React.useState(null);
@@ -227,7 +233,9 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 										adornment={<Icon>search</Icon>}
 										type="text"
 										value={searchModalPlantillas}
-										styleInInput={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px' }}
+										styleInInput={{
+											fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', paddingLeft: '5px'
+										}}
 										classes={{ input: props.classes.input, formControl: props.classes.formControl }}
 										disableUnderline={true}
 										stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: '8px' }}
@@ -250,7 +258,9 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 				}}>
 					{renderEtiquetasSeleccionadas()}
 				</div>
-				<div style={{ marginTop: '1em', borderTop: '2px solid #dcdcdc', minHeight: '20em', height: '0', overflow: 'hidden' }}>
+				<div style={{
+					marginTop: '1em', borderTop: '2px solid #dcdcdc', minHeight: '20em', height: '0', overflow: 'hidden'
+				}}>
 					<Scrollbar>
 						<Grid style={{ width: '100%', margin: '0 auto', height: 'calc( 100% - 3em )' }}>
 							<GridItem xs={12} lg={12} md={12} style={{ width: '100%', height: '100%' }}>
@@ -327,7 +337,9 @@ const LoadDraft = withApollo(withSharedProps()(({ majorityTypes, company, transl
 }));
 
 
-const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, companyStatutes, classes, ...props }) => {
+const HoverableRow = ({
+	draft, draftTypes, company, translate, info, onClick, companyStatutes, classes, ...props
+}) => {
 	const [show, handlers] = useHoverRow();
 	const [expanded, setExpanded] = React.useState(false);
 
@@ -462,7 +474,7 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, co
 												props={props}
 												list={true}
 												count={columnaLength > 1 ? expanded ? '' : columnaLength : ''}
-												stylesEtiqueta={{ cursor: columnaLength > 1 ? 'pointer' : '', }}
+												stylesEtiqueta={{ cursor: columnaLength > 1 ? 'pointer' : '' }}
 												desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ''}
 											/>
 									))}
@@ -482,12 +494,14 @@ const HoverableRow = ({ draft, draftTypes, company, translate, info, onClick, co
 };
 
 
-export const DropdownEtiquetas = withStyles(styles)(({ stylesMenuItem, translate, corporation, search, setSearchModal, matchSearch, addTag, vars, testTags, styleBody, anchorOrigin, transformOrigin, removeTag, soloIcono, ...props }) => (
+export const DropdownEtiquetas = withStyles(styles)(({
+	stylesMenuItem, translate, corporation, search, setSearchModal, matchSearch, addTag, vars, testTags, styleBody, anchorOrigin, transformOrigin, removeTag, soloIcono, ...props
+}) => (
 	<DropDownMenu
 		id={'cargarPlantillasSelectorEtiquetas'}
 		color={primary}
 		loading={false}
-		paperPropsStyles={{ border: ' solid 1px #353434', borderRadius: '3px', }}
+		paperPropsStyles={{ border: ' solid 1px #353434', borderRadius: '3px' }}
 		anchorOrigin={anchorOrigin}
 		transformOrigin={transformOrigin}
 		Component={() => (soloIcono ?
@@ -679,7 +693,9 @@ export const DropdownEtiquetas = withStyles(styles)(({ stylesMenuItem, translate
 ));
 
 
-const EtiquetasModal = ({ color, title, tags, addTag, testTags, removeTag }) => {
+const EtiquetasModal = ({
+	color, title, tags, addTag, testTags, removeTag
+}) => {
 	const tagStyles = {
 		borderRadius: '20px',
 		background: color,

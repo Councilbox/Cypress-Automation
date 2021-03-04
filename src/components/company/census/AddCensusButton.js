@@ -58,7 +58,7 @@ updateState = object => {
 	});
 };
 
-_renderBody = () => (
+renderBody = () => (
 	<div style={{ minWidth: !isMobile && '800px' }}>
 		<CensusInfoForm
 			translate={this.props.translate}
@@ -148,7 +148,7 @@ render() {
 				acceptAction={this.createCensus}
 				buttonAccept={translate.accept}
 				buttonCancel={translate.cancel}
-				bodyText={this._renderBody()}
+				bodyText={this.renderBody()}
 				title={translate.add_census}
 			/>
 		</React.Fragment>

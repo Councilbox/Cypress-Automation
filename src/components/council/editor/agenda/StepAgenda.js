@@ -77,7 +77,9 @@ const StepAgenda = ({ client, translate, ...props }) => {
 
 	const updateCouncil = async step => {
 		setState({ loading: true });
-		const { agendas, statute, __typename, ...council } = data.council;
+		const {
+			agendas, statute, __typename, ...council
+		} = data.council;
 
 		await props.updateCouncil({
 			variables: {

@@ -22,7 +22,7 @@ const LoadDraftModal = ({
 		close
 	}));
 
-	const _renderModalBody = () => (
+	const renderModalBody = () => (
 		<div>
 			<LoadDraft
 				defaultTags={defaultTags}
@@ -67,9 +67,9 @@ const LoadDraftModal = ({
 				requestClose={close}
 				open={state.loadDraft}
 				buttonCancel={translate.close}
-				bodyText={_renderModalBody()}
+				bodyText={renderModalBody()}
 				title={translate.load_draft}
-				bodyStyle={{ width: '75vw', minWidth: '50vw', }}
+				bodyStyle={{ width: '75vw', minWidth: '50vw' }}
 			/>
 		</React.Fragment>
 	);

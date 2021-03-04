@@ -10,7 +10,9 @@ import {
 	setAssistanceComment as setAssistanceCommentMutation
 } from '../../../queries/liveParticipant';
 import { PARTICIPANT_STATES } from '../../../constants';
-import { BasicButton, ButtonIcon, NotLoggedLayout, LiveToast, Scrollbar, Checkbox } from '../../../displayComponents';
+import {
+	BasicButton, ButtonIcon, NotLoggedLayout, LiveToast, Scrollbar, Checkbox
+} from '../../../displayComponents';
 import RichTextInput from '../../../displayComponents/RichTextInput';
 import DelegateOwnVoteAttendantModal from './DelegateOwnVoteAttendantModal';
 import RefuseDelegationConfirm from '../delegations/RefuseDelegationConfirm';
@@ -60,7 +62,9 @@ const styles = {
 	}
 };
 
-const Assistance = ({ participant, data, translate, council, company, refetch, setAssistanceComment, setAssistanceIntention }) => {
+const Assistance = ({
+	participant, data, translate, council, company, refetch, setAssistanceComment, setAssistanceIntention
+}) => {
 	function generateAttendanceData() {
 		let defaultIntention;
 
@@ -315,7 +319,9 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 								flexDirection: 'column'
 							}}
 						>
-							<div style={{ width: '100%', marginTop: '5em', textAlign: 'center', marginBottom: '2em' }}>
+							<div style={{
+								width: '100%', marginTop: '5em', textAlign: 'center', marginBottom: '2em'
+							}}>
 								<img src={emptyMeetingTable} style={{ width: '55%', height: 'auto', margin: 'auto' }} alt="empty-table" />
 							</div>
 							<div style={{ fontWeight: '700', fontSize: '1.2em' }} >
@@ -398,7 +404,9 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 						config.attendanceComment &&
 <>
 	<div style={{ width: '100%', marginBottom: '1em' }}>
-		<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
+		<div style={{
+			color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em'
+		}}>
 			{translate.comments}
 		</div>
 	</div>
@@ -427,7 +435,9 @@ const Assistance = ({ participant, data, translate, council, company, refetch, s
 					}
 
 				</div>
-				<div style={{ marginLeft: isMobile ? '0' : '5em', marginTop: isMobile ? '1em' : '0', display: 'flex', alignItems: 'flex-end' }}>
+				<div style={{
+					marginLeft: isMobile ? '0' : '5em', marginTop: isMobile ? '1em' : '0', display: 'flex', alignItems: 'flex-end'
+				}}>
 					<div>
 						{council.confirmAssistance !== 0 &&
 <BasicButton
@@ -497,7 +507,9 @@ al borrar una carta de voto se elimina el proxy vote
 					<div style={{ marginTop: '2em' }}>
 						<div style={{ width: '100%' }}>
 							<div style={{ width: '100%', marginBottom: '1em' }}>
-								<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '1em' }}>
+								<div style={{
+									color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '1em'
+								}}>
 									{translate.representative_of}:
 								</div>
 								<div style={{ display: 'inline-block' }}>
@@ -515,7 +527,9 @@ al borrar una carta de voto se elimina el proxy vote
 				<div style={{ marginTop: '2em' }}>
 					<div style={{ width: '100%' }}>
 						<div style={{ width: '100%', marginBottom: '1em' }}>
-							<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '1em' }}>
+							<div style={{
+								color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '1em'
+							}}>
 								{delegatedVotes.length > 0 ?
 									<div>Han delegado votos en usted:</div>
 									:
@@ -541,10 +555,14 @@ al borrar una carta de voto se elimina el proxy vote
 			<div style={{ marginTop: '2em' }}>
 				<div style={{ width: '100%' }}>
 					<div style={{ width: '100%', marginBottom: '1em' }}>
-						<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
+						<div style={{
+							color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em'
+						}}>
 							{translate.comments}
 						</div>
-						<div style={{ color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em', }}>
+						<div style={{
+							color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em'
+						}}>
 
 						</div>
 					</div>
@@ -591,7 +609,9 @@ al borrar una carta de voto se elimina el proxy vote
 											`${translate.hello},`
 										} {participant.name} {participant.surname || ''}
 									</div>
-									<div style={{ color: primary, fontSize: '30px', display: 'flex', alignItems: 'center' }}>
+									<div style={{
+										color: primary, fontSize: '30px', display: 'flex', alignItems: 'center'
+									}}>
 										<Icon className="material-icons" style={{ fontSize: '35px', color: primary }}>
 											account_circle
 										</Icon>
@@ -627,7 +647,7 @@ al borrar una carta de voto se elimina el proxy vote
 										/> */}
 									</div>
 								</div>
-								<div style={{ display: 'flex', marginTop: '2em', }}>
+								<div style={{ display: 'flex', marginTop: '2em' }}>
 									<MenuSuperiorTabs
 										items={[
 											translate.council,
@@ -641,7 +661,9 @@ al borrar una carta de voto se elimina el proxy vote
 								<Card style={{ marginTop: '1em', borderRadius: '8px' }}>
 									<div style={{ padding: '2em 1.5em 1.5em 1.5em' }}>
 										<div style={{ display: 'flex', justifyContent: 'space-between', color: '#000000' }}>
-											<div style={{ display: 'flex', fontWeight: 'bold', justifyContent: 'space-between', fontSize: '15px' }}>
+											<div style={{
+												display: 'flex', fontWeight: 'bold', justifyContent: 'space-between', fontSize: '15px'
+											}}>
 												{council.name}
 											</div>
 											<div style={{ fontStyle: 'italic' }}>
@@ -653,7 +675,9 @@ al borrar una carta de voto se elimina el proxy vote
 										</div>
 										{council.statute.attendanceText &&
 											<div >
-												<div style={{ display: 'flex', fontWeight: 'bold', justifyContent: 'space-between', fontSize: '15px', color: '#000000', marginTop: '1em' }}>
+												<div style={{
+													display: 'flex', fontWeight: 'bold', justifyContent: 'space-between', fontSize: '15px', color: '#000000', marginTop: '1em'
+												}}>
 													{translate.participation_conditions}
 												</div>
 												<div dangerouslySetInnerHTML={{ __html: council.statute.attendanceText }} style={{ marginTop: '.5em', fontSize: '15px' }} />
@@ -693,7 +717,9 @@ al borrar una carta de voto se elimina el proxy vote
 };
 
 
-const DelegationSection = ({ delegatedVotes, translate, refetch, representations }) => {
+const DelegationSection = ({
+	delegatedVotes, translate, refetch, representations
+}) => {
 	const [delegation, setDelegation] = React.useState(null);
 
 	const closeConfirm = () => {
@@ -713,7 +739,9 @@ const DelegationSection = ({ delegatedVotes, translate, refetch, representations
 			}
 
 			{delegatedVotes.map(vote => (
-				<Card key={vote.id} style={{ display: 'flex', color: '#000000', fontSize: '14px', padding: '0.5em 1em', marginBottom: '0.5em' }}>
+				<Card key={vote.id} style={{
+					display: 'flex', color: '#000000', fontSize: '14px', padding: '0.5em 1em', marginBottom: '0.5em'
+				}}>
 					<div>{vote.name} {vote.surname || ''}</div>
 					{!representations &&
 							<div>

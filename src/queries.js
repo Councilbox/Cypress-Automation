@@ -109,7 +109,7 @@ export const companies = gql`
 export const councils = gql`
 	query Councils($companyId: Int!, $state: [Int], $filters: [FilterInput], $options: OptionsInput) {
 		councils(companyId: $companyId, state: $state, filters: $filters, options: $options) {
-		list{	
+		list{
 			id
 			dateStart
 			companyId
@@ -733,6 +733,8 @@ export const statutes = gql`
 			companyType
 			defaultVote
 			videoConfig
+			autoSendAct
+			autoApproveAct
 			hideVotingsRecountFinished
 			addParticipantsListToAct
 			existsAdvanceNoticeDays
@@ -1470,6 +1472,8 @@ export const councilLiveQuery = gql`
 				id
 				prototype
 				councilId
+				autoApproveAct
+				autoSendAct
 				statuteId
 				title
 				existPublicUrl

@@ -102,7 +102,7 @@ const EditCensusButton = ({ translate, client, ...props }) => {
 		});
 	};
 
-	const _renderBody = () => (
+	const renderBody = () => (
 		<div style={{ minWidth: '800px' }}>
 			<CensusInfoForm
 				translate={translate}
@@ -138,7 +138,7 @@ const EditCensusButton = ({ translate, client, ...props }) => {
 				acceptAction={updateCensusFunction}
 				buttonAccept={translate.accept}
 				buttonCancel={translate.cancel}
-				bodyText={_renderBody()}
+				bodyText={renderBody()}
 				title={translate.edit_census}
 			/>
 			<UnsavedChangesModal

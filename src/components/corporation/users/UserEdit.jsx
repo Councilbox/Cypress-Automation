@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
-import { LoadingSection, Scrollbar, } from '../../../displayComponents';
+import { LoadingSection, Scrollbar } from '../../../displayComponents';
 import { languages } from '../../../queries/masters';
 import CompanyLinksManager from './CompanyLinksManager';
 import UserSendsList from './UserSendsList';

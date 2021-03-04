@@ -11,7 +11,7 @@ const Timbrado = ({ colapse, edit, finishInModal }) => {
 	}, [document.getElementsByClassName(finishInModal || 'actaLienzo')[0], colapse, edit]);
 
 	return (
-		new Array(imgIzqCbx).fill(0).map((option, index) => <img style={{ width: '100%', }} src={imgIzq} key={index}></img>)
+		new Array(imgIzqCbx).fill(0).map((option, index) => <img style={{ width: '100%' }} src={imgIzq} key={index}></img>)
 	);
 };
 

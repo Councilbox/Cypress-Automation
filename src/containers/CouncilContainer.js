@@ -79,18 +79,18 @@ const CouncilContainer = ({ match, company, translate }) => {
 										{...(cantAccessPremium ? { color: 'grey' } : {})}
 										icon={
 											<Icon className="material-icons">
-add
+												add
 											</Icon>
 										}
 										onClick={() => (cantAccessPremium ?
 											showCantAccessPremiumModal()
-											:												bHistory.push(`/company/${company.id}/council/new`))
+											: bHistory.push(`/company/${company.id}/council/new`))
 										}
 									/>
 								</div>
 							</Tooltip>
 						</div>
-						:						<div
+						: <div
 							style={{
 								position: 'absolute',
 								right: '1%',
@@ -103,13 +103,13 @@ add
 										{...(cantAccessPremium ? { color: 'grey' } : {})}
 										icon={
 											<Icon className="material-icons">
-add
+												add
 											</Icon>
 										}
 										style={{ width: '38px', height: '38px' }}
 										onClick={() => (cantAccessPremium ?
 											showCantAccessPremiumModal()
-											:												bHistory.push(`/company/${company.id}/council/new`))
+											: bHistory.push(`/company/${company.id}/council/new`))
 										}
 									/>
 								</div>

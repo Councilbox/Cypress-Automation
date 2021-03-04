@@ -37,7 +37,7 @@ const MainTitle = ({
 				<h5 style={{ fontWeight: '700' }}><Typography>{title}</Typography></h5>
 			</div>
 		</div>
-		:		<div
+		: <div
 			style={{
 				display: 'flex',
 				flexDirection: 'row',

@@ -56,6 +56,7 @@ const LiveHeader = ({
 						>
 							<Icon
 								className="material-icons"
+								id="exit-live-room-button"
 								style={{
 									fontSize: '2em',
 									color: primary,
@@ -65,7 +66,7 @@ const LiveHeader = ({
 								onClick={() => setShowConfirm(true)
 								}
 							>
-save_alt
+								save_alt
 							</Icon>
 							<div style={{
 								background: 'white',
@@ -88,7 +89,7 @@ save_alt
 								onClick={() => setShowConfirm(true)
 								}
 							>
-keyboard_backspace
+								keyboard_backspace
 							</Icon>
 							<AlertConfirm
 								title={translate.exit}
@@ -101,7 +102,7 @@ keyboard_backspace
 								}
 							/>
 						</div>
-						:						<div style={{}} />
+						: <div style={{}} />
 					}
 					<div style={{ display: 'flex', alignItems: 'center' }} >
 						<img
@@ -145,28 +146,28 @@ keyboard_backspace
 					</div>
 				</div>
 				{council
-&& <>
-	<div style={{ display: 'flex', paddingRight: '2em' }}>
-		<div style={{ marginRight: '1em' }}>
-			<CouncilMenu
-				council={council}
-				translate={translate}
-				refetch={refetch}
-				logo={logo}
-			/>
-		</div>
-		<div style={{}}>
-			<CouncilStateButton
-				council={council}
-				translate={translate}
-				participants={participants}
-				recount={recount}
-				// agendas={agendas}
-				refetch={refetch}
-			/>
-		</div>
-	</div>
-</>
+					&& <>
+						<div style={{ display: 'flex', paddingRight: '2em' }}>
+							<div style={{ marginRight: '1em' }}>
+								<CouncilMenu
+									council={council}
+									translate={translate}
+									refetch={refetch}
+									logo={logo}
+								/>
+							</div>
+							<div style={{}}>
+								<CouncilStateButton
+									council={council}
+									translate={translate}
+									participants={participants}
+									recount={recount}
+									// agendas={agendas}
+									refetch={refetch}
+								/>
+							</div>
+						</div>
+					</>
 				}
 			</Paper>
 			<div

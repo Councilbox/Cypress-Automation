@@ -12,7 +12,6 @@ class ParticipantSelector extends Component {
 					{ name: translate.dni },
 					{ name: translate.position }
 				]}
-				action={this._renderDeleteIcon}
 			>
 				{this.props.participants.map(participant => (
 					<TableRow
