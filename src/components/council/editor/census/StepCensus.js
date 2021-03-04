@@ -80,7 +80,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 			loading: true
 		});
 		const {
-			__typename, participants, selectedCensusId, ...council
+			__typename, participants, selectedCensusId, statute, ...council
 		} = data.council;
 		await props.updateCouncil({
 			variables: {

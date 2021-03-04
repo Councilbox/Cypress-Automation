@@ -469,6 +469,7 @@ export const councilStepTwo = gql`
 			councilType
 			dateStart
 			statute {
+				id
 				participantValidation
 			}
 			dateStart2NdCall
