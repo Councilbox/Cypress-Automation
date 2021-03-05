@@ -22,300 +22,6 @@ before(function() {
 
 
 
-
-
-
-describe("Councilbox login - valid username and password", function() {
-
-     before(function() {
-        
-        
-    });
-
-
-    it("Visits the Councilbox web page", function() {
-        
-        cy.visit(login_url);
-
-    });
-
-    it("Change language to Spanish", function() {
-        cy.contains('EN').click();
-        cy.contains('ES').click();
-    });
-
-    it("Enters email address", function() {
-        cy.get('input').eq(0)
-            .type('alem@qaengineers.net')    
-            .should("have.value", 'alem@qaengineers.net')
-    });
-
-    it("Enters password", function() {
-        cy.get('input').eq(1)
-            .type('Mostar123!')    
-            .should("have.value", 'Mostar123!')
-    });
-
-    it("Clicks login button", function() {
-        cy.contains("Entrar").click();
-        cy.wait(5000)
-    });
-
-});
-
-
-
-
-describe("The user is able to start council in the 'New call with session' section", function() {
-
-    it("Click on the 'Nueva reunion' button", function() {
-        cy.contains('dashboard').click({ force: true })
-        cy.get('#create-council-block').click()
-
-    });
-
-
-    it("Click on the “Con sesion” button", function() {
-        cy.contains('Con sesión').click()
-        cy.wait(3000)
-    
-    });
-
-
-    it("Populate all required fields and click on the “Siguiente” button", function() {
-        cy.xpath('(//*[@class="ql-editor ql-blank" ])[1]').type('Test')
-       
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
-        cy.wait(1000)
-
-    });
-
-
-    it("Click on the 'Anadir participante' button and populate all required fields then click on the “Siguiente” button", function() {
-           cy.get('#anadirParticipanteEnCensoNewReunion').click()
-        cy.wait(1000)
-
-
-           
-            
-        cy.get('input').eq(7)
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))    
-            
-        
-            
-        cy.get('input').eq(8)
-            .type('alem'+Cypress.config('UniqueNumber'))    
-            
-        cy.get('input').eq(9)
-            .type('alem'+Cypress.config('UniqueNumber'))     
-            
-        cy.get('input').eq(10)
-            .type('123123123')    
-            
-        cy.get('input').eq(11)
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')    
-            
-        cy.get('input').eq(12)
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
-          
-          cy.contains('Aceptar').click()
-
-          cy.wait(1000)
-
-          cy.get('#censoSiguienteNew').click()
-
-    });
-
-
-    it("Click on the “Anadir punto al orden del dia+” button", function() {
-        cy.get('#newPuntoDelDiaOrdenDelDiaNew').click()
-        
-
-    });
-
-
-    it("Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button", function() {
-        cy.get('#puntoSiNoAbstencion').click()
-        cy.get('#tituloPuntoDelDiaModal').type('Test')
-
-        cy.contains('Informativo').click()
-
-        cy.wait(1000)
-        cy.contains('Votación nominal').click()
-
-        cy.contains('Aceptar').click()
-
-        cy.get('#ordenDelDiaNext').click()
-
-        cy.wait(1000)
-
-        cy.get('#attachmentSiguienteNew').click()
-
-        cy.wait(1000)
-        
-
-    });
-
-/*
-    it("Click on the 'Anadir+'' button then click on the 'Subir archivo button and select the document you want to add and click on the next' button", function() {
-        cy.get('#puntoSiNoAbstencion').click()
-        cy.get('#tituloPuntoDelDiaModal').type('Test')
-        cy.contains('Informativo').click()
-        cy.wait(1000)
-        cy.contains('Votación nominal').click()
-        cy.contains('Aceptar').click()
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
-        cy.wait(1000)
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
-        cy.wait(1000)
-
-       
-
-    });
-
-    */
-
-
-     it("Populate all required fields and click on the “Siguiente” button", function() {
-        
-        cy.get('#optionsNewSiguiente').click()
-        cy.wait(1000)
-        
-        
-
-    });
-
-
-      it("Click on the “Convocar y notificar” button", function() {
-        
-        cy.contains('Convocar y notificar').click()
-        cy.wait(3000)
-        
-        
-
-    });
-
-
-       it("Click on the “Preparar sala” button", function() {
-        
-        cy.get('#prepararSalaNew').click()
-        
-        
-
-    });
-
-
-         it("Navigate to the upper right corner and click on the “Abrir Sala” button", function() {
-        
-        cy.get('#abrirSalaEnReunion').click()
-        
-        
-
-    });
-
-
-           it("Populate all required fields and click on the “Aceptar” button", function() {
-        
-        cy.contains('Aceptar').click()
-        cy.wait(10000)
-        
-        
-
-    });
-
-
-           it("Navigate to the “Camera and microphone” form and click on the “Accept” button", function() {
-        
-            cy.get('#admin-room-iframe').then($iframe => {
-  const $body = $iframe.contents().find('body') ; cy.wrap($body)
-
-
-    .contains('Accept')
-    .click()
-
-    cy.wait(10000)
-})
-
-       
-   });
-
-
-            it("Navigate to the upper right corner and click on the “Iniciar reunion” button", function() {
-        
-        cy.get('#iniciarReunionDentroDeReunion').click()
-        cy.wait(2000)
-        
-        
-    
-    });
-
-
-             it("Populate all required fields and click on the “Aceptar” button", function() {
-        
-        cy.get('#seleccionaAlPresidenteEnReunion').click()
-
-
-        cy.wait(200)
-
-        cy.xpath('//*[@class="itemsSeleccionEnModalUsersEnReunion"]').click()
-
-        cy.get('#seleccionaAlSecretarioEnReunion').click()
-
-        cy.wait(200)
-
-        cy.xpath('//*[@class="itemsSeleccionEnModalUsersEnReunion"]').click()
-
-       
-         cy.contains('Aceptar').click()
-        cy.wait(200)
-        cy.contains('Cerrar').click()
-        
-    
-    });
-    
-
- });
-
-
-
-
-
-describe("Councilbox login - valid username and password", function() {
-
-     before(function() {
-        cy.deleteLocalStorage();
-    });
-
-
-    it("Visits the Councilbox web page", function() {
-        cy.visit(login_url);
-    });
-
-    it("Change language to Spanish", function() {
-        cy.contains('EN').click();
-        cy.contains('ES').click();
-    });
-
-    it("Enters email address", function() {
-        cy.get('input').eq(0)
-            .type('alem@qaengineers.net')    
-            .should("have.value", 'alem@qaengineers.net')
-    });
-
-    it("Enters password", function() {
-        cy.get('input').eq(1)
-            .type('Mostar123!')    
-            .should("have.value", 'Mostar123!')
-    });
-
-    it("Clicks login button", function() {
-        cy.contains("Entrar").click();
-        cy.wait(5000)
-    });
-
-});
-
-
 /*
 describe("The user is able to start conference", function() {
 
@@ -348,39 +54,6 @@ describe("The user is able to start conference", function() {
 */
 
     
-describe("The user is able to create a new account in Councilbox", function() {
-    before(function() {
-        cy.deleteLocalStorage();
-    });
-
-    
-    it("Open the browser and enter the URL: https://app.councilbox.com/", function() {
-        cy.clearLocalStorage();
-        cy.saveLocalStorage();
-        cy.visit('https://temp-mail.org/en/');
-        cy.wait(5000);
-    });
-
-
-
-    it("Open the browser and enter the URL: https://app.councilbox.com/", function() {
-        cy.wait(5000)
-        cy.xpath('//*[@class="btn-rds icon-btn bg-theme click-to-copy copyIconGreenBtn"]').click()
-        cy.wait(10000)
-    });
-
-
-
-});
-
-
-
-
-
-
-
-
-
 
 describe("The user is able to create a new account in Councilbox", function() {
     before(function() {
@@ -452,7 +125,7 @@ describe("The user is able to create a new account in Councilbox", function() {
        cy.visit('http://www.yopmail.com/en/')
 
        cy.wait(15000)
-
+        cy.wait(15000)
        cy.get('#login').type("alem"+Cypress.config('UniqueNumber'))
        cy.get('.sbut').click()
 
@@ -1238,7 +911,7 @@ it("Click on the 'Convocar y notificar' button", function() {
     
 });
 
-
+});
 describe("The user is able to create a new call without session in the 'Nueva reunion' section", function() {
 
     it("Click on the 'Nueva reunion' button", function() {
@@ -1292,13 +965,37 @@ describe("The user is able to start council in the 'New call with session' secti
 
 
     it("Click on the 'Anadir participante' button and populate all required fields then click on the “Siguiente” button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
-        cy.get('input').eq(0).type('Test')
-        cy.get('input').eq(1).type('Automation')
-        cy.get('input').eq(4).type('alem@qaengineers.net')
-        cy.contains('Aceptar').click()
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+           cy.get('#anadirParticipanteEnCensoNewReunion').click()
         cy.wait(1000)
+
+
+           
+            
+        cy.get('input').eq(7)
+            .type('TestAutomation'+Cypress.config('UniqueNumber'))    
+            
+        
+            
+        cy.get('input').eq(8)
+            .type('alem'+Cypress.config('UniqueNumber'))    
+            
+        cy.get('input').eq(9)
+            .type('alem'+Cypress.config('UniqueNumber'))     
+            
+        cy.get('input').eq(10)
+            .type('123123123')    
+            
+        cy.get('input').eq(11)
+            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')    
+            
+        cy.get('input').eq(12)
+            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+          
+          cy.contains('Aceptar').click()
+
+          cy.wait(1000)
+
+          cy.get('#censoSiguienteNew').click()
 
     });
 
@@ -1313,17 +1010,26 @@ describe("The user is able to start council in the 'New call with session' secti
     it("Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button", function() {
         cy.get('#puntoSiNoAbstencion').click()
         cy.get('#tituloPuntoDelDiaModal').type('Test')
+
         cy.contains('Informativo').click()
+
         cy.wait(1000)
         cy.contains('Votación nominal').click()
+
         cy.contains('Aceptar').click()
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+
+        cy.get('#ordenDelDiaNext').click()
+
+        cy.wait(1000)
+
+        cy.get('#attachmentSiguienteNew').click()
+
         cy.wait(1000)
         
 
     });
 
-
+/*
     it("Click on the 'Anadir+'' button then click on the 'Subir archivo button and select the document you want to add and click on the next' button", function() {
         cy.get('#puntoSiNoAbstencion').click()
         cy.get('#tituloPuntoDelDiaModal').type('Test')
@@ -1336,14 +1042,16 @@ describe("The user is able to start council in the 'New call with session' secti
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
         cy.wait(1000)
 
-        
+       
 
     });
+
+    */
 
 
      it("Populate all required fields and click on the “Siguiente” button", function() {
         
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+        cy.get('#optionsNewSiguiente').click()
         cy.wait(1000)
         
         
@@ -1354,6 +1062,7 @@ describe("The user is able to start council in the 'New call with session' secti
       it("Click on the “Convocar y notificar” button", function() {
         
         cy.contains('Convocar y notificar').click()
+        cy.wait(3000)
         
         
 
@@ -1390,7 +1099,7 @@ describe("The user is able to start council in the 'New call with session' secti
 
            it("Navigate to the “Camera and microphone” form and click on the “Accept” button", function() {
         
-            cy.get('#ifmail').then($iframe => {
+            cy.get('#admin-room-iframe').then($iframe => {
   const $body = $iframe.contents().find('body') ; cy.wrap($body)
 
 
@@ -1407,6 +1116,7 @@ describe("The user is able to start council in the 'New call with session' secti
             it("Navigate to the upper right corner and click on the “Iniciar reunion” button", function() {
         
         cy.get('#iniciarReunionDentroDeReunion').click()
+        cy.wait(2000)
         
         
     
@@ -1415,35 +1125,53 @@ describe("The user is able to start council in the 'New call with session' secti
 
              it("Populate all required fields and click on the “Aceptar” button", function() {
         
-        cy.get('#iniciarReunionDentroDeReunion').click()
         cy.get('#seleccionaAlPresidenteEnReunion').click()
-        cy.contains('test test').click()
+
+
+        cy.wait(200)
+
+        cy.xpath('//*[@class="itemsSeleccionEnModalUsersEnReunion"]').click()
+
         cy.get('#seleccionaAlSecretarioEnReunion').click()
-        cy.contains('test test').click()
-        cy.contains('Aceptar').click()
-        
+
+        cy.wait(200)
+
+        cy.xpath('//*[@class="itemsSeleccionEnModalUsersEnReunion"]').click()
+
+       
+         cy.contains('Aceptar').click()
+        cy.wait(200)
+        cy.contains('Cerrar').click()
         
     
     });
 
+    it("User should be able to exit the meeting", function() {
 
+        cy.visit(login_url)
+/*
+         cy.get('#Your App: 'councilbox-client'').then($iframe => {
+  const $body = $iframe.contents().find('body') ; cy.wrap($body)
+
+
+    cy.get('#exit-live-room-button').click()
+        cy.wait(1000)
+
+   
+})
         
-    
-
-
-
-
-
-
-
-
-
-    it("Click on the 'Aceptar' button", function() {
+        
         cy.contains('Aceptar').click()
+        cy.wait(1000)
+        
+   */     
+    
     });
 
-    
-});
+     
+
+ });
+
 
 
 describe("The user is able to open point in the 'New call with session' section", function() {
@@ -1463,11 +1191,8 @@ describe("The user is able to open point in the 'New call with session' section"
 
 
     it("Populate all required fields and click on the “Siguiente” button", function() {
-        cy.get('input').eq(0).type('Test')
-        cy.get('input').eq(1).type('Test')
-        cy.get('input').eq(2).type('Test')
-        cy.get('input').eq(3).type('Test')
-        cy.get('input').eq(4).type('Test')
+        cy.xpath('(//*[@class="ql-editor ql-blank" ])[1]').type('Test')
+       
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
         cy.wait(1000)
 
@@ -1475,13 +1200,37 @@ describe("The user is able to open point in the 'New call with session' section"
 
 
     it("Click on the 'Anadir participante' button and populate all required fields then click on the “Siguiente” button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
-        cy.get('input').eq(0).type('Test')
-        cy.get('input').eq(1).type('Automation')
-        cy.get('input').eq(4).type('alem@qaengineers.net')
-        cy.contains('Aceptar').click()
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+           cy.get('#anadirParticipanteEnCensoNewReunion').click()
         cy.wait(1000)
+
+
+           
+            
+        cy.get('input').eq(7)
+            .type('TestAutomation'+Cypress.config('UniqueNumber'))    
+            
+        
+            
+        cy.get('input').eq(8)
+            .type('alem'+Cypress.config('UniqueNumber'))    
+            
+        cy.get('input').eq(9)
+            .type('alem'+Cypress.config('UniqueNumber'))     
+            
+        cy.get('input').eq(10)
+            .type('123123123')    
+            
+        cy.get('input').eq(11)
+            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')    
+            
+        cy.get('input').eq(12)
+            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+          
+          cy.contains('Aceptar').click()
+
+          cy.wait(1000)
+
+          cy.get('#censoSiguienteNew').click()
 
     });
 
@@ -1496,17 +1245,26 @@ describe("The user is able to open point in the 'New call with session' section"
     it("Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button", function() {
         cy.get('#puntoSiNoAbstencion').click()
         cy.get('#tituloPuntoDelDiaModal').type('Test')
+
         cy.contains('Informativo').click()
+
         cy.wait(1000)
         cy.contains('Votación nominal').click()
+
         cy.contains('Aceptar').click()
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+
+        cy.get('#ordenDelDiaNext').click()
+
+        cy.wait(1000)
+
+        cy.get('#attachmentSiguienteNew').click()
+
         cy.wait(1000)
         
 
     });
 
-
+/*
     it("Click on the 'Anadir+'' button then click on the 'Subir archivo button and select the document you want to add and click on the next' button", function() {
         cy.get('#puntoSiNoAbstencion').click()
         cy.get('#tituloPuntoDelDiaModal').type('Test')
@@ -1519,14 +1277,16 @@ describe("The user is able to open point in the 'New call with session' section"
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
         cy.wait(1000)
 
-        
+       
 
     });
+
+    */
 
 
      it("Populate all required fields and click on the “Siguiente” button", function() {
         
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+        cy.get('#optionsNewSiguiente').click()
         cy.wait(1000)
         
         
@@ -1537,6 +1297,7 @@ describe("The user is able to open point in the 'New call with session' section"
       it("Click on the “Convocar y notificar” button", function() {
         
         cy.contains('Convocar y notificar').click()
+        cy.wait(3000)
         
         
 
@@ -1573,7 +1334,7 @@ describe("The user is able to open point in the 'New call with session' section"
 
            it("Navigate to the “Camera and microphone” form and click on the “Accept” button", function() {
         
-            cy.get('#ifmail').then($iframe => {
+            cy.get('#admin-room-iframe').then($iframe => {
   const $body = $iframe.contents().find('body') ; cy.wrap($body)
 
 
@@ -1587,10 +1348,10 @@ describe("The user is able to open point in the 'New call with session' section"
    });
 
 
-
             it("Navigate to the upper right corner and click on the “Iniciar reunion” button", function() {
         
         cy.get('#iniciarReunionDentroDeReunion').click()
+        cy.wait(2000)
         
         
     
@@ -1599,37 +1360,57 @@ describe("The user is able to open point in the 'New call with session' section"
 
              it("Populate all required fields and click on the “Aceptar” button", function() {
         
-        cy.get('#iniciarReunionDentroDeReunion').click()
         cy.get('#seleccionaAlPresidenteEnReunion').click()
-        cy.contains('test test').click()
+
+
+        cy.wait(200)
+
+        cy.xpath('//*[@class="itemsSeleccionEnModalUsersEnReunion"]').click()
+
         cy.get('#seleccionaAlSecretarioEnReunion').click()
-        cy.contains('test test').click()
-        cy.contains('Aceptar').click()
-        
+
+        cy.wait(200)
+
+        cy.xpath('//*[@class="itemsSeleccionEnModalUsersEnReunion"]').click()
+
+       
+         cy.contains('Aceptar').click()
+        cy.wait(200)
+        cy.contains('Cerrar').click()
         
     
     });
 
 
-
-
-                 it("Click on the “Abrir punto” button", function() {
+        it("Click on the “Abrir punto” button", function() {
         
         cy.contains('Abrir punto').click()
-
+        cy.wait(2000)
+        
         
     
     });
 
 
 
-});
+
+        it("User should be able to exit the meeting", function() {
+
+        cy.visit(login_url)
+
+    });
+
+
+
+
+ });
+
 
 
 
 describe("The user is able to activate ratings in the 'New call with session'", function() {
 
-    it("Click on the 'Nueva reunion' button", function() {
+     it("Click on the 'Nueva reunion' button", function() {
         cy.contains('dashboard').click({ force: true })
         cy.get('#create-council-block').click()
 
@@ -1644,11 +1425,8 @@ describe("The user is able to activate ratings in the 'New call with session'", 
 
 
     it("Populate all required fields and click on the “Siguiente” button", function() {
-        cy.get('input').eq(0).type('Test')
-        cy.get('input').eq(1).type('Test')
-        cy.get('input').eq(2).type('Test')
-        cy.get('input').eq(3).type('Test')
-        cy.get('input').eq(4).type('Test')
+        cy.xpath('(//*[@class="ql-editor ql-blank" ])[1]').type('Test')
+       
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
         cy.wait(1000)
 
@@ -1656,13 +1434,37 @@ describe("The user is able to activate ratings in the 'New call with session'", 
 
 
     it("Click on the 'Anadir participante' button and populate all required fields then click on the “Siguiente” button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
-        cy.get('input').eq(0).type('Test')
-        cy.get('input').eq(1).type('Automation')
-        cy.get('input').eq(4).type('alem@qaengineers.net')
-        cy.contains('Aceptar').click()
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+           cy.get('#anadirParticipanteEnCensoNewReunion').click()
         cy.wait(1000)
+
+
+           
+            
+        cy.get('input').eq(7)
+            .type('TestAutomation'+Cypress.config('UniqueNumber'))    
+            
+        
+            
+        cy.get('input').eq(8)
+            .type('alem'+Cypress.config('UniqueNumber'))    
+            
+        cy.get('input').eq(9)
+            .type('alem'+Cypress.config('UniqueNumber'))     
+            
+        cy.get('input').eq(10)
+            .type('123123123')    
+            
+        cy.get('input').eq(11)
+            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')    
+            
+        cy.get('input').eq(12)
+            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+          
+          cy.contains('Aceptar').click()
+
+          cy.wait(1000)
+
+          cy.get('#censoSiguienteNew').click()
 
     });
 
@@ -1677,17 +1479,26 @@ describe("The user is able to activate ratings in the 'New call with session'", 
     it("Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button", function() {
         cy.get('#puntoSiNoAbstencion').click()
         cy.get('#tituloPuntoDelDiaModal').type('Test')
+
         cy.contains('Informativo').click()
+
         cy.wait(1000)
         cy.contains('Votación nominal').click()
+
         cy.contains('Aceptar').click()
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+
+        cy.get('#ordenDelDiaNext').click()
+
+        cy.wait(1000)
+
+        cy.get('#attachmentSiguienteNew').click()
+
         cy.wait(1000)
         
 
     });
 
-
+/*
     it("Click on the 'Anadir+'' button then click on the 'Subir archivo button and select the document you want to add and click on the next' button", function() {
         cy.get('#puntoSiNoAbstencion').click()
         cy.get('#tituloPuntoDelDiaModal').type('Test')
@@ -1700,14 +1511,16 @@ describe("The user is able to activate ratings in the 'New call with session'", 
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
         cy.wait(1000)
 
-        
+       
 
     });
+
+    */
 
 
      it("Populate all required fields and click on the “Siguiente” button", function() {
         
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+        cy.get('#optionsNewSiguiente').click()
         cy.wait(1000)
         
         
@@ -1718,6 +1531,7 @@ describe("The user is able to activate ratings in the 'New call with session'", 
       it("Click on the “Convocar y notificar” button", function() {
         
         cy.contains('Convocar y notificar').click()
+        cy.wait(3000)
         
         
 
@@ -1754,7 +1568,7 @@ describe("The user is able to activate ratings in the 'New call with session'", 
 
            it("Navigate to the “Camera and microphone” form and click on the “Accept” button", function() {
         
-            cy.get('#ifmail').then($iframe => {
+            cy.get('#admin-room-iframe').then($iframe => {
   const $body = $iframe.contents().find('body') ; cy.wrap($body)
 
 
@@ -1768,10 +1582,10 @@ describe("The user is able to activate ratings in the 'New call with session'", 
    });
 
 
-
             it("Navigate to the upper right corner and click on the “Iniciar reunion” button", function() {
         
         cy.get('#iniciarReunionDentroDeReunion').click()
+        cy.wait(2000)
         
         
     
@@ -1780,32 +1594,42 @@ describe("The user is able to activate ratings in the 'New call with session'", 
 
              it("Populate all required fields and click on the “Aceptar” button", function() {
         
-        cy.get('#iniciarReunionDentroDeReunion').click()
         cy.get('#seleccionaAlPresidenteEnReunion').click()
-        cy.contains('test test').click()
+
+
+        cy.wait(200)
+
+        cy.xpath('//*[@class="itemsSeleccionEnModalUsersEnReunion"]').click()
+
         cy.get('#seleccionaAlSecretarioEnReunion').click()
-        cy.contains('test test').click()
-        cy.contains('Aceptar').click()
-        
+
+        cy.wait(200)
+
+        cy.xpath('//*[@class="itemsSeleccionEnModalUsersEnReunion"]').click()
+
+       
+         cy.contains('Aceptar').click()
+        cy.wait(200)
+        cy.contains('Cerrar').click()
         
     
     });
 
 
-
-
-                 it("Click on the “Abrir punto” button", function() {
+        it("Click on the “Abrir punto” button", function() {
         
         cy.contains('Abrir punto').click()
-
+        cy.wait(2000)
+        
         
     
     });
 
 
-                      it("Click on the “Activar votaciones” button", function() {
+    it("Click on the “Activar votaciones” button", function() {
         
         cy.contains('Activar votaciones').click()
+        cy.wait(2000)
         
         
     
@@ -1813,14 +1637,26 @@ describe("The user is able to activate ratings in the 'New call with session'", 
 
 
 
-});
+    it("User should be able to exit the meeting", function() {
+
+        cy.visit(login_url)
+
+    });
 
 
 
 
-describe("The user is able to close point votations in the 'New call with session' type of meeting", function() {
 
-    it("Click on the 'Nueva reunion' button", function() {
+
+
+ });
+
+
+
+
+describe("The user is able to close point votations in the 'New call with session' type of meeting'", function() {
+
+     it("Click on the 'Nueva reunion' button", function() {
         cy.contains('dashboard').click({ force: true })
         cy.get('#create-council-block').click()
 
@@ -1835,11 +1671,8 @@ describe("The user is able to close point votations in the 'New call with sessio
 
 
     it("Populate all required fields and click on the “Siguiente” button", function() {
-        cy.get('input').eq(0).type('Test')
-        cy.get('input').eq(1).type('Test')
-        cy.get('input').eq(2).type('Test')
-        cy.get('input').eq(3).type('Test')
-        cy.get('input').eq(4).type('Test')
+        cy.xpath('(//*[@class="ql-editor ql-blank" ])[1]').type('Test')
+       
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
         cy.wait(1000)
 
@@ -1847,13 +1680,37 @@ describe("The user is able to close point votations in the 'New call with sessio
 
 
     it("Click on the 'Anadir participante' button and populate all required fields then click on the “Siguiente” button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
-        cy.get('input').eq(0).type('Test')
-        cy.get('input').eq(1).type('Automation')
-        cy.get('input').eq(4).type('alem@qaengineers.net')
-        cy.contains('Aceptar').click()
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+           cy.get('#anadirParticipanteEnCensoNewReunion').click()
         cy.wait(1000)
+
+
+           
+            
+        cy.get('input').eq(7)
+            .type('TestAutomation'+Cypress.config('UniqueNumber'))    
+            
+        
+            
+        cy.get('input').eq(8)
+            .type('alem'+Cypress.config('UniqueNumber'))    
+            
+        cy.get('input').eq(9)
+            .type('alem'+Cypress.config('UniqueNumber'))     
+            
+        cy.get('input').eq(10)
+            .type('123123123')    
+            
+        cy.get('input').eq(11)
+            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')    
+            
+        cy.get('input').eq(12)
+            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+          
+          cy.contains('Aceptar').click()
+
+          cy.wait(1000)
+
+          cy.get('#censoSiguienteNew').click()
 
     });
 
@@ -1868,17 +1725,26 @@ describe("The user is able to close point votations in the 'New call with sessio
     it("Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button", function() {
         cy.get('#puntoSiNoAbstencion').click()
         cy.get('#tituloPuntoDelDiaModal').type('Test')
+
         cy.contains('Informativo').click()
+
         cy.wait(1000)
         cy.contains('Votación nominal').click()
+
         cy.contains('Aceptar').click()
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+
+        cy.get('#ordenDelDiaNext').click()
+
+        cy.wait(1000)
+
+        cy.get('#attachmentSiguienteNew').click()
+
         cy.wait(1000)
         
 
     });
 
-
+/*
     it("Click on the 'Anadir+'' button then click on the 'Subir archivo button and select the document you want to add and click on the next' button", function() {
         cy.get('#puntoSiNoAbstencion').click()
         cy.get('#tituloPuntoDelDiaModal').type('Test')
@@ -1891,14 +1757,16 @@ describe("The user is able to close point votations in the 'New call with sessio
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
         cy.wait(1000)
 
-        
+       
 
     });
+
+    */
 
 
      it("Populate all required fields and click on the “Siguiente” button", function() {
         
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+        cy.get('#optionsNewSiguiente').click()
         cy.wait(1000)
         
         
@@ -1909,6 +1777,7 @@ describe("The user is able to close point votations in the 'New call with sessio
       it("Click on the “Convocar y notificar” button", function() {
         
         cy.contains('Convocar y notificar').click()
+        cy.wait(3000)
         
         
 
@@ -1945,7 +1814,7 @@ describe("The user is able to close point votations in the 'New call with sessio
 
            it("Navigate to the “Camera and microphone” form and click on the “Accept” button", function() {
         
-            cy.get('#ifmail').then($iframe => {
+            cy.get('#admin-room-iframe').then($iframe => {
   const $body = $iframe.contents().find('body') ; cy.wrap($body)
 
 
@@ -1959,10 +1828,10 @@ describe("The user is able to close point votations in the 'New call with sessio
    });
 
 
-
             it("Navigate to the upper right corner and click on the “Iniciar reunion” button", function() {
         
         cy.get('#iniciarReunionDentroDeReunion').click()
+        cy.wait(2000)
         
         
     
@@ -1971,55 +1840,78 @@ describe("The user is able to close point votations in the 'New call with sessio
 
              it("Populate all required fields and click on the “Aceptar” button", function() {
         
-        cy.get('#iniciarReunionDentroDeReunion').click()
         cy.get('#seleccionaAlPresidenteEnReunion').click()
-        cy.contains('test test').click()
+
+
+        cy.wait(200)
+
+        cy.xpath('//*[@class="itemsSeleccionEnModalUsersEnReunion"]').click()
+
         cy.get('#seleccionaAlSecretarioEnReunion').click()
-        cy.contains('test test').click()
-        cy.contains('Aceptar').click()
-        
+
+        cy.wait(200)
+
+        cy.xpath('//*[@class="itemsSeleccionEnModalUsersEnReunion"]').click()
+
+       
+         cy.contains('Aceptar').click()
+        cy.wait(200)
+        cy.contains('Cerrar').click()
         
     
     });
 
 
-
-
-                 it("Click on the “Abrir punto” button", function() {
+        it("Click on the “Abrir punto” button", function() {
         
         cy.contains('Abrir punto').click()
+        cy.wait(2000)
         
         
     
     });
 
 
-        it("Click on the “Activar votaciones” button", function() {
+    it("Click on the “Activar votaciones” button", function() {
         
         cy.contains('Activar votaciones').click()
+        cy.wait(2000)
         
         
     
     });
 
 
-
-          it("Click on the “Cerrar las votaciones del punto” button", function() {
+    it("Click on the “Cerrar las votaciones del punto” button", function() {
         
         cy.contains('Cerrar las votaciones del punto').click()
+        cy.wait(2000)
         
         
     
     });
 
 
-});
+
+
+    it("User should be able to exit the meeting", function() {
+
+        cy.visit(login_url)
+
+    });
 
 
 
-describe("The user is able to close point in the 'New call with session' type of meeting", function() {
 
-    it("Click on the 'Nueva reunion' button", function() {
+
+
+ });
+
+
+
+describe("The user is able to close point in the 'New call with session' type of meeting'", function() {
+
+     it("Click on the 'Nueva reunion' button", function() {
         cy.contains('dashboard').click({ force: true })
         cy.get('#create-council-block').click()
 
@@ -2034,11 +1926,8 @@ describe("The user is able to close point in the 'New call with session' type of
 
 
     it("Populate all required fields and click on the “Siguiente” button", function() {
-        cy.get('input').eq(0).type('Test')
-        cy.get('input').eq(1).type('Test')
-        cy.get('input').eq(2).type('Test')
-        cy.get('input').eq(3).type('Test')
-        cy.get('input').eq(4).type('Test')
+        cy.xpath('(//*[@class="ql-editor ql-blank" ])[1]').type('Test')
+       
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
         cy.wait(1000)
 
@@ -2046,13 +1935,37 @@ describe("The user is able to close point in the 'New call with session' type of
 
 
     it("Click on the 'Anadir participante' button and populate all required fields then click on the “Siguiente” button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
-        cy.get('input').eq(0).type('Test')
-        cy.get('input').eq(1).type('Automation')
-        cy.get('input').eq(4).type('alem@qaengineers.net')
-        cy.contains('Aceptar').click()
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+           cy.get('#anadirParticipanteEnCensoNewReunion').click()
         cy.wait(1000)
+
+
+           
+            
+        cy.get('input').eq(7)
+            .type('TestAutomation'+Cypress.config('UniqueNumber'))    
+            
+        
+            
+        cy.get('input').eq(8)
+            .type('alem'+Cypress.config('UniqueNumber'))    
+            
+        cy.get('input').eq(9)
+            .type('alem'+Cypress.config('UniqueNumber'))     
+            
+        cy.get('input').eq(10)
+            .type('123123123')    
+            
+        cy.get('input').eq(11)
+            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')    
+            
+        cy.get('input').eq(12)
+            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+          
+          cy.contains('Aceptar').click()
+
+          cy.wait(1000)
+
+          cy.get('#censoSiguienteNew').click()
 
     });
 
@@ -2067,17 +1980,26 @@ describe("The user is able to close point in the 'New call with session' type of
     it("Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button", function() {
         cy.get('#puntoSiNoAbstencion').click()
         cy.get('#tituloPuntoDelDiaModal').type('Test')
+
         cy.contains('Informativo').click()
+
         cy.wait(1000)
         cy.contains('Votación nominal').click()
+
         cy.contains('Aceptar').click()
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+
+        cy.get('#ordenDelDiaNext').click()
+
+        cy.wait(1000)
+
+        cy.get('#attachmentSiguienteNew').click()
+
         cy.wait(1000)
         
 
     });
 
-
+/*
     it("Click on the 'Anadir+'' button then click on the 'Subir archivo button and select the document you want to add and click on the next' button", function() {
         cy.get('#puntoSiNoAbstencion').click()
         cy.get('#tituloPuntoDelDiaModal').type('Test')
@@ -2090,14 +2012,16 @@ describe("The user is able to close point in the 'New call with session' type of
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
         cy.wait(1000)
 
-        
+       
 
     });
+
+    */
 
 
      it("Populate all required fields and click on the “Siguiente” button", function() {
         
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+        cy.get('#optionsNewSiguiente').click()
         cy.wait(1000)
         
         
@@ -2108,6 +2032,7 @@ describe("The user is able to close point in the 'New call with session' type of
       it("Click on the “Convocar y notificar” button", function() {
         
         cy.contains('Convocar y notificar').click()
+        cy.wait(3000)
         
         
 
@@ -2144,7 +2069,7 @@ describe("The user is able to close point in the 'New call with session' type of
 
            it("Navigate to the “Camera and microphone” form and click on the “Accept” button", function() {
         
-            cy.get('#ifmail').then($iframe => {
+            cy.get('#admin-room-iframe').then($iframe => {
   const $body = $iframe.contents().find('body') ; cy.wrap($body)
 
 
@@ -2158,10 +2083,10 @@ describe("The user is able to close point in the 'New call with session' type of
    });
 
 
-
             it("Navigate to the upper right corner and click on the “Iniciar reunion” button", function() {
         
         cy.get('#iniciarReunionDentroDeReunion').click()
+        cy.wait(2000)
         
         
     
@@ -2170,58 +2095,78 @@ describe("The user is able to close point in the 'New call with session' type of
 
              it("Populate all required fields and click on the “Aceptar” button", function() {
         
-        cy.get('#iniciarReunionDentroDeReunion').click()
         cy.get('#seleccionaAlPresidenteEnReunion').click()
-        cy.contains('test test').click()
+
+
+        cy.wait(200)
+
+        cy.xpath('//*[@class="itemsSeleccionEnModalUsersEnReunion"]').click()
+
         cy.get('#seleccionaAlSecretarioEnReunion').click()
-        cy.contains('test test').click()
-        cy.contains('Aceptar').click()
-        
+
+        cy.wait(200)
+
+        cy.xpath('//*[@class="itemsSeleccionEnModalUsersEnReunion"]').click()
+
+       
+         cy.contains('Aceptar').click()
+        cy.wait(200)
+        cy.contains('Cerrar').click()
         
     
     });
 
 
-
-
-                 it("Click on the “Abrir punto” button", function() {
+        it("Click on the “Abrir punto” button", function() {
         
         cy.contains('Abrir punto').click()
+        cy.wait(2000)
         
         
     
     });
 
 
-        it("Click on the “Activar votaciones” button", function() {
+    it("Click on the “Activar votaciones” button", function() {
         
         cy.contains('Activar votaciones').click()
+        cy.wait(2000)
         
         
     
     });
 
 
-
-          it("Click on the “Cerrar las votaciones del punto” button", function() {
+    it("Click on the “Cerrar las votaciones del punto” button", function() {
         
         cy.contains('Cerrar las votaciones del punto').click()
+        cy.wait(2000)
         
         
     
     });
 
-
-             it("Click on the “Cerrar punto” button", function() {
+    it("Click on the “Cerrar punto” button", function() {
         
         cy.contains('Cerrar punto').click()
+        cy.wait(2000)
         
         
     
     });
 
 
-});
+
+    it("User should be able to exit the meeting", function() {
+
+        cy.visit(login_url)
+
+    });
+
+
+
+
+ });
 
 
 
@@ -2231,7 +2176,7 @@ describe("The user is able to close point in the 'New call with session' type of
 
 describe("The user is able to finish council in the 'New call with session' type of meeting", function() {
 
-    it("Click on the 'Nueva reunion' button", function() {
+     it("Click on the 'Nueva reunion' button", function() {
         cy.contains('dashboard').click({ force: true })
         cy.get('#create-council-block').click()
 
@@ -2246,11 +2191,8 @@ describe("The user is able to finish council in the 'New call with session' type
 
 
     it("Populate all required fields and click on the “Siguiente” button", function() {
-        cy.get('input').eq(0).type('Test')
-        cy.get('input').eq(1).type('Test')
-        cy.get('input').eq(2).type('Test')
-        cy.get('input').eq(3).type('Test')
-        cy.get('input').eq(4).type('Test')
+        cy.xpath('(//*[@class="ql-editor ql-blank" ])[1]').type('Test')
+       
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
         cy.wait(1000)
 
@@ -2258,13 +2200,37 @@ describe("The user is able to finish council in the 'New call with session' type
 
 
     it("Click on the 'Anadir participante' button and populate all required fields then click on the “Siguiente” button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
-        cy.get('input').eq(0).type('Test')
-        cy.get('input').eq(1).type('Automation')
-        cy.get('input').eq(4).type('alem@qaengineers.net')
-        cy.contains('Aceptar').click()
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+           cy.get('#anadirParticipanteEnCensoNewReunion').click()
         cy.wait(1000)
+
+
+           
+            
+        cy.get('input').eq(7)
+            .type('TestAutomation'+Cypress.config('UniqueNumber'))    
+            
+        
+            
+        cy.get('input').eq(8)
+            .type('alem'+Cypress.config('UniqueNumber'))    
+            
+        cy.get('input').eq(9)
+            .type('alem'+Cypress.config('UniqueNumber'))     
+            
+        cy.get('input').eq(10)
+            .type('123123123')    
+            
+        cy.get('input').eq(11)
+            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')    
+            
+        cy.get('input').eq(12)
+            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+          
+          cy.contains('Aceptar').click()
+
+          cy.wait(1000)
+
+          cy.get('#censoSiguienteNew').click()
 
     });
 
@@ -2279,17 +2245,26 @@ describe("The user is able to finish council in the 'New call with session' type
     it("Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button", function() {
         cy.get('#puntoSiNoAbstencion').click()
         cy.get('#tituloPuntoDelDiaModal').type('Test')
+
         cy.contains('Informativo').click()
+
         cy.wait(1000)
         cy.contains('Votación nominal').click()
+
         cy.contains('Aceptar').click()
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+
+        cy.get('#ordenDelDiaNext').click()
+
+        cy.wait(1000)
+
+        cy.get('#attachmentSiguienteNew').click()
+
         cy.wait(1000)
         
 
     });
 
-
+/*
     it("Click on the 'Anadir+'' button then click on the 'Subir archivo button and select the document you want to add and click on the next' button", function() {
         cy.get('#puntoSiNoAbstencion').click()
         cy.get('#tituloPuntoDelDiaModal').type('Test')
@@ -2302,14 +2277,16 @@ describe("The user is able to finish council in the 'New call with session' type
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
         cy.wait(1000)
 
-        
+       
 
     });
+
+    */
 
 
      it("Populate all required fields and click on the “Siguiente” button", function() {
         
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+        cy.get('#optionsNewSiguiente').click()
         cy.wait(1000)
         
         
@@ -2320,6 +2297,7 @@ describe("The user is able to finish council in the 'New call with session' type
       it("Click on the “Convocar y notificar” button", function() {
         
         cy.contains('Convocar y notificar').click()
+        cy.wait(3000)
         
         
 
@@ -2356,7 +2334,7 @@ describe("The user is able to finish council in the 'New call with session' type
 
            it("Navigate to the “Camera and microphone” form and click on the “Accept” button", function() {
         
-            cy.get('#ifmail').then($iframe => {
+            cy.get('#admin-room-iframe').then($iframe => {
   const $body = $iframe.contents().find('body') ; cy.wrap($body)
 
 
@@ -2370,10 +2348,10 @@ describe("The user is able to finish council in the 'New call with session' type
    });
 
 
-
             it("Navigate to the upper right corner and click on the “Iniciar reunion” button", function() {
         
         cy.get('#iniciarReunionDentroDeReunion').click()
+        cy.wait(2000)
         
         
     
@@ -2382,84 +2360,94 @@ describe("The user is able to finish council in the 'New call with session' type
 
              it("Populate all required fields and click on the “Aceptar” button", function() {
         
-        cy.get('#iniciarReunionDentroDeReunion').click()
         cy.get('#seleccionaAlPresidenteEnReunion').click()
-        cy.contains('test test').click()
+
+
+        cy.wait(200)
+
+        cy.xpath('//*[@class="itemsSeleccionEnModalUsersEnReunion"]').click()
+
         cy.get('#seleccionaAlSecretarioEnReunion').click()
-        cy.contains('test test').click()
-        cy.contains('Aceptar').click()
-        
+
+        cy.wait(200)
+
+        cy.xpath('//*[@class="itemsSeleccionEnModalUsersEnReunion"]').click()
+
+       
+         cy.contains('Aceptar').click()
+        cy.wait(200)
+        cy.contains('Cerrar').click()
         
     
     });
 
 
-
-
-                 it("Click on the “Abrir punto” button", function() {
+        it("Click on the “Abrir punto” button", function() {
         
         cy.contains('Abrir punto').click()
+        cy.wait(2000)
         
         
     
     });
 
 
-        it("Click on the “Activar votaciones” button", function() {
+    it("Click on the “Activar votaciones” button", function() {
         
         cy.contains('Activar votaciones').click()
+        cy.wait(2000)
         
         
     
     });
 
 
-
-          it("Click on the “Cerrar las votaciones del punto” button", function() {
+    it("Click on the “Cerrar las votaciones del punto” button", function() {
         
         cy.contains('Cerrar las votaciones del punto').click()
+        cy.wait(2000)
         
         
     
     });
 
-
-             it("Click on the “Cerrar punto” button", function() {
+    it("Click on the “Cerrar punto” button", function() {
         
         cy.contains('Cerrar punto').click()
+        cy.wait(2000)
         
         
     
     });
 
 
-
-           it("Click on the “Finalizar reunion” button", function() {
+    it("Click on the “Finalizar reunion” button", function() {
         
-        cy.contains('Finalizar reunion').click()
-        
-        
-    
-    });
-
-
-       it("Click on the “Accept” button", function() {
-        
-        cy.contains('Accept').click()
+        cy.get('#finalizarReunionEnReunion').click()
         
         
     
     });
 
 
-});
+    it("Click on the “Accept” button", function() {
+        
+        cy.contains('Aceptar').click()
+        cy.wait(2000)
+        
+        
+    
+    });
+
+
+ });
 
 
 
 
-describe("The user is able to finish council in the 'New call with session' type of meeting", function() {
+describe("The user is able to finalize and approve act in the 'New call with session' type of meeting", function() {
 
-    it("Click on the 'Nueva reunion' button", function() {
+     it("Click on the 'Nueva reunion' button", function() {
         cy.contains('dashboard').click({ force: true })
         cy.get('#create-council-block').click()
 
@@ -2474,11 +2462,8 @@ describe("The user is able to finish council in the 'New call with session' type
 
 
     it("Populate all required fields and click on the “Siguiente” button", function() {
-        cy.get('input').eq(0).type('Test')
-        cy.get('input').eq(1).type('Test')
-        cy.get('input').eq(2).type('Test')
-        cy.get('input').eq(3).type('Test')
-        cy.get('input').eq(4).type('Test')
+        cy.xpath('(//*[@class="ql-editor ql-blank" ])[1]').type('Test')
+       
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
         cy.wait(1000)
 
@@ -2486,13 +2471,37 @@ describe("The user is able to finish council in the 'New call with session' type
 
 
     it("Click on the 'Anadir participante' button and populate all required fields then click on the “Siguiente” button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
-        cy.get('input').eq(0).type('Test')
-        cy.get('input').eq(1).type('Automation')
-        cy.get('input').eq(4).type('alem@qaengineers.net')
-        cy.contains('Aceptar').click()
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+           cy.get('#anadirParticipanteEnCensoNewReunion').click()
         cy.wait(1000)
+
+
+           
+            
+        cy.get('input').eq(7)
+            .type('TestAutomation'+Cypress.config('UniqueNumber'))    
+            
+        
+            
+        cy.get('input').eq(8)
+            .type('alem'+Cypress.config('UniqueNumber'))    
+            
+        cy.get('input').eq(9)
+            .type('alem'+Cypress.config('UniqueNumber'))     
+            
+        cy.get('input').eq(10)
+            .type('123123123')    
+            
+        cy.get('input').eq(11)
+            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')    
+            
+        cy.get('input').eq(12)
+            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+          
+          cy.contains('Aceptar').click()
+
+          cy.wait(1000)
+
+          cy.get('#censoSiguienteNew').click()
 
     });
 
@@ -2507,17 +2516,26 @@ describe("The user is able to finish council in the 'New call with session' type
     it("Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button", function() {
         cy.get('#puntoSiNoAbstencion').click()
         cy.get('#tituloPuntoDelDiaModal').type('Test')
+
         cy.contains('Informativo').click()
+
         cy.wait(1000)
         cy.contains('Votación nominal').click()
+
         cy.contains('Aceptar').click()
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+
+        cy.get('#ordenDelDiaNext').click()
+
+        cy.wait(1000)
+
+        cy.get('#attachmentSiguienteNew').click()
+
         cy.wait(1000)
         
 
     });
 
-
+/*
     it("Click on the 'Anadir+'' button then click on the 'Subir archivo button and select the document you want to add and click on the next' button", function() {
         cy.get('#puntoSiNoAbstencion').click()
         cy.get('#tituloPuntoDelDiaModal').type('Test')
@@ -2530,14 +2548,16 @@ describe("The user is able to finish council in the 'New call with session' type
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
         cy.wait(1000)
 
-        
+       
 
     });
+
+    */
 
 
      it("Populate all required fields and click on the “Siguiente” button", function() {
         
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+        cy.get('#optionsNewSiguiente').click()
         cy.wait(1000)
         
         
@@ -2548,6 +2568,7 @@ describe("The user is able to finish council in the 'New call with session' type
       it("Click on the “Convocar y notificar” button", function() {
         
         cy.contains('Convocar y notificar').click()
+        cy.wait(3000)
         
         
 
@@ -2584,7 +2605,7 @@ describe("The user is able to finish council in the 'New call with session' type
 
            it("Navigate to the “Camera and microphone” form and click on the “Accept” button", function() {
         
-            cy.get('#ifmail').then($iframe => {
+            cy.get('#admin-room-iframe').then($iframe => {
   const $body = $iframe.contents().find('body') ; cy.wrap($body)
 
 
@@ -2598,10 +2619,10 @@ describe("The user is able to finish council in the 'New call with session' type
    });
 
 
-
             it("Navigate to the upper right corner and click on the “Iniciar reunion” button", function() {
         
         cy.get('#iniciarReunionDentroDeReunion').click()
+        cy.wait(2000)
         
         
     
@@ -2610,70 +2631,80 @@ describe("The user is able to finish council in the 'New call with session' type
 
              it("Populate all required fields and click on the “Aceptar” button", function() {
         
-        cy.get('#iniciarReunionDentroDeReunion').click()
         cy.get('#seleccionaAlPresidenteEnReunion').click()
-        cy.contains('test test').click()
+
+
+        cy.wait(200)
+
+        cy.xpath('//*[@class="itemsSeleccionEnModalUsersEnReunion"]').click()
+
         cy.get('#seleccionaAlSecretarioEnReunion').click()
-        cy.contains('test test').click()
-        cy.contains('Aceptar').click()
-        
+
+        cy.wait(200)
+
+        cy.xpath('//*[@class="itemsSeleccionEnModalUsersEnReunion"]').click()
+
+       
+         cy.contains('Aceptar').click()
+        cy.wait(200)
+        cy.contains('Cerrar').click()
         
     
     });
 
 
-
-
-                 it("Click on the “Abrir punto” button", function() {
+        it("Click on the “Abrir punto” button", function() {
         
         cy.contains('Abrir punto').click()
+        cy.wait(2000)
         
         
     
     });
 
 
-        it("Click on the “Activar votaciones” button", function() {
+    it("Click on the “Activar votaciones” button", function() {
         
         cy.contains('Activar votaciones').click()
+        cy.wait(2000)
         
         
     
     });
 
 
-
-          it("Click on the “Cerrar las votaciones del punto” button", function() {
+    it("Click on the “Cerrar las votaciones del punto” button", function() {
         
         cy.contains('Cerrar las votaciones del punto').click()
+        cy.wait(2000)
         
         
     
     });
 
-
-             it("Click on the “Cerrar punto” button", function() {
+    it("Click on the “Cerrar punto” button", function() {
         
         cy.contains('Cerrar punto').click()
+        cy.wait(2000)
         
         
     
     });
 
 
-
-           it("Click on the “Finalizar reunion” button", function() {
+    it("Click on the “Finalizar reunion” button", function() {
         
-        cy.contains('Finalizar reunion').click()
+        cy.get('#finalizarReunionEnReunion').click()
         
         
     
     });
 
 
-       it("Click on the “Accept” button", function() {
+    it("Click on the “Accept” button", function() {
         
-        cy.contains('Accept').click()
+        cy.contains('Aceptar').click()
+        cy.wait(2000)
         
         
     
@@ -2683,19 +2714,22 @@ describe("The user is able to finish council in the 'New call with session' type
     it("Click on the “Finalizar y aprobar acta” button and again click on the “Finalizar y aprobar acta” button", function() {
         
         cy.contains('Finalizar y aprobar acta').click()
-        
+        cy.wait(5000)
         cy.contains('Finalizar y aprobar acta').click()
+        cy.wait(1000)
+        
+        
     
-    });    
+    });
 
 
+ });
 
-});
 
 
 describe("The user is able to send minutes in the 'New call with session' type of meeting", function() {
 
-    it("Click on the 'Nueva reunion' button", function() {
+     it("Click on the 'Nueva reunion' button", function() {
         cy.contains('dashboard').click({ force: true })
         cy.get('#create-council-block').click()
 
@@ -2710,11 +2744,8 @@ describe("The user is able to send minutes in the 'New call with session' type o
 
 
     it("Populate all required fields and click on the “Siguiente” button", function() {
-        cy.get('input').eq(0).type('Test')
-        cy.get('input').eq(1).type('Test')
-        cy.get('input').eq(2).type('Test')
-        cy.get('input').eq(3).type('Test')
-        cy.get('input').eq(4).type('Test')
+        cy.xpath('(//*[@class="ql-editor ql-blank" ])[1]').type('Test')
+       
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
         cy.wait(1000)
 
@@ -2722,13 +2753,37 @@ describe("The user is able to send minutes in the 'New call with session' type o
 
 
     it("Click on the 'Anadir participante' button and populate all required fields then click on the “Siguiente” button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
-        cy.get('input').eq(0).type('Test')
-        cy.get('input').eq(1).type('Automation')
-        cy.get('input').eq(4).type('alem@qaengineers.net')
-        cy.contains('Aceptar').click()
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+           cy.get('#anadirParticipanteEnCensoNewReunion').click()
         cy.wait(1000)
+
+
+           
+            
+        cy.get('input').eq(7)
+            .type('TestAutomation'+Cypress.config('UniqueNumber'))    
+            
+        
+            
+        cy.get('input').eq(8)
+            .type('alem'+Cypress.config('UniqueNumber'))    
+            
+        cy.get('input').eq(9)
+            .type('alem'+Cypress.config('UniqueNumber'))     
+            
+        cy.get('input').eq(10)
+            .type('123123123')    
+            
+        cy.get('input').eq(11)
+            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')    
+            
+        cy.get('input').eq(12)
+            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+          
+          cy.contains('Aceptar').click()
+
+          cy.wait(1000)
+
+          cy.get('#censoSiguienteNew').click()
 
     });
 
@@ -2743,17 +2798,26 @@ describe("The user is able to send minutes in the 'New call with session' type o
     it("Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button", function() {
         cy.get('#puntoSiNoAbstencion').click()
         cy.get('#tituloPuntoDelDiaModal').type('Test')
+
         cy.contains('Informativo').click()
+
         cy.wait(1000)
         cy.contains('Votación nominal').click()
+
         cy.contains('Aceptar').click()
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+
+        cy.get('#ordenDelDiaNext').click()
+
+        cy.wait(1000)
+
+        cy.get('#attachmentSiguienteNew').click()
+
         cy.wait(1000)
         
 
     });
 
-
+/*
     it("Click on the 'Anadir+'' button then click on the 'Subir archivo button and select the document you want to add and click on the next' button", function() {
         cy.get('#puntoSiNoAbstencion').click()
         cy.get('#tituloPuntoDelDiaModal').type('Test')
@@ -2766,14 +2830,16 @@ describe("The user is able to send minutes in the 'New call with session' type o
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
         cy.wait(1000)
 
-        
+       
 
     });
+
+    */
 
 
      it("Populate all required fields and click on the “Siguiente” button", function() {
         
-        cy.get('#botonSiguienteNuevasReunionesAbajo').click()
+        cy.get('#optionsNewSiguiente').click()
         cy.wait(1000)
         
         
@@ -2784,6 +2850,7 @@ describe("The user is able to send minutes in the 'New call with session' type o
       it("Click on the “Convocar y notificar” button", function() {
         
         cy.contains('Convocar y notificar').click()
+        cy.wait(3000)
         
         
 
@@ -2820,7 +2887,7 @@ describe("The user is able to send minutes in the 'New call with session' type o
 
            it("Navigate to the “Camera and microphone” form and click on the “Accept” button", function() {
         
-            cy.get('#ifmail').then($iframe => {
+            cy.get('#admin-room-iframe').then($iframe => {
   const $body = $iframe.contents().find('body') ; cy.wrap($body)
 
 
@@ -2834,10 +2901,10 @@ describe("The user is able to send minutes in the 'New call with session' type o
    });
 
 
-
             it("Navigate to the upper right corner and click on the “Iniciar reunion” button", function() {
         
         cy.get('#iniciarReunionDentroDeReunion').click()
+        cy.wait(2000)
         
         
     
@@ -2846,70 +2913,80 @@ describe("The user is able to send minutes in the 'New call with session' type o
 
              it("Populate all required fields and click on the “Aceptar” button", function() {
         
-        cy.get('#iniciarReunionDentroDeReunion').click()
         cy.get('#seleccionaAlPresidenteEnReunion').click()
-        cy.contains('test test').click()
+
+
+        cy.wait(200)
+
+        cy.xpath('//*[@class="itemsSeleccionEnModalUsersEnReunion"]').click()
+
         cy.get('#seleccionaAlSecretarioEnReunion').click()
-        cy.contains('test test').click()
-        cy.contains('Aceptar').click()
-        
+
+        cy.wait(200)
+
+        cy.xpath('//*[@class="itemsSeleccionEnModalUsersEnReunion"]').click()
+
+       
+         cy.contains('Aceptar').click()
+        cy.wait(200)
+        cy.contains('Cerrar').click()
         
     
     });
 
 
-
-
-                 it("Click on the “Abrir punto” button", function() {
+        it("Click on the “Abrir punto” button", function() {
         
         cy.contains('Abrir punto').click()
+        cy.wait(2000)
         
         
     
     });
 
 
-        it("Click on the “Activar votaciones” button", function() {
+    it("Click on the “Activar votaciones” button", function() {
         
         cy.contains('Activar votaciones').click()
+        cy.wait(2000)
         
         
     
     });
 
 
-
-          it("Click on the “Cerrar las votaciones del punto” button", function() {
+    it("Click on the “Cerrar las votaciones del punto” button", function() {
         
         cy.contains('Cerrar las votaciones del punto').click()
+        cy.wait(2000)
         
         
     
     });
 
-
-             it("Click on the “Cerrar punto” button", function() {
+    it("Click on the “Cerrar punto” button", function() {
         
         cy.contains('Cerrar punto').click()
+        cy.wait(2000)
         
         
     
     });
 
 
-
-           it("Click on the “Finalizar reunion” button", function() {
+    it("Click on the “Finalizar reunion” button", function() {
         
-        cy.contains('Finalizar reunion').click()
+        cy.get('#finalizarReunionEnReunion').click()
         
         
     
     });
 
 
-       it("Click on the “Accept” button", function() {
+    it("Click on the “Accept” button", function() {
         
-        cy.contains('Accept').click()
+        cy.contains('Aceptar').click()
+        cy.wait(2000)
         
         
     
@@ -2919,39 +2996,50 @@ describe("The user is able to send minutes in the 'New call with session' type o
     it("Click on the “Finalizar y aprobar acta” button and again click on the “Finalizar y aprobar acta” button", function() {
         
         cy.contains('Finalizar y aprobar acta').click()
-        
+        cy.wait(5000)
         cy.contains('Finalizar y aprobar acta').click()
+        cy.wait(1000)
+        
+        
     
-    }); 
+    });
 
 
-
-it("Click on the “Envio del acta” button", function() {
+    it("Click on the “Envio del acta” button", function() {
         
         cy.contains('Envío del acta').click()
+        cy.wait(1000)
         
         
     
     });
 
-it("Click on the “Enviar acta” button", function() {
+
+    it("Click on the “Enviar acta” button", function() {
         
         cy.contains('Enviar acta').click()
+        cy.wait(1000)
         
         
     
     });
 
 
-it("Click on the “Enviar a todos los convocados“ then click on the “Enviar” button", function() {
+    it("Click on the “Enviar a todos los convocados then click on the “Enviar” button", function() {
         
         cy.contains('Enviar a todos los convocados').click()
+        cy.wait(1000)
         cy.contains('Enviar').click()
+        cy.wait(3000)
         cy.contains('Cerrar').click()
+        
+        
     
     });
 
-});
+
+
+ });
 
 
 
@@ -3008,4 +3096,4 @@ describe("The user is able to create a new document signature in the 'Signatures
 
   */  
 
-});
+
