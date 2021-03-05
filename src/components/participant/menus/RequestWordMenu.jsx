@@ -298,6 +298,7 @@ const RequestWordMenu = ({
 		&& !props.videoURL.includes('rivulet')
 		&& !props.videoURL.includes('cbx')
 		&& !props.videoURL.includes('streaminggalicia')
+		&& !props.videoURL.includes('vimeo')
 	));
 
 	return (
