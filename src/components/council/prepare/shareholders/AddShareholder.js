@@ -31,7 +31,7 @@ const ApproveRequestButton = ({
 			`,
 			variables: {
 				requestId: request.id,
-				participantId: participant.id
+				participantId: participant.participantId
 			}
 		});
 		refetch();
@@ -72,18 +72,18 @@ const ApproveRequestButton = ({
 				}}
 				color="white"
 				textStyle={{ color: buttonColor }}
-				// onClick={approveRequest}
+			// onClick={approveRequest}
 			/>
 			{modal
-&& <ShareholderEditor
-	open={modal}
-	council={council}
-	participations={true}
-	refetch={setParticipantCreated}
-	defaultValues={cleanData}
-	councilId={request.councilId}
-	requestClose={() => setModal(false)}
-/>
+				&& <ShareholderEditor
+					open={modal}
+					council={council}
+					participations={true}
+					refetch={setParticipantCreated}
+					defaultValues={cleanData}
+					councilId={request.councilId}
+					requestClose={() => setModal(false)}
+				/>
 			}
 		</>
 	);
