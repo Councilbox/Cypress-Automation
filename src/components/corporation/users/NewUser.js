@@ -151,6 +151,7 @@ Se le ha enviado un <b>email de confirmación</b> al usuario para que pueda comp
 						<BasicButton
 							text={translate.save}
 							color={getPrimary()}
+							id='create-user-button'
 							icon={<ButtonIcon type="save" color="white" />}
 							textStyle={{ textTransform: 'none', color: 'white', fontWeight: '700' }}
 							onClick={createUserWithoutPassword}
