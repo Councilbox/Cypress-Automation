@@ -124,11 +124,19 @@ const ParticipantLogin = ({
 								background: finishedVoted && 'transparent',
 								boxShadow: finishedVoted && 'none',
 								minWidth: window.innerWidth > 450 ? '550px' : '100%',
-								...(council.securityType === 2 && isMobile && {
-									margin: '10% 20% 5px'
-								}),
+								height: isMobile && "70%",
+								// ...(council.securityType === 2 && isMobile && {
+								margin: isMobile && '10% 20% 5px'
+								// }),
 							}} elevation={6}>
-								{loginForm()}
+								{isMobile ?
+									<Scrollbar>
+										{loginForm()}
+									</Scrollbar>
+									:
+									loginForm()
+								}
+
 							</Card>
 							<Card style={{
 								width: window.innerWidth > 450 ? '550px' : '100%',
