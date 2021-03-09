@@ -67,50 +67,50 @@ const CheckShareholderRequest = ({
 					{translate.type_of_request}: {getTypeText(request.data.requestType, translate)}
 				</div>
 				{request.data.requestType === 'vote'
-&& <>
-	{request.data.earlyVotes && request.data.earlyVotes.map((vote, index) => (
-		<div key={`early_vote_${index}`}>
-			<div style={{ fontWeight: '700' }}>{vote.name}</div>
-			<div>-{getVote(+vote.value, translate)}</div>
-		</div>
-	))}
-</>
+					&& <>
+						{request.data.earlyVotes && request.data.earlyVotes.map((vote, index) => (
+							<div key={`early_vote_${index}`}>
+								<div style={{ fontWeight: '700' }}>{vote.name}</div>
+								<div>-{getVote(+vote.value, translate)}</div>
+							</div>
+						))}
+					</>
 				}
 				{request.data.requestType === 'represent'
-&& <>
-En:
-	{Array.isArray(request.data.representative) ?
-		<div style={{ marginBotton: '2em' }}>
-			{(request.data.representative[0].value === 'el presidente' || request.data.representative[0].value === 'el secretario' || (request.data.representative[0].value && request.data.representative[0].value.includes('Presidente'))) ?
-				request.data.representative[0].value
-				: request.data.representative[0].info.map((data, index) => (
-					data.value
-&& <div key={index}>
-	{data.name}  - {data.value}
-</div>
-				))}
-		</div>
-		: request.data.representative
-&& <div style={{ marginBotton: '2em' }}>
-	<div>
-		{request.data.representative.name} {request.data.representative.surname || ''}
-	</div>
-</div>
+					&& <>
+						En:
+						{Array.isArray(request.data.representative) ?
+							<div style={{ marginBotton: '2em' }}>
+								{(request.data.representative[0].value === 'el presidente' || request.data.representative[0].value === 'el secretario' || (request.data.representative[0].value && request.data.representative[0].value.includes('Presidente'))) ?
+									request.data.representative[0].value
+									: request.data.representative[0].info.map((data, index) => (
+										data.value
+										&& <div key={index}>
+											{data.name}  - {data.value}
+										</div>
+									))}
+							</div>
+							: request.data.representative
+							&& <div style={{ marginBotton: '2em' }}>
+								<div>
+									{request.data.representative.name} {request.data.representative.surname || ''}
+								</div>
+							</div>
 
-	}
+						}
 
-	{request.data.earlyVotes && request.data.earlyVotes.map((vote, index) => (
-		<div key={`early_votes_${index}`}>
-			<div style={{ fontWeight: '700' }}>{vote.name}</div>
-			<div>-{getVote(+vote.value, translate)}</div>
-		</div>
-	))}
-</>
+						{request.data.earlyVotes && request.data.earlyVotes.map((vote, index) => (
+							<div key={`early_votes_${index}`}>
+								<div style={{ fontWeight: '700' }}>{vote.name}</div>
+								<div>-{getVote(+vote.value, translate)}</div>
+							</div>
+						))}
+					</>
 				}
 			</div>
 			<div style={{ marginTop: '1em', marginBottom: '1.6em' }}>
 				{request.data.attachments.length > 0
-&& <div>  {translate.attachments} :</div>
+					&& <div>  {translate.attachments} :</div>
 				}
 				{request.data.attachments ?
 					request.data.attachments.map((attachment, index) => (
@@ -133,27 +133,27 @@ En:
 				translate={translate}
 			/>
 			{request.state !== '1'
-&& <ApproveRequestButton
-	request={request}
-	refetch={refetch}
-	translate={translate}
-/>
+				&& <ApproveRequestButton
+					request={request}
+					refetch={refetch}
+					translate={translate}
+				/>
 			}
 			{request.participantCreated
-&& <SendRequestConfirmationButton
-	request={request}
-	refetch={refetch}
-	translate={translate}
-/>
+				&& <SendRequestConfirmationButton
+					request={request}
+					refetch={refetch}
+					translate={translate}
+				/>
 
 			}
 			{request.participantCreated && request.data.requestType === 'represent'
-&& <DelegateVoteButton
-	request={request}
-	refetch={refetch}
-	translate={translate}
-	setRepresentative={setRepresentative}
-/>
+				&& <DelegateVoteButton
+					request={request}
+					refetch={refetch}
+					translate={translate}
+					setRepresentative={setRepresentative}
+				/>
 			}
 		</>
 	);
@@ -224,7 +224,7 @@ En:
 										}}
 										color="white"
 										textStyle={{ color: secondary }}
-										// onClick={approveRequest}
+									// onClick={approveRequest}
 									/>
 								</div>
 							</div>
@@ -242,7 +242,7 @@ En:
 				}}
 				color="white"
 				textStyle={{ color: secondary }}
-				// onClick={approveRequest}
+			// onClick={approveRequest}
 			/>
 			<AlertConfirm
 				title={'Solicitud'}
