@@ -379,6 +379,7 @@ class AddCouncilParticipantButton extends React.Component {
 								participant={participant}
 								setPinError={error => {
 									this.setState({
+										validated: false,
 										errors: {
 											clavePin: error
 										}

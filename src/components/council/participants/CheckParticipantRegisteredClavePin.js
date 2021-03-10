@@ -57,22 +57,18 @@ const CheckParticipantRegisteredClavePin = ({
 	participant,
 	windowSize
 }) => {
-	const [modal, setModal] = React.useState(false);
-	const [code, setCode] = React.useState(null);
-
 	const checkParticipantIsRegistered = async () => {
 		const response = await client.query({
 			query: gql`
-				query checkParticipantIsRegisteredClavePin($dni: String!, $code: String!){
-					checkParticipantIsRegisteredClavePin(dni: $dni, code: $code) {
+				query checkParticipantIsRegisteredClavePin($dni: String!){
+					checkParticipantIsRegisteredClavePin(dni: $dni) {
 						success
 						message
 					}
 				}
 			`,
 			variables: {
-				dni: participant.dni,
-				code
+				dni: participant.dni
 			}
 		});
 
@@ -81,10 +77,8 @@ const CheckParticipantRegisteredClavePin = ({
 
 			if (success) {
 				validateParticipant();
-				setModal(false);
 			} else {
 				setPinError('El usuario no está de alta');
-				setModal(false);
 			}
 		}
 
@@ -93,34 +87,9 @@ const CheckParticipantRegisteredClavePin = ({
 
 	return (
 		<Grid>
-			<AlertConfirm
-				open={modal}
-				title={'Comprobar alta clave pin'}
-				requestClose={() => setModal(false)}
-				buttonAccept={translate.send}
-				acceptAction={checkParticipantIsRegistered}
-				bodyText={
-					<>
-						Introduzca la Fecha de Validez de su DNI (o Fecha de Expedición si es un DNI Permanente)
-						<DateTimePicker
-							onlyDate={true}
-							format={'l'}
-							value={code}
-							onChange={date => {
-								let dateString = null;
-								if (date) {
-									const newDate = new Date(date);
-									dateString = newDate.toISOString();
-								}
-								setCode(dateString);
-							}}
-						/>
-					</>
-				}
-			/>
 			<GridItem xs={12} lg={12} md={12} style={{ display: isMobile && windowSize === 'xs' ? '' : 'flex' }}>
 				<Action
-					onClick={() => setModal(true)}
+					onClick={checkParticipantIsRegistered}
 				>
 					<div
 						style={{ display: 'flex', alignItems: 'center', overflow: 'hidden' }}
