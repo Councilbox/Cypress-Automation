@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { LoadingMainApp } from '../displayComponents';
 import InvalidUrl from '../components/participant/InvalidUrl';
 import SMSAuthForm from '../components/participant/2FA/SMSAuthForm';
-import AccessPin1 from '../components/participant/2FA/AccessPin1';
+import AccessClaveJusticia from '../components/participant/2FA/ClaveJusticia/AccessClaveJusticia';
 
 const getMe = gql`
 	query participantMe {
@@ -71,7 +71,8 @@ const AssistanceTokenContainer = ({
 	if (error) {
 		if (error.message === 'Cl@ve pin enabled' || error.message === 'Invalid pin') {
 			return (
-				<AccessPin1
+				<AccessClaveJusticia
+					translate={translate}
 					// value={key}
 					// updateValue={setKey}
 					// translate={translate}
