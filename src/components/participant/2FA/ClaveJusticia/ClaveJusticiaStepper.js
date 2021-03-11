@@ -2,27 +2,30 @@ import React from 'react';
 import { Stepper, Step, StepLabel } from 'material-ui';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 
+
 const ClaveJusticiaStepper = ({
-	translate, responseSMS, error, color, addClass
+	translate, error, color, addClass, success
 }) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 
-	const deliveredState = responseSMS === 22 || responseSMS === 25;
+	const deliveredState = success;
+
+	console.log(deliveredState, error);
 
 	return (
-		<Stepper nonLinear alternativeLabel style={{ height: '10em' }} >
-			<Step className={`stepperAcceso${addClass}`}>
+		<Stepper nonLinear alternativeLabel style={{ height: '10em' }} activeStep={1} >
+			<Step>
 				<StepLabel >
 					<span style={{ color: color || primary }}>{'Solicitar clave pin'}</span>
 				</StepLabel>
 			</Step>
-			<Step className={error ? `stepperAcceso${addClass}` : (responseSMS === 20 || deliveredState) ? `stepperAcceso${addClass}` : `stepperAccesoNoActived${addClass}`}>
+			<Step>
 				<StepLabel>
 					<span style={{ color: color || primary }}>{'Clave pin enviada'}</span>
 				</StepLabel>
 			</Step>
-			<Step className={`stepperAccesoNoActived${addClass}`}>
+			<Step>
 				<StepLabel>
 					<span style={{ color: color || primary }}>{'Validar clave pin'}</span>
 				</StepLabel>

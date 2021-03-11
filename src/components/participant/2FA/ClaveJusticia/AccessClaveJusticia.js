@@ -1,13 +1,12 @@
 import React from 'react';
 import { Card } from 'material-ui';
 import { withRouter } from 'react-router';
-import { BasicButton, TextInput, NotLoggedLayout } from '../../../../displayComponents';
-import { isMobile } from '../../../../utils/screen';
-import { getPrimary, getSecondary } from '../../../../styles/colors';
-//import Resend2FAModal from './Resend2FAModal';
-import ClaveJusticiaStepper from './ClaveJusticiaStepper';
-import { client } from '../../../../containers/App';
 import gql from 'graphql-tag';
+import { BasicButton, NotLoggedLayout, DateTimePicker } from '../../../../displayComponents';
+import { isMobile } from '../../../../utils/screen';
+import { getPrimary } from '../../../../styles/colors';
+import ClaveJusticiaStepper from './ClaveJusticiaStepper';
+import { client, moment } from '../../../../containers/App';
 
 
 const styles = {
@@ -87,17 +86,26 @@ const reducer = (state, action) => {
 	return actions[action.type] ? actions[action.type]() : state;
 };
 
+
+const checkValidExpirationDate = string => string.length === 10;
+
 const AccessClaveJusticia = ({
-	translate, error, council, match
+	translate, council, match
 }) => {
 	const [{ status }, dispatch] = React.useReducer(reducer, { status: 'IDDLE', errorText: '' });
 	const primary = getPrimary();
-	const [expirationDate, setExpirationDate] = React.useState('');
+	const [expirationDate, setExpirationDate] = React.useState(null);
 	const [expirationDateError, setExpirationDateError] = React.useState('');
 
 	const sendClaveJusticia = async type => {
 		if (!expirationDate) {
 			return setExpirationDateError('Es necesario introducir la fecha de expiración');
+		}
+
+		const formatedExpirationDate = moment(expirationDate).format('L').replace(/\//g, '-')
+
+		if (!checkValidExpirationDate(formatedExpirationDate)) {
+			return setExpirationDateError('Fecha de expiración no válida');
 		}
 
 		setExpirationDateError('');
@@ -112,7 +120,7 @@ const AccessClaveJusticia = ({
 			`,
 			variables: {
 				type,
-				expirationDate,
+				expirationDate: formatedExpirationDate,
 				token: match.params.token
 			}
 		});
@@ -121,6 +129,7 @@ const AccessClaveJusticia = ({
 			dispatch({ type: 'SUCCESS' });
 		}
 	};
+
 
 	return (
 		<NotLoggedLayout
@@ -165,18 +174,16 @@ const AccessClaveJusticia = ({
 											{status === 'IDDLE' && (
 												<>
 													<div style={{ width: '50%' }}>
-														<TextInput
-															floatingText={'Fecha validez/Nº soporte '}
-															helpPopover={true}
-															helpTitle={'titulo'}
-															helpDescription={'descripcion'}
-															colorHelp={'#80a5b7'}
-															type="text"
+														<DateTimePicker
+															format="L"
+															floatingText={'Fecha validez/Nº soporte'}
 															errorText={expirationDateError}
-															fullWidth
-															//styleFloatText={{ color: primary }}
+															onlyDate
+															style={{ width: '10em' }}
+															onChange={date => {
+																setExpirationDate(date);
+															}}
 															value={expirationDate}
-															onChange={event => setExpirationDate(event.target.value)}
 														/>
 													</div>
 													<div style={{ display: 'flex', alignItems: 'flex-end' }}>
@@ -231,9 +238,8 @@ const AccessClaveJusticia = ({
 							<ClaveJusticiaStepper
 								council={council}
 								translate={translate}
-								// responseSMS={responseSMS}
-								// resendKey={sendParticipantRoomKey}
-								error={error}
+								error={status === 'ERROR'}
+								success={status === 'SUCCESS'}
 								color={primary}
 							/>
 						</div>

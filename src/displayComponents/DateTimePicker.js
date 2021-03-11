@@ -7,7 +7,7 @@ import withTranslations from '../HOCs/withTranslations';
 
 const DateTimePickerWrapper = ({
 	label,
-	required,
+	required = true,
 	onChange,
 	onlyDate,
 	clearable = true,
@@ -27,7 +27,7 @@ const DateTimePickerWrapper = ({
 		<React.Fragment>
 			<div style={{ width: '100%' }}>
 				<DatePicker
-					label={label ? `${label}${required && '*'}` : ''}
+					label={label ? `${label}${required ? '*' : ''}` : ''}
 					format={format || 'LL'}
 					minDateMessage={minDateMessage}
 					okLabel={'Ok'}
