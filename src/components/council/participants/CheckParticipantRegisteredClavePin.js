@@ -59,6 +59,10 @@ const CheckParticipantRegisteredClavePin = ({
 	const secondary = getSecondary();
 
 	const checkParticipantIsRegistered = async () => {
+		if (!participant.dni || participant.dni.length < 9) {
+			return setPinError('El DNI no es válido, debe tener 9 caracteres');
+		}
+
 		const response = await client.query({
 			query: gql`
 				query checkParticipantIsRegisteredClavePin($dni: String!){
