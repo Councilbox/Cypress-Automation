@@ -133,6 +133,9 @@ class AddCouncilParticipantButton extends React.Component {
 
 	updateState = object => {
 		this.setState({
+			...(object?.dni ? {
+				validated: false
+			} : {}),
 			data: {
 				...this.state.data,
 				...object

@@ -15,7 +15,6 @@ import {
 } from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
 import CreateDocumentFolder from './CreateDocumentFolder';
-
 import { SERVER_URL } from '../../../../config';
 import DownloadCompanyDocument from './DownloadCompanyDocument';
 

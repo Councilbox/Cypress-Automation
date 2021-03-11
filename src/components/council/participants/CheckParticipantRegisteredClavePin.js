@@ -1,17 +1,16 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
-import { DatePicker } from 'material-ui';
 import {
 	Grid,
 	GridItem,
-	LoadingSection,
-	AlertConfirm,
-	DateTimePicker
+	LoadingSection
 } from '../../../displayComponents';
 import { getSecondary } from '../../../styles/colors';
 import { isMobile } from '../../../utils/screen';
 import withWindowSize from '../../../HOCs/withWindowSize';
+import { ReactComponent as ValidateIcon } from '../../../assets/img/validate-participant-icon.svg';
+
 
 const Action = ({
 	children, loading, onClick, disabled = false, styles
@@ -49,7 +48,7 @@ const Action = ({
 
 
 const CheckParticipantRegisteredClavePin = ({
-	translate,
+	//translate,
 	disabled,
 	client,
 	validateParticipant,
@@ -57,6 +56,8 @@ const CheckParticipantRegisteredClavePin = ({
 	participant,
 	windowSize
 }) => {
+	const secondary = getSecondary();
+
 	const checkParticipantIsRegistered = async () => {
 		const response = await client.query({
 			query: gql`
@@ -94,11 +95,11 @@ const CheckParticipantRegisteredClavePin = ({
 					<div
 						style={{ display: 'flex', alignItems: 'center', overflow: 'hidden' }}
 					>
-						<div style={{ width: '3em', color: disabled ? 'grey' : getSecondary() }}>
-							icon?
+						<div style={{ width: '3em', color: disabled ? 'grey' : secondary }}>
+							<ValidateIcon fill={secondary} />
 						</div>
 						<div style={{
-							display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: disabled ? 'grey' : getSecondary()
+							display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: disabled ? 'grey' : secondary
 						}}>
 							<span style={{ fontSize: '0.9em' }}>Validar estado de alta</span>
 						</div>
