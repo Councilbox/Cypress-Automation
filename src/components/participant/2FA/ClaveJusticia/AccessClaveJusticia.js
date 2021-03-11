@@ -115,6 +115,7 @@ const AccessClaveJusticia = ({
 				mutation SendClaveJusticia($expirationDate: String!, $type: String!, $token: String) {
 					sendClaveJusticiaToParticipant(expirationDate: $expirationDate, type: $type, token: $token) {
 						success
+						message
 					}
 				}
 			`,
@@ -125,8 +126,11 @@ const AccessClaveJusticia = ({
 			}
 		});
 
+
 		if (response.data.sendClaveJusticiaToParticipant.success) {
 			dispatch({ type: 'SUCCESS' });
+		} else if (response.data.sendClaveJusticiaToParticipant.message === 'Invalid expiration date') {
+			setExpirationDateError('La fecha de expiración no coincide');
 		}
 	};
 
