@@ -18,6 +18,7 @@ import QuorumDisplay from './quorum/QuorumDisplay';
 import { COUNCIL_STATES, COUNCIL_TYPES } from '../../../constants';
 import ResumeCouncilButton from './menus/ResumeCouncilButton';
 import OneOnOneAttachmentsList from './oneOnOne/OneOnOneAttachmentsList';
+import AppointmentParticipantsManager from './oneOnOne/AppointmentParticipantsManager';
 
 const calcMinWidth = () => (window.innerWidth * 0.38 > 450 ? 35 : 100 / (window.innerWidth / 450));
 const calcMinHeight = () => '42vh';
@@ -141,6 +142,28 @@ const CouncilLivePage = ({ translate, data, company }) => {
 	};
 
 	const { council } = data;
+
+	const renderParticipantsManager = () => {
+		if (council.councilType === COUNCIL_TYPES.ONE_ON_ONE) {
+			return (
+				<AppointmentParticipantsManager
+					translate={translate}
+					council={council}
+				/>
+			);
+		}
+
+		return (
+			<ParticipantsManager
+				stylesDiv={isMobile ? {
+					margin: '0', height: 'calc( 100% - 1.8em )', borderTop: '1px solid #e7e7e7', width: '100%'
+				} : {}}
+				translate={translate}
+				council={council}
+			/>
+
+		);
+	};
 
 	const renderVideoParticipants = () => (
 		<ParticipantsLive
@@ -368,11 +391,7 @@ const CouncilLivePage = ({ translate, data, company }) => {
 				>
 					{isMobile ?
 						showParticipants && !state.fullScreen ? (
-							<ParticipantsManager
-								translate={translate}
-								participants={data.council.participants}
-								council={council}
-							/>
+							renderParticipantsManager()
 						) : (
 							<AgendaManager
 								ref={agendaManager}
@@ -423,14 +442,7 @@ const CouncilLivePage = ({ translate, data, company }) => {
 							<div style={{ height: '100%' }}>
 								{(showParticipants && !state.fullScreen)
 									&& <div style={{ height: 'calc( 100% - 2em )' }}>
-										<ParticipantsManager
-											stylesDiv={{
-												margin: '0', height: 'calc( 100% - 1.8em )', borderTop: '1px solid #e7e7e7', width: '100%'
-											}}
-											translate={translate}
-											participants={data.council.participants}
-											council={council}
-										/>
+										{renderParticipantsManager()}
 									</div>
 								}
 								{(state.tab === 'ATTACHMENTS' && !state.fullScreen)
