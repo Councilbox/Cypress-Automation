@@ -1,20 +1,15 @@
 import React from 'react';
 import { Stepper, Step, StepLabel } from 'material-ui';
-import { getPrimary, getSecondary } from '../../../../styles/colors';
+import { getPrimary } from '../../../../styles/colors';
 
 
 const ClaveJusticiaStepper = ({
-	translate, error, color, addClass, success
+	color, success
 }) => {
 	const primary = getPrimary();
-	const secondary = getSecondary();
-
-	const deliveredState = success;
-
-	console.log(deliveredState, error);
 
 	return (
-		<Stepper nonLinear alternativeLabel style={{ height: '10em' }} activeStep={1} >
+		<Stepper nonLinear alternativeLabel style={{ height: '10em' }} activeStep={success ? 1 : 0} >
 			<Step>
 				<StepLabel >
 					<span style={{ color: color || primary }}>{'Solicitar clave pin'}</span>

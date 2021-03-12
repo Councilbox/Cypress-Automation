@@ -11,7 +11,6 @@ import * as CBX from '../../../../utils/CBX';
 import AddCouncilParticipantButton from './modals/AddCouncilParticipantButton';
 import { getSecondary } from '../../../../styles/colors';
 import withSharedProps from '../../../../HOCs/withSharedProps';
-import { ConfigContext } from '../../../../containers/AppControl';
 import { PARTICIPANT_VALIDATIONS } from '../../../../constants';
 
 
@@ -28,8 +27,6 @@ const ChangeCensusMenu = ({
 	participations,
 	refetch
 }) => {
-	const config = React.useContext(ConfigContext);
-
 	return (
 		<Grid>
 			{council.councilType === 5 ?

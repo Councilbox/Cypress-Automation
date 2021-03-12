@@ -48,7 +48,7 @@ const Action = ({
 
 
 const CheckParticipantRegisteredClavePin = ({
-	//translate,
+	// translate,
 	disabled,
 	client,
 	validateParticipant,

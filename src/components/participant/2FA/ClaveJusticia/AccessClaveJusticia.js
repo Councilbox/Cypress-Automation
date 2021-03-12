@@ -7,6 +7,7 @@ import { isMobile } from '../../../../utils/screen';
 import { getPrimary } from '../../../../styles/colors';
 import ClaveJusticiaStepper from './ClaveJusticiaStepper';
 import { client, moment } from '../../../../containers/App';
+import AccessClaveJusticiaForm from './AccessClaveJusticiaForm';
 
 
 const styles = {
@@ -64,7 +65,6 @@ const styles = {
 };
 
 const reducer = (state, action) => {
-
 	const actions = {
 		LOADING: () => ({
 			...state,
@@ -90,9 +90,9 @@ const reducer = (state, action) => {
 const checkValidExpirationDate = string => string.length === 10;
 
 const AccessClaveJusticia = ({
-	translate, council, match
+	translate, council, match, sendKey, error
 }) => {
-	const [{ status }, dispatch] = React.useReducer(reducer, { status: 'IDDLE', errorText: '' });
+	const [{ status }, dispatch] = React.useReducer(reducer, { status: 'SUCCESS', errorText: '' });
 	const primary = getPrimary();
 	const [expirationDate, setExpirationDate] = React.useState(null);
 	const [expirationDateError, setExpirationDateError] = React.useState('');
@@ -102,7 +102,7 @@ const AccessClaveJusticia = ({
 			return setExpirationDateError('Es necesario introducir la fecha de expiración');
 		}
 
-		const formatedExpirationDate = moment(expirationDate).format('L').replace(/\//g, '-')
+		const formatedExpirationDate = moment(expirationDate).format('L').replace(/\//g, '-');
 
 		if (!checkValidExpirationDate(formatedExpirationDate)) {
 			return setExpirationDateError('Fecha de expiración no válida');
@@ -229,9 +229,10 @@ const AccessClaveJusticia = ({
 												</>
 											)}
 											{status === 'SUCCESS' && (
-												<div>
-													MENU METER CLAVE
-												</div>
+												<AccessClaveJusticiaForm
+													sendKey={sendKey}
+													error={error}
+												/>
 											)}
 										</div>
 									</div>

@@ -39,12 +39,12 @@ const AssistanceTokenContainer = ({
 		setLoading(false);
 	};
 
-	const getData = React.useCallback(async () => {
+	const getData = React.useCallback(async accessKey => {
 		try {
 			const response = await participantToken({
 				variables: {
 					token: match.params.token,
-					smsKey: key
+					accessKey: accessKey || key
 				}
 			});
 
@@ -69,15 +69,16 @@ const AssistanceTokenContainer = ({
 	}
 
 	if (error) {
-		if (error.message === 'Cl@ve pin enabled' || error.message === 'Invalid pin') {
+		if (error.message === 'Cl@ve pin enabled' || error.message === 'Invalid cl@ve pin') {
 			return (
 				<AccessClaveJusticia
 					translate={translate}
+					sendKey={getData}
 					// value={key}
 					// updateValue={setKey}
 					// translate={translate}
 					// send={getData}
-					// error={error}
+					error={error}
 				/>
 			);
 		}
@@ -122,8 +123,8 @@ const mapStateToProps = state => ({
 });
 
 const participantToken = gql`
-	mutation participantToken($token: String!, $smsKey: String) {
-		assistanceToken(token: $token, smsKey: $smsKey)
+	mutation participantToken($token: String!, $accessKey: String) {
+		assistanceToken(token: $token, accessKey: $accessKey)
 	}
 `;
 
