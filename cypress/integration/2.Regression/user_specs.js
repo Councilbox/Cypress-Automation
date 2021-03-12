@@ -16,6 +16,17 @@ before(function() {
     cy.saveLocalStorage();
 });
 
+
+function userID_Alpha() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+    for (var i = 0; i < 10; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+  }
+
 /*
 describe("Switcing back to English language", function() {
     
@@ -75,12 +86,12 @@ describe("The user is not able to register to the Councilbox without populating 
         });
 
         it("An alert message is displayed beyond the fields", function() {
-            cy.contains('Please enter a valid name')
+            cy.contains('Please enter a valid first name')
             cy.contains('Please enter valid last names')
             cy.contains('This field is required.')
             cy.contains('This field is required.')
-            cy.contains('The password can not be empty')
-            cy.contains('Accept terms and conditions.')
+            cy.contains('The password cannot be empty')
+            cy.contains('I accept the terms and conditions.')
         })
     });
 
@@ -149,7 +160,7 @@ describe("The user is not able to create a new account in Councilbox with invali
         });
 
         it("Should display 'Please enter a valid name'", function() {
-            cy.contains('Please enter a valid name')
+            cy.contains('Please enter a valid first name')
         })
     });
 
@@ -494,7 +505,7 @@ describe("The user is not able to register to the Councilbox with the invalid in
         });
 
         it("'Passwords do not match' message is displayed beyond the “Repeat Email” field", function() {
-            cy.contains('Passwords do not match')
+            cy.contains('The passwords do not match.')
         })
     });
 
@@ -557,7 +568,7 @@ describe("The user is not able to register without accepting terms and condition
         });
 
         it("'Accept terms and conditions' message is displayed", function() {
-            cy.contains('Accept terms and conditions.')
+            cy.contains('I accept the terms and conditions.')
         })
     });
 
@@ -593,7 +604,7 @@ describe("The user is not able to login in Councilbox with invalid inputs in the
         });
 
         it("'The email is not verified or does not exist.' alert message is displayed", function() {
-            cy.contains('The email is not verified or does not exist.')
+            cy.contains('The email was not verified or does not exist.')
         });
 
      });
@@ -827,7 +838,7 @@ describe("The user is able to select the 'Galego' language in the  'User setting
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
             cy.contains('Português').click()
             cy.contains('Galego').click()
-            cy.contains('Guardar').click()
+            cy.contains('Gravar').click()
         });
 
     });
@@ -852,8 +863,329 @@ describe("The user is able to select the 'English' language in the  'User settin
             cy.contains('English').click()
             cy.contains('Gardar').click()
         });
+        it("Refresh the Web App", function() {
+            cy.visit(login_url);
+        })
 
     });
+
+
+
+describe("The user is not able to Link company with invalid inputs in the 'Master code' field", function() {
+    
+        it("From the dashboard click on the 'Link company' button", function() {
+            cy.get('#entidadesSideBar').click({ force: true})
+            cy.wait(1000)
+            cy.contains('Link company').click({ force: true})
+
+        });
+
+        it("Populate 'CIF of the entity*'' field", function() {
+            cy.get('input').eq(0)
+            .type("edittest04032021")
+            .should("have.value", "edittest04032021")
+        });
+
+        it("Populate 'Master key' field with invalid input", function() {
+            cy.get('input').eq(1)
+            .type("123")
+            .should("have.value", "123")
+            cy.xpath('(//*[@type="button"])[5]').click()
+        });
+
+        it("'Incorrect master key' message is displayed", function() {
+            cy.contains('Incorrect master code')
+        });
+
+    });
+
+
+describe("The user is not able to Link company with invalid inputs in the 'CIF of the entity*' field", function() {
+
+        it("Populate 'CIF of the entity*'' field", function() {
+            cy.get('input').eq(0).clear()
+            .type("123111111111111")
+            .should("have.value", "123111111111111")
+        });
+
+        it("Populate 'Master key' field with invalid input", function() {
+            cy.get('input').eq(1).clear()
+            .type("123")
+            .should("have.value", "123")
+            cy.xpath('(//*[@type="button"])[5]').click()
+        });
+
+        it("'COMPANY DOES NOT EXIST' message is displayed", function() {
+            cy.contains('COMPANY DOES NOT EXIST')
+        });
+
+    });
+
+describe("The user is able to Link Company", function() {
+
+        it("Populate 'CIF of the entity*'' field", function() {
+            cy.get('input').eq(0).clear()
+            .type("edittest04032021")
+            .should("have.value", "edittest04032021")
+        });
+
+        it("Populate 'Master key' field with invalid input", function() {
+            cy.get('input').eq(1).clear()
+            .type("Regressiontest04032021")
+            .should("have.value", "Regressiontest04032021")
+            cy.xpath('(//*[@type="button"])[5]').click()
+            cy.wait(3000)
+        });
+
+    });
+
+describe("The user is able to unlink the company", function() {
+
+        it("On the upper left corner above 'Dashboard' click on 'Basic data' button", function() {
+            cy.get('#entidadesSideBar').click({ force: true})
+            cy.xpath('(//*[@role="menuitem"])[2]').click()
+            cy.get('#user-menu-trigger').click()
+            cy.xpath('(//*[@role="menuitem"])[10]').click()
+
+        });
+
+        it("Scroll down the page and in the right corner click on the 'Unlink' button", function() {
+            cy.contains('Unlink').click()
+            cy.wait(1000)
+            cy.contains('OK').click()
+            cy.wait(1000)
+        });
+
+        
+
+    });
+
+
+describe("The user is able to edit 'Business name*'' in the Company settings in the Councilbox", function() {
+
+        it("On the upper right corner click on the 'User icon' button", function() {
+            cy.wait(5000)
+            cy.get('#user-menu-trigger').click()
+        });
+
+        it("From the drop down menu click on 'Company' button", function() {
+            cy.xpath('(//*[@role="menuitem"])[9]').click()
+        });
+
+
+        it("Modify the 'Business name*'' field and click on the 'Save' button", function() {
+            cy.get('#business-name').clear().type(userID_Alpha()+Cypress.config('UniqueNumber'))
+            cy.get('#save-button').click()
+        });
+
+    });
+
+describe("The user is able to edit 'CIF of the entity*'' in the Company settings in the Councilbox", function() {
+
+        it("On the upper right corner click on the 'User icon' button", function() {
+            cy.wait(5000)
+            cy.get('#user-menu-trigger').click()
+        });
+
+        it("From the drop down menu click on 'Company' button", function() {
+            cy.xpath('(//*[@role="menuitem"])[9]').click()
+        });
+
+
+        it("Modify the 'CIF of entity' field and click on the 'Save' button", function() {
+            cy.get('#addSociedadCIF').clear().type(userID_Alpha()+Cypress.config('UniqueNumber'))
+            cy.get('#save-button').click()
+        });
+
+    });
+
+
+describe("The user is able to edit 'Domain' in the 'Company settings' in the Councilbox", function() {
+
+        it("On the upper right corner click on the 'User icon' button", function() {
+            cy.wait(5000)
+            cy.get('#user-menu-trigger').click()
+        });
+
+        it("From the drop down menu click on 'Company' button", function() {
+            cy.xpath('(//*[@role="menuitem"])[9]').click()
+        });
+
+
+        it("Modify the 'Domain' field and click on the 'Save' button", function() {
+            cy.get('#addSociedadDominio').clear().type(userID_Alpha()+Cypress.config('UniqueNumber'))
+            cy.get('#save-button').click()
+        });
+
+    });
+
+describe("The user is able to edit 'Master key' in the 'Company settings' in the Councilbox", function() {
+
+        it("On the upper right corner click on the 'User icon' button", function() {
+            cy.wait(5000)
+            cy.get('#user-menu-trigger').click()
+        });
+
+        it("From the drop down menu click on 'Company' button", function() {
+            cy.xpath('(//*[@role="menuitem"])[9]').click()
+        });
+
+
+        it("Modify the 'Master key' field and click on the 'Save' button", function() {
+            cy.get('#addSociedadClaveMaestra').clear().type(userID_Alpha()+Cypress.config('UniqueNumber'))
+            cy.get('#save-button').click()
+        });
+
+    });
+
+
+describe("The user is able to edit 'External ID' in the 'Company settings' in the Councilbox - MISSING ID", function() {
+
+        it("On the upper right corner click on the 'User icon' button", function() {
+            cy.wait(5000)
+            cy.get('#user-menu-trigger').click()
+        });
+
+        it("From the drop down menu click on 'Company' button", function() {
+            cy.xpath('(//*[@role="menuitem"])[9]').click()
+        });
+
+
+        it("Modify the 'External ID' field and click on the 'Save' button", function() {
+            cy.get('#MISSING_ID').clear().type(userID_Alpha()+Cypress.config('UniqueNumber'))
+            cy.get('#save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+    });
+
+describe("The user is able to edit 'Address' in the 'Contact data' in the Company settings in the Councilbox", function() {
+
+        it("On the upper right corner click on the 'User icon' button", function() {
+            cy.wait(5000)
+            cy.get('#user-menu-trigger').click()
+        });
+
+        it("From the drop down menu click on 'Company' button", function() {
+            cy.xpath('(//*[@role="menuitem"])[9]').click()
+        });
+
+
+        it("Modify the 'Address' field and click on the 'Save' button", function() {
+            cy.get('#addSociedadDireccion').clear().type(userID_Alpha()+Cypress.config('UniqueNumber'))
+            cy.get('#save-button').click()
+        });
+
+    });
+
+describe("The user is able to edit 'Locality' in the 'Contact data' in the Company settings in the Councilbox", function() {
+
+        it("On the upper right corner click on the 'User icon' button", function() {
+            cy.wait(5000)
+            cy.get('#user-menu-trigger').click()
+        });
+
+        it("From the drop down menu click on 'Company' button", function() {
+            cy.xpath('(//*[@role="menuitem"])[9]').click()
+        });
+
+
+        it("Modify the 'Locality' field and click on the 'Save' button", function() {
+            cy.get('#addSociedadLocalidad').clear().type(userID_Alpha()+Cypress.config('UniqueNumber'))
+            cy.get('#save-button').click()
+        });
+
+    });
+
+describe("The user is able to edit 'Country' in the 'Contact data' in the Company settings in the Councilbox - MISSING ID", function() {
+
+        it("On the upper right corner click on the 'User icon' button", function() {
+            cy.wait(5000)
+            cy.get('#user-menu-trigger').click()
+        });
+
+        it("From the drop down menu click on 'Company' button", function() {
+            cy.xpath('(//*[@role="menuitem"])[9]').click()
+        });
+
+
+        it("Modify the 'Country' field and click on the 'Save' button", function() {
+            cy.get('#MISSING_ID').clear().type(userID_Alpha()+Cypress.config('UniqueNumber'))
+            cy.get('#save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to edit 'Province' in the 'Contact data' in the Company settings in the Councilbox - MISSING ID", function() {
+
+        it("On the upper right corner click on the 'User icon' button", function() {
+            cy.wait(5000)
+            cy.get('#user-menu-trigger').click()
+        });
+
+        it("From the drop down menu click on 'Company' button", function() {
+            cy.xpath('(//*[@role="menuitem"])[9]').click()
+        });
+
+
+        it("Modify the 'Province' field and click on the 'Save' button - MISSING ID", function() {
+            cy.get('#MISSING_ID').clear().type(userID_Alpha()+Cypress.config('UniqueNumber'))
+            cy.get('#save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to edit 'Zipcode' in the 'Contact data' in the Company settings in the Councilbox", function() {
+
+        it("On the upper right corner click on the 'User icon' button", function() {
+            cy.wait(5000)
+            cy.get('#user-menu-trigger').click()
+        });
+
+        it("From the drop down menu click on 'Company' button", function() {
+            cy.xpath('(//*[@role="menuitem"])[9]').click()
+        });
+
+
+        it("Modify the 'Zipcodce' field and click on the 'Save' button", function() {
+            cy.get('#addSociedadCP').clear().type(Cypress.config('UniqueNumber'))
+            cy.get('#save-button').click()
+        });
+
+    });
+
+describe("The user is able to edit 'Language' in the 'Contact data' in the Company settings in the Councilbox - MISSING ID", function() {
+
+        it("On the upper right corner click on the 'User icon' button", function() {
+            cy.wait(5000)
+            cy.get('#user-menu-trigger').click()
+        });
+
+        it("From the drop down menu click on 'Company' button", function() {
+            cy.xpath('(//*[@role="menuitem"])[9]').click()
+        });
+
+
+        it("Modify the 'Language' field and click on the 'Save' button", function() {
+            cy.get('#MISSING_ID').clear().type(Cypress.config('UniqueNumber'))
+            cy.get('#save-button').click()
+        });
+
+    });
+
 
 
 
