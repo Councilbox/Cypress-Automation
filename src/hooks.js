@@ -142,14 +142,14 @@ export const usePolling = (cb, interval, deps = []) => {
 
 
 	React.useEffect(() => {
-		if (visible && online && !inThrottle.current) {
+		if (visible && online && !inThrottle.current && interval !== null) {
 			cb();
 			inThrottle.current = true;
 			setTimeout(() => {
 				inThrottle.current = false;
 			}, interval);
 		}
-	}, [visible, online]);
+	}, [visible, online, interval]);
 
 	useInterval(cb, !online ? interval * 1000 : visible ? interval : interval * 10, deps);
 };

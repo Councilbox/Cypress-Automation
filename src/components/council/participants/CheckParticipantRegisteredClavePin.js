@@ -86,8 +86,6 @@ const CheckParticipantRegisteredClavePin = ({
 				setPinError('El usuario no está de alta');
 			}
 		}
-
-		console.log(response);
 	};
 
 	return (
