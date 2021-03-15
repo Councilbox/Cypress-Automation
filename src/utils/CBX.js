@@ -48,6 +48,10 @@ export const formatInt = num => {
 };
 
 export const getPercentage = (num, total, decimals = 3) => {
+	if (!num) {
+		return 0;
+	}
+
 	const percentage = ((num * 100) / (total)).toFixed(decimals);
 	const zero = 0;
 	if (Number.isNaN(percentage)) {
