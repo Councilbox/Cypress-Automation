@@ -636,6 +636,7 @@ const CompanySettingsPage = ({
 					</GridItem>
 					<GridItem xs={12} md={6} lg={3}>
 						<SelectInput
+							id="company-language-select"
 							floatingText={translate.language}
 							value={data.language}
 							onChange={event => updateState({
