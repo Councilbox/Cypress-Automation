@@ -843,7 +843,8 @@ describe("The user is able to select the 'Galego' language in the  'User setting
 
     });
 
-describe("The user is able to select the 'English' language in the  'User settings' in the Councilbox", function() {
+
+describe("The user is able to select the 'Polsku' language in the  'User settings' in the Councilbox", function() {
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
@@ -860,14 +861,117 @@ describe("The user is able to select the 'English' language in the  'User settin
 
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
             cy.contains('Galego').click()
-            cy.contains('English').click()
+            cy.contains('Polsku').click()
             cy.contains('Gardar').click()
+        });
+
+    });
+
+
+describe("The user is able to select the 'Euskera' language in the  'User settings' in the Councilbox", function() {
+    
+        it("Open the browser and enter the URL of the staging environment", function() {
+            cy.visit(login_url);
+            cy.wait(1000);
+        });
+        
+        it("On the upper right corner click on 'User' icon", function() {
+            cy.get('#user-menu-trigger').click()
+        });
+
+        it("From the drop down menu click on the 'Edit user' button", function() {
+            cy.xpath('//*[@class="fa fa-edit"]').click()
+        });
+
+        it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
+            cy.contains('Polsku').click()
+            cy.contains('Euskera').click()
+            cy.contains('Zapisz').click()
+        });
+
+    });
+
+
+describe("The user is able to select the 'Français' language in the  'User settings' in the Councilbox", function() {
+    
+        it("Open the browser and enter the URL of the staging environment", function() {
+            cy.visit(login_url);
+            cy.wait(1000);
+        });
+        
+        it("On the upper right corner click on 'User' icon", function() {
+            cy.get('#user-menu-trigger').click()
+        });
+
+        it("From the drop down menu click on the 'Edit user' button", function() {
+            cy.xpath('//*[@class="fa fa-edit"]').click()
+        });
+
+        it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
+            cy.contains('Euskera').click()
+            cy.contains('Français').click()
+            cy.contains('Gorde').click()
+        });
+
+    });
+
+describe("The user is able to select the 'English' language in the  'User settings' in the Councilbox", function() {
+    
+        it("Open the browser and enter the URL of the staging environment", function() {
+            cy.visit(login_url);
+            cy.wait(1000);
+        });
+        
+        it("On the upper right corner click on 'User' icon", function() {
+            cy.get('#user-menu-trigger').click()
+        });
+
+        it("From the drop down menu click on the 'Edit user' button", function() {
+            cy.xpath('//*[@class="fa fa-edit"]').click()
+        });
+
+        it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
+            cy.contains('Français').click()
+            cy.contains('English').click()
+            cy.contains('Enregistrer').click()
         });
         it("Refresh the Web App", function() {
             cy.visit(login_url);
         })
 
     });
+
+
+describe("The user is able to change password in the Councilbox", function() {
+    
+        it("On the upper right corner click on 'User' icon", function() {
+            cy.get('#user-menu-trigger').click()
+        });
+
+        it("From the drop down menu click on the 'Edit user' button", function() {
+            cy.xpath('//*[@class="fa fa-edit"]').click()
+        });
+
+        it("Click on the 'Change password' button", function() {
+            cy.contains('Change password').click()
+            cy.wait(1000)
+        });
+
+
+        it("Populate all required fields and click on the 'Save' button", function() {
+            cy.xpath('(//*[@type="password"])[1]').type('Mostar123!')
+            cy.xpath('(//*[@type="password"])[2]').type('Mostar123!')
+            cy.xpath('(//*[@type="password"])[3]').type('Mostar123!')
+            cy.xpath('(//*[@type="button"])[4]').click()
+        });
+
+
+        
+
+
+
+    });
+
 
 
 
@@ -1185,6 +1289,9 @@ describe("The user is able to edit 'Language' in the 'Contact data' in the Compa
         });
 
     });
+
+
+
 
 
 
