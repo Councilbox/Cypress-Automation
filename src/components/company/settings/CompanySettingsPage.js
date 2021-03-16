@@ -456,6 +456,7 @@ const CompanySettingsPage = ({
 							}
 							<GridItem xs={12} md={6} lg={4}>
 								<TextInput
+									id="company-external-id"
 									floatingText={translate.external_id}
 									type="text"
 									value={data.externalId || ''}
