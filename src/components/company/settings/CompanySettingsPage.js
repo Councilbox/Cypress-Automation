@@ -550,6 +550,7 @@ const CompanySettingsPage = ({
 						<GridItem xs={12} md={6} lg={3}>
 							{data.country
 								&& <SelectInput
+									id="company-country"
 									floatingText={translate.company_new_country}
 									value={countryInput ? 'otro' : data.country}
 									onChange={handleCountryChange}
@@ -575,6 +576,7 @@ const CompanySettingsPage = ({
 						{countryInput
 							&& <GridItem xs={12} md={6} lg={3}>
 								<TextInput
+									id="company-country-input"
 									floatingText={translate.company_new_country}
 									value={data.country}
 									errorText={errors.country}
