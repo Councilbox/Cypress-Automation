@@ -31,20 +31,20 @@ const RequestDataInfo = ({ translate, status, message }) => {
 			</div>
 			<div style={{ fontSize: '1.1em', color: status === 'ERROR' ? 'red' : secondary }}>
 				{data
-&& <>
-	<div style={{ fontWeight: '700', marginBottom: '0.3em' }}>{message || translate.secure_connection}</div>
-	<div>
-		<span style={{ fontWeight: '700', marginRight: '0.5em' }}>IP:</span>
-		{data.requestInfo && data.requestInfo.ip}
-		{data.geoLocation
-&& <>
-	<span style={{ fontWeight: '700', marginLeft: '2em' }}>{
-		`${formatCountryName(data.geoLocation.country, translate.selectedLanguage)
-		}`}</span>
-</>
-		}
-	</div>
-</>
+					&& <>
+						<div style={{ fontWeight: '700', marginBottom: '0.3em' }}>{message || translate.secure_connection}</div>
+						<div>
+							<span style={{ fontWeight: '700', marginRight: '0.5em' }}>IP:</span>
+							{data.requestInfo && data.requestInfo.ip}
+							{data.geoLocation
+								&& <>
+									<span style={{ fontWeight: '700', marginLeft: '2em' }}>{
+										`${formatCountryName(data.geoLocation.country, translate.selectedLanguage)
+										}`}</span>
+								</>
+							}
+						</div>
+					</>
 				}
 			</div>
 

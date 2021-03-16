@@ -1816,7 +1816,7 @@ export const formatCountryName = (country, language) => {
 		}
 	};
 
-	return texts[language][country] ? texts[language][country] : country;
+	return (texts[language] && texts[language][country]) ? texts[language][country] : country;
 };
 
 export const checkRequiredFields = (translate, draft, updateErrors, corporation, toast) => {

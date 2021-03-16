@@ -373,7 +373,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 						onClick={() => saveDraft(2)}
 					/>
 					<BasicButton
-						text={translate.table_button_next}
+						text={translate.next}
 						color={primary}
 						disabled={data.loading}
 						textStyle={{

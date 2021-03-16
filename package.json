@@ -1,6 +1,6 @@
 {
   "name": "councilbox_client",
-  "version": "7.9.0",
+  "version": "7.10.0",
   "private": true,
   "dependencies": {
     "antd": "^3.6.4",
@@ -119,8 +119,7 @@
     "node-sass": "^5.0.0",
     "prettier": "1.13.0",
     "sass-loader": "^6.0.6",
-    "style-loader": "^0.19.1",
-    "webpack": "^5.24.1"
+    "style-loader": "^0.19.1"
   },
   "babel": {
     "presets": [
