@@ -19,6 +19,11 @@ const reducer = (state, action) => {
 			status: 'SUCCESS',
 			errorText: ''
 		}),
+		VALIDATION_SUCCESS: () => ({
+			...state,
+			status: 'VALIDATION_SUCCESS',
+			errorText: ''
+		}),
 	};
 
 	return actions[action.type] ? actions[action.type]() : state;
@@ -94,10 +99,41 @@ const useClaveJusticia = ({ client, participantId, token }) => {
 		return false;
 	};
 
+	const checkClaveJusticia = async pin => {
+		const response = await client.mutate({
+			mutation: gql`
+				mutation CheckClaveJusticia(
+					$pin: String!
+					$participantId: Int!
+				) {
+					checkClaveJusticia(
+						pin: $pin
+						participantId: $participantId
+					) {
+						success
+						message
+					}
+				}
+			`,
+			variables: {
+				pin,
+				participantId
+			}
+		});
+
+		if (response.data.checkClaveJusticia.success) {
+			dispatch({ type: 'VALIDATION_SUCCESS' });
+			return true;
+		}
+		return false;
+	};
+
+
 	return {
 		status,
 		sendClaveJusticia,
 		setExpirationDate,
+		checkClaveJusticia,
 		expirationDate,
 		expirationDateError
 	};

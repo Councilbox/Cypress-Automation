@@ -127,61 +127,61 @@ const SignersList = ({ translate, client, ...props }) => {
 				]}
 			>
 				{signatureParticipantsList.length > 0
-&& signatureParticipantsList.map(participant => (
-	isMobile ?
-		<Card style={{ marginBottom: '1em', fontSize: '0.9em' }} key={`participant_${participant.id}`}>
-			<CardContent>
-				<div>
-					<div style={{ display: 'flex' }}>
-						<div style={{ fontWeight: 'bold' }}>{translate.participant_data}: </div>
-						<div style={{ marginLeft: '5px' }}>
-							{participant.status === SIGNATURE_PARTICIPANTS_STATES.SIGNED
-&& <i className="fa fa-check" aria-hidden="true" style={{ marginRight: '0.2em', color: 'green' }}></i>
-							}
-							{`${participant.name} ${participant.surname || ''}`}
-						</div>
-					</div>
-					<div style={{ display: 'flex' }}>
-						<div style={{ fontWeight: 'bold' }}>{translate.dni}: </div>
-						<div style={{ marginLeft: '5px' }}>
-							{participant.dni}
-						</div>
-					</div>
-					<div style={{ display: 'flex' }}>
-						<div style={{ fontWeight: 'bold' }}>{translate.email}: </div>
-						<div style={{ marginLeft: '5px' }}>
-							{participant.email}
-						</div>
-					</div>
-					<div style={{ display: 'flex' }}>
-						<div style={{ fontWeight: 'bold' }}>{translate.signed}: </div>
-						<div style={{ marginLeft: '5px' }}>
-							{translate[getSignerStatusTranslateField(participant.status)]}
-						</div>
-					</div>
-				</div>
-			</CardContent>
-		</Card>
-		: <TableRow
-			key={`participant_${participant.id}`}
-		>
-			<TableCell>
-				{participant.status === SIGNATURE_PARTICIPANTS_STATES.SIGNED
-&& <i className="fa fa-check" aria-hidden="true" style={{ marginRight: '0.2em', color: 'green' }}></i>
-				}
-				{`${participant.name} ${participant.surname || ''}`}
-			</TableCell>
-			<TableCell>
-				{participant.dni}
-			</TableCell>
-			<TableCell>
-				{participant.email}
-			</TableCell>
-			<TableCell>
-				{translate[getSignerStatusTranslateField(participant.status)]}
-			</TableCell>
-		</TableRow>
-))
+					&& signatureParticipantsList.map(participant => (
+						isMobile ?
+							<Card style={{ marginBottom: '1em', fontSize: '0.9em' }} key={`participant_${participant.id}`}>
+								<CardContent>
+									<div>
+										<div style={{ display: 'flex' }}>
+											<div style={{ fontWeight: 'bold' }}>{translate.participant_data}: </div>
+											<div style={{ marginLeft: '5px' }}>
+												{participant.status === SIGNATURE_PARTICIPANTS_STATES.SIGNED
+													&& <i className="fa fa-check" aria-hidden="true" style={{ marginRight: '0.2em', color: 'green' }}></i>
+												}
+												{`${participant.name} ${participant.surname || ''}`}
+											</div>
+										</div>
+										<div style={{ display: 'flex' }}>
+											<div style={{ fontWeight: 'bold' }}>{translate.dni}: </div>
+											<div style={{ marginLeft: '5px' }}>
+												{participant.dni}
+											</div>
+										</div>
+										<div style={{ display: 'flex' }}>
+											<div style={{ fontWeight: 'bold' }}>{translate.email}: </div>
+											<div style={{ marginLeft: '5px' }}>
+												{participant.email}
+											</div>
+										</div>
+										<div style={{ display: 'flex' }}>
+											<div style={{ fontWeight: 'bold' }}>{translate.signed}: </div>
+											<div style={{ marginLeft: '5px' }}>
+												{translate[getSignerStatusTranslateField(participant.status)]}
+											</div>
+										</div>
+									</div>
+								</CardContent>
+							</Card>
+							: <TableRow
+								key={`participant_${participant.id}`}
+							>
+								<TableCell>
+									{participant.status === SIGNATURE_PARTICIPANTS_STATES.SIGNED
+										&& <i className="fa fa-check" aria-hidden="true" style={{ marginRight: '0.2em', color: 'green' }}></i>
+									}
+									{`${participant.name} ${participant.surname || ''}`}
+								</TableCell>
+								<TableCell>
+									{participant.dni}
+								</TableCell>
+								<TableCell>
+									{participant.email}
+								</TableCell>
+								<TableCell>
+									{translate[getSignerStatusTranslateField(participant.status)]}
+								</TableCell>
+							</TableRow>
+					))
 				}
 			</EnhancedTable>
 		</React.Fragment>

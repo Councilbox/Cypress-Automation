@@ -78,7 +78,7 @@ const AppointmentParticipantsManager = React.memo(({ council, translate }) => {
 			style={{
 				width: '99%',
 				height: '100%',
-				padding: '2em',
+				paddingTop: '2em',
 				border: '2px solid red'
 			}}
 		>
@@ -102,6 +102,7 @@ const AppointmentParticipantsManager = React.memo(({ council, translate }) => {
 								objectFit: 'contain',
 								fontWeight: 'bold',
 								fontStretch: 'normal',
+								paddingLeft: '2em',
 								fontStyle: 'normal',
 								lineHeight: 'normal',
 								display: 'flex',
@@ -114,20 +115,34 @@ const AppointmentParticipantsManager = React.memo(({ council, translate }) => {
 						</GridItem>
 						<GridItem xs={1} lg={1} md={1} style={{ display: 'flex', justifyContent: 'center' }}>
 							{participant.online === 1 &&
-								<Online fill={primary} />
+								<div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+									<div>
+										<Online fill={primary} />
+									</div>
+									<div style={{ fontSize: '10px', color: primary }}>
+										Conectado
+									</div>
+								</div>
 							}
 							{participant.online !== 1 &&
-								<Disconnected fill={'red'} />
+								<div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+									<div>
+										<Disconnected fill={'red'} />
+									</div>
+									<div style={{ fontSize: '10px', color: 'red' }}>
+										No conectado
+									</div>
+								</div>
 							}
 						</GridItem>
-						<GridItem xs={6} lg={4} md={4} style={{ paddingLeft: '1em', display: 'flex' }}>
+						<GridItem xs={6} lg={6} md={6} style={{ paddingLeft: '1em', display: 'flex' }}>
 							<div>
 								<ParticipantClaveJusticia
 									participant={participant}
 									translate={translate}
 								/>
 							</div>
-							<div>
+							<div style={{ marginLeft: '0.5em' }}>
 								<ResendCredentialsModal
 									participant={participant}
 									council={council}
