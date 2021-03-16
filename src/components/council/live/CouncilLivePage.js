@@ -143,7 +143,7 @@ const CouncilLivePage = ({ translate, data, company }) => {
 
 	const { council } = data;
 
-	const renderParticipantsManager = () => {
+	const renderParticipantsManager = React.useCallback(() => {
 		if (council.councilType === COUNCIL_TYPES.ONE_ON_ONE) {
 			return (
 				<AppointmentParticipantsManager
@@ -163,7 +163,7 @@ const CouncilLivePage = ({ translate, data, company }) => {
 			/>
 
 		);
-	};
+	}, [council.councilType]);
 
 	const renderVideoParticipants = () => (
 		<ParticipantsLive

@@ -1,13 +1,13 @@
 import React from 'react';
 import { Card } from 'material-ui';
 import { withRouter } from 'react-router';
-import gql from 'graphql-tag';
 import { BasicButton, NotLoggedLayout, DateTimePicker } from '../../../../displayComponents';
 import { isMobile } from '../../../../utils/screen';
 import { getPrimary } from '../../../../styles/colors';
 import ClaveJusticiaStepper from './ClaveJusticiaStepper';
-import { client, moment } from '../../../../containers/App';
+import { client } from '../../../../containers/App';
 import AccessClaveJusticiaForm from './AccessClaveJusticiaForm';
+import useClaveJusticia from '../../../../hooks/claveJusticia';
 
 
 const styles = {
@@ -64,76 +64,17 @@ const styles = {
 	}
 };
 
-const reducer = (state, action) => {
-	const actions = {
-		LOADING: () => ({
-			...state,
-			status: 'LOADING',
-			errorText: ''
-		}),
-		ERROR: () => ({
-			...state,
-			status: 'ERROR',
-			errorText: state.payload
-		}),
-		SUCCESS: () => ({
-			...state,
-			status: 'SUCCESS',
-			errorText: ''
-		}),
-	};
-
-	return actions[action.type] ? actions[action.type]() : state;
-};
-
-
-const checkValidExpirationDate = string => string.length === 10;
-
 const AccessClaveJusticia = ({
 	translate, council, match, sendKey, error
 }) => {
-	const [{ status }, dispatch] = React.useReducer(reducer, { status: 'SUCCESS', errorText: '' });
 	const primary = getPrimary();
-	const [expirationDate, setExpirationDate] = React.useState(null);
-	const [expirationDateError, setExpirationDateError] = React.useState('');
-
-	const sendClaveJusticia = async type => {
-		if (!expirationDate) {
-			return setExpirationDateError('Es necesario introducir la fecha de expiración');
-		}
-
-		const formatedExpirationDate = moment(expirationDate).format('L').replace(/\//g, '-');
-
-		if (!checkValidExpirationDate(formatedExpirationDate)) {
-			return setExpirationDateError('Fecha de expiración no válida');
-		}
-
-		setExpirationDateError('');
-
-		const response = await client.mutate({
-			mutation: gql`
-				mutation SendClaveJusticia($expirationDate: String!, $type: String!, $token: String) {
-					sendClaveJusticiaToParticipant(expirationDate: $expirationDate, type: $type, token: $token) {
-						success
-						message
-					}
-				}
-			`,
-			variables: {
-				type,
-				expirationDate: formatedExpirationDate,
-				token: match.params.token
-			}
-		});
-
-
-		if (response.data.sendClaveJusticiaToParticipant.success) {
-			dispatch({ type: 'SUCCESS' });
-		} else if (response.data.sendClaveJusticiaToParticipant.message === 'Invalid expiration date') {
-			setExpirationDateError('La fecha de expiración no coincide');
-		}
-	};
-
+	const {
+		status,
+		sendClaveJusticia,
+		setExpirationDate,
+		expirationDate,
+		expirationDateError
+	} = useClaveJusticia({ client, token: match.params.token });
 
 	return (
 		<NotLoggedLayout
