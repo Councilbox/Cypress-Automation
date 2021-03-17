@@ -35,11 +35,13 @@ const SelectInput = ({
 			disableUnderline={disableUnderline}
 			inputProps={{
 				name: floatingText,
-				id,
 				style: {
 					fontSize: '12px !important',
 					...labelStyle
 				}
+			}}
+			SelectDisplayProps={{
+				id
 			}}
 			input={
 				<Input
