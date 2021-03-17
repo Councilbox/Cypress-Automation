@@ -24,6 +24,7 @@ import CustomPointEditor from './modals/CustomPointEditor';
 import { ConfigContext } from '../../../../containers/AppControl';
 import { useOldState } from '../../../../hooks';
 import { TAG_TYPES } from '../../../company/drafts/draftTags/utils';
+import { isAppointment } from '../../../../utils/CBX';
 
 const buttonStyle = {
 	color: 'white',
@@ -259,10 +260,10 @@ const StepAgenda = ({ client, translate, ...props }) => {
 													translate[
 														votingTypes.find(
 															item => item.value
-=== agenda.subjectType
+															=== agenda.subjectType
 														) ? votingTypes.find(
 																item => item.value
-=== agenda.subjectType
+															=== agenda.subjectType
 															).label : ''
 													]
 												}
@@ -286,7 +287,11 @@ const StepAgenda = ({ client, translate, ...props }) => {
 									}}
 								>
 									<Typography variant="subheading">
-										{translate.empty_agendas}
+										{isAppointment(council) ?
+											''
+											:
+											translate.empty_agendas
+										}
 									</Typography>
 									<br />
 									<div>
@@ -319,21 +324,21 @@ const StepAgenda = ({ client, translate, ...props }) => {
 						{!loading && (
 							<React.Fragment>
 								{!!state.editAgenda
-&& <PointEditor
-	translate={translate}
-	draftTypes={draftTypes}
-	statute={council.statute}
-	company={props.company}
-	council={council}
-	companyStatutes={data.companyStatutes}
-	open={!!state.editAgenda}
-	agenda={state.editAgenda}
-	votingTypes={votingTypes}
-	majorityTypes={majorityTypes}
-	refetch={getData}
-	requestClose={() => setState({ editAgenda: null })
-	}
-/>
+									&& <PointEditor
+										translate={translate}
+										draftTypes={draftTypes}
+										statute={council.statute}
+										company={props.company}
+										council={council}
+										companyStatutes={data.companyStatutes}
+										open={!!state.editAgenda}
+										agenda={state.editAgenda}
+										votingTypes={votingTypes}
+										majorityTypes={majorityTypes}
+										refetch={getData}
+										requestClose={() => setState({ editAgenda: null })
+										}
+									/>
 								}
 								{!!state.editCustomAgenda && (
 									<CustomPointEditor
@@ -352,8 +357,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 										}
 									/>
 								)}
-								{saveAsDraftId
-&& newDraft && (
+								{(saveAsDraftId && newDraft) && (
 									<SaveDraftModal
 										open={saveAsDraftId}
 										statute={council.statute}
@@ -500,137 +504,147 @@ export const AddAgendaPoint = ({
 		});
 	};
 
-	return (
-		<React.Fragment>
-			{config.customPoints ? (
-				<DropDownMenu
-					color={primary}
-					id={'newPuntoDelDiaOrdenDelDiaNew'}
-					loading={false}
-					{...(Component ? ({ Component }) : {})}
-					text={
-						<div style={{ display: 'flex', alignItems: 'center' }}>
-							<div>{translate.add_agenda_point}</div>
-							<div style={{ display: 'flex', alignItems: 'center' }}><ButtonIcon type="add" color="white" style={{ marginTop: '3px' }} /></div>
-						</div>
-					}
-					textStyle={buttonStyle}
-					anchorOrigin={{
-						vertical: 'bottom',
-						horizontal: 'left',
-					}}
-					items={
-						<React.Fragment>
-							<MenuItem onClick={showYesNoModal}>
-								<div
-									id={'puntoSiNoAbstencion'}
-									style={{
-										width: '100%',
-										display: 'flex',
-										flexDirection: 'row',
-										alignItems: 'center'
-										// justifyContent: "space-between"
-									}}
-								>
-									<i
-										className="material-icons"
-										style={{
-											fontSize: '1.2em',
-											color: secondary
-										}}
-									>
-thumbs_up_down
-									</i>
-									<span
-										style={{
-											marginLeft: '2.5em',
-											marginRight: '0.8em'
-										}}
-									>
-										{translate.approving_point}
-									</span>
-								</div>
-							</MenuItem>
-							<Divider />
-							<MenuItem onClick={showCustomPointModal}>
-								<div
-									id={'puntoPersonalizado'}
-									style={{
-										width: '100%',
-										display: 'flex',
-										flexDirection: 'row',
-										alignItems: 'center'
-										// justifyContent: "space-between"
-									}}
-								>
-									<i
-										className="material-icons"
-										style={{
-											fontSize: '1.2em',
-											color: secondary
-										}}
-									>
-poll
-									</i>
-									<span
-										style={{
-											marginLeft: '2.5em',
-											marginRight: '0.8em'
-										}}
-									>
-										{translate.custom_point}
-									</span>
-								</div>
-							</MenuItem>
-							{config.confirmationRequestPoint
-&& <>
-	<Divider />
-	<MenuItem onClick={() => setState({ ...state, confirmationRequestModal: true })}>
-		<div
-			id={'puntoPersonalizado'}
-			style={{
-				width: '100%',
-				display: 'flex',
-				flexDirection: 'row',
-				justifyContent: 'space-between'
-			}}
-		>
-			<i
-				className="material-icons"
-				style={{
-					fontSize: '1.2em',
-					color: secondary
-				}}
-			>
-check_circle_outline
-			</i>
-			<span
-				style={{
-					marginLeft: '2.5em',
-					marginRight: '0.8em'
-				}}
-			>
-				{translate.confirmation_request}
-			</span>
-		</div>
-	</MenuItem>
-</>
-							}
-						</React.Fragment>
-					}
-				/>
-			) : Component ? (
-				<Component onClick={showYesNoModal} />
-			) : (
+	const renderTrigger = () => {
+		if (isAppointment(council)) {
+			return (
 				<BasicButton
-					text={translate.add_agenda_point}
+					text={translate.confirmation_request}
 					color={primary}
-					onClick={showYesNoModal}
+					onClick={() => setState({ ...state, confirmationRequestModal: true })}
 					textStyle={buttonStyle}
 					icon={<ButtonIcon type="add" color="white" />}
 					textPosition="after"
 				/>
-			)}
+			);
+		}
+
+		if (Component) {
+			return <Component onClick={showYesNoModal} />;
+		}
+
+		return (
+			<DropDownMenu
+				color={primary}
+				id={'newPuntoDelDiaOrdenDelDiaNew'}
+				loading={false}
+				{...(Component ? ({ Component }) : {})}
+				text={
+					<div style={{ display: 'flex', alignItems: 'center' }}>
+						<div>{translate.add_agenda_point}</div>
+						<div style={{ display: 'flex', alignItems: 'center' }}><ButtonIcon type="add" color="white" style={{ marginTop: '3px' }} /></div>
+					</div>
+				}
+				textStyle={buttonStyle}
+				anchorOrigin={{
+					vertical: 'bottom',
+					horizontal: 'left',
+				}}
+				items={
+					<React.Fragment>
+						<MenuItem onClick={showYesNoModal}>
+							<div
+								id={'puntoSiNoAbstencion'}
+								style={{
+									width: '100%',
+									display: 'flex',
+									flexDirection: 'row',
+									alignItems: 'center'
+									// justifyContent: "space-between"
+								}}
+							>
+								<i
+									className="material-icons"
+									style={{
+										fontSize: '1.2em',
+										color: secondary
+									}}
+								>
+									thumbs_up_down
+								</i>
+								<span
+									style={{
+										marginLeft: '2.5em',
+										marginRight: '0.8em'
+									}}
+								>
+									{translate.approving_point}
+								</span>
+							</div>
+						</MenuItem>
+						<Divider />
+						<MenuItem onClick={showCustomPointModal}>
+							<div
+								id={'puntoPersonalizado'}
+								style={{
+									width: '100%',
+									display: 'flex',
+									flexDirection: 'row',
+									alignItems: 'center'
+									// justifyContent: "space-between"
+								}}
+							>
+								<i
+									className="material-icons"
+									style={{
+										fontSize: '1.2em',
+										color: secondary
+									}}
+								>
+									poll
+								</i>
+								<span
+									style={{
+										marginLeft: '2.5em',
+										marginRight: '0.8em'
+									}}
+								>
+									{translate.custom_point}
+								</span>
+							</div>
+						</MenuItem>
+						{config.confirmationRequestPoint
+							&& <>
+								<Divider />
+								<MenuItem onClick={() => setState({ ...state, confirmationRequestModal: true })}>
+									<div
+										id={'puntoPersonalizado'}
+										style={{
+											width: '100%',
+											display: 'flex',
+											flexDirection: 'row',
+											justifyContent: 'space-between'
+										}}
+									>
+										<i
+											className="material-icons"
+											style={{
+												fontSize: '1.2em',
+												color: secondary
+											}}
+										>
+											check_circle_outline
+										</i>
+										<span
+											style={{
+												marginLeft: '2.5em',
+												marginRight: '0.8em'
+											}}
+										>
+											{translate.confirmation_request}
+										</span>
+									</div>
+								</MenuItem>
+							</>
+						}
+					</React.Fragment>
+				}
+			/>
+		);
+	};
+
+	return (
+		<React.Fragment>
+			{renderTrigger()}
 			{state.yesNoModal && (
 				<NewAgendaPointModal
 					translate={translate}
