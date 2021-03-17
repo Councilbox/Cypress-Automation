@@ -115,7 +115,12 @@ const AccessClaveJusticia = ({
 								</div>
 								<div style={{ display: 'flex', justifyContent: 'center' }}>
 									<div style={{ width: '440px' }}>
-										<div style={{ textAlign: 'center', padding: '1em', border: '1px solid gainsboro', boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)' }}>
+										<div style={{
+											textAlign: 'center',
+											padding: '1em',
+											border: '1px solid gainsboro',
+											boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)'
+										}}>
 											{status === 'IDDLE' && (
 												<>
 													<div style={{ width: '50%' }}>
@@ -131,7 +136,7 @@ const AccessClaveJusticia = ({
 															value={expirationDate}
 														/>
 													</div>
-													<div style={{ display: 'flex', alignItems: 'flex-end' }}>
+													<div style={{ display: 'flex', alignItems: 'flex-end', marginTop: '0.6em' }}>
 														<BasicButton
 															text={'Solicitar PIN vía SMS'}
 															onClick={() => sendClaveJusticia('SMS')}
@@ -140,10 +145,10 @@ const AccessClaveJusticia = ({
 																backgroundColor: 'white',
 																border: '1px solid #154481',
 																borderRadius: '4px',
-																fontSize: '12px',
+																fontSize: '14px',
 																marginRight: '5px',
 																marginLeft: '5px',
-																padding: '0',
+																padding: '5px',
 																minHeight: '24px',
 																boxShadow: 'none'
 															}}
@@ -158,8 +163,8 @@ const AccessClaveJusticia = ({
 																backgroundColor: 'white',
 																border: '1px solid #154481',
 																borderRadius: '4px',
-																fontSize: '12px',
-																padding: '0',
+																fontSize: '14px',
+																padding: '5px',
 																minHeight: '24px',
 																boxShadow: 'none'
 															}}

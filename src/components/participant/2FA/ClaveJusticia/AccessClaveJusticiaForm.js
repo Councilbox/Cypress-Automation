@@ -17,11 +17,6 @@ const AccessClaveJusticiaForm = ({ sendKey, error }) => {
 			<div style={{ width: '50%', marginBottom: '.5em' }}>
 				<div style={{ display: 'flex', color: '#154481' }}>
 					Clave PIN
-					{/* <HelpPopover
-						title={'titulo'}
-						content={'descripcion'}
-						colorHelp={'#80a5b7'}
-					/> */}
 				</div>
 			</div>
 			<div style={{ display: 'flex' }}>
