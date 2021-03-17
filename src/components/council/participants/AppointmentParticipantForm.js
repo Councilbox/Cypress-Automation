@@ -16,7 +16,7 @@ const AppointmentParticipantForm = ({
 	languages
 }) => (
 	<Grid>
-		<GridItem xs={6} md={4} lg={3}>
+		<GridItem xs={6} md={4} lg={6}>
 			<TextInput
 				floatingText={translate.name}
 				type="text"
@@ -28,7 +28,7 @@ const AppointmentParticipantForm = ({
 				}
 			/>
 		</GridItem>
-		<GridItem xs={6} md={4} lg={3}>
+		<GridItem xs={6} md={4} lg={6}>
 			<TextInput
 				floatingText={translate.surname || ''}
 				type="text"
@@ -40,7 +40,7 @@ const AppointmentParticipantForm = ({
 				}
 			/>
 		</GridItem>
-		<GridItem xs={6} md={4} lg={3}>
+		<GridItem xs={6} md={4} lg={6}>
 			<TextInput
 				floatingText={translate.dni}
 				type="text"
@@ -52,7 +52,7 @@ const AppointmentParticipantForm = ({
 				}
 			/>
 		</GridItem>
-		<GridItem xs={6} md={4} lg={3}>
+		<GridItem xs={6} md={4} lg={6}>
 			<TextInput
 				floatingText={translate.position}
 				type="text"
@@ -64,7 +64,7 @@ const AppointmentParticipantForm = ({
 				}
 			/>
 		</GridItem>
-		<GridItem xs={6} md={4} lg={3}>
+		<GridItem xs={6} md={4} lg={6}>
 			<TextInput
 				floatingText={translate.email}
 				{...(checkEmail ? { onKeyUp: event => checkEmail(event, 'participant') } : {})}
@@ -77,7 +77,7 @@ const AppointmentParticipantForm = ({
 				}
 			/>
 		</GridItem>
-		<GridItem xs={6} md={4} lg={3}>
+		<GridItem xs={6} md={4} lg={6}>
 			<TextInput
 				floatingText={translate.phone}
 				type="text"
@@ -89,7 +89,7 @@ const AppointmentParticipantForm = ({
 				}
 			/>
 		</GridItem>
-		<GridItem xs={6} md={4} lg={3}>
+		<GridItem xs={6} md={4} lg={6}>
 			<SelectInput
 				floatingText={translate.language}
 				value={participant.language}

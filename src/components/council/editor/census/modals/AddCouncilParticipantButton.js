@@ -370,23 +370,25 @@ class AddCouncilParticipantButton extends React.Component {
 							/>
 						}
 					</Card>
-					<Card style={{
-						padding: '1em',
-						marginBottom: '1em',
-						color: 'black',
-					}}>
-						<RepresentativeForm
-							translate={this.props.translate}
-							state={this.state.representative}
-							updateState={this.updateRepresentative}
-							setSelectRepresentative={value => this.setState({
-								selectRepresentative: value
-							})}
-							checkEmail={this.emailKeyUp}
-							errors={this.state.representativeErrors}
-							languages={this.props.data.languages}
-						/>
-					</Card>
+					{!isAppointment(this.props.council) &&
+						<Card style={{
+							padding: '1em',
+							marginBottom: '1em',
+							color: 'black',
+						}}>
+							<RepresentativeForm
+								translate={this.props.translate}
+								state={this.state.representative}
+								updateState={this.updateRepresentative}
+								setSelectRepresentative={value => this.setState({
+									selectRepresentative: value
+								})}
+								checkEmail={this.emailKeyUp}
+								errors={this.state.representativeErrors}
+								languages={this.props.data.languages}
+							/>
+						</Card>
+					}
 					{this.props.council.statute.participantValidation === PARTICIPANT_VALIDATIONS.CLAVE_PIN &&
 						<Card style={{
 							padding: '1em',
@@ -435,6 +437,8 @@ class AddCouncilParticipantButton extends React.Component {
 		const { translate } = this.props;
 		const primary = getPrimary();
 
+
+		console.log(this.state);
 		return (
 			<React.Fragment>
 				<BasicButton

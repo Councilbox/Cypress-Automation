@@ -19,8 +19,9 @@ import { useOldState } from '../../../../hooks';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import { isMobile } from '../../../../utils/screen';
 import { COUNCIL_TYPES } from '../../../../constants';
-import { councilIsFinished } from '../../../../utils/CBX';
+import { councilIsFinished, isAppointment } from '../../../../utils/CBX';
 import SelectRepresentative from '../../editor/census/modals/SelectRepresentative';
+import AppointmentParticipantForm from '../../participants/AppointmentParticipantForm';
 
 const initialParticipant = {
 	name: '',
@@ -267,36 +268,49 @@ const AddConvenedParticipantButton = ({
 								marginBottom: '1em',
 								color: 'black',
 							}}>
-								<ParticipantForm
-									type={participant.personOrEntity}
-									participant={participant}
-									participations={participations}
-									translate={translate}
-									hideVotingInputs={council.councilType === COUNCIL_TYPES.ONE_ON_ONE}
-									languages={languages}
-									errors={errors}
-									updateState={updateState}
-								/>
+								{isAppointment(council) ?
+									<AppointmentParticipantForm
+										participant={participant}
+										translate={translate}
+										languages={languages}
+										errors={errors}
+										updateState={updateState}
+									/>
+									:
+									<ParticipantForm
+										type={participant.personOrEntity}
+										participant={participant}
+										participations={participations}
+										translate={translate}
+										hideVotingInputs={council.councilType === COUNCIL_TYPES.ONE_ON_ONE}
+										languages={languages}
+										errors={errors}
+										updateState={updateState}
+									/>
+
+								}
 							</div>
-							<div style={{
-								boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
-								border: '1px solid rgb(97, 171, 183)',
-								borderRadius: '4px',
-								padding: '1em',
-								color: 'black',
-								marginBottom: '.5em',
-							}}>
-								<RepresentativeForm
-									translate={translate}
-									state={representative}
-									updateState={updateRepresentative}
-									setSelectRepresentative={value => setState({
-										selectRepresentative: value
-									})}
-									errors={representativeErrors}
-									languages={languages}
-								/>
-							</div>
+							{!isAppointment(council) &&
+								<div style={{
+									boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
+									border: '1px solid rgb(97, 171, 183)',
+									borderRadius: '4px',
+									padding: '1em',
+									color: 'black',
+									marginBottom: '.5em',
+								}}>
+									<RepresentativeForm
+										translate={translate}
+										state={representative}
+										updateState={updateRepresentative}
+										setSelectRepresentative={value => setState({
+											selectRepresentative: value
+										})}
+										errors={representativeErrors}
+										languages={languages}
+									/>
+								</div>
+							}
 						</div>
 					</Scrollbar>
 				}
