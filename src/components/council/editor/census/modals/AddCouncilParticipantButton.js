@@ -20,49 +20,55 @@ import CheckUserClavePin from '../../../participants/CheckParticipantRegisteredC
 import withSharedProps from '../../../../../HOCs/withSharedProps';
 import SelectRepresentative from './SelectRepresentative';
 import { COUNCIL_TYPES, INPUT_REGEX, PARTICIPANT_VALIDATIONS } from '../../../../../constants';
+import { isAppointment } from '../../../../../utils/CBX';
+import AppointmentParticipantForm from '../../../participants/AppointmentParticipantForm';
 
-const initialParticipant = {
-	name: '',
-	surname: '',
-	position: '',
-	email: '',
-	phone: '',
-	dni: '',
-	initialState: 0,
-	type: 0,
-	delegateId: null,
-	numParticipations: 1,
-	socialCapital: 1,
-	uuid: null,
-	delegateUuid: null,
-	language: 'es',
-	city: '',
-	personOrEntity: 0
+const initialParticipant = council => {
+	return {
+		name: '',
+		surname: '',
+		position: '',
+		email: '',
+		phone: '',
+		dni: '',
+		initialState: isAppointment(council) ? 2 : 0,
+		type: 0,
+		delegateId: null,
+		numParticipations: 1,
+		socialCapital: 1,
+		uuid: null,
+		delegateUuid: null,
+		language: 'es',
+		city: '',
+		personOrEntity: 0
+	};
 };
 
-const initialRepresentative = {
-	hasRepresentative: false,
-	language: 'es',
-	type: 2,
-	initialState: 0,
-	name: '',
-	surname: '',
-	position: '',
-	email: '',
-	phone: '',
-	dni: ''
+const initialRepresentative = council => {
+	return {
+		hasRepresentative: false,
+		language: 'es',
+		type: 2,
+		initialState: isAppointment(council) ? 2 : 0,
+		name: '',
+		surname: '',
+		position: '',
+		email: '',
+		phone: '',
+		dni: ''
+	};
 };
 
 class AddCouncilParticipantButton extends React.Component {
 	state = {
 		modal: false,
 		data: {
-			...initialParticipant,
+			...initialParticipant(this.props.council),
 			...(this.props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ? {
 				initialState: 2
 			} : {})
 		},
-		representative: { ...initialRepresentative },
+		representative: { ...initialRepresentative(this.props.council) },
 		errors: {},
 		loading: false,
 		validated: !this.props.validateBeforeCreate,
@@ -106,8 +112,8 @@ class AddCouncilParticipantButton extends React.Component {
 				this.props.refetch();
 				this.setState({
 					modal: false,
-					data: { ...initialParticipant },
-					representative: { ...initialRepresentative },
+					data: { ...initialParticipant(this.props.council) },
+					representative: { ...initialRepresentative(this.props.council) },
 					errors: {},
 					loading: false,
 					representativeErrors: {}
@@ -342,17 +348,27 @@ class AddCouncilParticipantButton extends React.Component {
 						marginBottom: '1em',
 						color: 'black',
 					}}>
-						<ParticipantForm
-							type={participant.personOrEntity}
-							participant={participant}
-							participations={participations}
-							translate={translate}
-							languages={languages}
-							checkEmail={this.emailKeyUp}
-							hideVotingInputs={this.props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE}
-							errors={errors}
-							updateState={this.updateState}
-						/>
+						{isAppointment(this.props.council) ?
+							<AppointmentParticipantForm
+								participant={participant}
+								translate={translate}
+								languages={languages}
+								checkEmail={this.emailKeyUp}
+								errors={errors}
+								updateState={this.updateState}
+							/>
+							:
+							<ParticipantForm
+								type={participant.personOrEntity}
+								participant={participant}
+								participations={participations}
+								translate={translate}
+								languages={languages}
+								checkEmail={this.emailKeyUp}
+								errors={errors}
+								updateState={this.updateState}
+							/>
+						}
 					</Card>
 					<Card style={{
 						padding: '1em',
