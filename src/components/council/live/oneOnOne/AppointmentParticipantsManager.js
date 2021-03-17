@@ -9,6 +9,7 @@ import { getPrimary } from '../../../../styles/colors';
 import ResendCredentialsModal from '../participants/modals/ResendCredentialsModal';
 import { hasAccessKey } from '../../../../utils/CBX';
 import ParticipantClaveJusticia from './ParticipantClaveJusticia';
+import { usePolling } from '../../../../hooks';
 
 const reducer = (state, action) => {
 	const actions = {
@@ -51,6 +52,7 @@ const AppointmentParticipantsManager = React.memo(({ council, translate }) => {
 							name
 							id
 							surname
+							claveJusticiaPending
 							email
 							online
 							state
@@ -65,9 +67,7 @@ const AppointmentParticipantsManager = React.memo(({ council, translate }) => {
 		dispatch({ type: 'LOADED', payload: response.data.liveParticipants });
 	}, [council.id]);
 
-	React.useEffect(() => {
-		getData();
-	}, [getData]);
+	usePolling(getData, 10000);
 
 	if (status === 'LOADING') {
 		return <LoadingSection />;

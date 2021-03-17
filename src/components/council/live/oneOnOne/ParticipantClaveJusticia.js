@@ -11,7 +11,7 @@ const ParticipantClaveJusticia = ({ participant, translate, client }) => {
 	const [modal, setModal] = React.useState(null);
 	const [error, setError] = React.useState('');
 	const [loading, setLoading] = React.useState(false);
-	const [step, setStep] = React.useState(1);
+	const [step, setStep] = React.useState(participant.claveJusticiaPending ? 2 : 1);
 	const primary = getPrimary();
 
 	const {
