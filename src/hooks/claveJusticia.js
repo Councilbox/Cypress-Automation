@@ -41,9 +41,30 @@ const getStoredDate = participantId => {
 };
 
 const useClaveJusticia = ({ client, participantId, token }) => {
-	const [{ status }, dispatch] = React.useReducer(reducer, { status: 'SUCCESS', errorText: '' });
+	const [{ status }, dispatch] = React.useReducer(reducer, { status: 'IDDLE', errorText: '' });
 	const [expirationDate, setExpirationDate] = React.useState((getStoredDate(participantId)));
 	const [expirationDateError, setExpirationDateError] = React.useState('');
+
+	const checkUserIsRegistered = async dni => {
+		const response = await client.query({
+			query: gql`
+				query checkParticipantIsRegisteredClavePin($dni: String!){
+					checkParticipantIsRegisteredClavePin(dni: $dni) {
+						success
+						message
+					}
+				}
+			`,
+			variables: {
+				dni
+			}
+		});
+
+		if (response.data?.checkParticipantIsRegisteredClavePin) {
+			const { success } = response.data?.checkParticipantIsRegisteredClavePin;
+			return success;
+		}
+	};
 
 	const sendClaveJusticia = async type => {
 		if (!expirationDate) {
@@ -135,6 +156,7 @@ const useClaveJusticia = ({ client, participantId, token }) => {
 		setExpirationDate,
 		checkClaveJusticia,
 		expirationDate,
+		checkUserIsRegistered,
 		expirationDateError
 	};
 };

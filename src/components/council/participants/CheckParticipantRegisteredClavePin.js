@@ -10,6 +10,7 @@ import { getSecondary } from '../../../styles/colors';
 import { isMobile } from '../../../utils/screen';
 import withWindowSize from '../../../HOCs/withWindowSize';
 import { ReactComponent as ValidateIcon } from '../../../assets/img/validate-participant-icon.svg';
+import useClaveJusticia from '../../../hooks/claveJusticia';
 
 
 const Action = ({
@@ -57,34 +58,20 @@ const CheckParticipantRegisteredClavePin = ({
 	windowSize
 }) => {
 	const secondary = getSecondary();
+	const { checkUserIsRegistered } = useClaveJusticia({
+		client
+	});
 
 	const checkParticipantIsRegistered = async () => {
 		if (!participant.dni || participant.dni.length < 9) {
 			return setPinError('El DNI no es válido, debe tener 9 caracteres');
 		}
+		const success = await checkUserIsRegistered(participant.dni);
 
-		const response = await client.query({
-			query: gql`
-				query checkParticipantIsRegisteredClavePin($dni: String!){
-					checkParticipantIsRegisteredClavePin(dni: $dni) {
-						success
-						message
-					}
-				}
-			`,
-			variables: {
-				dni: participant.dni
-			}
-		});
-
-		if (response.data?.checkParticipantIsRegisteredClavePin) {
-			const { success } = response.data?.checkParticipantIsRegisteredClavePin;
-
-			if (success) {
-				validateParticipant();
-			} else {
-				setPinError('El usuario no está de alta');
-			}
+		if (success) {
+			validateParticipant();
+		} else {
+			setPinError('El usuario no está de alta');
 		}
 	};
 
