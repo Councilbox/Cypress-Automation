@@ -292,7 +292,6 @@ class ConvenedParticipantEditor extends React.Component {
 									/>
 								</div>
 							}
-							
 						</div>
 					</Scrollbar>
 				}

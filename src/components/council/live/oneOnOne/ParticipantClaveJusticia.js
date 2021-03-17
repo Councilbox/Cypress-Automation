@@ -7,9 +7,8 @@ import CheckClaveJusticiaForm from './CheckClaveJusticiaForm';
 import useClaveJusticia from '../../../../hooks/claveJusticia';
 
 
-const ParticipantClaveJusticia = ({ participant, translate, client }) => {
+const ParticipantClaveJusticia = ({ participant, client }) => {
 	const [modal, setModal] = React.useState(null);
-	const [error, setError] = React.useState('');
 	const [loading, setLoading] = React.useState(false);
 	const [step, setStep] = React.useState(participant.claveJusticiaPending ? 2 : 1);
 	const primary = getPrimary();
@@ -72,7 +71,6 @@ const ParticipantClaveJusticia = ({ participant, translate, client }) => {
 			{step === 2 &&
 				<CheckClaveJusticiaForm
 					sendKey={key => checkClave(key)}
-					error={error}
 					loading={loading}
 				/>
 			}

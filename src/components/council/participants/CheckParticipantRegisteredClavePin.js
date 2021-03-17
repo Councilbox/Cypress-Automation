@@ -1,5 +1,4 @@
 import React from 'react';
-import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
 import {
 	Grid,

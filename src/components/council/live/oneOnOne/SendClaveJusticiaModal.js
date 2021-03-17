@@ -7,7 +7,6 @@ import { getPrimary } from '../../../../styles/colors';
 
 const SendClaveJusticiaModal = ({ participantId, open, client, requestClose, successCB }) => {
 	const {
-		status,
 		sendClaveJusticia,
 		setExpirationDate,
 		expirationDate,

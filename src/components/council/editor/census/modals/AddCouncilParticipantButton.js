@@ -436,9 +436,6 @@ class AddCouncilParticipantButton extends React.Component {
 	render() {
 		const { translate } = this.props;
 		const primary = getPrimary();
-
-
-		console.log(this.state);
 		return (
 			<React.Fragment>
 				<BasicButton
