@@ -11,6 +11,7 @@ const CheckClaveJusticiaForm = ({ sendKey, error, loading }) => {
 
 	const fullKey = `${firstChar}${secondChar}${thirdChar}`;
 	const disabled = fullKey.length !== 3;
+	const color = error ? 'red' : primary;
 
 	return (
 		<>
@@ -18,7 +19,7 @@ const CheckClaveJusticiaForm = ({ sendKey, error, loading }) => {
 				<div style={{ display: 'flex', alignItems: 'center' }}>
 					<TextInput
 						id="first-pin-char"
-						stylesTextField={{ border: `1px solid ${primary}`, borderRadius: '8px', marginTop: '5px' }}
+						stylesTextField={{ border: `1px solid ${color}`, borderRadius: '8px', marginTop: '5px' }}
 						styles={{ marginRight: '12px', width: '3.5em' }}
 						styleInInput={{ textAlign: 'center', margin: '2px ​0px', fontWeight: 'bold' }}
 						labelNone={true}
@@ -35,7 +36,7 @@ const CheckClaveJusticiaForm = ({ sendKey, error, loading }) => {
 					/>
 					<TextInput
 						id="second-pin-char"
-						stylesTextField={{ border: `1px solid ${primary}`, borderRadius: '8px', marginTop: '5px' }}
+						stylesTextField={{ border: `1px solid ${color}`, borderRadius: '8px', marginTop: '5px' }}
 						styles={{ marginRight: '12px', width: '3.5em' }}
 						styleInInput={{ textAlign: 'center', margin: '4px ​0px', fontWeight: 'bold' }}
 						labelNone={true}
@@ -57,7 +58,7 @@ const CheckClaveJusticiaForm = ({ sendKey, error, loading }) => {
 					/>
 					<TextInput
 						id="third-pin-char"
-						stylesTextField={{ border: `1px solid ${primary}`, borderRadius: '8px', marginTop: '5px' }}
+						stylesTextField={{ border: `1px solid ${color}`, borderRadius: '8px', marginTop: '5px' }}
 						styles={{ marginRight: '12px', width: '3.5em' }}
 						styleInInput={{ textAlign: 'center', margin: '2px ​0px', fontWeight: 'bold' }}
 						labelNone={true}
@@ -67,7 +68,6 @@ const CheckClaveJusticiaForm = ({ sendKey, error, loading }) => {
 								document.getElementById('second-pin-char').focus();
 							}
 						}}
-						// errorText={error.message === 'Invalid key' ? 'Clave no válida' : ''}
 						value={thirdChar}
 						onChange={event => {
 							if (/^[a-z0-9]$/i.test(event.target.value)) {
@@ -94,15 +94,13 @@ const CheckClaveJusticiaForm = ({ sendKey, error, loading }) => {
 							disabled={disabled}
 						/>
 					</div>
-
-					{error.message === 'Invalid cl@ve pin' &&
-						<div style={{ color: 'red', fontWeight: '700' }}>
-							Clave pin inválida
-						</div>
-					}
 				</div>
-				<div style={{ fontSize: '10px', color: primary, marginTop: '-5px' }}>
-					Clave justicia
+				<div style={{ fontSize: '10px', color, marginTop: '-5px' }}>
+					{error ?
+						'Clave justicia inválida'
+						:
+						'Clave justicia'
+					}
 				</div>
 			</div>
 		</>

@@ -71,6 +71,7 @@ const ParticipantClaveJusticia = ({ participant, client }) => {
 			{step === 2 &&
 				<CheckClaveJusticiaForm
 					sendKey={key => checkClave(key)}
+					error={status === 'VALIDATION_FAILED'}
 					loading={loading}
 				/>
 			}

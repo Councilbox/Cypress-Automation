@@ -24,6 +24,10 @@ const reducer = (state, action) => {
 			status: 'VALIDATION_SUCCESS',
 			errorText: ''
 		}),
+		VALIDATION_FAILED: () => ({
+			...state,
+			status: 'VALIDATION_FAILED'
+		})
 	};
 
 	return actions[action.type] ? actions[action.type]() : state;
@@ -105,8 +109,7 @@ const useClaveJusticia = ({ client, participantId, token }) => {
 				participantId
 			}
 		});
-
-
+	
 		if (response.data.sendClaveJusticiaToParticipant.success) {
 			dispatch({ type: 'SUCCESS' });
 			sessionStorage.setItem(`stored_expiration_date_${participantId}`, expirationDate.format('L'));
@@ -146,6 +149,8 @@ const useClaveJusticia = ({ client, participantId, token }) => {
 			dispatch({ type: 'VALIDATION_SUCCESS' });
 			return true;
 		}
+
+		dispatch({ type: 'VALIDATION_FAILED' });
 		return false;
 	};
 
