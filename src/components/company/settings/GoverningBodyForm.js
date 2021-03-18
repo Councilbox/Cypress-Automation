@@ -104,6 +104,7 @@ const SingleAdminForm = ({ translate, setData, data = {} }) => {
 				}}>
 					<div style={{ width: '25%', paddingRight: '1.2em' }}>
 						<ContentEditable
+							id="single-admin-name"
 							html={data.name || ''}
 							style={{ borderBottom: '1px solid grey' }}
 							onChange={event => {
@@ -115,6 +116,7 @@ const SingleAdminForm = ({ translate, setData, data = {} }) => {
 					</div>
 					<div style={{ width: '25%', paddingRight: '1.2em' }}>
 						<ContentEditable
+							id="single-admin-dni"
 							html={data.dni || ''}
 							style={{ borderBottom: '1px solid grey' }}
 							onChange={event => {
@@ -126,6 +128,7 @@ const SingleAdminForm = ({ translate, setData, data = {} }) => {
 					</div>
 					<div style={{ width: '25%', paddingRight: '1.2em' }}>
 						<ContentEditable
+							id="single-admin-email"
 							html={data.email || ''}
 							style={{ borderBottom: '1px solid grey' }}
 							onChange={event => {
@@ -137,6 +140,7 @@ const SingleAdminForm = ({ translate, setData, data = {} }) => {
 					</div>
 					<div style={{ width: '25%', paddingRight: '1.2em' }}>
 						<ContentEditable
+							id="single-admin-phone"
 							html={data.phone || ''}
 							style={{ borderBottom: '1px solid grey' }}
 							onChange={event => {
