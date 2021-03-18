@@ -34,7 +34,9 @@ const GoverningBodyForm = ({ translate, state, updateState }) => {
 	};
 
 
-	const type = GOVERNING_BODY_TYPES[Object.keys(GOVERNING_BODY_TYPES).find(key => GOVERNING_BODY_TYPES[key].value === state.governingBodyType)];
+	const type = GOVERNING_BODY_TYPES[Object.keys(GOVERNING_BODY_TYPES).find(
+		key => GOVERNING_BODY_TYPES[key].value === state.governingBodyType
+	)];
 
 	return (
 		<div style={{ width: '100%' }}>
@@ -42,6 +44,7 @@ const GoverningBodyForm = ({ translate, state, updateState }) => {
 				<div style={{ display: 'flex', marginBottom: '1em' }}>
 					<DropDownMenu
 						color="transparent"
+						id="company-governing-body-select"
 						styleComponent={{ width: '' }}
 						Component={() => <div
 							style={{

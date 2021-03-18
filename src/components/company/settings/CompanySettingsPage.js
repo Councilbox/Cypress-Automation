@@ -375,11 +375,7 @@ const CompanySettingsPage = ({
 												key={companyType.label}
 												value={companyType.value}
 											>
-												{
-													translate[
-														companyType.label
-													]
-												}
+												{translate[companyType.label]}
 											</MenuItem>
 										)
 									)}
