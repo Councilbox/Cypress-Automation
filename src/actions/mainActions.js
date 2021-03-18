@@ -9,13 +9,26 @@ import { initLogRocket } from '../utils/logRocket';
 
 export const defaultLanguage = 'es';
 
-export const buildTranslateObject = translations => {
-	const translationObject = {};
+const missingTranslationHandler = {
+	get(target, name) {
+		if (name in target) {
+			return target[name];
+		}
+		return name;
+	}
+};
+
+export const buildTranslationsProxy = translations => new Proxy(translations, missingTranslationHandler);
+
+export const buildTranslateObject = (translations, language) => {
+	const translationObject = {
+		selectedLanguage: language
+	};
 	translations.forEach(translation => {
 		translationObject[translation.label] = translation.text;
 	});
 
-	return translationObject;
+	return buildTranslationsProxy(translationObject);
 };
 
 export const setLanguage = language => async dispatch => {
@@ -26,7 +39,7 @@ export const setLanguage = language => async dispatch => {
 		}
 	});
 	if (!response.errors) {
-		const translationObject = buildTranslateObject(response.data.translations);
+		const translationObject = buildTranslateObject(response.data.translations, language);
 		let locale = language;
 		if (language === 'cat' || language === 'gal') {
 			locale = 'es';
@@ -37,7 +50,6 @@ export const setLanguage = language => async dispatch => {
 				.split(',')
 				.map(month => month.substring(0, 3))
 		});
-		localStorage.setItem(language, JSON.stringify(translationObject));
 		dispatch({
 			type: 'LOADED_LANG',
 			value: translationObject,

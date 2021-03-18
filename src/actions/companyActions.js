@@ -1,6 +1,6 @@
 
 import { client, store } from '../containers/App';
-import { loadingFinished } from './mainActions';
+import { buildTranslationsProxy, loadingFinished } from './mainActions';
 import { companies as companiesQuery, setCompanyAsSelected } from '../queries';
 
 export const saveSignUpInfo = info => ({
@@ -86,11 +86,10 @@ export const addSpecificTranslations = company => {
 
 	return {
 		type: 'LOADED_LANG',
-		value: {
+		value: buildTranslationsProxy({
 			...initialTranslations,
 			...specificTranslations
-		},
-		selected: initialTranslations.selectedLanguage
+		}),
 	};
 };
 
