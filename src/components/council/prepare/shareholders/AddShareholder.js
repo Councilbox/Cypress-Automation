@@ -5,6 +5,20 @@ import { BasicButton } from '../../../../displayComponents';
 import ShareholderEditor from './ShareholderEditor';
 import { getSecondary } from '../../../../styles/colors';
 
+const getNumberValue = value => {
+	if (value === 'undefined' || value === null) {
+		return 1;
+	}
+
+	const num = +value;
+
+	if (Number.isNaN(num)) {
+		return 1;
+	}
+
+	return value;
+};
+
 
 const ApproveRequestButton = ({
 	request, client, refetch, council
@@ -13,8 +27,9 @@ const ApproveRequestButton = ({
 	const {
 		requestType, legalTermsAccepted, attachments, earlyVotes, representative, ...cleanData
 	} = request.data;
-	cleanData.numParticipations = +cleanData.numParticipations || 1;
-	cleanData.socialCapital = cleanData.numParticipations || 1;
+	cleanData.numParticipations = getNumberValue(cleanData.numParticipations);
+	cleanData.socialCapital = getNumberValue(
+		Object.prototype.hasOwnProperty.call(cleanData, 'socialCapital') ? cleanData.socialCapital : cleanData.numParticipations);
 	cleanData.personOrEntity = cleanData.personOrEntity ? +cleanData.personOrEntity : 0;
 	cleanData.assistanceIntention = cleanData.assistanceIntention ? +cleanData.assistanceIntention : 0;
 	const secondary = getSecondary();
