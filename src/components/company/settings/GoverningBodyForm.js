@@ -285,6 +285,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
 				{translate.admins}
 				<i
 					className={'fa fa-plus-circle'}
+					id="list-admin-add-button"
 					style={{
 						color: primary, marginLeft: '4px', fontSize: '22px', cursor: 'pointer'
 					}}
@@ -345,6 +346,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
 									<TableRow key={`data_keys_${index}`} style={{ color: 'black', width: '100%', padding: '1em' }}>
 										<TableCell>
 											<ContentEditable
+												id="list-admin-name"
 												html={item.name || ''}
 												style={{ borderBottom: '1px solid grey' }}
 												onChange={event => {
@@ -356,6 +358,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
 										</TableCell>
 										<TableCell>
 											<ContentEditable
+												id="list-admin-surname"
 												html={item.surname || ''}
 												style={{ borderBottom: '1px solid grey' }}
 												onChange={event => {
@@ -367,6 +370,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
 										</TableCell>
 										<TableCell>
 											<ContentEditable
+												id="list-admin-dni"
 												html={item.dni || ''}
 												style={{ borderBottom: '1px solid grey' }}
 												onChange={event => {
@@ -378,6 +382,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
 										</TableCell>
 										<TableCell>
 											<ContentEditable
+												id="list-admin-email"
 												html={item.email || ''}
 												style={{ borderBottom: '1px solid grey' }}
 												onChange={event => {
@@ -389,6 +394,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
 										</TableCell>
 										<TableCell>
 											<ContentEditable
+												id="list-admin-position"
 												html={item.position || ''}
 												style={{ borderBottom: '1px solid grey' }}
 												onChange={event => {
@@ -400,6 +406,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
 										</TableCell>
 										<TableCell>
 											<ContentEditable
+												id="list-admin-date"
 												html={item.apointmentDate || ''}
 												style={{ borderBottom: '1px solid grey' }}
 												onChange={event => {
@@ -411,6 +418,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
 										</TableCell>
 										<TableCell>
 											<ContentEditable
+												id="list-admin-length"
 												html={item.apointmentLength || ''}
 												style={{ borderBottom: '1px solid grey', width: 'calc(100% - 2em)' }}
 												onChange={event => {
@@ -422,6 +430,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
 										</TableCell>
 										<TableCell>
 											<ContentEditable
+												id="list-admin-votes"
 												html={(item.numParticipations && item.numParticipations !== 0) ? `${item.numParticipations}` : 0}
 												style={{ borderBottom: item.numParticipations && item.numParticipations !== 0 ? '1px solid grey' : '' }}
 												onChange={event => {
@@ -433,6 +442,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
 										</TableCell>
 										<TableCell>
 											<ContentEditable
+												id="list-admin-social-capital"
 												html={(item.socialCapital && item.socialCapital !== 0) ? `${item.socialCapital}` : 0}
 												style={{ borderBottom: (item.socialCapital && item.socialCapital !== 0) ? '1px solid grey' : '' }}
 												onChange={event => {
@@ -444,6 +454,7 @@ const ListAdminForm = ({ translate, setData, data }) => {
 										</TableCell>
 										<TableCell>
 											<div
+												id="list-admin-delete-button"
 												onClick={() => deleteRow(index)}
 												style={{
 													color: 'white',
