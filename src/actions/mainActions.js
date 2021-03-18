@@ -38,6 +38,7 @@ export const setLanguage = language => async dispatch => {
 			language
 		}
 	});
+
 	if (!response.errors) {
 		const translationObject = buildTranslateObject(response.data.translations, language);
 		let locale = language;

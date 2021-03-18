@@ -42,9 +42,6 @@ export const setCompany = company => {
 	};
 };
 
-let initialTranslations = null;
-
-
 const getSpecificTranslations = (language, company) => {
 	const { type, id } = company;
 
@@ -79,9 +76,7 @@ const getSpecificTranslations = (language, company) => {
 };
 
 export const addSpecificTranslations = company => {
-	if (!initialTranslations) {
-		initialTranslations = store.getState().translate;
-	}
+	const initialTranslations = store.getState().translate;
 	const specificTranslations = getSpecificTranslations(initialTranslations.selectedLanguage, company);
 
 	return {
@@ -102,7 +97,6 @@ export const changeCompany = (index, id) => async dispatch => {
 			companyId: id || companies[index].id
 		}
 	});
-	// dispatch());
 	dispatch({
 		type: 'CHANGE_SELECTED',
 		value: index
