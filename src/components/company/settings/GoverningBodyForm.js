@@ -69,7 +69,10 @@ const GoverningBodyForm = ({ translate, state, updateState }) => {
 						items={
 							<div style={{ color: 'black' }}>
 								{Object.keys(GOVERNING_BODY_TYPES).map(key => (
-									<MenuItem style={{ display: 'flex', padding: '0.5em 1em' }} key={key}
+									<MenuItem
+										style={{ display: 'flex', padding: '0.5em 1em' }}
+										key={key}
+										id={`governing-body-${GOVERNING_BODY_TYPES[key].value}`}
 										onClick={() => {
 											updateState({
 												governingBodyType: GOVERNING_BODY_TYPES[key].value
