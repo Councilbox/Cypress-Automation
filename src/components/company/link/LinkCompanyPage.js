@@ -141,6 +141,7 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 					>
 						<TextInput
 							floatingText={translate.entity_cif}
+							id="company-link-cif"
 							type="text"
 							required
 							value={data.cif}
@@ -161,6 +162,7 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 					>
 						<TextInput
 							floatingText={translate.company_new_key}
+							id="company-link-key"
 							type={
 								state.showPassword ?
 									'text'
