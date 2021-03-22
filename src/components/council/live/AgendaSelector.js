@@ -14,8 +14,8 @@ const AgendaSelector = ({
 		const activePoint = agendas.find(agenda => agenda.pointState === AGENDA_STATES.DISCUSSION);
 		if (activePoint) {
 			return CBX.canAddPoints(council)
-&& activePoint.subjectType !== AGENDA_TYPES.PRIVATE_ACT
-&& activePoint.subjectType !== AGENDA_TYPES.PUBLIC_ACT;
+				&& activePoint.subjectType !== AGENDA_TYPES.PRIVATE_ACT
+				&& activePoint.subjectType !== AGENDA_TYPES.PUBLIC_ACT;
 		}
 		return CBX.canAddPoints(council);
 	};
@@ -66,68 +66,68 @@ const AgendaSelector = ({
 				))}
 			</div>
 			{(council.councilType < 2 || council.state < COUNCIL_STATES.ROOM_OPENED)
-&& <React.Fragment>
-	{canAddPoints(council) && (
-		<div style={{ marginBottom: '0.8em' }}>
-			<AddAgendaPoint
-				translate={translate}
-				Component={localProps => (
-					<Tooltip
-						title={translate.add_agenda_point}
-						placement="top-end"
-					>
-						<div>
-							<AgendaNumber
-								index={'+'}
-								onClick={localProps.onClick}
-								active={false}
-								secondaryColor={'#888888'}
+				&& <React.Fragment>
+					{canAddPoints(council) && (
+						<div style={{ marginBottom: '0.8em' }}>
+							<AddAgendaPoint
+								translate={translate}
+								Component={localProps => (
+									<Tooltip
+										title={translate.add_agenda_point}
+										placement="top-end"
+									>
+										<div>
+											<AgendaNumber
+												index={'+'}
+												onClick={localProps.onClick}
+												active={false}
+												secondaryColor={'#888888'}
+											/>
+										</div>
+									</Tooltip>
+								)}
+								statute={council.statute}
+								companyStatutes={props.companyStatutes}
+								majorityTypes={props.majorityTypes}
+								votingTypes={props.votingTypes}
+								council={{
+									...council,
+									agendas
+								}}
+								company={props.company}
+								refetch={props.refetch}
 							/>
 						</div>
-					</Tooltip>
-				)}
-				statute={council.statute}
-				companyStatutes={props.companyStatutes}
-				majorityTypes={props.majorityTypes}
-				votingTypes={props.votingTypes}
-				council={{
-					...council,
-					agendas
-				}}
-				company={props.company}
-				refetch={props.refetch}
-			/>
-		</div>
-	)}
+					)}
 
-	{CBX.canReorderPoints(council) && (
-		<ReorderPointsModal
-			translate={translate}
-			agendas={agendas}
-			councilID={council.id}
-			refetch={props.refetch}
-		>
-			<Tooltip title={translate.reorder_agenda_points}>
-				<div>
-					<AgendaNumber
-						index={
-							<Icon
-								alt="reorder icon"
-								style={{
-									fontSize: '16px',
-									color: '#888888',
-									height: 'auto'
-								}}
-							>low_priority</Icon>
-						}
-						active={false}
-						secondaryColor={'#888888'}
-					/>
-				</div>
-			</Tooltip>
-		</ReorderPointsModal>
-	)}
-</React.Fragment>
+					{CBX.canReorderPoints(council) && (
+						<ReorderPointsModal
+							translate={translate}
+							agendas={agendas}
+							councilID={council.id}
+							refetch={props.refetch}
+						>
+							<Tooltip title={translate.reorder_agenda_points}>
+								<div>
+									<AgendaNumber
+										index={
+											<Icon
+												alt="reorder icon"
+												style={{
+													fontSize: '16px',
+													color: '#888888',
+													height: 'auto'
+												}}
+											>low_priority</Icon>
+										}
+										active={false}
+										secondaryColor={'#888888'}
+									/>
+								</div>
+							</Tooltip>
+						</ReorderPointsModal>
+					)}
+				</React.Fragment>
 			}
 		</div>
 	);

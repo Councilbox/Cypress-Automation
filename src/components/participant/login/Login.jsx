@@ -97,6 +97,7 @@ const ParticipantLogin = ({
 		);
 	}
 	const renderLogin = ((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council));
+
 	return (
 		<NotLoggedLayout
 			translate={props.translate}
@@ -159,6 +160,7 @@ const ParticipantLogin = ({
 									participant={participant}
 									council={council}
 									company={company}
+									translate={props.translate}
 									refetch={props.refetch}
 								/>
 							</Card>

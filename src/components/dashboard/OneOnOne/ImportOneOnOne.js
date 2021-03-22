@@ -158,7 +158,7 @@ const ImportOneOneOne = ({ translate, client }) => {
 		if (step === 2) {
 			return {
 				buttonCancel: translate.cancel,
-				buttonAccept: 'Importar',
+				buttonAccept: translate.import,
 				acceptAction: startCreating
 			};
 		}
@@ -168,7 +168,7 @@ const ImportOneOneOne = ({ translate, client }) => {
 		<>
 			<AlertConfirm
 				open={modal}
-				title={'Importar citas'}
+				title={translate.import_appointments}
 				{...getButtonOptions()}
 				bodyText={
 					<div>
@@ -260,7 +260,7 @@ const ImportOneOneOne = ({ translate, client }) => {
 				requestClose={cleanAndClose}
 			/>
 			<BasicButton
-				text="Importar citas"
+				text={translate.import_appointments}
 				onClick={() => setModal(true)}
 				backgroundColor={{
 					fontSize: '12px',

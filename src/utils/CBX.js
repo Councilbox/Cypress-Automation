@@ -48,6 +48,10 @@ export const formatInt = num => {
 };
 
 export const getPercentage = (num, total, decimals = 3) => {
+	if (!num) {
+		return 0;
+	}
+
 	const percentage = ((num * 100) / (total)).toFixed(decimals);
 	const zero = 0;
 	if (Number.isNaN(percentage)) {
@@ -107,7 +111,7 @@ export const hasAccessKey = council => {
 
 export const canAddCouncilAttachment = (council, filesize) => (
 	(council.attachments.reduce((a, b) => a + parseInt(b.filesize, 10), 0)
-+ filesize) < MAX_COUNCIL_FILE_SIZE
+		+ filesize) < MAX_COUNCIL_FILE_SIZE
 );
 
 export const trialDaysLeft = (company, date, trialDays) => {
@@ -121,18 +125,18 @@ export const existsQualityVote = statute => statute.existsQualityVote === 1;
 
 export const showAgendaVotingsToggle = (council, agenda) => (
 	council.councilStarted === 1
-&& agenda.subjectType !== 0
-&& agenda.votingState !== 2
+	&& agenda.subjectType !== 0
+	&& agenda.votingState !== 2
 );
 
 export const showSendCredentials = participantState => participantState !== PARTICIPANT_STATES.PRESENT
-&& participantState !== PARTICIPANT_STATES.PHYSICALLY_PRESENT
-&& participantState !== PARTICIPANT_STATES.DELEGATED
-&& participantState !== PARTICIPANT_STATES.REPRESENTATED;
+	&& participantState !== PARTICIPANT_STATES.PHYSICALLY_PRESENT
+	&& participantState !== PARTICIPANT_STATES.DELEGATED
+	&& participantState !== PARTICIPANT_STATES.REPRESENTATED;
 
 export const showAgendaVotingsTable = agenda => (
 	agenda.votingState > 0
-&& agenda.subjectType !== 0
+	&& agenda.subjectType !== 0
 );
 
 export const getAgendaResult = (agenda, type, data = {}) => {
@@ -203,19 +207,19 @@ export const copyStringToClipboard = str => {
 };
 
 export const majorityNeedsInput = majorityType => majorityType === MAJORITY_TYPES.PERCENTAGE
-|| majorityType === MAJORITY_TYPES.NUMBER
-|| majorityType === MAJORITY_TYPES.FRACTION;
+	|| majorityType === MAJORITY_TYPES.NUMBER
+	|| majorityType === MAJORITY_TYPES.FRACTION;
 
 export const haveQualityVoteConditions = (agenda, council) => ((agenda.subjectType === AGENDA_TYPES.PUBLIC_ACT || agenda.subjectType === AGENDA_TYPES.PUBLIC_VOTING)
-&& (agenda.majorityType === 1) && (agenda.positiveVotings + agenda.positiveManual) === (agenda.negativeVotings
-+ agenda.negativeManual) && council.statute.existsQualityVote === 1);
+	&& (agenda.majorityType === 1) && (agenda.positiveVotings + agenda.positiveManual) === (agenda.negativeVotings
+		+ agenda.negativeManual) && council.statute.existsQualityVote === 1);
 
 export const canEditPresentVotings = agenda => (agenda.votingState === AGENDA_STATES.DISCUSSION
-|| agenda.votingState === 4) && (
+	|| agenda.votingState === 4) && (
 	agenda.subjectType === AGENDA_TYPES.FAKE_PUBLIC_VOTING
-|| agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING
-|| agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE
-|| agenda.subjectType === AGENDA_TYPES.CUSTOM_PUBLIC);
+		|| agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING
+		|| agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE
+		|| agenda.subjectType === AGENDA_TYPES.CUSTOM_PUBLIC);
 
 export const approvedByQualityVote = agenda => {
 	if (agenda && agenda.qualityVoteSense) {
@@ -264,8 +268,8 @@ export const findOwnVote = (votings, participant) => {
 
 	return votings.find(voting => (
 		(voting.participantId === participant.id
-|| voting.delegateId === participant.id
-|| voting.author.representative.id === participant.id
+			|| voting.delegateId === participant.id
+			|| voting.author.representative.id === participant.id
 		) && !voting.author.voteDenied));
 };
 
@@ -274,21 +278,21 @@ export const hasAct = statute => statute.existsAct === 1;
 export const councilHasComments = statute => statute.existsComments === 1;
 
 export const canDelegateVotes = (statute, participant) => (statute.existsDelegatedVote === 1
-&& !(participant.delegatedVotes.filter(p => p.state !== PARTICIPANT_STATES.REPRESENTATED).length > 0)
-&& participant.type !== PARTICIPANT_TYPE.GUEST
+	&& !(participant.delegatedVotes.filter(p => p.state !== PARTICIPANT_STATES.REPRESENTATED).length > 0)
+	&& participant.type !== PARTICIPANT_TYPE.GUEST
 );
 export const canAddDelegateVotes = (statute, participant) => (
 	statute.existsDelegatedVote === 1
-&& (participant.type === PARTICIPANT_TYPE.PARTICIPANT || participant.type === PARTICIPANT_TYPE.REPRESENTATIVE)
-&& (participant.state !== PARTICIPANT_STATES.DELEGATED && participant.state !== PARTICIPANT_STATES.REPRESENTATED)
-&& participant.personOrEntity !== 1
+	&& (participant.type === PARTICIPANT_TYPE.PARTICIPANT || participant.type === PARTICIPANT_TYPE.REPRESENTATIVE)
+	&& (participant.state !== PARTICIPANT_STATES.DELEGATED && participant.state !== PARTICIPANT_STATES.REPRESENTATED)
+	&& participant.personOrEntity !== 1
 );
 
 export const canHaveRepresentative = participant => participant.type === PARTICIPANT_TYPE.PARTICIPANT || participant.type === PARTICIPANT_TYPE.REPRESENTATED;
 
 export const delegatedVotesLimitReached = (statute, length) => (
 	statute.existMaxNumDelegatedVotes === 1
-&& length >= statute.maxNumDelegatedVotes
+	&& length >= statute.maxNumDelegatedVotes
 );
 
 export const isCustomPoint = subjectType => {
@@ -318,9 +322,9 @@ export const filterAgendaVotingTypes = (votingTypes, _, council = {}) => {
 	if (council.councilType === 2) {
 		return votingTypes.filter(type => (
 			type.label !== 'text'
-&& type.label !== 'custom_nominal_point'
-&& type.label !== 'custom_anonym_point'
-&& type.label !== 'custom_public_point' && type.value !== AGENDA_TYPES.CONFIRMATION_REQUEST
+			&& type.label !== 'custom_nominal_point'
+			&& type.label !== 'custom_anonym_point'
+			&& type.label !== 'custom_public_point' && type.value !== AGENDA_TYPES.CONFIRMATION_REQUEST
 		));
 	}
 
@@ -328,9 +332,9 @@ export const filterAgendaVotingTypes = (votingTypes, _, council = {}) => {
 		return votingTypes.filter(type => type.label === 'private_votation');
 	}
 	return votingTypes.filter(type => type.value !== AGENDA_TYPES.CUSTOM_NOMINAL
-&& type.value !== AGENDA_TYPES.CUSTOM_PRIVATE
-&& type.value !== AGENDA_TYPES.CUSTOM_PUBLIC
-&& type.value !== AGENDA_TYPES.CONFIRMATION_REQUEST);
+		&& type.value !== AGENDA_TYPES.CUSTOM_PRIVATE
+		&& type.value !== AGENDA_TYPES.CUSTOM_PUBLIC
+		&& type.value !== AGENDA_TYPES.CONFIRMATION_REQUEST);
 };
 
 export const hasSecondCall = statute => {
@@ -569,12 +573,7 @@ export const buildDelegationsString = (delegated, council, translate) => {
 		pt: 'proprietário de'
 	};
 
-	return delegated.reduce((acc, vote) => `${acc}<p style="border: 1px solid black; padding: 5px;">-${
-		vote.name} ${
-		vote.surname || ''} ${texts[council.language]} ${vote.numParticipations} ${
-		council.quorumPrototype === 1 ? translate.census_type_social_capital.toLowerCase() : translate.votes.toLowerCase()} ${
-		translate.delegates.toLowerCase()} ${
-		vote.representative && vote.representative.name} ${(vote.representative && vote.representative.surname) || ''} </p><br/>`, '');
+	return delegated.reduce((acc, vote) => `${acc}<p style="border: 1px solid black; padding: 5px;">-${vote.name} ${vote.surname || ''} ${texts[council.language]} ${vote.numParticipations} ${council.quorumPrototype === 1 ? translate.census_type_social_capital.toLowerCase() : translate.votes.toLowerCase()} ${translate.delegates.toLowerCase()} ${vote.representative && vote.representative.name} ${(vote.representative && vote.representative.surname) || ''} </p><br/>`, '');
 };
 
 export const buildAttendantString = ({
@@ -585,16 +584,11 @@ export const buildAttendantString = ({
 	}
 
 	const texts = {
-		es: `${sir[council.language]} NAME SURNAME titular de SHARES ${
-			type === 'partners' ? 'participaciones' : 'acciones'}, representando el PERCENTAGE% de capital social `,
-		en: `${sir[council.language]} NAME SURNAME owner of SHARES ${
-			type === 'partners' ? 'participations' : 'shares'}, representing the PERCENTAGE% of the total shares `,
-		gal: `${sir[council.language]} NAME SURNAME dono de SHARES ${
-			type === 'partners' ? 'participacións' : 'accións'}, representando o PERCENTAGE% do capital social `,
-		cat: `${sir[council.language]}  NAME SURNAME con SHARES ${
-			type === 'partners' ? 'participaciones' : 'ações'}, representant el PERCENTAGE% de l'capital social `,
-		pt: `${sir[council.language]} NAME SURNAME proprietário de SHARES ${
-			type === 'partners' ? 'participacions' : 'accions'}, representando o PERCENTAGE% do capital social `,
+		es: `${sir[council.language]} NAME SURNAME titular de SHARES ${type === 'partners' ? 'participaciones' : 'acciones'}, representando el PERCENTAGE% de capital social `,
+		en: `${sir[council.language]} NAME SURNAME owner of SHARES ${type === 'partners' ? 'participations' : 'shares'}, representing the PERCENTAGE% of the total shares `,
+		gal: `${sir[council.language]} NAME SURNAME dono de SHARES ${type === 'partners' ? 'participacións' : 'accións'}, representando o PERCENTAGE% do capital social `,
+		cat: `${sir[council.language]}  NAME SURNAME con SHARES ${type === 'partners' ? 'participaciones' : 'ações'}, representant el PERCENTAGE% de l'capital social `,
+		pt: `${sir[council.language]} NAME SURNAME proprietário de SHARES ${type === 'partners' ? 'participacions' : 'accions'}, representando o PERCENTAGE% do capital social `,
 	};
 
 	const representativeOf = {
@@ -606,23 +600,17 @@ export const buildAttendantString = ({
 	};
 
 	const representativeText = {
-		es: `RNAME RSURNAME con SHARES ${
-			type === 'partners' ? 'participaciones' : 'acciones'}, representando el PERCENTAGE% de capital social `,
-		en: `RNAME RSURNAME with SHARES ${
-			type === 'partners' ? 'participations' : 'shares'}, representing PERCENTAGE% of the total shares `,
-		gal: `RNAME RSURNAME con SHARES ${
-			type === 'partners' ? 'participacións' : 'accións'}, representando o PERCENTAGE% do capital social `,
-		cat: `RNAME RSURNAME con SHARES ${
-			type === 'partners' ? 'participaciones' : 'ações'}, representant el PERCENTAGE% de l'capital social `,
-		pt: `RNAME RSURNAME con SHARES ${
-			type === 'partners' ? 'participacions' : 'accions'}, representando o PERCENTAGE% do capital social `,
+		es: `RNAME RSURNAME con SHARES ${type === 'partners' ? 'participaciones' : 'acciones'}, representando el PERCENTAGE% de capital social `,
+		en: `RNAME RSURNAME with SHARES ${type === 'partners' ? 'participations' : 'shares'}, representing PERCENTAGE% of the total shares `,
+		gal: `RNAME RSURNAME con SHARES ${type === 'partners' ? 'participacións' : 'accións'}, representando o PERCENTAGE% do capital social `,
+		cat: `RNAME RSURNAME con SHARES ${type === 'partners' ? 'participaciones' : 'ações'}, representant el PERCENTAGE% de l'capital social `,
+		pt: `RNAME RSURNAME con SHARES ${type === 'partners' ? 'participacions' : 'accions'}, representando o PERCENTAGE% do capital social `,
 	};
 
 	if (attendant.type === PARTICIPANT_TYPE.REPRESENTATIVE) {
-		return `${sir[council.language]} ${attendant.name} ${attendant.surname || ''} ${representativeOf[council.language]} ${
-			attendant.delegationsAndRepresentations.reduce((acc, representated, index) => (acc + (index > 0 ? ',' : ' ') + representativeText[council.language].replace('RNAME RSURNAME ', `${representated.name} ${representated.surname ? `${representated.surname} ` : ''}`)
-				.replace('SHARES', representated.socialCapital)
-				.replace('PERCENTAGE', ((representated.socialCapital / total) * 100).toFixed(2))), '')}`;
+		return `${sir[council.language]} ${attendant.name} ${attendant.surname || ''} ${representativeOf[council.language]} ${attendant.delegationsAndRepresentations.reduce((acc, representated, index) => (acc + (index > 0 ? ',' : ' ') + representativeText[council.language].replace('RNAME RSURNAME ', `${representated.name} ${representated.surname ? `${representated.surname} ` : ''}`)
+			.replace('SHARES', representated.socialCapital)
+			.replace('PERCENTAGE', ((representated.socialCapital / total) * 100).toFixed(2))), '')}`;
 	}
 
 	return texts[council.language]
@@ -660,8 +648,7 @@ export const generateCompanyAdminsText = ({ council, company, list }) => {
 		pt: 'Administradores'
 	};
 
-	const buildMultipleAdmins = adminList => adminList.reduce((acc, curr, index, array) => `${acc}${sir[council.language]} ${
-		curr.name} ${curr.surname || ''}${(index < array.length - 1) ? list ? '<br>' : ', ' : ''}`, list ? `${admins[council.language]}: <br>` : '');
+	const buildMultipleAdmins = adminList => adminList.reduce((acc, curr, index, array) => `${acc}${sir[council.language]} ${curr.name} ${curr.surname || ''}${(index < array.length - 1) ? list ? '<br>' : ', ' : ''}`, list ? `${admins[council.language]}: <br>` : '');
 
 	const labels = {
 		0: () => '',
@@ -678,8 +665,8 @@ export const generateCompanyAdminsText = ({ council, company, list }) => {
 export const hasRightToVote = participant => participant.numParticipations > 0;
 
 export const checkIfHasVote = attendant => (hasRightToVote(attendant) || attendant.socialCapital > 0)
-|| attendant.delegationsAndRepresentations
-	.filter(item => item.state === PARTICIPANT_STATES.REPRESENTATED && (hasRightToVote(item) || item.socialCapital > 0)).length > 0;
+	|| attendant.delegationsAndRepresentations
+		.filter(item => item.state === PARTICIPANT_STATES.REPRESENTATED && (hasRightToVote(item) || item.socialCapital > 0)).length > 0;
 
 export const buildGuestString = ({ guest, council }) => {
 	const inQualityOf = {
@@ -725,12 +712,11 @@ export const buildShareholdersList = ({ council, total, type }) => {
 	return council.attendants.filter(checkIfHasVote)
 		.reduce((acc, curr) => `${acc}<br>${buildAttendantString({
 			attendant: curr, total, council, type
-		})}`, `${
-			type === 'partners' ?
-				partnersText[council.language]
-				: type === 'counselors' ?
-					counselorsList[council.language]
-					: shareholdersText[council.language]}:`);
+		})}`, `${type === 'partners' ?
+			partnersText[council.language]
+			: type === 'counselors' ?
+				counselorsList[council.language]
+				: shareholdersText[council.language]}:`);
 };
 
 
@@ -787,21 +773,19 @@ export const changeVariablesToValues = async (initialText, data, translate) => {
 		if (replaced) {
 			text = text.replace(
 				/<span id="{{dateFirstCall}}">(.*?|\n)<\/span>/ig,
-				`<span id="{{dateFirstCall}}">${
-					moment(
-						new Date(data.council.dateStart).toISOString(),
-						moment.ISO_8601
-					).format('LLL')
+				`<span id="{{dateFirstCall}}">${moment(
+					new Date(data.council.dateStart).toISOString(),
+					moment.ISO_8601
+				).format('LLL')
 				}</span>`
 			);
 		} else {
 			text = text.replace(
 				/{{dateFirstCall}}/g,
-				`<span id="{{dateFirstCall}}">${
-					moment(
-						new Date(data.council.dateStart).toISOString(),
-						moment.ISO_8601
-					).format('LLL')
+				`<span id="{{dateFirstCall}}">${moment(
+					new Date(data.council.dateStart).toISOString(),
+					moment.ISO_8601
+				).format('LLL')
 				}</span>`
 			);
 		}
@@ -813,21 +797,19 @@ export const changeVariablesToValues = async (initialText, data, translate) => {
 		if (replaced) {
 			text = text.replace(
 				/<span id="{{dateSecondCall}}">(.*?|\n)<\/span>/ig,
-				`<span id="{{dateSecondCall}}">${
-					moment(
-						new Date(data.council.dateStart).toISOString(),
-						moment.ISO_8601
-					).format('LLL')
+				`<span id="{{dateSecondCall}}">${moment(
+					new Date(data.council.dateStart).toISOString(),
+					moment.ISO_8601
+				).format('LLL')
 				}</span>`
 			);
 		} else {
 			text = text.replace(
 				/{{dateSecondCall}}/g,
-				`<span id="{{dateSecondCall}}">${
-					moment(
-						new Date(data.council.dateStart2NdCall).toISOString(),
-						moment.ISO_8601
-					).format('LLL')
+				`<span id="{{dateSecondCall}}">${moment(
+					new Date(data.council.dateStart2NdCall).toISOString(),
+					moment.ISO_8601
+				).format('LLL')
 				}</span>`
 			);
 		}
@@ -1342,7 +1324,7 @@ export const councilIsInTrash = council => council.state === COUNCIL_STATES.CANC
 
 export const councilIsNotLiveYet = council => (
 	council.state < COUNCIL_STATES.ROOM_OPENED
-&& council.state > COUNCIL_STATES.CANCELED
+	&& council.state > COUNCIL_STATES.CANCELED
 );
 
 export const checkRepeatedItemValue = items => {
@@ -1366,12 +1348,12 @@ export const councilIsPreparing = council => (
 
 export const councilIsLive = council => (
 	council.state >= COUNCIL_STATES.ROOM_OPENED
-&& council.state < COUNCIL_STATES.FINISHED
+	&& council.state < COUNCIL_STATES.FINISHED
 );
 
 export const councilIsFinished = council => (
 	council.state >= COUNCIL_STATES.FINISHED
-&& council.state !== COUNCIL_STATES.NOT_CELEBRATED
+	&& council.state !== COUNCIL_STATES.NOT_CELEBRATED
 );
 
 export const councilIsNotCelebrated = council => council.state === COUNCIL_STATES.NOT_CELEBRATED || council.active === 0;
@@ -1482,14 +1464,14 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
 		case COUNCIL_STATES.SAVED:
 			if (expected !== 'convened' && expected !== 'live') {
 				bHistory.replace(
-				`/company/${company.id}/council/${council.id}/prepare`
+					`/company/${company.id}/council/${council.id}/prepare`
 				);
 			}
 			break;
 		case COUNCIL_STATES.PREPARING:
 			if (expected !== 'convened' && expected !== 'live') {
 				bHistory.replace(
-				`/company/${company.id}/council/${council.id}/prepare`
+					`/company/${company.id}/council/${council.id}/prepare`
 				);
 			}
 			break;
@@ -1498,7 +1480,7 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
 		case COUNCIL_STATES.APPROVING_ACT_DRAFT:
 			if (expected !== 'live') {
 				bHistory.replace(
-				`/company/${company.id}/council/${council.id}/live`
+					`/company/${company.id}/council/${council.id}/live`
 				);
 			}
 			break;
@@ -1510,7 +1492,7 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
 		case COUNCIL_STATES.FINISHED_WITHOUT_ACT:
 			if (expected !== 'finished') {
 				bHistory.replace(
-				`/company/${company.id}/council/${council.id}/finished`
+					`/company/${company.id}/council/${council.id}/finished`
 				);
 			}
 			break;
@@ -1674,7 +1656,7 @@ export const printSessionExpiredError = () => {
 };
 
 export const printCifAlreadyUsed = () => {
-// vat_previosly_save
+	// vat_previosly_save
 	const messages = {
 		pt: 'Este NIF já foi previamente guardado',
 		es: 'Este CIF ha sido guardado previamente',
@@ -1690,7 +1672,7 @@ export const printCifAlreadyUsed = () => {
 };
 
 export const printTrialEnded = () => {
-// vat_previosly_save
+	// vat_previosly_save
 	const messages = {
 		pt: 'Período de prova finalizado',
 		es: 'Período de prueba finalizado',
@@ -1933,9 +1915,10 @@ export const calculateQuorum = (council, recount) => {
 	return LiveUtil.calculateQuorum(base, council.statute.secondCallQuorumType, council.statute.secondCallQuorum, council.statute.secondCallQuorumDivider);
 };
 
+export const isAppointment = council => council.councilType === COUNCIL_TYPES.ONE_ON_ONE;
 
 export const councilHasSession = council => !((council.councilType > 1
-&& council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION
-&& council.councilType !== COUNCIL_TYPES.ONE_ON_ONE
+	&& council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION
+	&& council.councilType !== COUNCIL_TYPES.ONE_ON_ONE
 ) || (council.councilType === COUNCIL_TYPES.NO_VIDEO && council.autoClose === 1));
 

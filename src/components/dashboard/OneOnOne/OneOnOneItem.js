@@ -63,9 +63,9 @@ const OneOnOneItem = ({
 						<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 							<div style={{ marginRight: '.5em', fontSize: '12px', width: '10em' }}>
 								{councilStarted(council) ?
-									<b style={{ color: getPrimary(), padding: '8px 16px' }}>Iniciada</b>
+									<b style={{ color: getPrimary(), padding: '8px 16px' }}>{translate.started}</b>
 									: <BasicButton
-										text="Acceder"
+										text={translate.access}
 										onClick={() => bHistory.push(`/company/${company.id}/council/${council.id}/live`)}
 										backgroundColor={{
 											fontSize: '12px', fontStyle: 'Lato', fontWeight: 'bold', color: '#ffffff', backgroundColor: primary, borderRadius: '4px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)'
@@ -76,7 +76,7 @@ const OneOnOneItem = ({
 							<div style={{ marginRight: '.5em', width: '12em' }}>
 								{(council.attachments && council.attachments.filter(attachment => !!attachment.participantId).length > 0) ?
 									<BasicButton
-										text="Ver documentación del participante"
+										text={translate.see_participant_documentation}
 										onClick={event => {
 											event.stopPropagation();
 											setAttachmentsModal(true);
@@ -85,12 +85,12 @@ const OneOnOneItem = ({
 											fontSize: '12px', fontStyle: 'Lato', fontWeight: 'bold', color: primary, backgroundColor: '#ffffff', borderRadius: '4px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)'
 										}}
 									/>
-									: 'Sin documentación'
+									: translate.without_documentation
 								}
 							</div>
 							<div>
 								<BasicButton
-									text="Enviar correo al participante"
+									text={translate.send_email_to_the_participant}
 									disabled={councilStarted(council)}
 									onClick={event => {
 										event.stopPropagation();

@@ -214,6 +214,11 @@ export const AGENDA_TYPES = {
 	CONFIRMATION_REQUEST: 9
 };
 
+export const PARTICIPANT_VALIDATIONS = {
+	NONE: 0,
+	CLAVE_PIN: 1
+};
+
 export const GOVERNING_BODY_TYPES = {
 	NONE: {
 		value: 0,

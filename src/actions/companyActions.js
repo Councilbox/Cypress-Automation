@@ -1,6 +1,6 @@
 
 import { client, store } from '../containers/App';
-import { loadingFinished } from './mainActions';
+import { buildTranslationsProxy, loadingFinished } from './mainActions';
 import { companies as companiesQuery, setCompanyAsSelected } from '../queries';
 
 export const saveSignUpInfo = info => ({
@@ -42,9 +42,6 @@ export const setCompany = company => {
 	};
 };
 
-let initialTranslations = null;
-
-
 const getSpecificTranslations = (language, company) => {
 	const { type, id } = company;
 
@@ -79,18 +76,15 @@ const getSpecificTranslations = (language, company) => {
 };
 
 export const addSpecificTranslations = company => {
-	if (!initialTranslations) {
-		initialTranslations = store.getState().translate;
-	}
+	const initialTranslations = store.getState().translate;
 	const specificTranslations = getSpecificTranslations(initialTranslations.selectedLanguage, company);
 
 	return {
 		type: 'LOADED_LANG',
-		value: {
+		value: buildTranslationsProxy({
 			...initialTranslations,
 			...specificTranslations
-		},
-		selected: initialTranslations.selectedLanguage
+		}),
 	};
 };
 
@@ -103,7 +97,6 @@ export const changeCompany = (index, id) => async dispatch => {
 			companyId: id || companies[index].id
 		}
 	});
-	// dispatch());
 	dispatch({
 		type: 'CHANGE_SELECTED',
 		value: index

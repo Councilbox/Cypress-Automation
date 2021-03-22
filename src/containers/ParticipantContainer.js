@@ -187,7 +187,7 @@ const ParticipantContainer = ({
 			setData(response.data);
 		}
 	};
-	usePolling(getData, 10000);
+	usePolling(getData, !loadingConfig ? 10000 : null);
 
 
 	React.useEffect(() => {

@@ -19,7 +19,7 @@ const ParticipantCouncilAttachments = ({
 }) => {
 	const [data, setData] = React.useState(null);
 	const [confirmationModal, setConfirmationModal] = React.useState(false);
-	const [tab, setTab] = React.useState('Su documentación');
+	const [tab, setTab] = React.useState(translate.your_documentation);
 	const [check, setCheck] = React.useState(false);
 	const [checkError, setCheckError] = React.useState('');
 	const [uploadFile, setUploadFile] = React.useState(false);
@@ -139,8 +139,8 @@ const ParticipantCouncilAttachments = ({
 							>{`${participant.name} ${participant.surname || ''}`}</div>
 							<MenuSuperiorTabs
 								items={[
-									'Su documentación',
-									'Documentación administración'
+									translate.your_documentation,
+									translate.documentation_added_by_admin
 								]}
 								setSelect={setTab}
 								selected={tab}
@@ -152,35 +152,37 @@ const ParticipantCouncilAttachments = ({
 					padding: '1em', paddingBottom: '1em', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #154481'
 				}}>
 					<div>
-						<BasicButton
-							text={
-								<div style={{ display: 'flex' }}>
-									<div>
-										<img
-											src={upload}
-											style={{
-												paddingRight: '5px'
-											}}
-										/>
+						{tab === translate.your_documentation &&
+							<BasicButton
+								text={
+									<div style={{ display: 'flex' }}>
+										<div>
+											<img
+												src={upload}
+												style={{
+													paddingRight: '5px'
+												}}
+											/>
+										</div>
+										<div>
+											{translate.upload_file}
+										</div>
 									</div>
-									<div>
-										Subir nuevo
-									</div>
-								</div>
-							}
-							color={primary}
-							textStyle={{
-								color: 'white',
-								fontWeight: '700',
-								borderRadius: '4px',
-								boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-								padding: '5px 16px',
-								minHeight: '0'
-							}}
-							textPosition="before"
-							fullWidth={true}
-							onClick={() => setUploadFile(true)}
-						/>
+								}
+								color={primary}
+								textStyle={{
+									color: 'white',
+									fontWeight: '700',
+									borderRadius: '4px',
+									boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
+									padding: '5px 16px',
+									minHeight: '0'
+								}}
+								textPosition="before"
+								fullWidth={true}
+								onClick={() => setUploadFile(true)}
+							/>
+						}
 					</div>
 				</div>
 				<div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
@@ -297,7 +299,7 @@ const ParticipantCouncilAttachments = ({
 								<input {...getInputProps()} />
 								<div style={{
 									color: 'black', fontSize: '20px', marginBottom: '1em', textAlign: 'center'
-								}}>Seleccione los archivos de su ordenador</div>
+								}}>{translate.upload_attachment_help_title}</div>
 								<div
 									style={{ marginBottom: '1em', display: 'flex', justifyContent: 'center' }}
 								>
@@ -308,7 +310,7 @@ const ParticipantCouncilAttachments = ({
 												setCheckError(true);
 											}
 										}}
-										text={'Seleccionar archivos'}
+										text={translate.select_files}
 										color={primary}
 										textStyle={{
 											color: 'white',
@@ -327,10 +329,12 @@ const ParticipantCouncilAttachments = ({
 										}}
 									/>
 								</div>
-								<div style={{ color: '#154481', textAlign: 'center', marginBottom: '2em' }}>O arrastrelos y suéltelos en esta pantalla</div>
+								<div style={{ color: '#154481', textAlign: 'center', marginBottom: '2em' }}>
+									{translate.upload_attachment_drag_and_drop_help}
+								</div>
 								{(!check && checkError)
 									&& <div style={{ color: 'red', fontWeight: '700' }}>
-											Es necesaria la confirmación para poder enviar
+										{translate.confirmation_needed_to_upload}
 									</div>
 								}
 								<div style={{ color: 'black', marginBottom: '1em' }}>
@@ -341,7 +345,7 @@ const ParticipantCouncilAttachments = ({
 										}}
 										styleLabel={{ alignItems: 'unset', fontSize: '14px', color: 'black' }}
 										styleInLabel={{ fontSize: '14px', color: 'black' }}
-										label={'Confirmo y acepto la normativa de tratamiento de datos del Reglamento (UE) 2016/679 del Parlamento Europeo y del Consejo, de 27 de abril de 2016, relativo a la protección de las personas físicas en lo que respecta al tratamiento de datos personales y a la libre circulación de estos datos y por el que se deroga la Directiva 95/46/CE (Reglamento general de protección de datos) (Texto pertinente a efectos del EEE)'}
+										label={translate.upload_files_legal_warning}
 									/>
 								</div>
 							</div>
