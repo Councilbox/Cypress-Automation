@@ -109,7 +109,7 @@ const useClaveJusticia = ({ client, participantId, token }) => {
 				participantId
 			}
 		});
-	
+
 		if (response.data.sendClaveJusticiaToParticipant.success) {
 			dispatch({ type: 'SUCCESS' });
 			sessionStorage.setItem(`stored_expiration_date_${participantId}`, expirationDate.format('L'));

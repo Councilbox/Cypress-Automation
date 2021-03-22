@@ -9,8 +9,6 @@ import NoAttendDelegationWarning from '../delegations/NoAttendDelegationWarning'
 import EarlyVoteOption from './EarlyVoteOption';
 import FixDelegationVoteButton from './FixDelegationVoteButton';
 import { ConfigContext } from '../../../containers/AppControl';
-import { AECOC_ID } from './Assistance';
-
 
 const AttendanceOptions = ({
 	translate, state, setState, council, participant, showDelegationModal, refetch
