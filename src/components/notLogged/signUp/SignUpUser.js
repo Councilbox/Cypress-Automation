@@ -19,419 +19,429 @@ import TermsModal from './TermsModal';
 
 
 class SignUpUser extends React.Component {
-state = {
-	errorsBar: null,
-	porcentaje: 0,
-	repeatEmail: '',
-	termsAccepted: false,
-	termsModal: false,
-	confirmPWD: '',
-	subscriptions: [],
-	languages: [
-		{
-			columnName: 'es',
-			desc: 'Español'
-		},
-		{
-			columnName: 'en',
-			desc: 'English'
-		},
-		{
-			columnName: 'pt',
-			desc: 'Portugués'
-		},
-		{
-			columnName: 'cat',
-			desc: 'Catalá'
-		},
-		{
-			columnName: 'gal',
-			desc: 'Galego'
-		},
-	]
-};
-
-nextPage = async () => {
-	if (!(await this.checkRequiredFields())) {
-		// this.props.nextPage();
-		this.props.signUp();
-	}
-};
-
-checkRequiredFields = async () => {
-	const errors = {
-		name: '',
-		surname: '',
-		phone: '',
-		email: '',
+	state = {
+		errorsBar: null,
+		porcentaje: 0,
 		repeatEmail: '',
-		pwd: '',
-		termsAccepted: '',
-		confirmPWD: ''
+		termsAccepted: false,
+		termsModal: false,
+		confirmPWD: '',
+		subscriptions: [],
+		languages: [
+			{
+				columnName: 'es',
+				desc: 'Español'
+			},
+			{
+				columnName: 'en',
+				desc: 'English'
+			},
+			{
+				columnName: 'pt',
+				desc: 'Portugués'
+			},
+			{
+				columnName: 'cat',
+				desc: 'Catalá'
+			},
+			{
+				columnName: 'gal',
+				desc: 'Galego'
+			},
+		]
 	};
 
-	const data = this.props.formData;
-	const { translate } = this.props;
-	let hasError = false;
+	nextPage = async () => {
+		if (!(await this.checkRequiredFields())) {
+			// this.props.nextPage();
+			this.props.signUp();
+		}
+	};
+
+	checkRequiredFields = async () => {
+		const errors = {
+			name: '',
+			surname: '',
+			phone: '',
+			email: '',
+			repeatEmail: '',
+			pwd: '',
+			termsAccepted: '',
+			confirmPWD: ''
+		};
+
+		const data = this.props.formData;
+		const { translate } = this.props;
+		let hasError = false;
 
 
-	if (!this.state.termsAccepted) {
-		hasError = true;
-		errors.termsCheck = translate.acept_terms;
-	}
-
-	if (!data.name) {
-		hasError = true;
-		errors.name = translate.field_required;
-	}
-
-	if (!data.surname) {
-		hasError = true;
-		errors.surname = translate.field_required;
-	}
-
-	if (!data.phone) {
-		hasError = true;
-		errors.phone = translate.field_required;
-	}
-
-	if (!data.email) {
-		hasError = true;
-		errors.email = translate.field_required;
-	} else {
-		const existsCif = await this.checkEmailExists();
-		if (data.email !== this.state.repeatEmail && data.email) {
+		if (!this.state.termsAccepted) {
 			hasError = true;
-			errors.repeatEmail = translate.register_unmatch_emails;
+			errors.termsCheck = translate.acept_terms;
 		}
 
-		if (!checkValidEmail(data.email) || existsCif) {
+		if (!data.name) {
 			hasError = true;
-			errors.email = existsCif ?
-				translate.register_exists_email
-				: translate.email_not_valid;
+			errors.name = translate.field_required;
 		}
-		if (!checkValidEmail(data.email) || existsCif) {
+
+		if (!data.surname) {
 			hasError = true;
-			errors.email = existsCif ?
-				translate.register_exists_email
-				: translate.email_not_valid;
+			errors.surname = translate.field_required;
 		}
-		if (!(/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g.test(data.phone))) {
+
+		if (!data.phone) {
 			hasError = true;
-			errors.phone = translate.enter_valid_phone_number;
+			errors.phone = translate.field_required;
 		}
+
+		if (!data.email) {
+			hasError = true;
+			errors.email = translate.field_required;
+		} else {
+			const existsCif = await this.checkEmailExists();
+			if (data.email !== this.state.repeatEmail && data.email) {
+				hasError = true;
+				errors.repeatEmail = translate.register_unmatch_emails;
+			}
+
+			if (!checkValidEmail(data.email) || existsCif) {
+				hasError = true;
+				errors.email = existsCif ?
+					translate.register_exists_email
+					: translate.email_not_valid;
+			}
+			if (!checkValidEmail(data.email) || existsCif) {
+				hasError = true;
+				errors.email = existsCif ?
+					translate.register_exists_email
+					: translate.email_not_valid;
+			}
+			if (!(/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g.test(data.phone))) {
+				hasError = true;
+				errors.phone = translate.enter_valid_phone_number;
+			}
+		}
+
+		if (!data.pwd) {
+			hasError = true;
+			errors.pwd = translate.no_empty_pwd;
+		}
+
+		if (data.pwd !== this.state.confirmPWD) {
+			hasError = true;
+			errors.confirmPWD = translate.no_match_pwd;
+		}
+
+		if (!(/^[A-Za-z\s]+$/.test(data.name))) {
+			hasError = true;
+			errors.name = translate.enter_valid_name;
+		}
+
+		if (!(/^[A-Za-z\s]+$/.test(data.surname))) {
+			hasError = true;
+			errors.surname = translate.enter_valid_last_names;
+		}
+
+		// if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,}$/.test(data.pwd))) {
+		// hasError = true;
+		// errors.pwd = "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"; //TRADUCCION
+		// }
+
+		this.props.updateErrors({
+			...errors,
+			hasError
+		});
+		return hasError;
 	}
 
-	if (!data.pwd) {
-		hasError = true;
-		errors.pwd = translate.no_empty_pwd;
+	async checkEmailExists() {
+		const response = await this.props.client.query({
+			query: checkEmailExists,
+			variables: { email: this.props.formData.email }
+		});
+
+		return response.data.checkEmailExists.success;
 	}
 
-	if (data.pwd !== this.state.confirmPWD) {
-		hasError = true;
-		errors.confirmPWD = translate.no_match_pwd;
-	}
+	handleKeyUp = event => {
+		const data = this.props.formData;
+		let errorsBar;
+		let porcentaje = 100;
+		const { translate } = this.props;
+		if (!(/[a-z]/.test(data.pwd))) {
+			errorsBar = translate.insecure_password;
+			porcentaje -= 20;
+		}
+		if (!(/(?=.*[A-Z])/.test(data.pwd))) {
+			errorsBar = translate.insecure_password;
+			porcentaje -= 20;
+		}
+		if (!(/(?=.*[0-9])/.test(data.pwd))) {
+			errorsBar = translate.insecure_password;
+			porcentaje -= 20;
+		}
+		if (!(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(data.pwd))) {
+			errorsBar = translate.insecure_password;
+			porcentaje -= 20;
+		}
+		if (!(/.{8,}/.test(data.pwd))) {
+			errorsBar = translate.insecure_password;
+			porcentaje -= 20;
+		}
+		let color = 'Green';
+		color = porcentaje < 40 ? 'Red' : porcentaje >= 40 && porcentaje <= 80 ? 'Orange' : 'Green';
+		this.setState({
+			errorsBar,
+			porcentaje,
+			color,
+		});
+		if (event.nativeEvent.keyCode === 13) {
+			this.nextPage();
+		}
+		if (this.props.errors.hasError) {
+			this.checkRequiredFields();
+		}
+	};
 
-	if (!(/^[A-Za-z\s]+$/.test(data.name))) {
-		hasError = true;
-		errors.name = translate.enter_valid_name;
-	}
+	render() {
+		const primary = getPrimary();
+		const { translate } = this.props;
+		const data = this.props.formData;
 
-	if (!(/^[A-Za-z\s]+$/.test(data.surname))) {
-		hasError = true;
-		errors.surname = translate.enter_valid_last_names;
-	}
-
-	// if (!(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){8,}$/.test(data.pwd))) {
-	// hasError = true;
-	// errors.pwd = "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character"; //TRADUCCION
-	// }
-
-	this.props.updateErrors({
-		...errors,
-		hasError
-	});
-	return hasError;
-}
-
-async checkEmailExists() {
-	const response = await this.props.client.query({
-		query: checkEmailExists,
-		variables: { email: this.props.formData.email }
-	});
-
-	return response.data.checkEmailExists.success;
-}
-
-handleKeyUp = event => {
-	const data = this.props.formData;
-	let errorsBar;
-	let porcentaje = 100;
-	const { translate } = this.props;
-	if (!(/[a-z]/.test(data.pwd))) {
-		errorsBar = translate.insecure_password;
-		porcentaje -= 20;
-	}
-	if (!(/(?=.*[A-Z])/.test(data.pwd))) {
-		errorsBar = translate.insecure_password;
-		porcentaje -= 20;
-	}
-	if (!(/(?=.*[0-9])/.test(data.pwd))) {
-		errorsBar = translate.insecure_password;
-		porcentaje -= 20;
-	}
-	if (!(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(data.pwd))) {
-		errorsBar = translate.insecure_password;
-		porcentaje -= 20;
-	}
-	if (!(/.{8,}/.test(data.pwd))) {
-		errorsBar = translate.insecure_password;
-		porcentaje -= 20;
-	}
-	let color = 'Green';
-	color = porcentaje < 40 ? 'Red' : porcentaje >= 40 && porcentaje <= 80 ? 'Orange' : 'Green';
-	this.setState({
-		errorsBar,
-		porcentaje,
-		color,
-	});
-	if (event.nativeEvent.keyCode === 13) {
-		this.nextPage();
-	}
-	if (this.props.errors.hasError) {
-		this.checkRequiredFields();
-	}
-};
-
-render() {
-	const primary = getPrimary();
-	const { translate } = this.props;
-	const data = this.props.formData;
-
-	return (
-		<div
-			style={{
-				width: '100%',
-				padding: '6%'
-			}}
-			onKeyUp={this.handleKeyUp}
-		>
+		return (
 			<div
 				style={{
-					fontSize: '1.3em',
-					fontWeight: '700',
-					color: primary
+					width: '100%',
+					padding: '6%'
 				}}
+				onKeyUp={this.handleKeyUp}
 			>
-				{translate.user_data}
-			</div>
-			<Grid style={{ marginTop: '2em' }}>
-				<GridItem xs={12} md={6} lg={6}>
-					<TextInput
-						floatingText={translate.name}
-						type="text"
-						value={data.name}
-						errorText={this.props.errors.name}
-						onChange={event => this.props.updateState({
-							name: event.target.value
-						})
-						}
-						required
-					/>
-				</GridItem>
-				<GridItem xs={12} md={6} lg={6}>
-					<TextInput
-						floatingText={translate.surname || ''}
-						type="text"
-						value={data.surname || ''}
-						onChange={event => this.props.updateState({
-							surname: event.target.value
-						})
-						}
-						errorText={this.props.errors.surname || ''}
-						required
-					/>
-				</GridItem>
-				<GridItem xs={12} md={6} lg={6}>
-					<TextInput
-						floatingText={translate.phone}
-						type="text"
-						value={data.phone}
-						onChange={event => this.props.updateState({
-							phone: event.target.value
-						})
-						}
-						errorText={this.props.errors.phone}
-						required
-					/>
-				</GridItem>
-				<GridItem xs={12} md={6} lg={6}>
-					<SelectInput
-						floatingText={translate.language}
-						value={data.preferredLanguage}
-						errorText={this.props.errors.language}
-						onChange={event => this.props.updateState({
-							preferredLanguage: event.target.value
-						})
-						}
-						required
-					>
-						{this.state.languages.map(language => (
-							<MenuItem
-								key={language.id}
-								value={language.columnName}
-							>
-								{language.desc}
-							</MenuItem>
-						))}
-					</SelectInput>
-				</GridItem>
-				<GridItem xs={12} md={6} lg={6}>
-					<TextInput
-						floatingText={translate.login_email}
-						type="text"
-						value={data.email}
-						onChange={event => this.props.updateState({
-							email: event.target.value.toLowerCase()
-						})
-						}
-						errorText={this.props.errors.email}
-						required
-					/>
-				</GridItem>
-				<GridItem xs={12} md={6} lg={6}>
-					<TextInput
-						floatingText={translate.repeat_email}
-						type="text"
-						value={this.state.repeatEmail}
-						onChange={event => this.setState({
-							repeatEmail: event.target.value
-						})
-						}
-						errorText={this.props.errors.repeatEmail}
-						required
-					/>
-				</GridItem>
-				<GridItem xs={12} md={6} lg={6}>
-					<TextInput
-						floatingText={translate.login_password}
-						type="password"
-						value={data.pwd}
-						onChange={event => this.props.updateState({
-							pwd: event.target.value
-						})
-						}
-						errorText={this.props.errors.pwd}
-						required
-					/>
-				</GridItem>
-				<GridItem xs={12} md={6} lg={6}>
-					<TextInput
-						floatingText={translate.login_confirm_password}
-						type="password"
-						value={this.state.confirmPWD}
-						onChange={event => this.setState({
-							confirmPWD: event.target.value
-						})
-						}
-						errorText={this.props.errors.confirmPWD}
-						required
-					/>
-				</GridItem>
-				<GridItem xs={12} md={6} lg={6} style={{ height: '50px' }}>
-					<div style={{ width: '100%', marginRight: '3em' }}>
-						<LinearProgress
-							variant="determinate"
-							value={this.state.porcentaje}
-							style={{
-								height: '18px',
-								backgroundColor: 'lightgrey',
-								borderRadius: '10px',
-								boxShadow: 'rgba(0, 0, 0, 0.15) 0px 12px 20px -10px, rgba(0, 0, 0, 0.18) 0px 4px 20px 0px, rgba(0, 0, 0, 0.23) 0px 7px 8px -5px'
-							}}
-							className={`barColor${this.state.color}`}
-						/>
-					</div>
-					<div style={{ width: '100%' }}>
-						{this.state.errorsBar !== undefined ? this.state.errorsBar : translate.safe_password}
-					</div>
-				</GridItem>
-				<GridItem xs={12} md={6} lg={6}>
-					{' '}
-				</GridItem>
-				<GridItem xs={12} md={12} lg={12}>
-					<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-						<Checkbox
-							label={`${translate.login_read_terms} `}
-							value={this.state.termsCheck}
-							onChange={(event, isInputChecked) => this.setState({
-								termsAccepted: isInputChecked
+				<div
+					style={{
+						fontSize: '1.3em',
+						fontWeight: '700',
+						color: primary
+					}}
+				>
+					{translate.user_data}
+				</div>
+				<Grid style={{ marginTop: '2em' }}>
+					<GridItem xs={12} md={6} lg={6}>
+						<TextInput
+							id="signup-name"
+							floatingText={translate.name}
+							type="text"
+							value={data.name}
+							errorText={this.props.errors.name}
+							onChange={event => this.props.updateState({
+								name: event.target.value
 							})
 							}
-							onClick={() => {
-								this.setState({
-									termsAccepted: true
-								});
-							}}
+							required
 						/>
-						<a
-							style={{
-								color: primary,
-								fontWeight: '700',
-								cursor: 'pointer',
-								textTransform: 'lowerCase',
-								marginLeft: '0.4em'
-							}}
-							onClick={event => {
-								event.stopPropagation();
-								this.setState({
-									termsModal: true,
-								});
-							}}
+					</GridItem>
+					<GridItem xs={12} md={6} lg={6}>
+						<TextInput
+							id="signup-surname"
+							floatingText={translate.surname || ''}
+							type="text"
+							value={data.surname || ''}
+							onChange={event => this.props.updateState({
+								surname: event.target.value
+							})
+							}
+							errorText={this.props.errors.surname || ''}
+							required
+						/>
+					</GridItem>
+					<GridItem xs={12} md={6} lg={6}>
+						<TextInput
+							id="signup-phone"
+							floatingText={translate.phone}
+							type="text"
+							value={data.phone}
+							onChange={event => this.props.updateState({
+								phone: event.target.value
+							})
+							}
+							errorText={this.props.errors.phone}
+							required
+						/>
+					</GridItem>
+					<GridItem xs={12} md={6} lg={6}>
+						<SelectInput
+							id="signup-language"
+							floatingText={translate.language}
+							value={data.preferredLanguage}
+							errorText={this.props.errors.language}
+							onChange={event => this.props.updateState({
+								preferredLanguage: event.target.value
+							})
+							}
+							required
 						>
-							{translate.login_read_terms2}
-						</a>
-					</div>
-					{this.props.errors.termsCheck && (
-						<div style={{ color: 'red' }}>
-							{this.props.errors.termsCheck}
-						</div>
-					)}
-				</GridItem>
-				<GridItem xs={12} md={6} lg={6}>
-					<BasicButton
-						id="create-user-button"
-						text={translate.send}
-						loading={this.props.loading}
-						color={primary}
-						textStyle={{
-							color: 'white',
-							fontWeight: '700'
-						}}
-						onClick={this.nextPage}
-						fullWidth
-						icon={
-							<ButtonIcon
-								color="white"
-								type="send"
+							{this.state.languages.map(language => (
+								<MenuItem
+									key={language.id}
+									id={`language-${language.columnName}`}
+									value={language.columnName}
+								>
+									{language.desc}
+								</MenuItem>
+							))}
+						</SelectInput>
+					</GridItem>
+					<GridItem xs={12} md={6} lg={6}>
+						<TextInput
+							id="signup-email"
+							floatingText={translate.login_email}
+							type="text"
+							value={data.email}
+							onChange={event => this.props.updateState({
+								email: event.target.value.toLowerCase()
+							})
+							}
+							errorText={this.props.errors.email}
+							required
+						/>
+					</GridItem>
+					<GridItem xs={12} md={6} lg={6}>
+						<TextInput
+							id="signup-email-check"
+							floatingText={translate.repeat_email}
+							type="text"
+							value={this.state.repeatEmail}
+							onChange={event => this.setState({
+								repeatEmail: event.target.value
+							})
+							}
+							errorText={this.props.errors.repeatEmail}
+							required
+						/>
+					</GridItem>
+					<GridItem xs={12} md={6} lg={6}>
+						<TextInput
+							id="signup-password"
+							floatingText={translate.login_password}
+							type="password"
+							value={data.pwd}
+							onChange={event => this.props.updateState({
+								pwd: event.target.value
+							})
+							}
+							errorText={this.props.errors.pwd}
+							required
+						/>
+					</GridItem>
+					<GridItem xs={12} md={6} lg={6}>
+						<TextInput
+							id="signup-password-check"
+							floatingText={translate.login_confirm_password}
+							type="password"
+							value={this.state.confirmPWD}
+							onChange={event => this.setState({
+								confirmPWD: event.target.value
+							})
+							}
+							errorText={this.props.errors.confirmPWD}
+							required
+						/>
+					</GridItem>
+					<GridItem xs={12} md={6} lg={6} style={{ height: '50px' }}>
+						<div style={{ width: '100%', marginRight: '3em' }}>
+							<LinearProgress
+								variant="determinate"
+								value={this.state.porcentaje}
+								style={{
+									height: '18px',
+									backgroundColor: 'lightgrey',
+									borderRadius: '10px',
+									boxShadow: 'rgba(0, 0, 0, 0.15) 0px 12px 20px -10px, rgba(0, 0, 0, 0.18) 0px 4px 20px 0px, rgba(0, 0, 0, 0.23) 0px 7px 8px -5px'
+								}}
+								className={`barColor${this.state.color}`}
 							/>
-						}
-					/>
-				</GridItem>
-			</Grid>
-			<TermsModal
-				open={this.state.termsModal}
-				translate={translate}
-				close={() => {
-					this.setState({
-						termsModal: false
-					});
-				}}
-			/>
-		</div>
-	);
-}
+						</div>
+						<div style={{ width: '100%' }}>
+							{this.state.errorsBar !== undefined ? this.state.errorsBar : translate.safe_password}
+						</div>
+					</GridItem>
+					<GridItem xs={12} md={6} lg={6}>
+						{' '}
+					</GridItem>
+					<GridItem xs={12} md={12} lg={12}>
+						<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+							<Checkbox
+								id="accept-legal-checkbox"
+								label={`${translate.login_read_terms} `}
+								value={this.state.termsCheck}
+								onChange={(event, isInputChecked) => this.setState({
+									termsAccepted: isInputChecked
+								})
+								}
+								onClick={() => {
+									this.setState({
+										termsAccepted: true
+									});
+								}}
+							/>
+							<a
+								style={{
+									color: primary,
+									fontWeight: '700',
+									cursor: 'pointer',
+									textTransform: 'lowerCase',
+									marginLeft: '0.4em'
+								}}
+								onClick={event => {
+									event.stopPropagation();
+									this.setState({
+										termsModal: true,
+									});
+								}}
+							>
+								{translate.login_read_terms2}
+							</a>
+						</div>
+						{this.props.errors.termsCheck && (
+							<div style={{ color: 'red' }}>
+								{this.props.errors.termsCheck}
+							</div>
+						)}
+					</GridItem>
+					<GridItem xs={12} md={6} lg={6}>
+						<BasicButton
+							text={translate.send}
+							id="create-user-button"
+							loading={this.props.loading}
+							color={primary}
+							textStyle={{
+								color: 'white',
+								fontWeight: '700'
+							}}
+							onClick={this.nextPage}
+							fullWidth
+							icon={
+								<ButtonIcon
+									color="white"
+									type="send"
+								/>
+							}
+						/>
+					</GridItem>
+				</Grid>
+				<TermsModal
+					open={this.state.termsModal}
+					translate={translate}
+					close={() => {
+						this.setState({
+							termsModal: false
+						});
+					}}
+				/>
+			</div>
+		);
+	}
 }
 SignUpUser.propTypes = {
 	classes: PropTypes.object.isRequired,
