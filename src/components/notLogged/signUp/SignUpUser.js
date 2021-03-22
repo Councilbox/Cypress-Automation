@@ -401,6 +401,7 @@ render() {
 				</GridItem>
 				<GridItem xs={12} md={6} lg={6}>
 					<BasicButton
+						id="create-user-button"
 						text={translate.send}
 						loading={this.props.loading}
 						color={primary}
