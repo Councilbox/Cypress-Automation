@@ -19,9 +19,8 @@ const UserForm = ({
 			</div>
 			<div>
 				<TextInput
-					// floatingText={translate.name}
+					id="user-settings-name"
 					type="text"
-					// required
 					disableUnderline={!!data.name}
 					styles={{ fontWeight: 'bold', width: isMobile ? '100%' : '300px' }}
 					value={data.name}
@@ -39,7 +38,7 @@ const UserForm = ({
 			</div>
 			<div >
 				<TextInput
-					// floatingText={translate.surname || ''}
+					id="user-settings-surname"
 					type="text"
 					value={data.surname || ''}
 					disableUnderline={!!data.surname}
@@ -49,7 +48,6 @@ const UserForm = ({
 					})
 					}
 					errorText={errors.surname || ''}
-					// required
 				/>
 			</div>
 		</GridItem>
@@ -59,7 +57,7 @@ const UserForm = ({
 			</div>
 			<div>
 				<TextInput
-					// floatingText={translate.email}
+					id="user-settings-email"
 					type="text"
 					value={data.email}
 					disableUnderline={!!data.email}
@@ -70,31 +68,31 @@ const UserForm = ({
 					})
 					}
 					errorText={errors.email}
-					// required
 				/>
 			</div>
 		</GridItem>
 		{admin
-&& <GridItem xs={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center' }}>
-	<div style={{ width: '120px', color: getPrimary(), fontWeight: 'bold' }}>
-		{translate.license_code}
-	</div>
-	<div>
-		<TextInput
-			type="text"
-			value={data.code}
-			disableUnderline={!!data.code}
-			styles={{ fontWeight: 'bold', width: isMobile ? '100%' : '300px' }}
-			{...(onKeyUp ? { onKeyUp } : {})}
-			onChange={event => updateState({
-				code: event.target.value
-			})
-			}
-			errorText={errors.code}
-			// required
-		/>
-	</div>
-</GridItem>
+			&& <GridItem xs={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center' }}>
+				<div style={{ width: '120px', color: getPrimary(), fontWeight: 'bold' }}>
+					{translate.license_code}
+				</div>
+				<div>
+					<TextInput
+						type="text"
+						id="user-settings-code"
+						value={data.code}
+						disableUnderline={!!data.code}
+						styles={{ fontWeight: 'bold', width: isMobile ? '100%' : '300px' }}
+						{...(onKeyUp ? { onKeyUp } : {})}
+						onChange={event => updateState({
+							code: event.target.value
+						})
+						}
+						errorText={errors.code}
+					// required
+					/>
+				</div>
+			</GridItem>
 		}
 		<GridItem xs={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center' }}>
 			<div style={{
@@ -106,7 +104,7 @@ const UserForm = ({
 					</div>
 					<div>
 						<TextInput
-							// floatingText={translate.phone}
+							id="user-settings-phone"
 							type="text"
 							value={data.phone}
 							disableUnderline={true}
@@ -120,77 +118,75 @@ const UserForm = ({
 					</div>
 				</div>
 				{!isMobile
-&& <div style={{ display: 'flex', alignItems: 'center' }}>
-	<div style={{
-		width: '90px', color: getPrimary(), fontWeight: 'bold', marginTop: '4px'
-	}}>
-		{translate.language}
-	</div>
-	<div>
-		<SelectInput
-			// floatingText={translate.language}
-			value={data.preferredLanguage}
-			onChange={event => updateState({
-				preferredLanguage: event.target.value
-			})
-			}
-			styles={{ fontWeight: 'bold' }}
-			errorText={errors.preferredLanguage}
-			// required
-			disableUnderline={true}
-		>
-			{languages
-&& languages.map(language => (
-	<MenuItem
-		key={`language_${language.columnName}`}
-		value={language.columnName}
-	>
-		{language.desc}
-	</MenuItem>
-))}
-		</SelectInput>
-		{/* <span style={{ color: getPrimary() }} className="material-icons">
-arrow_drop_down
-</span> */}
-	</div>
-</div>
+					&& <div style={{ display: 'flex', alignItems: 'center' }}>
+						<div style={{
+							width: '90px', color: getPrimary(), fontWeight: 'bold', marginTop: '4px'
+						}}>
+							{translate.language}
+						</div>
+						<div>
+							<SelectInput
+								id="user-settings-language"
+								value={data.preferredLanguage}
+								onChange={event => updateState({
+									preferredLanguage: event.target.value
+								})
+								}
+								styles={{ fontWeight: 'bold' }}
+								errorText={errors.preferredLanguage}
+								disableUnderline={true}
+							>
+								{languages
+									&& languages.map(language => (
+										<MenuItem
+											id={`language-${language.columnName}`}
+											key={`language_${language.columnName}`}
+											value={language.columnName}
+										>
+											{language.desc}
+										</MenuItem>
+									))}
+							</SelectInput>
+						</div>
+					</div>
 				}
 			</div>
 		</GridItem>
 		{isMobile
-&& <GridItem xs={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center' }}>
-	<div style={{ display: 'flex', alignItems: 'center' }}>
-		<div style={{
-			width: '90px', color: getPrimary(), fontWeight: 'bold', marginTop: '4px'
-		}}>
-			{translate.language}
-		</div>
-		<div>
-			<SelectInput
-				// floatingText={translate.language}
-				value={data.preferredLanguage}
-				onChange={event => updateState({
-					preferredLanguage: event.target.value
-				})
-				}
-				styles={{ fontWeight: 'bold' }}
-				errorText={errors.preferredLanguage}
-				// required
-				disableUnderline={true}
-			>
-				{languages
-&& languages.map(language => (
-	<MenuItem
-		key={`language_${language.columnName}`}
-		value={language.columnName}
-	>
-		{language.desc}
-	</MenuItem>
-))}
-			</SelectInput>
-		</div>
-	</div>
-</GridItem>
+			&& <GridItem xs={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center' }}>
+				<div style={{ display: 'flex', alignItems: 'center' }}>
+					<div style={{
+						width: '90px', color: getPrimary(), fontWeight: 'bold', marginTop: '4px'
+					}}>
+						{translate.language}
+					</div>
+					<div>
+						<SelectInput
+							id="user-settings-language"
+							value={data.preferredLanguage}
+							onChange={event => updateState({
+								preferredLanguage: event.target.value
+							})
+							}
+							styles={{ fontWeight: 'bold' }}
+							errorText={errors.preferredLanguage}
+							// required
+							disableUnderline={true}
+						>
+							{languages
+								&& languages.map(language => (
+									<MenuItem
+										id={`language-${language.columnName}`}
+										key={`language_${language.columnName}`}
+										value={language.columnName}
+									>
+										{language.desc}
+									</MenuItem>
+								))}
+						</SelectInput>
+					</div>
+				</div>
+			</GridItem>
 		}
 		<div style={{ width: '100%', border: `1px solid${getPrimary()}` }}></div>
 	</Grid >

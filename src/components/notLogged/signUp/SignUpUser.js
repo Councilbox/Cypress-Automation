@@ -362,28 +362,24 @@ class SignUpUser extends React.Component {
 								className={`barColor${this.state.color}`}
 							/>
 						</div>
-						<div style={{ width: '100%' }}>
-							{this.state.errorsBar !== undefined ? this.state.errorsBar : translate.safe_password}
-						</div>
-					</GridItem>
-					<GridItem xs={12} md={6} lg={6}>
-						{' '}
-					</GridItem>
-					<GridItem xs={12} md={12} lg={12}>
-						<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-							<Checkbox
-								id="accept-legal-checkbox"
-								label={`${translate.login_read_terms} `}
-								value={this.state.termsCheck}
-								onChange={(event, isInputChecked) => this.setState({
-									termsAccepted: isInputChecked
-								})
-								}
-								onClick={() => {
-									this.setState({
-										termsAccepted: true
-									});
-								}}
+					)}
+				</GridItem>
+				<GridItem xs={12} md={6} lg={6}>
+					<BasicButton
+						id="create-user-button"
+						text={translate.send}
+						loading={this.props.loading}
+						color={primary}
+						textStyle={{
+							color: 'white',
+							fontWeight: '700'
+						}}
+						onClick={this.nextPage}
+						fullWidth
+						icon={
+							<ButtonIcon
+								color="white"
+								type="send"
 							/>
 							<a
 								style={{
