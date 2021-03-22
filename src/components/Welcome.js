@@ -61,7 +61,7 @@ const Welcome = () => {
 								color: 'green'
 							}}
 						>
-verified_user
+							verified_user
 						</Icon>
 						<div
 							style={{
@@ -70,9 +70,9 @@ verified_user
 								margin: '2em'
 							}}
 						>
-Para poder entrar hemos enviado un enlace a tu
-email con el que podrás activar tu cuenta
-CouncilBox
+							Para poder entrar hemos enviado un enlace a tu
+							email con el que podrás activar tu cuenta
+							CouncilBox
 						</div>
 					</div>
 				</CardContent>
@@ -102,7 +102,7 @@ CouncilBox
 									className="material-icons"
 									style={{ color: 'white' }}
 								>
-arrow_forward
+									arrow_forward
 								</Icon>
 							}
 						/>
