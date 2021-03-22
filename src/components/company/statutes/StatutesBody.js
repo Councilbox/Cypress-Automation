@@ -504,6 +504,7 @@ const StatutesPage = ({
 										{!disabled
 											&& <BasicButton
 												text={translate.save}
+												id="council-statute-save-button"
 												disabled={state.error}
 												color={success ? 'green' : getPrimary()}
 												textStyle={{

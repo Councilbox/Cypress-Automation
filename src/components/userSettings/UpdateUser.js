@@ -271,6 +271,7 @@ companies
 				}}>
 					<BasicButton
 						text={translate.save}
+						id="user-settings-save-button"
 						color={primary}
 						error={error}
 						reset={this.resetButtonStates}
