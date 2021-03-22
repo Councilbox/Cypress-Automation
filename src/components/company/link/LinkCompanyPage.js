@@ -193,6 +193,7 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 							justifyContent: 'flex-end'
 						}}>
 						<BasicButton
+							id="company-link-button"
 							text={translate.link}
 							color={getPrimary()}
 							error={requestError}
