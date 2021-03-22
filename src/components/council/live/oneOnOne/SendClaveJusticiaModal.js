@@ -5,7 +5,7 @@ import useClaveJusticia from '../../../../hooks/claveJusticia';
 import { getPrimary } from '../../../../styles/colors';
 
 
-const SendClaveJusticiaModal = ({ participantId, open, client, requestClose, successCB, translate }) => {
+const SendClaveJusticiaModal = React.memo(({ participantId, open, client, requestClose, successCB, translate }) => {
 	const {
 		sendClaveJusticia,
 		setExpirationDate,
@@ -23,7 +23,7 @@ const SendClaveJusticiaModal = ({ participantId, open, client, requestClose, suc
 				<>
 					<DateTimePicker
 						format={'DD-MM-yyyy'}
-						floatingText={'Fecha validez/Nº soporte'}
+						floatingText={translate.clave_pin_dni_expiration_date}
 						errorText={expirationDateError}
 						onlyDate
 						style={{ width: '10em' }}
@@ -35,8 +35,8 @@ const SendClaveJusticiaModal = ({ participantId, open, client, requestClose, suc
 					<div style={{ display: 'flex', alignItems: 'flex-end', marginTop: '1.3em' }}>
 						<BasicButton
 							text={translate.request_clave_pin_SMS}
-							onClick={() => {
-								const response = sendClaveJusticia('SMS');
+							onClick={async () => {
+								const response = await sendClaveJusticia('SMS');
 								if (response) {
 									successCB();
 								}
@@ -58,8 +58,9 @@ const SendClaveJusticiaModal = ({ participantId, open, client, requestClose, suc
 						/>
 						<BasicButton
 							text={translate.request_clave_pin_app}
-							onClick={() => {
-								const response = sendClaveJusticia('SMS');
+							onClick={async () => {
+								const response = await sendClaveJusticia('SMS');
+								console.log(response);
 								if (response) {
 									successCB();
 								}
@@ -82,6 +83,16 @@ const SendClaveJusticiaModal = ({ participantId, open, client, requestClose, suc
 			}
 		/>
 	);
-};
+}, (props, nextProps) => {
+	if (props.open !== nextProps.open) {
+		return false;
+	}
+
+	if (props.participantId !== nextProps.participantId) {
+		return false;
+	}
+
+	return true;
+});
 
 export default withApollo(SendClaveJusticiaModal);

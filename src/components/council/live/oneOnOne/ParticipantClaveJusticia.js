@@ -47,6 +47,7 @@ const ParticipantClaveJusticia = ({ participant, client, translate }) => {
 			<SendClaveJusticiaModal
 				requestClose={() => setModal(false)}
 				participantId={participant.id}
+				translate={translate}
 				open={modal}
 				successCB={() => {
 					setModal(false);
@@ -58,6 +59,7 @@ const ParticipantClaveJusticia = ({ participant, client, translate }) => {
 					text={translate.send_clave_pin}
 					color={disabled ? 'silver' : primary}
 					disabled={disabled}
+					type="flat"
 					onClick={() => setModal(true)}
 					textStyle={{
 						color: 'white',
