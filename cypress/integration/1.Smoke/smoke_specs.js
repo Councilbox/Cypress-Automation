@@ -52,7 +52,6 @@ describe("The user is able to start conference", function() {
 
     
 */
-
     
 
 describe("The user is able to create a new account in Councilbox", function() {
@@ -129,21 +128,40 @@ describe("The user is able to create a new account in Councilbox", function() {
        cy.get('#login').type("alem"+Cypress.config('UniqueNumber'))
        cy.get('.sbut').click()
 
-
-    
-       
-       cy.get('#ifmail').then($iframe => {
-  const $body = $iframe.contents().find('body') ; cy.wrap($body)
-
-
-    .contains('Verificar cuenta')
-    .click()
-
-    cy.wait(3000)
-})
-
        
    });
+
+    it('GET', function(){
+
+        cy.request({
+            method:'GET',
+            url:'http://email.notify-pre.councilbox.com',
+
+        }).then(function(response){
+
+            expect(response.body).have.property('url')
+        })
+
+
+        public String getLastMailContent(final String yopmailUserName) throws IOException{
+        Response res = Jsoup.connect(new StringBuffer().append(YOPMAIL_BASE_URL).append("inbox.php?login=").append(yopmailUserName.toLowerCase().replaceAll("@yopmail.com", "")).append("&p=1").append("&d=&ctrl=&scrl=&spam=true&yf=HZwD0ZGH5AwLlAGpjBGt0Aj&yp=YZGD0BQt3AGLjBGL4ZmNkBN&yj=RZGHjZmLlAwNkAmtmZGV4BN&v=2.6&r_c=&id=").toString())
+                .userAgent(MOBILE_USER_AGENT)
+                .method(Method.GET)
+                .execute();
+        
+        final Elements elements = Jsoup.parse(res.body()).getElementsByClass("lm_m");
+        res = Jsoup.connect(new StringBuffer().append(YOPMAIL_BASE_URL).append(elements.get(0).attr("href")).toString())
+                .userAgent(MOBILE_USER_AGENT)
+                .cookies(res.cookies())
+                .method(Method.GET)
+                .execute();
+        
+        return Jsoup.parse(res.body()).getElementById("mailmillieu").text();
+    }
+}
+
+
+    
 
 
 });

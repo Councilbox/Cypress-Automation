@@ -268,8 +268,7 @@ export const findOwnVote = (votings, participant) => {
 
 	return votings.find(voting => (
 		(voting.participantId === participant.id
-			|| voting.delegateId === participant.id
-			|| voting.author.representative.id === participant.id
+			|| (voting.delegateId === participant.id && voting.author.state === PARTICIPANT_STATES.REPRESENTATED)
 		) && !voting.author.voteDenied));
 };
 
