@@ -8,6 +8,7 @@ import ClaveJusticiaStepper from './ClaveJusticiaStepper';
 import { client } from '../../../../containers/App';
 import AccessClaveJusticiaForm from './AccessClaveJusticiaForm';
 import useClaveJusticia from '../../../../hooks/claveJusticia';
+import { useSubdomain } from '../../../../utils/subdomain';
 
 
 const styles = {
@@ -75,6 +76,7 @@ const AccessClaveJusticia = ({
 		expirationDate,
 		expirationDateError
 	} = useClaveJusticia({ client, token: match.params.token });
+	const subdomain = useSubdomain();
 
 	return (
 		<NotLoggedLayout
@@ -110,7 +112,7 @@ const AccessClaveJusticia = ({
 							}}>
 								<div style={{ textAlign: 'center', padding: '1em', paddingTop: '0em' }} >
 									<h3 style={{ color: primary, fontSize: '2em' }}>
-										Acceso Evid
+										Acceso {subdomain.name || 'Councilbox'}
 									</h3>
 								</div>
 								<div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -126,7 +128,7 @@ const AccessClaveJusticia = ({
 													<div style={{ width: '50%' }}>
 														<DateTimePicker
 															format="L"
-															floatingText={'Fecha validez/Nº soporte'}
+															floatingText={translate.clave_pin_dni_expiration_date}
 															errorText={expirationDateError}
 															onlyDate
 															style={{ width: '10em' }}
@@ -138,7 +140,7 @@ const AccessClaveJusticia = ({
 													</div>
 													<div style={{ display: 'flex', alignItems: 'flex-end', marginTop: '0.6em' }}>
 														<BasicButton
-															text={'Solicitar PIN vía SMS'}
+															text={translate.request_clave_pin_SMS}
 															onClick={() => sendClaveJusticia('SMS')}
 															backgroundColor={{
 																color: primary,
@@ -156,7 +158,7 @@ const AccessClaveJusticia = ({
 															fullWidth={true}
 														/>
 														<BasicButton
-															text={'Solicitar PIN vía APP'}
+															text={translate.request_clave_pin_app}
 															onClick={() => sendClaveJusticia('APP')}
 															backgroundColor={{
 																color: primary,
@@ -177,6 +179,7 @@ const AccessClaveJusticia = ({
 											{status === 'SUCCESS' && (
 												<AccessClaveJusticiaForm
 													sendKey={sendKey}
+													translate={translate}
 													error={error}
 												/>
 											)}

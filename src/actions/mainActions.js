@@ -12,6 +12,10 @@ export const defaultLanguage = 'es';
 const missingTranslationHandler = {
 	get(target, name) {
 		if (name in target) {
+			if (!target[name]) {
+				return name;
+			}
+
 			return target[name];
 		}
 		return name;

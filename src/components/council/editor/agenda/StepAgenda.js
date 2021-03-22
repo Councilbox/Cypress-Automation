@@ -497,6 +497,13 @@ export const AddAgendaPoint = ({
 		});
 	};
 
+	const showConfirmationRequestModal = () => {
+		setState({
+			...state,
+			confirmationRequestModal: true
+		});
+	};
+
 	const closeYesNoModal = () => {
 		setState({
 			...state,
@@ -505,21 +512,26 @@ export const AddAgendaPoint = ({
 	};
 
 	const renderTrigger = () => {
+		if (Component) {
+			return (
+				<Component
+					onClick={
+						isAppointment(council) ? showConfirmationRequestModal : showYesNoModal}
+				/>
+			);
+		}
+
 		if (isAppointment(council)) {
 			return (
 				<BasicButton
 					text={translate.confirmation_request}
 					color={primary}
-					onClick={() => setState({ ...state, confirmationRequestModal: true })}
+					onClick={showConfirmationRequestModal}
 					textStyle={buttonStyle}
 					icon={<ButtonIcon type="add" color="white" />}
 					textPosition="after"
 				/>
 			);
-		}
-
-		if (Component) {
-			return <Component onClick={showYesNoModal} />;
 		}
 
 		return (

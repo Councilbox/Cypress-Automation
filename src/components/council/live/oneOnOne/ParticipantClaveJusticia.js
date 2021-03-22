@@ -7,7 +7,7 @@ import CheckClaveJusticiaForm from './CheckClaveJusticiaForm';
 import useClaveJusticia from '../../../../hooks/claveJusticia';
 
 
-const ParticipantClaveJusticia = ({ participant, client }) => {
+const ParticipantClaveJusticia = ({ participant, client, translate }) => {
 	const [modal, setModal] = React.useState(null);
 	const [loading, setLoading] = React.useState(false);
 	const [step, setStep] = React.useState(participant.claveJusticiaPending ? 2 : 1);
@@ -55,7 +55,7 @@ const ParticipantClaveJusticia = ({ participant, client }) => {
 			/>
 			{step === 1 &&
 				<BasicButton
-					text="Enviar pin"
+					text={translate.send_clave_pin}
 					color={disabled ? 'silver' : primary}
 					disabled={disabled}
 					onClick={() => setModal(true)}

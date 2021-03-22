@@ -69,7 +69,7 @@ const AssistanceTokenContainer = ({
 	}
 
 	if (error) {
-		if (error.message === 'Cl@ve pin enabled' || error.message === 'Invalid cl@ve pin') {
+		if (error.message === 'Cl@ve pin enabled' || error.message.includes('Invalid cl@ve pin')) {
 			return (
 				<AccessClaveJusticia
 					translate={translate}

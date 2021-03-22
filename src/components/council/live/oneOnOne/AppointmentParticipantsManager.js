@@ -78,8 +78,7 @@ const AppointmentParticipantsManager = React.memo(({ council, translate }) => {
 			style={{
 				width: '99%',
 				height: '100%',
-				paddingTop: '2em',
-				border: '2px solid red'
+				paddingTop: '2em'
 			}}
 		>
 			{data.list.map((participant, index) => {
@@ -120,7 +119,7 @@ const AppointmentParticipantsManager = React.memo(({ council, translate }) => {
 										<Online fill={primary} />
 									</div>
 									<div style={{ fontSize: '10px', color: primary }}>
-										Conectado
+										{translate.connected}
 									</div>
 								</div>
 							}
@@ -130,7 +129,7 @@ const AppointmentParticipantsManager = React.memo(({ council, translate }) => {
 										<Disconnected fill={'red'} />
 									</div>
 									<div style={{ fontSize: '10px', color: 'red' }}>
-										No conectado
+										{translate.not_connected_singular}
 									</div>
 								</div>
 							}

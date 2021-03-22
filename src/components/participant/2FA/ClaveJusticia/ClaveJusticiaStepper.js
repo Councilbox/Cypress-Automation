@@ -4,7 +4,9 @@ import { getPrimary } from '../../../../styles/colors';
 
 
 const ClaveJusticiaStepper = ({
-	color, success
+	color,
+	success,
+	translate
 }) => {
 	const primary = getPrimary();
 
@@ -12,17 +14,17 @@ const ClaveJusticiaStepper = ({
 		<Stepper nonLinear alternativeLabel style={{ height: '10em' }} activeStep={success ? 1 : 0} >
 			<Step>
 				<StepLabel >
-					<span style={{ color: color || primary }}>{'Solicitar clave pin'}</span>
+					<span style={{ color: color || primary }}>{translate.request_clave_pin}</span>
 				</StepLabel>
 			</Step>
 			<Step>
 				<StepLabel>
-					<span style={{ color: color || primary }}>{'Clave pin enviada'}</span>
+					<span style={{ color: color || primary }}>{translate.clave_pin_sent}</span>
 				</StepLabel>
 			</Step>
 			<Step>
 				<StepLabel>
-					<span style={{ color: color || primary }}>{'Validar clave pin'}</span>
+					<span style={{ color: color || primary }}>{translate.validate_clave_pin}</span>
 				</StepLabel>
 			</Step>
 		</Stepper>

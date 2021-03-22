@@ -3,7 +3,7 @@ import { BasicButton, TextInput } from '../../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 
 
-const AccessClaveJusticiaForm = ({ sendKey, error }) => {
+const AccessClaveJusticiaForm = ({ sendKey, error, translate }) => {
 	const [firstChar, setFirstChar] = React.useState('');
 	const [secondChar, setSecondChar] = React.useState('');
 	const [thirdChar, setThirdChar] = React.useState('');
@@ -71,7 +71,6 @@ const AccessClaveJusticiaForm = ({ sendKey, error }) => {
 							document.getElementById('second-pin-char').focus();
 						}
 					}}
-					// errorText={error.message === 'Invalid key' ? 'Clave no válida' : ''}
 					value={thirdChar}
 					onChange={event => {
 						if (/^[a-z0-9]$/i.test(event.target.value)) {
@@ -84,7 +83,7 @@ const AccessClaveJusticiaForm = ({ sendKey, error }) => {
 			</div>
 			<div>
 				<BasicButton
-					text={'Acceder'}
+					text={translate.access}
 					color={disabled ? 'grey' : getPrimary()}
 					onClick={() => sendKey(fullKey)}
 					backgroundColor={{
@@ -100,7 +99,7 @@ const AccessClaveJusticiaForm = ({ sendKey, error }) => {
 				/>
 				{error.message === 'Invalid cl@ve pin' &&
 					<div style={{ color: 'red', fontWeight: '700' }}>
-						Clave pin inválida
+						{translate.invalid_clave_pin}
 					</div>
 				}
 			</div>
@@ -112,7 +111,7 @@ const AccessClaveJusticiaForm = ({ sendKey, error }) => {
 				width: '100%'
 			}}>
 				<BasicButton
-					text={'Reenviar PIN vía SMS'}
+					text={translate.resend_clave_pin_SMS}
 					// onClick={send}
 					backgroundColor={{
 						color: secondary,
@@ -129,7 +128,7 @@ const AccessClaveJusticiaForm = ({ sendKey, error }) => {
 					fullWidth={true}
 				/>
 				<BasicButton
-					text={'Reenviar PIN vía APP'}
+					text={translate.resend_clave_pin_app}
 					// onClick={send}
 					backgroundColor={{
 						color: secondary,

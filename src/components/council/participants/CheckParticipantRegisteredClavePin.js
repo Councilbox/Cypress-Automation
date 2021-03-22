@@ -48,7 +48,7 @@ const Action = ({
 
 
 const CheckParticipantRegisteredClavePin = ({
-	// translate,
+	translate,
 	disabled,
 	client,
 	validateParticipant,
@@ -63,14 +63,14 @@ const CheckParticipantRegisteredClavePin = ({
 
 	const checkParticipantIsRegistered = async () => {
 		if (!participant.dni || participant.dni.length < 9) {
-			return setPinError('El DNI no es válido, debe tener 9 caracteres');
+			return setPinError(translate.invalid_dni);
 		}
 		const success = await checkUserIsRegistered(participant.dni);
 
 		if (success) {
 			validateParticipant();
 		} else {
-			setPinError('El usuario no está de alta');
+			setPinError(translate.participant_not_registered);
 		}
 	};
 
@@ -89,7 +89,7 @@ const CheckParticipantRegisteredClavePin = ({
 						<div style={{
 							display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: disabled ? 'grey' : secondary
 						}}>
-							<span style={{ fontSize: '0.9em' }}>Validar estado de alta</span>
+							<span style={{ fontSize: '0.9em' }}>{translate.validate_participant_data}</span>
 						</div>
 					</div>
 				</Action>

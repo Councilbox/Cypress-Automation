@@ -5,7 +5,7 @@ import useClaveJusticia from '../../../../hooks/claveJusticia';
 import { getPrimary } from '../../../../styles/colors';
 
 
-const SendClaveJusticiaModal = ({ participantId, open, client, requestClose, successCB }) => {
+const SendClaveJusticiaModal = ({ participantId, open, client, requestClose, successCB, translate }) => {
 	const {
 		sendClaveJusticia,
 		setExpirationDate,
@@ -34,7 +34,7 @@ const SendClaveJusticiaModal = ({ participantId, open, client, requestClose, suc
 					/>
 					<div style={{ display: 'flex', alignItems: 'flex-end', marginTop: '1.3em' }}>
 						<BasicButton
-							text={'Solicitar PIN vía SMS'}
+							text={translate.request_clave_pin_SMS}
 							onClick={() => {
 								const response = sendClaveJusticia('SMS');
 								if (response) {
@@ -57,7 +57,7 @@ const SendClaveJusticiaModal = ({ participantId, open, client, requestClose, suc
 							fullWidth={true}
 						/>
 						<BasicButton
-							text={'Solicitar PIN vía APP'}
+							text={translate.request_clave_pin_app}
 							onClick={() => {
 								const response = sendClaveJusticia('SMS');
 								if (response) {

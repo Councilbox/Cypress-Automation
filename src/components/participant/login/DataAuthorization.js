@@ -36,7 +36,7 @@ const styles = {
 };
 
 
-const DataAuthorization = ({ client, refetch }) => {
+const DataAuthorization = ({ client, refetch, translate }) => {
 	const [checked, setChecked] = React.useState(false);
 	const [loading, setLoading] = React.useState(false);
 	const secondary = getSecondary();
@@ -67,16 +67,16 @@ const DataAuthorization = ({ client, refetch }) => {
 					color: '#154481',
 				}}>
 					<div style={{ textAlign: 'center', padding: '1em', paddingTop: '2em' }} >
-						<h3 style={{ color: '#154481', fontSize: '14px' }}>Para acceder debe confirmar la aceptacion del tratamiento de sus datos </h3>
+						<h3 style={{ color: '#154481', fontSize: '14px' }}>{translate.room_legal_modal_intro}</h3>
 					</div>
 					<div style={{ display: 'flex', justifyContent: 'center' }}>
 						<div style={{ textAlign: 'center', padding: '1em', paddingRight: '3em' }}>
 							<VideoCamera style={{ marginRight: '0.6em', marginBottom: '0.5em' }} fill={secondary} />
-							<div>Grabación de voz y video</div>
+							<div>{translate.room_legal_modal_voice_video_recording}</div>
 						</div>
 						<div style={{ textAlign: 'center', padding: '1em', paddingBottom: '2em' }}>
 							<Folder style={{ marginRight: '0.6em', marginBottom: '0.5em' }} fill={secondary} />
-							<div>Almacenamiento de datos</div>
+							<div>{translate.room_legal_modal_data_storage}</div>
 						</div>
 					</div>
 					<div style={{
@@ -89,7 +89,7 @@ const DataAuthorization = ({ client, refetch }) => {
 									setChecked(isInputChecked);
 								}}
 								styleLabel={{ alignItems: 'unset' }}
-								label={'Confirmo y acepto la normativa de tratatimento de datos del Reglamento (UE) 2016/679 del Parlamento Europeo y del Consejo, de 27 de abril de 2016, relativo a la protección de las personas físicas en lo que respecta al tratamiento de datos personales y a la libre circulación de estos datos y por el que se deroga la Directiva 95/46/CE (Reglamento general de protección de datos) (Texto pertinente a efectos del EEE)'}
+								label={translate.room_legal_modal_consent_details}
 							/>
 						</div>
 					</div>
@@ -97,7 +97,7 @@ const DataAuthorization = ({ client, refetch }) => {
 						textAlign: 'center', padding: '1em', paddingBottom: '2em', display: 'flex', justifyContent: 'center'
 					}}>
 						<BasicButton
-							text={'Acceso seguro'}
+							text={translate.room_legal_secure_access}
 							disabled={!checked}
 							loading={loading}
 							loadingColor="white"

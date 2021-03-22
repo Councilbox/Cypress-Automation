@@ -90,7 +90,7 @@ class AddCouncilParticipantButton extends React.Component {
 			if (!this.state.validated) {
 				return this.setState({
 					errors: {
-						clavePin: 'Antes de poder crear el participante tiene que se comprobada su alta en el servicio cl@ve pin'
+						clavePin: this.props.translate.participant_clave_justicia_should_be_checked
 					}
 				});
 			}

@@ -160,6 +160,7 @@ const ParticipantLogin = ({
 									participant={participant}
 									council={council}
 									company={company}
+									translate={props.translate}
 									refetch={props.refetch}
 								/>
 							</Card>
