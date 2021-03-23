@@ -117,7 +117,7 @@ class CouncilParticipantEditor extends React.Component {
 	updateState = object => {
 		this.setState({
 			...((object?.dni && object.dni !== this.props.participant.dni) ? {
-				validated: false
+				validated: this.props.council.statute.participantValidation === PARTICIPANT_VALIDATIONS.NONE
 			} : {}),
 			data: {
 				...this.state.data,

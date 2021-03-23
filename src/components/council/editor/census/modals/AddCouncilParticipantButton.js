@@ -140,7 +140,7 @@ class AddCouncilParticipantButton extends React.Component {
 	updateState = object => {
 		this.setState({
 			...(object?.dni ? {
-				validated: false
+				validated: !this.props.validateBeforeCreate
 			} : {}),
 			data: {
 				...this.state.data,
@@ -326,6 +326,7 @@ class AddCouncilParticipantButton extends React.Component {
 		const { errors } = this.state;
 		const { translate, participations } = this.props;
 		const { languages } = this.props.data;
+
 		return (
 			<div>
 				<SelectRepresentative
