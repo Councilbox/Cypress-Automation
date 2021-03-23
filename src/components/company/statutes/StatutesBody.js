@@ -479,7 +479,7 @@ const StatutesPage = ({
 									<div>
 										{state.unsavedChanges
 											&& <BasicButton
-												text={translate.undo_changes}
+												//text={translate.undo_changes}
 												color={getSecondary()}
 												textStyle={{
 													color: 'white',
