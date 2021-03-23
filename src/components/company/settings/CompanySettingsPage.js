@@ -726,6 +726,7 @@ const CompanySettingsPage = ({
 					{props.linkButton
 						&& <BasicButton
 							text={translate.unlink}
+							id="company-unlink-button"
 							color={primary}
 							floatRight
 							textStyle={{
