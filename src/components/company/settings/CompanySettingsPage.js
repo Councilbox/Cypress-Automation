@@ -768,6 +768,7 @@ const CompanySettingsPage = ({
 				<AlertConfirm
 					requestClose={() => setState({ ...state, unlinkModal: false })}
 					open={state.unlinkModal}
+					id="unlink-modal"
 					acceptAction={unlinkCompany}
 					buttonAccept={translate.accept}
 					buttonCancel={translate.cancel}

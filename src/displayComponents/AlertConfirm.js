@@ -12,6 +12,7 @@ import { isMobile } from '../utils/screen';
 const AlertConfirm = ({
 	title,
 	fullWidth,
+	id = 'alert-confirm',
 	fullScreen,
 	buttonAccept,
 	buttonCancel,
@@ -38,6 +39,7 @@ const AlertConfirm = ({
 			{!!buttonCancel && (
 				<BasicButton
 					text={buttonCancel}
+					id={`${id}-button-cancel`}
 					textStyle={{
 						textTransform: 'none',
 						fontWeight: '700',
@@ -50,13 +52,13 @@ const AlertConfirm = ({
 			)}
 
 			{extraActions
-&& extraActions
+				&& extraActions
 			}
 
-			{!hideAccept
-&& !!buttonAccept && (
+			{(!hideAccept && !!buttonAccept) && (
 				<BasicButton
 					text={buttonAccept}
+					id={`${id}-button-accept`}
 					loading={loadingAction}
 					success={successAction}
 					textStyle={{
@@ -80,6 +82,7 @@ const AlertConfirm = ({
 			fullWidth={isMobile || fullWidth}
 			fullScreen={fullScreen}
 			maxWidth={false}
+			id={id}
 			open={open}
 			onClose={requestClose}
 			PaperProps={{
@@ -134,30 +137,30 @@ const AlertConfirm = ({
 				{bodyText}
 			</DialogContent>
 			{(!!buttonCancel || !!buttonAccept)
-&& <DialogActions
-	style={{
-		paddingRight: '0.6em',
-		borderTop: '1px solid gainsboro',
-		paddingTop: '0.5em',
-		margin: '8px 8px',
-		minHeight: '25px'
-	}}
->
-	{buttons}
-</DialogActions>
+				&& <DialogActions
+					style={{
+						paddingRight: '0.6em',
+						borderTop: '1px solid gainsboro',
+						paddingTop: '0.5em',
+						margin: '8px 8px',
+						minHeight: '25px'
+					}}
+				>
+					{buttons}
+				</DialogActions>
 			}
 			{actions
-&& <DialogActions
-	style={{
-		paddingRight: '0.6em',
-		borderTop: '1px solid gainsboro',
-		paddingTop: '0.5em',
-		margin: '8px 8px',
-		minHeight: '25px'
-	}}
->
-	{actions}
-</DialogActions>
+				&& <DialogActions
+					style={{
+						paddingRight: '0.6em',
+						borderTop: '1px solid gainsboro',
+						paddingTop: '0.5em',
+						margin: '8px 8px',
+						minHeight: '25px'
+					}}
+				>
+					{actions}
+				</DialogActions>
 			}
 		</Dialog>
 	);
