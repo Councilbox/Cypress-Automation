@@ -3,7 +3,9 @@ import { BasicButton, TextInput } from '../../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 
 
-const AccessClaveJusticiaForm = ({ sendKey, error, translate }) => {
+const AccessClaveJusticiaForm = ({ sendKey, error, translate, resendClaveJusticia }) => {
+	const [resendSuccess, setResentSuccess] = React.useState(false);
+	const [loading, setLoading] = React.useState(null);
 	const [firstChar, setFirstChar] = React.useState('');
 	const [secondChar, setSecondChar] = React.useState('');
 	const [thirdChar, setThirdChar] = React.useState('');
@@ -11,6 +13,14 @@ const AccessClaveJusticiaForm = ({ sendKey, error, translate }) => {
 
 	const fullKey = `${firstChar}${secondChar}${thirdChar}`;
 	const disabled = fullKey.length !== 3;
+
+
+	const resendClave = async type => {
+		setLoading(type);
+		const response = await resendClaveJusticia(type);
+		setLoading(false);
+		setResentSuccess(response);
+	};
 
 	return (
 		<>
@@ -106,13 +116,15 @@ const AccessClaveJusticiaForm = ({ sendKey, error, translate }) => {
 			<div style={{
 				display: 'flex',
 				justifyContent: 'space-between',
-				marginBottom: '4em',
+				marginBottom: '3em',
 				marginTop: '1em',
 				width: '100%'
 			}}>
 				<BasicButton
 					text={translate.resend_clave_pin_SMS}
-					// onClick={send}
+					loading={loading === 'SMS'}
+					loadingColor={secondary}
+					onClick={() => resendClave('SMS')}
 					backgroundColor={{
 						color: secondary,
 						backgroundColor: 'white',
@@ -129,7 +141,9 @@ const AccessClaveJusticiaForm = ({ sendKey, error, translate }) => {
 				/>
 				<BasicButton
 					text={translate.resend_clave_pin_app}
-					// onClick={send}
+					loading={loading === 'APP'}
+					loadingColor={secondary}
+					onClick={() => resendClave('APP')}
 					backgroundColor={{
 						color: secondary,
 						backgroundColor: 'white',
@@ -145,6 +159,12 @@ const AccessClaveJusticiaForm = ({ sendKey, error, translate }) => {
 					fullWidth={true}
 				/>
 			</div>
+			{resendSuccess &&
+				<div style={{ color: 'green', fontSize: '1.1em', fontWeight: '700' }}>
+					<i className="fa fa-check" aria-hidden="true" style={{ marginRight: '0.2em' }}></i>
+					Reenviado
+				</div>
+			}
 		</>
 	);
 };
