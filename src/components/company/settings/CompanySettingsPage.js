@@ -726,6 +726,7 @@ const CompanySettingsPage = ({
 					{props.linkButton
 						&& <BasicButton
 							text={translate.unlink}
+							id="company-unlink-button"
 							color={primary}
 							floatRight
 							textStyle={{
@@ -767,6 +768,7 @@ const CompanySettingsPage = ({
 				<AlertConfirm
 					requestClose={() => setState({ ...state, unlinkModal: false })}
 					open={state.unlinkModal}
+					id="unlink-modal"
 					acceptAction={unlinkCompany}
 					buttonAccept={translate.accept}
 					buttonCancel={translate.cancel}

@@ -179,6 +179,7 @@ const AccessClaveJusticia = ({
 											{status === 'SUCCESS' && (
 												<AccessClaveJusticiaForm
 													sendKey={sendKey}
+													resendClaveJusticia={sendClaveJusticia}
 													translate={translate}
 													error={error}
 												/>

@@ -74,10 +74,6 @@ const AssistanceTokenContainer = ({
 				<AccessClaveJusticia
 					translate={translate}
 					sendKey={getData}
-					// value={key}
-					// updateValue={setKey}
-					// translate={translate}
-					// send={getData}
 					error={error}
 				/>
 			);

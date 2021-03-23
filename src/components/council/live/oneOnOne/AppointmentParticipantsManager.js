@@ -134,7 +134,7 @@ const AppointmentParticipantsManager = React.memo(({ council, translate }) => {
 								</div>
 							}
 						</GridItem>
-						<GridItem xs={6} lg={6} md={6} style={{ paddingLeft: '1em', display: 'flex' }}>
+						<GridItem xs={7} lg={7} md={7} style={{ paddingLeft: '1em', display: 'flex' }}>
 							<div>
 								<ParticipantClaveJusticia
 									participant={participant}

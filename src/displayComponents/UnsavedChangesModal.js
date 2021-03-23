@@ -9,12 +9,14 @@ const UnsavedChangesModal = ({
 }) => (
 	<AlertConfirm
 		title={translate.attention}
+		id="unsaved-changes-modal"
 		bodyText={translate.changes_without_saving}
 		open={open}
 		extraActions={
 			cancelAction ?
 				<BasicButton
 					text={translate.discard_changes}
+					id="unsaved-changes-discard"
 					onClick={cancelAction}
 					color={getSecondary()}
 					textStyle={{
