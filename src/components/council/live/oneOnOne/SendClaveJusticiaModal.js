@@ -18,7 +18,7 @@ const SendClaveJusticiaModal = React.memo(({ participantId, open, client, reques
 		<AlertConfirm
 			open={open}
 			requestClose={requestClose}
-			title={'Enviar clave justicia'}
+			title={translate.send_clave_pin}
 			bodyText={
 				<>
 					<DateTimePicker
@@ -60,7 +60,6 @@ const SendClaveJusticiaModal = React.memo(({ participantId, open, client, reques
 							text={translate.request_clave_pin_app}
 							onClick={async () => {
 								const response = await sendClaveJusticia('SMS');
-								console.log(response);
 								if (response) {
 									successCB();
 								}

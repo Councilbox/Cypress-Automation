@@ -1,7 +1,7 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import { BasicButton } from '../../../../displayComponents';
-import { getPrimary } from '../../../../styles/colors';
+import { getPrimary, getSecondary } from '../../../../styles/colors';
 import SendClaveJusticiaModal from './SendClaveJusticiaModal';
 import CheckClaveJusticiaForm from './CheckClaveJusticiaForm';
 import useClaveJusticia from '../../../../hooks/claveJusticia';
@@ -71,11 +71,33 @@ const ParticipantClaveJusticia = ({ participant, client, translate }) => {
 				/>
 			}
 			{step === 2 &&
-				<CheckClaveJusticiaForm
-					sendKey={key => checkClave(key)}
-					error={status === 'VALIDATION_FAILED'}
-					loading={loading}
-				/>
+				<div style={{ display: 'flex' }}>
+					<CheckClaveJusticiaForm
+						sendKey={key => checkClave(key)}
+						error={status === 'VALIDATION_FAILED'}
+						loading={loading}
+					/>
+					<div
+						style={{
+							height: '3em'
+						}}
+					>
+						<BasicButton
+							text={translate.resend}
+							color={'white'}
+							disabled={disabled}
+							type="flat"
+							onClick={() => setModal(true)}
+							textStyle={{
+								color: getSecondary()
+							}}
+							buttonStyle={{
+								margin: '0 1em',
+								border: `1px solid ${getSecondary()}`
+							}}
+						/>
+					</div>
+				</div>
 			}
 			{step === 3 &&
 				<div style={{ height: '100%', display: 'flex', alignItems: 'center', margin: 'auto', marginRight: '1em' }}>
