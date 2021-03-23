@@ -200,6 +200,7 @@ class UpdateUserForm extends React.Component {
 							&& <div style={{ padding: '1.5em' }}>
 								<BasicButton
 									text={translate.change_password}
+									id="user-change-password-button"
 									backgroundColor={{
 										fontWeight: '700',
 										boxShadow: 'none',
@@ -227,16 +228,6 @@ class UpdateUserForm extends React.Component {
 											</div>
 										}
 										<br />
-										{/* {this.props.admin &&
-<CompanyLinksManager
-linkedCompanies={this.state.companies}
-translate={translate}
-company={company}
-addCheckedCompanies={companies => this.setState({
-companies
-})}
-/>
-} */}
 									</div>
 								</div>
 							</div>
