@@ -67,6 +67,33 @@ describe("Councilbox login - valid username and password", function() {
 });
 
 
+describe("The user is able to edit 'Business name*'' in the Company settings in the Councilbox", function() {
+
+        it("On the upper right corner click on the 'User icon' button", function() {
+            cy.wait(5000)
+            cy.get('#user-menu-trigger').click()
+        });
+
+        it("From the drop down menu click on 'Company' button", function() {
+            cy.xpath('(//*[@role="menuitem"])[9]').click()
+        });
+
+
+        it("Modify the 'Business name*' field and click on the 'Save' button", function() {
+            cy.get('#business-name').clear().type(userID_Alpha()+Cypress.config('UniqueNumber'))
+            cy.get('#save-button').click()
+        });
+
+        it("'The changes have been saved successfully.' message is displayed", function() {
+            cy.contains('The changes have been saved successfully.')
+        });
+
+
+        
+
+    });
+
+
 
 
 
