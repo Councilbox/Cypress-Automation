@@ -4,11 +4,12 @@ import Close from 'material-ui-icons/Close';
 import { IconButton } from 'material-ui';
 import { CircularProgress } from 'material-ui/Progress';
 
-const CloseIcon = ({ style, onClick, loading }) => (
+const CloseIcon = ({ style, onClick, loading, id }) => (
 	<Fragment>
 		{!loading ? (
 			<IconButton
 				onClick={onClick}
+				id={id}
 				style={{
 					...style,
 					height: '32px',
