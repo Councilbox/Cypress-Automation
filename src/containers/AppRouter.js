@@ -47,6 +47,11 @@ const LoadMainTree = Loadable({
 	loading: LoadingMainApp
 });
 
+const LoadOVACRouter = Loadable({
+	loader: () => import('./OvacRouter'),
+	loading: LoadingMainApp
+});
+
 const LoadNoCompanyTree = Loadable({
 	loader: () => import('../components/noCompany/NoCompanyRouter'),
 	loading: LoadingMainApp
@@ -149,6 +154,10 @@ class AppRouter extends React.Component {
 
 		if (this.props.main.loading || !this.props.translate || !this.props.translate.back) {
 			return <LoadingMainApp />;
+		}
+
+		if (this.props.subdomain && this.props.subdomain.variant === 'ovac') {
+			return <LoadOVACRouter />;
 		}
 
 		if (this.props.main.isLogged && this.props.main.noCompanies) {
@@ -320,7 +329,8 @@ const mapStateToProps = state => ({
 	main: state.main,
 	translate: state.translate,
 	companies: state.companies,
-	user: state.user
+	user: state.user,
+	subdomain: state.subdomain
 });
 
 export default withRouter(
