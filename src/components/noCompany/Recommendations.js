@@ -107,13 +107,14 @@ class Recommendations extends React.Component {
 						height: '100%',
 						display: 'flex',
 						flexDirection: 'column',
-						alignItems: 'center'
+						alignItems: 'center',
 					}}
 				>
 					<Paper
 						style={{
-							marginTop: '2em',
+							margin: 'auto',
 							width: '90vw',
+							minHeight: '60%',
 							padding: '2vw'
 						}}
 					>
@@ -148,10 +149,7 @@ class Recommendations extends React.Component {
 									</li>
 									<li style={instructionListItemStyle}>
 										<span style={counter}>3</span>
-
-										{
-											translate.video_instructions_android_step_three
-										}
+										{translate.video_instructions_android_step_three}
 									</li>
 									<li style={instructionListItemStyle}>
 										<span style={counter}>4</span>

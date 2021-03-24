@@ -52,7 +52,7 @@ const ParticipantsList = ({
 
 				: participants.list.length > 0 ? (
 					<Scrollbar>
-						<Grid spacing={0} style={{ paddingBottom: '6em', padding: '1em' }}>
+						<Grid spacing={0} style={{ padding: '1em' }} alignContent={'flex-start'}>
 							{participants.list.map(
 								participant => <React.Fragment key={`participant_${participant.id}`}>
 									<ParticipantItem

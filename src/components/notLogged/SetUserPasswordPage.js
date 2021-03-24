@@ -122,24 +122,23 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
 			languageSelector={true}
 		>
 			<div
-				className="row"
 				style={{
-					width: '100%',
-					margin: 0,
 					fontSize: '0.85em',
+					width: '100%',
 					height: '100%',
 					display: 'flex',
+					flexDirection: 'column',
 					alignItems: 'center',
-					justifyContent: 'center'
 				}}
 			>
 				<Paper
 					style={{
+						margin: 'auto',
 						width: '600px',
-						height: '65vh',
 						display: 'flex',
+						paddingTop: '2em',
 						alignItems: 'center',
-						justifyContent: 'center',
+						justifyContent: 'space-between',
 						flexDirection: 'column'
 					}}
 				>
@@ -147,9 +146,9 @@ const SetUserPasswordPage = ({ translate, match, ...props }) => {
 						<LoadingSection />
 						: <React.Fragment>
 							{state.error
-&& errorWrapper()}
+								&& errorWrapper()}
 							{state.success
-&& successMessage()}
+								&& successMessage()}
 							{(!state.success && !state.error) ?
 								<React.Fragment>
 									<p

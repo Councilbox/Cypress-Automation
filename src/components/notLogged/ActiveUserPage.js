@@ -80,7 +80,6 @@ const ActiveUserPage = ({ match, translate, activeUser }) => {
 			languageSelector={true}
 		>
 			<div
-				className="row"
 				style={{
 					width: '100%',
 					margin: 0,
@@ -94,7 +93,7 @@ const ActiveUserPage = ({ match, translate, activeUser }) => {
 				<Paper
 					style={{
 						width: '600px',
-						height: '60vh',
+						minHeight: '60vh',
 						display: 'flex',
 						fontSize: '1.2em',
 						alignItems: 'center',
@@ -107,10 +106,10 @@ const ActiveUserPage = ({ match, translate, activeUser }) => {
 						: <React.Fragment>
 							<img src={logo} style={{ height: '6em', marginBottom: '0.6em' }} alt="councibox-icon" />
 							{state.error
-&& errorWrapper()
+								&& errorWrapper()
 							}
 							{state.success
-&& successMessage()
+								&& successMessage()
 							}
 							<BasicButton
 								text={translate.go_login}

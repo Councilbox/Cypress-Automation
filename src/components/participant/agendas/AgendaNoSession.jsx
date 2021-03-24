@@ -321,7 +321,7 @@ const AgendaNoSession = ({
 							</div>
 						}
 						{props.timeline ? (
-							<div style={{ height: '100%', paddingBottom: '3em' }}>
+							<div style={{ height: '100%' }}>
 								<ResultsTimeline
 									council={council}
 									participant={participant}

@@ -55,7 +55,6 @@ const ResultsTimeline = ({
 	const body = () => {
 		let agendas;
 
-
 		if (data.agendas) {
 			agendas = data.agendas.map(agenda => ({
 				...agenda,
@@ -107,7 +106,10 @@ const ResultsTimeline = ({
 	}
 
 	return (
-		<div style={{ height: '100%' }}>
+		<div style={{
+			minHeight: '10em',
+			height: disableScroll ? '' : '100%'
+		}}>
 			{disableScroll ?
 				body()
 				:

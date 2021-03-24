@@ -25,7 +25,6 @@ import SMSStepper from './SMSAccess/SMSStepper';
 const styles = {
 	loginContainerMax: {
 		width: '100%',
-		height: '100%',
 		padding: '1em',
 		flexDirection: 'column',
 		alignItems: 'center',
@@ -34,7 +33,6 @@ const styles = {
 	},
 	loginContainer: {
 		width: '100%',
-		height: '100%',
 		padding: '1em',
 		display: 'flex',
 		flexDirection: 'column',
@@ -444,10 +442,10 @@ const LoginForm = ({
 	const { password, errors, showPassword } = state;
 	return (
 		<div style={{
-			...styles.loginContainerMax,
-			...(council.securityType !== 0 ? {
-				height: ''
-			} : {}),
+			// ...styles.loginContainerMax,
+			// ...(council.securityType !== 0 ? {
+			// 	height: ''
+			// } : {}),
 		}}>
 			<div style={{
 				width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'

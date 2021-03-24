@@ -3,10 +3,12 @@ import Header from '../components/Header';
 import bg from '../assets/img/fondo_test_mundo2.jpg';
 import { getCustomBackground, getCustomRoomBackground } from '../utils/subdomain';
 import LoadingMainApp from './LoadingMainApp';
+import { HEADER_HEIGHT } from '../styles/constants';
+import { Scrollbar } from '.';
 
 
 const NotLoggedLayout = ({
-	children, translate, helpIcon, languageSelector, councilIsFinished, setSelectHeadFinished, selectHeadFinished, styleFix, styleFixChildren, ...props
+	children, translate, helpIcon, languageSelector, councilIsFinished, setSelectHeadFinished, selectHeadFinished, ...props
 }) => {
 	const [loadingImg, setLoadingImg] = React.useState(true);
 	const customBackground = getCustomBackground();
@@ -32,7 +34,8 @@ const NotLoggedLayout = ({
 				flex: 1,
 				flexDirection: 'column',
 				height: '100%',
-				overflow: 'auto',
+				overflow: 'hidden',
+				border: '3px solid blue',
 				background: `url(${imgUrl})`,
 				backgroundSize: 'cover',
 				backgroundRepeat: 'no-repeat',
@@ -41,8 +44,7 @@ const NotLoggedLayout = ({
 				}),
 				padding: 0,
 				margin: 0,
-				width: '100%',
-				...styleFix
+				width: '100%'
 			}}
 		>
 			<Header
@@ -57,17 +59,19 @@ const NotLoggedLayout = ({
 				participant={props.participant}
 			/>
 			<div
-				className="row"
 				style={{
 					width: '100%',
+					overflow: 'hidden',
+					border: '2px solid red',
 					margin: 0,
 					backgroundColor: 'rgba(0, 0, 0, 0.05)',
 					fontSize: '0.85em',
-					height: '100%',
-					...styleFixChildren
+					height: `calc(100% - ${HEADER_HEIGHT})`
 				}}
 			>
-				{children}
+				<Scrollbar>
+					{children}
+				</Scrollbar>
 			</div>
 		</div>
 	);

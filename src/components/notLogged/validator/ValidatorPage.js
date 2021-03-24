@@ -52,120 +52,120 @@ const getTypeTranslation = type => {
 };
 
 class ValidatorPage extends React.Component {
-state = {
-	code: this.props.match.params.uuid,
-	error: '',
-	data: ''
-}
-
-async componentDidMount() {
-	if (this.props.match.params.uuid) {
-		await this.searchCode(this.props.match.params.uuid);
-	}
-}
-
-componentDidUpdate(prevProps) {
-	if (this.props.match.params.uuid) {
-		if (this.props.match.params.uuid !== prevProps.match.params.uuid) {
-			this.searchCode(this.props.match.params.uuid);
-		}
-	}
-}
-
-updateCode = event => {
-	this.setState({
-		code: event.target.value
-	});
-}
-
-sendCode = () => {
-	this.props.history.push(`/validator/${this.state.code}`);
-}
-
-handleEnter = event => {
-	const key = event.nativeEvent;
-
-	if (key.keyCode === 13) {
-		if (this.state.code !== this.props.match.params.uuid) {
-			this.sendCode();
-		}
-	}
-}
-
-searchCode = async code => {
-	this.setState({
-		loading: true
-	});
-	const response = await this.props.client.query({
-		query: getData,
-		variables: {
-			code
-		}
-	});
-
-	if (response.errors) {
-		if (response.errors[0].code === 404) {
-			return this.setState({
-				error: response.errors[0].message === 'Evidence not found' ? this.props.translate.evidence_pending : this.props.translate.invalid_evidence_code,
-				loading: false,
-				data: null
-			});
-		}
-		if (response.errors[0].code === 401) {
-			return this.setState({
-				error: this.props.translate.you_cant_access_info,
-				loading: false,
-				data: null
-			});
-		}
-	}
-
-	this.setState({
-		loading: false,
+	state = {
+		code: this.props.match.params.uuid,
 		error: '',
-		data: response.data.evidenceContent
-	});
-}
+		data: ''
+	}
 
-render() {
-	return (
-		<NotLoggedLayout
-			translate={this.props.translate}
-			languageSelector={true}
-		>
-			<div style={{ width: '100%', overflow: 'auto' }}>
-				<div style={{
-					width: isMobile ? '100%' : '70%', margin: '4em auto', padding: '1em', display: 'block'
-				}}>
-					{this.state.loading
-&& <Card style={{ padding: '2em', margin: '1.5em' }} elevation={4}>
-	<LoadingSection />
-</Card>
-					}
-					{this.state.error
-&& <Card style={{ padding: '2em', margin: '1.5em' }} elevation={4}>
-	<div style={{
-		fontWeight: '700', color: 'red', marginTop: '1em', fonSize: '1.1em'
-	}}>
-		{this.state.error}
-	</div>
-</Card>
-					}
+	async componentDidMount() {
+		if (this.props.match.params.uuid) {
+			await this.searchCode(this.props.match.params.uuid);
+		}
+	}
 
-					{this.state.data
-&& <Card style={{ padding: '2em', margin: '1.5em' }} elevation={4}>
-	<EvidenceContentDisplay content={this.state.data.content} cbxEvidence={this.state.data.cbxEvidence} />
-	<hr></hr>
-	<ExplorerLink txHash={this.state.data.cbxEvidence.tx_hash} translate={this.props.translate} />
-	<br />
+	componentDidUpdate(prevProps) {
+		if (this.props.match.params.uuid) {
+			if (this.props.match.params.uuid !== prevProps.match.params.uuid) {
+				this.searchCode(this.props.match.params.uuid);
+			}
+		}
+	}
 
-</Card>
-					}
+	updateCode = event => {
+		this.setState({
+			code: event.target.value
+		});
+	}
+
+	sendCode = () => {
+		this.props.history.push(`/validator/${this.state.code}`);
+	}
+
+	handleEnter = event => {
+		const key = event.nativeEvent;
+
+		if (key.keyCode === 13) {
+			if (this.state.code !== this.props.match.params.uuid) {
+				this.sendCode();
+			}
+		}
+	}
+
+	searchCode = async code => {
+		this.setState({
+			loading: true
+		});
+		const response = await this.props.client.query({
+			query: getData,
+			variables: {
+				code
+			}
+		});
+
+		if (response.errors) {
+			if (response.errors[0].code === 404) {
+				return this.setState({
+					error: response.errors[0].message === 'Evidence not found' ? this.props.translate.evidence_pending : this.props.translate.invalid_evidence_code,
+					loading: false,
+					data: null
+				});
+			}
+			if (response.errors[0].code === 401) {
+				return this.setState({
+					error: this.props.translate.you_cant_access_info,
+					loading: false,
+					data: null
+				});
+			}
+		}
+
+		this.setState({
+			loading: false,
+			error: '',
+			data: response.data.evidenceContent
+		});
+	}
+
+	render() {
+		return (
+			<NotLoggedLayout
+				translate={this.props.translate}
+				languageSelector={true}
+			>
+				<div style={{ width: '100%', overflow: 'auto' }}>
+					<div style={{
+						width: isMobile ? '100%' : '70%', margin: '4em auto', padding: '1em', display: 'block'
+					}}>
+						{this.state.loading
+							&& <Card style={{ padding: '2em', margin: '1.5em' }} elevation={4}>
+								<LoadingSection />
+							</Card>
+						}
+						{this.state.error
+							&& <Card style={{ padding: '2em', margin: '1.5em' }} elevation={4}>
+								<div style={{
+									fontWeight: '700', color: 'red', marginTop: '1em', fonSize: '1.1em'
+								}}>
+									{this.state.error}
+								</div>
+							</Card>
+						}
+
+						{this.state.data
+							&& <Card style={{ padding: '2em', margin: '1.5em' }} elevation={4}>
+								<EvidenceContentDisplay content={this.state.data.content} cbxEvidence={this.state.data.cbxEvidence} />
+								<hr></hr>
+								<ExplorerLink txHash={this.state.data.cbxEvidence.tx_hash} translate={this.props.translate} />
+								<br />
+
+							</Card>
+						}
+					</div>
 				</div>
-			</div>
-		</NotLoggedLayout>
-	);
-}
+			</NotLoggedLayout>
+		);
+	}
 }
 
 
@@ -212,7 +212,7 @@ export const CouncilEvidence = withTranslations()(({ evidence, translate, cbxEvi
 		<hr></hr>
 		<CardContent style={{ paddingBottom: '10px' }}>
 			<div style={{ fontWeight: '700', fontSize: '1.2em' }}>
-Datos de la evidencia
+				Datos de la evidencia
 				<hr style={{ margin: '0.5em 0em' }}></hr>
 			</div>
 			<div style={{ display: 'flex' }}>
@@ -232,10 +232,10 @@ Datos de la evidencia
 				</div>
 			</div>
 			{evidence.data.user
-&& <UserSection evidence={evidence} translate={translate} />
+				&& <UserSection evidence={evidence} translate={translate} />
 			}
 			{evidence.data.agendaPoint
-&& <AgendaPointSection evidence={evidence.data} translate={translate} />
+				&& <AgendaPointSection evidence={evidence.data} translate={translate} />
 			}
 			{evidence.data.participant ?
 				<React.Fragment>
@@ -362,64 +362,64 @@ const CouncilSection = ({ evidence, translate }) => (
 		</div>
 		<div>
 			{evidence.agendaPoint
-&& <React.Fragment>
-	{evidence.agendaPoint.company
-&& <div style={{ display: 'flex' }}>
-	<div style={{ width: '100px' }}>
-		<b>{`${translate.company}:`}</b>
-	</div>
-	<div>
-		{evidence.agendaPoint.company.businessName}
-	</div>
-</div>
-	}
-	<div style={{ display: 'flex' }}>
-		<div style={{ width: '100px' }}>
-			<b>{translate.name}:</b>
-		</div>
-		<div>
-			{evidence.agendaPoint.council.name}
-		</div>
-	</div>
-	<div style={{ display: 'flex' }}>
-		<div style={{ width: '100px' }}>
-			<b>{translate.date_real_start}:</b>
-		</div>
-		<div>
-			{moment(evidence.agendaPoint.council.dateRealStart).format('LLL')}
-		</div>
-	</div>
-</React.Fragment>
+				&& <React.Fragment>
+					{evidence.agendaPoint.company
+						&& <div style={{ display: 'flex' }}>
+							<div style={{ width: '100px' }}>
+								<b>{`${translate.company}:`}</b>
+							</div>
+							<div>
+								{evidence.agendaPoint.company.businessName}
+							</div>
+						</div>
+					}
+					<div style={{ display: 'flex' }}>
+						<div style={{ width: '100px' }}>
+							<b>{translate.name}:</b>
+						</div>
+						<div>
+							{evidence.agendaPoint.council.name}
+						</div>
+					</div>
+					<div style={{ display: 'flex' }}>
+						<div style={{ width: '100px' }}>
+							<b>{translate.date_real_start}:</b>
+						</div>
+						<div>
+							{moment(evidence.agendaPoint.council.dateRealStart).format('LLL')}
+						</div>
+					</div>
+				</React.Fragment>
 			}
 			{evidence.council
-&& <React.Fragment>
-	{evidence.council.company
-&& <div style={{ display: 'flex' }}>
-	<div style={{ width: '100px' }}>
-		<b>{`${translate.company}:`}</b>
-	</div>
-	<div>
-		{evidence.council.company.businessName}
-	</div>
-</div>
-	}
-	<div style={{ display: 'flex' }}>
-		<div style={{ width: '100px' }}>
-			<b>{translate.name}:</b>
-		</div>
-		<div>
-			{evidence.council.name}
-		</div>
-	</div>
-	<div style={{ display: 'flex' }}>
-		<div style={{ width: '100px' }}>
-			<b>{translate.date_real_start}:</b>
-		</div>
-		<div>
-			{moment(evidence.council.dateRealStart).format('LLL')}
-		</div>
-	</div>
-</React.Fragment>
+				&& <React.Fragment>
+					{evidence.council.company
+						&& <div style={{ display: 'flex' }}>
+							<div style={{ width: '100px' }}>
+								<b>{`${translate.company}:`}</b>
+							</div>
+							<div>
+								{evidence.council.company.businessName}
+							</div>
+						</div>
+					}
+					<div style={{ display: 'flex' }}>
+						<div style={{ width: '100px' }}>
+							<b>{translate.name}:</b>
+						</div>
+						<div>
+							{evidence.council.name}
+						</div>
+					</div>
+					<div style={{ display: 'flex' }}>
+						<div style={{ width: '100px' }}>
+							<b>{translate.date_real_start}:</b>
+						</div>
+						<div>
+							{moment(evidence.council.dateRealStart).format('LLL')}
+						</div>
+					</div>
+				</React.Fragment>
 			}
 		</div>
 	</div>
