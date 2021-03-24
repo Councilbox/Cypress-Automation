@@ -193,7 +193,7 @@ const HoverableTab = ({
 	tab, mapIndex, index, deleteAction, editAction, disabled, ...props
 }) => {
 	const [state, setState] = React.useState({
-		showAction: true
+		showAction: false
 	});
 
 	const mouseEnterHandler = () => {
