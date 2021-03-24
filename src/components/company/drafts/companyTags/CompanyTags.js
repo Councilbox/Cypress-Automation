@@ -254,7 +254,6 @@ help
 							adornment={<Icon style={{ color: getPrimary() }}>search</Icon>}
 							type="text"
 							value={buscarTags}
-							placeholder={translate.search_tags}
 							onChange={event => {
 								setBuscarTags(event.target.value);
 							}}
