@@ -7,6 +7,7 @@ const QuorumInput = ({
 	type,
 	value,
 	divider,
+	id = '',
 	onChange,
 	onChangeDivider,
 	style,
@@ -24,6 +25,7 @@ const QuorumInput = ({
 			<div className="row">
 				<div style={{ width: '100%', ...style }}>
 					<TextInput
+						id={`${id}-percentage`}
 						type={'number'}
 						value={value <= 0 ? '' : value}
 						min="0"
@@ -53,6 +55,7 @@ const QuorumInput = ({
 						<TextInput
 							type={'number'}
 							value={value}
+							id={`${id}-number`}
 							adornment={'/'}
 							onBlur={onBlurChange}
 							min="1"
@@ -66,6 +69,7 @@ const QuorumInput = ({
 					<GridItem xs={6} lg={6} md={6}>
 						<TextInput
 							type={'number'}
+							id={`${id}-divider`}
 							value={divider}
 							min="0"
 							onBlur={() => { if (divider < value) onChangeDivider(value); }}
@@ -86,6 +90,7 @@ const QuorumInput = ({
 			<div className="row">
 				<div style={{ width: '100%', ...style }}>
 					<TextInput
+						id={`${id}-number`}
 						type={'number'}
 						value={value <= 0 ? '' : value}
 						onBlur={onBlurChange}
