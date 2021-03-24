@@ -114,7 +114,9 @@ const ResultsTimeline = ({
 				body()
 				:
 				<Scrollbar ref={scrollbar}>
-					{body()}
+					<div>
+						{body()}
+					</div>
 				</Scrollbar>
 			}
 		</div>
