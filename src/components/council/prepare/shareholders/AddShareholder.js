@@ -32,6 +32,7 @@ const ApproveRequestButton = ({
 		Object.prototype.hasOwnProperty.call(cleanData, 'socialCapital') ? cleanData.socialCapital : cleanData.numParticipations);
 	cleanData.personOrEntity = cleanData.personOrEntity ? +cleanData.personOrEntity : 0;
 	cleanData.assistanceIntention = cleanData.assistanceIntention ? +cleanData.assistanceIntention : 0;
+	cleanData.requestWord = cleanData.requestWord ? +cleanData.requestWord : 0;
 	const secondary = getSecondary();
 	const buttonColor = request.participantCreated ? 'grey' : secondary;
 
