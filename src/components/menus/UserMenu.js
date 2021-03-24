@@ -94,7 +94,7 @@ const UserMenu = ({
 							minWidth: isMobile ? '270px' : '300px'
 						}}
 					>
-						<Link to={`/user/${user.id}`} style={{ width: '100%' }}>
+						<Link to={`/user/${user.id}`} style={{ width: '100%' }} id={'user-menu-settings'}>
 							<MenuItem style={{ height: '100%', width: 'auto' }}>
 								<div
 									style={{
@@ -143,7 +143,7 @@ const UserMenu = ({
 						</Link>
 						<Divider />
 						{isAdmin(user)
-							&& <Link to={`/company/${company.id}/settings`}>
+							&& <Link to={`/company/${company.id}/settings`} id="user-settings-edit-company">
 								<MenuItem style={{ height: '100%', maxWidth: '270px' }}>
 									<div
 										style={{
@@ -257,6 +257,7 @@ const UserMenu = ({
 						)}
 						<Divider />
 						<MenuItem
+							id="user-settings-logout"
 							onClick={actions.logout}
 							style={{ height: '100%' }}
 						>
