@@ -263,7 +263,7 @@ const CompanyDocumentsPage = ({
 						{breadCrumbs.map((item, index) => (
 							<React.Fragment key={index}>
 								{index > 0
-&& ' > '
+									&& ' > '
 								}
 								{(index === breadCrumbs.length - 1) && !hideUpload ?
 									<DropDownMenu
@@ -354,7 +354,7 @@ const CompanyDocumentsPage = ({
 
 					<div style={{ display: 'flex', alignContent: 'center' }}>
 						{quota
-&& `${filesize(quota.used)} / ${filesize(quota.total)}`
+							&& `${filesize(quota.used)} / ${filesize(quota.total)}`
 						}
 						<div style={{
 							padding: '0px 8px', fontSize: '24px', color: '#c196c3', display: 'flex', alignContent: 'center'
@@ -451,54 +451,40 @@ const CompanyDocumentsPage = ({
 										<TableCell />
 										<TableCell>
 											{!action
-&& <div style={{ display: 'flex' }}>
-	<div onClick={event => {
-		event.stopPropagation();
-		setDeleteModal(doc);
-	}} style={{
-		cursor: 'pointer',
-		color: secondary,
-		background: 'white',
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'center',
-		padding: '0.3em',
-		width: '100px',
-		marginLeft: '11px'
-	}}>
-		{translate.delete}
-	</div>
-	<div
-		onClick={event => {
-			event.stopPropagation();
-			setEditModal(doc);
-		}}
-		style={{
-			cursor: 'pointer',
-			color: getSecondary(),
-			background: 'white',
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'center',
-		}}>
-		{translate.edit}
-	</div>
-	<div
-		onClick={event => {
-			event.stopPropagation();
-			navigateTo(doc);
-		}}
-		style={{
-			cursor: 'pointer',
-			color: getSecondary(),
-			background: 'white',
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'center',
-		}}>
-		{translate.open}
-	</div>
-</div>
+												&& <div style={{ display: 'flex' }}>
+													<div onClick={event => {
+														event.stopPropagation();
+														setDeleteModal(doc);
+													}} style={{
+														cursor: 'pointer',
+														color: secondary,
+														background: 'white',
+														display: 'flex',
+														alignItems: 'center',
+														justifyContent: 'center',
+														padding: '0.3em',
+														width: '100px',
+														marginLeft: '11px'
+													}}>
+														{translate.delete}
+													</div>
+													<div
+														onClick={event => {
+															event.stopPropagation();
+															setEditModal(doc);
+														}}
+														style={{
+															cursor: 'pointer',
+															color: getSecondary(),
+															background: 'white',
+															display: 'flex',
+															alignItems: 'center',
+															justifyContent: 'center',
+															padding: '0.3em',
+														}}>
+														{translate.edit}
+													</div>
+												</div>
 											}
 
 										</TableCell>
