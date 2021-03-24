@@ -338,17 +338,20 @@ const StepPreview = ({
 				<div
 					style={{
 						width: '100%',
-						height: '100%',
 						padding: '1.2em',
 						paddingTop: '0.8em',
+						paddingBottom: '3em',
 						display: 'flex',
 						justifyContent: 'center'
 					}}
 				>
-					<Paper className="htmlPreview">
+					<Paper
+						className="htmlPreview"
+					>
 						<div
 							style={{
 								padding: '2em',
+								paddingBottom: '0',
 							}}
 							dangerouslySetInnerHTML={{
 								__html: data.councilPreviewHTML

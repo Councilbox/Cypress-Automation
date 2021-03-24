@@ -249,7 +249,8 @@ const StepAgenda = ({ client, translate, ...props }) => {
 									</GridItem>
 									<div
 										style={{
-											width: '100%'
+											width: '100%',
+											paddingBottom: '1em'
 										}}
 									>
 										{agendas.map((agenda, index) => (
