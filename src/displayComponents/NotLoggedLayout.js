@@ -35,7 +35,6 @@ const NotLoggedLayout = ({
 				flexDirection: 'column',
 				height: '100%',
 				overflow: 'hidden',
-				border: '3px solid blue',
 				background: `url(${imgUrl})`,
 				backgroundSize: 'cover',
 				backgroundRepeat: 'no-repeat',
@@ -62,7 +61,6 @@ const NotLoggedLayout = ({
 				style={{
 					width: '100%',
 					overflow: 'hidden',
-					border: '2px solid red',
 					margin: 0,
 					backgroundColor: 'rgba(0, 0, 0, 0.05)',
 					fontSize: '0.85em',

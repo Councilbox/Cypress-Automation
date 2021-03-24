@@ -100,7 +100,6 @@ const ParticipantLogin = ({
 					{(participant.legalTermsAccepted || !config.participantTermsCheck) ?
 						<div style={{
 							...styles.mainContainer,
-							border: '3px solid yellow',
 							...(!isMobile ? {
 								justifyContent: 'center'
 							} : {}),
