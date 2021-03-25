@@ -165,6 +165,7 @@ const StatuteDocSection = ({
 			<Grid>
 				<GridItem xs={12} md={7} lg={7}>
 					<Checkbox
+						id="council-type-has-act"
 						label={translate.exists_act}
 						value={statute.existsAct === 1}
 						onChange={(event, isInputChecked) => updateState({
@@ -177,6 +178,7 @@ const StatuteDocSection = ({
 					<>
 						<GridItem xs={12} md={7} lg={7}>
 							<Checkbox
+								id="council-type-auto-approve-act"
 								label={translate.auto_approve_act}
 								value={statute.autoApproveAct === 1}
 								onChange={(event, isInputChecked) => updateState({
@@ -186,6 +188,7 @@ const StatuteDocSection = ({
 						</GridItem>
 						<GridItem xs={12} md={7} lg={7}>
 							<Checkbox
+								id="council-type-auto-send-act"
 								label={translate.auto_send_act}
 								disabled={!statute.autoApproveAct}
 								value={statute.autoSendAct === 1}
@@ -198,6 +201,7 @@ const StatuteDocSection = ({
 				}
 				<GridItem xs={12} md={7} lg={7}>
 					<Checkbox
+						id="council-type-include-act-book"
 						label={translate.included_in_act_book}
 						value={statute.includedInActBook === 1}
 						onChange={(event, isInputChecked) => updateState({
@@ -207,6 +211,7 @@ const StatuteDocSection = ({
 				</GridItem>
 				<GridItem xs={12} md={7} lg={7}>
 					<Checkbox
+						id="council-type-include-attendants-list"
 						label={translate.include_participants_list_in_act}
 						value={statute.includeParticipantsList === 1}
 						onChange={(event, isInputChecked) => updateState({
@@ -231,6 +236,7 @@ const StatuteDocSection = ({
 					/>
 					<GridItem xs={12} md={12} lg={12}>
 						<RichTextInput
+							id="council-type-convene-header"
 							ref={editor}
 							errorText={errors.conveneHeader}
 							translate={translate}
@@ -279,6 +285,7 @@ const StatuteDocSection = ({
 			{statute.conveneFooter !== undefined && (
 				<GridItem xs={12} md={12} lg={12}>
 					<RichTextInput
+						id="council-type-convene-footer"
 						ref={footer}
 						errorText={errors.conveneFooter}
 						translate={translate}
@@ -345,6 +352,7 @@ const StatuteDocSection = ({
 					<Grid>
 						<GridItem xs={12} md={12} lg={12}>
 							<RichTextInput
+								id="council-type-intro"
 								ref={intro}
 								floatingText={translate.intro}
 								translate={translate}
@@ -393,6 +401,7 @@ const StatuteDocSection = ({
 						</GridItem>
 						<GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0 ? { display: 'none' } : {}) }}>
 							<RichTextInput
+								id="council-type-intro-secondary"
 								ref={introSecondary}
 								translate={translate}
 								floatingText={translate.right_column_introduction}
@@ -411,6 +420,7 @@ const StatuteDocSection = ({
 
 						<GridItem xs={12} md={12} lg={12} style={{ marginTop: '2em' }}>
 							<RichTextInput
+								id="council-type-constitution"
 								errorText={errors.constitution}
 								ref={constitution}
 								floatingText={translate.constitution}
@@ -459,6 +469,7 @@ const StatuteDocSection = ({
 						</GridItem>
 						<GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0 ? { display: 'none' } : {}) }}>
 							<RichTextInput
+								id="council-type-constitution-secondary"
 								ref={constitutionSecondary}
 								translate={translate}
 								floatingText={translate.constitution_right_column}
@@ -477,6 +488,7 @@ const StatuteDocSection = ({
 
 						<GridItem xs={12} md={12} lg={12} style={{ marginTop: '2em' }}>
 							<RichTextInput
+								id="council-type-conclusion"
 								errorText={errors.conclusion}
 								ref={conclusion}
 								floatingText={translate.conclusion}
@@ -525,6 +537,7 @@ const StatuteDocSection = ({
 						</GridItem>
 						<GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0 ? { display: 'none' } : {}) }}>
 							<RichTextInput
+								id="council-type-conclusion-secondary"
 								ref={conclusionSecondary}
 								translate={translate}
 								floatingText={translate.right_column_conclusion}

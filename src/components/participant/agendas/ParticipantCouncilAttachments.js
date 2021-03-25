@@ -127,26 +127,22 @@ const ParticipantCouncilAttachments = ({
 				width: '100%',
 				paddingLeft: '4px',
 			}}>
-				<div style={{ padding: '1em', paddingTop: '2em', display: 'flex' }} >
-					{!isMobile
-						&& <>
-							<div
-								style={{
-									color: '#154481',
-									fontSize: '1.9em',
-									marginRight: '1em'
-								}}
-							>{`${participant.name} ${participant.surname || ''}`}</div>
-							<MenuSuperiorTabs
-								items={[
-									translate.your_documentation,
-									translate.documentation_added_by_admin
-								]}
-								setSelect={setTab}
-								selected={tab}
-							/>
-						</>
-					}
+				<div style={{ padding: '1em', paddingTop: '2em', display: 'flex', flexDirection: isMobile ? 'column' : 'row' }} >
+					<div
+						style={{
+							color: '#154481',
+							fontSize: '1.9em',
+							marginRight: '1em'
+						}}
+					>{`${participant.name} ${participant.surname || ''}`}</div>
+					<MenuSuperiorTabs
+						items={[
+							translate.your_documentation,
+							translate.documentation_added_by_admin
+						]}
+						setSelect={setTab}
+						selected={tab}
+					/>
 				</div>
 				<div style={{
 					padding: '1em', paddingBottom: '1em', display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #154481'

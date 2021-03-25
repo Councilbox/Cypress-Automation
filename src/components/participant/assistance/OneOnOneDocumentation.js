@@ -73,7 +73,7 @@ const OneOnOneDocumentation = ({ translate, participant, council }) => (
 				alignItems: 'center'
 			}}>
 				<Card style={{
-					...styles.cardContainer,
+					margin: isMobile ? '4em 0' : 'auto',
 					maxWidth: isMobile ? '100%' : '80%',
 					minWidth: window.innerWidth > 450 ? '80%' : '100%'
 				}} elevation={6}>
