@@ -512,16 +512,15 @@ export const AddAgendaPoint = ({
 	};
 
 	const renderTrigger = () => {
-		if (Component) {
-			return (
-				<Component
-					onClick={
-						isAppointment(council) ? showConfirmationRequestModal : showYesNoModal}
-				/>
-			);
-		}
-
 		if (isAppointment(council)) {
+			if (Component) {
+				return (
+					<Component
+						onClick={showConfirmationRequestModal}
+					/>
+				);
+			}
+
 			return (
 				<BasicButton
 					text={translate.confirmation_request}
