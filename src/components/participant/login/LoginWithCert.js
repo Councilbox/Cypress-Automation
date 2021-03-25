@@ -75,6 +75,7 @@ const LoginWithCert = ({
 						<ButtonIcon
 							color="white"
 							type="directions_walk"
+							style={{ ...subdomain?.styles?.roomLoginButton }}
 						/>
 					}
 					onClick={getData}
@@ -97,6 +98,7 @@ const LoginWithCert = ({
 						<ButtonIcon
 							color="white"
 							type="directions_walk"
+							style={{ ...subdomain?.styles?.roomLoginButton }}
 						/>
 					}
 					onClick={status === 'SUCCESS' ? handleSuccess : () => { }}
