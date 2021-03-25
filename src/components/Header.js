@@ -41,7 +41,8 @@ const Header = ({
 				width: '100%',
 				justifyContent: 'space-between',
 				alignItems: 'center',
-				backgroundColor: 'white'
+				backgroundColor: 'white',
+				...subdomain?.styles?.roomHeader
 			}}
 		>
 			<div
