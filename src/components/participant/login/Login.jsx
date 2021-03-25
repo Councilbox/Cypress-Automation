@@ -124,7 +124,7 @@ const ParticipantLogin = ({
 								background: finishedVoted && 'transparent',
 								boxShadow: finishedVoted && 'none',
 								minWidth: window.innerWidth > 450 ? '550px' : '100%',
-								height: isMobile && "70%",
+								height: isMobile && '70%',
 								// ...(council.securityType === 2 && isMobile && {
 								margin: isMobile && '10% 20% 5px'
 								// }),
