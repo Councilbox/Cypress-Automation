@@ -112,6 +112,7 @@ export const loadSubdomainConfig = () => {
 						secondary
 						logo
 						icon
+						defaultLanguage
 						variant
 						background
 						roomBackground
