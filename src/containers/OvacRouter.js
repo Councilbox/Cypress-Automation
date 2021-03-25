@@ -8,12 +8,18 @@ const LoadLandingPage = Loadable({
 	loading: LoadingMainApp
 });
 
+const LoadCreateAppointment = Loadable({
+	loader: () => import('../components/ovac/notLogged/create/CreateAppointmentPage'),
+	loading: LoadingMainApp
+});
+
 const OvacRouter = () => {
 	const redirectToLanding = () => <Redirect to="/" />;
 
 	return (
 		<Switch>
 			<Route exact path="/" component={LoadLandingPage} />
+			<Route exact path="/newAppointment/:language?" component={LoadCreateAppointment} />
 			<Route
 				path="*"
 				component={redirectToLanding}
