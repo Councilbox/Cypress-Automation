@@ -24,7 +24,7 @@ import CustomPointEditor from './modals/CustomPointEditor';
 import { ConfigContext } from '../../../../containers/AppControl';
 import { useOldState } from '../../../../hooks';
 import { TAG_TYPES } from '../../../company/drafts/draftTags/utils';
-import { isAppointment } from '../../../../utils/CBX';
+import { getAgendaTypeLabel, isAppointment } from '../../../../utils/CBX';
 
 const buttonStyle = {
 	color: 'white',
@@ -256,18 +256,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 											<AgendaItem
 												agenda={agenda}
 												key={`agenda${index}`}
-												typeText={
-													translate[
-														votingTypes.find(
-															item => item.value
-															=== agenda.subjectType
-														) ? votingTypes.find(
-																item => item.value
-															=== agenda.subjectType
-															).label : ''
-													]
-												}
-
+												typeText={translate[getAgendaTypeLabel(agenda)]}
 												removeAgenda={() => setDeleteModal(agenda.id)}
 												selectAgenda={selectAgenda}
 												saveAsDraft={saveAsAgendaDraft}
