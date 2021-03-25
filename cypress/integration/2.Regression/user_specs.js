@@ -76,12 +76,12 @@ describe("The user is not able to register to the Councilbox without populating 
         });
     
         it("Click on the 'Sign Up' button", function() {
-            cy.contains('Sign up').click()
+            cy.get('#sign-up-button').click()
             cy.wait(1000)
         });
 
         it("Click on the “Sign up” button without populating required fields", function() {
-            cy.contains('Send').click()
+            cy.get('#create-user-button').click()
 
        
         });
@@ -105,62 +105,62 @@ describe("The user is not able to create a new account in Councilbox with invali
         });
     
         it("Click on the 'Sign Up' button", function() {
-            cy.contains('Sign up').click()
+            cy.get('#sign-up-button').click()
             cy.wait(1000)
         });
 
 
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
-            cy.get('input').eq(0)
+            cy.get('#signup-name').clear()
             .type("12345")
             
         });
 
 
         it("Populate the 'Surname' field", function() {
-            cy.get('input').eq(1)
+            cy.get('#signup-surname').clear()
             .type("Test")
             .should("have.value", "Test")
         });
 
 
         it("Populate the 'Phone' field", function() {
-            cy.get('input').eq(2)
+            cy.get('#signup-phone').clear()
             .type("123123123")
             .should("have.value", "123123123")
         });
 
         it("Populate the 'Email' and the 'Repeat email' fields", function() {
-            cy.get('input').eq(4)
+            cy.get('#signup-email').clear()
             .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
             
 
-        cy.get('input').eq(5)
+        cy.get('#signup-email-check').clear()
             .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
         });
 
         it("Populate the 'Password' and the 'Confirm password' fields", function() {
-             cy.get('input').eq(6)
+             cy.get('#signup-password').clear()
             .type("Mostar123!")
 
-        cy.get('input').eq(7)
+             cy.get('#signup-password-check').clear()
             .type("Mostar123!") 
         });
 
         it("Click on the checkbox to confirm terms and conditions of councilbox", function() {
-            cy.contains('I have read and accept the ').click()
+            cy.get('#accept-legal-checkbox').click()
         });
 
 
 
 
         it("Click on 'Send' button", function() {
-            cy.contains('Send').click()
+            cy.get('#create-user-button').click()
 
        
         });
 
-        it("Should display 'Please enter a valid name'", function() {
+        it("Should display 'Please enter a valid first name'", function() {
             cy.contains('Please enter a valid first name')
         })
     });
@@ -174,57 +174,57 @@ describe("The user is not able to create a new account in Councilbox with invali
         });
     
         it("Click on the 'Sign Up' button", function() {
-            cy.contains('Sign up').click()
+            cy.get('#sign-up-button').click()
             cy.wait(1000)
         });
 
 
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
-            cy.get('input').eq(0)
+            cy.get('#signup-name').clear()
             .type("Automation")
             
         });
 
 
         it("Populate the 'Surname' field", function() {
-            cy.get('input').eq(1)
+            cy.get('#signup-surname').clear()
             .type("Test")
             .should("have.value", "Test")
         });
 
 
         it("Populate the 'Phone' field", function() {
-            cy.get('input').eq(2)
+            cy.get('#signup-phone').clear()
             .type("test")
             .should("have.value", "test")
         });
 
         it("Populate the 'Email' and the 'Repeat email' fields", function() {
-            cy.get('input').eq(4)
+             cy.get('#signup-email').clear()
             .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
             
 
-        cy.get('input').eq(5)
+             cy.get('#signup-email-check').clear()
             .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
         });
 
         it("Populate the 'Password' and the 'Confirm password' fields", function() {
-             cy.get('input').eq(6)
+             cy.get('#signup-password').clear()
             .type("Mostar123!")
 
-        cy.get('input').eq(7)
+             cy.get('#signup-password-check').clear()
             .type("Mostar123!") 
         });
 
         it("Click on the checkbox to confirm terms and conditions of councilbox", function() {
-            cy.contains('I have read and accept the ').click()
+            cy.get('#accept-legal-checkbox').click()
         });
 
 
 
 
         it("Click on 'Send' button", function() {
-            cy.contains('Send').click()
+            cy.get('#create-user-button').click()
 
        
         });
@@ -243,57 +243,57 @@ describe("The user is not able to create a new account in Councilbox with invali
         });
     
         it("Click on the 'Sign Up' button", function() {
-            cy.contains('Sign up').click()
+            cy.get('#sign-up-button').click()
             cy.wait(1000)
         });
 
 
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
-            cy.get('input').eq(0)
+            cy.get('#signup-name').clear()
             .type("Automation")
             
         });
 
 
         it("Populate the 'Surname' field", function() {
-            cy.get('input').eq(1)
+            cy.get('#signup-surname').clear()
             .type("12345")
             .should("have.value", "12345")
         });
 
 
         it("Populate the 'Phone' field", function() {
-            cy.get('input').eq(2)
+            cy.get('#signup-phone').clear()
             .type("123123123")
             .should("have.value", "123123123")
         });
 
         it("Populate the 'Email' and the 'Repeat email' fields", function() {
-            cy.get('input').eq(4)
+            cy.get('#signup-email').clear()
             .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
             
 
-        cy.get('input').eq(5)
+            cy.get('#signup-email-check').clear()
             .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
         });
 
         it("Populate the 'Password' and the 'Confirm password' fields", function() {
-             cy.get('input').eq(6)
+             cy.get('#signup-password').clear()
             .type("Mostar123!")
 
-        cy.get('input').eq(7)
+             cy.get('#signup-password-check').clear()
             .type("Mostar123!") 
         });
 
         it("Click on the checkbox to confirm terms and conditions of councilbox", function() {
-            cy.contains('I have read and accept the ').click()
+            cy.get('#accept-legal-checkbox').click()
         });
 
 
 
 
         it("Click on 'Send' button", function() {
-            cy.contains('Send').click()
+            cy.get('#create-user-button').click()
 
        
         });
@@ -312,57 +312,57 @@ describe("The user is not able to register to the Councilbox with the E-mail alr
         });
     
         it("Click on the 'Sign Up' button", function() {
-            cy.contains('Sign up').click()
+            cy.get('#sign-up-button').click()
             cy.wait(1000)
         });
 
 
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
-            cy.get('input').eq(0)
+            cy.get('#signup-name').clear()
             .type("Automation")
             
         });
 
 
         it("Populate the 'Surname' field", function() {
-            cy.get('input').eq(1)
+            cy.get('#signup-surname').clear()
             .type("Test")
             .should("have.value", "Test")
         });
 
 
         it("Populate the 'Phone' field", function() {
-            cy.get('input').eq(2)
+            cy.get('#signup-phone').clear()
             .type("123123123")
             .should("have.value", "123123123")
         });
 
         it("Populate the 'Email' and the 'Repeat email' fields", function() {
-            cy.get('input').eq(4)
+            cy.get('#signup-email').clear()
             .type("alem@qaengineers.net")
             
 
-        cy.get('input').eq(5)
+            cy.get('#signup-email-check').clear()
             .type("alem@qaengineers.net")
         });
 
         it("Populate the 'Password' and the 'Confirm password' fields", function() {
-             cy.get('input').eq(6)
+             cy.get('#signup-password').clear()
             .type("Mostar123!")
 
-        cy.get('input').eq(7)
+        cy.get('#signup-password-check').clear()
             .type("Mostar123!") 
         });
 
         it("Click on the checkbox to confirm terms and conditions of councilbox", function() {
-            cy.contains('I have read and accept the ').click()
+            cy.get('#accept-legal-checkbox').click()
         });
 
 
 
 
         it("Click on 'Send' button", function() {
-            cy.contains('Send').click()
+            cy.get('#create-user-button').click()
 
        
         });
@@ -381,57 +381,57 @@ describe("The user is not able to register to the Councilbox with the invalid in
         });
     
         it("Click on the 'Sign Up' button", function() {
-            cy.contains('Sign up').click()
+            cy.get('#sign-up-button').click()
             cy.wait(1000)
         });
 
 
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
-            cy.get('input').eq(0)
+            cy.get('#signup-name').clear()
             .type("Automation")
             
         });
 
 
         it("Populate the 'Surname' field", function() {
-            cy.get('input').eq(1)
+            cy.get('#signup-surname').clear()
             .type("Test")
             .should("have.value", "Test")
         });
 
 
         it("Populate the 'Phone' field", function() {
-            cy.get('input').eq(2)
+            cy.get('#signup-phone').clear()
             .type("123123123")
             .should("have.value", "123123123")
         });
 
         it("Populate the 'Email' and the 'Repeat email' fields", function() {
-            cy.get('input').eq(4)
+            cy.get('#signup-email').clear()
             .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
             
 
-        cy.get('input').eq(5)
+            cy.get('#signup-email-check').clear()
             .type("alem123@test.test")
         });
 
         it("Populate the 'Password' and the 'Confirm password' fields", function() {
-             cy.get('input').eq(6)
+             cy.get('#signup-password').clear()
             .type("Mostar123!")
 
-        cy.get('input').eq(7)
+             cy.get('#signup-password-check').clear()
             .type("Mostar123!") 
         });
 
         it("Click on the checkbox to confirm terms and conditions of councilbox", function() {
-            cy.contains('I have read and accept the ').click()
+            cy.get('#accept-legal-checkbox').click()
         });
 
 
 
 
         it("Click on 'Send' button", function() {
-            cy.contains('Send').click()
+            cy.get('#create-user-button').click()
 
        
         });
@@ -450,62 +450,62 @@ describe("The user is not able to register to the Councilbox with the invalid in
         });
     
         it("Click on the 'Sign Up' button", function() {
-            cy.contains('Sign up').click()
+            cy.get('#sign-up-button').click()
             cy.wait(1000)
         });
 
 
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
-            cy.get('input').eq(0)
+            cy.get('#signup-name').clear()
             .type("Automation")
             
         });
 
 
         it("Populate the 'Surname' field", function() {
-            cy.get('input').eq(1)
+            cy.get('#signup-surname').clear()
             .type("Test")
             .should("have.value", "Test")
         });
 
 
         it("Populate the 'Phone' field", function() {
-            cy.get('input').eq(2)
+            cy.get('#signup-phone').clear()
             .type("123123123")
             .should("have.value", "123123123")
         });
 
         it("Populate the 'Email' and the 'Repeat email' fields", function() {
-            cy.get('input').eq(4)
+            cy.get('#signup-email').clear()
             .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
             
 
-        cy.get('input').eq(5)
+            cy.get('#signup-email-check').clear()
             .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
         });
 
         it("Populate the 'Password' and the 'Confirm password' fields", function() {
-             cy.get('input').eq(6)
+             cy.get('#signup-password').clear()
             .type("Mostar123!")
 
-        cy.get('input').eq(7)
+             cy.get('#signup-password-check').clear()
             .type("123456") 
         });
 
         it("Click on the checkbox to confirm terms and conditions of councilbox", function() {
-            cy.contains('I have read and accept the ').click()
+            cy.get('#accept-legal-checkbox').click()
         });
 
 
 
 
         it("Click on 'Send' button", function() {
-            cy.contains('Send').click()
+            cy.get('#create-user-button').click()
 
        
         });
 
-        it("'Passwords do not match' message is displayed beyond the “Repeat Email” field", function() {
+        it("'The passwords do not match' message is displayed beyond the “Confirm Password” field", function() {
             cy.contains('The passwords do not match.')
         })
     });
@@ -519,57 +519,57 @@ describe("The user is not able to register without accepting terms and condition
         });
     
         it("Click on the 'Sign Up' button", function() {
-            cy.contains('Sign up').click()
+            cy.get('#sign-up-button').click()
             cy.wait(1000)
         });
 
 
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
-            cy.get('input').eq(0)
+            cy.get('#signup-name').clear()
             .type("Automation")
             
         });
 
 
         it("Populate the 'Surname' field", function() {
-            cy.get('input').eq(1)
+            cy.get('#signup-surname').clear()
             .type("Test")
             .should("have.value", "Test")
         });
 
 
         it("Populate the 'Phone' field", function() {
-            cy.get('input').eq(2)
+            cy.get('#signup-phone').clear()
             .type("123123123")
             .should("have.value", "123123123")
         });
 
         it("Populate the 'Email' and the 'Repeat email' fields", function() {
-            cy.get('input').eq(4)
+            cy.get('#signup-email').clear()
             .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
             
 
-        cy.get('input').eq(5)
+            cy.get('#signup-email-check').clear()
             .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
         });
 
         it("Populate the 'Password' and the 'Confirm password' fields", function() {
-             cy.get('input').eq(6)
+             cy.get('#signup-password').clear()
             .type("Mostar123!")
 
-        cy.get('input').eq(7)
+             cy.get('#signup-password-check').clear()
             .type("Mostar123!") 
         });
 
         
         it("Click on 'Send' button", function() {
-            cy.contains('Send').click()
+            cy.get('#create-user-button').click()
 
        
         });
 
-        it("'Accept terms and conditions' message is displayed", function() {
-            cy.contains('I accept the terms and conditions.')
+        it("'I accept the terms and conditions' message is displayed", function() {
+            cy.get('#accept-legal-checkbox').click()
         })
     });
 
@@ -582,10 +582,6 @@ describe("The user is not able to login in Councilbox with invalid inputs in the
             cy.wait(1000);
         });
     
-        it("Navigate to the 'Sign in' form", function() {
-            cy.contains('Sign in to Councilbox')
-        });
-
 
         it("Populate the “Email” field with invalid Email", function() {
             cy.get('#username').type("alem53421@test.test")
@@ -617,11 +613,7 @@ describe("The user is not able to login in Councilbox with invalid password", fu
             cy.visit(login_url);
             cy.wait(1000);
         });
-    
-        it("Navigate to the 'Sign in' form", function() {
-            cy.contains('Sign in to Councilbox')
-        });
-
+ 
 
         it("Populate the “Email” field with invalid Email", function() {
             cy.get('#username').type("alem@qaengineers.net")
@@ -654,15 +646,12 @@ describe("The user is not able to login in Councilbox without populating require
             cy.wait(1000);
         });
     
-        it("Navigate to the 'Sign in' form", function() {
-            cy.contains('Sign in to Councilbox')
-        });
 
         it("Click on the 'To enter' button without populating required fields", function() {
             cy.get('#login-button').click()
         });
 
-        it("'Required fields' alert message is displayed", function() {
+        it("'This field is required.' alert message is displayed beyond the “Email” and “Password” fields", function() {
             cy.contains('This field is required.')
         });
 
@@ -674,10 +663,6 @@ describe("The user is able to change the 'Name' in the  'User settings' in the C
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
             cy.wait(1000);
-        });
-    
-        it("Navigate to the 'Sign in' form", function() {
-            cy.contains('Sign in to Councilbox')
         });
 
         it("Populate all required fields and click on 'To enter' button", function() {
@@ -695,11 +680,16 @@ describe("The user is able to change the 'Name' in the  'User settings' in the C
         });
 
         it("Modify the 'Name' field", function() {
-            cy.get('input').eq(0)
+            cy.get('#user-settings-name')
             .clear()
             .type('Balla')
-            cy.contains('Save').click()
         });
+
+        it("User should be able to save changes", function() {
+            cy.get('#user-settings-save-button').click()
+        });
+
+
 
     });
 
@@ -719,10 +709,13 @@ describe("The user is able to change the 'Surname' in the  'User settings' in th
         });
 
         it("Modify the 'Surname' field", function() {
-            cy.get('input').eq(1)
+            cy.get('#user-settings-surname')
             .clear()
             .type('Balic')
-            cy.contains('Save').click()
+        });
+
+        it("User should be able to save changes", function() {
+            cy.get('#user-settings-save-button').click()
         });
 
     });
@@ -743,10 +736,13 @@ describe("The user is able to change the 'Phone' in the  'User settings' in the 
         });
 
         it("Modify the 'Phone' field", function() {
-            cy.get('input').eq(3)
+            cy.get('#user-settings-phone')
             .clear()
             .type(Cypress.config('UniqueNumber'))
-            cy.contains('Save').click()
+        });
+
+        it("User should be able to save changes", function() {
+            cy.get('#user-settings-save-button').click()
         });
 
     });
@@ -770,7 +766,10 @@ describe("The user is able to select the 'Español' language in the  'User setti
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
             cy.contains('English').click()
             cy.contains('Español').click()
-            cy.contains('Save').click()
+        });
+
+        it("User should be able to save changes", function() {
+            cy.get('#user-settings-save-button').click()
         });
 
     });
@@ -793,7 +792,10 @@ describe("The user is able to select the 'Català' language in the  'User settin
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
             cy.contains('Español').click()
             cy.contains('Català').click()
-            cy.contains('Guardar').click()
+        });
+
+        it("User should be able to save changes", function() {
+            cy.get('#user-settings-save-button').click()
         });
 
     });
@@ -816,7 +818,10 @@ describe("The user is able to select the 'Português' language in the  'User set
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
             cy.contains('Català').click()
             cy.contains('Português').click()
-            cy.contains('Guardar').click()
+        });
+
+        it("User should be able to save changes", function() {
+            cy.get('#user-settings-save-button').click()
         });
 
     });
@@ -839,7 +844,10 @@ describe("The user is able to select the 'Galego' language in the  'User setting
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
             cy.contains('Português').click()
             cy.contains('Galego').click()
-            cy.contains('Gravar').click()
+        });
+
+        it("User should be able to save changes", function() {
+            cy.get('#user-settings-save-button').click()
         });
 
     });
@@ -863,7 +871,10 @@ describe("The user is able to select the 'Polsku' language in the  'User setting
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
             cy.contains('Galego').click()
             cy.contains('Polsku').click()
-            cy.contains('Gardar').click()
+        });
+
+        it("User should be able to save changes", function() {
+            cy.get('#user-settings-save-button').click()
         });
 
     });
@@ -887,7 +898,10 @@ describe("The user is able to select the 'Euskera' language in the  'User settin
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
             cy.contains('Polsku').click()
             cy.contains('Euskera').click()
-            cy.contains('Zapisz').click()
+        });
+
+        it("User should be able to save changes", function() {
+            cy.get('#user-settings-save-button').click()
         });
 
     });
@@ -911,7 +925,10 @@ describe("The user is able to select the 'Français' language in the  'User sett
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
             cy.contains('Euskera').click()
             cy.contains('Français').click()
-            cy.contains('Gorde').click()
+        });
+
+        it("User should be able to save changes", function() {
+            cy.get('#user-settings-save-button').click()
         });
 
     });
@@ -934,8 +951,12 @@ describe("The user is able to select the 'English' language in the  'User settin
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
             cy.contains('Français').click()
             cy.contains('English').click()
-            cy.contains('Enregistrer').click()
         });
+
+        it("User should be able to save changes", function() {
+            cy.get('#user-settings-save-button').click()
+        });
+
         it("Refresh the Web App", function() {
             cy.visit(login_url);
         })
@@ -960,10 +981,10 @@ describe("The user is able to change password in the Councilbox", function() {
 
 
         it("Populate all required fields and click on the 'Save' button", function() {
-            cy.xpath('(//*[@type="password"])[1]').type('Mostar123!')
-            cy.xpath('(//*[@type="password"])[2]').type('Mostar123!')
-            cy.xpath('(//*[@type="password"])[3]').type('Mostar123!')
-            cy.xpath('(//*[@type="button"])[4]').click()
+            cy.get('#user-current-password').type('Mostar123!')
+            cy.get('#user-password').type('Mostar123!')
+            cy.get('#user-password-check').type('Mostar123!')
+            cy.get('#user-password-save').click()
         });
 
 
@@ -985,17 +1006,17 @@ describe("The user is not able to Link company with invalid inputs in the 'Maste
 
         });
 
-        it("Populate 'CIF of the entity*'' field", function() {
+        it("Populate the 'TIN of the organization*'' field", function() {
             cy.get('input').eq(0)
             .type("edittest04032021")
             .should("have.value", "edittest04032021")
         });
 
-        it("Populate 'Master key' field with invalid input", function() {
+        it("Populate  'Master code' field with invalid input", function() {
             cy.get('input').eq(1)
             .type("123")
             .should("have.value", "123")
-            cy.xpath('(//*[@type="button"])[5]').click()
+            cy.get('#company-link-button').click()
         });
 
         it("'Incorrect master key' message is displayed", function() {
@@ -1017,7 +1038,7 @@ describe("The user is not able to Link company with invalid inputs in the 'CIF o
             cy.get('input').eq(1).clear()
             .type("123")
             .should("have.value", "123")
-            cy.xpath('(//*[@type="button"])[5]').click()
+            cy.get('#company-link-button').click()
         });
 
         it("'COMPANY DOES NOT EXIST' message is displayed", function() {
@@ -1028,7 +1049,7 @@ describe("The user is not able to Link company with invalid inputs in the 'CIF o
 
 describe("The user is able to Link Company", function() {
 
-        it("Populate 'CIF of the entity*'' field", function() {
+        it("Populate 'TIN of the organization*' field", function() {
             cy.get('input').eq(0).clear()
             .type("edittest04032021")
             .should("have.value", "edittest04032021")
@@ -1038,9 +1059,17 @@ describe("The user is able to Link Company", function() {
             cy.get('input').eq(1).clear()
             .type("Regressiontest04032021")
             .should("have.value", "Regressiontest04032021")
-            cy.xpath('(//*[@type="button"])[5]').click()
+            cy.get('#company-link-button').click()
             cy.wait(3000)
         });
+
+        it("'Company linked correctly' message should be displayed ", function() {
+            cy.contains('Company linked correctly')
+        });
+
+        
+
+
 
     });
 
@@ -1057,9 +1086,12 @@ describe("The user is able to unlink the company", function() {
         it("Scroll down the page and in the right corner click on the 'Unlink' button", function() {
             cy.contains('Unlink').click()
             cy.wait(1000)
+        });
+
+        it("Click on the 'OK' button", function() {
             cy.contains('OK').click()
             cy.wait(1000)
-        });
+        })
 
         
 
@@ -1078,14 +1110,21 @@ describe("The user is able to edit 'Business name*'' in the Company settings in 
         });
 
 
-        it("Modify the 'Business name*'' field and click on the 'Save' button", function() {
+        it("Modify the 'Business name*' field and click on the 'Save' button", function() {
             cy.get('#business-name').clear().type(userID_Alpha()+Cypress.config('UniqueNumber'))
             cy.get('#save-button').click()
         });
 
+        it("'The changes have been saved successfully.' message is displayed", function() {
+            cy.contains('The changes have been saved successfully.')
+        });
+
+
+        
+
     });
 
-describe("The user is able to edit 'CIF of the entity*'' in the Company settings in the Councilbox", function() {
+describe("The user is able to edit 'TIN of the organization*' in the Company settings in the Councilbox", function() {
 
         it("On the upper right corner click on the 'User icon' button", function() {
             cy.wait(5000)
@@ -1097,9 +1136,13 @@ describe("The user is able to edit 'CIF of the entity*'' in the Company settings
         });
 
 
-        it("Modify the 'CIF of entity' field and click on the 'Save' button", function() {
+        it("Modify the 'TIN of the organization*'' field and click on the 'Save' button", function() {
             cy.get('#addSociedadCIF').clear().type(userID_Alpha()+Cypress.config('UniqueNumber'))
             cy.get('#save-button').click()
+        });
+
+        it("'The changes have been saved successfully.' message is displayed", function() {
+            cy.contains('The changes have been saved successfully.')
         });
 
     });
@@ -1122,9 +1165,13 @@ describe("The user is able to edit 'Domain' in the 'Company settings' in the Cou
             cy.get('#save-button').click()
         });
 
+        it("'The changes have been saved successfully.' message is displayed", function() {
+            cy.contains('The changes have been saved successfully.')
+        });
+
     });
 
-describe("The user is able to edit 'Master key' in the 'Company settings' in the Councilbox", function() {
+describe("The user is able to edit 'Master code' in the 'Company settings' in the Councilbox", function() {
 
         it("On the upper right corner click on the 'User icon' button", function() {
             cy.wait(5000)
@@ -1136,9 +1183,13 @@ describe("The user is able to edit 'Master key' in the 'Company settings' in the
         });
 
 
-        it("Modify the 'Master key' field and click on the 'Save' button", function() {
+        it("Modify the 'Master code' field and click on the 'Save' button", function() {
             cy.get('#addSociedadClaveMaestra').clear().type(userID_Alpha()+Cypress.config('UniqueNumber'))
             cy.get('#save-button').click()
+        });
+
+        it("'The changes have been saved successfully.' message is displayed", function() {
+            cy.contains('The changes have been saved successfully.')
         });
 
     });
@@ -1161,13 +1212,13 @@ describe("The user is able to edit 'External ID' in the 'Company settings' in th
             cy.get('#save-button').click()
         });
 
-        it("Back to Home page", function() {
-            cy.visit(login_url);
+        it("'The changes have been saved successfully.' message is displayed", function() {
+            cy.contains('The changes have been saved successfully.')
         });
 
     });
 
-describe("The user is able to edit 'Address' in the 'Contact data' in the Company settings in the Councilbox", function() {
+describe("The user is able to edit 'Address' in the 'Contact details' in the Company settings in the Councilbox", function() {
 
         it("On the upper right corner click on the 'User icon' button", function() {
             cy.wait(5000)
@@ -1184,9 +1235,13 @@ describe("The user is able to edit 'Address' in the 'Contact data' in the Compan
             cy.get('#save-button').click()
         });
 
+        it("'The changes have been saved successfully.' message is displayed", function() {
+            cy.contains('The changes have been saved successfully.')
+        });
+
     });
 
-describe("The user is able to edit 'Locality' in the 'Contact data' in the Company settings in the Councilbox", function() {
+describe("The user is able to edit 'Town/City' in the 'Contact details' in the Company settings in the Councilbox", function() {
 
         it("On the upper right corner click on the 'User icon' button", function() {
             cy.wait(5000)
@@ -1198,14 +1253,18 @@ describe("The user is able to edit 'Locality' in the 'Contact data' in the Compa
         });
 
 
-        it("Modify the 'Locality' field and click on the 'Save' button", function() {
+        it("Modify the 'Town/City' field and click on the 'Save' button", function() {
             cy.get('#addSociedadLocalidad').clear().type(userID_Alpha()+Cypress.config('UniqueNumber'))
             cy.get('#save-button').click()
         });
 
+        it("'The changes have been saved successfully.' message is displayed", function() {
+            cy.contains('The changes have been saved successfully.')
+        });
+
     });
 
-describe("The user is able to edit 'Country' in the 'Contact data' in the Company settings in the Councilbox", function() {
+describe("The user is able to edit 'Country' in the 'Contact details' in the Company settings in the Councilbox", function() {
 
         it("On the upper right corner click on the 'User icon' button", function() {
             cy.wait(5000)
@@ -1224,14 +1283,14 @@ describe("The user is able to edit 'Country' in the 'Contact data' in the Compan
             cy.get('#save-button').click()
         });
 
-        it("Back to Home page", function() {
-            cy.visit(login_url);
+        it("'The changes have been saved successfully.' message is displayed", function() {
+            cy.contains('The changes have been saved successfully.')
         });
 
 
     });
 
-describe("The user is able to edit 'Province' in the 'Contact data' in the Company settings in the Councilbox", function() {
+describe("The user is able to edit 'Province' in the 'Contact details' in the Company settings in the Councilbox", function() {
 
         it("On the upper right corner click on the 'User icon' button", function() {
             cy.wait(5000)
@@ -1250,14 +1309,15 @@ describe("The user is able to edit 'Province' in the 'Contact data' in the Compa
             cy.get('#save-button').click()
         });
 
-        it("Back to Home page", function() {
-            cy.visit(login_url);
+
+        it("'The changes have been saved successfully.' message is displayed", function() {
+            cy.contains('The changes have been saved successfully.')
         });
 
 
     });
 
-describe("The user is able to edit 'Zipcode' in the 'Contact data' in the Company settings in the Councilbox", function() {
+describe("The user is able to edit 'Zipcode' in the 'Contact details' in the Company settings in the Councilbox", function() {
 
         it("On the upper right corner click on the 'User icon' button", function() {
             cy.wait(5000)
@@ -1274,9 +1334,13 @@ describe("The user is able to edit 'Zipcode' in the 'Contact data' in the Compan
             cy.get('#save-button').click()
         });
 
+        it("'The changes have been saved successfully.' message is displayed", function() {
+            cy.contains('The changes have been saved successfully.')
+        });
+
     });
 
-describe("The user is able to edit 'Language' in the 'Contact data' in the Company settings in the Councilbox", function() {
+describe("The user is able to edit 'Language' in the 'Contact details' in the Company settings in the Councilbox", function() {
 
         it("On the upper right corner click on the 'User icon' button", function() {
             cy.wait(5000)
@@ -1293,6 +1357,10 @@ describe("The user is able to edit 'Language' in the 'Contact data' in the Compa
             cy.wait(1000)
             cy.xpath('(//*[@role="option"])[1]').click()
             cy.get('#save-button').click()
+        });
+
+        it("'The changes have been saved successfully.' message is displayed", function() {
+            cy.contains('The changes have been saved successfully.')
         });
 
     });
@@ -1598,15 +1666,15 @@ describe("The user is able to edit a type of meeting in the 'Council types' sect
             cy.wait(1000)
         });
 
-        it("Click on the “checkbox” in front of some fields", function() {
-            cy.contains('Email notification of the start of voting').click()
+        it("From the list of meetings find and click the one you want to edit", function() {
+            cy.contains('Extraordinary General Meeting').click()
+            cy.wait(1000)
         });
 
 
         it("Populate fields with new data and click on the 'Save' button", function() {
-            cy.contains('Extraordinary General Meeting').click()
-            cy.wait(1000)
-            cy.get('#MISSING_ID').click()
+            cy.contains('Email notification of the start of voting').click()
+            cy.get('#council-statute-save-button').click()
         });
 
         it("Back to Home page", function() {

@@ -43,12 +43,12 @@ const BasicButton = ({
 			disableRipple={loading}
 			style={{
 				textTransform: 'none',
-				...buttonStyle,
-				...textStyle,
 				backgroundColor: success ? 'green' : error ? 'red' : color,
 				float: floatRight && 'right',
 				outline: '0',
 				cursor: loading ? 'wait' : 'pointer',
+				...buttonStyle,
+				...textStyle,
 				...backgroundColor,
 			}}
 			disabled={disabled || loading}

@@ -358,7 +358,8 @@ const Login = ({ translate, windowSize, ...props }) => {
 								id={'login-button'}
 								textStyle={{
 									color: 'white',
-									fontWeight: '700'
+									fontWeight: '700',
+									...subdomain?.styles?.loginButton
 								}}
 								textPosition="before"
 								onClick={login}
@@ -367,6 +368,9 @@ const Login = ({ translate, windowSize, ...props }) => {
 									<ButtonIcon
 										color="white"
 										type="arrow_forward"
+										style={{
+											...subdomain?.styles?.loginButton
+										}}
 									/>
 								}
 							/>

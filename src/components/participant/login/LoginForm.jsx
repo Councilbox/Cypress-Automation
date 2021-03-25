@@ -21,6 +21,7 @@ import {
 import LoginWithCert from './LoginWithCert';
 import ContactAdminButton from './ContactAdminButton';
 import SMSStepper from './SMSAccess/SMSStepper';
+import { useSubdomain } from '../../../utils/subdomain';
 
 const styles = {
 	loginContainerMax: {
@@ -120,6 +121,7 @@ const LoginForm = ({
 	const [loadingKey, sendKey] = useSendRoomKey(client, participant);
 	const primary = getPrimary();
 	const secondary = getSecondary();
+	const subdomain = useSubdomain();
 
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
@@ -294,7 +296,8 @@ const LoginForm = ({
 						color={primary}
 						textStyle={{
 							color: 'white',
-							fontWeight: '700'
+							fontWeight: '700',
+							...subdomain?.styles?.roomLoginButton
 						}}
 						textPosition="before"
 						fullWidth={true}

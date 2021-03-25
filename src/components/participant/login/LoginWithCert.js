@@ -1,11 +1,13 @@
 import React from 'react';
 import { BasicButton, ButtonIcon } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
+import { useSubdomain } from '../../../utils/subdomain';
 
 const LoginWithCert = ({
 	participant, handleSuccess, translate, dispatch, status
 }) => {
 	const primary = getPrimary();
+	const subdomain = useSubdomain();
 
 	const getData = async () => {
 		try {
@@ -43,60 +45,62 @@ const LoginWithCert = ({
 	return (
 		<>
 			{status === 'ERROR'
-&& <BasicButton
-	text={translate.retry}
-	color={'red'}
-	textStyle={{
-		color: 'white',
-		fontWeight: '700'
-	}}
-	loading={status === 'LOADING'}
-	textPosition="before"
-	fullWidth={true}
-	onClick={getData}
-/>
+				&& <BasicButton
+					text={translate.retry}
+					color={'red'}
+					textStyle={{
+						color: 'white',
+						fontWeight: '700'
+					}}
+					loading={status === 'LOADING'}
+					textPosition="before"
+					fullWidth={true}
+					onClick={getData}
+				/>
 			}
 			{status === 'WAITING'
-&& <BasicButton
-	text={translate.check_certificate}
-	color={primary}
-	textStyle={{
-		color: 'white',
-		fontWeight: '700'
-	}}
-	loading={status === 'LOADING'}
-	disabled={status === 'ERROR'}
-	textPosition="before"
-	fullWidth={true}
-	icon={
-		<ButtonIcon
-			color="white"
-			type="directions_walk"
-		/>
-	}
-	onClick={getData}
-/>
+				&& <BasicButton
+					text={translate.check_certificate}
+					color={primary}
+					textStyle={{
+						color: 'white',
+						fontWeight: '700',
+						...subdomain?.styles?.roomLoginButton
+					}}
+					loading={status === 'LOADING'}
+					disabled={status === 'ERROR'}
+					textPosition="before"
+					fullWidth={true}
+					icon={
+						<ButtonIcon
+							color="white"
+							type="directions_walk"
+						/>
+					}
+					onClick={getData}
+				/>
 			}
 			{status === 'SUCCESS'
-&& <BasicButton
-	text={translate.enter_room}
-	color={status === 'ERROR' ? 'grey' : primary}
-	textStyle={{
-		color: 'white',
-		fontWeight: '700'
-	}}
-	loading={status === 'LOADING'}
-	disabled={status === 'ERROR'}
-	textPosition="before"
-	fullWidth={true}
-	icon={
-		<ButtonIcon
-			color="white"
-			type="directions_walk"
-		/>
-	}
-	onClick={status === 'SUCCESS' ? handleSuccess : () => {}}
-/>
+				&& <BasicButton
+					text={translate.enter_room}
+					color={status === 'ERROR' ? 'grey' : primary}
+					textStyle={{
+						color: 'white',
+						fontWeight: '700',
+						...subdomain?.styles?.roomLoginButton
+					}}
+					loading={status === 'LOADING'}
+					disabled={status === 'ERROR'}
+					textPosition="before"
+					fullWidth={true}
+					icon={
+						<ButtonIcon
+							color="white"
+							type="directions_walk"
+						/>
+					}
+					onClick={status === 'SUCCESS' ? handleSuccess : () => { }}
+				/>
 			}
 		</>
 	);
