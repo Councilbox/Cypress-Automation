@@ -73,8 +73,6 @@ const SMSAuthForm = ({
 			styleFix={{ overflow: 'hidden' }}
 		>
 			<div style={{
-				...styles.mainContainer,
-				height: '100%',
 				display: 'flex',
 				flexDirection: 'column',
 				justifyContent: 'center',
@@ -82,7 +80,7 @@ const SMSAuthForm = ({
 				width: '100%'
 			}}>
 				<Card style={{
-					...styles.cardContainer,
+					margin: isMobile ? '4em 0' : 'auto',
 					maxWidth: isMobile ? '100%' : '650px',
 					minWidth: window.innerWidth > 450 ? '550px' : '100%',
 				}} elevation={6}>
