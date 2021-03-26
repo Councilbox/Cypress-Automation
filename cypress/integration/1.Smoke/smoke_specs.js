@@ -171,7 +171,6 @@ describe("The user is able to create a new account in Councilbox", function() {
 
 describe("Councilbox login - valid username and password", function() {
 
-
     it("Visits the Councilbox web page", function() {
         cy.clearLocalStorage();
         cy.saveLocalStorage();
@@ -206,7 +205,6 @@ describe("Councilbox login - valid username and password", function() {
 
 describe("The user is able to add company in the Councilbox", function() {
 
-
     it("From the dashboard click on the 'Anadir sociedad' button", function() {
         cy.contains('Añadir sociedad').click()
     });
@@ -225,7 +223,6 @@ describe("The user is able to add company in the Councilbox", function() {
     */
 
     
-
     it("Populate “Razón social*” field", function() {
         cy.get('input').eq(0).type('Test')
     });
@@ -258,8 +255,7 @@ describe("The user is able to add company in the Councilbox", function() {
         cy.contains('España').click()
         cy.contains('Portugal').click()
     });
-
-    
+ 
     it("Populate “Código Postal” field", function() {
         cy.get('input').eq(11).type(Cypress.config('UniqueNumber'))
     });
@@ -275,6 +271,7 @@ describe("The user is able to add company in the Councilbox", function() {
 
 
 describe("Log Out", function() {
+
     it("Opens dropdown in upper right corner", function() {
         cy.get('#user-menu-trigger').click()
     });
@@ -305,13 +302,8 @@ describe("The user is able to restore a password", function() {
 
 });
      it("Open 'Restablecer contrasena' email and click on the 'Restablecer contrasena' button", function() {
-    
        cy.get('#login').type('alemtestqa12')
-       cy.get('.sbut').click()
-
-
-    
-       
+       cy.get('.sbut').click()      
        cy.get('#ifmail').then($iframe => {
   const $body = $iframe.contents().find('body') ; cy.wrap($body)
 

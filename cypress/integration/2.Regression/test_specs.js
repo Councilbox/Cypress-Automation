@@ -67,6 +67,170 @@ describe("Councilbox login - valid username and password", function() {
 });
 
 
+describe("The user is able to choose and select 'There is minimum notice to call notice' option for the call in the 'Convene' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Convene' section", function() {
+            cy.contains('Announcement:')
+            cy.wait(1000)
+        });
+
+        it("Click on the 'There is a minimum notice to call notice' checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-advance-notice-days').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Second call' option for the call in the 'Convene' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Convene' section", function() {
+            cy.contains('Announcement:')
+        });
+
+        it("Click on the 'There is second call' checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-has-second-call').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
+describe("The user is able to choose and select 'Attendees' type of quorum for the call in the 'Attendance' section in the 'Council types' form", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Navigate to the 'Type of Quorum' and click on the 'Attendees' button and click on the 'Save' button", function() {
+            cy.get('#council-type-quorum-type').click()
+            cy.wait(1000)
+            cy.get('#quorum-type-attendants').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
+describe("The user is able to choose and select 'Shares' type of quorum for the call in the 'Attendance' section in the 'Council types' form", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Navigate to the 'Type of quorum' and click on it and from the dropdown menu choose and click on the 'Shares' button and click on the 'Save' button", function() {
+            cy.get('#council-type-quorum-type').click()
+            cy.wait(1000)
+            cy.get('#quorum-type-social-capital').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Percentage' in the 'Quorum attendance 1st call' field in the 'Council types' form", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Navigate to the 'Quorum attendance 1st call' and click on the 'Percentage' button and enter the number then click on the 'Save' button", function() {
+            cy.get('#council-type-quorum-first-call').click()
+            cy.wait(1000)
+            cy.get('#quorum-first-call-0').click()
+            cy.wait(1000)
+            cy.get('#quorum-first-call-percentage').clear()
+                .type('20')
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Half plus one' in the 'Quorum attendance 1st call' field in the 'Council types' form", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Navigate to the 'Quorum attendance 1st call' and click on the 'Half plus one' button and enter the number then click on the 'Save' button", function() {
+            cy.get('#council-type-quorum-first-call').click()
+            cy.wait(1000)
+            cy.get('#quorum-first-call-1').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
 describe("The user is able to edit 'Business name*'' in the Company settings in the Councilbox", function() {
 
         it("On the upper right corner click on the 'User icon' button", function() {
