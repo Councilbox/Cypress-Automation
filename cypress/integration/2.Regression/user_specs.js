@@ -2074,6 +2074,276 @@ describe("The user is able to choose and select 'None' in the 'Quorum attendance
 
     });
 
+describe("The user is able to choose and select 'Delegated vote' option for the call in the 'Attendance' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Click on the 'There is a delegated vote' checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-delegated-vote').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'The sense of vote can be indicated in the delegations' option for the call in the 'Attendance' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Click on the 'The sense of vote can be indicated in the delegations' checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-vote-sense').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Early voting' option for the call in the 'Assistance' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Click on the 'There is early voting' checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-early-vote').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'There is maximum number of delegated votes option for the call' in the 'Assistance' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Click on the 'There is a maximum number of delegated votes' checkbox and navigate to the 'Vote' field and populate it then click on the 'Save' button", function() {
+            cy.get('#council-type-max-delegated').click()
+            cy.wait(1000)
+            cy.get('#council-type-max-delegated-number').clear()
+                .type('3')
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Access to the room is limited after the start' option for the call in the 'Assistance' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Click on the 'Access to the room is limited after the start' checkbox and navigate to the 'Minutes' field and populate it then click on the 'Save' button", function() {
+            cy.get('#council-type-limited-access').click()
+            cy.wait(1000)
+            cy.get('#council-type-limited-access-minutes').clear()
+                .type('3')
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
+
+describe("The user is able to choose and select 'Against' option for the call in the 'Default vote sense' field in the  'Completion of social agreements' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
+            cy.contains('Making resolutions')
+        });
+
+        it("Navigate to the 'Default vote sense' field", function() {
+            cy.get('#council-type-default-vote').click()
+            cy.wait(1000)
+        });
+
+        it("Click on the 'Against' button and click on the 'Save' button", function() {
+            cy.get('#default-vote-0').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'In favor' option for the call in the 'Default vote sense' field in the  'Completion of social agreements' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
+            cy.contains('Making resolutions')
+        });
+
+        it("Navigate to the 'Default vote sense' field", function() {
+            cy.get('#council-type-default-vote').click()
+            cy.wait(1000)
+        });
+
+        it("Click on the 'In favor' button and click on the 'Save' button", function() {
+            cy.get('#default-vote-1').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Abstention' option for the call in the 'Default vote sense' field in the  'Completion of social agreements' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
+            cy.contains('Making resolutions')
+        });
+
+        it("Navigate to the 'Default vote sense' field", function() {
+            cy.get('#council-type-default-vote').click()
+            cy.wait(1000)
+        });
+
+        it("Click on the 'Abstention' button and click on the 'Save' button", function() {
+            cy.get('#default-vote-2').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'No vote' option for the call in the 'Default vote sense' field in the  'Completion of social agreements' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
+            cy.contains('Making resolutions')
+        });
+
+        it("Navigate to the 'Default vote sense' field", function() {
+            cy.get('#council-type-default-vote').click()
+            cy.wait(1000)
+        });
+
+        it("Click on the 'No vote' button and click on the 'Save' button", function() {
+            cy.get('#default-vote-no-vote').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'No vote' option for the call in the 'Default vote sense' field in the  'Completion of social agreements' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
+            cy.contains('Making resolutions')
+        });
+
+        it("Navigate to the 'Default vote sense' field", function() {
+            cy.get('#council-type-default-vote').click()
+            cy.wait(1000)
+        });
+
+        it("Click on the 'No vote' button and click on the 'Save' button", function() {
+            cy.get('#default-vote-no-vote').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
 
 
 
