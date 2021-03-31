@@ -272,6 +272,13 @@ export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = '
 			label: 'previous_consents',
 			secondaryText: '',
 		}),
+		documentation: () => ({
+			...item,
+			id: Math.random().toString(36).substr(2, 9),
+			text: '',
+			label: 'dasboard_documentation',
+			secondaryText: '',
+		}),
 		agendaList: () => {
 			let puntos = `<b>${texts.agenda}</b> </br>`;
 			data.agendas.forEach(element => {
@@ -412,7 +419,8 @@ export const buildDoc = (data, translate, type) => {
 					blocks.PREVIOUS_CONSENTS,
 					blocks.AGENDA,
 					blocks.ACT_CONCLUSION,
-					blocks.ATTENDANTS_LIST
+					blocks.ATTENDANTS_LIST,
+					blocks.DOCUMENTATION
 				]
 			};
 
