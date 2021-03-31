@@ -358,7 +358,6 @@ const ActEditor = ({
 	council.attendants = data.councilAttendants.list;
 	council.delegatedVotes = data.participantsWithDelegatedVote;
 
-
 	const finishedToolbar = () => (
 		<>
 			<DownloadDoc
