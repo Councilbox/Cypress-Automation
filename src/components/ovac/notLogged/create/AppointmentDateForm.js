@@ -6,7 +6,7 @@ import { getPrimary } from '../../../../styles/colors';
 import { Grid, Scrollbar } from '../../../../displayComponents';
 
 
-const AppointmentDateForm = ({ style }) => {
+const AppointmentDateForm = ({ style, appointment, setState }) => {
 	const [scrollHeight, setScrollHeight] = React.useState(null);
 	const containerRef = React.useRef();
 	const primary = getPrimary();
@@ -45,10 +45,9 @@ const AppointmentDateForm = ({ style }) => {
 								</i>
 							</div>
 						}
-						//onChange={onChangeDay}
-						//value={filters.selectedDay}
+						onChange={date => setState({ date })}
+						value={appointment.date}
 						minDetail={'month'}
-						//tileClassName={date => getTileClassName(date)}
 					/>
 				</div>
 				<div
@@ -64,10 +63,14 @@ const AppointmentDateForm = ({ style }) => {
 				>
 					<Scrollbar>
 						<div style={{ flexGrow: 1 }}>
-							{['10:30', '10:45', '11:00', '11:00', '11:00', '11:00', '11:00', '11:00', '11:00', '11:00', '11:00', '11:00', '11:00', '11:00', '11:00', '11:00',].map(date => (
+							{['10:30', '10:45', '11:00', '11:15', '11:30', '11:45', '12:00', '12:15', '12:30', '12:45', '13:00'].map(date => (
 								<DateButton
 									key={date}
 									date={date}
+									onClick={() => setState({
+										time: date
+									})}
+									time={appointment.time}
 								/>
 							))}
 						</div>

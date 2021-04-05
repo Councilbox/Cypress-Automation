@@ -1,11 +1,11 @@
-import { Card } from 'material-ui';
+import { Card, MenuItem } from 'material-ui';
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import { SelectInput } from '../../../../displayComponents';
 import { getPrimary } from '../../../../styles/colors';
 
 
-const ServiceSelector = () => {
+const ServiceSelector = ({ appointment, setState }) => {
 	const primary = getPrimary();
 
 	return (
@@ -23,8 +23,14 @@ const ServiceSelector = () => {
 					fontSize: '20px',
 					fontWeight: '700'
 				}}
+				value={appointment.companyId}
+				onChange={event => {
+					setState({
+						companyId: event.target.value
+					});
+				}}
 			>
-
+				<MenuItem value={1054}>OVAC-DEMO</MenuItem>
 			</SelectInput>
 			<SelectInput
 				floatingText="Servicio solicitado"
@@ -32,11 +38,17 @@ const ServiceSelector = () => {
 					fontSize: '20px',
 					fontWeight: '700'
 				}}
+				value={appointment.statuteId}
 				styles={{
 					marginTop: '1em'
 				}}
+				onChange={event => {
+					setState({
+						statuteId: event.target.value
+					});
+				}}
 			>
-
+				<MenuItem value={2486}>DEMO</MenuItem>
 			</SelectInput>
 		</Card>
 	);

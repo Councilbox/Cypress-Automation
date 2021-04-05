@@ -1,9 +1,11 @@
+import gql from 'graphql-tag';
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as mainActions from '../../../../actions/mainActions';
 import { BasicButton, Grid, GridItem, LoadingMainApp, Scrollbar } from '../../../../displayComponents';
+import { moment } from '../../../../containers/App';
 import withTranslations from '../../../../HOCs/withTranslations';
 import { getPrimary } from '../../../../styles/colors';
 import { isMobile } from '../../../../utils/screen';
@@ -13,8 +15,15 @@ import AppointmentParticipantForm from './AppointmentParticipantForm';
 import ServiceSelector from './ServiceSelector';
 
 
-const CreateAppointmentPage = ({ match, translate, actions }) => {
+const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 	const [loadLanguage, setLoadedLanguage] = React.useState(false);
+	const [appointmentData, setAppointmentData] = React.useState({
+		companyId: 1054,
+		statuteId: 2486,
+		name: 'DEMO',
+		date: new Date(),
+		time: ''
+	});
 	const subdomain = useSubdomain();
 	const { language } = match.params;
 
@@ -29,9 +38,60 @@ const CreateAppointmentPage = ({ match, translate, actions }) => {
 	}, [language, translate.selectedLanguage]);
 
 
+	const updateAppointmentData = object => {
+		setAppointmentData({
+			...appointmentData,
+			...object
+		});
+	};
+
+	const createAppointment = async () => {
+		const { participant, ...council } = appointmentData;
+
+		const date = moment(council.date);
+		const time = council.time.split(':');
+
+		date.set({
+			hours: time[0],
+			minutes: time[1]
+		});
+
+		council.dateStart = date.toISOString();
+		delete council.date;
+		delete council.time;
+
+		const response = await client.mutate({
+			mutation: gql`
+				mutation CreateAppointment($council: CouncilInput, $participant: ParticipantInput) {
+					createAppointment(council: $council, participant: $participant) {
+						id
+					}
+				}
+			`,
+			variables: {
+				participant,
+				council
+			}
+		});
+
+		console.log(response);
+	};
+
+	const updateParticipant = object => {
+		setAppointmentData({
+			...appointmentData,
+			participant: {
+				...appointmentData.participant,
+				...object
+			}
+		});
+	};
+
 	if (!loadLanguage) {
 		return <LoadingMainApp />;
 	}
+
+	console.log(appointmentData);
 
 	return (
 		<div style={{ height: '100%', width: '100%' }}>
@@ -60,49 +120,33 @@ const CreateAppointmentPage = ({ match, translate, actions }) => {
 						fontStyle: 'normal',
 						lineHeight: 'normal',
 						letterSpacing: 'normal'
-					}}>Solicitud de cita previa</h2>
+					}}>
+						Solicitud de cita previa
+					</h2>
 					<div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-						{isMobile ?
-							<Grid style={{
-								maxWidth: '1024px',
-							}}>
-								<GridItem xs={12} md={6} lg={6}>
-									<ServiceSelector
-
-									/>
-									<AppointmentDateForm
-										style={{
-											marginTop: '1em'
-										}}
-									/>
-								</GridItem>
-								<GridItem xs={12} md={6} lg={6}>
-									<AppointmentParticipantForm
-
-									/>
-								</GridItem>
-							</Grid>
-							:
-							<Grid style={{
-								maxWidth: '1024px',
-							}}>
-								<GridItem xs={12} md={6} lg={6} style={{ height: '100%', overflow: 'hidden' }} >
-									<ServiceSelector
-
-									/>
-									<AppointmentDateForm
-										style={{
-											marginTop: '1em'
-										}}
-									/>
-								</GridItem>
-								<GridItem xs={12} md={6} lg={6} style={{ height: '100%', overflow: 'hidden' }}>
-									<AppointmentParticipantForm
-
-									/>
-								</GridItem>
-							</Grid>
-						}
+						<Grid style={{
+							maxWidth: '1024px',
+						}}>
+							<GridItem xs={12} md={6} lg={6} style={isMobile ? {} : { height: '100%', overflow: 'hidden' }} >
+								<ServiceSelector
+									appointment={appointmentData}
+									setState={updateAppointmentData}
+								/>
+								<AppointmentDateForm
+									appointment={appointmentData}
+									setState={updateAppointmentData}
+									style={{
+										marginTop: '1em'
+									}}
+								/>
+							</GridItem>
+							<GridItem xs={12} md={6} lg={6} style={isMobile ? {} : { height: '100%', overflow: 'hidden' }}>
+								<AppointmentParticipantForm
+									participant={appointmentData.participant}
+									setState={updateParticipant}
+								/>
+							</GridItem>
+						</Grid>
 					</div>
 					<div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
 						<Grid
@@ -128,6 +172,7 @@ const CreateAppointmentPage = ({ match, translate, actions }) => {
 									/>
 									<BasicButton
 										text="Solicitar cita"
+										onClick={createAppointment}
 										color={primary}
 										textStyle={{
 											color: 'white',

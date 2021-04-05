@@ -1119,7 +1119,7 @@ box-shadow: none!important;
 .marginP0 > p{ margin-bottom: 0px; }
 
 .scrollbarFixHeight > div > div { 
-	/* height: 100%; */
+	flex-grow: 1;
 }
 
 /* CouncilFinishedFeedback2 */ 
