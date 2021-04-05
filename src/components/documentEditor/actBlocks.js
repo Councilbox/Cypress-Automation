@@ -14,6 +14,18 @@ export const blocks = {
 		type: 'title',
 		editButton: true,
 	},
+	PREVIOUS_CONSENTS: {
+		id: Math.random().toString(36).substr(2, 9),
+		label: 'previous_consents',
+		type: 'previousConsents',
+		editButton: false,
+	},
+	DOCUMENTATION: {
+		id: Math.random().toString(36).substr(2, 9),
+		label: 'dasboard_documentation',
+		type: 'documentation',
+		editButton: false,
+	},
 	ACT_INTRO: {
 		id: Math.random().toString(36).substr(2, 9),
 		label: 'intro',

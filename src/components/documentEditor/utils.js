@@ -4,7 +4,7 @@ import iconVotaciones from '../../assets/img/handshake.svg';
 import iconAsistentes from '../../assets/img/meeting.svg';
 import iconAgendaComments from '../../assets/img/speech-bubbles-comment-option.svg';
 import {
-	getAgendaResult, hasVotation, isConfirmationRequest, isCustomPoint, showNumParticipations
+	getAgendaResult, hasVotation, isAppointment, isConfirmationRequest, isCustomPoint, showNumParticipations
 } from '../../utils/CBX';
 import iconDelegaciones from '../../assets/img/networking.svg';
 import { TAG_TYPES } from '../company/drafts/draftTags/utils';
@@ -265,6 +265,20 @@ export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = '
 			text: data.council.act.conclusion || '',
 			secondaryText: data.council.act.conclusionRightColumn || '',
 		}),
+		previousConsents: () => ({
+			...item,
+			id: Math.random().toString(36).substr(2, 9),
+			text: '',
+			label: 'previous_consents',
+			secondaryText: '',
+		}),
+		documentation: () => ({
+			...item,
+			id: Math.random().toString(36).substr(2, 9),
+			text: '',
+			label: 'dasboard_documentation',
+			secondaryText: '',
+		}),
 		agendaList: () => {
 			let puntos = `<b>${texts.agenda}</b> </br>`;
 			data.agendas.forEach(element => {
@@ -387,21 +401,30 @@ export const getDefaultTagsByBlockType = (type, translate) => {
 export const buildDoc = (data, translate, type) => {
 	const CBX_DOCS = {
 		act: () => {
-			const sections = [
-				blocks.ACT_TITLE,
-				blocks.ACT_INTRO,
-				blocks.ACT_CONSTITUTION,
-				blocks.AGENDA_LIST,
-				blocks.AGENDA,
-				blocks.ACT_CONCLUSION,
-				blocks.ATTENDANTS_LIST
-			];
+			const sections = {
+				default: [
+					blocks.ACT_TITLE,
+					blocks.ACT_INTRO,
+					blocks.ACT_CONSTITUTION,
+					blocks.AGENDA_LIST,
+					blocks.AGENDA,
+					blocks.ACT_CONCLUSION,
+					blocks.ATTENDANTS_LIST,
+					blocks.DELEGATION_LIST
+				],
+				[COUNCIL_TYPES.ONE_ON_ONE]: [
+					blocks.ACT_TITLE,
+					blocks.ACT_INTRO,
+					blocks.ACT_CONSTITUTION,
+					blocks.PREVIOUS_CONSENTS,
+					blocks.AGENDA,
+					blocks.ACT_CONCLUSION,
+					blocks.ATTENDANTS_LIST,
+					blocks.DOCUMENTATION
+				]
+			};
 
-			if (data.council.councilType !== COUNCIL_TYPES.ONE_ON_ONE) {
-				sections.push(blocks.DELEGATION_LIST);
-			}
-
-			return sections;
+			return isAppointment(data.council) ? sections[COUNCIL_TYPES.ONE_ON_ONE] : sections.default;
 		},
 		certificate: () => [
 			blocks.CERT_TITLE,

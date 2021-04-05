@@ -97,7 +97,6 @@ const SendCredentialsModal = ({
 		}
 		return (
 			<div>
-				{translate.send_to}
 				<br/>
 				<Radio
 					value={'all'}

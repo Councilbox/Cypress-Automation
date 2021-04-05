@@ -59,7 +59,7 @@ const SendClaveJusticiaModal = React.memo(({ participantId, open, client, reques
 						<BasicButton
 							text={translate.request_clave_pin_app}
 							onClick={async () => {
-								const response = await sendClaveJusticia('SMS');
+								const response = await sendClaveJusticia('APP');
 								if (response) {
 									successCB();
 								}

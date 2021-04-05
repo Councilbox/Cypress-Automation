@@ -305,6 +305,7 @@ const LoginForm = ({
 							<ButtonIcon
 								color="white"
 								type="directions_walk"
+								style={{ ...subdomain?.styles?.roomLoginButton }}
 							/>
 						}
 						onClick={login}

@@ -8,7 +8,7 @@ import CouncilState from './CouncilState';
 import { NotLoggedLayout } from '../../../displayComponents';
 import { isMobile } from '../../../utils/screen';
 import RequestDataInfo from './RequestDataInfo';
-import DataAuthorization from './DataAuthorization';
+import DataAuthorization from './Legalterms/DataAuthorization';
 import { ConfigContext } from '../../../containers/AppControl';
 
 // '850px'

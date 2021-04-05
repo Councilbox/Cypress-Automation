@@ -112,7 +112,7 @@ const Block = ({
 						: <React.Fragment>
 							<div>Aa</div>
 							<div>
-								<i className="fa fa-i-cursor" aria-hidden="true"/>
+								<i className="fa fa-i-cursor" aria-hidden="true" />
 							</div>
 						</React.Fragment>
 					}
@@ -123,7 +123,7 @@ const Block = ({
 				</div>
 			</div>
 			{props.expand ?
-			// Este es el que tiene que montar los demas puntos dentro
+				// Este es el que tiene que montar los demas puntos dentro
 				<Collapse in={expand} timeout="auto" unmountOnExit>
 					<React.Fragment>
 						<div style={{ marginTop: '1em' }} dangerouslySetInnerHTML={{
@@ -149,30 +149,30 @@ const Block = ({
 
 			<div style={{ marginTop: '1em' }}>
 				{props.value.editButton
-&& <Button style={{ color: getPrimary(), minWidth: '0', padding: '0' }} onClick={() => hoverAndSave(props.id, text)}>
-	{/* onClick={props.updateCouncilActa} */}
-	{editMode ?
-		translate.accept
-		: translate.edit
-	}
-</Button>
+					&& <Button style={{ color: getPrimary(), minWidth: '0', padding: '0' }} onClick={() => hoverAndSave(props.id, text)}>
+						{/* onClick={props.updateCouncilActa} */}
+						{editMode ?
+							translate.accept
+							: translate.edit
+						}
+					</Button>
 				}
 			</div>
 			{draftModal
-&& <Dialog
-	open={draftModal}
-	maxWidth={false}
-	onClose={closeDraftModal}
->
-	<DialogTitle>{translate.load_draft}</DialogTitle>
-	<DialogContent style={{ width: '800px' }}>
-		<LoadDraft
-			defaultTags={getDefaultTagsByBlockType(props.value.type, translate)}
-			translate={translate}
-			loadDraft={loadDraft}
-		/>
-	</DialogContent>
-</Dialog>
+				&& <Dialog
+					open={draftModal}
+					maxWidth={false}
+					onClose={closeDraftModal}
+				>
+					<DialogTitle>{translate.load_draft}</DialogTitle>
+					<DialogContent style={{ width: '800px' }}>
+						<LoadDraft
+							defaultTags={getDefaultTagsByBlockType(props.value.type, translate)}
+							translate={translate}
+							loadDraft={loadDraft}
+						/>
+					</DialogContent>
+				</Dialog>
 			}
 		</div>
 	);
@@ -227,9 +227,9 @@ export const BorderBox = ({
 									}
 								</span>
 								: !noIcon
-&& <i className="material-icons" style={{ cursor: 'pointer', color: '#979797' }} onClick={() => addItem(id)}>
-arrow_right_alt
-</i>
+								&& <i className="material-icons" style={{ cursor: 'pointer', color: '#979797' }} onClick={() => addItem(id)}>
+									arrow_right_alt
+								</i>
 							}
 						</div>
 					</div>
