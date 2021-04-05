@@ -73,20 +73,20 @@ const AgendaNumber = ({
 		onClick={onClick}
 	>
 		{voting
-&& <Tooltip title={translate.opened_votings}>
-	<FontAwesome
-		name={'envelope'}
-		style={{
-			position: 'absolute',
-			fontSize: '0.7em',
-			height: '0.8em',
-			backgroundColor: 'white',
-			color: secondaryColor,
-			top: -5,
-			right: -5
-		}}
-	/>
-</Tooltip>
+			&& <Tooltip title={translate.opened_votings}>
+				<FontAwesome
+					name={'envelope'}
+					style={{
+						position: 'absolute',
+						fontSize: '0.7em',
+						height: '0.8em',
+						backgroundColor: 'white',
+						color: secondaryColor,
+						top: -5,
+						right: -5
+					}}
+				/>
+			</Tooltip>
 		}
 		<div>
 			{getSubjectAbrv(index)}

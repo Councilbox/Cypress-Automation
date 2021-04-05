@@ -68,7 +68,7 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 								color: 'white'
 							}}
 						>
-keyboard_arrow_down
+							keyboard_arrow_down
 						</Icon>
 					</MenuItem>
 				</Card>
@@ -87,7 +87,7 @@ keyboard_arrow_down
 										marginRight: '0.4em'
 									}}
 								>
-rotate_right
+									rotate_right
 								</Icon>
 								{translate.unban_participant}
 							</MenuItem>
@@ -103,7 +103,7 @@ rotate_right
 									marginRight: '0.4em'
 								}}
 							>
-block
+								block
 							</Icon>
 							{translate.ban_participant}
 						</MenuItem>
@@ -119,7 +119,7 @@ block
 									marginRight: '0.4em'
 								}}
 							>
-launch
+								launch
 							</Icon>
 							{translate.send_to_waiting_room}
 						</MenuItem>
@@ -134,7 +134,7 @@ launch
 								marginRight: '0.4em'
 							}}
 						>
-storage
+							storage
 						</Icon>
 						{translate.video_logs_list}
 					</MenuItem>

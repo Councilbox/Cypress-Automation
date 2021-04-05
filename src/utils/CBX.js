@@ -1598,11 +1598,11 @@ export const getAgendaTypeLabel = agenda => {
 		case AGENDA_TYPES.PRIVATE_VOTING:
 			return 'private_votation';
 		case AGENDA_TYPES.CUSTOM_PUBLIC:
-			return 'fake_public_votation';
+			return 'custom_point';
 		case AGENDA_TYPES.CUSTOM_PRIVATE:
-			return 'private_votation';
+			return 'custom_point';
 		case AGENDA_TYPES.CUSTOM_NOMINAL:
-			return 'public_votation';
+			return 'custom_point';
 		case AGENDA_TYPES.CONFIRMATION_REQUEST:
 			return 'confirmation_request';
 		default:

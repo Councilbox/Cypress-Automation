@@ -76,14 +76,14 @@ const Resend2FAModal = ({
 			bodyText={
 				<div>
 					{data
-&& <>
-	<div>
-Último envío realizado: {moment(data.sendDate).format('LLL')}
-	</div>
-	<div>
-Teléfono terminado en: {data.phone}
-	</div>
-</>
+						&& <>
+							<div>
+								Último envío realizado: {moment(data.sendDate).format('LLL')}
+							</div>
+							<div>
+								Teléfono terminado en: {data.phone}
+							</div>
+						</>
 					}
 				</div>
 			}

@@ -479,7 +479,7 @@ const StatutesPage = ({
 									<div>
 										{state.unsavedChanges
 											&& <BasicButton
-												text={translate.undo_changes}
+												id="discard-changes-button"
 												color={getSecondary()}
 												textStyle={{
 													color: 'white',
@@ -504,6 +504,7 @@ const StatutesPage = ({
 										{!disabled
 											&& <BasicButton
 												text={translate.save}
+												id="council-statute-save-button"
 												disabled={state.error}
 												color={success ? 'green' : getPrimary()}
 												textStyle={{

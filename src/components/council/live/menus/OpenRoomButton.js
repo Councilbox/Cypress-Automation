@@ -16,9 +16,10 @@ import LiveSMS from '../councilMenu/LiveSMS';
 import FailedSMSMessage from '../councilMenu/FailedSMSMessage';
 import { isMobile } from '../../../../utils/screen';
 import { COUNCIL_TYPES } from '../../../../constants';
+import withSharedProps from '../../../../HOCs/withSharedProps';
 
 
-const OpenRoomButton = ({ council, translate, ...props }) => {
+const OpenRoomButton = ({ council, translate, user, ...props }) => {
 	const [state, setState] = useOldState({
 		sendCredentials: !council.videoEmailsDate,
 		sendOptions: 'all',
@@ -67,7 +68,7 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 		if (council.councilType === COUNCIL_TYPES.ONE_ON_ONE) {
 			return (
 				<a
-					href={`${window.location.origin}/recommendations/${council.language}`}
+					href={`${window.location.origin}/recommendations/${user.preferredLanguage}`}
 					rel="noopener noreferrer"
 					target="_blank"
 				>
@@ -200,4 +201,4 @@ const OpenRoomButton = ({ council, translate, ...props }) => {
 
 export default graphql(openCouncilRoom, {
 	name: 'openCouncilRoom'
-})(OpenRoomButton);
+})(withSharedProps()(OpenRoomButton));

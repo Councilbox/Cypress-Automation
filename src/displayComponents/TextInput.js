@@ -43,6 +43,7 @@ const TextInput = ({
 	stylesTextField,
 	autoComplete = 'true',
 	styleFloatText,
+	colorHelp
 }) => (
 	<FormControl
 		style={{
@@ -61,20 +62,21 @@ const TextInput = ({
 						: <div style={{ display: 'flex', ...styleFloatText }}>
 							{`${floatingText}${required ? '*' : ''}`}
 							{!!errorText
-&& <FontAwesome
-	name={'times'}
-	style={{
-		fontSize: '17px',
-		color: 'red',
-		marginLeft: '0.2em'
-	}}
-/>
+								&& <FontAwesome
+									name={'times'}
+									style={{
+										fontSize: '17px',
+										color: 'red',
+										marginLeft: '0.2em'
+									}}
+								/>
 							}
 							{helpPopover
-&& <HelpPopover
-	title={helpTitle}
-	content={helpDescription}
-/>
+								&& <HelpPopover
+									title={helpTitle}
+									content={helpDescription}
+									colorHelp={colorHelp}
+								/>
 							}
 						</div>
 			}

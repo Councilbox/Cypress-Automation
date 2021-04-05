@@ -91,7 +91,7 @@ const CouncilPreparePage = ({
 			},
 		];
 
-		if (config.councilDelegates && council.statute.existsDelegatedVote) {
+		if (config.councilDelegates && council.statute.existsDelegatedVote && !CBX.isAppointment(council)) {
 			tabs.push({
 				text: translate.delegations,
 			});

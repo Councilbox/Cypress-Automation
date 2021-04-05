@@ -495,7 +495,21 @@ const HoverableRow = ({
 
 
 export const DropdownEtiquetas = withStyles(styles)(({
-	stylesMenuItem, translate, corporation, search, setSearchModal, matchSearch, addTag, vars, testTags, styleBody, anchorOrigin, transformOrigin, removeTag, soloIcono, ...props
+	stylesMenuItem,
+	translate,
+	corporation,
+	search,
+	setSearchModal,
+	matchSearch,
+	addTag,
+	vars,
+	testTags,
+	styleBody,
+	anchorOrigin,
+	transformOrigin,
+	removeTag,
+	soloIcono,
+	...props
 }) => (
 	<DropDownMenu
 		id={'cargarPlantillasSelectorEtiquetas'}
@@ -562,7 +576,7 @@ export const DropdownEtiquetas = withStyles(styles)(({
 						</div>
 						<div>
 							<TextInput
-								placeholder={translate.search_template_tags}
+								placeholder={translate.search_template_tag}
 								adornment={<Icon>search</Icon>}
 								id={'buscarEtiquetasEnModal'}
 								type="text"

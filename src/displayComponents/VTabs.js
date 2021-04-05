@@ -114,36 +114,36 @@ const Vtabs = ({
 								elevation={0}
 							>
 								{!!saveAction
-&& <React.Fragment>
-	<Tooltip title={translate.save}>
-		<Icon
-			type="save"
-			style={{
-				fontSize: '1.75em',
-				width: '1.5em',
-				color: secondary
-			}}
-			onClick={event => {
-				saveAction();
-				event.stopPropagation();
-			}}
-		/>
-	</Tooltip>
-	<Tooltip title={translate.discard_changes} >
-		<Icon
-			type="rollback"
-			style={{
-				fontSize: '1.75em',
-				width: '1.5em',
-				color: secondary
-			}}
-			onClick={event => {
-				undoAction();
-				event.stopPropagation();
-			}}
-		/>
-	</Tooltip>
-</React.Fragment>
+									&& <React.Fragment>
+										<Tooltip title={translate.save}>
+											<Icon
+												type="save"
+												style={{
+													fontSize: '1.75em',
+													width: '1.5em',
+													color: secondary
+												}}
+												onClick={event => {
+													saveAction();
+													event.stopPropagation();
+												}}
+											/>
+										</Tooltip>
+										<Tooltip title={translate.discard_changes} >
+											<Icon
+												type="rollback"
+												style={{
+													fontSize: '1.75em',
+													width: '1.5em',
+													color: secondary
+												}}
+												onClick={event => {
+													undoAction();
+													event.stopPropagation();
+												}}
+											/>
+										</Tooltip>
+									</React.Fragment>
 								}
 								{!!editAction && (
 									<Tooltip title={translate.rename_council_type}>
@@ -210,11 +210,13 @@ const HoverableTab = ({
 
 
 	return (
-		<div style={{
-			display: 'flex', width: '22em', alignItems: 'center', justifyContent: 'space-between'
-		}}
-		onMouseOver={mouseEnterHandler}
-		onMouseLeave={mouseLeaveHandler}
+		<div
+			style={{
+				display: 'flex', width: '22em', alignItems: 'center', justifyContent: 'space-between'
+			}}
+			id="council-type-row"
+			onMouseOver={mouseEnterHandler}
+			onMouseLeave={mouseLeaveHandler}
 		>
 			<Tooltip title={tab.title}>
 				<span
@@ -233,54 +235,57 @@ const HoverableTab = ({
 			</Tooltip>
 			<span style={{ width: '2em', height: '32px' }} />
 			{(state.showAction && !disabled)
-&& <Paper
-	style={{
-		height: '35px',
-		paddingLeft: '1em',
-		paddingRight: '1em',
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'space-between',
-		borderRadius: '18px',
-		outline: '0'
-	}}
-	elevation={0}
->
-	{!!editAction && (
-		<Tooltip title={props.translate.rename_council_type}>
-			<IconButton
-				style={{
-					width: '32px',
-					height: '32px',
-					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'center'
-				}}
-			>
-				<i
-					className="fa fa-edit"
+				&& <Paper
+					id="council-type-buttons"
 					style={{
-						fontSize: '19px',
-						color: secondary
+						height: '35px',
+						paddingLeft: '1em',
+						paddingRight: '1em',
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'space-between',
+						borderRadius: '18px',
+						outline: '0'
 					}}
-					onClick={event => {
-						editAction(mapIndex);
-						event.stopPropagation();
-					}}
-				/>
-			</IconButton>
-		</Tooltip>
-	)}
-	{deleteAction
-&& <CloseIcon
-	style={{ float: 'right' }}
-	onClick={event => {
-		deleteAction(tab.data.id);
-		event.stopPropagation();
-	}}
-/>
-	}
-</Paper>
+					elevation={0}
+				>
+					{!!editAction && (
+						<Tooltip title={props.translate.rename_council_type}>
+							<IconButton
+								style={{
+									width: '32px',
+									height: '32px',
+									display: 'flex',
+									alignItems: 'center',
+									justifyContent: 'center'
+								}}
+							>
+								<i
+									id="edit-council-type-button"
+									className="fa fa-edit"
+									style={{
+										fontSize: '19px',
+										color: secondary
+									}}
+									onClick={event => {
+										editAction(mapIndex);
+										event.stopPropagation();
+									}}
+								/>
+							</IconButton>
+						</Tooltip>
+					)}
+					{deleteAction
+						&& <CloseIcon
+							id="delete-council-type-button"
+							style={{ float: 'right' }}
+							onClick={event => {
+								deleteAction(tab.data.id);
+								event.stopPropagation();
+							}}
+						/>
+					}
+				</Paper>
 			}
 		</div>
 	);

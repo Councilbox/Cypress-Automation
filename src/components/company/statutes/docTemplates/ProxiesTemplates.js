@@ -105,6 +105,7 @@ const ProxiesTemplates = ({ statute, updateState, translate }) => {
 			/>
 			<GridItem xs={12} md={12} lg={12}>
 				<Checkbox
+					id="council-type-double-column"
 					label={translate.double_column}
 					value={statute.doubleColumnDocs === 1}
 					onChange={(event, isInputChecked) => updateState({
@@ -115,6 +116,7 @@ const ProxiesTemplates = ({ statute, updateState, translate }) => {
 			</GridItem>
 			<GridItem xs={12} md={12} lg={12}>
 				<Checkbox
+					id="council-type-require-proxy"
 					label={translate.require_proxies}
 					value={statute.requireProxy === 1}
 					onChange={(event, isInputChecked) => updateState({
@@ -126,6 +128,7 @@ const ProxiesTemplates = ({ statute, updateState, translate }) => {
 
 			<GridItem xs={12} md={12} lg={12}>
 				<RichTextInput
+					id="council-type-proxy"
 					ref={proxyTemplate}
 					translate={translate}
 					floatingText={translate.custom_proxy}
@@ -143,6 +146,7 @@ const ProxiesTemplates = ({ statute, updateState, translate }) => {
 			</GridItem>
 			<GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0 ? { display: 'none' } : {}) }}>
 				<RichTextInput
+					id="council-type-proxy-secondary"
 					ref={proxySecondary}
 					translate={translate}
 					floatingText={translate.proxy_right_column}
@@ -160,6 +164,7 @@ const ProxiesTemplates = ({ statute, updateState, translate }) => {
 			</GridItem>
 			<GridItem xs={12} md={12} lg={12}>
 				<RichTextInput
+					id="council-type-vote-letter"
 					ref={voteLetter}
 					translate={translate}
 					floatingText={translate.vote_letter}
@@ -177,6 +182,7 @@ const ProxiesTemplates = ({ statute, updateState, translate }) => {
 			</GridItem>
 			<GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0 ? { display: 'none' } : {}) }}>
 				<RichTextInput
+					id="council-type-vote-letter-secondary"
 					ref={voteLetterSecondary}
 					translate={translate}
 					floatingText={translate.vote_letter_right_column}
@@ -194,6 +200,7 @@ const ProxiesTemplates = ({ statute, updateState, translate }) => {
 			</GridItem>
 			<GridItem xs={12} md={12} lg={12}>
 				<RichTextInput
+					id="council-type-vote-letter-with-sense"
 					ref={voteLetterWithSense}
 					translate={translate}
 					floatingText={translate.vote_letter_with_voting_sense}
@@ -211,6 +218,7 @@ const ProxiesTemplates = ({ statute, updateState, translate }) => {
 			</GridItem>
 			<GridItem xs={12} md={12} lg={12} style={{ ...(statute.doubleColumnDocs === 0 ? { display: 'none' } : {}) }}>
 				<RichTextInput
+					id="council-type-vote-letter-with-sense-secondary"
 					ref={voteLetterWithSenseSecondary}
 					translate={translate}
 					floatingText={translate.right_column_vote_letter_with_voting_sense}

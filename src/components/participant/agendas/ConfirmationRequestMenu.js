@@ -72,7 +72,7 @@ const ConfirmationRequestMenu = ({
 
 	const buildRecountText = recountData => {
 		const showRecount = ((CBX.getAgendaTypeLabel(agenda) !== 'private_votation'
-&& council.statute.hideVotingsRecountFinished === 0) || agenda.votingState === AGENDA_STATES.CLOSED) && !config.hideRecount;
+			&& council.statute.hideVotingsRecountFinished === 0) || agenda.votingState === AGENDA_STATES.CLOSED) && !config.hideRecount;
 
 		return (
 			showRecount ?
@@ -141,10 +141,10 @@ const ConfirmationRequestMenu = ({
 			}}
 		>
 			{denied.length > 0
-&& 'Dentro de los votos depositados en usted, tiene votos denegados' // TRADUCCION
+				&& 'Dentro de los votos depositados en usted, tiene votos denegados' // TRADUCCION
 			}
 			{fixed
-&& translate.participant_vote_fixed
+				&& translate.participant_vote_fixed
 			}
 			<VotingButton
 				text={
@@ -185,12 +185,12 @@ const ConfirmationRequestMenu = ({
 				}}
 			/>
 			{voteAtTheEnd
-&& <VoteConfirmationModal
-	open={modal}
-	requestClose={closeModal}
-	translate={translate}
-	acceptAction={() => updateAgendaVoting(vote)}
-/>
+				&& <VoteConfirmationModal
+					open={modal}
+					requestClose={closeModal}
+					translate={translate}
+					acceptAction={() => updateAgendaVoting(vote)}
+				/>
 			}
 		</Grid>
 	);
@@ -198,7 +198,7 @@ const ConfirmationRequestMenu = ({
 
 export const DeniedDisplay = ({ denied }) => (
 	<div>
-No puede ejercer su derecho a voto
+		No puede ejercer su derecho a voto
 		<br />
 		{denied.map(deniedVote => (
 			<React.Fragment key={`${deniedVote.author.name}`}>

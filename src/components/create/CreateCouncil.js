@@ -262,7 +262,7 @@ const CreateCouncilModal = ({
 										{config.onOnOneCouncil
 											&& <ButtonCreateCouncil
 												onClick={createOneOneOne}
-												title={'Cita 1 a 1'}
+												title={translate.council_type_appointment}
 												icon={<img src={oneOnOne}></img>}
 												isMobile={isMobile}
 												list={

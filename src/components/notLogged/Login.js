@@ -222,6 +222,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 								>
 									<Link to="/signup">
 										<BasicButton
+											id="sign-up-button"
 											text={translate.login_check_in}
 											color={'white'}
 											fullWidth

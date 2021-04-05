@@ -13,8 +13,10 @@ import {
 import RepresentativeForm from '../../../../company/census/censusEditor/RepresentativeForm';
 import withSharedProps from '../../../../../HOCs/withSharedProps';
 import SelectRepresentative from './SelectRepresentative';
-import { COUNCIL_TYPES } from '../../../../../constants';
-import { removeTypenameField } from '../../../../../utils/CBX';
+import { COUNCIL_TYPES, PARTICIPANT_VALIDATIONS } from '../../../../../constants';
+import { isAppointment, removeTypenameField } from '../../../../../utils/CBX';
+import CheckUserClavePin from '../../../participants/CheckParticipantRegisteredClavePin';
+import AppointmentParticipantForm from '../../../participants/AppointmentParticipantForm';
 
 const initialRepresentative = {
 	hasRepresentative: false,
@@ -36,7 +38,8 @@ class CouncilParticipantEditor extends React.Component {
 		representative: {},
 		errors: {},
 		representativeErrors: {},
-		selectRepresentative: false
+		selectRepresentative: false,
+		validated: true
 	};
 
 	updateParticipantData() {
@@ -73,6 +76,14 @@ class CouncilParticipantEditor extends React.Component {
 			: null;
 
 		if (!await this.checkRequiredFields()) {
+			if (!this.state.validated) {
+				return this.setState({
+					errors: {
+						clavePin: this.props.translate.participant_clave_justicia_should_be_checked
+					}
+				});
+			}
+
 			const response = await this.props.updateCouncilParticipant({
 				variables: {
 					participant: {
@@ -105,6 +116,9 @@ class CouncilParticipantEditor extends React.Component {
 
 	updateState = object => {
 		this.setState({
+			...((object?.dni && object.dni !== this.props.participant.dni) ? {
+				validated: this.props.council.statute.participantValidation === PARTICIPANT_VALIDATIONS.NONE
+			} : {}),
 			data: {
 				...this.state.data,
 				...object
@@ -295,36 +309,88 @@ class CouncilParticipantEditor extends React.Component {
 						marginBottom: '1em',
 						color: 'black',
 					}}>
-						<ParticipantForm
-							type={participant.personOrEntity}
-							participant={participant}
-							checkEmail={this.emailKeyUp}
-							participations={participations}
-							translate={translate}
-							hideVotingInputs={this.props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE}
-							languages={languages}
-							errors={errors}
-							updateState={this.updateState}
-						/>
+						{isAppointment(this.props.council) ?
+							<AppointmentParticipantForm
+								participant={participant}
+								checkEmail={this.emailKeyUp}
+								translate={translate}
+								languages={languages}
+								errors={errors}
+								updateState={this.updateState}
+							/>
+							:
+							<ParticipantForm
+								type={participant.personOrEntity}
+								participant={participant}
+								checkEmail={this.emailKeyUp}
+								participations={participations}
+								translate={translate}
+								hideVotingInputs={this.props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE}
+								languages={languages}
+								errors={errors}
+								updateState={this.updateState}
+							/>
+						}
 					</Card>
-					<Card style={{
-						padding: '1em',
-						marginBottom: '1em',
-						color: 'black',
-					}}>
-						<RepresentativeForm
-							translate={translate}
-							state={representative}
-							disabled={!!this.props.participant.representing}
-							setSelectRepresentative={value => this.setState({
-								selectRepresentative: value
-							})}
-							checkEmail={this.emailKeyUp}
-							updateState={this.updateRepresentative}
-							errors={representativeErrors}
-							languages={languages}
-						/>
-					</Card>
+					{!isAppointment(this.props.council) &&
+						<Card style={{
+							padding: '1em',
+							marginBottom: '1em',
+							color: 'black',
+						}}>
+							<RepresentativeForm
+								translate={translate}
+								state={representative}
+								disabled={!!this.props.participant.representing}
+								setSelectRepresentative={value => this.setState({
+									selectRepresentative: value
+								})}
+								checkEmail={this.emailKeyUp}
+								updateState={this.updateRepresentative}
+								errors={representativeErrors}
+								languages={languages}
+							/>
+						</Card>
+					}
+					{this.props.council.statute.participantValidation === PARTICIPANT_VALIDATIONS.CLAVE_PIN &&
+						<Card style={{
+							padding: '1em',
+							marginBottom: '1em',
+							color: 'black',
+						}}>
+							<CheckUserClavePin
+								translate={this.props.translate}
+								participant={participant}
+								setPinError={error => {
+									this.setState({
+										validated: false,
+										errors: {
+											clavePin: error
+										}
+									});
+								}}
+								validateParticipant={() => {
+									this.setState({
+										validated: true,
+										errors: {
+											...this.state.errors,
+											clavePin: ''
+										}
+									});
+								}}
+							/>
+							{this.state.errors.clavePin &&
+								<div style={{ color: 'red', fontWeight: '700', padding: '0.6em' }}>
+									{this.state.errors.clavePin}
+								</div>
+							}
+							{this.state.validated &&
+								<div style={{ color: 'green', fontWeight: '700', padding: '0.6em' }}>
+									{'Alta validada'}
+								</div>
+							}
+						</Card>
+					}
 				</div>
 			</div>
 		);

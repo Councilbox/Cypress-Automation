@@ -8,7 +8,7 @@ import CouncilState from './CouncilState';
 import { NotLoggedLayout, Scrollbar } from '../../../displayComponents';
 import { isMobile } from '../../../utils/screen';
 import RequestDataInfo from './RequestDataInfo';
-import DataAuthorization from './DataAuthorization';
+import DataAuthorization from './Legalterms/DataAuthorization';
 import { ConfigContext } from '../../../containers/AppControl';
 
 // '850px'
@@ -97,6 +97,7 @@ const ParticipantLogin = ({
 		);
 	}
 	const renderLogin = ((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council));
+
 	return (
 		<NotLoggedLayout
 			translate={props.translate}
@@ -124,11 +125,19 @@ const ParticipantLogin = ({
 								background: finishedVoted && 'transparent',
 								boxShadow: finishedVoted && 'none',
 								minWidth: window.innerWidth > 450 ? '550px' : '100%',
-								...(council.securityType === 2 && isMobile && {
-									margin: '10% 20% 5px'
-								}),
+								height: isMobile && '70%',
+								// ...(council.securityType === 2 && isMobile && {
+								margin: isMobile && '10% 20% 5px'
+								// }),
 							}} elevation={6}>
-								{loginForm()}
+								{isMobile ?
+									<Scrollbar>
+										{loginForm()}
+									</Scrollbar>
+									:
+									loginForm()
+								}
+
 							</Card>
 							<Card style={{
 								width: window.innerWidth > 450 ? '550px' : '100%',
@@ -159,6 +168,7 @@ const ParticipantLogin = ({
 									participant={participant}
 									council={council}
 									company={company}
+									translate={props.translate}
 									refetch={props.refetch}
 								/>
 							</Card>

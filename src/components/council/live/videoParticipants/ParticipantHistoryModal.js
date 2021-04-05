@@ -21,9 +21,8 @@ const ParticipantHistory = ({
 			<div>
 				{!!participant && (
 					<React.Fragment>
-						{`${participant.name} ${participant.surname || ''} - ${
-							participant.email
-						} - ${participant.position ? participant.position : ''}`}
+						{`${participant.name} ${participant.surname || ''} - ${participant.email
+							} - ${participant.position ? participant.position : ''}`}
 
 						{data.loading ? (
 							<LoadingSection />
@@ -57,7 +56,7 @@ const ParticipantHistory = ({
 											{`${history.trackInfo.ua.os
 												.name || '-'} ${history
 													.trackInfo.ua.os.version
-|| '-'}`}
+												|| '-'}`}
 										</TableCell>
 										<TableCell>
 											{history.trackInfo.ip}

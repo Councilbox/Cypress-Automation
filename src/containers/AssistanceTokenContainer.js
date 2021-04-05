@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { LoadingMainApp } from '../displayComponents';
 import InvalidUrl from '../components/participant/InvalidUrl';
 import SMSAuthForm from '../components/participant/2FA/SMSAuthForm';
+import AccessClaveJusticia from '../components/participant/2FA/ClaveJusticia/AccessClaveJusticia';
 
 const getMe = gql`
 	query participantMe {
@@ -38,12 +39,12 @@ const AssistanceTokenContainer = ({
 		setLoading(false);
 	};
 
-	const getData = React.useCallback(async () => {
+	const getData = React.useCallback(async accessKey => {
 		try {
 			const response = await participantToken({
 				variables: {
 					token: match.params.token,
-					smsKey: key
+					accessKey: accessKey || key
 				}
 			});
 
@@ -68,6 +69,16 @@ const AssistanceTokenContainer = ({
 	}
 
 	if (error) {
+		if (error.message === 'Cl@ve pin enabled' || error.message.includes('Invalid cl@ve pin')) {
+			return (
+				<AccessClaveJusticia
+					translate={translate}
+					sendKey={getData}
+					error={error}
+				/>
+			);
+		}
+
 		if (error.message === '2FA enabled' || error.message === 'Invalid key') {
 			return (
 				<SMSAuthForm
@@ -108,8 +119,8 @@ const mapStateToProps = state => ({
 });
 
 const participantToken = gql`
-	mutation participantToken($token: String!, $smsKey: String) {
-		assistanceToken(token: $token, smsKey: $smsKey)
+	mutation participantToken($token: String!, $accessKey: String) {
+		assistanceToken(token: $token, accessKey: $accessKey)
 	}
 `;
 

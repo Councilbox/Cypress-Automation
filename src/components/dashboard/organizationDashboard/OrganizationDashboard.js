@@ -580,14 +580,14 @@ const OrganizationDashboard = ({
 				}}>
 					<GridItem xs={8} md={8} lg={8} style={{ overflow: 'hidden' }}>
 						{config.oneOnOneDashboard ?
-							<div style={{ marginBottom: '1em', fontWeight: 'bold', color: '#a09b9e' }}>Citas en curso</div>
-							: <div style={{ marginBottom: '1em', fontWeight: 'bold', color: '#a09b9e' }}>Reuniones en curso</div>
+							<div style={{ marginBottom: '1em', fontWeight: 'bold', color: '#a09b9e' }}>{translate.ongoing_appointments}</div>
+							: <div style={{ marginBottom: '1em', fontWeight: 'bold', color: '#a09b9e' }}>{translate.ongoing_councils}</div>
 						}
 						{config.oneOnOneDashboard
 							&& <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1em' }}>
 								<div style={{ display: 'flex', marginRight: '1em' }}>
 									<BasicButton
-										text="Ver documentaciones pendientes"
+										text={translate.see_pending_documentation}
 										onClick={() => setFilterReuniones('withoutAttachments')}
 										backgroundColor={{
 											fontSize: '12px',
@@ -602,7 +602,7 @@ const OrganizationDashboard = ({
 								</div>
 								<div>
 									<BasicButton
-										text="Ver todas las citas"
+										text={translate.see_all_appointments}
 										onClick={() => setFilterReuniones(translate.all_plural)}
 										backgroundColor={{
 											fontSize: '12px',

@@ -375,11 +375,7 @@ const CompanySettingsPage = ({
 												key={companyType.label}
 												value={companyType.value}
 											>
-												{
-													translate[
-														companyType.label
-													]
-												}
+												{translate[companyType.label]}
 											</MenuItem>
 										)
 									)}
@@ -456,6 +452,7 @@ const CompanySettingsPage = ({
 							}
 							<GridItem xs={12} md={6} lg={4}>
 								<TextInput
+									id="company-external-id"
 									floatingText={translate.external_id}
 									type="text"
 									value={data.externalId || ''}
@@ -550,6 +547,7 @@ const CompanySettingsPage = ({
 						<GridItem xs={12} md={6} lg={3}>
 							{data.country
 								&& <SelectInput
+									id="company-country"
 									floatingText={translate.company_new_country}
 									value={countryInput ? 'otro' : data.country}
 									onChange={handleCountryChange}
@@ -575,6 +573,7 @@ const CompanySettingsPage = ({
 						{countryInput
 							&& <GridItem xs={12} md={6} lg={3}>
 								<TextInput
+									id="company-country-input"
 									floatingText={translate.company_new_country}
 									value={data.country}
 									errorText={errors.country}
@@ -636,6 +635,7 @@ const CompanySettingsPage = ({
 					</GridItem>
 					<GridItem xs={12} md={6} lg={3}>
 						<SelectInput
+							id="company-language-select"
 							floatingText={translate.language}
 							value={data.language}
 							onChange={event => updateState({
@@ -726,6 +726,7 @@ const CompanySettingsPage = ({
 					{props.linkButton
 						&& <BasicButton
 							text={translate.unlink}
+							id="company-unlink-button"
 							color={primary}
 							floatRight
 							textStyle={{
@@ -767,6 +768,7 @@ const CompanySettingsPage = ({
 				<AlertConfirm
 					requestClose={() => setState({ ...state, unlinkModal: false })}
 					open={state.unlinkModal}
+					id="unlink-modal"
 					acceptAction={unlinkCompany}
 					buttonAccept={translate.accept}
 					buttonCancel={translate.cancel}

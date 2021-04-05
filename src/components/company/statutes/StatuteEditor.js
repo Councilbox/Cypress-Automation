@@ -55,6 +55,7 @@ const StatuteEditor = ({
 								<div style={{ maxWidth: '20em' }}>
 									<SelectInput
 										disabled={disabled}
+										id="council-type-company-type"
 										floatingText={translate.company_type}
 										value={`${statute.companyType}` || '-1'}
 										onChange={event => updateState({
@@ -65,6 +66,7 @@ const StatuteEditor = ({
 									>
 										<MenuItem
 											value={'-1'}
+											id="company-type-all"
 										>
 											{translate.all_plural}
 										</MenuItem>
@@ -72,6 +74,7 @@ const StatuteEditor = ({
 											companyType => (
 												<MenuItem
 													key={companyType.label}
+													id={`company-type-${companyType.value}`}
 													value={`${companyType.value}`}
 												>
 													{translate[companyType.label]}
@@ -85,6 +88,7 @@ const StatuteEditor = ({
 								<div style={{ maxWidth: '20em' }}>
 									<SelectInput
 										disabled={disabled}
+										id="council-type-language"
 										floatingText={translate.language}
 										value={statute.language || 'all'}
 										onChange={event => updateState({
@@ -95,12 +99,14 @@ const StatuteEditor = ({
 									>
 										<MenuItem
 											value={'all'}
+											id="language-all"
 										>
 											{translate.all_plural}
 										</MenuItem>
 										{data.languages && data.languages.map(
 											language => (
 												<MenuItem
+													id={`language-${language.columnName}`}
 													key={language.columnName}
 													value={language.columnName}
 												>
@@ -116,6 +122,7 @@ const StatuteEditor = ({
 
 					<GridItem xs={12} md={6} lg={6}>
 						<Checkbox
+							id="council-type-advance-notice-days"
 							label={translate.exists_advance_notice_days}
 							value={statute.existsAdvanceNoticeDays === 1}
 							onChange={(event, isInputChecked) => updateState({
@@ -128,6 +135,7 @@ const StatuteEditor = ({
 						{statute.existsAdvanceNoticeDays === 1 && (
 							<TextInput
 								floatingText={translate.input_group_days}
+								id="council-type-advance-notice-days-input"
 								required
 								type="tel"
 								errorText={errors.advanceNoticeDays || statute.advanceNoticeDays === '' ? `${translate.minimum_notice_days}: 1` : ''}
@@ -145,6 +153,7 @@ const StatuteEditor = ({
 
 					<GridItem xs={12} md={6} lg={6}>
 						<Checkbox
+							id="council-type-has-second-call"
 							label={translate.exists_second_call}
 							value={statute.existsSecondCall === 1}
 							onChange={(event, isInputChecked) => updateState({
@@ -159,6 +168,7 @@ const StatuteEditor = ({
 								floatingText={
 									translate.minimum_separation_between_call
 								}
+								id="council-type-minimum-separation"
 								required
 								type="tel"
 								adornment={translate.minutes}
@@ -191,16 +201,17 @@ const StatuteEditor = ({
 					<GridItem xs={12} md={6} lg={6}>
 						<SelectInput
 							floatingText={translate.quorum_type}
+							id="council-type-quorum-type"
 							value={statute.quorumPrototype}
 							onChange={event => updateState({
 								quorumPrototype: event.target.value
 							})
 							}
 						>
-							<MenuItem value={0}>
+							<MenuItem value={0} id="quorum-type-attendants">
 								{translate.census_type_assistants}
 							</MenuItem>
-							<MenuItem value={1}>
+							<MenuItem value={1} id="quorum-type-social-capital">
 								{translate.social_capital}
 							</MenuItem>
 						</SelectInput>
@@ -210,6 +221,7 @@ const StatuteEditor = ({
 					</GridItem>
 					<GridItem xs={6} md={6} lg={6}>
 						<SelectInput
+							id="council-type-quorum-first-call"
 							floatingText={translate.exist_quorum_assistance_first_call}
 							value={statute.firstCallQuorumType}
 							styleLabel={{ minWidth: '240px' }}
@@ -223,6 +235,7 @@ const StatuteEditor = ({
 								&& quorumTypes.map(quorumType => (
 									<MenuItem
 										value={quorumType.value}
+										id={`quorum-first-call-${quorumType.value}`}
 										key={`quorum_${quorumType.label}`}
 									>
 										{translate[quorumType.label]}
@@ -234,6 +247,7 @@ const StatuteEditor = ({
 					<GridItem xs={5} md={2} lg={2}>
 						{CBX.quorumNeedsInput(statute.firstCallQuorumType) && (
 							<QuorumInput
+								id="quorum-first-call"
 								type={statute.firstCallQuorumType}
 								style={{ marginLeft: '1em' }}
 								value={statute.firstCallQuorum}
@@ -254,6 +268,7 @@ const StatuteEditor = ({
 					{statute.existsSecondCall === 1 && (
 						<GridItem xs={6} md={6} lg={6}>
 							<SelectInput
+								id="council-type-quorum-second-call"
 								floatingText={translate.exist_quorum_assistance_second_call}
 								value={statute.secondCallQuorumType}
 								styleLabel={{ minWidth: '240px' }}
@@ -266,6 +281,7 @@ const StatuteEditor = ({
 									&& quorumTypes.map(quorumType => (
 										<MenuItem
 											value={quorumType.value}
+											id={`quorum-second-call-${quorumType.value}`}
 											key={`quorum_${quorumType.label
 												}`}
 										>
@@ -279,6 +295,7 @@ const StatuteEditor = ({
 						<GridItem xs={5} md={2} lg={2}>
 							{CBX.quorumNeedsInput(statute.secondCallQuorumType) && (
 								<QuorumInput
+									id="quorum-second-call"
 									type={statute.secondCallQuorumType}
 									style={{ marginLeft: '1em' }}
 									value={statute.secondCallQuorum}
@@ -301,6 +318,7 @@ const StatuteEditor = ({
 					)}
 					<GridItem xs={12} md={7} lg={7}>
 						<Checkbox
+							id="council-type-delegated-vote"
 							label={translate.exists_delegated_vote}
 							value={statute.existsDelegatedVote === 1}
 							onChange={(event, isInputChecked) => updateState({
@@ -313,6 +331,7 @@ const StatuteEditor = ({
 						&& <>
 							<GridItem xs={12} md={7} lg={7}>
 								<Checkbox
+									id="council-type-vote-sense"
 									disabled={statute.existsDelegatedVote !== 1}
 									label={translate.can_sense_vote_delegation}
 									value={statute.canSenseVoteDelegate === 1}
@@ -324,6 +343,7 @@ const StatuteEditor = ({
 							</GridItem>
 							<GridItem xs={12} md={7} lg={7}>
 								<Checkbox
+									id="council-type-early-vote"
 									label={translate.exists_early_voting}
 									value={statute.canEarlyVote === 1}
 									onChange={(event, isInputChecked) => updateState({
@@ -337,6 +357,7 @@ const StatuteEditor = ({
 					<GridItem xs={10} md={6} lg={6} style={{ display: 'flex', alignItems: 'center' }}>
 						<Checkbox
 							helpPopover={true}
+							id="council-type-max-delegated"
 							helpTitle={translate.exist_max_num_delegated_votes}
 							helpDescription={translate.max_delegated_votes_des}
 							label={translate.exist_max_num_delegated_votes}
@@ -352,6 +373,7 @@ const StatuteEditor = ({
 					<GridItem xs={2} md={2} lg={2} style={{ display: 'flex', alignItems: 'center' }}>
 						{statute.existMaxNumDelegatedVotes === 1 && (
 							<TextInput
+								id="council-type-max-delegated-number"
 								floatingText={translate.votes}
 								required
 								type="tel"
@@ -369,6 +391,7 @@ const StatuteEditor = ({
 					</GridItem>
 					<GridItem xs={10} md={6} lg={6} style={{ display: 'flex', alignItems: 'center' }}>
 						<Checkbox
+							id="council-type-limited-access"
 							label={translate.exists_limited_access_room}
 							helpPopover={false}
 							helpTitle={translate.exists_limited_access_room}
@@ -385,6 +408,7 @@ const StatuteEditor = ({
 					<GridItem xs={2} md={2} lg={2} style={{ display: 'flex', alignItems: 'center' }}>
 						{statute.existsLimitedAccessRoom === 1 && (
 							<TextInput
+								id="council-type-limited-access-minutes"
 								floatingText={translate.minutes}
 								required
 								type="tel"
@@ -412,6 +436,7 @@ const StatuteEditor = ({
 				<Grid>
 					<GridItem xs={12} md={7} lg={7}>
 						<Checkbox
+							id="council-type-has-comments"
 							label={translate.exists_comments}
 							value={statute.existsComments === 1}
 							onChange={(event, isInputChecked) => updateState({
@@ -422,6 +447,7 @@ const StatuteEditor = ({
 					</GridItem>
 					<GridItem xs={12} md={7} lg={7}>
 						<Checkbox
+							id="council-type-notify-points"
 							label={translate.exists_notify_points}
 							value={statute.notifyPoints === 1}
 							onChange={(event, isInputChecked) => updateState({
@@ -432,6 +458,7 @@ const StatuteEditor = ({
 					</GridItem>
 					<GridItem xs={12} md={7} lg={7}>
 						<Checkbox
+							id="council-type-quality-vote"
 							label={translate.exists_quality_vote}
 							value={statute.existsQualityVote === 1}
 							onChange={(event, isInputChecked) => updateState({
@@ -442,6 +469,7 @@ const StatuteEditor = ({
 					</GridItem>
 					<GridItem xs={12} md={7} lg={7}>
 						<Checkbox
+							id="council-type-president"
 							label={translate.president}
 							value={statute.hasPresident === 1}
 							onChange={(event, isInputChecked) => updateState({
@@ -452,6 +480,7 @@ const StatuteEditor = ({
 					</GridItem>
 					<GridItem xs={12} md={7} lg={7}>
 						<Checkbox
+							id="council-type-secretary"
 							label={translate.secretary}
 							value={statute.hasSecretary === 1}
 							onChange={(event, isInputChecked) => updateState({
@@ -462,6 +491,7 @@ const StatuteEditor = ({
 					</GridItem>
 					<GridItem xs={12} md={7} lg={7}>
 						<Checkbox
+							id="council-type-hide-recount"
 							label={translate.hide_votings_recount}
 							value={statute.hideVotingsRecountFinished === 1}
 							onChange={(event, isInputChecked) => updateState({
@@ -472,6 +502,7 @@ const StatuteEditor = ({
 					</GridItem>
 					<GridItem xs={12} md={7} lg={7}>
 						<Checkbox
+							id="council-type-remote-vote"
 							helpPopover={true}
 							helpTitle={translate.exist_present_with_remote_vote}
 							helpDescription={translate.exists_present_with_remote_vote_desc}
@@ -487,6 +518,7 @@ const StatuteEditor = ({
 					</GridItem>
 					<GridItem xs={12} md={7} lg={7}>
 						<Checkbox
+							id="council-type-agenda-modify"
 							label={translate.agenda_can_be_modified}
 							value={statute.canAddPoints === 1}
 							onChange={(event, isInputChecked) => updateState({
@@ -497,6 +529,7 @@ const StatuteEditor = ({
 					</GridItem>
 					<GridItem xs={12} md={7} lg={7}>
 						<Checkbox
+							id="council-type-agenda-reorder"
 							label={translate.can_reorder_points}
 							value={statute.canReorderPoints === 1}
 							onChange={(event, isInputChecked) => updateState({
@@ -507,6 +540,7 @@ const StatuteEditor = ({
 					</GridItem>
 					<GridItem xs={12} md={7} lg={7}>
 						<Checkbox
+							id="council-type-can-unblock"
 							label={translate.can_unblock}
 							value={statute.canUnblock === 1}
 							onChange={(event, isInputChecked) => updateState({
@@ -517,6 +551,7 @@ const StatuteEditor = ({
 					</GridItem>
 					<GridItem xs={12} md={7} lg={7}>
 						<SelectInput
+							id="council-type-default-vote"
 							floatingText={translate.default_vote}
 							value={statute.defaultVote}
 							onChange={event => updateState({
@@ -525,21 +560,25 @@ const StatuteEditor = ({
 							}
 						>
 							<MenuItem
+								id="default-vote-no-vote"
 								value={-1}
 							>
 								{translate.dont_vote}
 							</MenuItem>
 							<MenuItem
+								id="default-vote-0"
 								value={0}
 							>
 								{translate.against_btn}
 							</MenuItem>
 							<MenuItem
+								id="default-vote-1"
 								value={1}
 							>
 								{translate.in_favor_btn}
 							</MenuItem>
 							<MenuItem
+								id="default-vote-2"
 								value={2}
 							>
 								{translate.abstention_btn}
@@ -564,6 +603,7 @@ const StatuteEditor = ({
 				<Grid style={{ overflow: 'hidden' }}>
 					<GridItem xs={12} md={4} lg={4}>
 						<SelectInput
+							id="council-type-default-census"
 							floatingText={translate.associated_census}
 							value={statute.censusId || '-1'}
 							onChange={event => updateState({
@@ -573,9 +613,10 @@ const StatuteEditor = ({
 						>
 							{!!props.censusList && !props.censusList.loading
 								&& props.censusList.censuses.list.map(
-									census => (
+									(census, index) => (
 										<MenuItem
 											value={census.id}
+											id={`census-${index}`}
 											key={`census_${census.id}`}
 										>
 											{census.censusName}
@@ -588,6 +629,7 @@ const StatuteEditor = ({
 								&& company.governingBodyData.list
 								&& company.governingBodyData.list.length > 0)
 								&& <MenuItem
+									id='census-governing-body'
 									value={parseInt(-1, 10)}
 								>
 									{translate.governing_body}
@@ -633,6 +675,7 @@ const VideoSection = ({ updateState, statute, translate }) => {
 					<TextInput
 						floatingText={'RTMP'}
 						required
+						id="council-type-rtmp"
 						errorText={!validURL ? translate.invalid_url : null}
 						value={statute.videoConfig ? statute.videoConfig.rtmp : ''}
 						onChange={event => {

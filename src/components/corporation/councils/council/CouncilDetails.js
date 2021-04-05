@@ -665,6 +665,7 @@ const CouncilDetailsRoot = gql`
         council(id: $id) {
 			id
 			businessName
+			companyId
 			country
 			countryState
 			currentQuorum

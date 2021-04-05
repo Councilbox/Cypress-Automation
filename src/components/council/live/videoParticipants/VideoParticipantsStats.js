@@ -40,7 +40,7 @@ const VideoParticipantsStats = ({
 						color: lightGrey
 					}}
 				>
-person
+					person
 				</Icon>
 				<span
 					style={{
@@ -71,7 +71,7 @@ person
 						color: turquoise
 					}}
 				>
-language
+					language
 				</Icon>
 				<span
 					style={{
@@ -103,7 +103,7 @@ language
 						color: 'crimson'
 					}}
 				>
-language
+					language
 				</Icon>
 				<span
 					style={{
@@ -134,7 +134,7 @@ language
 						color: turquoise
 					}}
 				>
-videocam
+					videocam
 				</Icon>
 				<span
 					style={{
@@ -165,7 +165,7 @@ videocam
 						color: 'crimson'
 					}}
 				>
-block
+					block
 				</Icon>
 				<span
 					style={{
@@ -197,7 +197,7 @@ block
 						color: turquoise
 					}}
 				>
-pan_tool
+					pan_tool
 				</Icon>
 				<span
 					style={{
@@ -228,7 +228,7 @@ pan_tool
 						color: turquoise
 					}}
 				>
-tv_off
+					tv_off
 				</Icon>
 				<span
 					style={{

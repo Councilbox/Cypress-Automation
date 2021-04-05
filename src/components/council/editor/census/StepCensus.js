@@ -80,7 +80,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 			loading: true
 		});
 		const {
-			__typename, participants, selectedCensusId, ...council
+			__typename, participants, selectedCensusId, statute, ...council
 		} = data.council;
 		await props.updateCouncil({
 			variables: {
@@ -373,7 +373,7 @@ const StepCensus = ({ translate, data, ...props }) => {
 						onClick={() => saveDraft(2)}
 					/>
 					<BasicButton
-						text={translate.table_button_next}
+						text={translate.next}
 						color={primary}
 						disabled={data.loading}
 						textStyle={{
