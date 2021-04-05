@@ -27,10 +27,10 @@ const CheckBox = ({
 			style={{ marginBottom: '0', marginRight: '0', ...styleLabel }}
 		/>
 		{helpPopover
-&& <HelpPopover
-	title={helpTitle}
-	content={helpDescription}
-/>
+			&& <HelpPopover
+				title={helpTitle}
+				content={helpDescription}
+			/>
 		}
 	</div>
 );

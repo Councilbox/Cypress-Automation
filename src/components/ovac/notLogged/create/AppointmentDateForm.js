@@ -63,7 +63,7 @@ const AppointmentDateForm = ({ style }) => {
 					}}
 				>
 					<Scrollbar>
-						<div>
+						<div style={{ flexGrow: 1 }}>
 							{['10:30', '10:45', '11:00', '11:00', '11:00', '11:00', '11:00', '11:00', '11:00', '11:00', '11:00', '11:00', '11:00', '11:00', '11:00', '11:00',].map(date => (
 								<DateButton
 									key={date}

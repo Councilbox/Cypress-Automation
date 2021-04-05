@@ -1,13 +1,13 @@
 import { Card } from 'material-ui';
 import React from 'react';
-import { TextInput } from '../../../../displayComponents';
+import { Checkbox, TextInput } from '../../../../displayComponents';
 import withTranslations from '../../../../HOCs/withTranslations';
 
 
 const labelStyle = {
 	fontSize: '20px',
 	fontWeight: '500'
-}
+};
 
 const AppointmentParticipantForm = ({ translate }) => {
 	return (
@@ -42,6 +42,9 @@ const AppointmentParticipantForm = ({ translate }) => {
 			<TextInput
 				floatingText={translate.email}
 				styleFloatText={labelStyle}
+			/>
+			<Checkbox
+				label={'El ciudadano da su consentimiento para que el resultado de la asistencia prestada en la cita previa sea tratada por este organismo'}
 			/>
 		</Card>
 	);

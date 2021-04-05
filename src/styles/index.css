@@ -80,9 +80,11 @@ box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 4px, rgba(0, 0, 0, 0.25) 0px 1px 3px;
 }
 
 .Scrollbar>div:first-child {
-margin-right: -17px !important;
-margin-bottom: -17px !important;
-scroll-behavior: smooth;
+	margin-right: -17px !important;
+	margin-bottom: -17px !important;
+	scroll-behavior: smooth;
+	display: flex;
+	flex-grow: 1;
 }
 
 h4 {
@@ -1116,7 +1118,9 @@ box-shadow: none!important;
 
 .marginP0 > p{ margin-bottom: 0px; }
 
-.scrollbarFixHeight > div > div { height: 100%;}
+.scrollbarFixHeight > div > div { 
+	/* height: 100%; */
+}
 
 /* CouncilFinishedFeedback2 */ 
 .btn-councilFF2 {

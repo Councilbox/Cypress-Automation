@@ -156,7 +156,7 @@ class AppRouter extends React.Component {
 			return <LoadingMainApp />;
 		}
 
-		if (this.props.subdomain && this.props.subdomain.variant === 'ovac') {
+		if (this.props.subdomain && this.props.subdomain.variant === 'ovac' || true) {
 			return <LoadOVACRouter />;
 		}
 

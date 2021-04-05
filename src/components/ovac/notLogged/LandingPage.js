@@ -16,13 +16,18 @@ const LandingPage = ({ translate }) => {
 			helpIcon={true}
 			languageSelector={true}
 		>
-			<div style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+			<div style={{
+				width: '100%',
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+				flexGrow: 1
+			}}>
 				<Card style={{
-					height: isMobile ? 'calc(100vh - 15em)' : '',
-					margin: isMobile ? '3em 0' : 'auto',
+					margin: isMobile ? '6em 0' : 'auto',
 					backgroundColor: 'white',
 					width: isMobile ? '100%' : '',
-					padding: isMobile ? '0' : '8em 10em',
+					padding: isMobile ? '4em 2em' : '8em 10em',
 					display: 'flex',
 					alignItems: 'center',
 					justifyContent: 'center'

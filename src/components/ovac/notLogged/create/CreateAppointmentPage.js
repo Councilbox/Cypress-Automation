@@ -6,6 +6,7 @@ import * as mainActions from '../../../../actions/mainActions';
 import { BasicButton, Grid, GridItem, LoadingMainApp, Scrollbar } from '../../../../displayComponents';
 import withTranslations from '../../../../HOCs/withTranslations';
 import { getPrimary } from '../../../../styles/colors';
+import { isMobile } from '../../../../utils/screen';
 import { getCustomLogo, useSubdomain } from '../../../../utils/subdomain';
 import AppointmentDateForm from './AppointmentDateForm';
 import AppointmentParticipantForm from './AppointmentParticipantForm';
@@ -35,11 +36,12 @@ const CreateAppointmentPage = ({ match, translate, actions }) => {
 	return (
 		<div style={{ height: '100%', width: '100%' }}>
 			<Scrollbar>
-				<div>
+				<div style={{ width: '100%', justifyContent: 'center', display: 'flex', flexDirection: 'column' }}>
 					<div style={{
 						height: '4.5em',
 						width: '100%',
 						display: 'flex',
+						flexGrow: 1,
 						flexDirection: 'column',
 						alignItems: 'center',
 						justifyContent: 'center'
@@ -60,25 +62,47 @@ const CreateAppointmentPage = ({ match, translate, actions }) => {
 						letterSpacing: 'normal'
 					}}>Solicitud de cita previa</h2>
 					<div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-						<Grid style={{
-							maxWidth: '1024px',
-						}}>
-							<GridItem xs={12} md={6} lg={6} style={{ height: '100%', overflow: 'hidden' }} >
-								<ServiceSelector
+						{isMobile ?
+							<Grid style={{
+								maxWidth: '1024px',
+							}}>
+								<GridItem xs={12} md={6} lg={6}>
+									<ServiceSelector
 
-								/>
-								<AppointmentDateForm
-									style={{
-										marginTop: '1em'
-									}}
-								/>
-							</GridItem>
-							<GridItem xs={12} md={6} lg={6} style={{ height: '100%', overflow: 'hidden' }}>
-								<AppointmentParticipantForm
+									/>
+									<AppointmentDateForm
+										style={{
+											marginTop: '1em'
+										}}
+									/>
+								</GridItem>
+								<GridItem xs={12} md={6} lg={6}>
+									<AppointmentParticipantForm
 
-								/>
-							</GridItem>
-						</Grid>
+									/>
+								</GridItem>
+							</Grid>
+							:
+							<Grid style={{
+								maxWidth: '1024px',
+							}}>
+								<GridItem xs={12} md={6} lg={6} style={{ height: '100%', overflow: 'hidden' }} >
+									<ServiceSelector
+
+									/>
+									<AppointmentDateForm
+										style={{
+											marginTop: '1em'
+										}}
+									/>
+								</GridItem>
+								<GridItem xs={12} md={6} lg={6} style={{ height: '100%', overflow: 'hidden' }}>
+									<AppointmentParticipantForm
+
+									/>
+								</GridItem>
+							</Grid>
+						}
 					</div>
 					<div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
 						<Grid
