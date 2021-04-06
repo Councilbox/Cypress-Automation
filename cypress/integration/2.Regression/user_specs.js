@@ -2330,14 +2330,14 @@ describe("The user is able to choose and select 'Abstention' option for the call
     });
 
 
-describe("The user is able to choose and select 'There are comments on the agenda items' option for the call in the 'Completion of social agreements' section in the 'Council types' section", function() {
+describe("The user is able to choose and select 'There are comments on the agenda items' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
         });
 
-        it("Scroll down the page and navigate to the 'Completion of social agreements' section", function() {
+        it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
             cy.contains('Making resolutions').scrollIntoView()
         });
 
@@ -2354,14 +2354,14 @@ describe("The user is able to choose and select 'There are comments on the agend
 
     });
 
-describe("The user is able to choose and select 'Email notification of voting start' option for the call in the 'Completion of social agreements' section in the 'Council types' section", function() {
+describe("The user is able to choose and select 'Email notification of voting start' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
         });
 
-        it("Scroll down the page and navigate to the 'Completion of social agreements' section", function() {
+        it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
             cy.contains('Making resolutions').scrollIntoView()
         });
 
@@ -2378,14 +2378,14 @@ describe("The user is able to choose and select 'Email notification of voting st
 
     });
 
-describe("The user is able to choose and select 'Exists quality vote' option for the call in the 'Completion of social agreements' section in the 'Council types' section", function() {
+describe("The user is able to choose and select 'Exists quality vote' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
         });
 
-        it("Scroll down the page and navigate to the 'Completion of social agreements' section", function() {
+        it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
             cy.contains('Making resolutions').scrollIntoView()
         });
 
@@ -2402,19 +2402,215 @@ describe("The user is able to choose and select 'Exists quality vote' option for
 
     });
 
-describe("The user is able to choose and select 'President' option for the call in the 'Completion of social agreements' section in the 'Council types' section", function() {
+describe("The user is able to choose and select 'Chairperson' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
         });
 
-        it("Scroll down the page and navigate to the 'Completion of social agreements' section", function() {
+        it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
             cy.contains('Making resolutions').scrollIntoView()
         });
 
         it("Click on the 'President' checkbox and click on the 'Save' button", function() {
             cy.get('#council-type-president').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
+describe("The user is able to choose and select 'Secretary' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
+            cy.contains('Making resolutions').scrollIntoView()
+        });
+
+        it("Click on the 'Secretary' checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-secretary').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Hide recounts until voting is closed' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
+            cy.contains('Making resolutions').scrollIntoView()
+        });
+
+        it("Click on the 'Hide recounts until voting is closed' checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-hide-recount').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'There are present participants with electronic vote' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
+            cy.contains('Making resolutions').scrollIntoView()
+        });
+
+        it("Click on the 'There are present participants with electronic vote' checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-remote-vote').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'It is permitted to reorder items on the agenda during the meeting' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
+            cy.get('#council-type-agenda-reorder').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Click on the 'It is permitted to reorder items on the agenda during the meeting' checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-agenda-reorder').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Those banned may be readmitted' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
+            cy.get('#council-type-can-unblock').scrollIntoView()
+        });
+
+        it("Click on the 'Those banned may be readmitted' checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-can-unblock').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Associated census' for the call in the 'Census' section in the 'Types of meetings' form", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Census' section", function() {
+            cy.get('#council-type-default-census').scrollIntoView()
+        });
+
+        it("Navigate to the 'Associated census' and from the dropdown menu choose and click on the Census you want to select then click on the 'Save' button", function() {
+            cy.get('#council-type-default-census').click()
+            cy.wait(1000)
+            cy.get('#census-governing-body').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Minutes exist' option for the call in the 'Minutes and documents' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Minutes and documents' section", function() {
+            cy.get('#council-type-has-act').scrollIntoView()
+        });
+
+        it("Click on the 'Minutes exist' checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-has-act').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'A list of participants is included in the minutes' option for the call in the 'Minutes and documents' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Minutes and documents' section", function() {
+            cy.get('#council-type-include-attendants-list').scrollIntoView()
+        });
+
+        it("Click on the 'A list of participants is included in the minutes' checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-include-attendants-list').click()
             cy.wait(1000)
             cy.get('#council-statute-save-button').click()
         });
