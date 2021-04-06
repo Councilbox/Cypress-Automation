@@ -1,3 +1,4 @@
+import gql from 'graphql-tag';
 import { Card, MenuItem } from 'material-ui';
 import React from 'react';
 import { withApollo } from 'react-apollo';
@@ -5,7 +6,30 @@ import { SelectInput } from '../../../../displayComponents';
 import { getPrimary } from '../../../../styles/colors';
 
 
-const ServiceSelector = ({ appointment, setState, entities }) => {
+const ServiceSelector = ({ appointment, setState, entities, client }) => {
+	const [services, setServices] = React.useState(null);
+
+	const getData = React.useCallback(async () => {
+		const response = await client.query({
+			query: gql`
+				query OvacCompanyServices($companyId: ID!){
+					ovacCompanyServices(companyId: $companyId) {
+						id
+						title
+					}
+				}
+			`,
+			variables: {
+				companyId: appointment.companyId
+			}
+		});
+		setServices(response.data.ovacCompanyServices);
+	}, [appointment.companyId]);
+
+	React.useEffect(() => {
+		getData();
+	}, [getData]);
+
 	const primary = getPrimary();
 
 	return (
@@ -53,7 +77,11 @@ const ServiceSelector = ({ appointment, setState, entities }) => {
 					});
 				}}
 			>
-				<MenuItem value={2486}>DEMO</MenuItem>
+				{services && services.map(service => (
+					<MenuItem value={service.id} key={service.id}>
+						{service.title}
+					</MenuItem>
+				))}
 			</SelectInput>
 		</Card>
 	);
