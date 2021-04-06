@@ -6,7 +6,7 @@ import { getPrimary } from '../../../../styles/colors';
 import { Grid, Scrollbar } from '../../../../displayComponents';
 
 
-const AppointmentDateForm = ({ style, appointment, setState }) => {
+const AppointmentDateForm = ({ style, appointment, setState, errors }) => {
 	const [scrollHeight, setScrollHeight] = React.useState(null);
 	const containerRef = React.useRef();
 	const primary = getPrimary();
@@ -30,6 +30,12 @@ const AppointmentDateForm = ({ style, appointment, setState }) => {
 				fontWeight: '700',
 				color: primary
 			}}>Fecha y hora de la cita</h6>
+			{errors.date &&
+				<div style={{ color: 'red'}}>{errors.date}</div>
+			}
+			{errors.time &&
+				<div style={{ color: 'red'}}>{errors.time}</div>
+			}
 			<Grid spacing={0}>
 				<div ref={containerRef} style={{ border: '2px solid silver', padding: '1em', width: '60%', borderRadius: '5px' }}>
 					<Calendar

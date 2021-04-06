@@ -32,6 +32,16 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 		date: new Date(),
 		time: ''
 	});
+	const [errors, setErrors] = React.useState({
+		name: '',
+		surname: '',
+		dni: '',
+		email: '',
+		phone: '',
+		legalTerms: '',
+		date: '',
+		time: ''
+	});
 	const [subdomainData, setSubdomainData] = React.useState(null);
 	const subdomain = useSubdomain();
 	const { language } = match.params;
@@ -82,36 +92,102 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 		getData();
 	}, [getData]);
 
-	const createAppointment = async () => {
+	const checkRequiredFields = () => {
+		const cleanErrors = {
+			name: '',
+			surname: '',
+			dni: '',
+			email: '',
+			phone: '',
+			legalTerms: '',
+			date: '',
+			time: ''
+		};
+		const newErrors = {};
 		const { participant, acceptedLegal, ...council } = appointmentData;
 
-		const date = moment(council.date);
-		const time = council.time.split(':');
+		if (!participant.name || !participant.name.trim()) {
+			newErrors.name = translate.required_field;
+		}
 
-		date.set({
-			hours: time[0],
-			minutes: time[1]
-		});
+		if (!participant.surname || !participant.name.trim()) {
+			newErrors.surname = translate.required_field;
+		}
 
-		council.dateStart = date.toISOString();
-		delete council.date;
-		delete council.time;
+		if (!participant.phone) {
+			newErrors.phone = translate.required_field;
+		}
 
-		const response = await client.mutate({
-			mutation: gql`
-				mutation CreateAppointment($council: CouncilInput, $participant: ParticipantInput) {
-					createAppointment(council: $council, participant: $participant) {
-						id
+		if (!participant.email) {
+			newErrors.email = translate.required_field;
+		}
+
+		if (!participant.dni) {
+			newErrors.dni = translate.required_field;
+		}
+
+		if (!acceptedLegal) {
+			newErrors.acceptedLegal = 'Es necesario aceptar los términos';
+		}
+
+		if (!council.date) {
+			newErrors.date = 'Es necesario seleccionar la fecha';
+		}
+
+		if (!council.time) {
+			newErrors.time = 'Es necesario seleccionar la hora de la cita';
+		}
+
+		const hasError = Object.keys(newErrors).length > 0;
+
+		if (hasError) {
+			setErrors({
+				...errors,
+				...cleanErrors,
+				...newErrors
+			});
+		} else {
+			setErrors({
+				...errors,
+				...cleanErrors
+			});
+		}
+
+		return hasError;
+	};
+
+	const createAppointment = async () => {
+		if (!checkRequiredFields()) {
+			const { participant, acceptedLegal, ...council } = appointmentData;
+
+			const date = moment(council.date);
+			const time = council.time.split(':');
+
+			date.set({
+				hours: time[0],
+				minutes: time[1]
+			});
+
+			council.dateStart = date.toISOString();
+			delete council.date;
+			delete council.time;
+
+			const response = await client.mutate({
+				mutation: gql`
+					mutation CreateAppointment($council: CouncilInput, $participant: ParticipantInput) {
+						createAppointment(council: $council, participant: $participant) {
+							id
+						}
 					}
+				`,
+				variables: {
+					participant,
+					council
 				}
-			`,
-			variables: {
-				participant,
-				council
-			}
-		});
+			});
 
-		console.log(response);
+			console.log(response);
+		}
 	};
 
 	const updateParticipant = object => {
@@ -169,6 +245,7 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 									entities={subdomainData.entities}
 								/>
 								<AppointmentDateForm
+									errors={errors}
 									appointment={appointmentData}
 									setState={updateAppointmentData}
 									style={{
@@ -179,6 +256,7 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 							<GridItem xs={12} md={6} lg={6} style={isMobile ? {} : { height: '100%', overflow: 'hidden' }}>
 								<AppointmentParticipantForm
 									translate={translate}
+									errors={errors}
 									appointment={appointmentData}
 									participant={appointmentData.participant}
 									setLegalTerms={value => setAppointmentData({
