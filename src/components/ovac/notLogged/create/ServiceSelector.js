@@ -5,7 +5,7 @@ import { SelectInput } from '../../../../displayComponents';
 import { getPrimary } from '../../../../styles/colors';
 
 
-const ServiceSelector = ({ appointment, setState }) => {
+const ServiceSelector = ({ appointment, setState, entities }) => {
 	const primary = getPrimary();
 
 	return (
@@ -18,6 +18,7 @@ const ServiceSelector = ({ appointment, setState }) => {
 			}}
 		>
 			<SelectInput
+				disabled={entities.length <= 1}
 				floatingText="Centro"
 				styleLabel={{
 					fontSize: '20px',
@@ -30,7 +31,11 @@ const ServiceSelector = ({ appointment, setState }) => {
 					});
 				}}
 			>
-				<MenuItem value={1054}>OVAC-DEMO</MenuItem>
+				{entities.map(entity => (
+					<MenuItem value={entity.id} key={entity.id}>
+						{entity.businessName}
+					</MenuItem>
+				))}
 			</SelectInput>
 			<SelectInput
 				floatingText="Servicio solicitado"

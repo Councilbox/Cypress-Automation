@@ -24,6 +24,7 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 		date: new Date(),
 		time: ''
 	});
+	const [subdomainData, setSubdomainData] = React.useState(null);
 	const subdomain = useSubdomain();
 	const { language } = match.params;
 
@@ -44,6 +45,34 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 			...object
 		});
 	};
+
+	const getData = React.useCallback(async () => {
+		const response = await client.query({
+			query: gql`
+				query Subdomain($name: String!){
+					subdomain(name: $name) {
+						name
+						entities {
+							id
+							businessName
+						}
+					}
+				}
+			`,
+			variables: {
+				name: subdomain.name
+			}
+		});
+
+		setSubdomainData(response.data.subdomain);
+		updateAppointmentData({
+			companyId: response.data.subdomain.entities[0].id
+		});
+	}, [subdomain.name]);
+
+	React.useEffect(() => {
+		getData();
+	}, [getData]);
 
 	const createAppointment = async () => {
 		const { participant, ...council } = appointmentData;
@@ -87,11 +116,9 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 		});
 	};
 
-	if (!loadLanguage) {
+	if (!loadLanguage || !subdomainData) {
 		return <LoadingMainApp />;
 	}
-
-	console.log(appointmentData);
 
 	return (
 		<div style={{ height: '100%', width: '100%' }}>
@@ -131,6 +158,7 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 								<ServiceSelector
 									appointment={appointmentData}
 									setState={updateAppointmentData}
+									entities={subdomainData.entities}
 								/>
 								<AppointmentDateForm
 									appointment={appointmentData}
