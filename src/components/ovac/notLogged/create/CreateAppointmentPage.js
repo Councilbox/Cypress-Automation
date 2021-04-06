@@ -21,6 +21,14 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 		companyId: 1054,
 		statuteId: 2486,
 		name: 'DEMO',
+		acceptedLegal: false,
+		participant: {
+			name: '',
+			surname: '',
+			dni: '',
+			email: '',
+			phone: '',
+		},
 		date: new Date(),
 		time: ''
 	});
@@ -75,7 +83,7 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 	}, [getData]);
 
 	const createAppointment = async () => {
-		const { participant, ...council } = appointmentData;
+		const { participant, acceptedLegal, ...council } = appointmentData;
 
 		const date = moment(council.date);
 		const time = council.time.split(':');
@@ -170,7 +178,13 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 							</GridItem>
 							<GridItem xs={12} md={6} lg={6} style={isMobile ? {} : { height: '100%', overflow: 'hidden' }}>
 								<AppointmentParticipantForm
+									translate={translate}
+									appointment={appointmentData}
 									participant={appointmentData.participant}
+									setLegalTerms={value => setAppointmentData({
+										...appointmentData,
+										acceptedLegal: value
+									})}
 									setState={updateParticipant}
 								/>
 							</GridItem>
