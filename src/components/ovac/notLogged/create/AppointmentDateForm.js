@@ -30,7 +30,7 @@ const AppointmentDateForm = ({ style, appointment, setState, errors }) => {
 			minutes: time[1]
 		});
 
-		dateText = date.format('lll');
+		dateText = `${date.format('DD / MMMM / yyyy - hh:mm')}h`;
 	}
 
 	return (
