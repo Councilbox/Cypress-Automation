@@ -5,7 +5,7 @@ import { withApollo } from 'react-apollo';
 import { getPrimary } from '../../../../styles/colors';
 import { Grid, Scrollbar } from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
-import OVACTextInput from './UI/TextInput';
+import OVACTextInput from '../../UI/TextInput';
 
 
 const AppointmentDateForm = ({ style, appointment, setState, errors }) => {

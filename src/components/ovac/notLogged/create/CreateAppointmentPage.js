@@ -13,10 +13,12 @@ import { getCustomLogo, useSubdomain } from '../../../../utils/subdomain';
 import AppointmentDateForm from './AppointmentDateForm';
 import AppointmentParticipantForm from './AppointmentParticipantForm';
 import ServiceSelector from './ServiceSelector';
+import CreationSuccessPage from './CreationSuccessPage';
 
 
 const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 	const [loadLanguage, setLoadedLanguage] = React.useState(false);
+	const [success, setSuccess] = React.useState(false);
 	const [appointmentData, setAppointmentData] = React.useState({
 		companyId: 1054,
 		statuteId: 2486,
@@ -186,7 +188,9 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 				}
 			});
 
-			console.log(response);
+			if (response.data?.createAppointment?.id) {
+				setSuccess(response.data.createAppointment);
+			}
 		}
 	};
 
@@ -212,7 +216,6 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 						height: '4.5em',
 						width: '100%',
 						display: 'flex',
-						flexGrow: 1,
 						flexDirection: 'column',
 						alignItems: 'center',
 						justifyContent: 'center'
@@ -234,80 +237,88 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 					}}>
 						Solicitud de cita previa
 					</h2>
-					<div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-						<Grid style={{
-							maxWidth: '1024px',
-						}}>
-							<GridItem xs={12} md={6} lg={6} style={isMobile ? {} : { height: '100%', overflow: 'hidden' }} >
-								<ServiceSelector
-									appointment={appointmentData}
-									setState={updateAppointmentData}
-									entities={subdomainData.entities}
-								/>
-								<AppointmentDateForm
-									errors={errors}
-									appointment={appointmentData}
-									setState={updateAppointmentData}
+					{success ?
+						<CreationSuccessPage
+							translate={translate}
+						/>
+						:
+						<>
+							<div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+								<Grid style={{
+									maxWidth: '1024px',
+								}}>
+									<GridItem xs={12} md={6} lg={6} style={isMobile ? {} : { height: '100%', overflow: 'hidden' }} >
+										<ServiceSelector
+											appointment={appointmentData}
+											setState={updateAppointmentData}
+											entities={subdomainData.entities}
+										/>
+										<AppointmentDateForm
+											errors={errors}
+											appointment={appointmentData}
+											setState={updateAppointmentData}
+											style={{
+												marginTop: '1em'
+											}}
+										/>
+									</GridItem>
+									<GridItem xs={12} md={6} lg={6} style={isMobile ? {} : { height: '100%', overflow: 'hidden' }}>
+										<AppointmentParticipantForm
+											translate={translate}
+											errors={errors}
+											appointment={appointmentData}
+											participant={appointmentData.participant}
+											setLegalTerms={value => setAppointmentData({
+												...appointmentData,
+												acceptedLegal: value
+											})}
+											setState={updateParticipant}
+										/>
+									</GridItem>
+								</Grid>
+							</div>
+							<div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+								<Grid
 									style={{
-										marginTop: '1em'
+										maxWidth: '1024px',
 									}}
-								/>
-							</GridItem>
-							<GridItem xs={12} md={6} lg={6} style={isMobile ? {} : { height: '100%', overflow: 'hidden' }}>
-								<AppointmentParticipantForm
-									translate={translate}
-									errors={errors}
-									appointment={appointmentData}
-									participant={appointmentData.participant}
-									setLegalTerms={value => setAppointmentData({
-										...appointmentData,
-										acceptedLegal: value
-									})}
-									setState={updateParticipant}
-								/>
-							</GridItem>
-						</Grid>
-					</div>
-					<div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-						<Grid
-							style={{
-								maxWidth: '1024px',
-							}}
-							alignItems="flex-end"
-							alignContent="flex-end"
-						>
-							<GridItem xs={12} md={12} lg={12} style={{ height: '100%', overflow: 'hidden' }}>
-								<div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', padding: '0.6em 0' }}>
-									<BasicButton
-										text="Cancelar"
-										color="white"
-										type="flat"
-										textStyle={{
-											fontWeight: '700',
-											fontSize: '1.1em'
-										}}
-										buttonStyle={{
-											padding: '0.8em'
-										}}
-									/>
-									<BasicButton
-										text="Solicitar cita"
-										onClick={createAppointment}
-										color={primary}
-										textStyle={{
-											color: 'white',
-											fontWeight: '700',
-											fontSize: '1.1em'
-										}}
-										buttonStyle={{
-											marginLeft: '0.6em',
-											padding: '0.8em'
-										}}
-									/>
-								</div>
-							</GridItem>
-						</Grid>
-					</div>
+									alignItems="flex-end"
+									alignContent="flex-end"
+								>
+									<GridItem xs={12} md={12} lg={12} style={{ height: '100%', overflow: 'hidden' }}>
+										<div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', padding: '0.6em 0' }}>
+											<BasicButton
+												text="Cancelar"
+												color="white"
+												type="flat"
+												textStyle={{
+													fontWeight: '700',
+													fontSize: '1.1em'
+												}}
+												buttonStyle={{
+													padding: '0.8em'
+												}}
+											/>
+											<BasicButton
+												text="Solicitar cita"
+												onClick={createAppointment}
+												color={primary}
+												textStyle={{
+													color: 'white',
+													fontWeight: '700',
+													fontSize: '1.1em'
+												}}
+												buttonStyle={{
+													marginLeft: '0.6em',
+													padding: '0.8em'
+												}}
+											/>
+										</div>
+									</GridItem>
+								</Grid>
+							</div>
+						</>
+					}
 					<div
 						style={{
 							width: '90%',

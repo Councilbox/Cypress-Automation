@@ -14,6 +14,7 @@ import GicarLoginContainer from './GicarLoginContainer';
 import RoomAdminContainer from './RoomAdminContainer';
 import { HEADER_HEIGHT } from '../styles/constants';
 import DownloadFile from '../components/DownloadFile';
+import { isOVAC } from '../utils/subdomain';
 
 
 const LoadRecommendations = Loadable({
@@ -156,7 +157,7 @@ class AppRouter extends React.Component {
 			return <LoadingMainApp />;
 		}
 
-		if (this.props.subdomain && this.props.subdomain.variant === 'ovac') {
+		if (this.props.subdomain && isOVAC(this.props.subdomain)) {
 			return <LoadOVACRouter />;
 		}
 

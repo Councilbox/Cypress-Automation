@@ -53,3 +53,8 @@ export const shouldLoadSubdomain = () => {
 	const subdomain = window.location.hostname.split('.')[0];
 	return !validSubdomains[subdomain];
 };
+
+
+export const isOVAC = subdomain => {
+	return subdomain.variant === 'ovac';
+}

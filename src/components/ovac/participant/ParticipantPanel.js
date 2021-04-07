@@ -3,17 +3,14 @@ import { connect } from 'react-redux';
 import { graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { bindActionCreators } from 'redux';
-import { LoadingMainApp } from '../displayComponents';
-import InvalidUrl from '../components/participant/InvalidUrl';
-import * as mainActions from '../actions/mainActions';
-import Assistance from '../components/participant/assistance/Assistance';
-import { ConfigContext } from './AppControl';
-import { COUNCIL_TYPES } from '../constants';
-import OneOnOneDocumentation from '../components/participant/assistance/OneOnOneDocumentation';
-import CanceledCouncil from '../components/CanceledCouncil';
+import { LoadingMainApp } from '../../../displayComponents';
+import InvalidUrl from '../../participant/InvalidUrl';
+import * as mainActions from '../../../actions/mainActions';
+import { ConfigContext } from '../../../containers/AppControl';
+import MainMenu from './MainMenu';
 
 
-const AttendanceContainer = ({ data, translate, actions }) => {
+const ParticipantPanel = ({ data, translate, actions, match }) => {
 	const [companyId, setCompanyId] = React.useState(null);
 	const config = React.useContext(ConfigContext);
 	const [loadingConfig, setLoadingConfig] = React.useState(true);
@@ -54,27 +51,15 @@ const AttendanceContainer = ({ data, translate, actions }) => {
 	}
 
 	if (data.councilVideo.state === -1) {
-		return <CanceledCouncil council={data.councilVideo} translate={translate} />;
-	}
-
-	if (data.councilVideo.councilType === COUNCIL_TYPES.ONE_ON_ONE) {
-		return (
-			<OneOnOneDocumentation
-				translate={translate}
-				participant={data.participant}
-				council={data.councilVideo}
-				company={data.councilVideo.company}
-				refetch={data.refetch}
-			/>
-		);
+		return 'CITA CANCELADA';
 	}
 
 	return (
-		<Assistance
+		<MainMenu
 			participant={data.participant}
-			council={data.councilVideo}
-			company={data.councilVideo.company}
-			refetch={data.refetch}
+			appointment={data.councilVideo}
+			translate={translate}
+			match={match}
 		/>
 	);
 };
@@ -201,4 +186,4 @@ export default graphql(participantQuery, {
 		},
 		fetchPolicy: 'network-only'
 	})
-})(withApollo(connect(mapStateToProps, mapDispatchToProps)(AttendanceContainer)));
+})(withApollo(connect(mapStateToProps, mapDispatchToProps)(ParticipantPanel)));

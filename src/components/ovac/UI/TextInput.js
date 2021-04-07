@@ -1,6 +1,6 @@
 import React from 'react';
-import { TextInput } from '../../../../../displayComponents';
-import { getPrimary } from '../../../../../styles/colors';
+import { TextInput } from '../../../displayComponents';
+import { getPrimary } from '../../../styles/colors';
 
 
 const OVACTextInput = props => {

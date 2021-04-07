@@ -1,7 +1,7 @@
 import { Card } from 'material-ui';
 import React from 'react';
 import { Checkbox } from '../../../../displayComponents';
-import TextInput from './UI/TextInput';
+import TextInput from '../../UI/TextInput';
 import withTranslations from '../../../../HOCs/withTranslations';
 import LegalModal from './LegalModal';
 import { getPrimary } from '../../../../styles/colors';
@@ -94,7 +94,7 @@ const AppointmentParticipantForm = ({ translate, participant, appointment, setSt
 				}}
 			/>
 			<div>
-				<div style={{ color: primary, fontWeight: '700', fontSize: '18px' }}>Privacidad</div>
+				<div style={{ color: primary, fontWeight: '700', fontSize: '15px' }}>Privacidad</div>
 				<div onClick={() => {
 					setModal(true);
 					setLegalTerms(false);

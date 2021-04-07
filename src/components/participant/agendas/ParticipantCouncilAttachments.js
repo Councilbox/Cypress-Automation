@@ -156,7 +156,8 @@ const ParticipantCouncilAttachments = ({
 											<img
 												src={upload}
 												style={{
-													paddingRight: '5px'
+													paddingRight: '5px',
+													height: '16px'
 												}}
 											/>
 										</div>
