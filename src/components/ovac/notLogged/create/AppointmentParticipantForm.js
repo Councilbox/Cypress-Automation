@@ -1,6 +1,7 @@
 import { Card } from 'material-ui';
 import React from 'react';
-import { AlertConfirm, Checkbox, TextInput } from '../../../../displayComponents';
+import { Checkbox } from '../../../../displayComponents';
+import TextInput from './UI/TextInput';
 import withTranslations from '../../../../HOCs/withTranslations';
 import LegalModal from './LegalModal';
 

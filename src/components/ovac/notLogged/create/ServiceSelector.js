@@ -46,7 +46,8 @@ const ServiceSelector = ({ appointment, setState, entities, client }) => {
 				floatingText="Centro"
 				styleLabel={{
 					fontSize: '20px',
-					fontWeight: '700'
+					fontWeight: '700',
+					color: primary
 				}}
 				value={appointment.companyId}
 				onChange={event => {
@@ -65,7 +66,8 @@ const ServiceSelector = ({ appointment, setState, entities, client }) => {
 				floatingText="Servicio solicitado"
 				styleLabel={{
 					fontSize: '20px',
-					fontWeight: '700'
+					fontWeight: '700',
+					color: primary
 				}}
 				value={appointment.statuteId}
 				styles={{
