@@ -90,7 +90,7 @@ const AlertConfirm = ({
 			}}
 		>
 			{!!requestClose && (
-				< FontAwesome
+				<FontAwesome
 					name={'close'}
 					style={{
 						cursor: 'pointer',

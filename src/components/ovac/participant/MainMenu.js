@@ -4,18 +4,18 @@ import { withRouter } from 'react-router';
 import { Grid, GridItem, Link, NotLoggedLayout } from '../../../displayComponents';
 import { ReactComponent as CancelIcon } from '../../../assets/img/cancel-appointment.svg';
 import { ReactComponent as DocumentationIcon } from '../../../assets/img/upload.svg';
-import { moment } from '../../../containers/App';
+import { bHistory, moment } from '../../../containers/App';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { isMobile } from '../../../utils/screen';
 import Title from '../UI/Title';
 import { useSubdomain } from '../../../utils/subdomain';
 import ParticipantCouncilAttachments from '../../participant/agendas/ParticipantCouncilAttachments';
+import CancelAppointment from './CancelAppointment';
+import { COUNCIL_STATES } from '../../../constants';
 
 
-const MainMenu = ({ translate, participant, appointment, match }) => {
+const MainMenu = ({ translate, participant, appointment, match, refetch }) => {
 	const subdomain = useSubdomain();
-
-	console.log(match);
 
 	return (
 		<NotLoggedLayout
@@ -34,7 +34,22 @@ const MainMenu = ({ translate, participant, appointment, match }) => {
 					<Card style={{
 						margin: isMobile ? '4em 0' : 'auto',
 						width: isMobile ? '100%' : '80%',
+						position: 'relative'
 					}} elevation={6}>
+						<div style={{ position: 'relative', top: 5, right: 5 }}>
+							<i
+								className={'fa fa-close'}
+								style={{
+									cursor: 'pointer',
+									fontSize: '25px',
+									color: 'var(--primary)',
+									position: 'absolute',
+									right: '12px',
+									top: '18px'
+								}}
+								onClick={() => bHistory.back() }
+							/>
+						</div>
 						<ParticipantCouncilAttachments
 							translate={translate}
 							council={appointment}
@@ -61,61 +76,77 @@ const MainMenu = ({ translate, participant, appointment, match }) => {
 							participant={participant}
 							translate={translate}
 						/>
-						<Grid
-							spacing={20}
-							style={{
-								marginTop: '1.3em',
-								width: '100%',
-								borderRadius: '2px',
-							}}
-						>
-							<GridItem
-								xs={12}
-								md={6}
-								lg={6}
-								style={{
-									padding: '0.3em',
-								}}
-							>
-								<PanelButton
-									icon={
-										<CancelIcon
-											style={{
-												width: '93px',
-												height: '93px',
-											}}
+						{appointment.state === COUNCIL_STATES.CANCELED &&
+							<h3 style={{ marginTop: '1.2em' }}>
+								Esta cita ha sido cancelada
+							</h3>
+						}
+						{appointment.state !== COUNCIL_STATES.CANCELED &&
+							<>
+								<Grid
+									spacing={20}
+									style={{
+										marginTop: '1.3em',
+										width: '100%',
+										borderRadius: '2px',
+									}}
+								>
+									<GridItem
+										xs={12}
+										md={6}
+										lg={6}
+										style={{
+											padding: '0.3em',
+										}}
+									>
+										<CancelAppointment
+											refetch={refetch}
+											trigger={
+												<PanelButton
+													icon={
+														<CancelIcon
+															style={{
+																width: '93px',
+																height: '93px',
+															}}
+														/>
+													}
+													color="#dc7373"
+													backgroundColor="white"
+													text="Cancelar cita"
+												/>
+											}
+											appointment={appointment}
+											translate={translate}
 										/>
-									}
-									color="#dc7373"
-									backgroundColor="white"
-									text="Cancelar cita"
-								/>
-							</GridItem>
-							<GridItem
-								xs={12}
-								md={6}
-								lg={6}
-								style={{
-									padding: '0.3em',
-								}}
-							>
-								<Link to={`/attendance/participant/${participant.id}/council/${appointment.id}/documentation`}>
-									<PanelButton
-										icon={
-											<DocumentationIcon
-												style={{
-													width: '93px',
-													height: '93px',
-												}}
+									</GridItem>
+									<GridItem
+										xs={12}
+										md={6}
+										lg={6}
+										style={{
+											padding: '0.3em',
+										}}
+									>
+										<Link to={`/attendance/participant/${participant.id}/council/${appointment.id}/documentation`}>
+											<PanelButton
+												icon={
+													<DocumentationIcon
+														style={{
+															width: '93px',
+															height: '93px',
+														}}
+													/>
+												}
+												color="white"
+												backgroundColor="var(--primary)"
+												text={translate.your_documentation}
 											/>
-										}
-										color="white"
-										backgroundColor="var(--primary)"
-										text={translate.your_documentation}
-									/>
-								</Link>
-							</GridItem>
-						</Grid>
+										</Link>
+									</GridItem>
+								</Grid>
+							</>
+						}
 					</Card>
 				}
 			</div>

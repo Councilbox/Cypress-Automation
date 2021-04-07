@@ -50,16 +50,12 @@ const ParticipantPanel = ({ data, translate, actions, match }) => {
 		return <LoadingMainApp />;
 	}
 
-	if (data.councilVideo.state === -1) {
-		return 'CITA CANCELADA';
-	}
-
 	return (
 		<MainMenu
 			participant={data.participant}
 			appointment={data.councilVideo}
 			translate={translate}
-			match={match}
+			refetch={data.refetch}
 		/>
 	);
 };
