@@ -1,11 +1,11 @@
 import React from 'react';
 
 
-const Title = ({ children }) => {
+const Title = ({ children, fontSize = '18px' }) => {
 	return (
 		<div
 			style={{
-				fontSize: '18px',
+				fontSize,
 				fontWeight: 'bold',
 				fontStretch: 'normal',
 				fontStyle: 'normal',

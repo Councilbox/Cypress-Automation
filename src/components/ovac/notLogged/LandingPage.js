@@ -5,9 +5,12 @@ import withSharedProps from '../../../HOCs/withSharedProps';
 import { ReactComponent as Icon } from '../../../assets/img/create-appointment.svg';
 import { getPrimary } from '../../../styles/colors';
 import { isMobile } from '../../../utils/screen';
+import Title from '../UI/Title';
+import { useSubdomain } from '../../../utils/subdomain';
 
 
 const LandingPage = ({ translate }) => {
+	const subdomain = useSubdomain();
 	const primary = getPrimary();
 
 	return (
@@ -30,8 +33,15 @@ const LandingPage = ({ translate }) => {
 					padding: isMobile ? '4em 2em' : '8em 10em',
 					display: 'flex',
 					alignItems: 'center',
+					flexDirection: 'column',
 					justifyContent: 'center'
 				}}>
+					<Title fontSize="20px">
+						Sistema de gestión de citas previas - {subdomain.title}
+					</Title>
+					<div style={{ margin: '2em 0', fontSize: '18px' }}>
+						Solicite aquí su cita previa. Podrá modificarla más adelante
+					</div>
 					<Link to="/newAppointment">
 						<Card
 							style={{

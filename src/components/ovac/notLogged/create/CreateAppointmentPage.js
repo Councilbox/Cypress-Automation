@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as mainActions from '../../../../actions/mainActions';
 import { BasicButton, Grid, GridItem, LoadingMainApp, Scrollbar } from '../../../../displayComponents';
-import { moment } from '../../../../containers/App';
+import { bHistory, moment } from '../../../../containers/App';
 import withTranslations from '../../../../HOCs/withTranslations';
 import { getPrimary } from '../../../../styles/colors';
 import { isMobile } from '../../../../utils/screen';
@@ -308,6 +308,7 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 											text="Cancelar"
 											color="white"
 											type="flat"
+											onClick={() => bHistory.push('/')}
 											textStyle={{
 												fontWeight: '700',
 												fontSize: '1.1em'
