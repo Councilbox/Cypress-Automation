@@ -4,6 +4,7 @@ import { Checkbox } from '../../../../displayComponents';
 import TextInput from './UI/TextInput';
 import withTranslations from '../../../../HOCs/withTranslations';
 import LegalModal from './LegalModal';
+import { getPrimary } from '../../../../styles/colors';
 
 const labelStyle = {
 	fontSize: '20px',
@@ -12,6 +13,7 @@ const labelStyle = {
 
 const AppointmentParticipantForm = ({ translate, participant, appointment, setState, setLegalTerms, errors }) => {
 	const [modal, setModal] = React.useState(false);
+	const primary = getPrimary();
 
 	return (
 		<Card
@@ -91,20 +93,22 @@ const AppointmentParticipantForm = ({ translate, participant, appointment, setSt
 					});
 				}}
 			/>
-			<div onClick={() => {
-				setModal(true);
-				setLegalTerms(false);
-			}}>
-				<Checkbox
-					value={appointment.acceptedLegal}
-					onChange={() => {}}
-					label={'El ciudadano da su consentimiento para que el resultado de la asistencia prestada en la cita previa sea tratada por este organismo'}
-				/>
-				{errors.acceptedLegal &&
-					<span style={{ color: 'red' }}>{errors.acceptedLegal}</span>
-				}
+			<div>
+				<div style={{ color: primary, fontWeight: '700', fontSize: '18px' }}>Privacidad</div>
+				<div onClick={() => {
+					setModal(true);
+					setLegalTerms(false);
+				}}>
+					<Checkbox
+						value={appointment.acceptedLegal}
+						onChange={() => {}}
+						label={'El ciudadano da su consentimiento para que el resultado de la asistencia prestada en la cita previa sea tratada por este organismo'}
+					/>
+					{errors.acceptedLegal &&
+						<span style={{ color: 'red' }}>{errors.acceptedLegal}</span>
+					}
+				</div>
 			</div>
-
 		</Card>
 	);
 };
