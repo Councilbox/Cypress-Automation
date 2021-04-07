@@ -10,20 +10,25 @@ const ServiceSelector = ({ appointment, setState, entities, client }) => {
 	const [services, setServices] = React.useState(null);
 
 	const getData = React.useCallback(async () => {
-		const response = await client.query({
-			query: gql`
-				query OvacCompanyServices($companyId: ID!){
-					ovacCompanyServices(companyId: $companyId) {
-						id
-						title
+		if (appointment.companyId) {
+			const response = await client.query({
+				query: gql`
+					query OvacCompanyServices($companyId: ID!){
+						ovacCompanyServices(companyId: $companyId) {
+							id
+							title
+						}
 					}
+				`,
+				variables: {
+					companyId: appointment.companyId
 				}
-			`,
-			variables: {
-				companyId: appointment.companyId
-			}
-		});
-		setServices(response.data.ovacCompanyServices);
+			});
+			setServices(response.data.ovacCompanyServices);
+			setState({
+				statuteId: response.data?.ovacCompanyServices[0]?.id
+			});
+		}
 	}, [appointment.companyId]);
 
 	React.useEffect(() => {

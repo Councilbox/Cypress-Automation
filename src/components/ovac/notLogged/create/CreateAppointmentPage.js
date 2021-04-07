@@ -20,8 +20,8 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 	const [loadLanguage, setLoadedLanguage] = React.useState(false);
 	const [success, setSuccess] = React.useState(false);
 	const [appointmentData, setAppointmentData] = React.useState({
-		companyId: 1054,
-		statuteId: 2486,
+		companyId: '',
+		statuteId: '',
 		name: 'DEMO',
 		acceptedLegal: false,
 		participant: {
@@ -179,6 +179,15 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 					mutation CreateAppointment($council: CouncilInput, $participant: ParticipantInput) {
 						createAppointment(council: $council, participant: $participant) {
 							id
+							company {
+								businessName
+								id
+							}
+							name
+							dateStart
+							statute {
+								title
+							}
 						}
 					}
 				`,
@@ -237,16 +246,21 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 					}}>
 						Solicitud de cita previa
 					</h2>
-					{success ?
-						<CreationSuccessPage
-							translate={translate}
-						/>
-						:
-						<>
-							<div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-								<Grid style={{
-									maxWidth: '1024px',
-								}}>
+					<div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+						<Grid
+							style={{
+								maxWidth: '1024px',
+							}}
+							spacing={success ? 0 : 16}
+						>
+							{success ?
+								<CreationSuccessPage
+									translate={success}
+									appointment={success}
+									participant={appointmentData.participant}
+								/>
+								:
+								<>
 									<GridItem xs={12} md={6} lg={6} style={isMobile ? {} : { height: '100%', overflow: 'hidden' }} >
 										<ServiceSelector
 											appointment={appointmentData}
@@ -275,49 +289,51 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 											setState={updateParticipant}
 										/>
 									</GridItem>
-								</Grid>
-							</div>
-							<div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-								<Grid
-									style={{
-										maxWidth: '1024px',
-									}}
-									alignItems="flex-end"
-									alignContent="flex-end"
-								>
-									<GridItem xs={12} md={12} lg={12} style={{ height: '100%', overflow: 'hidden' }}>
-										<div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', padding: '0.6em 0' }}>
-											<BasicButton
-												text="Cancelar"
-												color="white"
-												type="flat"
-												textStyle={{
-													fontWeight: '700',
-													fontSize: '1.1em'
-												}}
-												buttonStyle={{
-													padding: '0.8em'
-												}}
-											/>
-											<BasicButton
-												text="Solicitar cita"
-												onClick={createAppointment}
-												color={primary}
-												textStyle={{
-													color: 'white',
-													fontWeight: '700',
-													fontSize: '1.1em'
-												}}
-												buttonStyle={{
-													marginLeft: '0.6em',
-													padding: '0.8em'
-												}}
-											/>
-										</div>
-									</GridItem>
-								</Grid>
-							</div>
-						</>
+								</>
+							}
+						</Grid>
+					</div>
+					{!success &&
+						<div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+							<Grid
+								style={{
+									maxWidth: '1024px',
+								}}
+								alignItems="flex-end"
+								alignContent="flex-end"
+							>
+								<GridItem xs={12} md={12} lg={12} style={{ height: '100%', overflow: 'hidden' }}>
+									<div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', padding: '0.6em 0' }}>
+										<BasicButton
+											text="Cancelar"
+											color="white"
+											type="flat"
+											textStyle={{
+												fontWeight: '700',
+												fontSize: '1.1em'
+											}}
+											buttonStyle={{
+												padding: '0.8em'
+											}}
+										/>
+										<BasicButton
+											text="Solicitar cita"
+											onClick={createAppointment}
+											color={primary}
+											textStyle={{
+												color: 'white',
+												fontWeight: '700',
+												fontSize: '1.1em'
+											}}
+											buttonStyle={{
+												marginLeft: '0.6em',
+												padding: '0.8em'
+											}}
+										/>
+									</div>
+								</GridItem>
+							</Grid>
+						</div>
 					}
 					<div
 						style={{
@@ -326,6 +342,7 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 							display: 'flex',
 							justifyContent: 'space-between',
 							alignItems: 'center',
+							marginTop: '2em',
 							height: '2em'
 						}}
 					>
