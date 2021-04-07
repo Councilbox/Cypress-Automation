@@ -4,6 +4,8 @@ import Calendar from 'react-calendar';
 import { withApollo } from 'react-apollo';
 import { getPrimary } from '../../../../styles/colors';
 import { Grid, Scrollbar } from '../../../../displayComponents';
+import { moment } from '../../../../containers/App';
+import OVACTextInput from './UI/TextInput';
 
 
 const AppointmentDateForm = ({ style, appointment, setState, errors }) => {
@@ -16,6 +18,20 @@ const AppointmentDateForm = ({ style, appointment, setState, errors }) => {
 			setScrollHeight(containerRef.current.offsetHeight);
 		}
 	}, [containerRef]);
+
+	let dateText = '-';
+
+	if (appointment.date && appointment.time) {
+		const date = moment(appointment.date);
+		const time = appointment.time.split(':');
+
+		date.set({
+			hours: time[0],
+			minutes: time[1]
+		});
+
+		dateText = date.format('lll');
+	}
 
 	return (
 		<Card
@@ -36,6 +52,13 @@ const AppointmentDateForm = ({ style, appointment, setState, errors }) => {
 			{errors.time &&
 				<div style={{ color: 'red'}}>{errors.time}</div>
 			}
+			<OVACTextInput
+				value={dateText}
+				labelNone
+				style={{
+					marginTop: 0
+				}}
+			/>
 			<Grid spacing={0}>
 				<div ref={containerRef} style={{ border: '2px solid silver', padding: '1em', width: '60%', borderRadius: '5px' }}>
 					<Calendar
