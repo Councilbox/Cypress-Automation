@@ -157,7 +157,11 @@ class AppRouter extends React.Component {
 			return <LoadingMainApp />;
 		}
 
-		if (this.props.subdomain && isOVAC(this.props.subdomain)) {
+		if (this.props.subdomain &&
+			isOVAC(this.props.subdomain) &&
+			!(this.props.main.isLogged && this.props.user.type === 'company') &&
+			!this.props.main.isParticipantLogged
+		) {
 			return <LoadOVACRouter />;
 		}
 
