@@ -29,7 +29,8 @@ const LegalModal = ({ open, requestClose, action, translate }) => {
 	return (
 		<AlertConfirm
 			open={open}
-			buttonCancel={translate.cancel}
+			buttonCancel={translate.close}
+			hideAccept={!action}
 			buttonAccept={translate.accept}
 			acceptAction={action}
 			bodyText={
@@ -74,7 +75,6 @@ const LegalModal = ({ open, requestClose, action, translate }) => {
 						<Block>
 							Condiciones generales de uso de la Sede Electrónica del Councilbox OVAC
 						</Block>
-						
 						<Block>
 							Councilbox OVAC le informa de que el acceso y uso de la Sede Electrónica ( https://ovac.councilbox.admin) y todos los subdominios y directorios incluidos bajo la misma (en adelante, conjuntamente denominados como la Sede Electrónica), así como los servicios o contenidos que a través de ella se puedan obtener, están sujetos a los términos que se detallan en este Aviso Legal, sin perjuicio de que el acceso a alguno de dichos servicios o contenidos pudieran precisar de la aceptación de unas Condiciones Generales adicionales.
 						</Block>
@@ -134,7 +134,7 @@ const LegalModal = ({ open, requestClose, action, translate }) => {
 			}
 			requestClose={requestClose}
 		/>
-	)
-}
+	);
+};
 
 export default LegalModal;

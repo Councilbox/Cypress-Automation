@@ -4,7 +4,7 @@ import { withApollo } from 'react-apollo';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as mainActions from '../../../../actions/mainActions';
-import { BasicButton, Grid, GridItem, LoadingMainApp, Scrollbar } from '../../../../displayComponents';
+import { BasicButton, Grid, GridItem, Link, LoadingMainApp, Scrollbar } from '../../../../displayComponents';
 import { bHistory, moment } from '../../../../containers/App';
 import withTranslations from '../../../../HOCs/withTranslations';
 import { getPrimary } from '../../../../styles/colors';
@@ -14,6 +14,7 @@ import AppointmentDateForm from './AppointmentDateForm';
 import AppointmentParticipantForm from './AppointmentParticipantForm';
 import ServiceSelector from './ServiceSelector';
 import CreationSuccessPage from './CreationSuccessPage';
+import AppointmentFooter from './AppointmentFooter';
 
 
 const CreateAppointmentPage = ({ match, translate, actions, client }) => {
@@ -229,11 +230,13 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 						alignItems: 'center',
 						justifyContent: 'center'
 					}}>
-						<img src={getCustomLogo()} style={{
-							height: '3em',
-							width: 'auto',
-							...subdomain?.styles?.appointmentLogo
-						}} />
+						<Link to="/">
+							<img src={getCustomLogo()} style={{
+								height: '3em',
+								width: 'auto',
+								...subdomain?.styles?.appointmentLogo
+							}} />
+						</Link>
 					</div>
 					<h2 style={{
 						marginTop: '1em',
@@ -336,19 +339,21 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 							</Grid>
 						</div>
 					}
-					<div
+				</div>
+				<div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+					<Grid
 						style={{
-							width: '90%',
-							backgroundColor: 'rgba(180, 198, 222, 0.16)',
-							display: 'flex',
-							justifyContent: 'space-between',
-							alignItems: 'center',
-							marginTop: '2em',
-							height: '2em'
+							maxWidth: '1024px',
 						}}
+						alignItems="flex-end"
+						alignContent="flex-end"
 					>
-						
-					</div>
+						<GridItem xs={12} md={12} lg={12} style={{ height: '100%', overflow: 'hidden' }}>
+							<div style={{ width: '100%', display: 'flex', justifyContent: 'center', padding: '0.6em 0' }}>
+								<AppointmentFooter />
+							</div>
+						</GridItem>
+					</Grid>
 				</div>
 			</Scrollbar>
 		</div>
