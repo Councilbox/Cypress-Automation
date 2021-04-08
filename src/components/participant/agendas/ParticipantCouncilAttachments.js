@@ -106,7 +106,6 @@ const ParticipantCouncilAttachments = ({
 			a.click();
 			a.remove();
 		}
-		//setDownloading(false);
 	};
 
 	const onDrop = accepted => {
@@ -224,7 +223,12 @@ const ParticipantCouncilAttachments = ({
 											}}
 											onClick={() => setConfirmationModal(attachment)}
 										></i>
-										<div>
+										<div
+											style={{
+												userSelect: 'none',
+											}}
+											onClick={() => downloadAttachment(attachment)}
+										>
 											{translate.name} {attachment.filename}
 										</div>
 									</Card>
