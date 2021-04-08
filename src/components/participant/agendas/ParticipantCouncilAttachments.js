@@ -13,6 +13,7 @@ import { moment } from '../../../containers/App';
 import { getPrimary } from '../../../styles/colors';
 import upload from '../../../assets/img/upload.svg';
 import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
+import { SERVER_URL } from '../../../config';
 
 const ParticipantCouncilAttachments = ({
 	translate, participant, client, council
@@ -85,6 +86,27 @@ const ParticipantCouncilAttachments = ({
 			getData();
 			setUploadFile(false);
 		};
+	};
+
+	const downloadAttachment = async attachment => {
+		const participantToken = sessionStorage.getItem('participantToken');
+		const response = await fetch(`${SERVER_URL}/councilAttachment/${attachment.id}`, {
+			headers: new Headers({
+				'x-jwt-token': participantToken,
+			})
+		});
+
+		if (response.status === 200) {
+			const blob = await response.blob();
+			const url = window.URL.createObjectURL(blob);
+			const a = document.createElement('a');
+			a.href = url;
+			a.download = attachment.filename;
+			document.body.appendChild(a);
+			a.click();
+			a.remove();
+		}
+		//setDownloading(false);
 	};
 
 	const onDrop = accepted => {
@@ -249,7 +271,14 @@ const ParticipantCouncilAttachments = ({
 									{data && data.filter(filterAttachments).map(attachment => (
 										<TableRow key={`attachment_${attachment.id}`}>
 											<TableCell>
-												{attachment.filename}
+												<div
+													style={{
+														cursor: 'pointer'
+													}}
+													onClick={() => downloadAttachment(attachment)}
+												>
+													{attachment.filename}
+												</div>
 											</TableCell>
 											<TableCell>
 												{attachment.filetype}
