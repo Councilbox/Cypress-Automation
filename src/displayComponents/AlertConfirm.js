@@ -86,7 +86,13 @@ const AlertConfirm = ({
 			open={open}
 			onClose={requestClose}
 			PaperProps={{
-				style: { ...widthModal, ...(PaperProps ? PaperProps.style : {}) },
+				style: {
+					...widthModal,
+					...(PaperProps ? PaperProps.style : {}),
+					...(isMobile ? {
+						margin: 0
+					} : {})
+				},
 			}}
 		>
 			{!!requestClose && (
@@ -130,7 +136,7 @@ const AlertConfirm = ({
 			<DialogContent
 				style={{
 					minWidth: '40vw',
-					maxWidth: '95vw',
+					maxWidth: isMobile ? '100%' : '95vw',
 					...bodyStyle
 				}}
 			>

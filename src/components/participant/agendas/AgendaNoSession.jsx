@@ -265,7 +265,7 @@ const AgendaNoSession = ({
 						</DisabledSection>
 					}
 
-					<div style={{ height: 'calc(100% - 2.5em)' }}>
+					<div style={{ height: '100%' }}>
 						{!props.sinCabecera &&
 							<React.Fragment>
 								<div style={{
@@ -322,7 +322,7 @@ const AgendaNoSession = ({
 							/>
 						) : (
 							<Scrollbar ref={scrollbar}>
-								<div>
+								<div style={{ marginTop: '2em' }}>
 									{!councilStarted(council) &&
 										<div style={{
 											backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700'
@@ -336,10 +336,11 @@ const AgendaNoSession = ({
 												width: '100%',
 												display: 'flex',
 												justifyContent: 'center',
-												height: '2.5em'
+												height: '2.5em',
+												marginTop: '0.6em'
 											}}
 										>
-											<img src={council.company.logo} style={{ height: '100%', width: 'auto', marginTop: '0.6em' }}></img>
+											<img src={council.company.logo} style={{ height: '100%', width: 'auto' }}></img>
 										</div>
 									}
 									<div style={{ marginTop: '20px', paddingBottom: '2em' }}>
@@ -354,7 +355,7 @@ const AgendaNoSession = ({
 											<React.Fragment>
 												{agendas.map((agenda, index) => (
 													<React.Fragment key={`agenda_card_${index}`} >
-														<div ref={el => { itemRefs[agenda.id] = el; }}>
+														<div ref={el => { itemRefs[agenda.id] = el; }} style={{ width: '100%' }}>
 															{renderAgendaCard(agenda)}
 														</div>
 													</React.Fragment>
