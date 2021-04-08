@@ -1,6 +1,5 @@
 import React from 'react';
 import { CLIENT_VERSION } from '../../../../config';
-import { Grid } from '../../../../displayComponents';
 import withTranslations from '../../../../HOCs/withTranslations';
 import { isMobile } from '../../../../utils/screen';
 import LegalModal from './LegalModal';

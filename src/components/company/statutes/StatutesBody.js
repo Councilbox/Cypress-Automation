@@ -464,7 +464,7 @@ const StatutesPage = ({
 												<br />
 											</div>
 										</div>
-									</Scrollbar>										
+									</Scrollbar>
 								</div>
 								<div
 									style={{

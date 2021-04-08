@@ -47,10 +47,10 @@ const AppointmentDateForm = ({ style, appointment, setState, errors }) => {
 				color: primary
 			}}>Fecha y hora de la cita</h6>
 			{errors.date &&
-				<div style={{ color: 'red'}}>{errors.date}</div>
+				<div style={{ color: 'red' }}>{errors.date}</div>
 			}
 			{errors.time &&
-				<div style={{ color: 'red'}}>{errors.time}</div>
+				<div style={{ color: 'red' }}>{errors.time}</div>
 			}
 			<OVACTextInput
 				value={dateText}

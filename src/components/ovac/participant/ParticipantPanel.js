@@ -10,7 +10,7 @@ import { ConfigContext } from '../../../containers/AppControl';
 import MainMenu from './MainMenu';
 
 
-const ParticipantPanel = ({ data, translate, actions, match }) => {
+const ParticipantPanel = ({ data, translate, actions }) => {
 	const [companyId, setCompanyId] = React.useState(null);
 	const config = React.useContext(ConfigContext);
 	const [loadingConfig, setLoadingConfig] = React.useState(true);

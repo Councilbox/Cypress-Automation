@@ -67,7 +67,7 @@ const LegalModal = ({ open, requestClose, action, translate }) => {
 						</Block>
 
 						<Block>
-							El artículo 7.1 del Real Decreto por el que se desarrolla parcialmente dicha Ley añade que "El titular de la sede electrónica que contenga un enlace o vínculo a otra cuya responsabilidad corresponda a distinto órgano o Administración Pública no será responsable de la integridad, veracidad ni actualización de esta última. La sede establecerá los medios necesarios para que el ciudadano conozca si la información o servicio al que accede corresponde a la propia sede o a un punto de acceso que no tiene el carácter de sede o a un tercero".
+							El artículo 7.1 del Real Decreto por el que se desarrolla parcialmente dicha Ley añade que &quot;El titular de la sede electrónica que contenga un enlace o vínculo a otra cuya responsabilidad corresponda a distinto órgano o Administración Pública no será responsable de la integridad, veracidad ni actualización de esta última. La sede establecerá los medios necesarios para que el ciudadano conozca si la información o servicio al que accede corresponde a la propia sede o a un punto de acceso que no tiene el carácter de sede o a un tercero&quot;.
 						</Block>
 						<Block>
 							En este sentido en la Sede Electrónica se indica a través de mensajes sobre los enlaces si accediendo a ellos se abandona la sede o por el contrario permanece en ella.
@@ -93,7 +93,7 @@ const LegalModal = ({ open, requestClose, action, translate }) => {
 						</Block>
 						<Block>
 							Frames
-							El Ministerio de Justicia prohíbe expresamente la realización de "framings" o la utilización por parte de terceros de cualesquiera otros mecanismos que alteren el diseño, configuración original o contenidos de su Portal.
+							El Ministerio de Justicia prohíbe expresamente la realización de &quot;framings&quot; o la utilización por parte de terceros de cualesquiera otros mecanismos que alteren el diseño, configuración original o contenidos de su Portal.
 						</Block>
 						<Block>
 							Propiedad intelectual e industrial

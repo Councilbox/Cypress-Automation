@@ -1,6 +1,6 @@
 /* eslint-disable no-use-before-define */
 import React from 'react';
-import { Route, Router, Switch, withRouter } from 'react-router-dom';
+import { Route, Router, Switch } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import { createBrowserHistory as createHistory } from 'history';
 import Loadable from 'react-loadable';
