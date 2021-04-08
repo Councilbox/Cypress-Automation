@@ -31,7 +31,7 @@ class Scrollbar extends React.Component {
 					this.scrollbar = ref;
 				}}
 				autoHide={autoHide}
-				className={`Scrollbar${classFix} scrollbarFixHeight`}
+				className={`Scrollbar ${classFix} scrollbarFixHeight`}
 				onScrollStop={onScrollStop}
 				style={{
 					width: '100%',

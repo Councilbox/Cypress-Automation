@@ -48,8 +48,8 @@ text-decoration: none !important;
 }
 
 .scrollbarFix {
-margin-right: -17px;
-scroll-behavior: smooth;
+	margin-right: -17px;
+	scroll-behavior: smooth;
 }
 
 .hoverShadow:hover {
@@ -80,6 +80,12 @@ box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 4px, rgba(0, 0, 0, 0.25) 0px 1px 3px;
 }
 
 .Scrollbar>div:first-child {
+	margin-right: -17px !important;
+	margin-bottom: -17px !important;
+	scroll-behavior: smooth;
+}
+
+.scrollflex>div:first-child {
 	margin-right: -17px !important;
 	margin-bottom: -17px !important;
 	scroll-behavior: smooth;
@@ -1119,7 +1125,7 @@ box-shadow: none!important;
 .marginP0 > p{ margin-bottom: 0px; }
 
 .scrollbarFixHeight > div > div { 
-	flex-grow: 1;
+	/* flex-grow: 1; */
 }
 
 /* CouncilFinishedFeedback2 */ 

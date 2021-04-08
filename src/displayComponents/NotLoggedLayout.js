@@ -64,10 +64,17 @@ const NotLoggedLayout = ({
 					margin: 0,
 					backgroundColor: 'rgba(0, 0, 0, 0.05)',
 					fontSize: '0.85em',
-					height: `calc(100% - ${HEADER_HEIGHT})`
+					height: `calc(100% - ${HEADER_HEIGHT})`,
 				}}
 			>
-				<Scrollbar>
+				<Scrollbar
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						flexGrow: 1
+					}}
+					classFix={'scrollflex'}
+				>
 					{children}
 				</Scrollbar>
 			</div>
