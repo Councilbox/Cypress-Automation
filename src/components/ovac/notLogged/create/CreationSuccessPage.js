@@ -8,7 +8,7 @@ const CreationSuccessPage = ({ participant, appointment, translate }) => {
 	return (
 		<Card style={{
 			width: '960px',
-			padding: '49px 94px 115px 84px',
+			padding: '49px 94px 115px 115px',
 			objectFit: 'contain',
 			display: 'flex',
 			alignItems: 'center',
