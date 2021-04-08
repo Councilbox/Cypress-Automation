@@ -1,17 +1,19 @@
 import { Card } from 'material-ui';
 import React from 'react';
 import { ReactComponent as Checked } from '../../../../assets/img/checked.svg';
+import { isMobile } from '../../../../utils/screen';
 import ParticipantInfo from '../../participant/ParticipantInfo';
 
 
 const CreationSuccessPage = ({ participant, appointment, translate }) => {
 	return (
 		<Card style={{
-			width: '960px',
-			padding: '49px 94px 115px 115px',
+			width: isMobile ? '100%' : '960px',
+			padding: isMobile ? '49px 20px' : '49px 94px 115px 115px',
 			objectFit: 'contain',
 			display: 'flex',
 			alignItems: 'center',
+			justifyContent: 'center',
 			flexDirection: 'column'
 		}}>
 			<Checked />
