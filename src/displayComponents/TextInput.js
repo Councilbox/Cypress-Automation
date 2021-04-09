@@ -44,8 +44,7 @@ const TextInput = ({
 	stylesTextField,
 	autoComplete = 'true',
 	styleFloatText,
-	colorHelp,
-	...props
+	colorHelp
 }) => (
 	<FormControl
 		style={{

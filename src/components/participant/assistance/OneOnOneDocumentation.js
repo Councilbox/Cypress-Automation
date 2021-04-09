@@ -1,6 +1,6 @@
 import { Card } from 'material-ui';
 import React from 'react';
-import { NotLoggedLayout, Scrollbar } from '../../../displayComponents';
+import { NotLoggedLayout } from '../../../displayComponents';
 import { isMobile } from '../../../utils/screen';
 import ParticipantCouncilAttachments from '../agendas/ParticipantCouncilAttachments';
 

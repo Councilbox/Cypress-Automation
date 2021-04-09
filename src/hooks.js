@@ -474,7 +474,6 @@ export const useDownloadHTMLAsPDF = () => {
 
 
 export const useCheckValidPhone = client => {
-
 	const checkValidPhone = async phone => {
 		const response = await client.query({
 			query: gql`
