@@ -17,7 +17,7 @@ import Convene from '../council/convene/Convene';
 import { useOldState } from '../../hooks';
 import withSharedProps from '../../HOCs/withSharedProps';
 import { COUNCIL_TYPES, PARTICIPANT_STATES } from '../../constants';
-import { getCustomLogo, getCustomIcon } from '../../utils/subdomain';
+import { getCustomLogo, getCustomIcon, useSubdomain } from '../../utils/subdomain';
 import { isMobile } from '../../utils/screen';
 import { HEADER_HEIGHT } from '../../styles/constants';
 
@@ -36,6 +36,7 @@ const Header = ({
 	const secondary = getSecondary();
 	const customLogo = getCustomLogo();
 	const customIcon = getCustomIcon();
+	const subdomain = useSubdomain();
 
 	const logout = () => {
 		props.actions.logoutParticipant(participant, council);
@@ -160,7 +161,8 @@ const Header = ({
 				borderBottom: '1px solid gainsboro',
 				alignItems: 'center',
 				background: 'white',
-				color: primary
+				color: primary,
+				...subdomain?.styles?.roomHeader
 			}}
 		>
 			<div
