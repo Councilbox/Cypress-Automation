@@ -25,7 +25,7 @@ const CreationSuccessPage = ({ participant, appointment, translate }) => {
 					marginTop: '1em'
 				}}
 			>
-				Cita previa confirmada
+				{translate.appointment_confirmed}
 			</div>
 			<ParticipantInfo
 				appointment={appointment}
@@ -38,9 +38,7 @@ const CreationSuccessPage = ({ participant, appointment, translate }) => {
 					marginTop: '1em'
 				}}
 			>
-				Ya puede cerrar esta pestaña del navegador. En pocos minutos recibirá un email de confirmación
-				con acceso a modificar la cita o preparar la documentación necesaria. Por favor revise su
-				bandeja de correo no deseado o spam.
+				{translate.appointment_confirmed_text}
 				{/* En caso de no recibirlo en un plazo de 24h póngase en
 				contacto a través de soporte@ovac.es */}
 			</p>

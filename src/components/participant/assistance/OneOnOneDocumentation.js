@@ -1,6 +1,6 @@
 import { Card } from 'material-ui';
 import React from 'react';
-import { NotLoggedLayout, Scrollbar } from '../../../displayComponents';
+import { NotLoggedLayout } from '../../../displayComponents';
 import { isMobile } from '../../../utils/screen';
 import ParticipantCouncilAttachments from '../agendas/ParticipantCouncilAttachments';
 
@@ -63,39 +63,37 @@ const OneOnOneDocumentation = ({ translate, participant, council }) => (
 		helpIcon={true}
 		languageSelector={false}
 	>
-		<Scrollbar>
-			<div style={{
-				width: '100%',
-				display: 'flex',
-				flexDirection: 'column',
-				justifyContent: 'center',
-				alignItems: 'center'
-			}}>
-				<Card style={{
-					margin: isMobile ? '4em 0' : 'auto',
-					maxWidth: isMobile ? '100%' : '80%',
-					minWidth: window.innerWidth > 450 ? '80%' : '100%'
-				}} elevation={6}>
+		<div style={{
+			width: '100%',
+			display: 'flex',
+			justifyContent: 'center',
+			alignItems: 'center',
+			flexGrow: 1
+		}}>
+			<Card style={{
+				margin: isMobile ? '4em 0' : 'auto',
+				maxWidth: isMobile ? '100%' : '80%',
+				minWidth: window.innerWidth > 450 ? '80%' : '100%'
+			}} elevation={6}>
+				<div style={{
+					...styles.loginContainerMax,
+					height: '',
+				}}>
 					<div style={{
 						...styles.loginContainerMax,
-						height: '',
+						...(council.securityType !== 0 ? {
+							height: ''
+						} : {}),
 					}}>
-						<div style={{
-							...styles.loginContainerMax,
-							...(council.securityType !== 0 ? {
-								height: ''
-							} : {}),
-						}}>
-							<ParticipantCouncilAttachments
-								translate={translate}
-								council={council}
-								participant={participant}
-							/>
-						</div>
+						<ParticipantCouncilAttachments
+							translate={translate}
+							council={council}
+							participant={participant}
+						/>
 					</div>
-				</Card>
-			</div>
-		</Scrollbar>
+				</div>
+			</Card>
+		</div>
 	</NotLoggedLayout>
 
 );

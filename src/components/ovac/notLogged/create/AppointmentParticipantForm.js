@@ -54,6 +54,7 @@ const AppointmentParticipantForm = ({ translate, participant, appointment, setSt
 				styleFloatText={labelStyle}
 				errorText={errors.surname}
 				required
+				value={participant.surname}
 				onChange={event => {
 					setState({
 						surname: event.target.value
@@ -65,28 +66,69 @@ const AppointmentParticipantForm = ({ translate, participant, appointment, setSt
 				styleFloatText={labelStyle}
 				errorText={errors.dni}
 				required
+				value={participant.dni}
 				onChange={event => {
 					setState({
 						dni: event.target.value
 					});
 				}}
 			/>
-			<TextInput
-				floatingText={translate.phone}
-				styleFloatText={labelStyle}
-				errorText={errors.phone}
-				required
-				onChange={event => {
-					setState({
-						phone: event.target.value
-					});
+			<div
+				style={{
+					display: 'flex'
 				}}
-			/>
+			>
+				<div
+					style={{
+						maxWidth: '8em',
+						marginRight: '1em'
+					}}
+				>
+					<TextInput
+						floatingText={translate.phone_country_code}
+						styleFloatText={labelStyle}
+						errorText={errors.phoneCountryCode}
+						startAdornment={'+'}
+						required
+						value={participant.phoneCountryCode}
+						onChange={event => {
+							const clean = event.target.value.replace(/[^0-9]/g, '');
+							if (Number.isNaN(+clean) || +event.target.value === 0) {
+								return setState({
+									phoneCountryCode: ''
+								});
+							}
+							setState({
+								phoneCountryCode: +clean
+							});
+						}}
+					/>
+				</div>
+				<TextInput
+					floatingText={translate.phone}
+					styleFloatText={labelStyle}
+					errorText={errors.phone}
+					required
+					value={participant.phone}
+					onChange={event => {
+						const clean = event.target.value.replace(/[^0-9]/g, '');
+						if (Number.isNaN(+clean) || +event.target.value === 0) {
+							return setState({
+								phone: ''
+							});
+						}
+						setState({
+							phone: +clean
+						});
+					}}
+				/>
+			</div>
 			<TextInput
 				floatingText={translate.email}
 				errorText={errors.email}
 				styleFloatText={labelStyle}
 				required
+				value={participant.email}
 				onChange={event => {
 					setState({
 						email: event.target.value
@@ -94,7 +136,7 @@ const AppointmentParticipantForm = ({ translate, participant, appointment, setSt
 				}}
 			/>
 			<div>
-				<div style={{ color: primary, fontWeight: '700', fontSize: '15px' }}>Privacidad</div>
+				<div style={{ color: primary, fontWeight: '700', fontSize: '15px' }}>{translate.privacy}</div>
 				<div onClick={() => {
 					setModal(true);
 					setLegalTerms(false);
@@ -102,7 +144,7 @@ const AppointmentParticipantForm = ({ translate, participant, appointment, setSt
 					<Checkbox
 						value={appointment.acceptedLegal}
 						onChange={() => {}}
-						label={'El ciudadano da su consentimiento para que el resultado de la asistencia prestada en la cita previa sea tratada por este organismo'}
+						label={translate.appointment_legal_check_label}
 					/>
 					{errors.acceptedLegal &&
 						<span style={{ color: 'red' }}>{errors.acceptedLegal}</span>

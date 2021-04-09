@@ -47,7 +47,7 @@ const getDateOptions = initialDate => {
 };
 
 
-const AppointmentDateForm = ({ style, appointment, setState, errors }) => {
+const AppointmentDateForm = ({ style, appointment, setState, errors, translate }) => {
 	const [scrollHeight, setScrollHeight] = React.useState(null);
 	const containerRef = React.useRef();
 	const primary = getPrimary();
@@ -84,7 +84,7 @@ const AppointmentDateForm = ({ style, appointment, setState, errors }) => {
 			<h6 style={{
 				fontWeight: '700',
 				color: primary
-			}}>Fecha y hora de la cita</h6>
+			}}>{translate.appointment_date_time}</h6>
 			{errors.date &&
 				<div style={{ color: 'red' }}>{errors.date}</div>
 			}

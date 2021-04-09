@@ -16,7 +16,7 @@ const getNumberValue = value => {
 		return 1;
 	}
 
-	return value;
+	return num;
 };
 
 

@@ -6,7 +6,7 @@ import { SelectInput } from '../../../../displayComponents';
 import { getPrimary } from '../../../../styles/colors';
 
 
-const ServiceSelector = ({ appointment, setState, entities, client }) => {
+const ServiceSelector = ({ appointment, setState, entities, client, translate }) => {
 	const [services, setServices] = React.useState(null);
 
 	const getData = React.useCallback(async () => {
@@ -26,7 +26,8 @@ const ServiceSelector = ({ appointment, setState, entities, client }) => {
 			});
 			setServices(response.data.ovacCompanyServices);
 			setState({
-				statuteId: response.data?.ovacCompanyServices[0]?.id
+				statuteId: response.data?.ovacCompanyServices[0]?.id,
+				name: response.data?.ovacCompanyServices[0]?.title
 			});
 		}
 	}, [appointment.companyId]);
@@ -48,7 +49,7 @@ const ServiceSelector = ({ appointment, setState, entities, client }) => {
 		>
 			<SelectInput
 				disabled={entities.length <= 1}
-				floatingText="Centro"
+				floatingText={translate.appointment_place}
 				styleLabel={{
 					fontSize: '20px',
 					fontWeight: '700',
@@ -68,24 +69,28 @@ const ServiceSelector = ({ appointment, setState, entities, client }) => {
 				))}
 			</SelectInput>
 			<SelectInput
-				floatingText="Servicio solicitado"
+				floatingText={translate.selected_service}
 				styleLabel={{
 					fontSize: '20px',
 					fontWeight: '700',
 					color: primary
 				}}
-				value={appointment.statuteId}
+				value={`${appointment.statuteId}|${appointment.name}`}
 				styles={{
 					marginTop: '1em'
 				}}
 				onChange={event => {
 					setState({
-						statuteId: event.target.value
+						statuteId: +(event.target.value.split('|')[0]),
+						name: event.target.value.split('|')[1],
 					});
 				}}
 			>
 				{services && services.map(service => (
-					<MenuItem value={service.id} key={service.id}>
+					<MenuItem
+						value={`${service.id}|${service.title}`}
+						key={service.id}
+					>
 						{service.title}
 					</MenuItem>
 				))}

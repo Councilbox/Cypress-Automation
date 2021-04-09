@@ -71,7 +71,7 @@ const MainMenu = ({ translate, participant, appointment, match, refetch }) => {
 						alignItems: 'center',
 						justifyContent: 'center'
 					}}>
-						<Title>Sistema de gestión de citas previas - {subdomain.title}</Title>
+						<Title>{translate.appointment_landing_title} - {subdomain.title}</Title>
 						<ParticipantInfo
 							appointment={appointment}
 							participant={participant}
@@ -79,7 +79,7 @@ const MainMenu = ({ translate, participant, appointment, match, refetch }) => {
 						/>
 						{appointment.state === COUNCIL_STATES.CANCELED &&
 							<h3 style={{ marginTop: '1.2em' }}>
-								Esta cita ha sido cancelada
+								{translate.appointment_cancelled}
 							</h3>
 						}
 						{appointment.state !== COUNCIL_STATES.CANCELED &&
@@ -114,7 +114,7 @@ const MainMenu = ({ translate, participant, appointment, match, refetch }) => {
 													}
 													color="#dc7373"
 													backgroundColor="white"
-													text="Cancelar cita"
+													text={translate.cancel_appointment}
 												/>
 											}
 											appointment={appointment}

@@ -15,11 +15,13 @@ import AppointmentParticipantForm from './AppointmentParticipantForm';
 import ServiceSelector from './ServiceSelector';
 import CreationSuccessPage from './CreationSuccessPage';
 import AppointmentFooter from './AppointmentFooter';
+import { useCheckValidPhone } from '../../../../hooks';
 
 
 const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 	const [loadLanguage, setLoadedLanguage] = React.useState(false);
 	const [success, setSuccess] = React.useState(false);
+	const [loading, setLoading] = React.useState(false);
 	const [appointmentData, setAppointmentData] = React.useState({
 		companyId: '',
 		statuteId: '',
@@ -28,6 +30,7 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 		participant: {
 			name: '',
 			surname: '',
+			phoneCountryCode: '34',
 			dni: '',
 			email: '',
 			phone: '',
@@ -47,6 +50,7 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 	});
 	const [subdomainData, setSubdomainData] = React.useState(null);
 	const subdomain = useSubdomain();
+	const { checkValidPhone } = useCheckValidPhone(client);
 	const { language } = match.params;
 
 	const primary = getPrimary();
@@ -95,13 +99,14 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 		getData();
 	}, [getData]);
 
-	const checkRequiredFields = () => {
+	const checkRequiredFields = async () => {
 		const cleanErrors = {
 			name: '',
 			surname: '',
 			dni: '',
 			email: '',
 			phone: '',
+			phoneCountryCode: '',
 			legalTerms: '',
 			date: '',
 			time: ''
@@ -117,8 +122,20 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 			newErrors.surname = translate.required_field;
 		}
 
-		if (!participant.phone) {
-			newErrors.phone = translate.required_field;
+		if (!participant.phone || !participant.phoneCountryCode) {
+			if (!participant.phone) {
+				newErrors.phone = translate.required_field;
+			}
+
+			if (!participant.phoneCountryCode) {
+				newErrors.phoneCountryCode = translate.required_field;
+			}
+		} else {
+			const response = await checkValidPhone(`+${participant.phoneCountryCode}${participant.phone}`);
+
+			if (!response.success) {
+				newErrors.phone = translate.enter_valid_phone_number;
+			}
 		}
 
 		if (!participant.email) {
@@ -130,15 +147,15 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 		}
 
 		if (!acceptedLegal) {
-			newErrors.acceptedLegal = 'Es necesario aceptar los términos';
+			newErrors.acceptedLegal = translate.must_accept_terms_and_conditions;
 		}
 
 		if (!council.date) {
-			newErrors.date = 'Es necesario seleccionar la fecha';
+			newErrors.date = translate.appointment_date_is_required;
 		}
 
 		if (!council.time) {
-			newErrors.time = 'Es necesario seleccionar la hora de la cita';
+			newErrors.time = translate.appointment_time_is_required;
 		}
 
 		const hasError = Object.keys(newErrors).length > 0;
@@ -160,7 +177,8 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 	};
 
 	const createAppointment = async () => {
-		if (!checkRequiredFields()) {
+		if (!await checkRequiredFields()) {
+			setLoading(true);
 			const { participant, acceptedLegal, ...council } = appointmentData;
 
 			const date = moment(council.date);
@@ -174,6 +192,9 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 			council.dateStart = date.toISOString();
 			delete council.date;
 			delete council.time;
+
+			participant.phone = `+${participant.phoneCountryCode}${participant.phone}`;
+			delete participant.phoneCountryCode;
 
 			const response = await client.mutate({
 				mutation: gql`
@@ -201,6 +222,7 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 			if (response.data?.createAppointment?.id) {
 				setSuccess(response.data.createAppointment);
 			}
+			setLoading(false);
 		}
 	};
 
@@ -247,7 +269,7 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 						lineHeight: 'normal',
 						letterSpacing: 'normal'
 					}}>
-						Solicitud de cita previa
+						{translate.request_appointment}
 					</h2>
 					<div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
 						<Grid
@@ -269,9 +291,11 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 											appointment={appointmentData}
 											setState={updateAppointmentData}
 											entities={subdomainData.entities}
+											translate={translate}
 										/>
 										<AppointmentDateForm
 											errors={errors}
+											translate={translate}
 											appointment={appointmentData}
 											setState={updateAppointmentData}
 											style={{
@@ -308,7 +332,7 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 								<GridItem xs={12} md={12} lg={12} style={{ height: '100%', overflow: 'hidden' }}>
 									<div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', padding: '0.6em 0' }}>
 										<BasicButton
-											text="Cancelar"
+											text={translate.cancel}
 											color="white"
 											type="flat"
 											onClick={() => bHistory.push('/')}
@@ -321,7 +345,9 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 											}}
 										/>
 										<BasicButton
-											text="Solicitar cita"
+											text={translate.request_appointment_button}
+											loading={loading}
+											loadingColor={'white'}
 											onClick={createAppointment}
 											color={primary}
 											textStyle={{

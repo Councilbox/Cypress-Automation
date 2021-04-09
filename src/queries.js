@@ -1480,6 +1480,7 @@ export const councilLiveQuery = gql`
 				autoSendAct
 				statuteId
 				title
+				participantValidation
 				existPublicUrl
 				addParticipantsListToAct
 				decimalDigits
