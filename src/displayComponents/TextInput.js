@@ -57,7 +57,7 @@ const TextInput = ({
 			onSelect={onClick}
 			onBlur={onBlur}
 			label={
-				labelNone ? ''
+				(labelNone || !floatingText) ? ''
 					: helpPopoverInLabel ? floatingText
 						: <div style={{ display: 'flex', ...styleFloatText }}>
 							{`${floatingText}${required ? '*' : ''}`}

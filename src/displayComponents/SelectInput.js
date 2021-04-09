@@ -16,6 +16,7 @@ const SelectInput = ({
 	labelStyle = {},
 	autoWidth,
 	styles,
+	style,
 	disableUnderline = false,
 	styleLabel
 }) => (
@@ -24,7 +25,8 @@ const SelectInput = ({
 		style={{
 			width: '100%',
 			marginTop: '0',
-			marginBottom: '8px'
+			marginBottom: '8px',
+			...style
 		}}
 	>
 		{!noLabel && (

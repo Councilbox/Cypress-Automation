@@ -31,7 +31,7 @@ import LoadingMainApp from '../displayComponents/LoadingMainApp';
 import ValidatorPage from '../components/notLogged/validator/ValidatorPage';
 import ConveneDisplay from '../components/council/convene/ConveneDisplay';
 import { pageView } from '../utils/analytics';
-import { shouldLoadSubdomain } from '../utils/subdomain';
+import { shouldLoadSubdomain, useSubdomain } from '../utils/subdomain';
 import Test from '../components/participant/test/Test';
 import DownloadFile from '../components/DownloadFile';
 
@@ -211,7 +211,6 @@ if (sessionStorage.getItem('token')) {
 	store.dispatch({ type: 'LOGIN_SUCCESS' });
 	store.dispatch(initUserData());
 } else {
-	store.dispatch(setLanguage(getDefaultLanguage()));
 	store.dispatch(loadingFinished());
 }
 
@@ -255,6 +254,12 @@ const RouterWrapper = () => {
 	React.useEffect(() => {
 		pageView();
 	}, [window.location.href]);
+	const subdomain = useSubdomain();
+	const language = (subdomain && subdomain.defaultLanguage) ? subdomain.defaultLanguage : getDefaultLanguage();
+
+	React.useEffect(() => {
+		store.dispatch(setLanguage(language));
+	}, [language]);
 
 	return (
 		<React.Fragment>

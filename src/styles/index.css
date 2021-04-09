@@ -48,8 +48,8 @@ text-decoration: none !important;
 }
 
 .scrollbarFix {
-margin-right: -17px;
-scroll-behavior: smooth;
+	margin-right: -17px;
+	scroll-behavior: smooth;
 }
 
 .hoverShadow:hover {
@@ -71,8 +71,8 @@ mso-paper-source: 0;
 }
 
 .htmlPreview {
-width: 21cm;
-padding-bottom: 5em;
+	width: 21cm;
+	padding-bottom: 5em;
 }
 
 .withShadow {
@@ -80,9 +80,15 @@ box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 4px, rgba(0, 0, 0, 0.25) 0px 1px 3px;
 }
 
 .Scrollbar>div:first-child {
-margin-right: -17px !important;
-margin-bottom: -17px !important;
-scroll-behavior: smooth;
+	margin-right: -17px !important;
+	margin-bottom: -0 !important;
+	scroll-behavior: smooth;
+	overflow-x: hidden !important;
+}
+
+.scrollflex>div:first-child {
+	display: flex;
+	flex-grow: 1;
 }
 
 h4 {
@@ -1116,7 +1122,9 @@ box-shadow: none!important;
 
 .marginP0 > p{ margin-bottom: 0px; }
 
-.scrollbarFixHeight > div > div { height: 100%;}
+.scrollbarFixHeight > div > div { 
+	/* flex-grow: 1; */
+}
 
 /* CouncilFinishedFeedback2 */ 
 .btn-councilFF2 {

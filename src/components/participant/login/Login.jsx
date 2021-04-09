@@ -5,7 +5,7 @@ import withDetectRTC from '../../../HOCs/withDetectRTC';
 import { councilIsLive, councilIsFinished, checkHybridConditions } from '../../../utils/CBX';
 import LoginForm from './LoginForm';
 import CouncilState from './CouncilState';
-import { NotLoggedLayout, Scrollbar } from '../../../displayComponents';
+import { NotLoggedLayout } from '../../../displayComponents';
 import { isMobile } from '../../../utils/screen';
 import RequestDataInfo from './RequestDataInfo';
 import DataAuthorization from './Legalterms/DataAuthorization';
@@ -15,18 +15,11 @@ import { ConfigContext } from '../../../containers/AppControl';
 const width = window.innerWidth > 450 ? '850px' : '100%';
 
 const styles = {
-	viewContainer: {
-		width: '100vw',
-		height: '100vh',
-		position: 'relative'
-	},
 	mainContainer: {
 		width: '100%',
 		display: 'flex',
-		height: '100%',
 		flexDirection: 'column',
 		alignItems: 'center',
-		justifyContent: 'center',
 		position: 'relative',
 		padding: isMobile ? '' : '10px'
 	},
@@ -34,9 +27,7 @@ const styles = {
 		margin: isMobile ? '20%' : '20px',
 		marginBottom: '5px',
 		minWidth: width,
-		maxWidth: '100%',
-		// height: '50vh',
-		// minHeight: isMobile? '70vh' : '50vh',
+		maxWidth: '100%'
 	}
 };
 
@@ -86,13 +77,13 @@ const ParticipantLogin = ({
 				councilIsFinished={councilIsFinished(council)}
 				setSelectHeadFinished={setSelectHeadFinished}
 				selectHeadFinished={selectHeadFinished}
-				styleFix={{ overflow: 'hidden' }}
 			>
-				<div style={{ width: '100%', background: 'transparent', height: 'calc( 100% - 3em )' }} >
-					<div style={{ width: '100%', background: 'transparent', height: '100%' }}>
-						<CouncilState council={council} company={company} participant={participant} selectHeadFinished={selectHeadFinished} />
-					</div>
-				</div>
+				<CouncilState
+					council={council}
+					company={company}
+					participant={participant}
+					selectHeadFinished={selectHeadFinished}
+				/>
 			</NotLoggedLayout>
 		);
 	}
@@ -103,41 +94,28 @@ const ParticipantLogin = ({
 			translate={props.translate}
 			helpIcon={true}
 			languageSelector={false}
-			styleFix={{ overflow: 'hidden' }}
-			styleFixChildren={{
-				...(council.securityType === 2 && isMobile && {
-					overflow: 'scroll'
-				}),
-			}}
 		>
 			{renderLogin ?
 				<>
 					{(participant.legalTermsAccepted || !config.participantTermsCheck) ?
 						<div style={{
 							...styles.mainContainer,
-							height: 'calc( 100% - 3em ) ',
+							...(!isMobile ? {
+								justifyContent: 'center'
+							} : {}),
 							...(council.securityType === 2 && isMobile && {
 								height: '',
 							}),
 						}}>
 							<Card style={{
 								...styles.cardContainer,
-								background: finishedVoted && 'transparent',
-								boxShadow: finishedVoted && 'none',
 								minWidth: window.innerWidth > 450 ? '550px' : '100%',
-								height: isMobile && '70%',
-								// ...(council.securityType === 2 && isMobile && {
-								margin: isMobile && '10% 20% 5px'
-								// }),
+								padding: '0.6em',
+								...(council.securityType === 2 && isMobile && {
+									margin: '10% 20% 5px'
+								}),
 							}} elevation={6}>
-								{isMobile ?
-									<Scrollbar>
-										{loginForm()}
-									</Scrollbar>
-									:
-									loginForm()
-								}
-
+								{loginForm()}
 							</Card>
 							<Card style={{
 								width: window.innerWidth > 450 ? '550px' : '100%',
@@ -186,27 +164,16 @@ const ParticipantLogin = ({
 					}
 				</>
 				:
-				<Scrollbar>
+				<div style={styles.mainContainer}>
 					<div style={{
-						...styles.mainContainer,
-						height: councilIsFinished(council) || props.participant?.hasVoted || checkHybridConditions(council) ? '' : 'calc( 100% - 3em )',
-						display: 'flex',
-						flexDirection: 'column',
-						justifyContent: 'center'
+						...styles.cardContainer,
+						minWidth: width
 					}}>
-						<Card style={{
-							...styles.cardContainer,
-							background: finishedVoted && 'transparent',
-							boxShadow: finishedVoted && 'none',
-							minWidth: width,
-							height: '90%'
-						}} elevation={6}>
-							<CouncilState council={council} company={company} participant={participant} />
-						</Card>
+						<CouncilState council={council} company={company} participant={participant} />
 					</div>
-				</Scrollbar>
+				</div>
 			}
-		</NotLoggedLayout >
+		</NotLoggedLayout>
 	);
 };
 

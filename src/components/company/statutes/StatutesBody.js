@@ -416,51 +416,53 @@ const StatutesPage = ({
 					<div style={{ width: '100%', height: '100%' }}>
 						{!!statute && (
 							<React.Fragment>
-								<div style={{ position: 'relative', overflow: 'hidden', height: 'calc(100% - 4.5em)' }}>
+								<div style={{ overflow: 'hidden', height: 'calc(100% - 4.5em)', width: '100%' }}>
 									<Scrollbar>
-										{disabled
-											&& <>
-												<div
-													style={{
-														position: 'absolute',
-														top: '0',
-														left: '0',
-														width: '100%',
-														height: editorHeight,
-														// backgroundColor: 'red',
-														zIndex: 1000000
-													}}
-													onClick={() => { }}
+										<div style={{ position: 'relative' }}>
+											{disabled
+												&& <>
+													<div
+														style={{
+															position: 'absolute',
+															top: '0',
+															left: '0',
+															width: '100%',
+															height: editorHeight,
+															// backgroundColor: 'red',
+															zIndex: 1000000
+														}}
+														onClick={() => { }}
+													/>
+													<div
+														style={{
+															width: '100%',
+															textAlign: 'center',
+															border: '1px solid black',
+															borderRadius: '4px',
+															fontWeight: '700',
+															padding: '0.6em 0',
+															margin: '1em 0'
+														}}
+													>
+														{translate.organization_statute} <br />
+														{translate.read_only}
+													</div>
+												</>
+											}
+											<div style={{ paddingLeft: '1em', paddingRight: '1.5em', overflow: 'hidden' }} ref={statuteEditorRef}>
+												<StatuteEditor
+													companyStatutes={companyStatutes}
+													statute={statute}
+													censusList={censusList}
+													company={props.company}
+													disabled={disabled}
+													translate={translate}
+													organization={props.organization}
+													updateState={updateState}
+													errors={state.errors}
 												/>
-												<div
-													style={{
-														width: '100%',
-														textAlign: 'center',
-														border: '1px solid black',
-														borderRadius: '4px',
-														fontWeight: '700',
-														padding: '0.6em 0',
-														margin: '1em 0'
-													}}
-												>
-													{translate.organization_statute} <br />
-													{translate.read_only}
-												</div>
-											</>
-										}
-										<div style={{ paddingLeft: '1em', paddingRight: '1.5em', overflow: 'hidden' }} ref={statuteEditorRef}>
-											<StatuteEditor
-												companyStatutes={companyStatutes}
-												statute={statute}
-												censusList={censusList}
-												company={props.company}
-												disabled={disabled}
-												translate={translate}
-												organization={props.organization}
-												updateState={updateState}
-												errors={state.errors}
-											/>
-											<br />
+												<br />
+											</div>
 										</div>
 									</Scrollbar>
 								</div>

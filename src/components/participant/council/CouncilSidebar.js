@@ -213,11 +213,11 @@ const CouncilSidebar = ({
 							userSelect: 'none',
 							position: 'relative'
 						}}>
-calendar_today
+							calendar_today
 							{activeIcon
-&& <img src={iconVoteInsert} style={{
-	color: secondary, position: 'absolute', left: '5.2px', width: '13px'
-}}></img>
+								&& <img src={iconVoteInsert} style={{
+									color: secondary, position: 'absolute', left: '5.2px', width: '13px'
+								}}></img>
 							}
 						</i>
 					</div>
@@ -255,7 +255,7 @@ calendar_today
 							userSelect: 'none',
 							color: disabled ? 'grey' : props.adminMessage ? getPrimary() : '#ffffffcc',
 						}}>
-chat_bubble_outline
+							chat_bubble_outline
 						</i>
 					</div>
 					<div style={{
@@ -421,20 +421,20 @@ chat_bubble_outline
 						}
 					}}
 					bodyStyle={{
-						maxWidth: '100vw', width: '100%', padding: '0', height: '100%  '
+						maxWidth: '100vw', width: '100%', padding: '0', height: '100%'
 					}}
 					bodyText={
 						<div style={{ height: '100%' }}>
 							{props.modalContent === 'agenda'
-&& props.agenda
+								&& props.agenda
 							}
 							{props.modalContent === 'timeline'
-&& <ResultsTimeline
-	council={council}
-	participant={participant}
-	translate={translate}
-	endPage={true}
-/>
+								&& <ResultsTimeline
+									council={council}
+									participant={participant}
+									translate={translate}
+									endPage={true}
+								/>
 							}
 						</div>
 					}
@@ -556,38 +556,38 @@ chat_bubble_outline
 			</div>
 
 			{props.adminMessage
-&& <Grid item xs={6} md={8} style={{
-	transition: 'bottom 0.7s',
-	display: 'flex',
-	position: 'fixed',
-	minHeight: '50px',
-	bottom: '3.7rem',
-	left: '0',
-	alignItems: 'center',
-	justifyContent: 'center',
-	zIndex: '1000',
-}}>
-	<div style={{
-		width: '100vw',
-		marginLeft: '10px',
-		paddingRight: '6px'
-	}}
-	>
-		<div style={{
-			borderTop: '1px solid gainsboro',
-			borderRadiusTopLeft: '5px',
-			position: 'relative',
-			width: '100%',
-			height: '100%',
-			background: '#f1f1f1'
-		}}
-		>
-			<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-				{props.comentario}
-			</div>
-		</div>
-	</div>
-</Grid>
+				&& <Grid item xs={6} md={8} style={{
+					transition: 'bottom 0.7s',
+					display: 'flex',
+					position: 'fixed',
+					minHeight: '50px',
+					bottom: '3.7rem',
+					left: '0',
+					alignItems: 'center',
+					justifyContent: 'center',
+					zIndex: '1000',
+				}}>
+					<div style={{
+						width: '100vw',
+						marginLeft: '10px',
+						paddingRight: '6px'
+					}}
+					>
+						<div style={{
+							borderTop: '1px solid gainsboro',
+							borderRadiusTopLeft: '5px',
+							position: 'relative',
+							width: '100%',
+							height: '100%',
+							background: '#f1f1f1'
+						}}
+						>
+							<div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+								{props.comentario}
+							</div>
+						</div>
+					</div>
+				</Grid>
 			}
 		</div>
 	);

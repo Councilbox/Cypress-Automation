@@ -120,7 +120,6 @@ class ChangePwd extends React.PureComponent {
 				languageSelector={true}
 			>
 				<div
-					className="row justify-content-md-center"
 					style={{
 						width: '100%',
 						margin: 0,
@@ -129,9 +128,9 @@ class ChangePwd extends React.PureComponent {
 					}}
 				>
 					<div
-						className="col-lg-8 col-md-8 col-xs-12 "
 						style={{
 							display: 'flex',
+							height: '100%',
 							justifyContent: 'center',
 							alignItems: 'center',
 							padding: 0
@@ -154,9 +153,8 @@ class ChangePwd extends React.PureComponent {
 											color: primary
 										}}
 									>
-										{`${
-											translate.change_pwd_header
-										} Councilbox`}
+										{`${translate.change_pwd_header
+											} Councilbox`}
 									</div>
 									<br />
 									<div>
@@ -168,8 +166,8 @@ class ChangePwd extends React.PureComponent {
 											value={this.state.pwd}
 											onChange={event => this.setState({
 												pwd:
-														event.nativeEvent.target
-															.value
+													event.nativeEvent.target
+														.value
 											})
 											}
 										/>
@@ -185,8 +183,8 @@ class ChangePwd extends React.PureComponent {
 											value={this.state.repeatPwd}
 											onChange={event => this.setState({
 												repeatPwd:
-														event.nativeEvent.target
-															.value
+													event.nativeEvent.target
+														.value
 											})
 											}
 										/>

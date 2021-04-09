@@ -365,8 +365,7 @@ const CompanySettingsPage = ({
 									disabled
 									onChange={event => updateState({
 										type: event.target.value
-									})
-									}
+									})}
 									errorText={errors.type}
 								>
 									{props.info.companyTypes.map(

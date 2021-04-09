@@ -82,8 +82,6 @@ describe("The user is not able to register to the Councilbox without populating 
 
         it("Click on the “Sign up” button without populating required fields", function() {
             cy.get('#create-user-button').click()
-
-       
         });
 
         it("An alert message is displayed beyond the fields", function() {
@@ -109,55 +107,44 @@ describe("The user is not able to create a new account in Councilbox with invali
             cy.wait(1000)
         });
 
-
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
             cy.get('#signup-name').clear()
-            .type("12345")
-            
+                .type("12345")        
         });
-
 
         it("Populate the 'Surname' field", function() {
             cy.get('#signup-surname').clear()
-            .type("Test")
-            .should("have.value", "Test")
+                .type("Test")
+                .should("have.value", "Test")
         });
-
 
         it("Populate the 'Phone' field", function() {
             cy.get('#signup-phone').clear()
-            .type("123123123")
-            .should("have.value", "123123123")
+                .type("123123123")
+                .should("have.value", "123123123")
         });
 
         it("Populate the 'Email' and the 'Repeat email' fields", function() {
             cy.get('#signup-email').clear()
-            .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
+                .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
             
-
-        cy.get('#signup-email-check').clear()
-            .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
+            cy.get('#signup-email-check').clear()
+                .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
         });
 
         it("Populate the 'Password' and the 'Confirm password' fields", function() {
-             cy.get('#signup-password').clear()
-            .type("Mostar123!")
-
-             cy.get('#signup-password-check').clear()
-            .type("Mostar123!") 
+            cy.get('#signup-password').clear()
+                .type("Mostar123!")
+            cy.get('#signup-password-check').clear()
+                .type("Mostar123!") 
         });
 
         it("Click on the checkbox to confirm terms and conditions of councilbox", function() {
             cy.get('#accept-legal-checkbox').click()
         });
 
-
-
-
         it("Click on 'Send' button", function() {
-            cy.get('#create-user-button').click()
-
-       
+            cy.get('#create-user-button').click() 
         });
 
         it("Should display 'Please enter a valid first name'", function() {
@@ -178,60 +165,49 @@ describe("The user is not able to create a new account in Councilbox with invali
             cy.wait(1000)
         });
 
-
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
             cy.get('#signup-name').clear()
-            .type("Automation")
-            
+                .type("Automation")           
         });
-
 
         it("Populate the 'Surname' field", function() {
             cy.get('#signup-surname').clear()
-            .type("Test")
-            .should("have.value", "Test")
+                .type("Test")
+                .should("have.value", "Test")
         });
-
 
         it("Populate the 'Phone' field", function() {
             cy.get('#signup-phone').clear()
-            .type("test")
-            .should("have.value", "test")
+                .type("test")
+                .should("have.value", "test")
         });
 
         it("Populate the 'Email' and the 'Repeat email' fields", function() {
-             cy.get('#signup-email').clear()
-            .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
-            
-
-             cy.get('#signup-email-check').clear()
-            .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
+            cy.get('#signup-email').clear()
+                .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
+            cy.get('#signup-email-check').clear()
+                .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
         });
 
         it("Populate the 'Password' and the 'Confirm password' fields", function() {
              cy.get('#signup-password').clear()
-            .type("Mostar123!")
+                .type("Mostar123!")
 
              cy.get('#signup-password-check').clear()
-            .type("Mostar123!") 
+                .type("Mostar123!") 
         });
 
         it("Click on the checkbox to confirm terms and conditions of councilbox", function() {
             cy.get('#accept-legal-checkbox').click()
         });
 
-
-
-
         it("Click on 'Send' button", function() {
             cy.get('#create-user-button').click()
-
-       
         });
 
         it("Should display 'Please enter a valid phone number'", function() {
             cy.contains('Please enter a valid phone number')
-        })
+        });
     });
 
 
@@ -247,55 +223,43 @@ describe("The user is not able to create a new account in Councilbox with invali
             cy.wait(1000)
         });
 
-
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
             cy.get('#signup-name').clear()
-            .type("Automation")
-            
+                .type("Automation")
         });
-
 
         it("Populate the 'Surname' field", function() {
             cy.get('#signup-surname').clear()
-            .type("12345")
-            .should("have.value", "12345")
+                .type("12345")
+                .should("have.value", "12345")
         });
-
 
         it("Populate the 'Phone' field", function() {
             cy.get('#signup-phone').clear()
-            .type("123123123")
-            .should("have.value", "123123123")
-        });
+                .type("123123123")
+                .should("have.value", "123123123")
+        }); 
 
         it("Populate the 'Email' and the 'Repeat email' fields", function() {
             cy.get('#signup-email').clear()
-            .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
-            
-
+                .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
             cy.get('#signup-email-check').clear()
-            .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
+                .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
         });
 
         it("Populate the 'Password' and the 'Confirm password' fields", function() {
              cy.get('#signup-password').clear()
-            .type("Mostar123!")
-
+                .type("Mostar123!")
              cy.get('#signup-password-check').clear()
-            .type("Mostar123!") 
+                .type("Mostar123!") 
         });
 
         it("Click on the checkbox to confirm terms and conditions of councilbox", function() {
             cy.get('#accept-legal-checkbox').click()
         });
 
-
-
-
         it("Click on 'Send' button", function() {
             cy.get('#create-user-button').click()
-
-       
         });
 
         it("Please enter valid last names", function() {
@@ -316,60 +280,50 @@ describe("The user is not able to register to the Councilbox with the E-mail alr
             cy.wait(1000)
         });
 
-
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
             cy.get('#signup-name').clear()
-            .type("Automation")
-            
+                .type("Automation")
         });
-
 
         it("Populate the 'Surname' field", function() {
             cy.get('#signup-surname').clear()
-            .type("Test")
-            .should("have.value", "Test")
+                .type("Test")
+                .should("have.value", "Test")
         });
 
 
         it("Populate the 'Phone' field", function() {
             cy.get('#signup-phone').clear()
-            .type("123123123")
-            .should("have.value", "123123123")
+                .type("123123123")
+                .should("have.value", "123123123")
         });
 
         it("Populate the 'Email' and the 'Repeat email' fields", function() {
             cy.get('#signup-email').clear()
-            .type("alem@qaengineers.net")
-            
-
+                .type("alem@qaengineers.net")
             cy.get('#signup-email-check').clear()
-            .type("alem@qaengineers.net")
+                .type("alem@qaengineers.net")
         });
 
         it("Populate the 'Password' and the 'Confirm password' fields", function() {
-             cy.get('#signup-password').clear()
-            .type("Mostar123!")
+            cy.get('#signup-password').clear()
+                .type("Mostar123!")
 
-        cy.get('#signup-password-check').clear()
-            .type("Mostar123!") 
+            cy.get('#signup-password-check').clear()
+                .type("Mostar123!") 
         });
 
         it("Click on the checkbox to confirm terms and conditions of councilbox", function() {
             cy.get('#accept-legal-checkbox').click()
         });
 
-
-
-
         it("Click on 'Send' button", function() {
             cy.get('#create-user-button').click()
-
-       
         });
 
         it("'This email is already registered.'' message is displayed beyond the “Email” field", function() {
             cy.contains('This email is already registered.')
-        })
+        });
     });
 
 
@@ -385,60 +339,48 @@ describe("The user is not able to register to the Councilbox with the invalid in
             cy.wait(1000)
         });
 
-
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
             cy.get('#signup-name').clear()
-            .type("Automation")
-            
+                .type("Automation")
         });
-
 
         it("Populate the 'Surname' field", function() {
             cy.get('#signup-surname').clear()
-            .type("Test")
-            .should("have.value", "Test")
+                .type("Test")
+                .should("have.value", "Test")
         });
-
 
         it("Populate the 'Phone' field", function() {
             cy.get('#signup-phone').clear()
-            .type("123123123")
-            .should("have.value", "123123123")
+                .type("123123123")
+                .should("have.value", "123123123")
         });
 
         it("Populate the 'Email' and the 'Repeat email' fields", function() {
             cy.get('#signup-email').clear()
-            .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
-            
-
+                .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
             cy.get('#signup-email-check').clear()
-            .type("alem123@test.test")
+                .type("alem123@test.test")
         });
 
         it("Populate the 'Password' and the 'Confirm password' fields", function() {
              cy.get('#signup-password').clear()
-            .type("Mostar123!")
-
+                .type("Mostar123!")
              cy.get('#signup-password-check').clear()
-            .type("Mostar123!") 
+                .type("Mostar123!") 
         });
 
         it("Click on the checkbox to confirm terms and conditions of councilbox", function() {
             cy.get('#accept-legal-checkbox').click()
         });
 
-
-
-
         it("Click on 'Send' button", function() {
             cy.get('#create-user-button').click()
-
-       
         });
 
         it("'The email does not match.'' message is displayed beyond the “Repeat Email” field", function() {
             cy.contains('The email does not match.')
-        })
+        });
     });
 
 
@@ -454,60 +396,48 @@ describe("The user is not able to register to the Councilbox with the invalid in
             cy.wait(1000)
         });
 
-
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
             cy.get('#signup-name').clear()
             .type("Automation")
-            
         });
-
 
         it("Populate the 'Surname' field", function() {
             cy.get('#signup-surname').clear()
-            .type("Test")
-            .should("have.value", "Test")
+                .type("Test")
+                .should("have.value", "Test")
         });
-
 
         it("Populate the 'Phone' field", function() {
             cy.get('#signup-phone').clear()
-            .type("123123123")
-            .should("have.value", "123123123")
+                .type("123123123")
+                .should("have.value", "123123123")
         });
 
         it("Populate the 'Email' and the 'Repeat email' fields", function() {
             cy.get('#signup-email').clear()
-            .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
-            
-
+                .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
             cy.get('#signup-email-check').clear()
-            .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
+                .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
         });
 
         it("Populate the 'Password' and the 'Confirm password' fields", function() {
-             cy.get('#signup-password').clear()
-            .type("Mostar123!")
-
-             cy.get('#signup-password-check').clear()
-            .type("123456") 
+            cy.get('#signup-password').clear()
+                .type("Mostar123!")
+            cy.get('#signup-password-check').clear()
+                .type("123456") 
         });
 
         it("Click on the checkbox to confirm terms and conditions of councilbox", function() {
             cy.get('#accept-legal-checkbox').click()
         });
 
-
-
-
         it("Click on 'Send' button", function() {
             cy.get('#create-user-button').click()
-
-       
         });
 
         it("'The passwords do not match' message is displayed beyond the “Confirm Password” field", function() {
             cy.contains('The passwords do not match.')
-        })
+        });
     });
 
 
@@ -523,54 +453,44 @@ describe("The user is not able to register without accepting terms and condition
             cy.wait(1000)
         });
 
-
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
             cy.get('#signup-name').clear()
-            .type("Automation")
-            
+                .type("Automation")
         });
-
 
         it("Populate the 'Surname' field", function() {
             cy.get('#signup-surname').clear()
-            .type("Test")
-            .should("have.value", "Test")
+                .type("Test")
+                .should("have.value", "Test")
         });
-
 
         it("Populate the 'Phone' field", function() {
             cy.get('#signup-phone').clear()
-            .type("123123123")
-            .should("have.value", "123123123")
+                .type("123123123")
+                .should("have.value", "123123123")
         });
 
         it("Populate the 'Email' and the 'Repeat email' fields", function() {
             cy.get('#signup-email').clear()
-            .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
-            
-
+                .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
             cy.get('#signup-email-check').clear()
-            .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
+                .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
         });
 
         it("Populate the 'Password' and the 'Confirm password' fields", function() {
-             cy.get('#signup-password').clear()
-            .type("Mostar123!")
-
-             cy.get('#signup-password-check').clear()
-            .type("Mostar123!") 
+            cy.get('#signup-password').clear()
+                .type("Mostar123!")
+            cy.get('#signup-password-check').clear()
+                .type("Mostar123!") 
         });
-
         
         it("Click on 'Send' button", function() {
             cy.get('#create-user-button').click()
-
-       
         });
 
         it("'I accept the terms and conditions' message is displayed", function() {
             cy.get('#accept-legal-checkbox').click()
-        })
+        });
     });
 
 
@@ -582,19 +502,16 @@ describe("The user is not able to login in Councilbox with invalid inputs in the
             cy.wait(1000);
         });
     
-
         it("Populate the “Email” field with invalid Email", function() {
-            cy.get('#username').type("alem53421@test.test")
-            
+            cy.get('#username')
+                .type("alem53421@test.test")
         });
-
 
         it("Populate the “Password” field with valid inputs", function() {
             cy.get('#password')
-            .type("Test12345")
-            .should("have.value", "Test12345")
+                .type("Test12345")
+                .should("have.value", "Test12345")
         });
-
 
         it("Click on the 'To enter' button without populating required fields", function() {
             cy.get('#login-button').click()
@@ -614,19 +531,16 @@ describe("The user is not able to login in Councilbox with invalid password", fu
             cy.wait(1000);
         });
  
-
         it("Populate the “Email” field with invalid Email", function() {
-            cy.get('#username').type("alem@qaengineers.net")
-            
+            cy.get('#username')
+                .type("alem@qaengineers.net")            
         });
-
 
         it("Populate the “Password” field with valid inputs", function() {
             cy.get('#password')
-            .type("Test12345")
-            .should("have.value", "Test12345")
+                .type("Test12345")
+                .should("have.value", "Test12345")
         });
-
 
         it("Click on the 'To enter' button without populating required fields", function() {
             cy.get('#login-button').click()
@@ -646,7 +560,6 @@ describe("The user is not able to login in Councilbox without populating require
             cy.wait(1000);
         });
     
-
         it("Click on the 'To enter' button without populating required fields", function() {
             cy.get('#login-button').click()
         });
@@ -666,8 +579,10 @@ describe("The user is able to change the 'Name' in the  'User settings' in the C
         });
 
         it("Populate all required fields and click on 'To enter' button", function() {
-            cy.get('#username').type('alem@qaengineers.net')
-            cy.get('#password').type('Mostar123!')
+            cy.get('#username')
+                .type('alem@qaengineers.net')
+            cy.get('#password')
+                .type('Mostar123!')
             cy.get('#login-button').click()
         });
 
@@ -681,15 +596,13 @@ describe("The user is able to change the 'Name' in the  'User settings' in the C
 
         it("Modify the 'Name' field", function() {
             cy.get('#user-settings-name')
-            .clear()
-            .type('Balla')
+                .clear()
+                .type('Balla')
         });
 
         it("User should be able to save changes", function() {
             cy.get('#user-settings-save-button').click()
         });
-
-
 
     });
 
@@ -710,8 +623,8 @@ describe("The user is able to change the 'Surname' in the  'User settings' in th
 
         it("Modify the 'Surname' field", function() {
             cy.get('#user-settings-surname')
-            .clear()
-            .type('Balic')
+                .clear()
+                .type('Balic')
         });
 
         it("User should be able to save changes", function() {
@@ -737,8 +650,8 @@ describe("The user is able to change the 'Phone' in the  'User settings' in the 
 
         it("Modify the 'Phone' field", function() {
             cy.get('#user-settings-phone')
-            .clear()
-            .type(Cypress.config('UniqueNumber'))
+                .clear()
+                .type(Cypress.config('UniqueNumber'))
         });
 
         it("User should be able to save changes", function() {
@@ -975,26 +888,22 @@ describe("The user is able to change password in the Councilbox", function() {
         });
 
         it("Click on the 'Change password' button", function() {
-            cy.contains('Change password').click()
+            cy.get('#user-change-password-button').click()
             cy.wait(1000)
         });
 
 
         it("Populate all required fields and click on the 'Save' button", function() {
-            cy.get('#user-current-password').type('Mostar123!')
-            cy.get('#user-password').type('Mostar123!')
-            cy.get('#user-password-check').type('Mostar123!')
+            cy.get('#user-current-password')
+                .type('Mostar123!')
+            cy.get('#user-password')
+                .type('Mostar123!')
+            cy.get('#user-password-check')
+                .type('Mostar123!')
             cy.get('#user-password-save').click()
         });
 
-
-        
-
-
-
     });
-
-
 
 
 describe("The user is not able to Link company with invalid inputs in the 'Master code' field", function() {
@@ -1008,14 +917,14 @@ describe("The user is not able to Link company with invalid inputs in the 'Maste
 
         it("Populate the 'TIN of the organization*'' field", function() {
             cy.get('input').eq(0)
-            .type("edittest04032021")
-            .should("have.value", "edittest04032021")
+                .type("automationtest")
+                .should("have.value", "automationtest")
         });
 
         it("Populate  'Master code' field with invalid input", function() {
             cy.get('input').eq(1)
-            .type("123")
-            .should("have.value", "123")
+                .type("123")
+                .should("have.value", "123")
             cy.get('#company-link-button').click()
         });
 
@@ -1030,14 +939,14 @@ describe("The user is not able to Link company with invalid inputs in the 'CIF o
 
         it("Populate 'CIF of the entity*'' field", function() {
             cy.get('input').eq(0).clear()
-            .type("123111111111111")
-            .should("have.value", "123111111111111")
+                .type("123111111111111")
+                .should("have.value", "123111111111111")
         });
 
         it("Populate 'Master key' field with invalid input", function() {
             cy.get('input').eq(1).clear()
-            .type("123")
-            .should("have.value", "123")
+                .type("123")
+                .should("have.value", "123")
             cy.get('#company-link-button').click()
         });
 
@@ -1051,14 +960,14 @@ describe("The user is able to Link Company", function() {
 
         it("Populate 'TIN of the organization*' field", function() {
             cy.get('input').eq(0).clear()
-            .type("edittest04032021")
-            .should("have.value", "edittest04032021")
+                .type("automationtest")
+                .should("have.value", "automationtest")
         });
 
         it("Populate 'Master key' field with invalid input", function() {
             cy.get('input').eq(1).clear()
-            .type("Regressiontest04032021")
-            .should("have.value", "Regressiontest04032021")
+                .type("automation")
+                .should("have.value", "automation")
             cy.get('#company-link-button').click()
             cy.wait(3000)
         });
@@ -1084,16 +993,14 @@ describe("The user is able to unlink the company", function() {
         });
 
         it("Scroll down the page and in the right corner click on the 'Unlink' button", function() {
-            cy.contains('Unlink').click()
+            cy.get('#company-unlink-button').click()
             cy.wait(1000)
         });
 
         it("Click on the 'OK' button", function() {
-            cy.contains('OK').click()
+            cy.get('#unlink-modal-button-accept').click()
             cy.wait(1000)
         })
-
-        
 
     });
 
@@ -1109,18 +1016,15 @@ describe("The user is able to edit 'Business name*'' in the Company settings in 
             cy.xpath('(//*[@role="menuitem"])[9]').click()
         });
 
-
         it("Modify the 'Business name*' field and click on the 'Save' button", function() {
-            cy.get('#business-name').clear().type(userID_Alpha()+Cypress.config('UniqueNumber'))
+            cy.get('#business-name').clear()
+                .type(userID_Alpha()+Cypress.config('UniqueNumber'))
             cy.get('#save-button').click()
         });
 
         it("'The changes have been saved successfully.' message is displayed", function() {
             cy.contains('The changes have been saved successfully.')
-        });
-
-
-        
+        });       
 
     });
 
@@ -1135,9 +1039,9 @@ describe("The user is able to edit 'TIN of the organization*' in the Company set
             cy.xpath('(//*[@role="menuitem"])[9]').click()
         });
 
-
         it("Modify the 'TIN of the organization*'' field and click on the 'Save' button", function() {
-            cy.get('#addSociedadCIF').clear().type(userID_Alpha()+Cypress.config('UniqueNumber'))
+            cy.get('#addSociedadCIF').clear()
+                .type(userID_Alpha()+Cypress.config('UniqueNumber'))
             cy.get('#save-button').click()
         });
 
@@ -1159,9 +1063,9 @@ describe("The user is able to edit 'Domain' in the 'Company settings' in the Cou
             cy.xpath('(//*[@role="menuitem"])[9]').click()
         });
 
-
         it("Modify the 'Domain' field and click on the 'Save' button", function() {
-            cy.get('#addSociedadDominio').clear().type(userID_Alpha()+Cypress.config('UniqueNumber'))
+            cy.get('#addSociedadDominio').clear()
+                .type(userID_Alpha()+Cypress.config('UniqueNumber'))
             cy.get('#save-button').click()
         });
 
@@ -1182,9 +1086,9 @@ describe("The user is able to edit 'Master code' in the 'Company settings' in th
             cy.xpath('(//*[@role="menuitem"])[9]').click()
         });
 
-
         it("Modify the 'Master code' field and click on the 'Save' button", function() {
-            cy.get('#addSociedadClaveMaestra').clear().type(userID_Alpha()+Cypress.config('UniqueNumber'))
+            cy.get('#addSociedadClaveMaestra').clear()
+                .type(userID_Alpha()+Cypress.config('UniqueNumber'))
             cy.get('#save-button').click()
         });
 
@@ -1206,9 +1110,9 @@ describe("The user is able to edit 'External ID' in the 'Company settings' in th
             cy.xpath('(//*[@role="menuitem"])[9]').click()
         });
 
-
         it("Modify the 'External ID' field and click on the 'Save' button", function() {
-            cy.get('#company-external-id').clear().type(userID_Alpha()+Cypress.config('UniqueNumber'))
+            cy.get('#company-external-id').clear()
+                .type(userID_Alpha()+Cypress.config('UniqueNumber'))
             cy.get('#save-button').click()
         });
 
@@ -1229,9 +1133,9 @@ describe("The user is able to edit 'Address' in the 'Contact details' in the Com
             cy.xpath('(//*[@role="menuitem"])[9]').click()
         });
 
-
         it("Modify the 'Address' field and click on the 'Save' button", function() {
-            cy.get('#addSociedadDireccion').clear().type(userID_Alpha()+Cypress.config('UniqueNumber'))
+            cy.get('#addSociedadDireccion').clear()
+                .type(userID_Alpha()+Cypress.config('UniqueNumber'))
             cy.get('#save-button').click()
         });
 
@@ -1252,9 +1156,9 @@ describe("The user is able to edit 'Town/City' in the 'Contact details' in the C
             cy.xpath('(//*[@role="menuitem"])[9]').click()
         });
 
-
         it("Modify the 'Town/City' field and click on the 'Save' button", function() {
-            cy.get('#addSociedadLocalidad').clear().type(userID_Alpha()+Cypress.config('UniqueNumber'))
+            cy.get('#addSociedadLocalidad').clear()
+                .type(userID_Alpha()+Cypress.config('UniqueNumber'))
             cy.get('#save-button').click()
         });
 
@@ -1274,7 +1178,6 @@ describe("The user is able to edit 'Country' in the 'Contact details' in the Com
         it("From the drop down menu click on 'Company' button", function() {
             cy.xpath('(//*[@role="menuitem"])[9]').click()
         });
-
 
         it("Modify the 'Country' field and click on the 'Save' button", function() {
             cy.get('#company-country').click()
@@ -1309,7 +1212,6 @@ describe("The user is able to edit 'Province' in the 'Contact details' in the Co
             cy.get('#save-button').click()
         });
 
-
         it("'The changes have been saved successfully.' message is displayed", function() {
             cy.contains('The changes have been saved successfully.')
         });
@@ -1328,9 +1230,9 @@ describe("The user is able to edit 'Zipcode' in the 'Contact details' in the Com
             cy.xpath('(//*[@role="menuitem"])[9]').click()
         });
 
-
         it("Modify the 'Zipcodce' field and click on the 'Save' button", function() {
-            cy.get('#addSociedadCP').clear().type(Cypress.config('UniqueNumber'))
+            cy.get('#addSociedadCP').clear()
+                .type(Cypress.config('UniqueNumber'))
             cy.get('#save-button').click()
         });
 
@@ -1350,7 +1252,6 @@ describe("The user is able to edit 'Language' in the 'Contact details' in the Co
         it("From the drop down menu click on 'Company' button", function() {
             cy.xpath('(//*[@role="menuitem"])[9]').click()
         });
-
 
         it("Modify the 'Language' field and click on the 'Save' button", function() {
             cy.get('#company-language-select').click()
@@ -1386,12 +1287,14 @@ describe("The user is able to add the 'Sole administrator' in the 'Company setti
         it("From the dropdown menu choose and click on the 'Sole administrator' button and after that populate all required fields", function() {
             cy.get('#governing-body-1').click()
             cy.wait(1000)
-            cy.get('#single-admin-name').clear().type(userID_Alpha())
-            cy.get('#single-admin-dni').clear().type(Cypress.config('UniqueNumber'))
-            cy.get('#single-admin-email').clear().type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')
-            cy.get('#single-admin-phone').clear().type(Cypress.config('UniqueNumber'))
-
-
+            cy.get('#single-admin-name').clear()
+                .type(userID_Alpha())
+            cy.get('#single-admin-dni').clear()
+                .type(Cypress.config('UniqueNumber'))
+            cy.get('#single-admin-email').clear()
+                .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')
+            cy.get('#single-admin-phone').clear()
+                .type(Cypress.config('UniqueNumber'))
         });
 
         it("Click on the “Save” button", function() {
@@ -1417,7 +1320,6 @@ describe("The user is able to add the 'Boards of directors' in the 'Company Sett
             cy.xpath('(//*[@role="menuitem"])[9]').click()
         });
 
-
         it("Navigate to the 'None' button and click on it", function() {
             cy.get('#company-governing-body-select').click()
         });
@@ -1426,13 +1328,20 @@ describe("The user is able to add the 'Boards of directors' in the 'Company Sett
             cy.get('#governing-body-5').click()
             cy.wait(1000)
             cy.get('#list-admin-add-button').click()
-            cy.get('#list-admin-name').clear().type(userID_Alpha())
-            cy.get('#list-admin-surname').clear().type(userID_Alpha())
-            cy.get('#list-admin-dni').clear().type(Cypress.config('UniqueNumber'))
-            cy.get('#list-admin-email').clear().type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')
-            cy.get('#list-admin-position').clear().type(userID_Alpha())
-            cy.get('#list-admin-date').clear().type(Cypress.config('UniqueNumber'))
-            cy.get('#list-admin-length').clear().type(Cypress.config('UniqueNumber'))
+            cy.get('#list-admin-name').clear()
+                .type(userID_Alpha())
+            cy.get('#list-admin-surname').clear()
+                .type(userID_Alpha())
+            cy.get('#list-admin-dni').clear()
+                .type(Cypress.config('UniqueNumber'))
+            cy.get('#list-admin-email').clear()
+                .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')
+            cy.get('#list-admin-position').clear()
+                .type(userID_Alpha())
+            cy.get('#list-admin-date').clear()
+                .type(Cypress.config('UniqueNumber'))
+            cy.get('#list-admin-length').clear()
+                .type(Cypress.config('UniqueNumber'))
         });
 
         it("Click on the “Save” button", function() {
@@ -1457,7 +1366,6 @@ describe("The user is able to add the 'Solidarity administrators' in the 'Compan
             cy.xpath('(//*[@role="menuitem"])[9]').click()
         });
 
-
         it("Navigate to the 'None' button and click on it", function() {
             cy.get('#company-governing-body-select').click()
         });
@@ -1466,13 +1374,20 @@ describe("The user is able to add the 'Solidarity administrators' in the 'Compan
             cy.get('#governing-body-4').click()
             cy.wait(1000)
             cy.get('#list-admin-add-button').click()
-            cy.get('#list-admin-name').clear().type(userID_Alpha())
-            cy.get('#list-admin-surname').clear().type(userID_Alpha())
-            cy.get('#list-admin-dni').clear().type(Cypress.config('UniqueNumber'))
-            cy.get('#list-admin-email').clear().type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')
-            cy.get('#list-admin-position').clear().type(userID_Alpha())
-            cy.get('#list-admin-date').clear().type(Cypress.config('UniqueNumber'))
-            cy.get('#list-admin-length').clear().type(Cypress.config('UniqueNumber'))
+            cy.get('#list-admin-name').clear()
+                .type(userID_Alpha())
+            cy.get('#list-admin-surname').clear()
+                .type(userID_Alpha())
+            cy.get('#list-admin-dni').clear()
+                .type(Cypress.config('UniqueNumber'))
+            cy.get('#list-admin-email').clear()
+                .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')
+            cy.get('#list-admin-position').clear()
+                .type(userID_Alpha())
+            cy.get('#list-admin-date').clear()
+                .type(Cypress.config('UniqueNumber'))
+            cy.get('#list-admin-length').clear()
+                .type(Cypress.config('UniqueNumber'))
         });
 
         it("Click on the “Save” button", function() {
@@ -1497,7 +1412,6 @@ describe("The user is able to add the 'Joint administrators' in the 'Add company
             cy.xpath('(//*[@role="menuitem"])[9]').click()
         });
 
-
         it("Navigate to the 'None' button and click on it", function() {
             cy.get('#company-governing-body-select').click()
         });
@@ -1506,13 +1420,19 @@ describe("The user is able to add the 'Joint administrators' in the 'Add company
             cy.get('#governing-body-3').click()
             cy.wait(1000)
             cy.get('#list-admin-add-button').click()
-            cy.get('#list-admin-name').clear().type(userID_Alpha())
+            cy.get('#list-admin-name').clear()
+                .type(userID_Alpha())
             cy.get('#list-admin-surname').clear().type(userID_Alpha())
-            cy.get('#list-admin-dni').clear().type(Cypress.config('UniqueNumber'))
-            cy.get('#list-admin-email').clear().type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')
-            cy.get('#list-admin-position').clear().type(userID_Alpha())
-            cy.get('#list-admin-date').clear().type(Cypress.config('UniqueNumber'))
-            cy.get('#list-admin-length').clear().type(Cypress.config('UniqueNumber'))
+            cy.get('#list-admin-dni').clear()
+                .type(Cypress.config('UniqueNumber'))
+            cy.get('#list-admin-email').clear()
+                .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')
+            cy.get('#list-admin-position').clear()
+                .type(userID_Alpha())
+            cy.get('#list-admin-date').clear()
+                .type(Cypress.config('UniqueNumber'))
+            cy.get('#list-admin-length').clear()
+                .type(Cypress.config('UniqueNumber'))
         });
 
         it("Click on the “Save” button", function() {
@@ -1537,7 +1457,6 @@ describe("The user is able to add the 'Sole administrator, legal entity' in the 
             cy.xpath('(//*[@role="menuitem"])[9]').click()
         });
 
-
         it("Navigate to the 'None' button and click on it", function() {
             cy.get('#company-governing-body-select').click()
         });
@@ -1545,11 +1464,16 @@ describe("The user is able to add the 'Sole administrator, legal entity' in the 
         it("From the dropdown menu choose and click on the 'Sole administrator, legal entity' button and after that populate all required fields", function() {
             cy.get('#governing-body-2').click()
             cy.wait(1000)
-            cy.get('#entity-admin-entity-name').clear().type(userID_Alpha())
-            cy.get('#entity-admin-name').clear().type(userID_Alpha())
-            cy.get('#entity-admin-dni').clear().type(Cypress.config('UniqueNumber'))
-            cy.get('#entity-admin-email').clear().type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')
-            cy.get('#entity-admin-phone').clear().type(Cypress.config('UniqueNumber'))
+            cy.get('#entity-admin-entity-name').clear()
+                .type(userID_Alpha())
+            cy.get('#entity-admin-name').clear()
+                .type(userID_Alpha())
+            cy.get('#entity-admin-dni').clear()
+                .type(Cypress.config('UniqueNumber'))
+            cy.get('#entity-admin-email').clear()
+                .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')
+            cy.get('#entity-admin-phone').clear()
+                .type(Cypress.config('UniqueNumber'))
         });
 
         it("Click on the “Save” button", function() {
@@ -1574,7 +1498,6 @@ describe("The alert message is displayed when the user tries to switch to other 
             cy.contains('Email notification of the start of voting').click()
         });
 
-
         it("Navigate to the other type of meeting and click on it", function() {
             cy.contains('Extraordinary General Meeting').click()
             cy.wait(1000)
@@ -1585,7 +1508,7 @@ describe("The alert message is displayed when the user tries to switch to other 
         });
 
         it("Click on the “Save” button", function() {
-            cy.contains('Save').click()
+            cy.get('#unsaved-changes-modal-button-accept').click()
             cy.wait(1000)
         });
 
@@ -1596,39 +1519,6 @@ describe("The alert message is displayed when the user tries to switch to other 
 
     });
 
-
-describe("The alert message is displayed when the user tries to switch to other type without saving changes", function() {
-
-        it("Click on the 'Council types' button", function() {
-            cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
-        });
-
-        it("Scroll down the page and populate some fields", function() {
-            cy.contains('Email notification of the start of voting').click()
-        });
-
-
-        it("Navigate to the other type of meeting and click on it", function() {
-            cy.contains('Extraordinary General Meeting').click()
-            cy.wait(1000)
-        });
-
-        it("The alert message is successfully displayed", function() {
-            cy.contains('Has unsaved changes')
-        });
-
-        it("Click on the “Save” button - MISSING ID", function() {
-            cy.contains('Save').click()
-            cy.wait(1000)
-        });
-
-        it("Back to Home page", function() {
-            cy.visit(login_url);
-        });
-
-
-    });
 
 describe("The user is able to undo all changes in the 'Council Types' section", function() {
 
@@ -1641,14 +1531,13 @@ describe("The user is able to undo all changes in the 'Council Types' section", 
             cy.contains('Email notification of the start of voting').click()
         });
 
-
-        it("Navigate to the other type of meeting and click on it", function() {
-            cy.contains('Extraordinary General Meeting').click()
+        it("Click on the “Undo Changes” button", function() {
+            cy.get('#discard-changes-button').click()
             cy.wait(1000)
         });
 
-        it("Click on the “Undo Changes” button - MISSING ID", function() {
-            cy.get('#MISSING_ID').click()
+        it("Click on the 'OK' button", function() {
+            cy.get('#alert-confirm-button-accept').click()
             cy.wait(1000)
         });
 
@@ -1671,7 +1560,6 @@ describe("The user is able to edit a type of meeting in the 'Council types' sect
             cy.wait(1000)
         });
 
-
         it("Populate fields with new data and click on the 'Save' button", function() {
             cy.contains('Email notification of the start of voting').click()
             cy.get('#council-statute-save-button').click()
@@ -1683,6 +1571,911 @@ describe("The user is able to edit a type of meeting in the 'Council types' sect
 
 
     });
+
+
+/*
+
+describe("The user is able to Add a type of meeting in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Click on 'Add type of meeting +' button", function() {
+            cy.get('#anadirTipoDeReunion').click()
+            cy.wait(1000)
+        });
+
+
+        it("Populate all required fields in Add type of meeting", function() {
+            cy.get('#anadirTipoDeReunionInputEnModal').type('AlemTestAutomation')
+        });
+
+        it("Click on 'OK' button", function() {
+            cy.get('#alert-confirm-button-accept').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
+
+
+describe("The user is able to rename a type of meeting in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("From the list of meetings choose the meeting you want to rename and hover it then click on the 'Rename meeting type' button", function() {
+            cy.contains('AlemTestAutomation').click()
+            cy.wait(1000)
+            cy.get('#MISSING_ID').click()
+
+        });
+
+
+        it("Populate the “Meeting type*” field with a new name and click on the 'OK' button", function() {
+            cy.get('#anadirTipoDeReunionInputEnModal')..clear().type('AlemTestAutomation')
+            cy.get('#alert-confirm-button-accept').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
+
+
+describe("The user is able to delete a type of meeting from the list of meetings in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the already added meeting type and hover it then click on the “X” button", function() {
+            cy.get('#MISSING_ID')
+            cy.wait(1000)
+        });
+
+
+        it("Click on the 'Delete' button when the alert message appears", function() {
+            cy.get('#alert-confirm-button-accept').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+    
+
+describe("The user is not able to add type of meeting without populating 'Meeting type*'' field in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Click on 'Add type of meeting +' button", function() {
+            cy.get('#anadirTipoDeReunion').click()
+            cy.wait(1000)
+        });
+
+
+        it("Click on the 'OK' button without populating the “Meeting type*”", function() {
+            cy.get('#alert-confirm-button-accept').click()
+        });
+
+        it("The user is not able to add the meeting and the alert message 'Required field' is successfully displayed", function() {
+            cy.contains('Required field')
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
+*/
+
+
+describe("The user is able to choose and select 'There is minimum notice to call notice' option for the call in the 'Convene' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Convene' section", function() {
+            cy.contains('Announcement:')
+            cy.wait(1000)
+        });
+
+        it("Click on the 'There is a minimum notice to call notice' checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-advance-notice-days').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Second call' option for the call in the 'Convene' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Convene' section", function() {
+            cy.contains('Announcement:')
+        });
+
+        it("Click on the 'There is second call' checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-has-second-call').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
+describe("The user is able to choose and select 'Attendees' type of quorum for the call in the 'Attendance' section in the 'Council types' form", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Navigate to the 'Type of Quorum' and click on the 'Attendees' button and click on the 'Save' button", function() {
+            cy.get('#council-type-quorum-type').click()
+            cy.wait(1000)
+            cy.get('#quorum-type-attendants').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
+describe("The user is able to choose and select 'Shares' type of quorum for the call in the 'Attendance' section in the 'Council types' form", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Navigate to the 'Type of quorum' and click on it and from the dropdown menu choose and click on the 'Shares' button and click on the 'Save' button", function() {
+            cy.get('#council-type-quorum-type').click()
+            cy.wait(1000)
+            cy.get('#quorum-type-social-capital').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Percentage' in the 'Quorum attendance 1st call' field in the 'Council types' form", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Navigate to the 'Quorum attendance 1st call' and click on the 'Percentage' button and enter the number then click on the 'Save' button", function() {
+            cy.get('#council-type-quorum-first-call').click()
+            cy.wait(1000)
+            cy.get('#quorum-first-call-0').click()
+            cy.wait(1000)
+            cy.get('#quorum-first-call-percentage').clear()
+                .type('20')
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Half plus one' in the 'Quorum attendance 1st call' field in the 'Council types' form", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Navigate to the 'Quorum attendance 1st call' and click on the 'Half plus one' button and enter the number then click on the 'Save' button", function() {
+            cy.get('#council-type-quorum-first-call').click()
+            cy.wait(1000)
+            cy.get('#quorum-first-call-1').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Fraction' in the 'Quorum attendance 1st call' field in the 'Council types' form", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Navigate to the 'Quorum attendance 1st call' and click on the 'Fraction' button and enter the number then click on the 'Save' button", function() {
+            cy.get('#council-type-quorum-first-call').click()
+            cy.wait(1000)
+            cy.get('#quorum-first-call-2').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Number' in the 'Quorum attendance 1st call' field in the 'Council types' form", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Navigate to the 'Quorum attendance 1st call' and click on the 'Number' button and enter the number then click on the 'Save' button", function() {
+            cy.get('#council-type-quorum-first-call').click()
+            cy.wait(1000)
+            cy.get('#quorum-first-call-3').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'None' in the 'Quorum attendance 1st call' field in the 'Council types' form", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Navigate to the 'Quorum attendance 1st call' and click on the 'None' button and enter the number then click on the 'Save' button", function() {
+            cy.get('#council-type-quorum-first-call').click()
+            cy.wait(1000)
+            cy.get('#quorum-first-call--1').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
+describe("The user is able to choose and select 'Percentage' in the 'Quorum attendance 2nd call' field in the 'Council types' form", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Navigate to the 'Quorum attendance 2nd call' and click on the 'Percentage' button and enter the number then click on the 'Save' button", function() {
+            cy.get('#council-type-quorum-second-call').click()
+            cy.wait(1000)
+            cy.get('#quorum-second-call-0').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Fraction' in the 'Quorum attendance 2nd call' field in the 'Council types' form", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Navigate to the 'Quorum attendance 2nd call' and click on the 'Fraction' button and enter the number then click on the 'Save' button", function() {
+            cy.get('#council-type-quorum-second-call').click()
+            cy.wait(1000)
+            cy.get('#quorum-second-call-2').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Number' in the 'Quorum attendance 2nd call' field in the 'Council types' form", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Navigate to the 'Quorum attendance 2nd call' and click on the 'Number' button and enter the number then click on the 'Save' button", function() {
+            cy.get('#council-type-quorum-second-call').click()
+            cy.wait(1000)
+            cy.get('#quorum-second-call-3').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Half plus one' in the 'Quorum attendance 2nd call' field in the 'Council types' form", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Navigate to the 'Quorum attendance 2nd call' and click on the 'Half plus one' button and enter the number then click on the 'Save' button", function() {
+            cy.get('#council-type-quorum-second-call').click()
+            cy.wait(1000)
+            cy.get('#quorum-second-call-1').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'None' in the 'Quorum attendance 2nd call' field in the 'Council types' form", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Navigate to the 'Quorum attendance 2nd call' and click on the 'None' button and enter the number then click on the 'Save' button", function() {
+            cy.get('#council-type-quorum-second-call').click()
+            cy.wait(1000)
+            cy.get('#quorum-second-call--1').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Delegated vote' option for the call in the 'Attendance' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Click on the 'There is a delegated vote' checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-delegated-vote').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'The sense of vote can be indicated in the delegations' option for the call in the 'Attendance' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Click on the 'The sense of vote can be indicated in the delegations' checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-vote-sense').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Early voting' option for the call in the 'Assistance' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Click on the 'There is early voting' checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-early-vote').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'There is maximum number of delegated votes option for the call' in the 'Assistance' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Click on the 'There is a maximum number of delegated votes' checkbox and navigate to the 'Vote' field and populate it then click on the 'Save' button", function() {
+            cy.get('#council-type-max-delegated').click()
+            cy.wait(1000)
+            cy.get('#council-type-max-delegated-number').clear()
+                .type('3')
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Access to the room is limited after the start' option for the call in the 'Assistance' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Attendance' section", function() {
+            cy.contains('Attendance')
+        });
+
+        it("Click on the 'Access to the room is limited after the start' checkbox and navigate to the 'Minutes' field and populate it then click on the 'Save' button", function() {
+            cy.get('#council-type-limited-access').click()
+            cy.wait(1000)
+            cy.get('#council-type-limited-access-minutes').clear()
+                .type('3')
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
+
+describe("The user is able to choose and select 'Against' option for the call in the 'Default vote sense' field in the  'Completion of social agreements' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
+            cy.contains('Making resolutions')
+        });
+
+        it("Navigate to the 'Default vote sense' field", function() {
+            cy.contains('Default voting').scrollIntoView()
+            cy.wait(1000)
+            //cy.get('.sidebar').scrollTo('bottom')
+            cy.get('#council-type-default-vote').click()
+            cy.wait(1000)
+        });
+
+        it("Click on the 'Against' button and click on the 'Save' button", function() {
+            cy.get('#default-vote-0').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'No vote' option for the call in the 'Default vote sense' field in the  'Completion of social agreements' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
+            cy.contains('Making resolutions')
+        });
+
+        it("Navigate to the 'Default vote sense' field", function() {
+            cy.contains('Default voting').scrollIntoView()
+            cy.wait(1000)
+            //cy.get('.sidebar').scrollTo('bottom')
+            cy.get('#council-type-default-vote').click()
+            cy.wait(1000)
+        });
+
+        it("Click on the 'No vote' button and click on the 'Save' button", function() {
+            cy.get('#default-vote-no-vote').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
+describe("The user is able to choose and select 'In favor' option for the call in the 'Default vote sense' field in the  'Completion of social agreements' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
+            cy.contains('Making resolutions')
+        });
+
+        it("Navigate to the 'Default vote sense' field", function() {
+            cy.contains('Default voting').scrollIntoView()
+            cy.wait(1000)
+            //cy.get('.sidebar').scrollTo('bottom')
+            cy.get('#council-type-default-vote').click()
+            cy.wait(1000)
+        });
+
+        it("Click on the 'In favor' button and click on the 'Save' button", function() {
+            cy.get('#default-vote-1').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Abstention' option for the call in the 'Default vote sense' field in the  'Completion of social agreements' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
+            cy.contains('Making resolutions')
+        });
+
+        it("Navigate to the 'Default vote sense' field", function() {
+            cy.contains('Default voting').scrollIntoView()
+            cy.wait(1000)
+            //cy.get('.sidebar').scrollTo('bottom')
+            cy.get('#council-type-default-vote').click()
+            cy.wait(1000)
+        });
+
+        it("Click on the 'Abstention' button and click on the 'Save' button", function() {
+            cy.get('#default-vote-2').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
+describe("The user is able to choose and select 'There are comments on the agenda items' option for the call in the 'Completion of social agreements' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Completion of social agreements' section", function() {
+            cy.contains('Making resolutions').scrollIntoView()
+        });
+
+        it("Click on the 'There are comments on the agenda items' checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-has-comments').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Email notification of voting start' option for the call in the 'Completion of social agreements' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Completion of social agreements' section", function() {
+            cy.contains('Making resolutions').scrollIntoView()
+        });
+
+        it("Click on the 'Email notification of voting start' checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-notify-points').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Exists quality vote' option for the call in the 'Completion of social agreements' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Completion of social agreements' section", function() {
+            cy.contains('Making resolutions').scrollIntoView()
+        });
+
+        it("Click on the 'Exists quality vote' checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-quality-vote').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'President' option for the call in the 'Completion of social agreements' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Completion of social agreements' section", function() {
+            cy.contains('Making resolutions').scrollIntoView()
+        });
+
+        it("Click on the 'President' checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-president').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
