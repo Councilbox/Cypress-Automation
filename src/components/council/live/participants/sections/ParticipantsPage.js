@@ -115,7 +115,7 @@ const ParticipantsPage = ({
 	};
 
 	const loadMore = () => {
-		const currentLength = data.liveParticipantsState.list.length;
+		const currentLength = data[getSection(props.view)].list.length;
 		setFilters({ limit: currentLength + 24 });
 	};
 
