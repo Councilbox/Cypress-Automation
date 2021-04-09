@@ -280,7 +280,7 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 						>
 							{success ?
 								<CreationSuccessPage
-									translate={success}
+									translate={translate}
 									appointment={success}
 									participant={appointmentData.participant}
 								/>
