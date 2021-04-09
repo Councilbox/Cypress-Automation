@@ -15,6 +15,7 @@ import AppointmentParticipantForm from './AppointmentParticipantForm';
 import ServiceSelector from './ServiceSelector';
 import CreationSuccessPage from './CreationSuccessPage';
 import AppointmentFooter from './AppointmentFooter';
+import { useCheckValidPhone } from '../../../../hooks';
 
 
 const CreateAppointmentPage = ({ match, translate, actions, client }) => {
@@ -48,6 +49,7 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 	});
 	const [subdomainData, setSubdomainData] = React.useState(null);
 	const subdomain = useSubdomain();
+	const { checkValidPhone } = useCheckValidPhone(client);
 	const { language } = match.params;
 
 	const primary = getPrimary();
@@ -103,6 +105,7 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 			dni: '',
 			email: '',
 			phone: '',
+			phoneCountryCode: '',
 			legalTerms: '',
 			date: '',
 			time: ''
@@ -118,8 +121,20 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 			newErrors.surname = translate.required_field;
 		}
 
-		if (!participant.phone) {
-			newErrors.phone = translate.required_field;
+		if (!participant.phone || !participant.phoneCountryCode) {
+			if (!participant.phone) {
+				newErrors.phone = translate.required_field;
+			}
+
+			if (!participant.phoneCountryCode) {
+				newErrors.phoneCountryCode = translate.required_field;
+			}
+		} else {
+			const response = await checkValidPhone(`+${participant.phoneCountryCode}${participant.phone}`);
+
+			if (!response.success) {
+				newErrors.phone = translate.enter_valid_phone_number;
+			}
 		}
 
 		if (!participant.email) {
@@ -131,15 +146,15 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 		}
 
 		if (!acceptedLegal) {
-			newErrors.acceptedLegal = 'Es necesario aceptar los términos';
+			newErrors.acceptedLegal = translate.must_accept_terms_and_conditions;
 		}
 
 		if (!council.date) {
-			newErrors.date = 'Es necesario seleccionar la fecha';
+			newErrors.date = translate.appointment_date_is_required;
 		}
 
 		if (!council.time) {
-			newErrors.time = 'Es necesario seleccionar la hora de la cita';
+			newErrors.time = translate.appointment_time_is_required;
 		}
 
 		const hasError = Object.keys(newErrors).length > 0;
@@ -161,7 +176,7 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 	};
 
 	const createAppointment = async () => {
-		if (!checkRequiredFields()) {
+		if (!await checkRequiredFields()) {
 			const { participant, acceptedLegal, ...council } = appointmentData;
 
 			const date = moment(council.date);
@@ -175,6 +190,9 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 			council.dateStart = date.toISOString();
 			delete council.date;
 			delete council.time;
+
+			participant.phone = `+${participant.phoneCountryCode}${participant.phone}`;
+			delete participant.phoneCountryCode;
 
 			const response = await client.mutate({
 				mutation: gql`

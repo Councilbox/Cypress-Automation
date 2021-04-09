@@ -46,7 +46,7 @@ const LegalModal = ({ open, requestClose, action, translate }) => {
 					}}>
 						Aviso legal
 					</h2>
-					<p>
+					<div>
 						<SubTitle>Titularidad y régimen de responsabilidad de la Sede Electrónica de Councilbox OVAC</SubTitle>
 						<Block>
 							El artículo 3. 2 del Real Decreto 1671/2009, de 6 de noviembre por el que se desarrolla parcialmente la Ley 11/2007, de 22 de junio de acceso electrónico de los ciudadanos a los servicios públicos, determina que la Orden de creación de la Sede deberá Identificar su titular, así como al órgano u órganos encargados de la gestión y de los servicios puestos a disposición de los ciudadanos en la misma.
@@ -129,7 +129,7 @@ const LegalModal = ({ open, requestClose, action, translate }) => {
 						<Block>
 							Más información https://www.mjusticia.gob.es/es/areas-tematicas/proteccion-datos-personal
 						</Block>
-					</p>
+					</div>
 				</>
 			}
 			requestClose={requestClose}
