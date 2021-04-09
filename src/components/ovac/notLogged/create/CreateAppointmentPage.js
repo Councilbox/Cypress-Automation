@@ -291,9 +291,11 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 											appointment={appointmentData}
 											setState={updateAppointmentData}
 											entities={subdomainData.entities}
+											translate={translate}
 										/>
 										<AppointmentDateForm
 											errors={errors}
+											translate={translate}
 											appointment={appointmentData}
 											setState={updateAppointmentData}
 											style={{
