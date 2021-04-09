@@ -38,12 +38,14 @@ const TextInput = ({
 	styleInInput,
 	disableUnderline,
 	stylesAdornment,
+	startAdornment = '',
 	labelNone,
 	className,
 	stylesTextField,
 	autoComplete = 'true',
 	styleFloatText,
-	colorHelp
+	colorHelp,
+	...props
 }) => (
 	<FormControl
 		style={{
@@ -93,7 +95,10 @@ const TextInput = ({
 			}}
 			InputProps={{
 				disableUnderline,
-				startAdornment: '',
+				startAdornment: startAdornment &&
+					<InputAdornment position="start" style={{ ...stylesAdornment }}>
+						{startAdornment}
+					</InputAdornment>,
 				inputProps: {
 					min,
 					id,

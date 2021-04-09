@@ -28,6 +28,7 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 		participant: {
 			name: '',
 			surname: '',
+			phoneCountryCode: '34',
 			dni: '',
 			email: '',
 			phone: '',
@@ -95,7 +96,7 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 		getData();
 	}, [getData]);
 
-	const checkRequiredFields = () => {
+	const checkRequiredFields = async () => {
 		const cleanErrors = {
 			name: '',
 			surname: '',
