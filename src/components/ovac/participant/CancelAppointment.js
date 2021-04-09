@@ -9,7 +9,7 @@ const CancelAppointment = ({ trigger, translate, appointment, client, refetch })
 	const [modal, setModal] = React.useState(false);
 
 	const cancelAppointment = async () => {
-		const response = await client.mutate({
+		await client.mutate({
 			mutation: gql`
 				mutation cancelAppointment($councilId: Int!){
 					cancelAppointment(councilId: $councilId) {
@@ -22,9 +22,6 @@ const CancelAppointment = ({ trigger, translate, appointment, client, refetch })
 				councilId: appointment.id
 			}
 		});
-
-		console.log(response);
-
 		refetch();
 	};
 
@@ -39,11 +36,13 @@ const CancelAppointment = ({ trigger, translate, appointment, client, refetch })
 				buttonAccept={translate.accept}
 				acceptAction={cancelAppointment}
 				buttonCancel={translate.cancel}
-				title={'Cancelar cita'}
+				title={translate.cancel_appointment}
 				bodyText={
-					<div>
-						Esta acción cancelará la reunión <b>{appointment.name}</b> fijada para el día <b>{moment(appointment.dateStart).format('LLL')}.</b>
-					</div>
+					<div
+						dangerouslySetInnerHTML={{
+							__html: translate.cancel_appointment_warning.replace(/{{name}}/, appointment.name).replace(/{{date}}/, moment(appointment.dateStart).format('LLL'))
+						}}
+					/>
 				}
 			/>
 		</>

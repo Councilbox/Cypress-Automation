@@ -45,10 +45,10 @@ const LandingPage = ({ translate }) => {
 							justifyContent: 'center'
 						}}>
 							<Title fontSize="20px">
-								Sistema de gestión de citas previas - {subdomain.title}
+								{translate.appointment_landing_title} - {subdomain.title}
 							</Title>
 							<div style={{ margin: '2em 0', fontSize: '18px' }}>
-								Solicite aquí su cita previa. Podrá modificarla más adelante
+								{translate.appointment_landing_subtitle}
 							</div>
 							<Link to="/newAppointment">
 								<Card
@@ -61,7 +61,7 @@ const LandingPage = ({ translate }) => {
 								>
 									<Icon fill="white" />
 									<div style={{ color: 'white', marginTop: '0.6em' }}>
-										Solicitar cita previa
+										{translate.request_appointment}
 									</div>
 								</Card>
 							</Link>

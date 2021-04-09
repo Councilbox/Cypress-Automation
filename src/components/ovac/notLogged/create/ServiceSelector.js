@@ -49,7 +49,7 @@ const ServiceSelector = ({ appointment, setState, entities, client, translate })
 		>
 			<SelectInput
 				disabled={entities.length <= 1}
-				floatingText="Centro"
+				floatingText={translate.appointment_place}
 				styleLabel={{
 					fontSize: '20px',
 					fontWeight: '700',

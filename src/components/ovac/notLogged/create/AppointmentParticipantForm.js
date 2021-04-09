@@ -85,7 +85,7 @@ const AppointmentParticipantForm = ({ translate, participant, appointment, setSt
 					}}
 				>
 					<TextInput
-						floatingText={'Cod. país'}
+						floatingText={translate.phone_country_code}
 						styleFloatText={labelStyle}
 						errorText={errors.phoneCountryCode}
 						startAdornment={'+'}
@@ -136,7 +136,7 @@ const AppointmentParticipantForm = ({ translate, participant, appointment, setSt
 				}}
 			/>
 			<div>
-				<div style={{ color: primary, fontWeight: '700', fontSize: '15px' }}>Privacidad</div>
+				<div style={{ color: primary, fontWeight: '700', fontSize: '15px' }}>{translate.privacy}</div>
 				<div onClick={() => {
 					setModal(true);
 					setLegalTerms(false);
@@ -144,7 +144,7 @@ const AppointmentParticipantForm = ({ translate, participant, appointment, setSt
 					<Checkbox
 						value={appointment.acceptedLegal}
 						onChange={() => {}}
-						label={'El ciudadano da su consentimiento para que el resultado de la asistencia prestada en la cita previa sea tratada por este organismo'}
+						label={translate.appointment_legal_check_label}
 					/>
 					{errors.acceptedLegal &&
 						<span style={{ color: 'red' }}>{errors.acceptedLegal}</span>

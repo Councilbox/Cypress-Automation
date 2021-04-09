@@ -269,7 +269,7 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 						lineHeight: 'normal',
 						letterSpacing: 'normal'
 					}}>
-						Solicitud de cita previa
+						{translate.request_appointment}
 					</h2>
 					<div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
 						<Grid
@@ -332,7 +332,7 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 								<GridItem xs={12} md={12} lg={12} style={{ height: '100%', overflow: 'hidden' }}>
 									<div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', padding: '0.6em 0' }}>
 										<BasicButton
-											text="Cancelar"
+											text={translate.cancel}
 											color="white"
 											type="flat"
 											onClick={() => bHistory.push('/')}
@@ -345,7 +345,7 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 											}}
 										/>
 										<BasicButton
-											text="Solicitar cita"
+											text={translate.request_appointment_button}
 											loading={loading}
 											loadingColor={'white'}
 											onClick={createAppointment}

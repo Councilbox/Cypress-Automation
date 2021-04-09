@@ -48,7 +48,7 @@ const AppointmentFooter = ({ translate, color = 'rgba(180, 198, 222, 0.16)' }) =
 							justifyContent: 'center',
 						}}
 					>
-						Aviso legal
+						{translate.legal_warning}
 					</div>
 					<div style={{ display: 'flex', marginTop: '0.6em', justifyContent: 'center' }}>
 						<div
@@ -88,7 +88,7 @@ const AppointmentFooter = ({ translate, color = 'rgba(180, 198, 222, 0.16)' }) =
 							fontWeight: '600'
 						}}
 					>
-						Aviso legal
+						{translate.legal_warning}
 					</div>
 					<div style={{ display: 'flex' }}>
 						<div

@@ -12,9 +12,9 @@ const ParticipantInfo = ({ appointment, translate, participant }) => {
 
 	const AppointMent = (
 		<>
-			<div><b>Centro:</b> {appointment.company?.businessName}</div>
-			<div><b>Servicio:</b> {translate[appointment.statute?.title] || appointment.statute?.title}</div>
-			<div><b>Fecha:</b> {`${moment(appointment.dateStart).format('DD / MMMM / yyyy hh:mm')}h`}</div>
+			<div><b>{translate.appointment_place}:</b> {appointment.company?.businessName}</div>
+			<div><b>{translate.appointment_type}:</b> {translate[appointment.statute?.title] || appointment.statute?.title}</div>
+			<div><b>{translate.date}:</b> {`${moment(appointment.dateStart).format('DD / MMMM / yyyy hh:mm')}h`}</div>
 		</>
 	);
 

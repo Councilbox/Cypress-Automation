@@ -44,7 +44,7 @@ const LegalModal = ({ open, requestClose, action, translate }) => {
 						lineHeight: 'normal',
 						letterSpacing: 'normal'
 					}}>
-						Aviso legal
+						{translate.legal_warning}
 					</h2>
 					<div>
 						<SubTitle>Titularidad y régimen de responsabilidad de la Sede Electrónica de Councilbox OVAC</SubTitle>
