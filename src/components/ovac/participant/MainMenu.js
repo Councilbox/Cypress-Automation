@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import { Grid, GridItem, Link, NotLoggedLayout } from '../../../displayComponents';
 import { ReactComponent as CancelIcon } from '../../../assets/img/cancel-appointment.svg';
 import { ReactComponent as DocumentationIcon } from '../../../assets/img/upload.svg';
+import { ReactComponent as RescheduleAppointmentIcon } from '../../../assets/img/create-appointment.svg';
 import { bHistory } from '../../../containers/App';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { isMobile } from '../../../utils/screen';
@@ -13,6 +14,7 @@ import ParticipantCouncilAttachments from '../../participant/agendas/Participant
 import CancelAppointment from './CancelAppointment';
 import { COUNCIL_STATES } from '../../../constants';
 import ParticipantInfo from './ParticipantInfo';
+import RescheduleAppointment from './RescheduleAppointment';
 
 
 const MainMenu = ({ translate, participant, appointment, match, refetch }) => {
@@ -94,8 +96,8 @@ const MainMenu = ({ translate, participant, appointment, match, refetch }) => {
 								>
 									<GridItem
 										xs={12}
-										md={6}
-										lg={6}
+										md={4}
+										lg={4}
 										style={{
 											padding: '0.3em',
 										}}
@@ -123,8 +125,38 @@ const MainMenu = ({ translate, participant, appointment, match, refetch }) => {
 									</GridItem>
 									<GridItem
 										xs={12}
-										md={6}
-										lg={6}
+										md={4}
+										lg={4}
+										style={{
+											padding: '0.3em',
+										}}
+									>
+										<RescheduleAppointment
+											refetch={refetch}
+											trigger={
+												<PanelButton
+													icon={
+														<RescheduleAppointmentIcon
+															fill="var(--primary)"
+															style={{
+																width: '93px',
+																height: '93px',
+															}}
+														/>
+													}
+													color="var(--primary)"
+													backgroundColor="white"
+													text={translate.appointment_reschedule}
+												/>
+											}
+											appointment={appointment}
+											translate={translate}
+										/>
+									</GridItem>
+									<GridItem
+										xs={12}
+										md={4}
+										lg={4}
 										style={{
 											padding: '0.3em',
 										}}
