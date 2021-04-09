@@ -21,6 +21,7 @@ import { useCheckValidPhone } from '../../../../hooks';
 const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 	const [loadLanguage, setLoadedLanguage] = React.useState(false);
 	const [success, setSuccess] = React.useState(false);
+	const [loading, setLoading] = React.useState(false);
 	const [appointmentData, setAppointmentData] = React.useState({
 		companyId: '',
 		statuteId: '',
@@ -177,6 +178,7 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 
 	const createAppointment = async () => {
 		if (!await checkRequiredFields()) {
+			setLoading(true);
 			const { participant, acceptedLegal, ...council } = appointmentData;
 
 			const date = moment(council.date);
@@ -220,6 +222,7 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 			if (response.data?.createAppointment?.id) {
 				setSuccess(response.data.createAppointment);
 			}
+			setLoading(false);
 		}
 	};
 
@@ -341,6 +344,8 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 										/>
 										<BasicButton
 											text="Solicitar cita"
+											loading={loading}
+											loadingColor={'white'}
 											onClick={createAppointment}
 											color={primary}
 											textStyle={{
