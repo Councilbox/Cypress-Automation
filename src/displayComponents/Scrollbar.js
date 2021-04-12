@@ -22,7 +22,7 @@ class Scrollbar extends React.Component {
 
 	render() {
 		const {
-			style, autoHide, children, showX, onScrollStop, classFix = ''
+			style, autoHide, children, showX, onScrollStop, classFix = '', horizontalScroll = false
 		} = this.props;
 
 		return (
@@ -31,7 +31,7 @@ class Scrollbar extends React.Component {
 					this.scrollbar = ref;
 				}}
 				autoHide={autoHide}
-				className={`Scrollbar ${classFix} scrollbarFixHeight`}
+				className={`Scrollbar ${classFix} ${horizontalScroll ? 'scrollbarBoth' : 'scrollbarOnlyY'} scrollbarFixHeight`}
 				onScrollStop={onScrollStop}
 				style={{
 					width: '100%',
