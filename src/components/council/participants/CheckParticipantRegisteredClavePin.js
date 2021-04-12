@@ -89,7 +89,7 @@ const CheckParticipantRegisteredClavePin = ({
 						<div style={{
 							display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: disabled ? 'grey' : secondary
 						}}>
-							<span style={{ fontSize: '0.9em' }}>{translate.validate_participant_data}</span>
+							<span style={{ fontSize: '0.9em' }}>{translate.clave_justicia_check_participant_registration}</span>
 						</div>
 					</div>
 				</Action>
