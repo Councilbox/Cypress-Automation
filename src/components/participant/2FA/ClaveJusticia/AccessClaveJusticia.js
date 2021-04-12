@@ -127,7 +127,7 @@ const AccessClaveJusticia = ({
 												<>
 													<div style={{ width: isMobile ? '95%' : '50%', marginTop: '1em' }}>
 														<DateTimePicker
-															format="L"
+															format={'DD-MM-yyyy'}
 															label={translate.clave_pin_dni_expiration_date}
 															errorText={expirationDateError}
 															onlyDate
