@@ -125,7 +125,7 @@ const AccessClaveJusticia = ({
 										}}>
 											{status === 'IDDLE' && (
 												<>
-													<div style={{ width: isMobile ? '95%' : '50%', marginTop: '1em' }}>
+													<div style={{ width: '95%', marginTop: '1em' }}>
 														<DateTimePicker
 															format={'DD-MM-yyyy'}
 															label={translate.clave_pin_dni_expiration_date}
