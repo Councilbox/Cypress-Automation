@@ -12,7 +12,7 @@ const OneOnOneAttachmentsList = ({
 
 	return (
 		<div style={{ padding: '1em' }}>
-			<h4>{translate.dasboard_documentation}</h4>
+			<h4>{translate.dashboard_documentation}</h4>
 			{council ?
 				council.attachments.length > 0 ?
 					<>

@@ -22,8 +22,14 @@ export const blocks = {
 	},
 	DOCUMENTATION: {
 		id: Math.random().toString(36).substr(2, 9),
-		label: 'dasboard_documentation',
+		label: 'dashboard_documentation',
 		type: 'documentation',
+		editButton: false,
+	},
+	TIMELINE: {
+		id: Math.random().toString(36).substr(2, 9),
+		label: 'timeline',
+		type: 'timeline',
 		editButton: false,
 	},
 	ACT_INTRO: {
