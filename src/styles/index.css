@@ -80,10 +80,19 @@ box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 4px, rgba(0, 0, 0, 0.25) 0px 1px 3px;
 }
 
 .Scrollbar>div:first-child {
+	scroll-behavior: smooth;
+}
+
+.scrollbarBoth>div:first-child {
 	margin-right: -17px !important;
 	margin-bottom: -0 !important;
-	scroll-behavior: smooth;
+	overflow-x: auto !important;
+}
+
+.scrollbarOnlyY>div:first-child {
 	overflow-x: hidden !important;
+	margin-right: -17px !important;
+	margin-bottom: -0 !important;
 }
 
 .scrollflex>div:first-child {
