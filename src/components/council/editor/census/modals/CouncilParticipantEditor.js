@@ -39,7 +39,7 @@ class CouncilParticipantEditor extends React.Component {
 		errors: {},
 		representativeErrors: {},
 		selectRepresentative: false,
-		validated: true
+		validated: false
 	};
 
 	updateParticipantData() {
@@ -76,14 +76,6 @@ class CouncilParticipantEditor extends React.Component {
 			: null;
 
 		if (!await this.checkRequiredFields()) {
-			if (!this.state.validated) {
-				return this.setState({
-					errors: {
-						clavePin: this.props.translate.participant_clave_justicia_should_be_checked
-					}
-				});
-			}
-
 			const response = await this.props.updateCouncilParticipant({
 				variables: {
 					participant: {

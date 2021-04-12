@@ -87,14 +87,6 @@ class AddCouncilParticipantButton extends React.Component {
 			: null;
 
 		if (!await this.checkRequiredFields()) {
-			if (!this.state.validated) {
-				return this.setState({
-					errors: {
-						clavePin: this.props.translate.participant_clave_justicia_should_be_checked
-					}
-				});
-			}
-
 			this.setState({
 				loading: true
 			});
