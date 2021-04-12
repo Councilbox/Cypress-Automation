@@ -115,10 +115,9 @@ const CardPageLayout = ({
 								<div
 									style={{
 										// paddingTop: "2.5em",
-										padding: '3em',
 										paddingBottom: '0.5em',
-										paddingLeft: windowSize === 'xl' && '2vw',
-										paddingRight: windowSize === 'xl' && '2vw',
+										paddingLeft: '2vw',
+										paddingRight: '2vw',
 										...stylesNoScroll
 									}}
 								>
