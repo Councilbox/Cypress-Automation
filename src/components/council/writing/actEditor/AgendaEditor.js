@@ -243,12 +243,12 @@ const AgendaEditor = ({
 			component: () => (
 				<div style={{ minHeight: '8em', padding: '1em' }}>
 					{isCustomPoint(agenda.subjectType)
-&& <CustomAgendaRecount
-	agenda={agenda}
-	company={company}
-	translate={translate}
-	council={council}
-/>
+						&& <CustomAgendaRecount
+							agenda={agenda}
+							company={company}
+							translate={translate}
+							council={council}
+						/>
 					}
 					{isConfirmationRequest(agenda.subjectType) ?
 						<ConfirmationRequestRecount

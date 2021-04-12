@@ -244,7 +244,7 @@ const StatuteEditor = ({
 							}
 						</SelectInput>
 					</GridItem>
-					<GridItem xs={5} md={2} lg={2}>
+					<GridItem xs={5} md={2} lg={2} style={{ alignItems: 'flex-end', display: 'flex' }}>
 						{CBX.quorumNeedsInput(statute.firstCallQuorumType) && (
 							<QuorumInput
 								id="quorum-first-call"

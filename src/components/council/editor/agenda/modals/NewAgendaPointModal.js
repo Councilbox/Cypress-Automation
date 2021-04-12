@@ -309,16 +309,15 @@ const NewAgendaPointModal = ({
 									{props.majorityTypes.map(majority => (
 										<MenuItem
 											value={`${majority.value}`}
-											key={`majorityType_${
-												majority.value
-											}`}
+											key={`majorityType_${majority.value
+												}`}
 										>
 											{translate[majority.label]}
 										</MenuItem>
 									))}
 								</SelectInput>
 							</GridItem>
-							<GridItem xs={6} lg={3} md={3}>
+							<GridItem xs={6} lg={3} md={3} style={{ display: 'flex', alignItems: 'flex-end' }}>
 								{CBX.majorityNeedsInput(
 									agenda.majorityType
 								) && (
@@ -360,21 +359,21 @@ const NewAgendaPointModal = ({
 						type="text"
 						loadDraft={
 							showLoadDraft
-&& <BasicButton
-	text={translate.load_draft}
-	color={secondary}
-	textStyle={{
-		color: 'white',
-		fontWeight: '600',
-		fontSize: '0.8em',
-		textTransform: 'none',
-		marginLeft: '0.4em',
-		minHeight: 0,
-		lineHeight: '1em'
-	}}
-	textPosition="after"
-	onClick={() => setState({ loadDraft: true })}
-/>
+							&& <BasicButton
+								text={translate.load_draft}
+								color={secondary}
+								textStyle={{
+									color: 'white',
+									fontWeight: '600',
+									fontSize: '0.8em',
+									textTransform: 'none',
+									marginLeft: '0.4em',
+									minHeight: 0,
+									lineHeight: '1em'
+								}}
+								textPosition="after"
+								onClick={() => setState({ loadDraft: true })}
+							/>
 						}
 						tags={[
 							{
