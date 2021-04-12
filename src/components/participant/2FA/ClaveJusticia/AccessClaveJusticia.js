@@ -112,7 +112,7 @@ const AccessClaveJusticia = ({
 							}}>
 								<div style={{ textAlign: 'center', padding: '1em', paddingTop: '0em' }} >
 									<h3 style={{ color: primary, fontSize: '2em' }}>
-										Acceso {subdomain.name || 'Councilbox'}
+										Acceso {subdomain.title || 'Councilbox'}
 									</h3>
 								</div>
 								<div style={{ display: 'flex', justifyContent: 'center' }}>
