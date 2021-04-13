@@ -416,7 +416,7 @@ class AddCouncilParticipantButton extends React.Component {
 							}
 							{this.state.validated &&
 								<div style={{ color: 'green', fontWeight: '700', padding: '0.6em' }}>
-									{'Alta validada'}
+									{translate.clave_justicia_participant_validated}
 								</div>
 							}
 						</Card>

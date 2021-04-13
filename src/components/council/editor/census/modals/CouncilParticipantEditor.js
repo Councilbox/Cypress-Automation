@@ -108,9 +108,6 @@ class CouncilParticipantEditor extends React.Component {
 
 	updateState = object => {
 		this.setState({
-			...((object?.dni && object.dni !== this.props.participant.dni) ? {
-				validated: this.props.council.statute.participantValidation === PARTICIPANT_VALIDATIONS.NONE
-			} : {}),
 			data: {
 				...this.state.data,
 				...object
@@ -378,7 +375,7 @@ class CouncilParticipantEditor extends React.Component {
 							}
 							{this.state.validated &&
 								<div style={{ color: 'green', fontWeight: '700', padding: '0.6em' }}>
-									{'Alta validada'}
+									{translate.clave_justicia_participant_validated}
 								</div>
 							}
 						</Card>
