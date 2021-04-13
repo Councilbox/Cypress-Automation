@@ -165,7 +165,6 @@ const ParticipantsTable = ({
 				translate={translate}
 				council={council}
 				participations={participations}
-				disabled={council.councilType === 5 && councilParticipants && councilParticipants.list.length > 0}
 				refetch={refresh}
 				handleCensusChange={props.handleCensusChange}
 				reloadCensus={props.reloadCensus}
