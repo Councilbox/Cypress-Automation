@@ -133,7 +133,13 @@ const ParticipantLogin = ({
 						</div>
 						:
 						<div style={{
-							...styles.mainContainer
+							...styles.mainContainer,
+							...(!isMobile ? {
+								justifyContent: 'center'
+							} : {}),
+							...(council.securityType === 2 && isMobile && {
+								height: '',
+							}),
 						}}>
 							<Card style={{
 								...styles.cardContainer,

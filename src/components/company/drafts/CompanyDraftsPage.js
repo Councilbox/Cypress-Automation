@@ -19,8 +19,8 @@ import { bHistory } from '../../../containers/App';
 const CompanyDraftsPage = ({ translate, client, ...props }) => {
 	const config = React.useContext(ConfigContext);
 	const tabs = showOrganizationDashboard(props.company, config, props.user) ?
-		[translate.dasboard_documentation, translate.drafts, '<Tags>', translate.council_types]
-		: [translate.dasboard_documentation, translate.drafts, '<Tags>'];
+		[translate.dashboard_documentation, translate.drafts, '<Tags>', translate.council_types]
+		: [translate.dashboard_documentation, translate.drafts, '<Tags>'];
 	const tabsUrl = showOrganizationDashboard(props.company, config, props.user) ?
 		['documentation', 'drafts', 'tags', 'councilTypes']
 		: ['documentation', 'drafts', 'tags'];
@@ -76,7 +76,7 @@ const CompanyDraftsPage = ({ translate, client, ...props }) => {
 								goToPadre={goToPadre}
 							/>
 						</div>
-						{isMobile && selecteDraftPadre !== '<Tags>' && selecteDraftPadre !== translate.dasboard_documentation
+						{isMobile && selecteDraftPadre !== '<Tags>' && selecteDraftPadre !== translate.dashboard_documentation
 							&& <div style={{
 								marginRight: '0.8em', display: 'flex', justifyContent: isMobile ? 'space-between' : 'flex-end', alignItems: 'center'
 							}}>
@@ -128,7 +128,7 @@ const CompanyDraftsPage = ({ translate, client, ...props }) => {
 						}
 					</div>
 				}
-				{selecteDraftPadre === translate.dasboard_documentation
+				{selecteDraftPadre === translate.dashboard_documentation
 					&& <CompanyDocumentsPage
 						translate={translate}
 						company={props.company}

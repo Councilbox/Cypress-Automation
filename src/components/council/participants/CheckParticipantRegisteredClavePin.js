@@ -1,50 +1,15 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import {
+	BasicButton,
 	Grid,
-	GridItem,
-	LoadingSection
+	GridItem
 } from '../../../displayComponents';
 import { getSecondary } from '../../../styles/colors';
 import { isMobile } from '../../../utils/screen';
 import withWindowSize from '../../../HOCs/withWindowSize';
 import { ReactComponent as ValidateIcon } from '../../../assets/img/validate-participant-icon.svg';
 import useClaveJusticia from '../../../hooks/claveJusticia';
-
-
-const Action = ({
-	children, loading, onClick, disabled = false, styles
-}) => (
-	<div
-		style={{
-			display: 'flex',
-			alignItems: 'center',
-			height: '37px',
-			borderRadius: '4px',
-			border: `solid 1px ${disabled ? 'grey' : getSecondary()}`,
-			padding: isMobile ? '0.3em 0.3em' : '0.3em 1.3em',
-			cursor: disabled ? 'auto' : 'pointer',
-			marginRight: '0.5em',
-			marginBottom: isMobile && '0.5em',
-			...styles
-		}}
-		onClick={!disabled ? onClick : () => { }}
-	>
-		{loading ? (
-			<div
-				style={{
-					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'center',
-				}}
-			>
-				<LoadingSection size={20} />
-			</div>
-		) : (
-			children
-		)}
-	</div>
-);
 
 
 const CheckParticipantRegisteredClavePin = ({
@@ -56,6 +21,7 @@ const CheckParticipantRegisteredClavePin = ({
 	participant,
 	windowSize
 }) => {
+	const [loading, setLoading] = React.useState(false);
 	const secondary = getSecondary();
 	const { checkUserIsRegistered } = useClaveJusticia({
 		client
@@ -65,8 +31,11 @@ const CheckParticipantRegisteredClavePin = ({
 		if (!participant.dni || participant.dni.length < 9) {
 			return setPinError(translate.invalid_dni);
 		}
+
+		setLoading(true);
 		const result = await checkUserIsRegistered(participant.dni);
 
+		setLoading(false);
 		if (result.success) {
 			validateParticipant();
 		} else {
@@ -77,22 +46,21 @@ const CheckParticipantRegisteredClavePin = ({
 	return (
 		<Grid>
 			<GridItem xs={12} lg={12} md={12} style={{ display: isMobile && windowSize === 'xs' ? '' : 'flex' }}>
-				<Action
+				<BasicButton
 					onClick={checkParticipantIsRegistered}
-				>
-					<div
-						style={{ display: 'flex', alignItems: 'center', overflow: 'hidden' }}
-					>
-						<div style={{ width: '3em', color: disabled ? 'grey' : secondary }}>
-							<ValidateIcon fill={secondary} />
-						</div>
-						<div style={{
-							display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: disabled ? 'grey' : secondary
-						}}>
-							<span style={{ fontSize: '0.9em' }}>{translate.clave_justicia_check_participant_registration}</span>
-						</div>
-					</div>
-				</Action>
+					icon={<ValidateIcon fill={secondary} style={{ height: '18px' }} />}
+					text={translate.clave_justicia_check_participant_registration}
+					loading={loading}
+					disabled={disabled}
+					color="white"
+					textStyle={{
+						color: secondary
+					}}
+					loadingColor={secondary}
+					buttonStyle={{
+						border: `1px solid ${secondary}`
+					}}
+				/>
 			</GridItem>
 		</Grid>
 	);
