@@ -32,7 +32,7 @@ const getDateOptions = initialDate => {
 	});
 
 	const endDate = moment(initialDate).set({
-		hours: 14,
+		hours: 18,
 		minutes: '00'
 	});
 
