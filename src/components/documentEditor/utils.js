@@ -276,7 +276,7 @@ export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = '
 			...item,
 			id: Math.random().toString(36).substr(2, 9),
 			text: '',
-			label: 'dasboard_documentation',
+			label: 'dashboard_documentation',
 			secondaryText: '',
 		}),
 		agendaList: () => {
@@ -295,6 +295,14 @@ export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = '
                 `
 			};
 		},
+		timeline: () => ({
+			...item,
+			id: Math.random().toString(36).substr(2, 9),
+			label: 'registered_actions',
+			text: '',
+			language,
+			secondaryLanguage,
+		}),
 		attendants: () => ({
 			...item,
 			id: Math.random().toString(36).substr(2, 9),
@@ -420,6 +428,7 @@ export const buildDoc = (data, translate, type) => {
 					blocks.AGENDA,
 					blocks.ACT_CONCLUSION,
 					blocks.ATTENDANTS_LIST,
+					blocks.TIMELINE,
 					blocks.DOCUMENTATION
 				]
 			};

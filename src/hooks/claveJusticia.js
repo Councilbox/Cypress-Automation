@@ -33,6 +33,18 @@ const reducer = (state, action) => {
 	return actions[action.type] ? actions[action.type]() : state;
 };
 
+const getClaveErrorText = errorMessage => {
+	const errors = {
+		'Invalid expiration date': 'La fecha de validez o fecha de expedición no coinciden con la de su documento',
+		'User not registered': 'No se ha podido enviar porque no está de alta en el sistema de cl@ve pin',
+		'User blocked': 'No se ha podido enviar porque el usuario está bloqueado por exceder el número máximo de intentos fallidos diarios, vuelva a intentarlo mañana',
+		default: 'Ha ocurrido un error al intentar enviar la clave'
+	};
+
+	return errors[errorMessage] || errors.default;
+};
+
+
 const checkValidExpirationDate = string => string.length === 10;
 
 const getStoredDate = participantId => {
@@ -116,10 +128,7 @@ const useClaveJusticia = ({ client, participantId, token }) => {
 			return true;
 		}
 
-		if (response.data.sendClaveJusticiaToParticipant.message === 'Invalid expiration date') {
-			setExpirationDateError('La fecha de expiración no coincide');
-		}
-
+		setExpirationDateError(getClaveErrorText(response.data.sendClaveJusticiaToParticipant.message));
 		return false;
 	};
 
