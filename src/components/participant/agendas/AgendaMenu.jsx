@@ -10,6 +10,8 @@ import CustomPointVotingMenu from './CustomPointVotingMenu';
 import { isMobile } from '../../../utils/screen';
 import ConfirmationRequestMenu from './ConfirmationRequestMenu';
 import { useOldState } from '../../../hooks';
+import { useContext } from 'react';
+import { ConfigContext } from '../../../containers/AppControl';
 
 const AgendaMenu = ({ agenda, translate, council, participant, refetch }) => {
 	const [state, setState] = useOldState({
@@ -18,6 +20,7 @@ const AgendaMenu = ({ agenda, translate, council, participant, refetch }) => {
 		showModal: false,
 		reopen: false
 	});
+	const config = useContext(ConfigContext);
 
 	const toggle = () => {
 		setState({
@@ -42,7 +45,15 @@ const AgendaMenu = ({ agenda, translate, council, participant, refetch }) => {
 	};
 
 	const shouldDisplayVotingMenu = () => {
-		return (CBX.hasVotation(agenda.subjectType) && participant.type !== PARTICIPANT_TYPE.GUEST);
+		if (participant.type === PARTICIPANT_TYPE.GUEST) {
+			return false;
+		}
+
+		if (config.hideVotingButtons) {
+			return CBX.agendaVotingsOpened(agenda);
+		}
+
+		return CBX.hasVotation(agenda.subjectType);
 	};
 
 	const secondary = getSecondary();
