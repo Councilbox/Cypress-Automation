@@ -222,10 +222,7 @@ export const generateCouncilSmartTagsValues = data => {
 	}, 0));
 
 	const numParticipationsRepresented = (data.participantsWithDelegatedVote.reduce((acc, curr) => acc + curr.numParticipations, 0));
-
-
 	const percentageSCPresent = ((numParticipationsPresent / data.councilRecount.partTotal) * 100).toFixed(3);
-
 	const percentageSCDelegated = ((numParticipationsRepresented / data.councilRecount.partTotal) * 100).toFixed(3);
 
 	const calculatedObject = {

@@ -115,7 +115,7 @@ const AccessClaveJusticia = ({
 							}}>
 								<div style={{ textAlign: 'center', padding: '1em', paddingTop: '0em' }} >
 									<h3 style={{ color: primary, fontSize: '2em' }}>
-										Acceso {subdomain.name || 'Councilbox'}
+										Acceso {subdomain.title || 'Councilbox'}
 									</h3>
 								</div>
 								<div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -128,10 +128,10 @@ const AccessClaveJusticia = ({
 										}}>
 											{status === 'IDDLE' && (
 												<>
-													<div style={{ width: isMobile ? '95%' : '50%' }}>
+													<div style={{ width: '95%', marginTop: '1em' }}>
 														<DateTimePicker
-															format="L"
-															floatingText={translate.clave_pin_dni_expiration_date}
+															format={'DD-MM-yyyy'}
+															label={translate.clave_pin_dni_expiration_date}
 															errorText={expirationDateError}
 															onlyDate
 															style={{ width: '10em' }}
@@ -140,6 +140,14 @@ const AccessClaveJusticia = ({
 															}}
 															value={expirationDate}
 														/>
+													</div>
+													<div
+														style={{
+															margin: '1em 0em'
+														}}
+													>
+														Introduzca la Fecha de Validez de su DNI (o Fecha de Expedición si es un DNI Permanente)
+														y solicite un PIN para acceder con Cl@ve Justicia
 													</div>
 													<div style={{ display: 'flex', alignItems: 'flex-end', marginTop: '0.6em' }}>
 														<BasicButton

@@ -22,7 +22,6 @@ const Block = ({ children }) => (
 	>{children}</p>
 );
 
-
 const LegalModal = ({ open, requestClose, action, translate }) => {
 	const primary = getPrimary();
 
@@ -76,14 +75,14 @@ const LegalModal = ({ open, requestClose, action, translate }) => {
 							Condiciones generales de uso de la Sede Electrónica del Councilbox OVAC
 						</Block>
 						<Block>
-							Councilbox OVAC le informa de que el acceso y uso de la Sede Electrónica ( https://ovac.councilbox.admin) y todos los subdominios y directorios incluidos bajo la misma (en adelante, conjuntamente denominados como la Sede Electrónica), así como los servicios o contenidos que a través de ella se puedan obtener, están sujetos a los términos que se detallan en este Aviso Legal, sin perjuicio de que el acceso a alguno de dichos servicios o contenidos pudieran precisar de la aceptación de unas Condiciones Generales adicionales.
+							Councilbox OVAC le informa de que el acceso y uso de la Sede Electrónica (<a href="https://ovac.councilbox.com">https://ovac.councilbox.com</a>) y todos los subdominios y directorios incluidos bajo la misma (en adelante, conjuntamente denominados como la Sede Electrónica), así como los servicios o contenidos que a través de ella se puedan obtener, están sujetos a los términos que se detallan en este Aviso Legal, sin perjuicio de que el acceso a alguno de dichos servicios o contenidos pudieran precisar de la aceptación de unas Condiciones Generales adicionales.
 						</Block>
 
 						<Block>
 							Por ello, si las consideraciones detalladas en este Aviso Legal no son de su conformidad, rogamos no haga uso de la Sede Electrónica, ya que cualquier uso que haga de la misma o de los servicios y contenidos en ella incluidos implicará la aceptación de los términos legales recogidos en este texto.
 						</Block>
 						<Block>
-							El Ministerio de Justicia se reserva el derecho a realizar cambios en la Sede sin previo aviso, con el objeto de actualizar, corregir, modificar, añadir o eliminar los contenidos de la Sede o de su diseño.
+							Councilbox OVAC se reserva el derecho a realizar cambios en la Sede sin previo aviso, con el objeto de actualizar, corregir, modificar, añadir o eliminar los contenidos de la Sede o de su diseño.
 						</Block>
 						<Block>
 							Los contenidos y servicios que ofrece la Sede se actualizan periódicamente. Debido a que la actualización de la información no es inmediata, le sugerimos que compruebe siempre la vigencia y exactitud de la información, servicios y contenidos recogidos en la Sede.
@@ -92,42 +91,36 @@ const LegalModal = ({ open, requestClose, action, translate }) => {
 							Las condiciones y términos que se recogen en el presente Aviso pueden variar, por lo que le invitamos a que revise estos términos cuando visite de nuevo la Sede.
 						</Block>
 						<Block>
-							Frames
-							El Ministerio de Justicia prohíbe expresamente la realización de &quot;framings&quot; o la utilización por parte de terceros de cualesquiera otros mecanismos que alteren el diseño, configuración original o contenidos de su Portal.
+							Councilbox OVAC prohíbe expresamente la realización de &quot;framings&quot; o la utilización por parte de terceros de cualesquiera otros mecanismos que alteren el diseño, configuración original o contenidos de su Portal.
 						</Block>
 						<Block>
-							Propiedad intelectual e industrial
-							Tanto el diseño de esta Sede y sus códigos fuente, como los logos, marcas, y demás signos distintivos que aparecen en la misma, pertenecen al Ministerio Justicia y están protegidos por los correspondientes derechos de propiedad intelectual e industrial.
+							Propiedad intelectual e industrial<br/>
+							Tanto el diseño de esta Sede y sus códigos fuente, como los logos, marcas, y demás signos distintivos que aparecen en la misma, pertenecen a Councilbox OVACy están protegidos por los correspondientes derechos de propiedad intelectual e industrial.
 						</Block>
 						<Block>
-							Su uso, reproducción, distribución, comunicación pública, transformación o cualquier otra actividad similar o análoga, queda totalmente prohibida salvo que medie autorización expresa del Ministerio de Justicia.
+							Su uso, reproducción, distribución, comunicación pública, transformación o cualquier otra actividad similar o análoga, queda totalmente prohibida salvo que medie autorización expresa de Councilbox OVAC
 						</Block>
 						<Block>
 							La licencia de uso de cualquier contenido de esta Sede, otorgada al usuario, se limita a la descarga de dicho contenido y el uso privado del mismo, siempre que los citados contenidos permanezcan íntegros y se cite la fuente de los mismos (Ley 37/2007, de 16 de noviembre, sobre reutilización de la información del sector público).
 						</Block>
 						<Block>
-							De acuerdo con el Reglamento general de protección de datos, la Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales y la normativa concordante y de desarrollo, el Ministerio de Justicia trata los datos personales de manera confidencial y exclusivamente para fines determinados, explícitos y legítimos.
+							Consulte la información reutilizable puesta a disposición por Councilbox OVAC y las condiciones de reutilización en la sección de datos abiertos de esta sede electrónica.
 						</Block>
 						<Block>
-							Siempre que concurran los requisitos necesarios, puede usted ejercer los derechos de acceso, rectificación, supresión, limitación y oposición de los datos, dirigiéndose al responsable del tratamiento, o bien a través de la red de oficinas de asistencia en materia de registros (https://administracion.gob.es). No procede el derecho de portabilidad, de conformidad con el artículo 20.3 del Reglamento general de protección de datos.
+							Privacidad y Protección de Datos<br/>
+							De acuerdo con el Reglamento general de protección de datos, la Ley Orgánica 3/2018, de 5 de diciembre, de Protección de Datos Personales y garantía de los derechos digitales y la normativa concordante y de desarrollo,  Councilbox OVAC trata los datos personales de manera confidencial y exclusivamente para fines determinados, explícitos y legítimos.
 						</Block>
 						<Block>
-							El Ministerio de Justicia se compromete al cumplimiento de su obligación de secreto con respecto a los datos de carácter personal y al deber de tratarlos con confidencialidad y seguridad. A estos efectos, adoptará las medidas necesarias para evitar su alteración, pérdida, tratamiento o acceso no autorizado.
+							Siempre que concurran los requisitos necesarios, puede usted ejercer los derechos de acceso, rectificación, supresión, limitación y oposición de los datos, dirigiéndose al responsable del tratamiento, o bien a través de la red de oficinas de asistencia en materia de registros. No procede el derecho de portabilidad, de conformidad con el artículo 20.3 del Reglamento general de protección de datos.
 						</Block>
 						<Block>
-							Consulte la información reutilizable puesta a disposición por el Ministerio de Justicia y las condiciones de reutilización en la sección de datos abiertos de esta sede electrónica.
+							Councilbox OVAC se compromete al cumplimiento de su obligación de secreto con respecto a los datos de carácter personal y al deber de tratarlos con confidencialidad y seguridad. A estos efectos, adoptará las medidas necesarias para evitar su alteración, pérdida, tratamiento o acceso no autorizado.
 						</Block>
 						<Block>
-							Privacidad y Protección de Datos
+							Councilbox OVAC mantiene los niveles de protección de sus datos personales y ha establecido todos los medios técnicos a su alcance para evitar la pérdida, mal uso, alteración, acceso no autorizado y robo de los datos que Usted facilite a Councilbox OVAC, sin perjuicio de que las medidas de seguridad en Internet no sean inexpugnables.
 						</Block>
 						<Block>
-							El Ministerio de Justicia mantiene los niveles de protección de sus datos personales y ha establecido todos los medios técnicos a su alcance para evitar la pérdida, mal uso, alteración, acceso no autorizado y robo de los datos que Usted facilite al Ministerio de Justicia, sin perjuicio de que las medidas de seguridad en Internet no sean inexpugnables.
-						</Block>
-						<Block>
-							El Ministerio de Justicia se reserva la facultad de modificar la presente Política de Privacidad para adaptarla a las novedades legislativas, jurisprudenciales o de interpretación de la Agencia Española de Protección de Datos. En este caso, el Ministerio de Justicia anunciará dichos cambios, indicando claramente y con la debida antelación las modificaciones efectuadas.
-						</Block>
-						<Block>
-							Más información https://www.mjusticia.gob.es/es/areas-tematicas/proteccion-datos-personal
+							Councilbox OVAC se reserva la facultad de modificar la presente Política de Privacidad para adaptarla a las novedades legislativas, jurisprudenciales o de interpretación de la Agencia Española de Protección de Datos. En este caso,  Councilbox OVAC anunciará dichos cambios, indicando claramente y con la debida antelación las modificaciones efectuadas.
 						</Block>
 					</div>
 				</>

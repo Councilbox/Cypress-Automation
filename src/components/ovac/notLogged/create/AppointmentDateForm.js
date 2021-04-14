@@ -10,6 +10,7 @@ import OVACTextInput from '../../UI/TextInput';
 const getDateOptions = initialDate => {
 	const initial = moment(initialDate);
 	const actualDate = new Date();
+	const hours = [];
 
 	initial.set({
 		hours: initial.day() === actualDate.getDay() ? actualDate.getHours() : 0,
@@ -20,6 +21,7 @@ const getDateOptions = initialDate => {
 
 	if (initialHours < 9) {
 		initialHours = 9;
+		hours.push('09:00');
 	}
 
 	const initialMins = initial.minutes();
@@ -32,11 +34,9 @@ const getDateOptions = initialDate => {
 	});
 
 	const endDate = moment(initialDate).set({
-		hours: 14,
-		minutes: '00'
+		hours: 18,
+		minutes: '05'
 	});
-
-	const hours = [];
 
 	while (endDate.isAfter(date)) {
 		hours.push(date.format('HH:mm'));
