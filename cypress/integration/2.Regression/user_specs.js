@@ -2533,6 +2533,7 @@ describe("The user is able to choose and select 'Those banned may be readmitted'
 
         it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
             cy.get('#council-type-can-unblock').scrollIntoView()
+            cy.wait(1000)
         });
 
         it("Click on the 'Those banned may be readmitted' checkbox and click on the 'Save' button", function() {
@@ -2557,6 +2558,7 @@ describe("The user is able to choose and select 'Associated census' for the call
 
         it("Scroll down the page and navigate to the 'Census' section", function() {
             cy.get('#council-type-default-census').scrollIntoView()
+            cy.wait(1000)
         });
 
         it("Navigate to the 'Associated census' and from the dropdown menu choose and click on the Census you want to select then click on the 'Save' button", function() {
@@ -2583,6 +2585,7 @@ describe("The user is able to choose and select 'Minutes exist' option for the c
 
         it("Scroll down the page and navigate to the 'Minutes and documents' section", function() {
             cy.get('#council-type-has-act').scrollIntoView()
+            cy.wait(1000)
         });
 
         it("Click on the 'Minutes exist' checkbox and click on the 'Save' button", function() {
@@ -2607,12 +2610,206 @@ describe("The user is able to choose and select 'A list of participants is inclu
 
         it("Scroll down the page and navigate to the 'Minutes and documents' section", function() {
             cy.get('#council-type-include-attendants-list').scrollIntoView()
+            cy.wait(1000)
         });
 
         it("Click on the 'A list of participants is included in the minutes' checkbox and click on the 'Save' button", function() {
             cy.get('#council-type-include-attendants-list').click()
             cy.wait(1000)
             cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
+describe("The user is able to choose and select 'It is included in the minute book' option for the call in the 'Minutes and documents' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Minutes and documents' section", function() {
+            cy.get('#council-type-include-act-book').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Click on the 'It is included in the minute book' checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-include-act-book').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Double column' option for the call in the 'Documents' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Documents' section", function() {
+            cy.get('#council-type-double-column').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Click on the 'Double column' checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-double-column').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Require (proxy) document' option for the call in the 'Documents' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Documents' section", function() {
+            cy.get('#council-type-require-proxy').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Click on the 'Require (proxy) document' checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-require-proxy').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Introduction' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
+            cy.get('#council-type-convene-header').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Introduction' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(0).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Annoucement footer' form in the 'Annoucement template' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Announcement templates' section", function() {
+            cy.get('#council-type-convene-footer').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Announcement footer' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(1).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Custom proxy' form in the 'Documents' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Announcement templates' section", function() {
+            cy.get('#council-type-proxy').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Custom proxy' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(2).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Voting letter with voting directions' form in the 'Document' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Documents' section", function() {
+            cy.get('#council-type-vote-letter').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Voting letter with voting directions' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(4).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
         });
 
         it("Back to Home page", function() {

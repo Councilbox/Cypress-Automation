@@ -46,7 +46,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
 					limit: 10,
 					offset: (usersPage - 1) * 10,
 					orderDirection: 'desc',
-					orderBy: 'date'
+					orderBy: 'id'
 				},
 				searchText
 			}
