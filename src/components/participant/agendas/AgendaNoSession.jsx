@@ -569,15 +569,13 @@ const AgendaCard = ({
 				</Collapse>
 
 				<CardActions style={{ display: 'flex', justifyContent: 'space-between' }}>
-					{CBX.councilHasComments(council.statute) &&
-						<CommentModal
-							translate={translate}
-							agenda={agenda}
-							participant={participant}
-							council={council}
-							refetch={refetch}
-						/>
-					}
+					<CommentModal
+						translate={translate}
+						agenda={agenda}
+						participant={participant}
+						council={council}
+						refetch={refetch}
+					/>
 					{(ownVote && ownVote.vote !== -1) &&
 						<Button
 							disableRipple
