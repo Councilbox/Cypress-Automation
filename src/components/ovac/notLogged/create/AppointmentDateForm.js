@@ -6,6 +6,7 @@ import { getPrimary } from '../../../../styles/colors';
 import { Grid, Scrollbar } from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
 import OVACTextInput from '../../UI/TextInput';
+import { isMobile } from '../../../../utils/screen';
 
 const getDateOptions = initialDate => {
 	const initial = moment(initialDate);
@@ -72,6 +73,31 @@ const AppointmentDateForm = ({ style, appointment, setState, errors, translate }
 		dateText = `${date.format('DD / MMMM / yyyy - hh:mm')}h`;
 	}
 
+	const dateOptions = getDateOptions(appointment.date, appointment.time);
+
+	const renderDateMenu = () => (
+		dateOptions.length > 0 ?
+			<Scrollbar>
+				<div style={{ flexGrow: 1 }}>
+					{dateOptions.map(time => (
+						<DateButton
+							key={time}
+							date={time}
+							selected={appointment.time === time}
+							onClick={() => setState({
+								time
+							})}
+							time={appointment.time}
+						/>
+					))}
+				</div>
+			</Scrollbar>
+			:
+			<div style={{ textAlign: 'center' }}>
+				{translate.there_is_no_time_available_this_date}
+			</div>
+	);
+
 	return (
 		<Card
 			elevation={4}
@@ -98,56 +124,88 @@ const AppointmentDateForm = ({ style, appointment, setState, errors, translate }
 					marginTop: 0
 				}}
 			/>
-			<Grid spacing={0}>
-				<div ref={containerRef} style={{ border: '2px solid silver', padding: '1em', width: '60%', borderRadius: '5px' }}>
-					<Calendar
-						showNeighboringMonth={false}
-						prevLabel={
-							<div>
-								<i className="fa fa-angle-left" ></i>
-							</div>
-						}
-						nextLabel={
-							<div>
-								<i className="fa fa-angle-right" >
-								</i>
-							</div>
-						}
-						locale={translate.selectedLanguage}
-						onChange={date => setState({ date, time: null })}
-						value={appointment.date}
-						minDetail={'month'}
-					/>
-				</div>
-				<div
-					style={{
-						width: '40%',
-						paddingLeft: '20px',
-						height: '100%',
-						overflow: 'hidden',
-						...(scrollHeight ? {
-							height: `${scrollHeight}px`
-						} : {}),
-					}}
-				>
-					<Scrollbar>
-						<div style={{ flexGrow: 1 }}>
-							{getDateOptions(appointment.date, appointment.time).map(time => (
-								<DateButton
-									key={time}
-									date={time}
-									selected={appointment.time === time}
-									onClick={() => setState({
-										time
-									})}
-									time={appointment.time}
-								/>
-							))}
-						</div>
-					</Scrollbar>
-				</div>
-			</Grid>
-
+			{isMobile ?
+				<>
+					<div
+						ref={containerRef}
+						style={{
+							border: '2px solid silver',
+							padding: '1em',
+							margin: 'auto',
+							width: '90%',
+							borderRadius: '5px'
+						}}>
+						<Calendar
+							showNeighboringMonth={false}
+							prevLabel={
+								<div>
+									<i className="fa fa-angle-left" ></i>
+								</div>
+							}
+							nextLabel={
+								<div>
+									<i className="fa fa-angle-right" >
+									</i>
+								</div>
+							}
+							locale={translate.selectedLanguage}
+							onChange={date => setState({ date, time: null })}
+							value={appointment.date}
+							minDetail={'month'}
+						/>
+					</div>
+					<div
+						style={{
+							width: '90%',
+							margin: 'auto',
+							height: '100%',
+							marginTop: '1em',
+							overflow: 'hidden',
+							...(scrollHeight ? {
+								height: `calc(3em * ${dateOptions.length > 6 ? 6 : dateOptions.length || 1})`
+							} : {}),
+						}}
+					>
+						{renderDateMenu()}
+					</div>
+				</>
+				:
+				<Grid spacing={0}>
+					<div ref={containerRef} style={{ border: '2px solid silver', padding: '1em', width: '60%', borderRadius: '5px' }}>
+						<Calendar
+							showNeighboringMonth={false}
+							prevLabel={
+								<div>
+									<i className="fa fa-angle-left" ></i>
+								</div>
+							}
+							nextLabel={
+								<div>
+									<i className="fa fa-angle-right" >
+									</i>
+								</div>
+							}
+							locale={translate.selectedLanguage}
+							onChange={date => setState({ date, time: null })}
+							value={appointment.date}
+							minDetail={'month'}
+						/>
+					</div>
+					<div
+						style={{
+							width: '40%',
+							paddingLeft: '20px',
+							height: '100%',
+							overflow: 'hidden',
+							...(scrollHeight ? {
+								height: `${scrollHeight}px`
+							} : {}),
+						}}
+					>
+						{renderDateMenu()}
+					</div>
+				</Grid>
+			}
 		</Card>
 	);
 };
