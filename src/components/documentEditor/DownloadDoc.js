@@ -87,15 +87,15 @@ const DownloadDoc = ({
 			.replace(/font-size: 11px/g, 'font-size: 12.5px');
 		const html = preHtml + body + postHtml;
 		const css = (`\
-<style>\
-body {font-family: Arial; font-size: 12pt;}\
-html {font-family: Arial; font-size: 12pt;}
-div {font-family: Arial; font-size: 12pt;}
-h3 {font-family: Arial; font-size: 12pt;}
-h4 {font-family: Arial; font-size: 12pt;}
-b {font-family: Arial; font-size: 12pt;}
-</style>\
-`);
+			<style>\
+			body {font-family: Arial; font-size: 12pt;}\
+			html {font-family: Arial; font-size: 12pt;}
+			div {font-family: Arial; font-size: 12pt;}
+			h3 {font-family: Arial; font-size: 12pt;}
+			h4 {font-family: Arial; font-size: 12pt;}
+			b {font-family: Arial; font-size: 12pt;}
+			</style>\
+		`);
 
 		const docFilename = `${translate.act} - ${council.name}.doc`;
 		const blob = new Blob(['\ufeff', css + html], {
@@ -138,7 +138,7 @@ b {font-family: Arial; font-size: 12pt;}
 							}}
 							/>
 							<span style={{ marginLeft: '2.5em', marginRight: '0.8em' }}>
-PDF
+								PDF
 							</span>
 						</div>
 					</MenuItem>
@@ -159,7 +159,7 @@ PDF
 							}}
 							/>
 							<span style={{ marginLeft: '2.5em', marginRight: '0.8em' }}>
-Word
+								Word
 							</span>
 						</div>
 					</MenuItem>
