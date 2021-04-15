@@ -136,6 +136,7 @@ const AppointmentDateForm = ({ style, appointment, setState, errors, translate }
 							borderRadius: '5px'
 						}}>
 						<Calendar
+							minDate={new Date()}
 							showNeighboringMonth={false}
 							prevLabel={
 								<div>
