@@ -1,5 +1,7 @@
+import gql from 'graphql-tag';
 import React from 'react';
 import { addCouncilAttachment as addMutation, removeCouncilAttachment as removeMutation } from '../queries';
+import { downloadFile } from '../utils/CBX';
 
 export const useCouncilAttachments = ({ client }) => {
 	const [loading, setLoading] = React.useState(false);
@@ -38,5 +40,42 @@ export const useCouncilAttachments = ({ client }) => {
 		addCouncilAttachment,
 		loading,
 		removeCouncilAttachment
+	};
+};
+
+
+export const useDownloadCouncilMessages = ({ client, translate }) => {
+	const [downloading, setDownloading] = React.useState(false);
+
+	const downloadCouncilMessagesPDF = async council => {
+		setDownloading(true);
+		const response = await client.query({
+			query: gql`
+				query participantCommentsPDF($councilId: Int!) {
+					participantCommentsPDF(
+						councilId: $councilId 
+					)
+				}
+			`,
+			variables: {
+				councilId: council.id
+			}
+		});
+
+		if (response) {
+			if (response.data.participantCommentsPDF) {
+				setDownloading(false);
+				downloadFile(
+					response.data.participantCommentsPDF,
+					'application/pdf',
+					`${translate.comments}_${council.id}`
+				);
+			}
+		}
+	};
+
+	return {
+		downloading,
+		downloadCouncilMessagesPDF
 	};
 };
