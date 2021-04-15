@@ -330,7 +330,14 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 								alignContent="flex-end"
 							>
 								<GridItem xs={12} md={12} lg={12} style={{ height: '100%', overflow: 'hidden' }}>
-									<div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', padding: '0.6em 0' }}>
+									<div
+										style={{
+											width: '100%',
+											display: 'flex',
+											justifyContent: 'flex-end',
+											padding: '0.6em 0',
+											paddingRight: isMobile ? '0.4em' : '4px'
+										}}>
 										<BasicButton
 											text={translate.cancel}
 											color="white"

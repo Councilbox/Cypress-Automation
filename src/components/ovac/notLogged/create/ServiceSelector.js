@@ -1,6 +1,5 @@
 import gql from 'graphql-tag';
-import { Tooltip } from 'material-ui';
-import { Card, MenuItem } from 'material-ui';
+import { Card, MenuItem, Tooltip } from 'material-ui';
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import { SelectInput } from '../../../../displayComponents';
