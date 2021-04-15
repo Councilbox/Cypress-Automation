@@ -10,7 +10,6 @@ import CustomPointVotingMenu from './CustomPointVotingMenu';
 import { isMobile } from '../../../utils/screen';
 import ConfirmationRequestMenu from './ConfirmationRequestMenu';
 import { useOldState } from '../../../hooks';
-import { useContext } from 'react';
 import { ConfigContext } from '../../../containers/AppControl';
 
 const AgendaMenu = ({ agenda, translate, council, participant, refetch }) => {
@@ -20,7 +19,7 @@ const AgendaMenu = ({ agenda, translate, council, participant, refetch }) => {
 		showModal: false,
 		reopen: false
 	});
-	const config = useContext(ConfigContext);
+	const config = React.useContext(ConfigContext);
 
 	const toggle = () => {
 		setState({
