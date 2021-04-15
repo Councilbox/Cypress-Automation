@@ -113,6 +113,7 @@ const AppointmentDateForm = ({ style, appointment, setState, errors, translate }
 								</i>
 							</div>
 						}
+						locale={translate.selectedLanguage}
 						onChange={date => setState({ date, time: null })}
 						value={appointment.date}
 						minDetail={'month'}
