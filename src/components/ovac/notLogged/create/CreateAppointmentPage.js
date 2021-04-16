@@ -17,6 +17,7 @@ import CreationSuccessPage from './CreationSuccessPage';
 import AppointmentFooter from './AppointmentFooter';
 import { useCheckValidPhone } from '../../../../hooks';
 import { checkValidEmail } from '../../../../utils';
+import { buildDateFromDateTime, checkSecondDateAfterFirst } from '../../../../utils/CBX';
 
 
 const CreateAppointmentPage = ({ match, translate, actions, client }) => {
@@ -159,6 +160,11 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 
 		if (!council.time) {
 			newErrors.time = translate.appointment_time_is_required;
+		} else {
+			const startDate = buildDateFromDateTime(council.date, council.time);
+			if (!moment(startDate).isAfter(moment())) {
+				newErrors.date = translate.start_date_earlier_right_now;
+			}
 		}
 
 		const hasError = Object.keys(newErrors).length > 0;
@@ -184,15 +190,7 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 			setLoading(true);
 			const { participant, acceptedLegal, ...council } = appointmentData;
 
-			const date = moment(council.date);
-			const time = council.time.split(':');
-
-			date.set({
-				hours: time[0],
-				minutes: time[1]
-			});
-
-			council.dateStart = date.toISOString();
+			council.dateStart = buildDateFromDateTime(council.date, council.time);
 			delete council.date;
 			delete council.time;
 
