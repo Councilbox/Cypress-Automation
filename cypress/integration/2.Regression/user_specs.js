@@ -2549,6 +2549,8 @@ describe("The user is able to choose and select 'Those banned may be readmitted'
 
     });
 
+/*
+
 describe("The user is able to choose and select 'Associated census' for the call in the 'Census' section in the 'Types of meetings' form", function() {
 
         it("Click on the 'Council types' button", function() {
@@ -2576,6 +2578,8 @@ describe("The user is able to choose and select 'Associated census' for the call
 
     });
 
+*/
+
 describe("The user is able to choose and select 'Minutes exist' option for the call in the 'Minutes and documents' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
@@ -2600,6 +2604,58 @@ describe("The user is able to choose and select 'Minutes exist' option for the c
 
 
     });
+
+describe("The user is able to choose and select 'Automatic approval of the minutes at the end' option for the call in the 'Minutes and documents' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Minutes and documents' section", function() {
+            cy.get('#council-type-auto-approve-act').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Click on the “Automatic approval of the minutes at the end” checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-auto-approve-act').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select 'Send minutes automatically on completion option for the call in the 'Minutes and documents' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Minutes and documents' section", function() {
+            cy.get('#council-type-auto-send-act').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Click on the “Send minutes automatically on completion” checkbox and click on the “Save” button", function() {
+            cy.get('#council-type-auto-send-act').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
 
 describe("The user is able to choose and select 'A list of participants is included in the minutes' option for the call in the 'Minutes and documents' section in the 'Types of meetings' section", function() {
 
@@ -2677,6 +2733,7 @@ describe("The user is able to choose and select 'Double column' option for the c
 
     });
 
+
 describe("The user is able to choose and select 'Require (proxy) document' option for the call in the 'Documents' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
@@ -2715,6 +2772,36 @@ describe("The user is able to choose and select the tag in the 'tags' section in
         });
 
         it("Navigate to the 'Introduction' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(0).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Announcement header' form in the 'Announcement template' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Documents' section", function() {
+            cy.get('#council-type-convene-header').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Voting letter with voting directions' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
             cy.get('.ql-editor').eq(0).clear()
                 .type('{{')
                     .type('business_name')
@@ -2790,7 +2877,36 @@ describe("The user is able to choose and select the tag in the 'tags' section in
 
     });
 
-describe("The user is able to choose and select the tag in the 'tags' section in the 'Voting letter with voting directions' form in the 'Document' section in the 'Types of meetings' section", function() {
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Proxy right column' form in the 'Documents' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Announcement templates' section", function() {
+            cy.get('#council-type-proxy-secondary').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Proxy right column' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(3).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Voting letter' form in the 'Document' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
             cy.get('#edit-statutes-block').click()
@@ -2802,7 +2918,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
             cy.wait(1000)
         });
 
-        it("Navigate to the 'Voting letter with voting directions' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+        it("Navigate to the 'Voting letter' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
             cy.get('.ql-editor').eq(4).clear()
                 .type('{{')
                     .type('business_name')
@@ -2818,6 +2934,236 @@ describe("The user is able to choose and select the tag in the 'tags' section in
 
 
     });
+
+
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Vote letter right column' form in the 'Documents' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Documents' section", function() {
+            cy.get('#council-type-vote-letter-secondary').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Vote letter right column' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(5).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Voting letter with voting directions' form in the 'Documents' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Documents' section", function() {
+            cy.get('#council-type-vote-letter-with-sense').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Voting letter with voting directions' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(6).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Right column vote letter with voting directions' form in the 'Documents' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Documents' section", function() {
+            cy.get('#council-type-vote-letter-with-sense-secondary').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Right column vote letter with voting directions' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(7).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select the tag in the 'tags' section in the 'c' form in the 'Documents' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Documents' section", function() {
+            cy.get('#council-type-vote-letter').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Voting letter with voting directions' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(7).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
+
+describe("The user is able to edit member information in the 'Shareholder register' section", function() {
+
+        it("From the menu choose and click on the 'Shareholders register' button", function() {
+            cy.get('#edit-company-block').click()
+            cy.wait(1000)
+        });
+
+        it("Click on the 'Add member' button", function() {
+            cy.get('#anadirSocioLibroSocios').click()
+            cy.wait(1000)
+
+        });
+
+        it("Click on the 'Save changes' button", function() {
+            cy.get('#guardarAnadirSocio').click()
+            cy.wait(1000)
+        });
+
+        it("The error message 'Required field' is displayed above the required fields and the new member isn't added to the partner list", function() {
+            cy.contains('Required field')
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is not able to add a member with invalid inputs in the 'Name' field in the 'Personal details' 'Shareholders register' section", function() {
+
+        it("From the menu choose and click on the 'Shareholders register' button", function() {
+            cy.get('#edit-company-block').click()
+            cy.wait(1000)
+        });
+
+        it("Click on the 'Add member' button", function() {
+            cy.get('#anadirSocioLibroSocios').click()
+            cy.wait(1000)
+
+        });
+
+        it("Populate the 'Name' fields just by pressing the backspace button on the keyboard and all other required fields with valid inputs", function() {
+            cy.get('#anadirSocioNombre').clear()
+                .type('!!!!!')
+            cy.get('#anadirSocioApellido').clear()
+                .type('Test')
+            cy.get('#anadirSocioMail').clear()
+                .type('test@test.test')
+            cy.wait(1000)
+
+        });
+
+        it("Click on the 'Save changes' button", function() {
+            cy.get('#guardarAnadirSocio').click()
+            cy.wait(1000)
+        });
+
+        it("The “Invalid field” message is displayed beyond the “Name” field", function() {
+            cy.contains('Invalid field')
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is not able to add a member with invalid inputs in the 'Surname' field in the 'Personal details' 'Shareholders register' section", function() {
+
+        it("From the menu choose and click on the 'Shareholders register' button", function() {
+            cy.get('#edit-company-block').click()
+            cy.wait(1000)
+        });
+
+        it("Click on the 'Add member' button", function() {
+            cy.get('#anadirSocioLibroSocios').click()
+            cy.wait(1000)
+
+        });
+
+        it("Populate the 'Surname' fields just by pressing the backspace button on the keyboard and all other required fields with valid inputs", function() {
+            cy.get('#anadirSocioNombre').clear()
+                .type('Test')
+            cy.get('#anadirSocioApellido').clear()
+                .type('!!!!!')
+            cy.get('#anadirSocioMail').clear()
+                .type('test@test.test')
+            cy.wait(1000)
+
+        });
+
+        it("Click on the 'Save changes' button", function() {
+            cy.get('#guardarAnadirSocio').click()
+            cy.wait(1000)
+        });
+
+        it("The “Invalid field” message is displayed beyond the “Surname” field", function() {
+            cy.contains('Invalid field')
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
 
 
 
