@@ -862,10 +862,6 @@ display: none!important;
 margin-bottom: 0
 }
 
-.react-calendar__navigation__arrow.react-calendar__navigation__prev-button, .react-calendar__navigation__arrow.react-calendar__navigation__next-button {
-height: 0;
-padding: 0;
-}
 
 .react-calendar__tile--now {
 background: #e8e8e8!important;
@@ -881,10 +877,7 @@ border-radius: 5px;
 background-color: white!important;
 }
 
-.react-calendar__navigation {
-align-items: start;
-height: 20px!important;
-}
+
 
 .react-calendar__month-view__days__day--neighboringMonth:enabled:hover {
 cursor: default!important;
