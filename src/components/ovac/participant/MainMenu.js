@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card } from 'material-ui';
-import { withRouter } from 'react-router';
 import { Grid, GridItem, Link, NotLoggedLayout } from '../../../displayComponents';
 import { ReactComponent as CancelIcon } from '../../../assets/img/cancel-appointment.svg';
 import { ReactComponent as DocumentationIcon } from '../../../assets/img/upload.svg';
