@@ -24,7 +24,6 @@ const MainMenu = ({ translate, participant, appointment, match, refetch }) => {
 		<NotLoggedLayout
 			translate={translate}
 			helpIcon={true}
-			languageSelector={true}
 		>
 			<div style={{
 				width: '100%',
