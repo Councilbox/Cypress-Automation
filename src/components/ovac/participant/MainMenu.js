@@ -216,4 +216,4 @@ const PanelButton = ({ text, icon, color, backgroundColor }) => (
 );
 
 
-export default withSharedProps()(withRouter(MainMenu));
+export default withSharedProps()(MainMenu);

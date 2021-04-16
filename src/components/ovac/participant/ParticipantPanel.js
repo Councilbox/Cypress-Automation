@@ -178,6 +178,7 @@ const ParticipantPanel = ({ translate, actions, match, client }) => {
 			participant={data.participant}
 			appointment={data.council}
 			translate={translate}
+			match={match}
 			refetch={getData}
 		/>
 	);
