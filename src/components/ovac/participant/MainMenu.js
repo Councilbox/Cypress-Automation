@@ -36,7 +36,7 @@ const MainMenu = ({ translate, participant, appointment, match, refetch }) => {
 					<Card style={{
 						margin: isMobile ? '4em 0' : 'auto',
 						width: isMobile ? '100%' : '80%',
-						position: 'relative'
+						position: 'relative',
 					}} elevation={6}>
 						<div style={{ position: 'relative', top: 5, right: 5 }}>
 							<i
@@ -70,7 +70,8 @@ const MainMenu = ({ translate, participant, appointment, match, refetch }) => {
 						}),
 						flexDirection: 'column',
 						alignItems: 'center',
-						justifyContent: 'center'
+						justifyContent: 'center',
+						textAlign: 'center'
 					}}>
 						<Title>{translate.appointment_landing_title} - {subdomain.title}</Title>
 						<ParticipantInfo
