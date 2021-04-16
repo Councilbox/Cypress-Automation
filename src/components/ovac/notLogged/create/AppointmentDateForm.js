@@ -98,6 +98,29 @@ const AppointmentDateForm = ({ style, appointment, setState, errors, translate }
 			</div>
 	);
 
+	const renderCalendar = () => (
+		<Calendar
+			minDate={new Date()}
+			activeStartDate={new Date()}
+			showNeighboringMonth={false}
+			prevLabel={
+				<div>
+					<i className="fa fa-angle-left" ></i>
+				</div>
+			}
+			nextLabel={
+				<div>
+					<i className="fa fa-angle-right" >
+					</i>
+				</div>
+			}
+			locale={translate.selectedLanguage}
+			onChange={date => setState({ date, time: null })}
+			value={appointment.date}
+			minDetail={'month'}
+		/>
+	);
+
 	return (
 		<Card
 			elevation={4}
@@ -135,25 +158,7 @@ const AppointmentDateForm = ({ style, appointment, setState, errors, translate }
 							width: '90%',
 							borderRadius: '5px'
 						}}>
-						<Calendar
-							minDate={new Date()}
-							showNeighboringMonth={false}
-							prevLabel={
-								<div>
-									<i className="fa fa-angle-left" ></i>
-								</div>
-							}
-							nextLabel={
-								<div>
-									<i className="fa fa-angle-right" >
-									</i>
-								</div>
-							}
-							locale={translate.selectedLanguage}
-							onChange={date => setState({ date, time: null })}
-							value={appointment.date}
-							minDetail={'month'}
-						/>
+						{renderCalendar()}
 					</div>
 					<div
 						style={{
@@ -173,24 +178,7 @@ const AppointmentDateForm = ({ style, appointment, setState, errors, translate }
 				:
 				<Grid spacing={0}>
 					<div ref={containerRef} style={{ border: '2px solid silver', padding: '1em', width: '60%', borderRadius: '5px' }}>
-						<Calendar
-							showNeighboringMonth={false}
-							prevLabel={
-								<div>
-									<i className="fa fa-angle-left" ></i>
-								</div>
-							}
-							nextLabel={
-								<div>
-									<i className="fa fa-angle-right" >
-									</i>
-								</div>
-							}
-							locale={translate.selectedLanguage}
-							onChange={date => setState({ date, time: null })}
-							value={appointment.date}
-							minDetail={'month'}
-						/>
+						{renderCalendar()}
 					</div>
 					<div
 						style={{
