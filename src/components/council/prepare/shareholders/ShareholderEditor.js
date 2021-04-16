@@ -46,12 +46,12 @@ const initialRepresentative = {
 };
 
 const AddConvenedParticipantButton = ({
-	translate, participations, open, requestClose, defaultValues = {}, client, company, ...props
+	translate, participations, open, requestClose, defaultValues = {}, client, company, defaultRepresentative, ...props
 }) => {
 	const [state, setState] = useOldState({
 		modal: false,
 		data: { ...initialParticipant, ...defaultValues },
-		representative: { ...initialRepresentative },
+		representative: { ...initialRepresentative, ...defaultRepresentative },
 		errors: {},
 		representativeErrors: {}
 	});

@@ -76,7 +76,7 @@ const CheckShareholderRequest = ({
 						))}
 					</>
 				}
-				{request.data.requestType === 'represent'
+				{(request.data.requestType === 'represent' || request.data.requestType === 'representation')
 					&& <>
 						En:
 						{Array.isArray(request.data.representative) ?
