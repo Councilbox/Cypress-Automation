@@ -95,6 +95,10 @@ const ApproveRequestButton = ({
 					open={modal}
 					council={council}
 					participations={true}
+					defaultRepresentative={representative ? {
+						...representative,
+						hasRepresentative: true
+					} : null}
 					refetch={setParticipantCreated}
 					defaultValues={cleanData}
 					councilId={request.councilId}
