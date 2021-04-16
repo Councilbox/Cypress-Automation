@@ -81,7 +81,7 @@ const MainMenu = ({ translate, participant, appointment, match, refetch }) => {
 						/>
 						{appointment.state === COUNCIL_STATES.CANCELED &&
 							<h3 style={{ marginTop: '1.2em' }}>
-								{translate.appointment_cancelled}
+								{translate.appointment_canceled}
 							</h3>
 						}
 						{appointment.state !== COUNCIL_STATES.CANCELED &&
