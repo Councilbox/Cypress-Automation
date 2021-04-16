@@ -16,6 +16,7 @@ import ServiceSelector from './ServiceSelector';
 import CreationSuccessPage from './CreationSuccessPage';
 import AppointmentFooter from './AppointmentFooter';
 import { useCheckValidPhone } from '../../../../hooks';
+import { checkValidEmail } from '../../../../utils';
 
 
 const CreateAppointmentPage = ({ match, translate, actions, client }) => {
@@ -140,6 +141,8 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 
 		if (!participant.email) {
 			newErrors.email = translate.required_field;
+		} else if (!checkValidEmail(participant.email)) {
+			newErrors.email = translate.valid_email_required;
 		}
 
 		if (!participant.dni) {
