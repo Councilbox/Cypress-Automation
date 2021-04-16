@@ -101,7 +101,6 @@ const AppointmentDateForm = ({ style, appointment, setState, errors, translate }
 	const renderCalendar = () => (
 		<Calendar
 			minDate={new Date()}
-			activeStartDate={new Date()}
 			showNeighboringMonth={false}
 			prevLabel={
 				<div>

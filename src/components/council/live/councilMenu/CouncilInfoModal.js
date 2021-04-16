@@ -275,7 +275,7 @@ const CouncilInfoModal = ({
 																	{agendaVotingIcon(agenda)}
 																	{agenda.agendaSubject}
 																</div>
-																<div>
+																<div style={{ textAlign: 'right' }}>
 																	{getTypeText(agenda.subjectType)}
 																</div>
 															</div>
