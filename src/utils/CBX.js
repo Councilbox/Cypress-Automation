@@ -360,6 +360,18 @@ export const checkMinimumDistanceBetweenCalls = (
 	return difference >= statute.minimumSeparationBetweenCall;
 };
 
+export const buildDateFromDateTime = (date, time) => {
+	const newDate = moment(date);
+	const timeSegments = time.split(':');
+
+	newDate.set({
+		hours: timeSegments[0],
+		minutes: timeSegments[1]
+	});
+
+	return newDate.toISOString();
+};
+
 export const checkSecondDateAfterFirst = (firstDate, secondDate) => {
 	const first = moment(new Date(firstDate).toISOString(), moment.ISO_8601);
 	const second = moment(new Date(secondDate).toISOString(), moment.ISO_8601);

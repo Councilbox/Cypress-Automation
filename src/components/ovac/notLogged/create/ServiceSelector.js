@@ -1,9 +1,10 @@
 import gql from 'graphql-tag';
-import { Card, MenuItem } from 'material-ui';
+import { Card, MenuItem, Tooltip } from 'material-ui';
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import { SelectInput } from '../../../../displayComponents';
 import { getPrimary } from '../../../../styles/colors';
+import { isMobile } from '../../../../utils/screen';
 
 
 const ServiceSelector = ({ appointment, setState, entities, client, translate }) => {
@@ -91,7 +92,17 @@ const ServiceSelector = ({ appointment, setState, entities, client, translate })
 						value={`${service.id}|${service.title}`}
 						key={service.id}
 					>
-						{service.title}
+						{isMobile ?
+							<Tooltip title={service.title}>
+								<div className="truncate">
+									{service.title}
+								</div>
+							</Tooltip>
+							:
+							<div className="truncate">
+								{service.title}
+							</div>
+						}
 					</MenuItem>
 				))}
 			</SelectInput>

@@ -16,6 +16,8 @@ import ServiceSelector from './ServiceSelector';
 import CreationSuccessPage from './CreationSuccessPage';
 import AppointmentFooter from './AppointmentFooter';
 import { useCheckValidPhone } from '../../../../hooks';
+import { checkValidEmail } from '../../../../utils';
+import { buildDateFromDateTime } from '../../../../utils/CBX';
 
 
 const CreateAppointmentPage = ({ match, translate, actions, client }) => {
@@ -140,6 +142,8 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 
 		if (!participant.email) {
 			newErrors.email = translate.required_field;
+		} else if (!checkValidEmail(participant.email)) {
+			newErrors.email = translate.valid_email_required;
 		}
 
 		if (!participant.dni) {
@@ -156,6 +160,11 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 
 		if (!council.time) {
 			newErrors.time = translate.appointment_time_is_required;
+		} else {
+			const startDate = buildDateFromDateTime(council.date, council.time);
+			if (!moment(startDate).isAfter(moment())) {
+				newErrors.date = translate.start_date_earlier_right_now;
+			}
 		}
 
 		const hasError = Object.keys(newErrors).length > 0;
@@ -181,15 +190,7 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 			setLoading(true);
 			const { participant, acceptedLegal, ...council } = appointmentData;
 
-			const date = moment(council.date);
-			const time = council.time.split(':');
-
-			date.set({
-				hours: time[0],
-				minutes: time[1]
-			});
-
-			council.dateStart = date.toISOString();
+			council.dateStart = buildDateFromDateTime(council.date, council.time);
 			delete council.date;
 			delete council.time;
 
@@ -330,7 +331,14 @@ const CreateAppointmentPage = ({ match, translate, actions, client }) => {
 								alignContent="flex-end"
 							>
 								<GridItem xs={12} md={12} lg={12} style={{ height: '100%', overflow: 'hidden' }}>
-									<div style={{ width: '100%', display: 'flex', justifyContent: 'flex-end', padding: '0.6em 0' }}>
+									<div
+										style={{
+											width: '100%',
+											display: 'flex',
+											justifyContent: 'flex-end',
+											padding: '0.6em 0',
+											paddingRight: isMobile ? '0.4em' : '4px'
+										}}>
 										<BasicButton
 											text={translate.cancel}
 											color="white"

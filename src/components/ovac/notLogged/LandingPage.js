@@ -42,7 +42,8 @@ const LandingPage = ({ translate }) => {
 							display: 'flex',
 							alignItems: 'center',
 							flexDirection: 'column',
-							justifyContent: 'center'
+							justifyContent: 'center',
+							textAlign: 'center'
 						}}>
 							<Title fontSize="20px">
 								{translate.appointment_landing_title} - {subdomain.title}

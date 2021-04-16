@@ -44,9 +44,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
 				filters: [{ field: 'state', text: search }],
 				options: {
 					limit: 10,
-					offset: (usersPage - 1) * 10,
-					orderDirection: 'desc',
-					orderBy: 'date'
+					offset: (usersPage - 1) * 10
 				},
 				searchText
 			}

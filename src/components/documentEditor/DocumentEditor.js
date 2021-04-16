@@ -112,15 +112,15 @@ const DocumentEditor = ({
 					...state,
 					hide: !hide
 				})}>
-help
+					help
 				</i>
 				{hide
-&& <div style={{
-	fontSize: '13px',
-	color: '#a09aa0'
-}}>
-	{translate.document_editor_help}
-</div>
+					&& <div style={{
+						fontSize: '13px',
+						color: '#a09aa0'
+					}}>
+						{translate.document_editor_help}
+					</div>
 				}
 			</div>
 
@@ -183,143 +183,143 @@ help
 						width: '100%', position: collapse && 'relative', height: 'calc( 100% - 3.5em )', justifyContent: collapse ? 'center' : '', display: collapse ? 'flex' : ''
 					}}>
 						{!collapse
-&& <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1em 0em ' }}>
-	<div style={{ display: 'flex' }}>
-		{documentMenu}
-		{/* MENU EXTERNO */}
-	</div>
-	<div style={{ display: 'flex' }}>
-		{options.doubleColumn
-&& <React.Fragment>
-	<BasicButton
-		text={'Columna 1'}
-		color={column === 1 ? secondary : 'white'}
-		textStyle={{
-			color: column === 1 ? 'white' : 'black',
-			fontWeight: '700',
-			fontSize: '0.9em',
-			textTransform: 'none'
-		}}
-		textPosition="after"
-		onClick={() => changeToColumn(1)}
-		buttonStyle={{
-			boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-			borderRadius: '3px',
-			borderTopRightRadius: '0px',
-			borderBottomRightRadius: '0px',
-			borderRight: '1px solid #e8eaeb'
-		}}
-	/>
-	<BasicButton
-		text={'Columna 2'}
-		color={column === 2 ? secondary : 'white'}
-		textStyle={{
-			color: column === 2 ? 'white' : 'black',
-			fontWeight: '700',
-			fontSize: '0.9em',
-			textTransform: 'none'
-		}}
-		textPosition="after"
-		onClick={() => changeToColumn(2)}
-		buttonStyle={{
-			boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-			borderRadius: '3px',
-			borderTopRightRadius: '0px',
-			borderBottomRightRadius: '0px',
-			borderRight: '1px solid #e8eaeb'
-		}}
-	/>
-</React.Fragment>
-		}
-		{withDrawer
-&& <Tooltip title="Ocultar">
-	<div
-		style={{
-			boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-			borderRadius: '3px',
-			borderTopRightRadius: '0px',
-			borderBottomRightRadius: '0px',
-			borderRight: '1px solid #e8eaeb',
-			padding: '0.6em 2em',
-			color: 'black',
-			border: '1px solid gainsboro',
-			cursor: 'pointer',
-			marginRight: '1em',
-			fontWeight: '700',
-			fontSize: '0.9em',
-			height: '3em',
-			textTransform: 'none'
-		}}
-		onClick={() => setMostrarBloques(!mostrarBloques)}
-	>
-		<i style={{ cursor: 'pointer' }} className={mostrarBloques ? 'fa fa-eye' : 'fa fa-eye-slash'}></i>
-	</div>
-</Tooltip>
-		}
-		<Tooltip title="Ver preview">
-			<div
-				style={{
-					boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-					borderRadius: '3px',
-					borderTopRightRadius: '0px',
-					borderBottomRightRadius: '0px',
-					borderRight: '1px solid #e8eaeb',
-					padding: '0.6em 2em',
-					color: 'black',
-					border: '1px solid gainsboro',
-					cursor: 'pointer',
-					marginRight: '1em',
-					fontWeight: '700',
-					fontSize: '0.9em',
-					height: '3em',
-					textTransform: 'none'
-				}}
-				className="withShadow"
-				onClick={() => {
-					setState({
-						...state,
-						collapse: !collapse,
-						preview: true
-					});
-					scroll.current.scrollbar.scrollToTop();
-				}}
-			>
-				<Lupa color={'black'} width={'20px'} height={'20px'} />
-			</div>
-		</Tooltip>
-	</div>
-</div>
+							&& <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1em 0em ' }}>
+								<div style={{ display: 'flex' }}>
+									{documentMenu}
+									{/* MENU EXTERNO */}
+								</div>
+								<div style={{ display: 'flex' }}>
+									{options.doubleColumn
+										&& <React.Fragment>
+											<BasicButton
+												text={'Columna 1'}
+												color={column === 1 ? secondary : 'white'}
+												textStyle={{
+													color: column === 1 ? 'white' : 'black',
+													fontWeight: '700',
+													fontSize: '0.9em',
+													textTransform: 'none'
+												}}
+												textPosition="after"
+												onClick={() => changeToColumn(1)}
+												buttonStyle={{
+													boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+													borderRadius: '3px',
+													borderTopRightRadius: '0px',
+													borderBottomRightRadius: '0px',
+													borderRight: '1px solid #e8eaeb'
+												}}
+											/>
+											<BasicButton
+												text={'Columna 2'}
+												color={column === 2 ? secondary : 'white'}
+												textStyle={{
+													color: column === 2 ? 'white' : 'black',
+													fontWeight: '700',
+													fontSize: '0.9em',
+													textTransform: 'none'
+												}}
+												textPosition="after"
+												onClick={() => changeToColumn(2)}
+												buttonStyle={{
+													boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+													borderRadius: '3px',
+													borderTopRightRadius: '0px',
+													borderBottomRightRadius: '0px',
+													borderRight: '1px solid #e8eaeb'
+												}}
+											/>
+										</React.Fragment>
+									}
+									{withDrawer
+										&& <Tooltip title="Ocultar">
+											<div
+												style={{
+													boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+													borderRadius: '3px',
+													borderTopRightRadius: '0px',
+													borderBottomRightRadius: '0px',
+													borderRight: '1px solid #e8eaeb',
+													padding: '0.6em 2em',
+													color: 'black',
+													border: '1px solid gainsboro',
+													cursor: 'pointer',
+													marginRight: '1em',
+													fontWeight: '700',
+													fontSize: '0.9em',
+													height: '3em',
+													textTransform: 'none'
+												}}
+												onClick={() => setMostrarBloques(!mostrarBloques)}
+											>
+												<i style={{ cursor: 'pointer' }} className={mostrarBloques ? 'fa fa-eye' : 'fa fa-eye-slash'}></i>
+											</div>
+										</Tooltip>
+									}
+									<Tooltip title="Ver preview">
+										<div
+											style={{
+												boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+												borderRadius: '3px',
+												borderTopRightRadius: '0px',
+												borderBottomRightRadius: '0px',
+												borderRight: '1px solid #e8eaeb',
+												padding: '0.6em 2em',
+												color: 'black',
+												border: '1px solid gainsboro',
+												cursor: 'pointer',
+												marginRight: '1em',
+												fontWeight: '700',
+												fontSize: '0.9em',
+												height: '3em',
+												textTransform: 'none'
+											}}
+											className="withShadow"
+											onClick={() => {
+												setState({
+													...state,
+													collapse: !collapse,
+													preview: true
+												});
+												scroll.current.scrollbar.scrollToTop();
+											}}
+										>
+											<Lupa color={'black'} width={'20px'} height={'20px'} />
+										</div>
+									</Tooltip>
+								</div>
+							</div>
 						}
 						<div style={{ position: 'absolute', top: '7px', right: '15px' }}>
 							{collapse
-&& <Tooltip title="Volver al editor">
-	<div
-		style={{
-			boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
-			borderRadius: '3px',
-			borderTopRightRadius: '0px',
-			borderBottomRightRadius: '0px',
-			borderRight: '1px solid #e8eaeb',
-			padding: '0.6em 2em',
-			color: 'black',
-			border: '1px solid gainsboro',
-			cursor: 'pointer',
-			marginRight: '1em',
-			fontWeight: '700',
-			fontSize: '0.9em',
-			textTransform: 'none',
-			height: '3em',
-		}}
-		className="withShadow"
-		onClick={() => setState({
-			...state,
-			collapse: !collapse,
-			preview: false
-		})}
-	>
-		<i className="fa fa-arrow-circle-right" aria-hidden="true" style={{ fontSize: '20px', color: secondary }}></i>
-	</div>
-</Tooltip>
+								&& <Tooltip title="Volver al editor">
+									<div
+										style={{
+											boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
+											borderRadius: '3px',
+											borderTopRightRadius: '0px',
+											borderBottomRightRadius: '0px',
+											borderRight: '1px solid #e8eaeb',
+											padding: '0.6em 2em',
+											color: 'black',
+											border: '1px solid gainsboro',
+											cursor: 'pointer',
+											marginRight: '1em',
+											fontWeight: '700',
+											fontSize: '0.9em',
+											textTransform: 'none',
+											height: '3em',
+										}}
+										className="withShadow"
+										onClick={() => setState({
+											...state,
+											collapse: !collapse,
+											preview: false
+										})}
+									>
+										<i className="fa fa-arrow-circle-right" aria-hidden="true" style={{ fontSize: '20px', color: secondary }}></i>
+									</div>
+								</Tooltip>
 							}
 						</div>
 						<div style={{
@@ -340,10 +340,10 @@ help
 									: <div style={{ display: 'flex', height: '100%' }} >
 										<div style={{ width: '20%', maxWidth: '95px' }}>
 											{options.stamp
-&& <Timbrado
-	collapse={collapse}
-	edit={edit}
-/>
+												&& <Timbrado
+													collapse={collapse}
+													edit={edit}
+												/>
 											}
 										</div>
 										<div style={{ width: '100%' }}>
@@ -397,25 +397,25 @@ const SortableList = SortableContainer(({
 		return (
 			<div>
 				{items
-&& items.map((item, index) => (
-	<DraggableBlock
-		key={`item-${item.id}`}
-		editBlock={editBlock}
-		state={state}
-		column={column}
-		edit={edit}
-		translate={translate}
-		index={offset + index}
-		value={item}
-		id={item.id}
-		indexItem={index}
-		moveUp={moveUp}
-		moveDown={moveDown}
-		remove={remove}
-		expand={item.expand}
-		{...props}
-	/>
-))
+					&& items.map((item, index) => (
+						<DraggableBlock
+							key={`item-${item.id}`}
+							editBlock={editBlock}
+							state={state}
+							column={column}
+							edit={edit}
+							translate={translate}
+							index={offset + index}
+							value={item}
+							id={item.id}
+							indexItem={index}
+							moveUp={moveUp}
+							moveDown={moveDown}
+							remove={remove}
+							expand={item.expand}
+							{...props}
+						/>
+					))
 				}
 			</div>
 		);
@@ -423,24 +423,24 @@ const SortableList = SortableContainer(({
 	return (
 		<div>
 			{items
-&& items.map((item, index) => (
-	<NoDraggableBlock
-		key={`item-${item.id}`}
-		editBlock={editBlock}
-		edit={edit}
-		translate={translate}
-		index={offset + index}
-		value={item}
-		column={column}
-		id={item.id}
-		indexItem={index}
-		moveUp={moveUp}
-		moveDown={moveDown}
-		remove={remove}
-		logic={item.logic}
-		{...props}
-	/>
-))
+				&& items.map((item, index) => (
+					<NoDraggableBlock
+						key={`item-${item.id}`}
+						editBlock={editBlock}
+						edit={edit}
+						translate={translate}
+						index={offset + index}
+						value={item}
+						column={column}
+						id={item.id}
+						indexItem={index}
+						moveUp={moveUp}
+						moveDown={moveDown}
+						remove={remove}
+						logic={item.logic}
+						{...props}
+					/>
+				))
 			}
 		</div>
 	);
@@ -464,92 +464,92 @@ const DraggableBlock = SortableElement(props => {
 
 	return (
 		props.value !== undefined && props.value.text !== undefined
-&& <div
-	key={props.id}
-	id={props.id}
-	style={{
-		opacity: 1,
-		width: '100%',
-		display: 'flex',
-		listStyleType: 'none',
-		borderRadius: '4px',
-		cursor: 'grab',
-		marginBottom: '0.8em',
-		position: 'relative',
-		boxShadow: '0 2px 4px 5px rgba(0, 0, 0, 0.11)',
-		background: 'white'
-	}}
-	className="draggable"
->
-	<div style={{ paddingRight: '4px', background: props.value.colorBorder ? props.value.colorBorder : getPrimary(), borderRadius: '15px' }}></div>
-	<div style={{ marginLeft: '4px', width: '95%', minHeight: '90px' }}>
-		<div style={{
-			width: '25px', cursor: 'pointer', position: 'absolute', top: '5px', right: '35px'
-		}}>
-			{props.expand
-&& <IconsDragActions
-	turn={'expand'}
-	clase={`fa fa-times ${props.id}`}
-	aria-hidden="true"
-	click={() => setExpand(!expand)}
-	id={props.id}
-	indexItem={props.indexItem}
-	expand={expand}
-/>
-			}
-		</div>
-		<div style={{
-			width: '25px', cursor: 'pointer', position: 'absolute', top: '5px', right: '0',
-		}}>
-			{!props.value.hideDelete
-&& <IconsDragActions
-	turn={'cross'}
-	clase={`fa fa-times ${props.id}`}
-	aria-hidden="true"
-	click={props.remove}
-	id={props.id}
-	indexItem={props.indexItem}
-/>
-			}
-		</div>
-		<div style={{
-			width: '25px', cursor: 'pointer', position: 'absolute', top: !props.noBorrar ? '35px' : '10px', right: '1px',
-		}}>
-			<div>
-				<IconsDragActions
-					turn={'up'}
-					aria-hidden="true"
-					click={props.moveUp}
-					id={props.id}
-					indexItem={props.indexItem}
-				/>
-			</div>
-			<div>
-				<IconsDragActions
-					turn={'down'}
-					aria-hidden="true"
-					click={props.moveDown}
-					id={props.id}
-					indexItem={props.indexItem}
-				/>
-			</div>
-		</div>
-		{(props.value.items && props.value.items.length > 0) ?
-			!expand ?
-				<GroupedBlock
-					item={props.value}
-					{...props}
-				/>
-				: <Block
-					{...blockFijoTomadeAcuerdos}
-				/>
-			: <Block
-				{...props}
-			/>
+		&& <div
+			key={props.id}
+			id={props.id}
+			style={{
+				opacity: 1,
+				width: '100%',
+				display: 'flex',
+				listStyleType: 'none',
+				borderRadius: '4px',
+				cursor: 'grab',
+				marginBottom: '0.8em',
+				position: 'relative',
+				boxShadow: '0 2px 4px 5px rgba(0, 0, 0, 0.11)',
+				background: 'white'
+			}}
+			className="draggable"
+		>
+			<div style={{ paddingRight: '4px', background: props.value.colorBorder ? props.value.colorBorder : getPrimary(), borderRadius: '15px' }}></div>
+			<div style={{ marginLeft: '4px', width: '95%', minHeight: '90px' }}>
+				<div style={{
+					width: '25px', cursor: 'pointer', position: 'absolute', top: '5px', right: '35px'
+				}}>
+					{props.expand
+						&& <IconsDragActions
+							turn={'expand'}
+							clase={`fa fa-times ${props.id}`}
+							aria-hidden="true"
+							click={() => setExpand(!expand)}
+							id={props.id}
+							indexItem={props.indexItem}
+							expand={expand}
+						/>
+					}
+				</div>
+				<div style={{
+					width: '25px', cursor: 'pointer', position: 'absolute', top: '5px', right: '0',
+				}}>
+					{!props.value.hideDelete
+						&& <IconsDragActions
+							turn={'cross'}
+							clase={`fa fa-times ${props.id}`}
+							aria-hidden="true"
+							click={props.remove}
+							id={props.id}
+							indexItem={props.indexItem}
+						/>
+					}
+				</div>
+				<div style={{
+					width: '25px', cursor: 'pointer', position: 'absolute', top: !props.noBorrar ? '35px' : '10px', right: '1px',
+				}}>
+					<div>
+						<IconsDragActions
+							turn={'up'}
+							aria-hidden="true"
+							click={props.moveUp}
+							id={props.id}
+							indexItem={props.indexItem}
+						/>
+					</div>
+					<div>
+						<IconsDragActions
+							turn={'down'}
+							aria-hidden="true"
+							click={props.moveDown}
+							id={props.id}
+							indexItem={props.indexItem}
+						/>
+					</div>
+				</div>
+				{(props.value.items && props.value.items.length > 0) ?
+					!expand ?
+						<GroupedBlock
+							item={props.value}
+							{...props}
+						/>
+						: <Block
+							{...blockFijoTomadeAcuerdos}
+						/>
+					: <Block
+						{...props}
+					/>
 
-		}
-	</div>
-</div>
+				}
+			</div>
+		</div>
 	);
 });
 
@@ -591,60 +591,60 @@ const NoDraggableBlock = props => {
 	if (props.logic) {
 		return (
 			props.value !== undefined && props.value.text !== undefined
-&& <BorderBox
-	itemInfo={288}
-	icon={props.value.icon}
-	id={props.id}
-	colorBorder={props.value.colorBorder}
-	stylesBody={{ width: '98%' }}
-	noIcon={true}
->
-	<div id={props.id}>
-		<div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{props.value.label}</div>
-	</div>
-</BorderBox>
+			&& <BorderBox
+				itemInfo={288}
+				icon={props.value.icon}
+				id={props.id}
+				colorBorder={props.value.colorBorder}
+				stylesBody={{ width: '98%' }}
+				noIcon={true}
+			>
+				<div id={props.id}>
+					<div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{props.value.label}</div>
+				</div>
+			</BorderBox>
 		);
 	}
 	return (
 		props.value !== undefined && props.value.text !== undefined
-&& <React.Fragment>
-	{props.value.type === 'agreements' ?
-		<Card
-			key={props.id}
-			id={props.id}
-			style={{
-				boxShadow: 'none',
-				margin: '3px',
-				paddingLeft: '15px',
-				paddingTop: '5px',
-			}}
-		>
-			<AgreementsPreview
-				column={props.column}
-				item={props.value}
-				translate={props.translate}
-			/>
-		</Card>
-		: <Card
-			key={props.id}
-			style={{
-				boxShadow: 'none',
-				margin: '3px',
-				paddingLeft: '15px',
-				paddingTop: '5px',
-			}}
-		>
-			<div style={{}}>
-				<div style={{}}
-					dangerouslySetInnerHTML={{
-						__html: props.column === 2 ? props.value.secondaryText : props.value.text
-					}}>
-				</div>
+		&& <React.Fragment>
+			{props.value.type === 'agreements' ?
+				<Card
+					key={props.id}
+					id={props.id}
+					style={{
+						boxShadow: 'none',
+						margin: '3px',
+						paddingLeft: '15px',
+						paddingTop: '5px',
+					}}
+				>
+					<AgreementsPreview
+						column={props.column}
+						item={props.value}
+						translate={props.translate}
+					/>
+				</Card>
+				: <Card
+					key={props.id}
+					style={{
+						boxShadow: 'none',
+						margin: '3px',
+						paddingLeft: '15px',
+						paddingTop: '5px',
+					}}
+				>
+					<div style={{}}>
+						<div style={{}}
+							dangerouslySetInnerHTML={{
+								__html: props.column === 2 ? props.value.secondaryText : props.value.text
+							}}>
+						</div>
 
-			</div>
-		</Card>
-	}
-</React.Fragment>
+					</div>
+				</Card>
+			}
+		</React.Fragment>
 
 	);
 };
@@ -669,11 +669,11 @@ const LogicBlocks = ({ automaticos, addItem, translate }) => {
 								<i className="material-icons" style={{
 									color: getPrimary(), fontSize: '14px', cursor: 'pointer', paddingRight: '0.3em', marginTop: '4px'
 								}} onClick={() => setOpen(!open)}>
-help
+									help
 								</i>
 							</div>
 							{open
-&& <div style={{ fontSize: '10px', color: '#a09aa0', fontWeight: '100' }}>{translate.auto_blocks_help}</div>
+								&& <div style={{ fontSize: '10px', color: '#a09aa0', fontWeight: '100' }}>{translate.auto_blocks_help}</div>
 							}
 						</div>
 					</div>
@@ -713,7 +713,7 @@ const CajaLogicBlocks = ({
 			</div>
 			<div style={{ marginLeft: '0.3em', marginRight: '0.3em' }}>
 				<i className="material-icons" style={{ cursor: 'pointer', color: '#979797' }} onClick={() => addItem(itemInfo)}>
-arrow_right_alt
+					arrow_right_alt
 				</i>
 			</div>
 		</div>
@@ -745,7 +745,7 @@ export const IconsDragActions = ({
 				aria-hidden="true"
 				onClick={() => click(id, indexItem)}
 			>
-arrow_right_alt
+				arrow_right_alt
 			</i>
 		);
 	}
@@ -774,7 +774,7 @@ arrow_right_alt
 				aria-hidden="true"
 				onClick={() => click(id, indexItem)}
 			>
-clear
+				clear
 			</i>
 		);
 	}
@@ -790,7 +790,7 @@ clear
 			aria-hidden="true"
 			onClick={() => click(id, indexItem)}
 		>
-arrow_right_alt
+			arrow_right_alt
 		</i>
 	);
 };

@@ -24,7 +24,6 @@ const MainMenu = ({ translate, participant, appointment, match, refetch }) => {
 		<NotLoggedLayout
 			translate={translate}
 			helpIcon={true}
-			languageSelector={true}
 		>
 			<div style={{
 				width: '100%',
@@ -37,7 +36,7 @@ const MainMenu = ({ translate, participant, appointment, match, refetch }) => {
 					<Card style={{
 						margin: isMobile ? '4em 0' : 'auto',
 						width: isMobile ? '100%' : '80%',
-						position: 'relative'
+						position: 'relative',
 					}} elevation={6}>
 						<div style={{ position: 'relative', top: 5, right: 5 }}>
 							<i
@@ -71,7 +70,8 @@ const MainMenu = ({ translate, participant, appointment, match, refetch }) => {
 						}),
 						flexDirection: 'column',
 						alignItems: 'center',
-						justifyContent: 'center'
+						justifyContent: 'center',
+						textAlign: 'center'
 					}}>
 						<Title>{translate.appointment_landing_title} - {subdomain.title}</Title>
 						<ParticipantInfo
@@ -81,7 +81,7 @@ const MainMenu = ({ translate, participant, appointment, match, refetch }) => {
 						/>
 						{appointment.state === COUNCIL_STATES.CANCELED &&
 							<h3 style={{ marginTop: '1.2em' }}>
-								{translate.appointment_cancelled}
+								{translate.appointment_canceled}
 							</h3>
 						}
 						{appointment.state !== COUNCIL_STATES.CANCELED &&
