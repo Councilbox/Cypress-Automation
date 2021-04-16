@@ -17,7 +17,7 @@ import CreationSuccessPage from './CreationSuccessPage';
 import AppointmentFooter from './AppointmentFooter';
 import { useCheckValidPhone } from '../../../../hooks';
 import { checkValidEmail } from '../../../../utils';
-import { buildDateFromDateTime, checkSecondDateAfterFirst } from '../../../../utils/CBX';
+import { buildDateFromDateTime } from '../../../../utils/CBX';
 
 
 const CreateAppointmentPage = ({ match, translate, actions, client }) => {
