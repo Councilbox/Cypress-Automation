@@ -1,12 +1,12 @@
 import React from 'react';
-import Scrollbar from 'react-perfect-scrollbar';
 import { Typography } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
 import {
 	TextInput,
 	Icon,
 	FilterButton,
-	RefreshButton
+	RefreshButton,
+	Scrollbar
 } from '../../../../displayComponents';
 import { getSecondary, getPrimary } from '../../../../styles/colors';
 

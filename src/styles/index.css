@@ -658,8 +658,8 @@ transform: rotate(0.6deg);
 }
 
 .react-grid-layout {
-position: relative;
-height: 700px;
+	position: relative;
+	height: 700px;
 }
 
 .colorTable:nth-child(odd) {

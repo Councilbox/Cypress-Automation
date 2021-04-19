@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { compose, graphql } from 'react-apollo';
 import { TableCell, TableRow } from 'material-ui/Table';
-import Scrollbar from 'react-perfect-scrollbar';
 import { councils as councilsQuery, deleteCouncil } from '../../queries';
 import {
 	AlertConfirm,
@@ -9,10 +8,10 @@ import {
 	ErrorWrapper,
 	LoadingSection,
 	MainTitle,
-	Table
+	Table,
+	Scrollbar
 } from '../../displayComponents/index';
 import { getPrimary } from '../../styles/colors';
-import 'react-perfect-scrollbar/dist/css/styles.css';
 import TableStyles from '../../styles/table';
 import { bHistory } from '../../containers/App';
 import CloseIcon from '../../displayComponents/CloseIcon';

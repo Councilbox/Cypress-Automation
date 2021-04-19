@@ -12,7 +12,6 @@ import {
 } from '../../displayComponents/index';
 import { isLandscape, isMobile } from '../../utils/screen';
 import { getSecondary } from '../../styles/colors';
-import 'react-perfect-scrollbar/dist/css/styles.css';
 import withWindowSize from '../../HOCs/withWindowSize';
 import CouncilsList from './CouncilsList';
 import CouncilsHistory from './CouncilsHistory';
