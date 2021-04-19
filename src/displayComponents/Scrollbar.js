@@ -1,5 +1,6 @@
 import React from 'react';
 import { Scrollbars } from 'react-custom-scrollbars-cbx';
+import { actualBarWidth } from 'react-custom-scrollbars-cbx/lib/utils/getScrollbarWidth';
 
 class Scrollbar extends React.Component {
 	scrollbar = null;
@@ -25,13 +26,20 @@ class Scrollbar extends React.Component {
 			style, autoHide, children, showX, onScrollStop, classFix = '', horizontalScroll = false
 		} = this.props;
 
+		let extraClass = '';
+
+		if (classFix === 'scrollflex' && !actualBarWidth()) {
+			extraClass = 'macOSFlexFix';
+		}
+
+
 		return (
 			<Scrollbars
 				ref={ref => {
 					this.scrollbar = ref;
 				}}
 				autoHide={autoHide}
-				className={`Scrollbar ${classFix} ${horizontalScroll ? 'scrollbarBoth' : 'scrollbarOnlyY'} scrollbarFixHeight`}
+				className={`Scrollbar ${classFix} ${extraClass} ${horizontalScroll ? 'scrollbarBoth' : 'scrollbarOnlyY'} scrollbarFixHeight`}
 				onScrollStop={onScrollStop}
 				style={{
 					width: '100%',

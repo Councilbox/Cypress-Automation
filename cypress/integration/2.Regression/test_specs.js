@@ -68,6 +68,125 @@ describe("Councilbox login - valid username and password", function() {
 
 
 
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Voting letter' form in the 'Document' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Documents' section", function() {
+            cy.get('#council-type-vote-letter').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Voting letter' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(4).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Vote letter right column' form in the 'Documents' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Documents' section", function() {
+            cy.get('#council-type-vote-letter-secondary').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Vote letter right column' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(5).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Voting letter with voting directions' form in the 'Documents' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Documents' section", function() {
+            cy.get('#council-type-vote-letter-with-sense').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Voting letter with voting directions' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(6).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Right column vote letter with voting directions' form in the 'Documents' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Documents' section", function() {
+            cy.get('#council-type-vote-letter-with-sense-secondary').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Right column vote letter with voting directions' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(7).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
+
 
 
 
