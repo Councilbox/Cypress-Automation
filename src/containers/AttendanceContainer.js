@@ -178,6 +178,7 @@ const participantQuery = gql`
 				doubleColumnDocs
 				canEarlyVote
 				canSenseVoteDelegate
+				title
 				proxy
 				proxySecondary
 				voteLetter

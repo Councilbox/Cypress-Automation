@@ -14,6 +14,7 @@ import GicarLoginContainer from './GicarLoginContainer';
 import RoomAdminContainer from './RoomAdminContainer';
 import { HEADER_HEIGHT } from '../styles/constants';
 import DownloadFile from '../components/DownloadFile';
+import { isOVAC } from '../utils/subdomain';
 
 
 const LoadRecommendations = Loadable({
@@ -44,6 +45,11 @@ const Header = Loadable({
 
 const LoadMainTree = Loadable({
 	loader: () => import('./MainRouter'),
+	loading: LoadingMainApp
+});
+
+const LoadOVACRouter = Loadable({
+	loader: () => import('./OvacRouter'),
 	loading: LoadingMainApp
 });
 
@@ -149,6 +155,14 @@ class AppRouter extends React.Component {
 
 		if (this.props.main.loading || !this.props.translate || !this.props.translate.back) {
 			return <LoadingMainApp />;
+		}
+
+		if (this.props.subdomain &&
+			isOVAC(this.props.subdomain) &&
+			!(this.props.main.isLogged && this.props.user.type === 'company') &&
+			!this.props.main.isParticipantLogged
+		) {
+			return <LoadOVACRouter />;
 		}
 
 		if (this.props.main.isLogged && this.props.main.noCompanies) {
@@ -320,7 +334,8 @@ const mapStateToProps = state => ({
 	main: state.main,
 	translate: state.translate,
 	companies: state.companies,
-	user: state.user
+	user: state.user,
+	subdomain: state.subdomain
 });
 
 export default withRouter(

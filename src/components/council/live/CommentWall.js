@@ -1,6 +1,6 @@
 import React from 'react';
 import { Drawer } from 'material-ui';
-import { graphql } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import {
 	darkGrey,
@@ -11,12 +11,22 @@ import {
 import { wallComments } from '../../../queries';
 import { Icon, LoadingSection, Scrollbar } from '../../../displayComponents';
 import { moment } from '../../../containers/App';
+import { useDownloadCouncilMessages } from '../../../hooks/council';
 
 const CommentWall = ({
-	open, data, council, translate, subscribeToWallComments, requestClose, updateState, unreadComments
+	open,
+	data,
+	council,
+	translate,
+	subscribeToWallComments,
+	requestClose,
+	updateState,
+	unreadComments,
+	client
 }) => {
 	const [commentsRead, setCommentsRead] = React.useState(sessionStorage.getItem(`readMessages_${council.id}`) || 0);
 	const scrollbar = React.useRef();
+	const { downloading, downloadCouncilMessagesPDF } = useDownloadCouncilMessages({ client, translate });
 
 	React.useEffect(() => {
 		if (open && !data.loading) {
@@ -84,7 +94,26 @@ const CommentWall = ({
 							}}
 							onClick={requestClose}
 						>
-							{translate.wall}
+							<div style={{ display: 'flex', alignItems: 'center' }}>
+								{translate.wall}{
+									downloading ?
+										<LoadingSection size={12} />
+										:
+										<span
+											className="material-icons"
+											onClick={event => {
+												event.stopPropagation();
+												downloadCouncilMessagesPDF(council);
+											}}
+											style={{
+												fontSize: '14px',
+												marginLeft: '0.6em'
+											}}
+										>
+											file_download
+										</span>
+								}
+							</div>
 							<Icon
 								className="material-icons"
 								style={{
@@ -223,4 +252,4 @@ export default graphql(wallComments, {
 			}
 		})
 	})
-})(CommentWall);
+})(withApollo(CommentWall));

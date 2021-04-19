@@ -133,7 +133,7 @@ const Header = ({
 						text={
 							<div>
 								{!showVerticalLayout() && translate.mail_contact_admin}
-								<i className={'fa fa-envelope-o'} style={{ marginLeft: '5px' }}></i>
+								<i className={'fa fa-envelope-o'} style={{ marginLeft: showVerticalLayout() ? '0px' : '5px' }}></i>
 							</div>}
 						buttonStyle={{
 							border: `1px solid ${getPrimary()}`,
@@ -143,6 +143,7 @@ const Header = ({
 							margin: '5px 15px',
 							cursor: 'pointer',
 							fontSize: '12px',
+							minWidth: '0',
 							borderRadius: '0',
 							minHeight: '0'
 						}}>

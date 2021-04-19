@@ -76,9 +76,15 @@ const useClaveJusticia = ({ client, participantId, token }) => {
 			}
 		});
 
+		if (response.errors) {
+			return {
+				success: false,
+				message: response.errors[0].message
+			};
+		}
+
 		if (response.data?.checkParticipantIsRegisteredClavePin) {
-			const { success } = response.data?.checkParticipantIsRegisteredClavePin;
-			return success;
+			return response.data?.checkParticipantIsRegisteredClavePin;
 		}
 	};
 

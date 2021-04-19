@@ -3,10 +3,10 @@ import {
 	CardHeader,
 	Dialog,
 	DialogTitle,
-	DialogContent
+	DialogContent,
+	Card
 } from 'material-ui';
 import FontAwesome from 'react-fontawesome';
-import { Scrollbar } from '../../../displayComponents';
 import withTranslations from '../../../HOCs/withTranslations';
 import withWindowSize from '../../../HOCs/withWindowSize';
 import withWindowOrientation from '../../../HOCs/withWindowOrientation';
@@ -32,35 +32,27 @@ import ContactModal from './ContactModal';
 import ContactForm from './ContactForm';
 import ResultsTimeline from '../ResultsTimeline';
 import CouncillParticipantSurvey from '../survey/CouncillParticipantSurvey';
+import { Grid, GridItem } from '../../../displayComponents';
 
 
 const styles = {
 	container: {
 		width: '100%',
-		height: '100%',
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',
-		justifyContent: 'center',
 		position: 'relative'
 	},
 	splittedContainer: {
 		width: '100%',
-		height: '100%',
 		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
-		justifyContent: 'center',
 		position: 'relative'
 	},
 	textContainer: {
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center',
-		justifyContent: 'center',
 		padding: isMobile ? '' : '15px',
-		textAlign: 'center',
-		height: '100%'
+		textAlign: 'center'
 	},
 	imageContainer: {
 		display: 'flex',
@@ -127,7 +119,7 @@ const CouncilState = ({
 					heights={state.height}
 					windowOrientation={windowOrientation}
 				>
-					<div style={{ width: isMobile ? '100%' : '410px' }}>
+					<GridItem lg={6} md={6} xs={12}>
 						<TextRender
 							title={translate.we_are_sorry}
 							text={translate.not_held_council}
@@ -135,14 +127,14 @@ const CouncilState = ({
 							company={company}
 							translate={translate}
 						/>
-					</div>
-					<Image
-						src={emptyMeetingTable}
-						widths={state.width}
-						windowOrientation={windowOrientation}
-						styles={{ marginLeft: '' }}
-					>
-					</Image>
+					</GridItem>
+					<GridItem lg={6} md={6} xs={12}>
+						<Image
+							src={emptyMeetingTable}
+							widths={state.width}
+							windowOrientation={windowOrientation}
+						/>
+					</GridItem>
 				</StateContainer>
 			);
 		}
@@ -154,7 +146,7 @@ const CouncilState = ({
 					heights={state.height}
 					windowOrientation={windowOrientation}
 				>
-					<div>
+					<GridItem lg={6} md={6} xs={12}>
 						<TextRender
 							title={translate.we_are_sorry}
 							text={translate.room_opened_use_access_link}
@@ -165,13 +157,14 @@ const CouncilState = ({
 							styles={styles}
 							windowOrientation={windowOrientation}
 						/>
-					</div>
-					<Image
-						src={emptyMeetingTable}
-						widths={state.width}
-						windowOrientation={windowOrientation}
-					>
-					</Image>
+					</GridItem>
+					<GridItem lg={6} md={6} xs={12}>
+						<Image
+							src={emptyMeetingTable}
+							widths={state.width}
+							windowOrientation={windowOrientation}
+						/>
+					</GridItem>
 				</StateContainer>
 			);
 		}
@@ -183,7 +176,7 @@ const CouncilState = ({
 					heights={state.height}
 					windowOrientation={windowOrientation}
 				>
-					<div style={{ width: isMobile ? '100%' : '410px' }}>
+					<GridItem lg={6} md={6} xs={12}>
 						<TextRender
 							title={translate.we_are_sorry}
 							text={translate.council_not_started_yet_retry_later}
@@ -192,13 +185,14 @@ const CouncilState = ({
 							company={company}
 							translate={translate}
 						/>
-					</div>
-					<Image
-						src={emptyMeetingTable}
-						widths={state.width}
-						windowOrientation={windowOrientation}
-					>
-					</Image>
+					</GridItem>
+					<GridItem lg={6} md={6} xs={12}>
+						<Image
+							src={emptyMeetingTable}
+							widths={state.width}
+							windowOrientation={windowOrientation}
+						/>
+					</GridItem>
 				</StateContainer>
 			);
 		}
@@ -210,7 +204,7 @@ const CouncilState = ({
 					heights={state.height}
 					windowOrientation={windowOrientation}
 				>
-					<div style={{ width: isMobile ? '100%' : '410px' }}>
+					<GridItem lg={6} md={6} xs={12}>
 						<TextRender
 							title={translate.we_are_sorry}
 							text={translate.not_held_council}
@@ -218,13 +212,14 @@ const CouncilState = ({
 							company={company}
 							translate={translate}
 						/>
-					</div>
-					<Image
-						src={emptyMeetingTable}
-						widths={state.width}
-						windowOrientation={windowOrientation}
-					>
-					</Image>
+					</GridItem>
+					<GridItem lg={6} md={6} xs={12}>
+						<Image
+							src={emptyMeetingTable}
+							widths={state.width}
+							windowOrientation={windowOrientation}
+						/>
+					</GridItem>
 				</StateContainer>
 			);
 		}
@@ -235,94 +230,109 @@ const CouncilState = ({
 				<React.Fragment>
 					{isMobile ?
 						<div style={{
-							height: '100%', width: '100%', padding: '0.5em', paddingTop: '1.5em', fontSize: '15px', overflow: 'hidden'
-						}}>
-							<Scrollbar>
-								<div style={{
-									width: '100%', height: '100%', background: 'white', padding: '0.8em 1em', borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)'
-								}}>
-									<div>
-										<h3 style={{
-											color: primary,
-											fontSize: '28px',
-											paddingTop: '0.5em'
-										}}
-										>
-											{props.participant.hasVoted ? translate.participation_summary
-												:
-												checkHybridConditions(council) ?
-													'Votaciones remotas finalizadas' // TRADUCCION
-													:
-													translate.concil_finished}
-										</h3>
-									</div>
-									<div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 1em' }}>
-										<div>
-											<div style={{ display: 'flex', marginBottom: '1em', fontWeight: '900' }} >
-												{council.name}
-											</div>
-											<div style={{ display: 'flex' }} >
-												-
-											</div>
-										</div>
-										<div>
-											<Image
-												src={emptyMeetingTable}
-												styles={{ width: '77px', minWidth: '', marginLeft: '2em' }}
-												windowOrientation={windowOrientation}
-											>
-											</Image>
-										</div>
-									</div>
-									{renderCouncilSurvey()}
-								</div>
-								<div style={{
-									marginTop: '1em', background: 'white', padding: '0.5em', boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7'
-								}}>
-									<div>
-										{council.dateEnd ? moment(council.dateEnd).format('LLL') : '-'}
-									</div>
-								</div>
-								<div style={{
-									marginTop: '1em', height: '100%', background: 'white', padding: '0.5em', boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7'
-								}}>
-									<div style={{ padding: '1em 1em', height: '100%' }}>
-										<div style={{ textAlign: 'center' }}>
-											{translate.my_participation} - <span style={{ color: primary }}>{`${props.participant.name} ${props.participant.surname}` || ''}</span>
-										</div>
-										<div style={{ marginTop: '1em', height: '100%' }}>
-											{selectHeadFinished === 'participacion' &&
-												<div style={{ paddingBottom: '1em', height: '100%' }}>
-													<ResultsTimeline
-														disableScroll={true}
-														council={council}
-														participant={props.participant}
-														translate={translate}
-														endPage={true}
-													/>
-												</div>
-											}
-											{selectHeadFinished === 'contactAdmin' &&
-												<div style={{ paddingBottom: '1em' }}>
-													<ContactForm
-														participant={props.participant}
-														translate={translate}
-														council={council}
-													/>
-												</div>
-											}
-										</div>
-									</div>
-								</div>
-							</Scrollbar>
-						</div>
-						:
-						// <div style={{ width: "100%", padding: "0.5em", paddingTop: "1.5em", fontSize: "15px" }}>
-						<div style={{
-							height: '100%', width: '100%', padding: '0.5em', paddingTop: '1.5em', fontSize: '15px', overflow: 'hidden'
+							width: '100%',
+							padding: '0.5em',
+							paddingTop: '1.5em',
+							fontSize: '15px'
 						}}>
 							<div style={{
-								width: '100%', background: 'white', padding: '0.8em 1em', borderRadius: '3px', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)'
+								width: '100%',
+								background: 'white',
+								padding: '0.8em 1em',
+								borderRadius: '3px',
+								boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)'
+							}}>
+								<div>
+									<h3 style={{
+										color: primary,
+										fontSize: '28px',
+										paddingTop: '0.5em'
+									}}
+									>
+										{props.participant.hasVoted ? translate.participation_summary
+											:
+											checkHybridConditions(council) ?
+												'Votaciones remotas finalizadas' // TRADUCCION
+												:
+												translate.concil_finished}
+									</h3>
+								</div>
+								<div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 1em' }}>
+									<div>
+										<div style={{ display: 'flex', marginBottom: '1em', fontWeight: '900' }} >
+											{council.name}
+										</div>
+										<div style={{ display: 'flex' }} >
+											-
+										</div>
+									</div>
+									<div>
+										<Image
+											src={emptyMeetingTable}
+											style={{ width: '77px', minWidth: '', marginLeft: '2em' }}
+											windowOrientation={windowOrientation}
+										>
+										</Image>
+									</div>
+								</div>
+								{renderCouncilSurvey()}
+							</div>
+							<div style={{
+								marginTop: '1em',
+								background: 'white',
+								padding: '0.5em',
+								boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
+								border: 'solid 1px #d7d7d7'
+							}}>
+								<div>
+									{council.dateEnd ? moment(council.dateEnd).format('LLL') : '-'}
+								</div>
+							</div>
+							<div style={{
+								marginTop: '1em',
+								background: 'white',
+								padding: '0.5em',
+								boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
+								border: 'solid 1px #d7d7d7'
+							}}>
+								<div style={{ padding: '1em 1em' }}>
+									<div style={{ textAlign: 'center' }}>
+										{translate.my_participation} - <span style={{ color: primary }}>{`${props.participant.name} ${props.participant.surname}` || ''}</span>
+									</div>
+									<div style={{ marginTop: '1em', paddingBottom: '1em' }}>
+										{selectHeadFinished === 'participacion' &&
+											<ResultsTimeline
+												disableScroll={true}
+												council={council}
+												participant={props.participant}
+												translate={translate}
+												endPage={true}
+											/>
+										}
+										{selectHeadFinished === 'contactAdmin' &&
+											<ContactForm
+												participant={props.participant}
+												translate={translate}
+												council={council}
+											/>
+										}
+									</div>
+								</div>
+							</div>
+						</div>
+						:
+						<div style={{
+							width: '100%',
+							padding: '0.5em',
+							paddingTop: '1.5em',
+							fontSize: '15px'
+						}}>
+							<div style={{
+								width: '100%',
+								background: 'white',
+								padding: '0.8em 1em',
+								borderRadius: '3px',
+								boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)'
 							}}>
 								<div style={{
 									display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '1em', marginBottom: '2em'
@@ -352,7 +362,7 @@ const CouncilState = ({
 									<div>
 										<Image
 											src={emptyMeetingTable}
-											styles={{ width: '90px', minWidth: '', marginLeft: '1em' }}
+											style={{ width: '90px', minWidth: '', marginLeft: '1em' }}
 											windowOrientation={windowOrientation}
 										>
 										</Image>
@@ -372,16 +382,22 @@ const CouncilState = ({
 								</div>
 							</div>
 							<div style={{
-								height: 'calc( 100% - 13em )', marginBottom: '4em', marginTop: '1em', background: 'white', padding: '0.5em', boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)', border: 'solid 1px #d7d7d7'
+								marginBottom: '1.5em',
+								marginTop: '1em',
+								background: 'white',
+								padding: '0.5em',
+								boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
+								border: 'solid 1px #d7d7d7'
 							}}>
-								<div style={{ padding: '1em 1em', minHeight: '400px' }}>
-									<div style={{ textAlign: 'left' }}>
+								<div style={{ padding: '1em 1em' }}>
+									<div style={{ textAlign: 'left', height: '2em' }}>
 										{translate.my_participation} - <span style={{ color: primary }}>{`${props.participant.name} ${props.participant.surname}` || ''}</span>
 									</div>
-									<div style={{ marginTop: '1em', height: '600px' }}>
+									<div style={{ marginTop: '1em' }}>
 										<ResultsTimeline
 											council={council}
 											participant={props.participant}
+											disableScroll
 											translate={translate}
 											endPage={true}
 										/>
@@ -554,18 +570,20 @@ const TextDialog = ({
 );
 
 const Image = ({
-	src, widths, windowOrientation, styles: localStyles
+	src, style
 }) => (
 	<div
 		style={{
-			width: widths < 690 ? '60%' : '33%',
-			minWidth: windowOrientation ? '' : '250px',
-			marginLeft: widths < 690 ? (windowOrientation === 'landscape' ? '3em' : '') : '6em',
-			marginTop: widths < 690 ? (windowOrientation === 'landscape' ? '' : '3em') : '',
-			...localStyles
+			width: '100%',
+			height: '100%',
+			marginTop: '1em',
+			display: 'flex',
+			alignItems: 'center',
+			justifyContent: 'center',
+			...style
 		}}>
 		<img
-			style={{ width: '100%' }}
+			style={{ width: '50%' }}
 			src={src}
 			alt="empty table"
 		/>
@@ -573,19 +591,22 @@ const Image = ({
 );
 
 const StateContainer = ({
-	widths, windowOrientation, heights, children
+	children
 }) => (
-	<div
+	<Card
 		style={{
-			overflow: 'hidden',
-			display: widths > 690 ? 'flex' : (windowOrientation === 'landscape' ? 'flex' : 'contents'),
-			alignItems: 'center',
-			margin: (windowOrientation === 'landscape' ? '' : '3em'),
-			justifyContent: 'space-between',
-			fontSize: windowOrientation === 'landscape' && heights < 370 ? '10px' : ''
-		}}>
-		{children}
-	</div>
+			padding: '3em',
+			margin: 'auto',
+			marginTop: '2em',
+			height: isMobile ? 'calc(100vh - 12em)' : '60vh',
+			display: 'flex',
+			alignItems: 'center'
+		}}
+	>
+		<Grid>
+			{children}
+		</Grid>
+	</Card>
 );
 
 export default withTranslations()(

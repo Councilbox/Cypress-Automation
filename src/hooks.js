@@ -471,3 +471,28 @@ export const useDownloadHTMLAsPDF = () => {
 		downloadHTMLAsPDF
 	};
 };
+
+
+export const useCheckValidPhone = client => {
+	const checkValidPhone = async phone => {
+		const response = await client.query({
+			query: gql`
+				query PhoneLookup($phone: String!){
+					phoneLookup(phone: $phone){
+						success
+						message
+					}
+				}
+			`,
+			variables: {
+				phone
+			}
+		});
+
+		return response.data.phoneLookup;
+	};
+
+	return {
+		checkValidPhone
+	};
+};

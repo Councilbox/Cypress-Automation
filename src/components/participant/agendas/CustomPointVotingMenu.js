@@ -53,7 +53,7 @@ const CustomPointVotingMenu = ({
 		if (!councilHasSession(council)) return '';
 
 		const showRecount = ((getAgendaTypeLabel(agenda) !== 'private_votation'
-&& council.statute.hideVotingsRecountFinished === 0) || agenda.votingState === AGENDA_STATES.CLOSED) && !config.hideRecount;
+			&& council.statute.hideVotingsRecountFinished === 0) || agenda.votingState === AGENDA_STATES.CLOSED) && !config.hideRecount;
 
 		return (
 			showRecount ?
@@ -135,24 +135,24 @@ const CustomPointVotingMenu = ({
 				<div style={{ paddingTop: '5px' }}>
 					<div style={{ display: 'flex', width: '100%', height: '2.5em' }}>
 						{(config.hideNoVoteButton && !config.hideAbstentionButton)
-&& <VotingButton
-	text={`${translate.abstention_btn} ${buildRecountText('abstention')}`}
-	disabled={disabled}
-	disabledColor={disabled}
-	styleButton={{ width: '100%' }}
-	onClick={setAbstentionOption}
-	selectCheckBox={getSelectedRadio(-1)}
-/>
+							&& <VotingButton
+								text={`${translate.abstention_btn} ${buildRecountText('abstention')}`}
+								disabled={disabled}
+								disabledColor={disabled}
+								styleButton={{ width: '100%' }}
+								onClick={setAbstentionOption}
+								selectCheckBox={getSelectedRadio(-1)}
+							/>
 						}
 						{(!config.hideNoVoteButton && config.hideAbstentionButton)
-&& <VotingButton
-	text={`${translate.dont_vote} ${buildRecountText('noVote')}`}
-	disabled={disabled}
-	disabledColor={disabled}
-	styleButton={{ width: '100%' }}
-	selectCheckBox={selections.length === 0}
-	onClick={resetSelections}
-/>
+							&& <VotingButton
+								text={`${translate.dont_vote} ${buildRecountText('noVote')}`}
+								disabled={disabled}
+								disabledColor={disabled}
+								styleButton={{ width: '100%' }}
+								selectCheckBox={selections.length === 0}
+								onClick={resetSelections}
+							/>
 						}
 					</div>
 				</div>
@@ -192,15 +192,15 @@ const CustomPointVotingMenu = ({
 	return (
 		<div>
 			{denied.length > 0
-&& 'Dentro de los votos depositados en usted, tiene votos denegados' //
+				&& 'Dentro de los votos depositados en usted, tiene votos denegados' //
 			}
 			{(ownVote && ownVote.fixed)
-&& <>
-	{ownVote.numParticipations === 0 ?
-		translate.cant_vote_this_point
-		: translate.participant_vote_fixed
-	}
-</>
+				&& <>
+					{ownVote.numParticipations === 0 ?
+						translate.cant_vote_this_point
+						: translate.participant_vote_fixed
+					}
+				</>
 			}
 			{agenda.options.maxSelections === 1 ?
 				<React.Fragment>
@@ -222,17 +222,17 @@ const CustomPointVotingMenu = ({
 				</React.Fragment>
 				: <React.Fragment>
 					{agendaPointOpened(agenda)
-&& <div style={{ fontSize: '0.85em', textAlign: 'left' }}>
-	{(selections.length < agenda.options.minSelections && agenda.options.minSelections > 1)
-&& <React.Fragment>{translate.need_select_more.replace('{{options}}', getRemainingOptions())}</React.Fragment>
-	}
-	{(agenda.options.maxSelections > 1)
-&& <React.Fragment>{translate.can_select_between_min_max
-	.replace('{{min}}', agenda.options.minSelections)
-	.replace('{{max}}', agenda.options.maxSelections)}
-</React.Fragment>
-	}
-</div>
+						&& <div style={{ fontSize: '0.85em', textAlign: 'left' }}>
+							{(selections.length < agenda.options.minSelections && agenda.options.minSelections > 1)
+								&& <React.Fragment>{translate.need_select_more.replace('{{options}}', getRemainingOptions())}</React.Fragment>
+							}
+							{(agenda.options.maxSelections > 1)
+								&& <React.Fragment>{translate.can_select_between_min_max
+									.replace('{{min}}', agenda.options.minSelections)
+									.replace('{{max}}', agenda.options.maxSelections)}
+								</React.Fragment>
+							}
+						</div>
 					}
 					{agenda.items.map((item, index) => (
 						<React.Fragment key={`item_${item.id}`}>

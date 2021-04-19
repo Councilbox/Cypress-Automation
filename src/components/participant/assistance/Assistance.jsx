@@ -11,7 +11,7 @@ import {
 } from '../../../queries/liveParticipant';
 import { PARTICIPANT_STATES } from '../../../constants';
 import {
-	BasicButton, ButtonIcon, NotLoggedLayout, LiveToast, Scrollbar, Checkbox
+	BasicButton, ButtonIcon, NotLoggedLayout, LiveToast, Scrollbar, Checkbox, Grid, GridItem
 } from '../../../displayComponents';
 import RichTextInput from '../../../displayComponents/RichTextInput';
 import DelegateOwnVoteAttendantModal from './DelegateOwnVoteAttendantModal';
@@ -316,11 +316,12 @@ const Assistance = ({
 								maxWidth: '98vw',
 								display: 'flex',
 								alignItems: 'center',
+								justifyContent: 'center',
 								flexDirection: 'column'
 							}}
 						>
 							<div style={{
-								width: '100%', marginTop: '5em', textAlign: 'center', marginBottom: '2em'
+								width: '100%', textAlign: 'center', marginBottom: '2em'
 							}}>
 								<img src={emptyMeetingTable} style={{ width: '55%', height: 'auto', margin: 'auto' }} alt="empty-table" />
 							</div>
@@ -338,21 +339,21 @@ const Assistance = ({
 	const getReunionActual = () => (
 		<div style={{}}>
 			{state.invalidIntentioError &&
-<span style={{ color: 'red', fontSize: '16px', fontWeight: '700' }}>{translate.must_select_valid_option}</span>
+				<span style={{ color: 'red', fontSize: '16px', fontWeight: '700' }}>{translate.must_select_valid_option}</span>
 			}
 			<div style={{ marginTop: '2em' }}>
 				{council.confirmAssistance !== 0 &&
-<React.Fragment>
-	<AttendanceOptions
-		translate={translate}
-		refetch={refetch}
-		setState={setState}
-		showDelegationModal={showDelegation}
-		state={state}
-		participant={participant}
-		council={council}
-	/>
-</React.Fragment>
+					<React.Fragment>
+						<AttendanceOptions
+							translate={translate}
+							refetch={refetch}
+							setState={setState}
+							showDelegationModal={showDelegation}
+							state={state}
+							participant={participant}
+							council={council}
+						/>
+					</React.Fragment>
 				}
 				<br />
 			</div>
@@ -377,61 +378,61 @@ const Assistance = ({
 								selected={state.assistanceIntention}
 							/>
 							{state.assistanceIntention === PARTICIPANT_STATES.NO_PARTICIPATE &&
-<RichTextInput
-	errorText={state.commentError}
-	translate={translate}
-	value={
-		participant.assistanceComment
-			? participant.assistanceComment
-			: ''
-	}
-	placeholder={council.companyId !== AECOC_ID ? translate.attendance_comment : ''}
-	stylesQuill={{ background: '#f0f3f6' }}
-	onChange={value => setState({
-		...state,
-		participant: {
-			...state.participant,
-			assistanceComment: value
-		},
-		locked: false
-	})
-	}
-	quillEditorButtonsEmpty={'quillEditorButtonsEmpty'}
-/>
+								<RichTextInput
+									errorText={state.commentError}
+									translate={translate}
+									value={
+										participant.assistanceComment
+											? participant.assistanceComment
+											: ''
+									}
+									placeholder={council.companyId !== AECOC_ID ? translate.attendance_comment : ''}
+									stylesQuill={{ background: '#f0f3f6' }}
+									onChange={value => setState({
+										...state,
+										participant: {
+											...state.participant,
+											assistanceComment: value
+										},
+										locked: false
+									})
+									}
+									quillEditorButtonsEmpty={'quillEditorButtonsEmpty'}
+								/>
 							}
 						</>
 						:
 						config.attendanceComment &&
-<>
-	<div style={{ width: '100%', marginBottom: '1em' }}>
-		<div style={{
-			color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em'
-		}}>
-			{translate.comments}
-		</div>
-	</div>
-	<RichTextInput
-		errorText={state.commentError}
-		translate={translate}
-		value={
-			participant.assistanceComment
-				? participant.assistanceComment
-				: ''
-		}
-		placeholder={council.companyId !== AECOC_ID ? translate.attendance_comment : ''}
-		stylesQuill={{ background: '#f0f3f6' }}
-		onChange={value => setState({
-			...state,
-			participant: {
-				...state.participant,
-				assistanceComment: value
-			},
-			locked: false
-		})
-		}
-		quillEditorButtonsEmpty={'quillEditorButtonsEmpty'}
-	/>
-</>
+						<>
+							<div style={{ width: '100%', marginBottom: '1em' }}>
+								<div style={{
+									color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '0.6em'
+								}}>
+									{translate.comments}
+								</div>
+							</div>
+							<RichTextInput
+								errorText={state.commentError}
+								translate={translate}
+								value={
+									participant.assistanceComment
+										? participant.assistanceComment
+										: ''
+								}
+								placeholder={council.companyId !== AECOC_ID ? translate.attendance_comment : ''}
+								stylesQuill={{ background: '#f0f3f6' }}
+								onChange={value => setState({
+									...state,
+									participant: {
+										...state.participant,
+										assistanceComment: value
+									},
+									locked: false
+								})
+								}
+								quillEditorButtonsEmpty={'quillEditorButtonsEmpty'}
+							/>
+						</>
 					}
 
 				</div>
@@ -440,23 +441,23 @@ const Assistance = ({
 				}}>
 					<div>
 						{council.confirmAssistance !== 0 &&
-<BasicButton
-	text={(state.success || state.locked) ? translate.tooltip_sent : translate.send}
-	color={(state.locked || !check) ? 'grey' : primary}
-	floatRight={!isMobile}
-	success={state.success}
-	disabled={state.locked}
-	reset={resetButtonStates}
-	textStyle={{
-		color: 'white',
-		fontWeight: '700'
-	}}
-	loading={state.loading}
-	onClick={!check ? () => {
-		setCheckError(translate.accept_conditions_need);
-	} : sendButtonAction}
-	icon={<ButtonIcon type="save" color="white" />}
-/>
+							<BasicButton
+								text={(state.success || state.locked) ? translate.tooltip_sent : translate.send}
+								color={(state.locked || !check) ? 'grey' : primary}
+								floatRight={!isMobile}
+								success={state.success}
+								disabled={state.locked}
+								reset={resetButtonStates}
+								textStyle={{
+									color: 'white',
+									fontWeight: '700'
+								}}
+								loading={state.loading}
+								onClick={!check ? () => {
+									setCheckError(translate.accept_conditions_need);
+								} : sendButtonAction}
+								icon={<ButtonIcon type="save" color="white" />}
+							/>
 						}
 					</div>
 				</div>
@@ -597,10 +598,10 @@ al borrar una carta de voto se elimina el proxy vote
 					open={attendanceConfirmation}
 					requestClose={() => setAttendanceConfirmation(false)}
 				/>
-				<Card style={{ ...styles.cardContainer, width: isMobile ? '100%' : '80%' }}>
+				<Card style={{ ...styles.cardContainer, width: isMobile ? '100%' : '70%' }}>
 					{!councilStarted(council) ?
 						<Scrollbar>
-							<div style={{ maxWidth: '98vw', margin: isMobile ? '1em 1em 0em 1em' : '4em 4em 0em 4em' }}>
+							<div style={{ maxWidth: '98vw', padding: '2em' }}>
 								<div style={{ display: 'flex', justifyContent: 'space-between' }}>
 									<div style={{ fontSize: '25px', color: primary }}>
 										{council.companyId === AECOC_ID ?
@@ -660,16 +661,16 @@ al borrar una carta de voto se elimina el proxy vote
 								</div>
 								<Card style={{ marginTop: '1em', borderRadius: '8px' }}>
 									<div style={{ padding: '2em 1.5em 1.5em 1.5em' }}>
-										<div style={{ display: 'flex', justifyContent: 'space-between', color: '#000000' }}>
-											<div style={{
+										<Grid style={{ display: 'flex', justifyContent: 'space-between', color: '#000000' }}>
+											<GridItem xs={12} lg={6} style={{
 												display: 'flex', fontWeight: 'bold', justifyContent: 'space-between', fontSize: '15px'
 											}}>
 												{council.name}
-											</div>
-											<div style={{ fontStyle: 'italic' }}>
+											</GridItem>
+											<GridItem xs={12} lg={6} style={{ fontStyle: 'italic' }}>
 												{translate.field_date} - {moment(council.dateStart).format('LLL')}
-											</div>
-										</div>
+											</GridItem>
+										</Grid>
 										<div style={{ fontStyle: 'italic', color: '#000000', marginTop: '1em' }}>
 											{council.street}
 										</div>
@@ -744,18 +745,18 @@ const DelegationSection = ({
 				}}>
 					<div>{vote.name} {vote.surname || ''}</div>
 					{!representations &&
-							<div>
-								<i
-									onClick={() => setDelegation(vote)}
-									className="fa fa-trash-o"
-									style={{
-										marginLeft: '1em',
-										fontSize: '25px',
-										color: '#dc7373',
-										cursor: 'pointer'
-									}}
-								></i>
-							</div>
+						<div>
+							<i
+								onClick={() => setDelegation(vote)}
+								className="fa fa-trash-o"
+								style={{
+									marginLeft: '1em',
+									fontSize: '25px',
+									color: '#dc7373',
+									cursor: 'pointer'
+								}}
+							></i>
+						</div>
 					}
 				</Card>
 			))}

@@ -10,6 +10,7 @@ import ResendCredentialsModal from '../participants/modals/ResendCredentialsModa
 import { hasAccessKey } from '../../../../utils/CBX';
 import ParticipantClaveJusticia from './ParticipantClaveJusticia';
 import { usePolling } from '../../../../hooks';
+import { PARTICIPANT_VALIDATIONS } from '../../../../constants';
 
 const reducer = (state, action) => {
 	const actions = {
@@ -135,12 +136,14 @@ const AppointmentParticipantsManager = React.memo(({ council, translate }) => {
 							}
 						</GridItem>
 						<GridItem xs={7} lg={7} md={7} style={{ paddingLeft: '1em', display: 'flex' }}>
-							<div>
-								<ParticipantClaveJusticia
-									participant={participant}
-									translate={translate}
-								/>
-							</div>
+							{council.statute.participantValidation === PARTICIPANT_VALIDATIONS.CLAVE_PIN &&
+								<div>
+									<ParticipantClaveJusticia
+										participant={participant}
+										translate={translate}
+									/>
+								</div>
+							}
 							<div style={{ marginLeft: '0.5em' }}>
 								<ResendCredentialsModal
 									participant={participant}

@@ -23,6 +23,10 @@ const EstimatedQuorum = ({
 			base = socialCapital;
 		}
 
+		if (base === 0) {
+			return '-';
+		}
+
 		return ((value / base) * 100).toFixed(3);
 	};
 

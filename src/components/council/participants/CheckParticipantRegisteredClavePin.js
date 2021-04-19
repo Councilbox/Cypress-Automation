@@ -39,7 +39,7 @@ const CheckParticipantRegisteredClavePin = ({
 		if (result) {
 			validateParticipant();
 		} else {
-			setPinError(translate.participant_not_registered);
+			setPinError(result.message || translate.participant_not_registered);
 		}
 	};
 

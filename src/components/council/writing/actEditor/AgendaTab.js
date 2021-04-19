@@ -32,7 +32,7 @@ const AgendaTab = ({ council, translate, data }) => {
 									typeText={getTypeText(agenda.subjectType)}
 								/>
 								{index < data.agendas.length - 1
-&& <hr style={{ marginTop: '2.5em' }} />
+									&& <hr style={{ marginTop: '2.5em' }} />
 								}
 							</div>
 						))}
