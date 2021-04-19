@@ -1,5 +1,6 @@
 import React from 'react';
-import { compose, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import Dropzone from 'react-dropzone';
 import gql from 'graphql-tag';
 import {

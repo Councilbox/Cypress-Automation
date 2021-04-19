@@ -4,7 +4,8 @@ import Dialog, {
 	DialogContent,
 	DialogTitle
 } from 'material-ui/Dialog';
-import { compose, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import gql from 'graphql-tag';
 import {
 	BasicButton,

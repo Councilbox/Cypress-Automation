@@ -1,6 +1,7 @@
 import React from 'react';
 import { MenuItem } from 'material-ui/Menu';
-import { graphql, withApollo, compose } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import {
 	BasicButton,
 	ButtonIcon,

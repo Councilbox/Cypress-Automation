@@ -1,5 +1,6 @@
 import React from 'react';
-import { compose, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import { AlertConfirm, TextInput } from '../../displayComponents';
 import { updateCouncilAttachment, updateAgendaAttachment } from '../../queries';
 import AttachmentItem from './AttachmentItem';

@@ -1,7 +1,8 @@
 import React from 'react';
 import { MenuItem } from 'material-ui';
 import gql from 'graphql-tag';
-import { graphql, compose } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import { DateWrapper, BasicButton } from '../../../displayComponents';
 import { USER_ACTIVATIONS } from '../../../constants';

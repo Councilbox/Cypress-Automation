@@ -1,5 +1,6 @@
 import React from 'react';
-import { compose, graphql, withApollo } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import { TableCell, TableRow } from 'material-ui/Table';
 import { withRouter } from 'react-router-dom';
 import { CardPageLayout, EnhancedTable, ErrorWrapper } from '../../../displayComponents';

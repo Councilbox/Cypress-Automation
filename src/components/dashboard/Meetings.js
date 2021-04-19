@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { compose, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import { TableCell, TableRow } from 'material-ui/Table';
 import { councils as councilsQuery, deleteCouncil } from '../../queries';
 import {

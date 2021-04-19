@@ -1,7 +1,8 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Card } from 'material-ui';
-import { compose, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import { changePwd, checkExpiration } from '../../queries/restorePwd';
 import { getPrimary } from '../../styles/colors';
 import { bHistory } from '../../containers/App';

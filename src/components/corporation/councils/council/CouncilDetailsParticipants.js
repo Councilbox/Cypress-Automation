@@ -1,7 +1,8 @@
 import React from 'react';
 import { TableCell, TableRow } from 'material-ui/Table';
 import { Tooltip } from 'material-ui';
-import { compose, graphql, withApollo } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import { getSecondary, getPrimary } from '../../../../styles/colors';
 import * as CBX from '../../../../utils/CBX';
 import {

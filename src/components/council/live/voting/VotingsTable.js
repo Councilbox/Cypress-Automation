@@ -2,7 +2,8 @@ import React from 'react';
 import {
 	TableRow, TableCell, withStyles, Card, CardContent, Tooltip, MenuItem
 } from 'material-ui';
-import { graphql, compose } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import gql from 'graphql-tag';
 import FontAwesome from 'react-fontawesome';
 import PropTypes from 'prop-types';
