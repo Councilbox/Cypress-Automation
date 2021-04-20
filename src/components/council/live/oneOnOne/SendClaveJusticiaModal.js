@@ -1,8 +1,9 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
-import { AlertConfirm, BasicButton, DateTimePicker } from '../../../../displayComponents';
+import { AlertConfirm, BasicButton } from '../../../../displayComponents';
 import useClaveJusticia from '../../../../hooks/claveJusticia';
 import { getPrimary } from '../../../../styles/colors';
+import ClaveJusticiaPicker from './ClaveJusticiaPicker';
 
 
 const SendClaveJusticiaModal = React.memo(({ participantId, open, client, requestClose, successCB, translate }) => {
@@ -20,18 +21,24 @@ const SendClaveJusticiaModal = React.memo(({ participantId, open, client, reques
 			requestClose={requestClose}
 			title={translate.send_clave_pin}
 			bodyText={
-				<>
-					<DateTimePicker
-						format={'DD-MM-yyyy'}
-						floatingText={translate.clave_pin_dni_expiration_date}
-						errorText={expirationDateError}
-						onlyDate
-						style={{ width: '10em' }}
+				<div style={{
+					maxWidth: '600px'
+				}}>
+					<ClaveJusticiaPicker
 						onChange={date => {
 							setExpirationDate(date);
 						}}
-						value={expirationDate}
+						error={expirationDateError}
+						date={expirationDate}
 					/>
+					<div
+						style={{
+							margin: '1em 0em'
+						}}
+					>
+						Introduzca la Fecha de Validez de su DNI (o Fecha de Expedición si es un DNI Permanente)
+						y solicite un PIN para acceder con Cl@ve Justicia
+					</div>
 					<div style={{ display: 'flex', alignItems: 'flex-end', marginTop: '1.3em' }}>
 						<BasicButton
 							text={translate.request_clave_pin_SMS}
@@ -78,7 +85,7 @@ const SendClaveJusticiaModal = React.memo(({ participantId, open, client, reques
 							fullWidth={true}
 						/>
 					</div>
-				</>
+				</div>
 			}
 		/>
 	);
