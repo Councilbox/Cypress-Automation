@@ -182,7 +182,10 @@ const Header = ({
 							height: '1.5em',
 							marginLeft: '1em',
 							// marginLeft: "2em",
-							userSelect: 'none'
+							userSelect: 'none',
+							...(subdomain.styles ? {
+								...subdomain.styles.liveLogo
+							} : {})
 						}}
 						alt="logo"
 					>
