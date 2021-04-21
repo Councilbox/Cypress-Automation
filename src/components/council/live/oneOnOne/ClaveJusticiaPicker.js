@@ -4,7 +4,7 @@ import locale from 'antd/es/date-picker/locale/es_ES';
 import 'moment/locale/es';
 
 
-const ClaveJusticiaPicker = ({ error, date, onChange }) => (
+const ClaveJusticiaPicker = ({ error, date, onChange, placeholder }) => (
 	<>
 		<DatePicker
 			format={'DD-MM-yyyy'}
@@ -12,6 +12,7 @@ const ClaveJusticiaPicker = ({ error, date, onChange }) => (
 			style={{
 				width: '100%'
 			}}
+			placeholder={placeholder}
 			showToday={false}
 			defaultValue={date}
 			onChange={onChange}

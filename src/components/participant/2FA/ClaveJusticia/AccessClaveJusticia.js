@@ -9,6 +9,7 @@ import { client } from '../../../../containers/App';
 import AccessClaveJusticiaForm from './AccessClaveJusticiaForm';
 import useClaveJusticia from '../../../../hooks/claveJusticia';
 import { useSubdomain } from '../../../../utils/subdomain';
+import ClaveJusticiaPicker from '../../../council/live/oneOnOne/ClaveJusticiaPicker';
 
 
 const styles = {
@@ -129,16 +130,13 @@ const AccessClaveJusticia = ({
 											{status === 'IDDLE' && (
 												<>
 													<div style={{ width: '95%', marginTop: '1em' }}>
-														<DateTimePicker
-															format={'DD-MM-yyyy'}
-															label={translate.clave_pin_dni_expiration_date}
-															errorText={expirationDateError}
-															onlyDate
-															style={{ width: '10em' }}
+														<ClaveJusticiaPicker
 															onChange={date => {
 																setExpirationDate(date);
 															}}
-															value={expirationDate}
+															placeholder={translate.clave_pin_dni_expiration_date}
+															error={expirationDateError}
+															date={expirationDate}
 														/>
 													</div>
 													<div

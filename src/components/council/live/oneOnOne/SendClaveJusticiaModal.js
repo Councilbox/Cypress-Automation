@@ -28,6 +28,7 @@ const SendClaveJusticiaModal = React.memo(({ participantId, open, client, reques
 						onChange={date => {
 							setExpirationDate(date);
 						}}
+						placeholder={translate.clave_pin_dni_expiration_date}
 						error={expirationDateError}
 						date={expirationDate}
 					/>
