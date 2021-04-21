@@ -31,6 +31,7 @@ import RemoveDelegationButton from './RemoveDelegationButton';
 import { useParticipantContactEdit } from '../../../../hooks';
 
 import EarlyVotingModal from './EarlyVotingModal';
+import OwnedVotesModal from './OwnedVotesModal';
 
 const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	const landscape = isLandscape() || window.innerWidth > 700;
@@ -215,28 +216,11 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 							))
 						}
 
-						{(participant.delegatedVotes && participant.delegatedVotes.length > 0)
-							&& participant.delegatedVotes.map((delegatedVote, index) => (
-								<ParticipantBlock
-									key={`participantBlock_deletedVoted_${index}`}
-									{...props}
-									active={false}
-									participant={delegatedVote}
-									translate={translate}
-									action={
-										<RemoveDelegationButton
-											delegatedVote={delegatedVote}
-											participant={participant}
-											translate={translate}
-											refetch={data.refetch}
-										/>
-									}
-									data={data}
-									type={3}
-								/>
-							))
-						}
-
+						<OwnedVotesModal
+							translate={translate}
+							participant={participant}
+							data={data}
+						/>
 						{CBX.hasHisVoteDelegated(participant)
 							&& <ParticipantBlock
 								{...props}
@@ -259,7 +243,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	);
 };
 
-const ParticipantBlock = withApollo(({
+export const ParticipantBlock = withApollo(({
 	children, translate, type, client, data, action, active, participant, ...props
 }) => {
 	const {
@@ -282,6 +266,7 @@ const ParticipantBlock = withApollo(({
 	const texts = {
 		[PARTICIPANT_STATES.DELEGATED]: translate.delegated_in,
 		[PARTICIPANT_STATES.REPRESENTATED]: translate.represented_by,
+		5: translate.representative_of,
 		3: translate.delegated_vote_from.capitalize()
 	};
 
@@ -289,7 +274,16 @@ const ParticipantBlock = withApollo(({
 
 	return (
 		<Grid style={{
-			marginBottom: '1em', display: 'flex', alignItems: 'center', boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)', border: 'solid 1px #61abb7', borderRadius: '4px', padding: '1em', marginTop: '1em', justifyContent: 'space-between'
+			marginBottom: '1em',
+			display: 'flex',
+			alignItems: 'center',
+			boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
+			border: 'solid 1px #61abb7',
+			borderRadius: '4px',
+			padding: '1em',
+			contentVisibility: 'auto',
+			marginTop: '1em',
+			justifyContent: 'space-between'
 		}}>
 			<GridItem xs={12} md={4} lg={3}>
 				<div style={{ display: 'flex' }}>
