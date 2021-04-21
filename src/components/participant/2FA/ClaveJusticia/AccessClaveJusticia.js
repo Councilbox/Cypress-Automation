@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from 'material-ui';
 import { withRouter } from 'react-router';
-import { BasicButton, NotLoggedLayout, DateTimePicker } from '../../../../displayComponents';
+import { BasicButton, NotLoggedLayout } from '../../../../displayComponents';
 import { isMobile } from '../../../../utils/screen';
 import { getPrimary } from '../../../../styles/colors';
 import ClaveJusticiaStepper from './ClaveJusticiaStepper';
