@@ -45,7 +45,6 @@ export const setCompany = company => {
 const getSpecificTranslations = (language, company) => {
 	const { type, id } = company;
 
-
 	const specificTranslations = {
 		society: {},
 		10: {
@@ -61,15 +60,39 @@ const getSpecificTranslations = (language, company) => {
 
 	const idTranslations = {
 		658: {
-			delegated_in: 'Representado por',
-			delegates: 'Representado por',
-			representations_delegations: 'Representaciones'
+			es: {
+				delegated_in: 'Representado por',
+				delegates: 'Representado por',
+				representations_delegations: 'Representaciones',
+				selectedCompany: 658,
+			}
+		},
+		1203: {
+			es: {
+				abstention: 'En blanco',
+				abstention_btn: 'En blanco',
+				abstention_capital_letters: 'EN BLANCO',
+				abstention_lowercase: 'En blanco',
+				abstentions: 'EN BLANCO',
+				selectedCompany: 666,
+				num_abstention: 'Nº de personas en blanco'
+			},
+			cat: {
+				abstention: 'En blanc',
+				abstention_btn: 'En blanc',
+				abstention_capital_letters: 'EN BLANC',
+				abstention_lowercase: 'En blanc',
+				abstentions: 'EN BLANCO',
+				selectedCompany: 666,
+				num_abstention: 'Núm. de persones en blanc'
+			}
 		}
 	};
 
 	const extraTranslations = {
+		selectedCompany: null,
 		...(specificTranslations[type] ? specificTranslations[type] : specificTranslations.society),
-		...(idTranslations[id] ? idTranslations[id] : {})
+		...(idTranslations[id] ? idTranslations[id][language] : {})
 	};
 
 	return extraTranslations;
