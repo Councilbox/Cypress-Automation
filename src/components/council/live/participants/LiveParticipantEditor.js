@@ -29,9 +29,8 @@ import { PARTICIPANT_STATES } from '../../../../constants';
 import SignatureButton from './SignatureButton';
 import RemoveDelegationButton from './RemoveDelegationButton';
 import { useParticipantContactEdit } from '../../../../hooks';
-
 import EarlyVotingModal from './EarlyVotingModal';
-import OwnedVotesModal from './OwnedVotesModal';
+import OwnedVotesSection from './ownedVotes/OwnedVotesSection';
 
 const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	const landscape = isLandscape() || window.innerWidth > 700;
@@ -63,9 +62,6 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	if (!data.liveParticipant) {
 		return <LoadingSection />;
 	}
-
-	participant.representing = participant.delegatedVotes.find(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
-	participant.delegatedVotes = participant.delegatedVotes.filter(vote => vote.state !== PARTICIPANT_STATES.REPRESENTATED);
 
 	return (
 		<div
@@ -194,7 +190,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 							/>
 						}
 
-						{(participant.representatives && participant.representatives.length > 0 && participant.representatives[0].delegatedVotes)
+						{/* {(participant.representatives && participant.representatives.length > 0 && participant.representatives[0].delegatedVotes)
 							&& participant.representatives[0].delegatedVotes.map((delegatedVote, index) => (
 								<ParticipantBlock
 									key={`participantBlock_Representatives_${index}`}
@@ -214,9 +210,8 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 									type={3}
 								/>
 							))
-						}
-
-						<OwnedVotesModal
+						} */}
+						<OwnedVotesSection
 							translate={translate}
 							participant={participant}
 							data={data}

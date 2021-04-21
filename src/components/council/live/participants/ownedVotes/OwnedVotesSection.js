@@ -1,14 +1,16 @@
-import { withApollo } from '@apollo/react-hoc';
 import React from 'react';
-import RemoveDelegationButton from './RemoveDelegationButton';
-import { ParticipantBlock } from './LiveParticipantEditor';
+import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { Grid, LoadingSection } from '../../../../displayComponents';
-import { PARTICIPANT_STATES } from '../../../../constants';
+import RemoveDelegationButton from '../RemoveDelegationButton';
+import { ParticipantBlock } from '../LiveParticipantEditor';
+import { Grid, LoadingSection } from '../../../../../displayComponents';
+import { PARTICIPANT_STATES } from '../../../../../constants';
+import OwnedVotesModal from './OwnedVotesModal';
 
 
-const OwnedVotesModal = ({ votes, participant, translate, client }) => {
+const OwnedVotesSection = ({ votes, participant, translate, client }) => {
 	const [data, setData] = React.useState(null);
+	const [modal, setModal] = React.useState(false);
 	const [loading, setLoading] = React.useState(true);
 
 	const getData = React.useCallback(async () => {
@@ -52,7 +54,7 @@ const OwnedVotesModal = ({ votes, participant, translate, client }) => {
 	}, [getData]);
 
 	if (loading) {
-		return <LoadingSection />
+		return <LoadingSection />;
 	}
 
 	return (
@@ -60,6 +62,12 @@ const OwnedVotesModal = ({ votes, participant, translate, client }) => {
 			{(data.participantOwnedVotes && data.participantOwnedVotes.list.length > 0)
 			&&
 				<>
+					<OwnedVotesModal
+						open={modal}
+						translate={translate}
+						requestClose={() => setModal(false)}
+						participant={participant}
+					/>
 					{data.participantOwnedVotes.list.map((delegatedVote, index) => (
 						<ParticipantBlock
 							key={`participantBlock_deletedVoted_${index}`}
@@ -79,20 +87,24 @@ const OwnedVotesModal = ({ votes, participant, translate, client }) => {
 							type={delegatedVote.state === PARTICIPANT_STATES.DELEGATED ? 3 : 5}
 						/>
 					))}
-					<Grid style={{
-						marginBottom: '1em',
-						display: 'flex',
-						alignItems: 'center',
-						boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
-						border: 'solid 1px #61abb7',
-						borderRadius: '4px',
-						padding: '1em',
-						contentVisibility: 'auto',
-						marginTop: '1em',
-						justifyContent: 'space-between'
-					}}>
+					<Grid
+						style={{
+							marginBottom: '1em',
+							display: 'flex',
+							cursor: 'pointer',
+							alignItems: 'center',
+							boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
+							border: 'solid 1px #61abb7',
+							borderRadius: '4px',
+							padding: '1em',
+							contentVisibility: 'auto',
+							marginTop: '1em',
+							justifyContent: 'space-between'
+						}}
+						onClick={() => setModal(true)}
+					>
 						{data.participantOwnedVotes.total > 15 &&
-						`${data.participantOwnedVotes.total - 15} más - Pulse para ver todos los votos`}
+						`${data.participantOwnedVotes.total - 15} votos más - Pulse para ver todos los votos`}
 					</Grid>
 				</>
 			}
@@ -100,4 +112,4 @@ const OwnedVotesModal = ({ votes, participant, translate, client }) => {
 	);
 };
 
-export default withApollo(OwnedVotesModal);
+export default withApollo(OwnedVotesSection);

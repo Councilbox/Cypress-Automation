@@ -2047,6 +2047,7 @@ export const liveParticipant = gql`
 			delegateId
 			state
 			audio
+			hasDelegatedVotes
 			video
 			firstLoginDate
 			councilId
@@ -2090,6 +2091,7 @@ export const liveParticipant = gql`
 				name
 				surname
 				dni
+				hasDelegatedVotes
 				email
 				state
 				signed
@@ -2112,20 +2114,6 @@ export const liveParticipant = gql`
 				language
 				numParticipations
 				socialCapital
-				delegatedVotes {
-					id
-					name
-					surname
-					dni
-					email
-					state
-					signed
-					phone
-					position
-					language
-					numParticipations
-					socialCapital
-				}
 				notifications {
 					participantId
 					email
@@ -2134,20 +2122,6 @@ export const liveParticipant = gql`
 					sendDate
 					sendType
 				}
-			}
-			delegatedVotes {
-				id
-				name
-				surname
-				dni
-				email
-				state
-				signed
-				phone
-				position
-				language
-				numParticipations
-				socialCapital
 			}
 			country
 			countryState
