@@ -38,14 +38,6 @@ class MeetingEditorConfig extends Component {
 		this.props.data.refetch();
 	}
 
-	componentWillReceiveProps(nextProps) {
-		if (this.props.data.loading && !nextProps.data.loading) {
-			this.setState({
-				data: nextProps.data.council
-			});
-		}
-	}
-
 	nextPage = () => {
 		if (!this.checkRequiredFields()) {
 			this.updateCouncil();

@@ -100,17 +100,6 @@ class MeetingEditorCensus extends React.Component {
 		this.props.data.refetch();
 	}
 
-	componentWillReceiveProps(nextProps) {
-		if (this.props.data.loading && !nextProps.data.loading) {
-			this.setState({
-				data: {
-					...this.state.data,
-					...nextProps.data.council
-				}
-			});
-		}
-	}
-
 	renderCensusChangeButtons() {
 		const { translate } = this.props;
 
