@@ -173,6 +173,7 @@ class EnhancedTable extends React.Component {
 						{fields && (
 							<div style={{ minWidth: '12em', marginRight: '0.8em' }}>
 								<SelectInput
+									id="filter-by-select"
 									floatingText={translate.filter_by}
 									value={filterField}
 									onChange={event => this.updateFilterField(event.target.value)
@@ -180,6 +181,7 @@ class EnhancedTable extends React.Component {
 								>
 									{fields.map(field => (
 										<MenuItem
+											id={`filter-option-${field.value}`}
 											key={`field_${field.value}`}
 											value={field.value}
 										>
@@ -207,11 +209,13 @@ class EnhancedTable extends React.Component {
 						<div style={{ width: '5em' }}>
 							<SelectInput
 								value={limit}
+								id="limit-select"
 								onChange={event => this.updateLimit(event.target.value)
 								}
 							>
 								{limits.map(item => (
 									<MenuItem
+										id={`limit-${item}`}
 										key={`limit_${item}`}
 										value={item}
 									>
@@ -226,6 +230,7 @@ class EnhancedTable extends React.Component {
 							categories.map((category, index) => (
 								<div key={`category_${index}`} style={{ minWidth: '12em', marginRight: '0.8em' }}>
 									<SelectInput
+										id="category-filter-select"
 										value={this.state.selectedCategories[index].value}
 										onChange={event => this.updateCategory(index,
 											event.target,
@@ -234,6 +239,7 @@ class EnhancedTable extends React.Component {
 									>
 										{category.map(item => (
 											<MenuItem
+												id={`category-${item.value}`}
 												key={`category_${index}${item.value}`}
 												value={item.value}
 											>
@@ -252,12 +258,14 @@ class EnhancedTable extends React.Component {
 							<div style={{ minWidth: '12em', marginRight: '0.8em' }}>
 								<SelectInput
 									floatingText={translate.filter_by}
+									id="filter-by-select"
 									value={filterField}
 									onChange={event => this.updateFilterField(event.target.value)
 									}
 								>
 									{fields.map(field => (
 										<MenuItem
+											id={`filter-option-${field.value}`}
 											key={`field_${field.value}`}
 											value={field.value}
 										>
