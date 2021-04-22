@@ -27,7 +27,6 @@ import ParticipantSelectActions from './ParticipantSelectActions';
 import ResendCredentialsModal from './modals/ResendCredentialsModal';
 import { PARTICIPANT_STATES } from '../../../../constants';
 import SignatureButton from './SignatureButton';
-import RemoveDelegationButton from './RemoveDelegationButton';
 import { useParticipantContactEdit } from '../../../../hooks';
 import EarlyVotingModal from './EarlyVotingModal';
 import OwnedVotesSection from './ownedVotes/OwnedVotesSection';
@@ -214,6 +213,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 						<OwnedVotesSection
 							translate={translate}
 							participant={participant}
+							council={props.council}
 							data={data}
 						/>
 						{CBX.hasHisVoteDelegated(participant)

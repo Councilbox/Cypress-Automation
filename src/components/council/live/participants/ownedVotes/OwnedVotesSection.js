@@ -6,9 +6,10 @@ import { ParticipantBlock } from '../LiveParticipantEditor';
 import { Grid, LoadingSection } from '../../../../../displayComponents';
 import { PARTICIPANT_STATES } from '../../../../../constants';
 import OwnedVotesModal from './OwnedVotesModal';
+import OwnedVotesRecountSection from './OwnedVotesRecountSection';
 
 
-const OwnedVotesSection = ({ votes, participant, translate, client }) => {
+const OwnedVotesSection = ({ participant, translate, client, council }) => {
 	const [data, setData] = React.useState(null);
 	const [modal, setModal] = React.useState(false);
 	const [loading, setLoading] = React.useState(true);
@@ -16,7 +17,7 @@ const OwnedVotesSection = ({ votes, participant, translate, client }) => {
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
 			query: gql`
-				query participantOwnedVotes(
+				query ParticipantOwnedVotesLimited(
 					$participantId: Int!
 					$filters: [FilterInput]
 					$options: OptionsInput
@@ -33,6 +34,7 @@ const OwnedVotesSection = ({ votes, participant, translate, client }) => {
 							state
 						}
 						total
+						meta
 					}
 				}
 			`,
@@ -50,8 +52,10 @@ const OwnedVotesSection = ({ votes, participant, translate, client }) => {
 	}, [participant.id]);
 
 	React.useEffect(() => {
-		getData();
-	}, [getData]);
+		if (client) {
+			getData();
+		}
+	}, [getData, client]);
 
 	if (loading) {
 		return <LoadingSection />;
@@ -64,10 +68,19 @@ const OwnedVotesSection = ({ votes, participant, translate, client }) => {
 				<>
 					<OwnedVotesModal
 						open={modal}
+						council={council}
 						translate={translate}
 						requestClose={() => setModal(false)}
 						participant={participant}
 					/>
+					{data.participantOwnedVotes.meta &&
+						<OwnedVotesRecountSection
+							ownedVotesMeta={data.participantOwnedVotes.meta}
+							participant={participant}
+							translate={translate}
+							council={council}
+						/>
+					}
 					{data.participantOwnedVotes.list.map((delegatedVote, index) => (
 						<ParticipantBlock
 							key={`participantBlock_deletedVoted_${index}`}
@@ -87,25 +100,26 @@ const OwnedVotesSection = ({ votes, participant, translate, client }) => {
 							type={delegatedVote.state === PARTICIPANT_STATES.DELEGATED ? 3 : 5}
 						/>
 					))}
-					<Grid
-						style={{
-							marginBottom: '1em',
-							display: 'flex',
-							cursor: 'pointer',
-							alignItems: 'center',
-							boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
-							border: 'solid 1px #61abb7',
-							borderRadius: '4px',
-							padding: '1em',
-							contentVisibility: 'auto',
-							marginTop: '1em',
-							justifyContent: 'space-between'
-						}}
-						onClick={() => setModal(true)}
-					>
-						{data.participantOwnedVotes.total > 15 &&
-						`${data.participantOwnedVotes.total - 15} votos más - Pulse para ver todos los votos`}
-					</Grid>
+					{data.participantOwnedVotes.total > 15 &&
+						<Grid
+							style={{
+								marginBottom: '1em',
+								display: 'flex',
+								cursor: 'pointer',
+								alignItems: 'center',
+								boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
+								border: 'solid 1px #61abb7',
+								borderRadius: '4px',
+								padding: '1em',
+								contentVisibility: 'auto',
+								marginTop: '1em',
+								justifyContent: 'space-between'
+							}}
+							onClick={() => setModal(true)}
+						>
+							{translate.num_delegated_votes_see_all.replace(/{{number}}/, data.participantOwnedVotes.total - 15)}
+						</Grid>
+					}
 				</>
 			}
 		</>

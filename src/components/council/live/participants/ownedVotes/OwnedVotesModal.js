@@ -1,15 +1,24 @@
 import { withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
+import { TableCell, TableRow } from 'material-ui';
 import React from 'react';
 import RemoveDelegationButton from '../RemoveDelegationButton';
-import { ParticipantBlock } from '../LiveParticipantEditor';
-import gql from 'graphql-tag';
-import { AlertConfirm, EnhancedTable, Grid, LoadingSection } from '../../../../../displayComponents';
+import { AlertConfirm, EnhancedTable } from '../../../../../displayComponents';
 import { PARTICIPANT_STATES } from '../../../../../constants';
-import { TableCell, TableRow } from 'material-ui';
-import { useHoverRow } from '../../../../../hooks';
+import OwnedVotesRecountSection from './OwnedVotesRecountSection';
 
+const getTypeText = type => {
+	switch (type) {
+		case PARTICIPANT_STATES.DELEGATED:
+			return 'delegation';
+		case PARTICIPANT_STATES.REPRESENTATED:
+			return 'representation';
+		default:
+			return 'other';
+	}
+};
 
-const OwnedVotesModal = ({ participant, translate, client, open, requestClose }) => {
+const OwnedVotesModal = ({ participant, translate, client, open, requestClose, council }) => {
 	const [data, setData] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
 
@@ -40,6 +49,7 @@ const OwnedVotesModal = ({ participant, translate, client, open, requestClose })
 							state
 						}
 						total
+						meta
 					}
 				}
 			`,
@@ -66,6 +76,8 @@ const OwnedVotesModal = ({ participant, translate, client, open, requestClose })
 		}
 	}, [getData, open]);
 
+	const meta = data?.participantOwnedVotes?.meta;
+
 	return (
 		<>
 			<AlertConfirm
@@ -73,61 +85,70 @@ const OwnedVotesModal = ({ participant, translate, client, open, requestClose })
 				title={'Votos en posesión'}
 				requestClose={requestClose}
 				bodyText={
-					data?.participantOwnedVotes?.list &&
-					<EnhancedTable
-						translate={translate}
-						defaultLimit={15}
-						defaultFilter={'fullName'}
-						page={1}
-						//loading={loading}
-						length={data.participantOwnedVotes?.list.length}
-						total={data.participantOwnedVotes.total}
-						refetch={getData}
-						headers={[
-							{
-								text: translate.name,
-								name: 'fullName',
-								canOrder: true
-							},
-							{
-								text: translate.email,
-								name: 'email',
-								canOrder: true
-							},
-							{
-								name: 'numParticipations',
-								text: translate.num_participations,
-								canOrder: true
-							},
-							{ name: '' }
-						]}
-					>
-						{data?.participantOwnedVotes?.list?.map((vote, index) => (
-							<TableRow
-								key={vote.id}
-							>
-								<TableCell>
-									{vote.name} {vote.surname || ''}
-								</TableCell>
-								<TableCell>
-									{vote.email}
-								</TableCell>
-								<TableCell>
-									{vote.numParticipations}
-								</TableCell>
-								<TableCell>
-									{vote.state === PARTICIPANT_STATES.DELEGATED &&
-										<RemoveDelegationButton
-											delegatedVote={vote}
-											participant={participant}
-											translate={translate}
-											refetch={getData}
-										/>
-									}
-								</TableCell>
-							</TableRow>
-						))}
-					</EnhancedTable>
+					<>
+						{meta &&
+							<OwnedVotesRecountSection
+								ownedVotesMeta={meta}
+								participant={participant}
+								council={council}
+								translate={translate}
+							/>
+						}
+						{data?.participantOwnedVotes?.list &&
+						<EnhancedTable
+							translate={translate}
+							defaultLimit={15}
+							defaultFilter={'fullName'}
+							page={1}
+							length={data.participantOwnedVotes?.list.length}
+							total={data.participantOwnedVotes.total}
+							refetch={getData}
+							headers={[
+								{
+									text: translate.name,
+									name: 'fullName',
+									canOrder: true
+								},
+								{
+									text: translate.type,
+									name: 'state',
+									canOrder: true
+								},
+								{
+									name: 'numParticipations',
+									text: translate.num_participations,
+									canOrder: true
+								},
+								{ name: '' }
+							]}
+						>
+							{data?.participantOwnedVotes?.list?.map(vote => (
+								<TableRow
+									key={vote.id}
+								>
+									<TableCell>
+										{vote.name} {vote.surname || ''}
+									</TableCell>
+									<TableCell>
+										{translate[getTypeText(vote.state)]}
+									</TableCell>
+									<TableCell>
+										{vote.numParticipations}
+									</TableCell>
+									<TableCell>
+										{vote.state === PARTICIPANT_STATES.DELEGATED &&
+											<RemoveDelegationButton
+												delegatedVote={vote}
+												participant={participant}
+												translate={translate}
+												refetch={getData}
+											/>
+										}
+									</TableCell>
+								</TableRow>
+							))}
+						</EnhancedTable>}
+					</>
 				}
 			/>
 		</>
