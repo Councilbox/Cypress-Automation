@@ -158,7 +158,7 @@ const ParticipantContainer = ({
 			updateConfig(companyId);
 			store.dispatch(addSpecificTranslations(council.councilVideo.company));
 		}
-	}, [companyId]);
+	}, [companyId, translate.selectedCompany]);
 
 	React.useEffect(() => {
 		if (council && council.councilVideo) {
@@ -202,10 +202,10 @@ const ParticipantContainer = ({
 		const { code } = data.errors[0];
 		if (
 			code === PARTICIPANT_ERRORS.PARTICIPANT_BLOCKED
-|| code === PARTICIPANT_ERRORS.PARTICIPANT_IS_NOT_REMOTE
-|| code === PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED
-|| code === PARTICIPANT_ERRORS.REPRESENTED_DELEGATED
-|| code === PARTICIPANT_ERRORS.REPRESENTATIVE_WITHOUT_REPRESENTED
+			|| code === PARTICIPANT_ERRORS.PARTICIPANT_IS_NOT_REMOTE
+			|| code === PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED
+			|| code === PARTICIPANT_ERRORS.REPRESENTED_DELEGATED
+			|| code === PARTICIPANT_ERRORS.REPRESENTATIVE_WITHOUT_REPRESENTED
 		) {
 			if (!council.councilVideo) {
 				return <LoadingMainApp />;
@@ -301,6 +301,7 @@ const councilQuery = gql`
 			companyId
 			company {
 				logo
+				id
 				type
 			}
 			conveneText
