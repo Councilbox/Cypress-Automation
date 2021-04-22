@@ -305,7 +305,7 @@ const ActAgreements = ({
 					loadDraft={
 						<LoadDraftModal
 							translate={translate}
-							companyId={company.id}
+							companyId={company?.id}
 							loadDraft={loadDraft}
 							statute={council.statute}
 							defaultTags={

@@ -2,7 +2,6 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { TableCell, TableRow } from 'material-ui';
 import React from 'react';
-import RemoveDelegationButton from '../RemoveDelegationButton';
 import { AlertConfirm, EnhancedTable } from '../../../../../displayComponents';
 import { PARTICIPANT_STATES } from '../../../../../constants';
 import OwnedVotesRecountSection from './OwnedVotesRecountSection';
@@ -18,7 +17,7 @@ const getTypeText = type => {
 	}
 };
 
-const OwnedVotesModal = ({ participant, translate, client, open, requestClose, council }) => {
+const OwnedVotingRightsPoint = ({ participant, translate, client, open, agenda, requestClose, council }) => {
 	const [data, setData] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
 
@@ -30,13 +29,15 @@ const OwnedVotesModal = ({ participant, translate, client, open, requestClose, c
 		}
 		const response = await client.query({
 			query: gql`
-				query participantOwnedVotes(
+				query participantOwnedVotingRights(
 					$participantId: Int!
+					$agendaId: Int!
 					$filters: [FilterInput]
 					$options: OptionsInput
 				) {
-					participantOwnedVotes(
+					participantOwnedVotingRights(
 						participantId: $participantId
+						agendaId: $agendaId
 						filters: $filters
 						options: $options
 					) {
@@ -55,6 +56,7 @@ const OwnedVotesModal = ({ participant, translate, client, open, requestClose, c
 			`,
 			variables: {
 				participantId: participant.id,
+				agendaId: agenda.id,
 				options: {
 					limit: 15,
 					offset: 0
@@ -76,7 +78,7 @@ const OwnedVotesModal = ({ participant, translate, client, open, requestClose, c
 		}
 	}, [getData, open]);
 
-	const meta = data?.participantOwnedVotes?.meta;
+	const meta = data?.participantOwnedVotingRights?.meta;
 
 	return (
 		<>
@@ -100,14 +102,14 @@ const OwnedVotesModal = ({ participant, translate, client, open, requestClose, c
 								translate={translate}
 							/>
 						}
-						{data?.participantOwnedVotes?.list &&
+						{data?.participantOwnedVotingRights?.list &&
 						<EnhancedTable
 							translate={translate}
 							defaultLimit={15}
 							defaultFilter={'fullName'}
 							page={1}
-							length={data.participantOwnedVotes?.list.length}
-							total={data.participantOwnedVotes.total}
+							length={data.participantOwnedVotingRights?.list.length}
+							total={data.participantOwnedVotingRights.total}
 							refetch={getData}
 							headers={[
 								{
@@ -125,10 +127,9 @@ const OwnedVotesModal = ({ participant, translate, client, open, requestClose, c
 									text: translate.num_participations,
 									canOrder: true
 								},
-								{ name: '' }
 							]}
 						>
-							{data?.participantOwnedVotes?.list?.map(vote => (
+							{data?.participantOwnedVotingRights?.list?.map(vote => (
 								<TableRow
 									key={vote.id}
 								>
@@ -141,16 +142,6 @@ const OwnedVotesModal = ({ participant, translate, client, open, requestClose, c
 									<TableCell>
 										{vote.numParticipations}
 									</TableCell>
-									<TableCell>
-										{vote.state === PARTICIPANT_STATES.DELEGATED &&
-											<RemoveDelegationButton
-												delegatedVote={vote}
-												participant={participant}
-												translate={translate}
-												refetch={getData}
-											/>
-										}
-									</TableCell>
 								</TableRow>
 							))}
 						</EnhancedTable>}
@@ -161,4 +152,4 @@ const OwnedVotesModal = ({ participant, translate, client, open, requestClose, c
 	);
 };
 
-export default withApollo(OwnedVotesModal);
+export default withApollo(OwnedVotingRightsPoint);

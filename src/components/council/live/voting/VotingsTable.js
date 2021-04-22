@@ -262,6 +262,7 @@ const VotingsTable = ({
 						<>
 							<OwnedVotingsRightPoint
 								open={delegatedVotesModal}
+								agenda={agenda}
 								council={props.council}
 								translate={translate}
 								requestClose={() => setDelegatedVotesModal(false)}
