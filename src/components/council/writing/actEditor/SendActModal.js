@@ -2,7 +2,8 @@ import React from 'react';
 import {
 	Typography, Card, TableRow, Table, TableCell
 } from 'material-ui';
-import { compose, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import FontAwesome from 'react-fontawesome';
 import {
 	AlertConfirm,

@@ -51,7 +51,7 @@ const getStoredDate = participantId => {
 	const storedDate = sessionStorage.getItem(`stored_expiration_date_${participantId}`);
 
 	if (storedDate) {
-		return moment(storedDate);
+		return moment(storedDate, 'DD/MM/yyyy');
 	}
 	return moment();
 };

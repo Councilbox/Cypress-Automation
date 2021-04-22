@@ -1,6 +1,7 @@
 import React from 'react';
 import { Paper } from 'material-ui';
-import { graphql, compose, withApollo } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import FontAwesome from 'react-fontawesome';
 import {
 	BasicButton,

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Card, MenuItem, Tooltip } from 'material-ui';
-import { graphql, compose } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import { flowRight as compose } from 'lodash';
 import { getSecondary } from '../../../../styles/colors';
 import { haveGrantedWord } from '../../../../utils/CBX';
 

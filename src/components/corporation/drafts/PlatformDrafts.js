@@ -1,6 +1,7 @@
 import React from 'react';
 import { Icon, withStyles } from 'material-ui';
-import { compose, graphql, withApollo } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import gql from 'graphql-tag';
 import {

@@ -2,7 +2,8 @@ import React from 'react';
 import {
 	MenuItem, Icon, Card, CardActions
 } from 'material-ui';
-import { compose, graphql, withApollo } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import gql from 'graphql-tag';
 import { toast } from 'react-toastify';
 import {

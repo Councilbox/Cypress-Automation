@@ -1,5 +1,6 @@
 import React from 'react';
-import { compose, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import { Card } from 'material-ui';
 import { AlertConfirm } from '../../../../../displayComponents/index';
 import { updateCensusParticipant } from '../../../../../queries/census';

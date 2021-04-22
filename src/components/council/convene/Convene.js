@@ -1,5 +1,6 @@
 import React from 'react';
-import { graphql, withApollo, compose } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import FontAwesome from 'react-fontawesome';
 import gql from 'graphql-tag';
 import {

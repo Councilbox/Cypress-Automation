@@ -1,6 +1,6 @@
 import React from 'react';
 import { graphql, withApollo } from 'react-apollo';
-import { compose } from 'react-apollo/index';
+import { flowRight as compose } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {

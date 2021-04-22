@@ -1,6 +1,7 @@
 /* eslint-disable max-classes-per-file */
 import React from 'react';
-import { compose, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import { Tooltip, Card } from 'material-ui';
 import { TableCell, TableRow } from 'material-ui/Table';
 import { withRouter } from 'react-router-dom';

@@ -1,6 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { graphql, compose } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import {
 	CardPageLayout, LoadingSection, Scrollbar, BasicButton

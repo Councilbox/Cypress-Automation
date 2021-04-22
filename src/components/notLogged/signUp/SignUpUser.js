@@ -1,5 +1,5 @@
 import React from 'react';
-import { withApollo } from 'react-apollo/index';
+import { withApollo } from 'react-apollo';
 import { LinearProgress } from 'material-ui/Progress';
 import PropTypes from 'prop-types';
 import {

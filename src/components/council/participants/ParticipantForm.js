@@ -105,18 +105,18 @@ const ParticipantForm = ({
 			/>
 		</GridItem>
 		{participant.personOrEntity === 0
-				&& <GridItem xs={6} md={4} lg={3}>
-					<TextInput
-						floatingText={translate.position}
-						type="text"
-						errorText={errors.position}
-						value={participant.position}
-						onChange={event => updateState({
-							position: event.nativeEvent.target.value
-						})
-						}
-					/>
-				</GridItem>
+			&& <GridItem xs={6} md={4} lg={3}>
+				<TextInput
+					floatingText={translate.position}
+					type="text"
+					errorText={errors.position}
+					value={participant.position}
+					onChange={event => updateState({
+						position: event.nativeEvent.target.value
+					})
+					}
+				/>
+			</GridItem>
 		}
 		<GridItem xs={6} md={4} lg={3}>
 			<TextInput
@@ -172,10 +172,9 @@ const ParticipantForm = ({
 								language.columnName
 								: language.column_name
 						}
-						key={`language_${
-							language.columnName ?
-								language.columnName
-								: language.column_name
+						key={`language_${language.columnName ?
+							language.columnName
+							: language.column_name
 						}`}
 					>
 						{language.desc}
@@ -184,76 +183,76 @@ const ParticipantForm = ({
 			</SelectInput>
 		</GridItem>
 		{participant.personOrEntity === 0
-				&& <GridItem xs={6} md={4} lg={3}>
-					<SelectInput
-						floatingText={translate.participation_type}
-						errorText={errors.initialState}
-						value={`${participant.initialState}`}
-						onChange={event => updateState({
-							initialState: +event.target.value
-						})
-						}
+			&& <GridItem xs={6} md={4} lg={3}>
+				<SelectInput
+					floatingText={translate.participation_type}
+					errorText={errors.initialState}
+					value={`${participant.initialState}`}
+					onChange={event => updateState({
+						initialState: +event.target.value
+					})
+					}
+				>
+					<MenuItem
+						value={'0'}
 					>
-						<MenuItem
-							value={'0'}
-						>
-							{translate.viewer}
-						</MenuItem>
-						<MenuItem
-							value={'2'}
-						>
-							{translate.granted_word}
-						</MenuItem>
-						<MenuItem
-							value={'4'}
-						>
-							{translate.cant_ask_word}
-						</MenuItem>
-						<MenuItem
-							value={'3'}
-						>
-							{translate.waiting_room}
-						</MenuItem>
-					</SelectInput>
-				</GridItem>
+						{translate.viewer}
+					</MenuItem>
+					<MenuItem
+						value={'2'}
+					>
+						{translate.granted_word}
+					</MenuItem>
+					<MenuItem
+						value={'4'}
+					>
+						{translate.cant_ask_word}
+					</MenuItem>
+					<MenuItem
+						value={'3'}
+					>
+						{translate.waiting_room}
+					</MenuItem>
+				</SelectInput>
+			</GridItem>
 		}
 		{!hideVotingInputs
-				&& <>
-					<GridItem xs={6} md={4} lg={1}>
+			&& <>
+				<GridItem xs={6} md={4} lg={1}>
+					<TextInput
+						floatingText={translate.votes}
+						type="num"
+						min={1}
+						errorText={errors.numParticipations}
+						value={participant.numParticipations}
+						onChange={event => {
+							if (!Number.isNaN(event.target.value) || +event.target.value > 0) {
+								updateState({
+									numParticipations: +event.target.value
+								});
+							}
+						}}
+					/>
+				</GridItem>
+				<GridItem xs={6} md={4} lg={1}>
+					{participations && (
 						<TextInput
-							floatingText={translate.votes}
+							floatingText={translate.social_capital}
 							type="num"
 							min={1}
-							errorText={errors.numParticipations}
-							value={participant.numParticipations}
+							errorText={errors.socialCapital}
+							value={participant.socialCapital}
 							onChange={event => {
 								if (!Number.isNaN(event.target.value) || +event.target.value > 0) {
 									updateState({
-										numParticipations: +event.target.value
+										socialCapital: +event.target.value
 									});
 								}
 							}}
 						/>
-					</GridItem>
-					<GridItem xs={6} md={4} lg={1}>
-						{participations && (
-							<TextInput
-								floatingText={translate.social_capital}
-								type="num"
-								min={1}
-								errorText={errors.socialCapital}
-								value={participant.socialCapital}
-								onChange={event => {
-									if (!Number.isNaN(event.target.value) || +event.target.value > 0) {
-										updateState({
-											socialCapital: +event.target.value
-										});
-									}
-								}}
-							/>
-						)}
-					</GridItem>
-				</>
+					)}
+				</GridItem>
+			</>
 		}
 	</Grid>
 );

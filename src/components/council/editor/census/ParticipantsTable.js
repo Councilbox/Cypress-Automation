@@ -1,7 +1,8 @@
 import React from 'react';
 import { TableCell, TableRow } from 'material-ui/Table';
 import { Card } from 'material-ui';
-import { compose, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import * as CBX from '../../../../utils/CBX';
 import {

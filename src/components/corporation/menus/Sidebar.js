@@ -74,6 +74,7 @@ class Sidebar extends React.Component {
 		});
 	}
 
+	// eslint-disable-next-line react/no-deprecated
 	componentWillReceiveProps(nextProps) {
 		if (this.props.location.pathname !== nextProps.location.pathname) {
 			this.setState({

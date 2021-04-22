@@ -1,6 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { compose, graphql, withApollo } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import { Tooltip } from 'material-ui';
 import { darkGrey, lightGrey, turquoise } from '../../../styles/colors';
 import {

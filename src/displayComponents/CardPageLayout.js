@@ -2,7 +2,6 @@ import React from 'react';
 import { Paper, Avatar } from 'material-ui';
 import { isMobile } from 'react-device-detect';
 import { lightGrey, getPrimary } from '../styles/colors';
-// import Scrollbar from "react-perfect-scrollbar";
 import Scrollbar from './Scrollbar';
 import withWindowSize from '../HOCs/withWindowSize';
 import CBXFooter from './CBXFooter';

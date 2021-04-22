@@ -1,7 +1,8 @@
 /* eslint-disable max-classes-per-file */
 import React from 'react';
 import { TableCell, TableRow, Card } from 'material-ui';
-import { compose, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import gql from 'graphql-tag';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import {

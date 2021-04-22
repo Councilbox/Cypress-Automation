@@ -1,5 +1,6 @@
 import React from 'react';
-import { compose, graphql, withApollo } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import { BasicButton, AlertConfirm, Scrollbar } from '../../../../displayComponents/index';
 import { getPrimary, secondary } from '../../../../styles/colors';
 import { languages as languagesQuery } from '../../../../queries/masters';

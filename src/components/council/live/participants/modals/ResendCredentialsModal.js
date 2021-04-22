@@ -1,6 +1,7 @@
 import React from 'react';
 import FontAwesome from 'react-fontawesome';
-import { graphql, compose } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import { MenuItem } from 'material-ui';
 import gql from 'graphql-tag';
 import { resendRoomEmails } from '../../../../../queries/liveParticipant';
