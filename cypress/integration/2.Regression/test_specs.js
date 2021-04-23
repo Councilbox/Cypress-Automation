@@ -68,26 +68,28 @@ describe("Councilbox login - valid username and password", function() {
 
 
 
-describe("The user is able to choose and select the tag in the 'tags' section in the 'Voting letter' form in the 'Document' section in the 'Types of meetings' section", function() {
+describe("The user is able to filter members by position in the 'Shareholders register' section", function() {
 
-        it("Click on the 'Council types' button", function() {
-            cy.get('#edit-statutes-block').click()
+        it("Click on the 'Shareholders register' button", function() {
+            cy.get('#edit-company-block').click()
             cy.wait(1000)
         });
 
-        it("Scroll down the page and navigate to the 'Documents' section", function() {
-            cy.get('#council-type-vote-letter').scrollIntoView()
+        it("Navigate to the upper right corner and click on the filter button", function() {
+            cy.get('#filter-by-select').click()
+            cy.wait(1000)
+
+        });
+
+        it("From the menu choose and click on the 'Position' button", function() {
+            cy.get('#filter-option-position').click()
             cy.wait(1000)
         });
 
-        it("Navigate to the 'Voting letter' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
-            cy.get('.ql-editor').eq(4).clear()
-                .type('{{')
-                    .type('business_name')
-                        .type('}}')
-            cy.wait(1000)
-            cy.get('#council-statute-save-button').click()
-
+        it("On the filter search field write the position you want to search", function() {
+            cy.get('#partners-search-input').clear()
+                .type('Test')
+            cy.wait(3000)
         });
 
         it("Back to Home page", function() {
@@ -97,29 +99,30 @@ describe("The user is able to choose and select the tag in the 'tags' section in
 
     });
 
+describe("The user is able to filter members by participant data in the 'Shareholders register' section", function() {
 
-describe("The user is able to choose and select the tag in the 'tags' section in the 'Vote letter right column' form in the 'Documents' section in the 'Types of meetings' section", function() {
-
-        it("Click on the 'Council types' button", function() {
-            cy.get('#edit-statutes-block').click()
+        it("Click on the 'Shareholders register' button", function() {
+            cy.get('#edit-company-block').click()
             cy.wait(1000)
         });
 
-        it("Scroll down the page and navigate to the 'Documents' section", function() {
-            cy.get('#council-type-vote-letter-secondary').scrollIntoView()
+        it("Navigate to the upper right corner and click on the filter button", function() {
+            cy.get('#filter-by-select').click()
             cy.wait(1000)
-        });
-
-        it("Navigate to the 'Vote letter right column' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
-            cy.get('.ql-editor').eq(5).clear()
-                .type('{{')
-                    .type('business_name')
-                        .type('}}')
-            cy.wait(1000)
-            cy.get('#council-statute-save-button').click()
 
         });
 
+        it("From the menu choose and click on the 'Participant data' button", function() {
+            cy.get('#filter-option-fullName').click()
+            cy.wait(1000)
+        });
+
+        it("On the filter search field write the Participant data you want to search", function() {
+            cy.get('#partners-search-input').clear()
+                .type('Test')
+            cy.wait(3000)
+        });
+        
         it("Back to Home page", function() {
             cy.visit(login_url);
         });
@@ -127,28 +130,30 @@ describe("The user is able to choose and select the tag in the 'tags' section in
 
     });
 
-describe("The user is able to choose and select the tag in the 'tags' section in the 'Voting letter with voting directions' form in the 'Documents' section in the 'Types of meetings' section", function() {
+describe("The user is able to filter members by TIN in the 'Shareholders register' section", function() {
 
-        it("Click on the 'Council types' button", function() {
-            cy.get('#edit-statutes-block').click()
+        it("Click on the 'Shareholders register' button", function() {
+            cy.get('#edit-company-block').click()
             cy.wait(1000)
         });
 
-        it("Scroll down the page and navigate to the 'Documents' section", function() {
-            cy.get('#council-type-vote-letter-with-sense').scrollIntoView()
+        it("Navigate to the upper right corner and click on the filter button", function() {
+            cy.get('#filter-by-select').click()
             cy.wait(1000)
-        });
-
-        it("Navigate to the 'Voting letter with voting directions' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
-            cy.get('.ql-editor').eq(6).clear()
-                .type('{{')
-                    .type('business_name')
-                        .type('}}')
-            cy.wait(1000)
-            cy.get('#council-statute-save-button').click()
 
         });
 
+        it("From the menu choose and click on the 'TIN' button", function() {
+            cy.get('#filter-option-dni').click()
+            cy.wait(1000)
+        });
+
+        it("On the filter search field write the TIN you want to search", function() {
+            cy.get('#partners-search-input').clear()
+                .type('12345')
+            cy.wait(3000)
+        });
+        
         it("Back to Home page", function() {
             cy.visit(login_url);
         });
@@ -156,34 +161,116 @@ describe("The user is able to choose and select the tag in the 'tags' section in
 
     });
 
-describe("The user is able to choose and select the tag in the 'tags' section in the 'Right column vote letter with voting directions' form in the 'Documents' section in the 'Types of meetings' section", function() {
+describe("The user is able to filter members by Number de acta in the 'Shareholders register' section", function() {
 
-        it("Click on the 'Council types' button", function() {
-            cy.get('#edit-statutes-block').click()
+        it("Click on the 'Shareholders register' button", function() {
+            cy.get('#edit-company-block').click()
             cy.wait(1000)
         });
 
-        it("Scroll down the page and navigate to the 'Documents' section", function() {
-            cy.get('#council-type-vote-letter-with-sense-secondary').scrollIntoView()
+        it("Navigate to the upper right corner and click on the filter button", function() {
+            cy.get('#filter-by-select').click()
             cy.wait(1000)
-        });
-
-        it("Navigate to the 'Right column vote letter with voting directions' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
-            cy.get('.ql-editor').eq(7).clear()
-                .type('{{')
-                    .type('business_name')
-                        .type('}}')
-            cy.wait(1000)
-            cy.get('#council-statute-save-button').click()
 
         });
 
+        it("From the menu choose and click on the 'Number de acta' button", function() {
+            cy.get('#filter-option-subscribeActNumber').click()
+            cy.wait(1000)
+        });
+
+        it("On the filter search field write the Number de acta you want to search", function() {
+            cy.get('#partners-search-input').clear()
+                .type('12345')
+            cy.wait(3000)
+        });
+        
         it("Back to Home page", function() {
             cy.visit(login_url);
         });
 
 
     });
+
+
+describe("The user is able to filter members by 'Registrations' status type in the 'Shareholders section' section", function() {
+
+        it("Click on the 'Shareholders register' button", function() {
+            cy.get('#edit-company-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the button left to the 'Add member' button and click on it", function() {
+            cy.get('#category-filter-select').click()
+            cy.wait(1000)
+
+        });
+
+        it("Click on the 'Registrations' button", function() {
+            cy.get('#category-1').click()
+            cy.wait(1000)
+        });
+        
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
+describe("The user is able to filter members by 'Cancellation' status type in the 'Shareholders section' section", function() {
+
+        it("Click on the 'Shareholders register' button", function() {
+            cy.get('#edit-company-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the button left to the 'Add member' button and click on it", function() {
+            cy.get('#category-filter-select').click()
+            cy.wait(1000)
+
+        });
+
+        it("Click on the 'Cancellation' button", function() {
+            cy.get('#category-0').click()
+            cy.wait(1000)
+        });
+        
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to filter members by 'Other' status type in the 'Shareholders section' section", function() {
+
+        it("Click on the 'Shareholders register' button", function() {
+            cy.get('#edit-company-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the button left to the 'Add member' button and click on it", function() {
+            cy.get('#category-filter-select').click()
+            cy.wait(1000)
+
+        });
+
+        it("Click on the 'Other' button", function() {
+            cy.get('#category-2').click()
+            cy.wait(1000)
+        });
+        
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
+
 
 
 
