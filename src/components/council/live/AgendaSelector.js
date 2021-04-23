@@ -65,7 +65,7 @@ const AgendaSelector = ({
 					</React.Fragment>
 				))}
 			</div>
-			{(council.councilType < 2 || council.state < COUNCIL_STATES.ROOM_OPENED)
+			{(CBX.councilHasSession(council) || council.state < COUNCIL_STATES.ROOM_OPENED)
 				&& <React.Fragment>
 					{canAddPoints(council) && (
 						<div style={{ marginBottom: '0.8em' }}>

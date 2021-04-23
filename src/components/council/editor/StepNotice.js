@@ -433,7 +433,7 @@ const StepNotice = ({
 									refetch={reloadData}
 								/>
 							}
-							<Grid>
+							<Grid style={{ paddingBottom: '1em' }}>
 								<GridItem xs={12} md={4} lg={4} style={{ paddingRight: '3.5em' }}>
 									<SelectInput
 										required

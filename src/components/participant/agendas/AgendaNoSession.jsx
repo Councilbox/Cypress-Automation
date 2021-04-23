@@ -265,21 +265,14 @@ const AgendaNoSession = ({
 						</DisabledSection>
 					}
 
-					<div style={{ height: 'calc(100% - 2.5em)' }}>
+					<div style={{ height: '100%' }}>
 						{!props.sinCabecera &&
 							<React.Fragment>
 								<div style={{
-									// display: 'flex',
-									// alignItems: 'center',
 									padding: '8px',
-									// justifyContent: 'space-between'
 									position: 'relative',
 									textAlign: 'center'
 								}}>
-									{/* <div style={styles.agendasHeader}> */}
-									<div style={{}}>
-										{/* <div style={{ width: '8em' }}> */}
-									</div>
 									{props.timeline ?
 										(
 											<React.Fragment>
@@ -321,56 +314,57 @@ const AgendaNoSession = ({
 							</div>
 						}
 						{props.timeline ? (
-							<div style={{ height: '100%', paddingBottom: '3em' }}>
-								<ResultsTimeline
-									council={council}
-									participant={participant}
-									translate={translate}
-									endPage={true}
-								/>
-							</div>
+							<ResultsTimeline
+								council={council}
+								participant={participant}
+								translate={translate}
+								endPage={true}
+							/>
 						) : (
 							<Scrollbar ref={scrollbar}>
-								{!councilStarted(council) &&
-									<div style={{
-										backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700'
-									}}>
-										{translate.council_not_started_yet}
-									</div>
-								}
-								{council.company.logo &&
-									<div
-										style={{
-											width: '100%',
-											display: 'flex',
-											justifyContent: 'center',
-											height: '2.5em'
-										}}
-									>
-										<img src={council.company.logo} style={{ height: '100%', width: 'auto', marginTop: '0.6em' }}></img>
-									</div>
-								}
-								<div style={{ marginTop: '20px', marginBottom: '5rem', height: '100%' }}>
-									{council.councilType === COUNCIL_TYPES.ONE_ON_ONE &&
-										<CouncilAttachmentsModal
-											council={council}
-											participant={participant}
-											translate={translate}
-										/>
+								<div style={{ marginTop: '2em' }}>
+									{!councilStarted(council) &&
+										<div style={{
+											backgroundColor: primary, width: '100%', padding: '1em', color: 'white', fontWeight: '700'
+										}}>
+											{translate.council_not_started_yet}
+										</div>
 									}
-									{data.agendas ?
-										<React.Fragment>
-											{agendas.map((agenda, index) => (
-												<React.Fragment key={`agenda_card_${index}`} >
-													<div ref={el => { itemRefs[agenda.id] = el; }}>
-														{renderAgendaCard(agenda)}
-													</div>
-												</React.Fragment>
-											))}
-										</React.Fragment>
-										:
-										<LoadingSection />
+									{council.company.logo &&
+										<div
+											style={{
+												width: '100%',
+												display: 'flex',
+												justifyContent: 'center',
+												height: '2.5em',
+												marginTop: '0.6em'
+											}}
+										>
+											<img src={council.company.logo} style={{ height: '100%', width: 'auto' }}></img>
+										</div>
 									}
+									<div style={{ marginTop: '20px', paddingBottom: '2em' }}>
+										{council.councilType === COUNCIL_TYPES.ONE_ON_ONE &&
+											<CouncilAttachmentsModal
+												council={council}
+												participant={participant}
+												translate={translate}
+											/>
+										}
+										{data.agendas ?
+											<React.Fragment>
+												{agendas.map((agenda, index) => (
+													<React.Fragment key={`agenda_card_${index}`} >
+														<div ref={el => { itemRefs[agenda.id] = el; }} style={{ width: '100%' }}>
+															{renderAgendaCard(agenda)}
+														</div>
+													</React.Fragment>
+												))}
+											</React.Fragment>
+											:
+											<LoadingSection />
+										}
+									</div>
 								</div>
 							</Scrollbar>
 						)}

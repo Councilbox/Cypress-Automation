@@ -7,14 +7,15 @@ import {
 import { DropDownMenu, LoadingSection } from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
 import { getSecondary } from '../../../../styles/colors';
-import { useDownloadHTMLAsPDF } from '../../../../hooks';
+import { useDownloadCouncilMessages } from '../../../../hooks/council';
 
 
 const CommenWallList = ({ council, translate, client }) => {
 	const [data, setData] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
-	const { downloadHTMLAsPDF, downloading } = useDownloadHTMLAsPDF();
 	const secondary = getSecondary();
+	const { downloading, downloadCouncilMessagesPDF } = useDownloadCouncilMessages({ translate, client });
+
 
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
@@ -48,14 +49,6 @@ const CommenWallList = ({ council, translate, client }) => {
 		getData();
 	}, [getData]);
 
-	const downloadPDF = async () => {
-		await downloadHTMLAsPDF({
-			name: `${translate.council_comments}_${council.id}`,
-			companyId: council.companyId,
-			html: document.getElementById('toDownload').innerHTML
-		});
-	};
-
 
 	if (loading) {
 		return <LoadingSection />;
@@ -88,7 +81,7 @@ const CommenWallList = ({ council, translate, client }) => {
 							}
 							items={
 								<React.Fragment>
-									<MenuItem onClick={downloadPDF}>
+									<MenuItem onClick={() => downloadCouncilMessagesPDF(council)}>
 										<div
 											style={{
 												width: '100%',
@@ -132,7 +125,7 @@ const CommenWallList = ({ council, translate, client }) => {
 											{comment.author.name} {comment.author.surname || ''}
 										</TableCell>
 										<TableCell>
-											<div dangerouslySetInnerHTML={{ __html: comment.text }}></div>
+											<div dangerouslySetInnerHTML={{ __html: comment.text }} style={{ maxWidth: '30em' }}></div>
 										</TableCell>
 										<TableCell>
 											{moment(comment.date).format('LLL')}

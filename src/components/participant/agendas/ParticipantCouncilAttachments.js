@@ -13,6 +13,7 @@ import { moment } from '../../../containers/App';
 import { getPrimary } from '../../../styles/colors';
 import upload from '../../../assets/img/upload.svg';
 import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
+import { SERVER_URL } from '../../../config';
 
 const ParticipantCouncilAttachments = ({
 	translate, participant, client, council
@@ -87,6 +88,26 @@ const ParticipantCouncilAttachments = ({
 		};
 	};
 
+	const downloadAttachment = async attachment => {
+		const participantToken = sessionStorage.getItem('participantToken');
+		const response = await fetch(`${SERVER_URL}/councilAttachment/${attachment.id}`, {
+			headers: new Headers({
+				'x-jwt-token': participantToken,
+			})
+		});
+
+		if (response.status === 200) {
+			const blob = await response.blob();
+			const url = window.URL.createObjectURL(blob);
+			const a = document.createElement('a');
+			a.href = url;
+			a.download = attachment.filename;
+			document.body.appendChild(a);
+			a.click();
+			a.remove();
+		}
+	};
+
 	const onDrop = accepted => {
 		if (accepted.length === 0) {
 			return;
@@ -156,7 +177,8 @@ const ParticipantCouncilAttachments = ({
 											<img
 												src={upload}
 												style={{
-													paddingRight: '5px'
+													paddingRight: '5px',
+													height: '16px'
 												}}
 											/>
 										</div>
@@ -201,7 +223,12 @@ const ParticipantCouncilAttachments = ({
 											}}
 											onClick={() => setConfirmationModal(attachment)}
 										></i>
-										<div>
+										<div
+											style={{
+												userSelect: 'none',
+											}}
+											onClick={() => downloadAttachment(attachment)}
+										>
 											{translate.name} {attachment.filename}
 										</div>
 									</Card>
@@ -248,7 +275,14 @@ const ParticipantCouncilAttachments = ({
 									{data && data.filter(filterAttachments).map(attachment => (
 										<TableRow key={`attachment_${attachment.id}`}>
 											<TableCell>
-												{attachment.filename}
+												<div
+													style={{
+														cursor: 'pointer'
+													}}
+													onClick={() => downloadAttachment(attachment)}
+												>
+													{attachment.filename}
+												</div>
 											</TableCell>
 											<TableCell>
 												{attachment.filetype}

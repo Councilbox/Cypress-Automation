@@ -144,7 +144,11 @@ const Login = ({ translate, windowSize, ...props }) => {
 			languageSelector={true}
 		>
 			<Grid style={{
-				width: '100%', overflowX: 'hidden', padding: '0', margin: '0'
+				width: '100%',
+				overflowX: 'hidden',
+				padding: '0',
+				margin: '0',
+				height: '100%'
 			}}>
 				<GridItem xs={12} md={7} lg={7}
 					style={{
@@ -247,6 +251,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 						alignItems: 'center',
 						padding: 0,
 						margin: '0',
+						height: !isMobile && '100%',
 						width: '100%'
 					}}
 				>

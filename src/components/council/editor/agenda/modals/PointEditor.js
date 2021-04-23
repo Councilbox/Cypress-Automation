@@ -293,16 +293,15 @@ const PointEditor = ({
 									{props.majorityTypes.map(majority => (
 										<MenuItem
 											value={`${majority.value}`}
-											key={`majorityType_${
-												majority.value
-											}`}
+											key={`majorityType_${majority.value
+												}`}
 										>
 											{translate[majority.label]}
 										</MenuItem>
 									))}
 								</SelectInput>
 							</GridItem>
-							<GridItem xs={6} lg={3} md={3}>
+							<GridItem xs={6} lg={3} md={3} style={{ display: 'flex', alignItems: 'flex-end' }}>
 								{CBX.majorityNeedsInput(
 									agenda.majorityType
 								) && (
@@ -390,13 +389,13 @@ const PointEditor = ({
 			acceptAction={saveChanges}
 			extraActions={
 				props.deleteButton
-&& <DeleteAgendaButton
-	agenda={agenda}
-	requestClose={requestClose}
-	refetch={props.refetch}
-	council={council}
-	translate={translate}
-/>
+				&& <DeleteAgendaButton
+					agenda={agenda}
+					requestClose={requestClose}
+					refetch={props.refetch}
+					council={council}
+					translate={translate}
+				/>
 			}
 			buttonAccept={translate.accept}
 			buttonCancel={translate.cancel}

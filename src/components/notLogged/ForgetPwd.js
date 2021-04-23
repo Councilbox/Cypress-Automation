@@ -99,16 +99,17 @@ class ForgetPwd extends React.PureComponent {
 				languageSelector={true}
 			>
 				<div
-					className="row justify-content-md-center"
 					style={{
 						width: '100%',
 						margin: 0,
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'center',
 						fontSize: '0.85em',
 						height: '100%'
 					}}
 				>
 					<div
-						className="col-lg-8 col-md-8 col-xs-12 "
 						style={{
 							display: 'flex',
 							justifyContent: 'center',

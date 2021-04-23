@@ -36,10 +36,10 @@ const CheckParticipantRegisteredClavePin = ({
 		const result = await checkUserIsRegistered(participant.dni);
 
 		setLoading(false);
-		if (result) {
+		if (result.success) {
 			validateParticipant();
 		} else {
-			setPinError(translate.participant_not_registered);
+			setPinError(result.message || translate.participant_not_registered);
 		}
 	};
 

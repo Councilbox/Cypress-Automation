@@ -39,8 +39,8 @@ const CommentModal = ({
 	function getOwnVote() {
 		return agenda.votings.find(voting => (
 			voting.participantId === participant.id
-|| voting.delegateId === participant.id
-|| voting.author.representative.id === participant.id));
+			|| voting.delegateId === participant.id
+			|| voting.author.representative.id === participant.id));
 	}
 
 	const originalComment = getOwnVote();
@@ -86,10 +86,10 @@ const CommentModal = ({
 
 	return (
 		<React.Fragment>
-			{state.vote
-&& <Button size="small" color="primary" onClick={toggle} disabled={!(CBX.agendaVotingsOpened(agenda) && CBX.councilHasComments(council.statute))}>
-	{(!!originalComment && originalComment.comment) ? translate.edit_comment : translate.send_comment}
-</Button>
+			{(state.vote && CBX.councilHasComments(council.statute))
+				&& <Button size="small" color="primary" onClick={toggle} disabled={!(CBX.agendaVotingsOpened(agenda))}>
+					{(!!originalComment && originalComment.comment) ? translate.edit_comment : translate.send_comment}
+				</Button>
 			}
 
 			<AlertConfirm

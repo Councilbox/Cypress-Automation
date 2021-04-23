@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from 'material-ui';
 import { withRouter } from 'react-router';
-import { BasicButton, NotLoggedLayout, DateTimePicker } from '../../../../displayComponents';
+import { BasicButton, NotLoggedLayout } from '../../../../displayComponents';
 import { isMobile } from '../../../../utils/screen';
 import { getPrimary } from '../../../../styles/colors';
 import ClaveJusticiaStepper from './ClaveJusticiaStepper';
@@ -9,6 +9,7 @@ import { client } from '../../../../containers/App';
 import AccessClaveJusticiaForm from './AccessClaveJusticiaForm';
 import useClaveJusticia from '../../../../hooks/claveJusticia';
 import { useSubdomain } from '../../../../utils/subdomain';
+import ClaveJusticiaPicker from '../../../council/live/oneOnOne/ClaveJusticiaPicker';
 
 
 const styles = {
@@ -83,11 +84,8 @@ const AccessClaveJusticia = ({
 			translate={translate}
 			helpIcon={true}
 			languageSelector={false}
-			styleFix={{ overflow: 'hidden' }}
 		>
 			<div style={{
-				...styles.mainContainer,
-				height: '100%',
 				display: 'flex',
 				flexDirection: 'column',
 				justifyContent: 'center',
@@ -95,8 +93,9 @@ const AccessClaveJusticia = ({
 				width: '100%'
 			}}>
 				<Card style={{
-					...styles.cardContainer,
 					maxWidth: isMobile ? '100%' : '650px',
+					width: isMobile ? '100%' : '',
+					margin: isMobile ? '5em 0' : 'auto',
 					minWidth: window.innerWidth > 450 ? '650px' : '100%',
 				}} elevation={6}>
 					<div style={{
@@ -104,7 +103,12 @@ const AccessClaveJusticia = ({
 						height: '',
 					}}>
 						<div style={{
-							width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '1em 6em',
+							width: '100%',
+							height: '100%',
+							display: 'flex',
+							justifyContent: 'center',
+							alignItems: 'center',
+							padding: '1em',
 						}}>
 							<div style={{
 								width: '100%',
@@ -116,7 +120,7 @@ const AccessClaveJusticia = ({
 									</h3>
 								</div>
 								<div style={{ display: 'flex', justifyContent: 'center' }}>
-									<div style={{ width: '440px' }}>
+									<div style={{ width: isMobile ? '100%' : '440px' }}>
 										<div style={{
 											textAlign: 'center',
 											padding: '1em',
@@ -126,16 +130,13 @@ const AccessClaveJusticia = ({
 											{status === 'IDDLE' && (
 												<>
 													<div style={{ width: '95%', marginTop: '1em' }}>
-														<DateTimePicker
-															format={'DD-MM-yyyy'}
-															label={translate.clave_pin_dni_expiration_date}
-															errorText={expirationDateError}
-															onlyDate
-															style={{ width: '10em' }}
+														<ClaveJusticiaPicker
 															onChange={date => {
 																setExpirationDate(date);
 															}}
-															value={expirationDate}
+															placeholder={translate.clave_pin_dni_expiration_date}
+															error={expirationDateError}
+															date={expirationDate}
 														/>
 													</div>
 													<div

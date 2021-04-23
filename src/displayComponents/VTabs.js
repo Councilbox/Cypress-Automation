@@ -41,28 +41,32 @@ const Vtabs = ({
 							{additionalTab}
 						</div>
 						<Scrollbar>
-							{tabs.map((tab, mapIndex) => (
-								<div key={`${mapIndex}`} onClick={() => changeTab(`${mapIndex}`)}
-									style={{
-										borderRight: +index === +mapIndex ? `6px solid ${primary}` : '',
-										marginTop: '0.5em',
-										marginBottom: '0.5em',
-										padding: '0.5em',
-										paddingLeft: '1.2em',
-										background: +index === +mapIndex ? '#dcdcdc' : 'white',
-										cursor: 'pointer'
-									}}>
-									<HoverableTab
-										tab={tab}
-										index={index}
-										disabled={tab.disabled}
-										mapIndex={mapIndex}
-										editAction={editAction}
-										deleteAction={deleteAction}
-										translate={translate}
-									/>
-								</div>
-							))}
+							<div>
+								{tabs.map((tab, mapIndex) => (
+									<div key={`${mapIndex}`} onClick={() => changeTab(`${mapIndex}`)}>
+										<div
+											style={{
+												borderRight: +index === +mapIndex ? `6px solid ${primary}` : '',
+												marginTop: '0.5em',
+												marginBottom: '0.5em',
+												padding: '0.5em',
+												paddingLeft: '1.2em',
+												background: +index === +mapIndex ? '#dcdcdc' : 'white',
+												cursor: 'pointer'
+											}}>
+											<HoverableTab
+												tab={tab}
+												index={index}
+												disabled={tab.disabled}
+												mapIndex={mapIndex}
+												editAction={editAction}
+												deleteAction={deleteAction}
+												translate={translate}
+											/>
+										</div>
+									</div>
+								))}
+							</div>
 						</Scrollbar>
 					</div>
 				</div>

@@ -51,7 +51,7 @@ const ChangeEmail = ({ match, translate, ...props }) => {
 				marginBottom: '1.3em'
 			}}
 		>
-FAIL
+			FAIL
 		</div>
 	);
 
@@ -90,12 +90,12 @@ FAIL
 						: <React.Fragment>
 							<img src={logo} style={{ height: '6em', marginBottom: '0.6em' }} alt="councibox-icon" />
 							{!state.success
-&& errorWrapper()
+								&& errorWrapper()
 							}
 							{state.success
-&& <div style={{ margin: '1em' }}>
-Gracias por confirmar el nuevo email
-</div>
+								&& <div style={{ margin: '1em' }}>
+									Gracias por confirmar el nuevo email
+								</div>
 							}
 
 							<BasicButton

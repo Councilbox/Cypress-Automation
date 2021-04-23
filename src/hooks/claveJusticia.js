@@ -51,7 +51,7 @@ const getStoredDate = participantId => {
 	const storedDate = sessionStorage.getItem(`stored_expiration_date_${participantId}`);
 
 	if (storedDate) {
-		return moment(storedDate);
+		return moment(storedDate, 'DD/MM/yyyy');
 	}
 	return moment();
 };
@@ -76,9 +76,15 @@ const useClaveJusticia = ({ client, participantId, token }) => {
 			}
 		});
 
+		if (response.errors) {
+			return {
+				success: false,
+				message: response.errors[0].message
+			};
+		}
+
 		if (response.data?.checkParticipantIsRegisteredClavePin) {
-			const { success } = response.data?.checkParticipantIsRegisteredClavePin;
-			return success;
+			return response.data?.checkParticipantIsRegisteredClavePin;
 		}
 	};
 

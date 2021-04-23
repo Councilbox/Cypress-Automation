@@ -502,7 +502,12 @@ const StepOptions = ({
 						>
 							<LoadingSection />
 						</div>
-						: <div style={{ marginLeft: '1em' }}>
+						: <div
+							style={{
+								marginLeft: '1em',
+								paddingBottom: '1.5em'
+							}}
+						>
 							{council.councilType < 2 && (
 								<React.Fragment>
 									<SectionTitle
@@ -592,7 +597,7 @@ const StepOptions = ({
 										{council.approveActDraft === 1 && (
 											<div>
 												<div style={{
-													display: 'flex', flexDirection: 'row', marginLeft: '1.1em', alignItems: 'center'
+													display: 'flex', flexDirection: 'row', marginLeft: '1.1em', alignItems: 'flex-end'
 												}}>
 													<div>
 														<SelectInput
@@ -624,7 +629,7 @@ const StepOptions = ({
 															)}
 														</SelectInput>
 													</div>
-													<div style={{ display: 'flex', alignItems: 'center' }}>
+													<div style={{ display: 'flex', alignItems: 'flex-end' }}>
 														{CBX.majorityNeedsInput(
 															council.actPointMajorityType
 														) && (
@@ -635,15 +640,12 @@ const StepOptions = ({
 																divider={
 																	council.actPointMajorityDivider
 																}
-																mayori
 																onChange={value => updateCouncilData({
 																	actPointMajority: +value
-																})
-																}
+																})}
 																onChangeDivider={value => updateCouncilData({
 																	actPointMajorityDivider: +value
-																})
-																}
+																})}
 															/>
 														)}
 													</div>

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Typography } from 'material-ui';
 import { BasicButton, AlertConfirm } from '../../../displayComponents';
 import ActHTML from '../../council/writing/actViewer/ActHTML';
 import * as CBX from '../../../utils/CBX';
@@ -10,289 +9,158 @@ import VotingSection from './VotingSection';
 import CustomPointVotingMenu from './CustomPointVotingMenu';
 import { isMobile } from '../../../utils/screen';
 import ConfirmationRequestMenu from './ConfirmationRequestMenu';
+import { useOldState } from '../../../hooks';
+import { ConfigContext } from '../../../containers/AppControl';
 
-
-class AgendaMenu extends React.Component {
-	state = {
+const AgendaMenu = ({ agenda, translate, council, participant, refetch }) => {
+	const [state, setState] = useOldState({
 		voting: true,
 		open: false,
 		showModal: false,
 		reopen: false
-	}
+	});
+	const config = React.useContext(ConfigContext);
 
-	toggle = () => {
-		this.setState({
-			open: !this.state.open
+	const toggle = () => {
+		setState({
+			open: !state.open
 		});
-	}
+	};
 
-	activateVoting = () => {
-		if (this.state.voting) {
-			this.toggle();
-		} else if (this.state.open) {
-			this.setState({
+	const activateVoting = () => {
+		if (state.voting) {
+			toggle();
+		} else if (state.open) {
+			setState({
 				open: false,
 				reopen: true
 			});
 		} else {
-			this.setState({
+			setState({
 				open: true,
 				voting: true
 			});
 		}
-	}
+	};
 
-
-	activateComment = () => {
-		if (!this.state.voting) {
-			this.toggle(() => { });
-		} else if (this.state.open) {
-			this.setState({
-				open: false,
-				reopen: true
-			});
-		} else {
-			this.setState({
-				open: true,
-				voting: false
-			});
-		}
-	}
-
-	agendaStateIcon = () => {
-		const { agenda } = this.props;
-		let icon = 'fa fa-lock colorRed';
-		if (CBX.agendaPointNotOpened(agenda)) icon = 'fa fa-lock colorRed';
-		if (CBX.agendaPointOpened(agenda)) icon = 'fa fa-unlock-alt colorGreen';
-		if (CBX.agendaClosed(agenda)) icon = 'fa fa-lock colorRed';
-		return <i className={icon} aria-hidden="true" style={{ marginRight: '0.6em' }}></i>;
-	}
-
-	agendaVotingIcon = () => {
-		const { agenda } = this.props;
-		let icon = 'fa fa-lock colorRed';
-		if (CBX.agendaVotingsOpened(agenda)) icon = 'fa fa-unlock-alt colorGreen';
-		return <i className={icon} aria-hidden="true" style={{ marginRight: '0.6em' }}></i>;
-	}
-
-	agendaVotingMessage = () => {
-		const { translate, agenda } = this.props;
-		if (!CBX.agendaVotingsOpened(agenda)) return translate.agenda_votations_closed;
-		return translate.voting_open;
-	}
-
-	canComment = () => true
-
-	agendaStateMessage = () => {
-		const { translate, agenda } = this.props;
-		if (CBX.agendaPointNotOpened(agenda)) return translate.discussion_not_started;
-		if (CBX.agendaPointOpened(agenda)) return translate.in_discussion;
-		if (CBX.agendaClosed(agenda)) return translate.closed;
-		if (CBX.agendaVotingsOpened(agenda)) return translate.agenda_votations_closed;
-	}
-
-	render() {
-		const { translate, agenda, council } = this.props;
-		const secondary = getSecondary();
-		let ownVote = CBX.findOwnVote(agenda.votings, this.props.participant);
-
-		if (!ownVote || (ownVote.fixed && ownVote.numParticipations === 0)) {
-			ownVote = checkVotings(agenda.votings) || ownVote;
+	const shouldDisplayVotingMenu = () => {
+		if (participant.type === PARTICIPANT_TYPE.GUEST) {
+			return false;
 		}
 
-		return (
-			<div>
-				<Typography style={{ fontWeight: '700', fontSize: '16px' }}>
-					{/* {this.agendaStateIcon()} */}
-					{/* {this.agendaStateMessage()} */}
-				</Typography>
-				{agenda.attachments &&
-					agenda.attachments.filter(attachment => attachment.state !== 2).map(attachment => <AttachmentDownload attachment={attachment} key={`attachment_${attachment.id}`} agenda />)
-				}
-				{(CBX.hasVotation(agenda.subjectType) && agenda.subjectType !== CBX.getActPointSubjectType() && this.props.participant.type !== PARTICIPANT_TYPE.GUEST) &&
-					<React.Fragment>
-						<div style={{ marginTop: '0.8em', paddingRight: '2em' }}>
-							<Typography style={{ fontWeight: '700', fontSize: '16px' }}>
-								{/* {this.agendaVotingIcon()} */}
-								{/* {this.agendaVotingMessage()} */}
-							</Typography>
-						</div>
-						<React.Fragment>
-							{((agenda.votings && agenda.votings.length > 0) && ownVote) ?
-								<React.Fragment>
-									{!!ownVote.delegateId && (ownVote.delegateId !== this.props.participant.id) ?
-										translate.your_vote_is_delegated
-										:
-										<React.Fragment>
-											{CBX.isCustomPoint(agenda.subjectType) ?
-												<CustomPointVotingMenu
-													agenda={agenda}
-													refetch={this.props.refetch}
-													ownVote={ownVote}
-													cantVote={!(CBX.agendaVotingsOpened(agenda) && checkVotings(agenda.votings))}
-													council={this.props.council}
-													translate={translate}
-												/>
-												:
-												CBX.isConfirmationRequest(agenda.subjectType) ?
-													<ConfirmationRequestMenu
-														disabledColor={!(CBX.agendaVotingsOpened(agenda) && checkVotings(agenda.votings))}
-														agenda={agenda}
-														ownVote={ownVote}
-														open={this.state.open}
-														council={this.props.council}
-														voting={this.state.voting}
-														translate={translate}
-														activateVoting={this.activateVoting}
-														refetch={this.props.refetch}
-														toggle={this.toggle}
-														hasSession={CBX.councilHasSession(council)}
-													/>
-													:
-													<VotingSection
-														disabledColor={!(CBX.agendaVotingsOpened(agenda) && checkVotings(agenda.votings))}
-														agenda={agenda}
-														ownVote={ownVote}
-														open={this.state.open}
-														council={this.props.council}
-														voting={this.state.voting}
-														translate={translate}
-														activateVoting={this.activateVoting}
-														refetch={this.props.refetch}
-														toggle={this.toggle}
-														hasSession={CBX.councilHasSession(council)}
-													/>
-											}
-										</React.Fragment>
-									}
-								</React.Fragment>
+		if (config.hideVotingButtons) {
+			return CBX.agendaVotingsOpened(agenda);
+		}
+
+		return CBX.hasVotation(agenda.subjectType);
+	};
+
+	const secondary = getSecondary();
+	let ownVote = CBX.findOwnVote(agenda.votings, participant);
+
+
+	if (!ownVote || (ownVote.fixed && ownVote.numParticipations === 0)) {
+		ownVote = checkVotings(agenda.votings) || ownVote;
+	}
+
+	return (
+		<div>
+			{agenda.attachments &&
+				agenda.attachments.filter(attachment => attachment.state !== 2).map(attachment => <AttachmentDownload attachment={attachment} key={`attachment_${attachment.id}`} agenda />)
+			}
+			{(shouldDisplayVotingMenu()) &&
+				<>
+					{(agenda.subjectType === CBX.getActPointSubjectType() && CBX.agendaVotingsOpened(agenda)) &&
+						<BasicButton
+							text={translate.show_act_draft}
+							textStyle={{ color: secondary, fontWeight: '700' }}
+							buttonStyle={{ border: `2px solid ${secondary}`, marginBottom: '1.2em' }}
+							color={'white'}
+							onClick={() => setState({
+								showModal: true
+							})}
+						/>
+					}
+					{CBX.agendaVotingsOpened(agenda) &&
+						<>
+							{ownVote ?
+								ownVote.delegateId && (ownVote.delegateId !== participant.id) &&
+									translate.your_vote_is_delegated
 								:
-
-								<>
-									{(agenda.votingState > 0 &&
-										!ownVote &&
-										!(this.props.participant.type === PARTICIPANT_TYPE.PARTICIPANT && this.props.participant.numParticipations === 0)
-									) &&
+								!(participant.type === PARTICIPANT_TYPE.PARTICIPANT
+									&& participant.numParticipations === 0) &&
 										translate.cant_exercise_vote
-									}
-									{!CBX.isCustomPoint(agenda.subjectType) ?
-										CBX.isConfirmationRequest(agenda.subjectType) ?
-											<ConfirmationRequestMenu
-												disabledColor={!CBX.agendaVotingsOpened(agenda) || !ownVote}
-												agenda={agenda}
-												ownVote={ownVote}
-												open={this.state.open}
-												council={this.props.council}
-												voting={this.state.voting}
-												translate={translate}
-												activateVoting={this.activateVoting}
-												refetch={this.props.refetch}
-												toggle={this.toggle}
-											/>
-											:
-											<VotingSection
-												disabledColor={!CBX.agendaVotingsOpened(agenda) || !ownVote}
-												agenda={agenda}
-												ownVote={ownVote}
-												open={this.state.open}
-												council={this.props.council}
-												voting={this.state.voting}
-												translate={translate}
-												hasSession={CBX.councilHasSession(council)}
-												activateVoting={this.activateVoting}
-												refetch={this.props.refetch}
-												toggle={this.toggle}
-											/>
-										:
-										<CustomPointVotingMenu
-											agenda={agenda}
-											refetch={this.props.refetch}
-											ownVote={ownVote}
-											cantVote={!(CBX.agendaVotingsOpened(agenda) && checkVotings(agenda.votings))}
-											council={this.props.council}
-											translate={translate}
-										/>
 
-									}
-								</>
 							}
-						</React.Fragment>
-					</React.Fragment>
-				}
-				{agenda.subjectType === CBX.getActPointSubjectType() && this.props.participant.type !== PARTICIPANT_TYPE.GUEST &&
-					<div style={{ marginTop: '0.8em', paddingRight: '2em' }}>
-
-						{!CBX.agendaVotingsOpened(agenda) ?
-							<Typography variant="caption" style={{ fontSize: '0.8rem' }}>{translate.agenda_votations_closed}</Typography>
-							:
-							<React.Fragment>
-								<BasicButton
-									text={this.props.translate.show_act_draft}
-									textStyle={{ color: secondary, fontWeight: '700' }}
-									buttonStyle={{ border: `2px solid ${secondary}`, marginBottom: '1.2em' }}
-									color={'white'}
-									onClick={() => this.setState({
-										showModal: true
-									})}
-								/>
-								<div style={{ marginTop: '0.8em', paddingRight: '2em' }}>
-									<Typography style={{ fontWeight: '700', fontSize: '16px' }}>
-										{/* {this.agendaVotingIcon()} */}
-										{/* {this.agendaVotingMessage()} */}
-									</Typography>
-								</div>
-								{CBX.agendaVotingsOpened(agenda) &&
-									<React.Fragment>
-										{(agenda.votings && agenda.votings.length > 0) ?
-											<React.Fragment>
-												{checkVotings(agenda.votings) &&
-													<VotingSection
-														agenda={agenda}
-														disabledColor={!CBX.agendaVotingsOpened(agenda) || !ownVote}
-														ownVote={ownVote}
-														open={this.state.open}
-														council={this.props.council}
-														voting={this.state.voting}
-														translate={translate}
-														activateVoting={this.activateVoting}
-														refetch={this.props.refetch}
-														toggle={this.toggle}
-													/>
-												}
-											</React.Fragment>
-											:
-											translate.cant_exercise_vote
-										}
-									</React.Fragment>
-								}
-							</React.Fragment>
+						</>
+					}
+					<>
+						{CBX.isCustomPoint(agenda.subjectType) &&
+							<CustomPointVotingMenu
+								agenda={agenda}
+								refetch={refetch}
+								ownVote={ownVote}
+								cantVote={!(CBX.agendaVotingsOpened(agenda) && checkVotings(agenda.votings))}
+								council={council}
+								translate={translate}
+							/>
 						}
+						{CBX.isConfirmationRequest(agenda.subjectType) &&
+							<ConfirmationRequestMenu
+								disabledColor={!(CBX.agendaVotingsOpened(agenda) && checkVotings(agenda.votings))}
+								agenda={agenda}
+								ownVote={ownVote}
+								open={state.open}
+								council={council}
+								voting={state.voting}
+								translate={translate}
+								activateVoting={activateVoting}
+								refetch={refetch}
+								toggle={toggle}
+								hasSession={CBX.councilHasSession(council)}
+							/>
+						}
+						{(!CBX.isCustomPoint(agenda.subjectType) && !CBX.isConfirmationRequest(agenda.subjectType)) &&
+							<VotingSection
+								disabledColor={!(CBX.agendaVotingsOpened(agenda) && checkVotings(agenda.votings))}
+								agenda={agenda}
+								ownVote={ownVote}
+								open={state.open}
+								council={council}
+								voting={state.voting}
+								translate={translate}
+								activateVoting={activateVoting}
+								refetch={refetch}
+								toggle={toggle}
+								hasSession={CBX.councilHasSession(council)}
+							/>
+						}
+					</>
+				</>
+			}
+			<AlertConfirm
+				requestClose={() => setState({ showModal: false })}
+				open={state.showModal}
+				acceptAction={() => setState({ showModal: false })}
+				buttonAccept={translate.accept}
+				PaperProps={isMobile ? {
+					style: {
+						width: '100vw',
+						margin: '0'
+					}
+				} : {}}
+				bodyText={
+					<div>
+						<ActHTML
+							council={council}
+						/>
 					</div>
 				}
-				<AlertConfirm
-					requestClose={() => this.setState({ showModal: false })}
-					open={this.state.showModal}
-					acceptAction={() => this.setState({ showModal: false })}
-					buttonAccept={translate.accept}
-					PaperProps={isMobile ? {
-						style: {
-							width: '100vw',
-							margin: '0'
-						}
-					} : {}}
-					bodyText={
-						<div>
-							<ActHTML
-								council={this.props.council}
-							/>
-						</div>
-					}
-					title={translate.edit}
-				/>
-			</div>
-		);
-	}
-}
+				title={translate.edit}
+			/>
+		</div>
+	);
+};
 
 const checkVotings = votings => {
 	const result = votings.find(voting => (voting.numParticipations > 0 && !voting.fixed));
