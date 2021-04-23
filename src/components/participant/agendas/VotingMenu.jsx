@@ -144,11 +144,6 @@ const VotingMenu = ({
 		}
 	}
 
-	// if (voteDenied) {
-	// 	return (
-	// 	);
-	// }
-
 	const disabled = fixed || !props.ownVote;
 
 	return (
