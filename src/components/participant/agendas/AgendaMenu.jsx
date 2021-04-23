@@ -12,6 +12,7 @@ import ConfirmationRequestMenu from './ConfirmationRequestMenu';
 import { useOldState } from '../../../hooks';
 import { ConfigContext } from '../../../containers/AppControl';
 
+
 const AgendaMenu = ({ agenda, translate, council, participant, refetch }) => {
 	const [state, setState] = useOldState({
 		voting: true,

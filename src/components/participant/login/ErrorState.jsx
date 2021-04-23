@@ -15,6 +15,7 @@ import background from '../../../assets/img/fondo_test_mundo2.jpg';
 import { moment } from '../../../containers/App';
 import { getCustomBackground } from '../../../utils/subdomain';
 import RemoveDelegationAndEnter from './RemoveDelegationAndEnter';
+import LoginAfterAccessLimitButton from './LoginAfterAccessLimitButton';
 // import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
 
 const styles = {
@@ -78,7 +79,7 @@ const ErrorState = ({
 				return <RepresentedChanged translate={translate} data={data} refetch={refetch} />;
 
 			case PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED:
-				return <TimeLimitExceeded translate={translate} data={data} />;
+				return <TimeLimitExceeded translate={translate} data={data} refetch={refetch} />;
 
 			case PARTICIPANT_ERRORS.REPRESENTED_DELEGATED:
 				return <RepresentedDelegated translate={translate} data={data} refetch={refetch} />;
@@ -178,7 +179,7 @@ const ErrorState = ({
 
 
 const ParticipantBlocked = ({ translate }) => (
-	<React.Fragment>
+	<>
 		<h5 style={{ color: primary, fontWeight: 'bold' }}>
 			{translate.we_are_sorry}
 		</h5>
@@ -197,11 +198,11 @@ const ParticipantBlocked = ({ translate }) => (
 		</div>
 
 		{translate.cant_access_video_room_expelled}
-	</React.Fragment>
+	</>
 );
 
 const RemoteClosed = ({ translate }) => (
-	<React.Fragment>
+	<>
 		<h5 style={{ color: primary, fontWeight: 'bold' }}>
 			{translate.we_are_sorry}
 		</h5>
@@ -220,11 +221,11 @@ const RemoteClosed = ({ translate }) => (
 		</div>
 
 		{'Las votaciones remotas han finalizado' /* TRADUCCION */}
-	</React.Fragment>
+	</>
 );
 
 const RepresentedDelegated = ({ translate, data, refetch }) => (
-	<React.Fragment>
+	<>
 		<h5 style={{ color: primary, fontWeight: 'bold' }}>
 			{translate.we_are_sorry}
 		</h5>
@@ -249,11 +250,11 @@ const RepresentedDelegated = ({ translate, data, refetch }) => (
 			refetch={refetch}
 			translate={translate}
 		/>
-	</React.Fragment>
+	</>
 );
 
 const RepresentedChanged = ({ translate }) => (
-	<React.Fragment>
+	<>
 		<h5 style={{ color: primary, fontWeight: 'bold' }}>
 			{translate.we_are_sorry}
 		</h5>
@@ -272,12 +273,12 @@ const RepresentedChanged = ({ translate }) => (
 		</div>
 
 		{'El voto de su representado ha sido depositado en otro representante' /* TRADUCCION */}
-	</React.Fragment>
+	</>
 );
 
 
 const ParticipantNotInRemoteState = ({ translate, data, refetch }) => (
-	<React.Fragment>
+	<>
 		<h5 style={{ color: primary, fontWeight: 'bold' }}>
 			{translate.we_are_sorry}
 		</h5>
@@ -305,25 +306,49 @@ const ParticipantNotInRemoteState = ({ translate, data, refetch }) => (
 			:
 			translate.cant_access_video_room_no_remote_assistance
 		}
-	</React.Fragment>
+	</>
 );
 
-const TimeLimitExceeded = ({ translate }) => (
-	<React.Fragment>
-		<h5 style={{ color: primary, fontWeight: 'bold' }}>
-			{translate.we_are_sorry}
-		</h5>
+const TimeLimitExceeded = ({ translate, data, refetch }) => (
+	<>
+		{data.council.statute.letParticipantsEnterAfterLimit ?
+			<>
+				<div className="fa-stack fa-lg" style={{ fontSize: '8vh' }}>
+					<FontAwesome
+						name={'clock-o'}
+						stack={'2x'}
+						style={{ color: primary }}
+					/>
+				</div>
+				<div style={{ marginBottom: '1em' }}>
+					{translate.enter_room_after_access_limit_warning.replace(/{{participantName}}/,
+					`${data.participant.name} ${data.participant.surname || ''}`)}
+				</div>
+				<LoginAfterAccessLimitButton
+					translate={translate}
+					council={data.council}
+					participant={data.participant}
+					refetch={refetch}
+				/>
+			</>
+			:
+			<>
+				<h5 style={{ color: primary, fontWeight: 'bold' }}>
+					{translate.we_are_sorry}
+				</h5>
 
-		<div className="fa-stack fa-lg" style={{ fontSize: '8vh' }}>
-			<FontAwesome
-				name={'clock-o'}
-				stack={'2x'}
-				style={{ color: primary }}
-			/>
-		</div>
+				<div className="fa-stack fa-lg" style={{ fontSize: '8vh' }}>
+					<FontAwesome
+						name={'clock-o'}
+						stack={'2x'}
+						style={{ color: primary }}
+					/>
+				</div>
+				{translate.cant_access_time_exceeded}
+			</>
 
-		{translate.cant_access_time_exceeded}
-	</React.Fragment>
+		}
+	</>
 );
 
 export default withTranslations()(
