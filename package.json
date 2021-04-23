@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.3.15",
+    "@apollo/react-hoc": "^4.0.0",
     "antd": "^3.6.4",
     "apollo-cache-inmemory": "^1.2.5",
     "apollo-client": "^2.3.5",

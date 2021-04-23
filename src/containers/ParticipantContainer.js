@@ -339,6 +339,7 @@ const councilQuery = gql`
 				statuteId
 				title
 				existPublicUrl
+				letParticipantsEnterAfterLimit
 				addParticipantsListToAct
 				existsAdvanceNoticeDays
 				advanceNoticeDays
