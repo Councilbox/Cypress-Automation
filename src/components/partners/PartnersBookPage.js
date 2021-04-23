@@ -266,6 +266,7 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
 			<EnhancedTable
 				exporXLSX={true}
 				ref={table}
+				id="partners"
 				translate={translate}
 				defaultLimit={state.appliedFilters.limit}
 				searchInMovil={isMobile}
@@ -278,11 +279,12 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
 							color={'white'}
 							buttonStyle={{ border: `2px solid ${primary}`, marginRight: '0.9em' }}
 							textStyle={{ color: primary, textTransform: 'none', fontWeight: '700' }}
-							id={'anadirSocioLibroSocios'}
+							id={'add-partner-button'}
 						/>
 						<BasicButton
 							text={'Exportar a XLSX'} // TRADUCCION
 							onClick={createXLSX}
+							id="export-partners-book"
 							color={'white'}
 							buttonStyle={{ border: `2px solid ${primary}` }}
 							textStyle={{ color: primary, textTransform: 'none', fontWeight: '700' }}
@@ -345,9 +347,10 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
 				headers={headers}
 			>
 				{bookParticipantsData.map(
-					participant => (
+					(participant, index) => (
 						<HoverableRow
-							key={`participant${participant.id}`}
+							id={`participant-${index}`}
+							key={`participant-${participant.id}`}
 							deleteBookParticipant={selectedIdToDelete}
 							participant={participant}
 							representative={participant.representative}
@@ -362,167 +365,169 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
 };
 
 class HoverableRow extends React.PureComponent {
-state = {
-	showActions: false
-}
-
-mouseEnterHandler = () => {
-	this.setState({
-		showActions: true
-	});
-}
-
-mouseLeaveHandler = () => {
-	this.setState({
+	state = {
 		showActions: false
-	});
-}
-
-
-render() {
-	const { participant, translate, representative } = this.props;
-
-	if (isMobile) {
-		return (
-			<Card
-				style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
-				onClick={() => bHistory.push(`/company/${this.props.companyId}/book/${participant.id}`)}
-			>
-				<Grid>
-					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
-						{translate.state}
-					</GridItem>
-					<GridItem xs={7} md={7}>
-						{participant.state === 1
-&& this.props.translate.subscribed
-						}
-						{participant.state === 0
-&& this.props.translate.unsubscribed
-						}
-						{participant.state === 2
-&& this.props.translate.other
-						}
-					</GridItem>
-
-					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
-						{translate.participant_data}
-					</GridItem>
-					<GridItem xs={7} md={7}>
-						<span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname || ''}`}</span>
-					</GridItem>
-
-					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
-						{translate.dni}
-					</GridItem>
-					<GridItem xs={7} md={7}>
-						{participant.dni}
-					</GridItem>
-
-					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
-						{translate.position}
-					</GridItem>
-					<GridItem xs={7} md={7}>
-						{participant.position}
-					</GridItem>
-
-					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
-						{translate.subscribe_date}
-					</GridItem>
-					<GridItem xs={7} md={7}>
-						{participant.subscribeDate ? moment(participant.subscribeDate).format('LL') : '-'}
-					</GridItem>
-
-					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
-						{translate.unsubscribe_date}
-					</GridItem>
-					<GridItem xs={7} md={7}>
-						{participant.unsubscribeDate ? moment(participant.unsubscribeDate).format('LL') : '-'}
-					</GridItem>
-					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
-						{translate.subscribe_act_number}
-					</GridItem>
-					<GridItem xs={7} md={7}>
-						{`${participant.subscribeActNumber || '-'}`}
-					</GridItem>
-					<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
-						{translate.unsubscribe_act_number}
-					</GridItem>
-					<GridItem xs={7} md={7}>
-						{`${participant.unsubscribeActNumber || '-'}`}
-					</GridItem>
-				</Grid>
-				<div style={{ position: 'absolute', top: '5px', right: '5px' }}>
-					<CloseIcon onClick={event => {
-						event.stopPropagation();
-						this.props.deleteBookParticipant(participant.id);
-					}} />
-				</div>
-			</Card>
-		);
 	}
 
-	return (
-		<TableRow
-			hover={true}
-			className={'rowLibroSocios'}
-			onMouseOver={this.mouseEnterHandler}
-			onMouseLeave={this.mouseLeaveHandler}
-			onClick={() => bHistory.push(`/company/${this.props.companyId}/book/${participant.id}`)}
-			style={{
-				cursor: 'pointer',
-				fontSize: '0.5em'
-			}}
-		>
-			<TableCell>
-				{participant.state === 1
-&& this.props.translate.subscribed
-				}
-				{participant.state === 0
-&& this.props.translate.unsubscribed
-				}
-				{participant.state === 2
-&& this.props.translate.other
-				}
-			</TableCell>
-			<TableCell>
-				<span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname || ''}`}</span>
-				{representative
-&& <React.Fragment>
-	<br />{`${representative.name} ${representative.surname || ''}`}
-</React.Fragment>
-				}
-			</TableCell>
-			<TableCell>
-				{`${participant.dni || ''}`}
-			</TableCell>
-			<TableCell>
-				{`${participant.position || ''}`}
-			</TableCell>
-			<TableCell>
-				{participant.subscribeDate ? moment(participant.subscribeDate).format('LL') : '-'}
-			</TableCell>
-			<TableCell>
-				{participant.unsubscribeDate ? moment(participant.unsubscribeDate).format('LL') : '-'}
-			</TableCell>
-			<TableCell>
-				{`${participant.subscribeActNumber || ''}`}
-			</TableCell>
-			<TableCell>
-				{`${participant.unsubscribeActNumber || ''}`}
-			</TableCell>
-			<TableCell>
-				<div style={{ width: '3em' }}>
-					{this.state.showActions
-&& <CloseIcon onClick={event => {
-	event.stopPropagation();
-	this.props.deleteBookParticipant(participant.id);
-}} />
+	mouseEnterHandler = () => {
+		this.setState({
+			showActions: true
+		});
+	}
+
+	mouseLeaveHandler = () => {
+		this.setState({
+			showActions: false
+		});
+	}
+
+
+	render() {
+		const { participant, translate, representative } = this.props;
+
+		if (isMobile) {
+			return (
+				<Card
+					style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
+					id={this.props.id}
+					onClick={() => bHistory.push(`/company/${this.props.companyId}/book/${participant.id}`)}
+				>
+					<Grid>
+						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
+							{translate.state}
+						</GridItem>
+						<GridItem xs={7} md={7}>
+							{participant.state === 1
+								&& this.props.translate.subscribed
+							}
+							{participant.state === 0
+								&& this.props.translate.unsubscribed
+							}
+							{participant.state === 2
+								&& this.props.translate.other
+							}
+						</GridItem>
+
+						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
+							{translate.participant_data}
+						</GridItem>
+						<GridItem xs={7} md={7}>
+							<span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname || ''}`}</span>
+						</GridItem>
+
+						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
+							{translate.dni}
+						</GridItem>
+						<GridItem xs={7} md={7}>
+							{participant.dni}
+						</GridItem>
+
+						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
+							{translate.position}
+						</GridItem>
+						<GridItem xs={7} md={7}>
+							{participant.position}
+						</GridItem>
+
+						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
+							{translate.subscribe_date}
+						</GridItem>
+						<GridItem xs={7} md={7}>
+							{participant.subscribeDate ? moment(participant.subscribeDate).format('LL') : '-'}
+						</GridItem>
+
+						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
+							{translate.unsubscribe_date}
+						</GridItem>
+						<GridItem xs={7} md={7}>
+							{participant.unsubscribeDate ? moment(participant.unsubscribeDate).format('LL') : '-'}
+						</GridItem>
+						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
+							{translate.subscribe_act_number}
+						</GridItem>
+						<GridItem xs={7} md={7}>
+							{`${participant.subscribeActNumber || '-'}`}
+						</GridItem>
+						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
+							{translate.unsubscribe_act_number}
+						</GridItem>
+						<GridItem xs={7} md={7}>
+							{`${participant.unsubscribeActNumber || '-'}`}
+						</GridItem>
+					</Grid>
+					<div style={{ position: 'absolute', top: '5px', right: '5px' }}>
+						<CloseIcon onClick={event => {
+							event.stopPropagation();
+							this.props.deleteBookParticipant(participant.id);
+						}} />
+					</div>
+				</Card>
+			);
+		}
+
+		return (
+			<TableRow
+				hover={true}
+				id={this.props.id}
+				className={'rowLibroSocios'}
+				onMouseOver={this.mouseEnterHandler}
+				onMouseLeave={this.mouseLeaveHandler}
+				onClick={() => bHistory.push(`/company/${this.props.companyId}/book/${participant.id}`)}
+				style={{
+					cursor: 'pointer',
+					fontSize: '0.5em'
+				}}
+			>
+				<TableCell>
+					{participant.state === 1
+						&& this.props.translate.subscribed
 					}
-				</div>
-			</TableCell>
-		</TableRow>
-	);
-}
+					{participant.state === 0
+						&& this.props.translate.unsubscribed
+					}
+					{participant.state === 2
+						&& this.props.translate.other
+					}
+				</TableCell>
+				<TableCell>
+					<span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname || ''}`}</span>
+					{representative
+						&& <React.Fragment>
+							<br />{`${representative.name} ${representative.surname || ''}`}
+						</React.Fragment>
+					}
+				</TableCell>
+				<TableCell>
+					{`${participant.dni || ''}`}
+				</TableCell>
+				<TableCell>
+					{`${participant.position || ''}`}
+				</TableCell>
+				<TableCell>
+					{participant.subscribeDate ? moment(participant.subscribeDate).format('LL') : '-'}
+				</TableCell>
+				<TableCell>
+					{participant.unsubscribeDate ? moment(participant.unsubscribeDate).format('LL') : '-'}
+				</TableCell>
+				<TableCell>
+					{`${participant.subscribeActNumber || ''}`}
+				</TableCell>
+				<TableCell>
+					{`${participant.unsubscribeActNumber || ''}`}
+				</TableCell>
+				<TableCell>
+					<div style={{ width: '3em' }}>
+						{this.state.showActions
+							&& <CloseIcon onClick={event => {
+								event.stopPropagation();
+								this.props.deleteBookParticipant(participant.id);
+							}} />
+						}
+					</div>
+				</TableCell>
+			</TableRow>
+		);
+	}
 }
 
 export default withTranslations()(withRouter(withApollo(PartnersBookPage)));
