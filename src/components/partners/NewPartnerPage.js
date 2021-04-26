@@ -300,6 +300,7 @@ class NewPartnerPage extends React.Component {
 					<div>
 						<BasicButton
 							text={this.props.translate.back}
+							id="edit-partner-back-button"
 							color={'white'}
 							type="flat"
 							textStyle={{ color: 'black', fontWeight: '700', textTransform: 'none' }}
