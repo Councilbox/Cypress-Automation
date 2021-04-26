@@ -206,6 +206,7 @@ class HoverableRow extends React.PureComponent {
 
 		return (
 			<CloseIcon
+				id="census-delete-button"
 				style={{ color: primary }}
 				onClick={event => {
 					this.props.openDeleteModal(councilID);
@@ -234,6 +235,7 @@ class HoverableRow extends React.PureComponent {
 				) : (
 					<Tooltip title={translate.change_default_census_tooltip}>
 						<FontAwesome
+							id="census-set-as-default-button"
 							name={
 								census.defaultCensus
 									=== 1 ?
@@ -258,6 +260,7 @@ class HoverableRow extends React.PureComponent {
 			<Tooltip title={translate.manage_participants}>
 				<FontAwesome
 					name={'users'}
+					id="census-manage-participants-button"
 					style={{
 						cursor: 'pointer',
 						fontSize: '1.8em',
@@ -273,6 +276,7 @@ class HoverableRow extends React.PureComponent {
 			<Tooltip title={translate.edit}>
 				<FontAwesome
 					name={'edit'}
+					id="census-edit-button"
 					style={{
 						cursor: 'pointer',
 						fontSize: '1.8em',
@@ -290,6 +294,7 @@ class HoverableRow extends React.PureComponent {
 			<Tooltip title={translate.clone_census}>
 				<FontAwesome
 					name={'clone'}
+					id="census-clone-button"
 					style={{
 						cursor: 'pointer',
 						fontSize: '1.8em',
@@ -308,6 +313,7 @@ class HoverableRow extends React.PureComponent {
 			<Tooltip title={translate.delete}>
 				<span>
 					<CloseIcon
+						id="census-delete-button"
 						style={{
 							color: primary,
 							marginTop: '-10px'
