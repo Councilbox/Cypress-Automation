@@ -1,5 +1,6 @@
 import React from 'react';
-import { compose, graphql, withApollo } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import { toast } from 'react-toastify';
 import gql from 'graphql-tag';
 import { LiveToast } from '../../../displayComponents';
@@ -304,7 +305,7 @@ const ActAgreements = ({
 					loadDraft={
 						<LoadDraftModal
 							translate={translate}
-							companyId={company.id}
+							companyId={company?.id}
 							loadDraft={loadDraft}
 							statute={council.statute}
 							defaultTags={

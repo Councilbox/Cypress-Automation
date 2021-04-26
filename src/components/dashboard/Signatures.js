@@ -1,7 +1,7 @@
 import React from 'react';
-import { compose, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import { TableCell, TableRow } from 'material-ui/Table';
-import Scrollbar from 'react-perfect-scrollbar';
 import { deleteSignature as deleteSignatureMutation, signatures as signaturesQuery } from '../../queries/signature';
 import {
 	AlertConfirm,
@@ -10,10 +10,10 @@ import {
 	LoadingSection,
 	MainTitle,
 	Table,
+	Scrollbar,
 	BasicButton
 } from '../../displayComponents/index';
 import { getPrimary } from '../../styles/colors';
-import 'react-perfect-scrollbar/dist/css/styles.css';
 import { bHistory } from '../../containers/App';
 import CantCreateCouncilsModal from './CantCreateCouncilsModal';
 import { ConfigContext } from '../../containers/AppControl';

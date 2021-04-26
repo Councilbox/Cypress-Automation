@@ -144,12 +144,6 @@ const VotingMenu = ({
 		}
 	}
 
-	if (voteDenied) {
-		return (
-			<DeniedDisplay translate={translate} denied={denied} />
-		);
-	}
-
 	const disabled = fixed || !props.ownVote;
 
 	return (
@@ -161,8 +155,8 @@ const VotingMenu = ({
 				flexDirection: 'row'
 			}}
 		>
-			{denied.length > 0 &&
-				'Dentro de los votos depositados en usted, tiene votos denegados' // TRADUCCION
+			{voteDenied &&
+				<DeniedDisplay translate={translate} denied={denied} />
 			}
 			{(props.ownVote && props.ownVote.fixed) &&
 				<>
@@ -302,9 +296,7 @@ const VotingMenu = ({
 };
 
 export const DeniedDisplay = ({ denied }) => (
-	<div>
-	No puede ejercer su derecho a voto
-		<br />
+	<div style={{ marginTop: '1em' }}>
 		{denied.map(deniedVote => (
 			<React.Fragment key={`denied_vote_${deniedVote.id}`}>
 				<br />

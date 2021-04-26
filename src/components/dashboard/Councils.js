@@ -1,5 +1,6 @@
 import React from 'react';
-import { compose, graphql, withApollo } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import { councils, deleteCouncil as deleteCouncilMutation } from '../../queries';
 import {
 	AlertConfirm,
@@ -12,7 +13,6 @@ import {
 } from '../../displayComponents/index';
 import { isLandscape, isMobile } from '../../utils/screen';
 import { getSecondary } from '../../styles/colors';
-import 'react-perfect-scrollbar/dist/css/styles.css';
 import withWindowSize from '../../HOCs/withWindowSize';
 import CouncilsList from './CouncilsList';
 import CouncilsHistory from './CouncilsHistory';

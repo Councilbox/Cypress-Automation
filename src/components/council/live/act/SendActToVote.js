@@ -1,5 +1,6 @@
 import React from 'react';
-import { compose, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import { sendActToVote as sendActToVoteMutation, openAgendaVoting } from '../../../../queries';
 import { AlertConfirm } from '../../../../displayComponents';
 import DocumentPreview from '../../../documentEditor/DocumentPreview';

@@ -104,7 +104,7 @@ const ParticipantStateSelector = ({
 						onClick={() => handleParticipantState(5, 2, null)}
 						active={
 							participant.state
-=== PARTICIPANT_STATES.PHYSICALLY_PRESENT
+							=== PARTICIPANT_STATES.PHYSICALLY_PRESENT
 						}
 					>
 						<StateIcon
@@ -125,7 +125,7 @@ const ParticipantStateSelector = ({
 							onClick={() => handleParticipantState(7, 3, null)}
 							active={
 								participant.state
-=== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
+								=== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
 							}
 						>
 							<StateIcon
@@ -141,25 +141,25 @@ const ParticipantStateSelector = ({
 			</GridItem>
 			<GridItem xs={landscape ? 6 : 12} md={6} lg={6} style={{ display: inDropDown ? 'none' : 'block' }}>
 				{CBX.canHaveRepresentative(participant)
-&& <div style={{ display: 'flex', alignItems: 'center' }}>
+					&& <div style={{ display: 'flex', alignItems: 'center' }}>
 
-	{!(participant.delegatedVotes.length > 0) && (
-		<FilterButton
-			tooltip={translate.add_representative}
-			loading={loading === 4}
-			size="2.8em"
-			onClick={() => setAddRepresentative(true)}
-		>
-			<StateIcon
-				translate={translate}
-				state={PARTICIPANT_STATES.REPRESENTATED}
-				color={secondary}
-				hideTooltip={true}
-			/>
-		</FilterButton>
-	)}
-	<span style={{ fontSize: '0.9em' }}>{translate.add_representative}</span>
-</div>
+						{!(participant.delegatedVotes.length > 0) && (
+							<FilterButton
+								tooltip={translate.add_representative}
+								loading={loading === 4}
+								size="2.8em"
+								onClick={() => setAddRepresentative(true)}
+							>
+								<StateIcon
+									translate={translate}
+									state={PARTICIPANT_STATES.REPRESENTATED}
+									color={secondary}
+									hideTooltip={true}
+								/>
+							</FilterButton>
+						)}
+						<span style={{ fontSize: '0.9em' }}>{translate.add_representative}</span>
+					</div>
 				}
 				{CBX.canDelegateVotes(council.statute, participant) && (
 					<div style={{ display: 'flex', alignItems: 'center' }}>
@@ -170,7 +170,7 @@ const ParticipantStateSelector = ({
 							onClick={() => setDelegateOwnVote(true)}
 							active={
 								participant.state
-=== PARTICIPANT_STATES.DELEGATED
+								=== PARTICIPANT_STATES.DELEGATED
 							}
 						>
 							<StateIcon
@@ -192,7 +192,7 @@ const ParticipantStateSelector = ({
 							onClick={() => setDelegateVote(true)}
 							active={
 								participant.state
-=== PARTICIPANT_STATES.DELEGATED
+								=== PARTICIPANT_STATES.DELEGATED
 							}
 						>
 							<FontAwesome
@@ -226,22 +226,22 @@ const ParticipantStateSelector = ({
 					translate={translate}
 				/>
 				{delegateOwnVote
-&& <DelegateOwnVoteModal
-	show={delegateOwnVote}
-	council={council}
-	participant={participant}
-	refetch={props.refetch}
-	requestClose={() => setDelegateOwnVote(false)}
-	translate={translate}
-/>
+					&& <DelegateOwnVoteModal
+						show={delegateOwnVote}
+						council={council}
+						participant={participant}
+						refetch={props.refetch}
+						requestClose={() => setDelegateOwnVote(false)}
+						translate={translate}
+					/>
 				}
 
 				{(participant.state === PARTICIPANT_STATES.REMOTE
-|| participant.state === PARTICIPANT_STATES.NO_PARTICIPATE
-|| participant.state
-=== PARTICIPANT_STATES.PHYSICALLY_PRESENT
-|| participant.state
-=== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE) && (
+					|| participant.state === PARTICIPANT_STATES.NO_PARTICIPATE
+					|| participant.state
+					=== PARTICIPANT_STATES.PHYSICALLY_PRESENT
+					|| participant.state
+					=== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE) && (
 					<DelegateVoteModal
 						show={delegateVote}
 						council={council}
@@ -251,7 +251,6 @@ const ParticipantStateSelector = ({
 						translate={translate}
 					/>
 				)}
-
 			</GridItem>
 		</Grid>
 	);

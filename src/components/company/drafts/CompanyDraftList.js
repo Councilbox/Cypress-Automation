@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { compose, graphql, withApollo } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import {
 	Card, Collapse, IconButton, Icon, CardActions, CardContent, CardHeader, withStyles
 } from 'material-ui';

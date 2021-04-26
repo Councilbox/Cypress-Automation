@@ -1,5 +1,6 @@
 import React from 'react';
-import { compose, graphql } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
+import { graphql } from 'react-apollo';
 import { AlertConfirm } from '../../../displayComponents';
 import { addRepresentative as addRepresentativeMutation } from '../../../queries';
 import RepresentativeForm from '../participants/RepresentativeForm';

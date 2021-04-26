@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Typography } from 'material-ui';
-import { compose, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import {
 	BasicButton,
 	ButtonIcon,
@@ -35,14 +36,6 @@ class MeetingEditorConfig extends Component {
 
 	componentDidMount() {
 		this.props.data.refetch();
-	}
-
-	componentWillReceiveProps(nextProps) {
-		if (this.props.data.loading && !nextProps.data.loading) {
-			this.setState({
-				data: nextProps.data.council
-			});
-		}
 	}
 
 	nextPage = () => {

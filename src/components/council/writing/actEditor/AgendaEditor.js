@@ -1,6 +1,7 @@
 import React from 'react';
 import { toast } from 'react-toastify';
-import { graphql, compose } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import Dialog, { DialogContent, DialogTitle } from 'material-ui/Dialog';
 import {
 	Grid, GridItem, TabsScreen, BasicButton, LiveToast

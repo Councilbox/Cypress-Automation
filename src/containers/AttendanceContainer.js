@@ -95,6 +95,7 @@ const participantQuery = gql`
 			surname
 			id
 			dni
+			hasDelegatedVotes
 			position
 			phone
 			email

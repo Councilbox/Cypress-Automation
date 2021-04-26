@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Icon } from 'material-ui';
-import { compose, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import { toast } from 'react-toastify';
 import withTranslations from '../../../HOCs/withTranslations';
 import { checkForUnclosedBraces, councilStarted } from '../../../utils/CBX';

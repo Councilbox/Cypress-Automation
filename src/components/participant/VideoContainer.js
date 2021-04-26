@@ -1,5 +1,6 @@
 import React from 'react';
-import { graphql, compose, withApollo } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import gql from 'graphql-tag';
 import { roomUpdateSubscription } from '../council/live/video/CMPVideoIFrame';
 import { useRoomUpdated } from '../../hooks';

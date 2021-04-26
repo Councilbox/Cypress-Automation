@@ -1,5 +1,6 @@
 import React from 'react';
-import { compose, graphql, withApollo } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import { withRouter } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import withSharedProps from '../../../HOCs/withSharedProps';

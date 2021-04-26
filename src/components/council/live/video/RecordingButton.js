@@ -1,5 +1,6 @@
 import React from 'react';
-import { graphql, compose, withApollo } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import { Tooltip } from 'material-ui';
 import { CircularProgress } from 'material-ui/Progress';
 import gql from 'graphql-tag';

@@ -1,9 +1,8 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
-import Autosuggest from 'react-autosuggest';
 import { COMMANDS } from '../../commands';
 import { bHistory } from '../../containers/App';
 import withSharedProps from '../../HOCs/withSharedProps';
-import '../../styles/autoSuggest.css';
 
 
 const renderSuggestion = suggestion => (
@@ -60,7 +59,7 @@ render() {
 
 	return (
 		<div style={{ maxWidth: '180px' }}>
-			<Autosuggest
+			{/* <Autosuggest
 				suggestions={this.state.suggestions}
 				onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
 				onSuggestionsClearRequested={this.onSuggestionsClearRequested}
@@ -68,7 +67,7 @@ render() {
 				getSuggestionValue={getSuggestionValue}
 				renderSuggestion={renderSuggestion}
 				inputProps={inputProps}
-			/>
+			/> */}
 		</div>
 	);
 }

@@ -5,7 +5,8 @@ import Dialog, {
 	DialogTitle
 } from 'material-ui/Dialog';
 import { withRouter } from 'react-router-dom';
-import { compose, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import { flowRight as compose } from 'lodash';
 import gql from 'graphql-tag';
 import {
 	BasicButton,
@@ -97,17 +98,6 @@ class MeetingEditorCensus extends React.Component {
 
 	async componentDidMount() {
 		this.props.data.refetch();
-	}
-
-	componentWillReceiveProps(nextProps) {
-		if (this.props.data.loading && !nextProps.data.loading) {
-			this.setState({
-				data: {
-					...this.state.data,
-					...nextProps.data.council
-				}
-			});
-		}
 	}
 
 	renderCensusChangeButtons() {

@@ -30,12 +30,12 @@ const DateTimePickerWrapper = ({
 					label={label ? `${label}${required ? '*' : ''}` : ''}
 					format={format || 'LL'}
 					minDateMessage={minDateMessage}
-					okLabel={'Ok'}
+					okLabel={ acceptText ? <span id="calendar-accept-button">{acceptText}</span> : null}
+					cancelLabel={ cancelText ? <span id="calendar-cancel-button">{cancelText}</span> : null}
 					id={id}
 					style={{ width: '100%' }}
 					clearable={clearable}
-					clearLabel={clearText && translate.new_delete }
-					cancelLabel={cancelText}
+					clearLabel={clearText && <span id="calendar-clear-button">{translate.new_delete}</span> }
 					{...(minDate ? { minDate } : {})}
 					InputProps={{
 						endAdornment: (
@@ -69,6 +69,7 @@ const DateTimePickerWrapper = ({
 					ampm={false}
 					format={format || 'LLL'}
 					minDateMessage={minDateMessage}
+					clearLabel={clearText && <span id="calendar-clear-button">{translate.new_delete}</span> }
 					okLabel={ acceptText ? <span id="calendar-accept-button">{acceptText}</span> : null}
 					style={{ width: '100%' }}
 					cancelLabel={ cancelText ? <span id="calendar-cancel-button">{cancelText}</span> : null}
