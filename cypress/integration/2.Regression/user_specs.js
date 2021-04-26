@@ -1701,8 +1701,8 @@ describe("The user is able to choose and select 'There is minimum notice to call
             cy.wait(1000)
         });
 
-        it("Navigate to the 'Convene' section", function() {
-            cy.contains('Announcement:')
+        it("Navigate to the 'Announcement' section", function() {
+            cy.get('#council-type-advance-notice-days').scrollIntoView()
             cy.wait(1000)
         });
 
@@ -1720,15 +1720,16 @@ describe("The user is able to choose and select 'There is minimum notice to call
 
     });
 
-describe("The user is able to choose and select 'Second call' option for the call in the 'Convene' section in the 'Council types' section", function() {
+describe("The user is able to choose and select 'Second call' option for the call in the 'Announcement' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
         });
 
-        it("Navigate to the 'Convene' section", function() {
-            cy.contains('Announcement:')
+        it("Navigate to the 'Announcement' section", function() {
+            cy.get('#council-type-has-second-call').scrollIntoView()
+            cy.wait(1000)
         });
 
         it("Click on the 'There is second call' checkbox and click on the 'Save' button", function() {
@@ -2362,7 +2363,8 @@ describe("The user is able to choose and select 'Email notification of voting st
         });
 
         it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
-            cy.contains('Making resolutions').scrollIntoView()
+            cy.get('#council-type-notify-points').scrollIntoView()
+            cy.wait(1000)
         });
 
         it("Click on the 'Email notification of voting start' checkbox and click on the 'Save' button", function() {
@@ -2499,6 +2501,31 @@ describe("The user is able to choose and select 'There are present participants 
 
     });
 
+describe("The user is able to choose and select 'It is permitted to alter the agenda after the call' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
+            cy.get('#council-type-agenda-modify').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Click on the 'It is permitted to alter the agenda after the call' checkbox and click on the 'Save' button", function() {
+            cy.get('#council-type-agenda-modify').click()
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
 describe("The user is able to choose and select 'It is permitted to reorder items on the agenda during the meeting' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
@@ -2549,7 +2576,7 @@ describe("The user is able to choose and select 'Those banned may be readmitted'
 
     });
 
-/*
+
 
 describe("The user is able to choose and select 'Associated census' for the call in the 'Census' section in the 'Types of meetings' form", function() {
 
@@ -2566,7 +2593,7 @@ describe("The user is able to choose and select 'Associated census' for the call
         it("Navigate to the 'Associated census' and from the dropdown menu choose and click on the Census you want to select then click on the 'Save' button", function() {
             cy.get('#council-type-default-census').click()
             cy.wait(1000)
-            cy.get('#census-governing-body').click()
+            cy.get('#census-0').click()
             cy.wait(1000)
             cy.get('#council-statute-save-button').click()
         });
@@ -2578,7 +2605,7 @@ describe("The user is able to choose and select 'Associated census' for the call
 
     });
 
-*/
+
 
 describe("The user is able to choose and select 'Minutes exist' option for the call in the 'Minutes and documents' section in the 'Types of meetings' section", function() {
 
@@ -2759,34 +2786,7 @@ describe("The user is able to choose and select 'Require (proxy) document' optio
 
     });
 
-describe("The user is able to choose and select the tag in the 'tags' section in the 'Introduction' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
 
-        it("Click on the 'Council types' button", function() {
-            cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
-        });
-
-        it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
-            cy.get('#council-type-convene-header').scrollIntoView()
-            cy.wait(1000)
-        });
-
-        it("Navigate to the 'Introduction' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
-            cy.get('.ql-editor').eq(0).clear()
-                .type('{{')
-                    .type('business_name')
-                        .type('}}')
-            cy.wait(1000)
-            cy.get('#council-statute-save-button').click()
-
-        });
-
-        it("Back to Home page", function() {
-            cy.visit(login_url);
-        });
-
-
-    });
 
 
 describe("The user is able to choose and select the tag in the 'tags' section in the 'Announcement header' form in the 'Announcement template' section in the 'Types of meetings' section", function() {
@@ -3023,20 +3023,165 @@ describe("The user is able to choose and select the tag in the 'tags' section in
 
     });
 
-describe("The user is able to choose and select the tag in the 'tags' section in the 'c' form in the 'Documents' section in the 'Types of meetings' section", function() {
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Introduction' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
         });
 
-        it("Scroll down the page and navigate to the 'Documents' section", function() {
-            cy.get('#council-type-vote-letter').scrollIntoView()
+        it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
+            cy.get('#council-type-intro').scrollIntoView()
             cy.wait(1000)
         });
 
-        it("Navigate to the 'Voting letter with voting directions' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
-            cy.get('.ql-editor').eq(7).clear()
+        it("Navigate to the 'Introduction' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(8).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Right column introduction' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
+            cy.get('#council-type-intro-secondary').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Right column introduction' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(9).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Constitution' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
+            cy.get('#council-type-constitution').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Constitution' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(10).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Constitution right column' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
+            cy.get('#council-type-constitution-secondary').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Constitution right column' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(11).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Conclusion' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
+            cy.get('#council-type-conclusion').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Conclusion' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(12).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Conclusion right column' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
+            cy.get('#council-type-conclusion-secondary').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Conclusion right column' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(13).clear()
                 .type('{{')
                     .type('business_name')
                         .type('}}')
@@ -3054,6 +3199,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
 
 
 
+
 describe("The user is able to edit member information in the 'Shareholder register' section", function() {
 
         it("From the menu choose and click on the 'Shareholders register' button", function() {
@@ -3062,7 +3208,7 @@ describe("The user is able to edit member information in the 'Shareholder regist
         });
 
         it("Click on the 'Add member' button", function() {
-            cy.get('#anadirSocioLibroSocios').click()
+            cy.get('#add-partner-button').click()
             cy.wait(1000)
 
         });
@@ -3091,17 +3237,17 @@ describe("The user is not able to add a member with invalid inputs in the 'Name'
         });
 
         it("Click on the 'Add member' button", function() {
-            cy.get('#anadirSocioLibroSocios').click()
+            cy.get('#add-partner-button').click()
             cy.wait(1000)
 
         });
 
         it("Populate the 'Name' fields just by pressing the backspace button on the keyboard and all other required fields with valid inputs", function() {
-            cy.get('#anadirSocioNombre').clear()
+            cy.get('#add-partner-name').clear()
                 .type('!!!!!')
-            cy.get('#anadirSocioApellido').clear()
+            cy.get('#add-partner-surname').clear()
                 .type('Test')
-            cy.get('#anadirSocioMail').clear()
+            cy.get('#add-partner-email').clear()
                 .type('test@test.test')
             cy.wait(1000)
 
@@ -3131,17 +3277,17 @@ describe("The user is not able to add a member with invalid inputs in the 'Surna
         });
 
         it("Click on the 'Add member' button", function() {
-            cy.get('#anadirSocioLibroSocios').click()
+            cy.get('#add-partner-button').click()
             cy.wait(1000)
 
         });
 
         it("Populate the 'Surname' fields just by pressing the backspace button on the keyboard and all other required fields with valid inputs", function() {
-            cy.get('#anadirSocioNombre').clear()
+            cy.get('#add-partner-name').clear()
                 .type('Test')
-            cy.get('#anadirSocioApellido').clear()
+            cy.get('#add-partner-surname').clear()
                 .type('!!!!!')
-            cy.get('#anadirSocioMail').clear()
+            cy.get('#add-partner-email').clear()
                 .type('test@test.test')
             cy.wait(1000)
 
@@ -3162,6 +3308,246 @@ describe("The user is not able to add a member with invalid inputs in the 'Surna
 
 
     });
+
+describe("The user is able to add 'Legal person' type of member in the 'Shareholders register' section", function() {
+
+        it("From the menu choose and click on the 'Shareholders register' button", function() {
+            cy.get('#edit-company-block').click()
+            cy.wait(1000)
+        });
+
+        it("Click on the 'Add member' button", function() {
+            cy.get('#add-partner-button').click()
+            cy.wait(1000)
+
+        });
+
+        it("Navigate to the 'Legal person' button and click on it", function() {
+            cy.get('#radio-entity').click()
+            cy.wait(1000)
+        });
+
+        it("Populate all required fields and click on the 'Save changes' button", function() {
+            cy.get('#add-partner-entity-name').clear()
+                .type(userID_Alpha())
+            cy.get('#add-partner-email').clear()
+                .type(userID_Alpha()+'@test.com')
+
+        });
+
+        it("Click on the 'Save changes' button", function() {
+            cy.get('#guardarAnadirSocio').click()
+            cy.wait(1000)
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to filter members by position in the 'Shareholders register' section", function() {
+
+        it("Click on the 'Shareholders register' button", function() {
+            cy.get('#edit-company-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the upper right corner and click on the filter button", function() {
+            cy.get('#filter-by-select').click()
+            cy.wait(1000)
+
+        });
+
+        it("From the menu choose and click on the 'Position' button", function() {
+            cy.get('#filter-option-position').click()
+            cy.wait(1000)
+        });
+
+        it("On the filter search field write the position you want to search", function() {
+            cy.get('#partners-search-input').clear()
+                .type('Test')
+            cy.wait(3000)
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to filter members by participant data in the 'Shareholders register' section", function() {
+
+        it("Click on the 'Shareholders register' button", function() {
+            cy.get('#edit-company-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the upper right corner and click on the filter button", function() {
+            cy.get('#filter-by-select').click()
+            cy.wait(1000)
+
+        });
+
+        it("From the menu choose and click on the 'Participant data' button", function() {
+            cy.get('#filter-option-fullName').click()
+            cy.wait(1000)
+        });
+
+        it("On the filter search field write the Participant data you want to search", function() {
+            cy.get('#partners-search-input').clear()
+                .type('Test')
+            cy.wait(3000)
+        });
+        
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to filter members by TIN in the 'Shareholders register' section", function() {
+
+        it("Click on the 'Shareholders register' button", function() {
+            cy.get('#edit-company-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the upper right corner and click on the filter button", function() {
+            cy.get('#filter-by-select').click()
+            cy.wait(1000)
+
+        });
+
+        it("From the menu choose and click on the 'TIN' button", function() {
+            cy.get('#filter-option-dni').click()
+            cy.wait(1000)
+        });
+
+        it("On the filter search field write the TIN you want to search", function() {
+            cy.get('#partners-search-input').clear()
+                .type('12345')
+            cy.wait(3000)
+        });
+        
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to filter members by Number de acta in the 'Shareholders register' section", function() {
+
+        it("Click on the 'Shareholders register' button", function() {
+            cy.get('#edit-company-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the upper right corner and click on the filter button", function() {
+            cy.get('#filter-by-select').click()
+            cy.wait(1000)
+
+        });
+
+        it("From the menu choose and click on the 'Number de acta' button", function() {
+            cy.get('#filter-option-subscribeActNumber').click()
+            cy.wait(1000)
+        });
+
+        it("On the filter search field write the Number de acta you want to search", function() {
+            cy.get('#partners-search-input').clear()
+                .type('12345')
+            cy.wait(3000)
+        });
+        
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
+describe("The user is able to filter members by 'Registrations' status type in the 'Shareholders section' section", function() {
+
+        it("Click on the 'Shareholders register' button", function() {
+            cy.get('#edit-company-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the button left to the 'Add member' button and click on it", function() {
+            cy.get('#category-filter-select').click()
+            cy.wait(1000)
+
+        });
+
+        it("Click on the 'Registrations' button", function() {
+            cy.get('#category-1').click()
+            cy.wait(1000)
+        });
+        
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+
+describe("The user is able to filter members by 'Cancellation' status type in the 'Shareholders section' section", function() {
+
+        it("Click on the 'Shareholders register' button", function() {
+            cy.get('#edit-company-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the button left to the 'Add member' button and click on it", function() {
+            cy.get('#category-filter-select').click()
+            cy.wait(1000)
+
+        });
+
+        it("Click on the 'Cancellation' button", function() {
+            cy.get('#category-0').click()
+            cy.wait(1000)
+        });
+        
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to filter members by 'Other' status type in the 'Shareholders section' section", function() {
+
+        it("Click on the 'Shareholders register' button", function() {
+            cy.get('#edit-company-block').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the button left to the 'Add member' button and click on it", function() {
+            cy.get('#category-filter-select').click()
+            cy.wait(1000)
+
+        });
+
+        it("Click on the 'Other' button", function() {
+            cy.get('#category-2').click()
+            cy.wait(1000)
+        });
+        
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
 
 
 

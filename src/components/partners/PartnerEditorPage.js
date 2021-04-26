@@ -343,6 +343,7 @@ class Page extends React.PureComponent {
 							text={this.props.translate.back}
 							color={'white'}
 							type="flat"
+							id="edit-partner-back-button"
 							textStyle={{ color: 'black', fontWeight: '700', textTransform: 'none' }}
 							onClick={this.goBack}
 							buttonStyle={{ marginRight: '0.8em' }}
