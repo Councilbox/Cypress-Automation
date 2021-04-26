@@ -138,6 +138,7 @@ class CompanyCensusPage extends React.Component {
 					{censuses.list.map((census, index) => (
 						<HoverableRow
 							census={census}
+							id={`census_row_${index}`}
 							key={`census_${census.id}`}
 							changingDefault={this.state.changingDefault}
 							openCensusEdit={this.openCensusEdit}
@@ -328,6 +329,7 @@ class HoverableRow extends React.PureComponent {
 				<Card
 					style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
 					onClick={() => this.props.openCensusEdit(census.id)}
+					id={this.props.id}
 				>
 					<Grid>
 						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
@@ -392,6 +394,7 @@ class HoverableRow extends React.PureComponent {
 				onMouseOver={this.mouseEnterHandler}
 				onMouseLeave={this.mouseLeaveHandler}
 				style={{ cursor: 'pointer' }}
+				id={this.props.id || ''}
 				onClick={() => this.props.openCensusEdit(census.id)}
 			>
 				<TableCell>
