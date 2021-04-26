@@ -1,5 +1,5 @@
 import React from 'react';
-import { withApollo } from '@apollo/react-hoc';
+import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { PARTICIPANT_TYPE } from '../../../constants';
 import { BasicButton } from '../../../displayComponents';
