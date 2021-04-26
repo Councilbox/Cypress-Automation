@@ -138,6 +138,7 @@ class CompanyCensusPage extends React.Component {
 					{censuses.list.map((census, index) => (
 						<HoverableRow
 							census={census}
+							id={`census_row_${index}`}
 							key={`census_${census.id}`}
 							changingDefault={this.state.changingDefault}
 							openCensusEdit={this.openCensusEdit}
@@ -205,6 +206,7 @@ class HoverableRow extends React.PureComponent {
 
 		return (
 			<CloseIcon
+				id="census-delete-button"
 				style={{ color: primary }}
 				onClick={event => {
 					this.props.openDeleteModal(councilID);
@@ -233,6 +235,7 @@ class HoverableRow extends React.PureComponent {
 				) : (
 					<Tooltip title={translate.change_default_census_tooltip}>
 						<FontAwesome
+							id="census-set-as-default-button"
 							name={
 								census.defaultCensus
 									=== 1 ?
@@ -257,6 +260,7 @@ class HoverableRow extends React.PureComponent {
 			<Tooltip title={translate.manage_participants}>
 				<FontAwesome
 					name={'users'}
+					id="census-manage-participants-button"
 					style={{
 						cursor: 'pointer',
 						fontSize: '1.8em',
@@ -272,6 +276,7 @@ class HoverableRow extends React.PureComponent {
 			<Tooltip title={translate.edit}>
 				<FontAwesome
 					name={'edit'}
+					id="census-edit-button"
 					style={{
 						cursor: 'pointer',
 						fontSize: '1.8em',
@@ -289,6 +294,7 @@ class HoverableRow extends React.PureComponent {
 			<Tooltip title={translate.clone_census}>
 				<FontAwesome
 					name={'clone'}
+					id="census-clone-button"
 					style={{
 						cursor: 'pointer',
 						fontSize: '1.8em',
@@ -307,6 +313,7 @@ class HoverableRow extends React.PureComponent {
 			<Tooltip title={translate.delete}>
 				<span>
 					<CloseIcon
+						id="census-delete-button"
 						style={{
 							color: primary,
 							marginTop: '-10px'
@@ -328,6 +335,7 @@ class HoverableRow extends React.PureComponent {
 				<Card
 					style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
 					onClick={() => this.props.openCensusEdit(census.id)}
+					id={this.props.id}
 				>
 					<Grid>
 						<GridItem xs={4} md={4} style={{ fontWeight: '700' }}>
@@ -392,6 +400,7 @@ class HoverableRow extends React.PureComponent {
 				onMouseOver={this.mouseEnterHandler}
 				onMouseLeave={this.mouseLeaveHandler}
 				style={{ cursor: 'pointer' }}
+				id={this.props.id || ''}
 				onClick={() => this.props.openCensusEdit(census.id)}
 			>
 				<TableCell>
