@@ -3549,6 +3549,127 @@ describe("The user is able to filter members by 'Other' status type in the 'Shar
     });
 
 
+describe("The alert message is successfully displayed when the user clicks on the 'Back' button without saving changes in the 'Add member' form", function() {
+
+        it("From the menu choose and click on the 'Shareholders register' form", function() {
+            cy.wait(1000)
+            cy.get('#edit-company-block').click()
+            cy.wait(1000)
+        });
+
+        it("Click on the 'Add member' button", function() {
+            cy.get('#add-partner-button').click()
+            cy.wait(1000)
+
+        });
+
+        it("Populate all required fields and click on the 'Back' button", function() {
+            cy.get('#add-partner-name').clear()
+                .type('Automation')
+            cy.get('#add-partner-surname').clear()
+                .type('Test')
+            cy.get('#add-partner-email').clear()
+                .type('test@test.test')
+            cy.wait(1000)
+            cy.get('#edit-partner-back-button').click()
+        });
+        
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is not able to add census in the 'Censuses' section without populating 'Name' field", function() {
+
+        it("From the menu choose and click on the 'Censuses' form", function() {
+            cy.wait(3000)
+            cy.get('#edit-censuses-block').click()
+            cy.wait(1000)
+        });
+
+        it("Click on the 'Add census+'' button", function() {
+            cy.get('#add-census-button').click()
+            cy.wait(1000)
+
+        });
+
+        it("Click on the 'OK' button without populating the “Name” field", function() {
+            cy.get('#alert-confirm-button-accept').click()
+        });
+
+        it("The alert message 'Required field' is displayed beyond the “Name” field", function() {
+            cy.contains('Required field')
+        });
+        
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+            cy.wait(3000)
+        });
+
+
+    });
+
+    
+
+describe("The user is able to clone already added census in the 'Censues' section", function() {
+
+        it("From the menu choose and click on the 'Censuses' form", function() {
+           
+            cy.get('#edit-censuses-block').click()
+            cy.wait(1000)
+        });
+
+        it("Set the cursor on the already added census and navigate to the 'Clone census' button and then click on it", function() {
+            cy.get('#census_row_0').trigger('mouseover')
+            cy.wait(1000)
+            cy.get('#census-clone-button').click()
+
+        });
+
+        it("Populate all required fields and click on the 'OK' button", function() {
+            cy.get('#alert-confirm-button-accept').click()
+            cy.wait(1000)
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+            cy.wait(3000)
+        });
+
+
+    });
+
+describe("The user is able to delete already added census in the 'Censuses' section", function() {
+
+        it("From the menu choose and click on the 'Censuses' form", function() {
+            
+            cy.get('#edit-censuses-block').click()
+            cy.wait(1000)
+        });
+
+        it("Set the cursor on already added census and navigate to the 'Delete' button and then click on it", function() {
+            cy.get('#census_row_0').trigger('mouseover')
+            cy.wait(1000)
+            cy.get('#census-delete-button').click()
+
+        });
+
+        it("Click on the 'Send to recycle bin' button", function() {
+            cy.get('#alert-confirm-button-accept').click()
+            cy.wait(1000)
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+            cy.wait(3000)
+        });
+
+
+    });
+
+
 
 
 

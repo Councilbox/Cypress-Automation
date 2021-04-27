@@ -67,207 +67,94 @@ describe("Councilbox login - valid username and password", function() {
 });
 
 
+describe("The user is not able to add census in the 'Censuses' section without populating 'Name' field", function() {
 
-describe("The user is able to filter members by position in the 'Shareholders register' section", function() {
-
-        it("Click on the 'Shareholders register' button", function() {
-            cy.get('#edit-company-block').click()
+        it("From the menu choose and click on the 'Censuses' form", function() {
+            cy.wait(3000)
+            cy.get('#edit-censuses-block').click()
             cy.wait(1000)
         });
 
-        it("Navigate to the upper right corner and click on the filter button", function() {
-            cy.get('#filter-by-select').click()
+        it("Click on the 'Add census+'' button", function() {
+            cy.get('#add-census-button').click()
             cy.wait(1000)
 
         });
 
-        it("From the menu choose and click on the 'Position' button", function() {
-            cy.get('#filter-option-position').click()
-            cy.wait(1000)
+        it("Click on the 'OK' button without populating the “Name” field", function() {
+            cy.get('#alert-confirm-button-accept').click()
         });
 
-        it("On the filter search field write the position you want to search", function() {
-            cy.get('#partners-search-input').clear()
-                .type('Test')
+        it("The alert message 'Required field' is displayed beyond the “Name” field", function() {
+            cy.contains('Required field')
+        });
+        
+        it("Back to Home page", function() {
+            cy.visit(login_url);
             cy.wait(3000)
         });
 
-        it("Back to Home page", function() {
-            cy.visit(login_url);
-        });
-
 
     });
 
-describe("The user is able to filter members by participant data in the 'Shareholders register' section", function() {
+    
 
-        it("Click on the 'Shareholders register' button", function() {
-            cy.get('#edit-company-block').click()
+describe("The user is able to clone already added census in the 'Censues' section", function() {
+
+        it("From the menu choose and click on the 'Censuses' form", function() {
+           
+            cy.get('#edit-censuses-block').click()
             cy.wait(1000)
         });
 
-        it("Navigate to the upper right corner and click on the filter button", function() {
-            cy.get('#filter-by-select').click()
+        it("Set the cursor on the already added census and navigate to the 'Clone census' button and then click on it", function() {
+            cy.get('#census_row_0').trigger('mouseover')
             cy.wait(1000)
+            cy.get('#census-clone-button').click()
 
         });
 
-        it("From the menu choose and click on the 'Participant data' button", function() {
-            cy.get('#filter-option-fullName').click()
+        it("Populate all required fields and click on the 'OK' button", function() {
+            cy.get('#alert-confirm-button-accept').click()
             cy.wait(1000)
         });
 
-        it("On the filter search field write the Participant data you want to search", function() {
-            cy.get('#partners-search-input').clear()
-                .type('Test')
+        it("Back to Home page", function() {
+            cy.visit(login_url);
             cy.wait(3000)
         });
-        
-        it("Back to Home page", function() {
-            cy.visit(login_url);
-        });
 
 
     });
 
-describe("The user is able to filter members by TIN in the 'Shareholders register' section", function() {
+describe("The user is able to delete already added census in the 'Censuses' section", function() {
 
-        it("Click on the 'Shareholders register' button", function() {
-            cy.get('#edit-company-block').click()
+        it("From the menu choose and click on the 'Censuses' form", function() {
+            
+            cy.get('#edit-censuses-block').click()
             cy.wait(1000)
         });
 
-        it("Navigate to the upper right corner and click on the filter button", function() {
-            cy.get('#filter-by-select').click()
+        it("Set the cursor on already added census and navigate to the 'Delete' button and then click on it", function() {
+            cy.get('#census_row_0').trigger('mouseover')
             cy.wait(1000)
+            cy.get('#census-delete-button').click()
 
         });
 
-        it("From the menu choose and click on the 'TIN' button", function() {
-            cy.get('#filter-option-dni').click()
+        it("Click on the 'Send to recycle bin' button", function() {
+            cy.get('#alert-confirm-button-accept').click()
             cy.wait(1000)
         });
 
-        it("On the filter search field write the TIN you want to search", function() {
-            cy.get('#partners-search-input').clear()
-                .type('12345')
+        it("Back to Home page", function() {
+            cy.visit(login_url);
             cy.wait(3000)
         });
-        
-        it("Back to Home page", function() {
-            cy.visit(login_url);
-        });
 
 
     });
 
-describe("The user is able to filter members by Number de acta in the 'Shareholders register' section", function() {
-
-        it("Click on the 'Shareholders register' button", function() {
-            cy.get('#edit-company-block').click()
-            cy.wait(1000)
-        });
-
-        it("Navigate to the upper right corner and click on the filter button", function() {
-            cy.get('#filter-by-select').click()
-            cy.wait(1000)
-
-        });
-
-        it("From the menu choose and click on the 'Number de acta' button", function() {
-            cy.get('#filter-option-subscribeActNumber').click()
-            cy.wait(1000)
-        });
-
-        it("On the filter search field write the Number de acta you want to search", function() {
-            cy.get('#partners-search-input').clear()
-                .type('12345')
-            cy.wait(3000)
-        });
-        
-        it("Back to Home page", function() {
-            cy.visit(login_url);
-        });
-
-
-    });
-
-
-describe("The user is able to filter members by 'Registrations' status type in the 'Shareholders section' section", function() {
-
-        it("Click on the 'Shareholders register' button", function() {
-            cy.get('#edit-company-block').click()
-            cy.wait(1000)
-        });
-
-        it("Navigate to the button left to the 'Add member' button and click on it", function() {
-            cy.get('#category-filter-select').click()
-            cy.wait(1000)
-
-        });
-
-        it("Click on the 'Registrations' button", function() {
-            cy.get('#category-1').click()
-            cy.wait(1000)
-        });
-        
-        it("Back to Home page", function() {
-            cy.visit(login_url);
-        });
-
-
-    });
-
-
-describe("The user is able to filter members by 'Cancellation' status type in the 'Shareholders section' section", function() {
-
-        it("Click on the 'Shareholders register' button", function() {
-            cy.get('#edit-company-block').click()
-            cy.wait(1000)
-        });
-
-        it("Navigate to the button left to the 'Add member' button and click on it", function() {
-            cy.get('#category-filter-select').click()
-            cy.wait(1000)
-
-        });
-
-        it("Click on the 'Cancellation' button", function() {
-            cy.get('#category-0').click()
-            cy.wait(1000)
-        });
-        
-        it("Back to Home page", function() {
-            cy.visit(login_url);
-        });
-
-
-    });
-
-describe("The user is able to filter members by 'Other' status type in the 'Shareholders section' section", function() {
-
-        it("Click on the 'Shareholders register' button", function() {
-            cy.get('#edit-company-block').click()
-            cy.wait(1000)
-        });
-
-        it("Navigate to the button left to the 'Add member' button and click on it", function() {
-            cy.get('#category-filter-select').click()
-            cy.wait(1000)
-
-        });
-
-        it("Click on the 'Other' button", function() {
-            cy.get('#category-2').click()
-            cy.wait(1000)
-        });
-        
-        it("Back to Home page", function() {
-            cy.visit(login_url);
-        });
-
-
-    });
 
 
 
