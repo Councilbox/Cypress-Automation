@@ -11,6 +11,7 @@ const CensusInfoForm = ({
 		<GridItem xs={12} md={6} lg={6}>
 			<TextInput
 				floatingText={translate.name}
+				id="census-name"
 				required
 				type="text"
 				errorText={errors.censusName}
@@ -25,6 +26,7 @@ const CensusInfoForm = ({
 		<GridItem xs={12} md={6} lg={6}>
 			<SelectInput
 				floatingText={translate.census_type}
+				id="census-type"
 				value={census.quorumPrototype}
 				onChange={event => {
 					updateState({
@@ -32,10 +34,10 @@ const CensusInfoForm = ({
 					});
 				}}
 			>
-				<MenuItem value={0}>
+				<MenuItem value={0} id="census-type-attendants">
 					{translate.census_type_assistants}
 				</MenuItem>
-				<MenuItem value={1}>
+				<MenuItem value={1} id="census-type-social-capital">
 					{translate.social_capital}
 				</MenuItem>
 			</SelectInput>
@@ -44,6 +46,7 @@ const CensusInfoForm = ({
 			<TextInput
 				floatingText={translate.description}
 				type="text"
+				id="census-description"
 				errorText={errors.censusDescription}
 				value={census.censusDescription}
 				onChange={event => {
