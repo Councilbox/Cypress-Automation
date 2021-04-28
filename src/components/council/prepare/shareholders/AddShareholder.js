@@ -95,7 +95,7 @@ const ApproveRequestButton = ({
 					open={modal}
 					council={council}
 					participations={true}
-					defaultRepresentative={representative ? {
+					defaultRepresentative={(representative && request.data.requestType === 'representation') ? {
 						...representative,
 						hasRepresentative: true
 					} : null}
