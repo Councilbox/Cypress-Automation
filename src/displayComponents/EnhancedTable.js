@@ -195,6 +195,7 @@ class EnhancedTable extends React.Component {
 							adornment={<Icon>search</Icon>}
 							floatingText={' '}
 							type="text"
+							id={`${`${this.props.id}-` || ''}search-input`}
 							value={filterText}
 							onChange={event => {
 								this.updateFilterText(event.target.value);
@@ -279,7 +280,7 @@ class EnhancedTable extends React.Component {
 							&& <div style={{ width: '16em' }}>
 								<TextInput
 									adornment={<Icon>search</Icon>}
-									id={`${this.props.id}-search-input`}
+									id={`${`${this.props.id}-` || ''}search-input`}
 									floatingText={' '}
 									type="text"
 									value={filterText}

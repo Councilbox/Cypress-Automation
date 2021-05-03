@@ -24,6 +24,7 @@ const ParticipantForm = ({
 				<Radio
 					checked={participant.personOrEntity === 0}
 					label={translate.person}
+					id="type-person"
 					onChange={event => updateState({
 						personOrEntity: parseInt(
 							event.nativeEvent.target.value,
@@ -35,6 +36,7 @@ const ParticipantForm = ({
 					name="personOrEntity"
 				/>
 				<Radio
+					id="type-entity"
 					checked={participant.personOrEntity === 1}
 					label={translate.entity}
 					onChange={event => updateState({
@@ -55,6 +57,7 @@ const ParticipantForm = ({
 				<TextInput
 					floatingText={translate.entity_name}
 					type="text"
+					id="participant-entity-name-input"
 					errorText={errors.name}
 					value={participant.name}
 					onChange={event => updateState({
@@ -69,6 +72,7 @@ const ParticipantForm = ({
 					<TextInput
 						floatingText={translate.name}
 						type="text"
+						id="participant-name-input"
 						errorText={errors.name}
 						value={participant.name}
 						onChange={event => updateState({
@@ -81,6 +85,7 @@ const ParticipantForm = ({
 					<TextInput
 						floatingText={translate.surname || ''}
 						type="text"
+						id="participant-surname-input"
 						errorText={errors.surname || ''}
 						value={participant.surname || ''}
 						onChange={event => updateState({
@@ -96,6 +101,7 @@ const ParticipantForm = ({
 			<TextInput
 				floatingText={participant.personOrEntity === 1 ? translate.cif : translate.dni}
 				type="text"
+				id="participant-dni-input"
 				errorText={errors.dni}
 				value={participant.dni}
 				onChange={event => updateState({
@@ -107,6 +113,7 @@ const ParticipantForm = ({
 		{participant.personOrEntity === 0
 			&& <GridItem xs={6} md={4} lg={3}>
 				<TextInput
+					id="participant-position-input"
 					floatingText={translate.position}
 					type="text"
 					errorText={errors.position}
@@ -121,6 +128,7 @@ const ParticipantForm = ({
 		<GridItem xs={6} md={4} lg={3}>
 			<TextInput
 				floatingText={translate.email}
+				id="participant-email-input"
 				{...(checkEmail ? { onKeyUp: event => checkEmail(event, 'participant') } : {})}
 				type="text"
 				errorText={errors.email}
@@ -133,6 +141,7 @@ const ParticipantForm = ({
 		</GridItem>
 		<GridItem xs={6} md={4} lg={3}>
 			<TextInput
+				id="participant-administrative-email-input"
 				floatingText={translate.administrative_email}
 				min={1}
 				errorText={errors.secondaryEmail}
@@ -146,6 +155,7 @@ const ParticipantForm = ({
 		</GridItem>
 		<GridItem xs={6} md={4} lg={3}>
 			<TextInput
+				id="participant-phone-input"
 				floatingText={translate.phone}
 				type="text"
 				errorText={errors.phone}
@@ -158,6 +168,7 @@ const ParticipantForm = ({
 		</GridItem>
 		<GridItem xs={6} md={4} lg={3}>
 			<SelectInput
+				id="participant-language-select"
 				floatingText={translate.language}
 				value={participant.language}
 				onChange={event => updateState({
@@ -172,6 +183,7 @@ const ParticipantForm = ({
 								language.columnName
 								: language.column_name
 						}
+						id={`participant-language-${language.columnName}`}
 						key={`language_${language.columnName ?
 							language.columnName
 							: language.column_name
@@ -185,6 +197,7 @@ const ParticipantForm = ({
 		{participant.personOrEntity === 0
 			&& <GridItem xs={6} md={4} lg={3}>
 				<SelectInput
+					id="participant-participation-type-select"
 					floatingText={translate.participation_type}
 					errorText={errors.initialState}
 					value={`${participant.initialState}`}
@@ -195,21 +208,25 @@ const ParticipantForm = ({
 				>
 					<MenuItem
 						value={'0'}
+						id="participant-participation-viewer"
 					>
 						{translate.viewer}
 					</MenuItem>
 					<MenuItem
+						id="participant-participation-granted-word"
 						value={'2'}
 					>
 						{translate.granted_word}
 					</MenuItem>
 					<MenuItem
+						id="participant-participation-cant-ask-word"
 						value={'4'}
 					>
 						{translate.cant_ask_word}
 					</MenuItem>
 					<MenuItem
 						value={'3'}
+						id="participant-participation-waiting-room"
 					>
 						{translate.waiting_room}
 					</MenuItem>
@@ -220,6 +237,7 @@ const ParticipantForm = ({
 			&& <>
 				<GridItem xs={6} md={4} lg={1}>
 					<TextInput
+						id="participant-votes-input"
 						floatingText={translate.votes}
 						type="num"
 						min={1}
@@ -237,6 +255,7 @@ const ParticipantForm = ({
 				<GridItem xs={6} md={4} lg={1}>
 					{participations && (
 						<TextInput
+							id="participant-social-capital-input"
 							floatingText={translate.social_capital}
 							type="num"
 							min={1}

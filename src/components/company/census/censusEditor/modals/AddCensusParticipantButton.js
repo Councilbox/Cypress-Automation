@@ -272,6 +272,7 @@ class AddCensusParticipantButton extends React.Component {
 		return (
 			<React.Fragment>
 				<BasicButton
+					id="add-census-participant-button"
 					text={translate.add_participant}
 					color={'white'}
 					textStyle={{
