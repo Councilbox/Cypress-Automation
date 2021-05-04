@@ -233,11 +233,12 @@ class CensusParticipants extends React.Component {
 						refetch={this.props.data.refetch}
 						action={this.renderDeleteIcon}
 					>
-						{censusParticipants.list.map(participant => (
+						{censusParticipants.list.map((participant, index) => (
 							<React.Fragment key={`participant_${participant.id}`}>
 								<HoverableRow
 									participant={participant}
 									translate={translate}
+									id={`participant-row-${index}`}
 									selected={this.state.selectedIds.has(participant.id)}
 									select={this.select}
 									census={census}
@@ -306,6 +307,7 @@ class HoverableRow extends React.PureComponent {
 		if (isMobile) {
 			return (
 				<Card
+					id={this.props.id}
 					style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
 					onClick={() => this.props.editParticipant(participant)
 					}
@@ -386,6 +388,7 @@ class HoverableRow extends React.PureComponent {
 		return (
 			<TableRow
 				hover={true}
+				id={this.props.id}
 				onMouseOver={this.mouseEnterHandler}
 				onMouseLeave={this.mouseLeaveHandler}
 				onClick={() => this.props.editParticipant(participant)
