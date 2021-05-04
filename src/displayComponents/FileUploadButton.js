@@ -24,7 +24,10 @@ const FileUploadButton = ({
 			{...(image ? { accept: 'image/*' } : {})}
 			{...(accept ? { accept } : {})}
 			id={'raised-button-file'}
-			onChange={onChange}
+			onChange={async event => {
+				await onChange(event);
+				event.target.value = '';
+			} }
 			disabled={disabled}
 			{...(loading ? { disabled: true } : {})}
 			style={{
