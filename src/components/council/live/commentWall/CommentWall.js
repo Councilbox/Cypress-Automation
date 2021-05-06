@@ -117,7 +117,7 @@ const CommentWall = ({
 										</span>
 								}
 							</div>
-							<div>
+							<div onClick={event => event.stopPropagation()}>
 								<CommentWallSwitch
 									translate={translate}
 									council={council}

@@ -86,16 +86,19 @@ export const useCouncilLiveActions = ({ client, council }) => {
 
 	const setCommentWall = async value => {
 		setLoading(true);
-		const response = await client.mutate({
-			mutation: updateCouncil,
-			variables: {
-				council: {
-					id: council.id,
-					wallActive: value
+		await client.mutate({
+			mutation: gql`
+				mutation ToggleCouncilWall($councilId: Int!, $value: Int!){
+					toggleCouncilWall(councilId: $councilId, value: $value) {
+						success
+					}
 				}
+			`,
+			variables: {
+				councilId: council.id,
+				value
 			}
 		});
-		console.log(response);
 		setLoading(false);
 	};
 
