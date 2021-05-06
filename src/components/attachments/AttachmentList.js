@@ -101,7 +101,7 @@ const AttachmentList = ({
 			{attachments.map((attachment, index) => (
 				<AttachmentItem
 					edit={true}
-					key={`attachment${index}`}
+					key={`attachment${attachment.id}`}
 					attachment={attachment}
 					translate={translate}
 					loadingId={props.loadingId}
