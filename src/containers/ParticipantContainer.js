@@ -411,22 +411,27 @@ export default graphql(councilQuery, {
 			document: gql`
 				subscription councilStateUpdated($councilId: Int!){
 					councilStateUpdated(councilId: $councilId){
-					state
-					councilStarted
-					subdomain
+						state
+						wallActive
+						councilStarted
+						subdomain
+					}
 				}
-			}`,
+			`,
 			variables: {
 				councilId: +params.councilId
 			},
 			updateQuery: (prev, { subscriptionData }) => {
+				console.log(subscriptionData);
+
 				const newData = subscriptionData.data.councilStateUpdated;
 
 				return ({
 					...prev,
 					councilVideo: {
 						...prev.councilVideo,
-						state: newData.state ? newData.state : prev.councilVideo.state,
+						state: newData.state || prev.councilVideo.state,
+						wallActive: newData.wallActive !== null ? newData.wallActive : prev.councilVideo.wallActive,
 						subdomain: (newData.subdomain !== null) ? newData.subdomain : prev.councilVideo.subdomain,
 						councilStarted: (newData.councilStarted !== null) ? newData.councilStarted : prev.councilVideo.councilStarted
 					}
