@@ -9,7 +9,7 @@ import { councilLiveQuery } from '../../../../queries';
 import ParticipantsManager from '../participants/ParticipantsManager';
 import LiveMobileHeader from './LiveMobileHeader';
 import AgendaManager from '../AgendaManager';
-import CommentWall from '../CommentWall';
+import CommentWall from '../commentWall/CommentWall';
 import LiveParticipantsDrawer from './LiveParticipantsDrawer';
 import { getSecondary } from '../../../../styles/colors';
 
@@ -159,6 +159,7 @@ add
 				translate={translate}
 				open={state.wall}
 				council={data.council}
+				refetch={data.refetch}
 				unreadComments={state.unreadComments}
 				updateState={updateState}
 				requestClose={closeCommentWall}

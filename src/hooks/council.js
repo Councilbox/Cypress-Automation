@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 import React from 'react';
-import { addCouncilAttachment as addMutation, removeCouncilAttachment as removeMutation } from '../queries';
+import { addCouncilAttachment as addMutation, removeCouncilAttachment as removeMutation, updateCouncil } from '../queries';
 import { downloadFile } from '../utils/CBX';
 
 export const useCouncilAttachments = ({ client }) => {
@@ -77,5 +77,30 @@ export const useDownloadCouncilMessages = ({ client, translate }) => {
 	return {
 		downloading,
 		downloadCouncilMessagesPDF
+	};
+};
+
+
+export const useCouncilLiveActions = ({ client, council }) => {
+	const [loading, setLoading] = React.useState(false);
+
+	const setCommentWall = async value => {
+		setLoading(true);
+		const response = await client.mutate({
+			mutation: updateCouncil,
+			variables: {
+				council: {
+					id: council.id,
+					wallActive: value
+				}
+			}
+		});
+		console.log(response);
+		setLoading(false);
+	};
+
+	return {
+		loading,
+		setCommentWall
 	};
 };

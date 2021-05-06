@@ -7,16 +7,19 @@ import {
 	getPrimary,
 	getSecondary,
 	lightGrey
-} from '../../../styles/colors';
-import { wallComments } from '../../../queries';
-import { Icon, LoadingSection, Scrollbar } from '../../../displayComponents';
-import { moment } from '../../../containers/App';
-import { useDownloadCouncilMessages } from '../../../hooks/council';
+} from '../../../../styles/colors';
+import { wallComments } from '../../../../queries';
+import { Icon, LoadingSection, Scrollbar } from '../../../../displayComponents';
+import { moment } from '../../../../containers/App';
+import { useDownloadCouncilMessages } from '../../../../hooks/council';
+import CommentWallSwitch from './CommentWallSwitch';
+
 
 const CommentWall = ({
 	open,
 	data,
 	council,
+	refetch,
 	translate,
 	subscribeToWallComments,
 	requestClose,
@@ -72,7 +75,7 @@ const CommentWall = ({
 					<div
 						style={{
 							height: '100%',
-							width: '300px',
+							width: '350px',
 							paddingTop: '3em',
 							overflow: 'hidden'
 						}}
@@ -113,6 +116,13 @@ const CommentWall = ({
 											file_download
 										</span>
 								}
+							</div>
+							<div>
+								<CommentWallSwitch
+									translate={translate}
+									council={council}
+									refetch={refetch}
+								/>
 							</div>
 							<Icon
 								className="material-icons"
