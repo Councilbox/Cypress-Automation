@@ -1,26 +1,25 @@
+import { setDate } from 'date-fns';
 import React from 'react';
-import { DatePicker } from 'antd';
-import locale from 'antd/es/date-picker/locale/es_ES';
-import 'moment/locale/es';
+import { TextInput } from '../../../../displayComponents';
+import { moment } from '../../../../containers/App';
 
 
-const ClaveJusticiaPicker = ({ error, date, onChange, placeholder }) => (
-	<>
-		<DatePicker
-			format={'DD-MM-yyyy'}
-			locale={locale}
-			style={{
-				width: '100%'
-			}}
-			placeholder={placeholder}
-			showToday={false}
-			defaultValue={date}
-			onChange={onChange}
-		/>
-		<span style={{ color: 'red' }}>
-			{error}
-		</span>
-	</>
-);
+const ClaveJusticiaPicker = ({ error, onChange }) => {
+	return (
+		<>
+			<input
+				type="date"
+				onChange={event => onChange(moment(event.target.value))}
+				style={{
+					width: '100%',
+					padding: '5px'
+				}}
+			/>
+			<span style={{ color: 'red' }}>
+				{error}
+			</span>
+		</>
+	);
+};
 
 export default ClaveJusticiaPicker;
