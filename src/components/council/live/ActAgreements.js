@@ -219,11 +219,11 @@ const ActAgreements = ({
 					label: translate.actual_date
 				},
 				{
-					value: company.businessName,
+					value: company?.businessName,
 					label: translate.business_name
 				},
 				{
-					value: generateGBDecidesText(translate, company.governingBodyType),
+					value: generateGBDecidesText(translate, company?.governingBodyType),
 					label: '[Órgano de gobierno] decide'
 				},
 				{
@@ -231,7 +231,7 @@ const ActAgreements = ({
 					label: translate.new_location_of_celebrate
 				},
 				{
-					value: company.country,
+					value: company?.country,
 					label: translate.company_new_country
 				},
 				{

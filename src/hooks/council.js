@@ -79,3 +79,31 @@ export const useDownloadCouncilMessages = ({ client, translate }) => {
 		downloadCouncilMessagesPDF
 	};
 };
+
+
+export const useCouncilLiveActions = ({ client, council }) => {
+	const [loading, setLoading] = React.useState(false);
+
+	const setCommentWall = async value => {
+		setLoading(true);
+		await client.mutate({
+			mutation: gql`
+				mutation ToggleCouncilWall($councilId: Int!, $value: Int!){
+					toggleCouncilWall(councilId: $councilId, value: $value) {
+						success
+					}
+				}
+			`,
+			variables: {
+				councilId: council.id,
+				value
+			}
+		});
+		setLoading(false);
+	};
+
+	return {
+		loading,
+		setCommentWall
+	};
+};

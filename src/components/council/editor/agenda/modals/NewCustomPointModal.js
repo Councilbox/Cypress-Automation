@@ -73,7 +73,7 @@ export const useValidateAgenda = (translate, setErrors) => (items, options, agen
 			hasError = true;
 		}
 		if (item.value) {
-			if (!(regex.test(item.value)) || !item.value.trim()) {
+			if (!item.value.trim()) {
 				hasError = true;
 				newErrors.items[index].error = translate.invalid_field;
 			}
