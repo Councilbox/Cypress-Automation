@@ -281,7 +281,7 @@ const Exceptions = withApollo(({
 
 	return (
 		<div>
-Exceptions
+			Exceptions
 			<div style={{ maxWidth: '300px' }}>
 				<TextInput
 					value={data.companyId}
@@ -400,9 +400,9 @@ const SubdomainImage = ({ client }) => {
 				}}
 				onChange={handleFile}
 			/>
-Subdomain
+			Subdomain
 			<input onChange={event => setSubdomain(event.target.value)}></input>
-type
+			type
 			<input onChange={event => setType(event.target.value)}></input>
 			<BasicButton
 				text="Enviar"

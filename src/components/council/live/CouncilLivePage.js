@@ -4,11 +4,11 @@ import {
 } from 'material-ui';
 import { DisabledSection, FabButton, Icon } from '../../../displayComponents';
 import LiveHeader from './LiveHeader';
-import { darkGrey, lightGrey } from '../../../styles/colors';
+import { darkGrey, getPrimary, lightGrey } from '../../../styles/colors';
 import AgendaManager from './AgendaManager';
 import ParticipantsLive from './ParticipantsLive';
 import ParticipantsManager from './participants/ParticipantsManager';
-import CommentWall from './CommentWall';
+import CommentWall from './commentWall/CommentWall';
 import { showVideo } from '../../../utils/CBX';
 import { config, videoVersions } from '../../../config';
 import CMPVideoIFrame from './video/CMPVideoIFrame';
@@ -214,7 +214,7 @@ const CouncilLivePage = ({ translate, data, company }) => {
 					zIndex: 2
 				}}
 			>
-				{(councilStartedState() && council.wallActive === 1)
+				{(councilStartedState())
 					&& <Tooltip title={`${translate.wall} - (ALT + W)`} open={state.wallTooltip}>
 						<div>
 							{state.unreadComments > 0 ?
@@ -237,6 +237,7 @@ const CouncilLivePage = ({ translate, data, company }) => {
 									<div style={{ marginBottom: '0.3em' }}>
 										<FabButton
 											mode="intermitent"
+											color={council.wallActive === 1 ? getPrimary() : 'grey'}
 											icon={
 												<Icon className="material-icons">
 													chat
@@ -248,6 +249,7 @@ const CouncilLivePage = ({ translate, data, company }) => {
 								</Badge>
 								: <div style={{ marginBottom: '0.3em' }}>
 									<FabButton
+										color={council.wallActive === 1 ? getPrimary() : 'grey'}
 										icon={
 											<Icon className="material-icons">
 												chat
@@ -266,6 +268,7 @@ const CouncilLivePage = ({ translate, data, company }) => {
 				translate={translate}
 				open={state.wall}
 				council={council}
+				refetch={data.refetch}
 				unreadComments={state.unreadComments}
 				updateState={updateState}
 				requestClose={toggleWall}
