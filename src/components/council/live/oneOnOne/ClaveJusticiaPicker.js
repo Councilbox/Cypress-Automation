@@ -1,8 +1,5 @@
-import { setDate } from 'date-fns';
 import React from 'react';
-import { TextInput } from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
-
 
 const ClaveJusticiaPicker = ({ error, onChange }) => {
 	return (
