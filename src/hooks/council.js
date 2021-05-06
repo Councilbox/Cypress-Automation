@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 import React from 'react';
-import { addCouncilAttachment as addMutation, removeCouncilAttachment as removeMutation, updateCouncil } from '../queries';
+import { addCouncilAttachment as addMutation, removeCouncilAttachment as removeMutation } from '../queries';
 import { downloadFile } from '../utils/CBX';
 
 export const useCouncilAttachments = ({ client }) => {
