@@ -13,9 +13,10 @@ import { isMobile } from '../../../../utils/screen';
 import withWindowSize from '../../../../HOCs/withWindowSize';
 
 const Action = ({
-	children, loading, onClick, disabled = false, styles
+	children, loading, onClick, disabled = false, styles, id
 }) => (
 	<div
+		id={id}
 		style={{
 			display: 'flex',
 			alignItems: 'center',
@@ -68,10 +69,10 @@ const RepresentativeForm = ({
 					style={{
 						display: 'flex', alignItems: 'center', overflow: 'hidden', cursor: 'pointer'
 					}}
+					id={state.hasRepresentative ? 'remove-representative-button' : 'add-representative-button'}
 					onClick={() => updateState({
 						hasRepresentative: !state.hasRepresentative
-					})
-					}
+					})}
 				>
 					<div style={{ width: '3em', color: disabled ? 'grey' : getSecondary() }}>
 						<i className={'fa fa-plus'} style={{ position: 'relative' }}></i>
@@ -87,6 +88,7 @@ const RepresentativeForm = ({
 				<Action
 					onClick={() => setSelectRepresentative(true)}
 					disabled={disabled}
+					id="select-representative-button"
 				>
 					<div
 						style={{ display: 'flex', alignItems: 'center', overflow: 'hidden' }}
@@ -105,9 +107,9 @@ const RepresentativeForm = ({
 				</Action>
 			</GridItem>
 			{disabled
-&& <div style={{ width: '100%', padding: '1em' }}>
-	{translate.cant_add_representative}
-</div>
+				&& <div style={{ width: '100%', padding: '1em' }}>
+					{translate.cant_add_representative}
+				</div>
 			}
 			<Collapse in={state.hasRepresentative} >
 				{state.hasRepresentative && (
@@ -116,6 +118,7 @@ const RepresentativeForm = ({
 							<TextInput
 								floatingText={translate.name}
 								type="text"
+								id="representative-name-input"
 								errorText={errors.name}
 								value={representative.name || ''}
 								onChange={event => updateState({
@@ -126,6 +129,7 @@ const RepresentativeForm = ({
 						</GridItem>
 						<GridItem xs={6} md={4} lg={3}>
 							<TextInput
+								id="representative-surname-input"
 								floatingText={translate.surname || ''}
 								type="text"
 								errorText={errors.surname || ''}
@@ -138,6 +142,7 @@ const RepresentativeForm = ({
 						</GridItem>
 						<GridItem xs={6} md={4} lg={3}>
 							<TextInput
+								id="representative-dni-input"
 								floatingText={translate.new_dni}
 								type="text"
 								errorText={errors.dni}
@@ -150,6 +155,7 @@ const RepresentativeForm = ({
 						</GridItem>
 						<GridItem xs={8} lg={3} md={3}>
 							<TextInput
+								id="representative-position-input"
 								floatingText={translate.position}
 								type="text"
 								errorText={errors.position}
@@ -162,6 +168,7 @@ const RepresentativeForm = ({
 						</GridItem>
 						<GridItem xs={6} md={4} lg={3}>
 							<TextInput
+								id="representative-email-input"
 								{...(checkEmail ? { onKeyUp: event => checkEmail(event, 'representative') } : {})}
 								floatingText={translate.email}
 								type="text"
@@ -175,6 +182,7 @@ const RepresentativeForm = ({
 						</GridItem>
 						<GridItem xs={6} md={4} lg={3}>
 							<TextInput
+								id="representative-administrative-email-input"
 								floatingText={translate.administrative_email}
 								min={1}
 								errorText={errors.secondaryEmail}
@@ -188,6 +196,7 @@ const RepresentativeForm = ({
 						</GridItem>
 						<GridItem xs={6} md={4} lg={3}>
 							<TextInput
+								id="representative-phone-input"
 								floatingText={translate.phone}
 								type="text"
 								errorText={errors.phone}
@@ -200,6 +209,7 @@ const RepresentativeForm = ({
 						</GridItem>
 						<GridItem xs={6} md={4} lg={3}>
 							<SelectInput
+								id="representative-language-select"
 								floatingText={translate.language}
 								value={representative.language}
 								onChange={event => updateState({
@@ -209,9 +219,10 @@ const RepresentativeForm = ({
 							>
 								{languages.map(language => (
 									<MenuItem
+										id={`participant-language-${language.columnName}`}
 										value={language.columnName}
 										key={`languagerepresentative_${language.columnName
-										}`}
+											}`}
 									>
 										{language.desc}
 									</MenuItem>
@@ -220,6 +231,7 @@ const RepresentativeForm = ({
 						</GridItem>
 						<GridItem xs={6} md={4} lg={3}>
 							<SelectInput
+								id="participant-participation-type-select"
 								floatingText={translate.participation_type}
 								errorText={errors.initialState}
 								value={`${representative.initialState}`}
@@ -230,20 +242,24 @@ const RepresentativeForm = ({
 							>
 								<MenuItem
 									value={'0'}
+									id="participant-participation-viewer"
 								>
 									{translate.viewer}
 								</MenuItem>
 								<MenuItem
 									value={'2'}
+									id="participant-participation-granted-word"
 								>
 									{translate.granted_word}
 								</MenuItem>
 								<MenuItem
+									id="participant-participation-cant-ask-word"
 									value={'4'}
 								>
 									{translate.cant_ask_word}
 								</MenuItem>
 								<MenuItem
+									id="participant-participation-waiting-room"
 									value={'3'}
 								>
 									{translate.waiting_room}

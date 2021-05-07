@@ -94,6 +94,7 @@ const StepAttachments = ({ client, translate, ...props }) => {
 
 	const handleFile = async event => {
 		const file = event.nativeEvent.target.files[0];
+		event.target.value = '';
 		if (!file) {
 			return;
 		}

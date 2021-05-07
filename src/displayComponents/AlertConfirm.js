@@ -83,7 +83,7 @@ const AlertConfirm = ({
 			fullScreen={fullScreen}
 			maxWidth={false}
 			id={id}
-			open={open}
+			open={open || false}
 			onClose={requestClose}
 			PaperProps={{
 				style: {
