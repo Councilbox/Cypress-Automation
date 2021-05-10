@@ -133,9 +133,9 @@ const CompanyDraftForm = ({
 			<div>
 				<Input
 					placeholder={translate.title}
+					id="draft-editor-title"
 					error={!!errors.title}
 					disableUnderline={true}
-					id={'titleDraft'}
 					style={{
 						color: 'rgba(0, 0, 0, 0.65)',
 						fontSize: '15px',
@@ -193,6 +193,7 @@ const CompanyDraftForm = ({
 						{columns[key].map(tag => (
 							<SelectedTag
 								key={`tag_${tag.label}`}
+								id={`selected-tag-${tag.name}`}
 								text={translate[tag.label] || tag.label}
 								color={getTagColor(key)}
 								action={() => removeTag(tag.name)}
@@ -213,7 +214,7 @@ const CompanyDraftForm = ({
 				<div>
 					<div style={{ fontSize: '18px', marginBottom: '1em' }}>{translate.content}</div>
 					<RichTextInput
-						id={'draftRichEditor'}
+						id="draft-editor-text"
 						value={draft.text || ''}
 						errorText={errors.text}
 						translate={translate}
@@ -227,7 +228,7 @@ const CompanyDraftForm = ({
 				<div>
 					<div style={{ fontSize: '18px', marginBottom: '0.6em', marginTop: '1.2em' }}>{translate.secondary_text}</div>
 					<RichTextInput
-						id={'draftRichEditor2'}
+						id="draft-editor-secondary-text"
 						value={draft.secondaryText || ''}
 						errorText={errors.secondaryText}
 						translate={translate}
@@ -285,7 +286,7 @@ const CompanyDraftForm = ({
 					<div style={{ paddingLeft: '1em', paddingRight: '1em' }}>
 						<div style={{ marginBottom: '1em', display: 'flex' }}>
 							<TextInput
-								id={'buscadorEtiqueta'}
+								id="tag-search-input"
 								placeholder={translate.search_template_tag}
 								adornment={<Icon>search</Icon>}
 								type="text"
@@ -519,10 +520,11 @@ export const ContenedorEtiquetas = ({
 			>
 				<Collapse in={true} timeout="auto" unmountOnExit >
 					<div style={{ marginBottom: '1em' }}>
-						<div style={{}} id={'contenedorEtiquetasBuscadas'}>
+						<div style={{}} id={'tag-search-result'}>
 							{tags.map((tag, index) => (
 								<Tag
 									key={`tag_${index}`}
+									id={`add-tag-${tag.name}`}
 									childs={tag.childs}
 									text={translate[tag.label] || tag.label}
 									color={getTagColor(tag.type)}
@@ -569,6 +571,7 @@ export const ContenedorEtiquetas = ({
 						{tags.map((tag, index) => (
 							<Tag
 								key={`tag_${index}`}
+								id={`add-tag-${tag.name}`}
 								childs={tag.childs}
 								text={translate[tag.label] || tag.label}
 								color={getTagColor(tag.type)}

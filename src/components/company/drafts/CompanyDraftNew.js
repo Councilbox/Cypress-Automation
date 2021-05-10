@@ -165,7 +165,7 @@ const CompanyDraftNew = ({ translate, ...props }) => {
 					paddingTop: isMobile && '0.5em'
 				}}>
 					<BasicButton
-						// id={"saveDraft"}
+						id="draft-editor-back"
 						floatRight
 						text={translate.back}
 						color={getPrimary()}
@@ -179,7 +179,7 @@ const CompanyDraftNew = ({ translate, ...props }) => {
 						onClick={goBack}
 					/>
 					<BasicButton
-						id={'saveDraft'}
+						id="draft-editor-save"
 						floatRight
 						text={translate.save}
 						color={getPrimary()}

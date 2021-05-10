@@ -167,6 +167,7 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 						<BasicButton
 							floatRight
 							type="flat"
+							id="draft-editor-back"
 							text={translate.back}
 							loading={loading}
 							success={success}
@@ -179,7 +180,7 @@ const CompanyDraftEditor = ({ translate, client, ...props }) => {
 							onClick={goBack}
 						/>
 						<BasicButton
-							id={'saveDraftinEdit'}
+							id="draft-editor-save"
 							text={translate.save}
 							color={getPrimary()}
 							loading={loading}
