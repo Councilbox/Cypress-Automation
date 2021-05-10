@@ -74,7 +74,7 @@ const SelectedTag = ({
 		<React.Fragment>
 			<div style={{ visibility: 'hidden', position: 'absolute' }} ref={anchoRef}>{text}</div>
 			<div
-			 	id={id}
+				id={id}
 				style={{
 					borderRadius: '20px',
 					background: color,
