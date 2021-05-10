@@ -4,7 +4,7 @@ import { isMobile } from '../../../../utils/screen';
 
 
 const SelectedTag = ({
-	text, color, action, list, count, stylesEtiqueta, desplegarEtiquetas, mouseEnterHandler, mouseLeaveHandler, sinTitulos, props
+	text, color, action, list, count, stylesEtiqueta, desplegarEtiquetas, mouseEnterHandler, mouseLeaveHandler, sinTitulos, ...props
 }) => {
 	const anchoRef = React.useRef();
 	const [tooltip, setTooltip] = React.useState(false);
@@ -22,6 +22,7 @@ const SelectedTag = ({
 				<div style={{ visibility: 'hidden', position: 'absolute' }} ref={anchoRef}>{text}</div>
 				<div
 					className={count && 'hoverTags'}
+					id={props.id}
 					style={{
 						borderRadius: '20px',
 						background: color,
@@ -74,6 +75,7 @@ const SelectedTag = ({
 		<React.Fragment>
 			<div style={{ visibility: 'hidden', position: 'absolute' }} ref={anchoRef}>{text}</div>
 			<div
+				id={props.id}
 				style={{
 					borderRadius: '20px',
 					background: color,
