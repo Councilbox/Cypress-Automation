@@ -512,7 +512,7 @@ export const DropdownEtiquetas = withStyles(styles)(({
 	...props
 }) => (
 	<DropDownMenu
-		id={'cargarPlantillasSelectorEtiquetas'}
+		id={'drafts-tag-filter-selector'}
 		color={primary}
 		loading={false}
 		paperPropsStyles={{ border: ' solid 1px #353434', borderRadius: '3px' }}
@@ -578,7 +578,7 @@ export const DropdownEtiquetas = withStyles(styles)(({
 							<TextInput
 								placeholder={translate.search_template_tag}
 								adornment={<Icon>search</Icon>}
-								id={'buscarEtiquetasEnModal'}
+								id={'tag-search-input'}
 								type="text"
 								value={search}
 								styleInInput={{ fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)' }}
@@ -750,6 +750,7 @@ const EtiquetasModal = ({
 								} : {}),
 							}}
 							key={`tag_${tag.label}`}
+							id={`add-tag-${tag.name}`}
 							onClick={() => (testTags[tag.name] ? removeTag(tag) : addTag(tag))}
 						>
 							{tag.label}
