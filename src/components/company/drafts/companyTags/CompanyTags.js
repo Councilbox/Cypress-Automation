@@ -118,7 +118,7 @@ const CompanyTags = ({ client, translate, company }) => {
 							onChange={event => {
 								setBuscarTags(event.target.value);
 							}}
-							id={'buscadorEtiquetas'}
+							id="company-tag-search-input"
 						/>
 					</div>
 				</div>
@@ -180,11 +180,12 @@ const CompanyTags = ({ client, translate, company }) => {
 																</TableCell>
 															</TableRow>
 														</TableHead>
-														<TableBody id={'bodyTagsTable'} >
-															{data.map(tag => (
+														<TableBody id={'company-tags-table-body'} >
+															{data.map((tag, index) => (
 																<HoverableRow
 																	key={`tag_${tag.id}`}
 																	tag={tag}
+																	id={`tag-${index}`}
 																	editTag={openEditTag}
 																	translate={translate}
 																	deleteTag={deleteTag}
@@ -229,7 +230,7 @@ const CompanyTags = ({ client, translate, company }) => {
 							<div style={{
 								display: 'flex', alignItems: 'center', color: '#969696', minHeight: '42px', marginBottom: '0.5em'
 							}}>
-								<div style={{}} onClick={() => setToggleText(!toggleText)}>
+								<div id="company-tags-help-toggle" onClick={() => setToggleText(!toggleText)}>
 									<i className="material-icons" style={{
 										color: getPrimary(), fontSize: '14px', paddingRight: '0.3em', cursor: 'pointer'
 									}} >
@@ -238,7 +239,7 @@ const CompanyTags = ({ client, translate, company }) => {
 								</div>
 								<div style={{ height: '100%' }}>
 									{toggleText
-										&& <div>{translate.tags_description}</div>
+										&& <div id="company-tags-help-text">{translate.tags_description}</div>
 									}
 								</div>
 							</div>
@@ -257,7 +258,7 @@ const CompanyTags = ({ client, translate, company }) => {
 											onChange={event => {
 												setBuscarTags(event.target.value);
 											}}
-											id={'buscadorEtiquetas'}
+											id="company-tag-search-input"
 										/>
 									</div>
 								</div>
@@ -282,11 +283,12 @@ const CompanyTags = ({ client, translate, company }) => {
 																<TableCell style={{ width: '2em' }} />
 															</TableRow>
 														</TableHead>
-														<TableBody id={'bodyTagsTable'} >
-															{data.map(tag => (
+														<TableBody id={'company-tags-table-body'} >
+															{data.map((tag, index) => (
 																<HoverableRow
 																	key={`tag_${tag.id}`}
 																	tag={tag}
+																	id={`tag-${index}`}
 																	editTag={openEditTag}
 																	translate={translate}
 																	deleteTag={deleteTag}
@@ -310,7 +312,7 @@ const CompanyTags = ({ client, translate, company }) => {
 };
 
 const HoverableRow = ({
-	translate, tag, deleteTag, editTag
+	translate, tag, deleteTag, editTag, id
 }) => {
 	const [show, handlers] = useHoverRow();
 	const primary = getPrimary();
@@ -320,6 +322,7 @@ const HoverableRow = ({
 		return (
 			<TableRow
 				{...handlers}
+				id={id}
 				style={{
 					background: show && 'rgba(0, 0, 0, 0.07)'
 				}}
@@ -374,6 +377,7 @@ const HoverableRow = ({
 	return (
 		<TableRow
 			{...handlers}
+			id={id}
 			style={{
 				background: show && 'rgba(0, 0, 0, 0.07)'
 			}}
