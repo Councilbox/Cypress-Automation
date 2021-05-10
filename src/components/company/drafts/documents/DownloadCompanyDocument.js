@@ -4,7 +4,7 @@ import { getSecondary } from '../../../../styles/colors';
 import { LoadingSection } from '../../../../displayComponents';
 
 
-const DownloadCompanyDocument = ({ file, trigger, color = getSecondary() }) => {
+const DownloadCompanyDocument = ({ file, trigger, color = getSecondary(), id }) => {
 	const [downloading, setDownloading] = React.useState(false);
 
 	const download = async () => {
@@ -42,10 +42,16 @@ const DownloadCompanyDocument = ({ file, trigger, color = getSecondary() }) => {
 						<div>
 							<LoadingSection color={'secondary'} size={12} />
 						</div>
-						: <i className="fa fa-download" aria-hidden="true" onClick={download} style={{
-							color,
-							cursor: 'pointer'
-						}}></i>
+						: <i
+							className="fa fa-download"
+							aria-hidden="true"
+							id={`download-file-${id}`}
+							onClick={download}
+							style={{
+								color,
+								cursor: 'pointer'
+							}}
+						></i>
 					}
 				</>
 			}
