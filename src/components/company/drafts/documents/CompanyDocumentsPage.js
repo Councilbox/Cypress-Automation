@@ -268,6 +268,7 @@ const CompanyDocumentsPage = ({
 								{(index === breadCrumbs.length - 1) && !hideUpload ?
 									<DropDownMenu
 										color="transparent"
+										id="company-documents-drowpdown"
 										styleComponent={{ width: '' }}
 										Component={() => <div style={{
 											display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.5em', paddingRight: '1em', position: 'relative'
@@ -300,9 +301,12 @@ const CompanyDocumentsPage = ({
 										items={
 											<div style={{ padding: '1em' }}>
 												<label htmlFor="raised-button-file">
-													<div style={{
-														display: 'flex', color: 'black', padding: '.5em 0em', cursor: 'pointer'
-													}}>
+													<div
+														id="company-document-upload-file"
+														style={{
+															display: 'flex', color: 'black', padding: '.5em 0em', cursor: 'pointer'
+														}}
+													>
 														<div style={{ width: '15px' }}>
 															<img src={upload} style={{ width: '100%' }}></img>
 														</div>
@@ -322,6 +326,7 @@ const CompanyDocumentsPage = ({
 														borderTop: `1px solid${primary}`,
 														cursor: 'pointer'
 													}}
+													id="company-document-create-folder"
 													onClick={() => setFolderModal(true)}
 												>
 													<div style={{ width: '15px' }}>
@@ -335,6 +340,7 @@ const CompanyDocumentsPage = ({
 										}
 									/>
 									: <span
+										id={`navigate-to-level-${index}`}
 										style={{
 											...(index === breadCrumbs.length - 1 ? {
 												color: (index === breadCrumbs.length - 1) ? primary : 'inherit'
@@ -372,6 +378,7 @@ const CompanyDocumentsPage = ({
 								adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
 								floatingText={' '}
 								type="text"
+								id="company-document-search-input"
 								value={search}
 								styles={{ marginTop: '-16px' }}
 								stylesTextField={{ marginBottom: '0px' }}
@@ -435,9 +442,14 @@ const CompanyDocumentsPage = ({
 									borderBottom: '1px solid #979797'
 								}} />
 							</TableRow>
-							{documents && documents.map(doc => (
+							{documents && documents.map((doc, index) => (
 								doc.type === 0 ?
-									<TableRow style={{ cursor: 'pointer' }} key={`folder_${doc.id}`} onClick={() => navigateTo(doc)}>
+									<TableRow
+										style={{ cursor: 'pointer' }}
+										key={`folder_${doc.id}`}
+										id={`folder-${index}`}
+										onClick={() => navigateTo(doc)}
+									>
 										<TableCell>
 											<img src={folderIcon} style={{ marginRight: '0.6em' }} />
 											{doc.name}
@@ -452,20 +464,24 @@ const CompanyDocumentsPage = ({
 										<TableCell>
 											{!action
 												&& <div style={{ display: 'flex' }}>
-													<div onClick={event => {
-														event.stopPropagation();
-														setDeleteModal(doc);
-													}} style={{
-														cursor: 'pointer',
-														color: secondary,
-														background: 'white',
-														display: 'flex',
-														alignItems: 'center',
-														justifyContent: 'center',
-														padding: '0.3em',
-														width: '100px',
-														marginLeft: '11px'
-													}}>
+													<div
+														onClick={event => {
+															event.stopPropagation();
+															setDeleteModal(doc);
+														}}
+														id={`delete-folder-${index}`}
+														style={{
+															cursor: 'pointer',
+															color: secondary,
+															background: 'white',
+															display: 'flex',
+															alignItems: 'center',
+															justifyContent: 'center',
+															padding: '0.3em',
+															width: '100px',
+															marginLeft: '11px'
+														}}
+													>
 														{translate.delete}
 													</div>
 													<div
@@ -473,6 +489,7 @@ const CompanyDocumentsPage = ({
 															event.stopPropagation();
 															setEditModal(doc);
 														}}
+														id={`edit-folder-${index}`}
 														style={{
 															cursor: 'pointer',
 															color: getSecondary(),
@@ -492,6 +509,7 @@ const CompanyDocumentsPage = ({
 									: <FileRow
 										key={`doc_${doc.id}`}
 										translate={translate}
+										id={index}
 										file={doc}
 										trigger={trigger}
 										action={action}
@@ -622,7 +640,7 @@ const EditFolder = withApollo(({
 });
 
 const FileRow = withApollo(({
-	client, translate, file, refetch, setDeleteModal, action, trigger
+	client, translate, file, refetch, setDeleteModal, action, trigger, id
 }) => {
 	const nameData = file.name.split('.');
 	const extension = nameData.pop();
@@ -658,7 +676,9 @@ const FileRow = withApollo(({
 	};
 
 	return (
-		<TableRow>
+		<TableRow
+			id={`file-${id}`}
+		>
 			<AlertConfirm
 				title={translate.edit_document_name}
 				acceptAction={updateFile}
@@ -701,36 +721,49 @@ const FileRow = withApollo(({
 			<TableCell>
 				{(action && trigger) ?
 					file.type !== 0 ?
-						<div onClick={() => action(file)} style={{ cursor: 'pointer' }}>
+						<div
+							id={`document-action-${id}`}
+							onClick={() => action(file)}
+							style={{ cursor: 'pointer' }}
+						>
 							{trigger}
 						</div>
 						: <span />
 					: <div style={{ display: 'flex', alignItems: 'center' }}>
 						<DownloadCompanyDocument
 							translate={translate}
+							id={id}
 							file={file}
 						/>
-						<div onClick={() => setDeleteModal(file)} style={{
-							cursor: 'pointer',
-							color: getSecondary(),
-							background: 'white',
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-							padding: '0.3em',
-							width: '100px'
-						}}>
+						<div
+							onClick={() => setDeleteModal(file)}
+							id={`delete-file-${id}`}
+							style={{
+								cursor: 'pointer',
+								color: getSecondary(),
+								background: 'white',
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+								padding: '0.3em',
+								width: '100px'
+							}}
+						>
 							{translate.delete}
 						</div>
-						<div onClick={() => setModal(true)} style={{
-							cursor: 'pointer',
-							color: getSecondary(),
-							background: 'white',
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center',
-							padding: '0.3em',
-						}}>
+						<div
+							onClick={() => setModal(true)}
+							id={`edit-file-${id}`}
+							style={{
+								cursor: 'pointer',
+								color: getSecondary(),
+								background: 'white',
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'center',
+								padding: '0.3em',
+							}}
+						>
 							{translate.edit}
 						</div>
 					</div>
