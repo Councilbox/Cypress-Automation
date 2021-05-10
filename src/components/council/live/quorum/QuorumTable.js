@@ -55,7 +55,7 @@ const QuorumTable = ({ translate, data, company, council, hasParticipations, tot
 							{translate.presents}
 						</TableCell>
 						<TableCell style={mainRowsStyle}>
-							{data.numPresent + data.numRemote + data.numEarlyVotes}
+							{data.numPresent + data.numRemote + data.numEarlyVotes + data.numWithoutVote}
 						</TableCell>
 						<TableCell style={mainRowsStyle}>
 							{showNumParticipations(data.present + data.remote + data.earlyVotes + data.withoutVote, company, council.statute)}
