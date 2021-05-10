@@ -105,6 +105,7 @@ class CensusParticipants extends React.Component {
 
 		return (
 			<CloseIcon
+				id={`delete-participant-button-${participantID}`}
 				style={{ color: primary }}
 				onClick={event => {
 					event.stopPropagation();

@@ -4,7 +4,7 @@ import { isMobile } from '../../../../utils/screen';
 
 
 const SelectedTag = ({
-	text, color, action, list, count, stylesEtiqueta, id, desplegarEtiquetas, mouseEnterHandler, mouseLeaveHandler, sinTitulos, props
+	text, color, action, list, count, stylesEtiqueta, id, desplegarEtiquetas, mouseEnterHandler, mouseLeaveHandler, sinTitulos, ...props
 }) => {
 	const anchoRef = React.useRef();
 	const [tooltip, setTooltip] = React.useState(false);
@@ -22,6 +22,7 @@ const SelectedTag = ({
 				<div style={{ visibility: 'hidden', position: 'absolute' }} ref={anchoRef}>{text}</div>
 				<div
 					className={count && 'hoverTags'}
+					id={id}
 					style={{
 						borderRadius: '20px',
 						background: color,
@@ -100,6 +101,7 @@ const SelectedTag = ({
 							style={{
 								cursor: 'pointer', background: ' #ffffff', color, borderRadius: '6px', padding: '0em 1px'
 							}}
+							id="delete-tag"
 							aria-hidden="true"
 							onClick={action}
 						>
