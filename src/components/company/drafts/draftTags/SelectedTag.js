@@ -99,6 +99,7 @@ const SelectedTag = ({
 							style={{
 								cursor: 'pointer', background: ' #ffffff', color, borderRadius: '6px', padding: '0em 1px'
 							}}
+							id="delete-tag"
 							aria-hidden="true"
 							onClick={action}
 						>
