@@ -15,7 +15,7 @@ import {
 } from '../../../../utils/CBX';
 import { getSecondary } from '../../../../styles/colors';
 import { useDownloadHTMLAsPDF, usePolling } from '../../../../hooks';
-import { AlertConfirm, DropDownMenu, Scrollbar } from '../../../../displayComponents';
+import { AlertConfirm, DropDownMenu } from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
 import { COUNCIL_TYPES } from '../../../../constants';
 import MenuSuperiorTabs from '../../../dashboard/MenuSuperiorTabs';
@@ -186,12 +186,10 @@ export const QuorumDetails = withApollo(({
 				<div style={{
 					width: '100%',
 					display: 'flex',
-					justifyContent: 'space-between',
+					justifyContent: 'flex-end',
 					alignItems: 'center',
 					marginBottom: '1em'
 				}}>
-					<b>{translate.quorum}:</b>
-
 					<DropDownMenu
 						color="transparent"
 						id={'user-menu-trigger'}

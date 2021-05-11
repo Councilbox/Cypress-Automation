@@ -1,14 +1,47 @@
 import { Table, TableHead, TableBody, TableCell, TableRow } from 'material-ui';
 import React from 'react';
 import { COUNCIL_TYPES } from '../../../../constants';
+import { getSecondary } from '../../../../styles/colors';
 import { showNumParticipations } from '../../../../utils/CBX';
 
-const mainRowsStyle = {
-	fontWeight: '700',
-	fontSize: '14px'
-};
-
 const QuorumTable = ({ translate, data, company, council, hasParticipations, totalVotes, socialCapital }) => {
+	const mainRowsStyle = {
+		fontWeight: '700',
+		fontSize: '14px',
+		color: getSecondary()
+	};
+
+	const paddedRow = {
+		paddingLeft: '40px'
+	};
+
+	const totalRowStyle = {
+		paddingTop: '12px',
+		paddingBottom: '12px',
+		paddingLeft: '0',
+		paddingRight: '0'
+	};
+
+	const markedRow = {
+		backgroundColor: 'rgba(97, 171, 183, 0.18)',
+		padding: '9px',
+		fontWeight: '700',
+		fontSize: '1.2em',
+		display: 'flex',
+		alignItems: 'center',
+		paddingLeft: '24px',
+	};
+
+	const totalRow = {
+		backgroundColor: 'rgba(216, 216, 216, 0.4)',
+		padding: '9px',
+		fontWeight: '700',
+		fontSize: '1.2em',
+		display: 'flex',
+		alignItems: 'center',
+		paddingLeft: '24px',
+	};
+
 	const getPercentage = (value, defaultBase) => {
 		let base = defaultBase || totalVotes;
 		if (hasParticipations) {
@@ -38,20 +71,6 @@ const QuorumTable = ({ translate, data, company, council, hasParticipations, tot
 				<TableBody>
 					<TableRow>
 						<TableCell style={mainRowsStyle}>
-							Total
-						</TableCell>
-						<TableCell style={mainRowsStyle}>
-							{data.numTotal}
-						</TableCell>
-						<TableCell style={mainRowsStyle}>
-							{showNumParticipations(data.total, company, council.statute)}
-						</TableCell>
-						<TableCell style={mainRowsStyle}>
-							{getPercentage(data.total)}%
-						</TableCell>
-					</TableRow>
-					<TableRow>
-						<TableCell style={mainRowsStyle}>
 							{translate.presents}
 						</TableCell>
 						<TableCell style={mainRowsStyle}>
@@ -65,7 +84,7 @@ const QuorumTable = ({ translate, data, company, council, hasParticipations, tot
 						</TableCell>
 					</TableRow>
 					<TableRow>
-						<TableCell>
+						<TableCell style={paddedRow}>
 							-{translate.face_to_face}
 						</TableCell>
 						<TableCell>
@@ -79,7 +98,7 @@ const QuorumTable = ({ translate, data, company, council, hasParticipations, tot
 						</TableCell>
 					</TableRow>
 					<TableRow>
-						<TableCell>
+						<TableCell style={paddedRow}>
 							-{translate.remotes}
 						</TableCell>
 						<TableCell>
@@ -94,7 +113,7 @@ const QuorumTable = ({ translate, data, company, council, hasParticipations, tot
 					</TableRow>
 					{council.statute.canEarlyVote === 1
 						&& <TableRow>
-							<TableCell>
+							<TableCell style={paddedRow}>
 								-{council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION ? translate.vote_letter : translate.quorum_early_votes}
 							</TableCell>
 							<TableCell>
@@ -109,7 +128,7 @@ const QuorumTable = ({ translate, data, company, council, hasParticipations, tot
 						</TableRow>
 					}
 					<TableRow>
-						<TableCell>
+						<TableCell style={paddedRow}>
 							-{translate.no_voting_rights}
 						</TableCell>
 						<TableCell>
@@ -137,8 +156,30 @@ const QuorumTable = ({ translate, data, company, council, hasParticipations, tot
 						</TableCell>
 					</TableRow>
 					<TableRow>
+						<TableCell style={totalRowStyle}>
+							<div style={markedRow}>
+								Quorum
+							</div>
+						</TableCell>
+						<TableCell style={totalRowStyle}>
+							<div style={markedRow}>
+								{data.numTotal}
+							</div>
+						</TableCell>
+						<TableCell style={totalRowStyle}>
+							<div style={markedRow}>
+								{showNumParticipations(data.total, company, council.statute)}
+							</div>
+						</TableCell>
+						<TableCell style={totalRowStyle}>
+							<div style={markedRow}>
+								{getPercentage(data.total)}%
+							</div>
+						</TableCell>
+					</TableRow>
+					<TableRow>
 						<TableCell style={mainRowsStyle}>
-							{translate.others}
+							{translate.guests}
 						</TableCell>
 						<TableCell style={mainRowsStyle}>
 							{data.numOthers}
@@ -148,6 +189,28 @@ const QuorumTable = ({ translate, data, company, council, hasParticipations, tot
 						</TableCell>
 						<TableCell style={mainRowsStyle}>
 							-
+						</TableCell>
+					</TableRow>
+					<TableRow>
+						<TableCell style={totalRowStyle}>
+							<div style={totalRow}>
+								{translate.attendants_total}
+							</div>
+						</TableCell>
+						<TableCell style={totalRowStyle}>
+							<div style={totalRow}>
+								{data.numTotal + data.numOthers}
+							</div>
+						</TableCell>
+						<TableCell style={totalRowStyle}>
+							<div style={totalRow}>
+								-
+							</div>
+						</TableCell>
+						<TableCell style={totalRowStyle}>
+							<div style={totalRow}>
+								-
+							</div>
 						</TableCell>
 					</TableRow>
 				</TableBody>
