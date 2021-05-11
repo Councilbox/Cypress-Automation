@@ -22,7 +22,7 @@ const MenuSuperiorTabs = ({
 				styles={{ marginTop: '0px', color: getPrimary() }}
 			>
 				{items.map((item, index) => (
-					<MenuItem key={item + index} value={item}>{item}</MenuItem>
+					<MenuItem key={item + index} value={item} id={`tab-${index}`}>{item}</MenuItem>
 				))}
 			</SelectInput>
 		);
@@ -38,14 +38,17 @@ const MenuSuperiorTabs = ({
 			color: getPrimary()
 		}}>
 			{items.map((item, index) => (
-				<div key={index} style={{
-					cursor: 'pointer',
-					paddingRight: '0.5em',
-					paddingLeft: '0.5em',
-					color: selected === item ? getPrimary() : '#9f9a9d',
-					borderRight: index === items.length - 1 ? '' : '1px solid gainsboro'
-				}}
-				onClick={() => set(item)}
+				<div
+					key={index}
+					style={{
+						cursor: 'pointer',
+						paddingRight: '0.5em',
+						paddingLeft: '0.5em',
+						color: selected === item ? getPrimary() : '#9f9a9d',
+						borderRight: index === items.length - 1 ? '' : '1px solid gainsboro'
+					}}
+					id={`tab-${index}`}
+					onClick={() => set(item)}
 				>
 					{item}
 				</div>
