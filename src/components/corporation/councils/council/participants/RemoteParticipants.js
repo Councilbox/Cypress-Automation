@@ -1,13 +1,13 @@
 import { withApollo } from 'react-apollo';
 import React from 'react';
 import { Table, TableBody, TableHead, TableRow, TableCell } from 'material-ui';
+import { Link } from 'react-router-dom';
 import { videoParticipants } from '../../../../../queries';
 import { AlertConfirm, BasicButton, LoadingMainApp, PaginationFooter, TextInput } from '../../../../../displayComponents';
 import withTranslations from '../../../../../HOCs/withTranslations';
 import { usePolling } from '../../../../../hooks';
 import { moment } from '../../../../../containers/App';
 import ParticipantVideoLogs from './ParticipantVideoLogs';
-import { Link } from 'react-router-dom';
 
 
 const RemoteParticipants = ({ match, translate, client }) => {
