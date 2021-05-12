@@ -63,7 +63,7 @@ const QuorumDisplay = ({
 				&& <AlertConfirm
 					title={'Quorum info'}
 					open={modal}
-					bodyStyle={{ height: '450px', minWidth: '50vw' }}
+					bodyStyle={{ height: '650px', minWidth: '50vw' }}
 					bodyText={
 						<QuorumDetails
 							council={council}
