@@ -162,6 +162,7 @@ const CompanyDraftList = ({
 				onClick={() => {
 					bHistory.push(`/company/${company.id}/draft/${draftID}`);
 				}}
+				id={`edit-draft-${draftID}`}
 				style={{
 					color: primary,
 					height: '32px',
@@ -175,6 +176,7 @@ const CompanyDraftList = ({
 			</IconButton>
 
 			<CloseIcon
+				id={`delete-draft-${draftID}`}
 				style={{ color: primary }}
 				onClick={event => {
 					openDeleteModal(draftID);
@@ -250,8 +252,8 @@ const CompanyDraftList = ({
 					<div>
 						<BasicButton
 							text={translate.drafts_new}
+							id="draft-create-button"
 							color={primary}
-							id={'newDraft'}
 							textStyle={{
 								...(isMobile ?
 									{
@@ -291,6 +293,7 @@ const CompanyDraftList = ({
 						>
 							<BasicButton
 								text={translate.general_drafts}
+								id="drafts-download-organization-drafts"
 								color={getSecondary()}
 								textStyle={{
 									...(isMobile ?
@@ -361,6 +364,7 @@ const CompanyDraftList = ({
 									adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
 									floatingText={' '}
 									type="text"
+									id="drafts-search-input"
 									value={search}
 									placeholder={isMobile ? '' : translate.search}
 									onChange={event => {
@@ -425,6 +429,7 @@ const CompanyDraftList = ({
 									>
 										{companyDrafts.list.map((draft, index) => (
 											<DraftRow
+												id={`participant-row-${index}`}
 												classes={classes}
 												stylesBackground={{ background: index % 2 ? '#edf4fb' : '' }}
 												key={`draft${draft.id}${draft.title}`}
@@ -512,6 +517,7 @@ export const DraftRow = ({
 			<Grid style={{ height: '100%', width: '100%', overflow: 'hidden' }} >
 				{columns
 					&& <Card
+						id={props.id}
 						style={{
 							width: '100%', border: 'none', boxShadow: 'none', ...stylesBackground, overflow: 'hidden'
 						}}>
@@ -658,6 +664,7 @@ export const DraftRow = ({
 	return (
 		<TableRow
 			{...handlers}
+			id={props.id}
 			hover
 		>
 			{selectable
@@ -698,20 +705,22 @@ export const DraftRow = ({
 										i > 0 ?
 											<Collapse in={expanded} timeout="auto" unmountOnExit key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}_1`}>
 												<SelectedTag
+													{...props}
 													key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}_`}
 													text={translate[tag.label] || tag.label}
 													color={getTagColor(key)}
-													props={props}
+													id={`selected-tag-${tag.name}`}
 													list={true}
 													count={''}
 												/>
 											</Collapse>
 											: <SelectedTag
+												{...props}
 												key={`tag_${translate[tag.label] || tag.label}_${key}_${i}_${tag.name}`}
 												text={translate[tag.label] || tag.label}
 												color={getTagColor(key)}
-												props={props}
 												list={true}
+												id={`selected-tag-${tag.name}`}
 												count={columnaLength > 1 ? expanded ? '' : columnaLength : ''}
 												stylesEtiqueta={{ cursor: columnaLength > 1 ? 'pointer' : '' }}
 												desplegarEtiquetas={columnaLength > 1 ? desplegarEtiquetas : ''}

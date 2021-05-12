@@ -130,6 +130,7 @@ const AddCompanyTag = ({
 		<React.Fragment>
 			<BasicButton
 				onClick={openModal}
+				id="company-tag-add-button"
 				color={primary}
 				icon={<ButtonIcon type="add" color="white" />}
 				text={translate.add}
@@ -138,7 +139,6 @@ const AddCompanyTag = ({
 					fontWeight: '700',
 					...styles
 				}}
-				id={'idAddEtiqueta'}
 			/>
 			<AlertConfirm
 				open={modal}

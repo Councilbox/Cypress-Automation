@@ -73,7 +73,7 @@ const ParticipantHistory = ({
 	/>
 );
 
-const getLogText = (type, translate) => {
+export const getLogText = (type, translate) => {
 	switch (type) {
 		case 'CONNECT':
 			return 'Conectado';
