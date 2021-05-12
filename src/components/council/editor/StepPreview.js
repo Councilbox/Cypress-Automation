@@ -489,7 +489,7 @@ const StepPreview = ({
 												className="material-icons"
 												style={{ color: primary }}
 											>
-keyboard_arrow_down
+												keyboard_arrow_down
 											</Icon>
 										</MenuItem>
 									</Paper>
@@ -553,7 +553,7 @@ query_builder
 														marginRight: '0.4em'
 													}}
 												>
-notifications_off
+													notifications_off
 												</Icon>
 												{data.council.councilType === 4 ? translate.confirm_without_notifying : translate.new_save_convene}
 											</MenuItem>
