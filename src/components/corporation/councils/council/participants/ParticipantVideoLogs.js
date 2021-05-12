@@ -96,7 +96,7 @@ const LogRow = ({ data, translate }) => {
 				<JSONPretty id="json-pretty" data={data.trackInfo}></JSONPretty>
 			}
 		</>
-	)
-}
+	);
+};
 
 export default withApollo(ParticipantVideoLogs);

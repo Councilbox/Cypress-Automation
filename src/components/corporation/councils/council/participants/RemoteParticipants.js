@@ -2,7 +2,7 @@ import { withApollo } from 'react-apollo';
 import React from 'react';
 import { Table, TableBody, TableHead, TableRow, TableCell } from 'material-ui';
 import { videoParticipants } from '../../../../../queries';
-import { AlertConfirm, BasicButton, LoadingMainApp } from '../../../../../displayComponents';
+import { AlertConfirm, BasicButton, LoadingMainApp, TextInput } from '../../../../../displayComponents';
 import withTranslations from '../../../../../HOCs/withTranslations';
 import { usePolling } from '../../../../../hooks';
 import { moment } from '../../../../../containers/App';
@@ -19,6 +19,7 @@ const RemoteParticipants = ({ match, translate, client }) => {
 		page: 1,
 		limit: 20
 	});
+	const [filter, setFilter] = React.useState(null);
 	const [logsModal, setLogsModal] = React.useState(false);
 
 	const getData = React.useCallback(async () => {
@@ -26,6 +27,12 @@ const RemoteParticipants = ({ match, translate, client }) => {
 			query: videoParticipants,
 			variables: {
 				councilId,
+				...(filter ? {
+					filters: {
+						field: 'fullName',
+						text: filter
+					}
+				} : {}),
 				options: {
 					limit: options.limit,
 					offset: options.limit * (options.page - 1)
@@ -35,12 +42,15 @@ const RemoteParticipants = ({ match, translate, client }) => {
 
 		setData(response.data);
 		setLoading(false);
-	}, [councilId, options]);
+	}, [councilId, options, filter]);
 
 	usePolling(getData, 8000);
 
 	React.useEffect(() => {
-		getData();
+		const timeout = setTimeout(() => getData(), 350);
+		return () => {
+			clearTimeout(timeout);
+		};
 	}, [getData]);
 
 
@@ -48,10 +58,17 @@ const RemoteParticipants = ({ match, translate, client }) => {
 		return <LoadingMainApp />;
 	}
 
-	console.log(data);
-
 	return (
 		<div style={{ height: 'calc(100vh - 3em)' }}>
+			<div style={{ padding: '1em', maxWidth: '20em' }}>
+				<TextInput
+					floatingText="Buscar por nombre"
+					value={filter}
+					onChange={event => {
+						setFilter(event.target.value);
+					}}
+				/>
+			</div>
 			<Table>
 				<TableHead>
 					<TableCell>
