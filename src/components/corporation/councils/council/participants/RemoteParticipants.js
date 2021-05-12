@@ -2,7 +2,7 @@ import { withApollo } from 'react-apollo';
 import React from 'react';
 import { Table, TableBody, TableHead, TableRow, TableCell } from 'material-ui';
 import { videoParticipants } from '../../../../../queries';
-import { AlertConfirm, BasicButton, LoadingMainApp, TextInput } from '../../../../../displayComponents';
+import { AlertConfirm, BasicButton, LoadingMainApp, PaginationFooter, TextInput } from '../../../../../displayComponents';
 import withTranslations from '../../../../../HOCs/withTranslations';
 import { usePolling } from '../../../../../hooks';
 import { moment } from '../../../../../containers/App';
@@ -14,7 +14,7 @@ const RemoteParticipants = ({ match, translate, client }) => {
 
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
-	const [options] = React.useState({
+	const [options, setOptions] = React.useState({
 		banParticipant: false,
 		page: 1,
 		limit: 20
@@ -107,6 +107,18 @@ const RemoteParticipants = ({ match, translate, client }) => {
 					))}
 				</TableBody>
 			</Table>
+			<div style={{ padding: '1em' }}>
+				<PaginationFooter
+					page={options.page}
+					translate={translate}
+					length={data.videoParticipants.list.length}
+					total={data.videoParticipants.total}
+					limit={20}
+					changePage={setOptions}
+					md={12}
+					xs={12}
+				/>
+			</div>
 			<AlertConfirm
 				open={logsModal}
 				requestClose={() => setLogsModal(false)}
