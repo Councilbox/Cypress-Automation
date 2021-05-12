@@ -7,6 +7,7 @@ import withTranslations from '../../../../../HOCs/withTranslations';
 import { usePolling } from '../../../../../hooks';
 import { moment } from '../../../../../containers/App';
 import ParticipantVideoLogs from './ParticipantVideoLogs';
+import { Link } from 'react-router-dom';
 
 
 const RemoteParticipants = ({ match, translate, client }) => {
@@ -60,14 +61,19 @@ const RemoteParticipants = ({ match, translate, client }) => {
 
 	return (
 		<div style={{ height: 'calc(100vh - 3em)' }}>
-			<div style={{ padding: '1em', maxWidth: '20em' }}>
-				<TextInput
-					floatingText="Buscar por nombre"
-					value={filter}
-					onChange={event => {
-						setFilter(event.target.value);
-					}}
-				/>
+			<div style={{ display: 'flex', justifyContent: 'space-between', padding: '1em' }}>
+				<Link to={`/council/${councilId}`} style={{ fontSize: '20px' }}>
+					Volver
+				</Link>
+				<div style={{ maxWidth: '20em' }}>
+					<TextInput
+						floatingText="Buscar por nombre"
+						value={filter}
+						onChange={event => {
+							setFilter(event.target.value);
+						}}
+					/>
+				</div>
 			</div>
 			<Table>
 				<TableHead>

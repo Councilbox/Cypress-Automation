@@ -654,12 +654,14 @@ const showGroupAttendees = (attendees, councilId) => {
 					{`${key}`}
 				</TableCell>
 				<TableCell>
-					{`${list[key]}`}
-					{key === 'remotos' &&
-						<div style={{ marginLeft: '1em' }}>
-							<Link to={`/council/${councilId}/remoteParticipants`}>Monitor</Link>
-						</div>
-					}
+					<div style={{ display: 'flex' }}>
+						{`${list[key]}`}
+						{key === 'remotos' &&
+							<div style={{ marginLeft: '1em' }}>
+								<Link to={`/council/${councilId}/remoteParticipants`}>Monitor</Link>
+							</div>
+						}
+					</div>
 				</TableCell>
 			</TableRow>
 		))
