@@ -67,45 +67,36 @@ describe("Councilbox login - valid username and password", function() {
 });
 
 
-describe("The user is able to delete participant in the 'Manage participants' form in the 'Censuses' section", function() {
 
-        it("From the menu choose and click on the 'Censuses' form", function() {
-            
-            cy.get('#edit-censuses-block').click()
+describe("The alert message is successfully displayed when the user clicks on the 'Cancel' button without saving changes in the 'Edit tag' section", function() {
+
+        it("From the menu choose and click on the 'Knowledge base' option", function() {
+            cy.get('#edit-drafts-block').click()
             cy.wait(1000)
         });
 
-        it("Set the cursor on already added census and navigate to the 'Manage participants' button and then click on it", function() {
-            cy.get('#census_row_0').trigger('mouseover')
-            cy.wait(1000)
-            cy.get('#census-manage-participants-button').click()
-
-        });
-
-        it("Click on the 'Add participant+'' button", function() {
-            cy.wait(1000)
-            cy.get('#add-census-participant-button').click()
+        it("Click on the 'Tags' button", function() {
+            cy.get('#tab-2').click()
             cy.wait(1000)
         });
 
-        it("Populate all required fields", function() {
-            cy.get('#participant-name-input').clear()
-                .type('Test')
-            cy.get('#participant-surname-input').clear()
-                .type('Automation')
-            cy.get('#participant-email-input').clear()
-                .type("test2"+Cypress.config('UniqueNumber')+"@test.test")
-
-        });
-
-        it("Click on the 'Save' button", function() {
-            cy.get('#alert-confirm-button-accept').click()
+        it("Navigate to the template you want to edit and hover it then click on the 'Edit' button", function() {
+            cy.get('#tag-0').trigger('mouseover')
+            cy.wait(1000)
+            cy.get('#MISSING_ID').click()
             cy.wait(1000)
         });
 
-        it("Navigate to the already added participant and click on the 'X' button", function() {
-            cy.get('#participant-row-0').trigger('mouseover')
-            cy.get('MISSING_ID').click()
+        it("Populate all required fields and click on the 'Cancel' button", function() {
+            cy.get('#company-tag-description').clear()
+                .type(Cypress.config('UniqueNumber'))
+            cy.wait(1000)
+            cy.get('#alert-confirm-button-cancel').click()
+            cy.wait(1000)
+        });
+
+        it("'Has changes without saving' alert message is successfully displayed", function() {
+            cy.get('#unsaved-changes-discard').click()
             cy.wait(1000)
         });
 
@@ -116,6 +107,7 @@ describe("The user is able to delete participant in the 'Manage participants' fo
 
 
     });
+
 
 
 
