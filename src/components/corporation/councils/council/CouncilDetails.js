@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import { flowRight as compose } from 'lodash';
 import gql from 'graphql-tag';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import {
 	Table, TableHead, TableRow, TableCell, TableBody,
 } from 'material-ui';
@@ -457,7 +457,7 @@ translate={this.props.translate}
 										</TableRow>
 									</TableHead>
 									<TableBody>
-										{showGroupAttendees(this.state.data.councilAttendants.list)}
+										{showGroupAttendees(this.state.data.councilAttendants.list, council.id)}
 										<TableRow>
 											<TableCell>Total</TableCell>
 											<TableCell>{this.state.data.councilAttendants.list.length}</TableCell>
@@ -622,7 +622,7 @@ const FailPageSearchId = ({ id }) => (
 	</div>
 );
 
-const showGroupAttendees = attendees => {
+const showGroupAttendees = (attendees, councilId) => {
 	const list = {
 		remotos: 0,
 		presenciales: 0,
@@ -654,7 +654,14 @@ const showGroupAttendees = attendees => {
 					{`${key}`}
 				</TableCell>
 				<TableCell>
-					{`${list[key]}`}
+					<div style={{ display: 'flex' }}>
+						{`${list[key]}`}
+						{key === 'remotos' &&
+							<div style={{ marginLeft: '1em' }}>
+								<Link to={`/council/${councilId}/remoteParticipants`}>Monitor</Link>
+							</div>
+						}
+					</div>
 				</TableCell>
 			</TableRow>
 		))

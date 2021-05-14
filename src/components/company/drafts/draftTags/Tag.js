@@ -2,7 +2,7 @@ import React from 'react';
 import { Collapse } from 'material-ui';
 
 const Tag = ({
-	text, color, childs, width, action
+	text, color, childs, width, action, id = ''
 }) => {
 	const [open, setOpen] = React.useState(false);
 	const [openTimeOut, setOpenTimeOut] = React.useState(false);
@@ -56,7 +56,7 @@ const Tag = ({
 		);
 	}
 	return (
-		<div style={{ ...styles }} onClick={action}>
+		<div style={{ ...styles }} onClick={action} id={id}>
 			{text}
 		</div>
 	);

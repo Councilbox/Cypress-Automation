@@ -67,7 +67,7 @@ render() {
 								className="material-icons"
 								style={{ color: getSecondary() }}
 							>
-keyboard_arrow_left
+								keyboard_arrow_left
 							</Icon>
 						</div>
 					</Tooltip>
