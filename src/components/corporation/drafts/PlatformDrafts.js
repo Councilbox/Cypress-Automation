@@ -316,6 +316,7 @@ const PlatformDrafts = ({
 													fontWeight: '700',
 													textTransform: 'none'
 												}}
+												id="download-platform-drafts-button"
 												textPosition="after"
 												icon={
 													<ButtonIcon
