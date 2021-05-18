@@ -438,14 +438,16 @@ const StepNotice = ({
 								<GridItem xs={12} md={4} lg={4} style={{ paddingRight: '3.5em' }}>
 									<SelectInput
 										required
+										id="council-notice-type-select"
 										floatingText={translate.council_type}
 										value={data.council.statute.statuteId || ''}
 										onChange={event => changeStatute(+event.target.value)
 										}
 									>
-										{companyStatutes.map(mappedStatute => (
+										{companyStatutes.map((mappedStatute, index) => (
 											<MenuItem
 												value={mappedStatute.id}
+												id={`council-notice-type-${index}`}
 												key={`statutes_${mappedStatute.id}`}
 											>
 												{translate[mappedStatute.title]
@@ -470,7 +472,7 @@ const StepNotice = ({
 												<div><ButtonIcon type="location_on" color="white" /></div>
 											</div>
 										}
-										id={'change-place'}
+										id={'council-notice-place'}
 										color={secondary}
 										textStyle={{
 											color: 'white',
@@ -502,6 +504,7 @@ const StepNotice = ({
 										acceptText={translate.accept}
 										cancelText={translate.cancel}
 										minDate={Date.now()}
+										id="council-notice-date-start"
 										label={translate['1st_call_date']}
 										value={council.dateStart}
 									/>
@@ -521,6 +524,7 @@ const StepNotice = ({
 												const dateString = newDate.toISOString();
 												updateDate(undefined, dateString);
 											}}
+											id="council-notice-date-start-2nd"
 											minDateMessage={''}
 											acceptText={translate.accept}
 											cancelText={translate.cancel}
@@ -534,7 +538,7 @@ const StepNotice = ({
 										required
 										floatingText={translate.meeting_title}
 										type="text"
-										id={'TituloReunionEnConvocatoria'}
+										id="council-notice-title"
 										placeholder={translate.title_appears_in_the_minutes}
 										errorText={errors.name}
 										value={council.name || ''}
@@ -549,6 +553,7 @@ const StepNotice = ({
 										ref={editor}
 										key={props.versionControl}
 										translate={translate}
+										id="council-notice-convene-intro"
 										errorText={errors.conveneText}
 										required
 										loadDraft={
@@ -583,6 +588,7 @@ const StepNotice = ({
 										key={props.versionControl}
 										ref={footerEditor}
 										translate={translate}
+										id="council-notice-convene-footer"
 										errorText={errors.conveneFooter}
 										tags={tags}
 										loadDraft={
@@ -659,7 +665,7 @@ const StepNotice = ({
 						<BasicButton
 							floatRight
 							text={translate.save}
-							id={'botonGuardarNuevasReunionesAbajo'}
+							id="council-editor-save"
 							loading={state.loading}
 							success={state.success}
 							reset={resetButtonStates}
@@ -678,8 +684,8 @@ const StepNotice = ({
 						<BasicButton
 							floatRight
 							text={translate.next}
+							id="council-editor-next"
 							color={primary}
-							id={'botonSiguienteNuevasReunionesAbajo'}
 							disabled={data.loading}
 							loading={state.loading}
 							icon={
