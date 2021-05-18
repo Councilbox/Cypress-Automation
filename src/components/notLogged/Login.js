@@ -388,7 +388,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 								color: secondary
 							}}
 						>
-							<Link to="/forgetPwd">
+							<Link to="/forgetPwd" id="restore-password-link">
 								{translate.login_forgot}
 							</Link>
 						</div>
