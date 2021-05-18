@@ -14,6 +14,7 @@ const LanguageSelector = ({ selectedLanguage, data }) => (
 		color="transparent"
 		text={selectedLanguage ? selectedLanguage.toUpperCase() : 'ES'}
 		textStyle={{ color: secondary }}
+		id="language-selector"
 		type="flat"
 		icon={
 			<i className="fa fa-angle-down" aria-hidden="true" style={{ color: secondary, fontSize: '22px', marginLeft: '3px' }}></i>
@@ -23,6 +24,7 @@ const LanguageSelector = ({ selectedLanguage, data }) => (
 				{!!data.languages
 					&& data.languages.map(language => (
 						<MenuItem
+							id={`language-${language.columnName}`}
 							key={`language_${language.columnName}`}
 							onClick={() => changeLanguage(language.columnName)}
 						>
