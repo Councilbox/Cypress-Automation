@@ -151,6 +151,7 @@ class ForgetPwd extends React.PureComponent {
 								<div>
 									<TextInput
 										onKeyUp={this.handleKeyUp}
+										id="restore-password-email-input"
 										floatingText={translate.login_email}
 										errorText={this.state.errors.user}
 										type="text"
@@ -164,6 +165,7 @@ class ForgetPwd extends React.PureComponent {
 								<div style={{ marginTop: '3em' }}>
 									<BasicButton
 										text={translate.restore_check_in}
+										id="restore-password-button"
 										color={primary}
 										textStyle={{
 											color: 'white',

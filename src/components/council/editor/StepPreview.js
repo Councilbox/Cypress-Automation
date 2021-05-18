@@ -489,7 +489,7 @@ const StepPreview = ({
 												className="material-icons"
 												style={{ color: primary }}
 											>
-keyboard_arrow_down
+												keyboard_arrow_down
 											</Icon>
 										</MenuItem>
 									</Paper>
@@ -499,47 +499,47 @@ keyboard_arrow_down
 									items={
 										<React.Fragment>
 											{data.council.councilType !== 4
-&& <>
-	<MenuItem
-		onClick={() => setState({
-			conveneTestModal: true
-		})
-		}
-	>
-		<Icon
-			className="fa fa-flask"
-			style={{
-				color: secondary,
-				marginLeft: '0.4em',
-				marginRight: '0.4em'
-			}}
-		>
-			{' '}
-		</Icon>
-		{translate.send_test_convene}
-	</MenuItem>
-	<MenuItem
-		onClick={() => setState({
-			preConveneModal: true
-		})
-		}
-	>
-		<Icon
-			className="material-icons"
-			style={{
-				color: secondary,
-				marginLeft: '0.4em',
-				marginRight: '0.4em'
-			}}
-		>
-query_builder
-		</Icon>
-		{translate.send_preconvene}
-	</MenuItem>
-</>
+												&& <>
+													<MenuItem
+														onClick={() => setState({
+															conveneTestModal: true
+														})
+														}
+													>
+														<Icon
+															className="fa fa-flask"
+															style={{
+																color: secondary,
+																marginLeft: '0.4em',
+																marginRight: '0.4em'
+															}}
+														>
+															{' '}
+														</Icon>
+														{translate.send_test_convene}
+													</MenuItem>
+													<MenuItem
+														onClick={() => setState({
+															preConveneModal: true
+														})
+														}
+													>
+														<Icon
+															className="material-icons"
+															style={{
+																color: secondary,
+																marginLeft: '0.4em',
+																marginRight: '0.4em'
+															}}
+														>
+															query_builder
+														</Icon>
+														{translate.send_preconvene}
+													</MenuItem>
+												</>
 											}
 											<MenuItem
-												id={'convocarSinNotificarNew'}
+												id="convene-without-notify"
 												onClick={() => setState({
 													sendConveneWithoutNoticeModal: true
 												})
@@ -553,7 +553,7 @@ query_builder
 														marginRight: '0.4em'
 													}}
 												>
-notifications_off
+													notifications_off
 												</Icon>
 												{data.council.councilType === 4 ? translate.confirm_without_notifying : translate.new_save_convene}
 											</MenuItem>
@@ -564,6 +564,7 @@ notifications_off
 							<BasicButton
 								text={data.council.councilType === 4 ? translate.confirm_and_notify : translate.new_save_and_send}
 								color={primary}
+								id="council-editor-convene-notify"
 								textStyle={{
 									color: 'white',
 									fontWeight: '700',
@@ -577,6 +578,7 @@ notifications_off
 							/>
 							<BasicButton
 								text={translate.previous}
+								id="council-editor-previous"
 								color={secondary}
 								textStyle={{
 									color: 'white',

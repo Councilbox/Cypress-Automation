@@ -60,6 +60,7 @@ const CompaniesManagerButton = props => {
 				<div>
 					<BasicButton
 						text={props.translate.companies_link}
+						id="company-link-button"
 						color={secondary}
 						onClick={() => sendGAevent({
 							category: 'Editar entidades',

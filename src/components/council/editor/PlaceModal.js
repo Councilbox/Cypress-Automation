@@ -72,6 +72,7 @@ const PlaceModal = ({ council, translate, ...props }) => {
 			<BasicButton
 				text={translate.accept}
 				color={primary}
+				id="accept-button"
 				textStyle={{
 					color: 'white',
 					fontWeight: '700',
@@ -144,6 +145,7 @@ const PlaceModal = ({ council, translate, ...props }) => {
 			<DialogContent>
 				<Checkbox
 					label={translate.remote_celebration}
+					id="council-place-remote"
 					value={state.remoteCelebration === 1}
 					onChange={(event, isInputChecked) => setState({
 						remoteCelebration: isInputChecked ? 1 : 0
@@ -162,6 +164,7 @@ const PlaceModal = ({ council, translate, ...props }) => {
 						<TextInput
 							floatingText={translate.company_new_country}
 							type="text"
+							id="council-place-country"
 							errorText={state.errors.country}
 							value={data.country}
 							onChange={event => setData({
@@ -172,6 +175,7 @@ const PlaceModal = ({ council, translate, ...props }) => {
 						/>
 						<TextInput
 							floatingText={translate.company_new_country_state}
+							id="council-place-country-state"
 							type="text"
 							errorText={state.errors.countryState}
 							value={data.countryState}
@@ -184,6 +188,7 @@ const PlaceModal = ({ council, translate, ...props }) => {
 						<TextInput
 							floatingText={translate.company_new_zipcode}
 							type="text"
+							id="council-place-zipcode"
 							errorText={state.errors.zipcode}
 							value={data.zipcode}
 							onChange={event => setData({
@@ -194,6 +199,7 @@ const PlaceModal = ({ council, translate, ...props }) => {
 						/>
 						<TextInput
 							floatingText={translate.company_new_locality}
+							id="council-place-city"
 							type="text"
 							errorText={state.errors.city}
 							value={data.city}
@@ -206,6 +212,7 @@ const PlaceModal = ({ council, translate, ...props }) => {
 						<TextInput
 							floatingText={translate.company_new_address}
 							type="text"
+							id="council-place-address"
 							errorText={state.errors.street}
 							value={data.street}
 							onChange={event => setData({

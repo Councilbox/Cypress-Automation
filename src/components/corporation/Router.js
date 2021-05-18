@@ -21,6 +21,7 @@ import RootUserSettings from './users/RootUserSettings';
 import FinishedPage from './finished/FinishedPage';
 import KPI from './KPI';
 import { HEADER_HEIGHT } from '../../styles/constants';
+import RemoteParticipants from './councils/council/participants/RemoteParticipants';
 
 let image;
 import('../../assets/img/sidebar-2.jpg').then(data => { image = data; });
@@ -52,6 +53,7 @@ const Router = ({
 						<Route exact path="/" component={() => <Redirect to="/councils" />} />
 						<Route path="/councils" component={() => <CouncilsDashboard corporation={data.corporation} />} />
 						<Route path="/finished" component={FinishedPage} />
+						<Route exact path="/council/:id/remoteParticipants" component={RemoteParticipants} />
 						<Route path="/council/:id" component={CouncilDetails} />
 						<Route path="/user/:id" component={RootUserSettings} />
 						<Route path="/kpi" component={KPI} />
