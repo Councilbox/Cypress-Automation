@@ -90,7 +90,7 @@ const Dashboard = ({ translate, company, user }) => {
 							}}>
 								<div>
 									{company.logo
-&& <img src={company.logo} alt="company-logo" style={{ height: '4.5em', width: 'auto' }} />
+										&& <img src={company.logo} alt="company-logo" style={{ height: '4.5em', width: 'auto' }} />
 									}
 								</div>
 								<div>
