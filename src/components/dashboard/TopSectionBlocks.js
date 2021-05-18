@@ -144,14 +144,14 @@ const TopSectionBlocks = ({ translate, company, user }) => {
 				/>
 			</GridItem>
 			{user.roles === 'devAdmin' && false
-&& <GridItem xs={12} md={size} lg={size}>
-	<Block
-		link={'/admin'}
-		customIcon={<i className="fa fa-user-secret" aria-hidden="true" style={{ fontSize: '7em' }}></i>}
-		id={'admin-panel'}
-		text={'Panel devAdmin'}
-	/>
-</GridItem>
+				&& <GridItem xs={12} md={size} lg={size}>
+					<Block
+						link={'/admin'}
+						customIcon={<i className="fa fa-user-secret" aria-hidden="true" style={{ fontSize: '7em' }}></i>}
+						id={'admin-panel'}
+						text={'Panel devAdmin'}
+					/>
+				</GridItem>
 			}
 		</Grid>
 	);
