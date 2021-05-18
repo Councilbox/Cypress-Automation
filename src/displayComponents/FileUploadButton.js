@@ -11,6 +11,7 @@ const FileUploadButton = ({
 	textStyle,
 	icon,
 	disabled,
+	id,
 	buttonStyle,
 	trigger,
 	flat,
@@ -42,13 +43,14 @@ const FileUploadButton = ({
 			}}
 		/>
 		{trigger ?
-			<label htmlFor="raised-button-file" style={style}>
+			<label htmlFor="raised-button-file" style={style} id={id}>
 				{trigger()}
 			</label>
 			: <label htmlFor="raised-button-file" style={style}>
 				<Button
 					variant={flat ? 'flat' : 'raised'}
 					component="span"
+					id={id}
 					disableRipple={loading}
 					disabled={loading}
 					style={{

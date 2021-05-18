@@ -303,9 +303,8 @@ class NewCompanyPage extends React.PureComponent {
 									<Grid spacing={16}>
 										<GridItem xs={12} md={6} lg={5}>
 											<TextInput
-												floatingText={
-													translate.business_name
-												}
+												floatingText={translate.business_name}
+												id="company-name-input"
 												type="text"
 												value={data.businessName}
 												errorText={errors.businessName}
@@ -319,6 +318,7 @@ class NewCompanyPage extends React.PureComponent {
 										</GridItem>
 										<GridItem xs={12} md={6} lg={3}>
 											<SelectInput
+												id="company-type-input"
 												floatingText={translate.company_type}
 												value={data.type}
 												onChange={event => this.updateState({
@@ -330,16 +330,11 @@ class NewCompanyPage extends React.PureComponent {
 												{this.props.info.companyTypes.map(
 													companyType => (
 														<MenuItem
-															key={
-																companyType.label
-															}
-															value={
-																companyType.value
-															}
+															id={`company-type-${companyType.value}`}
+															key={companyType.label}
+															value={companyType.value}
 														>
-															{
-																translate[companyType.label]
-															}
+															{translate[companyType.label]}
 														</MenuItem>
 													)
 												)}
@@ -347,9 +342,8 @@ class NewCompanyPage extends React.PureComponent {
 										</GridItem>
 										<GridItem xs={12} md={6} lg={4}>
 											<TextInput
-												floatingText={
-													translate.entity_cif
-												}
+												floatingText={translate.entity_cif}
+												id="company-id-input"
 												type="text"
 												value={data.tin}
 												errorText={errors.tin}
@@ -362,9 +356,8 @@ class NewCompanyPage extends React.PureComponent {
 										</GridItem>
 										<GridItem xs={12} md={6} lg={5}>
 											<TextInput
-												floatingText={
-													translate.company_new_domain
-												}
+												floatingText={translate.company_new_domain}
+												id="company-domain-input"
 												type="text"
 												value={data.domain}
 												errorText={errors.domain}
@@ -376,9 +369,8 @@ class NewCompanyPage extends React.PureComponent {
 										</GridItem>
 										<GridItem xs={12} md={6} lg={4}>
 											<TextInput
-												floatingText={
-													translate.company_new_key
-												}
+												floatingText={translate.company_new_key}
+												id="company-key-input"
 												type="text"
 												value={data.linkKey}
 												errorText={errors.linkKey}
@@ -391,6 +383,7 @@ class NewCompanyPage extends React.PureComponent {
 										<GridItem xs={12} md={6} lg={4}>
 											<TextInput
 												floatingText={translate.external_id}
+												id="company-external-id-input"
 												type="text"
 												value={data.externalId}
 												errorText={errors.externalId}
@@ -424,6 +417,7 @@ class NewCompanyPage extends React.PureComponent {
 									<GridItem xs={12} md={12} lg={12}>
 										<FileUploadButton
 											text={translate.entity_logo}
+											id="company-logo-input"
 											image
 											color={secondary}
 											textStyle={{
@@ -461,6 +455,7 @@ class NewCompanyPage extends React.PureComponent {
 								<GridItem xs={12} md={6} lg={6}>
 									<TextInput
 										floatingText={translate.address}
+										id="company-address-input"
 										type="text"
 										value={data.address}
 										errorText={errors.address}
@@ -472,9 +467,8 @@ class NewCompanyPage extends React.PureComponent {
 								</GridItem>
 								<GridItem xs={12} md={6} lg={6}>
 									<TextInput
-										floatingText={
-											translate.company_new_locality
-										}
+										floatingText={translate.company_new_locality}
+										id="company-city-input"
 										type="text"
 										value={data.city}
 										errorText={errors.city}
@@ -487,12 +481,14 @@ class NewCompanyPage extends React.PureComponent {
 								<GridItem xs={12} md={6} lg={3}>
 									<SelectInput
 										floatingText={translate.company_new_country}
+										id="company-country-select"
 										value={this.state.countryInput ? 'other' : data.country}
 										onChange={this.cbxCountryChange}
 										errorText={errors.country}
 									>
 										{this.props.info.countries.map(country => (
 											<MenuItem
+												id={`company-country-${country.deno}`}
 												key={country.deno}
 												value={country.deno}
 											>
@@ -501,6 +497,7 @@ class NewCompanyPage extends React.PureComponent {
 										))}
 										<MenuItem
 											key={'other'}
+											id="company-country-other"
 											value={'other'}
 										>
 											{translate.other}
@@ -513,6 +510,7 @@ class NewCompanyPage extends React.PureComponent {
 											floatingText={
 												translate.company_new_country
 											}
+											id="company-country-input"
 											type="text"
 											value={data.country}
 											errorText={errors.country}
@@ -554,6 +552,7 @@ class NewCompanyPage extends React.PureComponent {
 											{this.state.provinces.map(province => (
 												<MenuItem
 													key={province.deno}
+													id={`company-country-state-${province.deno}`}
 													value={province.deno}
 												>
 													{province.deno}
@@ -566,6 +565,7 @@ class NewCompanyPage extends React.PureComponent {
 									<TextInput
 										floatingText={translate.company_new_zipcode}
 										type="text"
+										id="company-zipcode-input"
 										value={data.zipcode}
 										errorText={errors.zipcode}
 										onChange={event => this.updateState({
@@ -578,6 +578,7 @@ class NewCompanyPage extends React.PureComponent {
 									<SelectInput
 										floatingText={translate.language}
 										value={data.language}
+										id="company-language-select"
 										onChange={event => this.updateState({
 											language: event.target.value
 										})
@@ -588,6 +589,7 @@ class NewCompanyPage extends React.PureComponent {
 											&& this.props.info.languages.map(
 												language => (
 													<MenuItem
+														id={`company-language-${language.columnName}`}
 														key={`language_${language.columnName
 															}`}
 														value={language.columnName}
@@ -600,6 +602,7 @@ class NewCompanyPage extends React.PureComponent {
 								</GridItem>
 								<GridItem xs={12} md={6} lg={3}>
 									<TextInput
+										id="company-code-input"
 										floatingText={translate.affiliation_code}
 										type="text"
 										value={data.creationCode}
@@ -619,6 +622,7 @@ class NewCompanyPage extends React.PureComponent {
 								{buttonBack ?
 									<React.Fragment>
 										<BasicButton
+											id="back-button"
 											text={translate.back}
 											textStyle={{ textTransform: 'none', color: 'black', fontWeight: '700' }}
 											onClick={requestClose}
@@ -631,6 +635,7 @@ class NewCompanyPage extends React.PureComponent {
 											text={translate.companies_add}
 											color={getPrimary()}
 											error={requestError}
+											id="company-add-button"
 											success={success}
 											loading={request}
 											floatRight
@@ -648,6 +653,7 @@ class NewCompanyPage extends React.PureComponent {
 										color={getPrimary()}
 										error={requestError}
 										success={success}
+										id="company-add-button"
 										loading={request}
 										floatRight
 										textStyle={{
