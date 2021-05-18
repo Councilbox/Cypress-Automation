@@ -156,13 +156,13 @@ const CompanyDraftList = ({
 		});
 	};
 
-	const renderDeleteIcon = draftID => (
+	const renderDeleteIcon = index => draftID => (
 		<div style={{ display: 'flex', marginLeft: isMobile && '1em' }}>
 			<IconButton
 				onClick={() => {
 					bHistory.push(`/company/${company.id}/draft/${draftID}`);
 				}}
-				id={`edit-draft-${draftID}`}
+				id={`edit-draft-${index}`}
 				style={{
 					color: primary,
 					height: '32px',
@@ -176,7 +176,7 @@ const CompanyDraftList = ({
 			</IconButton>
 
 			<CloseIcon
-				id={`delete-draft-${draftID}`}
+				id={`delete-draft-${index}`}
 				style={{ color: primary }}
 				onClick={event => {
 					openDeleteModal(draftID);
@@ -424,7 +424,6 @@ const CompanyDraftList = ({
 												text: ''
 											}
 										]}
-										action={renderDeleteIcon}
 										companyID={company.id}
 									>
 										{companyDrafts.list.map((draft, index) => (
@@ -435,7 +434,7 @@ const CompanyDraftList = ({
 												key={`draft${draft.id}${draft.title}`}
 												translate={translate}
 												action={() => bHistory.push(`/company/${company.id}/draft/${draft.id}`)}
-												renderDeleteIcon={renderDeleteIcon}
+												renderDeleteIcon={renderDeleteIcon(index)}
 												draft={draft}
 												companyStatutes={vars.companyStatutes}
 												draftTypes={draftTypes}
