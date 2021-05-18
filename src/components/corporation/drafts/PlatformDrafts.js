@@ -438,6 +438,7 @@ const PlatformDrafts = ({
 									{platformDrafts.list.map(
 										(draft, index) => (
 											<DraftRow
+												index={index}
 												classes={classes}
 												key={`draft${draft.id}${draft.title}`}
 												translate={translate}
