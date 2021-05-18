@@ -102,6 +102,7 @@ const CompanyLinksManager = ({ translate, client, ...props }) => {
 				</Typography>
 				<BasicButton
 					text={translate.link_companies}
+					id="link-companies-button"
 					color={getSecondary()}
 					icon={<ButtonIcon type="save" color="white" />}
 					textStyle={{ textTransform: 'none', color: 'white', fontWeight: '700' }}
