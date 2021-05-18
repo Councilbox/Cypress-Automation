@@ -430,6 +430,7 @@ const CompanyDraftList = ({
 										{companyDrafts.list.map((draft, index) => (
 											<DraftRow
 												id={`participant-row-${index}`}
+												index={index}
 												classes={classes}
 												stylesBackground={{ background: index % 2 ? '#edf4fb' : '' }}
 												key={`draft${draft.id}${draft.title}`}
@@ -494,13 +495,12 @@ export const DraftRow = ({
 
 	const getCheckbox = () => {
 		const isChecked = props.isChecked(draft.id);
-
 		return (
 			<Checkbox
 				value={isChecked}
+				id={`delete-checkbox-${index}`}
 				checked={isChecked}
-				onChange={() => props.updateSelectedValues(draft.id)
-				}
+				onChange={() => props.updateSelectedValues(draft.id)}
 			/>
 		);
 	};
