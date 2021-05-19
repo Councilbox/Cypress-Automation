@@ -404,7 +404,7 @@ const StartCouncilButton = ({
 						</GridItem>
 						<GridItem xs={4} md={4} lg={4}>
 							<button
-								id={'seleccionaAlPresidenteEnReunion'}
+								id="council-president-select"
 								style={buttonStyle(primary)}
 								onClick={() => setState({ selecting: 1 })}
 							>
@@ -436,7 +436,7 @@ const StartCouncilButton = ({
 						</GridItem>
 						<GridItem xs={4} md={4} lg={4}>
 							<button
-								id={'seleccionaAlSecretarioEnReunion'}
+								id="council-secretary-select"
 								style={buttonStyle(primary)}
 								onClick={() => setState({ selecting: 2 })}
 							>
@@ -468,6 +468,7 @@ const StartCouncilButton = ({
 						</GridItem>
 						<GridItem xs={4} md={4} lg={4}>
 							<button
+								id="council-quality-vote-select"
 								style={buttonStyle(primary)}
 								onClick={() => setState({ selecting: 3 })}
 							>
@@ -531,6 +532,7 @@ const StartCouncilButton = ({
 				<BasicButton
 					text={translate.start_council}
 					color={primary}
+					id="start-council-button"
 					textPosition="before"
 					onClick={() => setState({
 						alert: true
@@ -574,7 +576,7 @@ const StartCouncilButton = ({
 			<BasicButton
 				text={translate.start_council}
 				color={primary}
-				id={'iniciarReunionDentroDeReunion'}
+				id="start-council-button"
 				textPosition="before"
 				onClick={() => setState({
 					alert: true
