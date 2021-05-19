@@ -182,7 +182,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 							{windowSize !== 'xs' && (
 								<span
 									style={{
-										fontSize: '0.76rem',
+										fontSize: '0.88rem',
 										marginBottom: '1em',
 										marginTop: '0.7em',
 										textAlign: 'center',
@@ -209,7 +209,6 @@ const Login = ({ translate, windowSize, ...props }) => {
 										<Link to="/meeting/new">
 											<BasicButton
 												text={translate.start_conference_test}
-												color={'transparent'}
 												fullWidth
 												buttonStyle={{ backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em' }}
 												textStyle={{
