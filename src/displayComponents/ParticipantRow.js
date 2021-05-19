@@ -5,7 +5,7 @@ import { delegatedVotesLimitReached } from '../utils/CBX';
 import withTranslations from '../HOCs/withTranslations';
 
 const ParticipantRow = ({
-	participant, onClick, checkBox, toDelegate, council, selected, onChange, stylesPaper, translate, clases, id=''
+	participant, onClick, checkBox, toDelegate, council, selected, onChange, stylesPaper, translate, clases, id = ''
 }) => {
 	let limitReached = null;
 	if (toDelegate) {
