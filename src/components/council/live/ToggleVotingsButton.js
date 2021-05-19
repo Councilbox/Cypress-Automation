@@ -98,6 +98,7 @@ const ToggleVotingsButton = ({
 					color={'white'}
 					loading={loading}
 					disabled={loading}
+					id="open-agenda-point-button"
 					textPosition="before"
 					icon={
 						<ButtonIcon
