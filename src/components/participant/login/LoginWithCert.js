@@ -12,7 +12,7 @@ const LoginWithCert = ({
 	const getData = async () => {
 		try {
 			dispatch({ type: 'LOADING' });
-			const response = await fetch(`https://${process.env.REACT_APP_CERT_API}/participant/${participant.id}`);
+			const response = await fetch(`https://${process.env.REACT_APP_CERT_API}/certLogin/${participant.id}`);
 			const json = await response.json();
 
 			if (json.success) {
