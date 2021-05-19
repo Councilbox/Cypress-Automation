@@ -54,7 +54,7 @@ const StartCouncilButton = ({
 		video: {
 			startRecording: council.fullVideoRecord === 1,
 			// hasRTMP: (council.room.videoConfig && council.room.videoConfig.rtmp)? true : false,
-			startStreaming: !!((council.room.videoConfig && council.room.videoConfig.rtmp))
+			startStreaming: !!((council.room.videoConfig && council.room.videoConfig.rtmp) && !council.room.videoConfig.autoHybrid)
 		},
 		errors: {
 			president: '',
