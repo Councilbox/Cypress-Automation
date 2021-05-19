@@ -15,16 +15,16 @@ const StartCouncilVideoOptions = ({
 			})
 			}
 		/>
-		{(council.room.videoConfig && council.room.videoConfig.rtmp)
-&& <Checkbox
-	label={translate.start_broadcasting}
-	disabled={!(council.room.videoConfig && council.room.videoConfig.rtmp)}
-	value={data.startStreaming}
-	onChange={(event, isInputChecked) => updateData({
-		startStreaming: isInputChecked,
-	})
-	}
-/>
+		{(council.room.videoConfig && council.room.videoConfig.rtmp && !council.room.videoConfig.autoHybrid)
+			&& <Checkbox
+				label={translate.start_broadcasting}
+				disabled={!(council.room.videoConfig && council.room.videoConfig.rtmp)}
+				value={data.startStreaming}
+				onChange={(event, isInputChecked) => updateData({
+					startStreaming: isInputChecked,
+				})
+				}
+			/>
 		}
 
 	</div>
