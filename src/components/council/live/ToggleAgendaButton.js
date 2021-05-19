@@ -76,6 +76,7 @@ const ToggleAgendaButton = ({
 				active ? (
 					<BasicButton
 						text={translate.discuss_agenda}
+						id="open-agenda-point-button"
 						color={'white'}
 						loading={loading}
 						loadingColor={getPrimary()}
@@ -115,6 +116,7 @@ const ToggleAgendaButton = ({
 				<BasicButton
 					text={translate.close_point}
 					color={primary}
+					id="close-agenda-point-button"
 					textPosition="before"
 					icon={
 						<Icon
