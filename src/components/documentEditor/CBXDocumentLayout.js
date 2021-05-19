@@ -7,14 +7,14 @@ import withTranslations from '../../HOCs/withTranslations';
 const CBXDocumentLayout = ({
 	options, loading, preview, company, finishInModal, translate
 }) => (
-	<div style={{ display: 'flex', height: '100%', maxWidth: '210mm' }} >
+	<div style={{ display: 'flex', height: '100%', width: '210mm' }} >
 		<div style={{ width: '20%', maxWidth: '95px' }}>
 			{options.stamp
-&& <Timbrado
-	collapse={true}
-	edit={loading}
-	finishInModal={'actaLienzoModal'}
-/>
+				&& <Timbrado
+					collapse={true}
+					edit={loading}
+					finishInModal={'actaLienzoModal'}
+				/>
 			}
 		</div>
 		<div style={{ width: '100%' }}>
