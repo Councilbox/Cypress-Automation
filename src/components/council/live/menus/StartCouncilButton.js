@@ -353,10 +353,11 @@ const StartCouncilButton = ({
 							<Scrollbar option={{ suppressScrollX: true }}>
 								{participants.length > 0 ? (
 									<div style={{ padding: '0.2em' }}>
-										{participants.map(participant => (
+										{participants.map((participant, index) => (
 											<ParticipantRow
 												clases={'itemsSeleccionEnModalUsersEnReunion'}
 												participant={participant}
+												id={`participant-selector-${index}`}
 												key={`participant_${participant.id
 													}`}
 												onClick={() => actionSwitch()(
