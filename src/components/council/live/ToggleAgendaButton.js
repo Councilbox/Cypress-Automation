@@ -116,6 +116,7 @@ const ToggleAgendaButton = ({
 				<BasicButton
 					text={translate.close_point}
 					color={primary}
+					id="close-agenda-point-button"
 					textPosition="before"
 					icon={
 						<Icon
