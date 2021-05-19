@@ -63,7 +63,6 @@ const PointAttachments = ({
 				type="file"
 				id={'raised-button-file'}
 				onChange={handleFile}
-				// disabled={uploading}
 				style={{
 					cursor: 'pointer',
 					position: 'absolute',
@@ -139,10 +138,12 @@ const PointAttachments = ({
 							borderRadius: '5px',
 							color: 'primary'
 						}}
+						id={`attachment-${index}`}
 						key={`attachment_${attachment.id || index}`}
 					>
 						{attachment.filename || attachment.name}
 						<span onClick={() => removeAgendaAttachment(index)}
+							id={`attachment-delete-${index}`}
 							style={{
 								marginLeft: '0.6em',
 								color: secondary,
