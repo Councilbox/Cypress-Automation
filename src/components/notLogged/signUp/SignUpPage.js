@@ -42,7 +42,7 @@ const SignUpPage = ({ translate, windowSize, mutate }) => {
 		pwd: '',
 	});
 	const [{ success, loading, errors }, dispatch] = React.useReducer(stateReducer, {
-		success: true,
+		success: false,
 		loading: false,
 		errors: {}
 	});
