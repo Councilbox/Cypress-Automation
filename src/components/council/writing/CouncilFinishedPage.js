@@ -180,6 +180,7 @@ export const councilDetails = gql`
 				includedInActBook
 				includeParticipantsList
 				existsComments
+				canEarlyVote
 				conveneHeader
 				intro
 				requireProxy
