@@ -25,7 +25,7 @@ class ForgetPwd extends React.PureComponent {
 		if (!this.checkRequiredFields()) {
 			const response = await this.props.mutate({
 				variables: {
-					email: user
+					email: user.trim()
 				}
 			});
 			if (response.errors) {
@@ -76,7 +76,7 @@ class ForgetPwd extends React.PureComponent {
 			errors.user = this.props.translate.email_not_valid;
 		}
 
-		if (!checkValidEmail(this.state.user)) {
+		if (!checkValidEmail(this.state.user.trim())) {
 			hasError = true;
 			errors.user = this.props.translate.email_not_valid;
 		}
