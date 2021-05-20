@@ -268,8 +268,8 @@ const StepNotice = ({
 		if (!checkRequiredFields()) {
 			const response = await updateCouncil(2);
 			if (!response.data.errors) {
-				props.nextStep();
 				data.refetch();
+				props.nextStep();
 			}
 		}
 	};
