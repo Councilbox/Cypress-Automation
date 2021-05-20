@@ -18,6 +18,7 @@ const MajorityInput = ({
 				<TextInput
 					type={'number'}
 					value={value}
+					id="agenda-majority-number"
 					errorText={majorityError}
 					min={1}
 					max={100}
@@ -36,6 +37,7 @@ const MajorityInput = ({
 				<div style={{ width: '5em', display: 'flex', alignItems: 'center' }}>
 					<TextInput
 						type={'number'}
+						id="agenda-majority-number"
 						value={value}
 						min="1"
 						errorText={majorityError}
@@ -50,6 +52,7 @@ const MajorityInput = ({
 					<TextInput
 						type={'number'}
 						value={divider}
+						id="agenda-majority-divider"
 						min="1"
 						errorText={dividerError}
 						onChange={event => onChangeDivider(event.target.value < 1 ? 1 : event.nativeEvent.target.value)
@@ -67,6 +70,7 @@ const MajorityInput = ({
 				<TextInput
 					type={'number'}
 					min="1"
+					id="agenda-majority-number"
 					value={value}
 					errorText={majorityError}
 					onChange={event => onChange(event.nativeEvent.target.value)}

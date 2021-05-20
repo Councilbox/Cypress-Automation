@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../components/Header';
-import bg from '../assets/img/fondo_test_mundo2.jpg';
+import bg from '../assets/img/background8-3.jpg';
 import { getCustomBackground, getCustomRoomBackground } from '../utils/subdomain';
 import LoadingMainApp from './LoadingMainApp';
 import { HEADER_HEIGHT } from '../styles/constants';

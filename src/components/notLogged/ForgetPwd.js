@@ -25,7 +25,7 @@ class ForgetPwd extends React.PureComponent {
 		if (!this.checkRequiredFields()) {
 			const response = await this.props.mutate({
 				variables: {
-					email: user
+					email: user.trim()
 				}
 			});
 			if (response.errors) {
@@ -76,7 +76,7 @@ class ForgetPwd extends React.PureComponent {
 			errors.user = this.props.translate.email_not_valid;
 		}
 
-		if (!checkValidEmail(this.state.user)) {
+		if (!checkValidEmail(this.state.user.trim())) {
 			hasError = true;
 			errors.user = this.props.translate.email_not_valid;
 		}
@@ -114,13 +114,14 @@ class ForgetPwd extends React.PureComponent {
 							display: 'flex',
 							justifyContent: 'center',
 							alignItems: 'center',
+							width: '100%',
 							padding: 0
 						}}
 					>
 						{!this.state.sent ? (
 							<Card
 								style={{
-									width: windowSize === 'xs' ? '100%' : '70%',
+									width: windowSize === 'xs' ? '100%' : '50%',
 									padding: '4vw'
 								}}
 							>
@@ -141,7 +142,7 @@ class ForgetPwd extends React.PureComponent {
 										marginBottom: 0,
 										paddingBottom: 0,
 										fontWeight: '500',
-										fontSize: '1em',
+										fontSize: '0.8rem',
 										color: secondary
 									}}
 								>
@@ -151,6 +152,7 @@ class ForgetPwd extends React.PureComponent {
 								<div>
 									<TextInput
 										onKeyUp={this.handleKeyUp}
+										id="restore-password-email-input"
 										floatingText={translate.login_email}
 										errorText={this.state.errors.user}
 										type="text"
@@ -164,6 +166,7 @@ class ForgetPwd extends React.PureComponent {
 								<div style={{ marginTop: '3em' }}>
 									<BasicButton
 										text={translate.restore_check_in}
+										id="restore-password-button"
 										color={primary}
 										textStyle={{
 											color: 'white',
@@ -184,7 +187,7 @@ class ForgetPwd extends React.PureComponent {
 						) : (
 							<Card
 								style={{
-									width: windowSize === 'xs' ? '100%' : '70%',
+									width: windowSize === 'xs' ? '100%' : '50%',
 									padding: '3vw'
 								}}
 							>

@@ -98,6 +98,7 @@ const ToggleVotingsButton = ({
 					color={'white'}
 					loading={loading}
 					disabled={loading}
+					id="open-point-votings-button"
 					textPosition="before"
 					icon={
 						<ButtonIcon
@@ -128,6 +129,7 @@ const ToggleVotingsButton = ({
 						color={'white'}
 						loading={loading}
 						disabled={loading}
+						id="open-point-votings-button"
 						onClick={openVoting}
 						textPosition="before"
 						icon={
@@ -158,6 +160,7 @@ const ToggleVotingsButton = ({
 									color={primary}
 									loading={loading}
 									disabled={loading}
+									id="close-point-votings-button"
 									textPosition="before"
 									icon={
 										<ButtonIcon
@@ -182,6 +185,7 @@ const ToggleVotingsButton = ({
 								text={isConfirmationRequest(agenda.subjectType) ? translate.close_answers : translate.close_point_votations}
 								color={primary}
 								loading={loading}
+								id="close-point-votings-button"
 								disabled={loading}
 								textPosition="before"
 								icon={
@@ -206,56 +210,58 @@ const ToggleVotingsButton = ({
 			)}
 			{agenda.votingState === 2 && getVotingClosedSection()}
 			{agenda.votingState === 4
-&& <div style={{ width: '100%', ...(!isMobile ? { float: 'right' } : {}) }}>
-	<BasicButton
-		text={translate.close_point_votations}
-		color={primary}
-		loading={loading}
-		disabled={loading}
-		textPosition="before"
-		icon={
-			<ButtonIcon
-				type="lock_open"
-				color="white"
-			/>
-		}
-		floatRight={!isMobile}
-		buttonStyle={{ width: '18em' }}
-		onClick={closeAgendaVoting}
-		textStyle={{
-			fontSize: '0.75em',
-			fontWeight: '700',
-			textTransform: 'none',
-			color: 'white',
-		}}
-	/>
-</div>
+				&& <div style={{ width: '100%', ...(!isMobile ? { float: 'right' } : {}) }}>
+					<BasicButton
+						text={translate.close_point_votations}
+						color={primary}
+						loading={loading}
+						id="close-point-votings-button"
+						disabled={loading}
+						textPosition="before"
+						icon={
+							<ButtonIcon
+								type="lock_open"
+								color="white"
+							/>
+						}
+						floatRight={!isMobile}
+						buttonStyle={{ width: '18em' }}
+						onClick={closeAgendaVoting}
+						textStyle={{
+							fontSize: '0.75em',
+							fontWeight: '700',
+							textTransform: 'none',
+							color: 'white',
+						}}
+					/>
+				</div>
 			}
 			{agenda.votingState === 3
-&& <div style={{ width: '100%', ...(!isMobile ? { float: 'right' } : {}) }}>
-	<BasicButton
-		text={translate.open_in_person_votings}
-		color={'white'}
-		loading={loading}
-		disabled={loading}
-		onClick={openHybridVotings}
-		textPosition="before"
-		icon={
-			<ButtonIcon
-				type="thumbs_up_down"
-				color={primary}
-			/>
-		}
-		floatRight={!isMobile}
-		buttonStyle={{ minWidth: '11em' }}
-		textStyle={{
-			fontSize: '0.75em',
-			fontWeight: '700',
-			textTransform: 'none',
-			color: primary
-		}}
-	/>
-</div>
+				&& <div style={{ width: '100%', ...(!isMobile ? { float: 'right' } : {}) }}>
+					<BasicButton
+						text={translate.open_in_person_votings}
+						color={'white'}
+						loading={loading}
+						id="open-point-votings-button"
+						disabled={loading}
+						onClick={openHybridVotings}
+						textPosition="before"
+						icon={
+							<ButtonIcon
+								type="thumbs_up_down"
+								color={primary}
+							/>
+						}
+						floatRight={!isMobile}
+						buttonStyle={{ minWidth: '11em' }}
+						textStyle={{
+							fontSize: '0.75em',
+							fontWeight: '700',
+							textTransform: 'none',
+							color: primary
+						}}
+					/>
+				</div>
 			}
 		</React.Fragment>
 	);

@@ -67,7 +67,6 @@ describe("Councilbox login - valid username and password", function() {
 });
 
 
-
 describe("The alert message is successfully displayed when the user clicks on the 'Cancel' button without saving changes in the 'Edit tag' section", function() {
 
         it("From the menu choose and click on the 'Knowledge base' option", function() {
@@ -97,6 +96,7 @@ describe("The alert message is successfully displayed when the user clicks on th
 
         it("'Has changes without saving' alert message is successfully displayed", function() {
             cy.get('#unsaved-changes-discard').click()
+
             cy.wait(1000)
         });
 
@@ -104,11 +104,5 @@ describe("The alert message is successfully displayed when the user clicks on th
             cy.visit(login_url);
             cy.wait(3000)
         });
-
-
     });
-
-
-
-
 
