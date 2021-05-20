@@ -46,7 +46,7 @@ jobs:
           tags: ${{ steps.image_name.outputs.image_name }}
           build-args: |
             REACT_APP_API_URL=api.councilbox.com
-            REACT_APP_CERT_API=secure-api.councilbox.com
+            REACT_APP_CERT_API=secure-api.prok8s.councilbox.com
 
       - run: docker push ${{ steps.image_name.outputs.image_name }}
       - name: "Dispatch a deploy-test event"
