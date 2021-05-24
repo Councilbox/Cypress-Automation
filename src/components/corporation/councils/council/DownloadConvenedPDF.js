@@ -29,7 +29,7 @@ const DownloadConvenedPDF = ({ color, council }) => {
 			const url = window.URL.createObjectURL(blob);
 			const a = document.createElement('a');
 			a.href = url;
-			a.download = `Censo ${council.id}`;
+			a.download = `Censo ${council.id}.xlsx`;
 			document.body.appendChild(a);
 			a.click();
 			a.remove();

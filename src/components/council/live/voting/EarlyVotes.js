@@ -100,29 +100,29 @@ const EarlyVotes = ({
 				<React.Fragment>
 					{`${vote.author.name} ${vote.author.surname || ''} ${vote.author.position ? ` - ${vote.author.position}` : ''}`}
 					{vote.author.voteDenied
-&& <Tooltip title={vote.author.voteDeniedReason}>
-	<span style={{ color: 'red', fontWeight: '700' }}>
-(Voto denegado)
-	</span>
-</Tooltip>
+						&& <Tooltip title={vote.author.voteDeniedReason}>
+							<span style={{ color: 'red', fontWeight: '700' }}>
+								(Voto denegado)
+							</span>
+						</Tooltip>
 					}
 				</React.Fragment>
 
 				{!!vote.author.representative
-&& <React.Fragment>
-	<br/>
-	{`${translate.represented_by} ${vote.author.representative.name} ${vote.author.representative.surname || ''} ${vote.author.representative.position ? ` - ${vote.author.representative.position}` : ''}`}
-</React.Fragment>
+					&& <React.Fragment>
+						<br />
+						{`${translate.represented_by} ${vote.author.representative.name} ${vote.author.representative.surname || ''} ${vote.author.representative.position ? ` - ${vote.author.representative.position}` : ''}`}
+					</React.Fragment>
 				}
 			</span>
 			<React.Fragment>
 				{!!vote.author.delegatedVotes
-&& vote.author.delegatedVotes.filter(item => item.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
-	<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
-		<br/>
-		{`${delegatedVote.name} ${delegatedVote.surname || ''} ${delegatedVote.position ? ` - ${delegatedVote.position}` : ''} (Ha delegado su voto) ${isMobile ? ` - ${showNumParticipations(delegatedVote.numParticipations, props.company)} ` : ''}`}
-	</React.Fragment>
-))
+					&& vote.author.delegatedVotes.filter(item => item.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
+						<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
+							<br />
+							{`${delegatedVote.name} ${delegatedVote.surname || ''} ${delegatedVote.position ? ` - ${delegatedVote.position}` : ''} (Ha delegado su voto) ${isMobile ? ` - ${showNumParticipations(delegatedVote.numParticipations, props.company)} ` : ''}`}
+						</React.Fragment>
+					))
 				}
 			</React.Fragment>
 		</div>
@@ -175,7 +175,7 @@ const EarlyVotes = ({
 									style={{
 										display: 'flex',
 										flexDirection:
-'row',
+											'row',
 										alignItems: 'center',
 									}}
 								>
@@ -197,18 +197,18 @@ const EarlyVotes = ({
 								: <>
 									{(hasRightToVote(vote.author) ? `${showNumParticipations(vote.author.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.author.numParticipations)}` : 0)}
 									{(vote.author.state === PARTICIPANT_STATES.REPRESENTATED)
-&& <>
-	<br/>
-	{hasRightToVote(vote.author.representative) ? `${showNumParticipations(vote.author.representative.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.author.representative.numParticipations)}` : '-'}
-</>
+										&& <>
+											<br />
+											{hasRightToVote(vote.author.representative) ? `${showNumParticipations(vote.author.representative.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.author.representative.numParticipations)}` : '-'}
+										</>
 									}
 									{!!vote.author.delegatedVotes
-&& vote.author.delegatedVotes.filter(filterDelegatedVotes).map(delegatedVote => (
-	<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
-		<br/>
-		{`${showNumParticipations(delegatedVote.numParticipations, props.company, props.council.statute)} ${printPercentage(delegatedVote.numParticipations)}`}
-	</React.Fragment>
-))
+										&& vote.author.delegatedVotes.filter(filterDelegatedVotes).map(delegatedVote => (
+											<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
+												<br />
+												{`${showNumParticipations(delegatedVote.numParticipations, props.company, props.council.statute)} ${printPercentage(delegatedVote.numParticipations)}`}
+											</React.Fragment>
+										))
 									}
 								</>
 							}
@@ -228,12 +228,12 @@ const EarlyVotes = ({
 				}}
 			>
 				{/* <PaginationFooter
-page={props.page}
-translate={translate}
-length={earlyVotes.length}
-total={earlyVotes.length}
-changePage={props.changePage}
-/> */}
+					page={props.page}
+					translate={translate}
+					length={earlyVotes.length}
+					total={earlyVotes.length}
+					changePage={props.changePage}
+					/> */}
 			</div>
 		</>
 	);
