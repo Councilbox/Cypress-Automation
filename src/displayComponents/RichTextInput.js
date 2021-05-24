@@ -184,7 +184,6 @@ class RichTextInput extends React.Component {
 													setData={e => this.setState({ companyTags: e })}
 												/>
 											}
-											
 											<div>
 												{!!loadDraft && loadDraft}
 											</div>
