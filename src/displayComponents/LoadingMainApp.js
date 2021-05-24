@@ -22,6 +22,6 @@ const LoadingMainApp = ({ message, error }) => {
 			</div>
 		</div>
 	);
-}
+};
 
 export default LoadingMainApp;
