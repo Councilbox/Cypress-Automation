@@ -415,11 +415,8 @@ const Assistance = ({
 							<RichTextInput
 								errorText={state.commentError}
 								translate={translate}
-								value={
-									participant.assistanceComment
-										? participant.assistanceComment
-										: ''
-								}
+								disableTags={true}
+								value={participant.assistanceComment || ''}
 								placeholder={council.companyId !== AECOC_ID ? translate.attendance_comment : ''}
 								stylesQuill={{ background: '#f0f3f6' }}
 								onChange={value => setState({

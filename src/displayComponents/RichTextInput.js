@@ -174,14 +174,17 @@ class RichTextInput extends React.Component {
 											alignItems: 'center',
 											justifyContent: 'flex-end'
 										}}>
-											<SmartTags
-												tags={tags}
-												open={this.state.showTags}
-												translate={translate}
-												requestClose={() => this.setState({ showTags: false })}
-												paste={this.paste}
-												setData={e => this.setState({ companyTags: e })}
-											/>
+											{!this.props.disableTags &&
+												<SmartTags
+													tags={tags}
+													open={this.state.showTags}
+													translate={translate}
+													requestClose={() => this.setState({ showTags: false })}
+													paste={this.paste}
+													setData={e => this.setState({ companyTags: e })}
+												/>
+											}
+											
 											<div>
 												{!!loadDraft && loadDraft}
 											</div>
