@@ -97,7 +97,7 @@ const DelegateOwnVoteAttendantModal = ({
 						<div style={{ height: '100%' }}>
 							<Scrollbar>
 								{participants.length > 0 ? (
-									<div style={{ display: 'flex' }}>
+									<div style={{ display: 'flex', flexDirection: 'column' }}>
 										<Grid style={{ padding: '10px' }}>
 											{participants.map(participant => {
 												if (participant.id !== props.participant.id) {
@@ -145,9 +145,9 @@ const DelegateOwnVoteAttendantModal = ({
 													}`
 													}
 													{loading
-&& <div>
-	<LoadingSection size={25} />
-</div>
+														&& <div>
+															<LoadingSection size={25} />
+														</div>
 													}
 												</MenuItem>
 											</Card>

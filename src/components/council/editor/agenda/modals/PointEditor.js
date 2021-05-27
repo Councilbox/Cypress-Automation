@@ -227,6 +227,7 @@ const PointEditor = ({
 							<TextInput
 								floatingText={translate.title}
 								type="text"
+								id="agenda-editor-title-input"
 								errorText={errors.agendaSubject}
 								value={agenda.agendaSubject}
 								onChange={event => updateState({
@@ -240,6 +241,7 @@ const PointEditor = ({
 							{agenda.subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST ?
 								<SelectInput
 									floatingText={translate.type}
+									id="agenda-editor-type-select"
 									value={AGENDA_TYPES.CONFIRMATION_REQUEST}
 									disabled={true}
 									onChange={event => updateState({
@@ -249,6 +251,7 @@ const PointEditor = ({
 									required
 								>
 									<MenuItem
+										id={`agenda-editor-type-${AGENDA_TYPES.CONFIRMATION_REQUEST}`}
 										value={AGENDA_TYPES.CONFIRMATION_REQUEST}
 									>
 										{translate.confirmation_request}
@@ -257,6 +260,7 @@ const PointEditor = ({
 								: <SelectInput
 									floatingText={translate.type}
 									value={agenda.subjectType}
+									id="agenda-editor-type-select"
 									errorText={errors.subjectType}
 									onChange={event => updateState({
 										subjectType: event.target.value
@@ -267,6 +271,7 @@ const PointEditor = ({
 									{filteredTypes.map(voting => (
 										<MenuItem
 											value={voting.value}
+											id={`agenda-editor-type-${voting.value}`}
 											key={`voting${voting.value}`}
 										>
 											{translate[voting.label]}
@@ -283,6 +288,7 @@ const PointEditor = ({
 								<SelectInput
 									floatingText={translate.majority_label}
 									value={`${agenda.majorityType}`}
+									id="agenda-editor-majority-select"
 									errorText={errors.majorityType}
 									onChange={event => updateState({
 										majorityType: +event.target.value
@@ -292,6 +298,7 @@ const PointEditor = ({
 								>
 									{props.majorityTypes.map(majority => (
 										<MenuItem
+											id={`agenda-editor-majority-${majority.value}`}
 											value={`${majority.value}`}
 											key={`majorityType_${majority.value
 												}`}
@@ -338,6 +345,7 @@ const PointEditor = ({
 						ref={editor}
 						floatingText={translate.description}
 						type="text"
+						id="agenda-editor-description"
 						translate={translate}
 						loadDraft={
 							<BasicButton

@@ -47,7 +47,9 @@ jobs:
           file: ./docker/Dockerfile
           load: true
           tags: ${{ steps.image_name.outputs.image_name }}
-          build-args: REACT_APP_API_URL=api.dev.councilbox.com
+          build-args: |
+            REACT_APP_API_URL=api.dev.councilbox.com
+            REACT_APP_CERT_API=secure-api.dev.councilbox.com
 
       - run: docker push ${{ steps.image_name.outputs.image_name }}
  

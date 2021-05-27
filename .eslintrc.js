@@ -29,7 +29,7 @@ module.exports = {
 		},
 		sourceType: 'module',
 	},
-	ignorePatterns: ['.github', '/cypress/*', 'public/*', '/src/displayComponents/ReactSignature/*'],
+	ignorePatterns: ['.github', '/cypress/*', 'public/*', 'build', '/src/displayComponents/ReactSignature/*'],
 	rules: {
 		"react/display-name": "off",
 		"react/prop-types": "off",

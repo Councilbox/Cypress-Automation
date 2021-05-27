@@ -123,11 +123,11 @@ const SignUpPage = ({ translate, windowSize, mutate }) => {
 								style={{
 									display: 'flex',
 									flexDirection:
-windowSize !== 'xs' ? 'row' : 'column',
+										windowSize !== 'xs' ? 'row' : 'column',
 									height:
-windowSize !== 'xs' ?
-	'72vh'
-	: 'calc(100vh - 3em)',
+										windowSize !== 'xs' ?
+											'72vh'
+											: 'calc(100vh - 3em)',
 									width: '100%'
 								}}
 							>
@@ -135,7 +135,7 @@ windowSize !== 'xs' ?
 									style={{
 										backgroundColor: 'WhiteSmoke',
 										height:
-windowSize !== 'xs' ? '100%' : '5em'
+											windowSize !== 'xs' ? '100%' : '5em'
 									}}
 								>
 									<SignUpStepper
@@ -151,9 +151,9 @@ windowSize !== 'xs' ? '100%' : '5em'
 										position: 'relative',
 										overflowY: 'hidden',
 										height:
-windowSize !== 'xs' ?
-	'100%'
-	: 'calc(100vh - 8em - 11.5%)'
+											windowSize !== 'xs' ?
+												'100%'
+												: 'calc(100vh - 8em - 11.5%)'
 									}}
 								>
 									<Scrollbar>
@@ -186,6 +186,7 @@ windowSize !== 'xs' ?
 								paddingBottom: 0,
 								fontWeight: '600',
 								fontSize: '1.2em',
+								textAlign: 'center',
 								color: primary
 							}}
 						>
@@ -195,6 +196,7 @@ windowSize !== 'xs' ?
 							}}>
 								<BasicButton
 									text={translate.back}
+									id="signup-back-button"
 									textStyle={{ fontWeight: '700', textTransform: 'none', color: 'white' }}
 									onClick={() => bHistory.push('/')}
 									color={primary}

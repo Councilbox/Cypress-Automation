@@ -67,10 +67,14 @@ describe("Councilbox login - valid username and password", function() {
 });
 
 
+<<<<<<< HEAD
 describe("The user is able to finalize and approve act in the 'New call with session' type of meeting", function() {
 
      it("Click on the 'Nueva reunion' button", function() {
         cy.get('#create-council-block').click()
+=======
+describe("The alert message is successfully displayed when the user clicks on the 'Cancel' button without saving changes in the 'Edit tag' section", function() {
+>>>>>>> 91030333d0af202c24b6bafe418feb2fd4bba666
 
     });
 
@@ -82,6 +86,7 @@ describe("The user is able to finalize and approve act in the 'New call with ses
     });
 
 
+<<<<<<< HEAD
     it("Populate all required fields and click on the “Siguiente” button", function() {
         cy.get('#council-notice-title').clear()
             .type('Test')
@@ -349,11 +354,19 @@ describe("The user is able to finalize and approve act in the 'New call with ses
         
     
     });
+=======
+        it("'Has changes without saving' alert message is successfully displayed", function() {
+            cy.get('#unsaved-changes-discard').click()
+
+            cy.wait(1000)
+        });
+>>>>>>> 91030333d0af202c24b6bafe418feb2fd4bba666
 
     it("Back to Home page", function() {
             cy.visit(login_url);
             cy.wait(3000)
         });
+<<<<<<< HEAD
 
 
  });
@@ -689,3 +702,7 @@ describe("The user is able to send minutes in the 'New call with session' type o
  });
 
 
+=======
+    });
+
+>>>>>>> 91030333d0af202c24b6bafe418feb2fd4bba666

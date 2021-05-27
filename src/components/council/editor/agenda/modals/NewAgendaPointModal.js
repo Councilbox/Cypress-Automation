@@ -246,7 +246,7 @@ const NewAgendaPointModal = ({
 								type="text"
 								errorText={errors.agendaSubject}
 								value={agenda.agendaSubject}
-								id={'tituloPuntoDelDiaModal'}
+								id="agenda-editor-title-input"
 								onChange={event => updateState({
 									agendaSubject: event.target.value
 								})
@@ -260,6 +260,7 @@ const NewAgendaPointModal = ({
 									floatingText={translate.type}
 									value={AGENDA_TYPES.CONFIRMATION_REQUEST}
 									disabled={true}
+									id="agenda-editor-type-select"
 									onChange={event => updateState({
 										subjectType: +event.target.value
 									})
@@ -267,6 +268,7 @@ const NewAgendaPointModal = ({
 									required
 								>
 									<MenuItem
+										id={`agenda-editor-type-${AGENDA_TYPES.CONFIRMATION_REQUEST}`}
 										value={AGENDA_TYPES.CONFIRMATION_REQUEST}
 									>
 										{translate.confirmation_request}
@@ -275,6 +277,7 @@ const NewAgendaPointModal = ({
 								: <SelectInput
 									floatingText={translate.type}
 									value={`${agenda.subjectType}`}
+									id="agenda-editor-type-select"
 									onChange={event => updateState({
 										subjectType: +event.target.value
 									})
@@ -284,6 +287,7 @@ const NewAgendaPointModal = ({
 									{filteredTypes.map(voting => (
 										<MenuItem
 											value={`${voting.value}`}
+											id={`agenda-editor-type-${voting.value}`}
 											key={`voting${voting.value}`}
 										>
 											{translate[voting.label]}
@@ -300,6 +304,7 @@ const NewAgendaPointModal = ({
 									floatingText={translate.majority_label}
 									value={`${agenda.majorityType}`}
 									errorText={errors.majorityType}
+									id="agenda-editor-majority-select"
 									onChange={event => updateState({
 										majorityType: +event.target.value
 									})
@@ -309,6 +314,7 @@ const NewAgendaPointModal = ({
 									{props.majorityTypes.map(majority => (
 										<MenuItem
 											value={`${majority.value}`}
+											id={`agenda-editor-majority-${majority.value}`}
 											key={`majorityType_${majority.value
 												}`}
 										>
@@ -354,6 +360,7 @@ const NewAgendaPointModal = ({
 					</div>
 					<RichTextInput
 						ref={editor}
+						id="agenda-editor-description"
 						floatingText={translate.description}
 						translate={translate}
 						type="text"

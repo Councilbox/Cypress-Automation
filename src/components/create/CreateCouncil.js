@@ -218,6 +218,7 @@ const CreateCouncilModal = ({
 									<div style={{ height: '100%' }}>
 										<ButtonCreateCouncil
 											onClick={councilStep}
+											id="create-council-with-session"
 											title={translate.with_session}
 											styleButton={{ marginRight: '3%' }}
 											icon={<img src={conSesionIcon}></img>}
@@ -228,6 +229,7 @@ const CreateCouncilModal = ({
 										/>
 										<ButtonCreateCouncil
 											onClick={noSessionStep}
+											id="create-council-without-session"
 											title={translate.without_session}
 											styleButton={{ marginRight: '3%' }}
 											icon={<img src={sinSesionIcon}></img>}
@@ -239,6 +241,7 @@ const CreateCouncilModal = ({
 										{config.boardWithoutSession
 											&& <ButtonCreateCouncil
 												onClick={boardWithoutSessionStep}
+												id="create-council-board-without-session"
 												title={translate.board_without_session}
 												styleButton={{ marginRight: '3%' }}
 												icon={<img src={consejoSinSesion}></img>}
@@ -252,6 +255,7 @@ const CreateCouncilModal = ({
 											&& <ButtonCreateCouncil
 												onClick={noSessionHybridStep}
 												title={translate.elections}
+												id="create-council-elections"
 												icon={<img src={elecciones}></img>}
 												isMobile={isMobile}
 												list={
@@ -262,6 +266,7 @@ const CreateCouncilModal = ({
 										{config.onOnOneCouncil
 											&& <ButtonCreateCouncil
 												onClick={createOneOneOne}
+												id="create-council-appointment"
 												title={translate.council_type_appointment}
 												icon={<img src={oneOnOne}></img>}
 												isMobile={isMobile}
@@ -379,7 +384,7 @@ const CreateCouncilModal = ({
 
 
 const ButtonCreateCouncil = ({
-	title, icon, list, styleButton, onClick
+	title, icon, list, styleButton, onClick, id
 }) => {
 	const [hover, hoverHandlers] = useHoverRow();
 
@@ -398,6 +403,7 @@ const ButtonCreateCouncil = ({
 			>
 				<div style={{ padding: '1.5em', background: hover ? 'rgba(97, 171, 183, 0.22)' : '', cursor: 'pointer' }}
 					onClick={onClick}
+					id={id}
 					{...hoverHandlers}
 				>
 					<div style={{ width: '90px', margin: '0 auto' }}>{icon}</div>
@@ -425,6 +431,7 @@ const ButtonCreateCouncil = ({
 			<div style={{
 				display: 'flex', padding: '1.5em', background: hover ? 'rgba(97, 171, 183, 0.22)' : '', cursor: 'pointer'
 			}}
+			id={id}
 			onClick={onClick}
 			{...hoverHandlers}
 			>

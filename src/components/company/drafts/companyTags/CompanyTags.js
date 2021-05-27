@@ -340,6 +340,7 @@ const HoverableRow = ({
 									event.stopPropagation();
 									editTag(tag);
 								}}
+								id={`${id}-edit-button`}
 								style={{
 									width: '32px',
 									height: '32px'
@@ -354,6 +355,7 @@ const HoverableRow = ({
 								/>
 							</IconButton>
 							<CloseIcon
+								id={`${id}-delete-icon`}
 								style={{ color: primary }}
 								onClick={() => setModal(true)}
 							/>
@@ -402,6 +404,7 @@ const HoverableRow = ({
 									event.stopPropagation();
 									editTag(tag);
 								}}
+								id={`${id}-edit-button`}
 								style={{
 									width: '32px',
 									height: '32px'
@@ -416,6 +419,7 @@ const HoverableRow = ({
 								/>
 							</IconButton>
 							<CloseIcon
+								id={`${id}-delete-icon`}
 								style={{ color: primary }}
 								onClick={() => setModal(true)}
 							/>

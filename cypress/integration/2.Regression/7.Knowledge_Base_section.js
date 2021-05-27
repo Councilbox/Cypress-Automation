@@ -213,7 +213,6 @@ describe("The alert message is displayed when the user clicks on the 'Back' butt
             cy.wait(3000)
         });
 
-
     });
 
 describe("The user is able to download template in the 'Knowledge base' section", function() {
@@ -459,6 +458,10 @@ describe("The alert message is successfully displayed when the user clicks on th
             cy.visit(login_url);
             cy.wait(3000)
         });
+<<<<<<< HEAD
 
 
     });
+=======
+    });
+>>>>>>> 91030333d0af202c24b6bafe418feb2fd4bba666

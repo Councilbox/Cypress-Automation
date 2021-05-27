@@ -46,13 +46,15 @@ const DelegationsModal = ({
 								&& <span style={{ color: 'red', marginLeft: '0.6em' }}>(Voto denegado)</span>
 							}
 						</div>
-						<BasicButton
-							text={translate.refuse}
-							color="white"
-							onClick={!councilStarted(council) ? () => setDelegation(vote) : () => setRefusedDisabledModal(true)}
-							buttonStyle={{ border: `1px solid ${getSecondary()}` }}
-							textStyle={{ color: getSecondary() }}
-						/>
+						{council.councilStarted === 0 &&
+							<BasicButton
+								text={translate.refuse}
+								color="white"
+								onClick={!councilStarted(council) ? () => setDelegation(vote) : () => setRefusedDisabledModal(true)}
+								buttonStyle={{ border: `1px solid ${getSecondary()}` }}
+								textStyle={{ color: getSecondary() }}
+							/>
+						}
 					</div>
 				))}
 				{representations.length > 0

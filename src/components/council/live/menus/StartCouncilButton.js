@@ -18,6 +18,7 @@ import {
 import { getPrimary } from '../../../../styles/colors';
 import { COUNCIL_TYPES, DELEGATION_USERS_LOAD } from '../../../../constants';
 import { existsQualityVote, councilHasVideo } from '../../../../utils/CBX';
+import { moment } from '../../../../containers/App';
 import ConveneSelector from '../ConveneSelector';
 import { startCouncil as startCouncilMutation } from '../../../../queries/council';
 import { useOldState } from '../../../../hooks';
@@ -54,7 +55,7 @@ const StartCouncilButton = ({
 		video: {
 			startRecording: council.fullVideoRecord === 1,
 			// hasRTMP: (council.room.videoConfig && council.room.videoConfig.rtmp)? true : false,
-			startStreaming: !!((council.room.videoConfig && council.room.videoConfig.rtmp))
+			startStreaming: !!((council.room.videoConfig && council.room.videoConfig.rtmp) && !council.room.videoConfig.autoHybrid)
 		},
 		errors: {
 			president: '',
@@ -189,7 +190,8 @@ const StartCouncilButton = ({
 					secretaryId,
 					qualityVoteId,
 					firstOrSecondConvene,
-					videoOptions: state.video
+					videoOptions: state.video,
+					timezone: moment().utcOffset().toString(),
 				}
 			});
 
@@ -353,10 +355,11 @@ const StartCouncilButton = ({
 							<Scrollbar option={{ suppressScrollX: true }}>
 								{participants.length > 0 ? (
 									<div style={{ padding: '0.2em' }}>
-										{participants.map(participant => (
+										{participants.map((participant, index) => (
 											<ParticipantRow
 												clases={'itemsSeleccionEnModalUsersEnReunion'}
 												participant={participant}
+												id={`participant-selector-${index}`}
 												key={`participant_${participant.id
 													}`}
 												onClick={() => actionSwitch()(
@@ -404,7 +407,7 @@ const StartCouncilButton = ({
 						</GridItem>
 						<GridItem xs={4} md={4} lg={4}>
 							<button
-								id={'seleccionaAlPresidenteEnReunion'}
+								id="council-president-select"
 								style={buttonStyle(primary)}
 								onClick={() => setState({ selecting: 1 })}
 							>
@@ -436,7 +439,7 @@ const StartCouncilButton = ({
 						</GridItem>
 						<GridItem xs={4} md={4} lg={4}>
 							<button
-								id={'seleccionaAlSecretarioEnReunion'}
+								id="council-secretary-select"
 								style={buttonStyle(primary)}
 								onClick={() => setState({ selecting: 2 })}
 							>
@@ -468,6 +471,7 @@ const StartCouncilButton = ({
 						</GridItem>
 						<GridItem xs={4} md={4} lg={4}>
 							<button
+								id="council-quality-vote-select"
 								style={buttonStyle(primary)}
 								onClick={() => setState({ selecting: 3 })}
 							>
@@ -531,6 +535,7 @@ const StartCouncilButton = ({
 				<BasicButton
 					text={translate.start_council}
 					color={primary}
+					id="start-council-button"
 					textPosition="before"
 					onClick={() => setState({
 						alert: true
@@ -574,7 +579,7 @@ const StartCouncilButton = ({
 			<BasicButton
 				text={translate.start_council}
 				color={primary}
-				id={'iniciarReunionDentroDeReunion'}
+				id="start-council-button"
 				textPosition="before"
 				onClick={() => setState({
 					alert: true

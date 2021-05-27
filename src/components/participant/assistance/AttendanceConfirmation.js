@@ -11,10 +11,10 @@ const AttendanceConfirmation = ({ open, requestClose, translate }) => (
 		buttonCancel={translate.close}
 		requestClose={requestClose}
 		bodyText={<div style={{ maxWidth: '700px' }}>
-Gracias por confirmar su participación en la Asamblea General.
-Para poder validar la representación de la entidad asociada a la que
-representa necesitamos que remita una copia de sus poderes de representación
-a la siguiente dirección de correo electrónico <a href="pilar@asnef.com">pilar@asnef.com</a>. Muchas gracias.
+			Gracias por confirmar su participación en la Asamblea General.
+			Para poder validar la representación de la entidad asociada a la que
+			representa necesitamos que remita una copia de sus poderes de representación
+			a la siguiente dirección de correo electrónico <a href="pilar@asnef.com">pilar@asnef.com</a>. Muchas gracias.
 		</div>}
 	/>
 );
