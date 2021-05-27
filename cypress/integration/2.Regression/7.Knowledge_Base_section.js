@@ -233,12 +233,12 @@ describe("The user is able to download template in the 'Knowledge base' section"
         });
 
         it("From the list of templates choose and click on the checkbox to select a template you want to download", function() {
-            cy.get('#MISSING_ID')
+            cy.get('#delete-checkbox-0').click()
             cy.wait(1000)
         });
 
         it("Click on the “Download 1 Template to “My Drafts” +” section", function() {
-            cy.get('#MISSING_ID')
+            cy.get('#download-platform-drafts-button').click()
             cy.wait(1000)
         });
 
@@ -269,7 +269,7 @@ describe("The user is able to delete template in the 'Knowledge base' section", 
         });
 
         it("Click on the 'Delete' button", function() {
-            cy.get('#delete-draft-4362').click()
+            cy.get('#delete-draft-0').click()
             cy.wait(1000)
             cy.get('#alert-confirm-button-accept').click()
             cy.wait(1000)
@@ -333,7 +333,7 @@ describe("The user is able to edit already added tag in the 'Knowledge base' sec
         it("Navigate to the tag you want to edit and hover it then click on the 'edit' button", function() {
             cy.get('#tag-0').trigger('mouseover')
             cy.wait(1000)
-            cy.get('#MISSING_ID').click()
+            cy.get('#tag-0-edit-button').click()
             cy.wait(1000)
         });
 
@@ -368,7 +368,7 @@ describe("The user is able to edit already existing template in the 'Templates' 
         it("Navigate to the template you want to edit and hover it then click on the 'edit' button", function() {
             cy.get('#participant-row-0').trigger('mouseover')
             cy.wait(1000)
-            cy.get('#edit-draft-4365').click()
+            cy.get('#edit-draft-0').click()
             cy.wait(1000)
         });
 
@@ -403,11 +403,13 @@ describe("The user is able to delete already added tag in the 'Knowledge base' s
         it("Navigate to the template you want to edit and hover it then click on the 'Delete' button", function() {
             cy.get('#tag-0').trigger('mouseover')
             cy.wait(1000)
-            cy.get('#MISSING_ID').click()
+            cy.get('#tag-0-edit-button').click()
             cy.wait(1000)
         });
 
-        it("Click on the 'Accept' button", function() {
+        it("Modify tag with changes you want and click on the 'Save' button", function() {
+            cy.get('#company-tag-key').clear()
+                .type('test'+Cypress.config('UniqueNumber'))
             cy.get('#alert-confirm-button-accept').click()
             cy.wait(1000)
         });
@@ -436,7 +438,7 @@ describe("The alert message is successfully displayed when the user clicks on th
         it("Navigate to the template you want to edit and hover it then click on the 'Edit' button", function() {
             cy.get('#tag-0').trigger('mouseover')
             cy.wait(1000)
-            cy.get('#MISSING_ID').click()
+            cy.get('#tag-0-edit-button').click()
             cy.wait(1000)
         });
 

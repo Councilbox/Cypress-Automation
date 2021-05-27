@@ -94,10 +94,21 @@ describe("The user is not able to Link company with invalid inputs in the 'Maste
             cy.contains('Incorrect master code')
         });
 
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
     });
 
 
 describe("The user is not able to Link company with invalid inputs in the 'CIF of the entity*' field", function() {
+
+        it("From the dashboard click on the 'Link company' button", function() {
+            cy.get('#entidadesSideBar').click({ force: true})
+            cy.wait(1000)
+            cy.contains('Link company').click({ force: true})
+
+        });
 
         it("Populate 'CIF of the entity*'' field", function() {
             cy.get('input').eq(0).clear()
@@ -116,9 +127,22 @@ describe("The user is not able to Link company with invalid inputs in the 'CIF o
             cy.contains('COMPANY DOES NOT EXIST')
         });
 
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+
     });
 
 describe("The user is able to Link Company", function() {
+
+        it("From the dashboard click on the 'Link company' button", function() {
+            cy.get('#entidadesSideBar').click({ force: true})
+            cy.wait(1000)
+            cy.contains('Link company').click({ force: true})
+
+        });
 
         it("Populate 'TIN of the organization*' field", function() {
             cy.get('input').eq(0).clear()
@@ -138,13 +162,16 @@ describe("The user is able to Link Company", function() {
             cy.contains('Company linked correctly')
         });
 
-        
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
 
 
 
     });
 
 describe("The user is able to unlink the company", function() {
+
 
         it("On the upper left corner above 'Dashboard' click on 'Basic data' button", function() {
             cy.get('#entidadesSideBar').click({ force: true})
@@ -163,6 +190,10 @@ describe("The user is able to unlink the company", function() {
             cy.get('#unlink-modal-button-accept').click()
             cy.wait(1000)
         })
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
 
     });
 
@@ -186,7 +217,11 @@ describe("The user is able to edit 'Business name*'' in the Company settings in 
 
         it("'The changes have been saved successfully.' message is displayed", function() {
             cy.contains('The changes have been saved successfully.')
-        });       
+        });  
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });     
 
     });
 
@@ -209,6 +244,10 @@ describe("The user is able to edit 'TIN of the organization*' in the Company set
 
         it("'The changes have been saved successfully.' message is displayed", function() {
             cy.contains('The changes have been saved successfully.')
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
         });
 
     });
@@ -235,6 +274,10 @@ describe("The user is able to edit 'Domain' in the 'Company settings' in the Cou
             cy.contains('The changes have been saved successfully.')
         });
 
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
     });
 
 describe("The user is able to edit 'Master code' in the 'Company settings' in the Councilbox", function() {
@@ -256,6 +299,10 @@ describe("The user is able to edit 'Master code' in the 'Company settings' in th
 
         it("'The changes have been saved successfully.' message is displayed", function() {
             cy.contains('The changes have been saved successfully.')
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
         });
 
     });
@@ -282,6 +329,10 @@ describe("The user is able to edit 'External ID' in the 'Company settings' in th
             cy.contains('The changes have been saved successfully.')
         });
 
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
     });
 
 describe("The user is able to edit 'Address' in the 'Contact details' in the Company settings in the Councilbox", function() {
@@ -303,6 +354,10 @@ describe("The user is able to edit 'Address' in the 'Contact details' in the Com
 
         it("'The changes have been saved successfully.' message is displayed", function() {
             cy.contains('The changes have been saved successfully.')
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
         });
 
     });
@@ -328,6 +383,10 @@ describe("The user is able to edit 'Town/City' in the 'Contact details' in the C
             cy.contains('The changes have been saved successfully.')
         });
 
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
     });
 
 describe("The user is able to edit 'Country' in the 'Contact details' in the Company settings in the Councilbox", function() {
@@ -350,6 +409,10 @@ describe("The user is able to edit 'Country' in the 'Contact details' in the Com
 
         it("'The changes have been saved successfully.' message is displayed", function() {
             cy.contains('The changes have been saved successfully.')
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
         });
 
 
@@ -378,6 +441,10 @@ describe("The user is able to edit 'Province' in the 'Contact details' in the Co
             cy.contains('The changes have been saved successfully.')
         });
 
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
 
     });
 
@@ -402,6 +469,10 @@ describe("The user is able to edit 'Zipcode' in the 'Contact details' in the Com
             cy.contains('The changes have been saved successfully.')
         });
 
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
     });
 
 describe("The user is able to edit 'Language' in the 'Contact details' in the Company settings in the Councilbox", function() {
@@ -424,6 +495,10 @@ describe("The user is able to edit 'Language' in the 'Contact details' in the Co
 
         it("'The changes have been saved successfully.' message is displayed", function() {
             cy.contains('The changes have been saved successfully.')
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
         });
 
     });
