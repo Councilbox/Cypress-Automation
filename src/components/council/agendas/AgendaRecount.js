@@ -53,7 +53,7 @@ const AgendaRecount = ({
 		if (company.type === 10) {
 			return '';
 		}
-		const total = agenda.presentCensus + agenda.currentRemoteCensus;
+		const total = agenda.positiveVotings + agenda.positiveManual + agenda.negativeVotings + agenda.negativeManual + agenda.abstentionVotings + agenda.abstentionManual + agenda.noVoteVotings + agenda.noVoteManual;
 
 		if (total === 0) {
 			return '(0%)';
