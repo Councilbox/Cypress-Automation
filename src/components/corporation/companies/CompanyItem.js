@@ -39,16 +39,16 @@ const CompanyItem = ({
 		return (
 			<div style={{ display: 'flex', flexDirection: 'row' }}>
 				{checkable
-&& <div style={{
-	width: '5em', display: 'flex', alignItems: 'center', justifyContent: 'center'
-}}>
-	<Checkbox
-		value={checked}
-		onChange={(event, isInputChecked) => {
-			onCheck(company, isInputChecked);
-		}}
-	/>
-</div>
+					&& <div style={{
+						width: '5em', display: 'flex', alignItems: 'center', justifyContent: 'center'
+					}}>
+						<Checkbox
+							value={checked}
+							onChange={(event, isInputChecked) => {
+								onCheck(company, isInputChecked);
+							}}
+						/>
+					</div>
 				}
 				<MenuItem
 					style={{
@@ -115,16 +115,16 @@ const CompanyItem = ({
 	return (
 		<div style={{ display: 'flex', flexDirection: 'row' }}>
 			{checkable
-&& <div style={{
-	width: '5em', display: 'flex', alignItems: 'center', justifyContent: 'center'
-}}>
-	<Checkbox
-		value={checked}
-		onChange={(event, isInputChecked) => {
-			onCheck(company, isInputChecked);
-		}}
-	/>
-</div>
+				&& <div style={{
+					width: '5em', display: 'flex', alignItems: 'center', justifyContent: 'center'
+				}}>
+					<Checkbox
+						value={checked}
+						onChange={(event, isInputChecked) => {
+							onCheck(company, isInputChecked);
+						}}
+					/>
+				</div>
 			}
 			<MenuItem
 				style={{
