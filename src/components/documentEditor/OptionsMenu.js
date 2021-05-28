@@ -14,6 +14,7 @@ const OptionsMenu = ({ setOptions, translate, options }) => (
 					styleInLabel={{ fontWeight: 'bold', color: '#a09aa0' }}
 					colorCheckbox={'primary'}
 					value={options.stamp}
+					id="document-editor-include-stamp-checkbox"
 					onChange={(event, isInputChecked) => setOptions({
 						...options,
 						stamp: isInputChecked
@@ -32,6 +33,7 @@ const OptionsMenu = ({ setOptions, translate, options }) => (
 					label={translate.two_columns}
 					styleInLabel={{ fontWeight: 'bold', color: '#a09aa0' }}
 					colorCheckbox={'primary'}
+					id="document-editor-double-column-checkbox"
 					value={options.doubleColumn}
 					onChange={(event, isInputChecked) => setOptions({
 						...options,

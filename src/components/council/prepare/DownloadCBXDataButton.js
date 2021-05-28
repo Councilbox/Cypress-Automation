@@ -45,6 +45,7 @@ const DownloadCBXDataButton = props => {
 					event.stopPropagation();
 					downloadCBXData(props.participantId);
 				}}
+				id={props.id || ''}
 				style={{
 					height: '1.8em',
 					width: '3em',
