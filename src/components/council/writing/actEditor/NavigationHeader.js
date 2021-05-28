@@ -11,6 +11,7 @@ const NavigationHeader = ({ setTab, tabs, active }) => (
 		}}>
 			{tabs.map(tab => (
 				<span key={tab.value} onClick={() => setTab(tab.value)}
+					id={`tab-${tab.value}`}
 					style={{
 						padding: '0.5em',
 						color: active === tab.value ? getPrimary() : '#a09aa0',

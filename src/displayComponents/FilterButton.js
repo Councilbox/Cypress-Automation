@@ -12,6 +12,7 @@ const FilterButton = ({
 	elevation,
 	buttonStyle,
 	tooltip,
+	id = '',
 	size = '2em',
 	loading,
 	styles
@@ -44,6 +45,7 @@ const FilterButton = ({
 					...buttonStyle,
 					...styles
 				}}
+				id={id}
 				elevation={elevation || (active ? 0 : 1)}
 				ref={ref => { element = ref; }}
 				onKeyUp={onKeyUp}

@@ -102,6 +102,7 @@ class SendActPage extends React.Component {
 								text={council.sendActDate ? translate.resend_act : translate.send_act}
 								loading={this.state.updating}
 								loadingColor={primary}
+								id="send-act-button"
 								disabled={this.state.updating}
 								color={'white'}
 								textStyle={{
@@ -121,14 +122,15 @@ class SendActPage extends React.Component {
 							items={
 								<React.Fragment>
 									<MenuItem
+										id="send-act-selected-participants-option"
 										onClick={() => this.setState({
 											sendAct: true
-										})
-										}
+										})}
 									>
 										{translate.send_to_selected_participants}
 									</MenuItem>
 									<MenuItem
+										id="send-act-all-convened-option"
 										onClick={() => this.setState({
 											allConvened: true
 										})
@@ -137,6 +139,7 @@ class SendActPage extends React.Component {
 										{translate.send_to_all_convened}
 									</MenuItem>
 									<MenuItem
+										id="send-act-all-attendants-option"
 										onClick={() => this.setState({
 											attendants: true
 										})

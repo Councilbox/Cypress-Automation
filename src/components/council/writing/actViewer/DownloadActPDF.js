@@ -38,6 +38,7 @@ const DownloadActPDF = ({ client, council, translate }) => {
 		<BasicButton
 			text={translate.export_original_act}
 			color={'white'}
+			id="download-act-button"
 			loading={downloading}
 			type="flat"
 			loadingColor={secondary}
@@ -63,33 +64,5 @@ const DownloadActPDF = ({ client, council, translate }) => {
 		/>
 	);
 };
-
-/*
-<BasicButton
-text={translate.export_original_act}
-color={secondary}
-loading={downloading}
-buttonStyle={{ marginTop: "0.5em" }}
-textStyle={{
-color: "white",
-fontWeight: "700",
-fontSize: "0.9em",
-textTransform: "none"
-}}
-icon={
-<FontAwesome
-name={"file-pdf-o"}
-style={{
-fontSize: "1em",
-color: "white",
-marginLeft: "0.3em"
-}}
-/>
-}
-textPosition="after"
-onClick={downloadPDF}
-/>
-
-*/
 
 export default withApollo(DownloadActPDF);
