@@ -21,5 +21,7 @@ Cypress.config('UniqueNumber', `${Math.floor(Math.random() * 10000000000000)}`)
 
 require('cypress-xpath')
 
+import 'cypress-mochawesome-reporter/register';
+
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
