@@ -106,12 +106,17 @@ const DocumentEditor = ({
 	const opcionesMenu = () => (
 		<React.Fragment>
 			<div style={{ width: '98%', display: 'flex', padding: '1em 1em ' }}>
-				<i className="material-icons" style={{
-					color: primary, fontSize: '14px', cursor: 'pointer', paddingRight: '0.3em', marginTop: '4px'
-				}} onClick={() => setState({
-					...state,
-					hide: !hide
-				})}>
+				<i
+					className="material-icons"
+					style={{
+						color: primary, fontSize: '14px', cursor: 'pointer', paddingRight: '0.3em', marginTop: '4px'
+					}}
+					onClick={() => setState({
+						...state,
+						hide: !hide
+					})}
+					id="document-editor-toggle-drawer"
+				>
 					help
 				</i>
 				{hide
@@ -140,6 +145,7 @@ const DocumentEditor = ({
 									key={item.id}
 									addItem={addItem}
 									id={item.id}
+									type={item.type}
 								>
 									<div >
 										<div style={{ fontSize: '16px', fontWeight: 'bold', color: '#a09aa0' }}>{translate[item.label] || item.label}</div>
@@ -175,10 +181,7 @@ const DocumentEditor = ({
 						}}>
 							{opcionesMenu()}
 						</div>
-
 					}
-
-
 					<div style={{
 						width: '100%', position: collapse && 'relative', height: 'calc( 100% - 3.5em )', justifyContent: collapse ? 'center' : '', display: collapse ? 'flex' : ''
 					}}>
@@ -186,7 +189,6 @@ const DocumentEditor = ({
 							&& <div style={{ display: 'flex', justifyContent: 'space-between', padding: '1em 0em ' }}>
 								<div style={{ display: 'flex' }}>
 									{documentMenu}
-									{/* MENU EXTERNO */}
 								</div>
 								<div style={{ display: 'flex' }}>
 									{options.doubleColumn
@@ -201,6 +203,7 @@ const DocumentEditor = ({
 													textTransform: 'none'
 												}}
 												textPosition="after"
+												id="document-editor-edit-first-column"
 												onClick={() => changeToColumn(1)}
 												buttonStyle={{
 													boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.08)',
@@ -212,6 +215,7 @@ const DocumentEditor = ({
 											/>
 											<BasicButton
 												text={'Columna 2'}
+												id="document-editor-edit-second-column"
 												color={column === 2 ? secondary : 'white'}
 												textStyle={{
 													color: column === 2 ? 'white' : 'black',
@@ -274,6 +278,7 @@ const DocumentEditor = ({
 												height: '3em',
 												textTransform: 'none'
 											}}
+											id="document-editor-open-preview-button"
 											className="withShadow"
 											onClick={() => {
 												setState({
@@ -311,6 +316,7 @@ const DocumentEditor = ({
 											height: '3em',
 										}}
 										className="withShadow"
+										id="document-editor-close-preview-button"
 										onClick={() => setState({
 											...state,
 											collapse: !collapse,
@@ -712,7 +718,12 @@ const CajaLogicBlocks = ({
 				{translate[item.label] || item.label}
 			</div>
 			<div style={{ marginLeft: '0.3em', marginRight: '0.3em' }}>
-				<i className="material-icons" style={{ cursor: 'pointer', color: '#979797' }} onClick={() => addItem(itemInfo)}>
+				<i
+					className="material-icons"
+					style={{ cursor: 'pointer', color: '#979797' }}
+					onClick={() => addItem(itemInfo)}
+					id={`logic-block-${item.type}`}
+				>
 					arrow_right_alt
 				</i>
 			</div>

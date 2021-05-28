@@ -371,6 +371,7 @@ const ActEditor = ({
 			/>
 			<BasicButton
 				text={translate.save}
+				id="council-act-save-button"
 				color={primary}
 				onClick={updateAct}
 				loading={saving}
@@ -389,6 +390,7 @@ const ActEditor = ({
 			/>
 			<BasicButton
 				text={translate.send_draft_phone_button}
+				id="council-act-send-draft-button"
 				color={secondary}
 				onClick={() => setSendActDraft(true)}
 				loading={saving}
@@ -435,6 +437,7 @@ const ActEditor = ({
 						{translate.finish_and_aprove_act}
 					</span>
 				}
+				id="council-act-approve-button"
 				color={secondary}
 				textStyle={{
 					color: 'white',
@@ -486,6 +489,7 @@ const ActEditor = ({
 								</span>
 							}
 							color={secondary}
+							id="council-act-approve-button"
 							textStyle={{
 								color: 'white',
 								fontSize: '0.9em',
@@ -507,6 +511,7 @@ const ActEditor = ({
 						<BasicButton
 							text={translate.save_preview_act}
 							color={'white'}
+							id="council-act-send-to-vote-button"
 							textStyle={{
 								color: primary,
 								fontWeight: '700',
