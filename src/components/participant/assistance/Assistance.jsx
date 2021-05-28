@@ -86,11 +86,18 @@ const Assistance = ({
 			};
 		}
 
+		const getInitialAttendanceIntention = participantData => {
+			if (participantData.assistanceIntention === PARTICIPANT_STATES.DELEGATED && !participantData.representative) {
+				return defaultIntention;
+			}
+			return Number.isNaN(participantData.assistanceIntention) ? defaultIntention : participantData.assistanceIntention;
+		};
+
 		if (participant.represented && participant.represented.length > 0) {
 			const represented = participant.represented[0];
 			if (represented.assistanceIntention === PARTICIPANT_STATES.DELEGATED) {
 				return {
-					assistanceIntention: represented.assistanceIntention || defaultIntention,
+					assistanceIntention: getInitialAttendanceIntention(represented),
 					delegateId: represented.delegateId,
 					delegateInfoUser: represented.state === PARTICIPANT_STATES.DELEGATED ? represented.representative : null
 				};
@@ -98,7 +105,7 @@ const Assistance = ({
 		}
 
 		return {
-			assistanceIntention: Number.isNaN(participant.assistanceIntention) ? defaultIntention : participant.assistanceIntention,
+			assistanceIntention: getInitialAttendanceIntention(participant),
 			delegateId: participant.delegateId,
 			delegateInfoUser: participant.representative
 		};
@@ -415,11 +422,8 @@ const Assistance = ({
 							<RichTextInput
 								errorText={state.commentError}
 								translate={translate}
-								value={
-									participant.assistanceComment
-										? participant.assistanceComment
-										: ''
-								}
+								disableTags={true}
+								value={participant.assistanceComment || ''}
 								placeholder={council.companyId !== AECOC_ID ? translate.attendance_comment : ''}
 								stylesQuill={{ background: '#f0f3f6' }}
 								onChange={value => setState({

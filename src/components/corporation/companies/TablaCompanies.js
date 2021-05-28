@@ -22,6 +22,7 @@ import NewCompanyPage from '../../company/new/NewCompanyPage';
 import RemoveCompany from './RemoveCompany';
 import DeleteCompany from './DeleteCompany';
 import { isMobile } from '../../../utils/screen';
+import { companyTypes as companyTypesQuery } from '../../../queries';
 
 const queryLimit = 20;
 
@@ -30,6 +31,7 @@ const corporationCompanies = gql`
 		corporationCompanies(filters: $filters, options: $options, corporationId: $corporationId){
 			list{
 				id
+				type
 				businessName
 				logo
 			}
@@ -39,6 +41,7 @@ const corporationCompanies = gql`
 `;
 
 const TablaCompanies = ({ client, translate, company }) => {
+	const [companyTypes, setCompanyTypes] = React.useState(null);
 	const [companies, setCompanies] = React.useState(false);
 	const [companiesPage, setCompaniesPage] = React.useState(1);
 	const [companiesTotal, setCompaniesTotal] = React.useState(false);
@@ -72,6 +75,25 @@ const TablaCompanies = ({ client, translate, company }) => {
 		}
 	};
 
+	const getCompanyTypes = async () => {
+		const response = await client.query({
+			query: companyTypesQuery,
+		});
+
+		if (response.data.companyTypes) {
+			setCompanyTypes(response.data.companyTypes.reduce((acc, curr) => {
+				return {
+					...acc,
+					[curr.value]: curr.label
+				};
+			}, {}));
+		}
+	};
+
+	React.useEffect(() => {
+		getCompanyTypes();
+	}, [companyTypes]);
+
 	React.useEffect(() => {
 		getCompanies();
 	}, [state.filterTextCompanies, companiesPage]);
@@ -83,6 +105,10 @@ const TablaCompanies = ({ client, translate, company }) => {
 	if (addEntidades) {
 		return <NewCompanyPage requestClose={() => setEntidades(false)} buttonBack={true} />;
 	}
+
+	const printCompanyType = type => {
+		return translate[companyTypes[type]];
+	};
 
 	if (isMobile) {
 		return (
@@ -164,7 +190,7 @@ const TablaCompanies = ({ client, translate, company }) => {
 														{translate.company_type}
 													</GridItem>
 													<GridItem xs={7} md={7}>
-														S.L.
+														{printCompanyType(item.type)}
 													</GridItem>
 												</Grid>
 											</CardContent>
@@ -321,7 +347,6 @@ const TablaCompanies = ({ client, translate, company }) => {
 						<div style={{
 							color: primary, fontWeight: 'bold', width: 'calc( 40% )', textAlign: 'left'
 						}}>
-
 						</div>
 					</div>
 					<div style={{ height: 'calc( 100% - 13em )' }}>
@@ -342,8 +367,7 @@ const TablaCompanies = ({ client, translate, company }) => {
 										{item.id}
 									</Cell>
 									<Cell width={15}>
-										S.L.
-										{/* {item.companyType} */}
+										{printCompanyType(item.type)}
 									</Cell>
 									<Cell width={40} style={{ display: 'flex', overflow: '' }}>
 										<RemoveCompany

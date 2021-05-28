@@ -1,7 +1,7 @@
 import React from 'react';
 import { MenuItem } from 'material-ui';
 import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
 import { flowRight as compose } from 'lodash';
 import { toast } from 'react-toastify';
 import {
@@ -35,9 +35,12 @@ import { TAG_TYPES } from '../../company/drafts/draftTags/utils';
 
 
 const StepNotice = ({
-	data, translate, company, ...props
+	translate, company, client, ...props
 }) => {
 	const [council, setCouncil] = React.useState({});
+	const [data, setData] = React.useState({
+		loading: true
+	});
 	const [placeModal, setPlaceModal] = React.useState(false);
 	const [statuteModal, setStatuteModal] = React.useState(false);
 	const [censusModal, setCensusModal] = React.useState(false);
@@ -55,6 +58,25 @@ const StepNotice = ({
 		dateStart: null,
 		dateStart2NdCall: null
 	});
+
+	const getData = React.useCallback(async () => {
+		const response = await client.query({
+			query: councilStepOne,
+			variables: {
+				id: props.councilID,
+				companyId: company.id
+			},
+		});
+
+		setData({
+			...response.data,
+			loading: false
+		});
+	}, [props.councilID]);
+
+	React.useEffect(() => {
+		getData();
+	}, [getData]);
 
 	const setCouncilWithRemoveValues = React.useCallback(async () => {
 		if (!data.loading && !council.id) {
@@ -191,7 +213,7 @@ const StepNotice = ({
 	};
 
 	const reloadData = async () => {
-		const response = await data.refetch();
+		const response = await getData();
 		loadDraft({ text: response.data.council.conveneText });
 		loadFooterDraft({ text: response.data.council.conveneFooter });
 	};
@@ -268,7 +290,7 @@ const StepNotice = ({
 		if (!checkRequiredFields()) {
 			const response = await updateCouncil(2);
 			if (!response.data.errors) {
-				data.refetch();
+				getData();
 				props.nextStep();
 			}
 		}
@@ -338,7 +360,7 @@ const StepNotice = ({
 				name
 			});
 
-			await data.refetch();
+			await getData();
 			checkAssociatedCensus(statuteId);
 			updateDate();
 		}
@@ -719,20 +741,10 @@ const changeCensus = gql`
 `;
 
 export default compose(
-	graphql(councilStepOne, {
-		name: 'data',
-		options: props => ({
-			variables: {
-				id: props.councilID,
-				companyId: props.company.id
-			},
-			notifyOnNetworkStatusChange: true
-		})
-	}),
 	graphql(changeCensus, {
 		name: 'changeCensus'
 	}),
-
+	withApollo,
 	graphql(changeStatuteMutation, {
 		name: 'changeStatute'
 	}),

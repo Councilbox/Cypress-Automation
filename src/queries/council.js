@@ -169,6 +169,7 @@ export const startCouncil = gql`
 		$firstOrSecondConvene: Int
 		$qualityVoteId: Int
 		$videoOptions: VideoOptions
+		$timezone: String
 	) {
 		startCouncil(
 			councilId: $councilId
@@ -177,6 +178,7 @@ export const startCouncil = gql`
 			firstOrSecondConvene: $firstOrSecondConvene
 			qualityVoteId: $qualityVoteId
 			videoOptions: $videoOptions
+			timezone: $timezone
 		) {
 			success
 			message

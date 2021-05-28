@@ -18,6 +18,7 @@ import {
 import { getPrimary } from '../../../../styles/colors';
 import { COUNCIL_TYPES, DELEGATION_USERS_LOAD } from '../../../../constants';
 import { existsQualityVote, councilHasVideo } from '../../../../utils/CBX';
+import { moment } from '../../../../containers/App';
 import ConveneSelector from '../ConveneSelector';
 import { startCouncil as startCouncilMutation } from '../../../../queries/council';
 import { useOldState } from '../../../../hooks';
@@ -189,7 +190,8 @@ const StartCouncilButton = ({
 					secretaryId,
 					qualityVoteId,
 					firstOrSecondConvene,
-					videoOptions: state.video
+					videoOptions: state.video,
+					timezone: moment().utcOffset().toString(),
 				}
 			});
 
