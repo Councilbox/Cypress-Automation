@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import gql from 'graphql-tag';
 import Paper from 'material-ui/Paper';
 import { MenuItem } from 'material-ui';
+import { withApollo } from 'react-apollo';
 import logo from '../assets/img/logo.png';
 import icono from '../assets/img/logo-icono.png';
 import LanguageSelector from './menus/LanguageSelector';
@@ -19,7 +21,17 @@ import { HEADER_HEIGHT } from '../styles/constants';
 
 
 const Header = ({
-	actions, backButton, windowSize, languageSelector, drawerIcon, translate, councilIsFinished, setSelectHeadFinished, selectHeadFinished, contactAdmin, ...props
+	actions,
+	backButton,
+	windowSize,
+	languageSelector,
+	drawerIcon,
+	translate,
+	councilIsFinished,
+	setSelectHeadFinished,
+	selectHeadFinished,
+	contactAdmin,
+	...props
 }) => {
 	const [modal, setModal] = React.useState(false);
 	const language = translate && translate.selectedLanguage;
@@ -161,6 +173,12 @@ const Header = ({
 						{`v${CLIENT_VERSION}`}
 					</span>
 				}
+				{props.participantLanguageSelector && (
+					<ParticipantLanguageSelector
+						participant={props.participant}
+						selectedLanguage={language}
+					/>
+				)}
 				{languageSelector && (
 					<LanguageSelector selectedLanguage={language} />
 				)}
@@ -176,6 +194,30 @@ const Header = ({
 		</Paper>
 	);
 };
+
+const ParticipantLanguageSelector = withApollo(({ selectedLanguage, client }) => {
+	const updateParticipantLanguage = async language => {
+		await client.mutate({
+			mutation: gql`
+				mutation updateParticipantLanguage($language: String!){
+					updateParticipantLanguage(language: $language) {
+						success
+					}
+				}
+			`,
+			variables: {
+				language
+			}
+		});
+	};
+
+	return (
+		<LanguageSelector
+			selectedLanguage={selectedLanguage}
+			onChange={updateParticipantLanguage}
+		/>
+	);
+});
 
 
 export default withWindowSize(Header);
