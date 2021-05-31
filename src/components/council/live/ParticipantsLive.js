@@ -261,11 +261,11 @@ const ParticipantsLive = ({
 							justifyContent: 'space-between'
 						}}
 					>
-						<MuteCamToggleButton
+						{/* <MuteCamToggleButton
 							translate={translate}
 							participant={participant}
 							refetch={getData}
-						/>
+						/> */}
 					</GridItem>
 					<GridItem
 						xs={isMobile ? 2 : 1}
@@ -277,11 +277,11 @@ const ParticipantsLive = ({
 							justifyContent: 'space-between'
 						}}
 					>
-						<MuteToggleButton
+						{/* <MuteToggleButton
 							translate={translate}
 							participant={participant}
 							refetch={getData}
-						/>
+						/> */}
 					</GridItem>
 					<GridItem
 						xs={isMobile ? 2 : 1}
