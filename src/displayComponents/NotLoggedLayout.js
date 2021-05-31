@@ -49,6 +49,7 @@ const NotLoggedLayout = ({
 			<Header
 				translate={translate}
 				helpIcon={helpIcon}
+				participantLanguageSelector={props.participantLanguageSelector}
 				languageSelector={languageSelector}
 				councilIsFinished={councilIsFinished}
 				setSelectHeadFinished={setSelectHeadFinished}
