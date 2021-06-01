@@ -104,8 +104,6 @@ export const QuorumDetails = withApollo(({
 		return ((value / base) * 100).toFixed(3);
 	};
 
-	const getVotingPercentage = value => ((value / totalVotes) * 100).toFixed(3);
-
 	const downloadPDF = async () => {
 		await downloadHTMLAsPDF({
 			name: `Quorum_${council.name.replace(/\s/g, '_')}_${moment().format('DD/MM/YYYY_hh_mm_ss')}`,
