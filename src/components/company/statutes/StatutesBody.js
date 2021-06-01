@@ -17,7 +17,6 @@ import {
 } from '../../../displayComponents';
 import {
 	createStatute as createStatuteMutation,
-	deleteStatute as deleteStatuteMutation,
 	statutes,
 	updateStatute as updateStatuteMutation
 } from '../../../queries';
@@ -25,7 +24,6 @@ import { censuses } from '../../../queries/census';
 import { store } from '../../../containers/App';
 import { setUnsavedChanges } from '../../../actions/mainActions';
 import StatuteEditor from './StatuteEditor';
-import StatuteNameEditor from './StatuteNameEditor';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import { checkForUnclosedBraces, removeTypenameField } from '../../../utils/CBX';
 import { isMobile } from '../../../utils/screen';
@@ -177,14 +175,6 @@ const StatutesPage = ({
 		return hasError;
 	}
 
-	const openDeleteModal = id => {
-		setState({
-			...state,
-			deleteModal: true,
-			deleteID: id
-		});
-	};
-
 	const openEditModal = index => {
 		setState({
 			...state,
@@ -232,26 +222,6 @@ const StatutesPage = ({
 				await data.refetch();
 				store.dispatch(setUnsavedChanges(false));
 			}
-		}
-	};
-
-	const deleteStatute = async () => {
-		const response = await props.deleteStatute({
-			variables: {
-				statuteId: state.deleteID
-			}
-		});
-		if (response) {
-			data.refetch();
-			setState({
-				...state,
-				statute: data.companyStatutes[0],
-				selectedStatute: 0,
-				deleteModal: false,
-				error: false,
-				loading: false,
-				success: false
-			});
 		}
 	};
 
@@ -411,7 +381,6 @@ const StatutesPage = ({
 							additionalTabAction={showNewStatute}
 							translate={translate}
 							editAction={openEditModal}
-							deleteAction={openDeleteModal}
 						>
 						</VTabs>
 					</div>
@@ -558,16 +527,6 @@ const StatutesPage = ({
 					/>
 				</div>
 			)}
-			<AlertConfirm
-				title={translate.attention}
-				bodyText={translate.question_delete}
-				open={state.deleteModal}
-				buttonAccept={translate.delete}
-				buttonCancel={translate.cancel}
-				modal={true}
-				acceptAction={deleteStatute}
-				requestClose={() => setState({ ...state, deleteModal: false, deleteId: null })}
-			/>
 			<UnsavedChangesModal
 				cancelAction={() => {
 					restoreStatute();
@@ -609,28 +568,18 @@ const StatutesPage = ({
 				}
 				title={translate.add_council_type}
 			/>
-			{state.editModal !== false
-				&& <StatuteNameEditor
-					requestClose={() => setState({ ...state, editModal: false })
-					}
-					key={companyStatutes[state.editModal].id}
-					statute={companyStatutes[state.editModal]}
-					translate={translate}
-					refetch={data.refetch}
-				/>
-			}
 		</>
 	);
 
-	
-
 	return (
-		<StatutesList
-			statutes={data.companyStatutes}
-			//company={company}
-			translate={translate}
-			refetch={data.refetch}
-		/>
+		<>
+			<StatutesList
+				statutes={data.companyStatutes}
+				//company={company}
+				translate={translate}
+				refetch={data.refetch}
+			/>
+		</>
 	);
 
 	return (body());
@@ -641,9 +590,6 @@ export default withSharedProps()(
 	compose(
 		graphql(updateStatuteMutation, {
 			name: 'updateStatute'
-		}),
-		graphql(deleteStatuteMutation, {
-			name: 'deleteStatute'
 		}),
 		graphql(createStatuteMutation, {
 			name: 'createStatute'

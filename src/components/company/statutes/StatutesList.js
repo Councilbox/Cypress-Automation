@@ -1,17 +1,43 @@
 import React from 'react';
+import { withApollo } from 'react-apollo';
+import { deleteStatute as deleteStatuteMutation, } from '../../../queries';
 import { TableCell, TableRow, Tooltip } from 'material-ui';
-import { CloseIcon, EnhancedTable } from '../../../displayComponents';
-import { moment } from '../../../containers/App';
+import { AlertConfirm, CloseIcon, EnhancedTable } from '../../../displayComponents';
+import { client, moment } from '../../../containers/App';
 import { getPrimary } from '../../../styles/colors';
 import StatuteNameEditor from './StatuteNameEditor';
 
 
 const StatutesList = ({ statutes, translate, refetch, company }) => {
+	const [deleteId, setDeleteId] = React.useState(null);
 	const [editName, setEditName] = React.useState(null);
 	const primary = getPrimary();
 
+	const deleteStatute = async () => {
+		const response = await client.mutate({
+			mutation: deleteStatuteMutation,
+			variables: {
+				statuteId: deleteId
+			}
+		});
+		if (response) {
+			refetch();
+			setDeleteId(null);
+		}
+	};
+
 	return (
 		<>
+			<AlertConfirm
+				title={translate.attention}
+				bodyText={translate.question_delete}
+				open={deleteId}
+				buttonAccept={translate.delete}
+				buttonCancel={translate.cancel}
+				modal={true}
+				acceptAction={deleteStatute}
+				requestClose={() => setDeleteId(null)}
+			/>
 			<EnhancedTable
 				hideTextFilter={true}
 				translate={translate}
@@ -97,10 +123,7 @@ const StatutesList = ({ statutes, translate, refetch, company }) => {
 										}}
 										onClick={event => {
 											event.stopPropagation();
-											this.props.updateState({
-												deleteModal: true,
-												deletestatute: statute.id
-											});
+											setDeleteId(statute.id);
 										}}
 									/>
 								</span>
@@ -122,4 +145,4 @@ const StatutesList = ({ statutes, translate, refetch, company }) => {
 	);
 };
 
-export default StatutesList;
+export default withApollo(StatutesList);
