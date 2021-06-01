@@ -29,6 +29,7 @@ import StatuteNameEditor from './StatuteNameEditor';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import { checkForUnclosedBraces, removeTypenameField } from '../../../utils/CBX';
 import { isMobile } from '../../../utils/screen';
+import StatutesList from './StatutesList';
 
 
 const StatutesPage = ({
@@ -619,6 +620,17 @@ const StatutesPage = ({
 				/>
 			}
 		</>
+	);
+
+	
+
+	return (
+		<StatutesList
+			statutes={data.companyStatutes}
+			//company={company}
+			translate={translate}
+			refetch={data.refetch}
+		/>
 	);
 
 	return (body());

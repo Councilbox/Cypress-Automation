@@ -732,6 +732,7 @@ export const statutes = gql`
 			id
 			companyId
 			title
+			lastEdited
 			existPublicUrl
 			language
 			companyType
