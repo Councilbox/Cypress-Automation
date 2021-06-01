@@ -11,7 +11,8 @@ import {
 	hasVotation,
 	isConfirmationRequest,
 	isCustomPoint,
-	getPercentage as calculatePercentage
+	getPercentage as calculatePercentage,
+	getAgendaTotalVotes
 } from '../../../../utils/CBX';
 import { getSecondary } from '../../../../styles/colors';
 import { useDownloadHTMLAsPDF, usePolling } from '../../../../hooks';
@@ -266,8 +267,9 @@ export const QuorumDetails = withApollo(({
 								</TableCell>
 							</TableHead>
 							<TableBody>
-								{agendas.map(point => (
-									<TableRow key={point.id}>
+								{agendas.map(point => {
+									const pointTotalVotes = getAgendaTotalVotes(point);
+									return (<TableRow key={point.id}>
 										<TableCell>
 											<div className="truncate" style={{ width: '6em' }}>
 												{point.agendaSubject.substr(0, 10)}
@@ -298,19 +300,19 @@ export const QuorumDetails = withApollo(({
 															{showNumParticipations(point.positiveVotings + point.positiveManual, company, council.statute)}
 														</TableCell>
 														<TableCell>
-															{`${getVotingPercentage(point.positiveVotings + point.positiveManual)}%`}
+															{`${getPercentage(point.positiveVotings + point.positiveManual, pointTotalVotes)}%`}
 														</TableCell>
 														<TableCell>
 															{showNumParticipations(point.negativeVotings + point.negativeManual, company, council.statute)}
 														</TableCell>
 														<TableCell>
-															{`${getVotingPercentage(point.negativeVotings + point.negativeManual)}%`}
+															{`${getPercentage(point.negativeVotings + point.negativeManual, pointTotalVotes)}%`}
 														</TableCell>
 														<TableCell>
 															{showNumParticipations(point.abstentionVotings + point.abstentionManual, company, council.statute)}
 														</TableCell>
 														<TableCell>
-															{`${getVotingPercentage(point.abstentionVotings + point.abstentionManual)}%`}
+															{`${getPercentage(point.abstentionVotings + point.abstentionManual, pointTotalVotes)}%`}
 														</TableCell>
 													</>
 												}
@@ -329,8 +331,9 @@ export const QuorumDetails = withApollo(({
 
 										}
 
-									</TableRow>
-								))}
+									</TableRow>);
+								}
+								)}
 							</TableBody>
 						</Table>
 					}
