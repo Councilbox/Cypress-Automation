@@ -3,9 +3,10 @@ import { withApollo } from 'react-apollo';
 import { deleteStatute as deleteStatuteMutation, } from '../../../queries';
 import { TableCell, TableRow, Tooltip } from 'material-ui';
 import { AlertConfirm, CloseIcon, EnhancedTable } from '../../../displayComponents';
-import { client, moment } from '../../../containers/App';
+import { bHistory, client, moment } from '../../../containers/App';
 import { getPrimary } from '../../../styles/colors';
 import StatuteNameEditor from './StatuteNameEditor';
+import withSharedProps from '../../../HOCs/withSharedProps';
 
 
 const StatutesList = ({ statutes, translate, refetch, company }) => {
@@ -107,9 +108,7 @@ const StatutesList = ({ statutes, translate, refetch, company }) => {
 									}}
 									onClick={event => {
 										event.stopPropagation();
-										this.props.updateState({
-											editId: statute.id
-										});
+										bHistory.push(`/company/${company.id}/statutes/edit/${statute.id}`);
 									}}
 								></i>
 							</Tooltip>
@@ -145,4 +144,4 @@ const StatutesList = ({ statutes, translate, refetch, company }) => {
 	);
 };
 
-export default withApollo(StatutesList);
+export default withApollo(withSharedProps()(StatutesList));
