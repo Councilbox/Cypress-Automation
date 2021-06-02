@@ -63,18 +63,18 @@ const getCustomRecount = (ballots, itemId) => ballots.filter(ballot => ballot.it
 const buildAgendaText = (agenda, translate, data) => {
 	if (isCustomPoint(agenda.subjectType)) {
 		return `
-<div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
-<b>${translate.votings}:</b>
-${agenda.items.reduce((acc, item) => `${acc}
-<li>
-${item.value}: ${showNumParticipations(getCustomRecount(agenda.ballots, item.id), data.company, data.council.statute)}
-</li>
-`, '')}
-<li>
-${translate.abstentions}: ${showNumParticipations(getCustomRecount(agenda.ballots, -1), data.company, data.council.statute)}
-</li>
-</div>
-`;
+			<div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
+				<b>${translate.votings}:</b>
+				${agenda.items.reduce((acc, item) => `${acc}
+				<li>
+					${item.value}: ${showNumParticipations(getCustomRecount(agenda.ballots, item.id), data.company, data.council.statute)}
+				</li>
+				`, '')}
+				<li>
+					${translate.abstentions}: ${showNumParticipations(getCustomRecount(agenda.ballots, -1), data.company, data.council.statute)}
+				</li>
+			</div>
+		`;
 	}
 
 	if (isConfirmationRequest(agenda.subjectType)) {
@@ -85,16 +85,16 @@ ${translate.abstentions}: ${showNumParticipations(getCustomRecount(agenda.ballot
 		}
 
 		return `
-<div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
-<b>${translate.votings}: </b>
-<br> ${
-	translate.accept.toUpperCase()}: ${
-	getAgendaResult(agenda, 'NUM_POSITIVE', data)} | ${
-	translate.refuse.toUpperCase()}: ${
-	getAgendaResult(agenda, 'NUM_NEGATIVE', data)} | ${translate.noVote.toUpperCase()}: ${getAgendaResult(agenda, 'NUM_NO_VOTE', data)}
-<br>
-</div>
-`;
+			<div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
+			<b>${translate.votings}: </b>
+			<br> ${
+				translate.accept.toUpperCase()}: ${
+				getAgendaResult(agenda, 'NUM_POSITIVE', data)} | ${
+				translate.refuse.toUpperCase()}: ${
+				getAgendaResult(agenda, 'NUM_NEGATIVE', data)} | ${translate.noVote.toUpperCase()}: ${getAgendaResult(agenda, 'NUM_NO_VOTE', data)}
+			<br>
+			</div>
+		`;
 	}
 
 	return `

@@ -72,6 +72,7 @@ const Block = ({
 		<RichTextInput
 			borderless={true}
 			ref={editor}
+			id={`text-editor-${props.value.type}`}
 			value={props.column === 2 ? props.value.secondaryText || '' : props.value.text || ''}
 			translate={translate}
 			// tags={generateActTags(null, translate)}
@@ -149,7 +150,11 @@ const Block = ({
 
 			<div style={{ marginTop: '1em' }}>
 				{props.value.editButton
-					&& <Button style={{ color: getPrimary(), minWidth: '0', padding: '0' }} onClick={() => hoverAndSave(props.id, text)}>
+					&& <Button
+						style={{ color: getPrimary(), minWidth: '0', padding: '0' }}
+						onClick={() => hoverAndSave(props.id, text)}
+						id={`toggle-editor-${props.value.type}`}
+					>
 						{/* onClick={props.updateCouncilActa} */}
 						{editMode ?
 							translate.accept
@@ -180,7 +185,7 @@ const Block = ({
 
 
 export const BorderBox = ({
-	colorBorder, children, addItem, itemInfo, icon, stylesBody, toggle, removeBlock, id, noIcon
+	colorBorder, children, addItem, itemInfo, icon, stylesBody, toggle, removeBlock, id, noIcon, type
 }) => (
 	<div style={{
 		width: '100%', background: 'white', boxShadow: ' 0 2px 4px 5px rgba(0, 0, 0, 0.11)', borderRadius: '4px', margin: '0.8em 0px', ...stylesBody
@@ -220,14 +225,23 @@ export const BorderBox = ({
 							marginLeft: '0.3em', marginRight: '0.8em', height: '100%', display: 'flex', alignItems: 'center'
 						}}>
 							{toggle ?
-								<span style={{ cursor: 'pointer', color: colorBorder }} onClick={() => removeBlock(id)}>
+								<span
+									style={{ cursor: 'pointer', color: colorBorder }}
+									onClick={() => removeBlock(id)}
+									id={`remove-block-${itemInfo.type}`}
+								>
 									{!itemInfo.hide ?
 										<i className="fa fa-check-square-o" aria-hidden="true" style={{ color: 'green', fontSize: '20px' }}></i>
 										: <i className="fa fa-square-o" aria-hidden="true" style={{ color: 'grey', fontSize: '20px' }}></i>
 									}
 								</span>
 								: !noIcon
-								&& <i className="material-icons" style={{ cursor: 'pointer', color: '#979797' }} onClick={() => addItem(id)}>
+								&& <i
+									className="material-icons"
+									style={{ cursor: 'pointer', color: '#979797' }}
+									onClick={() => addItem(id)}
+									id={`document-add-block-${type}`}
+								>
 									arrow_right_alt
 								</i>
 							}

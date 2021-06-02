@@ -71,7 +71,7 @@ const OrganizationEntitiesTable = ({
 				<div style={{
 					color: primary, fontWeight: 'bold', width: 'calc( 100% / 3 )', textAlign: 'left'
 				}}>
-Id
+					Id
 				</div>
 				<div style={{
 					color: primary, fontWeight: 'bold', width: 'calc( 100% / 3 )', textAlign: 'left'

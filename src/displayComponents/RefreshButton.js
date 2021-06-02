@@ -4,7 +4,7 @@ import Icon from './Icon';
 import { getSecondary } from '../styles/colors';
 
 const RefreshButton = ({
-	tooltip, loading, onClick, elevation, buttonStyle
+	tooltip, loading, onClick, elevation, buttonStyle, id = ''
 }) => (
 	<FilterButton
 		tooltip={tooltip}
@@ -12,6 +12,7 @@ const RefreshButton = ({
 		buttonStyle={buttonStyle}
 		elevation={elevation}
 		size="2em"
+		id={id}
 		onClick={onClick}
 	>
 		<div
@@ -25,7 +26,7 @@ const RefreshButton = ({
 				className="material-icons"
 				style={{ color: getSecondary(), fontSize: '1.2em' }}
 			>
-cached
+				cached
 			</Icon>
 		</div>
 	</FilterButton>

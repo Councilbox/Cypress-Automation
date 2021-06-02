@@ -85,32 +85,32 @@ const SendToSignButton = ({
 				bodyText={
 					<>
 						{loading >= 1
-&& <div style={{ width: '90%', display: 'flex', justifyContent: 'space-between' }}>
-	<div>
-		{translate.creant_signatura}
-	</div>
-	<div>
-		{loading > 1 ?
-			<i className="fa fa-check" style={{ color: 'green' }}></i>
-			: <LoadingSection size={14} />
+							&& <div style={{ width: '90%', display: 'flex', justifyContent: 'space-between' }}>
+								<div>
+									{translate.creant_signatura}
+								</div>
+								<div>
+									{loading > 1 ?
+										<i className="fa fa-check" style={{ color: 'green' }}></i>
+										: <LoadingSection size={14} />
 
-		}
-	</div>
-</div>
+									}
+								</div>
+							</div>
 						}
 						{loading >= 2
-&& <div style={{ width: '90%', display: 'flex', justifyContent: 'space-between' }}>
-	<div>
-		{translate.uploading_act_to_sign}
-	</div>
-	<div>
-		{loading > 2 ?
-			<i className="fa fa-check" style={{ color: 'green' }}></i>
-			: <LoadingSection size={14} />
+							&& <div style={{ width: '90%', display: 'flex', justifyContent: 'space-between' }}>
+								<div>
+									{translate.uploading_act_to_sign}
+								</div>
+								<div>
+									{loading > 2 ?
+										<i className="fa fa-check" style={{ color: 'green' }}></i>
+										: <LoadingSection size={14} />
 
-		}
-	</div>
-</div>
+									}
+								</div>
+							</div>
 						}
 					</>
 				}
@@ -119,6 +119,7 @@ const SendToSignButton = ({
 				text={translate.new_send_to_sign}
 				color={'white'}
 				// loading={downloading}
+				id="send-act-to-sign-button"
 				onClick={createSignature}
 				type="flat"
 				loadingColor={secondary}

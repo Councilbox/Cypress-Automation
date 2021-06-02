@@ -192,7 +192,7 @@ const EarlyVotes = ({
 							{renderParticipantInfo(vote)}
 						</TableCell>
 						<TableCell style={{ fontSize: '0.95em' }}>
-							{!hasRightToVote(vote) ?
+							{!hasRightToVote(vote.author) ?
 								translate.cant_vote_this_point
 								: <>
 									{(hasRightToVote(vote.author) ? `${showNumParticipations(vote.author.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.author.numParticipations)}` : 0)}

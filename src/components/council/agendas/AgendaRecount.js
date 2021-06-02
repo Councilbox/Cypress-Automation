@@ -53,10 +53,7 @@ const AgendaRecount = ({
 		if (company.type === 10) {
 			return '';
 		}
-
-		// const total = council.statute.quorumPrototype === 0 ? (agenda.presentCensus + agenda.remoteCensus) : recount.partTotal;
-		const total = agenda.presentCensus + agenda.remoteCensus;
-
+		const total = agenda.positiveVotings + agenda.positiveManual + agenda.negativeVotings + agenda.negativeManual + agenda.abstentionVotings + agenda.abstentionManual + agenda.noVoteVotings + agenda.noVoteManual;
 
 		if (total === 0) {
 			return '(0%)';
