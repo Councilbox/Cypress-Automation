@@ -468,7 +468,6 @@ const AgendaCard = ({
 	agenda, translate, participant, refetch, council
 }) => {
 	const ownVote = CBX.findOwnVote(agenda.votings, participant);
-	const primary = getPrimary();
 
 	const agendaStateIcon = () => {
 		let title = '';
