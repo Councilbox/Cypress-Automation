@@ -75,8 +75,8 @@ const StatutesList = ({ statutes, translate, refetch, company }) => {
 				]}
 				companyID={company.id}
 			>
-				{statutes.map(statute => (
-					<TableRow key={statute.id}>
+				{statutes.map((statute, index) => (
+					<TableRow key={statute.id} id={`company-statute-${index}`}>
 						<TableCell>
 							{translate[statute.title]}
 						</TableCell>
@@ -98,6 +98,7 @@ const StatutesList = ({ statutes, translate, refetch, company }) => {
 											marginLeft: '0.2em',
 											color: primary
 										}}
+										id={`company-statute-visualize-${index}`}
 										onClick={event => {
 											event.stopPropagation();
 											bHistory.push(`/company/${company.id}/statutes/edit/${statute.id}`);
@@ -116,6 +117,7 @@ const StatutesList = ({ statutes, translate, refetch, company }) => {
 												marginLeft: '0.2em',
 												color: primary
 											}}
+											id={`company-statute-rename-${index}`}
 											onClick={event => {
 												event.stopPropagation();
 												setEditName(statute);
@@ -132,6 +134,7 @@ const StatutesList = ({ statutes, translate, refetch, company }) => {
 												marginLeft: '0.2em',
 												color: primary
 											}}
+											id={`company-statute-edit-${index}`}
 											onClick={event => {
 												event.stopPropagation();
 												bHistory.push(`/company/${company.id}/statutes/edit/${statute.id}`);
@@ -141,11 +144,11 @@ const StatutesList = ({ statutes, translate, refetch, company }) => {
 									<Tooltip title={translate.delete}>
 										<span>
 											<CloseIcon
-												id="statute-delete-button"
 												style={{
 													color: primary,
 													marginTop: '-10px'
 												}}
+												id={`company-statute-delete-${index}`}
 												onClick={event => {
 													event.stopPropagation();
 													setDeleteId(statute.id);

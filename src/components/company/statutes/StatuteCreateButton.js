@@ -51,6 +51,7 @@ const StatuteCreateButton = ({ company, translate, refetch }) => {
 		<>
 			<BasicButton
 				text={translate.add_council_type}
+				id="company-statute-create-button"
 				textStyle={{ fontWeight: '700', textTransform: 'none', color: 'white' }}
 				color={secondary}
 				icon={<ButtonIcon type="add" color="white" />}
