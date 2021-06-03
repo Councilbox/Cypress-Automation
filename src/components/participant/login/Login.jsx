@@ -93,6 +93,7 @@ const ParticipantLogin = ({
 		<NotLoggedLayout
 			translate={props.translate}
 			helpIcon={true}
+			participantLanguageSelector={true}
 			languageSelector={false}
 		>
 			{renderLogin ?

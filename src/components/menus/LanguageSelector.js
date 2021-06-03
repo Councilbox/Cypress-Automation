@@ -9,7 +9,11 @@ import { store } from '../../containers/App';
 
 const secondary = getSecondary();
 
-const LanguageSelector = ({ selectedLanguage, data }) => (
+const changeLanguage = language => {
+	store.dispatch(setLanguage(language));
+};
+
+const LanguageSelector = ({ selectedLanguage, data, onChange }) => (
 	<DropDownMenu
 		color="transparent"
 		text={selectedLanguage ? selectedLanguage.toUpperCase() : 'ES'}
@@ -26,7 +30,12 @@ const LanguageSelector = ({ selectedLanguage, data }) => (
 						<MenuItem
 							id={`language-${language.columnName}`}
 							key={`language_${language.columnName}`}
-							onClick={() => changeLanguage(language.columnName)}
+							onClick={() => {
+								if (onChange) {
+									onChange(language.columnName);
+								}
+								changeLanguage(language.columnName);
+							}}
 						>
 							{language.columnName.toUpperCase()}
 						</MenuItem>
@@ -36,9 +45,5 @@ const LanguageSelector = ({ selectedLanguage, data }) => (
 		}
 	/>
 );
-
-const changeLanguage = language => {
-	store.dispatch(setLanguage(language));
-};
 
 export default graphql(languages)(LanguageSelector);

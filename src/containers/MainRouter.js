@@ -221,7 +221,7 @@ const MainRouter = ({ company, user, location }) => {
 			/>
 			<Route
 				exact
-				path="/company/:company/statutes"
+				path="/company/:company/statutes/(edit)?/:statuteId?"
 				component={StatutesPage}
 			/>
 			<Route
