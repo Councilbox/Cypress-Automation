@@ -4,7 +4,7 @@ import withSharedProps from '../../../HOCs/withSharedProps';
 import StatutesBody from './StatutesBody';
 
 const StatutesPage = ({ match, translate }) => (
-	<CardPageLayout title={translate.council_types}>
+	<CardPageLayout title={translate.council_types} disableScroll={true}>
 		<StatutesBody
 			statuteId={match.params.statuteId}
 			companyId={+match.params.company}
