@@ -59,6 +59,7 @@ const StatuteCreateButton = ({ company, translate, refetch }) => {
 			<AlertConfirm
 				requestClose={() => setModal(false)}
 				open={modal}
+				loadingAction={loading}
 				acceptAction={createStatute}
 				buttonAccept={translate.accept}
 				buttonCancel={translate.cancel}
@@ -76,7 +77,7 @@ const StatuteCreateButton = ({ company, translate, refetch }) => {
 				title={translate.add_council_type}
 			/>
 		</>
-	)
+	);
 };
 
 export default withApollo(withSharedProps()(StatuteCreateButton));

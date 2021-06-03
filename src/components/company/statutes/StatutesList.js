@@ -1,7 +1,7 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
-import { deleteStatute as deleteStatuteMutation, } from '../../../queries';
 import { TableCell, TableRow, Tooltip } from 'material-ui';
+import { deleteStatute as deleteStatuteMutation } from '../../../queries';
 import { AlertConfirm, CloseIcon, EnhancedTable } from '../../../displayComponents';
 import { bHistory, client, moment } from '../../../containers/App';
 import { getPrimary } from '../../../styles/colors';
@@ -67,11 +67,15 @@ const StatutesList = ({ statutes, translate, refetch, company }) => {
 					{
 						name: '',
 						text: ''
+					},
+					{
+						name: '',
+						text: ''
 					}
 				]}
-				//companyID={company.id}
+				companyID={company.id}
 			>
-				{statutes.map((statute, index) => (
+				{statutes.map(statute => (
 					<TableRow key={statute.id}>
 						<TableCell>
 							{translate[statute.title]}
@@ -80,53 +84,78 @@ const StatutesList = ({ statutes, translate, refetch, company }) => {
 							{statute.lastEdited ? moment(statute.lastEdited).format('LLL') : '-'}
 						</TableCell>
 						<TableCell>
-							<Tooltip title={translate.rename_council_type}>
-								<i
-									className="fa fa-pencil-square-o"
-									aria-hidden="true"
-									style={{
-										cursor: 'pointer',
-										fontSize: '1.8em',
-										marginLeft: '0.2em',
-										color: primary
-									}}
-									onClick={event => {
-										event.stopPropagation();
-										setEditName(statute);
-									}}
-								></i>
-							</Tooltip>
-							<Tooltip title={translate.edit}>
-								<i
-									className="fa fa-list-alt"
-									aria-hidden="true"
-									style={{
-										cursor: 'pointer',
-										fontSize: '1.8em',
-										marginLeft: '0.2em',
-										color: primary
-									}}
-									onClick={event => {
-										event.stopPropagation();
-										bHistory.push(`/company/${company.id}/statutes/edit/${statute.id}`);
-									}}
-								></i>
-							</Tooltip>
-							<Tooltip title={translate.delete}>
-								<span>
-									<CloseIcon
-										id="statute-delete-button"
+							{statute.companyId !== company.id ? translate.organization_statute : ''}
+						</TableCell>
+						<TableCell>
+							{statute.companyId !== company.id ?
+								<Tooltip title={translate.see}>
+									<i
+										className="fa fa-eye"
+										aria-hidden="true"
 										style={{
-											color: primary,
-											marginTop: '-10px'
+											cursor: 'pointer',
+											fontSize: '1.8em',
+											marginLeft: '0.2em',
+											color: primary
 										}}
 										onClick={event => {
 											event.stopPropagation();
-											setDeleteId(statute.id);
+											bHistory.push(`/company/${company.id}/statutes/edit/${statute.id}`);
 										}}
-									/>
-								</span>
-							</Tooltip>
+									></i>
+								</Tooltip>
+								:
+								<>
+									<Tooltip title={translate.rename_council_type}>
+										<i
+											className="fa fa-pencil-square-o"
+											aria-hidden="true"
+											style={{
+												cursor: 'pointer',
+												fontSize: '1.8em',
+												marginLeft: '0.2em',
+												color: primary
+											}}
+											onClick={event => {
+												event.stopPropagation();
+												setEditName(statute);
+											}}
+										></i>
+									</Tooltip>
+									<Tooltip title={translate.edit}>
+										<i
+											className="fa fa-list-alt"
+											aria-hidden="true"
+											style={{
+												cursor: 'pointer',
+												fontSize: '1.8em',
+												marginLeft: '0.2em',
+												color: primary
+											}}
+											onClick={event => {
+												event.stopPropagation();
+												bHistory.push(`/company/${company.id}/statutes/edit/${statute.id}`);
+											}}
+										></i>
+									</Tooltip>
+									<Tooltip title={translate.delete}>
+										<span>
+											<CloseIcon
+												id="statute-delete-button"
+												style={{
+													color: primary,
+													marginTop: '-10px'
+												}}
+												onClick={event => {
+													event.stopPropagation();
+													setDeleteId(statute.id);
+												}}
+											/>
+										</span>
+									</Tooltip>
+								</>
+
+							}
 						</TableCell>
 					</TableRow>
 				))}

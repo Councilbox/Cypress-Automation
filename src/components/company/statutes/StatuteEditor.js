@@ -33,9 +33,14 @@ const StatuteEditor = ({
 	const statuteEditorRef = React.useRef();
 
 	React.useLayoutEffect(() => {
+		let timeout;
 		if (statuteEditorRef.current && statuteEditorRef.currentoffsetHeight !== `${statuteEditorRef.current?.offsetHeight + 180}px`) {
-			setEditorHeight(statuteEditorRef.current?.offsetHeight ? `${statuteEditorRef.current?.offsetHeight + 180}px` : '100%');
+			timeout = setTimeout(() => {
+				setEditorHeight(statuteEditorRef.current?.offsetHeight ? `${statuteEditorRef.current?.offsetHeight + 180}px` : '100%');
+			}, 500);
 		}
+
+		return () => clearTimeout(timeout);
 	}, [statuteEditorRef.current]);
 
 	const getData = React.useCallback(async () => {
@@ -255,7 +260,6 @@ const StatuteEditor = ({
 			}
 		}));
 	};
-
 
 	return (
 		<div
