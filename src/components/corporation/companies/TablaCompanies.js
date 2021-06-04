@@ -92,7 +92,7 @@ const TablaCompanies = ({ client, translate, company }) => {
 
 	React.useEffect(() => {
 		getCompanyTypes();
-	}, [companyTypes]);
+	}, [companyTypesQuery]);
 
 	React.useEffect(() => {
 		getCompanies();

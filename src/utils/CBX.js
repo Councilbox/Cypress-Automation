@@ -139,8 +139,10 @@ export const showAgendaVotingsTable = agenda => (
 	&& agenda.subjectType !== 0
 );
 
+export const getAgendaTotalVotes = agenda => agenda.positiveVotings + agenda.positiveManual + agenda.negativeVotings + agenda.negativeManual + agenda.abstentionVotings + agenda.abstentionManual + agenda.noVoteVotings + agenda.noVoteManual;
+
 export const getAgendaResult = (agenda, type, data = {}) => {
-	const totalVotes = agenda.positiveVotings + agenda.positiveManual + agenda.negativeVotings + agenda.negativeManual + agenda.abstentionVotings + agenda.abstentionManual + agenda.noVoteVotings + agenda.noVoteManual;
+	const totalVotes = getAgendaTotalVotes(agenda);
 	const types = {
 		POSITIVE: `${showNumParticipations(agenda.positiveVotings + agenda.positiveManual, data.company, data.council ? data.council.statute : {})} (${getPercentage((agenda.positiveVotings + agenda.positiveManual), (totalVotes))}%)`,
 		NUM_POSITIVE: `${agenda.recount.numPositive} (${getPercentage((agenda.recount.numPositive), (agenda.recount.numTotal))}%)`,

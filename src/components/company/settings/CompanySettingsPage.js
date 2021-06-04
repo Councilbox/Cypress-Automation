@@ -74,8 +74,8 @@ const companyUsersQuery = gql`
 `;
 
 const linkCompanyUsers = gql`
-	mutation linkCompanyUsers($companyTin: String!, $usersIds: [Int]){
-		linkCompanyUsers(companyTin: $companyTin, usersIds: $usersIds){
+	mutation linkCompanyUsers($companyId: ID, $usersIds: [Int]){
+		linkCompanyUsers(companyId: $companyId, usersIds: $usersIds){
 			success
 			message
 		}
@@ -1200,7 +1200,7 @@ const TablaUsuariosAdmin = ({
 		await client.mutate({
 			mutation: linkCompanyUsers,
 			variables: {
-				companyTin: companyId,
+				companyId,
 				usersIds: state.checked.map(check => check.id),
 			}
 		});

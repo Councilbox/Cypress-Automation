@@ -124,7 +124,7 @@ describe("The user is able to Link company", function() {
 
     it("From the dashboard click on the 'Vincular sociedad' button", function() {
         cy.get('#entidadesSideBar').click()
-        cy.get('#company-link-button').click()
+        cy.get('#company-link-nav-button').click()
 });
 
     it("Populate “CIF de la entidad*” field", function() {
@@ -141,7 +141,7 @@ describe("The user is able to Link company", function() {
 
 
     it("Click on the 'Vincular' button", function() {
-        cy.xpath('(//button[@id="company-link-button"])[2]').click()
+        cy.get('#company-link-button').click()
             cy.wait(3000)
     });
 
