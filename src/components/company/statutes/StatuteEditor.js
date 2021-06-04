@@ -10,7 +10,7 @@ import {
 } from '../../../displayComponents';
 import * as CBX from '../../../utils/CBX';
 import { updateStatute as updateStatuteMutation } from '../../../queries';
-import { getPrimary } from '../../../styles/colors';
+import { getPrimary, getSecondary } from '../../../styles/colors';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import StatuteForm from './StatuteForm';
 import { bHistory } from '../../../containers/App';
@@ -341,7 +341,7 @@ const StatuteEditor = ({
 				>
 					<div>
 						<BasicButton
-							id="discard-changes-button"
+							id="council-editor-return"
 							text={translate.back}
 							type="flat"
 							color={'white'}
@@ -355,6 +355,30 @@ const StatuteEditor = ({
 							}}
 							onClick={() => bHistory.back()}
 						/>
+						{JSON.stringify(statute) !== JSON.stringify(state.statute) &&
+							<BasicButton
+								id="discard-changes-button"
+								color={getSecondary()}
+								textStyle={{
+									color: 'white',
+									fontWeight: '700',
+									textTransform: 'none'
+								}}
+								buttonStyle={{
+									marginRight: '0.8em'
+								}}
+								onClick={() => setState({
+									...state,
+									statute
+								})}
+								icon={
+									<ButtonIcon
+										type={'replay'}
+										color="white"
+									/>
+								}
+							/>
+						}
 						<BasicButton
 							text={translate.save}
 							id="council-statute-save-button"

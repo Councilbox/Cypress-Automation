@@ -3,7 +3,7 @@ import { withApollo } from 'react-apollo';
 import { Card, TableCell, TableRow, Tooltip } from 'material-ui';
 import { deleteStatute as deleteStatuteMutation } from '../../../queries';
 import { AlertConfirm, CloseIcon, DateWrapper, EnhancedTable, Grid, GridItem } from '../../../displayComponents';
-import { bHistory, client, moment } from '../../../containers/App';
+import { bHistory, client } from '../../../containers/App';
 import { getPrimary } from '../../../styles/colors';
 import StatuteNameEditor from './StatuteNameEditor';
 import withSharedProps from '../../../HOCs/withSharedProps';
