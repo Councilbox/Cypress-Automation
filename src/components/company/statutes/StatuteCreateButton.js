@@ -42,6 +42,7 @@ const StatuteCreateButton = ({ company, translate, refetch }) => {
 			} else {
 				setError(translate.enter_valid_name);
 			}
+			setLoading(false);
 		} else {
 			setError(translate.required_field);
 		}
