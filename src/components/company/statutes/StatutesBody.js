@@ -64,9 +64,11 @@ const StatutesPage = ({
 						padding: '1em'
 					}}
 				>
-					<StatuteCreateButton
-						refetch={data.refetch}
-					/>
+					<div style={{ marginBottom: '1em' }}>
+						<StatuteCreateButton
+							refetch={data.refetch}
+						/>
+					</div>
 					<StatutesList
 						statutes={data.companyStatutes}
 						translate={translate}
