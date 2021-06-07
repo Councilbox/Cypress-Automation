@@ -216,52 +216,56 @@ const CreateCouncilModal = ({
 										</div>
 									</div>
 									<div style={{ height: '100%' }}>
-										<ButtonCreateCouncil
-											onClick={councilStep}
-											id="create-council-with-session"
-											title={translate.with_session}
-											styleButton={{ marginRight: '3%' }}
-											icon={<img src={conSesionIcon}></img>}
-											isMobile={isMobile}
-											list={
-												<div>{translate.with_session_description}</div>
-											}
-										/>
-										<ButtonCreateCouncil
-											onClick={noSessionStep}
-											id="create-council-without-session"
-											title={translate.without_session}
-											styleButton={{ marginRight: '3%' }}
-											icon={<img src={sinSesionIcon}></img>}
-											isMobile={isMobile}
-											list={
-												<div>{translate.without_session_description}</div>
-											}
-										/>
-										{config.boardWithoutSession
-											&& <ButtonCreateCouncil
-												onClick={boardWithoutSessionStep}
-												id="create-council-board-without-session"
-												title={translate.board_without_session}
-												styleButton={{ marginRight: '3%' }}
-												icon={<img src={consejoSinSesion}></img>}
-												isMobile={isMobile}
-												list={
-													<div>{translate.board_without_session_description}</div>
+										{!config.oneOnOneDashboard &&
+											<>
+												<ButtonCreateCouncil
+													onClick={councilStep}
+													id="create-council-with-session"
+													title={translate.with_session}
+													styleButton={{ marginRight: '3%' }}
+													icon={<img src={conSesionIcon}></img>}
+													isMobile={isMobile}
+													list={
+														<div>{translate.with_session_description}</div>
+													}
+												/>
+												<ButtonCreateCouncil
+													onClick={noSessionStep}
+													id="create-council-without-session"
+													title={translate.without_session}
+													styleButton={{ marginRight: '3%' }}
+													icon={<img src={sinSesionIcon}></img>}
+													isMobile={isMobile}
+													list={
+														<div>{translate.without_session_description}</div>
+													}
+												/>
+												{config.boardWithoutSession
+													&& <ButtonCreateCouncil
+														onClick={boardWithoutSessionStep}
+														id="create-council-board-without-session"
+														title={translate.board_without_session}
+														styleButton={{ marginRight: '3%' }}
+														icon={<img src={consejoSinSesion}></img>}
+														isMobile={isMobile}
+														list={
+															<div>{translate.board_without_session_description}</div>
+														}
+													/>
 												}
-											/>
-										}
-										{config['2stepsCouncil']
-											&& <ButtonCreateCouncil
-												onClick={noSessionHybridStep}
-												title={translate.elections}
-												id="create-council-elections"
-												icon={<img src={elecciones}></img>}
-												isMobile={isMobile}
-												list={
-													<div>{translate.elections_description}</div>
+												{config['2stepsCouncil']
+													&& <ButtonCreateCouncil
+														onClick={noSessionHybridStep}
+														title={translate.elections}
+														id="create-council-elections"
+														icon={<img src={elecciones}></img>}
+														isMobile={isMobile}
+														list={
+															<div>{translate.elections_description}</div>
+														}
+													/>
 												}
-											/>
+											</>
 										}
 										{config.onOnOneCouncil
 											&& <ButtonCreateCouncil
