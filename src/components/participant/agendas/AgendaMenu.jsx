@@ -61,7 +61,7 @@ const AgendaMenu = ({ agenda, translate, council, participant, refetch }) => {
 
 
 	if (!ownVote || (ownVote.fixed && ownVote.numParticipations === 0)) {
-		ownVote = checkVotings(agenda.votings) || ownVote;
+		ownVote = checkVotings(agenda.votings, participant) || ownVote;
 	}
 
 	return (
@@ -101,14 +101,14 @@ const AgendaMenu = ({ agenda, translate, council, participant, refetch }) => {
 								agenda={agenda}
 								refetch={refetch}
 								ownVote={ownVote}
-								cantVote={!(CBX.agendaVotingsOpened(agenda) && checkVotings(agenda.votings))}
+								cantVote={!(CBX.agendaVotingsOpened(agenda) && checkVotings(agenda.votings, participant))}
 								council={council}
 								translate={translate}
 							/>
 						}
 						{CBX.isConfirmationRequest(agenda.subjectType) &&
 							<ConfirmationRequestMenu
-								disabledColor={!(CBX.agendaVotingsOpened(agenda) && checkVotings(agenda.votings))}
+								disabledColor={!(CBX.agendaVotingsOpened(agenda) && checkVotings(agenda.votings, participant))}
 								agenda={agenda}
 								ownVote={ownVote}
 								open={state.open}
@@ -123,7 +123,7 @@ const AgendaMenu = ({ agenda, translate, council, participant, refetch }) => {
 						}
 						{(!CBX.isCustomPoint(agenda.subjectType) && !CBX.isConfirmationRequest(agenda.subjectType)) &&
 							<VotingSection
-								disabledColor={!(CBX.agendaVotingsOpened(agenda) && checkVotings(agenda.votings))}
+								disabledColor={!(CBX.agendaVotingsOpened(agenda) && checkVotings(agenda.votings, participant))}
 								agenda={agenda}
 								ownVote={ownVote}
 								open={state.open}
@@ -163,9 +163,8 @@ const AgendaMenu = ({ agenda, translate, council, participant, refetch }) => {
 	);
 };
 
-const checkVotings = votings => {
-	const result = votings.find(voting => (voting.numParticipations > 0 && !voting.fixed));
-	return result;
-};
+const checkVotings = (votings, participant) => (
+	votings.find(voting => (voting.numParticipations > 0 && !voting.fixed && (voting.delegateId === participant.id)))
+);
 
 export default AgendaMenu;
