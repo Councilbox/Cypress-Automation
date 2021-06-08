@@ -133,60 +133,60 @@ const RecordingButton = ({
 				<CircularProgress size={20} thickness={7} color={'secondary'} />
 				: <>
 					{showRecordingButton
-&& <Tooltip title={council.fullVideoRecord === 1 ?
-	translate.full_record : record ? translate.to_stop_recording : translate.to_start_recording}>
-	<div
-		style={{ cursor: council.fullVideoRecord === 1 ? 'auto' : 'pointer' }}
-		{...(council.fullVideoRecord !== 1 ? { onClick: toggleRecordings } : {})}
-	>
-		{loading ?
-			<CircularProgress size={20} thickness={7} color={'secondary'} />
-			: record ?
-				<i className="fa fa-dot-circle-o fadeToggle" style={{ color: 'red' }} />
-				: <i className="fa fa-circle" style={{ color: 'red' }} />
-		}
-	</div>
-</Tooltip>
+						&& <Tooltip title={council.fullVideoRecord === 1 ?
+							translate.full_record : record ? translate.to_stop_recording : translate.to_start_recording}>
+							<div
+								style={{ cursor: council.fullVideoRecord === 1 ? 'auto' : 'pointer' }}
+								{...(council.fullVideoRecord !== 1 ? { onClick: toggleRecordings } : {})}
+							>
+								{loading ?
+									<CircularProgress size={20} thickness={7} color={'secondary'} />
+									: record ?
+										<i className="fa fa-dot-circle-o fadeToggle" style={{ color: 'red' }} />
+										: <i className="fa fa-circle" style={{ color: 'red' }} />
+								}
+							</div>
+						</Tooltip>
 					}
 					{showStreamingButton
-&& <Tooltip title={sessionStatus.streaming ? translate.stop_broadcasting : translate.start_broadcasting}>
-	{sessionStatus.streaming ?
-		<img
-			src={BroadcastingTower}
-			style={{
-				width: 'auto', height: '0.8em', marginLeft: showRecordingButton ? '0.4em' : '0', cursor: 'pointer'
-			}}
-			onClick={stopStreamingAlert}
-			// onClick={stopStreaming}
-		/>
-		: <img
-			src={Tower}
-			style={{
-				width: 'auto', height: '0.8em', marginLeft: showRecordingButton ? '0.4em' : '0', cursor: 'pointer'
-			}}
-			onClick={startStreaming}
-		/>
-	}
-</Tooltip>
+						&& <Tooltip title={sessionStatus.streaming ? translate.stop_broadcasting : translate.start_broadcasting}>
+							{sessionStatus.streaming ?
+								<img
+									src={BroadcastingTower}
+									style={{
+										width: 'auto', height: '0.8em', marginLeft: showRecordingButton ? '0.4em' : '0', cursor: 'pointer'
+									}}
+									onClick={stopStreamingAlert}
+								// onClick={stopStreaming}
+								/>
+								: <img
+									src={Tower}
+									style={{
+										width: 'auto', height: '0.8em', marginLeft: showRecordingButton ? '0.4em' : '0', cursor: 'pointer'
+									}}
+									onClick={startStreaming}
+								/>
+							}
+						</Tooltip>
 					}
 					{(council.room.videoConfig && council.room.videoConfig.autoHybrid)
-&& <AlertConfirm
-	requestClose={() => setAutoHybridModal(false)}
-	open={autoHybridModal}
-	acceptAction={stopStreaming}
-	buttonAccept={translate.accept}
-	buttonCancel={translate.cancel}
-	bodyText={
-		<div style={{
-			margin: '1em', color: 'black', display: 'flex', alignItems: 'center', marginTop: '2em', fontSize: '21px'
-		}}>
-			<div>
-				<i className="fa fa-exclamation-triangle" aria-hidden="true" style={{ color: '#dc7373', fontSize: '25px', marginRight: '22px' }}></i>
-			</div>
-			<div>Esta acción cortará la emisión a todos los participantes</div>
-		</div>
-	}
-/>
+						&& <AlertConfirm
+							requestClose={() => setAutoHybridModal(false)}
+							open={autoHybridModal}
+							acceptAction={stopStreaming}
+							buttonAccept={translate.accept}
+							buttonCancel={translate.cancel}
+							bodyText={
+								<div style={{
+									margin: '1em', color: 'black', display: 'flex', alignItems: 'center', marginTop: '2em', fontSize: '21px'
+								}}>
+									<div>
+										<i className="fa fa-exclamation-triangle" aria-hidden="true" style={{ color: '#dc7373', fontSize: '25px', marginRight: '22px' }}></i>
+									</div>
+									<div>Esta acción cortará la emisión a todos los participantes</div>
+								</div>
+							}
+						/>
 					}
 				</>
 			}

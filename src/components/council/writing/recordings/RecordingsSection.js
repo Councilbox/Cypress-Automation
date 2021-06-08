@@ -21,12 +21,12 @@ class RecordingsSection extends React.Component {
 						<div style={{
 							width: '100%', padding: '1em', display: 'flex', justifyContent: 'center'
 						}}>
-La visualización de este contenido no está disponible en estos momentos, estamos trabajando para que esté disponible lo antes posible. <br />
-En caso de necesitarlo, puede ponerse en contacto con el equipo de Councilbox.
+							La visualización de este contenido no está disponible en estos momentos, estamos trabajando para que esté disponible lo antes posible. <br />
+							En caso de necesitarlo, puede ponerse en contacto con el equipo de Councilbox.
 						</div>
 						: <React.Fragment>
 							<i className="material-icons" style={{ color: getSecondary(), fontSize: '8em' }}>
-videocam_off
+								videocam_off
 							</i>
 							{this.props.translate.no_recordings}
 						</React.Fragment>
@@ -48,7 +48,7 @@ videocam_off
 						border: 'none !important',
 					}}
 				>
-Something wrong...
+					Something wrong...
 				</iframe>
 			</div>
 		);
