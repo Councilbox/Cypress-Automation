@@ -97,6 +97,9 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
 										<MenuItem onClick={() => setSearch('0')}>
 											Pendiente
 										</MenuItem>
+										<MenuItem onClick={() => setSearch('2')}>
+											Rechazada
+										</MenuItem>
 									</div>
 								}
 							/>
