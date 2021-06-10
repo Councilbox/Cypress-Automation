@@ -1,7 +1,8 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { BasicButton, AlertConfirm, TextInput } from '../../../displayComponents';
+import { MenuItem } from 'material-ui';
+import { BasicButton, AlertConfirm, TextInput, SelectInput } from '../../../displayComponents';
 
 
 const CompanyVideoConfig = ({ client, company, translate }) => {
@@ -10,6 +11,7 @@ const CompanyVideoConfig = ({ client, company, translate }) => {
 	const [data, setData] = React.useState({
 		videoConfig: {
 			rtmp: '',
+			type: '',
 			viewerURL: ''
 		}
 	});
@@ -27,7 +29,8 @@ const CompanyVideoConfig = ({ client, company, translate }) => {
 			variables: {
 				companyPlatform: {
 					companyId: company.id,
-					videoConfig: data.videoConfig
+					videoConfig: data.videoConfig,
+					type: data.type === 'default' ? null : data.type
 				}
 			}
 		});
@@ -40,6 +43,7 @@ const CompanyVideoConfig = ({ client, company, translate }) => {
 				query CompanyPlatform($companyId: Int!){
 					companyPlatform(companyId: $companyId){
 						videoConfig
+						type
 					}
 				}
 			`,
@@ -50,6 +54,7 @@ const CompanyVideoConfig = ({ client, company, translate }) => {
 
 		const { companyPlatform } = response.data;
 		setData({
+			type: companyPlatform.type,
 			videoConfig: {
 				rtmp: (companyPlatform.videoConfig && companyPlatform.videoConfig.rtmp) ? companyPlatform.videoConfig.rtmp : '',
 				fixedSlot: (companyPlatform.videoConfig && companyPlatform.videoConfig.fixedSlot) ? companyPlatform.videoConfig.fixedSlot : '',
@@ -91,7 +96,7 @@ const CompanyVideoConfig = ({ client, company, translate }) => {
 							}}
 						/>
 						<TextInput
-							floatingText={'cmp'}
+							floatingText={'Instancia CMP'}
 							value={data.videoConfig.fixedSlot}
 							onChange={event => {
 								setData({
@@ -114,6 +119,18 @@ const CompanyVideoConfig = ({ client, company, translate }) => {
 								});
 							}}
 						/>
+						<SelectInput
+							value={data.type || 'default'}
+							floatingText={'Plataforma de video'}
+							onChange={event => setData({
+								...data,
+								type: event.target.value
+							})}
+						>
+							<MenuItem value={'default'}>Por defecto</MenuItem>
+							<MenuItem value={'CMP'}>CMP</MenuItem>
+							<MenuItem value={'SHUTTER'}>SHUTTER</MenuItem>
+						</SelectInput>
 					</>
 				}
 			/>
