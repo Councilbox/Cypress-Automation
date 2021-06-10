@@ -49,11 +49,22 @@ const AgendaRecount = ({
 		return `${translate.votes}: ${CBX.showNumParticipations(recount.partTotal, company, council.statute) || 0}`;
 	};
 
+	const defaultZero = value => (value || 0);
+
 	const printPercentage = num => {
 		if (company.type === 10) {
 			return '';
 		}
-		const total = agenda.positiveVotings + agenda.positiveManual + agenda.negativeVotings + agenda.negativeManual + agenda.abstentionVotings + agenda.abstentionManual + agenda.noVoteVotings + agenda.noVoteManual;
+
+		const liveRecount = agenda.votingsRecount;
+		const total = defaultZero(liveRecount.positiveVotings)
+		+ defaultZero(liveRecount.positiveManual)
+		+ defaultZero(liveRecount.negativeVotings)
+		+ defaultZero(liveRecount.negativeManual)
+		+ defaultZero(liveRecount.abstentionVotings)
+		+ defaultZero(liveRecount.abstentionManual)
+		+ defaultZero(liveRecount.noVoteVotings)
+		+ defaultZero(liveRecount.noVoteManual);
 
 		if (total === 0) {
 			return '(0%)';
