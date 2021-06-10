@@ -184,6 +184,7 @@ export const roomUpdateSubscription = gql`
 		roomUpdated(councilId: $councilId){
 			videoLink
 			platformVideo
+			type
 			action
 			videoConfig
 		}

@@ -161,7 +161,9 @@ export const useRoomUpdated = config => {
 	React.useEffect(() => {
 		if (props.subs && props.subs.roomUpdated) {
 			const roomConfig = props.subs.roomUpdated;
-			if (roomConfig.videoConfig) {
+			if (roomConfig.type) {
+				refetch();
+			} else if (roomConfig.videoConfig) {
 				if (participant) {
 					refetch();
 				}
