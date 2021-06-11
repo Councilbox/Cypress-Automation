@@ -6,7 +6,7 @@ import StatutesBody from './StatutesBody';
 const StatutesPage = ({ match, translate }) => (
 	<CardPageLayout title={translate.council_types} disableScroll={true}>
 		<StatutesBody
-			statuteId={match.params.statuteId}
+			statuteId={+match.params.id}
 			companyId={+match.params.company}
 		/>
 	</CardPageLayout>

@@ -14,7 +14,7 @@ import StatutesList from './StatutesList';
 import StatuteCreateButton from './StatuteCreateButton';
 
 
-const StatutesPage = ({
+const StatutesBody = ({
 	data, translate, client, hideCardPageLayout, statuteId, ...props
 }) => {
 	const [censusList, setCensusList] = React.useState(null);
@@ -92,5 +92,5 @@ export default withSharedProps()(
 				fetchPolicy: 'network-only'
 			})
 		})
-	)(withRouter(withApollo(StatutesPage)))
+	)(withRouter(withApollo(StatutesBody)))
 );
