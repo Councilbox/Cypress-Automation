@@ -106,21 +106,20 @@ class RichTextInput extends React.Component {
 		const {
 			tags, loadDraft, errorText, required, borderless, translate, styles, stylesQuill, placeholder
 		} = this.props;
+
+		const containerElements = [
+			[{ color: [] }, { background: [] }], ['bold', 'italic', 'underline', 'link', 'strike'],
+			['blockquote', 'code-block', { list: 'ordered' }, { list: 'bullet' }],
+			[{ header: 1 }, { header: 2 }], [{ align: 'justify' }]
+		];
+
+		if (((this.state.companyTags && this.state.companyTags.length > 0) || (tags && tags.length > 0))) {
+			containerElements.push(['custom']);
+		}
+
 		const modules = {
 			toolbar: {
-				container: [
-					[{ color: [] }, { background: [] }], ['bold', 'italic', 'underline', 'link', 'strike'],
-					['blockquote', 'code-block', { list: 'ordered' }, { list: 'bullet' }],
-					[{ header: 1 }, { header: 2 }],
-					[{ align: 'justify' }], [((this.state.companyTags && this.state.companyTags.length > 0) || (tags && tags.length > 0)) ? 'custom' : '']
-				],
-				handlers: {
-					// 'custom': (...args) => {
-					// console.log(args);
-					// console.log(document.getElementById('pruebas'));
-					// //this.setState({ showTags: true })
-					// }
-				}
+				container: containerElements
 			},
 			clipboard: {
 				matchVisual: false,
@@ -251,7 +250,7 @@ const SmartTags = withApollo(withSharedProps()(({
 			}
 			setFilteredTags(newTags);
 		}
-	}, [searchModal, companyTags, tags]);
+	}, [searchModal, companyTags, JSON.stringify(tags)]);
 
 	const loadCompanyTags = React.useCallback(async () => {
 		if (company) {

@@ -262,6 +262,10 @@ export const isQuorumNumber = quorumType => quorumType === 3;
 export const voteAllAtOnce = data => data.council.councilType === 3;
 
 export const findOwnVote = (votings, participant) => {
+	if (participant.delegateId) {
+		return null;
+	}
+
 	if (participant.type !== PARTICIPANT_TYPE.REPRESENTATIVE) {
 		return votings.find(voting => (
 			voting.participantId === participant.id
