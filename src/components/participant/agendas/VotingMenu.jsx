@@ -58,7 +58,6 @@ const VotingMenu = ({
 			...agenda.votingsRecount,
 			...freezed.current
 		};
-
 		freezedRecount[getFieldByValue(newVote)] += ownParticipations;
 		freezedRecount[getFieldByValue(previousVote)] -= ownParticipations;
 		freezed.current = freezedRecount;
@@ -117,7 +116,7 @@ const VotingMenu = ({
 		})));
 
 		if (response) {
-			handleFreezing(vote, previousVote);
+			handleFreezing(newVote, previousVote);
 			await props.refetch();
 			setModal(false);
 			setLoading(false);

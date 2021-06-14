@@ -60,7 +60,6 @@ const CompanyDraftsPage = ({ translate, client, ...props }) => {
 		bHistory.push(`/company/${props.company.id}/drafts/${tabsUrl[indexPadre]}`);
 	};
 
-
 	return (
 		<CardPageLayout title={translate.tooltip_knowledge_base} disableScroll>
 			<div style={{ padding: '1em', height: '100%', paddingTop: '0px' }}>
@@ -145,10 +144,11 @@ const CompanyDraftsPage = ({ translate, client, ...props }) => {
 					&& <div style={{ width: '100%', height: '100%', padding: '1em' }}><CompanyTags /></div>
 				}
 				{selecteDraftPadre === translate.council_types
-					&& <div style={{ width: '100%', height: '100%', padding: '1em' }}>
+					&& <div style={{ width: '100%', height: 'calc(100% - 2em)', padding: '1em' }}>
 						<StatutesBody
 							companyId={props.company.id}
 							organization={true}
+							statuteId={+props.match.params.id}
 						/>
 					</div>
 				}

@@ -43,7 +43,7 @@ const StatutesList = ({ statutes, translate, refetch, company }) => {
 					id={`company-statute-visualize-${index}`}
 					onClick={event => {
 						event.stopPropagation();
-						bHistory.push(`/company/${company.id}/statutes/edit/${statute.id}`);
+						bHistory.push(`${window.location.pathname}/${statute.id}`);
 					}}
 				></i>
 			</Tooltip>
@@ -79,7 +79,7 @@ const StatutesList = ({ statutes, translate, refetch, company }) => {
 						id={`company-statute-edit-${index}`}
 						onClick={event => {
 							event.stopPropagation();
-							bHistory.push(`/company/${company.id}/statutes/edit/${statute.id}`);
+							bHistory.push(`${window.location.pathname}/${statute.id}`);
 						}}
 					></i>
 				</Tooltip>
