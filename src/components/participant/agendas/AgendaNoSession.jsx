@@ -468,7 +468,6 @@ const AgendaCard = ({
 	agenda, translate, participant, refetch, council
 }) => {
 	const ownVote = CBX.findOwnVote(agenda.votings, participant);
-	const primary = getPrimary();
 
 	const agendaStateIcon = () => {
 		let title = '';
@@ -570,29 +569,81 @@ const AgendaCard = ({
 						council={council}
 						refetch={refetch}
 					/>
-					{(ownVote && ownVote.vote !== -1) &&
-						<Button
-							disableRipple
-							disabled
-							disableFocusRipple
-							style={{
-								textTransform: 'none',
-								fontStyle: 'italic',
-								fontSize: '12px',
-								color: primary,
-								fontWeight: '700'
-							}}
-						>
-							{CBX.isConfirmationRequest(agenda.subjectType) ?
-								`${translate.answer_registered} (${moment(ownVote.date).format('LLL')})`
-								:
-								`${translate.vote_registered} (${moment(ownVote.date).format('LLL')})`
-							}
-						</Button>
-					}
+					<VoteSuccessMessage
+						vote={ownVote}
+						agenda={agenda}
+						translate={translate}
+					/>
 				</CardActions>
 			</Card>
 		</div>
+	);
+};
+
+const VoteSuccessMessage = ({ vote, translate, agenda }) => {
+	const voteValue = vote?.vote;
+	const [transition, setTransition] = React.useState(false);
+	const oldVote = React.useRef(voteValue);
+	const primary = getPrimary();
+
+	React.useEffect(() => {
+		if (voteValue !== oldVote.current) {
+			oldVote.current = voteValue;
+			setTransition(voteValue);
+		}
+	}, [voteValue]);
+
+	return (
+		(vote && vote.vote !== -1) ?
+			<Button
+				disableRipple
+				disabled
+				disableFocusRipple
+				style={{
+					textTransform: 'none',
+					fontStyle: 'italic',
+					fontSize: '12px',
+					color: primary,
+					fontWeight: '700'
+				}}
+			>
+				<GrowingIcon
+					transition={transition !== false}
+					key={transition}
+				/>
+				{CBX.isConfirmationRequest(agenda.subjectType) ?
+					`${translate.answer_registered} (${moment(vote.date).format('LLL')})`
+					:
+					`${translate.vote_registered} (${moment(vote.date).format('LLL')})`
+				}
+			</Button>
+			:
+			null
+	);
+};
+
+const GrowingIcon = ({ transition }) => {
+	const [mounted, setMounted] = React.useState(!transition);
+
+	React.useLayoutEffect(() => {
+		const timeout = setTimeout(() => {
+			setMounted(true);
+		}, 100);
+		return () => clearTimeout(timeout);
+	}, []);
+
+	return (
+		<span
+			className="material-icons"
+			style={{
+				fontSize: mounted ? '24px' : 0,
+				'-webkit-transition': 'font-size 2s',
+				'-moz-transition': 'font-size 2s',
+				'-o-transition': 'font-size 2s',
+				transition: 'font-size 2s'
+			}}>
+			how_to_vote
+		</span>
 	);
 };
 

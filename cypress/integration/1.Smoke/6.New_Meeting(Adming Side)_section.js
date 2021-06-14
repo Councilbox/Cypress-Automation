@@ -61,6 +61,8 @@ describe("The user is able to create a new call with session in the 'Nueva reuni
     });
 
     it("Populate all required fields and click on the 'Siguiente' button", function() {
+        cy.get('#council-notice-type-select').click()
+        cy.get('#council-notice-type-2').click()
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
@@ -211,7 +213,9 @@ describe("The user is able to start council in the 'New call with session' secti
 
 
     it("Populate all required fields and click on the “Siguiente” button", function() {
-       
+
+        cy.get('#council-notice-type-select').click()
+        cy.get('#council-notice-type-2').click()
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
@@ -272,9 +276,9 @@ describe("The user is able to start council in the 'New call with session' secti
 
         cy.wait(1000)
         cy.get('#agenda-editor-type-1').click()
-
+        cy.wait(1000)
         cy.get('#alert-confirm-button-accept').click()
-
+        cy.wait(1000)
         cy.get('#ordenDelDiaNext').click()
 
         cy.wait(1000)
@@ -396,11 +400,11 @@ describe("The user is able to start council in the 'New call with session' secti
 
         cy.get('#participant-selector-0').click()
 
-        //cy.get('#council-quality-vote-select').click()
+        cy.get('#council-quality-vote-select').click()
 
         cy.wait(200)
 
-        //cy.get('#participant-selector-0').click()
+        cy.get('#participant-selector-0').click()
 
        
         cy.get('#alert-confirm-button-accept').click()
@@ -459,6 +463,8 @@ describe("The user is able to open point in the 'New call with session' section"
 
 
     it("Populate all required fields and click on the “Siguiente” button", function() {
+        cy.get('#council-notice-type-select').click()
+        cy.get('#council-notice-type-2').click()
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
@@ -517,9 +523,11 @@ describe("The user is able to open point in the 'New call with session' section"
 
         cy.wait(1000)
         cy.get('#agenda-editor-type-1').click()
+        cy.wait(1000)
+        cy.wait(1000)
 
         cy.get('#alert-confirm-button-accept').click()
-
+        cy.wait(1000)
         cy.get('#ordenDelDiaNext').click()
 
         cy.wait(1000)
@@ -641,11 +649,11 @@ describe("The user is able to open point in the 'New call with session' section"
 
         cy.get('#participant-selector-0').click()
 
-        //cy.get('#council-quality-vote-select').click()
+        cy.get('#council-quality-vote-select').click()
 
         cy.wait(200)
 
-        //cy.get('#participant-selector-0').click()
+        cy.get('#participant-selector-0').click()
 
        
          cy.get('#alert-confirm-button-accept').click()
@@ -698,6 +706,8 @@ describe("The user is able to activate ratings in the 'New call with session'", 
 
 
     it("Populate all required fields and click on the “Siguiente” button", function() {
+        cy.get('#council-notice-type-select').click()
+        cy.get('#council-notice-type-2').click()
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
@@ -758,9 +768,9 @@ describe("The user is able to activate ratings in the 'New call with session'", 
 
         cy.wait(1000)
         cy.get('#agenda-editor-type-1').click()
-
+        cy.wait(1000)
         cy.get('#alert-confirm-button-accept').click()
-
+        cy.wait(1000)
         cy.get('#ordenDelDiaNext').click()
 
         cy.wait(1000)
@@ -881,11 +891,11 @@ describe("The user is able to activate ratings in the 'New call with session'", 
 
         cy.get('#participant-selector-0').click()
 
-        //cy.get('#council-quality-vote-select').click()
+        cy.get('#council-quality-vote-select').click()
 
         cy.wait(200)
 
-        //cy.get('#participant-selector-0').click()
+        cy.get('#participant-selector-0').click()
 
        
          cy.get('#alert-confirm-button-accept').click()
@@ -950,6 +960,8 @@ describe("The user is able to close point votations in the 'New call with sessio
 
 
     it("Populate all required fields and click on the “Siguiente” button", function() {
+        cy.get('#council-notice-type-select').click()
+        cy.get('#council-notice-type-2').click()
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
@@ -1010,9 +1022,9 @@ describe("The user is able to close point votations in the 'New call with sessio
 
         cy.wait(1000)
         cy.get('#agenda-editor-type-1').click()
-
+        cy.wait(1000)
         cy.get('#alert-confirm-button-accept').click()
-
+        cy.wait(1000)
         cy.get('#ordenDelDiaNext').click()
 
         cy.wait(1000)
@@ -1134,11 +1146,11 @@ describe("The user is able to close point votations in the 'New call with sessio
 
         cy.get('#participant-selector-0').click()
 
-        //cy.get('#council-quality-vote-select').click()
+        cy.get('#council-quality-vote-select').click()
 
         cy.wait(200)
 
-        //cy.get('#participant-selector-0').click()
+        cy.get('#participant-selector-0').click()
 
        
          cy.get('#alert-confirm-button-accept').click()
@@ -1213,6 +1225,8 @@ describe("The user is able to close point in the 'New call with session' type of
 
 
     it("Populate all required fields and click on the “Siguiente” button", function() {
+        cy.get('#council-notice-type-select').click()
+        cy.get('#council-notice-type-2').click()
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
@@ -1273,9 +1287,9 @@ describe("The user is able to close point in the 'New call with session' type of
 
         cy.wait(1000)
         cy.get('#agenda-editor-type-1').click()
-
+        cy.wait(1000)
         cy.get('#alert-confirm-button-accept').click()
-
+        cy.wait(1000)
         cy.get('#ordenDelDiaNext').click()
 
         cy.wait(1000)
@@ -1397,11 +1411,11 @@ describe("The user is able to close point in the 'New call with session' type of
 
         cy.get('#participant-selector-0').click()
 
-        //cy.get('#council-quality-vote-select').click()
+        cy.get('#council-quality-vote-select').click()
 
         cy.wait(200)
 
-        //cy.get('#participant-selector-0').click()
+        cy.get('#participant-selector-0').click()
 
        
          cy.get('#alert-confirm-button-accept').click()
@@ -1485,6 +1499,8 @@ describe("The user is able to finish council in the 'New call with session' type
 
 
     it("Populate all required fields and click on the “Siguiente” button", function() {
+        cy.get('#council-notice-type-select').click()
+        cy.get('#council-notice-type-2').click()
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
@@ -1545,9 +1561,9 @@ describe("The user is able to finish council in the 'New call with session' type
 
         cy.wait(1000)
         cy.get('#agenda-editor-type-1').click()
-
+        cy.wait(1000)
         cy.get('#alert-confirm-button-accept').click()
-
+        cy.wait(1000)
         cy.get('#ordenDelDiaNext').click()
 
         cy.wait(1000)
@@ -1669,11 +1685,11 @@ describe("The user is able to finish council in the 'New call with session' type
 
         cy.get('#participant-selector-0').click()
 
-        //cy.get('#council-quality-vote-select').click()
+        cy.get('#council-quality-vote-select').click()
 
         cy.wait(200)
 
-        //cy.get('#participant-selector-0').click()
+        cy.get('#participant-selector-0').click()
        
          cy.get('#alert-confirm-button-accept').click()
         cy.wait(200)
@@ -1768,6 +1784,8 @@ describe("The user is able to finalize and approve act in the 'New call with ses
 
 
     it("Populate all required fields and click on the “Siguiente” button", function() {
+        cy.get('#council-notice-type-select').click()
+        cy.get('#council-notice-type-2').click()
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
@@ -1828,9 +1846,9 @@ describe("The user is able to finalize and approve act in the 'New call with ses
 
         cy.wait(1000)
         cy.get('#agenda-editor-type-1').click()
-
+        cy.wait(1000)
         cy.get('#alert-confirm-button-accept').click()
-
+        cy.wait(1000)
         cy.get('#ordenDelDiaNext').click()
 
         cy.wait(1000)
@@ -1953,9 +1971,9 @@ describe("The user is able to finalize and approve act in the 'New call with ses
 
         cy.wait(200)
 
-        //cy.get('#council-quality-vote-select').click()
+        cy.get('#council-quality-vote-select').click()
 
-        //cy.get('#participant-selector-0').click()
+        cy.get('#participant-selector-0').click()
 
        
          cy.get('#alert-confirm-button-accept').click()
@@ -2026,7 +2044,7 @@ describe("The user is able to finalize and approve act in the 'New call with ses
 
     it("Click on the “Finalizar y aprobar acta” button and again click on the “Finalizar y aprobar acta” button", function() {
         
-        cy.contains('Finalizar y aprobar acta').click()
+        cy.get('#council-act-approve-button').click()
         cy.wait(5000)
         cy.get('#alert-confirm-button-accept').click()
         cy.wait(1000)
@@ -2062,6 +2080,8 @@ describe("The user is able to send minutes in the 'New call with session' type o
 
 
     it("Populate all required fields and click on the “Siguiente” button", function() {
+        cy.get('#council-notice-type-select').click()
+        cy.get('#council-notice-type-2').click()
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
@@ -2122,9 +2142,9 @@ describe("The user is able to send minutes in the 'New call with session' type o
 
         cy.wait(1000)
         cy.get('#agenda-editor-type-1').click()
-
+        cy.wait(1000)
         cy.get('#alert-confirm-button-accept').click()
-
+        cy.wait(1000)
         cy.get('#ordenDelDiaNext').click()
 
         cy.wait(1000)
@@ -2244,11 +2264,11 @@ describe("The user is able to send minutes in the 'New call with session' type o
 
         cy.get('#participant-selector-0').click()
 
-        //cy.get('#council-quality-vote-select').click()
+        cy.get('#council-quality-vote-select').click()
 
         cy.wait(200)
 
-        //cy.get('#participant-selector-0').click()
+        cy.get('#participant-selector-0').click()
 
        
          cy.get('#alert-confirm-button-accept').click()
@@ -2319,7 +2339,7 @@ describe("The user is able to send minutes in the 'New call with session' type o
 
     it("Click on the “Finalizar y aprobar acta” button and again click on the “Finalizar y aprobar acta” button", function() {
         
-        cy.contains('Finalizar y aprobar acta').click()
+        cy.get('#council-act-approve-button').click()
         cy.wait(5000)
         cy.get('#alert-confirm-button-accept').click()
         cy.wait(1000)
@@ -2331,7 +2351,7 @@ describe("The user is able to send minutes in the 'New call with session' type o
 
     it("Click on the “Envio del acta” button", function() {
         
-        cy.contains('Envío del acta').click()
+        cy.get('#tab-sendAct').click()
         cy.wait(1000)
         
         
@@ -2341,7 +2361,7 @@ describe("The user is able to send minutes in the 'New call with session' type o
 
     it("Click on the “Enviar acta” button", function() {
         
-        cy.contains('Enviar acta').click()
+        cy.get('#send-act-button').click()
         cy.wait(1000)
         
         
@@ -2351,11 +2371,11 @@ describe("The user is able to send minutes in the 'New call with session' type o
 
     it("Click on the “Enviar a todos los convocados then click on the “Enviar” button", function() {
         
-        cy.contains('Enviar a todos los convocados').click()
+        cy.get('#send-act-all-convened-option').click()
         cy.wait(1000)
-        cy.contains('Enviar').click()
+        cy.get('#alert-confirm-button-accept').click()
         cy.wait(3000)
-        cy.contains('Cerrar').click()
+        cy.get('#alert-confirm-button-cancel').click()
         
         
     
