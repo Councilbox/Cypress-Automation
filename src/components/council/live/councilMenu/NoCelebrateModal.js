@@ -43,6 +43,7 @@ class NoCelebrateModal extends React.Component {
 				});
 				toast(
 					<LiveToast
+						id="error-toast"
 						message={this.props.translate.revise_text}
 					/>, {
 						position: toast.POSITION.TOP_RIGHT,
