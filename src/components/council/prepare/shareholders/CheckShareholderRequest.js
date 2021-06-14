@@ -66,6 +66,13 @@ const CheckShareholderRequest = ({
 				<div>
 					{translate.type_of_request}: {getTypeText(request.data.requestType, translate)}
 				</div>
+				{Object.prototype.hasOwnProperty.call(request.data, 'assistanceIntention') &&
+					<>
+						{translate.assistance_intention}:
+						{request.data.assistanceIntention === 0 && translate.customer_initial}
+						{request.data.assistanceIntention === 5 && translate.in_person}
+					</>
+				}
 				{request.data.requestType === 'vote'
 					&& <>
 						{request.data.earlyVotes && request.data.earlyVotes.map((vote, index) => (

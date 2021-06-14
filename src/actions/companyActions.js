@@ -74,7 +74,7 @@ const getSpecificTranslations = (language, company) => {
 				abstention_capital_letters: 'EN BLANCO',
 				abstention_lowercase: 'En blanco',
 				abstentions: 'EN BLANCO',
-				selectedCompany: 666,
+				selectedCompany: 1203,
 				num_abstention: 'Nº de personas en blanco'
 			},
 			cat: {
@@ -83,7 +83,27 @@ const getSpecificTranslations = (language, company) => {
 				abstention_capital_letters: 'EN BLANC',
 				abstention_lowercase: 'En blanc',
 				abstentions: 'EN BLANCO',
-				selectedCompany: 666,
+				selectedCompany: 1203,
+				num_abstention: 'Núm. de persones en blanc'
+			}
+		},
+		1311: {
+			es: {
+				abstention: 'En blanco',
+				abstention_btn: 'En blanco',
+				abstention_capital_letters: 'EN BLANCO',
+				abstention_lowercase: 'En blanco',
+				abstentions: 'EN BLANCO',
+				selectedCompany: 1311,
+				num_abstention: 'Nº de personas en blanco'
+			},
+			cat: {
+				abstention: 'En blanc',
+				abstention_btn: 'En blanc',
+				abstention_capital_letters: 'EN BLANC',
+				abstention_lowercase: 'En blanc',
+				abstentions: 'EN BLANCO',
+				selectedCompany: 1311,
 				num_abstention: 'Núm. de persones en blanc'
 			}
 		}

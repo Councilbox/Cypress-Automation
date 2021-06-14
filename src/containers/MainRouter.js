@@ -191,7 +191,7 @@ const MainRouter = ({ company, user, location }) => {
 			/>
 			<Route
 				exact
-				path="/company/:company/drafts/:id?"
+				path="/company/:company/drafts/:section?/:id?"
 				component={CompanyDraftsPage}
 			/>
 			<Route
@@ -221,7 +221,7 @@ const MainRouter = ({ company, user, location }) => {
 			/>
 			<Route
 				exact
-				path="/company/:company/statutes"
+				path="/company/:company/statutes/(edit)?/:id?"
 				component={StatutesPage}
 			/>
 			<Route
