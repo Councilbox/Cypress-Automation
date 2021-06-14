@@ -1839,6 +1839,7 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 		toast(
 			<LiveToast
 				message={translate.revise_text}
+				id="text-error-toast"
 			/>, {
 				position: toast.POSITION.TOP_RIGHT,
 				autoClose: true,
@@ -1853,6 +1854,7 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 		toast(
 			<LiveToast
 				message={translate.revise_text}
+				id="text-error-toast"
 			/>, {
 				position: toast.POSITION.TOP_RIGHT,
 				autoClose: true,

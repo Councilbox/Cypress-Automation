@@ -23,6 +23,7 @@ export const refreshToken = async (apolloClient, toast, store) => {
 	if (!sessionStorage.getItem('token') && !sessionStorage.getItem('participantToken')) {
 		toast(
 			<LiveToast
+				id="error-toast"
 				message={printSessionExpiredError()}
 			/>, {
 				position: toast.POSITION.TOP_RIGHT,
@@ -43,6 +44,7 @@ export const graphQLErrorHandler = async (graphQLError, toast, store, apolloClie
 				if (graphQLError.originalError.fields.tin) {
 					toast(
 						<LiveToast
+							id="error-toast"
 							message={printCifAlreadyUsed()}
 						/>, {
 							position: toast.POSITION.TOP_RIGHT,
@@ -57,6 +59,7 @@ export const graphQLErrorHandler = async (graphQLError, toast, store, apolloClie
 	if (graphQLError.message === 'Company trial ended') {
 		toast(
 			<LiveToast
+				id="error-toast"
 				message={printTrialEnded()}
 			/>, {
 				position: toast.POSITION.TOP_RIGHT,

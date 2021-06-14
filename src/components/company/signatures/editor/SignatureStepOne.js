@@ -185,6 +185,7 @@ checkRequiredFields = () => {
 		this.toastId = toast(
 			<LiveToast
 				message={translate.revise_text}
+				id="error-toast"
 			/>, {
 				position: toast.POSITION.TOP_RIGHT,
 				autoClose: true,
