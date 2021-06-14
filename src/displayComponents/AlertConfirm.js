@@ -111,6 +111,7 @@ const AlertConfirm = ({
 			)}
 			{!!title && (
 				<DialogTitle
+					id="modal-title"
 					style={{
 						margin: '0px 8px 0.8em',
 						padding: '1.1em 2em 1.1em 1em',
