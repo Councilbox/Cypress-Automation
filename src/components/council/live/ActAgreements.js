@@ -54,6 +54,7 @@ const ActAgreements = ({
 			toast.dismiss();
 			toast(
 				<LiveToast
+					id="error-toast"
 					message={translate.revise_text}
 				/>, {
 					position: toast.POSITION.TOP_RIGHT,

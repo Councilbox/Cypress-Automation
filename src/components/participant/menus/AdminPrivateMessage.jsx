@@ -55,6 +55,7 @@ sendCouncilRoomMessage = async () => {
 				}
 				toast(
 					<LiveToast
+						id="success-toast"
 						message={this.props.translate.tooltip_sent}
 					/>, {
 						position: toast.POSITION.TOP_RIGHT,
