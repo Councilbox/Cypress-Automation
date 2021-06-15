@@ -202,9 +202,10 @@ const StatuteEditor = ({
 			toast(
 				<LiveToast
 					message={translate.revise_text}
+					id="text-error-toast"
 				/>, {
 					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,
+					autoClose: false,
 					className: 'errorToast'
 				}
 			);

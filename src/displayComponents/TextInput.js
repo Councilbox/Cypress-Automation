@@ -132,7 +132,8 @@ const TextInput = ({
 			}}
 			FormHelperTextProps={{
 				error: !!errorText,
-				className: 'error-text'
+				className: 'error-text',
+				id: `${id}-error-text`
 			}}
 			color="secondary"
 			type={type}

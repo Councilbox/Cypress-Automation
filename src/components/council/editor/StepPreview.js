@@ -144,6 +144,7 @@ const StepPreview = ({
 				if (response.data.conveneWithNotice.success) {
 					toast(
 						<LiveToast
+							id="success-toast"
 							message={translate.council_sended}
 						/>, {
 							position: toast.POSITION.TOP_RIGHT,

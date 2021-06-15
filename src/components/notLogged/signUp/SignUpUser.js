@@ -404,7 +404,7 @@ class SignUpUser extends React.Component {
 							</a>
 						</div>
 						{this.props.errors.termsCheck && (
-							<div style={{ color: 'red' }}>
+							<div style={{ color: 'red' }} id="legal-terms-error-text">
 								{this.props.errors.termsCheck}
 							</div>
 						)}
