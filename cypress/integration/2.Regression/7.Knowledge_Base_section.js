@@ -162,7 +162,7 @@ describe("The user is able to delete already added folder in the 'Knowledge base
         });
 
         it("'Are you sure you want to delete the folder and all its contents?'' alert message is displayed", function() {
-            cy.contains('Warning')
+            cy.get('#modal-title')
         });
 
         it("Click on the 'OK' button", function() {
@@ -203,7 +203,7 @@ describe("The alert message is displayed when the user clicks on the 'Back' butt
         });
 
         it("'Has unsaved changes' alert message is successfully displayed", function() {
-            cy.contains('Has unsaved changes')
+            cy.get('#modal-title')
             cy.get('#unsaved-changes-discard').click()
             cy.wait(1000)
         });
@@ -306,7 +306,7 @@ describe("The user is able to use filter search in the 'Templates' section", fun
         });
 
         it("The searched template is successfully displayed in the template list", function() {
-            cy.get('#add-tag-statute_2477')
+            cy.get('#add-tag-statute_2530')
         });
 
         it("Back to Home page", function() {
@@ -458,10 +458,8 @@ describe("The alert message is successfully displayed when the user clicks on th
             cy.visit(login_url);
             cy.wait(3000)
         });
-<<<<<<< HEAD
+
 
 
     });
-=======
-    });
->>>>>>> 91030333d0af202c24b6bafe418feb2fd4bba666
+

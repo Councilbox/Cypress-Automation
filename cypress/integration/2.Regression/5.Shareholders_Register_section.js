@@ -88,7 +88,9 @@ describe("The user is able to edit member information in the 'Shareholder regist
         });
 
         it("The error message 'Required field' is displayed above the required fields and the new member isn't added to the partner list", function() {
-            cy.contains('Required field')
+            cy.get('#add-partner-name-error-text')
+            cy.get('#add-partner-surname-error-text')
+            cy.get('#add-partner-email-error-text')
         });
 
         it("Back to Home page", function() {
@@ -128,7 +130,7 @@ describe("The user is not able to add a member with invalid inputs in the 'Name'
         });
 
         it("The “Invalid field” message is displayed beyond the “Name” field", function() {
-            cy.contains('Invalid field')
+            cy.get('#add-partner-name-error-text')
         });
 
         it("Back to Home page", function() {
@@ -168,7 +170,7 @@ describe("The user is not able to add a member with invalid inputs in the 'Surna
         });
 
         it("The “Invalid field” message is displayed beyond the “Surname” field", function() {
-            cy.contains('Invalid field')
+            cy.get('#add-partner-surname-error-text')
         });
 
         it("Back to Home page", function() {

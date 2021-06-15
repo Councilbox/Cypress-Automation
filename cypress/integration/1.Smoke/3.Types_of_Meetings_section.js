@@ -52,12 +52,12 @@ describe("The user is able to add a new type of meeting in the 'Tipos de reunion
 
 
     it("On the upper left corner click on the 'Anadir tipo de reunion+'' button", function() {
-        cy.get('#anadirTipoDeReunion').click()
+        cy.get('#company-statute-create-button').click()
 
     });
 
     it("Populate required field and click on the 'Aceptar' button", function() {
-        cy.get('#anadirTipoDeReunionInputEnModal').type('Test'+Cypress.config('UniqueNumber'))
+        cy.get('#new-council-type-input').type('Test'+Cypress.config('UniqueNumber'))
         cy.get('#alert-confirm-button-accept').click()
     });
 
