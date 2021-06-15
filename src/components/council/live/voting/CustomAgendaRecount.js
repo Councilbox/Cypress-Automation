@@ -23,7 +23,6 @@ const CustomAgendaRecount = ({
 	agenda, translate, council, company
 }) => {
 	const data = formatDataFromAgenda(agenda, translate);
-
 	const votings = [...agenda.items].sort(orderByRecount(agenda.votingsRecount));
 
 	return (
@@ -49,6 +48,17 @@ const CustomAgendaRecount = ({
 				</div>
 			</GridItem>
 			<GridItem lg={8} md={6} xs={12} style={{ paddingLeft: '1em' }}>
+				<div
+					style={{
+						padding: '1em',
+						fontSize: '0.9em',
+						border: '1px solid grey',
+						marginBottom: '0.6em',
+						borderRadius: '3px'
+					}}
+				>
+					{`${translate.casted_votes}: ${agenda.votingsRecount.castedVotes || 0}`}
+				</div>
 				<Table>
 					<TableHead>
 						<TableRow>

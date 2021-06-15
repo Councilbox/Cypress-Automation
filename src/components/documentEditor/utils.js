@@ -64,6 +64,12 @@ const buildAgendaText = (agenda, translate, data) => {
 	if (isCustomPoint(agenda.subjectType)) {
 		return `
 			<div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
+				${translate.castedVotes ?
+					`<b>
+						${translate.castedVotes}: ${showNumParticipations(agenda.recount.castedVotes, data.council.statute)}
+					</b><br>`
+			: ''}
+				
 				<b>${translate.votings}:</b>
 				${agenda.items.reduce((acc, item) => `${acc}
 				<li>
@@ -98,17 +104,17 @@ const buildAgendaText = (agenda, translate, data) => {
 	}
 
 	return `
-<div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
-<b>${translate.votings}: </b>
-<br> ${
-	translate.inFavor.toUpperCase()}: ${
-	getAgendaResult(agenda, 'POSITIVE', data)} | ${
-	translate.against.toUpperCase()}: ${
-	getAgendaResult(agenda, 'NEGATIVE', data)} | ${translate.abstentions.toUpperCase()}:
-${getAgendaResult(agenda, 'ABSTENTION', data)} | ${translate.noVote.toUpperCase()}: ${getAgendaResult(agenda, 'NO_VOTE', data)}
-<br>
-</div>
-`;
+		<div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
+		<b>${translate.votings}: </b>
+		<br> ${
+			translate.inFavor.toUpperCase()}: ${
+			getAgendaResult(agenda, 'POSITIVE', data)} | ${
+			translate.against.toUpperCase()}: ${
+			getAgendaResult(agenda, 'NEGATIVE', data)} | ${translate.abstentions.toUpperCase()}:
+		${getAgendaResult(agenda, 'ABSTENTION', data)} | ${translate.noVote.toUpperCase()}: ${getAgendaResult(agenda, 'NO_VOTE', data)}
+		<br>
+		</div>
+	`;
 };
 
 export function generateAgendaBlocks(data, language = 'es', secondaryLanguage = 'en') {
