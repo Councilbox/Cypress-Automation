@@ -139,18 +139,24 @@ const CustomPointVotingMenu = ({
 								text={`${translate.abstention_btn} ${buildRecountText('abstention')}`}
 								disabled={disabled}
 								disabledColor={disabled}
+								vote={ownVote}
+								agenda={agenda}
+								translate={translate}
 								styleButton={{ width: '100%' }}
 								onClick={setAbstentionOption}
-								selectCheckBox={getSelectedRadio(-1)}
+								selectedCheckbox={getSelectedRadio(-1)}
 							/>
 						}
 						{(!config.hideNoVoteButton && config.hideAbstentionButton)
 							&& <VotingButton
 								text={`${translate.dont_vote} ${buildRecountText('noVote')}`}
 								disabled={disabled}
+								translate={translate}
 								disabledColor={disabled}
+								vote={ownVote}
+								agenda={agenda}
 								styleButton={{ width: '100%' }}
-								selectCheckBox={selections.length === 0}
+								selectedCheckbox={selections.length === 0}
 								onClick={resetSelections}
 							/>
 						}
@@ -166,16 +172,22 @@ const CustomPointVotingMenu = ({
 						text={`${translate.abstention_btn} ${buildRecountText('abstention')}`}
 						disabled={disabled}
 						disabledColor={disabled}
+						vote={ownVote}
+						agenda={agenda}
+						translate={translate}
 						styleButton={{ width: '90%' }}
 						onClick={setAbstentionOption}
-						selectCheckBox={getSelectedRadio(-1)}
+						selectedCheckbox={getSelectedRadio(-1)}
 					/>
 					<VotingButton
 						text={`${translate.dont_vote} ${buildRecountText('noVote')}`}
 						disabled={disabled}
+						vote={ownVote}
+						agenda={agenda}
+						translate={translate}
 						disabledColor={disabled}
 						styleButton={{ width: '90%' }}
-						selectCheckBox={selections.length === 0}
+						selectedCheckbox={selections.length === 0}
 						onClick={resetSelections}
 					/>
 				</div>
@@ -210,8 +222,11 @@ const CustomPointVotingMenu = ({
 								<VotingButton
 									disabled={disabled}
 									disabledColor={disabled}
+									vote={ownVote}
+									agenda={agenda}
+									translate={translate}
 									styleButton={{ padding: '0', width: '100%' }}
-									selectCheckBox={getSelectedRadio(item.id)}
+									selectedCheckbox={getSelectedRadio(item.id)}
 									onClick={() => setSelection(item)}
 									text={`${item.value} ${buildRecountText(item.id)}`}
 								/>
@@ -240,7 +255,10 @@ const CustomPointVotingMenu = ({
 								<VotingButton
 									styleButton={{ padding: '0', width: '100%' }}
 									disabledColor={disabled}
-									selectCheckBox={getSelectedRadio(item.id)}
+									vote={ownVote}
+									agenda={agenda}
+									translate={translate}
+									selectedCheckbox={getSelectedRadio(item.id)}
 									disabled={((agenda.options.maxSelections === selections.length) && (!getSelectedRadio(item.id) || disabled))}
 									onClick={() => {
 										if (!getSelectedRadio(item.id)) {
