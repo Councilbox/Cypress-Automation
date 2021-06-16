@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
-import { BasicButton, DateWrapper, Grid, GridItem } from '../../../displayComponents';
+import { BasicButton, Grid, GridItem } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
 import VoteConfirmationModal from './VoteConfirmationModal';
 import { VotingContext } from './AgendaNoSession';
@@ -315,6 +315,7 @@ export const VotingButton = ({
 	onClick,
 	text,
 	selected,
+	customAccent = true,
 	icon,
 	loading,
 	onChange,
@@ -330,7 +331,7 @@ export const VotingButton = ({
 	const primary = getPrimary();
 	const features = React.useContext(ConfigContext);
 
-	const config = ((selected || selectedCheckbox) && (vote && vote.vote !== VOTE_VALUES.NO_VOTE) && features.altSelectedOption) ? {
+	const config = ((selected || selectedCheckbox) && (vote && vote.vote !== VOTE_VALUES.NO_VOTE) && features.altSelectedOption && customAccent) ? {
 		text: <div style={{ padding: '0.6em', width: '100%' }}>
 			{text}
 			<hr style={{ borderTop: '1px solid white' }} />

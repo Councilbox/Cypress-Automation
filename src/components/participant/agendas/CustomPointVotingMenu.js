@@ -184,6 +184,7 @@ const CustomPointVotingMenu = ({
 						disabled={disabled}
 						vote={ownVote}
 						agenda={agenda}
+						customAccent={false}
 						translate={translate}
 						disabledColor={disabled}
 						styleButton={{ width: '90%' }}
