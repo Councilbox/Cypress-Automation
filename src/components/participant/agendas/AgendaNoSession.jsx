@@ -14,7 +14,7 @@ import { getAgendaTypeLabel, councilStarted } from '../../../utils/CBX';
 import CouncilInfoMenu from '../menus/CouncilInfoMenu';
 import * as CBX from '../../../utils/CBX';
 import CommentModal from './CommentModal';
-import { moment, store } from '../../../containers/App';
+import { store } from '../../../containers/App';
 import { logoutParticipant } from '../../../actions/mainActions';
 import { updateCustomPointVoting } from './CustomPointVotingMenu';
 import FinishModal from './FinishModal';
@@ -24,6 +24,8 @@ import { isMobile } from '../../../utils/screen';
 import CouncilAttachmentsModal from './CouncilAttachmentsModal';
 import { COUNCIL_STATES, COUNCIL_TYPES } from '../../../constants';
 import VoteSuccessMessage from './VoteSuccessMessage';
+import { ConfigContext } from '../../../containers/AppControl';
+import VotingCertificate from './VotingCertificate';
 
 
 export const VotingContext = React.createContext({});
@@ -469,6 +471,7 @@ const AgendaCard = ({
 	agenda, translate, participant, refetch, council
 }) => {
 	const ownVote = CBX.findOwnVote(agenda.votings, participant);
+	const config = React.useContext(ConfigContext);
 
 	const agendaStateIcon = () => {
 		let title = '';
@@ -570,11 +573,20 @@ const AgendaCard = ({
 						council={council}
 						refetch={refetch}
 					/>
-					<VoteSuccessMessage
-						vote={ownVote}
-						agenda={agenda}
-						translate={translate}
-					/>
+					{!config.altSelectedOption ?
+						<VoteSuccessMessage
+							vote={ownVote}
+							agenda={agenda}
+							translate={translate}
+						/>
+						:
+						<VotingCertificate
+							vote={ownVote}
+							translate={translate}
+							agenda={agenda}
+							participant={participant}
+						/>
+					}
 				</CardActions>
 			</Card>
 		</div>
