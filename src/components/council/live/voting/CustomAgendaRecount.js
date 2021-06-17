@@ -35,6 +35,13 @@ const CustomAgendaRecount = ({
 						width={130}
 						options={{
 							maintainAspectRatio: false,
+							title: {
+								display: true,
+								text: translate.votings
+							},
+							legend: {
+								display: false
+							},
 							scales: {
 								xAxes: [{
 									ticks: {
@@ -130,7 +137,6 @@ const formatDataFromAgenda = (agenda, translate) => {
 	return {
 		labels,
 		datasets: [{
-			label: translate.votings,
 			data: dataSet,
 			backgroundColor: orderedColors,
 			hoverBackgroundColor: orderedColors,
