@@ -412,19 +412,14 @@ top: 45px
 }
 
 .modal100Comentario {
-height: 3.5rem!important;
-top: 0%!important;
-/* top: calc( 100% - 7.5em)!important; */
+	height: 0!important;
+	top: 0%!important;
+	background-color: #000000a6;
 }
 
 .modal100Comentario>div:first-child {
-width: 0;
-height: 0;
-}
-
-.modal100Comentario>div:first-child {
-width: 0;
-height: 0;
+	width: 0;
+	height: 0;
 }
 
 .modal100 {
