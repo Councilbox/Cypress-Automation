@@ -123,7 +123,7 @@ const CustomAgendaRecount = ({
 	);
 };
 
-const formatDataFromAgenda = (agenda, translate) => {
+const formatDataFromAgenda = agenda => {
 	const colors = ['#E8B745', '#D1DE3B', '#6AD132', '#2AC26D', '#246FB0', '#721E9C', '#871A1C', '#6EA85D', '#9DAA49', '#CDA645'];
 	const newItems = agenda.items.map((item, index) => ({
 		...item,
