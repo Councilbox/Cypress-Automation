@@ -16,11 +16,12 @@ import {
 } from '../../../../utils/CBX';
 import { getSecondary } from '../../../../styles/colors';
 import { useDownloadHTMLAsPDF, usePolling } from '../../../../hooks';
-import { AlertConfirm, DropDownMenu } from '../../../../displayComponents';
+import { AlertConfirm, BasicButton, DropDownMenu } from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
 import { COUNCIL_TYPES } from '../../../../constants';
 import MenuSuperiorTabs from '../../../dashboard/MenuSuperiorTabs';
 import QuorumTable from './QuorumTable';
+import { SERVER_URL } from '../../../../config';
 
 
 const QuorumDisplay = ({
@@ -110,6 +111,30 @@ export const QuorumDetails = withApollo(({
 			companyId: council.companyId,
 			html: document.getElementById('quorumTable').innerHTML
 		});
+	};
+
+	const downloadExcel = async () => {
+		const token = sessionStorage.getItem('token');
+		const apiToken = sessionStorage.getItem('apiToken');
+		const participantToken = sessionStorage.getItem('participantToken');
+		const response = await fetch(`${SERVER_URL}/council/${council.id}/resultsExcel`, {
+			method: 'GET',
+			headers: new Headers({
+				'x-jwt-token': token || (apiToken || participantToken),
+				'Content-type': 'application/json'
+			})
+		});
+
+		if (response.status === 200) {
+			const blob = await response.blob();
+			const url = window.URL.createObjectURL(blob);
+			const a = document.createElement('a');
+			a.href = url;
+			a.download = `${translate.results} ${council.id}.xlsx`;
+			document.body.appendChild(a);
+			a.click();
+			a.remove();
+		}
 	};
 
 	const getData = React.useCallback(async () => {
@@ -232,6 +257,9 @@ export const QuorumDetails = withApollo(({
 								</MenuItem>
 							</React.Fragment>
 						}
+					/>
+					<BasicButton
+						onClick={downloadExcel}
 					/>
 				</div>
 			</div>
