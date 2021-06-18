@@ -64,7 +64,7 @@ const CustomAgendaRecount = ({
 						borderRadius: '3px'
 					}}
 				>
-					{`${translate.casted_votes}: ${agenda.votingsRecount.castedVotes || 0}`}
+					{`${translate.voters}: ${agenda.votingsRecount.castedVotes || 0} / ${agenda.votingsRecount.totalVotes}`}
 				</div>
 				<Table>
 					<TableHead>
