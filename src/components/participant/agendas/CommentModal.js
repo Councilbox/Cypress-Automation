@@ -73,6 +73,7 @@ const CommentModal = ({
 		if (CBX.checkForUnclosedBraces(state.vote.comment)) {
 			toast(
 				<LiveToast
+					id="error-toast"
 					message={translate.revise_text}
 				/>, {
 					position: toast.POSITION.TOP_RIGHT,

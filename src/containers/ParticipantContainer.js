@@ -380,6 +380,7 @@ const councilQuery = gql`
 			street
 			tin
 			videoMode
+			timezone
 			videoRecodingInitialized
 			votationType
 			weightedVoting

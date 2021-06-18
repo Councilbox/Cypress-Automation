@@ -238,6 +238,7 @@ const StepNotice = ({
 			newErrors.conveneText = translate.revise_text;
 			toast(
 				<LiveToast
+					id="error-toast"
 					message={translate.revise_text}
 				/>, {
 					position: toast.POSITION.TOP_RIGHT,

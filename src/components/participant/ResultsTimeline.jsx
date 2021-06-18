@@ -16,6 +16,7 @@ import { usePolling } from '../../hooks';
 import { moment } from '../../containers/App';
 import { isMobile } from '../../utils/screen';
 import { getSubjectAbrv } from '../../displayComponents/AgendaNumber';
+import VotingCertificate from './agendas/VotingCertificate';
 
 
 const ResultsTimeline = ({
@@ -108,15 +109,13 @@ const ResultsTimeline = ({
 	return (
 		<div style={{
 			minHeight: '10em',
-			height: disableScroll ? '' : '100%'
+			height: disableScroll ? '' : 'calc(100% - 2.5em)'
 		}}>
 			{disableScroll ?
 				body()
 				:
 				<Scrollbar ref={scrollbar}>
-					<div>
-						{body()}
-					</div>
+					{body()}
 				</Scrollbar>
 			}
 		</div>
@@ -134,6 +133,11 @@ const VoteDisplay = ({
 		return (
 			<div>
 				<span style={{ color: getPrimary(), fontWeight: endPage ? '' : '700' }}>{`${voting.vote !== -1 ? translate.has_voted : translate.no_vote_lowercase}`}</span>
+				<VotingCertificate
+					vote={voting}
+					translate={translate}
+					agenda={agenda}
+				/>
 			</div>
 		);
 	}
@@ -143,6 +147,11 @@ const VoteDisplay = ({
 			<div>
 				{`${translate.your_vote_is}: `}
 				<span style={{ color: getPrimary(), fontWeight: endPage ? '' : '700' }}>{`${translate.no_vote_lowercase}`}</span>
+				<VotingCertificate
+					vote={voting}
+					translate={translate}
+					agenda={agenda}
+				/>
 			</div>
 		);
 	}
@@ -159,6 +168,11 @@ const VoteDisplay = ({
 				{voting.vote === -1 &&
 					translate.without_selection
 				}
+				<VotingCertificate
+					vote={voting}
+					translate={translate}
+					agenda={agenda}
+				/>
 			</div>
 		);
 	}
@@ -176,6 +190,11 @@ const VoteDisplay = ({
 				:
 				<span style={{ color: getPrimary(), fontWeight: endPage ? '' : '700' }}>{`${getVote(voting.vote, translate)}`}</span>
 			}
+			<VotingCertificate
+				vote={voting}
+				translate={translate}
+				agenda={agenda}
+			/>
 		</div>
 	);
 };

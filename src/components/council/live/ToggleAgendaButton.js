@@ -37,6 +37,7 @@ const ToggleAgendaButton = ({
 				if (response.errors) {
 					toast(
 						<LiveToast
+							id="error-toast"
 							message={translate.open_point_error}
 						/>, {
 							position: toast.POSITION.TOP_RIGHT,

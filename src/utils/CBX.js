@@ -33,7 +33,7 @@ import { TAG_TYPES } from '../components/company/drafts/draftTags/utils';
 
 export const canReorderPoints = council => council.statute.canReorderPoints === 1;
 
-export const formatInt = num => {
+export const formatInt = (num, char = ' ') => {
 	if (!num) {
 		return 0;
 	}
@@ -42,7 +42,7 @@ export const formatInt = num => {
 		return num;
 	}
 	let newNum = num.toString().split('').reverse().join('')
-		.replace(/(?=\d*\.?)(\d{3})/g, '$1 ');
+		.replace(/(?=\d*\.?)(\d{3})/g, `$1${char}`);
 	newNum = newNum.split('').reverse().join('').replace(/^[\.]/, '');
 	return newNum;
 };
@@ -79,6 +79,10 @@ export const showNumParticipations = (numParticipations, company, statute) => {
 
 	if (!company || !company.type) {
 		return formatInt(numParticipations);
+	}
+
+	if (company && company.id === 546) {
+		return formatInt(numParticipations, '.');
 	}
 
 	if (company.type === 10) {
@@ -1839,6 +1843,7 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 		toast(
 			<LiveToast
 				message={translate.revise_text}
+				id="text-error-toast"
 			/>, {
 				position: toast.POSITION.TOP_RIGHT,
 				autoClose: true,
@@ -1853,6 +1858,7 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 		toast(
 			<LiveToast
 				message={translate.revise_text}
+				id="text-error-toast"
 			/>, {
 				position: toast.POSITION.TOP_RIGHT,
 				autoClose: true,

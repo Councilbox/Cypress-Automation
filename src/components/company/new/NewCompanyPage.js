@@ -175,6 +175,7 @@ class NewCompanyPage extends React.PureComponent {
 					toast(
 						<LiveToast
 							message={this.props.translate.company_created}
+							id="success-toast"
 						/>, {
 							position: toast.POSITION.TOP_RIGHT,
 							autoClose: true,

@@ -6,7 +6,7 @@ class LiveToast extends React.Component {
 		return (
 			<div style={{ display: 'flex', flexDirection: 'row', userSelect: 'none' }}>
 				<img src={whiteIcon} style={{ height: '2.2em', width: 'auto', marginRight: '0.8em' }} alt={'Toast'}/>
-				<div>{this.props.message}</div>
+				<div id={this.props.id || ''}>{this.props.message}</div>
 			</div>
 		);
 	}

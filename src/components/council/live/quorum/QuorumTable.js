@@ -155,6 +155,23 @@ const QuorumTable = ({ translate, data, company, council, hasParticipations, tot
 							{getPercentage(data.delegated)}%
 						</TableCell>
 					</TableRow>
+					{data.treasuryShares &&
+						<TableRow>
+							<TableCell style={mainRowsStyle}>
+								{translate.treasury_shares}
+							</TableCell>
+							<TableCell style={mainRowsStyle}>
+								{'-'}
+							</TableCell>
+							<TableCell style={mainRowsStyle}>
+								{showNumParticipations(data.treasuryShares, company, council.statute)}
+							</TableCell>
+							<TableCell style={mainRowsStyle}>
+								{getPercentage(data.treasuryShares)}%
+							</TableCell>
+						</TableRow>
+					}
+
 					<TableRow>
 						<TableCell style={totalRowStyle}>
 							<div style={markedRow}>
