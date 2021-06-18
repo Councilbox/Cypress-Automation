@@ -13,7 +13,7 @@ const CouncilActResults = ({
 			renderVotingsTable
 			translate={translate}
 			socialCapital={recount.socialCapitalTotal}
-			totalVotes={recount.partRightVoting}
+			totalVotes={recount.partTotal}
 		/>
 	</div>
 
