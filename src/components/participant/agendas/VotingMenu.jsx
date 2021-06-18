@@ -182,6 +182,8 @@ const VotingMenu = ({
 							)
 						)
 				}
+				agenda={agenda}
+				translate={translate}
 				vote={props.ownVote}
 				loading={loading === 1}
 				disabledColor={disabledColor}
@@ -211,6 +213,8 @@ const VotingMenu = ({
 							)
 						)
 				}
+				agenda={agenda}
+				translate={translate}
 				vote={props.ownVote}
 				loading={loading === 0}
 				disabledColor={disabledColor}
@@ -242,6 +246,8 @@ const VotingMenu = ({
 								)
 							)
 					}
+					agenda={agenda}
+					translate={translate}
 					vote={props.ownVote}
 					loading={loading === 2}
 					disabledColor={disabledColor}
@@ -273,6 +279,8 @@ const VotingMenu = ({
 								)
 							)
 					}
+					agenda={agenda}
+					translate={translate}
 					vote={props.ownVote}
 					loading={loading === -1}
 					disabled={disabled}
