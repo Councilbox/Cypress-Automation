@@ -67,10 +67,10 @@ describe("Councilbox login - valid username and password", function() {
 });
 
 
-describe("The user is able to open point in the 'New call with session' section", function() {
+describe("The user is able to send minutes in the 'New call with session' type of meeting", function() {
 
-    it("Click on the 'Nueva reunion' button", function() {
-
+     it("Click on the 'Nueva reunion' button", function() {
+        
         cy.get('#create-council-block').click()
 
     });
@@ -102,7 +102,9 @@ describe("The user is able to open point in the 'New call with session' section"
         cy.wait(1000)
 
 
-           cy.get('#participant-name-input').clear()
+           
+            
+         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))    
             
         cy.get('#participant-surname-input').clear()
@@ -145,8 +147,6 @@ describe("The user is able to open point in the 'New call with session' section"
         cy.wait(1000)
         cy.get('#agenda-editor-type-1').click()
         cy.wait(1000)
-        cy.wait(1000)
-
         cy.get('#alert-confirm-button-accept').click()
         cy.wait(1000)
         cy.get('#ordenDelDiaNext').click()
@@ -256,9 +256,7 @@ describe("The user is able to open point in the 'New call with session' section"
 
              it("Populate all required fields and click on the “Aceptar” button", function() {
         
-       
-
-        cy.get('#council-president-select').click()
+       cy.get('#council-president-select').click()
 
        cy.wait(200)
 
@@ -295,14 +293,102 @@ describe("The user is able to open point in the 'New call with session' section"
     });
 
 
-
-
-        it("User should be able to exit the meeting", function() {
-
-        cy.visit(login_url)
-
+    it("Click on the “Activar votaciones” button", function() {
+        
+        cy.get('#open-point-votings-button').click()
+        cy.wait(2000)
+        
+        
+    
     });
 
+
+    it("Click on the “Cerrar las votaciones del punto” button", function() {
+        
+        cy.get('#close-point-votings-button').click()
+        cy.wait(2000)
+        
+        
+    
+    });
+
+    it("Click on the “Cerrar punto” button", function() {
+        
+        cy.get('#close-agenda-point-button').click()
+        cy.wait(2000)
+        
+        
+    
+    });
+
+
+    it("Click on the “Finalizar reunion” button", function() {
+        
+        cy.get('#finalizarReunionEnReunion').click()
+        
+        
+    
+    });
+
+
+    it("Click on the “Accept” button", function() {
+        
+        cy.get('#alert-confirm-button-accept').click()
+        cy.wait(2000)
+        
+        
+    
+    });
+
+
+    it("Click on the “Finalizar y aprobar acta” button and again click on the “Finalizar y aprobar acta” button", function() {
+        
+        cy.get('#council-act-approve-button').click()
+        cy.wait(5000)
+        cy.get('#alert-confirm-button-accept').click()
+        cy.wait(1000)
+        
+        
+    
+    });
+
+
+    it("Click on the “Envio del acta” button", function() {
+        
+        cy.get('#tab-sendAct').click()
+        cy.wait(1000)
+        
+        
+    
+    });
+
+
+    it("Click on the “Enviar acta” button", function() {
+        
+        cy.get('#send-act-button').click()
+        cy.wait(1000)
+        
+        
+    
+    });
+
+
+    it("Click on the “Enviar a todos los convocados then click on the “Enviar” button", function() {
+        
+        cy.get('#send-act-all-convened-option').click()
+        cy.wait(1000)
+        cy.get('#alert-confirm-button-accept').click()
+        cy.wait(3000)
+        cy.get('#alert-confirm-button-cancel').click()
+        
+        
+    
+    });
+
+    it("Back to Home page", function() {
+            cy.visit(login_url);
+            cy.wait(3000)
+        });
 
 
 

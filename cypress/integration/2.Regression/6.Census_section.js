@@ -100,7 +100,7 @@ describe("The user is not able to add census in the 'Censuses' section without p
         });
 
         it("The alert message 'Required field' is displayed beyond the “Name” field", function() {
-            cy.contains('Required field')
+            cy.get('#census-name-error-text')
         });
         
         it("Back to Home page", function() {
