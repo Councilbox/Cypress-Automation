@@ -41,6 +41,7 @@ export const formatInt = (num, char = ' ') => {
 	if (num < 1000) {
 		return num;
 	}
+
 	let newNum = num.toString().split('').reverse().join('')
 		.replace(/(?=\d*\.?)(\d{3})/g, `$1${char}`);
 	newNum = newNum.split('').reverse().join('').replace(/^[\.]/, '');
@@ -77,12 +78,12 @@ export const showNumParticipations = (numParticipations, company, statute) => {
 		return formatInt(numParticipations / (10 ** statute.decimalDigits));
 	}
 
-	if (!company || !company.type) {
-		return formatInt(numParticipations);
-	}
-
 	if (company && company.id === 546) {
 		return formatInt(numParticipations, '.');
+	}
+
+	if (!company || !company.type) {
+		return formatInt(numParticipations);
 	}
 
 	if (company.type === 10) {
