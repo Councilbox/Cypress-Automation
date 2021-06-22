@@ -255,6 +255,8 @@ describe("The user is able to start council in the 'New call with session' secti
 
           cy.wait(1000)
 
+          cy.wait(3000)
+
           cy.get('#censoSiguienteNew').click()
 
     });
@@ -502,6 +504,7 @@ describe("The user is able to open point in the 'New call with session' section"
           cy.get('#alert-confirm-button-accept').click()
 
           cy.wait(1000)
+          cy.wait(3000)
 
           cy.get('#censoSiguienteNew').click()
 
@@ -747,6 +750,7 @@ describe("The user is able to activate ratings in the 'New call with session'", 
           cy.get('#alert-confirm-button-accept').click()
 
           cy.wait(1000)
+          cy.wait(3000)
 
           cy.get('#censoSiguienteNew').click()
 
@@ -1001,6 +1005,7 @@ describe("The user is able to close point votations in the 'New call with sessio
           cy.get('#alert-confirm-button-accept').click()
 
           cy.wait(1000)
+          cy.wait(3000)
 
           cy.get('#censoSiguienteNew').click()
 
@@ -1266,6 +1271,7 @@ describe("The user is able to close point in the 'New call with session' type of
           cy.get('#alert-confirm-button-accept').click()
 
           cy.wait(1000)
+          cy.wait(3000)
 
           cy.get('#censoSiguienteNew').click()
 
@@ -1540,6 +1546,7 @@ describe("The user is able to finish council in the 'New call with session' type
           cy.get('#alert-confirm-button-accept').click()
 
           cy.wait(1000)
+          cy.wait(3000)
 
           cy.get('#censoSiguienteNew').click()
 
@@ -1825,6 +1832,7 @@ describe("The user is able to finalize and approve act in the 'New call with ses
           cy.get('#alert-confirm-button-accept').click()
 
           cy.wait(1000)
+          cy.wait(3000)
 
           cy.get('#censoSiguienteNew').click()
 
@@ -2121,6 +2129,8 @@ describe("The user is able to send minutes in the 'New call with session' type o
           cy.get('#alert-confirm-button-accept').click()
 
           cy.wait(1000)
+
+          cy.wait(3000)
 
           cy.get('#censoSiguienteNew').click()
 
