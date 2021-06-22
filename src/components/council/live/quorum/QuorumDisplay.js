@@ -127,6 +127,7 @@ export const QuorumDetails = withApollo(({
 						withoutVote
 						numWithoutVote
 						numPresent
+						treasuryShares
 						numTotal
 						others
 						numOthers
@@ -142,6 +143,7 @@ export const QuorumDetails = withApollo(({
 						present
 						withoutVote
 						numWithoutVote
+						treasuryShares
 						numPresent
 						numTotal
 						others

@@ -63,7 +63,7 @@ const SelectInput = ({
 		>
 			{children}
 		</Select>
-		{errorText && <span style={{ color: 'red', fontSize: '12px' }}>{errorText}</span>}
+		{errorText && <span style={{ color: 'red', fontSize: '12px' }} id={`${id}-error-text`}>{errorText}</span>}
 	</FormControl>
 );
 

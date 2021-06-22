@@ -106,6 +106,40 @@ const getSpecificTranslations = (language, company) => {
 				selectedCompany: 1311,
 				num_abstention: 'Núm. de persones en blanc'
 			}
+		},
+		546: {
+			es: {
+				dont_vote: 'En blanco',
+				no_vote_lowercase: 'En blanco',
+				they_didnt_vote: 'En blanco',
+				no_vote: 'EN BLANCO',
+				selectedCompany: 666,
+				num_no_vote: 'Nº de personas en blanco'
+			},
+			cat: {
+				dont_vote: 'En blanc',
+				no_vote_lowercase: 'En blanc',
+				they_didnt_vote: 'En blanc',
+				no_vote: 'EN BLANCO',
+				selectedCompany: 666,
+				num_no_vote: 'Núm. de persones en blanc'
+			},
+			gal: {
+				dont_vote: 'En branco',
+				no_vote_lowercase: 'En branco',
+				they_didnt_vote: 'En branco',
+				no_vote: 'EN BRANCO',
+				selectedCompany: 666,
+				num_no_vote: 'Nº de persoas en branco'
+			},
+			en: {
+				dont_vote: 'Blank',
+				no_vote_lowercase: 'Blank',
+				no_vote: 'BLANK',
+				selectedCompany: 666,
+				they_didnt_vote: 'Blank',
+				num_no_vote: 'Number of blank votes'
+			}
 		}
 	};
 

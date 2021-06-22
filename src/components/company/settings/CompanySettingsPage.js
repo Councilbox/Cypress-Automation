@@ -283,6 +283,7 @@ const CompanySettingsPage = ({
 				toast(
 					<LiveToast
 						message={translate.changes_saved}
+						id="success-toast"
 					/>, {
 						position: toast.POSITION.TOP_RIGHT,
 						autoClose: true,

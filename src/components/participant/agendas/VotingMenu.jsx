@@ -9,7 +9,8 @@ import { voteAllAtOnce } from '../../../utils/CBX';
 import { ConfigContext } from '../../../containers/AppControl';
 import { isMobile } from '../../../utils/screen';
 import * as CBX from '../../../utils/CBX';
-import { AGENDA_STATES } from '../../../constants';
+import { AGENDA_STATES, VOTE_VALUES } from '../../../constants';
+import VoteSuccessMessage from './VoteSuccessMessage';
 
 
 const styles = {
@@ -21,7 +22,7 @@ const styles = {
 	divisionM: {
 		display: 'flex',
 		alignItems: 'center',
-		height: '50px',
+		marginTop: '.5em'
 	}
 };
 
@@ -181,6 +182,9 @@ const VotingMenu = ({
 							)
 						)
 				}
+				agenda={agenda}
+				translate={translate}
+				vote={props.ownVote}
 				loading={loading === 1}
 				disabledColor={disabledColor}
 				disabled={disabled}
@@ -209,6 +213,9 @@ const VotingMenu = ({
 							)
 						)
 				}
+				agenda={agenda}
+				translate={translate}
+				vote={props.ownVote}
 				loading={loading === 0}
 				disabledColor={disabledColor}
 				disabled={disabled}
@@ -239,6 +246,9 @@ const VotingMenu = ({
 								)
 							)
 					}
+					agenda={agenda}
+					translate={translate}
+					vote={props.ownVote}
 					loading={loading === 2}
 					disabledColor={disabledColor}
 					disabled={disabled}
@@ -269,6 +279,9 @@ const VotingMenu = ({
 								)
 							)
 					}
+					agenda={agenda}
+					translate={translate}
+					vote={props.ownVote}
 					loading={loading === -1}
 					disabled={disabled}
 					disabledColor={disabledColor}
@@ -307,28 +320,75 @@ export const DeniedDisplay = ({ denied }) => (
 );
 
 export const VotingButton = ({
-	onClick, text, selected, icon, loading, onChange, disabled, styleButton, selectCheckBox, color, disabledColor
+	onClick,
+	text,
+	selected,
+	customAccent = true,
+	icon,
+	loading,
+	onChange,
+	disabled,
+	selectedCheckbox,
+	styleButton,
+	color,
+	disabledColor,
+	vote,
+	translate,
+	agenda
 }) => {
 	const primary = getPrimary();
+	const features = React.useContext(ConfigContext);
+
+	const config = ((selected || selectedCheckbox) && (vote && vote.vote !== VOTE_VALUES.NO_VOTE) && features.altSelectedOption && customAccent) ? {
+		text: <div style={{ padding: '0.6em', width: '100%' }}>
+			{text}
+			<hr style={{ borderTop: '1px solid white' }} />
+			{(vote && agenda) &&
+				<VoteSuccessMessage
+					vote={vote}
+					agenda={agenda}
+					color="white"
+					translate={translate}
+				/>
+			}
+		</div>,
+		color: primary,
+		textStyle: {
+			color: 'white',
+			fontWeight: '700',
+		},
+		buttonStyle: {
+			width: '100%',
+			whiteSpace: 'pre-wrap',
+			border: selected && `2px solid ${primary}`,
+			...styleButton,
+		}
+	} : {
+		text,
+		color: color || (disabledColor ? 'gainsboro' : 'white'),
+		textStyle: {
+			color: '#000000de',
+			fontWeight: '700',
+		},
+		buttonStyle: {
+			width: '100%',
+			whiteSpace: 'pre-wrap',
+			border: (selected || selectedCheckbox) && `2px solid ${primary}`,
+			...styleButton,
+		}
+	};
+
 	return (
 		<GridItem xs={12} md={12} lg={12} style={isMobile ? styles.divisionM : styles.division}>
 			<BasicButton
-				text={text}
-				color={color || (disabledColor ? 'gainsboro' : 'white')}
+				text={config.text}
+				color={config.color}
 				disabled={disabled || selected || disabledColor}
 				loading={loading}
 				loadingColor={primary}
 				icon={icon}
-				textStyle={{
-					color: '#000000de',
-					fontWeight: '700',
-				}}
-				buttonStyle={{
-					width: '100%',
-					whiteSpace: 'pre-wrap',
-					border: (selected || selectCheckBox) && `2px solid ${primary}`,
-					...styleButton,
-				}}
+				textStyle={config.textStyle}
+				buttonStyle={config.buttonStyle}
 				onClick={onClick}
 				onChange={onChange}
 			/>

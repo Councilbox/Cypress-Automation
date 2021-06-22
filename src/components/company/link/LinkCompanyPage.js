@@ -88,6 +88,7 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 			if (response.data.linkCompany.success) {
 				toast(
 					<LiveToast
+						id="success-toast"
 						message={translate.company_link_success_title}
 					/>, {
 						position: toast.POSITION.TOP_RIGHT,
