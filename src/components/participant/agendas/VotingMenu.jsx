@@ -22,7 +22,7 @@ const styles = {
 	divisionM: {
 		display: 'flex',
 		alignItems: 'center',
-		height: '50px',
+		marginTop: '.5em'
 	}
 };
 
