@@ -112,7 +112,7 @@ const CouncilLiveMobilePage = ({
 					<FabButton
 						icon={
 							<Icon className="material-icons">
-add
+								add
 							</Icon>
 						}
 						onClick={() => setState({ ...state, open: !state.open })}
@@ -125,13 +125,13 @@ add
 						onClick={openCommentWall}
 					/>
 					{showVideo(council)
-&& <BasicButton
-	text={'Ver participantes remotos'}
-	color={secondary}
-	textStyle={{ color: 'white', fontWeight: '700' }}
-	buttonStyle={{ marginBottom: '1em' }}
-	onClick={toggleLiveParticipantsDrawer}
-/>
+						&& <BasicButton
+							text={'Ver participantes remotos'}
+							color={secondary}
+							textStyle={{ color: 'white', fontWeight: '700' }}
+							buttonStyle={{ marginBottom: '1em' }}
+							onClick={toggleLiveParticipantsDrawer}
+						/>
 					}
 				</FloatGroup>
 				<FabButton
@@ -190,7 +190,7 @@ add
 					/>
 					: <AgendaManager
 						recount={data.councilRecount}
-						council={council}
+						council={council.data.council}
 						company={company}
 						translate={translate}
 						fullScreen={state.fullScreen}
