@@ -157,7 +157,7 @@ const QuorumTable = ({ translate, data, company, council, hasParticipations, tot
 							{getPercentage(data.delegated)}%
 						</TableCell>
 					</TableRow>
-					{data.treasuryShares &&
+					{data.treasuryShares !== 0 &&
 						<TableRow>
 							<TableCell style={mainRowsStyle}>
 								{translate.treasury_shares}
