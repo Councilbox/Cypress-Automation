@@ -11,9 +11,9 @@ jobs:
       registry_url: cbxacr.azurecr.io
       repository_name: cbx/councilbox-client
       state_repo: councilbox/cbx-state
-      service_name: councilbox-client
       stage: dev
       branch: master
+      chart: cbx
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -62,7 +62,8 @@ jobs:
               "event_type": "edit-image-helm-repo",
               "client_payload": {
                 "environment": "${{ env.stage }}",
-                "service": "${{ env.service_name }}",
-                "actor": "${{ github.actor }}",
+                "services": "councilbox-client",
+                "application": "${{ env.chart }}",
+                "reviewers": "${{ github.actor }}",
                 "image": "${{ steps.image_name.outputs.image_name }}" }}'\
             https://api.github.com/repos/${{ env.state_repo }}/dispatches
