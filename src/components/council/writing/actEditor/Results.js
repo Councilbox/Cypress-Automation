@@ -5,7 +5,7 @@ import { QuorumDetails } from '../../live/quorum/QuorumDisplay';
 const CouncilActResults = ({
 	council, agendas, recount, translate, company
 }) => (
-	<div style={{ width: '95%', margin: 'auto', paddingBottom: '5em', height: '100%' }}>
+	<div style={{ width: '95%', margin: 'auto', paddingBottom: '5em' }}>
 		<QuorumDetails
 			council={council}
 			recount={recount}
