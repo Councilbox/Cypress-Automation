@@ -340,7 +340,7 @@ const EarlyVotingBody = withApollo(({
 											disabled={disableCustom && !active}
 											disabledColor={disableCustom && !active}
 											styleButton={{ padding: '0', width: '100%' }}
-											selectCheckBox={active}
+											selectedCheckbox={active}
 											onClick={() => {
 												setEarlyVote(point.id, item.id);
 											}}

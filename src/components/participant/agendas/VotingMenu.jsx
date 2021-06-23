@@ -322,13 +322,13 @@ export const DeniedDisplay = ({ denied }) => (
 export const VotingButton = ({
 	onClick,
 	text,
-	selected,
+	selected = false,
 	customAccent = true,
 	icon,
 	loading,
 	onChange,
 	disabled,
-	selectedCheckbox,
+	selectedCheckbox = false,
 	styleButton,
 	color,
 	disabledColor,
@@ -338,8 +338,9 @@ export const VotingButton = ({
 }) => {
 	const primary = getPrimary();
 	const features = React.useContext(ConfigContext);
+	const highlighted = (selected || selectedCheckbox);
 
-	const config = ((selected || selectedCheckbox) && (vote && vote.vote !== VOTE_VALUES.NO_VOTE) && features.altSelectedOption && customAccent) ? {
+	const config = ((highlighted) && (vote && vote.vote !== VOTE_VALUES.NO_VOTE) && features.altSelectedOption && customAccent) ? {
 		text: <div style={{ padding: '0.6em', width: '100%' }}>
 			{text}
 			<hr style={{ borderTop: '1px solid white' }} />
@@ -360,7 +361,7 @@ export const VotingButton = ({
 		buttonStyle: {
 			width: '100%',
 			whiteSpace: 'pre-wrap',
-			border: selected && `2px solid ${primary}`,
+			border: highlighted && `2px solid ${primary}`,
 			...styleButton,
 		}
 	} : {
@@ -373,7 +374,7 @@ export const VotingButton = ({
 		buttonStyle: {
 			width: '100%',
 			whiteSpace: 'pre-wrap',
-			border: (selected || selectedCheckbox) && `2px solid ${primary}`,
+			border: highlighted && `2px solid ${primary}`,
 			...styleButton,
 		}
 	};
@@ -383,7 +384,7 @@ export const VotingButton = ({
 			<BasicButton
 				text={config.text}
 				color={config.color}
-				disabled={disabled || selected || disabledColor}
+				disabled={disabled || disabledColor || selected}
 				loading={loading}
 				loadingColor={primary}
 				icon={icon}
