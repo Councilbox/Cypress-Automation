@@ -16,7 +16,7 @@ import {
 } from '../../../../utils/CBX';
 import { getSecondary } from '../../../../styles/colors';
 import { useDownloadHTMLAsPDF, usePolling } from '../../../../hooks';
-import { AlertConfirm, BasicButton, DropDownMenu } from '../../../../displayComponents';
+import { AlertConfirm, DropDownMenu } from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
 import { COUNCIL_TYPES } from '../../../../constants';
 import MenuSuperiorTabs from '../../../dashboard/MenuSuperiorTabs';
@@ -105,15 +105,29 @@ export const QuorumDetails = withApollo(({
 		return ((value / base) * 100).toFixed(3);
 	};
 
-	const downloadPDF = async () => {
+	const downloadQuorumPDF = async () => {
 		await downloadHTMLAsPDF({
-			name: `Quorum_${council.name.replace(/\s/g, '_')}_${moment().format('DD/MM/YYYY_hh_mm_ss')}`,
+			name: `${translate[selectedTab]}_${council.name.replace(/\s/g, '_')}_${moment().format('DD/MM/YYYY_hh_mm_ss')}`,
 			companyId: council.companyId,
-			html: document.getElementById('quorumTable').innerHTML
+			html: `
+				<h4>${translate[selectedTab]}</h4>
+				${document.getElementById('quorumTable').innerHTML}
+			`
 		});
 	};
 
-	const downloadExcel = async () => {
+	const downloadResultsPDF = async () => {
+		await downloadHTMLAsPDF({
+			name: `${translate.results}_${council.name.replace(/\s/g, '_')}_${moment().format('DD/MM/YYYY_hh_mm_ss')}`,
+			companyId: council.companyId,
+			html: `
+				<h4>${translate.results}</h4>
+				${document.getElementById('resultsTable').innerHTML}
+			`
+		});
+	};
+
+	const downloadResultsExcel = async () => {
 		const token = sessionStorage.getItem('token');
 		const apiToken = sessionStorage.getItem('apiToken');
 		const participantToken = sessionStorage.getItem('participantToken');
@@ -131,6 +145,32 @@ export const QuorumDetails = withApollo(({
 			const a = document.createElement('a');
 			a.href = url;
 			a.download = `${translate.results} ${council.id}.xlsx`;
+			document.body.appendChild(a);
+			a.click();
+			a.remove();
+		}
+	};
+
+	const downloadQuorumExcel = async () => {
+		const token = sessionStorage.getItem('token');
+		const apiToken = sessionStorage.getItem('apiToken');
+		const participantToken = sessionStorage.getItem('participantToken');
+		const response = await fetch(`${SERVER_URL}/council/${council.id}/quorumExcel/${
+			selectedTab === translate.current_quorum ? 'current' : 'initial'
+		}`, {
+			method: 'GET',
+			headers: new Headers({
+				'x-jwt-token': token || (apiToken || participantToken),
+				'Content-type': 'application/json'
+			})
+		});
+
+		if (response.status === 200) {
+			const blob = await response.blob();
+			const url = window.URL.createObjectURL(blob);
+			const a = document.createElement('a');
+			a.href = url;
+			a.download = `${translate[selectedTab]}_${council.id}.xlsx`;
 			document.body.appendChild(a);
 			a.click();
 			a.remove();
@@ -235,36 +275,101 @@ export const QuorumDetails = withApollo(({
 						}
 						items={
 							<React.Fragment>
-								<MenuItem onClick={downloadPDF}>
-									<div
-										style={{
-											width: '100%',
-											display: 'flex',
-											flexDirection: 'row',
-											justifyContent: 'space-between'
-										}}
-									>
-										<i className="fa fa-file-pdf-o" style={{
-											fontSize: '1em',
-											color: secondary,
-											marginLeft: '0.3em'
-										}}
-										/>
-										<span style={{ marginLeft: '2.5em', marginRight: '0.8em' }}>
-											PDF
-										</span>
-									</div>
-								</MenuItem>
+								{council.companyId === 546 ?
+									<>
+										<MenuItem onClick={downloadQuorumExcel}>
+											<div
+												style={{
+													width: '100%',
+													display: 'flex',
+													flexDirection: 'row',
+													justifyContent: 'space-between'
+												}}
+											>
+												<i className="fa fa-file-pdf-o" style={{
+													fontSize: '1em',
+													color: secondary,
+													marginLeft: '0.3em'
+												}}
+												/>
+												<span style={{ marginLeft: '2.5em', marginRight: '0.8em' }}>
+													Quorum Excel
+												</span>
+											</div>
+										</MenuItem>
+										<MenuItem onClick={downloadResultsExcel}>
+											<div
+												style={{
+													width: '100%',
+													display: 'flex',
+													flexDirection: 'row',
+													justifyContent: 'space-between'
+												}}
+											>
+												<i className="fa fa-file-pdf-o" style={{
+													fontSize: '1em',
+													color: secondary,
+													marginLeft: '0.3em'
+												}}
+												/>
+												<span style={{ marginLeft: '2.5em', marginRight: '0.8em' }}>
+													{`${translate.results} - Excel`}
+												</span>
+											</div>
+										</MenuItem>
+									</>
+									:
+									<>
+										<MenuItem onClick={downloadQuorumPDF}>
+											<div
+												style={{
+													width: '100%',
+													display: 'flex',
+													flexDirection: 'row',
+													justifyContent: 'space-between'
+												}}
+											>
+												<i className="fa fa-file-pdf-o" style={{
+													fontSize: '1em',
+													color: secondary,
+													marginLeft: '0.3em'
+												}}
+												/>
+												<span style={{ marginLeft: '2.5em', marginRight: '0.8em' }}>
+													Quorum PDF
+												</span>
+											</div>
+										</MenuItem>
+										<MenuItem onClick={downloadResultsPDF}>
+											<div
+												style={{
+													width: '100%',
+													display: 'flex',
+													flexDirection: 'row',
+													justifyContent: 'space-between'
+												}}
+											>
+												<i className="fa fa-file-pdf-o" style={{
+													fontSize: '1em',
+													color: secondary,
+													marginLeft: '0.3em'
+												}}
+												/>
+												<span style={{ marginLeft: '2.5em', marginRight: '0.8em' }}>
+													{`${translate.results} - PDF`}
+												</span>
+											</div>
+										</MenuItem>
+									</>
+
+								}
 							</React.Fragment>
 						}
 					/>
-					<BasicButton
-						onClick={downloadExcel}
-					/>
 				</div>
 			</div>
-			<div style={{}}>
-				<div id="quorumTable" style={{}}>
+			<div>
+				<div id="quorumTable">
 					<QuorumTable
 						data={{
 							...recount,
@@ -278,8 +383,12 @@ export const QuorumDetails = withApollo(({
 						company={company}
 						council={council}
 					/>
-					{renderVotingsTable
-						&& <Table style={{ marginTop: '3em' }}>
+				</div>
+
+
+				{renderVotingsTable &&
+					<div id="resultsTable">
+						<Table style={{ marginTop: '3em' }}>
 							<TableHead>
 								<TableCell style={{ fontSize: '16px', fontWeight: '700' }}>
 									{translate.title}
@@ -364,8 +473,9 @@ export const QuorumDetails = withApollo(({
 								)}
 							</TableBody>
 						</Table>
-					}
-				</div>
+					</div>
+
+				}
 			</div>
 		</div>
 	);
