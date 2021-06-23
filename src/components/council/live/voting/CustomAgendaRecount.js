@@ -35,6 +35,13 @@ const CustomAgendaRecount = ({
 						width={130}
 						options={{
 							maintainAspectRatio: false,
+							title: {
+								display: true,
+								text: translate.votings
+							},
+							legend: {
+								display: false
+							},
 							scales: {
 								xAxes: [{
 									ticks: {
@@ -57,7 +64,7 @@ const CustomAgendaRecount = ({
 						borderRadius: '3px'
 					}}
 				>
-					{`${translate.casted_votes}: ${agenda.votingsRecount.castedVotes || 0}`}
+					{`${translate.voters}: ${agenda.votingsRecount.castedVotes || 0} / ${agenda.votingsRecount.totalVotes || '-'}`}
 				</div>
 				<Table>
 					<TableHead>
@@ -116,7 +123,7 @@ const CustomAgendaRecount = ({
 	);
 };
 
-const formatDataFromAgenda = (agenda, translate) => {
+const formatDataFromAgenda = agenda => {
 	const colors = ['#E8B745', '#D1DE3B', '#6AD132', '#2AC26D', '#246FB0', '#721E9C', '#871A1C', '#6EA85D', '#9DAA49', '#CDA645'];
 	const newItems = agenda.items.map((item, index) => ({
 		...item,
@@ -130,7 +137,6 @@ const formatDataFromAgenda = (agenda, translate) => {
 	return {
 		labels,
 		datasets: [{
-			label: translate.votings,
 			data: dataSet,
 			backgroundColor: orderedColors,
 			hoverBackgroundColor: orderedColors,

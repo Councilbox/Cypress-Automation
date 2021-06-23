@@ -51,13 +51,13 @@ const AgendaRecount = ({
 
 	const defaultZero = value => (value || 0);
 
-	const printPercentage = num => {
+	const printPercentage = (num, base = null) => {
 		if (company.type === 10) {
 			return '';
 		}
 
 		const liveRecount = agenda.votingsRecount;
-		const total = defaultZero(liveRecount.positiveVotings)
+		const total = base || defaultZero(liveRecount.positiveVotings)
 		+ defaultZero(liveRecount.positiveManual)
 		+ defaultZero(liveRecount.negativeVotings)
 		+ defaultZero(liveRecount.negativeManual)
@@ -123,7 +123,7 @@ const AgendaRecount = ({
 			<div style={itemStyle}>
 				{`${translate.votes}: ${(editable && activatePresentOneVote) ?
 					CBX.showNumParticipations(agenda.numPresentCensus, company, council.statute)
-					: CBX.showNumParticipations(agenda.presentCensus, company, council.statute) || 0} ${printPercentage(agenda.presentCensus)}`}
+					: CBX.showNumParticipations(agenda.presentCensus, company, council.statute) || 0} ${printPercentage(agenda.presentCensus, recount.partTotal)}`}
 			</div>
 		</>
 	);
@@ -137,7 +137,7 @@ const AgendaRecount = ({
 				{`${translate.participants}: ${agenda.numCurrentRemoteCensus || 0}`}
 			</div>
 			<div style={itemStyle}>
-				{`${translate.votes}: ${CBX.showNumParticipations(agenda.currentRemoteCensus, company, council.statute) || 0} ${printPercentage(agenda.currentRemoteCensus)}`}
+				{`${translate.votes}: ${CBX.showNumParticipations(agenda.currentRemoteCensus, company, council.statute) || 0} ${printPercentage(agenda.currentRemoteCensus, recount.partTotal)}`}
 			</div>
 		</>
 	);
@@ -153,7 +153,7 @@ const AgendaRecount = ({
 					{`${translate.participants}: ${agenda.numCurrentRemoteCensus + agenda.numPresentCensus || 0}`}
 				</div>
 				<div style={itemStyle}>
-					{`${translate.votes}: ${CBX.showNumParticipations(totalCensus, company, council.statute) || 0} ${printPercentage(totalCensus)}`}
+					{`${translate.votes}: ${CBX.showNumParticipations(totalCensus, company, council.statute) || 0} ${printPercentage(totalCensus, recount.partTotal)}`}
 				</div>
 			</>
 		);

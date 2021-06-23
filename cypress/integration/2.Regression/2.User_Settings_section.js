@@ -70,14 +70,6 @@ describe("The user is able to change the 'Name' in the  'User settings' in the C
             cy.wait(1000);
         });
 
-        it("Populate all required fields and click on 'To enter' button", function() {
-            cy.get('#username')
-                .type('alem@qaengineers.net')
-            cy.get('#password')
-                .type('Mostar123!')
-            cy.get('#login-button').click()
-        });
-
         it("On the upper right corner click on 'User' icon", function() {
             cy.get('#user-menu-trigger').click()
         });
@@ -95,6 +87,8 @@ describe("The user is able to change the 'Name' in the  'User settings' in the C
         it("User should be able to save changes", function() {
             cy.get('#user-settings-save-button').click()
         });
+
+
 
     });
 
@@ -170,17 +164,12 @@ describe("The user is able to change the 'Email' in the  'User settings' in the 
         it("Modify the 'Email' field", function() {
             cy.get('#user-settings-email')
                 .clear()
-                .type('test@test.test')
+                .type('alem@qaengineers.net')
+            cy.wait(1000)
         });
 
         it("User should be able to save changes", function() {
             cy.get('#user-settings-save-button').click()
-        });
-
-        it("Modify the 'Email' field", function() {
-            cy.get('#user-settings-email')
-                .clear()
-                .type('alem@qaengineers.net')
         });
 
     });
@@ -202,8 +191,8 @@ describe("The user is able to select the 'Español' language in the  'User setti
         });
 
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
-            cy.contains('English').click()
-            cy.contains('Español').click()
+            cy.get('#user-settings-language').click()
+            cy.get('#language-es').click()
         });
 
         it("User should be able to save changes", function() {
@@ -228,8 +217,8 @@ describe("The user is able to select the 'Català' language in the  'User settin
         });
 
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
-            cy.contains('Español').click()
-            cy.contains('Català').click()
+            cy.get('#user-settings-language').click()
+            cy.get('#language-cat').click()
         });
 
         it("User should be able to save changes", function() {
@@ -254,8 +243,8 @@ describe("The user is able to select the 'Português' language in the  'User set
         });
 
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
-            cy.contains('Català').click()
-            cy.contains('Português').click()
+            cy.get('#user-settings-language').click()
+            cy.get('#language-pt').click()
         });
 
         it("User should be able to save changes", function() {
@@ -280,8 +269,8 @@ describe("The user is able to select the 'Galego' language in the  'User setting
         });
 
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
-            cy.contains('Português').click()
-            cy.contains('Galego').click()
+            cy.get('#user-settings-language').click()
+            cy.get('#language-gal').click()
         });
 
         it("User should be able to save changes", function() {
@@ -307,8 +296,8 @@ describe("The user is able to select the 'Polsku' language in the  'User setting
         });
 
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
-            cy.contains('Galego').click()
-            cy.contains('Polsku').click()
+            cy.get('#user-settings-language').click()
+            cy.get('#language-pl').click()
         });
 
         it("User should be able to save changes", function() {
@@ -334,8 +323,8 @@ describe("The user is able to select the 'Euskera' language in the  'User settin
         });
 
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
-            cy.contains('Polsku').click()
-            cy.contains('Euskera').click()
+            cy.get('#user-settings-language').click()
+            cy.get('#language-eu').click()
         });
 
         it("User should be able to save changes", function() {
@@ -361,8 +350,8 @@ describe("The user is able to select the 'Français' language in the  'User sett
         });
 
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
-            cy.contains('Euskera').click()
-            cy.contains('Français').click()
+            cy.get('#user-settings-language').click()
+            cy.get('#language-fr').click()
         });
 
         it("User should be able to save changes", function() {
@@ -387,8 +376,8 @@ describe("The user is able to select the 'English' language in the  'User settin
         });
 
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
-            cy.contains('Français').click()
-            cy.contains('English').click()
+            cy.get('#user-settings-language').click()
+            cy.get('#language-en').click()
         });
 
         it("User should be able to save changes", function() {
@@ -426,6 +415,10 @@ describe("The user is able to change password in the Councilbox", function() {
             cy.get('#user-password-check')
                 .type('Mostar123!')
             cy.get('#user-password-save').click()
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
         });
 
     });

@@ -119,6 +119,7 @@ const ActEditorPage = ({
 							council={council}
 							agendas={props.agendas}
 							recount={props.councilRecount}
+							company={props.company}
 							translate={translate}
 						/>
 					</Scrollbar>

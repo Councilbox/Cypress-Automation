@@ -127,20 +127,22 @@ const QuorumTable = ({ translate, data, company, council, hasParticipations, tot
 							</TableCell>
 						</TableRow>
 					}
-					<TableRow>
-						<TableCell style={paddedRow}>
-							-{translate.no_voting_rights}
-						</TableCell>
-						<TableCell>
-							{data.numWithoutVote}
-						</TableCell>
-						<TableCell>
-							{showNumParticipations(data.withoutVote, company, council.statute)}
-						</TableCell>
-						<TableCell>
-							{getPercentage(data.withoutVote)}%
-						</TableCell>
-					</TableRow>
+					{data.withoutVote > 0 &&
+						<TableRow>
+							<TableCell style={paddedRow}>
+								-{translate.no_voting_rights}
+							</TableCell>
+							<TableCell>
+								{data.numWithoutVote}
+							</TableCell>
+							<TableCell>
+								{showNumParticipations(data.withoutVote, company, council.statute)}
+							</TableCell>
+							<TableCell>
+								{getPercentage(data.withoutVote)}%
+							</TableCell>
+						</TableRow>
+					}
 					<TableRow>
 						<TableCell style={mainRowsStyle}>
 							{translate.delegated_plural}
@@ -155,6 +157,23 @@ const QuorumTable = ({ translate, data, company, council, hasParticipations, tot
 							{getPercentage(data.delegated)}%
 						</TableCell>
 					</TableRow>
+					{data.treasuryShares !== 0 &&
+						<TableRow>
+							<TableCell style={mainRowsStyle}>
+								{translate.treasury_shares}
+							</TableCell>
+							<TableCell style={mainRowsStyle}>
+								{'-'}
+							</TableCell>
+							<TableCell style={mainRowsStyle}>
+								{showNumParticipations(data.treasuryShares, company, council.statute)}
+							</TableCell>
+							<TableCell style={mainRowsStyle}>
+								{getPercentage(data.treasuryShares)}%
+							</TableCell>
+						</TableRow>
+					}
+
 					<TableRow>
 						<TableCell style={totalRowStyle}>
 							<div style={markedRow}>

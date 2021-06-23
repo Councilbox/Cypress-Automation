@@ -73,7 +73,7 @@ describe("The user is not able to Link company with invalid inputs in the 'Maste
         it("From the dashboard click on the 'Link company' button", function() {
             cy.get('#entidadesSideBar').click({ force: true})
             cy.wait(1000)
-            cy.contains('Link company').click({ force: true})
+            cy.get('#company-link-nav-button').click({ force: true})
 
         });
 
@@ -91,7 +91,7 @@ describe("The user is not able to Link company with invalid inputs in the 'Maste
         });
 
         it("'Incorrect master key' message is displayed", function() {
-            cy.contains('Incorrect master code')
+            cy.get('#company-link-key-error-text')
         });
 
         it("Back to Home page", function() {
@@ -106,7 +106,7 @@ describe("The user is not able to Link company with invalid inputs in the 'CIF o
         it("From the dashboard click on the 'Link company' button", function() {
             cy.get('#entidadesSideBar').click({ force: true})
             cy.wait(1000)
-            cy.contains('Link company').click({ force: true})
+            cy.get('#company-link-nav-button').click({ force: true})
 
         });
 
@@ -124,7 +124,7 @@ describe("The user is not able to Link company with invalid inputs in the 'CIF o
         });
 
         it("'COMPANY DOES NOT EXIST' message is displayed", function() {
-            cy.contains('COMPANY DOES NOT EXIST')
+            cy.get('#company-link-cif-error-text')
         });
 
         it("Back to Home page", function() {
@@ -140,7 +140,7 @@ describe("The user is able to Link Company", function() {
         it("From the dashboard click on the 'Link company' button", function() {
             cy.get('#entidadesSideBar').click({ force: true})
             cy.wait(1000)
-            cy.contains('Link company').click({ force: true})
+            cy.get('#company-link-nav-button').click({ force: true})
 
         });
 
@@ -159,7 +159,7 @@ describe("The user is able to Link Company", function() {
         });
 
         it("'Company linked correctly' message should be displayed ", function() {
-            cy.contains('Company linked correctly')
+            cy.get('#success-toast')
         });
 
         it("Back to Home page", function() {
@@ -216,7 +216,7 @@ describe("The user is able to edit 'Business name*'' in the Company settings in 
         });
 
         it("'The changes have been saved successfully.' message is displayed", function() {
-            cy.contains('The changes have been saved successfully.')
+            cy.get('#success-toast')
         });  
 
         it("Back to Home page", function() {
@@ -243,7 +243,7 @@ describe("The user is able to edit 'TIN of the organization*' in the Company set
         });
 
         it("'The changes have been saved successfully.' message is displayed", function() {
-            cy.contains('The changes have been saved successfully.')
+            cy.get('#success-toast')
         });
 
         it("Back to Home page", function() {
@@ -271,7 +271,7 @@ describe("The user is able to edit 'Domain' in the 'Company settings' in the Cou
         });
 
         it("'The changes have been saved successfully.' message is displayed", function() {
-            cy.contains('The changes have been saved successfully.')
+            cy.get('#success-toast')
         });
 
         it("Back to Home page", function() {
@@ -298,7 +298,7 @@ describe("The user is able to edit 'Master code' in the 'Company settings' in th
         });
 
         it("'The changes have been saved successfully.' message is displayed", function() {
-            cy.contains('The changes have been saved successfully.')
+            cy.get('#success-toast')
         });
 
         it("Back to Home page", function() {
@@ -326,7 +326,7 @@ describe("The user is able to edit 'External ID' in the 'Company settings' in th
         });
 
         it("'The changes have been saved successfully.' message is displayed", function() {
-            cy.contains('The changes have been saved successfully.')
+            cy.get('#success-toast')
         });
 
         it("Back to Home page", function() {
@@ -353,7 +353,7 @@ describe("The user is able to edit 'Address' in the 'Contact details' in the Com
         });
 
         it("'The changes have been saved successfully.' message is displayed", function() {
-            cy.contains('The changes have been saved successfully.')
+            cy.get('#success-toast')
         });
 
         it("Back to Home page", function() {
@@ -380,7 +380,7 @@ describe("The user is able to edit 'Town/City' in the 'Contact details' in the C
         });
 
         it("'The changes have been saved successfully.' message is displayed", function() {
-            cy.contains('The changes have been saved successfully.')
+            cy.get('#success-toast')
         });
 
         it("Back to Home page", function() {
@@ -408,7 +408,7 @@ describe("The user is able to edit 'Country' in the 'Contact details' in the Com
         });
 
         it("'The changes have been saved successfully.' message is displayed", function() {
-            cy.contains('The changes have been saved successfully.')
+            cy.get('#success-toast')
         });
 
         it("Back to Home page", function() {
@@ -438,7 +438,7 @@ describe("The user is able to edit 'Province' in the 'Contact details' in the Co
         });
 
         it("'The changes have been saved successfully.' message is displayed", function() {
-            cy.contains('The changes have been saved successfully.')
+            cy.get('#success-toast')
         });
 
         it("Back to Home page", function() {
@@ -466,7 +466,7 @@ describe("The user is able to edit 'Zipcode' in the 'Contact details' in the Com
         });
 
         it("'The changes have been saved successfully.' message is displayed", function() {
-            cy.contains('The changes have been saved successfully.')
+            cy.get('#success-toast')
         });
 
         it("Back to Home page", function() {
@@ -494,7 +494,7 @@ describe("The user is able to edit 'Language' in the 'Contact details' in the Co
         });
 
         it("'The changes have been saved successfully.' message is displayed", function() {
-            cy.contains('The changes have been saved successfully.')
+            cy.get('#success-toast')
         });
 
         it("Back to Home page", function() {
