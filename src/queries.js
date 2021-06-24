@@ -1542,6 +1542,7 @@ export const councilLiveQuery = gql`
 			socialCapitalRightVoting
 			numRightVoting
 			partRightVoting
+			treasuryShares
 		}
 	}
 `;

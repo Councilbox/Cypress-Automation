@@ -64,7 +64,7 @@ const AgendaRecount = ({
 		+ defaultZero(liveRecount.abstentionVotings)
 		+ defaultZero(liveRecount.abstentionManual)
 		+ defaultZero(liveRecount.noVoteVotings)
-		+ defaultZero(liveRecount.noVoteManual);
+		+ defaultZero(liveRecount.noVoteManual) + recount.treasuryShares;
 
 		if (total === 0) {
 			return '(0%)';
