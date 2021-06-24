@@ -13,9 +13,9 @@ import withWindowSize from '../../../HOCs/withWindowSize';
 import withWindowOrientation from '../../../HOCs/withWindowOrientation';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import {
-	ButtonIcon, TextInput, BasicButton, AlertConfirm, HelpPopover, LoadingSection
+	ButtonIcon, TextInput, BasicButton, AlertConfirm, HelpPopover, LoadingSection, Checkbox
 } from '../../../displayComponents';
-import { councilStarted, participantNeverConnected, hasAccessKey } from '../../../utils/CBX';
+import { councilStarted, participantNeverConnected, hasAccessKey, getTermsURL } from '../../../utils/CBX';
 import {
 	useOldState, useCountdown, useSendRoomKey, useInterval
 } from '../../../hooks';
@@ -111,6 +111,7 @@ const LoginForm = ({
 			email: '',
 			password: ''
 		},
+		legalTermsAccepted: false,
 		hover: false,
 		helpPopover: true,
 		modal: false
@@ -166,14 +167,14 @@ const LoginForm = ({
 	}, [sends]);
 
 	const checkFieldsValidationState = () => {
-		const errors = {
-			password: ''
-		};
+		const errors = {};
 
-		if (council.securityType === 0 || council.securityType === 3) {
-			errors.password = '';
-		} else {
+		if (council.securityType !== 0 && council.securityType !== 3) {
 			errors.password = !(state.password.length > 0) ? translate.field_required : '';
+		}
+
+		if (!state.legalTermsAccepted) {
+			errors.legalTerms = translate.acept_terms;
 		}
 
 		setState({
@@ -181,7 +182,7 @@ const LoginForm = ({
 			errors
 		});
 
-		return errors.password === '';
+		return Object.keys(errors).length === 0;
 	};
 
 	const handleChange = (field, event) => {
@@ -190,7 +191,20 @@ const LoginForm = ({
 		setState(newState, checkFieldsValidationState);
 	};
 
-	const handleSuccess = () => {
+	const sendConfirmation = async () => {
+		await client.mutate({
+			mutation: gql`
+				mutation liveAcceptLegalTermsAndConditions{
+					liveAcceptLegalTermsAndConditions{
+						success
+					}
+				}
+			`
+		});
+	};
+
+	const handleSuccess = async () => {
+		await sendConfirmation();
 		props.actions.participantLoginSuccess();
 		bHistory.push(`/participant/${participant.id}/council/${council.id}/${participant.roomType === 'MEETING' ? 'meet' : 'council'}`);
 	};
@@ -214,19 +228,21 @@ const LoginForm = ({
 				});
 
 				if (!response.data.checkParticipantKey.success) {
-					setState({
+					setState(oldState => ({
 						errors: {
+							...oldState.errors,
 							password: translate.incorrect_access__key
 						}
-					});
+					}));
 					return;
 				}
 			} catch (error) {
-				setState({
+				setState(oldState => ({
 					errors: {
+						...oldState.errors,
 						password: translate.incorrect_access__key
 					}
-				});
+				}));
 				return;
 			}
 		}
@@ -559,6 +575,39 @@ const LoginForm = ({
 
 								</React.Fragment>
 							)}
+							{participant.legalTermsAccepted &&
+								<>
+									<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+										<Checkbox
+											id="accept-legal-checkbox"
+											label={`${translate.login_read_terms} `}
+											value={state.termsCheck}
+											onChange={(event, isInputChecked) => setState({
+												legalTermsAccepted: isInputChecked
+											})}
+										/>
+										<a
+											style={{
+												color: primary,
+												fontWeight: '700',
+												cursor: 'pointer',
+												textTransform: 'lowerCase',
+												marginLeft: '0.4em'
+											}}
+											href={getTermsURL(translate.selectedLanguage)}
+											target="_blank"
+											rel="noreferrer noopener"
+										>
+											{translate.login_read_terms2}
+										</a>
+									</div>
+									{errors.legalTerms && (
+										<div style={{ color: 'red' }} id="legal-terms-error-text">
+											{errors.legalTerms}
+										</div>
+									)}
+								</>
+							}
 							{renderAccessButton()}
 						</form>
 					</Card>
