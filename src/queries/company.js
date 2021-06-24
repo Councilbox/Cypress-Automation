@@ -8,6 +8,7 @@ export const companyFragment = `
 	businessName
 	address
 	city
+	contactEmail
 	zipcode
 	externalId
 	country
