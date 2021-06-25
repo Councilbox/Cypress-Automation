@@ -313,3 +313,73 @@ describe("The user is not able to create a meeting without populating 'Meeting t
 
 
     });
+
+describe("The user is not able to change location in the 'Announcement' section in the 'New meeting with session' type of meeting without populating required fields", function() {
+
+        it("Click on the 'New Meeting' button", function() {
+            cy.get('#create-council-block').click()
+            cy.wait(1000)
+        });
+
+        it("Click on the 'With session' buttonn", function() {
+            cy.get('#create-council-with-session').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Location' section and click on the 'Change location' button", function() {
+            cy.get('#council-notice-place').click()
+            cy.wait(1000)
+        });
+
+        it("Remove the data from populated fields", function() {
+            cy.get('#council-place-country').clear()
+            cy.wait(1000)
+        });
+
+        it("Click on the 'OK' button", function() {
+            cy.get('#accept-button').click()
+            cy.wait(1000)
+
+        })
+
+        it("'This field is required' message is displayed beyond the required fields and the user is not able to change location without populating the fields", function() {
+            cy.get('#council-place-country-error-text')
+        })
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+            cy.wait(3000)
+        });
+
+
+    });
+
+describe("The user is able to select the 'Province' tag in the 'Information on the announcement*' field in the 'New meeting' section", function() {
+
+        it("Click on the 'New Meeting' button", function() {
+            cy.get('#create-council-block').click()
+            cy.wait(1000)
+        });
+
+        it("Click on the 'With session' buttonn", function() {
+            cy.get('#create-council-with-session').click()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the “Information on the announcement*” section and click on the 'tags' button", function() {
+            cy.get('#MISSING_ID').click()
+            cy.wait(1000)
+        });
+
+        it("Click on the “Province” button", function() {
+            cy.get('#MISSING_ID').click()
+            cy.wait(1000)
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+            cy.wait(3000)
+        });
+
+
+    });
