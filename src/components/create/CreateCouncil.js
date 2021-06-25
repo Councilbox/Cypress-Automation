@@ -108,6 +108,7 @@ const CreateCouncilModal = ({
 				bHistory.replace(`/company/${company.id}`);
 				toast(
 					<LiveToast
+						id="error-toast"
 						message={translate.no_statutes}
 					/>, {
 						position: toast.POSITION.TOP_RIGHT,

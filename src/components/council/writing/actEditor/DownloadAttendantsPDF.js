@@ -62,7 +62,7 @@ const DownloadAttendantsPDF = ({
 				/>
 			}
 			textPosition="after"
-			onClick={() => downloadPDF(council, `${translate.assistants_list.replace(/ /g, '_')}-${council.name.replace(/ /g, '_').replace(/\./, '')}`)}
+			onClick={() => downloadPDF(council, `${translate.assistants_list.replace(/ /g, '_')}-${council.name.replace(/ /g, '_').replace(/\./g, '')}`)}
 		/>
 	);
 };

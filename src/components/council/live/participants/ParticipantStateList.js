@@ -10,6 +10,7 @@ import {
 import StateIcon from './StateIcon';
 import { useOldState } from '../../../../hooks';
 import { removeLiveParticipantSignature } from './modals/SignatureModal';
+import { ConfigContext } from '../../../../containers/AppControl';
 
 const getActualParticipant = (participant, representative) => {
 	if (CBX.hasHisVoteDelegated(participant)) {
@@ -30,6 +31,7 @@ const ParticipantStateList = ({
 		addRepresentative: false
 	});
 	const [leaveAlert, setLeaveAlert] = React.useState(false);
+	const config = React.useContext(ConfigContext);
 	const secondary = getSecondary();
 
 	const participant = getActualParticipant(p, representative);
@@ -144,30 +146,30 @@ const ParticipantStateList = ({
 								</FilterButton>
 							</div>
 							{council.councilType !== 1
-&& <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-	<FilterButton
-		styles={{
-			width: '100%', border: 'none', boxShadow: 'none', margin: 'none', borderRadius: '0'
-		}}
-		tooltip={translate.change_to_remote}
-		loading={loading === 1}
-		size="2.8em"
-		onClick={() => updateParticipantState(0, 1, null)}
-		active={participant.state === PARTICIPANT_STATES.REMOTE}
-	>
-		<div style={{ width: '30%', marginRight: '20px' }}>
-			<StateIcon
-				translate={translate}
-				state={PARTICIPANT_STATES.REMOTE}
-				color={secondary}
-				hideTooltip={true}
-			/>
-		</div>
-		<div style={{ width: '70%' }}>
-			<span style={{ fontSize: '0.9em' }}>{translate.remote_participant}</span>
-		</div>
-	</FilterButton>
-</div>
+								&& <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+									<FilterButton
+										styles={{
+											width: '100%', border: 'none', boxShadow: 'none', margin: 'none', borderRadius: '0'
+										}}
+										tooltip={translate.change_to_remote}
+										loading={loading === 1}
+										size="2.8em"
+										onClick={() => updateParticipantState(0, 1, null)}
+										active={participant.state === PARTICIPANT_STATES.REMOTE}
+									>
+										<div style={{ width: '30%', marginRight: '20px' }}>
+											<StateIcon
+												translate={translate}
+												state={PARTICIPANT_STATES.REMOTE}
+												color={secondary}
+												hideTooltip={true}
+											/>
+										</div>
+										<div style={{ width: '70%' }}>
+											<span style={{ fontSize: '0.9em' }}>{translate.remote_participant}</span>
+										</div>
+									</FilterButton>
+								</div>
 							}
 							<div style={{
 								display: 'flex', alignItems: 'center', margin: 'none', borderRadius: '0', width: '100%'
@@ -182,7 +184,7 @@ const ParticipantStateList = ({
 									onClick={() => updateParticipantState(5, 2, null)}
 									active={
 										participant.state
-=== PARTICIPANT_STATES.PHYSICALLY_PRESENT
+										=== PARTICIPANT_STATES.PHYSICALLY_PRESENT
 									}
 								>
 									<div style={{ width: '30%', marginRight: '20px' }}>
@@ -199,8 +201,10 @@ const ParticipantStateList = ({
 								</FilterButton>
 							</div>
 							{((participant.state === PARTICIPANT_STATES.PHYSICALLY_PRESENT
-|| participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
-							) && council.councilType < 2) && (
+								|| participant.state === PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
+							) && council.councilType < 2 &&
+								config.canLeftCouncil
+							) && (
 								<div style={{
 									display: 'flex', alignItems: 'center', margin: 'none', borderRadius: '0', width: '100%'
 								}}>
@@ -214,7 +218,7 @@ const ParticipantStateList = ({
 										onClick={() => setLeaveAlert(true)}
 										active={
 											participant.state
-=== PARTICIPANT_STATES.LEFT
+											=== PARTICIPANT_STATES.LEFT
 										}
 									>
 										<div style={{ width: '30%', marginRight: '20px' }}>
@@ -245,7 +249,7 @@ const ParticipantStateList = ({
 										onClick={() => updateParticipantState(7, 3, null)}
 										active={
 											participant.state
-=== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
+											=== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE
 										}
 									>
 										<div style={{ width: '30%', marginRight: '20px' }}>

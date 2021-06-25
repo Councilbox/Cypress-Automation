@@ -160,21 +160,21 @@ const EarlyVotingBody = withApollo(({
 		<div style={{ display: 'flex', alignItems: 'center' }}>
 			<div style={{ fontWeight: '700', marginTop: '1em' }}>{point.agendaSubject}</div>
 			{!!getProxyVote(point.id)
-&& <div style={{ marginLeft: '10px', marginTop: '10px' }}>
-	<BasicButton
-		color="white"
-		text={translate.delete}
-		backgroundColor={{
-			border: `1px solid ${getSecondary()}`,
-			borderRadius: '4px',
-			marginTotop: '0.3em',
-			color: getSecondary(),
-			backgroundColor: 'white',
-			outline: '0px',
-		}}
-		onClick={() => deleteProxyVote(point.id, participant.id)}
-	/>
-</div>
+				&& <div style={{ marginLeft: '10px', marginTop: '10px' }}>
+					<BasicButton
+						color="white"
+						text={translate.delete}
+						backgroundColor={{
+							border: `1px solid ${getSecondary()}`,
+							borderRadius: '4px',
+							marginTotop: '0.3em',
+							color: getSecondary(),
+							backgroundColor: 'white',
+							outline: '0px',
+						}}
+						onClick={() => deleteProxyVote(point.id, participant.id)}
+					/>
+				</div>
 			}
 		</div>
 	);
@@ -318,16 +318,16 @@ const EarlyVotingBody = withApollo(({
 						<div key={`point_${point.id}`} style={{ marginTop: '1.3em' }}>
 							{renderPointTitle(point)}
 							{(point.options.maxSelections > 1)
-&& < div > {
-	translate.can_select_between_min_max
-		.replace('{{min}}', point.options.minSelections)
-		.replace('{{max}}', point.options.maxSelections)
-}
-</div>
+								&& < div > {
+									translate.can_select_between_min_max
+										.replace('{{min}}', point.options.minSelections)
+										.replace('{{max}}', point.options.maxSelections)
+								}
+								</div>
 							}
 							<div>
 								{(selections < point.options.minSelections && point.options.minSelections > 1)
-&& <React.Fragment>{translate.need_select_more.replace('{{options}}', getRemainingOptions())}</React.Fragment>
+									&& <React.Fragment>{translate.need_select_more.replace('{{options}}', getRemainingOptions())}</React.Fragment>
 								}
 							</div>
 							<div>
@@ -340,7 +340,7 @@ const EarlyVotingBody = withApollo(({
 											disabled={disableCustom && !active}
 											disabledColor={disableCustom && !active}
 											styleButton={{ padding: '0', width: '100%' }}
-											selectCheckBox={active}
+											selectedCheckbox={active}
 											onClick={() => {
 												setEarlyVote(point.id, item.id);
 											}}

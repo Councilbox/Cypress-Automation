@@ -49,11 +49,22 @@ const AgendaRecount = ({
 		return `${translate.votes}: ${CBX.showNumParticipations(recount.partTotal, company, council.statute) || 0}`;
 	};
 
-	const printPercentage = num => {
+	const defaultZero = value => (value || 0);
+	const liveRecount = agenda.votingsRecount;
+	const totalVotes = defaultZero(liveRecount.positiveVotings)
+		+ defaultZero(liveRecount.positiveManual)
+		+ defaultZero(liveRecount.negativeVotings)
+		+ defaultZero(liveRecount.negativeManual)
+		+ defaultZero(liveRecount.abstentionVotings)
+		+ defaultZero(liveRecount.abstentionManual)
+		+ defaultZero(liveRecount.noVoteVotings)
+		+ defaultZero(liveRecount.noVoteManual);
+
+	const printPercentage = (num, base = null) => {
 		if (company.type === 10) {
 			return '';
 		}
-		const total = agenda.positiveVotings + agenda.positiveManual + agenda.negativeVotings + agenda.negativeManual + agenda.abstentionVotings + agenda.abstentionManual + agenda.noVoteVotings + agenda.noVoteManual;
+		const total = base || (totalVotes + recount.treasuryShares);
 
 		if (total === 0) {
 			return '(0%)';
@@ -112,7 +123,7 @@ const AgendaRecount = ({
 			<div style={itemStyle}>
 				{`${translate.votes}: ${(editable && activatePresentOneVote) ?
 					CBX.showNumParticipations(agenda.numPresentCensus, company, council.statute)
-					: CBX.showNumParticipations(agenda.presentCensus, company, council.statute) || 0} ${printPercentage(agenda.presentCensus)}`}
+					: CBX.showNumParticipations(agenda.presentCensus, company, council.statute) || 0} ${printPercentage(agenda.presentCensus, recount.partTotal)}`}
 			</div>
 		</>
 	);
@@ -126,13 +137,12 @@ const AgendaRecount = ({
 				{`${translate.participants}: ${agenda.numCurrentRemoteCensus || 0}`}
 			</div>
 			<div style={itemStyle}>
-				{`${translate.votes}: ${CBX.showNumParticipations(agenda.currentRemoteCensus, company, council.statute) || 0} ${printPercentage(agenda.currentRemoteCensus)}`}
+				{`${translate.votes}: ${CBX.showNumParticipations(agenda.currentRemoteCensus, company, council.statute) || 0} ${printPercentage(agenda.currentRemoteCensus, recount.partTotal)}`}
 			</div>
 		</>
 	);
 
 	const renderCurrentTotal = () => {
-		const totalCensus = agenda.presentCensus + agenda.currentRemoteCensus;
 		return (
 			<>
 				<div style={itemStyle}>
@@ -142,7 +152,7 @@ const AgendaRecount = ({
 					{`${translate.participants}: ${agenda.numCurrentRemoteCensus + agenda.numPresentCensus || 0}`}
 				</div>
 				<div style={itemStyle}>
-					{`${translate.votes}: ${CBX.showNumParticipations(totalCensus, company, council.statute) || 0} ${printPercentage(totalCensus)}`}
+					{`${translate.votes}: ${CBX.showNumParticipations(totalVotes, company, council.statute) || 0} ${printPercentage(totalVotes, recount.partTotal)}`}
 				</div>
 			</>
 		);
