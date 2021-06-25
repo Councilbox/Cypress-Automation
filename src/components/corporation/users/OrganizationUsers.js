@@ -12,6 +12,7 @@ import { moment } from '../../../containers/App';
 import NewUser from './NewUser';
 import { isMobile } from '../../../utils/screen';
 import { getActivationText } from '../../company/settings/CompanySettingsPage';
+import DeleteUserButton from './DeleteUserButton';
 
 const queryLimit = 20;
 
@@ -127,6 +128,7 @@ const OrganizationUsers = ({ client, translate, company }) => {
 						<LoadingSection />
 						: <TablaUsuarios
 							users={users}
+							refetch={getUsers}
 							company={company}
 							translate={translate}
 							total={usersTotal}
@@ -142,7 +144,7 @@ const OrganizationUsers = ({ client, translate, company }) => {
 
 
 const TablaUsuarios = withApollo(({
-	users, translate, company, total, changePageUsuarios, usersPage, client
+	users, translate, company, total, changePageUsuarios, usersPage, client, refetch
 }) => {
 	const primary = getPrimary();
 	const [modalBloquear, setModalBloquear] = React.useState(false);
@@ -354,7 +356,7 @@ const TablaUsuarios = withApollo(({
 													color: primary,
 													background: 'white',
 													borderRadius: '4px',
-													boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.5)',
+													boxShadow: ' 0 2px 4px 0 rgba(0, 0, 0, 0.4)',
 													display: 'flex',
 													alignItems: 'center',
 													justifyContent: 'center',
@@ -370,8 +372,16 @@ const TablaUsuarios = withApollo(({
 													background: 'white',
 													color: primary,
 												}}
+												buttonStyle={{
+													marginRight: '1em',
+												}}
 												text="Bloquear">
 											</BasicButton>
+											<DeleteUserButton
+												user={item}
+												refetch={refetch}
+												translate={translate}
+											/>
 										</div>
 									} />
 							</div>

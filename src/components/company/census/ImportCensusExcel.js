@@ -314,7 +314,7 @@ class ImportCensusButton extends React.Component {
 		for (let j = 0; j < keys.length; j++) {
 			const key = keys[j];
 			if (excelToDBColumns[key.toLowerCase()]) {
-				participant[excelToDBColumns[key.toLocaleLowerCase()]] = `${_participant[key].trim()}`;
+				participant[excelToDBColumns[key.toLocaleLowerCase()]] = `${_participant[key].trim().toLowerCase()}`;
 			}
 		}
 
