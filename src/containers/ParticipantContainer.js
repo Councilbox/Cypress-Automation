@@ -22,14 +22,14 @@ import { SERVER_URL } from '../config';
 import { addSpecificTranslations } from '../actions/companyActions';
 import { initLogRocket } from '../utils/logRocket';
 
-const buildParticipantQuery = config => {
+const buildParticipantQuery = () => {
 	return (gql`
 		query info {
 			participant {
 				name
 				surname
 				id
-				${config.participantTermsCheck ? 'legalTermsAccepted' : ''}
+				legalTermsAccepted
 				type
 				voteDenied
 				voteDeniedReason
