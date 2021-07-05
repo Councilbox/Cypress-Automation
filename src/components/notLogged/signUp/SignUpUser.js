@@ -15,8 +15,7 @@ import {
 import { checkValidEmail } from '../../../utils/index';
 import { getPrimary } from '../../../styles/colors';
 import { checkEmailExists } from '../../../queries/userAndCompanySignUp';
-import TermsModal from './TermsModal';
-
+import { getTermsURL } from '../../../utils/CBX';
 
 class SignUpUser extends React.Component {
 	state = {
@@ -393,12 +392,9 @@ class SignUpUser extends React.Component {
 									textTransform: 'lowerCase',
 									marginLeft: '0.4em'
 								}}
-								onClick={event => {
-									event.stopPropagation();
-									this.setState({
-										termsModal: true,
-									});
-								}}
+								href={getTermsURL(translate.selectedLanguage)}
+								target="_blank"
+								rel="noreferrer noopener"
 							>
 								{translate.login_read_terms2}
 							</a>
@@ -430,15 +426,6 @@ class SignUpUser extends React.Component {
 						/>
 					</GridItem>
 				</Grid>
-				<TermsModal
-					open={this.state.termsModal}
-					translate={translate}
-					close={() => {
-						this.setState({
-							termsModal: false
-						});
-					}}
-				/>
 			</div>
 		);
 	}

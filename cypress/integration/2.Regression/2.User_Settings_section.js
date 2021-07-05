@@ -422,3 +422,393 @@ describe("The user is able to change password in the Councilbox", function() {
         });
 
     });
+
+describe("The user is not able to change password without populating the 'Current password' field", function() {
+    
+        it("On the upper right corner click on 'User' icon", function() {
+            cy.get('#user-menu-trigger').click()
+        });
+
+        it("From the drop down menu click on the 'Edit user' button", function() {
+            cy.xpath('//*[@class="fa fa-edit"]').click()
+        });
+
+        it("Click on the 'Change password' button", function() {
+            cy.get('#user-change-password-button').click()
+            cy.wait(1000)
+        });
+
+        it("Skip the “Current password” field", function() {
+            cy.get('#user-current-password').clear()
+            cy.wait(1000)
+        });
+
+        it("Populate the “New password” field", function() {
+            cy.get('#user-password').clear()
+                .type('Mostar123!')
+            cy.wait(1000)
+        });
+
+        it("Populate the “Confirm” field", function() {
+            cy.get('#user-password-check').clear()
+                .type('Mostar123!')
+            cy.wait(1000)
+        });
+
+        it("Click on the 'Save' button", function() {
+            cy.get('#user-password-save').click()
+            cy.wait(1000)
+        });
+
+        it("“The password cannot be empty” message is displayed", function() {
+            cy.get('#user-current-password-error-text')
+            cy.wait(1000)
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+    });
+
+describe("The user is not able to change password without populating the 'New password' field", function() {
+    
+        it("On the upper right corner click on 'User' icon", function() {
+            cy.get('#user-menu-trigger').click()
+        });
+
+        it("From the drop down menu click on the 'Edit user' button", function() {
+            cy.xpath('//*[@class="fa fa-edit"]').click()
+        });
+
+        it("Click on the 'Change password' button", function() {
+            cy.get('#user-change-password-button').click()
+            cy.wait(1000)
+        });
+
+        it("Populate the “Current password” field", function() {
+            cy.get('#user-current-password').clear()
+                .type('Mostar123!')
+            cy.wait(1000)
+        });
+
+        it("Skip the “New password” field", function() {
+            cy.get('#user-password').clear()
+            cy.wait(1000)
+        });
+
+        it("Populate the “Confirm” field", function() {
+            cy.get('#user-password-check').clear()
+                .type('Mostar123!')
+            cy.wait(1000)
+        });
+
+        it("Click on the 'Save' button", function() {
+            cy.get('#user-password-save').click()
+            cy.wait(1000)
+        });
+
+        it("“The password cannot be empty” alert message is displayed beyond the “New password” field", function() {
+            cy.get('#user-password-error-text')
+            cy.wait(1000)
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+    });
+
+describe("The user is not able to change password without populating the 'Confirm' field", function() {
+    
+        it("On the upper right corner click on 'User' icon", function() {
+            cy.get('#user-menu-trigger').click()
+        });
+
+        it("From the drop down menu click on the 'Edit user' button", function() {
+            cy.xpath('//*[@class="fa fa-edit"]').click()
+        });
+
+        it("Click on the 'Change password' button", function() {
+            cy.get('#user-change-password-button').click()
+            cy.wait(1000)
+        });
+
+        it("Populate the “Current password” field", function() {
+            cy.get('#user-current-password').clear()
+                .type('Mostar123!')
+            cy.wait(1000)
+        });
+
+        it("Populate the “New password” field", function() {
+            cy.get('#user-password').clear()
+                .type('Mostar123!')
+            cy.wait(1000)
+        });
+
+        it("Skip the “Confirm” field", function() {
+            cy.get('#user-password-check').clear()
+            cy.wait(1000)
+        });
+
+        it("Click on the 'Save' button", function() {
+            cy.get('#user-password-save').click()
+            cy.wait(1000)
+        });
+
+        it("“The passwords do not match” alert message is displayed beyond the “Confirm” field", function() {
+            cy.get('#user-password-check-error-text')
+            cy.wait(1000)
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+    });
+
+describe("The user is not able to change password without populating the 'Confirm' field", function() {
+    
+        it("On the upper right corner click on 'User' icon", function() {
+            cy.get('#user-menu-trigger').click()
+        });
+
+        it("From the drop down menu click on the 'Edit user' button", function() {
+            cy.xpath('//*[@class="fa fa-edit"]').click()
+        });
+
+        it("Click on the 'Change password' button", function() {
+            cy.get('#user-change-password-button').click()
+            cy.wait(1000)
+        });
+
+        it("Populate the “Current password” field with invalid inputs", function() {
+            cy.get('#user-current-password').clear()
+                .type('Starmo123!')
+            cy.wait(1000)
+        });
+
+        it("Populate the “New password” field", function() {
+            cy.get('#user-password').clear()
+                .type('Mostar123!')
+            cy.wait(1000)
+        });
+
+        it("Populate the “Confirm” field", function() {
+            cy.get('#user-password-check').clear()
+                .type('Mostar123!')
+            cy.wait(1000)
+        });
+
+        it("Click on the 'Save' button", function() {
+            cy.get('#user-password-save').click()
+            cy.wait(1000)
+        });
+
+        it("“Incorrect current password” alert message is displayed beyond the “Current password field” field", function() {
+            cy.get('#user-current-password-error-text')
+            cy.wait(1000)
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+    });
+
+describe("The user is not able to change Email with invalid inputs", function() {
+    
+        it("On the upper right corner click on 'User' icon", function() {
+            cy.get('#user-menu-trigger').click()
+        });
+
+        it("From the drop down menu click on the 'Edit user' button", function() {
+            cy.xpath('//*[@class="fa fa-edit"]').click()
+        });
+
+        it("Populate the 'Name' field", function() {
+            cy.get('#user-settings-name').clear()
+                .type('Balla')
+            cy.wait(1000)
+        });
+
+        it("Populate the 'Last Name' field", function() {
+            cy.get('#user-settings-surname').clear()
+                .type('Alem')
+            cy.wait(1000)
+        });
+
+        it("Populate the “Email” field with invalid inputs", function() {
+            cy.get('#user-settings-email').clear()
+                .type('sfdafasdf')
+            cy.wait(1000)
+        });
+
+        it("Populate the 'Telephone No' field", function() {
+            cy.get('#user-settings-phone').clear()
+                .type('123456')
+            cy.wait(1000)
+        });
+
+        it("Click on the “Save” button", function() {
+            cy.get('#user-settings-save-button').click()
+            cy.wait(1000)
+        });
+
+        it("Observe the “Save” button and observe the message beyond the “Email” field - “Invalid field”", function() {
+            cy.get('#user-settings-email-error-text')
+            cy.wait(1000)
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+    });
+
+describe("The user is not able to save changes without populating the 'Last Name' field", function() {
+    
+        it("On the upper right corner click on 'User' icon", function() {
+            cy.get('#user-menu-trigger').click()
+        });
+
+        it("From the drop down menu click on the 'Edit user' button", function() {
+            cy.xpath('//*[@class="fa fa-edit"]').click()
+        });
+
+        it("Populate the 'Name' field", function() {
+            cy.get('#user-settings-name').clear()
+                .type('Balla')
+            cy.wait(1000)
+        });
+
+        it("Skip the 'Last Name' field", function() {
+            cy.get('#user-settings-surname').clear()
+            cy.wait(1000)
+        });
+
+        it("Populate the “Email” field", function() {
+            cy.get('#user-settings-email').clear()
+                .type('alem@qaengineers.net')
+            cy.wait(1000)
+        });
+
+        it("Populate the 'Telephone No' field", function() {
+            cy.get('#user-settings-phone').clear()
+                .type('123456')
+            cy.wait(1000)
+        });
+
+        it("Click on the “Save” button", function() {
+            cy.get('#user-settings-save-button').click()
+            cy.wait(1000)
+        })
+
+        it("Observe the “Save” button and observe the message beyond the “Last Name” field - “This field is required.”", function() {
+            cy.get('#user-settings-surname-error-text')
+            cy.wait(1000)
+        })
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+    });
+
+describe("The user is not able to save changes without populating the 'Email' field", function() {
+    
+        it("On the upper right corner click on 'User' icon", function() {
+            cy.get('#user-menu-trigger').click()
+        });
+
+        it("From the drop down menu click on the 'Edit user' button", function() {
+            cy.xpath('//*[@class="fa fa-edit"]').click()
+        });
+
+        it("Populate the 'Name' field", function() {
+            cy.get('#user-settings-name').clear()
+                .type('Balla')
+            cy.wait(1000)
+        });
+
+        it("Skip the 'Last Name' field", function() {
+            cy.get('#user-settings-surname').clear()
+                .type('Alem')
+            cy.wait(1000)
+        });
+
+        it("Skip the “Email” field", function() {
+            cy.get('#user-settings-email').clear()
+            cy.wait(1000)
+        });
+
+        it("Populate the 'Telephone No' field", function() {
+            cy.get('#user-settings-phone').clear()
+                .type('123456')
+            cy.wait(1000)
+        });
+
+        it("Click on the “Save” button", function() {
+            cy.get('#user-settings-save-button').click()
+            cy.wait(1000)
+        })
+
+        it("Observe the “Save” button and observe the message beyond the “Email” field - “Invalid field”", function() {
+            cy.get('#user-settings-email-error-text')
+            cy.wait(1000)
+        })
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+    });
+
+describe("The user is not able to save changes without populating the 'First Name' field", function() {
+    
+        it("On the upper right corner click on 'User' icon", function() {
+            cy.get('#user-menu-trigger').click()
+        });
+
+        it("From the drop down menu click on the 'Edit user' button", function() {
+            cy.xpath('//*[@class="fa fa-edit"]').click()
+        });
+
+        it("Populate the 'Name' field", function() {
+            cy.get('#user-settings-name').clear()
+            cy.wait(1000)
+        });
+
+        it("Skip the 'Last Name' field", function() {
+            cy.get('#user-settings-surname').clear()
+                .type('Alem')
+            cy.wait(1000)
+        });
+
+        it("Skip the “Email” field", function() {
+            cy.get('#user-settings-email').clear()
+                .type('alem@qaengineers.net')
+            cy.wait(1000)
+        });
+
+        it("Populate the 'Telephone No' field", function() {
+            cy.get('#user-settings-phone').clear()
+                .type('123456')
+            cy.wait(1000)
+        });
+
+        it("Click on the “Save” button", function() {
+            cy.get('#user-settings-save-button').click()
+            cy.wait(1000)
+        })
+
+        it("Observe the “Save” button and observe the message beyond the “Name” field - “This field is required.”", function() {
+            cy.get('#user-settings-name-error-text')
+            cy.wait(1000)
+        })
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+    });
