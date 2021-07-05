@@ -478,7 +478,11 @@ const StepNotice = ({
 											</MenuItem>
 										))}
 									</SelectInput>
-									<div onClick={showStatuteDetailsModal} style={{ cursor: 'pointer', color: secondary }}>
+									<div
+										id="council-editor-check-statute"
+										onClick={showStatuteDetailsModal}
+										style={{ cursor: 'pointer', color: secondary }}
+									>
 										{translate.read_details}
 									</div>
 								</GridItem>
