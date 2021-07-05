@@ -101,6 +101,18 @@ class RichTextInput extends React.Component {
 		}
 	}
 
+	componentDidMount = () => {
+		if (((this.state.companyTags && this.state.companyTags.length > 0)
+			|| (this.props.tags && this.props.tags.length > 0))) {
+			const customElements = document.getElementsByClassName('ql-custom');
+			// eslint-disable-next-line no-restricted-syntax
+			for (const element of customElements) {
+				if (element) {
+					element.setAttribute('id', `custom-tags-${this.props.id}`);
+				}
+			}
+		}
+	}
 
 	render() {
 		const {
