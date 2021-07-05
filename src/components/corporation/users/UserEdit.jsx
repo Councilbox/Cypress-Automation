@@ -11,76 +11,76 @@ import withSharedProps from '../../../HOCs/withSharedProps';
 import UserItem from './UserItem';
 
 class UserEdit extends React.PureComponent {
-state = {
-	data: {
-		preferredLanguage: 'es',
-		roles: 'secretary'
-	},
-	companies: [],
-	errors: {}
-}
-
-updateState = object => {
-	this.setState({
+	state = {
 		data: {
-			...this.state.data,
-			...object
-		}
-	});
-}
-
-linkCompanies = async companies => {
-	const response = await this.props.linkCompanies({
-		variables: {
-			userId: this.props.data.user.id,
-			companies: companies.map(company => company.id)
-		}
-	});
-
-	if (!response.errors) {
-		if (response.data.linkCompanies.success) {
-			this.props.data.refetch();
-		}
-	}
-}
-
-render() {
-	const { translate } = this.props;
-	if (this.props.data.loading) {
-		return <LoadingSection />;
+			preferredLanguage: 'es',
+			roles: 'secretary'
+		},
+		companies: [],
+		errors: {}
 	}
 
-	return (
-		<div style={{ height: '100%' }}>
-			<Scrollbar>
-				<div style={{ height: '100%', padding: '1.2em' }}>
-					<UserItem
-						key={`user_${this.props.data.user.id}`}
-						user={this.props.data.user}
-						refetch={this.props.data.refetch}
-						closeSession={true}
-						activatePremium={true}
-						translate={this.props.translate}
-					/>
-					<CompanyLinksManager
-						linkedCompanies={this.props.data.user.companies}
-						translate={translate}
-						company={this.props.company}
-						addCheckedCompanies={this.linkCompanies}
-					/>
-					<div>
-						<UserSendsList
-							enRoot={true}
+	updateState = object => {
+		this.setState({
+			data: {
+				...this.state.data,
+				...object
+			}
+		});
+	}
+
+	linkCompanies = async companies => {
+		const response = await this.props.linkCompanies({
+			variables: {
+				userId: this.props.data.user.id,
+				companies: companies.map(company => company.id)
+			}
+		});
+
+		if (!response.errors) {
+			if (response.data.linkCompanies.success) {
+				this.props.data.refetch();
+			}
+		}
+	}
+
+	render() {
+		const { translate } = this.props;
+		if (this.props.data.loading) {
+			return <LoadingSection />;
+		}
+
+		return (
+			<div style={{ height: '100%' }}>
+				<Scrollbar>
+					<div style={{ height: '100%', padding: '1.2em' }}>
+						<UserItem
+							key={`user_${this.props.data.user.id}`}
 							user={this.props.data.user}
-							translate={this.props.translate}
 							refetch={this.props.data.refetch}
+							closeSession={true}
+							activatePremium={true}
+							translate={this.props.translate}
 						/>
+						<CompanyLinksManager
+							linkedCompanies={this.props.data.user.companies}
+							translate={translate}
+							company={this.props.company}
+							addCheckedCompanies={this.linkCompanies}
+						/>
+						<div>
+							<UserSendsList
+								enRoot={true}
+								user={this.props.data.user}
+								translate={this.props.translate}
+								refetch={this.props.data.refetch}
+							/>
+						</div>
 					</div>
-				</div>
-			</Scrollbar>
-		</div>
-	);
-}
+				</Scrollbar>
+			</div>
+		);
+	}
 }
 
 

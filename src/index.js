@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { unregister } from './registerServiceWorker';
 import { init } from './utils/analytics';
 
+
 init();
 document.getElementById('landingPage').innerHTML = '';
 

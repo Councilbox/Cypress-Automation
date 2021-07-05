@@ -157,7 +157,7 @@ const SignUpPage = ({ translate, windowSize, mutate }) => {
 									}}
 								>
 									<Scrollbar>
-										<div style={{ paddingBottom: '4.5em' }}>
+										<div style={{ paddingBottom: '4em' }}>
 											<SignUpUser
 												formData={data}
 												errors={errors}

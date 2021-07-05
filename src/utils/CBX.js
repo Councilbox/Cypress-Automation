@@ -72,6 +72,18 @@ export const getActiveVote = agendaVoting => {
 	return activedDelegated || agendaVoting;
 };
 
+export const getTermsURL = language => {
+	switch (language) {
+		case 'es':
+		case 'gal':
+		case 'eu':
+		case 'cat':
+			return 'https://www.councilbox.com/politica-de-privacidad/';
+		default:
+			return 'https://www.councilbox.com/en/privacy-policy/';
+	}
+};
+
 
 export const showNumParticipations = (numParticipations, company, statute) => {
 	if (statute && statute.decimalDigits && statute.decimalDigits) {
