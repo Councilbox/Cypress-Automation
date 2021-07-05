@@ -15,6 +15,7 @@ const ErrorAlert = ({
 	const buttons = (
 		<Fragment>
 			<BasicButton
+				id="error-alert-button"
 				text={buttonAccept}
 				textStyle={{
 					color: 'white',
@@ -35,7 +36,7 @@ const ErrorAlert = ({
 			open={open}
 			onClose={requestClose}
 		>
-			<DialogTitle>{title}</DialogTitle>
+			<DialogTitle id="error-alert-title">{title}</DialogTitle>
 			<DialogContent>{bodyText}</DialogContent>
 			<DialogActions>{buttons}</DialogActions>
 		</Dialog>

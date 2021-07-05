@@ -101,6 +101,18 @@ class RichTextInput extends React.Component {
 		}
 	}
 
+	componentDidMount = () => {
+		if (((this.state.companyTags && this.state.companyTags.length > 0)
+			|| (this.props.tags && this.props.tags.length > 0))) {
+			const customElements = document.getElementsByClassName('ql-custom');
+			// eslint-disable-next-line no-restricted-syntax
+			for (const element of customElements) {
+				if (element) {
+					element.setAttribute('id', `custom-tags-${this.props.id}`);
+				}
+			}
+		}
+	}
 
 	render() {
 		const {
@@ -390,6 +402,7 @@ const SmartTags = withApollo(withSharedProps()(({
 													<HoverableRow
 														key={`tag_${index}`}
 														tag={tag}
+														id={index}
 														value={getTextToPaste(tag)}
 														translate={translate}
 														onClick={() => {
@@ -412,13 +425,14 @@ const SmartTags = withApollo(withSharedProps()(({
 }));
 
 
-const HoverableRow = ({ tag, onClick, value }) => {
+const HoverableRow = ({ tag, onClick, value, id }) => {
 	const [show, handlers] = useHoverRow();
 	const primary = getPrimary();
 
 	return (
 		<TableRow
 			{...handlers}
+			id={`tag-${id}`}
 			style={{
 				background: show && 'rgba(0, 0, 0, 0.07)',
 				cursor: 'pointer'
