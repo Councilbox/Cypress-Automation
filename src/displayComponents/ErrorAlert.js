@@ -35,7 +35,7 @@ const ErrorAlert = ({
 			open={open}
 			onClose={requestClose}
 		>
-			<DialogTitle>{title}</DialogTitle>
+			<DialogTitle id="error-alert-title">{title}</DialogTitle>
 			<DialogContent>{bodyText}</DialogContent>
 			<DialogActions>{buttons}</DialogActions>
 		</Dialog>
