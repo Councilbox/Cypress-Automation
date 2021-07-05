@@ -390,6 +390,7 @@ const SmartTags = withApollo(withSharedProps()(({
 													<HoverableRow
 														key={`tag_${index}`}
 														tag={tag}
+														id={index}
 														value={getTextToPaste(tag)}
 														translate={translate}
 														onClick={() => {
@@ -412,13 +413,14 @@ const SmartTags = withApollo(withSharedProps()(({
 }));
 
 
-const HoverableRow = ({ tag, onClick, value }) => {
+const HoverableRow = ({ tag, onClick, value, id }) => {
 	const [show, handlers] = useHoverRow();
 	const primary = getPrimary();
 
 	return (
 		<TableRow
 			{...handlers}
+			id={`tag-${id}`}
 			style={{
 				background: show && 'rgba(0, 0, 0, 0.07)',
 				cursor: 'pointer'
