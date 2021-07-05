@@ -15,6 +15,7 @@ const ErrorAlert = ({
 	const buttons = (
 		<Fragment>
 			<BasicButton
+				id="error-alert-button"
 				text={buttonAccept}
 				textStyle={{
 					color: 'white',
