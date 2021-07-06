@@ -111,7 +111,7 @@ const LoginForm = ({
 			email: '',
 			password: ''
 		},
-		legalTermsAccepted: false,
+		legalTermsAccepted: !!participant.legalTermsAccepted,
 		hover: false,
 		helpPopover: true,
 		modal: false
