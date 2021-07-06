@@ -111,7 +111,7 @@ const LoginForm = ({
 			email: '',
 			password: ''
 		},
-		legalTermsAccepted: false,
+		legalTermsAccepted: !!participant.legalTermsAccepted,
 		hover: false,
 		helpPopover: true,
 		modal: false
@@ -575,7 +575,7 @@ const LoginForm = ({
 
 								</React.Fragment>
 							)}
-							{participant.legalTermsAccepted &&
+							{!participant.legalTermsAccepted && subdomain.name !== 'evid' &&
 								<>
 									<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
 										<Checkbox
