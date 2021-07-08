@@ -90,7 +90,7 @@ const Assistance = ({
 			if (participantData.assistanceIntention === PARTICIPANT_STATES.DELEGATED && !participantData.representative) {
 				return defaultIntention;
 			}
-			return Number.isNaN(participantData.assistanceIntention) ? defaultIntention : participantData.assistanceIntention;
+			return Number.isNaN(Number(participantData.assistanceIntention)) ? defaultIntention : participantData.assistanceIntention;
 		};
 
 		if (participant.represented && participant.represented.length > 0) {
