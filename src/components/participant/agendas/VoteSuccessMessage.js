@@ -61,9 +61,9 @@ const GrowingIcon = ({ transition }) => {
 			className="material-icons"
 			style={{
 				fontSize: mounted ? '24px' : 0,
-				'-webkit-transition': 'font-size 2s',
-				'-moz-transition': 'font-size 2s',
-				'-o-transition': 'font-size 2s',
+				webkitTransition: 'font-size 2s',
+				mozTransition: 'font-size 2s',
+				oTransition: 'font-size 2s',
 				transition: 'font-size 2s'
 			}}>
 			how_to_vote
