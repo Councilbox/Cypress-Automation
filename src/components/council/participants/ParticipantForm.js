@@ -244,7 +244,7 @@ const ParticipantForm = ({
 						errorText={errors.numParticipations}
 						value={participant.numParticipations}
 						onChange={event => {
-							if (!Number.isNaN(event.target.value) || +event.target.value > 0) {
+							if (!Number.isNaN(Number(event.target.value)) || +event.target.value > 0) {
 								updateState({
 									numParticipations: +event.target.value
 								});
@@ -262,7 +262,7 @@ const ParticipantForm = ({
 							errorText={errors.socialCapital}
 							value={participant.socialCapital}
 							onChange={event => {
-								if (!Number.isNaN(event.target.value) || +event.target.value > 0) {
+								if (!Number.isNaN(Number(event.target.value)) || +event.target.value > 0) {
 									updateState({
 										socialCapital: +event.target.value
 									});
