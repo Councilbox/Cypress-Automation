@@ -56,13 +56,17 @@ describe("The user is able to create a new account in Councilbox", function() {
 
     it("User should be registered successfully", function() {
         cy.contains('Alta de usuario')
+        cy.wait(1000)
     });
 
     it("Open email application and navigate to the activation email", function() {
+        
+       /*
        cy.visit('http://www.yopmail.com/en/')    
        cy.get('#login').clear()
        		.type("alem"+Cypress.config('UniqueNumber'))
-       cy.get('.sbut').click()       
+       cy.get('.sbut').click()   
+       */    
    });
 /*
     it('GET', function(){

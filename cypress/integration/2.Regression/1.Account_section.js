@@ -45,12 +45,12 @@ function userID_Alpha() {
         });
 
         it("An alert message is displayed beyond the fields", function() {
-            cy.contains('Please enter a valid first name')
-            cy.contains('Please enter valid last names')
-            cy.contains('This field is required.')
-            cy.contains('This field is required.')
-            cy.contains('The password cannot be empty')
-            cy.contains('I accept the terms and conditions.')
+            cy.get('#signup-name-error-text')
+            cy.get('#signup-surname-error-text')
+            cy.get('#signup-phone-error-text')
+            cy.get('#signup-email-error-text')
+            cy.get('#signup-password-error-text')
+            cy.get('#legal-terms-error-text')
         })
     });
 
@@ -108,7 +108,7 @@ describe("The user is not able to create a new account in Councilbox with invali
         });
 
         it("Should display 'Please enter a valid first name'", function() {
-            cy.contains('Please enter a valid first name')
+            cy.get('#signup-name-error-text')
         })
     });
 
@@ -166,7 +166,7 @@ describe("The user is not able to create a new account in Councilbox with invali
         });
 
         it("Should display 'Please enter a valid phone number'", function() {
-            cy.contains('Please enter a valid phone number')
+            cy.get('#signup-phone-error-text')
         });
     });
 
@@ -223,7 +223,7 @@ describe("The user is not able to create a new account in Councilbox with invali
         });
 
         it("Please enter valid last names", function() {
-            cy.contains('Please enter valid last names')
+            cy.get('#signup-surname-error-text')
         })
     });
 
@@ -260,9 +260,9 @@ describe("The user is not able to register to the Councilbox with the E-mail alr
 
         it("Populate the 'Email' and the 'Repeat email' fields", function() {
             cy.get('#signup-email').clear()
-                .type("alem@qaengineers.net")
+                .type("ballalem@hotmail.com")
             cy.get('#signup-email-check').clear()
-                .type("alem@qaengineers.net")
+                .type("ballalem@hotmail.com")
         });
 
         it("Populate the 'Password' and the 'Confirm password' fields", function() {
@@ -282,7 +282,7 @@ describe("The user is not able to register to the Councilbox with the E-mail alr
         });
 
         it("'This email is already registered.'' message is displayed beyond the “Email” field", function() {
-            cy.contains('This email is already registered.')
+            cy.get('#signup-email-error-text')
         });
     });
 
@@ -339,7 +339,7 @@ describe("The user is not able to register to the Councilbox with the invalid in
         });
 
         it("'The email does not match.'' message is displayed beyond the “Repeat Email” field", function() {
-            cy.contains('The email does not match.')
+            cy.get('#signup-email-check-error-text')
         });
     });
 
@@ -396,7 +396,7 @@ describe("The user is not able to register to the Councilbox with the invalid in
         });
 
         it("'The passwords do not match' message is displayed beyond the “Confirm Password” field", function() {
-            cy.contains('The passwords do not match.')
+            cy.get('#signup-password-check-error-text')
         });
     });
 
@@ -478,7 +478,7 @@ describe("The user is not able to login in Councilbox with invalid inputs in the
         });
 
         it("'The email is not verified or does not exist.' alert message is displayed", function() {
-            cy.contains('The email was not verified or does not exist.')
+            cy.get('#username-error-text')
         });
 
      });
@@ -507,7 +507,7 @@ describe("The user is not able to login in Councilbox with invalid password", fu
         });
 
         it("'Incorrect password' alert message is displayed", function() {
-            cy.contains('Incorrect password')
+            cy.get('#password-error-text')
         });
 
      });
@@ -525,7 +525,247 @@ describe("The user is not able to login in Councilbox without populating require
         });
 
         it("'This field is required.' alert message is displayed beyond the “Email” and “Password” fields", function() {
-            cy.contains('This field is required.')
+            cy.get('#username-error-text')
+            cy.get('#password-error-text')
         });
+
+     });
+
+describe("The user is able to select the 'EN' language on the 'Homepage' section", function() {
+    
+        it("Open the browser and enter the URL of the staging environment", function() {
+            cy.visit(login_url);
+            cy.wait(1000);
+        });
+    
+        it("Navigate to the upper right corner of the page and click on the “Language selector” button", function() {
+            cy.get('#language-selector').click()
+            cy.wait(1000)
+        });
+
+        it("From the dropdown menu choose and click on the 'EN' button", function() {
+            cy.get('#language-en').click()
+            cy.wait(1000)
+        });
+
+     });
+
+describe("The user is able to select the 'ES' language on the 'Homepage' section", function() {
+    
+        it("Open the browser and enter the URL of the staging environment", function() {
+            cy.visit(login_url);
+            cy.wait(1000);
+        });
+    
+        it("Navigate to the upper right corner of the page and click on the “Language selector” button", function() {
+            cy.get('#language-selector').click()
+            cy.wait(1000)
+        });
+
+        it("From the dropdown menu choose and click on the 'ES' button", function() {
+            cy.get('#language-es').click()
+            cy.wait(1000)
+        });
+
+     });
+
+describe("The user is able to select the 'CAT' language on the 'Homepage' section", function() {
+    
+        it("Open the browser and enter the URL of the staging environment", function() {
+            cy.visit(login_url);
+            cy.wait(1000);
+        });
+    
+        it("Navigate to the upper right corner of the page and click on the “Language selector” button", function() {
+            cy.get('#language-selector').click()
+            cy.wait(1000)
+        });
+
+        it("From the dropdown menu choose and click on the 'CAT' button", function() {
+            cy.get('#language-cat').click()
+            cy.wait(1000)
+        });
+
+     });
+
+describe("The user is able to select the 'GAL' language on the 'Homepage' section", function() {
+    
+        it("Open the browser and enter the URL of the staging environment", function() {
+            cy.visit(login_url);
+            cy.wait(1000);
+        });
+    
+        it("Navigate to the upper right corner of the page and click on the “Language selector” button", function() {
+            cy.get('#language-selector').click()
+            cy.wait(1000)
+        });
+
+        it("From the dropdown menu choose and click on the 'GAL' button", function() {
+            cy.get('#language-gal').click()
+            cy.wait(1000)
+        });
+
+     });
+
+describe("The user is able to select the 'PT' language on the 'Homepage' section", function() {
+    
+        it("Open the browser and enter the URL of the staging environment", function() {
+            cy.visit(login_url);
+            cy.wait(1000);
+        });
+    
+        it("Navigate to the upper right corner of the page and click on the “Language selector” button", function() {
+            cy.get('#language-selector').click()
+            cy.wait(1000)
+        });
+
+        it("From the dropdown menu choose and click on the 'PT' button", function() {
+            cy.get('#language-pt').click()
+            cy.wait(1000)
+        });
+
+     });
+
+describe("The user is able to select the 'EU' language on the 'Homepage' section", function() {
+    
+        it("Open the browser and enter the URL of the staging environment", function() {
+            cy.visit(login_url);
+            cy.wait(1000);
+        });
+    
+        it("Navigate to the upper right corner of the page and click on the “Language selector” button", function() {
+            cy.get('#language-selector').click()
+            cy.wait(1000)
+        });
+
+        it("From the dropdown menu choose and click on the 'EU' button", function() {
+            cy.get('#language-eu').click()
+            cy.wait(1000)
+        });
+
+     });
+
+describe("The user is able to select the 'FR' language on the 'Homepage' section", function() {
+    
+        it("Open the browser and enter the URL of the staging environment", function() {
+            cy.visit(login_url);
+            cy.wait(1000);
+        });
+    
+        it("Navigate to the upper right corner of the page and click on the “Language selector” button", function() {
+            cy.get('#language-selector').click()
+            cy.wait(1000)
+        });
+
+        it("From the dropdown menu choose and click on the 'FR' button", function() {
+            cy.get('#language-fr').click()
+            cy.wait(1000)
+        });
+
+     });
+
+describe("The user is able to select the 'EN' language on the 'Homepage' section", function() {
+    
+        it("Open the browser and enter the URL of the staging environment", function() {
+            cy.visit(login_url);
+            cy.wait(1000);
+        });
+    
+        it("Navigate to the upper right corner of the page and click on the “Language selector” button", function() {
+            cy.get('#language-selector').click()
+            cy.wait(1000)
+        });
+
+        it("From the dropdown menu choose and click on the 'EN' button", function() {
+            cy.get('#language-en').click()
+            cy.wait(1000)
+        });
+
+     });
+
+describe("The user is not able to restore password without populating the 'Email' field", function() {
+    
+        it("Open the browser and enter the URL of the staging environment", function() {
+            cy.visit(login_url);
+            cy.wait(1000);
+        });
+    
+        it("Click on the “I forgot my password” button", function() {
+            cy.get('#restore-password-link').click()
+            cy.wait(1000)
+        });
+
+        it("Click on the “Restore access” button without populating the 'Email' field", function() {
+            cy.get('#restore-password-button').click()
+            cy.wait(1000)
+        });
+
+        it("“Please enter a valid email address.” alert message is displayed", function() {
+            cy.get('#restore-password-email-input-error-text').click()
+            cy.wait(1000)
+        });
+
+
+     });
+
+describe("The user is not able to restore password with invalid inputs in the 'Email' field", function() {
+    
+        it("Open the browser and enter the URL of the staging environment", function() {
+            cy.visit(login_url);
+            cy.wait(1000);
+        });
+    
+        it("Click on the “I forgot my password” button", function() {
+            cy.get('#restore-password-link').click()
+            cy.wait(1000)
+        });
+
+        it("Populate the “Email” field with invalid email format", function() {
+            cy.get('#restore-password-email-input').clear()
+                .type('fsdafdsfafsda')
+            cy.wait(1000)
+        });
+
+        it("Click on the “Restore access” button", function() {
+            cy.get('#restore-password-button').click()
+            cy.wait(1000)
+        });
+
+        it("“Please enter a valid email address.” alert message is displayed", function() {
+            cy.get('#restore-password-email-input-error-text').click()
+            cy.wait(1000)
+        });
+
+
+     });
+
+describe("The user is not able to restore password with email that is not verified", function() {
+    
+        it("Open the browser and enter the URL of the staging environment", function() {
+            cy.visit(login_url);
+            cy.wait(1000);
+        });
+    
+        it("Click on the “I forgot my password” button", function() {
+            cy.get('#restore-password-link').click()
+            cy.wait(1000)
+        });
+
+        it("Populate the “Email” field with invalid email format", function() {
+            cy.get('#restore-password-email-input').clear()
+                .type('fsdafdsf@fdsafa.fsa')
+            cy.wait(1000)
+        });
+
+        it("Click on the “Restore access” button", function() {
+            cy.get('#restore-password-button').click()
+            cy.wait(1000)
+        });
+
+        it("“The email was not verified or does not exist.” alert message is displayed", function() {
+            cy.get('#restore-password-email-input-error-text').click()
+            cy.wait(1000)
+        });
+
 
      });

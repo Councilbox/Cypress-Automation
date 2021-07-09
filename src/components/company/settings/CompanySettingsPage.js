@@ -38,6 +38,7 @@ import { corporationUsers } from '../../../queries/corporation';
 import { isMobile } from '../../../utils/screen';
 import { USER_ACTIVATIONS } from '../../../constants';
 import CompanyVideoConfig from './CompanyVideoConfig';
+import { checkValidEmail } from '../../../utils';
 
 
 export const info = gql`
@@ -245,6 +246,11 @@ const CompanySettingsPage = ({
 			errors.tin = translate.field_required;
 		}
 
+		if (data.contactEmail && !checkValidEmail(data.contactEmail)) {
+			hasError = true;
+			errors.contactEmail = translate.email_not_valid;
+		}
+
 		setState({
 			...state,
 			errors
@@ -283,6 +289,7 @@ const CompanySettingsPage = ({
 				toast(
 					<LiveToast
 						message={translate.changes_saved}
+						id="success-toast"
 					/>, {
 						position: toast.POSITION.TOP_RIGHT,
 						autoClose: true,
@@ -325,7 +332,7 @@ const CompanySettingsPage = ({
 	const {
 		data, errors, success, request
 	} = state;
-	const updateError = state.error;
+	const updateError = Object.keys(errors).length > 0;
 	const { loading } = props.info;
 
 	if (loading) {
@@ -458,6 +465,18 @@ const CompanySettingsPage = ({
 									value={data.externalId || ''}
 									onChange={event => updateState({
 										externalId: event.target.value
+									})
+									}
+								/>
+							</GridItem>
+							<GridItem xs={12} md={6} lg={4}>
+								<TextInput
+									floatingText={translate.contact_email}
+									type="text"
+									errorText={errors.contactEmail}
+									value={data.contactEmail || ''}
+									onChange={event => updateState({
+										contactEmail: event.target.value
 									})
 									}
 								/>

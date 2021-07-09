@@ -296,7 +296,10 @@ const ActEditor = ({
 			doc: actDocument.fragments,
 			options: actDocument.options
 		} : {
-			doc: buildDoc(response.data, translate, 'act'),
+			doc: buildDoc({
+				...response.data,
+				company
+			}, translate, 'act'),
 			options: {
 				stamp: !config.disableDocumentStamps,
 				doubleColumn: response.data.council.statute.doubleColumnDocs === 1,

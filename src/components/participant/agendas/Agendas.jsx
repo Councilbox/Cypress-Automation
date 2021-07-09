@@ -122,6 +122,7 @@ class Agendas extends React.Component {
 			toast(
 				<LiveToast
 					message={message}
+					id="alert-toast"
 					action={() => this.selectAgenda}
 				/>, {
 					// autoClose: false,

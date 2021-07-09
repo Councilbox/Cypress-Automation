@@ -531,9 +531,12 @@ export const CouncilInfoCardRender = ({ council, windowOrientation }) => (
 						<b>{council.name}</b>
 					</div>
 				}
-				subheader={moment(new Date(council.dateStart)).format(
-					'LLL'
-				)}
+				subheader={
+					council.timezone ?
+						moment(new Date(council.dateStart)).format('LLL')
+						:
+						moment(new Date(council.dateStart)).utcOffset(0).format('LLL')
+				}
 			/>
 		</div>
 	</React.Fragment>

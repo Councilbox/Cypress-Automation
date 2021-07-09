@@ -13,9 +13,9 @@ import withWindowSize from '../../../HOCs/withWindowSize';
 import withWindowOrientation from '../../../HOCs/withWindowOrientation';
 import { getPrimary, getSecondary } from '../../../styles/colors';
 import {
-	ButtonIcon, TextInput, BasicButton, AlertConfirm, HelpPopover, LoadingSection
+	ButtonIcon, TextInput, BasicButton, AlertConfirm, HelpPopover, LoadingSection, Checkbox
 } from '../../../displayComponents';
-import { councilStarted, participantNeverConnected, hasAccessKey } from '../../../utils/CBX';
+import { councilStarted, participantNeverConnected, hasAccessKey, getTermsURL } from '../../../utils/CBX';
 import {
 	useOldState, useCountdown, useSendRoomKey, useInterval
 } from '../../../hooks';
@@ -107,13 +107,14 @@ const LoginForm = ({
 		password: '',
 		sendPassModal: council.securityType !== 0,
 		showPassword: false,
-		errors: {
-			email: '',
-			password: ''
-		},
+		legalTermsAccepted: !!participant.legalTermsAccepted,
 		hover: false,
 		helpPopover: true,
 		modal: false
+	});
+	const [errors, setErrors] = React.useState({
+		email: '',
+		password: ''
 	});
 	const [sends, setSends] = React.useState(null);
 	const [responseSMS, setResponseSMS] = React.useState('');
@@ -166,22 +167,22 @@ const LoginForm = ({
 	}, [sends]);
 
 	const checkFieldsValidationState = () => {
-		const errors = {
-			password: ''
-		};
+		const newErrors = {};
 
-		if (council.securityType === 0 || council.securityType === 3) {
-			errors.password = '';
-		} else {
-			errors.password = !(state.password.length > 0) ? translate.field_required : '';
+		if (council.securityType !== 0 && council.securityType !== 3 && !(state.password.length > 0)) {
+			newErrors.password = translate.field_required;
 		}
 
-		setState({
-			...state,
-			errors
-		});
+		if (!state.legalTermsAccepted) {
+			newErrors.legalTerms = translate.acept_terms;
+		}
 
-		return errors.password === '';
+		setErrors(oldErrors => ({
+			...oldErrors,
+			...newErrors
+		}));
+
+		return Object.keys(newErrors).length === 0;
 	};
 
 	const handleChange = (field, event) => {
@@ -190,7 +191,20 @@ const LoginForm = ({
 		setState(newState, checkFieldsValidationState);
 	};
 
-	const handleSuccess = () => {
+	const sendConfirmation = async () => {
+		await client.mutate({
+			mutation: gql`
+				mutation liveAcceptLegalTermsAndConditions{
+					liveAcceptLegalTermsAndConditions{
+						success
+					}
+				}
+			`
+		});
+	};
+
+	const handleSuccess = async () => {
+		await sendConfirmation();
 		props.actions.participantLoginSuccess();
 		bHistory.push(`/participant/${participant.id}/council/${council.id}/${participant.roomType === 'MEETING' ? 'meet' : 'council'}`);
 	};
@@ -214,19 +228,17 @@ const LoginForm = ({
 				});
 
 				if (!response.data.checkParticipantKey.success) {
-					setState({
-						errors: {
-							password: translate.incorrect_access__key
-						}
-					});
+					setErrors(oldErrors => ({
+						...oldErrors,
+						password: translate.incorrect_access__key
+					}));
 					return;
 				}
 			} catch (error) {
-				setState({
-					errors: {
-						password: translate.incorrect_access__key
-					}
-				});
+				setErrors(oldErrors => ({
+					...oldErrors,
+					password: translate.incorrect_access__key
+				}));
 				return;
 			}
 		}
@@ -444,7 +456,7 @@ const LoginForm = ({
 		);
 	};
 
-	const { password, errors, showPassword } = state;
+	const { password, showPassword } = state;
 	return (
 		<div>
 			<div style={{
@@ -546,19 +558,50 @@ const LoginForm = ({
 										type={showPassword ? 'text' : 'password'}
 										errorText={errors.password}
 										value={password}
-										onChange={event => handleChange('password', event)
-										}
+										onChange={event => handleChange('password', event)}
 										required={true}
 										showPassword={showPassword}
 										passwordToggler={() => setState({
 											showPassword: !showPassword
-										})
-										}
+										})}
 									/>
 
 
 								</React.Fragment>
 							)}
+							{!participant.legalTermsAccepted && subdomain.name !== 'evid' &&
+								<>
+									<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+										<Checkbox
+											id="accept-legal-checkbox"
+											label={`${translate.login_read_terms} `}
+											value={state.termsCheck}
+											onChange={(event, isInputChecked) => setState({
+												legalTermsAccepted: isInputChecked
+											})}
+										/>
+										<a
+											style={{
+												color: primary,
+												fontWeight: '700',
+												cursor: 'pointer',
+												textTransform: 'lowerCase',
+												marginLeft: '0.4em'
+											}}
+											href={getTermsURL(translate.selectedLanguage)}
+											target="_blank"
+											rel="noreferrer noopener"
+										>
+											{translate.login_read_terms2}
+										</a>
+									</div>
+									{errors.legalTerms && (
+										<div style={{ color: 'red' }} id="legal-terms-error-text">
+											{errors.legalTerms}
+										</div>
+									)}
+								</>
+							}
 							{renderAccessButton()}
 						</form>
 					</Card>

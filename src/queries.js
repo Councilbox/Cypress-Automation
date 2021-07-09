@@ -732,6 +732,7 @@ export const statutes = gql`
 			id
 			companyId
 			title
+			lastEdited
 			existPublicUrl
 			language
 			companyType
@@ -1541,6 +1542,7 @@ export const councilLiveQuery = gql`
 			socialCapitalRightVoting
 			numRightVoting
 			partRightVoting
+			treasuryShares
 		}
 	}
 `;

@@ -59,7 +59,6 @@ const AgendaManager = ({
 		if (!council) {
 			return;
 		}
-
 		const response = await client.query({
 			query: agendaManager,
 			variables: {

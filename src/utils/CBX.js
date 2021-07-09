@@ -33,7 +33,7 @@ import { TAG_TYPES } from '../components/company/drafts/draftTags/utils';
 
 export const canReorderPoints = council => council.statute.canReorderPoints === 1;
 
-export const formatInt = num => {
+export const formatInt = (num, char = ' ') => {
 	if (!num) {
 		return 0;
 	}
@@ -41,8 +41,9 @@ export const formatInt = num => {
 	if (num < 1000) {
 		return num;
 	}
+
 	let newNum = num.toString().split('').reverse().join('')
-		.replace(/(?=\d*\.?)(\d{3})/g, '$1 ');
+		.replace(/(?=\d*\.?)(\d{3})/g, `$1${char}`);
 	newNum = newNum.split('').reverse().join('').replace(/^[\.]/, '');
 	return newNum;
 };
@@ -71,10 +72,26 @@ export const getActiveVote = agendaVoting => {
 	return activedDelegated || agendaVoting;
 };
 
+export const getTermsURL = language => {
+	switch (language) {
+		case 'es':
+		case 'gal':
+		case 'eu':
+		case 'cat':
+			return 'https://www.councilbox.com/politica-de-privacidad/';
+		default:
+			return 'https://www.councilbox.com/en/privacy-policy/';
+	}
+};
+
 
 export const showNumParticipations = (numParticipations, company, statute) => {
 	if (statute && statute.decimalDigits && statute.decimalDigits) {
 		return formatInt(numParticipations / (10 ** statute.decimalDigits));
+	}
+
+	if (company && company.id === 546) {
+		return formatInt(numParticipations, '.');
 	}
 
 	if (!company || !company.type) {
@@ -262,6 +279,10 @@ export const isQuorumNumber = quorumType => quorumType === 3;
 export const voteAllAtOnce = data => data.council.councilType === 3;
 
 export const findOwnVote = (votings, participant) => {
+	if (participant.delegateId) {
+		return null;
+	}
+
 	if (participant.type !== PARTICIPANT_TYPE.REPRESENTATIVE) {
 		return votings.find(voting => (
 			voting.participantId === participant.id
@@ -1835,6 +1856,7 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 		toast(
 			<LiveToast
 				message={translate.revise_text}
+				id="text-error-toast"
 			/>, {
 				position: toast.POSITION.TOP_RIGHT,
 				autoClose: true,
@@ -1849,6 +1871,7 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 		toast(
 			<LiveToast
 				message={translate.revise_text}
+				id="text-error-toast"
 			/>, {
 				position: toast.POSITION.TOP_RIGHT,
 				autoClose: true,

@@ -101,26 +101,37 @@ class RichTextInput extends React.Component {
 		}
 	}
 
+	componentDidMount = () => {
+		if (((this.state.companyTags && this.state.companyTags.length > 0)
+			|| (this.props.tags && this.props.tags.length > 0))) {
+			const customElements = document.getElementsByClassName('ql-custom');
+			// eslint-disable-next-line no-restricted-syntax
+			for (const element of customElements) {
+				if (element) {
+					element.setAttribute('id', `custom-tags-${this.props.id}`);
+				}
+			}
+		}
+	}
 
 	render() {
 		const {
 			tags, loadDraft, errorText, required, borderless, translate, styles, stylesQuill, placeholder
 		} = this.props;
+
+		const containerElements = [
+			[{ color: [] }, { background: [] }], ['bold', 'italic', 'underline', 'link', 'strike'],
+			['blockquote', 'code-block', { list: 'ordered' }, { list: 'bullet' }],
+			[{ header: 1 }, { header: 2 }], [{ align: 'justify' }]
+		];
+
+		if (((this.state.companyTags && this.state.companyTags.length > 0) || (tags && tags.length > 0))) {
+			containerElements.push(['custom']);
+		}
+
 		const modules = {
 			toolbar: {
-				container: [
-					[{ color: [] }, { background: [] }], ['bold', 'italic', 'underline', 'link', 'strike'],
-					['blockquote', 'code-block', { list: 'ordered' }, { list: 'bullet' }],
-					[{ header: 1 }, { header: 2 }],
-					[{ align: 'justify' }], [((this.state.companyTags && this.state.companyTags.length > 0) || (tags && tags.length > 0)) ? 'custom' : '']
-				],
-				handlers: {
-					// 'custom': (...args) => {
-					// console.log(args);
-					// console.log(document.getElementById('pruebas'));
-					// //this.setState({ showTags: true })
-					// }
-				}
+				container: containerElements
 			},
 			clipboard: {
 				matchVisual: false,
@@ -251,7 +262,7 @@ const SmartTags = withApollo(withSharedProps()(({
 			}
 			setFilteredTags(newTags);
 		}
-	}, [searchModal, companyTags, tags]);
+	}, [searchModal, companyTags, JSON.stringify(tags)]);
 
 	const loadCompanyTags = React.useCallback(async () => {
 		if (company) {
@@ -391,6 +402,7 @@ const SmartTags = withApollo(withSharedProps()(({
 													<HoverableRow
 														key={`tag_${index}`}
 														tag={tag}
+														id={index}
 														value={getTextToPaste(tag)}
 														translate={translate}
 														onClick={() => {
@@ -413,13 +425,14 @@ const SmartTags = withApollo(withSharedProps()(({
 }));
 
 
-const HoverableRow = ({ tag, onClick, value }) => {
+const HoverableRow = ({ tag, onClick, value, id }) => {
 	const [show, handlers] = useHoverRow();
 	const primary = getPrimary();
 
 	return (
 		<TableRow
 			{...handlers}
+			id={`tag-${id}`}
 			style={{
 				background: show && 'rgba(0, 0, 0, 0.07)',
 				cursor: 'pointer'

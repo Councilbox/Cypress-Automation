@@ -350,7 +350,7 @@ const QRSearchModal = ({
 				}
 				<div style={{ color: '#dc7373', paddingBottom: '1em' }}>
 					{error
-&& translate.no_participant_found_code
+						&& translate.no_participant_found_code
 					}
 				</div>
 				<div style={{

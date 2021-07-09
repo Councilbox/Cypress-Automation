@@ -32,8 +32,12 @@ const AttendanceOptions = ({
 		});
 	};
 
-	const checkDelegationConditions = () => config.attendanceDelegationOption && council.statute.existsDelegatedVote === 1 && ((participant.numParticipations > 0)
-		|| participant.represented.filter(p => (p.numParticipations > 0)).length > 0);
+	const hasOwnVote = () => (
+		((participant.numParticipations > 0)
+		|| participant.represented.filter(p => (p.numParticipations > 0)).length > 0)
+	);
+
+	const checkDelegationConditions = () => config.attendanceDelegationOption && council.statute.existsDelegatedVote === 1 && hasOwnVote();
 
 	if (council.councilType === 4) {
 		return (
@@ -209,7 +213,7 @@ const AttendanceOptions = ({
 					requestClose={() => setState({ ...state, noAttendWarning: false })}
 				/>
 			}
-			{(council.statute.canEarlyVote === 1 && checkDelegationConditions())
+			{(council.statute.canEarlyVote === 1 && hasOwnVote())
 				&& <>
 					<EarlyVoteOption
 						translate={translate}

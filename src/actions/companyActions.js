@@ -74,7 +74,7 @@ const getSpecificTranslations = (language, company) => {
 				abstention_capital_letters: 'EN BLANCO',
 				abstention_lowercase: 'En blanco',
 				abstentions: 'EN BLANCO',
-				selectedCompany: 666,
+				selectedCompany: 1203,
 				num_abstention: 'Nº de personas en blanco'
 			},
 			cat: {
@@ -83,8 +83,62 @@ const getSpecificTranslations = (language, company) => {
 				abstention_capital_letters: 'EN BLANC',
 				abstention_lowercase: 'En blanc',
 				abstentions: 'EN BLANCO',
-				selectedCompany: 666,
+				selectedCompany: 1203,
 				num_abstention: 'Núm. de persones en blanc'
+			}
+		},
+		1311: {
+			es: {
+				abstention: 'En blanco',
+				abstention_btn: 'En blanco',
+				abstention_capital_letters: 'EN BLANCO',
+				abstention_lowercase: 'En blanco',
+				abstentions: 'EN BLANCO',
+				selectedCompany: 1311,
+				num_abstention: 'Nº de personas en blanco'
+			},
+			cat: {
+				abstention: 'En blanc',
+				abstention_btn: 'En blanc',
+				abstention_capital_letters: 'EN BLANC',
+				abstention_lowercase: 'En blanc',
+				abstentions: 'EN BLANCO',
+				selectedCompany: 1311,
+				num_abstention: 'Núm. de persones en blanc'
+			}
+		},
+		546: {
+			es: {
+				dont_vote: 'En blanco',
+				no_vote_lowercase: 'En blanco',
+				they_didnt_vote: 'En blanco',
+				no_vote: 'EN BLANCO',
+				selectedCompany: 666,
+				num_no_vote: 'Nº de personas en blanco'
+			},
+			cat: {
+				dont_vote: 'En blanc',
+				no_vote_lowercase: 'En blanc',
+				they_didnt_vote: 'En blanc',
+				no_vote: 'EN BLANCO',
+				selectedCompany: 666,
+				num_no_vote: 'Núm. de persones en blanc'
+			},
+			gal: {
+				dont_vote: 'En branco',
+				no_vote_lowercase: 'En branco',
+				they_didnt_vote: 'En branco',
+				no_vote: 'EN BRANCO',
+				selectedCompany: 666,
+				num_no_vote: 'Nº de persoas en branco'
+			},
+			en: {
+				dont_vote: 'Blank',
+				no_vote_lowercase: 'Blank',
+				no_vote: 'BLANK',
+				selectedCompany: 666,
+				they_didnt_vote: 'Blank',
+				num_no_vote: 'Number of blank votes'
 			}
 		}
 	};

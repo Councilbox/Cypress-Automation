@@ -41,7 +41,7 @@ const AttendIntentionIcon = ({
 			case PARTICIPANT_STATES.EARLY_VOTE:
 				tooltip = translate.participant_vote_fixed;
 				icon = <span className="material-icons" style={iconStyle}>
-how_to_vote
+					how_to_vote
 				</span>;
 				break;
 
@@ -77,22 +77,22 @@ how_to_vote
 				{icon}
 			</Tooltip>
 			{showCommentIcon
-&& <FontAwesome
-	onClick={onCommentClick}
-	name={'comment'}
-	style={{
-		margin: '0.2em',
-		color,
-		fontSize: size
-	}}
-/>
+				&& <FontAwesome
+					onClick={onCommentClick}
+					name={'comment'}
+					style={{
+						margin: '0.2em',
+						color,
+						fontSize: size
+					}}
+				/>
 			}
 			{council.statute.requireProxy === 1 && participant.delegationProxy
-&& <DownloadParticipantProxy
-	translate={translate}
-	participantId={participant.id}
-	participant={participant}
-/>
+				&& <DownloadParticipantProxy
+					translate={translate}
+					participantId={participant.id}
+					participant={participant}
+				/>
 			}
 		</div>
 	);
