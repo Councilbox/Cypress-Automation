@@ -107,14 +107,14 @@ const LoginForm = ({
 		password: '',
 		sendPassModal: council.securityType !== 0,
 		showPassword: false,
-		errors: {
-			email: '',
-			password: ''
-		},
 		legalTermsAccepted: !!participant.legalTermsAccepted,
 		hover: false,
 		helpPopover: true,
 		modal: false
+	});
+	const [errors, setErrors] = React.useState({
+		email: '',
+		password: ''
 	});
 	const [sends, setSends] = React.useState(null);
 	const [responseSMS, setResponseSMS] = React.useState('');
@@ -167,22 +167,22 @@ const LoginForm = ({
 	}, [sends]);
 
 	const checkFieldsValidationState = () => {
-		const errors = {};
+		const newErrors = {};
 
-		if (council.securityType !== 0 && council.securityType !== 3) {
-			errors.password = !(state.password.length > 0) ? translate.field_required : '';
+		if (council.securityType !== 0 && council.securityType !== 3 && !(state.password.length > 0)) {
+			newErrors.password = translate.field_required;
 		}
 
 		if (!state.legalTermsAccepted) {
-			errors.legalTerms = translate.acept_terms;
+			newErrors.legalTerms = translate.acept_terms;
 		}
 
-		setState({
-			...state,
-			errors
-		});
+		setErrors(oldErrors => ({
+			...oldErrors,
+			...newErrors
+		}));
 
-		return Object.keys(errors).length === 0;
+		return Object.keys(newErrors).length === 0;
 	};
 
 	const handleChange = (field, event) => {
@@ -228,20 +228,16 @@ const LoginForm = ({
 				});
 
 				if (!response.data.checkParticipantKey.success) {
-					setState(oldState => ({
-						errors: {
-							...oldState.errors,
-							password: translate.incorrect_access__key
-						}
+					setErrors(oldErrors => ({
+						...oldErrors,
+						password: translate.incorrect_access__key
 					}));
 					return;
 				}
 			} catch (error) {
-				setState(oldState => ({
-					errors: {
-						...oldState.errors,
-						password: translate.incorrect_access__key
-					}
+				setErrors(oldErrors => ({
+					...oldErrors,
+					password: translate.incorrect_access__key
 				}));
 				return;
 			}
@@ -460,7 +456,7 @@ const LoginForm = ({
 		);
 	};
 
-	const { password, errors, showPassword } = state;
+	const { password, showPassword } = state;
 	return (
 		<div>
 			<div style={{
@@ -562,14 +558,12 @@ const LoginForm = ({
 										type={showPassword ? 'text' : 'password'}
 										errorText={errors.password}
 										value={password}
-										onChange={event => handleChange('password', event)
-										}
+										onChange={event => handleChange('password', event)}
 										required={true}
 										showPassword={showPassword}
 										passwordToggler={() => setState({
 											showPassword: !showPassword
-										})
-										}
+										})}
 									/>
 
 
