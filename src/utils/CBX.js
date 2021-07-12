@@ -55,7 +55,7 @@ export const getPercentage = (num, total, decimals = 3) => {
 
 	const percentage = ((num * 100) / (total)).toFixed(decimals);
 	const zero = 0;
-	if (Number.isNaN(percentage)) {
+	if (Number.isNaN(Number(percentage))) {
 		return zero.toFixed(decimals);
 	}
 	return percentage;
@@ -133,7 +133,7 @@ export const canAddCouncilAttachment = (council, filesize) => (
 
 export const trialDaysLeft = (company, date, trialDays) => {
 	const left = trialDays - date(new Date()).diff(date(company.creationDate), 'days');
-	return left <= 0 || Number.isNaN(left) ? 0 : left;
+	return left <= 0 || Number.isNaN(Number(left)) ? 0 : left;
 };
 
 export const councilStarted = council => council.councilStarted === 1;
