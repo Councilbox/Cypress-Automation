@@ -4,7 +4,7 @@ import {
 } from 'material-ui';
 import { DisabledSection, FabButton, Icon } from '../../../displayComponents';
 import LiveHeader from './LiveHeader';
-import { darkGrey, getPrimary, lightGrey } from '../../../styles/colors';
+import { darkGrey, getPrimary } from '../../../styles/colors';
 import AgendaManager from './AgendaManager';
 import ParticipantsManager from './participants/ParticipantsManager';
 import CommentWall from './commentWall/CommentWall';
@@ -332,38 +332,6 @@ const CouncilLivePage = ({ translate, data, company }) => {
 											setVideoURL={setVideoURL}
 										/>
 									}
-									{(council.room && council.room.htmlVideoCouncil && config.videoEnabled && config.videoVersion !== videoVersions.CMP)
-										&& <div
-											style={{ height: '100%', width: '100%' }}
-											dangerouslySetInnerHTML={{ __html: council.room.htmlVideoCouncil }}
-										/>
-									}
-									<div
-										style={{
-											borderRadius: '5px',
-											cursor: 'pointer',
-											position: 'absolute',
-											right: '5%',
-											top: '16px',
-											backgroundColor:
-												'rgba(0, 0, 0, 0.5)',
-											width: '2.9em',
-											height: '2.9em',
-											display: 'flex',
-											alignItems: 'center',
-											justifyContent: 'center'
-										}}
-										onClick={toggleFullScreen}
-									>
-										<Icon
-											className="material-icons"
-											style={{ color: lightGrey }}
-										>
-											{state.fullScreen ?
-												'zoom_out'
-												: 'zoom_in'}
-										</Icon>
-									</div>
 								</div>
 							</React.Fragment>
 						}
@@ -381,7 +349,6 @@ const CouncilLivePage = ({ translate, data, company }) => {
 						)}
 					</div>
 				)}
-
 				<div
 					style={{
 						width: `${showVideo(council) ?
@@ -437,9 +404,7 @@ const CouncilLivePage = ({ translate, data, company }) => {
 													translate={translate}
 												/>
 											</>
-
 										}
-
 									</div>
 								</Tabs>
 							}

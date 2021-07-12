@@ -327,6 +327,7 @@ const ParticipantsLive = ({
 		<VideoParticipantsStats
 			videoFullScreen={screenSize === 'MAX'}
 			translate={translate}
+			council={council}
 			stats={stats}
 			toggleFullScreen={props.toggleFullScreen}
 		/>
