@@ -3,8 +3,8 @@ import { Card, MenuItem, Tooltip } from 'material-ui';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { flowRight as compose } from 'lodash';
-import { getSecondary } from '../../../../styles/colors';
-import { haveGrantedWord } from '../../../../utils/CBX';
+import { getSecondary } from '../../../../../styles/colors';
+import { haveGrantedWord } from '../../../../../utils/CBX';
 
 class MuteToggleButton extends React.Component {
 toggleMuteParticipant = async () => {

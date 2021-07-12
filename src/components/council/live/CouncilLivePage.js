@@ -6,7 +6,6 @@ import { DisabledSection, FabButton, Icon } from '../../../displayComponents';
 import LiveHeader from './LiveHeader';
 import { darkGrey, getPrimary, lightGrey } from '../../../styles/colors';
 import AgendaManager from './AgendaManager';
-import ParticipantsLive from './ParticipantsLive';
 import ParticipantsManager from './participants/ParticipantsManager';
 import CommentWall from './commentWall/CommentWall';
 import { showVideo } from '../../../utils/CBX';
@@ -19,6 +18,8 @@ import { COUNCIL_STATES, COUNCIL_TYPES } from '../../../constants';
 import ResumeCouncilButton from './menus/ResumeCouncilButton';
 import OneOnOneAttachmentsList from './oneOnOne/OneOnOneAttachmentsList';
 import AppointmentParticipantsManager from './oneOnOne/AppointmentParticipantsManager';
+import ParticipantsLive from './video/ParticipantsLive';
+
 
 const calcMinWidth = () => (window.innerWidth * 0.38 > 450 ? 35 : 100 / (window.innerWidth / 450));
 const calcMinHeight = () => '42vh';

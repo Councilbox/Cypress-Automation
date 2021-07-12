@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tooltip } from 'material-ui';
-import { Icon } from '../../../../displayComponents';
-import { mediumGrey, lightGrey, turquoise } from '../../../../styles/colors';
+import { Icon } from '../../../../../displayComponents';
+import { mediumGrey, lightGrey, turquoise } from '../../../../../styles/colors';
 
 const VideoParticipantsStats = ({
 	videoFullScreen,

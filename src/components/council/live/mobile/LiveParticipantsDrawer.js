@@ -2,7 +2,7 @@ import React from 'react';
 import { Drawer } from 'material-ui';
 import { Icon } from '../../../../displayComponents';
 import { darkGrey } from '../../../../styles/colors';
-import ParticipantsLive from '../ParticipantsLive';
+import ParticipantsLive from '../video/ParticipantsLive';
 
 
 const LiveParticipantsDrawer = ({
