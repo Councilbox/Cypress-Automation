@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 import JSONPretty from 'react-json-pretty';
 import { moment } from '../../../../../containers/App';
 import { LoadingSection } from '../../../../../displayComponents';
-import { getLogText } from '../../../../council/live/videoParticipants/ParticipantHistoryModal';
+import { getLogText } from '../../../../council/live/video/videoParticipants/ParticipantHistoryModal';
 
 const participantHistory = gql`
 	query participantHistory($participantId: Int!) {
