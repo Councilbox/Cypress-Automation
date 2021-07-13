@@ -172,7 +172,7 @@ const EarlyVoteMenu = ({
 									disabled={disabled && !active}
 									disabledColor={disabled && !active}
 									styleButton={{ padding: '0', width: '100%' }}
-									selectCheckBox={active}
+									selectedCheckbox={active}
 									onClick={() => {
 										if (active) {
 											selected.delete(key);
