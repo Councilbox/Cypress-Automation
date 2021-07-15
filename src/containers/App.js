@@ -254,10 +254,18 @@ const RouterWrapper = () => {
 		pageView();
 	}, [window.location.href]);
 	const subdomain = useSubdomain();
-	const language = (subdomain && subdomain.defaultLanguage) ? subdomain.defaultLanguage : getDefaultLanguage();
+	let language = (subdomain && subdomain.defaultLanguage) ? subdomain.defaultLanguage : getDefaultLanguage();
+
+	const state = store.getState();
+	const { user, translate } = state;
+	if (user?.preferredLanguage) {
+		language = user.preferredLanguage;
+	}
 
 	React.useEffect(() => {
-		store.dispatch(setLanguage(language));
+		if (!translate || !translate.selectedLanguage || translate.selectedLanguage !== language) {
+			store.dispatch(setLanguage(language));
+		}
 	}, [language]);
 
 	return (
