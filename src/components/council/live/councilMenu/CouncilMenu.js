@@ -111,8 +111,8 @@ render() {
 						items={
 							<React.Fragment>
 								<MenuItem
-									onClick={() => this.setState({ sendCredentials: true })
-									}
+									onClick={() => this.setState({ sendCredentials: true })}
+									id="council-menu-send-credentials"
 								>
 									<FontAwesome
 										name="paper-plane"
@@ -125,8 +125,8 @@ render() {
 								</MenuItem>
 								{council.securityType === 2
 									&& <MenuItem
-										onClick={() => this.setState({ SMSManager: true })
-										}
+										onClick={() => this.setState({ SMSManager: true })}
+										id="council-menu-sms-menu"
 									>
 										<i
 											className="fa fa-commenting-o"
@@ -141,8 +141,8 @@ render() {
 								}
 								{!(council.state === 20 || council.state === 30)
 									&& <MenuItem
-										onClick={() => this.setState({ noCelebrate: true })
-										}
+										onClick={() => this.setState({ noCelebrate: true })}
+										id="council-menu-cancel-council"
 									>
 										<FontAwesome
 											name="exclamation-triangle"
@@ -155,8 +155,8 @@ render() {
 									</MenuItem>
 								}
 								<MenuItem
-									onClick={() => this.setState({ originalConvene: true })
-									}
+									onClick={() => this.setState({ originalConvene: true })}
+									id="council-menu-convene"
 								>
 									<FontAwesome
 										name="eye"
@@ -168,8 +168,8 @@ render() {
 									{translate.view_original_convene}
 								</MenuItem>
 								<MenuItem
-									onClick={() => this.setState({ councilInfo: true })
-									}
+									onClick={() => this.setState({ councilInfo: true })}
+									id="council-menu-council-info"
 								>
 									<FontAwesome
 										name="info"
@@ -194,6 +194,7 @@ render() {
 								{(councilHasVideo(council) && councilStarted(council) && council.state === 20)
 									&& <MenuItem
 										onClick={() => this.setState({ pauseModal: true })}
+										id="council-menu-pause-council"
 									>
 										<FontAwesome
 											name={'pause-circle-o'}
@@ -209,6 +210,7 @@ render() {
 								{councilHasVideo(council) && config.roomAnnouncement
 									&& <MenuItem
 										onClick={this.showAnnouncementModal}
+										id="council-menu-announcement"
 									>
 										<FontAwesome
 											name="comments-o"
@@ -288,6 +290,7 @@ const DownloadAttendantsButton = withApollo(({ council, client, translate }) => 
 				council,
 				`${translate.assistants_list.replace(/ /g, '_')}-${council.name.replace(/ /g, '_').replace(/\./, '')}_${moment().format('YYYY_MM_DD_HH_mm_ss')}`
 			)}
+			id="council-menu-download-attentands"
 		>
 			<FontAwesome
 				name="users"
