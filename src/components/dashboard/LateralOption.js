@@ -4,7 +4,7 @@ import { Icon } from '../../displayComponents';
 import { bHistory } from '../../containers/App';
 
 const LateralOption = ({
-	icon, text, link, customIcon, style
+	icon, text, link, customIcon, style, id
 }) => {
 	const followLink = path => {
 		bHistory.push(path);
@@ -22,6 +22,7 @@ const LateralOption = ({
 				justifyContent: 'center',
 				...style
 			}}
+			id={id}
 			onClick={() => followLink(link)}
 		>
 			<ListItem
