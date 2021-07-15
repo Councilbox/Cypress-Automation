@@ -52,11 +52,12 @@ class CouncilsHistory extends React.Component {
 				]}
 				companyID={company.id}
 			>
-				{councils.map(council => (
+				{councils.map((council, index) => (
 					<HoverableRow
 						key={`council_${council.id}`}
 						translate={translate}
 						council={council}
+						id={`councils-table-row-${index}`}
 						disabled={company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0}
 						openDeleteModal={openDeleteModal}
 						company={company}
@@ -126,6 +127,7 @@ class HoverableRow extends React.Component {
 			return (
 				<Card
 					style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
+					id={this.props.id}
 					onClick={() => {
 						if (this.props.disabled) {
 							this.props.showModal();
@@ -197,6 +199,7 @@ class HoverableRow extends React.Component {
 		return (
 			<TableRow
 				hover
+				id={this.props.id}
 				onMouseOver={this.handleMouseEnter}
 				onMouseLeave={this.handleMouseLeave}
 				style={{ ...TableStyles.ROW, backgroundColor: this.props.disabled ? 'whiteSmoke' : 'inherit' }}
