@@ -50,10 +50,11 @@ const CouncilsList = ({
 			stylesHeader={{}}
 			stylesHeaderRow={{ border: 'none' }}
 		>
-			{councils.map(council => (
+			{councils.map((council, index) => (
 				<CouncilListItem
 					council={council}
 					company={company}
+					id={`councils-table-row-${index}`}
 					select={props.select}
 					selected={selectedIds.has(council.id)}
 					showModal={openCantAccessModal}
@@ -107,6 +108,7 @@ const CouncilListItem = withRouter(({
 		return (
 			<Card
 				style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
+				id={props.id}
 				onClick={() => {
 					if (props.disabled) {
 						props.showModal();
@@ -173,6 +175,7 @@ const CouncilListItem = withRouter(({
 			hover
 			{...handlers}
 			selected={selected}
+			id={props.id}
 			style={{ ...TableStyles.ROW, backgroundColor: props.disabled ? 'whiteSmoke' : 'inherit' }}
 			onClick={() => {
 				if (props.disabled) {

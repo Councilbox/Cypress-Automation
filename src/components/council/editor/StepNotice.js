@@ -478,7 +478,11 @@ const StepNotice = ({
 											</MenuItem>
 										))}
 									</SelectInput>
-									<div onClick={showStatuteDetailsModal} style={{ cursor: 'pointer', color: secondary }}>
+									<div
+										id="council-editor-check-statute"
+										onClick={showStatuteDetailsModal}
+										style={{ cursor: 'pointer', color: secondary }}
+									>
 										{translate.read_details}
 									</div>
 								</GridItem>
@@ -528,6 +532,7 @@ const StepNotice = ({
 										cancelText={translate.cancel}
 										minDate={Date.now()}
 										id="council-notice-date-start"
+										idIcon="council-notice-date-start-icon"
 										label={translate['1st_call_date']}
 										value={council.dateStart}
 									/>
@@ -548,6 +553,7 @@ const StepNotice = ({
 												updateDate(undefined, dateString);
 											}}
 											id="council-notice-date-start-2nd"
+											idIcon="council-notice-date-start-2nd-icon"
 											minDateMessage={''}
 											acceptText={translate.accept}
 											cancelText={translate.cancel}

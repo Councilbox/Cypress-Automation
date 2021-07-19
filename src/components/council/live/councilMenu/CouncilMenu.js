@@ -54,6 +54,7 @@ render() {
 				{config => (
 					<DropDownMenu
 						color="transparent"
+						id="council-menu"
 						Component={() => <Paper
 							elevation={1}
 							style={{
@@ -92,7 +93,7 @@ render() {
 									className="material-icons"
 									style={{ color: primary }}
 								>
-keyboard_arrow_down
+									keyboard_arrow_down
 								</Icon>
 							</MenuItem>
 						</Paper>
@@ -104,14 +105,14 @@ keyboard_arrow_down
 								className="material-icons"
 								style={{ color: primary }}
 							>
-keyboard_arrow_down
+								keyboard_arrow_down
 							</Icon>
 						}
 						items={
 							<React.Fragment>
 								<MenuItem
-									onClick={() => this.setState({ sendCredentials: true })
-									}
+									onClick={() => this.setState({ sendCredentials: true })}
+									id="council-menu-send-credentials"
 								>
 									<FontAwesome
 										name="paper-plane"
@@ -123,40 +124,39 @@ keyboard_arrow_down
 									{translate.send_video_emails}
 								</MenuItem>
 								{council.securityType === 2
-&& <MenuItem
-	onClick={() => this.setState({ SMSManager: true })
-	}
->
-	<i
-		className="fa fa-commenting-o"
-		aria-hidden="true"
-		style={{
-			marginRight: '0.8em',
-			color: secondary
-		}}
-	></i>
-	{'SMS'}
-</MenuItem>
-
+									&& <MenuItem
+										onClick={() => this.setState({ SMSManager: true })}
+										id="council-menu-sms-menu"
+									>
+										<i
+											className="fa fa-commenting-o"
+											aria-hidden="true"
+											style={{
+												marginRight: '0.8em',
+												color: secondary
+											}}
+										></i>
+										{'SMS'}
+									</MenuItem>
 								}
 								{!(council.state === 20 || council.state === 30)
-&& <MenuItem
-	onClick={() => this.setState({ noCelebrate: true })
-	}
->
-	<FontAwesome
-		name="exclamation-triangle"
-		style={{
-			marginRight: '0.8em',
-			color: 'red'
-		}}
-	/>
-	{translate.no_celebrate_council}
-</MenuItem>
+									&& <MenuItem
+										onClick={() => this.setState({ noCelebrate: true })}
+										id="council-menu-cancel-council"
+									>
+										<FontAwesome
+											name="exclamation-triangle"
+											style={{
+												marginRight: '0.8em',
+												color: 'red'
+											}}
+										/>
+										{translate.no_celebrate_council}
+									</MenuItem>
 								}
 								<MenuItem
-									onClick={() => this.setState({ originalConvene: true })
-									}
+									onClick={() => this.setState({ originalConvene: true })}
+									id="council-menu-convene"
 								>
 									<FontAwesome
 										name="eye"
@@ -168,8 +168,8 @@ keyboard_arrow_down
 									{translate.view_original_convene}
 								</MenuItem>
 								<MenuItem
-									onClick={() => this.setState({ councilInfo: true })
-									}
+									onClick={() => this.setState({ councilInfo: true })}
+									id="council-menu-council-info"
 								>
 									<FontAwesome
 										name="info"
@@ -184,41 +184,43 @@ keyboard_arrow_down
 									{translate.council_info}
 								</MenuItem>
 								{councilIsLive(council)
-&& <>
-	<DownloadAttendantsButton
-		translate={translate}
-		council={council}
-	/>
-</>
+									&& <>
+										<DownloadAttendantsButton
+											translate={translate}
+											council={council}
+										/>
+									</>
 								}
 								{(councilHasVideo(council) && councilStarted(council) && council.state === 20)
-&& <MenuItem
-	onClick={() => this.setState({ pauseModal: true })}
->
-	<FontAwesome
-		name={'pause-circle-o'}
-		style={{
-			marginRight: '0.8em',
-			color: secondary
-		}}
-	/>
-	{translate.pause_council}
-</MenuItem>
+									&& <MenuItem
+										onClick={() => this.setState({ pauseModal: true })}
+										id="council-menu-pause-council"
+									>
+										<FontAwesome
+											name={'pause-circle-o'}
+											style={{
+												marginRight: '0.8em',
+												color: secondary
+											}}
+										/>
+										{translate.pause_council}
+									</MenuItem>
 								}
 
 								{councilHasVideo(council) && config.roomAnnouncement
-&& <MenuItem
-	onClick={this.showAnnouncementModal}
->
-	<FontAwesome
-		name="comments-o"
-		style={{
-			marginRight: '0.8em',
-			color: secondary
-		}}
-	/>
-	{translate.show_announcement}
-</MenuItem>
+									&& <MenuItem
+										onClick={this.showAnnouncementModal}
+										id="council-menu-announcement"
+									>
+										<FontAwesome
+											name="comments-o"
+											style={{
+												marginRight: '0.8em',
+												color: secondary
+											}}
+										/>
+										{translate.show_announcement}
+									</MenuItem>
 								}
 							</React.Fragment>
 						}
@@ -288,6 +290,7 @@ const DownloadAttendantsButton = withApollo(({ council, client, translate }) => 
 				council,
 				`${translate.assistants_list.replace(/ /g, '_')}-${council.name.replace(/ /g, '_').replace(/\./, '')}_${moment().format('YYYY_MM_DD_HH_mm_ss')}`
 			)}
+			id="council-menu-download-attentands"
 		>
 			<FontAwesome
 				name="users"

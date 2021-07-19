@@ -228,21 +228,15 @@ const Councils = ({ translate, client, ...props }) => {
 						</div>
 					</div>
 				</div>
-				{/* <MainTitle
-icon={props.icon}
-title={props.title}
-size={props.windowSize}
-subtitle={props.desc}
-/> */}
 				<Grid style={{ marginTop: '0.6em' }}>
 					<GridItem xs={4} md={8} lg={9}>
 						{state.selectedIds.size > 0
-&& <BasicButton
-	text={state.selectedIds.size === 1 ? translate.delete_one_item : `${translate.new_delete} ${state.selectedIds.size} ${translate.items}`}
-	color={getSecondary()}
-	textStyle={{ color: 'white', fontWeight: '700' }}
-	onClick={openDeleteModal}
-/>
+							&& <BasicButton
+								text={state.selectedIds.size === 1 ? translate.delete_one_item : `${translate.new_delete} ${state.selectedIds.size} ${translate.items}`}
+								color={getSecondary()}
+								textStyle={{ color: 'white', fontWeight: '700' }}
+								onClick={openDeleteModal}
+							/>
 						}
 					</GridItem>
 				</Grid>
@@ -262,9 +256,9 @@ subtitle={props.desc}
 							<div style={{ padding: '1em', paddingTop: '2em' }}>
 								{councilsData.list.length > 0 ? (
 									(selectedTab === translate.companies_writing
-|| selectedTab === translate.act_book
-|| selectedTab === translate.dashboard_historical
-|| selectedTab === translate.all_plural_fem) ?
+										|| selectedTab === translate.act_book
+										|| selectedTab === translate.dashboard_historical
+										|| selectedTab === translate.all_plural_fem) ?
 										<div>
 											<CouncilsHistory
 												councils={councilsData.list}

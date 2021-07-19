@@ -127,7 +127,7 @@ const QuorumTable = ({ translate, data, company, council, hasParticipations, tot
 							</TableCell>
 						</TableRow>
 					}
-					{data.withoutVote > 0 &&
+					{data.numWithoutVote > 0 &&
 						<TableRow>
 							<TableCell style={paddedRow}>
 								-{translate.no_voting_rights}
