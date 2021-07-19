@@ -82,7 +82,14 @@ const Login = ({ translate, windowSize, ...props }) => {
 							}
 						});
 					},
-
+					'User not registered or incorrect password': () => {
+						setState({
+							loading: false,
+							errors: {
+								user: translate.login_err
+							}
+						});
+					},
 					'Not actived': () => {
 						setState({
 							loading: false,
