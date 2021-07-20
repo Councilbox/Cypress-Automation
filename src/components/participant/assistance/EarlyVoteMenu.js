@@ -47,6 +47,15 @@ const EarlyVoteMenu = ({
 		return point.value === value;
 	};
 
+	const cleanCustomPointSelections = (selectionsMap, point, participantInfo) => {
+		const newMap = new Map(selectionsMap);
+		point.items.forEach(item => {
+			newMap.delete(`${point.id}_${item.id}_${participantInfo.id}`);
+		});
+
+		return newMap;
+	};
+
 	const earlyVoteMenu = participantInfo => (
 		data.agendas.filter(point => point.subjectType !== AGENDA_TYPES.INFORMATIVE).map(point => {
 			if (isConfirmationRequest(point.subjectType)) {
@@ -149,7 +158,7 @@ const EarlyVoteMenu = ({
 				);
 			}
 
-			const selections = point.items.reduce((acc, curr) => {
+			let selections = point.items.reduce((acc, curr) => {
 				const key = `${point.id}_${curr.id}_${participantInfo.id}`;
 				if (isActive(key, curr.id)) {
 					acc += 1;
@@ -157,6 +166,12 @@ const EarlyVoteMenu = ({
 				}
 				return acc;
 			}, 0);
+
+			const abstentionKey = `${point.id}_abstention_${participantInfo.id}`;
+
+			if (selected.get(abstentionKey)) {
+				selections += 1;
+			}
 
 			const disabled = selections >= point.options.maxSelections;
 			return (
@@ -178,6 +193,7 @@ const EarlyVoteMenu = ({
 											selected.delete(key);
 											setSelected(new Map(selected));
 										} else {
+											selected.delete(abstentionKey);
 											setSelected(new Map(selected.set(key, {
 												value: item.id,
 												agendaId: point.id,
@@ -189,6 +205,27 @@ const EarlyVoteMenu = ({
 								/>
 							);
 						})}
+						<VotingButton
+							disabled={disabled && !selected.get(abstentionKey)}
+							disabledColor={disabled && !selected.get(abstentionKey)}
+							styleButton={{ padding: '0', width: '100%' }}
+							selectedCheckbox={!!selected.get(abstentionKey)}
+							onClick={() => {
+								if (selected.get(abstentionKey)) {
+									selected.delete(abstentionKey);
+									setSelected(new Map(selected));
+								} else {
+									const newMap = cleanCustomPointSelections(selected, point, participantInfo);
+									newMap.set(abstentionKey, {
+										value: -1,
+										agendaId: point.id,
+										participantId: participantInfo.id
+									});
+									setSelected(newMap);
+								}
+							}}
+							text={translate.abstention_btn}
+						/>
 					</div>
 				</div>
 			);
