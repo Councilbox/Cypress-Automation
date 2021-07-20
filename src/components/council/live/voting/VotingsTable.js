@@ -497,7 +497,7 @@ const VotingsTable = ({
 										{!isConfirmationRequest(agenda.subjectType)
 											&& <TableCell style={{ fontSize: '0.95em' }}>
 												{(vote.author.state !== PARTICIPANT_STATES.REPRESENTATED) ?
-													(vote.numParticipations > 0 ? `${showNumParticipations(vote.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.numParticipations)}` : 0)
+													(vote.numParticipations > 0 ? `${showNumParticipations(vote.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.numParticipations)}` : '-')
 													: vote.authorRepresentative.numParticipations > 0 ? `${showNumParticipations(vote.authorRepresentative.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.authorRepresentative.numParticipations)}` : '-'
 												}
 
