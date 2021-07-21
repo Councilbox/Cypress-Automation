@@ -354,8 +354,8 @@ const EarlyVotingBody = withApollo(({
 									disabledColor={disableCustom && getProxyVote(point.id, -1, true).value !== -1}
 									selected={getProxyVote(point.id, -1) ? getProxyVote(point.id, -1, true).value === -1 : false}
 									onClick={() => {
-										if(getProxyVote(point.id, -1, true).value !== -1) {
-											setEarlyVote(point.id, -1)
+										if (getProxyVote(point.id, -1, true).value !== -1) {
+											setEarlyVote(point.id, -1);
 										}
 									}}
 								/>

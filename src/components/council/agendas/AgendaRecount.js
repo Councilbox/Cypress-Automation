@@ -116,7 +116,7 @@ const AgendaRecount = ({
 		const presentTotal = agenda.votingsRecount.positiveManual
 			+ agenda.votingsRecount.negativeManual
 			+ agenda.votingsRecount.abstentionManual
-			+ agenda.votingsRecount.noVoteManual
+			+ agenda.votingsRecount.noVoteManual;
 		return (
 			<>
 				<div style={itemStyle}>
@@ -131,14 +131,14 @@ const AgendaRecount = ({
 						: CBX.showNumParticipations(presentTotal, company, council.statute) || 0} ${printPercentage(presentTotal, recount.partTotal)}`}
 				</div>
 			</>
-		)
+		);
 	};
 
 	const renderRemoteTotal = () => {
 		const remoteTotal = agenda.votingsRecount.positiveVotings
 		+ agenda.votingsRecount.negativeVotings
 		+ agenda.votingsRecount.abstentionVotings
-		+ agenda.votingsRecount.noVoteVotings
+		+ agenda.votingsRecount.noVoteVotings;
 		return (
 			<>
 				<div style={itemStyle}>
@@ -152,7 +152,7 @@ const AgendaRecount = ({
 				</div>
 			</>
 		);
-	}
+	};
 
 	const renderCurrentTotal = () => {
 		return (
