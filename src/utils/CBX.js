@@ -64,7 +64,7 @@ export const getPercentage = (num, total, decimals = 3) => {
 export const filterDelegatedVotes = vote => vote.state !== PARTICIPANT_STATES.REPRESENTATED;
 
 export const getActiveVote = agendaVoting => {
-	if (!agendaVoting.fixed) {
+	if (!agendaVoting.fixed && agendaVoting.numParticipations > 0) {
 		return agendaVoting;
 	}
 

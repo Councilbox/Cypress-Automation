@@ -112,35 +112,47 @@ const AgendaRecount = ({
 	const printNoVoteTotal = () => `${CBX.showNumParticipations(agenda.votingsRecount.noVoteVotings + agenda.votingsRecount.noVoteManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.noVoteVotings + agenda.votingsRecount.noVoteManual)}`;
 
 
-	const renderPresentTotal = () => (
-		<>
-			<div style={itemStyle}>
-				{translate.present_census}
-			</div>
-			<div style={itemStyle}>
-				{`${translate.participants}: ${agenda.numPresentCensus || 0}`}
-			</div>
-			<div style={itemStyle}>
-				{`${translate.votes}: ${(editable && activatePresentOneVote) ?
-					CBX.showNumParticipations(agenda.numPresentCensus, company, council.statute)
-					: CBX.showNumParticipations(agenda.presentCensus, company, council.statute) || 0} ${printPercentage(agenda.presentCensus, recount.partTotal)}`}
-			</div>
-		</>
-	);
+	const renderPresentTotal = () => {
+		const presentTotal = agenda.votingsRecount.positiveManual
+			+ agenda.votingsRecount.negativeManual
+			+ agenda.votingsRecount.abstentionManual
+			+ agenda.votingsRecount.noVoteManual;
+		return (
+			<>
+				<div style={itemStyle}>
+					{translate.present_census}
+				</div>
+				<div style={itemStyle}>
+					{`${translate.participants}: ${agenda.numPresentCensus || 0}`}
+				</div>
+				<div style={itemStyle}>
+					{`${translate.votes}: ${(editable && activatePresentOneVote) ?
+						CBX.showNumParticipations(presentTotal, company, council.statute)
+						: CBX.showNumParticipations(presentTotal, company, council.statute) || 0} ${printPercentage(presentTotal, recount.partTotal)}`}
+				</div>
+			</>
+		);
+	};
 
-	const renderRemoteTotal = () => (
-		<>
-			<div style={itemStyle}>
-				{translate.current_remote_census}
-			</div>
-			<div style={itemStyle}>
-				{`${translate.participants}: ${agenda.numCurrentRemoteCensus || 0}`}
-			</div>
-			<div style={itemStyle}>
-				{`${translate.votes}: ${CBX.showNumParticipations(agenda.currentRemoteCensus, company, council.statute) || 0} ${printPercentage(agenda.currentRemoteCensus, recount.partTotal)}`}
-			</div>
-		</>
-	);
+	const renderRemoteTotal = () => {
+		const remoteTotal = agenda.votingsRecount.positiveVotings
+		+ agenda.votingsRecount.negativeVotings
+		+ agenda.votingsRecount.abstentionVotings
+		+ agenda.votingsRecount.noVoteVotings;
+		return (
+			<>
+				<div style={itemStyle}>
+					{translate.current_remote_census}
+				</div>
+				<div style={itemStyle}>
+					{`${translate.participants}: ${agenda.numCurrentRemoteCensus || 0}`}
+				</div>
+				<div style={itemStyle}>
+					{`${translate.votes}: ${CBX.showNumParticipations(remoteTotal, company, council.statute) || 0} ${printPercentage(remoteTotal, recount.partTotal)}`}
+				</div>
+			</>
+		);
+	};
 
 	const renderCurrentTotal = () => {
 		return (
