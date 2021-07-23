@@ -72,7 +72,7 @@ const CustomAgendaRecount = ({
 							<TableCell>
 								<span style={{ fontWeight: '700' }}>{translate.options}</span>
 							</TableCell>
-							<TableCell >
+							<TableCell style={{ minWidth: '12em' }}>
 								<span style={{ fontWeight: '700' }}>{translate.votes}</span>
 							</TableCell>
 						</TableRow>
@@ -83,7 +83,7 @@ const CustomAgendaRecount = ({
 								<TableCell style={{ whiteSpace: 'pre-wrap' }}>
 									{item.value}
 								</TableCell>
-								<TableCell >
+								<TableCell>
 									{` ${showNumParticipations(
 										agenda.votingsRecount[item.id],
 										company,
@@ -105,10 +105,10 @@ const CustomAgendaRecount = ({
 							</TableCell>
 						</TableRow>
 						<TableRow >
-							<TableCell >
+							<TableCell>
 								{translate.no_vote_lowercase}
 							</TableCell>
-							<TableCell >
+							<TableCell>
 								{`${showNumParticipations(
 									agenda.votingsRecount.noVote,
 									company,
