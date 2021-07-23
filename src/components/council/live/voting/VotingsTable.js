@@ -168,7 +168,7 @@ const VotingsTable = ({
 						</Tooltip>
 						{isCustomPoint(agenda.subjectType) && !isPresentVote(agendaVoting)
 							&& <DisplayVoting
-								ballots={agendaVoting.ballots}
+								ballots={vote.ballots}
 								translate={translate}
 								items={agenda.items}
 							/>
@@ -716,12 +716,12 @@ const PrivateVotingDisplay = compose(
 
 
 const setAllPresentVotingsMutation = gql`
-mutation SetAllPresentVotings($agendaId: Int!, $vote: Int!){
-setAllPresentVotings(agendaId: $agendaId, vote: $vote){
-success
-message
-}
-}
+	mutation SetAllPresentVotings($agendaId: Int!, $vote: Int!){
+		setAllPresentVotings(agendaId: $agendaId, vote: $vote){
+			success
+			message
+		}
+	}
 `;
 
 const SelectAllMenu = graphql(setAllPresentVotingsMutation, {
