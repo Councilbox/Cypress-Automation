@@ -59,7 +59,6 @@ const AgendaMenu = ({ agenda, translate, council, participant, refetch }) => {
 	const secondary = getSecondary();
 	let ownVote = CBX.findOwnVote(agenda.votings, participant);
 
-
 	if (!ownVote || (ownVote.fixed && ownVote.numParticipations === 0)) {
 		ownVote = checkVotings(agenda.votings, participant) || ownVote;
 	}
@@ -164,7 +163,8 @@ const AgendaMenu = ({ agenda, translate, council, participant, refetch }) => {
 };
 
 const checkVotings = (votings, participant) => (
-	votings.find(voting => (voting.numParticipations > 0 && !voting.fixed && (!voting.delegateId || voting.delegateId === participant.id)))
+	votings.find(voting => (voting.numParticipations > 0 &&
+		!voting.fixed && (!voting.delegateId || voting.delegateId === participant.id)))
 );
 
 export default AgendaMenu;
