@@ -66,9 +66,7 @@ const RepresentativeForm = ({
 			<GridItem xs={12} lg={12} md={12} style={{ display: isMobile && windowSize === 'xs' ? '' : 'flex' }}>
 				<Action
 					disabled={disabled}
-					style={{
-						display: 'flex', alignItems: 'center', overflow: 'hidden', cursor: 'pointer'
-					}}
+					styles={{justifyContent: 'center', gap: '4px'}}
 					id={state.hasRepresentative ? 'remove-representative-button' : 'add-representative-button'}
 					onClick={() => updateState({
 						hasRepresentative: !state.hasRepresentative
@@ -89,10 +87,8 @@ const RepresentativeForm = ({
 					onClick={() => setSelectRepresentative(true)}
 					disabled={disabled}
 					id="select-representative-button"
+					styles={{ justifyContent: 'center', gap: '4px'}}
 				>
-					<div
-						style={{ display: 'flex', alignItems: 'center', overflow: 'hidden' }}
-					>
 						<div style={{ width: '3em', color: disabled ? 'grey' : getSecondary() }}>
 							<i className={'fa fa-plus'} style={{ position: 'relative' }}></i>
 							<i className={'fa fa-user-o'} style={{ position: 'relative', fontSize: '20px' }}></i>
@@ -103,7 +99,6 @@ const RepresentativeForm = ({
 						}}>
 							<span style={{ fontSize: '0.9em' }}>{translate.select_representative}</span>
 						</div>
-					</div>
 				</Action>
 			</GridItem>
 			{disabled
