@@ -279,13 +279,12 @@ class AddCensusParticipantButton extends React.Component {
 						color: primary,
 						fontWeight: '700',
 						fontSize: '0.9em',
-						textTransform: 'none'
+						textTransform: 'none',
 					}}
 					textPosition="after"
 					icon={!isMobile ? <ButtonIcon type="add" color={primary} /> : null}
 					onClick={() => this.setState({ modal: true })}
 					buttonStyle={{
-						marginRight: '1em',
 						border: `2px solid ${primary}`
 					}}
 				/>
