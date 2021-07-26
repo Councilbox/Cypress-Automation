@@ -9,6 +9,7 @@ import { addCouncilAttachment } from '../../../queries';
 import CompanyDocumentsBrowser from '../../company/drafts/documents/CompanyDocumentsBrowser';
 import AttachmentItem from '../../attachments/AttachmentItem';
 import RichTextInput from '../../../displayComponents/RichTextInput';
+import { ACCEPTED_FILE_TYPES } from '../../../constants';
 
 
 const AttachmentsModal = ({
@@ -190,6 +191,7 @@ const AttachmentsModal = ({
 					type="file"
 					id={'raised-button-file'}
 					onChange={handleFile}
+					accept={ACCEPTED_FILE_TYPES}
 					// disabled={uploading}
 					style={{
 						cursor: 'pointer',
