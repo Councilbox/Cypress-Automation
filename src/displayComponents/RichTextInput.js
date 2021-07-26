@@ -366,7 +366,6 @@ const SmartTags = withApollo(withSharedProps()(({
 					<Divider style={{ background: primary }} />
 					<div
 						style={{
-							width: '100%',
 							flexDirection: 'row',
 							justifyContent: 'space-between',
 							margin: '1em',
