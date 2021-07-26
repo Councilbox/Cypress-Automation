@@ -16,6 +16,7 @@ import { getPrimary, getSecondary } from '../../../styles/colors';
 import { importCensus, getCensusTemplate, checkUniqueCensusEmails } from '../../../queries/census';
 import { checkValidEmail } from '../../../utils';
 import { downloadFile } from '../../../utils/CBX';
+import { isMobile } from '../../../utils/screen';
 
 let XLSX;
 import('xlsx').then(data => { XLSX = data; });
@@ -523,11 +524,8 @@ class ImportCensusButton extends React.Component {
 						textTransform: 'none'
 					}}
 					textPosition="after"
-					icon={<ButtonIcon type="import_export" color="white" />}
+					icon={!isMobile ? <ButtonIcon type="import_export" color="white" /> : null }
 					onClick={() => this.setState({ modal: true })}
-					buttonStyle={{
-						marginRight: '1em',
-					}}
 				/>
 				<AlertConfirm
 					bodyStyle={{ overflow: 'hidden' }}

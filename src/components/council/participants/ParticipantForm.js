@@ -70,6 +70,7 @@ const ParticipantForm = ({
 			<React.Fragment>
 				<GridItem xs={6} md={4} lg={3}>
 					<TextInput
+						required
 						floatingText={translate.name}
 						type="text"
 						id="participant-name-input"
@@ -83,6 +84,7 @@ const ParticipantForm = ({
 				</GridItem>
 				<GridItem xs={6} md={4} lg={3}>
 					<TextInput
+						required
 						floatingText={translate.surname || ''}
 						type="text"
 						id="participant-surname-input"
@@ -127,6 +129,7 @@ const ParticipantForm = ({
 		}
 		<GridItem xs={6} md={4} lg={3}>
 			<TextInput
+				required
 				floatingText={translate.email}
 				id="participant-email-input"
 				{...(checkEmail ? { onKeyUp: event => checkEmail(event, 'participant') } : {})}
@@ -243,10 +246,14 @@ const ParticipantForm = ({
 						min={1}
 						errorText={errors.numParticipations}
 						value={participant.numParticipations}
+						onBlur={event => updateState({
+							numParticipations: parseInt(event.target.value, 10) || 1
+						})
+						}
 						onChange={event => {
 							if (!Number.isNaN(Number(event.target.value)) || +event.target.value > 0) {
 								updateState({
-									numParticipations: +event.target.value
+									numParticipations: Number.isNaN(Number(event.target.value)) ? '' : parseInt(event.target.value, 10) || ''
 								});
 							}
 						}}
@@ -261,10 +268,14 @@ const ParticipantForm = ({
 							min={1}
 							errorText={errors.socialCapital}
 							value={participant.socialCapital}
+							onBlur={event => updateState({
+								socialCapital: parseInt(event.target.value, 10) || 1
+							})
+							}
 							onChange={event => {
 								if (!Number.isNaN(Number(event.target.value)) || +event.target.value > 0) {
 									updateState({
-										socialCapital: +event.target.value
+										socialCapital: Number.isNaN(Number(event.target.value)) ? '' : parseInt(event.target.value, 10) || ''
 									});
 								}
 							}}
