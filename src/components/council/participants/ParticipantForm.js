@@ -246,10 +246,14 @@ const ParticipantForm = ({
 						min={1}
 						errorText={errors.numParticipations}
 						value={participant.numParticipations}
+						onBlur={event => updateState({
+							numParticipations: parseInt(event.target.value, 10) || 1
+						})
+						}
 						onChange={event => {
 							if (!Number.isNaN(event.target.value) || +event.target.value > 0) {
 								updateState({
-									numParticipations: +event.target.value
+									numParticipations: Number.isNaN(Number(event.target.value)) ? '' : parseInt(event.target.value, 10) || ''
 								});
 							}
 						}}
@@ -264,10 +268,14 @@ const ParticipantForm = ({
 							min={1}
 							errorText={errors.socialCapital}
 							value={participant.socialCapital}
+							onBlur={event => updateState({
+								socialCapital: parseInt(event.target.value, 10) || 1
+							})
+							}
 							onChange={event => {
 								if (!Number.isNaN(event.target.value) || +event.target.value > 0) {
 									updateState({
-										socialCapital: +event.target.value
+										socialCapital: Number.isNaN(Number(event.target.value)) ? '' : parseInt(event.target.value, 10) || ''
 									});
 								}
 							}}
