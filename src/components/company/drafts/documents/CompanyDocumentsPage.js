@@ -403,9 +403,9 @@ const CompanyDocumentsPage = ({
 					setEditModal(false);
 				}}
 			/>
-			<div style={{ marginTop: '2em', height: 'calc(100% - 5em)'}}>
+			<div style={{ marginTop: '2em', height: 'calc(100% - 5em)' }}>
 				<Scrollbar horizontalScroll={isMobile && true}>
-					<Table style={{ width: '100%', minWidth: '100%'}}>
+					<Table style={{ width: '100%', minWidth: '100%' }}>
 						<TableBody>
 							<TableRow>
 								<TableCell style={{
