@@ -70,6 +70,7 @@ const ParticipantForm = ({
 			<React.Fragment>
 				<GridItem xs={6} md={4} lg={3}>
 					<TextInput
+						required
 						floatingText={translate.name}
 						type="text"
 						id="participant-name-input"
@@ -83,6 +84,7 @@ const ParticipantForm = ({
 				</GridItem>
 				<GridItem xs={6} md={4} lg={3}>
 					<TextInput
+						required
 						floatingText={translate.surname || ''}
 						type="text"
 						id="participant-surname-input"
@@ -127,6 +129,7 @@ const ParticipantForm = ({
 		}
 		<GridItem xs={6} md={4} lg={3}>
 			<TextInput
+				required
 				floatingText={translate.email}
 				id="participant-email-input"
 				{...(checkEmail ? { onKeyUp: event => checkEmail(event, 'participant') } : {})}
