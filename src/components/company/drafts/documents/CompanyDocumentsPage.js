@@ -404,7 +404,7 @@ const CompanyDocumentsPage = ({
 				}}
 			/>
 			<div style={{ marginTop: '2em', height: 'calc(100% - 5em)' }}>
-				<Scrollbar>
+				<Scrollbar horizontalScroll={isMobile && true}>
 					<Table style={{ width: '100%', minWidth: '100%' }}>
 						<TableBody>
 							<TableRow>
