@@ -358,7 +358,7 @@ const CompanyDocumentsPage = ({
 						))}
 					</div>
 
-					<div style={{ display: 'flex', alignContent: 'center' }}>
+					<div style={{ display: 'flex', alignContent: 'center', flexDirection: isMobile && 'column' }}>
 						{quota
 							&& `${filesize(quota.used)} / ${filesize(quota.total)}`
 						}
@@ -367,12 +367,15 @@ const CompanyDocumentsPage = ({
 						}}>
 							<i className="fa fa-filter"></i>
 						</div>
-						<div>
+						<div style={{
+							display: 'flex',
+							alignContent: 'center'
+						}}>
 							<TextInput
 								className={isMobile && !inputSearch ? 'openInput' : ''}
 								disableUnderline={true}
 								styleInInput={{
-									fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', padding: isMobile && inputSearch && '4px 5px', paddingLeft: !isMobile && '5px'
+									fontSize: '12px', display: isMobile && !inputSearch ? 'none' : '', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', padding: isMobile && inputSearch && '4px 5px', paddingLeft: !isMobile && '5px'
 								}}
 								stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: isMobile && inputSearch ? '8px' : '4px' }}
 								adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
