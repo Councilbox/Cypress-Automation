@@ -115,6 +115,10 @@ const VotingsTable = ({
 	const renderVotingMenu = agendaVoting => {
 		const vote = getActiveVote(agendaVoting);
 
+		if (!vote) {
+			return <span/>;
+		}
+
 		return (
 			<>
 				{agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING || agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE || props.council.councilType === 3 ?
@@ -142,14 +146,14 @@ const VotingsTable = ({
 									<NominalCustomVoting
 										agenda={agenda}
 										translate={translate}
-										agendaVoting={agendaVoting}
-										active={agendaVoting.vote}
+										agendaVoting={vote}
+										active={vote}
 										council={props.council}
 										refetch={refreshTable}
 									/>
 									: <PresentVoteMenu
 										agenda={agenda}
-										agendaVoting={agendaVoting}
+										agendaVoting={vote}
 										refetch={refreshTable}
 									/>
 								}
