@@ -124,7 +124,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 										refetch={data.refetch}
 									/>
 								</div>
-								{(props.council.councilType !== 4 && props.council.councilType !== 5)
+								{(props.council.councilType !== 4 && props.council.councilType !== 5 && participant.numParticipations > 0)
 									&& <EarlyVotingModal
 										council={props.council}
 										participant={participant}
@@ -160,7 +160,6 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								</Grid>
 							</GridItem>
 						</Grid>
-						{/* Representado */}
 						{CBX.isRepresented(participant) ?
 							<ParticipantBlock
 								{...props}
@@ -188,28 +187,6 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								type={PARTICIPANT_STATES.REPRESENTATED}
 							/>
 						}
-
-						{/* {(participant.representatives && participant.representatives.length > 0 && participant.representatives[0].delegatedVotes)
-							&& participant.representatives[0].delegatedVotes.map((delegatedVote, index) => (
-								<ParticipantBlock
-									key={`participantBlock_Representatives_${index}`}
-									{...props}
-									active={false}
-									participant={delegatedVote}
-									translate={translate}
-									action={
-										<RemoveDelegationButton
-											delegatedVote={delegatedVote}
-											participant={participant.representatives[0] ? participant.representatives[0] : participant}
-											translate={translate}
-											refetch={data.refetch}
-										/>
-									}
-									data={data}
-									type={3}
-								/>
-							))
-						} */}
 						<OwnedVotesSection
 							translate={translate}
 							participant={participant}

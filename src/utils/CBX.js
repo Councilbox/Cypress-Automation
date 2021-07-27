@@ -64,7 +64,7 @@ export const getPercentage = (num, total, decimals = 3) => {
 export const filterDelegatedVotes = vote => vote.state !== PARTICIPANT_STATES.REPRESENTATED;
 
 export const getActiveVote = agendaVoting => {
-	if (!agendaVoting.fixed) {
+	if (!agendaVoting.fixed && agendaVoting.numParticipations > 0) {
 		return agendaVoting;
 	}
 
@@ -283,15 +283,18 @@ export const findOwnVote = (votings, participant) => {
 		return null;
 	}
 
-	if (participant.type !== PARTICIPANT_TYPE.REPRESENTATIVE) {
+	if (participant.type !== PARTICIPANT_TYPE.REPRESENTATIVE && participant.numParticipations > 0) {
 		return votings.find(voting => (
 			voting.participantId === participant.id
 		));
 	}
 
 	return votings.find(voting => (
-		(voting.participantId === participant.id
-			|| (voting.delegateId === participant.id && voting.author.state === PARTICIPANT_STATES.REPRESENTATED)
+		((voting.participantId === participant.id && voting.numParticipations > 0)
+			|| (voting.delegateId === participant.id &&
+				((voting.numParticipations > 0 && voting.author.state === PARTICIPANT_STATES.REPRESENTATED)
+					|| voting.author.state !== PARTICIPANT_STATES.REPRESENTATED
+				))
 		) && !voting.author.voteDenied));
 };
 

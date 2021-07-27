@@ -66,7 +66,7 @@ const buildAgendaText = (agenda, translate, data) => {
 			<div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
 				${translate.castedVotes ?
 					`<b>
-						${translate.castedVotes}: ${showNumParticipations(agenda.recount.castedVotes, data.council.statute)}
+						${translate.castedVotes}: ${agenda.recount.castedVotes}
 					</b><br>`
 			: ''}
 				

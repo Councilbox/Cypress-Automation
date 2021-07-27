@@ -107,8 +107,16 @@ export const agendaVotings = gql`
 					id
 					delegateId
 					fixed
+					participantId
 					vote
 					numParticipations
+					ballots {
+						id
+						weight
+						participantId
+						value
+						itemId
+					}
 					author {
 						name
 						surname
