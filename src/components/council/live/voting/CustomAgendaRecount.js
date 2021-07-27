@@ -4,7 +4,7 @@ import {
 	Table, TableCell, TableRow, TableHead, TableBody
 } from 'material-ui';
 import { Grid, GridItem } from '../../../../displayComponents';
-import { showNumParticipations } from '../../../../utils/CBX';
+import { getPercentage, showNumParticipations } from '../../../../utils/CBX';
 
 const orderByRecount = recount => (a, b) => {
 	if (recount[a.id] > recount[b.id]) {
@@ -24,6 +24,10 @@ const CustomAgendaRecount = ({
 }) => {
 	const data = formatDataFromAgenda(agenda, translate);
 	const votings = [...agenda.items].sort(orderByRecount(agenda.votingsRecount));
+
+	const printPercentage = value => {
+		return `(${getPercentage(value, agenda.votingsRecount.totalRecount)}%)`;
+	};
 
 	return (
 		<Grid>
@@ -89,6 +93,7 @@ const CustomAgendaRecount = ({
 										company,
 										council.statute
 									)}`}
+									<span style={{ marginLeft: '0.5em' }}>{printPercentage(agenda.votingsRecount[item.id])}</span>
 								</TableCell>
 							</TableRow>
 						))}
@@ -102,6 +107,7 @@ const CustomAgendaRecount = ({
 									company,
 									council.statute
 								)}`}
+								<span style={{ marginLeft: '0.5em' }}>{printPercentage(agenda.votingsRecount.abstention)}</span>
 							</TableCell>
 						</TableRow>
 						<TableRow >
@@ -114,6 +120,7 @@ const CustomAgendaRecount = ({
 									company,
 									council.statute
 								)}`}
+								<span style={{ marginLeft: '0.5em' }}>{printPercentage(agenda.votingsRecount.noVote)}</span>
 							</TableCell>
 						</TableRow>
 					</TableBody>
