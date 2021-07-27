@@ -295,7 +295,7 @@ export const findOwnVote = (votings, participant) => {
 				((voting.numParticipations > 0 && voting.author.state === PARTICIPANT_STATES.REPRESENTATED)
 					|| voting.author.state !== PARTICIPANT_STATES.REPRESENTATED
 				))
-		) && !voting.author.voteDenied));
+		) && !voting.author.voteDenied && !voting.fixed));
 };
 
 export const hasAct = statute => statute.existsAct === 1;
