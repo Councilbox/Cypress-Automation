@@ -65,7 +65,8 @@ const ActAgreements = ({
 			setError(true);
 			return;
 		}
-		if (value.replace(/<\/?[^>]+(>|$)/g, '').length > 0) {
+
+		if (value.replace(/<\/?[^>]+(>|$)/g, '').length > 0 || !value) {
 			await props.updateAgenda({
 				variables: {
 					agenda: {
