@@ -31,7 +31,7 @@ const DeleteConvenedParticipantButton = ({
 	return (
 		<>
 			<BasicButton
-				text="Matar"
+				text="Eliminar"
 				color="white"
 				buttonStyle={{
 					border: `1px solid ${getSecondary()}`
@@ -48,7 +48,7 @@ const DeleteConvenedParticipantButton = ({
 				acceptAction={killParticipant}
 				buttonAccept={translate.accept}
 				buttonCancel={translate.close}
-				bodyText={ `Estás seguro que quieres matar a ${participant.name} ${participant.surname || ''}`}
+				bodyText={ `Estás seguro que quieres elimitar al participante ${participant.name} ${participant.surname || ''}`}
 			/>
 		</>
 	);

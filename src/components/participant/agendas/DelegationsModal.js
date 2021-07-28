@@ -18,7 +18,7 @@ const DelegationsModal = ({
 	};
 
 	const delegations = participant.delegatedVotes.filter(vote => vote.state === PARTICIPANT_STATES.DELEGATED);
-	const representations = participant.delegatedVotes.filter(vote => vote.state === PARTICIPANT_STATES.REPRESENTATED);
+	const representations = participant.delegatedVotes.filter(vote => vote.state !== PARTICIPANT_STATES.DELEGATED);
 
 	// TRADUCCION
 	function renderDelegationsModalBody() {

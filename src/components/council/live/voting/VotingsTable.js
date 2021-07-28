@@ -115,6 +115,10 @@ const VotingsTable = ({
 	const renderVotingMenu = agendaVoting => {
 		const vote = getActiveVote(agendaVoting);
 
+		if (!vote) {
+			return <span/>;
+		}
+
 		return (
 			<>
 				{agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING || agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE || props.council.councilType === 3 ?
@@ -142,14 +146,14 @@ const VotingsTable = ({
 									<NominalCustomVoting
 										agenda={agenda}
 										translate={translate}
-										agendaVoting={agendaVoting}
-										active={agendaVoting.vote}
+										agendaVoting={vote}
+										active={vote}
 										council={props.council}
 										refetch={refreshTable}
 									/>
 									: <PresentVoteMenu
 										agenda={agenda}
-										agendaVoting={agendaVoting}
+										agendaVoting={vote}
 										refetch={refreshTable}
 									/>
 								}
@@ -168,7 +172,7 @@ const VotingsTable = ({
 						</Tooltip>
 						{isCustomPoint(agenda.subjectType) && !isPresentVote(agendaVoting)
 							&& <DisplayVoting
-								ballots={agendaVoting.ballots}
+								ballots={vote.ballots}
 								translate={translate}
 								items={agenda.items}
 							/>
@@ -497,7 +501,7 @@ const VotingsTable = ({
 										{!isConfirmationRequest(agenda.subjectType)
 											&& <TableCell style={{ fontSize: '0.95em' }}>
 												{(vote.author.state !== PARTICIPANT_STATES.REPRESENTATED) ?
-													(vote.numParticipations > 0 ? `${showNumParticipations(vote.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.numParticipations)}` : 0)
+													(vote.numParticipations > 0 ? `${showNumParticipations(vote.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.numParticipations)}` : '-')
 													: vote.authorRepresentative.numParticipations > 0 ? `${showNumParticipations(vote.authorRepresentative.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.authorRepresentative.numParticipations)}` : '-'
 												}
 
@@ -716,12 +720,12 @@ const PrivateVotingDisplay = compose(
 
 
 const setAllPresentVotingsMutation = gql`
-mutation SetAllPresentVotings($agendaId: Int!, $vote: Int!){
-setAllPresentVotings(agendaId: $agendaId, vote: $vote){
-success
-message
-}
-}
+	mutation SetAllPresentVotings($agendaId: Int!, $vote: Int!){
+		setAllPresentVotings(agendaId: $agendaId, vote: $vote){
+			success
+			message
+		}
+	}
 `;
 
 const SelectAllMenu = graphql(setAllPresentVotingsMutation, {
