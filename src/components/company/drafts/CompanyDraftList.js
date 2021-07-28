@@ -123,7 +123,7 @@ const CompanyDraftList = ({
 	} = useTags(translate);
 
 	const primary = getPrimary();
-	const scrollbar = React.useRef()
+	const scrollbar = React.useRef();
 
 	const getDrafts = async variables => {
 		const response = await client.query({
