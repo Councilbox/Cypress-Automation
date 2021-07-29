@@ -153,7 +153,7 @@ const RepresentativeForm = ({
 								}
 							/>
 						</GridItem>
-						<GridItem xs={8} lg={3} md={3}>
+						<GridItem xs={6} lg={3} md={3}>
 							<TextInput
 								id="representative-position-input"
 								floatingText={translate.position}
