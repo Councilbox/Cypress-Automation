@@ -16,6 +16,7 @@ import { getPrimary, getSecondary } from '../../../styles/colors';
 import { importCensus, getCensusTemplate, checkUniqueCensusEmails } from '../../../queries/census';
 import { checkValidEmail } from '../../../utils';
 import { downloadFile } from '../../../utils/CBX';
+import { isMobile } from '../../../utils/screen';
 
 let XLSX;
 import('xlsx').then(data => { XLSX = data; });
@@ -519,14 +520,15 @@ class ImportCensusButton extends React.Component {
 					textStyle={{
 						color: 'white',
 						fontWeight: '700',
-						fontSize: '0.9em',
+						fontSize: '0.9rem',
 						textTransform: 'none'
 					}}
 					textPosition="after"
-					icon={<ButtonIcon type="import_export" color="white" />}
+					icon={<ButtonIcon style={{ fontSize: isMobile && '1rem', width: isMobile && '100%' }} type="import_export" color="white" />}
 					onClick={() => this.setState({ modal: true })}
 					buttonStyle={{
-						marginRight: '1em',
+						width: isMobile && '150px',
+						height: isMobile && '60px'
 					}}
 				/>
 				<AlertConfirm
@@ -696,7 +698,7 @@ class ImportCensusButton extends React.Component {
 												>
 													{translate.attention}
 												</div>
-											No se puede realizar la importación.<br />
+												No se puede realizar la importación.<br />
 												{this.state.duplicatedType === 'DB' ?
 													translate.following_emails_already_present_in_current_census
 													: translate.following_emails_are_duplicated_in_sent_file
