@@ -69,6 +69,7 @@ class PartnerForm extends React.PureComponent {
 						{participant.personOrEntity ? (
 							<GridItem xs={6} md={8} lg={6}>
 								<TextInput
+									required
 									id={'add-partner-entity-name'}
 									floatingText={translate.entity_name}
 									type="text"
@@ -84,6 +85,7 @@ class PartnerForm extends React.PureComponent {
 							<React.Fragment>
 								<GridItem xs={6} md={4} lg={3}>
 									<TextInput
+										required
 										id={'add-partner-name'}
 										floatingText={translate.name}
 										type="text"
@@ -97,6 +99,7 @@ class PartnerForm extends React.PureComponent {
 								</GridItem>
 								<GridItem xs={6} md={4} lg={3}>
 									<TextInput
+										required
 										id={'add-partner-surname'}
 										floatingText={translate.surname || ''}
 										type="text"
@@ -138,6 +141,7 @@ class PartnerForm extends React.PureComponent {
 						</GridItem>
 						<GridItem xs={6} md={4} lg={3}>
 							<TextInput
+								required
 								id={'add-partner-email'}
 								floatingText={translate.email}
 								{...(checkEmail ? { onKeyUp: event => checkEmail(event, 'participant') } : {})}

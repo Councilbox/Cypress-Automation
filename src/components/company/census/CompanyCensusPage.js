@@ -1,6 +1,7 @@
+/* eslint-disable no-tabs */
 /* eslint-disable max-classes-per-file */
 import React from 'react';
-import { graphql } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
 import { flowRight as compose } from 'lodash';
 import { Tooltip, Card } from 'material-ui';
 import { TableCell, TableRow } from 'material-ui/Table';
@@ -26,163 +27,172 @@ import { bHistory } from '../../../containers/App';
 import { CENSUS_LIMITS } from '../../../constants';
 import { isMobile } from '../../../utils/screen';
 
-class CompanyCensusPage extends React.Component {
-	state = {
+const CompanyCensusPage = ({
+	translate,
+	company,
+	client,
+	...props
+}) => {
+	const [state, setState] = React.useState({
 		deleteModal: false,
 		cloneModal: false,
 		editId: false,
 		index: 0,
-	};
+	});
 
 
-	deleteCensus = async () => {
-		this.props.data.loading = true;
-		const response = await this.props.deleteCensus({
+	const deleteCensusById = async () => {
+		props.data.loading = true;
+		const response = await client.mutate({
+			mutation: deleteCensus,
 			variables: {
-				censusId: this.state.deleteCensus
+				censusId: state.deleteCensus
 			}
 		});
 		if (response) {
-			this.setState({
+			setState({
+				...state,
 				deleteModal: false,
 				deleteCensus: -1
 			});
-			this.props.data.refetch();
+			props.data.refetch();
 		}
 	};
 
-	setDefaultCensus = async censusId => {
-		this.setState({
+	const setDefaultCensusById = async censusId => {
+		setState({
+			...state,
 			changingDefault: censusId
 		});
-		const response = await this.props.setDefaultCensus({
+		const response = await client.mutate({
+			mutation: setDefaultCensus,
 			variables: {
 				censusId
 			}
 		});
 		if (response) {
-			this.setState({
+			setState({
+				...state,
 				changingDefault: -1
 			});
-			this.props.data.refetch();
+			props.data.refetch();
 		}
 	};
 
-	updateState = object => {
-		this.setState({
+	const updateState = object => {
+		setState({
+			...state,
 			...object
 		});
-	}
-
-	openCensusEdit = censusId => {
-		bHistory.push(`/company/${this.props.company.id}/census/${censusId}`);
 	};
 
-	render() {
-		const { translate, company } = this.props;
-		const { loading, censuses } = this.props.data;
+	const openCensusEdit = censusId => {
+		bHistory.push(`/company/${company.id}/census/${censusId}`);
+	};
 
-		if (!censuses) {
-			return <LoadingSection />;
-		}
+	const { loading, censuses } = props.data;
 
-		return (
-			<CardPageLayout title={translate.censuses_list}>
-				<EnhancedTable
-					translate={translate}
-					defaultLimit={CENSUS_LIMITS[0]}
-					defaultFilter={'censusName'}
-					limits={CENSUS_LIMITS}
-					page={1}
-					menuButtons={
-						<div style={{
-							height: '100%', display: 'flex', alignItems: 'center', justifyContent: isMobile ? 'flex-start' : 'center'
-						}}>
-							<div>
-								<AddCensusButton
-									translate={translate}
-									user={this.props.user}
-									company={company}
-									refetch={this.props.data.refetch}
-								/>
-							</div>
-						</div>
-					}
-					loading={loading}
-					length={censuses.list.length}
-					total={censuses.total}
-					refetch={this.props.data.refetch}
-					headers={[
-						{
-							text: translate.name,
-							name: 'censusName',
-							canOrder: true
-						},
-						{
-							text: translate.creation_date,
-							name: 'creationDate',
-							canOrder: true
-						},
-						{
-							name: 'lastEdit',
-							text: translate.last_edit,
-							canOrder: true
-						},
-						{
-							name: 'creator',
-							text: translate.creator,
-						},
-						{ name: '' }
-					]}
-				>
-					{censuses.list.map((census, index) => (
-						<HoverableRow
-							census={census}
-							id={`census_row_${index}`}
-							key={`census_${census.id}`}
-							changingDefault={this.state.changingDefault}
-							openCensusEdit={this.openCensusEdit}
-							updateState={this.updateState}
-							setDefaultCensus={this.setDefaultCensus}
-							index={index}
-							translate={translate}
-						/>
-					))}
-				</EnhancedTable>
-				<AlertConfirm
-					title={translate.send_to_trash}
-					bodyText={translate.send_to_trash_desc}
-					open={this.state.deleteModal}
-					buttonAccept={translate.send_to_trash}
-					buttonCancel={translate.cancel}
-					modal={true}
-					acceptAction={this.deleteCensus}
-					requestClose={() => this.setState({ deleteModal: false })}
-				/>
-				<CloneCensusModal
-					translate={translate}
-					user={this.props.user}
-					refetch={this.props.data.refetch}
-					requestClose={() => this.setState({ cloneModal: false, index: null })}
-					open={this.state.cloneModal}
-					census={censuses.list[this.state.index]}
-				/>
-				{!!this.state.editId
-					&& <EditCensusModal
-						translate={translate}
-						censusId={this.state.editId}
-						refetch={this.props.data.refetch}
-						open={!!this.state.editId}
-						requestClose={() => this.setState({
-							editId: null
-						})}
-					/>
-				}
-
-			</CardPageLayout>
-		);
+	if (!censuses) {
+		return <LoadingSection />;
 	}
-}
+
+	return (
+		<CardPageLayout title={translate.censuses_list}>
+			<EnhancedTable
+				translate={translate}
+				defaultLimit={CENSUS_LIMITS[0]}
+				defaultFilter={'censusName'}
+				limits={CENSUS_LIMITS}
+				page={1}
+				menuButtons={
+					<div style={{
+						height: '100%', display: 'flex', alignItems: 'center', justifyContent: isMobile ? 'flex-start' : 'center'
+					}}>
+						<div>
+							<AddCensusButton
+								translate={translate}
+								user={props.user}
+								company={company}
+								refetch={props.data.refetch}
+							/>
+						</div>
+					</div>
+				}
+				loading={loading}
+				length={censuses.list.length}
+				total={censuses.total}
+				refetch={props.data.refetch}
+				headers={[
+					{
+						text: translate.name,
+						name: 'censusName',
+						canOrder: true
+					},
+					{
+						text: translate.creation_date,
+						name: 'creationDate',
+						canOrder: true
+					},
+					{
+						name: 'lastEdit',
+						text: translate.last_edit,
+						canOrder: true
+					},
+					{
+						name: 'creator',
+						text: translate.creator,
+					},
+					{ name: '' }
+				]}
+			>
+				{censuses.list.map((census, index) => (
+					<HoverableRow
+						census={census}
+						id={`census_row_${index}`}
+						key={`census_${census.id}`}
+						changingDefault={state.changingDefault}
+						openCensusEdit={openCensusEdit}
+						updateState={updateState}
+						setDefaultCensus={setDefaultCensusById}
+						index={index}
+						translate={translate}
+					/>
+				))}
+			</EnhancedTable>
+			<AlertConfirm
+				title={translate.send_to_trash}
+				bodyText={translate.send_to_trash_desc}
+				open={state.deleteModal}
+				buttonAccept={translate.send_to_trash}
+				buttonCancel={translate.cancel}
+				modal={true}
+				acceptAction={deleteCensusById}
+				requestClose={() => setState({ ...state, deleteModal: false })}
+			/>
+			<CloneCensusModal
+				translate={translate}
+				user={props.user}
+				refetch={props.data.refetch}
+				requestClose={() => setState({ ...state, cloneModal: false, index: null })}
+				open={state.cloneModal}
+				census={censuses.list[state.index]}
+			/>
+			{!!state.editId
+				&& <EditCensusModal
+					translate={translate}
+					censusId={state.editId}
+					refetch={props.data.refetch}
+					open={!!state.editId}
+					requestClose={() => setState({
+						...state,
+						editId: null
+					})}
+				/>
+			}
+
+		</CardPageLayout>
+	);
+};
 
 class HoverableRow extends React.PureComponent {
 	state = {
@@ -223,40 +233,39 @@ class HoverableRow extends React.PureComponent {
 		const secondary = getSecondary();
 
 		const actions = <React.Fragment>
-			{census.id
-				=== this.props.changingDefault ? (
-					<div
+			{census.id === this.props.changingDefault ? (
+				<div
+					style={{
+						display: 'inline-block'
+					}}
+				>
+					<LoadingSection size={20} />
+				</div>
+			) : (
+				<Tooltip title={translate.change_default_census_tooltip}>
+					<FontAwesome
+						id="census-set-as-default-button"
+						name={
+							census.defaultCensus
+								=== 1 ?
+								'star'
+								: 'star-o'
+						}
 						style={{
-							display: 'inline-block'
+							cursor: 'pointer',
+							fontSize: '2em',
+							color: primary
 						}}
-					>
-						<LoadingSection size={20} />
-					</div>
-				) : (
-					<Tooltip title={translate.change_default_census_tooltip}>
-						<FontAwesome
-							id="census-set-as-default-button"
-							name={
-								census.defaultCensus
-									=== 1 ?
-									'star'
-									: 'star-o'
-							}
-							style={{
-								cursor: 'pointer',
-								fontSize: '2em',
-								color: primary
-							}}
-							onClick={event => {
-								event.stopPropagation();
-								this.props.setDefaultCensus(
-									census.id
-								);
-							}}
-						/>
-					</Tooltip>
+						onClick={event => {
+							event.stopPropagation();
+							this.props.setDefaultCensus(
+								census.id
+							);
+						}}
+					/>
+				</Tooltip>
 
-				)}
+			)}
 			<Tooltip title={translate.manage_participants}>
 				<FontAwesome
 					name={'users'}
@@ -460,10 +469,4 @@ export default compose(
 			fetchPolicy: 'network-only'
 		})
 	}),
-	graphql(deleteCensus, {
-		name: 'deleteCensus'
-	}),
-	graphql(setDefaultCensus, {
-		name: 'setDefaultCensus'
-	})
-)(withSharedProps()(withRouter(CompanyCensusPage)));
+)(withSharedProps()(withRouter(withApollo(CompanyCensusPage))));
