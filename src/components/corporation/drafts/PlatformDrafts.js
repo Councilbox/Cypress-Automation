@@ -304,11 +304,9 @@ const PlatformDrafts = ({
 									{selectedValues.length > 0 && (
 										<div>
 											<BasicButton
-												text={`${translate.download} ${
-													selectedValues.length
-												} ${translate.drafts} ${
-													translate.to
-												} '${translate.my_drafts}'`
+												text={`${translate.download} ${selectedValues.length
+													} ${selectedValues.length > 1 ? translate.drafts : translate.draft} ${translate.to
+													} '${translate.my_drafts}'`
 												}
 												color={'white'}
 												textStyle={{
