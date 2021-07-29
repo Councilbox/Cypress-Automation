@@ -30,6 +30,16 @@ const CustomPointVotingMenu = ({
 
 	const disabled = agenda.votingState !== AGENDA_STATES.DISCUSSION || cantVote;
 
+	const ownVoteId = ownVote ? ownVote.id : null;
+
+	React.useEffect(() => {
+		if (ownVoteId) {
+			setSelections(createSelectionsFromBallots(ownVote.ballots, ownVote.participantId));
+		} else {
+			setSelections([]);
+		}
+	}, [ownVoteId]);
+
 	const sendCustomAgendaVote = async selected => {
 		if (voteAllAtOnce({ council })) {
 			votingContext.responses.set(ownVote.id, selected);
