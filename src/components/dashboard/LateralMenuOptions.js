@@ -58,7 +58,7 @@ const LateralMenuOptions = ({
 						customIcon={<i className="fa fa-history"></i>}
 						text={translate.dashboard_historical}
 						id={'side-menu-history'}
-						style={{ marginBottom: '10px', color: '#ffffffcc' }}
+						style={{ color: '#ffffffcc' }}
 					/>
 					<LateralOption
 						customIcon={
@@ -69,7 +69,7 @@ const LateralMenuOptions = ({
 						text={translate.all_plural_fem}
 						link={`/company/${company.id}/councils/all`}
 						id={'side-menu-all'}
-						style={{ marginTop: '10px', color: '#ffffffcc' }}
+						style={{ color: '#ffffffcc' }}
 					/>
 				</React.Fragment>
 			),
@@ -151,6 +151,7 @@ const LateralMenuOptions = ({
 					flexDirection: 'column',
 					alignItems: 'center',
 					justifyContent: 'center',
+					gap: '6px'
 				}}>
 
 					{renderMenuOptions(menuType)}
