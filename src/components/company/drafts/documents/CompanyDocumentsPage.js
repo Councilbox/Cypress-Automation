@@ -17,6 +17,7 @@ import { moment } from '../../../../containers/App';
 import CreateDocumentFolder from './CreateDocumentFolder';
 import { SERVER_URL } from '../../../../config';
 import DownloadCompanyDocument from './DownloadCompanyDocument';
+import { ACCEPTED_FILE_TYPES } from '../../../../constants';
 
 const CompanyDocumentsPage = ({
 	translate, company, client, action, trigger, hideUpload
@@ -244,6 +245,7 @@ const CompanyDocumentsPage = ({
 					type="file"
 					onChange={handleFileWithLoading}
 					disabled={queue.length > 0}
+					accept={ACCEPTED_FILE_TYPES}
 					id="raised-button-file"
 					style={{
 						cursor: 'pointer',
@@ -404,7 +406,7 @@ const CompanyDocumentsPage = ({
 				}}
 			/>
 			<div style={{ marginTop: '2em', height: 'calc(100% - 5em)' }}>
-				<Scrollbar>
+				<Scrollbar horizontalScroll={isMobile && true}>
 					<Table style={{ width: '100%', minWidth: '100%' }}>
 						<TableBody>
 							<TableRow>
