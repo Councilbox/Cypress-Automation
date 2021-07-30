@@ -188,14 +188,16 @@ const ParticipantsPage = ({
 					{renderAddGuestButton()}
 				</GridItem>
 				<GridItem xs={orientation === 'landscape' ? 4 : 6} md={6} lg={3} style={{ display: 'flex', justifyContent: orientation === 'landscape' ? 'flex-start' : 'flex-end' }}>
-					<BasicButton
-						text={filters.onlyNotSigned ? translate.show_all : translate.show_unsigned}
-						color='white'
-						buttonStyle={{ marginRight: '1em' }}
-						type="flat"
-						textStyle={{ color: secondary, fontWeight: '700', border: `1px solid ${secondary}` }}
-						onClick={toggleOnlyNotSigned}
-					/>
+					<div>
+						<BasicButton
+							text={filters.onlyNotSigned ? translate.show_all : translate.show_unsigned}
+							color='white'
+							buttonStyle={{ marginRight: '1em' }}
+							type="flat"
+							textStyle={{ color: secondary, fontWeight: '700', border: `1px solid ${secondary}`, whiteSpace: 'nowrap', fontSize: orientation === 'portrait' && '.65rem' }}
+							onClick={toggleOnlyNotSigned}
+						/>
+					</div>
 					{props.root
 						&& <AddConvenedParticipantButton
 							participations={hasParticipations(council)}
