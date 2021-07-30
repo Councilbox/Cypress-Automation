@@ -265,9 +265,11 @@ class AddCensusParticipantButton extends React.Component {
 		);
 	}
 
+
 	render() {
 		const { translate } = this.props;
 		const primary = getPrimary();
+
 
 		return (
 			<React.Fragment>
@@ -278,7 +280,7 @@ class AddCensusParticipantButton extends React.Component {
 					textStyle={{
 						color: primary,
 						fontWeight: '700',
-						fontSize: '0.9rem',
+						fontSize: isMobile ? '.75rem' : '.9rem',
 						textTransform: 'none',
 					}}
 					textPosition="after"
