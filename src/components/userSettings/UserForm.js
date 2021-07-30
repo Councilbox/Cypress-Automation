@@ -156,7 +156,7 @@ const UserForm = ({
 			&& <GridItem xs={12} md={12} lg={12} style={{ display: 'flex', alignItems: 'center' }}>
 				<div style={{ display: 'flex', alignItems: 'center' }}>
 					<div style={{
-						width: '90px', color: getPrimary(), fontWeight: 'bold', marginTop: '4px'
+						width: '120px', color: getPrimary(), fontWeight: 'bold', marginTop: '4px'
 					}}>
 						{translate.language}
 					</div>
