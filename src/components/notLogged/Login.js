@@ -143,6 +143,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 			login();
 		}
 	};
+	console.log(isMobile);
 
 	return (
 		<NotLoggedLayout
@@ -157,7 +158,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 				margin: '0',
 				height: '100%'
 			}}>
-				<GridItem xs={12} md={7} lg={7}
+				<GridItem xs={12} md={isMobile ? 12 : 7} lg={7}
 					style={{
 						color: 'white',
 						display: 'flex',
@@ -250,7 +251,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 						</div>
 					}
 				</GridItem>
-				<GridItem lg={5} md={5} xs={12}
+				<GridItem lg={5} md={isMobile ? 12 : 5} xs={12}
 					style={{
 						display: 'flex',
 						justifyContent: 'center',
@@ -270,8 +271,8 @@ const Login = ({ translate, windowSize, ...props }) => {
 							paddingBottom: '1em',
 							margin: '0',
 							position: 'relative',
-							marginBottom: windowSize === 'xs' ? 0 : '5em',
-							marginRight: windowSize === 'xs' ? 0 : '5em'
+							marginBottom: windowSize === 'xs' || (windowSize === 'md' && isMobile) ? 0 : '5em',
+							marginRight: windowSize === 'xs' || (windowSize === 'md' && isMobile) ? 0 : '5em'
 						}}
 					>
 						<div
