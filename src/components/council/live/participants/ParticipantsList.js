@@ -12,7 +12,7 @@ import { getMainRepresentative } from '../../../../utils/CBX';
 import { isMobile } from '../../../../utils/screen';
 
 const ParticipantsList = ({
-	mode, translate, layout, council, refetch, loadMore, loading, loadingMore, participants
+	mode, translate, layout, council, refetch, loadMore, loading, loadingMore, participants, root
 }) => {
 	const [state, setState] = useOldState({
 		showSignatureModal: false,
@@ -110,6 +110,7 @@ const ParticipantsList = ({
 										<LiveParticipantEditor
 											translate={translate}
 											council={council}
+											root={root}
 											refetch={refetch}
 											id={state.editParticipant}
 
