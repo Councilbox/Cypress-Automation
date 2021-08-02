@@ -177,10 +177,10 @@ class NewCompanyPage extends React.PureComponent {
 							message={this.props.translate.company_created}
 							id="success-toast"
 						/>, {
-							position: toast.POSITION.TOP_RIGHT,
-							autoClose: true,
-							className: 'successToast'
-						}
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,
+						className: 'successToast'
+					}
 					);
 				}
 			}
@@ -390,6 +390,18 @@ class NewCompanyPage extends React.PureComponent {
 												errorText={errors.externalId}
 												onChange={event => this.updateState({
 													externalId: event.target.value
+												})
+												}
+											/>
+										</GridItem>
+										<GridItem xs={12} md={6} lg={4}>
+											<TextInput
+												floatingText={translate.contact_email}
+												type="text"
+												errorText={errors.contactEmail}
+												value={data.contactEmail || ''}
+												onChange={event => this.updateState({
+													contactEmail: event.target.value
 												})
 												}
 											/>
