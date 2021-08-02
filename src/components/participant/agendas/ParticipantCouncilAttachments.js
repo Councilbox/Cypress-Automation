@@ -14,6 +14,7 @@ import { getPrimary } from '../../../styles/colors';
 import upload from '../../../assets/img/upload.svg';
 import MenuSuperiorTabs from '../../dashboard/MenuSuperiorTabs';
 import { SERVER_URL } from '../../../config';
+import { ACCEPTED_FILE_TYPES } from '../../../constants';
 
 const ParticipantCouncilAttachments = ({
 	translate, participant, client, council
@@ -326,7 +327,7 @@ const ParticipantCouncilAttachments = ({
 								style={{ maxWidth: '700px', margin: '1em', marginTop: '2em' }}
 								{...getRootProps()}
 							>
-								<input {...getInputProps()} />
+								<input {...getInputProps()} accept={ACCEPTED_FILE_TYPES} />
 								<div style={{
 									color: 'black', fontSize: '20px', marginBottom: '1em', textAlign: 'center'
 								}}>{translate.upload_attachment_help_title}</div>

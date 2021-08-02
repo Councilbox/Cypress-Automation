@@ -66,74 +66,88 @@ const Login = ({ translate, windowSize, ...props }) => {
 			setState({
 				loading: true
 			});
-			const response = await props.mutate({
-				variables: {
-					email: user,
-					password
-				}
-			});
-			if (response.errors) {
-				const errors = {
-					'Incorrect password': () => {
-						setState({
-							loading: false,
-							errors: {
-								password: translate.password_err
-							}
-						});
-					},
-					'User not registered or incorrect password': () => {
-						setState({
-							loading: false,
-							errors: {
-								user: translate.login_err
-							}
-						});
-					},
-					'Not actived': () => {
-						setState({
-							loading: false,
-							errors: {
-								user: translate.email_not_found
-							}
-						});
-					},
-
-					'Not found': () => {
-						setState({
-							loading: false,
-							errors: {
-								user: translate.email_not_found
-							}
-						});
-					},
-
-					'Invalid domain': () => {
-						setState({
-							loading: false,
-							errors: {
-								user: translate.domain_invalid_creds
-							}
-						});
-					},
-
-					'Unsubscribed account': () => {
-						setState({
-							loading: false,
-							errors: {
-								user: 'Cuenta deshabilitada'
-							}
-						});
+			try {
+				const response = await props.mutate({
+					variables: {
+						email: user,
+						password
 					}
-				};
-
-				return errors[response.errors[0].message] ? errors[response.errors[0].message]() : null;
-			}
-			if (response.data.login) {
-				setState({
-					loading: false
 				});
-				props.actions.loginSuccess(response.data.login.token, response.data.login.refreshToken);
+				if (response.errors) {
+					const errors = {
+						'Incorrect password': () => {
+							setState({
+								loading: false,
+								errors: {
+									password: translate.password_err
+								}
+							});
+						},
+						'User not registered or incorrect password': () => {
+							setState({
+								loading: false,
+								errors: {
+									user: translate.login_err
+								}
+							});
+						},
+						'Not actived': () => {
+							setState({
+								loading: false,
+								errors: {
+									user: translate.email_not_found
+								}
+							});
+						},
+						'Not found': () => {
+							setState({
+								loading: false,
+								errors: {
+									user: translate.email_not_found
+								}
+							});
+						},
+						'Invalid domain': () => {
+							setState({
+								loading: false,
+								errors: {
+									user: translate.domain_invalid_creds
+								}
+							});
+						},
+						'Unsubscribed account': () => {
+							setState({
+								loading: false,
+								errors: {
+									user: 'Cuenta deshabilitada'
+								}
+							});
+						}
+					};
+
+					return errors[response.errors[0].message] ? errors[response.errors[0].message]() : null;
+				}
+				if (response.data.login) {
+					setState({
+						loading: false
+					});
+					props.actions.loginSuccess(response.data.login.token, response.data.login.refreshToken);
+				}
+			} catch (error) {
+				if (error.message === 'Response not successful: Received status code 429') {
+					return setState({
+						loading: false,
+						errors: {
+							user: 'Too many requests'
+						}
+					});
+				}
+				return setState({
+					loading: false,
+					errors: {
+						user: error.message
+					}
+				});
 			}
 		}
 	};

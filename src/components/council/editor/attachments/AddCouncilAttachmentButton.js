@@ -1,4 +1,5 @@
 import React from 'react';
+import { ACCEPTED_FILE_TYPES } from '../../../../constants';
 import { BasicButton, DropDownMenu } from '../../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import CompanyDocumentsBrowser from '../../../company/drafts/documents/CompanyDocumentsBrowser';
@@ -22,6 +23,7 @@ const AddCouncilAttachmentButton = ({
 			<input
 				type="file"
 				id={'raised-button-file'}
+				accept={ACCEPTED_FILE_TYPES}
 				onChange={handleFile}
 				disabled={loading}
 				style={{

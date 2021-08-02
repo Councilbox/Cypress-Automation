@@ -132,88 +132,79 @@ const LinkCompanyPage = ({ translate, ...props }) => {
 
 	return (
 		<CardPageLayout title={translate.companies_link_company}>
-			<Grid style={{ marginTop: '4em' }}>
-				<GridItem xs={12} md={12} lg={12}>
-					<div
-						style={{
-							width: '400px',
-							margin: 'auto'
-						}}
-					>
-						<TextInput
-							floatingText={translate.entity_cif}
-							id="company-link-cif"
-							type="text"
-							required
-							value={data.cif}
-							errorText={errors.cif}
-							onChange={event => updateState({
-								cif: event.target.value
-							})
-							}
-						/>
-					</div>
+			<Grid style={{
+				marginTop: '4em',
+				display: 'flex',
+				flexDirection: 'column',
+				justifyContent: 'center',
+				alignItems: 'center'
+			}}>
+				<GridItem xs={12} md={3} lg={3} style={{
+					width: '100%'
+				}}>
+					<TextInput
+						floatingText={translate.entity_cif}
+						id="company-link-cif"
+						type="text"
+						required
+						value={data.cif}
+						errorText={errors.cif}
+						onChange={event => updateState({
+							cif: event.target.value
+						})
+						}
+					/>
 				</GridItem>
-				<GridItem xs={12} md={12} lg={12}>
-					<div
-						style={{
-							width: '400px',
-							margin: 'auto'
-						}}
-					>
-						<TextInput
-							floatingText={translate.company_new_key}
-							id="company-link-key"
-							type={
-								state.showPassword ?
-									'text'
-									: 'password'
-							}
-							passwordToggler={() => setState({
-								showPassword: !state.showPassword
-							})
-							}
-							showPassword={state.showPassword}
-							required
-							helpPopover={true}
-							helpTitle={translate.company_new_key}
-							helpDescription={translate.link_key_tooltip}
-							value={data.linkKey}
-							errorText={errors.linkKey}
-							onChange={event => updateState({
-								linkKey: event.target.value
-							})
-							}
-						/>
-						<br />
-
-					</div>
+				<GridItem xs={12} md={3} lg={3} style={{
+					width: '100%'
+				}}>
+					<TextInput
+						floatingText={translate.company_new_key}
+						id="company-link-key"
+						type={
+							state.showPassword ?
+								'text'
+								: 'password'
+						}
+						passwordToggler={() => setState({
+							showPassword: !state.showPassword
+						})
+						}
+						showPassword={state.showPassword}
+						required
+						helpPopover={true}
+						helpTitle={translate.company_new_key}
+						helpDescription={translate.link_key_tooltip}
+						value={data.linkKey}
+						errorText={errors.linkKey}
+						onChange={event => updateState({
+							linkKey: event.target.value
+						})
+						}
+					/>
+					<br />
 				</GridItem>
-				<GridItem xs={12} md={12} lg={12} style={{ maxWidth: '400px', margin: '0 auto' }}>
-					<div
-						style={{
-							display: 'flex',
-							justifyContent: 'flex-end'
-						}}>
-						<BasicButton
-							id="company-link-button"
-							text={translate.link}
-							color={getPrimary()}
-							error={requestError}
-							success={success}
-							loading={request}
-							floatRight
-							buttonStyle={{
-								marginTop: '1.5em'
-							}}
-							textStyle={{
-								color: 'white',
-								fontWeight: '700'
-							}}
-							onClick={linkCompany}
-							icon={<ButtonIcon type="link" color="white" />}
-						/>
-					</div>
+				<GridItem xs={12} md={3} lg={3} style={{
+					width: '100%'
+				}}>
+					<BasicButton
+						id="company-link-button"
+						text={translate.link}
+						color={getPrimary()}
+						error={requestError}
+						success={success}
+						loading={request}
+						floatRight
+						buttonStyle={{
+							marginTop: '1.5em'
+						}}
+						textStyle={{
+							color: 'white',
+							fontWeight: '700'
+						}}
+						onClick={linkCompany}
+						icon={<ButtonIcon type="link" color="white" />}
+					/>
 				</GridItem>
 			</Grid>
 		</CardPageLayout>

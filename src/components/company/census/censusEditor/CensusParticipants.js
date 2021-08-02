@@ -168,23 +168,24 @@ class CensusParticipants extends React.Component {
 			<React.Fragment>
 				<Grid>
 					<GridItem xs={12} md={12} lg={12}>
-						<div style={{ display: 'flex', justifyContent: isMobile ? 'space-between' : 'flex-start', gap: '2rem', marginBottom: '0.6em' }}>
-							<div>
-								<AddCensusParticipantButton
-									translate={translate}
-									company={this.props.company}
-									census={this.props.census}
-									refetch={this.refresh}
-								/>
-							</div>
-							<div>
-								<ImportCensusExcel
-									translate={translate}
-									censusId={census.id}
-									companyId={this.props.company.id}
-									refetch={this.props.data.refetch}
-								/>
-							</div>
+						<div style={{
+							display: 'flex',
+							justifyContent: isMobile ? 'space-between' : 'flex-start',
+							gap: '2rem',
+							marginBottom: '0.6em'
+						}}>
+							<AddCensusParticipantButton
+								translate={translate}
+								company={this.props.company}
+								census={this.props.census}
+								refetch={this.refresh}
+							/>
+							<ImportCensusExcel
+								translate={translate}
+								censusId={census.id}
+								companyId={this.props.company.id}
+								refetch={this.props.data.refetch}
+							/>
 						</div>
 						<span style={{ fontWeight: '700', fontSize: '0.9em' }}>
 							{`${translate.total_votes}: ${this.props.recount.numParticipations || 0}`}
