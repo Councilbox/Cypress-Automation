@@ -143,7 +143,6 @@ const Login = ({ translate, windowSize, ...props }) => {
 			login();
 		}
 	};
-	console.log(isMobile);
 
 	return (
 		<NotLoggedLayout
