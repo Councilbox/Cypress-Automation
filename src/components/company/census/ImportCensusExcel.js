@@ -520,12 +520,16 @@ class ImportCensusButton extends React.Component {
 					textStyle={{
 						color: 'white',
 						fontWeight: '700',
-						fontSize: '0.9em',
+						fontSize: isMobile ? '.75rem' : '.9rem',
 						textTransform: 'none'
 					}}
 					textPosition="after"
-					icon={!isMobile ? <ButtonIcon type="import_export" color="white" /> : null }
+					icon={<ButtonIcon style={{ fontSize: isMobile && '1rem' }} type="import_export" color="white" />}
 					onClick={() => this.setState({ modal: true })}
+					buttonStyle={{
+						width: isMobile && '150px',
+						height: isMobile && '60px'
+					}}
 				/>
 				<AlertConfirm
 					bodyStyle={{ overflow: 'hidden' }}
@@ -536,8 +540,8 @@ class ImportCensusButton extends React.Component {
 							{step === 1 && (
 								<React.Fragment>
 									<Grid>
-										<GridItem xs={6} md={6} lg={6} style={{ display: 'flex', justifyContent: 'center' }}>
-											<div>
+										<GridItem xs={12} md={6} lg={6} style={{ display: 'flex', justifyContent: 'center' }}>
+											<div style={{ width: '100%' }}>
 												<BasicButton
 													text={translate.download_template}
 													color={secondary}
@@ -546,7 +550,8 @@ class ImportCensusButton extends React.Component {
 														color: 'white',
 														fontWeight: '700',
 														fontSize: '0.9em',
-														textTransform: 'none'
+														textTransform: 'none',
+														width: '100%'
 													}}
 													loading={downloading}
 													textPosition="after"
@@ -558,7 +563,7 @@ class ImportCensusButton extends React.Component {
 												/>
 											</div>
 										</GridItem>
-										<GridItem xs={6} md={6} lg={6}>
+										<GridItem xs={12} md={6} lg={6}>
 											<FileUploadButton
 												accept=".xlsx"
 												loading={this.state.loading}
@@ -694,7 +699,7 @@ class ImportCensusButton extends React.Component {
 												>
 													{translate.attention}
 												</div>
-											No se puede realizar la importación.<br />
+												No se puede realizar la importación.<br />
 												{this.state.duplicatedType === 'DB' ?
 													translate.following_emails_already_present_in_current_census
 													: translate.following_emails_are_duplicated_in_sent_file

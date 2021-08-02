@@ -455,6 +455,7 @@ class NewCompanyPage extends React.PureComponent {
 							<Grid spacing={16} onKeyUp={this.handleKeyUp}>
 								<GridItem xs={12} md={6} lg={6}>
 									<TextInput
+										required
 										floatingText={translate.address}
 										id="company-address-input"
 										type="text"
@@ -468,6 +469,7 @@ class NewCompanyPage extends React.PureComponent {
 								</GridItem>
 								<GridItem xs={12} md={6} lg={6}>
 									<TextInput
+										required
 										floatingText={translate.company_new_locality}
 										id="company-city-input"
 										type="text"
@@ -538,6 +540,7 @@ class NewCompanyPage extends React.PureComponent {
 											}
 										/>
 										: <SelectInput
+											required
 											floatingText={
 												translate.company_new_country_state
 											}
@@ -564,6 +567,7 @@ class NewCompanyPage extends React.PureComponent {
 								</GridItem>
 								<GridItem xs={12} md={6} lg={3}>
 									<TextInput
+										required
 										floatingText={translate.company_new_zipcode}
 										type="text"
 										id="company-zipcode-input"
