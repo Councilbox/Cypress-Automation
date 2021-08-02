@@ -312,6 +312,7 @@ const ParticipantsPage = ({
 					: <ParticipantsList
 						loadMore={loadMore}
 						loading={loading}
+						root={props.root}
 						loadingMore={loading}
 						renderHeader={renderHeader}
 						refetch={data.refetch}
