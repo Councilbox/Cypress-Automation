@@ -182,22 +182,29 @@ const ParticipantsPage = ({
 				{renderHeader()}
 			</div>
 			<Grid style={{
-				padding: '0 8px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+				padding: '0 8px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '.5rem'
 			}}>
-				<GridItem xs={orientation === 'landscape' ? 4 : 6} md={6} lg={3} style={{ display: 'flex', alignItems: 'center', height: '3.5em' }}>
+				<GridItem xs={orientation === 'landscape' ? 4 : 6} md={6} lg={3} style={{ display: 'flex', alignItems: 'center' }}>
 					{renderAddGuestButton()}
 				</GridItem>
-				<GridItem xs={orientation === 'landscape' ? 4 : 6} md={6} lg={3} style={{ display: 'flex', justifyContent: orientation === 'landscape' ? 'flex-start' : 'flex-end' }}>
-					<div>
-						<BasicButton
-							text={filters.onlyNotSigned ? translate.show_all : translate.show_unsigned}
-							color='white'
-							buttonStyle={{ marginRight: '1em' }}
-							type="flat"
-							textStyle={{ color: secondary, fontWeight: '700', border: `1px solid ${secondary}`, whiteSpace: 'nowrap', fontSize: orientation === 'portrait' && '.65rem' }}
-							onClick={toggleOnlyNotSigned}
-						/>
-					</div>
+				<GridItem xs={orientation === 'landscape' ? 4 : 6} md={6} lg={3} style={{ display: 'flex', justifyContent: orientation === 'landscape' ? 'flex-start' : 'flex-end', gap: '0 .5rem' }}>
+					<BasicButton
+						text={<span style={{
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap',
+							display: 'block',
+						}}>{filters.onlyNotSigned ? translate.show_all : translate.show_unsigned}
+						</span>}
+						color='white'
+						type="flat"
+						textStyle={{
+							color: secondary,
+							fontWeight: '700',
+							border: `1px solid ${secondary}`,
+						}}
+						onClick={toggleOnlyNotSigned}
+					/>
 					{props.root
 						&& <AddConvenedParticipantButton
 							participations={hasParticipations(council)}
@@ -215,8 +222,9 @@ const ParticipantsPage = ({
 				<GridItem xs={orientation === 'landscape' ? 12 : 12} md={12} lg={6}
 					style={{
 						display: 'flex',
-						height: '4em',
+						maxHeight: '4em',
 						alignItems: 'center',
+						zIndex: '1',
 						justifyContent: orientation === 'portrait' ? 'space-between' : 'flex-end'
 					}}>
 					{orientation === 'landscape' && isMobile
