@@ -176,11 +176,12 @@ class NewCompanyPage extends React.PureComponent {
 						<LiveToast
 							message={this.props.translate.company_created}
 							id="success-toast"
-						/>, {
-						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,
-						className: 'successToast'
-					}
+						/>,
+						{
+							position: toast.POSITION.TOP_RIGHT,
+							autoClose: true,
+							className: 'successToast'
+						}
 					);
 				}
 			}
