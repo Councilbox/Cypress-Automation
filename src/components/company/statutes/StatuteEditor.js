@@ -152,22 +152,22 @@ const StatuteEditor = ({
 		// eslint-disable-next-line no-shadow
 		const { statute } = state;
 
-		if (statute.existsAdvanceNoticeDays && Number.isNaN(statute.advanceNoticeDays)) {
+		if (statute.existsAdvanceNoticeDays && Number.isNaN(Number(statute.advanceNoticeDays))) {
 			errors.advanceNoticeDays = translate.required_field;
 			hasError = true;
 		}
 
-		if (statute.existsSecondCall && Number.isNaN(statute.minimumSeparationBetweenCall)) {
+		if (statute.existsSecondCall && Number.isNaN(Number(statute.minimumSeparationBetweenCall))) {
 			errors.minimumSeparationBetweenCall = translate.required_field;
 			hasError = true;
 		}
 
-		if (statute.existsMaxNumDelegatedVotes && Number.isNaN(statute.maxNumDelegatedVotes)) {
+		if (statute.existsMaxNumDelegatedVotes && Number.isNaN(Number(statute.maxNumDelegatedVotes))) {
 			hasError = true;
 			errors.maxNumDelegatedVotes = translate.required_field;
 		}
 
-		if (statute.existsLimitedAccessRoom && Number.isNaN(statute.limitedAccessRoomMinutes)) {
+		if (statute.existsLimitedAccessRoom && Number.isNaN(Number(statute.limitedAccessRoomMinutes))) {
 			hasError = true;
 			errors.limitedAccessRoomMinutes = translate.required_field;
 		}

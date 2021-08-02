@@ -12,7 +12,7 @@ const getNumberValue = value => {
 
 	const num = +value;
 
-	if (Number.isNaN(num)) {
+	if (Number.isNaN(Number(num))) {
 		return 1;
 	}
 
