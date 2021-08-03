@@ -196,12 +196,20 @@ export const useParticipantContactEdit = ({
 	const [edit, setEdit] = React.useState(false);
 	const [saving, setSaving] = React.useState(false);
 	const [success, setSuccess] = React.useState(false);
-	const [email, setEmail] = React.useState(participant.email);
-	const [phone, setPhone] = React.useState(participant.phone);
+	const [newValues, setNewValues] = React.useState({
+		phone: participant.phone,
+		email: participant.email,
+		numParticipations: participant.numParticipations,
+		socialCapital: participant.socialCapital
+	});
 	const [errors, setErrors] = React.useState({
 		phone: '',
-		email: ''
+		email: '',
+		numParticipations: '',
+		socialCapital: ''
 	});
+
+	const { email, phone, numParticipations, socialCapital } = newValues;
 
 	React.useEffect(() => {
 		let timeout;
@@ -261,6 +269,14 @@ export const useParticipantContactEdit = ({
 			}
 		}
 
+		if (Number.isNaN(Number(numParticipations)) || numParticipations < 0) {
+			newErrors.numParticipations = 'El número no es válido';
+		}
+
+		if (Number.isNaN(Number(socialCapital)) || socialCapital < 0) {
+			newErrors.socialCapital = 'El número no es válido';
+		}
+
 		setErrors(newErrors);
 		return Object.keys(newErrors).length > 0;
 	};
@@ -270,20 +286,24 @@ export const useParticipantContactEdit = ({
 		if (!await checkRequiredFields()) {
 			const response = await client.mutate({
 				mutation: gql`
-					mutation UpdateParticipantContactInfo($participantId: Int!, $email: String!, $phone: String!){
-						updateParticipantContactInfo(participantId: $participantId, email: $email, phone: $phone){
+					mutation UpdateParticipantContactInfo($participant: LiveParticipantInput){
+						updateLiveParticipant(participant: $participant){
 							success
 							message
 						}
 					}
 				`,
 				variables: {
-					participantId: participant.id,
-					email,
-					phone
+					participant: {
+						id: participant.id,
+						email,
+						phone,
+						numParticipations: Number(numParticipations),
+						socialCapital: Number(socialCapital)
+					}
 				}
 			});
-			if (response.data.updateParticipantContactInfo.success) {
+			if (response.data.updateLiveParticipant.success) {
 				setSuccess(true);
 			}
 		}
@@ -296,9 +316,13 @@ export const useParticipantContactEdit = ({
 		saving,
 		success,
 		email,
-		setEmail,
+		setEmail: value => setNewValues({ ...newValues, email: value }),
 		phone,
-		setPhone,
+		setPhone: value => setNewValues({ ...newValues, phone: value }),
+		numParticipations,
+		setNumParticipations: value => setNewValues({ ...newValues, numParticipations: value }),
+		socialCapital,
+		setSocialCapital: value => setNewValues({ ...newValues, socialCapital: value }),
 		errors,
 		updateParticipantContactInfo
 	};
