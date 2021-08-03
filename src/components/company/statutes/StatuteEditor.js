@@ -6,7 +6,8 @@ import {
 	Scrollbar,
 	LiveToast,
 	BasicButton,
-	ButtonIcon
+	ButtonIcon,
+	UnsavedChangesModal
 } from '../../../displayComponents';
 import * as CBX from '../../../utils/CBX';
 import { updateStatute as updateStatuteMutation } from '../../../queries';
@@ -25,6 +26,7 @@ const StatuteEditor = ({
 	client
 }) => {
 	const [statute, setStatute] = React.useState(null);
+	const [unsavedAlert, setUnsavedAlert] = React.useState(false);
 	const [editorHeight, setEditorHeight] = React.useState('100%');
 	const [state, setState] = React.useState({
 		statute: {},
@@ -152,22 +154,22 @@ const StatuteEditor = ({
 		// eslint-disable-next-line no-shadow
 		const { statute } = state;
 
-		if (statute.existsAdvanceNoticeDays && Number.isNaN(statute.advanceNoticeDays)) {
+		if (statute.existsAdvanceNoticeDays && Number.isNaN(Number(statute.advanceNoticeDays))) {
 			errors.advanceNoticeDays = translate.required_field;
 			hasError = true;
 		}
 
-		if (statute.existsSecondCall && Number.isNaN(statute.minimumSeparationBetweenCall)) {
+		if (statute.existsSecondCall && Number.isNaN(Number(statute.minimumSeparationBetweenCall))) {
 			errors.minimumSeparationBetweenCall = translate.required_field;
 			hasError = true;
 		}
 
-		if (statute.existsMaxNumDelegatedVotes && Number.isNaN(statute.maxNumDelegatedVotes)) {
+		if (statute.existsMaxNumDelegatedVotes && Number.isNaN(Number(statute.maxNumDelegatedVotes))) {
 			hasError = true;
 			errors.maxNumDelegatedVotes = translate.required_field;
 		}
 
-		if (statute.existsLimitedAccessRoom && Number.isNaN(statute.limitedAccessRoomMinutes)) {
+		if (statute.existsLimitedAccessRoom && Number.isNaN(Number(statute.limitedAccessRoomMinutes))) {
 			hasError = true;
 			errors.limitedAccessRoomMinutes = translate.required_field;
 		}
@@ -203,7 +205,8 @@ const StatuteEditor = ({
 				<LiveToast
 					message={translate.revise_text}
 					id="text-error-toast"
-				/>, {
+				/>,
+				{
 					position: toast.POSITION.TOP_RIGHT,
 					autoClose: false,
 					className: 'errorToast'
@@ -261,6 +264,16 @@ const StatuteEditor = ({
 				...object
 			}
 		}));
+	};
+
+	const comprobateChanges = () => JSON.stringify(statute) !== JSON.stringify(state.statute);
+
+	const goBack = () => {
+		if (!comprobateChanges()) {
+			bHistory.back();
+		} else {
+			setUnsavedAlert(true);
+		}
 	};
 
 	return (
@@ -355,7 +368,8 @@ const StatuteEditor = ({
 							buttonStyle={{
 								marginRight: '0.8em',
 							}}
-							onClick={() => bHistory.back()}
+							onClick={goBack}
+						// onClick={() => bHistory.back()}
 						/>
 						{JSON.stringify(statute) !== JSON.stringify(state.statute) &&
 							<StatuteEditorUndoChangesButton
@@ -389,6 +403,13 @@ const StatuteEditor = ({
 					</div>
 				</div>
 			}
+			<UnsavedChangesModal
+				acceptAction={updateStatute}
+				cancelAction={() => bHistory.back()}
+				requestClose={() => setUnsavedAlert(false)}
+				loadingAction={state.loading}
+				open={unsavedAlert}
+			/>
 		</div>
 	);
 };

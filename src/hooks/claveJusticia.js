@@ -139,6 +139,7 @@ const useClaveJusticia = ({ client, participantId, token }) => {
 	};
 
 	const checkClaveJusticia = async pin => {
+		dispatch({ type: 'LOADING' });
 		const response = await client.mutate({
 			mutation: gql`
 				mutation CheckClaveJusticia(

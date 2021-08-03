@@ -20,6 +20,7 @@ const CommentWallSwitch = ({ council, client, translate, refetch }) => {
 			<AlertConfirm
 				open={modal}
 				loadingAction={loading}
+				requestClose={() => setModal(false)}
 				title={council.wallActive === 1 ? translate.disable_wall : translate.enable_wall}
 				acceptAction={() => toggleWall(council.wallActive === 1 ? 0 : 1)}
 				buttonAccept={translate.accept}
