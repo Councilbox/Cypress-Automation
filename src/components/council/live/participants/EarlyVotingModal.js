@@ -35,7 +35,7 @@ const EarlyVotingModal = props => {
 			<AlertConfirm
 				open={modal}
 				requestClose={() => setModal(false)}
-				title={'Fijar sentido del voto'}
+				title={props.translate.fix_vote_sense}
 				bodyText={<EarlyVotingBody {...props} />}
 			/>
 		</>
