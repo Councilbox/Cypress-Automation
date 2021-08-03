@@ -3,7 +3,7 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import TextArea from 'antd/lib/input/TextArea';
 import { moment } from '../../../containers/App';
-import { AlertConfirm, BasicButton } from '../../../displayComponents';
+import { AlertConfirm, BasicButton, Scrollbar } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
 import Stars from './Stars';
 import { useSubdomain } from '../../../utils/subdomain';
@@ -125,7 +125,8 @@ const CouncilSurveyModal = ({
 		<AlertConfirm
 			bodyStyle={{
 				minWidth: '60vw',
-				padding: '1.5em'
+				padding: '1.5em',
+				overflow: 'hidden'
 			}}
 			bodyText={
 				<div style={{ padding: '1em' }}>
@@ -152,113 +153,117 @@ const CouncilSurveyModal = ({
 					<div style={{
 						border: 'none', borderRadius: '1px', textAlign: 'left', color: 'black', fontSize: '14px'
 					}}>
-						<div>
-							{/* <Scrollbar> */}
-							<div>
-								<div>{translate.rate_the_satisfaction.replace(/{{appName}}/, subdomain.title || 'Councilbox')}.</div>
-								<div>
-									<Stars
-										name={'satisfaction'}
-										value={state.data.satisfaction}
-										disabled={disabled}
-										error={errors.satisfaction}
-										onClick={value => {
-											setState({
-												...state,
-												data: {
-													...state.data,
-													satisfaction: +value
-												}
-											});
-										}}
-									/>
+						<div style={{ height: 'calc(50vh - 32px)' }}>
+							<Scrollbar>
+								<div style={{ height: '100%', padding: '.5rem' }}>
+									<div>
+										<div>{translate.rate_the_satisfaction.replace(/{{appName}}/, subdomain.title || 'Councilbox')}.</div>
+										<div>
+											<Stars
+												name={'satisfaction'}
+												value={state.data.satisfaction}
+												disabled={disabled}
+												error={errors.satisfaction}
+												onClick={value => {
+													setState({
+														...state,
+														data: {
+															...state.data,
+															satisfaction: +value
+														}
+													});
+												}}
+											/>
+										</div>
+									</div>
+									<div>
+										<div>{translate.rate_performance.replace(/{{appName}}/, subdomain.title || 'Councilbox')}.</div>
+										<div>
+											<Stars
+												name={'performance'}
+												value={state.data.performance}
+												error={errors.performance}
+												disabled={disabled}
+												onClick={value => {
+													setState({
+														...state,
+														data: {
+															...state.data,
+															performance: +value
+														}
+													});
+												}}
+											/>
+										</div>
+									</div>
+									<div>
+										<div>{translate.degree_recomend_use.replace(/{{appName}}/, subdomain.title || 'Councilbox')}.</div>
+										<div>
+											<Stars
+												name={'recommend'}
+												value={state.data.recommend}
+												error={errors.recommend}
+												disabled={disabled}
+												onClick={value => {
+													setState({
+														...state,
+														data: {
+															...state.data,
+															recommend: +value
+														}
+													});
+												}}
+											/>
+										</div>
+									</div>
+									<div>
+										<div>{translate.rate_care_received}</div>
+										<div>
+											<Stars
+												name={'care'}
+												value={state.data.care}
+												error={errors.care}
+												disabled={disabled}
+												onClick={value => {
+													setState({
+														...state,
+														data: {
+															...state.data,
+															care: +value
+														}
+													});
+												}}
+											/>
+										</div>
+									</div>
+									<div>
+										<div>{translate.what_would_you_improve.replace(/{{appName}}/, subdomain.title || 'Councilbox')}</div>
+										<div style={{ marginTop: '0.5em' }}>
+											<TextArea
+												style={{
+													width: '100%',
+													resize: 'none',
+													border: 'none',
+													padding: '.2rem',
+													background: '#d0d0d080'
+												}}
+												value={state.data.suggestions}
+												disabled={disabled}
+												onChange={event => {
+													setState({
+														...state,
+														data: {
+															...state.data,
+															suggestions: event.target.value
+														}
+													});
+												}}
+											/>
+										</div>
+									</div>
+
 								</div>
-							</div>
-							<div>
-								<div>{translate.rate_performance.replace(/{{appName}}/, subdomain.title || 'Councilbox')}.</div>
-								<div>
-									<Stars
-										name={'performance'}
-										value={state.data.performance}
-										error={errors.performance}
-										disabled={disabled}
-										onClick={value => {
-											setState({
-												...state,
-												data: {
-													...state.data,
-													performance: +value
-												}
-											});
-										}}
-									/>
-								</div>
-							</div>
-							<div>
-								<div>{translate.degree_recomend_use.replace(/{{appName}}/, subdomain.title || 'Councilbox')}.</div>
-								<div>
-									<Stars
-										name={'recommend'}
-										value={state.data.recommend}
-										error={errors.recommend}
-										disabled={disabled}
-										onClick={value => {
-											setState({
-												...state,
-												data: {
-													...state.data,
-													recommend: +value
-												}
-											});
-										}}
-									/>
-								</div>
-							</div>
-							<div>
-								<div>{translate.rate_care_received}</div>
-								<div>
-									<Stars
-										name={'care'}
-										value={state.data.care}
-										error={errors.care}
-										disabled={disabled}
-										onClick={value => {
-											setState({
-												...state,
-												data: {
-													...state.data,
-													care: +value
-												}
-											});
-										}}
-									/>
-								</div>
-							</div>
-							<div>
-								<div>{translate.what_would_you_improve.replace(/{{appName}}/, subdomain.title || 'Councilbox')}</div>
-								<div style={{ marginTop: '0.5em' }}>
-									<TextArea
-										style={{
-											width: '100%',
-											resize: 'none',
-											border: 'none',
-											padding: '.2rem',
-											background: '#d0d0d080'
-										}}
-										value={state.data.suggestions}
-										disabled={disabled}
-										onChange={event => {
-											setState({
-												...state,
-												data: {
-													...state.data,
-													suggestions: event.target.value
-												}
-											});
-										}}
-									/>
-								</div>
-							</div>
+							</Scrollbar>
 						</div>
 						{state.creationDate
 							&& <div style={{ marginBottom: '1em', marginTop: '1em' }}>
