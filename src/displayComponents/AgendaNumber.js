@@ -17,7 +17,7 @@ export const getSubjectAbrv = text => {
 		return '';
 	}
 
-	if (!Number.isNaN(text)) {
+	if (!Number.isNaN(Number(text))) {
 		text = `${text}`;
 	}
 

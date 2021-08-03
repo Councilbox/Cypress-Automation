@@ -23,9 +23,9 @@ const CustomPointForm = ({
 }) => {
 	const editor = React.useRef();
 	const validateNumber = number => {
-		if (number < 0 || Number.isNaN(number)) {
+		if (number < 0 || Number.isNaN(Number(number))) {
 			const value = Math.abs(parseInt(number, 10));
-			if (Number.isNaN(value)) {
+			if (Number.isNaN(Number(value))) {
 				return '';
 			}
 			return value;
