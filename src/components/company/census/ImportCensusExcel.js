@@ -520,12 +520,16 @@ class ImportCensusButton extends React.Component {
 					textStyle={{
 						color: 'white',
 						fontWeight: '700',
-						fontSize: '0.9em',
+						fontSize: isMobile ? '.75rem' : '.9rem',
 						textTransform: 'none'
 					}}
 					textPosition="after"
-					icon={!isMobile ? <ButtonIcon type="import_export" color="white" /> : null }
+					icon={<ButtonIcon style={{ fontSize: isMobile && '1rem' }} type="import_export" color="white" />}
 					onClick={() => this.setState({ modal: true })}
+					buttonStyle={{
+						width: isMobile && '150px',
+						height: isMobile && '60px'
+					}}
 				/>
 				<AlertConfirm
 					bodyStyle={{ overflow: 'hidden' }}
