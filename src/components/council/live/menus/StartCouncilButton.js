@@ -557,7 +557,7 @@ const StartCouncilButton = ({
 						color: 'white',
 						fontSize: '0.9em',
 						fontWeight: '700',
-						textTransform: 'none'
+						textTransform: 'none',
 					}}
 				/>
 				<AlertConfirm
@@ -596,12 +596,11 @@ const StartCouncilButton = ({
 						play_arrow
 					</Icon>
 				}
-				buttonStyle={{ width: '11em' }}
 				textStyle={{
 					color: 'white',
 					fontSize: '0.9em',
 					fontWeight: '700',
-					textTransform: 'none'
+					textTransform: 'none',
 				}}
 			/>
 			<AlertConfirm
