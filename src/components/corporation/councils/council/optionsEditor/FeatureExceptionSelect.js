@@ -27,20 +27,38 @@ const FeatureExceptionSelect = ({ exception, companyId, refetch, client, feature
 		console.log(response);
 	};
 
+	const updateFeatureExceptionValue = async (value, id) => {
+		const response = await client.mutate({
+			mutation: gql`
+				mutation UpdateFeatureException($featureExceptionId: Int!, $active: Boolean!) {
+					updateFeatureException(featureExceptionId: $featureExceptionId, active: $active) {
+						success
+					}
+				}
+			`,
+			variables: {
+				featureExceptionId: id,
+				active: value
+			}
+		});
+
+		console.log(response);
+	};
+
 	return (
 		<SelectInput
 			floatingText={'Valor fijado'}
 			id="company-feature-exception-select"
 			onChange={async event => {
 				const { value } = event.target;
-				if (!exception && value !== 'none') {
-					await addFeatureException(value === 'true');
+				if (value !== 'none') {
+					if (!exception) {
+						await addFeatureException(value === 'true');
+					} else {
+						await updateFeatureExceptionValue(value === 'true', exception.id);
+					}
 					refetch();
 				}
-
-				// updateState({
-				// 	quorumPrototype: event.target.value
-				// });
 			}}
 			value={exception ? exception.active.toString() : 'none'}
 		>
