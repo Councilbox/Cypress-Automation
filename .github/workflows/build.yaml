@@ -1,0 +1,102 @@
+name: Image build workflow
+
+on:
+
+  release:
+    types: [prereleased, released]
+
+  pull_request:   
+    types: [labeled, synchronize]
+
+jobs:
+  upload-acr:
+    if: ${{ github.event_name != 'pull_request'  || contains(github.event.pull_request.labels.*.name, 'autodeploy') }} 
+    env:
+      registry_url: cbxacr.azurecr.io
+      repository_name: cbx/councilbox-client
+      state_repo: cbx-state
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        if: ${{ github.event_name != 'pull_request' }}
+        
+      - uses: actions/checkout@v2
+        if: ${{ github.event_name == 'pull_request' }}
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      
+      - name: Calculate tag
+        id: tag
+        run: |
+          echo ${{github.event_name}}
+          case ${{github.event_name}} in
+            push | pull_request )
+              echo "::set-output name=tag::$(git rev-parse --short HEAD)"
+              echo "Tagging image from pull request..."
+              ;;
+            release | prerelease )
+              echo "::set-output name=tag::${{ github.event.release.tag_name }}"
+              echo "Tagging image from a Release | Prerelease"
+              ;;
+            *)
+              echo "Unknown event"
+              exit 1
+              ;;
+          esac
+      - name: Image name
+        id: image_name
+        run: echo "::set-output name=image_name::$(echo $registry_url'/'$repository_name':'${{ steps.tag.outputs.tag }})"
+      
+      - uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZ_CREDENTIALS_AKS_PREDEV }}
+
+      - name: Login acr
+        run: |
+              ACCESS_TOKEN=$(az acr login --name ${{ env.registry_url }} --expose-token --output tsv --query accessToken)
+              docker login ${{ env.registry_url }} -u 00000000-0000-0000-0000-000000000000 -p $ACCESS_TOKEN
+
+      - name: Build and push dev
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'autodeploy') }} 
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./docker/Dockerfile
+          load: true
+          tags: ${{ steps.image_name.outputs.image_name }}
+          build-args: |
+            REACT_APP_API_URL=api.dev.councilbox.com
+            REACT_APP_CERT_API=secure-api.dev.councilbox.com
+      
+      - name: Build and push pre
+        if: "github.event.release.prerelease"
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./docker/Dockerfile
+          load: true
+          tags: ${{ steps.image_name.outputs.image_name }}
+          build-args: |
+            REACT_APP_API_URL=api.pre.councilbox.com
+            REACT_APP_CERT_API=secure-api.pre.councilbox.com
+
+      - name: Build and push pro
+        if: "github.event.release.released"
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./docker/Dockerfile
+          load: true
+          tags: ${{ steps.image_name.outputs.image_name }}
+          build-args: |
+            REACT_APP_API_URL=api.councilbox.com
+            REACT_APP_CERT_API=secure-api.councilbox.com
+          
+      - run: docker push ${{ steps.image_name.outputs.image_name }}
+
+      - name: Dispatch changes
+        uses: prefapp/action-deployment-dispatch@v1
+        with:
+          state_repo: ${{ env.state_repo }}
+          image_repository: ${{ env.registry_url }}/${{ env.repository_name }}
+          token: ${{ secrets.REPO_STATE_TOKEN }}
