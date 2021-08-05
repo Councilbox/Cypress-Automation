@@ -25,10 +25,10 @@ import CouncilDetailsParticipants from './CouncilDetailsParticipants';
 import * as CBX from '../../../../utils/CBX';
 import { SearchCouncils } from '../CouncilsDashboard';
 import ParticipantsManager from '../../../council/live/participants/ParticipantsManager';
-import CouncilStatuteEditor from './CouncilStatuteEditor';
 import CheckPhoneModal from './CheckPhoneModal';
 import DownloadConvenedPDF from './DownloadConvenedPDF';
 import MergeCouncilsButton from './MergeCouncilsButton';
+import CouncilOptionsEditor from './optionsEditor/CouncilOptionsEditor';
 
 
 const cancelAct = gql`
@@ -437,11 +437,10 @@ translate={this.props.translate}
 								<AlertConfirm
 									requestClose={() => this.setState({ councilConfigEditor: false })}
 									open={this.state.councilConfigEditor}
-									buttonCancel={'Cancelar'}
+									buttonCancel={'Cerrar'}
 									bodyText={
-										<CouncilStatuteEditor
+										<CouncilOptionsEditor
 											translate={translate}
-											statute={this.props.data.council.statute}
 											council={this.props.data.council}
 											refetch={this.props.data.refetch}
 										/>

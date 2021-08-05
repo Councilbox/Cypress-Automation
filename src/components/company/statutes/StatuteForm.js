@@ -172,18 +172,15 @@ const StatuteForm = ({
 								required
 								type="tel"
 								adornment={translate.minutes}
-								errorText={errors.minimumSeparationBetweenCall}
+								errorText={errors.minimumSeparationBetweenCall || statute.minimumSeparationBetweenCall === '' ? `${translate.minimum_separation_between_call_desc}: 0 ${translate.minutes}` : ''}
 								value={statute.minimumSeparationBetweenCall}
+								onBlur={event => updateState({
+									minimumSeparationBetweenCall: parseInt(event.target.value, 10) || 0
+								})}
 								onChange={event => {
-									if (!Number.isNaN(Number(event.target.value)) && +event.target.value > 0) {
-										updateState({
-											minimumSeparationBetweenCall: parseInt(event.target.value, 10)
-										});
-									} else {
-										updateState({
-											minimumSeparationBetweenCall: 5
-										});
-									}
+									updateState({
+										minimumSeparationBetweenCall: Number.isNaN(Number(event.target.value)) ? '' : parseInt(event.target.value, 10) >= 0 ? parseInt(event.target.value, 10) : ''
+									});
 								}}
 							/>
 						)}
@@ -252,7 +249,7 @@ const StatuteForm = ({
 								style={{ marginLeft: '1em' }}
 								value={statute.firstCallQuorum}
 								divider={statute.firstCallQuorumDivider}
-								quorumError={errors.firstCallQuorum}
+								quorumError={errors.firstCallQuorum || (statute.firstCallQuorum <= 0 ? `${translate.minimum_value} 1` : '')}
 								dividerError={errors.firstCallQuorumDivider}
 								onChange={value => updateState({
 									firstCallQuorum: +value
@@ -300,7 +297,7 @@ const StatuteForm = ({
 									style={{ marginLeft: '1em' }}
 									value={statute.secondCallQuorum}
 									divider={statute.secondCallQuorumDivider}
-									quorumError={errors.secondCallQuorum}
+									quorumError={errors.secondCallQuorum || (statute.secondCallQuorum <= 0 ? `${translate.minimum_value} 1` : '')}
 									dividerError={
 										errors.secondCallQuorumDivider
 									}

@@ -2,9 +2,7 @@ import gql from 'graphql-tag';
 import { MenuItem } from 'material-ui';
 import React from 'react';
 import { withApollo } from 'react-apollo';
-import {
-	Grid, GridItem, Checkbox, SelectInput
-} from '../../../../displayComponents';
+import { Grid, GridItem, Checkbox, SelectInput } from '../../../../../displayComponents';
 
 
 const CouncilStatuteEditor = ({
