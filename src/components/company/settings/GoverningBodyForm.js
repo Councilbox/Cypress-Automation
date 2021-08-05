@@ -324,7 +324,9 @@ const ListAdminForm = ({ translate, setData, data }) => {
 				<div>
 					<div style={{ height: '100%' }}>
 						<Table>
-							<TableHead>
+							<TableHead style={{
+								whiteSpace: 'nowrap'
+							}}>
 								<TableCell>
 									{translate.name}
 								</TableCell>
