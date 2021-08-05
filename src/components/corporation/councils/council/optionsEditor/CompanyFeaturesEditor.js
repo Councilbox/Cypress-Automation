@@ -75,33 +75,41 @@ const CompanyFeaturesEditor = ({ client, companyId }) => {
 
 	return (
 		<Grid style={{ overflow: 'hidden' }}>
-			<GridItem xs={12} md={7} lg={7}>
-				Features {companyId}
+			<GridItem xs={12} md={12} lg={12}>
+				Features
 			</GridItem>
-			<Grid>
-				<GridItem xs={4} md={4} lg={4}>
-					Funcionalidad
-				</GridItem>
-				<GridItem xs={4} md={4} lg={4}>
-					Valor Councilbox
-				</GridItem>
-				<GridItem xs={4} md={4} lg={4}>
-					Valor entidad
-				</GridItem>
-				{!loading && data.features.filter(feature => editableFeatures[feature.name]).map(feature => (
-					<Grid key={feature.id}>
-						<GridItem xs={4} md={4} lg={4}>
-							{feature.name}
-						</GridItem>
-						<GridItem xs={4} md={4} lg={4}>
-							{feature.active ? 'Activada' : 'Desactivada'}
-						</GridItem>
-						<GridItem xs={4} md={4} lg={4}>
-							{printExceptionMenu(feature.name)}
-						</GridItem>
-					</Grid>
-				))}
-			</Grid>
+			<GridItem xs={4} md={4} lg={4}>
+				Funcionalidad
+			</GridItem>
+			<GridItem xs={2} md={2} lg={2}>
+				Valor Councilbox
+			</GridItem>
+			<GridItem xs={6} md={6} lg={6}>
+				Valor entidad
+			</GridItem>
+			{!loading && data.features.filter(feature => editableFeatures[feature.name]).map(feature => (
+				<Grid key={feature.id}>
+					<GridItem xs={4} md={4} lg={4} style={{ display: 'flex', alignItems: 'center' }}>
+						{editableFeatures[feature.name]}
+					</GridItem>
+					<GridItem xs={2} md={2} lg={2} style={{ display: 'flex', alignItems: 'center' }}>
+						{feature.active ?
+							<>
+								<i className="fa fa-check" style={{ color: 'limegreen', marginRight: '0.4em', width: '15px' }} aria-hidden="true"></i>
+								Activada
+							</>
+							:
+							<>
+								<i className="fa fa-times" style={{ color: 'red', marginRight: '0.4em', width: '15px' }} aria-hidden="true"></i>
+								Desactivada
+							</>
+						}
+					</GridItem>
+					<GridItem xs={6} md={6} lg={6}>
+						{printExceptionMenu(feature.name)}
+					</GridItem>
+				</Grid>
+			))}
 		</Grid>
 	);
 };

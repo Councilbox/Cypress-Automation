@@ -13,7 +13,7 @@ const CouncilOptionsEditor = ({ translate, council, refetch }) => {
 				<MenuSuperiorTabs
 					items={[
 						'Opciones',
-						'Features',
+						'Features entidad',
 					]}
 					selected={tab}
 					setSelect={setTab}
@@ -27,7 +27,7 @@ const CouncilOptionsEditor = ({ translate, council, refetch }) => {
 					refetch={refetch}
 				/>
 			}
-			{tab === 'Features' &&
+			{tab === 'Features entidad' &&
 				<CompanyFeaturesEditor
 					companyId={council.companyId}
 					translate={translate}

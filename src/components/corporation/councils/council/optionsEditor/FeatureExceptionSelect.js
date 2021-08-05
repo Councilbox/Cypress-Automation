@@ -1,15 +1,14 @@
 
 import React from 'react';
+import gql from 'graphql-tag';
 import { MenuItem } from 'material-ui';
 import { withApollo } from 'react-apollo';
 import { SelectInput } from '../../../../../displayComponents';
-import gql from 'graphql-tag';
 
 
 const FeatureExceptionSelect = ({ exception, companyId, refetch, client, featureName }) => {
-
 	const addFeatureException = async value => {
-		const response = await client.mutate({
+		await client.mutate({
 			mutation: gql`
 				mutation AddFeatureException($companyId: Int!, $active: Boolean!, $featureName: String!) {
 					addFeatureException(companyId: $companyId, active: $active, featureName: $featureName) {
@@ -23,12 +22,10 @@ const FeatureExceptionSelect = ({ exception, companyId, refetch, client, feature
 				active: value
 			}
 		});
-
-		console.log(response);
 	};
 
 	const updateFeatureExceptionValue = async (value, id) => {
-		const response = await client.mutate({
+		await client.mutate({
 			mutation: gql`
 				mutation UpdateFeatureException($featureExceptionId: Int!, $active: Boolean!) {
 					updateFeatureException(featureExceptionId: $featureExceptionId, active: $active) {
@@ -41,14 +38,29 @@ const FeatureExceptionSelect = ({ exception, companyId, refetch, client, feature
 				active: value
 			}
 		});
+	};
 
-		console.log(response);
+	const removeFeatureException = async id => {
+		await client.mutate({
+			mutation: gql`
+				mutation RemoveFeatureException($featureExceptionId: Int!) {
+					removeFeatureException(featureExceptionId: $featureExceptionId) {
+						success
+					}
+				}
+			`,
+			variables: {
+				featureExceptionId: id,
+			}
+		});
 	};
 
 	return (
 		<SelectInput
-			floatingText={'Valor fijado'}
 			id="company-feature-exception-select"
+			style={{
+				maxWidth: '20em'
+			}}
 			onChange={async event => {
 				const { value } = event.target;
 				if (value !== 'none') {
@@ -58,12 +70,15 @@ const FeatureExceptionSelect = ({ exception, companyId, refetch, client, feature
 						await updateFeatureExceptionValue(value === 'true', exception.id);
 					}
 					refetch();
+				} else if (exception) {
+					await removeFeatureException(exception.id);
+					refetch();
 				}
 			}}
 			value={exception ? exception.active.toString() : 'none'}
 		>
 			<MenuItem value={'none'}>
-				{exception ? 'Quitar' : 'No hay valor fijado'}
+				{exception ? 'Quitar' : 'Por defecto'}
 			</MenuItem>
 			<MenuItem value="true">
 				Activada
