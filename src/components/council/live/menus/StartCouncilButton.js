@@ -29,7 +29,8 @@ const buttonStyle = primary => ({
 	border: `solid 1px ${primary}`,
 	color: primary,
 	cursor: 'pointer',
-	borderRadius: '2px'
+	borderRadius: '2px',
+	whiteSpace: 'nowrap'
 });
 
 
