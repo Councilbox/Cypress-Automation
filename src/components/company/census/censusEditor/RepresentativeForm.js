@@ -106,7 +106,7 @@ const RepresentativeForm = ({
 					{translate.cant_add_representative}
 				</div>
 			}
-			<Collapse in={state.hasRepresentative} >
+			<Collapse in={state.hasRepresentative} style={{ width: '100%' }} >
 				{state.hasRepresentative && (
 					<Grid >
 						<GridItem xs={6} md={4} lg={3}>
@@ -151,7 +151,7 @@ const RepresentativeForm = ({
 								}
 							/>
 						</GridItem>
-						<GridItem xs={6} lg={3} md={3}>
+						<GridItem xs={6} md={4} lg={3}>
 							<TextInput
 								id="representative-position-input"
 								floatingText={translate.position}
