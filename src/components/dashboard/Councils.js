@@ -122,12 +122,14 @@ const Councils = ({ translate, client, ...props }) => {
 		});
 	};
 
-	const selectAll = () => {
+	const selectAll = (ev, isInputChecked) => {
 		const newSelected = new Map();
-		if (state.selectedIds.size !== councilsData.length) {
-			councilsData.list.forEach(council => {
-				newSelected.set(council.id, 'selected');
-			});
+		if (isInputChecked) {
+			if (state.selectedIds.size !== councilsData.length) {
+				councilsData.list.forEach(council => {
+					newSelected.set(council.id, 'selected');
+				});
+			}
 		}
 
 		setState({
