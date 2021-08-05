@@ -249,7 +249,7 @@ const StatuteForm = ({
 								style={{ marginLeft: '1em' }}
 								value={statute.firstCallQuorum}
 								divider={statute.firstCallQuorumDivider}
-								quorumError={errors.firstCallQuorum}
+								quorumError={errors.firstCallQuorum || (statute.firstCallQuorum <= 0 ? `${translate.minimum_value} 1` : '')}
 								dividerError={errors.firstCallQuorumDivider}
 								onChange={value => updateState({
 									firstCallQuorum: +value
@@ -297,7 +297,7 @@ const StatuteForm = ({
 									style={{ marginLeft: '1em' }}
 									value={statute.secondCallQuorum}
 									divider={statute.secondCallQuorumDivider}
-									quorumError={errors.secondCallQuorum}
+									quorumError={errors.secondCallQuorum || (statute.secondCallQuorum <= 0 ? `${translate.minimum_value} 1` : '')}
 									dividerError={
 										errors.secondCallQuorumDivider
 									}

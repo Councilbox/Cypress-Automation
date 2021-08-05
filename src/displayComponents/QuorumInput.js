@@ -30,7 +30,7 @@ const QuorumInput = ({
 						value={value <= 0 ? '' : value}
 						min="0"
 						max="100"
-						errorText={quorumError || (value <= 0 ? 'El valor mínimo es 1' : '')}
+						errorText={quorumError}
 						onBlur={onBlurChange}
 						adornment={'%'}
 						styles={{ width: isMobile && '90%' }}
@@ -94,7 +94,7 @@ const QuorumInput = ({
 						type={'number'}
 						value={value <= 0 ? '' : value}
 						onBlur={onBlurChange}
-						errorText={quorumError || (value <= 0 ? 'El valor mínimo es 1' : '')}
+						errorText={quorumError}
 						onChange={event => onChange(event.nativeEvent.target.value)
 						}
 					/>
