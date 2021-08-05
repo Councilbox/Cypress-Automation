@@ -323,7 +323,9 @@ const ListAdminForm = ({ translate, setData, data }) => {
 				<div style={{ height: 'calc(30vh - 64px)' }}>
 					<Scrollbar horizontalScroll>
 						<Table>
-							<TableHead>
+							<TableHead style={{
+								whiteSpace: 'nowrap'
+							}}>
 								<TableCell>
 									{translate.name}
 								</TableCell>
