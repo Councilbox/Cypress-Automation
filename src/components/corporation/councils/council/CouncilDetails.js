@@ -731,6 +731,7 @@ const CouncilDetailsRoot = gql`
                 canUnblock
                 existsAct
                 includedInActBook
+				decimalDigits
                 includeParticipantsList
                 conveneHeader
                 intro
