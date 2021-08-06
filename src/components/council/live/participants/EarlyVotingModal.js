@@ -35,7 +35,7 @@ const EarlyVotingModal = props => {
 			<AlertConfirm
 				open={modal}
 				requestClose={() => setModal(false)}
-				title={props.set_direction_of_vote}
+				title={props.translate.set_direction_of_vote}
 				bodyText={<EarlyVotingBody {...props} />}
 			/>
 		</>
