@@ -259,9 +259,15 @@ const CompanyDocumentsPage = ({
 					}}
 				/>
 				<div style={{
-					display: 'flex', borderBottom: `1px solid${primary}`, alignItems: 'center', justifyContent: 'space-between'
+					display: 'flex', borderBottom: `1px solid${primary}`, flexDirection: isMobile ? 'column-reverse' : 'row', alignItems: !isMobile && 'center', justifyContent: 'space-between'
 				}}>
-					<div style={{ display: 'flex', alignItems: 'center' }}>
+					<div style={{
+						display: 'flex',
+						alignItems: 'center',
+						whiteSpace: 'nowrap',
+						overflow: 'hidden',
+						textOverflow: 'ellipsis',
+					}}>
 						{breadCrumbs.map((item, index) => (
 							<React.Fragment key={index}>
 								{index > 0
@@ -344,6 +350,11 @@ const CompanyDocumentsPage = ({
 									: <span
 										id={`navigate-to-level-${index}`}
 										style={{
+											whiteSpace: 'nowrap',
+											overflow: 'hidden',
+											textOverflow: 'ellipsis',
+											direction: 'rtl',
+											maxWidth: isMobile ? '50px' : '150px',
 											...(index === breadCrumbs.length - 1 ? {
 												color: (index === breadCrumbs.length - 1) ? primary : 'inherit'
 											} : {
@@ -360,35 +371,62 @@ const CompanyDocumentsPage = ({
 						))}
 					</div>
 
-					<div style={{ display: 'flex', alignContent: 'center' }}>
-						{quota
-							&& `${filesize(quota.used)} / ${filesize(quota.total)}`
-						}
-						<div style={{
-							padding: '0px 8px', fontSize: '24px', color: '#c196c3', display: 'flex', alignContent: 'center'
-						}}>
-							<i className="fa fa-filter"></i>
+					<div style={{ display: 'flex', alignItems: !isMobile && 'center', flexDirection: isMobile && 'column', gap: '4px' }}>
+						<div style={{ display: 'flex', alignItems: 'center', justifyContent: isMobile && 'flex-end', whiteSpace: 'nowrap' }}>
+							{quota
+								&& `${filesize(quota.used)} / ${filesize(quota.total)}`
+							}
 						</div>
-						<div>
-							<TextInput
-								className={isMobile && !inputSearch ? 'openInput' : ''}
-								disableUnderline={true}
-								styleInInput={{
-									fontSize: '12px', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', padding: isMobile && inputSearch && '4px 5px', paddingLeft: !isMobile && '5px'
-								}}
-								stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: isMobile && inputSearch ? '8px' : '4px' }}
-								adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
-								floatingText={' '}
-								type="text"
-								id="company-document-search-input"
-								value={search}
-								styles={{ marginTop: '-16px' }}
-								stylesTextField={{ marginBottom: '0px' }}
-								placeholder={isMobile ? '' : translate.search}
-								onChange={event => {
-									setSearch(event.target.value);
-								}}
-							/>
+						<div style={{
+							display: 'flex',
+							flexDirection: 'row',
+							alignItems: 'center',
+							justifyContent: 'flex-end'
+						}}>
+							<div style={{
+								padding: '0px 8px',
+								fontSize: '24px',
+								color: '#c196c3',
+								display: 'flex',
+								alignContent: 'center',
+								alignItems: 'center',
+								justifyContent: isMobile && 'flex-end'
+							}}>
+								<i className="fa fa-filter"></i>
+							</div>
+							<div style={{
+								display: 'flex',
+								alignContent: 'center',
+								marginBottom: '.2rem'
+							}}>
+								{
+									isMobile && !inputSearch ?
+										<div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+											<Icon style={{ background: '#f0f3f6' }} onClick={() => setInputSearch(!inputSearch)} >search</Icon>
+										</div>
+										:
+										<TextInput
+											className={isMobile && !inputSearch ? 'openInput' : ''}
+											disableUnderline={true}
+											styleInInput={{
+												fontSize: '12px', display: isMobile && !inputSearch ? 'none' : '', color: 'rgba(0, 0, 0, 0.54)', background: '#f0f3f6', padding: isMobile && inputSearch && '4px 5px', paddingLeft: !isMobile && '5px'
+											}}
+											stylesAdornment={{ background: '#f0f3f6', marginLeft: '0', paddingLeft: isMobile && inputSearch ? '8px' : '4px' }}
+											adornment={<Icon onClick={() => setInputSearch(!inputSearch)} >search</Icon>}
+											floatingText={' '}
+											type="text"
+											id="company-document-search-input"
+											value={search}
+											styles={{ marginTop: '-16px' }}
+											stylesTextField={{ marginBottom: '0px' }}
+											placeholder={isMobile ? '' : translate.search}
+											onChange={event => {
+												setSearch(event.target.value);
+											}}
+										/>
+								}
+
+							</div>
 						</div>
 					</div>
 				</div>

@@ -29,52 +29,52 @@ const ActPointTabs = ({
 				onChange={handleChange}
 			>
 				<Tab label={translate.proposed_act} />
-				<Tab label={translate.voting}/>
+				<Tab label={translate.voting} />
 				{CBX.councilHasComments(council.statute)
-&& <Tab label={translate.act_comments}/>
+					&& <Tab label={translate.act_comments} />
 				}
 			</Tabs>
 			<div style={{ width: '100%', height: 'calc(100% - 48px)', borderTop: '1px solid gainsboro' }}>
 				<Scrollbar>
 					{selectedTab === 0
-&& <div style={{ padding: '1.5em', paddingRight: '4.5em' }}>
-	<ActHTMLTab
-		council={council}
-		translate={translate}
-		company={company}
-		toolbar={() => <>
-		</>
-		}
-	/>
-</div>
+						&& <div style={{ padding: '1.5em', paddingRight: '4.5em' }}>
+							<ActHTMLTab
+								council={council}
+								translate={translate}
+								company={company}
+								toolbar={() => <>
+								</>
+								}
+							/>
+						</div>
 					}
 					{selectedTab === 1
-&& <div style={{ padding: '1.5em', paddingRight: '4.5em', paddingBottom: '2em' }}>
-	<RecountSection
-		agenda={agenda}
-		key={`agendaRecount_${agenda.id}`}
-		council={council}
-		translate={translate}
-		recount={props.recount}
-		refetch={props.refetch}
-		majorityTypes={props.majorityTypes}
-	/>
-	<Votings
-		ref={votings}
-		council={council}
-		agenda={agenda}
-		recount={props.recount}
-		majorities={props.data.majorities}
-		translate={translate}
-	/>
-</div>
+						&& <div style={{ padding: '1.5em', paddingRight: '4.5em', paddingBottom: '2em' }}>
+							<RecountSection
+								agenda={agenda}
+								key={`agendaRecount_${agenda.id}`}
+								council={council}
+								translate={translate}
+								recount={props.recount}
+								refetch={props.refetch}
+								majorityTypes={props.majorityTypes}
+							/>
+							<Votings
+								ref={votings}
+								council={council}
+								agenda={agenda}
+								recount={props.recount}
+								majorities={props.data.majorities}
+								translate={translate}
+							/>
+						</div>
 					}
 					{selectedTab === 2
-&& <Comments
-	agenda={agenda}
-	council={council}
-	translate={translate}
-/>
+						&& <Comments
+							agenda={agenda}
+							council={council}
+							translate={translate}
+						/>
 
 					}
 				</Scrollbar>

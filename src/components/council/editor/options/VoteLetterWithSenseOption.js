@@ -40,6 +40,7 @@ const VoteLetterWithSenseOption = ({ council, client, translate }) => {
 			/>
 			<Checkbox
 				label={translate.allows_indicate_direction_voting_letter}
+				id="council-options-proxy-with-vote-sense"
 				value={canEarlyVote}
 				onChange={(event, isInputChecked) => {
 					send(isInputChecked ? 1 : 0);

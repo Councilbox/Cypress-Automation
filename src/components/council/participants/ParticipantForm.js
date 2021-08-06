@@ -55,6 +55,7 @@ const ParticipantForm = ({
 		{participant.personOrEntity === 1 ? (
 			<GridItem xs={6} md={8} lg={6}>
 				<TextInput
+					required
 					floatingText={translate.entity_name}
 					type="text"
 					id="participant-entity-name-input"
@@ -190,7 +191,7 @@ const ParticipantForm = ({
 						key={`language_${language.columnName ?
 							language.columnName
 							: language.column_name
-						}`}
+							}`}
 					>
 						{language.desc}
 					</MenuItem>

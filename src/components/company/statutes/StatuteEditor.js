@@ -6,7 +6,8 @@ import {
 	Scrollbar,
 	LiveToast,
 	BasicButton,
-	ButtonIcon
+	ButtonIcon,
+	UnsavedChangesModal
 } from '../../../displayComponents';
 import * as CBX from '../../../utils/CBX';
 import { updateStatute as updateStatuteMutation } from '../../../queries';
@@ -25,6 +26,7 @@ const StatuteEditor = ({
 	client
 }) => {
 	const [statute, setStatute] = React.useState(null);
+	const [unsavedAlert, setUnsavedAlert] = React.useState(false);
 	const [editorHeight, setEditorHeight] = React.useState('100%');
 	const [state, setState] = React.useState({
 		statute: {},
@@ -203,7 +205,8 @@ const StatuteEditor = ({
 				<LiveToast
 					message={translate.revise_text}
 					id="text-error-toast"
-				/>, {
+				/>,
+				{
 					position: toast.POSITION.TOP_RIGHT,
 					autoClose: false,
 					className: 'errorToast'
@@ -261,6 +264,16 @@ const StatuteEditor = ({
 				...object
 			}
 		}));
+	};
+
+	const comprobateChanges = () => JSON.stringify(statute) !== JSON.stringify(state.statute);
+
+	const goBack = () => {
+		if (!comprobateChanges()) {
+			bHistory.back();
+		} else {
+			setUnsavedAlert(true);
+		}
 	};
 
 	return (
@@ -355,7 +368,8 @@ const StatuteEditor = ({
 							buttonStyle={{
 								marginRight: '0.8em',
 							}}
-							onClick={() => bHistory.back()}
+							onClick={goBack}
+						// onClick={() => bHistory.back()}
 						/>
 						{JSON.stringify(statute) !== JSON.stringify(state.statute) &&
 							<StatuteEditorUndoChangesButton
@@ -389,6 +403,13 @@ const StatuteEditor = ({
 					</div>
 				</div>
 			}
+			<UnsavedChangesModal
+				acceptAction={updateStatute}
+				cancelAction={() => bHistory.back()}
+				requestClose={() => setUnsavedAlert(false)}
+				loadingAction={state.loading}
+				open={unsavedAlert}
+			/>
 		</div>
 	);
 };
