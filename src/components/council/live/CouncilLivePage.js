@@ -62,10 +62,28 @@ const initScreenSizes = size => {
 	return sizes[size] ? sizes[size]() : sizes.MIN();
 };
 
+const LIVE_TABS = {
+	ATTACHMENTS: 'ATTACHMENTS',
+	AGENDA: 'AGENDA',
+	PARTICIPANTS: 'PARTICIPANTS'
+};
+
+const getInitialTab = council => {
+	if (council.councilType === COUNCIL_TYPES.ONE_ON_ONE) {
+		return LIVE_TABS.ATTACHMENTS;
+	}
+
+	if (council.state >= COUNCIL_STATES.ROOM_OPENED) {
+		return LIVE_TABS.AGENDA;
+	}
+
+	return LIVE_TABS.PARTICIPANTS;
+};
+
 
 const CouncilLivePage = ({ translate, data, company }) => {
 	const [state, setState] = useOldState({
-		tab: data.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ? 'ATTACHMENTS' : 'AGENDA',
+		tab: getInitialTab(data.council),
 		wall: false,
 		unreadComments: 0,
 		videoURL: '',
@@ -73,7 +91,6 @@ const CouncilLivePage = ({ translate, data, company }) => {
 		...initScreenSizes(localStorage.getItem('screenSize') || 'MIN')
 	});
 	const agendaManager = React.useRef(null);
-	// const company = props.companies.list[props.companies.selected];
 
 	const updateMinSizes = React.useCallback(() => {
 		minVideoWidth = calcMinWidth();
@@ -179,7 +196,7 @@ const CouncilLivePage = ({ translate, data, company }) => {
 
 	const councilStartedState = () => council.state >= 20 && council.state <= 30;
 
-	const showParticipants = state.tab === 'PARTICIPANTS';
+	const showParticipants = state.tab === LIVE_TABS.PARTICIPANTS;
 
 
 	return (
@@ -415,10 +432,10 @@ const CouncilLivePage = ({ translate, data, company }) => {
 						: <React.Fragment>
 							{!state.fullScreen
 								&& <Tabs value={state.tab}>
-									<Tab value={'PARTICIPANTS'} label={translate.participants} onClick={() => toggleScreens('PARTICIPANTS')} />
-									<Tab value={'AGENDA'} label={translate.agenda} onClick={() => toggleScreens('AGENDA')} id={'ordenDelDiaParticipantesButton'} />
+									<Tab value={LIVE_TABS.PARTICIPANTS} label={translate.participants} onClick={() => toggleScreens(LIVE_TABS.PARTICIPANTS)} />
+									<Tab value={LIVE_TABS.AGENDA} label={translate.agenda} onClick={() => toggleScreens(LIVE_TABS.AGENDA)} id={'ordenDelDiaParticipantesButton'} />
 									{council.councilType === COUNCIL_TYPES.ONE_ON_ONE
-										&& <Tab value={'ATTACHMENTS'} label={translate.attachments} onClick={() => toggleScreens('ATTACHMENTS')} id={'councilAttachmentsButton'} />
+										&& <Tab value={LIVE_TABS.ATTACHMENTS} label={translate.attachments} onClick={() => toggleScreens(LIVE_TABS.ATTACHMENTS)} id={'councilAttachmentsButton'} />
 									}
 									<div style={{
 										width: '100%',
@@ -448,7 +465,7 @@ const CouncilLivePage = ({ translate, data, company }) => {
 										{renderParticipantsManager()}
 									</div>
 								}
-								{(state.tab === 'ATTACHMENTS' && !state.fullScreen)
+								{(state.tab === LIVE_TABS.ATTACHMENTS && !state.fullScreen)
 									&& <div style={{ height: 'calc( 100% - 2em )' }}>
 										<OneOnOneAttachmentsList
 											council={council}
@@ -458,7 +475,7 @@ const CouncilLivePage = ({ translate, data, company }) => {
 										/>
 									</div>
 								}
-								{(state.tab === 'AGENDA' || state.fullScreen)
+								{(state.tab === LIVE_TABS.AGENDA || state.fullScreen)
 									&& <div style={{ height: 'calc( 100% - 2em )', position: 'relative' }}>
 										{council.state === COUNCIL_STATES.PAUSED
 											&& <DisabledSection>

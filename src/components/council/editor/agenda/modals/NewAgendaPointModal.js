@@ -299,7 +299,7 @@ const NewAgendaPointModal = ({
 					</Grid>
 					{(CBX.hasVotation(agenda.subjectType) && !props.hideMajority && !CBX.isConfirmationRequest(agenda.subjectType)) && (
 						<Grid>
-							<GridItem xs={6} lg={3} md={3}>
+							<GridItem xs={6} lg={4} md={4}>
 								<SelectInput
 									floatingText={translate.majority_label}
 									value={`${agenda.majorityType}`}

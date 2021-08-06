@@ -38,6 +38,7 @@ const ResumeCouncilButton = ({
 				text={translate.resume}
 				color={primary}
 				loading={loading}
+				id="resume-council-button"
 				loadingColor="white"
 				fullWidth={true}
 				onClick={resumeCouncil}
@@ -50,7 +51,7 @@ const ResumeCouncilButton = ({
 							color: 'white'
 						}}
 					>
-play_arrow
+						play_arrow
 					</Icon>
 				}
 				buttonStyle={{ width: '11em' }}

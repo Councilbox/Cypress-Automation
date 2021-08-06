@@ -2,9 +2,7 @@ import gql from 'graphql-tag';
 import { MenuItem } from 'material-ui';
 import React from 'react';
 import { withApollo } from 'react-apollo';
-import {
-	Grid, GridItem, Checkbox, SelectInput
-} from '../../../../displayComponents';
+import { Grid, GridItem, Checkbox, SelectInput, TextInput } from '../../../../../displayComponents';
 
 
 const CouncilStatuteEditor = ({
@@ -86,8 +84,7 @@ const CouncilStatuteEditor = ({
 					value={statute.hideVotingsRecountFinished === 1}
 					onChange={(event, isInputChecked) => updateState({
 						hideVotingsRecountFinished: isInputChecked ? 1 : 0
-					})
-					}
+					})}
 				/>
 			</GridItem>
 			<GridItem xs={12} md={7} lg={7}>
@@ -96,8 +93,14 @@ const CouncilStatuteEditor = ({
 					value={statute.shareholdersPortal === 1}
 					onChange={(event, isInputChecked) => updateState({
 						shareholdersPortal: isInputChecked ? 1 : 0
-					})
-					}
+					})}
+				/>
+			</GridItem>
+			<GridItem xs={12} md={7} lg={7}>
+				<DecimalDigitsInput
+					updateAction={updateState}
+					value={statute.decimalDigits}
+					translate={translate}
 				/>
 			</GridItem>
 			<GridItem xs={12} md={7} lg={7}>
@@ -193,6 +196,31 @@ const CouncilStatuteEditor = ({
 				</SelectInput>
 			</GridItem>
 		</Grid>
+	);
+};
+
+const DecimalDigitsInput = ({ value, updateAction }) => {
+	const [internalValue, setInternalValue] = React.useState(value);
+
+	React.useEffect(() => {
+		let timeout;
+
+		if (internalValue !== value) {
+			timeout = setTimeout(() => {
+				updateAction({ decimalDigits: internalValue });
+			}, 400);
+		}
+
+		return () => clearTimeout(timeout);
+	}, [internalValue]);
+
+	return (
+		<TextInput
+			floatingText={'Número de decimales'}
+			value={internalValue}
+			type="number"
+			onChange={event => setInternalValue(Number(event.target.value || 0))}
+		/>
 	);
 };
 
