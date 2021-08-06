@@ -202,12 +202,11 @@ const CouncilStatuteEditor = ({
 const DecimalDigitsInput = ({ value, updateAction }) => {
 	const [internalValue, setInternalValue] = React.useState(value);
 
-	React.useState(() => {
+	React.useEffect(() => {
 		let timeout;
 
 		if (internalValue !== value) {
-			setTimeout(() => {
-				console.log('se va actualizar');
+			timeout = setTimeout(() => {
 				updateAction({ decimalDigits: internalValue });
 			}, 400);
 		}
@@ -220,9 +219,7 @@ const DecimalDigitsInput = ({ value, updateAction }) => {
 			floatingText={'Número de decimales'}
 			value={internalValue}
 			type="number"
-			onChange={event => setInternalValue({
-				decimalDigits: Number(event.target.value || 0)
-			})}
+			onChange={event => setInternalValue(Number(event.target.value || 0))}
 		/>
 	);
 };
