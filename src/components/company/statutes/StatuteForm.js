@@ -320,9 +320,43 @@ const StatuteForm = ({
 							value={statute.existsDelegatedVote === 1}
 							onChange={(event, isInputChecked) => updateState({
 								existsDelegatedVote: isInputChecked ? 1 : 0
-							})
-							}
+							})}
 						/>
+					</GridItem>
+					<GridItem xs={10} md={6} lg={6} style={{ display: 'flex', alignItems: 'center' }}>
+						<Checkbox
+							helpPopover={true}
+							id="council-type-max-delegated"
+							disabled={statute.existsDelegatedVote === 0}
+							helpTitle={translate.exist_max_num_delegated_votes}
+							helpDescription={translate.max_delegated_votes_des}
+							label={translate.exist_max_num_delegated_votes}
+							value={statute.existMaxNumDelegatedVotes === 1}
+							onChange={(event, isInputChecked) => updateState({
+								existMaxNumDelegatedVotes: isInputChecked ?
+									1
+									: 0
+							})}
+						/>
+					</GridItem>
+					<GridItem xs={2} md={2} lg={2} style={{ display: 'flex', alignItems: 'center' }}>
+						{(statute.existMaxNumDelegatedVotes === 1 && statute.existsDelegatedVote !== 0) && (
+							<TextInput
+								id="council-type-max-delegated-number"
+								floatingText={translate.votes}
+								required
+								type="tel"
+								min="1"
+								errorText={errors.maxNumDelegatedVotes}
+								value={statute.maxNumDelegatedVotes}
+								onBlur={event => updateState({
+									maxNumDelegatedVotes: parseInt(event.target.value, 10) || 1
+								})}
+								onChange={event => updateState({
+									maxNumDelegatedVotes: Number.isNaN(Number(event.target.value)) ? '' : parseInt(event.target.value, 10) || ''
+								})}
+							/>
+						)}
 					</GridItem>
 					{config.earlyVoting
 						&& <>
@@ -351,41 +385,6 @@ const StatuteForm = ({
 							</GridItem>
 						</>
 					}
-					<GridItem xs={10} md={6} lg={6} style={{ display: 'flex', alignItems: 'center' }}>
-						<Checkbox
-							helpPopover={true}
-							id="council-type-max-delegated"
-							helpTitle={translate.exist_max_num_delegated_votes}
-							helpDescription={translate.max_delegated_votes_des}
-							label={translate.exist_max_num_delegated_votes}
-							value={statute.existMaxNumDelegatedVotes === 1}
-							onChange={(event, isInputChecked) => updateState({
-								existMaxNumDelegatedVotes: isInputChecked ?
-									1
-									: 0
-							})
-							}
-						/>
-					</GridItem>
-					<GridItem xs={2} md={2} lg={2} style={{ display: 'flex', alignItems: 'center' }}>
-						{statute.existMaxNumDelegatedVotes === 1 && (
-							<TextInput
-								id="council-type-max-delegated-number"
-								floatingText={translate.votes}
-								required
-								type="tel"
-								min="1"
-								errorText={errors.maxNumDelegatedVotes}
-								value={statute.maxNumDelegatedVotes}
-								onBlur={event => updateState({
-									maxNumDelegatedVotes: parseInt(event.target.value, 10) || 1
-								})}
-								onChange={event => updateState({
-									maxNumDelegatedVotes: Number.isNaN(Number(event.target.value)) ? '' : parseInt(event.target.value, 10) || ''
-								})}
-							/>
-						)}
-					</GridItem>
 					<GridItem xs={10} md={6} lg={6} style={{ display: 'flex', alignItems: 'center' }}>
 						<Checkbox
 							id="council-type-limited-access"
@@ -671,7 +670,6 @@ const VideoSection = ({ updateState, statute, translate }) => {
 				<GridItem xs={12} md={8} lg={6}>
 					<TextInput
 						floatingText={'RTMP'}
-						required
 						id="council-type-rtmp"
 						errorText={!validURL ? translate.invalid_url : null}
 						value={statute.videoConfig ? statute.videoConfig.rtmp : ''}
