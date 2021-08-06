@@ -247,6 +247,7 @@ const StatuteForm = ({
 					<GridItem xs={5} md={2} lg={2} style={{ alignItems: 'flex-end', display: 'flex' }}>
 						{CBX.quorumNeedsInput(statute.firstCallQuorumType) && (
 							<QuorumInput
+								translate={translate}
 								id="quorum-first-call"
 								type={statute.firstCallQuorumType}
 								style={{ marginLeft: '1em' }}
@@ -295,6 +296,7 @@ const StatuteForm = ({
 						<GridItem xs={5} md={2} lg={2} style={{ alignItems: 'flex-end', display: 'flex' }}>
 							{CBX.quorumNeedsInput(statute.secondCallQuorumType) && (
 								<QuorumInput
+									translate={translate}
 									id="quorum-second-call"
 									type={statute.secondCallQuorumType}
 									style={{ marginLeft: '1em' }}
