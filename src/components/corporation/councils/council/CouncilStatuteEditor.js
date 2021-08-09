@@ -3,7 +3,7 @@ import { MenuItem } from 'material-ui';
 import React from 'react';
 import { withApollo } from 'react-apollo';
 import {
-	Grid, GridItem, Checkbox, SelectInput
+	Grid, GridItem, Checkbox, SelectInput, TextInput
 } from '../../../../displayComponents';
 
 
@@ -79,6 +79,40 @@ const CouncilStatuteEditor = ({
 					})
 					}
 				/>
+			</GridItem>
+			<GridItem xs={10} md={6} lg={6} style={{ display: 'flex', alignItems: 'center' }}>
+				<Checkbox
+					id="council-type-limited-access"
+					label={translate.exists_limited_access_room}
+					helpPopover={false}
+					helpTitle={translate.exists_limited_access_room}
+					helpDescription={translate.cant_access_after_start_desc}
+					value={statute.existsLimitedAccessRoom === 1}
+					onChange={(event, isInputChecked) => updateState({
+						existsLimitedAccessRoom: isInputChecked ?
+							1
+							: 0
+					})
+					}
+				/>
+			</GridItem>
+			<GridItem xs={2} md={2} lg={2} style={{ display: 'flex', alignItems: 'center' }}>
+				{statute.existsLimitedAccessRoom === 1 && (
+					<TextInput
+						id="council-type-limited-access-minutes"
+						floatingText={translate.minutes}
+						required
+						type="tel"
+						// errorText={errors.limitedAccessRoomMinutes}
+						value={statute.limitedAccessRoomMinutes}
+						onBlur={event => updateState({
+							limitedAccessRoomMinutes: parseInt(event.target.value, 10) || 0
+						})}
+						onChange={event => updateState({
+							limitedAccessRoomMinutes: Number.isNaN(Number(event.target.value)) ? '' : parseInt(event.target.value, 10) || 0
+						})}
+					/>
+				)}
 			</GridItem>
 			<GridItem xs={12} md={7} lg={7}>
 				<Checkbox
