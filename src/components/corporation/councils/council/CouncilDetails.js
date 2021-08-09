@@ -29,6 +29,7 @@ import CouncilStatuteEditor from './CouncilStatuteEditor';
 import CheckPhoneModal from './CheckPhoneModal';
 import DownloadConvenedPDF from './DownloadConvenedPDF';
 import MergeCouncilsButton from './MergeCouncilsButton';
+import QuorumDisplay from '../../../council/live/quorum/QuorumDisplay';
 
 
 const cancelAct = gql`
@@ -206,6 +207,7 @@ class CouncilDetails extends React.Component {
 		}
 
 		const { council } = this.state.data;
+		console.log(this.state.data);
 
 		if (!council) {
 			return <FailPageSearchId
@@ -382,6 +384,21 @@ translate={this.props.translate}
 							<div style={{
 								fontSize: '1rem', marginLeft: '0.6em', justifyContent: 'flex-end', display: 'flex'
 							}}>
+								<div style={{
+									display: 'flex',
+									alignItems: 'center',
+									color: '#59595E',
+									marginTop: '0.9rem',
+									marginBottom: '1.4rem',
+									marginRight: '1.5rem',
+								}}>
+									<QuorumDisplay
+										council={council}
+										company={council.company}
+										recount={this.state.data.councilRecount}
+										translate={translate}
+									/>
+								</div>
 								<MergeCouncilsButton
 									council={council}
 									translate={translate}
@@ -677,7 +694,8 @@ const CouncilDetailsRoot = gql`
 			country
 			countryState
 			currentQuorum
-			quorumPrototype
+			quorumPrototype,
+			initialQuorum
 			secretary
 			president
 			street
@@ -764,7 +782,9 @@ const CouncilDetailsRoot = gql`
 			partTotal
 			numTotal
 			socialCapitalRightVoting
-			numRightVoting
+			numRightVoting,
+			partRightVoting,
+			treasuryShares
 		}
 
 		agendas(councilId: $id) {
