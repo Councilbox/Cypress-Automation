@@ -1,6 +1,6 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
-import { client } from '../../../containers/App';
+import { bHistory, client } from '../../../containers/App';
 import { AlertConfirm, BasicButton, ButtonIcon, TextInput } from '../../../displayComponents';
 import {
 	createStatute as createStatuteMutation,
@@ -34,8 +34,10 @@ const StatuteCreateButton = ({ company, translate, refetch }) => {
 				});
 				if (!response.errors) {
 					const updated = await refetch();
+					console.log(response.data);
 					if (updated) {
 						setModal(false);
+						bHistory.push(`${window.location.pathname}/${response.data.createCompanyStatute.id}`);
 					}
 					setName('');
 				}
