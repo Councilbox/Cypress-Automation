@@ -1,5 +1,5 @@
 import React from 'react';
-import { MenuItem, Typography } from 'material-ui';
+import { MenuItem, Typography, Tooltip } from 'material-ui';
 import { graphql, withApollo } from 'react-apollo';
 import { flowRight as compose } from 'lodash';
 import gql from 'graphql-tag';
@@ -15,7 +15,7 @@ import {
 	SectionTitle,
 	SelectInput,
 	TextInput,
-	GridItem
+	GridItem,
 } from '../../../../displayComponents';
 import { councilStepFive, updateCouncil as updateCouncilMutation } from '../../../../queries';
 import { checkValidMajority } from '../../../../utils/validation';
@@ -515,14 +515,18 @@ const StepOptions = ({
 										text={translate.confirm_assistance}
 										color={primary}
 									/>
-									<Checkbox
-										label={translate.confirm_assistance_desc}
-										value={council.confirmAssistance === 1}
-										onChange={(event, isInputChecked) => updateCouncilData({
-											confirmAssistance: isInputChecked ? 1 : 0
-										})
-										}
-									/>
+									<Tooltip title='Los participantes que así lo deseen,  podrán indicar su intención de asistencia a la reunión a través del correo electrónico de convocatoria' position='top'>
+										<div>
+											<Checkbox
+												label={translate.confirm_assistance_desc}
+												value={council.confirmAssistance === 1}
+												onChange={(event, isInputChecked) => updateCouncilData({
+													confirmAssistance: isInputChecked ? 1 : 0
+												})
+												}
+											/>
+										</div>
+									</Tooltip>
 									{council.confirmAssistance === 1
 										&& <>
 											<AttendanceTextEditor
@@ -618,7 +622,7 @@ const StepOptions = ({
 																	<MenuItem
 																		value={majority.value}
 																		key={`majority${majority.value
-																		}`}
+																			}`}
 																	>
 																		{
 																			translate[
