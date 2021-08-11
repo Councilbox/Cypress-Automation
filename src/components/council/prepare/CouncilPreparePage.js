@@ -107,7 +107,7 @@ const CouncilPreparePage = ({
 	};
 
 	return (
-		<CardPageLayout title={translate.prepare_room} disableScroll>
+		<CardPageLayout title={translate.setup_meeting} disableScroll>
 			<div style={{
 				width: '100%', padding: '1.7em', paddingBottom: '0.5em', height: 'calc(100% - 3.5em)', paddingTop: '0em'
 			}}>
