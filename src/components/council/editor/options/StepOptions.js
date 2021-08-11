@@ -1,5 +1,5 @@
 import React from 'react';
-import { MenuItem, Typography, Tooltip } from 'material-ui';
+import { MenuItem, Typography } from 'material-ui';
 import { graphql, withApollo } from 'react-apollo';
 import { flowRight as compose } from 'lodash';
 import gql from 'graphql-tag';
@@ -515,18 +515,17 @@ const StepOptions = ({
 										text={translate.confirm_assistance}
 										color={primary}
 									/>
-									<Tooltip title='Los participantes que así lo deseen,  podrán indicar su intención de asistencia a la reunión a través del correo electrónico de convocatoria' position='top'>
-										<div>
-											<Checkbox
-												label={translate.confirm_assistance_desc}
-												value={council.confirmAssistance === 1}
-												onChange={(event, isInputChecked) => updateCouncilData({
-													confirmAssistance: isInputChecked ? 1 : 0
-												})
-												}
-											/>
-										</div>
-									</Tooltip>
+									<Checkbox
+										label={translate.confirm_assistance_desc}
+										value={council.confirmAssistance === 1}
+										onChange={(event, isInputChecked) => updateCouncilData({
+											confirmAssistance: isInputChecked ? 1 : 0
+										})
+										}
+										helpPopover
+										helpDescription={'Los participantes que así lo deseen,  podrán indicar su intención de asistencia a la reunión a través del correo electrónico de convocatoria'} // TRADUCCION
+										helpTitle={translate.confirm_assistance}
+									/>
 									{council.confirmAssistance === 1
 										&& <>
 											<AttendanceTextEditor
