@@ -101,13 +101,13 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
 			buttonCancel={translate.cancel}
 			extraActions={
 				props.deleteButton
-&& <DeleteAgendaButton
-	agenda={agenda}
-	refetch={props.refetch}
-	requestClose={props.requestClose}
-	council={props.council}
-	translate={translate}
-/>
+				&& <DeleteAgendaButton
+					agenda={agenda}
+					refetch={props.refetch}
+					requestClose={props.requestClose}
+					council={props.council}
+					translate={translate}
+				/>
 			}
 			bodyText={renderBody()}
 			title={translate.edit}

@@ -25,7 +25,7 @@ import CustomPointEditor from './modals/CustomPointEditor';
 import { ConfigContext } from '../../../../containers/AppControl';
 import { useOldState } from '../../../../hooks';
 import { TAG_TYPES } from '../../../company/drafts/draftTags/utils';
-import { getAgendaTypeLabel, isAppointment } from '../../../../utils/CBX';
+import { getAgendaTypeLabel, isAppointment, isCustomPoint } from '../../../../utils/CBX';
 
 const buttonStyle = {
 	color: 'white',
@@ -125,7 +125,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 			item => item.orderIndex === index
 		);
 
-		if (agenda.items.length > 0) {
+		if (isCustomPoint(agenda.subjectType)) {
 			setState({
 				editCustomAgenda: agenda
 			});
@@ -344,8 +344,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 										votingTypes={votingTypes}
 										majorityTypes={majorityTypes}
 										refetch={getData}
-										requestClose={() => setState({ editCustomAgenda: null })
-										}
+										requestClose={() => setState({ editCustomAgenda: null })}
 									/>
 								)}
 								{(saveAsDraftId && newDraft) && (
