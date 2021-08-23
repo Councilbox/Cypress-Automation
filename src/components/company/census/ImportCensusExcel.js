@@ -524,7 +524,7 @@ class ImportCensusButton extends React.Component {
 						textTransform: 'none'
 					}}
 					textPosition="after"
-					icon={!isMobile ? <ButtonIcon type="import_export" color="white" /> : null }
+					icon={<ButtonIcon type="import_export" color="white" />}
 					onClick={() => this.setState({ modal: true })}
 				/>
 				<AlertConfirm
