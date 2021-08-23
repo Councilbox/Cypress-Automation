@@ -60,7 +60,7 @@ const CouncilDetailsParticipants = ({
 			limit: PARTICIPANTS_LIMITS[0],
 			// page: 1,
 			offset: 0,
-			orderBy: 'fullName',
+			orderBy: 'name',
 			orderDirection: 'asc',
 		},
 		filters: [],
