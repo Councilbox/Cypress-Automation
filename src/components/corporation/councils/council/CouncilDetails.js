@@ -207,7 +207,6 @@ class CouncilDetails extends React.Component {
 		}
 
 		const { council } = this.state.data;
-		console.log(this.state.data);
 
 		if (!council) {
 			return <FailPageSearchId
@@ -217,12 +216,31 @@ class CouncilDetails extends React.Component {
 		if (this.state.showAgenda && council) {
 			return (
 				<React.Fragment>
-					<BasicButton
-						text="Cerrar agenda manager"
-						color={secondary}
-						textStyle={{ fontWeight: '700', color: 'white' }}
-						onClick={this.closeAgendaManager}
-					/>
+					<div
+						style={{
+							display: 'flex',
+							justifyContent: 'space-between',
+							alignItems: 'center',
+							padding: '.8em',
+						}}>
+						<BasicButton
+							text="Cerrar agenda manager"
+							color={secondary}
+							textStyle={{ fontWeight: '700', color: 'white' }}
+							onClick={this.closeAgendaManager}
+						/>
+						<div style={{
+							display: 'flex',
+							flexDirection: 'row'
+						}}>
+							<QuorumDisplay
+								council={council}
+								company={council.company}
+								recount={this.state.data.councilRecount}
+								translate={translate}
+							/>
+						</div>
+					</div>
 					{council.state > COUNCIL_STATES.ROOM_OPENED ?
 						<div
 							style={{
@@ -384,21 +402,6 @@ translate={this.props.translate}
 							<div style={{
 								fontSize: '1rem', marginLeft: '0.6em', justifyContent: 'flex-end', display: 'flex'
 							}}>
-								<div style={{
-									display: 'flex',
-									alignItems: 'center',
-									color: '#59595E',
-									marginTop: '0.9rem',
-									marginBottom: '1.4rem',
-									marginRight: '1.5rem',
-								}}>
-									<QuorumDisplay
-										council={council}
-										company={council.company}
-										recount={this.state.data.councilRecount}
-										translate={translate}
-									/>
-								</div>
 								<MergeCouncilsButton
 									council={council}
 									translate={translate}
