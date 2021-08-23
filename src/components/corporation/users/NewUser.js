@@ -117,19 +117,19 @@ const NewUser = ({
 					languages={props.data.languages}
 				/>
 				{success
-&& <div style={{ margin: '2em 0em' }}>
-Se le ha enviado un <b>email de confirmación</b> al usuario para que pueda completar su registro indicando su <b>contraseña</b>.
-</div>
+					&& <div style={{ margin: '2em 0em' }}>
+						Se le ha enviado un <b>email de confirmación</b> al usuario para que pueda completar su registro indicando su <b>contraseña</b>.
+					</div>
 				}
 				{!fixedCompany
-&& <CompanyLinksManager
-	linkedCompanies={state.companies}
-	translate={translate}
-	company={company}
-	addCheckedCompanies={companies => setState({
-		companies
-	})}
-/>
+					&& <CompanyLinksManager
+						linkedCompanies={state.companies}
+						translate={translate}
+						company={company}
+						addCheckedCompanies={companies => setState({
+							companies
+						})}
+					/>
 				}
 			</div>
 			<div style={{
