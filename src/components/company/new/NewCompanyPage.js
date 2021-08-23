@@ -25,7 +25,7 @@ import { provinces as provincesQuery } from '../../../queries/masters';
 import { bHistory, store } from '../../../containers/App';
 import { getCompanies } from '../../../actions/companyActions';
 import { sendGAevent } from '../../../utils/analytics';
-import GoverningBodyForm from '../settings/GoverningBodyForm';
+// import GoverningBodyForm from '../settings/GoverningBodyForm';
 
 
 class NewCompanyPage extends React.PureComponent {
@@ -452,11 +452,11 @@ class NewCompanyPage extends React.PureComponent {
 								</GridItem>
 							</Grid>
 							<br />
-							<Grid spacing={16}>
+							{/* <Grid spacing={16}>
 								<GridItem xs={12} md={12} lg={12}>
 									<GoverningBodyForm translate={translate} state={data} updateState={this.updateState} />
 								</GridItem>
-							</Grid>
+							</Grid> */}
 							<SectionTitle
 								text={translate.contact_data}
 								color={primary}
