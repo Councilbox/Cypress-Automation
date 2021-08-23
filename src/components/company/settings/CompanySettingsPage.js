@@ -32,7 +32,7 @@ import { getCompanies, setCompany } from '../../../actions/companyActions';
 import ConfirmCompanyButton from '../../corporation/companies/ConfirmCompanyButton';
 import DeleteCompanyButton from './DeleteCompanyButton';
 import { sendGAevent } from '../../../utils/analytics';
-import GoverningBodyForm from './GoverningBodyForm';
+// import GoverningBodyForm from './GoverningBodyForm';
 import NewUser from '../../corporation/users/NewUser';
 import { corporationUsers } from '../../../queries/corporation';
 import { isMobile } from '../../../utils/screen';

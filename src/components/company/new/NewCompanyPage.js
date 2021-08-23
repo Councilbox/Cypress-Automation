@@ -25,7 +25,7 @@ import { provinces as provincesQuery } from '../../../queries/masters';
 import { bHistory, store } from '../../../containers/App';
 import { getCompanies } from '../../../actions/companyActions';
 import { sendGAevent } from '../../../utils/analytics';
-import GoverningBodyForm from '../settings/GoverningBodyForm';
+// import GoverningBodyForm from '../settings/GoverningBodyForm';
 
 
 class NewCompanyPage extends React.PureComponent {
