@@ -4,6 +4,7 @@ import {
 	AlertConfirm,
 	BasicButton,
 	ButtonIcon,
+	UnsavedChangesModal,
 } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
 import { createCensus } from '../../../queries/census';
@@ -14,6 +15,7 @@ import { INPUT_REGEX } from '../../../constants';
 class AddCensusButton extends React.Component {
 	state = {
 		modal: false,
+		unsavedModal: false,
 		data: {
 			censusName: '',
 			censusDescription: '',
@@ -38,6 +40,7 @@ class AddCensusButton extends React.Component {
 				this.props.refetch();
 				this.setState({
 					modal: false,
+					unsavedModal: false,
 					data: {
 						censusName: '',
 						censusDescription: '',
@@ -114,7 +117,6 @@ class AddCensusButton extends React.Component {
 	render() {
 		const { translate } = this.props;
 		const primary = getPrimary();
-
 		return (
 			<React.Fragment>
 				<BasicButton
@@ -144,13 +146,37 @@ class AddCensusButton extends React.Component {
 					}}
 				/>
 				<AlertConfirm
-					requestClose={() => this.setState({ modal: false })}
+					requestClose={() => {
+						if (this.state.data.censusDescription.length >= 1 || this.state.data.censusName.length >= 1) {
+							this.setState({ ...this.state, unsavedModal: true });
+						} else {
+							this.setState({ ...this.state, modal: false, unsavedModal: false });
+						}
+					}}
 					open={this.state.modal}
 					acceptAction={this.createCensus}
 					buttonAccept={translate.accept}
 					buttonCancel={translate.cancel}
 					bodyText={this.renderBody()}
 					title={translate.add_census}
+				/>
+				<UnsavedChangesModal
+					translate={translate}
+					open={this.state.unsavedModal}
+					requestClose={() => {
+						this.setState({ ...this.state, unsavedModal: false });
+					}}
+					acceptAction={this.createCensus}
+					cancelAction={() => this.setState({
+						modal: false,
+						unsavedModal: false,
+						data: {
+							censusName: '',
+							censusDescription: '',
+							quorumPrototype: 0
+						},
+						errors: {}
+					})}
 				/>
 			</React.Fragment>
 		);

@@ -199,29 +199,6 @@ const StatuteDocSection = ({
 						</GridItem>
 					</>
 				}
-				<GridItem xs={12} md={7} lg={7}>
-					<Checkbox
-						id="council-type-include-act-book"
-						label={translate.included_in_act_book}
-						value={statute.includedInActBook === 1}
-						onChange={(event, isInputChecked) => updateState({
-							includedInActBook: isInputChecked ? 1 : 0
-						})}
-					/>
-				</GridItem>
-				<GridItem xs={12} md={7} lg={7}>
-					<Checkbox
-						id="council-type-include-attendants-list"
-						label={translate.include_participants_list_in_act}
-						value={statute.includeParticipantsList === 1}
-						onChange={(event, isInputChecked) => updateState({
-							includeParticipantsList: isInputChecked ?
-								1
-								: 0
-						})
-						}
-					/>
-				</GridItem>
 			</Grid>
 
 			{statute.conveneHeader !== undefined && (
