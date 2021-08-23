@@ -523,7 +523,7 @@ const StepOptions = ({
 										})
 										}
 										helpPopover
-										helpDescription={'Los participantes que así lo deseen,  podrán indicar su intención de asistencia a la reunión a través del correo electrónico de convocatoria'} // TRADUCCION
+										helpDescription={translate.assistance_intention_help}
 										helpTitle={translate.confirm_assistance}
 									/>
 									{council.confirmAssistance === 1
