@@ -78,6 +78,33 @@ const CouncilStatuteEditor = ({
 					}
 				/>
 			</GridItem>
+			<GridItem xs={10} md={6} lg={6} style={{ display: 'flex', alignItems: 'center' }}>
+				<Checkbox
+					id="council-type-limited-access"
+					label={translate.exists_limited_access_room}
+					helpPopover={false}
+					helpTitle={translate.exists_limited_access_room}
+					helpDescription={translate.cant_access_after_start_desc}
+					value={statute.existsLimitedAccessRoom === 1}
+					onChange={(event, isInputChecked) => updateState({
+						existsLimitedAccessRoom: isInputChecked ?
+							1
+							: 0
+					})
+					}
+				/>
+			</GridItem>
+			<GridItem xs={2} md={2} lg={2} style={{ display: 'flex', alignItems: 'center' }}>
+				{statute.existsLimitedAccessRoom === 1 && (
+					<DigitsInput
+						updateAction={value => updateState({ limitedAccessRoomMinutes: value })}
+						value={statute.limitedAccessRoomMinutes}
+						translate={translate}
+						id="council-type-limited-access-minutes"
+						text={translate.minutes}
+					/>
+				)}
+			</GridItem>
 			<GridItem xs={12} md={7} lg={7}>
 				<Checkbox
 					label={translate.hide_votings_recount}
@@ -97,10 +124,12 @@ const CouncilStatuteEditor = ({
 				/>
 			</GridItem>
 			<GridItem xs={12} md={7} lg={7}>
-				<DecimalDigitsInput
-					updateAction={updateState}
+				<DigitsInput
+					updateAction={value => updateState({ decimalDigits: value })}
 					value={statute.decimalDigits}
 					translate={translate}
+					id="council-type-decimal-digits"
+					text={'Número de decimales'}
 				/>
 			</GridItem>
 			<GridItem xs={12} md={7} lg={7}>
@@ -199,7 +228,7 @@ const CouncilStatuteEditor = ({
 	);
 };
 
-const DecimalDigitsInput = ({ value, updateAction }) => {
+const DigitsInput = ({ value, updateAction, text, id }) => {
 	const [internalValue, setInternalValue] = React.useState(value);
 
 	React.useEffect(() => {
@@ -207,7 +236,7 @@ const DecimalDigitsInput = ({ value, updateAction }) => {
 
 		if (internalValue !== value) {
 			timeout = setTimeout(() => {
-				updateAction({ decimalDigits: internalValue });
+				updateAction(internalValue);
 			}, 400);
 		}
 
@@ -216,7 +245,8 @@ const DecimalDigitsInput = ({ value, updateAction }) => {
 
 	return (
 		<TextInput
-			floatingText={'Número de decimales'}
+			floatingText={text}
+			id={id}
 			value={internalValue}
 			type="number"
 			onChange={event => setInternalValue(Number(event.target.value || 0))}
