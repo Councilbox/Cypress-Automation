@@ -34,7 +34,6 @@ const StatuteCreateButton = ({ company, translate, refetch }) => {
 				});
 				if (!response.errors) {
 					const updated = await refetch();
-					console.log(response.data);
 					if (updated) {
 						setModal(false);
 						bHistory.push(`${window.location.pathname}/${response.data.createCompanyStatute.id}`);
