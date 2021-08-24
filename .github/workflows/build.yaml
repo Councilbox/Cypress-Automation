@@ -3,7 +3,7 @@ name: Image build workflow
 on:
 
   release:
-    types: [prereleased, released, created]
+    types: [prereleased, released]
 
   pull_request:   
     types: [labeled, synchronize]
@@ -81,7 +81,7 @@ jobs:
             REACT_APP_CERT_API=secure-api.pre.councilbox.com
 
       - name: Build and push pro
-        if: "github.event.release.created"
+        if: "github.event.release"
         uses: docker/build-push-action@v2
         with:
           context: .
