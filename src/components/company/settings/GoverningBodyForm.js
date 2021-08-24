@@ -3,7 +3,7 @@ import {
 	MenuItem, TableBody, Table, TableHead, TableRow, TableCell
 } from 'material-ui';
 import ContentEditable from 'react-contenteditable';
-import { GridItem, DropDownMenu } from '../../../displayComponents';
+import { GridItem, DropDownMenu, Scrollbar, Grid } from '../../../displayComponents';
 import { getPrimary } from '../../../styles/colors';
 import { GOVERNING_BODY_TYPES } from '../../../constants';
 
@@ -39,8 +39,8 @@ const GoverningBodyForm = ({ translate, state, updateState }) => {
 	)];
 
 	return (
-		<div style={{ width: '100%' }}>
-			<GridItem xs={12} md={7} lg={4}>
+		<Grid>
+			<GridItem xs={12} md={12} lg={12}>
 				<div style={{ display: 'flex', marginBottom: '1em' }}>
 					<DropDownMenu
 						color="transparent"
@@ -88,7 +88,7 @@ const GoverningBodyForm = ({ translate, state, updateState }) => {
 				</div>
 			</GridItem>
 			{getGoverningTypeInput()}
-		</div>
+		</Grid>
 	);
 };
 
@@ -314,15 +314,14 @@ const ListAdminForm = ({ translate, setData, data }) => {
 					padding: '1em',
 					width: '100%',
 					// maxHeight: expandAdministradores ? "100%" : "20em",
-					// overflow: "hidden",
-					overflowX: 'auto',
+					overflow: 'hidden',
 					position: 'relative',
 					paddingBottom: '2.5em',
 					transition: 'max-height 0.5s'
 				}}
 			>
-				<div>
-					<div style={{ height: '100%' }}>
+				<div style={{ height: 'calc(30vh - 64px)' }}>
+					<Scrollbar horizontalScroll>
 						<Table>
 							<TableHead>
 								<TableCell>
@@ -488,7 +487,8 @@ const ListAdminForm = ({ translate, setData, data }) => {
 								))}
 							</TableBody>
 						</Table>
-					</div>
+
+					</Scrollbar>
 				</div>
 			</div>
 		</>

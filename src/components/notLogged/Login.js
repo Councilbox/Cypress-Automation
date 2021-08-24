@@ -233,7 +233,11 @@ const Login = ({ translate, windowSize, ...props }) => {
 												fullWidth
 												buttonStyle={{ backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em' }}
 												textStyle={{
-													color: 'white', fontWeight: '700', fontSize: '0.8rem', textTransform: 'none'
+													color: 'white',
+													fontWeight: '700',
+													fontSize: window.innerWidth === 1024 && translate.selectedLanguage === 'fr' ? '.7rem' : '.8rem',
+													textTransform: 'none',
+													whiteSpace: 'nowrap'
 												}}
 											/>
 										</Link>

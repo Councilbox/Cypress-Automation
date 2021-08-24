@@ -23,7 +23,7 @@ const QuorumInput = ({
 	if (CBX.isQuorumPercentage(type)) {
 		return (
 			<div className="row">
-				<div style={{ width: '100%', ...style }}>
+				<div style={{ width: '100%', ...style, marginTop: '17px' }}>
 					<TextInput
 						id={`${id}-percentage`}
 						type={'number'}
@@ -49,7 +49,7 @@ const QuorumInput = ({
 
 	if (CBX.isQuorumFraction(type)) {
 		return (
-			<div style={{ width: '100%', ...style }}>
+			<div style={{ width: '100%', ...style, marginTop: '17px' }}>
 				<Grid>
 					<GridItem xs={6} lg={6} md={6}>
 						<TextInput
@@ -88,7 +88,7 @@ const QuorumInput = ({
 	if (CBX.isQuorumNumber(type)) {
 		return (
 			<div className="row">
-				<div style={{ width: '100%', ...style }}>
+				<div style={{ width: '100%', ...style, marginTop: '17px' }}>
 					<TextInput
 						id={`${id}-number`}
 						type={'number'}

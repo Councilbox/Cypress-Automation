@@ -164,7 +164,7 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
 	};
 
 	const renderBody = () => (
-		<div style={{ marginTop: '1em', marginBottom: '2em', width: window.innerWidth > 720 ? '720px' : '100%' }}>
+		<div style={{ marginTop: '1em', marginBottom: '2em', width: window.innerWidth > 720 ? '720px' : '100%', height: '100%', overflow: 'hidden' }}>
 			<CustomPointForm
 				{...{
 					agenda,
@@ -196,6 +196,11 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
 			buttonCancel={translate.cancel}
 			bodyText={renderBody()}
 			title={translate.new_custom_point}
+			bodyStyle={{
+				height: 'calc(75vh - 64px)',
+				overflow: 'hidden',
+				width: '100%',
+			}}
 		/>
 	);
 };
