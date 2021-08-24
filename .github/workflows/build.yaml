@@ -81,6 +81,7 @@ jobs:
             REACT_APP_CERT_API=secure-api.pre.councilbox.com
 
       - name: Build and push pro
+        if: "github.event.release.released"
         uses: docker/build-push-action@v2
         with:
           context: .
