@@ -26,10 +26,10 @@ const UsersDashboard = ({ translate, client }) => {
 	const [state, setState] = React.useState({
 		filterText: '',
 		limit: DEFAULT_OPTIONS.limit,
-		addUser: false,
 		selecteOptionMenu: 'Registrados',
 		loading: true
 	});
+	const [addUser, setAddUser] = React.useState(false);
 
 	const getData = async () => {
 		setState({ ...state, loading: true });
@@ -65,8 +65,8 @@ const UsersDashboard = ({ translate, client }) => {
 		});
 	};
 
-	if (state.addUser) {
-		return <NewUser translate={translate} requestClose={() => setState({ addUser: false })} />;
+	if (addUser) {
+		return <NewUser translate={translate} requestClose={() => setAddUser(false)} />;
 	}
 
 	return (
@@ -138,9 +138,7 @@ const UsersDashboard = ({ translate, client }) => {
 							color={getSecondary()}
 							icon={<ButtonIcon type="add" color="white" />}
 							textStyle={{ textTransform: 'none', color: 'white', fontWeight: '700' }}
-							onClick={() => setState({
-								addUser: true
-							})}
+							onClick={() => setAddUser(true)}
 						/>
 					</div>
 					<div>
@@ -151,10 +149,10 @@ const UsersDashboard = ({ translate, client }) => {
 							}}
 						>
 							<MenuItem value={10}>
-10
+								10
 							</MenuItem>
 							<MenuItem value={20}>
-20
+								20
 							</MenuItem>
 						</SelectInput>
 					</div>

@@ -165,7 +165,6 @@ const StepOptions = ({
 		}
 
 		if (council.autoClose === 1) {
-			// TRADUCCION
 			if (!CBX.checkSecondDateAfterFirst(council.dateStart, council.closeDate)) {
 				setState({
 					...state,
@@ -222,6 +221,7 @@ const StepOptions = ({
 					/>
 					<Checkbox
 						label={translate.room_video_broadcast}
+						id="council-options-enable-video"
 						disabled={!config.video}
 						value={council.councilType === 0}
 						onChange={(event, isInputChecked) => updateCouncilData({
@@ -233,6 +233,7 @@ const StepOptions = ({
 					/>
 					<Checkbox
 						disabled={council.councilType !== 0}
+						id="council-options-full-recording"
 						label={translate.full_video_record}
 						value={council.fullVideoRecord !== 0}
 						onChange={(event, isInputChecked) => updateCouncilData({
@@ -242,6 +243,7 @@ const StepOptions = ({
 					/>
 					<Checkbox
 						label={translate.wall}
+						id="council-options-comments-wall"
 						value={council.wallActive !== 0}
 						onChange={(event, isInputChecked) => updateCouncilData({
 							wallActive: isInputChecked ? 1 : 0
@@ -250,6 +252,7 @@ const StepOptions = ({
 					/>
 					<Checkbox
 						disabled={council.councilType !== 0}
+						id="council-options-ask-word-menu"
 						label={translate.can_ask_word}
 						value={council.askWordMenu}
 						onChange={(event, isInputChecked) => updateCouncilData({
@@ -260,6 +263,7 @@ const StepOptions = ({
 					<div style={{ display: 'flex' }}>
 						<Checkbox
 							disabled={council.councilType === 0}
+							id="council-options-auto-close"
 							label={translate.auto_close}
 							value={council.autoClose !== 0}
 							onChange={(event, isInputChecked) => updateCouncilData({
@@ -279,6 +283,7 @@ const StepOptions = ({
 											closeDate: dateString
 										});
 									}}
+									id="council-options-auto-close-date"
 									minDateMessage={''}
 									acceptText={translate.accept}
 									cancelText={translate.cancel}
@@ -314,6 +319,7 @@ const StepOptions = ({
 								<DateTimePicker
 									required
 									errorText={state.errors.closeDate}
+									id="council-options-auto-close-date"
 									minDate={moment(new Date(council.dateStart)).add(1, 'm')}
 									onChange={date => {
 										const newDate = new Date(date);
@@ -347,6 +353,7 @@ const StepOptions = ({
 								<DateTimePicker
 									required
 									errorText={state.errors.closeDate}
+									id="council-options-auto-close-date"
 									minDate={moment(new Date(council.dateStart)).add(1, 'm')}
 									onChange={date => {
 										const newDate = new Date(date);
@@ -374,6 +381,7 @@ const StepOptions = ({
 						<div>
 							<Checkbox
 								label={translate.in_person_vote_prevails}
+								id="council-options-elections-vote-in-person"
 								value={council.presentVoteOverwrite === 1}
 								onChange={(event, isInputChecked) => updateCouncilData({
 									presentVoteOverwrite: isInputChecked ? 1 : 0
@@ -407,11 +415,13 @@ const StepOptions = ({
 					/>
 					<Checkbox
 						label={translate.room_video_broadcast}
+						id="council-options-enable-video"
 						disabled={true}
 						value={council.councilType === 5}
 					/>
 					<Checkbox
 						label={translate.full_video_record}
+						id="council-options-full-recording"
 						value={council.fullVideoRecord !== 0}
 						onChange={(event, isInputChecked) => updateCouncilData({
 							fullVideoRecord: isInputChecked ? 1 : 0
@@ -440,6 +450,7 @@ const StepOptions = ({
 				<Radio
 					value={'0'}
 					checked={council.securityType === 0}
+					id="council-options-security-none"
 					onChange={event => updateCouncilData({
 						securityType: parseInt(event.target.value, 10)
 					})
@@ -450,6 +461,7 @@ const StepOptions = ({
 				<Radio
 					value={'1'}
 					checked={council.securityType === 1}
+					id="council-options-security-email"
 					onChange={event => updateCouncilData({
 						securityType: parseInt(event.target.value, 10)
 					})
@@ -460,6 +472,7 @@ const StepOptions = ({
 				<Radio
 					value={'2'}
 					checked={council.securityType === 2}
+					id="council-options-security-sms"
 					onChange={event => updateCouncilData({
 						securityType: parseInt(event.target.value, 10)
 					})
@@ -470,6 +483,7 @@ const StepOptions = ({
 				<Radio
 					value={'3'}
 					checked={council.securityType === 3}
+					id="council-options-security-cert"
 					onChange={event => updateCouncilData({
 						securityType: parseInt(event.target.value, 10)
 					})
@@ -517,6 +531,7 @@ const StepOptions = ({
 									/>
 									<Checkbox
 										label={translate.confirm_assistance_desc}
+										id="council-options-confirm-attendance"
 										value={council.confirmAssistance === 1}
 										onChange={(event, isInputChecked) => updateCouncilData({
 											confirmAssistance: isInputChecked ? 1 : 0
@@ -568,6 +583,7 @@ const StepOptions = ({
 							/>
 							<Checkbox
 								label={translate.test_meeting}
+								id="council-options-test-meeting"
 								value={council.promoCode === 'COUNCILBOX'}
 								onChange={(event, isInputChecked) => updateCouncilData({
 									promoCode: isInputChecked ? 'COUNCILBOX' : null
@@ -591,6 +607,7 @@ const StepOptions = ({
 										<div style={{ paddingTop: '12px' }}>
 											<Checkbox
 												label={translate.approve_act_draft_at_end_desc}
+												id="council-options-add-act-point"
 												value={council.approveActDraft !== 0}
 												onChange={(event, isInputChecked) => updateCouncilData({
 													approveActDraft: isInputChecked ? 1 : 0
@@ -608,6 +625,7 @@ const StepOptions = ({
 															floatingLabelText={
 																translate.majority_label
 															}
+															id="council-options-act-point-majority-type"
 															value={council.actPointMajorityType}
 															onChange={event => {
 																updateCouncilData({
@@ -620,8 +638,8 @@ const StepOptions = ({
 																majority => (
 																	<MenuItem
 																		value={majority.value}
-																		key={`majority${majority.value
-																			}`}
+																		id={`council-options-act-majority-${majority.value}`}
+																		key={`majority${majority.value}`}
 																	>
 																		{
 																			translate[
@@ -753,6 +771,7 @@ const RTMPField = ({ data, updateData, translate }) => {
 		<TextInput
 			disabled={data.councilType !== 0}
 			errorText={!validURL ? translate.invalid_url : ''}
+			id="rtmp-url-text-input"
 			floatingText={'RTMP'}
 			value={(data.room && data.room.videoConfig) ? data.room.videoConfig.rtmp : ''}
 			onChange={event => updateData({

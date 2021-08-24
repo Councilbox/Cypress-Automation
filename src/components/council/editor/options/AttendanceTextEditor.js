@@ -19,6 +19,7 @@ const AttendanceTextEditor = ({
 	const renderBody = () => (
 		<RichTextInput
 			translate={translate}
+			id="council-options-attendance-instructions-text-editor"
 			value={text}
 			onChange={value => setText(value)}
 		/>
@@ -44,6 +45,7 @@ const AttendanceTextEditor = ({
 		<>
 			<BasicButton
 				text={text ? translate.edit_instructions : translate.add_instructions}
+				id="council-options-edit-attendance-instructions"
 				onClick={() => setIsmodal({ ...isModal, modal: true })}
 				color="white"
 				type="flat"

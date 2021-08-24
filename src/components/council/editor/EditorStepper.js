@@ -117,7 +117,7 @@ const EditorStepper = ({
 								userSelect: 'none',
 								cursor: active > step.index ? 'pointer' : 'inherit',
 								...(active === step.index ? {
-									fontSize: '18px',
+									fontSize: !isMobile ? '18px' : '1rem',
 									textDecoration: 'underline'
 								} : {})
 							}}

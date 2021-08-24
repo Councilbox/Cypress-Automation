@@ -22,7 +22,7 @@ const LiveHeader = ({
 	const customIcon = getCustomIcon();
 
 	const exitAction = () => {
-		bHistory.push('/');
+		bHistory.back();
 	};
 
 	return (

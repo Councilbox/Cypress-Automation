@@ -140,7 +140,9 @@ const CompanyDraftList = ({
 		});
 
 		setData(response.data);
-		scrollbar.current.scrollToTop();
+		if (scrollbar.current) {
+			scrollbar.current.scrollToTop();
+		}
 	};
 
 	React.useEffect(() => {

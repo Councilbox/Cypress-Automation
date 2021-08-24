@@ -29,7 +29,8 @@ const buttonStyle = primary => ({
 	border: `solid 1px ${primary}`,
 	color: primary,
 	cursor: 'pointer',
-	borderRadius: '2px'
+	borderRadius: '2px',
+	whiteSpace: 'nowrap'
 });
 
 
@@ -557,7 +558,7 @@ const StartCouncilButton = ({
 						color: 'white',
 						fontSize: '0.9em',
 						fontWeight: '700',
-						textTransform: 'none'
+						textTransform: 'none',
 					}}
 				/>
 				<AlertConfirm
@@ -596,12 +597,11 @@ const StartCouncilButton = ({
 						play_arrow
 					</Icon>
 				}
-				buttonStyle={{ width: '11em' }}
 				textStyle={{
 					color: 'white',
 					fontSize: '0.9em',
 					fontWeight: '700',
-					textTransform: 'none'
+					textTransform: 'none',
 				}}
 			/>
 			<AlertConfirm
