@@ -282,7 +282,7 @@ const PartnersBookPage = ({ translate, client, ...props }) => {
 							id={'add-partner-button'}
 						/>
 						<BasicButton
-							text={'Exportar a XLSX'} // TRADUCCION
+							text={`${translate.export_doc} XLSX`}
 							onClick={createXLSX}
 							id="export-partners-book"
 							color={'white'}

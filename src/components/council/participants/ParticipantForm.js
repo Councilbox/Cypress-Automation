@@ -55,6 +55,7 @@ const ParticipantForm = ({
 		{participant.personOrEntity === 1 ? (
 			<GridItem xs={6} md={8} lg={6}>
 				<TextInput
+					required
 					floatingText={translate.entity_name}
 					type="text"
 					id="participant-entity-name-input"
@@ -190,7 +191,7 @@ const ParticipantForm = ({
 						key={`language_${language.columnName ?
 							language.columnName
 							: language.column_name
-						}`}
+							}`}
 					>
 						{language.desc}
 					</MenuItem>
@@ -247,13 +248,13 @@ const ParticipantForm = ({
 						errorText={errors.numParticipations}
 						value={participant.numParticipations}
 						onBlur={event => updateState({
-							numParticipations: parseInt(event.target.value, 10) || 1
+							numParticipations: parseInt(event.target.value, 10) || 0
 						})
 						}
 						onChange={event => {
-							if (!Number.isNaN(Number(event.target.value)) || +event.target.value > 0) {
+							if (!Number.isNaN(Number(event.target.value)) || +event.target.value >= 0) {
 								updateState({
-									numParticipations: Number.isNaN(Number(event.target.value)) ? '' : parseInt(event.target.value, 10) || ''
+									numParticipations: Number.isNaN(Number(event.target.value)) ? '' : parseInt(event.target.value, 10)
 								});
 							}
 						}}
@@ -269,13 +270,13 @@ const ParticipantForm = ({
 							errorText={errors.socialCapital}
 							value={participant.socialCapital}
 							onBlur={event => updateState({
-								socialCapital: parseInt(event.target.value, 10) || 1
+								socialCapital: parseInt(event.target.value, 10) || 0
 							})
 							}
 							onChange={event => {
-								if (!Number.isNaN(Number(event.target.value)) || +event.target.value > 0) {
+								if (!Number.isNaN(Number(event.target.value)) || +event.target.value >= 0) {
 									updateState({
-										socialCapital: Number.isNaN(Number(event.target.value)) ? '' : parseInt(event.target.value, 10) || ''
+										socialCapital: Number.isNaN(Number(event.target.value)) ? '' : parseInt(event.target.value, 10)
 									});
 								}
 							}}

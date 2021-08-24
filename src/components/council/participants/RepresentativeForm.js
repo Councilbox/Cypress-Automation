@@ -19,6 +19,7 @@ const RepresentativeForm = ({
 	<Grid>
 		<GridItem xs={6} md={4} lg={4}>
 			<TextInput
+				required
 				floatingText={translate.name}
 				type="text"
 				errorText={errors.name}
@@ -31,6 +32,7 @@ const RepresentativeForm = ({
 		</GridItem>
 		<GridItem xs={6} md={4} lg={4}>
 			<TextInput
+				required
 				floatingText={translate.surname || ''}
 				type="text"
 				errorText={errors.surname || ''}
@@ -43,6 +45,7 @@ const RepresentativeForm = ({
 		</GridItem>
 		<GridItem xs={6} md={4} lg={4}>
 			<TextInput
+				required
 				floatingText={translate.new_dni}
 				type="text"
 				errorText={errors.dni}
@@ -69,6 +72,7 @@ const RepresentativeForm = ({
 		)}
 		<GridItem xs={6} md={4} lg={4}>
 			<TextInput
+				required
 				floatingText={translate.email}
 				type="text"
 				{...(checkEmail ? { onKeyUp: event => checkEmail(event, 'representative') } : {})}
@@ -95,6 +99,7 @@ const RepresentativeForm = ({
 		</GridItem>
 		<GridItem xs={6} md={4} lg={4}>
 			<TextInput
+				required
 				floatingText={translate.phone}
 				type="text"
 				errorText={errors.phone}

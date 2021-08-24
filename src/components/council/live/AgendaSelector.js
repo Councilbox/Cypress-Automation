@@ -107,7 +107,9 @@ const AgendaSelector = ({
 							councilID={council.id}
 							refetch={props.refetch}
 						>
-							<Tooltip title={translate.reorder_agenda_points}>
+							<Tooltip title={translate.reorder_agenda_points}
+								placement="top-end"
+							>
 								<div>
 									<AgendaNumber
 										index={
