@@ -9,8 +9,8 @@ class Scrollbar extends React.Component {
 		this.scrollbar.scrollToBottom();
 	}
 
-	getScrollTop() {
-		return this.scrollbar.getScrollTop();
+	scrollToTop() {
+		return this.scrollbar.scrollToTop();
 	}
 
 	getScrollHeight() {
