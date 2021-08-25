@@ -4,11 +4,15 @@ councilbox:
       service_names:
         - councilbox-client
       version: branch_dev
+      flavour: cbx-client-dev
     pre:
       service_names:
         - councilbox-client
       version: last_prerelease
+      flavour: cbx-client-pre
     pro:
       service_names:
         - councilbox-client
       version: last_release
+      flavour: cbx-client-pro
+
