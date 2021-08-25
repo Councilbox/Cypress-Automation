@@ -276,8 +276,8 @@ const PlatformDrafts = ({
 	const primary = getPrimary();
 
 	return (
-		<CardPageLayout title={translate.general_drafts} noScroll>
-			<div style={{ padding: '0.5em 2vw' }}>
+		<CardPageLayout title={translate.general_drafts} disableScroll>
+			<div style={{ padding: '0.5em 2vw', height: '100%' }}>
 				{selectedIndex >= 0 ? (
 					<PlatformDraftDetails
 						close={() => setState({ selectedIndex: -1 })}
@@ -429,41 +429,47 @@ const PlatformDrafts = ({
 											</div>
 										</div>
 									}
-									<div style={{ height: '100%' }}>
+									<div style={{ height: 'calc(100% - 6em)', padding: '.5em 0' }}>
 										<Scrollbar ref={scrollbar}>
-											<EnhancedTable
-												translate={translate}
-												page={1}
-												hideTextFilter
-												loading={loading}
-												length={platformDrafts.list.length}
-												total={platformDrafts.total}
-												refetch={getData}
-												headers={[]}
-												defaultLimit={25}
-											>
-												{platformDrafts.list.map(
-													(draft, index) => (
-														<DraftRow
-															index={index}
-															classes={classes}
-															key={`draft${draft.id}${draft.title}`}
-															translate={translate}
-															action={() => { showDraftDetails(draft); }}
-															draft={draft}
-															selectable={true}
-															companyStatutes={vars.companyStatutes}
-															draftTypes={draftTypes}
-															company={company}
-															isChecked={isChecked}
-															alreadySaved={alreadySaved}
-															updateSelectedValues={updateSelectedValues}
-															stylesBackground={{ background: index % 2 ? '#edf4fb' : '' }}
-															info={props}
-														/>
-													)
-												)}
-											</EnhancedTable>
+											<div style={{
+												height: '100%',
+												padding: '.5rem',
+											}}>
+												<EnhancedTable
+													translate={translate}
+													page={1}
+													hideTextFilter
+													loading={loading}
+													length={platformDrafts.list.length}
+													total={platformDrafts.total}
+													refetch={getData}
+													headers={[]}
+													defaultLimit={25}
+												>
+													{platformDrafts.list.map(
+														(draft, index) => (
+															<DraftRow
+																index={index}
+																classes={classes}
+																key={`draft${draft.id}${draft.title}`}
+																translate={translate}
+																action={() => { showDraftDetails(draft); }}
+																draft={draft}
+																selectable={true}
+																companyStatutes={vars.companyStatutes}
+																draftTypes={draftTypes}
+																company={company}
+																isChecked={isChecked}
+																alreadySaved={alreadySaved}
+																updateSelectedValues={updateSelectedValues}
+																stylesBackground={{ background: index % 2 ? '#edf4fb' : '' }}
+																info={props}
+															/>
+														)
+													)}
+												</EnhancedTable>
+
+											</div>
 										</Scrollbar>
 									</div>
 
