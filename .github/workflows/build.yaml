@@ -27,7 +27,7 @@ jobs:
           repository: ${{ env.repository }}
   build-image:
     env:
-      registry_url: prefappacr.azurecr.io
+      registry_url: cbxacr.azurecr.io
       repository_name: cbx/councilbox-client
 
     runs-on: ubuntu-latest

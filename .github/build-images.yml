@@ -1,7 +1,7 @@
 cbx-client-dev:
   triggers:  
     pull_request:
-      types: [labeled, synchronize]
+      branches: ["dev"]
   build_args:
     REACT_APP_API_URL=api.dev.councilbox.com
     REACT_APP_CERT_API=secure-api.dev.councilbox.com
