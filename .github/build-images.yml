@@ -5,13 +5,15 @@ cbx-client-dev:
   build_args:
     REACT_APP_API_URL: api.dev.councilbox.com
     REACT_APP_CERT_API: secure-api.dev.councilbox.com
- 
+  dockerfile: docker/Dockerfile
+
 cbx-client-pre:
   triggers:  
     prerelease:
   build_args:
     REACT_APP_API_URL: api.pre.councilbox.com
     REACT_APP_CERT_API: secure-api.pre.councilbox.com
+  dockerfile: docker/Dockerfile
 
 cbx-client-pro:
   triggers:  
@@ -19,3 +21,4 @@ cbx-client-pro:
   build_args:
     REACT_APP_API_URL: api.councilbox.com
     REACT_APP_CERT_API: secure-api.councilbox.com
+  dockerfile: docker/Dockerfile
