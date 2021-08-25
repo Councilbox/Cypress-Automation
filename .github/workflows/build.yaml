@@ -13,7 +13,7 @@ jobs:
   calculate_matrix:
     if: ${{ github.event_name != 'pull_request'  || contains(github.event.pull_request.labels.*.name, 'autodeploy') }} 
     env:
-      registry: cbxacr.azurecr.io/cbx/councilbox-client
+      repository: cbxacr.azurecr.io/cbx/councilbox-client
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.calculate_matrix.outputs.matrix }}
