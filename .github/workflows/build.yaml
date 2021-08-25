@@ -72,7 +72,7 @@ jobs:
       - name: Dispatch changes
         uses: prefapp/action-deployment-dispatch@v2
         with:
-          state_repo: demo-state
+          state_repo: ${{ env.state_repo }}
           image_repository: ${{ env.registry_url }}/${{ env.repository_name }}
           token: ${{ secrets.REPO_STATE_TOKEN }}
           
