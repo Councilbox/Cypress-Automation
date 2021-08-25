@@ -44,7 +44,7 @@ jobs:
   
       - uses: Azure/login@v1
         with:
-          creds: ${{ secrets.AZ_CREDENTIALS }}
+          creds: ${{ secrets.AZ_CREDENTIALS_AKS_PREDEV }}
 
       - name: Login acr
         run: |
