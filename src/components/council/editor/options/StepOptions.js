@@ -15,7 +15,7 @@ import {
 	SectionTitle,
 	SelectInput,
 	TextInput,
-	GridItem
+	GridItem,
 } from '../../../../displayComponents';
 import { councilStepFive, updateCouncil as updateCouncilMutation } from '../../../../queries';
 import { checkValidMajority } from '../../../../utils/validation';
@@ -537,6 +537,9 @@ const StepOptions = ({
 											confirmAssistance: isInputChecked ? 1 : 0
 										})
 										}
+										helpPopover
+										helpDescription={translate.assistance_intention_help}
+										helpTitle={translate.confirm_assistance}
 									/>
 									{council.confirmAssistance === 1
 										&& <>

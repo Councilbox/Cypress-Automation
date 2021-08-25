@@ -29,6 +29,7 @@ import CheckPhoneModal from './CheckPhoneModal';
 import DownloadConvenedPDF from './DownloadConvenedPDF';
 import MergeCouncilsButton from './MergeCouncilsButton';
 import CouncilOptionsEditor from './optionsEditor/CouncilOptionsEditor';
+import QuorumDisplay from '../../../council/live/quorum/QuorumDisplay';
 
 
 const cancelAct = gql`
@@ -215,12 +216,31 @@ class CouncilDetails extends React.Component {
 		if (this.state.showAgenda && council) {
 			return (
 				<React.Fragment>
-					<BasicButton
-						text="Cerrar agenda manager"
-						color={secondary}
-						textStyle={{ fontWeight: '700', color: 'white' }}
-						onClick={this.closeAgendaManager}
-					/>
+					<div
+						style={{
+							display: 'flex',
+							justifyContent: 'space-between',
+							alignItems: 'center',
+							padding: '.8em',
+						}}>
+						<BasicButton
+							text="Cerrar agenda manager"
+							color={secondary}
+							textStyle={{ fontWeight: '700', color: 'white' }}
+							onClick={this.closeAgendaManager}
+						/>
+						<div style={{
+							display: 'flex',
+							flexDirection: 'row'
+						}}>
+							<QuorumDisplay
+								council={council}
+								company={council.company}
+								recount={this.state.data.councilRecount}
+								translate={translate}
+							/>
+						</div>
+					</div>
 					{council.state > COUNCIL_STATES.ROOM_OPENED ?
 						<div
 							style={{
@@ -676,7 +696,8 @@ const CouncilDetailsRoot = gql`
 			country
 			countryState
 			currentQuorum
-			quorumPrototype
+			quorumPrototype,
+			initialQuorum
 			secretary
 			president
 			street
@@ -731,6 +752,7 @@ const CouncilDetailsRoot = gql`
                 canUnblock
                 existsAct
                 includedInActBook
+				decimalDigits
                 includeParticipantsList
                 conveneHeader
                 intro
@@ -763,7 +785,9 @@ const CouncilDetailsRoot = gql`
 			partTotal
 			numTotal
 			socialCapitalRightVoting
-			numRightVoting
+			numRightVoting,
+			partRightVoting,
+			treasuryShares
 		}
 
 		agendas(councilId: $id) {

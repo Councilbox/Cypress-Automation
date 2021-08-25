@@ -1359,6 +1359,8 @@ export const councilIsNotified = council => council.state === 10;
 
 export const councilIsInTrash = council => council.state === COUNCIL_STATES.CANCELED;
 
+export const councilRoomOpened = council => council.state >= COUNCIL_STATES.ROOM_OPENED;
+
 export const councilIsNotLiveYet = council => (
 	council.state < COUNCIL_STATES.ROOM_OPENED
 	&& council.state > COUNCIL_STATES.CANCELED
@@ -1384,7 +1386,7 @@ export const councilIsPreparing = council => (
 );
 
 export const councilIsLive = council => (
-	council.state >= COUNCIL_STATES.ROOM_OPENED
+	councilRoomOpened(council)
 	&& council.state < COUNCIL_STATES.FINISHED
 );
 
