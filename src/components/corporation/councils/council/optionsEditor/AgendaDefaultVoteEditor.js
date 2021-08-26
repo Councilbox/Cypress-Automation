@@ -107,7 +107,32 @@ const AgendaDefaultVoteEditor = ({ client, council, translate }) => {
 													</MenuItem>
 												</SelectInput>
 												:
-												<div>Custom</div>
+												<SelectInput
+													style={{
+														maxWidth: '20em'
+													}}
+													onChange={async event => {
+														updateDefaultVote({
+															agendaId: agenda.id,
+															vote: event.target.value
+														});
+													}}
+													value={agenda.defaultVote}
+												>
+													{agenda.items.map(item => (
+														<MenuItem
+															key={item.id}
+															value={item.id}
+														>
+															{item.value}
+														</MenuItem>
+													))}
+													<MenuItem
+														value={-1}
+													>
+														Voto por defecto de la reunión
+													</MenuItem>
+												</SelectInput>
 											}
 										</>
 										:
