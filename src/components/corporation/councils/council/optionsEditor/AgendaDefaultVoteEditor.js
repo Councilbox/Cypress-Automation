@@ -6,7 +6,7 @@ import { updateAgenda } from '../../../../../queries/agenda';
 import { isCustomPoint } from '../../../../../utils/CBX';
 import { AGENDA_STATES } from '../../../../../constants';
 
-const AgendaDefaultVoteEditor = ({ client, council, translate }) => {
+const AgendaDefaultVoteEditor = ({ client, council }) => {
 	const [data, setData] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
 
