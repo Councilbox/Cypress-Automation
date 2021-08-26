@@ -790,36 +790,6 @@ const CouncilDetailsRoot = gql`
 			treasuryShares
 		}
 
-		agendas(councilId: $id) {
-			id
-			orderIndex
-			agendaSubject
-			subjectType
-			abstentionVotings
-			abstentionManual
-			noVoteVotings
-			noVoteManual
-			positiveVotings
-			positiveManual
-			negativeVotings
-			negativeManual
-			description
-			majorityType
-			majority
-			majorityDivider
-			votings {
-				id
-				participantId
-				comment
-				vote
-			}
-			numPresentCensus
-			presentCensus
-			numCurrentRemoteCensus
-			currentRemoteCensus
-			comment
-		}
-
 		quorumTypes {
 			label
 			value
