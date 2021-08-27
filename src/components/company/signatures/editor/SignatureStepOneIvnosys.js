@@ -198,7 +198,8 @@ const SignatureStepOneIvnosys = ({
 				<LiveToast
 					id="error-toast"
 					message={translate.revise_text}
-				/>, {
+				/>,
+				{
 					position: toast.POSITION.TOP_RIGHT,
 					autoClose: true,
 					onClose: () => { toastId = null; },
@@ -273,6 +274,7 @@ value={state.data.expirationDateToSign ? state.data.expirationDateToSign : null}
 						}}
 					>
 						<TextInput
+							required
 							floatingText={translate.signature_title}
 							errorText={state.errors.title}
 							onChange={event => setState({
@@ -329,7 +331,7 @@ value={state.data.expirationDateToSign ? state.data.expirationDateToSign : null}
 						}}
 					>
 						<Typography variant="title" style={{ color: getPrimary() }}>
-							{translate.new_file_to_sign_title}
+							{translate.new_file_to_sign_title}*
 						</Typography>
 
 						{state.data.attachment ?
@@ -385,9 +387,9 @@ value={state.data.expirationDateToSign ? state.data.expirationDateToSign : null}
 									/>
 								</div>
 								{!!state.errors.file
-&& <p style={{ color: 'red', fontWeight: '700' }}>
-	{state.errors.file}
-</p>
+									&& <p style={{ color: 'red', fontWeight: '700' }}>
+										{state.errors.file}
+									</p>
 								}
 							</div>
 						}

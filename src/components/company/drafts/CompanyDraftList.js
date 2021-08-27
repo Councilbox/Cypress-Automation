@@ -123,6 +123,7 @@ const CompanyDraftList = ({
 	} = useTags(translate);
 
 	const primary = getPrimary();
+	const scrollbar = React.useRef();
 
 	const getDrafts = async variables => {
 		const response = await client.query({
@@ -139,6 +140,9 @@ const CompanyDraftList = ({
 		});
 
 		setData(response.data);
+		if (scrollbar.current) {
+			scrollbar.current.scrollToTop();
+		}
 	};
 
 	React.useEffect(() => {
@@ -377,7 +381,7 @@ const CompanyDraftList = ({
 						</React.Fragment>
 					}
 				</div>
-				<Scrollbar>
+				<Scrollbar ref={scrollbar}>
 					<div style={{ height: '100%', paddingRight: !isMobile && '1em' }}>
 						{error ? (
 							<div>

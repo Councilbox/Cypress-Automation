@@ -193,11 +193,11 @@ const CouncilListItem = withRouter(({
 			<TableCell onClick={event => event.stopPropagation()} style={{ cursor: 'auto' }}>
 				<div style={{ width: '2em' }}>
 					{(show || selected)
-&& <Checkbox
-	value={selected}
-	onChange={() => props.select(council.id)
-	}
-/>
+						&& <Checkbox
+							value={selected}
+							onChange={() => props.select(council.id)
+							}
+						/>
 					}
 				</div>
 			</TableCell>
@@ -210,22 +210,22 @@ const CouncilListItem = withRouter(({
 				/>
 			</TableCell>
 			{link === '/finished'
-&& <TableCell
-	style={TableStyles.TD}
->
-	<div style={{ width: '15em', display: 'flex', flexDirection: 'row' }}>
-		<DateWrapper
-			format="HH:mm"
-			date={council.dateRealStart}
-		/> {' - '}
-		<DateWrapper
-			format="HH:mm"
-			date={
-				council.dateEnd
-			}
-		/>
-	</div>
-</TableCell>
+				&& <TableCell
+					style={TableStyles.TD}
+				>
+					<div style={{ width: '15em', display: 'flex', flexDirection: 'row' }}>
+						<DateWrapper
+							format="HH:mm"
+							date={council.dateRealStart}
+						/> {' - '}
+						<DateWrapper
+							format="HH:mm"
+							date={
+								council.dateEnd
+							}
+						/>
+					</div>
+				</TableCell>
 			}
 			<TableCell
 				style={{
@@ -234,11 +234,11 @@ const CouncilListItem = withRouter(({
 				}}
 			>
 				{council.promoCode === 'COUNCILBOX'
-&& <Tooltip title={translate.test_meeting}>
-	<span className="material-icons" style={{ color: getSecondary(), fontSize: '16px', marginRight: '0.5em' }}>
-miscellaneous_services
-	</span>
-</Tooltip>
+					&& <Tooltip title={translate.test_meeting}>
+						<span className="material-icons" style={{ color: getSecondary(), fontSize: '16px', marginRight: '0.5em' }}>
+							miscellaneous_services
+						</span>
+					</Tooltip>
 
 				}
 				{council.name || translate.dashboard_new}

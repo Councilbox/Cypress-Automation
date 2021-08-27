@@ -25,7 +25,7 @@ import { provinces as provincesQuery } from '../../../queries/masters';
 import { bHistory, store } from '../../../containers/App';
 import { getCompanies } from '../../../actions/companyActions';
 import { sendGAevent } from '../../../utils/analytics';
-import GoverningBodyForm from '../settings/GoverningBodyForm';
+// import GoverningBodyForm from '../settings/GoverningBodyForm';
 
 
 class NewCompanyPage extends React.PureComponent {
@@ -176,7 +176,8 @@ class NewCompanyPage extends React.PureComponent {
 						<LiveToast
 							message={this.props.translate.company_created}
 							id="success-toast"
-						/>, {
+						/>,
+						{
 							position: toast.POSITION.TOP_RIGHT,
 							autoClose: true,
 							className: 'successToast'
@@ -394,6 +395,18 @@ class NewCompanyPage extends React.PureComponent {
 												}
 											/>
 										</GridItem>
+										<GridItem xs={12} md={6} lg={4}>
+											<TextInput
+												floatingText={translate.contact_email}
+												type="text"
+												errorText={errors.contactEmail}
+												value={data.contactEmail || ''}
+												onChange={event => this.updateState({
+													contactEmail: event.target.value
+												})
+												}
+											/>
+										</GridItem>
 									</Grid>
 								</GridItem>
 								<GridItem
@@ -439,11 +452,11 @@ class NewCompanyPage extends React.PureComponent {
 								</GridItem>
 							</Grid>
 							<br />
-							<Grid spacing={16}>
+							{/* <Grid spacing={16}>
 								<GridItem xs={12} md={12} lg={12}>
 									<GoverningBodyForm translate={translate} state={data} updateState={this.updateState} />
 								</GridItem>
-							</Grid>
+							</Grid> */}
 							<SectionTitle
 								text={translate.contact_data}
 								color={primary}

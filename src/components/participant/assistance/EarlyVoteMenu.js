@@ -176,7 +176,7 @@ const EarlyVoteMenu = ({
 			const disabled = selections >= point.options.maxSelections;
 			return (
 				<div key={`point_${point.id}`} style={{ marginTop: '1.3em' }}>
-					Punto: {point.agendaSubject}
+					<div style={{ fontWeight: '700', marginTop: '1em' }}>{point.agendaSubject}</div>
 					<div>
 						{point.items.map(item => {
 							const key = `${point.id}_${item.id}_${participantInfo.id}`;
