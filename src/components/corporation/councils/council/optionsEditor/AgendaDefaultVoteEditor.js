@@ -70,73 +70,69 @@ const AgendaDefaultVoteEditor = ({ client, council }) => {
 								<GridItem xs={6} md={6} lg={6}
 									style={{ display: 'flex', alignItems: 'center' }}
 								>
-									{agenda.votingState === AGENDA_STATES.INITIAL ?
-										<>
-											{!isCustomPoint(agenda.subjectType) ?
-												<SelectInput
-													style={{
-														maxWidth: '20em'
-													}}
-													onChange={async event => {
-														updateDefaultVote({
-															agendaId: agenda.id,
-															vote: event.target.value
-														});
-													}}
-													value={agenda.defaultVote}
-												>
-													<MenuItem
-														value={-1}
-													>
-														Voto por defecto de la reunión
-													</MenuItem>
-													<MenuItem
-														value={1}
-													>
-														A favor
-													</MenuItem>
-													<MenuItem
-														value={0}
-													>
-														En contra
-													</MenuItem>
-													<MenuItem
-														value={2}
-													>
-														Abstención
-													</MenuItem>
-												</SelectInput>
-												:
-												<SelectInput
-													style={{
-														maxWidth: '20em'
-													}}
-													onChange={async event => {
-														updateDefaultVote({
-															agendaId: agenda.id,
-															vote: event.target.value
-														});
-													}}
-													value={agenda.defaultVote}
-												>
-													{agenda.items.map(item => (
-														<MenuItem
-															key={item.id}
-															value={item.id}
-														>
-															{item.value}
-														</MenuItem>
-													))}
-													<MenuItem
-														value={-1}
-													>
-														Voto por defecto de la reunión
-													</MenuItem>
-												</SelectInput>
-											}
-										</>
+									{!isCustomPoint(agenda.subjectType) ?
+										<SelectInput
+											disabled={agenda.votingState !== AGENDA_STATES.INITIAL}
+											style={{
+												maxWidth: '20em'
+											}}
+											onChange={async event => {
+												updateDefaultVote({
+													agendaId: agenda.id,
+													vote: event.target.value
+												});
+											}}
+											value={agenda.defaultVote}
+										>
+											<MenuItem
+												value={-1}
+											>
+												Voto por defecto de la reunión
+											</MenuItem>
+											<MenuItem
+												value={1}
+											>
+												A favor
+											</MenuItem>
+											<MenuItem
+												value={0}
+											>
+												En contra
+											</MenuItem>
+											<MenuItem
+												value={2}
+											>
+												Abstención
+											</MenuItem>
+										</SelectInput>
 										:
-										'Votaciones celebradas'
+										<SelectInput
+											style={{
+												maxWidth: '20em'
+											}}
+											disabled={agenda.votingState !== AGENDA_STATES.INITIAL}
+											onChange={async event => {
+												updateDefaultVote({
+													agendaId: agenda.id,
+													vote: event.target.value
+												});
+											}}
+											value={agenda.defaultVote}
+										>
+											{agenda.items.map(item => (
+												<MenuItem
+													key={item.id}
+													value={item.id}
+												>
+													{item.value}
+												</MenuItem>
+											))}
+											<MenuItem
+												value={-1}
+											>
+												Voto por defecto de la reunión
+											</MenuItem>
+										</SelectInput>
 									}
 								</GridItem>
 							</Grid>

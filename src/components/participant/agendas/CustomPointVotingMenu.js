@@ -198,7 +198,7 @@ const CustomPointVotingMenu = ({
 						translate={translate}
 						disabledColor={disabled}
 						styleButton={{ width: '90%' }}
-						selectedCheckbox={selections.length === 0}
+						selectedCheckbox={selections.length === 0 && ownVote?.vote === -1}
 						onClick={resetSelections}
 					/>
 				</div>
