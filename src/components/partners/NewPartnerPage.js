@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { CardPageLayout, Scrollbar, BasicButton } from '../../displayComponents';
+import { CardPageLayout, Scrollbar, BasicButton, UnsavedChangesModal } from '../../displayComponents';
 import PartnerForm from './PartnerForm';
 import withSharedProps from '../../HOCs/withSharedProps';
 import { getPrimary } from '../../styles/colors';
@@ -59,7 +59,8 @@ class NewPartnerPage extends React.Component {
 			zipcode: '',
 			position: '',
 		},
-		errors: {}
+		errors: {},
+		modal: false
 	}
 
 	goBack = () => {
@@ -67,6 +68,7 @@ class NewPartnerPage extends React.Component {
 	}
 
 	baseState = this.state;
+
 
 	createPartner = async () => {
 		if (!await this.checkRequiredFields()) {
@@ -304,7 +306,13 @@ class NewPartnerPage extends React.Component {
 							color={'white'}
 							type="flat"
 							textStyle={{ color: 'black', fontWeight: '700', textTransform: 'none' }}
-							onClick={this.goBack}
+							onClick={() => {
+								if (this.state !== this.baseState) {
+									this.setState({ ...this.state, modal: true });
+								} else {
+									this.goBack();
+								}
+							}}
 							buttonStyle={{ marginRight: '0.8em' }}
 						/>
 						<BasicButton
@@ -313,6 +321,13 @@ class NewPartnerPage extends React.Component {
 							color={getPrimary()}
 							textStyle={{ color: 'white', fontWeight: '700', textTransform: 'none' }}
 							onClick={this.createPartner}
+						/>
+						<UnsavedChangesModal
+							translate={this.props.translate}
+							open={this.state.modal}
+							requestClose={() => this.setState({ ...this.state, modal: false })}
+							acceptAction={this.createPartner}
+							cancelAction={this.goBack}
 						/>
 					</div>
 				</div>
