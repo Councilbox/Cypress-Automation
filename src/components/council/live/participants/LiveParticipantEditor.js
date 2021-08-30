@@ -91,6 +91,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 										<ParticipantDisplay
 											participant={participant}
 											translate={translate}
+											root={props.root}
 											canEdit={!CBX.hasHisVoteDelegated(participant) && !CBX.isRepresented(participant)}
 											council={props.council}
 											refetch={data.refetch}

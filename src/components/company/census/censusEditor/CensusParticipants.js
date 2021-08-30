@@ -171,7 +171,7 @@ class CensusParticipants extends React.Component {
 						<div style={{
 							display: 'flex',
 							justifyContent: isMobile ? 'space-between' : 'flex-start',
-							gap: '32px',
+							gap: '2rem',
 							marginBottom: '0.6em'
 						}}>
 							<AddCensusParticipantButton

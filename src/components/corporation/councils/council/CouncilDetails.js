@@ -25,10 +25,11 @@ import CouncilDetailsParticipants from './CouncilDetailsParticipants';
 import * as CBX from '../../../../utils/CBX';
 import { SearchCouncils } from '../CouncilsDashboard';
 import ParticipantsManager from '../../../council/live/participants/ParticipantsManager';
-import CouncilStatuteEditor from './CouncilStatuteEditor';
 import CheckPhoneModal from './CheckPhoneModal';
 import DownloadConvenedPDF from './DownloadConvenedPDF';
 import MergeCouncilsButton from './MergeCouncilsButton';
+import CouncilOptionsEditor from './optionsEditor/CouncilOptionsEditor';
+import QuorumDisplay from '../../../council/live/quorum/QuorumDisplay';
 
 
 const cancelAct = gql`
@@ -215,12 +216,31 @@ class CouncilDetails extends React.Component {
 		if (this.state.showAgenda && council) {
 			return (
 				<React.Fragment>
-					<BasicButton
-						text="Cerrar agenda manager"
-						color={secondary}
-						textStyle={{ fontWeight: '700', color: 'white' }}
-						onClick={this.closeAgendaManager}
-					/>
+					<div
+						style={{
+							display: 'flex',
+							justifyContent: 'space-between',
+							alignItems: 'center',
+							padding: '.8em',
+						}}>
+						<BasicButton
+							text="Cerrar agenda manager"
+							color={secondary}
+							textStyle={{ fontWeight: '700', color: 'white' }}
+							onClick={this.closeAgendaManager}
+						/>
+						<div style={{
+							display: 'flex',
+							flexDirection: 'row'
+						}}>
+							<QuorumDisplay
+								council={council}
+								company={council.company}
+								recount={this.state.data.councilRecount}
+								translate={translate}
+							/>
+						</div>
+					</div>
 					{council.state > COUNCIL_STATES.ROOM_OPENED ?
 						<div
 							style={{
@@ -437,11 +457,10 @@ translate={this.props.translate}
 								<AlertConfirm
 									requestClose={() => this.setState({ councilConfigEditor: false })}
 									open={this.state.councilConfigEditor}
-									buttonCancel={'Cancelar'}
+									buttonCancel={'Cerrar'}
 									bodyText={
-										<CouncilStatuteEditor
+										<CouncilOptionsEditor
 											translate={translate}
-											statute={this.props.data.council.statute}
 											council={this.props.data.council}
 											refetch={this.props.data.refetch}
 										/>
@@ -677,7 +696,8 @@ const CouncilDetailsRoot = gql`
 			country
 			countryState
 			currentQuorum
-			quorumPrototype
+			quorumPrototype,
+			initialQuorum
 			secretary
 			president
 			street
@@ -732,6 +752,7 @@ const CouncilDetailsRoot = gql`
                 canUnblock
                 existsAct
                 includedInActBook
+				decimalDigits
                 includeParticipantsList
                 conveneHeader
                 intro
@@ -764,37 +785,9 @@ const CouncilDetailsRoot = gql`
 			partTotal
 			numTotal
 			socialCapitalRightVoting
-			numRightVoting
-		}
-
-		agendas(councilId: $id) {
-			id
-			orderIndex
-			agendaSubject
-			subjectType
-			abstentionVotings
-			abstentionManual
-			noVoteVotings
-			noVoteManual
-			positiveVotings
-			positiveManual
-			negativeVotings
-			negativeManual
-			description
-			majorityType
-			majority
-			majorityDivider
-			votings {
-				id
-				participantId
-				comment
-				vote
-			}
-			numPresentCensus
-			presentCensus
-			numCurrentRemoteCensus
-			currentRemoteCensus
-			comment
+			numRightVoting,
+			partRightVoting,
+			treasuryShares
 		}
 
 		quorumTypes {

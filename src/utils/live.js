@@ -133,9 +133,10 @@ class LiveUtil {
 				const positiveNeeded = againstVotes + 1;
 				if (quorumPrototype === 1) {
 					const minimumNeeded = Math.ceil(totalVotes / 3);
+					const difference = minimumNeeded - againstVotes;
 					return againstVotes > (minimumNeeded / 2) ?
 						positiveNeeded
-						: minimumNeeded - againstVotes;
+						: difference === againstVotes ? difference + 1 : difference;
 				}
 				return positiveNeeded;
 			}

@@ -6,6 +6,7 @@ const CompanyTagForm = ({
 }) => (
 	<React.Fragment>
 		<TextInput
+			required
 			value={tag.key}
 			errorText={errors.key}
 			floatingText={translate.key}
@@ -14,6 +15,7 @@ const CompanyTagForm = ({
 		/>
 
 		<TextInput
+			required
 			value={tag.value}
 			errorText={errors.value}
 			floatingText={translate.value}

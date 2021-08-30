@@ -1,97 +1,95 @@
+/* eslint-disable no-tabs */
 import React from 'react';
 import { SectionTitle, GridItem, Checkbox } from '../../../../displayComponents';
-import RichTextInput from '../../../../displayComponents/RichTextInput';
 import { getPrimary } from '../../../../styles/colors';
 
-let timeout;
+// const getCustomDocsTags = (type, translate) => {
+// 	const TAGS = {
+// 		PARTICIPANT: {
+// 			value: '{{participantName}}',
+// 			label: translate.participant
+// 		},
+// 		DELEGATE: {
+// 			value: '{{delegateName}}',
+// 			label: translate.delegate
+// 		},
+// 		DATE: {
+// 			value: '{{dateFirstCall}}',
+// 			label: translate.date
+// 		},
+// 		DATE2CALL: {
+// 			value: '{{dateSecondCall}}',
+// 			label: translate['2nd_call_date']
+// 		},
+// 		BUSINESS_NAME: {
+// 			value: '{{business_name}}',
+// 			label: translate.business_name
+// 		},
+// 		ADDRESS: {
+// 			value: '{{address}}',
+// 			label: translate.new_location_of_celebrate
+// 		},
+// 		CITY: {
+// 			value: '{{city}}',
+// 			label: translate.company_new_locality
+// 		},
+// 		SIGNATURE: {
+// 			value: '{{signature}}',
+// 			label: translate.new_signature
+// 		}
+// 	};
 
-const getCustomDocsTags = (type, translate) => {
-	const TAGS = {
-		PARTICIPANT: {
-			value: '{{participantName}}',
-			label: translate.participant
-		},
-		DELEGATE: {
-			value: '{{delegateName}}',
-			label: translate.delegate
-		},
-		DATE: {
-			value: '{{dateFirstCall}}',
-			label: translate.date
-		},
-		DATE2CALL: {
-			value: '{{dateSecondCall}}',
-			label: translate['2nd_call_date']
-		},
-		BUSINESS_NAME: {
-			value: '{{business_name}}',
-			label: translate.business_name
-		},
-		ADDRESS: {
-			value: '{{address}}',
-			label: translate.new_location_of_celebrate
-		},
-		CITY: {
-			value: '{{city}}',
-			label: translate.company_new_locality
-		},
-		SIGNATURE: {
-			value: '{{signature}}',
-			label: translate.new_signature
-		}
-	};
+// 	const votes = {
+// 		value: '{{votes}}',
+// 		label: translate.votes
+// 	};
 
-	const votes = {
-		value: '{{votes}}',
-		label: translate.votes
-	};
+// 	const types = {
+// 		PROXY: Object.keys(TAGS).map(key => TAGS[key]),
+// 		VOTE_LETTER: Object.keys(TAGS).filter(key => key !== 'DELEGATE').map(key => TAGS[key]),
+// 		VOTE_LETTER_WITH_SENSE: [...Object.keys(TAGS).filter(key => key !== 'DELEGATE').map(key => TAGS[key]), votes],
+// 	};
 
-	const types = {
-		PROXY: Object.keys(TAGS).map(key => TAGS[key]),
-		VOTE_LETTER: Object.keys(TAGS).filter(key => key !== 'DELEGATE').map(key => TAGS[key]),
-		VOTE_LETTER_WITH_SENSE: [...Object.keys(TAGS).filter(key => key !== 'DELEGATE').map(key => TAGS[key]), votes],
-	};
-
-	return types[type] ? types[type] : [];
-};
+// 	return types[type] ? types[type] : [];
+// };
 
 const ProxiesTemplates = ({ statute, updateState, translate }) => {
 	const primary = getPrimary();
-	const internalState = React.useRef({
-		proxy: statute.proxy,
-		proxySecondary: statute.proxySecondary,
-		voteLetter: statute.voteLetter,
-		voteLetterSecondary: statute.voteLetterSecondary,
-		voteLetterWithSense: statute.voteLetterWithSense,
-		voteLetterWithSenseSecondary: statute.voteLetterWithSenseSecondary,
-	});
-	const proxyTemplate = React.useRef();
-	const proxySecondary = React.useRef();
-	const voteLetter = React.useRef();
-	const voteLetterSecondary = React.useRef();
-	const voteLetterWithSense = React.useRef();
-	const voteLetterWithSenseSecondary = React.useRef();
+	// const internalState = React.useRef({
+	// 	proxy: statute.proxy,
+	// 	proxySecondary: statute.proxySecondary,
+	// 	voteLetter: statute.voteLetter,
+	// 	voteLetterSecondary: statute.voteLetterSecondary,
+	// 	voteLetterWithSense: statute.voteLetterWithSense,
+	// 	voteLetterWithSenseSecondary: statute.voteLetterWithSenseSecondary,
+	// });
+	// const proxyTemplate = React.useRef();
+	// const proxySecondary = React.useRef();
+	// const voteLetter = React.useRef();
+	// const voteLetterSecondary = React.useRef();
+	// const voteLetterWithSense = React.useRef();
+	// const voteLetterWithSenseSecondary = React.useRef();
 
-	const handleUpdate = object => {
-		clearTimeout(timeout);
-		internalState.current = {
-			...internalState.current,
-			...object
-		};
+	// const handleUpdate = object => {
+	// 	clearTimeout(timeout);
+	// 	internalState.current = {
+	// 		...internalState.current,
+	// 		...object
+	// 	};
 
-		timeout = setTimeout(() => {
-			updateState(internalState.current);
-		}, 350);
-	};
+	// 	timeout = setTimeout(() => {
+	// 		updateState(internalState.current);
+	// 	}, 350);
+	// };
 
-	React.useEffect(() => {
-		proxyTemplate.current.setValue(statute.proxy || '');
-		proxySecondary.current.setValue(statute.proxySecondary || '');
-		voteLetter.current.setValue(statute.voteLetter || '');
-		voteLetterSecondary.current.setValue(statute.voteLetterSecondary || '');
-		voteLetterWithSense.current.setValue(statute.voteLetterWithSense || '');
-		voteLetterWithSenseSecondary.current.setValue(statute.voteLetterWithSenseSecondary || '');
-	}, [statute.id]);
+	// React.useEffect(() => {
+	// 	proxyTemplate.current.setValue(statute.proxy || '');
+	// 	proxySecondary.current.setValue(statute.proxySecondary || '');
+	// 	voteLetter.current.setValue(statute.voteLetter || '');
+	// 	voteLetterSecondary.current.setValue(statute.voteLetterSecondary || '');
+	// 	voteLetterWithSense.current.setValue(statute.voteLetterWithSense || '');
+	// 	voteLetterWithSenseSecondary.current.setValue(statute.voteLetterWithSenseSecondary || '');
+	// }, [statute.id]);
 
 	return (
 		<>
@@ -125,7 +123,7 @@ const ProxiesTemplates = ({ statute, updateState, translate }) => {
 					}
 				/>
 			</GridItem>
-
+			{/*
 			<GridItem xs={12} md={12} lg={12}>
 				<RichTextInput
 					id="council-type-proxy"
@@ -233,7 +231,7 @@ const ProxiesTemplates = ({ statute, updateState, translate }) => {
 					}
 					tags={getCustomDocsTags('VOTE_LETTER_WITH_SENSE', translate)}
 				/>
-			</GridItem>
+			</GridItem> */}
 		</>
 	);
 };
