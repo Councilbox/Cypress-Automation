@@ -125,13 +125,6 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 										refetch={data.refetch}
 									/>
 								</div>
-								{(props.council.councilType !== 4 && props.council.councilType !== 5 && participant.numParticipations > 0)
-									&& <EarlyVotingModal
-										council={props.council}
-										participant={participant}
-										translate={translate}
-									/>
-								}
 								<Grid style={{ marginTop: '1em', display: 'flex' }}>
 									{(CBX.showSendCredentials(participant.state) && props.council.councilType !== 4)
 										&& <GridItem xs={12} md={7} lg={5} style={{}}>

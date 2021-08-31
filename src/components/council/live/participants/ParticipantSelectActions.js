@@ -1,5 +1,6 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
+import { Button } from 'material-ui';
 import * as CBX from '../../../../utils/CBX';
 import { getLightGrey } from '../../../../styles/colors';
 import { PARTICIPANT_STATES } from '../../../../constants';
@@ -9,6 +10,8 @@ import AddRepresentativeModal from '../AddRepresentativeModal';
 import DelegateOwnVoteModal from '../DelegateOwnVoteModal';
 import DelegateVoteModal from '../DelegateVoteModal';
 import StateIcon from './StateIcon';
+import EarlyVotingModal from './EarlyVotingModal';
+import { isMobile } from '../../../../utils/screen';
 
 
 class ParticipantSelectActions extends React.Component {
@@ -92,11 +95,12 @@ class ParticipantSelectActions extends React.Component {
 					marginTop: '1em',
 					width: '100%',
 					display: 'flex',
-					flexDirection: 'row',
-					alignItems: 'center'
+					flexDirection: isMobile ? 'column' : 'row',
+					alignItems: !isMobile && 'center',
+					gap: '.5rem'
 				}}
 			>
-				{CBX.canHaveRepresentative(participant)
+				{/* {CBX.canHaveRepresentative(participant)
 					&& !(participant.hasDelegatedVotes > 0) && (
 					<GridItem xs={12} md={6} lg={4}>
 						<ButtonActions
@@ -127,51 +131,59 @@ class ParticipantSelectActions extends React.Component {
 							</div>
 						</ButtonActions>
 					</GridItem>
-				)}
+				)} */}
+				{(this.props.council.councilType !== 4 && this.props.council.councilType !== 5 && participant.numParticipations > 0)
+					&& <EarlyVotingModal
+						council={this.props.council}
+						participant={participant}
+						translate={translate}
+						buttonStyle={{
+							borderRadius: '4px',
+							border: 'solid 2px #a09aa0',
+							padding: '1em',
+							cursor: 'pointer',
+							margin: ' 0 .5em',
+
+						}}
+						textStyle={{
+							color: 'black',
+							display: 'block',
+							whiteSpace: 'nowrap',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							textTransform: 'none'
+						}}
+					/>
+				}
 				{CBX.canDelegateVotes(council.statute, participant) && (
-					<GridItem xs={12} md={6} lg={4}>
-						<ButtonActions
-							loading={loading === 5}
-							active={participant.state === PARTICIPANT_STATES.DELEGATED}
-							onClick={() => this.setState({
-								delegateOwnVote: true
-							})
-							}
-						>
-							<div
-								style={{ display: 'flex', alignItems: 'center' }}
-							>
-								<div style={{
-									display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
-								}}>
-									<span style={{ fontSize: '0.9em' }}>{translate.to_delegate_vote}</span>
-								</div>
-							</div>
-						</ButtonActions>
-					</GridItem>
+					<ButtonActions
+						loading={loading === 5}
+						active={participant.state === PARTICIPANT_STATES.DELEGATED}
+						onClick={() => this.setState({
+							delegateOwnVote: true
+						})
+						}
+					>
+						<span style={{
+							fontSize: '0.9em', display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', textTransform: 'none'
+						}}>{translate.add_delegated}</span>
+					</ButtonActions>
 				)}
 				{CBX.canAddDelegateVotes(council.statute, participant) && (
-					<GridItem xs={12} md={6} lg={4}>
-						<ButtonActions
-							loading={loading === 6}
-							active={participant.state === PARTICIPANT_STATES.DELEGATED}
-							onClick={() => {
-								this.setState({
-									delegateVote: true
-								});
-							}}
-						>
-							<div
-								style={{ display: 'flex', alignItems: 'center' }}
-							>
-								<div style={{
-									display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
-								}}>
-									<span style={{ fontSize: '0.9em' }}>{translate.add_delegated}</span>
-								</div>
-							</div>
-						</ButtonActions>
-					</GridItem>
+					<ButtonActions
+						loading={loading === 6}
+						active={participant.state === PARTICIPANT_STATES.DELEGATED}
+						onClick={() => {
+							this.setState({
+								delegateVote: true
+							});
+						}}
+					>
+						<span style={{
+							fontSize: '0.9em', display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', textTransform: 'none'
+						}}>{translate.add_delegated}</span>
+
+					</ButtonActions>
 				)}
 
 				<AddRepresentativeModal
@@ -221,17 +233,18 @@ class ParticipantSelectActions extends React.Component {
 const ButtonActions = ({
 	children, loading, onClick, active
 }) => (
-	<div
+	<Button
+		variant="flat"
 		style={{
 			display: 'flex',
 			alignItems: 'center',
-			height: '37px',
 			borderRadius: '4px',
-			border: 'solid 1px #a09aa0',
+			border: 'solid 2px #a09aa0',
 			color: 'black',
-			padding: '0.3em 1.3em',
+			padding: '1em',
 			cursor: 'pointer',
 			marginRight: '0.5em',
+			outline: '0px',
 			backgroundColor: active ? getLightGrey() : 'transparent',
 		}}
 		onClick={onClick}
@@ -249,7 +262,7 @@ const ButtonActions = ({
 		) : (
 			children
 		)}
-	</div>
+	</Button>
 );
 
 
