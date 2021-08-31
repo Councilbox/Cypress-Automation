@@ -154,6 +154,7 @@ class EnhancedTable extends React.Component {
 			headers,
 			children,
 			categories,
+			activeTableShowing
 		} = this.props;
 		const {
 			filterText,
@@ -293,7 +294,7 @@ class EnhancedTable extends React.Component {
 						}
 					</div>
 				</div>
-				{!loading && (
+				{!loading && activeTableShowing && (
 					<Grid
 						style={{
 							fontSize: '0.9em',
