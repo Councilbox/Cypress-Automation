@@ -18,7 +18,7 @@ import {
 	GridItem,
 } from '../../../../displayComponents';
 import { councilStepFive, updateCouncil as updateCouncilMutation } from '../../../../queries';
-import { checkValidMajority } from '../../../../utils/validation';
+import { checkValidEmail, checkValidMajority } from '../../../../utils/validation';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import * as CBX from '../../../../utils/CBX';
 import withWindowSize from '../../../../HOCs/withWindowSize';
@@ -48,9 +48,10 @@ const StepOptions = ({
 		majorityAlert: false,
 		alertText: '',
 		success: false,
+		replyTo: false,
 		errors: {
 			confirmAssistance: '',
-			actPointMajorityDivider: -1
+			actPointMajorityDivider: -1,
 		}
 	});
 
@@ -78,7 +79,6 @@ const StepOptions = ({
 		}
 	});
 	const { council } = state.data;
-
 
 	const updateCouncil = async step => {
 		setState({
@@ -177,6 +177,17 @@ const StepOptions = ({
 			}
 		}
 
+		if (council.contactEmail && !checkValidEmail(council.contactEmail)) {
+			setState({
+				...state,
+				errors: {
+					...state.errors,
+					contactEmail: translate.email_not_valid
+				}
+			});
+			return true;
+		}
+
 		return false;
 	};
 
@@ -195,6 +206,8 @@ const StepOptions = ({
 			}
 		});
 	}
+
+	console.log(data);
 
 	const nextPage = async () => {
 		if (!checkRequiredFields()) {
@@ -590,6 +603,23 @@ const StepOptions = ({
 								})
 								}
 							/>
+							{<GridItem xs={12} md={6} lg={4}>
+								<TextInput
+									floatingText={translate.contact_email}
+									type="text"
+									errorText={state.errors.contactEmail}
+									onBlur={ev => {
+										updateCouncilData({
+											contactEmail: ev.target.value === '' ? data.council.contactEmail : ev.target.value
+										});
+									}}
+									value={council.contactEmail || ''}
+									onChange={event => updateCouncilData({
+										contactEmail: event.target.value
+									})
+									}
+								/>
+							</GridItem>}
 							{CBX.hasAct(council.statute) && council.councilType < 2 && (
 								<React.Fragment>
 									<SectionTitle
