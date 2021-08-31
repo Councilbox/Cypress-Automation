@@ -15,7 +15,7 @@ const PaginationTableShowing = ({
 }) => {
 	if (isMobile) {
 		return (
-			<div style={{}}>
+			<div style={{ marginBottom: '1em' }}>
 				<div>
 					{length > 0 ?
 						`${translate.table_showing_part1} ${(page - 1) * limit
