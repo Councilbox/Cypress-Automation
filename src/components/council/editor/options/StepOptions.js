@@ -48,7 +48,6 @@ const StepOptions = ({
 		majorityAlert: false,
 		alertText: '',
 		success: false,
-		replyTo: false,
 		errors: {
 			confirmAssistance: '',
 			actPointMajorityDivider: -1,
@@ -206,8 +205,6 @@ const StepOptions = ({
 			}
 		});
 	}
-
-	console.log(data);
 
 	const nextPage = async () => {
 		if (!checkRequiredFields()) {
@@ -603,7 +600,7 @@ const StepOptions = ({
 								})
 								}
 							/>
-							{<GridItem xs={12} md={6} lg={4}>
+							<GridItem xs={12} md={6} lg={4}>
 								<TextInput
 									floatingText={translate.contact_email}
 									type="text"
@@ -619,7 +616,7 @@ const StepOptions = ({
 									})
 									}
 								/>
-							</GridItem>}
+							</GridItem>
 							{CBX.hasAct(council.statute) && council.councilType < 2 && (
 								<React.Fragment>
 									<SectionTitle
