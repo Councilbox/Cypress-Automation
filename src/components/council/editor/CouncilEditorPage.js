@@ -53,7 +53,7 @@ const CouncilEditorPage = ({ council, translate, company }) => {
 
 	return (
 		<CardPageLayout disableScroll={true}>
-			<div
+			{/* <div
 				style={{
 					width: '100%',
 					textAlign: 'center',
@@ -68,10 +68,11 @@ const CouncilEditorPage = ({ council, translate, company }) => {
 						goToPage={goToPage}
 					/>
 				</div>
-			</div>
+			</div> */}
 			<div style={{ width: '100%', height: 'calc(100% - 3em)' }}>
 				{step === 1 && (
 					<CouncilEditorNotice
+						step={step}
 						versionControl={Math.random()}
 						nextStep={nextStep}
 						actualStep={actualStep}
@@ -82,6 +83,7 @@ const CouncilEditorPage = ({ council, translate, company }) => {
 				)}
 				{step === 2 && (
 					<CouncilEditorCensus
+						step={step}
 						nextStep={nextStep}
 						previousStep={previousStep}
 						actualStep={actualStep}
@@ -92,6 +94,7 @@ const CouncilEditorPage = ({ council, translate, company }) => {
 				)}
 				{step === 3 && (
 					<CouncilEditorAgenda
+						step={step}
 						nextStep={nextStep}
 						previousStep={previousStep}
 						actualStep={actualStep}
@@ -102,6 +105,7 @@ const CouncilEditorPage = ({ council, translate, company }) => {
 				)}
 				{step === 4 && (
 					<CouncilEditorAttachments
+						step={step}
 						nextStep={nextStep}
 						previousStep={previousStep}
 						actualStep={actualStep}
@@ -112,6 +116,7 @@ const CouncilEditorPage = ({ council, translate, company }) => {
 				)}
 				{step === 5 && (
 					<CouncilEditorOptions
+						step={step}
 						nextStep={nextStep}
 						previousStep={previousStep}
 						actualStep={actualStep}
@@ -122,6 +127,7 @@ const CouncilEditorPage = ({ council, translate, company }) => {
 				)}
 				{step === 6 && (
 					<CouncilEditorPreview
+						step={step}
 						nextStep={nextStep}
 						previousStep={previousStep}
 						actualStep={actualStep}

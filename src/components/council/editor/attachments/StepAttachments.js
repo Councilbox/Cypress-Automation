@@ -24,9 +24,10 @@ import EditorStepLayout from '../EditorStepLayout';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import AddCouncilAttachmentButton from './AddCouncilAttachmentButton';
 import { useCouncilAttachments } from '../../../../hooks/council';
+import EditorStepper from '../EditorStepper';
 
 
-const StepAttachments = ({ client, translate, ...props }) => {
+const StepAttachments = ({ client, translate, step, ...props }) => {
 	const [data, setData] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
 	const [state, setState] = React.useState({
@@ -166,118 +167,142 @@ const StepAttachments = ({ client, translate, ...props }) => {
 		}
 	};
 
+	const previousPage = async () => {
+		await updateCouncil(4);
+		props.previousStep();
+	};
+
 	let attachments = [];
 	if (!loading) {
 		attachments = data.council.attachments;
 	}
 
 	return (
-		<EditorStepLayout
-			body={
-				<React.Fragment>
-					<Grid>
-						<GridItem xs={12} md={10} style={{ marginTop: '0.5em' }}>
-							<ProgressBar
-								value={
-									totalSize > 0 ?
-										(totalSize / MAX_FILE_SIZE)
-										* 100
-										: 0
-								}
-								color={secondary}
-								style={{ height: '1.2em' }}
-							/>
+		<React.Fragment>
+			<div
+				style={{
+					width: '100%',
+					textAlign: 'center',
+				}}
+			>
+				<div style={{
+					marginBottom: '1.2em', marginTop: '0.8em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 1.5rem'
+				}}>
+					<EditorStepper
+						translate={translate}
+						active={step - 1}
+						goToPage={nextPage}
+						previousPage={previousPage}
+					/>
+				</div>
+			</div>
+			<EditorStepLayout
+				body={
+					<React.Fragment>
+						<Grid>
+							<GridItem xs={12} md={10} style={{ marginTop: '0.5em' }}>
+								<ProgressBar
+									value={
+										totalSize > 0 ?
+											(totalSize / MAX_FILE_SIZE)
+											* 100
+											: 0
+									}
+									color={secondary}
+									style={{ height: '1.2em' }}
+								/>
 
-							<Typography variant="caption">
-								{`${formatSize(totalSize * 1000)} (${translate.max}. 15Mb)`}
-							</Typography>
-						</GridItem>
-						<GridItem xs={12} md={2}>
-							{showAddCouncilAttachment(attachments) && (
-								<>
-									<AddCouncilAttachmentButton
-										company={props.company}
-										handleCompanyDocumentFile={file => addCompanyDocumentCouncilAttachment(file.id)}
-										handleFile={handleFile}
-										loading={uploading}
-										translate={translate}
-									/>
-								</>
-							)}
-						</GridItem>
-					</Grid>
+								<Typography variant="caption">
+									{`${formatSize(totalSize * 1000)} (${translate.max}. 15Mb)`}
+								</Typography>
+							</GridItem>
+							<GridItem xs={12} md={2}>
+								{showAddCouncilAttachment(attachments) && (
+									<>
+										<AddCouncilAttachmentButton
+											company={props.company}
+											handleCompanyDocumentFile={file => addCompanyDocumentCouncilAttachment(file.id)}
+											handleFile={handleFile}
+											loading={uploading}
+											translate={translate}
+										/>
+									</>
+								)}
+							</GridItem>
+						</Grid>
 
-					{loading ?
-						<LoadingSection />
-						: attachments.length > 0 && (
-							<AttachmentList
-								attachments={attachments}
-								refetch={getData}
-								deleteAction={removeCouncilAttachment}
-								translate={translate}
-							/>
-						)
-					}
-					<ErrorAlert
-						title={translate.error}
-						bodyText={translate.file_exceeds_rest}
-						open={state.alert}
-						requestClose={() => setState({ ...state, alert: false })}
-						buttonAccept={translate.accept}
-					/>
-				</React.Fragment>
-			}
-			buttons={
-				<React.Fragment>
-					<BasicButton
-						text={translate.previous}
-						disabled={uploading}
-						color={secondary}
-						textStyle={{
-							color: 'white',
-							fontWeight: '700',
-							fontSize: '0.9em',
-							textTransform: 'none'
-						}}
-						textPosition="after"
-						onClick={props.previousStep}
-					/>
-					<BasicButton
-						text={translate.save}
-						color={secondary}
-						loading={state.loading}
-						success={state.success}
-						reset={resetButtonStates}
-						textStyle={{
-							color: 'white',
-							fontWeight: '700',
-							marginLeft: '0.5em',
-							marginRight: '0.5em',
-							fontSize: '0.9em',
-							textTransform: 'none'
-						}}
-						icon={<ButtonIcon color="white" type="save" />}
-						textPosition="after"
-						onClick={() => updateCouncil(4)}
-					/>
-					<BasicButton
-						text={translate.next}
-						loading={loading || uploading}
-						id={'attachmentSiguienteNew'}
-						loadingColor={'white'}
-						color={primary}
-						textStyle={{
-							color: 'white',
-							fontWeight: '700',
-							fontSize: '0.9em',
-							textTransform: 'none'
-						}}
-						textPosition="after"
-						onClick={nextPage}
-					/>
-				</React.Fragment>
-			}
-		/>
+						{loading ?
+							<LoadingSection />
+							: attachments.length > 0 && (
+								<AttachmentList
+									attachments={attachments}
+									refetch={getData}
+									deleteAction={removeCouncilAttachment}
+									translate={translate}
+								/>
+							)
+						}
+						<ErrorAlert
+							title={translate.error}
+							bodyText={translate.file_exceeds_rest}
+							open={state.alert}
+							requestClose={() => setState({ ...state, alert: false })}
+							buttonAccept={translate.accept}
+						/>
+					</React.Fragment>
+				}
+				buttons={
+					<React.Fragment>
+						<BasicButton
+							text={translate.previous}
+							disabled={uploading}
+							color={secondary}
+							textStyle={{
+								color: 'white',
+								fontWeight: '700',
+								fontSize: '0.9em',
+								textTransform: 'none'
+							}}
+							textPosition="after"
+							onClick={props.previousStep}
+						/>
+						<BasicButton
+							text={translate.save}
+							color={secondary}
+							loading={state.loading}
+							success={state.success}
+							reset={resetButtonStates}
+							textStyle={{
+								color: 'white',
+								fontWeight: '700',
+								marginLeft: '0.5em',
+								marginRight: '0.5em',
+								fontSize: '0.9em',
+								textTransform: 'none'
+							}}
+							icon={<ButtonIcon color="white" type="save" />}
+							textPosition="after"
+							onClick={() => updateCouncil(4)}
+						/>
+						<BasicButton
+							text={translate.next}
+							loading={loading || uploading}
+							id={'attachmentSiguienteNew'}
+							loadingColor={'white'}
+							color={primary}
+							textStyle={{
+								color: 'white',
+								fontWeight: '700',
+								fontSize: '0.9em',
+								textTransform: 'none'
+							}}
+							textPosition="after"
+							onClick={nextPage}
+						/>
+					</React.Fragment>
+				}
+			/>
+		</React.Fragment >
 	);
 };
 

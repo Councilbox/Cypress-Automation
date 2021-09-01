@@ -8,10 +8,12 @@ import withWindowSize from '../../../HOCs/withWindowSize';
 import { isMobile } from '../../../utils/screen';
 
 const EditorStepper = ({
-	translate, active, goToPage, windowSize
+	translate, active, goToPage, windowSize, previousPage
 }) => {
 	const secondary = getSecondary();
 	const primary = getPrimary();
+	const previous = active - 1;
+	const next = active + 1;
 
 	const steps = [
 		{
@@ -115,38 +117,30 @@ const EditorStepper = ({
 						<span
 							style={{
 								userSelect: 'none',
-								cursor: active > step.index ? 'pointer' : 'inherit',
+								cursor: previous === step.index || next === step.index ? 'pointer' : 'inherit',
 								...(active === step.index ? {
 									fontSize: !isMobile ? '18px' : '1rem',
 									textDecoration: 'underline'
 								} : {})
 							}}
-							{...(active > step.index ?
-								{
-									onClick: () => goToPage(step.index + 1),
-								}
-								: {})}
+							onClick={() => (next === step.index ? goToPage() : step.index === previous && previousPage())}
 						>
 							{step.text}
 						</span>
 					}
 					icon={
-						<Icon
+						< Icon
 							type={step.icon}
 							style={{
 								color: active === step.index ? primary : secondary,
-								cursor: active > step.index ? 'pointer' : 'inherit'
+								cursor: previous === step.index || next === step.index ? 'pointer' : 'inherit',
 							}}
-							{...(active > step.index ?
-								{
-									onClick: () => goToPage(step.index + 1),
-								}
-								: {})}
+							onClick={() => (next === step.index ? goToPage() : step.index === previous && previousPage())}
 						/>
 					}
 				/>
 			))}
-		</Steps>
+		</Steps >
 	);
 };
 
