@@ -73,7 +73,13 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
 	};
 
 	const renderBody = () => (
-		<div style={{ marginTop: '1em', marginBottom: '2em', width: window.innerWidth > 720 ? '720px' : '100%' }}>
+		<div style={{
+			marginTop: '1em',
+			marginBottom: '2em',
+			width: window.innerWidth > 720 ? '720px' : '100%',
+			height: '100%',
+			overflow: 'hidden'
+		}}>
 			<CustomPointForm
 				{...{
 					...props,
@@ -111,6 +117,11 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
 			}
 			bodyText={renderBody()}
 			title={translate.edit}
+			bodyStyle={{
+				height: 'calc(75vh - 64px)',
+				overflow: 'hidden',
+				width: '100%',
+			}}
 		/>
 	);
 };
