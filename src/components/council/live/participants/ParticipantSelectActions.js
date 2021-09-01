@@ -49,6 +49,7 @@ class ParticipantSelectActions extends React.Component {
 			translate, participant, council, onlyButtonDelegateVote
 		} = this.props;
 		const { loading } = this.state;
+		console.log(this.state);
 		if (onlyButtonDelegateVote) {
 			return (
 				// CBX.canAddDelegateVotes(council.statute, participant) && (
@@ -186,15 +187,6 @@ class ParticipantSelectActions extends React.Component {
 					</ButtonActions>
 				)}
 
-				<AddRepresentativeModal
-					show={this.state.addRepresentative}
-					council={council}
-					participant={participant}
-					refetch={this.props.refetch}
-					requestClose={() => this.setState({ addRepresentative: false })
-					}
-					translate={translate}
-				/>
 				{this.state.delegateOwnVote
 					&& <DelegateOwnVoteModal
 						show={this.state.delegateOwnVote}
