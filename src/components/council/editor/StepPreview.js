@@ -147,11 +147,12 @@ const StepPreview = ({
 						<LiveToast
 							id="success-toast"
 							message={translate.council_sended}
-						/>, {
-						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,
-						className: 'successToast'
-					}
+						/>,
+						{
+							position: toast.POSITION.TOP_RIGHT,
+							autoClose: true,
+							className: 'successToast'
+						}
 					);
 					bHistory.push(`/company/${company.id}/council/${council.id}/prepare`);
 				}
@@ -251,11 +252,12 @@ const StepPreview = ({
 					toast(
 						<LiveToast
 							message={translate.changes_saved}
-						/>, {
-						position: toast.POSITION.TOP_RIGHT,
-						autoClose: true,
-						className: 'successToast'
-					}
+						/>,
+						{
+							position: toast.POSITION.TOP_RIGHT,
+							autoClose: true,
+							className: 'successToast'
+						}
 					);
 					bHistory.push(`/company/${company.id}/council/${data.council.id}/prepare`);
 				}

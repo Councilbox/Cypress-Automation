@@ -35,7 +35,12 @@ const buttonStyle = {
 	textTransform: 'none'
 };
 
-const StepAgenda = ({ client, translate, step, ...props }) => {
+const StepAgenda = ({
+	client,
+	translate,
+	step,
+	...props
+}) => {
 	const [state, setState] = useOldState({
 		votingTypes: [],
 		edit: false,
@@ -78,7 +83,7 @@ const StepAgenda = ({ client, translate, step, ...props }) => {
 		getData();
 	}, [getData]);
 
-	const updateCouncil = async step => {
+	const updateCouncil = async stepIn => {
 		setState({ loading: true });
 		const {
 			agendas, statute, __typename, ...council
@@ -88,7 +93,7 @@ const StepAgenda = ({ client, translate, step, ...props }) => {
 			variables: {
 				council: {
 					...council,
-					step
+					stepIn
 				}
 			}
 		});

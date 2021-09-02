@@ -77,7 +77,7 @@ const StepCensus = ({ translate, data, step, ...props }) => {
 		});
 	};
 
-	const saveDraft = async step => {
+	const saveDraft = async stepIn => {
 		setState({
 			loading: true
 		});
@@ -88,7 +88,7 @@ const StepCensus = ({ translate, data, step, ...props }) => {
 			variables: {
 				council: {
 					...council,
-					step
+					stepIn
 				}
 			}
 		});

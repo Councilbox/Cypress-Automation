@@ -9,7 +9,6 @@ import CouncilEditorOptions from './options/StepOptions';
 import CouncilEditorPreview from './StepPreview';
 import { bHistory } from '../../../containers/App';
 import { checkCouncilState } from '../../../utils/CBX';
-import EditorStepper from './EditorStepper';
 
 
 const CouncilEditorPage = ({ council, translate, company }) => {
@@ -53,22 +52,6 @@ const CouncilEditorPage = ({ council, translate, company }) => {
 
 	return (
 		<CardPageLayout disableScroll={true}>
-			{/* <div
-				style={{
-					width: '100%',
-					textAlign: 'center',
-				}}
-			>
-				<div style={{
-					marginBottom: '1.2em', marginTop: '0.8em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 1.5rem'
-				}}>
-					<EditorStepper
-						translate={translate}
-						active={step - 1}
-						goToPage={goToPage}
-					/>
-				</div>
-			</div> */}
 			<div style={{ width: '100%', height: 'calc(100% - 3em)' }}>
 				{step === 1 && (
 					<CouncilEditorNotice

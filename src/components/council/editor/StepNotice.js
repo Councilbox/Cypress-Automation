@@ -261,7 +261,7 @@ const StepNotice = ({
 		return hasError;
 	}
 
-	const updateCouncil = async step => {
+	const updateCouncil = async stepIn => {
 		setState({
 			...state,
 			loading: true
@@ -273,7 +273,7 @@ const StepNotice = ({
 			variables: {
 				council: {
 					...rest,
-					step
+					stepIn
 				}
 			}
 		});
@@ -357,8 +357,8 @@ const StepNotice = ({
 
 			const name = council.name.replace(new RegExp(`${translate[oldTitle] ?
 				translate[oldTitle] : oldTitle}`),
-				translate[response.data.changeCouncilStatute.title] ?
-					translate[response.data.changeCouncilStatute.title] : response.data.changeCouncilStatute.title);
+			translate[response.data.changeCouncilStatute.title] ?
+				translate[response.data.changeCouncilStatute.title] : response.data.changeCouncilStatute.title);
 			updateState({
 				name
 			});

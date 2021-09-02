@@ -81,7 +81,7 @@ const StepOptions = ({
 	const { council } = state.data;
 
 
-	const updateCouncil = async step => {
+	const updateCouncil = async stepIn => {
 		setState({
 			...state,
 			loading: true
@@ -111,7 +111,7 @@ const StepOptions = ({
 					...rest,
 					sendPointsMode: !CBX.councilHasVideo({ councilType: council.councilType }) ? 0 : 1,
 					closeDate: council.closeDate ? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm'),
-					step
+					stepIn
 				}
 			}
 		});
@@ -662,7 +662,7 @@ const StepOptions = ({
 																		>
 																			{
 																				translate[
-																				majority.label
+																					majority.label
 																				]
 																			}
 																		</MenuItem>
@@ -673,7 +673,8 @@ const StepOptions = ({
 														<div style={{ display: 'flex', alignItems: 'flex-end' }}>
 															{CBX.majorityNeedsInput(
 																council.actPointMajorityType
-															) && (
+															) &&
+																(
 																	<MajorityInput
 																		type={council.actPointMajorityType}
 																		style={{ marginLeft: '1em' }}
@@ -688,7 +689,8 @@ const StepOptions = ({
 																			actPointMajorityDivider: +value
 																		})}
 																	/>
-																)}
+																)
+															}
 														</div>
 													</div>
 												</div>
