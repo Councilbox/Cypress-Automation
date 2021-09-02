@@ -24,6 +24,7 @@ import AttendIntentionIcon from '../live/participants/AttendIntentionIcon';
 import AttendComment from './modals/AttendComment';
 import { isMobile } from '../../../utils/screen';
 import { useOldState, usePolling } from '../../../hooks';
+import DropdownParticipant from '../../../displayComponents/DropdownParticipant';
 
 const formatParticipant = participant => {
 	let { ...newParticipant } = participant;
@@ -258,12 +259,15 @@ const ConvenedParticipantsTable = ({
 								}
 								{!hideAddParticipant
 									&& <div>
-										<AddConvenedParticipantButton
+										<DropdownParticipant
 											participations={participations}
-											translate={translate}
-											councilId={council.id}
 											council={council}
+											translate={translate}
 											refetch={refetch}
+											style={{
+												padding: '.2rem',
+												margin: '0 .2rem'
+											}}
 										/>
 									</div>
 								}
@@ -587,7 +591,7 @@ class HoverableRow extends React.Component {
 									onCommentClick={this.props.showModalComment({
 										text: participant.representatives.length > 0 ? participant.representative.live.assistanceComment : participant.live.assistanceComment,
 										author: participant.representatives.length > 0 ?
-											`${participant.name} ${participant.surname || ''} - ${translate.represented_by} ${representative.name} ${representative.surname || ''}`
+												`${participant.name} ${participant.surname || ''} - ${translate.represented_by} ${representative.name} ${representative.surname || ''}`
 											: `${participant.name} ${participant.surname || ''}`
 									})}
 									translate={translate}
