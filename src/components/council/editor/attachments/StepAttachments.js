@@ -168,7 +168,7 @@ const StepAttachments = ({ client, translate, step, ...props }) => {
 	};
 
 	const previousPage = async () => {
-		await updateCouncil(4);
+		await updateCouncil(3);
 		props.previousStep();
 	};
 
@@ -264,7 +264,7 @@ const StepAttachments = ({ client, translate, step, ...props }) => {
 								textTransform: 'none'
 							}}
 							textPosition="after"
-							onClick={props.previousStep}
+							onClick={previousPage}
 						/>
 						<BasicButton
 							text={translate.save}
