@@ -130,7 +130,7 @@ const StepAttachments = ({ client, translate, step, ...props }) => {
 		getData();
 	};
 
-	const updateCouncil = async step => {
+	const updateCouncil = async stepIn => {
 		setState({
 			...state,
 			loading: true
@@ -140,7 +140,7 @@ const StepAttachments = ({ client, translate, step, ...props }) => {
 			variables: {
 				council: {
 					...council,
-					step
+					stepIn
 				}
 			}
 		});
