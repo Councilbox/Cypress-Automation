@@ -152,19 +152,17 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 										translate={translate}
 										refetch={data.refetch}
 									/>
-									{CBX.canHaveRepresentative(participant)
-										&& !(participant.hasDelegatedVotes > 0) && (
-										<DropdownRepresentative
-											participant={participant}
-											translate={translate}
-											council={props.council}
-											refetch={data.refetch}
-										/>
-									)
-									}
-
 								</div>
-
+								{CBX.canHaveRepresentative(participant)
+									&& !(participant.hasDelegatedVotes > 0) && (
+									<DropdownRepresentative
+										participant={participant}
+										translate={translate}
+										council={props.council}
+										refetch={data.refetch}
+									/>
+								)
+								}
 							</GridItem>
 						</Grid>
 						{CBX.isRepresented(participant) ?

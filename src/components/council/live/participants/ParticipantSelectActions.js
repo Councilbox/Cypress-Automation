@@ -49,7 +49,6 @@ class ParticipantSelectActions extends React.Component {
 			translate, participant, council, onlyButtonDelegateVote
 		} = this.props;
 		const { loading } = this.state;
-		console.log(this.state);
 		if (onlyButtonDelegateVote) {
 			return (
 				// CBX.canAddDelegateVotes(council.statute, participant) && (
@@ -94,45 +93,14 @@ class ParticipantSelectActions extends React.Component {
 			<Grid
 				style={{
 					marginTop: '1em',
+					marginLeft: '.5em',
 					width: '100%',
 					display: 'flex',
 					flexDirection: isMobile ? 'column' : 'row',
 					alignItems: !isMobile && 'center',
-					gap: '.5rem'
+					gap: '.5rem',
 				}}
 			>
-				{/* {CBX.canHaveRepresentative(participant)
-					&& !(participant.hasDelegatedVotes > 0) && (
-					<GridItem xs={12} md={6} lg={4}>
-						<ButtonActions
-							loading={loading === 4}
-							onClick={() => this.setState({
-								addRepresentative: true
-							})
-							}
-
-						>
-							<div
-								style={{ display: 'flex', alignItems: 'center', overflow: 'hidden' }}
-							>
-								<div style={{ width: '3em' }}>
-									<StateIcon
-										translate={translate}
-										state={PARTICIPANT_STATES.REPRESENTATED}
-										color={'black'}
-										hideTooltip={true}
-										styles={{ padding: '0em' }}
-									/>
-								</div>
-								<div style={{
-									display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
-								}}>
-									<span style={{ fontSize: '0.9em' }}>{participant.representative ? translate.change_representative : translate.add_representative}</span>
-								</div>
-							</div>
-						</ButtonActions>
-					</GridItem>
-				)} */}
 				{(this.props.council.councilType !== 4 && this.props.council.councilType !== 5 && participant.numParticipations > 0)
 					&& <EarlyVotingModal
 						council={this.props.council}
@@ -143,7 +111,7 @@ class ParticipantSelectActions extends React.Component {
 							border: 'solid 2px #a09aa0',
 							padding: '1em',
 							cursor: 'pointer',
-							margin: ' 0 .5em',
+							margin: ' 0 .5em 0 0',
 
 						}}
 						textStyle={{
