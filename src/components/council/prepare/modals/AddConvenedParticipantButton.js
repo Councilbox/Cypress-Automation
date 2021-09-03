@@ -290,7 +290,8 @@ const AddConvenedParticipantButton = ({
 										errors={errors}
 										updateState={updateState}
 									/>
-									:									<ParticipantForm
+									:
+									<ParticipantForm
 										type={participant.personOrEntity}
 										participant={participant}
 										participations={participations}

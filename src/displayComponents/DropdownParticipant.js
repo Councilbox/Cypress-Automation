@@ -29,42 +29,41 @@ const DropdownParticipant = ({
 					padding: '0.5rem',
 					...style
 				}}
-				Component={() =>
-					<div
-						style={{
-							display: 'flex',
-							flexDirection: 'row',
-							alignItems: 'center',
-							justifyContent: 'space-between',
-							cursor: 'pointer',
-							color: 'black',
-							width: '100%',
-							height: '100%',
-						}}
-					>
+				Component={() => <div
+					style={{
+						display: 'flex',
+						flexDirection: 'row',
+						alignItems: 'center',
+						justifyContent: 'space-between',
+						cursor: 'pointer',
+						color: 'black',
+						width: '100%',
+						height: '100%',
+					}}
+				>
+					<div style={{
+						display: 'flex',
+						flexDirection: 'row',
+						alignItems: 'center',
+					}}>
 						<div style={{
-							display: 'flex',
-							flexDirection: 'row',
-							alignItems: 'center',
+							fontSize: '.75em'
 						}}>
-							<div style={{
-								fontSize: '.75em'
-							}}>
-								<StateIcon
-									translate={translate}
-									state={PARTICIPANT_STATES.REPRESENTATED}
-									color={getSecondary()}
-									hideTooltip={true}
-								/>
-							</div>
-							<span>{translate.add}</span>
+							<StateIcon
+								translate={translate}
+								state={PARTICIPANT_STATES.REPRESENTATED}
+								color={getSecondary()}
+								hideTooltip={true}
+							/>
 						</div>
-						<div>
-							<span style={{ fontSize: '1em' }}>
-								<i className="fa fa-caret-down" aria-hidden="true" />
-							</span>
-						</div>
+						<span>{translate.add}</span>
 					</div>
+					<div>
+						<span style={{ fontSize: '1em' }}>
+							<i className="fa fa-caret-down" aria-hidden="true" />
+						</span>
+					</div>
+				</div>
 				}
 				items={
 					<div>
