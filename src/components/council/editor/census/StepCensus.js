@@ -88,7 +88,7 @@ const StepCensus = ({ translate, data, step, ...props }) => {
 			variables: {
 				council: {
 					...council,
-					stepIn
+					step: stepIn
 				}
 			}
 		});

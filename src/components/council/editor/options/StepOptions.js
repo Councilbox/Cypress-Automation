@@ -111,7 +111,7 @@ const StepOptions = ({
 					...rest,
 					sendPointsMode: !CBX.councilHasVideo({ councilType: council.councilType }) ? 0 : 1,
 					closeDate: council.closeDate ? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm'),
-					stepIn
+					step: stepIn
 				}
 			}
 		});

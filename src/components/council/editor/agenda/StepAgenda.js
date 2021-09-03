@@ -93,7 +93,7 @@ const StepAgenda = ({
 			variables: {
 				council: {
 					...council,
-					stepIn
+					step: stepIn
 				}
 			}
 		});

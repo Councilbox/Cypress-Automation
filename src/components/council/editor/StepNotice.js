@@ -273,7 +273,7 @@ const StepNotice = ({
 			variables: {
 				council: {
 					...rest,
-					stepIn
+					step: stepIn
 				}
 			}
 		});
