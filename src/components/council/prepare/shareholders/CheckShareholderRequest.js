@@ -10,6 +10,8 @@ import RefuseRequestButton from './RefuseRequestButton';
 import DelegateVoteButton from './DelegateVoteButton';
 import { getVote } from '../../../participant/ResultsTimeline';
 import SendRequestConfirmationButton from './SendRequestConfirmationButton';
+import { SERVER_URL } from '../../../../config';
+import { useDownloadDocument } from '../../../../hooks';
 
 export const getTypeText = (text, translate) => {
 	const texts = {
@@ -32,6 +34,7 @@ const CheckShareholderRequest = ({
 	const [inModal, setInModal] = React.useState(null);
 	const [representative, setRepresentative] = React.useState(false);
 	const secondary = getSecondary();
+	const [downloading, download] = useDownloadDocument();
 
 	const downloadAttachment = async (requestId, index) => {
 		const response = await client.query({
@@ -53,6 +56,11 @@ const CheckShareholderRequest = ({
 		const base64 = file.base64.split(';base64,').pop();
 		downloadFile(base64, file.filetype, file.filename);
 	};
+
+	const downloadNew = async attachment => {
+        download(`${SERVER_URL}/portalRequestAttachment/${attachment.id}`, attachment.filename);
+    }
+
 	const modalBody = () => (
 		<>
 			<div>
@@ -116,13 +124,24 @@ const CheckShareholderRequest = ({
 				}
 			</div>
 			<div style={{ marginTop: '1em', marginBottom: '1.6em' }}>
-				{request.data.attachments.length > 0
+				{request.data.attachments?.length > 0
 					&& <div>  {translate.attachments} :</div>
 				}
 				{request.data.attachments ?
-					request.data.attachments.map((attachment, index) => (
+					request.data.attachments?.map((attachment, index) => (
 						<div key={`adjuntos_${index}`} onClick={() => downloadAttachment(request.id, index)} style={{ cursor: 'pointer' }}>
 							<i className='fa fa-file-pdf-o'></i>  {attachment.name}
+						</div>
+					))
+					: ''
+				}
+				{request.attachments?.length > 0
+					&& <div>  {translate.attachments} :</div>
+				}
+				{request.attachments ?
+					request.attachments?.map((attachment, index) => (
+						<div key={`adjuntos_${index}`} onClick={() => downloadNew(attachment)} style={{ cursor: 'pointer' }}>
+							<i className='fa fa-file-pdf-o'></i>  {attachment.filename}
 						</div>
 					))
 					: ''

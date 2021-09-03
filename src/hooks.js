@@ -520,3 +520,33 @@ export const useCheckValidPhone = client => {
 		checkValidPhone
 	};
 };
+
+export const useDownloadDocument = () => {
+	const [downloading, setDownloading] = React.useState(false);
+
+	const download = async (path, filename) => {
+		setDownloading(true);
+		const token = sessionStorage.getItem('token');
+		const apiToken = sessionStorage.getItem('apiToken');
+		const participantToken = sessionStorage.getItem('participantToken');
+		const response = await fetch(path, {
+			headers: new Headers({
+				'x-jwt-token': token || apiToken || participantToken,
+			})
+		});
+
+		if (response.status === 200) {
+			const blob = await response.blob();
+			const url = window.URL.createObjectURL(blob);
+			const a = document.createElement('a');
+			a.href = url;
+			a.download = filename;
+			document.body.appendChild(a);
+			a.click();
+			a.remove();
+		}
+		setDownloading(false);
+	};
+
+	return [downloading, download];
+};
