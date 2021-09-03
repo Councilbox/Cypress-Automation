@@ -11,28 +11,26 @@ import DropDownMenu from './DropDownMenu';
 
 
 const DropdownRepresentative = ({
-	client, participant, council, refetch, translate, ...props
+	client, participant, council, refetch, translate, style
 }) => {
 	const [state, setState] = React.useState({
 		addRepresentative: false,
 		selectRepresentative: false,
-		representative: {}
 	});
 
-	// const addRepresentative = async (representative) => {
-	// 	console.log(representative)
+	// const addRepresentative = async representative => {
 	// 	const response = await client.mutate({
 	// 		mutation: updateCouncilParticipant,
 	// 		variables: {
-	// 			representative: representative,
+	// 			representative,
 	// 			participantId: participant.id
 	// 		}
 	// 	});
 
-	// 	if(response.data.addRepresentative.success){
-	// 		refetch()
+	// 	if (response.data.addRepresentative.success) {
+	// 		refetch();
 	// 	}
-	// }
+	// };
 
 
 	return (
@@ -45,6 +43,7 @@ const DropdownRepresentative = ({
 					padding: '.5rem',
 					maxWidth: '50%',
 					marginLeft: '.5em',
+					...style,
 				}}
 				Component={() => <div
 					style={{
@@ -152,7 +151,7 @@ const DropdownRepresentative = ({
 				council={council}
 				translate={translate}
 				updateRepresentative={representative => {
-					// addRepresentative(representative)
+					// addRepresentative(representative);
 				}}
 				requestClose={() => setState({
 					...state,
@@ -163,5 +162,5 @@ const DropdownRepresentative = ({
 	);
 };
 
-export default withApollo(React.memo(DropdownRepresentative));
+export default withApollo(DropdownRepresentative);
 
