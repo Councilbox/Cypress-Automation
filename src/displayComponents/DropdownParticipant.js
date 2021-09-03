@@ -3,8 +3,8 @@ import BasicButton from './BasicButton';
 import StateIcon from '../components/council/live/participants/StateIcon';
 import { PARTICIPANT_STATES } from '../constants';
 import { getSecondary } from '../styles/colors';
-import AddConvenedParticipantModal from '../components/council/prepare/modals/AddConvenedParticipantModal';
 import { isMobile } from '../utils/screen';
+import AddConvenedParticipantButton from '../components/council/prepare/modals/AddConvenedParticipantButton';
 import ButtonIcon from './ButtonIcon';
 import AddGuestModal from '../components/council/live/participants/AddGuestModal';
 import DropDownMenu from './DropDownMenu';
@@ -37,27 +37,31 @@ const DropdownParticipant = ({
 							alignItems: 'center',
 							justifyContent: 'space-between',
 							cursor: 'pointer',
-							color: 'black'
+							color: 'black',
+							width: '100%',
+							height: '100%',
 						}}
 					>
 						<div style={{
 							display: 'flex',
 							flexDirection: 'row',
 							alignItems: 'center',
-							fontSize: '.9rem'
 						}}>
-							<StateIcon
-								translate={translate}
-								state={PARTICIPANT_STATES.REPRESENTATED}
-								color={getSecondary()}
-								hideTooltip={true}
-								styles={{ padding: '0em' }}
-							/>
+							<div style={{
+								fontSize: '.75em'
+							}}>
+								<StateIcon
+									translate={translate}
+									state={PARTICIPANT_STATES.REPRESENTATED}
+									color={getSecondary()}
+									hideTooltip={true}
+								/>
+							</div>
 							<span>{translate.add}</span>
 						</div>
 						<div>
-							<span style={{ fontSize: '1rem' }}>
-								<i className="fa fa-caret-down" aria-hidden="true"/>
+							<span style={{ fontSize: '1em' }}>
+								<i className="fa fa-caret-down" aria-hidden="true" />
 							</span>
 						</div>
 					</div>
@@ -99,7 +103,8 @@ const DropdownParticipant = ({
 				}}
 			/>
 
-			<AddConvenedParticipantModal
+			<AddConvenedParticipantButton
+				buttonAdd={false}
 				modal={state.add}
 				requestClose={() => setState({ ...state, add: !state.add })}
 				participations={participations}
