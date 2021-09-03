@@ -1039,7 +1039,8 @@ export const councilStepFive = gql`
 			companyId
 			wallActive
 			confirmAssistance
-			councilType
+			councilType,
+			contactEmail,
 			presentVoteOverwrite
 			dateStart
 			fullVideoRecord
