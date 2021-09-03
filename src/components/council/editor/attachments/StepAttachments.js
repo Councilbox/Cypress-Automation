@@ -140,7 +140,7 @@ const StepAttachments = ({ client, translate, step, ...props }) => {
 			variables: {
 				council: {
 					...council,
-					stepIn
+					step: stepIn
 				}
 			}
 		});
