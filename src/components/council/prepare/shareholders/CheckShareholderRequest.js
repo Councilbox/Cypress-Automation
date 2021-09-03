@@ -34,7 +34,7 @@ const CheckShareholderRequest = ({
 	const [inModal, setInModal] = React.useState(null);
 	const [representative, setRepresentative] = React.useState(false);
 	const secondary = getSecondary();
-	const [downloading, download] = useDownloadDocument();
+	const [, download] = useDownloadDocument();
 
 	const downloadAttachment = async (requestId, index) => {
 		const response = await client.query({
@@ -58,8 +58,8 @@ const CheckShareholderRequest = ({
 	};
 
 	const downloadNew = async attachment => {
-        download(`${SERVER_URL}/portalRequestAttachment/${attachment.id}`, attachment.filename);
-    }
+		download(`${SERVER_URL}/portalRequestAttachment/${attachment.id}`, attachment.filename);
+	};
 
 	const modalBody = () => (
 		<>
@@ -129,7 +129,11 @@ const CheckShareholderRequest = ({
 				}
 				{request.data.attachments ?
 					request.data.attachments?.map((attachment, index) => (
-						<div key={`adjuntos_${index}`} onClick={() => downloadAttachment(request.id, index)} style={{ cursor: 'pointer' }}>
+						<div
+							key={index}
+							onClick={() => downloadAttachment(request.id, index)}
+							style={{ cursor: 'pointer' }}
+						>
 							<i className='fa fa-file-pdf-o'></i>  {attachment.name}
 						</div>
 					))
@@ -140,7 +144,7 @@ const CheckShareholderRequest = ({
 				}
 				{request.attachments ?
 					request.attachments?.map((attachment, index) => (
-						<div key={`adjuntos_${index}`} onClick={() => downloadNew(attachment)} style={{ cursor: 'pointer' }}>
+						<div key={index} onClick={() => downloadNew(attachment)} style={{ cursor: 'pointer' }}>
 							<i className='fa fa-file-pdf-o'></i>  {attachment.filename}
 						</div>
 					))
