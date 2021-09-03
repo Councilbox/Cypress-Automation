@@ -11,12 +11,11 @@ import DropDownMenu from './DropDownMenu';
 
 
 const DropdownRepresentative = ({
-	client, participant, council, refetch, translate
+	client, participant, council, refetch, translate, style
 }) => {
 	const [state, setState] = React.useState({
 		addRepresentative: false,
 		selectRepresentative: false,
-		representative: {}
 	});
 
 	const addRepresentative = async representative => {
@@ -49,6 +48,7 @@ const DropdownRepresentative = ({
 					padding: '.5rem',
 					maxWidth: '50%',
 					marginLeft: '.5em',
+					...style,
 				}}
 				Component={() => <div
 					style={{
@@ -167,5 +167,5 @@ const DropdownRepresentative = ({
 	);
 };
 
-export default withApollo(React.memo(DropdownRepresentative));
+export default withApollo(DropdownRepresentative);
 
