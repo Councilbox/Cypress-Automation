@@ -39,7 +39,7 @@ const CustomPointForm = ({
 	return (
 		<div style={{ height: '100%', width: '100%' }}>
 			<Scrollbar>
-				<div style={{ paddingRight: '1em' }}>
+				<div style={{ padding: '1em' }}>
 					<Grid spacing={0}>
 						<GridItem xs={12} md={9} lg={9}>
 							<TextInput
@@ -180,7 +180,8 @@ const CustomPointForm = ({
 						display: 'flex',
 						flexDirection: 'column',
 						gap: '10px 0',
-						alignItems: 'center'
+						alignItems: 'center',
+						marginBottom: '.5rem'
 					}}>
 						{items.map((item, index) => (
 							<Card
