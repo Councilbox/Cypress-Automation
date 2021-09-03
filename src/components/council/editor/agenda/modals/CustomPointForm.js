@@ -180,7 +180,8 @@ const CustomPointForm = ({
 						display: 'flex',
 						flexDirection: 'column',
 						gap: '10px 0',
-						alignItems: 'center'
+						alignItems: 'center',
+						marginBottom: '.5rem'
 					}}>
 						{items.map((item, index) => (
 							<Card
