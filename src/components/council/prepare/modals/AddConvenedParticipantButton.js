@@ -57,7 +57,7 @@ const initialRepresentative = {
 };
 
 const AddConvenedParticipantButton = ({
-	translate, council, participations, client, company, ...props
+	translate, council, participations, client, company, buttonAdd = true, modal, requestClose, ...props
 }) => {
 	const [state, setState] = useOldState({
 		modal: false,
@@ -176,6 +176,9 @@ const AddConvenedParticipantButton = ({
 					errors: {},
 					representativeErrors: {}
 				});
+				if (!buttonAdd) {
+					requestClose();
+				}
 			} else if (response.errors[0].message === 'Too many granted words') {
 				setState({
 					...(state.data.initialState === 2 ? {
@@ -221,27 +224,37 @@ const AddConvenedParticipantButton = ({
 
 	const { languages } = props.data;
 
+	const openModal = () => (buttonAdd ? state.modal : modal);
+	const closeModal = () => (buttonAdd ? setState({ modal: false }) : requestClose);
+
+	const button = () => (
+		<BasicButton
+			text={translate.add_participant}
+			disabled={councilIsFinished(council)}
+			color={'white'}
+			textStyle={{
+				color: primary,
+				fontWeight: '700',
+				fontSize: '0.9em',
+				textTransform: 'none'
+			}}
+			textPosition="after"
+			icon={!isMobile ? <ButtonIcon type="add" color={primary} /> : null}
+			onClick={() => setState({ modal: true })}
+			buttonStyle={{
+				marginRight: '1em',
+				border: `2px solid ${primary}`
+			}}
+		/>
+	);
 
 	return (
 		<React.Fragment>
-			<BasicButton
-				text={translate.add_participant}
-				disabled={councilIsFinished(council)}
-				color={'white'}
-				textStyle={{
-					color: primary,
-					fontWeight: '700',
-					fontSize: '0.9em',
-					textTransform: 'none'
-				}}
-				textPosition="after"
-				icon={!isMobile ? <ButtonIcon type="add" color={primary} /> : null}
-				onClick={() => setState({ modal: true })}
-				buttonStyle={{
-					marginRight: '1em',
-					border: `2px solid ${primary}`
-				}}
-			/>
+			{
+				buttonAdd
+				&& button()
+			}
+
 			<AlertConfirm
 				bodyStyle={{ height: '400px', width: '950px' }}
 				bodyText={
@@ -291,8 +304,8 @@ const AddConvenedParticipantButton = ({
 
 								}
 							</div>
-							{!isAppointment(council) &&
-								<div style={{
+							{!isAppointment(council)
+								&& <div style={{
 									boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
 									border: '1px solid rgb(97, 171, 183)',
 									borderRadius: '4px',
@@ -316,8 +329,8 @@ const AddConvenedParticipantButton = ({
 					</Scrollbar>
 				}
 				title={translate.add_participant}
-				requestClose={() => setState({ modal: false })}
-				open={state.modal}
+				requestClose={closeModal()}
+				open={openModal()}
 				actions={
 					<React.Fragment>
 						<BasicButton
@@ -328,9 +341,7 @@ const AddConvenedParticipantButton = ({
 								textTransform: 'none',
 								fontWeight: '700'
 							}}
-							onClick={() => setState({
-								modal: false
-							})}
+							onClick={closeModal()}
 						/>
 						<BasicButton
 							text={council.councilType === COUNCIL_TYPES.BOARD_WITHOUT_SESSION ? translate.save_and_notify : translate.save_changes_and_send}
