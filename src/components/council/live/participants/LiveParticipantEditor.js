@@ -144,7 +144,6 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								</Grid>
 							</GridItem>
 							<GridItem xs={12} md={8} lg={8}>
-
 								<div style={{}}>
 									<ParticipantSelectActions
 										participant={participant}
@@ -154,15 +153,14 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 									/>
 								</div>
 								{CBX.canHaveRepresentative(participant)
-									&& !(participant.hasDelegatedVotes > 0) && (
+									&& !(participant.hasDelegatedVotes) && !(participant.represented.length > 0) && (
 									<DropdownRepresentative
 										participant={participant}
 										translate={translate}
 										council={props.council}
 										refetch={data.refetch}
 									/>
-								)
-								}
+								)}
 							</GridItem>
 						</Grid>
 						{CBX.isRepresented(participant) ?

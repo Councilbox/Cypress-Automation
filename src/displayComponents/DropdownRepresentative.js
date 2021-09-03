@@ -6,12 +6,12 @@ import { PARTICIPANT_STATES } from '../constants';
 import { getSecondary } from '../styles/colors';
 import AddRepresentativeModal from '../components/council/live/AddRepresentativeModal';
 import SelectRepresentative from '../components/council/editor/census/modals/SelectRepresentative';
-import { updateCouncilParticipant } from '../queries/councilParticipant';
+import { upsertConvenedParticipant } from '../queries/councilParticipant';
 import DropDownMenu from './DropDownMenu';
 
 
 const DropdownRepresentative = ({
-	client, participant, council, refetch, translate, ...props
+	client, participant, council, refetch, translate
 }) => {
 	const [state, setState] = React.useState({
 		addRepresentative: false,
@@ -19,20 +19,24 @@ const DropdownRepresentative = ({
 		representative: {}
 	});
 
-	// const addRepresentative = async (representative) => {
-	// 	console.log(representative)
-	// 	const response = await client.mutate({
-	// 		mutation: updateCouncilParticipant,
-	// 		variables: {
-	// 			representative: representative,
-	// 			participantId: participant.id
-	// 		}
-	// 	});
+	const addRepresentative = async representative => {
+		const response = await client.mutate({
+			mutation: upsertConvenedParticipant,
+			variables: {
+				representative,
+				participant: {
+					id: participant.participantId,
+					name: participant.name,
+					councilId: participant.councilId,
+					email: participant.email,
+				}
+			}
+		});
 
-	// 	if(response.data.addRepresentative.success){
-	// 		refetch()
-	// 	}
-	// }
+		if (response.data.updateConvenedParticipant.success) {
+			refetch();
+		}
+	};
 
 
 	return (
@@ -40,7 +44,7 @@ const DropdownRepresentative = ({
 			<DropDownMenu
 				styleComponent={{
 					marginTop: '1rem',
-					border: '2px solid #a09aa0',
+					border: '1px solid #a09aa0',
 					borderRadius: '4px',
 					padding: '.5rem',
 					maxWidth: '50%',
@@ -152,7 +156,7 @@ const DropdownRepresentative = ({
 				council={council}
 				translate={translate}
 				updateRepresentative={representative => {
-					// addRepresentative(representative)
+					addRepresentative(representative);
 				}}
 				requestClose={() => setState({
 					...state,
