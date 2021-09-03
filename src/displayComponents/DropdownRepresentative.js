@@ -14,7 +14,6 @@ const DropdownRepresentative = ({
 	client, participant, council, refetch, translate, ...props
 }) => {
 	const [state, setState] = React.useState({
-		collapse: false,
 		addRepresentative: false,
 		selectRepresentative: false,
 		representative: {}
@@ -47,38 +46,36 @@ const DropdownRepresentative = ({
 					maxWidth: '50%',
 					marginLeft: '.5em',
 				}}
-				Component={() =>
-					<div
-						style={{
-							display: 'flex',
-							flexDirection: 'row',
-							alignItems: 'center',
-							justifyContent: 'space-between',
-							cursor: 'pointer',
-							color: 'black'
-						}}
-						onClick={() => setState({ ...state, collapse: !state.collapse })}
-					>
-						<div style={{
-							display: 'flex',
-							flexDirection: 'row',
-							alignItems: 'center',
-						}}>
-							<StateIcon
-								translate={translate}
-								state={PARTICIPANT_STATES.REPRESENTATED}
-								color={getSecondary()}
-								hideTooltip={true}
-								styles={{ padding: '0em' }}
-							/>
-							<span>{participant.representative ? translate.change_representative : translate.add_representative}</span>
-						</div>
-						<div>
-							<span style={{ fontSize: '2rem' }}>
-								<i className="fa fa-caret-down" aria-hidden="true" style={{ transform: state.collapse ? 'rotate(180deg)' : '', transition: 'all' }}></i>
-							</span>
-						</div>
+				Component={() => <div
+					style={{
+						display: 'flex',
+						flexDirection: 'row',
+						alignItems: 'center',
+						justifyContent: 'space-between',
+						cursor: 'pointer',
+						color: 'black'
+					}}
+				>
+					<div style={{
+						display: 'flex',
+						flexDirection: 'row',
+						alignItems: 'center',
+					}}>
+						<StateIcon
+							translate={translate}
+							state={PARTICIPANT_STATES.REPRESENTATED}
+							color={getSecondary()}
+							hideTooltip={true}
+							styles={{ padding: '0em' }}
+						/>
+						<span>{participant.representative ? translate.change_representative : translate.add_representative}</span>
 					</div>
+					<div>
+						<span style={{ fontSize: '1rem' }}>
+							<i className="fa fa-caret-down" aria-hidden="true" />
+						</span>
+					</div>
+				</div>
 				}
 
 				items={
