@@ -14,7 +14,6 @@ const DropdownParticipant = ({
 	participations, council, refetch, translate, style
 }) => {
 	const [state, setState] = React.useState({
-		collapse: false,
 		add: false,
 		guest: false,
 	});
@@ -22,12 +21,15 @@ const DropdownParticipant = ({
 	return (
 		<>
 			<DropDownMenu
-				Component={() => <div style={{
+				styleComponent={{
+					width: '',
+					maxWidth: '100%',
 					border: '2px solid #a09aa0',
 					borderRadius: '4px',
 					padding: '0.5rem',
 					...style
-				}}>
+				}}
+				Component={() =>
 					<div
 						style={{
 							display: 'flex',
@@ -37,7 +39,6 @@ const DropdownParticipant = ({
 							cursor: 'pointer',
 							color: 'black'
 						}}
-						onClick={() => setState({ ...state, collapse: !state.collapse })}
 					>
 						<div style={{
 							display: 'flex',
@@ -56,15 +57,15 @@ const DropdownParticipant = ({
 						</div>
 						<div>
 							<span style={{ fontSize: '1rem' }}>
-								<i className="fa fa-caret-down" aria-hidden="true" style={{ transform: state.collapse ? 'rotate(180deg)' : '', transition: 'all' }}></i>
+								<i className="fa fa-caret-down" aria-hidden="true"/>
 							</span>
 						</div>
 					</div>
-				</div>
 				}
 				items={
 					<div>
 						<BasicButton
+							type="flat"
 							text={translate.add_participant}
 							disabled={councilIsFinished(council)}
 							textPosition="after"
@@ -78,8 +79,6 @@ const DropdownParticipant = ({
 								justifyContent: 'space-between'
 							}}
 						/>
-
-						<div style={{ border: `1px solid ${getSecondary()}` }} />
 						<BasicButton
 							text={isMobile ? translate.invite_guest : translate.add_guest}
 							color={'white'}

@@ -18,7 +18,6 @@ import { convenedcouncilParticipants } from '../../../queries/councilParticipant
 import { COUNCIL_TYPES, PARTICIPANTS_LIMITS, PARTICIPANT_STATES } from '../../../constants';
 import NotificationFilters from './NotificationFilters';
 import DownloadCBXDataButton from './DownloadCBXDataButton';
-import AddConvenedParticipantButton from './modals/AddConvenedParticipantButton';
 import ConvenedParticipantEditor from './modals/ConvenedParticipantEditor';
 import AttendIntentionIcon from '../live/participants/AttendIntentionIcon';
 import AttendComment from './modals/AttendComment';
@@ -229,7 +228,9 @@ const ConvenedParticipantsTable = ({
 											translate.tooltip_refresh_convene_email_state_assistance
 										}
 									>
-										<div>
+										<div style={{
+											display: 'flex',
+										}}>
 											<BasicButton
 												floatRight
 												text={translate.refresh_convened}
@@ -265,8 +266,9 @@ const ConvenedParticipantsTable = ({
 											translate={translate}
 											refetch={refetch}
 											style={{
+												width: '10em',
 												padding: '.2rem',
-												margin: '0 .2rem'
+												margin: '0 .5rem',
 											}}
 										/>
 									</div>
