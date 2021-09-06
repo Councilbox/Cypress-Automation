@@ -108,7 +108,7 @@ const EditorStepper = ({
 							}}
 							onClick={() => (next === step.index ? goToPage() : step.index === previous && previousPage())}
 						>
-							{step.text}
+							{step.index + 1}. {step.text}
 						</span>
 					}
 					icon={
