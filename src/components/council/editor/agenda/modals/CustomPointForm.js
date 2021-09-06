@@ -188,6 +188,7 @@ const CustomPointForm = ({
 								style={{
 									display: 'flex',
 									padding: '0.6em',
+									marginLeft: '2px',
 									justifyContent: 'space-between',
 									width: 'calc(100% - 32px)',
 								}}
