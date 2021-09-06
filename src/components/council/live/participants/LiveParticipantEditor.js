@@ -117,7 +117,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								}
 								<Grid style={{ marginTop: '1em', display: 'flex' }}>
 									{(CBX.showSendCredentials(participant.state) && props.council.councilType !== 4)
-										&& <GridItem xs={12} md={7} lg={5} style={{}}>
+										&& <GridItem xs={6} md={7} lg={5} style={{}}>
 											<div style={{}}>
 												<ResendCredentialsModal
 													participant={participant}
@@ -129,7 +129,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 											</div>
 										</GridItem>
 									}
-									<GridItem xs={12} md={5} lg={5}>
+									<GridItem xs={6} md={7} lg={5}>
 										{!CBX.isRepresented(participant) && props.council.councilType < 2 && !CBX.hasHisVoteDelegated(participant) && participant.personOrEntity !== 1
 											&& <div>
 												<SignatureButton
@@ -159,6 +159,9 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 										translate={translate}
 										council={props.council}
 										refetch={data.refetch}
+										style={{
+											width: !isMobile && '24.75rem',
+										}}
 									/>
 								)}
 							</GridItem>
