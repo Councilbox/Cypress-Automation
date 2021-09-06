@@ -11,7 +11,7 @@ import {
 import { AlertConfirm, Badge } from '../../../displayComponents';
 import iconVoteInsert from '../../../assets/img/dropping-vote-in-box2.svg';
 import { usePolling } from '../../../hooks';
-import { COUNCIL_STATES } from '../../../constants';
+import { commentWallDisabled } from '../../../utils/CBX';
 
 
 const styles = {
@@ -234,14 +234,18 @@ const CouncilSidebar = ({
 	};
 
 	const renderPrivateMessageButton = () => {
-		const disabled = council.wallActive !== 1 || council.state === COUNCIL_STATES.PAUSED;
+		const disabled = commentWallDisabled(council);
 		return (
 			<Button
 				className={'NoOutline'}
 				title={'sendMessage'}
-				disabled={disabled}
 				style={styles.button}
-				onClick={event => props.setAdminMessage(!props.adminMessage, event)}
+				onClick={event => {
+					if (disabled) {
+						return props.setAdminMessage(false, event);
+					}
+					props.setAdminMessage(!props.adminMessage, event);
+				}}
 			>
 				<div style={{ display: 'unset' }}>
 					<div>
