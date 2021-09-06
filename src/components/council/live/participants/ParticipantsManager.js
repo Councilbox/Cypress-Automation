@@ -22,7 +22,7 @@ const initialState = {
 const ParticipantsManager = ({
 	client, translate, council, stylesDiv, root
 }) => {
-	const optionsPartipants = JSON.parse(sessionStorage.getItem('opcionsParticipants'));
+	const optionsPartipants = JSON.parse(sessionStorage.getItem('optionsParticipants'));
 	const [state, setState] = React.useState(optionsPartipants || initialState);
 	const [participants, setParticipants] = React.useState(null);
 	const [filters, setFilters] = useOldState({
@@ -41,12 +41,12 @@ const ParticipantsManager = ({
 
 
 	React.useEffect(() => {
-		sessionStorage.setItem('opcionsParticipants', JSON.stringify(state));
+		sessionStorage.setItem('optionsParticipants', JSON.stringify(state));
 	}, [state]);
 
 	React.useEffect(() => {
-		const timeout = setTimeout(() => updateParticipants(), 300);
-		const interval = setInterval(() => updateParticipants(), 7000);
+		const timeout = setTimeout(updateParticipants, 300);
+		const interval = setInterval(updateParticipants, 7000);
 
 		return () => {
 			clearInterval(interval);

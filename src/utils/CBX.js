@@ -313,6 +313,8 @@ export const canAddDelegateVotes = (statute, participant) => (
 	&& participant.personOrEntity !== 1
 );
 
+export const commentWallDisabled = council => council.wallActive !== 1 || council.state === COUNCIL_STATES.PAUSED;
+
 export const canHaveRepresentative = participant => participant.type === PARTICIPANT_TYPE.PARTICIPANT || participant.type === PARTICIPANT_TYPE.REPRESENTATED;
 
 export const delegatedVotesLimitReached = (statute, length) => (

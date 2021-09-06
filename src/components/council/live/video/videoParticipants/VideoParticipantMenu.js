@@ -108,7 +108,7 @@ const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 							{translate.ban_participant}
 						</MenuItem>
 					)}
-					{participant.requestWord !== 3 && (
+					{participant.requestWord !== 3 && participant.requestWord !== 4 && (
 						<MenuItem
 							onClick={() => changeWordState(participant.id, 3)}
 						>
