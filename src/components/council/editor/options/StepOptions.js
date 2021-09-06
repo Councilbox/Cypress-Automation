@@ -620,6 +620,22 @@ const StepOptions = ({
 									})
 									}
 								/>
+								<GridItem xs={12} md={6} lg={4}>
+									<TextInput
+										floatingText={translate.contact_email}
+										type="text"
+										errorText={state.errors.contactEmail}
+										onBlur={ev => {
+											updateCouncilData({
+												contactEmail: ev.target.value === '' ? data.council.contactEmail : ev.target.value
+											});
+										}}
+										value={council.contactEmail || ''}
+										onChange={event => updateCouncilData({
+											contactEmail: event.target.value
+										})}
+									/>
+								</GridItem>
 								{CBX.hasAct(council.statute) && council.councilType < 2 && (
 									<React.Fragment>
 										<SectionTitle
