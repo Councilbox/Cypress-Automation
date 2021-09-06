@@ -636,7 +636,7 @@ const StepOptions = ({
 										})}
 										helpPopover
 										helpTitle={translate.contact_email}
-										helpDescription={translate.contanct_email_admin_help}
+										helpDescription={translate.contact_email_admin_help}
 									/>
 								</GridItem>
 								{CBX.hasAct(council.statute) && council.councilType < 2 && (
