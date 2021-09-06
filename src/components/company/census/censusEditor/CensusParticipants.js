@@ -15,6 +15,7 @@ import { PARTICIPANTS_LIMITS } from '../../../../constants';
 import CensusParticipantEditor from './modals/CensusParticipantEditor';
 import ImportCensusExcel from '../ImportCensusExcel';
 import { isMobile } from '../../../../utils/screen';
+import withWindowOrientation from '../../../../HOCs/withWindowOrientation';
 
 class CensusParticipants extends React.Component {
 	state = {
@@ -22,7 +23,7 @@ class CensusParticipants extends React.Component {
 		participant: {},
 		deleteModal: false,
 		singleId: null,
-		selectedIds: new Map()
+		selectedIds: new Map(),
 	};
 
 	closeParticipantEditor = () => {
@@ -124,7 +125,7 @@ class CensusParticipants extends React.Component {
 	}
 
 	render() {
-		const { translate, census } = this.props;
+		const { translate, census, windowOrientation } = this.props;
 		const { loading, censusParticipants } = this.props.data;
 
 		const headers = [
@@ -170,8 +171,9 @@ class CensusParticipants extends React.Component {
 					<GridItem xs={12} md={12} lg={12}>
 						<div style={{
 							display: 'flex',
-							justifyContent: isMobile ? 'space-between' : 'flex-start',
-							gap: '2rem',
+							flexDirection: isMobile && windowOrientation === 'portrait' && 'column',
+							justifyContent: !isMobile && 'flex-start',
+							gap: isMobile && windowOrientation === 'portrait' ? '.5rem 0' : '32px',
 							marginBottom: '0.6em'
 						}}>
 							<AddCensusParticipantButton
@@ -502,4 +504,4 @@ export default compose(
 			}
 		})
 	})
-)(CensusParticipants);
+)(withWindowOrientation(CensusParticipants));

@@ -7,7 +7,7 @@ export const MAX_FILE_SIZE = 15360;
 export const MAX_COUNCIL_FILE_SIZE = 15360;
 export const MAX_COUNCIL_ATTACHMENTS = 5;
 export const ALPHA_RELEASE_DATE = '10/26/2018';
-export const ACCEPTED_FILE_TYPES = 'application/msword, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel, application/vnd.ms-powerpoint, text/plain, application/pdf, image/*';
+export const ACCEPTED_FILE_TYPES = '.xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf';
 
 
 export const INPUT_REGEX = new RegExp('[ A-Za-z0-9äÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ.-]+');

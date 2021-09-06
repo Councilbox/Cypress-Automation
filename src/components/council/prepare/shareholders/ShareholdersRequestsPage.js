@@ -32,6 +32,11 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
 							participantId
 							data
 							participantCreated
+							attachments {
+								id
+								filename
+								requestField
+							}
 							date
 							state
 						}
