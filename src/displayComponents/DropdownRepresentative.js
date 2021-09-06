@@ -42,11 +42,11 @@ const DropdownRepresentative = ({
 		<>
 			<DropDownMenu
 				styleComponent={{
+					width: '',
 					marginTop: '1rem',
 					border: '1px solid #a09aa0',
 					borderRadius: '4px',
 					padding: '.5rem',
-					maxWidth: '50%',
 					marginLeft: '.5em',
 					...style,
 				}}
@@ -155,6 +155,7 @@ const DropdownRepresentative = ({
 				open={state.selectRepresentative}
 				council={council}
 				translate={translate}
+				participantId={participant.participantId}
 				updateRepresentative={representative => {
 					addRepresentative(representative);
 				}}

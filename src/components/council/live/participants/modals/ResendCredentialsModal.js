@@ -140,7 +140,8 @@ const ResendButton = ({ active, action, translate }) => (
 			border: `1px solid ${getSecondary()}`,
 			marginRight: '0.5em',
 			borderRadius: '4px',
-			padding: '1em'
+			padding: '1em',
+			width: isMobile && '150px',
 		}}
 		color={'white'}
 		elevation={active ? 0 : 1}
