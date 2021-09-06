@@ -39,7 +39,7 @@ const CustomPointForm = ({
 	return (
 		<div style={{ height: '100%', width: '100%' }}>
 			<Scrollbar>
-				<div style={{ padding: '1em' }}>
+				<div style={{ paddingRight: '1em' }}>
 					<Grid spacing={0}>
 						<GridItem xs={12} md={9} lg={9} style={{ paddingRight: '1em' }}>
 							<TextInput
