@@ -9,6 +9,7 @@ import DeleteAgendaButton from './DeleteAgendaButton';
 
 const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
 	const [agenda, setAgenda] = React.useState(cleanObject(props.agenda));
+	const [attachments, setAttachments] = React.useState(props.agenda.attachments.map(attachment => cleanObject(attachment)));
 	const [errors, setErrors] = React.useState({});
 	const [items, setItems] = React.useState(props.agenda.items.map(item => cleanObject(item)));
 	const [options, setOptions] = React.useState({
@@ -16,6 +17,8 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
 		multiselect: props.agenda.options.maxSelections > 1
 	});
 	const validateCustomAgenda = useValidateAgenda(translate, setErrors);
+
+	console.log(props);
 
 
 	const addCustomPoint = async () => {
@@ -72,6 +75,13 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
 		});
 	};
 
+	const updateAttachments = object => {
+		setAttachments({
+			...attachments,
+			...object
+		});
+	};
+
 	const renderBody = () => (
 		<div style={{
 			marginTop: '1em',
@@ -84,11 +94,13 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
 				{...{
 					...props,
 					agenda,
+					attachments,
 					options,
 					items,
 					errors,
 					translate,
 					updateAgenda,
+					updateAttachments,
 					updateItem,
 					updateOptions,
 					removeItem,
