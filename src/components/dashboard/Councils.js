@@ -105,6 +105,13 @@ const Councils = ({ translate, client, ...props }) => {
 	};
 
 	React.useEffect(() => {
+		setState({
+			...state,
+			page: 1
+		});
+	}, [selectedTab]);
+
+	React.useEffect(() => {
 		setLoading(true);
 		getData();
 	}, [selectedTab, state.page]);
