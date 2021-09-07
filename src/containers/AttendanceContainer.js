@@ -24,6 +24,7 @@ const AttendanceContainer = ({ data, translate, actions }) => {
 		}
 	}, [data.loading, data.participant]);
 
+
 	React.useEffect(() => {
 		if (data.councilVideo) {
 			setCompanyId(data.councilVideo.companyId);
@@ -49,9 +50,6 @@ const AttendanceContainer = ({ data, translate, actions }) => {
 		return <LoadingMainApp />;
 	}
 
-	if (translate.selectedLanguage !== data.participant.language) {
-		return <LoadingMainApp />;
-	}
 
 	if (data.councilVideo.state === -1) {
 		return <CanceledCouncil council={data.councilVideo} translate={translate} />;

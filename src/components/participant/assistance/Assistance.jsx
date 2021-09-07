@@ -130,6 +130,11 @@ const Assistance = ({
 	const [checkError, setCheckError] = React.useState(false);
 	const config = React.useContext(ConfigContext);
 
+
+	React.useEffect(() => {
+		setSelecteAssistance(translate.council);
+	}, [translate.council]);
+
 	React.useEffect(() => {
 		setState({
 			...state,
