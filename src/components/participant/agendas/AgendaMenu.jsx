@@ -56,9 +56,22 @@ const AgendaMenu = ({ agenda, translate, council, participant, refetch }) => {
 		return CBX.hasVotation(agenda.subjectType);
 	};
 
+	const participantWithVote = () => (
+		participant.type === PARTICIPANT_TYPE.PARTICIPANT
+			&& participant.numParticipations > 0
+	);
+
+	const representativeWithVote = () => (
+		participant.type === PARTICIPANT_TYPE.REPRESENTATIVE
+			&& !!participant.delegatedVotes.find(vote => vote.numParticipations > 0)
+	);
+
+	const checkHasVotingRights = () => {
+		return (!participantWithVote() || !representativeWithVote());
+	};
+
 	const secondary = getSecondary();
 	let ownVote = CBX.findOwnVote(agenda.votings, participant);
-
 
 	if (!ownVote || (ownVote.fixed && ownVote.numParticipations === 0)) {
 		ownVote = checkVotings(agenda.votings, participant) || ownVote;
@@ -88,10 +101,7 @@ const AgendaMenu = ({ agenda, translate, council, participant, refetch }) => {
 								ownVote.delegateId && (ownVote.delegateId !== participant.id) &&
 									translate.your_vote_is_delegated
 								:
-								!(participant.type === PARTICIPANT_TYPE.PARTICIPANT
-									&& participant.numParticipations === 0) &&
-										translate.cant_exercise_vote
-
+								!(checkHasVotingRights()) && translate.cant_exercise_vote
 							}
 						</>
 					}
@@ -164,7 +174,8 @@ const AgendaMenu = ({ agenda, translate, council, participant, refetch }) => {
 };
 
 const checkVotings = (votings, participant) => (
-	votings.find(voting => (voting.numParticipations > 0 && !voting.fixed && (!voting.delegateId || voting.delegateId === participant.id)))
+	votings.find(voting => (voting.numParticipations > 0 &&
+		!voting.fixed && (!voting.delegateId || voting.delegateId === participant.id)))
 );
 
 export default AgendaMenu;

@@ -361,17 +361,17 @@ describe("The user is able to start council in the 'New call with session' secti
 
 
            it("Navigate to the “Camera and microphone” form and click on the “Accept” button", function() {
-        
+ /*       
             cy.get('#admin-room-iframe').then($iframe => {
   const $body = $iframe.contents().find('body') ; cy.wrap($body)
 
 
-    .contains('Accept')
+    .contains('Join')
     .click()
 
     cy.wait(10000)
 })
-
+*/
        
    });
 
@@ -611,17 +611,17 @@ describe("The user is able to open point in the 'New call with session' section"
 
 
            it("Navigate to the “Camera and microphone” form and click on the “Accept” button", function() {
-        
+ /*       
             cy.get('#admin-room-iframe').then($iframe => {
   const $body = $iframe.contents().find('body') ; cy.wrap($body)
 
 
-    .contains('Accept')
+    .contains('Join')
     .click()
 
     cy.wait(10000)
 })
-
+*/
        
    });
 
@@ -855,17 +855,17 @@ describe("The user is able to activate ratings in the 'New call with session'", 
 
 
            it("Navigate to the “Camera and microphone” form and click on the “Accept” button", function() {
-        
+ /*       
             cy.get('#admin-room-iframe').then($iframe => {
   const $body = $iframe.contents().find('body') ; cy.wrap($body)
 
 
-    .contains('Accept')
+    .contains('Join')
     .click()
 
     cy.wait(10000)
 })
-
+*/
        
    });
 
@@ -1110,17 +1110,17 @@ describe("The user is able to close point votations in the 'New call with sessio
 
 
            it("Navigate to the “Camera and microphone” form and click on the “Accept” button", function() {
-        
+ /*       
             cy.get('#admin-room-iframe').then($iframe => {
   const $body = $iframe.contents().find('body') ; cy.wrap($body)
 
 
-    .contains('Accept')
+    .contains('Join')
     .click()
 
     cy.wait(10000)
 })
-
+*/
        
    });
 
@@ -1376,17 +1376,17 @@ describe("The user is able to close point in the 'New call with session' type of
 
 
            it("Navigate to the “Camera and microphone” form and click on the “Accept” button", function() {
-        
+ /*       
             cy.get('#admin-room-iframe').then($iframe => {
   const $body = $iframe.contents().find('body') ; cy.wrap($body)
 
 
-    .contains('Accept')
+    .contains('Join')
     .click()
 
     cy.wait(10000)
 })
-
+*/
        
    });
 
@@ -1651,17 +1651,17 @@ describe("The user is able to finish council in the 'New call with session' type
 
 
            it("Navigate to the “Camera and microphone” form and click on the “Accept” button", function() {
-        
+ /*       
             cy.get('#admin-room-iframe').then($iframe => {
   const $body = $iframe.contents().find('body') ; cy.wrap($body)
 
 
-    .contains('Accept')
+    .contains('Join')
     .click()
 
     cy.wait(10000)
 })
-
+*/
        
    });
 
@@ -1937,17 +1937,17 @@ describe("The user is able to finalize and approve act in the 'New call with ses
 
 
            it("Navigate to the “Camera and microphone” form and click on the “Accept” button", function() {
-        
+ /*       
             cy.get('#admin-room-iframe').then($iframe => {
   const $body = $iframe.contents().find('body') ; cy.wrap($body)
 
 
-    .contains('Accept')
+    .contains('Join')
     .click()
 
     cy.wait(10000)
 })
-
+*/
        
    });
 
@@ -2235,17 +2235,17 @@ describe("The user is able to send minutes in the 'New call with session' type o
 
 
            it("Navigate to the “Camera and microphone” form and click on the “Accept” button", function() {
-        
+ /*       
             cy.get('#admin-room-iframe').then($iframe => {
   const $body = $iframe.contents().find('body') ; cy.wrap($body)
 
 
-    .contains('Accept')
+    .contains('Join')
     .click()
 
     cy.wait(10000)
 })
-
+*/
        
    });
 

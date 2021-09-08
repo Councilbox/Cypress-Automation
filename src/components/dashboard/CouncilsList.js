@@ -50,10 +50,11 @@ const CouncilsList = ({
 			stylesHeader={{}}
 			stylesHeaderRow={{ border: 'none' }}
 		>
-			{councils.map(council => (
+			{councils.map((council, index) => (
 				<CouncilListItem
 					council={council}
 					company={company}
+					id={`councils-table-row-${index}`}
 					select={props.select}
 					selected={selectedIds.has(council.id)}
 					showModal={openCantAccessModal}
@@ -107,6 +108,7 @@ const CouncilListItem = withRouter(({
 		return (
 			<Card
 				style={{ marginBottom: '0.5em', padding: '0.3em', position: 'relative' }}
+				id={props.id}
 				onClick={() => {
 					if (props.disabled) {
 						props.showModal();
@@ -173,6 +175,7 @@ const CouncilListItem = withRouter(({
 			hover
 			{...handlers}
 			selected={selected}
+			id={props.id}
 			style={{ ...TableStyles.ROW, backgroundColor: props.disabled ? 'whiteSmoke' : 'inherit' }}
 			onClick={() => {
 				if (props.disabled) {
@@ -190,11 +193,11 @@ const CouncilListItem = withRouter(({
 			<TableCell onClick={event => event.stopPropagation()} style={{ cursor: 'auto' }}>
 				<div style={{ width: '2em' }}>
 					{(show || selected)
-&& <Checkbox
-	value={selected}
-	onChange={() => props.select(council.id)
-	}
-/>
+						&& <Checkbox
+							value={selected}
+							onChange={() => props.select(council.id)
+							}
+						/>
 					}
 				</div>
 			</TableCell>
@@ -207,22 +210,22 @@ const CouncilListItem = withRouter(({
 				/>
 			</TableCell>
 			{link === '/finished'
-&& <TableCell
-	style={TableStyles.TD}
->
-	<div style={{ width: '15em', display: 'flex', flexDirection: 'row' }}>
-		<DateWrapper
-			format="HH:mm"
-			date={council.dateRealStart}
-		/> {' - '}
-		<DateWrapper
-			format="HH:mm"
-			date={
-				council.dateEnd
-			}
-		/>
-	</div>
-</TableCell>
+				&& <TableCell
+					style={TableStyles.TD}
+				>
+					<div style={{ width: '15em', display: 'flex', flexDirection: 'row' }}>
+						<DateWrapper
+							format="HH:mm"
+							date={council.dateRealStart}
+						/> {' - '}
+						<DateWrapper
+							format="HH:mm"
+							date={
+								council.dateEnd
+							}
+						/>
+					</div>
+				</TableCell>
 			}
 			<TableCell
 				style={{
@@ -231,11 +234,11 @@ const CouncilListItem = withRouter(({
 				}}
 			>
 				{council.promoCode === 'COUNCILBOX'
-&& <Tooltip title={translate.test_meeting}>
-	<span className="material-icons" style={{ color: getSecondary(), fontSize: '16px', marginRight: '0.5em' }}>
-miscellaneous_services
-	</span>
-</Tooltip>
+					&& <Tooltip title={translate.test_meeting}>
+						<span className="material-icons" style={{ color: getSecondary(), fontSize: '16px', marginRight: '0.5em' }}>
+							miscellaneous_services
+						</span>
+					</Tooltip>
 
 				}
 				{council.name || translate.dashboard_new}

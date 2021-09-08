@@ -55,6 +55,7 @@ const ParticipantForm = ({
 		{participant.personOrEntity === 1 ? (
 			<GridItem xs={6} md={8} lg={6}>
 				<TextInput
+					required
 					floatingText={translate.entity_name}
 					type="text"
 					id="participant-entity-name-input"
@@ -70,6 +71,7 @@ const ParticipantForm = ({
 			<React.Fragment>
 				<GridItem xs={6} md={4} lg={3}>
 					<TextInput
+						required
 						floatingText={translate.name}
 						type="text"
 						id="participant-name-input"
@@ -83,6 +85,7 @@ const ParticipantForm = ({
 				</GridItem>
 				<GridItem xs={6} md={4} lg={3}>
 					<TextInput
+						required
 						floatingText={translate.surname || ''}
 						type="text"
 						id="participant-surname-input"
@@ -127,6 +130,7 @@ const ParticipantForm = ({
 		}
 		<GridItem xs={6} md={4} lg={3}>
 			<TextInput
+				required
 				floatingText={translate.email}
 				id="participant-email-input"
 				{...(checkEmail ? { onKeyUp: event => checkEmail(event, 'participant') } : {})}
@@ -187,7 +191,7 @@ const ParticipantForm = ({
 						key={`language_${language.columnName ?
 							language.columnName
 							: language.column_name
-						}`}
+							}`}
 					>
 						{language.desc}
 					</MenuItem>
@@ -243,10 +247,14 @@ const ParticipantForm = ({
 						min={1}
 						errorText={errors.numParticipations}
 						value={participant.numParticipations}
+						onBlur={event => updateState({
+							numParticipations: parseInt(event.target.value, 10) || 0
+						})
+						}
 						onChange={event => {
-							if (!Number.isNaN(Number(event.target.value)) || +event.target.value > 0) {
+							if (!Number.isNaN(Number(event.target.value)) || +event.target.value >= 0) {
 								updateState({
-									numParticipations: +event.target.value
+									numParticipations: Number.isNaN(Number(event.target.value)) ? '' : parseInt(event.target.value, 10)
 								});
 							}
 						}}
@@ -261,10 +269,14 @@ const ParticipantForm = ({
 							min={1}
 							errorText={errors.socialCapital}
 							value={participant.socialCapital}
+							onBlur={event => updateState({
+								socialCapital: parseInt(event.target.value, 10) || 0
+							})
+							}
 							onChange={event => {
-								if (!Number.isNaN(Number(event.target.value)) || +event.target.value > 0) {
+								if (!Number.isNaN(Number(event.target.value)) || +event.target.value >= 0) {
 									updateState({
-										socialCapital: +event.target.value
+										socialCapital: Number.isNaN(Number(event.target.value)) ? '' : parseInt(event.target.value, 10)
 									});
 								}
 							}}

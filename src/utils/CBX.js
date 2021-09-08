@@ -64,7 +64,7 @@ export const getPercentage = (num, total, decimals = 3) => {
 export const filterDelegatedVotes = vote => vote.state !== PARTICIPANT_STATES.REPRESENTATED;
 
 export const getActiveVote = agendaVoting => {
-	if (!agendaVoting.fixed) {
+	if (!agendaVoting.fixed && agendaVoting.numParticipations > 0) {
 		return agendaVoting;
 	}
 
@@ -283,16 +283,19 @@ export const findOwnVote = (votings, participant) => {
 		return null;
 	}
 
-	if (participant.type !== PARTICIPANT_TYPE.REPRESENTATIVE) {
+	if (participant.type !== PARTICIPANT_TYPE.REPRESENTATIVE && participant.numParticipations > 0) {
 		return votings.find(voting => (
 			voting.participantId === participant.id
 		));
 	}
 
 	return votings.find(voting => (
-		(voting.participantId === participant.id
-			|| (voting.delegateId === participant.id && voting.author.state === PARTICIPANT_STATES.REPRESENTATED)
-		) && !voting.author.voteDenied));
+		((voting.participantId === participant.id && voting.numParticipations > 0)
+			|| (voting.delegateId === participant.id &&
+				((voting.numParticipations > 0 && voting.author.state === PARTICIPANT_STATES.REPRESENTATED)
+					|| voting.author.state !== PARTICIPANT_STATES.REPRESENTATED
+				))
+		) && !voting.author.voteDenied && !voting.fixed));
 };
 
 export const hasAct = statute => statute.existsAct === 1;
@@ -309,6 +312,8 @@ export const canAddDelegateVotes = (statute, participant) => (
 	&& (participant.state !== PARTICIPANT_STATES.DELEGATED && participant.state !== PARTICIPANT_STATES.REPRESENTATED)
 	&& participant.personOrEntity !== 1
 );
+
+export const commentWallDisabled = council => council.wallActive !== 1 || council.state === COUNCIL_STATES.PAUSED;
 
 export const canHaveRepresentative = participant => participant.type === PARTICIPANT_TYPE.PARTICIPANT || participant.type === PARTICIPANT_TYPE.REPRESENTATED;
 
@@ -990,7 +995,7 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 		},
 		numPresentOrRemote: {
 			value: '{{numPresentOrRemote}}',
-			label: 'Nº de asistentes personalmente' // TRADUCCION
+			label: translate.number_attentands_in_person
 		},
 		numRepresented: {
 			value: '{{numRepresented}}',
@@ -1002,23 +1007,23 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 		},
 		numParticipationsPresent: {
 			value: '{{numParticipationsPresent}}',
-			label: 'Nº de participaciones asisten personalmente' // TRADUCCION
+			label: translate.number_shares_personally
 		},
 		numParticipationsRepresented: {
 			value: '{{numParticipationsRepresented}}',
-			label: ' Nº de participaciones asisten representadas' // TRADUCCION
+			label: translate.number_shares_represented,
 		},
 		percentageSCPresent: {
 			value: '{{percentageSCPresent}}',
-			label: '% del capital social que asiste personalmente' // TRADUCCION
+			label: translate.percentage_shares_personally,
 		},
 		percentageSCRepresented: {
 			value: '{{percentageSCRepresented}}',
-			label: '% del capital social que asiste representado' // TRADUCCION
+			label: translate.percentage_shares_represented
 		},
 		percentageSCTotal: {
 			value: '{{percentageSCTotal}}',
-			label: '% del capital social que asiste' // TRADUCCION
+			label: translate.percentage_quorum
 		},
 		convene: {
 			value: '{{convene}}',
@@ -1026,7 +1031,7 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 		},
 		numberOfShares: {
 			value: '{{numberOfShares}}',
-			label: 'Nº participaciones que asiste del total del capital social'
+			label: translate.number_of_participations
 		},
 		percentageOfShares: {
 			value: '{{percentageOfShares}}',
@@ -1038,7 +1043,7 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 		},
 		governingBody: {
 			value: '{{GoverningBody}}',
-			label: 'Órgano de gobierno'// TRADUCCION
+			label: translate.governing_body
 		},
 		gbDecides: {
 			value: '{{GBdecides}}',
@@ -1356,6 +1361,8 @@ export const councilIsNotified = council => council.state === 10;
 
 export const councilIsInTrash = council => council.state === COUNCIL_STATES.CANCELED;
 
+export const councilRoomOpened = council => council.state >= COUNCIL_STATES.ROOM_OPENED;
+
 export const councilIsNotLiveYet = council => (
 	council.state < COUNCIL_STATES.ROOM_OPENED
 	&& council.state > COUNCIL_STATES.CANCELED
@@ -1381,7 +1388,7 @@ export const councilIsPreparing = council => (
 );
 
 export const councilIsLive = council => (
-	council.state >= COUNCIL_STATES.ROOM_OPENED
+	councilRoomOpened(council)
 	&& council.state < COUNCIL_STATES.FINISHED
 );
 

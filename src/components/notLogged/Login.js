@@ -66,67 +66,88 @@ const Login = ({ translate, windowSize, ...props }) => {
 			setState({
 				loading: true
 			});
-			const response = await props.mutate({
-				variables: {
-					email: user,
-					password
-				}
-			});
-			if (response.errors) {
-				const errors = {
-					'Incorrect password': () => {
-						setState({
-							loading: false,
-							errors: {
-								password: translate.password_err
-							}
-						});
-					},
-
-					'Not actived': () => {
-						setState({
-							loading: false,
-							errors: {
-								user: translate.email_not_found
-							}
-						});
-					},
-
-					'Not found': () => {
-						setState({
-							loading: false,
-							errors: {
-								user: translate.email_not_found
-							}
-						});
-					},
-
-					'Invalid domain': () => {
-						setState({
-							loading: false,
-							errors: {
-								user: translate.domain_invalid_creds
-							}
-						});
-					},
-
-					'Unsubscribed account': () => {
-						setState({
-							loading: false,
-							errors: {
-								user: 'Cuenta deshabilitada'
-							}
-						});
+			try {
+				const response = await props.mutate({
+					variables: {
+						email: user,
+						password
 					}
-				};
-
-				return errors[response.errors[0].message] ? errors[response.errors[0].message]() : null;
-			}
-			if (response.data.login) {
-				setState({
-					loading: false
 				});
-				props.actions.loginSuccess(response.data.login.token, response.data.login.refreshToken);
+				if (response.errors) {
+					const errors = {
+						'Incorrect password': () => {
+							setState({
+								loading: false,
+								errors: {
+									password: translate.password_err
+								}
+							});
+						},
+						'User not registered or incorrect password': () => {
+							setState({
+								loading: false,
+								errors: {
+									user: translate.login_err
+								}
+							});
+						},
+						'Not actived': () => {
+							setState({
+								loading: false,
+								errors: {
+									user: translate.email_not_found
+								}
+							});
+						},
+						'Not found': () => {
+							setState({
+								loading: false,
+								errors: {
+									user: translate.email_not_found
+								}
+							});
+						},
+						'Invalid domain': () => {
+							setState({
+								loading: false,
+								errors: {
+									user: translate.domain_invalid_creds
+								}
+							});
+						},
+						'Unsubscribed account': () => {
+							setState({
+								loading: false,
+								errors: {
+									user: 'Cuenta deshabilitada'
+								}
+							});
+						}
+					};
+
+					return errors[response.errors[0].message] ? errors[response.errors[0].message]() : null;
+				}
+				if (response.data.login) {
+					setState({
+						loading: false
+					});
+					props.actions.loginSuccess(response.data.login.token, response.data.login.refreshToken);
+				}
+			} catch (error) {
+				if (error.message === 'Response not successful: Received status code 429') {
+					return setState({
+						loading: false,
+						errors: {
+							user: 'Too many requests'
+						}
+					});
+				}
+				return setState({
+					loading: false,
+					errors: {
+						user: error.message
+					}
+				});
 			}
 		}
 	};
@@ -150,7 +171,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 				margin: '0',
 				height: '100%'
 			}}>
-				<GridItem xs={12} md={7} lg={7}
+				<GridItem xs={12} md={isMobile ? 12 : 7} lg={7}
 					style={{
 						color: 'white',
 						display: 'flex',
@@ -212,7 +233,11 @@ const Login = ({ translate, windowSize, ...props }) => {
 												fullWidth
 												buttonStyle={{ backgroundColor: 'transparent', border: '1px solid white', marginRight: '2em' }}
 												textStyle={{
-													color: 'white', fontWeight: '700', fontSize: '0.8rem', textTransform: 'none'
+													color: 'white',
+													fontWeight: '700',
+													fontSize: window.innerWidth === 1024 && translate.selectedLanguage === 'fr' ? '.7rem' : '.8rem',
+													textTransform: 'none',
+													whiteSpace: 'nowrap'
 												}}
 											/>
 										</Link>
@@ -243,7 +268,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 						</div>
 					}
 				</GridItem>
-				<GridItem lg={5} md={5} xs={12}
+				<GridItem lg={5} md={isMobile ? 12 : 5} xs={12}
 					style={{
 						display: 'flex',
 						justifyContent: 'center',
@@ -263,8 +288,8 @@ const Login = ({ translate, windowSize, ...props }) => {
 							paddingBottom: '1em',
 							margin: '0',
 							position: 'relative',
-							marginBottom: windowSize === 'xs' ? 0 : '5em',
-							marginRight: windowSize === 'xs' ? 0 : '5em'
+							marginBottom: windowSize === 'xs' || (windowSize === 'md' && isMobile) ? 0 : '5em',
+							marginRight: windowSize === 'xs' || (windowSize === 'md' && isMobile) ? 0 : '5em'
 						}}
 					>
 						<div

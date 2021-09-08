@@ -6,6 +6,6 @@
     "\\cypress\\integration\\1.Smoke",
     "\\cypress\\support"
   ],
-  "SelectedNode": "\\cypress\\integration\\1.Smoke\\smoke_specs.js",
+  "SelectedNode": "\\cypress.json",
   "PreviewInSolutionExplorer": false
 }

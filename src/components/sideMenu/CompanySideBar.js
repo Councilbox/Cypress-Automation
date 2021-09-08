@@ -189,6 +189,7 @@ class Sidebar extends React.Component {
 							<div
 								className={`${this.props.classes.item} dropdown-wrapper`}
 								key={key}
+								id={`side-menu-hover-wrapper-${key}`}
 							>
 								<NavLink
 									to={route.path}
@@ -199,6 +200,7 @@ class Sidebar extends React.Component {
 										alignItems: 'center',
 										justifyContent: 'center'
 									}}
+									id={`side-menu-trigger-${key}`}
 									onClick={() => this.setState({ selectedRoute: key })}
 								>
 									<ListItem

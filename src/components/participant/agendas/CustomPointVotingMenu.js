@@ -30,6 +30,16 @@ const CustomPointVotingMenu = ({
 
 	const disabled = agenda.votingState !== AGENDA_STATES.DISCUSSION || cantVote;
 
+	const ownVoteId = ownVote ? ownVote.id : null;
+
+	React.useEffect(() => {
+		if (ownVoteId) {
+			setSelections(createSelectionsFromBallots(ownVote.ballots, ownVote.participantId));
+		} else {
+			setSelections([]);
+		}
+	}, [ownVoteId]);
+
 	const sendCustomAgendaVote = async selected => {
 		if (voteAllAtOnce({ council })) {
 			votingContext.responses.set(ownVote.id, selected);
@@ -188,7 +198,7 @@ const CustomPointVotingMenu = ({
 						translate={translate}
 						disabledColor={disabled}
 						styleButton={{ width: '90%' }}
-						selectedCheckbox={selections.length === 0}
+						selectedCheckbox={selections.length === 0 && ownVote?.vote === -1}
 						onClick={resetSelections}
 					/>
 				</div>

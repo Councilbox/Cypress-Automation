@@ -134,7 +134,7 @@ describe("The user is able to view the details of the council in the 'Announceme
         });
 
         it("Navigate to upper left corner and click on the “See Details” button", function() {
-            cy.get('#MISSING ID').click()
+            cy.get('#council-editor-check-statute').click()
             cy.wait(1000)
         });
 
@@ -163,7 +163,7 @@ describe("The user is able to change meeting date in the 'Announcement' section 
         });
 
         it("Navigate to the 'Date 1st call' section and click on the 'Calendar' icon", function() {
-            cy.get('#MISSING ID').click()
+            cy.get('#council-notice-date-start-icon').click()
             cy.wait(1000)
         });
 
@@ -193,7 +193,7 @@ describe("The user is able to change meeting date in the 'Announcement' section 
         });
 
         it("Navigate to the 'Date 1st call' section and click on the 'Calendar' icon", function() {
-            cy.get('#MISSING ID').click()
+            cy.get('#council-notice-date-start-icon').click()
             cy.wait(1000)
         });
 
@@ -301,8 +301,9 @@ describe("The user is not able to create a meeting without populating 'Meeting t
         });
 
         it("A pop-up window with the “Review the form. There are errors or blank fields” message is displayed", function() {
-            cy.get('#MISSING_ID')
-            cy.get('#MISSING_ID').click()
+            cy.get('#error-alert-title')
+            cy.wait(500)
+            cy.get('#error-alert-button').click()
 
         })
 
@@ -367,12 +368,12 @@ describe("The user is able to select the 'Province' tag in the 'Information on t
         });
 
         it("Navigate to the “Information on the announcement*” section and click on the 'tags' button", function() {
-            cy.get('#MISSING_ID').click()
+            cy.get('#custom-tags-council-notice-convene-footer').click()
             cy.wait(1000)
         });
 
         it("Click on the “Province” button", function() {
-            cy.get('#MISSING_ID').click()
+            cy.get('#tag-4').click()
             cy.wait(1000)
         });
 
@@ -397,12 +398,12 @@ describe("The user is able to select the 'Country' tag in the 'Information on th
         });
 
         it("Navigate to the “Information on the announcement*” section and click on the 'tags' button", function() {
-            cy.get('#MISSING_ID').click()
+            cy.get('#custom-tags-council-notice-convene-footer').click()
             cy.wait(1000)
         });
 
         it("Click on the “Country” button", function() {
-            cy.get('#MISSING_ID').click()
+            cy.get('#tag-3').click()
             cy.wait(1000)
         });
 
@@ -427,12 +428,12 @@ describe("The user is able to select the 'Business name' tag in the 'Information
         });
 
         it("Navigate to the “Information on the announcement*” section and click on the 'tags' button", function() {
-            cy.get('#MISSING_ID').click()
+            cy.get('#custom-tags-council-notice-convene-footer').click()
             cy.wait(1000)
         });
 
         it("Click on the Business name button", function() {
-            cy.get('#MISSING_ID').click()
+            cy.get('#tag-1').click()
             cy.wait(1000)
         });
 
@@ -457,12 +458,12 @@ describe("The user is able to select the 'Place held' tag in the 'Information on
         });
 
         it("Navigate to the “Information on the announcement*” section and click on the 'tags' button", function() {
-            cy.get('#MISSING_ID').click()
+            cy.get('#custom-tags-council-notice-convene-footer').click()
             cy.wait(1000)
         });
 
         it("Click on the “Place held” button", function() {
-            cy.get('#MISSING_ID').click()
+            cy.get('#tag-2').click()
             cy.wait(1000)
         });
 
@@ -487,12 +488,12 @@ describe("The user is able to select the 'Date' tag in the 'Information on the a
         });
 
         it("Navigate to the “Information on the announcement*” section and click on the 'tags' button", function() {
-            cy.get('#MISSING_ID').click()
+            cy.get('#custom-tags-council-notice-convene-footer').click()
             cy.wait(1000)
         });
 
         it("Click on the “Date” button", function() {
-            cy.get('#MISSING_ID').click()
+            cy.get('#tag-0').click()
             cy.wait(1000)
         });
 
@@ -522,8 +523,9 @@ describe("The user is not able to create a 'New meeting with session' type of me
         });
 
         it("Error “Review the form. There are errors or blank fields” message is displayed in the pop-up window", function() {
-            cy.get('#MISSING_ID').click()
+            cy.get('#error-alert-title').click()
             cy.wait(1000)
+            cy.get('#error-alert-button').click()
         });
 
         it("Back to Home page", function() {

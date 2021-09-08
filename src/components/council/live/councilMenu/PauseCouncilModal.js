@@ -55,6 +55,7 @@ const PauseCouncilModal = ({
 						<RichTextInput
 							floatingText={translate.indications_optional}
 							type="text"
+							id="pause-council-text-editor"
 							translate={translate}
 							value={message}
 							onChange={value => {

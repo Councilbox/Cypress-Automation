@@ -29,6 +29,7 @@ const RemoveDelegationButton = ({
 
 		if (response) {
 			setLoading(false);
+			setModal(false);
 			refetch();
 		}
 	};

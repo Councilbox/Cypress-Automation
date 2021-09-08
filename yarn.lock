@@ -2968,6 +2968,11 @@ asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
 
+at-least-node@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/at-least-node/-/at-least-node-1.0.0.tgz#602cd4b46e844ad4effc92a8011a3c46e0238dc2"
+  integrity sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==
+
 atob@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.1.tgz#ae2d5a729477f289d60dd7f96a6314a22dd6c22a"
@@ -4571,6 +4576,16 @@ cypress-file-upload@^5.0.2:
   dependencies:
     mime "^2.5.0"
 
+cypress-mochawesome-reporter@^2.0.1:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/cypress-mochawesome-reporter/-/cypress-mochawesome-reporter-2.2.0.tgz#a49823278595f7e369b09aa97ba5847c6ee72c07"
+  integrity sha512-VjrUVvYJVVtjD7sdiwI1c7JYGXbl/aUiE2jIGZIDTWX1POeLsNdpc3xGxJhcw+XyiRl6QXeVPo9A6Kn2T0WdDw==
+  dependencies:
+    fs-extra "^9.0.0"
+    mochawesome "^6.1.0"
+    mochawesome-merge "^4.0.3"
+    mochawesome-report-generator "^5.1.0"
+
 cypress-multi-reporters@^1.4.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/cypress-multi-reporters/-/cypress-multi-reporters-1.5.0.tgz#fff2758c082b49e8b91fed39f9650c70bc06de0d"
@@ -6016,6 +6031,16 @@ fs-extra@^8.1.0:
     graceful-fs "^4.2.0"
     jsonfile "^4.0.0"
     universalify "^0.1.0"
+
+fs-extra@^9.0.0:
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-9.1.0.tgz#5954460c764a8da2094ba3554bf839e6b9a7c86d"
+  integrity sha512-hcg3ZmepS30/7BSFqRvoo3DOMQu7IjqxO5nCDt+zM9XWjb33Wg7ziNT+Qvqbuc3+gWpzO02JubVyk2G4Zvo1OQ==
+  dependencies:
+    at-least-node "^1.0.0"
+    graceful-fs "^4.2.0"
+    jsonfile "^6.0.1"
+    universalify "^2.0.0"
 
 fs-minipass@^2.0.0:
   version "2.1.0"
@@ -7784,6 +7809,15 @@ jsonfile@^4.0.0:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
+jsonfile@^6.0.1:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/jsonfile/-/jsonfile-6.1.0.tgz#bc55b2634793c679ec6403094eb13698a6ec0aae"
+  integrity sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==
+  dependencies:
+    universalify "^2.0.0"
+  optionalDependencies:
+    graceful-fs "^4.1.6"
+
 jsonify@~0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/jsonify/-/jsonify-0.0.0.tgz#2c74b6ee41d93ca51b7b5aaee8f503631d252a73"
@@ -8656,7 +8690,7 @@ mocha@^5.2.0:
     mkdirp "0.5.1"
     supports-color "5.4.0"
 
-mochawesome-merge@^4.2.0:
+mochawesome-merge@^4.0.3, mochawesome-merge@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/mochawesome-merge/-/mochawesome-merge-4.2.0.tgz#970ea141165039bfdd6772b1232a1ef6ba99af1a"
   integrity sha512-FSMzagh+8hTShhFXdBLE4/zS2WALcDruoD0bmtiwHEjfyQszR/iEGFTgbuM5ewA5At3qeSGwGsT0k2Stt64NdQ==
@@ -8666,7 +8700,7 @@ mochawesome-merge@^4.2.0:
     uuid "^3.3.2"
     yargs "^15.3.1"
 
-mochawesome-report-generator@^5.2.0:
+mochawesome-report-generator@^5.1.0, mochawesome-report-generator@^5.2.0:
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/mochawesome-report-generator/-/mochawesome-report-generator-5.2.0.tgz#ffd29f8d610863e48e63c15c4e83b5689d8dbd04"
   integrity sha512-DDY/3jSkM/VrWy0vJtdYOf6qBLdaPaLcI7rQmBVbnclIX7AKniE1Rhz3T/cMT/7u54W5EHNo1z84z7efotq/Eg==
@@ -8684,7 +8718,7 @@ mochawesome-report-generator@^5.2.0:
     validator "^10.11.0"
     yargs "^13.2.2"
 
-mochawesome@^6.2.2:
+mochawesome@^6.1.0, mochawesome@^6.2.2:
   version "6.2.2"
   resolved "https://registry.yarnpkg.com/mochawesome/-/mochawesome-6.2.2.tgz#2847b4cccb254201e8dad89384f760fe9cdbae15"
   integrity sha512-NuIxYo8zczmL5XWLNFiud21OsAJHXrflt2lcRY2u8a3TilGwglhzTPjUHZCLqJvbqj2CnIHX2ueqOh1ViUNDPw==
@@ -13318,6 +13352,11 @@ unique-slug@^2.0.0:
 universalify@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/universalify/-/universalify-0.1.1.tgz#fa71badd4437af4c148841e3b3b165f9e9e590b7"
+
+universalify@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/universalify/-/universalify-2.0.0.tgz#75a4984efedc4b08975c5aeb73f530d02df25717"
+  integrity sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==
 
 unpipe@1.0.0, unpipe@~1.0.0:
   version "1.0.0"
