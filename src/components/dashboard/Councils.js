@@ -78,6 +78,10 @@ const Councils = ({ translate, client, ...props }) => {
 
 	const handleChange = section => {
 		bHistory.push(statesTabLink[section]);
+		setState({
+			...state,
+			selectedIds: new Map()
+		});
 	};
 
 	const getData = async filters => {
