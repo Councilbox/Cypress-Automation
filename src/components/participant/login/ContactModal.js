@@ -16,7 +16,7 @@ const ContactModal = ({
 	return (
 		<AlertConfirm
 			open={open}
-			title={'Contacto'}
+			title={translate.contact_email}
 			requestClose={requestClose}
 			bodyText={renderBody()}
 		/>
