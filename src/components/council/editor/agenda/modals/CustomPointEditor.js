@@ -1,15 +1,17 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
 import { AlertConfirm } from '../../../../../displayComponents';
 import CustomPointForm from './CustomPointForm';
 import { useValidateAgenda } from './NewCustomPointModal';
 import DeleteAgendaButton from './DeleteAgendaButton';
+import { addAgendaAttachment } from '../../../../../queries';
 
 
 const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
 	const [agenda, setAgenda] = React.useState(cleanObject(props.agenda));
-	const [attachments, setAttachments] = React.useState(props.agenda.attachments.map(attachment => cleanObject(attachment)));
+	const [attachments, setAttachments] = React.useState([...props.agenda.attachments] || []);
+	const [attachmentsToRemove, setAttachmentsToRemove] = React.useState([]);
 	const [errors, setErrors] = React.useState({});
 	const [items, setItems] = React.useState(props.agenda.items.map(item => cleanObject(item)));
 	const [options, setOptions] = React.useState({
@@ -18,12 +20,9 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
 	});
 	const validateCustomAgenda = useValidateAgenda(translate, setErrors);
 
-	console.log(props);
-
-
 	const addCustomPoint = async () => {
 		if (!validateCustomAgenda(items, options, agenda)) {
-			await updateCustomAgenda({
+			const response = await updateCustomAgenda({
 				variables: {
 					agenda,
 					items,
@@ -31,8 +30,67 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
 				}
 			});
 
-			await props.refetch();
-			props.requestClose();
+			if (attachments.length > 0) {
+				// eslint-disable-next-line no-underscore-dangle
+				await Promise.all(attachments.filter(attachment => !attachment.__typename).map(attachment => {
+					if (attachment.filename) {
+						const fileInfo = {
+							...attachment,
+							state: 0,
+							agendaId: props.agenda.id,
+							councilId: props.council.id
+						};
+
+						return props.client.mutate({
+							mutation: addAgendaAttachment,
+							variables: {
+								attachment: fileInfo
+							}
+						});
+					}
+					const fileInfo = {
+						filename: attachment.name,
+						filesize: attachment.filesize.toString(),
+						documentId: attachment.id,
+						filetype: attachment.filetype,
+						state: 0,
+						agendaId: props.agenda.id,
+						councilId: props.council.id
+					};
+
+					return props.client.mutate({
+						mutation: gql`
+							mutation attachCompanyDocumentToAgenda($attachment: AgendaAttachmentInput){
+								attachCompanyDocumentToAgenda(attachment: $attachment){
+									id
+								}
+							}
+						`,
+						variables: {
+							attachment: fileInfo
+						}
+					});
+				}));
+			}
+
+			if (attachmentsToRemove.length > 0) {
+				await Promise.all(attachmentsToRemove.map(item => props.client.mutate({
+					mutation: gql`
+						mutation deleteAgendaAttachment($attachmentId: Int!){
+							deleteAgendaAttachment(attachmentId: $attachmentId){
+								success
+							}
+						}
+					`,
+					variables: {
+						attachmentId: item.id
+					}
+				})));
+			}
+			if (response) {
+				await props.refetch();
+				props.requestClose();
+			}
 		}
 	};
 
@@ -75,13 +133,6 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
 		});
 	};
 
-	const updateAttachments = object => {
-		setAttachments({
-			...attachments,
-			...object
-		});
-	};
-
 	const renderBody = () => (
 		<div style={{
 			marginTop: '1em',
@@ -100,7 +151,9 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
 					errors,
 					translate,
 					updateAgenda,
-					updateAttachments,
+					updateAttachments: setAttachments,
+					deletedAttachments: attachmentsToRemove,
+					setDeletedAttachments: setAttachmentsToRemove,
 					updateItem,
 					updateOptions,
 					removeItem,
@@ -164,4 +217,4 @@ const cleanObject = object => {
 
 export default graphql(updateCustomAgenda, {
 	name: 'updateCustomAgenda'
-})(CustomPointEditor);
+})(withApollo(CustomPointEditor));

@@ -12,7 +12,8 @@ import PointAttachments from './PointAttachments';
 const CustomPointForm = ({
 	errors,
 	translate,
-	// attachments,
+	attachments,
+	deletedAttachments,
 	agenda,
 	options,
 	items,
@@ -20,7 +21,8 @@ const CustomPointForm = ({
 	company,
 	addOption,
 	updateAgenda,
-	// updateAttachments,
+	updateAttachments,
+	setDeletedAttachments,
 	updateOptions,
 	updateItem,
 	removeItem,
@@ -36,6 +38,7 @@ const CustomPointForm = ({
 		}
 		return number;
 	};
+
 
 	const primary = getPrimary();
 	const secondary = getSecondary();
@@ -84,14 +87,16 @@ const CustomPointForm = ({
 							</SelectInput>
 						</GridItem>
 						<GridItem xs={12} md={6} lg={6}>
-							{/* <div style={{ marginBottom: '1.6em' }}>
+							<div style={{ marginBottom: '1.6em' }}>
 								<PointAttachments
 									translate={translate}
 									setAttachments={updateAttachments}
 									attachments={attachments}
 									company={company}
+									deletedAttachments={deletedAttachments}
+									setDeletedAttachments={setDeletedAttachments}
 								/>
-							</div> */}
+							</div>
 						</GridItem>
 						<GridItem xs={12}>
 							<RichTextInput
