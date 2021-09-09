@@ -76,19 +76,19 @@ const ParticipantHistory = ({
 export const getLogText = (type, translate) => {
 	switch (type) {
 		case 'CONNECT':
-			return 'Conectado';
+			return translate.connected;
 
 		case 'DISCONNECT':
-			return 'Desconectado';
+			return translate.absent;
 
 		case 'ASKED WORD':
-			return 'Petición de palabra';
+			return translate.ask_word;
 
 		case 'CANCELED WORD PETITION':
-			return 'Canceló petición de palabra';
+			return translate.canceled_word_petition;
 
 		case 'CANCELED WORD BY ADMIN':
-			return 'El administrador le retiró la palabra';
+			return translate.canceled_word_by_admin;
 
 		case 'GRANTED WORD':
 			return translate.granted_word;
