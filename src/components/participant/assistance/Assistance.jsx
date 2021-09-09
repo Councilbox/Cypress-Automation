@@ -262,7 +262,8 @@ const Assistance = ({
 				<LiveToast
 					id="error-toast"
 					message={translate.revise_text}
-				/>, {
+				/>,
+				{
 					position: toast.POSITION.TOP_RIGHT,
 					autoClose: true,
 					className: 'errorToast'
@@ -335,7 +336,7 @@ const Assistance = ({
 								<img src={emptyMeetingTable} style={{ width: '55%', height: 'auto', margin: 'auto' }} alt="empty-table" />
 							</div>
 							<div style={{ fontWeight: '700', fontSize: '1.2em' }} >
-								Lo sentimos, esta reunión ha sido eliminada.{/* TRADUCCION */}
+								{translate.meeting_has_been_deleted}
 							</div>
 						</div>
 					</Card>
@@ -343,7 +344,6 @@ const Assistance = ({
 			</NotLoggedLayout>
 		);
 	}
-
 
 	const getReunionActual = () => (
 		<div style={{}}>
@@ -373,7 +373,7 @@ const Assistance = ({
 						<>
 							<AssistanceOption
 								translate={translate}
-								title={'Quiero delegar el voto en otro socio (indique razón social y nombre de la persona):'}
+								title={translate.delegate_the_vote_to_another_partner}
 								select={() => {
 									setState({
 										...state,
