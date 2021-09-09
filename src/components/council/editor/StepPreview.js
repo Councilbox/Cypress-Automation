@@ -308,7 +308,6 @@ const StepPreview = ({
 		if (state.conveneTestSuccess) {
 			return <SuccessMessage message={translate.sent} />;
 		}
-
 		return (
 			<div style={{ width: '500px' }}>
 				<Typography style={{ fontWeight: '700' }}>
@@ -321,7 +320,7 @@ const StepPreview = ({
 						floatingText={translate.email}
 						onKeyUp={conveneTestKeyUp}
 						type="text"
-						errorText={errors.conveneTestEmail}
+						errorText={state.errors.conveneTestEmail}
 						value={data.conveneTestEmail}
 						onChange={event => updateState({
 							conveneTestEmail: event.nativeEvent.target.value
