@@ -111,7 +111,7 @@ const DropdownRepresentative = ({
 						/>
 						<BasicButton
 							type="flat"
-							text={translate.add_representative}
+							text={participant.representative ? translate.change_representative : translate.add_representative}
 							onClick={() => { setState({ ...state, addRepresentative: !state.addRepresentative }); }}
 							buttonStyle={{
 								width: '100%',
