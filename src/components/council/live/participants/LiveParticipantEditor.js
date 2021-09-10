@@ -117,7 +117,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								}
 								<Grid style={{ marginTop: '1em', display: 'flex' }}>
 									{(CBX.showSendCredentials(participant.state) && props.council.councilType !== 4)
-										&& <GridItem xs={6} md={7} lg={5} style={{}}>
+										&& <GridItem xs={6} md={8} lg={5} style={{}}>
 											<div style={{}}>
 												<ResendCredentialsModal
 													participant={participant}
@@ -129,7 +129,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 											</div>
 										</GridItem>
 									}
-									<GridItem xs={6} md={7} lg={5}>
+									<GridItem xs={6} md={8} lg={5}>
 										{!CBX.isRepresented(participant) && props.council.councilType < 2 && !CBX.hasHisVoteDelegated(participant) && participant.personOrEntity !== 1
 											&& <div>
 												<SignatureButton
@@ -144,26 +144,27 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								</Grid>
 							</GridItem>
 							<GridItem xs={12} md={8} lg={8}>
-								<div style={{}}>
-									<ParticipantSelectActions
-										participant={participant}
-										council={props.council}
-										translate={translate}
-										refetch={data.refetch}
-									/>
-								</div>
-								{CBX.canHaveRepresentative(participant)
-									&& !(participant.hasDelegatedVotes) && !(participant.represented.length > 0) && (
-									<DropdownRepresentative
-										participant={participant}
-										translate={translate}
-										council={props.council}
-										refetch={data.refetch}
-										style={{
-											width: !isMobile && '24.75rem',
-										}}
-									/>
-								)}
+								<Grid style={{ display: 'flex', flexDirection: 'column' }}>
+									<GridItem xs={12} md={6} lg={6}>
+										<ParticipantSelectActions
+											participant={participant}
+											council={props.council}
+											translate={translate}
+											refetch={data.refetch}
+										/>
+									</GridItem>
+									<GridItem xs={12} md={6} lg={6}>
+										{CBX.canHaveRepresentative(participant)
+											&& !(participant.hasDelegatedVotes) && !(participant.represented.length > 0) && (
+											<DropdownRepresentative
+												participant={participant}
+												translate={translate}
+												council={props.council}
+												refetch={data.refetch}
+											/>
+										)}
+									</GridItem>
+								</Grid>
 							</GridItem>
 						</Grid>
 						{CBX.isRepresented(participant) ?
