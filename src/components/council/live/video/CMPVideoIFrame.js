@@ -2,7 +2,6 @@ import React from 'react';
 import { graphql, withApollo } from 'react-apollo';
 import { flowRight as compose } from 'lodash';
 import gql from 'graphql-tag';
-import RecordingButton from './RecordingButton';
 import { darkGrey } from '../../../../styles/colors';
 import { ConfigContext } from '../../../../containers/AppControl';
 import AdminAnnouncement from '../adminAnnouncement/AdminAnnouncement';
@@ -98,13 +97,6 @@ const CMPVideoIFrame = props => {
 			/>
 			{!!data.roomVideoURL && config.video ?
 				<React.Fragment>
-					{(config.recording && data.roomVideoURL.includes('councilbox') && !data.roomVideoURL.includes('rivulet'))
-						&& <RecordingButton
-							config={config}
-							council={props.council}
-							translate={props.translate}
-						/>
-					}
 					<iframe
 						id="admin-room-iframe"
 						title="meetingScreen"
@@ -184,6 +176,7 @@ export const roomUpdateSubscription = gql`
 		roomUpdated(councilId: $councilId){
 			videoLink
 			platformVideo
+			type
 			action
 			videoConfig
 		}

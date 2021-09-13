@@ -6,8 +6,8 @@ import {
 	AlertConfirm,
 	LoadingSection,
 	Table
-} from '../../../../displayComponents';
-import { moment } from '../../../../containers/App';
+} from '../../../../../displayComponents';
+import { moment } from '../../../../../containers/App';
 
 const ParticipantHistory = ({
 	data, participant, translate, requestClose

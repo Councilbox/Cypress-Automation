@@ -22,7 +22,8 @@ const initialState = {
 const ParticipantsManager = ({
 	client, translate, council, stylesDiv, root
 }) => {
-	const [state, setState] = React.useState(initialState);
+	const optionsPartipants = JSON.parse(sessionStorage.getItem('optionsParticipants'));
+	const [state, setState] = React.useState(optionsPartipants || initialState);
 	const [participants, setParticipants] = React.useState(null);
 	const [filters, setFilters] = useOldState({
 		typeStatus: null,
@@ -38,15 +39,20 @@ const ParticipantsManager = ({
 	const secondary = getSecondary();
 	const primary = getPrimary();
 
+
 	React.useEffect(() => {
-		const timeout = setTimeout(() => updateParticipants(), 300);
-		const interval = setInterval(() => updateParticipants(), 7000);
+		sessionStorage.setItem('optionsParticipants', JSON.stringify(state));
+	}, [state]);
+
+	React.useEffect(() => {
+		const timeout = setTimeout(updateParticipants, 300);
+		const interval = setInterval(updateParticipants, 7000);
 
 		return () => {
 			clearInterval(interval);
 			clearTimeout(timeout);
 		};
-	}, [state.view, filters.filterText, filters.limit, filters.type, filters.status, filters.onlyNotSigned, filters.filterField]);
+	}, [state.layout, state.view, filters.filterText, filters.limit, filters.type, filters.status, filters.onlyNotSigned, filters.filterField]);
 
 
 	const buildVariables = () => {

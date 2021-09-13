@@ -14,8 +14,9 @@ const AttachmentItem = ({
 	const primary = getPrimary();
 	const secondary = getSecondary();
 
-	const removeItem = item => {
-		removeAttachment(item.id);
+	const removeItem = async item => {
+		await removeAttachment(item.id);
+		setDeleteModal(false);
 	};
 
 	return (

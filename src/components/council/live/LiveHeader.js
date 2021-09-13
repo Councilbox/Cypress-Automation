@@ -11,6 +11,7 @@ import withSharedProps from '../../../HOCs/withSharedProps';
 import CouncilStateButton from './menus/CouncilStateButton';
 import CouncilMenu from './councilMenu/CouncilMenu';
 import { HEADER_HEIGHT } from '../../../styles/constants';
+import { COUNCIL_STATES } from '../../../constants';
 
 const LiveHeader = ({
 	councilName, translate, windowSize, participants, user, council, recount, refetch
@@ -22,7 +23,11 @@ const LiveHeader = ({
 	const customIcon = getCustomIcon();
 
 	const exitAction = () => {
-		bHistory.back();
+		if (council.state >= COUNCIL_STATES.ROOM_OPENED) {
+			bHistory.push(`/company/${council.companyId}/councils/live`);
+		} else {
+			bHistory.push(`/company/${council.companyId}/council/${council.id}/prepare`);
+		}
 	};
 
 	return (
