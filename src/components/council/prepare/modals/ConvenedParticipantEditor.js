@@ -220,7 +220,6 @@ class ConvenedParticipantEditor extends React.Component {
 		const { representative, errors, representativeErrors } = this.state;
 		const { translate, participations } = this.props;
 		const { languages = [] } = this.props.data;
-		console.log(isAppointment(this.props.council));
 
 		return (
 			<AlertConfirm
