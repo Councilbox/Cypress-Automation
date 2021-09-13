@@ -14,7 +14,7 @@ import { upsertConvenedParticipant, checkUniqueCouncilEmails } from '../../../..
 import { COUNCIL_TYPES } from '../../../../constants';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import SelectRepresentative from '../../editor/census/modals/SelectRepresentative';
-import { isAppointment, removeTypenameField } from '../../../../utils/CBX';
+import { isAppointment, participantIsGuest, removeTypenameField } from '../../../../utils/CBX';
 import AppointmentParticipantForm from '../../participants/AppointmentParticipantForm';
 
 const initialRepresentative = {
@@ -220,7 +220,7 @@ class ConvenedParticipantEditor extends React.Component {
 		const { representative, errors, representativeErrors } = this.state;
 		const { translate, participations } = this.props;
 		const { languages = [] } = this.props.data;
-
+		console.log(isAppointment(this.props.council));
 
 		return (
 			<AlertConfirm
@@ -265,14 +265,14 @@ class ConvenedParticipantEditor extends React.Component {
 										participant={participant}
 										participations={participations}
 										translate={translate}
-										hideVotingInputs={this.props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE}
+										hideVotingInputs={this.props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE || participantIsGuest(participant)}
 										languages={languages}
 										errors={errors}
 										updateState={this.updateState}
 									/>
 								}
 							</div>
-							{!isAppointment(this.props.council) &&
+							{!isAppointment(this.props.council) && !participantIsGuest(participant) &&
 								<div style={{
 									boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
 									border: '1px solid rgb(97, 171, 183)',
@@ -297,7 +297,7 @@ class ConvenedParticipantEditor extends React.Component {
 						</div>
 					</Scrollbar>
 				}
-				title={translate.edit_participant}
+				title={ participantIsGuest(participant) ? translate.edit_guest : translate.edit_participant}
 				requestClose={() => this.props.close()}
 				open={this.props.opened}
 				actions={
