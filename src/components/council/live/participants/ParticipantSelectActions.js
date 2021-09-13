@@ -95,6 +95,7 @@ class ParticipantSelectActions extends React.Component {
 					width: '100%',
 					display: 'flex',
 					flexDirection: isMobile ? 'column' : 'row',
+					justifyContent: !isMobile && 'space-between',
 					alignItems: !isMobile && 'center',
 					gap: '.5rem',
 				}}

@@ -134,14 +134,19 @@ const ResendCredentialsModal = ({
 
 
 const ResendButton = ({ active, action, translate }) => (
-// <Tooltip title={translate.send_video_credentials}>
+	// <Tooltip title={translate.send_video_credentials}>
 	<BasicButton
 		buttonStyle={{
 			border: `1px solid ${getSecondary()}`,
 			marginRight: '0.5em',
 			borderRadius: '4px',
 			padding: '1em',
-			width: isMobile && '150px',
+			width: isMobile ? '150px' : '100%',
+			display: 'block-inline',
+			whiteSpace: 'nowrap',
+			overflow: 'hidden',
+			textOverflow: 'ellipsis',
+
 		}}
 		color={'white'}
 		elevation={active ? 0 : 1}
@@ -159,12 +164,19 @@ const ResendButton = ({ active, action, translate }) => (
 						color: getSecondary()
 					}}
 				/>
-				<span style={{ color: getSecondary() }}>{isMobile ? translate.resend : translate.send_video_credentials}</span>
+				<span style={{
+					display: 'block',
+					color: getSecondary(),
+					whiteSpace: 'nowrap',
+					overflow: 'hidden',
+					textOverflow: 'ellipsis',
+					maxWidth: '100%',
+				}}>{isMobile ? translate.resend : translate.send_video_credentials}</span>
 			</React.Fragment>
 		}
 	>
 	</BasicButton>
-// </Tooltip>
+	// </Tooltip>
 );
 
 const sendParticipantRoomKey = gql`
