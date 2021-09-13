@@ -71,8 +71,7 @@ const DropdownParticipant = ({
 							type="flat"
 							text={translate.add_participant}
 							disabled={councilIsFinished(council)}
-							textPosition="after"
-							icon={!isMobile ? <ButtonIcon type="add" color={getSecondary()} /> : null}
+							icon={<ButtonIcon type="add" color={getSecondary()} />}
 							onClick={() => setState({ ...state, add: !state.add })}
 							color={'white'}
 
