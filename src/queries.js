@@ -2073,6 +2073,10 @@ export const liveParticipant = gql`
 			blocked
 			lastDateConnection
 			videoMode
+			represented {
+				name
+				surname
+			}
 			notifications {
 				participantId
 				email

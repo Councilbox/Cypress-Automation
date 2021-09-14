@@ -28,8 +28,8 @@ import ResendCredentialsModal from './modals/ResendCredentialsModal';
 import { PARTICIPANT_STATES } from '../../../../constants';
 import SignatureButton from './SignatureButton';
 import { useParticipantContactEdit } from '../../../../hooks';
-import EarlyVotingModal from './EarlyVotingModal';
 import OwnedVotesSection from './ownedVotes/OwnedVotesSection';
+import DropdownRepresentative from '../../../../displayComponents/DropdownRepresentative';
 
 const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	const landscape = isLandscape() || window.innerWidth > 700;
@@ -98,8 +98,6 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 										/>
 									</div>
 								</Typography>
-							</GridItem>
-							<GridItem xs={12} md={8} lg={8}>
 								{participant.personOrEntity !== 1
 									&& <div style={{ display: 'flex', alignItems: 'center' }}>
 										{showStateMenu()
@@ -117,24 +115,9 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 										</div>
 									</div>
 								}
-								<div style={{}}>
-									<ParticipantSelectActions
-										participant={participant}
-										council={props.council}
-										translate={translate}
-										refetch={data.refetch}
-									/>
-								</div>
-								{(props.council.councilType !== 4 && props.council.councilType !== 5 && participant.numParticipations > 0)
-									&& <EarlyVotingModal
-										council={props.council}
-										participant={participant}
-										translate={translate}
-									/>
-								}
 								<Grid style={{ marginTop: '1em', display: 'flex' }}>
 									{(CBX.showSendCredentials(participant.state) && props.council.councilType !== 4)
-										&& <GridItem xs={12} md={7} lg={5} style={{}}>
+										&& <GridItem xs={6} md={8} lg={5} style={{}}>
 											<div style={{}}>
 												<ResendCredentialsModal
 													participant={participant}
@@ -146,7 +129,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 											</div>
 										</GridItem>
 									}
-									<GridItem xs={12} md={5} lg={5}>
+									<GridItem xs={6} md={8} lg={5}>
 										{!CBX.isRepresented(participant) && props.council.councilType < 2 && !CBX.hasHisVoteDelegated(participant) && participant.personOrEntity !== 1
 											&& <div>
 												<SignatureButton
@@ -157,6 +140,29 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 												/>
 											</div>
 										}
+									</GridItem>
+								</Grid>
+							</GridItem>
+							<GridItem xs={12} md={8} lg={8}>
+								<Grid style={{ display: 'flex', flexDirection: 'column' }}>
+									<GridItem xs={12} md={6} lg={6}>
+										<ParticipantSelectActions
+											participant={participant}
+											council={props.council}
+											translate={translate}
+											refetch={data.refetch}
+										/>
+									</GridItem>
+									<GridItem xs={12} md={6} lg={6}>
+										{CBX.canHaveRepresentative(participant)
+											&& !(participant.hasDelegatedVotes) && !(participant.represented.length > 0) && (
+											<DropdownRepresentative
+												participant={participant}
+												translate={translate}
+												council={props.council}
+												refetch={data.refetch}
+											/>
+										)}
 									</GridItem>
 								</Grid>
 							</GridItem>
