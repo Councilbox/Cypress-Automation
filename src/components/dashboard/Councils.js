@@ -177,7 +177,6 @@ const Councils = ({ translate, client, ...props }) => {
 
 	const mobileLandscape = () => props.windowSize === 'xs' && isLandscape();
 
-
 	const changePage = page => {
 		setState({
 			...state,
