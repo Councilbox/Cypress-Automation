@@ -39,6 +39,7 @@ export { default as MenuItem } from './MenuItem';
 export { default as MobileStepper } from './MobileStepper';
 export { default as NotLoggedLayout } from './NotLoggedLayout';
 export { default as PaginationFooter } from './PaginationFooter';
+export { default as PaginationTableShowing } from './PaginationTableShowing';
 export { default as ParticipantDisplay } from './ParticipantDisplay';
 export { default as ParticipantRow } from './ParticipantRow';
 export { default as Popover } from './Popover';

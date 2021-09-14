@@ -17,6 +17,7 @@ import {
 import TableStyles from '../styles/table';
 import PaginationFooter from './PaginationFooter';
 import { isMobile } from '../utils/screen';
+import PaginationTableShowing from './PaginationTableShowing';
 
 class EnhancedTable extends React.Component {
 	state = {
@@ -153,6 +154,7 @@ class EnhancedTable extends React.Component {
 			headers,
 			children,
 			categories,
+			activeTableShowing
 		} = this.props;
 		const {
 			filterText,
@@ -254,8 +256,7 @@ class EnhancedTable extends React.Component {
 						{!!this.props.menuButtons && !isMobile
 							&& this.props.menuButtons
 						}
-						{!this.props.searchInMovil
-							&& fields && (
+						{!this.props.searchInMovil && fields && (
 							<div style={{ minWidth: '12em', marginRight: '0.8em' }}>
 								<SelectInput
 									floatingText={translate.filter_by}
@@ -275,7 +276,8 @@ class EnhancedTable extends React.Component {
 									))}
 								</SelectInput>
 							</div>
-						)}
+						)
+						}
 						{!this.props.hideTextFilter
 							&& <div style={{ width: '16em' }}>
 								<TextInput
@@ -292,6 +294,23 @@ class EnhancedTable extends React.Component {
 						}
 					</div>
 				</div>
+				{!loading && activeTableShowing && (
+					<Grid
+						style={{
+							fontSize: '0.9em',
+							marginTop: '.5em'
+						}}
+					>
+						<PaginationTableShowing
+							page={page}
+							translate={translate}
+							length={length}
+							limit={limit}
+							total={total}
+							changePage={this.changePage}
+						/>
+					</Grid>
+				)}
 				{!isMobile ?
 					<Table style={{ maxWidth: '100%', tableLayout: 'auto' }}>
 						<TableHead>
