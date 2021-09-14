@@ -625,11 +625,6 @@ const StepOptions = ({
 										floatingText={translate.contact_email}
 										type="text"
 										errorText={state.errors.contactEmail}
-										onBlur={ev => {
-											updateCouncilData({
-												contactEmail: ev.target.value === '' ? data.council.contactEmail : ev.target.value
-											});
-										}}
 										value={council.contactEmail || ''}
 										onChange={event => updateCouncilData({
 											contactEmail: event.target.value
