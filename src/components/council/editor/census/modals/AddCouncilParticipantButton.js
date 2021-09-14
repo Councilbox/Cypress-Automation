@@ -458,6 +458,11 @@ class AddCouncilParticipantButton extends React.Component {
 						representativeErrors: {},
 						loading: false
 					})}
+					PaperProps={{
+						style: {
+							maxHeight: '85vh'
+						}
+					}}
 					open={this.state.modal}
 					fullWidth={false}
 					loadingAction={this.state.loading}
