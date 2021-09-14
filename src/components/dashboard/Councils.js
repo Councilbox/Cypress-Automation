@@ -76,6 +76,13 @@ const Councils = ({ translate, client, ...props }) => {
 		}
 	}, [window.location.pathname]);
 
+	React.useEffect(() => {
+		setState({
+			...state,
+			page: 1
+		});
+	}, [selectedTab]);
+
 	const handleChange = section => {
 		bHistory.push(statesTabLink[section]);
 	};
@@ -103,13 +110,6 @@ const Councils = ({ translate, client, ...props }) => {
 		setselectedTabLink(statesTabLink[selectedTab]);
 		handleChange();
 	};
-
-	React.useEffect(() => {
-		setState({
-			...state,
-			page: 1
-		});
-	}, [selectedTab]);
 
 	React.useEffect(() => {
 		setLoading(true);
