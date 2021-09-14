@@ -79,16 +79,13 @@ const Councils = ({ translate, client, ...props }) => {
 	React.useEffect(() => {
 		setState({
 			...state,
-			page: 1
+			page: 1,
+			selectedIds: new Map(),
 		});
 	}, [selectedTab]);
 
 	const handleChange = section => {
 		bHistory.push(statesTabLink[section]);
-		setState({
-			...state,
-			selectedIds: new Map()
-		});
 	};
 
 	const getData = async filters => {
@@ -263,7 +260,7 @@ const Councils = ({ translate, client, ...props }) => {
 						<LoadingSection />
 					</div>
 				) : (
-					<div style={{ height: `calc(100% - ${mobileLandscape() ? '7em' : '3em'})`, overflow: 'hidden' }}>
+					<div style={{ height: `calc(100% - ${mobileLandscape() ? '7em' : state.selectedIds.size > 0 ? '6em' : '4em'})`, overflow: 'hidden' }}>
 						<Scrollbar>
 							<div style={{ padding: '1em', paddingTop: '2em' }}>
 								{councilsData.list.length > 0 ? (
