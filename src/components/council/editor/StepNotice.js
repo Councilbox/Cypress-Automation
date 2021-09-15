@@ -157,15 +157,19 @@ const StepNotice = ({
 			const second = moment(new Date(secondDate).toISOString(), moment.ISO_8601);
 			const difference = second.diff(first, 'minutes');
 
+
 			if (difference < statute.minimumSeparationBetweenCall || !council.dateStart2NdCall) {
 				updateState({
 					dateStart: firstDate,
 					dateStart2NdCall: CBX.addMinimumDistance(firstDate, statute).toISOString()
 				});
 			}
+			console.log(new Date(oldSecondDate).toLocaleString(), 'viejo');
+			console.log(new Date(secondDate).toLocaleString(), 'nuevo');
 			updateConveneDates(oldFirstDate || firstDate, firstDate, oldSecondDate || secondDate, CBX.addMinimumDistance(firstDate, statute));
 		} else {
 			if (oldFirstDate !== firstDate || oldSecondDate !== secondDate) {
+				newErrors.dateStart2NdCall = 'La fecha y hora de la segunda reunión no son correctas. Se ha fijado el tiempo mínimo definido en la configuración del tipo de reunión. Verifique la configuración del tipo de reunión.';
 				updateConveneDates(oldFirstDate, firstDate, oldSecondDate, secondDate);
 			}
 			if (!CBX.checkMinimumDistanceBetweenCalls(firstDate, secondDate, statute)) {
