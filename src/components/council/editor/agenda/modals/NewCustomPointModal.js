@@ -1,9 +1,11 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
+import { withRouter } from 'react-router';
 import { AlertConfirm } from '../../../../../displayComponents';
 import CustomPointForm from './CustomPointForm';
 import { checkRepeatedItemValue } from '../../../../../utils/CBX';
+import { addAgendaAttachment } from '../../../../../queries';
 
 const defaultPollOptions = {
 	writeIn: false,
@@ -99,6 +101,7 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
 		councilId: props.council.id,
 		orderIndex: props.agendas.length + 1
 	});
+	const [attachments, setAttachments] = React.useState([]);
 	const [loading, setLoading] = React.useState(false);
 	const [errors, setErrors] = React.useState({});
 	const [items, setItems] = React.useState([{
@@ -110,7 +113,7 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
 	const addCustomPoint = async () => {
 		if (!validateCustomAgenda(items, options, agenda)) {
 			setLoading(true);
-			await addCustomAgenda({
+			const response = await addCustomAgenda({
 				variables: {
 					agenda,
 					items,
@@ -118,9 +121,52 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
 				}
 			});
 
-			await props.refetch();
-			setLoading(false);
-			props.requestClose();
+			if (attachments.length > 0) {
+				await Promise.all(attachments.map(attachment => {
+					if (attachment.filename) {
+						const fileInfo = {
+							...attachment,
+							state: 0,
+							agendaId: response.data.addCustomAgenda.id,
+							councilId: props.council.id
+						};
+
+						return props.client.mutate({
+							mutation: addAgendaAttachment,
+							variables: {
+								attachment: fileInfo
+							}
+						});
+					}
+					const fileInfo = {
+						filename: attachment.name,
+						filesize: attachment.filesize.toString(),
+						documentId: attachment.id,
+						filetype: attachment.filetype,
+						state: 0,
+						agendaId: response.data.addCustomAgenda.id,
+						councilId: props.council.id
+					};
+
+					return props.client.mutate({
+						mutation: gql`
+							mutation attachCompanyDocumentToAgenda($attachment: AgendaAttachmentInput){
+								attachCompanyDocumentToAgenda(attachment: $attachment){
+									id
+								}
+							}
+						`,
+						variables: {
+							attachment: fileInfo
+						}
+					});
+				}));
+			}
+			if (response) {
+				setLoading(false);
+				props.requestClose();
+				props.refetch();
+			}
 		}
 	};
 
@@ -163,11 +209,15 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
 		});
 	};
 
+
 	const renderBody = () => (
-		<div style={{ marginTop: '1em', marginBottom: '2em', width: window.innerWidth > 720 ? '720px' : '100%', height: '100%', overflow: 'hidden' }}>
+		<div style={{
+			marginTop: '1em', marginBottom: '2em', width: window.innerWidth > 720 ? '720px' : '100%', height: '100%', overflow: 'hidden'
+		}}>
 			<CustomPointForm
 				{...{
 					agenda,
+					attachments,
 					options,
 					items,
 					errors,
@@ -177,6 +227,7 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
 					statute: props.statute,
 					companyStatutes: props.companyStatutes,
 					updateAgenda,
+					updateAttachments: setAttachments,
 					updateItem,
 					updateOptions,
 					removeItem,
@@ -221,4 +272,4 @@ const addCustomAgenda = gql`
 
 export default graphql(addCustomAgenda, {
 	name: 'addCustomAgenda'
-})(NewCustomPointModal);
+})(withRouter(withApollo(NewCustomPointModal)));
