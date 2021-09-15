@@ -178,6 +178,17 @@ const StepOptions = ({
 			}
 		}
 
+		if (council.contactEmail === '') {
+			setState({
+				...state,
+				errors: {
+					...state.errors,
+					contactEmail: translate.required_field
+				}
+			});
+			return true;
+		}
+
 		if (council.contactEmail && !checkValidEmail(council.contactEmail)) {
 			setState({
 				...state,
@@ -622,14 +633,10 @@ const StepOptions = ({
 								/>
 								<GridItem xs={12} md={6} lg={4}>
 									<TextInput
+										required
 										floatingText={translate.contact_email}
 										type="text"
 										errorText={state.errors.contactEmail}
-										onBlur={ev => {
-											updateCouncilData({
-												contactEmail: ev.target.value === '' ? data.council.contactEmail : ev.target.value
-											});
-										}}
 										value={council.contactEmail || ''}
 										onChange={event => updateCouncilData({
 											contactEmail: event.target.value
