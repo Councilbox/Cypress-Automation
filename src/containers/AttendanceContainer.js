@@ -22,7 +22,7 @@ const AttendanceContainer = ({ data, translate, actions }) => {
 		if (!data.error && !data.loading && translate.selectedLanguage !== data.participant.language) {
 			actions.setLanguage(data.participant.language);
 		}
-	}, [data.loading, data.participant]);
+	}, [data.loading, data.participant?.language]);
 
 
 	React.useEffect(() => {
