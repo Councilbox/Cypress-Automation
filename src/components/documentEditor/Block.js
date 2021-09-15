@@ -68,35 +68,46 @@ const Block = ({
 		);
 	}
 
-	const renderEditor = () => (
-		<RichTextInput
-			borderless={true}
-			ref={editor}
-			id={`text-editor-${props.value.type}`}
-			value={props.column === 2 ? props.value.secondaryText || '' : props.value.text || ''}
-			translate={translate}
-			// tags={generateActTags(null, translate)}
-			// errorText={props.state.errors === undefined ? "" : props.state.errors[props.editInfo.originalName]}
-			onChange={value => setText(value)}
-			loadDraft={
-				<BasicButton
-					text={translate.load_draft}
-					color={getSecondary()}
-					textStyle={{
-						color: 'white',
-						fontWeight: '600',
-						fontSize: '0.8em',
-						textTransform: 'none',
-						marginLeft: '0.4em',
-						minHeight: 0,
-						lineHeight: '1em'
-					}}
-					textPosition="after"
-					onClick={openDraftModal}
-				/>
-			}
-		/>
-	);
+	const renderEditor = () => {
+		let placeholder = null;
+		let placeholderSecondary = null;
+		if (props.value.placeholder === props.value.text) {
+			placeholder = props.value.placeholder;
+		}
+		if (props.value.placeholderSecondary === props.value.secondaryText) {
+			placeholderSecondary = props.value.placeholderSecondary;
+		}
+		return (
+			<RichTextInput
+				borderless={true}
+				ref={editor}
+				id={`text-editor-${props.value.type}`}
+				value={props.column === 2 ? !placeholderSecondary && props.value.secondaryText : !placeholder && props.value.text}
+				placeholder={props.column === 2 ? placeholderSecondary : placeholder}
+				translate={translate}
+				// tags={generateActTags(null, translate)}
+				// errorText={props.state.errors === undefined ? "" : props.state.errors[props.editInfo.originalName]}
+				onChange={value => setText(value)}
+				loadDraft={
+					<BasicButton
+						text={translate.load_draft}
+						color={getSecondary()}
+						textStyle={{
+							color: 'white',
+							fontWeight: '600',
+							fontSize: '0.8em',
+							textTransform: 'none',
+							marginLeft: '0.4em',
+							minHeight: 0,
+							lineHeight: '1em'
+						}}
+						textPosition="after"
+						onClick={openDraftModal}
+					/>
+				}
+			/>
+		);
+	};
 
 	return (
 		<div style={{ padding: '1em', paddingRight: '1.5em', width: '100%' }}>
@@ -138,6 +149,7 @@ const Block = ({
 				</Collapse>
 				: editMode ?
 					<div style={{ marginTop: '1em', cursor: 'default' }} className="editorText">
+						22222222222222
 						{renderEditor()}
 					</div>
 					: <div
