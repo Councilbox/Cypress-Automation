@@ -149,7 +149,6 @@ const Block = ({
 				</Collapse>
 				: editMode ?
 					<div style={{ marginTop: '1em', cursor: 'default' }} className="editorText">
-						22222222222222
 						{renderEditor()}
 					</div>
 					: <div
