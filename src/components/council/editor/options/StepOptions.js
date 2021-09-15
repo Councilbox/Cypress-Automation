@@ -700,7 +700,7 @@ const StepOptions = ({
 																		>
 																			{
 																				translate[
-																				majority.label
+																					majority.label
 																				]
 																			}
 																		</MenuItem>
