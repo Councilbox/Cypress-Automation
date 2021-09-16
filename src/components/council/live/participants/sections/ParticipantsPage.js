@@ -175,11 +175,42 @@ const ParticipantsPage = ({
 			<div
 				style={{
 					minHeight: '3em',
-					maxHeight: '6em',
-					overflow: 'hidden'
+					maxHeight: !isMobile && '6em',
+					display: 'flex',
+					flexDirection: 'row',
 				}}
 			>
 				{renderHeader()}
+				<div style={{
+					padding: '.2rem',
+					borderBottom: '1px solid gainsboro',
+					display: 'flex',
+					alignItems: 'center',
+					paddingRight: '1.5rem'
+				}}>
+					<BasicButton
+						onClick={() => {
+							props.updateState({ open: !props.menuOpen });
+						}}
+						buttonStyle={{
+							minWidth: '0',
+							minHeight: '0',
+							width: '2rem',
+							height: '2rem',
+							backgroundColor: props.menuOpen ? '#d5d5d5' : 'white',
+							boxShadow: '0px 1px 5px 0px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 3px 1px -2px rgb(0 0 0 / 12%)'
+						}}
+						icon={
+							<i
+								className="material-icons"
+								style={{
+									color: secondary
+								}}
+							>
+								settings
+							</i>}
+					/>
+				</div>
 			</div>
 			<Grid style={{
 				padding: '0 8px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '.5rem'
