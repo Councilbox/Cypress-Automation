@@ -100,6 +100,7 @@ const StepNotice = ({
 					}
 				}, translate),
 			});
+
 			dates.current.dateStart = !data.council.dateStart ? new Date().toISOString() : data.council.dateStart;
 			dates.current.dateStart2NdCall = data.council.dateStart2NdCall;
 		}
@@ -158,11 +159,15 @@ const StepNotice = ({
 			const second = moment(new Date(secondDate).toISOString(), moment.ISO_8601);
 			const difference = second.diff(first, 'minutes');
 
-			if (difference < statute.minimumSeparationBetweenCall || !council.dateStart2NdCall) {
+			if (!council.dateStart2NdCall) {
 				updateState({
 					dateStart: firstDate,
 					dateStart2NdCall: CBX.addMinimumDistance(firstDate, statute).toISOString()
 				});
+			}
+
+			if (difference < statute.minimumSeparationBetweenCall && council.dateStart2NdCall) {
+				newErrors.dateStart2NdCall = translate.difference_minutes_2ndCall.replace('{{minimumSeparationBetweenCall}}', statute.minimumSeparationBetweenCall);
 			}
 			updateConveneDates(oldFirstDate || firstDate, firstDate, oldSecondDate || secondDate, CBX.addMinimumDistance(firstDate, statute));
 		} else {
