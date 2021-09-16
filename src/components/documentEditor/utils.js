@@ -243,6 +243,8 @@ export const buildDocBlock = (item, data, language = 'es', secondaryLanguage = '
 			label: texts.textBlock,
 			text: texts.insertText,
 			secondaryText: secondaryTexts.insertText,
+			placeholder: texts.insertText,
+			placeholderSecondary: secondaryTexts.insertText
 		}),
 		title: () => ({
 			...item,
