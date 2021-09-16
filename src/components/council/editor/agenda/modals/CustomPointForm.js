@@ -6,10 +6,14 @@ import {
 } from '../../../../../displayComponents';
 import RichTextInput from '../../../../../displayComponents/RichTextInput';
 import { getPrimary, getSecondary } from '../../../../../styles/colors';
+import PointAttachments from './PointAttachments';
+
 
 const CustomPointForm = ({
 	errors,
 	translate,
+	attachments,
+	deletedAttachments,
 	agenda,
 	options,
 	items,
@@ -17,6 +21,8 @@ const CustomPointForm = ({
 	company,
 	addOption,
 	updateAgenda,
+	updateAttachments,
+	setDeletedAttachments,
 	updateOptions,
 	updateItem,
 	removeItem,
@@ -32,6 +38,7 @@ const CustomPointForm = ({
 		}
 		return number;
 	};
+
 
 	const primary = getPrimary();
 	const secondary = getSecondary();
@@ -79,32 +86,46 @@ const CustomPointForm = ({
 								}
 							</SelectInput>
 						</GridItem>
-						<RichTextInput
-							ref={editor}
-							floatingText={translate.description}
-							translate={translate}
-							type="text"
-							tags={[
-								{
-									value: `${council.street}, ${council.country}`,
-									label: translate.new_location_of_celebrate
-								},
-								{
-									value: company.countryState,
-									label: translate.company_new_country_state
-								},
-								{
-									value: company.city,
-									label: translate.company_new_locality
+						<GridItem xs={12} md={6} lg={6}>
+							<div style={{ marginBottom: '1.6em' }}>
+								<PointAttachments
+									translate={translate}
+									setAttachments={updateAttachments}
+									attachments={attachments}
+									company={company}
+									deletedAttachments={deletedAttachments}
+									setDeletedAttachments={setDeletedAttachments}
+								/>
+							</div>
+						</GridItem>
+						<GridItem xs={12}>
+							<RichTextInput
+								ref={editor}
+								floatingText={translate.description}
+								translate={translate}
+								type="text"
+								tags={[
+									{
+										value: `${council.street}, ${council.country}`,
+										label: translate.new_location_of_celebrate
+									},
+									{
+										value: company.countryState,
+										label: translate.company_new_country_state
+									},
+									{
+										value: company.city,
+										label: translate.company_new_locality
+									}
+								]}
+								errorText={errors.description}
+								value={agenda.description}
+								onChange={value => updateAgenda({
+									description: value
+								})
 								}
-							]}
-							errorText={errors.description}
-							value={agenda.description}
-							onChange={value => updateAgenda({
-								description: value
-							})
-							}
-						/>
+							/>
+						</GridItem>
 					</Grid>
 					<SectionTitle
 						text={translate.selection_type}
