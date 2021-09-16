@@ -116,7 +116,8 @@ const SignUpPage = ({ translate, windowSize, mutate }) => {
 						<CardContent
 							style={{
 								padding: 0,
-								width: '100%'
+								width: '100%',
+								height: '100%',
 							}}
 						>
 							<div
@@ -127,7 +128,7 @@ const SignUpPage = ({ translate, windowSize, mutate }) => {
 									height:
 										windowSize !== 'xs' ?
 											'72vh'
-											: 'calc(100vh - 3em)',
+											: '100%',
 									width: '100%'
 								}}
 							>
@@ -153,11 +154,11 @@ const SignUpPage = ({ translate, windowSize, mutate }) => {
 										height:
 											windowSize !== 'xs' ?
 												'100%'
-												: 'calc(100vh - 8em - 11.5%)'
+												: '100%'
 									}}
 								>
 									<Scrollbar>
-										<div style={{ paddingBottom: '4em' }}>
+										<div style={{}}>
 											<SignUpUser
 												formData={data}
 												errors={errors}

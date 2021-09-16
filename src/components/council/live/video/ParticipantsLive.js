@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { graphql, withApollo } from 'react-apollo';
 import { flowRight as compose } from 'lodash';
 import { Tooltip } from 'material-ui';
-import { darkGrey, lightGrey, turquoise } from '../../../styles/colors';
+import { darkGrey, lightGrey, turquoise } from '../../../../styles/colors';
 import {
 	CollapsibleSection,
 	Icon,
@@ -12,22 +12,20 @@ import {
 	Grid,
 	GridItem,
 	AlertConfirm
-} from '../../../displayComponents';
-import { changeRequestWord, videoParticipants as videoParticipantsQuery, banParticipant as banParticipantMutation } from '../../../queries';
+} from '../../../../displayComponents';
+import { changeRequestWord, videoParticipants as videoParticipantsQuery, banParticipant as banParticipantMutation } from '../../../../queries';
 import {
 	exceedsOnlineTimeout, participantIsBlocked, isAskingForWord, formatCountryName, councilStarted
-} from '../../../utils/CBX';
+} from '../../../../utils/CBX';
 import VideoParticipantMenu from './videoParticipants/VideoParticipantMenu';
 import ChangeRequestWordButton from './videoParticipants/ChangeRequestWordButton';
 import VideoParticipantsStats from './videoParticipants/VideoParticipantsStats';
 import ParticipantHistoryModal from './videoParticipants/ParticipantHistoryModal';
-import MuteToggleButton from './videoParticipants/MuteToggleButton';
-import { isMobile } from '../../../utils/screen';
-import { usePolling } from '../../../hooks';
-import MuteCamToggleButton from './videoParticipants/MuteCamToggleButton';
-import imgCouncilbox from '../../../assets/img/imago-councilbox-inverse-mini.png';
-import imgCouncilbox2 from '../../../assets/img/logo-white-mini.png';
-import { COUNCIL_STATES } from '../../../constants';
+import { isMobile } from '../../../../utils/screen';
+import { usePolling } from '../../../../hooks';
+import imgCouncilbox from '../../../../assets/img/imago-councilbox-inverse-mini.png';
+import imgCouncilbox2 from '../../../../assets/img/logo-white-mini.png';
+import { COUNCIL_STATES } from '../../../../constants';
 
 const ParticipantsLive = ({
 	screenSize, council, translate, client, ...props
@@ -261,11 +259,11 @@ const ParticipantsLive = ({
 							justifyContent: 'space-between'
 						}}
 					>
-						<MuteCamToggleButton
+						{/* <MuteCamToggleButton
 							translate={translate}
 							participant={participant}
 							refetch={getData}
-						/>
+						/> */}
 					</GridItem>
 					<GridItem
 						xs={isMobile ? 2 : 1}
@@ -277,11 +275,11 @@ const ParticipantsLive = ({
 							justifyContent: 'space-between'
 						}}
 					>
-						<MuteToggleButton
+						{/* <MuteToggleButton
 							translate={translate}
 							participant={participant}
 							refetch={getData}
-						/>
+						/> */}
 					</GridItem>
 					<GridItem
 						xs={isMobile ? 2 : 1}
@@ -329,6 +327,7 @@ const ParticipantsLive = ({
 		<VideoParticipantsStats
 			videoFullScreen={screenSize === 'MAX'}
 			translate={translate}
+			council={council}
 			stats={stats}
 			toggleFullScreen={props.toggleFullScreen}
 		/>

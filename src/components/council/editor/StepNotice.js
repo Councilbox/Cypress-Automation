@@ -32,10 +32,11 @@ import * as CBX from '../../../utils/CBX';
 import EditorStepLayout from './EditorStepLayout';
 import { moment } from '../../../containers/App';
 import { TAG_TYPES } from '../../company/drafts/draftTags/utils';
+import EditorStepper from './EditorStepper';
 
 
 const StepNotice = ({
-	translate, company, client, ...props
+	translate, company, client, step, ...props
 }) => {
 	const [council, setCouncil] = React.useState({});
 	const [data, setData] = React.useState({
@@ -245,7 +246,8 @@ const StepNotice = ({
 				<LiveToast
 					id="error-toast"
 					message={translate.revise_text}
-				/>, {
+				/>,
+				{
 					position: toast.POSITION.TOP_RIGHT,
 					autoClose: true,
 					className: 'errorToast'
@@ -264,7 +266,7 @@ const StepNotice = ({
 		return hasError;
 	}
 
-	const updateCouncil = async step => {
+	const updateCouncil = async stepIn => {
 		setState({
 			...state,
 			loading: true
@@ -276,7 +278,7 @@ const StepNotice = ({
 			variables: {
 				council: {
 					...rest,
-					step
+					step: stepIn
 				}
 			}
 		});
@@ -411,14 +413,15 @@ const StepNotice = ({
 		});
 	}
 
-	tags = [...tags,
+	tags = [
+		...tags,
 		{
 			value: company.businessName,
 			label: translate.business_name
 		},
 		{
 			value: council.remoteCelebration === 1 ? translate.remote_celebration : `${council.street}, ${council.country
-			}`,
+				}`,
 			label: translate.new_location_of_celebrate
 		}
 	];
@@ -437,6 +440,22 @@ const StepNotice = ({
 
 	return (
 		<React.Fragment>
+			<div
+				style={{
+					width: '100%',
+					textAlign: 'center',
+				}}
+			>
+				<div style={{
+					marginBottom: '1.2em', marginTop: '0.8em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 1.5rem'
+				}}>
+					<EditorStepper
+						translate={translate}
+						active={step - 1}
+						goToPage={nextPage}
+					/>
+				</div>
+			</div>
 			<EditorStepLayout
 				body={
 					!council.id && !data.errors ?

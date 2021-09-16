@@ -1,13 +1,13 @@
 import React from 'react';
 import { MenuItem, Card } from 'material-ui';
 import { graphql } from 'react-apollo';
-import { DropDownMenu, Icon } from '../../../../displayComponents';
-import { getSecondary } from '../../../../styles/colors';
+import { DropDownMenu, Icon } from '../../../../../displayComponents';
+import { getSecondary } from '../../../../../styles/colors';
 import {
 	participantIsBlocked,
 	canUnblockParticipant
-} from '../../../../utils/CBX';
-import { unbanParticipant as unbanParticipantMutation, changeRequestWord } from '../../../../queries';
+} from '../../../../../utils/CBX';
+import { unbanParticipant as unbanParticipantMutation, changeRequestWord } from '../../../../../queries';
 
 const VideoParticipantMenu = ({ translate, participant, ...props }) => {
 	const secondary = getSecondary();

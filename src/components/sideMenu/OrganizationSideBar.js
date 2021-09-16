@@ -55,16 +55,13 @@ class Sidebar extends React.Component {
 		{
 			path: `/company/${this.props.company.id}/companies`,
 			name: 'companies',
-			sidebarName: 'Entidades',
-			// sidebarName: this.props.translate.councils_link,
+			sidebarName: this.props.translate.councils_link,
 			icon: <img src={entidadesIcon} style={{ width: '100%', height: 'auto' }} />
 		},
 		{
 			path: `/company/${this.props.company.id}/drafts/documentation`,
 			name: 'drafts',
-			// TRADUCCION
-			sidebarName: 'B. conocimiento',
-			// sidebarName: this.props.translate.tooltip_knowledge_base,
+			sidebarName: this.props.translate.tooltip_knowledge_base,
 			icon: <img src={plantillasIcon} style={{ width: '19px', height: 'auto' }} />
 		},
 		{
@@ -76,7 +73,7 @@ class Sidebar extends React.Component {
 		{
 			path: `/company/${this.props.company.id}/users`,
 			name: 'users',
-			sidebarName: 'Usuarios',
+			sidebarName: this.props.translate.users,
 			icon: 'supervised_user_circle'
 		}
 	]

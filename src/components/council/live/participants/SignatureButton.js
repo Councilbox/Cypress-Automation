@@ -23,7 +23,11 @@ const SignatureButton = ({
 				text={participant.signed ? translate.user_signed : translate.to_sign}
 				fullWidth
 				buttonStyle={{
-					borderRadius: '4px', marginRight: '10px', width: '150px', border: `1px solid ${secondary}`
+					borderRadius: '4px',
+					marginRight: '10px',
+					width: '150px',
+					border: `1px solid ${secondary}`,
+					padding: '1em',
 				}}
 				type="flat"
 				color={participant.signed ? secondary : 'white'}

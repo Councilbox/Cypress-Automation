@@ -17,7 +17,7 @@ import { updateAgenda } from '../../../../../queries/agenda';
 import * as CBX from '../../../../../utils/CBX';
 import LoadDraft from '../../../../company/drafts/LoadDraft';
 import { getSecondary } from '../../../../../styles/colors';
-import { checkRequiredFieldsAgenda } from '../../../../../utils/validation';
+import { checkRequiredFieldsAgenda, checkValidMajority } from '../../../../../utils/validation';
 import PointAttachments from './PointAttachments';
 import { addAgendaAttachment } from '../../../../../queries';
 import { useOldState } from '../../../../../hooks';
@@ -30,18 +30,18 @@ const PointEditor = ({
 }) => {
 	const [state, setState] = useOldState({
 		...agenda,
+		errors: {
+			agendaSubject: '',
+			subjectType: '',
+			description: '',
+			majorityType: '',
+			majority: '',
+			majorityDivider: ''
+		}
 	});
 	const [attachments, setAttachments] = React.useState([...agenda.attachments] || []);
 	const [attachmentsToRemove, setAttachmentsToRemove] = React.useState([]);
 	const [loadDraftModal, setLoadDraftModal] = React.useState(false);
-	const [errors, setErrors] = useOldState({
-		agendaSubject: '',
-		subjectType: '',
-		description: '',
-		majorityType: '',
-		majority: '',
-		majorityDivider: ''
-	});
 	const editor = React.useRef();
 	const secondary = getSecondary();
 
@@ -82,14 +82,18 @@ const PointEditor = ({
 
 	function checkRequiredFields() {
 		const newErrors = checkRequiredFieldsAgenda(state, translate, toast);
-		setErrors(newErrors);
-		return newErrors.hasError;
+		const majorityCheckResult = checkValidMajority(agenda.majority, agenda.majorityDivider, agenda.majorityType);
+		setState({
+			errors: newErrors.errors,
+			majorityError: majorityCheckResult.message
+		});
+		return newErrors.hasError || majorityCheckResult.error;
 	}
 
 	const saveChanges = async () => {
 		if (!checkRequiredFields()) {
 			const {
-				__typename, items, options, ballots, attachments: a, qualityVoteSense, votingsRecount, ...data
+				__typename, items, options, ballots, attachments: a, qualityVoteSense, votingsRecount, errors, ...data
 			} = state;
 			const response = await props.updateAgenda({
 				variables: {
@@ -228,7 +232,7 @@ const PointEditor = ({
 								floatingText={translate.title}
 								type="text"
 								id="agenda-editor-title-input"
-								errorText={errors.agendaSubject}
+								errorText={state.errors.agendaSubject}
 								value={agenda.agendaSubject}
 								onChange={event => updateState({
 									agendaSubject: event.target.value
@@ -261,7 +265,7 @@ const PointEditor = ({
 									floatingText={translate.type}
 									value={agenda.subjectType}
 									id="agenda-editor-type-select"
-									errorText={errors.subjectType}
+									errorText={state.errors.subjectType}
 									onChange={event => updateState({
 										subjectType: event.target.value
 									})
@@ -289,7 +293,7 @@ const PointEditor = ({
 									floatingText={translate.majority_label}
 									value={`${agenda.majorityType}`}
 									id="agenda-editor-majority-select"
-									errorText={errors.majorityType}
+									errorText={state.errors.majorityType}
 									onChange={event => updateState({
 										majorityType: +event.target.value
 									})
@@ -316,8 +320,8 @@ const PointEditor = ({
 										type={agenda.majorityType}
 										value={agenda.majority}
 										divider={agenda.majorityDivider}
-										majorityError={errors.majority}
-										dividerError={errors.majorityDivider}
+										majorityError={state.errors.majority}
+										dividerError={state.errors.majorityError}
 										onChange={value => updateState({
 											majority: +value
 										})
@@ -378,7 +382,7 @@ const PointEditor = ({
 								label: translate.company_new_locality
 							}
 						]}
-						errorText={errors.description}
+						errorText={state.errors.description}
 						value={agenda.description}
 						onChange={value => updateState({
 							description: value

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Card, MenuItem, Tooltip } from 'material-ui';
 import { graphql } from 'react-apollo';
-import { getPrimary, getSecondary } from '../../../../styles/colors';
-import { changeRequestWord } from '../../../../queries';
-import { Icon } from '../../../../displayComponents';
-import { haveGrantedWord, isAskingForWord } from '../../../../utils/CBX';
+import { getPrimary, getSecondary } from '../../../../../styles/colors';
+import { changeRequestWord } from '../../../../../queries';
+import { Icon } from '../../../../../displayComponents';
+import { haveGrantedWord, isAskingForWord } from '../../../../../utils/CBX';
 
 class ChangeRequestWordButton extends React.Component {
 	changeWordState = async (id, value) => {

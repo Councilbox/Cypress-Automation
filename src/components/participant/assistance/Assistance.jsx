@@ -130,6 +130,11 @@ const Assistance = ({
 	const [checkError, setCheckError] = React.useState(false);
 	const config = React.useContext(ConfigContext);
 
+
+	React.useEffect(() => {
+		setSelecteAssistance(translate.council);
+	}, [translate.council]);
+
 	React.useEffect(() => {
 		setState({
 			...state,
@@ -262,7 +267,8 @@ const Assistance = ({
 				<LiveToast
 					id="error-toast"
 					message={translate.revise_text}
-				/>, {
+				/>,
+				{
 					position: toast.POSITION.TOP_RIGHT,
 					autoClose: true,
 					className: 'errorToast'
@@ -335,7 +341,7 @@ const Assistance = ({
 								<img src={emptyMeetingTable} style={{ width: '55%', height: 'auto', margin: 'auto' }} alt="empty-table" />
 							</div>
 							<div style={{ fontWeight: '700', fontSize: '1.2em' }} >
-								Lo sentimos, esta reunión ha sido eliminada.{/* TRADUCCION */}
+								{translate.meeting_has_been_deleted}
 							</div>
 						</div>
 					</Card>
@@ -343,7 +349,6 @@ const Assistance = ({
 			</NotLoggedLayout>
 		);
 	}
-
 
 	const getReunionActual = () => (
 		<div style={{}}>
@@ -373,7 +378,7 @@ const Assistance = ({
 						<>
 							<AssistanceOption
 								translate={translate}
-								title={'Quiero delegar el voto en otro socio (indique razón social y nombre de la persona):'}
+								title={translate.delegate_the_vote_to_another_partner}
 								select={() => {
 									setState({
 										...state,
@@ -504,9 +509,7 @@ en las council type === 4 se generan los votos para todos como una sin sesión
 al crear una carta de voto se crea un proxy vote,
 al borrar una carta de voto se elimina el proxy vote
 */
-
 	const getVotosDelegados = () => {
-		// TRADUCCION
 		const delegatedVotes = participant.delegatedVotes.filter(a => a.state !== PARTICIPANT_STATES.REPRESENTATED);
 		return (
 			<div>
@@ -538,9 +541,9 @@ al borrar una carta de voto se elimina el proxy vote
 								color: primary, fontSize: '15px', fontWeight: '700', marginBottom: '1em'
 							}}>
 								{delegatedVotes.length > 0 ?
-									<div>Han delegado votos en usted:</div>
+									<div>{translate.they_have_delegated_votes_to_you}</div>
 									:
-									<div>No tienes votos delegados</div>
+									<div>{translate.you_have_no_proxy_votes}</div>
 								}
 							</div>
 							<div style={{ display: 'inline-block' }}>

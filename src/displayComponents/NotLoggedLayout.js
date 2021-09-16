@@ -66,6 +66,7 @@ const NotLoggedLayout = ({
 					backgroundColor: 'rgba(0, 0, 0, 0.05)',
 					fontSize: '0.85em',
 					height: `calc(100% - ${HEADER_HEIGHT})`,
+					minHeight: `calc(100% - ${HEADER_HEIGHT})`
 				}}
 			>
 				<Scrollbar

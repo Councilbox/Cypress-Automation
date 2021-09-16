@@ -10,6 +10,7 @@ import Tower from '../../../../assets/img/broadcast-tower.svg';
 import BroadcastingTower from '../../../../assets/img/broadcasting-tower.svg';
 import { usePolling } from '../../../../hooks';
 import { AlertConfirm } from '../../../../displayComponents';
+import { ConfigContext } from '../../../../containers/AppControl';
 
 
 const RecordingButton = ({
@@ -17,8 +18,9 @@ const RecordingButton = ({
 }) => {
 	const [loading, setLoading] = React.useState(false);
 	const [autoHybridModal, setAutoHybridModal] = React.useState(false);
-	const showRecordingButton = (props.config.recording && (council.fullVideoRecord === 0 || (council.fullVideoRecord === 1 && council.councilStarted === 1)));
-	const showStreamingButton = props.config.streaming && (council.room.videoConfig && (council.room.videoConfig.rtmp || council.room.videoConfig.autoHybrid));
+	const config = React.useContext(ConfigContext);
+	const showRecordingButton = (config.recording && (council.fullVideoRecord === 0 || (council.fullVideoRecord === 1 && council.councilStarted === 1)));
+	const showStreamingButton = config.streaming && (council.room.videoConfig && (council.room.videoConfig.rtmp || council.room.videoConfig.autoHybrid));
 
 	React.useState(() => {
 		DetectRTC.load();
@@ -109,88 +111,96 @@ const RecordingButton = ({
 		return <span />;
 	}
 
-	if (!props.config.recording && !props.config.streaming) {
+	if ((!config.recording && !config.streaming) || data.sessionStatus.type === 'FIXED') {
 		return <span />;
 	}
 
 	const { record } = sessionStatus;
 
 	return (
-		<div
-			style={{
-				position: 'absolute',
-				top: '15px',
-				left: '1em',
-				display: 'flex',
-				alignItems: 'center',
-				fontSize: '1.4em',
-				backgroundColor: 'rgba(0, 0, 0, 0.5)',
-				padding: '0.3em 0.6em 0.3em 0.6em',
-				borderRadius: '10px'
-			}}
-		>
+		<>
 			{loading ?
 				<CircularProgress size={20} thickness={7} color={'secondary'} />
 				: <>
 					{showRecordingButton
-&& <Tooltip title={council.fullVideoRecord === 1 ?
-	translate.full_record : record ? translate.to_stop_recording : translate.to_start_recording}>
-	<div
-		style={{ cursor: council.fullVideoRecord === 1 ? 'auto' : 'pointer' }}
-		{...(council.fullVideoRecord !== 1 ? { onClick: toggleRecordings } : {})}
-	>
-		{loading ?
-			<CircularProgress size={20} thickness={7} color={'secondary'} />
-			: record ?
-				<i className="fa fa-dot-circle-o fadeToggle" style={{ color: 'red' }} />
-				: <i className="fa fa-circle" style={{ color: 'red' }} />
-		}
-	</div>
-</Tooltip>
+						&& <Tooltip title={council.fullVideoRecord === 1 ?
+							translate.full_record : record ? translate.to_stop_recording : translate.to_start_recording}>
+							<div
+								style={{
+									cursor: council.fullVideoRecord === 1 ? 'auto' : 'pointer',
+									fontSize: '1.4em',
+									display: 'flex',
+									alignItems: 'center',
+									justifyContent: 'center',
+									padding: '0.4em'
+								}}
+								{...(council.fullVideoRecord !== 1 ? { onClick: toggleRecordings } : {})}
+							>
+								{loading ?
+									<CircularProgress size={20} thickness={7} color={'secondary'} />
+									: record ?
+										<i className="fa fa-dot-circle-o fadeToggle" style={{ color: 'red' }} />
+										: <i className="fa fa-circle" style={{ color: 'red' }} />
+								}
+							</div>
+						</Tooltip>
 					}
 					{showStreamingButton
-&& <Tooltip title={sessionStatus.streaming ? translate.stop_broadcasting : translate.start_broadcasting}>
-	{sessionStatus.streaming ?
-		<img
-			src={BroadcastingTower}
-			style={{
-				width: 'auto', height: '0.8em', marginLeft: showRecordingButton ? '0.4em' : '0', cursor: 'pointer'
-			}}
-			onClick={stopStreamingAlert}
-			// onClick={stopStreaming}
-		/>
-		: <img
-			src={Tower}
-			style={{
-				width: 'auto', height: '0.8em', marginLeft: showRecordingButton ? '0.4em' : '0', cursor: 'pointer'
-			}}
-			onClick={startStreaming}
-		/>
-	}
-</Tooltip>
+						&& <Tooltip title={sessionStatus.streaming ? translate.stop_broadcasting : translate.start_broadcasting}>
+							<div
+								style={{
+									display: 'flex',
+									alignItems: 'center',
+									justifyContent: 'center',
+									padding: '0.4em'
+								}}
+							>
+								{sessionStatus.streaming ?
+									<img
+										src={BroadcastingTower}
+										style={{
+											width: 'auto',
+											height: '17px',
+											cursor: 'pointer',
+										}}
+										onClick={stopStreamingAlert}
+									// onClick={stopStreaming}
+									/>
+									: <img
+										src={Tower}
+										style={{
+											width: 'auto',
+											height: '17px',
+											cursor: 'pointer',
+										}}
+										onClick={startStreaming}
+									/>
+								}
+							</div>
+						</Tooltip>
 					}
 					{(council.room.videoConfig && council.room.videoConfig.autoHybrid)
-&& <AlertConfirm
-	requestClose={() => setAutoHybridModal(false)}
-	open={autoHybridModal}
-	acceptAction={stopStreaming}
-	buttonAccept={translate.accept}
-	buttonCancel={translate.cancel}
-	bodyText={
-		<div style={{
-			margin: '1em', color: 'black', display: 'flex', alignItems: 'center', marginTop: '2em', fontSize: '21px'
-		}}>
-			<div>
-				<i className="fa fa-exclamation-triangle" aria-hidden="true" style={{ color: '#dc7373', fontSize: '25px', marginRight: '22px' }}></i>
-			</div>
-			<div>Esta acción cortará la emisión a todos los participantes</div>
-		</div>
-	}
-/>
+						&& <AlertConfirm
+							requestClose={() => setAutoHybridModal(false)}
+							open={autoHybridModal}
+							acceptAction={stopStreaming}
+							buttonAccept={translate.accept}
+							buttonCancel={translate.cancel}
+							bodyText={
+								<div style={{
+									margin: '1em', color: 'black', display: 'flex', alignItems: 'center', marginTop: '2em', fontSize: '21px'
+								}}>
+									<div>
+										<i className="fa fa-exclamation-triangle" aria-hidden="true" style={{ color: '#dc7373', fontSize: '25px', marginRight: '22px' }}></i>
+									</div>
+									<div>Esta acción cortará la emisión a todos los participantes</div>
+								</div>
+							}
+						/>
 					}
 				</>
 			}
-		</div>
+		</>
 	);
 };
 
@@ -218,6 +228,7 @@ const sessionStatus = gql`
 		sessionStatus(councilId: $councilId){
 			record
 			streaming
+			type
 		}
 	}
 `;
