@@ -2,13 +2,12 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 import { MenuItem, Paper } from 'material-ui';
 import gql from 'graphql-tag';
-import { getSecondary, getPrimary } from '../../../../styles/colors';
+import { getPrimary } from '../../../../styles/colors';
 import {
-	FilterButton, SelectInput, Grid, GridItem, CollapsibleSection, LoadingSection, BasicButton
+	FilterButton, SelectInput, Grid, GridItem, CollapsibleSection, LoadingSection
 } from '../../../../displayComponents';
 import ParticipantsPage from './sections/ParticipantsPage';
 import { useOldState } from '../../../../hooks';
-import { isMobile } from '../../../../utils/screen';
 
 const initialState = {
 	layout: 'squares', // table, compact
@@ -36,7 +35,6 @@ const ParticipantsManager = ({
 		addGuest: false
 	});
 
-	const secondary = getSecondary();
 	const primary = getPrimary();
 
 
@@ -110,11 +108,6 @@ const ParticipantsManager = ({
 			refetch: updateParticipants
 		});
 		setState(() => ({ ...state, loading: false }));
-	};
-
-	const toggleSettings = () => {
-		const newValue = !state.open;
-		setState({ ...state, open: newValue });
 	};
 
 	const updateState = object => {
