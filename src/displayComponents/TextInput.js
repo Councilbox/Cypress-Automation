@@ -29,6 +29,7 @@ const TextInput = ({
 	onClick,
 	onBlur,
 	helpPopover,
+	helpPlacement,
 	helpTitle,
 	helpDescription,
 	multiline,
@@ -77,6 +78,7 @@ const TextInput = ({
 									title={helpTitle}
 									content={helpDescription}
 									colorHelp={colorHelp}
+									placement={helpPlacement}
 								/>
 							}
 						</div>

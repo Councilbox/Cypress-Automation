@@ -48,7 +48,8 @@ const HelpPopover = ({ ...props }) => {
 		content = 'content',
 		TriggerComponent = DefaultTrigger,
 		errorText,
-		colorHelp
+		colorHelp,
+		placement
 	} = props;
 
 	return (
@@ -58,6 +59,7 @@ const HelpPopover = ({ ...props }) => {
 			visible={state.visible}
 			onVisibleChange={onVisibleChange}
 			trigger={'hover'}
+			placement={placement}
 		>
 			<TriggerComponent
 				onClick={toggleVisible}
