@@ -217,6 +217,7 @@ const ConvenedParticipantsTable = ({
 				{councilParticipants ?
 					<EnhancedTable
 						ref={table}
+						activeTableShowing={true}
 						translate={translate}
 						menuButtons={
 							<div style={{

@@ -32,6 +32,7 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
 					councilRoom(councilId: $councilId){
 						platformVideo
 						videoConfig
+						type
 						videoLink
 					}
 					videoConfig
@@ -47,6 +48,7 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
 			setData({
 				platformVideo: councilRoom.platformVideo || null,
 				videoLink: councilRoom.videoLink || '',
+				type: councilRoom.type,
 				videoConfig: {
 					rtmp: '',
 					viewerURL: '',
@@ -173,6 +175,18 @@ const FixedVideoURLModal = ({ council, client, ...props }) => {
 
 				</>
 			}
+			<SelectInput
+				value={data.type || 'default'}
+				floatingText={'Plataforma de video'}
+				onChange={event => setData({
+					...data,
+					type: event.target.value
+				})}
+			>
+				<MenuItem value={'default'}>Por defecto</MenuItem>
+				<MenuItem value={'CMP'}>CMP</MenuItem>
+				<MenuItem value={'SHUTTER'}>SHUTTER</MenuItem>
+			</SelectInput>
 
 			<TextInput
 				value={data.platformVideo}

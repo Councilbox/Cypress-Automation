@@ -41,8 +41,9 @@ const AttachmentsModal = ({
 				base64: btoa(loadEvent.target.result),
 				councilId: council.id
 			};
-
-
+			if (errors.attachments) {
+				setErrors({});
+			}
 			setAttachments([...attachments, fileInfo]);
 		};
 	};
@@ -52,25 +53,25 @@ const AttachmentsModal = ({
 		setCompanyDocumentsModal(false);
 	};
 
-	const validateForm = async () => {
+	const validateForm = () => {
 		const newErrors = {};
 
 		if (attachments.length === 0) {
-			errors.attachments = translate.no_file_indicated;
-		} else {
-			const alreadyUsed = [];
-
-			attachments.forEach(a => {
-				const found = council.attachments.find(attachment => a.filename === attachment.filename);
-				if (found) {
-					alreadyUsed.push(a.filename);
-				}
-			});
-
-			if (alreadyUsed.length > 0) {
-				newErrors.repeatedAttachments = alreadyUsed;
-			}
+			newErrors.attachments = translate.no_file_indicated;
 		}
+		const alreadyUsed = [];
+
+		attachments.forEach(a => {
+			const found = council.attachments.find(attachment => a.filename === attachment.filename);
+			if (found) {
+				alreadyUsed.push(a.filename);
+			}
+		});
+
+		if (alreadyUsed.length > 0) {
+			newErrors.repeatedAttachments = alreadyUsed;
+		}
+
 
 		if (Object.keys(newErrors).length > 0) {
 			setErrors(newErrors);
@@ -99,54 +100,51 @@ const AttachmentsModal = ({
 		setStep(3);
 	};
 
-	const sendAttachments = async () => {
-		if (!await validateForm()) {
-			setStep(1);
-			const addedAttachments = [];
+	const resetAndClose = () => {
+		requestClose();
+		setStep(0);
+		setAttachments([]);
+		setErrors({});
+		setMessage('');
+	};
 
-			for (let i = 0; i < attachments.length; i++) {
-				const attachment = attachments[i];
-				setUploading(i);
+	const sendAttachments = async () => {
+		if (!validateForm()) {
+			setStep(1);
+			const addedAttachments = attachments.map(async (attachment, index) => {
+				setUploading(index);
 				if (attachment.id) {
-					// eslint-disable-next-line no-await-in-loop
 					const response = await client.mutate({
 						mutation: gql`
-							mutation AttachCompanyDocumentToCouncil($councilId: Int!, $companyDocumentId: Int!){
-								attachCompanyDocumentToCouncil(councilId: $councilId, companyDocumentId: $companyDocumentId){
-									id
-								}
-							}
-						`,
+										mutation AttachCompanyDocumentToCouncil($councilId: Int!, $companyDocumentId: Int!){
+											attachCompanyDocumentToCouncil(councilId: $councilId, companyDocumentId: $companyDocumentId){
+												id
+											}
+										}
+									`,
 						variables: {
 							councilId: council.id,
 							companyDocumentId: attachment.id
 						}
 					});
-					addedAttachments.push(response.data.attachCompanyDocumentToCouncil.id);
-				} else {
-					// eslint-disable-next-line no-await-in-loop
-					const response = await client.mutate({
-						mutation: addCouncilAttachment,
-						variables: {
-							attachment
-						}
-					});
-					addedAttachments.push(response.data.addCouncilAttachment.id);
+					return response.data.attachCompanyDocumentToCouncil.id;
 				}
-			}
+				const response = await client.mutate({
+					mutation: addCouncilAttachment,
+					variables: {
+						attachment
+					}
+				});
+				return response.data.addCouncilAttachment.id;
+			});
+			const notifyAttach = await Promise.all(addedAttachments);
 
 			setUploading(null);
 			setStep(2);
-			notifyAttachmentsAdded(addedAttachments);
+			await notifyAttachmentsAdded(notifyAttach);
 		}
 	};
 
-	const resetAndClose = () => {
-		requestClose();
-		setStep(0);
-		setAttachments([]);
-		setMessage('');
-	};
 
 	const documentIsAlreadyUsed = filename => (errors.repeatedAttachments ? ((errors.repeatedAttachments.findIndex(item => item === filename) !== -1) ?
 		translate.used_attachment_error
@@ -163,7 +161,7 @@ const AttachmentsModal = ({
 						attachments.map((attachment, index) => (
 							<AttachmentItem
 								edit={false}
-								icon={(uploading > index) && <i className="fa fa-check" style={{ color: 'green' }}/>}
+								icon={(uploading > index) && <i className="fa fa-check" style={{ color: 'green' }} />}
 								loading={index === uploading}
 								key={`attachment${index}`}
 								attachment={attachment}
@@ -261,9 +259,9 @@ const AttachmentsModal = ({
 					}
 				/>
 				{errors.attachments
-&& <div style={{ color: 'red' }}>
-	{errors.attachments}
-</div>
+					&& <div style={{ color: 'red' }}>
+						{errors.attachments}
+					</div>
 				}
 				{attachments.length > 0 && (
 					attachments.map((attachment, index) => (

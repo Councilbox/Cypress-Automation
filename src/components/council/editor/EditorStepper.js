@@ -8,10 +8,12 @@ import withWindowSize from '../../../HOCs/withWindowSize';
 import { isMobile } from '../../../utils/screen';
 
 const EditorStepper = ({
-	translate, active, goToPage, windowSize
+	translate, active, goToPage, windowSize, previousPage
 }) => {
 	const secondary = getSecondary();
 	const primary = getPrimary();
+	const previous = active - 1;
+	const next = active + 1;
 
 	const steps = [
 		{
@@ -46,24 +48,20 @@ const EditorStepper = ({
 		},
 	];
 
-	const XsIcon = ({ icon, page }) => (
+	const XsIcon = ({ step }) => (
 		<Icon
-			type={icon}
+			type={step.icon}
 			style={{
 				fontSize: '18px',
-				color: active === page - 1 ? primary : secondary,
-				cursor: active > page - 1 ? 'pointer' : 'inherit',
+				color: active === step.index ? primary : secondary,
+				cursor: previous === step.index || next === step.index ? 'pointer' : 'inherit',
 				userSelect: 'none',
-				...(active === page - 1 ? {
+				...(active === step.index ? {
 					fontSize: '22px',
 					fontWeight: '700'
 				} : {})
 			}}
-
-			{...(active > page - 1 ? {
-				onClick: () => goToPage(page),
-			} : {})}
-
+			onClick={() => (next === step.index ? goToPage() : step.index === previous && previousPage())}
 		/>
 	);
 
@@ -80,24 +78,11 @@ const EditorStepper = ({
 					justifyContent: 'space-between'
 				}}
 			>
-				<Tooltip title={translate.wizard_convene}>
-					<XsIcon icon='schedule' page={1} />
-				</Tooltip>
-				<Tooltip title={translate.census}>
-					<XsIcon icon='team' page={2} />
-				</Tooltip>
-				<Tooltip title={translate.wizard_agenda}>
-					<XsIcon icon='profile' page={3} />
-				</Tooltip>
-				<Tooltip title={translate.wizard_attached_documentation}>
-					<XsIcon icon='link' page={4} />
-				</Tooltip>
-				<Tooltip title={translate.wizard_options}>
-					<XsIcon icon='bars' page={5} />
-				</Tooltip>
-				<Tooltip title={translate.wizard_preview}>
-					<XsIcon icon='copy' page={6} />
-				</Tooltip>
+				{steps.map(step => (
+					<Tooltip key={`step:${step.index}`} title={translate.wizard_convene}>
+						<XsIcon step={step} />
+					</Tooltip>
+				))}
 			</div>
 		);
 	}
@@ -115,38 +100,30 @@ const EditorStepper = ({
 						<span
 							style={{
 								userSelect: 'none',
-								cursor: active > step.index ? 'pointer' : 'inherit',
+								cursor: previous === step.index || next === step.index ? 'pointer' : 'inherit',
 								...(active === step.index ? {
 									fontSize: !isMobile ? '18px' : '1rem',
 									textDecoration: 'underline'
 								} : {})
 							}}
-							{...(active > step.index ?
-								{
-									onClick: () => goToPage(step.index + 1),
-								}
-								: {})}
+							onClick={() => (next === step.index ? goToPage() : step.index === previous && previousPage())}
 						>
-							{step.text}
+							{step.index + 1}. {step.text}
 						</span>
 					}
 					icon={
-						<Icon
+						< Icon
 							type={step.icon}
 							style={{
 								color: active === step.index ? primary : secondary,
-								cursor: active > step.index ? 'pointer' : 'inherit'
+								cursor: previous === step.index || next === step.index ? 'pointer' : 'inherit',
 							}}
-							{...(active > step.index ?
-								{
-									onClick: () => goToPage(step.index + 1),
-								}
-								: {})}
+							onClick={() => (next === step.index ? goToPage() : step.index === previous && previousPage())}
 						/>
 					}
 				/>
 			))}
-		</Steps>
+		</Steps >
 	);
 };
 

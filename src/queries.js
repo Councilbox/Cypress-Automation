@@ -1039,7 +1039,8 @@ export const councilStepFive = gql`
 			companyId
 			wallActive
 			confirmAssistance
-			councilType
+			councilType,
+			contactEmail,
 			presentVoteOverwrite
 			dateStart
 			fullVideoRecord
@@ -2073,6 +2074,10 @@ export const liveParticipant = gql`
 			blocked
 			lastDateConnection
 			videoMode
+			represented {
+				name
+				surname
+			}
 			notifications {
 				participantId
 				email

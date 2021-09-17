@@ -22,7 +22,8 @@ const AttendanceContainer = ({ data, translate, actions }) => {
 		if (!data.error && !data.loading && translate.selectedLanguage !== data.participant.language) {
 			actions.setLanguage(data.participant.language);
 		}
-	}, [data.loading, data.participant]);
+	}, [data.loading, data.participant?.language]);
+
 
 	React.useEffect(() => {
 		if (data.councilVideo) {
@@ -49,9 +50,6 @@ const AttendanceContainer = ({ data, translate, actions }) => {
 		return <LoadingMainApp />;
 	}
 
-	if (translate.selectedLanguage !== data.participant.language) {
-		return <LoadingMainApp />;
-	}
 
 	if (data.councilVideo.state === -1) {
 		return <CanceledCouncil council={data.councilVideo} translate={translate} />;

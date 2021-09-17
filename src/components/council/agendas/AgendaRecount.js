@@ -113,10 +113,10 @@ const AgendaRecount = ({
 
 
 	const renderPresentTotal = () => {
-		const presentTotal = agenda.votingsRecount.positiveManual
-			+ agenda.votingsRecount.negativeManual
-			+ agenda.votingsRecount.abstentionManual
-			+ agenda.votingsRecount.noVoteManual;
+		const presentTotal = defaultZero(agenda.votingsRecount.positiveManual)
+			+ defaultZero(agenda.votingsRecount.negativeManual)
+			+ defaultZero(agenda.votingsRecount.abstentionManual)
+			+ defaultZero(agenda.votingsRecount.noVoteManual);
 		return (
 			<>
 				<div style={itemStyle}>
@@ -135,10 +135,10 @@ const AgendaRecount = ({
 	};
 
 	const renderRemoteTotal = () => {
-		const remoteTotal = agenda.votingsRecount.positiveVotings
-		+ agenda.votingsRecount.negativeVotings
-		+ agenda.votingsRecount.abstentionVotings
-		+ agenda.votingsRecount.noVoteVotings;
+		const remoteTotal = defaultZero(agenda.votingsRecount.positiveVotings)
+			+ defaultZero(agenda.votingsRecount.negativeVotings)
+			+ defaultZero(agenda.votingsRecount.abstentionVotings)
+			+ defaultZero(agenda.votingsRecount.noVoteVotings);
 		return (
 			<>
 				<div style={itemStyle}>
