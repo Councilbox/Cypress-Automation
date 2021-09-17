@@ -1,4 +1,5 @@
 import React from 'react';
+import { isMobile } from '../../../../../utils/screen';
 import { Grid } from '../../../../../displayComponents';
 import { PARTICIPANT_STATES } from '../../../../../constants';
 import { getSecondary } from '../../../../../styles/colors';
@@ -20,7 +21,8 @@ const StatesHeader = ({
 				width: '100%',
 				minHeight: '3em',
 				borderBottom: '1px solid gainsboro',
-				display: 'flex',
+				display: isMobile ? 'grid' : 'flex',
+				gridTemplateColumns: isMobile && 'repeat(auto-fit, minmax(75px, 1fr))',
 				flexDirection: 'row',
 				alignItems: 'center',
 				justifyContent: 'space-between',

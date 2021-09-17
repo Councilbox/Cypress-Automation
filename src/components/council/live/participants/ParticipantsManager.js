@@ -2,13 +2,12 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 import { MenuItem, Paper } from 'material-ui';
 import gql from 'graphql-tag';
-import { getSecondary, getPrimary } from '../../../../styles/colors';
+import { getPrimary } from '../../../../styles/colors';
 import {
 	FilterButton, SelectInput, Grid, GridItem, CollapsibleSection, LoadingSection
 } from '../../../../displayComponents';
 import ParticipantsPage from './sections/ParticipantsPage';
 import { useOldState } from '../../../../hooks';
-import { isMobile } from '../../../../utils/screen';
 
 const initialState = {
 	layout: 'squares', // table, compact
@@ -36,7 +35,6 @@ const ParticipantsManager = ({
 		addGuest: false
 	});
 
-	const secondary = getSecondary();
 	const primary = getPrimary();
 
 
@@ -110,11 +108,6 @@ const ParticipantsManager = ({
 			refetch: updateParticipants
 		});
 		setState(() => ({ ...state, loading: false }));
-	};
-
-	const toggleSettings = () => {
-		const newValue = !state.open;
-		setState({ ...state, open: newValue });
 	};
 
 	const updateState = object => {
@@ -241,22 +234,6 @@ const ParticipantsManager = ({
 				...stylesDiv
 			}}
 		>
-			<i
-				className="material-icons"
-				style={{
-					position: 'absolute',
-					zIndex: 600,
-					cursor: 'pointer',
-					top: isMobile ? '1.8em' : '81px',
-					// top: isMobile? '2.5em' : '1.8em',
-					right: '1em',
-					color: secondary,
-					background: 'white'
-				}}
-				onClick={toggleSettings}
-			>
-				settings
-			</i>
 			<Grid spacing={0} style={{
 				height: '100%',
 			}}>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { isMobile } from '../../../../../utils/screen';
 import { Grid } from '../../../../../displayComponents';
 import { PARTICIPANT_STATES } from '../../../../../constants';
 import { getSecondary } from '../../../../../styles/colors';
@@ -21,9 +22,10 @@ const AttendanceHeader = ({
 			md={12}
 			style={{
 				width: '100%',
-				height: '3em',
+				minHeight: '3em',
 				borderBottom: '1px solid gainsboro',
-				display: 'flex',
+				display: isMobile ? 'grid' : 'flex',
+				gridTemplateColumns: isMobile && 'repeat(auto-fit, minmax(75px, 1fr))',
 				flexDirection: 'row',
 				alignItems: 'center',
 				justifyContent: 'space-between',
