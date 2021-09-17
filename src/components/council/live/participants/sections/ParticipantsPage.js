@@ -127,7 +127,10 @@ const ParticipantsPage = ({
 
 	const renderHeader = () => {
 		if (!data[getSection(props.view)]) {
-			return <div />;
+			return <div style={{
+				width: '100%',
+				borderBottom: '1px solid gainsboro',
+			}} />;
 		}
 
 		const headers = {
@@ -177,7 +180,7 @@ const ParticipantsPage = ({
 					minHeight: '3em',
 					maxHeight: !isMobile && '6em',
 					display: 'flex',
-					flexDirection: 'row',
+					flexDirection: isMobile ? 'column-reverse' : 'row',
 				}}
 			>
 				{renderHeader()}
@@ -186,7 +189,8 @@ const ParticipantsPage = ({
 					borderBottom: '1px solid gainsboro',
 					display: 'flex',
 					alignItems: 'center',
-					paddingRight: '1.5rem'
+					justifyContent: isMobile && 'flex-end',
+					paddingRight: '1.5rem',
 				}}>
 					<BasicButton
 						onClick={() => {
