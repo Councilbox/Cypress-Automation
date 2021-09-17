@@ -45,7 +45,9 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 		});
 
 		if (response.data.updateParticipantSends.success) {
-			data.refetch();
+			if (data.refetch) {
+				data.refetch();
+			}
 		}
 	};
 
@@ -78,8 +80,8 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 			}}
 		>
 			<Scrollbar>
-				<div style={{ height: '100%', display: 'flex', alignItems: 'center' }}>
-					<div style={{ width: '100%', padding: '0.5em', height: '100%' }}>
+				<div>
+					<div style={{ width: '100%', padding: '0.5em' }}>
 						<Grid style={{
 							boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.5)', border: CBX.hasHisVoteDelegated(participant) ? '' : 'solid 1px #61abb7', borderRadius: '4px', padding: '1em'
 						}}>
