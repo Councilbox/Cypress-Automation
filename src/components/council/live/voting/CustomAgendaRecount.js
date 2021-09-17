@@ -23,7 +23,17 @@ const CustomAgendaRecount = ({
 	agenda, translate, council, company
 }) => {
 	const data = formatDataFromAgenda(agenda, translate);
-	const votings = [...agenda.items].sort(orderByRecount(agenda.votingsRecount));
+	const votings = [
+		...agenda.items,
+		{
+			id: 'noVote',
+			value: translate.no_vote_lowercase
+		},
+		{
+			id: 'abstention',
+			value: translate.abstention_btn,
+		},
+	].sort(orderByRecount(agenda.votingsRecount));
 
 	const printPercentage = value => {
 		return `(${getPercentage(value, agenda.votingsRecount.totalRecount)}%)`;
@@ -97,32 +107,6 @@ const CustomAgendaRecount = ({
 								</TableCell>
 							</TableRow>
 						))}
-						<TableRow>
-							<TableCell>
-								{translate.abstention_btn}
-							</TableCell>
-							<TableCell>
-								{`${showNumParticipations(
-									agenda.votingsRecount.abstention,
-									company,
-									council.statute
-								)}`}
-								<span style={{ marginLeft: '0.5em' }}>{printPercentage(agenda.votingsRecount.abstention)}</span>
-							</TableCell>
-						</TableRow>
-						<TableRow >
-							<TableCell>
-								{translate.no_vote_lowercase}
-							</TableCell>
-							<TableCell>
-								{`${showNumParticipations(
-									agenda.votingsRecount.noVote,
-									company,
-									council.statute
-								)}`}
-								<span style={{ marginLeft: '0.5em' }}>{printPercentage(agenda.votingsRecount.noVote)}</span>
-							</TableCell>
-						</TableRow>
 					</TableBody>
 				</Table>
 			</GridItem>
