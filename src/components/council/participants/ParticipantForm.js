@@ -7,6 +7,7 @@ import {
 	SelectInput,
 	TextInput
 } from '../../../displayComponents';
+import { cleanVotesValue } from '../../../utils/CBX';
 
 const ParticipantForm = ({
 	participant,
@@ -254,7 +255,7 @@ const ParticipantForm = ({
 						onChange={event => {
 							if (!Number.isNaN(Number(event.target.value)) || +event.target.value >= 0) {
 								updateState({
-									numParticipations: Number.isNaN(Number(event.target.value)) ? '' : parseInt(event.target.value, 10)
+									numParticipations: cleanVotesValue(event.target.value)
 								});
 							}
 						}}
@@ -276,7 +277,7 @@ const ParticipantForm = ({
 							onChange={event => {
 								if (!Number.isNaN(Number(event.target.value)) || +event.target.value >= 0) {
 									updateState({
-										socialCapital: Number.isNaN(Number(event.target.value)) ? '' : parseInt(event.target.value, 10)
+										socialCapital: cleanVotesValue(event.target.value)
 									});
 								}
 							}}
