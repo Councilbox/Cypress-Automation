@@ -76,6 +76,14 @@ const Councils = ({ translate, client, ...props }) => {
 		}
 	}, [window.location.pathname]);
 
+	React.useEffect(() => {
+		setState({
+			...state,
+			page: 1,
+			selectedIds: new Map(),
+		});
+	}, [selectedTab]);
+
 	const handleChange = section => {
 		bHistory.push(statesTabLink[section]);
 	};
@@ -122,12 +130,14 @@ const Councils = ({ translate, client, ...props }) => {
 		});
 	};
 
-	const selectAll = () => {
+	const selectAll = (ev, isInputChecked) => {
 		const newSelected = new Map();
-		if (state.selectedIds.size !== councilsData.length) {
-			councilsData.list.forEach(council => {
-				newSelected.set(council.id, 'selected');
-			});
+		if (isInputChecked) {
+			if (state.selectedIds.size !== councilsData.length) {
+				councilsData.list.forEach(council => {
+					newSelected.set(council.id, 'selected');
+				});
+			}
 		}
 
 		setState({
@@ -251,7 +261,7 @@ const Councils = ({ translate, client, ...props }) => {
 						<LoadingSection />
 					</div>
 				) : (
-					<div style={{ height: `calc(100% - ${mobileLandscape() ? '7em' : '3em'})`, overflow: 'hidden' }}>
+					<div style={{ height: `calc(100% - ${mobileLandscape() ? '7em' : state.selectedIds.size > 0 ? '6em' : '4em'})`, overflow: 'hidden' }}>
 						<Scrollbar>
 							<div style={{ padding: '1em', paddingTop: '2em' }}>
 								{councilsData.list.length > 0 ? (

@@ -66,9 +66,7 @@ const RepresentativeForm = ({
 			<GridItem xs={12} lg={12} md={12} style={{ display: isMobile && windowSize === 'xs' ? '' : 'flex' }}>
 				<Action
 					disabled={disabled}
-					style={{
-						display: 'flex', alignItems: 'center', overflow: 'hidden', cursor: 'pointer'
-					}}
+					styles={{ justifyContent: 'center', gap: '4px' }}
 					id={state.hasRepresentative ? 'remove-representative-button' : 'add-representative-button'}
 					onClick={() => updateState({
 						hasRepresentative: !state.hasRepresentative
@@ -89,20 +87,17 @@ const RepresentativeForm = ({
 					onClick={() => setSelectRepresentative(true)}
 					disabled={disabled}
 					id="select-representative-button"
+					styles={{ justifyContent: 'center', gap: '4px' }}
 				>
-					<div
-						style={{ display: 'flex', alignItems: 'center', overflow: 'hidden' }}
-					>
-						<div style={{ width: '3em', color: disabled ? 'grey' : getSecondary() }}>
-							<i className={'fa fa-plus'} style={{ position: 'relative' }}></i>
-							<i className={'fa fa-user-o'} style={{ position: 'relative', fontSize: '20px' }}></i>
-							<i className={'fa fa-user'} style={{ position: 'relative', left: '-5px' }}></i>
-						</div>
-						<div style={{
-							display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: disabled ? 'grey' : getSecondary()
-						}}>
-							<span style={{ fontSize: '0.9em' }}>{translate.select_representative}</span>
-						</div>
+					<div style={{ width: '3em', color: disabled ? 'grey' : getSecondary() }}>
+						<i className={'fa fa-plus'} style={{ position: 'relative' }}></i>
+						<i className={'fa fa-user-o'} style={{ position: 'relative', fontSize: '20px' }}></i>
+						<i className={'fa fa-user'} style={{ position: 'relative', left: '-5px' }}></i>
+					</div>
+					<div style={{
+						display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', color: disabled ? 'grey' : getSecondary()
+					}}>
+						<span style={{ fontSize: '0.9em' }}>{translate.select_representative}</span>
 					</div>
 				</Action>
 			</GridItem>
@@ -111,11 +106,12 @@ const RepresentativeForm = ({
 					{translate.cant_add_representative}
 				</div>
 			}
-			<Collapse in={state.hasRepresentative} >
+			<Collapse in={state.hasRepresentative} style={{ width: '100%' }} >
 				{state.hasRepresentative && (
 					<Grid >
 						<GridItem xs={6} md={4} lg={3}>
 							<TextInput
+								required
 								floatingText={translate.name}
 								type="text"
 								id="representative-name-input"
@@ -129,6 +125,7 @@ const RepresentativeForm = ({
 						</GridItem>
 						<GridItem xs={6} md={4} lg={3}>
 							<TextInput
+								required
 								id="representative-surname-input"
 								floatingText={translate.surname || ''}
 								type="text"
@@ -142,6 +139,7 @@ const RepresentativeForm = ({
 						</GridItem>
 						<GridItem xs={6} md={4} lg={3}>
 							<TextInput
+								required
 								id="representative-dni-input"
 								floatingText={translate.new_dni}
 								type="text"
@@ -153,7 +151,7 @@ const RepresentativeForm = ({
 								}
 							/>
 						</GridItem>
-						<GridItem xs={8} lg={3} md={3}>
+						<GridItem xs={6} md={4} lg={3}>
 							<TextInput
 								id="representative-position-input"
 								floatingText={translate.position}
@@ -168,6 +166,7 @@ const RepresentativeForm = ({
 						</GridItem>
 						<GridItem xs={6} md={4} lg={3}>
 							<TextInput
+								required
 								id="representative-email-input"
 								{...(checkEmail ? { onKeyUp: event => checkEmail(event, 'representative') } : {})}
 								floatingText={translate.email}

@@ -169,31 +169,31 @@ const DelegationRestriction = ({
 								>
 								</BasicButton>
 								{participants.length > 0
-&& <BasicButton
-	color={'white'}
-	textStyle={{
-		color: primary,
-		fontSize: '0.9em',
-		textTransform: 'none',
-		fontWeight: '500',
-		borderRadius: '2px',
-		border: `solid 2px ${primary}`,
-		minWidth: '125px'
-	}}
-	textPosition="after"
-	buttonStyle={{
-		marginRight: '1em',
-		borderRadius: '1px',
-		boxShadow: 'none'
-	}}
-	icon={<ButtonIcon type="people_alt" color={getPrimary()} />}
-	text={translate.all_plural}
-	onClick={() => {
-		selectAll();
-		setWarningModal(true);
-	}}
->
-</BasicButton>
+									&& <BasicButton
+										color={'white'}
+										textStyle={{
+											color: primary,
+											fontSize: '0.9em',
+											textTransform: 'none',
+											fontWeight: '500',
+											borderRadius: '2px',
+											border: `solid 2px ${primary}`,
+											minWidth: '125px'
+										}}
+										textPosition="after"
+										buttonStyle={{
+											marginRight: '1em',
+											borderRadius: '1px',
+											boxShadow: 'none'
+										}}
+										icon={<ButtonIcon type="people_alt" color={getPrimary()} />}
+										text={translate.all_plural}
+										onClick={() => {
+											selectAll();
+											setWarningModal(true);
+										}}
+									>
+									</BasicButton>
 								}
 							</div>
 							<div style={{ width: '100%' }}>
@@ -208,11 +208,11 @@ const DelegationRestriction = ({
 									/>
 								))}
 								{participants.length === 0
-&& <Etiqueta
-	empty={true}
-	council={council}
-	translate={translate}
-/>
+									&& <Etiqueta
+										empty={true}
+										council={council}
+										translate={translate}
+									/>
 								}
 							</div>
 						</div>

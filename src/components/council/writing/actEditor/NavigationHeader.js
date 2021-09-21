@@ -15,7 +15,8 @@ const NavigationHeader = ({ setTab, tabs, active }) => (
 					style={{
 						padding: '0.5em',
 						color: active === tab.value ? getPrimary() : '#a09aa0',
-						borderRight: '1px solid #e6e7e8'
+						borderRight: '1px solid #e6e7e8',
+						whiteSpace: 'nowrap'
 					}}>
 					{tab.label}
 				</span>

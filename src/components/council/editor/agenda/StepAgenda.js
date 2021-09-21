@@ -25,7 +25,8 @@ import CustomPointEditor from './modals/CustomPointEditor';
 import { ConfigContext } from '../../../../containers/AppControl';
 import { useOldState } from '../../../../hooks';
 import { TAG_TYPES } from '../../../company/drafts/draftTags/utils';
-import { getAgendaTypeLabel, isAppointment } from '../../../../utils/CBX';
+import { getAgendaTypeLabel, isAppointment, isCustomPoint } from '../../../../utils/CBX';
+import EditorStepper from '../EditorStepper';
 
 const buttonStyle = {
 	color: 'white',
@@ -34,7 +35,12 @@ const buttonStyle = {
 	textTransform: 'none'
 };
 
-const StepAgenda = ({ client, translate, ...props }) => {
+const StepAgenda = ({
+	client,
+	translate,
+	step,
+	...props
+}) => {
 	const [state, setState] = useOldState({
 		votingTypes: [],
 		edit: false,
@@ -77,7 +83,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 		getData();
 	}, [getData]);
 
-	const updateCouncil = async step => {
+	const updateCouncil = async stepIn => {
 		setState({ loading: true });
 		const {
 			agendas, statute, __typename, ...council
@@ -87,7 +93,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 			variables: {
 				council: {
 					...council,
-					step
+					step: stepIn
 				}
 			}
 		});
@@ -125,7 +131,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 			item => item.orderIndex === index
 		);
 
-		if (agenda.items.length > 0) {
+		if (isCustomPoint(agenda.subjectType)) {
 			setState({
 				editCustomAgenda: agenda
 			});
@@ -185,6 +191,23 @@ const StepAgenda = ({ client, translate, ...props }) => {
 
 	return (
 		<React.Fragment>
+			<div
+				style={{
+					width: '100%',
+					textAlign: 'center',
+				}}
+			>
+				<div style={{
+					marginBottom: '1.2em', marginTop: '0.8em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 1.5rem'
+				}}>
+					<EditorStepper
+						translate={translate}
+						active={step - 1}
+						goToPage={nextPage}
+						previousPage={previousPage}
+					/>
+				</div>
+			</div>
 			<EditorStepLayout
 				body={
 					<React.Fragment>
@@ -344,8 +367,7 @@ const StepAgenda = ({ client, translate, ...props }) => {
 										votingTypes={votingTypes}
 										majorityTypes={majorityTypes}
 										refetch={getData}
-										requestClose={() => setState({ editCustomAgenda: null })
-										}
+										requestClose={() => setState({ editCustomAgenda: null })}
 									/>
 								)}
 								{(saveAsDraftId && newDraft) && (

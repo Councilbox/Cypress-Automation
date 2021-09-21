@@ -242,7 +242,7 @@ export const SearchCouncils = withApollo(({ client, reload }) => {
 	const [loading, setLoading] = React.useState(false);
 
 	const goToId = async () => {
-		if (!Number.isNaN(idCouncilSearch) || idCouncilSearch !== 0) {
+		if (!Number.isNaN(Number(idCouncilSearch)) || idCouncilSearch !== 0) {
 			setLoading(true);
 			const response = await client.query({
 				query: CouncilDetailsRoot,

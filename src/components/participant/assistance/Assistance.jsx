@@ -90,7 +90,7 @@ const Assistance = ({
 			if (participantData.assistanceIntention === PARTICIPANT_STATES.DELEGATED && !participantData.representative) {
 				return defaultIntention;
 			}
-			return Number.isNaN(participantData.assistanceIntention) ? defaultIntention : participantData.assistanceIntention;
+			return Number.isNaN(Number(participantData.assistanceIntention)) ? defaultIntention : participantData.assistanceIntention;
 		};
 
 		if (participant.represented && participant.represented.length > 0) {
@@ -129,6 +129,11 @@ const Assistance = ({
 	const [check, setCheck] = React.useState(!council.statute.attendanceText);
 	const [checkError, setCheckError] = React.useState(false);
 	const config = React.useContext(ConfigContext);
+
+
+	React.useEffect(() => {
+		setSelecteAssistance(translate.council);
+	}, [translate.council]);
 
 	React.useEffect(() => {
 		setState({

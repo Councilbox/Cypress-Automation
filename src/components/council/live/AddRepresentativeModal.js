@@ -6,6 +6,7 @@ import { addRepresentative as addRepresentativeMutation } from '../../../queries
 import RepresentativeForm from '../participants/RepresentativeForm';
 import { languages } from '../../../queries/masters';
 import { useOldState } from '../../../hooks';
+import { checkValidEmail } from '../../../utils';
 
 const newRepresentativeInitialValues = {
 	language: 'es',
@@ -36,31 +37,65 @@ const AddRepresentativeModal = ({ translate, participant, ...props }) => {
 		});
 	};
 
+	const checkRequiredFields = () => {
+		const errors = {};
+
+		if (!state.representative.name) {
+			errors.name = translate.required_field;
+		}
+
+		if (!state.representative.surname) {
+			errors.surname = translate.required_field;
+		}
+
+		if (!state.representative.dni) {
+			errors.dni = translate.required_field;
+		}
+
+		if (!state.representative.email) {
+			errors.email = translate.required_field;
+		} else if (!checkValidEmail(state.representative.email)) {
+			errors.email = translate.email_not_valid;
+		}
+
+		if (!state.representative.phone) {
+			errors.phone = translate.required_field;
+		}
+
+		setState({
+			errors
+		});
+
+		return Object.keys(errors).length === 0;
+	};
+
 	const close = () => {
 		props.requestClose();
 		resetForm();
 	};
 
 	const addRepresentative = async () => {
-		const response = await props.addRepresentative({
-			variables: {
-				representative: state.representative,
-				participantId: participant.id
+		if (checkRequiredFields()) {
+			const response = await props.addRepresentative({
+				variables: {
+					representative: state.representative,
+					participantId: participant.id
+				}
+			});
+			if (response.data.addRepresentative) {
+				if (response.data.addRepresentative.success) {
+					props.refetch();
+					close();
+				}
 			}
-		});
-		if (response.data.addRepresentative) {
-			if (response.data.addRepresentative.success) {
-				props.refetch();
-				close();
-			}
-		}
-		if (response.errors) {
-			if (response.errors[0].message === 'Email already used') {
-				setState({
-					errors: {
-						email: translate.repeated_email
-					}
-				});
+			if (response.errors) {
+				if (response.errors[0].message === 'Email already used') {
+					setState({
+						errors: {
+							email: translate.repeated_email
+						}
+					});
+				}
 			}
 		}
 	};

@@ -70,7 +70,7 @@ class Agendas extends React.Component {
 						toast.dismiss(this.agendaStateToastId);
 					}
 					this.agendaStateToastId = this.toastChanges(
-						`${translate.point_of_day_opened_number} ${!Number.isNaN(getSubjectAbrv(agenda.agendaSubject)) ? getSubjectAbrv(agenda.agendaSubject) : ''}`,
+						`${translate.point_of_day_opened_number} ${!Number.isNaN(Number(getSubjectAbrv(agenda.agendaSubject))) ? getSubjectAbrv(agenda.agendaSubject) : ''}`,
 						() => {
 							this.agendaStateToastId = null;
 						}
@@ -82,7 +82,7 @@ class Agendas extends React.Component {
 						toast.dismiss(this.agendaStateToastId);
 					}
 					this.agendaStateToastId = this.toastChanges(
-						`${translate.point_closed_num} ${!Number.isNaN(getSubjectAbrv(agenda.agendaSubject)) ? getSubjectAbrv(agenda.agendaSubject) : ''}`,
+						`${translate.point_closed_num} ${!Number.isNaN(Number(getSubjectAbrv(agenda.agendaSubject))) ? getSubjectAbrv(agenda.agendaSubject) : ''}`,
 						() => {
 							this.agendaStateToastId = null;
 						}
@@ -94,7 +94,7 @@ class Agendas extends React.Component {
 						toast.dismiss(this.agendaVotingsToastId);
 					}
 					this.agendaVotingsToastId = this.toastChanges(
-						`${translate.point_num_votings_open} ${!Number.isNaN(getSubjectAbrv(agenda.agendaSubject)) ? getSubjectAbrv(agenda.agendaSubject) : ''}`,
+						`${translate.point_num_votings_open} ${!Number.isNaN(Number(getSubjectAbrv(agenda.agendaSubject))) ? getSubjectAbrv(agenda.agendaSubject) : ''}`,
 						() => {
 							this.agendaVotingsToastId = null;
 						}
@@ -106,7 +106,7 @@ class Agendas extends React.Component {
 						toast.dismiss(this.agendaVotingsToastId);
 					}
 					this.agendaVotingsToastId = this.toastChanges(
-						`${translate.point_num_votings_closed} ${!Number.isNaN(getSubjectAbrv(agenda.agendaSubject)) ? getSubjectAbrv(agenda.agendaSubject) : ''}`,
+						`${translate.point_num_votings_closed} ${!Number.isNaN(Number(getSubjectAbrv(agenda.agendaSubject))) ? getSubjectAbrv(agenda.agendaSubject) : ''}`,
 						() => {
 							this.agendaVotingsToastId = null;
 						}

@@ -14,8 +14,9 @@ const AttachmentItem = ({
 	const primary = getPrimary();
 	const secondary = getSecondary();
 
-	const removeItem = item => {
-		removeAttachment(item.id);
+	const removeItem = async item => {
+		await removeAttachment(item.id);
+		setDeleteModal(false);
 	};
 
 	return (
@@ -31,19 +32,24 @@ const AttachmentItem = ({
 				} : {})
 			}}
 		>
-			<Grid>
+			<Grid style={{
+				display: 'flex',
+				alignItems: 'center',
+				justifyContent: 'center'
+			}}>
 				<GridItem xs={6}>
-					<div
+					<span
 						style={{
 							fontWeight: '600',
 							fontSize: '1em',
-							display: 'flex',
-							alignItems: 'center',
-							flexDirection: 'row',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							display: 'block',
+							whiteSpace: 'nowrap'
 						}}
 					>
 						{attachment.filename}
-					</div>
+					</span>
 				</GridItem>
 				<GridItem xs={4} style={{
 					fontSize: '0.8em', display: 'flex', alignItems: 'center', justifyContent: 'flex-start'

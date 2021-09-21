@@ -55,7 +55,7 @@ export const getPercentage = (num, total, decimals = 3) => {
 
 	const percentage = ((num * 100) / (total)).toFixed(decimals);
 	const zero = 0;
-	if (Number.isNaN(percentage)) {
+	if (Number.isNaN(Number(percentage))) {
 		return zero.toFixed(decimals);
 	}
 	return percentage;
@@ -133,7 +133,7 @@ export const canAddCouncilAttachment = (council, filesize) => (
 
 export const trialDaysLeft = (company, date, trialDays) => {
 	const left = trialDays - date(new Date()).diff(date(company.creationDate), 'days');
-	return left <= 0 || Number.isNaN(left) ? 0 : left;
+	return left <= 0 || Number.isNaN(Number(left)) ? 0 : left;
 };
 
 export const councilStarted = council => council.councilStarted === 1;
@@ -312,6 +312,8 @@ export const canAddDelegateVotes = (statute, participant) => (
 	&& (participant.state !== PARTICIPANT_STATES.DELEGATED && participant.state !== PARTICIPANT_STATES.REPRESENTATED)
 	&& participant.personOrEntity !== 1
 );
+
+export const commentWallDisabled = council => council.wallActive !== 1 || council.state === COUNCIL_STATES.PAUSED;
 
 export const canHaveRepresentative = participant => participant.type === PARTICIPANT_TYPE.PARTICIPANT || participant.type === PARTICIPANT_TYPE.REPRESENTATED;
 
@@ -993,7 +995,7 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 		},
 		numPresentOrRemote: {
 			value: '{{numPresentOrRemote}}',
-			label: 'Nº de asistentes personalmente' // TRADUCCION
+			label: translate.number_attentands_in_person
 		},
 		numRepresented: {
 			value: '{{numRepresented}}',
@@ -1005,23 +1007,23 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 		},
 		numParticipationsPresent: {
 			value: '{{numParticipationsPresent}}',
-			label: 'Nº de participaciones asisten personalmente' // TRADUCCION
+			label: translate.number_shares_personally
 		},
 		numParticipationsRepresented: {
 			value: '{{numParticipationsRepresented}}',
-			label: ' Nº de participaciones asisten representadas' // TRADUCCION
+			label: translate.number_shares_represented,
 		},
 		percentageSCPresent: {
 			value: '{{percentageSCPresent}}',
-			label: '% del capital social que asiste personalmente' // TRADUCCION
+			label: translate.percentage_shares_personally,
 		},
 		percentageSCRepresented: {
 			value: '{{percentageSCRepresented}}',
-			label: '% del capital social que asiste representado' // TRADUCCION
+			label: translate.percentage_shares_represented
 		},
 		percentageSCTotal: {
 			value: '{{percentageSCTotal}}',
-			label: '% del capital social que asiste' // TRADUCCION
+			label: translate.percentage_quorum
 		},
 		convene: {
 			value: '{{convene}}',
@@ -1029,7 +1031,7 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 		},
 		numberOfShares: {
 			value: '{{numberOfShares}}',
-			label: 'Nº participaciones que asiste del total del capital social'
+			label: translate.number_of_participations
 		},
 		percentageOfShares: {
 			value: '{{percentageOfShares}}',
@@ -1041,7 +1043,7 @@ export const getTagVariablesByDraftType = (draftType, translate) => {
 		},
 		governingBody: {
 			value: '{{GoverningBody}}',
-			label: 'Órgano de gobierno'// TRADUCCION
+			label: translate.governing_body
 		},
 		gbDecides: {
 			value: '{{GBdecides}}',
@@ -1359,6 +1361,8 @@ export const councilIsNotified = council => council.state === 10;
 
 export const councilIsInTrash = council => council.state === COUNCIL_STATES.CANCELED;
 
+export const councilRoomOpened = council => council.state >= COUNCIL_STATES.ROOM_OPENED;
+
 export const councilIsNotLiveYet = council => (
 	council.state < COUNCIL_STATES.ROOM_OPENED
 	&& council.state > COUNCIL_STATES.CANCELED
@@ -1384,7 +1388,7 @@ export const councilIsPreparing = council => (
 );
 
 export const councilIsLive = council => (
-	council.state >= COUNCIL_STATES.ROOM_OPENED
+	councilRoomOpened(council)
 	&& council.state < COUNCIL_STATES.FINISHED
 );
 

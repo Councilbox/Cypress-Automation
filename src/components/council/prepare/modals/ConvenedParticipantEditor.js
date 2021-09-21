@@ -231,6 +231,7 @@ class ConvenedParticipantEditor extends React.Component {
 							open={this.state.selectRepresentative}
 							council={this.props.council}
 							translate={translate}
+							participantId={participant.id}
 							updateRepresentative={repre => {
 								this.updateRepresentative({
 									...repre,

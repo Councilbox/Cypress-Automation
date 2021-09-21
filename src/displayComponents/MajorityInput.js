@@ -1,6 +1,7 @@
 import React from 'react';
-import { TextInput } from './index';
+import { Grid, TextInput } from './index';
 import * as CBX from '../utils/CBX';
+import GridItem from './GridItem';
 
 const MajorityInput = ({
 	type,
@@ -14,7 +15,7 @@ const MajorityInput = ({
 }) => {
 	if (CBX.isMajorityPercentage(type)) {
 		return (
-			<div style={{ width: '100%', ...style }}>
+			<div style={{ width: '100%', ...style, marginTop: '17px' }}>
 				<TextInput
 					type={'number'}
 					value={value}
@@ -32,33 +33,33 @@ const MajorityInput = ({
 	if (CBX.isMajorityFraction(type)) {
 		return (
 			<div style={{
-				width: '100%', display: 'flex', alignItems: 'center', ...style
+				width: '100%', display: 'flex', alignItems: 'center', ...style, marginTop: '17px'
 			}}>
-				<div style={{ width: '5em', display: 'flex', alignItems: 'center' }}>
-					<TextInput
-						type={'number'}
-						id="agenda-majority-number"
-						value={value}
-						min="1"
-						errorText={majorityError}
-						onChange={event => onChange(divider ? event.target.value > divider ? divider : event.nativeEvent.target.value : event.target.value)
-						}
-					/>
-				</div>
-/
-				<div style={{
-					width: '5em', marginLeft: '0.8em', isplay: 'flex', alignItems: 'center'
-				}}>
-					<TextInput
-						type={'number'}
-						value={divider}
-						id="agenda-majority-divider"
-						min="1"
-						errorText={dividerError}
-						onChange={event => onChangeDivider(event.target.value < 1 ? 1 : event.nativeEvent.target.value)
-						}
-					/>
-				</div>
+				<Grid>
+					<GridItem xs={4} lg={4} md={4}>
+						<TextInput
+							type={'number'}
+							id="agenda-majority-number"
+							value={value}
+							adornment={'/'}
+							min="1"
+							errorText={majorityError}
+							onChange={event => onChange(divider ? event.target.value > divider ? divider : event.nativeEvent.target.value : event.target.value)
+							}
+						/>
+					</GridItem>
+					<GridItem xs={4} lg={4} md={4}>
+						<TextInput
+							type={'number'}
+							value={divider}
+							id="agenda-majority-divider"
+							min="1"
+							errorText={dividerError}
+							onChange={event => onChangeDivider(event.target.value < 1 ? 1 : event.nativeEvent.target.value)
+							}
+						/>
+					</GridItem>
+				</Grid>
 				<br />
 			</div>
 		);
@@ -66,7 +67,7 @@ const MajorityInput = ({
 
 	if (CBX.isMajorityNumber(type)) {
 		return (
-			<div style={{ width: '6em', ...style }}>
+			<div style={{ width: '6em', ...style, marginTop: '17px' }}>
 				<TextInput
 					type={'number'}
 					min="1"

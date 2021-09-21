@@ -25,17 +25,19 @@ const EarlyVotingModal = props => {
 				type="flat"
 				buttonStyle={{
 					border: `1px solid ${getSecondary()}`,
-					marginTop: '0.3em'
+					marginTop: '0.3em',
+					...props.buttonStyle,
 				}}
 				onClick={() => setModal(!modal)}
 				textStyle={{
-					color: getSecondary()
+					color: getSecondary(),
+					...props.textStyle
 				}}
 			/>
 			<AlertConfirm
 				open={modal}
 				requestClose={() => setModal(false)}
-				title={'Fijar sentido del voto'}
+				title={props.translate.set_direction_of_vote}
 				bodyText={<EarlyVotingBody {...props} />}
 			/>
 		</>

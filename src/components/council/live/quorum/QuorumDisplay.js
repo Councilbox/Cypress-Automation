@@ -340,26 +340,28 @@ export const QuorumDetails = withApollo(({
 												</span>
 											</div>
 										</MenuItem>
-										<MenuItem onClick={downloadResultsPDF}>
-											<div
-												style={{
-													width: '100%',
-													display: 'flex',
-													flexDirection: 'row',
-													justifyContent: 'space-between'
-												}}
-											>
-												<i className="fa fa-file-pdf-o" style={{
-													fontSize: '1em',
-													color: secondary,
-													marginLeft: '0.3em'
-												}}
-												/>
-												<span style={{ marginLeft: '2.5em', marginRight: '0.8em' }}>
-													{`${translate.results} - PDF`}
-												</span>
-											</div>
-										</MenuItem>
+										{renderVotingsTable &&
+											<MenuItem onClick={downloadResultsPDF}>
+												<div
+													style={{
+														width: '100%',
+														display: 'flex',
+														flexDirection: 'row',
+														justifyContent: 'space-between'
+													}}
+												>
+													<i className="fa fa-file-pdf-o" style={{
+														fontSize: '1em',
+														color: secondary,
+														marginLeft: '0.3em'
+													}}
+													/>
+													<span style={{ marginLeft: '2.5em', marginRight: '0.8em' }}>
+														{`${translate.results} - PDF`}
+													</span>
+												</div>
+											</MenuItem>
+										}
 									</>
 
 								}

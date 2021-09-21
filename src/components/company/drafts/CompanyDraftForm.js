@@ -129,7 +129,7 @@ const CompanyDraftForm = ({
 
 	const renderTitle = () => (
 		<React.Fragment>
-			<div style={{ fontSize: '18px' }}>{translate.title}</div>
+			<div style={{ fontSize: '18px' }}>{`${translate.title}*`}</div>
 			<div>
 				<Input
 					placeholder={translate.title}

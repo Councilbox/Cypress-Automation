@@ -15,10 +15,10 @@ import {
 	SectionTitle,
 	SelectInput,
 	TextInput,
-	GridItem
+	GridItem,
 } from '../../../../displayComponents';
 import { councilStepFive, updateCouncil as updateCouncilMutation } from '../../../../queries';
-import { checkValidMajority } from '../../../../utils/validation';
+import { checkValidEmail, checkValidMajority } from '../../../../utils/validation';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import * as CBX from '../../../../utils/CBX';
 import withWindowSize from '../../../../HOCs/withWindowSize';
@@ -29,10 +29,11 @@ import { ConfigContext } from '../../../../containers/AppControl';
 import { useValidRTMP } from '../../../../hooks';
 import VoteLetterWithSenseOption from './VoteLetterWithSenseOption';
 import AttendanceTextEditor from './AttendanceTextEditor';
+import EditorStepper from '../EditorStepper';
 
 
 const StepOptions = ({
-	translate, data, client, ...props
+	translate, data, client, step, ...props
 }) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
@@ -50,7 +51,7 @@ const StepOptions = ({
 		success: false,
 		errors: {
 			confirmAssistance: '',
-			actPointMajorityDivider: -1
+			actPointMajorityDivider: -1,
 		}
 	});
 
@@ -80,7 +81,7 @@ const StepOptions = ({
 	const { council } = state.data;
 
 
-	const updateCouncil = async step => {
+	const updateCouncil = async stepIn => {
 		setState({
 			...state,
 			loading: true
@@ -110,7 +111,7 @@ const StepOptions = ({
 					...rest,
 					sendPointsMode: !CBX.councilHasVideo({ councilType: council.councilType }) ? 0 : 1,
 					closeDate: council.closeDate ? council.closeDate : moment(new Date(council.dateStart)).add(15, 'm'),
-					step
+					step: stepIn
 				}
 			}
 		});
@@ -165,7 +166,6 @@ const StepOptions = ({
 		}
 
 		if (council.autoClose === 1) {
-			// TRADUCCION
 			if (!CBX.checkSecondDateAfterFirst(council.dateStart, council.closeDate)) {
 				setState({
 					...state,
@@ -176,6 +176,28 @@ const StepOptions = ({
 				});
 				return true;
 			}
+		}
+
+		if (council.contactEmail === '') {
+			setState({
+				...state,
+				errors: {
+					...state.errors,
+					contactEmail: translate.required_field
+				}
+			});
+			return true;
+		}
+
+		if (council.contactEmail && !checkValidEmail(council.contactEmail)) {
+			setState({
+				...state,
+				errors: {
+					...state.errors,
+					contactEmail: translate.email_not_valid
+				}
+			});
+			return true;
 		}
 
 		return false;
@@ -222,6 +244,7 @@ const StepOptions = ({
 					/>
 					<Checkbox
 						label={translate.room_video_broadcast}
+						id="council-options-enable-video"
 						disabled={!config.video}
 						value={council.councilType === 0}
 						onChange={(event, isInputChecked) => updateCouncilData({
@@ -233,6 +256,7 @@ const StepOptions = ({
 					/>
 					<Checkbox
 						disabled={council.councilType !== 0}
+						id="council-options-full-recording"
 						label={translate.full_video_record}
 						value={council.fullVideoRecord !== 0}
 						onChange={(event, isInputChecked) => updateCouncilData({
@@ -242,6 +266,7 @@ const StepOptions = ({
 					/>
 					<Checkbox
 						label={translate.wall}
+						id="council-options-comments-wall"
 						value={council.wallActive !== 0}
 						onChange={(event, isInputChecked) => updateCouncilData({
 							wallActive: isInputChecked ? 1 : 0
@@ -250,6 +275,7 @@ const StepOptions = ({
 					/>
 					<Checkbox
 						disabled={council.councilType !== 0}
+						id="council-options-ask-word-menu"
 						label={translate.can_ask_word}
 						value={council.askWordMenu}
 						onChange={(event, isInputChecked) => updateCouncilData({
@@ -260,6 +286,7 @@ const StepOptions = ({
 					<div style={{ display: 'flex' }}>
 						<Checkbox
 							disabled={council.councilType === 0}
+							id="council-options-auto-close"
 							label={translate.auto_close}
 							value={council.autoClose !== 0}
 							onChange={(event, isInputChecked) => updateCouncilData({
@@ -279,6 +306,7 @@ const StepOptions = ({
 											closeDate: dateString
 										});
 									}}
+									id="council-options-auto-close-date"
 									minDateMessage={''}
 									acceptText={translate.accept}
 									cancelText={translate.cancel}
@@ -314,6 +342,7 @@ const StepOptions = ({
 								<DateTimePicker
 									required
 									errorText={state.errors.closeDate}
+									id="council-options-auto-close-date"
 									minDate={moment(new Date(council.dateStart)).add(1, 'm')}
 									onChange={date => {
 										const newDate = new Date(date);
@@ -347,6 +376,7 @@ const StepOptions = ({
 								<DateTimePicker
 									required
 									errorText={state.errors.closeDate}
+									id="council-options-auto-close-date"
 									minDate={moment(new Date(council.dateStart)).add(1, 'm')}
 									onChange={date => {
 										const newDate = new Date(date);
@@ -374,6 +404,7 @@ const StepOptions = ({
 						<div>
 							<Checkbox
 								label={translate.in_person_vote_prevails}
+								id="council-options-elections-vote-in-person"
 								value={council.presentVoteOverwrite === 1}
 								onChange={(event, isInputChecked) => updateCouncilData({
 									presentVoteOverwrite: isInputChecked ? 1 : 0
@@ -407,11 +438,13 @@ const StepOptions = ({
 					/>
 					<Checkbox
 						label={translate.room_video_broadcast}
+						id="council-options-enable-video"
 						disabled={true}
 						value={council.councilType === 5}
 					/>
 					<Checkbox
 						label={translate.full_video_record}
+						id="council-options-full-recording"
 						value={council.fullVideoRecord !== 0}
 						onChange={(event, isInputChecked) => updateCouncilData({
 							fullVideoRecord: isInputChecked ? 1 : 0
@@ -440,6 +473,7 @@ const StepOptions = ({
 				<Radio
 					value={'0'}
 					checked={council.securityType === 0}
+					id="council-options-security-none"
 					onChange={event => updateCouncilData({
 						securityType: parseInt(event.target.value, 10)
 					})
@@ -450,6 +484,7 @@ const StepOptions = ({
 				<Radio
 					value={'1'}
 					checked={council.securityType === 1}
+					id="council-options-security-email"
 					onChange={event => updateCouncilData({
 						securityType: parseInt(event.target.value, 10)
 					})
@@ -460,6 +495,7 @@ const StepOptions = ({
 				<Radio
 					value={'2'}
 					checked={council.securityType === 2}
+					id="council-options-security-sms"
 					onChange={event => updateCouncilData({
 						securityType: parseInt(event.target.value, 10)
 					})
@@ -470,6 +506,7 @@ const StepOptions = ({
 				<Radio
 					value={'3'}
 					checked={council.securityType === 3}
+					id="council-options-security-cert"
 					onChange={event => updateCouncilData({
 						securityType: parseInt(event.target.value, 10)
 					})
@@ -488,239 +525,283 @@ const StepOptions = ({
 	}
 
 	return (
-		<EditorStepLayout
-			body={
-				<React.Fragment>
-					{data.loading || !council ?
-						<div
-							style={{
-								height: '300px',
-								width: '100%',
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'center'
-							}}
-						>
-							<LoadingSection />
-						</div>
-						: <div
-							style={{
-								marginLeft: '1em',
-								paddingBottom: '1.5em'
-							}}
-						>
-							{council.councilType < 2 && (
-								<React.Fragment>
-									<SectionTitle
-										text={translate.confirm_assistance}
-										color={primary}
-									/>
-									<Checkbox
-										label={translate.confirm_assistance_desc}
-										value={council.confirmAssistance === 1}
-										onChange={(event, isInputChecked) => updateCouncilData({
-											confirmAssistance: isInputChecked ? 1 : 0
-										})
-										}
-									/>
-									{council.confirmAssistance === 1
-										&& <>
-											<AttendanceTextEditor
-												council={council}
-												translate={translate}
-												updateAttendanceText={updateAttendanceText}
-												isModal={isModal}
-												setIsmodal={setIsmodal}
-												text={text}
-												setText={setText}
-											/>
-										</>
-									}
-								</React.Fragment>
-							)}
-							{renderCouncilTypeSpecificOptions(council.councilType)}
-
-							{council.councilType !== 4
-								&& <>
-									<SectionTitle
-										text={translate.security}
-										color={primary}
-										style={{
-											marginTop: '1.6em'
-										}}
-									/>
-									{renderSecurityForm()}
-
-								</>
-							}
-							{(council.statute.existsDelegatedVote === 1 && config.councilDelegates && council.councilType !== 5)
-								&& renderDelegationRestriction()
-							}
-							<SectionTitle
-								text={translate.options}
-								color={primary}
+		<React.Fragment>
+			<div
+				style={{
+					width: '100%',
+					textAlign: 'center',
+				}}
+			>
+				<div style={{
+					marginBottom: '1.2em', marginTop: '0.8em', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 1.5rem'
+				}}>
+					<EditorStepper
+						translate={translate}
+						active={step - 1}
+						goToPage={nextPage}
+						previousPage={previousPage}
+					/>
+				</div>
+			</div>
+			<EditorStepLayout
+				body={
+					<React.Fragment>
+						{data.loading || !council ?
+							<div
 								style={{
-									marginTop: '1.6em'
+									height: '300px',
+									width: '100%',
+									display: 'flex',
+									alignItems: 'center',
+									justifyContent: 'center'
 								}}
-							/>
-							<Checkbox
-								label={translate.test_meeting}
-								value={council.promoCode === 'COUNCILBOX'}
-								onChange={(event, isInputChecked) => updateCouncilData({
-									promoCode: isInputChecked ? 'COUNCILBOX' : null
-								})
+							>
+								<LoadingSection />
+							</div>
+							: <div
+								style={{
+									marginLeft: '1em',
+									paddingBottom: '1.5em'
+								}}
+							>
+								{council.councilType < 2 && (
+									<React.Fragment>
+										<SectionTitle
+											text={translate.confirm_assistance}
+											color={primary}
+										/>
+										<Checkbox
+											label={translate.confirm_assistance_desc}
+											id="council-options-confirm-attendance"
+											value={council.confirmAssistance === 1}
+											onChange={(event, isInputChecked) => updateCouncilData({
+												confirmAssistance: isInputChecked ? 1 : 0
+											})
+											}
+											helpPopover
+											helpDescription={translate.assistance_intention_help}
+											helpTitle={translate.confirm_assistance}
+										/>
+										{council.confirmAssistance === 1
+											&& <>
+												<AttendanceTextEditor
+													council={council}
+													translate={translate}
+													updateAttendanceText={updateAttendanceText}
+													isModal={isModal}
+													setIsmodal={setIsmodal}
+													text={text}
+													setText={setText}
+												/>
+											</>
+										}
+									</React.Fragment>
+								)}
+								{renderCouncilTypeSpecificOptions(council.councilType)}
+
+								{council.councilType !== 4
+									&& <>
+										<SectionTitle
+											text={translate.security}
+											color={primary}
+											style={{
+												marginTop: '1.6em'
+											}}
+										/>
+										{renderSecurityForm()}
+
+									</>
 								}
-							/>
-							{CBX.hasAct(council.statute) && council.councilType < 2 && (
-								<React.Fragment>
-									<SectionTitle
-										text={translate.approve_act_draft_at_end}
-										color={primary}
-										style={{ marginTop: '2em' }}
+								{(council.statute.existsDelegatedVote === 1 && config.councilDelegates && council.councilType !== 5)
+									&& renderDelegationRestriction()
+								}
+								<SectionTitle
+									text={translate.options}
+									color={primary}
+									style={{
+										marginTop: '1.6em'
+									}}
+								/>
+								<Checkbox
+									label={translate.test_meeting}
+									id="council-options-test-meeting"
+									value={council.promoCode === 'COUNCILBOX'}
+									onChange={(event, isInputChecked) => updateCouncilData({
+										promoCode: isInputChecked ? 'COUNCILBOX' : null
+									})
+									}
+								/>
+								<GridItem xs={12} md={6} lg={4}>
+									<TextInput
+										required
+										floatingText={translate.contact_email}
+										type="text"
+										errorText={state.errors.contactEmail}
+										value={council.contactEmail || ''}
+										onChange={event => updateCouncilData({
+											contactEmail: event.target.value
+										})}
+										helpPopover
+										helpTitle={translate.contact_email}
+										helpDescription={translate.contact_email_admin_help}
+										helpPlacement={'topRight'}
 									/>
-									<div
-										style={{
-											display: 'flex',
-											flexDirection: props.windowSize === 'xs' ? 'column' : 'row',
-											alignItems: props.windowSize === 'xs' ? 'flex-start' : 'center',
-										}}
-									>
-										<div style={{ paddingTop: '12px' }}>
-											<Checkbox
-												label={translate.approve_act_draft_at_end_desc}
-												value={council.approveActDraft !== 0}
-												onChange={(event, isInputChecked) => updateCouncilData({
-													approveActDraft: isInputChecked ? 1 : 0
-												})
-												}
-											/>
-										</div>
-										{council.approveActDraft === 1 && (
-											<div>
-												<div style={{
-													display: 'flex', flexDirection: 'row', marginLeft: '1.1em', alignItems: 'flex-end'
-												}}>
-													<div>
-														<SelectInput
-															floatingLabelText={
-																translate.majority_label
-															}
-															value={council.actPointMajorityType}
-															onChange={event => {
-																updateCouncilData({
-																	actPointMajorityType:
-																		event.target.value
-																});
-															}}
-														>
-															{data.majorityTypes.map(
-																majority => (
-																	<MenuItem
-																		value={majority.value}
-																		key={`majority${majority.value
-																		}`}
-																	>
-																		{
-																			translate[
-																				majority.label
-																			]
-																		}
-																	</MenuItem>
-																)
-															)}
-														</SelectInput>
-													</div>
-													<div style={{ display: 'flex', alignItems: 'flex-end' }}>
-														{CBX.majorityNeedsInput(
-															council.actPointMajorityType
-														) && (
-															<MajorityInput
-																type={council.actPointMajorityType}
-																style={{ marginLeft: '1em' }}
-																value={council.actPointMajority}
-																divider={
-																	council.actPointMajorityDivider
+								</GridItem>
+								{CBX.hasAct(council.statute) && council.councilType < 2 && (
+									<React.Fragment>
+										<SectionTitle
+											text={translate.approve_act_draft_at_end}
+											color={primary}
+											style={{ marginTop: '2em' }}
+										/>
+										<div
+											style={{
+												display: 'flex',
+												flexDirection: props.windowSize === 'xs' ? 'column' : 'row',
+												alignItems: props.windowSize === 'xs' ? 'flex-start' : 'center',
+											}}
+										>
+											<div style={{ paddingTop: '12px' }}>
+												<Checkbox
+													label={translate.approve_act_draft_at_end_desc}
+													id="council-options-add-act-point"
+													value={council.approveActDraft !== 0}
+													onChange={(event, isInputChecked) => updateCouncilData({
+														approveActDraft: isInputChecked ? 1 : 0
+													})
+													}
+												/>
+											</div>
+											{council.approveActDraft === 1 && (
+												<div>
+													<div style={{
+														display: 'flex', flexDirection: 'row', marginLeft: '1.1em', alignItems: 'flex-end'
+													}}>
+														<div>
+															<SelectInput
+																floatingLabelText={
+																	translate.majority_label
 																}
-																onChange={value => updateCouncilData({
-																	actPointMajority: +value
-																})}
-																onChangeDivider={value => updateCouncilData({
-																	actPointMajorityDivider: +value
-																})}
-															/>
-														)}
+																id="council-options-act-point-majority-type"
+																value={council.actPointMajorityType}
+																onChange={event => {
+																	updateCouncilData({
+																		actPointMajorityType:
+																			event.target.value
+																	});
+																}}
+															>
+																{data.majorityTypes.map(
+																	majority => (
+																		<MenuItem
+																			value={majority.value}
+																			id={`council-options-act-majority-${majority.value}`}
+																			key={`majority${majority.value}`}
+																		>
+																			{
+																				translate[
+																					majority.label
+																				]
+																			}
+																		</MenuItem>
+																	)
+																)}
+															</SelectInput>
+														</div>
+														<div style={{ display: 'flex', alignItems: 'flex-end' }}>
+															{CBX.majorityNeedsInput(
+																council.actPointMajorityType
+															) &&
+																(
+																	<MajorityInput
+																		type={council.actPointMajorityType}
+																		style={{ marginLeft: '1em' }}
+																		value={council.actPointMajority}
+																		divider={
+																			council.actPointMajorityDivider
+																		}
+																		onChange={value => updateCouncilData({
+																			actPointMajority: +value
+																		})}
+																		onChangeDivider={value => updateCouncilData({
+																			actPointMajorityDivider: +value
+																		})}
+																	/>
+																)
+															}
+														</div>
 													</div>
 												</div>
-											</div>
-										)}
-									</div>
-								</React.Fragment>
-							)}
-							<AlertConfirm
-								open={state.majorityAlert}
-								title={'Error'}
-								buttonAccept={translate.accept}
-								bodyText={state.alertText}
-								acceptAction={() => setState({
-									...state,
-									majorityAlert: false
-								})}
-							/>
-						</div>
-					}
-				</React.Fragment>
-			}
-			buttons={
-				<React.Fragment>
-					<BasicButton
-						text={translate.previous}
-						color={secondary}
-						disable={data.loading}
-						textStyle={{
-							color: 'white',
-							fontWeight: '700',
-							fontSize: '0.9em',
-							textTransform: 'none'
-						}}
-						textPosition="after"
-						onClick={previousPage}
-					/>
-					<BasicButton
-						text={translate.save}
-						reset={resetButtonStates}
-						color={secondary}
-						success={state.success}
-						loading={state.loading}
-						disable={data.loading}
-						textStyle={{
-							color: 'white',
-							fontWeight: '700',
-							marginLeft: '0.5em',
-							marginRight: '0.5em',
-							fontSize: '0.9em',
-							textTransform: 'none'
-						}}
-						icon={<ButtonIcon type="save" color="white" />}
-						textPosition="after"
-						onClick={() => updateCouncil(5)}
-					/>
-					<BasicButton
-						text={translate.next}
-						color={primary}
-						disable={data.loading}
-						id={'optionsNewSiguiente'}
-						textStyle={{
-							color: 'white',
-							fontWeight: '700',
-							fontSize: '0.9em',
-							textTransform: 'none'
-						}}
-						textPosition="after"
-						onClick={nextPage}
-					/>
-				</React.Fragment>
-			}
-		/>
+											)}
+										</div>
+									</React.Fragment>
+								)}
+								<AlertConfirm
+									open={state.majorityAlert}
+									title={'Error'}
+									buttonAccept={translate.accept}
+									bodyText={state.alertText}
+									acceptAction={() => setState({
+										...state,
+										majorityAlert: false
+									})}
+								/>
+							</div>
+						}
+					</React.Fragment>
+				}
+				buttons={
+					<React.Fragment>
+						<BasicButton
+							text={translate.previous}
+							color={secondary}
+							disable={data.loading}
+							textStyle={{
+								color: 'white',
+								fontWeight: '700',
+								fontSize: '0.9em',
+								textTransform: 'none'
+							}}
+							textPosition="after"
+							onClick={previousPage}
+						/>
+						<BasicButton
+							text={translate.save}
+							reset={resetButtonStates}
+							color={secondary}
+							success={state.success}
+							loading={state.loading}
+							disable={data.loading}
+							textStyle={{
+								color: 'white',
+								fontWeight: '700',
+								marginLeft: '0.5em',
+								marginRight: '0.5em',
+								fontSize: '0.9em',
+								textTransform: 'none'
+							}}
+							icon={<ButtonIcon type="save" color="white" />}
+							textPosition="after"
+							onClick={() => updateCouncil(5)}
+						/>
+						<BasicButton
+							text={translate.next}
+							color={primary}
+							disable={data.loading}
+							id={'optionsNewSiguiente'}
+							textStyle={{
+								color: 'white',
+								fontWeight: '700',
+								fontSize: '0.9em',
+								textTransform: 'none'
+							}}
+							textPosition="after"
+							onClick={nextPage}
+						/>
+					</React.Fragment>
+				}
+			/>
+		</React.Fragment>
 	);
 };
 
@@ -750,6 +831,7 @@ const RTMPField = ({ data, updateData, translate }) => {
 		<TextInput
 			disabled={data.councilType !== 0}
 			errorText={!validURL ? translate.invalid_url : ''}
+			id="rtmp-url-text-input"
 			floatingText={'RTMP'}
 			value={(data.room && data.room.videoConfig) ? data.room.videoConfig.rtmp : ''}
 			onChange={event => updateData({

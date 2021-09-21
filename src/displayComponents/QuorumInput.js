@@ -12,7 +12,8 @@ const QuorumInput = ({
 	onChangeDivider,
 	style,
 	quorumError,
-	dividerError
+	dividerError,
+	translate
 }) => {
 	const onBlurChange = () => {
 		if (value < 1) {
@@ -23,14 +24,14 @@ const QuorumInput = ({
 	if (CBX.isQuorumPercentage(type)) {
 		return (
 			<div className="row">
-				<div style={{ width: '100%', ...style }}>
+				<div style={{ width: '100%', ...style, marginTop: '17px' }}>
 					<TextInput
 						id={`${id}-percentage`}
 						type={'number'}
 						value={value <= 0 ? '' : value}
 						min="0"
 						max="100"
-						errorText={quorumError || (value <= 0 ? 'El valor mínimo es 1' : '')}
+						errorText={quorumError || (value <= 0 ? translate.min_number_shares_votes : '')}
 						onBlur={onBlurChange}
 						adornment={'%'}
 						styles={{ width: isMobile && '90%' }}
@@ -49,7 +50,7 @@ const QuorumInput = ({
 
 	if (CBX.isQuorumFraction(type)) {
 		return (
-			<div style={{ width: '100%', ...style }}>
+			<div style={{ width: '100%', ...style, marginTop: '17px' }}>
 				<Grid>
 					<GridItem xs={6} lg={6} md={6}>
 						<TextInput
@@ -88,13 +89,13 @@ const QuorumInput = ({
 	if (CBX.isQuorumNumber(type)) {
 		return (
 			<div className="row">
-				<div style={{ width: '100%', ...style }}>
+				<div style={{ width: '100%', ...style, marginTop: '17px' }}>
 					<TextInput
 						id={`${id}-number`}
 						type={'number'}
 						value={value <= 0 ? '' : value}
 						onBlur={onBlurChange}
-						errorText={quorumError || (value <= 0 ? 'El valor mínimo es 1' : '')}
+						errorText={quorumError || (value <= 0 ? translate.min_number_shares_votes : '')}
 						onChange={event => onChange(event.nativeEvent.target.value)
 						}
 					/>

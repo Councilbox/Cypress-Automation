@@ -18,6 +18,7 @@ import TextInput from './TextInput';
 
 import Scrollbar from './Scrollbar';
 import { useHoverRow } from '../hooks';
+import { isMobile } from '../utils/screen';
 
 
 if (isChrome) {
@@ -348,12 +349,13 @@ const SmartTags = withApollo(withSharedProps()(({
 									type="text"
 									stylesAdornment={{ color: primary }}
 									value={searchModal}
-									styleInInput={{ fontSize: '12px', color: primary }}
+									styleInInput={{ fontSize: '12px', color: primary, marginBottom: '0' }}
 									styles={{ marginBottom: '0' }}
 									onChange={event => {
 										setSearchModal(event.target.value);
 									}}
 									disableUnderline={true}
+									stylesTextField={{ marginBottom: '0' }}
 								/>
 							</div>
 							<div style={{ color: primary }}>
@@ -364,14 +366,14 @@ const SmartTags = withApollo(withSharedProps()(({
 					<Divider style={{ background: primary }} />
 					<div
 						style={{
-							width: '100%',
 							flexDirection: 'row',
 							justifyContent: 'space-between',
-							margin: '1em'
+							margin: '1em',
+							width: 'calc(100% - 2em)'
 						}}
 					>
 						<div style={{
-							fontSize: '14px', display: 'flex', alignItems: 'center', color: '#969696', minWidth: '700px', marginBottom: '0.5em'
+							fontSize: '14px', display: 'flex', alignItems: 'center', color: '#969696', minWidth: isMobile ? '320px' : '700px', marginBottom: '0.5em'
 						}} >
 							<i className="material-icons" style={{
 								color: primary, fontSize: '14px', cursor: 'pointer', paddingRight: '0.3em'
@@ -382,7 +384,7 @@ const SmartTags = withApollo(withSharedProps()(({
 								&& <div>{translate.tags_description.split('.')[0]}. <u style={{ cursor: 'pointer' }} onClick={() => setOcultar(true)}>({translate.hide})</u></div>
 							}
 						</div>
-						<div style={{ width: '97%', height: '30vh' }} >
+						<div style={{ width: '100%', height: '30vh' }} >
 							<div style={{ width: '100%', height: '100%' }}>
 								<Scrollbar>
 									<div style={{ height: '100%' }}>

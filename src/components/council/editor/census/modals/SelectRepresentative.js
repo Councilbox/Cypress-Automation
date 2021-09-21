@@ -26,9 +26,8 @@ const styles = {
 	}
 };
 
-
 const DelegationsRestrictionModal = ({
-	open, data, translate, participantsTable, ...props
+	open, data, translate, participantsTable, participantId = null, ...props
 }) => {
 	const loadMore = () => {
 		data.fetchMore({
@@ -123,19 +122,21 @@ const DelegationsRestrictionModal = ({
 									<Grid style={{ display: 'flex' }}>
 										{participants.length > 0 ? (
 											<React.Fragment>
-												{participants.map((participant, index) => (
-													<CardPlantillas
-														translate={translate}
-														key={`delegateVote_${participant.id}`}
-														item={participant}
-														onClick={() => {
-															const { __typename, representative, ...restData } = participant;
-															props.updateRepresentative(restData);
-															close();
-														}}
-														index={index}
-													/>
-												))}
+												{participants
+													.filter(participant => participant.id !== participantId)
+													.map((participant, index) => (
+														<CardPlantillas
+															translate={translate}
+															key={`delegateVote_${participant.id}`}
+															item={participant}
+															onClick={() => {
+																const { __typename, representative, ...restData } = participant;
+																props.updateRepresentative(restData);
+																close();
+															}}
+															index={index}
+														/>
+													))}
 												{participants.length < total - 1 && (
 													<Card
 														style={{
@@ -155,16 +156,15 @@ const DelegationsRestrictionModal = ({
 														<MenuItem style={{
 															padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'
 														}}>
-															{`DESCARGAR ${
-																rest > DELEGATION_USERS_LOAD ?
+															{`DESCARGAR ${rest > DELEGATION_USERS_LOAD ?
 																	`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-																	: translate.all_plural.toLowerCase()
-															}`
+																: translate.all_plural.toLowerCase()
+																}`
 															}
 															{loading
-&& <div>
-	<LoadingSection size={25} />
-</div>
+																&& <div>
+																	<LoadingSection size={25} />
+																</div>
 															}
 														</MenuItem>
 													</Card>
@@ -172,10 +172,7 @@ const DelegationsRestrictionModal = ({
 											</React.Fragment>
 										) : (
 											<Typography>{translate.no_results}</Typography>
-										)
-										}
-
-
+										)}
 									</Grid>
 								</GridItem>
 							</Grid>
@@ -274,7 +271,7 @@ const CardPlantillas = withStyles(regularCardStyle)(({
 				</Card>
 			</GridItem>
 			{index % 2 === 0
-&& <GridItem xs={2} lg={2} md={2}></GridItem>
+				&& <GridItem xs={2} lg={2} md={2}></GridItem>
 			}
 		</React.Fragment>
 	);

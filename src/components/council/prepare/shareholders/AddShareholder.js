@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import { BasicButton } from '../../../../displayComponents';
 import ShareholderEditor from './ShareholderEditor';
 import { getSecondary } from '../../../../styles/colors';
+import initialState from '../../../../store/reducers/initialState';
 
 const getNumberValue = value => {
 	if (value === 'undefined' || value === null) {
@@ -12,7 +13,7 @@ const getNumberValue = value => {
 
 	const num = +value;
 
-	if (Number.isNaN(num)) {
+	if (Number.isNaN(Number(num))) {
 		return 1;
 	}
 
@@ -25,7 +26,7 @@ const ApproveRequestButton = ({
 }) => {
 	const [modal, setModal] = React.useState(null);
 	const {
-		requestType, legalTermsAccepted, attachments, earlyVotes, representative, ...cleanData
+		requestType, legalTermsAccepted, votes, delegate, attachments, earlyVotes, representative, ...cleanData
 	} = request.data;
 	cleanData.numParticipations = getNumberValue(cleanData.numParticipations);
 	cleanData.socialCapital = getNumberValue(
@@ -33,6 +34,7 @@ const ApproveRequestButton = ({
 	cleanData.personOrEntity = cleanData.personOrEntity ? +cleanData.personOrEntity : 0;
 	cleanData.assistanceIntention = cleanData.assistanceIntention ? +cleanData.assistanceIntention : 0;
 	cleanData.requestWord = cleanData.requestWord ? +cleanData.requestWord : 0;
+	cleanData.initialState = Number.isNaN(Number(initialState)) ? 0 : initialState;
 	const secondary = getSecondary();
 	const buttonColor = request.participantCreated ? 'grey' : secondary;
 

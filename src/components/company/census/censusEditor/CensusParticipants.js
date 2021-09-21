@@ -15,6 +15,7 @@ import { PARTICIPANTS_LIMITS } from '../../../../constants';
 import CensusParticipantEditor from './modals/CensusParticipantEditor';
 import ImportCensusExcel from '../ImportCensusExcel';
 import { isMobile } from '../../../../utils/screen';
+import withWindowOrientation from '../../../../HOCs/withWindowOrientation';
 
 class CensusParticipants extends React.Component {
 	state = {
@@ -22,7 +23,7 @@ class CensusParticipants extends React.Component {
 		participant: {},
 		deleteModal: false,
 		singleId: null,
-		selectedIds: new Map()
+		selectedIds: new Map(),
 	};
 
 	closeParticipantEditor = () => {
@@ -124,12 +125,12 @@ class CensusParticipants extends React.Component {
 	}
 
 	render() {
-		const { translate, census } = this.props;
+		const { translate, census, windowOrientation } = this.props;
 		const { loading, censusParticipants } = this.props.data;
 
 		const headers = [
 			{
-				selectAll: <Checkbox onChange={this.selectAll} value={this.state.selectedIds.size > 0 && this.state.selectedIds.size === (censusParticipants.list ? censusParticipants.list.length : -1)}/>
+				selectAll: <Checkbox onChange={this.selectAll} value={this.state.selectedIds.size > 0 && this.state.selectedIds.size === (censusParticipants.list ? censusParticipants.list.length : -1)} />
 			},
 			{
 				name: 'name',
@@ -168,23 +169,25 @@ class CensusParticipants extends React.Component {
 			<React.Fragment>
 				<Grid>
 					<GridItem xs={12} md={12} lg={12}>
-						<div style={{ display: 'flex', justifyContent: isMobile ? 'space-between' : 'flex-start', marginBottom: '0.6em' }}>
-							<div>
-								<AddCensusParticipantButton
-									translate={translate}
-									company={this.props.company}
-									census={this.props.census}
-									refetch={this.refresh}
-								/>
-							</div>
-							<div>
-								<ImportCensusExcel
-									translate={translate}
-									censusId={census.id}
-									companyId={this.props.company.id}
-									refetch={this.props.data.refetch}
-								/>
-							</div>
+						<div style={{
+							display: 'flex',
+							flexDirection: isMobile && windowOrientation === 'portrait' && 'column',
+							justifyContent: !isMobile && 'flex-start',
+							gap: isMobile && windowOrientation === 'portrait' ? '.5rem 0' : '32px',
+							marginBottom: '0.6em'
+						}}>
+							<AddCensusParticipantButton
+								translate={translate}
+								company={this.props.company}
+								census={this.props.census}
+								refetch={this.refresh}
+							/>
+							<ImportCensusExcel
+								translate={translate}
+								censusId={census.id}
+								companyId={this.props.company.id}
+								refetch={this.props.data.refetch}
+							/>
 						</div>
 						<span style={{ fontWeight: '700', fontSize: '0.9em' }}>
 							{`${translate.total_votes}: ${this.props.recount.numParticipations || 0}`}
@@ -206,13 +209,13 @@ class CensusParticipants extends React.Component {
 						page={1}
 						menuButtons={
 							this.state.selectedIds.size > 0
-								&& <BasicButton
-									text={this.state.selectedIds.size === 1 ? translate.delete_one_item : `${translate.new_delete} ${this.state.selectedIds.size} ${translate.items}`}
-									color={getSecondary()}
-									buttonStyle={{ marginRight: '0.6em' }}
-									textStyle={{ color: 'white', fontWeight: '700' }}
-									onClick={this.openDeleteModal}
-								/>
+							&& <BasicButton
+								text={this.state.selectedIds.size === 1 ? translate.delete_one_item : `${translate.new_delete} ${this.state.selectedIds.size} ${translate.items}`}
+								color={getSecondary()}
+								buttonStyle={{ marginRight: '0.6em' }}
+								textStyle={{ color: 'white', fontWeight: '700' }}
+								onClick={this.openDeleteModal}
+							/>
 						}
 						loading={loading}
 						length={censusParticipants.list.length}
@@ -321,7 +324,7 @@ class HoverableRow extends React.PureComponent {
 							<span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname || ''}`}</span>
 							{!!representative
 								&& <React.Fragment>
-									<br/>
+									<br />
 									{`${this.props.translate.represented_by}: ${representative.name} ${representative.surname || ''}`}
 								</React.Fragment>
 							}
@@ -355,12 +358,11 @@ class HoverableRow extends React.PureComponent {
 							{!CBX.isRepresentative(
 								participant
 							)
-								&& `${
-									participant.numParticipations
+								&& `${participant.numParticipations
 								}`
 							}
 							{!!representative
-								&& <br/>
+								&& <br />
 							}
 						</GridItem>
 						{this.props.participations && (
@@ -368,12 +370,11 @@ class HoverableRow extends React.PureComponent {
 								{!CBX.isRepresentative(
 									participant
 								)
-									&& `${
-										participant.socialCapital
+									&& `${participant.socialCapital
 									}`
 								}
 								{!!representative
-									&& <br/>
+									&& <br />
 								}
 							</React.Fragment>
 						)}
@@ -414,7 +415,7 @@ class HoverableRow extends React.PureComponent {
 					<span style={{ fontWeight: '700' }}>{`${participant.name} ${participant.surname || ''}`}</span>
 					{!!representative
 						&& <React.Fragment>
-							<br/>
+							<br />
 							{`${this.props.translate.represented_by}: ${representative.name} ${representative.surname || ''}`}
 						</React.Fragment>
 					}
@@ -423,7 +424,7 @@ class HoverableRow extends React.PureComponent {
 					{participant.dni}
 					{!!representative
 						&& <React.Fragment>
-							<br/>
+							<br />
 							{representative.dni}
 						</React.Fragment>
 					}
@@ -432,7 +433,7 @@ class HoverableRow extends React.PureComponent {
 					{participant.position}
 					{!!representative
 						&& <React.Fragment>
-							<br/>
+							<br />
 							{representative.position}
 						</React.Fragment>
 					}
@@ -441,12 +442,11 @@ class HoverableRow extends React.PureComponent {
 					{!CBX.isRepresentative(
 						participant
 					)
-						&& `${
-							participant.numParticipations
+						&& `${participant.numParticipations
 						}`
 					}
 					{!!representative
-						&& <br/>
+						&& <br />
 					}
 				</TableCell>
 				{this.props.participations && (
@@ -454,12 +454,11 @@ class HoverableRow extends React.PureComponent {
 						{!CBX.isRepresentative(
 							participant
 						)
-							&& `${
-								participant.socialCapital
+							&& `${participant.socialCapital
 							}`
 						}
 						{!!representative
-							&& <br/>
+							&& <br />
 						}
 					</TableCell>
 				)}
@@ -470,7 +469,7 @@ class HoverableRow extends React.PureComponent {
 							&& !CBX.isRepresentative(participant) && renderDeleteIcon(participant.id)
 						}
 						{!!representative
-							&& <br/>
+							&& <br />
 						}
 					</div>
 				</TableCell>
@@ -505,4 +504,4 @@ export default compose(
 			}
 		})
 	})
-)(CensusParticipants);
+)(withWindowOrientation(CensusParticipants));

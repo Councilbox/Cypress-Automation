@@ -411,7 +411,7 @@ const ButtonCreateCouncil = ({
 					id={id}
 					{...hoverHandlers}
 				>
-					<div style={{ width: '90px', margin: '0 auto' }}>{icon}</div>
+					<div style={{ minWidth: '90px', margin: '0 auto' }}>{icon}</div>
 					<div style={{ color: 'black', textAlign: 'center' }}>
 						<div style={{ fontSize: '24px' }}>{title}</div>
 						<div style={{ fontSize: '14px' }}>{list}</div>
@@ -440,7 +440,7 @@ const ButtonCreateCouncil = ({
 			onClick={onClick}
 			{...hoverHandlers}
 			>
-				<div style={{ width: '90px', display: 'flex', alignItems: 'center' }}>{icon}</div>
+				<div style={{ minWidth: '90px', display: 'flex', alignItems: 'center' }}>{icon}</div>
 				<div style={{ color: 'black', marginLeft: '2em' }}>
 					<div style={{ fontSize: '24px' }}>{title}</div>
 					<div style={{ fontSize: '14px' }}>{list}</div>

@@ -32,7 +32,7 @@ import { getCompanies, setCompany } from '../../../actions/companyActions';
 import ConfirmCompanyButton from '../../corporation/companies/ConfirmCompanyButton';
 import DeleteCompanyButton from './DeleteCompanyButton';
 import { sendGAevent } from '../../../utils/analytics';
-import GoverningBodyForm from './GoverningBodyForm';
+// import GoverningBodyForm from './GoverningBodyForm';
 import NewUser from '../../corporation/users/NewUser';
 import { corporationUsers } from '../../../queries/corporation';
 import { isMobile } from '../../../utils/screen';
@@ -115,7 +115,8 @@ const CompanySettingsPage = ({
 		fileSizeError: false,
 		unlinkModal: false,
 		request: false,
-		errors: {}
+		errors: {},
+		errorState: false
 	});
 
 	const secondary = getSecondary();
@@ -253,7 +254,8 @@ const CompanySettingsPage = ({
 
 		setState({
 			...state,
-			errors
+			errors,
+			errorState: hasError
 		});
 		return hasError;
 	}
@@ -332,7 +334,6 @@ const CompanySettingsPage = ({
 	const {
 		data, errors, success, request
 	} = state;
-	const updateError = Object.keys(errors).length > 0;
 	const { loading } = props.info;
 
 	if (loading) {
@@ -522,11 +523,11 @@ const CompanySettingsPage = ({
 					</GridItem>
 				</Grid>
 				<br />
-				<Grid spacing={16}>
+				{/* <Grid spacing={16}>
 					<GridItem xs={12} md={12} lg={12}>
 						<GoverningBodyForm translate={translate} state={data} updateState={updateState} />
 					</GridItem>
-				</Grid>
+				</Grid> */}
 				<SectionTitle
 					text={translate.contact_data}
 					color={primary}
@@ -713,9 +714,13 @@ const CompanySettingsPage = ({
 						text={translate.save}
 						id="save-button"
 						color={primary}
-						error={updateError}
+						error={state.errorState}
 						success={success}
 						loading={request}
+						reset={() => setState({
+							...state,
+							errorState: false
+						})}
 						floatRight
 						buttonStyle={{ marginRight: '1.2em' }}
 						textStyle={{
@@ -756,8 +761,7 @@ const CompanySettingsPage = ({
 							onClick={() => setState({
 								...state,
 								unlinkModal: true
-							})
-							}
+							})}
 							icon={<ButtonIcon type="link_off" color="white" />}
 						/>
 					}

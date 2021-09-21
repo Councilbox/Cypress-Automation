@@ -10,7 +10,7 @@ import { cleanAgendaObject } from '../../../../utils/CBX';
 import { isMobile } from '../../../../utils/screen';
 
 const calculateValidNumber = (max, actual, newValue) => {
-	if (Number.isNaN(newValue)) {
+	if (Number.isNaN(Number(newValue))) {
 		return 0;
 	}
 	if ((max + actual) >= newValue) {

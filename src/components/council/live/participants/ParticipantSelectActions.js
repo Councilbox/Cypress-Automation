@@ -1,14 +1,15 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
+import { Button } from 'material-ui';
 import * as CBX from '../../../../utils/CBX';
 import { getLightGrey } from '../../../../styles/colors';
 import { PARTICIPANT_STATES } from '../../../../constants';
 import { changeParticipantState } from '../../../../queries/liveParticipant';
-import { Grid, GridItem, LoadingSection } from '../../../../displayComponents';
-import AddRepresentativeModal from '../AddRepresentativeModal';
+import { Grid, LoadingSection } from '../../../../displayComponents';
 import DelegateOwnVoteModal from '../DelegateOwnVoteModal';
 import DelegateVoteModal from '../DelegateVoteModal';
-import StateIcon from './StateIcon';
+import EarlyVotingModal from './EarlyVotingModal';
+import { isMobile } from '../../../../utils/screen';
 
 
 class ParticipantSelectActions extends React.Component {
@@ -90,99 +91,69 @@ class ParticipantSelectActions extends React.Component {
 			<Grid
 				style={{
 					marginTop: '1em',
+					marginLeft: '.5em',
 					width: '100%',
 					display: 'flex',
-					flexDirection: 'row',
-					alignItems: 'center'
+					flexDirection: isMobile ? 'column' : 'row',
+					justifyContent: !isMobile && 'space-between',
+					alignItems: !isMobile && 'center',
+					gap: '.5rem',
 				}}
 			>
-				{CBX.canHaveRepresentative(participant)
-					&& !(participant.hasDelegatedVotes > 0) && (
-					<GridItem xs={12} md={6} lg={4}>
-						<ButtonActions
-							loading={loading === 4}
-							onClick={() => this.setState({
-								addRepresentative: true
-							})
-							}
+				{(this.props.council.councilType !== 4 && this.props.council.councilType !== 5 && participant.numParticipations > 0)
+					&& <EarlyVotingModal
+						council={this.props.council}
+						participant={participant}
+						translate={translate}
+						buttonStyle={{
+							borderRadius: '4px',
+							border: 'solid 1px #a09aa0',
+							padding: '1em',
+							cursor: 'pointer',
+							margin: ' 0 .5em 0 0',
 
-						>
-							<div
-								style={{ display: 'flex', alignItems: 'center', overflow: 'hidden' }}
-							>
-								<div style={{ width: '3em' }}>
-									<StateIcon
-										translate={translate}
-										state={PARTICIPANT_STATES.REPRESENTATED}
-										color={'black'}
-										hideTooltip={true}
-										styles={{ padding: '0em' }}
-									/>
-								</div>
-								<div style={{
-									display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
-								}}>
-									<span style={{ fontSize: '0.9em' }}>{participant.representative ? translate.change_representative : translate.add_representative}</span>
-								</div>
-							</div>
-						</ButtonActions>
-					</GridItem>
-				)}
+						}}
+						textStyle={{
+							color: 'black',
+							display: 'block',
+							whiteSpace: 'nowrap',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							textTransform: 'none'
+						}}
+					/>
+				}
 				{CBX.canDelegateVotes(council.statute, participant) && (
-					<GridItem xs={12} md={6} lg={4}>
-						<ButtonActions
-							loading={loading === 5}
-							active={participant.state === PARTICIPANT_STATES.DELEGATED}
-							onClick={() => this.setState({
-								delegateOwnVote: true
-							})
-							}
-						>
-							<div
-								style={{ display: 'flex', alignItems: 'center' }}
-							>
-								<div style={{
-									display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
-								}}>
-									<span style={{ fontSize: '0.9em' }}>{translate.to_delegate_vote}</span>
-								</div>
-							</div>
-						</ButtonActions>
-					</GridItem>
+					<ButtonActions
+						loading={loading === 5}
+						active={participant.state === PARTICIPANT_STATES.DELEGATED}
+						onClick={() => this.setState({
+							delegateOwnVote: true
+						})
+						}
+					>
+						<span style={{
+							fontSize: '0.9em', display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', textTransform: 'none'
+						}}>{translate.to_delegate_vote}</span>
+					</ButtonActions>
 				)}
 				{CBX.canAddDelegateVotes(council.statute, participant) && (
-					<GridItem xs={12} md={6} lg={4}>
-						<ButtonActions
-							loading={loading === 6}
-							active={participant.state === PARTICIPANT_STATES.DELEGATED}
-							onClick={() => {
-								this.setState({
-									delegateVote: true
-								});
-							}}
-						>
-							<div
-								style={{ display: 'flex', alignItems: 'center' }}
-							>
-								<div style={{
-									display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
-								}}>
-									<span style={{ fontSize: '0.9em' }}>{translate.add_delegated}</span>
-								</div>
-							</div>
-						</ButtonActions>
-					</GridItem>
+					<ButtonActions
+						loading={loading === 6}
+						active={participant.state === PARTICIPANT_STATES.DELEGATED}
+						onClick={() => {
+							this.setState({
+								delegateVote: true
+							});
+						}}
+					>
+						<span style={{
+							fontSize: '0.9em', display: 'block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', textTransform: 'none'
+						}}>{translate.add_delegated}</span>
+
+					</ButtonActions>
 				)}
 
-				<AddRepresentativeModal
-					show={this.state.addRepresentative}
-					council={council}
-					participant={participant}
-					refetch={this.props.refetch}
-					requestClose={() => this.setState({ addRepresentative: false })
-					}
-					translate={translate}
-				/>
 				{this.state.delegateOwnVote
 					&& <DelegateOwnVoteModal
 						show={this.state.delegateOwnVote}
@@ -221,17 +192,18 @@ class ParticipantSelectActions extends React.Component {
 const ButtonActions = ({
 	children, loading, onClick, active
 }) => (
-	<div
+	<Button
+		variant="flat"
 		style={{
 			display: 'flex',
 			alignItems: 'center',
-			height: '37px',
 			borderRadius: '4px',
 			border: 'solid 1px #a09aa0',
 			color: 'black',
-			padding: '0.3em 1.3em',
+			padding: '1em',
 			cursor: 'pointer',
 			marginRight: '0.5em',
+			outline: '0px',
 			backgroundColor: active ? getLightGrey() : 'transparent',
 		}}
 		onClick={onClick}
@@ -249,7 +221,7 @@ const ButtonActions = ({
 		) : (
 			children
 		)}
-	</div>
+	</Button>
 );
 
 
