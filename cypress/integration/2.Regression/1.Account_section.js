@@ -507,7 +507,7 @@ describe("The user is not able to login in Councilbox with invalid password", fu
         });
 
         it("'Incorrect password' alert message is displayed", function() {
-            cy.get('#password-error-text')
+            cy.get('#username-error-text')
         });
 
      });
@@ -535,7 +535,7 @@ describe("The user is able to select the 'EN' language on the 'Homepage' section
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(1000);
+            cy.wait(2000);
         });
     
         it("Navigate to the upper right corner of the page and click on the “Language selector” button", function() {
@@ -554,7 +554,7 @@ describe("The user is able to select the 'ES' language on the 'Homepage' section
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(1000);
+            cy.wait(2000);
         });
     
         it("Navigate to the upper right corner of the page and click on the “Language selector” button", function() {
@@ -573,7 +573,7 @@ describe("The user is able to select the 'CAT' language on the 'Homepage' sectio
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(1000);
+            cy.wait(2000);
         });
     
         it("Navigate to the upper right corner of the page and click on the “Language selector” button", function() {
@@ -592,7 +592,7 @@ describe("The user is able to select the 'GAL' language on the 'Homepage' sectio
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(1000);
+            cy.wait(2000);
         });
     
         it("Navigate to the upper right corner of the page and click on the “Language selector” button", function() {
@@ -611,7 +611,7 @@ describe("The user is able to select the 'PT' language on the 'Homepage' section
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(1000);
+            cy.wait(2000);
         });
     
         it("Navigate to the upper right corner of the page and click on the “Language selector” button", function() {
@@ -630,7 +630,7 @@ describe("The user is able to select the 'EU' language on the 'Homepage' section
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(1000);
+            cy.wait(2000);
         });
     
         it("Navigate to the upper right corner of the page and click on the “Language selector” button", function() {
@@ -649,7 +649,7 @@ describe("The user is able to select the 'FR' language on the 'Homepage' section
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(1000);
+            cy.wait(2000);
         });
     
         it("Navigate to the upper right corner of the page and click on the “Language selector” button", function() {
@@ -668,7 +668,7 @@ describe("The user is able to select the 'EN' language on the 'Homepage' section
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(1000);
+            cy.wait(2000);
         });
     
         it("Navigate to the upper right corner of the page and click on the “Language selector” button", function() {
