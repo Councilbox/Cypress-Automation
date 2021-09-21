@@ -34,6 +34,11 @@ const CompanyCensusPage = ({
 		cloneModal: false,
 		editId: false,
 		index: 0,
+		options: {
+			limit: CENSUS_LIMITS[0],
+			offset: 0
+		},
+		filters: []
 	});
 	const [loading, setLoading] = React.useState(true);
 	const [censuses, setCensuses] = React.useState(true);
@@ -43,21 +48,18 @@ const CompanyCensusPage = ({
 			query: censusesQuery,
 			variables: {
 				companyId: +props.match.params.company,
-				options: {
-					limit: CENSUS_LIMITS[0],
-					offset: 0
-				}
+				options: state.options,
+				filters: state.filters
 			}
 		});
 
 		setCensuses(response.data.censuses);
 		setLoading(false);
-	}, []);
+	}, [state.filters, state.page]);
 
 	React.useEffect(() => {
 		getData();
 	}, [getData]);
-
 
 	const deleteCensusById = async () => {
 		setLoading(true);
@@ -119,7 +121,7 @@ const CompanyCensusPage = ({
 				defaultLimit={CENSUS_LIMITS[0]}
 				defaultFilter={'censusName'}
 				limits={CENSUS_LIMITS}
-				page={1}
+				page={state.options.page}
 				menuButtons={
 					<div style={{
 						height: '100%', display: 'flex', alignItems: 'center', justifyContent: isMobile ? 'flex-start' : 'center'
@@ -129,7 +131,7 @@ const CompanyCensusPage = ({
 								translate={translate}
 								user={props.user}
 								company={company}
-								refetch={() => getData()}
+								refetch={getData}
 							/>
 						</div>
 					</div>
@@ -137,7 +139,7 @@ const CompanyCensusPage = ({
 				loading={loading}
 				length={censuses.list.length}
 				total={censuses.total}
-				refetch={() => getData()}
+				refetch={updateState}
 				headers={[
 					{
 						text: translate.name,
