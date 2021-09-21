@@ -22,6 +22,9 @@ const RepresentativeForm = ({
 				required
 				floatingText={translate.name}
 				type="text"
+				onBlur={() => updateState({
+					name: representative.name?.trim()
+				})}
 				errorText={errors.name}
 				value={representative.name}
 				onChange={event => updateState({
@@ -35,6 +38,9 @@ const RepresentativeForm = ({
 				required
 				floatingText={translate.surname || ''}
 				type="text"
+				onBlur={() => updateState({
+					surname: representative.surname?.trim()
+				})}
 				errorText={errors.surname || ''}
 				value={representative.surname || ''}
 				onChange={event => updateState({
@@ -49,6 +55,9 @@ const RepresentativeForm = ({
 				floatingText={translate.new_dni}
 				type="text"
 				errorText={errors.dni}
+				onBlur={() => updateState({
+					dni: representative.dni?.trim()
+				})}
 				value={representative.dni}
 				onChange={event => updateState({
 					dni: event.nativeEvent.target.value
@@ -61,6 +70,9 @@ const RepresentativeForm = ({
 				<TextInput
 					floatingText={translate.position}
 					type="text"
+					onBlur={() => updateState({
+						position: representative.position?.trim()
+					})}
 					errorText={errors.position}
 					value={representative.position}
 					onChange={event => updateState({
@@ -78,6 +90,9 @@ const RepresentativeForm = ({
 				{...(checkEmail ? { onKeyUp: event => checkEmail(event, 'representative') } : {})}
 				errorText={errors.email}
 				value={representative.email}
+				onBlur={() => updateState({
+					email: representative.email?.trim()
+				})}
 				onChange={event => updateState({
 					email: event.nativeEvent.target.value
 				})
@@ -89,6 +104,9 @@ const RepresentativeForm = ({
 				floatingText={translate.administrative_email || ''}
 				min={1}
 				errorText={errors.secondaryEmail}
+				onBlur={() => updateState({
+					secondaryEmail: representative.secondaryEmail?.trim()
+				})}
 				value={representative.secondaryEmail}
 				onChange={event => {
 					updateState({

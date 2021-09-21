@@ -31,8 +31,7 @@ const ParticipantForm = ({
 							event.nativeEvent.target.value,
 							10
 						)
-					})
-					}
+					})}
 					value="0"
 					name="personOrEntity"
 				/>
@@ -58,14 +57,16 @@ const ParticipantForm = ({
 				<TextInput
 					required
 					floatingText={translate.entity_name}
+					onBlur={() => updateState({
+						name: participant.name?.trim()
+					})}
 					type="text"
 					id="participant-entity-name-input"
 					errorText={errors.name}
 					value={participant.name}
 					onChange={event => updateState({
 						name: event.nativeEvent.target.value
-					})
-					}
+					})}
 				/>
 			</GridItem>
 		) : (
@@ -77,6 +78,9 @@ const ParticipantForm = ({
 						type="text"
 						id="participant-name-input"
 						errorText={errors.name}
+						onBlur={() => updateState({
+							name: participant.name?.trim()
+						})}
 						value={participant.name}
 						onChange={event => updateState({
 							name: event.nativeEvent.target.value
@@ -90,6 +94,9 @@ const ParticipantForm = ({
 						floatingText={translate.surname || ''}
 						type="text"
 						id="participant-surname-input"
+						onBlur={() => updateState({
+							surname: participant.surname?.trim()
+						})}
 						errorText={errors.surname || ''}
 						value={participant.surname || ''}
 						onChange={event => updateState({
@@ -105,6 +112,9 @@ const ParticipantForm = ({
 			<TextInput
 				floatingText={participant.personOrEntity === 1 ? translate.cif : translate.dni}
 				type="text"
+				onBlur={() => updateState({
+					dni: participant.dni?.trim()
+				})}
 				id="participant-dni-input"
 				errorText={errors.dni}
 				value={participant.dni}
@@ -120,6 +130,9 @@ const ParticipantForm = ({
 					id="participant-position-input"
 					floatingText={translate.position}
 					type="text"
+					onBlur={() => updateState({
+						position: participant.position?.trim()
+					})}
 					errorText={errors.position}
 					value={participant.position}
 					onChange={event => updateState({
@@ -136,6 +149,9 @@ const ParticipantForm = ({
 				id="participant-email-input"
 				{...(checkEmail ? { onKeyUp: event => checkEmail(event, 'participant') } : {})}
 				type="text"
+				onBlur={() => updateState({
+					email: participant.email?.trim()
+				})}
 				errorText={errors.email}
 				value={participant.email}
 				onChange={event => updateState({
@@ -149,6 +165,9 @@ const ParticipantForm = ({
 				id="participant-administrative-email-input"
 				floatingText={translate.administrative_email}
 				min={1}
+				onBlur={() => updateState({
+					secondaryEmail: participant.secondaryEmail?.trim()
+				})}
 				errorText={errors.secondaryEmail}
 				value={participant.secondaryEmail || ''}
 				onChange={event => {

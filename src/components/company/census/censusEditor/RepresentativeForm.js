@@ -114,6 +114,9 @@ const RepresentativeForm = ({
 								required
 								floatingText={translate.name}
 								type="text"
+								onBlur={() => updateState({
+									name: representative.name?.trim()
+								})}
 								id="representative-name-input"
 								errorText={errors.name}
 								value={representative.name || ''}
@@ -129,6 +132,9 @@ const RepresentativeForm = ({
 								id="representative-surname-input"
 								floatingText={translate.surname || ''}
 								type="text"
+								onBlur={() => updateState({
+									surname: representative.surname?.trim()
+								})}
 								errorText={errors.surname || ''}
 								value={representative.surname || ''}
 								onChange={event => updateState({
@@ -143,6 +149,9 @@ const RepresentativeForm = ({
 								id="representative-dni-input"
 								floatingText={translate.new_dni}
 								type="text"
+								onBlur={() => updateState({
+									dni: representative.dni?.trim()
+								})}
 								errorText={errors.dni}
 								value={representative.dni || ''}
 								onChange={event => updateState({
@@ -156,6 +165,9 @@ const RepresentativeForm = ({
 								id="representative-position-input"
 								floatingText={translate.position}
 								type="text"
+								onBlur={() => updateState({
+									position: representative.position?.trim()
+								})}
 								errorText={errors.position}
 								value={representative.position || ''}
 								onChange={event => updateState({
@@ -171,6 +183,9 @@ const RepresentativeForm = ({
 								{...(checkEmail ? { onKeyUp: event => checkEmail(event, 'representative') } : {})}
 								floatingText={translate.email}
 								type="text"
+								onBlur={() => updateState({
+									email: representative.email?.trim()
+								})}
 								errorText={errors.email}
 								value={representative.email || ''}
 								onChange={event => updateState({
@@ -184,6 +199,9 @@ const RepresentativeForm = ({
 								id="representative-administrative-email-input"
 								floatingText={translate.administrative_email}
 								min={1}
+								onBlur={() => updateState({
+									secondaryEmail: representative.secondaryEmail?.trim()
+								})}
 								errorText={errors.secondaryEmail}
 								value={representative.secondaryEmail}
 								onChange={event => {
