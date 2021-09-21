@@ -180,7 +180,7 @@ const ParticipantsPage = ({
 					minHeight: '3em',
 					maxHeight: !isMobile && '6em',
 					display: 'flex',
-					flexDirection: isMobile ? 'column-reverse' : 'row',
+					flexDirection: 'row',
 				}}
 			>
 				{renderHeader()}
@@ -190,17 +190,17 @@ const ParticipantsPage = ({
 					display: 'flex',
 					alignItems: 'center',
 					justifyContent: isMobile && 'flex-end',
-					paddingRight: '1.5rem',
+					paddingRight: '1.313rem'
 				}}>
 					<BasicButton
 						onClick={() => {
-							props.updateState({ open: !props.menuOpen });
+							props.updateMenu(!props.menuOpen);
 						}}
 						buttonStyle={{
 							minWidth: '0',
 							minHeight: '0',
-							width: '2rem',
-							height: '2rem',
+							width: '2.5rem',
+							height: '2.5rem',
 							backgroundColor: props.menuOpen ? '#d5d5d5' : 'white',
 							boxShadow: '0px 1px 5px 0px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 3px 1px -2px rgb(0 0 0 / 12%)'
 						}}
@@ -208,7 +208,8 @@ const ParticipantsPage = ({
 							<i
 								className="material-icons"
 								style={{
-									color: secondary
+									color: secondary,
+									fontSize: '1.5rem'
 								}}
 							>
 								settings

@@ -22,13 +22,13 @@ const StatesHeader = ({
 				minHeight: '3em',
 				borderBottom: '1px solid gainsboro',
 				display: isMobile ? 'grid' : 'flex',
-				gridTemplateColumns: isMobile && 'repeat(auto-fit, minmax(75px, 1fr))',
-				flexDirection: 'row',
+				gridTemplateColumns: isMobile && 'repeat(auto-fit, minmax(80px, auto))',
+				flexDirection: !isMobile && 'row',
 				alignItems: 'center',
-				justifyContent: 'space-between',
+				justifyContent: !isMobile && 'space-between',
 				paddingLeft: '1.5em',
-				paddingRight: '2.5em',
-				margin: 0
+				paddingRight: isMobile ? '1.5em' : '2.5em',
+				margin: 0,
 			}}
 		>
 			<div
