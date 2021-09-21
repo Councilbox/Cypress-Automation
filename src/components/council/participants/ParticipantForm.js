@@ -272,7 +272,7 @@ const ParticipantForm = ({
 						})
 						}
 						onChange={event => {
-							if (!Number.isNaN(Number(event.target.value)) || +event.target.value >= 0) {
+							if (!Number.isNaN(Number(event.target.value)) && +event.target.value >= 0) {
 								updateState({
 									numParticipations: cleanVotesValue(event.target.value)
 								});
@@ -294,7 +294,7 @@ const ParticipantForm = ({
 							})
 							}
 							onChange={event => {
-								if (!Number.isNaN(Number(event.target.value)) || +event.target.value >= 0) {
+								if (!Number.isNaN(Number(event.target.value)) && +event.target.value >= 0) {
 									updateState({
 										socialCapital: cleanVotesValue(event.target.value)
 									});
