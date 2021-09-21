@@ -1943,6 +1943,10 @@ export const calculateMajorityAgenda = (agenda, company, council, recount) => {
 	return LiveUtil.calculateMajority(specialSL, recount.partTotal, agenda.presentCensus + agenda.currentRemoteCensus, agenda.majorityType, agenda.majority, agenda.majorityDivider, agenda.negativeVotings + agenda.negativeManual, council.statute.quorumPrototype);
 };
 
+export const cleanVotesValue = value => {
+	return !value || Number.isNaN(Number(value)) ? '' : parseInt(value, 10);
+};
+
 export const calculateQuorum = (council, recount) => {
 	let base;
 	if (council.statute.quorumPrototype === 1) {
