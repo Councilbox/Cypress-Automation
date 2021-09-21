@@ -225,7 +225,7 @@ const AddConvenedParticipantButton = ({
 	const { languages } = props.data;
 
 	const openModal = () => (buttonAdd ? state.modal : modal);
-	const closeModal = () => (buttonAdd ? setState({ modal: false }) : requestClose);
+	const closeModal = () => (buttonAdd ? () => setState({ modal: false }) : requestClose);
 
 	const button = () => (
 		<BasicButton
