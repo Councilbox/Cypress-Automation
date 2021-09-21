@@ -51,6 +51,11 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 		}
 	};
 
+
+	React.useEffect(() => {
+	}, [data.refetch, participant]);
+
+
 	React.useEffect(() => {
 		let interval;
 		if (participant.id) {
@@ -63,6 +68,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	if (!data.liveParticipant) {
 		return <LoadingSection />;
 	}
+
 
 	return (
 		<div
