@@ -53,14 +53,13 @@ export const checkRequiredFieldsParticipant = (
 
 	let hasError = false;
 
-	if (!participant.name) {
+	if (!participant.name || !participant.name.trim()) {
 		hasError = true;
 		errors.name = translate.field_required;
 	}
 
-
 	if (company && company.type !== 10) {
-		if (!participant.surname && participant.personOrEntity === 0) {
+		if (!participant.surname && !participant.surname.trim() && participant.personOrEntity === 0) {
 			hasError = true;
 			errors.surname = translate.field_required;
 		}
