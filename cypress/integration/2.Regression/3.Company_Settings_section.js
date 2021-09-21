@@ -124,7 +124,7 @@ describe("The user is not able to Link company with invalid inputs in the 'CIF o
         });
 
         it("'COMPANY DOES NOT EXIST' message is displayed", function() {
-            cy.get('#company-link-cif-error-text')
+            cy.get('#company-link-key-error-text')
         });
 
         it("Back to Home page", function() {
@@ -504,7 +504,7 @@ describe("The user is able to edit 'Language' in the 'Contact details' in the Co
     });
 
 
-
+/*
 describe("The user is able to add the 'Sole administrator' in the 'Company settings' section", function() {
 
         it("On the upper right corner click on the 'User icon' button", function() {
@@ -723,3 +723,5 @@ describe("The user is able to add the 'Sole administrator, legal entity' in the 
 
 
     });
+
+*/

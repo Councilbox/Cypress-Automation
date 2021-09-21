@@ -113,6 +113,10 @@ describe("The user is able to select 'English' language in the 'Add participant'
         cy.wait(1000)       
     });
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
  });
 
 describe("The user is able to select 'Espanol' language in the 'Add participant' form in the 'New meeting' type of meeting in the 'Census' section", function() {

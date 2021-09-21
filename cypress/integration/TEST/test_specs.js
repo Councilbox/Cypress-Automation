@@ -67,51 +67,250 @@ describe("Councilbox login - valid username and password E2E", function() {
 });
 
 
-describe("The user is able to delete participant in the 'Manage participants' form in the 'Censuses' section", function() {
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Announcement header' form in the 'Announcement template' section in the 'Types of meetings' section", function() {
 
-        it("From the menu choose and click on the 'Censuses' form", function() {
-            
-            cy.get('#edit-censuses-block').click()
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+            cy.get('#company-statute-edit-3').click()
             cy.wait(1000)
         });
 
-        it("Set the cursor on already added census and navigate to the 'Manage participants' button and then click on it", function() {
-            cy.get('#census_row_0').trigger('mouseover')
-            cy.wait(1000)
-            cy.get('#census-manage-participants-button').click()
-
-        });
-
-        it("Click on the 'Add participant+'' button", function() {
-            cy.wait(1000)
-            cy.get('#add-census-participant-button').click()
+        it("Scroll down the page and navigate to the 'Documents' section", function() {
+            cy.get('#council-type-convene-header').scrollIntoView()
             cy.wait(1000)
         });
 
-        it("Populate all required fields", function() {
-            cy.get('#participant-name-input').clear()
-                .type('Test')
-            cy.get('#participant-surname-input').clear()
-                .type('Automation')
-            cy.get('#participant-email-input').clear()
-                .type("test2"+Cypress.config('UniqueNumber')+"@test.test")
-
-        });
-
-        it("Click on the 'Save' button", function() {
-            cy.get('#alert-confirm-button-accept').click()
+        it("Navigate to the 'Voting letter with voting directions' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(0).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
             cy.wait(1000)
-        });
+            cy.get('#council-statute-save-button').click()
 
-        it("Navigate to the already added participant and click on the 'X' button", function() {
-            cy.get('#participant-row-0').trigger('mouseover')
-            cy.get('MISSING_ID').click()
-            cy.wait(1000)
         });
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+        });
+
+
+    });
+
+
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Annoucement footer' form in the 'Annoucement template' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+            cy.get('#company-statute-edit-3').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Announcement templates' section", function() {
+            cy.get('#council-type-convene-footer').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Announcement footer' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(1).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Introduction' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+            cy.get('#company-statute-edit-3').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
+            cy.get('#council-type-intro').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Introduction' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(2).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Right column introduction' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+            cy.get('#company-statute-edit-3').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
+            cy.get('#council-type-intro-secondary').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Right column introduction' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(3).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Constitution' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+            cy.get('#company-statute-edit-3').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
+            cy.get('#council-type-constitution').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Constitution' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(4).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Constitution right column' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+            cy.get('#company-statute-edit-3').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
+            cy.get('#council-type-constitution-secondary').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Constitution right column' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(5).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Conclusion' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+            cy.get('#company-statute-edit-3').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
+            cy.get('#council-type-conclusion').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Conclusion' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(6).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
+        });
+
+
+    });
+
+describe("The user is able to choose and select the tag in the 'tags' section in the 'Right column conclusion' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
+
+        it("Click on the 'Council types' button", function() {
+            cy.get('#edit-statutes-block').click()
+            cy.wait(1000)
+            cy.get('#company-statute-edit-3').click()
+            cy.wait(1000)
+        });
+
+        it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
+            cy.get('#council-type-conclusion-secondary').scrollIntoView()
+            cy.wait(1000)
+        });
+
+        it("Navigate to the 'Right column conclusion' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
+            cy.get('.ql-editor').eq(7).clear()
+                .type('{{')
+                    .type('business_name')
+                        .type('}}')
+            cy.wait(1000)
+            cy.get('#council-statute-save-button').click()
+
+        });
+
+        it("Back to Home page", function() {
+            cy.visit(login_url);
         });
 
 

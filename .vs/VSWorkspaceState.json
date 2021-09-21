@@ -3,9 +3,9 @@
     "",
     "\\cypress",
     "\\cypress\\integration",
-    "\\cypress\\integration\\1.Smoke",
+    "\\cypress\\integration\\TEST",
     "\\cypress\\support"
   ],
-  "SelectedNode": "\\cypress.json",
+  "SelectedNode": "\\cypress\\integration\\TEST\\test_specs.js",
   "PreviewInSolutionExplorer": false
 }

@@ -277,6 +277,8 @@ describe("The user is able to open item in the 'New meeting with session' type o
     });
 
     it("Click on the “Open Item” button", function() {
+        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.wait(1000)
         cy.get('#open-agenda-point-button').click()
         cy.wait(1000)
     });
@@ -394,6 +396,8 @@ describe("The user is able to activate voting in the 'New meeting with session' 
     });
 
     it("Click on the “Activate voting” button", function() {
+        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.wait(1000)
         cy.get('#open-point-votings-button').click()
         cy.wait(1000)
     });
@@ -511,6 +515,8 @@ describe("The user is able to close voting on item in the 'New meeting with sess
     });
 
     it("Click on the “Activate voting” button", function() {
+        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.wait(1000)
         cy.get('#open-point-votings-button').click()
         cy.wait(1000)
     });
@@ -633,6 +639,8 @@ describe("The user is able to close item in the 'New meeting with session' type 
     });
 
     it("Click on the “Open Item” button", function() {
+        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.wait(1000)
         cy.get('#open-agenda-point-button').click()
         cy.wait(1000)
     });
@@ -755,6 +763,8 @@ describe("The user is able to pause the meeting in the 'New meeting with session
     });
 
     it("Click on the “Open Item” button", function() {
+        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.wait(1000)
         cy.get('#open-agenda-point-button').click()
         cy.wait(1000)
     });
@@ -891,6 +901,8 @@ describe("The user is able to resume the meeting in the 'New meeting with sessio
     });
 
     it("Click on the “Open Item” button", function() {
+        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.wait(1000)
         cy.get('#open-agenda-point-button').click()
         cy.wait(1000)
     });
@@ -915,7 +927,7 @@ describe("The user is able to resume the meeting in the 'New meeting with sessio
     });
 
     it("Click on the 'Resume the meeting'", function() {
-        cy.get('#MISSING_ID').click()
+        cy.get('#council-menu-pause-council').click()
         cy.wait(1000)
     });
 
@@ -1032,6 +1044,8 @@ describe("The user is able to reopen voting in the 'New meeting with session' ty
     });
 
     it("Click on the “Activate voting” button", function() {
+        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.wait(1000)
         cy.get('#open-point-votings-button').click()
         cy.wait(1000)
     });
@@ -1042,6 +1056,8 @@ describe("The user is able to reopen voting in the 'New meeting with session' ty
     });
 
     it("Click on the 'Reopen voting' button", function() {
+        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.wait(1000)
         cy.get('#open-point-votings-button').click()
         cy.wait(1000)
     });
@@ -1159,6 +1175,8 @@ describe("The user is able to end meeting in the 'New meeting with session' sect
     });
 
     it("Click on the “Activate voting” button", function() {
+        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.wait(1000)
         cy.get('#open-point-votings-button').click()
         cy.wait(1000)
     });
@@ -1169,6 +1187,8 @@ describe("The user is able to end meeting in the 'New meeting with session' sect
     });
 
     it("Click on the 'Open item' button", function() {
+        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.wait(1000)
         cy.get('#open-agenda-point-button').click()
         cy.wait(1000)
     });
@@ -1255,7 +1275,7 @@ describe("The user is able to download meeting in 'Recordings' section", functio
     });
 
     it("Select the checkbox next to the “Recording of entire meeting” option and click on the 'Next' button", function() {       
-        cy.get('#MISSING_ID').click()
+        cy.get('#council-options-full-recording').click()
         cy.wait(1000)
     });
 
@@ -1303,6 +1323,8 @@ describe("The user is able to download meeting in 'Recordings' section", functio
     });
 
     it("Click on the “Activate voting” button", function() {
+        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.wait(1000)
         cy.get('#open-point-votings-button').click()
         cy.wait(1000)
     });
@@ -1313,6 +1335,8 @@ describe("The user is able to download meeting in 'Recordings' section", functio
     });
 
     it("Click on the 'Open item' button", function() {
+        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.wait(1000)
         cy.get('#open-agenda-point-button').click()
         cy.wait(1000)
     });
@@ -1449,6 +1473,8 @@ describe("The user is able to finalize and approve act in 'Minutes' section", fu
     });
 
     it("Click on the “Activate voting” button", function() {
+        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.wait(1000)
         cy.get('#open-point-votings-button').click()
         cy.wait(1000)
     });
@@ -1459,6 +1485,8 @@ describe("The user is able to finalize and approve act in 'Minutes' section", fu
     });
 
     it("Click on the 'Open item' button", function() {
+        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.wait(1000)
         cy.get('#open-agenda-point-button').click()
         cy.wait(1000)
     });
@@ -1593,6 +1621,8 @@ describe("The user is able to open the 'Comments on the meeting' section", funct
     });
 
     it("Click on the “Activate voting” button", function() {
+        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.wait(1000)
         cy.get('#open-point-votings-button').click()
         cy.wait(1000)
     });
@@ -1603,6 +1633,8 @@ describe("The user is able to open the 'Comments on the meeting' section", funct
     });
 
     it("Click on the 'Open item' button", function() {
+        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.wait(1000)
         cy.get('#open-agenda-point-button').click()
         cy.wait(1000)
     });
@@ -1737,6 +1769,8 @@ describe("The user is able to export the 'Comments on the meeting' to the PDF", 
     });
 
     it("Click on the “Activate voting” button", function() {
+        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.wait(1000)
         cy.get('#open-point-votings-button').click()
         cy.wait(1000)
     });
@@ -1747,6 +1781,8 @@ describe("The user is able to export the 'Comments on the meeting' to the PDF", 
     });
 
     it("Click on the 'Open item' button", function() {
+        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.wait(1000)
         cy.get('#open-agenda-point-button').click()
         cy.wait(1000)
     });
@@ -1886,6 +1922,8 @@ describe("The user is able to open the 'Show the list of attendees' section", fu
     });
 
     it("Click on the “Activate voting” button", function() {
+        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.wait(1000)
         cy.get('#open-point-votings-button').click()
         cy.wait(1000)
     });
@@ -1896,6 +1934,8 @@ describe("The user is able to open the 'Show the list of attendees' section", fu
     });
 
     it("Click on the 'Open item' button", function() {
+        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.wait(1000)
         cy.get('#open-agenda-point-button').click()
         cy.wait(1000)
     });

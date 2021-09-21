@@ -16,7 +16,3 @@ module.exports = (on, config) => {
   // `config` is the resolved Cypress config
 }
 
-const selectTestsWithGrep = require('cypress-select-tests/grep')
-module.exports = (on, config) => {
-  on('file:preprocessor', selectTestsWithGrep(config))
-}
