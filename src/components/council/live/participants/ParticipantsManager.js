@@ -23,6 +23,7 @@ const ParticipantsManager = ({
 }) => {
 	const optionsPartipants = JSON.parse(sessionStorage.getItem('optionsParticipants'));
 	const [state, setState] = React.useState(optionsPartipants || initialState);
+	const [isMenu, setIsMenu] = React.useState(false);
 	const [participants, setParticipants] = React.useState(null);
 	const [filters, setFilters] = useOldState({
 		typeStatus: null,
@@ -151,10 +152,11 @@ const ParticipantsManager = ({
 				limit={state.limit}
 				filters={filters}
 				setFilters={setFilters}
-				menuOpen={state.open}
+				menuOpen={isMenu}
 				editParticipant={editParticipant}
 				addGuest={addGuest}
 				updateState={updateState}
+				updateMenu={setIsMenu}
 			/>
 		);
 	};
@@ -170,40 +172,56 @@ const ParticipantsManager = ({
 				backgroundColor: 'white',
 				borderBottom: '1px solid gainsboro',
 				position: 'relative',
-				overflow: 'hidden'
+				overflow: 'hidden',
+				paddingRight: '1.313rem'
 			}}
 		>
 			<div style={{ overflow: 'hidden', marginRight: '0.6em', display: 'flex' }}>
 				<FilterButton
 					tooltip={translate.grid}
-					onClick={() => setState({ ...state, layout: 'squares', open: false })}
+					onClick={() => {
+						setState({ ...state, layout: 'squares' });
+						setIsMenu(false);
+					}}
 					active={state.layout === 'squares'}
-					size={'2.55em'}
+					styles={{
+						height: '2.5rem',
+						width: '2.5rem',
+					}}
 				>
 					<i className="fa fa-th-large" style={{
 						color: primary,
-						fontSize: '0.9em'
+						fontSize: '1.5rem'
 					}} />
 				</FilterButton>
 				<FilterButton
 					tooltip={translate.table}
-					onClick={() => setState({ ...state, layout: 'table', open: false })}
+					onClick={() => {
+						setState({ ...state, layout: 'table' });
+						setIsMenu(false);
+					}}
 					active={state.layout === 'table'}
-					size={'2.55em'}
+					styles={{
+						height: '2.5rem',
+						width: '2.5rem',
+					}}
 				>
 					<i className="fa fa-th-list" style={{
 						color: primary,
-						fontSize: '0.9em'
+						fontSize: '1.5rem'
 					}} />
 				</FilterButton>
 			</div>
 
-			<div style={{ minWidth: '14em' }}>
+			<div style={{ minWidth: '14em', padding: '.5rem 0' }}>
 				<SelectInput
 					fullWidth
 					floatingText={translate.visualization_type}
 					value={state.view}
-					onChange={(event => changeView({ view: event.target.value, limit: 24, open: false }))}
+					onChange={(event => {
+						changeView({ view: event.target.value, limit: 24 });
+						setIsMenu(false);
+					})}
 				>
 					<MenuItem value={'STATES'}>
 						{translate.by_participant_state}
@@ -254,7 +272,7 @@ const ParticipantsManager = ({
 					>
 						<CollapsibleSection
 							trigger={() => <span />}
-							open={state.open}
+							open={isMenu}
 							collapse={renderTableOptions}
 						/>
 						{state.editParticipant}
