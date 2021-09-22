@@ -35,6 +35,10 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	const landscape = isLandscape() || window.innerWidth > 700;
 	const participant = { ...data.liveParticipant };
 
+	const [state, setState] = React.useState({
+		isDelegatedVotes: false
+	});
+
 	const showStateMenu = () => !(participant.representatives && participant.representatives.length > 0);
 
 	const refreshEmailStates = async () => {
@@ -51,11 +55,6 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 		}
 	};
 
-
-	React.useEffect(() => {
-	}, [data.refetch, participant]);
-
-
 	React.useEffect(() => {
 		let interval;
 		if (participant.id) {
@@ -64,6 +63,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 		}
 		return () => clearInterval(interval);
 	}, [participant.id]);
+
 
 	if (!data.liveParticipant) {
 		return <LoadingSection />;
@@ -159,6 +159,8 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 											council={props.council}
 											translate={translate}
 											refetch={data.refetch}
+											state={state}
+											updateState={setState}
 										/>
 									</GridItem>
 									<GridItem xs={12} md={6} lg={6}>
@@ -202,12 +204,14 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 								type={PARTICIPANT_STATES.REPRESENTATED}
 							/>
 						}
-						<OwnedVotesSection
+						{participant.hasDelegatedVotes && <OwnedVotesSection
 							translate={translate}
 							participant={participant}
 							council={props.council}
 							data={data}
-						/>
+							state={state}
+							updateState={setState}
+						/>}
 						{CBX.hasHisVoteDelegated(participant)
 							&& <ParticipantBlock
 								{...props}

@@ -8,11 +8,11 @@ import { PARTICIPANT_STATES } from '../../../../../constants';
 import OwnedVotesModal from './OwnedVotesModal';
 import OwnedVotesRecountSection from './OwnedVotesRecountSection';
 
-
-const OwnedVotesSection = ({ participant, translate, client, council }) => {
+const OwnedVotesSection = ({ participant, translate, client, council, ...props }) => {
 	const [data, setData] = React.useState(null);
 	const [modal, setModal] = React.useState(false);
 	const [loading, setLoading] = React.useState(true);
+
 
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
@@ -22,7 +22,7 @@ const OwnedVotesSection = ({ participant, translate, client, council }) => {
 					$filters: [FilterInput]
 					$options: OptionsInput
 				) {
-					participantOwnedVotes(
+					participantOwnedVotes( 
 						participantId: $participantId
 						filters: $filters
 						options: $options
@@ -46,25 +46,30 @@ const OwnedVotesSection = ({ participant, translate, client, council }) => {
 				}
 			}
 		});
-
-		setData(response.data);
-		setLoading(false);
+		if (!response.errors) {
+			setData(response.data);
+			props.data.refetch();
+			setLoading(false);
+		}
 	}, [participant.id]);
+
 
 	React.useEffect(() => {
 		if (client) {
 			getData();
 		}
-	}, [getData, client]);
+	}, [getData, client, props.state.isDelegatedVotes]);
+
 
 	if (loading) {
 		return <LoadingSection />;
 	}
 
+
 	return (
 		<>
 			{(data.participantOwnedVotes && data.participantOwnedVotes.list.length > 0)
-			&&
+				&&
 				<>
 					<OwnedVotesModal
 						open={modal}
@@ -89,12 +94,12 @@ const OwnedVotesSection = ({ participant, translate, client, council }) => {
 							translate={translate}
 							action={
 								delegatedVote.state === PARTICIPANT_STATES.DELEGATED &&
-									<RemoveDelegationButton
-										delegatedVote={delegatedVote}
-										participant={participant}
-										translate={translate}
-										refetch={getData}
-									/>
+								<RemoveDelegationButton
+									delegatedVote={delegatedVote}
+									participant={participant}
+									translate={translate}
+									refetch={getData}
+								/>
 							}
 							data={data}
 							type={delegatedVote.state === PARTICIPANT_STATES.DELEGATED ? 3 : 5}
