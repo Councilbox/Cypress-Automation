@@ -106,6 +106,28 @@ const VotingsTable = ({
 		return `(${getPercentage(value, props.recount.partTotal)}%)`;
 	};
 
+	const defaultZero = value => (value || 0);
+	const printPercentageTotal = (num, base = null) => {
+		const totalVotes = defaultZero(agenda.votingsRecount.positiveVotings)
+			+ defaultZero(agenda.votingsRecount.positiveManual)
+			+ defaultZero(agenda.votingsRecount.negativeVotings)
+			+ defaultZero(agenda.votingsRecount.negativeManual)
+			+ defaultZero(agenda.votingsRecount.abstentionVotings)
+			+ defaultZero(agenda.votingsRecount.abstentionManual)
+			+ defaultZero(agenda.votingsRecount.noVoteVotings)
+			+ defaultZero(agenda.votingsRecount.noVoteManual);
+		if (props.company.type === 10) {
+			return '';
+		}
+		const total = base || (totalVotes + props.recount.treasuryShares);
+
+		if (total === 0) {
+			return '(0%)';
+		}
+
+		return `(${((num / total) * 100).toFixed(3)}%)`;
+	};
+
 	let votings = [];
 
 	if (data.agendaVotings) {
@@ -116,7 +138,7 @@ const VotingsTable = ({
 		const vote = getActiveVote(agendaVoting);
 
 		if (!vote) {
-			return <span/>;
+			return <span />;
 		}
 
 		return (
@@ -296,7 +318,6 @@ const VotingsTable = ({
 				backgroundColor: 'white',
 				margin: '0px',
 				// overflow: "hidden"
-
 			}}
 		>
 			<GridItem
@@ -326,7 +347,7 @@ const VotingsTable = ({
 									tooltip={`${translate.filter_by} - ${props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ?
 										translate.without_selection
 										: translate.no_vote
-									}`}
+										}`}
 								>
 									<VotingValueIcon vote={VOTE_VALUES.NO_VOTE} />
 								</FilterButton>
@@ -336,7 +357,7 @@ const VotingsTable = ({
 									tooltip={`${translate.filter_by} - ${props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ?
 										translate.they_accept
 										: translate.positive_votings
-									}`}
+										}`}
 								>
 									<VotingValueIcon vote={VOTE_VALUES.POSITIVE} />
 								</FilterButton>
@@ -344,7 +365,7 @@ const VotingsTable = ({
 									tooltip={`${translate.filter_by} - ${props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ?
 										translate.they_refuse
 										: translate.negative_votings
-									}`}
+										}`}
 									active={state.voteFilter === VOTE_VALUES.NEGATIVE}
 									onClick={() => props.changeVoteFilter(VOTE_VALUES.NEGATIVE)}
 								>
@@ -398,6 +419,46 @@ const VotingsTable = ({
 				</GridItem>
 			}
 			<GridItem xs={4} md={8} lg={8}>
+
+				{state.voteFilter === 'all' &&
+					<div style={{
+						border: '1px solid gainsboro',
+						padding: '0.8em',
+						display: 'inline-flex',
+						alignItems: 'center',
+						fontWeight: 'bold'
+					}}>
+						<div>{translate.no_vote_lowercase}: {agenda.votingsRecount.noVoteVotings} {printPercentageTotal(agenda.votingsRecount.noVoteVotings + agenda.votingsRecount.noVoteManual)}</div>
+						<div style={{ margin: '0 .5em' }}>|</div>
+						<div>{translate.positive_votings}: {agenda.votingsRecount.positiveVotings} {printPercentageTotal(agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual)}</div>
+						<div style={{ margin: '0 .5em' }}>|</div>
+						<div>{translate.negative_votings}: {agenda.votingsRecount.negativeVotings} {printPercentageTotal(agenda.votingsRecount.negativeVotings + agenda.votingsRecount.negativeManual)}</div>
+						<div style={{ margin: '0 .5em' }}>|</div>
+						<div>{translate.abstention_lowercase}: {agenda.votingsRecount.abstentionVotings} {printPercentageTotal(agenda.votingsRecount.abstentionVotings + agenda.votingsRecount.abstentionManual)}</div>
+					</div>
+				}
+				{state.voteFilter !== 'all' &&
+					<div style={{
+						border: '1px solid gainsboro',
+						padding: '0.8em',
+						display: 'inline-flex',
+						alignItems: 'center',
+						fontWeight: 'bold'
+					}}>
+						{state.voteFilter === VOTE_VALUES.NO_VOTE &&
+							<div>{translate.no_vote_lowercase}: {agenda.votingsRecount.noVoteVotings} {printPercentageTotal(agenda.votingsRecount.noVoteVotings + agenda.votingsRecount.noVoteManual)}</div>
+						}
+						{state.voteFilter === VOTE_VALUES.POSITIVE &&
+							<div>{translate.positive_votings}: {agenda.votingsRecount.positiveVotings} {printPercentageTotal(agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual)}</div>
+						}
+						{state.voteFilter === VOTE_VALUES.NEGATIVE &&
+							<div>{translate.negative_votings}: {agenda.votingsRecount.negativeVotings} {printPercentageTotal(agenda.votingsRecount.negativeVotings + agenda.votingsRecount.negativeManual)}</div>
+						}
+						{state.voteFilter === VOTE_VALUES.ABSTENTION &&
+							<div>{translate.abstention_lowercase}: {agenda.votingsRecount.abstentionVotings} {printPercentageTotal(agenda.votingsRecount.abstentionVotings + agenda.votingsRecount.abstentionManual)}</div>
+						}
+					</div>
+				}
 			</GridItem>
 			<GridItem xs={8} md={4} lg={4}>
 				<TextInput
