@@ -36,7 +36,8 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	const participant = { ...data.liveParticipant };
 
 	const [state, setState] = React.useState({
-		isDelegatedVotes: false
+		isOwnedVotes: false,
+		isDelegateVotes: false,
 	});
 
 	const showStateMenu = () => !(participant.representatives && participant.representatives.length > 0);
@@ -68,6 +69,13 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	if (!data.liveParticipant) {
 		return <LoadingSection />;
 	}
+
+	const updateState = object => {
+		setState({
+			...state,
+			...object
+		});
+	};
 
 
 	return (
@@ -160,7 +168,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 											translate={translate}
 											refetch={data.refetch}
 											state={state}
-											updateState={setState}
+											updateState={updateState}
 										/>
 									</GridItem>
 									<GridItem xs={12} md={6} lg={6}>
@@ -210,7 +218,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 							council={props.council}
 							data={data}
 							state={state}
-							updateState={setState}
+							updateState={updateState}
 						/>}
 						{CBX.hasHisVoteDelegated(participant)
 							&& <ParticipantBlock

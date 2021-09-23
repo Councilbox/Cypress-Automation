@@ -55,9 +55,10 @@ const DelegateVoteModal = ({
 
 		if (!response.errors) {
 			setData(response.data);
+			props.updateState({ isOwnedVotes: false, isDelegateVotes: false });
 			setLoading(false);
 		}
-	}, [filters.text, participant.id, participant.hasDelegatedVotes]);
+	}, [filters.text, participant.id, props.state.isDelegateVotes]);
 
 	const getMore = React.useCallback(async () => {
 		if (options.offset !== 0) {
@@ -113,6 +114,7 @@ const DelegateVoteModal = ({
 			getData();
 			getMore();
 			close();
+			props.updateState({ isOwnedVotes: true, isDelegateVotes: false });
 		} else if (response.errors[0].code === 710) {
 			toast(
 				<LiveToast

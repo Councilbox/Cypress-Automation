@@ -49,16 +49,22 @@ const OwnedVotesSection = ({ participant, translate, client, council, ...props }
 		if (!response.errors) {
 			setData(response.data);
 			props.data.refetch();
+			props.updateState({ isOwnedVotes: false, isDelegateVotes: false });
 			setLoading(false);
 		}
 	}, [participant.id]);
+
+	const remove = () => {
+		getData();
+		props.updateState({ isOwnedVotes: false, isDelegateVotes: true });
+	};
 
 
 	React.useEffect(() => {
 		if (client) {
 			getData();
 		}
-	}, [getData, client, props.state.isDelegatedVotes]);
+	}, [getData, client, props.state.isOwnedVotes]);
 
 
 	if (loading) {
@@ -98,7 +104,7 @@ const OwnedVotesSection = ({ participant, translate, client, council, ...props }
 									delegatedVote={delegatedVote}
 									participant={participant}
 									translate={translate}
-									refetch={getData}
+									refetch={remove}
 								/>
 							}
 							data={data}
