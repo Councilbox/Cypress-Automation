@@ -189,6 +189,17 @@ const StepOptions = ({
 			return true;
 		}
 
+		if (!council.contactEmail) {
+			setState({
+				...state,
+				errors: {
+					...state.errors,
+					contactEmail: translate.required_field
+				}
+			});
+			return true;
+		}
+
 		if (council.contactEmail && !checkValidEmail(council.contactEmail)) {
 			setState({
 				...state,
