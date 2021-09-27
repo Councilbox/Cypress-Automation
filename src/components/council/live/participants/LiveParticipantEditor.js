@@ -37,7 +37,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 
 	const showStateMenu = () => !(participant.representatives && participant.representatives.length > 0);
 
-	const refreshEmailStates = async () => {
+	const refreshEmailStates = React.useCallback(async () => {
 		const response = await props.updateParticipantSends({
 			variables: {
 				participantId: showStateMenu() ? data.liveParticipant.id : participant.representatives[0].id
@@ -46,10 +46,10 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 
 		if (response.data.updateParticipantSends.success) {
 			if (data.refetch) {
-				data.refetch();
+				await data.refetch();
 			}
 		}
-	};
+	});
 
 	React.useEffect(() => {
 		let interval;
