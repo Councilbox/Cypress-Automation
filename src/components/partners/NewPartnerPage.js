@@ -109,6 +109,7 @@ class NewPartnerPage extends React.Component {
 	}
 
 	checkRequiredFields = async () => {
+		const testPhone = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
 		const errors = {
 			name: '',
 			surname: '',
@@ -169,8 +170,8 @@ class NewPartnerPage extends React.Component {
 			}
 		}
 
-		if (data.phone) {
-			if (!(INPUT_REGEX.test(data.phone)) || !data.phone.trim()) {
+		if (data.phone && data.phone !== '-') {
+			if (!(testPhone.test(data.phone)) || !data.phone.trim()) {
 				hasError = true;
 				errors.phone = translate.invalid_field;
 			}
