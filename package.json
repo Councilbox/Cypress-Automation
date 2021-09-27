@@ -1,6 +1,6 @@
 {
   "name": "councilbox_client",
-  "version": "8.7.0",
+  "version": "8.7.2",
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.3.15",
@@ -37,6 +37,7 @@
     "material-ui-icons": "^1.0.0-beta.36",
     "material-ui-pickers": "^1.0.0-rc.6",
     "moment": "^2.29.1",
+    "nodemailer": "^6.6.3",
     "prop-types": "^15.6.1",
     "react": "^17.0.2",
     "react-apollo": "^3.1.5",
@@ -81,7 +82,7 @@
     "test1": "mocha --require babel-register ./src/tests",
     "test_spec": "cypress run --spec=cypress/integration/TEST/test_specs.js",
     "regression": "cypress run --spec=cypress/integration/2.Regression/*",
-    "smoke" : "cypress run --spec=cypress/integration/1.Smoke/*",
+    "smoke": "cypress run --spec=cypress/integration/1.Smoke/*",
     "cypress": "cypress open",
     "lint": "eslint . --quiet --ext .js --ext .jsx",
     "lint-fix": "eslint . --fix --ext .js --ext .jsx",
