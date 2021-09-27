@@ -177,6 +177,8 @@ class ParticipantSelectActions extends React.Component {
 						council={council}
 						participant={participant}
 						refetch={this.props.refetch}
+						state={this.props.state}
+						updateState={this.props.updateState}
 						requestClose={() => this.setState({ delegateVote: false })
 						}
 						translate={translate}
