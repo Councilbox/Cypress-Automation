@@ -78,13 +78,10 @@ class ParticipantSelectActions extends React.Component {
 						council={council}
 						participant={participant}
 						refetch={this.props.refetch}
-						requestClose={() => this.setState({ delegateVote: false })
-						}
+						requestClose={() => this.setState({ delegateVote: false })}
 						translate={translate}
 					/>
 				</div>
-				// </GridItem>
-				// )
 			);
 		}
 		return (
@@ -160,8 +157,7 @@ class ParticipantSelectActions extends React.Component {
 						council={council}
 						participant={participant}
 						refetch={this.props.refetch}
-						requestClose={() => this.setState({ delegateOwnVote: false })
-						}
+						requestClose={() => this.setState({ delegateOwnVote: false })}
 						translate={translate}
 					/>
 				}
@@ -177,10 +173,7 @@ class ParticipantSelectActions extends React.Component {
 						council={council}
 						participant={participant}
 						refetch={this.props.refetch}
-						state={this.props.state}
-						updateState={this.props.updateState}
-						requestClose={() => this.setState({ delegateVote: false })
-						}
+						requestClose={() => this.setState({ delegateVote: false })}
 						translate={translate}
 					/>
 				)}
