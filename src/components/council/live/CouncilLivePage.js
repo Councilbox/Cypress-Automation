@@ -371,7 +371,7 @@ const CouncilLivePage = ({ translate, data, company }) => {
 						width: `${showVideo(council) ?
 							100 - state.videoWidth - '0.5'
 							: 100
-						}%`,
+							}%`,
 						height: '100%',
 						marginLeft: '5px',
 						position: 'relative'
@@ -444,7 +444,8 @@ const CouncilLivePage = ({ translate, data, company }) => {
 								{(state.tab === LIVE_TABS.AGENDA || state.fullScreen)
 									&& <div style={{ height: 'calc( 100% - 2em )', position: 'relative' }}>
 										{council.state === COUNCIL_STATES.PAUSED
-											&& <DisabledSection>
+											&&
+											<DisabledSection fullScreen={state.fullScreen}>
 												<div style={{ marginBottom: '1em' }}>
 													{translate.council_paused}
 												</div>
