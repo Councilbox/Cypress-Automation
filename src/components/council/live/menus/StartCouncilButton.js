@@ -489,7 +489,6 @@ const StartCouncilButton = ({
 									</GridItem>
 									<GridItem xs={4} md={4} lg={4}>
 										<button
-											title={translate.select_quality_vote}
 											id="council-quality-vote-select"
 											style={buttonStyle(primary)}
 											onClick={() => setState({ selecting: 3 })}
