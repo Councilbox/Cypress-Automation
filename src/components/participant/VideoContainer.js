@@ -74,7 +74,7 @@ const VideoContainer = ({
 		return (
 			<iframe
 				title="meetingScreen"
-				allow="geolocation; microphone; camera; autoplay"
+				allow="geolocation; microphone; camera; autoplay; display-capture"
 				scrolling="no"
 				className="temp_video"
 				src={`https://${url}?rand=${rand}`}
