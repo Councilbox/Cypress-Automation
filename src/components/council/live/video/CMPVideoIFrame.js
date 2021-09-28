@@ -108,7 +108,7 @@ const CMPVideoIFrame = props => {
 					<iframe
 						id="admin-room-iframe"
 						title="meetingScreen"
-						allow="geolocation; microphone; camera"
+						allow="geolocation; microphone; camera; display-capture"
 						scrolling="no"
 						className="temp_video"
 						src={`https://${data.roomVideoURL}?rand=${adminId.current}`}
