@@ -129,7 +129,7 @@ export const checkRequiredFieldsRepresentative = (participant, translate) => {
 	}
 
 	if (participant.dni) {
-		if (!(regex.test(participant.surname)) || !participant.surname.trim()) {
+		if (!(regex.test(participant.dni)) || !participant.dni.trim()) {
 			errors.dni = translate.invalid_field;
 			hasError = true;
 		}
