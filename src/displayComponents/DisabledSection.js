@@ -43,6 +43,6 @@ const DisabledSection = ({ children, fullScreen }) => {
 
 		</div>
 	);
-}
+};
 
 export default DisabledSection;
