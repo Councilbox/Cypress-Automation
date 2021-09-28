@@ -162,7 +162,7 @@ const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
 								loading={state.loading}
 								success={state.success}
 								reset={resetButtonStates}
-								text={state.loading || state.success ? 'Guardado' : translate.save}
+								text={state.loading || state.success ? translate.saved : translate.save}
 								// text={translate.save}
 								textStyle={{ color: 'white', fontWeight: '700' }}
 								color={getSecondary()}
