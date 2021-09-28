@@ -46,19 +46,15 @@ const DelegateVoteModal = ({
 		return variables;
 	};
 
-
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
 			query: participantsWhoCanDelegate,
 			variables: buildVariables()
 		});
 
-		if (!response.errors) {
-			setData(response.data);
-			props.updateState({ isOwnedVotes: false, isDelegateVotes: false });
-			setLoading(false);
-		}
-	}, [filters.text, participant.id, props.state.isDelegateVotes]);
+		setData(response.data);
+		setLoading(false);
+	}, [filters.text, participant.id]);
 
 	const getMore = React.useCallback(async () => {
 		if (options.offset !== 0) {
@@ -96,7 +92,6 @@ const DelegateVoteModal = ({
 	};
 
 	const close = () => {
-		props.refetch();
 		props.requestClose();
 	};
 
@@ -111,10 +106,8 @@ const DelegateVoteModal = ({
 		);
 
 		if (!response.errors) {
-			getData();
-			getMore();
+			props.refetch();
 			close();
-			props.updateState({ isOwnedVotes: true, isDelegateVotes: false });
 		} else if (response.errors[0].code === 710) {
 			toast(
 				<LiveToast

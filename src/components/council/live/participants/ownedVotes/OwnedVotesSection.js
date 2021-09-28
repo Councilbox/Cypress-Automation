@@ -1,6 +1,4 @@
 import React from 'react';
-import { withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
 import RemoveDelegationButton from '../RemoveDelegationButton';
 import { ParticipantBlock } from '../LiveParticipantEditor';
 import { Grid, LoadingSection } from '../../../../../displayComponents';
@@ -8,74 +6,18 @@ import { PARTICIPANT_STATES } from '../../../../../constants';
 import OwnedVotesModal from './OwnedVotesModal';
 import OwnedVotesRecountSection from './OwnedVotesRecountSection';
 
-const OwnedVotesSection = ({ participant, translate, client, council, ...props }) => {
-	const [data, setData] = React.useState(null);
+
+const OwnedVotesSection = ({ participant, translate, council, loading, ownedVotes, updateOwnedVotes }) => {
 	const [modal, setModal] = React.useState(false);
-	const [loading, setLoading] = React.useState(true);
-
-
-	const getData = React.useCallback(async () => {
-		const response = await client.query({
-			query: gql`
-				query ParticipantOwnedVotesLimited(
-					$participantId: Int!
-					$filters: [FilterInput]
-					$options: OptionsInput
-				) {
-					participantOwnedVotes( 
-						participantId: $participantId
-						filters: $filters
-						options: $options
-					) {
-						list {
-							id
-							name
-							surname
-							state
-						}
-						total
-						meta
-					}
-				}
-			`,
-			variables: {
-				participantId: participant.id,
-				options: {
-					limit: 15,
-					offset: 0
-				}
-			}
-		});
-		if (!response.errors) {
-			setData(response.data);
-			props.data.refetch();
-			props.updateState({ isOwnedVotes: false, isDelegateVotes: false });
-			setLoading(false);
-		}
-	}, [participant.id]);
-
-	const remove = () => {
-		getData();
-		props.updateState({ isOwnedVotes: false, isDelegateVotes: true });
-	};
-
-
-	React.useEffect(() => {
-		if (client) {
-			getData();
-		}
-	}, [getData, client, props.state.isOwnedVotes]);
-
 
 	if (loading) {
 		return <LoadingSection />;
 	}
 
-
 	return (
 		<>
-			{(data.participantOwnedVotes && data.participantOwnedVotes.list.length > 0)
-				&&
+			{(ownedVotes && ownedVotes.list.length > 0)
+			&&
 				<>
 					<OwnedVotesModal
 						open={modal}
@@ -84,15 +26,15 @@ const OwnedVotesSection = ({ participant, translate, client, council, ...props }
 						requestClose={() => setModal(false)}
 						participant={participant}
 					/>
-					{data.participantOwnedVotes.meta &&
+					{ownedVotes.meta &&
 						<OwnedVotesRecountSection
-							ownedVotesMeta={data.participantOwnedVotes.meta}
+							ownedVotesMeta={ownedVotes.meta}
 							participant={participant}
 							translate={translate}
 							council={council}
 						/>
 					}
-					{data.participantOwnedVotes.list.map((delegatedVote, index) => (
+					{ownedVotes.list.map((delegatedVote, index) => (
 						<ParticipantBlock
 							key={`participantBlock_deletedVoted_${index}`}
 							active={false}
@@ -100,18 +42,18 @@ const OwnedVotesSection = ({ participant, translate, client, council, ...props }
 							translate={translate}
 							action={
 								delegatedVote.state === PARTICIPANT_STATES.DELEGATED &&
-								<RemoveDelegationButton
-									delegatedVote={delegatedVote}
-									participant={participant}
-									translate={translate}
-									refetch={remove}
-								/>
+									<RemoveDelegationButton
+										delegatedVote={delegatedVote}
+										participant={participant}
+										translate={translate}
+										refetch={updateOwnedVotes}
+									/>
 							}
-							data={data}
+							data={ownedVotes}
 							type={delegatedVote.state === PARTICIPANT_STATES.DELEGATED ? 3 : 5}
 						/>
 					))}
-					{data.participantOwnedVotes.total > 15 &&
+					{ownedVotes.total > 15 &&
 						<Grid
 							style={{
 								marginBottom: '1em',
@@ -128,7 +70,7 @@ const OwnedVotesSection = ({ participant, translate, client, council, ...props }
 							}}
 							onClick={() => setModal(true)}
 						>
-							{translate.num_delegated_votes_see_all.replace(/{{number}}/, data.participantOwnedVotes.total - 15)}
+							{translate.num_delegated_votes_see_all.replace(/{{number}}/, ownedVotes.total - 15)}
 						</Grid>
 					}
 				</>
@@ -137,4 +79,4 @@ const OwnedVotesSection = ({ participant, translate, client, council, ...props }
 	);
 };
 
-export default withApollo(OwnedVotesSection);
+export default OwnedVotesSection;
