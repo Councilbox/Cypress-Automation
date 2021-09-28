@@ -23,7 +23,7 @@ import ConveneSelector from '../ConveneSelector';
 import { startCouncil as startCouncilMutation } from '../../../../queries/council';
 import { useOldState } from '../../../../hooks';
 import StartCouncilVideoOptions from './StartCouncilVideoOptions';
-import { isMobile } from 'react-device-detect';
+import { isMobile } from '../../../../utils/screen';
 
 const buttonStyle = primary => ({
 	backgroundColor: 'white',
