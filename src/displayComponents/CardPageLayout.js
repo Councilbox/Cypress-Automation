@@ -9,11 +9,11 @@ import { bHistory } from '../containers/App';
 
 
 const CardPageLayout = ({
-	children, title, footer, windowSize, stylesNoScroll, avatar, disableScroll = false, inMenuExact
+	children, title, footer, windowSize, stylesNoScroll, avatar, disableScroll = false, inMenuExact = false
 }) => {
 	const goBack = () => {
 		if (inMenuExact) {
-			bHistory.push('/company/569/drafts/plantillas');
+			bHistory.push(inMenuExact);
 		} else {
 			bHistory.back();
 		}
