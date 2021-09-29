@@ -188,7 +188,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
 										{moment(request.date).format('LLL')}
 									</TableCell>
 									<TableCell style={{ color: 'black', borderBottom: 'none' }}>
-										{request.state === '0' ? 'Pendiente' : 'Aceptada'}
+										{request.state === '0' ? translate.pending : request.state === '3' ? 'Archivada' : translate.accepted}
 									</TableCell>
 									<TableCell style={{ color: 'black', borderBottom: 'none' }}>
 										<CheckShareholderRequest
