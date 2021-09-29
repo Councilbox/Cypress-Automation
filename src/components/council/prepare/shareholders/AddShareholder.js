@@ -20,21 +20,33 @@ const getNumberValue = value => {
 	return num;
 };
 
+const cleanRequestData = participantData => ({
+	name: participantData.name,
+	surname: participantData.surname,
+	position: participantData.position,
+	dni: participantData.dni,
+	email: participantData.email,
+	phone: participantData.phone,
+	numParticipations: getNumberValue(participantData.numParticipations),
+	socialCapital: getNumberValue(
+		(Object.prototype.hasOwnProperty.call(participantData, 'socialCapital') &&
+		participantData.socialCapital &&
+		participantData.socialCapital !== 0) ?
+			participantData.socialCapital :
+			participantData.numParticipations),
+	personOrEntity: participantData.personOrEntity ? +participantData.personOrEntity : 0,
+	assistanceIntention: participantData.assistanceIntention ? +participantData.assistanceIntention : 0,
+	requestWord: participantData.requestWord ? +participantData.requestWord : 0,
+	initialState: Number.isNaN(Number(initialState)) ? 0 : initialState
+});
+
 
 const ApproveRequestButton = ({
 	request, client, refetch, council
 }) => {
 	const [modal, setModal] = React.useState(null);
-	const {
-		requestType, legalTermsAccepted, votes, delegate, attachments, earlyVotes, representative, ...cleanData
-	} = request.data;
-	cleanData.numParticipations = getNumberValue(cleanData.numParticipations);
-	cleanData.socialCapital = getNumberValue(
-		Object.prototype.hasOwnProperty.call(cleanData, 'socialCapital') ? cleanData.socialCapital : cleanData.numParticipations);
-	cleanData.personOrEntity = cleanData.personOrEntity ? +cleanData.personOrEntity : 0;
-	cleanData.assistanceIntention = cleanData.assistanceIntention ? +cleanData.assistanceIntention : 0;
-	cleanData.requestWord = cleanData.requestWord ? +cleanData.requestWord : 0;
-	cleanData.initialState = Number.isNaN(Number(initialState)) ? 0 : initialState;
+	const cleanData = cleanRequestData(request.data);
+	const { representative } = request.data;
 	const secondary = getSecondary();
 	const buttonColor = request.participantCreated ? 'grey' : secondary;
 
