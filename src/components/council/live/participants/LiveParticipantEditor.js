@@ -40,19 +40,19 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 
 	const showStateMenu = () => !(participant.representatives && participant.representatives.length > 0);
 
-	const refreshEmailStates = async () => {
+	const refreshEmailStates = React.useCallback(async () => {
 		const response = await props.updateParticipantSends({
 			variables: {
-				participantId: showStateMenu() ? data.liveParticipant.id : participant.representatives[0].id
+				participantId: showStateMenu() ? participant.id : participant.representatives[0].id
 			}
 		});
 
 		if (response.data.updateParticipantSends.success) {
-			if (data.refetch) {
-				data.refetch();
+			if (data.loading) {
+				await data.refetch();
 			}
 		}
-	};
+	}, [data]);
 
 	const updateOwnedVotes = React.useCallback(async () => {
 		if (participant.id) {
