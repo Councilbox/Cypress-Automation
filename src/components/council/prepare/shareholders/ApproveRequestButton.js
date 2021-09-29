@@ -10,8 +10,8 @@ const ApproveRequestButton = ({ request, client, refetch }) => {
 	const approveRequest = async () => {
 		await client.mutate({
 			mutation: gql`
-				mutation ApproveShareholderRequest($requestId: Int!, $shareholder: ParticipantInput){
-					approveShareholderRequest(requestId: $requestId, shareholder: $shareholder){
+				mutation ArchivedShareholderRequest($requestId: Int!, $shareholder: ParticipantInput){
+					archivedShareholderRequest(requestId: $requestId, shareholder: $shareholder){
 						success
 					}
 				}
@@ -35,7 +35,6 @@ const ApproveRequestButton = ({ request, client, refetch }) => {
 				}}
 				color="white"
 				textStyle={{ color: secondary }}
-				// onClick={approveRequest}
 			/>
 		</>
 	);
