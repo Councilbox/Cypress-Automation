@@ -117,7 +117,7 @@ const CheckShareholderRequest = ({
 										</div>
 									))}
 							</div>
-							: 
+							:
 							<VoteOwnerDisplay
 								participant={request.data.representative || request.data.delegate}
 								translate={translate}
