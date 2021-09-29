@@ -464,12 +464,7 @@ const CouncilLivePage = ({ translate, data, company }) => {
 												translate={translate}
 												fullScreen={state.fullScreen}
 												refetch={data.refetch}
-												openMenu={() => setState({
-													videoWidth: minVideoWidth,
-													videoHeight: minVideoHeight,
-													fullScreen: false
-												})
-												}
+												openMenu={() => setState(initScreenSizes('MIN'))}
 											/>
 										</div>
 									</div>
