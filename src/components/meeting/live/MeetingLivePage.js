@@ -104,7 +104,7 @@ const MeetingLivePage = () => {
 					&& <iframe
 						id="meeting-iframe"
 						title="meetingScreen"
-						allow="geolocation; microphone; camera"
+						allow="geolocation; microphone; camera; display-capture"
 						scrolling="no"
 						className="temp_video"
 						src={`https://${state.url}?rand=${rand}`}
