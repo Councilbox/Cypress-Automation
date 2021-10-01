@@ -3,7 +3,6 @@ import BasicButton from './BasicButton';
 import StateIcon from '../components/council/live/participants/StateIcon';
 import { PARTICIPANT_STATES } from '../constants';
 import { getSecondary } from '../styles/colors';
-import { isMobile } from '../utils/screen';
 import AddConvenedParticipantButton from '../components/council/prepare/modals/AddConvenedParticipantButton';
 import ButtonIcon from './ButtonIcon';
 import AddGuestModal from '../components/council/live/participants/AddGuestModal';
@@ -82,7 +81,7 @@ const DropdownParticipant = ({
 							}}
 						/>
 						<BasicButton
-							text={isMobile ? translate.invite_guest : translate.add_guest}
+							text={translate.add_guest}
 							color={'white'}
 							type="flat"
 							icon={<ButtonIcon type="add" color={getSecondary()} />}
