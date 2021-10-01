@@ -242,6 +242,13 @@ class AddCouncilParticipantButton extends React.Component {
 				}
 			}
 
+			if (representative.phone && representative.phone !== '-') {
+				if (!testPhone.test(representative.phone)) {
+					errorsRepresentative.hasError = true;
+					errorsRepresentative.errors.phone = translate.invalid_field;
+				}
+			}
+
 			if (representative.hasRepresentative && !representative.email) {
 				errorsRepresentative.errors.email = translate.field_required;
 				errorsParticipant.hasError = true;

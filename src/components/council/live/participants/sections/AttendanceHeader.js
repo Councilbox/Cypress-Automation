@@ -1,4 +1,5 @@
 import React from 'react';
+import { isMobile } from '../../../../../utils/screen';
 import { Grid } from '../../../../../displayComponents';
 import { PARTICIPANT_STATES } from '../../../../../constants';
 import { getSecondary } from '../../../../../styles/colors';
@@ -15,20 +16,18 @@ const AttendanceHeader = ({
 }) => (
 	<React.Fragment>
 		<Grid
-			spacing={0}
-			xs={12}
-			lg={12}
-			md={12}
 			style={{
 				width: '100%',
-				height: '3em',
+				minHeight: '3em',
 				borderBottom: '1px solid gainsboro',
-				display: 'flex',
-				flexDirection: 'row',
+				display: isMobile ? 'grid' : 'flex',
+				gridTemplateColumns: isMobile && 'repeat(auto-fit, minmax(80px, auto))',
+				flexDirection: !isMobile && 'row',
 				alignItems: 'center',
-				justifyContent: 'space-between',
+				justifyContent: !isMobile && 'space-between',
 				paddingLeft: '1.5em',
-				paddingRight: '2.5em'
+				paddingRight: isMobile ? '1.5em' : '2.5em',
+				margin: 0,
 			}}
 		>
 			<div

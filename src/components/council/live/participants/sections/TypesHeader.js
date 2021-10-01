@@ -22,7 +22,7 @@ const TypesHeader = ({
 			md={12}
 			style={{
 				width: '100%',
-				height: '3em',
+				minHeight: '3em',
 				borderBottom: '1px solid gainsboro',
 				display: 'flex',
 				flexDirection: 'row',

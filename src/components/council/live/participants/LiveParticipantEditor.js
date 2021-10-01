@@ -31,25 +31,71 @@ import { useParticipantContactEdit } from '../../../../hooks';
 import OwnedVotesSection from './ownedVotes/OwnedVotesSection';
 import DropdownRepresentative from '../../../../displayComponents/DropdownRepresentative';
 
-const LiveParticipantEditor = ({ data, translate, ...props }) => {
+const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
+	const [ownedVotes, setOwnedVotes] = React.useState(null);
+	const [loadingOwnedVotes, setLoadingOwnedVotes] = React.useState(true);
+
 	const landscape = isLandscape() || window.innerWidth > 700;
 	const participant = { ...data.liveParticipant };
 
 	const showStateMenu = () => !(participant.representatives && participant.representatives.length > 0);
 
-	const refreshEmailStates = async () => {
+	const refreshEmailStates = React.useCallback(async () => {
 		const response = await props.updateParticipantSends({
 			variables: {
-				participantId: showStateMenu() ? data.liveParticipant.id : participant.representatives[0].id
+				participantId: showStateMenu() ? participant.id : participant.representatives[0].id
 			}
 		});
 
 		if (response.data.updateParticipantSends.success) {
-			if (data.refetch) {
-				data.refetch();
+			if (data.loading) {
+				await data.refetch();
 			}
 		}
-	};
+	}, [data]);
+
+	const updateOwnedVotes = React.useCallback(async () => {
+		if (participant.id) {
+			const response = await client.query({
+				query: gql`
+					query ParticipantOwnedVotesLimited(
+						$participantId: Int!
+						$filters: [FilterInput]
+						$options: OptionsInput
+					) {
+						participantOwnedVotes(
+							participantId: $participantId
+							filters: $filters
+							options: $options
+						) {
+							list {
+								id
+								name
+								surname
+								state
+							}
+							total
+							meta
+						}
+					}
+				`,
+				variables: {
+					participantId: participant.id,
+					options: {
+						limit: 15,
+						offset: 0
+					}
+				}
+			});
+
+			setOwnedVotes(response.data.participantOwnedVotes);
+			setLoadingOwnedVotes(false);
+		}
+	}, [participant?.id]);
+
+	React.useEffect(() => {
+		updateOwnedVotes();
+	}, [updateOwnedVotes]);
 
 	React.useEffect(() => {
 		let interval;
@@ -152,7 +198,10 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 											participant={participant}
 											council={props.council}
 											translate={translate}
-											refetch={data.refetch}
+											refetch={() => {
+												data.refetch();
+												updateOwnedVotes();
+											}}
 										/>
 									</GridItem>
 									<GridItem xs={12} md={6} lg={6}>
@@ -200,7 +249,9 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 							translate={translate}
 							participant={participant}
 							council={props.council}
-							data={data}
+							ownedVotes={ownedVotes}
+							updateOwnedVotes={updateOwnedVotes}
+							loading={loadingOwnedVotes}
 						/>
 						{CBX.hasHisVoteDelegated(participant)
 							&& <ParticipantBlock
@@ -470,5 +521,6 @@ export default compose(
 	}),
 	graphql(updateParticipantSends, {
 		name: 'updateParticipantSends'
-	})
+	}),
+	withApollo
 )(withWindowSize(LiveParticipantEditor));

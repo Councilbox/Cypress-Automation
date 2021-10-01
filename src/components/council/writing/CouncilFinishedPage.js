@@ -113,6 +113,7 @@ const CouncilFinishedPage = ({
 		return (
 			<CanceledCouncil
 				council={council}
+				goTo={() => { bHistory.push(`/company/${company.id}/councils/drafts`); }}
 				translate={translate}
 				socialCapital={data.councilSocialCapital}
 				totalVotes={data.councilTotalVotes}

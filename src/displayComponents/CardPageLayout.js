@@ -9,11 +9,11 @@ import { bHistory } from '../containers/App';
 
 
 const CardPageLayout = ({
-	children, title, footer, windowSize, stylesNoScroll, avatar, disableScroll = false, inMenuExact
+	children, title, footer, windowSize, stylesNoScroll, avatar, disableScroll = false, inMenuExact = false, goTo
 }) => {
 	const goBack = () => {
 		if (inMenuExact) {
-			bHistory.push('/company/569/drafts/plantillas');
+			bHistory.push(inMenuExact);
 		} else {
 			bHistory.back();
 		}
@@ -64,7 +64,7 @@ const CardPageLayout = ({
 					// justifyContent: "center",
 					// alignItems: "center"
 				}}>
-					<div style={{ cursor: 'pointer', visibility: title ? 'visible' : 'hidden' }} onClick={goBack}>
+					<div style={{ cursor: 'pointer', visibility: title ? 'visible' : 'hidden' }} onClick={goTo || goBack}>
 						<i className="fa fa-angle-left" ></i>
 						<span style={{ fontStyle: 'normal', marginRight: '8px', marginLeft: '5px' }}>
 							|
