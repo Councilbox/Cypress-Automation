@@ -82,7 +82,7 @@ const DropdownParticipant = ({
 							}}
 						/>
 						<BasicButton
-							text={isMobile ? translate.invite_guest : translate.add_guest}
+							text={translate.add_guest}
 							color={'white'}
 							type="flat"
 							icon={<ButtonIcon type="add" color={getSecondary()} />}
