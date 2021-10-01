@@ -3,7 +3,6 @@ import BasicButton from './BasicButton';
 import StateIcon from '../components/council/live/participants/StateIcon';
 import { PARTICIPANT_STATES } from '../constants';
 import { getSecondary } from '../styles/colors';
-import { isMobile } from '../utils/screen';
 import AddConvenedParticipantButton from '../components/council/prepare/modals/AddConvenedParticipantButton';
 import ButtonIcon from './ButtonIcon';
 import AddGuestModal from '../components/council/live/participants/AddGuestModal';
