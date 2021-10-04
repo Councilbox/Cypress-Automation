@@ -1,13 +1,14 @@
 import React from 'react';
 import BasicButton from './BasicButton';
 import StateIcon from '../components/council/live/participants/StateIcon';
-import { PARTICIPANT_STATES } from '../constants';
+import { PARTICIPANT_STATES, PARTICIPANT_VALIDATIONS } from '../constants';
 import { getSecondary } from '../styles/colors';
 import AddConvenedParticipantButton from '../components/council/prepare/modals/AddConvenedParticipantButton';
 import ButtonIcon from './ButtonIcon';
 import AddGuestModal from '../components/council/live/participants/AddGuestModal';
 import DropDownMenu from './DropDownMenu';
 import { councilIsFinished } from '../utils/CBX';
+import AddCouncilParticipantButton from '../components/council/editor/census/modals/AddCouncilParticipantButton';
 
 const DropdownParticipant = ({
 	participations, council, refetch, translate, style
@@ -98,6 +99,14 @@ const DropdownParticipant = ({
 					vertical: 'bottom',
 					horizontal: 'left',
 				}}
+			/>
+
+			<AddCouncilParticipantButton
+				disabled={disabled}
+				validateBeforeCreate={council.statute.participantValidation !== PARTICIPANT_VALIDATIONS.NONE}
+				participations={participations}
+				council={council}
+				refetch={refetch}
 			/>
 
 			<AddConvenedParticipantButton
