@@ -22,7 +22,7 @@ const getNumberValue = value => {
 
 
 const ApproveRequestButton = ({
-	request, client, refetch, council
+	request, client, refetch, council, translate
 }) => {
 	const [modal, setModal] = React.useState(null);
 	const {
@@ -77,7 +77,7 @@ const ApproveRequestButton = ({
 		<>
 			<BasicButton
 				disabled={request.participantCreated}
-				text={request.participantCreated ? 'Ya creado' : 'Añadir al censo'}
+				text={request.participantCreated ? translate.already_created : translate.add_to_the_census}
 				onClick={() => {
 					if (request.participantCreated) {
 						sendPrueba();

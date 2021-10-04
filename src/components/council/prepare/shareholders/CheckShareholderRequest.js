@@ -265,7 +265,7 @@ const CheckShareholderRequest = ({
 				open={modalAlert}
 			/>
 			<BasicButton
-				text="Revisar"
+				text={translate.revise}
 				onClick={() => setModal(request)}
 				buttonStyle={{
 					border: `1px solid ${secondary}`

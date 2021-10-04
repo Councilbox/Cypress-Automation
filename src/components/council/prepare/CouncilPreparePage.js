@@ -99,7 +99,7 @@ const CouncilPreparePage = ({
 
 		if (council.statute.shareholdersPortal) {
 			tabs.push({
-				text: 'Solicitudes de participación'
+				text: translate.participation_requests
 			});
 		}
 
@@ -180,7 +180,7 @@ const CouncilPreparePage = ({
 						</Scrollbar>
 					</div>
 				}
-				{selecteReuniones === 'Solicitudes de participación'
+				{selecteReuniones === translate.participation_requests
 					&& <ShareholdersRequestsPage
 						council={council}
 						translate={translate}
