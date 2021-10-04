@@ -375,6 +375,9 @@ class NewCompanyPage extends React.PureComponent {
 												id="company-key-input"
 												type="text"
 												value={data.linkKey}
+												helpPopover={true}
+												helpTitle={translate.company_new_key}
+												helpDescription={translate.company_link_key_desc}
 												errorText={errors.linkKey}
 												onChange={event => this.updateState({
 													linkKey: event.target.value
