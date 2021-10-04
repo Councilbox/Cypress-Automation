@@ -382,7 +382,8 @@ class NewCompanyPage extends React.PureComponent {
 												}
 											/>
 										</GridItem>
-										<GridItem xs={12} md={6} lg={4}>
+										{/* Used in Evid
+										 <GridItem xs={12} md={6} lg={4}>
 											<TextInput
 												floatingText={translate.external_id}
 												id="company-external-id-input"
@@ -394,7 +395,7 @@ class NewCompanyPage extends React.PureComponent {
 												})
 												}
 											/>
-										</GridItem>
+										</GridItem> */}
 										<GridItem xs={12} md={6} lg={4}>
 											<TextInput
 												floatingText={translate.contact_email}
