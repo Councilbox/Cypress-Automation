@@ -11,7 +11,7 @@ import { councilIsFinished } from '../utils/CBX';
 import AddCouncilParticipantButton from '../components/council/editor/census/modals/AddCouncilParticipantButton';
 
 const DropdownParticipant = ({
-	participations, council, refetch, translate, style
+	participations, addCouncil, council, refetch, disabled, translate, style
 }) => {
 	const [state, setState] = React.useState({
 		add: false,
@@ -70,11 +70,10 @@ const DropdownParticipant = ({
 						<BasicButton
 							type="flat"
 							text={translate.add_participant}
-							disabled={councilIsFinished(council)}
+							disabled={councilIsFinished(council) || disabled}
 							icon={<ButtonIcon type="add" color={getSecondary()} />}
 							onClick={() => setState({ ...state, add: !state.add })}
 							color={'white'}
-
 							buttonStyle={{
 								width: '100%',
 								display: 'flex',
@@ -102,8 +101,10 @@ const DropdownParticipant = ({
 			/>
 
 			<AddCouncilParticipantButton
-				disabled={disabled}
+				buttonAdd={false}
+				modal={state.add && addCouncil}
 				validateBeforeCreate={council.statute.participantValidation !== PARTICIPANT_VALIDATIONS.NONE}
+				requestClose={() => setState({ ...state, add: !state.add })}
 				participations={participations}
 				council={council}
 				refetch={refetch}
@@ -111,7 +112,7 @@ const DropdownParticipant = ({
 
 			<AddConvenedParticipantButton
 				buttonAdd={false}
-				modal={state.add}
+				modal={state.add && !addCouncil}
 				requestClose={() => setState({ ...state, add: !state.add })}
 				participations={participations}
 				translate={translate}
