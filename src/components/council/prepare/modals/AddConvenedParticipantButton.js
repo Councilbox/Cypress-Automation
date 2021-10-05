@@ -69,6 +69,7 @@ const AddConvenedParticipantButton = ({
 	const primary = getPrimary();
 
 	async function checkRequiredFields(onlyEmail) {
+		const testPhone = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
 		const participant = state.data;
 		const { representative } = state;
 
@@ -135,6 +136,20 @@ const AddConvenedParticipantButton = ({
 				errorsRepresentative.errors.email = translate.repeated_email;
 				errorsParticipant.errors.email = translate.repeated_email;
 				errorsParticipant.hasError = true;
+			}
+
+			if (participant.phone && participant.phone !== '-') {
+				if (!testPhone.test(participant.phone)) {
+					errorsParticipant.hasError = true;
+					errorsParticipant.errors.phone = translate.invalid_field;
+				}
+			}
+
+			if (representative.phone && representative.phone !== '-') {
+				if (!testPhone.test(representative.phone)) {
+					errorsRepresentative.hasError = true;
+					errorsRepresentative.errors.phone = translate.invalid_field;
+				}
 			}
 		}
 
@@ -225,7 +240,19 @@ const AddConvenedParticipantButton = ({
 	const { languages } = props.data;
 
 	const openModal = () => (buttonAdd ? state.modal : modal);
-	const closeModal = () => (buttonAdd ? () => setState({ modal: false }) : requestClose);
+	const closeModal = () => (buttonAdd ? () => setState({
+		modal: false,
+		errors: {},
+		representativeErrors: {},
+		loading: false
+	}) : () => {
+		setState({
+			errors: {},
+			representativeErrors: {},
+			loading: false
+		});
+		requestClose();
+	});
 
 	const button = () => (
 		<BasicButton

@@ -8,10 +8,9 @@ import {
 	BasicButton
 } from '../../../../displayComponents/index';
 import * as CBX from '../../../../utils/CBX';
-import AddCouncilParticipantButton from './modals/AddCouncilParticipantButton';
 import { getSecondary } from '../../../../styles/colors';
 import withSharedProps from '../../../../HOCs/withSharedProps';
-import { PARTICIPANT_VALIDATIONS } from '../../../../constants';
+import DropdownParticipant from '../../../../displayComponents/DropdownParticipant';
 
 
 const ChangeCensusMenu = ({
@@ -146,13 +145,18 @@ const ChangeCensusMenu = ({
 					alignItems: 'center'
 				}}
 			>
-				<AddCouncilParticipantButton
+				<DropdownParticipant
+					addCouncil
 					disabled={disabled}
-					validateBeforeCreate={council.statute.participantValidation !== PARTICIPANT_VALIDATIONS.NONE}
 					participations={participations}
-					translate={translate}
 					council={council}
+					translate={translate}
 					refetch={refetch}
+					style={{
+						width: '10em',
+						padding: '.2rem',
+						margin: '0 .5rem',
+					}}
 				/>
 			</GridItem>
 		</Grid>
