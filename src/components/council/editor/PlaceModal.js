@@ -67,7 +67,13 @@ const PlaceModal = ({ council, translate, ...props }) => {
 					textTransform: 'none'
 				}}
 				textPosition="after"
-				onClick={props.close}
+				onClick={() => {
+					props.close();
+					setState({
+						...state,
+						remoteCelebration: council.remoteCelebration
+					});
+				}}
 			/>
 			<BasicButton
 				text={translate.accept}
