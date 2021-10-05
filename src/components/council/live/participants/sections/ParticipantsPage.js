@@ -26,7 +26,7 @@ import QRSearchModal from './QRSearchModal';
 import { ConfigContext } from '../../../../../containers/AppControl';
 import { isMobile } from '../../../../../utils/screen';
 import AddConvenedParticipantButton from '../../../prepare/modals/AddConvenedParticipantButton';
-import { hasParticipations } from '../../../../../utils/CBX';
+import { councilStarted, hasParticipations } from '../../../../../utils/CBX';
 import { COUNCIL_TYPES } from '../../../../../constants';
 import DropdownParticipant from '../../../../../displayComponents/DropdownParticipant';
 
@@ -174,6 +174,7 @@ const ParticipantsPage = ({
 	};
 	const fields = getFilters();
 
+	console.log(council);
 	return (
 		<React.Fragment>
 			<div
@@ -222,16 +223,19 @@ const ParticipantsPage = ({
 				padding: '0 8px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '.5rem'
 			}}>
 				<GridItem xs={orientation === 'landscape' ? 4 : 6} md={6} lg={3} style={{ display: 'flex', alignItems: 'center' }}>
-					{council.state <= 20 ? <DropdownParticipant
-						council={council}
-						participations={participants}
-						refetch={data.refetch}
-						translate={translate}
-						style={{
-							width: '10em',
-							padding: '.2rem',
-							margin: '0 .5rem',
-						}} /> : renderAddGuestButton()}
+					{(council.state === 10 || council.state === 20)
+						&& (!councilStarted(council) ? <DropdownParticipant
+							council={council}
+							participations={participants}
+							refetch={data.refetch}
+							translate={translate}
+							style={{
+								width: '10em',
+								padding: '.2rem',
+								margin: '0 .5rem',
+							}} />
+							: renderAddGuestButton()
+						)}
 				</GridItem>
 				<GridItem xs={orientation === 'landscape' ? 4 : 6} md={6} lg={3} style={{ display: 'flex', justifyContent: orientation === 'landscape' ? 'flex-start' : 'flex-end', gap: '0 .5rem' }}>
 					<BasicButton
