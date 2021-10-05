@@ -32,7 +32,7 @@ const RefuseRequestButton = ({
 		<>
 			<BasicButton
 				disabled={request.participantCreated}
-				text={translate.reject}
+				text={translate.refuse}
 				onClick={() => setModal(request)}
 				buttonStyle={{
 					border: `1px solid ${buttonColor}`,
