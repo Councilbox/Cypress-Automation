@@ -22,7 +22,6 @@ const newGuestInitialValues = {
 
 const AddTranslatorModal = ({ show, council, translate, refetch, requestClose, ...props }) => {
 	const [state, setState] = React.useState({
-		timeout: '',
 		success: '',
 		errors: {},
 		guest: {
@@ -49,10 +48,10 @@ const AddTranslatorModal = ({ show, council, translate, refetch, requestClose, .
 			errors.email = translate.valid_email_required;
 			hasError = true;
 		} else {
-			const response = await this.props.client.query({
+			const response = await props.client.query({
 				query: checkUniqueCouncilEmails,
 				variables: {
-					councilId: this.props.council.id,
+					councilId: council.id,
 					emailList: [guest.email]
 				}
 			});
@@ -110,7 +109,7 @@ const AddTranslatorModal = ({ show, council, translate, refetch, requestClose, .
 	};
 
 
-	const sendAddGuest = async () => {
+	const sendAddTranslator = async () => {
 		if (!await checkRequiredFields()) {
 			const response = await props.addGuest({
 				variables: {
@@ -128,7 +127,7 @@ const AddTranslatorModal = ({ show, council, translate, refetch, requestClose, .
 				} else if (response.data.addGuest.message === '601') {
 					setState({
 						errors: {
-							email: this.props.translate.repeated_email
+							email: translate.repeated_email
 						}
 					});
 				}
@@ -146,16 +145,6 @@ const AddTranslatorModal = ({ show, council, translate, refetch, requestClose, .
 		});
 	};
 
-	const emailKeyUp = () => {
-		clearTimeout(state.timeout);
-		setState({
-			...state,
-			timeout: setTimeout(() => {
-				checkRequiredFields(true);
-				clearTimeout(state.timeout);
-			}, 400)
-		});
-	};
 
 	const renderReminderBody = () => {
 		if (state.sending) {
@@ -165,7 +154,6 @@ const AddTranslatorModal = ({ show, council, translate, refetch, requestClose, .
 			<div style={{ maxWidth: '850px' }}>
 				<RepresentativeForm
 					guest={true}
-					checkEmail={emailKeyUp}
 					translate={translate}
 					representative={state.guest}
 					updateState={updateGuest}
@@ -180,7 +168,7 @@ const AddTranslatorModal = ({ show, council, translate, refetch, requestClose, .
 		<AlertConfirm
 			requestClose={close}
 			open={show}
-			acceptAction={sendAddGuest}
+			acceptAction={sendAddTranslator}
 			buttonAccept={translate.send}
 			buttonCancel={translate.close}
 			bodyText={renderReminderBody()}
