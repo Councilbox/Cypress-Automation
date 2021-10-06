@@ -174,7 +174,6 @@ const ParticipantsPage = ({
 	};
 	const fields = getFilters();
 
-	console.log(council);
 	return (
 		<React.Fragment>
 			<div
