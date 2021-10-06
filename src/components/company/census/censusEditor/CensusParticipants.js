@@ -1,12 +1,12 @@
 /* eslint-disable max-classes-per-file */
 import React from 'react';
 import { TableCell, TableRow, Card } from 'material-ui';
-import { graphql } from 'react-apollo';
+import { graphql, withApollo } from 'react-apollo';
 import { flowRight as compose } from 'lodash';
 import gql from 'graphql-tag';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import {
-	CloseIcon, EnhancedTable, Grid, GridItem, BasicButton, Checkbox, AlertConfirm
+	CloseIcon, EnhancedTable, Grid, GridItem, BasicButton, Checkbox, AlertConfirm, TextInput, LoadingSection
 } from '../../../../displayComponents';
 import * as CBX from '../../../../utils/CBX';
 import { censusParticipants as censusParticipantsQuery } from '../../../../queries/census';
@@ -17,91 +17,101 @@ import ImportCensusExcel from '../ImportCensusExcel';
 import { isMobile } from '../../../../utils/screen';
 import withWindowOrientation from '../../../../HOCs/withWindowOrientation';
 
-class CensusParticipants extends React.Component {
-	state = {
+const CensusParticipants = ({
+	translate, census, client, ...props
+}) => {
+	const [state, setState] = React.useState({
 		editingParticipant: false,
 		participant: {},
 		deleteModal: false,
 		singleId: null,
 		selectedIds: new Map(),
+		filterText: '',
+		inputSearch: ''
+	});
+
+	const closeParticipantEditor = () => {
+		setState({ ...state, editingParticipant: false });
 	};
 
-	closeParticipantEditor = () => {
-		this.setState({ editingParticipant: false });
-	};
-
-	select = id => {
-		if (this.state.selectedIds.has(id)) {
-			this.state.selectedIds.delete(id);
+	const select = id => {
+		if (state.selectedIds.has(id)) {
+			state.selectedIds.delete(id);
 		} else {
-			this.state.selectedIds.set(id, 'selected');
+			state.selectedIds.set(id, 'selected');
 		}
 
-		this.setState({
-			selectedIds: new Map(this.state.selectedIds)
+		setState({
+			...state,
+			selectedIds: new Map(state.selectedIds)
 		});
-	}
+	};
 
-	selectAll = () => {
+	const selectAll = () => {
 		const newSelected = new Map();
-		if (this.state.selectedIds.size !== this.props.data.censusParticipants.list.length) {
-			this.props.data.censusParticipants.list.forEach(participant => {
+		if (state.selectedIds.size !== censusParticipants.list.length) {
+			censusParticipants.list.forEach(participant => {
 				newSelected.set(participant.id, 'selected');
 			});
 		}
 
-		this.setState({
+		setState({
+			...state,
 			selectedIds: newSelected
 		});
-	}
+	};
 
-	editParticipant = participant => {
-		this.setState({
+	const editParticipant = participant => {
+		setState({
+			...state,
 			editingParticipant: true,
 			participant
 		});
 	};
 
-	deleteParticipant = async () => {
+	const deleteParticipant = async () => {
 		let toDelete;
-		if (Number.isInteger(this.state.singleId)) {
-			toDelete = [this.state.singleId];
+		if (Number.isInteger(state.singleId)) {
+			toDelete = [state.singleId];
 		} else {
-			toDelete = Array.from(this.state.selectedIds.keys());
+			toDelete = Array.from(state.selectedIds.keys());
 		}
-		const response = await this.props.deleteCensusParticipant({
+		const response = await props.deleteCensusParticipant({
 			variables: {
 				ids: toDelete,
-				censusId: this.props.census.id
+				censusId: census.id
 			}
 		});
 
 		if (response) {
-			this.setState({
+			setState({
+				...state,
 				selectedIds: new Map(),
 				singleId: null,
 				deleteModal: false
 			});
-			this.props.data.refetch();
-			this.props.refetch();
+			props.data.refetch();
+			props.refetch();
 		}
 	};
 
-	openDeleteModal = () => {
-		this.setState({
+	const openDeleteModal = () => {
+		setState({
+			...state,
 			deleteModal: true
 		});
-	}
+	};
 
-	closeModal = () => {
-		this.setState({
+	const closeModal = () => {
+		setState({
+			...state,
 			deleteModal: false,
 			singleId: null
 		});
-	}
+	};
 
 
-	renderDeleteIcon = participantID => {
+	const renderDeleteIcon = participantID => {
 		const primary = getPrimary();
 
 		return (
@@ -110,180 +120,187 @@ class CensusParticipants extends React.Component {
 				style={{ color: primary }}
 				onClick={event => {
 					event.stopPropagation();
-					this.setState({
+					setState({
+						...state,
 						singleId: participantID,
 						deleteModal: true
 					});
 				}}
 			/>
 		);
-	}
+	};
 
-	refresh = () => {
-		this.props.data.refetch();
-		this.props.refetch();
-	}
+	const refresh = () => {
+		props.data.refetch();
+		props.refetch();
+	};
 
-	render() {
-		const { translate, census, windowOrientation } = this.props;
-		const { loading, censusParticipants } = this.props.data;
-
-		const headers = [
-			{
-				selectAll: <Checkbox onChange={this.selectAll} value={this.state.selectedIds.size > 0 && this.state.selectedIds.size === (censusParticipants.list ? censusParticipants.list.length : -1)} />
-			},
-			{
-				name: 'name',
-				text: translate.participant_data,
-				canOrder: true
-			},
-			{
-				name: 'dni',
-				text: translate.dni,
-				canOrder: true
-			},
-			{
-				name: 'position',
-				text: translate.position,
-				canOrder: true
-			},
-			{
-				name: 'numParticipations',
-				text: translate.votes,
-				canOrder: true
-			}
-		];
-		if (census.quorumPrototype === 1) {
-			headers.push({
-				text: translate.social_capital,
-				name: 'socialCapital',
-				canOrder: true
-			});
+	const headers = [
+		{
+			selectAll: <Checkbox onChange={selectAll} value={state.selectedIds.size > 0 && state.selectedIds.size === (censusParticipants.list ? censusParticipants.list.length : -1)} />
+		},
+		{
+			name: 'name',
+			text: translate.participant_data,
+			canOrder: true
+		},
+		{
+			name: 'dni',
+			text: translate.dni,
+			canOrder: true
+		},
+		{
+			name: 'position',
+			text: translate.position,
+			canOrder: true
+		},
+		{
+			name: 'numParticipations',
+			text: translate.votes,
+			canOrder: true
 		}
-
+	];
+	if (census.quorumPrototype === 1) {
 		headers.push({
-			text: ''
+			text: translate.social_capital,
+			name: 'socialCapital',
+			canOrder: true
 		});
+	}
 
-		return (
-			<React.Fragment>
-				<Grid>
-					<GridItem xs={12} md={12} lg={12}>
+	headers.push({
+		text: ''
+	});
+
+	const { loading, censusParticipants } = props.data;
+
+	if (loading) {
+		return <LoadingSection />;
+	}
+
+	return (
+		<React.Fragment>
+			<Grid>
+				<GridItem xs={12} md={12} lg={12}>
+					<div style={{
+						marginBottom: '0.6em',
+					}}>
 						<div style={{
 							display: 'flex',
-							flexDirection: isMobile && windowOrientation === 'portrait' && 'column',
-							justifyContent: !isMobile && 'flex-start',
-							gap: isMobile && windowOrientation === 'portrait' ? '.5rem 0' : '32px',
-							marginBottom: '0.6em'
+							justifyContent: 'flex-start',
+							marginBottom: '0.6em',
+							gap: '32px'
 						}}>
 							<AddCensusParticipantButton
 								translate={translate}
-								company={this.props.company}
-								census={this.props.census}
-								refetch={this.refresh}
+								company={props.company}
+								census={census}
+								refetch={refresh}
 							/>
 							<ImportCensusExcel
 								translate={translate}
 								censusId={census.id}
-								companyId={this.props.company.id}
-								refetch={this.props.data.refetch}
+								companyId={props.company.id}
+								refetch={props.data.refetch}
 							/>
 						</div>
-						<span style={{ fontWeight: '700', fontSize: '0.9em' }}>
-							{`${translate.total_votes}: ${this.props.recount.numParticipations || 0}`}
+					</div>
+					<span style={{ fontWeight: '700', fontSize: '0.9em' }}>
+						{`${translate.total_votes}: ${props.recount.numParticipations || 0}`}
+					</span>
+					{CBX.hasParticipations({ quorumPrototype: census.quorumPrototype })
+						&& <span style={{ marginLeft: '1em', fontWeight: '700', fontSize: '0.9em' }}>
+							{`${translate.total_social_capital}: ${props.recount.socialCapital || 0}`}
 						</span>
-						{CBX.hasParticipations({ quorumPrototype: this.props.census.quorumPrototype })
-							&& <span style={{ marginLeft: '1em', fontWeight: '700', fontSize: '0.9em' }}>
-								{`${translate.total_social_capital}: ${this.props.recount.socialCapital || 0}`}
-							</span>
+					}
+				</GridItem>
+			</Grid>
+			{!!censusParticipants && (
+				<EnhancedTable
+					searchInMovil={isMobile}
+					hideTextFilter={isMobile}
+					headers={headers}
+					translate={translate}
+					defaultFilter={'fullName'}
+					defaultLimit={PARTICIPANTS_LIMITS[0]}
+					limits={PARTICIPANTS_LIMITS}
+					page={1}
+					menuButtons={
+						state.selectedIds.size > 0
+						&& <BasicButton
+							text={state.selectedIds.size === 1 ? translate.delete_one_item : `${translate.new_delete} ${state.selectedIds.size} ${translate.items}`}
+							color={getSecondary()}
+							buttonStyle={{ marginRight: '0.6em' }}
+							textStyle={{ color: 'white', fontWeight: '700' }}
+							onClick={openDeleteModal}
+						/>
+					}
+					loading={loading}
+					length={censusParticipants.list.length}
+					total={censusParticipants.total}
+					fields={[
+						{
+							value: 'fullName',
+							translation: translate.participant_data
+						},
+						{
+							value: 'dni',
+							translation: translate.dni
+						},
+						{
+							value: 'position',
+							translation: translate.position
 						}
-					</GridItem>
-				</Grid>
-				{!!censusParticipants && (
-					<EnhancedTable
-						headers={headers}
-						translate={translate}
-						defaultFilter={'fullName'}
-						defaultLimit={PARTICIPANTS_LIMITS[0]}
-						limits={PARTICIPANTS_LIMITS}
-						page={1}
-						menuButtons={
-							this.state.selectedIds.size > 0
-							&& <BasicButton
-								text={this.state.selectedIds.size === 1 ? translate.delete_one_item : `${translate.new_delete} ${this.state.selectedIds.size} ${translate.items}`}
-								color={getSecondary()}
-								buttonStyle={{ marginRight: '0.6em' }}
-								textStyle={{ color: 'white', fontWeight: '700' }}
-								onClick={this.openDeleteModal}
+					]}
+					refetch={props.data.refetch}
+					action={renderDeleteIcon}
+				>
+					{censusParticipants.list.map((participant, index) => (
+						<React.Fragment key={`participant_${participant.id}`}>
+							<HoverableRow
+								participant={participant}
+								translate={translate}
+								id={`participant-row-${index}`}
+								selected={state.selectedIds.has(participant.id)}
+								select={select}
+								census={census}
+								participations={census.quorumPrototype === 1}
+								representative={participant.representative}
+								renderDeleteIcon={renderDeleteIcon}
+								editParticipant={editParticipant}
 							/>
-						}
-						loading={loading}
-						length={censusParticipants.list.length}
-						total={censusParticipants.total}
-						fields={[
-							{
-								value: 'fullName',
-								translation: translate.participant_data
-							},
-							{
-								value: 'dni',
-								translation: translate.dni
-							},
-							{
-								value: 'position',
-								translation: translate.position
-							}
-						]}
-						refetch={this.props.data.refetch}
-						action={this.renderDeleteIcon}
-					>
-						{censusParticipants.list.map((participant, index) => (
-							<React.Fragment key={`participant_${participant.id}`}>
-								<HoverableRow
-									participant={participant}
-									translate={translate}
-									id={`participant-row-${index}`}
-									selected={this.state.selectedIds.has(participant.id)}
-									select={this.select}
-									census={census}
-									participations={census.quorumPrototype === 1}
-									representative={participant.representative}
-									renderDeleteIcon={this.renderDeleteIcon}
-									editParticipant={this.editParticipant}
-								/>
-							</React.Fragment>
-						))}
-					</EnhancedTable>
-				)}
-				{this.state.editingParticipant
-					&& <CensusParticipantEditor
-						translate={translate}
-						key={this.state.participant.id}
-						close={this.closeParticipantEditor}
-						company={this.props.company}
-						census={this.props.census}
-						participant={this.state.participant}
-						opened={this.state.editingParticipant}
-						refetch={() => {
-							this.props.data.refetch();
-							this.props.refetch();
-						}}
-					/>
-				}
-				<AlertConfirm
-					title={translate.send_to_trash}
-					bodyText={translate.delete_items}
-					open={this.state.deleteModal}
-					buttonAccept={translate.send_to_trash}
-					buttonCancel={translate.cancel}
-					modal={true}
-					acceptAction={this.deleteParticipant}
-					requestClose={this.closeModal}
+						</React.Fragment>
+					))}
+				</EnhancedTable>
+			)}
+			{state.editingParticipant
+				&& <CensusParticipantEditor
+					translate={translate}
+					key={state.participant.id}
+					close={closeParticipantEditor}
+					company={props.company}
+					census={census}
+					participant={state.participant}
+					opened={state.editingParticipant}
+					refetch={() => {
+						props.data.refetch();
+						props.refetch();
+					}}
 				/>
-			</React.Fragment>
-		);
-	}
-}
+			}
+			<AlertConfirm
+				title={translate.send_to_trash}
+				bodyText={translate.delete_items}
+				open={state.deleteModal}
+				buttonAccept={translate.send_to_trash}
+				buttonCancel={translate.cancel}
+				modal={true}
+				acceptAction={deleteParticipant}
+				requestClose={closeModal}
+			/>
+		</React.Fragment>
+	);
+};
 
 class HoverableRow extends React.PureComponent {
 	state = {
@@ -489,7 +506,7 @@ const deleteCensusParticipant = gql`
 	}
 `;
 
-export default compose(
+export default withApollo(compose(
 	graphql(deleteCensusParticipant, {
 		name: 'deleteCensusParticipant'
 	}),
@@ -504,4 +521,4 @@ export default compose(
 			}
 		})
 	})
-)(withWindowOrientation(CensusParticipants));
+)(withWindowOrientation(CensusParticipants)));
