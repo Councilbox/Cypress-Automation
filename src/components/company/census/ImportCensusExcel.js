@@ -528,7 +528,6 @@ class ImportCensusButton extends React.Component {
 					onClick={() => this.setState({ modal: true })}
 					buttonStyle={{
 						width: isMobile && '150px',
-						height: isMobile && '60px'
 					}}
 				/>
 				<AlertConfirm
