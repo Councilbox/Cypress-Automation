@@ -8,7 +8,7 @@ import ButtonIcon from './ButtonIcon';
 import AddGuestModal from '../components/council/live/participants/AddGuestModal';
 import DropDownMenu from './DropDownMenu';
 import { councilIsFinished } from '../utils/CBX';
-import AddTraductorModal from '../components/council/live/participants/AddTraductorModal';
+import AddTranslatorModal from '../components/council/live/participants/addTranslatorModal';
 
 const DropdownParticipant = ({
 	participations, council, refetch, translate, style, ...props
@@ -133,7 +133,7 @@ const DropdownParticipant = ({
 				translate={translate}
 			/>
 
-			<AddTraductorModal
+			<AddTranslatorModal
 				show={state.translator}
 				council={council}
 				refetch={refetch}
