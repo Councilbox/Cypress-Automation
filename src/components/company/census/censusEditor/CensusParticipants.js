@@ -6,7 +6,7 @@ import { flowRight as compose } from 'lodash';
 import gql from 'graphql-tag';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
 import {
-	CloseIcon, EnhancedTable, Grid, GridItem, BasicButton, Checkbox, AlertConfirm, TextInput, LoadingSection
+	CloseIcon, EnhancedTable, Grid, GridItem, BasicButton, Checkbox, AlertConfirm, LoadingSection
 } from '../../../../displayComponents';
 import * as CBX from '../../../../utils/CBX';
 import { censusParticipants as censusParticipantsQuery } from '../../../../queries/census';
