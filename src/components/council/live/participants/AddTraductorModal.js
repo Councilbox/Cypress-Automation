@@ -111,7 +111,7 @@ const AddTranslatorModal = ({ show, council, translate, refetch, requestClose, .
 
 
 	const sendAddGuest = async () => {
-		if (!await this.checkRequiredFields()) {
+		if (!await checkRequiredFields()) {
 			const response = await props.addGuest({
 				variables: {
 					guest: {
