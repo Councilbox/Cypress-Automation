@@ -381,16 +381,16 @@ const LoginForm = ({
 										{responseSMS &&
 											<>
 												{success &&
-											`${translate.sms_sent_to_phone} ...${showHiddenPhone(participant.phone)}`
+													`${translate.sms_sent_to_phone} ...${showHiddenPhone(participant.phone)}`
 												}
 												{error &&
-											<div style={{
-												fontWeight: 'bold', color: '#f11a1a', marginTop: '2em', display: 'flex', alignItems: 'center', justifyContent: 'center'
-											}}>
-												<div style={{ width: '90%' }}>
-													{translate.sms_error_description}
-												</div>
-											</div>
+													<div style={{
+														fontWeight: 'bold', color: '#f11a1a', marginTop: '2em', display: 'flex', alignItems: 'center', justifyContent: 'center'
+													}}>
+														<div style={{ width: '90%' }}>
+															{translate.sms_error_description}
+														</div>
+													</div>
 												}
 											</>
 										}
@@ -574,26 +574,29 @@ const LoginForm = ({
 									<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
 										<Checkbox
 											id="accept-legal-checkbox"
-											label={`${translate.login_read_terms} `}
+											label={
+												<div>
+													{translate.login_read_terms}
+													<a
+														style={{
+															color: primary,
+															fontWeight: '700',
+															cursor: 'pointer',
+															textTransform: 'lowerCase',
+															marginLeft: '0.4em'
+														}}
+														href={getTermsURL(translate.selectedLanguage)}
+														target="_blank"
+														rel="noreferrer noopener"
+													>
+														{translate.login_read_terms2}
+													</a>
+												</div>}
 											value={state.termsCheck}
 											onChange={(event, isInputChecked) => setState({
 												legalTermsAccepted: isInputChecked
 											})}
 										/>
-										<a
-											style={{
-												color: primary,
-												fontWeight: '700',
-												cursor: 'pointer',
-												textTransform: 'lowerCase',
-												marginLeft: '0.4em'
-											}}
-											href={getTermsURL(translate.selectedLanguage)}
-											target="_blank"
-											rel="noreferrer noopener"
-										>
-											{translate.login_read_terms2}
-										</a>
 									</div>
 									{errors.legalTerms && (
 										<div style={{ color: 'red' }} id="legal-terms-error-text">

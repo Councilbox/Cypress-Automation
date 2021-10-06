@@ -35,7 +35,8 @@ class RichTextInput extends React.Component {
 	state = {
 		value: this.props.value,
 		showTags: false,
-		companyTags: []
+		companyTags: [],
+		rangeIndex: 0
 	};
 
 	componentDidMount() {
@@ -82,15 +83,9 @@ class RichTextInput extends React.Component {
 
 	paste = text => {
 		const quill = this.rtEditor.getEditor();
-		let selection = quill.getSelection();
-		if (!selection) {
-			this.rtEditor.focus();
-			selection = quill.getSelection();
-		}
-		quill.clipboard.dangerouslyPasteHTML(selection.index, text);
+		quill.clipboard.dangerouslyPasteHTML(this.state.rangeIndex, text);
 		setTimeout(() => {
-			// this.rtEditor.focus();
-			quill.setSelection(selection.index + removeHTMLTags(text).length, 0);
+			quill.setSelection(this.state.rangeIndex + removeHTMLTags(text).length, 0);
 		}, 500);
 	};
 
@@ -99,6 +94,14 @@ class RichTextInput extends React.Component {
 			if (removeHTMLTags(this.state.value.toString()).length >= this.props.maxChars && event.key !== 'Backspace') {
 				event.preventDefault();
 			}
+		}
+	}
+
+	setRange = event => {
+		if (event) {
+			this.setState({
+				rangeIndex: event.index
+			});
 		}
 	}
 
@@ -221,6 +224,7 @@ class RichTextInput extends React.Component {
 								onChange={this.onChange}
 								modules={modules}
 								onKeyDown={this.checkCharacterCount}
+								onChangeSelection={this.setRange}
 								placeholder={placeholder || ''}
 								ref={editor => {
 									this.rtEditor = editor;

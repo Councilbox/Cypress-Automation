@@ -1,7 +1,7 @@
 import React from 'react';
 import BasicButton from './BasicButton';
 import StateIcon from '../components/council/live/participants/StateIcon';
-import { PARTICIPANT_STATES } from '../constants';
+import { PARTICIPANT_STATES, PARTICIPANT_VALIDATIONS } from '../constants';
 import { getSecondary } from '../styles/colors';
 import AddConvenedParticipantButton from '../components/council/prepare/modals/AddConvenedParticipantButton';
 import ButtonIcon from './ButtonIcon';
@@ -9,9 +9,10 @@ import AddGuestModal from '../components/council/live/participants/AddGuestModal
 import DropDownMenu from './DropDownMenu';
 import { councilIsFinished } from '../utils/CBX';
 import AddTranslatorModal from '../components/council/live/participants/addTranslatorModal';
+import AddCouncilParticipantButton from '../components/council/editor/census/modals/AddCouncilParticipantButton';
 
 const DropdownParticipant = ({
-	participations, council, refetch, translate, style, ...props
+	participations, addCouncil, council, refetch, disabled, translate, style, ...props
 }) => {
 	const [state, setState] = React.useState({
 		add: false,
@@ -71,11 +72,10 @@ const DropdownParticipant = ({
 						<BasicButton
 							type="flat"
 							text={translate.add_participant}
-							disabled={councilIsFinished(council)}
+							disabled={councilIsFinished(council) || disabled}
 							icon={<ButtonIcon type="add" color={getSecondary()} />}
 							onClick={() => setState({ ...state, add: !state.add })}
 							color={'white'}
-
 							buttonStyle={{
 								width: '100%',
 								display: 'flex',
@@ -114,9 +114,19 @@ const DropdownParticipant = ({
 				}}
 			/>
 
+			<AddCouncilParticipantButton
+				buttonAdd={false}
+				modal={state.add && addCouncil}
+				validateBeforeCreate={council.statute.participantValidation !== PARTICIPANT_VALIDATIONS.NONE}
+				requestClose={() => setState({ ...state, add: !state.add })}
+				participations={participations}
+				council={council}
+				refetch={refetch}
+			/>
+
 			<AddConvenedParticipantButton
 				buttonAdd={false}
-				modal={state.add}
+				modal={state.add && !addCouncil}
 				requestClose={() => setState({ ...state, add: !state.add })}
 				participations={participations}
 				translate={translate}

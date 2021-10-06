@@ -172,7 +172,7 @@ const CheckShareholderRequest = ({
 				refetch={refetch}
 				translate={translate}
 			/>
-			{request.state !== '1'
+			{request.state !== '3'
 				&& <ApproveRequestButton
 					request={request}
 					refetch={refetch}

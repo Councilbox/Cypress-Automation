@@ -289,7 +289,6 @@ class AddCensusParticipantButton extends React.Component {
 					buttonStyle={{
 						border: `2px solid ${primary}`,
 						width: isMobile && '150px',
-						height: isMobile && '60px'
 					}}
 				/>
 				<AlertConfirm

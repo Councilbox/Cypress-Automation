@@ -375,6 +375,9 @@ class NewCompanyPage extends React.PureComponent {
 												id="company-key-input"
 												type="text"
 												value={data.linkKey}
+												helpPopover={true}
+												helpTitle={translate.company_new_key}
+												helpDescription={translate.company_link_key_desc}
 												errorText={errors.linkKey}
 												onChange={event => this.updateState({
 													linkKey: event.target.value
@@ -382,7 +385,8 @@ class NewCompanyPage extends React.PureComponent {
 												}
 											/>
 										</GridItem>
-										<GridItem xs={12} md={6} lg={4}>
+										{/* Used in Evid
+										 <GridItem xs={12} md={6} lg={4}>
 											<TextInput
 												floatingText={translate.external_id}
 												id="company-external-id-input"
@@ -394,7 +398,7 @@ class NewCompanyPage extends React.PureComponent {
 												})
 												}
 											/>
-										</GridItem>
+										</GridItem> */}
 										<GridItem xs={12} md={6} lg={4}>
 											<TextInput
 												floatingText={translate.contact_email}
