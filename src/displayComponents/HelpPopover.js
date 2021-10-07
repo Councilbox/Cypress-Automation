@@ -2,6 +2,8 @@ import React from 'react';
 import Popover from 'antd/lib/popover';
 import 'antd/lib/popover/style/index.css';
 import { getPrimary } from '../styles/colors';
+import { isMobile } from '../utils/screen';
+
 
 const DefaultTrigger = ({ onClick, color }) => {
 	const primary = getPrimary();
@@ -60,6 +62,7 @@ const HelpPopover = ({ ...props }) => {
 			onVisibleChange={onVisibleChange}
 			trigger={'hover'}
 			placement={placement}
+			overlayClassName={isMobile && 'left0'}
 		>
 			<TriggerComponent
 				onClick={toggleVisible}
