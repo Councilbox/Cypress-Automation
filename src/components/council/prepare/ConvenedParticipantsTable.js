@@ -262,6 +262,7 @@ const ConvenedParticipantsTable = ({
 								{!hideAddParticipant
 									&& <div>
 										<DropdownParticipant
+											btnTranslator
 											participations={participations}
 											council={council}
 											translate={translate}
