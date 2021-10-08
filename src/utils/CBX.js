@@ -234,11 +234,13 @@ export const haveQualityVoteConditions = (agenda, council) => ((agenda.subjectTy
 		+ agenda.votingsRecount.negativeManual) && council.statute.existsQualityVote === 1);
 
 export const canEditPresentVotings = agenda => (agenda.votingState === AGENDA_STATES.DISCUSSION
-	|| agenda.votingState === 4) && (
-	agenda.subjectType === AGENDA_TYPES.FAKE_PUBLIC_VOTING
+	|| agenda.votingState === 4) &&
+	(
+		agenda.subjectType === AGENDA_TYPES.FAKE_PUBLIC_VOTING
 		|| agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING
 		|| agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE
-		|| agenda.subjectType === AGENDA_TYPES.CUSTOM_PUBLIC);
+		|| agenda.subjectType === AGENDA_TYPES.CUSTOM_PUBLIC
+	);
 
 export const approvedByQualityVote = agenda => {
 	if (agenda && agenda.qualityVoteSense) {
@@ -302,9 +304,10 @@ export const hasAct = statute => statute.existsAct === 1;
 
 export const councilHasComments = statute => statute.existsComments === 1;
 
-export const canDelegateVotes = (statute, participant) => (statute.existsDelegatedVote === 1
+export const canDelegateVotes = (statute, participant, ownedVotes) => (statute.existsDelegatedVote === 1
 	&& !(participant.hasDelegatedVotes)
 	&& participant.type !== PARTICIPANT_TYPE.GUEST
+	&& (participant.numParticipations > 0 || ownedVotes.meta.totalRepresentedVotes > 0)
 );
 export const canAddDelegateVotes = (statute, participant) => (
 	statute.existsDelegatedVote === 1
@@ -872,12 +875,13 @@ export const changeVariablesToValues = async (initialText, data, translate) => {
 		moment.ISO_8601).format('LLL') : '');
 	text = text.replace(/{{dateEnd}}/g, data.council.dateEnd ? moment(new Date(data.council.dateEnd).toISOString(),
 		moment.ISO_8601).format('LLL') : '');
-	text = text.replace(
-		/{{firstOrSecondCall}}/g, data.council.firstOrSecondConvene === 1 ?
-			translate.first_call
-			: data.council.firstOrSecondCall === 2 ?
-				translate.second_call
-				: ''
+	text = text.replace(/{{firstOrSecondCall}}/g, data.council.firstOrSecondConvene === 1 ?
+		translate.first_call
+		:
+		data.council.firstOrSecondCall === 2 ?
+			translate.second_call
+			:
+			''
 	);
 
 	const base = data.council.partTotal;
@@ -1864,7 +1868,8 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 			<LiveToast
 				message={translate.revise_text}
 				id="text-error-toast"
-			/>, {
+			/>,
+			{
 				position: toast.POSITION.TOP_RIGHT,
 				autoClose: true,
 				className: 'errorToast'
@@ -1879,7 +1884,8 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 			<LiveToast
 				message={translate.revise_text}
 				id="text-error-toast"
-			/>, {
+			/>,
+			{
 				position: toast.POSITION.TOP_RIGHT,
 				autoClose: true,
 				className: 'errorToast'
