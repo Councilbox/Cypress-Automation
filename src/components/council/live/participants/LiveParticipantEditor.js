@@ -211,7 +211,8 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 									</GridItem>
 									<GridItem xs={12} md={6} lg={6}>
 										{CBX.canHaveRepresentative(participant)
-											&& !(participant.hasDelegatedVotes) && !(participant.represented.length > 0) && (
+											&& !(participant.hasDelegatedVotes) && !(participant.represented.length > 0) &&
+											(
 												<DropdownRepresentative
 													participant={participant}
 													translate={translate}

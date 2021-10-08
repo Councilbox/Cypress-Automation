@@ -234,11 +234,13 @@ export const haveQualityVoteConditions = (agenda, council) => ((agenda.subjectTy
 		+ agenda.votingsRecount.negativeManual) && council.statute.existsQualityVote === 1);
 
 export const canEditPresentVotings = agenda => (agenda.votingState === AGENDA_STATES.DISCUSSION
-	|| agenda.votingState === 4) && (
+	|| agenda.votingState === 4) &&
+	(
 		agenda.subjectType === AGENDA_TYPES.FAKE_PUBLIC_VOTING
 		|| agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING
 		|| agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE
-		|| agenda.subjectType === AGENDA_TYPES.CUSTOM_PUBLIC);
+		|| agenda.subjectType === AGENDA_TYPES.CUSTOM_PUBLIC
+	);
 
 export const approvedByQualityVote = agenda => {
 	if (agenda && agenda.qualityVoteSense) {
@@ -873,12 +875,13 @@ export const changeVariablesToValues = async (initialText, data, translate) => {
 		moment.ISO_8601).format('LLL') : '');
 	text = text.replace(/{{dateEnd}}/g, data.council.dateEnd ? moment(new Date(data.council.dateEnd).toISOString(),
 		moment.ISO_8601).format('LLL') : '');
-	text = text.replace(
-		/{{firstOrSecondCall}}/g, data.council.firstOrSecondConvene === 1 ?
+	text = text.replace(/{{firstOrSecondCall}}/g, data.council.firstOrSecondConvene === 1 ?
 		translate.first_call
-		: data.council.firstOrSecondCall === 2 ?
+		:
+		data.council.firstOrSecondCall === 2 ?
 			translate.second_call
-			: ''
+			:
+			''
 	);
 
 	const base = data.council.partTotal;
@@ -1865,11 +1868,12 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 			<LiveToast
 				message={translate.revise_text}
 				id="text-error-toast"
-			/>, {
-			position: toast.POSITION.TOP_RIGHT,
-			autoClose: true,
-			className: 'errorToast'
-		}
+			/>,
+			{
+				position: toast.POSITION.TOP_RIGHT,
+				autoClose: true,
+				className: 'errorToast'
+			}
 		);
 	}
 
@@ -1880,11 +1884,12 @@ export const checkRequiredFields = (translate, draft, updateErrors, corporation,
 			<LiveToast
 				message={translate.revise_text}
 				id="text-error-toast"
-			/>, {
-			position: toast.POSITION.TOP_RIGHT,
-			autoClose: true,
-			className: 'errorToast'
-		}
+			/>,
+			{
+				position: toast.POSITION.TOP_RIGHT,
+				autoClose: true,
+				className: 'errorToast'
+			}
 		);
 	}
 
