@@ -326,7 +326,7 @@ const VotingsTable = ({
 									tooltip={`${translate.filter_by} - ${props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ?
 										translate.without_selection
 										: translate.no_vote
-									}`}
+										}`}
 								>
 									<VotingValueIcon vote={VOTE_VALUES.NO_VOTE} />
 								</FilterButton>
@@ -336,7 +336,7 @@ const VotingsTable = ({
 									tooltip={`${translate.filter_by} - ${props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ?
 										translate.they_accept
 										: translate.positive_votings
-									}`}
+										}`}
 								>
 									<VotingValueIcon vote={VOTE_VALUES.POSITIVE} />
 								</FilterButton>
@@ -344,7 +344,7 @@ const VotingsTable = ({
 									tooltip={`${translate.filter_by} - ${props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ?
 										translate.they_refuse
 										: translate.negative_votings
-									}`}
+										}`}
 									active={state.voteFilter === VOTE_VALUES.NEGATIVE}
 									onClick={() => props.changeVoteFilter(VOTE_VALUES.NEGATIVE)}
 								>
@@ -750,13 +750,25 @@ const SelectAllMenu = graphql(setAllPresentVotingsMutation, {
 		setLoading(false);
 	};
 
+	const primary = getPrimary();
+
 	return (
 		<DropDownMenu
-			color="transparent"
-			Component={() => <div style={{ cursor: 'pointer' }}>
-				{translate.set_presents_as}: {loading && <LoadingSection size={10} />}
-			</div>
+			buttonStyle={{ color: primary, fontWeight: 'bold', fontSize: '0.75rem', border: `2px solid ${primary}`, borderRadius: '4px', padding: '.4em' }}
+			text={
+				<>
+					<span style={{ overflow: 'hidden', whiteSpace: 'nowrap' }}>{translate.set_presents_as}</span>
+					<span>{loading && <LoadingSection size={10} />}</span>
+				</>
 			}
+			icon={<i className="material-icons">
+				keyboard_arrow_down
+			</i>}
+			anchorOrigin={{
+				vertical: 'bottom',
+				horizontal: 'right',
+			}}
+			color="transparent"
 			type="flat"
 			items={
 				<React.Fragment>
