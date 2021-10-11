@@ -25,6 +25,18 @@ export const getTypeText = (text, translate) => {
 	return texts[text];
 };
 
+const VoteOwnerDisplay = ({ participant }) => {
+	if (!participant) return null;
+
+	return (
+		<div style={{ marginBotton: '2em' }}>
+			<div>
+				{participant.name} {participant.surname || ''}
+			</div>
+		</div>
+	);
+};
+
 
 const CheckShareholderRequest = ({
 	request, translate, refetch, client, council
@@ -105,13 +117,11 @@ const CheckShareholderRequest = ({
 										</div>
 									))}
 							</div>
-							: request.data.representative
-							&& <div style={{ marginBotton: '2em' }}>
-								<div>
-									{request.data.representative.name} {request.data.representative.surname || ''}
-								</div>
-							</div>
-
+							:
+							<VoteOwnerDisplay
+								participant={request.data.representative || request.data.delegate}
+								translate={translate}
+							/>
 						}
 
 						{request.data.earlyVotes && request.data.earlyVotes.map((vote, index) => (

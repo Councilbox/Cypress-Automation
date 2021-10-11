@@ -117,7 +117,7 @@ const ContactForm = ({
 				</Input>
 			</div>
 			<div style={{ marginTop: '1em' }}>
-				<div style={{ fontWeight: 'bold' }}>{translate.title}</div>
+				<div style={{ fontWeight: 'bold' }}>{translate.title}*</div>
 				<Input
 					placeholder={translate.title}
 					disableUnderline={true}
@@ -139,7 +139,7 @@ const ContactForm = ({
 				</Input>
 			</div>
 			<div style={{ marginTop: '1em' }}>
-				<div style={{ marginBottom: '1em', fontWeight: 'bold' }}>{translate.message}</div>
+				<div style={{ marginBottom: '1em', fontWeight: 'bold' }}>{translate.message}*</div>
 				<RichTextInput
 					value={state.body}
 					onChange={value => setState({ body: value })}

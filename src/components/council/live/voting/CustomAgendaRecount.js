@@ -23,7 +23,17 @@ const CustomAgendaRecount = ({
 	agenda, translate, council, company
 }) => {
 	const data = formatDataFromAgenda(agenda, translate);
-	const votings = [...agenda.items].sort(orderByRecount(agenda.votingsRecount));
+	const votings = [
+		...agenda.items,
+		{
+			id: 'noVote',
+			value: translate.no_vote_lowercase
+		},
+		{
+			id: 'abstention',
+			value: translate.abstention_btn,
+		},
+	].sort(orderByRecount(agenda.votingsRecount));
 
 	const printPercentage = value => {
 		return `(${getPercentage(value, agenda.votingsRecount.totalRecount)}%)`;
@@ -97,32 +107,6 @@ const CustomAgendaRecount = ({
 								</TableCell>
 							</TableRow>
 						))}
-						<TableRow>
-							<TableCell>
-								{translate.abstention_btn}
-							</TableCell>
-							<TableCell>
-								{`${showNumParticipations(
-									agenda.votingsRecount.abstention,
-									company,
-									council.statute
-								)}`}
-								<span style={{ marginLeft: '0.5em' }}>{printPercentage(agenda.votingsRecount.abstention)}</span>
-							</TableCell>
-						</TableRow>
-						<TableRow >
-							<TableCell>
-								{translate.no_vote_lowercase}
-							</TableCell>
-							<TableCell>
-								{`${showNumParticipations(
-									agenda.votingsRecount.noVote,
-									company,
-									council.statute
-								)}`}
-								<span style={{ marginLeft: '0.5em' }}>{printPercentage(agenda.votingsRecount.noVote)}</span>
-							</TableCell>
-						</TableRow>
 					</TableBody>
 				</Table>
 			</GridItem>
@@ -130,12 +114,28 @@ const CustomAgendaRecount = ({
 	);
 };
 
-const formatDataFromAgenda = agenda => {
+const formatDataFromAgenda = (agenda, translate) => {
 	const colors = ['#E8B745', '#D1DE3B', '#6AD132', '#2AC26D', '#246FB0', '#721E9C', '#871A1C', '#6EA85D', '#9DAA49', '#CDA645'];
-	const newItems = agenda.items.map((item, index) => ({
+	const { items: itemsAgenda } = agenda;
+
+	const newAgendas = [
+		...itemsAgenda,
+		{
+			id: 'noVote',
+			value: translate.no_vote_lowercase
+		},
+		{
+			id: 'abstention',
+			value: translate.abstention_btn,
+		},
+
+	];
+
+	const newItems = newAgendas.map((item, index) => ({
 		...item,
 		color: colors[index % colors.length]
 	}));
+
 	const items = newItems.sort(orderByRecount(agenda.votingsRecount));
 	const labels = items.map(item => item.value);
 	const orderedColors = newItems.map(item => item.color);

@@ -153,7 +153,7 @@ const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
 								max={maxVoteManual + state.noVoteManual}
 								floatingText={translate.no_vote_lowercase}
 								onChange={event => updateVoting({
-									noVoteManual: ((maxVoteManual + state.noVoteManual) >= +event.target.value) ? event.target.value : (+maxVoteManual + +state.noVoteManual)
+									noVoteManual: ((maxVoteManual + state.noVoteManual) >= +event.target.value) ? calculateValidNumber(parseInt(maxVoteManual, 10), parseInt(state.noVoteManual, 10), parseInt(event.target.value, 10)) : (+maxVoteManual + +state.noVoteManual)
 								})}
 							/>
 						</GridItem>
@@ -162,7 +162,7 @@ const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
 								loading={state.loading}
 								success={state.success}
 								reset={resetButtonStates}
-								text={state.loading || state.success ? 'Guardado' : translate.save}
+								text={state.loading || state.success ? translate.saved : translate.save}
 								// text={translate.save}
 								textStyle={{ color: 'white', fontWeight: '700' }}
 								color={getSecondary()}

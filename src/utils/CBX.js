@@ -230,8 +230,8 @@ export const majorityNeedsInput = majorityType => majorityType === MAJORITY_TYPE
 	|| majorityType === MAJORITY_TYPES.FRACTION;
 
 export const haveQualityVoteConditions = (agenda, council) => ((agenda.subjectType === AGENDA_TYPES.PUBLIC_ACT || agenda.subjectType === AGENDA_TYPES.PUBLIC_VOTING)
-	&& (agenda.majorityType === 1) && (agenda.positiveVotings + agenda.positiveManual) === (agenda.negativeVotings
-		+ agenda.negativeManual) && council.statute.existsQualityVote === 1);
+	&& (agenda.majorityType === 1) && (agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual) === (agenda.votingsRecount.negativeVotings
+		+ agenda.votingsRecount.negativeManual) && council.statute.existsQualityVote === 1);
 
 export const canEditPresentVotings = agenda => (agenda.votingState === AGENDA_STATES.DISCUSSION
 	|| agenda.votingState === 4) && (

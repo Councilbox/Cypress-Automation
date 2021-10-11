@@ -1,0 +1,241 @@
+{
+  "stats": {
+    "suites": 2,
+    "tests": 7,
+    "passes": 7,
+    "pending": 0,
+    "failures": 0,
+    "start": "2021-09-29T12:06:16.734Z",
+    "end": "2021-09-29T12:06:51.875Z",
+    "duration": 35141,
+    "testsRegistered": 7,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "64128fb5-b96a-4b12-b564-59f18a1443fd",
+      "title": "",
+      "fullFile": "cypress\\integration\\1.Smoke\\8.Start_Test_Conference_section.js",
+      "file": "cypress\\integration\\1.Smoke\\8.Start_Test_Conference_section.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "c1ad359d-88e8-4823-a67f-e0954f873c1c",
+          "title": "Councilbox login - valid username and password",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Visits the Councilbox web page",
+              "fullTitle": "Councilbox login - valid username and password Visits the Councilbox web page",
+              "timedOut": null,
+              "duration": 2381,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(login_url);",
+              "err": {},
+              "uuid": "4a53bbe1-d7d5-4a4f-b8dd-809a84c51544",
+              "parentUUID": "c1ad359d-88e8-4823-a67f-e0954f873c1c",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Change language to Spanish",
+              "fullTitle": "Councilbox login - valid username and password Change language to Spanish",
+              "timedOut": null,
+              "duration": 1825,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.contains('EN').click();\ncy.contains('ES').click();",
+              "err": {},
+              "uuid": "a8db94c9-de6d-465c-ac17-fbfb65e4e587",
+              "parentUUID": "c1ad359d-88e8-4823-a67f-e0954f873c1c",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Enters email address",
+              "fullTitle": "Councilbox login - valid username and password Enters email address",
+              "timedOut": null,
+              "duration": 1179,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#username').clear().type('alem@qaengineers.net').should(\"have.value\", 'alem@qaengineers.net');",
+              "err": {},
+              "uuid": "18452c36-f5e9-44bc-8dd7-435d8d5b0281",
+              "parentUUID": "c1ad359d-88e8-4823-a67f-e0954f873c1c",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Enters password",
+              "fullTitle": "Councilbox login - valid username and password Enters password",
+              "timedOut": null,
+              "duration": 470,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#password').clear().type('Mostar123!').should(\"have.value\", 'Mostar123!');",
+              "err": {},
+              "uuid": "3ebbeb6a-3491-40f6-b132-df0df8dc361f",
+              "parentUUID": "c1ad359d-88e8-4823-a67f-e0954f873c1c",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Clicks login button",
+              "fullTitle": "Councilbox login - valid username and password Clicks login button",
+              "timedOut": null,
+              "duration": 2140,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get(\"#login-button\").click();\ncy.wait(2000);",
+              "err": {},
+              "uuid": "ff6ffd2a-1e8b-4be4-b21c-cc1bcb62c922",
+              "parentUUID": "c1ad359d-88e8-4823-a67f-e0954f873c1c",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "4a53bbe1-d7d5-4a4f-b8dd-809a84c51544",
+            "a8db94c9-de6d-465c-ac17-fbfb65e4e587",
+            "18452c36-f5e9-44bc-8dd7-435d8d5b0281",
+            "3ebbeb6a-3491-40f6-b132-df0df8dc361f",
+            "ff6ffd2a-1e8b-4be4-b21c-cc1bcb62c922"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 7995,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "d9a071a2-45ef-4125-bdc5-5f94d5f71b8d",
+          "title": "The user is able to start conference",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Click on the 'Iniciar conferencia' button",
+              "fullTitle": "The user is able to start conference Click on the 'Iniciar conferencia' button",
+              "timedOut": null,
+              "duration": 10682,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.contains('dashboard').click({\n  force: true\n});\ncy.get('#init-meeting-block').click();\ncy.wait(10000);",
+              "err": {},
+              "uuid": "dcae4904-3f24-4255-bae1-424b73fe62dd",
+              "parentUUID": "d9a071a2-45ef-4125-bdc5-5f94d5f71b8d",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Populate required field and click on the 'Join' button",
+              "fullTitle": "The user is able to start conference Populate required field and click on the 'Join' button",
+              "timedOut": null,
+              "duration": 15046,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "/*\n        cy.get('#meeting-iframe').then($iframe => {\n  const $body = $iframe.contents().find('body') ; cy.wrap($body)\n\n\n    cy.get('#participant-name-input').type('AutomationTest')\n\n\n    cy.contains('Join').click()\n\n\n    cy.wait(15000)\n    \n});\n\n*/\ncy.wait(15000);",
+              "err": {},
+              "uuid": "ed62af03-f73b-4121-aa80-e3990785fbc2",
+              "parentUUID": "d9a071a2-45ef-4125-bdc5-5f94d5f71b8d",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "dcae4904-3f24-4255-bae1-424b73fe62dd",
+            "ed62af03-f73b-4121-aa80-e3990785fbc2"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 25728,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.2.2"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "reportDir": "cypress/reports/mocha",
+        "quite": true,
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "5.2.0"
+    }
+  }
+}
