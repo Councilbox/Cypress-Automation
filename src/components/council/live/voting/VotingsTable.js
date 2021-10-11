@@ -128,6 +128,12 @@ const VotingsTable = ({
 		return `(${((num / total) * 100).toFixed(3)}%)`;
 	};
 
+	const printPercentageNumTotal = num => {
+		const total = agenda.votingsRecount.numTotal;
+
+		return `(${((num / total) * 100).toFixed(3)}%)`;
+	};
+
 	let votings = [];
 
 	if (data.agendaVotings) {
@@ -428,14 +434,14 @@ const VotingsTable = ({
 						fontWeight: 'bold',
 						fontSize: '13px'
 					}}>
-						<div>{translate.no_vote_lowercase}: {agenda.votingsRecount.noVoteVotings} {printPercentageTotal(agenda.votingsRecount.noVoteVotings + agenda.votingsRecount.noVoteManual)}</div>
+						<div>{translate.no_vote_lowercase}: {agenda.votingsRecount.numNoVoteVotings} {printPercentageNumTotal(agenda.votingsRecount.numNoVoteVotings)}</div>
 						<div style={{ margin: '0 .5em' }}>|</div>
-						<div>{translate.positive_votings}: {agenda.votingsRecount.positiveVotings} {printPercentageTotal(agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual)}</div>
+						<div>{translate.positive_votings}: {agenda.votingsRecount.numPositiveVotings} {printPercentageNumTotal(agenda.votingsRecount.numPositiveVotings)}</div>
 						<div style={{ margin: '0 .5em' }}>|</div>
-						<div>{translate.negative_votings}: {agenda.votingsRecount.negativeVotings} {printPercentageTotal(agenda.votingsRecount.negativeVotings + agenda.votingsRecount.negativeManual)}</div>
+						<div>{translate.negative_votings}: {agenda.votingsRecount.numNegativeVotings} {printPercentageNumTotal(agenda.votingsRecount.numNegativeVotings)}</div>
 						<div style={{ margin: '0 .5em' }}>|</div>
 						{!isConfirmationRequest(agenda.subjectType) &&
-							<div>{translate.abstention_lowercase}: {agenda.votingsRecount.abstentionVotings} {printPercentageTotal(agenda.votingsRecount.abstentionVotings + agenda.votingsRecount.abstentionManual)}</div>
+							<div>{translate.abstention_lowercase}: {agenda.votingsRecount.numAbstentionVotings} {printPercentageNumTotal(agenda.votingsRecount.numAbstentionVotings)}</div>
 						}
 					</div>
 				}
@@ -448,17 +454,17 @@ const VotingsTable = ({
 						fontSize: '13px'
 					}}>
 						{state.voteFilter === VOTE_VALUES.NO_VOTE &&
-							<div><span style={{ fontWeight: 'bold' }}>{translate.no_vote_lowercase}: {agenda.votingsRecount.noVoteVotings} {printPercentageTotal(agenda.votingsRecount.noVoteVotings + agenda.votingsRecount.noVoteManual)}</span> {translate.table_showing_part3} {agenda.votingsRecount.noVoteVotings + agenda.votingsRecount.noVoteManual} <span style={{ textTransform: 'lowercase' }}>{translate.participants}</span> </div>
+							<div><span style={{ fontWeight: 'bold' }}>{translate.no_vote_lowercase}: {agenda.votingsRecount.numNoVoteVotings} {printPercentageNumTotal(agenda.votingsRecount.numNoVoteVotings)}</span> {translate.table_showing_part3} {agenda.votingsRecount.numTotal} <span style={{ textTransform: 'lowercase' }}>{translate.participants}</span> </div>
 						}
 						{state.voteFilter === VOTE_VALUES.POSITIVE &&
-							<div><span style={{ fontWeight: 'bold' }}>{translate.positive_votings}: {agenda.votingsRecount.positiveVotings} {printPercentageTotal(agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual)}</span> {translate.table_showing_part3} {agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual} <span style={{ textTransform: 'lowercase' }}>{translate.participants}</span> </div>
+							<div><span style={{ fontWeight: 'bold' }}>{translate.positive_votings}: {agenda.votingsRecount.numPositiveVotings} {printPercentageNumTotal(agenda.votingsRecount.numPositiveVotings)}</span> {translate.table_showing_part3} {agenda.votingsRecount.numTotal} <span style={{ textTransform: 'lowercase' }}>{translate.participants}</span> </div>
 						}
 						{state.voteFilter === VOTE_VALUES.NEGATIVE &&
-							<div><span style={{ fontWeight: 'bold' }}>{translate.negative_votings}: {agenda.votingsRecount.negativeVotings} {printPercentageTotal(agenda.votingsRecount.negativeVotings + agenda.votingsRecount.negativeManual)}</span> {translate.table_showing_part3} {agenda.votingsRecount.negativeVotings + agenda.votingsRecount.negativeManual} <span style={{ textTransform: 'lowercase' }}>{translate.participants}</span> </div>
+							<div><span style={{ fontWeight: 'bold' }}>{translate.negative_votings}: {agenda.votingsRecount.numNegativeVotings} {printPercentageNumTotal(agenda.votingsRecount.numNegativeVotings)}</span> {translate.table_showing_part3} {agenda.votingsRecount.numTotal} <span style={{ textTransform: 'lowercase' }}>{translate.participants}</span> </div>
 						}
 						{!isConfirmationRequest(agenda.subjectType) &&
 							state.voteFilter === VOTE_VALUES.ABSTENTION &&
-							<div><span style={{ fontWeight: 'bold' }}>{translate.abstention_lowercase}: {agenda.votingsRecount.abstentionVotings} {printPercentageTotal(agenda.votingsRecount.abstentionVotings + agenda.votingsRecount.abstentionManual)}</span> {translate.table_showing_part3} {agenda.votingsRecount.abstentionVotings + agenda.votingsRecount.abstentionManual} <span style={{ textTransform: 'lowercase' }}>{translate.participants}</span> </div>
+							<div><span style={{ fontWeight: 'bold' }}>{translate.abstention_lowercase}: {agenda.votingsRecount.numAbstentionVotings} {printPercentageNumTotal(agenda.votingsRecount.numAbstentionVotings)}</span> {translate.table_showing_part3} {agenda.votingsRecount.numTotal} <span style={{ textTransform: 'lowercase' }}>{translate.participants}</span> </div>
 
 						}
 					</div>
