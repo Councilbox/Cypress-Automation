@@ -106,36 +106,14 @@ const VotingsTable = ({
 		return `(${getPercentage(value, props.recount.partTotal)}%)`;
 	};
 
-	const defaultZero = value => (value || 0);
-	const printPercentageTotal = (num, base = null) => {
-		const totalVotes = defaultZero(agenda.votingsRecount.positiveVotings)
-			+ defaultZero(agenda.votingsRecount.positiveManual)
-			+ defaultZero(agenda.votingsRecount.negativeVotings)
-			+ defaultZero(agenda.votingsRecount.negativeManual)
-			+ defaultZero(agenda.votingsRecount.abstentionVotings)
-			+ defaultZero(agenda.votingsRecount.abstentionManual)
-			+ defaultZero(agenda.votingsRecount.noVoteVotings)
-			+ defaultZero(agenda.votingsRecount.noVoteManual);
-		if (props.company.type === 10) {
-			return '';
-		}
-		const total = base || (totalVotes + props.recount.treasuryShares);
-
-		if (total === 0) {
-			return '(0%)';
-		}
-
-		return `(${((num / total) * 100).toFixed(3)}%)`;
-	};
-
-	const printPercentageNumTotal = num => {
+	const printPercentageNumTotal = (num, base = null) => {
 		const total = agenda.votingsRecount.numTotal;
 
-		if (!total) {
-			return '-';
+		if (!total && !base) {
+			return '(-)';
 		}
 
-		return `(${((num / total) * 100).toFixed(3)}%)`;
+		return `(${((num / (base || total)) * 100).toFixed(3)}%)`;
 	};
 
 	let votings = [];
@@ -320,8 +298,6 @@ const VotingsTable = ({
 		);
 	};
 
-	console.log(agenda.votingsRecount);
-
 	return (
 		<Grid
 			style={{
@@ -431,7 +407,7 @@ const VotingsTable = ({
 				</GridItem>
 			}
 			<GridItem xs={4} md={8} lg={8} style={{ display: 'flex', alignItems: 'center' }}>
-				{isAnonym(agenda.subjectType) ?
+				{(isAnonym(agenda.subjectType) && !isCustomPoint(agenda.subjectType)) &&
 					<>
 						<div style={{
 							border: '1px solid gainsboro',
@@ -446,7 +422,23 @@ const VotingsTable = ({
 							<div>{translate.has_voted}: {agenda.votingsRecount.numHasVoted} {printPercentageNumTotal(agenda.votingsRecount.numHasVoted)}</div>
 						</div>
 					</>
-					:
+				}{isCustomPoint(agenda.subjectType) &&
+					<>
+						<div style={{
+							border: '1px solid gainsboro',
+							padding: '8px 16px',
+							display: 'inline-flex',
+							alignItems: 'center',
+							fontWeight: 'bold',
+							fontSize: '13px'
+						}}>
+							<div>{translate.no_vote_lowercase}: {agenda.votingsRecount.numNoVoteVotings} {printPercentageNumTotal(agenda.votingsRecount.numNoVoteVotings, agenda.votingsRecount.totalVotes)}</div>
+							<div style={{ margin: '0 .5em' }}>|</div>
+							<div>{translate.has_voted}: {agenda.votingsRecount.castedVotes} {printPercentageNumTotal(agenda.votingsRecount.castedVotes, agenda.votingsRecount.totalVotes)}</div>
+						</div>
+					</>
+				}
+				{!isAnonym(agenda.subjectType) && !isCustomPoint(agenda.subjectType) &&
 					<>
 						{state.voteFilter === 'all' &&
 							<div style={{
