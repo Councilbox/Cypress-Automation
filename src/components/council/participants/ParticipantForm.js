@@ -7,7 +7,7 @@ import {
 	SelectInput,
 	TextInput
 } from '../../../displayComponents';
-import { cleanVotesValue } from '../../../utils/CBX';
+import { cleanVotesValue, participantIsGuest, participantIsTranslator } from '../../../utils/CBX';
 
 const ParticipantForm = ({
 	participant,
@@ -160,23 +160,25 @@ const ParticipantForm = ({
 				}
 			/>
 		</GridItem>
-		<GridItem xs={6} md={4} lg={3}>
-			<TextInput
-				id="participant-administrative-email-input"
-				floatingText={translate.administrative_email}
-				min={1}
-				onBlur={() => updateState({
-					secondaryEmail: participant.secondaryEmail?.trim()
-				})}
-				errorText={errors.secondaryEmail}
-				value={participant.secondaryEmail || ''}
-				onChange={event => {
-					updateState({
-						secondaryEmail: event.target.value
-					});
-				}}
-			/>
-		</GridItem>
+		{!participantIsGuest(participant) &&
+			<GridItem xs={6} md={4} lg={3}>
+				<TextInput
+					id="participant-administrative-email-input"
+					floatingText={translate.administrative_email}
+					min={1}
+					onBlur={() => updateState({
+						secondaryEmail: participant.secondaryEmail?.trim()
+					})}
+					errorText={errors.secondaryEmail}
+					value={participant.secondaryEmail || ''}
+					onChange={event => {
+						updateState({
+							secondaryEmail: event.target.value
+						});
+					}}
+				/>
+			</GridItem>
+		}
 		<GridItem xs={6} md={4} lg={3}>
 			<TextInput
 				id="participant-phone-input"
@@ -218,8 +220,8 @@ const ParticipantForm = ({
 				))}
 			</SelectInput>
 		</GridItem>
-		{participant.personOrEntity === 0
-			&& <GridItem xs={6} md={4} lg={3}>
+		{(participant.personOrEntity === 0 && !participantIsTranslator(participant)) && (
+			<GridItem xs={6} md={4} lg={3}>
 				<SelectInput
 					id="participant-participation-type-select"
 					floatingText={translate.participation_type}
@@ -256,7 +258,7 @@ const ParticipantForm = ({
 					</MenuItem>
 				</SelectInput>
 			</GridItem>
-		}
+		)}
 		{!hideVotingInputs
 			&& <>
 				<GridItem xs={6} md={4} lg={1}>

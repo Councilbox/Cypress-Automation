@@ -1,8 +1,8 @@
 import React from 'react';
 import { graphql, withApollo } from 'react-apollo';
 import { flowRight as compose } from 'lodash';
+import gql from 'graphql-tag';
 import { AlertConfirm } from '../../../../displayComponents';
-import { addGuest } from '../../../../queries';
 import RepresentativeForm from '../../participants/RepresentativeForm';
 import { languages } from '../../../../queries/masters';
 import { checkValidEmail } from '../../../../utils/validation';
@@ -20,7 +20,7 @@ const newGuestInitialValues = {
 	initialState: 0
 };
 
-const AddTranslatorModal = ({ show, council, translate, refetch, requestClose, ...props }) => {
+const AddTranslatorModal = ({ show, council, translate, refetch, requestClose, client, ...props }) => {
 	const [state, setState] = React.useState({
 		success: '',
 		errors: {},
@@ -48,7 +48,7 @@ const AddTranslatorModal = ({ show, council, translate, refetch, requestClose, .
 			errors.email = translate.valid_email_required;
 			hasError = true;
 		} else {
-			const response = await props.client.query({
+			const response = await client.query({
 				query: checkUniqueCouncilEmails,
 				variables: {
 					councilId: council.id,
@@ -69,11 +69,6 @@ const AddTranslatorModal = ({ show, council, translate, refetch, requestClose, .
 
 			if (!guest.surname) {
 				errors.surname = translate.required_field;
-				hasError = true;
-			}
-
-			if (!guest.dni) {
-				errors.dni = translate.required_field;
 				hasError = true;
 			}
 
@@ -111,20 +106,28 @@ const AddTranslatorModal = ({ show, council, translate, refetch, requestClose, .
 
 	const sendAddTranslator = async () => {
 		if (!await checkRequiredFields()) {
-			const response = await props.addGuest({
+			const response = await client.mutate({
+				mutation: gql`
+					mutation AddTranslator($translator: LiveParticipantInput) {
+						addTranslator(translator: $translator) {
+							success
+							message
+						}
+					}
+				`,
 				variables: {
-					guest: {
+					translator: {
 						...state.guest,
-						position: translate.guest,
+						position: translate.translator,
 						councilId: council.id
 					}
 				}
 			});
 			if (response) {
-				if (response.data.addGuest.success) {
+				if (response.data.addTranslator.success) {
 					refetch();
 					close();
-				} else if (response.data.addGuest.message === '601') {
+				} else if (response.data.addTranslator.message === '601') {
 					setState({
 						errors: {
 							email: translate.repeated_email
@@ -157,6 +160,8 @@ const AddTranslatorModal = ({ show, council, translate, refetch, requestClose, .
 					translate={translate}
 					representative={state.guest}
 					updateState={updateGuest}
+					hideInitialState={true}
+					hideAdminEmail={true}
 					errors={state.errors}
 					languages={props.data.languages}
 				/>
@@ -178,12 +183,6 @@ const AddTranslatorModal = ({ show, council, translate, refetch, requestClose, .
 };
 
 export default compose(
-	graphql(addGuest, {
-		name: 'addGuest',
-		options: {
-			errorPolicy: 'all'
-		}
-	}),
 	graphql(languages)
 )(withApollo(AddTranslatorModal));
 

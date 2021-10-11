@@ -1878,6 +1878,7 @@ export const videoParticipants = gql`
 				participantId
 				online
 				requestWord
+				type
 				surname
 				blocked
 				lastDateConnection

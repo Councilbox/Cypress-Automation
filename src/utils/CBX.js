@@ -1542,7 +1542,9 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
 	}
 };
 
-export const participantIsGuest = participant => participant.type === PARTICIPANT_TYPE.GUEST;
+export const participantIsTranslator = participant => participant.type === PARTICIPANT_TYPE.TRANSLATOR;
+export const participantIsGuest = participant => participant.type === PARTICIPANT_TYPE.GUEST ||
+	participantIsTranslator(participant);
 export const participantIsRepresentative = participant => participant.type === PARTICIPANT_TYPE.REPRESENTATIVE;
 
 export const getAttendanceIntentionTooltip = intention => {
