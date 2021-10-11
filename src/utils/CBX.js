@@ -190,6 +190,7 @@ export const agendaVotingsOpened = agenda => agenda.votingState === AGENDA_STATE
 export const agendaClosed = agenda => agenda.pointState === AGENDA_STATES.CLOSED;
 
 export const councilHasVideo = council => council.councilType === 0 || council.councilType === 5;
+export const canAddTranslator = council => councilHasVideo(council) && council.room?.type === 'SHUTTER';
 
 export const censusHasParticipations = census => census.quorumPrototype === 1;
 

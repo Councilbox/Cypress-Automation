@@ -262,7 +262,7 @@ const ConvenedParticipantsTable = ({
 								{!hideAddParticipant
 									&& <div>
 										<DropdownParticipant
-											btnTranslator
+											addTranslator={CBX.canAddTranslator(council)}
 											participations={participations}
 											council={council}
 											translate={translate}

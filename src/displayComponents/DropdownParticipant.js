@@ -12,7 +12,7 @@ import AddTranslatorModal from '../components/council/live/participants/addTrans
 import AddCouncilParticipantButton from '../components/council/editor/census/modals/AddCouncilParticipantButton';
 
 const DropdownParticipant = ({
-	participations, addCouncil, council, refetch, disabled, translate, style, ...props
+	participations, addCouncil, council, refetch, disabled, translate, style, addTranslator
 }) => {
 	const [state, setState] = React.useState({
 		add: false,
@@ -94,7 +94,7 @@ const DropdownParticipant = ({
 								justifyContent: 'space-between'
 							}}
 						/>
-						{props.btnTranslator && <BasicButton
+						{addTranslator && <BasicButton
 							text={translate.add_translator}
 							color={'white'}
 							type="flat"

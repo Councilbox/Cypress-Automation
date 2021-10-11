@@ -1461,6 +1461,7 @@ export const councilLiveQuery = gql`
 			room {
 				id
 				videoLink
+				type
 				htmlVideoCouncil
 				videoConfig
 			}
