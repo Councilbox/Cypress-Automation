@@ -253,6 +253,7 @@ export const councilDetails = gql`
 			socialCapitalPresent
 			numRightVoting
 			partRightVoting
+			treasuryShares
 			socialCapitalRightVoting
 			numNoParticipate
 			partNoParticipate
