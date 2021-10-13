@@ -330,6 +330,13 @@ export const isCustomPoint = subjectType => {
 	return !!customPoint;
 };
 
+export const isMaxGrantedWordsError = error => error.message === 'Too many granted words';
+
+export const getMaxGrantedWordsMessage = (error, translate) => {
+	const { maxGrantedWords } = error.originalError.data;
+	return translate.initial_granted_word_error.replace('5', maxGrantedWords);
+};
+
 export const isConfirmationRequest = subjectType => subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST;
 
 export const hasParticipations = (statute = {}) => statute.quorumPrototype === 1;

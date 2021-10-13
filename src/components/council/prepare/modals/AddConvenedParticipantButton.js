@@ -20,7 +20,7 @@ import { useOldState } from '../../../../hooks';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import { isMobile } from '../../../../utils/screen';
 import { COUNCIL_TYPES } from '../../../../constants';
-import { councilIsFinished, isAppointment } from '../../../../utils/CBX';
+import { councilIsFinished, getMaxGrantedWordsMessage, isAppointment, isMaxGrantedWordsError } from '../../../../utils/CBX';
 import SelectRepresentative from '../../editor/census/modals/SelectRepresentative';
 import AppointmentParticipantForm from '../../participants/AppointmentParticipantForm';
 
@@ -194,16 +194,18 @@ const AddConvenedParticipantButton = ({
 				if (!buttonAdd) {
 					requestClose();
 				}
-			} else if (response.errors[0].message === 'Too many granted words') {
+			} else if (isMaxGrantedWordsError(response.errors[0])) {
+				const message = getMaxGrantedWordsMessage(response.errors[0], translate);
+
 				setState({
 					...(state.data.initialState === 2 ? {
 						errors: {
-							initialState: translate.initial_granted_word_error
+							initialState: message
 						}
 					} : {}),
 					...(representative && representative.initialState === 2 ? {
 						representativeErrors: {
-							initialState: translate.initial_granted_word_error
+							initialState: message
 						}
 					} : {})
 
