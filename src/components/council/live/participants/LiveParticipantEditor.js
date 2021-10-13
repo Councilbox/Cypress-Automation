@@ -194,26 +194,32 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 							<GridItem xs={12} md={8} lg={8}>
 								<Grid style={{ display: 'flex', flexDirection: 'column' }}>
 									<GridItem xs={12} md={6} lg={6}>
-										<ParticipantSelectActions
-											participant={participant}
-											council={props.council}
-											translate={translate}
-											refetch={() => {
-												data.refetch();
-												updateOwnedVotes();
-											}}
-										/>
+										{!loadingOwnedVotes ?
+											<ParticipantSelectActions
+												ownedVotes={ownedVotes}
+												participant={participant}
+												council={props.council}
+												translate={translate}
+												refetch={() => {
+													data.refetch();
+													updateOwnedVotes();
+												}}
+											/>
+											:
+											<LoadingSection />
+										}
 									</GridItem>
 									<GridItem xs={12} md={6} lg={6}>
 										{CBX.canHaveRepresentative(participant)
-											&& !(participant.hasDelegatedVotes) && !(participant.represented.length > 0) && (
-											<DropdownRepresentative
-												participant={participant}
-												translate={translate}
-												council={props.council}
-												refetch={data.refetch}
-											/>
-										)}
+											&& !(participant.hasDelegatedVotes) && !(participant.represented.length > 0) &&
+											(
+												<DropdownRepresentative
+													participant={participant}
+													translate={translate}
+													council={props.council}
+													refetch={data.refetch}
+												/>
+											)}
 									</GridItem>
 								</Grid>
 							</GridItem>
@@ -221,6 +227,7 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 						{CBX.isRepresented(participant) ?
 							<ParticipantBlock
 								{...props}
+								ownedVotes={ownedVotes}
 								participant={participant.representative}
 								translate={translate}
 								active={true}
@@ -230,6 +237,7 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 							: (participant.representatives && participant.representatives.length > 0)
 							&& <ParticipantBlock
 								{...props}
+								ownedVotes={ownedVotes}
 								participant={participant.representatives[0]}
 								translate={translate}
 								active={false}
@@ -276,7 +284,7 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 };
 
 export const ParticipantBlock = withApollo(({
-	children, translate, type, client, data, action, active, participant, ...props
+	children, translate, type, client, data, action, active, participant, ownedVotes, ...props
 }) => {
 	const {
 		edit,
@@ -453,6 +461,7 @@ export const ParticipantBlock = withApollo(({
 					<GridItem xs={12} md={9} lg={6} style={{ display: 'flex' }}>
 						{active
 							&& <ParticipantSelectActions
+								ownedVotes={ownedVotes}
 								participant={participant}
 								council={props.council}
 								translate={translate}
