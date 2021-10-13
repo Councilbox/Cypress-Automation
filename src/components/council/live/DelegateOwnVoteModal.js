@@ -116,33 +116,36 @@ const DelegateOwnVoteModal = ({
 					<LiveToast
 						id="error-toast"
 						message={translate.just_delegate_vote}
-					/>, {
-					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,
-					className: 'errorToast'
-				}
+					/>,
+					{
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,
+						className: 'errorToast'
+					}
 				);
 			} else if (response.errors[0].code === 711) {
 				toast(
 					<LiveToast
 						message={translate.number_of_delegated_votes_exceeded}
 						id="error-toast"
-					/>, {
-					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,
-					className: 'errorToast'
-				}
+					/>,
+					{
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,
+						className: 'errorToast'
+					}
 				);
 			} else if (response.errors[0].code === 715) {
 				toast(
 					<LiveToast
 						id="error-toast"
 						message={translate.cant_delegate_has_delegated_votes}
-					/>, {
-					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,
-					className: 'errorToast'
-				}
+					/>,
+					{
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,
+						className: 'errorToast'
+					}
 				);
 			}
 		}

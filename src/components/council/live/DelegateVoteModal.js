@@ -115,33 +115,36 @@ const DelegateVoteModal = ({
 				<LiveToast
 					message={translate.just_delegate_vote}
 					id="error-toast"
-				/>, {
-				position: toast.POSITION.TOP_RIGHT,
-				autoClose: true,
-				className: 'errorToast'
-			}
+				/>,
+				{
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: 'errorToast'
+				}
 			);
 		} else if (response.errors[0].code === 711) {
 			toast(
 				<LiveToast
 					id="error-toast"
 					message={translate.number_of_delegated_votes_exceeded}
-				/>, {
-				position: toast.POSITION.TOP_RIGHT,
-				autoClose: true,
-				className: 'errorToast'
-			}
+				/>,
+				{
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: 'errorToast'
+				}
 			);
 		} else if (response.errors[0].code === 715) {
 			toast(
 				<LiveToast
 					id="error-toast"
 					message={translate.cant_delegate_has_delegated_votes}
-				/>, {
-				position: toast.POSITION.TOP_RIGHT,
-				autoClose: true,
-				className: 'errorToast'
-			}
+				/>,
+				{
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: 'errorToast'
+				}
 			);
 		}
 	};
@@ -226,8 +229,8 @@ const DelegateVoteModal = ({
 												padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'
 											}}>
 												{`DESCARGAR ${rest > DELEGATION_USERS_LOAD ?
-														`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-														: translate.all_plural.toLowerCase()
+													`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+													: translate.all_plural.toLowerCase()
 													}`}
 												{loading
 													&& <div>
