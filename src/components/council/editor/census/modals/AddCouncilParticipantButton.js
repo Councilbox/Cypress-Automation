@@ -22,7 +22,7 @@ import CheckUserClavePin from '../../../participants/CheckParticipantRegisteredC
 import withSharedProps from '../../../../../HOCs/withSharedProps';
 import SelectRepresentative from './SelectRepresentative';
 import { COUNCIL_TYPES, INPUT_REGEX, PARTICIPANT_VALIDATIONS } from '../../../../../constants';
-import { isAppointment } from '../../../../../utils/CBX';
+import { getMaxGrantedWordsMessage, isAppointment, isMaxGrantedWordsError } from '../../../../../utils/CBX';
 import AppointmentParticipantForm from '../../../participants/AppointmentParticipantForm';
 
 const initialParticipant = council => {
@@ -115,17 +115,19 @@ class AddCouncilParticipantButton extends React.Component {
 				if (!this.props.buttonAdd) {
 					this.props.requestClose();
 				}
-			} else if (response.errors[0].message === 'Too many granted words') {
+			} else if (isMaxGrantedWordsError(response.errors[0])) {
+				const message = getMaxGrantedWordsMessage(response.errors[0], this.props.translate);
+
 				this.setState({
 					loading: false,
 					...(this.state.data.initialState === 2 ? {
 						errors: {
-							initialState: this.props.translate.initial_granted_word_error
+							initialState: message
 						}
 					} : {}),
 					...(representative && representative.initialState === 2 ? {
 						representativeErrors: {
-							initialState: this.props.translate.initial_granted_word_error
+							initialState: message
 						}
 					} : {})
 
