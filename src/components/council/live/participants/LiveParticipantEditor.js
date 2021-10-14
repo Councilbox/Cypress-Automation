@@ -30,6 +30,7 @@ import SignatureButton from './SignatureButton';
 import { useParticipantContactEdit } from '../../../../hooks';
 import OwnedVotesSection from './ownedVotes/OwnedVotesSection';
 import DropdownRepresentative from '../../../../displayComponents/DropdownRepresentative';
+import RemoveDelegationButton from './RemoveDelegationButton';
 
 const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 	const [ownedVotes, setOwnedVotes] = React.useState(null);
@@ -206,14 +207,15 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 									</GridItem>
 									<GridItem xs={12} md={6} lg={6}>
 										{CBX.canHaveRepresentative(participant)
-											&& !(participant.hasDelegatedVotes) && !(participant.represented.length > 0) && (
-											<DropdownRepresentative
-												participant={participant}
-												translate={translate}
-												council={props.council}
-												refetch={data.refetch}
-											/>
-										)}
+											&& !(participant.hasDelegatedVotes) && !(participant.represented.length > 0) &&
+											(
+												<DropdownRepresentative
+													participant={participant}
+													translate={translate}
+													council={props.council}
+													refetch={data.refetch}
+												/>
+											)}
 									</GridItem>
 								</Grid>
 							</GridItem>
@@ -254,13 +256,23 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 							loading={loadingOwnedVotes}
 						/>
 						{CBX.hasHisVoteDelegated(participant)
-							&& <ParticipantBlock
+							&&
+							<ParticipantBlock
 								{...props}
 								active={false}
 								participant={participant.representative}
 								translate={translate}
 								data={data}
 								type={PARTICIPANT_STATES.DELEGATED}
+								action={
+									participant.state === PARTICIPANT_STATES.DELEGATED &&
+									<RemoveDelegationButton
+										delegatedVote={participant}
+										participant={participant}
+										translate={translate}
+										refetch={updateOwnedVotes}
+									/>
+								}
 							/>
 						}
 						<NotificationsTable
