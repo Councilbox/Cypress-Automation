@@ -12,7 +12,7 @@ import {
 
 
 const CouncilStatuteEditor = ({
-	statute, translate, client, council, refetch, hideDecimal
+	statute, translate, client, council, refetch, hideDecimal, hideRequests
 }) => {
 	const updateState = async object => {
 		await client.mutate({
@@ -120,15 +120,17 @@ const CouncilStatuteEditor = ({
 					})}
 				/>
 			</GridItem>
-			<GridItem xs={12} md={7} lg={7}>
-				<Checkbox
-					label={'Activar solicitudes'}
-					value={statute.shareholdersPortal === 1}
-					onChange={(event, isInputChecked) => updateState({
-						shareholdersPortal: isInputChecked ? 1 : 0
-					})}
-				/>
-			</GridItem>
+			{!hideRequests &&
+				<GridItem xs={12} md={7} lg={7}>
+					<Checkbox
+						label={'Activar solicitudes'}
+						value={statute.shareholdersPortal === 1}
+						onChange={(event, isInputChecked) => updateState({
+							shareholdersPortal: isInputChecked ? 1 : 0
+						})}
+					/>
+				</GridItem>
+			}
 			{!hideDecimal &&
 				<GridItem xs={12} md={7} lg={7}>
 					<DigitsInput
