@@ -32,6 +32,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 	const subdomain = useSubdomain();
+	// eslint-disable-next-line no-unused-vars
 	const config = React.useContext(ConfigContext);
 
 	function checkRequiredFields() {
