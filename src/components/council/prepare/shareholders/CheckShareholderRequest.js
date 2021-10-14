@@ -275,7 +275,7 @@ const CheckShareholderRequest = ({
 			// onClick={approveRequest}
 			/>
 			<AlertConfirm
-				title={'Solicitud'}
+				title={translate.request}
 				bodyText={modalBody()}
 				requestClose={closeModal}
 				open={modal}
