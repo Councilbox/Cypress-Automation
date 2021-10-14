@@ -51,7 +51,6 @@ const CouncilStatuteEditor = ({
 		refetch();
 	};
 
-
 	return (
 		<Grid style={{ overflow: 'hidden' }}>
 			<GridItem xs={12} md={7} lg={7}>
