@@ -5,7 +5,9 @@ import { BasicButton } from '../../../../displayComponents';
 import { getSecondary } from '../../../../styles/colors';
 
 
-const ApproveRequestButton = ({ request, client, refetch }) => {
+const ApproveRequestButton = ({
+	request, client, refetch, translate
+}) => {
 	const secondary = getSecondary();
 	const approveRequest = async () => {
 		await client.mutate({
@@ -27,7 +29,7 @@ const ApproveRequestButton = ({ request, client, refetch }) => {
 	return (
 		<>
 			<BasicButton
-				text="Archivar"
+				text={translate.archived_request}
 				onClick={approveRequest}
 				buttonStyle={{
 					border: `1px solid ${secondary}`,

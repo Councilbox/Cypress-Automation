@@ -105,7 +105,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
 											{translate.refused}
 										</MenuItem>
 										<MenuItem onClick={() => setSearch('3')}>
-											Archivada {/* TRADUCCION */}
+											{translate.archived}
 										</MenuItem>
 									</div>
 								}
@@ -166,7 +166,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
 							<TableCell style={{
 								color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: '0.75rem'
 							}}>
-								Aprobar
+								{translate.approve}
 							</TableCell>
 						</TableHead>
 						<TableBody>
@@ -188,7 +188,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
 										{moment(request.date).format('LLL')}
 									</TableCell>
 									<TableCell style={{ color: 'black', borderBottom: 'none' }}>
-										{request.state === '0' ? translate.pending : request.state === '3' ? 'Archivada' : translate.accepted}
+										{request.state === '0' ? translate.pending : request.state === '3' ? translate.archived : translate.accepted}
 									</TableCell>
 									<TableCell style={{ color: 'black', borderBottom: 'none' }}>
 										<CheckShareholderRequest
