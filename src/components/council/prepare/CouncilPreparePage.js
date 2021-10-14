@@ -204,6 +204,7 @@ const CouncilPreparePage = ({
 									council={council}
 									refetch={refetch}
 									hideDecimal={true}
+									hideRequests={true}
 								/>
 							</div>
 						</Scrollbar>
@@ -462,6 +463,8 @@ export default graphql(gql`
 			companyId
 			confirmAssistance
 			conveneText
+			wallActive
+			askWordMenu
 			councilStarted
 			councilType
 			country
@@ -500,6 +503,8 @@ export default graphql(gql`
 				id
 				prototype
 			councilId
+			hideVotingsRecountFinished
+			defaultVote
 			statuteId
 			title
 			shareholdersPortal
