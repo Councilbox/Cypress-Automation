@@ -310,7 +310,11 @@ const StartCouncilButton = ({
 	);
 
 	const startCouncilForm = () => {
-		const { loading } = data;
+		const { loading, refetch } = data;
+
+		if (!loading) {
+			refetch();
+		}
 
 		const participants = loading ? [] : data.councilOfficials.list;
 		const { total } = loading ? 0 : data.councilOfficials;

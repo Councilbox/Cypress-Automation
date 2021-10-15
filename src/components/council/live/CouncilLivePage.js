@@ -181,7 +181,7 @@ const CouncilLivePage = ({ translate, data, company }) => {
 			/>
 
 		);
-	}, [council.councilType]);
+	}, [council.councilType, council.councilStarted, council.state]);
 
 	const renderVideoParticipants = () => (
 		<ParticipantsLive
@@ -198,7 +198,6 @@ const CouncilLivePage = ({ translate, data, company }) => {
 	const councilStartedState = () => council.state >= 20 && council.state <= 30;
 
 	const showParticipants = state.tab === LIVE_TABS.PARTICIPANTS;
-
 
 	return (
 		<div
