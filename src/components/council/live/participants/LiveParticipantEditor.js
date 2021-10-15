@@ -30,6 +30,7 @@ import SignatureButton from './SignatureButton';
 import { useParticipantContactEdit } from '../../../../hooks';
 import OwnedVotesSection from './ownedVotes/OwnedVotesSection';
 import DropdownRepresentative from '../../../../displayComponents/DropdownRepresentative';
+import RemoveDelegationButton from './RemoveDelegationButton';
 
 const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 	const [ownedVotes, setOwnedVotes] = React.useState(null);
@@ -262,13 +263,23 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 							loading={loadingOwnedVotes}
 						/>
 						{CBX.hasHisVoteDelegated(participant)
-							&& <ParticipantBlock
+							&&
+							<ParticipantBlock
 								{...props}
 								active={false}
 								participant={participant.representative}
 								translate={translate}
 								data={data}
 								type={PARTICIPANT_STATES.DELEGATED}
+								action={
+									participant.state === PARTICIPANT_STATES.DELEGATED &&
+									<RemoveDelegationButton
+										delegatedVote={participant}
+										participant={participant.representative}
+										translate={translate}
+										refetch={updateOwnedVotes}
+									/>
+								}
 							/>
 						}
 						<NotificationsTable
