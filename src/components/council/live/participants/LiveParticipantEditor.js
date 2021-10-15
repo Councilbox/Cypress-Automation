@@ -268,7 +268,7 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 									participant.state === PARTICIPANT_STATES.DELEGATED &&
 									<RemoveDelegationButton
 										delegatedVote={participant}
-										participant={participant}
+										participant={participant.representative}
 										translate={translate}
 										refetch={updateOwnedVotes}
 									/>
