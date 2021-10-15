@@ -2,11 +2,17 @@ import gql from 'graphql-tag';
 import { MenuItem } from 'material-ui';
 import React from 'react';
 import { withApollo } from 'react-apollo';
-import { Grid, GridItem, Checkbox, SelectInput, TextInput } from '../../../../../displayComponents';
+import {
+	Grid,
+	GridItem,
+	Checkbox,
+	SelectInput,
+	TextInput
+} from '../../../../../displayComponents';
 
 
 const CouncilStatuteEditor = ({
-	statute, translate, client, council, refetch
+	statute, translate, client, council, refetch, hideDecimal, hideRequests
 }) => {
 	const updateState = async object => {
 		await client.mutate({
@@ -44,7 +50,6 @@ const CouncilStatuteEditor = ({
 		});
 		refetch();
 	};
-
 
 	return (
 		<Grid style={{ overflow: 'hidden' }}>
@@ -114,24 +119,28 @@ const CouncilStatuteEditor = ({
 					})}
 				/>
 			</GridItem>
-			<GridItem xs={12} md={7} lg={7}>
-				<Checkbox
-					label={'Activar solicitudes'}
-					value={statute.shareholdersPortal === 1}
-					onChange={(event, isInputChecked) => updateState({
-						shareholdersPortal: isInputChecked ? 1 : 0
-					})}
-				/>
-			</GridItem>
-			<GridItem xs={12} md={7} lg={7}>
-				<DigitsInput
-					updateAction={value => updateState({ decimalDigits: value })}
-					value={statute.decimalDigits}
-					translate={translate}
-					id="council-type-decimal-digits"
-					text={'Número de decimales'}
-				/>
-			</GridItem>
+			{!hideRequests &&
+				<GridItem xs={12} md={7} lg={7}>
+					<Checkbox
+						label={'Activar solicitudes'}
+						value={statute.shareholdersPortal === 1}
+						onChange={(event, isInputChecked) => updateState({
+							shareholdersPortal: isInputChecked ? 1 : 0
+						})}
+					/>
+				</GridItem>
+			}
+			{!hideDecimal &&
+				<GridItem xs={12} md={7} lg={7}>
+					<DigitsInput
+						updateAction={value => updateState({ decimalDigits: value })}
+						value={statute.decimalDigits}
+						translate={translate}
+						id="council-type-decimal-digits"
+						text={'Número de decimales'}
+					/>
+				</GridItem>
+			}
 			<GridItem xs={12} md={7} lg={7}>
 				<Checkbox
 					label={translate.exists_comments}
