@@ -8,6 +8,7 @@ import { census, updateCensus } from '../../../../../queries/census';
 import CensusInfoForm from '../../CensusInfoForm';
 import { INPUT_REGEX } from '../../../../../constants';
 import { removeTypenameField } from '../../../../../utils/CBX';
+import { isMobile } from '../../../../../utils/screen';
 
 const EditCensusButton = ({ translate, client, ...props }) => {
 	const [initInfo, setInitInfo] = React.useState({});
@@ -103,14 +104,14 @@ const EditCensusButton = ({ translate, client, ...props }) => {
 	};
 
 	const renderBody = () => (
-		<div style={{ minWidth: '800px' }}>
+		<div style={{ minWidth: !isMobile && '800px' }}>
 			<CensusInfoForm
 				translate={translate}
 				errors={state.errors}
 				updateState={updateState}
 				census={state.data}
 			/>
-		</div>
+		</div >
 	);
 
 	const comprobateChanges = () => {

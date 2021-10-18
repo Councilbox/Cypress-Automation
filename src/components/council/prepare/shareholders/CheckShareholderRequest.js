@@ -172,7 +172,7 @@ const CheckShareholderRequest = ({
 				refetch={refetch}
 				translate={translate}
 			/>
-			{request.state !== '1'
+			{request.state !== '3'
 				&& <ApproveRequestButton
 					request={request}
 					refetch={refetch}
@@ -275,7 +275,7 @@ const CheckShareholderRequest = ({
 				open={modalAlert}
 			/>
 			<BasicButton
-				text="Revisar"
+				text={translate.revise}
 				onClick={() => setModal(request)}
 				buttonStyle={{
 					border: `1px solid ${secondary}`
@@ -285,7 +285,7 @@ const CheckShareholderRequest = ({
 			// onClick={approveRequest}
 			/>
 			<AlertConfirm
-				title={'Solicitud'}
+				title={translate.request}
 				bodyText={modalBody()}
 				requestClose={closeModal}
 				open={modal}

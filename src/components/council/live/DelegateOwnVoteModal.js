@@ -25,7 +25,9 @@ const DelegateOwnVoteModal = ({
 	});
 	const [options, setOptions] = React.useState({
 		offset: 0,
-		limit: DELEGATION_USERS_LOAD
+		limit: DELEGATION_USERS_LOAD,
+		orderBy: 'surname',
+		orderDirection: 'asc'
 	});
 
 	const getData = React.useCallback(async () => {
@@ -114,7 +116,8 @@ const DelegateOwnVoteModal = ({
 					<LiveToast
 						id="error-toast"
 						message={translate.just_delegate_vote}
-					/>, {
+					/>,
+					{
 						position: toast.POSITION.TOP_RIGHT,
 						autoClose: true,
 						className: 'errorToast'
@@ -125,7 +128,8 @@ const DelegateOwnVoteModal = ({
 					<LiveToast
 						message={translate.number_of_delegated_votes_exceeded}
 						id="error-toast"
-					/>, {
+					/>,
+					{
 						position: toast.POSITION.TOP_RIGHT,
 						autoClose: true,
 						className: 'errorToast'
@@ -136,7 +140,8 @@ const DelegateOwnVoteModal = ({
 					<LiveToast
 						id="error-toast"
 						message={translate.cant_delegate_has_delegated_votes}
-					/>, {
+					/>,
+					{
 						position: toast.POSITION.TOP_RIGHT,
 						autoClose: true,
 						className: 'errorToast'
@@ -221,7 +226,7 @@ const DelegateOwnVoteModal = ({
 												{`DESCARGAR ${rest > DELEGATION_USERS_LOAD ?
 													`${1} de ${rest} RESTANTES`
 													: translate.all_plural.toLowerCase()
-												}`}
+													}`}
 												{loading
 													&& <div>
 														<LoadingSection size={25} />

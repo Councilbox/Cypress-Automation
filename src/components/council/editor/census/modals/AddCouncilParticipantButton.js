@@ -5,7 +5,8 @@ import { Card } from 'material-ui';
 import {
 	AlertConfirm,
 	BasicButton,
-	ButtonIcon
+	ButtonIcon,
+	Scrollbar
 } from '../../../../../displayComponents/index';
 import { getPrimary } from '../../../../../styles/colors';
 import { addParticipant, checkUniqueCouncilEmails } from '../../../../../queries/councilParticipant';
@@ -21,7 +22,7 @@ import CheckUserClavePin from '../../../participants/CheckParticipantRegisteredC
 import withSharedProps from '../../../../../HOCs/withSharedProps';
 import SelectRepresentative from './SelectRepresentative';
 import { COUNCIL_TYPES, INPUT_REGEX, PARTICIPANT_VALIDATIONS } from '../../../../../constants';
-import { isAppointment } from '../../../../../utils/CBX';
+import { getMaxGrantedWordsMessage, isAppointment, isMaxGrantedWordsError } from '../../../../../utils/CBX';
 import AppointmentParticipantForm from '../../../participants/AppointmentParticipantForm';
 
 const initialParticipant = council => {
@@ -111,17 +112,22 @@ class AddCouncilParticipantButton extends React.Component {
 					loading: false,
 					representativeErrors: {}
 				});
-			} else if (response.errors[0].message === 'Too many granted words') {
+				if (!this.props.buttonAdd) {
+					this.props.requestClose();
+				}
+			} else if (isMaxGrantedWordsError(response.errors[0])) {
+				const message = getMaxGrantedWordsMessage(response.errors[0], this.props.translate);
+
 				this.setState({
 					loading: false,
 					...(this.state.data.initialState === 2 ? {
 						errors: {
-							initialState: this.props.translate.initial_granted_word_error
+							initialState: message
 						}
 					} : {}),
 					...(representative && representative.initialState === 2 ? {
 						representativeErrors: {
-							initialState: this.props.translate.initial_granted_word_error
+							initialState: message
 						}
 					} : {})
 
@@ -312,6 +318,52 @@ class AddCouncilParticipantButton extends React.Component {
 		}
 	}
 
+	openModal() {
+		return this.props.buttonAdd ? this.state.modal : this.props.modal;
+	}
+
+	closeModal() {
+		return this.props.buttonAdd ? () => this.setState({
+			modal: false,
+			errors: {},
+			representativeErrors: {},
+			loading: false
+		}) : () => {
+			this.setState({
+				errors: {},
+				representativeErrors: {},
+				loading: false
+			});
+			this.props.requestClose();
+		};
+	}
+
+	button() {
+		const primary = getPrimary();
+		const { translate } = this.props;
+		return (
+			<BasicButton
+				text={translate.add_participant}
+				disabled={this.props.disabled}
+				floatRight
+				color={this.props.disabled ? 'lightgrey' : 'white'}
+				textStyle={{
+					color: primary,
+					fontWeight: '700',
+					fontSize: '0.9em',
+					textTransform: 'none'
+				}}
+				textPosition="after"
+				icon={<ButtonIcon type="add" color={primary} />}
+				onClick={() => this.setState({ modal: true })}
+				buttonStyle={{
+					border: `2px solid ${primary}`
+				}}
+				id={'anadirParticipanteEnCensoNewReunion'}
+			/>
+		);
+	}
+
 	emailKeyUp = (event, type) => {
 		clearTimeout(this.timeout);
 		const { value } = event.target;
@@ -328,7 +380,7 @@ class AddCouncilParticipantButton extends React.Component {
 		const { languages } = this.props.data;
 
 		return (
-			<div>
+			<Scrollbar>
 				<SelectRepresentative
 					open={this.state.selectRepresentative}
 					council={this.props.council}
@@ -343,7 +395,7 @@ class AddCouncilParticipantButton extends React.Component {
 						selectRepresentative: false
 					})}
 				/>
-				<div style={{ marginRight: '1em' }}>
+				<div style={{ margin: '1em' }}>
 					<Card style={{
 						padding: '1em',
 						marginBottom: '1em',
@@ -430,47 +482,21 @@ class AddCouncilParticipantButton extends React.Component {
 						</Card>
 					}
 				</div>
-			</div>
+			</Scrollbar>
 		);
 	}
 
 	render() {
-		const { translate } = this.props;
-		const primary = getPrimary();
+		const { translate, buttonAdd = true } = this.props;
 		return (
 			<React.Fragment>
-				<BasicButton
-					text={translate.add_participant}
-					disabled={this.props.disabled}
-					floatRight
-					color={this.props.disabled ? 'lightgrey' : 'white'}
-					textStyle={{
-						color: primary,
-						fontWeight: '700',
-						fontSize: '0.9em',
-						textTransform: 'none'
-					}}
-					textPosition="after"
-					icon={<ButtonIcon type="add" color={primary} />}
-					onClick={() => this.setState({ modal: true })}
-					buttonStyle={{
-						border: `2px solid ${primary}`
-					}}
-					id={'anadirParticipanteEnCensoNewReunion'}
-				/>
+				{
+					buttonAdd && this.button()
+				}
 				<AlertConfirm
-					requestClose={() => this.setState({
-						modal: false,
-						errors: {},
-						representativeErrors: {},
-						loading: false
-					})}
-					PaperProps={{
-						style: {
-							maxHeight: '85vh'
-						}
-					}}
-					open={this.state.modal}
+					bodyStyle={{ height: '400px', width: '950px' }}
+					requestClose={this.closeModal()}
+					open={this.openModal()}
 					fullWidth={false}
 					loadingAction={this.state.loading}
 					acceptAction={this.addParticipant}

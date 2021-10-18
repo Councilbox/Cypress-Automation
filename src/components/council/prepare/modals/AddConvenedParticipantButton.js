@@ -20,7 +20,7 @@ import { useOldState } from '../../../../hooks';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import { isMobile } from '../../../../utils/screen';
 import { COUNCIL_TYPES } from '../../../../constants';
-import { councilIsFinished, isAppointment } from '../../../../utils/CBX';
+import { councilIsFinished, getMaxGrantedWordsMessage, isAppointment, isMaxGrantedWordsError } from '../../../../utils/CBX';
 import SelectRepresentative from '../../editor/census/modals/SelectRepresentative';
 import AppointmentParticipantForm from '../../participants/AppointmentParticipantForm';
 
@@ -69,6 +69,7 @@ const AddConvenedParticipantButton = ({
 	const primary = getPrimary();
 
 	async function checkRequiredFields(onlyEmail) {
+		const testPhone = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
 		const participant = state.data;
 		const { representative } = state;
 
@@ -136,6 +137,20 @@ const AddConvenedParticipantButton = ({
 				errorsParticipant.errors.email = translate.repeated_email;
 				errorsParticipant.hasError = true;
 			}
+
+			if (participant.phone && participant.phone !== '-') {
+				if (!testPhone.test(participant.phone)) {
+					errorsParticipant.hasError = true;
+					errorsParticipant.errors.phone = translate.invalid_field;
+				}
+			}
+
+			if (representative.phone && representative.phone !== '-') {
+				if (!testPhone.test(representative.phone)) {
+					errorsRepresentative.hasError = true;
+					errorsRepresentative.errors.phone = translate.invalid_field;
+				}
+			}
 		}
 
 		setState({
@@ -179,16 +194,18 @@ const AddConvenedParticipantButton = ({
 				if (!buttonAdd) {
 					requestClose();
 				}
-			} else if (response.errors[0].message === 'Too many granted words') {
+			} else if (isMaxGrantedWordsError(response.errors[0])) {
+				const message = getMaxGrantedWordsMessage(response.errors[0], translate);
+
 				setState({
 					...(state.data.initialState === 2 ? {
 						errors: {
-							initialState: translate.initial_granted_word_error
+							initialState: message
 						}
 					} : {}),
 					...(representative && representative.initialState === 2 ? {
 						representativeErrors: {
-							initialState: translate.initial_granted_word_error
+							initialState: message
 						}
 					} : {})
 
@@ -225,7 +242,19 @@ const AddConvenedParticipantButton = ({
 	const { languages } = props.data;
 
 	const openModal = () => (buttonAdd ? state.modal : modal);
-	const closeModal = () => (buttonAdd ? () => setState({ modal: false }) : requestClose);
+	const closeModal = () => (buttonAdd ? () => setState({
+		modal: false,
+		errors: {},
+		representativeErrors: {},
+		loading: false
+	}) : () => {
+		setState({
+			errors: {},
+			representativeErrors: {},
+			loading: false
+		});
+		requestClose();
+	});
 
 	const button = () => (
 		<BasicButton

@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql, withApollo } from 'react-apollo';
 import { flowRight as compose } from 'lodash';
 import { Card } from 'material-ui';
-import { AlertConfirm } from '../../../../../displayComponents/index';
+import { AlertConfirm, Scrollbar } from '../../../../../displayComponents/index';
 import { updateCouncilParticipant, checkUniqueCouncilEmails } from '../../../../../queries/councilParticipant';
 import { languages as languagesQuery } from '../../../../../queries/masters';
 import ParticipantForm from '../../../participants/ParticipantForm';
@@ -15,7 +15,7 @@ import RepresentativeForm from '../../../../company/census/censusEditor/Represen
 import withSharedProps from '../../../../../HOCs/withSharedProps';
 import SelectRepresentative from './SelectRepresentative';
 import { COUNCIL_TYPES, PARTICIPANT_VALIDATIONS } from '../../../../../constants';
-import { isAppointment, removeTypenameField } from '../../../../../utils/CBX';
+import { getMaxGrantedWordsMessage, isAppointment, isMaxGrantedWordsError, participantIsGuest, removeTypenameField } from '../../../../../utils/CBX';
 import CheckUserClavePin from '../../../participants/CheckParticipantRegisteredClavePin';
 import AppointmentParticipantForm from '../../../participants/AppointmentParticipantForm';
 
@@ -89,16 +89,18 @@ class CouncilParticipantEditor extends React.Component {
 			if (!response.errors) {
 				this.props.refetch();
 				this.props.close();
-			} else if (response.errors[0].message === 'Too many granted words') {
+			} else if (isMaxGrantedWordsError(response.errors[0])) {
+				const message = getMaxGrantedWordsMessage(response.errors[0], this.props.translate);
+
 				this.setState({
 					...(this.state.data.initialState === 2 ? {
 						errors: {
-							initialState: this.props.translate.initial_granted_word_error
+							initialState: message
 						}
 					} : {}),
 					...(representative && representative.initialState === 2 ? {
 						representativeErrors: {
-							initialState: this.props.translate.initial_granted_word_error
+							initialState: message
 						}
 					} : {})
 
@@ -278,7 +280,7 @@ class CouncilParticipantEditor extends React.Component {
 		const { translate, participations } = this.props;
 		const { languages } = this.props.data;
 		return (
-			<div>
+			<Scrollbar>
 				<SelectRepresentative
 					open={this.state.selectRepresentative}
 					council={this.props.council}
@@ -294,7 +296,7 @@ class CouncilParticipantEditor extends React.Component {
 						selectRepresentative: false
 					})}
 				/>
-				<div style={{ marginRight: '1em' }}>
+				<div style={{ margin: '1em' }}>
 					<Card style={{
 						padding: '1em',
 						marginBottom: '1em',
@@ -316,18 +318,21 @@ class CouncilParticipantEditor extends React.Component {
 								checkEmail={this.emailKeyUp}
 								participations={participations}
 								translate={translate}
-								hideVotingInputs={this.props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE}
+								hideVotingInputs={this.props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE || participantIsGuest(participant)}
 								languages={languages}
 								errors={errors}
 								updateState={this.updateState}
 							/>
 						}
 					</Card>
-					{!isAppointment(this.props.council) &&
-						<Card style={{
+					{!isAppointment(this.props.council) && !participantIsGuest(participant) &&
+						<div style={{
+							boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
+							border: '1px solid rgb(97, 171, 183)',
+							borderRadius: '4px',
 							padding: '1em',
-							marginBottom: '1em',
 							color: 'black',
+							marginBottom: '.5em',
 						}}>
 							<RepresentativeForm
 								translate={translate}
@@ -336,12 +341,11 @@ class CouncilParticipantEditor extends React.Component {
 								setSelectRepresentative={value => this.setState({
 									selectRepresentative: value
 								})}
-								checkEmail={this.emailKeyUp}
 								updateState={this.updateRepresentative}
 								errors={representativeErrors}
 								languages={languages}
 							/>
-						</Card>
+						</div>
 					}
 					{this.props.council.statute.participantValidation === PARTICIPANT_VALIDATIONS.CLAVE_PIN &&
 						<Card style={{
@@ -383,16 +387,17 @@ class CouncilParticipantEditor extends React.Component {
 						</Card>
 					}
 				</div>
-			</div>
+			</Scrollbar>
 		);
 	}
 
 	render() {
-		const { translate } = this.props;
+		const { translate, participant } = this.props;
 
 		return (
 			<React.Fragment>
 				<AlertConfirm
+					bodyStyle={{ height: '400px', width: '950px' }}
 					requestClose={() => this.cleanAndClose()}
 					open={this.props.opened}
 					fullWidth={false}
@@ -400,7 +405,7 @@ class CouncilParticipantEditor extends React.Component {
 					buttonAccept={translate.accept}
 					buttonCancel={translate.cancel}
 					bodyText={this.renderBody()}
-					title={translate.edit_participant}
+					title={participantIsGuest(participant) ? translate.edit_guest : translate.edit_participant}
 				/>
 			</React.Fragment>
 		);
