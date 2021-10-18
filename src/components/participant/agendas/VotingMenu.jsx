@@ -116,12 +116,14 @@ const VotingMenu = ({
 			}
 		})));
 
-		if (response) {
+		if (response[0].data.updateAgendaVoting && response[0].data.updateAgendaVoting.success) {
 			handleFreezing(newVote, previousVote);
 			await props.refetch();
 			setModal(false);
 			setLoading(false);
 			props.close();
+		} else {
+			setLoading(false);
 		}
 	};
 
