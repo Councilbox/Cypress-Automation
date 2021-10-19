@@ -27,7 +27,6 @@ if (isChrome) {
 	document.head.appendChild(style);
 }
 
-
 const AlignStyle = Quill.import('attributors/style/align');
 Quill.register(AlignStyle, true);
 
@@ -35,9 +34,10 @@ class RichTextInput extends React.Component {
 	state = {
 		value: this.props.value,
 		showTags: false,
-		companyTags: [],
-		rangeIndex: 0
+		companyTags: []
 	};
+
+	rangeIndex = 0;
 
 	componentDidMount() {
 		this.setState({
@@ -83,9 +83,9 @@ class RichTextInput extends React.Component {
 
 	paste = text => {
 		const quill = this.rtEditor.getEditor();
-		quill.clipboard.dangerouslyPasteHTML(this.state.rangeIndex, text);
+		quill.clipboard.dangerouslyPasteHTML(this.rangeIndex, text);
 		setTimeout(() => {
-			quill.setSelection(this.state.rangeIndex + removeHTMLTags(text).length, 0);
+			quill.setSelection(this.rangeIndex + removeHTMLTags(text).length, 0);
 		}, 500);
 	};
 
@@ -99,9 +99,7 @@ class RichTextInput extends React.Component {
 
 	setRange = event => {
 		if (event) {
-			this.setState({
-				rangeIndex: event.index
-			});
+			this.rangeIndex = event.index;
 		}
 	}
 
@@ -122,6 +120,7 @@ class RichTextInput extends React.Component {
 		const {
 			tags, loadDraft, errorText, required, borderless, translate, styles, stylesQuill, placeholder
 		} = this.props;
+
 
 		const containerElements = [
 			[{ color: [] }, { background: [] }], ['bold', 'italic', 'underline', 'link', 'strike'],
