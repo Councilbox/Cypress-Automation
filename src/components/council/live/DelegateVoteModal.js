@@ -102,7 +102,8 @@ const DelegateVoteModal = ({
 			{
 				variables: {
 					participantId: id,
-					delegateId: participant.id
+					delegateId: participant.id,
+					notify: false
 				}
 			}
 		);

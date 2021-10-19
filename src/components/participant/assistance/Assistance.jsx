@@ -416,7 +416,7 @@ const Assistance = ({
 							}
 						</>
 						:
-						config.attendanceComment &&
+						(config.attendanceComment && council.confirmAssistance !== 0) &&
 						<>
 							<div style={{ width: '100%', marginBottom: '1em' }}>
 								<div style={{
