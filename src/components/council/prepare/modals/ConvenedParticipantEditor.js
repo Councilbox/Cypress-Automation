@@ -266,7 +266,8 @@ class ConvenedParticipantEditor extends React.Component {
 										participant={participant}
 										participations={participations}
 										translate={translate}
-										hideVotingInputs={this.props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE || participantIsGuest(participant)}
+										isGuest={participantIsGuest(participant)}
+										hideVotingInputs={this.props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE}
 										languages={languages}
 										errors={errors}
 										updateState={this.updateState}
