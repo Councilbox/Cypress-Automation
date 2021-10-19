@@ -16,7 +16,7 @@ import { DELEGATION_USERS_LOAD } from '../../../constants';
 import { addDelegation } from '../../../queries/liveParticipant';
 
 const DelegateOwnVoteModal = ({
-	translate, participant, show, client, council, inModal, setInModal, ...props
+	translate, participant, show, client, council, inModal, setInModal, notify = false, ...props
 }) => {
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
@@ -104,7 +104,8 @@ const DelegateOwnVoteModal = ({
 				{
 					variables: {
 						participantId: participant.id,
-						delegateId: id
+						delegateId: id,
+						notify
 					}
 				}
 			);
