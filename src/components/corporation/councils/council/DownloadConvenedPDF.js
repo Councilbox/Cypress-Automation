@@ -5,7 +5,7 @@ import { SERVER_URL } from '../../../../config';
 import { BasicButton } from '../../../../displayComponents';
 
 
-const DownloadConvenedPDF = ({ color, council }) => {
+const DownloadConvenedPDF = ({ color, council, nonStylesButton }) => {
 	const [loading, setLoading] = React.useState(false);
 
 	const downloadAttachment = async () => {
@@ -39,30 +39,45 @@ const DownloadConvenedPDF = ({ color, council }) => {
 
 
 	return (
-		<BasicButton
-			text={'Descargar lista convocados'}
-			color={color}
-			loading={loading}
-			buttonStyle={{ marginTop: '0.5em', marginBottom: '1.4em', marginRight: '0.6em' }}
-			textStyle={{
-				color: 'white',
-				fontWeight: '700',
-				fontSize: '0.9em',
-				textTransform: 'none'
-			}}
-			icon={
-				<FontAwesome
-					name={'file-pdf-o'}
-					style={{
-						fontSize: '1em',
-						color: 'white',
-						marginLeft: '0.3em'
-					}}
-				/>
-			}
-			textPosition="after"
-			onClick={downloadAttachment}
-		/>
+		nonStylesButton ?
+			<BasicButton
+				text={'Excel'}
+				color={'white'}
+				type="flat"
+				id="download-participants-pdf"
+				buttonStyle={{
+					width: '100%',
+					display: 'flex',
+					justifyContent: 'space-between'
+				}}
+				loading={loading}
+				onClick={downloadAttachment}
+			/>
+			:
+			<BasicButton
+				text={'Descargar lista convocados'}
+				color={color}
+				loading={loading}
+				buttonStyle={{ marginTop: '0.5em', marginBottom: '1.4em', marginRight: '0.6em' }}
+				textStyle={{
+					color: 'white',
+					fontWeight: '700',
+					fontSize: '0.9em',
+					textTransform: 'none'
+				}}
+				icon={
+					<FontAwesome
+						name={'file-pdf-o'}
+						style={{
+							fontSize: '1em',
+							color: 'white',
+							marginLeft: '0.3em'
+						}}
+					/>
+				}
+				textPosition="after"
+				onClick={downloadAttachment}
+			/>
 	);
 };
 

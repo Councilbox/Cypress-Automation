@@ -11,7 +11,8 @@ import {
 	LoadingSection,
 	EnhancedTable,
 	Grid,
-	GridItem
+	GridItem,
+	DropDownMenu
 } from '../../../displayComponents';
 import { downloadCBXData, updateConveneSends } from '../../../queries';
 import { convenedcouncilParticipants } from '../../../queries/councilParticipant';
@@ -24,6 +25,7 @@ import AttendComment from './modals/AttendComment';
 import { isMobile } from '../../../utils/screen';
 import { useOldState, usePolling } from '../../../hooks';
 import DropdownParticipant from '../../../displayComponents/DropdownParticipant';
+import DownloadConvenedPDF from '../../corporation/councils/council/DownloadConvenedPDF';
 
 const formatParticipant = participant => {
 	let { ...newParticipant } = participant;
@@ -221,7 +223,7 @@ const ConvenedParticipantsTable = ({
 						translate={translate}
 						menuButtons={
 							<div style={{
-								display: 'flex', flexDirection: 'row', justifyContent: 'space-between', marginBottom: '0.3em'
+								display: 'flex', flexDirection: 'row', justifyContent: 'space-between'
 							}}>
 								{!hideNotifications
 									&& <Tooltip
@@ -239,7 +241,8 @@ const ConvenedParticipantsTable = ({
 												loading={refreshing}
 												buttonStyle={{
 													margin: '0',
-													marginRight: '1.2em'
+													marginRight: '1.2em',
+													height: '39px'
 												}}
 												textStyle={{
 													color: 'white',
@@ -261,6 +264,15 @@ const ConvenedParticipantsTable = ({
 								}
 								{!hideAddParticipant
 									&& <div>
+										<DropdownParticipantExportExcelPdf
+											council={council}
+											translate={translate}
+											refetch={refetch}
+										/>
+									</div>
+								}
+								{!hideAddParticipant
+									&& <div>
 										<DropdownParticipant
 											participations={participations}
 											council={council}
@@ -270,6 +282,7 @@ const ConvenedParticipantsTable = ({
 												width: '10em',
 												padding: '.2rem',
 												margin: '0 .5rem',
+												height: '40px'
 											}}
 										/>
 									</div>
@@ -584,30 +597,112 @@ class HoverableRow extends React.Component {
 						</TableCell>
 						{CBX.councilHasAssistanceConfirmation(
 							council
-						) && (
-							<TableCell>
-								<AttendIntentionIcon
-									participant={participant.live}
-									representative={participant.representatives.length > 0 ? participant.representative.live : null}
-									council={council}
-									showCommentIcon={participant.representatives.length > 0 ? !!participant.representative.live.assistanceComment : !!participant.live.assistanceComment}
-									onCommentClick={this.props.showModalComment({
-										text: participant.representatives.length > 0 ? participant.representative.live.assistanceComment : participant.live.assistanceComment,
-										author: participant.representatives.length > 0 ?
+						) &&
+							(
+								<TableCell>
+									<AttendIntentionIcon
+										participant={participant.live}
+										representative={participant.representatives.length > 0 ? participant.representative.live : null}
+										council={council}
+										showCommentIcon={participant.representatives.length > 0 ? !!participant.representative.live.assistanceComment : !!participant.live.assistanceComment}
+										onCommentClick={this.props.showModalComment({
+											text: participant.representatives.length > 0 ? participant.representative.live.assistanceComment : participant.live.assistanceComment,
+											author: participant.representatives.length > 0 ?
 												`${participant.name} ${participant.surname || ''} - ${translate.represented_by} ${representative.name} ${representative.surname || ''}`
-											: `${participant.name} ${participant.surname || ''}`
-									})}
-									translate={translate}
-									size="2em"
-								/>
-							</TableCell>
-						)}
+												: `${participant.name} ${participant.surname || ''}`
+										})}
+										translate={translate}
+										size="2em"
+									/>
+								</TableCell>
+							)}
 					</React.Fragment>
 				}
 			</TableRow>
 		);
 	}
 }
+
+const DropdownParticipantExportExcelPdf = ({ translate, council }) => {
+	console.log(council);
+	return (
+		<div>
+			<DropDownMenu
+				styleComponent={{
+					maxWidth: '100%',
+					border: '2px solid #a09aa0',
+					borderRadius: '4px',
+					padding: '0.2rem',
+					height: '40px'
+				}}
+				id="download-participant-dropdown"
+				Component={() => <div
+					style={{
+						display: 'flex',
+						flexDirection: 'row',
+						alignItems: 'center',
+						justifyContent: 'space-between',
+						cursor: 'pointer',
+						color: 'black',
+						width: '100%',
+						height: '100%',
+					}}
+				>
+					<div style={{
+						display: 'flex',
+						flexDirection: 'row',
+						alignItems: 'center',
+					}}>
+						<div style={{
+							fontSize: '18px'
+						}}>
+							<i
+								className={'fa fa-file-pdf-o'}
+								style={{
+									color: getSecondary(),
+									margin: '0.3em'
+								}}
+							/>
+						</div>
+						<div style={{ marginRight: '.5em' }}>{translate.export_data}</div>
+					</div>
+					<div>
+						<span style={{ fontSize: '1em' }}>
+							<i className="fa fa-caret-down" aria-hidden="true" />
+						</span>
+					</div>
+				</div>
+				}
+				items={
+					<div>
+						<BasicButton
+							type="flat"
+							text={'PDF'}
+							id="download-participants-excel"
+							color={'white'}
+							// onClick={() => downloadPDF(council, `${translate.assistants_list.replace(/ /g, '_')}-${council.name.replace(/ /g, '_').replace(/\./g, '')}`)}
+							buttonStyle={{
+								width: '100%',
+								display: 'flex',
+								justifyContent: 'space-between'
+							}}
+						/>
+						<DownloadConvenedPDF
+							council={council}
+							translate={translate}
+							color={getSecondary()}
+							nonStylesButton={true}
+						/>
+					</div>
+				}
+				anchorOrigin={{
+					vertical: 'bottom',
+					horizontal: 'left',
+				}}
+			/>
+		</div>
+	);
+};
 
 export default compose(
 	graphql(updateConveneSends, {
