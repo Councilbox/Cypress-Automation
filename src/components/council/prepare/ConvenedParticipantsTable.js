@@ -1,6 +1,6 @@
 import React from 'react';
 import { TableCell, TableRow } from 'material-ui/Table';
-import { Tooltip, Card } from 'material-ui';
+import { Tooltip, Card, CircularProgress } from 'material-ui';
 import { graphql, withApollo } from 'react-apollo';
 import { flowRight as compose } from 'lodash';
 import { getSecondary } from '../../../styles/colors';
@@ -14,7 +14,7 @@ import {
 	GridItem,
 	DropDownMenu
 } from '../../../displayComponents';
-import { downloadCBXData, updateConveneSends } from '../../../queries';
+import { downloadCBXData, downloadParticipantsPDF, updateConveneSends } from '../../../queries';
 import { convenedcouncilParticipants } from '../../../queries/councilParticipant';
 import { COUNCIL_TYPES, PARTICIPANTS_LIMITS, PARTICIPANT_STATES } from '../../../constants';
 import NotificationFilters from './NotificationFilters';
@@ -26,6 +26,7 @@ import { isMobile } from '../../../utils/screen';
 import { useOldState, usePolling } from '../../../hooks';
 import DropdownParticipant from '../../../displayComponents/DropdownParticipant';
 import DownloadConvenedPDF from '../../corporation/councils/council/DownloadConvenedPDF';
+import { moment } from '../../../containers/App';
 
 const formatParticipant = participant => {
 	let { ...newParticipant } = participant;
@@ -87,7 +88,6 @@ const ConvenedParticipantsTable = ({
 				filters: filters.filters
 			}
 		});
-
 		setData(response.data);
 		setLoading(false);
 	}, [council.id, filters]);
@@ -268,6 +268,7 @@ const ConvenedParticipantsTable = ({
 											council={council}
 											translate={translate}
 											refetch={refetch}
+											client={client}
 										/>
 									</div>
 								}
@@ -623,8 +624,30 @@ class HoverableRow extends React.Component {
 	}
 }
 
-const DropdownParticipantExportExcelPdf = ({ translate, council }) => {
-	console.log(council);
+const DropdownParticipantExportExcelPdf = ({ translate, council, client }) => {
+	const [loading, setLoading] = React.useState(false);
+
+	const downloadPDF = async filename => {
+		setLoading(true);
+		const response = await client.query({
+			query: downloadParticipantsPDF,
+			variables: {
+				councilId: council.id,
+				timezone: moment(council.startDate).utcOffset().toString(),
+			}
+		});
+		if (response) {
+			if (response.data.downloadParticipantsPDF) {
+				setLoading(false);
+				CBX.downloadFile(
+					response.data.downloadParticipantsPDF,
+					'application/pdf',
+					filename
+				);
+			}
+		}
+	};
+
 	return (
 		<div>
 			<DropDownMenu
@@ -656,13 +679,24 @@ const DropdownParticipantExportExcelPdf = ({ translate, council }) => {
 						<div style={{
 							fontSize: '18px'
 						}}>
-							<i
-								className={'fa fa-file-pdf-o'}
-								style={{
-									color: getSecondary(),
-									margin: '0.3em'
-								}}
-							/>
+							{loading ?
+								<div
+									style={{
+										margin: '0 0.3em',
+										color: getSecondary()
+									}}
+								>
+									<CircularProgress size={12} color={'inherit'} />
+								</div>
+								:
+								<i
+									className={'fa fa-file-pdf-o'}
+									style={{
+										color: getSecondary(),
+										margin: '0.3em'
+									}}
+								/>
+							}
 						</div>
 						<div style={{ marginRight: '.5em' }}>{translate.export_data}</div>
 					</div>
@@ -680,7 +714,7 @@ const DropdownParticipantExportExcelPdf = ({ translate, council }) => {
 							text={'PDF'}
 							id="download-participants-excel"
 							color={'white'}
-							// onClick={() => downloadPDF(council, `${translate.assistants_list.replace(/ /g, '_')}-${council.name.replace(/ /g, '_').replace(/\./g, '')}`)}
+							onClick={() => downloadPDF(`${translate.new_list_called.replace(/ /g, '_')}-${council.name.replace(/ /g, '_').replace(/\./g, '')}`)}
 							buttonStyle={{
 								width: '100%',
 								display: 'flex',

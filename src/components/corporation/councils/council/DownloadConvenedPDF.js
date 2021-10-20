@@ -5,7 +5,7 @@ import { SERVER_URL } from '../../../../config';
 import { BasicButton } from '../../../../displayComponents';
 
 
-const DownloadConvenedPDF = ({ color, council, nonStylesButton }) => {
+const DownloadConvenedPDF = ({ color, council, nonStylesButton, translate }) => {
 	const [loading, setLoading] = React.useState(false);
 
 	const downloadAttachment = async () => {
@@ -20,7 +20,7 @@ const DownloadConvenedPDF = ({ color, council, nonStylesButton }) => {
 				'Content-type': 'application/json'
 			}),
 			body: JSON.stringify({
-				councilId: council.id
+				councilId: council.id,
 			})
 		});
 
@@ -29,7 +29,7 @@ const DownloadConvenedPDF = ({ color, council, nonStylesButton }) => {
 			const url = window.URL.createObjectURL(blob);
 			const a = document.createElement('a');
 			a.href = url;
-			a.download = `Censo ${council.id}.xlsx`;
+			a.download = `${translate.new_list_called} ${council.id}.xlsx`;
 			document.body.appendChild(a);
 			a.click();
 			a.remove();
