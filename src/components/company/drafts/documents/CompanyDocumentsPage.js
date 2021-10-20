@@ -110,8 +110,6 @@ const CompanyDocumentsPage = ({
 			}
 		});
 		getData();
-		console.log(deleteModal);
-		console.log(documents);
 		setDocuments(documents.filter(doc => deleteModal.id !== doc.id));
 		setDeleting(false);
 		setDeleteModal(false);
