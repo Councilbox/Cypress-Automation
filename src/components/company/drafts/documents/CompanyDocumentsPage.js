@@ -110,6 +110,9 @@ const CompanyDocumentsPage = ({
 			}
 		});
 		getData();
+		console.log(deleteModal);
+		console.log(documents);
+		setDocuments(documents.filter(doc => deleteModal.id !== doc.id));
 		setDeleting(false);
 		setDeleteModal(false);
 	};
@@ -249,6 +252,7 @@ const CompanyDocumentsPage = ({
 					multiple
 					type="file"
 					onChange={handleFileWithLoading}
+					onClick={event => { event.target.value = null; }}
 					disabled={queue.length > 0}
 					accept={ACCEPTED_FILE_TYPES}
 					id="raised-button-file"
