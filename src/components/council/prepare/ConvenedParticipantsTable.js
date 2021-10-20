@@ -223,7 +223,7 @@ const ConvenedParticipantsTable = ({
 						translate={translate}
 						menuButtons={
 							<div style={{
-								display: 'flex', flexDirection: 'row', justifyContent: 'space-between'
+								display: !isMobile && 'flex', flexDirection: 'row', justifyContent: 'space-between'
 							}}>
 								{!hideNotifications
 									&& <Tooltip
@@ -233,6 +233,7 @@ const ConvenedParticipantsTable = ({
 									>
 										<div style={{
 											display: 'flex',
+											marginBottom: isMobile && '.5em'
 										}}>
 											<BasicButton
 												floatRight
@@ -262,18 +263,16 @@ const ConvenedParticipantsTable = ({
 										</div>
 									</Tooltip>
 								}
+								<div style={{ marginBottom: isMobile && '.5em' }}>
+									<DropdownParticipantExportExcelPdf
+										council={council}
+										translate={translate}
+										refetch={refetch}
+										client={client}
+									/>
+								</div>
 								{!hideAddParticipant
-									&& <div>
-										<DropdownParticipantExportExcelPdf
-											council={council}
-											translate={translate}
-											refetch={refetch}
-											client={client}
-										/>
-									</div>
-								}
-								{!hideAddParticipant
-									&& <div>
+									&& <div style={{ marginBottom: isMobile && '.5em' }}>
 										<DropdownParticipant
 											btnTranslator
 											participations={participations}
@@ -283,7 +282,7 @@ const ConvenedParticipantsTable = ({
 											style={{
 												width: '10em',
 												padding: '.2rem',
-												margin: '0 .5rem',
+												marginRight: '0.5rem',
 												height: '40px'
 											}}
 										/>
@@ -650,7 +649,7 @@ const DropdownParticipantExportExcelPdf = ({ translate, council, client }) => {
 	};
 
 	return (
-		<div>
+		<div style={{ marginRight: '0.5rem' }}>
 			<DropDownMenu
 				styleComponent={{
 					maxWidth: '100%',
