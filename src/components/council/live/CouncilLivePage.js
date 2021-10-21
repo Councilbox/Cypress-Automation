@@ -181,7 +181,7 @@ const CouncilLivePage = ({ translate, data, company }) => {
 			/>
 
 		);
-	}, [council.councilType]);
+	}, [council.councilType, council.councilStarted, council.state]);
 
 	const renderVideoParticipants = () => (
 		<ParticipantsLive
@@ -198,7 +198,6 @@ const CouncilLivePage = ({ translate, data, company }) => {
 	const councilStartedState = () => council.state >= 20 && council.state <= 30;
 
 	const showParticipants = state.tab === LIVE_TABS.PARTICIPANTS;
-
 
 	return (
 		<div
@@ -371,7 +370,7 @@ const CouncilLivePage = ({ translate, data, company }) => {
 						width: `${showVideo(council) ?
 							100 - state.videoWidth - '0.5'
 							: 100
-						}%`,
+							}%`,
 						height: '100%',
 						marginLeft: '5px',
 						position: 'relative'
@@ -444,7 +443,8 @@ const CouncilLivePage = ({ translate, data, company }) => {
 								{(state.tab === LIVE_TABS.AGENDA || state.fullScreen)
 									&& <div style={{ height: 'calc( 100% - 2em )', position: 'relative' }}>
 										{council.state === COUNCIL_STATES.PAUSED
-											&& <DisabledSection>
+											&&
+											<DisabledSection fullScreen={state.fullScreen}>
 												<div style={{ marginBottom: '1em' }}>
 													{translate.council_paused}
 												</div>
@@ -464,12 +464,7 @@ const CouncilLivePage = ({ translate, data, company }) => {
 												translate={translate}
 												fullScreen={state.fullScreen}
 												refetch={data.refetch}
-												openMenu={() => setState({
-													videoWidth: minVideoWidth,
-													videoHeight: minVideoHeight,
-													fullScreen: false
-												})
-												}
+												openMenu={() => setState(initScreenSizes('MIN'))}
 											/>
 										</div>
 									</div>

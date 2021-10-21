@@ -20,21 +20,50 @@ const getNumberValue = value => {
 	return num;
 };
 
+const cleanRequestData = participantData => ({
+	name: participantData.name,
+	surname: participantData.surname,
+	position: participantData.position,
+	dni: participantData.dni,
+	email: participantData.email,
+	phone: participantData.phone,
+	numParticipations: getNumberValue(participantData.numParticipations),
+	socialCapital: getNumberValue(
+		(Object.prototype.hasOwnProperty.call(participantData, 'socialCapital') &&
+		participantData.socialCapital &&
+		participantData.socialCapital !== 0) ?
+			participantData.socialCapital :
+			participantData.numParticipations),
+	personOrEntity: participantData.personOrEntity ? +participantData.personOrEntity : 0,
+	assistanceIntention: participantData.assistanceIntention ? +participantData.assistanceIntention : 0,
+	requestWord: participantData.requestWord ? +participantData.requestWord : 0,
+	initialState: Number.isNaN(Number(initialState)) ? 0 : initialState
+});
+
+const buildRepresentative = representative => {
+	if (Array.isArray(representative) && representative.length > 0) {
+		if (representative[0].name === 'representación') {
+			return {
+				name: representative[0].info[1]?.value,
+				dni: representative[0].info[2]?.value,
+				email: representative[0].info[3]?.value,
+				phone: representative[0].info[4]?.value,
+			};
+		}
+	}
+
+	return representative;
+};
+
 
 const ApproveRequestButton = ({
-	request, client, refetch, council
+	request, client, refetch, council, translate
 }) => {
 	const [modal, setModal] = React.useState(null);
-	const {
-		requestType, legalTermsAccepted, votes, delegate, attachments, earlyVotes, representative, ...cleanData
-	} = request.data;
-	cleanData.numParticipations = getNumberValue(cleanData.numParticipations);
-	cleanData.socialCapital = getNumberValue(
-		Object.prototype.hasOwnProperty.call(cleanData, 'socialCapital') ? cleanData.socialCapital : cleanData.numParticipations);
-	cleanData.personOrEntity = cleanData.personOrEntity ? +cleanData.personOrEntity : 0;
-	cleanData.assistanceIntention = cleanData.assistanceIntention ? +cleanData.assistanceIntention : 0;
-	cleanData.requestWord = cleanData.requestWord ? +cleanData.requestWord : 0;
-	cleanData.initialState = Number.isNaN(Number(initialState)) ? 0 : initialState;
+	const cleanData = cleanRequestData(request.data);
+	const { representative } = request.data;
+
+	const representativeData = buildRepresentative(representative);
 	const secondary = getSecondary();
 	const buttonColor = request.participantCreated ? 'grey' : secondary;
 
@@ -77,7 +106,7 @@ const ApproveRequestButton = ({
 		<>
 			<BasicButton
 				disabled={request.participantCreated}
-				text={request.participantCreated ? 'Ya creado' : 'Añadir al censo'}
+				text={request.participantCreated ? translate.already_created : translate.add_to_the_census}
 				onClick={() => {
 					if (request.participantCreated) {
 						sendPrueba();
@@ -97,8 +126,8 @@ const ApproveRequestButton = ({
 					open={modal}
 					council={council}
 					participations={true}
-					defaultRepresentative={(representative && request.data.requestType === 'representation') ? {
-						...representative,
+					defaultRepresentative={(representativeData && (request.data.requestType === 'representation' || request.data.requestType === 'vote')) ? {
+						...representativeData,
 						hasRepresentative: true
 					} : null}
 					refetch={setParticipantCreated}

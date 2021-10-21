@@ -32,7 +32,7 @@ const RefuseRequestButton = ({
 		<>
 			<BasicButton
 				disabled={request.participantCreated}
-				text="Rechazar"
+				text={translate.refuse}
 				onClick={() => setModal(request)}
 				buttonStyle={{
 					border: `1px solid ${buttonColor}`,
@@ -40,13 +40,13 @@ const RefuseRequestButton = ({
 				}}
 				color="white"
 				textStyle={{ color: buttonColor }}
-				// onClick={approveRequest}
+			// onClick={approveRequest}
 			/>
 			<AlertConfirm
 				open={modal}
 				requestClose={() => setModal(false)}
 				title={translate.warning}
-				bodyText={`Va a rechazar la petición de ${request.data.name}`}
+				bodyText={`${translate.will_reject_the_request} ${request.data.name}`}
 				buttonAccept={translate.accept}
 				acceptAction={refuseRequest}
 			/>

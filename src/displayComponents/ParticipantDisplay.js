@@ -42,14 +42,14 @@ const ParticipantDisplay = ({
 				style={{
 					display: 'flex',
 					flexDirection: 'row',
-					alignItems: 'center'
 				}}
 			>
 				<div
 					style={{
 						width: '2em',
 						display: 'flex',
-						justifyContent: 'center'
+						justifyContent: 'center',
+						paddingTop: '.6em'
 					}}
 				>
 					<i
@@ -62,7 +62,7 @@ const ParticipantDisplay = ({
 						}}
 					></i>
 				</div>
-				<Typography variant="subheading" className="truncate">
+				<Typography variant="subheading" >
 					<b>{`${participant.name} ${participant.surname || ''}`}</b> {
 						canEdit
 						&& <>

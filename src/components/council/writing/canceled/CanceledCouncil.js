@@ -3,8 +3,8 @@ import { Card } from 'material-ui';
 import { CardPageLayout } from '../../../../displayComponents';
 import CouncilHeader from '../CouncilHeader';
 
-const CanceledCouncil = ({ council, translate }) => (
-	<CardPageLayout title={translate.not_held_council}>
+const CanceledCouncil = ({ council, translate, goTo }) => (
+	<CardPageLayout title={translate.not_held_council} goTo={goTo}>
 		<CouncilHeader
 			council={council}
 			translate={translate}

@@ -145,6 +145,8 @@ const AgendaNoSession = ({
 			<div style={{
 				height: '100%', marginTop: '1em', overflow: 'hidden', padding: '1em'
 			}}>
+				<div style={{ marginBottom: '0.5em', fontWeight: '600' }}>{translate.thanks_for_participation}</div>
+				<div style={{ marginBottom: '1em', fontWeight: '600' }}>{translate.if_click_options_finalize}</div>
 				<div style={{ marginBottom: '1em' }}>{translate.my_participation} - <span style={{ color: getPrimary() }}>{participant.name} {participant.surname || ''}</span></div>
 				<div style={{ height: 'calc( 100% - 2.5em )' }}>
 					<Scrollbar>

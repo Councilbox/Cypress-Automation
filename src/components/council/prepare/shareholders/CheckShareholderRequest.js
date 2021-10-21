@@ -25,6 +25,18 @@ export const getTypeText = (text, translate) => {
 	return texts[text];
 };
 
+const VoteOwnerDisplay = ({ participant }) => {
+	if (!participant) return null;
+
+	return (
+		<div style={{ marginBotton: '2em' }}>
+			<div>
+				{participant.name} {participant.surname || ''}
+			</div>
+		</div>
+	);
+};
+
 
 const CheckShareholderRequest = ({
 	request, translate, refetch, client, council
@@ -83,8 +95,14 @@ const CheckShareholderRequest = ({
 				}
 				{request.data.requestType === 'vote'
 					&& <>
-						{request.data.earlyVotes && request.data.earlyVotes.map((vote, index) => (
+						{request.data.votes && request.data.votes.map((vote, index) => (
 							<div key={`early_vote_${index}`}>
+								<div style={{ fontWeight: '700' }}>{vote.name}</div>
+								<div>-{getVote(+vote.value, translate)}</div>
+							</div>
+						))}
+						{request.data.earlyVotes && request.data.earlyVotes.map((vote, index) => (
+							<div key={`early_votes_${index}`}>
 								<div style={{ fontWeight: '700' }}>{vote.name}</div>
 								<div>-{getVote(+vote.value, translate)}</div>
 							</div>
@@ -105,16 +123,20 @@ const CheckShareholderRequest = ({
 										</div>
 									))}
 							</div>
-							: request.data.representative
-							&& <div style={{ marginBotton: '2em' }}>
-								<div>
-									{request.data.representative.name} {request.data.representative.surname || ''}
-								</div>
-							</div>
-
+							:
+							<VoteOwnerDisplay
+								participant={request.data.representative || request.data.delegate}
+								translate={translate}
+							/>
 						}
 
 						{request.data.earlyVotes && request.data.earlyVotes.map((vote, index) => (
+							<div key={`early_votes_${index}`}>
+								<div style={{ fontWeight: '700' }}>{vote.name}</div>
+								<div>-{getVote(+vote.value, translate)}</div>
+							</div>
+						))}
+						{request.data.votes && request.data.votes.map((vote, index) => (
 							<div key={`early_votes_${index}`}>
 								<div style={{ fontWeight: '700' }}>{vote.name}</div>
 								<div>-{getVote(+vote.value, translate)}</div>
@@ -162,7 +184,7 @@ const CheckShareholderRequest = ({
 				refetch={refetch}
 				translate={translate}
 			/>
-			{request.state !== '1'
+			{request.state !== '3'
 				&& <ApproveRequestButton
 					request={request}
 					refetch={refetch}
@@ -265,7 +287,7 @@ const CheckShareholderRequest = ({
 				open={modalAlert}
 			/>
 			<BasicButton
-				text="Revisar"
+				text={translate.revise}
 				onClick={() => setModal(request)}
 				buttonStyle={{
 					border: `1px solid ${secondary}`
@@ -275,7 +297,7 @@ const CheckShareholderRequest = ({
 			// onClick={approveRequest}
 			/>
 			<AlertConfirm
-				title={'Solicitud'}
+				title={translate.request}
 				bodyText={modalBody()}
 				requestClose={closeModal}
 				open={modal}

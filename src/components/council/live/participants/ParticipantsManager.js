@@ -2,13 +2,12 @@ import React from 'react';
 import { withApollo } from 'react-apollo';
 import { MenuItem, Paper } from 'material-ui';
 import gql from 'graphql-tag';
-import { getSecondary, getPrimary } from '../../../../styles/colors';
+import { getPrimary } from '../../../../styles/colors';
 import {
 	FilterButton, SelectInput, Grid, GridItem, CollapsibleSection, LoadingSection
 } from '../../../../displayComponents';
 import ParticipantsPage from './sections/ParticipantsPage';
 import { useOldState } from '../../../../hooks';
-import { isMobile } from '../../../../utils/screen';
 
 const initialState = {
 	layout: 'squares', // table, compact
@@ -24,6 +23,7 @@ const ParticipantsManager = ({
 }) => {
 	const optionsPartipants = JSON.parse(sessionStorage.getItem('optionsParticipants'));
 	const [state, setState] = React.useState(optionsPartipants || initialState);
+	const [isMenu, setIsMenu] = React.useState(false);
 	const [participants, setParticipants] = React.useState(null);
 	const [filters, setFilters] = useOldState({
 		typeStatus: null,
@@ -36,7 +36,6 @@ const ParticipantsManager = ({
 		addGuest: false
 	});
 
-	const secondary = getSecondary();
 	const primary = getPrimary();
 
 
@@ -112,11 +111,6 @@ const ParticipantsManager = ({
 		setState(() => ({ ...state, loading: false }));
 	};
 
-	const toggleSettings = () => {
-		const newValue = !state.open;
-		setState({ ...state, open: newValue });
-	};
-
 	const updateState = object => {
 		setState({
 			...state,
@@ -158,10 +152,11 @@ const ParticipantsManager = ({
 				limit={state.limit}
 				filters={filters}
 				setFilters={setFilters}
-				menuOpen={state.open}
+				menuOpen={isMenu}
 				editParticipant={editParticipant}
 				addGuest={addGuest}
 				updateState={updateState}
+				updateMenu={setIsMenu}
 			/>
 		);
 	};
@@ -177,40 +172,56 @@ const ParticipantsManager = ({
 				backgroundColor: 'white',
 				borderBottom: '1px solid gainsboro',
 				position: 'relative',
-				overflow: 'hidden'
+				overflow: 'hidden',
+				paddingRight: '1.313rem'
 			}}
 		>
 			<div style={{ overflow: 'hidden', marginRight: '0.6em', display: 'flex' }}>
 				<FilterButton
 					tooltip={translate.grid}
-					onClick={() => setState({ ...state, layout: 'squares', open: false })}
+					onClick={() => {
+						setState({ ...state, layout: 'squares' });
+						setIsMenu(false);
+					}}
 					active={state.layout === 'squares'}
-					size={'2.55em'}
+					styles={{
+						height: '2.5rem',
+						width: '2.5rem',
+					}}
 				>
 					<i className="fa fa-th-large" style={{
 						color: primary,
-						fontSize: '0.9em'
+						fontSize: '1.5rem'
 					}} />
 				</FilterButton>
 				<FilterButton
 					tooltip={translate.table}
-					onClick={() => setState({ ...state, layout: 'table', open: false })}
+					onClick={() => {
+						setState({ ...state, layout: 'table' });
+						setIsMenu(false);
+					}}
 					active={state.layout === 'table'}
-					size={'2.55em'}
+					styles={{
+						height: '2.5rem',
+						width: '2.5rem',
+					}}
 				>
 					<i className="fa fa-th-list" style={{
 						color: primary,
-						fontSize: '0.9em'
+						fontSize: '1.5rem'
 					}} />
 				</FilterButton>
 			</div>
 
-			<div style={{ minWidth: '14em' }}>
+			<div style={{ minWidth: '14em', padding: '.5rem 0' }}>
 				<SelectInput
 					fullWidth
 					floatingText={translate.visualization_type}
 					value={state.view}
-					onChange={(event => changeView({ view: event.target.value, limit: 24, open: false }))}
+					onChange={(event => {
+						changeView({ view: event.target.value, limit: 24 });
+						setIsMenu(false);
+					})}
 				>
 					<MenuItem value={'STATES'}>
 						{translate.by_participant_state}
@@ -241,22 +252,6 @@ const ParticipantsManager = ({
 				...stylesDiv
 			}}
 		>
-			<i
-				className="material-icons"
-				style={{
-					position: 'absolute',
-					zIndex: 600,
-					cursor: 'pointer',
-					top: isMobile ? '1.8em' : '81px',
-					// top: isMobile? '2.5em' : '1.8em',
-					right: '1em',
-					color: secondary,
-					background: 'white'
-				}}
-				onClick={toggleSettings}
-			>
-				settings
-			</i>
 			<Grid spacing={0} style={{
 				height: '100%',
 			}}>
@@ -277,7 +272,7 @@ const ParticipantsManager = ({
 					>
 						<CollapsibleSection
 							trigger={() => <span />}
-							open={state.open}
+							open={isMenu}
 							collapse={renderTableOptions}
 						/>
 						{state.editParticipant}

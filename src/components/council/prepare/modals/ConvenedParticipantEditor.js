@@ -14,7 +14,7 @@ import { upsertConvenedParticipant, checkUniqueCouncilEmails } from '../../../..
 import { COUNCIL_TYPES } from '../../../../constants';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import SelectRepresentative from '../../editor/census/modals/SelectRepresentative';
-import { isAppointment, removeTypenameField } from '../../../../utils/CBX';
+import { getMaxGrantedWordsMessage, isAppointment, isMaxGrantedWordsError, participantIsGuest, removeTypenameField } from '../../../../utils/CBX';
 import AppointmentParticipantForm from '../../participants/AppointmentParticipantForm';
 
 const initialRepresentative = {
@@ -97,17 +97,19 @@ class ConvenedParticipantEditor extends React.Component {
 			if (!response.errors) {
 				this.props.refetch();
 				this.props.close();
-			} else if (response.errors[0].message === 'Too many granted words') {
+			} else if (isMaxGrantedWordsError(response.errors[0])) {
+				const message = getMaxGrantedWordsMessage(response.errors[0], this.props.translate);
+
 				this.setState({
 					loading: false,
 					...(participant.initialState === 2 ? {
 						errors: {
-							initialState: this.props.translate.initial_granted_word_error
+							initialState: message
 						}
 					} : {}),
 					...(representative && representative.initialState === 2 ? {
 						representativeErrors: {
-							initialState: this.props.translate.initial_granted_word_error
+							initialState: message
 						}
 					} : {})
 
@@ -221,7 +223,6 @@ class ConvenedParticipantEditor extends React.Component {
 		const { translate, participations } = this.props;
 		const { languages = [] } = this.props.data;
 
-
 		return (
 			<AlertConfirm
 				bodyStyle={{ height: '400px', width: '950px' }}
@@ -265,6 +266,7 @@ class ConvenedParticipantEditor extends React.Component {
 										participant={participant}
 										participations={participations}
 										translate={translate}
+										isGuest={participantIsGuest(participant)}
 										hideVotingInputs={this.props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE}
 										languages={languages}
 										errors={errors}
@@ -272,7 +274,7 @@ class ConvenedParticipantEditor extends React.Component {
 									/>
 								}
 							</div>
-							{!isAppointment(this.props.council) &&
+							{!isAppointment(this.props.council) && !participantIsGuest(participant) &&
 								<div style={{
 									boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
 									border: '1px solid rgb(97, 171, 183)',
@@ -297,7 +299,7 @@ class ConvenedParticipantEditor extends React.Component {
 						</div>
 					</Scrollbar>
 				}
-				title={translate.edit_participant}
+				title={ participantIsGuest(participant) ? translate.edit_guest : translate.edit_participant}
 				requestClose={() => this.props.close()}
 				open={this.props.opened}
 				actions={

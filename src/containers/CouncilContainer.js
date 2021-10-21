@@ -47,7 +47,7 @@ const CouncilContainer = ({ match, company, translate }) => {
 	const cantAccessPremium = company.demo === 1 && trialDaysLeft(company, moment, TRIAL_DAYS) <= 0;
 
 	return (
-		<CardPageLayout title={translate.councils_sidebar} disableScroll>
+		<CardPageLayout title={translate.councils_sidebar} disableScroll inMenuExact={`/company/${company.id}`}>
 			<div
 				style={{
 					height: '100%',

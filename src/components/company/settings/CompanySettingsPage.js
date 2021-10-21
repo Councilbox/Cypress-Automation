@@ -458,6 +458,7 @@ const CompanySettingsPage = ({
 									</GridItem>
 								</>
 							}
+							{/* Used in Evid
 							<GridItem xs={12} md={6} lg={4}>
 								<TextInput
 									id="company-external-id"
@@ -469,7 +470,7 @@ const CompanySettingsPage = ({
 									})
 									}
 								/>
-							</GridItem>
+							</GridItem> */}
 							<GridItem xs={12} md={6} lg={4}>
 								<TextInput
 									floatingText={translate.contact_email}

@@ -26,8 +26,9 @@ import QRSearchModal from './QRSearchModal';
 import { ConfigContext } from '../../../../../containers/AppControl';
 import { isMobile } from '../../../../../utils/screen';
 import AddConvenedParticipantButton from '../../../prepare/modals/AddConvenedParticipantButton';
-import { hasParticipations } from '../../../../../utils/CBX';
+import { councilStarted, hasParticipations } from '../../../../../utils/CBX';
 import { COUNCIL_TYPES } from '../../../../../constants';
+import DropdownParticipant from '../../../../../displayComponents/DropdownParticipant';
 
 
 const ParticipantsPage = ({
@@ -127,7 +128,10 @@ const ParticipantsPage = ({
 
 	const renderHeader = () => {
 		if (!data[getSection(props.view)]) {
-			return <div />;
+			return <div style={{
+				width: '100%',
+				borderBottom: '1px solid gainsboro',
+			}} />;
 		}
 
 		const headers = {
@@ -175,17 +179,62 @@ const ParticipantsPage = ({
 			<div
 				style={{
 					minHeight: '3em',
-					maxHeight: '6em',
-					overflow: 'hidden'
+					maxHeight: !isMobile && '6em',
+					display: 'flex',
+					flexDirection: 'row',
 				}}
 			>
 				{renderHeader()}
+				<div style={{
+					padding: '.2rem',
+					borderBottom: '1px solid gainsboro',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: isMobile && 'flex-end',
+					paddingRight: '1.313rem'
+				}}>
+					<BasicButton
+						onClick={() => {
+							props.updateMenu(!props.menuOpen);
+						}}
+						buttonStyle={{
+							minWidth: '0',
+							minHeight: '0',
+							width: '2.5rem',
+							height: '2.5rem',
+							backgroundColor: props.menuOpen ? '#d5d5d5' : 'white',
+							boxShadow: '0px 1px 5px 0px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 3px 1px -2px rgb(0 0 0 / 12%)'
+						}}
+						icon={
+							<i
+								className="material-icons"
+								style={{
+									color: secondary,
+									fontSize: '1.5rem'
+								}}
+							>
+								settings
+							</i>}
+					/>
+				</div>
 			</div>
 			<Grid style={{
 				padding: '0 8px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '.5rem'
 			}}>
 				<GridItem xs={orientation === 'landscape' ? 4 : 6} md={6} lg={3} style={{ display: 'flex', alignItems: 'center' }}>
-					{renderAddGuestButton()}
+					{(council.state === 10 || council.state === 20)
+						&& (!councilStarted(council) ? <DropdownParticipant
+							council={council}
+							participations={participants}
+							refetch={data.refetch}
+							translate={translate}
+							style={{
+								width: '10em',
+								padding: '.2rem',
+								margin: '0 .5rem',
+							}} />
+							: renderAddGuestButton()
+						)}
 				</GridItem>
 				<GridItem xs={orientation === 'landscape' ? 4 : 6} md={6} lg={3} style={{ display: 'flex', justifyContent: orientation === 'landscape' ? 'flex-start' : 'flex-end', gap: '0 .5rem' }}>
 					<BasicButton

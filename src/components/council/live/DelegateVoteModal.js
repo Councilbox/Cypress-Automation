@@ -26,7 +26,9 @@ const DelegateVoteModal = ({
 	});
 	const [options, setOptions] = React.useState({
 		offset: 0,
-		limit: DELEGATION_USERS_LOAD
+		limit: DELEGATION_USERS_LOAD,
+		orderBy: 'surname',
+		orderDirection: 'asc'
 	});
 
 	const buildVariables = () => {
@@ -113,7 +115,8 @@ const DelegateVoteModal = ({
 				<LiveToast
 					message={translate.just_delegate_vote}
 					id="error-toast"
-				/>, {
+				/>,
+				{
 					position: toast.POSITION.TOP_RIGHT,
 					autoClose: true,
 					className: 'errorToast'
@@ -124,7 +127,8 @@ const DelegateVoteModal = ({
 				<LiveToast
 					id="error-toast"
 					message={translate.number_of_delegated_votes_exceeded}
-				/>, {
+				/>,
+				{
 					position: toast.POSITION.TOP_RIGHT,
 					autoClose: true,
 					className: 'errorToast'
@@ -135,7 +139,8 @@ const DelegateVoteModal = ({
 				<LiveToast
 					id="error-toast"
 					message={translate.cant_delegate_has_delegated_votes}
-				/>, {
+				/>,
+				{
 					position: toast.POSITION.TOP_RIGHT,
 					autoClose: true,
 					className: 'errorToast'
@@ -223,15 +228,14 @@ const DelegateVoteModal = ({
 											<MenuItem style={{
 												padding: 0, width: '100%', height: '2em', display: 'flex', alignItems: 'center', flexDirection: 'row', justifyContent: 'center'
 											}}>
-												{`DESCARGAR ${
-													rest > DELEGATION_USERS_LOAD ?
-														`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
-														: translate.all_plural.toLowerCase()
-												}`}
+												{`DESCARGAR ${rest > DELEGATION_USERS_LOAD ?
+													`${DELEGATION_USERS_LOAD} de ${rest} RESTANTES`
+													: translate.all_plural.toLowerCase()
+													}`}
 												{loading
-&& <div>
-	<LoadingSection size={25} />
-</div>
+													&& <div>
+														<LoadingSection size={25} />
+													</div>
 												}
 											</MenuItem>
 										</Card>

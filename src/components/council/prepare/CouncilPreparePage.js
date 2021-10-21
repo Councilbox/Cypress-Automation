@@ -31,6 +31,7 @@ import ShareholdersRequestsPage from './shareholders/ShareholdersRequestsPage';
 import EstimatedQuorum from './EstimatedQuorum';
 import AttachmentsModal from './AttachmentsModal';
 import { COUNCIL_TYPES } from '../../../constants';
+import CouncilStatuteEditor from '../../corporation/councils/council/optionsEditor/CouncilStatuteEditor';
 
 
 const CouncilPreparePage = ({
@@ -69,6 +70,10 @@ const CouncilPreparePage = ({
 		);
 	};
 
+	const gotToCalendar = () => {
+		bHistory.push(`/company/${company.id}/councils/calendar`);
+	};
+
 	const {
 		council, error, loading, refetch
 	} = data;
@@ -97,9 +102,13 @@ const CouncilPreparePage = ({
 			});
 		}
 
+		tabs.push({
+			text: translate.participant_settings,
+		});
+
 		if (council.statute.shareholdersPortal) {
 			tabs.push({
-				text: 'Solicitudes de participación'
+				text: translate.participation_requests
 			});
 		}
 
@@ -107,7 +116,7 @@ const CouncilPreparePage = ({
 	};
 
 	return (
-		<CardPageLayout title={translate.setup_meeting} disableScroll>
+		<CardPageLayout title={translate.setup_meeting} goTo={gotToCalendar} disableScroll>
 			<div style={{
 				width: '100%', padding: '1.7em', paddingBottom: '0.5em', height: 'calc(100% - 3.5em)', paddingTop: '0em'
 			}}>
@@ -180,7 +189,28 @@ const CouncilPreparePage = ({
 						</Scrollbar>
 					</div>
 				}
-				{selecteReuniones === 'Solicitudes de participación'
+				{selecteReuniones === translate.participant_settings
+					&& <div style={{ height: 'calc(100% - 38px)' }}>
+						<Scrollbar>
+							<div
+								style={{
+									padding: '1.2em',
+									height: '100%'
+								}}
+							>
+								<CouncilStatuteEditor
+									translate={translate}
+									statute={council.statute}
+									council={council}
+									refetch={refetch}
+									hideDecimal={true}
+									hideRequests={true}
+								/>
+							</div>
+						</Scrollbar>
+					</div>
+				}
+				{selecteReuniones === translate.participation_requests
 					&& <ShareholdersRequestsPage
 						council={council}
 						translate={translate}
@@ -418,21 +448,23 @@ tabsInfo={getTabs()}
 
 
 export default graphql(gql`
-	query CouncilDetails($councilID: Int!) {
-		council(id: $councilID) {
-			active
+			query CouncilDetails($councilID: Int!) {
+				council(id: $councilID) {
+				active
 			attachments {
 				councilId
 				filename
-				filesize
-				filetype
-				id
+			filesize
+			filetype
+			id
 			}
 			businessName
 			city
 			companyId
 			confirmAssistance
 			conveneText
+			wallActive
+			askWordMenu
 			councilStarted
 			councilType
 			country
@@ -470,48 +502,50 @@ export default graphql(gql`
 			statute {
 				id
 				prototype
-				councilId
-				statuteId
-				title
-				shareholdersPortal
-				existPublicUrl
-				addParticipantsListToAct
-				existsAdvanceNoticeDays
-				advanceNoticeDays
-				existsSecondCall
-				minimumSeparationBetweenCall
-				canEditConvene
-				canEarlyVote
-				requireProxy
-				firstCallQuorumType
-				firstCallQuorum
-				firstCallQuorumDivider
-				secondCallQuorumType
-				secondCallQuorum
-				secondCallQuorumDivider
-				existsDelegatedVote
-				decimalDigits
-				delegatedVoteWay
-				existMaxNumDelegatedVotes
-				maxNumDelegatedVotes
-				existsLimitedAccessRoom
-				limitedAccessRoomMinutes
-				existsQualityVote
-				qualityVoteOption
-				canUnblock
-				canAddPoints
-				canReorderPoints
-				existsAct
-				existsWhoSignTheAct
-				includedInActBook
-				includeParticipantsList
-				existsComments
-				conveneHeader
-				intro
-				constitution
-				conclusion
-				actTemplate
-				censusId
+			councilId
+			hideVotingsRecountFinished
+			defaultVote
+			statuteId
+			title
+			shareholdersPortal
+			existPublicUrl
+			addParticipantsListToAct
+			existsAdvanceNoticeDays
+			advanceNoticeDays
+			existsSecondCall
+			minimumSeparationBetweenCall
+			canEditConvene
+			canEarlyVote
+			requireProxy
+			firstCallQuorumType
+			firstCallQuorum
+			firstCallQuorumDivider
+			secondCallQuorumType
+			secondCallQuorum
+			secondCallQuorumDivider
+			existsDelegatedVote
+			decimalDigits
+			delegatedVoteWay
+			existMaxNumDelegatedVotes
+			maxNumDelegatedVotes
+			existsLimitedAccessRoom
+			limitedAccessRoomMinutes
+			existsQualityVote
+			qualityVoteOption
+			canUnblock
+			canAddPoints
+			canReorderPoints
+			existsAct
+			existsWhoSignTheAct
+			includedInActBook
+			includeParticipantsList
+			existsComments
+			conveneHeader
+			intro
+			constitution
+			conclusion
+			actTemplate
+			censusId
 			}
 			street
 			tin
@@ -522,10 +556,10 @@ export default graphql(gql`
 			weightedVoting
 			zipcode
 		}
-		councilTotalVotes(councilId: $councilID)
-		councilSocialCapital(councilId: $councilID)
+			councilTotalVotes(councilId: $councilID)
+			councilSocialCapital(councilId: $councilID)
 	}
-`, {
+			`, {
 	name: 'data',
 	options: props => ({
 		variables: {
