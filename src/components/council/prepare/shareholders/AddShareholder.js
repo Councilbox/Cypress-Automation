@@ -40,6 +40,21 @@ const cleanRequestData = participantData => ({
 	initialState: Number.isNaN(Number(initialState)) ? 0 : initialState
 });
 
+const buildRepresentative = representative => {
+	if (Array.isArray(representative) && representative.length > 0) {
+		if (representative[0].name === 'representación') {
+			return {
+				name: representative[0].info[1]?.value,
+				dni: representative[0].info[2]?.value,
+				email: representative[0].info[3]?.value,
+				phone: representative[0].info[4]?.value,
+			};
+		}
+	}
+
+	return representative;
+};
+
 
 const ApproveRequestButton = ({
 	request, client, refetch, council, translate
@@ -47,6 +62,8 @@ const ApproveRequestButton = ({
 	const [modal, setModal] = React.useState(null);
 	const cleanData = cleanRequestData(request.data);
 	const { representative } = request.data;
+
+	const representativeData = buildRepresentative(representative);
 	const secondary = getSecondary();
 	const buttonColor = request.participantCreated ? 'grey' : secondary;
 
@@ -109,8 +126,8 @@ const ApproveRequestButton = ({
 					open={modal}
 					council={council}
 					participations={true}
-					defaultRepresentative={representative ? {
-						...representative,
+					defaultRepresentative={(representativeData && (request.data.requestType === 'representation' || request.data.requestType === 'vote')) ? {
+						...representativeData,
 						hasRepresentative: true
 					} : null}
 					refetch={setParticipantCreated}

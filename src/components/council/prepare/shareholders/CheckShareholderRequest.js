@@ -105,8 +105,14 @@ const CheckShareholderRequest = ({
 				}
 				{request.data.requestType === 'vote'
 					&& <>
-						{request.data.earlyVotes && request.data.earlyVotes.map((vote, index) => (
+						{request.data.votes && request.data.votes.map((vote, index) => (
 							<div key={`early_vote_${index}`}>
+								<div style={{ fontWeight: '700' }}>{vote.name}</div>
+								<div>-{getVote(+vote.value, translate)}</div>
+							</div>
+						))}
+						{request.data.earlyVotes && request.data.earlyVotes.map((vote, index) => (
+							<div key={`early_votes_${index}`}>
 								<div style={{ fontWeight: '700' }}>{vote.name}</div>
 								<div>-{getVote(+vote.value, translate)}</div>
 							</div>
@@ -135,6 +141,12 @@ const CheckShareholderRequest = ({
 						}
 
 						{request.data.earlyVotes && request.data.earlyVotes.map((vote, index) => (
+							<div key={`early_votes_${index}`}>
+								<div style={{ fontWeight: '700' }}>{vote.name}</div>
+								<div>-{getVote(+vote.value, translate)}</div>
+							</div>
+						))}
+						{request.data.votes && request.data.votes.map((vote, index) => (
 							<div key={`early_votes_${index}`}>
 								<div style={{ fontWeight: '700' }}>{vote.name}</div>
 								<div>-{getVote(+vote.value, translate)}</div>
