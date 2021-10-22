@@ -280,7 +280,7 @@ const ConvenedParticipantsTable = ({
 											translate={translate}
 											refetch={refetch}
 											style={{
-												width: '10em',
+												width: isMobile ? '14em' : '10em',
 												padding: '.2rem',
 												marginRight: '0.5rem',
 												height: '40px'
@@ -656,7 +656,8 @@ const DropdownParticipantExportExcelPdf = ({ translate, council, client }) => {
 					border: '2px solid #a09aa0',
 					borderRadius: '4px',
 					padding: '0.2rem',
-					height: '40px'
+					height: '40px',
+					width: isMobile && '14em',
 				}}
 				id="download-participant-dropdown"
 				Component={() => <div
