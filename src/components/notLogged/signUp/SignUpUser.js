@@ -374,10 +374,28 @@ class SignUpUser extends React.Component {
 						{' '}
 					</GridItem>
 					<GridItem xs={12} md={12} lg={12}>
-						<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+						<div style={{ display: 'auto', flexDirection: 'row', alignItems: 'center' }}>
 							<Checkbox
 								id="accept-legal-checkbox"
-								label={`${translate.login_read_terms} `}
+								label={
+									<div>
+										{translate.login_read_terms}
+										<a
+											style={{
+												color: primary,
+												fontWeight: '700',
+												cursor: 'pointer',
+												textTransform: 'lowerCase',
+												marginLeft: '0.4em'
+											}}
+											href={getTermsURL(translate.selectedLanguage)}
+											target="_blank"
+											rel="noreferrer noopener"
+										>
+											{translate.login_read_terms2}
+										</a>
+									</div>
+								}
 								value={this.state.termsCheck}
 								onChange={(event, isInputChecked) => this.setState({
 									termsAccepted: isInputChecked
@@ -389,20 +407,7 @@ class SignUpUser extends React.Component {
 									});
 								}}
 							/>
-							<a
-								style={{
-									color: primary,
-									fontWeight: '700',
-									cursor: 'pointer',
-									textTransform: 'lowerCase',
-									marginLeft: '0.4em'
-								}}
-								href={getTermsURL(translate.selectedLanguage)}
-								target="_blank"
-								rel="noreferrer noopener"
-							>
-								{translate.login_read_terms2}
-							</a>
+
 						</div>
 						{this.props.errors.termsCheck && (
 							<div style={{ color: 'red' }} id="legal-terms-error-text">

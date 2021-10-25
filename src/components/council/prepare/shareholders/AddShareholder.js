@@ -42,7 +42,7 @@ const cleanRequestData = participantData => ({
 
 
 const ApproveRequestButton = ({
-	request, client, refetch, council
+	request, client, refetch, council, translate
 }) => {
 	const [modal, setModal] = React.useState(null);
 	const cleanData = cleanRequestData(request.data);
@@ -89,7 +89,7 @@ const ApproveRequestButton = ({
 		<>
 			<BasicButton
 				disabled={request.participantCreated}
-				text={request.participantCreated ? 'Ya creado' : 'Añadir al censo'}
+				text={request.participantCreated ? translate.already_created : translate.add_to_the_census}
 				onClick={() => {
 					if (request.participantCreated) {
 						sendPrueba();
@@ -109,7 +109,7 @@ const ApproveRequestButton = ({
 					open={modal}
 					council={council}
 					participations={true}
-					defaultRepresentative={(representative && request.data.requestType === 'representation') ? {
+					defaultRepresentative={representative ? {
 						...representative,
 						hasRepresentative: true
 					} : null}

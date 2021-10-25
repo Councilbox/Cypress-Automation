@@ -1236,3 +1236,7 @@ content: '★ ';
 .rating-disabled > input:checked ~ label {
 color: var(--primary);
 }
+
+.left0 {
+	left: 0!important;
+}

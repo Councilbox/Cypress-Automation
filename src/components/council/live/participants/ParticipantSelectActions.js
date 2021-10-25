@@ -44,7 +44,7 @@ class ParticipantSelectActions extends React.Component {
 
 	render() {
 		const {
-			translate, participant, council, onlyButtonDelegateVote
+			translate, participant, council, onlyButtonDelegateVote, ownedVotes
 		} = this.props;
 		const { loading } = this.state;
 		if (onlyButtonDelegateVote) {
@@ -120,7 +120,7 @@ class ParticipantSelectActions extends React.Component {
 						}}
 					/>
 				}
-				{CBX.canDelegateVotes(council.statute, participant) && (
+				{CBX.canDelegateVotes(council.statute, participant, ownedVotes) && (
 					<ButtonActions
 						loading={loading === 5}
 						active={participant.state === PARTICIPANT_STATES.DELEGATED}

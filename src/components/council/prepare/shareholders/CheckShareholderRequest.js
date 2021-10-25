@@ -13,7 +13,17 @@ import SendRequestConfirmationButton from './SendRequestConfirmationButton';
 import { SERVER_URL } from '../../../../config';
 import { useDownloadDocument } from '../../../../hooks';
 
-export const getTypeText = (text, translate) => {
+export const getTypeText = (request, translate) => {
+	if (request.delegate) {
+		return translate.vote_delegation;
+	}
+
+	if (request.representative) {
+		return translate.vote_represented;
+	}
+
+	const text = request.requestType;
+
 	const texts = {
 		access: translate.assistance,
 		// 'access': 'Asistencia a la junta general',
@@ -84,7 +94,7 @@ const CheckShareholderRequest = ({
 					{`${translate.dni}: ${request.data.dni}`}
 				</div>
 				<div>
-					{translate.type_of_request}: {getTypeText(request.data.requestType, translate)}
+					{translate.type_of_request}: {getTypeText(request.data, translate)}
 				</div>
 				{Object.prototype.hasOwnProperty.call(request.data, 'assistanceIntention') &&
 					<>
@@ -187,7 +197,7 @@ const CheckShareholderRequest = ({
 				/>
 
 			}
-			{request.participantCreated && request.data.requestType === 'represent'
+			{request.participantCreated && (request.data.requestType === 'represent' || request.data.delegate)
 				&& <DelegateVoteButton
 					request={request}
 					refetch={refetch}
@@ -275,7 +285,7 @@ const CheckShareholderRequest = ({
 				open={modalAlert}
 			/>
 			<BasicButton
-				text="Revisar"
+				text={translate.revise}
 				onClick={() => setModal(request)}
 				buttonStyle={{
 					border: `1px solid ${secondary}`
@@ -285,7 +295,7 @@ const CheckShareholderRequest = ({
 			// onClick={approveRequest}
 			/>
 			<AlertConfirm
-				title={'Solicitud'}
+				title={translate.request}
 				bodyText={modalBody()}
 				requestClose={closeModal}
 				open={modal}

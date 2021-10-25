@@ -31,6 +31,7 @@ const DropdownParticipant = ({
 					padding: '0.5rem',
 					...style
 				}}
+				id="add-participant-dropdown-trigger"
 				Component={() => <div
 					style={{
 						display: 'flex',
@@ -72,6 +73,7 @@ const DropdownParticipant = ({
 						<BasicButton
 							type="flat"
 							text={translate.add_participant}
+							id="add-participant-button"
 							disabled={councilIsFinished(council) || disabled}
 							icon={<ButtonIcon type="add" color={getSecondary()} />}
 							onClick={() => setState({ ...state, add: !state.add })}
@@ -86,6 +88,7 @@ const DropdownParticipant = ({
 							text={translate.add_guest}
 							color={'white'}
 							type="flat"
+							id="add-guest-button"
 							icon={<ButtonIcon type="add" color={getSecondary()} />}
 							onClick={() => setState({ ...state, guest: !state.guest })}
 							buttonStyle={{
