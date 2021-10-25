@@ -400,7 +400,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 								}
 							/>
 						</div>
-						{(!!subdomain.name && subdomain.name.includes('gencat'))
+						{(!!subdomain.name && subdomain.name.includes('gencat')) || true
 							&& <div style={{ marginTop: '1em' }}>
 								<GenCatLogin
 									loginSuccess={props.actions.loginSuccess}
