@@ -31,7 +31,7 @@ const GenCatLogin = ({ loginSuccess }) => {
 		const currMonth = addZero(d.getUTCMonth() + 1);
 		const currYear = d.getFullYear();
 		const ymd = `${currYear}-${currMonth}-${currDate}T`;
-		const currHour = addZero(d.getUTCHours() + 2);
+		const currHour = addZero(d.getUTCHours());
 		const currMin = addZero(d.getUTCMinutes());
 		const currSec = addZero(d.getUTCSeconds());
 		const currMSec = addZero(d.getUTCMilliseconds());
