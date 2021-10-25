@@ -3,7 +3,7 @@ import { graphql, withApollo } from 'react-apollo';
 import { flowRight as compose } from 'lodash';
 import gql from 'graphql-tag';
 import { AlertConfirm } from '../../../../displayComponents';
-import RepresentativeForm from '../../participants/RepresentativeForm';
+import TranslatorForm from '../../participants/TranslatorForm';
 import { languages } from '../../../../queries/masters';
 import { checkValidEmail } from '../../../../utils/validation';
 import { checkUniqueCouncilEmails } from '../../../../queries/councilParticipant';
@@ -30,7 +30,7 @@ const AddTranslatorModal = ({ show, council, translate, refetch, requestClose, c
 	});
 
 
-	const checkRequiredFields = async emailOnly => {
+	const checkRequiredFields = async () => {
 		const errors = {
 			name: '',
 			surname: '',
@@ -57,23 +57,6 @@ const AddTranslatorModal = ({ show, council, translate, refetch, requestClose, c
 			});
 			if (!response.data.checkUniqueCouncilEmails.success) {
 				errors.email = translate.register_exists_email;
-				hasError = true;
-			}
-		}
-
-		if (!emailOnly) {
-			if (!guest.name) {
-				errors.name = translate.required_field;
-				hasError = true;
-			}
-
-			if (!guest.surname) {
-				errors.surname = translate.required_field;
-				hasError = true;
-			}
-
-			if (!guest.phone) {
-				errors.phone = translate.required_field;
 				hasError = true;
 			}
 		}
@@ -155,13 +138,10 @@ const AddTranslatorModal = ({ show, council, translate, refetch, requestClose, c
 		}
 		return (
 			<div style={{ maxWidth: '850px' }}>
-				<RepresentativeForm
-					guest={true}
+				<TranslatorForm
 					translate={translate}
 					representative={state.guest}
 					updateState={updateGuest}
-					hideInitialState={true}
-					hideAdminEmail={true}
 					errors={state.errors}
 					languages={props.data.languages}
 				/>
