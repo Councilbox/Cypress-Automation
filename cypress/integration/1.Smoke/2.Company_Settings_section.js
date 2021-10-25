@@ -85,11 +85,12 @@ describe("The user is able to add company in the Councilbox", function() {
         cy.get('#company-key-input').clear()
             .type('Test')
     });
-
+/*
     it("Populate “Identificador externo” field", function() {
         cy.get('#company-external-id-input').clear()
             .type(Cypress.config('UniqueNumber'))
     });
+*/
 
     it("Scroll down the page and populate “Dirección” field", function() {
         cy.get('#company-address-input').clear()
