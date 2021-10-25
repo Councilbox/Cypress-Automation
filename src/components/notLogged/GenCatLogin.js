@@ -18,10 +18,14 @@ const GenCatLogin = ({ loginSuccess }) => {
 		setLoading(true);
 		// dades de l aplicacio a integrar
 		const entityid = 'Councilbox';
-		const AssertionConsumerServiceURL = 'http://localhost:5000/sso/gicar/';
+
+		// Pre endpoint solo funciona para desarrollo local http://localhost:5000/sso/gicar/
+		const AssertionConsumerServiceURL = 'https://api.councilbox.com/sso/gicar/';
 
 		// url endpoint de GICAR a utilitzar
-		const endpointGICAR = 'https://preproduccio.autenticaciogicar2.extranet.gencat.cat/idp2/profile/SAML2/Redirect/SSO?SAMLRequest=';
+		// Preproducción 'https://preproduccio.autenticaciogicar2.extranet.gencat.cat/idp2/profile/SAML2/Redirect/SSO?SAMLRequest=';
+		// Producción https://autenticaciogicar2.extranet.gencat.cat/idp2/profile/SAML2/Redirect/SSO?SAMLRequest=
+		const endpointGICAR = 'https://autenticaciogicar2.extranet.gencat.cat/idp2/profile/SAML2/Redirect/SSO?SAMLRequest=';
 
 		// calculem el id de la peticio
 		const randomnumber = +new Date();
@@ -37,8 +41,6 @@ const GenCatLogin = ({ loginSuccess }) => {
 		const currMSec = addZero(d.getUTCMilliseconds());
 		const hms = `${currHour}:${currMin}:${currSec}.${currMSec}Z`;
 		const datasaml = ymd + hms;
-
-		console.log(datasaml);
 
 		// generem samlrequest en pla
 		const samlrequestpla = `<?xml version="1.0"?> <samlp:AuthnRequest xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion" Version="2.0" ID="b${randomnumber}a" IssueInstant="${datasaml}" AssertionConsumerServiceURL="${AssertionConsumerServiceURL}" ProtocolBinding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" IsPassive="false" xmlns:samlp="urn:oasis:names:tc:SAML:2.0:protocol"> <saml:Issuer>${entityid}</saml:Issuer> </samlp:AuthnRequest>`;
