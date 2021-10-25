@@ -2,6 +2,9 @@ import React from 'react';
 import { BasicButton, ButtonIcon } from '../../displayComponents';
 import { ConfigContext } from '../../containers/AppControl';
 
+const addZero = number => `${number < 10 ? '0' : ''}${number}`;
+
+
 const GenCatLogin = ({ loginSuccess }) => {
 	const [loading, setLoading] = React.useState(false);
 	const config = React.useContext(ConfigContext);
@@ -15,26 +18,28 @@ const GenCatLogin = ({ loginSuccess }) => {
 		setLoading(true);
 		// dades de l aplicacio a integrar
 		const entityid = 'Councilbox';
-		const AssertionConsumerServiceURL = 'https://api.councilbox.com/sso/gicar';
+
+		// Pre endpoint solo funciona para desarrollo local http://localhost:5000/sso/gicar/
+		const AssertionConsumerServiceURL = 'https://api.councilbox.com/sso/gicar/';
 
 		// url endpoint de GICAR a utilitzar
-		const endpointGICAR = 'https://idp1-gicar.gencat.cat/idp/profile/SAML2/Redirect/SSO?SAMLRequest=';
+		// Preproducción 'https://preproduccio.autenticaciogicar2.extranet.gencat.cat/idp2/profile/SAML2/Redirect/SSO?SAMLRequest=';
+		// Producción https://autenticaciogicar2.extranet.gencat.cat/idp2/profile/SAML2/Redirect/SSO?SAMLRequest=
+		const endpointGICAR = 'https://autenticaciogicar2.extranet.gencat.cat/idp2/profile/SAML2/Redirect/SSO?SAMLRequest=';
 
 		// calculem el id de la peticio
 		const randomnumber = +new Date();
 		// calculem la data d'emissio de la peticio. El desitjable és que la data de la petició es calculi en el servidor web i no en Javascript. Aquest fragment de codi per a calcular la data en Javascript és només per a fer proves, en entorn de producció la data s'hauria de calcular al servidor web de cara a assegurar que estigui generada per un rellotge sincronitzar amb un servidor NTP.
 		const d = new Date();
-		const currDate = d.getDate();
-		const currMonth = d.getUTCMonth() + 1;
-		const currMonth2 = (currMonth < 10 ? '0' : '') + currMonth;
+		const currDate = addZero(d.getDate());
+		const currMonth = addZero(d.getUTCMonth() + 1);
 		const currYear = d.getFullYear();
-		const ymd = `${currYear}-${currMonth2}-${currDate}T`;
-		const currHour = d.getUTCHours();
-		const currMin = d.getUTCMinutes();
-		const currMin2 = (currMin < 10 ? '0' : '') + currMin;
-		const currSec = d.getUTCSeconds();
-		const currMSec = d.getUTCMilliseconds();
-		const hms = `${currHour}:${currMin2}:${currSec}.${currMSec}`;
+		const ymd = `${currYear}-${currMonth}-${currDate}T`;
+		const currHour = addZero(d.getUTCHours());
+		const currMin = addZero(d.getUTCMinutes());
+		const currSec = addZero(d.getUTCSeconds());
+		const currMSec = addZero(d.getUTCMilliseconds());
+		const hms = `${currHour}:${currMin}:${currSec}.${currMSec}Z`;
 		const datasaml = ymd + hms;
 
 		// generem samlrequest en pla
