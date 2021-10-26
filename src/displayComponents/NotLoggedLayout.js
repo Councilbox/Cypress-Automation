@@ -1,10 +1,12 @@
 import React from 'react';
 import Header from '../components/Header';
 import bg from '../assets/img/background8-3.jpg';
+import logo from '../assets/img/councilboxLogo.png';
 import { getCustomBackground, getCustomRoomBackground } from '../utils/subdomain';
 import LoadingMainApp from './LoadingMainApp';
 import { HEADER_HEIGHT } from '../styles/constants';
 import { Scrollbar } from '.';
+import { isMobile } from '../utils/screen';
 
 
 const NotLoggedLayout = ({
@@ -23,6 +25,35 @@ const NotLoggedLayout = ({
 		img.onload = () => setLoadingImg(false);
 	}, [customBackground, customRoomBackground]);
 
+	const footer = () => (
+		<div
+			style={{
+				position: !isMobile && 'absolute',
+				bottom: '35px',
+				display: !isMobile && 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+				width: '100%',
+				textAlign: 'center',
+				minHeight: isMobile && '7em',
+				marginTop: isMobile && '2em',
+			}}
+		>
+			<div style={{
+				fontSize: '13px',
+				marginRight: isMobile ? '1em' : '2em',
+				marginLeft: '1em',
+				color: '#2E3030',
+				marginBottom: isMobile && '.5em'
+			}}>
+				{translate.meeting_security_footer_login_participant}
+			</div>
+			<div style={{ marginRight: !isMobile && '1em' }}>
+				<img src={logo} />
+			</div>
+		</div>
+	);
+
 	if (loadingImg) {
 		return <LoadingMainApp />;
 	}
@@ -35,7 +66,7 @@ const NotLoggedLayout = ({
 				flexDirection: 'column',
 				height: '100%',
 				overflow: 'hidden',
-				background: `url(${imgUrl})`,
+				background: `linear-gradient(to bottom, rgba(255,255,255,0) 60%, rgba(255,255,255,1)), url(${imgUrl})`,
 				backgroundSize: 'cover',
 				backgroundRepeat: 'no-repeat',
 				...((customBackground || customRoomBackground) ? {} : {
@@ -66,19 +97,22 @@ const NotLoggedLayout = ({
 					backgroundColor: 'rgba(0, 0, 0, 0.05)',
 					fontSize: '0.85em',
 					height: `calc(100% - ${HEADER_HEIGHT})`,
-					minHeight: `calc(100% - ${HEADER_HEIGHT})`
+					minHeight: `calc(100% - ${HEADER_HEIGHT})`,
+					position: 'relative'
 				}}
 			>
 				<Scrollbar
 					style={{
 						display: 'flex',
 						flexDirection: 'column',
-						flexGrow: 1
+						flexGrow: 1,
 					}}
 					classFix={'scrollflex'}
 				>
 					{children}
+					{isMobile && footer()}
 				</Scrollbar>
+				{!isMobile && footer()}
 			</div>
 		</div>
 	);
