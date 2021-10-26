@@ -95,6 +95,7 @@ const ParticipantStateList = ({
 			<DropDownMenu
 				claseHover={'classHover '}
 				color="transparent"
+				id={`state-selector-${props.id}`}
 				style={{ paddingLeft: '0px', paddingRight: '0px' }}
 				textStyle={{ boxShadow: 'none', height: '100%', minWidth: '15px' }}
 				icon={
@@ -127,6 +128,7 @@ const ParticipantStateList = ({
 									tooltip={translate.change_to_no_participate}
 									loading={loading === 0}
 									size="2.8em"
+									id={`state-no-participate-${props.id}`}
 									onClick={() => updateParticipantState(6, 0, null)}
 									active={
 										participant.state === PARTICIPANT_STATES.NO_PARTICIPATE
@@ -153,6 +155,7 @@ const ParticipantStateList = ({
 										}}
 										tooltip={translate.change_to_remote}
 										loading={loading === 1}
+										id={`state-remote-${props.id}`}
 										size="2.8em"
 										onClick={() => updateParticipantState(0, 1, null)}
 										active={participant.state === PARTICIPANT_STATES.REMOTE}
@@ -181,6 +184,7 @@ const ParticipantStateList = ({
 									tooltip={translate.physically_present_assistance}
 									loading={loading === 2}
 									size="2.8em"
+									id={`state-in-person-${props.id}`}
 									onClick={() => updateParticipantState(5, 2, null)}
 									active={
 										participant.state
@@ -215,6 +219,7 @@ const ParticipantStateList = ({
 										}}
 										loading={loading === 3}
 										size="2.8em"
+										id={`state-left-${props.id}`}
 										onClick={() => setLeaveAlert(true)}
 										active={
 											participant.state
@@ -245,6 +250,7 @@ const ParticipantStateList = ({
 											width: '100%', border: 'none', boxShadow: 'none', margin: 'none',
 										}}
 										loading={loading === 3}
+										id={`state-in-person-remote-vote-${props.id}`}
 										size="2.8em"
 										onClick={() => updateParticipantState(7, 3, null)}
 										active={
