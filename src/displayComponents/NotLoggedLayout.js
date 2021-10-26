@@ -46,7 +46,7 @@ const NotLoggedLayout = ({
 				color: '#2E3030',
 				marginBottom: isMobile && '.5em'
 			}}>
-				{translate.meeting_security_footer_login_participant}
+				{translate.template_marketing_text_councilbox}
 			</div>
 			<div style={{ marginRight: !isMobile && '1em' }}>
 				<img src={logo} />
