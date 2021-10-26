@@ -27,11 +27,13 @@ const OwnedVotesRecountSection = ({ ownedVotesMeta, translate, participant, coun
 			{participant.type !== PARTICIPANT_TYPE.REPRESENTATIVE &&
 				<GridItem xs={12} md={6} lg={4}>
 					<div>
-						<Label>{translate.own_votes}:</Label> {ownedVotesMeta.totalOwnVotes || 0}
+						<Label>{translate.own_votes}:</Label>
+						<span id="owned-votes-total"> {ownedVotesMeta.totalOwnVotes || 0}</span>
 					</div>
 					{showSocialCapital &&
 						<div>
-							<Label>{translate.own_social_capital}:</Label> {ownedVotesMeta.totalOwnSocialCapital || 0}
+							<Label>{translate.own_social_capital}:</Label>
+							<span id="owned-social-capital-total"> {ownedVotesMeta.totalOwnSocialCapital || 0}</span>
 						</div>
 					}
 
@@ -40,14 +42,17 @@ const OwnedVotesRecountSection = ({ ownedVotesMeta, translate, participant, coun
 			{ownedVotesMeta.numDelegated > 0 &&
 				<GridItem xs={12} md={6} lg={4}>
 					<div>
-						<Label>{translate.num_delegations}:</Label> {ownedVotesMeta.numDelegated}
+						<Label>{translate.num_delegations}:</Label>
+						<span id="owned-votes-num-delegated"> {ownedVotesMeta.numDelegated}</span>
 					</div>
 					<div>
-						<Label>{translate.delegated_votes}:</Label> {ownedVotesMeta.totalDelegatedVotes}
+						<Label>{translate.delegated_votes}:</Label>
+						<span id="owned-delegated-votes"> {ownedVotesMeta.totalDelegatedVotes}</span>
 					</div>
 					{showSocialCapital &&
 						<div>
-							<Label>{translate.delegated_social_capital}:</Label> {ownedVotesMeta.totalDelegatedSocialCapital}
+							<Label>{translate.delegated_social_capital}:</Label>
+							<span id="owned-delegated-social-capital"> {ownedVotesMeta.totalDelegatedSocialCapital}</span>
 						</div>
 					}
 
@@ -56,14 +61,17 @@ const OwnedVotesRecountSection = ({ ownedVotesMeta, translate, participant, coun
 			{ownedVotesMeta.numRepresented > 0 &&
 				<GridItem xs={12} md={6} lg={4}>
 					<div>
-						<Label>{translate.num_representations}:</Label> {ownedVotesMeta.numRepresented}
+						<Label>{translate.num_representations}:</Label>
+						<span id="owned-num-represented"> {ownedVotesMeta.numRepresented}</span>
 					</div>
 					<div>
-						<Label>{translate.representated_votes}:</Label> {ownedVotesMeta.totalRepresentedVotes}
+						<Label>{translate.representated_votes}:</Label>
+						<span id="owned-represented-votes"> {ownedVotesMeta.totalRepresentedVotes}</span>
 					</div>
 					{showSocialCapital &&
 						<div>
-							<Label>{translate.representated_social_capital}:</Label> {ownedVotesMeta.totalRepresentedSocialCapital}
+							<Label>{translate.representated_social_capital}:</Label>
+							<span id="owned-represented-social-capital"> {ownedVotesMeta.totalRepresentedSocialCapital}</span>
 						</div>
 					}
 				</GridItem>

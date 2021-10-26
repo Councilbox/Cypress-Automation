@@ -106,6 +106,7 @@ const AlertConfirm = ({
 						right: '12px',
 						top: '18px'
 					}}
+					id="alert-confirm-close"
 					onClick={requestClose}
 				/>
 			)}

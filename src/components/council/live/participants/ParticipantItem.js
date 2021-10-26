@@ -60,6 +60,7 @@ const ParticipantItem = ({
 							participant={participant}
 							translate={translate}
 							council={council}
+							id={props.id}
 							refetch={props.refetch}
 							showSignatureModal={props.showSignatureModal}
 							mode={mode}
@@ -71,6 +72,7 @@ const ParticipantItem = ({
 							participant={participant}
 							translate={translate}
 							council={council}
+							id={props.id}
 							refetch={props.refetch}
 							showSignatureModal={props.showSignatureModal}
 							mode={mode}
@@ -82,6 +84,7 @@ const ParticipantItem = ({
 							participant={participant}
 							translate={translate}
 							council={council}
+							id={props.id}
 							refetch={props.refetch}
 							showSignatureModal={props.showSignatureModal}
 							mode={mode}
@@ -204,7 +207,7 @@ const CompactItemLayout = ({
 const participantRepresentativeSigned = participant => participant.representatives && participant.representatives.length > 0 && getMainRepresentative(participant).signed;
 
 const TabletItem = ({
-	participant, translate, secondary, mode, showSignatureModal, council, refetch
+	participant, translate, secondary, mode, showSignatureModal, council, refetch, id
 }) => {
 	const representative = getMainRepresentative(participant);
 	const primary = getPrimary();
@@ -230,6 +233,7 @@ const TabletItem = ({
 								representative={representative}
 								translate={translate}
 								refetch={refetch}
+								id={id}
 								council={council}
 							/>
 							: <div

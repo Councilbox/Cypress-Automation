@@ -45,11 +45,13 @@ const ChangeCensusMenu = ({
 								floatingText={translate.current_census}
 								value={council.selectedCensusId || '-3'}
 								onChange={handleCensusChange}
+								id="change-census-select"
 							>
-								{censuses.list.map(census => (
+								{censuses.list.map((census, index) => (
 									<MenuItem
 										value={parseInt(census.id, 10)}
 										key={`census${census.id}`}
+										id={`change-census-option-${index}`}
 									>
 										{census.censusName}
 									</MenuItem>

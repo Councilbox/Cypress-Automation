@@ -197,11 +197,12 @@ const DelegateVoteModal = ({
 						<Scrollbar option={{ suppressScrollX: true }}>
 							{participants.length > 0 ? (
 								<React.Fragment>
-									{participants.map(liveParticipant => {
+									{participants.map((liveParticipant, index) => {
 										if (liveParticipant.id !== participant.id) {
 											return (
 												<ParticipantRow
 													key={`delegateParticipant_${liveParticipant.id}`}
+													id={`participant-row-${index}`}
 													participant={liveParticipant}
 													onClick={() => addDelegation(liveParticipant.id)
 													}

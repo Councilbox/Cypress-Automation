@@ -23,6 +23,7 @@ const EarlyVotingModal = props => {
 				color="white"
 				text={props.translate.anticipate_vote}
 				type="flat"
+				id="participant-early-voting-button"
 				buttonStyle={{
 					border: `1px solid ${getSecondary()}`,
 					marginTop: '0.3em',
