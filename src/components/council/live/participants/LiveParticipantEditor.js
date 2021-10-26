@@ -207,7 +207,7 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 												}}
 											/>
 											:
-											<LoadingSection />
+											<LoadingSection size={20} />
 										}
 									</GridItem>
 									<GridItem xs={12} md={6} lg={6}>

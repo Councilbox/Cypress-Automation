@@ -54,11 +54,12 @@ const ParticipantsList = ({
 					<Scrollbar>
 						<Grid spacing={0} style={{ padding: '1em' }} alignContent={'flex-start'}>
 							{participants.list.map(
-								participant => <React.Fragment key={`participant_${participant.id}`}>
+								(participant, index) => <React.Fragment key={`participant_${participant.id}`}>
 									<ParticipantItem
 										layout={layout}
 										key={`participant_${participant.id}`}
 										participant={participant}
+										id={`participant-item-${index}`}
 										translate={translate}
 										mode={mode}
 										refetch={refetch}

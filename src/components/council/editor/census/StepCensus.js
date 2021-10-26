@@ -171,12 +171,14 @@ const StepCensus = ({ translate, data, step, ...props }) => {
 							fontSize: '0.9em',
 							textTransform: 'none'
 						}}
+						id="change-census-cancel"
 						textPosition="after"
 						onClick={() => setState({ censusChangeAlert: false })}
 						buttonStyle={{ marginRight: '1em' }}
 					/>
 					<BasicButton
 						text={translate.want_census_change}
+						id="change-census-confirm"
 						color={primary}
 						textStyle={{
 							color: 'white',
