@@ -28,6 +28,7 @@ const PointAttachments = ({
 				base64: btoa(loadEvent.target.result)
 			};
 			setAttachments([...attachments, fileInfo]);
+			event.target.value = '';
 		};
 	};
 
@@ -36,10 +37,8 @@ const PointAttachments = ({
 		if (setDeletedAttachments) {
 			setDeletedAttachments([...deletedAttachments, toDelete[0]]);
 		}
-
 		setAttachments([...attachments]);
 	};
-
 
 	return (
 		<>
@@ -151,7 +150,7 @@ const PointAttachments = ({
 								cursor: 'pointer'
 							}}
 						>
-X
+							X
 						</span>
 					</div>
 				))}

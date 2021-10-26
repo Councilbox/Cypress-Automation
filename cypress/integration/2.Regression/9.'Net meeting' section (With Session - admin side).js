@@ -81,7 +81,9 @@ describe("The user is able to start council in the 'New meeting with session' se
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
@@ -197,7 +199,9 @@ describe("The user is able to open item in the 'New meeting with session' type o
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
@@ -320,7 +324,9 @@ describe("The user is able to activate voting in the 'New meeting with session' 
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
@@ -443,7 +449,9 @@ describe("The user is able to close voting on item in the 'New meeting with sess
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
@@ -571,7 +579,9 @@ describe("The user is able to close item in the 'New meeting with session' type 
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
@@ -699,7 +709,9 @@ describe("The user is able to pause the meeting in the 'New meeting with session
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
@@ -841,7 +853,9 @@ describe("The user is able to resume the meeting in the 'New meeting with sessio
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
@@ -989,7 +1003,9 @@ describe("The user is able to reopen voting in the 'New meeting with session' ty
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
@@ -1124,7 +1140,9 @@ describe("The user is able to end meeting in the 'New meeting with session' sect
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
@@ -1271,7 +1289,9 @@ describe("The user is able to download meeting in 'Recordings' section", functio
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
@@ -1430,7 +1450,9 @@ describe("The user is able to finalize and approve act in 'Minutes' section", fu
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
@@ -1582,7 +1604,9 @@ describe("The user is able to open the 'Comments on the meeting' section", funct
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
@@ -1734,7 +1758,9 @@ describe("The user is able to export the 'Comments on the meeting' to the PDF", 
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
@@ -1891,7 +1917,9 @@ describe("The user is able to open the 'Show the list of attendees' section", fu
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
