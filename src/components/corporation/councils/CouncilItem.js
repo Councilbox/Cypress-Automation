@@ -3,7 +3,7 @@ import FontAwesome from 'react-fontawesome';
 import { TableRow, TableCell } from 'material-ui';
 import { getSecondary } from '../../../styles/colors';
 import { bHistory, moment } from '../../../containers/App';
-import { BasicButton, Link } from '../../../displayComponents';
+import { Link } from '../../../displayComponents';
 import FixedVideoURLModal from './FixedVideoURLModal';
 import { councilTypesInfo } from '../../../constants';
 import CloneCouncil from './council/CloneCouncil';
