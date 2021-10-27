@@ -347,6 +347,8 @@ const councilQuery = gql`
 				existsSecondCall
 				minimumSeparationBetweenCall
 				canEditConvene
+				hideAbstentionButton
+				hideNoVoteButton
 				firstCallQuorumType
 				decimalDigits
 				firstCallQuorum

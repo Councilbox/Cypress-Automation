@@ -5,7 +5,7 @@ import { AGENDA_TYPES, AGENDA_STATES } from '../../../constants';
 import { VotingButton, DeniedDisplay } from './VotingMenu';
 import { VotingContext } from './AgendaNoSession';
 import {
-	agendaPointOpened, councilHasSession, getAgendaTypeLabel, removeTypenameField, showNumParticipations, voteAllAtOnce
+	agendaPointOpened, councilHasSession, getAgendaTypeLabel, removeTypenameField, showAbstentionButton, showNoVoteButton, showNumParticipations, voteAllAtOnce
 } from '../../../utils/CBX';
 import { ConfigContext } from '../../../containers/AppControl';
 
@@ -140,11 +140,11 @@ const CustomPointVotingMenu = ({
 	}
 
 	const renderCommonButtons = () => {
-		if (config.hideNoVoteButton || config.hideAbstentionButton) {
+		if (!showNoVoteButton({ config, statute: council.statute }) || !showAbstentionButton({ config, statute: council.statute })) {
 			return (
 				<div style={{ paddingTop: '5px' }}>
 					<div style={{ display: 'flex', width: '100%', height: '2.5em' }}>
-						{(config.hideNoVoteButton && !config.hideAbstentionButton)
+						{(!showNoVoteButton({ config, statute: council.statute }) && showAbstentionButton({ config, statute: council.statute }))
 							&& <VotingButton
 								text={`${translate.abstention_btn} ${buildRecountText('abstention')}`}
 								disabled={disabled}
@@ -157,7 +157,7 @@ const CustomPointVotingMenu = ({
 								selectedCheckbox={getSelectedRadio(-1)}
 							/>
 						}
-						{(!config.hideNoVoteButton && config.hideAbstentionButton)
+						{(showNoVoteButton({ config, statute: council.statute }) && !showAbstentionButton({ config, statute: council.statute }))
 							&& <VotingButton
 								text={`${translate.dont_vote} ${buildRecountText('noVote')}`}
 								disabled={disabled}

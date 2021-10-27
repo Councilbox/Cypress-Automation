@@ -448,15 +448,15 @@ tabsInfo={getTabs()}
 
 
 export default graphql(gql`
-			query CouncilDetails($councilID: Int!) {
-				council(id: $councilID) {
-				active
+	query CouncilDetails($councilID: Int!) {
+		council(id: $councilID) {
+			active
 			attachments {
 				councilId
 				filename
-			filesize
-			filetype
-			id
+				filesize
+				filetype
+				id
 			}
 			businessName
 			city
@@ -502,50 +502,52 @@ export default graphql(gql`
 			statute {
 				id
 				prototype
-			councilId
-			hideVotingsRecountFinished
-			defaultVote
-			statuteId
-			title
-			shareholdersPortal
-			existPublicUrl
-			addParticipantsListToAct
-			existsAdvanceNoticeDays
-			advanceNoticeDays
-			existsSecondCall
-			minimumSeparationBetweenCall
-			canEditConvene
-			canEarlyVote
-			requireProxy
-			firstCallQuorumType
-			firstCallQuorum
-			firstCallQuorumDivider
-			secondCallQuorumType
-			secondCallQuorum
-			secondCallQuorumDivider
-			existsDelegatedVote
-			decimalDigits
-			delegatedVoteWay
-			existMaxNumDelegatedVotes
-			maxNumDelegatedVotes
-			existsLimitedAccessRoom
-			limitedAccessRoomMinutes
-			existsQualityVote
-			qualityVoteOption
-			canUnblock
-			canAddPoints
-			canReorderPoints
-			existsAct
-			existsWhoSignTheAct
-			includedInActBook
-			includeParticipantsList
-			existsComments
-			conveneHeader
-			intro
-			constitution
-			conclusion
-			actTemplate
-			censusId
+				councilId
+				hideVotingsRecountFinished
+				defaultVote
+				statuteId
+				title
+				shareholdersPortal
+				existPublicUrl
+				hideAbstentionButton
+				hideNoVoteButton
+				addParticipantsListToAct
+				existsAdvanceNoticeDays
+				advanceNoticeDays
+				existsSecondCall
+				minimumSeparationBetweenCall
+				canEditConvene
+				canEarlyVote
+				requireProxy
+				firstCallQuorumType
+				firstCallQuorum
+				firstCallQuorumDivider
+				secondCallQuorumType
+				secondCallQuorum
+				secondCallQuorumDivider
+				existsDelegatedVote
+				decimalDigits
+				delegatedVoteWay
+				existMaxNumDelegatedVotes
+				maxNumDelegatedVotes
+				existsLimitedAccessRoom
+				limitedAccessRoomMinutes
+				existsQualityVote
+				qualityVoteOption
+				canUnblock
+				canAddPoints
+				canReorderPoints
+				existsAct
+				existsWhoSignTheAct
+				includedInActBook
+				includeParticipantsList
+				existsComments
+				conveneHeader
+				intro
+				constitution
+				conclusion
+				actTemplate
+				censusId
 			}
 			street
 			tin
@@ -559,8 +561,8 @@ export default graphql(gql`
 			}
 			zipcode
 		}
-			councilTotalVotes(councilId: $councilID)
-			councilSocialCapital(councilId: $councilID)
+		councilTotalVotes(councilId: $councilID)
+		councilSocialCapital(councilId: $councilID)
 	}
 			`, {
 	name: 'data',
