@@ -1,6 +1,5 @@
 import React from 'react';
-import { Card, Avatar } from 'material-ui';
-import FontAwesome from 'react-fontawesome';
+import { Card } from 'material-ui';
 import Header from '../Header';
 import ContactAdminButton from './ContactAdminButton';
 import withTranslations from '../../../HOCs/withTranslations';
@@ -8,7 +7,6 @@ import withWindowSize from '../../../HOCs/withWindowSize';
 import withWindowOrientation from '../../../HOCs/withWindowOrientation';
 import {
 	lightTurquoise,
-	secondary,
 	primary
 } from '../../../styles/colors';
 import { PARTICIPANT_ERRORS, PARTICIPANT_STATES } from '../../../constants';
