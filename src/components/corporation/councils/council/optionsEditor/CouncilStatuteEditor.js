@@ -83,6 +83,68 @@ const CouncilStatuteEditor = ({
 					}
 				/>
 			</GridItem>
+			<GridItem xs={12} md={7} lg={7}>
+				<SelectInput
+					id="council-type-hide-no-vote-button"
+					floatingText={translate.hide_no_vote_button}
+					value={statute.hideNoVoteButton}
+					style={{ maxWidth: '22em' }}
+					styleLabel={{ minWidth: '240px' }}
+					onChange={event => updateState({
+						hideNoVoteButton: event.target.value
+					})}
+				>
+					<MenuItem
+						value={0}
+						id={'no-vote-select-option-hide'}
+					>
+						{translate.hidden}
+					</MenuItem>
+					<MenuItem
+						value={1}
+						id={'no-vote-select-option-show'}
+					>
+						{translate.visible}
+					</MenuItem>
+					<MenuItem
+						value={-1}
+						id={'no-vote-select-option-default'}
+					>
+						{translate.default}
+					</MenuItem>
+				</SelectInput>
+			</GridItem>
+			<GridItem xs={12} md={7} lg={7}>
+				<SelectInput
+					id="council-type-hide-abstention-button"
+					floatingText={translate.hide_abstention_button}
+					value={statute.hideAbstentionButton}
+					style={{ maxWidth: '22em' }}
+					styleLabel={{ minWidth: '240px' }}
+					onChange={event => updateState({
+						hideAbstentionButton: event.target.value
+					})}
+				>
+					<MenuItem
+						value={0}
+						id={'abstention-select-option-hide'}
+					>
+						{translate.hidden}
+					</MenuItem>
+					<MenuItem
+						value={1}
+						id={'abstention-select-option-show'}
+					>
+						{translate.visible}
+					</MenuItem>
+					<MenuItem
+						value={-1}
+						id={'abstention-select-option-default'}
+					>
+						{translate.default}
+					</MenuItem>
+				</SelectInput>
+			</GridItem>
 			<GridItem xs={10} md={6} lg={6} style={{ display: 'flex', alignItems: 'center' }}>
 				<Checkbox
 					id="council-type-limited-access"
