@@ -3,9 +3,10 @@ import FontAwesome from 'react-fontawesome';
 import { TableRow, TableCell } from 'material-ui';
 import { getSecondary } from '../../../styles/colors';
 import { bHistory, moment } from '../../../containers/App';
-import { Link } from '../../../displayComponents';
+import { BasicButton, Link } from '../../../displayComponents';
 import FixedVideoURLModal from './FixedVideoURLModal';
 import { councilTypesInfo } from '../../../constants';
+import CloneCouncil from './council/CloneCouncil';
 
 const getCouncilStateString = (state, councilStarted) => {
 	const stateStrings = {
@@ -52,12 +53,16 @@ const CouncilItem = ({
 				<div style={{
 					margin: '1em 0px', width: '100%', display: 'flex', justifyContent: 'flex-end'
 				}}>
+					<CloneCouncil
+						council={council}
+						translate={translate}
+					/>
 					{!hideFixedUrl
-&& <FixedVideoURLModal
-	translate={translate}
-	council={council}
+						&& <FixedVideoURLModal
+							translate={translate}
+							council={council}
 
-/>
+						/>
 					}
 				</div>
 				<div style={{ margin: '1em 0px', border: '1px solid gainsboro' }}>
@@ -68,32 +73,32 @@ const CouncilItem = ({
 							<div style={{
 								width: '10%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: 'flex', alignItems: 'center', justifyContent: 'center'
 							}}>
-Total
+								Total
 							</div>
 							<div style={{
 								width: '10%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: 'flex', alignItems: 'center', justifyContent: 'center'
 							}}>
-ID
+								ID
 							</div>
 							<div style={{
 								width: '20%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: 'flex', alignItems: 'center', justifyContent: 'center'
 							}}>
-Entidad
+								Entidad
 							</div>
 							<div style={{
 								width: '20%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: 'flex', alignItems: 'center', justifyContent: 'center'
 							}}>
-Nombre
+								Nombre
 							</div>
 							<div style={{
 								width: '20%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: 'flex', alignItems: 'center', justifyContent: 'center'
 							}}>
-Fechas
+								Fechas
 							</div>
 							<div style={{
 								width: '20%', paddingLeft: '1.2em', paddingRight: '1.2em', fontSize: '1em', display: 'flex', alignItems: 'center', justifyContent: 'center'
 							}}>
-Estado
+								Estado
 							</div>
 						</div>
 						<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -130,10 +135,10 @@ Estado
 							<div style={{ textAlign: 'center', width: '20%' }}>
 								<span> {moment(council.dateStart).format('LLL')}</span>
 								{council.autoClose === 1
-&& <React.Fragment><br></br> <span>Fecha de cierre automático: {moment(council.closeDate).format('LLL')}</span></React.Fragment>
+									&& <React.Fragment><br></br> <span>Fecha de cierre automático: {moment(council.closeDate).format('LLL')}</span></React.Fragment>
 								}
 								{council.dateEnd
-&& <React.Fragment><br></br><span>Fecha de finalización: {moment(council.dateEnd).format('LLL')}</span></React.Fragment>
+									&& <React.Fragment><br></br><span>Fecha de finalización: {moment(council.dateEnd).format('LLL')}</span></React.Fragment>
 								}
 							</div>
 							<span style={{
@@ -173,10 +178,10 @@ Estado
 			<TableCell style={{ color: 'black' }}>
 				<span> {moment(council.dateStart).format('LLL')}</span>
 				{council.autoClose === 1
-&& <React.Fragment><br></br> <span>Fecha de cierre automático: {moment(council.closeDate).format('LLL')}</span></React.Fragment>
+					&& <React.Fragment><br></br> <span>Fecha de cierre automático: {moment(council.closeDate).format('LLL')}</span></React.Fragment>
 				}
 				{council.dateEnd
-&& <React.Fragment><br></br><span>Fecha de finalización: {moment(council.dateEnd).format('LLL')}</span></React.Fragment>
+					&& <React.Fragment><br></br><span>Fecha de finalización: {moment(council.dateEnd).format('LLL')}</span></React.Fragment>
 				}
 			</TableCell>
 			<TableCell style={{ color: 'black' }}>
