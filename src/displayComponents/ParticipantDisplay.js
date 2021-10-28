@@ -34,7 +34,7 @@ const ParticipantDisplay = ({
 	});
 
 	const secondary = getSecondary();
-
+	console.log(edit)
 
 	return (
 		<div style={{ padding: '0.5em' }}>
@@ -63,25 +63,7 @@ const ParticipantDisplay = ({
 					></i>
 				</div>
 				<Typography variant="subheading" >
-					<b>{`${participant.name} ${participant.surname || ''}`}</b> {
-						canEdit
-						&& <>
-							<Tooltip title={translate.edit_participant_contact}>
-								<i
-									onClick={() => setEdit(!edit)}
-									className="fa fa-pencil-square-o"
-									aria-hidden="true"
-									style={{
-										color: secondary,
-										fontSize: '0.8em',
-										cursor: 'pointer',
-										marginLeft: '0.3em'
-									}}>
-								</i>
-							</Tooltip>
-
-						</>
-					}
+					<b>{`${participant.name} ${participant.surname || ''}`}</b>
 				</Typography>
 			</div>
 			<div
@@ -174,9 +156,64 @@ const ParticipantDisplay = ({
 					/>
 					: <Typography variant="body1" className="truncate">
 						{`${participant.email || '-'}`}
+						<span>
+							{
+								canEdit
+								&& <>
+									<Tooltip title={translate.edit_participant_contact}>
+										<i
+											onClick={() => setEdit(!edit)}
+											className="fa fa-pencil-square-o"
+											aria-hidden="true"
+											style={{
+												color: secondary,
+												fontSize: '0.8em',
+												cursor: 'pointer',
+												marginLeft: '0.3em'
+											}}>
+										</i>
+									</Tooltip>
+								</>
+							}
+						</span>
 					</Typography>
 				}
 
+			</div>
+			<div style={{
+				justifyContent: 'space-between'
+			}}>
+				{edit
+					? <div>
+						<BasicButton
+							text={translate.save}
+							color={secondary}
+							loading={saving}
+							success={success}
+							textStyle={{
+								color: 'white'
+							}}
+							onClick={updateParticipantContactInfo}
+							buttonStyle={{
+								margin: '1em .5em 1em 3em'
+							}}
+						/>
+						<BasicButton
+							text={translate.cancel}
+							color={'white'}
+							textStyle={{
+								color: 'secondary'
+							}}
+							onClick={() => setEdit(!edit)}
+							buttonStyle={{
+								margin: '1em'
+							}}
+						/>
+					</div>
+					: null
+
+
+				}
 			</div>
 
 			{council.securityType === 2
@@ -224,49 +261,7 @@ const ParticipantDisplay = ({
 
 			{(!CBX.participantIsGuest(participant) && !CBX.participantIsRepresentative(participant)
 				&& !delegate && council.councilType !== COUNCIL_TYPES.ONE_ON_ONE) && (
-				<React.Fragment>
-					<div
-						style={{
-							display: 'flex',
-							flexDirection: 'row',
-							alignItems: 'center'
-						}}
-					>
-						<Tooltip title={translate.votes}>
-							<div
-								style={{
-									width: '2em',
-									display: 'flex',
-									justifyContent: 'center'
-								}}
-							>
-								<i
-									className="fa fa-ticket"
-									aria-hidden="true"
-									style={{
-										color: secondary,
-										fontSize: '0.8em',
-										marginRight: '0.3em'
-									}}>
-								</i>
-							</div>
-						</Tooltip>
-						{(edit && root) ?
-							<TextInput
-								floatingText={translate.votes}
-								type="number"
-								required
-								onBlur={() => setNumParticipations(Number(numParticipations))}
-								value={numParticipations}
-								errorText={errors.numParticipations}
-								onChange={event => setNumParticipations(event.target.value)}
-							/>
-							: <Typography variant="body1">
-								{`${CBX.showNumParticipations(participant.numParticipations, company, council.statute)}`}
-							</Typography>
-						}
-					</div>
-					{CBX.hasParticipations(council.statute) && (
+					<React.Fragment>
 						<div
 							style={{
 								display: 'flex',
@@ -274,9 +269,7 @@ const ParticipantDisplay = ({
 								alignItems: 'center'
 							}}
 						>
-							<Tooltip
-								title={translate.census_type_social_capital}
-							>
+							<Tooltip title={translate.votes}>
 								<div
 									style={{
 										width: '2em',
@@ -285,7 +278,7 @@ const ParticipantDisplay = ({
 									}}
 								>
 									<i
-										className="fa fa-percent"
+										className="fa fa-ticket"
 										aria-hidden="true"
 										style={{
 											color: secondary,
@@ -297,27 +290,71 @@ const ParticipantDisplay = ({
 							</Tooltip>
 							{(edit && root) ?
 								<TextInput
-									floatingText={translate.census_type_social_capital}
+									floatingText={translate.votes}
 									type="number"
 									required
-									onBlur={() => setSocialCapital(Number(socialCapital))}
-									value={socialCapital}
-									errorText={errors.socialCapital}
-									onChange={event => setSocialCapital(event.target.value)}
+									onBlur={() => setNumParticipations(Number(numParticipations))}
+									value={numParticipations}
+									errorText={errors.numParticipations}
+									onChange={event => setNumParticipations(event.target.value)}
 								/>
 								: <Typography variant="body1">
-									{`${CBX.showNumParticipations(participant.socialCapital, company, council.statute)}`}
+									{`${CBX.showNumParticipations(participant.numParticipations, company, council.statute)}`}
 								</Typography>
 							}
 						</div>
-					)}
-					<DenyVote
-						participant={participant}
-						translate={translate}
-						refetch={refetch}
-					/>
-				</React.Fragment>
-			)}
+						{CBX.hasParticipations(council.statute) && (
+							<div
+								style={{
+									display: 'flex',
+									flexDirection: 'row',
+									alignItems: 'center'
+								}}
+							>
+								<Tooltip
+									title={translate.census_type_social_capital}
+								>
+									<div
+										style={{
+											width: '2em',
+											display: 'flex',
+											justifyContent: 'center'
+										}}
+									>
+										<i
+											className="fa fa-percent"
+											aria-hidden="true"
+											style={{
+												color: secondary,
+												fontSize: '0.8em',
+												marginRight: '0.3em'
+											}}>
+										</i>
+									</div>
+								</Tooltip>
+								{(edit && root) ?
+									<TextInput
+										floatingText={translate.census_type_social_capital}
+										type="number"
+										required
+										onBlur={() => setSocialCapital(Number(socialCapital))}
+										value={socialCapital}
+										errorText={errors.socialCapital}
+										onChange={event => setSocialCapital(event.target.value)}
+									/>
+									: <Typography variant="body1">
+										{`${CBX.showNumParticipations(participant.socialCapital, company, council.statute)}`}
+									</Typography>
+								}
+							</div>
+						)}
+						<DenyVote
+							participant={participant}
+							translate={translate}
+							refetch={refetch}
+						/>
+					</React.Fragment>
+				)}
 			{(CBX.isActiveState(participant.state) && participant.firstLoginDate)
 				&& <div
 					style={{
@@ -378,22 +415,6 @@ const ParticipantDisplay = ({
 					</Typography>
 				</div>
 			}
-			{edit
-				&& <BasicButton
-					text={translate.save}
-					color={secondary}
-					loading={saving}
-					success={success}
-					textStyle={{
-						color: 'white'
-					}}
-					onClick={updateParticipantContactInfo}
-					buttonStyle={{
-						marginTop: '0.6em'
-					}}
-				/>
-			}
-
 		</div>
 	);
 };
