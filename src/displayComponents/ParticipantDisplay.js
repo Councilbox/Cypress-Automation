@@ -259,7 +259,8 @@ const ParticipantDisplay = ({
 			}
 
 			{(!CBX.participantIsGuest(participant) && !CBX.participantIsRepresentative(participant)
-				&& !delegate && council.councilType !== COUNCIL_TYPES.ONE_ON_ONE) && (
+				&& !delegate && council.councilType !== COUNCIL_TYPES.ONE_ON_ONE) &&
+				(
 					<React.Fragment>
 						<div
 							style={{
