@@ -201,12 +201,10 @@ const ParticipantDisplay = ({
 						<BasicButton
 							text={translate.cancel}
 							color={'white'}
-							loading={saving}
-							success={success}
 							textStyle={{
 								color: 'secondary'
 							}}
-							onClick={updateParticipantContactInfo}
+							onClick={() => setEdit(!edit)}
 							buttonStyle={{
 								margin: '1em'
 							}}
