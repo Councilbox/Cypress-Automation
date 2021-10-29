@@ -554,6 +554,9 @@ export default graphql(gql`
 			videoRecodingInitialized
 			votationType
 			weightedVoting
+			room {
+				type
+			}
 			zipcode
 		}
 			councilTotalVotes(councilId: $councilID)

@@ -1461,6 +1461,7 @@ export const councilLiveQuery = gql`
 			room {
 				id
 				videoLink
+				type
 				htmlVideoCouncil
 				videoConfig
 			}
@@ -1887,6 +1888,7 @@ export const videoParticipants = gql`
 				participantId
 				online
 				requestWord
+				type
 				surname
 				blocked
 				lastDateConnection

@@ -122,6 +122,11 @@ class SignUpUser extends React.Component {
 			}
 		}
 
+		if (this.state.porcentaje < 40) {
+			hasError = true;
+			errors.pwd = translate.insecure_password;
+		}
+
 		if (!data.pwd) {
 			hasError = true;
 			errors.pwd = translate.no_empty_pwd;
@@ -132,12 +137,12 @@ class SignUpUser extends React.Component {
 			errors.confirmPWD = translate.no_match_pwd;
 		}
 
-		if (!(/^[A-Za-z\s]+$/.test(data.name))) {
+		if (!(/^[A-Za-z-zÀ-ÿ\s]+$/.test(data.name))) {
 			hasError = true;
 			errors.name = translate.enter_valid_name;
 		}
 
-		if (!(/^[A-Za-z\s]+$/.test(data.surname))) {
+		if (!(/^[A-Za-z-zÀ-ÿ\s]+$/.test(data.surname))) {
 			hasError = true;
 			errors.surname = translate.enter_valid_last_names;
 		}
