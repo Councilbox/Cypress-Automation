@@ -15,9 +15,9 @@ import { moment } from '../../../containers/App';
 import { getCustomBackground } from '../../../utils/subdomain';
 import RemoveDelegationAndEnter from './RemoveDelegationAndEnter';
 import LoginAfterAccessLimitButton from './LoginAfterAccessLimitButton';
-import forbiddenRoom from '../../../assets/img/forbidden-room.png'
-import forbiddenUser from '../../../assets/img/forbidden-user.png'
-import forbiddenVote from '../../../assets/img/forbidden-vote.png'
+import forbiddenRoom from '../../../assets/img/forbidden-room.png';
+import forbiddenUser from '../../../assets/img/forbidden-user.png';
+import forbiddenVote from '../../../assets/img/forbidden-vote.png';
 // import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
 
 const styles = {
@@ -88,7 +88,6 @@ const styles = {
 const ErrorState = ({
 	code, translate, data, windowSize, windowOrientation, refetch
 }) => {
-
 	const renderError = errorCode => {
 		switch (errorCode) {
 			case PARTICIPANT_ERRORS.PARTICIPANT_BLOCKED:
@@ -128,7 +127,7 @@ const ErrorState = ({
 			default:
 				return <div />;
 		}
-	}
+	};
 
 	return (
 		<div style={styles.display}>
@@ -190,7 +189,7 @@ const ErrorState = ({
 const ParticipantBlocked = ({ translate }) => (
 	<>
 		<h3 style={{ color: primary, fontWeight: 'bold' }}>
-			{translate.access_unauthorized}
+			{translate.limited_room_access}
 		</h3>
 		{translate.cant_access_video_room_expelled}
 	</>
@@ -199,19 +198,19 @@ const ParticipantBlocked = ({ translate }) => (
 const RemoteClosed = ({ translate }) => (
 	<>
 		<h3 style={{ color: primary, fontWeight: 'bold' }}>
-			{translate.access_unauthorized}
+			{translate.limited_room_access}
 		</h3>
 
-		{'Las votaciones remotas han finalizado' /* TRADUCCION */}
+		{translate.remote_voting_has_ended}
 	</>
 );
 
 const RepresentedDelegated = ({ translate, data, refetch }) => (
 	<>
 		<h3 style={{ color: primary, fontWeight: 'bold' }}>
-			{translate.access_unauthorized}
+			{translate.limited_room_access}
 		</h3>
-		{'El voto de su representado ha sido delegado en otro participante' /* TRADUCCION */}
+		{translate.vote_client_delegated_another_participant}
 		<RemoveDelegationAndEnter
 			represented={data.participant.represented}
 			participant={data.participant}
@@ -224,9 +223,9 @@ const RepresentedDelegated = ({ translate, data, refetch }) => (
 const RepresentedChanged = ({ translate }) => (
 	<>
 		<h3 style={{ color: primary, fontWeight: 'bold' }}>
-			{translate.access_unauthorized}
+			{translate.limited_room_access}
 		</h3>
-		{'El voto de su representado ha sido depositado en otro representante' /* TRADUCCION */}
+		{translate.vote_client_in_another_representative}
 	</>
 );
 
@@ -234,7 +233,7 @@ const RepresentedChanged = ({ translate }) => (
 const ParticipantNotInRemoteState = ({ translate, data, refetch }) => (
 	<>
 		<h3 style={{ color: primary, fontWeight: 'bold' }}>
-			{translate.access_unauthorized}
+			{translate.limited_room_access}
 		</h3>
 		{
 			data.participant.state === PARTICIPANT_STATES.DELEGATED ?
@@ -254,6 +253,9 @@ const ParticipantNotInRemoteState = ({ translate, data, refetch }) => (
 
 const TimeLimitExceeded = ({ translate, data, refetch }) => (
 	<>
+		<h3 style={{ color: primary, fontWeight: 'bold' }}>
+			{translate.limited_room_access}
+		</h3>
 		{data.council.statute.letParticipantsEnterAfterLimit ?
 			<>
 				<div style={{ marginBottom: '1em' }}>
