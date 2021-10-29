@@ -1,18 +1,14 @@
 import React from 'react';
 import RemoveDelegationButton from '../RemoveDelegationButton';
 import { ParticipantBlock } from '../LiveParticipantEditor';
-import { Grid, LoadingSection } from '../../../../../displayComponents';
+import { Grid } from '../../../../../displayComponents';
 import { PARTICIPANT_STATES } from '../../../../../constants';
 import OwnedVotesModal from './OwnedVotesModal';
 import OwnedVotesRecountSection from './OwnedVotesRecountSection';
 
 
-const OwnedVotesSection = ({ participant, translate, council, loading, ownedVotes, updateOwnedVotes }) => {
+const OwnedVotesSection = ({ participant, translate, council, ownedVotes, updateOwnedVotes }) => {
 	const [modal, setModal] = React.useState(false);
-
-	if (loading) {
-		return <LoadingSection />;
-	}
 
 	return (
 		<>

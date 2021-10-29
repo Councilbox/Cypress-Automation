@@ -206,12 +206,20 @@ const CensusParticipants = ({
 						</div>
 					</div>
 					<span style={{ fontWeight: '700', fontSize: '0.9em' }}>
-						{`${translate.total_votes}: ${props.recount.numParticipations || 0}`}
+						{`${translate.total_votes}: `}
+					</span>
+					<span style={{ fontWeight: '700', fontSize: '0.9em' }} id="census-total-votes">
+						{`${props.recount.numParticipations || 0}`}
 					</span>
 					{CBX.hasParticipations({ quorumPrototype: census.quorumPrototype })
-						&& <span style={{ marginLeft: '1em', fontWeight: '700', fontSize: '0.9em' }}>
-							{`${translate.total_social_capital}: ${props.recount.socialCapital || 0}`}
-						</span>
+						&& <>
+							<span style={{ marginLeft: '1em', fontWeight: '700', fontSize: '0.9em' }}>
+								{`${translate.total_social_capital}: `}
+							</span>
+							<span style={{ fontWeight: '700', fontSize: '0.9em' }} id="census-total-social-capital">
+								{`${props.recount.socialCapital || 0}`}
+							</span>
+						</>
 					}
 				</GridItem>
 			</Grid>

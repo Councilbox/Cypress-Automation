@@ -190,12 +190,12 @@ const DelegateOwnVoteModal = ({
 						<Scrollbar>
 							{participants.length > 0 ? (
 								<React.Fragment>
-									{participants.map(liveParticipant => {
+									{participants.map((liveParticipant, index) => {
 										if (liveParticipant.id !== participant.id) {
 											return (
 												<ParticipantRow
-													key={`delegateVote_${liveParticipant.id
-														}`}
+													key={`delegateVote_${liveParticipant.id}`}
+													id={`participant-row-${index}`}
 													council={council}
 													toDelegate={true}
 													participant={liveParticipant}

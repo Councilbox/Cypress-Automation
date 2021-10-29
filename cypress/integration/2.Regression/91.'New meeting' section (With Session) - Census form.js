@@ -82,7 +82,9 @@ describe("The user is able to select 'English' language in the 'Add participant'
     });
 
     it("Click on the 'Add participant' button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
     });
 
@@ -143,7 +145,9 @@ describe("The user is able to select 'Espanol' language in the 'Add participant'
     });
 
     it("Click on the 'Add participant' button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
     });
 
@@ -204,7 +208,9 @@ describe("The user is able to select 'Portugues' language in the 'Add participan
     });
 
     it("Click on the 'Add participant' button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
     });
 
@@ -265,7 +271,9 @@ describe("The user is able to select 'Catala' language in the 'Add participant' 
     });
 
     it("Click on the 'Add participant' button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
     });
 
@@ -326,7 +334,9 @@ describe("The user is able to select 'Galego' language in the 'Add participant' 
     });
 
     it("Click on the 'Add participant' button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
     });
 
@@ -387,7 +397,9 @@ describe("The user is able to select 'Polsku' language in the 'Add participant' 
     });
 
     it("Click on the 'Add participant' button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
     });
 
@@ -448,7 +460,9 @@ describe("The user is able to select 'Francis' language in the 'Add participant'
     });
 
     it("Click on the 'Add participant' button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
     });
 
@@ -509,7 +523,9 @@ describe("The user is able to select 'Euskera' language in the 'Add participant'
     });
 
     it("Click on the 'Add participant' button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
     });
 

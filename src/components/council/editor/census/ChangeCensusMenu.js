@@ -45,11 +45,13 @@ const ChangeCensusMenu = ({
 								floatingText={translate.current_census}
 								value={council.selectedCensusId || '-3'}
 								onChange={handleCensusChange}
+								id="change-census-select"
 							>
-								{censuses.list.map(census => (
+								{censuses.list.map((census, index) => (
 									<MenuItem
 										value={parseInt(census.id, 10)}
 										key={`census${census.id}`}
+										id={`change-census-option-${index}`}
 									>
 										{census.censusName}
 									</MenuItem>
@@ -117,7 +119,10 @@ const ChangeCensusMenu = ({
 								fontSize: '1em'
 							}}
 						>
-							{`${translate.total_votes}: ${totalVotes || 0}`}
+							{`${translate.total_votes}: `}
+							<span id="census-total-votes">
+								{`${totalVotes || 0}`}
+							</span>
 						</Typography>
 						{CBX.hasParticipations(council)
 							&& <Typography
@@ -128,7 +133,10 @@ const ChangeCensusMenu = ({
 									fontSize: '1em'
 								}}
 							>
-								{`${translate.total_social_capital}: ${totalSocialCapital || 0}`}
+								{`${translate.total_social_capital}: `}
+								<span id="census-total-social-capital">
+									{`${totalSocialCapital || 0}`}
+								</span>
 							</Typography>
 						}
 					</GridItem>

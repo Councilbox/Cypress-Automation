@@ -14,6 +14,7 @@ const ParticipantForm = ({
 	errors,
 	updateState,
 	checkEmail,
+	isGuest = false,
 	participations,
 	hideVotingInputs,
 	translate,
@@ -124,7 +125,7 @@ const ParticipantForm = ({
 				}
 			/>
 		</GridItem>
-		{participant.personOrEntity === 0
+		{(participant.personOrEntity === 0 && !isGuest)
 			&& <GridItem xs={6} md={4} lg={3}>
 				<TextInput
 					id="participant-position-input"

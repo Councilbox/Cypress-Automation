@@ -333,6 +333,7 @@ export const VotingButton = ({
 	selectedCheckbox = false,
 	styleButton,
 	color,
+	id = '',
 	disabledColor,
 	vote,
 	translate,
@@ -390,6 +391,7 @@ export const VotingButton = ({
 				loading={loading}
 				loadingColor={primary}
 				icon={icon}
+				id={id}
 				textStyle={config.textStyle}
 				buttonStyle={config.buttonStyle}
 				onClick={onClick}

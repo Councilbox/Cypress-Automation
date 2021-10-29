@@ -109,19 +109,19 @@ export const companies = gql`
 export const councils = gql`
 	query Councils($companyId: Int!, $state: [Int], $filters: [FilterInput], $options: OptionsInput) {
 		councils(companyId: $companyId, state: $state, filters: $filters, options: $options) {
-		list{
-			id
-			dateStart
-			companyId
-			dateRealStart
-			state
-			promoCode
-			dateEnd
-			name
-			step
+			list{
+				id
+				dateStart
+				companyId
+				dateRealStart
+				state
+				promoCode
+				dateEnd
+				name
+				step
+			}
+			total
 		}
-		total
-	}
 	
 	}
 `;
@@ -1769,6 +1769,15 @@ export const wallComments = gql`
 export const downloadAttendPDF = gql`
 	query downloadAttendPDF($councilId: Int!, $timezone: String!) {
 		downloadAttendPDF(
+			councilId: $councilId 
+			timezone: $timezone
+		)
+	}
+`;
+
+export const downloadParticipantsPDF = gql`
+	query downloadParticipantsPDF($councilId: Int!, $timezone: String!) {
+		downloadParticipantsPDF(
 			councilId: $councilId 
 			timezone: $timezone
 		)

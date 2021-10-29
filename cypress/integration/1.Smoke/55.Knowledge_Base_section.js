@@ -46,6 +46,7 @@ describe("The user is able to add a new document in the 'Base de conocimiento' s
 
 
      it("From the menu choose and click on the 'Base de conocimiento' button", function() {
+        cy.wait(3000)
         cy.get('#edit-drafts-block').click()
 
     });

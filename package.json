@@ -1,6 +1,6 @@
 {
   "name": "councilbox_client",
-  "version": "8.9.0",
+  "version": "8.9.1",
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.3.15",
@@ -81,7 +81,7 @@
     "startAlpha": "cross-env REACT_APP_MODE=alpha react-scripts start",
     "test1": "mocha --require babel-register ./src/tests",
     "test_spec": "cypress run --spec=cypress/integration/TEST/test_specs.js",
-    "regression": "cypress run --spec=cypress/integration/2.Regression/*",
+    "regression": "cypress run --headless --spec=cypress/integration/2.Regression/*",
     "smoke electron": "cypress run --headed --spec=cypress/integration/1.Smoke/*",
     "smoke chrome": "cypress run --headed --browser chrome --spec=cypress/integration/1.Smoke/*",
     "smoke firefox": "cypress run --headed --browser firefox --spec=cypress/integration/1.Smoke/*",
@@ -91,7 +91,6 @@
     "regression firefox": "cypress run --headed --browser firefox --spec=cypress/integration/2.Regression/*",
     "regression edge": "cypress run --headed --browser edge --spec=cypress/integration/2.Regression/*",
     "smoke": "cypress run --headless --spec=cypress/integration/1.Smoke/*",
-    "regression": "cypress run --headless --spec=cypress/integration/2.Regression/*",
     "cypress": "cypress open",
     "lint": "eslint . --quiet --ext .js --ext .jsx",
     "lint-fix": "eslint . --fix --ext .js --ext .jsx",
@@ -113,7 +112,7 @@
     "@councilbox/eslint-config-base": "^0.0.1",
     "@cypress/webpack-preprocessor": "^5.6.0",
     "css-loader": "^0.28.8",
-    "cypress": "^3.4.1",
+    "cypress": "^8.6.0",
     "cypress-file-upload": "^5.0.2",
     "cypress-mochawesome-reporter": "^2.0.1",
     "cypress-multi-reporters": "^1.4.0",

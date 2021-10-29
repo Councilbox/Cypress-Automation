@@ -14,6 +14,7 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Visits the Councilbox web page", function() {
         cy.visit(login_url);
+        cy.wait(3000)
     });
 
     it("Change language to Spanish", function() {
@@ -46,6 +47,7 @@ describe("Councilbox login - valid username and password", function() {
 describe("The user is able to create a new call with session in the 'Nueva reunion' section", function() {
 
     it("Click on the 'Nueva reunion' button", function() {
+        cy.wait(3000)
         cy.get('#create-council-block').click()
 
     });
@@ -75,7 +77,9 @@ describe("The user is able to create a new call with session in the 'Nueva reuni
 
 
     it("Click on the 'Anadir participante' button and populate all required fields then click on the 'Siguiente' button", function() {
-        cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
 
 
@@ -231,7 +235,9 @@ describe("The user is able to start council in the 'New call with session' secti
 
 
     it("Click on the 'Anadir participante' button and populate all required fields then click on the “Siguiente” button", function() {
-           cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
 
      
@@ -487,7 +493,9 @@ describe("The user is able to open point in the 'New call with session' section"
 
 
     it("Click on the 'Anadir participante' button and populate all required fields then click on the “Siguiente” button", function() {
-           cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
 
 
@@ -737,7 +745,9 @@ describe("The user is able to activate ratings in the 'New call with session'", 
 
 
     it("Click on the 'Anadir participante' button and populate all required fields then click on the “Siguiente” button", function() {
-           cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
 
 
@@ -1000,7 +1010,9 @@ describe("The user is able to close point votations in the 'New call with sessio
 
 
     it("Click on the 'Anadir participante' button and populate all required fields then click on the “Siguiente” button", function() {
-           cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
 
 
@@ -1274,7 +1286,9 @@ describe("The user is able to close point in the 'New call with session' type of
 
 
     it("Click on the 'Anadir participante' button and populate all required fields then click on the “Siguiente” button", function() {
-           cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
 
 
@@ -1557,7 +1571,9 @@ describe("The user is able to finish council in the 'New call with session' type
 
 
     it("Click on the 'Anadir participante' button and populate all required fields then click on the “Siguiente” button", function() {
-           cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
 
 
@@ -1851,7 +1867,9 @@ describe("The user is able to finalize and approve act in the 'New call with ses
 
 
     it("Click on the 'Anadir participante' button and populate all required fields then click on the “Siguiente” button", function() {
-           cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
 
 
@@ -2156,7 +2174,9 @@ describe("The user is able to send minutes in the 'New call with session' type o
 
 
     it("Click on the 'Anadir participante' button and populate all required fields then click on the “Siguiente” button", function() {
-           cy.get('#anadirParticipanteEnCensoNewReunion').click()
+        cy.get('#add-participant-dropdown-trigger').click()
+        cy.wait(1000)
+        cy.get('#add-participant-button').click()
         cy.wait(1000)
 
 
