@@ -7,6 +7,7 @@ import TranslatorForm from '../../participants/TranslatorForm';
 import { languages } from '../../../../queries/masters';
 import { checkValidEmail } from '../../../../utils/validation';
 import { checkUniqueCouncilEmails } from '../../../../queries/councilParticipant';
+import { INPUT_REGEX } from '../../../../constants';
 
 const newGuestInitialValues = {
 	language: 'es',
@@ -29,8 +30,9 @@ const AddTranslatorModal = ({ show, council, translate, refetch, requestClose, c
 		}
 	});
 
-
 	const checkRequiredFields = async () => {
+		const testPhone = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
+
 		const errors = {
 			name: '',
 			surname: '',
@@ -40,6 +42,26 @@ const AddTranslatorModal = ({ show, council, translate, refetch, requestClose, c
 		};
 		let hasError = false;
 		const { guest } = state;
+
+
+		const regex = INPUT_REGEX;
+
+		if (!(regex.test(guest.name)) || !guest.name.trim()) {
+			errors.name = translate.invalid_field;
+			hasError = true;
+		}
+
+		if (!guest.phone) {
+			hasError = true;
+			errors.phone = translate.required_field;
+		}
+
+		if (guest.phone && guest.phone !== '-') {
+			if (!testPhone.test(guest.phone)) {
+				hasError = true;
+				errors.phone = translate.invalid_field;
+			}
+		}
 
 		if (!guest.email) {
 			errors.email = translate.required_field;
