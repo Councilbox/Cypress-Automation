@@ -8,7 +8,7 @@ import ButtonIcon from './ButtonIcon';
 import AddGuestModal from '../components/council/live/participants/AddGuestModal';
 import DropDownMenu from './DropDownMenu';
 import { councilIsFinished } from '../utils/CBX';
-import AddTranslatorModal from '../components/council/live/participants/addTranslatorModal';
+import AddTranslatorModal from '../components/council/live/participants/AddTranslator';
 import AddCouncilParticipantButton from '../components/council/editor/census/modals/AddCouncilParticipantButton';
 
 const DropdownParticipant = ({
