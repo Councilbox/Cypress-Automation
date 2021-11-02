@@ -26,7 +26,7 @@ import QRSearchModal from './QRSearchModal';
 import { ConfigContext } from '../../../../../containers/AppControl';
 import { isMobile } from '../../../../../utils/screen';
 import AddConvenedParticipantButton from '../../../prepare/modals/AddConvenedParticipantButton';
-import { councilStarted, hasParticipations } from '../../../../../utils/CBX';
+import { canAddTranslator, councilStarted, hasParticipations } from '../../../../../utils/CBX';
 import { COUNCIL_TYPES } from '../../../../../constants';
 import DropdownParticipant from '../../../../../displayComponents/DropdownParticipant';
 
@@ -60,7 +60,6 @@ const ParticipantsPage = ({
 			setwidthOffset(true);
 		}
 	});
-
 
 	const renderAddGuestButton = () => {
 		if (council.councilType === COUNCIL_TYPES.ONE_ON_ONE) {
@@ -225,6 +224,7 @@ const ParticipantsPage = ({
 					{(council.state === 10 || council.state === 20)
 						&& (!councilStarted(council) ? <DropdownParticipant
 							council={council}
+							addTranslator={canAddTranslator(council)}
 							participations={participants}
 							refetch={data.refetch}
 							translate={translate}

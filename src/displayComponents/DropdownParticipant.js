@@ -8,14 +8,16 @@ import ButtonIcon from './ButtonIcon';
 import AddGuestModal from '../components/council/live/participants/AddGuestModal';
 import DropDownMenu from './DropDownMenu';
 import { councilIsFinished } from '../utils/CBX';
+import AddTranslatorModal from '../components/council/live/participants/AddTranslator';
 import AddCouncilParticipantButton from '../components/council/editor/census/modals/AddCouncilParticipantButton';
 
 const DropdownParticipant = ({
-	participations, addCouncil, council, refetch, disabled, translate, style
+	participations, addCouncil, council, refetch, disabled, translate, style, addTranslator
 }) => {
 	const [state, setState] = React.useState({
 		add: false,
 		guest: false,
+		translator: false,
 	});
 
 	return (
@@ -95,6 +97,18 @@ const DropdownParticipant = ({
 								justifyContent: 'space-between'
 							}}
 						/>
+						{addTranslator && <BasicButton
+							text={translate.add_translator}
+							color={'white'}
+							type="flat"
+							icon={<ButtonIcon type="add" color={getSecondary()} />}
+							onClick={() => setState({ ...state, translator: !state.translator })}
+							buttonStyle={{
+								width: '100%',
+								display: 'flex',
+								justifyContent: 'space-between'
+							}}
+						/>}
 					</div>
 				}
 				anchorOrigin={{
@@ -129,6 +143,14 @@ const DropdownParticipant = ({
 				council={council}
 				refetch={refetch}
 				requestClose={() => setState({ ...state, guest: !state.guest })}
+				translate={translate}
+			/>
+
+			<AddTranslatorModal
+				show={state.translator}
+				council={council}
+				refetch={refetch}
+				requestClose={() => setState({ ...state, translator: !state.translator })}
 				translate={translate}
 			/>
 		</>

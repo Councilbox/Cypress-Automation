@@ -14,8 +14,9 @@ import { upsertConvenedParticipant, checkUniqueCouncilEmails } from '../../../..
 import { COUNCIL_TYPES } from '../../../../constants';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import SelectRepresentative from '../../editor/census/modals/SelectRepresentative';
-import { getMaxGrantedWordsMessage, isAppointment, isMaxGrantedWordsError, participantIsGuest, removeTypenameField } from '../../../../utils/CBX';
+import { getMaxGrantedWordsMessage, isAppointment, isMaxGrantedWordsError, participantIsGuest, participantIsTranslator, removeTypenameField } from '../../../../utils/CBX';
 import AppointmentParticipantForm from '../../participants/AppointmentParticipantForm';
+import TranslatorForm from '../../participants/TranslatorForm';
 
 const initialRepresentative = {
 	hasRepresentative: false,
@@ -82,7 +83,7 @@ class ConvenedParticipantEditor extends React.Component {
 			: null;
 
 
-		if (!await this.checkRequiredFields()) {
+		if (!await this.checkRequiredFields(participantIsTranslator(this.state.data))) {
 			const { representatives, delegate, ...participant } = this.state.data;
 			const response = await this.props.updateConvenedParticipant({
 				variables: {
@@ -222,6 +223,74 @@ class ConvenedParticipantEditor extends React.Component {
 		const { representative, errors, representativeErrors } = this.state;
 		const { translate, participations } = this.props;
 		const { languages = [] } = this.props.data;
+
+
+		if (participantIsTranslator(participant)) {
+			return (
+				<AlertConfirm
+					bodyStyle={{ height: '400px', width: '950px' }}
+					bodyText={
+						<TranslatorForm
+							translate={translate}
+							representative={participant}
+							updateState={this.updateState}
+							errors={errors}
+							languages={languages}
+						/>
+					}
+					title={translate.edit_translator}
+					requestClose={() => this.props.close()}
+					open={this.props.opened}
+					actions={
+						<React.Fragment>
+							<BasicButton
+								text={translate.cancel}
+								color="transparent"
+								textStyle={{
+									boxShadow: 'none',
+									borderRadius: '4px',
+									textTransform: 'none',
+									fontWeight: '700',
+								}}
+								onClick={this.props.close}
+							/>
+							<BasicButton
+								text={this.props.council.councilType === COUNCIL_TYPES.BOARD_WITHOUT_SESSION ?
+									translate.save_and_notify : translate.save_changes_and_send}
+								textStyle={{
+									boxShadow: 'none',
+									borderRadius: '4px',
+									color: 'white',
+									textTransform: 'none',
+									fontWeight: '700'
+								}}
+								buttonStyle={{ marginLeft: '1em' }}
+								color={secondary}
+								onClick={() => {
+									this.updateConvenedParticipant(true);
+								}}
+							/>
+							<BasicButton
+								text={translate.save_changes}
+								textStyle={{
+									boxShadow: 'none',
+									borderRadius: '4px',
+									color: 'white',
+									textTransform: 'none',
+									fontWeight: '700'
+								}}
+								buttonStyle={{ marginLeft: '1em' }}
+								color={primary}
+								onClick={() => {
+									this.updateConvenedParticipant(false);
+								}}
+							/>
+						</React.Fragment>
+					}
+				>
+				</AlertConfirm>
+			);
+		}
 
 		return (
 			<AlertConfirm

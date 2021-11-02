@@ -16,7 +16,7 @@ import { DELEGATION_USERS_LOAD } from '../../../constants';
 import { addDelegation } from '../../../queries/liveParticipant';
 
 const DelegateOwnVoteModal = ({
-	translate, participant, show, client, council, inModal, setInModal, ...props
+	translate, participant, show, client, council, inModal, setInModal, notify = false, ...props
 }) => {
 	const [data, setData] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
@@ -104,7 +104,8 @@ const DelegateOwnVoteModal = ({
 				{
 					variables: {
 						participantId: participant.id,
-						delegateId: id
+						delegateId: id,
+						notify
 					}
 				}
 			);
@@ -189,12 +190,12 @@ const DelegateOwnVoteModal = ({
 						<Scrollbar>
 							{participants.length > 0 ? (
 								<React.Fragment>
-									{participants.map(liveParticipant => {
+									{participants.map((liveParticipant, index) => {
 										if (liveParticipant.id !== participant.id) {
 											return (
 												<ParticipantRow
-													key={`delegateVote_${liveParticipant.id
-														}`}
+													key={`delegateVote_${liveParticipant.id}`}
+													id={`participant-row-${index}`}
 													council={council}
 													toDelegate={true}
 													participant={liveParticipant}

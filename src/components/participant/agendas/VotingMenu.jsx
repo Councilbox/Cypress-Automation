@@ -232,7 +232,7 @@ const VotingMenu = ({
 				}}
 			/>
 
-			{!config.hideAbstentionButton &&
+			{CBX.showAbstentionButton({ config, statute: council.statute }) &&
 				<VotingButton
 					text={
 						!hasSession ?
@@ -265,7 +265,7 @@ const VotingMenu = ({
 					}}
 				/>
 			}
-			{!config.hideNoVoteButton &&
+			{CBX.showNoVoteButton({ config, statute: council.statute }) &&
 				<VotingButton
 					text={
 						!hasSession ?
@@ -333,6 +333,7 @@ export const VotingButton = ({
 	selectedCheckbox = false,
 	styleButton,
 	color,
+	id = '',
 	disabledColor,
 	vote,
 	translate,
@@ -390,6 +391,7 @@ export const VotingButton = ({
 				loading={loading}
 				loadingColor={primary}
 				icon={icon}
+				id={id}
 				textStyle={config.textStyle}
 				buttonStyle={config.buttonStyle}
 				onClick={onClick}

@@ -11,8 +11,10 @@ const RepresentativeForm = ({
 	representative,
 	errors,
 	checkEmail,
+	hideAdminEmail,
 	updateState,
 	translate,
+	hideInitialState,
 	languages,
 	guest
 }) => (
@@ -99,22 +101,24 @@ const RepresentativeForm = ({
 				}
 			/>
 		</GridItem>
-		<GridItem xs={6} md={4} lg={4}>
-			<TextInput
-				floatingText={translate.administrative_email || ''}
-				min={1}
-				errorText={errors.secondaryEmail}
-				onBlur={() => updateState({
-					secondaryEmail: representative.secondaryEmail?.trim()
-				})}
-				value={representative.secondaryEmail}
-				onChange={event => {
-					updateState({
-						secondaryEmail: event.target.value
-					});
-				}}
-			/>
-		</GridItem>
+		{!hideAdminEmail &&
+			<GridItem xs={6} md={4} lg={4}>
+				<TextInput
+					floatingText={translate.administrative_email || ''}
+					min={1}
+					errorText={errors.secondaryEmail}
+					onBlur={() => updateState({
+						secondaryEmail: representative.secondaryEmail?.trim()
+					})}
+					value={representative.secondaryEmail}
+					onChange={event => {
+						updateState({
+							secondaryEmail: event.target.value
+						});
+					}}
+				/>
+			</GridItem>
+		}
 		<GridItem xs={6} md={4} lg={4}>
 			<TextInput
 				required
@@ -155,37 +159,39 @@ const RepresentativeForm = ({
 				))}
 			</SelectInput>
 		</GridItem>
-		<GridItem xs={6} md={4} lg={4}>
-			<SelectInput
-				floatingText={translate.participation_type}
-				value={`${representative.initialState}`}
-				onChange={event => updateState({
-					initialState: +event.target.value
-				})
-				}
-			>
-				<MenuItem
-					value={'0'}
+		{!hideInitialState &&
+			<GridItem xs={6} md={4} lg={4}>
+				<SelectInput
+					floatingText={translate.participation_type}
+					value={`${representative.initialState}`}
+					onChange={event => updateState({
+						initialState: +event.target.value
+					})
+					}
 				>
-					{translate.viewer}
-				</MenuItem>
-				<MenuItem
-					value={'2'}
-				>
-					{translate.granted_word}
-				</MenuItem>
-				<MenuItem
-					value={'4'}
-				>
-					{translate.cant_ask_word}
-				</MenuItem>
-				<MenuItem
-					value={'3'}
-				>
-					{translate.waiting_room}
-				</MenuItem>
-			</SelectInput>
-		</GridItem>
+					<MenuItem
+						value={'0'}
+					>
+						{translate.viewer}
+					</MenuItem>
+					<MenuItem
+						value={'2'}
+					>
+						{translate.granted_word}
+					</MenuItem>
+					<MenuItem
+						value={'4'}
+					>
+						{translate.cant_ask_word}
+					</MenuItem>
+					<MenuItem
+						value={'3'}
+					>
+						{translate.waiting_room}
+					</MenuItem>
+				</SelectInput>
+			</GridItem>
+		}
 	</Grid>
 );
 

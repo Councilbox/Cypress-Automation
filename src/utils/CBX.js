@@ -190,6 +190,7 @@ export const agendaVotingsOpened = agenda => agenda.votingState === AGENDA_STATE
 export const agendaClosed = agenda => agenda.pointState === AGENDA_STATES.CLOSED;
 
 export const councilHasVideo = council => council.councilType === 0 || council.councilType === 5;
+export const canAddTranslator = council => councilHasVideo(council) && council.room?.type === 'SHUTTER';
 
 export const censusHasParticipations = census => census.quorumPrototype === 1;
 
@@ -279,6 +280,38 @@ export const isQuorumFraction = quorumType => quorumType === 2;
 export const isQuorumNumber = quorumType => quorumType === 3;
 
 export const voteAllAtOnce = data => data.council.councilType === 3;
+
+export const showNoVoteButton = ({ config, statute }) => {
+	if (statute.hideNoVoteButton === 1) {
+		return true;
+	}
+
+	if (statute.hideNoVoteButton === 0) {
+		return false;
+	}
+
+	if (statute.hideNoVoteButton === -1 && config.hideNoVoteButton) {
+		return false;
+	}
+
+	return true;
+};
+
+export const showAbstentionButton = ({ config, statute }) => {
+	if (statute.hideAbstentionButton === 1) {
+		return true;
+	}
+
+	if (statute.hideAbstentionButton === 0) {
+		return false;
+	}
+
+	if (statute.hideAbstentionButton === -1 && config.hideAbstentionButton) {
+		return false;
+	}
+
+	return true;
+};
 
 export const findOwnVote = (votings, participant) => {
 	if (participant.delegateId) {
@@ -1553,7 +1586,9 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
 	}
 };
 
-export const participantIsGuest = participant => participant.type === PARTICIPANT_TYPE.GUEST;
+export const participantIsTranslator = participant => participant.type === PARTICIPANT_TYPE.TRANSLATOR;
+export const participantIsGuest = participant => participant.type === PARTICIPANT_TYPE.GUEST ||
+	participantIsTranslator(participant);
 export const participantIsRepresentative = participant => participant.type === PARTICIPANT_TYPE.REPRESENTATIVE;
 
 export const getAttendanceIntentionTooltip = intention => {
