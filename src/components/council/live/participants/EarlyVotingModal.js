@@ -368,7 +368,7 @@ const EarlyVotingBody = withApollo(({
 								{showAbstentionButton({ config, statute: council.statute }) && (
 									<VotingButton
 										text={translate.abstention_btn}
-                                        id={`early-vote-option-abstention-point-${index}`}
+										id={`early-vote-option-abstention-point-${index}`}
 										disabled={disableCustom && getProxyVote(point.id, -1, true).value !== -1}
 										disabledColor={disableCustom && getProxyVote(point.id, -1, true).value !== -1}
 										selected={getProxyVote(point.id, -1) ? getProxyVote(point.id, -1, true).value === -1 : false}
@@ -379,7 +379,7 @@ const EarlyVotingBody = withApollo(({
 										}}
 									/>
 								)}
-								<VotingButton									
+								<VotingButton
 									text={translate.cant_vote_this_point}
 									id={`early-vote-cant-vote-point-${index}`}
 									selected={getProxyVote(point.id, null) ? getProxyVote(point.id, null).value === null : false}
