@@ -10,7 +10,7 @@ import { isMobile } from '../utils/screen';
 
 
 const NotLoggedLayout = ({
-	children, translate, helpIcon, languageSelector, councilIsFinished, setSelectHeadFinished, selectHeadFinished, ...props
+	children, translate, helpIcon, languageSelector, councilIsFinished, setSelectHeadFinished, selectHeadFinished, loginFooter, ...props
 }) => {
 	const [loadingImg, setLoadingImg] = React.useState(true);
 	const customBackground = getCustomBackground();
@@ -46,7 +46,7 @@ const NotLoggedLayout = ({
 				color: '#2E3030',
 				marginBottom: isMobile && '.5em'
 			}}>
-				{translate.template_marketing_text_councilbox}
+				{translate.marketing_text_councilbox}
 			</div>
 			<div style={{ marginRight: !isMobile && '1em' }}>
 				<img src={logo} />
@@ -110,9 +110,9 @@ const NotLoggedLayout = ({
 					classFix={'scrollflex'}
 				>
 					{children}
-					{isMobile && footer()}
+					{loginFooter && isMobile && footer()}
 				</Scrollbar>
-				{!isMobile && footer()}
+				{loginFooter && !isMobile && footer()}
 			</div>
 		</div>
 	);
