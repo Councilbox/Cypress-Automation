@@ -224,7 +224,6 @@ const CouncilState = ({
 			);
 		}
 
-
 		if (councilIsFinished(council) || props.participant.hasVoted || checkHybridConditions(council)) {
 			return (
 				<React.Fragment>
@@ -498,7 +497,9 @@ const TextRender = ({
 								overflow: 'hidden'
 							}}
 						>
-							{council.noCelebrateComment}
+							<div dangerouslySetInnerHTML={{
+								__html: council.noCelebrateComment
+							}} />
 						</p>
 					</OverFlowText>
 				</div>
