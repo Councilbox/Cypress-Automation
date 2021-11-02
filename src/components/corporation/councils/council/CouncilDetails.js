@@ -733,7 +733,8 @@ const CouncilDetailsRoot = gql`
 				existsAdvanceNoticeDays
 				shareholdersPortal
 				defaultVote
-                advanceNoticeDays
+				hideAbstentionButton
+				hideNoVoteButton
                 quorumPrototype
                 firstCallQuorumType
                 secondCallQuorumType

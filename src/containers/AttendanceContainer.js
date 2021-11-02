@@ -176,6 +176,7 @@ const participantQuery = gql`
 				attendanceText
 				doubleColumnDocs
 				canEarlyVote
+				hideAbstentionButton
 				canSenseVoteDelegate
 				title
 				proxy

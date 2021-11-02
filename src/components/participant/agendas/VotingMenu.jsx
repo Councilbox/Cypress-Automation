@@ -232,7 +232,7 @@ const VotingMenu = ({
 				}}
 			/>
 
-			{!config.hideAbstentionButton &&
+			{CBX.showAbstentionButton({ config, statute: council.statute }) &&
 				<VotingButton
 					text={
 						!hasSession ?
@@ -265,7 +265,7 @@ const VotingMenu = ({
 					}}
 				/>
 			}
-			{!config.hideNoVoteButton &&
+			{CBX.showNoVoteButton({ config, statute: council.statute }) &&
 				<VotingButton
 					text={
 						!hasSession ?

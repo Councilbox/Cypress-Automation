@@ -281,6 +281,38 @@ export const isQuorumNumber = quorumType => quorumType === 3;
 
 export const voteAllAtOnce = data => data.council.councilType === 3;
 
+export const showNoVoteButton = ({ config, statute }) => {
+	if (statute.hideNoVoteButton === 1) {
+		return true;
+	}
+
+	if (statute.hideNoVoteButton === 0) {
+		return false;
+	}
+
+	if (statute.hideNoVoteButton === -1 && config.hideNoVoteButton) {
+		return false;
+	}
+
+	return true;
+};
+
+export const showAbstentionButton = ({ config, statute }) => {
+	if (statute.hideAbstentionButton === 1) {
+		return true;
+	}
+
+	if (statute.hideAbstentionButton === 0) {
+		return false;
+	}
+
+	if (statute.hideAbstentionButton === -1 && config.hideAbstentionButton) {
+		return false;
+	}
+
+	return true;
+};
+
 export const findOwnVote = (votings, participant) => {
 	if (participant.delegateId) {
 		return null;
