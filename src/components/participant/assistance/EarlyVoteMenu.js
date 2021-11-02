@@ -3,9 +3,10 @@ import { withApollo } from 'react-apollo';
 import { VotingButton } from '../agendas/VotingMenu';
 import { VOTE_VALUES, AGENDA_TYPES, PARTICIPANT_TYPE } from '../../../constants';
 import { getPrimary } from '../../../styles/colors';
-import { isConfirmationRequest, isCustomPoint } from '../../../utils/CBX';
+import { isConfirmationRequest, isCustomPoint, showAbstentionButton } from '../../../utils/CBX';
 import { LoadingSection } from '../../../displayComponents';
 import { useCouncilAgendas } from '../../../hooks';
+import { ConfigContext } from '../../../containers/AppControl';
 
 const EarlyVoteMenu = ({
 	selected, setSelected, state, setState, translate, client, council, participant
@@ -15,6 +16,7 @@ const EarlyVoteMenu = ({
 		participantId: participant.id,
 		client
 	});
+	const config = React.useContext(ConfigContext);
 
 	React.useEffect(() => {
 		if (!loading) {
@@ -107,23 +109,29 @@ const EarlyVoteMenu = ({
 			}
 
 			if (!isCustomPoint(point.subjectType)) {
+				const options = [{
+					value: VOTE_VALUES.POSITIVE,
+					label: translate.in_favor_btn,
+					icon: 'fa fa-check'
+				}, {
+					value: VOTE_VALUES.NEGATIVE,
+					label: translate.against_btn,
+					icon: 'fa fa-times'
+				}];
+
+				if (showAbstentionButton({ config, statute: council.statute })) {
+					options.push({
+						value: VOTE_VALUES.ABSTENTION,
+						label: translate.abstention_btn,
+						icon: 'fa fa-circle-o'
+					});
+				}
+
 				return (
 					<div key={`point_${point.id}`}>
 						<div style={{ fontWeight: '700', marginTop: '1em' }}>{point.agendaSubject}</div>
 						<div>
-							{[{
-								value: VOTE_VALUES.POSITIVE,
-								label: translate.in_favor_btn,
-								icon: 'fa fa-check'
-							}, {
-								value: VOTE_VALUES.NEGATIVE,
-								label: translate.against_btn,
-								icon: 'fa fa-times'
-							}, {
-								value: VOTE_VALUES.ABSTENTION,
-								label: translate.abstention_btn,
-								icon: 'fa fa-circle-o'
-							}].map(vote => {
+							{options.map(vote => {
 								const active = isActive(`${point.id}_${participantInfo.id}`, vote.value);
 								return (
 									<div
@@ -205,27 +213,29 @@ const EarlyVoteMenu = ({
 								/>
 							);
 						})}
-						<VotingButton
-							disabled={disabled && !selected.get(abstentionKey)}
-							disabledColor={disabled && !selected.get(abstentionKey)}
-							styleButton={{ padding: '0', width: '100%' }}
-							selectedCheckbox={!!selected.get(abstentionKey)}
-							onClick={() => {
-								if (selected.get(abstentionKey)) {
-									selected.delete(abstentionKey);
-									setSelected(new Map(selected));
-								} else {
-									const newMap = cleanCustomPointSelections(selected, point, participantInfo);
-									newMap.set(abstentionKey, {
-										value: -1,
-										agendaId: point.id,
-										participantId: participantInfo.id
-									});
-									setSelected(newMap);
-								}
-							}}
-							text={translate.abstention_btn}
-						/>
+						{showAbstentionButton({ config, statute: council.statute }) && (
+							<VotingButton
+								disabled={disabled && !selected.get(abstentionKey)}
+								disabledColor={disabled && !selected.get(abstentionKey)}
+								styleButton={{ padding: '0', width: '100%' }}
+								selectedCheckbox={!!selected.get(abstentionKey)}
+								onClick={() => {
+									if (selected.get(abstentionKey)) {
+										selected.delete(abstentionKey);
+										setSelected(new Map(selected));
+									} else {
+										const newMap = cleanCustomPointSelections(selected, point, participantInfo);
+										newMap.set(abstentionKey, {
+											value: -1,
+											agendaId: point.id,
+											participantId: participantInfo.id
+										});
+										setSelected(newMap);
+									}
+								}}
+								text={translate.abstention_btn}
+							/>
+						)}
 					</div>
 				</div>
 			);
