@@ -6,7 +6,7 @@ import { getSecondary, getPrimary } from '../../../../styles/colors';
 import { ConfigContext } from '../../../../containers/AppControl';
 import { AGENDA_STATES, AGENDA_TYPES, VOTE_VALUES } from '../../../../constants';
 import { VotingButton } from '../../../participant/agendas/VotingMenu';
-import { isConfirmationRequest, isCustomPoint } from '../../../../utils/CBX';
+import { isConfirmationRequest, isCustomPoint, showAbstentionButton } from '../../../../utils/CBX';
 
 
 const EarlyVotingModal = props => {
@@ -50,6 +50,7 @@ const EarlyVotingBody = withApollo(({
 }) => {
 	const [data, setData] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
+	const config = React.useContext(ConfigContext);
 
 	const getData = async () => {
 		const response = await client.query({
@@ -248,23 +249,29 @@ const EarlyVotingBody = withApollo(({
 					}
 
 					if (!isCustomPoint(point.subjectType)) {
+						const options = [{
+							value: VOTE_VALUES.POSITIVE,
+							label: translate.in_favor_btn,
+							icon: 'fa fa-check'
+						}, {
+							value: VOTE_VALUES.NEGATIVE,
+							label: translate.against_btn,
+							icon: 'fa fa-times'
+						}];
+
+						if (showAbstentionButton({ config, statute: council.statute })) {
+							options.push({
+								value: VOTE_VALUES.ABSTENTION,
+								label: translate.abstention_btn,
+								icon: 'fa fa-circle-o'
+							});
+						}
+
 						return (
 							<div key={`point_${point.id}`}>
 								{renderPointTitle(point)}
 								<div>
-									{[{
-										value: VOTE_VALUES.POSITIVE,
-										label: translate.in_favor_btn,
-										icon: 'fa fa-check'
-									}, {
-										value: VOTE_VALUES.NEGATIVE,
-										label: translate.against_btn,
-										icon: 'fa fa-times'
-									}, {
-										value: VOTE_VALUES.ABSTENTION,
-										label: translate.abstention_btn,
-										icon: 'fa fa-circle-o'
-									}].map(vote => {
+									{options.map(vote => {
 										const proxyVote = getProxyVote(point.id, vote.value);
 										const active = vote.value === proxyVote.value;
 										return (
@@ -351,17 +358,19 @@ const EarlyVotingBody = withApollo(({
 										/>
 									);
 								})}
-								<VotingButton
-									text={translate.abstention_btn}
-									disabled={disableCustom && getProxyVote(point.id, -1, true).value !== -1}
-									disabledColor={disableCustom && getProxyVote(point.id, -1, true).value !== -1}
-									selected={getProxyVote(point.id, -1) ? getProxyVote(point.id, -1, true).value === -1 : false}
-									onClick={() => {
-										if (getProxyVote(point.id, -1, true).value !== -1) {
-											setEarlyVote(point.id, -1);
-										}
-									}}
-								/>
+								{showAbstentionButton({ config, statute: council.statute }) && (
+									<VotingButton
+										text={translate.abstention_btn}
+										disabled={disableCustom && getProxyVote(point.id, -1, true).value !== -1}
+										disabledColor={disableCustom && getProxyVote(point.id, -1, true).value !== -1}
+										selected={getProxyVote(point.id, -1) ? getProxyVote(point.id, -1, true).value === -1 : false}
+										onClick={() => {
+											if (getProxyVote(point.id, -1, true).value !== -1) {
+												setEarlyVote(point.id, -1);
+											}
+										}}
+									/>
+								)}
 								<VotingButton
 									text={translate.cant_vote_this_point}
 									selected={getProxyVote(point.id, null) ? getProxyVote(point.id, null).value === null : false}

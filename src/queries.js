@@ -1488,6 +1488,8 @@ export const councilLiveQuery = gql`
 				decimalDigits
 				existsAdvanceNoticeDays
 				advanceNoticeDays
+				hideAbstentionButton
+				hideNoVoteButton
 				existsSecondCall
 				hasPresident
 				hasSecretary
