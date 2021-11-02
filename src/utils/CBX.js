@@ -190,6 +190,7 @@ export const agendaVotingsOpened = agenda => agenda.votingState === AGENDA_STATE
 export const agendaClosed = agenda => agenda.pointState === AGENDA_STATES.CLOSED;
 
 export const councilHasVideo = council => council.councilType === 0 || council.councilType === 5;
+export const canAddTranslator = council => councilHasVideo(council) && council.room?.type === 'SHUTTER';
 
 export const censusHasParticipations = census => census.quorumPrototype === 1;
 
@@ -1585,7 +1586,9 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
 	}
 };
 
-export const participantIsGuest = participant => participant.type === PARTICIPANT_TYPE.GUEST;
+export const participantIsTranslator = participant => participant.type === PARTICIPANT_TYPE.TRANSLATOR;
+export const participantIsGuest = participant => participant.type === PARTICIPANT_TYPE.GUEST ||
+	participantIsTranslator(participant);
 export const participantIsRepresentative = participant => participant.type === PARTICIPANT_TYPE.REPRESENTATIVE;
 
 export const getAttendanceIntentionTooltip = intention => {

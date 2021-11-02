@@ -37,7 +37,8 @@ const cleanRequestData = participantData => ({
 	personOrEntity: participantData.personOrEntity ? +participantData.personOrEntity : 0,
 	assistanceIntention: participantData.assistanceIntention ? +participantData.assistanceIntention : 0,
 	requestWord: participantData.requestWord ? +participantData.requestWord : 0,
-	initialState: Number.isNaN(Number(initialState)) ? 0 : initialState
+	initialState: Number.isNaN(Number(initialState)) ? 0 : initialState,
+	language: participantData.language || 'es'
 });
 
 const buildRepresentative = representative => {

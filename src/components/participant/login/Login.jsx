@@ -101,6 +101,7 @@ const ParticipantLogin = ({
 					{(participant.legalTermsAccepted || !config.participantTermsCheck) ?
 						<div style={{
 							...styles.mainContainer,
+							minHeight: isMobile && 'calc(100% - 5em)',
 							...(!isMobile ? {
 								justifyContent: 'center'
 							} : {}),
@@ -112,6 +113,7 @@ const ParticipantLogin = ({
 								...styles.cardContainer,
 								minWidth: window.innerWidth > 450 ? '550px' : '100%',
 								padding: '0.6em',
+								marginTop: isMobile && window.innerHeight < 750 ? '5%' : '20px',
 								...(council.securityType === 2 && isMobile && {
 									margin: '10% 20% 5px'
 								}),

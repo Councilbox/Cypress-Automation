@@ -15,7 +15,7 @@ import {
 } from '../../../../displayComponents';
 import { changeRequestWord, videoParticipants as videoParticipantsQuery, banParticipant as banParticipantMutation } from '../../../../queries';
 import {
-	exceedsOnlineTimeout, participantIsBlocked, isAskingForWord, formatCountryName, councilStarted
+	exceedsOnlineTimeout, participantIsBlocked, isAskingForWord, formatCountryName, councilStarted, participantIsTranslator
 } from '../../../../utils/CBX';
 import VideoParticipantMenu from './videoParticipants/VideoParticipantMenu';
 import ChangeRequestWordButton from './videoParticipants/ChangeRequestWordButton';
@@ -275,11 +275,6 @@ const ParticipantsLive = ({
 							justifyContent: 'space-between'
 						}}
 					>
-						{/* <MuteToggleButton
-							translate={translate}
-							participant={participant}
-							refetch={getData}
-						/> */}
 					</GridItem>
 					<GridItem
 						xs={isMobile ? 2 : 1}
@@ -291,11 +286,13 @@ const ParticipantsLive = ({
 							justifyContent: 'space-between'
 						}}
 					>
-						<ChangeRequestWordButton
-							translate={translate}
-							participant={participant}
-							refetch={getData}
-						/>
+						{!participantIsTranslator(participant) &&
+							<ChangeRequestWordButton
+								translate={translate}
+								participant={participant}
+								refetch={getData}
+							/>
+						}
 					</GridItem>
 					<GridItem
 						xs={isMobile ? 2 : 1}

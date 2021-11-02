@@ -119,7 +119,10 @@ const ChangeCensusMenu = ({
 								fontSize: '1em'
 							}}
 						>
-							{`${translate.total_votes}: ${totalVotes || 0}`}
+							{`${translate.total_votes}: `}
+							<span id="census-total-votes">
+								{`${totalVotes || 0}`}
+							</span>
 						</Typography>
 						{CBX.hasParticipations(council)
 							&& <Typography
@@ -130,7 +133,10 @@ const ChangeCensusMenu = ({
 									fontSize: '1em'
 								}}
 							>
-								{`${translate.total_social_capital}: ${totalSocialCapital || 0}`}
+								{`${translate.total_social_capital}: `}
+								<span id="census-total-social-capital">
+									{`${totalSocialCapital || 0}`}
+								</span>
 							</Typography>
 						}
 					</GridItem>
