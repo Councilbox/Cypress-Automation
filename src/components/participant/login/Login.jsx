@@ -88,13 +88,13 @@ const ParticipantLogin = ({
 		);
 	}
 	const renderLogin = ((councilIsLive(council) && !participant.hasVoted) && !checkHybridConditions(council));
-
 	return (
 		<NotLoggedLayout
 			translate={props.translate}
 			helpIcon={true}
 			participantLanguageSelector={true}
 			languageSelector={false}
+			loginFooter={renderLogin}
 		>
 			{renderLogin ?
 				<>
