@@ -22,8 +22,7 @@ import { SERVER_URL } from '../config';
 import { addSpecificTranslations } from '../actions/companyActions';
 import { initLogRocket } from '../utils/logRocket';
 
-const buildParticipantQuery = () => {
-	return (gql`
+const buildParticipantQuery = () => (gql`
 		query info {
 			participant {
 				name
@@ -55,7 +54,6 @@ const buildParticipantQuery = () => {
 			}
 		}
 	`);
-};
 
 export const ConnectionInfoContext = React.createContext(null);
 
@@ -67,6 +65,7 @@ const ParticipantContainer = ({
 	const [companyId, setCompanyId] = React.useState();
 	const [loadingConfig, setLoadingConfig] = React.useState(true);
 	const [reqData, setConnectionData] = React.useState(null);
+	const [interval, setInterval] = React.useState(true);
 
 	const participant = data ? data.participant : {};
 
@@ -223,6 +222,10 @@ const ParticipantContainer = ({
 
 	if (!data.participant || !council.councilVideo || Object.keys(detectRTC).length === 0) {
 		return <LoadingMainApp />;
+	}
+	if (!loadingConfig && interval) {
+		setTimeout(() => setInterval(false), 10000);
+		return <LoadingMainApp displayPopUp={true} company={council.councilVideo.company} />;
 	}
 
 	return (
