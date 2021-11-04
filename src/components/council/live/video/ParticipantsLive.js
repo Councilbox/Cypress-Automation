@@ -286,13 +286,11 @@ const ParticipantsLive = ({
 							justifyContent: 'space-between'
 						}}
 					>
-						{!participantIsTranslator(participant) &&
-							<ChangeRequestWordButton
-								translate={translate}
-								participant={participant}
-								refetch={getData}
-							/>
-						}
+						<ChangeRequestWordButton
+							translate={translate}
+							participant={participant}
+							refetch={getData}
+						/>
 					</GridItem>
 					<GridItem
 						xs={isMobile ? 2 : 1}
