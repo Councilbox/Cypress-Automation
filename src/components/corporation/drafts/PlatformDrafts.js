@@ -67,6 +67,7 @@ const PlatformDrafts = ({
 		testTags, vars, setVars, removeTag, addTag, filteredTags, tagText, setTagText,
 	} = useTags(translate);
 	const [search, setSearch] = React.useState('');
+	const [filterVariables, setFilterVariables] = React.useState(false);
 	const [inputSearch, setInputSearch] = React.useState(false);
 	const scrollbar = React.useRef();
 
@@ -79,6 +80,7 @@ const PlatformDrafts = ({
 					limit: DRAFTS_LIMITS[0],
 					offset: 0
 				},
+				...filterVariables,
 				...variables
 			}
 		});
@@ -90,6 +92,18 @@ const PlatformDrafts = ({
 	};
 
 	React.useEffect(() => {
+		setFilterVariables({
+			companyId: company.id,
+			...(search ? {
+				filters: [
+					{
+						field: 'title',
+						text: search
+					},
+				]
+			} : {}),
+			tags: Object.keys(testTags).map(key => testTags[key].name),
+		});
 		getData({
 			companyId: company.id,
 			...(search ? {
