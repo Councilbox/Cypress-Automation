@@ -642,6 +642,13 @@ const StepOptions = ({
 									})
 									}
 								/>
+								<SectionTitle
+									text={translate.contact_data}
+									color={primary}
+									style={{
+										marginTop: '1.6em'
+									}}
+								/>
 								<GridItem xs={12} md={6} lg={4}>
 									<TextInput
 										required
@@ -656,6 +663,23 @@ const StepOptions = ({
 										helpPopover
 										helpTitle={translate.contact_email}
 										helpDescription={translate.contact_email_admin_help}
+										helpPlacement={'topRight'}
+									/>
+								</GridItem>
+								<GridItem xs={12} md={6} lg={4}>
+									<TextInput
+										required
+										id="council-options-support-email"
+										floatingText="Support email"
+										type="text"
+										errorText={state.errors.supportEmail}
+										value={council.supportEmail || ''}
+										onChange={event => updateCouncilData({
+											supportEmail: event.target.value
+										})}
+										helpPopover
+										helpTitle={translate.support_email}
+										helpDescription={translate.support_email_admin_help}
 										helpPlacement={'topRight'}
 									/>
 								</GridItem>
