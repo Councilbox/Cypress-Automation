@@ -204,15 +204,18 @@ class ConvenedParticipantEditor extends React.Component {
 			}
 		}
 
+		const emailsToCheck = [];
 
 		if (participant.email && participant.email !== this.props.participant.email && company.type !== 10) {
-			const emailsToCheck = [participant.email];
+			emailsToCheck.push(participant.email);
+		}
 
-			if (representative.email && ((this.props.participant.representative
-				&& representative.email !== this.props.participant.representative.email) || !this.props.participant.representative)) {
-				emailsToCheck.push(representative.email);
-			}
+		if (representative.email && ((this.props.participant.representative
+			&& representative.email !== this.props.participant.representative.email) || !this.props.participant.representative)) {
+			emailsToCheck.push(representative.email);
+		}
 
+		if (emailsToCheck.length > 0) {
 			const response = await this.props.client.query({
 				query: checkUniqueCouncilEmails,
 				variables: {
