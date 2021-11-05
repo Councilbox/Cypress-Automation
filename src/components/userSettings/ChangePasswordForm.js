@@ -156,13 +156,18 @@ class ChangePasswordForm extends React.Component {
 	handleButtonSuccess() {
 		if (this.state.error) {
 			this.setState({
-				success: true,
-				loading: false
+				success: false,
+				loading: false,
 			});
 		} else {
 			this.setState({
-				success: false,
-				loading: false
+				success: true,
+				loading: false,
+				data: {
+					currentPassword: '',
+					newPassword: '',
+					newPasswordConfirm: ''
+				}
 			});
 		}
 	}
@@ -303,6 +308,9 @@ class ChangePasswordForm extends React.Component {
 						onClick={() => this.props.setShowPass({ showPass: false })}
 					/>
 				</div>
+				{success ? <div style={{ width: '120px', color: getSecondary(), fontWeight: 'bold' }}>
+					{translate.password_changed}
+				</div> : null}
 			</Fragment>
 		);
 	}
