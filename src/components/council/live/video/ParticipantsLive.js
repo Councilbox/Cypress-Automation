@@ -15,7 +15,7 @@ import {
 } from '../../../../displayComponents';
 import { changeRequestWord, videoParticipants as videoParticipantsQuery, banParticipant as banParticipantMutation } from '../../../../queries';
 import {
-	exceedsOnlineTimeout, participantIsBlocked, isAskingForWord, formatCountryName, councilStarted, participantIsTranslator
+	exceedsOnlineTimeout, participantIsBlocked, isAskingForWord, formatCountryName, councilStarted
 } from '../../../../utils/CBX';
 import VideoParticipantMenu from './videoParticipants/VideoParticipantMenu';
 import ChangeRequestWordButton from './videoParticipants/ChangeRequestWordButton';
