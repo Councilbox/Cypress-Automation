@@ -9,6 +9,7 @@ import NoAttendDelegationWarning from '../delegations/NoAttendDelegationWarning'
 import EarlyVoteOption from './EarlyVoteOption';
 import FixDelegationVoteButton from './FixDelegationVoteButton';
 import { ConfigContext } from '../../../containers/AppControl';
+import { isMobile } from '../../../utils/screen';
 
 const AttendanceOptions = ({
 	translate, state, setState, council, participant, showDelegationModal, refetch
@@ -242,7 +243,7 @@ const AttendanceOptions = ({
 								<DelegationItem participant={state.delegateInfoUser} />
 								<i className="fa fa-trash-o"
 									style={{
-										marginLeft: '1em',
+										marginLeft: isMobile ? '.5em' : '1em',
 										fontSize: '25px',
 										color: '#dc7373',
 										cursor: 'pointer'
