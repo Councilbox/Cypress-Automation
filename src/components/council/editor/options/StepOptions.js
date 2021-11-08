@@ -623,25 +623,6 @@ const StepOptions = ({
 
 									</>
 								}
-								{(council.statute.existsDelegatedVote === 1 && config.councilDelegates && council.councilType !== 5)
-									&& renderDelegationRestriction()
-								}
-								<SectionTitle
-									text={translate.options}
-									color={primary}
-									style={{
-										marginTop: '1.6em'
-									}}
-								/>
-								<Checkbox
-									label={translate.test_meeting}
-									id="council-options-test-meeting"
-									value={council.promoCode === 'COUNCILBOX'}
-									onChange={(event, isInputChecked) => updateCouncilData({
-										promoCode: isInputChecked ? 'COUNCILBOX' : null
-									})
-									}
-								/>
 								<SectionTitle
 									text={translate.contact_data}
 									color={primary}
@@ -683,6 +664,25 @@ const StepOptions = ({
 										helpPlacement={'topRight'}
 									/>
 								</GridItem>
+								{(council.statute.existsDelegatedVote === 1 && config.councilDelegates && council.councilType !== 5)
+									&& renderDelegationRestriction()
+								}
+								<SectionTitle
+									text={translate.options}
+									color={primary}
+									style={{
+										marginTop: '1.6em'
+									}}
+								/>
+								<Checkbox
+									label={translate.test_meeting}
+									id="council-options-test-meeting"
+									value={council.promoCode === 'COUNCILBOX'}
+									onChange={(event, isInputChecked) => updateCouncilData({
+										promoCode: isInputChecked ? 'COUNCILBOX' : null
+									})
+									}
+								/>
 								{CBX.hasAct(council.statute) && council.councilType < 2 && (
 									<React.Fragment>
 										<SectionTitle
