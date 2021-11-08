@@ -557,7 +557,7 @@ const StepOptions = ({
 			<EditorStepLayout
 				body={
 					<React.Fragment>
-						{data.loading || !council ?
+						{(data.loading || !council) ?
 							<div
 								style={{
 									height: '300px',
@@ -825,6 +825,7 @@ export default compose(
 			variables: {
 				id: props.councilID
 			},
+			// notifyOnNetworkStatusChange: true,
 			fetchPolicy: 'network-only'
 		})
 	}),
