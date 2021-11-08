@@ -319,7 +319,9 @@ class CouncilParticipantEditor extends React.Component {
 								participations={participations}
 								translate={translate}
 								isGuest={participantIsGuest(participant)}
-								hideVotingInputs={this.props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE}
+								hideVotingInputs={this.props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ||
+									participantIsGuest(participant)
+								}
 								languages={languages}
 								errors={errors}
 								updateState={this.updateState}
