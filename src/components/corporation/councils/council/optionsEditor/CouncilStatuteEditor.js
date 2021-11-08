@@ -234,6 +234,16 @@ const CouncilStatuteEditor = ({
 				/>
 			</GridItem>
 			<GridItem xs={12} md={7} lg={7}>
+				<Checkbox
+					label={translate.exists_limited_access_room}
+					value={statute.letParticipantsEnterAfterLimit === 1}
+					onChange={(event, isInputChecked) => updateState({
+						letParticipantsEnterAfterLimit: isInputChecked ? 1 : 0
+					})
+					}
+				/>
+			</GridItem>
+			<GridItem xs={12} md={7} lg={7}>
 				<SelectInput
 					floatingText={translate.security}
 					value={`${council.securityType}`}

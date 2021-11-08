@@ -522,7 +522,19 @@ const LoginForm = ({
 								value={participant.email}
 								disabled={true}
 							/>
-
+							{!!(council.statute.letParticipantsEnterAfterLimit) && councilStarted(council) &&
+								<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+									<div style={{
+										fontSize: '14px',
+										color: 'black',
+										textAlign: 'center',
+										margin: '.8em 0',
+										maxWidth: '490px'
+									}}>
+										{translate.you_will_enter_as_guest_after_limit}
+									</div>
+								</div>
+							}
 							{hasAccessKey(council) && (
 								<React.Fragment>
 									<TextInput
