@@ -11,7 +11,7 @@ const VoteLetterWithSenseOption = ({ council, client, translate }) => {
 	const primary = getPrimary();
 
 	const send = async value => {
-		setCanEarlyVote(!canEarlyVote);
+		setCanEarlyVote(value);
 		await client.mutate({
 			mutation: gql`
 				mutation UpdateCouncilStatute(
@@ -30,7 +30,7 @@ const VoteLetterWithSenseOption = ({ council, client, translate }) => {
 			variables: {
 				councilId: council.id,
 				statute: {
-					canEarlyVote: value
+					canEarlyVote: value ? 1 : 0
 				}
 			}
 		});
@@ -49,9 +49,7 @@ const VoteLetterWithSenseOption = ({ council, client, translate }) => {
 				label={translate.allows_indicate_direction_voting_letter}
 				id="council-options-proxy-with-vote-sense"
 				value={canEarlyVote}
-				onChange={() => {
-					send(canEarlyVote);
-				}}
+				onChange={() => send(!canEarlyVote)}
 			/>
 		</>
 	);
