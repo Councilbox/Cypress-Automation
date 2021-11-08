@@ -34,6 +34,7 @@ import ResultsTimeline from '../ResultsTimeline';
 import CouncillParticipantSurvey from '../survey/CouncillParticipantSurvey';
 import { Grid, GridItem } from '../../../displayComponents';
 import logo from '../../../assets/img/councilboxLogo.png';
+import { ConfigContext } from '../../../containers/AppControl';
 
 
 const styles = {
@@ -91,6 +92,7 @@ const CouncilState = ({
 		expanded: false
 	});
 	const primary = getPrimary();
+	const config = React.useContext(ConfigContext);
 
 	const updateDimensions = () => {
 		setState({
@@ -179,12 +181,13 @@ const CouncilState = ({
 				>
 					<GridItem lg={6} md={6} xs={12}>
 						<TextRender
-							title={translate.we_are_sorry}
+							title={translate.council_not_started_yet}
 							text={translate.council_not_started_yet_retry_later}
 							isHtmlText={true}
 							council={council}
 							company={company}
 							translate={translate}
+							colorTitle={'#9A539C'}
 						/>
 					</GridItem>
 					<GridItem lg={6} md={6} xs={12}>
@@ -450,7 +453,7 @@ const CouncilState = ({
 					/>
 				</div>
 			</div>
-			{(!isAssistance && councilIsNotLiveYet(council)) &&
+			{(!isAssistance && councilIsNotLiveYet(council)) && config.notificationsBranding &&
 				<MarketingText
 					windowSize={windowSize}
 					windowOrientation={windowOrientation}
@@ -475,7 +478,7 @@ const MarketingText = ({ windowSize, windowOrientation, translate }) => (
 	>
 		<Card
 			style={{
-				display: !isMobile && 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '3em'
+				display: !isMobile && 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '37px 24px'
 			}}
 		>
 			<div style={{
@@ -495,7 +498,7 @@ const MarketingText = ({ windowSize, windowOrientation, translate }) => (
 );
 
 const TextRender = ({
-	title, text, isHtmlText, council, company, translate, windowOrientation
+	title, text, isHtmlText, council, company, translate, windowOrientation, colorTitle
 }) => {
 	const [modal, setModal] = React.useState(false);
 	const primary = getPrimary();
@@ -511,7 +514,7 @@ const TextRender = ({
 
 	return (
 		<React.Fragment>
-			<h3 style={{ color: primary, marginBottom: windowOrientation === 'landscape' ? '' : '1em' }}>{title}</h3>
+			<h3 style={{ color: colorTitle || primary, marginBottom: windowOrientation === 'landscape' ? '' : '1em', fontSize: '22px' }}>{title}</h3>
 
 			{text && (
 				<p style={{ fontSize: '1.1em', marginBottom: windowOrientation === 'landscape' ? '' : '2em' }}>
