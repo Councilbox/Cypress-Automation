@@ -825,7 +825,6 @@ export default compose(
 			variables: {
 				id: props.councilID
 			},
-			notifyOnNetworkStatusChange: true,
 			fetchPolicy: 'network-only'
 		})
 	}),
