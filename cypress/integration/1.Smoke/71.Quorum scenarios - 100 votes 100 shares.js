@@ -227,6 +227,7 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
     it("Click on the “New meeting” button the select the “With session” type of meeting", function() {
         cy.get('#create-council-block').click()
         cy.wait(3000)
+        
     });
 
     it("Click on the “New meeting” button the select the “With session” type of meeting", function() {
