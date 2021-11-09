@@ -425,8 +425,6 @@ export default graphql(councilQuery, {
 				councilId: +params.councilId
 			},
 			updateQuery: (prev, { subscriptionData }) => {
-				console.log(subscriptionData);
-
 				const newData = subscriptionData.data.councilStateUpdated;
 
 				return ({

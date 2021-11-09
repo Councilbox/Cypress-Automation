@@ -172,6 +172,22 @@ const CouncilStatuteEditor = ({
 					/>
 				)}
 			</GridItem>
+			{statute.existsLimitedAccessRoom === 1 &&
+				<GridItem xs={12} md={7} lg={7}>
+					<Checkbox
+						label={translate.participant_will_enter_as_guest}
+						helpPopover
+						helpTitle={translate.exists_limited_access_room}
+						helpDescription={translate.participant_enter_guest_desc}
+						value={statute.letParticipantsEnterAfterLimit === 1}
+						onChange={(event, isInputChecked) => updateState({
+							letParticipantsEnterAfterLimit: isInputChecked ? 1 : 0
+						})
+						}
+					/>
+				</GridItem>
+			}
+
 			<GridItem xs={12} md={7} lg={7}>
 				<Checkbox
 					label={translate.hide_votings_recount}
@@ -229,16 +245,6 @@ const CouncilStatuteEditor = ({
 					value={council.askWordMenu}
 					onChange={(event, isInputChecked) => updateCouncil({
 						askWordMenu: isInputChecked
-					})
-					}
-				/>
-			</GridItem>
-			<GridItem xs={12} md={7} lg={7}>
-				<Checkbox
-					label={translate.exists_limited_access_room}
-					value={statute.letParticipantsEnterAfterLimit === 1}
-					onChange={(event, isInputChecked) => updateState({
-						letParticipantsEnterAfterLimit: isInputChecked ? 1 : 0
 					})
 					}
 				/>
