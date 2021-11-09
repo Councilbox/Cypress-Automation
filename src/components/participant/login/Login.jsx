@@ -94,7 +94,7 @@ const ParticipantLogin = ({
 			helpIcon={true}
 			participantLanguageSelector={true}
 			languageSelector={false}
-			loginFooter={renderLogin}
+			loginFooter={renderLogin && config.notificationsBranding}
 		>
 			{renderLogin ?
 				<>

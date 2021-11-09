@@ -7,16 +7,18 @@ import { languages as languagesQuery } from '../../../../queries/masters';
 import ParticipantForm from '../../participants/ParticipantForm';
 import {
 	checkRequiredFieldsParticipant,
-	checkRequiredFieldsRepresentative
+	checkRequiredFieldsRepresentative,
+	checkValidEmail
 } from '../../../../utils/validation';
 import RepresentativeForm from '../../../company/census/censusEditor/RepresentativeForm';
 import { upsertConvenedParticipant, checkUniqueCouncilEmails } from '../../../../queries/councilParticipant';
-import { COUNCIL_TYPES } from '../../../../constants';
+import { COUNCIL_TYPES, INPUT_REGEX } from '../../../../constants';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import SelectRepresentative from '../../editor/census/modals/SelectRepresentative';
 import { getMaxGrantedWordsMessage, isAppointment, isMaxGrantedWordsError, participantIsGuest, participantIsTranslator, removeTypenameField } from '../../../../utils/CBX';
 import AppointmentParticipantForm from '../../participants/AppointmentParticipantForm';
 import TranslatorForm from '../../participants/TranslatorForm';
+
 
 const initialRepresentative = {
 	hasRepresentative: false,
@@ -83,7 +85,7 @@ class ConvenedParticipantEditor extends React.Component {
 			: null;
 
 
-		if (!await this.checkRequiredFields(participantIsTranslator(this.state.data))) {
+		if (!await this.checkRequiredFields()) {
 			const { representatives, delegate, ...participant } = this.state.data;
 			const response = await this.props.updateConvenedParticipant({
 				variables: {
@@ -139,6 +141,7 @@ class ConvenedParticipantEditor extends React.Component {
 
 	async checkRequiredFields(onlyEmail) {
 		const participant = this.state.data;
+		const translator = participantIsTranslator(participant);
 		const { representative } = this.state;
 		const { translate, participations, company } = this.props;
 
@@ -146,40 +149,73 @@ class ConvenedParticipantEditor extends React.Component {
 			errors: {},
 			hasError: false
 		};
-
-		if (!onlyEmail) {
-			const hasSocialCapital = participations;
-			errorsParticipant = checkRequiredFieldsParticipant(
-				participant,
-				translate,
-				hasSocialCapital,
-				company
-			);
-		}
 		let errorsRepresentative = {
 			errors: {},
 			hasError: false
 		};
 
+		if (translator) {
+			const testPhone = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
 
-		if (representative.hasRepresentative) {
+			const regex = INPUT_REGEX;
+
+			if (!(regex.test(participant.name)) || !participant.name.trim()) {
+				errorsParticipant.errors.name = translate.required_field;
+				errorsParticipant.hasError = true;
+			}
+
+			if (!participant.phone) {
+				errorsParticipant.errors.phone = translate.required_field;
+				errorsParticipant.hasError = true;
+			}
+
+			if (participant.phone && participant.phone !== '-') {
+				if (!testPhone.test(participant.phone)) {
+					errorsParticipant.errors.phone = translate.invalid_field;
+					errorsParticipant.hasError = true;
+				}
+			}
+
+			if (!participant.email) {
+				errorsParticipant.errors.email = translate.required_field;
+				errorsParticipant.hasError = true;
+			} else if (!checkValidEmail(participant.email)) {
+				errorsParticipant.errors.email = translate.valid_email_required;
+				errorsParticipant.hasError = true;
+			}
+		} else {
 			if (!onlyEmail) {
-				errorsRepresentative = checkRequiredFieldsRepresentative(
-					representative,
-					translate
+				const hasSocialCapital = participations;
+				errorsParticipant = checkRequiredFieldsParticipant(
+					participant,
+					translate,
+					hasSocialCapital,
+					company
 				);
+			}
+
+			if (representative.hasRepresentative) {
+				if (!onlyEmail) {
+					errorsRepresentative = checkRequiredFieldsRepresentative(
+						representative,
+						translate
+					);
+				}
 			}
 		}
 
+		const emailsToCheck = [];
 
 		if (participant.email && participant.email !== this.props.participant.email && company.type !== 10) {
-			const emailsToCheck = [participant.email];
+			emailsToCheck.push(participant.email);
+		}
 
-			if (representative.email && ((this.props.participant.representative
-				&& representative.email !== this.props.participant.representative.email) || !this.props.participant.representative)) {
-				emailsToCheck.push(representative.email);
-			}
+		if (representative.email && ((this.props.participant.representative
+			&& representative.email !== this.props.participant.representative.email) || !this.props.participant.representative)) {
+			emailsToCheck.push(representative.email);
+		}
 
+		if (emailsToCheck.length > 0) {
 			const response = await this.props.client.query({
 				query: checkUniqueCouncilEmails,
 				variables: {
@@ -223,7 +259,6 @@ class ConvenedParticipantEditor extends React.Component {
 		const { representative, errors, representativeErrors } = this.state;
 		const { translate, participations } = this.props;
 		const { languages = [] } = this.props.data;
-
 
 		if (participantIsTranslator(participant)) {
 			return (
@@ -336,7 +371,9 @@ class ConvenedParticipantEditor extends React.Component {
 										participations={participations}
 										translate={translate}
 										isGuest={participantIsGuest(participant)}
-										hideVotingInputs={this.props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE}
+										hideVotingInputs={this.props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE
+											|| participantIsGuest(participant)
+										}
 										languages={languages}
 										errors={errors}
 										updateState={this.updateState}
