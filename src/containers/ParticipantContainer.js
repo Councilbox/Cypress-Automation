@@ -225,7 +225,7 @@ const ParticipantContainer = ({
 	}
 	if (!loadingConfig && interval) {
 		setTimeout(() => setInterval(false), 10000);
-		return <LoadingMainApp displayPopUp={true} company={council.councilVideo.company} />;
+		return <LoadingMainApp displayAdvice={true} company={council.councilVideo.company} />;
 	}
 
 	return (
