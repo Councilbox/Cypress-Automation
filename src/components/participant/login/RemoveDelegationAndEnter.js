@@ -15,7 +15,7 @@ const setMainRepresentative = gql`
 
 
 const RemoveDelegationAndEnter = ({
-	participant, represented, client, refetch
+	participant, represented, client, refetch, translate
 }) => {
 	const [loading, setLoading] = React.useState(false);
 	const secondary = getSecondary();
@@ -53,7 +53,7 @@ const RemoveDelegationAndEnter = ({
 	// TRADUCCION
 	return (
 		<BasicButton
-			text="Retirar delegación y entrar"
+			text={translate.remove_delegation_and_enter}
 			textStyle={{
 				color: secondary
 			}}
