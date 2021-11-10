@@ -231,7 +231,7 @@ class ConvenedParticipantEditor extends React.Component {
 						errorsParticipant.errors.email = translate.register_exists_email;
 						errorsParticipant.hasError = true;
 					}
-					if (representative.email === email) {
+					if (representative.email === email && representative.id === participant.delegateId) {
 						errorsRepresentative.errors.email = translate.register_exists_email;
 						errorsRepresentative.hasError = true;
 					}
