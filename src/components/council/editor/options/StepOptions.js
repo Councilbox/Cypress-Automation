@@ -651,7 +651,7 @@ const StepOptions = ({
 									<TextInput
 										required
 										id="council-options-support-email"
-										floatingText="Support email"
+										floatingText={translate.support_email}
 										type="text"
 										errorText={state.errors.supportEmail}
 										value={council.supportEmail || ''}
@@ -660,7 +660,7 @@ const StepOptions = ({
 										})}
 										helpPopover
 										helpTitle={translate.support_email}
-										helpDescription={translate.support_email_admin_help}
+										helpDescription={translate.support_email_help}
 										helpPlacement={'topRight'}
 									/>
 								</GridItem>
