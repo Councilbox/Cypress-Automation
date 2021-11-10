@@ -211,6 +211,17 @@ const StepOptions = ({
 			return true;
 		}
 
+		if (council.supportEmail && !checkValidEmail(council.supportEmail)) {
+			setState({
+				...state,
+				errors: {
+					...state.errors,
+					supportEmail: translate.email_not_valid
+				}
+			});
+			return true;
+		}
+
 		return false;
 	};
 
