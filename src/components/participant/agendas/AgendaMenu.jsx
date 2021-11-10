@@ -12,6 +12,20 @@ import ConfirmationRequestMenu from './ConfirmationRequestMenu';
 import { useOldState } from '../../../hooks';
 import { ConfigContext } from '../../../containers/AppControl';
 
+const participantWithVote = participant => (
+	participant.type === PARTICIPANT_TYPE.PARTICIPANT
+		&& participant.numParticipations > 0
+);
+
+const representativeWithVote = participant => (
+	participant.type === PARTICIPANT_TYPE.REPRESENTATIVE
+	// && !!participant.delegatedVotes?.find(vote => vote.numParticipations > 0)
+);
+
+export const checkHasVotingRights = participant => {
+	return (participantWithVote(participant) || representativeWithVote(participant));
+};
+
 
 const AgendaMenu = ({ agenda, translate, council, participant, refetch }) => {
 	const [state, setState] = useOldState({
@@ -54,20 +68,6 @@ const AgendaMenu = ({ agenda, translate, council, participant, refetch }) => {
 		}
 
 		return CBX.hasVotation(agenda.subjectType);
-	};
-
-	const participantWithVote = () => (
-		participant.type === PARTICIPANT_TYPE.PARTICIPANT
-			&& participant.numParticipations > 0
-	);
-
-	const representativeWithVote = () => (
-		participant.type === PARTICIPANT_TYPE.REPRESENTATIVE
-			&& !!participant.delegatedVotes.find(vote => vote.numParticipations > 0)
-	);
-
-	const checkHasVotingRights = () => {
-		return (!participantWithVote() || !representativeWithVote());
 	};
 
 	const secondary = getSecondary();

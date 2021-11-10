@@ -18,6 +18,7 @@ import LoginAfterAccessLimitButton from './LoginAfterAccessLimitButton';
 import forbiddenRoom from '../../../assets/img/forbidden-room.png';
 import forbiddenUser from '../../../assets/img/forbidden-user.png';
 import forbiddenVote from '../../../assets/img/forbidden-vote.png';
+import { checkHasVotingRights } from '../agendas/AgendaMenu';
 // import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
 
 const styles = {
@@ -258,10 +259,13 @@ const TimeLimitExceeded = ({ translate, data, refetch }) => (
 		</h3>
 		{data.council.statute.letParticipantsEnterAfterLimit ?
 			<>
-				<div style={{ marginBottom: '1em' }}>
-					{translate.enter_room_after_access_limit_warning.replace(/{{participantName}}/,
-						`${data.participant.name} ${data.participant.surname || ''}`)}
-				</div>
+				{checkHasVotingRights(data.participant) &&
+					<div style={{ marginBottom: '1em' }}>
+						{translate.enter_room_after_access_limit_warning.replace(/{{participantName}}/,
+							`${data.participant.name} ${data.participant.surname || ''}`)}
+					</div>
+				}
+
 				<LoginAfterAccessLimitButton
 					translate={translate}
 					council={data.council}
