@@ -660,7 +660,6 @@ const StepOptions = ({
 								</GridItem>
 								<GridItem xs={12} md={6} lg={4}>
 									<TextInput
-										required
 										id="council-options-support-email"
 										floatingText={translate.support_email}
 										type="text"
