@@ -74,7 +74,13 @@ const ManualVotingsMenu = ({ agenda, translate, ...props }) => {
 		return <span />;
 	}
 
-	const votesLeft = ((agenda.votingState === 4 ? props.votingsRecount.availableVotes : agenda.presentCensus) - state.noVoteManual - state.abstentionManual - state.negativeManual - state.positiveManual);
+	const votesLeft = ((agenda.votingState === 4 ? props.votingsRecount.availableVotes : agenda.presentCensus)
+		- props.votingsRecount?.presentsWithRemoteVote
+		- state.noVoteManual
+		- state.abstentionManual
+		- state.negativeManual
+		- state.positiveManual
+	);
 	const maxVoteManual = votesLeft <= 0 ? 0 : votesLeft;
 
 	const width = window.innerWidth;
