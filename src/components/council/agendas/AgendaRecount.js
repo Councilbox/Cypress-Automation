@@ -88,7 +88,7 @@ const AgendaRecount = ({
 	);
 
 	const renderNeedMajority = () => {
-		return CBX.agendaVotingsOpened(agenda) ?
+		return !CBX.agendaPointNotOpened(agenda) ?
 			<>
 				{`${translate.votes_in_favor_for_approve}: ${CBX.showNumParticipations(agendaNeededMajority, company, council.statute)}`}
 				{(agendaNeededMajority > (agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual) && !approvedByQualityVote) ? (
