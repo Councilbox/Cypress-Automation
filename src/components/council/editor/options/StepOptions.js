@@ -211,6 +211,17 @@ const StepOptions = ({
 			return true;
 		}
 
+		if (council.supportEmail && !checkValidEmail(council.supportEmail)) {
+			setState({
+				...state,
+				errors: {
+					...state.errors,
+					supportEmail: translate.email_not_valid
+				}
+			});
+			return true;
+		}
+
 		return false;
 	};
 
@@ -649,7 +660,6 @@ const StepOptions = ({
 								</GridItem>
 								<GridItem xs={12} md={6} lg={4}>
 									<TextInput
-										required
 										id="council-options-support-email"
 										floatingText={translate.support_email}
 										type="text"
