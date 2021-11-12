@@ -474,6 +474,7 @@ const MarketingText = ({ windowSize, windowOrientation, translate }) => (
 				? { maxWidth: '100%', width: '100%' }
 				: { maxWidth: '85%', minWidth: '100%' }),
 			marginTop: isMobile && '2em',
+			paddingTop: '0px'
 		}}
 	>
 		<Card
