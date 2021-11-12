@@ -59,7 +59,8 @@ const RemoveDelegationAndEnter = ({
 			}}
 			buttonStyle={{
 				color: 'white',
-				border: `1px solid ${secondary}`
+				border: `1px solid ${secondary}`,
+				paddingTop: '5px'
 			}}
 			type="flat"
 			loading={loading}
