@@ -2116,6 +2116,7 @@ export const liveParticipant = gql`
 				email
 				state
 				signed
+				type
 				phone
 				position
 				language
