@@ -36,8 +36,8 @@ const DeletCompany = ({
 
 	const renderModalBody = () => (
 		<>
-			{`¿Esta acción eliminará la compañía ${company.businessName} por completo y todas su reuniones. ¿Continuar?`}
-			<span onClick={action}>Aceptar</span>
+			{translate.delete_company_warning.replace(/{{businessName}}/, company.businessName)}
+			<span onClick={action}> {translate.accept}</span>
 		</>
 	);
 
@@ -50,8 +50,8 @@ const DeletCompany = ({
 				open={modal}
 				requestClose={closeModal}
 				title={translate.warning}
-				buttonAccept={'Aceptar'}
-				buttonCancel={'Cancelar'}
+				buttonAccept={translate.accept}
+				buttonCancel={translate.cancel}
 				acceptAction={action}
 				bodyText={renderModalBody()}
 			/>
