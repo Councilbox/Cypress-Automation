@@ -87,6 +87,34 @@ const AgendaRecount = ({
 		</>
 	);
 
+	const renderNeedMajority = () => {
+		return !CBX.agendaPointNotOpened(agenda) ?
+			<>
+				{`${translate.votes_in_favor_for_approve}: ${CBX.showNumParticipations(agendaNeededMajority, company, council.statute)}`}
+				{(agendaNeededMajority > (agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual) && !approvedByQualityVote) ? (
+					<FontAwesome
+						name={'times'}
+						style={{
+							margin: '0.5em',
+							color: 'red',
+							fontSize: '1.2em'
+						}}
+					/>
+				) : (
+					<FontAwesome
+						name={'check'}
+						style={{
+							margin: '0.5em',
+							color: 'green',
+							fontSize: '1.2em'
+						}}
+					/>
+				)}
+			</>
+			:
+			`${translate.votes_in_favor_for_approve}: -`;
+	};
+
 	const printPositiveRemote = () => `${CBX.showNumParticipations(agenda.votingsRecount.positiveVotings, company, council.statute)} ${printPercentage(agenda.votingsRecount.positiveVotings)}`;
 
 	const printNegativeRemote = () => `${CBX.showNumParticipations(agenda.votingsRecount.negativeVotings, company, council.statute)} ${printPercentage(agenda.votingsRecount.negativeVotings)}`;
@@ -209,26 +237,7 @@ const AgendaRecount = ({
 					</GridItem>
 					<GridItem xs={4} lg={4} md={4} style={columnStyle}>
 						<div style={itemStyle}>
-							{`${translate.votes_in_favor_for_approve}: ${agendaNeededMajority}`}
-							{(agendaNeededMajority > (agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual) && !approvedByQualityVote) ? (
-								<FontAwesome
-									name={'times'}
-									style={{
-										margin: '0.5em',
-										color: 'red',
-										fontSize: '1.2em'
-									}}
-								/>
-							) : (
-								<FontAwesome
-									name={'check'}
-									style={{
-										margin: '0.5em',
-										color: 'green',
-										fontSize: '1.2em'
-									}}
-								/>
-							)}
+							{renderNeedMajority()}
 						</div>
 					</GridItem>
 				</Grid>
@@ -375,26 +384,7 @@ const AgendaRecount = ({
 				</GridItem>
 				<GridItem xs={4} lg={4} md={4} style={columnStyle}>
 					<div style={itemStyle}>
-						{`${translate.votes_in_favor_for_approve}: ${CBX.showNumParticipations(agendaNeededMajority, company, council.statute)}`}
-						{(agendaNeededMajority > (agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual) && !approvedByQualityVote) ? (
-							<FontAwesome
-								name={'times'}
-								style={{
-									margin: '0.5em',
-									color: 'red',
-									fontSize: '1.2em'
-								}}
-							/>
-						) : (
-							<FontAwesome
-								name={'check'}
-								style={{
-									margin: '0.5em',
-									color: 'green',
-									fontSize: '1.2em'
-								}}
-							/>
-						)}
+						{renderNeedMajority()}
 					</div>
 				</GridItem>
 			</Grid>
