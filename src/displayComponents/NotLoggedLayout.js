@@ -18,14 +18,14 @@ const NotLoggedLayout = ({
 	const imgUrl = window.location.pathname.includes('participant') ?
 		customRoomBackground || (customBackground || bg)
 		: customBackground || bg;
-	const [height, setHeight] = React.useState(0);
+	// const [height, setHeight] = React.useState(0);
 	const ref = React.useRef(null);
-	React.useEffect(() => {
-		console.log(ref);
-		if (ref) {
-			setHeight(ref.current.clientHeight);
-		}
-	});
+	// React.useEffect(() => {
+	// 	console.log(ref);
+	// 	if (ref) {
+	// 		setHeight(ref.current.clientHeight);
+	// 	}
+	// });
 
 
 	React.useEffect(() => {
@@ -35,35 +35,12 @@ const NotLoggedLayout = ({
 	}, [customBackground, customRoomBackground]);
 
 	const footer = () => (
-		<div
-			style={{
-				// position: !isMobile && 'absolute',
-				bottom: '35px',
-				// display: !isMobile && 'flex',
-				justifyContent: 'center',
-				alignItems: 'center',
-				width: '100%',
-				textAlign: 'center',
-				minHeight: '7em',
-				marginTop: '2em',
-			}}
-		>
-			<div style={{
-				fontSize: '13px',
-				marginRight: '1em',
-				marginLeft: '1em',
-				color: '#2E3030',
-				marginBottom: '.5em'
-			}}>
-				{translate.marketing_text_councilbox}
-			</div>
-			<div style={{}}>
-				<img src={logo} />
-			</div>
+		<div>
+			<div>{translate.marketing_text_councilbox}</div>
 		</div>
 		// <div
 		// 	style={{
-		// 		position: !isMobile && 'absolute',
+				// position: !isMobile && 'absolute',
 		// 		bottom: '35px',
 		// 		display: !isMobile && 'flex',
 		// 		justifyContent: 'center',
@@ -147,7 +124,7 @@ const NotLoggedLayout = ({
 				>
 					{children}
 					{/* {loginFooter && isMobile && footer()} */}
-					{footer()}
+					{/* {footer()} */}
 				</Scrollbar>
 				{/* {loginFooter && !isMobile && footer()} */}
 			</div>

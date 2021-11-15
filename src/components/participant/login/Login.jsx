@@ -109,30 +109,35 @@ const ParticipantLogin = ({
 								height: '',
 							}),
 						}}>
-							<Card style={{
-								...styles.cardContainer,
-								minWidth: window.innerWidth > 450 ? '550px' : '100%',
-								padding: '0.6em',
-								marginTop: isMobile && window.innerHeight < 750 ? '5%' : '20px',
-								...(council.securityType === 2 && isMobile && {
-									margin: '10% 20% 5px'
-								}),
-							}} elevation={6}>
-								{loginForm()}
-							</Card>
-							<Card style={{
-								width: window.innerWidth > 450 ? '550px' : '100%',
-								...(council.securityType === 2 && isMobile && {
-									marginBottom: '6em'
-								}),
-							}}>
-								<RequestDataInfo
-									data={{}}
-									translate={props.translate}
-									message={message}
-									status={'SUCCESS'} // SUCCESS
-								/>
-							</Card>
+							<>
+								<Card style={{
+									...styles.cardContainer,
+									minWidth: window.innerWidth > 450 ? '550px' : '100%',
+									padding: '0.6em',
+									marginTop: isMobile && window.innerHeight < 750 ? '5%' : '20px',
+									...(council.securityType === 2 && isMobile && {
+										margin: '10% 20% 5px'
+									}),
+								}} elevation={6}>
+									{loginForm()}
+								</Card>
+								<Card style={{
+									width: window.innerWidth > 450 ? '550px' : '100%',
+									...(council.securityType === 2 && isMobile && {
+										marginBottom: '6em'
+									}),
+								}}>
+									<RequestDataInfo
+										data={{}}
+										translate={props.translate}
+										message={message}
+										status={'SUCCESS'} // SUCCESS
+									/>
+								</Card>
+							</>
+							<div>
+								<div>{props.translate.marketing_text_councilbox}</div>
+							</div>
 						</div>
 						:
 						<div style={{
