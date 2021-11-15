@@ -10,7 +10,7 @@ const CouncilOptionsEditor = ({ translate, council, refetch }) => {
 
 	return (
 		<>
-			<div style={{ fontSize: '13px', display: 'inline-block' }}>
+			<div style={{ fontSize: '13px', display: 'inline-block', marginBottom: '2em' }}>
 				<MenuSuperiorTabs
 					items={[
 						'Opciones',

@@ -548,6 +548,7 @@ export default graphql(gql`
 				conclusion
 				actTemplate
 				censusId
+				letParticipantsEnterAfterLimit
 			}
 			street
 			tin

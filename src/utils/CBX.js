@@ -1951,6 +1951,26 @@ export const cleanAgendaObject = agenda => {
 	return clean;
 };
 
+export const checkLimitExceededTime = (participant, council) => {
+	let limitTimeExceeded;
+	const isCouncilStarted = councilStarted(council);
+	if (isCouncilStarted) {
+		if (council.statute.existsLimitedAccessRoom === 0) {
+			limitTimeExceeded = false;
+		} else if (!council.dateRealStart) {
+			limitTimeExceeded = false;
+		} else {
+			const realLimitDateTime = moment(council.dateRealStart).add(council.statute.limitedAccessRoomMinutes, 'm');
+			const currentDate = moment();
+			limitTimeExceeded = !currentDate.isBefore(realLimitDateTime);
+		}
+	} else {
+		limitTimeExceeded = false;
+	}
+
+	return limitTimeExceeded;
+};
+
 export const checkHybridConditions = council => {
 	if (council.councilType !== 3) {
 		return false;

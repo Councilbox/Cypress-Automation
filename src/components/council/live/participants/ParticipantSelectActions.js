@@ -98,7 +98,10 @@ class ParticipantSelectActions extends React.Component {
 					gap: '.5rem',
 				}}
 			>
-				{(this.props.council.councilType !== 4 && this.props.council.councilType !== 5 && participant.numParticipations > 0)
+				{(this.props.council.councilType !== 4
+				&& this.props.council.councilType !== 5
+				&& participant.numParticipations > 0
+				&& participant.type !== 1)
 					&& <EarlyVotingModal
 						council={this.props.council}
 						participant={participant}
