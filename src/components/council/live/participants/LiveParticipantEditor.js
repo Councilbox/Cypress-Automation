@@ -91,6 +91,7 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 
 			setOwnedVotes(response.data.participantOwnedVotes);
 			setLoadingOwnedVotes(false);
+			data.refetch();
 		}
 	}, [participant?.id]);
 
