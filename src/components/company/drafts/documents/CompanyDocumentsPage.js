@@ -792,8 +792,8 @@ const FileRow = withApollo(({
 								display: 'flex',
 								alignItems: 'center',
 								justifyContent: 'center',
-								padding: '0.3em',
-								width: '100px'
+								padding: '0.6em',
+								width: '75px'
 							}}
 						>
 							{translate.delete}
