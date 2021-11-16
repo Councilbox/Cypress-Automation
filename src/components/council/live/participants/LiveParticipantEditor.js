@@ -91,6 +91,7 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 
 			setOwnedVotes(response.data.participantOwnedVotes);
 			setLoadingOwnedVotes(false);
+			data.refetch();
 		}
 	}, [participant?.id]);
 
@@ -110,6 +111,8 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 	if (!data.liveParticipant) {
 		return <LoadingSection />;
 	}
+
+	console.log(participant.representative?.type);
 
 	return (
 		<div
@@ -196,16 +199,21 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 								<Grid style={{ display: 'flex', flexDirection: 'column' }}>
 									<GridItem xs={12} md={6} lg={6}>
 										{!loadingOwnedVotes ?
-											<ParticipantSelectActions
-												ownedVotes={ownedVotes}
-												participant={participant}
-												council={props.council}
-												translate={translate}
-												refetch={() => {
-													data.refetch();
-													updateOwnedVotes();
-												}}
-											/>
+											<>
+												{participant.type !== 1
+													&& !(participant.representative?.type === 1) &&
+													<ParticipantSelectActions
+														ownedVotes={ownedVotes}
+														participant={participant}
+														council={props.council}
+														translate={translate}
+														refetch={() => {
+															data.refetch();
+															updateOwnedVotes();
+														}}
+													/>
+												}
+											</>
 											:
 											<LoadingSection size={20} />
 										}

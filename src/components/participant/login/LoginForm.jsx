@@ -15,7 +15,7 @@ import { getPrimary, getSecondary } from '../../../styles/colors';
 import {
 	ButtonIcon, TextInput, BasicButton, AlertConfirm, HelpPopover, LoadingSection, Checkbox
 } from '../../../displayComponents';
-import { councilStarted, participantNeverConnected, hasAccessKey, getTermsURL } from '../../../utils/CBX';
+import { councilStarted, participantNeverConnected, hasAccessKey, getTermsURL, checkLimitExceededTime } from '../../../utils/CBX';
 import {
 	useOldState, useCountdown, useSendRoomKey, useInterval
 } from '../../../hooks';
@@ -124,6 +124,8 @@ const LoginForm = ({
 	const primary = getPrimary();
 	const secondary = getSecondary();
 	const subdomain = useSubdomain();
+	const guestMode = !!(council.statute.letParticipantsEnterAfterLimit) && checkLimitExceededTime(participant, council);
+
 
 	const getData = React.useCallback(async () => {
 		const response = await client.query({
@@ -305,7 +307,7 @@ const LoginForm = ({
 			return (
 				<div style={styles.enterButtonContainer}>
 					<BasicButton
-						text={translate.enter_room}
+						text={guestMode ? translate.enter_room_as_guest : translate.enter_room}
 						color={primary}
 						textStyle={{
 							color: 'white',
@@ -457,6 +459,7 @@ const LoginForm = ({
 	};
 
 	const { password, showPassword } = state;
+
 	return (
 		<div>
 			<div style={{
@@ -522,7 +525,19 @@ const LoginForm = ({
 								value={participant.email}
 								disabled={true}
 							/>
-
+							{guestMode &&
+								<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+									<div style={{
+										fontSize: '14px',
+										color: 'black',
+										textAlign: 'center',
+										margin: '.8em 0',
+										maxWidth: '490px'
+									}}>
+										{translate.you_will_enter_as_guest_after_limit}
+									</div>
+								</div>
+							}
 							{hasAccessKey(council) && (
 								<React.Fragment>
 									<TextInput

@@ -112,7 +112,7 @@ const CerficateEditor = ({
 				doc={doc}
 				data={data}
 				{...handlers}
-				blocks={Object.keys(certBlocks).map(key => buildDocBlock(certBlocks[key], data, data.council.language, 'en'))}
+				blocks={Object.keys(certBlocks).map(key => buildDocBlock(certBlocks[key], data, translate.selectedLanguage, 'en'))}
 				options={options}
 				generatePreview={generatePreview}
 				download={true}
@@ -145,9 +145,9 @@ const CerficateEditor = ({
 							/>
 						</div>
 						{error
-&& <div style={{ color: 'red', fontWeight: '700', marginTop: '1em' }}>
-	{error}
-</div>
+							&& <div style={{ color: 'red', fontWeight: '700', marginTop: '1em' }}>
+								{error}
+							</div>
 						}
 					</div>
 				}

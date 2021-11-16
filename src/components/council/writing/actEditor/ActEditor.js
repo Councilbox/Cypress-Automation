@@ -554,7 +554,7 @@ const ActEditor = ({
 				data={data}
 				{...handlers}
 				documentId={data.council.id}
-				blocks={Object.keys(actBlocks).map(key => buildDocBlock(actBlocks[key], data, data.council.language, 'en'))}
+				blocks={Object.keys(actBlocks).map(key => buildDocBlock(actBlocks[key], data, translate.selectedLanguage, 'en'))}
 				options={options}
 				generatePreview={generatePreview}
 				download={true}

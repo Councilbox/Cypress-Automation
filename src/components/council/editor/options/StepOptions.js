@@ -153,7 +153,7 @@ const StepOptions = ({
 	};
 
 	const checkRequiredFields = () => {
-		if (council.approveActDraft === 1) {
+		if (council.approveActDraft === 1 && checkValidEmail(council.contactEmail)) {
 			const response = checkValidMajority(council.actPointMajority, council.actPointMajorityDivider, council.actPointMajorityType);
 			if (response.error) {
 				setState({
@@ -723,8 +723,8 @@ const StepOptions = ({
 														<div style={{ display: 'flex', alignItems: 'flex-end' }}>
 															{CBX.majorityNeedsInput(
 																council.actPointMajorityType
-															) &&
-																(
+															)
+																&& (
 																	<MajorityInput
 																		type={council.actPointMajorityType}
 																		style={{ marginLeft: '1em' }}

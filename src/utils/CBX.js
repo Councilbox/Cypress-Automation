@@ -377,6 +377,7 @@ export const hasParticipations = (statute = {}) => statute.quorumPrototype === 1
 export const canBePresentWithRemoteVote = statute => statute.existsPresentWithRemoteVote === 1;
 
 export const isAnonym = subjectType => subjectType === AGENDA_TYPES.PRIVATE_VOTING || subjectType === AGENDA_TYPES.CUSTOM_PRIVATE;
+
 export const getSMSStatusByCode = reqCode => {
 	const status = {
 		22: 'Entregado',
@@ -387,6 +388,11 @@ export const getSMSStatusByCode = reqCode => {
 
 	return status[reqCode] ? status[reqCode] : status.default;
 };
+
+export const isNominalVoting = subjectType => (
+	subjectType === AGENDA_TYPES.PUBLIC_VOTING
+	|| subjectType === AGENDA_TYPES.PUBLIC_ACT
+);
 
 export const filterAgendaVotingTypes = (votingTypes, _, council = {}) => {
 	if (council.councilType === 2) {
@@ -1949,6 +1955,26 @@ export const cleanAgendaObject = agenda => {
 		attachments, ballots, items, options, __typename, votings, qualityVoteSense, votingsRecount, ...clean
 	} = agenda;
 	return clean;
+};
+
+export const checkLimitExceededTime = (participant, council) => {
+	let limitTimeExceeded;
+	const isCouncilStarted = councilStarted(council);
+	if (isCouncilStarted) {
+		if (council.statute.existsLimitedAccessRoom === 0) {
+			limitTimeExceeded = false;
+		} else if (!council.dateRealStart) {
+			limitTimeExceeded = false;
+		} else {
+			const realLimitDateTime = moment(council.dateRealStart).add(council.statute.limitedAccessRoomMinutes, 'm');
+			const currentDate = moment();
+			limitTimeExceeded = !currentDate.isBefore(realLimitDateTime);
+		}
+	} else {
+		limitTimeExceeded = false;
+	}
+
+	return limitTimeExceeded;
 };
 
 export const checkHybridConditions = council => {

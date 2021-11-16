@@ -22,8 +22,7 @@ import { SERVER_URL } from '../config';
 import { addSpecificTranslations } from '../actions/companyActions';
 import { initLogRocket } from '../utils/logRocket';
 
-const buildParticipantQuery = () => {
-	return (gql`
+const buildParticipantQuery = () => (gql`
 		query info {
 			participant {
 				name
@@ -55,7 +54,6 @@ const buildParticipantQuery = () => {
 			}
 		}
 	`);
-};
 
 export const ConnectionInfoContext = React.createContext(null);
 
@@ -425,8 +423,6 @@ export default graphql(councilQuery, {
 				councilId: +params.councilId
 			},
 			updateQuery: (prev, { subscriptionData }) => {
-				console.log(subscriptionData);
-
 				const newData = subscriptionData.data.councilStateUpdated;
 
 				return ({

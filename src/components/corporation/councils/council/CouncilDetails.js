@@ -759,6 +759,7 @@ const CouncilDetailsRoot = gql`
                 intro
                 constitution
                 conclusion
+				letParticipantsEnterAfterLimit
 			}
             company{
 				id
