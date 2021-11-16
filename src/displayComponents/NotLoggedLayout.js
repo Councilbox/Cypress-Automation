@@ -18,15 +18,6 @@ const NotLoggedLayout = ({
 	const imgUrl = window.location.pathname.includes('participant') ?
 		customRoomBackground || (customBackground || bg)
 		: customBackground || bg;
-	// const [height, setHeight] = React.useState(0);
-	const ref = React.useRef(null);
-	// React.useEffect(() => {
-	// 	console.log(ref);
-	// 	if (ref) {
-	// 		setHeight(ref.current.clientHeight);
-	// 	}
-	// });
-
 
 	React.useEffect(() => {
 		const img = new Image();
@@ -35,35 +26,32 @@ const NotLoggedLayout = ({
 	}, [customBackground, customRoomBackground]);
 
 	const footer = () => (
-		<div>
-			<div>{translate.marketing_text_councilbox}</div>
+		<div
+			style={{
+				position: !isMobile && 'absolute',
+				bottom: '35px',
+				display: !isMobile && 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+				width: '100%',
+				textAlign: 'center',
+				minHeight: isMobile && '7em',
+				marginTop: isMobile && '2em',
+			}}
+		>
+			<div style={{
+				fontSize: '13px',
+				marginRight: isMobile ? '1em' : '2em',
+				marginLeft: '1em',
+				color: '#2E3030',
+				marginBottom: isMobile && '.5em'
+			}}>
+				{translate.marketing_text_councilbox}
+			</div>
+			<div style={{ marginRight: !isMobile && '1em' }}>
+				<img src={logo} />
+			</div>
 		</div>
-		// <div
-		// 	style={{
-				// position: !isMobile && 'absolute',
-		// 		bottom: '35px',
-		// 		display: !isMobile && 'flex',
-		// 		justifyContent: 'center',
-		// 		alignItems: 'center',
-		// 		width: '100%',
-		// 		textAlign: 'center',
-		// 		minHeight: isMobile && '7em',
-		// 		marginTop: isMobile && '2em',
-		// 	}}
-		// >
-		// 	<div style={{
-		// 		fontSize: '13px',
-		// 		marginRight: isMobile ? '1em' : '2em',
-		// 		marginLeft: '1em',
-		// 		color: '#2E3030',
-		// 		marginBottom: isMobile && '.5em'
-		// 	}}>
-		// 		{translate.marketing_text_councilbox}
-		// 	</div>
-		// 	<div style={{ marginRight: !isMobile && '1em' }}>
-		// 		<img src={logo} />
-		// 	</div>
-		// </div>
 	);
 
 	if (loadingImg) {
@@ -72,7 +60,6 @@ const NotLoggedLayout = ({
 
 	return (
 		<div
-			ref={ref}
 			style={{
 				display: 'flex',
 				flex: 1,
@@ -123,10 +110,9 @@ const NotLoggedLayout = ({
 					classFix={'scrollflex'}
 				>
 					{children}
-					{/* {loginFooter && isMobile && footer()} */}
-					{/* {footer()} */}
+					{(loginFooter && isMobile) && footer()}
 				</Scrollbar>
-				{/* {loginFooter && !isMobile && footer()} */}
+				{(loginFooter && !isMobile && window.innerHeight > 675) && footer()}
 			</div>
 		</div>
 	);
