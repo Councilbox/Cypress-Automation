@@ -10,6 +10,7 @@ import { isMobile } from '../../../utils/screen';
 import RequestDataInfo from './RequestDataInfo';
 import DataAuthorization from './Legalterms/DataAuthorization';
 import { ConfigContext } from '../../../containers/AppControl';
+import logo from '../../../assets/img/councilboxLogo.png';
 
 // '850px'
 const width = window.innerWidth > 450 ? '850px' : '100%';
@@ -94,7 +95,6 @@ const ParticipantLogin = ({
 			helpIcon={true}
 			participantLanguageSelector={true}
 			languageSelector={false}
-			loginFooter={renderLogin}
 		>
 			{renderLogin ?
 				<>
@@ -133,7 +133,10 @@ const ParticipantLogin = ({
 									status={'SUCCESS'} // SUCCESS
 								/>
 							</Card>
-
+							<FooterBranding
+								translate={props.translate}
+								notificationsBranding={config.notificationsBranding}
+							/>
 						</div>
 						:
 						<div style={{
@@ -184,6 +187,73 @@ const ParticipantLogin = ({
 				</div>
 			}
 		</NotLoggedLayout>
+	);
+};
+
+const FooterBranding = ({ translate, notificationsBranding }) => {
+	const [height, setHeight] = React.useState(window.innerHeight);
+	const updateMinSizes = React.useCallback(() => {
+		setHeight(window.innerHeight);
+	}, [window.innerHeight, window.innerWidth]);
+
+	React.useEffect(() => {
+		window.addEventListener('resize', updateMinSizes);
+	}, [updateMinSizes]);
+
+	if (isMobile) {
+		return (
+			notificationsBranding &&
+			<div
+				style={{
+					position: height > 675 && 'absolute',
+					bottom: '0px',
+					justifyContent: 'center',
+					alignItems: 'center',
+					width: '100%',
+					textAlign: 'center',
+					minHeight: '7em',
+					marginTop: '2em',
+				}}
+			>
+				<div style={{
+					fontSize: '13px',
+					marginRight: '1em',
+					marginLeft: '1em',
+					color: '#2E3030',
+					marginBottom: '.5em'
+				}}>
+					{translate.marketing_text_councilbox}
+				</div>
+				<div style={{ marginRight: '1em' }}>
+					<img src={logo} />
+				</div>
+			</div>
+		);
+	}
+	return (
+		notificationsBranding &&
+		<Card style={{
+			marginTop: '2em',
+			background: 'transparent',
+			boxShadow: 'none',
+			display: 'flex',
+			alignItems: 'center',
+			minHeight: '35px',
+			position: height > 675 && 'absolute',
+			bottom: height > 675 && '35px',
+		}}>
+			<div style={{
+				fontSize: '13px',
+				marginRight: '2em',
+				marginLeft: '1em',
+				color: '#2E3030',
+			}}>
+				{translate.marketing_text_councilbox}
+			</div>
+			<div style={{ marginRight: '1em' }}>
+				<img src={logo} />
+			</div>
+		</Card>
 	);
 };
 
