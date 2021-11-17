@@ -9,6 +9,7 @@ import {
 	SelectInput,
 	TextInput
 } from '../../../../../displayComponents';
+import { RoomLayout } from '../../../../council/editor/options/StepOptions';
 
 
 const CouncilStatuteEditor = ({
@@ -81,6 +82,11 @@ const CouncilStatuteEditor = ({
 						canReorderPoints: isInputChecked ? 1 : 0
 					})
 					}
+				/>
+			</GridItem>
+			<GridItem xs={12} md={7} lg={7}>
+				<RoomLayout
+					translate={translate}
 				/>
 			</GridItem>
 			<GridItem xs={12} md={7} lg={7}>
