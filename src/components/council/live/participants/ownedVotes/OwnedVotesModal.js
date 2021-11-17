@@ -18,13 +18,13 @@ const getTypeText = type => {
 	}
 };
 
-const OwnedVotesModal = ({ participant, translate, client, open, requestClose, council }) => {
+const OwnedVotesModal = ({
+	participant, translate, client, open, requestClose, council
+}) => {
 	const [data, setData] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
 
 	const getData = React.useCallback(async options => {
-		console.log(options);
-
 		if (!data) {
 			setLoading(true);
 		}
@@ -86,16 +86,16 @@ const OwnedVotesModal = ({ participant, translate, client, open, requestClose, c
 				requestClose={requestClose}
 				bodyText={
 					<>
-						{meta &&
-							<OwnedVotesRecountSection
+						{meta
+							&& <OwnedVotesRecountSection
 								ownedVotesMeta={meta}
 								participant={participant}
 								council={council}
 								translate={translate}
 							/>
 						}
-						{data?.participantOwnedVotes?.list &&
-						<EnhancedTable
+						{data?.participantOwnedVotes?.list
+						&& <EnhancedTable
 							translate={translate}
 							defaultLimit={15}
 							defaultFilter={'fullName'}
@@ -136,8 +136,8 @@ const OwnedVotesModal = ({ participant, translate, client, open, requestClose, c
 										{vote.numParticipations}
 									</TableCell>
 									<TableCell>
-										{vote.state === PARTICIPANT_STATES.DELEGATED &&
-											<RemoveDelegationButton
+										{vote.state === PARTICIPANT_STATES.DELEGATED
+											&& <RemoveDelegationButton
 												delegatedVote={vote}
 												participant={participant}
 												translate={translate}
