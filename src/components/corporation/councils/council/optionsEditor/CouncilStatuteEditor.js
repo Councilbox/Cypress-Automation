@@ -87,6 +87,7 @@ const CouncilStatuteEditor = ({
 			<GridItem xs={12} md={7} lg={7}>
 				<RoomLayout
 					translate={translate}
+					councilType={council.councilType}
 				/>
 			</GridItem>
 			<GridItem xs={12} md={7} lg={7}>

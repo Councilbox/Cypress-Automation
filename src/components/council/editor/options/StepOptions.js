@@ -331,6 +331,7 @@ const StepOptions = ({
 					</div>
 					<RoomLayout
 						translate={translate}
+						councilType={council.councilType}
 					/>
 					{council.councilType === 0
 						&& <GridItem xs={12} md={8} lg={6}>
@@ -863,52 +864,51 @@ const RTMPField = ({ data, updateData, translate }) => {
 	);
 };
 
-export const RoomLayout = ({ translate }) => {
-	return (
-		<div style={{ fontSize: '0.875rem', marginTop: '5px', marginBottom: '5px' }}>
-			<div style={{ marginBottom: '0.5em' }}>
-				{translate.room_layout}
-				<HelpPopover
-					title={translate.room_layout}
-					content={translate.room_layout_help}
+export const RoomLayout = ({ translate, councilType }) => (
+	councilType === 0 &&
+	<div style={{ fontSize: '0.875rem', marginTop: '5px', marginBottom: '5px' }}>
+		<div style={{ marginBottom: '0.5em' }}>
+			{translate.room_layout}
+			<HelpPopover
+				title={translate.room_layout}
+				content={translate.room_layout_help}
+			/>
+		</div>
+		<div style={{ display: 'flex', alignItems: 'center' }}>
+			<div>
+				<Radio
+					value={'grid'}
+					id="council-options-grid"
+					label={
+						<div >
+							<div style={{ display: 'flex', justifyContent: 'center' }}><img src={cuadricula} /></div>
+							<div>{translate.label_grid}</div>
+						</div>
+					}
+				// value={council.autoClose !== 0}
+				// onChange={(event, isInputChecked) => updateCouncilData({
+				// autoClose: isInputChecked ? 1 : 0
+				// })
+				// }
 				/>
 			</div>
-			<div style={{ display: 'flex', alignItems: 'center' }}>
-				<div>
-					<Radio
-						value={'grid'}
-						id="council-options-grid"
-						label={
-							<div >
-								<div style={{ display: 'flex', justifyContent: 'center' }}><img src={cuadricula} /></div>
-								<div>{translate.label_grid}</div>
-							</div>
-						}
-					// value={council.autoClose !== 0}
-					// onChange={(event, isInputChecked) => updateCouncilData({
-					// autoClose: isInputChecked ? 1 : 0
-					// })
-					// }
-					/>
-				</div>
-				<div>
-					<Radio
-						value={'active'}
-						id="council-options-active-speaker"
-						label={
-							<div>
-								<div style={{ display: 'flex', justifyContent: 'center' }}><img src={ponente} /></div>
-								<div>{translate.label_activeSpeaker}</div>
-							</div>
-						}
-					// value={council.autoClose !== 0}
-					// onChange={(event, isInputChecked) => updateCouncilData({
-					// autoClose: isInputChecked ? 1 : 0
-					// })
-					// }
-					/>
-				</div>
+			<div>
+				<Radio
+					value={'active'}
+					id="council-options-active-speaker"
+					label={
+						<div>
+							<div style={{ display: 'flex', justifyContent: 'center' }}><img src={ponente} /></div>
+							<div>{translate.label_activeSpeaker}</div>
+						</div>
+					}
+				// value={council.autoClose !== 0}
+				// onChange={(event, isInputChecked) => updateCouncilData({
+				// autoClose: isInputChecked ? 1 : 0
+				// })
+				// }
+				/>
 			</div>
 		</div>
-	);
-};
+	</div>
+);
