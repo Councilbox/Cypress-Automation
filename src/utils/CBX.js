@@ -394,6 +394,11 @@ export const isNominalVoting = subjectType => (
 	|| subjectType === AGENDA_TYPES.PUBLIC_ACT
 );
 
+export const canAskForWord = participant => !(participant.requestWord === 3
+	|| participant.requestWord === 4
+	|| participant.type === PARTICIPANT_TYPE.TRANSLATOR
+);
+
 export const filterAgendaVotingTypes = (votingTypes, _, council = {}) => {
 	if (council.councilType === 2) {
 		return votingTypes.filter(type => (
