@@ -11,7 +11,8 @@ import {
 	GridItem,
 	MajorityInput,
 	SelectInput,
-	TextInput
+	TextInput,
+	UnsavedChangesModal
 } from '../../../../../displayComponents/index';
 import RichTextInput from '../../../../../displayComponents/RichTextInput';
 import LoadDraft from '../../../../company/drafts/LoadDraft';
@@ -57,6 +58,7 @@ const NewAgendaPointModal = ({
 	});
 	const editor = React.useRef(null);
 	const [sending, setSending] = React.useState(false);
+	const [showConfirmModal, setShowConfirmModal] = React.useState(false);
 
 	const close = () => {
 		setState({
@@ -411,13 +413,20 @@ const NewAgendaPointModal = ({
 	return (
 		<React.Fragment>
 			<AlertConfirm
-				requestClose={props.requestClose}
+				requestClose={state.newPoint !== defaultValues ? props.requestClose : setShowConfirmModal(true)}
 				open={props.open}
 				acceptAction={addAgenda}
 				buttonAccept={translate.accept}
 				buttonCancel={translate.cancel}
 				bodyText={renderNewPointBody()}
 				title={state.newPoint.subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST ? translate.new_point : translate.new_approving_point}
+			/>
+			<UnsavedChangesModal
+				acceptAction={addAgenda()}
+				cancelAction={() => setShowConfirmModal(false)}
+				requestClose={() => setShowConfirmModal(false)}
+				loadingAction={state.loading}
+				open={showConfirmModal}
 			/>
 		</React.Fragment>
 	);
