@@ -340,8 +340,11 @@ export const councilHasComments = statute => statute.existsComments === 1;
 export const canDelegateVotes = (statute, participant, ownedVotes) => (statute.existsDelegatedVote === 1
 	&& !(participant.hasDelegatedVotes)
 	&& participant.type !== PARTICIPANT_TYPE.GUEST
-	&& (participant.numParticipations > 0 || ownedVotes?.meta?.totalRepresentedVotes > 0)
+	&& (participant.numParticipations > 0 || ownedVotes?.meta?.totalRepresentedVotes > 0
+		|| participant.represented?.length > 0
+	)
 );
+
 export const canAddDelegateVotes = (statute, participant) => (
 	statute.existsDelegatedVote === 1
 	&& (participant.type === PARTICIPANT_TYPE.PARTICIPANT || participant.type === PARTICIPANT_TYPE.REPRESENTATIVE)
