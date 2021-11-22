@@ -41,6 +41,8 @@ const NewAgendaPointModal = ({
 	const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute, council);
 	const secondary = getSecondary();
 	const [attachments, setAttachments] = React.useState([]);
+	const [unSavedModal, setUnSavedModal] = React.useState(false);
+	const [unSavedChanges, setUnSavedChanges] = React.useState(false);
 	const [state, setState] = useOldState({
 		newPoint: {
 			...defaultValues,
@@ -49,7 +51,6 @@ const NewAgendaPointModal = ({
 		loadDraft: false,
 		newPointModal: false,
 		saveAsDraft: false,
-
 		errors: {
 			agendaSubject: '',
 			subjectType: '',
@@ -58,7 +59,6 @@ const NewAgendaPointModal = ({
 	});
 	const editor = React.useRef(null);
 	const [sending, setSending] = React.useState(false);
-	const [showConfirmModal, setShowConfirmModal] = React.useState(false);
 
 	const close = () => {
 		setState({
@@ -71,6 +71,7 @@ const NewAgendaPointModal = ({
 				description: ''
 			}
 		});
+		setUnSavedModal(false);
 		setSending(false);
 		props.requestClose();
 	};
@@ -145,6 +146,7 @@ const NewAgendaPointModal = ({
 
 			if (response) {
 				setState({ loadDraft: false });
+				setUnSavedChanges(false);
 				setSending(false);
 				close();
 				props.refetch();
@@ -158,8 +160,9 @@ const NewAgendaPointModal = ({
 				...state.newPoint,
 				...object
 			},
-			loadDraft: false
+			loadDraft: false,
 		});
+		// setUnSavedChanges(true);
 	};
 
 	const loadDraft = async draft => {
@@ -264,7 +267,7 @@ const NewAgendaPointModal = ({
 									disabled={true}
 									id="agenda-editor-type-select"
 									onChange={event => updateState({
-										subjectType: +event.target.value
+										subjectType: event.target.value
 									})
 									}
 									required
@@ -281,7 +284,7 @@ const NewAgendaPointModal = ({
 									value={`${agenda.subjectType}`}
 									id="agenda-editor-type-select"
 									onChange={event => updateState({
-										subjectType: +event.target.value
+										subjectType: event.target.value
 									})
 									}
 									required
@@ -308,7 +311,7 @@ const NewAgendaPointModal = ({
 									errorText={errors.majorityType}
 									id="agenda-editor-majority-select"
 									onChange={event => updateState({
-										majorityType: +event.target.value
+										majorityType: event.target.value
 									})
 									}
 									required
@@ -340,7 +343,7 @@ const NewAgendaPointModal = ({
 										})
 										}
 										onChangeDivider={value => updateState({
-											majorityDivider: +value
+											majorityDivider: value
 										})
 										}
 									/>
@@ -413,7 +416,7 @@ const NewAgendaPointModal = ({
 	return (
 		<React.Fragment>
 			<AlertConfirm
-				requestClose={state.newPoint !== defaultValues ? props.requestClose : setShowConfirmModal(true)}
+				requestClose={unSavedChanges ? setUnSavedModal(true) : props.requestClose }
 				open={props.open}
 				acceptAction={addAgenda}
 				buttonAccept={translate.accept}
@@ -422,11 +425,11 @@ const NewAgendaPointModal = ({
 				title={state.newPoint.subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST ? translate.new_point : translate.new_approving_point}
 			/>
 			<UnsavedChangesModal
-				acceptAction={addAgenda()}
-				cancelAction={() => setShowConfirmModal(false)}
-				requestClose={() => setShowConfirmModal(false)}
-				loadingAction={state.loading}
-				open={showConfirmModal}
+				translate={translate}
+				open={unSavedModal}
+				requestClose={() => close}
+				acceptAction={addAgenda}
+				cancelAction={() => close}
 			/>
 		</React.Fragment>
 	);
