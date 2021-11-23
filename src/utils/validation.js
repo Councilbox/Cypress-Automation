@@ -73,20 +73,19 @@ export const checkRequiredFieldsParticipant = (
 		if (participant.email) {
 			if (!checkValidEmail(participant.email.toLocaleLowerCase())) {
 				hasError = true;
-				errors.email=translate.valid_email_required;
+				errors.email = translate.valid_email_required;
 			}
 		} else if (participant.personOrEntity === 0) {
 			hasError = true;
 			errors.email = translate.valid_email_required;
 		}
-		console.log(participant.phone);
-		if(!participant.phone || !participant.phone.replace(/\s/g,'').match(/^(\d{9})/) || participant.phone.replace(/\s/g,'').length > 15){
+		if (!participant.phone || !participant.phone.replace(/\s/g, '').match(/^(\d{9})/) || participant.phone.replace(/\s/g, '').length > 15) {
 			hasError = true;
 			errors.phone = translate.enter_valid_phone_number;
 		}
 		if (!participant.language) {
 			hasError = true;
-			errors.language=translate.field_required;
+			errors.language = translate.field_required;
 		}
 
 		if (!participant.numParticipations && participant.numParticipations !== 0) {
