@@ -182,7 +182,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
 										{request.data.dni}
 									</TableCell>
 									<TableCell style={{ color: 'black', borderBottom: 'none' }}>
-										{getTypeText(request.data.requestType, translate)}
+										{getTypeText(request.data, translate)}
 									</TableCell>
 									<TableCell style={{ color: 'black', borderBottom: 'none' }}>
 										{moment(request.date).format('LLL')}
