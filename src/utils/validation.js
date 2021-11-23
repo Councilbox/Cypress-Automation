@@ -73,7 +73,7 @@ export const checkRequiredFieldsParticipant = (
 		if (participant.email) {
 			if (!checkValidEmail(participant.email.toLocaleLowerCase())) {
 				hasError = true;
-				errors.email = translate.valid_email_required;
+				errors.email=translate.valid_email_required;
 			}
 		} else if (participant.personOrEntity === 0) {
 			hasError = true;
@@ -86,7 +86,7 @@ export const checkRequiredFieldsParticipant = (
 		}
 		if (!participant.language) {
 			hasError = true;
-			errors.language = translate.field_required;
+			errors.language=translate.field_required;
 		}
 
 		if (!participant.numParticipations && participant.numParticipations !== 0) {
