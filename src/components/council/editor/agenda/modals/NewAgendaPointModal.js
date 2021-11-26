@@ -41,6 +41,7 @@ const NewAgendaPointModal = ({
 	const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute, council);
 	const secondary = getSecondary();
 	const [attachments, setAttachments] = React.useState([]);
+	const [showModal, setShowModal] = React.useState(false);
 	const [state, setState] = useOldState({
 		newPoint: {
 			...defaultValues,
@@ -58,7 +59,6 @@ const NewAgendaPointModal = ({
 	});
 	const editor = React.useRef(null);
 	const [sending, setSending] = React.useState(false);
-	const [showConfirmModal, setShowConfirmModal] = React.useState(false);
 
 	const close = () => {
 		setState({
@@ -409,25 +409,34 @@ const NewAgendaPointModal = ({
 			</div>
 		);
 	};
-
+	const check =()=>{
+		if(JSON.stringify(state.newPoint.Subjectpoint) == JSON.stringify(defaultValues)){
+			console.log("Hello");
+			return props.requestClose();
+		}else{
+			// setShowModal(!setShowModal);
+			console.log("Asd");
+		}
+	}
 	return (
 		<React.Fragment>
 			<AlertConfirm
-				requestClose={state.newPoint !== defaultValues ? props.requestClose : setShowConfirmModal(true)}
+				requestClose={check()}
 				open={props.open}
 				acceptAction={addAgenda}
 				buttonAccept={translate.accept}
 				buttonCancel={translate.cancel}
 				bodyText={renderNewPointBody()}
 				title={state.newPoint.subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST ? translate.new_point : translate.new_approving_point}
-			/>
-			<UnsavedChangesModal
+			/>			
+			{/* <UnsavedChangesModal
 				acceptAction={addAgenda()}
-				cancelAction={() => setShowConfirmModal(false)}
-				requestClose={() => setShowConfirmModal(false)}
-				loadingAction={state.loading}
-				open={showConfirmModal}
-			/>
+				cancelAction={() => {
+					setShowModal(false);
+					props.requestClose();}}
+				requestClose={() => setShowModal(false)}
+				open={showModal}
+			/> */}
 		</React.Fragment>
 	);
 };
