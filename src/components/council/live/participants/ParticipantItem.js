@@ -15,6 +15,7 @@ import withWindowSize from '../../../../HOCs/withWindowSize';
 import AttendIntentionIcon from './AttendIntentionIcon';
 import ParticipantStateList from './ParticipantStateList';
 import { COUNCIL_TYPES } from '../../../../constants';
+import ManageDelegationsModal from './modals/ManageDelegationsModal';
 
 
 const ParticipantItem = ({
@@ -54,30 +55,6 @@ const ParticipantItem = ({
 					}}
 					onClick={() => editParticipant(participant.id)}
 				>
-					{layout === 'compact'
-						&& <CompactItemLayout
-							secondary={secondary}
-							participant={participant}
-							translate={translate}
-							council={council}
-							id={props.id}
-							refetch={props.refetch}
-							showSignatureModal={props.showSignatureModal}
-							mode={mode}
-						/>
-					}
-					{layout === 'table'
-						&& <CompactItemLayout
-							secondary={secondary}
-							participant={participant}
-							translate={translate}
-							council={council}
-							id={props.id}
-							refetch={props.refetch}
-							showSignatureModal={props.showSignatureModal}
-							mode={mode}
-						/>
-					}
 					{layout === 'squares'
 						&& <TabletItem
 							secondary={secondary}
@@ -96,113 +73,6 @@ const ParticipantItem = ({
 	);
 };
 
-const CompactItemLayout = ({
-	participant, translate, mode, showSignatureModal, secondary, council, refetch
-}) => {
-	const primary = getPrimary();
-	const representative = getMainRepresentative(participant);
-
-	return (
-		<Grid
-			spacing={0}
-			style={{
-				display: 'flex',
-				flexDirection: 'row',
-				alignItems: 'center',
-				width: '100%',
-				fontSize: '14px',
-				textOverflow: 'ellipsis',
-				overflow: 'hidden'
-			}}
-		>
-			<GridItem
-				xs={mode === 'ATTENDANCE' ? 1 : 2}
-				lg={mode === 'ATTENDANCE' ? 1 : 2}
-				md={mode === 'ATTENDANCE' ? 1 : 2}
-			>
-				<div >
-					{mode === 'STATES' && participant.personOrEntity === 0 ?
-						<ParticipantStateList
-							participant={participant}
-							council={council}
-							translate={translate}
-							inDropDown={true}
-							refetch={refetch}
-						/>
-						: <div
-							style={{
-								width: '88px',
-								height: '100%',
-								display: 'flex',
-								fontSize: '1.3em',
-								paddingLeft: '0.4em',
-								alignItems: 'center',
-								justifyContent: 'center'
-							}}
-						>
-							{getIcon({
-								mode, participant, translate, council, representative
-							})}
-						</div>
-					}
-				</div>
-			</GridItem>
-			{mode === 'ATTENDANCE'
-				&& <GridItem
-					xs={1}
-					lg={1}
-					md={1}
-				>
-					{participant.assistanceComment
-						&& <Tooltip title={removeHTMLTags(participant.assistanceComment)}>
-							<div style={{ padding: '0.5em' }}>
-								<FontAwesome
-									name={'comment'}
-									style={{ fontSize: '1.5em', color: 'grey' }}
-								/>
-							</div>
-						</Tooltip>
-					}
-				</GridItem>
-			}
-
-			<GridItem
-				xs={4}
-				md={4}
-				lg={4}
-			>
-				{`${participant.name} ${participant.surname || ''}`}
-			</GridItem>
-			<GridItem
-				xs={3}
-				md={2}
-				lg={2}
-			>
-				{`${participant.dni || '-'}`}
-			</GridItem>
-			<GridItem
-				xs={3}
-				md={2}
-				lg={2}
-			>
-				{!isRepresented(participant) && council.councilType < 2 && !hasHisVoteDelegated(participant) && participant.personOrEntity !== 1
-					&& <BasicButton
-						text={participant.signed ? translate.user_signed : translate.to_sign}
-						fullWidth
-						buttonStyle={{ border: `1px solid ${participant.signed ? primary : secondary}` }}
-						type="flat"
-						color={'white'}
-						onClick={event => {
-							event.stopPropagation();
-							showSignatureModal();
-						}}
-						textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
-					/>
-				}
-			</GridItem>
-		</Grid>
-	);
-};
 
 const participantRepresentativeSigned = participant => participant.representatives && participant.representatives.length > 0 && getMainRepresentative(participant).signed;
 
@@ -479,30 +349,38 @@ const TabletItem = ({
 				{council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION
 					&& <div
 						style={{
-							width: '35%',
-							padding: '0.3em',
-							paddingRight: '0.6em',
-							height: '6em',
+							width: '50%',
 							display: 'flex',
-							flexDirection: 'column',
-							justifyContent: 'center'
 						}}
 					>
 						{!isRepresented(participant) ?
 							<React.Fragment>
 								{council.councilType < 2 && !hasHisVoteDelegated(participant) && participant.personOrEntity !== 1
-									&& <BasicButton
-										text={participant.signed ? translate.user_signed : translate.to_sign}
-										fullWidth
-										buttonStyle={{ border: `1px solid ${participant.signed ? primary : secondary}` }}
-										type="flat"
-										color={'white'}
-										onClick={event => {
-											event.stopPropagation();
-											showSignatureModal();
-										}}
-										textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
-									/>
+									&& <div style={{
+										padding: '0 1rem', display: 'flex'
+									}}>
+										<div style={{ paddingRight: '1rem' }}>
+											<ManageDelegationsModal
+												council={council}
+												participant={participant}
+												refetch={refetch}
+												translate={translate}
+											/>
+										</div>
+										<div style={{ paddingLeft: '0.5rem' }}>
+											<BasicButton
+												text={participant.signed ? translate.user_signed : translate.to_sign}
+												buttonStyle={{ border: `1px solid ${participant.signed ? primary : secondary}`, padding: '0.5rem 3rem' }}
+												type="flat"
+												color={'white'}
+												onClick={event => {
+													event.stopPropagation();
+													showSignatureModal();
+												}}
+												textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
+											/>
+										</div>
+									</div>
 								}
 							</React.Fragment>
 							: <BasicButton
