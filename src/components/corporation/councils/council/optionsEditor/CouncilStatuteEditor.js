@@ -9,6 +9,7 @@ import {
 	SelectInput,
 	TextInput
 } from '../../../../../displayComponents';
+import { RoomLayout } from '../../../../council/editor/options/StepOptions';
 
 
 const CouncilStatuteEditor = ({
@@ -51,6 +52,25 @@ const CouncilStatuteEditor = ({
 		refetch();
 	};
 
+	const updateCouncilRoom = async newValues => {
+		await client.mutate({
+			mutation: gql`
+				mutation UpdateCouncilRoom($councilRoom: CouncilRoomInput!, $councilId: Int!){
+					updateCouncilRoom(councilRoom: $councilRoom, councilId: $councilId){
+						success
+					}
+				}
+			`,
+			variables: {
+				councilId: council.id,
+				councilRoom: {
+					...newValues
+				}
+			}
+		});
+		refetch();
+	};
+
 	return (
 		<Grid style={{ overflow: 'hidden' }}>
 			<GridItem xs={12} md={7} lg={7}>
@@ -81,6 +101,14 @@ const CouncilStatuteEditor = ({
 						canReorderPoints: isInputChecked ? 1 : 0
 					})
 					}
+				/>
+			</GridItem>
+			<GridItem xs={12} md={7} lg={7}>
+				<RoomLayout
+					translate={translate}
+					councilType={council.councilType}
+					value={council.room.layout}
+					updateData={value => updateCouncilRoom({ layout: value })}
 				/>
 			</GridItem>
 			<GridItem xs={12} md={7} lg={7}>
