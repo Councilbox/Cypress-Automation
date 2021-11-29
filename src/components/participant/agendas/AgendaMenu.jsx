@@ -101,7 +101,7 @@ const AgendaMenu = ({ agenda, translate, council, participant, refetch }) => {
 								ownVote.delegateId && (ownVote.delegateId !== participant.id) &&
 									translate.your_vote_is_delegated
 								:
-								!(checkHasVotingRights()) && translate.cant_exercise_vote
+								!(checkHasVotingRights(participant)) && translate.cant_exercise_vote
 							}
 						</>
 					}
