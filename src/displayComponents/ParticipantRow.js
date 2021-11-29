@@ -5,7 +5,7 @@ import { delegatedVotesLimitReached } from '../utils/CBX';
 import withTranslations from '../HOCs/withTranslations';
 
 const ParticipantRow = ({
-	participant, onClick, checkBox, toDelegate, council, selected, onChange, stylesPaper, translate, clases, id = ''
+	participant, onClick, checkBox, toDelegate, council, selected, onChange, stylesPaper, translate, clases, id = '', order
 }) => {
 	let limitReached = null;
 	if (toDelegate) {
@@ -44,7 +44,11 @@ const ParticipantRow = ({
 					}}
 					className={clases}
 				>
-					{`${participant.name} ${participant.surname || ''} ${toDelegate && limitReached ? ` - ${translate.cant_delegate_more}` : ''}`}
+					{order === 'surname' ?
+						`${participant.surname ? `${participant.surname},` : ''} ${participant.name} ${toDelegate && limitReached ? ` - ${translate.cant_delegate_more}` : ''}`
+						:
+						`${participant.name} ${participant.surname || ''} ${toDelegate && limitReached ? ` - ${translate.cant_delegate_more}` : ''}`
+					}
 				</div>
 				{toDelegate && participant.assistanceIntention === 6
 					&& <div style={{ fontSize: '0.9rem', fontWeight: '700' }}>{translate.participant_wont_attend}</div>
