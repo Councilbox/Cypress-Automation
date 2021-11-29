@@ -331,6 +331,14 @@ const StepOptions = ({
 					</div>
 					<RoomLayout
 						translate={translate}
+						data={council}
+						value={council.room.layout}
+						updateData={value => updateCouncilData({
+							room: {
+								...council.room,
+								layout: value
+							}
+						})}
 						councilType={council.councilType}
 					/>
 					{council.councilType === 0
@@ -858,13 +866,12 @@ const RTMPField = ({ data, updateData, translate }) => {
 						rtmp: event.target.value
 					}
 				}
-			})
-			}
+			})}
 		/>
 	);
 };
 
-export const RoomLayout = ({ translate, councilType }) => (
+export const RoomLayout = ({ translate, councilType, value, updateData }) => (
 	councilType === 0 &&
 	<div style={{ fontSize: '0.875rem', marginTop: '5px', marginBottom: '5px' }}>
 		<div style={{ marginBottom: '0.5em' }}>
@@ -878,35 +885,29 @@ export const RoomLayout = ({ translate, councilType }) => (
 			<div>
 				<Radio
 					value={'grid'}
+					checked={value === 'grid'}
 					id="council-options-grid"
+					onChange={event => updateData(event.target.value)}
 					label={
 						<div >
 							<div style={{ display: 'flex', justifyContent: 'center' }}><img src={cuadricula} /></div>
 							<div>{translate.label_grid}</div>
 						</div>
 					}
-				// value={council.autoClose !== 0}
-				// onChange={(event, isInputChecked) => updateCouncilData({
-				// autoClose: isInputChecked ? 1 : 0
-				// })
-				// }
 				/>
 			</div>
 			<div>
 				<Radio
-					value={'active'}
+					value={'activeSpeaker'}
+					checked={value === 'activeSpeaker'}
 					id="council-options-active-speaker"
+					onChange={event => updateData(event.target.value)}
 					label={
 						<div>
 							<div style={{ display: 'flex', justifyContent: 'center' }}><img src={ponente} /></div>
 							<div>{translate.label_activeSpeaker}</div>
 						</div>
 					}
-				// value={council.autoClose !== 0}
-				// onChange={(event, isInputChecked) => updateCouncilData({
-				// autoClose: isInputChecked ? 1 : 0
-				// })
-				// }
 				/>
 			</div>
 		</div>
