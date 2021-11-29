@@ -23,7 +23,9 @@ const DelegateOwnVoteAttendantModal = ({
 			variables: {
 				options: {
 					offset: data.liveParticipantsToDelegate.list.length,
-					limit: DELEGATION_USERS_LOAD
+					limit: DELEGATION_USERS_LOAD,
+					orderBy: 'surname',
+					orderDirection: 'asc'
 				}
 			},
 			updateQuery: (prev, { fetchMoreResult }) => {
@@ -107,6 +109,7 @@ const DelegateOwnVoteAttendantModal = ({
 																<ParticipantRow
 																	council={props.council}
 																	toDelegate={true}
+																	order="surname"
 																	cantDelegate={false}
 																	participant={participant}
 																	onClick={() => props.addRepresentative(participant.id)}
@@ -201,7 +204,9 @@ export default graphql(participantsToDelegate, {
 			// participantId: props.participant.id,
 			options: {
 				offset: 0,
-				limit: DELEGATION_USERS_LOAD
+				limit: DELEGATION_USERS_LOAD,
+				orderBy: 'surname',
+				orderDirection: 'asc'
 			}
 		}
 	})
