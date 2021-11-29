@@ -70,6 +70,8 @@ const ManageDelegationsModal = ({
 
 	const [showDelegationModal, setShowDelegationsModal] = useState(false);
 
+	console.log(participant);
+
 
 	useEffect(() => {
 		setData(mockTotalDelegations.hasDelegations);
@@ -211,7 +213,7 @@ const ManageDelegationsModal = ({
 				widthModal={{ height: '100%', maxHeight: '550px' }}
 			/>
 			<BasicButton
-				text={translate.delegations}
+				text={`${translate.delegations} (230)`}
 				buttonStyle={{ border: `1px solid ${secondary}`, padding: '0.5rem 3rem' }}
 				type="flat"
 				textStyle={{ color: secondary, fontWeight: '700' }}
