@@ -91,7 +91,6 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 
 			setOwnedVotes(response.data.participantOwnedVotes);
 			setLoadingOwnedVotes(false);
-			data.refetch();
 		}
 	}, [participant?.id]);
 
@@ -111,7 +110,6 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 	if (!data.liveParticipant) {
 		return <LoadingSection />;
 	}
-
 
 	return (
 		<div
@@ -266,7 +264,10 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 							participant={participant}
 							council={props.council}
 							ownedVotes={ownedVotes}
-							updateOwnedVotes={updateOwnedVotes}
+							updateOwnedVotes={() => {
+								data.refetch();
+								updateOwnedVotes();
+							}}
 							loading={loadingOwnedVotes}
 						/>
 						{CBX.hasHisVoteDelegated(participant)
@@ -284,7 +285,10 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 										delegatedVote={participant}
 										participant={participant.representative}
 										translate={translate}
-										refetch={updateOwnedVotes}
+										refetch={() => {
+											data.refetch();
+											updateOwnedVotes();
+										}}
 									/>
 								}
 							/>
