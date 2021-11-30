@@ -8,13 +8,14 @@ import participantIcon from '../../../../../assets/img/participant-icon.png';
 import arrowDown from '../../../../../assets/img/arrow-down.svg';
 import CheckBox from '../../../../../displayComponents/CheckBox';
 import { secondary } from '../../../../../styles/colors';
+import { isMobile } from '../../../../../utils/screen';
 
 const mockTotalDelegations = {
 	hasDelegations: [
 		{
 			id: 1234,
 			name: 'Roberto',
-			surname: 'Andrades',
+			surname: 'Andrades Moreno',
 
 		},
 		{
@@ -56,7 +57,7 @@ const mockTotalDelegations = {
 		{
 			id: 1232,
 			name: 'Swami',
-			surname: 'Turiyananda',
+			surname: 'Turiyananda Warabananda',
 
 		}
 	]
@@ -70,8 +71,6 @@ const ManageDelegationsModal = ({
 
 	const [showDelegationModal, setShowDelegationsModal] = useState(false);
 
-	console.log(participant);
-
 
 	useEffect(() => {
 		setData(mockTotalDelegations.hasDelegations);
@@ -84,15 +83,18 @@ const ManageDelegationsModal = ({
 		})));
 	}, [data]);
 
-	console.log(isChecked);
 
 	const renderBody = () => (
-		<div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+		<div style={{
+			display: 'flex', flexDirection: 'column', height: '100%'
+		}}>
 			<div style={{ display: 'flex', flexDirection: 'row' }}>
 				<div>
 					<img src={participantIcon} />
 				</div>
-				<p style={{ fontSize: '18px', paddingLeft: '1rem' }}>{`Votos delegados de: ${data[0]?.name} y ${data.length - 1} mas `}</p>
+				<p style={{ fontSize: isMobile ? '17px' : '18px', paddingLeft: '1rem' }}>
+					{`Votos delegados de: ${data[0]?.name} y ${data.length - 1} más `}
+				</p>
 			</div>
 			<div
 				style={{
@@ -113,7 +115,7 @@ const ManageDelegationsModal = ({
 					</div>
 					<CheckBox value={true} />
 				</div>
-				<div style={{ width: '20%' }}>
+				<div style={{ width: isMobile ? '%' : '20%' }}>
 					<TextInput
 						placeholder='Buscar participante'
 						adornment={<Icon>search</Icon>}
@@ -127,7 +129,7 @@ const ManageDelegationsModal = ({
 							key={d.id}
 							style={{
 								display: 'flex',
-								flexDirection: 'row',
+								flexDirection: isMobile ? 'column' : 'row',
 								alignItems: 'center',
 								justifyContent: 'space-between',
 								border: `1px solid ${secondary}`,
@@ -135,10 +137,12 @@ const ManageDelegationsModal = ({
 								margin: '5px',
 								borderRadius: '4px',
 								boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.5)',
-								marginRight: '1.5rem'
+								marginRight: isMobile ? '0' : '1.5rem',
 							}}
 						>
-							<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+							<div style={{
+								display: 'flex', flexDirection: 'row', alignItems: 'center', paddingBottom: isMobile ? '1rem' : '0'
+							}}>
 								<CheckBox
 									onChange={event => setIsChecked(isChecked.map(i => {
 										if (d.id === i.id) {
@@ -150,16 +154,25 @@ const ManageDelegationsModal = ({
 									value={d.selected}
 
 								/>
-								<p style={{ marginBottom: '0' }}>{`Voto delegado de: ${d.name} ${d.surname}`}</p>
+								<p style={{
+									marginBottom: '0',
+									overflow: 'hidden',
+									width: isMobile ? '250px' : null,
+									whiteSpace: 'nowrap',
+									textOverflow: 'ellipsis',
+									flexShrink: 1
+								}}>
+									{`Voto delegado de: ${d.name} ${d.surname}`}
+								</p>
 							</div>
-							<div>
+							<div style={{ display: 'flex', flexDirection: 'row', justifyContent: isMobile ? 'space-between' : null }}>
 								<BasicButton
 									text='Quitar delegacion'
 									color={'white'}
 									textStyle={{
 										color: '#EE2E6B',
 										fontWeight: '400',
-										fontSize: '14px',
+										fontSize: isMobile ? '12px' : '14px',
 										textTransform: 'none'
 									}}
 									textPosition="after"
@@ -173,7 +186,7 @@ const ManageDelegationsModal = ({
 									textStyle={{
 										color: '#595959',
 										fontWeight: '400',
-										fontSize: '14px',
+										fontSize: isMobile ? '12px' : '14px',
 										textTransform: 'none'
 									}}
 									textPosition="after"
@@ -204,7 +217,7 @@ const ManageDelegationsModal = ({
 				}}
 				open={showDelegationModal}
 				bodyStyle={{
-					minWidth: '60vw', maxWidth: '60vw', height: '100%'
+					minWidth: isMobile ? '90vw' : '60vw', maxWidth: isMobile ? '90vw' : '60vw', height: '100%', margin: '0 auto'
 				}}
 				buttonAccept={translate.accept}
 				buttonCancel={translate.cancel}
@@ -214,7 +227,7 @@ const ManageDelegationsModal = ({
 			/>
 			<BasicButton
 				text={`${translate.delegations} (230)`}
-				buttonStyle={{ border: `1px solid ${secondary}`, padding: '0.5rem 3rem' }}
+				buttonStyle={{ border: `1px solid ${secondary}`, width: '100%' }}
 				type="flat"
 				textStyle={{ color: secondary, fontWeight: '700' }}
 				color={'white'}
