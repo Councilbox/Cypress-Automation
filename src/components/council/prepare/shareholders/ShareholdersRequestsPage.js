@@ -95,15 +95,17 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
 								type="flat"
 								items={
 									<div style={{ color: '' }}>
-										{/* TRADUCCION */}
 										<MenuItem onClick={() => setSearch('1')} >
-											Aceptada
+											{translate.accepted}
 										</MenuItem>
 										<MenuItem onClick={() => setSearch('0')}>
-											Pendiente
+											{translate.pending}
 										</MenuItem>
 										<MenuItem onClick={() => setSearch('2')}>
-											Rechazada
+											{translate.refused}
+										</MenuItem>
+										<MenuItem onClick={() => setSearch('3')}>
+											{translate.archived}
 										</MenuItem>
 									</div>
 								}
@@ -128,7 +130,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
 							styles={{ marginTop: '-16px', width: '200px' }}
 							stylesTextField={{ marginBottom: '0px' }}
 						/>
-					</div>
+					</div >
 					<Table>
 						<TableHead>
 							<TableCell style={{
@@ -164,7 +166,7 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
 							<TableCell style={{
 								color: 'rgb(125, 33, 128)', fontWeight: 'bold', borderBottom: 'none', fontSize: '0.75rem'
 							}}>
-								Aprobar
+								{translate.approve}
 							</TableCell>
 						</TableHead>
 						<TableBody>
@@ -180,13 +182,13 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
 										{request.data.dni}
 									</TableCell>
 									<TableCell style={{ color: 'black', borderBottom: 'none' }}>
-										{getTypeText(request.data.requestType, translate)}
+										{getTypeText(request.data, translate)}
 									</TableCell>
 									<TableCell style={{ color: 'black', borderBottom: 'none' }}>
 										{moment(request.date).format('LLL')}
 									</TableCell>
 									<TableCell style={{ color: 'black', borderBottom: 'none' }}>
-										{request.state === '0' ? 'Pendiente' : 'Aceptada'}
+										{request.state === '0' ? translate.pending : request.state === '3' ? translate.archived : translate.accepted}
 									</TableCell>
 									<TableCell style={{ color: 'black', borderBottom: 'none' }}>
 										<CheckShareholderRequest
@@ -212,8 +214,8 @@ const ShareholdersRequestsPage = ({ council, translate, client }) => {
 							xs={12}
 						/>
 					</Grid>
-				</div>
-			</Scrollbar>
+				</div >
+			</Scrollbar >
 		</div >
 	);
 };

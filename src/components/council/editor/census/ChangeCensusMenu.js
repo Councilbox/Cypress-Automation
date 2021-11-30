@@ -8,10 +8,9 @@ import {
 	BasicButton
 } from '../../../../displayComponents/index';
 import * as CBX from '../../../../utils/CBX';
-import AddCouncilParticipantButton from './modals/AddCouncilParticipantButton';
 import { getSecondary } from '../../../../styles/colors';
 import withSharedProps from '../../../../HOCs/withSharedProps';
-import { PARTICIPANT_VALIDATIONS } from '../../../../constants';
+import DropdownParticipant from '../../../../displayComponents/DropdownParticipant';
 
 
 const ChangeCensusMenu = ({
@@ -46,11 +45,13 @@ const ChangeCensusMenu = ({
 								floatingText={translate.current_census}
 								value={council.selectedCensusId || '-3'}
 								onChange={handleCensusChange}
+								id="change-census-select"
 							>
-								{censuses.list.map(census => (
+								{censuses.list.map((census, index) => (
 									<MenuItem
 										value={parseInt(census.id, 10)}
 										key={`census${census.id}`}
+										id={`change-census-option-${index}`}
 									>
 										{census.censusName}
 									</MenuItem>
@@ -118,7 +119,10 @@ const ChangeCensusMenu = ({
 								fontSize: '1em'
 							}}
 						>
-							{`${translate.total_votes}: ${totalVotes || 0}`}
+							{`${translate.total_votes}: `}
+							<span id="census-total-votes">
+								{`${totalVotes || 0}`}
+							</span>
 						</Typography>
 						{CBX.hasParticipations(council)
 							&& <Typography
@@ -129,7 +133,10 @@ const ChangeCensusMenu = ({
 									fontSize: '1em'
 								}}
 							>
-								{`${translate.total_social_capital}: ${totalSocialCapital || 0}`}
+								{`${translate.total_social_capital}: `}
+								<span id="census-total-social-capital">
+									{`${totalSocialCapital || 0}`}
+								</span>
 							</Typography>
 						}
 					</GridItem>
@@ -146,13 +153,18 @@ const ChangeCensusMenu = ({
 					alignItems: 'center'
 				}}
 			>
-				<AddCouncilParticipantButton
+				<DropdownParticipant
+					addCouncil
 					disabled={disabled}
-					validateBeforeCreate={council.statute.participantValidation !== PARTICIPANT_VALIDATIONS.NONE}
 					participations={participations}
-					translate={translate}
 					council={council}
+					translate={translate}
 					refetch={refetch}
+					style={{
+						width: '10em',
+						padding: '.2rem',
+						margin: '0 .5rem',
+					}}
 				/>
 			</GridItem>
 		</Grid>

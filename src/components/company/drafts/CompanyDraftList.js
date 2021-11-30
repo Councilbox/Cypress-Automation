@@ -117,6 +117,7 @@ const CompanyDraftList = ({
 		newForm: false,
 	});
 	const [inputSearch, setInputSearch] = React.useState(false);
+	const [variablesSearch, setVariablesSearch] = React.useState(false);
 	const [search, setSearch] = React.useState('');
 	const {
 		testTags, vars, setVars, removeTag, addTag, filteredTags, setTagText, tagText
@@ -134,6 +135,7 @@ const CompanyDraftList = ({
 					limit: DRAFTS_LIMITS[0],
 					offset: 0
 				},
+				...variablesSearch,
 				...variables
 			}
 
@@ -205,6 +207,18 @@ const CompanyDraftList = ({
 	};
 
 	React.useEffect(() => {
+		setVariablesSearch({
+			companyId: company.id,
+			...(search || searchDraft ? {
+				filters: [
+					{
+						field: 'title',
+						text: search || searchDraft
+					},
+				]
+			} : {}),
+			tags: Object.keys(testTags).map(key => testTags[key].name),
+		});
 		getDrafts({
 			companyId: company.id,
 			...(search || searchDraft ? {

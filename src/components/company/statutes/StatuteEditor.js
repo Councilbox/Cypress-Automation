@@ -62,6 +62,8 @@ const StatuteEditor = ({
 						videoConfig
 						autoSendAct
 						autoApproveAct
+						hideNoVoteButton
+						hideAbstentionButton
 						hideVotingsRecountFinished
 						addParticipantsListToAct
 						existsAdvanceNoticeDays

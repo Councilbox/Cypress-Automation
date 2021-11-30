@@ -30,26 +30,73 @@ import SignatureButton from './SignatureButton';
 import { useParticipantContactEdit } from '../../../../hooks';
 import OwnedVotesSection from './ownedVotes/OwnedVotesSection';
 import DropdownRepresentative from '../../../../displayComponents/DropdownRepresentative';
+import RemoveDelegationButton from './RemoveDelegationButton';
 
-const LiveParticipantEditor = ({ data, translate, ...props }) => {
+const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
+	const [ownedVotes, setOwnedVotes] = React.useState(null);
+	const [loadingOwnedVotes, setLoadingOwnedVotes] = React.useState(true);
+
 	const landscape = isLandscape() || window.innerWidth > 700;
 	const participant = { ...data.liveParticipant };
 
 	const showStateMenu = () => !(participant.representatives && participant.representatives.length > 0);
 
-	const refreshEmailStates = async () => {
+	const refreshEmailStates = React.useCallback(async () => {
 		const response = await props.updateParticipantSends({
 			variables: {
-				participantId: showStateMenu() ? data.liveParticipant.id : participant.representatives[0].id
+				participantId: showStateMenu() ? participant.id : participant.representatives[0].id
 			}
 		});
 
 		if (response.data.updateParticipantSends.success) {
-			if (data.refetch) {
-				data.refetch();
+			if (data.loading) {
+				await data.refetch();
 			}
 		}
-	};
+	}, [data]);
+
+	const updateOwnedVotes = React.useCallback(async () => {
+		if (participant.id) {
+			const response = await client.query({
+				query: gql`
+					query ParticipantOwnedVotesLimited(
+						$participantId: Int!
+						$filters: [FilterInput]
+						$options: OptionsInput
+					) {
+						participantOwnedVotes(
+							participantId: $participantId
+							filters: $filters
+							options: $options
+						) {
+							list {
+								id
+								name
+								surname
+								state
+							}
+							total
+							meta
+						}
+					}
+				`,
+				variables: {
+					participantId: participant.id,
+					options: {
+						limit: 15,
+						offset: 0
+					}
+				}
+			});
+
+			setOwnedVotes(response.data.participantOwnedVotes);
+			setLoadingOwnedVotes(false);
+		}
+	}, [participant?.id]);
+
+	React.useEffect(() => {
+		updateOwnedVotes();
+	}, [updateOwnedVotes]);
 
 	React.useEffect(() => {
 		let interval;
@@ -63,6 +110,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 	if (!data.liveParticipant) {
 		return <LoadingSection />;
 	}
+
 
 	return (
 		<div
@@ -148,23 +196,37 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 							<GridItem xs={12} md={8} lg={8}>
 								<Grid style={{ display: 'flex', flexDirection: 'column' }}>
 									<GridItem xs={12} md={6} lg={6}>
-										<ParticipantSelectActions
-											participant={participant}
-											council={props.council}
-											translate={translate}
-											refetch={data.refetch}
-										/>
+										{!loadingOwnedVotes ?
+											<>
+												{participant.type !== 1
+													&& !(participant.representative?.type === 1)
+													&& <ParticipantSelectActions
+														ownedVotes={ownedVotes}
+														participant={participant}
+														council={props.council}
+														translate={translate}
+														refetch={() => {
+															data.refetch();
+															updateOwnedVotes();
+														}}
+													/>
+												}
+											</>
+											:
+											<LoadingSection size={20} />
+										}
 									</GridItem>
 									<GridItem xs={12} md={6} lg={6}>
 										{CBX.canHaveRepresentative(participant)
-											&& !(participant.hasDelegatedVotes) && !(participant.represented.length > 0) && (
-											<DropdownRepresentative
-												participant={participant}
-												translate={translate}
-												council={props.council}
-												refetch={data.refetch}
-											/>
-										)}
+											&& !(participant.hasDelegatedVotes) && !(participant.represented.length > 0) &&
+											(
+												<DropdownRepresentative
+													participant={participant}
+													translate={translate}
+													council={props.council}
+													refetch={data.refetch}
+												/>
+											)}
 									</GridItem>
 								</Grid>
 							</GridItem>
@@ -172,6 +234,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 						{CBX.isRepresented(participant) ?
 							<ParticipantBlock
 								{...props}
+								ownedVotes={ownedVotes}
 								participant={participant.representative}
 								translate={translate}
 								active={true}
@@ -181,6 +244,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 							: (participant.representatives && participant.representatives.length > 0)
 							&& <ParticipantBlock
 								{...props}
+								ownedVotes={ownedVotes}
 								participant={participant.representatives[0]}
 								translate={translate}
 								active={false}
@@ -200,16 +264,34 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 							translate={translate}
 							participant={participant}
 							council={props.council}
-							data={data}
+							ownedVotes={ownedVotes}
+							updateOwnedVotes={() => {
+								data.refetch();
+								updateOwnedVotes();
+							}}
+							loading={loadingOwnedVotes}
 						/>
 						{CBX.hasHisVoteDelegated(participant)
-							&& <ParticipantBlock
+							&&
+							<ParticipantBlock
 								{...props}
 								active={false}
 								participant={participant.representative}
 								translate={translate}
 								data={data}
 								type={PARTICIPANT_STATES.DELEGATED}
+								action={
+									participant.state === PARTICIPANT_STATES.DELEGATED
+									&& <RemoveDelegationButton
+										delegatedVote={participant}
+										participant={participant.representative}
+										translate={translate}
+										refetch={() => {
+											data.refetch();
+											updateOwnedVotes();
+										}}
+									/>
+								}
 							/>
 						}
 						<NotificationsTable
@@ -225,7 +307,7 @@ const LiveParticipantEditor = ({ data, translate, ...props }) => {
 };
 
 export const ParticipantBlock = withApollo(({
-	children, translate, type, client, data, action, active, participant, ...props
+	children, translate, type, client, data, action, active, participant, ownedVotes, ...props
 }) => {
 	const {
 		edit,
@@ -402,6 +484,7 @@ export const ParticipantBlock = withApollo(({
 					<GridItem xs={12} md={9} lg={6} style={{ display: 'flex' }}>
 						{active
 							&& <ParticipantSelectActions
+								ownedVotes={ownedVotes}
 								participant={participant}
 								council={props.council}
 								translate={translate}
@@ -470,5 +553,6 @@ export default compose(
 	}),
 	graphql(updateParticipantSends, {
 		name: 'updateParticipantSends'
-	})
+	}),
+	withApollo
 )(withWindowSize(LiveParticipantEditor));

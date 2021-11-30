@@ -110,6 +110,7 @@ const CompanyDocumentsPage = ({
 			}
 		});
 		getData();
+		setDocuments(documents.filter(doc => deleteModal.id !== doc.id));
 		setDeleting(false);
 		setDeleteModal(false);
 	};
@@ -132,68 +133,72 @@ const CompanyDocumentsPage = ({
 	};
 
 	const handleFileWithLoading = async event => {
-		const file = event.nativeEvent.target.files[0];
-		if (!file) {
-			return;
+		const { files } = event.nativeEvent.target;
+
+		for (let i = 0; i < files.length; i += 1) {
+			const file = files[i];
+			if (!file) {
+				return;
+			}
+
+			const reader = new FileReader();
+			reader.readAsBinaryString(file);
+
+			reader.onload = async () => {
+				if ((+quota.used + file.size) > quota.total) {
+					return setErrorModal(translate.file_exceeds_rest);
+				}
+
+				// TRADUCCION
+				if (file.size > (50 * 1024 * 1024)) {
+					return setErrorModal('El archivo supera el límite de tamaño');
+				}
+
+				const formData = new FormData();
+				formData.append('file', file);
+				formData.append('data', JSON.stringify({
+					companyId: company.id,
+					...(breadCrumbs.length > 1 ?
+						{
+							parentFolder: actualFolder
+						}
+						: {})
+				}));
+				const id = Math.random().toString(36).substr(2, 9);
+
+				addToQueue({
+					name: file.name,
+					size: file.size,
+					uploaded: 0,
+					id
+				});
+
+				const xhr = new XMLHttpRequest();
+				xhr.onload = function (e) {
+					console.log(e);
+				};
+
+				xhr.upload.onprogress = e => {
+					if (e.loaded === e.total) {
+						removeFromQueue(id);
+					} else {
+						updateQueueItem(((e.loaded / e.total) * 100).toFixed(2), id);
+					}
+				};
+
+				xhr.open('POST', `${SERVER_URL}/api/companyDocument`, true);
+				xhr.setRequestHeader('x-jwt-token', sessionStorage.getItem('token'));
+				xhr.onreadystatechange = () => {
+					if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+						const response = JSON.parse(xhr.responseText);
+						if (response.success) {
+							getData();
+						}
+					}
+				};
+				xhr.send(formData);
+			};
 		}
-
-		const reader = new FileReader();
-		reader.readAsBinaryString(file);
-
-		reader.onload = async () => {
-			if ((+quota.used + file.size) > quota.total) {
-				return setErrorModal(translate.file_exceeds_rest);
-			}
-
-			// TRADUCCION
-			if (file.size > (50 * 1024 * 1024)) {
-				return setErrorModal('El archivo supera el límite de tamaño');
-			}
-
-			const formData = new FormData();
-			formData.append('file', file);
-			formData.append('data', JSON.stringify({
-				companyId: company.id,
-				...(breadCrumbs.length > 1 ?
-					{
-						parentFolder: actualFolder
-					}
-					: {})
-			}));
-			const id = Math.random().toString(36).substr(2, 9);
-
-			addToQueue({
-				name: file.name,
-				size: file.size,
-				uploaded: 0,
-				id
-			});
-
-			const xhr = new XMLHttpRequest();
-			xhr.onload = function (e) {
-				console.log(e);
-			};
-
-			xhr.upload.onprogress = e => {
-				if (e.loaded === e.total) {
-					removeFromQueue(id);
-				} else {
-					updateQueueItem(((e.loaded / e.total) * 100).toFixed(2), id);
-				}
-			};
-
-			xhr.open('POST', `${SERVER_URL}/api/companyDocument`, true);
-			xhr.setRequestHeader('x-jwt-token', sessionStorage.getItem('token'));
-			xhr.onreadystatechange = () => {
-				if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-					const response = JSON.parse(xhr.responseText);
-					if (response.success) {
-						getData();
-					}
-				}
-			};
-			xhr.send(formData);
-		};
 	};
 
 	return (
@@ -242,8 +247,10 @@ const CompanyDocumentsPage = ({
 					parentFolder={breadCrumbs.length > 1 ? actualFolder : null}
 				/>
 				<input
+					multiple
 					type="file"
 					onChange={handleFileWithLoading}
+					onClick={event => { event.target.value = null; }}
 					disabled={queue.length > 0}
 					accept={ACCEPTED_FILE_TYPES}
 					id="raised-button-file"

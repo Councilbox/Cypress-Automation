@@ -12,7 +12,8 @@ const editableFeatures = {
 	participantsHeader: 'Cabecera de participantes en la sala',
 	quickAccess: 'Acceso rápido con QR',
 	attendanceComment: 'Mostrar editor de texto en el menú de intención de asistencia',
-	roomAccessConvene: 'Incluir la convocatoria en el correo de acceso a sala'
+	roomAccessConvene: 'Incluir la convocatoria en el correo de acceso a sala',
+	notificationsBranding: 'Mostrar branding en las notificaciones por correo'
 };
 
 
@@ -44,7 +45,6 @@ const CompanyFeaturesEditor = ({ client, companyId }) => {
 			}
 		});
 
-		console.log(response);
 		setData(response.data);
 		setLoading(false);
 	}, [companyId]);

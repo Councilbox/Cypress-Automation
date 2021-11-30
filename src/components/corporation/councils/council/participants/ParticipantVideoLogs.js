@@ -43,7 +43,6 @@ const ParticipantVideoLogs = ({ participantId, translate, client }) => {
 		return <LoadingSection />;
 	}
 
-	console.log(data);
 
 	return (
 		<Table
@@ -92,8 +91,8 @@ const LogRow = ({ data, translate }) => {
 					{data.trackInfo.ip}
 				</TableCell>
 			</TableRow>
-			{expanded &&
-				<JSONPretty id="json-pretty" data={data.trackInfo}></JSONPretty>
+			{expanded
+				&& <JSONPretty id="json-pretty" data={data.trackInfo}></JSONPretty>
 			}
 		</>
 	);

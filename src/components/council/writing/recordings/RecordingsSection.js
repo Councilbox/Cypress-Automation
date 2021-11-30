@@ -39,7 +39,7 @@ class RecordingsSection extends React.Component {
 			<div style={{ width: '100%', height: '100%', overflow: 'hidden' }}>
 				<iframe
 					title="meetingScreen"
-					allow="geolocation; microphone; camera"
+					allow="geolocation; microphone; camera; display-capture"
 					scrolling="yes"
 					className="temp_video"
 					src={`https://${this.props.data.recordingsIframe}?rand=${rand}`}

@@ -315,7 +315,6 @@ class ImportCensusButton extends React.Component {
 		for (let j = 0; j < keys.length; j++) {
 			const key = keys[j];
 			if (excelToDBColumns[key.toLowerCase()]) {
-				console.log(key.toLowerCase());
 				if (key.toLowerCase() === 'email') {
 					participant[excelToDBColumns[key.toLocaleLowerCase()]] = `${_participant[key].trim().toLowerCase()}`;
 				} else {
@@ -528,7 +527,6 @@ class ImportCensusButton extends React.Component {
 					onClick={() => this.setState({ modal: true })}
 					buttonStyle={{
 						width: isMobile && '150px',
-						height: isMobile && '60px'
 					}}
 				/>
 				<AlertConfirm

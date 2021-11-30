@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 import {
 	Tooltip, Badge, Tabs, Tab
@@ -181,7 +182,7 @@ const CouncilLivePage = ({ translate, data, company }) => {
 			/>
 
 		);
-	}, [council.councilType]);
+	}, [council.councilType, council.councilStarted, council.state]);
 
 	const renderVideoParticipants = () => (
 		<ParticipantsLive
@@ -198,7 +199,6 @@ const CouncilLivePage = ({ translate, data, company }) => {
 	const councilStartedState = () => council.state >= 20 && council.state <= 30;
 
 	const showParticipants = state.tab === LIVE_TABS.PARTICIPANTS;
-
 
 	return (
 		<div
@@ -371,7 +371,7 @@ const CouncilLivePage = ({ translate, data, company }) => {
 						width: `${showVideo(council) ?
 							100 - state.videoWidth - '0.5'
 							: 100
-						}%`,
+							}%`,
 						height: '100%',
 						marginLeft: '5px',
 						position: 'relative'
@@ -400,10 +400,24 @@ const CouncilLivePage = ({ translate, data, company }) => {
 						: <React.Fragment>
 							{!state.fullScreen
 								&& <Tabs value={state.tab}>
-									<Tab value={LIVE_TABS.PARTICIPANTS} label={translate.participants} onClick={() => toggleScreens(LIVE_TABS.PARTICIPANTS)} />
-									<Tab value={LIVE_TABS.AGENDA} label={translate.agenda} onClick={() => toggleScreens(LIVE_TABS.AGENDA)} id={'ordenDelDiaParticipantesButton'} />
+									<Tab
+										value={LIVE_TABS.PARTICIPANTS}
+										label={translate.participants}
+										onClick={() => toggleScreens(LIVE_TABS.PARTICIPANTS)}
+										id={'council-live-tab-participants'}
+									/>
+									<Tab
+										value={LIVE_TABS.AGENDA} label={translate.agenda}
+										onClick={() => toggleScreens(LIVE_TABS.AGENDA)}
+										id={'council-live-tab-agenda'}
+									/>
 									{council.councilType === COUNCIL_TYPES.ONE_ON_ONE
-										&& <Tab value={LIVE_TABS.ATTACHMENTS} label={translate.attachments} onClick={() => toggleScreens(LIVE_TABS.ATTACHMENTS)} id={'councilAttachmentsButton'} />
+										&& <Tab
+											value={LIVE_TABS.ATTACHMENTS}
+											label={translate.attachments}
+											onClick={() => toggleScreens(LIVE_TABS.ATTACHMENTS)}
+											id={'council-live-tab-attachments'}
+										/>
 									}
 									<div style={{
 										width: '100%',
@@ -444,7 +458,8 @@ const CouncilLivePage = ({ translate, data, company }) => {
 								{(state.tab === LIVE_TABS.AGENDA || state.fullScreen)
 									&& <div style={{ height: 'calc( 100% - 2em )', position: 'relative' }}>
 										{council.state === COUNCIL_STATES.PAUSED
-											&& <DisabledSection>
+											&&
+											<DisabledSection fullScreen={state.fullScreen}>
 												<div style={{ marginBottom: '1em' }}>
 													{translate.council_paused}
 												</div>
@@ -464,12 +479,7 @@ const CouncilLivePage = ({ translate, data, company }) => {
 												translate={translate}
 												fullScreen={state.fullScreen}
 												refetch={data.refetch}
-												openMenu={() => setState({
-													videoWidth: minVideoWidth,
-													videoHeight: minVideoHeight,
-													fullScreen: false
-												})
-												}
+												openMenu={() => setState(initScreenSizes('MIN'))}
 											/>
 										</div>
 									</div>

@@ -45,6 +45,7 @@ const Councils = ({ translate, client, ...props }) => {
 		deleteModal: false,
 		selectedIds: new Map(),
 		limit: DRAFTS_LIMITS[0],
+		filterText: '',
 		page: 1,
 	});
 	const statesTabLink = {
@@ -73,6 +74,7 @@ const Councils = ({ translate, client, ...props }) => {
 		const section = getSection(translate);
 		if (section !== selectedTab) {
 			setselectedTab(section);
+			setState({ ...state, selectedIds: new Map(), page: 1, filterText: '' });
 		}
 	}, [window.location.pathname]);
 
@@ -89,6 +91,18 @@ const Councils = ({ translate, client, ...props }) => {
 	};
 
 	const getData = async filters => {
+		let offset = DRAFTS_LIMITS[0] * (state.page - 1);
+
+		if (filters) {
+			offset = 0;
+
+			setState({
+				...state,
+				page: 1,
+				selectedIds: new Map(),
+			});
+		}
+
 		const response = await client.query({
 			query: councils,
 			variables: {
@@ -99,9 +113,14 @@ const Councils = ({ translate, client, ...props }) => {
 				active: 1,
 				options: {
 					limit: DRAFTS_LIMITS[0],
-					offset: DRAFTS_LIMITS[0] * (state.page - 1)
+					offset
 				},
-				...filters
+				...(state.filterText ? {
+					filters: [{
+						field: 'name',
+						text: state.filterText
+					}]
+				} : {})
 			},
 			errorPolicy: 'all',
 			notifyOnNetworkStatusChange: true
@@ -115,7 +134,7 @@ const Councils = ({ translate, client, ...props }) => {
 	React.useEffect(() => {
 		setLoading(true);
 		getData();
-	}, [selectedTab, state.page]);
+	}, [selectedTab, state.page, state.filterText]);
 
 	const select = id => {
 		if (state.selectedIds.has(id)) {
@@ -143,6 +162,15 @@ const Councils = ({ translate, client, ...props }) => {
 		setState({
 			...state,
 			selectedIds: newSelected
+		});
+	};
+
+	const updateFilterText = filterText => {
+		setState({
+			...state,
+			filterText,
+			page: 1,
+			selectedIds: new Map(),
 		});
 	};
 
@@ -177,7 +205,6 @@ const Councils = ({ translate, client, ...props }) => {
 	};
 
 	const mobileLandscape = () => props.windowSize === 'xs' && isLandscape();
-
 
 	const changePage = page => {
 		setState({
@@ -234,7 +261,12 @@ const Councils = ({ translate, client, ...props }) => {
 							}} className={'fa fa-clock-o'}></i>
 						</div>
 						<div>
-							<CouncilsFilters refetch={getData} translate={translate} />
+							<CouncilsFilters
+								refetch={getData}
+								translate={translate}
+								updateFilterText={updateFilterText}
+								filterText={state.filterText}
+							/>
 						</div>
 					</div>
 				</div>

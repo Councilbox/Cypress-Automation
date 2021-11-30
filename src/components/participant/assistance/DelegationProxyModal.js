@@ -12,6 +12,7 @@ import { isMobile } from '../../../utils/screen';
 import DownloadUnsignedProxy from './DownloadUnsignedProxy';
 import { voteValuesText } from '../../../utils/CBX';
 
+
 const proxyTranslations = {
 	es: {
 		at: 'a',
@@ -161,8 +162,14 @@ const DelegationProxyModal = ({
 
 	const clear = () => {
 		setSigned(false);
-		signaturePreview.current.clear();
-		signature.current.clear();
+
+		if (signature.current) {
+			signature.current.clear();
+		}
+
+		if (signaturePreview.current) {
+			signaturePreview.current.clear();
+		}
 	};
 
 	const proxyPreview = () => {

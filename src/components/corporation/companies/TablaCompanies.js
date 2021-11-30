@@ -210,7 +210,7 @@ const TablaCompanies = ({ client, translate, company }) => {
 													}}
 													render={
 														<span style={{}}>
-															Expulsar
+															{translate.expel}
 														</span>
 													}
 												/>
@@ -255,7 +255,7 @@ const TablaCompanies = ({ client, translate, company }) => {
 														padding: '0.3em',
 														width: '100px'
 													}}>
-													{'Ficha'}
+													{translate.partner_file}
 												</Link>
 											</CardActions>
 										</Card>
@@ -388,7 +388,7 @@ const TablaCompanies = ({ client, translate, company }) => {
 											}}
 											render={
 												<span style={{}}>
-													Expulsar
+													{translate.expel}
 												</span>
 											}
 										/>
@@ -442,7 +442,7 @@ const TablaCompanies = ({ client, translate, company }) => {
 												marginRight: '1em',
 												width: '100px'
 											}}>
-											{'Ficha'}
+											{translate.partner_file}
 										</Link>
 									</Cell>
 								</div>

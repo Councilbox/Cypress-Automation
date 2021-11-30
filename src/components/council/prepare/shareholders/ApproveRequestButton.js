@@ -5,13 +5,15 @@ import { BasicButton } from '../../../../displayComponents';
 import { getSecondary } from '../../../../styles/colors';
 
 
-const ApproveRequestButton = ({ request, client, refetch }) => {
+const ApproveRequestButton = ({
+	request, client, refetch, translate
+}) => {
 	const secondary = getSecondary();
 	const approveRequest = async () => {
 		await client.mutate({
 			mutation: gql`
-				mutation ApproveShareholderRequest($requestId: Int!, $shareholder: ParticipantInput){
-					approveShareholderRequest(requestId: $requestId, shareholder: $shareholder){
+				mutation ArchiveShareholderRequest($requestId: Int!, $shareholder: ParticipantInput){
+					archiveShareholderRequest(requestId: $requestId, shareholder: $shareholder){
 						success
 					}
 				}
@@ -27,7 +29,7 @@ const ApproveRequestButton = ({ request, client, refetch }) => {
 	return (
 		<>
 			<BasicButton
-				text="Archivar"
+				text={translate.archived_request}
 				onClick={approveRequest}
 				buttonStyle={{
 					border: `1px solid ${secondary}`,
@@ -35,7 +37,6 @@ const ApproveRequestButton = ({ request, client, refetch }) => {
 				}}
 				color="white"
 				textStyle={{ color: secondary }}
-				// onClick={approveRequest}
 			/>
 		</>
 	);

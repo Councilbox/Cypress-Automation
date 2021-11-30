@@ -258,6 +258,7 @@ const DelegateVoteButton = ({
 				refetch={sendNotification}
 				requestClose={() => setModal(false)}
 				translate={translate}
+				notify={true}
 				inModal={inModal}
 			/>
 		</>

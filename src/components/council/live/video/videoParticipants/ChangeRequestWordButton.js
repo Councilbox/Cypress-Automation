@@ -4,7 +4,7 @@ import { graphql } from 'react-apollo';
 import { getPrimary, getSecondary } from '../../../../../styles/colors';
 import { changeRequestWord } from '../../../../../queries';
 import { Icon } from '../../../../../displayComponents';
-import { haveGrantedWord, isAskingForWord } from '../../../../../utils/CBX';
+import { haveGrantedWord, isAskingForWord, participantIsTranslator } from '../../../../../utils/CBX';
 
 class ChangeRequestWordButton extends React.Component {
 	changeWordState = async (id, value) => {
@@ -22,6 +22,52 @@ class ChangeRequestWordButton extends React.Component {
 
 	render() {
 		const { participant } = this.props;
+
+		if (participantIsTranslator(participant)) {
+			if (participant.requestWord === 3 && !participant.blocked) {
+				return (
+					<Tooltip
+						title={this.props.translate.grant_room_access}
+					>
+						<Card
+							onClick={() => this.changeWordState(participant.id, 2)
+							}
+							className={'fadeToggle'}
+							style={{
+								width: '1.6em',
+								height: '1.6em',
+								borderRadius: '0.1em',
+								backgroundColor: getSecondary()
+							}}
+						>
+							<MenuItem
+								style={{
+									height: '1.6em',
+									width: '1.6em',
+									padding: 0,
+									margin: 0,
+									display: 'flex',
+									alignItems: 'center',
+									justifyContent: 'center'
+								}}
+							>
+								<Icon
+									className="material-icons"
+									style={{
+										fontSize: '1em',
+										color: 'white'
+									}}
+								>
+									input
+								</Icon>
+							</MenuItem>
+						</Card>
+					</Tooltip>
+				);
+			}
+			return null;
+		}
+
 
 		return (
 			<div style={{ marginRight: '0.3em' }}>

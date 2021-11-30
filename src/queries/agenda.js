@@ -164,6 +164,7 @@ export const agendaVotings = gql`
 		}
 		votingsRecount(agendaId: $agendaId){
 			availableVotes
+			presentsWithRemoteVote
 		}
 	}
 `;

@@ -59,7 +59,6 @@ const FilterButton = ({
 						alignItems: 'center',
 						justifyContent: 'center',
 						width: size,
-						padding: '5px'
 					}}
 				>
 					{loading ? (

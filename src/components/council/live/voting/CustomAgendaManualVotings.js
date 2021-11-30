@@ -24,6 +24,7 @@ const CustomAgendaManualVotings = ({
 	const [state, setState] = React.useState(false);
 	const [ballots, setBallots] = React.useState(new Map(agenda.ballots.filter(ballot => ballot.admin === 1).map(ballot => [ballot.itemId, ballot])));
 
+
 	if (!props.votingsRecount) {
 		return <LoadingSection />;
 	}
@@ -93,13 +94,12 @@ const CustomAgendaManualVotings = ({
 		return <span />;
 	}
 
-	// TRADUCCION
 	return (
 		<div style={{ width: '100%', backgroundColor: 'white', paddingTop: '1em' }}> {/** padding: '0 1em' */}
 			<hr></hr>
 			<div>
 				<h5>
-Introducir recuento
+					{translate.introduce_recount}
 				</h5>
 			</div>
 			{/* {isMobile ?
@@ -126,10 +126,10 @@ renderInMobil()
 				}}
 				>
 					<div>
-* Máximo por opción: {maxBallot} {/** TRADUCCION */}
+						{`* ${translate.maximum_by_options}: ${maxBallot}`}
 					</div>
 					<div>
-* Máximos totales: {`${totalWeight} / ${maxTotal}`} {/** TRADUCCION */}
+						{`* ${translate.maximum_total}: ${totalWeight} / ${maxTotal}`}
 					</div>
 				</div>
 				<div>

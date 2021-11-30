@@ -17,13 +17,13 @@ const getTypeText = type => {
 	}
 };
 
-const OwnedVotingRightsPoint = ({ participant, translate, client, open, agenda, requestClose, council }) => {
+const OwnedVotingRightsPoint = ({
+	participant, translate, client, open, agenda, requestClose, council
+}) => {
 	const [data, setData] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
 
 	const getData = React.useCallback(async options => {
-		console.log(options);
-
 		if (!data) {
 			setLoading(true);
 		}
@@ -94,16 +94,16 @@ const OwnedVotingRightsPoint = ({ participant, translate, client, open, agenda, 
 				requestClose={requestClose}
 				bodyText={
 					<>
-						{meta &&
-							<OwnedVotesRecountSection
+						{meta
+							&& <OwnedVotesRecountSection
 								ownedVotesMeta={meta}
 								participant={participant}
 								council={council}
 								translate={translate}
 							/>
 						}
-						{data?.participantOwnedVotingRights?.list &&
-						<EnhancedTable
+						{data?.participantOwnedVotingRights?.list
+						&& <EnhancedTable
 							translate={translate}
 							defaultLimit={15}
 							defaultFilter={'fullName'}

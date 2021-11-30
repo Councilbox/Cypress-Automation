@@ -5,7 +5,7 @@ import { Card } from 'material-ui';
 import { AlertConfirm } from '../../../../../displayComponents/index';
 import { updateCensusParticipant } from '../../../../../queries/census';
 import { languages as languagesQuery } from '../../../../../queries/masters';
-import { censusHasParticipations, removeTypenameField } from '../../../../../utils/CBX';
+import { censusHasParticipations, getMaxGrantedWordsMessage, isMaxGrantedWordsError, removeTypenameField } from '../../../../../utils/CBX';
 import RepresentativeForm from '../RepresentativeForm';
 import ParticipantForm from '../../../../council/participants/ParticipantForm';
 import {
@@ -92,16 +92,18 @@ class CensusParticipantEditor extends React.Component {
 			if (!response.errors) {
 				this.props.refetch();
 				this.props.close();
-			} else if (response.errors[0].message === 'Too many granted words') {
+			} else if (isMaxGrantedWordsError(response.errors[0])) {
+				const message = getMaxGrantedWordsMessage(response.errors[0], this.props.translate);
+
 				this.setState({
 					...(this.state.data.initialState === 2 ? {
 						errors: {
-							initialState: this.props.translate.initial_granted_word_error
+							initialState: message
 						}
 					} : {}),
 					...(representative && representative.initialState === 2 ? {
 						representativeErrors: {
-							initialState: this.props.translate.initial_granted_word_error
+							initialState: message
 						}
 					} : {})
 

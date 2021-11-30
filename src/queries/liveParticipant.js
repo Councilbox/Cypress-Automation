@@ -57,8 +57,8 @@ export const changeParticipantState = gql`
 	}
 `;
 export const addDelegation = gql`
-	mutation addDelegation($participantId: Int!, $delegateId: Int!) {
-		addDelegation(participantId: $participantId, delegateId: $delegateId) {
+	mutation addDelegation($participantId: Int!, $delegateId: Int!, $notify: Boolean) {
+		addDelegation(participantId: $participantId, delegateId: $delegateId, notify: $notify) {
 			success
 			message
 		}

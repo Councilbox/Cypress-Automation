@@ -37,11 +37,7 @@ class NoCompanyRouter extends React.Component {
 					<Switch>
 						<Route exact path="/" component={NoCompanyDashboard} />
 						<Route exact path="/company/create" component={NewCompanyPage} />
-						<Route exact path="/company/link" component={() => (
-							<div style={{ maxWidth: '650px', minWidth: '550px', height: '400px' }}>
-								<LinkCompanyPage />
-							</div>
-						)} />
+						<Route exact path="/company/link" component={LinkCompanyPage}/>
 						<Route exact path="/user/:id" component={UserSettingsPage} />
 						<Route path="*" component={() => <Redirect to="/" />} />
 					</Switch>

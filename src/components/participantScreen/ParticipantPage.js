@@ -21,7 +21,7 @@ class ParticipantPage extends Component {
 				<LiveHeader translate={translate} logo={logo} />
 				<iframe
 					title="cmpScreen"
-					allow="geolocation; microphone; camera"
+					allow="geolocation; microphone; camera; display-capture"
 					scrolling="no"
 					className="temp_video"
 					src={`https://${roomURL}?rand=${Math.round(

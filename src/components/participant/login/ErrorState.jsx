@@ -1,28 +1,46 @@
 import React from 'react';
-import { Card, Avatar } from 'material-ui';
-import FontAwesome from 'react-fontawesome';
+import { Card } from 'material-ui';
 import Header from '../Header';
+import ContactAdminButton from './ContactAdminButton';
 import withTranslations from '../../../HOCs/withTranslations';
 import withWindowSize from '../../../HOCs/withWindowSize';
 import withWindowOrientation from '../../../HOCs/withWindowOrientation';
 import {
 	lightTurquoise,
-	secondary,
 	primary
 } from '../../../styles/colors';
 import { PARTICIPANT_ERRORS, PARTICIPANT_STATES } from '../../../constants';
-import background from '../../../assets/img/fondo_test_mundo2.jpg';
+import background from '../../../assets/img/background8-3.jpg';
 import { moment } from '../../../containers/App';
 import { getCustomBackground } from '../../../utils/subdomain';
 import RemoveDelegationAndEnter from './RemoveDelegationAndEnter';
 import LoginAfterAccessLimitButton from './LoginAfterAccessLimitButton';
+import forbiddenRoom from '../../../assets/img/forbidden-room.png';
+import forbiddenUser from '../../../assets/img/forbidden-user.png';
+import forbiddenVote from '../../../assets/img/forbidden-vote.png';
+import { checkHasVotingRights } from '../agendas/AgendaMenu';
 // import emptyMeetingTable from "../../../assets/img/empty_meeting_table.png";
 
 const styles = {
+	display: {
+		height: '100vh',
+		width: '100vw'
+	},
+	component: {
+		display: 'flex',
+		height: 'calc(100% - 3em)',
+		width: '100%',
+		alignItems: 'center',
+		justifyContent: 'center',
+		background: `url(${getCustomBackground() || background})`,
+		backgroundSize: 'cover',
+		backgroundRepeat: 'no-repeat',
+		backgroundPosition: 'center center'
+	},
 	cardContainer: {
 		margin: '20px',
 		padding: '20px',
-		maxWidth: '100%'
+		maxHeight: '100%'
 	},
 	container: {
 		width: '100%',
@@ -54,16 +72,23 @@ const styles = {
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'center',
-		padding: '15px',
-		width: '100%'
+		width: '100%',
+	},
+	councilInfo: {
+		backgroundColor: lightTurquoise,
+		padding: '3rem 5rem',
+		borderRadius: '4px',
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		justifyContent: 'center',
+		textAlign: 'center'
 	}
 };
 
 const ErrorState = ({
 	code, translate, data, windowSize, windowOrientation, refetch
 }) => {
-	const customBackground = getCustomBackground();
-
 	const renderError = errorCode => {
 		switch (errorCode) {
 			case PARTICIPANT_ERRORS.PARTICIPANT_BLOCKED:
@@ -87,30 +112,28 @@ const ErrorState = ({
 				return <div />;
 		}
 	};
+	const renderErrorImg = errorCode => {
+		switch (errorCode) {
+			case PARTICIPANT_ERRORS.PARTICIPANT_BLOCKED:
+			case PARTICIPANT_ERRORS.PARTICIPANT_IS_NOT_REMOTE:
+				return forbiddenUser;
+
+			case 'REMOTE_CLOSED':
+			case PARTICIPANT_ERRORS.DEADLINE_FOR_LOGIN_EXCEEDED:
+				return forbiddenRoom;
+
+			case PARTICIPANT_ERRORS.REPRESENTATIVE_WITHOUT_REPRESENTED:
+			case PARTICIPANT_ERRORS.REPRESENTED_DELEGATED:
+				return forbiddenVote;
+			default:
+				return <div />;
+		}
+	};
 
 	return (
-		<div
-			style={{
-				height: '100vh',
-				width: '100vw'
-			}}
-		>
-			<Header
-				council={data.council}
-			/>
-			<div
-				style={{
-					display: 'flex',
-					height: 'calc(100% - 3em)',
-					width: '100%',
-					alignItems: 'center',
-					justifyContent: 'center',
-					background: `url(${customBackground || background})`,
-					backgroundSize: 'cover',
-					backgroundRepeat: 'no-repeat',
-					backgroundPosition: 'center center',
-				}}
-			>
+		<div style={styles.display}>
+			<Header council={data.council} />
+			<div style={styles.component}>
 				<Card style={styles.cardContainer}>
 					<div
 						style={
@@ -124,29 +147,15 @@ const ErrorState = ({
 								...styles.textContainer,
 								...((windowSize === 'xs' && windowOrientation === 'portrait')
 									? { maxWidth: '100%' }
-									: { maxWidth: '50%', minWidth: '50%' })
+									: { maxWidth: '30%', minWidth: '30%', paddingRight: '5%' }),
 							}}
 						>
 							{renderError(code)}
+							<ContactAdminButton translate={translate} styles={{ color: 'grey', margin: '20px' }} />
 						</div>
-
+						<img src={renderErrorImg(code)} style={{ padding: '20px' }} />
 						<div style={styles.councilInfoContainer}>
-							<div
-								style={{
-									backgroundColor: lightTurquoise,
-									padding: '5px',
-									borderRadius: '4px',
-									display: 'flex',
-									flexDirection: 'column',
-									alignItems: 'center',
-									justifyContent: 'center',
-									textAlign: 'center'
-								}}
-							>
-								<Avatar
-									src={data.council && data.council.company.logo}
-									aria-label="CouncilLogo"
-								/>
+							<div style={styles.councilInfo}>
 								<h3>{data.council.name}</h3>
 								<span>
 									{moment(
@@ -155,18 +164,18 @@ const ErrorState = ({
 								</span>
 
 								{(data.council.statute.existsLimitedAccessRoom === 1) &&
-<p>
-	{translate.room_access_closed_at}
-	<span style={{ fontWeight: 'bold', marginLeft: '2px' }}>
-		{
-			moment(
-				new Date(data.council.dateRealStart)
-			)
-				.add(data.council.statute.limitedAccessRoomMinutes, 'm')
-				.format('HH:mm')
-		}
-	</span>
-</p>
+									<p style={{ marginBottom: 0 }}>
+										{translate.room_access_closed_at}
+										<span style={{ fontWeight: 'bold', marginLeft: '2px' }}>
+											{
+												moment(
+													new Date(data.council.dateRealStart)
+												)
+													.add(data.council.statute.limitedAccessRoomMinutes, 'm')
+													.format('HH:mm')
+											}
+										</span>
+									</p>
 								}
 							</div>
 						</div>
@@ -180,70 +189,29 @@ const ErrorState = ({
 
 const ParticipantBlocked = ({ translate }) => (
 	<>
-		<h5 style={{ color: primary, fontWeight: 'bold' }}>
-			{translate.we_are_sorry}
-		</h5>
-
-		<div className="fa-stack fa-lg" style={{ fontSize: '8vh' }}>
-			<FontAwesome
-				name={'user'}
-				stack={'1x'}
-				style={{ color: primary }}
-			/>
-			<FontAwesome
-				name={'ban'}
-				stack={'2x'}
-				style={{ color: secondary }}
-			/>
-		</div>
-
+		<h3 style={{ color: primary, fontWeight: 'bold' }}>
+			{translate.limited_room_access}
+		</h3>
 		{translate.cant_access_video_room_expelled}
 	</>
 );
 
 const RemoteClosed = ({ translate }) => (
 	<>
-		<h5 style={{ color: primary, fontWeight: 'bold' }}>
-			{translate.we_are_sorry}
-		</h5>
+		<h3 style={{ color: primary, fontWeight: 'bold' }}>
+			{translate.limited_room_access}
+		</h3>
 
-		<div className="fa-stack fa-lg" style={{ fontSize: '8vh' }}>
-			<FontAwesome
-				name={'user'}
-				stack={'1x'}
-				style={{ color: primary }}
-			/>
-			<FontAwesome
-				name={'ban'}
-				stack={'2x'}
-				style={{ color: secondary }}
-			/>
-		</div>
-
-		{'Las votaciones remotas han finalizado' /* TRADUCCION */}
+		{translate.remote_voting_has_ended}
 	</>
 );
 
 const RepresentedDelegated = ({ translate, data, refetch }) => (
 	<>
-		<h5 style={{ color: primary, fontWeight: 'bold' }}>
-			{translate.we_are_sorry}
-		</h5>
-
-		<div className="fa-stack fa-lg" style={{ fontSize: '8vh' }}>
-			<FontAwesome
-				name={'user'}
-				stack={'1x'}
-				style={{ color: primary }}
-			/>
-			<FontAwesome
-				name={'ban'}
-				stack={'2x'}
-				style={{ color: secondary }}
-			/>
-		</div>
-
-		{'El voto de su representado ha sido delegado en otro participante' /* TRADUCCION */}
+		<h3 style={{ color: primary, fontWeight: 'bold' }}>
+			{translate.limited_room_access}
+		</h3>
+		{translate.vote_client_delegated_another_participant}
 		<RemoveDelegationAndEnter
 			represented={data.participant.represented}
 			participant={data.participant}
@@ -255,75 +223,49 @@ const RepresentedDelegated = ({ translate, data, refetch }) => (
 
 const RepresentedChanged = ({ translate }) => (
 	<>
-		<h5 style={{ color: primary, fontWeight: 'bold' }}>
-			{translate.we_are_sorry}
-		</h5>
-
-		<div className="fa-stack fa-lg" style={{ fontSize: '8vh' }}>
-			<FontAwesome
-				name={'user'}
-				stack={'1x'}
-				style={{ color: primary }}
-			/>
-			<FontAwesome
-				name={'ban'}
-				stack={'2x'}
-				style={{ color: secondary }}
-			/>
-		</div>
-
-		{'El voto de su representado ha sido depositado en otro representante' /* TRADUCCION */}
+		<h3 style={{ color: primary, fontWeight: 'bold' }}>
+			{translate.limited_room_access}
+		</h3>
+		{translate.vote_client_in_another_representative}
 	</>
 );
 
 
 const ParticipantNotInRemoteState = ({ translate, data, refetch }) => (
 	<>
-		<h5 style={{ color: primary, fontWeight: 'bold' }}>
-			{translate.we_are_sorry}
-		</h5>
-		<div className="fa-stack fa-lg" style={{ fontSize: '8vh' }}>
-			<FontAwesome
-				name={'globe'}
-				stack={'2x'}
-				style={{ color: secondary }}
-			/>
-			<FontAwesome
-				name={'times'}
-				stack={'1x'}
-				style={{ color: primary }}
-			/>
-		</div>
-		{data.participant.state === PARTICIPANT_STATES.DELEGATED ?
-			<>
+		<h3 style={{ color: primary, fontWeight: 'bold' }}>
+			{translate.limited_room_access}
+		</h3>
+		{
+			data.participant.state === PARTICIPANT_STATES.DELEGATED ?
+				<>
 					No puedes acceder porque tu voto ha sido delegado
-				<RemoveDelegationAndEnter
-					participant={data.participant}
-					refetch={refetch}
-					translate={translate}
-				/>
-			</>
-			:
-			translate.cant_access_video_room_no_remote_assistance
+					<RemoveDelegationAndEnter
+						participant={data.participant}
+						refetch={refetch}
+						translate={translate}
+					/>
+				</>
+				:
+				translate.cant_access_video_room_no_remote_assistance
 		}
 	</>
 );
 
 const TimeLimitExceeded = ({ translate, data, refetch }) => (
 	<>
+		<h3 style={{ color: primary, fontWeight: 'bold' }}>
+			{translate.limited_room_access}
+		</h3>
 		{data.council.statute.letParticipantsEnterAfterLimit ?
 			<>
-				<div className="fa-stack fa-lg" style={{ fontSize: '8vh' }}>
-					<FontAwesome
-						name={'clock-o'}
-						stack={'2x'}
-						style={{ color: primary }}
-					/>
-				</div>
-				<div style={{ marginBottom: '1em' }}>
-					{translate.enter_room_after_access_limit_warning.replace(/{{participantName}}/,
-					`${data.participant.name} ${data.participant.surname || ''}`)}
-				</div>
+				{checkHasVotingRights(data.participant) &&
+					<div style={{ marginBottom: '1em' }}>
+						{translate.enter_room_after_access_limit_warning.replace(/{{participantName}}/,
+							`${data.participant.name} ${data.participant.surname || ''}`)}
+					</div>
+				}
+
 				<LoginAfterAccessLimitButton
 					translate={translate}
 					council={data.council}
@@ -333,17 +275,9 @@ const TimeLimitExceeded = ({ translate, data, refetch }) => (
 			</>
 			:
 			<>
-				<h5 style={{ color: primary, fontWeight: 'bold' }}>
-					{translate.we_are_sorry}
-				</h5>
-
-				<div className="fa-stack fa-lg" style={{ fontSize: '8vh' }}>
-					<FontAwesome
-						name={'clock-o'}
-						stack={'2x'}
-						style={{ color: primary }}
-					/>
-				</div>
+				<h3 style={{ color: primary, fontWeight: 'bold' }}>
+					{translate.access_unauthorized}
+				</h3>
 				{translate.cant_access_time_exceeded}
 			</>
 

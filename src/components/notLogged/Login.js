@@ -32,6 +32,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
 	const subdomain = useSubdomain();
+	// eslint-disable-next-line no-unused-vars
 	const config = React.useContext(ConfigContext);
 
 	function checkRequiredFields() {
@@ -222,7 +223,7 @@ const Login = ({ translate, windowSize, ...props }) => {
 									marginTop: windowSize === 'xs' ? 0 : '1em'
 								}}
 							>
-								{config.meeting
+								{/* {config.meeting
 									&& <div
 										className="col-lg-6 col-md-6 col-xs-6"
 										style={{ padding: '1em' }}
@@ -242,11 +243,10 @@ const Login = ({ translate, windowSize, ...props }) => {
 											/>
 										</Link>
 									</div>
-								}
+								} */}
 
 								<div
-									className="col-lg-6 col-md-6 col-xs-6"
-									style={{ padding: '1em' }}
+									style={{ padding: '1em', width: '100%' }}
 								>
 									<Link to="/signup">
 										<BasicButton
@@ -258,7 +258,8 @@ const Login = ({ translate, windowSize, ...props }) => {
 												color: primary,
 												fontWeight: '700',
 												fontSize: '0.8rem',
-												textTransform: 'none'
+												textTransform: 'none',
+												width: isMobile ? '219px' : '300px'
 											}}
 											textPosition="before"
 										/>

@@ -1,10 +1,11 @@
 import React from 'react';
 import { Radio, HelpPopover } from '../../../displayComponents';
+import { isMobile } from '../../../utils/screen';
 
 const AssistanceOption = ({
 	title, value, disabled, translate, selected, select, delegationItem
 }) => (
-	<div style={{ display: 'flex' }}>
+	<div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row' }}>
 		<div onClick={!disabled ? select : () => { }}>
 			<Radio
 				value={value}

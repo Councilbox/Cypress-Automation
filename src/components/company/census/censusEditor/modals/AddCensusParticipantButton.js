@@ -10,7 +10,7 @@ import {
 import { getPrimary } from '../../../../../styles/colors';
 import { addCensusParticipant, checkUniqueCensusEmails } from '../../../../../queries/census';
 import { languages as languagesQuery } from '../../../../../queries/masters';
-import { censusHasParticipations } from '../../../../../utils/CBX';
+import { censusHasParticipations, getMaxGrantedWordsMessage, isMaxGrantedWordsError } from '../../../../../utils/CBX';
 import RepresentativeForm from '../RepresentativeForm';
 import ParticipantForm from '../../../../council/participants/ParticipantForm';
 import {
@@ -92,17 +92,19 @@ class AddCensusParticipantButton extends React.Component {
 					errors: {},
 					representativeErrors: {}
 				});
-			} else if (response.errors[0].message === 'Too many granted words') {
+			} else if (isMaxGrantedWordsError(response.errors[0])) {
+				const message = getMaxGrantedWordsMessage(response.errors[0], this.props.translate);
+
 				this.setState({
 					loading: false,
 					...(this.state.data.initialState === 2 ? {
 						errors: {
-							initialState: this.props.translate.initial_granted_word_error
+							initialState: message
 						}
 					} : {}),
 					...(representative && representative.initialState === 2 ? {
 						representativeErrors: {
-							initialState: this.props.translate.initial_granted_word_error
+							initialState: message
 						}
 					} : {})
 
@@ -289,7 +291,6 @@ class AddCensusParticipantButton extends React.Component {
 					buttonStyle={{
 						border: `2px solid ${primary}`,
 						width: isMobile && '150px',
-						height: isMobile && '60px'
 					}}
 				/>
 				<AlertConfirm

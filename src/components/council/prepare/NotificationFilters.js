@@ -76,8 +76,7 @@ renderFilterIcon = value => {
 				src={CBX.getEmailIconByReqCode(value)}
 				alt={value}
 				style={{
-					width: '100%',
-					maxWidth: '22px',
+					width: '20px',
 					height: 'auto',
 					display: 'flex',
 					alignContent: 'center',
