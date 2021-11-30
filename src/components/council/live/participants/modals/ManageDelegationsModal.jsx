@@ -95,7 +95,7 @@ const ManageDelegationsModal = ({
 				</div>
 				{/* MISSING TRANSLATIONS AND FUNCTIONALLITY */}
 				<p style={{ fontSize: isMobile ? '17px' : '18px', paddingLeft: '1rem' }}>
-					{`Votos delegados de: ${data[0]?.name} y ${data.length - 1} más `}
+					{`${translate.delegated_vote_from}: ${data[0]?.name} y ${data.length - 1} más `}
 				</p>
 			</div>
 			<div
