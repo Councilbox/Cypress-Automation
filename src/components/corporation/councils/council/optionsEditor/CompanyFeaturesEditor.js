@@ -45,7 +45,6 @@ const CompanyFeaturesEditor = ({ client, companyId }) => {
 			}
 		});
 
-		console.log(response);
 		setData(response.data);
 		setLoading(false);
 	}, [companyId]);
