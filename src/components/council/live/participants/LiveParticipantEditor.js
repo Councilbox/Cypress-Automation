@@ -91,6 +91,7 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 
 			setOwnedVotes(response.data.participantOwnedVotes);
 			setLoadingOwnedVotes(false);
+			data.refetch();
 		}
 	}, [participant?.id]);
 
@@ -280,8 +281,8 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 								data={data}
 								type={PARTICIPANT_STATES.DELEGATED}
 								action={
-									participant.state === PARTICIPANT_STATES.DELEGATED &&
-									<RemoveDelegationButton
+									participant.state === PARTICIPANT_STATES.DELEGATED
+									&& <RemoveDelegationButton
 										delegatedVote={participant}
 										participant={participant.representative}
 										translate={translate}
