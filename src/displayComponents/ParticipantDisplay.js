@@ -34,6 +34,7 @@ const ParticipantDisplay = ({
 	});
 
 	const secondary = getSecondary();
+	console.log(edit)
 
 	return (
 		<div style={{ padding: '0.5em' }}>
