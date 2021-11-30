@@ -100,6 +100,8 @@ const QuorumDisplay = ({
 export const QuorumDetails = withApollo(({
 	council, renderVotingsTable, agendas = [], company, translate, recount, totalVotes, socialCapital, client
 }) => {
+	const combineNoVoteFeatureFlag = true;
+
 	const [data, setData] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
 	const secondary = getSecondary();
@@ -459,12 +461,25 @@ export const QuorumDetails = withApollo(({
 														<TableCell>
 															{`${getPercentage(point.negativeVotings + point.negativeManual, pointTotalVotes)}%`}
 														</TableCell>
-														<TableCell>
-															{showNumParticipations(point.abstentionVotings + point.abstentionManual, company, council.statute)}
-														</TableCell>
-														<TableCell>
-															{`${getPercentage(point.abstentionVotings + point.abstentionManual, pointTotalVotes)}%`}
-														</TableCell>
+														{!combineNoVoteFeatureFlag ?
+															<>
+																<TableCell>
+																	{showNumParticipations(point.abstentionVotings + point.abstentionManual, company, council.statute)}
+																</TableCell>
+																<TableCell>
+																	{`${getPercentage(point.abstentionVotings + point.abstentionManual, pointTotalVotes)}%`}
+																</TableCell>
+															</>
+															: <>
+																<TableCell>
+																	{showNumParticipations(point.abstentionVotings + point.abstentionManual + point.noVoteManual + point.noVoteVotings, company, council.statute)}
+																</TableCell>
+																<TableCell>
+																	{`${getPercentage(point.abstentionVotings + point.abstentionManual, point.noVoteManual + point.noVoteVotings, pointTotalVotes)}%`}
+																</TableCell>
+															</>
+														}
+
 													</>
 												}
 											</>
@@ -483,8 +498,7 @@ export const QuorumDetails = withApollo(({
 										}
 
 									</TableRow>);
-								}
-								)}
+								})}
 							</TableBody>
 						</Table>
 					</div>
