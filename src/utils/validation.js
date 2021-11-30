@@ -79,7 +79,7 @@ export const checkRequiredFieldsParticipant = (
 			hasError = true;
 			errors.email = translate.valid_email_required;
 		}
-    if (!participant.phone || !participant.phone.replace(/\s/g, '').match(/^(\d{9})/) || participant.phone.replace(/\s/g, '').length > 15) {
+		if (!participant.phone || !participant.phone.replace(/\s/g, '').match(/^(\d{9})/) || participant.phone.replace(/\s/g, '').length > 15) {
 			hasError = true;
 			errors.phone = translate.enter_valid_phone_number;
 		}
