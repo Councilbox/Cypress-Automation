@@ -33,6 +33,7 @@ import ContactForm from './ContactForm';
 import ResultsTimeline from '../ResultsTimeline';
 import CouncillParticipantSurvey from '../survey/CouncillParticipantSurvey';
 import { Grid, GridItem } from '../../../displayComponents';
+import logo from '../../../assets/img/councilboxLogo.png';
 
 
 const styles = {
@@ -417,38 +418,81 @@ const CouncilState = ({
 	}, [council.id]);
 
 	return (
-		<div
-			style={{
-				backgroundColor: 'transparent',
-				// backgroundColor: 'white',
-				...(windowSize === 'xs' && windowOrientation === 'portrait'
-					? styles.container
-					: styles.splittedContainer),
-			}}
-		>
-			<div
-				style={{
-					...styles.textContainer,
-					...(windowSize === 'xs' &&
-						windowOrientation === 'portrait'
-						? { maxWidth: '100%', width: '100%' }
-						: { maxWidth: '85%', minWidth: '100%' }),
-					// : { maxWidth: "50%", minWidth: "50%" }),
-				}}
-			>
-				{getBody()}
+		<div>
+			<div>
+				<div
+					style={{
+						backgroundColor: 'transparent',
+						// backgroundColor: 'white',
+						...(windowSize === 'xs' && windowOrientation === 'portrait'
+							? styles.container
+							: styles.splittedContainer),
+					}}
+				>
+					<div
+						style={{
+							...styles.textContainer,
+							...(windowSize === 'xs' &&
+								windowOrientation === 'portrait'
+								? { maxWidth: '100%', width: '100%' }
+								: { maxWidth: '85%', minWidth: '100%' }),
+							// : { maxWidth: "50%", minWidth: "50%" }),
+						}}
+					>
+						{getBody()}
+					</div>
+					<ContactModal
+						open={modal}
+						requestClose={closeContactModal}
+						participant={props.participant}
+						translate={translate}
+						council={council}
+					/>
+				</div>
 			</div>
-			<ContactModal
-				open={modal}
-				requestClose={closeContactModal}
-				participant={props.participant}
-				translate={translate}
-				council={council}
-			/>
+			{(!isAssistance && councilIsNotLiveYet(council)) &&
+				<MarketingText
+					windowSize={windowSize}
+					windowOrientation={windowOrientation}
+					translate={translate}
+				/>
+			}
 		</div>
 	);
 };
 
+
+const MarketingText = ({ windowSize, windowOrientation, translate }) => (
+	<div
+		style={{
+			...styles.textContainer,
+			...(windowSize === 'xs' &&
+				windowOrientation === 'portrait'
+				? { maxWidth: '100%', width: '100%' }
+				: { maxWidth: '85%', minWidth: '100%' }),
+			marginTop: isMobile && '2em',
+		}}
+	>
+		<Card
+			style={{
+				display: !isMobile && 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '3em'
+			}}
+		>
+			<div style={{
+				color: '#2E3030',
+				marginBottom: isMobile && '.5em',
+				fontSize: '18px',
+				display: 'flex',
+				alignItems: 'center'
+			}}>
+				{translate.marketing_text_councilbox}
+			</div>
+			<div style={{}}>
+				<img src={logo} />
+			</div>
+		</Card>
+	</div>
+);
 
 const TextRender = ({
 	title, text, isHtmlText, council, company, translate, windowOrientation
@@ -604,7 +648,7 @@ const StateContainer = ({
 			marginTop: '2em',
 			height: isMobile ? 'calc(100vh - 12em)' : '60vh',
 			display: 'flex',
-			alignItems: 'center'
+			alignItems: 'center',
 		}}
 	>
 		<Grid>
