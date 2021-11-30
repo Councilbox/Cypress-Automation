@@ -61,7 +61,7 @@ const AddCompanyTag = ({
 			}
 		}
 
-		if (!tag.value || !tag.key.trim()) {
+		if (!tag.value || !tag.value.trim()) {
 			checkErrors.value = translate.required_field;
 		}
 
