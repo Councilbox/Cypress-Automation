@@ -66,6 +66,7 @@ const mockTotalDelegations = {
 const ManageDelegationsModal = ({
 	translate, participant
 }) => {
+	// MISSING FUNCTIONALITY
 	const [data, setData] = useState([]);
 	const [isChecked, setIsChecked] = useState([]);
 
@@ -92,6 +93,7 @@ const ManageDelegationsModal = ({
 				<div>
 					<img src={participantIcon} />
 				</div>
+				{/* MISSING TRANSLATIONS AND FUNCTIONALLITY */}
 				<p style={{ fontSize: isMobile ? '17px' : '18px', paddingLeft: '1rem' }}>
 					{`Votos delegados de: ${data[0]?.name} y ${data.length - 1} más `}
 				</p>
@@ -113,96 +115,98 @@ const ManageDelegationsModal = ({
 					<div style={{ marginRight: '2px' }}>
 						<img src={arrowDown}/>
 					</div>
+					{/* MISSGIN SELECT ALL CHECKBOXES FUNCTIONALITY */}
 					<CheckBox value={true} />
 				</div>
 				<div style={{ width: isMobile ? '%' : '20%' }}>
+					{/* MISSING TRANSLATION -> Buscar participante */}
 					<TextInput
 						placeholder='Buscar participante'
 						adornment={<Icon>search</Icon>}
 					/>
 				</div>
 			</div>
-			<div style={{ height: 'calc( 100% - 5em )' }}>
+			<div style={{ height: 'calc( 100% - 5em )', width: '100%' }}>
 				<Scrollbar>
-					{data.map(d => (
-						<div
-							key={d.id}
-							style={{
-								display: 'flex',
-								flexDirection: isMobile ? 'column' : 'row',
-								alignItems: 'center',
-								justifyContent: 'space-between',
-								border: `1px solid ${secondary}`,
-								padding: '1rem',
-								margin: '5px',
-								borderRadius: '4px',
-								boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.5)',
-								marginRight: isMobile ? '0' : '1.5rem',
-							}}
-						>
-							<div style={{
-								display: 'flex', flexDirection: 'row', alignItems: 'center', paddingBottom: isMobile ? '1rem' : '0'
-							}}>
-								<CheckBox
-									onChange={event => setIsChecked(isChecked.map(i => {
-										if (d.id === i.id) {
-											i.selected = event.target.checked;
-										}
-										event.preventDefault();
-										return i;
-									}))}
-									value={d.selected}
-
-								/>
-								<p style={{
-									marginBottom: '0',
-									overflow: 'hidden',
-									width: isMobile ? '250px' : null,
-									whiteSpace: 'nowrap',
-									textOverflow: 'ellipsis',
-									flexShrink: 1
+					<div style={{ width: '95%' }}>
+						{data.map(d => (
+							<div
+								key={d.id}
+								style={{
+									display: 'flex',
+									flexDirection: isMobile ? 'column' : 'row',
+									alignItems: 'center',
+									justifyContent: 'space-between',
+									border: `1px solid ${secondary}`,
+									padding: '1rem',
+									margin: '5px',
+									borderRadius: '4px',
+									boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.5)',
+									marginRight: isMobile ? '0' : '1.5rem',
+								}}
+							>
+								<div style={{
+									display: 'flex', flexDirection: 'row', alignItems: 'center', paddingBottom: isMobile ? '1rem' : '0'
 								}}>
-									{`Voto delegado de: ${d.name} ${d.surname}`}
-								</p>
-							</div>
-							<div style={{ display: 'flex', flexDirection: 'row', justifyContent: isMobile ? 'space-between' : null }}>
-								<BasicButton
-									text='Quitar delegacion'
-									color={'white'}
-									textStyle={{
-										color: '#EE2E6B',
-										fontWeight: '400',
-										fontSize: isMobile ? '12px' : '14px',
-										textTransform: 'none'
-									}}
-									textPosition="after"
-									buttonStyle={{
-										marginRight: '1em',
-									}}
-								/>
-								<BasicButton
-									text='Reasignar voto'
-									color={'white'}
-									textStyle={{
-										color: '#595959',
-										fontWeight: '400',
-										fontSize: isMobile ? '12px' : '14px',
-										textTransform: 'none'
-									}}
-									textPosition="after"
-									buttonStyle={{
-										marginRight: '1em',
-									}}
-								/>
-							</div>
-						</div>))
-					}
+									<CheckBox
+										onChange={event => setIsChecked(isChecked.map(i => {
+											if (d.id === i.id) {
+												i.selected = event.target.checked;
+											}
+											event.preventDefault();
+											return i;
+										}))}
+										value={d.selected}
+
+									/>
+									<p style={{
+										marginBottom: '0',
+										overflow: 'hidden',
+										width: isMobile ? '250px' : null,
+										whiteSpace: 'nowrap',
+										textOverflow: 'ellipsis',
+										flexShrink: 1
+									}}>
+										{`${translate.delegated_vote_from}: ${d.name} ${d.surname}`} {/* MISSING FUNCTIONALITY */}
+									</p>
+								</div>
+								{/* MISSING FUNCTINALITY */}
+								<div style={{ display: 'flex', flexDirection: 'row' }}>
+									<BasicButton
+										text={translate.remove_delegation}
+										color={'white'}
+										textPosition="after"
+										textStyle={{
+											color: '#EE2E6B',
+											fontWeight: '400',
+											fontSize: isMobile ? '12px' : '14px',
+											textTransform: 'none'
+										}}
+										buttonStyle={{
+											marginRight: '1em',
+										}}
+									/>
+									{/* MISSING TRANSLATION */}
+									<BasicButton
+										text='Reasignar voto'
+										color={'white'}
+										textPosition="after"
+										textStyle={{
+											color: '#595959',
+											fontWeight: '400',
+											fontSize: isMobile ? '12px' : '14px',
+											textTransform: 'none'
+										}}
+									/>
+								</div>
+							</div>))
+						}
+					</div>
 					<div style={{ margin: '1rem' }}>
 						<PaginationFooter
 							translate={translate}
 						/>
 					</div>
-
 				</Scrollbar>
 			</div>
 		</div>
@@ -217,14 +221,15 @@ const ManageDelegationsModal = ({
 				}}
 				open={showDelegationModal}
 				bodyStyle={{
-					minWidth: isMobile ? '90vw' : '60vw', maxWidth: isMobile ? '90vw' : '60vw', height: '100%', margin: '0 auto'
+					minWidth: isMobile ? '98vw' : '60vw', maxWidth: isMobile ? '98vw' : '60vw', height: '100%', margin: '0 auto'
 				}}
 				buttonAccept={translate.accept}
 				buttonCancel={translate.cancel}
 				title={`${participant.name} ${participant.surname}`}
 				bodyText={renderBody()}
-				widthModal={{ height: '100%', maxHeight: '550px' }}
+				widthModal={{ height: '100%', maxHeight: '650px' }}
 			/>
+			{/* MISSING FUNCTIONALITY */}
 			<BasicButton
 				text={`${translate.delegations} (230)`}
 				buttonStyle={{ border: `1px solid ${secondary}`, width: '100%' }}
