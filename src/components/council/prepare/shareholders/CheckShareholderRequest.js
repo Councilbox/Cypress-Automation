@@ -18,7 +18,7 @@ export const getTypeText = (request, translate) => {
 		return translate.vote_delegation;
 	}
 
-	if (request.representative) {
+	if (request.representative && request.requestType !== 'represent') {
 		return translate.vote_represented;
 	}
 

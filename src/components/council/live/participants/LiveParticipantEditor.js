@@ -91,7 +91,6 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 
 			setOwnedVotes(response.data.participantOwnedVotes);
 			setLoadingOwnedVotes(false);
-			data.refetch();
 		}
 	}, [participant?.id]);
 
@@ -112,7 +111,6 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 		return <LoadingSection />;
 	}
 
-	console.log(participant.representative?.type);
 
 	return (
 		<div
@@ -201,8 +199,8 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 										{!loadingOwnedVotes ?
 											<>
 												{participant.type !== 1
-													&& !(participant.representative?.type === 1) &&
-													<ParticipantSelectActions
+													&& !(participant.representative?.type === 1)
+													&& <ParticipantSelectActions
 														ownedVotes={ownedVotes}
 														participant={participant}
 														council={props.council}
@@ -267,7 +265,10 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 							participant={participant}
 							council={props.council}
 							ownedVotes={ownedVotes}
-							updateOwnedVotes={updateOwnedVotes}
+							updateOwnedVotes={() => {
+								data.refetch();
+								updateOwnedVotes();
+							}}
 							loading={loadingOwnedVotes}
 						/>
 						{CBX.hasHisVoteDelegated(participant)
@@ -280,12 +281,15 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 								data={data}
 								type={PARTICIPANT_STATES.DELEGATED}
 								action={
-									participant.state === PARTICIPANT_STATES.DELEGATED &&
-									<RemoveDelegationButton
+									participant.state === PARTICIPANT_STATES.DELEGATED
+									&& <RemoveDelegationButton
 										delegatedVote={participant}
 										participant={participant.representative}
 										translate={translate}
-										refetch={updateOwnedVotes}
+										refetch={() => {
+											data.refetch();
+											updateOwnedVotes();
+										}}
 									/>
 								}
 							/>

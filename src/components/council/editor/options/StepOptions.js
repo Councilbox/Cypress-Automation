@@ -211,6 +211,17 @@ const StepOptions = ({
 			return true;
 		}
 
+		if (council.supportEmail && !checkValidEmail(council.supportEmail)) {
+			setState({
+				...state,
+				errors: {
+					...state.errors,
+					supportEmail: translate.email_not_valid
+				}
+			});
+			return true;
+		}
+
 		return false;
 	};
 
@@ -623,6 +634,46 @@ const StepOptions = ({
 
 									</>
 								}
+								<SectionTitle
+									text={translate.contact_data}
+									color={primary}
+									style={{
+										marginTop: '1.6em'
+									}}
+								/>
+								<GridItem xs={12} md={6} lg={4}>
+									<TextInput
+										required
+										id="council-options-contact-email"
+										floatingText={translate.contact_email}
+										type="text"
+										errorText={state.errors.contactEmail}
+										value={council.contactEmail || ''}
+										onChange={event => updateCouncilData({
+											contactEmail: event.target.value
+										})}
+										helpPopover
+										helpTitle={translate.contact_email}
+										helpDescription={translate.contact_email_admin_help}
+										helpPlacement={'topRight'}
+									/>
+								</GridItem>
+								<GridItem xs={12} md={6} lg={4}>
+									<TextInput
+										id="council-options-support-email"
+										floatingText={translate.support_email}
+										type="text"
+										errorText={state.errors.supportEmail}
+										value={council.supportEmail || ''}
+										onChange={event => updateCouncilData({
+											supportEmail: event.target.value
+										})}
+										helpPopover
+										helpTitle={translate.support_email}
+										helpDescription={translate.support_email_help}
+										helpPlacement={'topRight'}
+									/>
+								</GridItem>
 								{(council.statute.existsDelegatedVote === 1 && config.councilDelegates && council.councilType !== 5)
 									&& renderDelegationRestriction()
 								}
@@ -642,23 +693,6 @@ const StepOptions = ({
 									})
 									}
 								/>
-								<GridItem xs={12} md={6} lg={4}>
-									<TextInput
-										required
-										id="council-options-contact-email"
-										floatingText={translate.contact_email}
-										type="text"
-										errorText={state.errors.contactEmail}
-										value={council.contactEmail || ''}
-										onChange={event => updateCouncilData({
-											contactEmail: event.target.value
-										})}
-										helpPopover
-										helpTitle={translate.contact_email}
-										helpDescription={translate.contact_email_admin_help}
-										helpPlacement={'topRight'}
-									/>
-								</GridItem>
 								{CBX.hasAct(council.statute) && council.councilType < 2 && (
 									<React.Fragment>
 										<SectionTitle
