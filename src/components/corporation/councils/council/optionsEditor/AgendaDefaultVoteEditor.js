@@ -32,7 +32,6 @@ const AgendaDefaultVoteEditor = ({ client, council }) => {
 				councilId: council.id
 			}
 		});
-		console.log(response);
 		setData(response.data);
 		setLoading(false);
 	}, [council.id]);
@@ -57,8 +56,8 @@ const AgendaDefaultVoteEditor = ({ client, council }) => {
 
 	return (
 		<Grid style={{ overflow: 'hidden', marginTop: '1em' }}>
-			{!loading &&
-				<>
+			{!loading
+				&& <>
 					{data.agendas && data.agendas.length > 0 ?
 						data.agendas.map(agenda => (
 							<Grid
