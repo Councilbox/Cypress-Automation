@@ -33,6 +33,8 @@ const itemStyle = {
 const AgendaRecount = ({
 	agenda, recount, majorityTypes, council, company, editable, translate, classes
 }) => {
+	const combineNoVoteFeatureFlag = true;
+
 	const agendaNeededMajority = CBX.calculateMajorityAgenda({
 		...agenda,
 		...agenda.votingsRecount
@@ -395,7 +397,7 @@ const AgendaRecount = ({
 					{ name: translate.in_favor },
 					{ name: translate.against },
 					{ name: translate.abstentions },
-					{ name: translate.no_vote }
+					{ name: combineNoVoteFeatureFlag ? '' : translate.no_vote }
 				]}
 			>
 				<TableRow>
@@ -411,9 +413,11 @@ const AgendaRecount = ({
 					<TableCell>
 						{printAbstentionRemote()}
 					</TableCell>
-					<TableCell>
-						{printNoVoteRemote()}
-					</TableCell>
+					{!combineNoVoteFeatureFlag && (
+						<TableCell>
+							{printNoVoteRemote()}
+						</TableCell>
+					)}
 				</TableRow>
 				<TableRow>
 					<TableCell>
@@ -448,9 +452,11 @@ const AgendaRecount = ({
 							<TableCell>
 								{printAbstentionPresent()}
 							</TableCell>
-							<TableCell>
-								{printNoVotePresent()}
-							</TableCell>
+							{!combineNoVoteFeatureFlag && (
+								<TableCell>
+									{printNoVotePresent()}
+								</TableCell>
+							)}
 						</React.Fragment>
 					}
 				</TableRow>
@@ -467,9 +473,11 @@ const AgendaRecount = ({
 					<TableCell>
 						{printAbstentionTotal()}
 					</TableCell>
-					<TableCell>
-						{printNoVoteTotal()}
-					</TableCell>
+					{!combineNoVoteFeatureFlag && (
+						<TableCell>
+							{printNoVoteTotal()}
+						</TableCell>
+					)}
 				</TableRow>
 			</Table>
 		</React.Fragment>
