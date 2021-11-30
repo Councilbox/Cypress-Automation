@@ -135,6 +135,8 @@ const CensusParticipants = ({
 		props.refetch();
 	};
 
+	const { loading, censusParticipants } = props.data;
+
 	const headers = [
 		{
 			selectAll: <Checkbox onChange={selectAll} value={state.selectedIds.size > 0 && state.selectedIds.size === (censusParticipants.list ? censusParticipants.list.length : -1)} />
@@ -171,8 +173,6 @@ const CensusParticipants = ({
 	headers.push({
 		text: ''
 	});
-
-	const { loading, censusParticipants } = props.data;
 
 	if (loading) {
 		return <LoadingSection />;

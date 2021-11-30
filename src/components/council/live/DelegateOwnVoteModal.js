@@ -198,6 +198,7 @@ const DelegateOwnVoteModal = ({
 													key={`delegateVote_${liveParticipant.id}`}
 													id={`participant-row-${index}`}
 													council={council}
+													order="surname"
 													toDelegate={true}
 													participant={liveParticipant}
 													onClick={() => delegateVote(liveParticipant.id)}
