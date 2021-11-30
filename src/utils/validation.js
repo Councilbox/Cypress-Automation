@@ -79,7 +79,10 @@ export const checkRequiredFieldsParticipant = (
 			hasError = true;
 			errors.email = translate.valid_email_required;
 		}
-
+		if (!participant.phone || !participant.phone.replace(/\s/g, '').match(/^(\d{9})/) || participant.phone.replace(/\s/g, '').length > 15) {
+			hasError = true;
+			errors.phone = translate.enter_valid_phone_number;
+		}
 		if (participant.phone) {
 			const test = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
 			if (!test.test(participant.phone)) {
@@ -87,7 +90,6 @@ export const checkRequiredFieldsParticipant = (
 				hasError = true;
 			}
 		}
-
 		if (!participant.language) {
 			hasError = true;
 			errors.language = translate.field_required;
