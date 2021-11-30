@@ -27,7 +27,7 @@ import {
 import VotingValueIcon from './VotingValueIcon';
 import PresentVoteMenu from './PresentVoteMenu';
 import {
-	isPresentVote, agendaVotingsOpened, isCustomPoint, showNumParticipations, getPercentage, getActiveVote, isConfirmationRequest, isAnonym
+	isPresentVote, agendaVotingsOpened, isCustomPoint, showNumParticipations, getPercentage, getActiveVote, isConfirmationRequest, isAnonym, isNominalVoting
 } from '../../../../utils/CBX';
 import NominalCustomVoting, { DisplayVoting } from './NominalCustomVoting';
 import { isMobile } from '../../../../utils/screen';
@@ -546,8 +546,7 @@ const VotingsTable = ({
 								forceMobileTable={true}
 								headers={[
 									(agenda.presentCensus > 0
-										&& !isCustomPoint(agenda.subjectType)
-										&& !isConfirmationRequest(agenda.subjectType)
+										&& (isNominalVoting(agenda.subjectType))
 										&& props.council.councilType !== 3) ?
 										{
 											name:

@@ -156,7 +156,7 @@ const RequestWordMenu = ({
 		};
 
 		const renderButton = () => {
-			if (participant.requestWord === 3 || participant.requestWord === 4) {
+			if (!CBX.canAskForWord(participant)) {
 				return <span />;
 			}
 

@@ -112,8 +112,6 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 		return <LoadingSection />;
 	}
 
-	console.log(participant.representative?.type);
-
 	return (
 		<div
 			style={{
@@ -267,7 +265,10 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 							participant={participant}
 							council={props.council}
 							ownedVotes={ownedVotes}
-							updateOwnedVotes={updateOwnedVotes}
+							updateOwnedVotes={() => {
+								data.refetch();
+								updateOwnedVotes();
+							}}
 							loading={loadingOwnedVotes}
 						/>
 						{CBX.hasHisVoteDelegated(participant)
@@ -280,12 +281,15 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 								data={data}
 								type={PARTICIPANT_STATES.DELEGATED}
 								action={
-									participant.state === PARTICIPANT_STATES.DELEGATED &&
-									<RemoveDelegationButton
+									participant.state === PARTICIPANT_STATES.DELEGATED
+									&& <RemoveDelegationButton
 										delegatedVote={participant}
 										participant={participant.representative}
 										translate={translate}
-										refetch={updateOwnedVotes}
+										refetch={() => {
+											data.refetch();
+											updateOwnedVotes();
+										}}
 									/>
 								}
 							/>

@@ -204,9 +204,9 @@ const DelegateVoteModal = ({
 												<ParticipantRow
 													key={`delegateParticipant_${liveParticipant.id}`}
 													id={`participant-row-${index}`}
+													order="surname"
 													participant={liveParticipant}
-													onClick={() => addDelegation(liveParticipant.id)
-													}
+													onClick={() => addDelegation(liveParticipant.id)}
 												/>
 											);
 										}

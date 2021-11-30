@@ -7,7 +7,7 @@ const FinishModal = ({
 }) => {
 	const renderBody = () => (
 		<div>
-Una vez enviado no se podrá modificar el sentido del voto ¿Aceptar?
+			{translate.after_confirm_you_cannot_change_vote}
 		</div>
 	);
 

@@ -1,16 +1,14 @@
 import React from 'react';
 import Header from '../components/Header';
 import bg from '../assets/img/background8-3.jpg';
-import logo from '../assets/img/councilboxLogo.png';
 import { getCustomBackground, getCustomRoomBackground } from '../utils/subdomain';
 import LoadingMainApp from './LoadingMainApp';
 import { HEADER_HEIGHT } from '../styles/constants';
 import { Scrollbar } from '.';
-import { isMobile } from '../utils/screen';
 
 
 const NotLoggedLayout = ({
-	children, translate, helpIcon, languageSelector, councilIsFinished, setSelectHeadFinished, selectHeadFinished, loginFooter, ...props
+	children, translate, helpIcon, languageSelector, councilIsFinished, setSelectHeadFinished, selectHeadFinished, ...props
 }) => {
 	const [loadingImg, setLoadingImg] = React.useState(true);
 	const customBackground = getCustomBackground();
@@ -24,35 +22,6 @@ const NotLoggedLayout = ({
 		img.src = imgUrl;
 		img.onload = () => setLoadingImg(false);
 	}, [customBackground, customRoomBackground]);
-
-	const footer = () => (
-		<div
-			style={{
-				position: !isMobile && 'absolute',
-				bottom: '35px',
-				display: !isMobile && 'flex',
-				justifyContent: 'center',
-				alignItems: 'center',
-				width: '100%',
-				textAlign: 'center',
-				minHeight: isMobile && '7em',
-				marginTop: isMobile && '2em',
-			}}
-		>
-			<div style={{
-				fontSize: '13px',
-				marginRight: isMobile ? '1em' : '2em',
-				marginLeft: '1em',
-				color: '#2E3030',
-				marginBottom: isMobile && '.5em'
-			}}>
-				{translate.marketing_text_councilbox}
-			</div>
-			<div style={{ marginRight: !isMobile && '1em' }}>
-				<img src={logo} />
-			</div>
-		</div>
-	);
 
 	if (loadingImg) {
 		return <LoadingMainApp />;
@@ -110,9 +79,7 @@ const NotLoggedLayout = ({
 					classFix={'scrollflex'}
 				>
 					{children}
-					{loginFooter && isMobile && footer()}
 				</Scrollbar>
-				{loginFooter && !isMobile && footer()}
 			</div>
 		</div>
 	);

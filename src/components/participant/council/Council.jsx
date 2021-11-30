@@ -21,7 +21,7 @@ import * as CBX from '../../../utils/CBX';
 import UsersHeader from '../UsersHeader';
 import { ConfigContext } from '../../../containers/AppControl';
 import { usePolling } from '../../../hooks';
-import { AlertConfirm, LoadingSection } from '../../../displayComponents';
+import { AlertConfirm, LoadingMainApp, LoadingSection } from '../../../displayComponents';
 import { ConnectionInfoContext } from '../../../containers/ParticipantContainer';
 
 
@@ -133,6 +133,15 @@ const ParticipantCouncil = ({
 	const [agendas, setData] = React.useState(null);
 	const [drawerTop, setDrawerTop] = React.useState(false);
 	const [modalDontHaveVoting, setModalDontHaveVoting] = React.useState(true);
+	const [brandingTimeout, setBrandingTimeout] = React.useState(true);
+
+	React.useEffect(() => {
+		if (config.notificationsBranding) {
+			setTimeout(() => {
+				setBrandingTimeout(false);
+			}, process.env.REACT_APP_MODE === 'dev' ? 1500 : 6000);
+		}
+	}, [config.notificationsBranding]);
 
 	const leaveRoom = React.useCallback(() => {
 		if (navigator.sendBeacon) {
@@ -380,6 +389,14 @@ const ParticipantCouncil = ({
 	const { agendasAnchor } = state;
 	const noSession = state.hasVideo && participant.state !== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE;
 	let titleHeader = null;
+
+
+	if (brandingTimeout && config.notificationsBranding) {
+		return (
+			<LoadingMainApp displayAdvice={true} company={council.company} />
+		);
+	}
+
 	if (agendas) {
 		titleHeader = agendas.agendas.filter(item => CBX.agendaPointOpened(item));
 	} else {
@@ -412,6 +429,7 @@ const ParticipantCouncil = ({
 				</div>
 			);
 		}
+
 		return (
 			<div style={styles.viewContainerM}>
 				{(participant.type === 1 || calculateParticipantVotes() === 0) &&

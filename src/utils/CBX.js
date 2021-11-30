@@ -340,8 +340,11 @@ export const councilHasComments = statute => statute.existsComments === 1;
 export const canDelegateVotes = (statute, participant, ownedVotes) => (statute.existsDelegatedVote === 1
 	&& !(participant.hasDelegatedVotes)
 	&& participant.type !== PARTICIPANT_TYPE.GUEST
-	&& (participant.numParticipations > 0 || ownedVotes?.meta?.totalRepresentedVotes > 0)
+	&& (participant.numParticipations > 0 || ownedVotes?.meta?.totalRepresentedVotes > 0
+		|| participant.represented?.length > 0
+	)
 );
+
 export const canAddDelegateVotes = (statute, participant) => (
 	statute.existsDelegatedVote === 1
 	&& (participant.type === PARTICIPANT_TYPE.PARTICIPANT || participant.type === PARTICIPANT_TYPE.REPRESENTATIVE)
@@ -377,6 +380,7 @@ export const hasParticipations = (statute = {}) => statute.quorumPrototype === 1
 export const canBePresentWithRemoteVote = statute => statute.existsPresentWithRemoteVote === 1;
 
 export const isAnonym = subjectType => subjectType === AGENDA_TYPES.PRIVATE_VOTING || subjectType === AGENDA_TYPES.CUSTOM_PRIVATE;
+
 export const getSMSStatusByCode = reqCode => {
 	const status = {
 		22: 'Entregado',
@@ -387,6 +391,16 @@ export const getSMSStatusByCode = reqCode => {
 
 	return status[reqCode] ? status[reqCode] : status.default;
 };
+
+export const isNominalVoting = subjectType => (
+	subjectType === AGENDA_TYPES.PUBLIC_VOTING
+	|| subjectType === AGENDA_TYPES.PUBLIC_ACT
+);
+
+export const canAskForWord = participant => !(participant.requestWord === 3
+	|| participant.requestWord === 4
+	|| participant.type === PARTICIPANT_TYPE.TRANSLATOR
+);
 
 export const filterAgendaVotingTypes = (votingTypes, _, council = {}) => {
 	if (council.councilType === 2) {
