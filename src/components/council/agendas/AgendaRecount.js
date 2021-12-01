@@ -33,7 +33,7 @@ const itemStyle = {
 const AgendaRecount = ({
 	agenda, recount, majorityTypes, council, company, editable, translate, classes
 }) => {
-	const combineNoVoteFeatureFlag = true;
+	const combineAbstentionNoVote = true;
 
 	const agendaNeededMajority = CBX.calculateMajorityAgenda({
 		...agenda,
@@ -89,33 +89,30 @@ const AgendaRecount = ({
 		</>
 	);
 
-	const renderNeedMajority = () => {
-		return !CBX.agendaPointNotOpened(agenda) ?
-			<>
-				{`${translate.votes_in_favor_for_approve}: ${CBX.showNumParticipations(agendaNeededMajority, company, council.statute)}`}
-				{(agendaNeededMajority > (agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual) && !approvedByQualityVote) ? (
-					<FontAwesome
-						name={'times'}
-						style={{
-							margin: '0.5em',
-							color: 'red',
-							fontSize: '1.2em'
-						}}
-					/>
-				) : (
-					<FontAwesome
-						name={'check'}
-						style={{
-							margin: '0.5em',
-							color: 'green',
-							fontSize: '1.2em'
-						}}
-					/>
-				)}
-			</>
-			:
-			`${translate.votes_in_favor_for_approve}: -`;
-	};
+	const renderNeedMajority = () => (!CBX.agendaPointNotOpened(agenda) ?
+		<>
+			{`${translate.votes_in_favor_for_approve}: ${CBX.showNumParticipations(agendaNeededMajority, company, council.statute)}`}
+			{(agendaNeededMajority > (agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual) && !approvedByQualityVote) ? (
+				<FontAwesome
+					name={'times'}
+					style={{
+						margin: '0.5em',
+						color: 'red',
+						fontSize: '1.2em'
+					}}
+				/>
+			) : (
+				<FontAwesome
+					name={'check'}
+					style={{
+						margin: '0.5em',
+						color: 'green',
+						fontSize: '1.2em'
+					}}
+				/>
+			)}
+		</>
+		:			`${translate.votes_in_favor_for_approve}: -`);
 
 	const printPositiveRemote = () => `${CBX.showNumParticipations(agenda.votingsRecount.positiveVotings, company, council.statute)} ${printPercentage(agenda.votingsRecount.positiveVotings)}`;
 
@@ -190,21 +187,19 @@ const AgendaRecount = ({
 		);
 	};
 
-	const renderCurrentTotal = () => {
-		return (
-			<>
-				<div style={itemStyle}>
-					{translate.voting_rights_census}
-				</div>
-				<div style={itemStyle}>
-					{`${translate.participants}: ${agenda.numCurrentRemoteCensus + agenda.numPresentCensus || 0}`}
-				</div>
-				<div style={itemStyle}>
-					{`${translate.votes}: ${CBX.showNumParticipations(totalVotes, company, council.statute) || 0} ${printPercentage(totalVotes, recount.partTotal)}`}
-				</div>
-			</>
-		);
-	};
+	const renderCurrentTotal = () => (
+		<>
+			<div style={itemStyle}>
+				{translate.voting_rights_census}
+			</div>
+			<div style={itemStyle}>
+				{`${translate.participants}: ${agenda.numCurrentRemoteCensus + agenda.numPresentCensus || 0}`}
+			</div>
+			<div style={itemStyle}>
+				{`${translate.votes}: ${CBX.showNumParticipations(totalVotes, company, council.statute) || 0} ${printPercentage(totalVotes, recount.partTotal)}`}
+			</div>
+		</>
+	);
 
 
 	if (isMobile) {
@@ -265,7 +260,7 @@ const AgendaRecount = ({
 							<br></br>
 							{translate.abstentions} : {printAbstentionRemote()}
 							<br></br>
-							{!combineNoVoteFeatureFlag ?
+							{!combineAbstentionNoVote ?
 								(
 									<TableCell>
 										{printNoVoteRemote()}
@@ -331,7 +326,7 @@ const AgendaRecount = ({
 									<br></br>
 									{translate.abstentions} : {printAbstentionPresent()}
 									<br></br>
-									{!combineNoVoteFeatureFlag ?
+									{!combineAbstentionNoVote ?
 										(
 											<TableCell>
 												{printNoVotePresent()}
@@ -364,7 +359,7 @@ const AgendaRecount = ({
 							<br></br>
 							{translate.abstentions} : {printAbstentionTotal()}
 							<br></br>
-							{!combineNoVoteFeatureFlag ?
+							{!combineAbstentionNoVote ?
 								(
 									<TableCell>
 										{printNoVoteTotal()}
@@ -434,7 +429,7 @@ const AgendaRecount = ({
 					{ name: translate.in_favor },
 					{ name: translate.against },
 					{ name: translate.abstentions },
-					{ name: combineNoVoteFeatureFlag ? '' : translate.no_vote }
+					{ name: combineAbstentionNoVote ? '' : translate.no_vote }
 				]}
 			>
 				<TableRow>
@@ -447,7 +442,7 @@ const AgendaRecount = ({
 					<TableCell>
 						{printNegativeRemote()}
 					</TableCell>
-					{!combineNoVoteFeatureFlag ?
+					{!combineAbstentionNoVote ?
 						(
 							<TableCell>
 								{printAbstentionRemote()}
@@ -458,7 +453,7 @@ const AgendaRecount = ({
 							</TableCell>
 						)
 					}
-					{!combineNoVoteFeatureFlag && (
+					{!combineAbstentionNoVote && (
 						<TableCell>
 							{printNoVoteRemote()}
 						</TableCell>
@@ -494,7 +489,7 @@ const AgendaRecount = ({
 							<TableCell>
 								{printNegativePresent()}
 							</TableCell>
-							{!combineNoVoteFeatureFlag ?
+							{!combineAbstentionNoVote ?
 								(
 									<TableCell>
 										{printAbstentionPresent()}
@@ -505,7 +500,7 @@ const AgendaRecount = ({
 									</TableCell>
 								)
 							}
-							{!combineNoVoteFeatureFlag && (
+							{!combineAbstentionNoVote && (
 								<TableCell>
 									{printNoVotePresent()}
 								</TableCell>
@@ -523,7 +518,7 @@ const AgendaRecount = ({
 					<TableCell>
 						{printNegativeTotal()}
 					</TableCell>
-					{!combineNoVoteFeatureFlag ?
+					{!combineAbstentionNoVote ?
 						(
 							<TableCell>
 								{printAbstentionTotal()}
@@ -534,7 +529,7 @@ const AgendaRecount = ({
 							</TableCell>
 						)
 					}
-					{!combineNoVoteFeatureFlag && (
+					{!combineAbstentionNoVote && (
 						<TableCell>
 							{printNoVoteTotal()}
 						</TableCell>

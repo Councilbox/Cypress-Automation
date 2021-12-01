@@ -43,8 +43,8 @@ const QuorumDisplay = ({
 					<span>{`${translate.current_quorum}:`} </span>
 					<span id="live-current-quorum">{`${showNumParticipations(recount.partRightVoting, company, council.statute)}`}</span>
 					<span id="live-current-quorum-percentage">{`(${calculatePercentage(recount.partRightVoting, (recount.partTotal || 1))}%)`}</span>
-					{(councilStarted() && council.councilStarted === 1 && councilHasSession(council)) &&
-						<>
+					{(councilStarted() && council.councilStarted === 1 && councilHasSession(council))
+						&& <>
 							<span>{` / ${translate.initial_quorum}: `}</span>
 							<span id="live-initial-quorum">{`${council.initialQuorum ? showNumParticipations(council.initialQuorum, company, council.statute) : showNumParticipations(council.currentQuorum, company, council.statute)}`}</span>
 							<span id="live-initial-quorum-percentage">{` (${calculatePercentage(council.initialQuorum, (recount.partTotal || 1))}%)`}</span>
@@ -55,8 +55,8 @@ const QuorumDisplay = ({
 					<span>{`${translate.current_quorum}:`} </span>
 					<span id="live-current-quorum">{`${showNumParticipations(recount.socialCapitalRightVoting, company, council.statute)}`}</span>
 					<span id="live-current-quorum-percentage">{`(${calculatePercentage(recount.socialCapitalRightVoting, (recount.socialCapitalTotal || 1))}%)`}</span>
-					{(councilStarted() && council.councilStarted === 1 && councilHasSession(council)) &&
-						<>
+					{(councilStarted() && council.councilStarted === 1 && councilHasSession(council))
+						&& <>
 							<span>{` / ${translate.initial_quorum}: `}</span>
 							<span id="live-initial-quorum">{`${council.initialQuorum ? showNumParticipations(council.initialQuorum, company, council.statute) : showNumParticipations(council.currentQuorum, company, council.statute)}`}</span>
 							<span id="live-initial-quorum-percentage">{` (${calculatePercentage(council.initialQuorum, (recount.socialCapitalTotal || 1))}%)`}</span>
@@ -100,7 +100,7 @@ const QuorumDisplay = ({
 export const QuorumDetails = withApollo(({
 	council, renderVotingsTable, agendas = [], company, translate, recount, totalVotes, socialCapital, client
 }) => {
-	const combineNoVoteFeatureFlag = true;
+	const combineAbstentionNoVote = true;
 
 	const [data, setData] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
@@ -332,8 +332,7 @@ export const QuorumDetails = withApollo(({
 											</div>
 										</MenuItem>
 									</>
-									:
-									<>
+									:									<>
 										<MenuItem onClick={downloadQuorumPDF}>
 											<div
 												style={{
@@ -354,8 +353,8 @@ export const QuorumDetails = withApollo(({
 												</span>
 											</div>
 										</MenuItem>
-										{renderVotingsTable &&
-											<MenuItem onClick={downloadResultsPDF}>
+										{renderVotingsTable
+											&& <MenuItem onClick={downloadResultsPDF}>
 												<div
 													style={{
 														width: '100%',
@@ -402,8 +401,8 @@ export const QuorumDetails = withApollo(({
 				</div>
 
 
-				{renderVotingsTable &&
-					<div id="resultsTable">
+				{renderVotingsTable
+					&& <div id="resultsTable">
 						<Table style={{ marginTop: '3em' }}>
 							<TableHead>
 								<TableCell style={{ fontSize: '16px', fontWeight: '700' }}>
@@ -461,7 +460,7 @@ export const QuorumDetails = withApollo(({
 														<TableCell>
 															{`${getPercentage(point.negativeVotings + point.negativeManual, pointTotalVotes)}%`}
 														</TableCell>
-														{!combineNoVoteFeatureFlag ?
+														{!combineAbstentionNoVote ?
 															<>
 																<TableCell>
 																	{showNumParticipations(point.abstentionVotings + point.abstentionManual, company, council.statute)}

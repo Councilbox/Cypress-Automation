@@ -61,6 +61,20 @@ export function generateCertAgendaBlocks(data, language = 'es') {
 const getCustomRecount = (ballots, itemId) => ballots.filter(ballot => ballot.itemId === itemId).reduce((a, b) => a + b.weight, 0);
 
 const buildAgendaText = (agenda, translate, data) => {
+	const combineAbstentionNoVote = (true);
+
+	if (combineAbstentionNoVote) {
+		return `
+		<div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
+		<b>${translate.votings}: </b>
+		<br> ${translate.inFavor.toUpperCase()}: ${getAgendaResult(agenda, 'POSITIVE', data)} 
+			| ${translate.against.toUpperCase()}: ${getAgendaResult(agenda, 'NEGATIVE', data)} 
+			| ${translate.abstentions.toUpperCase()}: ${getAgendaResult(agenda, 'COMBINED_ABSTENTION_NO_VOTE', data)}
+		<br>
+		</div>
+	`;
+	}
+
 	if (isCustomPoint(agenda.subjectType)) {
 		return `
 			<div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">

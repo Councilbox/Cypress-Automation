@@ -94,8 +94,7 @@ const VotingMenu = ({
 		return (
 			showRecount ?
 				` (${translate.recount}: ${newRecount})`
-				:
-				''
+				:				''
 		);
 	};
 
@@ -148,6 +147,8 @@ const VotingMenu = ({
 
 	const disabled = fixed || !props.ownVote;
 
+	const combineAbstentionNoVote = true;
+
 	return (
 		<Grid
 			style={{
@@ -157,15 +158,14 @@ const VotingMenu = ({
 				flexDirection: 'row'
 			}}
 		>
-			{voteDenied &&
-				<DeniedDisplay translate={translate} denied={denied} />
+			{voteDenied
+				&& <DeniedDisplay translate={translate} denied={denied} />
 			}
-			{(props.ownVote && props.ownVote.fixed) &&
-				<>
+			{(props.ownVote && props.ownVote.fixed)
+				&& <>
 					{props.ownVote.numParticipations === 0 ?
 						translate.cant_vote_this_point
-						:
-						translate.participant_vote_fixed
+						:						translate.participant_vote_fixed
 					}
 				</>
 			}
@@ -173,12 +173,11 @@ const VotingMenu = ({
 				text={
 					!hasSession ?
 						translate.in_favor_btn
-						:
-						translate.in_favor_btn +
-						buildRecountText(
+						:						translate.in_favor_btn
+						+ buildRecountText(
 							CBX.showNumParticipations(
-								freezed.current ? freezed.current.positiveVotings + agenda.votingsRecount.positiveManual :
-									agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual,
+								freezed.current ? freezed.current.positiveVotings + agenda.votingsRecount.positiveManual
+									: agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual,
 								council.company,
 								council.statute
 							)
@@ -204,12 +203,11 @@ const VotingMenu = ({
 				text={
 					!hasSession ?
 						translate.against_btn
-						:
-						translate.against_btn +
-						buildRecountText(
+						:						translate.against_btn
+						+ buildRecountText(
 							CBX.showNumParticipations(
-								freezed.current ? freezed.current.negativeVotings + agenda.votingsRecount.negativeManual :
-									agenda.votingsRecount.negativeVotings + agenda.votingsRecount.negativeManual,
+								freezed.current ? freezed.current.negativeVotings + agenda.votingsRecount.negativeManual
+									: agenda.votingsRecount.negativeVotings + agenda.votingsRecount.negativeManual,
 								council.company,
 								council.statute
 							)
@@ -232,17 +230,16 @@ const VotingMenu = ({
 				}}
 			/>
 
-			{CBX.showAbstentionButton({ config, statute: council.statute }) &&
-				<VotingButton
+			{CBX.showAbstentionButton({ config, statute: council.statute })
+				&& <VotingButton
 					text={
 						!hasSession ?
 							translate.abstention_btn
-							:
-							translate.abstention_btn +
-							buildRecountText(
+							:							translate.abstention_btn
+							+ buildRecountText(
 								CBX.showNumParticipations(
-									freezed.current ? freezed.current.abstentionVotings + agenda.votingsRecount.abstentionManual :
-										agenda.votingsRecount.abstentionVotings + agenda.votingsRecount.abstentionManual,
+									freezed.current ? freezed.current.abstentionVotings + agenda.votingsRecount.abstentionManual
+										: agenda.votingsRecount.abstentionVotings + agenda.votingsRecount.abstentionManual,
 									council.company,
 									council.statute
 								)
@@ -265,17 +262,16 @@ const VotingMenu = ({
 					}}
 				/>
 			}
-			{CBX.showNoVoteButton({ config, statute: council.statute }) &&
+			{CBX.showNoVoteButton({ config, statute: council.statute }) && !combineAbstentionNoVote && (
 				<VotingButton
 					text={
 						!hasSession ?
 							translate.dont_vote
-							:
-							translate.dont_vote +
-							buildRecountText(
+							:							translate.dont_vote
+							+ buildRecountText(
 								CBX.showNumParticipations(
-									freezed.current ? freezed.current.noVoteVotings + agenda.votingsRecount.noVoteManual :
-										agenda.votingsRecount.noVoteVotings + agenda.votingsRecount.noVoteManual,
+									freezed.current ? freezed.current.noVoteVotings + agenda.votingsRecount.noVoteManual
+										: agenda.votingsRecount.noVoteVotings + agenda.votingsRecount.noVoteManual,
 									council.company,
 									council.statute
 								)
@@ -296,9 +292,11 @@ const VotingMenu = ({
 						}
 					}}
 				/>
+			)
 			}
-			{voteAtTheEnd &&
-				<VoteConfirmationModal
+
+			{voteAtTheEnd
+				&& <VoteConfirmationModal
 					open={modal}
 					requestClose={closeModal}
 					translate={translate}
@@ -347,8 +345,8 @@ export const VotingButton = ({
 		text: <div style={{ padding: '0.6em', width: '100%' }}>
 			{text}
 			<hr style={{ borderTop: '1px solid white' }} />
-			{(vote && agenda) &&
-				<VoteSuccessMessage
+			{(vote && agenda)
+				&& <VoteSuccessMessage
 					vote={vote}
 					agenda={agenda}
 					color="white"
