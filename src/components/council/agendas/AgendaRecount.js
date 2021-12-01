@@ -112,7 +112,8 @@ const AgendaRecount = ({
 				/>
 			)}
 		</>
-		:			`${translate.votes_in_favor_for_approve}: -`);
+		:
+		`${translate.votes_in_favor_for_approve}: -`);
 
 	const printPositiveRemote = () => `${CBX.showNumParticipations(agenda.votingsRecount.positiveVotings, company, council.statute)} ${printPercentage(agenda.votingsRecount.positiveVotings)}`;
 
@@ -138,11 +139,13 @@ const AgendaRecount = ({
 
 	const printNegativeTotal = () => `${CBX.showNumParticipations(agenda.votingsRecount.negativeVotings + agenda.votingsRecount.negativeManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.negativeVotings + agenda.votingsRecount.negativeManual)}`;
 
-	const printAbstentionTotal = () => `${CBX.showNumParticipations(agenda.votingsRecount.abstentionVotings + agenda.votingsRecount.abstentionManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.abstentionVotings + agenda.votingsRecount.abstentionManual)}`;
+	const printAbstentionTotal = () => `${CBX.showNumParticipations(CBX.getAbstentionVotingsSum(agenda.votingsRecount), company, council.statute)} ${printPercentage(CBX.getAbstentionVotingsSum(agenda.votingsRecount))}`;
 
-	const printNoVoteTotal = () => `${CBX.showNumParticipations(agenda.votingsRecount.noVoteVotings + agenda.votingsRecount.noVoteManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.noVoteVotings + agenda.votingsRecount.noVoteManual)}`;
+	const printNoVoteTotal = () => `${CBX.showNumParticipations(CBX.getNoVoteVotingsSum(agenda.votingsRecount), company, council.statute)} ${printPercentage(CBX.getNoVoteVotingsSum(agenda.votingsRecount))}`;
 
-	const printCombinedAbstentionTotal = () => `${CBX.showNumParticipations(agenda.votingsRecount.abstentionVotings + agenda.votingsRecount.abstentionManual + agenda.votingsRecount.noVoteVotings + agenda.votingsRecount.noVoteManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.abstentionVotings + agenda.votingsRecount.abstentionManual)}`;
+	const printCombinedAbstentionTotal = () => `${CBX.showNumParticipations(
+		CBX.getCombinedAbstentionVotingsSum(agenda.votingsRecount), company, council.statute
+	)} ${printPercentage(CBX.getCombinedAbstentionVotingsSum(agenda.votingsRecount))}`;
 
 
 	const renderPresentTotal = () => {

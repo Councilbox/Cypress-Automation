@@ -72,6 +72,18 @@ export const getActiveVote = agendaVoting => {
 	return activedDelegated || agendaVoting;
 };
 
+export const getAbstentionVotingsSum = votingsRecount => (
+	votingsRecount.abstentionVotings + votingsRecount.abstentionManual
+);
+
+export const getNoVoteVotingsSum = votingsRecount => (
+	votingsRecount.noVoteVotings + votingsRecount.noVoteManual
+);
+
+export const getCombinedAbstentionVotingsSum = votingsRecount => (
+	getAbstentionVotingsSum(votingsRecount) + getNoVoteVotingsSum(votingsRecount)
+);
+
 export const getTermsURL = language => {
 	switch (language) {
 		case 'es':
@@ -937,9 +949,11 @@ export const changeVariablesToValues = async (initialText, data, translate) => {
 		moment.ISO_8601).format('LLL') : '');
 	text = text.replace(/{{firstOrSecondCall}}/g, data.council.firstOrSecondConvene === 1 ?
 		translate.first_call
-		:		data.council.firstOrSecondCall === 2 ?
+		:
+		data.council.firstOrSecondCall === 2 ?
 			translate.second_call
-			:			'');
+			:
+			'');
 
 	const base = data.council.partTotal;
 
