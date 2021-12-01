@@ -97,8 +97,6 @@ const QuorumDisplay = ({
 export const QuorumDetails = withApollo(({
 	council, renderVotingsTable, agendas = [], company, translate, recount, totalVotes, socialCapital, client
 }) => {
-	const combineAbstentionNoVote = true;
-
 	const [data, setData] = React.useState(null);
 	const [loading, setLoading] = React.useState(true);
 	const secondary = getSecondary();
@@ -320,7 +318,7 @@ export const QuorumDetails = withApollo(({
 											</div>
 										</MenuItem>
 									</>
-									:									<>
+									: <>
 										<MenuItem onClick={downloadQuorumPDF}>
 											<div
 												style={{

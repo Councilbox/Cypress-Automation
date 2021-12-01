@@ -12,6 +12,7 @@ import * as CBX from '../../../utils/CBX';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { CONSENTIO_ID } from '../../../config';
 import { isMobile } from '../../../utils/screen';
+import { ConfigContext } from '../../../containers/AppControl';
 
 const columnStyle = {
 	display: 'flex',
@@ -33,7 +34,8 @@ const itemStyle = {
 const AgendaRecount = ({
 	agenda, recount, majorityTypes, council, company, editable, translate, classes
 }) => {
-	const combineAbstentionNoVote = true;
+	const config = React.useContext(ConfigContext);
+	const { combineAbstentionNoVote } = config;
 
 	const agendaNeededMajority = CBX.calculateMajorityAgenda({
 		...agenda,
