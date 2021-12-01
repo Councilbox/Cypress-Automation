@@ -91,6 +91,7 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 
 			setOwnedVotes(response.data.participantOwnedVotes);
 			setLoadingOwnedVotes(false);
+			data.refetch();
 		}
 	}, [participant?.id]);
 
@@ -198,8 +199,8 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 										{!loadingOwnedVotes ?
 											<>
 												{participant.type !== 1
-													&& !(participant.representative?.type === 1)
-													&& <ParticipantSelectActions
+													&& !(participant.representative?.type === 1) &&
+													<ParticipantSelectActions
 														ownedVotes={ownedVotes}
 														participant={participant}
 														council={props.council}

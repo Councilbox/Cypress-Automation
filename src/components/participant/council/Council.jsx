@@ -139,7 +139,7 @@ const ParticipantCouncil = ({
 		if (config.notificationsBranding) {
 			setTimeout(() => {
 				setBrandingTimeout(false);
-			}, process.env.REACT_APP_MODE === 'dev' ? 1500 : 6000);
+			}, process.env.REACT_APP_MODE === 'dev' ? 1500 : 6500);
 		}
 	}, [config.notificationsBranding]);
 
