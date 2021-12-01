@@ -103,6 +103,21 @@ const buildAgendaText = (agenda, translate, data) => {
 		`;
 	}
 
+	if (data.combineAbstentionNoVote) {
+		return `
+			<div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
+			<b>${translate.votings}: </b>
+			<br> ${
+				translate.inFavor.toUpperCase()}: ${
+				getAgendaResult(agenda, 'POSITIVE', data)} | ${
+				translate.against.toUpperCase()}: ${
+				getAgendaResult(agenda, 'NEGATIVE', data)} | ${translate.abstentions.toUpperCase()}:
+			${getAgendaResult(agenda, 'COMBINED_ABSTENTION', data)}
+			<br>
+			</div>
+		`;
+	}
+
 	return `
 		<div style="padding: 10px;border: solid 1px #BFBFBF;font-size: 11px">
 		<b>${translate.votings}: </b>
