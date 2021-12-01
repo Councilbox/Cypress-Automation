@@ -2,17 +2,13 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
 import {
-	Table, TableBody, TableHead, TableRow, TableCell, MenuItem
+	MenuItem
 } from 'material-ui';
 import {
 	showNumParticipations,
 	councilHasSession,
 	hasParticipations,
-	hasVotation,
-	isConfirmationRequest,
-	isCustomPoint,
 	getPercentage as calculatePercentage,
-	getAgendaTotalVotes
 } from '../../../../utils/CBX';
 import { getSecondary } from '../../../../styles/colors';
 import { useDownloadHTMLAsPDF, usePolling } from '../../../../hooks';
@@ -22,6 +18,7 @@ import { COUNCIL_TYPES } from '../../../../constants';
 import MenuSuperiorTabs from '../../../dashboard/MenuSuperiorTabs';
 import QuorumTable from './QuorumTable';
 import { SERVER_URL } from '../../../../config';
+import VotingsResults from './VotingsResults';
 
 
 const QuorumDisplay = ({
@@ -109,15 +106,6 @@ export const QuorumDetails = withApollo(({
 	const { downloadHTMLAsPDF } = useDownloadHTMLAsPDF();
 
 	const SC = hasParticipations(council.statute);
-
-	const getPercentage = (value, defaultBase) => {
-		let base = defaultBase || totalVotes;
-		if (SC) {
-			base = defaultBase || socialCapital;
-		}
-
-		return ((value / base) * 100).toFixed(3);
-	};
 
 	const downloadQuorumPDF = async () => {
 		await downloadHTMLAsPDF({
@@ -401,105 +389,17 @@ export const QuorumDetails = withApollo(({
 				</div>
 
 
-				{renderVotingsTable
-					&& <div id="resultsTable">
-						<Table style={{ marginTop: '3em' }}>
-							<TableHead>
-								<TableCell style={{ fontSize: '16px', fontWeight: '700' }}>
-									{translate.title}
-								</TableCell>
-								<TableCell colSpan={2} style={{ fontSize: '16px', fontWeight: '700' }}>
-									{translate.in_favor_btn}
-								</TableCell>
-								<TableCell colSpan={2} style={{ fontSize: '16px', fontWeight: '700' }}>
-									{translate.against_btn}
-								</TableCell>
-								<TableCell colSpan={2} style={{ fontSize: '16px', fontWeight: '700' }}>
-									{translate.abstention_btn}
-								</TableCell>
-							</TableHead>
-							<TableBody>
-								{agendas.map(point => {
-									const pointTotalVotes = getAgendaTotalVotes(point);
-									return (<TableRow key={point.id}>
-										<TableCell>
-											<div className="truncate" style={{ width: '6em' }}>
-												{point.agendaSubject.substr(0, 10)}
-											</div>
-										</TableCell>
-										{(hasVotation(point.subjectType) && !isCustomPoint(point.subjectType)) ?
-											<>
-												{isConfirmationRequest(point.subjectType) ?
-													<>
-														<TableCell>
-															{point.positiveVotings + point.positiveManual}
-														</TableCell>
-														<TableCell>
-															{`${getPercentage(point.positiveVotings + point.positiveManual, point.positiveVotings + point.positiveManual + point.negativeVotings + point.negativeManual + point.noVoteVotings + point.noVoteManual)}%`}
-														</TableCell>
-														<TableCell>
-															{point.negativeVotings + point.negativeManual}
-														</TableCell>
-														<TableCell>
-															{`${getPercentage(point.negativeVotings + point.negativeManual, point.positiveVotings + point.positiveManual + point.negativeVotings + point.negativeManual + point.noVoteVotings + point.noVoteManual)}%`}
-														</TableCell>
-														<TableCell colSpan={2} align="center">
-															-
-														</TableCell>
-													</>
-													: <>
-														<TableCell>
-															{showNumParticipations(point.positiveVotings + point.positiveManual, company, council.statute)}
-														</TableCell>
-														<TableCell>
-															{`${getPercentage(point.positiveVotings + point.positiveManual, pointTotalVotes)}%`}
-														</TableCell>
-														<TableCell>
-															{showNumParticipations(point.negativeVotings + point.negativeManual, company, council.statute)}
-														</TableCell>
-														<TableCell>
-															{`${getPercentage(point.negativeVotings + point.negativeManual, pointTotalVotes)}%`}
-														</TableCell>
-														{!combineAbstentionNoVote ?
-															<>
-																<TableCell>
-																	{showNumParticipations(point.abstentionVotings + point.abstentionManual, company, council.statute)}
-																</TableCell>
-																<TableCell>
-																	{`${getPercentage(point.abstentionVotings + point.abstentionManual, pointTotalVotes)}%`}
-																</TableCell>
-															</>
-															: <>
-																<TableCell>
-																	{showNumParticipations(point.abstentionVotings + point.abstentionManual + point.noVoteManual + point.noVoteVotings, company, council.statute)}
-																</TableCell>
-																<TableCell>
-																	{`${getPercentage(point.abstentionVotings + point.abstentionManual, point.noVoteManual + point.noVoteVotings, pointTotalVotes)}%`}
-																</TableCell>
-															</>
-														}
-
-													</>
-												}
-											</>
-											: <>
-												<TableCell colSpan={2} align="center">
-													-
-												</TableCell>
-												<TableCell colSpan={2} align="center">
-													-
-												</TableCell>
-												<TableCell colSpan={2} align="center">
-													-
-												</TableCell>
-											</>
-
-										}
-
-									</TableRow>);
-								})}
-							</TableBody>
-						</Table>
+				{renderVotingsTable &&
+					<div id="resultsTable">
+						<VotingsResults
+							company={company}
+							council={council}
+							agendas={agendas}
+							hasParticipations={SC}
+							totalVotes={totalVotes}
+							socialCapital={socialCapital}
+							translate={translate}
+						/>
 					</div>
 
 				}

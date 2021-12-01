@@ -49,7 +49,8 @@ const DownloadCompanyDocument = ({ file, trigger, color = getSecondary(), id }) 
 							onClick={download}
 							style={{
 								color,
-								cursor: 'pointer'
+								cursor: 'pointer',
+								padding: '0px 10px'
 							}}
 						></i>
 					}

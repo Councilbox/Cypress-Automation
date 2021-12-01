@@ -33,6 +33,8 @@ import ContactForm from './ContactForm';
 import ResultsTimeline from '../ResultsTimeline';
 import CouncillParticipantSurvey from '../survey/CouncillParticipantSurvey';
 import { Grid, GridItem } from '../../../displayComponents';
+import logo from '../../../assets/img/councilboxLogo.png';
+import { ConfigContext } from '../../../containers/AppControl';
 
 
 const styles = {
@@ -90,6 +92,7 @@ const CouncilState = ({
 		expanded: false
 	});
 	const primary = getPrimary();
+	const config = React.useContext(ConfigContext);
 
 	const updateDimensions = () => {
 		setState({
@@ -178,12 +181,13 @@ const CouncilState = ({
 				>
 					<GridItem lg={6} md={6} xs={12}>
 						<TextRender
-							title={translate.we_are_sorry}
+							title={translate.council_not_started_yet}
 							text={translate.council_not_started_yet_retry_later}
 							isHtmlText={true}
 							council={council}
 							company={company}
 							translate={translate}
+							colorTitle={'#9A539C'}
 						/>
 					</GridItem>
 					<GridItem lg={6} md={6} xs={12}>
@@ -417,41 +421,85 @@ const CouncilState = ({
 	}, [council.id]);
 
 	return (
-		<div
-			style={{
-				backgroundColor: 'transparent',
-				// backgroundColor: 'white',
-				...(windowSize === 'xs' && windowOrientation === 'portrait'
-					? styles.container
-					: styles.splittedContainer),
-			}}
-		>
-			<div
-				style={{
-					...styles.textContainer,
-					...(windowSize === 'xs' &&
-						windowOrientation === 'portrait'
-						? { maxWidth: '100%', width: '100%' }
-						: { maxWidth: '85%', minWidth: '100%' }),
-					// : { maxWidth: "50%", minWidth: "50%" }),
-				}}
-			>
-				{getBody()}
+		<div>
+			<div>
+				<div
+					style={{
+						backgroundColor: 'transparent',
+						// backgroundColor: 'white',
+						...(windowSize === 'xs' && windowOrientation === 'portrait'
+							? styles.container
+							: styles.splittedContainer),
+					}}
+				>
+					<div
+						style={{
+							...styles.textContainer,
+							...(windowSize === 'xs' &&
+								windowOrientation === 'portrait'
+								? { maxWidth: '100%', width: '100%' }
+								: { maxWidth: '85%', minWidth: '100%' }),
+							// : { maxWidth: "50%", minWidth: "50%" }),
+						}}
+					>
+						{getBody()}
+					</div>
+					<ContactModal
+						open={modal}
+						requestClose={closeContactModal}
+						participant={props.participant}
+						translate={translate}
+						council={council}
+					/>
+				</div>
 			</div>
-			<ContactModal
-				open={modal}
-				requestClose={closeContactModal}
-				participant={props.participant}
-				translate={translate}
-				council={council}
-			/>
+			{(!isAssistance && councilIsNotLiveYet(council)) && config.notificationsBranding &&
+				<MarketingText
+					windowSize={windowSize}
+					windowOrientation={windowOrientation}
+					translate={translate}
+				/>
+			}
 		</div>
 	);
 };
 
 
+const MarketingText = ({ windowSize, windowOrientation, translate }) => (
+	<div
+		style={{
+			...styles.textContainer,
+			...(windowSize === 'xs' &&
+				windowOrientation === 'portrait'
+				? { maxWidth: '100%', width: '100%' }
+				: { maxWidth: '85%', minWidth: '100%' }),
+			marginTop: isMobile && '2em',
+			paddingTop: '0px'
+		}}
+	>
+		<Card
+			style={{
+				display: !isMobile && 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '37px 24px'
+			}}
+		>
+			<div style={{
+				color: '#2E3030',
+				marginBottom: isMobile && '.5em',
+				fontSize: '18px',
+				display: 'flex',
+				alignItems: 'center'
+			}}>
+				{translate.marketing_text_councilbox}
+			</div>
+			<div style={{}}>
+				<img src={logo} />
+			</div>
+		</Card>
+	</div>
+);
+
 const TextRender = ({
-	title, text, isHtmlText, council, company, translate, windowOrientation
+	title, text, isHtmlText, council, company, translate, windowOrientation, colorTitle
 }) => {
 	const [modal, setModal] = React.useState(false);
 	const primary = getPrimary();
@@ -467,7 +515,7 @@ const TextRender = ({
 
 	return (
 		<React.Fragment>
-			<h3 style={{ color: primary, marginBottom: windowOrientation === 'landscape' ? '' : '1em' }}>{title}</h3>
+			<h3 style={{ color: colorTitle || primary, marginBottom: windowOrientation === 'landscape' ? '' : '1em', fontSize: '22px' }}>{title}</h3>
 
 			{text && (
 				<p style={{ fontSize: '1.1em', marginBottom: windowOrientation === 'landscape' ? '' : '2em' }}>
@@ -604,7 +652,7 @@ const StateContainer = ({
 			marginTop: '2em',
 			height: isMobile ? 'calc(100vh - 12em)' : '60vh',
 			display: 'flex',
-			alignItems: 'center'
+			alignItems: 'center',
 		}}
 	>
 		<Grid>

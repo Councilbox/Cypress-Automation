@@ -13,7 +13,8 @@ const editableFeatures = {
 	quickAccess: 'Acceso rápido con QR',
 	attendanceComment: 'Mostrar editor de texto en el menú de intención de asistencia',
 	roomAccessConvene: 'Incluir la convocatoria en el correo de acceso a sala',
-	notificationsBranding: 'Mostrar branding en las notificaciones por correo'
+	notificationsBranding: 'Mostrar branding en las notificaciones por correo',
+	combineAbstentionNoVote: 'Agrupar en abstenciones los resultados de no vota y abstenciones'
 };
 
 
@@ -45,7 +46,6 @@ const CompanyFeaturesEditor = ({ client, companyId }) => {
 			}
 		});
 
-		console.log(response);
 		setData(response.data);
 		setLoading(false);
 	}, [companyId]);

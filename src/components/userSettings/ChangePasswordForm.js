@@ -1,12 +1,14 @@
 import React, { Fragment } from 'react';
 import { graphql } from 'react-apollo';
 import { LinearProgress } from 'material-ui/Progress';
+import { toast } from 'react-toastify';
 import {
 	BasicButton,
 	Grid,
 	GridItem,
 	SectionTitle,
-	TextInput
+	TextInput,
+	LiveToast
 } from '../../displayComponents';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import { updatePassword } from '../../queries';
@@ -156,13 +158,29 @@ class ChangePasswordForm extends React.Component {
 	handleButtonSuccess() {
 		if (this.state.error) {
 			this.setState({
-				success: true,
-				loading: false
+				success: false,
+				loading: false,
 			});
 		} else {
+			toast(
+				<LiveToast
+					message={this.props.translate.password_changed}
+					id="success-toast"
+				/>,
+				{
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: 'successToast'
+				}
+			);
 			this.setState({
-				success: false,
-				loading: false
+				success: true,
+				loading: false,
+				data: {
+					currentPassword: '',
+					newPassword: '',
+					newPasswordConfirm: ''
+				}
 			});
 		}
 	}
@@ -303,6 +321,9 @@ class ChangePasswordForm extends React.Component {
 						onClick={() => this.props.setShowPass({ showPass: false })}
 					/>
 				</div>
+				{success ? <div style={{ width: '120px', color: getSecondary(), fontWeight: 'bold' }}>
+					{translate.password_changed}
+				</div> : null}
 			</Fragment>
 		);
 	}

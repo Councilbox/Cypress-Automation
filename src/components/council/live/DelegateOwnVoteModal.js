@@ -168,6 +168,7 @@ const DelegateOwnVoteModal = ({
 		return (
 			<div style={{ width: '600px' }}>
 				<TextInput
+					placeholder={translate.find}
 					adornment={<Icon>search</Icon>}
 					floatingText={' '}
 					type="text"
@@ -197,6 +198,7 @@ const DelegateOwnVoteModal = ({
 													key={`delegateVote_${liveParticipant.id}`}
 													id={`participant-row-${index}`}
 													council={council}
+													order="surname"
 													toDelegate={true}
 													participant={liveParticipant}
 													onClick={() => delegateVote(liveParticipant.id)}

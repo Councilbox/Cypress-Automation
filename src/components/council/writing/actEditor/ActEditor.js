@@ -298,7 +298,8 @@ const ActEditor = ({
 		} : {
 			doc: buildDoc({
 				...response.data,
-				company
+				company,
+				combineAbstentionNoVote: config.combineAbstentionNoVote
 			}, translate, 'act'),
 			options: {
 				stamp: !config.disableDocumentStamps,
@@ -554,7 +555,10 @@ const ActEditor = ({
 				data={data}
 				{...handlers}
 				documentId={data.council.id}
-				blocks={Object.keys(actBlocks).map(key => buildDocBlock(actBlocks[key], data, translate.selectedLanguage, 'en'))}
+				blocks={Object.keys(actBlocks).map(key => buildDocBlock(actBlocks[key], {
+					...data,
+					combineAbstentionNoVote: config.combineAbstentionNoVote
+				}, translate.selectedLanguage, 'en'))}
 				options={options}
 				generatePreview={generatePreview}
 				download={true}
