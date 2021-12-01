@@ -40,8 +40,8 @@ const QuorumDisplay = ({
 					<span>{`${translate.current_quorum}:`} </span>
 					<span id="live-current-quorum">{`${showNumParticipations(recount.partRightVoting, company, council.statute)}`}</span>
 					<span id="live-current-quorum-percentage">{`(${calculatePercentage(recount.partRightVoting, (recount.partTotal || 1))}%)`}</span>
-					{(councilStarted() && council.councilStarted === 1 && councilHasSession(council)) &&
-						<>
+					{(councilStarted() && council.councilStarted === 1 && councilHasSession(council))
+						&& <>
 							<span>{` / ${translate.initial_quorum}: `}</span>
 							<span id="live-initial-quorum">{`${council.initialQuorum ? showNumParticipations(council.initialQuorum, company, council.statute) : showNumParticipations(council.currentQuorum, company, council.statute)}`}</span>
 							<span id="live-initial-quorum-percentage">{` (${calculatePercentage(council.initialQuorum, (recount.partTotal || 1))}%)`}</span>
@@ -52,8 +52,8 @@ const QuorumDisplay = ({
 					<span>{`${translate.current_quorum}:`} </span>
 					<span id="live-current-quorum">{`${showNumParticipations(recount.socialCapitalRightVoting, company, council.statute)}`}</span>
 					<span id="live-current-quorum-percentage">{`(${calculatePercentage(recount.socialCapitalRightVoting, (recount.socialCapitalTotal || 1))}%)`}</span>
-					{(councilStarted() && council.councilStarted === 1 && councilHasSession(council)) &&
-						<>
+					{(councilStarted() && council.councilStarted === 1 && councilHasSession(council))
+						&& <>
 							<span>{` / ${translate.initial_quorum}: `}</span>
 							<span id="live-initial-quorum">{`${council.initialQuorum ? showNumParticipations(council.initialQuorum, company, council.statute) : showNumParticipations(council.currentQuorum, company, council.statute)}`}</span>
 							<span id="live-initial-quorum-percentage">{` (${calculatePercentage(council.initialQuorum, (recount.socialCapitalTotal || 1))}%)`}</span>
@@ -318,8 +318,7 @@ export const QuorumDetails = withApollo(({
 											</div>
 										</MenuItem>
 									</>
-									:
-									<>
+									: <>
 										<MenuItem onClick={downloadQuorumPDF}>
 											<div
 												style={{
@@ -340,8 +339,8 @@ export const QuorumDetails = withApollo(({
 												</span>
 											</div>
 										</MenuItem>
-										{renderVotingsTable &&
-											<MenuItem onClick={downloadResultsPDF}>
+										{renderVotingsTable
+											&& <MenuItem onClick={downloadResultsPDF}>
 												<div
 													style={{
 														width: '100%',
