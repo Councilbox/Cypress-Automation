@@ -91,7 +91,6 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 
 			setOwnedVotes(response.data.participantOwnedVotes);
 			setLoadingOwnedVotes(false);
-			data.refetch();
 		}
 	}, [participant?.id]);
 
@@ -224,7 +223,10 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 													participant={participant}
 													translate={translate}
 													council={props.council}
-													refetch={data.refetch}
+													refetch={() => {
+														data.refetch();
+														updateOwnedVotes();
+													}}
 												/>
 											)}
 									</GridItem>
