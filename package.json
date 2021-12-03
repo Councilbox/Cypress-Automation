@@ -1,6 +1,6 @@
 {
   "name": "councilbox_client",
-  "version": "8.12.1",
+  "version": "8.12.2",
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.3.15",
