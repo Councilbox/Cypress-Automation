@@ -75,7 +75,7 @@ export const checkRequiredFieldsParticipant = (
 				hasError = true;
 				errors.email = translate.valid_email_required;
 			}
-		} else if (participant.personOrEntity === 0) {
+		} else {
 			hasError = true;
 			errors.email = translate.valid_email_required;
 		}
