@@ -72,6 +72,18 @@ export const getActiveVote = agendaVoting => {
 	return activedDelegated || agendaVoting;
 };
 
+export const getAbstentionVotingsSum = votingsRecount => (
+	votingsRecount.abstentionVotings + votingsRecount.abstentionManual
+);
+
+export const getNoVoteVotingsSum = votingsRecount => (
+	votingsRecount.noVoteVotings + votingsRecount.noVoteManual
+);
+
+export const getCombinedAbstentionVotingsSum = votingsRecount => (
+	getAbstentionVotingsSum(votingsRecount) + getNoVoteVotingsSum(votingsRecount)
+);
+
 export const getTermsURL = language => {
 	switch (language) {
 		case 'es':
@@ -168,6 +180,8 @@ export const getAgendaResult = (agenda, type, data = {}) => {
 		ABSTENTION: `${showNumParticipations(agenda.abstentionVotings + agenda.abstentionManual, data.company, data.council ? data.council.statute : {})} (${getPercentage((agenda.abstentionVotings + agenda.abstentionManual), (totalVotes))}%)`,
 		NO_VOTE: `${showNumParticipations(agenda.noVoteVotings + agenda.noVoteManual, data.company, data.council ? data.council.statute : {})} (${getPercentage((agenda.noVoteVotings + agenda.noVoteManual), (totalVotes))}%)`,
 		NUM_NO_VOTE: `${agenda.recount.numNoVote} (${getPercentage((agenda.recount.numNoVote), (agenda.recount.numTotal))}%)`,
+		COMBINED_ABSTENTION_NO_VOTE: `${showNumParticipations(agenda.abstentionVotings + agenda.abstentionManual + agenda.noVoteVotings + agenda.noVoteManual, data.company, data.council ? data.council.statute : {})} (${getPercentage((agenda.abstentionVotings + agenda.abstentionManual + agenda.noVoteVotings + agenda.noVoteManual), (totalVotes))}%)`,
+		NUM_COMBINED_ABSTENTION_NO_VOTE: `${agenda.recount.numNoVote + agenda.recount.numAbstention} (${getPercentage((agenda.recount.numNoVote + agenda.recount.numAbstention), (agenda.recount.numTotal))}%)`,
 	};
 
 	return types[type];
@@ -235,8 +249,8 @@ export const haveQualityVoteConditions = (agenda, council) => ((agenda.subjectTy
 		+ agenda.votingsRecount.negativeManual) && council.statute.existsQualityVote === 1);
 
 export const canEditPresentVotings = agenda => (agenda.votingState === AGENDA_STATES.DISCUSSION
-	|| agenda.votingState === 4) &&
-	(
+	|| agenda.votingState === 4)
+	&& (
 		agenda.subjectType === AGENDA_TYPES.FAKE_PUBLIC_VOTING
 		|| agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING
 		|| agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE
@@ -294,6 +308,10 @@ export const showNoVoteButton = ({ config, statute }) => {
 		return false;
 	}
 
+	if (config.combineAbstentionNoVote) {
+		return true;
+	}
+
 	return true;
 };
 
@@ -326,8 +344,8 @@ export const findOwnVote = (votings, participant) => {
 
 	return votings.find(voting => (
 		((voting.participantId === participant.id && voting.numParticipations > 0)
-			|| (voting.delegateId === participant.id &&
-				((voting.numParticipations > 0 && voting.author.state === PARTICIPANT_STATES.REPRESENTATED)
+			|| (voting.delegateId === participant.id
+				&& ((voting.numParticipations > 0 && voting.author.state === PARTICIPANT_STATES.REPRESENTATED)
 					|| voting.author.state !== PARTICIPANT_STATES.REPRESENTATED
 				))
 		) && !voting.author.voteDenied && !voting.fixed));
@@ -935,8 +953,7 @@ export const changeVariablesToValues = async (initialText, data, translate) => {
 		data.council.firstOrSecondCall === 2 ?
 			translate.second_call
 			:
-			''
-	);
+			'');
 
 	const base = data.council.partTotal;
 
@@ -1601,8 +1618,8 @@ export const checkCouncilState = (council, company, bHistory, expected) => {
 };
 
 export const participantIsTranslator = participant => participant.type === PARTICIPANT_TYPE.TRANSLATOR;
-export const participantIsGuest = participant => participant.type === PARTICIPANT_TYPE.GUEST ||
-	participantIsTranslator(participant);
+export const participantIsGuest = participant => participant.type === PARTICIPANT_TYPE.GUEST
+	|| participantIsTranslator(participant);
 export const participantIsRepresentative = participant => participant.type === PARTICIPANT_TYPE.REPRESENTATIVE;
 
 export const getAttendanceIntentionTooltip = intention => {
@@ -2025,9 +2042,7 @@ export const calculateMajorityAgenda = (agenda, company, council, recount) => {
 	return LiveUtil.calculateMajority(specialSL, recount.partTotal, agenda.presentCensus + agenda.currentRemoteCensus, agenda.majorityType, agenda.majority, agenda.majorityDivider, agenda.negativeVotings + agenda.negativeManual, council.statute.quorumPrototype);
 };
 
-export const cleanVotesValue = value => {
-	return !value || Number.isNaN(Number(value)) ? '' : parseInt(value, 10);
-};
+export const cleanVotesValue = value => (!value || Number.isNaN(Number(value)) ? '' : parseInt(value, 10));
 
 export const calculateQuorum = (council, recount) => {
 	let base;
