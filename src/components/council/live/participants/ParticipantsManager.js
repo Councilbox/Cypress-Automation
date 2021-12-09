@@ -235,6 +235,9 @@ const ParticipantsManager = ({
 					<MenuItem value={'CREDENTIALS'}>
 						{translate.credentials}
 					</MenuItem>
+					<MenuItem value={'DELEGATIONS'}>
+						{translate.participants_view_delegations}
+					</MenuItem>
 				</SelectInput>
 			</div>
 		</div>
@@ -291,7 +294,8 @@ const getQuery = type => {
 		ATTENDANCE: 'liveParticipantsAttendance',
 		CREDENTIALS: 'liveParticipantsCredentials',
 		TYPE: 'liveParticipantsType',
-		CONVENE: 'liveParticipantsConvene'
+		CONVENE: 'liveParticipantsConvene',
+		DELEGATIONS: 'liveParticipantsWithDelegations'
 	};
 
 	const typeFilters = {
@@ -299,7 +303,8 @@ const getQuery = type => {
 		ATTENDANCE: 'attendanceStatus',
 		CREDENTIALS: 'notificationStatus',
 		TYPE: 'typeStatus',
-		CONVENE: 'notificationStatus'
+		CONVENE: 'notificationStatus',
+		DELEGATIONS: 'stateStatus'
 	};
 
 	const recounts = {
@@ -358,6 +363,19 @@ const getQuery = type => {
 				opened
 			}
 		`,
+		DELEGATIONS: `
+			stateRecount(councilId: $councilId) {
+				all
+				remote
+				remoteOffline
+				remoteOnline
+				present
+				presentWithElectronicVote
+				delegated
+				representated
+				noParticipate
+			}
+		`,
 	};
 
 
@@ -386,6 +404,12 @@ const getQuery = type => {
 				dni
 				type
 				signed
+				${type === 'DELEGATIONS' ? `
+					delegatedVotes {
+						name
+						surname
+					}
+				` : ''}
 				representatives {
 					name
 					id

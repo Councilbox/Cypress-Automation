@@ -231,7 +231,7 @@ const ManageDelegationsModal = ({
 			/>
 			{/* MISSING FUNCTIONALITY */}
 			<BasicButton
-				text={`${translate.delegations} (230)`}
+				text={`${translate.delegations} (${participant.delegatedVotes?.length})`}
 				buttonStyle={{ border: `1px solid ${secondary}`, width: '100%' }}
 				type="flat"
 				textStyle={{ color: secondary, fontWeight: '700' }}

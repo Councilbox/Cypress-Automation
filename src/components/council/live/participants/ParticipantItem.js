@@ -12,10 +12,10 @@ import {
 	removeHTMLTags, isRepresented, hasHisVoteDelegated, getMainRepresentative
 } from '../../../../utils/CBX';
 import withWindowSize from '../../../../HOCs/withWindowSize';
+import ManageDelegationsModal from './modals/ManageDelegationsModal';
 import AttendIntentionIcon from './AttendIntentionIcon';
 import ParticipantStateList from './ParticipantStateList';
 import { COUNCIL_TYPES } from '../../../../constants';
-import ManageDelegationsModal from './modals/ManageDelegationsModal';
 import { isMobile } from '../../../../utils/screen';
 
 
@@ -80,7 +80,6 @@ const ParticipantItem = ({
 							mode={mode}
 						/>
 					}
-
 					{layout === 'squares'
 						&& <TabletItem
 							secondary={secondary}
@@ -228,7 +227,7 @@ const TabletItem = ({
 					overflow: 'hidden'
 				}}
 			>
-				<div style={{ width: '100%', display: 'flex', height: '84px' }}>
+				<div style={{ width: '60%', display: 'flex', height: '84px' }}>
 					<div>
 						{mode === 'STATES' && council.councilType < 2 ?
 							<ParticipantStateList
@@ -273,8 +272,7 @@ const TabletItem = ({
 							style={{
 								display: 'flex',
 								flexDirection: 'row',
-								alignItems: 'center',
-								width: '100%'
+								alignItems: 'center'
 							}}
 						>
 							<div
@@ -289,24 +287,17 @@ const TabletItem = ({
 									style={{
 										color: secondary,
 										fontSize: '1em',
-										marginRight: 0,
-										width: 'calc(100% - 4.2em)',
-
-
+										marginRight: 0
 									}}
 								/>
 							</div>
-							<Tooltip style={{ }} title={`${participant.name} ${participant.surname || ''}`}>
+							<Tooltip title={`${participant.name} ${participant.surname || ''}`}>
 								<Typography
 									variant="body1"
 									className="truncate"
 									style={{
 										fontWeight: '600',
-										width: isMobile ? '75px' : '150px',
-										overflow: 'hidden',
-										textOverflow: 'ellipsis',
-										flexShrink: 1
-
+										width: 'calc(100% - 2.2em)'
 									}}
 								>
 									{`${participant.name} ${participant.surname || ''}`}
@@ -477,7 +468,7 @@ const TabletItem = ({
 										color: 'grey',
 										fontSize: '0.75rem',
 										textOverflow: 'ellipsis',
-										height: isMobile ? '1' : '1.5em',
+										height: '1.5em',
 										overflow: 'hidden'
 									}}
 								>
@@ -490,40 +481,44 @@ const TabletItem = ({
 				{council.councilType !== COUNCIL_TYPES.BOARD_WITHOUT_SESSION
 					&& <div
 						style={{
-							width: '100%',
+							width: '35%',
+							padding: '0.3em',
+							paddingRight: '0.6em',
+							height: '6em',
 							display: 'flex',
+							flexDirection: 'column',
 							justifyContent: 'center'
-
 						}}
 					>
 						{!isRepresented(participant) ?
 							<React.Fragment>
 								{council.councilType < 2 && !hasHisVoteDelegated(participant) && participant.personOrEntity !== 1
-									&& <div style={{
-										padding: '0 1rem', display: 'flex', width: '100%', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'center'
-									}}>
-										<div style={{ width: '100%', paddingBottom: isMobile ? '3px' : '0' }}>
-											<ManageDelegationsModal
-												council={council}
-												participant={participant}
-												refetch={refetch}
-												translate={translate}
-											/>
-										</div>
-										<div style={{ paddingLeft: isMobile ? '0' : '0.5rem', width: '100%' }}>
-											<BasicButton
-												text={participant.signed ? translate.user_signed : translate.to_sign}
-												buttonStyle={{ border: `1px solid ${participant.signed ? primary : secondary}`, padding: isMobile ? '0' : '0.5rem 4rem', width: '100%' }}
-												type="flat"
-												color={'white'}
-												onClick={event => {
-													event.stopPropagation();
-													showSignatureModal();
-												}}
-												textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
-											/>
-										</div>
-									</div>
+									&& <>
+										{mode === 'DELEGATIONS' ?
+											<div style={{ width: '100%', paddingBottom: isMobile ? '3px' : '0' }}>
+												<ManageDelegationsModal
+													council={council}
+													participant={participant}
+													refetch={refetch}
+													translate={translate}
+												/>
+											</div>
+											:
+											<div style={{ paddingLeft: isMobile ? '0' : '0.5rem', width: '100%' }}>
+												<BasicButton
+													text={participant.signed ? translate.user_signed : translate.to_sign}
+													buttonStyle={{ border: `1px solid ${participant.signed ? primary : secondary}`, padding: isMobile ? '0' : '0.5rem 4rem', width: '100%' }}
+													type="flat"
+													color={'white'}
+													onClick={event => {
+														event.stopPropagation();
+														showSignatureModal();
+													}}
+													textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
+												/>
+											</div>
+										}
+									</>
 								}
 							</React.Fragment>
 							: <BasicButton
@@ -551,6 +546,8 @@ const getIcon = ({
 }) => {
 	switch (mode) {
 		case 'STATES':
+			return <StateIcon translate={translate} state={participant.state} />;
+		case 'DELEGATIONS':
 			return <StateIcon translate={translate} state={participant.state} />;
 		case 'CONVENE':
 			return <EmailIcon translate={translate} reqCode={participant.sendConvene.reqCode} />;
