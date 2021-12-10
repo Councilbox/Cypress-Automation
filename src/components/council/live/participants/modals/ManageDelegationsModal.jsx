@@ -1,5 +1,6 @@
 import { withApollo } from 'react-apollo';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import gql from 'graphql-tag';
 import {
 	AlertConfirm, TextInput, Icon, BasicButton,
 	PaginationFooter, Scrollbar
@@ -9,93 +10,100 @@ import arrowDown from '../../../../../assets/img/arrow-down.svg';
 import CheckBox from '../../../../../displayComponents/CheckBox';
 import { secondary } from '../../../../../styles/colors';
 import { isMobile } from '../../../../../utils/screen';
+import RemoveDelegationButton from '../RemoveDelegationButton';
+import DelegateOwnVoteModal from '../../DelegateOwnVoteModal';
+import { useRemoveDelegations } from '../../../../../hooks/liveParticipant';
 
-const mockTotalDelegations = {
-	hasDelegations: [
-		{
-			id: 1234,
-			name: 'Roberto',
-			surname: 'Andrades Moreno',
 
-		},
-		{
-			id: 1235,
-			name: 'Nina',
-			surname: 'Amina',
-
-		},
-		{
-			id: 1236,
-			name: 'Ricard',
-			surname: 'Mayor',
-
-		},
-		{
-			id: 1237,
-			name: 'Nora',
-			surname: 'Alami',
-
-		},
-		{
-			id: 1238,
-			name: 'Imagine',
-			surname: 'People',
-
-		},
-		{
-			id: 1239,
-			name: 'Lucia',
-			surname: 'Montarval',
-
-		},
-		{
-			id: 1231,
-			name: 'More',
-			surname: 'Silviraya',
-
-		},
-		{
-			id: 1232,
-			name: 'Swami',
-			surname: 'Turiyananda Warabananda',
-
-		}
-	]
-};
+const LIMIT = 15;
 
 const ManageDelegationsModal = ({
-	translate, participant
+	translate, participant, client, council, refetch
 }) => {
-	// MISSING FUNCTIONALITY
-	const [data, setData] = useState([]);
-	const [isChecked, setIsChecked] = useState([]);
+	const [showDelegationModal, setShowDelegationsModal] = React.useState(false);
+	const [data, setData] = React.useState(null);
+	const [page, setPage] = React.useState(1);	
+	const [changeDelegationModal, setChangeDelegationModal] = React.useState(false);
+	const [loading, setLoading] = React.useState(true);
+	const [selectedIds, setSelectedIds] = React.useState(new Set());
+	const [filterText, setFilterText] = React.useState('');
+	const { loading: loadingRemoveDelegations, removeDelegations } = useRemoveDelegations({ client });
 
-	const [showDelegationModal, setShowDelegationsModal] = useState(false);
+	const getData = React.useCallback(async options => {
+		if (!data) {
+			setLoading(true);
+		}
+		const response = await client.query({
+			query: gql`
+				query ParticipantDelegatedVotes(
+					$participantId: Int!
+					$filters: [FilterInput]
+					$options: OptionsInput
+				) {
+					participantDelegatedVotes(
+						participantId: $participantId
+						filters: $filters
+						options: $options
+					) {
+						list {
+							id
+							name
+							surname
+							numParticipations
+							email
+							state
+						}
+						total
+					}
+				}
+			`,
+			variables: {
+				participantId: participant.id,
+				...(filterText ? {
+					filters: [{
+						field: 'fullName',
+						text: filterText
+					}]
+				} : {}),
+				options: {
+					limit: LIMIT,
+					offset: (page - 1) * LIMIT
+				},
+				...options
+			}
+		});
 
+		setData(response.data.participantDelegatedVotes);
+		if (loading) {
+			setLoading(false);
+		}
+	}, [participant.id, filterText, page, client]);
 
-	useEffect(() => {
-		setData(mockTotalDelegations.hasDelegations);
-	}, []);
+	React.useEffect(() => {
+		let timeout;
+		if (showDelegationModal) {
+			timeout = setTimeout(getData, 450);
+		}
+		return () => clearTimeout(timeout);
+	}, [getData, showDelegationModal]);
 
-	useEffect(() => {
-		setIsChecked(data.map(d => ({
-			id: d.id,
-			selected: false,
-		})));
-	}, [data]);
-
-
+	const delegatedVotes = participant.delegatedVotes.filter(d => d.state !== 2);
 	const renderBody = () => (
-		<div style={{
-			display: 'flex', flexDirection: 'column', height: '100%'
-		}}>
+		<div
+			style={{
+				display: 'flex', flexDirection: 'column', height: '100%'
+			}}
+		>
 			<div style={{ display: 'flex', flexDirection: 'row' }}>
 				<div>
 					<img src={participantIcon} />
 				</div>
-				{/* MISSING TRANSLATIONS AND FUNCTIONALLITY */}
 				<p style={{ fontSize: isMobile ? '17px' : '18px', paddingLeft: '1rem' }}>
-					{`${translate.delegated_vote_from}: ${data[0]?.name} y ${data.length - 1} más `}
+					{delegatedVotes.length === 1 ?
+						`${translate.delegated_vote_from.capitalize()}: ${delegatedVotes[0]?.name} ${delegatedVotes[0]?.surname}`
+						:
+						`${translate.vote_delegated_from_and_more.replace('{{name}}', `${delegatedVotes[0]?.name} ${delegatedVotes[0]?.surname}`).replace('{{number}}', delegatedVotes.length - 1)}`
+					}
 				</p>
 			</div>
 			<div
@@ -115,21 +123,79 @@ const ManageDelegationsModal = ({
 					<div style={{ marginRight: '2px' }}>
 						<img src={arrowDown}/>
 					</div>
-					{/* MISSGIN SELECT ALL CHECKBOXES FUNCTIONALITY */}
-					<CheckBox value={true} />
+					<CheckBox
+						value={selectedIds.size === data?.list?.length}
+						onChange={() => {
+							if (selectedIds.size === data?.list?.length) {
+								setSelectedIds(new Set());
+							} else {
+								setSelectedIds(new Set(data?.list?.map(d => d.id)));
+							}
+						}}
+					/>
+					{selectedIds.size > 0 && (
+						<>
+							<BasicButton
+								text={translate.remove_delegations}
+								color={'white'}
+								loading={loadingRemoveDelegations}
+								onClick={async () => {
+									await removeDelegations(Array.from(selectedIds));
+									getData();
+									refetch();
+								}}
+								textPosition="after"
+								textStyle={{
+									color: '#595959',
+									fontWeight: '400',
+									fontSize: isMobile ? '12px' : '14px',
+									textTransform: 'none'
+								}}
+							/>
+							<BasicButton
+								text={translate.reassign_votes}
+								color={'white'}
+								onClick={() => {
+									setChangeDelegationModal('121212');
+								}}
+								textPosition="after"
+								textStyle={{
+									color: '#595959',
+									fontWeight: '400',
+									fontSize: isMobile ? '12px' : '14px',
+									textTransform: 'none'
+								}}
+							/>
+						</>
+						
+					)}
 				</div>
 				<div style={{ width: isMobile ? '%' : '20%' }}>
-					{/* MISSING TRANSLATION -> Buscar participante */}
 					<TextInput
-						placeholder='Buscar participante'
+						placeholder={translate.search_participant}
 						adornment={<Icon>search</Icon>}
+						value={filterText}
+						onChange={e => setFilterText(e.target.value)}
 					/>
 				</div>
 			</div>
+			<DelegateOwnVoteModal
+				show={changeDelegationModal}
+				council={council}
+				participant={changeDelegationModal}
+				refetch={() => {
+					getData();
+					refetch();
+				}}
+				requestClose={() => {
+					setChangeDelegationModal(false);
+				}}
+				translate={translate}
+			/>
 			<div style={{ height: 'calc( 100% - 5em )', width: '100%' }}>
 				<Scrollbar>
 					<div style={{ width: '95%' }}>
-						{data.map(d => (
+						{data?.list?.map(d => (
 							<div
 								key={d.id}
 								style={{
@@ -149,14 +215,16 @@ const ManageDelegationsModal = ({
 									display: 'flex', flexDirection: 'row', alignItems: 'center', paddingBottom: isMobile ? '1rem' : '0'
 								}}>
 									<CheckBox
-										onChange={event => setIsChecked(isChecked.map(i => {
-											if (d.id === i.id) {
-												i.selected = event.target.checked;
+										onChange={() => {
+											if (selectedIds.has(d.id)) {
+												selectedIds.delete(d.id);
+											 	setSelectedIds(new Set(selectedIds));
+											} else {
+												selectedIds.add(d.id);
+												setSelectedIds(new Set(selectedIds));
 											}
-											event.preventDefault();
-											return i;
-										}))}
-										value={d.selected}
+										}}
+										value={selectedIds.has(d.id)}
 
 									/>
 									<p style={{
@@ -167,29 +235,25 @@ const ManageDelegationsModal = ({
 										textOverflow: 'ellipsis',
 										flexShrink: 1
 									}}>
-										{`${translate.delegated_vote_from}: ${d.name} ${d.surname}`} {/* MISSING FUNCTIONALITY */}
+										{`${translate.delegated_vote_from}: ${d.name} ${d.surname}`}
 									</p>
 								</div>
-								{/* MISSING FUNCTINALITY */}
 								<div style={{ display: 'flex', flexDirection: 'row' }}>
-									<BasicButton
-										text={translate.remove_delegation}
-										color={'white'}
-										textPosition="after"
-										textStyle={{
-											color: '#EE2E6B',
-											fontWeight: '400',
-											fontSize: isMobile ? '12px' : '14px',
-											textTransform: 'none'
-										}}
-										buttonStyle={{
-											marginRight: '1em',
+									<RemoveDelegationButton
+										delegatedVote={d}
+										participant={participant}
+										translate={translate}
+										refetch={() => {
+											getData();
+											refetch();
 										}}
 									/>
-									{/* MISSING TRANSLATION */}
 									<BasicButton
-										text='Reasignar voto'
+										text={translate.reassign_vote}
 										color={'white'}
+										onClick={() => {
+											setChangeDelegationModal(d);
+										}}
 										textPosition="after"
 										textStyle={{
 											color: '#595959',
@@ -202,9 +266,16 @@ const ManageDelegationsModal = ({
 							</div>))
 						}
 					</div>
-					<div style={{ margin: '1rem' }}>
+					<div style={{ margin: '1rem', width: '100%' }}>
 						<PaginationFooter
+							page={page}
 							translate={translate}
+							length={data?.list?.length}
+							limit={LIMIT}
+							total={data?.total}
+							changePage={page => {
+								setPage(page);
+							}}
 						/>
 					</div>
 				</Scrollbar>
@@ -223,15 +294,13 @@ const ManageDelegationsModal = ({
 				bodyStyle={{
 					minWidth: isMobile ? '98vw' : '60vw', maxWidth: isMobile ? '98vw' : '60vw', height: '100%', margin: '0 auto'
 				}}
-				buttonAccept={translate.accept}
-				buttonCancel={translate.cancel}
+				buttonCancel={translate.close}
 				title={`${participant.name} ${participant.surname}`}
 				bodyText={renderBody()}
 				widthModal={{ height: '100%', maxHeight: '650px' }}
 			/>
-			{/* MISSING FUNCTIONALITY */}
 			<BasicButton
-				text={`${translate.delegations} (${participant.delegatedVotes?.length})`}
+				text={`${translate.delegations} (${delegatedVotes?.length})`}
 				buttonStyle={{ border: `1px solid ${secondary}`, width: '100%' }}
 				type="flat"
 				textStyle={{ color: secondary, fontWeight: '700' }}

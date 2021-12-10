@@ -407,6 +407,7 @@ const getQuery = type => {
 				${type === 'DELEGATIONS' ? `
 					delegatedVotes {
 						name
+						state
 						surname
 					}
 				` : ''}

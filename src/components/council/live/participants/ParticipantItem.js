@@ -495,7 +495,7 @@ const TabletItem = ({
 								{council.councilType < 2 && !hasHisVoteDelegated(participant) && participant.personOrEntity !== 1
 									&& <>
 										{mode === 'DELEGATIONS' ?
-											<div style={{ width: '100%', paddingBottom: isMobile ? '3px' : '0' }}>
+											<div style={{ width: '100%', paddingBottom: isMobile ? '3px' : '0' }} onClick={event => event.stopPropagation()}>
 												<ManageDelegationsModal
 													council={council}
 													participant={participant}

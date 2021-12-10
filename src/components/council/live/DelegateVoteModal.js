@@ -56,7 +56,7 @@ const DelegateVoteModal = ({
 
 		setData(response.data);
 		setLoading(false);
-	}, [filters.text, participant.id]);
+	}, [filters.text, participant.id, props.show]);
 
 	const getMore = React.useCallback(async () => {
 		if (options.offset !== 0) {
