@@ -175,6 +175,7 @@ const DelegateVoteModal = ({
 		return (
 			<div style={{ width: '600px' }}>
 				<TextInput
+					placeholder={translate.find}
 					adornment={<Icon>search</Icon>}
 					floatingText={' '}
 					type="text"
