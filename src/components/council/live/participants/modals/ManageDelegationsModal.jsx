@@ -12,7 +12,7 @@ import { secondary } from '../../../../../styles/colors';
 import { isMobile } from '../../../../../utils/screen';
 import RemoveDelegationButton from '../RemoveDelegationButton';
 import DelegateOwnVoteModal from '../../DelegateOwnVoteModal';
-import { useRemoveDelegations } from '../../../../../hooks/liveParticipant';
+import { useHandleParticipantDelegations } from '../../../../../hooks/liveParticipant';
 
 
 const LIMIT = 15;
@@ -27,7 +27,12 @@ const ManageDelegationsModal = ({
 	const [loading, setLoading] = React.useState(true);
 	const [selectedIds, setSelectedIds] = React.useState(new Set());
 	const [filterText, setFilterText] = React.useState('');
-	const { loading: loadingRemoveDelegations, removeDelegations } = useRemoveDelegations({ client });
+	const [multiDelegationsModal, setMultiDelegationsModal] = React.useState(false);
+	const {
+		loading: loadingRemoveDelegations,
+		removeDelegations,
+		addDelegations
+	} = useHandleParticipantDelegations({ client });
 
 	const getData = React.useCallback(async options => {
 		if (!data) {
@@ -156,7 +161,7 @@ const ManageDelegationsModal = ({
 								text={translate.reassign_votes}
 								color={'white'}
 								onClick={() => {
-									setChangeDelegationModal('121212');
+									setMultiDelegationsModal(true);
 								}}
 								textPosition="after"
 								textStyle={{
@@ -179,6 +184,29 @@ const ManageDelegationsModal = ({
 					/>
 				</div>
 			</div>
+			{multiDelegationsModal && 
+				<DelegateOwnVoteModal
+					show={multiDelegationsModal}
+					council={council}
+					addRepresentative={async id => {
+						await addDelegations(Array.from(selectedIds), id);
+						getData();
+						refetch();
+						setMultiDelegationsModal(false);
+					}}
+					participant={{
+						id: Array.from(selectedIds)[0]
+					}}
+					refetch={() => {
+						getData();
+						refetch();
+					}}
+					requestClose={() => {
+						setMultiDelegationsModal(false);
+					}}
+					translate={translate}
+				/>
+			}
 			<DelegateOwnVoteModal
 				show={changeDelegationModal}
 				council={council}
@@ -288,6 +316,7 @@ const ManageDelegationsModal = ({
 				requestClose={event => {
 					event.stopPropagation();
 					event.preventDefault();
+					setSelectedIds(new Set());
 					setShowDelegationsModal(false);
 				}}
 				open={showDelegationModal}

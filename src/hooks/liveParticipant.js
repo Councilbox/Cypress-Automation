@@ -2,13 +2,13 @@
 import gql from 'graphql-tag';
 import React from 'react';
 
-export const useRemoveDelegations = ({ client }) => {
+export const useHandleParticipantDelegations = ({ client }) => {
 	const [loading, setLoading] = React.useState(false);
 
 	const removeDelegations = async participantIds => {
 		setLoading(true);
 
-		const response = await client.mutate({
+		await client.mutate({
 			mutation: gql`
 				mutation RemoveDelegations($participantIds: [ID]!) {
 					removeDelegations(participantIds: $participantIds) {
@@ -21,15 +21,32 @@ export const useRemoveDelegations = ({ client }) => {
 				participantIds
 			}
 		});
+		setLoading(false);
+	};
 
-		console.log(response);
+	const addDelegations = async (participantIds, newDelegateId) => {
+		setLoading(true);
 
-
+		await client.mutate({
+			mutation: gql`
+				mutation AddDelegations($participantIds: [ID]!, $newDelegateId: ID!) {
+					addDelegations(participantIds: $participantIds, newDelegateId: $newDelegateId) {
+						success
+						message
+					}
+				}
+			`,
+			variables: {
+				participantIds,
+				newDelegateId
+			}
+		});
 		setLoading(false);
 	};
 
 	return {
 		loading,
-		removeDelegations
+		removeDelegations,
+		addDelegations
 	};
 };
