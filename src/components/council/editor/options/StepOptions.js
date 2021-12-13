@@ -634,21 +634,7 @@ const StepOptions = ({
 										}
 									</React.Fragment>
 								)}
-								{renderCouncilTypeSpecificOptions(council.councilType)}
 
-								{council.councilType !== 4
-									&& <>
-										<SectionTitle
-											text={translate.security}
-											color={primary}
-											style={{
-												marginTop: '1.6em'
-											}}
-										/>
-										{renderSecurityForm()}
-
-									</>
-								}
 								<SectionTitle
 									text={translate.contact_data}
 									color={primary}
@@ -689,6 +675,21 @@ const StepOptions = ({
 										helpPlacement={'topRight'}
 									/>
 								</GridItem>
+
+								{renderCouncilTypeSpecificOptions(council.councilType)}
+								{council.councilType !== 4
+									&& <>
+										<SectionTitle
+											text={translate.security}
+											color={primary}
+											style={{
+												marginTop: '1.6em'
+											}}
+										/>
+										{renderSecurityForm()}
+
+									</>
+								}
 								{(council.statute.existsDelegatedVote === 1 && config.councilDelegates && council.councilType !== 5)
 									&& renderDelegationRestriction()
 								}
