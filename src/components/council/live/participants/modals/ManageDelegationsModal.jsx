@@ -23,7 +23,7 @@ const ManageDelegationsModal = ({
 	const [showDelegationModal, setShowDelegationsModal] = React.useState(false);
 	const [data, setData] = React.useState(null);
 	const [page, setPage] = React.useState(1);
-	const [warningModal, setWarningModal] = React.useState(false);	
+	const [warningModal, setWarningModal] = React.useState(false);
 	const [changeDelegationModal, setChangeDelegationModal] = React.useState(false);
 	const [loading, setLoading] = React.useState(true);
 	const [selectedIds, setSelectedIds] = React.useState(new Set());
@@ -130,7 +130,7 @@ const ManageDelegationsModal = ({
 						alignItems: 'center'
 					}}>
 					<div style={{ marginRight: '2px' }}>
-						<img src={arrowDown}/>
+						<img src={arrowDown} />
 					</div>
 					<CheckBox
 						value={selectedIds.size === data?.list?.length}
@@ -158,7 +158,7 @@ const ManageDelegationsModal = ({
 								title={translate.warning}
 								bodyText={renderWarningModalBody()}
 							/>
-							<div style={{paddingRight: '.5rem'}}>
+							<div style={{ paddingRight: '.5rem' }}>
 								<BasicButton
 									text={translate.remove_delegations}
 									color={'white'}
@@ -199,7 +199,7 @@ const ManageDelegationsModal = ({
 					/>
 				</div>
 			</div>
-			{multiDelegationsModal && 
+			{multiDelegationsModal &&
 				<DelegateOwnVoteModal
 					show={multiDelegationsModal}
 					council={council}
@@ -261,7 +261,7 @@ const ManageDelegationsModal = ({
 										onChange={() => {
 											if (selectedIds.has(d.id)) {
 												selectedIds.delete(d.id);
-											 	setSelectedIds(new Set(selectedIds));
+												setSelectedIds(new Set(selectedIds));
 											} else {
 												selectedIds.add(d.id);
 												setSelectedIds(new Set(selectedIds));
@@ -278,11 +278,11 @@ const ManageDelegationsModal = ({
 										textOverflow: 'ellipsis',
 										flexShrink: 1
 									}}>
-										{ `${translate.delegated_vote_from}: ${d.name} ${d.surname}` }
+										{`${translate.delegated_vote_from}: ${d.name} ${d.surname}`}
 									</p>
 								</div>
 								<div style={{ display: 'flex', flexDirection: 'row' }}>
-									<div style={{paddingRight: '1rem'}}>
+									<div style={{ paddingRight: '1rem' }}>
 										<RemoveDelegationButton
 											delegatedVote={d}
 											participant={participant}
@@ -342,7 +342,7 @@ const ManageDelegationsModal = ({
 					minWidth: isMobile ? '98vw' : '60vw', maxWidth: isMobile ? '98vw' : '60vw', height: '100%', margin: '0 auto'
 				}}
 				buttonCancel={translate.close}
-				title={ `${participant.name} ${participant.surname} `}
+				title={`${participant.name} ${participant.surname} `}
 				bodyText={renderBody()}
 				widthModal={{ height: '100%', maxHeight: '650px' }}
 			/>
