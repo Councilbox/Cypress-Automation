@@ -141,6 +141,13 @@ const ParticipantsPage = ({
 				setSelected={setSelectedType}
 			/>,
 
+			DELEGATIONS: <StatesHeader
+				translate={translate}
+				stateRecount={data.stateRecount}
+				selected={filters.type}
+				setSelected={setSelectedType}
+			/>,
+
 			ATTENDANCE: <AttendanceHeader
 				translate={translate}
 				attendanceRecount={data.attendanceRecount}
@@ -398,6 +405,7 @@ const ParticipantsPage = ({
 const getSection = view => {
 	const sections = {
 		STATES: 'liveParticipantsState',
+		DELEGATIONS: 'liveParticipantsWithDelegations',
 		ATTENDANCE: 'liveParticipantsAttendance',
 		CREDENTIALS: 'liveParticipantsCredentials',
 		TYPE: 'liveParticipantsType',

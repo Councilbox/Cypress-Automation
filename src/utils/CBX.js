@@ -359,8 +359,7 @@ export const canDelegateVotes = (statute, participant, ownedVotes) => (statute.e
 	&& !(participant.hasDelegatedVotes)
 	&& participant.type !== PARTICIPANT_TYPE.GUEST
 	&& (participant.numParticipations > 0 || ownedVotes?.meta?.totalRepresentedVotes > 0
-		|| participant.represented?.length > 0
-	)
+		|| participant.represented?.length > 0)
 );
 
 export const canAddDelegateVotes = (statute, participant) => (
@@ -949,11 +948,9 @@ export const changeVariablesToValues = async (initialText, data, translate) => {
 		moment.ISO_8601).format('LLL') : '');
 	text = text.replace(/{{firstOrSecondCall}}/g, data.council.firstOrSecondConvene === 1 ?
 		translate.first_call
-		:
-		data.council.firstOrSecondCall === 2 ?
+		: data.council.firstOrSecondCall === 2 ?
 			translate.second_call
-			:
-			'');
+			: '');
 
 	const base = data.council.partTotal;
 
