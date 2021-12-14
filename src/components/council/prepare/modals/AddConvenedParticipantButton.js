@@ -66,6 +66,7 @@ const AddConvenedParticipantButton = ({
 		errors: {},
 		representativeErrors: {}
 	});
+
 	const primary = getPrimary();
 
 	async function checkRequiredFields(onlyEmail) {
