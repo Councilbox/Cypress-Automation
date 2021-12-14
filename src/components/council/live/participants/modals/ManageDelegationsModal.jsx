@@ -15,14 +15,15 @@ import DelegateOwnVoteModal from '../../DelegateOwnVoteModal';
 import { useHandleParticipantDelegations } from '../../../../../hooks/liveParticipant';
 
 
-const LIMIT = 15;
+const LIMIT = 10;
 
 const ManageDelegationsModal = ({
 	translate, participant, client, council, refetch
 }) => {
 	const [showDelegationModal, setShowDelegationsModal] = React.useState(false);
 	const [data, setData] = React.useState(null);
-	const [page, setPage] = React.useState(1);	
+	const [page, setPage] = React.useState(1);
+	const [warningModal, setWarningModal] = React.useState(false);	
 	const [changeDelegationModal, setChangeDelegationModal] = React.useState(false);
 	const [loading, setLoading] = React.useState(true);
 	const [selectedIds, setSelectedIds] = React.useState(new Set());
@@ -93,6 +94,9 @@ const ManageDelegationsModal = ({
 	}, [getData, showDelegationModal]);
 
 	const delegatedVotes = participant.delegatedVotes.filter(d => d.state !== 2);
+
+	const renderWarningModalBody = () => translate.remove_selected_delegations_warning.replace('{{participant}}', `${participant.name} ${participant.surname}`);
+
 	const renderBody = () => (
 		<div
 			style={{
@@ -140,23 +144,35 @@ const ManageDelegationsModal = ({
 					/>
 					{selectedIds.size > 0 && (
 						<>
-							<BasicButton
-								text={translate.remove_delegations}
-								color={'white'}
-								loading={loadingRemoveDelegations}
-								onClick={async () => {
+							<AlertConfirm
+								open={warningModal}
+								acceptAction={async () => {
 									await removeDelegations(Array.from(selectedIds));
 									getData();
 									refetch();
 								}}
-								textPosition="after"
-								textStyle={{
-									color: '#595959',
-									fontWeight: '400',
-									fontSize: isMobile ? '12px' : '14px',
-									textTransform: 'none'
-								}}
+								buttonAccept={translate.accept}
+								buttonCancel={translate.cancel}
+								loadingAction={loading}
+								requestClose={() => setWarningModal(false)}
+								title={translate.warning}
+								bodyText={renderWarningModalBody()}
 							/>
+							<div style={{paddingRight: '.5rem'}}>
+								<BasicButton
+									text={translate.remove_delegations}
+									color={'white'}
+									onClick={() => setWarningModal(true)}
+									textPosition="after"
+									buttonStyle={{ border: `1px solid ${secondary}` }}
+									textStyle={{
+										color: secondary,
+										fontWeight: '400',
+										fontSize: isMobile ? '12px' : '14px',
+										textTransform: 'none'
+									}}
+								/>
+							</div>
 							<BasicButton
 								text={translate.reassign_votes}
 								color={'white'}
@@ -172,7 +188,6 @@ const ManageDelegationsModal = ({
 								}}
 							/>
 						</>
-						
 					)}
 				</div>
 				<div style={{ width: isMobile ? '%' : '20%' }}>
@@ -267,15 +282,18 @@ const ManageDelegationsModal = ({
 									</p>
 								</div>
 								<div style={{ display: 'flex', flexDirection: 'row' }}>
-									<RemoveDelegationButton
-										delegatedVote={d}
-										participant={participant}
-										translate={translate}
-										refetch={() => {
-											getData();
-											refetch();
-										}}
-									/>
+									<div style={{paddingRight: '1rem'}}>
+										<RemoveDelegationButton
+											delegatedVote={d}
+											participant={participant}
+											translate={translate}
+											refetch={() => {
+												getData();
+												refetch();
+											}}
+											raised={true}
+										/>
+									</div>
 									<BasicButton
 										text={translate.reassign_vote}
 										color={'white'}
@@ -294,7 +312,7 @@ const ManageDelegationsModal = ({
 							</div>))
 						}
 					</div>
-					<div style={{ margin: '1rem', width: '100%' }}>
+					<div style={{ margin: '1rem', width: '90%', display: 'flex', justifyContent: 'space-between' }}>
 						<PaginationFooter
 							page={page}
 							translate={translate}
