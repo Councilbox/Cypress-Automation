@@ -17,6 +17,19 @@ import { useHandleParticipantDelegations } from '../../../../../hooks/livePartic
 
 const LIMIT = 10;
 
+const stylesDiv = {
+	border: `1px solid ${getSecondary()}`,
+	display: 'flex',
+	flexDirection: isMobile ? 'column' : 'row',
+	alignItems: 'center',
+	justifyContent: 'space-between',
+	padding: '1rem',
+	margin: '5px',
+	borderRadius: '4px',
+	boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.5)',
+	marginRight: isMobile ? '0' : '1.5rem',
+};
+
 const ManageDelegationsModal = ({
 	translate, participant, client, council, refetch
 }) => {
@@ -241,16 +254,7 @@ const ManageDelegationsModal = ({
 							<div
 								key={d.id}
 								style={{
-									display: 'flex',
-									flexDirection: isMobile ? 'column' : 'row',
-									alignItems: 'center',
-									justifyContent: 'space-between',
-									padding: '1rem',
-									margin: '5px',
-									borderRadius: '4px',
-									boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.5)',
-									marginRight: isMobile ? '0' : '1.5rem',
-									border: `1px solid ${getSecondary()}`,
+									...stylesDiv
 								}}
 							>
 								<div style={{
