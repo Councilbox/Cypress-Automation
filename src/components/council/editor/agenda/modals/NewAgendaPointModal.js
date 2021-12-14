@@ -42,7 +42,6 @@ const NewAgendaPointModal = ({
 	const secondary = getSecondary();
 	const [attachments, setAttachments] = React.useState([]);
 	const [unSavedModal, setUnSavedModal] = React.useState(false);
-	const [unSavedChanges, setUnSavedChanges] = React.useState(false);
 	const [state, setState] = useOldState({
 		newPoint: {
 			...defaultValues,
@@ -146,7 +145,6 @@ const NewAgendaPointModal = ({
 
 			if (response) {
 				setState({ loadDraft: false });
-				setUnSavedChanges(false);
 				setSending(false);
 				close();
 				props.refetch();
@@ -412,11 +410,16 @@ const NewAgendaPointModal = ({
 			</div>
 		);
 	};
-
+	const checkChanges = () => {
+		// return state.newPoint !== defaultValues ? setUnSavedModal(true) : props.requestClose;
+		// console.log(state.newPoint !== defaultValues);
+		return props.requestClose;
+		// setUnSavedModal(true);
+	};
 	return (
 		<React.Fragment>
 			<AlertConfirm
-				requestClose={unSavedChanges ? setUnSavedModal(true) : props.requestClose }
+				requestClose={checkChanges()}
 				open={props.open}
 				acceptAction={addAgenda}
 				buttonAccept={translate.accept}
@@ -429,7 +432,7 @@ const NewAgendaPointModal = ({
 				open={unSavedModal}
 				requestClose={() => close}
 				acceptAction={addAgenda}
-				cancelAction={() => close}
+				cancelAction={() => setUnSavedModal(false)}
 			/>
 		</React.Fragment>
 	);
