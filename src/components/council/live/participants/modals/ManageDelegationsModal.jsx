@@ -245,12 +245,12 @@ const ManageDelegationsModal = ({
 									flexDirection: isMobile ? 'column' : 'row',
 									alignItems: 'center',
 									justifyContent: 'space-between',
-									border: `1px solid ${getSecondary()}`,
 									padding: '1rem',
 									margin: '5px',
 									borderRadius: '4px',
 									boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.5)',
 									marginRight: isMobile ? '0' : '1.5rem',
+									border: `1px solid ${getSecondary()}`,
 								}}
 							>
 								<div style={{
