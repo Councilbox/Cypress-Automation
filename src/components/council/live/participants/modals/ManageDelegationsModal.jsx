@@ -246,7 +246,7 @@ const ManageDelegationsModal = ({
 									flexDirection: isMobile ? 'column' : 'row',
 									alignItems: 'center',
 									justifyContent: 'space-between',
-									border: `1px solid ${secondary}`,
+									border: ` 1px solid ${secondary} `,
 									padding: '1rem',
 									margin: '5px',
 									borderRadius: '4px',
@@ -278,7 +278,7 @@ const ManageDelegationsModal = ({
 										textOverflow: 'ellipsis',
 										flexShrink: 1
 									}}>
-										{`${translate.delegated_vote_from}: ${d.name} ${d.surname}`}
+										{ `${translate.delegated_vote_from}: ${d.name} ${d.surname}` }
 									</p>
 								</div>
 								<div style={{ display: 'flex', flexDirection: 'row' }}>
@@ -342,13 +342,13 @@ const ManageDelegationsModal = ({
 					minWidth: isMobile ? '98vw' : '60vw', maxWidth: isMobile ? '98vw' : '60vw', height: '100%', margin: '0 auto'
 				}}
 				buttonCancel={translate.close}
-				title={`${participant.name} ${participant.surname}`}
+				title={ `${participant.name} ${participant.surname} `}
 				bodyText={renderBody()}
 				widthModal={{ height: '100%', maxHeight: '650px' }}
 			/>
 			<BasicButton
 				text={`${translate.delegations} (${delegatedVotes?.length})`}
-				buttonStyle={{ border: `1px solid ${secondary}`, width: '100%' }}
+				buttonStyle={{ border: `1px solid ${secondary} `, width: '100%' }}
 				type="flat"
 				textStyle={{ color: secondary, fontWeight: '700' }}
 				color={'white'}
