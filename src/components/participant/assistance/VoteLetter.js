@@ -113,9 +113,7 @@ const VoteLetter = ({
 			bodyText={
 				step === 1 ?
 					<>
-						<div style={{ marginBottom: '1em' }}>
-Indique el sentido de voto:
-						</div>
+						<div style={{ marginBottom: '1em' }}>{translate.select_your_vote_sense}</div>
 						<EarlyVoteMenu
 							selected={selected}
 							state={props.state}
