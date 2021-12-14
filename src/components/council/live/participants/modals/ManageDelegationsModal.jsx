@@ -30,7 +30,6 @@ const ManageDelegationsModal = ({
 	const [filterText, setFilterText] = React.useState('');
 	const [multiDelegationsModal, setMultiDelegationsModal] = React.useState(false);
 	const {
-		loading: loadingRemoveDelegations,
 		removeDelegations,
 		addDelegations
 	} = useHandleParticipantDelegations({ client });
@@ -319,8 +318,8 @@ const ManageDelegationsModal = ({
 							length={data?.list?.length}
 							limit={LIMIT}
 							total={data?.total}
-							changePage={page => {
-								setPage(page);
+							changePage={pageNumber => {
+								setPage(pageNumber);
 							}}
 						/>
 					</div>
