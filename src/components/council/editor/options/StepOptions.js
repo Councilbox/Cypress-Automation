@@ -329,18 +329,20 @@ const StepOptions = ({
 							</div>
 						}
 					</div>
-					<RoomLayout
-						translate={translate}
-						data={council}
-						value={council.room.layout}
-						updateData={value => updateCouncilData({
-							room: {
-								...council.room,
-								layout: value
-							}
-						})}
-						councilType={council.councilType}
-					/>
+					{CBX.canAddTranslator(council) &&
+						<RoomLayout
+							translate={translate}
+							data={council}
+							value={council.room.layout}
+							updateData={value => updateCouncilData({
+								room: {
+									...council.room,
+									layout: value
+								}
+							})}
+							councilType={council.councilType}
+						/>
+					}
 					{council.councilType === 0
 						&& <GridItem xs={12} md={8} lg={6}>
 							<RTMPField

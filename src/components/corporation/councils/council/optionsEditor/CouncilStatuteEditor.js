@@ -9,6 +9,7 @@ import {
 	SelectInput,
 	TextInput
 } from '../../../../../displayComponents';
+import { canAddTranslator } from '../../../../../utils/CBX';
 import { RoomLayout } from '../../../../council/editor/options/StepOptions';
 
 
@@ -103,14 +104,16 @@ const CouncilStatuteEditor = ({
 					}
 				/>
 			</GridItem>
-			<GridItem xs={12} md={7} lg={7}>
-				<RoomLayout
-					translate={translate}
-					councilType={council.councilType}
-					value={council.room.layout}
-					updateData={value => updateCouncilRoom({ layout: value })}
-				/>
-			</GridItem>
+			{canAddTranslator(council) &&
+				<GridItem xs={12} md={7} lg={7}>
+					<RoomLayout
+						translate={translate}
+						councilType={council.councilType}
+						value={council.room.layout}
+						updateData={value => updateCouncilRoom({ layout: value })}
+					/>
+				</GridItem>
+			}
 			<GridItem xs={12} md={7} lg={7}>
 				<SelectInput
 					id="council-type-hide-no-vote-button"
