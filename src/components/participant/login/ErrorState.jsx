@@ -239,7 +239,7 @@ const ParticipantNotInRemoteState = ({ translate, data, refetch }) => (
 		{
 			data.participant.state === PARTICIPANT_STATES.DELEGATED ?
 				<>
-					No puedes acceder porque tu voto ha sido delegado
+					{translate.cant_access_your_vote_delegated}
 					<RemoveDelegationAndEnter
 						participant={data.participant}
 						refetch={refetch}
