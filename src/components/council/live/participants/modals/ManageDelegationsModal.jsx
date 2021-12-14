@@ -164,7 +164,7 @@ const ManageDelegationsModal = ({
 									color={'white'}
 									onClick={() => setWarningModal(true)}
 									textPosition="after"
-									buttonStyle={{ border: `1px solid ${getSecondary()}` }}
+									// buttonStyle={{ border: `1px solid ${getSecondary()}` }}
 									textStyle={{
 										color: secondary,
 										fontWeight: '400',
