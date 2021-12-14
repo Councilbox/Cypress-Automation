@@ -246,7 +246,7 @@ const ManageDelegationsModal = ({
 									flexDirection: isMobile ? 'column' : 'row',
 									alignItems: 'center',
 									justifyContent: 'space-between',
-									border: ` 1px solid ${secondary}`,
+									border: ` 1px solid ${getSecondary()}`,
 									padding: '1rem',
 									margin: '5px',
 									borderRadius: '4px',
