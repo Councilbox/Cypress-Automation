@@ -745,11 +745,7 @@ const StepOptions = ({
 																			id={`council-options-act-majority-${majority.value}`}
 																			key={`majority${majority.value}`}
 																		>
-																			{
-																				translate[
-																				majority.label
-																				]
-																			}
+																			{translate[majority.label]}
 																		</MenuItem>
 																	)
 																)}
