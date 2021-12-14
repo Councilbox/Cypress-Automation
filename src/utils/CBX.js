@@ -355,19 +355,12 @@ export const hasAct = statute => statute.existsAct === 1;
 
 export const councilHasComments = statute => statute.existsComments === 1;
 
-export const canDelegateVotes = (statute, participant, ownedVotes) => {
-	console.log('hasDelegatedVotes', !(participant.hasDelegatedVotes));
-	console.log('meta', ownedVotes?.meta?.totalRepresentedVotes > 0);
-	console.log('represented', participant.represented?.length > 0);
-
-
-	return (statute.existsDelegatedVote === 1
+export const canDelegateVotes = (statute, participant, ownedVotes) => (statute.existsDelegatedVote === 1
 	&& !(participant.hasDelegatedVotes)
 	&& participant.type !== PARTICIPANT_TYPE.GUEST
 	&& (participant.numParticipations > 0 || ownedVotes?.meta?.totalRepresentedVotes > 0
-		|| participant.represented?.length > 0
-	)
-)};
+		|| participant.represented?.length > 0)
+);
 
 export const canAddDelegateVotes = (statute, participant) => (
 	statute.existsDelegatedVote === 1
@@ -955,11 +948,9 @@ export const changeVariablesToValues = async (initialText, data, translate) => {
 		moment.ISO_8601).format('LLL') : '');
 	text = text.replace(/{{firstOrSecondCall}}/g, data.council.firstOrSecondConvene === 1 ?
 		translate.first_call
-		:
-		data.council.firstOrSecondCall === 2 ?
+		: data.council.firstOrSecondCall === 2 ?
 			translate.second_call
-			:
-			'');
+			: '');
 
 	const base = data.council.partTotal;
 
