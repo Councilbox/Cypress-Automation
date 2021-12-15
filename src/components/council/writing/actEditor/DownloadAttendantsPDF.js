@@ -5,6 +5,7 @@ import { downloadAttendPDF } from '../../../../queries';
 import { BasicButton } from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
 import { downloadFile } from '../../../../utils/CBX';
+import { SERVER_URL } from '../../../../config';
 
 export const useDownloadCouncilAttendants = client => {
 	const [loading, setLoading] = React.useState(false);
@@ -21,7 +22,6 @@ export const useDownloadCouncilAttendants = client => {
 
 		if (response) {
 			if (response.data.downloadAttendPDF) {
-				setLoading(false);
 				downloadFile(
 					response.data.downloadAttendPDF,
 					'application/pdf',
@@ -29,9 +29,37 @@ export const useDownloadCouncilAttendants = client => {
 				);
 			}
 		}
+		setLoading(false);
 	};
 
-	return { loading, downloadPDF };
+	const downloadAttedantsExcel = async (council, filename) => {
+		setLoading(true);
+
+		const token = sessionStorage.getItem('token');
+		const apiToken = sessionStorage.getItem('apiToken');
+		const participantToken = sessionStorage.getItem('participantToken');
+		const response = await fetch(`${SERVER_URL}/council/${council.id}/attendantsExcel`, {
+			method: 'GET',
+			headers: new Headers({
+				'x-jwt-token': token || (apiToken || participantToken),
+				'Content-type': 'application/json'
+			})
+		});
+
+		if (response.status === 200) {
+			const blob = await response.blob();
+			const url = window.URL.createObjectURL(blob);
+			const a = document.createElement('a');
+			a.href = url;
+			a.download = `${filename}.xlsx`;
+			document.body.appendChild(a);
+			a.click();
+			a.remove();
+		}
+		setLoading(false);
+	};
+
+	return { loading, downloadPDF, downloadAttedantsExcel };
 };
 
 const DownloadAttendantsPDF = ({
