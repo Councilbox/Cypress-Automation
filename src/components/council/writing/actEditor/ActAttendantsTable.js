@@ -1,11 +1,12 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 import { withApollo } from 'react-apollo';
-import { TableRow, TableCell } from 'material-ui';
-import { LoadingSection, EnhancedTable, Scrollbar } from '../../../../displayComponents';
+import { TableRow, TableCell, CircularProgress } from 'material-ui';
+import { LoadingSection, EnhancedTable, Scrollbar, DropDownMenu, BasicButton } from '../../../../displayComponents';
 import { PARTICIPANTS_LIMITS, PARTICIPANT_STATES } from '../../../../constants';
 import { getSecondary } from '../../../../styles/colors';
 import { councilAttendants } from '../../../../queries/council';
-import DownloadAttendantsPDF from './DownloadAttendantsPDF';
+import { useDownloadCouncilAttendants } from './DownloadAttendantsPDF';
 import StateIcon from '../../live/participants/StateIcon';
 import { useHoverRow } from '../../../../hooks';
 import { moment } from '../../../../containers/App';
@@ -18,6 +19,7 @@ const ActAttendantsTable = ({
 	const [total, setTotal] = React.useState(null);
 	const [councilAttendantsData, setCouncilAttendantsData] = React.useState([]);
 	const [loading, setLoading] = React.useState(true);
+	const { loading: loadingDownloadAttendants, downloadPDF, downloadAttedantsExcel } = useDownloadCouncilAttendants(client);
 
 	const getCouncilAttendants = async value => {
 		const response = await client.query({
@@ -65,15 +67,87 @@ const ActAttendantsTable = ({
 						<div style={{ padding: '1.5em', overflow: 'hidden' }}>
 							{!!councilAttendantsData && (
 								<React.Fragment>
-									{councilAttendantsData.total > 0
-&& <DownloadAttendantsPDF
-	translate={translate}
-	color={secondary}
-	council={council}
-/>
-									}
 									<EnhancedTable
 										translate={translate}
+										menuButtons={
+											<DropDownMenu
+												styleComponent={{
+													width: '',
+													maxWidth: '100%',
+													border: '2px solid #a09aa0',
+													borderRadius: '4px',
+													marginRight: '1em',
+													padding: '0.5rem',
+												}}
+												id="download-attendees-dropdown-trigger"
+												Component={() => <div
+													style={{
+														display: 'flex',
+														flexDirection: 'row',
+														alignItems: 'center',
+														justifyContent: 'space-between',
+														cursor: 'pointer',
+														color: 'black',
+														width: '100%',
+														height: '100%',
+													}}
+												>
+													<div style={{
+														display: 'flex',
+														flexDirection: 'row',
+														alignItems: 'center',
+													}}>
+														<span>{translate.export_data}</span>
+													</div>
+													<div style={{
+														marginLeft: '0.3em'
+													}}>
+														{loadingDownloadAttendants ?
+															<CircularProgress size={12} color={'inherit'} />
+															:
+															<span style={{ fontSize: '1em' }}>
+																<i className="fa fa-caret-down" aria-hidden="true" />
+															</span>
+														}
+													</div>
+												</div>
+												}
+												items={
+													<div>
+														<BasicButton
+															text={'PDF'}
+															color={'white'}
+															type="flat"
+															id="add-guest-button"
+															icon={<i className="fa fa-file-pdf-o" aria-hidden="true" style={{ marginLeft: '0.3em' }}></i>}
+															onClick={() => downloadPDF(council, `${translate.assistants_list.replace(/ /g, '_')}-${council.name.replace(/ /g, '_').replace(/\./g, '')}`)}
+															buttonStyle={{
+																width: '100%',
+																display: 'flex',
+																justifyContent: 'space-between'
+															}}
+														/>
+														<BasicButton
+															text={'Excel'}
+															color={'white'}
+															type="flat"
+															id="add-guest-button"
+															icon={<i className="fa fa-file-excel-o" ariaHidden="true" style={{ marginLeft: '0.3em' }}></i>}
+															onClick={() => downloadAttedantsExcel(council, `${translate.assistants_list.replace(/ /g, '_')}-${council.name.replace(/ /g, '_').replace(/\./g, '')}`)}
+															buttonStyle={{
+																width: '100%',
+																display: 'flex',
+																justifyContent: 'space-between'
+															}}
+														/>
+													</div>
+												}
+												anchorOrigin={{
+													vertical: 'bottom',
+													horizontal: 'left',
+												}}
+											/>
+										}
 										defaultLimit={PARTICIPANTS_LIMITS[0]}
 										defaultFilter={'fullName'}
 										defaultOrder={['name', 'asc']}
@@ -183,29 +257,29 @@ const HoverableRow = ({ translate, participant, delegatedVotes }) => {
 				</TableCell>
 				<TableCell>
 					{participant.firstLoginDate
-&& moment(participant.firstLoginDate).format('LLL')
+						&& moment(participant.firstLoginDate).format('LLL')
 					}
 				</TableCell>
 				<TableCell>
 					{participant.state === PARTICIPANT_STATES.LEFT
-&& moment(participant.lastDateConnection).format('LLL')
+						&& moment(participant.lastDateConnection).format('LLL')
 					}
 				</TableCell>
 				<TableCell>
 					<div style={{ width: '4em' }}>
 						{showActions
-&& <>
-	<i
-		className="fa fa-info-circle"
-		aria-hidden="true"
-		style={{
-			fontSize: '24px',
-			color: getSecondary(),
-			cursor: 'pointer'
-		}}
-		onClick={() => setCbxDataModal(true)}
-	></i>
-</>
+							&& <>
+								<i
+									className="fa fa-info-circle"
+									aria-hidden="true"
+									style={{
+										fontSize: '24px',
+										color: getSecondary(),
+										cursor: 'pointer'
+									}}
+									onClick={() => setCbxDataModal(true)}
+								></i>
+							</>
 						}
 					</div>
 				</TableCell>
