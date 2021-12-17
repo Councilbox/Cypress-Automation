@@ -178,7 +178,7 @@ const CouncilStatuteEditor = ({
 							</MenuItem>
 						</SelectInput>
 					</GridItem>
-				</>	
+				</>
 			}
 			<GridItem xs={10} md={6} lg={6} style={{ display: 'flex', alignItems: 'center' }}>
 				<Checkbox
