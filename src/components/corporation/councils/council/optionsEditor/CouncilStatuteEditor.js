@@ -177,7 +177,7 @@ const CouncilStatuteEditor = ({
 					<Checkbox
 						helpDescription={translate.participant_enter_guest_desc}
 						label={translate.participant_will_enter_as_guest}
-						helpPopover
+						helpPopover={true}
 						helpTitle={translate.exists_limited_access_room}
 						value={statute.letParticipantsEnterAfterLimit === 1}
 						onChange={(event, isInputChecked) => updateState({
