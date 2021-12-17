@@ -141,12 +141,10 @@ const ParticipantsPage = ({
 				setSelected={setSelectedType}
 			/>,
 
-			DELEGATIONS: <StatesHeader
-				translate={translate}
-				stateRecount={data.stateRecount}
-				selected={filters.type}
-				setSelected={setSelectedType}
-			/>,
+			DELEGATIONS: <div style={{
+				width: '100%',
+				borderBottom: '1px solid gainsboro',
+			}} />,
 
 			ATTENDANCE: <AttendanceHeader
 				translate={translate}
