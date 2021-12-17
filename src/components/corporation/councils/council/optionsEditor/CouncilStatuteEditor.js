@@ -187,6 +187,7 @@ const CouncilStatuteEditor = ({
 					/>
 				</GridItem>
 			}
+
 			<GridItem xs={12} md={7} lg={7}>
 				<Checkbox
 					label={translate.hide_votings_recount}
