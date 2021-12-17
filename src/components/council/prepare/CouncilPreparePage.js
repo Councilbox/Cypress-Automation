@@ -566,6 +566,7 @@ export default graphql(gql`
 			weightedVoting
 			room {
 				type
+				layout
 			}
 			zipcode
 		}

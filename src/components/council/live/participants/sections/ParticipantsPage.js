@@ -225,7 +225,7 @@ const ParticipantsPage = ({
 						&& (!councilStarted(council) ? <DropdownParticipant
 							council={council}
 							addTranslator={canAddTranslator(council)}
-							participations={participants}
+							participations={hasParticipations(council)}
 							refetch={data.refetch}
 							translate={translate}
 							style={{

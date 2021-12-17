@@ -32,31 +32,14 @@ import OwnedVotesSection from './ownedVotes/OwnedVotesSection';
 import DropdownRepresentative from '../../../../displayComponents/DropdownRepresentative';
 import RemoveDelegationButton from './RemoveDelegationButton';
 
-const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
+const LiveParticipantEditor = ({ translate, client, ...props }) => {
 	const [ownedVotes, setOwnedVotes] = React.useState(null);
+	const [data, setData] = React.useState({});
 	const [loadingOwnedVotes, setLoadingOwnedVotes] = React.useState(true);
-
 	const landscape = isLandscape() || window.innerWidth > 700;
-	const participant = { ...data.liveParticipant };
-
-	const showStateMenu = () => !(participant.representatives && participant.representatives.length > 0);
-
-	const refreshEmailStates = React.useCallback(async () => {
-		const response = await props.updateParticipantSends({
-			variables: {
-				participantId: showStateMenu() ? participant.id : participant.representatives[0].id
-			}
-		});
-
-		if (response.data.updateParticipantSends.success) {
-			if (data.loading) {
-				await data.refetch();
-			}
-		}
-	}, [data]);
 
 	const updateOwnedVotes = React.useCallback(async () => {
-		if (participant.id) {
+		if (props.id) {
 			const response = await client.query({
 				query: gql`
 					query ParticipantOwnedVotesLimited(
@@ -81,7 +64,7 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 					}
 				`,
 				variables: {
-					participantId: participant.id,
+					participantId: props.id,
 					options: {
 						limit: 15,
 						offset: 0
@@ -92,7 +75,7 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 			setOwnedVotes(response.data.participantOwnedVotes);
 			setLoadingOwnedVotes(false);
 		}
-	}, [participant?.id]);
+	}, [props.id]);
 
 	React.useEffect(() => {
 		updateOwnedVotes();
@@ -100,12 +83,45 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 
 	React.useEffect(() => {
 		let interval;
-		if (participant.id) {
+		if (props.id) {
 			refreshEmailStates();
 			interval = setInterval(refreshEmailStates, 15000);
 		}
 		return () => clearInterval(interval);
-	}, [participant.id]);
+	}, [props.id]);
+
+	const getData = React.useCallback(async () => {
+		if (props.id) {
+			const response = await client.query({
+				query: liveParticipant,
+				variables: {
+					participantId: props.id
+				}
+			});
+			setData(response.data);
+		}
+	}, [props.id]);
+
+	React.useEffect(() => {
+		getData();
+	}, [getData]);
+
+	const participant = { ...data.liveParticipant };
+	const showStateMenu = () => participant && !(participant.representatives && participant.representatives.length > 0);
+
+	const refreshEmailStates = React.useCallback(async () => {
+		const response = await props.updateParticipantSends({
+			variables: {
+				participantId: showStateMenu() ? props.id : participant?.representatives[0].id
+			}
+		});
+
+		if (response.data.updateParticipantSends.success) {
+			if (data) {
+				getData();
+			}
+		}
+	}, [props.id]);
 
 	if (!data.liveParticipant) {
 		return <LoadingSection />;
@@ -143,7 +159,7 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 											root={props.root}
 											canEdit={!CBX.hasHisVoteDelegated(participant) && !CBX.isRepresented(participant)}
 											council={props.council}
-											refetch={data.refetch}
+											refetch={getData}
 										/>
 									</div>
 								</Typography>
@@ -173,7 +189,7 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 													council={props.council}
 													translate={translate}
 													security={CBX.hasAccessKey(props.council)}
-													refetch={data.refetch}
+													refetch={getData}
 												/>
 											</div>
 										</GridItem>
@@ -184,7 +200,7 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 												<SignatureButton
 													participant={participant}
 													council={props.council}
-													refetch={data.refetch}
+													refetch={getData}
 													translate={translate}
 												/>
 											</div>
@@ -205,7 +221,7 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 														council={props.council}
 														translate={translate}
 														refetch={() => {
-															data.refetch();
+															getData();
 															updateOwnedVotes();
 														}}
 													/>
@@ -224,7 +240,8 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 													translate={translate}
 													council={props.council}
 													refetch={() => {
-														data.refetch();
+														props.refetch();
+														getData();
 														updateOwnedVotes();
 													}}
 												/>
@@ -236,6 +253,7 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 						{CBX.isRepresented(participant) ?
 							<ParticipantBlock
 								{...props}
+								refetchParticipant={getData}
 								ownedVotes={ownedVotes}
 								participant={participant.representative}
 								translate={translate}
@@ -246,6 +264,7 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 							: (participant.representatives && participant.representatives.length > 0)
 							&& <ParticipantBlock
 								{...props}
+								refetchParticipant={getData}
 								ownedVotes={ownedVotes}
 								participant={participant.representatives[0]}
 								translate={translate}
@@ -253,7 +272,7 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 								action={
 									<GrantVoteButton
 										participant={participant}
-										refetch={data.refetch}
+										refetch={getData}
 										representative={participant.representatives[0]}
 										translate={translate}
 									/>
@@ -268,7 +287,7 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 							council={props.council}
 							ownedVotes={ownedVotes}
 							updateOwnedVotes={() => {
-								data.refetch();
+								getData();
 								updateOwnedVotes();
 							}}
 							loading={loadingOwnedVotes}
@@ -278,6 +297,7 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 							<ParticipantBlock
 								{...props}
 								active={false}
+								refetchParticipant={getData}
 								participant={participant.representative}
 								translate={translate}
 								data={data}
@@ -289,7 +309,7 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 										participant={participant.representative}
 										translate={translate}
 										refetch={() => {
-											data.refetch();
+											getData();
 											updateOwnedVotes();
 										}}
 									/>
@@ -309,7 +329,7 @@ const LiveParticipantEditor = ({ data, translate, client, ...props }) => {
 };
 
 export const ParticipantBlock = withApollo(({
-	children, translate, type, client, data, action, active, participant, ownedVotes, ...props
+	children, translate, type, client, data, action, active, participant, ownedVotes, refetchParticipant, ...props
 }) => {
 	const {
 		edit,
@@ -411,8 +431,7 @@ export const ParticipantBlock = withApollo(({
 								required
 								value={phone}
 								errorText={errors.phone}
-								onChange={event => setPhone(event.target.value)
-								}
+								onChange={event => setPhone(event.target.value)}
 							/>
 						}
 						<BasicButton
@@ -464,7 +483,7 @@ export const ParticipantBlock = withApollo(({
 									council={props.council}
 									translate={translate}
 									security={CBX.hasAccessKey(props.council)}
-									refetch={data.refetch}
+									refetch={refetchParticipant}
 								/>
 							</div>
 						</GridItem>
@@ -476,7 +495,7 @@ export const ParticipantBlock = withApollo(({
 									&& <SignatureButton
 										participant={participant}
 										council={props.council}
-										refetch={data.refetch}
+										refetch={refetchParticipant}
 										translate={translate}
 									/>
 								}
@@ -490,7 +509,7 @@ export const ParticipantBlock = withApollo(({
 								participant={participant}
 								council={props.council}
 								translate={translate}
-								refetch={data.refetch}
+								refetch={refetchParticipant}
 								onlyButtonDelegateVote={true}
 							/>
 						}
@@ -542,14 +561,6 @@ const GrantVoteButton = withApollo(({
 });
 
 export default compose(
-	graphql(liveParticipant, {
-		options: props => ({
-			variables: {
-				participantId: props.id
-			},
-			notifyOnNetworkStatusChange: true
-		})
-	}),
 	graphql(changeParticipantState, {
 		name: 'changeParticipantState'
 	}),

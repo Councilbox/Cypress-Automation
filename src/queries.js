@@ -1050,6 +1050,8 @@ export const councilStepFive = gql`
 			step
 			room {
 				videoConfig
+				layout
+				type
 			}
 			platform {
 				act
