@@ -172,8 +172,8 @@ const CouncilStatuteEditor = ({
 					/>
 				)}
 			</GridItem>
-			{statute.existsLimitedAccessRoom === 1 &&
-				<GridItem xs={12} md={7} lg={7}>
+			{statute.existsLimitedAccessRoom === 1
+				&& <GridItem xs={12} md={7} lg={7}>
 					<Checkbox
 						label={translate.participant_will_enter_as_guest}
 						helpPopover
@@ -187,7 +187,6 @@ const CouncilStatuteEditor = ({
 					/>
 				</GridItem>
 			}
-
 			<GridItem xs={12} md={7} lg={7}>
 				<Checkbox
 					label={translate.hide_votings_recount}
