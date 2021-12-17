@@ -460,6 +460,13 @@ export default graphql(gql`
 			}
 			businessName
 			city
+			agendas {
+				id
+				items {
+					id
+					value
+				}
+			}
 			companyId
 			confirmAssistance
 			conveneText
