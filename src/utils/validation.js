@@ -35,6 +35,7 @@ export const checkValidMajority = (majority, divider, type, translate) => {
 
 export const checkRequiredFieldsParticipant = (
 	participant,
+	representative,
 	translate,
 	hasSocialCapital,
 	company
@@ -75,7 +76,10 @@ export const checkRequiredFieldsParticipant = (
 				hasError = true;
 				errors.email = translate.valid_email_required;
 			}
-		} else if (participant.personOrEntity === 0) {
+		} else if (participant.personOrEntity === 0 || (participant.personOrEntity === 1 && !representative.email)) {
+			hasError = true;
+			errors.email = translate.valid_email_required;
+		} else if (!participant.email && participant.personOrEntity === 1 && !representative) {
 			hasError = true;
 			errors.email = translate.valid_email_required;
 		}
