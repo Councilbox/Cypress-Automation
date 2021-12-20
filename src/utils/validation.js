@@ -76,7 +76,7 @@ export const checkRequiredFieldsParticipant = (
 				hasError = true;
 				errors.email = translate.valid_email_required;
 			}
-		} else if (participant.personOrEntity === 0 || (participant.personOrEntity === 1 && !representative.email)) {
+		} else if (participant.personOrEntity === 0 || (participant.personOrEntity === 1 && !representative?.email)) {
 			hasError = true;
 			errors.email = translate.valid_email_required;
 		} else if (!participant.email && participant.personOrEntity === 1 && !representative) {

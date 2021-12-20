@@ -460,6 +460,13 @@ export default graphql(gql`
 			}
 			businessName
 			city
+			agendas {
+				id
+				items {
+					id
+					value
+				}
+			}
 			companyId
 			confirmAssistance
 			conveneText
@@ -559,6 +566,7 @@ export default graphql(gql`
 			weightedVoting
 			room {
 				type
+				layout
 			}
 			zipcode
 		}
