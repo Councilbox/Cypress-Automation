@@ -785,13 +785,13 @@ const PrivateVotingDisplay = compose(
 							: vote.vote === 3 && council.presentVoteOverwrite === 1 ?
 								<div onClick={toggleVote} style={{ cursor: 'pointer' }}>
 									<i className="fa fa-times" style={{ marginRight: '1em' }} />
-									{'Anular voto telemático'}
+									{translate.vote_remote_vote}
 								</div>
 								: vote.vote === -1 ?
 									'No ha votado presencialmente'
 									: vote.vote === -3 ?
-										'Voto remoto anulado - Ha votado presencialmente'
-										: 'Ha votado presencialmente'
+										`${translate.remote_vote_voided} - ${translate.voted_in_person}`
+										: translate.voted_in_person
 						}
 					</React.Fragment>
 					: <React.Fragment>
