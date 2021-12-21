@@ -1009,8 +1009,8 @@ export const changeVariablesToValues = async (initialText, data, translate) => {
 		text = text.replace(/{{negativeSCTotal}}/g, data.votings.SCAgainstTotal);
 		text = text.replace(/{{abstentionSCTotal}}/g, data.votings.SCAbstentionTotal);
 		text = text.replace(/{{positiveSCPresent}}/g, data.votings.SCFavorPresent);
-		text = text.replace(/{{negativeSCPresent}}/g, data.votings.SCAgainstTotal);
-		text = text.replace(/{{abstentionSCPresent}}/g, data.votings.SCAbstentionTotal);
+		text = text.replace(/{{negativeSCPresent}}/g, data.votings.SCAgainstPresent);
+		text = text.replace(/{{abstentionSCPresent}}/g, data.votings.SCAbstentionPresent);
 		text = text.replace(/{{numPositive}}/g, data.votings.numPositive);
 		text = text.replace(/{{numAbstention}}/g, data.votings.numAbstention);
 		text = text.replace(/{{numNegative}}/g, data.votings.numNegative);
