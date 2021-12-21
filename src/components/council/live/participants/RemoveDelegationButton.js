@@ -5,7 +5,7 @@ import { BasicButton, AlertConfirm } from '../../../../displayComponents';
 import { getSecondary } from '../../../../styles/colors';
 
 const RemoveDelegationButton = ({
-	participant, delegatedVote, translate, client, refetch
+	participant, delegatedVote, translate, client, refetch, raised
 }) => {
 	const [modal, setModal] = React.useState(false);
 	const [loading, setLoading] = React.useState(false);
@@ -54,7 +54,7 @@ const RemoveDelegationButton = ({
 			<BasicButton
 				text={translate.remove_delegation}
 				onClick={() => setModal(true)}
-				type="flat"
+				type={raised ? 'raised' : 'flat'}
 				color="white"
 				textStyle={{ color: secondary }}
 				buttonStyle={{ border: `1px solid ${secondary}` }}

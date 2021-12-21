@@ -241,7 +241,7 @@ const ParticipantStateSelector = ({
 					|| participant.state
 					=== PARTICIPANT_STATES.PHYSICALLY_PRESENT
 					|| participant.state
-					=== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE) && (
+					=== PARTICIPANT_STATES.PRESENT_WITH_REMOTE_VOTE) && delegateVote && (
 					<DelegateVoteModal
 						show={delegateVote}
 						council={council}

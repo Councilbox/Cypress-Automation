@@ -141,6 +141,11 @@ const ParticipantsPage = ({
 				setSelected={setSelectedType}
 			/>,
 
+			DELEGATIONS: <div style={{
+				width: '100%',
+				borderBottom: '1px solid gainsboro',
+			}} />,
+
 			ATTENDANCE: <AttendanceHeader
 				translate={translate}
 				attendanceRecount={data.attendanceRecount}
@@ -398,6 +403,7 @@ const ParticipantsPage = ({
 const getSection = view => {
 	const sections = {
 		STATES: 'liveParticipantsState',
+		DELEGATIONS: 'liveParticipantsWithDelegations',
 		ATTENDANCE: 'liveParticipantsAttendance',
 		CREDENTIALS: 'liveParticipantsCredentials',
 		TYPE: 'liveParticipantsType',
