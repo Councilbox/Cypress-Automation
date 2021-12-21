@@ -16,6 +16,7 @@ import { AGENDA_STATES } from '../../../constants';
 import { TAG_TYPES } from '../../company/drafts/draftTags/utils';
 import { getTranslations } from '../../../queries';
 import { buildTranslateObject } from '../../../actions/mainActions';
+import { ConfigContext } from '../../../containers/AppControl';
 
 
 export const agendaRecountQuery = gql`
@@ -48,6 +49,7 @@ const ActAgreements = ({
 	const [comment, setComment] = React.useState(agenda.comment);
 	const [commentRightColumn, setCommentRightColumn] = React.useState(agenda.commentRightColumn);
 	const [data, setData] = React.useState(null);
+	const config = React.useContext(ConfigContext);
 
 	const updateAgreement = async value => {
 		if (checkForUnclosedBraces(value)) {
@@ -106,9 +108,13 @@ const ActAgreements = ({
 		const {
 			numPositive, numNegative, numAbstention, numNoVote
 		} = data;
-		const { positiveSC, negativeSC, abstentionSC } = data;
+		const { positiveSC, negativeSC, abstentionSC, noVoteSC } = data;
 		const participations = hasParticipations(council);
 		const totalPresent = agenda.socialCapitalPresent + agenda.socialCapitalCurrentRemote;
+
+		const abstentionTotal = config.combineAbstentionNoVote ? (
+			abstentionSC + noVoteSC
+		) : abstentionSC;
 
 		const correctedText = await changeVariablesToValues(text, {
 			company,
@@ -117,14 +123,16 @@ const ActAgreements = ({
 				votings: {
 					positive: agenda.positiveVotings + agenda.positiveManual,
 					negative: agenda.negativeVotings + agenda.negativeManual,
-					abstention: agenda.abstentionVotings + agenda.abstentionManual,
+					abstention: config.combineAbstentionNoVote ?
+						agenda.abstentionVotings + agenda.abstentionManual + agenda.noVoteVotings + agenda.noVoteManual
+						: agenda.abstentionVotings + agenda.abstentionManual,
 					noVoteTotal: agenda.noVoteVotings + agenda.noVoteManual,
 					SCFavorTotal: participations ? `${((positiveSC / recount.partTotal) * 100).toFixed(3)}%` : '-',
 					SCAgainstTotal: participations ? `${((negativeSC / recount.partTotal) * 100).toFixed(3)}%` : '-',
-					SCAbstentionTotal: participations ? `${((abstentionSC / recount.partTotal) * 100).toFixed(3)}%` : '-',
+					SCAbstentionTotal: participations ? `${((abstentionTotal / recount.partTotal) * 100).toFixed(3)}%` : '-',
 					SCFavorPresent: participations ? `${((positiveSC / totalPresent) * 100).toFixed(3)}%` : '-',
 					SCAgainstPresent: participations ? `${((negativeSC / totalPresent) * 100).toFixed(3)}%` : '-',
-					SCAbstentionPresent: participations ? `${((abstentionSC / totalPresent) * 100).toFixed(3)}%` : '-',
+					SCAbstentionPresent: participations ? `${((abstentionTotal / totalPresent) * 100).toFixed(3)}%` : '-',
 					numPositive,
 					numNegative,
 					numAbstention,
@@ -163,6 +171,7 @@ const ActAgreements = ({
 
 	React.useEffect(() => {
 		if (agenda.votingState === AGENDA_STATES.CLOSED && data) {
+			updateText();
 			if (/{{/.test(comment)) {
 				updateText();
 			}
