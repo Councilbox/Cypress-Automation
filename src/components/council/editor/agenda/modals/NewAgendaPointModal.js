@@ -411,15 +411,12 @@ const NewAgendaPointModal = ({
 		);
 	};
 	const checkChanges = () => {
-		// return state.newPoint !== defaultValues ? setUnSavedModal(true) : props.requestClose;
-		// console.log(state.newPoint !== defaultValues);
-		return props.requestClose;
-		// setUnSavedModal(true);
+		return JSON.stringify(state.newPoint) !== JSON.stringify(defaultValues) ? setUnSavedModal(true) : props.requestClose();
 	};
 	return (
 		<React.Fragment>
 			<AlertConfirm
-				requestClose={checkChanges()}
+				requestClose={() => checkChanges()}
 				open={props.open}
 				acceptAction={addAgenda}
 				buttonAccept={translate.accept}
@@ -430,7 +427,7 @@ const NewAgendaPointModal = ({
 			<UnsavedChangesModal
 				translate={translate}
 				open={unSavedModal}
-				requestClose={() => close}
+				requestClose={() => close()}
 				acceptAction={addAgenda}
 				cancelAction={() => setUnSavedModal(false)}
 			/>
