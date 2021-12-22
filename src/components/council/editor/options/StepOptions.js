@@ -16,6 +16,7 @@ import {
 	SelectInput,
 	TextInput,
 	GridItem,
+	HelpPopover,
 } from '../../../../displayComponents';
 import { councilStepFive, updateCouncil as updateCouncilMutation } from '../../../../queries';
 import { checkValidEmail, checkValidMajority } from '../../../../utils/validation';
@@ -30,6 +31,8 @@ import { useValidRTMP } from '../../../../hooks';
 import VoteLetterWithSenseOption from './VoteLetterWithSenseOption';
 import AttendanceTextEditor from './AttendanceTextEditor';
 import EditorStepper from '../EditorStepper';
+import cuadricula from '../../../../assets/img/cuadricula.png';
+import ponente from '../../../../assets/img/ponente.png';
 
 
 const StepOptions = ({
@@ -337,6 +340,20 @@ const StepOptions = ({
 							</div>
 						}
 					</div>
+					{CBX.canAddTranslator(council) &&
+						<RoomLayout
+							translate={translate}
+							data={council}
+							value={council.room.layout}
+							updateData={value => updateCouncilData({
+								room: {
+									...council.room,
+									layout: value
+								}
+							})}
+							councilType={council.councilType}
+						/>
+					}
 					{council.councilType === 0
 						&& <GridItem xs={12} md={8} lg={6}>
 							<RTMPField
@@ -346,7 +363,7 @@ const StepOptions = ({
 							/>
 						</GridItem>
 					}
-				</React.Fragment>
+				</React.Fragment >
 			),
 			2: (
 				<React.Fragment>
@@ -619,21 +636,7 @@ const StepOptions = ({
 										}
 									</React.Fragment>
 								)}
-								{renderCouncilTypeSpecificOptions(council.councilType)}
 
-								{council.councilType !== 4
-									&& <>
-										<SectionTitle
-											text={translate.security}
-											color={primary}
-											style={{
-												marginTop: '1.6em'
-											}}
-										/>
-										{renderSecurityForm()}
-
-									</>
-								}
 								<SectionTitle
 									text={translate.contact_data}
 									color={primary}
@@ -674,6 +677,21 @@ const StepOptions = ({
 										helpPlacement={'topRight'}
 									/>
 								</GridItem>
+
+								{renderCouncilTypeSpecificOptions(council.councilType)}
+								{council.councilType !== 4
+									&& <>
+										<SectionTitle
+											text={translate.security}
+											color={primary}
+											style={{
+												marginTop: '1.6em'
+											}}
+										/>
+										{renderSecurityForm()}
+
+									</>
+								}
 								{(council.statute.existsDelegatedVote === 1 && config.councilDelegates && council.councilType !== 5)
 									&& renderDelegationRestriction()
 								}
@@ -744,11 +762,7 @@ const StepOptions = ({
 																			id={`council-options-act-majority-${majority.value}`}
 																			key={`majority${majority.value}`}
 																		>
-																			{
-																				translate[
-																					majority.label
-																				]
-																			}
+																			{translate[majority.label]}
 																		</MenuItem>
 																	)
 																)}
@@ -887,8 +901,50 @@ const RTMPField = ({ data, updateData, translate }) => {
 						rtmp: event.target.value
 					}
 				}
-			})
-			}
+			})}
 		/>
 	);
 };
+
+export const RoomLayout = ({ translate, councilType, value, updateData }) => (
+	councilType === 0 &&
+	<div style={{ fontSize: '0.875rem', marginTop: '5px', marginBottom: '5px' }}>
+		<div style={{ marginBottom: '0.5em' }}>
+			{translate.room_layout}
+			<HelpPopover
+				title={translate.room_layout}
+				content={translate.room_layout_help}
+			/>
+		</div>
+		<div style={{ display: 'flex', alignItems: 'center' }}>
+			<div>
+				<Radio
+					value={'grid'}
+					checked={value === 'grid'}
+					id="council-options-grid"
+					onChange={event => updateData(event.target.value)}
+					label={
+						<div >
+							<div style={{ display: 'flex', justifyContent: 'center' }}><img src={cuadricula} /></div>
+							<div>{translate.label_grid}</div>
+						</div>
+					}
+				/>
+			</div>
+			<div>
+				<Radio
+					value={'activeSpeaker'}
+					checked={value === 'activeSpeaker'}
+					id="council-options-active-speaker"
+					onChange={event => updateData(event.target.value)}
+					label={
+						<div>
+							<div style={{ display: 'flex', justifyContent: 'center' }}><img src={ponente} /></div>
+							<div>{translate.label_activeSpeaker}</div>
+						</div>
+					}
+				/>
+			</div>
+		</div>
+	</div>
+);
