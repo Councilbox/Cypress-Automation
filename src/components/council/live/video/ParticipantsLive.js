@@ -21,7 +21,6 @@ import VideoParticipantMenu from './videoParticipants/VideoParticipantMenu';
 import ChangeRequestWordButton from './videoParticipants/ChangeRequestWordButton';
 import VideoParticipantsStats from './videoParticipants/VideoParticipantsStats';
 import ParticipantHistoryModal from './videoParticipants/ParticipantHistoryModal';
-import MuteToggleButton from './videoParticipants/MuteToggleButton';
 import { isMobile } from '../../../../utils/screen';
 import { usePolling } from '../../../../hooks';
 import imgCouncilbox from '../../../../assets/img/imago-councilbox-inverse-mini.png';
