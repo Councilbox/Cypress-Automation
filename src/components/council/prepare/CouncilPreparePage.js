@@ -205,6 +205,7 @@ const CouncilPreparePage = ({
 									refetch={refetch}
 									hideDecimal={true}
 									hideRequests={true}
+									hideButtonsVisibility={true}
 								/>
 							</div>
 						</Scrollbar>
