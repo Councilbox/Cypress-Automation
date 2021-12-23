@@ -39,6 +39,7 @@ export const checkValidMajority = (majority, divider, type, translate) => {
 
 export const checkRequiredFieldsParticipant = (
 	participant,
+	representative,
 	translate,
 	hasSocialCapital,
 	company
@@ -56,11 +57,15 @@ export const checkRequiredFieldsParticipant = (
 	};
 
 	let hasError = false;
+	const regex = INPUT_REGEX;
 
-	if (!participant.name || !participant.name.trim()) {
-		hasError = true;
-		errors.name = translate.field_required;
+	if (participant) {
+		if (!(regex.test(participant.name)) || !participant.name.trim()) {
+			hasError = true;
+			errors.name = translate.field_required;
+		}
 	}
+
 
 	if (company && company.type !== 10) {
 		if (!participant.surname && !participant.surname.trim() && participant.personOrEntity === 0) {
@@ -79,7 +84,10 @@ export const checkRequiredFieldsParticipant = (
 				hasError = true;
 				errors.email = translate.valid_email_required;
 			}
-		} else {
+		} else if (participant.personOrEntity === 0 || (participant.personOrEntity === 1 && !representative?.email)) {
+			hasError = true;
+			errors.email = translate.valid_email_required;
+		} else if (!participant.email && participant.personOrEntity === 1 && !representative) {
 			hasError = true;
 			errors.email = translate.valid_email_required;
 		}
@@ -252,8 +260,8 @@ export const checkRequiredFieldsAgenda = (agenda, translate, toast) => {
 		}
 		if (
 			agenda.majorityType === 0
-|| agenda.majorityType === 5
-|| agenda.majorityType === 6
+			|| agenda.majorityType === 5
+			|| agenda.majorityType === 6
 		) {
 			if (!agenda.majority) {
 				hasError = true;

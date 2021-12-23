@@ -137,6 +137,7 @@ class CensusParticipantEditor extends React.Component {
 		const hasSocialCapital = censusHasParticipations(this.props.census);
 		const errorsParticipant = checkRequiredFieldsParticipant(
 			participant,
+			representative,
 			translate,
 			hasSocialCapital,
 			company
@@ -193,6 +194,7 @@ class CensusParticipantEditor extends React.Component {
 							<ParticipantForm
 								type={participant.personOrEntity}
 								participant={participant}
+								representative={this.state.representative}
 								participations={censusHasParticipations(this.props.census)}
 								translate={translate}
 								languages={languages}

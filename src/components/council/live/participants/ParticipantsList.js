@@ -29,6 +29,7 @@ const ParticipantsList = ({
 
 	const showSignatureModal = participant => () => {
 		setState({
+			...state,
 			showSignatureModal: true,
 			participantToSign: getSignatureParticipant(participant)
 		});

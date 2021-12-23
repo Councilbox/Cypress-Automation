@@ -203,10 +203,10 @@ const VotingsTable = ({
 			<div style={{ minWidth: '7em' }}>
 				<span style={{ fontWeight: '700' }}>
 					{vote.authorRepresentative ?
-						<React.Fragment>
+						<div style={{ height: '20px' }}>
 							{`${vote.authorRepresentative.name} ${vote.authorRepresentative.surname || ''} ${vote.authorRepresentative.position ? ` - ${vote.authorRepresentative.position}` : ''}`}
-						</React.Fragment>
-						: <React.Fragment>
+						</div>
+						: <div style={{ height: '20px' }}>
 							{`${vote.author.name} ${vote.author.surname || ''} ${vote.author.position ? ` - ${vote.author.position}` : ''}`}
 							{vote.author.voteDenied
 								&& <Tooltip title={vote.author.voteDeniedReason}>
@@ -215,15 +215,14 @@ const VotingsTable = ({
 									</span>
 								</Tooltip>
 							}
-						</React.Fragment>
+						</div>
 
 					}
 				</span>
-				<b>
-					{!!vote.delegatedVotes
-						&& vote.delegatedVotes.filter(item => item.author.state === PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
-							<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
-								<br />
+				{!!vote.delegatedVotes
+					&& vote.delegatedVotes.filter(item => item.author.state === PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
+						<b key={`delegatedVote_${delegatedVote.id}`}>
+							<div style={{ height: '20px' }}>
 								{delegatedVote.fixed
 									&& <Tooltip
 										title={getTooltip(delegatedVote.vote)}
@@ -242,15 +241,15 @@ const VotingsTable = ({
 										</span>
 									</Tooltip>
 								}
-							</React.Fragment>
-						))
-					}
-				</b>
+								<br />
+							</div>
+						</b>
+					))
+				}
 				<React.Fragment>
 					{!!delegatedVotes
 						&& delegatedVotes.slice(0, 10).map(delegatedVote => (
-							<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
-								<br />
+							<div style={{ height: '20px' }} key={`delegatedVote_${delegatedVote.id}`}>
 								{delegatedVote.fixed
 									&& <Tooltip
 										title={getTooltip(delegatedVote.vote)}
@@ -269,11 +268,11 @@ const VotingsTable = ({
 										</span>
 									</Tooltip>
 								}
-							</React.Fragment>
+							</div>
 						))
 					}
 					{delegatedVotes?.length > 10 &&
-						<>
+						<div style={{ height: '20px' }}>
 							<OwnedVotingsRightPoint
 								open={delegatedVotesModal}
 								agenda={agenda}
@@ -291,7 +290,7 @@ const VotingsTable = ({
 							>
 								{translate.num_delegated_votes_see_all.replace(/{{number}}/, delegatedVotes?.length - 10)}
 							</div>
-						</>
+						</div>
 					}
 				</React.Fragment>
 			</div>
@@ -588,27 +587,31 @@ const VotingsTable = ({
 										{!isConfirmationRequest(agenda.subjectType)
 											&& <TableCell style={{ fontSize: '0.95em' }}>
 												{(vote.author.state !== PARTICIPANT_STATES.REPRESENTATED) ?
-													(vote.numParticipations > 0 ? `${showNumParticipations(vote.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.numParticipations)}` : '-')
-													: vote.authorRepresentative.numParticipations > 0 ? `${showNumParticipations(vote.authorRepresentative.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.authorRepresentative.numParticipations)}` : '-'
+													<div style={{ height: '20px' }}>
+														{(vote.numParticipations > 0 ?
+															`${showNumParticipations(vote.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.numParticipations)}` : '-')}
+													</div>
+													:
+													<div style={{ height: '20px' }}>
+														{vote.authorRepresentative.numParticipations > 0 ? `${showNumParticipations(vote.authorRepresentative.numParticipations, props.company, props.council.statute)} ${printPercentage(vote.authorRepresentative.numParticipations)}` : '-'}
+													</div>
 												}
 
 												<React.Fragment>
 													{!!vote.delegatedVotes
 														&& vote.delegatedVotes.filter(item => item.author.state === PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
-															<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
-																<br />
+															<div style={{ height: '20px' }} key={`delegatedVote_${delegatedVote.id}`}>
 																{`${delegatedVote.author.numParticipations > 0 ? `${showNumParticipations(delegatedVote.numParticipations, props.company, props.council.statute)} ${printPercentage(delegatedVote.numParticipations)}` : '-'}`}
-															</React.Fragment>
+															</div>
 														))
 													}
 												</React.Fragment>
 												<React.Fragment>
 													{!!vote.delegatedVotes
 														&& vote.delegatedVotes.slice(0, 10).filter(item => item.author.state !== PARTICIPANT_STATES.REPRESENTATED).map(delegatedVote => (
-															<React.Fragment key={`delegatedVote_${delegatedVote.id}`}>
-																<br />
+															<div style={{ height: '20px' }} key={`delegatedVote_${delegatedVote.id}`}>
 																{`${delegatedVote.author.numParticipations > 0 ? `${showNumParticipations(delegatedVote.author.numParticipations, props.company, props.council.statute)}  ${printPercentage(delegatedVote.author.numParticipations)}` : 0}`}
-															</React.Fragment>
+															</div>
 														))
 													}
 												</React.Fragment>
@@ -785,13 +788,13 @@ const PrivateVotingDisplay = compose(
 							: vote.vote === 3 && council.presentVoteOverwrite === 1 ?
 								<div onClick={toggleVote} style={{ cursor: 'pointer' }}>
 									<i className="fa fa-times" style={{ marginRight: '1em' }} />
-									{'Anular voto telemático'}
+									{translate.vote_remote_vote}
 								</div>
 								: vote.vote === -1 ?
 									'No ha votado presencialmente'
 									: vote.vote === -3 ?
-										'Voto remoto anulado - Ha votado presencialmente'
-										: 'Ha votado presencialmente'
+										`${translate.remote_vote_voided} - ${translate.voted_in_person}`
+										: translate.voted_in_person
 						}
 					</React.Fragment>
 					: <React.Fragment>

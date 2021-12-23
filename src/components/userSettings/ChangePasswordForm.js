@@ -180,7 +180,7 @@ class ChangePasswordForm extends React.Component {
 					currentPassword: '',
 					newPassword: '',
 					newPasswordConfirm: ''
-				}
+				},
 			});
 		}
 	}
@@ -324,6 +324,16 @@ class ChangePasswordForm extends React.Component {
 				{success ? <div style={{ width: '120px', color: getSecondary(), fontWeight: 'bold' }}>
 					{translate.password_changed}
 				</div> : null}
+				{success ? toast(
+					<LiveToast
+						id="success-toast"
+						message={this.props.translate.password_changed}
+					/>, {
+						position: toast.POSITION.TOP_RIGHT,
+						autoClose: true,
+						className: 'successToast'
+					}
+				) : null}
 			</Fragment>
 		);
 	}

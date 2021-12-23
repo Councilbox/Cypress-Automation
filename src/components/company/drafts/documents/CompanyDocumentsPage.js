@@ -1,5 +1,6 @@
 import React from 'react';
 import gql from 'graphql-tag';
+import { toast } from 'react-toastify';
 import { withApollo } from 'react-apollo';
 import {
 	Icon, Table, TableRow, TableCell, TableBody, Input
@@ -11,7 +12,7 @@ import { getPrimary, getSecondary } from '../../../../styles/colors';
 import upload from '../../../../assets/img/upload.png';
 import { isMobile } from '../../../../utils/screen';
 import {
-	TextInput, ProgressBar, DropDownMenu, AlertConfirm, Scrollbar
+	TextInput, ProgressBar, DropDownMenu, AlertConfirm, Scrollbar, LiveToast
 } from '../../../../displayComponents';
 import { moment } from '../../../../containers/App';
 import CreateDocumentFolder from './CreateDocumentFolder';
@@ -141,63 +142,82 @@ const CompanyDocumentsPage = ({
 				return;
 			}
 
-			const reader = new FileReader();
-			reader.readAsBinaryString(file);
+			try {
+				const reader = new FileReader();
+				reader.readAsBinaryString(file);
 
-			reader.onload = async () => {
-				if ((+quota.used + file.size) > quota.total) {
-					return setErrorModal(translate.file_exceeds_rest);
-				}
-
-				// TRADUCCION
-				if (file.size > (50 * 1024 * 1024)) {
-					return setErrorModal('El archivo supera el límite de tamaño');
-				}
-
-				const formData = new FormData();
-				formData.append('file', file);
-				formData.append('data', JSON.stringify({
-					companyId: company.id,
-					...(breadCrumbs.length > 1 ?
-						{
-							parentFolder: actualFolder
-						}
-						: {})
-				}));
-				const id = Math.random().toString(36).substr(2, 9);
-
-				addToQueue({
-					name: file.name,
-					size: file.size,
-					uploaded: 0,
-					id
-				});
-
-				const xhr = new XMLHttpRequest();
-				xhr.onload = function (e) {
-					console.log(e);
-				};
-
-				xhr.upload.onprogress = e => {
-					if (e.loaded === e.total) {
-						removeFromQueue(id);
-					} else {
-						updateQueueItem(((e.loaded / e.total) * 100).toFixed(2), id);
+				reader.onload = async () => {
+					if ((+quota.used + file.size) > quota.total) {
+						return setErrorModal(translate.file_exceeds_rest);
 					}
-				};
 
-				xhr.open('POST', `${SERVER_URL}/api/companyDocument`, true);
-				xhr.setRequestHeader('x-jwt-token', sessionStorage.getItem('token'));
-				xhr.onreadystatechange = () => {
-					if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-						const response = JSON.parse(xhr.responseText);
-						if (response.success) {
-							getData();
-						}
+					// TRADUCCION
+					if (file.size > (50 * 1024 * 1024)) {
+						return setErrorModal('El archivo supera el límite de tamaño');
 					}
+
+					const formData = new FormData();
+					formData.append('file', file);
+					formData.append('data', JSON.stringify({
+						companyId: company.id,
+						...(breadCrumbs.length > 1 ?
+							{
+								parentFolder: actualFolder
+							}
+							: {})
+					}));
+					const id = Math.random().toString(36).substr(2, 9);
+
+					addToQueue({
+						name: file.name,
+						size: file.size,
+						uploaded: 0,
+						id
+					});
+
+					const xhr = new XMLHttpRequest();
+					xhr.onload = function (e) {
+						console.log(e);
+					};
+
+					xhr.upload.onprogress = e => {
+						if (e.loaded === e.total) {
+							removeFromQueue(id);
+						} else {
+							updateQueueItem(((e.loaded / e.total) * 100).toFixed(2), id);
+						}
+					};
+
+					xhr.open('POST', `${SERVER_URL}/api/companyDocument`, true);
+					xhr.setRequestHeader('x-jwt-token', sessionStorage.getItem('token'));
+					xhr.onreadystatechange = () => {
+						if (xhr.readyState === XMLHttpRequest.DONE) {
+							if (xhr.status === 200) {
+								const response = JSON.parse(xhr.responseText);
+								console.log(response);
+								if (response.success) {
+									getData();
+								}
+							}
+							if (xhr.status === 502) {
+								toast(
+									<LiveToast
+										message={'Mete os virus polo cu, pensas que somos un chaiñas'}
+										id="error-toast"
+									/>, {
+										position: toast.POSITION.TOP_RIGHT,
+										autoClose: true,
+										className: 'errorToast'
+									}
+								);
+							}
+						}
+					};
+					xhr.send(formData);
 				};
-				xhr.send(formData);
-			};
+			} catch (error) {
+				console.log(error);
+			}
 		}
 	};
 

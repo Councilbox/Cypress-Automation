@@ -199,7 +199,11 @@ const VoteDisplay = ({
 	);
 };
 
-export const getVote = (vote, translate) => {
+export const getVote = (vote, translate, items) => {
+	if (items?.length > 0) {
+		return items.find(item => item.id === vote).value;
+	}
+
 	switch (vote) {
 		case 1:
 			return translate.in_favor_btn;
