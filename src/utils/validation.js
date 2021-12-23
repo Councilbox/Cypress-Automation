@@ -8,6 +8,10 @@ export const checkValidEmail = email => {
 	return re.test(email) && !/\'|\"|\\|\//.test(email);
 };
 
+export const checkValidPhone = phone => {
+	const re = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
+	return re.test(phone);
+};
 
 export const checkValidMajority = (majority, divider, type, translate) => {
 	if (type === MAJORITY_TYPES.PERCENTAGE) {
@@ -75,7 +79,7 @@ export const checkRequiredFieldsParticipant = (
 				hasError = true;
 				errors.email = translate.valid_email_required;
 			}
-		} else if (participant.personOrEntity === 0) {
+		} else {
 			hasError = true;
 			errors.email = translate.valid_email_required;
 		}
@@ -269,3 +273,4 @@ export const checkRequiredFieldsAgenda = (agenda, translate, toast) => {
 		hasError
 	};
 };
+
