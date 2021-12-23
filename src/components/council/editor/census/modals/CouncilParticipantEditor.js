@@ -9,7 +9,8 @@ import ParticipantForm from '../../../participants/ParticipantForm';
 import {
 	checkRequiredFieldsParticipant,
 	checkRequiredFieldsRepresentative,
-	checkValidEmail
+	checkValidEmail,
+	checkValidPhone
 } from '../../../../../utils/validation';
 import RepresentativeForm from '../../../../company/census/censusEditor/RepresentativeForm';
 import withSharedProps from '../../../../../HOCs/withSharedProps';
@@ -136,7 +137,6 @@ class CouncilParticipantEditor extends React.Component {
 	}
 
 	async checkRequiredFields() {
-		const testPhone = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
 		const participant = this.state.data;
 		const { representative } = this.state;
 		const { translate, participations, company } = this.props;
@@ -200,7 +200,7 @@ class CouncilParticipantEditor extends React.Component {
 		}
 
 		if (participant.phone) {
-			if (!testPhone.test(participant.phone) && participant.phone !== '-') {
+			if (!checkValidPhone(participant.phone)) {
 				errorsParticipant.hasError = true;
 				errorsParticipant.errors.phone = translate.invalid_field;
 			}
@@ -425,4 +425,5 @@ export default compose(
 	graphql(languagesQuery),
 	withSharedProps()
 )(withApollo(CouncilParticipantEditor));
+
 
