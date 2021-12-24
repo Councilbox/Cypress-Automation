@@ -154,6 +154,7 @@ class AddGuestModal extends React.Component {
 			<div style={{ maxWidth: '850px' }}>
 				<RepresentativeForm
 					guest={true}
+					requiredPhone
 					checkEmail={this.emailKeyUp}
 					translate={this.props.translate}
 					representative={this.state.guest}

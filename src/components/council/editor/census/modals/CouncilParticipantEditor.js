@@ -204,6 +204,9 @@ class CouncilParticipantEditor extends React.Component {
 				errorsParticipant.hasError = true;
 				errorsParticipant.errors.phone = translate.invalid_field;
 			}
+		} else if (!participant.phone) {
+			errorsParticipant.hasError = true;
+			errorsParticipant.errors.phone = translate.validation_required_field;
 		}
 
 		this.setState({
@@ -317,6 +320,7 @@ class CouncilParticipantEditor extends React.Component {
 								participant={participant}
 								checkEmail={this.emailKeyUp}
 								participations={participations}
+								requiredPhone
 								translate={translate}
 								isGuest={participantIsGuest(participant)}
 								hideVotingInputs={this.props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ||
