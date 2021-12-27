@@ -18,6 +18,7 @@ const ParticipantForm = ({
 	isGuest = false,
 	participations,
 	hideVotingInputs,
+	requiredPhone = false,
 	translate,
 	languages
 }) => (
@@ -184,6 +185,7 @@ const ParticipantForm = ({
 		<GridItem xs={6} md={4} lg={3}>
 			<TextInput
 				id="participant-phone-input"
+				required={requiredPhone}
 				floatingText={translate.phone}
 				type="text"
 				errorText={errors.phone}
