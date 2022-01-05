@@ -201,10 +201,11 @@ export const checkRequiredFieldsRepresentative = (participant, translate) => {
 	};
 };
 
-export const checkRequiredFieldsAgenda = (agenda, translate, toast) => {
+export const checkRequiredFieldsAgenda = (agenda, translate, toast, attachments) => {
 	const errors = {
 		agendaSubject: '',
 		subjectType: '',
+		attached: '',
 		description: '',
 		majorityType: '',
 		majority: '',
@@ -234,6 +235,15 @@ export const checkRequiredFieldsAgenda = (agenda, translate, toast) => {
 	if (majorityNeedsInput(agenda) && !agenda.majority && agenda.majority !== 0) {
 		hasError = true;
 		errors.majority = translate.field_required;
+	}
+
+	if (attachments) {
+		const names = attachments?.map(item => item.filename);
+		const nameIsDuplicated = names?.some((item, idx) => names.indexOf(item) !== idx);
+		if (nameIsDuplicated) {
+			hasError = true;
+			errors.attached = translate.used_attachment_error;
+		}
 	}
 
 	if (agenda.description) {
