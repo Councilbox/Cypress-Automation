@@ -340,12 +340,12 @@ const PointEditor = ({
 						<PointAttachments
 							translate={translate}
 							setAttachments={setAttachments}
-							prevAttachments={agenda.attachments}
 							attachments={attachments}
 							company={company}
 							deletedAttachments={attachmentsToRemove}
 							setDeletedAttachments={setAttachmentsToRemove}
-							errorText={state.errors.attached}
+							prevAttachments={agenda?.attachments}
+							errorText={state?.errors?.attached}
 						/>
 					</div>
 					<RichTextInput

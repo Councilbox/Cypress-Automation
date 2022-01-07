@@ -238,9 +238,9 @@ export const checkRequiredFieldsAgenda = (agenda, translate, toast, attachments)
 	}
 
 	if (attachments) {
-		const names = attachments?.map(item => item.filename);
-		const nameIsDuplicated = names?.some((item, idx) => names.indexOf(item) !== idx);
-		if (nameIsDuplicated) {
+		const fileNames = attachments?.map(item => item.filename);
+		const isDuplicated = fileNames?.some((item, idx) => fileNames.indexOf(item) !== idx);
+		if (isDuplicated) {
 			hasError = true;
 			errors.attached = translate.used_attachment_error;
 		}
