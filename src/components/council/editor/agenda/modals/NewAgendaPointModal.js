@@ -41,11 +41,8 @@ const NewAgendaPointModal = ({
 	const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute, council);
 	const secondary = getSecondary();
 	const [attachments, setAttachments] = React.useState([]);
-
 	const [attachmentsToRemove, setAttachmentsToRemove] = React.useState([]);
-
 	const [unSavedModal, setUnSavedModal] = React.useState(false);
-
 	const [state, setState] = useOldState({
 		newPoint: {
 			...defaultValues,
