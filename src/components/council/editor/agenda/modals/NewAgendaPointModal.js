@@ -40,6 +40,7 @@ const NewAgendaPointModal = ({
 	const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute, council);
 	const secondary = getSecondary();
 	const [attachments, setAttachments] = React.useState([]);
+	const [attachmentsToRemove, setAttachmentsToRemove] = React.useState([]);
 	const [state, setState] = useOldState({
 		newPoint: {
 			...defaultValues,
@@ -52,7 +53,8 @@ const NewAgendaPointModal = ({
 		errors: {
 			agendaSubject: '',
 			subjectType: '',
-			description: ''
+			description: '',
+			attached: ''
 		}
 	});
 	const editor = React.useRef(null);
@@ -66,7 +68,8 @@ const NewAgendaPointModal = ({
 			errors: {
 				agendaSubject: '',
 				subjectType: '',
-				description: ''
+				description: '',
+				attached: ''
 			}
 		});
 		setSending(false);
@@ -75,7 +78,7 @@ const NewAgendaPointModal = ({
 
 	function checkRequiredFields() {
 		const agenda = state.newPoint;
-		const errors = checkRequiredFieldsAgenda(agenda, translate, toast);
+		const errors = checkRequiredFieldsAgenda(agenda, translate, toast, attachments);
 		const majorityCheckResult = checkValidMajority(agenda.majority, agenda.majorityDivider, agenda.majorityType);
 		setState({
 			errors: errors.errors,
@@ -353,9 +356,13 @@ const NewAgendaPointModal = ({
 					<div style={{ marginBottom: '1.6em' }}>
 						<PointAttachments
 							translate={translate}
+							company={company}
 							setAttachments={setAttachments}
 							attachments={attachments}
-							company={company}
+							prevAttachments={agendas.attachments}
+							deletedAttachments={attachmentsToRemove}
+							setDeletedAttachments={setAttachmentsToRemove}
+							errorText={state?.errors?.attached}
 						/>
 					</div>
 					<RichTextInput

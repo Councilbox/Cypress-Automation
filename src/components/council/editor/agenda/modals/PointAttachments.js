@@ -33,13 +33,13 @@ const PointAttachments = ({
 	};
 
 	const removeAgendaAttachment = index => {
-		const toDelete = attachments.splice(index, 1);
-		const valuesAreDefault = prevAttachments.length === attachments.length;
-		const isDuplicated = prevAttachments.every(r => attachments.indexOf(r) >= 0);
-		if (setDeletedAttachments && !valuesAreDefault) {
+		const toDelete = attachments?.splice(index, 1);
+		const isDuplicated = (a, b) => a?.every(r => b?.indexOf(r) >= 0);
+
+		if (setDeletedAttachments) {
 			setDeletedAttachments([...deletedAttachments, toDelete[0]]);
 		}
-		if (valuesAreDefault || isDuplicated) {
+		if (isDuplicated(prevAttachments, attachments) || isDuplicated(attachments, attachments)) {
 			setDeletedAttachments([...deletedAttachments]);
 		}
 		setAttachments([...attachments]);
