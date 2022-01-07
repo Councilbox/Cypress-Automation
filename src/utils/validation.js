@@ -8,6 +8,10 @@ export const checkValidEmail = email => {
 	return re.test(email) && !/\'|\"|\\|\//.test(email);
 };
 
+export const checkValidPhone = phone => {
+	const re = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
+	return re.test(phone);
+};
 
 export const checkValidMajority = (majority, divider, type, translate) => {
 	if (type === MAJORITY_TYPES.PERCENTAGE) {
@@ -35,6 +39,7 @@ export const checkValidMajority = (majority, divider, type, translate) => {
 
 export const checkRequiredFieldsParticipant = (
 	participant,
+	representative,
 	translate,
 	hasSocialCapital,
 	company
@@ -52,11 +57,15 @@ export const checkRequiredFieldsParticipant = (
 	};
 
 	let hasError = false;
+	const regex = INPUT_REGEX;
 
-	if (!participant.name || !participant.name.trim()) {
-		hasError = true;
-		errors.name = translate.field_required;
+	if (participant) {
+		if (!(regex.test(participant.name)) || !participant.name.trim()) {
+			hasError = true;
+			errors.name = translate.field_required;
+		}
 	}
+
 
 	if (company && company.type !== 10) {
 		if (!participant.surname && !participant.surname.trim() && participant.personOrEntity === 0) {
@@ -75,7 +84,10 @@ export const checkRequiredFieldsParticipant = (
 				hasError = true;
 				errors.email = translate.valid_email_required;
 			}
-		} else {
+		} else if (participant.personOrEntity === 0 || (participant.personOrEntity === 1 && !representative?.email)) {
+			hasError = true;
+			errors.email = translate.valid_email_required;
+		} else if (!participant.email && participant.personOrEntity === 1 && !representative) {
 			hasError = true;
 			errors.email = translate.valid_email_required;
 		}
@@ -279,3 +291,4 @@ export const checkRequiredFieldsAgenda = (agenda, translate, toast, attachments)
 		hasError
 	};
 };
+
