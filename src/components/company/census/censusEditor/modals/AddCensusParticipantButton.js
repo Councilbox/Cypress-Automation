@@ -138,9 +138,10 @@ class AddCensusParticipantButton extends React.Component {
 		const hasSocialCapital = censusHasParticipations(this.props.census);
 		const errorsParticipant = checkRequiredFieldsParticipant(
 			participant,
+			representative,
 			translate,
 			hasSocialCapital,
-			company
+			company,
 		);
 
 		const emailsToCheck = [];
