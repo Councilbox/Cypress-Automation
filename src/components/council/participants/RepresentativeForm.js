@@ -13,6 +13,7 @@ const RepresentativeForm = ({
 	checkEmail,
 	hideAdminEmail,
 	updateState,
+	requiredPhone,
 	translate,
 	hideInitialState,
 	languages,
@@ -126,6 +127,7 @@ const RepresentativeForm = ({
 		}
 		<GridItem xs={6} md={4} lg={4}>
 			<TextInput
+				required={requiredPhone}
 				floatingText={translate.phone}
 				id="participant-form-phone"
 				type="text"

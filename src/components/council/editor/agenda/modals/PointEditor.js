@@ -34,6 +34,7 @@ const PointEditor = ({
 			agendaSubject: '',
 			subjectType: '',
 			description: '',
+			attached: '',
 			majorityType: '',
 			majority: '',
 			majorityDivider: ''
@@ -81,7 +82,7 @@ const PointEditor = ({
 	};
 
 	function checkRequiredFields() {
-		const newErrors = checkRequiredFieldsAgenda(state, translate, toast);
+		const newErrors = checkRequiredFieldsAgenda(state, translate, toast, attachments);
 		const majorityCheckResult = checkValidMajority(agenda.majority, agenda.majorityDivider, agenda.majorityType);
 		setState({
 			errors: newErrors.errors,
@@ -343,6 +344,8 @@ const PointEditor = ({
 							company={company}
 							deletedAttachments={attachmentsToRemove}
 							setDeletedAttachments={setAttachmentsToRemove}
+							prevAttachments={agenda?.attachments}
+							errorText={state?.errors?.attached}
 						/>
 					</div>
 					<RichTextInput

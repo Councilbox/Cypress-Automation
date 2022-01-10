@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import React from 'react';
 import { graphql, withApollo } from 'react-apollo';
 import { flowRight as compose } from 'lodash';
@@ -50,8 +51,9 @@ class ConvenedParticipantEditor extends React.Component {
 	}
 
 	setParticipantData() {
-		// eslint-disable-next-line prefer-const
-		let { representative, delegateId, delegateUuid, __typename, councilId, ...participant } = removeTypenameField(
+		let {
+			representative, delegateId, delegateUuid, __typename, councilId, ...participant
+		} = removeTypenameField(
 			this.props.participant
 		);
 
@@ -188,6 +190,7 @@ class ConvenedParticipantEditor extends React.Component {
 				const hasSocialCapital = participations;
 				errorsParticipant = checkRequiredFieldsParticipant(
 					participant,
+					representative,
 					translate,
 					hasSocialCapital,
 					company
@@ -364,10 +367,10 @@ class ConvenedParticipantEditor extends React.Component {
 										errors={errors}
 										updateState={this.updateState}
 									/>
-									:
-									<ParticipantForm
+									: <ParticipantForm
 										type={participant.personOrEntity}
 										participant={participant}
+										representative={representative}
 										participations={participations}
 										translate={translate}
 										isGuest={participantIsGuest(participant)}

@@ -13,10 +13,12 @@ const ParticipantForm = ({
 	participant,
 	errors,
 	updateState,
+	representative,
 	checkEmail,
 	isGuest = false,
 	participations,
 	hideVotingInputs,
+	requiredPhone = false,
 	translate,
 	languages
 }) => (
@@ -145,10 +147,10 @@ const ParticipantForm = ({
 		}
 		<GridItem xs={6} md={4} lg={3}>
 			<TextInput
-				required
+				required={participant?.personOrEntity === 0 || (participant?.personOrEntity === 1 && !representative?.hasRepresentative)}
 				floatingText={translate.email}
 				id="participant-email-input"
-				{...(checkEmail ? { onKeyUp: event => checkEmail(event, 'participant') } : {})}
+				{...(checkEmail ? { onKeyUp: event => checkEmail(event, 'participant') } : null)}
 				type="text"
 				onBlur={() => updateState({
 					email: participant.email?.trim()
@@ -161,8 +163,8 @@ const ParticipantForm = ({
 				}
 			/>
 		</GridItem>
-		{!participantIsGuest(participant) &&
-			<GridItem xs={6} md={4} lg={3}>
+		{!participantIsGuest(participant)
+			&& <GridItem xs={6} md={4} lg={3}>
 				<TextInput
 					id="participant-administrative-email-input"
 					floatingText={translate.administrative_email}
@@ -183,6 +185,7 @@ const ParticipantForm = ({
 		<GridItem xs={6} md={4} lg={3}>
 			<TextInput
 				id="participant-phone-input"
+				required={requiredPhone}
 				floatingText={translate.phone}
 				type="text"
 				errorText={errors.phone}
