@@ -20,7 +20,7 @@ const defaultValues = {
 	description: '',
 };
 
-export const useValidateAgenda = (translate, setErrors) => (items, options, agenda) => {
+export const useValidateAgenda = (translate, setErrors) => (items, options, agenda, attachments) => {
 	let hasError = false;
 	const regex = new RegExp('^[a-zA-Z0-9-äÄëËïÏöÖüÜáéíóúáéíóúÁÉÍÓÚÂÊÎÔÛâêîôûàèìòùÀÈÌÒÙ ]{0}\.+$');
 
@@ -43,6 +43,15 @@ export const useValidateAgenda = (translate, setErrors) => (items, options, agen
 	if (!agenda.agendaSubject) {
 		newErrors.agendaSubject = translate.required_field;
 		hasError = true;
+	}
+
+	if (attachments) {
+		const fileNames = attachments?.map(item => item.filename);
+		const isDuplicated = fileNames?.some((item, idx) => fileNames.indexOf(item) !== idx);
+		if (isDuplicated) {
+			newErrors.attached = translate.used_attachment_error;
+			hasError = true;
+		}
 	}
 
 	if (options.multiselect && options.maxSelections > items.length) {
@@ -102,6 +111,7 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
 		orderIndex: props.agendas.length + 1
 	});
 	const [attachments, setAttachments] = React.useState([]);
+	const [attachmentsToRemove, setAttachmentsToRemove] = React.useState([]);
 	const [loading, setLoading] = React.useState(false);
 	const [errors, setErrors] = React.useState({});
 	const [items, setItems] = React.useState([{
@@ -110,8 +120,9 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
 	const [options, setOptions] = React.useState(defaultPollOptions);
 	const validateCustomAgenda = useValidateAgenda(translate, setErrors);
 
+
 	const addCustomPoint = async () => {
-		if (!validateCustomAgenda(items, options, agenda)) {
+		if (!validateCustomAgenda(items, options, agenda, attachments)) {
 			setLoading(true);
 			const response = await addCustomAgenda({
 				variables: {
@@ -231,7 +242,9 @@ const NewCustomPointModal = ({ translate, addCustomAgenda, ...props }) => {
 					updateItem,
 					updateOptions,
 					removeItem,
-					addOption
+					addOption,
+					deletedAttachments: attachmentsToRemove,
+					setDeletedAttachments: setAttachmentsToRemove,
 				}}
 			/>
 		</div>

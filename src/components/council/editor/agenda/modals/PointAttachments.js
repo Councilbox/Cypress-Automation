@@ -6,7 +6,7 @@ import CompanyDocumentsBrowser from '../../../../company/drafts/documents/Compan
 import { removeTypenameField } from '../../../../../utils/CBX';
 
 const PointAttachments = ({
-	translate, company, attachments, setAttachments, setDeletedAttachments, deletedAttachments
+	translate, company, attachments, setAttachments, setDeletedAttachments, deletedAttachments, errorText, prevAttachments
 }) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
@@ -33,9 +33,14 @@ const PointAttachments = ({
 	};
 
 	const removeAgendaAttachment = index => {
-		const toDelete = attachments.splice(index, 1);
+		const toDelete = attachments?.splice(index, 1);
+		const isDuplicated = (a, b) => a?.every(r => b?.indexOf(r) >= 0);
+
 		if (setDeletedAttachments) {
 			setDeletedAttachments([...deletedAttachments, toDelete[0]]);
+		}
+		if (isDuplicated(prevAttachments, attachments) || isDuplicated(attachments, attachments)) {
+			setDeletedAttachments([...deletedAttachments]);
 		}
 		setAttachments([...attachments]);
 	};
@@ -125,35 +130,42 @@ const PointAttachments = ({
 					</div>
 				}
 			/>
-			<div>
-				{attachments.map((attachment, index) => (
-					<div
-						style={{
-							border: `1px solid ${secondary}`,
-							float: 'left',
-							marginTop: '1em',
-							padding: '5px',
-							marginLeft: index > 0 ? '5px' : '0',
-							borderRadius: '5px',
-							color: 'primary'
-						}}
-						id={`attachment-${index}`}
-						key={`attachment_${attachment.id || index}`}
-					>
-						{attachment.filename || attachment.name}
-						<span onClick={() => removeAgendaAttachment(index)}
-							id={`attachment-delete-${index}`}
+			<div style={{ display: 'flex', flexDirection: 'column' }}>
+				<div>
+					{attachments.map((attachment, index) => (
+						<div
 							style={{
-								marginLeft: '0.6em',
-								color: secondary,
-								fontWeight: '700',
-								cursor: 'pointer'
+								border: `1px solid ${secondary}`,
+								float: 'left',
+								marginTop: '1em',
+								padding: '5px',
+								marginLeft: index > 0 ? '5px' : '0',
+								borderRadius: '5px',
+								color: 'primary'
 							}}
+							id={`attachment-${index}`}
+							key={`attachment_${attachment.id || index}`}
 						>
-							X
-						</span>
-					</div>
-				))}
+							{attachment.filename || attachment.name}
+							<span onClick={() => removeAgendaAttachment(index)}
+								id={`attachment-delete-${index}`}
+								style={{
+									marginLeft: '0.6em',
+									color: secondary,
+									fontWeight: '700',
+									cursor: 'pointer'
+								}}
+							>
+								X
+							</span>
+						</div>
+					))}
+				</div>
+				{errorText
+					&& <span style={{
+						color: 'red', fontSize: '12px', paddingLeft: '3px', paddingTop: '3px'
+					}}>{errorText}</span>
+				}
 			</div>
 			<div style={{ clear: 'both' }} />
 

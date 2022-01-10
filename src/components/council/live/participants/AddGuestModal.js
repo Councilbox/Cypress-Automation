@@ -5,7 +5,7 @@ import { AlertConfirm } from '../../../../displayComponents';
 import { addGuest } from '../../../../queries';
 import RepresentativeForm from '../../participants/RepresentativeForm';
 import { languages } from '../../../../queries/masters';
-import { checkValidEmail } from '../../../../utils/validation';
+import { checkValidEmail, checkValidPhone } from '../../../../utils/validation';
 import { checkUniqueCouncilEmails } from '../../../../queries/councilParticipant';
 
 const newGuestInitialValues = {
@@ -114,6 +114,9 @@ class AddGuestModal extends React.Component {
 			if (!guest.phone) {
 				errors.phone = translate.required_field;
 				hasError = true;
+			} else if (!checkValidPhone(guest.phone)) {
+				errors.phone = translate.invalid_phone;
+				hasError = true;
 			}
 		}
 
@@ -154,6 +157,7 @@ class AddGuestModal extends React.Component {
 			<div style={{ maxWidth: '850px' }}>
 				<RepresentativeForm
 					guest={true}
+					requiredPhone
 					checkEmail={this.emailKeyUp}
 					translate={this.props.translate}
 					representative={this.state.guest}
@@ -191,4 +195,5 @@ export default compose(
 	}),
 	graphql(languages)
 )(withApollo(AddGuestModal));
+
 

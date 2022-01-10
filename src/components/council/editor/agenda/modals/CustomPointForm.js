@@ -95,6 +95,7 @@ const CustomPointForm = ({
 									company={company}
 									deletedAttachments={deletedAttachments}
 									setDeletedAttachments={setDeletedAttachments}
+									errorText={errors?.attached}
 								/>
 							</div>
 						</GridItem>

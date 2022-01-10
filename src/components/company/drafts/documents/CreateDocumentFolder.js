@@ -1,14 +1,15 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
-import { Input } from 'material-ui';
-import { AlertConfirm } from '../../../../displayComponents';
+import { TextInput, AlertConfirm } from '../../../../displayComponents';
 
 
 const CreateDocumentFolder = ({
 	translate, refetch, open, requestClose, client, company, parentFolder
 }) => {
 	const [name, setName] = React.useState('');
+	const [error, setError] = React.useState(false);
+
 
 	const createDocumentFolder = async () => {
 		await client.mutate({
@@ -29,28 +30,37 @@ const CreateDocumentFolder = ({
 		});
 
 		refetch();
+		setName('');
 		requestClose();
 	};
 
+	const checkRequiredFields = () => {
+		if (!name) {
+			setError(true);
+		} else {
+			setError(false);
+		}
+	};
+
+	const acceptAction = () => {
+		checkRequiredFields();
+		if (name && !error) {
+			createDocumentFolder();
+		}
+	};
 
 	const renderBody = () => (
-		<Input
-			placeholder={translate.title}
-			// error={!!errors.title}
-			disableUnderline={true}
-			id={'titleDraft'}
-			style={{
-				color: 'rgba(0, 0, 0, 0.65)',
-				fontSize: '15px',
-				boxShadow: '0 2px 1px 0 rgba(0, 0, 0, 0.25)',
-				// border: !!errors.title? '2px solid red' : '1px solid #d7d7d7',
-				width: '100%',
-				padding: '.5em 1.6em',
-				marginTop: '1em'
-			}}
+		<TextInput
+			required
+			floatingText={translate.translate.title}
+			type="text"
+			id="create-folder-name"
+			errorText={error && name.length === 0 ? translate.field_required : null}
 			value={name}
-			onChange={event => setName(event.nativeEvent.target.value)
-			}
+			onChange={event => {
+				checkRequiredFields();
+				setName(event.nativeEvent.target.value);
+			}}
 		/>
 	);
 
@@ -59,7 +69,7 @@ const CreateDocumentFolder = ({
 			<AlertConfirm
 				title={translate.new_folder}
 				open={open}
-				acceptAction={createDocumentFolder}
+				acceptAction={acceptAction}
 				requestClose={requestClose}
 				buttonCancel={translate.cancel}
 				buttonAccept={translate.accept}

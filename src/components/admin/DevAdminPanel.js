@@ -48,6 +48,7 @@ const DevAdminPage = ({ data, toggleFeature }) => {
 
 	return (
 		<div style={{ width: '100%', height: '100%', padding: '1em' }}>
+			Prueba1
 			<Grid>
 				<GridItem xs={12} md={12} lg={12}>
 					<ToggleRecordings />
