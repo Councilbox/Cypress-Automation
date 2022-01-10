@@ -369,7 +369,7 @@ class ImportCensusButton extends React.Component {
 				name: participant.name || '',
 				position: participant.position || '',
 				surname: participant.surname || '',
-				email: participant.email ? participant.email.toLowerCase() : '',
+				email: participant.r_email ? participant.r_email.toLowerCase() : null,
 				dni: participant.dni || '',
 				phone: this.cleanPhone(participant.phone),
 				language: participant.language,
@@ -389,7 +389,7 @@ class ImportCensusButton extends React.Component {
 				companyId: this.props.companyId,
 				censusId: this.props.censusId,
 				name: participant.r_name || '',
-				email: participant.r_email ? participant.r_email.toLowerCase() : null,
+				email: participant.email ? participant.toLowerCase() : null,
 				dni: participant.r_dni || '',
 				phone: this.cleanPhone(participant.r_phone),
 				personOrEntity: 1,
@@ -446,7 +446,7 @@ class ImportCensusButton extends React.Component {
 		};
 
 		if (!isEntity) {
-			if (!checkValidEmail(participant.email)) {
+			if (!checkValidEmail(participant.email) && !participant.r_email) {
 				errors.email = required;
 				errors.hasError = true;
 			}
@@ -705,9 +705,9 @@ class ImportCensusButton extends React.Component {
 												<div
 													style={{ width: '100%' }}
 												>
-													{this.state.invalidEmails.map(item => (
+													{this.state.invalidEmails.map((item, index) => (
 														<React.Fragment key={`invalidEmails_${item[0]}`}>
-															{`${translate.entry} ${item[1]}: ${item[0]}`}<br />
+															{`${translate.entry} ${index}: ${item[0]}`}<br />
 														</React.Fragment>
 													))}
 												</div>

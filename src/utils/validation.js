@@ -60,12 +60,11 @@ export const checkRequiredFieldsParticipant = (
 	const regex = INPUT_REGEX;
 
 	if (participant) {
-		if (!(regex.test(participant.name)) || !participant.name.trim()) {
+		if (!(regex.test(participant?.name)) || !participant?.name.trim() || !participant.name) {
 			hasError = true;
 			errors.name = translate.field_required;
 		}
 	}
-
 
 	if (company && company.type !== 10) {
 		if (!participant.surname && !participant.surname.trim() && participant.personOrEntity === 0) {
@@ -84,7 +83,7 @@ export const checkRequiredFieldsParticipant = (
 				hasError = true;
 				errors.email = translate.valid_email_required;
 			}
-		} else if (participant.personOrEntity === 0 || (participant.personOrEntity === 1 && !representative?.email)) {
+		} else if (participant.personOrEntity === 0 || (participant.personOrEntity === 1 && !representative.email)) {
 			hasError = true;
 			errors.email = translate.valid_email_required;
 		} else if (!participant.email && participant.personOrEntity === 1 && !representative) {
