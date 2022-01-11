@@ -8,6 +8,10 @@ export const checkValidEmail = email => {
 	return re.test(email) && !/\'|\"|\\|\//.test(email);
 };
 
+export const checkValidPhone = phone => {
+	const re = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
+	return re.test(phone);
+};
 
 export const checkValidMajority = (majority, divider, type, translate) => {
 	if (type === MAJORITY_TYPES.PERCENTAGE) {
@@ -197,10 +201,11 @@ export const checkRequiredFieldsRepresentative = (participant, translate) => {
 	};
 };
 
-export const checkRequiredFieldsAgenda = (agenda, translate, toast) => {
+export const checkRequiredFieldsAgenda = (agenda, translate, toast, attachments) => {
 	const errors = {
 		agendaSubject: '',
 		subjectType: '',
+		attached: '',
 		description: '',
 		majorityType: '',
 		majority: '',
@@ -230,6 +235,15 @@ export const checkRequiredFieldsAgenda = (agenda, translate, toast) => {
 	if (majorityNeedsInput(agenda) && !agenda.majority && agenda.majority !== 0) {
 		hasError = true;
 		errors.majority = translate.field_required;
+	}
+
+	if (attachments) {
+		const fileNames = attachments?.map(item => item.filename);
+		const isDuplicated = fileNames?.some((item, idx) => fileNames.indexOf(item) !== idx);
+		if (isDuplicated) {
+			hasError = true;
+			errors.attached = translate.used_attachment_error;
+		}
 	}
 
 	if (agenda.description) {
@@ -277,3 +291,4 @@ export const checkRequiredFieldsAgenda = (agenda, translate, toast) => {
 		hasError
 	};
 };
+

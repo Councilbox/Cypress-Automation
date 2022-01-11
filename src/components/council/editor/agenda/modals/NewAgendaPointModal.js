@@ -11,7 +11,8 @@ import {
 	GridItem,
 	MajorityInput,
 	SelectInput,
-	TextInput
+	TextInput,
+	UnsavedChangesModal
 } from '../../../../../displayComponents/index';
 import RichTextInput from '../../../../../displayComponents/RichTextInput';
 import LoadDraft from '../../../../company/drafts/LoadDraft';
@@ -40,6 +41,8 @@ const NewAgendaPointModal = ({
 	const filteredTypes = CBX.filterAgendaVotingTypes(votingTypes, statute, council);
 	const secondary = getSecondary();
 	const [attachments, setAttachments] = React.useState([]);
+	const [attachmentsToRemove, setAttachmentsToRemove] = React.useState([]);
+	const [unSavedModal, setUnSavedModal] = React.useState(false);
 	const [state, setState] = useOldState({
 		newPoint: {
 			...defaultValues,
@@ -48,11 +51,11 @@ const NewAgendaPointModal = ({
 		loadDraft: false,
 		newPointModal: false,
 		saveAsDraft: false,
-
 		errors: {
 			agendaSubject: '',
 			subjectType: '',
-			description: ''
+			description: '',
+			attached: ''
 		}
 	});
 	const editor = React.useRef(null);
@@ -66,16 +69,18 @@ const NewAgendaPointModal = ({
 			errors: {
 				agendaSubject: '',
 				subjectType: '',
-				description: ''
+				description: '',
+				attached: ''
 			}
 		});
+		setUnSavedModal(false);
 		setSending(false);
 		props.requestClose();
 	};
 
 	function checkRequiredFields() {
 		const agenda = state.newPoint;
-		const errors = checkRequiredFieldsAgenda(agenda, translate, toast);
+		const errors = checkRequiredFieldsAgenda(agenda, translate, toast, attachments);
 		const majorityCheckResult = checkValidMajority(agenda.majority, agenda.majorityDivider, agenda.majorityType);
 		setState({
 			errors: errors.errors,
@@ -156,8 +161,9 @@ const NewAgendaPointModal = ({
 				...state.newPoint,
 				...object
 			},
-			loadDraft: false
+			loadDraft: false,
 		});
+		// setUnSavedChanges(true);
 	};
 
 	const loadDraft = async draft => {
@@ -262,7 +268,7 @@ const NewAgendaPointModal = ({
 									disabled={true}
 									id="agenda-editor-type-select"
 									onChange={event => updateState({
-										subjectType: +event.target.value
+										subjectType: event.target.value
 									})
 									}
 									required
@@ -279,7 +285,7 @@ const NewAgendaPointModal = ({
 									value={`${agenda.subjectType}`}
 									id="agenda-editor-type-select"
 									onChange={event => updateState({
-										subjectType: +event.target.value
+										subjectType: event.target.value
 									})
 									}
 									required
@@ -306,7 +312,7 @@ const NewAgendaPointModal = ({
 									errorText={errors.majorityType}
 									id="agenda-editor-majority-select"
 									onChange={event => updateState({
-										majorityType: +event.target.value
+										majorityType: event.target.value
 									})
 									}
 									required
@@ -338,7 +344,7 @@ const NewAgendaPointModal = ({
 										})
 										}
 										onChangeDivider={value => updateState({
-											majorityDivider: +value
+											majorityDivider: value
 										})
 										}
 									/>
@@ -353,9 +359,13 @@ const NewAgendaPointModal = ({
 					<div style={{ marginBottom: '1.6em' }}>
 						<PointAttachments
 							translate={translate}
+							company={company}
 							setAttachments={setAttachments}
 							attachments={attachments}
-							company={company}
+							prevAttachments={agendas.attachments}
+							deletedAttachments={attachmentsToRemove}
+							setDeletedAttachments={setAttachmentsToRemove}
+							errorText={state?.errors?.attached}
 						/>
 					</div>
 					<RichTextInput
@@ -407,17 +417,26 @@ const NewAgendaPointModal = ({
 			</div>
 		);
 	};
-
+	const checkChanges = () => {
+		return JSON.stringify(state.newPoint) !== JSON.stringify(defaultValues) ? setUnSavedModal(true) : props.requestClose();
+	};
 	return (
 		<React.Fragment>
 			<AlertConfirm
-				requestClose={props.requestClose}
+				requestClose={() => checkChanges()}
 				open={props.open}
 				acceptAction={addAgenda}
 				buttonAccept={translate.accept}
 				buttonCancel={translate.cancel}
 				bodyText={renderNewPointBody()}
 				title={state.newPoint.subjectType === AGENDA_TYPES.CONFIRMATION_REQUEST ? translate.new_point : translate.new_approving_point}
+			/>
+			<UnsavedChangesModal
+				translate={translate}
+				open={unSavedModal}
+				requestClose={() => close()}
+				acceptAction={addAgenda}
+				cancelAction={() => setUnSavedModal(false)}
 			/>
 		</React.Fragment>
 	);
