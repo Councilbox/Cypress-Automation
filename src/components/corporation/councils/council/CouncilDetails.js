@@ -30,6 +30,7 @@ import DownloadConvenedPDF from './DownloadConvenedPDF';
 import MergeCouncilsButton from './MergeCouncilsButton';
 import CouncilOptionsEditor from './optionsEditor/CouncilOptionsEditor';
 import QuorumDisplay from '../../../council/live/quorum/QuorumDisplay';
+import ContactDataButton from './ContactDataButton';
 
 
 const cancelAct = gql`
@@ -402,6 +403,11 @@ translate={this.props.translate}
 							<div style={{
 								fontSize: '1rem', marginLeft: '0.6em', justifyContent: 'flex-end', display: 'flex'
 							}}>
+								<ContactDataButton
+									translate={translate}
+									council={council}
+									refetch={this.props.data.refetch}
+								/>
 								<MergeCouncilsButton
 									council={council}
 									translate={translate}
@@ -724,6 +730,8 @@ const CouncilDetailsRoot = gql`
 			closeDate
 			securityType
 			approveActDraft
+			contactEmail
+			supportEmail
 			statute {
 				id
                 prototype
