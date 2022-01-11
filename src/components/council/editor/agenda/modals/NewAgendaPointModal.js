@@ -268,7 +268,7 @@ const NewAgendaPointModal = ({
 									disabled={true}
 									id="agenda-editor-type-select"
 									onChange={event => updateState({
-										subjectType: event.target.value
+										subjectType: +event.target.value
 									})
 									}
 									required
@@ -285,7 +285,7 @@ const NewAgendaPointModal = ({
 									value={`${agenda.subjectType}`}
 									id="agenda-editor-type-select"
 									onChange={event => updateState({
-										subjectType: event.target.value
+										subjectType: +event.target.value
 									})
 									}
 									required
