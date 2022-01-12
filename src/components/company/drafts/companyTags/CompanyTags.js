@@ -318,6 +318,12 @@ const HoverableRow = ({
 	const primary = getPrimary();
 	const [modal, setModal] = React.useState(false);
 
+	const renderModalBody = () => (
+		<div style={{ width: window.innerWidth > 650 ? '650px' : '100%' }}>
+			{translate.remove_tag_warning.replaceAll('{{name}}', `${tag.key}`)}
+		</div>
+	);
+
 	if (isMobile) {
 		return (
 			<TableRow
@@ -371,6 +377,7 @@ const HoverableRow = ({
 						}}
 						buttonAccept={translate.accept}
 						buttonCancel={translate.cancel}
+						bodyText={renderModalBody()}
 					/>
 				</TableCell>
 			</TableRow>
@@ -437,6 +444,7 @@ const HoverableRow = ({
 					}}
 					buttonAccept={translate.accept}
 					buttonCancel={translate.cancel}
+					bodyText={renderModalBody()}
 				/>
 			</TableCell>
 		</TableRow>
