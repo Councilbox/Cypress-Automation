@@ -430,7 +430,6 @@ const HoverableRow = ({
 			</React.Fragment>
 	);
 
-
 	return (
 		<React.Fragment>
 			<AlertConfirm
@@ -597,13 +596,13 @@ const HoverableRow = ({
 								<TableCell>
 									<AttendIntentionIcon
 										participant={participant.live}
-										representative={participant.representatives.length > 0 ? participant.representative.live : null}
+										representative={participant.representatives.length > 0 ? participant.representatives[0].live : null}
 										council={council}
-										showCommentIcon={participant.representatives.length > 0 ? !!participant.representative.live.assistanceComment : !!participant.live.assistanceComment}
+										showCommentIcon={participant.representatives.length > 0 ? !!participant.representatives[0].live.assistanceComment : !!participant.live.assistanceComment}
 										onCommentClick={props.showModalComment({
-											text: participant.representatives.length > 0 ? participant.representative.live.assistanceComment : participant.live.assistanceComment,
+											text: participant.representatives.length > 0 ? participant.representatives[0].live.assistanceComment : participant.live.assistanceComment,
 											author: participant.representatives.length > 0 ?
-												`${participant.name} ${participant.surname || ''} - ${translate.represented_by} ${representative.name} ${representative.surname || ''}`
+												`${participant.name} ${participant.surname || ''} - ${translate.represented_by} ${participant.representatives[0].name} ${participant.representatives[0].surname || ''}`
 												: `${participant.name} ${participant.surname || ''}`
 										})}
 										translate={translate}
