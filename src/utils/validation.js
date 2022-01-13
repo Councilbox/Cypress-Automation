@@ -90,6 +90,10 @@ export const checkRequiredFieldsParticipant = (
 			hasError = true;
 			errors.email = translate.valid_email_required;
 		}
+		if (participant.email === representative.email) {
+			hasError = true;
+			errors.email = translate.repeated_email;
+		}
 
 		if (participant.phone) {
 			const test = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
@@ -121,7 +125,7 @@ export const checkRequiredFieldsParticipant = (
 	};
 };
 
-export const checkRequiredFieldsRepresentative = (participant, translate) => {
+export const checkRequiredFieldsRepresentative = (participant, representative, translate) => {
 	const errors = {
 		name: '',
 		surname: '',
@@ -172,6 +176,11 @@ export const checkRequiredFieldsRepresentative = (participant, translate) => {
 	if (!checkValidEmail(participant.email.toLocaleLowerCase())) {
 		hasError = true;
 		errors.email = translate.valid_email_required;
+	}
+
+	if (participant.email === representative.email) {
+		hasError = true;
+		errors.email = translate.repeated_email;
 	}
 
 	if (participant.secondaryEmail && !!participant.secondaryEmail.trim()) {
