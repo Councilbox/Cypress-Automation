@@ -127,7 +127,6 @@ const VoteDisplay = ({
 }) => {
 	const votes = new Set();
 
-
 	voting.ballots.forEach(ballot => votes.add(ballot.value));
 	if (agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING || agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE) {
 		return (
@@ -247,14 +246,14 @@ const getStepInit = (event, content, translate, classes, council) => (
 			root: classes.root
 		}} style={{ fontSize: '0.9em', textAlign: 'left' }}>
 			{(event.type === 'CLOSE_VOTING' && isValidResult(content.data.agendaPoint.type)) &&
-					<React.Fragment>
-						<span>
-							{`${translate.recount}:`}
-							<div aria-label={`${translate.in_favor_btn}: ${content.data.agendaPoint.results.positive}`}>{translate.in_favor_btn}: {content.data.agendaPoint.results.positive}</div>
-							<div aria-label={`${translate.against_btn}: ${content.data.agendaPoint.results.negative}`}>{translate.against_btn}: {content.data.agendaPoint.results.negative}</div>
-							<div aria-label={`${translate.abstention}: ${content.data.agendaPoint.results.abstention}`}>{translate.abstention}: {content.data.agendaPoint.results.abstention}</div>
-							<div aria-label={`${translate.no_vote_lowercase}: ${content.data.agendaPoint.results.noVote}`}>{translate.no_vote_lowercase}: {content.data.agendaPoint.results.noVote}</div>                                            </span>
-					</React.Fragment>
+				<React.Fragment>
+					<span>
+						{`${translate.recount}:`}
+						<div aria-label={`${translate.in_favor_btn}: ${content.data.agendaPoint.results.positive}`}>{translate.in_favor_btn}: {content.data.agendaPoint.results.positive}</div>
+						<div aria-label={`${translate.against_btn}: ${content.data.agendaPoint.results.negative}`}>{translate.against_btn}: {content.data.agendaPoint.results.negative}</div>
+						<div aria-label={`${translate.abstention}: ${content.data.agendaPoint.results.abstention}`}>{translate.abstention}: {content.data.agendaPoint.results.abstention}</div>
+						<div aria-label={`${translate.no_vote_lowercase}: ${content.data.agendaPoint.results.noVote}`}>{translate.no_vote_lowercase}: {content.data.agendaPoint.results.noVote}</div>                                            </span>
+				</React.Fragment>
 			}
 		</StepContent>
 	</Step>
@@ -262,24 +261,25 @@ const getStepInit = (event, content, translate, classes, council) => (
 
 const getStepColor = (event, content, translate, classes, council) => (
 	<Step active key={event.id}>
-		<StepLabel icon={
-			<div
-				style={{
-					display: 'flex',
-					justifyContent: 'center',
-					alignItems: 'center',
-					height: '23px',
-					width: '23px',
-					margin: '0',
-					marginLeft: '1px',
-					borderRadius: '12px',
-					backgroundColor: getPrimary(),
-					fontSize: '13px'
-				}}
-			>
-			</div>
-		}
-		style={{ textAlign: 'left', fontSize: '13px' }}>
+		<StepLabel
+			icon={
+				<div
+					style={{
+						display: 'flex',
+						justifyContent: 'center',
+						alignItems: 'center',
+						height: '23px',
+						width: '23px',
+						margin: '0',
+						marginLeft: '1px',
+						borderRadius: '12px',
+						backgroundColor: getPrimary(),
+						fontSize: '13px'
+					}}
+				>
+				</div>
+			}
+			style={{ textAlign: 'left', fontSize: '13px' }}>
 			<span style={{ fontSize: '13px' }}>{getTimelineTranslationReverse({
 				type: event.type, content, translate, council
 			})}</span><br />
@@ -287,14 +287,14 @@ const getStepColor = (event, content, translate, classes, council) => (
 		</StepLabel>
 		<StepContent style={{ fontSize: '0.9em' }}>
 			{(event.type === 'CLOSE_VOTING' && isValidResult(content.data.agendaPoint.type)) &&
-					<React.Fragment>
-						<span>
-							{`${translate.recount}: `}
-							<div aria-label={`${translate.in_favor_btn}: ${content.data.agendaPoint.results.positive}`}>{translate.in_favor_btn}: {content.data.agendaPoint.results.positive}</div>
-							<div aria-label={`${translate.against_btn}: ${content.data.agendaPoint.results.negative}`}>{translate.against_btn}: {content.data.agendaPoint.results.negative}</div>
-							<div aria-label={`${translate.abstention}: ${content.data.agendaPoint.results.abstention}`}>{translate.abstention}: {content.data.agendaPoint.results.abstention}</div>
-							<div aria-label={`${translate.no_vote_lowercase}: ${content.data.agendaPoint.results.noVote}`}>{translate.no_vote_lowercase}: {content.data.agendaPoint.results.noVote}</div>                                            </span>
-					</React.Fragment>
+				<React.Fragment>
+					<span>
+						{`${translate.recount}: `}
+						<div aria-label={`${translate.in_favor_btn}: ${content.data.agendaPoint.results.positive}`}>{translate.in_favor_btn}: {content.data.agendaPoint.results.positive}</div>
+						<div aria-label={`${translate.against_btn}: ${content.data.agendaPoint.results.negative}`}>{translate.against_btn}: {content.data.agendaPoint.results.negative}</div>
+						<div aria-label={`${translate.abstention}: ${content.data.agendaPoint.results.abstention}`}>{translate.abstention}: {content.data.agendaPoint.results.abstention}</div>
+						<div aria-label={`${translate.no_vote_lowercase}: ${content.data.agendaPoint.results.noVote}`}>{translate.no_vote_lowercase}: {content.data.agendaPoint.results.noVote}</div>                                            </span>
+				</React.Fragment>
 			}
 		</StepContent>
 	</Step>
