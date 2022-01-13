@@ -528,7 +528,6 @@ const AgendaCard = ({
 		return <span />;
 	};
 
-
 	return (
 		<div style={{ margin: '0 auto', marginBottom: '15px', width: isMobile ? '100%' : '93%' }} key={agenda.id}>
 			<Card
@@ -571,7 +570,8 @@ const AgendaCard = ({
 						council={council}
 						refetch={refetch}
 					/>
-					{council.councilType === COUNCIL_TYPES.NO_SESSION &&
+					{(council.councilType === COUNCIL_TYPES.NO_SESSION ||
+						(council.councilType === COUNCIL_TYPES.NO_VIDEO && council.closeDate)) &&
 						<VotingCertificate
 							vote={ownVote}
 							translate={translate}

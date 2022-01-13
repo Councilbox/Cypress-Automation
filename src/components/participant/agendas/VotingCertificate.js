@@ -4,9 +4,8 @@ import gql from 'graphql-tag';
 import { BasicButton } from '../../../displayComponents';
 import { downloadFile } from '../../../utils/CBX';
 import { getPrimary } from '../../../styles/colors';
-import { AGENDA_STATES } from '../../../constants';
 
-const VotingCertificate = ({ translate, vote, agenda, client, Trigger }) => {
+const VotingCertificate = ({ translate, vote, client, Trigger }) => {
 	const [loading, setLoading] = React.useState(false);
 
 	const downloadDocument = async () => {
@@ -34,7 +33,7 @@ const VotingCertificate = ({ translate, vote, agenda, client, Trigger }) => {
 		}
 	};
 
-	if (vote && vote.vote !== -1 && agenda.votingState === AGENDA_STATES.CLOSED) {
+	if (vote && vote.vote !== -1) {
 		if (Trigger) {
 			return (
 				<div>
