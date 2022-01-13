@@ -5,32 +5,56 @@ import {
 	BasicButton, AlertConfirm, TextInput,
 } from '../../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
+import { checkValidEmail } from '../../../../utils';
 
 const ContactDataButton = ({
 	translate, council, client, refetch
 }) => {
 	const [state, setState] = React.useState({
-		contactEmail: council.contactEmail || ''
+		contactEmail: council.contactEmail || '',
+		supportEmail: council.supportEmail || '',
 	});
 	const [modal, setModal] = React.useState(false);
+	const [loading, setLoading] = React.useState(false);
+	const [errors, setErrors] = React.useState(false);
 
 	const updateCouncil = async object => {
-		await client.mutate({
-			mutation: gql`
+		if (!checkRequiredFields()) {
+			setLoading(true);
+			const response = await client.mutate({
+				mutation: gql`
 				mutation UpdateCouncil($council: CouncilInput!){
 					updateCouncil(council: $council){
 						id
 					}
 				}
 			`,
-			variables: {
-				council: {
-					...object,
-					id: council.id
+				variables: {
+					council: {
+						...object,
+						id: council.id
+					}
 				}
+			});
+			if (response.data.updateCouncil.id) {
+				setLoading(false);
+				setModal(false);
+				setErrors(false);
+				refetch();
 			}
-		});
-		refetch();
+		}
+	};
+
+	const checkRequiredFields = () => {
+		if (state.contactEmail && !checkValidEmail(state.contactEmail)) {
+			setErrors({
+				...errors,
+				contactEmail: translate.email_not_valid
+			});
+			return true;
+		}
+
+		return false;
 	};
 
 	const renderBody = () => {
@@ -42,6 +66,7 @@ const ContactDataButton = ({
 						type="text"
 						styleFloatText={{ color: getPrimary(), fontWeight: 'bold', fontSize: '18px' }}
 						value={state.contactEmail}
+						errorText={errors.contactEmail}
 						onChange={event => setState({
 							...state,
 							contactEmail: event.target.value
@@ -71,6 +96,7 @@ const ContactDataButton = ({
 							background: getPrimary(),
 							width: '100%'
 						}}
+						loading={loading}
 						onClick={() => updateCouncil(state)}
 					/>
 				</div>
