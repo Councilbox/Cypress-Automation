@@ -8,17 +8,36 @@ import { getPrimary, getSecondary } from '../../../../styles/colors';
 import { checkValidEmail } from '../../../../utils';
 
 const ContactDataButton = ({
-	translate, council, client, refetch
+	translate, councilId, client
 }) => {
-	const [state, setState] = React.useState({
-		contactEmail: council.contactEmail || '',
-		supportEmail: council.supportEmail || '',
-	});
+	const [data, setData] = React.useState({});
 	const [modal, setModal] = React.useState(false);
 	const [loading, setLoading] = React.useState(false);
 	const [errors, setErrors] = React.useState(false);
 
-	const updateCouncil = async object => {
+	const getData = React.useCallback(async () => {
+		const response = await client.query({
+			query: gql`
+			query CouncilDetailsRoot($id: Int!){
+				council(id: $id) {
+					id
+					contactEmail
+					supportEmail
+				}
+			}
+		`,
+			variables: {
+				id: councilId
+			}
+		});
+		setData(response.data.council);
+	}, []);
+
+	React.useEffect(() => {
+		getData();
+	}, [getData]);
+
+	const updateCouncil = async () => {
 		if (!checkRequiredFields()) {
 			setLoading(true);
 			const response = await client.mutate({
@@ -31,8 +50,9 @@ const ContactDataButton = ({
 			`,
 				variables: {
 					council: {
-						...object,
-						id: council.id
+						id: councilId,
+						contactEmail: data.contactEmail,
+						supportEmail: data.supportEmail
 					}
 				}
 			});
@@ -40,13 +60,13 @@ const ContactDataButton = ({
 				setLoading(false);
 				setModal(false);
 				setErrors(false);
-				refetch();
+				getData();
 			}
 		}
 	};
 
 	const checkRequiredFields = () => {
-		if (state.contactEmail && !checkValidEmail(state.contactEmail)) {
+		if (data.contactEmail && !checkValidEmail(data.contactEmail)) {
 			setErrors({
 				...errors,
 				contactEmail: translate.email_not_valid
@@ -65,10 +85,10 @@ const ContactDataButton = ({
 						floatingText={translate.contact_email}
 						type="text"
 						styleFloatText={{ color: getPrimary(), fontWeight: 'bold', fontSize: '18px' }}
-						value={state.contactEmail}
+						value={data.contactEmail}
 						errorText={errors.contactEmail}
-						onChange={event => setState({
-							...state,
+						onChange={event => setData({
+							...data,
 							contactEmail: event.target.value
 						})}
 					/>
@@ -78,9 +98,9 @@ const ContactDataButton = ({
 						floatingText={translate.support_email}
 						type="text"
 						styleFloatText={{ color: getPrimary(), fontWeight: 'bold', fontSize: '18px' }}
-						value={state.supportEmail}
-						onChange={event => setState({
-							...state,
+						value={data.supportEmail}
+						onChange={event => setData({
+							...data,
 							supportEmail: event.target.value
 						})}
 					/>
@@ -97,7 +117,7 @@ const ContactDataButton = ({
 							width: '100%'
 						}}
 						loading={loading}
-						onClick={() => updateCouncil(state)}
+						onClick={() => updateCouncil(data)}
 					/>
 				</div>
 			</div>
