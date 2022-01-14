@@ -27,7 +27,7 @@ const OwnedVotesRecountSection = ({ ownedVotesMeta, translate, participant, coun
 				<GridItem xs={12} md={6} lg={4}>
 					<div>
 						<Label>{translate.own_votes}:</Label>
-						<span id="owned-votes-total"> {showNumParticipations(ownedVotesMeta.totalOwnVotes, council.company, council.statute.decimalDig
+						<span id="owned-votes-total"> {showNumParticipations(ownedVotesMeta.totalOwnVotes, council.company, council.statute.decimalDigits) || 0}</span>
 					</div>
 					{showSocialCapital &&
 						<div>
