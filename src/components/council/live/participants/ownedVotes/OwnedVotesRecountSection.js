@@ -9,7 +9,6 @@ const Label = ({ children }) => (
 
 const OwnedVotesRecountSection = ({ ownedVotesMeta, translate, participant, council }) => {
 	const showSocialCapital = hasParticipations(council);
-
 	return (
 		<Grid
 			style={{
