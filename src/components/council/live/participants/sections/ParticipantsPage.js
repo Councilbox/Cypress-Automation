@@ -325,6 +325,7 @@ const ParticipantsPage = ({
 							value={filters.filterField}
 							onChange={event => updateFilterField(event.target.value)
 							}
+							id={'select-search-live'}
 						>
 							{fields.map(field => (
 								<MenuItem
@@ -352,6 +353,7 @@ const ParticipantsPage = ({
 							onChange={event => {
 								updateFilterText(event.target.value);
 							}}
+							id={'input-search-live'}
 						/>
 					</div>
 				</GridItem>
