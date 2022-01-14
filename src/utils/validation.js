@@ -60,12 +60,11 @@ export const checkRequiredFieldsParticipant = (
 	const regex = INPUT_REGEX;
 
 	if (participant) {
-		if (!(regex.test(participant.name)) || !participant.name.trim()) {
+		if (!(regex.test(participant?.name)) || !participant?.name.trim() || !participant.name) {
 			hasError = true;
 			errors.name = translate.field_required;
 		}
 	}
-
 
 	if (company && company.type !== 10) {
 		if (!participant.surname && !participant.surname.trim() && participant.personOrEntity === 0) {
@@ -84,12 +83,16 @@ export const checkRequiredFieldsParticipant = (
 				hasError = true;
 				errors.email = translate.valid_email_required;
 			}
-		} else if (participant.personOrEntity === 0 || (participant.personOrEntity === 1 && !representative?.email)) {
+		} else if (participant.personOrEntity === 0 || (participant.personOrEntity === 1 && !representative.email)) {
 			hasError = true;
 			errors.email = translate.valid_email_required;
 		} else if (!participant.email && participant.personOrEntity === 1 && !representative) {
 			hasError = true;
 			errors.email = translate.valid_email_required;
+		}
+		if (participant.email === representative.email) {
+			hasError = true;
+			errors.email = translate.repeated_email;
 		}
 
 		if (participant.phone) {
@@ -122,7 +125,7 @@ export const checkRequiredFieldsParticipant = (
 	};
 };
 
-export const checkRequiredFieldsRepresentative = (participant, translate) => {
+export const checkRequiredFieldsRepresentative = (participant, representative, translate) => {
 	const errors = {
 		name: '',
 		surname: '',
@@ -175,6 +178,11 @@ export const checkRequiredFieldsRepresentative = (participant, translate) => {
 		errors.email = translate.valid_email_required;
 	}
 
+	if (participant.email === representative.email) {
+		hasError = true;
+		errors.email = translate.repeated_email;
+	}
+
 	if (participant.secondaryEmail && !!participant.secondaryEmail.trim()) {
 		if (!checkValidEmail(participant.secondaryEmail.toLocaleLowerCase())) {
 			hasError = true;
@@ -201,10 +209,11 @@ export const checkRequiredFieldsRepresentative = (participant, translate) => {
 	};
 };
 
-export const checkRequiredFieldsAgenda = (agenda, translate, toast) => {
+export const checkRequiredFieldsAgenda = (agenda, translate, toast, attachments) => {
 	const errors = {
 		agendaSubject: '',
 		subjectType: '',
+		attached: '',
 		description: '',
 		majorityType: '',
 		majority: '',
@@ -234,6 +243,15 @@ export const checkRequiredFieldsAgenda = (agenda, translate, toast) => {
 	if (majorityNeedsInput(agenda) && !agenda.majority && agenda.majority !== 0) {
 		hasError = true;
 		errors.majority = translate.field_required;
+	}
+
+	if (attachments) {
+		const fileNames = attachments?.map(item => item.filename);
+		const isDuplicated = fileNames?.some((item, idx) => fileNames.indexOf(item) !== idx);
+		if (isDuplicated) {
+			hasError = true;
+			errors.attached = translate.used_attachment_error;
+		}
 	}
 
 	if (agenda.description) {

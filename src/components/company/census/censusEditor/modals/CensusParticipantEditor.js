@@ -150,6 +150,7 @@ class CensusParticipantEditor extends React.Component {
 		if (representative.hasRepresentative) {
 			errorsRepresentative = checkRequiredFieldsRepresentative(
 				representative,
+				participant,
 				translate
 			);
 		}

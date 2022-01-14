@@ -18,7 +18,7 @@ const ParticipantForm = ({
 	isGuest = false,
 	participations,
 	hideVotingInputs,
-	requiredPhone = false,
+	requiredPhone = true,
 	translate,
 	languages
 }) => (
