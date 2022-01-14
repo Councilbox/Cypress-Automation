@@ -83,6 +83,7 @@ const AddConvenedParticipantButton = ({
 			const hasSocialCapital = participations;
 			errorsParticipant = checkRequiredFieldsParticipant(
 				participant,
+				representative,
 				translate,
 				hasSocialCapital,
 				company
@@ -320,8 +321,7 @@ const AddConvenedParticipantButton = ({
 										errors={errors}
 										updateState={updateState}
 									/>
-									:
-									<ParticipantForm
+									: <ParticipantForm
 										type={participant.personOrEntity}
 										participant={participant}
 										participations={participations}
