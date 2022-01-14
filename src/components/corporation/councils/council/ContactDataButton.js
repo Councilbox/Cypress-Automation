@@ -5,32 +5,76 @@ import {
 	BasicButton, AlertConfirm, TextInput,
 } from '../../../../displayComponents';
 import { getPrimary, getSecondary } from '../../../../styles/colors';
+import { checkValidEmail } from '../../../../utils';
 
 const ContactDataButton = ({
-	translate, council, client, refetch
+	translate, councilId, client
 }) => {
-	const [state, setState] = React.useState({
-		contactEmail: council.contactEmail || ''
-	});
+	const [data, setData] = React.useState({});
 	const [modal, setModal] = React.useState(false);
+	const [loading, setLoading] = React.useState(false);
+	const [errors, setErrors] = React.useState(false);
 
-	const updateCouncil = async object => {
-		await client.mutate({
-			mutation: gql`
+	const getData = React.useCallback(async () => {
+		const response = await client.query({
+			query: gql`
+			query CouncilDetailsRoot($id: Int!){
+				council(id: $id) {
+					id
+					contactEmail
+					supportEmail
+				}
+			}
+		`,
+			variables: {
+				id: councilId
+			}
+		});
+		setData(response.data.council);
+	}, []);
+
+	React.useEffect(() => {
+		getData();
+	}, [getData]);
+
+	const updateCouncil = async () => {
+		if (!checkRequiredFields()) {
+			setLoading(true);
+			const response = await client.mutate({
+				mutation: gql`
 				mutation UpdateCouncil($council: CouncilInput!){
 					updateCouncil(council: $council){
 						id
 					}
 				}
 			`,
-			variables: {
-				council: {
-					...object,
-					id: council.id
+				variables: {
+					council: {
+						id: councilId,
+						contactEmail: data.contactEmail,
+						supportEmail: data.supportEmail
+					}
 				}
+			});
+			if (response.data.updateCouncil.id) {
+				setLoading(false);
+				setModal(false);
+				setErrors(false);
+				getData();
 			}
-		});
-		refetch();
+		}
+	};
+
+	const checkRequiredFields = () => {
+		if (data.contactEmail && !checkValidEmail(data.contactEmail)) {
+			setErrors({
+				...errors,
+				contactEmail: translate.email_not_valid
+			});
+			return true;
+		}
+
+		return false;
 	};
 
 	const renderBody = () => {
@@ -41,9 +85,10 @@ const ContactDataButton = ({
 						floatingText={translate.contact_email}
 						type="text"
 						styleFloatText={{ color: getPrimary(), fontWeight: 'bold', fontSize: '18px' }}
-						value={state.contactEmail}
-						onChange={event => setState({
-							...state,
+						value={data.contactEmail}
+						errorText={errors.contactEmail}
+						onChange={event => setData({
+							...data,
 							contactEmail: event.target.value
 						})}
 					/>
@@ -53,9 +98,9 @@ const ContactDataButton = ({
 						floatingText={translate.support_email}
 						type="text"
 						styleFloatText={{ color: getPrimary(), fontWeight: 'bold', fontSize: '18px' }}
-						value={state.supportEmail}
-						onChange={event => setState({
-							...state,
+						value={data.supportEmail}
+						onChange={event => setData({
+							...data,
 							supportEmail: event.target.value
 						})}
 					/>
@@ -71,7 +116,8 @@ const ContactDataButton = ({
 							background: getPrimary(),
 							width: '100%'
 						}}
-						onClick={() => updateCouncil(state)}
+						loading={loading}
+						onClick={() => updateCouncil(data)}
 					/>
 				</div>
 			</div>

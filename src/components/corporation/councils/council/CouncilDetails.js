@@ -405,8 +405,7 @@ translate={this.props.translate}
 							}}>
 								<ContactDataButton
 									translate={translate}
-									council={council}
-									refetch={this.props.data.refetch}
+									councilId={this.state.data.council.id}
 								/>
 								<MergeCouncilsButton
 									council={council}
