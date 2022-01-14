@@ -28,12 +28,12 @@ const OwnedVotesRecountSection = ({ ownedVotesMeta, translate, participant, coun
 				<GridItem xs={12} md={6} lg={4}>
 					<div>
 						<Label>{translate.own_votes}:</Label>
-						<span id="owned-votes-total"> {showNumParticipations(ownedVotesMeta.totalOwnVotes, council.statute.decimalDigits) || 0}</span>
+						<span id="owned-votes-total"> {showNumParticipations(ownedVotesMeta.totalOwnVotes, council.company, council.statute.decimalDigits) || 0}</span>
 					</div>
 					{showSocialCapital &&
 						<div>
 							<Label>{translate.own_social_capital}:</Label>
-							<span id="owned-social-capital-total"> {showNumParticipations(ownedVotesMeta.totalOwnSocialCapital, council.statute.decimalDigits) || 0}</span>
+							<span id="owned-social-capital-total"> {showNumParticipations(ownedVotesMeta.totalOwnSocialCapital, council.company, council.statute.decimalDigits) || 0}</span>
 						</div>
 					}
 
@@ -43,16 +43,16 @@ const OwnedVotesRecountSection = ({ ownedVotesMeta, translate, participant, coun
 				<GridItem xs={12} md={6} lg={4}>
 					<div>
 						<Label>{translate.num_delegations}:</Label>
-						<span id="owned-votes-num-delegated"> {showNumParticipations(ownedVotesMeta.numDelegated, council.statute.decimalDigits)}</span>
+						<span id="owned-votes-num-delegated"> {showNumParticipations(ownedVotesMeta.numDelegated, council.company, council.statute.decimalDigits)}</span>
 					</div>
 					<div>
 						<Label>{translate.delegated_votes}:</Label>
-						<span id="owned-delegated-votes"> {showNumParticipations(ownedVotesMeta.totalDelegatedVote, council.statute.decimalDigits)}</span>
+						<span id="owned-delegated-votes"> {showNumParticipations(ownedVotesMeta.totalDelegatedVote, council.company, council.statute.decimalDigits)}</span>
 					</div>
 					{showSocialCapital &&
 						<div>
 							<Label>{translate.delegated_social_capital}:</Label>
-							<span id="owned-delegated-social-capital"> {showNumParticipations(ownedVotesMeta.totalDelegatedSocialCapital, council.statute.decimalDigits)}</span>
+							<span id="owned-delegated-social-capital"> {showNumParticipations(ownedVotesMeta.totalDelegatedSocialCapital, council.company, council.statute.decimalDigits)}</span>
 						</div>
 					}
 
@@ -62,16 +62,16 @@ const OwnedVotesRecountSection = ({ ownedVotesMeta, translate, participant, coun
 				<GridItem xs={12} md={6} lg={4}>
 					<div>
 						<Label>{translate.num_representations}:</Label>
-						<span id="owned-num-represented"> {showNumParticipations(ownedVotesMeta.numRepresented, council.statute.decimalDigits)}</span>
+						<span id="owned-num-represented"> {showNumParticipations(ownedVotesMeta.numRepresented, council.company, council.statute.decimalDigits)}</span>
 					</div>
 					<div>
 						<Label>{translate.representated_votes}:</Label>
-						<span id="owned-represented-votes"> {showNumParticipations(ownedVotesMeta.totalRepresentedVotes, council.statute.decimalDigits)}</span>
+						<span id="owned-represented-votes"> {showNumParticipations(ownedVotesMeta.totalRepresentedVotes, council.company, council.statute.decimalDigits)}</span>
 					</div>
 					{showSocialCapital &&
 						<div>
 							<Label>{translate.representated_social_capital}:</Label>
-							<span id="owned-represented-social-capital"> {showNumParticipations(ownedVotesMeta.totalRepresentedSocialCapital, council.statute.decimalDigits)}</span>
+							<span id="owned-represented-social-capital"> {showNumParticipations(ownedVotesMeta.totalRepresentedSocialCapital, council.company, council.statute.decimalDigits)}</span>
 						</div>
 					}
 				</GridItem>
