@@ -14,7 +14,8 @@ import { councilHasVideo, councilIsLive, councilStarted } from '../../../../util
 import { ConfigContext } from '../../../../containers/AppControl';
 import SMSManagerModal from './SMSManagerModal';
 import { isMobile } from '../../../../utils/screen';
-import { useDownloadCouncilAttendants } from '../../writing/actEditor/DownloadAttendantsPDF';
+import { downloadParticipantsPDF } from '../../../../queries';
+import * as CBX from '../../../../utils/CBX';
 import PauseCouncilModal from './PauseCouncilModal';
 
 
@@ -281,15 +282,29 @@ render() {
 }
 
 const DownloadAttendantsButton = withApollo(({ council, client, translate }) => {
-	const { downloadPDF } = useDownloadCouncilAttendants(client);
+	const downloadPDF = async filename => {
+		const response = await client.query({
+			query: downloadParticipantsPDF,
+			variables: {
+				councilId: council.id,
+				timezone: moment(council.startDate).utcOffset().toString(),
+			}
+		});
+		if (response) {
+			if (response.data.downloadParticipantsPDF) {
+				CBX.downloadFile(
+					response.data.downloadParticipantsPDF,
+					'application/pdf',
+					filename
+				);
+			}
+		}
+	};
 	const secondary = getSecondary();
 
 	return (
 		<MenuItem
-			onClick={() => downloadPDF(
-				council,
-				`${translate.assistants_list.replace(/ /g, '_')}-${council.name.replace(/ /g, '_').replace(/\./, '')}_${moment().format('YYYY_MM_DD_HH_mm_ss')}`
-			)}
+			onClick={() => downloadPDF(`${translate.new_list_called.replace(/ /g, '_')}-${council.name.replace(/ /g, '_').replace(/\./g, '')}`)}
 			id="council-menu-download-attentands"
 		>
 			<FontAwesome
