@@ -60,7 +60,7 @@ const HelpPopover = ({ ...props }) => {
 			content={<span style={{ userSelect: 'none' }}>{content}</span>}
 			visible={state.visible}
 			onVisibleChange={onVisibleChange}
-			trigger={'hover'}
+			trigger={'click'}
 			placement={placement}
 			overlayClassName={isMobile && 'left0'}
 		>
