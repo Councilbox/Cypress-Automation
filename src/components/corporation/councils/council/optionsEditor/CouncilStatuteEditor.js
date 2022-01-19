@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import gql from 'graphql-tag';
 import { MenuItem } from 'material-ui';
 import React from 'react';

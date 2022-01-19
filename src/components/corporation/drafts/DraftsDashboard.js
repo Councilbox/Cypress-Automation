@@ -6,9 +6,9 @@ import {
 } from 'material-ui';
 import { corporationDrafts, deleteCorporationDraft } from '../../../queries';
 import {
-	LoadingSection, SelectInput, TextInput, AlertConfirm, CloseIcon, BasicButton, ButtonIcon, Scrollbar
+	LoadingSection, SelectInput, TextInput, AlertConfirm, CloseIcon, Scrollbar
 } from '../../../displayComponents';
-import { getSecondary, getPrimary } from '../../../styles/colors';
+import { getPrimary } from '../../../styles/colors';
 import withTranslations from '../../../HOCs/withTranslations';
 import NewCorporationDraft from './NewCorporationDraft';
 import { bHistory } from '../../../containers/App';
