@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import gql from 'graphql-tag';
 import { MenuItem } from 'material-ui';
 import React from 'react';
@@ -9,8 +10,8 @@ import {
 	SelectInput,
 	TextInput
 } from '../../../../../displayComponents';
-import { canAddTranslator } from '../../../../../utils/CBX';
-import { RoomLayout } from '../../../../council/editor/options/StepOptions';
+// import { canAddTranslator } from '../../../../../utils/CBX';
+// import { RoomLayout } from '../../../../council/editor/options/StepOptions';
 
 
 const CouncilStatuteEditor = ({
@@ -53,24 +54,24 @@ const CouncilStatuteEditor = ({
 		refetch();
 	};
 
-	const updateCouncilRoom = async newValues => {
-		await client.mutate({
-			mutation: gql`
-				mutation UpdateCouncilRoom($councilRoom: CouncilRoomInput!, $councilId: Int!){
-					updateCouncilRoom(councilRoom: $councilRoom, councilId: $councilId){
-						success
-					}
-				}
-			`,
-			variables: {
-				councilId: council.id,
-				councilRoom: {
-					...newValues
-				}
-			}
-		});
-		refetch();
-	};
+	// const updateCouncilRoom = async newValues => {
+	// await client.mutate({
+	// mutation: gql`
+	// mutation UpdateCouncilRoom($councilRoom: CouncilRoomInput!, $councilId: Int!){
+	// updateCouncilRoom(councilRoom: $councilRoom, councilId: $councilId){
+	// success
+	// }
+	// }
+	// `,
+	// variables: {
+	// councilId: council.id,
+	// councilRoom: {
+	// ...newValues
+	// }
+	// }
+	// });
+	// refetch();
+	// };
 
 	return (
 		<Grid style={{ overflow: 'hidden' }}>

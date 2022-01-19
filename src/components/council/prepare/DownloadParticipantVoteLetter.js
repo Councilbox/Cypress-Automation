@@ -61,7 +61,7 @@ const DownloadCBXDataButton = props => {
 	}
 
 	return (
-		<Tooltip title={'Descargar carta de voto'}>
+		<Tooltip title={props.translate.download_vote_letter}>
 			<div
 				onClick={event => {
 					event.stopPropagation();

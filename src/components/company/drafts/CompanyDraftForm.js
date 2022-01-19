@@ -249,9 +249,12 @@ const CompanyDraftForm = ({
 		companyT.filter(companyType => !testTags[companyType.label]).forEach(companyType => tagsSearch.push(createTag(companyType, TAG_TYPES.COMPANY_TYPE, translate)));
 	}
 
-	companyStatutes.filter(statute => !testTags[`statute_${statute.id}`]).forEach(statute => (
-		tagsSearch.push(createTag(statute, TAG_TYPES.STATUTE, translate))
-	));
+	if (companyStatutes) {
+		companyStatutes.filter(statute => !testTags[`statute_${statute.id}`]).forEach(statute => (
+			tagsSearch.push(createTag(statute, TAG_TYPES.STATUTE, translate))
+		));
+	}
+
 	Object.keys(governingBodyTypes).filter(key => !testTags[governingBodyTypes[key].label]).forEach(key => (
 		tagsSearch.push(createTag(governingBodyTypes[key], TAG_TYPES.GOVERNING_BODY, translate))
 	));

@@ -128,7 +128,6 @@ const VoteDisplay = ({
 }) => {
 	const votes = new Set();
 
-
 	voting.ballots.forEach(ballot => votes.add(ballot.value));
 	if (agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING || agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE) {
 		return (
@@ -263,24 +262,25 @@ const getStepInit = (event, content, translate, classes, council) => (
 
 const getStepColor = (event, content, translate, classes, council) => (
 	<Step active key={event.id}>
-		<StepLabel icon={
-			<div
-				style={{
-					display: 'flex',
-					justifyContent: 'center',
-					alignItems: 'center',
-					height: '23px',
-					width: '23px',
-					margin: '0',
-					marginLeft: '1px',
-					borderRadius: '12px',
-					backgroundColor: getPrimary(),
-					fontSize: '13px'
-				}}
-			>
-			</div>
-		}
-		style={{ textAlign: 'left', fontSize: '13px' }}>
+		<StepLabel
+			icon={
+				<div
+					style={{
+						display: 'flex',
+						justifyContent: 'center',
+						alignItems: 'center',
+						height: '23px',
+						width: '23px',
+						margin: '0',
+						marginLeft: '1px',
+						borderRadius: '12px',
+						backgroundColor: getPrimary(),
+						fontSize: '13px'
+					}}
+				>
+				</div>
+			}
+			style={{ textAlign: 'left', fontSize: '13px' }}>
 			<span style={{ fontSize: '13px' }}>{getTimelineTranslationReverse({
 				type: event.type, content, translate, council
 			})}</span><br />

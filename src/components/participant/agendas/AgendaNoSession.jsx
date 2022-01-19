@@ -24,7 +24,6 @@ import { isMobile } from '../../../utils/screen';
 import CouncilAttachmentsModal from './CouncilAttachmentsModal';
 import { COUNCIL_STATES, COUNCIL_TYPES } from '../../../constants';
 import VoteSuccessMessage from './VoteSuccessMessage';
-import { ConfigContext } from '../../../containers/AppControl';
 import VotingCertificate from './VotingCertificate';
 
 
@@ -133,9 +132,7 @@ const AgendaNoSession = ({
 		if (data.participantVotings && responses.size === 0) {
 			data.participantVotings.filter(voting => (
 				voting.participantId === participant.id
-			|| voting.delegateId === participant.id || voting.author.representative.id === participant.id)).forEach(voting => {
-				responses.set(voting.id, -1);
-			});
+				|| voting.delegateId === participant.id || voting.author.representative.id === participant.id)).forEach(voting => { responses.set(voting.id, -1); });
 			setResponses(new Map(responses));
 		}
 	}, [data]);
@@ -473,7 +470,6 @@ const AgendaCard = ({
 	agenda, translate, participant, refetch, council
 }) => {
 	const ownVote = CBX.findOwnVote(agenda.votings, participant);
-	const config = React.useContext(ConfigContext);
 
 	const agendaStateIcon = () => {
 		let title = '';
@@ -532,7 +528,6 @@ const AgendaCard = ({
 		return <span />;
 	};
 
-
 	return (
 		<div style={{ margin: '0 auto', marginBottom: '15px', width: isMobile ? '100%' : '93%' }} key={agenda.id}>
 			<Card
@@ -575,13 +570,8 @@ const AgendaCard = ({
 						council={council}
 						refetch={refetch}
 					/>
-					{!config.altSelectedOption ?
-						<VoteSuccessMessage
-							vote={ownVote}
-							agenda={agenda}
-							translate={translate}
-						/>
-						:
+					{(council.councilType === COUNCIL_TYPES.NO_SESSION ||
+						(council.councilType === COUNCIL_TYPES.NO_VIDEO && council.closeDate)) &&
 						<VotingCertificate
 							vote={ownVote}
 							translate={translate}
@@ -589,6 +579,11 @@ const AgendaCard = ({
 							participant={participant}
 						/>
 					}
+					<VoteSuccessMessage
+						vote={ownVote}
+						agenda={agenda}
+						translate={translate}
+					/>
 				</CardActions>
 			</Card>
 		</div>
