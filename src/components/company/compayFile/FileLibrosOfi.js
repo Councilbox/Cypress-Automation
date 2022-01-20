@@ -99,7 +99,7 @@ const FileLibrosOfi = ({
 																	openDate: dateString
 																}, index);
 															}}
-
+															acceptText={translate.save}
 															value={book.openDate ? book.openDate : null}
 														/>
 													</div>
