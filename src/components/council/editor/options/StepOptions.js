@@ -340,7 +340,7 @@ const StepOptions = ({
 							</div>
 						}
 					</div>
-					{/* {CBX.canAddTranslator(council) &&
+					{CBX.canAddTranslator(council) &&
 						<RoomLayout
 							translate={translate}
 							data={council}
@@ -353,7 +353,7 @@ const StepOptions = ({
 							})}
 							councilType={council.councilType}
 						/>
-					} */}
+					}
 					{council.councilType === 0
 						&& <GridItem xs={12} md={8} lg={6}>
 							<RTMPField
