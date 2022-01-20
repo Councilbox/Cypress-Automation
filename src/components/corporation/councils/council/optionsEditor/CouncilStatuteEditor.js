@@ -105,7 +105,7 @@ const CouncilStatuteEditor = ({
 					}
 				/>
 			</GridItem>
-			{/* {canAddTranslator(council) &&
+			{canAddTranslator(council) &&
 				<GridItem xs={12} md={7} lg={7}>
 					<RoomLayout
 						translate={translate}
@@ -114,7 +114,7 @@ const CouncilStatuteEditor = ({
 						updateData={value => updateCouncilRoom({ layout: value })}
 					/>
 				</GridItem>
-			} */}
+			}
 			{!hideButtonsVisibility &&
 				<>
 					<GridItem xs={12} md={7} lg={7}>

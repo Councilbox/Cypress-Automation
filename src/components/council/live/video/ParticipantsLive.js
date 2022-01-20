@@ -26,6 +26,8 @@ import { usePolling } from '../../../../hooks';
 import imgCouncilbox from '../../../../assets/img/imago-councilbox-inverse-mini.png';
 import imgCouncilbox2 from '../../../../assets/img/logo-white-mini.png';
 import { COUNCIL_STATES } from '../../../../constants';
+import MuteToggleButton from './videoParticipants/MuteToggleButton';
+
 
 const ParticipantsLive = ({
 	screenSize, council, translate, client, ...props
@@ -270,11 +272,11 @@ const ParticipantsLive = ({
 							justifyContent: 'space-between'
 						}}
 					>
-						{/* <MuteToggleButton
+						<MuteToggleButton
 							translate={translate}
 							participant={participant}
 							refetch={getData}
-						/> */}
+						/>
 					</GridItem>
 					<GridItem
 						xs={isMobile ? 2 : 1}
