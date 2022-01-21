@@ -6,10 +6,12 @@ import { flowRight as compose } from 'lodash';
 import { getSecondary, getPrimary } from '../../../styles/colors';
 import { DateWrapper, BasicButton } from '../../../displayComponents';
 import { USER_ACTIVATIONS } from '../../../constants';
+import { restorePwd } from '../../../queries/restorePwd';
 
 const UserItem = ({
 	user, translate, clickable, closeSession, ...props
 }) => {
+	const [restoreAccessSend, setRestoreAccessSend] = React.useState(false);
 	const secondary = getSecondary();
 
 	const activatePremium = async event => {
@@ -60,6 +62,38 @@ const UserItem = ({
 		props.refetch();
 	};
 
+	const restoreAccess = async event => {
+		event.stopPropagation();
+		const response = await props.restorePwd({
+			variables: {
+				email: user.email
+			}
+		});
+		if (response) {
+			setRestoreAccessSend(true);
+			setTimeout(() => {
+				setRestoreAccessSend(false);
+			}, 1000);
+		}
+		props.refetch();
+	};
+
+	const verifyAccess = async event => {
+		event.stopPropagation();
+		const response = await props.sendEmailWelcome({
+			variables: {
+				userId: user.id
+			}
+		});
+		if (response) {
+			setRestoreAccessSend(true);
+			setTimeout(() => {
+				setRestoreAccessSend(false);
+			}, 1000);
+		}
+		props.refetch();
+	};
+
 	const bodyTable = centrado => (
 		<React.Fragment>
 			<div style={{
@@ -79,13 +113,13 @@ const UserItem = ({
 						{user.actived === USER_ACTIVATIONS.CONFIRMED &&
 							<React.Fragment>
 								<i className="fa fa-user" aria-hidden="true" style={{ fontSize: '1.7em', color: 'grey' }}></i>
-Confirmado
+								Confirmado
 							</React.Fragment>
 						}
 						{user.actived === USER_ACTIVATIONS.NOT_CONFIRMED &&
 							<React.Fragment>
 								<i className="fa fa-user-times" aria-hidden="true" style={{ fontSize: '1.7em', color: 'grey' }}></i>
-No confirmado
+								No confirmado
 							</React.Fragment>
 						}
 						{user.actived === USER_ACTIVATIONS.FREE_TRIAL &&
@@ -103,7 +137,7 @@ No confirmado
 						{user.actived === USER_ACTIVATIONS.PREMIUM &&
 							<React.Fragment>
 								<i className="fa fa-user" aria-hidden="true" style={{ fontSize: '1.7em', color: getPrimary() }}></i>
-Premium
+								Premium
 							</React.Fragment>
 						}
 					</div>
@@ -175,6 +209,15 @@ Premium
 							/>
 						</div>
 					}
+					<div style={{ marginRight: '6px' }}>
+						<BasicButton
+							text={USER_ACTIVATIONS.NOT_CONFIRMED === user.actived ? translate.verify_email_button : translate.restore_check_in}
+							color={secondary}
+							textStyle={{ fontWeight: '700', color: 'white' }}
+							onClick={USER_ACTIVATIONS.NOT_CONFIRMED === user.actived ? verifyAccess : restoreAccess}
+							success={restoreAccessSend}
+						/>
+					</div>
 					{user.actived !== USER_ACTIVATIONS.UNSUBSCRIBED ?
 						<BasicButton
 							text="Bloquear acceso"
@@ -266,6 +309,14 @@ const unsubscribeUser = gql`
 	}
 `;
 
+const sendEmailWelcome = gql`
+	mutation sendEmailWelcome($userId: Int!){
+		sendEmailWelcome(userId: $userId){
+			success
+		}
+	}
+`;
+
 export default compose(
 	graphql(activateUserPremium, {
 		name: 'activateUserPremium'
@@ -275,5 +326,12 @@ export default compose(
 	}),
 	graphql(cancelUserPremium, {
 		name: 'cancelUserPremium'
+	}),
+	graphql(restorePwd, {
+		name: 'restorePwd',
+		options: { errorPolicy: 'all' }
+	}),
+	graphql(sendEmailWelcome, {
+		name: 'sendEmailWelcome',
 	})
 )(UserItem);

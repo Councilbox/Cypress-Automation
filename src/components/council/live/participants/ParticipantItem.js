@@ -12,9 +12,11 @@ import {
 	removeHTMLTags, isRepresented, hasHisVoteDelegated, getMainRepresentative
 } from '../../../../utils/CBX';
 import withWindowSize from '../../../../HOCs/withWindowSize';
+import ManageDelegationsModal from './modals/ManageDelegationsModal';
 import AttendIntentionIcon from './AttendIntentionIcon';
 import ParticipantStateList from './ParticipantStateList';
 import { COUNCIL_TYPES } from '../../../../constants';
+import { isMobile } from '../../../../utils/screen';
 
 
 const ParticipantItem = ({
@@ -60,6 +62,7 @@ const ParticipantItem = ({
 							participant={participant}
 							translate={translate}
 							council={council}
+							id={props.id}
 							refetch={props.refetch}
 							showSignatureModal={props.showSignatureModal}
 							mode={mode}
@@ -71,6 +74,7 @@ const ParticipantItem = ({
 							participant={participant}
 							translate={translate}
 							council={council}
+							id={props.id}
 							refetch={props.refetch}
 							showSignatureModal={props.showSignatureModal}
 							mode={mode}
@@ -82,6 +86,7 @@ const ParticipantItem = ({
 							participant={participant}
 							translate={translate}
 							council={council}
+							id={props.id}
 							refetch={props.refetch}
 							showSignatureModal={props.showSignatureModal}
 							mode={mode}
@@ -204,7 +209,7 @@ const CompactItemLayout = ({
 const participantRepresentativeSigned = participant => participant.representatives && participant.representatives.length > 0 && getMainRepresentative(participant).signed;
 
 const TabletItem = ({
-	participant, translate, secondary, mode, showSignatureModal, council, refetch
+	participant, translate, secondary, mode, showSignatureModal, council, refetch, id
 }) => {
 	const representative = getMainRepresentative(participant);
 	const primary = getPrimary();
@@ -230,6 +235,7 @@ const TabletItem = ({
 								representative={representative}
 								translate={translate}
 								refetch={refetch}
+								id={id}
 								council={council}
 							/>
 							: <div
@@ -487,18 +493,32 @@ const TabletItem = ({
 						{!isRepresented(participant) ?
 							<React.Fragment>
 								{council.councilType < 2 && !hasHisVoteDelegated(participant) && participant.personOrEntity !== 1
-									&& <BasicButton
-										text={participant.signed ? translate.user_signed : translate.to_sign}
-										fullWidth
-										buttonStyle={{ border: `1px solid ${participant.signed ? primary : secondary}` }}
-										type="flat"
-										color={'white'}
-										onClick={event => {
-											event.stopPropagation();
-											showSignatureModal();
-										}}
-										textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
-									/>
+									&& <>
+										{mode === 'DELEGATIONS' ?
+											<div style={{ width: '100%', paddingBottom: isMobile ? '3px' : '0' }} onClick={event => event.stopPropagation()}>
+												<ManageDelegationsModal
+													council={council}
+													participant={participant}
+													refetch={refetch}
+													translate={translate}
+												/>
+											</div>
+											:
+											<div style={{ paddingLeft: isMobile ? '0' : '0.5rem', width: '100%' }}>
+												<BasicButton
+													text={participant.signed ? translate.user_signed : translate.to_sign}
+													buttonStyle={{ border: `1px solid ${participant.signed ? primary : secondary}`, padding: isMobile ? '0' : '0.5rem 4rem', width: '100%' }}
+													type="flat"
+													color={'white'}
+													onClick={event => {
+														event.stopPropagation();
+														showSignatureModal();
+													}}
+													textStyle={{ color: participant.signed ? primary : secondary, fontWeight: '700' }}
+												/>
+											</div>
+										}
+									</>
 								}
 							</React.Fragment>
 							: <BasicButton
@@ -526,6 +546,8 @@ const getIcon = ({
 }) => {
 	switch (mode) {
 		case 'STATES':
+			return <StateIcon translate={translate} state={participant.state} />;
+		case 'DELEGATIONS':
 			return <StateIcon translate={translate} state={participant.state} />;
 		case 'CONVENE':
 			return <EmailIcon translate={translate} reqCode={participant.sendConvene.reqCode} />;

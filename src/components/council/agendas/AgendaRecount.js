@@ -12,6 +12,7 @@ import * as CBX from '../../../utils/CBX';
 import withSharedProps from '../../../HOCs/withSharedProps';
 import { CONSENTIO_ID } from '../../../config';
 import { isMobile } from '../../../utils/screen';
+import { ConfigContext } from '../../../containers/AppControl';
 
 const columnStyle = {
 	display: 'flex',
@@ -33,6 +34,9 @@ const itemStyle = {
 const AgendaRecount = ({
 	agenda, recount, majorityTypes, council, company, editable, translate, classes
 }) => {
+	const config = React.useContext(ConfigContext);
+	const { combineAbstentionNoVote } = config;
+
 	const agendaNeededMajority = CBX.calculateMajorityAgenda({
 		...agenda,
 		...agenda.votingsRecount
@@ -87,6 +91,32 @@ const AgendaRecount = ({
 		</>
 	);
 
+	const renderNeedMajority = () => (!CBX.agendaPointNotOpened(agenda) ?
+		<>
+			{`${translate.votes_in_favor_for_approve}: ${CBX.showNumParticipations(agendaNeededMajority, company, council.statute)}`}
+			{(agendaNeededMajority > (agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual) && !approvedByQualityVote) ? (
+				<FontAwesome
+					name={'times'}
+					style={{
+						margin: '0.5em',
+						color: 'red',
+						fontSize: '1.2em'
+					}}
+				/>
+			) : (
+				<FontAwesome
+					name={'check'}
+					style={{
+						margin: '0.5em',
+						color: 'green',
+						fontSize: '1.2em'
+					}}
+				/>
+			)}
+		</>
+		:
+		`${translate.votes_in_favor_for_approve}: -`);
+
 	const printPositiveRemote = () => `${CBX.showNumParticipations(agenda.votingsRecount.positiveVotings, company, council.statute)} ${printPercentage(agenda.votingsRecount.positiveVotings)}`;
 
 	const printNegativeRemote = () => `${CBX.showNumParticipations(agenda.votingsRecount.negativeVotings, company, council.statute)} ${printPercentage(agenda.votingsRecount.negativeVotings)}`;
@@ -94,6 +124,8 @@ const AgendaRecount = ({
 	const printAbstentionRemote = () => `${CBX.showNumParticipations(agenda.votingsRecount.abstentionVotings, company, council.statute)} ${printPercentage(agenda.votingsRecount.abstentionVotings)}`;
 
 	const printNoVoteRemote = () => `${CBX.showNumParticipations(agenda.votingsRecount.noVoteVotings, company, council.statute)} ${printPercentage(agenda.votingsRecount.noVoteVotings)}`;
+
+	const printCombinedAbstentionRemote = () => `${CBX.showNumParticipations(agenda.votingsRecount.abstentionVotings + agenda.votingsRecount.noVoteVotings, company, council.statute)} ${printPercentage(agenda.votingsRecount.abstentionVotings + agenda.votingsRecount.noVoteVotings)}`;
 
 	const printPositivePresent = () => `${CBX.showNumParticipations(agenda.votingsRecount.positiveManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.positiveManual)}`;
 
@@ -103,13 +135,19 @@ const AgendaRecount = ({
 
 	const printNoVotePresent = () => `${CBX.showNumParticipations(agenda.votingsRecount.noVoteManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.noVoteManual)}`;
 
+	const printCombinedAbstentionPresent = () => `${CBX.showNumParticipations(agenda.votingsRecount.abstentionManual + agenda.votingsRecount.noVoteManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.abstentionManual + agenda.votingsRecount.noVoteManual)}`;
+
 	const printPositiveTotal = () => `${CBX.showNumParticipations(agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual)}`;
 
 	const printNegativeTotal = () => `${CBX.showNumParticipations(agenda.votingsRecount.negativeVotings + agenda.votingsRecount.negativeManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.negativeVotings + agenda.votingsRecount.negativeManual)}`;
 
-	const printAbstentionTotal = () => `${CBX.showNumParticipations(agenda.votingsRecount.abstentionVotings + agenda.votingsRecount.abstentionManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.abstentionVotings + agenda.votingsRecount.abstentionManual)}`;
+	const printAbstentionTotal = () => `${CBX.showNumParticipations(CBX.getAbstentionVotingsSum(agenda.votingsRecount), company, council.statute)} ${printPercentage(CBX.getAbstentionVotingsSum(agenda.votingsRecount))}`;
 
-	const printNoVoteTotal = () => `${CBX.showNumParticipations(agenda.votingsRecount.noVoteVotings + agenda.votingsRecount.noVoteManual, company, council.statute)} ${printPercentage(agenda.votingsRecount.noVoteVotings + agenda.votingsRecount.noVoteManual)}`;
+	const printNoVoteTotal = () => `${CBX.showNumParticipations(CBX.getNoVoteVotingsSum(agenda.votingsRecount), company, council.statute)} ${printPercentage(CBX.getNoVoteVotingsSum(agenda.votingsRecount))}`;
+
+	const printCombinedAbstentionTotal = () => `${CBX.showNumParticipations(
+		CBX.getCombinedAbstentionVotingsSum(agenda.votingsRecount), company, council.statute
+	)} ${printPercentage(CBX.getCombinedAbstentionVotingsSum(agenda.votingsRecount))}`;
 
 
 	const renderPresentTotal = () => {
@@ -154,21 +192,19 @@ const AgendaRecount = ({
 		);
 	};
 
-	const renderCurrentTotal = () => {
-		return (
-			<>
-				<div style={itemStyle}>
-					{translate.voting_rights_census}
-				</div>
-				<div style={itemStyle}>
-					{`${translate.participants}: ${agenda.numCurrentRemoteCensus + agenda.numPresentCensus || 0}`}
-				</div>
-				<div style={itemStyle}>
-					{`${translate.votes}: ${CBX.showNumParticipations(totalVotes, company, council.statute) || 0} ${printPercentage(totalVotes, recount.partTotal)}`}
-				</div>
-			</>
-		);
-	};
+	const renderCurrentTotal = () => (
+		<>
+			<div style={itemStyle}>
+				{translate.voting_rights_census}
+			</div>
+			<div style={itemStyle}>
+				{`${translate.participants}: ${agenda.numCurrentRemoteCensus + agenda.numPresentCensus || 0}`}
+			</div>
+			<div style={itemStyle}>
+				{`${translate.votes}: ${CBX.showNumParticipations(totalVotes, company, council.statute) || 0} ${printPercentage(totalVotes, recount.partTotal)}`}
+			</div>
+		</>
+	);
 
 
 	if (isMobile) {
@@ -209,26 +245,7 @@ const AgendaRecount = ({
 					</GridItem>
 					<GridItem xs={4} lg={4} md={4} style={columnStyle}>
 						<div style={itemStyle}>
-							{`${translate.votes_in_favor_for_approve}: ${agendaNeededMajority}`}
-							{(agendaNeededMajority > (agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual) && !approvedByQualityVote) ? (
-								<FontAwesome
-									name={'times'}
-									style={{
-										margin: '0.5em',
-										color: 'red',
-										fontSize: '1.2em'
-									}}
-								/>
-							) : (
-								<FontAwesome
-									name={'check'}
-									style={{
-										margin: '0.5em',
-										color: 'green',
-										fontSize: '1.2em'
-									}}
-								/>
-							)}
+							{renderNeedMajority()}
 						</div>
 					</GridItem>
 				</Grid>
@@ -248,7 +265,17 @@ const AgendaRecount = ({
 							<br></br>
 							{translate.abstentions} : {printAbstentionRemote()}
 							<br></br>
-							{translate.no_vote} : {printNoVoteRemote()}
+							{!combineAbstentionNoVote ?
+								(
+									<TableCell>
+										{printNoVoteRemote()}
+									</TableCell>
+								) : (
+									<TableCell>
+										{printCombinedAbstentionRemote()}
+									</TableCell>
+								)
+							}
 						</div>
 					</CardContent>
 				</Card>
@@ -304,7 +331,18 @@ const AgendaRecount = ({
 									<br></br>
 									{translate.abstentions} : {printAbstentionPresent()}
 									<br></br>
-									{translate.no_vote} : {printNoVotePresent()}
+									{!combineAbstentionNoVote ?
+										(
+											<TableCell>
+												{printNoVotePresent()}
+											</TableCell>
+										) : (
+											<TableCell>
+												{printCombinedAbstentionPresent()}
+											</TableCell>
+										)
+
+									}
 								</React.Fragment>
 							}
 						</div>
@@ -326,7 +364,17 @@ const AgendaRecount = ({
 							<br></br>
 							{translate.abstentions} : {printAbstentionTotal()}
 							<br></br>
-							{translate.no_vote} : {printNoVoteTotal()}
+							{!combineAbstentionNoVote ?
+								(
+									<TableCell>
+										{printNoVoteTotal()}
+									</TableCell>
+								) : (
+									<TableCell>
+										{printCombinedAbstentionTotal()}
+									</TableCell>
+								)
+							}
 						</div>
 					</CardContent>
 				</Card>
@@ -375,26 +423,7 @@ const AgendaRecount = ({
 				</GridItem>
 				<GridItem xs={4} lg={4} md={4} style={columnStyle}>
 					<div style={itemStyle}>
-						{`${translate.votes_in_favor_for_approve}: ${CBX.showNumParticipations(agendaNeededMajority, company, council.statute)}`}
-						{(agendaNeededMajority > (agenda.votingsRecount.positiveVotings + agenda.votingsRecount.positiveManual) && !approvedByQualityVote) ? (
-							<FontAwesome
-								name={'times'}
-								style={{
-									margin: '0.5em',
-									color: 'red',
-									fontSize: '1.2em'
-								}}
-							/>
-						) : (
-							<FontAwesome
-								name={'check'}
-								style={{
-									margin: '0.5em',
-									color: 'green',
-									fontSize: '1.2em'
-								}}
-							/>
-						)}
+						{renderNeedMajority()}
 					</div>
 				</GridItem>
 			</Grid>
@@ -405,7 +434,7 @@ const AgendaRecount = ({
 					{ name: translate.in_favor },
 					{ name: translate.against },
 					{ name: translate.abstentions },
-					{ name: translate.no_vote }
+					{ name: combineAbstentionNoVote ? '' : translate.no_vote }
 				]}
 			>
 				<TableRow>
@@ -418,12 +447,22 @@ const AgendaRecount = ({
 					<TableCell>
 						{printNegativeRemote()}
 					</TableCell>
-					<TableCell>
-						{printAbstentionRemote()}
-					</TableCell>
-					<TableCell>
-						{printNoVoteRemote()}
-					</TableCell>
+					{!combineAbstentionNoVote ?
+						(
+							<TableCell>
+								{printAbstentionRemote()}
+							</TableCell>
+						) : (
+							<TableCell>
+								{printCombinedAbstentionRemote()}
+							</TableCell>
+						)
+					}
+					{!combineAbstentionNoVote && (
+						<TableCell>
+							{printNoVoteRemote()}
+						</TableCell>
+					)}
 				</TableRow>
 				<TableRow>
 					<TableCell>
@@ -455,12 +494,22 @@ const AgendaRecount = ({
 							<TableCell>
 								{printNegativePresent()}
 							</TableCell>
-							<TableCell>
-								{printAbstentionPresent()}
-							</TableCell>
-							<TableCell>
-								{printNoVotePresent()}
-							</TableCell>
+							{!combineAbstentionNoVote ?
+								(
+									<TableCell>
+										{printAbstentionPresent()}
+									</TableCell>
+								) : (
+									<TableCell>
+										{printCombinedAbstentionPresent()}
+									</TableCell>
+								)
+							}
+							{!combineAbstentionNoVote && (
+								<TableCell>
+									{printNoVotePresent()}
+								</TableCell>
+							)}
 						</React.Fragment>
 					}
 				</TableRow>
@@ -474,12 +523,22 @@ const AgendaRecount = ({
 					<TableCell>
 						{printNegativeTotal()}
 					</TableCell>
-					<TableCell>
-						{printAbstentionTotal()}
-					</TableCell>
-					<TableCell>
-						{printNoVoteTotal()}
-					</TableCell>
+					{!combineAbstentionNoVote ?
+						(
+							<TableCell>
+								{printAbstentionTotal()}
+							</TableCell>
+						) : (
+							<TableCell>
+								{printCombinedAbstentionTotal()}
+							</TableCell>
+						)
+					}
+					{!combineAbstentionNoVote && (
+						<TableCell>
+							{printNoVoteTotal()}
+						</TableCell>
+					)}
 				</TableRow>
 			</Table>
 		</React.Fragment>

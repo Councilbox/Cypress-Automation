@@ -58,10 +58,6 @@ const AddRepresentativeModal = ({ translate, participant, ...props }) => {
 			errors.email = translate.email_not_valid;
 		}
 
-		if (!state.representative.phone) {
-			errors.phone = translate.required_field;
-		}
-
 		setState({
 			errors
 		});

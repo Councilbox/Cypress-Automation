@@ -75,9 +75,17 @@ export const checkRequiredFieldsParticipant = (
 				hasError = true;
 				errors.email = translate.valid_email_required;
 			}
-		} else if (participant.personOrEntity === 0) {
+		} else {
 			hasError = true;
 			errors.email = translate.valid_email_required;
+		}
+
+		if (participant.phone) {
+			const test = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
+			if (!test.test(participant.phone)) {
+				errors.phone = translate.invalid_field;
+				hasError = true;
+			}
 		}
 
 		if (!participant.language) {
@@ -159,6 +167,14 @@ export const checkRequiredFieldsRepresentative = (participant, translate) => {
 		if (!checkValidEmail(participant.secondaryEmail.toLocaleLowerCase())) {
 			hasError = true;
 			errors.secondaryEmail = translate.tooltip_invalid_email_address;
+		}
+	}
+
+	if (participant.phone) {
+		const test = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
+		if (!test.test(participant.phone)) {
+			errors.phone = translate.invalid_field;
+			hasError = true;
 		}
 	}
 

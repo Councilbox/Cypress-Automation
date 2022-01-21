@@ -122,6 +122,11 @@ class SignUpUser extends React.Component {
 			}
 		}
 
+		if (this.state.porcentaje < 40) {
+			hasError = true;
+			errors.pwd = translate.insecure_password;
+		}
+
 		if (!data.pwd) {
 			hasError = true;
 			errors.pwd = translate.no_empty_pwd;
@@ -132,12 +137,12 @@ class SignUpUser extends React.Component {
 			errors.confirmPWD = translate.no_match_pwd;
 		}
 
-		if (!(/^[A-Za-z\s]+$/.test(data.name))) {
+		if (!(/^[A-Za-z-zÀ-ÿ\s]+$/.test(data.name))) {
 			hasError = true;
 			errors.name = translate.enter_valid_name;
 		}
 
-		if (!(/^[A-Za-z\s]+$/.test(data.surname))) {
+		if (!(/^[A-Za-z-zÀ-ÿ\s]+$/.test(data.surname))) {
 			hasError = true;
 			errors.surname = translate.enter_valid_last_names;
 		}
@@ -369,10 +374,28 @@ class SignUpUser extends React.Component {
 						{' '}
 					</GridItem>
 					<GridItem xs={12} md={12} lg={12}>
-						<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+						<div style={{ display: 'auto', flexDirection: 'row', alignItems: 'center' }}>
 							<Checkbox
 								id="accept-legal-checkbox"
-								label={`${translate.login_read_terms} `}
+								label={
+									<div>
+										{translate.login_read_terms}
+										<a
+											style={{
+												color: primary,
+												fontWeight: '700',
+												cursor: 'pointer',
+												textTransform: 'lowerCase',
+												marginLeft: '0.4em'
+											}}
+											href={getTermsURL(translate.selectedLanguage)}
+											target="_blank"
+											rel="noreferrer noopener"
+										>
+											{translate.login_read_terms2}
+										</a>
+									</div>
+								}
 								value={this.state.termsCheck}
 								onChange={(event, isInputChecked) => this.setState({
 									termsAccepted: isInputChecked
@@ -384,20 +407,7 @@ class SignUpUser extends React.Component {
 									});
 								}}
 							/>
-							<a
-								style={{
-									color: primary,
-									fontWeight: '700',
-									cursor: 'pointer',
-									textTransform: 'lowerCase',
-									marginLeft: '0.4em'
-								}}
-								href={getTermsURL(translate.selectedLanguage)}
-								target="_blank"
-								rel="noreferrer noopener"
-							>
-								{translate.login_read_terms2}
-							</a>
+
 						</div>
 						{this.props.errors.termsCheck && (
 							<div style={{ color: 'red' }} id="legal-terms-error-text">

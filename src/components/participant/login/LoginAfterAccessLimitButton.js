@@ -28,7 +28,7 @@ const LoginAfterAccessLimitButton = ({ translate, participant, client, refetch }
 
 	return (
 		<BasicButton
-			text={participant.type === PARTICIPANT_TYPE.GUEST ? translate.enter_room : translate.enter_room_with_vote}
+			text={participant.type === PARTICIPANT_TYPE.GUEST ? translate.enter_room : translate.enter_room_as_guest}
 			color={primary}
 			textStyle={{
 				color: 'white',

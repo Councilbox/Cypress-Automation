@@ -13,7 +13,17 @@ import SendRequestConfirmationButton from './SendRequestConfirmationButton';
 import { SERVER_URL } from '../../../../config';
 import { useDownloadDocument } from '../../../../hooks';
 
-export const getTypeText = (text, translate) => {
+export const getTypeText = (request, translate) => {
+	if (request.delegate) {
+		return translate.vote_delegation;
+	}
+
+	if (request.representative && request.requestType !== 'represent') {
+		return translate.vote_represented;
+	}
+
+	const text = request.requestType;
+
 	const texts = {
 		access: translate.assistance,
 		// 'access': 'Asistencia a la junta general',
@@ -47,6 +57,10 @@ const CheckShareholderRequest = ({
 	const [representative, setRepresentative] = React.useState(false);
 	const secondary = getSecondary();
 	const [, download] = useDownloadDocument();
+
+	const getAgenda = vote => {
+		return council.agendas.find(item => item.id === vote.id);
+	};
 
 	const downloadAttachment = async (requestId, index) => {
 		const response = await client.query({
@@ -84,7 +98,7 @@ const CheckShareholderRequest = ({
 					{`${translate.dni}: ${request.data.dni}`}
 				</div>
 				<div>
-					{translate.type_of_request}: {getTypeText(request.data.requestType, translate)}
+					{translate.type_of_request}: {getTypeText(request.data, translate)}
 				</div>
 				{Object.prototype.hasOwnProperty.call(request.data, 'assistanceIntention') &&
 					<>
@@ -98,15 +112,17 @@ const CheckShareholderRequest = ({
 						{request.data.votes && request.data.votes.map((vote, index) => (
 							<div key={`early_vote_${index}`}>
 								<div style={{ fontWeight: '700' }}>{vote.name}</div>
-								<div>-{getVote(+vote.value, translate)}</div>
+								<div>-{getVote(+vote.value, translate, getAgenda(vote)?.items)}</div>
 							</div>
 						))}
-						{request.data.earlyVotes && request.data.earlyVotes.map((vote, index) => (
-							<div key={`early_votes_${index}`}>
-								<div style={{ fontWeight: '700' }}>{vote.name}</div>
-								<div>-{getVote(+vote.value, translate)}</div>
-							</div>
-						))}
+						{request.data.earlyVotes && request.data.earlyVotes.map((vote, index) => {
+							return (
+								<div key={`early_votes_${index}`}>
+									<div style={{ fontWeight: '700' }}>{vote.name}</div>
+									<div>-{getVote(+vote.value, translate, getAgenda(vote)?.items)}</div>
+								</div>
+							);
+						})}
 					</>
 				}
 				{(request.data.requestType === 'represent' || request.data.requestType === 'representation')
@@ -199,7 +215,7 @@ const CheckShareholderRequest = ({
 				/>
 
 			}
-			{request.participantCreated && request.data.requestType === 'represent'
+			{request.participantCreated && (request.data.requestType === 'represent' || request.data.delegate)
 				&& <DelegateVoteButton
 					request={request}
 					refetch={refetch}

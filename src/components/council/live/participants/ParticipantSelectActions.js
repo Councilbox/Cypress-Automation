@@ -56,6 +56,7 @@ class ParticipantSelectActions extends React.Component {
 						<ButtonActions
 							loading={loading === 6}
 							active={participant.state === PARTICIPANT_STATES.DELEGATED}
+							id="participant-editor-delegate-vote-button"
 							onClick={() => {
 								this.setState({
 									delegateVote: true
@@ -97,7 +98,10 @@ class ParticipantSelectActions extends React.Component {
 					gap: '.5rem',
 				}}
 			>
-				{(this.props.council.councilType !== 4 && this.props.council.councilType !== 5 && participant.numParticipations > 0)
+				{(this.props.council.councilType !== 4
+				&& this.props.council.councilType !== 5
+				&& participant.numParticipations > 0
+				&& participant.type !== 1)
 					&& <EarlyVotingModal
 						council={this.props.council}
 						participant={participant}
@@ -124,6 +128,7 @@ class ParticipantSelectActions extends React.Component {
 					<ButtonActions
 						loading={loading === 5}
 						active={participant.state === PARTICIPANT_STATES.DELEGATED}
+						id="participant-editor-delegate-vote-button"
 						onClick={() => this.setState({
 							delegateOwnVote: true
 						})
@@ -138,6 +143,7 @@ class ParticipantSelectActions extends React.Component {
 					<ButtonActions
 						loading={loading === 6}
 						active={participant.state === PARTICIPANT_STATES.DELEGATED}
+						id="participant-editor-add-delegated-button"
 						onClick={() => {
 							this.setState({
 								delegateVote: true
@@ -185,10 +191,11 @@ class ParticipantSelectActions extends React.Component {
 
 // active poner background
 const ButtonActions = ({
-	children, loading, onClick, active
+	children, loading, onClick, active, id
 }) => (
 	<Button
 		variant="flat"
+		id={id}
 		style={{
 			display: 'flex',
 			alignItems: 'center',

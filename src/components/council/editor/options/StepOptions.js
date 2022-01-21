@@ -16,6 +16,7 @@ import {
 	SelectInput,
 	TextInput,
 	GridItem,
+	HelpPopover,
 } from '../../../../displayComponents';
 import { councilStepFive, updateCouncil as updateCouncilMutation } from '../../../../queries';
 import { checkValidEmail, checkValidMajority } from '../../../../utils/validation';
@@ -30,6 +31,8 @@ import { useValidRTMP } from '../../../../hooks';
 import VoteLetterWithSenseOption from './VoteLetterWithSenseOption';
 import AttendanceTextEditor from './AttendanceTextEditor';
 import EditorStepper from '../EditorStepper';
+import cuadricula from '../../../../assets/img/cuadricula.png';
+import ponente from '../../../../assets/img/ponente.png';
 
 
 const StepOptions = ({
@@ -153,7 +156,7 @@ const StepOptions = ({
 	};
 
 	const checkRequiredFields = () => {
-		if (council.approveActDraft === 1) {
+		if (council.approveActDraft === 1 && checkValidEmail(council.contactEmail)) {
 			const response = checkValidMajority(council.actPointMajority, council.actPointMajorityDivider, council.actPointMajorityType);
 			if (response.error) {
 				setState({
@@ -206,6 +209,17 @@ const StepOptions = ({
 				errors: {
 					...state.errors,
 					contactEmail: translate.email_not_valid
+				}
+			});
+			return true;
+		}
+
+		if (council.supportEmail && !checkValidEmail(council.supportEmail)) {
+			setState({
+				...state,
+				errors: {
+					...state.errors,
+					supportEmail: translate.email_not_valid
 				}
 			});
 			return true;
@@ -326,6 +340,20 @@ const StepOptions = ({
 							</div>
 						}
 					</div>
+					{CBX.canAddTranslator(council) &&
+						<RoomLayout
+							translate={translate}
+							data={council}
+							value={council.room.layout}
+							updateData={value => updateCouncilData({
+								room: {
+									...council.room,
+									layout: value
+								}
+							})}
+							councilType={council.councilType}
+						/>
+					}
 					{council.councilType === 0
 						&& <GridItem xs={12} md={8} lg={6}>
 							<RTMPField
@@ -335,7 +363,7 @@ const StepOptions = ({
 							/>
 						</GridItem>
 					}
-				</React.Fragment>
+				</React.Fragment >
 			),
 			2: (
 				<React.Fragment>
@@ -557,7 +585,7 @@ const StepOptions = ({
 			<EditorStepLayout
 				body={
 					<React.Fragment>
-						{data.loading || !council ?
+						{(data.loading || !council) ?
 							<div
 								style={{
 									height: '300px',
@@ -608,8 +636,49 @@ const StepOptions = ({
 										}
 									</React.Fragment>
 								)}
-								{renderCouncilTypeSpecificOptions(council.councilType)}
 
+								<SectionTitle
+									text={translate.contact_data}
+									color={primary}
+									style={{
+										marginTop: '1.6em'
+									}}
+								/>
+								<GridItem xs={12} md={6} lg={4}>
+									<TextInput
+										required
+										id="council-options-contact-email"
+										floatingText={translate.contact_email}
+										type="text"
+										errorText={state.errors.contactEmail}
+										value={council.contactEmail || ''}
+										onChange={event => updateCouncilData({
+											contactEmail: event.target.value
+										})}
+										helpPopover
+										helpTitle={translate.contact_email}
+										helpDescription={translate.contact_email_admin_help}
+										helpPlacement={'topRight'}
+									/>
+								</GridItem>
+								<GridItem xs={12} md={6} lg={4}>
+									<TextInput
+										id="council-options-support-email"
+										floatingText={translate.support_email}
+										type="text"
+										errorText={state.errors.supportEmail}
+										value={council.supportEmail || ''}
+										onChange={event => updateCouncilData({
+											supportEmail: event.target.value
+										})}
+										helpPopover
+										helpTitle={translate.support_email}
+										helpDescription={translate.support_email_help}
+										helpPlacement={'topRight'}
+									/>
+								</GridItem>
+
+								{renderCouncilTypeSpecificOptions(council.councilType)}
 								{council.councilType !== 4
 									&& <>
 										<SectionTitle
@@ -642,23 +711,6 @@ const StepOptions = ({
 									})
 									}
 								/>
-								<GridItem xs={12} md={6} lg={4}>
-									<TextInput
-										required
-										id="council-options-contact-email"
-										floatingText={translate.contact_email}
-										type="text"
-										errorText={state.errors.contactEmail}
-										value={council.contactEmail || ''}
-										onChange={event => updateCouncilData({
-											contactEmail: event.target.value
-										})}
-										helpPopover
-										helpTitle={translate.contact_email}
-										helpDescription={translate.contact_email_admin_help}
-										helpPlacement={'topRight'}
-									/>
-								</GridItem>
 								{CBX.hasAct(council.statute) && council.councilType < 2 && (
 									<React.Fragment>
 										<SectionTitle
@@ -710,11 +762,7 @@ const StepOptions = ({
 																			id={`council-options-act-majority-${majority.value}`}
 																			key={`majority${majority.value}`}
 																		>
-																			{
-																				translate[
-																					majority.label
-																				]
-																			}
+																			{translate[majority.label]}
 																		</MenuItem>
 																	)
 																)}
@@ -723,8 +771,8 @@ const StepOptions = ({
 														<div style={{ display: 'flex', alignItems: 'flex-end' }}>
 															{CBX.majorityNeedsInput(
 																council.actPointMajorityType
-															) &&
-																(
+															)
+																&& (
 																	<MajorityInput
 																		type={council.actPointMajorityType}
 																		style={{ marginLeft: '1em' }}
@@ -825,7 +873,7 @@ export default compose(
 			variables: {
 				id: props.councilID
 			},
-			notifyOnNetworkStatusChange: true,
+			// notifyOnNetworkStatusChange: true,
 			fetchPolicy: 'network-only'
 		})
 	}),
@@ -853,8 +901,50 @@ const RTMPField = ({ data, updateData, translate }) => {
 						rtmp: event.target.value
 					}
 				}
-			})
-			}
+			})}
 		/>
 	);
 };
+
+export const RoomLayout = ({ translate, councilType, value, updateData }) => (
+	councilType === 0 &&
+	<div style={{ fontSize: '0.875rem', marginTop: '5px', marginBottom: '5px' }}>
+		<div style={{ marginBottom: '0.5em' }}>
+			{translate.room_layout}
+			<HelpPopover
+				title={translate.room_layout}
+				content={translate.room_layout_help}
+			/>
+		</div>
+		<div style={{ display: 'flex', alignItems: 'center' }}>
+			<div>
+				<Radio
+					value={'grid'}
+					checked={value === 'grid'}
+					id="council-options-grid"
+					onChange={event => updateData(event.target.value)}
+					label={
+						<div >
+							<div style={{ display: 'flex', justifyContent: 'center' }}><img src={cuadricula} /></div>
+							<div>{translate.label_grid}</div>
+						</div>
+					}
+				/>
+			</div>
+			<div>
+				<Radio
+					value={'activeSpeaker'}
+					checked={value === 'activeSpeaker'}
+					id="council-options-active-speaker"
+					onChange={event => updateData(event.target.value)}
+					label={
+						<div>
+							<div style={{ display: 'flex', justifyContent: 'center' }}><img src={ponente} /></div>
+							<div>{translate.label_activeSpeaker}</div>
+						</div>
+					}
+				/>
+			</div>
+		</div>
+	</div>
+);

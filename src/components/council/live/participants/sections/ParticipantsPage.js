@@ -26,7 +26,7 @@ import QRSearchModal from './QRSearchModal';
 import { ConfigContext } from '../../../../../containers/AppControl';
 import { isMobile } from '../../../../../utils/screen';
 import AddConvenedParticipantButton from '../../../prepare/modals/AddConvenedParticipantButton';
-import { councilStarted, hasParticipations } from '../../../../../utils/CBX';
+import { canAddTranslator, councilStarted, hasParticipations } from '../../../../../utils/CBX';
 import { COUNCIL_TYPES } from '../../../../../constants';
 import DropdownParticipant from '../../../../../displayComponents/DropdownParticipant';
 
@@ -60,7 +60,6 @@ const ParticipantsPage = ({
 			setwidthOffset(true);
 		}
 	});
-
 
 	const renderAddGuestButton = () => {
 		if (council.councilType === COUNCIL_TYPES.ONE_ON_ONE) {
@@ -141,6 +140,11 @@ const ParticipantsPage = ({
 				selected={filters.type}
 				setSelected={setSelectedType}
 			/>,
+
+			DELEGATIONS: <div style={{
+				width: '100%',
+				borderBottom: '1px solid gainsboro',
+			}} />,
 
 			ATTENDANCE: <AttendanceHeader
 				translate={translate}
@@ -225,7 +229,8 @@ const ParticipantsPage = ({
 					{(council.state === 10 || council.state === 20)
 						&& (!councilStarted(council) ? <DropdownParticipant
 							council={council}
-							participations={participants}
+							addTranslator={canAddTranslator(council)}
+							participations={hasParticipations(council)}
 							refetch={data.refetch}
 							translate={translate}
 							style={{
@@ -398,6 +403,7 @@ const ParticipantsPage = ({
 const getSection = view => {
 	const sections = {
 		STATES: 'liveParticipantsState',
+		DELEGATIONS: 'liveParticipantsWithDelegations',
 		ATTENDANCE: 'liveParticipantsAttendance',
 		CREDENTIALS: 'liveParticipantsCredentials',
 		TYPE: 'liveParticipantsType',

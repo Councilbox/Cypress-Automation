@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import gql from 'graphql-tag';
 import { MenuItem } from 'material-ui';
 import React from 'react';
@@ -9,10 +10,12 @@ import {
 	SelectInput,
 	TextInput
 } from '../../../../../displayComponents';
+import { canAddTranslator } from '../../../../../utils/CBX';
+import { RoomLayout } from '../../../../council/editor/options/StepOptions';
 
 
 const CouncilStatuteEditor = ({
-	statute, translate, client, council, refetch, hideDecimal, hideRequests
+	statute, translate, client, council, refetch, hideDecimal, hideRequests, hideButtonsVisibility = false
 }) => {
 	const updateState = async object => {
 		await client.mutate({
@@ -51,6 +54,25 @@ const CouncilStatuteEditor = ({
 		refetch();
 	};
 
+	const updateCouncilRoom = async newValues => {
+		await client.mutate({
+			mutation: gql`
+				mutation UpdateCouncilRoom($councilRoom: CouncilRoomInput!, $councilId: Int!){
+					updateCouncilRoom(councilRoom: $councilRoom, councilId: $councilId){
+						success
+					}
+				}
+			`,
+			variables: {
+				councilId: council.id,
+				councilRoom: {
+					...newValues
+				}
+			}
+		});
+		refetch();
+	};
+
 	return (
 		<Grid style={{ overflow: 'hidden' }}>
 			<GridItem xs={12} md={7} lg={7}>
@@ -83,6 +105,82 @@ const CouncilStatuteEditor = ({
 					}
 				/>
 			</GridItem>
+			{canAddTranslator(council) &&
+				<GridItem xs={12} md={7} lg={7}>
+					<RoomLayout
+						translate={translate}
+						councilType={council.councilType}
+						value={council.room.layout}
+						updateData={value => updateCouncilRoom({ layout: value })}
+					/>
+				</GridItem>
+			}
+			{!hideButtonsVisibility &&
+				<>
+					<GridItem xs={12} md={7} lg={7}>
+						<SelectInput
+							id="council-type-hide-no-vote-button"
+							floatingText={translate.hide_no_vote_button}
+							value={statute.hideNoVoteButton}
+							style={{ maxWidth: '22em' }}
+							styleLabel={{ minWidth: '240px' }}
+							onChange={event => updateState({
+								hideNoVoteButton: event.target.value
+							})}
+						>
+							<MenuItem
+								value={0}
+								id={'no-vote-select-option-hide'}
+							>
+								{translate.hidden}
+							</MenuItem>
+							<MenuItem
+								value={1}
+								id={'no-vote-select-option-show'}
+							>
+								{translate.visible}
+							</MenuItem>
+							<MenuItem
+								value={-1}
+								id={'no-vote-select-option-default'}
+							>
+								{translate.default}
+							</MenuItem>
+						</SelectInput>
+					</GridItem>
+					<GridItem xs={12} md={7} lg={7}>
+						<SelectInput
+							id="council-type-hide-abstention-button"
+							floatingText={translate.hide_abstention_button}
+							value={statute.hideAbstentionButton}
+							style={{ maxWidth: '22em' }}
+							styleLabel={{ minWidth: '240px' }}
+							onChange={event => updateState({
+								hideAbstentionButton: event.target.value
+							})}
+						>
+							<MenuItem
+								value={0}
+								id={'abstention-select-option-hide'}
+							>
+								{translate.hidden}
+							</MenuItem>
+							<MenuItem
+								value={1}
+								id={'abstention-select-option-show'}
+							>
+								{translate.visible}
+							</MenuItem>
+							<MenuItem
+								value={-1}
+								id={'abstention-select-option-default'}
+							>
+								{translate.default}
+							</MenuItem>
+						</SelectInput>
+					</GridItem>
+				</>
+			}
 			<GridItem xs={10} md={6} lg={6} style={{ display: 'flex', alignItems: 'center' }}>
 				<Checkbox
 					id="council-type-limited-access"
@@ -110,6 +208,22 @@ const CouncilStatuteEditor = ({
 					/>
 				)}
 			</GridItem>
+			{statute.existsLimitedAccessRoom === 1
+				&& <GridItem xs={12} md={7} lg={7}>
+					<Checkbox
+						helpDescription={translate.participant_enter_guest_desc}
+						label={translate.participant_will_enter_as_guest}
+						helpPopover={true}
+						helpTitle={translate.exists_limited_access_room}
+						value={statute.letParticipantsEnterAfterLimit === 1}
+						onChange={(event, isInputChecked) => updateState({
+							letParticipantsEnterAfterLimit: isInputChecked ? 1 : 0
+						})
+						}
+					/>
+				</GridItem>
+			}
+
 			<GridItem xs={12} md={7} lg={7}>
 				<Checkbox
 					label={translate.hide_votings_recount}

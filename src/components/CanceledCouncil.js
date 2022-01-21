@@ -117,7 +117,9 @@ const CanceledCouncil = ({ council, translate }) => (
 										<p style={{ marginBottom: '0px' }}>
 											{translate.reason_not_held_council}:
 										</p>
-										{council.noCelebrateComment}
+										<div dangerouslySetInnerHTML={{
+											__html: council.noCelebrateComment
+										}} />
 									</div>
 								}
 							</React.Fragment>

@@ -35,7 +35,7 @@ const NotLoggedLayout = ({
 				flexDirection: 'column',
 				height: '100%',
 				overflow: 'hidden',
-				background: `url(${imgUrl})`,
+				background: `linear-gradient(to bottom, rgba(255,255,255,0) 60%, rgba(255,255,255,1)), url(${imgUrl})`,
 				backgroundSize: 'cover',
 				backgroundRepeat: 'no-repeat',
 				...((customBackground || customRoomBackground) ? {} : {
@@ -66,14 +66,15 @@ const NotLoggedLayout = ({
 					backgroundColor: 'rgba(0, 0, 0, 0.05)',
 					fontSize: '0.85em',
 					height: `calc(100% - ${HEADER_HEIGHT})`,
-					minHeight: `calc(100% - ${HEADER_HEIGHT})`
+					minHeight: `calc(100% - ${HEADER_HEIGHT})`,
+					position: 'relative'
 				}}
 			>
 				<Scrollbar
 					style={{
 						display: 'flex',
 						flexDirection: 'column',
-						flexGrow: 1
+						flexGrow: 1,
 					}}
 					classFix={'scrollflex'}
 				>

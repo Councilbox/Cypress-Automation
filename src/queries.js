@@ -109,19 +109,19 @@ export const companies = gql`
 export const councils = gql`
 	query Councils($companyId: Int!, $state: [Int], $filters: [FilterInput], $options: OptionsInput) {
 		councils(companyId: $companyId, state: $state, filters: $filters, options: $options) {
-		list{
-			id
-			dateStart
-			companyId
-			dateRealStart
-			state
-			promoCode
-			dateEnd
-			name
-			step
+			list{
+				id
+				dateStart
+				companyId
+				dateRealStart
+				state
+				promoCode
+				dateEnd
+				name
+				step
+			}
+			total
 		}
-		total
-	}
 	
 	}
 `;
@@ -1039,8 +1039,9 @@ export const councilStepFive = gql`
 			companyId
 			wallActive
 			confirmAssistance
-			councilType,
-			contactEmail,
+			councilType
+			contactEmail
+			supportEmail
 			presentVoteOverwrite
 			dateStart
 			fullVideoRecord
@@ -1049,6 +1050,8 @@ export const councilStepFive = gql`
 			step
 			room {
 				videoConfig
+				layout
+				type
 			}
 			platform {
 				act
@@ -1461,6 +1464,7 @@ export const councilLiveQuery = gql`
 			room {
 				id
 				videoLink
+				type
 				htmlVideoCouncil
 				videoConfig
 			}
@@ -1488,6 +1492,8 @@ export const councilLiveQuery = gql`
 				decimalDigits
 				existsAdvanceNoticeDays
 				advanceNoticeDays
+				hideAbstentionButton
+				hideNoVoteButton
 				existsSecondCall
 				hasPresident
 				hasSecretary
@@ -1774,6 +1780,15 @@ export const downloadAttendPDF = gql`
 	}
 `;
 
+export const downloadParticipantsPDF = gql`
+	query downloadParticipantsPDF($councilId: Int!, $timezone: String!) {
+		downloadParticipantsPDF(
+			councilId: $councilId 
+			timezone: $timezone
+		)
+	}
+`;
+
 export const downloadConnectionsExcel = gql`
 	query downloadConnectionsExcel($councilId: Int!) {
 		downloadConnectionsExcel(councilId: $councilId)
@@ -1878,6 +1893,7 @@ export const videoParticipants = gql`
 				participantId
 				online
 				requestWord
+				type
 				surname
 				blocked
 				lastDateConnection
@@ -2102,6 +2118,7 @@ export const liveParticipant = gql`
 				email
 				state
 				signed
+				type
 				phone
 				position
 				language

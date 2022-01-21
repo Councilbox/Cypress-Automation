@@ -7,7 +7,7 @@ import { agendaPointOpened, agendaVotingsOpened } from '../../../utils/CBX';
 import AgendaNoSession from './AgendaNoSession';
 import { isMobile } from '../../../utils/screen';
 import { getSubjectAbrv } from '../../../displayComponents/AgendaNumber';
-import { COUNCIL_TYPES } from '../../../constants';
+import { COUNCIL_TYPES, PARTICIPANT_TYPE } from '../../../constants';
 
 
 class Agendas extends React.Component {
@@ -27,7 +27,7 @@ class Agendas extends React.Component {
 	agendaVotingsToastId = null;
 
 	componentDidMount() {
-		if (this.props.participant.delegatedVotes.length > 0) {
+		if (this.props.participant.delegatedVotes.length > 0 && this.props.participant.type !== PARTICIPANT_TYPE.GUEST) {
 			if (!sessionStorage.getItem('delegationsNotify')) {
 				this.setState({
 					delegationsModal: true

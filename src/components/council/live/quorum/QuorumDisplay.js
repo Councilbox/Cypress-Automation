@@ -2,17 +2,13 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
 import {
-	Table, TableBody, TableHead, TableRow, TableCell, MenuItem
+	MenuItem
 } from 'material-ui';
 import {
 	showNumParticipations,
 	councilHasSession,
 	hasParticipations,
-	hasVotation,
-	isConfirmationRequest,
-	isCustomPoint,
 	getPercentage as calculatePercentage,
-	getAgendaTotalVotes
 } from '../../../../utils/CBX';
 import { getSecondary } from '../../../../styles/colors';
 import { useDownloadHTMLAsPDF, usePolling } from '../../../../hooks';
@@ -22,6 +18,7 @@ import { COUNCIL_TYPES } from '../../../../constants';
 import MenuSuperiorTabs from '../../../dashboard/MenuSuperiorTabs';
 import QuorumTable from './QuorumTable';
 import { SERVER_URL } from '../../../../config';
+import VotingsResults from './VotingsResults';
 
 
 const QuorumDisplay = ({
@@ -39,18 +36,30 @@ const QuorumDisplay = ({
 	return (
 		<>
 			{council.statute.quorumPrototype === 0 ?
-				<b>{`${translate.current_quorum}: ${showNumParticipations(recount.partRightVoting, company, council.statute)} (${calculatePercentage(recount.partRightVoting, (recount.partTotal || 1))}%)${(councilStarted() && council.councilStarted === 1 && councilHasSession(council)) ?
-					` / ${translate.initial_quorum}: ${council.initialQuorum ? showNumParticipations(council.initialQuorum, company, council.statute) : showNumParticipations(council.currentQuorum, company, council.statute)
-					} (${calculatePercentage(council.initialQuorum, (recount.partTotal || 1))}%)`
-					: ''
-					}`}</b>
-				: <b>{`${translate.current_quorum}: ${showNumParticipations(recount.socialCapitalRightVoting, company, council.statute)
-					} (${calculatePercentage(recount.socialCapitalRightVoting, (recount.socialCapitalTotal || 1))}%)${(councilStarted() && council.councilStarted === 1 && councilHasSession(council)) ?
-						` / ${translate.initial_quorum}: ${council.initialQuorum ? showNumParticipations(council.initialQuorum, company, council.statute)
-							: showNumParticipations(council.currentQuorum, company, council.statute)
-						} (${calculatePercentage(council.initialQuorum, (recount.socialCapitalTotal || 1))}%)`
-						: ''
-					}`}</b>
+				<b>
+					<span>{`${translate.current_quorum}:`} </span>
+					<span id="live-current-quorum">{`${showNumParticipations(recount.partRightVoting, company, council.statute)}`}</span>
+					<span id="live-current-quorum-percentage">{`(${calculatePercentage(recount.partRightVoting, (recount.partTotal || 1))}%)`}</span>
+					{(councilStarted() && council.councilStarted === 1 && councilHasSession(council))
+						&& <>
+							<span>{` / ${translate.initial_quorum}: `}</span>
+							<span id="live-initial-quorum">{`${council.initialQuorum ? showNumParticipations(council.initialQuorum, company, council.statute) : showNumParticipations(council.currentQuorum, company, council.statute)}`}</span>
+							<span id="live-initial-quorum-percentage">{` (${calculatePercentage(council.initialQuorum, (recount.partTotal || 1))}%)`}</span>
+						</>
+					}
+				</b>
+				: <b>
+					<span>{`${translate.current_quorum}:`} </span>
+					<span id="live-current-quorum">{`${showNumParticipations(recount.socialCapitalRightVoting, company, council.statute)}`}</span>
+					<span id="live-current-quorum-percentage">{`(${calculatePercentage(recount.socialCapitalRightVoting, (recount.socialCapitalTotal || 1))}%)`}</span>
+					{(councilStarted() && council.councilStarted === 1 && councilHasSession(council))
+						&& <>
+							<span>{` / ${translate.initial_quorum}: `}</span>
+							<span id="live-initial-quorum">{`${council.initialQuorum ? showNumParticipations(council.initialQuorum, company, council.statute) : showNumParticipations(council.currentQuorum, company, council.statute)}`}</span>
+							<span id="live-initial-quorum-percentage">{` (${calculatePercentage(council.initialQuorum, (recount.socialCapitalTotal || 1))}%)`}</span>
+						</>
+					}
+				</b>
 			}
 			<div
 				style={{ color: secondary, paddingLeft: '0.6em', cursor: 'pointer' }}
@@ -95,15 +104,6 @@ export const QuorumDetails = withApollo(({
 	const { downloadHTMLAsPDF } = useDownloadHTMLAsPDF();
 
 	const SC = hasParticipations(council.statute);
-
-	const getPercentage = (value, defaultBase) => {
-		let base = defaultBase || totalVotes;
-		if (SC) {
-			base = defaultBase || socialCapital;
-		}
-
-		return ((value / base) * 100).toFixed(3);
-	};
 
 	const downloadQuorumPDF = async () => {
 		await downloadHTMLAsPDF({
@@ -318,8 +318,7 @@ export const QuorumDetails = withApollo(({
 											</div>
 										</MenuItem>
 									</>
-									:
-									<>
+									: <>
 										<MenuItem onClick={downloadQuorumPDF}>
 											<div
 												style={{
@@ -340,8 +339,8 @@ export const QuorumDetails = withApollo(({
 												</span>
 											</div>
 										</MenuItem>
-										{renderVotingsTable &&
-											<MenuItem onClick={downloadResultsPDF}>
+										{renderVotingsTable
+											&& <MenuItem onClick={downloadResultsPDF}>
 												<div
 													style={{
 														width: '100%',
@@ -390,91 +389,15 @@ export const QuorumDetails = withApollo(({
 
 				{renderVotingsTable &&
 					<div id="resultsTable">
-						<Table style={{ marginTop: '3em' }}>
-							<TableHead>
-								<TableCell style={{ fontSize: '16px', fontWeight: '700' }}>
-									{translate.title}
-								</TableCell>
-								<TableCell colSpan={2} style={{ fontSize: '16px', fontWeight: '700' }}>
-									{translate.in_favor_btn}
-								</TableCell>
-								<TableCell colSpan={2} style={{ fontSize: '16px', fontWeight: '700' }}>
-									{translate.against_btn}
-								</TableCell>
-								<TableCell colSpan={2} style={{ fontSize: '16px', fontWeight: '700' }}>
-									{translate.abstention_btn}
-								</TableCell>
-							</TableHead>
-							<TableBody>
-								{agendas.map(point => {
-									const pointTotalVotes = getAgendaTotalVotes(point);
-									return (<TableRow key={point.id}>
-										<TableCell>
-											<div className="truncate" style={{ width: '6em' }}>
-												{point.agendaSubject.substr(0, 10)}
-											</div>
-										</TableCell>
-										{(hasVotation(point.subjectType) && !isCustomPoint(point.subjectType)) ?
-											<>
-												{isConfirmationRequest(point.subjectType) ?
-													<>
-														<TableCell>
-															{point.positiveVotings + point.positiveManual}
-														</TableCell>
-														<TableCell>
-															{`${getPercentage(point.positiveVotings + point.positiveManual, point.positiveVotings + point.positiveManual + point.negativeVotings + point.negativeManual + point.noVoteVotings + point.noVoteManual)}%`}
-														</TableCell>
-														<TableCell>
-															{point.negativeVotings + point.negativeManual}
-														</TableCell>
-														<TableCell>
-															{`${getPercentage(point.negativeVotings + point.negativeManual, point.positiveVotings + point.positiveManual + point.negativeVotings + point.negativeManual + point.noVoteVotings + point.noVoteManual)}%`}
-														</TableCell>
-														<TableCell colSpan={2} align="center">
-															-
-														</TableCell>
-													</>
-													: <>
-														<TableCell>
-															{showNumParticipations(point.positiveVotings + point.positiveManual, company, council.statute)}
-														</TableCell>
-														<TableCell>
-															{`${getPercentage(point.positiveVotings + point.positiveManual, pointTotalVotes)}%`}
-														</TableCell>
-														<TableCell>
-															{showNumParticipations(point.negativeVotings + point.negativeManual, company, council.statute)}
-														</TableCell>
-														<TableCell>
-															{`${getPercentage(point.negativeVotings + point.negativeManual, pointTotalVotes)}%`}
-														</TableCell>
-														<TableCell>
-															{showNumParticipations(point.abstentionVotings + point.abstentionManual, company, council.statute)}
-														</TableCell>
-														<TableCell>
-															{`${getPercentage(point.abstentionVotings + point.abstentionManual, pointTotalVotes)}%`}
-														</TableCell>
-													</>
-												}
-											</>
-											: <>
-												<TableCell colSpan={2} align="center">
-													-
-												</TableCell>
-												<TableCell colSpan={2} align="center">
-													-
-												</TableCell>
-												<TableCell colSpan={2} align="center">
-													-
-												</TableCell>
-											</>
-
-										}
-
-									</TableRow>);
-								}
-								)}
-							</TableBody>
-						</Table>
+						<VotingsResults
+							company={company}
+							council={council}
+							agendas={agendas}
+							hasParticipations={SC}
+							totalVotes={totalVotes}
+							socialCapital={socialCapital}
+							translate={translate}
+						/>
 					</div>
 
 				}

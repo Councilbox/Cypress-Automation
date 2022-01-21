@@ -35,9 +35,7 @@ const CustomAgendaRecount = ({
 		},
 	].sort(orderByRecount(agenda.votingsRecount));
 
-	const printPercentage = value => {
-		return `(${getPercentage(value, agenda.votingsRecount.totalRecount)}%)`;
-	};
+	const printPercentage = value => `(${getPercentage(value, agenda.votingsRecount.totalRecount)}%)`;
 
 	return (
 		<Grid>

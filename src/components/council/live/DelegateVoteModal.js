@@ -56,7 +56,7 @@ const DelegateVoteModal = ({
 
 		setData(response.data);
 		setLoading(false);
-	}, [filters.text, participant.id]);
+	}, [filters.text, participant.id, props.show]);
 
 	const getMore = React.useCallback(async () => {
 		if (options.offset !== 0) {
@@ -102,7 +102,8 @@ const DelegateVoteModal = ({
 			{
 				variables: {
 					participantId: id,
-					delegateId: participant.id
+					delegateId: participant.id,
+					notify: false
 				}
 			}
 		);
@@ -174,6 +175,7 @@ const DelegateVoteModal = ({
 		return (
 			<div style={{ width: '600px' }}>
 				<TextInput
+					placeholder={translate.find}
 					adornment={<Icon>search</Icon>}
 					floatingText={' '}
 					type="text"
@@ -196,14 +198,15 @@ const DelegateVoteModal = ({
 						<Scrollbar option={{ suppressScrollX: true }}>
 							{participants.length > 0 ? (
 								<React.Fragment>
-									{participants.map(liveParticipant => {
+									{participants.map((liveParticipant, index) => {
 										if (liveParticipant.id !== participant.id) {
 											return (
 												<ParticipantRow
 													key={`delegateParticipant_${liveParticipant.id}`}
+													id={`participant-row-${index}`}
+													order="surname"
 													participant={liveParticipant}
-													onClick={() => addDelegation(liveParticipant.id)
-													}
+													onClick={() => addDelegation(liveParticipant.id)}
 												/>
 											);
 										}
