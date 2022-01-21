@@ -1,7 +1,7 @@
 import React from 'react';
 import { PARTICIPANT_TYPE } from '../../../../../constants';
 import { Grid, GridItem } from '../../../../../displayComponents';
-import { hasParticipations } from '../../../../../utils/CBX';
+import { hasParticipations, showNumParticipations } from '../../../../../utils/CBX';
 
 const Label = ({ children }) => (
 	<span style={{ fontWeight: '700' }}>{children}</span>
@@ -9,7 +9,6 @@ const Label = ({ children }) => (
 
 const OwnedVotesRecountSection = ({ ownedVotesMeta, translate, participant, council }) => {
 	const showSocialCapital = hasParticipations(council);
-
 	return (
 		<Grid
 			style={{
@@ -28,12 +27,12 @@ const OwnedVotesRecountSection = ({ ownedVotesMeta, translate, participant, coun
 				<GridItem xs={12} md={6} lg={4}>
 					<div>
 						<Label>{translate.own_votes}:</Label>
-						<span id="owned-votes-total"> {ownedVotesMeta.totalOwnVotes || 0}</span>
+						<span id="owned-votes-total"> {parseInt(ownedVotesMeta.totalOwnVotes, 10) / (10 ** council.statute.decimalDigits) || 0}</span>
 					</div>
 					{showSocialCapital &&
 						<div>
 							<Label>{translate.own_social_capital}:</Label>
-							<span id="owned-social-capital-total"> {ownedVotesMeta.totalOwnSocialCapital || 0}</span>
+							<span id="owned-social-capital-total"> {parseInt(ownedVotesMeta.totalOwnSocialCapital, 10) / (10 ** council.statute.decimalDigits) || 0}</span>
 						</div>
 					}
 
@@ -43,16 +42,16 @@ const OwnedVotesRecountSection = ({ ownedVotesMeta, translate, participant, coun
 				<GridItem xs={12} md={6} lg={4}>
 					<div>
 						<Label>{translate.num_delegations}:</Label>
-						<span id="owned-votes-num-delegated"> {ownedVotesMeta.numDelegated}</span>
+						<span id="owned-votes-num-delegated"> {showNumParticipations(ownedVotesMeta.numDelegated, council.company, council.statute.decimalDigits)}</span>
 					</div>
 					<div>
 						<Label>{translate.delegated_votes}:</Label>
-						<span id="owned-delegated-votes"> {ownedVotesMeta.totalDelegatedVotes}</span>
+						<span id="owned-delegated-votes"> {parseInt(ownedVotesMeta.totalDelegatedVote, 10) / (10 ** council.statute.decimalDigits) || 0}</span>
 					</div>
 					{showSocialCapital &&
 						<div>
 							<Label>{translate.delegated_social_capital}:</Label>
-							<span id="owned-delegated-social-capital"> {ownedVotesMeta.totalDelegatedSocialCapital}</span>
+							<span id="owned-delegated-social-capital"> {parseInt(ownedVotesMeta.totalDelegatedSocialCapital, 10) / (10 ** council.statute.decimalDigits)}</span>
 						</div>
 					}
 
@@ -62,16 +61,16 @@ const OwnedVotesRecountSection = ({ ownedVotesMeta, translate, participant, coun
 				<GridItem xs={12} md={6} lg={4}>
 					<div>
 						<Label>{translate.num_representations}:</Label>
-						<span id="owned-num-represented"> {ownedVotesMeta.numRepresented}</span>
+						<span id="owned-num-represented"> {parseInt(ownedVotesMeta.numRepresented, 10) / (10 ** council.statute.decimalDigits)}</span>
 					</div>
 					<div>
 						<Label>{translate.representated_votes}:</Label>
-						<span id="owned-represented-votes"> {ownedVotesMeta.totalRepresentedVotes}</span>
+						<span id="owned-represented-votes"> {parseInt(ownedVotesMeta.totalRepresentedVotes, 10) / (10 ** council.statute.decimalDigits)}</span>
 					</div>
 					{showSocialCapital &&
 						<div>
 							<Label>{translate.representated_social_capital}:</Label>
-							<span id="owned-represented-social-capital"> {ownedVotesMeta.totalRepresentedSocialCapital}</span>
+							<span id="owned-represented-social-capital"> {parseInt(ownedVotesMeta.totalRepresentedSocialCapital, 10) / (10 ** council.statute.decimalDigits)}</span>
 						</div>
 					}
 				</GridItem>
