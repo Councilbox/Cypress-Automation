@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="19.2620" tests="12" failures="0">
+  <testsuite name="Root Suite" timestamp="2022-01-04T15:55:49" tests="0" file="cypress\integration\1.Smoke\5.Censuses_section.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Councilbox login - valid username and password" timestamp="2022-01-04T15:55:49" tests="5" time="9.3810" failures="0">
+    <testcase name="Councilbox login - valid username and password Visits the Councilbox web page" time="4.3970" classname="Visits the Councilbox web page">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Change language to Spanish" time="0.2840" classname="Change language to Spanish">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters email address" time="0.9700" classname="Enters email address">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters password" time="0.4240" classname="Enters password">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Clicks login button" time="2.1180" classname="Clicks login button">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to add census in the &apos;Censos&apos; section [tipo Assistentes]" timestamp="2022-01-04T15:55:58" tests="7" time="9.8450" failures="0">
+    <testcase name="The user is able to add census in the &apos;Censos&apos; section [tipo Assistentes] From the menu choose and click on the &apos;Censos&apos; button" time="3.7110" classname="From the menu choose and click on the &apos;Censos&apos; button">
+    </testcase>
+    <testcase name="The user is able to add census in the &apos;Censos&apos; section [tipo Assistentes] Click on &apos;Anadir censo+&apos; button" time="0.1280" classname="Click on &apos;Anadir censo+&apos; button">
+    </testcase>
+    <testcase name="The user is able to add census in the &apos;Censos&apos; section [tipo Assistentes] Populate “Nombre” field" time="0.7350" classname="Populate “Nombre” field">
+    </testcase>
+    <testcase name="The user is able to add census in the &apos;Censos&apos; section [tipo Assistentes] “Select the “Assistentes” tipo de census" time="0.2400" classname="“Select the “Assistentes” tipo de census">
+    </testcase>
+    <testcase name="The user is able to add census in the &apos;Censos&apos; section [tipo Assistentes] Populate “Descripcion” field" time="0.6520" classname="Populate “Descripcion” field">
+    </testcase>
+    <testcase name="The user is able to add census in the &apos;Censos&apos; section [tipo Assistentes] Click on the &apos;Aceptar&apos; button" time="0.0980" classname="Click on the &apos;Aceptar&apos; button">
+    </testcase>
+    <testcase name="The user is able to add census in the &apos;Censos&apos; section [tipo Assistentes] Back to Home page" time="4.2330" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+</testsuites>

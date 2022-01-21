@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="154.9920" tests="124" failures="1">
+  <testsuite name="Root Suite" timestamp="2021-12-23T14:47:42" tests="0" file="cypress\integration\2.Regression\1.Account_section.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="The user is not able to register to the Councilbox without populating required fields" timestamp="2021-12-23T14:47:42" tests="4" time="8.5450" failures="0">
+    <testcase name="The user is not able to register to the Councilbox without populating required fields Open the browser and enter the URL of the staging environment" time="4.4700" classname="Open the browser and enter the URL of the staging environment">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox without populating required fields Click on the &apos;Sign Up&apos; button" time="1.2520" classname="Click on the &apos;Sign Up&apos; button">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox without populating required fields Click on the “Sign up” button without populating required fields" time="0.1670" classname="Click on the “Sign up” button without populating required fields">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox without populating required fields An alert message is displayed beyond the fields" time="0.0830" classname="An alert message is displayed beyond the fields">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Name&apos; field" timestamp="2021-12-23T14:47:50" tests="10" time="10.2490" failures="0">
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Name&apos; field Open the browser and enter the URL of the staging environment" time="3.7290" classname="Open the browser and enter the URL of the staging environment">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Name&apos; field Click on the &apos;Sign Up&apos; button" time="1.2550" classname="Click on the &apos;Sign Up&apos; button">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Name&apos; field Populate the &apos;Name&apos; field with invalid inputs (with number)" time="0.4600" classname="Populate the &apos;Name&apos; field with invalid inputs (with number)">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Name&apos; field Populate the &apos;Surname&apos; field" time="0.4080" classname="Populate the &apos;Surname&apos; field">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Name&apos; field Populate the &apos;Phone&apos; field" time="0.5170" classname="Populate the &apos;Phone&apos; field">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Name&apos; field Populate the &apos;Email&apos; and the &apos;Repeat email&apos; fields" time="1.7780" classname="Populate the &apos;Email&apos; and the &apos;Repeat email&apos; fields">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Name&apos; field Populate the &apos;Password&apos; and the &apos;Confirm password&apos; fields" time="0.9640" classname="Populate the &apos;Password&apos; and the &apos;Confirm password&apos; fields">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Name&apos; field Click on the checkbox to confirm terms and conditions of councilbox" time="0.1440" classname="Click on the checkbox to confirm terms and conditions of councilbox">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Name&apos; field Click on &apos;Send&apos; button" time="0.1450" classname="Click on &apos;Send&apos; button">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Name&apos; field Should display &apos;Please enter a valid first name&apos;" time="0.4550" classname="Should display &apos;Please enter a valid first name&apos;">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Phone&apos; field" timestamp="2021-12-23T14:48:01" tests="10" time="9.4140" failures="0">
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Phone&apos; field Open the browser and enter the URL of the staging environment" time="3.2780" classname="Open the browser and enter the URL of the staging environment">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Phone&apos; field Click on the &apos;Sign Up&apos; button" time="1.3310" classname="Click on the &apos;Sign Up&apos; button">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Phone&apos; field Populate the &apos;Name&apos; field with invalid inputs (with number)" time="0.5600" classname="Populate the &apos;Name&apos; field with invalid inputs (with number)">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Phone&apos; field Populate the &apos;Surname&apos; field" time="0.3820" classname="Populate the &apos;Surname&apos; field">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Phone&apos; field Populate the &apos;Phone&apos; field" time="0.3820" classname="Populate the &apos;Phone&apos; field">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Phone&apos; field Populate the &apos;Email&apos; and the &apos;Repeat email&apos; fields" time="1.7340" classname="Populate the &apos;Email&apos; and the &apos;Repeat email&apos; fields">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Phone&apos; field Populate the &apos;Password&apos; and the &apos;Confirm password&apos; fields" time="0.9530" classname="Populate the &apos;Password&apos; and the &apos;Confirm password&apos; fields">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Phone&apos; field Click on the checkbox to confirm terms and conditions of councilbox" time="0.1450" classname="Click on the checkbox to confirm terms and conditions of councilbox">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Phone&apos; field Click on &apos;Send&apos; button" time="0.1530" classname="Click on &apos;Send&apos; button">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Phone&apos; field Should display &apos;Please enter a valid phone number&apos;" time="0.1210" classname="Should display &apos;Please enter a valid phone number&apos;">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Surname&apos; field" timestamp="2021-12-23T14:48:10" tests="10" time="9.0830" failures="0">
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Surname&apos; field Open the browser and enter the URL of the staging environment" time="2.8730" classname="Open the browser and enter the URL of the staging environment">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Surname&apos; field Click on the &apos;Sign Up&apos; button" time="1.3040" classname="Click on the &apos;Sign Up&apos; button">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Surname&apos; field Populate the &apos;Name&apos; field with invalid inputs (with number)" time="0.5500" classname="Populate the &apos;Name&apos; field with invalid inputs (with number)">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Surname&apos; field Populate the &apos;Surname&apos; field" time="0.4160" classname="Populate the &apos;Surname&apos; field">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Surname&apos; field Populate the &apos;Phone&apos; field" time="0.4840" classname="Populate the &apos;Phone&apos; field">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Surname&apos; field Populate the &apos;Email&apos; and the &apos;Repeat email&apos; fields" time="1.7310" classname="Populate the &apos;Email&apos; and the &apos;Repeat email&apos; fields">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Surname&apos; field Populate the &apos;Password&apos; and the &apos;Confirm password&apos; fields" time="0.9490" classname="Populate the &apos;Password&apos; and the &apos;Confirm password&apos; fields">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Surname&apos; field Click on the checkbox to confirm terms and conditions of councilbox" time="0.1440" classname="Click on the checkbox to confirm terms and conditions of councilbox">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Surname&apos; field Click on &apos;Send&apos; button" time="0.1410" classname="Click on &apos;Send&apos; button">
+    </testcase>
+    <testcase name="The user is not able to create a new account in Councilbox with invalid inputs in the &apos;Surname&apos; field Please enter valid last names" time="0.1120" classname="Please enter valid last names">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is not able to register to the Councilbox with the E-mail already used" timestamp="2021-12-23T14:48:19" tests="10" time="9.3760" failures="0">
+    <testcase name="The user is not able to register to the Councilbox with the E-mail already used Open the browser and enter the URL of the staging environment" time="3.1070" classname="Open the browser and enter the URL of the staging environment">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the E-mail already used Click on the &apos;Sign Up&apos; button" time="1.2430" classname="Click on the &apos;Sign Up&apos; button">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the E-mail already used Populate the &apos;Name&apos; field with invalid inputs (with number)" time="0.5840" classname="Populate the &apos;Name&apos; field with invalid inputs (with number)">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the E-mail already used Populate the &apos;Surname&apos; field" time="0.3900" classname="Populate the &apos;Surname&apos; field">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the E-mail already used Populate the &apos;Phone&apos; field" time="0.5380" classname="Populate the &apos;Phone&apos; field">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the E-mail already used Populate the &apos;Email&apos; and the &apos;Repeat email&apos; fields" time="1.3920" classname="Populate the &apos;Email&apos; and the &apos;Repeat email&apos; fields">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the E-mail already used Populate the &apos;Password&apos; and the &apos;Confirm password&apos; fields" time="0.9710" classname="Populate the &apos;Password&apos; and the &apos;Confirm password&apos; fields">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the E-mail already used Click on the checkbox to confirm terms and conditions of councilbox" time="0.1460" classname="Click on the checkbox to confirm terms and conditions of councilbox">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the E-mail already used Click on &apos;Send&apos; button" time="0.1410" classname="Click on &apos;Send&apos; button">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the E-mail already used &apos;This email is already registered.&apos;&apos; message is displayed beyond the “Email” field" time="0.4560" classname="&apos;This email is already registered.&apos;&apos; message is displayed beyond the “Email” field">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is not able to register to the Councilbox with the invalid inputs in the &apos;Repeat Email&apos; field" timestamp="2021-12-23T14:48:29" tests="10" time="9.0710" failures="0">
+    <testcase name="The user is not able to register to the Councilbox with the invalid inputs in the &apos;Repeat Email&apos; field Open the browser and enter the URL of the staging environment" time="2.9800" classname="Open the browser and enter the URL of the staging environment">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the invalid inputs in the &apos;Repeat Email&apos; field Click on the &apos;Sign Up&apos; button" time="1.2740" classname="Click on the &apos;Sign Up&apos; button">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the invalid inputs in the &apos;Repeat Email&apos; field Populate the &apos;Name&apos; field with invalid inputs (with number)" time="0.5720" classname="Populate the &apos;Name&apos; field with invalid inputs (with number)">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the invalid inputs in the &apos;Repeat Email&apos; field Populate the &apos;Surname&apos; field" time="0.3970" classname="Populate the &apos;Surname&apos; field">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the invalid inputs in the &apos;Repeat Email&apos; field Populate the &apos;Phone&apos; field" time="0.5120" classname="Populate the &apos;Phone&apos; field">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the invalid inputs in the &apos;Repeat Email&apos; field Populate the &apos;Email&apos; and the &apos;Repeat email&apos; fields" time="1.5430" classname="Populate the &apos;Email&apos; and the &apos;Repeat email&apos; fields">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the invalid inputs in the &apos;Repeat Email&apos; field Populate the &apos;Password&apos; and the &apos;Confirm password&apos; fields" time="0.9780" classname="Populate the &apos;Password&apos; and the &apos;Confirm password&apos; fields">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the invalid inputs in the &apos;Repeat Email&apos; field Click on the checkbox to confirm terms and conditions of councilbox" time="0.1520" classname="Click on the checkbox to confirm terms and conditions of councilbox">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the invalid inputs in the &apos;Repeat Email&apos; field Click on &apos;Send&apos; button" time="0.1490" classname="Click on &apos;Send&apos; button">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the invalid inputs in the &apos;Repeat Email&apos; field &apos;The email does not match.&apos;&apos; message is displayed beyond the “Repeat Email” field" time="0.1220" classname="&apos;The email does not match.&apos;&apos; message is displayed beyond the “Repeat Email” field">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is not able to register to the Councilbox with the invalid inputs in the &apos;Confirm Password&apos; field" timestamp="2021-12-23T14:48:38" tests="10" time="9.3790" failures="0">
+    <testcase name="The user is not able to register to the Councilbox with the invalid inputs in the &apos;Confirm Password&apos; field Open the browser and enter the URL of the staging environment" time="2.8400" classname="Open the browser and enter the URL of the staging environment">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the invalid inputs in the &apos;Confirm Password&apos; field Click on the &apos;Sign Up&apos; button" time="1.1970" classname="Click on the &apos;Sign Up&apos; button">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the invalid inputs in the &apos;Confirm Password&apos; field Populate the &apos;Name&apos; field with invalid inputs (with number)" time="0.5850" classname="Populate the &apos;Name&apos; field with invalid inputs (with number)">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the invalid inputs in the &apos;Confirm Password&apos; field Populate the &apos;Surname&apos; field" time="0.3960" classname="Populate the &apos;Surname&apos; field">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the invalid inputs in the &apos;Confirm Password&apos; field Populate the &apos;Phone&apos; field" time="0.5070" classname="Populate the &apos;Phone&apos; field">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the invalid inputs in the &apos;Confirm Password&apos; field Populate the &apos;Email&apos; and the &apos;Repeat email&apos; fields" time="1.8400" classname="Populate the &apos;Email&apos; and the &apos;Repeat email&apos; fields">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the invalid inputs in the &apos;Confirm Password&apos; field Populate the &apos;Password&apos; and the &apos;Confirm password&apos; fields" time="0.9000" classname="Populate the &apos;Password&apos; and the &apos;Confirm password&apos; fields">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the invalid inputs in the &apos;Confirm Password&apos; field Click on the checkbox to confirm terms and conditions of councilbox" time="0.1570" classname="Click on the checkbox to confirm terms and conditions of councilbox">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the invalid inputs in the &apos;Confirm Password&apos; field Click on &apos;Send&apos; button" time="0.1510" classname="Click on &apos;Send&apos; button">
+    </testcase>
+    <testcase name="The user is not able to register to the Councilbox with the invalid inputs in the &apos;Confirm Password&apos; field &apos;The passwords do not match&apos; message is displayed beyond the “Confirm Password” field" time="0.4090" classname="&apos;The passwords do not match&apos; message is displayed beyond the “Confirm Password” field">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is not able to register without accepting terms and conditions" timestamp="2021-12-23T14:48:47" tests="9" time="8.8960" failures="0">
+    <testcase name="The user is not able to register without accepting terms and conditions Open the browser and enter the URL of the staging environment" time="2.6870" classname="Open the browser and enter the URL of the staging environment">
+    </testcase>
+    <testcase name="The user is not able to register without accepting terms and conditions Click on the &apos;Sign Up&apos; button" time="1.2320" classname="Click on the &apos;Sign Up&apos; button">
+    </testcase>
+    <testcase name="The user is not able to register without accepting terms and conditions Populate the &apos;Name&apos; field with invalid inputs (with number)" time="0.5800" classname="Populate the &apos;Name&apos; field with invalid inputs (with number)">
+    </testcase>
+    <testcase name="The user is not able to register without accepting terms and conditions Populate the &apos;Surname&apos; field" time="0.3970" classname="Populate the &apos;Surname&apos; field">
+    </testcase>
+    <testcase name="The user is not able to register without accepting terms and conditions Populate the &apos;Phone&apos; field" time="0.5130" classname="Populate the &apos;Phone&apos; field">
+    </testcase>
+    <testcase name="The user is not able to register without accepting terms and conditions Populate the &apos;Email&apos; and the &apos;Repeat email&apos; fields" time="1.8290" classname="Populate the &apos;Email&apos; and the &apos;Repeat email&apos; fields">
+    </testcase>
+    <testcase name="The user is not able to register without accepting terms and conditions Populate the &apos;Password&apos; and the &apos;Confirm password&apos; fields" time="0.9990" classname="Populate the &apos;Password&apos; and the &apos;Confirm password&apos; fields">
+    </testcase>
+    <testcase name="The user is not able to register without accepting terms and conditions Click on &apos;Send&apos; button" time="0.1460" classname="Click on &apos;Send&apos; button">
+    </testcase>
+    <testcase name="The user is not able to register without accepting terms and conditions &apos;I accept the terms and conditions&apos; message is displayed" time="0.1610" classname="&apos;I accept the terms and conditions&apos; message is displayed">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is not able to login in Councilbox with invalid inputs in the &apos;Email&apos; field" timestamp="2021-12-23T14:48:56" tests="5" time="4.0290" failures="0">
+    <testcase name="The user is not able to login in Councilbox with invalid inputs in the &apos;Email&apos; field Open the browser and enter the URL of the staging environment" time="2.4160" classname="Open the browser and enter the URL of the staging environment">
+    </testcase>
+    <testcase name="The user is not able to login in Councilbox with invalid inputs in the &apos;Email&apos; field Populate the “Email” field with invalid Email" time="0.6200" classname="Populate the “Email” field with invalid Email">
+    </testcase>
+    <testcase name="The user is not able to login in Councilbox with invalid inputs in the &apos;Email&apos; field Populate the “Password” field with valid inputs" time="0.3580" classname="Populate the “Password” field with valid inputs">
+    </testcase>
+    <testcase name="The user is not able to login in Councilbox with invalid inputs in the &apos;Email&apos; field Click on the &apos;To enter&apos; button without populating required fields" time="0.1560" classname="Click on the &apos;To enter&apos; button without populating required fields">
+    </testcase>
+    <testcase name="The user is not able to login in Councilbox with invalid inputs in the &apos;Email&apos; field &apos;The email is not verified or does not exist.&apos; alert message is displayed" time="0.2760" classname="&apos;The email is not verified or does not exist.&apos; alert message is displayed">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is not able to login in Councilbox with invalid password" timestamp="2021-12-23T14:49:00" tests="5" time="3.7450" failures="0">
+    <testcase name="The user is not able to login in Councilbox with invalid password Open the browser and enter the URL of the staging environment" time="2.2710" classname="Open the browser and enter the URL of the staging environment">
+    </testcase>
+    <testcase name="The user is not able to login in Councilbox with invalid password Populate the “Email” field with invalid Email" time="0.5660" classname="Populate the “Email” field with invalid Email">
+    </testcase>
+    <testcase name="The user is not able to login in Councilbox with invalid password Populate the “Password” field with valid inputs" time="0.3320" classname="Populate the “Password” field with valid inputs">
+    </testcase>
+    <testcase name="The user is not able to login in Councilbox with invalid password Click on the &apos;To enter&apos; button without populating required fields" time="0.1400" classname="Click on the &apos;To enter&apos; button without populating required fields">
+    </testcase>
+    <testcase name="The user is not able to login in Councilbox with invalid password &apos;Incorrect password&apos; alert message is displayed" time="0.2630" classname="&apos;Incorrect password&apos; alert message is displayed">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is not able to login in Councilbox without populating required fields" timestamp="2021-12-23T14:49:04" tests="3" time="2.6670" failures="0">
+    <testcase name="The user is not able to login in Councilbox without populating required fields Open the browser and enter the URL of the staging environment" time="2.3590" classname="Open the browser and enter the URL of the staging environment">
+    </testcase>
+    <testcase name="The user is not able to login in Councilbox without populating required fields Click on the &apos;To enter&apos; button without populating required fields" time="0.1660" classname="Click on the &apos;To enter&apos; button without populating required fields">
+    </testcase>
+    <testcase name="The user is not able to login in Councilbox without populating required fields &apos;This field is required.&apos; alert message is displayed beyond the “Email” and “Password” fields" time="0.0550" classname="&apos;This field is required.&apos; alert message is displayed beyond the “Email” and “Password” fields">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to select the &apos;EN&apos; language on the &apos;Homepage&apos; section" timestamp="2021-12-23T14:49:06" tests="3" time="5.3770" failures="0">
+    <testcase name="The user is able to select the &apos;EN&apos; language on the &apos;Homepage&apos; section Open the browser and enter the URL of the staging environment" time="2.8960" classname="Open the browser and enter the URL of the staging environment">
+    </testcase>
+    <testcase name="The user is able to select the &apos;EN&apos; language on the &apos;Homepage&apos; section Navigate to the upper right corner of the page and click on the “Language selector” button" time="1.1770" classname="Navigate to the upper right corner of the page and click on the “Language selector” button">
+    </testcase>
+    <testcase name="The user is able to select the &apos;EN&apos; language on the &apos;Homepage&apos; section From the dropdown menu choose and click on the &apos;EN&apos; button" time="1.1610" classname="From the dropdown menu choose and click on the &apos;EN&apos; button">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to select the &apos;ES&apos; language on the &apos;Homepage&apos; section" timestamp="2021-12-23T14:49:12" tests="3" time="6.1300" failures="0">
+    <testcase name="The user is able to select the &apos;ES&apos; language on the &apos;Homepage&apos; section Open the browser and enter the URL of the staging environment" time="3.6680" classname="Open the browser and enter the URL of the staging environment">
+    </testcase>
+    <testcase name="The user is able to select the &apos;ES&apos; language on the &apos;Homepage&apos; section Navigate to the upper right corner of the page and click on the “Language selector” button" time="1.1720" classname="Navigate to the upper right corner of the page and click on the “Language selector” button">
+    </testcase>
+    <testcase name="The user is able to select the &apos;ES&apos; language on the &apos;Homepage&apos; section From the dropdown menu choose and click on the &apos;ES&apos; button" time="1.1560" classname="From the dropdown menu choose and click on the &apos;ES&apos; button">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to select the &apos;CAT&apos; language on the &apos;Homepage&apos; section" timestamp="2021-12-23T14:49:18" tests="3" time="5.9070" failures="0">
+    <testcase name="The user is able to select the &apos;CAT&apos; language on the &apos;Homepage&apos; section Open the browser and enter the URL of the staging environment" time="3.4440" classname="Open the browser and enter the URL of the staging environment">
+    </testcase>
+    <testcase name="The user is able to select the &apos;CAT&apos; language on the &apos;Homepage&apos; section Navigate to the upper right corner of the page and click on the “Language selector” button" time="1.1660" classname="Navigate to the upper right corner of the page and click on the “Language selector” button">
+    </testcase>
+    <testcase name="The user is able to select the &apos;CAT&apos; language on the &apos;Homepage&apos; section From the dropdown menu choose and click on the &apos;CAT&apos; button" time="1.1470" classname="From the dropdown menu choose and click on the &apos;CAT&apos; button">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to select the &apos;GAL&apos; language on the &apos;Homepage&apos; section" timestamp="2021-12-23T14:49:24" tests="3" time="5.7050" failures="0">
+    <testcase name="The user is able to select the &apos;GAL&apos; language on the &apos;Homepage&apos; section Open the browser and enter the URL of the staging environment" time="3.2490" classname="Open the browser and enter the URL of the staging environment">
+    </testcase>
+    <testcase name="The user is able to select the &apos;GAL&apos; language on the &apos;Homepage&apos; section Navigate to the upper right corner of the page and click on the “Language selector” button" time="1.1790" classname="Navigate to the upper right corner of the page and click on the “Language selector” button">
+    </testcase>
+    <testcase name="The user is able to select the &apos;GAL&apos; language on the &apos;Homepage&apos; section From the dropdown menu choose and click on the &apos;GAL&apos; button" time="1.1510" classname="From the dropdown menu choose and click on the &apos;GAL&apos; button">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to select the &apos;PT&apos; language on the &apos;Homepage&apos; section" timestamp="2021-12-23T14:49:29" tests="3" time="5.8410" failures="0">
+    <testcase name="The user is able to select the &apos;PT&apos; language on the &apos;Homepage&apos; section Open the browser and enter the URL of the staging environment" time="3.3800" classname="Open the browser and enter the URL of the staging environment">
+    </testcase>
+    <testcase name="The user is able to select the &apos;PT&apos; language on the &apos;Homepage&apos; section Navigate to the upper right corner of the page and click on the “Language selector” button" time="1.1690" classname="Navigate to the upper right corner of the page and click on the “Language selector” button">
+    </testcase>
+    <testcase name="The user is able to select the &apos;PT&apos; language on the &apos;Homepage&apos; section From the dropdown menu choose and click on the &apos;PT&apos; button" time="1.1500" classname="From the dropdown menu choose and click on the &apos;PT&apos; button">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to select the &apos;EU&apos; language on the &apos;Homepage&apos; section" timestamp="2021-12-23T14:49:35" tests="3" time="5.2730" failures="0">
+    <testcase name="The user is able to select the &apos;EU&apos; language on the &apos;Homepage&apos; section Open the browser and enter the URL of the staging environment" time="2.8100" classname="Open the browser and enter the URL of the staging environment">
+    </testcase>
+    <testcase name="The user is able to select the &apos;EU&apos; language on the &apos;Homepage&apos; section Navigate to the upper right corner of the page and click on the “Language selector” button" time="1.1740" classname="Navigate to the upper right corner of the page and click on the “Language selector” button">
+    </testcase>
+    <testcase name="The user is able to select the &apos;EU&apos; language on the &apos;Homepage&apos; section From the dropdown menu choose and click on the &apos;EU&apos; button" time="1.1510" classname="From the dropdown menu choose and click on the &apos;EU&apos; button">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to select the &apos;FR&apos; language on the &apos;Homepage&apos; section" timestamp="2021-12-23T14:49:41" tests="3" time="5.3330" failures="0">
+    <testcase name="The user is able to select the &apos;FR&apos; language on the &apos;Homepage&apos; section Open the browser and enter the URL of the staging environment" time="2.8730" classname="Open the browser and enter the URL of the staging environment">
+    </testcase>
+    <testcase name="The user is able to select the &apos;FR&apos; language on the &apos;Homepage&apos; section Navigate to the upper right corner of the page and click on the “Language selector” button" time="1.1750" classname="Navigate to the upper right corner of the page and click on the “Language selector” button">
+    </testcase>
+    <testcase name="The user is able to select the &apos;FR&apos; language on the &apos;Homepage&apos; section From the dropdown menu choose and click on the &apos;FR&apos; button" time="1.1500" classname="From the dropdown menu choose and click on the &apos;FR&apos; button">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to select the &apos;EN&apos; language on the &apos;Homepage&apos; section" timestamp="2021-12-23T14:49:46" tests="3" time="5.7370" failures="0">
+    <testcase name="The user is able to select the &apos;EN&apos; language on the &apos;Homepage&apos; section Open the browser and enter the URL of the staging environment" time="3.2200" classname="Open the browser and enter the URL of the staging environment">
+    </testcase>
+    <testcase name="The user is able to select the &apos;EN&apos; language on the &apos;Homepage&apos; section Navigate to the upper right corner of the page and click on the “Language selector” button" time="1.1920" classname="Navigate to the upper right corner of the page and click on the “Language selector” button">
+    </testcase>
+    <testcase name="The user is able to select the &apos;EN&apos; language on the &apos;Homepage&apos; section From the dropdown menu choose and click on the &apos;EN&apos; button" time="1.1760" classname="From the dropdown menu choose and click on the &apos;EN&apos; button">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is not able to restore password without populating the &apos;Email&apos; field" timestamp="2021-12-23T14:49:52" tests="4" time="5.8140" failures="0">
+    <testcase name="The user is not able to restore password without populating the &apos;Email&apos; field Open the browser and enter the URL of the staging environment" time="2.0550" classname="Open the browser and enter the URL of the staging environment">
+    </testcase>
+    <testcase name="The user is not able to restore password without populating the &apos;Email&apos; field Click on the “I forgot my password” button" time="1.1950" classname="Click on the “I forgot my password” button">
+    </testcase>
+    <testcase name="The user is not able to restore password without populating the &apos;Email&apos; field Click on the “Restore access” button without populating the &apos;Email&apos; field" time="1.1870" classname="Click on the “Restore access” button without populating the &apos;Email&apos; field">
+    </testcase>
+    <testcase name="The user is not able to restore password without populating the &apos;Email&apos; field “Please enter a valid email address.” alert message is displayed" time="1.1820" classname="“Please enter a valid email address.” alert message is displayed">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is not able to restore password with invalid inputs in the &apos;Email&apos; field" timestamp="2021-12-23T14:49:57" tests="5" time="7.9610" failures="0">
+    <testcase name="The user is not able to restore password with invalid inputs in the &apos;Email&apos; field Open the browser and enter the URL of the staging environment" time="2.3510" classname="Open the browser and enter the URL of the staging environment">
+    </testcase>
+    <testcase name="The user is not able to restore password with invalid inputs in the &apos;Email&apos; field Click on the “I forgot my password” button" time="1.4590" classname="Click on the “I forgot my password” button">
+    </testcase>
+    <testcase name="The user is not able to restore password with invalid inputs in the &apos;Email&apos; field Populate the “Email” field with invalid email format" time="1.5410" classname="Populate the “Email” field with invalid email format">
+    </testcase>
+    <testcase name="The user is not able to restore password with invalid inputs in the &apos;Email&apos; field Click on the “Restore access” button" time="1.2000" classname="Click on the “Restore access” button">
+    </testcase>
+    <testcase name="The user is not able to restore password with invalid inputs in the &apos;Email&apos; field “Please enter a valid email address.” alert message is displayed" time="1.1640" classname="“Please enter a valid email address.” alert message is displayed">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is not able to restore password with email that is not verified" timestamp="2021-12-23T14:50:05" tests="5" time="11.2800" failures="1">
+    <testcase name="The user is not able to restore password with email that is not verified Open the browser and enter the URL of the staging environment" time="2.5300" classname="Open the browser and enter the URL of the staging environment">
+    </testcase>
+    <testcase name="The user is not able to restore password with email that is not verified Click on the “I forgot my password” button" time="1.2430" classname="Click on the “I forgot my password” button">
+    </testcase>
+    <testcase name="The user is not able to restore password with email that is not verified Populate the “Email” field with invalid email format" time="1.5990" classname="Populate the “Email” field with invalid email format">
+    </testcase>
+    <testcase name="The user is not able to restore password with email that is not verified Click on the “Restore access” button" time="1.1950" classname="Click on the “Restore access” button">
+    </testcase>
+    <testcase name="The user is not able to restore password with email that is not verified “The email was not verified or does not exist.” alert message is displayed" time="0.0000" classname="“The email was not verified or does not exist.” alert message is displayed">
+      <failure message="Timed out retrying: Expected to find element: `#restore-password-email-input-error-text`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#restore-password-email-input-error-text`, but never found it.
+    at ensureExistence (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+  </testsuite>
+</testsuites>

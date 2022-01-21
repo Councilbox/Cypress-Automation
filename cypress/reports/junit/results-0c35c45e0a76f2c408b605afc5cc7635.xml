@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="38.0360" tests="20" failures="0">
+  <testsuite name="Root Suite" timestamp="2022-01-04T15:53:58" tests="0" file="cypress\integration\1.Smoke\1.Account_section.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="The user is able to create a new account in Councilbox" timestamp="2022-01-04T15:53:58" tests="8" time="15.0760" failures="0">
+    <testcase name="The user is able to create a new account in Councilbox Open the browser and enter the URL: https://app.councilbox.com/" time="6.6930" classname="Open the browser and enter the URL: https://app.councilbox.com/">
+    </testcase>
+    <testcase name="The user is able to create a new account in Councilbox Change language to Spanish" time="0.2440" classname="Change language to Spanish">
+    </testcase>
+    <testcase name="The user is able to create a new account in Councilbox Click on the &apos;Registarse&apos; button" time="0.3530" classname="Click on the &apos;Registarse&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new account in Councilbox Populate all required fields" time="4.2730" classname="Populate all required fields">
+    </testcase>
+    <testcase name="The user is able to create a new account in Councilbox Click on the checkbox button to accept the &apos;términos y condiciones de councilbox&apos;" time="0.1270" classname="Click on the checkbox button to accept the &apos;términos y condiciones de councilbox&apos;">
+    </testcase>
+    <testcase name="The user is able to create a new account in Councilbox Click on the &apos;Enviar button&apos;" time="0.1090" classname="Click on the &apos;Enviar button&apos;">
+    </testcase>
+    <testcase name="The user is able to create a new account in Councilbox User should be registered successfully" time="1.0560" classname="User should be registered successfully">
+    </testcase>
+    <testcase name="The user is able to create a new account in Councilbox Open email application and navigate to the activation email" time="0.0200" classname="Open email application and navigate to the activation email">
+    </testcase>
+  </testsuite>
+  <testsuite name="Councilbox login - valid username and password" timestamp="2022-01-04T15:54:13" tests="5" time="9.4320" failures="0">
+    <testcase name="Councilbox login - valid username and password Visits the Councilbox web page" time="4.6060" classname="Visits the Councilbox web page">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Change language to Spanish" time="0.2680" classname="Change language to Spanish">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters email address" time="0.9860" classname="Enters email address">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters password" time="0.4090" classname="Enters password">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Clicks login button" time="3.1200" classname="Clicks login button">
+    </testcase>
+  </testsuite>
+  <testsuite name="Log Out" timestamp="2022-01-04T15:54:23" tests="3" time="0.3540" failures="0">
+    <testcase name="Log Out Opens dropdown in upper right corner" time="0.1260" classname="Opens dropdown in upper right corner">
+    </testcase>
+    <testcase name="Log Out Clicks logout" time="0.1930" classname="Clicks logout">
+    </testcase>
+    <testcase name="Log Out User successfully redirected to login page" time="0.0200" classname="User successfully redirected to login page">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to restore a password" timestamp="2022-01-04T15:54:23" tests="4" time="13.1330" failures="0">
+    <testcase name="The user is able to restore a password Click on the &apos;Olvide mi contrasena?&apos;&apos; button" time="0.3010" classname="Click on the &apos;Olvide mi contrasena?&apos;&apos; button">
+    </testcase>
+    <testcase name="The user is able to restore a password Enter your Email and click on the &apos;Restablecer acceso&apos; button" time="1.0460" classname="Enter your Email and click on the &apos;Restablecer acceso&apos; button">
+    </testcase>
+    <testcase name="The user is able to restore a password Open your email application" time="3.9520" classname="Open your email application">
+    </testcase>
+    <testcase name="The user is able to restore a password Back to Home page" time="4.1340" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+</testsuites>

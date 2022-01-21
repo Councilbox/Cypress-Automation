@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="134.9420" tests="65" failures="0">
+  <testsuite name="Root Suite" timestamp="2021-12-23T15:11:31" tests="0" file="cypress\integration\2.Regression\7.Knowledge_Base_section.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Councilbox login - valid username and password" timestamp="2021-12-23T15:11:31" tests="4" time="7.4060" failures="0">
+    <testcase name="Councilbox login - valid username and password Visits the Councilbox web page" time="2.7800" classname="Visits the Councilbox web page">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters email address" time="1.6180" classname="Enters email address">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters password" time="0.3680" classname="Enters password">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Clicks login button" time="1.2270" classname="Clicks login button">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to create a new folder in the &apos;Knowledge base&apos; section" timestamp="2021-12-23T15:11:39" tests="5" time="11.8050" failures="0">
+    <testcase name="The user is able to create a new folder in the &apos;Knowledge base&apos; section From the menu choose and click on the &apos;Knowledge base&apos; option" time="2.5670" classname="From the menu choose and click on the &apos;Knowledge base&apos; option">
+    </testcase>
+    <testcase name="The user is able to create a new folder in the &apos;Knowledge base&apos; section Click on the &apos;My docs&apos; button" time="1.1570" classname="Click on the &apos;My docs&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new folder in the &apos;Knowledge base&apos; section From the drop down menu choose and click on the &apos;New folder&apos; button" time="1.1540" classname="From the drop down menu choose and click on the &apos;New folder&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new folder in the &apos;Knowledge base&apos; section Add a title of the new folder and click on the &apos;OK&apos; button" time="1.5820" classname="Add a title of the new folder and click on the &apos;OK&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new folder in the &apos;Knowledge base&apos; section Back to Home page" time="5.2170" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to edit a folder name in the &apos;Knowledge base&apos; section" timestamp="2021-12-23T15:11:51" tests="7" time="13.0380" failures="0">
+    <testcase name="The user is able to edit a folder name in the &apos;Knowledge base&apos; section From the menu choose and click on the &apos;Knowledge base&apos; option" time="1.2020" classname="From the menu choose and click on the &apos;Knowledge base&apos; option">
+    </testcase>
+    <testcase name="The user is able to edit a folder name in the &apos;Knowledge base&apos; section Click on the &apos;My docs&apos; button" time="1.1620" classname="Click on the &apos;My docs&apos; button">
+    </testcase>
+    <testcase name="The user is able to edit a folder name in the &apos;Knowledge base&apos; section From the drop down menu choose and click on the &apos;New folder&apos; button" time="1.1620" classname="From the drop down menu choose and click on the &apos;New folder&apos; button">
+    </testcase>
+    <testcase name="The user is able to edit a folder name in the &apos;Knowledge base&apos; section Add a title of the new folder and click on the &apos;OK&apos; button" time="1.6020" classname="Add a title of the new folder and click on the &apos;OK&apos; button">
+    </testcase>
+    <testcase name="The user is able to edit a folder name in the &apos;Knowledge base&apos; section Navigate to the already added folder and click on the &apos;Edit&apos; button" time="1.1910" classname="Navigate to the already added folder and click on the &apos;Edit&apos; button">
+    </testcase>
+    <testcase name="The user is able to edit a folder name in the &apos;Knowledge base&apos; section Populate the field with changes you want and click &apos;OK&apos; button" time="1.5810" classname="Populate the field with changes you want and click &apos;OK&apos; button">
+    </testcase>
+    <testcase name="The user is able to edit a folder name in the &apos;Knowledge base&apos; section Back to Home page" time="4.9080" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to delete already added folder in the &apos;Knowledge base&apos; section" timestamp="2021-12-23T15:12:04" tests="5" time="8.7800" failures="0">
+    <testcase name="The user is able to delete already added folder in the &apos;Knowledge base&apos; section From the menu choose and click on the &apos;Knowledge base&apos; option" time="1.2060" classname="From the menu choose and click on the &apos;Knowledge base&apos; option">
+    </testcase>
+    <testcase name="The user is able to delete already added folder in the &apos;Knowledge base&apos; section Navigate to already created folder and click on the &apos;Delete&apos; button" time="1.1790" classname="Navigate to already created folder and click on the &apos;Delete&apos; button">
+    </testcase>
+    <testcase name="The user is able to delete already added folder in the &apos;Knowledge base&apos; section &apos;Are you sure you want to delete the folder and all its contents?&apos;&apos; alert message is displayed" time="0.0290" classname="&apos;Are you sure you want to delete the folder and all its contents?&apos;&apos; alert message is displayed">
+    </testcase>
+    <testcase name="The user is able to delete already added folder in the &apos;Knowledge base&apos; section Click on the &apos;OK&apos; button" time="1.1680" classname="Click on the &apos;OK&apos; button">
+    </testcase>
+    <testcase name="The user is able to delete already added folder in the &apos;Knowledge base&apos; section Back to Home page" time="5.0630" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+  <testsuite name="The alert message is displayed when the user clicks on the &apos;Back&apos; button without saving changes in the &apos;New template&apos; section" timestamp="2021-12-23T15:12:12" tests="6" time="10.4300" failures="0">
+    <testcase name="The alert message is displayed when the user clicks on the &apos;Back&apos; button without saving changes in the &apos;New template&apos; section From the menu choose and click on the &apos;Knowledge base&apos; option" time="1.1970" classname="From the menu choose and click on the &apos;Knowledge base&apos; option">
+    </testcase>
+    <testcase name="The alert message is displayed when the user clicks on the &apos;Back&apos; button without saving changes in the &apos;New template&apos; section Click on the &apos;Templates&apos; button" time="1.1710" classname="Click on the &apos;Templates&apos; button">
+    </testcase>
+    <testcase name="The alert message is displayed when the user clicks on the &apos;Back&apos; button without saving changes in the &apos;New template&apos; section Click on the &apos;New template&apos; button" time="0.1510" classname="Click on the &apos;New template&apos; button">
+    </testcase>
+    <testcase name="The alert message is displayed when the user clicks on the &apos;Back&apos; button without saving changes in the &apos;New template&apos; section Populate all required fields and click on the &apos;Back&apos; button" time="1.6120" classname="Populate all required fields and click on the &apos;Back&apos; button">
+    </testcase>
+    <testcase name="The alert message is displayed when the user clicks on the &apos;Back&apos; button without saving changes in the &apos;New template&apos; section &apos;Has unsaved changes&apos; alert message is successfully displayed" time="1.1690" classname="&apos;Has unsaved changes&apos; alert message is successfully displayed">
+    </testcase>
+    <testcase name="The alert message is displayed when the user clicks on the &apos;Back&apos; button without saving changes in the &apos;New template&apos; section Back to Home page" time="4.9440" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to download template in the &apos;Knowledge base&apos; section" timestamp="2021-12-23T15:12:23" tests="6" time="10.1780" failures="0">
+    <testcase name="The user is able to download template in the &apos;Knowledge base&apos; section From the menu choose and click on the &apos;Knowledge base&apos; option" time="1.2220" classname="From the menu choose and click on the &apos;Knowledge base&apos; option">
+    </testcase>
+    <testcase name="The user is able to download template in the &apos;Knowledge base&apos; section Click on the &apos;Templates&apos; button" time="1.1720" classname="Click on the &apos;Templates&apos; button">
+    </testcase>
+    <testcase name="The user is able to download template in the &apos;Knowledge base&apos; section Click on the &apos;Download templates&apos; button" time="0.1540" classname="Click on the &apos;Download templates&apos; button">
+    </testcase>
+    <testcase name="The user is able to download template in the &apos;Knowledge base&apos; section From the list of templates choose and click on the checkbox to select a template you want to download" time="1.5720" classname="From the list of templates choose and click on the checkbox to select a template you want to download">
+    </testcase>
+    <testcase name="The user is able to download template in the &apos;Knowledge base&apos; section Click on the “Download 1 Template to “My Drafts” +” section" time="1.1380" classname="Click on the “Download 1 Template to “My Drafts” +” section">
+    </testcase>
+    <testcase name="The user is able to download template in the &apos;Knowledge base&apos; section Back to Home page" time="4.7340" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to delete template in the &apos;Knowledge base&apos; section" timestamp="2021-12-23T15:12:33" tests="5" time="10.6310" failures="0">
+    <testcase name="The user is able to delete template in the &apos;Knowledge base&apos; section From the menu choose and click on the &apos;Knowledge base&apos; option" time="1.1800" classname="From the menu choose and click on the &apos;Knowledge base&apos; option">
+    </testcase>
+    <testcase name="The user is able to delete template in the &apos;Knowledge base&apos; section Click on the &apos;Templates&apos; button" time="1.1730" classname="Click on the &apos;Templates&apos; button">
+    </testcase>
+    <testcase name="The user is able to delete template in the &apos;Knowledge base&apos; section Navigate to the template you want to delete and hover it then click on the “X” button" time="1.1010" classname="Navigate to the template you want to delete and hover it then click on the “X” button">
+    </testcase>
+    <testcase name="The user is able to delete template in the &apos;Knowledge base&apos; section Click on the &apos;Delete&apos; button" time="2.4010" classname="Click on the &apos;Delete&apos; button">
+    </testcase>
+    <testcase name="The user is able to delete template in the &apos;Knowledge base&apos; section Back to Home page" time="4.6410" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to use filter search in the &apos;Templates&apos; section" timestamp="2021-12-23T15:12:44" tests="6" time="9.9490" failures="0">
+    <testcase name="The user is able to use filter search in the &apos;Templates&apos; section From the menu choose and click on the &apos;Knowledge base&apos; option" time="1.2020" classname="From the menu choose and click on the &apos;Knowledge base&apos; option">
+    </testcase>
+    <testcase name="The user is able to use filter search in the &apos;Templates&apos; section Click on the &apos;Templates&apos; button" time="1.1580" classname="Click on the &apos;Templates&apos; button">
+    </testcase>
+    <testcase name="The user is able to use filter search in the &apos;Templates&apos; section Navigate to the filter search in the upper right corner and click on it" time="1.1770" classname="Navigate to the filter search in the upper right corner and click on it">
+    </testcase>
+    <testcase name="The user is able to use filter search in the &apos;Templates&apos; section Populate the field with the template name you want to find" time="1.4300" classname="Populate the field with the template name you want to find">
+    </testcase>
+    <testcase name="The user is able to use filter search in the &apos;Templates&apos; section The searched template is successfully displayed in the template list" time="0.0290" classname="The searched template is successfully displayed in the template list">
+    </testcase>
+    <testcase name="The user is able to use filter search in the &apos;Templates&apos; section Back to Home page" time="4.7590" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to edit already added tag in the &apos;Knowledge base&apos; section" timestamp="2021-12-23T15:12:54" tests="5" time="12.4660" failures="0">
+    <testcase name="The user is able to edit already added tag in the &apos;Knowledge base&apos; section From the menu choose and click on the &apos;Knowledge base&apos; option" time="1.2000" classname="From the menu choose and click on the &apos;Knowledge base&apos; option">
+    </testcase>
+    <testcase name="The user is able to edit already added tag in the &apos;Knowledge base&apos; section Click on the &apos;Tags&apos; button" time="1.1530" classname="Click on the &apos;Tags&apos; button">
+    </testcase>
+    <testcase name="The user is able to edit already added tag in the &apos;Knowledge base&apos; section Navigate to the tag you want to edit and hover it then click on the &apos;edit&apos; button" time="2.2690" classname="Navigate to the tag you want to edit and hover it then click on the &apos;edit&apos; button">
+    </testcase>
+    <testcase name="The user is able to edit already added tag in the &apos;Knowledge base&apos; section Modify tag with changes you want and click on the &apos;Save&apos; button" time="2.6380" classname="Modify tag with changes you want and click on the &apos;Save&apos; button">
+    </testcase>
+    <testcase name="The user is able to edit already added tag in the &apos;Knowledge base&apos; section Back to Home page" time="5.0750" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to edit already existing template in the &apos;Templates&apos; section" timestamp="2021-12-23T15:13:06" tests="5" time="12.5660" failures="0">
+    <testcase name="The user is able to edit already existing template in the &apos;Templates&apos; section From the menu choose and click on the &apos;Knowledge base&apos; option" time="1.3650" classname="From the menu choose and click on the &apos;Knowledge base&apos; option">
+    </testcase>
+    <testcase name="The user is able to edit already existing template in the &apos;Templates&apos; section Click on the &apos;Templates&apos; button" time="1.1580" classname="Click on the &apos;Templates&apos; button">
+    </testcase>
+    <testcase name="The user is able to edit already existing template in the &apos;Templates&apos; section Navigate to the template you want to edit and hover it then click on the &apos;edit&apos; button" time="2.2800" classname="Navigate to the template you want to edit and hover it then click on the &apos;edit&apos; button">
+    </testcase>
+    <testcase name="The user is able to edit already existing template in the &apos;Templates&apos; section Modify tag with changes you want and click on the &apos;Save&apos; button" time="2.7760" classname="Modify tag with changes you want and click on the &apos;Save&apos; button">
+    </testcase>
+    <testcase name="The user is able to edit already existing template in the &apos;Templates&apos; section Back to Home page" time="4.8530" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to delete already added tag in the &apos;Knowledge base&apos; section" timestamp="2021-12-23T15:13:19" tests="5" time="11.2390" failures="0">
+    <testcase name="The user is able to delete already added tag in the &apos;Knowledge base&apos; section From the menu choose and click on the &apos;Knowledge base&apos; option" time="1.1990" classname="From the menu choose and click on the &apos;Knowledge base&apos; option">
+    </testcase>
+    <testcase name="The user is able to delete already added tag in the &apos;Knowledge base&apos; section Click on the &apos;Tags&apos; button" time="1.1680" classname="Click on the &apos;Tags&apos; button">
+    </testcase>
+    <testcase name="The user is able to delete already added tag in the &apos;Knowledge base&apos; section Navigate to the template you want to edit and hover it then click on the &apos;Delete&apos; button" time="2.3270" classname="Navigate to the template you want to edit and hover it then click on the &apos;Delete&apos; button">
+    </testcase>
+    <testcase name="The user is able to delete already added tag in the &apos;Knowledge base&apos; section Modify tag with changes you want and click on the &apos;Save&apos; button" time="1.6270" classname="Modify tag with changes you want and click on the &apos;Save&apos; button">
+    </testcase>
+    <testcase name="The user is able to delete already added tag in the &apos;Knowledge base&apos; section Back to Home page" time="4.7700" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+  <testsuite name="The alert message is successfully displayed when the user clicks on the &apos;Cancel&apos; button without saving changes in the &apos;Edit tag&apos; section" timestamp="2021-12-23T15:13:30" tests="6" time="16.3850" failures="0">
+    <testcase name="The alert message is successfully displayed when the user clicks on the &apos;Cancel&apos; button without saving changes in the &apos;Edit tag&apos; section From the menu choose and click on the &apos;Knowledge base&apos; option" time="1.1950" classname="From the menu choose and click on the &apos;Knowledge base&apos; option">
+    </testcase>
+    <testcase name="The alert message is successfully displayed when the user clicks on the &apos;Cancel&apos; button without saving changes in the &apos;Edit tag&apos; section Click on the &apos;Tags&apos; button" time="1.1510" classname="Click on the &apos;Tags&apos; button">
+    </testcase>
+    <testcase name="The alert message is successfully displayed when the user clicks on the &apos;Cancel&apos; button without saving changes in the &apos;Edit tag&apos; section Navigate to the template you want to edit and hover it then click on the &apos;Edit&apos; button" time="2.3240" classname="Navigate to the template you want to edit and hover it then click on the &apos;Edit&apos; button">
+    </testcase>
+    <testcase name="The alert message is successfully displayed when the user clicks on the &apos;Cancel&apos; button without saving changes in the &apos;Edit tag&apos; section Populate all required fields and click on the &apos;Cancel&apos; button" time="2.6470" classname="Populate all required fields and click on the &apos;Cancel&apos; button">
+    </testcase>
+    <testcase name="The alert message is successfully displayed when the user clicks on the &apos;Cancel&apos; button without saving changes in the &apos;Edit tag&apos; section &apos;Has changes without saving&apos; alert message is successfully displayed" time="1.1640" classname="&apos;Has changes without saving&apos; alert message is successfully displayed">
+    </testcase>
+    <testcase name="The alert message is successfully displayed when the user clicks on the &apos;Cancel&apos; button without saving changes in the &apos;Edit tag&apos; section Back to Home page" time="7.6880" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+</testsuites>

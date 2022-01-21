@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="940.8680" tests="255" failures="2">
+  <testsuite name="Root Suite" timestamp="2021-12-23T15:16:25" tests="0" file="cypress\integration\2.Regression\9.&apos;Net meeting&apos; section (With Session - admin side).js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Councilbox login - valid username and password" timestamp="2021-12-23T15:16:25" tests="4" time="8.3620" failures="0">
+    <testcase name="Councilbox login - valid username and password Visits the Councilbox web page" time="2.9220" classname="Visits the Councilbox web page">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters email address" time="1.1160" classname="Enters email address">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters password" time="0.7870" classname="Enters password">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Clicks login button" time="1.4810" classname="Clicks login button">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to start council in the &apos;New meeting with session&apos; section" timestamp="2021-12-23T15:16:33" tests="14" time="55.9060" failures="0">
+    <testcase name="The user is able to start council in the &apos;New meeting with session&apos; section Click on the &apos;New meeting&apos; button" time="0.6760" classname="Click on the &apos;New meeting&apos; button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New meeting with session&apos; section Click on the “With session” button" time="3.3380" classname="Click on the “With session” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New meeting with session&apos; section Populate all required fields and click on the “Next” button" time="2.7680" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New meeting with session&apos; section Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button" time="12.9160" classname="Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New meeting with session&apos; section Click on the “Add item to the agenda+” button" time="0.4920" classname="Click on the “Add item to the agenda+” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New meeting with session&apos; section Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button" time="7.9960" classname="Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New meeting with session&apos; section Populate all required fields and click on the “Next” button" time="3.0490" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New meeting with session&apos; section Click on the “Invite and notify” button" time="3.1660" classname="Click on the “Invite and notify” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New meeting with session&apos; section Click on the “Prepare room” button" time="0.1690" classname="Click on the “Prepare room” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New meeting with session&apos; section Navigate to the upper right corner and click on the “Open room” button" time="2.3330" classname="Navigate to the upper right corner and click on the “Open room” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New meeting with session&apos; section Populate all required fields and click on the “OK” button" time="10.1730" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New meeting with session&apos; section Navigate to the upper right corner and click on the “Start meeting” button" time="2.2240" classname="Navigate to the upper right corner and click on the “Start meeting” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New meeting with session&apos; section Populate all required fields and click on the “OK” button" time="1.6560" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New meeting with session&apos; section User should be able to exit the meeting" time="3.9860" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to open item in the &apos;New meeting with session&apos; type of meeting" timestamp="2021-12-23T15:17:29" tests="15" time="62.1890" failures="0">
+    <testcase name="The user is able to open item in the &apos;New meeting with session&apos; type of meeting Click on the &apos;New meeting&apos; button" time="2.5360" classname="Click on the &apos;New meeting&apos; button">
+    </testcase>
+    <testcase name="The user is able to open item in the &apos;New meeting with session&apos; type of meeting Click on the “With session” button" time="3.1800" classname="Click on the “With session” button">
+    </testcase>
+    <testcase name="The user is able to open item in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “Next” button" time="2.7710" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to open item in the &apos;New meeting with session&apos; type of meeting Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button" time="12.9960" classname="Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to open item in the &apos;New meeting with session&apos; type of meeting Click on the “Add item to the agenda+” button" time="0.7550" classname="Click on the “Add item to the agenda+” button">
+    </testcase>
+    <testcase name="The user is able to open item in the &apos;New meeting with session&apos; type of meeting Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button" time="7.9920" classname="Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to open item in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “Next” button" time="3.0450" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to open item in the &apos;New meeting with session&apos; type of meeting Click on the “Invite and notify” button" time="3.1580" classname="Click on the “Invite and notify” button">
+    </testcase>
+    <testcase name="The user is able to open item in the &apos;New meeting with session&apos; type of meeting Click on the “Prepare room” button" time="0.1710" classname="Click on the “Prepare room” button">
+    </testcase>
+    <testcase name="The user is able to open item in the &apos;New meeting with session&apos; type of meeting Navigate to the upper right corner and click on the “Open room” button" time="2.1090" classname="Navigate to the upper right corner and click on the “Open room” button">
+    </testcase>
+    <testcase name="The user is able to open item in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “OK” button" time="10.1650" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to open item in the &apos;New meeting with session&apos; type of meeting Navigate to the upper right corner and click on the “Start meeting” button" time="2.1970" classname="Navigate to the upper right corner and click on the “Start meeting” button">
+    </testcase>
+    <testcase name="The user is able to open item in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “OK” button" time="1.7480" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to open item in the &apos;New meeting with session&apos; type of meeting Click on the “Open Item” button" time="2.6420" classname="Click on the “Open Item” button">
+    </testcase>
+    <testcase name="The user is able to open item in the &apos;New meeting with session&apos; type of meeting User should be able to exit the meeting" time="5.7150" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to activate voting in the &apos;New meeting with session&apos; type of meeting" timestamp="2021-12-23T15:18:31" tests="15" time="61.9940" failures="0">
+    <testcase name="The user is able to activate voting in the &apos;New meeting with session&apos; type of meeting Click on the &apos;New meeting&apos; button" time="3.3930" classname="Click on the &apos;New meeting&apos; button">
+    </testcase>
+    <testcase name="The user is able to activate voting in the &apos;New meeting with session&apos; type of meeting Click on the “With session” button" time="3.1630" classname="Click on the “With session” button">
+    </testcase>
+    <testcase name="The user is able to activate voting in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “Next” button" time="2.5800" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to activate voting in the &apos;New meeting with session&apos; type of meeting Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button" time="12.9050" classname="Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to activate voting in the &apos;New meeting with session&apos; type of meeting Click on the “Add item to the agenda+” button" time="0.5810" classname="Click on the “Add item to the agenda+” button">
+    </testcase>
+    <testcase name="The user is able to activate voting in the &apos;New meeting with session&apos; type of meeting Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button" time="8.0400" classname="Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to activate voting in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “Next” button" time="3.0170" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to activate voting in the &apos;New meeting with session&apos; type of meeting Click on the “Invite and notify” button" time="3.1620" classname="Click on the “Invite and notify” button">
+    </testcase>
+    <testcase name="The user is able to activate voting in the &apos;New meeting with session&apos; type of meeting Click on the “Prepare room” button" time="0.1720" classname="Click on the “Prepare room” button">
+    </testcase>
+    <testcase name="The user is able to activate voting in the &apos;New meeting with session&apos; type of meeting Navigate to the upper right corner and click on the “Open room” button" time="2.1090" classname="Navigate to the upper right corner and click on the “Open room” button">
+    </testcase>
+    <testcase name="The user is able to activate voting in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “OK” button" time="10.1650" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to activate voting in the &apos;New meeting with session&apos; type of meeting Navigate to the upper right corner and click on the “Start meeting” button" time="2.2260" classname="Navigate to the upper right corner and click on the “Start meeting” button">
+    </testcase>
+    <testcase name="The user is able to activate voting in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “OK” button" time="1.8590" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to activate voting in the &apos;New meeting with session&apos; type of meeting Click on the “Activate voting” button" time="2.6280" classname="Click on the “Activate voting” button">
+    </testcase>
+    <testcase name="The user is able to activate voting in the &apos;New meeting with session&apos; type of meeting User should be able to exit the meeting" time="4.9530" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to close voting on item in the &apos;New meeting with session&apos; type of meeting" timestamp="2021-12-23T15:19:33" tests="16" time="62.7660" failures="0">
+    <testcase name="The user is able to close voting on item in the &apos;New meeting with session&apos; type of meeting Click on the &apos;New meeting&apos; button" time="3.8610" classname="Click on the &apos;New meeting&apos; button">
+    </testcase>
+    <testcase name="The user is able to close voting on item in the &apos;New meeting with session&apos; type of meeting Click on the “With session” button" time="3.1710" classname="Click on the “With session” button">
+    </testcase>
+    <testcase name="The user is able to close voting on item in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “Next” button" time="2.7770" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to close voting on item in the &apos;New meeting with session&apos; type of meeting Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button" time="12.9860" classname="Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to close voting on item in the &apos;New meeting with session&apos; type of meeting Click on the “Add item to the agenda+” button" time="0.3870" classname="Click on the “Add item to the agenda+” button">
+    </testcase>
+    <testcase name="The user is able to close voting on item in the &apos;New meeting with session&apos; type of meeting Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button" time="8.0180" classname="Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to close voting on item in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “Next” button" time="3.0470" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to close voting on item in the &apos;New meeting with session&apos; type of meeting Click on the “Invite and notify” button" time="3.1640" classname="Click on the “Invite and notify” button">
+    </testcase>
+    <testcase name="The user is able to close voting on item in the &apos;New meeting with session&apos; type of meeting Click on the “Prepare room” button" time="0.1770" classname="Click on the “Prepare room” button">
+    </testcase>
+    <testcase name="The user is able to close voting on item in the &apos;New meeting with session&apos; type of meeting Navigate to the upper right corner and click on the “Open room” button" time="2.2290" classname="Navigate to the upper right corner and click on the “Open room” button">
+    </testcase>
+    <testcase name="The user is able to close voting on item in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “OK” button" time="10.1730" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to close voting on item in the &apos;New meeting with session&apos; type of meeting Navigate to the upper right corner and click on the “Start meeting” button" time="2.2210" classname="Navigate to the upper right corner and click on the “Start meeting” button">
+    </testcase>
+    <testcase name="The user is able to close voting on item in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “OK” button" time="1.6590" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to close voting on item in the &apos;New meeting with session&apos; type of meeting Click on the “Activate voting” button" time="2.6350" classname="Click on the “Activate voting” button">
+    </testcase>
+    <testcase name="The user is able to close voting on item in the &apos;New meeting with session&apos; type of meeting Click on the &apos;Close voting on the item&apos; button" time="1.2290" classname="Click on the &apos;Close voting on the item&apos; button">
+    </testcase>
+    <testcase name="The user is able to close voting on item in the &apos;New meeting with session&apos; type of meeting User should be able to exit the meeting" time="3.9210" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to close item in the &apos;New meeting with session&apos; type of meeting" timestamp="2021-12-23T15:20:36" tests="16" time="61.9380" failures="0">
+    <testcase name="The user is able to close item in the &apos;New meeting with session&apos; type of meeting Click on the &apos;New meeting&apos; button" time="2.5700" classname="Click on the &apos;New meeting&apos; button">
+    </testcase>
+    <testcase name="The user is able to close item in the &apos;New meeting with session&apos; type of meeting Click on the “With session” button" time="3.1760" classname="Click on the “With session” button">
+    </testcase>
+    <testcase name="The user is able to close item in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “Next” button" time="2.7590" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to close item in the &apos;New meeting with session&apos; type of meeting Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button" time="12.9840" classname="Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to close item in the &apos;New meeting with session&apos; type of meeting Click on the “Add item to the agenda+” button" time="0.4240" classname="Click on the “Add item to the agenda+” button">
+    </testcase>
+    <testcase name="The user is able to close item in the &apos;New meeting with session&apos; type of meeting Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button" time="7.9820" classname="Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to close item in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “Next” button" time="3.0230" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to close item in the &apos;New meeting with session&apos; type of meeting Click on the “Invite and notify” button" time="3.1650" classname="Click on the “Invite and notify” button">
+    </testcase>
+    <testcase name="The user is able to close item in the &apos;New meeting with session&apos; type of meeting Click on the “Prepare room” button" time="0.1660" classname="Click on the “Prepare room” button">
+    </testcase>
+    <testcase name="The user is able to close item in the &apos;New meeting with session&apos; type of meeting Navigate to the upper right corner and click on the “Open room” button" time="2.3640" classname="Navigate to the upper right corner and click on the “Open room” button">
+    </testcase>
+    <testcase name="The user is able to close item in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “OK” button" time="10.1820" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to close item in the &apos;New meeting with session&apos; type of meeting Navigate to the upper right corner and click on the “Start meeting” button" time="2.2260" classname="Navigate to the upper right corner and click on the “Start meeting” button">
+    </testcase>
+    <testcase name="The user is able to close item in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “OK” button" time="1.6270" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to close item in the &apos;New meeting with session&apos; type of meeting Click on the “Open Item” button" time="2.6250" classname="Click on the “Open Item” button">
+    </testcase>
+    <testcase name="The user is able to close item in the &apos;New meeting with session&apos; type of meeting Click on the &apos;Close item&apos; button" time="1.2060" classname="Click on the &apos;Close item&apos; button">
+    </testcase>
+    <testcase name="The user is able to close item in the &apos;New meeting with session&apos; type of meeting User should be able to exit the meeting" time="4.4020" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to pause the meeting in the &apos;New meeting with session&apos; type of meeting" timestamp="2021-12-23T15:21:38" tests="18" time="65.9400" failures="0">
+    <testcase name="The user is able to pause the meeting in the &apos;New meeting with session&apos; type of meeting Click on the &apos;New meeting&apos; button" time="2.5230" classname="Click on the &apos;New meeting&apos; button">
+    </testcase>
+    <testcase name="The user is able to pause the meeting in the &apos;New meeting with session&apos; type of meeting Click on the “With session” button" time="3.3190" classname="Click on the “With session” button">
+    </testcase>
+    <testcase name="The user is able to pause the meeting in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “Next” button" time="2.7220" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to pause the meeting in the &apos;New meeting with session&apos; type of meeting Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button" time="12.8200" classname="Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to pause the meeting in the &apos;New meeting with session&apos; type of meeting Click on the “Add item to the agenda+” button" time="0.4940" classname="Click on the “Add item to the agenda+” button">
+    </testcase>
+    <testcase name="The user is able to pause the meeting in the &apos;New meeting with session&apos; type of meeting Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button" time="7.9840" classname="Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to pause the meeting in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “Next” button" time="3.0240" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to pause the meeting in the &apos;New meeting with session&apos; type of meeting Click on the “Invite and notify” button" time="3.1570" classname="Click on the “Invite and notify” button">
+    </testcase>
+    <testcase name="The user is able to pause the meeting in the &apos;New meeting with session&apos; type of meeting Click on the “Prepare room” button" time="0.1620" classname="Click on the “Prepare room” button">
+    </testcase>
+    <testcase name="The user is able to pause the meeting in the &apos;New meeting with session&apos; type of meeting Navigate to the upper right corner and click on the “Open room” button" time="2.2060" classname="Navigate to the upper right corner and click on the “Open room” button">
+    </testcase>
+    <testcase name="The user is able to pause the meeting in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “OK” button" time="10.1690" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to pause the meeting in the &apos;New meeting with session&apos; type of meeting Navigate to the upper right corner and click on the “Start meeting” button" time="2.2130" classname="Navigate to the upper right corner and click on the “Start meeting” button">
+    </testcase>
+    <testcase name="The user is able to pause the meeting in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “OK” button" time="1.6500" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to pause the meeting in the &apos;New meeting with session&apos; type of meeting Click on the “Open Item” button" time="2.6370" classname="Click on the “Open Item” button">
+    </testcase>
+    <testcase name="The user is able to pause the meeting in the &apos;New meeting with session&apos; type of meeting Navigate to the upper right corner and click on the button left to the &apos;Finish meeting&apos; button" time="1.2140" classname="Navigate to the upper right corner and click on the button left to the &apos;Finish meeting&apos; button">
+    </testcase>
+    <testcase name="The user is able to pause the meeting in the &apos;New meeting with session&apos; type of meeting From the menu choose and click on the &apos;Pause the meeting&apos; button" time="1.2300" classname="From the menu choose and click on the &apos;Pause the meeting&apos; button">
+    </testcase>
+    <testcase name="The user is able to pause the meeting in the &apos;New meeting with session&apos; type of meeting Populate the editor with the message and click on the &apos;Confirm&apos; button" time="2.6730" classname="Populate the editor with the message and click on the &apos;Confirm&apos; button">
+    </testcase>
+    <testcase name="The user is able to pause the meeting in the &apos;New meeting with session&apos; type of meeting User should be able to exit the meeting" time="4.5140" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to resume the meeting in the &apos;New meeting with session&apos; type of meeting" timestamp="2021-12-23T15:22:44" tests="19" time="66.6270" failures="0">
+    <testcase name="The user is able to resume the meeting in the &apos;New meeting with session&apos; type of meeting Click on the &apos;New meeting&apos; button" time="4.3420" classname="Click on the &apos;New meeting&apos; button">
+    </testcase>
+    <testcase name="The user is able to resume the meeting in the &apos;New meeting with session&apos; type of meeting Click on the “With session” button" time="3.1680" classname="Click on the “With session” button">
+    </testcase>
+    <testcase name="The user is able to resume the meeting in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “Next” button" time="2.7490" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to resume the meeting in the &apos;New meeting with session&apos; type of meeting Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button" time="12.8520" classname="Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to resume the meeting in the &apos;New meeting with session&apos; type of meeting Click on the “Add item to the agenda+” button" time="0.3600" classname="Click on the “Add item to the agenda+” button">
+    </testcase>
+    <testcase name="The user is able to resume the meeting in the &apos;New meeting with session&apos; type of meeting Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button" time="7.9550" classname="Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to resume the meeting in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “Next” button" time="3.0420" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to resume the meeting in the &apos;New meeting with session&apos; type of meeting Click on the “Invite and notify” button" time="3.1590" classname="Click on the “Invite and notify” button">
+    </testcase>
+    <testcase name="The user is able to resume the meeting in the &apos;New meeting with session&apos; type of meeting Click on the “Prepare room” button" time="0.1640" classname="Click on the “Prepare room” button">
+    </testcase>
+    <testcase name="The user is able to resume the meeting in the &apos;New meeting with session&apos; type of meeting Navigate to the upper right corner and click on the “Open room” button" time="2.2460" classname="Navigate to the upper right corner and click on the “Open room” button">
+    </testcase>
+    <testcase name="The user is able to resume the meeting in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “OK” button" time="10.1770" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to resume the meeting in the &apos;New meeting with session&apos; type of meeting Navigate to the upper right corner and click on the “Start meeting” button" time="2.2130" classname="Navigate to the upper right corner and click on the “Start meeting” button">
+    </testcase>
+    <testcase name="The user is able to resume the meeting in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “OK” button" time="1.6490" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to resume the meeting in the &apos;New meeting with session&apos; type of meeting Click on the “Open Item” button" time="2.6160" classname="Click on the “Open Item” button">
+    </testcase>
+    <testcase name="The user is able to resume the meeting in the &apos;New meeting with session&apos; type of meeting Navigate to the upper right corner and click on the button left to the &apos;Finish meeting&apos; button" time="1.2180" classname="Navigate to the upper right corner and click on the button left to the &apos;Finish meeting&apos; button">
+    </testcase>
+    <testcase name="The user is able to resume the meeting in the &apos;New meeting with session&apos; type of meeting From the menu choose and click on the &apos;Pause the meeting&apos; button" time="1.2230" classname="From the menu choose and click on the &apos;Pause the meeting&apos; button">
+    </testcase>
+    <testcase name="The user is able to resume the meeting in the &apos;New meeting with session&apos; type of meeting Populate the editor with the message and click on the &apos;Confirm&apos; button" time="2.9150" classname="Populate the editor with the message and click on the &apos;Confirm&apos; button">
+    </testcase>
+    <testcase name="The user is able to resume the meeting in the &apos;New meeting with session&apos; type of meeting Click on the &apos;Resume the meeting&apos;" time="1.2570" classname="Click on the &apos;Resume the meeting&apos;">
+    </testcase>
+    <testcase name="The user is able to resume the meeting in the &apos;New meeting with session&apos; type of meeting User should be able to exit the meeting" time="2.0120" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to reopen voting in the &apos;New meeting with session&apos; type of meeting" timestamp="2021-12-23T15:23:51" tests="17" time="64.5920" failures="0">
+    <testcase name="The user is able to reopen voting in the &apos;New meeting with session&apos; type of meeting Click on the &apos;New meeting&apos; button" time="3.0600" classname="Click on the &apos;New meeting&apos; button">
+    </testcase>
+    <testcase name="The user is able to reopen voting in the &apos;New meeting with session&apos; type of meeting Click on the “With session” button" time="3.3330" classname="Click on the “With session” button">
+    </testcase>
+    <testcase name="The user is able to reopen voting in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “Next” button" time="2.6880" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to reopen voting in the &apos;New meeting with session&apos; type of meeting Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button" time="12.7820" classname="Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to reopen voting in the &apos;New meeting with session&apos; type of meeting Click on the “Add item to the agenda+” button" time="0.4200" classname="Click on the “Add item to the agenda+” button">
+    </testcase>
+    <testcase name="The user is able to reopen voting in the &apos;New meeting with session&apos; type of meeting Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button" time="7.9580" classname="Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to reopen voting in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “Next” button" time="3.0020" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to reopen voting in the &apos;New meeting with session&apos; type of meeting Click on the “Invite and notify” button" time="3.1590" classname="Click on the “Invite and notify” button">
+    </testcase>
+    <testcase name="The user is able to reopen voting in the &apos;New meeting with session&apos; type of meeting Click on the “Prepare room” button" time="0.1630" classname="Click on the “Prepare room” button">
+    </testcase>
+    <testcase name="The user is able to reopen voting in the &apos;New meeting with session&apos; type of meeting Navigate to the upper right corner and click on the “Open room” button" time="2.1340" classname="Navigate to the upper right corner and click on the “Open room” button">
+    </testcase>
+    <testcase name="The user is able to reopen voting in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “OK” button" time="10.1640" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to reopen voting in the &apos;New meeting with session&apos; type of meeting Navigate to the upper right corner and click on the “Start meeting” button" time="2.2520" classname="Navigate to the upper right corner and click on the “Start meeting” button">
+    </testcase>
+    <testcase name="The user is able to reopen voting in the &apos;New meeting with session&apos; type of meeting Populate all required fields and click on the “OK” button" time="1.7850" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to reopen voting in the &apos;New meeting with session&apos; type of meeting Click on the “Activate voting” button" time="2.6240" classname="Click on the “Activate voting” button">
+    </testcase>
+    <testcase name="The user is able to reopen voting in the &apos;New meeting with session&apos; type of meeting Click on the &apos;Close voting on the item&apos; button" time="1.2120" classname="Click on the &apos;Close voting on the item&apos; button">
+    </testcase>
+    <testcase name="The user is able to reopen voting in the &apos;New meeting with session&apos; type of meeting Click on the &apos;Reopen voting&apos; button" time="2.5670" classname="Click on the &apos;Reopen voting&apos; button">
+    </testcase>
+    <testcase name="The user is able to reopen voting in the &apos;New meeting with session&apos; type of meeting User should be able to exit the meeting" time="4.1320" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to end meeting in the &apos;New meeting with session&apos; section" timestamp="2021-12-23T15:24:55" tests="19" time="65.5990" failures="0">
+    <testcase name="The user is able to end meeting in the &apos;New meeting with session&apos; section Click on the &apos;New meeting&apos; button" time="2.5450" classname="Click on the &apos;New meeting&apos; button">
+    </testcase>
+    <testcase name="The user is able to end meeting in the &apos;New meeting with session&apos; section Click on the “With session” button" time="3.1660" classname="Click on the “With session” button">
+    </testcase>
+    <testcase name="The user is able to end meeting in the &apos;New meeting with session&apos; section Populate all required fields and click on the “Next” button" time="2.6830" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to end meeting in the &apos;New meeting with session&apos; section Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button" time="12.7480" classname="Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to end meeting in the &apos;New meeting with session&apos; section Click on the “Add item to the agenda+” button" time="0.4160" classname="Click on the “Add item to the agenda+” button">
+    </testcase>
+    <testcase name="The user is able to end meeting in the &apos;New meeting with session&apos; section Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button" time="7.9370" classname="Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to end meeting in the &apos;New meeting with session&apos; section Populate all required fields and click on the “Next” button" time="2.9820" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to end meeting in the &apos;New meeting with session&apos; section Click on the “Invite and notify” button" time="3.1570" classname="Click on the “Invite and notify” button">
+    </testcase>
+    <testcase name="The user is able to end meeting in the &apos;New meeting with session&apos; section Click on the “Prepare room” button" time="0.1620" classname="Click on the “Prepare room” button">
+    </testcase>
+    <testcase name="The user is able to end meeting in the &apos;New meeting with session&apos; section Navigate to the upper right corner and click on the “Open room” button" time="2.2050" classname="Navigate to the upper right corner and click on the “Open room” button">
+    </testcase>
+    <testcase name="The user is able to end meeting in the &apos;New meeting with session&apos; section Populate all required fields and click on the “OK” button" time="10.1650" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to end meeting in the &apos;New meeting with session&apos; section Navigate to the upper right corner and click on the “Start meeting” button" time="2.2180" classname="Navigate to the upper right corner and click on the “Start meeting” button">
+    </testcase>
+    <testcase name="The user is able to end meeting in the &apos;New meeting with session&apos; section Populate all required fields and click on the “OK” button" time="1.6420" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to end meeting in the &apos;New meeting with session&apos; section Click on the “Activate voting” button" time="2.6270" classname="Click on the “Activate voting” button">
+    </testcase>
+    <testcase name="The user is able to end meeting in the &apos;New meeting with session&apos; section Click on the &apos;Close voting on the item&apos; button" time="1.2180" classname="Click on the &apos;Close voting on the item&apos; button">
+    </testcase>
+    <testcase name="The user is able to end meeting in the &apos;New meeting with session&apos; section Click on the &apos;Open item&apos; button" time="2.5550" classname="Click on the &apos;Open item&apos; button">
+    </testcase>
+    <testcase name="The user is able to end meeting in the &apos;New meeting with session&apos; section Click on the &apos;Close item&apos; button" time="1.2070" classname="Click on the &apos;Close item&apos; button">
+    </testcase>
+    <testcase name="The user is able to end meeting in the &apos;New meeting with session&apos; section On the upper right corner click on the &apos;End meeting&apos; button and then click on the &apos;OK&apos; button" time="2.5190" classname="On the upper right corner click on the &apos;End meeting&apos; button and then click on the &apos;OK&apos; button">
+    </testcase>
+    <testcase name="The user is able to end meeting in the &apos;New meeting with session&apos; section User should be able to exit the meeting" time="2.2020" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to download meeting in &apos;Recordings&apos; section" timestamp="2021-12-23T15:26:01" tests="21" time="87.8640" failures="1">
+    <testcase name="The user is able to download meeting in &apos;Recordings&apos; section Click on the &apos;New meeting&apos; button" time="3.5580" classname="Click on the &apos;New meeting&apos; button">
+    </testcase>
+    <testcase name="The user is able to download meeting in &apos;Recordings&apos; section Click on the “With session” button" time="3.3290" classname="Click on the “With session” button">
+    </testcase>
+    <testcase name="The user is able to download meeting in &apos;Recordings&apos; section Populate all required fields and click on the “Next” button" time="2.6780" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to download meeting in &apos;Recordings&apos; section Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button" time="12.6880" classname="Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to download meeting in &apos;Recordings&apos; section Click on the “Add item to the agenda+” button" time="0.5040" classname="Click on the “Add item to the agenda+” button">
+    </testcase>
+    <testcase name="The user is able to download meeting in &apos;Recordings&apos; section Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button" time="7.9120" classname="Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to download meeting in &apos;Recordings&apos; section Select the checkbox next to the “Recording of entire meeting” option and click on the &apos;Next&apos; button" time="1.2030" classname="Select the checkbox next to the “Recording of entire meeting” option and click on the &apos;Next&apos; button">
+    </testcase>
+    <testcase name="The user is able to download meeting in &apos;Recordings&apos; section Populate all required fields and click on the “Next” button" time="2.9970" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to download meeting in &apos;Recordings&apos; section Click on the “Invite and notify” button" time="3.1540" classname="Click on the “Invite and notify” button">
+    </testcase>
+    <testcase name="The user is able to download meeting in &apos;Recordings&apos; section Click on the “Prepare room” button" time="0.1810" classname="Click on the “Prepare room” button">
+    </testcase>
+    <testcase name="The user is able to download meeting in &apos;Recordings&apos; section Navigate to the upper right corner and click on the “Open room” button" time="2.2840" classname="Navigate to the upper right corner and click on the “Open room” button">
+    </testcase>
+    <testcase name="The user is able to download meeting in &apos;Recordings&apos; section Populate all required fields and click on the “OK” button" time="10.1620" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to download meeting in &apos;Recordings&apos; section Navigate to the upper right corner and click on the “Start meeting” button" time="2.1880" classname="Navigate to the upper right corner and click on the “Start meeting” button">
+    </testcase>
+    <testcase name="The user is able to download meeting in &apos;Recordings&apos; section Populate all required fields and click on the “OK” button" time="3.5050" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to download meeting in &apos;Recordings&apos; section Click on the “Activate voting” button" time="2.6640" classname="Click on the “Activate voting” button">
+    </testcase>
+    <testcase name="The user is able to download meeting in &apos;Recordings&apos; section Click on the &apos;Close voting on the item&apos; button" time="1.2070" classname="Click on the &apos;Close voting on the item&apos; button">
+    </testcase>
+    <testcase name="The user is able to download meeting in &apos;Recordings&apos; section Click on the &apos;Open item&apos; button" time="2.5560" classname="Click on the &apos;Open item&apos; button">
+    </testcase>
+    <testcase name="The user is able to download meeting in &apos;Recordings&apos; section Click on the &apos;Close item&apos; button" time="1.2300" classname="Click on the &apos;Close item&apos; button">
+    </testcase>
+    <testcase name="The user is able to download meeting in &apos;Recordings&apos; section On the upper right corner click on the &apos;End meeting&apos; button and then click on the &apos;OK&apos; button" time="2.5400" classname="On the upper right corner click on the &apos;End meeting&apos; button and then click on the &apos;OK&apos; button">
+    </testcase>
+    <testcase name="The user is able to download meeting in &apos;Recordings&apos; section Navigate to the upper right corner and click on the &apos;Recordings&apos; button then click on the &apos;Download&apos; icon" time="0.0000" classname="Navigate to the upper right corner and click on the &apos;Recordings&apos; button then click on the &apos;Download&apos; icon">
+      <failure message="Timed out retrying: Expected to find element: `#MISSING_ID`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#MISSING_ID`, but never found it.
+    at ensureExistence (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to download meeting in &apos;Recordings&apos; section User should be able to exit the meeting" time="4.4560" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to finalize and approve act in &apos;Minutes&apos; section" timestamp="2021-12-23T15:27:29" tests="20" time="67.8360" failures="0">
+    <testcase name="The user is able to finalize and approve act in &apos;Minutes&apos; section Click on the &apos;New meeting&apos; button" time="3.5470" classname="Click on the &apos;New meeting&apos; button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in &apos;Minutes&apos; section Click on the “With session” button" time="3.1650" classname="Click on the “With session” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in &apos;Minutes&apos; section Populate all required fields and click on the “Next” button" time="2.7370" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in &apos;Minutes&apos; section Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button" time="12.8460" classname="Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in &apos;Minutes&apos; section Click on the “Add item to the agenda+” button" time="0.4730" classname="Click on the “Add item to the agenda+” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in &apos;Minutes&apos; section Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button" time="7.9370" classname="Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in &apos;Minutes&apos; section Populate all required fields and click on the “Next” button" time="3.0220" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in &apos;Minutes&apos; section Click on the “Invite and notify” button" time="3.1560" classname="Click on the “Invite and notify” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in &apos;Minutes&apos; section Click on the “Prepare room” button" time="0.1650" classname="Click on the “Prepare room” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in &apos;Minutes&apos; section Navigate to the upper right corner and click on the “Open room” button" time="2.2900" classname="Navigate to the upper right corner and click on the “Open room” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in &apos;Minutes&apos; section Populate all required fields and click on the “OK” button" time="10.1640" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in &apos;Minutes&apos; section Navigate to the upper right corner and click on the “Start meeting” button" time="2.2120" classname="Navigate to the upper right corner and click on the “Start meeting” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in &apos;Minutes&apos; section Populate all required fields and click on the “OK” button" time="1.6400" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in &apos;Minutes&apos; section Click on the “Activate voting” button" time="2.6250" classname="Click on the “Activate voting” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in &apos;Minutes&apos; section Click on the &apos;Close voting on the item&apos; button" time="1.2090" classname="Click on the &apos;Close voting on the item&apos; button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in &apos;Minutes&apos; section Click on the &apos;Open item&apos; button" time="2.5590" classname="Click on the &apos;Open item&apos; button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in &apos;Minutes&apos; section Click on the &apos;Close item&apos; button" time="1.1920" classname="Click on the &apos;Close item&apos; button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in &apos;Minutes&apos; section On the upper right corner click on the &apos;End meeting&apos; button and then click on the &apos;OK&apos; button" time="2.5460" classname="On the upper right corner click on the &apos;End meeting&apos; button and then click on the &apos;OK&apos; button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in &apos;Minutes&apos; section Click on the &apos;Finalize and approve minutes&apos; then click on the &apos;Finalize and approve minutes&apos; button" time="1.2220" classname="Click on the &apos;Finalize and approve minutes&apos; then click on the &apos;Finalize and approve minutes&apos; button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in &apos;Minutes&apos; section User should be able to exit the meeting" time="1.6800" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to open the &apos;Comments on the meeting&apos; section" timestamp="2021-12-23T15:28:36" tests="20" time="66.8930" failures="0">
+    <testcase name="The user is able to open the &apos;Comments on the meeting&apos; section Click on the &apos;New meeting&apos; button" time="2.4120" classname="Click on the &apos;New meeting&apos; button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Comments on the meeting&apos; section Click on the “With session” button" time="3.1720" classname="Click on the “With session” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Comments on the meeting&apos; section Populate all required fields and click on the “Next” button" time="2.7090" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Comments on the meeting&apos; section Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button" time="12.7020" classname="Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Comments on the meeting&apos; section Click on the “Add item to the agenda+” button" time="0.5580" classname="Click on the “Add item to the agenda+” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Comments on the meeting&apos; section Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button" time="8.0410" classname="Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Comments on the meeting&apos; section Populate all required fields and click on the “Next” button" time="2.9990" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Comments on the meeting&apos; section Click on the “Invite and notify” button" time="3.1570" classname="Click on the “Invite and notify” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Comments on the meeting&apos; section Click on the “Prepare room” button" time="0.1630" classname="Click on the “Prepare room” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Comments on the meeting&apos; section Navigate to the upper right corner and click on the “Open room” button" time="2.2120" classname="Navigate to the upper right corner and click on the “Open room” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Comments on the meeting&apos; section Populate all required fields and click on the “OK” button" time="10.1650" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Comments on the meeting&apos; section Navigate to the upper right corner and click on the “Start meeting” button" time="2.2120" classname="Navigate to the upper right corner and click on the “Start meeting” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Comments on the meeting&apos; section Populate all required fields and click on the “OK” button" time="1.6280" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Comments on the meeting&apos; section Click on the “Activate voting” button" time="2.6440" classname="Click on the “Activate voting” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Comments on the meeting&apos; section Click on the &apos;Close voting on the item&apos; button" time="1.2180" classname="Click on the &apos;Close voting on the item&apos; button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Comments on the meeting&apos; section Click on the &apos;Open item&apos; button" time="2.5710" classname="Click on the &apos;Open item&apos; button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Comments on the meeting&apos; section Click on the &apos;Close item&apos; button" time="1.2040" classname="Click on the &apos;Close item&apos; button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Comments on the meeting&apos; section On the upper right corner click on the &apos;End meeting&apos; button and then click on the &apos;OK&apos; button" time="2.5580" classname="On the upper right corner click on the &apos;End meeting&apos; button and then click on the &apos;OK&apos; button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Comments on the meeting&apos; section Click on the “Comments on the meeting” button" time="1.2110" classname="Click on the “Comments on the meeting” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Comments on the meeting&apos; section User should be able to exit the meeting" time="1.9500" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to export the &apos;Comments on the meeting&apos; to the PDF" timestamp="2021-12-23T15:29:43" tests="21" time="71.9990" failures="1">
+    <testcase name="The user is able to export the &apos;Comments on the meeting&apos; to the PDF Click on the &apos;New meeting&apos; button" time="3.1720" classname="Click on the &apos;New meeting&apos; button">
+    </testcase>
+    <testcase name="The user is able to export the &apos;Comments on the meeting&apos; to the PDF Click on the “With session” button" time="3.2890" classname="Click on the “With session” button">
+    </testcase>
+    <testcase name="The user is able to export the &apos;Comments on the meeting&apos; to the PDF Populate all required fields and click on the “Next” button" time="2.7300" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to export the &apos;Comments on the meeting&apos; to the PDF Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button" time="12.6590" classname="Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to export the &apos;Comments on the meeting&apos; to the PDF Click on the “Add item to the agenda+” button" time="0.4330" classname="Click on the “Add item to the agenda+” button">
+    </testcase>
+    <testcase name="The user is able to export the &apos;Comments on the meeting&apos; to the PDF Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button" time="8.0260" classname="Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to export the &apos;Comments on the meeting&apos; to the PDF Populate all required fields and click on the “Next” button" time="3.0400" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to export the &apos;Comments on the meeting&apos; to the PDF Click on the “Invite and notify” button" time="3.1580" classname="Click on the “Invite and notify” button">
+    </testcase>
+    <testcase name="The user is able to export the &apos;Comments on the meeting&apos; to the PDF Click on the “Prepare room” button" time="0.1840" classname="Click on the “Prepare room” button">
+    </testcase>
+    <testcase name="The user is able to export the &apos;Comments on the meeting&apos; to the PDF Navigate to the upper right corner and click on the “Open room” button" time="2.1030" classname="Navigate to the upper right corner and click on the “Open room” button">
+    </testcase>
+    <testcase name="The user is able to export the &apos;Comments on the meeting&apos; to the PDF Populate all required fields and click on the “OK” button" time="10.1660" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to export the &apos;Comments on the meeting&apos; to the PDF Navigate to the upper right corner and click on the “Start meeting” button" time="2.2120" classname="Navigate to the upper right corner and click on the “Start meeting” button">
+    </testcase>
+    <testcase name="The user is able to export the &apos;Comments on the meeting&apos; to the PDF Populate all required fields and click on the “OK” button" time="1.7050" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to export the &apos;Comments on the meeting&apos; to the PDF Click on the “Activate voting” button" time="2.6430" classname="Click on the “Activate voting” button">
+    </testcase>
+    <testcase name="The user is able to export the &apos;Comments on the meeting&apos; to the PDF Click on the &apos;Close voting on the item&apos; button" time="1.2140" classname="Click on the &apos;Close voting on the item&apos; button">
+    </testcase>
+    <testcase name="The user is able to export the &apos;Comments on the meeting&apos; to the PDF Click on the &apos;Open item&apos; button" time="2.5570" classname="Click on the &apos;Open item&apos; button">
+    </testcase>
+    <testcase name="The user is able to export the &apos;Comments on the meeting&apos; to the PDF Click on the &apos;Close item&apos; button" time="1.2030" classname="Click on the &apos;Close item&apos; button">
+    </testcase>
+    <testcase name="The user is able to export the &apos;Comments on the meeting&apos; to the PDF On the upper right corner click on the &apos;End meeting&apos; button and then click on the &apos;OK&apos; button" time="2.5340" classname="On the upper right corner click on the &apos;End meeting&apos; button and then click on the &apos;OK&apos; button">
+    </testcase>
+    <testcase name="The user is able to export the &apos;Comments on the meeting&apos; to the PDF Click on the “Comments on the meeting” button" time="1.2150" classname="Click on the “Comments on the meeting” button">
+    </testcase>
+    <testcase name="The user is able to export the &apos;Comments on the meeting&apos; to the PDF Click on the “Export” button the choose and click on the PDF" time="0.0000" classname="Click on the “Export” button the choose and click on the PDF">
+      <failure message="Timed out retrying: Expected to find element: `#MISSING_ID`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#MISSING_ID`, but never found it.
+    at ensureExistence (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.pre.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to export the &apos;Comments on the meeting&apos; to the PDF User should be able to exit the meeting" time="1.8380" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to open the &apos;Show the list of attendees&apos; section" timestamp="2021-12-23T15:30:55" tests="20" time="70.2850" failures="0">
+    <testcase name="The user is able to open the &apos;Show the list of attendees&apos; section Click on the &apos;New meeting&apos; button" time="3.3950" classname="Click on the &apos;New meeting&apos; button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Show the list of attendees&apos; section Click on the “With session” button" time="3.3180" classname="Click on the “With session” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Show the list of attendees&apos; section Populate all required fields and click on the “Next” button" time="2.7590" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Show the list of attendees&apos; section Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button" time="12.7570" classname="Click on the &apos;Add participant&apos; button and populate all required fields then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Show the list of attendees&apos; section Click on the “Add item to the agenda+” button" time="0.4890" classname="Click on the “Add item to the agenda+” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Show the list of attendees&apos; section Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button" time="8.0670" classname="Click on the “Item Yes/No/Abstention” button and populate “Title” field then choose “Public voting” tipo and click on the “OK” button then click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Show the list of attendees&apos; section Populate all required fields and click on the “Next” button" time="3.0710" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Show the list of attendees&apos; section Click on the “Invite and notify” button" time="3.1450" classname="Click on the “Invite and notify” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Show the list of attendees&apos; section Click on the “Prepare room” button" time="0.1540" classname="Click on the “Prepare room” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Show the list of attendees&apos; section Navigate to the upper right corner and click on the “Open room” button" time="2.1390" classname="Navigate to the upper right corner and click on the “Open room” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Show the list of attendees&apos; section Populate all required fields and click on the “OK” button" time="10.1500" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Show the list of attendees&apos; section Navigate to the upper right corner and click on the “Start meeting” button" time="2.2370" classname="Navigate to the upper right corner and click on the “Start meeting” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Show the list of attendees&apos; section Populate all required fields and click on the “OK” button" time="1.8710" classname="Populate all required fields and click on the “OK” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Show the list of attendees&apos; section Click on the “Activate voting” button" time="2.6180" classname="Click on the “Activate voting” button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Show the list of attendees&apos; section Click on the &apos;Close voting on the item&apos; button" time="1.2150" classname="Click on the &apos;Close voting on the item&apos; button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Show the list of attendees&apos; section Click on the &apos;Open item&apos; button" time="2.5510" classname="Click on the &apos;Open item&apos; button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Show the list of attendees&apos; section Click on the &apos;Close item&apos; button" time="1.2410" classname="Click on the &apos;Close item&apos; button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Show the list of attendees&apos; section On the upper right corner click on the &apos;End meeting&apos; button and then click on the &apos;OK&apos; button" time="2.5560" classname="On the upper right corner click on the &apos;End meeting&apos; button and then click on the &apos;OK&apos; button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Show the list of attendees&apos; section Navigate to the upper right corner and click on the &apos;Show the list of attendees&apos; button" time="1.3140" classname="Navigate to the upper right corner and click on the &apos;Show the list of attendees&apos; button">
+    </testcase>
+    <testcase name="The user is able to open the &apos;Show the list of attendees&apos; section User should be able to exit the meeting" time="3.8100" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+</testsuites>
