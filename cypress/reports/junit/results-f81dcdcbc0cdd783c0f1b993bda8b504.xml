@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="39.7930" tests="7" failures="0">
+  <testsuite name="Root Suite" timestamp="2021-11-25T12:13:52" tests="0" file="cypress\integration\1.Smoke\8.Start_Test_Conference_section.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Councilbox login - valid username and password" timestamp="2021-11-25T12:13:52" tests="5" time="12.8050" failures="0">
+    <testcase name="Councilbox login - valid username and password Visits the Councilbox web page" time="4.7630" classname="Visits the Councilbox web page">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Change language to Spanish" time="2.7470" classname="Change language to Spanish">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters email address" time="1.0630" classname="Enters email address">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters password" time="0.4250" classname="Enters password">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Clicks login button" time="2.1220" classname="Clicks login button">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to start conference" timestamp="2021-11-25T12:14:05" tests="2" time="26.9640" failures="0">
+    <testcase name="The user is able to start conference Click on the &apos;Iniciar conferencia&apos; button" time="11.8960" classname="Click on the &apos;Iniciar conferencia&apos; button">
+    </testcase>
+    <testcase name="The user is able to start conference Populate required field and click on the &apos;Join&apos; button" time="15.0350" classname="Populate required field and click on the &apos;Join&apos; button">
+    </testcase>
+  </testsuite>
+</testsuites>

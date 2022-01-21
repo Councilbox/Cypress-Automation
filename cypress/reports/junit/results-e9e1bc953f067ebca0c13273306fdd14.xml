@@ -1,0 +1,871 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="647.8060" tests="170" failures="36">
+  <testsuite name="Root Suite" timestamp="2021-11-26T13:40:21" tests="0" file="cypress\integration\1.Smoke\6.New_Meeting(Adming Side)_section.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Councilbox login - valid username and password" timestamp="2021-11-26T13:40:21" tests="5" time="9.9920" failures="0">
+    <testcase name="Councilbox login - valid username and password Visits the Councilbox web page" time="4.5520" classname="Visits the Councilbox web page">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Change language to Spanish" time="0.4460" classname="Change language to Spanish">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters email address" time="0.8610" classname="Enters email address">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters password" time="0.4710" classname="Enters password">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Clicks login button" time="2.1660" classname="Clicks login button">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to create a new call with session in the &apos;Nueva reunion&apos; section" timestamp="2021-11-26T13:40:31" tests="9" time="38.3710" failures="0">
+    <testcase name="The user is able to create a new call with session in the &apos;Nueva reunion&apos; section Click on the &apos;Nueva reunion&apos; button" time="3.5150" classname="Click on the &apos;Nueva reunion&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new call with session in the &apos;Nueva reunion&apos; section Click on the &apos;Con sesion&apos; button" time="1.1910" classname="Click on the &apos;Con sesion&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new call with session in the &apos;Nueva reunion&apos; section Populate all required fields and click on the &apos;Siguiente&apos; button" time="1.4310" classname="Populate all required fields and click on the &apos;Siguiente&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new call with session in the &apos;Nueva reunion&apos; section Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the &apos;Siguiente&apos; button" time="8.0400" classname="Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the &apos;Siguiente&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new call with session in the &apos;Nueva reunion&apos; section Click on the &apos;Aceptar&apos; button" time="1.3760" classname="Click on the &apos;Aceptar&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new call with session in the &apos;Nueva reunion&apos; section Click on the &apos;Anadir punto al orden del dia+&apos;&apos; button" time="0.5940" classname="Click on the &apos;Anadir punto al orden del dia+&apos;&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new call with session in the &apos;Nueva reunion&apos; section Click on the &apos;Punto Si/no/ abstencion&apos; button and populate all required fields and click on the &apos;Aceptar&apos; button then click on the &apos;Siguiente&apos; button" time="7.1360" classname="Click on the &apos;Punto Si/no/ abstencion&apos; button and populate all required fields and click on the &apos;Aceptar&apos; button then click on the &apos;Siguiente&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new call with session in the &apos;Nueva reunion&apos; section Click on the &apos;Convocar y notificar&apos; button" time="5.6390" classname="Click on the &apos;Convocar y notificar&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new call with session in the &apos;Nueva reunion&apos; section Back to Home page" time="9.0890" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to create a new call without session in the &apos;Nueva reunion&apos; section" timestamp="2021-11-26T13:41:09" tests="3" time="14.3530" failures="0">
+    <testcase name="The user is able to create a new call without session in the &apos;Nueva reunion&apos; section Click on the &apos;Nueva reunion&apos; button" time="0.2000" classname="Click on the &apos;Nueva reunion&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new call without session in the &apos;Nueva reunion&apos; section Click on the &apos;Sin sesion&apos; button and populate all required fields then click on the &apos;Aceptar&apos; button" time="7.0020" classname="Click on the &apos;Sin sesion&apos; button and populate all required fields then click on the &apos;Aceptar&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new call without session in the &apos;Nueva reunion&apos; section Back to Home page" time="7.0270" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to start council in the &apos;New call with session&apos; section" timestamp="2021-11-26T13:41:23" tests="15" time="52.4300" failures="0">
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Click on the &apos;Nueva reunion&apos; button" time="0.1910" classname="Click on the &apos;Nueva reunion&apos; button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Click on the “Con sesion” button" time="3.1490" classname="Click on the “Con sesion” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Populate all required fields and click on the “Siguiente” button" time="1.4390" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button" time="12.5070" classname="Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Click on the “Anadir punto al orden del dia+” button" time="0.4630" classname="Click on the “Anadir punto al orden del dia+” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button" time="6.7390" classname="Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Populate all required fields and click on the “Siguiente” button" time="2.8800" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Click on the “Convocar y notificar” button" time="3.1490" classname="Click on the “Convocar y notificar” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Click on the “Preparar sala” button" time="0.1940" classname="Click on the “Preparar sala” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Navigate to the upper right corner and click on the “Abrir Sala” button" time="2.2270" classname="Navigate to the upper right corner and click on the “Abrir Sala” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Populate all required fields and click on the “Aceptar” button" time="10.1480" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Navigate to the “Camera and microphone” form and click on the “Accept” button" time="0.0720" classname="Navigate to the “Camera and microphone” form and click on the “Accept” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Navigate to the upper right corner and click on the “Iniciar reunion” button" time="2.1790" classname="Navigate to the upper right corner and click on the “Iniciar reunion” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Populate all required fields and click on the “Aceptar” button" time="1.6230" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section User should be able to exit the meeting" time="4.9280" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to open point in the &apos;New call with session&apos; section" timestamp="2021-11-26T13:42:16" tests="16" time="61.5630" failures="0">
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Click on the &apos;Nueva reunion&apos; button" time="4.4400" classname="Click on the &apos;Nueva reunion&apos; button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Click on the “Con sesion” button" time="3.1510" classname="Click on the “Con sesion” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Populate all required fields and click on the “Siguiente” button" time="2.4420" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button" time="12.0340" classname="Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Click on the “Anadir punto al orden del dia+” button" time="0.5290" classname="Click on the “Anadir punto al orden del dia+” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button" time="7.7110" classname="Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Populate all required fields and click on the “Siguiente” button" time="2.9280" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Click on the “Convocar y notificar” button" time="3.1470" classname="Click on the “Convocar y notificar” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Click on the “Preparar sala” button" time="0.1510" classname="Click on the “Preparar sala” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Navigate to the upper right corner and click on the “Abrir Sala” button" time="2.3990" classname="Navigate to the upper right corner and click on the “Abrir Sala” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Populate all required fields and click on the “Aceptar” button" time="10.1500" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Navigate to the “Camera and microphone” form and click on the “Accept” button" time="0.0690" classname="Navigate to the “Camera and microphone” form and click on the “Accept” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Navigate to the upper right corner and click on the “Iniciar reunion” button" time="2.1770" classname="Navigate to the upper right corner and click on the “Iniciar reunion” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Populate all required fields and click on the “Aceptar” button" time="1.7440" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Click on the “Abrir punto” button" time="3.5330" classname="Click on the “Abrir punto” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section User should be able to exit the meeting" time="4.3830" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to activate ratings in the &apos;New call with session&apos;" timestamp="2021-11-26T13:43:17" tests="17" time="65.3670" failures="0">
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Click on the &apos;Nueva reunion&apos; button" time="4.0390" classname="Click on the &apos;Nueva reunion&apos; button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Click on the “Con sesion” button" time="3.1540" classname="Click on the “Con sesion” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Populate all required fields and click on the “Siguiente” button" time="2.4250" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button" time="12.0950" classname="Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Click on the “Anadir punto al orden del dia+” button" time="0.5530" classname="Click on the “Anadir punto al orden del dia+” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button" time="6.6380" classname="Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Populate all required fields and click on the “Siguiente” button" time="2.8620" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Click on the “Convocar y notificar” button" time="3.1430" classname="Click on the “Convocar y notificar” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Click on the “Preparar sala” button" time="0.1450" classname="Click on the “Preparar sala” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Navigate to the upper right corner and click on the “Abrir Sala” button" time="2.4110" classname="Navigate to the upper right corner and click on the “Abrir Sala” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Populate all required fields and click on the “Aceptar” button" time="10.1370" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Navigate to the “Camera and microphone” form and click on the “Accept” button" time="0.0650" classname="Navigate to the “Camera and microphone” form and click on the “Accept” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Navigate to the upper right corner and click on the “Iniciar reunion” button" time="2.1570" classname="Navigate to the upper right corner and click on the “Iniciar reunion” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Populate all required fields and click on the “Aceptar” button" time="1.7170" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Click on the “Abrir punto” button" time="3.5250" classname="Click on the “Abrir punto” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Click on the “Activar votaciones” button" time="3.4440" classname="Click on the “Activar votaciones” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; User should be able to exit the meeting" time="6.1990" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos;" timestamp="2021-11-26T13:44:23" tests="18" time="75.7110" failures="16">
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Click on the &apos;Nueva reunion&apos; button" time="0.0000" classname="Click on the &apos;Nueva reunion&apos; button">
+      <failure message="Timed out retrying: Expected to find element: `#create-council-block`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#create-council-block`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Click on the “Con sesion” button" time="0.0000" classname="Click on the “Con sesion” button">
+      <failure message="Timed out retrying: Expected to find element: `#create-council-with-session`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#create-council-with-session`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Populate all required fields and click on the “Siguiente” button" time="0.0000" classname="Populate all required fields and click on the “Siguiente” button">
+      <failure message="Timed out retrying: Expected to find element: `#council-notice-type-select`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#council-notice-type-select`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button" time="0.0000" classname="Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button">
+      <failure message="Timed out retrying: Expected to find element: `#add-participant-dropdown-trigger`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#add-participant-dropdown-trigger`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Click on the “Anadir punto al orden del dia+” button" time="0.0000" classname="Click on the “Anadir punto al orden del dia+” button">
+      <failure message="Timed out retrying: Expected to find element: `#newPuntoDelDiaOrdenDelDiaNew`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#newPuntoDelDiaOrdenDelDiaNew`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button" time="0.0000" classname="Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button">
+      <failure message="Timed out retrying: Expected to find element: `#puntoSiNoAbstencion`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#puntoSiNoAbstencion`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Populate all required fields and click on the “Siguiente” button" time="0.0000" classname="Populate all required fields and click on the “Siguiente” button">
+      <failure message="Timed out retrying: Expected to find element: `#council-options-contact-email`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#council-options-contact-email`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Click on the “Convocar y notificar” button" time="0.0000" classname="Click on the “Convocar y notificar” button">
+      <failure message="Timed out retrying: Expected to find element: `#council-editor-convene-notify`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#council-editor-convene-notify`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Click on the “Preparar sala” button" time="0.0000" classname="Click on the “Preparar sala” button">
+      <failure message="Timed out retrying: Expected to find element: `#prepararSalaNew`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#prepararSalaNew`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Navigate to the upper right corner and click on the “Abrir Sala” button" time="0.0000" classname="Navigate to the upper right corner and click on the “Abrir Sala” button">
+      <failure message="Timed out retrying: Expected to find element: `#abrirSalaEnReunion`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#abrirSalaEnReunion`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Populate all required fields and click on the “Aceptar” button" time="0.0000" classname="Populate all required fields and click on the “Aceptar” button">
+      <failure message="Timed out retrying: Expected to find element: `#alert-confirm-button-accept`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#alert-confirm-button-accept`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Navigate to the “Camera and microphone” form and click on the “Accept” button" time="0.0500" classname="Navigate to the “Camera and microphone” form and click on the “Accept” button">
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Navigate to the upper right corner and click on the “Iniciar reunion” button" time="0.0000" classname="Navigate to the upper right corner and click on the “Iniciar reunion” button">
+      <failure message="Timed out retrying: Expected to find element: `#start-council-button`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#start-council-button`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Populate all required fields and click on the “Aceptar” button" time="0.0000" classname="Populate all required fields and click on the “Aceptar” button">
+      <failure message="Timed out retrying: Expected to find element: `#council-president-select`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#council-president-select`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Click on the “Abrir punto” button" time="0.0000" classname="Click on the “Abrir punto” button">
+      <failure message="Timed out retrying: Expected to find element: `#council-live-tab-agenda`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#council-live-tab-agenda`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Click on the “Activar votaciones” button" time="0.0000" classname="Click on the “Activar votaciones” button">
+      <failure message="Timed out retrying: Expected to find element: `#council-live-tab-agenda`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#council-live-tab-agenda`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Click on the “Cerrar las votaciones del punto” button" time="0.0000" classname="Click on the “Cerrar las votaciones del punto” button">
+      <failure message="Timed out retrying: Expected to find element: `#close-point-votings-button`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#close-point-votings-button`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; User should be able to exit the meeting" time="4.5220" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos;" timestamp="2021-11-26T13:45:38" tests="19" time="70.5640" failures="0">
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Click on the &apos;Nueva reunion&apos; button" time="4.7540" classname="Click on the &apos;Nueva reunion&apos; button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Click on the “Con sesion” button" time="3.1680" classname="Click on the “Con sesion” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Populate all required fields and click on the “Siguiente” button" time="2.3940" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button" time="12.4890" classname="Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Click on the “Anadir punto al orden del dia+” button" time="0.3460" classname="Click on the “Anadir punto al orden del dia+” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button" time="6.8070" classname="Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Populate all required fields and click on the “Siguiente” button" time="2.9460" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Click on the “Convocar y notificar” button" time="3.1670" classname="Click on the “Convocar y notificar” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Click on the “Preparar sala” button" time="0.1610" classname="Click on the “Preparar sala” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Navigate to the upper right corner and click on the “Abrir Sala” button" time="2.2800" classname="Navigate to the upper right corner and click on the “Abrir Sala” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Populate all required fields and click on the “Aceptar” button" time="10.1540" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Navigate to the “Camera and microphone” form and click on the “Accept” button" time="0.0850" classname="Navigate to the “Camera and microphone” form and click on the “Accept” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Navigate to the upper right corner and click on the “Iniciar reunion” button" time="2.1780" classname="Navigate to the upper right corner and click on the “Iniciar reunion” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Populate all required fields and click on the “Aceptar” button" time="1.6250" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Click on the “Abrir punto” button" time="3.6700" classname="Click on the “Abrir punto” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Click on the “Activar votaciones” button" time="3.5180" classname="Click on the “Activar votaciones” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Click on the “Cerrar las votaciones del punto” button" time="2.1590" classname="Click on the “Cerrar las votaciones del punto” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Click on the “Cerrar punto” button" time="2.1570" classname="Click on the “Cerrar punto” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; User should be able to exit the meeting" time="5.5880" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to finish council in the &apos;New call with session&apos; type of meeting" timestamp="2021-11-26T13:46:49" tests="21" time="70.3890" failures="0">
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the &apos;Nueva reunion&apos; button" time="3.4460" classname="Click on the &apos;Nueva reunion&apos; button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the “Con sesion” button" time="3.1670" classname="Click on the “Con sesion” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Populate all required fields and click on the “Siguiente” button" time="2.4810" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button" time="12.4450" classname="Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the “Anadir punto al orden del dia+” button" time="0.4240" classname="Click on the “Anadir punto al orden del dia+” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button" time="6.8240" classname="Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Populate all required fields and click on the “Siguiente” button" time="2.9750" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the “Convocar y notificar” button" time="3.1490" classname="Click on the “Convocar y notificar” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the “Preparar sala” button" time="0.1640" classname="Click on the “Preparar sala” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Navigate to the upper right corner and click on the “Abrir Sala” button" time="2.1820" classname="Navigate to the upper right corner and click on the “Abrir Sala” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Populate all required fields and click on the “Aceptar” button" time="10.1610" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Navigate to the “Camera and microphone” form and click on the “Accept” button" time="0.0860" classname="Navigate to the “Camera and microphone” form and click on the “Accept” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Navigate to the upper right corner and click on the “Iniciar reunion” button" time="2.1760" classname="Navigate to the upper right corner and click on the “Iniciar reunion” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Populate all required fields and click on the “Aceptar” button" time="1.6080" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the “Abrir punto” button" time="3.5520" classname="Click on the “Abrir punto” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the “Activar votaciones” button" time="3.5060" classname="Click on the “Activar votaciones” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the “Cerrar las votaciones del punto” button" time="2.1590" classname="Click on the “Cerrar las votaciones del punto” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the “Cerrar punto” button" time="2.1480" classname="Click on the “Cerrar punto” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the “Finalizar reunion” button" time="0.1500" classname="Click on the “Finalizar reunion” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the “Accept” button" time="1.3090" classname="Click on the “Accept” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting User should be able to exit the meeting" time="5.2980" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting" timestamp="2021-11-26T13:47:59" tests="22" time="99.2280" failures="20">
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the &apos;Nueva reunion&apos; button" time="0.0000" classname="Click on the &apos;Nueva reunion&apos; button">
+      <failure message="Timed out retrying: Expected to find element: `#create-council-block`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#create-council-block`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the “Con sesion” button" time="0.0000" classname="Click on the “Con sesion” button">
+      <failure message="Timed out retrying: Expected to find element: `#create-council-with-session`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#create-council-with-session`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Populate all required fields and click on the “Siguiente” button" time="0.0000" classname="Populate all required fields and click on the “Siguiente” button">
+      <failure message="Timed out retrying: Expected to find element: `#council-notice-type-select`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#council-notice-type-select`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button" time="0.0000" classname="Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button">
+      <failure message="Timed out retrying: Expected to find element: `#add-participant-dropdown-trigger`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#add-participant-dropdown-trigger`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the “Anadir punto al orden del dia+” button" time="0.0000" classname="Click on the “Anadir punto al orden del dia+” button">
+      <failure message="Timed out retrying: Expected to find element: `#newPuntoDelDiaOrdenDelDiaNew`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#newPuntoDelDiaOrdenDelDiaNew`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button" time="0.0000" classname="Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button">
+      <failure message="Timed out retrying: Expected to find element: `#puntoSiNoAbstencion`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#puntoSiNoAbstencion`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Populate all required fields and click on the “Siguiente” button" time="0.0000" classname="Populate all required fields and click on the “Siguiente” button">
+      <failure message="Timed out retrying: Expected to find element: `#council-options-contact-email`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#council-options-contact-email`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the “Convocar y notificar” button" time="0.0000" classname="Click on the “Convocar y notificar” button">
+      <failure message="Timed out retrying: Expected to find element: `#council-editor-convene-notify`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#council-editor-convene-notify`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the “Preparar sala” button" time="0.0000" classname="Click on the “Preparar sala” button">
+      <failure message="Timed out retrying: Expected to find element: `#prepararSalaNew`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#prepararSalaNew`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Navigate to the upper right corner and click on the “Abrir Sala” button" time="0.0000" classname="Navigate to the upper right corner and click on the “Abrir Sala” button">
+      <failure message="Timed out retrying: Expected to find element: `#abrirSalaEnReunion`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#abrirSalaEnReunion`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Populate all required fields and click on the “Aceptar” button" time="0.0000" classname="Populate all required fields and click on the “Aceptar” button">
+      <failure message="Timed out retrying: Expected to find element: `#alert-confirm-button-accept`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#alert-confirm-button-accept`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Navigate to the “Camera and microphone” form and click on the “Accept” button" time="0.0550" classname="Navigate to the “Camera and microphone” form and click on the “Accept” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Navigate to the upper right corner and click on the “Iniciar reunion” button" time="0.0000" classname="Navigate to the upper right corner and click on the “Iniciar reunion” button">
+      <failure message="Timed out retrying: Expected to find element: `#start-council-button`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#start-council-button`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Populate all required fields and click on the “Aceptar” button" time="0.0000" classname="Populate all required fields and click on the “Aceptar” button">
+      <failure message="Timed out retrying: Expected to find element: `#council-president-select`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#council-president-select`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the “Abrir punto” button" time="0.0000" classname="Click on the “Abrir punto” button">
+      <failure message="Timed out retrying: Expected to find element: `#council-live-tab-agenda`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#council-live-tab-agenda`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the “Activar votaciones” button" time="0.0000" classname="Click on the “Activar votaciones” button">
+      <failure message="Timed out retrying: Expected to find element: `#council-live-tab-agenda`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#council-live-tab-agenda`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the “Cerrar las votaciones del punto” button" time="0.0000" classname="Click on the “Cerrar las votaciones del punto” button">
+      <failure message="Timed out retrying: Expected to find element: `#close-point-votings-button`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#close-point-votings-button`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the “Cerrar punto” button" time="0.0000" classname="Click on the “Cerrar punto” button">
+      <failure message="Timed out retrying: Expected to find element: `#close-agenda-point-button`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#close-agenda-point-button`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the “Finalizar reunion” button" time="0.0000" classname="Click on the “Finalizar reunion” button">
+      <failure message="Timed out retrying: Expected to find element: `#finalizarReunionEnReunion`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#finalizarReunionEnReunion`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the “Accept” button" time="0.0000" classname="Click on the “Accept” button">
+      <failure message="Timed out retrying: Expected to find element: `#alert-confirm-button-accept`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#alert-confirm-button-accept`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the “Finalizar y aprobar acta” button and again click on the “Finalizar y aprobar acta” button" time="0.0000" classname="Click on the “Finalizar y aprobar acta” button and again click on the “Finalizar y aprobar acta” button">
+      <failure message="Timed out retrying: Expected to find element: `#council-act-approve-button`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#council-act-approve-button`, but never found it.
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Back to Home page" time="9.7790" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting" timestamp="2021-11-26T13:49:38" tests="25" time="89.7950" failures="0">
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the &apos;Nueva reunion&apos; button" time="0.2040" classname="Click on the &apos;Nueva reunion&apos; button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Con sesion” button" time="3.1630" classname="Click on the “Con sesion” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Populate all required fields and click on the “Siguiente” button" time="2.5050" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button" time="13.1330" classname="Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Anadir punto al orden del dia+” button" time="0.4270" classname="Click on the “Anadir punto al orden del dia+” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button" time="7.0490" classname="Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Populate all required fields and click on the “Siguiente” button" time="3.0950" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Convocar y notificar” button" time="3.1660" classname="Click on the “Convocar y notificar” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Preparar sala” button" time="0.1920" classname="Click on the “Preparar sala” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Navigate to the upper right corner and click on the “Abrir Sala” button" time="2.1120" classname="Navigate to the upper right corner and click on the “Abrir Sala” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Populate all required fields and click on the “Aceptar” button" time="10.1720" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Navigate to the “Camera and microphone” form and click on the “Accept” button" time="0.0950" classname="Navigate to the “Camera and microphone” form and click on the “Accept” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Navigate to the upper right corner and click on the “Iniciar reunion” button" time="2.2050" classname="Navigate to the upper right corner and click on the “Iniciar reunion” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Populate all required fields and click on the “Aceptar” button" time="1.6310" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Abrir punto” button" time="3.6790" classname="Click on the “Abrir punto” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Activar votaciones” button" time="3.5710" classname="Click on the “Activar votaciones” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Cerrar las votaciones del punto” button" time="2.1750" classname="Click on the “Cerrar las votaciones del punto” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Cerrar punto” button" time="2.1760" classname="Click on the “Cerrar punto” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Finalizar reunion” button" time="0.1640" classname="Click on the “Finalizar reunion” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Accept” button" time="2.2000" classname="Click on the “Accept” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Finalizar y aprobar acta” button and again click on the “Finalizar y aprobar acta” button" time="6.5390" classname="Click on the “Finalizar y aprobar acta” button and again click on the “Finalizar y aprobar acta” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Envio del acta” button" time="4.8990" classname="Click on the “Envio del acta” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Enviar acta” button" time="1.2820" classname="Click on the “Enviar acta” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Enviar a todos los convocados then click on the “Enviar” button" time="4.9460" classname="Click on the “Enviar a todos los convocados then click on the “Enviar” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Back to Home page" time="7.6200" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+</testsuites>

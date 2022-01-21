@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="32.8280" tests="32" failures="0">
+  <testsuite name="Root Suite" timestamp="2021-11-25T11:54:28" tests="0" file="cypress\integration\1.Smoke\4.Shareholders_Register_section.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Councilbox login - valid username and password" timestamp="2021-11-25T11:54:28" tests="5" time="9.2800" failures="0">
+    <testcase name="Councilbox login - valid username and password Visits the Councilbox web page" time="2.0110" classname="Visits the Councilbox web page">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Change language to Spanish" time="2.0760" classname="Change language to Spanish">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters email address" time="0.9770" classname="Enters email address">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters password" time="0.4390" classname="Enters password">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Clicks login button" time="2.4660" classname="Clicks login button">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to add a partner in the &apos;Libro de socios&apos; section" timestamp="2021-11-25T11:54:38" tests="27" time="23.5290" failures="0">
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section From the menu choose and click on the &apos;Libro de socios&apos; button" time="0.1370" classname="From the menu choose and click on the &apos;Libro de socios&apos; button">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Click on the &apos;Anadir socio&apos; form" time="1.6220" classname="Click on the &apos;Anadir socio&apos; form">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Populate “Nombre” field" time="0.6580" classname="Populate “Nombre” field">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Populate “Apelidos” field" time="0.6190" classname="Populate “Apelidos” field">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Populate “DNI/NIF” field" time="0.5980" classname="Populate “DNI/NIF” field">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Populate “Nacionalidad” field" time="0.7100" classname="Populate “Nacionalidad” field">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Populate “Email” field" time="0.7490" classname="Populate “Email” field">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Populate “Telefono” field" time="0.4920" classname="Populate “Telefono” field">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Populate “Telefono Fijo” field" time="0.4830" classname="Populate “Telefono Fijo” field">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Populate “TIpo de Socio” field" time="0.5850" classname="Populate “TIpo de Socio” field">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Select the “Estado”" time="0.2950" classname="Select the “Estado”">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Select “Votos”" time="0.3740" classname="Select “Votos”">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Select “Participaciones”" time="0.1870" classname="Select “Participaciones”">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Navigate to the “Ficha” section and populate “Nº de acta de alta” field" time="0.4980" classname="Navigate to the “Ficha” section and populate “Nº de acta de alta” field">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Populate “Nº de acta de baja” field" time="0.4920" classname="Populate “Nº de acta de baja” field">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Select “Fecha de apertura de ficha”" time="0.2590" classname="Select “Fecha de apertura de ficha”">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Select “Fecha de alta”" time="0.3850" classname="Select “Fecha de alta”">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Select “Acta de alta”" time="0.3760" classname="Select “Acta de alta”">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Select “Fecha de baja”" time="0.3780" classname="Select “Fecha de baja”">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Select “Acta de baja”" time="0.3500" classname="Select “Acta de baja”">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Navigate to the “Datos adicionales” section and populate “Dirección” field" time="0.6470" classname="Navigate to the “Datos adicionales” section and populate “Dirección” field">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Populate “Localidad” field" time="0.5170" classname="Populate “Localidad” field">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Select “Provincia”" time="0.3790" classname="Select “Provincia”">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Populate “Codigo Postal” field" time="0.4930" classname="Populate “Codigo Postal” field">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Select “Idioma”" time="0.2850" classname="Select “Idioma”">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Click on the &apos;Guardar cambios&apos; button" time="3.3870" classname="Click on the &apos;Guardar cambios&apos; button">
+    </testcase>
+    <testcase name="The user is able to add a partner in the &apos;Libro de socios&apos; section Back to Home page" time="7.2490" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+</testsuites>

@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="628.9460" tests="170" failures="3">
+  <testsuite name="Root Suite" timestamp="2021-12-01T13:58:22" tests="0" file="cypress\integration\1.Smoke\6.New_Meeting(Adming Side)_section.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Councilbox login - valid username and password" timestamp="2021-12-01T13:58:22" tests="5" time="15.3450" failures="0">
+    <testcase name="Councilbox login - valid username and password Visits the Councilbox web page" time="8.8300" classname="Visits the Councilbox web page">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Change language to Spanish" time="0.3740" classname="Change language to Spanish">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters email address" time="0.8810" classname="Enters email address">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters password" time="0.6510" classname="Enters password">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Clicks login button" time="2.1910" classname="Clicks login button">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to create a new call with session in the &apos;Nueva reunion&apos; section" timestamp="2021-12-01T13:58:37" tests="9" time="36.8020" failures="0">
+    <testcase name="The user is able to create a new call with session in the &apos;Nueva reunion&apos; section Click on the &apos;Nueva reunion&apos; button" time="3.4180" classname="Click on the &apos;Nueva reunion&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new call with session in the &apos;Nueva reunion&apos; section Click on the &apos;Con sesion&apos; button" time="1.2710" classname="Click on the &apos;Con sesion&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new call with session in the &apos;Nueva reunion&apos; section Populate all required fields and click on the &apos;Siguiente&apos; button" time="2.1080" classname="Populate all required fields and click on the &apos;Siguiente&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new call with session in the &apos;Nueva reunion&apos; section Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the &apos;Siguiente&apos; button" time="8.2600" classname="Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the &apos;Siguiente&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new call with session in the &apos;Nueva reunion&apos; section Click on the &apos;Aceptar&apos; button" time="1.3860" classname="Click on the &apos;Aceptar&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new call with session in the &apos;Nueva reunion&apos; section Click on the &apos;Anadir punto al orden del dia+&apos;&apos; button" time="0.3660" classname="Click on the &apos;Anadir punto al orden del dia+&apos;&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new call with session in the &apos;Nueva reunion&apos; section Click on the &apos;Punto Si/no/ abstencion&apos; button and populate all required fields and click on the &apos;Aceptar&apos; button then click on the &apos;Siguiente&apos; button" time="7.1390" classname="Click on the &apos;Punto Si/no/ abstencion&apos; button and populate all required fields and click on the &apos;Aceptar&apos; button then click on the &apos;Siguiente&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new call with session in the &apos;Nueva reunion&apos; section Click on the &apos;Convocar y notificar&apos; button" time="5.1490" classname="Click on the &apos;Convocar y notificar&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new call with session in the &apos;Nueva reunion&apos; section Back to Home page" time="7.2910" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to create a new call without session in the &apos;Nueva reunion&apos; section" timestamp="2021-12-01T13:59:14" tests="3" time="13.7490" failures="0">
+    <testcase name="The user is able to create a new call without session in the &apos;Nueva reunion&apos; section Click on the &apos;Nueva reunion&apos; button" time="0.1840" classname="Click on the &apos;Nueva reunion&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new call without session in the &apos;Nueva reunion&apos; section Click on the &apos;Sin sesion&apos; button and populate all required fields then click on the &apos;Aceptar&apos; button" time="6.9800" classname="Click on the &apos;Sin sesion&apos; button and populate all required fields then click on the &apos;Aceptar&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new call without session in the &apos;Nueva reunion&apos; section Back to Home page" time="6.4630" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to start council in the &apos;New call with session&apos; section" timestamp="2021-12-01T13:59:28" tests="15" time="54.6660" failures="0">
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Click on the &apos;Nueva reunion&apos; button" time="0.2150" classname="Click on the &apos;Nueva reunion&apos; button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Click on the “Con sesion” button" time="3.1590" classname="Click on the “Con sesion” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Populate all required fields and click on the “Siguiente” button" time="1.8060" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button" time="12.8610" classname="Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Click on the “Anadir punto al orden del dia+” button" time="0.4590" classname="Click on the “Anadir punto al orden del dia+” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button" time="6.8210" classname="Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Populate all required fields and click on the “Siguiente” button" time="2.9090" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Click on the “Convocar y notificar” button" time="3.1510" classname="Click on the “Convocar y notificar” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Click on the “Preparar sala” button" time="0.1680" classname="Click on the “Preparar sala” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Navigate to the upper right corner and click on the “Abrir Sala” button" time="2.3920" classname="Navigate to the upper right corner and click on the “Abrir Sala” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Populate all required fields and click on the “Aceptar” button" time="10.1580" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Navigate to the “Camera and microphone” form and click on the “Accept” button" time="0.0670" classname="Navigate to the “Camera and microphone” form and click on the “Accept” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Navigate to the upper right corner and click on the “Iniciar reunion” button" time="2.1710" classname="Navigate to the upper right corner and click on the “Iniciar reunion” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section Populate all required fields and click on the “Aceptar” button" time="1.7170" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to start council in the &apos;New call with session&apos; section User should be able to exit the meeting" time="5.9920" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to open point in the &apos;New call with session&apos; section" timestamp="2021-12-01T14:00:22" tests="16" time="64.0170" failures="0">
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Click on the &apos;Nueva reunion&apos; button" time="4.5490" classname="Click on the &apos;Nueva reunion&apos; button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Click on the “Con sesion” button" time="3.1640" classname="Click on the “Con sesion” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Populate all required fields and click on the “Siguiente” button" time="2.7130" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button" time="12.3770" classname="Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Click on the “Anadir punto al orden del dia+” button" time="0.3710" classname="Click on the “Anadir punto al orden del dia+” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button" time="7.8770" classname="Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Populate all required fields and click on the “Siguiente” button" time="2.9820" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Click on the “Convocar y notificar” button" time="3.1760" classname="Click on the “Convocar y notificar” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Click on the “Preparar sala” button" time="0.1670" classname="Click on the “Preparar sala” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Navigate to the upper right corner and click on the “Abrir Sala” button" time="2.5800" classname="Navigate to the upper right corner and click on the “Abrir Sala” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Populate all required fields and click on the “Aceptar” button" time="10.1730" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Navigate to the “Camera and microphone” form and click on the “Accept” button" time="0.0810" classname="Navigate to the “Camera and microphone” form and click on the “Accept” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Navigate to the upper right corner and click on the “Iniciar reunion” button" time="2.1750" classname="Navigate to the upper right corner and click on the “Iniciar reunion” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Populate all required fields and click on the “Aceptar” button" time="1.6050" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section Click on the “Abrir punto” button" time="3.5260" classname="Click on the “Abrir punto” button">
+    </testcase>
+    <testcase name="The user is able to open point in the &apos;New call with session&apos; section User should be able to exit the meeting" time="5.8940" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to activate ratings in the &apos;New call with session&apos;" timestamp="2021-12-01T14:01:26" tests="17" time="64.8920" failures="0">
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Click on the &apos;Nueva reunion&apos; button" time="4.2210" classname="Click on the &apos;Nueva reunion&apos; button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Click on the “Con sesion” button" time="3.2530" classname="Click on the “Con sesion” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Populate all required fields and click on the “Siguiente” button" time="2.6720" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button" time="12.2350" classname="Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Click on the “Anadir punto al orden del dia+” button" time="0.4350" classname="Click on the “Anadir punto al orden del dia+” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button" time="6.7730" classname="Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Populate all required fields and click on the “Siguiente” button" time="2.8870" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Click on the “Convocar y notificar” button" time="3.1410" classname="Click on the “Convocar y notificar” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Click on the “Preparar sala” button" time="0.1430" classname="Click on the “Preparar sala” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Navigate to the upper right corner and click on the “Abrir Sala” button" time="2.3100" classname="Navigate to the upper right corner and click on the “Abrir Sala” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Populate all required fields and click on the “Aceptar” button" time="10.1690" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Navigate to the “Camera and microphone” form and click on the “Accept” button" time="0.0840" classname="Navigate to the “Camera and microphone” form and click on the “Accept” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Navigate to the upper right corner and click on the “Iniciar reunion” button" time="2.1710" classname="Navigate to the upper right corner and click on the “Iniciar reunion” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Populate all required fields and click on the “Aceptar” button" time="1.9680" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Click on the “Abrir punto” button" time="3.8560" classname="Click on the “Abrir punto” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; Click on the “Activar votaciones” button" time="3.4210" classname="Click on the “Activar votaciones” button">
+    </testcase>
+    <testcase name="The user is able to activate ratings in the &apos;New call with session&apos; User should be able to exit the meeting" time="4.1760" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos;" timestamp="2021-12-01T14:02:31" tests="18" time="67.2700" failures="0">
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Click on the &apos;Nueva reunion&apos; button" time="3.6900" classname="Click on the &apos;Nueva reunion&apos; button">
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Click on the “Con sesion” button" time="3.2000" classname="Click on the “Con sesion” button">
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Populate all required fields and click on the “Siguiente” button" time="3.4700" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button" time="12.7910" classname="Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Click on the “Anadir punto al orden del dia+” button" time="0.4280" classname="Click on the “Anadir punto al orden del dia+” button">
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button" time="6.7120" classname="Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Populate all required fields and click on the “Siguiente” button" time="3.3040" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Click on the “Convocar y notificar” button" time="3.1700" classname="Click on the “Convocar y notificar” button">
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Click on the “Preparar sala” button" time="0.2060" classname="Click on the “Preparar sala” button">
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Navigate to the upper right corner and click on the “Abrir Sala” button" time="2.3010" classname="Navigate to the upper right corner and click on the “Abrir Sala” button">
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Populate all required fields and click on the “Aceptar” button" time="10.1640" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Navigate to the “Camera and microphone” form and click on the “Accept” button" time="0.1120" classname="Navigate to the “Camera and microphone” form and click on the “Accept” button">
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Navigate to the upper right corner and click on the “Iniciar reunion” button" time="2.2740" classname="Navigate to the upper right corner and click on the “Iniciar reunion” button">
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Populate all required fields and click on the “Aceptar” button" time="1.6190" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Click on the “Abrir punto” button" time="3.7590" classname="Click on the “Abrir punto” button">
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Click on the “Activar votaciones” button" time="3.4190" classname="Click on the “Activar votaciones” button">
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; Click on the “Cerrar las votaciones del punto” button" time="2.1470" classname="Click on the “Cerrar las votaciones del punto” button">
+    </testcase>
+    <testcase name="The user is able to close point votations in the &apos;New call with session&apos; type of meeting&apos; User should be able to exit the meeting" time="3.8050" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos;" timestamp="2021-12-01T14:03:39" tests="19" time="72.0810" failures="0">
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Click on the &apos;Nueva reunion&apos; button" time="4.2470" classname="Click on the &apos;Nueva reunion&apos; button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Click on the “Con sesion” button" time="3.3940" classname="Click on the “Con sesion” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Populate all required fields and click on the “Siguiente” button" time="3.2030" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button" time="14.8810" classname="Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Click on the “Anadir punto al orden del dia+” button" time="0.4450" classname="Click on the “Anadir punto al orden del dia+” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button" time="7.2920" classname="Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Populate all required fields and click on the “Siguiente” button" time="3.3020" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Click on the “Convocar y notificar” button" time="3.1660" classname="Click on the “Convocar y notificar” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Click on the “Preparar sala” button" time="0.1570" classname="Click on the “Preparar sala” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Navigate to the upper right corner and click on the “Abrir Sala” button" time="2.3840" classname="Navigate to the upper right corner and click on the “Abrir Sala” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Populate all required fields and click on the “Aceptar” button" time="10.1880" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Navigate to the “Camera and microphone” form and click on the “Accept” button" time="0.1020" classname="Navigate to the “Camera and microphone” form and click on the “Accept” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Navigate to the upper right corner and click on the “Iniciar reunion” button" time="2.2280" classname="Navigate to the upper right corner and click on the “Iniciar reunion” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Populate all required fields and click on the “Aceptar” button" time="1.6160" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Click on the “Abrir punto” button" time="3.5150" classname="Click on the “Abrir punto” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Click on the “Activar votaciones” button" time="3.4330" classname="Click on the “Activar votaciones” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Click on the “Cerrar las votaciones del punto” button" time="2.1480" classname="Click on the “Cerrar las votaciones del punto” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; Click on the “Cerrar punto” button" time="2.1650" classname="Click on the “Cerrar punto” button">
+    </testcase>
+    <testcase name="The user is able to close point in the &apos;New call with session&apos; type of meeting&apos; User should be able to exit the meeting" time="3.4200" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to finish council in the &apos;New call with session&apos; type of meeting" timestamp="2021-12-01T14:04:51" tests="21" time="68.1100" failures="0">
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the &apos;Nueva reunion&apos; button" time="2.9350" classname="Click on the &apos;Nueva reunion&apos; button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the “Con sesion” button" time="3.2020" classname="Click on the “Con sesion” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Populate all required fields and click on the “Siguiente” button" time="2.7500" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button" time="12.7360" classname="Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the “Anadir punto al orden del dia+” button" time="0.4150" classname="Click on the “Anadir punto al orden del dia+” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button" time="6.9920" classname="Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Populate all required fields and click on the “Siguiente” button" time="3.4190" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the “Convocar y notificar” button" time="3.1530" classname="Click on the “Convocar y notificar” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the “Preparar sala” button" time="0.2080" classname="Click on the “Preparar sala” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Navigate to the upper right corner and click on the “Abrir Sala” button" time="2.0560" classname="Navigate to the upper right corner and click on the “Abrir Sala” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Populate all required fields and click on the “Aceptar” button" time="10.1640" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Navigate to the “Camera and microphone” form and click on the “Accept” button" time="0.0670" classname="Navigate to the “Camera and microphone” form and click on the “Accept” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Navigate to the upper right corner and click on the “Iniciar reunion” button" time="2.1460" classname="Navigate to the upper right corner and click on the “Iniciar reunion” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Populate all required fields and click on the “Aceptar” button" time="1.7440" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the “Abrir punto” button" time="3.8740" classname="Click on the “Abrir punto” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the “Activar votaciones” button" time="3.5150" classname="Click on the “Activar votaciones” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the “Cerrar las votaciones del punto” button" time="2.2170" classname="Click on the “Cerrar las votaciones del punto” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the “Cerrar punto” button" time="2.1440" classname="Click on the “Cerrar punto” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the “Finalizar reunion” button" time="0.1490" classname="Click on the “Finalizar reunion” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting Click on the “Accept” button" time="1.2130" classname="Click on the “Accept” button">
+    </testcase>
+    <testcase name="The user is able to finish council in the &apos;New call with session&apos; type of meeting User should be able to exit the meeting" time="2.1520" classname="User should be able to exit the meeting">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting" timestamp="2021-12-01T14:05:59" tests="22" time="82.8450" failures="0">
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the &apos;Nueva reunion&apos; button" time="4.0030" classname="Click on the &apos;Nueva reunion&apos; button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the “Con sesion” button" time="3.1550" classname="Click on the “Con sesion” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Populate all required fields and click on the “Siguiente” button" time="2.7050" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button" time="13.8620" classname="Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the “Anadir punto al orden del dia+” button" time="0.5040" classname="Click on the “Anadir punto al orden del dia+” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button" time="6.6590" classname="Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Populate all required fields and click on the “Siguiente” button" time="2.8880" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the “Convocar y notificar” button" time="3.1470" classname="Click on the “Convocar y notificar” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the “Preparar sala” button" time="0.1480" classname="Click on the “Preparar sala” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Navigate to the upper right corner and click on the “Abrir Sala” button" time="2.2210" classname="Navigate to the upper right corner and click on the “Abrir Sala” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Populate all required fields and click on the “Aceptar” button" time="10.1330" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Navigate to the “Camera and microphone” form and click on the “Accept” button" time="0.0630" classname="Navigate to the “Camera and microphone” form and click on the “Accept” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Navigate to the upper right corner and click on the “Iniciar reunion” button" time="2.1480" classname="Navigate to the upper right corner and click on the “Iniciar reunion” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Populate all required fields and click on the “Aceptar” button" time="1.6200" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the “Abrir punto” button" time="3.4720" classname="Click on the “Abrir punto” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the “Activar votaciones” button" time="3.3990" classname="Click on the “Activar votaciones” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the “Cerrar las votaciones del punto” button" time="2.1470" classname="Click on the “Cerrar las votaciones del punto” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the “Cerrar punto” button" time="2.1380" classname="Click on the “Cerrar punto” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the “Finalizar reunion” button" time="0.2480" classname="Click on the “Finalizar reunion” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the “Accept” button" time="3.1590" classname="Click on the “Accept” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Click on the “Finalizar y aprobar acta” button and again click on the “Finalizar y aprobar acta” button" time="6.4220" classname="Click on the “Finalizar y aprobar acta” button and again click on the “Finalizar y aprobar acta” button">
+    </testcase>
+    <testcase name="The user is able to finalize and approve act in the &apos;New call with session&apos; type of meeting Back to Home page" time="7.7840" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting" timestamp="2021-12-01T14:07:22" tests="25" time="89.1090" failures="3">
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the &apos;Nueva reunion&apos; button" time="0.6610" classname="Click on the &apos;Nueva reunion&apos; button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Con sesion” button" time="3.1860" classname="Click on the “Con sesion” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Populate all required fields and click on the “Siguiente” button" time="2.6470" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button" time="12.6900" classname="Click on the &apos;Anadir participante&apos; button and populate all required fields then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Anadir punto al orden del dia+” button" time="0.3420" classname="Click on the “Anadir punto al orden del dia+” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button" time="6.6020" classname="Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Populate all required fields and click on the “Siguiente” button" time="2.8140" classname="Populate all required fields and click on the “Siguiente” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Convocar y notificar” button" time="3.1340" classname="Click on the “Convocar y notificar” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Preparar sala” button" time="0.1430" classname="Click on the “Preparar sala” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Navigate to the upper right corner and click on the “Abrir Sala” button" time="2.1840" classname="Navigate to the upper right corner and click on the “Abrir Sala” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Populate all required fields and click on the “Aceptar” button" time="10.1440" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Navigate to the “Camera and microphone” form and click on the “Accept” button" time="0.0630" classname="Navigate to the “Camera and microphone” form and click on the “Accept” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Navigate to the upper right corner and click on the “Iniciar reunion” button" time="2.1670" classname="Navigate to the upper right corner and click on the “Iniciar reunion” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Populate all required fields and click on the “Aceptar” button" time="1.5770" classname="Populate all required fields and click on the “Aceptar” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Abrir punto” button" time="3.5740" classname="Click on the “Abrir punto” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Activar votaciones” button" time="3.4470" classname="Click on the “Activar votaciones” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Cerrar las votaciones del punto” button" time="2.1410" classname="Click on the “Cerrar las votaciones del punto” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Cerrar punto” button" time="2.1380" classname="Click on the “Cerrar punto” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Finalizar reunion” button" time="0.1410" classname="Click on the “Finalizar reunion” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Accept” button" time="2.1640" classname="Click on the “Accept” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Finalizar y aprobar acta” button and again click on the “Finalizar y aprobar acta” button" time="6.4400" classname="Click on the “Finalizar y aprobar acta” button and again click on the “Finalizar y aprobar acta” button">
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Envio del acta” button" time="0.0000" classname="Click on the “Envio del acta” button">
+      <failure message="Timed out retrying: Expected to find element: `#tab-sendAct`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#tab-sendAct`, but never found it.
+    at ensureExistence (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Enviar acta” button" time="0.0000" classname="Click on the “Enviar acta” button">
+      <failure message="Timed out retrying: Expected to find element: `#send-act-button`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#send-act-button`, but never found it.
+    at ensureExistence (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Click on the “Enviar a todos los convocados then click on the “Enviar” button" time="0.0000" classname="Click on the “Enviar a todos los convocados then click on the “Enviar” button">
+      <failure message="Timed out retrying: Expected to find element: `#send-act-all-convened-option`, but never found it." type="AssertionError"><![CDATA[AssertionError: Timed out retrying: Expected to find element: `#send-act-all-convened-option`, but never found it.
+    at ensureExistence (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:137673:32)
+    at Object.ensureElExistence (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:137691:12)
+    at ensureExistence (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:127867:23)
+    at onFailFn (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:127905:9)
+    at tryCatcher (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:9065:23)
+    at Promise._settlePromiseFromHandler (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:7000:31)
+    at Promise._settlePromise (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:7057:18)
+    at Promise._settlePromise0 (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:7102:10)
+    at Promise._settlePromises (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:7178:18)
+    at _drainQueueStep (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:3772:12)
+    at _drainQueue (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:3765:9)
+    at Async.../../node_modules/bluebird/js/release/async.js.Async._drainQueues (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:3781:5)
+    at Async.drainQueues (https://app.dev.councilbox.com/__cypress/runner/cypress_runner.js:3651:14)]]></failure>
+    </testcase>
+    <testcase name="The user is able to send minutes in the &apos;New call with session&apos; type of meeting Back to Home page" time="6.4800" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+</testsuites>

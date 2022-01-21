@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="11.8310" tests="5" failures="0">
+  <testsuite name="Root Suite" timestamp="2021-11-26T13:51:10" tests="0" file="cypress\integration\1.Smoke\7.New_Meeting(Participant Side)_section.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Councilbox login - valid username and password" timestamp="2021-11-26T13:51:10" tests="5" time="11.7980" failures="0">
+    <testcase name="Councilbox login - valid username and password Visits the Councilbox web page" time="6.7740" classname="Visits the Councilbox web page">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Change language to Spanish" time="0.2780" classname="Change language to Spanish">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters email address" time="0.9790" classname="Enters email address">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters password" time="0.4290" classname="Enters password">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Clicks login button" time="2.1190" classname="Clicks login button">
+    </testcase>
+  </testsuite>
+</testsuites>

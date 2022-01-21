@@ -319,6 +319,7 @@ describe("The user is able to choose and select 'There is minimum notice to call
 describe("The user is able to choose and select 'Second call' option for the call in the 'Announcement' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(2000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -378,6 +379,7 @@ describe("The user is able to choose and select 'Attendees' type of quorum for t
 describe("The user is able to choose and select 'Shares' type of quorum for the call in the 'Attendance' section in the 'Council types' form", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(2000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -407,6 +409,7 @@ describe("The user is able to choose and select 'Shares' type of quorum for the 
 describe("The user is able to choose and select 'Percentage' in the 'Quorum attendance 1st call' field in the 'Council types' form", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(2000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -438,6 +441,7 @@ describe("The user is able to choose and select 'Percentage' in the 'Quorum atte
 describe("The user is able to choose and select 'Half plus one' in the 'Quorum attendance 1st call' field in the 'Council types' form", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(2000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -467,6 +471,7 @@ describe("The user is able to choose and select 'Half plus one' in the 'Quorum a
 describe("The user is able to choose and select 'Fraction' in the 'Quorum attendance 1st call' field in the 'Council types' form", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(2000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -496,6 +501,7 @@ describe("The user is able to choose and select 'Fraction' in the 'Quorum attend
 describe("The user is able to choose and select 'Number' in the 'Quorum attendance 1st call' field in the 'Council types' form", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(2000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -525,6 +531,7 @@ describe("The user is able to choose and select 'Number' in the 'Quorum attendan
 describe("The user is able to choose and select 'None' in the 'Quorum attendance 1st call' field in the 'Council types' form", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(2000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -555,6 +562,7 @@ describe("The user is able to choose and select 'None' in the 'Quorum attendance
 describe("The user is able to choose and select 'Percentage' in the 'Quorum attendance 2nd call' field in the 'Council types' form", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(2000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -584,6 +592,7 @@ describe("The user is able to choose and select 'Percentage' in the 'Quorum atte
 describe("The user is able to choose and select 'Fraction' in the 'Quorum attendance 2nd call' field in the 'Council types' form", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(2000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -613,6 +622,7 @@ describe("The user is able to choose and select 'Fraction' in the 'Quorum attend
 describe("The user is able to choose and select 'Number' in the 'Quorum attendance 2nd call' field in the 'Council types' form", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(2000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -642,6 +652,7 @@ describe("The user is able to choose and select 'Number' in the 'Quorum attendan
 describe("The user is able to choose and select 'Half plus one' in the 'Quorum attendance 2nd call' field in the 'Council types' form", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(2000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -671,6 +682,7 @@ describe("The user is able to choose and select 'Half plus one' in the 'Quorum a
 describe("The user is able to choose and select 'None' in the 'Quorum attendance 2nd call' field in the 'Council types' form", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(2000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -700,6 +712,7 @@ describe("The user is able to choose and select 'None' in the 'Quorum attendance
 describe("The user is able to choose and select 'Delegated vote' option for the call in the 'Attendance' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(2000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -726,6 +739,7 @@ describe("The user is able to choose and select 'Delegated vote' option for the 
 describe("The user is able to choose and select 'The sense of vote can be indicated in the delegations' option for the call in the 'Attendance' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(2000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -752,6 +766,7 @@ describe("The user is able to choose and select 'The sense of vote can be indica
 describe("The user is able to choose and select 'Early voting' option for the call in the 'Assistance' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(2000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -778,6 +793,7 @@ describe("The user is able to choose and select 'Early voting' option for the ca
 describe("The user is able to choose and select 'There is maximum number of delegated votes option for the call' in the 'Assistance' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(2000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -806,6 +822,7 @@ describe("The user is able to choose and select 'There is maximum number of dele
 describe("The user is able to choose and select 'Access to the room is limited after the start' option for the call in the 'Assistance' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(2000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -836,6 +853,7 @@ describe("The user is able to choose and select 'Access to the room is limited a
 describe("The user is able to choose and select 'Against' option for the call in the 'Default vote sense' field in the  'Completion of social agreements' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(2000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -870,6 +888,7 @@ describe("The user is able to choose and select 'Against' option for the call in
 describe("The user is able to choose and select 'No vote' option for the call in the 'Default vote sense' field in the  'Completion of social agreements' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(2000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -905,6 +924,7 @@ describe("The user is able to choose and select 'No vote' option for the call in
 describe("The user is able to choose and select 'In favor' option for the call in the 'Default vote sense' field in the  'Completion of social agreements' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(2000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -939,6 +959,7 @@ describe("The user is able to choose and select 'In favor' option for the call i
 describe("The user is able to choose and select 'Abstention' option for the call in the 'Default vote sense' field in the  'Completion of social agreements' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(2000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -974,6 +995,7 @@ describe("The user is able to choose and select 'Abstention' option for the call
 describe("The user is able to choose and select 'There are comments on the agenda items' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(2000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -1000,6 +1022,7 @@ describe("The user is able to choose and select 'There are comments on the agend
 describe("The user is able to choose and select 'Email notification of voting start' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(2000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -1027,6 +1050,7 @@ describe("The user is able to choose and select 'Email notification of voting st
 describe("The user is able to choose and select 'Exists quality vote' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(1000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -1053,6 +1077,7 @@ describe("The user is able to choose and select 'Exists quality vote' option for
 describe("The user is able to choose and select 'Chairperson' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(1000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -1080,6 +1105,7 @@ describe("The user is able to choose and select 'Chairperson' option for the cal
 describe("The user is able to choose and select 'Secretary' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(1000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -1106,6 +1132,7 @@ describe("The user is able to choose and select 'Secretary' option for the call 
 describe("The user is able to choose and select 'Hide recounts until voting is closed' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(1000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -1132,6 +1159,7 @@ describe("The user is able to choose and select 'Hide recounts until voting is c
 describe("The user is able to choose and select 'There are present participants with electronic vote' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(1000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -1158,6 +1186,7 @@ describe("The user is able to choose and select 'There are present participants 
 describe("The user is able to choose and select 'It is permitted to alter the agenda after the call' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(1000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -1185,6 +1214,7 @@ describe("The user is able to choose and select 'It is permitted to alter the ag
 describe("The user is able to choose and select 'It is permitted to reorder items on the agenda during the meeting' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(1000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -1212,6 +1242,7 @@ describe("The user is able to choose and select 'It is permitted to reorder item
 describe("The user is able to choose and select 'Those banned may be readmitted' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(1000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -1241,6 +1272,7 @@ describe("The user is able to choose and select 'Those banned may be readmitted'
 describe("The user is able to choose and select 'Associated census' for the call in the 'Census' section in the 'Types of meetings' form", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(1000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -1272,6 +1304,7 @@ describe("The user is able to choose and select 'Associated census' for the call
 describe("The user is able to choose and select 'Minutes exist' option for the call in the 'Minutes and documents' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(1000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -1299,6 +1332,7 @@ describe("The user is able to choose and select 'Minutes exist' option for the c
 describe("The user is able to choose and select 'Automatic approval of the minutes at the end' option for the call in the 'Minutes and documents' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(1000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -1326,6 +1360,7 @@ describe("The user is able to choose and select 'Automatic approval of the minut
 describe("The user is able to choose and select 'Send minutes automatically on completion option for the call in the 'Minutes and documents' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(1000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -1413,6 +1448,7 @@ describe("The user is able to choose and select 'It is included in the minute bo
 describe("The user is able to choose and select 'Double column' option for the call in the 'Documents' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(1000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -1441,6 +1477,7 @@ describe("The user is able to choose and select 'Double column' option for the c
 describe("The user is able to choose and select 'Require (proxy) document' option for the call in the 'Documents' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(1000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -1471,6 +1508,7 @@ describe("The user is able to choose and select 'Require (proxy) document' optio
 describe("The user is able to choose and select the tag in the 'tags' section in the 'Announcement header' form in the 'Announcement template' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(1000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -1503,6 +1541,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
 describe("The user is able to choose and select the tag in the 'tags' section in the 'Annoucement footer' form in the 'Annoucement template' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(1000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -1534,6 +1573,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
 describe("The user is able to choose and select the tag in the 'tags' section in the 'Introduction' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(1000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -1565,6 +1605,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
 describe("The user is able to choose and select the tag in the 'tags' section in the 'Right column introduction' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(1000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -1596,6 +1637,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
 describe("The user is able to choose and select the tag in the 'tags' section in the 'Constitution' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(1000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -1627,6 +1669,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
 describe("The user is able to choose and select the tag in the 'tags' section in the 'Constitution right column' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(1000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -1658,6 +1701,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
 describe("The user is able to choose and select the tag in the 'tags' section in the 'Conclusion' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(1000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()
@@ -1689,6 +1733,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
 describe("The user is able to choose and select the tag in the 'tags' section in the 'Right column conclusion' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
+            cy.wait(1000)
             cy.get('#edit-statutes-block').click()
             cy.wait(1000)
             cy.get('#company-statute-edit-3').click()

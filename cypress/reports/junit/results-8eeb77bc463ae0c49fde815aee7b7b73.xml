@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="36.0420" tests="24" failures="0">
+  <testsuite name="Root Suite" timestamp="2022-01-04T15:56:09" tests="0" file="cypress\integration\1.Smoke\55.Knowledge_Base_section.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Councilbox login - valid username and password" timestamp="2022-01-04T15:56:09" tests="5" time="8.8770" failures="0">
+    <testcase name="Councilbox login - valid username and password Visits the Councilbox web page" time="2.5870" classname="Visits the Councilbox web page">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Change language to Spanish" time="1.4980" classname="Change language to Spanish">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters email address" time="0.9490" classname="Enters email address">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters password" time="0.4270" classname="Enters password">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Clicks login button" time="2.1280" classname="Clicks login button">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to add a new document in the &apos;Base de conocimiento&apos; section" timestamp="2022-01-04T15:56:18" tests="5" time="7.4280" failures="0">
+    <testcase name="The user is able to add a new document in the &apos;Base de conocimiento&apos; section From the menu choose and click on the &apos;Base de conocimiento&apos; button" time="3.2070" classname="From the menu choose and click on the &apos;Base de conocimiento&apos; button">
+    </testcase>
+    <testcase name="The user is able to add a new document in the &apos;Base de conocimiento&apos; section Click on the &apos;Mi documentacion&apos; button" time="0.1140" classname="Click on the &apos;Mi documentacion&apos; button">
+    </testcase>
+    <testcase name="The user is able to add a new document in the &apos;Base de conocimiento&apos; section From the drop down menu click on the &apos;Subir archivo&apos; button" time="0.1210" classname="From the drop down menu click on the &apos;Subir archivo&apos; button">
+    </testcase>
+    <testcase name="The user is able to add a new document in the &apos;Base de conocimiento&apos; section Choose the file you want to upload click on it and then click on &apos;Open&apos; button" time="0.0240" classname="Choose the file you want to upload click on it and then click on &apos;Open&apos; button">
+    </testcase>
+    <testcase name="The user is able to add a new document in the &apos;Base de conocimiento&apos; section Back to Home page" time="3.9160" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to create a new template in the &apos;Base de conocimiento&apos; section" timestamp="2022-01-04T15:56:26" tests="6" time="12.1760" failures="0">
+    <testcase name="The user is able to create a new template in the &apos;Base de conocimiento&apos; section From the menu choose and click on the &apos;Base de conocimiento&apos; button" time="0.1570" classname="From the menu choose and click on the &apos;Base de conocimiento&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new template in the &apos;Base de conocimiento&apos; section Click on the &apos;Plantillas&apos; button" time="0.1900" classname="Click on the &apos;Plantillas&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new template in the &apos;Base de conocimiento&apos; section Click on the &apos;Nueva plantilla&apos; button" time="0.2440" classname="Click on the &apos;Nueva plantilla&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new template in the &apos;Base de conocimiento&apos; section Populate “Titulo” field" time="0.8080" classname="Populate “Titulo” field">
+    </testcase>
+    <testcase name="The user is able to create a new template in the &apos;Base de conocimiento&apos; section Click on the &apos;Guardar&apos; button" time="5.1230" classname="Click on the &apos;Guardar&apos; button">
+    </testcase>
+    <testcase name="The user is able to create a new template in the &apos;Base de conocimiento&apos; section Back to Home page" time="5.6010" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to add new tag in the &apos;Base de conocimiento&apos; section" timestamp="2022-01-04T15:56:38" tests="8" time="7.5320" failures="0">
+    <testcase name="The user is able to add new tag in the &apos;Base de conocimiento&apos; section From the menu choose and click on the &apos;Base de conocimiento&apos; button" time="0.1880" classname="From the menu choose and click on the &apos;Base de conocimiento&apos; button">
+    </testcase>
+    <testcase name="The user is able to add new tag in the &apos;Base de conocimiento&apos; section Click on the &apos;Tags&apos; button" time="0.1810" classname="Click on the &apos;Tags&apos; button">
+    </testcase>
+    <testcase name="The user is able to add new tag in the &apos;Base de conocimiento&apos; section Click on the &apos;Anadir&apos; button" time="1.1840" classname="Click on the &apos;Anadir&apos; button">
+    </testcase>
+    <testcase name="The user is able to add new tag in the &apos;Base de conocimiento&apos; section Populate “Clave” field" time="0.6940" classname="Populate “Clave” field">
+    </testcase>
+    <testcase name="The user is able to add new tag in the &apos;Base de conocimiento&apos; section Populate “Valor” field" time="0.6270" classname="Populate “Valor” field">
+    </testcase>
+    <testcase name="The user is able to add new tag in the &apos;Base de conocimiento&apos; section Populate “Descripcion” field" time="0.4320" classname="Populate “Descripcion” field">
+    </testcase>
+    <testcase name="The user is able to add new tag in the &apos;Base de conocimiento&apos; section Click on the &apos;Aceptar&apos; button" time="0.0990" classname="Click on the &apos;Aceptar&apos; button">
+    </testcase>
+    <testcase name="The user is able to add new tag in the &apos;Base de conocimiento&apos; section Back to Home page" time="4.0550" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+</testsuites>

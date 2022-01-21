@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="133.0280" tests="42" failures="0">
+  <testsuite name="Root Suite" timestamp="2021-12-01T14:13:16" tests="0" file="cypress\integration\1.Smoke\72.Quorum scenarios - 100 votes 100 shares.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Councilbox login - valid username and password" timestamp="2021-12-01T14:13:16" tests="5" time="12.0420" failures="0">
+    <testcase name="Councilbox login - valid username and password Visits the Councilbox web page" time="4.0680" classname="Visits the Councilbox web page">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Change language to Spanish" time="2.3510" classname="Change language to Spanish">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters email address" time="0.9340" classname="Enters email address">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters password" time="0.4260" classname="Enters password">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Clicks login button" time="2.1270" classname="Clicks login button">
+    </testcase>
+  </testsuite>
+  <testsuite name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares" timestamp="2021-12-01T14:13:28" tests="37" time="120.9350" failures="0">
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Click on the “Censuses” button" time="1.1170" classname="Click on the “Censuses” button">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Click on the “Add census” button and populate all required fields then click on the “OK” button" time="2.3420" classname="Click on the “Add census” button and populate all required fields then click on the “OK” button">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Navigate to the already added census and hover it then click on the “Manage participants” icon" time="4.3070" classname="Navigate to the already added census and hover it then click on the “Manage participants” icon">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Add participant A with 20 votes and 20 shares" time="4.5600" classname="Add participant A with 20 votes and 20 shares">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Add participant B with 10 votes and 10 shares" time="4.3460" classname="Add participant B with 10 votes and 10 shares">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Add participant C with 10 votes and 10 shares" time="4.2580" classname="Add participant C with 10 votes and 10 shares">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Add participant D with 20 votes and 20 shares" time="4.2930" classname="Add participant D with 20 votes and 20 shares">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Add participant E with 10 votes and 10 shares" time="4.2980" classname="Add participant E with 10 votes and 10 shares">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Add participant F with 10 votes and 10 shares”" time="4.2510" classname="Add participant F with 10 votes and 10 shares”">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Add participant G with 5 votes and 5 shares" time="4.2370" classname="Add participant G with 5 votes and 5 shares">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Add participant H with 5 votes and 5 shares" time="4.2690" classname="Add participant H with 5 votes and 5 shares">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Add participant I with 10 votes and 10 shares" time="4.2120" classname="Add participant I with 10 votes and 10 shares">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Observe the total number of votes and shares" time="0.5620" classname="Observe the total number of votes and shares">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Close the “Census” section and navigate to the landing page" time="5.0690" classname="Close the “Census” section and navigate to the landing page">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Click on the “New meeting” button the select the “With session” type of meeting" time="11.5210" classname="Click on the “New meeting” button the select the “With session” type of meeting">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Populate all required fields and click on the “Next” button" time="1.4450" classname="Populate all required fields and click on the “Next” button">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Navigate to the “Current census” on the top left corner and click on the field to select the census" time="0.2170" classname="Navigate to the “Current census” on the top left corner and click on the field to select the census">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Select the census you added before (with 9 participants - 100 votes and 100 shares)" time="0.3970" classname="Select the census you added before (with 9 participants - 100 votes and 100 shares)">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Click on the “Yes, I want to change the census” button" time="0.4480" classname="Click on the “Yes, I want to change the census” button">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Click on the “Next” button" time="2.0940" classname="Click on the “Next” button">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Add item to agenda" time="1.7750" classname="Add item to agenda">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Click on the “Next” button" time="1.1370" classname="Click on the “Next” button">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Click on the “Next” button" time="1.1500" classname="Click on the “Next” button">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Click on the “Next” button" time="4.7480" classname="Click on the “Next” button">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Click on the “Invite and notify” button then click on the “Prepare room” button" time="1.1560" classname="Click on the “Invite and notify” button then click on the “Prepare room” button">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Click on the “Open room” button then click on the “Open room” button" time="10.1200" classname="Click on the “Open room” button then click on the “Open room” button">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Click on the “Participants” button" time="1.1920" classname="Click on the “Participants” button">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Click on the “Add guest+” button and populate all required fields and click on the “Send” button" time="4.8480" classname="Click on the “Add guest+” button and populate all required fields and click on the “Send” button">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Click on the “Add guest+” button and populate all required fields and click on the “Send” button" time="4.7530" classname="Click on the “Add guest+” button and populate all required fields and click on the “Send” button">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Navigate to the “Guest 1” and select the “Attending in person” status" time="2.3100" classname="Navigate to the “Guest 1” and select the “Attending in person” status">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Navigate to the “Guest 1” and select the “Attending in person” status" time="1.7920" classname="Navigate to the “Guest 1” and select the “Attending in person” status">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Observe the current quorum number" time="0.5330" classname="Observe the current quorum number">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Click to the “Participant D”" time="0.6690" classname="Click to the “Participant D”">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Click on the “Delegate vote” button then choose the “Participant B” and click on it" time="7.4400" classname="Click on the “Delegate vote” button then choose the “Participant B” and click on it">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Click on the “Participant B” and observe the total votes" time="4.5370" classname="Click on the “Participant B” and observe the total votes">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Click on the “Participant B” and select the “Attending in person” status" time="3.2840" classname="Click on the “Participant B” and select the “Attending in person” status">
+    </testcase>
+    <testcase name="Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares Observe the current quorum number on the top right side of the page" time="0.5250" classname="Observe the current quorum number on the top right side of the page">
+    </testcase>
+  </testsuite>
+</testsuites>

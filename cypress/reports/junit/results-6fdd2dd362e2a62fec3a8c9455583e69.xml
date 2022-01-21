@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="19.3820" tests="9" failures="0">
+  <testsuite name="Root Suite" timestamp="2021-12-01T13:20:54" tests="0" file="cypress\integration\1.Smoke\3.Types_of_Meetings_section.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Councilbox login - valid username and password" timestamp="2021-12-01T13:20:54" tests="5" time="9.1240" failures="0">
+    <testcase name="Councilbox login - valid username and password Visits the Councilbox web page" time="2.6240" classname="Visits the Councilbox web page">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Change language to Spanish" time="1.7160" classname="Change language to Spanish">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters email address" time="0.9740" classname="Enters email address">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters password" time="0.4130" classname="Enters password">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Clicks login button" time="2.1210" classname="Clicks login button">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to add a new type of meeting in the &apos;Tipos de reunion&apos; section" timestamp="2021-12-01T13:21:03" tests="4" time="10.2290" failures="0">
+    <testcase name="The user is able to add a new type of meeting in the &apos;Tipos de reunion&apos; section From the menu choose and click on the &apos;Tipos de reunion&apos; button" time="0.4510" classname="From the menu choose and click on the &apos;Tipos de reunion&apos; button">
+    </testcase>
+    <testcase name="The user is able to add a new type of meeting in the &apos;Tipos de reunion&apos; section On the upper left corner click on the &apos;Anadir tipo de reunion+&apos;&apos; button" time="2.3910" classname="On the upper left corner click on the &apos;Anadir tipo de reunion+&apos;&apos; button">
+    </testcase>
+    <testcase name="The user is able to add a new type of meeting in the &apos;Tipos de reunion&apos; section Populate required field and click on the &apos;Aceptar&apos; button" time="0.5010" classname="Populate required field and click on the &apos;Aceptar&apos; button">
+    </testcase>
+    <testcase name="The user is able to add a new type of meeting in the &apos;Tipos de reunion&apos; section Back to Home page" time="6.8540" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+</testsuites>

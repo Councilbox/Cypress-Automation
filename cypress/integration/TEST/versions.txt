@@ -1,0 +1,23 @@
+------------------------------------
+date: 01/21/2022 - Friday
+
+REU CORE:
+version: 8.13.4
+
+OVAC CORE:
+version: 8.13.4
+
+EVID CORE:
+version: 8.13.4
+
+------------------------------------
+date: 01/21/2022 - Friday
+
+REU CORE:
+version: 8.13.4
+
+OVAC CORE:
+version: 8.13.4
+
+EVID CORE:
+version: 8.13.4

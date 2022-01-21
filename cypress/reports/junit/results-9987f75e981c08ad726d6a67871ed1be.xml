@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="31.3010" tests="20" failures="0">
+  <testsuite name="Root Suite" timestamp="2021-11-26T13:35:10" tests="0" file="cypress\integration\1.Smoke\2.Company_Settings_section.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Councilbox login - valid username and password" timestamp="2021-11-26T13:35:10" tests="5" time="7.3290" failures="0">
+    <testcase name="Councilbox login - valid username and password Visits the Councilbox web page" time="1.3340" classname="Visits the Councilbox web page">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Change language to Spanish" time="1.2930" classname="Change language to Spanish">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters email address" time="1.2390" classname="Enters email address">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Enters password" time="0.5140" classname="Enters password">
+    </testcase>
+    <testcase name="Councilbox login - valid username and password Clicks login button" time="2.1470" classname="Clicks login button">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to add company in the Councilbox" timestamp="2021-11-26T13:35:17" tests="10" time="11.2010" failures="0">
+    <testcase name="The user is able to add company in the Councilbox From the dashboard click on the &apos;Anadir sociedad&apos; button" time="6.3780" classname="From the dashboard click on the &apos;Anadir sociedad&apos; button">
+    </testcase>
+    <testcase name="The user is able to add company in the Councilbox Populate “Razón social*” field" time="0.6930" classname="Populate “Razón social*” field">
+    </testcase>
+    <testcase name="The user is able to add company in the Councilbox Populate “CIF de la entidad*” field" time="0.7060" classname="Populate “CIF de la entidad*” field">
+    </testcase>
+    <testcase name="The user is able to add company in the Councilbox Populate “Dominio” field" time="0.4020" classname="Populate “Dominio” field">
+    </testcase>
+    <testcase name="The user is able to add company in the Councilbox Populate “Clave maestra” field" time="0.4310" classname="Populate “Clave maestra” field">
+    </testcase>
+    <testcase name="The user is able to add company in the Councilbox Scroll down the page and populate “Dirección” field" time="0.4140" classname="Scroll down the page and populate “Dirección” field">
+    </testcase>
+    <testcase name="The user is able to add company in the Councilbox Populate “Localidad” field" time="0.3980" classname="Populate “Localidad” field">
+    </testcase>
+    <testcase name="The user is able to add company in the Councilbox Select the “Pais”" time="0.3080" classname="Select the “Pais”">
+    </testcase>
+    <testcase name="The user is able to add company in the Councilbox Populate “Código Postal” field" time="0.8940" classname="Populate “Código Postal” field">
+    </testcase>
+    <testcase name="The user is able to add company in the Councilbox Populate “Código afiliación”" time="0.4000" classname="Populate “Código afiliación”">
+    </testcase>
+  </testsuite>
+  <testsuite name="The user is able to Link company" timestamp="2021-11-26T13:35:29" tests="5" time="12.7490" failures="0">
+    <testcase name="The user is able to Link company From the dashboard click on the &apos;Vincular sociedad&apos; button" time="0.4010" classname="From the dashboard click on the &apos;Vincular sociedad&apos; button">
+    </testcase>
+    <testcase name="The user is able to Link company Populate “CIF de la entidad*” field" time="0.5500" classname="Populate “CIF de la entidad*” field">
+    </testcase>
+    <testcase name="The user is able to Link company Populate “Clave maestra*” field" time="0.4360" classname="Populate “Clave maestra*” field">
+    </testcase>
+    <testcase name="The user is able to Link company Click on the &apos;Vincular&apos; button" time="3.1490" classname="Click on the &apos;Vincular&apos; button">
+    </testcase>
+    <testcase name="The user is able to Link company Back to Home page" time="8.1590" classname="Back to Home page">
+    </testcase>
+  </testsuite>
+</testsuites>

@@ -688,8 +688,7 @@ describe("The user is able to open point in the 'New call with session' section"
 
 
         it("Click on the “Abrir punto” button", function() {
-        
-        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.get('#council-live-tab-agenda').click()
         cy.wait(1000)
         cy.get('#open-agenda-point-button').click()
         cy.wait(2000)
@@ -940,8 +939,9 @@ describe("The user is able to activate ratings in the 'New call with session'", 
 
         it("Click on the “Abrir punto” button", function() {
         
-        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.get('#council-live-tab-agenda').click()
         cy.wait(1000)
+
         cy.get('#open-agenda-point-button').click()
         cy.wait(2000)
         
@@ -952,8 +952,9 @@ describe("The user is able to activate ratings in the 'New call with session'", 
 
     it("Click on the “Activar votaciones” button", function() {
         
-        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.get('#council-live-tab-agenda').click()
         cy.wait(1000)
+
         cy.get('#open-point-votings-button').click()
         cy.wait(2000)
         
@@ -1206,8 +1207,9 @@ describe("The user is able to close point votations in the 'New call with sessio
 
         it("Click on the “Abrir punto” button", function() {
         
-        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.get('#council-live-tab-agenda').click()
         cy.wait(1000)
+
         cy.get('#open-agenda-point-button').click()
         cy.wait(2000)
         
@@ -1218,8 +1220,10 @@ describe("The user is able to close point votations in the 'New call with sessio
 
     it("Click on the “Activar votaciones” button", function() {
         
-        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.get('#council-live-tab-agenda').click()
         cy.wait(1000)
+
+
         cy.get('#open-point-votings-button').click()
         cy.wait(2000)
         
@@ -1482,8 +1486,9 @@ describe("The user is able to close point in the 'New call with session' type of
 
         it("Click on the “Abrir punto” button", function() {
         
-        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.get('#council-live-tab-agenda').click()
         cy.wait(1000)
+
         cy.get('#open-agenda-point-button').click()
         cy.wait(2000)
         
@@ -1494,8 +1499,9 @@ describe("The user is able to close point in the 'New call with session' type of
 
     it("Click on the “Activar votaciones” button", function() {
         
-        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.get('#council-live-tab-agenda').click()
         cy.wait(1000)
+
         cy.get('#open-point-votings-button').click()
         cy.wait(2000)
         
@@ -1766,8 +1772,9 @@ describe("The user is able to finish council in the 'New call with session' type
 
         it("Click on the “Abrir punto” button", function() {
         
-        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.get('#council-live-tab-agenda').click()
         cy.wait(1000)
+
         cy.get('#open-agenda-point-button').click()
         cy.wait(2000)
         
@@ -1778,8 +1785,9 @@ describe("The user is able to finish council in the 'New call with session' type
 
     it("Click on the “Activar votaciones” button", function() {
         
-        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.get('#council-live-tab-agenda').click()
         cy.wait(1000)
+
         cy.get('#open-point-votings-button').click()
         cy.wait(2000)
         
@@ -2062,8 +2070,9 @@ describe("The user is able to finalize and approve act in the 'New call with ses
 
         it("Click on the “Abrir punto” button", function() {
         
-        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.get('#council-live-tab-agenda').click()
         cy.wait(1000)
+
         cy.get('#open-agenda-point-button').click()
         cy.wait(2000)
         
@@ -2074,8 +2083,9 @@ describe("The user is able to finalize and approve act in the 'New call with ses
 
     it("Click on the “Activar votaciones” button", function() {
         
-        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.get('#council-live-tab-agenda').click()
         cy.wait(1000)
+
         cy.get('#open-point-votings-button').click()
         cy.wait(2000)
         
@@ -2369,8 +2379,9 @@ describe("The user is able to send minutes in the 'New call with session' type o
 
         it("Click on the “Abrir punto” button", function() {
         
-        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.get('#council-live-tab-agenda').click()
         cy.wait(1000)
+
         cy.get('#open-agenda-point-button').click()
         cy.wait(2000)
         
@@ -2381,8 +2392,9 @@ describe("The user is able to send minutes in the 'New call with session' type o
 
     it("Click on the “Activar votaciones” button", function() {
         
-        cy.get('#ordenDelDiaParticipantesButton').click()
+        cy.get('#council-live-tab-agenda').click()
         cy.wait(1000)
+
         cy.get('#open-point-votings-button').click()
         cy.wait(2000)
         
