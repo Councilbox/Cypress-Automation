@@ -147,7 +147,7 @@ const ParticipantForm = ({
 		}
 		<GridItem xs={6} md={4} lg={3}>
 			<TextInput
-				required={participant?.personOrEntity === 0 || (participant?.personOrEntity === 1 && !representative?.hasRepresentative)}
+				required={participant?.personOrEntity === 0 || (participant?.personOrEntity === 1 && !representative?.email)}
 				floatingText={translate.email}
 				id="participant-email-input"
 				{...(checkEmail ? { onKeyUp: event => checkEmail(event, 'participant') } : null)}

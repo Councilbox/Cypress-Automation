@@ -138,67 +138,52 @@ export const checkRequiredFieldsRepresentative = (participant, representative, t
 	let hasError = false;
 	const regex = INPUT_REGEX;
 
-	if (participant.name) {
+	if (representative.name) {
 		if (!(regex.test(participant.name)) || !participant.name.trim()) {
 			errors.name = translate.invalid_field;
 			hasError = true;
 		}
 	}
-	if (participant.surname) {
-		if (!(regex.test(participant.surname)) || !participant.surname.trim()) {
+	if (representative.surname) {
+		if (!(regex.test(representative.surname)) || !representative.surname.trim()) {
 			errors.surname = translate.invalid_field;
 			hasError = true;
 		}
 	}
 
-	if (participant.dni) {
+	if (representative.dni) {
 		if (!(regex.test(participant.dni)) || !participant.dni.trim()) {
 			errors.dni = translate.invalid_field;
 			hasError = true;
 		}
 	}
 
-	if (!participant.name) {
-		hasError = true;
-		errors.name = translate.field_required;
-	}
-
-	if (!participant.surname) {
-		hasError = true;
-		errors.surname = translate.field_required;
-	}
-
-	if (!participant.dni) {
-		hasError = true;
-		errors.dni = translate.field_required;
-	}
-
-	if (!checkValidEmail(participant.email.toLocaleLowerCase())) {
+	if (!checkValidEmail(representative?.email?.toLocaleLowerCase()) && !participant?.email?.toLocaleLowerCase()) {
 		hasError = true;
 		errors.email = translate.valid_email_required;
 	}
 
-	if (participant.email === representative.email) {
+	if (representative.email === participant.email) {
 		hasError = true;
 		errors.email = translate.repeated_email;
 	}
 
-	if (participant.secondaryEmail && !!participant.secondaryEmail.trim()) {
-		if (!checkValidEmail(participant.secondaryEmail.toLocaleLowerCase())) {
+	if (representative.secondaryEmail && !!representative.secondaryEmail.trim()) {
+		if (!checkValidEmail(representative.secondaryEmail.toLocaleLowerCase())) {
 			hasError = true;
 			errors.secondaryEmail = translate.tooltip_invalid_email_address;
 		}
 	}
 
-	if (participant.phone) {
+	if (representative.phone) {
 		const test = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
-		if (!test.test(participant.phone)) {
+		if (!test.test(representative.phone)) {
 			errors.phone = translate.invalid_field;
 			hasError = true;
 		}
 	}
 
-	if (!participant.language) {
+	if (!representative.language) {
 		hasError = true;
 		errors.language = translate.field_required;
 	}

@@ -211,6 +211,7 @@ class CensusParticipantEditor extends React.Component {
 							<RepresentativeForm
 								translate={this.props.translate}
 								state={this.state.representative}
+								participant={participant}
 								setSelectRepresentative={value => this.setState({
 									selectRepresentative: value
 								})}

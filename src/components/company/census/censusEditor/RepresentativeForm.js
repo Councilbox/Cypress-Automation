@@ -52,6 +52,7 @@ const RepresentativeForm = ({
 	updateState,
 	translate,
 	state,
+	participant,
 	checkEmail,
 	errors,
 	languages,
@@ -178,7 +179,7 @@ const RepresentativeForm = ({
 						</GridItem>
 						<GridItem xs={6} md={4} lg={3}>
 							<TextInput
-								required
+								required={!participant?.email}
 								id="representative-email-input"
 								{...(checkEmail ? { onKeyUp: event => checkEmail(event, 'representative') } : {})}
 								floatingText={translate.email}
