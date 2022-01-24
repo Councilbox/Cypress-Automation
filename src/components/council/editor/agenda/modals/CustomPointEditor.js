@@ -21,7 +21,7 @@ const CustomPointEditor = ({ translate, updateCustomAgenda, ...props }) => {
 	const validateCustomAgenda = useValidateAgenda(translate, setErrors);
 
 	const addCustomPoint = async () => {
-		if (!validateCustomAgenda(items, options, agenda)) {
+		if (!validateCustomAgenda(items, options, agenda, attachments)) {
 			const response = await updateCustomAgenda({
 				variables: {
 					agenda,

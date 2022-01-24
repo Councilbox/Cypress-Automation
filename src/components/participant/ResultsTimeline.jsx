@@ -7,7 +7,8 @@ import {
 import StepConnector from 'material-ui/Stepper/StepConnector';
 import { LoadingSection, Scrollbar } from '../../displayComponents';
 import {
-	getAgendaTypeLabel, hasVotation, getActPointSubjectType, isCustomPoint, isConfirmationRequest
+	getAgendaTypeLabel, hasVotation, getActPointSubjectType, isCustomPoint, isConfirmationRequest,
+	checkLimitExceededTime
 } from '../../utils/CBX';
 import { getPrimary, getSecondary } from '../../styles/colors';
 import { AGENDA_TYPES, COUNCIL_TYPES } from '../../constants';
@@ -20,10 +21,11 @@ import VotingCertificate from './agendas/VotingCertificate';
 
 
 const ResultsTimeline = ({
-	data, translate, council, classes, client, disableScroll
+	data, translate, council, classes, client, disableScroll, participant
 }) => {
 	const [timeline, setTimeline] = React.useState([]);
 	const [loaded, setLoaded] = React.useState(false);
+	const guestMode = !!(council.statute.letParticipantsEnterAfterLimit) && checkLimitExceededTime(participant, council);
 	const scrollbar = React.useRef();
 
 	const getData = React.useCallback(async () => {
@@ -94,13 +96,12 @@ const ResultsTimeline = ({
 						case 'REOPEN_VOTING':
 							return getStepColor(event, content, translate, classes, council);
 						default:
-							return getStepConNumero(content, translate, agendas, council);
+							return getStepConNumero(content, translate, agendas, council, guestMode);
 					}
 				})}
 			</Stepper>
 		);
 	};
-
 
 	if (data.loading) {
 		return <LoadingSection />;
@@ -126,7 +127,6 @@ const VoteDisplay = ({
 	voting, translate, agenda, endPage
 }) => {
 	const votes = new Set();
-
 
 	voting.ballots.forEach(ballot => votes.add(ballot.value));
 	if (agenda.subjectType === AGENDA_TYPES.PRIVATE_VOTING || agenda.subjectType === AGENDA_TYPES.CUSTOM_PRIVATE) {
@@ -159,14 +159,14 @@ const VoteDisplay = ({
 	if (isConfirmationRequest(agenda.subjectType)) {
 		return (
 			<div>
-				{voting.vote === 1 &&
-					translate.accepted_masc
+				{voting.vote === 1
+					&& translate.accepted_masc
 				}
-				{voting.vote === 0 &&
-					translate.refused
+				{voting.vote === 0
+					&& translate.refused
 				}
-				{voting.vote === -1 &&
-					translate.without_selection
+				{voting.vote === -1
+					&& translate.without_selection
 				}
 				<VotingCertificate
 					vote={voting}
@@ -246,8 +246,8 @@ const getStepInit = (event, content, translate, classes, council) => (
 		<StepContent classes={{
 			root: classes.root
 		}} style={{ fontSize: '0.9em', textAlign: 'left' }}>
-			{(event.type === 'CLOSE_VOTING' && isValidResult(content.data.agendaPoint.type)) &&
-					<React.Fragment>
+			{(event.type === 'CLOSE_VOTING' && isValidResult(content.data.agendaPoint.type))
+					&& <React.Fragment>
 						<span>
 							{`${translate.recount}:`}
 							<div aria-label={`${translate.in_favor_btn}: ${content.data.agendaPoint.results.positive}`}>{translate.in_favor_btn}: {content.data.agendaPoint.results.positive}</div>
@@ -262,32 +262,33 @@ const getStepInit = (event, content, translate, classes, council) => (
 
 const getStepColor = (event, content, translate, classes, council) => (
 	<Step active key={event.id}>
-		<StepLabel icon={
-			<div
-				style={{
-					display: 'flex',
-					justifyContent: 'center',
-					alignItems: 'center',
-					height: '23px',
-					width: '23px',
-					margin: '0',
-					marginLeft: '1px',
-					borderRadius: '12px',
-					backgroundColor: getPrimary(),
-					fontSize: '13px'
-				}}
-			>
-			</div>
-		}
-		style={{ textAlign: 'left', fontSize: '13px' }}>
+		<StepLabel
+			icon={
+				<div
+					style={{
+						display: 'flex',
+						justifyContent: 'center',
+						alignItems: 'center',
+						height: '23px',
+						width: '23px',
+						margin: '0',
+						marginLeft: '1px',
+						borderRadius: '12px',
+						backgroundColor: getPrimary(),
+						fontSize: '13px'
+					}}
+				>
+				</div>
+			}
+			style={{ textAlign: 'left', fontSize: '13px' }}>
 			<span style={{ fontSize: '13px' }}>{getTimelineTranslationReverse({
 				type: event.type, content, translate, council
 			})}</span><br />
 			<span style={{ fontSize: '13px', color: 'grey' }}>{moment(event.date).format('LLL')}</span>
 		</StepLabel>
 		<StepContent style={{ fontSize: '0.9em' }}>
-			{(event.type === 'CLOSE_VOTING' && isValidResult(content.data.agendaPoint.type)) &&
-					<React.Fragment>
+			{(event.type === 'CLOSE_VOTING' && isValidResult(content.data.agendaPoint.type))
+					&& <React.Fragment>
 						<span>
 							{`${translate.recount}: `}
 							<div aria-label={`${translate.in_favor_btn}: ${content.data.agendaPoint.results.positive}`}>{translate.in_favor_btn}: {content.data.agendaPoint.results.positive}</div>
@@ -300,8 +301,17 @@ const getStepColor = (event, content, translate, classes, council) => (
 	</Step>
 );
 
-const getStepConNumero = (event, translate, agendas, council) => {
+const getStepConNumero = (event, translate, agendas, council, guestMode) => {
 	const agenda = agendas.find(item => item.id === event.data.agendaPoint.id);
+
+	const handleVoteDisplay = () => {
+		if (agenda.voting) {
+			return <VoteDisplay voting={agenda.voting} translate={translate} agenda={agenda} endPage={true} />;
+		} if (guestMode) {
+			return translate.no_vote_right_access_room_time_limit;
+		} return translate.not_present_at_time_of_voting;
+	};
+
 	return (
 		<Step active key={agenda.id}>
 			<StepLabel
@@ -345,22 +355,14 @@ const getStepConNumero = (event, translate, agendas, council) => {
 					<span style={{ fontSize: '13px', color: 'grey' }}>{agenda.dateStartVotation ? moment(agenda.dateStartVotation).format('LLL') : ''}</span><br />
 					{`${translate.type}: ${translate[getAgendaTypeLabel(agenda)]}`}
 				</div>
-				{(hasVotation(agenda.subjectType) && agenda.subjectType !== getActPointSubjectType()) &&
-					<div style={{ textAlign: 'left' }}>
-						{agenda.voting ?
-							<VoteDisplay voting={agenda.voting} translate={translate} agenda={agenda} endPage={true} />
-							:
-							translate.not_present_at_time_of_voting
-						}
+				{(hasVotation(agenda.subjectType) && agenda.subjectType !== getActPointSubjectType())
+					&& <div style={{ textAlign: 'left' }}>
+						{handleVoteDisplay()}
 					</div>
 				}
-				{agenda.subjectType === getActPointSubjectType() &&
-					<div style={{ textAlign: 'left' }}>
-						{agenda.voting ?
-							<VoteDisplay voting={agenda.voting} translate={translate} agenda={agenda} endPage={true} />
-							:
-							translate.not_present_at_time_of_voting
-						}
+				{agenda.subjectType === getActPointSubjectType()
+					&& <div style={{ textAlign: 'left' }}>
+						{handleVoteDisplay()}
 					</div>
 				}
 			</StepLabel>
