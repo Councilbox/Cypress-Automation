@@ -60,7 +60,7 @@ export const checkRequiredFieldsParticipant = (
 	const regex = INPUT_REGEX;
 
 	if (participant) {
-		if (!(regex.test(participant?.name)) || !participant?.name.trim() || !participant.name) {
+		if (!(regex.test(participant.name)) || !participant.name.trim() || !participant.name) {
 			hasError = true;
 			errors.name = translate.field_required;
 		}
@@ -72,32 +72,35 @@ export const checkRequiredFieldsParticipant = (
 			errors.surname = translate.field_required;
 		}
 
-		if (participant.secondaryEmail) {
-			if (!checkValidEmail(participant.secondaryEmail.toLocaleLowerCase())) {
-				hasError = true;
-				errors.secondaryEmail = translate.tooltip_invalid_email_address;
-			}
-		}
 		if (participant.email) {
 			if (!checkValidEmail(participant.email.toLocaleLowerCase())) {
 				hasError = true;
 				errors.email = translate.valid_email_required;
 			}
-		} else if (participant.personOrEntity === 0 || (participant.personOrEntity === 1 && !representative.email)) {
+		} else if (participant.personOrEntity === 0 || (participant.personOrEntity === 1 && !representative)) {
 			hasError = true;
 			errors.email = translate.valid_email_required;
 		} else if (!participant.email && participant.personOrEntity === 1 && !representative) {
 			hasError = true;
 			errors.email = translate.valid_email_required;
 		}
-		if (participant.email === representative.email) {
+		if (participant.email === representative.email && participant.email !== 0) {
 			hasError = true;
 			errors.email = translate.repeated_email;
 		}
 
+		if (participant.secondaryEmail) {
+			if (!checkValidEmail(participant.secondaryEmail.toLocaleLowerCase())) {
+				hasError = true;
+				errors.secondaryEmail = translate.tooltip_invalid_email_address;
+			}
+		}
+		console.log('aki');
+
 		if (participant.phone) {
-			const test = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
-			if (!test.test(participant.phone)) {
+			console.log('akiiiii');
+
+			if (checkValidEmail(participant.phone)) {
 				errors.phone = translate.invalid_field;
 				hasError = true;
 			}
@@ -125,7 +128,7 @@ export const checkRequiredFieldsParticipant = (
 	};
 };
 
-export const checkRequiredFieldsRepresentative = (participant, representative, translate) => {
+export const checkRequiredFieldsRepresentative = (representative, translate) => {
 	const errors = {
 		name: '',
 		surname: '',
@@ -139,7 +142,7 @@ export const checkRequiredFieldsRepresentative = (participant, representative, t
 	const regex = INPUT_REGEX;
 
 	if (representative.name) {
-		if (!(regex.test(participant.name)) || !participant.name.trim()) {
+		if (!(regex.test(representative.name)) || !representative.name.trim()) {
 			errors.name = translate.invalid_field;
 			hasError = true;
 		}
@@ -152,20 +155,20 @@ export const checkRequiredFieldsRepresentative = (participant, representative, t
 	}
 
 	if (representative.dni) {
-		if (!(regex.test(participant.dni)) || !participant.dni.trim()) {
+		if (!(regex.test(representative.dni)) || !representative.dni.trim()) {
 			errors.dni = translate.invalid_field;
 			hasError = true;
 		}
 	}
 
-	if (!checkValidEmail(representative?.email?.toLocaleLowerCase()) && !participant?.email?.toLocaleLowerCase()) {
+	if (representative.email) {
+		if (!checkValidEmail(representative?.email?.toLocaleLowerCase())) {
+			hasError = true;
+			errors.email = translate.valid_email_required;
+		}
+	} else {
 		hasError = true;
 		errors.email = translate.valid_email_required;
-	}
-
-	if (representative.email === participant.email) {
-		hasError = true;
-		errors.email = translate.repeated_email;
 	}
 
 	if (representative.secondaryEmail && !!representative.secondaryEmail.trim()) {
@@ -248,10 +251,10 @@ export const checkRequiredFieldsAgenda = (agenda, translate, toast, attachments)
 					message={translate.revise_text}
 					id="error-toast"
 				/>, {
-					position: toast.POSITION.TOP_RIGHT,
-					autoClose: true,
-					className: 'errorToast'
-				}
+				position: toast.POSITION.TOP_RIGHT,
+				autoClose: true,
+				className: 'errorToast'
+			}
 			);
 		}
 	}

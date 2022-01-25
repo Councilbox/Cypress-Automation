@@ -25,41 +25,37 @@ import { COUNCIL_TYPES, INPUT_REGEX, PARTICIPANT_VALIDATIONS } from '../../../..
 import { getMaxGrantedWordsMessage, isAppointment, isMaxGrantedWordsError } from '../../../../../utils/CBX';
 import AppointmentParticipantForm from '../../../participants/AppointmentParticipantForm';
 
-const initialParticipant = council => {
-	return {
-		name: '',
-		surname: '',
-		position: '',
-		email: '',
-		phone: '',
-		dni: '',
-		initialState: isAppointment(council) ? 2 : 0,
-		type: 0,
-		delegateId: null,
-		numParticipations: 1,
-		socialCapital: 1,
-		uuid: null,
-		delegateUuid: null,
-		language: 'es',
-		city: '',
-		personOrEntity: 0
-	};
-};
+const initialParticipant = council => ({
+	name: '',
+	surname: '',
+	position: '',
+	email: '',
+	phone: '',
+	dni: '',
+	initialState: isAppointment(council) ? 2 : 0,
+	type: 0,
+	delegateId: null,
+	numParticipations: 1,
+	socialCapital: 1,
+	uuid: null,
+	delegateUuid: null,
+	language: 'es',
+	city: '',
+	personOrEntity: 0
+});
 
-const initialRepresentative = council => {
-	return {
-		hasRepresentative: false,
-		language: 'es',
-		type: 2,
-		initialState: isAppointment(council) ? 2 : 0,
-		name: '',
-		surname: '',
-		position: '',
-		email: '',
-		phone: '',
-		dni: ''
-	};
-};
+const initialRepresentative = council => ({
+	hasRepresentative: false,
+	language: 'es',
+	type: 2,
+	initialState: isAppointment(council) ? 2 : 0,
+	name: '',
+	surname: '',
+	position: '',
+	email: '',
+	phone: '',
+	dni: ''
+});
 
 class AddCouncilParticipantButton extends React.Component {
 	state = {
@@ -165,6 +161,7 @@ class AddCouncilParticipantButton extends React.Component {
 		const hasSocialCapital = participations;
 		const errorsParticipant = checkRequiredFieldsParticipant(
 			participant,
+			representative,
 			translate,
 			hasSocialCapital,
 			company
@@ -410,8 +407,7 @@ class AddCouncilParticipantButton extends React.Component {
 								errors={errors}
 								updateState={this.updateState}
 							/>
-							:
-							<ParticipantForm
+							: <ParticipantForm
 								type={participant.personOrEntity}
 								participant={participant}
 								participations={participations}
@@ -423,8 +419,8 @@ class AddCouncilParticipantButton extends React.Component {
 							/>
 						}
 					</Card>
-					{!isAppointment(this.props.council) &&
-						<Card style={{
+					{!isAppointment(this.props.council)
+						&& <Card style={{
 							padding: '1em',
 							marginBottom: '1em',
 							color: 'black',
@@ -442,8 +438,8 @@ class AddCouncilParticipantButton extends React.Component {
 							/>
 						</Card>
 					}
-					{this.props.council.statute.participantValidation === PARTICIPANT_VALIDATIONS.CLAVE_PIN &&
-						<Card style={{
+					{this.props.council.statute.participantValidation === PARTICIPANT_VALIDATIONS.CLAVE_PIN
+						&& <Card style={{
 							padding: '1em',
 							marginBottom: '1em',
 							color: 'black',
@@ -469,13 +465,13 @@ class AddCouncilParticipantButton extends React.Component {
 									});
 								}}
 							/>
-							{this.state.errors.clavePin &&
-								<div style={{ color: 'red', fontWeight: '700', padding: '0.6em' }}>
+							{this.state.errors.clavePin
+								&& <div style={{ color: 'red', fontWeight: '700', padding: '0.6em' }}>
 									{this.state.errors.clavePin}
 								</div>
 							}
-							{this.state.validated &&
-								<div style={{ color: 'green', fontWeight: '700', padding: '0.6em' }}>
+							{this.state.validated
+								&& <div style={{ color: 'green', fontWeight: '700', padding: '0.6em' }}>
 									{translate.clave_justicia_participant_validated}
 								</div>
 							}

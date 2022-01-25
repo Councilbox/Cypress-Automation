@@ -20,7 +20,9 @@ import { useOldState } from '../../../../hooks';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import { isMobile } from '../../../../utils/screen';
 import { COUNCIL_TYPES } from '../../../../constants';
-import { councilIsFinished, getMaxGrantedWordsMessage, isAppointment, isMaxGrantedWordsError } from '../../../../utils/CBX';
+import {
+	councilIsFinished, getMaxGrantedWordsMessage, isAppointment, isMaxGrantedWordsError
+} from '../../../../utils/CBX';
 import SelectRepresentative from '../../editor/census/modals/SelectRepresentative';
 import AppointmentParticipantForm from '../../participants/AppointmentParticipantForm';
 

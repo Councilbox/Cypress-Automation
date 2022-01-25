@@ -5,7 +5,9 @@ import { Card } from 'material-ui';
 import { AlertConfirm } from '../../../../../displayComponents/index';
 import { updateCensusParticipant } from '../../../../../queries/census';
 import { languages as languagesQuery } from '../../../../../queries/masters';
-import { censusHasParticipations, getMaxGrantedWordsMessage, isMaxGrantedWordsError, removeTypenameField } from '../../../../../utils/CBX';
+import {
+	censusHasParticipations, getMaxGrantedWordsMessage, isMaxGrantedWordsError, removeTypenameField
+} from '../../../../../utils/CBX';
 import RepresentativeForm from '../RepresentativeForm';
 import ParticipantForm from '../../../../council/participants/ParticipantForm';
 import {
@@ -150,7 +152,6 @@ class CensusParticipantEditor extends React.Component {
 		if (representative.hasRepresentative) {
 			errorsRepresentative = checkRequiredFieldsRepresentative(
 				representative,
-				participant,
 				translate
 			);
 		}
