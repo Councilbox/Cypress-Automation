@@ -167,7 +167,6 @@ class CouncilParticipantEditor extends React.Component {
 		}
 
 		if (representative.hasRepresentative) {
-			console.log('aki', representative);
 			errorsRepresentative = checkRequiredFieldsRepresentative(
 				representative,
 				translate
@@ -210,7 +209,7 @@ class CouncilParticipantEditor extends React.Component {
 				errorsParticipant.hasError = true;
 				errorsParticipant.errors.phone = translate.invalid_field;
 			}
-		} else if (!participant.phone) {
+		} else if (!participant.phone && !representative?.hasRepresentative) {
 			errorsParticipant.hasError = true;
 			errorsParticipant.errors.phone = translate.validation_required_field;
 		}

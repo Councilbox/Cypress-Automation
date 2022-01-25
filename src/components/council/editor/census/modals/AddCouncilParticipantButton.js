@@ -227,13 +227,13 @@ class AddCouncilParticipantButton extends React.Component {
 				});
 			}
 
-			if (representative.hasRepresentative && participant.email === representative.email) {
+			if (representative.hasRepresentative && participant.email === representative.email && participant.email.length !== 0) {
 				errorsRepresentative.errors.email = translate.repeated_email;
 				errorsParticipant.errors.email = translate.repeated_email;
 				errorsParticipant.hasError = true;
 			}
 
-			if (!participant.email) {
+			if (!participant.email && participant.personOrEntity === 1 && !representative?.hasRepresentative) {
 				errorsParticipant.hasError = true;
 				errorsParticipant.errors.email = translate.field_required;
 			}
