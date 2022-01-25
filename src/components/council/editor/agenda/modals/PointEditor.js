@@ -83,7 +83,7 @@ const PointEditor = ({
 
 	function checkRequiredFields() {
 		const newErrors = checkRequiredFieldsAgenda(state, translate, toast, attachments);
-		const majorityCheckResult = checkValidMajority(agenda.majority, agenda.majorityDivider, agenda.majorityType);
+		const majorityCheckResult = checkValidMajority(agenda.majority, agenda.majorityDivider, agenda.majorityType, translate);
 		setState({
 			errors: newErrors.errors,
 			majorityError: majorityCheckResult.message
@@ -297,8 +297,7 @@ const PointEditor = ({
 									errorText={state.errors.majorityType}
 									onChange={event => updateState({
 										majorityType: +event.target.value
-									})
-									}
+									})}
 									required
 								>
 									{props.majorityTypes.map(majority => (

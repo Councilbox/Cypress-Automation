@@ -81,7 +81,7 @@ const NewAgendaPointModal = ({
 	function checkRequiredFields() {
 		const agenda = state.newPoint;
 		const errors = checkRequiredFieldsAgenda(agenda, translate, toast, attachments);
-		const majorityCheckResult = checkValidMajority(agenda.majority, agenda.majorityDivider, agenda.majorityType);
+		const majorityCheckResult = checkValidMajority(agenda.majority, agenda.majorityDivider, agenda.majorityType, translate);
 		setState({
 			errors: errors.errors,
 			majorityError: majorityCheckResult.message
@@ -269,8 +269,7 @@ const NewAgendaPointModal = ({
 									id="agenda-editor-type-select"
 									onChange={event => updateState({
 										subjectType: +event.target.value
-									})
-									}
+									})}
 									required
 								>
 									<MenuItem
@@ -312,9 +311,8 @@ const NewAgendaPointModal = ({
 									errorText={errors.majorityType}
 									id="agenda-editor-majority-select"
 									onChange={event => updateState({
-										majorityType: event.target.value
-									})
-									}
+										majorityType: +event.target.value
+									})}
 									required
 								>
 									{props.majorityTypes.map(majority => (
@@ -341,12 +339,10 @@ const NewAgendaPointModal = ({
 										divider={agenda.majorityDivider}
 										onChange={value => updateState({
 											majority: +value
-										})
-										}
+										})}
 										onChangeDivider={value => updateState({
-											majorityDivider: value
-										})
-										}
+											majorityDivider: +value
+										})}
 									/>
 								)}
 							</GridItem>

@@ -157,7 +157,7 @@ const StepOptions = ({
 
 	const checkRequiredFields = () => {
 		if (council.approveActDraft === 1 && checkValidEmail(council.contactEmail)) {
-			const response = checkValidMajority(council.actPointMajority, council.actPointMajorityDivider, council.actPointMajorityType);
+			const response = checkValidMajority(council.actPointMajority, council.actPointMajorityDivider, council.actPointMajorityType, translate);
 			if (response.error) {
 				setState({
 					majorityAlert: true,
