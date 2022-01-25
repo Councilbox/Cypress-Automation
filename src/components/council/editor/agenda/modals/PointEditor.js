@@ -147,7 +147,7 @@ const PointEditor = ({
 			}
 
 			if (attachmentsToRemove.length > 0) {
-				await Promise.all(attachmentsToRemove.map(item => props.client.mutate({
+				await Promise.all(attachmentsToRemove.filter(item => item.id).map(item => props.client.mutate({
 					mutation: gql`
 						mutation deleteAgendaAttachment($attachmentId: Int!){
 							deleteAgendaAttachment(attachmentId: $attachmentId){
@@ -344,7 +344,6 @@ const PointEditor = ({
 							company={company}
 							deletedAttachments={attachmentsToRemove}
 							setDeletedAttachments={setAttachmentsToRemove}
-							prevAttachments={agenda?.attachments}
 							errorText={state?.errors?.attached}
 						/>
 					</div>

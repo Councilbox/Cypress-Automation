@@ -6,7 +6,7 @@ import CompanyDocumentsBrowser from '../../../../company/drafts/documents/Compan
 import { removeTypenameField } from '../../../../../utils/CBX';
 
 const PointAttachments = ({
-	translate, company, attachments, setAttachments, setDeletedAttachments, deletedAttachments, errorText, prevAttachments
+	translate, company, attachments, setAttachments, setDeletedAttachments, deletedAttachments, errorText
 }) => {
 	const primary = getPrimary();
 	const secondary = getSecondary();
@@ -33,14 +33,9 @@ const PointAttachments = ({
 	};
 
 	const removeAgendaAttachment = index => {
-		const toDelete = attachments?.splice(index, 1);
-		const isDuplicated = (a, b) => a?.every(r => b?.indexOf(r) >= 0);
-
+		const toDelete = attachments?.splice(index, 1).pop();
 		if (setDeletedAttachments) {
-			setDeletedAttachments([...deletedAttachments, toDelete[0]]);
-		}
-		if (isDuplicated(prevAttachments, attachments) || isDuplicated(attachments, attachments)) {
-			setDeletedAttachments([...deletedAttachments]);
+			setDeletedAttachments([...deletedAttachments, toDelete]);
 		}
 		setAttachments([...attachments]);
 	};
