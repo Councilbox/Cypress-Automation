@@ -22,7 +22,7 @@ const CBXFooter = ({ style = {} }) => (
 			dangerouslySetInnerHTML={{ __html: `Copyright &copy ${year}` }}
 		/>
 		<span style={{ marginLeft: '0.2em', marginRight: '0.2em', color: darkGrey }}>
-			{`v${CLIENT_VERSION} - `}
+			v<span id="client-version">{CLIENT_VERSION}</span>{' - '}
 			<a href="https://www.councilbox.com" rel="noreferrer noopener">
 				Councilbox Technology S.L.
 			</a>

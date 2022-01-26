@@ -94,7 +94,7 @@ const AppointmentFooter = ({ translate, color = 'rgba(180, 198, 222, 0.16)' }) =
 						<div
 							dangerouslySetInnerHTML={{ __html: `Copyright &copy ${year}` }}
 						/>
-						{`v${CLIENT_VERSION} - `}
+						v<span id="client-version">{CLIENT_VERSION}</span>{' - '}
 						<a href="https://www.councilbox.com" rel="noreferrer noopener" style={{ color: 'black' }}>
 							Councilbox Technology S.L.
 						</a>
