@@ -107,7 +107,7 @@ const AddConvenedParticipantButton = ({
 		}
 
 
-		if (participant.email && company.type !== 10) {
+		if ((participant.email && company.type !== 10) || (participant.personOrEntity === 1)) {
 			const emailsToCheck = [participant.email];
 
 			if (representative.email && !representative.id) {
@@ -125,18 +125,18 @@ const AddConvenedParticipantButton = ({
 			if (!response.data.checkUniqueCouncilEmails.success) {
 				const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
 				data.duplicatedEmails.forEach(email => {
-					if (participant.email === email) {
+					if (participant.email === email && participant.email.length > 0) {
 						errorsParticipant.errors.email = translate.register_exists_email;
 						errorsParticipant.hasError = true;
 					}
-					if (representative.email === email) {
+					if (representative.email === email && representative.email.length > 0) {
 						errorsRepresentative.errors.email = translate.register_exists_email;
 						errorsRepresentative.hasError = true;
 					}
 				});
 			}
 
-			if (participant.email === representative.email) {
+			if (participant.email === representative.email && !representative.hasRepresentative) {
 				errorsRepresentative.errors.email = translate.repeated_email;
 				errorsParticipant.errors.email = translate.repeated_email;
 				errorsParticipant.hasError = true;
@@ -318,6 +318,7 @@ const AddConvenedParticipantButton = ({
 								{isAppointment(council) ?
 									<AppointmentParticipantForm
 										participant={participant}
+										representative={representative}
 										translate={translate}
 										languages={languages}
 										errors={errors}
@@ -326,6 +327,7 @@ const AddConvenedParticipantButton = ({
 									: <ParticipantForm
 										type={participant.personOrEntity}
 										participant={participant}
+										representative={representative}
 										participations={participations}
 										translate={translate}
 										hideVotingInputs={council.councilType === COUNCIL_TYPES.ONE_ON_ONE}

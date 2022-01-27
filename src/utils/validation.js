@@ -76,13 +76,13 @@ export const checkRequiredFieldsParticipant = (
 			errors.surname = translate.invalid_field;
 		}
 
-		if (!participant.email && !representative?.hasRepresentative) {
+		if (!participant.email && participant.personOrEntity === 0) {
 			hasError = true;
 			errors.email = translate.field_required;
-		} else if (!checkValidEmail(participant.email.toLocaleLowerCase()) && !representative?.hasRepresentative) {
+		} else if (!checkValidEmail(participant?.email?.toLocaleLowerCase()) && !representative?.hasRepresentative) {
 			hasError = true;
 			errors.email = translate.tooltip_invalid_email_address;
-		} else if (participant.email === representative.email && !representative?.hasRepresentative) {
+		} else if (participant.email === representative?.email && !representative?.hasRepresentative) {
 			hasError = true;
 			errors.email = translate.repeated_email;
 		}
@@ -94,11 +94,10 @@ export const checkRequiredFieldsParticipant = (
 			}
 		}
 
-
-		if (!participant.phone && !representative.hasRepresentative) {
+		if (!participant.phone && !representative?.hasRepresentative) {
 			errors.phone = translate.field_required;
 			hasError = true;
-		} else if (!checkValidPhone(participant.phone) && !representative.hasRepresentative) {
+		} else if (!checkValidPhone(participant.phone) && !representative?.hasRepresentative) {
 			errors.phone = translate.invalid_field;
 			hasError = true;
 		}
@@ -153,11 +152,12 @@ export const checkRequiredFieldsRepresentative = (representative, translate) => 
 		hasError = true;
 	}
 
-	if (representative.dni) {
-		if (!(regex.test(representative.dni)) || !representative.dni.trim()) {
-			errors.dni = translate.invalid_field;
-			hasError = true;
-		}
+	if (!representative.dni) {
+		errors.dni = translate.field_required;
+		hasError = true;
+	} else if (!(regex.test(representative.dni)) || !representative.dni.trim()) {
+		errors.dni = translate.invalid_field;
+		hasError = true;
 	}
 
 	if (!representative.email) {
@@ -246,10 +246,10 @@ export const checkRequiredFieldsAgenda = (agenda, translate, toast, attachments)
 					message={translate.revise_text}
 					id="error-toast"
 				/>, {
-				position: toast.POSITION.TOP_RIGHT,
-				autoClose: true,
-				className: 'errorToast'
-			}
+					position: toast.POSITION.TOP_RIGHT,
+					autoClose: true,
+					className: 'errorToast'
+				}
 			);
 		}
 	}

@@ -235,6 +235,7 @@ const AddConvenedParticipantButton = ({
 					<ParticipantForm
 						type={participant.personOrEntity}
 						participant={participant}
+						representative={representative}
 						participations={participations}
 						translate={translate}
 						languages={languages}

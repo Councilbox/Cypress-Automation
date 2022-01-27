@@ -214,6 +214,7 @@ const RepresentativeForm = ({
 						</GridItem>
 						<GridItem xs={6} md={4} lg={3}>
 							<TextInput
+								required
 								id="representative-phone-input"
 								floatingText={translate.phone}
 								type="text"

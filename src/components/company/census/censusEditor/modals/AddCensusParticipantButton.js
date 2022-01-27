@@ -254,7 +254,7 @@ class AddCensusParticipantButton extends React.Component {
 					}}>
 						<RepresentativeForm
 							translate={this.props.translate}
-							state={this.state.representative}
+							state={representative}
 							updateState={this.updateRepresentative}
 							setSelectRepresentative={value => this.setState({
 								selectRepresentative: value

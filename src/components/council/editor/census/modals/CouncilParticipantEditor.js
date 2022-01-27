@@ -47,8 +47,8 @@ class CouncilParticipantEditor extends React.Component {
 	};
 
 	updateParticipantData() {
-		// eslint-disable-next-line prefer-const
 		let {
+			// eslint-disable-next-line prefer-const
 			representative, representatives, representing, ...participant
 		} = removeTypenameField(this.props.participant);
 		representative = representative ?
@@ -322,9 +322,9 @@ class CouncilParticipantEditor extends React.Component {
 							: <ParticipantForm
 								type={participant.personOrEntity}
 								participant={participant}
+								representative={representative}
 								checkEmail={this.emailKeyUp}
 								participations={participations}
-								requiredPhone
 								translate={translate}
 								isGuest={participantIsGuest(participant)}
 								hideVotingInputs={this.props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE

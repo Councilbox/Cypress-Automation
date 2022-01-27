@@ -113,7 +113,7 @@ const AddRepresentativeModal = ({ translate, participant, ...props }) => {
 		return (
 			<RepresentativeForm
 				translate={translate}
-				representative={state.representative}
+				state={state.representative}
 				updateState={updateRepresentative}
 				errors={state.errors}
 				languages={props.data.languages}

@@ -372,6 +372,7 @@ class AddCouncilParticipantButton extends React.Component {
 
 	renderBody() {
 		const participant = this.state.data;
+		const { representative } = this.state;
 		const { errors } = this.state;
 		const { translate, participations } = this.props;
 		const { languages } = this.props.data;
@@ -382,9 +383,9 @@ class AddCouncilParticipantButton extends React.Component {
 					open={this.state.selectRepresentative}
 					council={this.props.council}
 					translate={translate}
-					updateRepresentative={representative => {
+					updateRepresentative={repre => {
 						this.updateRepresentative({
-							...representative,
+							...repre,
 							hasRepresentative: true
 						});
 					}}
@@ -409,6 +410,7 @@ class AddCouncilParticipantButton extends React.Component {
 							/>
 							: <ParticipantForm
 								type={participant.personOrEntity}
+								representative={representative}
 								participant={participant}
 								participations={participations}
 								translate={translate}
@@ -427,7 +429,7 @@ class AddCouncilParticipantButton extends React.Component {
 						}}>
 							<RepresentativeForm
 								translate={this.props.translate}
-								state={this.state.representative}
+								state={representative}
 								updateState={this.updateRepresentative}
 								setSelectRepresentative={value => this.setState({
 									selectRepresentative: value

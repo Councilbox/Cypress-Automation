@@ -48,16 +48,8 @@ class AddGuestModal extends React.Component {
 				}
 			});
 			if (response) {
-				if (response.data.addGuest.success) {
-					this.props.refetch();
-					this.close();
-				} else if (response.data.addGuest.message === '601') {
-					this.setState({
-						errors: {
-							email: this.props.translate.repeated_email
-						}
-					});
-				}
+				this.props.refetch();
+				this.close();
 			}
 		}
 	};
@@ -160,7 +152,7 @@ class AddGuestModal extends React.Component {
 					requiredPhone
 					checkEmail={this.emailKeyUp}
 					translate={this.props.translate}
-					representative={this.state.guest}
+					state={this.state.guest}
 					updateState={this.updateGuest}
 					errors={this.state.errors}
 					languages={this.props.data.languages}
