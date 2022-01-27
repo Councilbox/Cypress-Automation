@@ -34,7 +34,7 @@ export const buildDocVariable = (doc, options) => ({
 	}
 });
 
-export function generateCertAgendaBlocks(data, language = 'es') {
+export function generateCertAgendaBlocks(data, language = 'es', secondaryLanguage) {
 	const agenda = data.agendas;
 	const texts = translations[language];
 
@@ -48,7 +48,7 @@ export function generateCertAgendaBlocks(data, language = 'es') {
 		language: 'es',
 		toggleable: true,
 		hide: false,
-		secondaryLanguage: 'en',
+		secondaryLanguage,
 		colorBorder: '#b39a5b',
 		noBorrar: false,
 		data: {
