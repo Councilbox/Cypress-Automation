@@ -11,7 +11,7 @@ CORE production: 8.13.2
 
 OVAC:
 
-DEV: 1.1.1
+DEV: 1.2.2
 STAGING: v1.1.1 - 
 CORE staging: 8.14.0
 PRODUCTION: v1.1.1 - 
