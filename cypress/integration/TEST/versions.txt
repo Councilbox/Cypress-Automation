@@ -1,35 +1,42 @@
 ------------------------------------
-date: 01/21/2022 - Friday
+date: 01/26/2022 - Wednesday
 
-REU CORE:
-version: 8.13.4
+REUNIONES:
 
-OVAC CORE:
-version: 8.13.4
+DEV: v8.14.0 - 
+STAGING: v8.14.1 - 
+CORE staging: 8.14.0
+PRODUCTION: v8.13.0 - 
+CORE production: 8.13.2
 
-EVID CORE:
-version: 8.13.4
+OVAC:
 
-------------------------------------
-date: 01/21/2022 - Friday
+DEV: 1.1.1
+STAGING: v1.1.1 - 
+CORE staging: 8.14.0
+PRODUCTION: v1.1.1 - 
+CORE production: 8.13.4
 
-REU CORE:
-version: 8.13.4
+EVID:
 
-OVAC CORE:
-version: 8.13.4
+DEV: 1.4.1
+STAGING: v1.4.1 - 
+CORE staging: 8.13.4
+PRODUCTION: v1.4.1 - 
+CORE production: 8.13.5
 
-EVID CORE:
-version: 8.13.4
+PORTAL:
 
-------------------------------------
-date: 01/21/2022 - Friday
+DEV: v2.0.3 - 
+STAGING: v2.0.3 - 
+PRODUCTION: v2.0.3 - 
 
-REU CORE:
-version: 8.13.4
+SHUTTER:
 
-OVAC CORE:
-version: 8.13.4
+STAGING: 1.8.0
+PRODUCTION: 1.7.2
 
-EVID CORE:
-version: 8.13.4
+HORUS:
+
+STAGING: 3.2111.0
+PRODUCTION: 3.2111.0

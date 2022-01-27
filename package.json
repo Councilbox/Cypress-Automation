@@ -80,7 +80,7 @@
     "build": "cross-env REACT_APP_MODE=alpha react-scripts build",
     "startAlpha": "cross-env REACT_APP_MODE=alpha react-scripts start",
     "test1": "mocha --require babel-register ./src/tests",
-    "test_spec": "cypress run --spec=cypress/integration/TEST/test_specs.js",
+    "versions": "cypress run --spec=cypress/integration/TEST/test_specs.js",
     "regression": "cypress run --headless --spec=cypress/integration/2.Regression/*",
     "regression 1": "cypress run --headed --spec=cypress/integration/2.Regression/1.Account_section.js",
     "regression 2": "cypress run --headless --spec=cypress/integration/2.Regression/2.User_Settings_section.js",
