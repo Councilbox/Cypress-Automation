@@ -1,5 +1,5 @@
 ------------------------------------
-date: 01/26/2022 - Wednesday
+date: 01/27/2022 - Thursday
 
 REUNIONES:
 
@@ -33,7 +33,7 @@ PRODUCTION: v2.0.3 -
 
 SHUTTER:
 
-STAGING: 1.8.0
+STAGING:  - v1.8.1
 PRODUCTION: 1.7.2
 
 HORUS:
