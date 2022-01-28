@@ -208,7 +208,7 @@ const StepOptions = ({
 				...state,
 				errors: {
 					...state.errors,
-					contactEmail: translate.tooltip_invalid_email_address
+					contactEmail: translate.email_not_valid
 				}
 			});
 			return true;
@@ -219,7 +219,7 @@ const StepOptions = ({
 				...state,
 				errors: {
 					...state.errors,
-					supportEmail: translate.tooltip_invalid_email_address
+					supportEmail: translate.email_not_valid
 				}
 			});
 			return true;
@@ -906,9 +906,11 @@ const RTMPField = ({ data, updateData, translate }) => {
 	);
 };
 
-export const RoomLayout = ({ translate, councilType, value, updateData }) => (
-	councilType === 0 &&
-	<div style={{ fontSize: '0.875rem', marginTop: '5px', marginBottom: '5px' }}>
+export const RoomLayout = ({
+	translate, councilType, value, updateData
+}) => (
+	councilType === 0
+	&& <div style={{ fontSize: '0.875rem', marginTop: '5px', marginBottom: '5px' }}>
 		<div style={{ marginBottom: '0.5em' }}>
 			{translate.room_layout}
 			<HelpPopover

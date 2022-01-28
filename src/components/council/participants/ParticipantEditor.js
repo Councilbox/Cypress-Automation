@@ -217,7 +217,7 @@ class ParticipantEditor extends Component {
 			errors.email = translate.field_required;
 		} else if (participant.email && !checkValidEmail(participant?.email?.toLocaleLowerCase())) {
 			hasError = true;
-			errors.email = translate.tooltip_invalid_email_address;
+			errors.email = translate.email_not_valid;
 		}
 
 		if (!participant.phone && !representative?.hasRepresentative) {

@@ -56,7 +56,7 @@ const AddRepresentativeModal = ({ translate, participant, ...props }) => {
 		if (!state.representative.email) {
 			errors.email = translate.required_field;
 		} else if (!checkValidEmail(state.representative.email)) {
-			errors.email = translate.tooltip_invalid_email_address;
+			errors.email = translate.email_not_valid;
 		}
 
 		if (!state.representative.phone) {

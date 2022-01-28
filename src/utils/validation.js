@@ -81,7 +81,7 @@ export const checkRequiredFieldsParticipant = (
 			errors.email = translate.field_required;
 		} else if (participant.email && !checkValidEmail(participant?.email?.toLocaleLowerCase())) {
 			hasError = true;
-			errors.email = translate.tooltip_invalid_email_address;
+			errors.email = translate.email_not_valid;
 		} else if (participant.email === representative?.email && !representative?.hasRepresentative) {
 			hasError = true;
 			errors.email = translate.repeated_email;
@@ -90,7 +90,7 @@ export const checkRequiredFieldsParticipant = (
 		if (participant.secondaryEmail) {
 			if (!checkValidEmail(participant.secondaryEmail.toLocaleLowerCase())) {
 				hasError = true;
-				errors.secondaryEmail = translate.tooltip_invalid_email_address;
+				errors.secondaryEmail = translate.email_not_valid;
 			}
 		}
 
@@ -165,13 +165,13 @@ export const checkRequiredFieldsRepresentative = (representative, translate) => 
 		errors.email = translate.field_required;
 	} else if (!checkValidEmail(representative?.email?.toLocaleLowerCase())) {
 		hasError = true;
-		errors.email = translate.tooltip_invalid_email_address;
+		errors.email = translate.email_not_valid;
 	}
 
 	if (representative.secondaryEmail && !!representative.secondaryEmail.trim()) {
 		if (!checkValidEmail(representative.secondaryEmail.toLocaleLowerCase())) {
 			hasError = true;
-			errors.secondaryEmail = translate.tooltip_invalid_email_address;
+			errors.secondaryEmail = translate.email_not_valid;
 		}
 	}
 	if (!representative.phone) {

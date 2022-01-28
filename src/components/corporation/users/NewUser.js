@@ -55,7 +55,7 @@ const NewUser = ({
 			errors.email = translate.required_field;
 		} else if (!checkValidEmail(data.email)) {
 			hasError = true;
-			errors.email = translate.tooltip_invalid_email_address;
+			errors.email = translate.email_not_valid;
 		}
 
 		if (data.name.trim().length === 0) {

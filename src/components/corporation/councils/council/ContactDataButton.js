@@ -69,7 +69,7 @@ const ContactDataButton = ({
 		if (data.contactEmail && !checkValidEmail(data.contactEmail)) {
 			setErrors({
 				...errors,
-				contactEmail: translate.tooltip_invalid_email_address
+				contactEmail: translate.email_not_valid
 			});
 			return true;
 		}

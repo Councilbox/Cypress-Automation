@@ -259,7 +259,7 @@ class AddCouncilParticipantButton extends React.Component {
 					errorsRepresentative.errors.email = translate.field_required;
 					errorsRepresentative.hasError = true;
 				} else if (!checkValidEmail(representative.email)) {
-					errorsRepresentative.errors.email = translate.tooltip_invalid_email_address;
+					errorsRepresentative.errors.email = translate.email_not_valid;
 					errorsRepresentative.hasError = true;
 				}
 			}

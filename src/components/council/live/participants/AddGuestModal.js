@@ -71,7 +71,7 @@ class AddGuestModal extends React.Component {
 			errors.email = translate.required_field;
 			hasError = true;
 		} else if (!checkValidEmail(guest.email)) {
-			errors.email = translate.tooltip_invalid_email_address;
+			errors.email = translate.email_not_valid;
 			hasError = true;
 		} else {
 			const response = await this.props.client.query({
