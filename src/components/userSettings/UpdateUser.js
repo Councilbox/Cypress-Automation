@@ -295,7 +295,7 @@ class UpdateUserForm extends React.Component {
 export default compose(
 	graphql(
 		updateUser, {
-		name: 'updateUser'
-	}
+			name: 'updateUser'
+		}
 	),
 )(withApollo(UpdateUserForm));
