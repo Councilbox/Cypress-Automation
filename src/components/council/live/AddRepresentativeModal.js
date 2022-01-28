@@ -7,6 +7,7 @@ import RepresentativeForm from '../participants/RepresentativeForm';
 import { languages } from '../../../queries/masters';
 import { useOldState } from '../../../hooks';
 import { checkValidEmail } from '../../../utils';
+import { checkValidPhone } from '../../../utils/validation';
 
 const newRepresentativeInitialValues = {
 	language: 'es',
@@ -55,7 +56,13 @@ const AddRepresentativeModal = ({ translate, participant, ...props }) => {
 		if (!state.representative.email) {
 			errors.email = translate.required_field;
 		} else if (!checkValidEmail(state.representative.email)) {
-			errors.email = translate.email_not_valid;
+			errors.email = translate.tooltip_invalid_email_address;
+		}
+
+		if (!state.representative.phone) {
+			errors.email = translate.required_field;
+		} else if (!checkValidPhone(state.representative.phone)) {
+			errors.email = translate.invalid_phone;
 		}
 
 		setState({

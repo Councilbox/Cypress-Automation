@@ -79,7 +79,7 @@ export const checkRequiredFieldsParticipant = (
 		if (!participant.email && participant.personOrEntity === 0) {
 			hasError = true;
 			errors.email = translate.field_required;
-		} else if (!checkValidEmail(participant?.email?.toLocaleLowerCase()) && !representative?.hasRepresentative) {
+		} else if (participant.email && !checkValidEmail(participant?.email?.toLocaleLowerCase())) {
 			hasError = true;
 			errors.email = translate.tooltip_invalid_email_address;
 		} else if (participant.email === representative?.email && !representative?.hasRepresentative) {
@@ -97,8 +97,8 @@ export const checkRequiredFieldsParticipant = (
 		if (!participant.phone && !representative?.hasRepresentative) {
 			errors.phone = translate.field_required;
 			hasError = true;
-		} else if (!checkValidPhone(participant.phone) && !representative?.hasRepresentative) {
-			errors.phone = translate.invalid_field;
+		} else if (participant.phone && !checkValidPhone(participant.phone)) {
+			errors.phone = translate.invalid_phone;
 			hasError = true;
 		}
 
@@ -178,7 +178,7 @@ export const checkRequiredFieldsRepresentative = (representative, translate) => 
 		errors.phone = translate.field_required;
 		hasError = true;
 	} else if (!checkValidPhone(representative.phone)) {
-		errors.phone = translate.invalid_field;
+		errors.phone = translate.invalid_phone;
 		hasError = true;
 	}
 	if (!representative.language) {

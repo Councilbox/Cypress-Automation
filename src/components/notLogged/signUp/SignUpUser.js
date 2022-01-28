@@ -108,13 +108,13 @@ class SignUpUser extends React.Component {
 				hasError = true;
 				errors.email = existsCif ?
 					translate.register_exists_email
-					: translate.email_not_valid;
+					: translate.tooltip_invalid_email_address;
 			}
 			if (!checkValidEmail(data.email) || existsCif) {
 				hasError = true;
 				errors.email = existsCif ?
 					translate.register_exists_email
-					: translate.email_not_valid;
+					: translate.tooltip_invalid_email_address;
 			}
 			if (!(/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g.test(data.phone))) {
 				hasError = true;

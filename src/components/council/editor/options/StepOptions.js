@@ -208,7 +208,7 @@ const StepOptions = ({
 				...state,
 				errors: {
 					...state.errors,
-					contactEmail: translate.email_not_valid
+					contactEmail: translate.tooltip_invalid_email_address
 				}
 			});
 			return true;
@@ -219,7 +219,7 @@ const StepOptions = ({
 				...state,
 				errors: {
 					...state.errors,
-					supportEmail: translate.email_not_valid
+					supportEmail: translate.tooltip_invalid_email_address
 				}
 			});
 			return true;
@@ -340,8 +340,8 @@ const StepOptions = ({
 							</div>
 						}
 					</div>
-					{CBX.canAddTranslator(council) &&
-						<RoomLayout
+					{CBX.canAddTranslator(council)
+						&& <RoomLayout
 							translate={translate}
 							data={council}
 							value={council.room.layout}

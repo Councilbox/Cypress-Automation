@@ -249,7 +249,7 @@ const CompanySettingsPage = ({
 
 		if (data.contactEmail && !checkValidEmail(data.contactEmail)) {
 			hasError = true;
-			errors.contactEmail = translate.email_not_valid;
+			errors.contactEmail = translate.tooltip_invalid_email_address;
 		}
 
 		setState({

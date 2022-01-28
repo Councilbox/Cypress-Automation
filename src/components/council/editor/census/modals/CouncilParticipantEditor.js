@@ -204,14 +204,12 @@ class CouncilParticipantEditor extends React.Component {
 			}
 		}
 
-		if (participant.phone) {
-			if (!checkValidPhone(participant.phone)) {
-				errorsParticipant.hasError = true;
-				errorsParticipant.errors.phone = translate.invalid_field;
-			}
-		} else if (!participant.phone && !representative?.hasRepresentative) {
+		if (!participant.phone && !representative?.hasRepresentative) {
 			errorsParticipant.hasError = true;
 			errorsParticipant.errors.phone = translate.validation_required_field;
+		} else if (participant.phone && !checkValidPhone(participant.phone)) {
+			errorsParticipant.hasError = true;
+			errorsParticipant.errors.phone = translate.invalid_phone;
 		}
 
 		this.setState({

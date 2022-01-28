@@ -192,7 +192,7 @@ class Page extends React.PureComponent {
 		if (data.position) {
 			if (!(INPUT_REGEX.test(data.position)) || !data.position.trim()) {
 				hasError = true;
-				errors.position = translate.invalid_field;
+				errors.position = translate.invalid_phone;
 			}
 		}
 

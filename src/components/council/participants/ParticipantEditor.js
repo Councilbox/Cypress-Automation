@@ -14,6 +14,8 @@ import ParticipantForm from './ParticipantForm';
 import { checkValidEmail, errorHandler } from '../../../utils';
 import { updateCouncilParticipant } from '../../../queries/councilParticipant';
 import { removeTypenameField } from '../../../utils/CBX';
+import { INPUT_REGEX } from '../../../constants';
+import { checkValidPhone } from '../../../utils/validation';
 
 const newRepresentativeInitialValues = {
 	language: 'es',
@@ -166,6 +168,7 @@ class ParticipantEditor extends Component {
 
 	checkRequiredFields() {
 		const participant = this.state.data;
+		const { representative } = participant;
 		const { translate } = this.props;
 
 		const errors = {
@@ -180,15 +183,23 @@ class ParticipantEditor extends Component {
 		};
 
 		let hasError = false;
+		const regex = INPUT_REGEX;
 
 		if (!participant.name) {
 			hasError = true;
 			errors.name = translate.field_required;
+		} else if (!(regex.test(participant.name)) || !participant.name.trim()) {
+			hasError = true;
+			errors.name = translate.invalid_field;
 		}
+
 
 		if (!participant.surname && this.state.participantType === 0) {
 			hasError = true;
 			errors.surname = translate.field_required;
+		} else if ((!(regex.test(participant.surname)) || !participant.surname.trim()) && participant.personOrEntity === 0) {
+			hasError = true;
+			errors.surname = translate.invalid_field;
 		}
 
 		if (!participant.dni) {
@@ -201,14 +212,20 @@ class ParticipantEditor extends Component {
 			errors.position = translate.field_required;
 		}
 
-		if (!checkValidEmail(participant.email.toLocaleLowerCase())) {
+		if (!participant.email && participant.personOrEntity === 0) {
 			hasError = true;
-			errors.email = 'Se requiere un email válido';
+			errors.email = translate.field_required;
+		} else if (participant.email && !checkValidEmail(participant?.email?.toLocaleLowerCase())) {
+			hasError = true;
+			errors.email = translate.tooltip_invalid_email_address;
 		}
 
-		if (!participant.phone) {
+		if (!participant.phone && !representative?.hasRepresentative) {
 			hasError = true;
 			errors.phone = translate.field_required;
+		} else if (participant.phone && !checkValidPhone(participant.phone)) {
+			errors.phone = translate.invalid_phone;
+			hasError = true;
 		}
 
 		if (!participant.language) {

@@ -125,35 +125,37 @@ const AddConvenedParticipantButton = ({
 			if (!response.data.checkUniqueCouncilEmails.success) {
 				const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
 				data.duplicatedEmails.forEach(email => {
-					if (participant.email === email && participant.email.length > 0) {
+					if (participant?.email === email && participant?.email?.length > 0) {
 						errorsParticipant.errors.email = translate.register_exists_email;
 						errorsParticipant.hasError = true;
 					}
-					if (representative.email === email && representative.email.length > 0) {
+					if (representative?.email === email && representative?.email.length > 0) {
 						errorsRepresentative.errors.email = translate.register_exists_email;
 						errorsRepresentative.hasError = true;
 					}
 				});
 			}
 
-			if (participant.email === representative.email && !representative.hasRepresentative) {
+			if (participant?.email === representative?.email && !representative?.hasRepresentative) {
 				errorsRepresentative.errors.email = translate.repeated_email;
 				errorsParticipant.errors.email = translate.repeated_email;
 				errorsParticipant.hasError = true;
 			}
 
-			if (participant.phone && participant.phone !== '-') {
-				if (!testPhone.test(participant.phone)) {
-					errorsParticipant.hasError = true;
-					errorsParticipant.errors.phone = translate.invalid_field;
-				}
+			if (!participant?.phone && representative?.hasRepresentative) {
+				errorsParticipant.hasError = true;
+				errorsParticipant.errors.phone = translate.field_required;
+			} else if (!participant?.phone && !testPhone.test(participant.phone)) {
+				errorsParticipant.hasError = true;
+				errorsParticipant.errors.phone = translate.invalid_phone;
 			}
 
-			if (representative.phone && representative.phone !== '-') {
-				if (!testPhone.test(representative.phone)) {
-					errorsRepresentative.hasError = true;
-					errorsRepresentative.errors.phone = translate.invalid_field;
-				}
+			if (!representative?.phone) {
+				errorsRepresentative.hasError = true;
+				errorsRepresentative.errors.phone = translate.field_required;
+			} else if (!testPhone.test(representative.phone)) {
+				errorsRepresentative.hasError = true;
+				errorsRepresentative.errors.phone = translate.invalid_phone;
 			}
 		}
 

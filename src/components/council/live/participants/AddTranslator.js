@@ -21,7 +21,9 @@ const newGuestInitialValues = {
 	initialState: 0
 };
 
-const AddTranslatorModal = ({ show, council, translate, refetch, requestClose, client, ...props }) => {
+const AddTranslatorModal = ({
+	show, council, translate, refetch, requestClose, client, ...props
+}) => {
 	const [state, setState] = React.useState({
 		success: '',
 		errors: {},
@@ -59,7 +61,7 @@ const AddTranslatorModal = ({ show, council, translate, refetch, requestClose, c
 		if (guest.phone && guest.phone !== '-') {
 			if (!testPhone.test(guest.phone)) {
 				hasError = true;
-				errors.phone = translate.invalid_field;
+				errors.phone = translate.invalid_phone;
 			}
 		}
 

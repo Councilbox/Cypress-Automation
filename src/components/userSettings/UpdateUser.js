@@ -121,7 +121,7 @@ class UpdateUserForm extends React.Component {
 
 		if (!checkValidEmail(data.email.toLowerCase())) {
 			hasError = true;
-			errors.email = translate.email_not_valid;
+			errors.email = translate.tooltip_invalid_email_address;
 		} else if (data.email.toLowerCase() !== this.props.user.email.toLowerCase()) {
 			if (await this.checkEmailExists()) {
 				errors.email = translate.register_exists_email;
@@ -140,7 +140,7 @@ class UpdateUserForm extends React.Component {
 
 		if (!(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(data.email))) {
 			hasError = true;
-			errors.email = 'invalid email';
+			errors.email = translate.tooltip_invalid_email_address;
 		}
 
 		this.setState({
@@ -295,7 +295,7 @@ class UpdateUserForm extends React.Component {
 export default compose(
 	graphql(
 		updateUser, {
-			name: 'updateUser'
-		}
+		name: 'updateUser'
+	}
 	),
 )(withApollo(UpdateUserForm));

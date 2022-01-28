@@ -15,6 +15,7 @@ import {
 	checkValidEmail,
 	checkRequiredFieldsParticipant,
 	checkRequiredFieldsRepresentative,
+	checkValidPhone,
 } from '../../../../../utils/validation';
 import ParticipantForm from '../../../participants/ParticipantForm';
 import RepresentativeForm from '../../../../company/census/censusEditor/RepresentativeForm';
@@ -154,7 +155,6 @@ class AddCouncilParticipantButton extends React.Component {
 	};
 
 	async checkRequiredFields() {
-		const testPhone = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
 		const participant = this.state.data;
 		const { representative } = this.state;
 		const { translate, participations, company } = this.props;
@@ -238,23 +238,30 @@ class AddCouncilParticipantButton extends React.Component {
 				errorsParticipant.errors.email = translate.field_required;
 			}
 
-			if (participant.phone && participant.phone !== '-') {
-				if (!testPhone.test(participant.phone)) {
-					errorsParticipant.hasError = true;
-					errorsParticipant.errors.phone = translate.invalid_field;
-				}
-			}
-
-			if (representative.phone && representative.phone !== '-') {
-				if (!testPhone.test(representative.phone)) {
-					errorsRepresentative.hasError = true;
-					errorsRepresentative.errors.phone = translate.invalid_field;
-				}
-			}
-
-			if (representative.hasRepresentative && !representative.email) {
-				errorsRepresentative.errors.email = translate.field_required;
+			if (!participant.phone && !representative?.hasRepresentative) {
 				errorsParticipant.hasError = true;
+				errorsParticipant.errors.phone = translate.field_required;
+			} else if (participant.phone && !checkValidPhone(participant.phone)) {
+				errorsParticipant.hasError = true;
+				errorsParticipant.errors.phone = translate.invalid_phone;
+			}
+
+			if (representative) {
+				if (!representative.phone) {
+					errorsRepresentative.hasError = true;
+					errorsRepresentative.errors.phone = translate.field_required;
+				} else if (!checkValidPhone(representative.phone)) {
+					errorsRepresentative.hasError = true;
+					errorsRepresentative.errors.phone = translate.invalid_phone;
+				}
+
+				if (!representative?.email) {
+					errorsRepresentative.errors.email = translate.field_required;
+					errorsRepresentative.hasError = true;
+				} else if (!checkValidEmail(representative.email)) {
+					errorsRepresentative.errors.email = translate.tooltip_invalid_email_address;
+					errorsRepresentative.hasError = true;
+				}
 			}
 		}
 
