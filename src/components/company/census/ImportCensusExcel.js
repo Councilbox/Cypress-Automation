@@ -463,6 +463,9 @@ class ImportCensusButton extends React.Component {
 			} else if (!participant.email && !checkValidEmail(participant.email) && !participant.r_email) {
 				errors.email = required;
 				errors.hasError = true;
+			} else if (participant.email === participant.r_email) {
+				errors.email = required;
+				errors.hasError = true;
 			}
 
 			if (!participant.phone && !participant?.r_phone) {

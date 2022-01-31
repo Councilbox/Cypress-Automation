@@ -172,8 +172,8 @@ class CouncilParticipantEditor extends React.Component {
 				translate
 			);
 
-			if (this.props.representative) {
-				if (representative.email !== this.props.representative.email) {
+			if (this.props.participant.representative) {
+				if (representative.email !== this.props.participant.representative.email) {
 					emailsToCheck.push(representative.email);
 				}
 			}
@@ -351,6 +351,7 @@ class CouncilParticipantEditor extends React.Component {
 									selectRepresentative: value
 								})}
 								updateState={this.updateRepresentative}
+								checkEmail={this.emailKeyUp}
 								errors={representativeErrors}
 								languages={languages}
 							/>
