@@ -124,7 +124,7 @@ const ParticipantContactEditor = ({
 		if (response.errors) {
 			if (response.errors[0].message === 'Invalid phone number') {
 				setState({
-					phoneError: translate.invalid_phone_number,
+					phoneError: translate.invalid_phone,
 					loading: false
 				});
 			}
@@ -203,20 +203,20 @@ const ParticipantContactEditor = ({
 				onClick={sendParticipantPortalAccessMail}
 			/>
 			{roomLink
-&& <>
-	<div style={{ wordWrap: 'break-word', width: '100%' }}>
-		{roomLink}
-	</div>
-</>
+				&& <>
+					<div style={{ wordWrap: 'break-word', width: '100%' }}>
+						{roomLink}
+					</div>
+				</>
 			}
 			{hasAccessKey(council)
-&& <BasicButton
-	color={secondary}
-	text="Enviar contraseña de entrada"
-	onClick={resendRoomAccessKey}
-	loading={state.sendsLoading}
-	textStyle={{ color: 'white', fontWeight: '700' }}
-/>
+				&& <BasicButton
+					color={secondary}
+					text="Enviar contraseña de entrada"
+					onClick={resendRoomAccessKey}
+					loading={state.sendsLoading}
+					textStyle={{ color: 'white', fontWeight: '700' }}
+				/>
 			}
 		</div>
 	);

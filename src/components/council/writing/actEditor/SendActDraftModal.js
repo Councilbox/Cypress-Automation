@@ -127,7 +127,7 @@ class SendActDraftModal extends React.Component {
 		} else {
 			this.setState({
 				errors: {
-					newEmail: this.props.translate.tooltip_invalid_email_address
+					newEmail: this.props.translate.email_not_valid
 				}
 			});
 		}

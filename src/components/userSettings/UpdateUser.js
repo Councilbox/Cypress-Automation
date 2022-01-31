@@ -140,7 +140,7 @@ class UpdateUserForm extends React.Component {
 
 		if (!(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(data.email))) {
 			hasError = true;
-			errors.email = 'invalid email';
+			errors.email = translate.email_not_valid;
 		}
 
 		this.setState({

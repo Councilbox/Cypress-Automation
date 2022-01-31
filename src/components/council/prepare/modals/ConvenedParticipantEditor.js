@@ -16,7 +16,9 @@ import { upsertConvenedParticipant, checkUniqueCouncilEmails } from '../../../..
 import { COUNCIL_TYPES, INPUT_REGEX } from '../../../../constants';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import SelectRepresentative from '../../editor/census/modals/SelectRepresentative';
-import { getMaxGrantedWordsMessage, isAppointment, isMaxGrantedWordsError, participantIsGuest, participantIsTranslator, removeTypenameField } from '../../../../utils/CBX';
+import {
+	getMaxGrantedWordsMessage, isAppointment, isMaxGrantedWordsError, participantIsGuest, participantIsTranslator, removeTypenameField
+} from '../../../../utils/CBX';
 import AppointmentParticipantForm from '../../participants/AppointmentParticipantForm';
 import TranslatorForm from '../../participants/TranslatorForm';
 
@@ -166,16 +168,12 @@ class ConvenedParticipantEditor extends React.Component {
 				errorsParticipant.hasError = true;
 			}
 
-			if (!participant.phone) {
+			if (!participant?.phone && !participant?.hasRepresentative) {
 				errorsParticipant.errors.phone = translate.required_field;
 				errorsParticipant.hasError = true;
-			}
-
-			if (participant.phone && participant.phone !== '-') {
-				if (!testPhone.test(participant.phone)) {
-					errorsParticipant.errors.phone = translate.invalid_field;
-					errorsParticipant.hasError = true;
-				}
+			} else if (!participant?.phone && !testPhone.test(participant.phone)) {
+				errorsParticipant.errors.phone = translate.invalid_phone;
+				errorsParticipant.hasError = true;
 			}
 
 			if (!participant.email) {
@@ -383,8 +381,8 @@ class ConvenedParticipantEditor extends React.Component {
 									/>
 								}
 							</div>
-							{!isAppointment(this.props.council) && !participantIsGuest(participant) &&
-								<div style={{
+							{!isAppointment(this.props.council) && !participantIsGuest(participant)
+								&& <div style={{
 									boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
 									border: '1px solid rgb(97, 171, 183)',
 									borderRadius: '4px',
@@ -408,7 +406,7 @@ class ConvenedParticipantEditor extends React.Component {
 						</div>
 					</Scrollbar>
 				}
-				title={ participantIsGuest(participant) ? translate.edit_guest : translate.edit_participant}
+				title={participantIsGuest(participant) ? translate.edit_guest : translate.edit_participant}
 				requestClose={() => this.props.close()}
 				open={this.props.opened}
 				actions={

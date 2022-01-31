@@ -16,7 +16,9 @@ import RepresentativeForm from '../../../../company/census/censusEditor/Represen
 import withSharedProps from '../../../../../HOCs/withSharedProps';
 import SelectRepresentative from './SelectRepresentative';
 import { COUNCIL_TYPES, PARTICIPANT_VALIDATIONS } from '../../../../../constants';
-import { getMaxGrantedWordsMessage, isAppointment, isMaxGrantedWordsError, participantIsGuest, removeTypenameField } from '../../../../../utils/CBX';
+import {
+	getMaxGrantedWordsMessage, isAppointment, isMaxGrantedWordsError, participantIsGuest, removeTypenameField
+} from '../../../../../utils/CBX';
 import CheckUserClavePin from '../../../participants/CheckParticipantRegisteredClavePin';
 import AppointmentParticipantForm from '../../../participants/AppointmentParticipantForm';
 
@@ -45,8 +47,10 @@ class CouncilParticipantEditor extends React.Component {
 	};
 
 	updateParticipantData() {
-		// eslint-disable-next-line prefer-const
-		let { representative, representatives, representing, ...participant } = removeTypenameField(this.props.participant);
+		let {
+			// eslint-disable-next-line prefer-const
+			representative, representatives, representing, ...participant
+		} = removeTypenameField(this.props.participant);
 		representative = representative ?
 			{
 				hasRepresentative: true,
@@ -143,6 +147,7 @@ class CouncilParticipantEditor extends React.Component {
 		const hasSocialCapital = participations;
 		const errorsParticipant = checkRequiredFieldsParticipant(
 			participant,
+			representative,
 			translate,
 			hasSocialCapital,
 			company
@@ -199,14 +204,12 @@ class CouncilParticipantEditor extends React.Component {
 			}
 		}
 
-		if (participant.phone) {
-			if (!checkValidPhone(participant.phone)) {
-				errorsParticipant.hasError = true;
-				errorsParticipant.errors.phone = translate.invalid_field;
-			}
-		} else if (!participant.phone) {
+		if (!participant.phone && !representative?.hasRepresentative) {
 			errorsParticipant.hasError = true;
 			errorsParticipant.errors.phone = translate.validation_required_field;
+		} else if (participant.phone && !checkValidPhone(participant.phone)) {
+			errorsParticipant.hasError = true;
+			errorsParticipant.errors.phone = translate.invalid_phone;
 		}
 
 		this.setState({
@@ -314,17 +317,16 @@ class CouncilParticipantEditor extends React.Component {
 								errors={errors}
 								updateState={this.updateState}
 							/>
-							:
-							<ParticipantForm
+							: <ParticipantForm
 								type={participant.personOrEntity}
 								participant={participant}
+								representative={representative}
 								checkEmail={this.emailKeyUp}
 								participations={participations}
-								requiredPhone
 								translate={translate}
 								isGuest={participantIsGuest(participant)}
-								hideVotingInputs={this.props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE ||
-									participantIsGuest(participant)
+								hideVotingInputs={this.props.council.councilType === COUNCIL_TYPES.ONE_ON_ONE
+									|| participantIsGuest(participant)
 								}
 								languages={languages}
 								errors={errors}
@@ -332,8 +334,8 @@ class CouncilParticipantEditor extends React.Component {
 							/>
 						}
 					</Card>
-					{!isAppointment(this.props.council) && !participantIsGuest(participant) &&
-						<div style={{
+					{!isAppointment(this.props.council) && !participantIsGuest(participant)
+						&& <div style={{
 							boxShadow: 'rgba(0, 0, 0, 0.5) 0px 2px 4px 0px',
 							border: '1px solid rgb(97, 171, 183)',
 							borderRadius: '4px',
@@ -354,8 +356,8 @@ class CouncilParticipantEditor extends React.Component {
 							/>
 						</div>
 					}
-					{this.props.council.statute.participantValidation === PARTICIPANT_VALIDATIONS.CLAVE_PIN &&
-						<Card style={{
+					{this.props.council.statute.participantValidation === PARTICIPANT_VALIDATIONS.CLAVE_PIN
+						&& <Card style={{
 							padding: '1em',
 							marginBottom: '1em',
 							color: 'black',
@@ -381,13 +383,13 @@ class CouncilParticipantEditor extends React.Component {
 									});
 								}}
 							/>
-							{this.state.errors.clavePin &&
-								<div style={{ color: 'red', fontWeight: '700', padding: '0.6em' }}>
+							{this.state.errors.clavePin
+								&& <div style={{ color: 'red', fontWeight: '700', padding: '0.6em' }}>
 									{this.state.errors.clavePin}
 								</div>
 							}
-							{this.state.validated &&
-								<div style={{ color: 'green', fontWeight: '700', padding: '0.6em' }}>
+							{this.state.validated
+								&& <div style={{ color: 'green', fontWeight: '700', padding: '0.6em' }}>
 									{translate.clave_justicia_participant_validated}
 								</div>
 							}

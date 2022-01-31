@@ -141,7 +141,7 @@ class AddCensusParticipantButton extends React.Component {
 			representative,
 			translate,
 			hasSocialCapital,
-			company,
+			company
 		);
 
 		const emailsToCheck = [];
@@ -190,7 +190,7 @@ class AddCensusParticipantButton extends React.Component {
 				});
 			}
 
-			if (participant.email === representative.email) {
+			if (participant.email === representative.email && participant.email.length !== 0) {
 				errorsRepresentative.errors.email = translate.repeated_email;
 				errorsParticipant.errors.email = translate.repeated_email;
 				errorsParticipant.hasError = true;
@@ -254,7 +254,7 @@ class AddCensusParticipantButton extends React.Component {
 					}}>
 						<RepresentativeForm
 							translate={this.props.translate}
-							state={this.state.representative}
+							state={representative}
 							updateState={this.updateRepresentative}
 							setSelectRepresentative={value => this.setState({
 								selectRepresentative: value

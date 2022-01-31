@@ -99,7 +99,7 @@ const FileLibrosOfi = ({
 																	openDate: dateString
 																}, index);
 															}}
-
+															acceptText={translate.save}
 															value={book.openDate ? book.openDate : null}
 														/>
 													</div>
@@ -117,7 +117,7 @@ const FileLibrosOfi = ({
 																	closeDate: dateString
 																}, index);
 															}}
-
+															acceptText={translate.save}
 															value={book.closeDate ? book.closeDate : null}
 														/>
 													</div>
@@ -135,7 +135,7 @@ const FileLibrosOfi = ({
 																	legalDate: dateString
 																}, index);
 															}}
-
+															acceptText={translate.save}
 															value={book.legalDate ? book.legalDate : null}
 														/>
 													</div>
@@ -153,7 +153,7 @@ const FileLibrosOfi = ({
 																	devolutionDate: dateString
 																}, index);
 															}}
-
+															acceptText={translate.save}
 															value={book.devolutionDate ? book.devolutionDate : null}
 														/>
 													</div>

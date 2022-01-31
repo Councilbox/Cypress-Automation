@@ -77,52 +77,50 @@ const ContactDataButton = ({
 		return false;
 	};
 
-	const renderBody = () => {
-		return (
-			<div style={{ marginTop: '3.5em' }}>
-				<div style={{ marginBottom: '1.5em' }}>
-					<TextInput
-						floatingText={translate.contact_email}
-						type="text"
-						styleFloatText={{ color: getPrimary(), fontWeight: 'bold', fontSize: '18px' }}
-						value={data.contactEmail}
-						errorText={errors.contactEmail}
-						onChange={event => setData({
-							...data,
-							contactEmail: event.target.value
-						})}
-					/>
-				</div>
-				<div style={{ marginBottom: '2em' }}>
-					<TextInput
-						floatingText={translate.support_email}
-						type="text"
-						styleFloatText={{ color: getPrimary(), fontWeight: 'bold', fontSize: '18px' }}
-						value={data.supportEmail}
-						onChange={event => setData({
-							...data,
-							supportEmail: event.target.value
-						})}
-					/>
-				</div>
-				<div>
-					<BasicButton
-						text={translate.save}
-						backgroundColor={{
-							color: 'white',
-							fontWeight: '700',
-							fontSize: '0.9em',
-							textTransform: 'none',
-							background: getPrimary(),
-							width: '100%'
-						}}
-						loading={loading}
-						onClick={() => updateCouncil(data)}
-					/>
-				</div>
+	const renderBody = () => (
+		<div style={{ marginTop: '3.5em' }}>
+			<div style={{ marginBottom: '1.5em' }}>
+				<TextInput
+					floatingText={translate.contact_email}
+					type="text"
+					styleFloatText={{ color: getPrimary(), fontWeight: 'bold', fontSize: '18px' }}
+					value={data.contactEmail}
+					errorText={errors.contactEmail}
+					onChange={event => setData({
+						...data,
+						contactEmail: event.target.value
+					})}
+				/>
 			</div>
-		);
-	};
+			<div style={{ marginBottom: '2em' }}>
+				<TextInput
+					floatingText={translate.support_email}
+					type="text"
+					styleFloatText={{ color: getPrimary(), fontWeight: 'bold', fontSize: '18px' }}
+					value={data.supportEmail}
+					onChange={event => setData({
+						...data,
+						supportEmail: event.target.value
+					})}
+				/>
+			</div>
+			<div>
+				<BasicButton
+					text={translate.save}
+					backgroundColor={{
+						color: 'white',
+						fontWeight: '700',
+						fontSize: '0.9em',
+						textTransform: 'none',
+						background: getPrimary(),
+						width: '100%'
+					}}
+					loading={loading}
+					onClick={() => updateCouncil(data)}
+				/>
+			</div>
+		</div>
+	);
 
 	return (
 		<>

@@ -17,6 +17,7 @@ import { importCensus, getCensusTemplate, checkUniqueCensusEmails } from '../../
 import { checkValidEmail } from '../../../utils';
 import { downloadFile } from '../../../utils/CBX';
 import { isMobile } from '../../../utils/screen';
+import { checkValidPhone } from '../../../utils/validation';
 
 let XLSX;
 import('xlsx').then(data => { XLSX = data; });
@@ -446,12 +447,6 @@ class ImportCensusButton extends React.Component {
 		};
 
 		if (!isEntity) {
-			if (!checkValidEmail(participant.email) && !participant.r_email) {
-				errors.email = required;
-				errors.hasError = true;
-			}
-
-
 			if (!participant.name) {
 				errors.name = required;
 				errors.hasError = true;
@@ -462,12 +457,18 @@ class ImportCensusButton extends React.Component {
 				errors.hasError = true;
 			}
 
-			if (!participant.dni) {
-				errors.dni = required;
+			if (!participant.email && !participant?.r_email) {
+				errors.email = required;
+				errors.hasError = true;
+			} else if (!participant.email && !checkValidEmail(participant.email) && !participant.r_email) {
+				errors.email = required;
 				errors.hasError = true;
 			}
 
-			if (!participant.phone) {
+			if (!participant.phone && !participant?.r_phone) {
+				errors.phone = required;
+				errors.hasError = true;
+			} else if (participant.phone && !checkValidPhone(participant.phone)) {
 				errors.phone = required;
 				errors.hasError = true;
 			}
@@ -481,11 +482,19 @@ class ImportCensusButton extends React.Component {
 				errors.r_name = required;
 				errors.hasError = true;
 			}
-			if (participant.r_email) {
-				if (!checkValidEmail(participant.r_email)) {
-					errors.r_email = required;
-					errors.hasError = true;
-				}
+			if (!participant.r_email) {
+				errors.r_email = required;
+				errors.hasError = true;
+			} else if (!checkValidEmail(participant.r_email)) {
+				errors.r_email = required;
+				errors.hasError = true;
+			}
+			if (!participant?.r_phone) {
+				errors.phone = required;
+				errors.hasError = true;
+			} else if (participant.r_phone && !checkValidPhone(participant.r_phone)) {
+				errors.phone = required;
+				errors.hasError = true;
 			}
 		}
 

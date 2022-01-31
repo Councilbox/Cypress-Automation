@@ -15,6 +15,7 @@ import {
 	checkValidEmail,
 	checkRequiredFieldsParticipant,
 	checkRequiredFieldsRepresentative,
+	checkValidPhone,
 } from '../../../../../utils/validation';
 import ParticipantForm from '../../../participants/ParticipantForm';
 import RepresentativeForm from '../../../../company/census/censusEditor/RepresentativeForm';
@@ -25,41 +26,37 @@ import { COUNCIL_TYPES, INPUT_REGEX, PARTICIPANT_VALIDATIONS } from '../../../..
 import { getMaxGrantedWordsMessage, isAppointment, isMaxGrantedWordsError } from '../../../../../utils/CBX';
 import AppointmentParticipantForm from '../../../participants/AppointmentParticipantForm';
 
-const initialParticipant = council => {
-	return {
-		name: '',
-		surname: '',
-		position: '',
-		email: '',
-		phone: '',
-		dni: '',
-		initialState: isAppointment(council) ? 2 : 0,
-		type: 0,
-		delegateId: null,
-		numParticipations: 1,
-		socialCapital: 1,
-		uuid: null,
-		delegateUuid: null,
-		language: 'es',
-		city: '',
-		personOrEntity: 0
-	};
-};
+const initialParticipant = council => ({
+	name: '',
+	surname: '',
+	position: '',
+	email: '',
+	phone: '',
+	dni: '',
+	initialState: isAppointment(council) ? 2 : 0,
+	type: 0,
+	delegateId: null,
+	numParticipations: 1,
+	socialCapital: 1,
+	uuid: null,
+	delegateUuid: null,
+	language: 'es',
+	city: '',
+	personOrEntity: 0
+});
 
-const initialRepresentative = council => {
-	return {
-		hasRepresentative: false,
-		language: 'es',
-		type: 2,
-		initialState: isAppointment(council) ? 2 : 0,
-		name: '',
-		surname: '',
-		position: '',
-		email: '',
-		phone: '',
-		dni: ''
-	};
-};
+const initialRepresentative = council => ({
+	hasRepresentative: false,
+	language: 'es',
+	type: 2,
+	initialState: isAppointment(council) ? 2 : 0,
+	name: '',
+	surname: '',
+	position: '',
+	email: '',
+	phone: '',
+	dni: ''
+});
 
 class AddCouncilParticipantButton extends React.Component {
 	state = {
@@ -158,13 +155,13 @@ class AddCouncilParticipantButton extends React.Component {
 	};
 
 	async checkRequiredFields() {
-		const testPhone = /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g;
 		const participant = this.state.data;
 		const { representative } = this.state;
 		const { translate, participations, company } = this.props;
 		const hasSocialCapital = participations;
 		const errorsParticipant = checkRequiredFieldsParticipant(
 			participant,
+			representative,
 			translate,
 			hasSocialCapital,
 			company
@@ -230,34 +227,41 @@ class AddCouncilParticipantButton extends React.Component {
 				});
 			}
 
-			if (representative.hasRepresentative && participant.email === representative.email) {
+			if (representative.hasRepresentative && participant.email === representative.email && participant.email.length !== 0) {
 				errorsRepresentative.errors.email = translate.repeated_email;
 				errorsParticipant.errors.email = translate.repeated_email;
 				errorsParticipant.hasError = true;
 			}
 
-			if (!participant.email) {
+			if (!participant.email && participant.personOrEntity === 1 && !representative?.hasRepresentative) {
 				errorsParticipant.hasError = true;
 				errorsParticipant.errors.email = translate.field_required;
 			}
 
-			if (participant.phone && participant.phone !== '-') {
-				if (!testPhone.test(participant.phone)) {
-					errorsParticipant.hasError = true;
-					errorsParticipant.errors.phone = translate.invalid_field;
-				}
-			}
-
-			if (representative.phone && representative.phone !== '-') {
-				if (!testPhone.test(representative.phone)) {
-					errorsRepresentative.hasError = true;
-					errorsRepresentative.errors.phone = translate.invalid_field;
-				}
-			}
-
-			if (representative.hasRepresentative && !representative.email) {
-				errorsRepresentative.errors.email = translate.field_required;
+			if (!participant.phone && !representative?.hasRepresentative) {
 				errorsParticipant.hasError = true;
+				errorsParticipant.errors.phone = translate.field_required;
+			} else if (participant.phone && !checkValidPhone(participant.phone)) {
+				errorsParticipant.hasError = true;
+				errorsParticipant.errors.phone = translate.invalid_phone;
+			}
+
+			if (representative?.hasRepresentative) {
+				if (!representative.phone) {
+					errorsRepresentative.hasError = true;
+					errorsRepresentative.errors.phone = translate.field_required;
+				} else if (!checkValidPhone(representative.phone)) {
+					errorsRepresentative.hasError = true;
+					errorsRepresentative.errors.phone = translate.invalid_phone;
+				}
+
+				if (!representative?.email) {
+					errorsRepresentative.errors.email = translate.field_required;
+					errorsRepresentative.hasError = true;
+				} else if (!checkValidEmail(representative.email)) {
+					errorsRepresentative.errors.email = translate.email_not_valid;
+					errorsRepresentative.hasError = true;
+				}
 			}
 		}
 
@@ -375,6 +379,7 @@ class AddCouncilParticipantButton extends React.Component {
 
 	renderBody() {
 		const participant = this.state.data;
+		const { representative } = this.state;
 		const { errors } = this.state;
 		const { translate, participations } = this.props;
 		const { languages } = this.props.data;
@@ -385,9 +390,9 @@ class AddCouncilParticipantButton extends React.Component {
 					open={this.state.selectRepresentative}
 					council={this.props.council}
 					translate={translate}
-					updateRepresentative={representative => {
+					updateRepresentative={repre => {
 						this.updateRepresentative({
-							...representative,
+							...repre,
 							hasRepresentative: true
 						});
 					}}
@@ -410,9 +415,9 @@ class AddCouncilParticipantButton extends React.Component {
 								errors={errors}
 								updateState={this.updateState}
 							/>
-							:
-							<ParticipantForm
+							: <ParticipantForm
 								type={participant.personOrEntity}
+								representative={representative}
 								participant={participant}
 								participations={participations}
 								translate={translate}
@@ -423,15 +428,15 @@ class AddCouncilParticipantButton extends React.Component {
 							/>
 						}
 					</Card>
-					{!isAppointment(this.props.council) &&
-						<Card style={{
+					{!isAppointment(this.props.council)
+						&& <Card style={{
 							padding: '1em',
 							marginBottom: '1em',
 							color: 'black',
 						}}>
 							<RepresentativeForm
 								translate={this.props.translate}
-								state={this.state.representative}
+								state={representative}
 								updateState={this.updateRepresentative}
 								setSelectRepresentative={value => this.setState({
 									selectRepresentative: value
@@ -442,8 +447,8 @@ class AddCouncilParticipantButton extends React.Component {
 							/>
 						</Card>
 					}
-					{this.props.council.statute.participantValidation === PARTICIPANT_VALIDATIONS.CLAVE_PIN &&
-						<Card style={{
+					{this.props.council.statute.participantValidation === PARTICIPANT_VALIDATIONS.CLAVE_PIN
+						&& <Card style={{
 							padding: '1em',
 							marginBottom: '1em',
 							color: 'black',
@@ -469,13 +474,13 @@ class AddCouncilParticipantButton extends React.Component {
 									});
 								}}
 							/>
-							{this.state.errors.clavePin &&
-								<div style={{ color: 'red', fontWeight: '700', padding: '0.6em' }}>
+							{this.state.errors.clavePin
+								&& <div style={{ color: 'red', fontWeight: '700', padding: '0.6em' }}>
 									{this.state.errors.clavePin}
 								</div>
 							}
-							{this.state.validated &&
-								<div style={{ color: 'green', fontWeight: '700', padding: '0.6em' }}>
+							{this.state.validated
+								&& <div style={{ color: 'green', fontWeight: '700', padding: '0.6em' }}>
 									{translate.clave_justicia_participant_validated}
 								</div>
 							}
