@@ -246,7 +246,7 @@ class AddCouncilParticipantButton extends React.Component {
 				errorsParticipant.errors.phone = translate.invalid_phone;
 			}
 
-			if (representative) {
+			if (representative?.hasRepresentative) {
 				if (!representative.phone) {
 					errorsRepresentative.hasError = true;
 					errorsRepresentative.errors.phone = translate.field_required;
