@@ -60,9 +60,9 @@ const AddRepresentativeModal = ({ translate, participant, ...props }) => {
 		}
 
 		if (!state.representative.phone) {
-			errors.email = translate.required_field;
+			errors.phone = translate.required_field;
 		} else if (!checkValidPhone(state.representative.phone)) {
-			errors.email = translate.invalid_phone;
+			errors.phone = translate.invalid_phone;
 		}
 
 		setState({
@@ -123,6 +123,7 @@ const AddRepresentativeModal = ({ translate, participant, ...props }) => {
 				state={state.representative}
 				updateState={updateRepresentative}
 				errors={state.errors}
+				requiredPhone={true}
 				languages={props.data.languages}
 			/>
 		);
