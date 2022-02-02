@@ -168,10 +168,10 @@ class ConvenedParticipantEditor extends React.Component {
 				errorsParticipant.hasError = true;
 			}
 
-			if (!participant?.phone && !participant?.hasRepresentative) {
+			if (!participant?.phone) {
 				errorsParticipant.errors.phone = translate.required_field;
 				errorsParticipant.hasError = true;
-			} else if (!participant?.phone && !testPhone.test(participant.phone)) {
+			} else if (participant?.phone && !testPhone.test(participant.phone)) {
 				errorsParticipant.errors.phone = translate.invalid_phone;
 				errorsParticipant.hasError = true;
 			}
