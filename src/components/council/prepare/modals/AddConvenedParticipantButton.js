@@ -150,12 +150,14 @@ const AddConvenedParticipantButton = ({
 				errorsParticipant.errors.phone = translate.invalid_phone;
 			}
 
-			if (!representative?.phone) {
-				errorsRepresentative.hasError = true;
-				errorsRepresentative.errors.phone = translate.field_required;
-			} else if (!testPhone.test(representative.phone)) {
-				errorsRepresentative.hasError = true;
-				errorsRepresentative.errors.phone = translate.invalid_phone;
+			if (representative?.hasRepresentative) {
+				if (!representative?.phone) {
+					errorsRepresentative.hasError = true;
+					errorsRepresentative.errors.phone = translate.field_required;
+				} else if (!testPhone.test(representative.phone)) {
+					errorsRepresentative.hasError = true;
+					errorsRepresentative.errors.phone = translate.invalid_phone;
+				}
 			}
 		}
 
