@@ -1,92 +1,38 @@
-## Install
+Install cypress globally on your PC:npm i cypress
 
-Inside the project directory run "npm install" or "yarn install"
-<br>
+Clone automation repository from this URL: 
 
-## Scripts
+Let’s say it’s cloned to the Desktop inside of ‘NameName’ folder.
 
-In the project directory, you can run:
+Open your terminal (cmd, gitbash…) and navigate inside councilbox-client folderexample:
 
-### `npm / yarn start`
+Open cmd (C:\Users\Name>) - that’s the default opened folder
 
-Runs the app in the development mode.<br>
+cd Desktop\NameName\councilbox-client
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-This version needs the development server running locally to work.
+Once your are in that folder, you can use the following commands:
 
+npm install cypress - Cypress install on your machinecypress open - Cypress UI should open and you can select the councilbox-client folder and run spec files like that
 
-### `npm run / yarn startAlpha`
+Running tests in headed mode:
 
-Runs the app with the Alpha env configuration.
-The version has the apollo link configured to work with the alpha server.
+npm run "smoke chrome" - Running every Smoke spec file in headed mode
 
-### `npm run / yarn build`
+npm run "regression chrome" - Running every Regression spec file in headed mode
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-The build version is configured to work with the alpha server.
+Instead of chrome you can use 'electron, edge or firefox”
 
-### `npm run / yarn analyze`
-After building the project you can inspect the bundle source map packages sizes with this command.
+Running tests in headless mode:
 
-### `npm run / yarn format`
-Command to format all the files in the src folder with the prettier configuration.
+npm run smoke - Running every Smoke spec file in headless mode
 
-## Project main libraries
-- React
-- Redux / Redux Thunk
-- Apollo
-- Material-ui
-- Antd
+npm run regression - Running every Regression spec file in headless mode
 
+After you complete on of those commands, cypress will create report in json and you can find that inside of Reports/mochareports folder, so next commands are for reports:npm run clean:reports - Delete all the reports from the Reports folder
 
-## Project tools
+npm run combine-reports - One json file will be created for each spec file, and this command is combining every json file into Onenpm run generate-report - Creating HTML report file from the json file
 
-Developed with VSCode with the following extensions.
-- Language mode: JavaScript React (Babel),
-- Import cost
-- Prettier code formatter
+report.html file can be find inside of ‘Reports’ folder
 
-## SOPS: Secrets OPerationS
+If you are having any blockers, feel free to reach out to me on Slack.Alem QA
 
-This system supports files of type YAML, JSON, ENV, INI and BINARY. In the following link you can consult more information about the program https://github.com/mozilla/sops
-
-To use the integration with Azure Key Vault it is necessary to authenticate with the necessary permissions to access the key vault "cbx-aks-keyvault". The commands to perform this action are:
-
-- Access az account (https://docs.microsoft.com/en-us/cli/azure/authenticate-azure-cli):
-
-$ az login
-
-- List the subscriptions we can access (https://docs.microsoft.com/en-us/cli/azure/manage-azure-subscriptions-azure-cli#change-the-active-subscription):
-
-$ az account list --output table
-
-- Select the subscription where our keyvault is located (https://docs.microsoft.com/en-us/cli/azure/manage-azure-subscriptions-azure-cli#change-the-active-subscription):
-
-$ az account set --subscription "$Suscripcion"
-
-
-Once we have access to the keyvault, to encrypt a file you can do it in the following way:
-
-$ sops --encrypt test.env > test.enc.env
-
-And to decrypt it using:
-
-$ sops --decrypt test.enc.env
-
-## ESLINT: Linter tool
-
-This code analysis tool will help us to identify problems in our code following previously defined rules and standards. For more information: https://eslint.org/
-
-To use the tool we will need to install the dependencies defined below:
-
-- eslint
-- eslint-loader
-- eslint-plugin-import
-
-Airbnb rules will be used https://www.npmjs.com/package/eslint-config-airbnb with certain modifications found in the .eslintrc.js file
-
-To launch the tool, use the following command:
-
-$ yarn run eslint "$path-to-scan"
