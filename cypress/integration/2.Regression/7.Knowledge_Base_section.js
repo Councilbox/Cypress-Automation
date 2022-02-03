@@ -90,7 +90,7 @@ describe("The user is able to create a new folder in the 'Knowledge base' sectio
         });
 
         it("Add a title of the new folder and click on the 'OK' button", function() {
-            cy.get('#titleDraft').clear()
+            cy.get('#create-folder-name').clear()
                 .type('Test'+Cypress.config('UniqueNumber'))
             cy.get('#alert-confirm-button-accept').click()
             cy.wait(1000)
@@ -123,7 +123,7 @@ describe("The user is able to edit a folder name in the 'Knowledge base' section
         });
 
         it("Add a title of the new folder and click on the 'OK' button", function() {
-            cy.get('#titleDraft').clear()
+            cy.get('#create-folder-name').clear()
                 .type('Test'+Cypress.config('UniqueNumber'))
             cy.get('#alert-confirm-button-accept').click()
             cy.wait(1000)

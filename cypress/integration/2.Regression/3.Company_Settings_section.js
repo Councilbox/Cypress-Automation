@@ -146,8 +146,8 @@ describe("The user is able to Link Company", function() {
 
         it("Populate 'TIN of the organization*' field", function() {
             cy.get('input').eq(0).clear()
-                .type("automationtest")
-                .should("have.value", "automationtest")
+                .type("automationtest1")
+                .should("have.value", "automationtest1")
         });
 
         it("Populate 'Master key' field with invalid input", function() {
@@ -177,7 +177,7 @@ describe("The user is able to unlink the company", function() {
             cy.get('#entidadesSideBar').click({ force: true})
             cy.xpath('(//*[@role="menuitem"])[2]').click()
             cy.get('#user-menu-trigger').click()
-            cy.xpath('(//*[@role="menuitem"])[10]').click()
+            cy.get('#user-settings-edit-company').click({ force: true })
 
         });
 
@@ -206,7 +206,7 @@ describe("The user is able to edit 'Business name*'' in the Company settings in 
         });
 
         it("From the drop down menu click on 'Company' button", function() {
-            cy.xpath('(//*[@role="menuitem"])[9]').click()
+            cy.get('#user-settings-edit-company').click({ force: true })
         });
 
         it("Modify the 'Business name*' field and click on the 'Save' button", function() {
@@ -233,7 +233,7 @@ describe("The user is able to edit 'TIN of the organization*' in the Company set
         });
 
         it("From the drop down menu click on 'Company' button", function() {
-            cy.xpath('(//*[@role="menuitem"])[9]').click()
+            cy.get('#user-settings-edit-company').click({ force: true })
         });
 
         it("Modify the 'TIN of the organization*'' field and click on the 'Save' button", function() {
@@ -261,7 +261,7 @@ describe("The user is able to edit 'Domain' in the 'Company settings' in the Cou
         });
 
         it("From the drop down menu click on 'Company' button", function() {
-            cy.xpath('(//*[@role="menuitem"])[9]').click()
+            cy.get('#user-settings-edit-company').click({ force: true })
         });
 
         it("Modify the 'Domain' field and click on the 'Save' button", function() {
@@ -288,7 +288,7 @@ describe("The user is able to edit 'Master code' in the 'Company settings' in th
         });
 
         it("From the drop down menu click on 'Company' button", function() {
-            cy.xpath('(//*[@role="menuitem"])[9]').click()
+            cy.get('#user-settings-edit-company').click({ force: true })
         });
 
         it("Modify the 'Master code' field and click on the 'Save' button", function() {
@@ -308,7 +308,7 @@ describe("The user is able to edit 'Master code' in the 'Company settings' in th
     });
 
 
-describe("The user is able to edit 'External ID' in the 'Company settings' in the Councilbox", function() {
+describe("The user is able to edit 'Contact email' in the 'Company settings' in the Councilbox", function() {
 
         it("On the upper right corner click on the 'User icon' button", function() {
             cy.wait(5000)
@@ -316,12 +316,12 @@ describe("The user is able to edit 'External ID' in the 'Company settings' in th
         });
 
         it("From the drop down menu click on 'Company' button", function() {
-            cy.xpath('(//*[@role="menuitem"])[9]').click()
+            cy.get('#user-settings-edit-company').click({ force: true })
         });
 
-        it("Modify the 'External ID' field and click on the 'Save' button", function() {
-            cy.get('#company-external-id').clear()
-                .type(userID_Alpha()+Cypress.config('UniqueNumber'))
+        it("Modify the 'Contact email' field and click on the 'Save' button", function() {
+            cy.get('#MISSING_ID').clear()
+                .type('test@test.test')
             cy.get('#save-button').click()
         });
 
@@ -343,7 +343,7 @@ describe("The user is able to edit 'Address' in the 'Contact details' in the Com
         });
 
         it("From the drop down menu click on 'Company' button", function() {
-            cy.xpath('(//*[@role="menuitem"])[9]').click()
+            cy.get('#user-settings-edit-company').click({ force: true })
         });
 
         it("Modify the 'Address' field and click on the 'Save' button", function() {
@@ -370,7 +370,7 @@ describe("The user is able to edit 'Town/City' in the 'Contact details' in the C
         });
 
         it("From the drop down menu click on 'Company' button", function() {
-            cy.xpath('(//*[@role="menuitem"])[9]').click()
+            cy.get('#user-settings-edit-company').click({ force: true })
         });
 
         it("Modify the 'Town/City' field and click on the 'Save' button", function() {
@@ -397,7 +397,7 @@ describe("The user is able to edit 'Country' in the 'Contact details' in the Com
         });
 
         it("From the drop down menu click on 'Company' button", function() {
-            cy.xpath('(//*[@role="menuitem"])[9]').click()
+            cy.get('#user-settings-edit-company').click({ force: true })
         });
 
         it("Modify the 'Country' field and click on the 'Save' button", function() {
@@ -426,7 +426,7 @@ describe("The user is able to edit 'Province' in the 'Contact details' in the Co
         });
 
         it("From the drop down menu click on 'Company' button", function() {
-            cy.xpath('(//*[@role="menuitem"])[9]').click()
+            cy.get('#user-settings-edit-company').click({ force: true })
         });
 
 
@@ -456,7 +456,7 @@ describe("The user is able to edit 'Zipcode' in the 'Contact details' in the Com
         });
 
         it("From the drop down menu click on 'Company' button", function() {
-            cy.xpath('(//*[@role="menuitem"])[9]').click()
+            cy.get('#user-settings-edit-company').click({ force: true })
         });
 
         it("Modify the 'Zipcodce' field and click on the 'Save' button", function() {
@@ -483,7 +483,7 @@ describe("The user is able to edit 'Language' in the 'Contact details' in the Co
         });
 
         it("From the drop down menu click on 'Company' button", function() {
-            cy.xpath('(//*[@role="menuitem"])[9]').click()
+            cy.get('#user-settings-edit-company').click({ force: true })
         });
 
         it("Modify the 'Language' field and click on the 'Save' button", function() {

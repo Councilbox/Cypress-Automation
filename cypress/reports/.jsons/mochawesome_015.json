@@ -1,0 +1,148 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 3,
+    "passes": 3,
+    "pending": 0,
+    "failures": 0,
+    "start": "2022-01-22T15:37:24.661Z",
+    "end": "2022-01-22T15:37:27.576Z",
+    "duration": 2915,
+    "testsRegistered": 3,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "60402ccf-e9b5-45eb-abcb-9d5bf47b6011",
+      "title": "",
+      "fullFile": "cypress\\integration\\TEST\\test_specs.js",
+      "file": "cypress\\integration\\TEST\\test_specs.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "7ab63b6d-3e99-4f01-8a2d-51576e2f4c21",
+          "title": "VERSIONS",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "REU CORE",
+              "fullTitle": "VERSIONS REU CORE",
+              "timedOut": null,
+              "duration": 1224,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.writeFile('cypress/integration/TEST/versions.txt', '\\n\\n------------------------------------', {\n  flag: 'a+'\n});\ncy.writeFile('cypress/integration/TEST/versions.txt', '\\ndate: ', {\n  flag: 'a+'\n});\ncy.request('GET', \"https://www.timeapi.io/api/Time/current/coordinate\").its('body.date').then(function (date) {\n  cy.writeFile('cypress/integration/TEST/versions.txt', date, {\n    flag: 'a+'\n  });\n});\ncy.writeFile('cypress/integration/TEST/versions.txt', \" - \", {\n  flag: 'a+'\n});\ncy.request('GET', \"https://www.timeapi.io/api/Time/current/coordinate\").its('body.dayOfWeek').then(function (dayOfWeek) {\n  cy.writeFile('cypress/integration/TEST/versions.txt', dayOfWeek, {\n    flag: 'a+'\n  });\n});\ncy.writeFile('cypress/integration/TEST/versions.txt', '\\n\\nREU CORE:', {\n  flag: 'a+'\n});\ncy.writeFile('cypress/integration/TEST/versions.txt', '\\nversion: ', {\n  flag: 'a+'\n});\ncy.request('GET', \"https://api.pre.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.txt', version, {\n    flag: 'a+'\n  });\n});",
+              "err": {},
+              "uuid": "70792ccd-0516-4422-909f-97de1cfd11a4",
+              "parentUUID": "7ab63b6d-3e99-4f01-8a2d-51576e2f4c21",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "OVAC CORE",
+              "fullTitle": "VERSIONS OVAC CORE",
+              "timedOut": null,
+              "duration": 958,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.writeFile('cypress/integration/TEST/versions.txt', '\\n\\nOVAC CORE:', {\n  flag: 'a+'\n});\ncy.writeFile('cypress/integration/TEST/versions.txt', '\\nversion: ', {\n  flag: 'a+'\n});\ncy.request('GET', \"http://api.ovac.pre.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.txt', version, {\n    flag: 'a+'\n  });\n});",
+              "err": {},
+              "uuid": "da018ec6-762d-4d8c-9fb7-0239111ea412",
+              "parentUUID": "7ab63b6d-3e99-4f01-8a2d-51576e2f4c21",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "EVID CORE",
+              "fullTitle": "VERSIONS EVID CORE",
+              "timedOut": null,
+              "duration": 694,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.writeFile('cypress/integration/TEST/versions.txt', '\\n\\nEVID CORE:', {\n  flag: 'a+'\n});\ncy.writeFile('cypress/integration/TEST/versions.txt', '\\nversion: ', {\n  flag: 'a+'\n});\ncy.request('GET', \"http://evid-api.pre.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.txt', version, {\n    flag: 'a+'\n  });\n});",
+              "err": {},
+              "uuid": "2f470455-152c-4bcd-91cd-6c6326f5286b",
+              "parentUUID": "7ab63b6d-3e99-4f01-8a2d-51576e2f4c21",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "70792ccd-0516-4422-909f-97de1cfd11a4",
+            "da018ec6-762d-4d8c-9fb7-0239111ea412",
+            "2f470455-152c-4bcd-91cd-6c6326f5286b"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 2876,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.2.2"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "reportDir": "cypress\\reports\\.jsons",
+        "charts": true,
+        "reportPageTitle": "My Test Suite",
+        "embeddedScreenshots": true,
+        "inlineAssets": true,
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "5.2.0"
+    }
+  }
+}

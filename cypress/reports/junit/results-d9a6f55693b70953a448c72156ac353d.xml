@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="2.9180" tests="3" failures="0">
+  <testsuite name="Root Suite" timestamp="2022-01-22T15:37:24" tests="0" file="cypress\integration\TEST\test_specs.js" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="VERSIONS" timestamp="2022-01-22T15:37:24" tests="3" time="2.8790" failures="0">
+    <testcase name="VERSIONS REU CORE" time="1.2240" classname="REU CORE">
+    </testcase>
+    <testcase name="VERSIONS OVAC CORE" time="0.9580" classname="OVAC CORE">
+    </testcase>
+    <testcase name="VERSIONS EVID CORE" time="0.6940" classname="EVID CORE">
+    </testcase>
+  </testsuite>
+</testsuites>

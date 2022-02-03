@@ -343,6 +343,8 @@ describe("The user is able to edit participants in the 'Manage participants' for
                 .type('Automation')
             cy.get('#participant-email-input').clear()
                 .type("test"+Cypress.config('UniqueNumber')+"@test.test")
+            cy.get('#participant-phone-input').clear()
+                .type('123456')
         });
 
         it("Click on the 'Save' button", function() {
@@ -398,6 +400,8 @@ describe("The user is able to delete participant in the 'Manage participants' fo
                 .type('Automation')
             cy.get('#participant-email-input').clear()
                 .type("test2"+Cypress.config('UniqueNumber')+"@test.test")
+            cy.get('#participant-phone-input').clear()
+                .type('123456')
 
         });
 
@@ -408,7 +412,7 @@ describe("The user is able to delete participant in the 'Manage participants' fo
 
         it("Navigate to the already added participant and click on the 'X' button", function() {
             cy.get('#participant-row-0').trigger('mouseover')
-            cy.get('MISSING_ID').click()
+            cy.xpath('(//*[@type="button"])[6]').click()
             cy.wait(1000)
         });
 
@@ -455,6 +459,8 @@ describe("The user is able to search partner by 'Position' filter in the 'Manage
                 .type('Automation')
             cy.get('#participant-email-input').clear()
                 .type("test3"+Cypress.config('UniqueNumber')+"@test.test")
+            cy.get('#participant-phone-input').clear()
+                .type('123456')
 
         });
 
@@ -514,6 +520,8 @@ describe("The user is able to search partner by 'Participant data' filter in the
                 .type('Automation')
             cy.get('#participant-email-input').clear()
                 .type("test4"+Cypress.config('UniqueNumber')+"@test.test")
+            cy.get('#participant-phone-input').clear()
+                .type('123456')
 
         });
 
@@ -573,6 +581,8 @@ describe("The user is able to search partner by 'TIN' filter in the 'Manage part
                 .type('Automation')
             cy.get('#participant-email-input').clear()
                 .type("test5"+Cypress.config('UniqueNumber')+"@test.test")
+            cy.get('#participant-phone-input').clear()
+                .type('123456')
 
         });
 
