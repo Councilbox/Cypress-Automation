@@ -1,10 +1,10 @@
 {
   "name": "councilbox_client",
-<<<<<<< HEAD
+
   "version": "8.11.1",
-=======
+
   "version": "8.14.3",
->>>>>>> 7da4f3cd5d6ab521a81dfa9041dceff57f5d1e99
+
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.3.15",
