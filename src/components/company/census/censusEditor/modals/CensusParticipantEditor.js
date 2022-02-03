@@ -5,7 +5,9 @@ import { Card } from 'material-ui';
 import { AlertConfirm } from '../../../../../displayComponents/index';
 import { updateCensusParticipant } from '../../../../../queries/census';
 import { languages as languagesQuery } from '../../../../../queries/masters';
-import { censusHasParticipations, getMaxGrantedWordsMessage, isMaxGrantedWordsError, removeTypenameField } from '../../../../../utils/CBX';
+import {
+	censusHasParticipations, getMaxGrantedWordsMessage, isMaxGrantedWordsError, removeTypenameField
+} from '../../../../../utils/CBX';
 import RepresentativeForm from '../RepresentativeForm';
 import ParticipantForm from '../../../../council/participants/ParticipantForm';
 import {
@@ -137,6 +139,7 @@ class CensusParticipantEditor extends React.Component {
 		const hasSocialCapital = censusHasParticipations(this.props.census);
 		const errorsParticipant = checkRequiredFieldsParticipant(
 			participant,
+			representative,
 			translate,
 			hasSocialCapital,
 			company
@@ -164,6 +167,7 @@ class CensusParticipantEditor extends React.Component {
 
 	renderBody() {
 		const participant = this.state.data;
+		const { representative } = this.state;
 		const { errors } = this.state;
 		const { translate } = this.props;
 		const { languages } = this.props.data;
@@ -174,9 +178,9 @@ class CensusParticipantEditor extends React.Component {
 						open={this.state.selectRepresentative}
 						census={this.props.census}
 						translate={translate}
-						updateRepresentative={representative => {
+						updateRepresentative={repre => {
 							this.updateRepresentative({
-								...representative,
+								...repre,
 								hasRepresentative: true
 							});
 						}}
@@ -193,6 +197,7 @@ class CensusParticipantEditor extends React.Component {
 							<ParticipantForm
 								type={participant.personOrEntity}
 								participant={participant}
+								representative={representative}
 								participations={censusHasParticipations(this.props.census)}
 								translate={translate}
 								languages={languages}
@@ -207,7 +212,8 @@ class CensusParticipantEditor extends React.Component {
 						}}>
 							<RepresentativeForm
 								translate={this.props.translate}
-								state={this.state.representative}
+								state={representative}
+								participant={participant}
 								setSelectRepresentative={value => this.setState({
 									selectRepresentative: value
 								})}

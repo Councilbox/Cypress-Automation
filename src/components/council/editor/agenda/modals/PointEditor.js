@@ -34,6 +34,7 @@ const PointEditor = ({
 			agendaSubject: '',
 			subjectType: '',
 			description: '',
+			attached: '',
 			majorityType: '',
 			majority: '',
 			majorityDivider: ''
@@ -81,8 +82,8 @@ const PointEditor = ({
 	};
 
 	function checkRequiredFields() {
-		const newErrors = checkRequiredFieldsAgenda(state, translate, toast);
-		const majorityCheckResult = checkValidMajority(agenda.majority, agenda.majorityDivider, agenda.majorityType);
+		const newErrors = checkRequiredFieldsAgenda(state, translate, toast, attachments);
+		const majorityCheckResult = checkValidMajority(agenda.majority, agenda.majorityDivider, agenda.majorityType, translate);
 		setState({
 			errors: newErrors.errors,
 			majorityError: majorityCheckResult.message
@@ -146,7 +147,7 @@ const PointEditor = ({
 			}
 
 			if (attachmentsToRemove.length > 0) {
-				await Promise.all(attachmentsToRemove.map(item => props.client.mutate({
+				await Promise.all(attachmentsToRemove.filter(item => item.id).map(item => props.client.mutate({
 					mutation: gql`
 						mutation deleteAgendaAttachment($attachmentId: Int!){
 							deleteAgendaAttachment(attachmentId: $attachmentId){
@@ -296,8 +297,7 @@ const PointEditor = ({
 									errorText={state.errors.majorityType}
 									onChange={event => updateState({
 										majorityType: +event.target.value
-									})
-									}
+									})}
 									required
 								>
 									{props.majorityTypes.map(majority => (
@@ -343,6 +343,7 @@ const PointEditor = ({
 							company={company}
 							deletedAttachments={attachmentsToRemove}
 							setDeletedAttachments={setAttachmentsToRemove}
+							errorText={state?.errors?.attached}
 						/>
 					</div>
 					<RichTextInput

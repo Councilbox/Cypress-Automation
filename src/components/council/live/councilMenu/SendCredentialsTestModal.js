@@ -54,7 +54,7 @@ class SendCredentialsTestModal extends React.Component {
 	onKeyUp = event => {
 		if (!checkValidEmail(this.state.email)) {
 			this.setState({
-				emailError: this.props.translate.tooltip_invalid_email_address
+				emailError: this.props.translate.email_not_valid
 			});
 		} else {
 			this.setState({

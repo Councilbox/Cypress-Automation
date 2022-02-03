@@ -1745,7 +1745,7 @@ export const getTranslationReqCode = reqCode => {
 		case 35:
 			return 'tooltip_spam';
 		case 36:
-			return 'tooltip_invalid_email_address';
+			return 'email_not_valid';
 		case 37:
 			return 'tooltip_dropped';
 		case 40:

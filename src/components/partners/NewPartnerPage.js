@@ -1,7 +1,9 @@
 import React from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { CardPageLayout, Scrollbar, BasicButton, UnsavedChangesModal } from '../../displayComponents';
+import {
+	CardPageLayout, Scrollbar, BasicButton, UnsavedChangesModal
+} from '../../displayComponents';
 import PartnerForm from './PartnerForm';
 import withSharedProps from '../../HOCs/withSharedProps';
 import { getPrimary } from '../../styles/colors';
@@ -166,14 +168,14 @@ class NewPartnerPage extends React.Component {
 		if (data.landlinePhone) {
 			if (!(INPUT_REGEX.test(data.landlinePhone)) || !data.landlinePhone.trim()) {
 				hasError = true;
-				errors.landlinePhone = translate.invalid_field;
+				errors.landlinePhone = translate.invalid_phone;
 			}
 		}
 
 		if (data.phone && data.phone !== '-') {
 			if (!(testPhone.test(data.phone)) || !data.phone.trim()) {
 				hasError = true;
-				errors.phone = translate.invalid_field;
+				errors.phone = translate.invalid_phone;
 			}
 		}
 

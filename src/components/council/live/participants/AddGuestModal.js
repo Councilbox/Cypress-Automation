@@ -5,7 +5,7 @@ import { AlertConfirm } from '../../../../displayComponents';
 import { addGuest } from '../../../../queries';
 import RepresentativeForm from '../../participants/RepresentativeForm';
 import { languages } from '../../../../queries/masters';
-import { checkValidEmail } from '../../../../utils/validation';
+import { checkValidEmail, checkValidPhone } from '../../../../utils/validation';
 import { checkUniqueCouncilEmails } from '../../../../queries/councilParticipant';
 
 const newGuestInitialValues = {
@@ -48,16 +48,8 @@ class AddGuestModal extends React.Component {
 				}
 			});
 			if (response) {
-				if (response.data.addGuest.success) {
-					this.props.refetch();
-					this.close();
-				} else if (response.data.addGuest.message === '601') {
-					this.setState({
-						errors: {
-							email: this.props.translate.repeated_email
-						}
-					});
-				}
+				this.props.refetch();
+				this.close();
 			}
 		}
 	};
@@ -79,7 +71,7 @@ class AddGuestModal extends React.Component {
 			errors.email = translate.required_field;
 			hasError = true;
 		} else if (!checkValidEmail(guest.email)) {
-			errors.email = translate.valid_email_required;
+			errors.email = translate.email_not_valid;
 			hasError = true;
 		} else {
 			const response = await this.props.client.query({
@@ -113,6 +105,9 @@ class AddGuestModal extends React.Component {
 
 			if (!guest.phone) {
 				errors.phone = translate.required_field;
+				hasError = true;
+			} else if (!checkValidPhone(guest.phone)) {
+				errors.phone = translate.invalid_phone;
 				hasError = true;
 			}
 		}
@@ -154,9 +149,10 @@ class AddGuestModal extends React.Component {
 			<div style={{ maxWidth: '850px' }}>
 				<RepresentativeForm
 					guest={true}
+					requiredPhone
 					checkEmail={this.emailKeyUp}
 					translate={this.props.translate}
-					representative={this.state.guest}
+					state={this.state.guest}
 					updateState={this.updateGuest}
 					errors={this.state.errors}
 					languages={this.props.data.languages}
@@ -191,4 +187,5 @@ export default compose(
 	}),
 	graphql(languages)
 )(withApollo(AddGuestModal));
+
 

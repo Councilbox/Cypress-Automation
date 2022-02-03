@@ -182,7 +182,7 @@ const StepPreview = ({
 			setState({
 				errors: {
 					...state.errors,
-					conveneTestEmail: translate.tooltip_invalid_email_address
+					conveneTestEmail: translate.email_not_valid
 				}
 			});
 		}

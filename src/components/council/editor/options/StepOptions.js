@@ -157,7 +157,7 @@ const StepOptions = ({
 
 	const checkRequiredFields = () => {
 		if (council.approveActDraft === 1 && checkValidEmail(council.contactEmail)) {
-			const response = checkValidMajority(council.actPointMajority, council.actPointMajorityDivider, council.actPointMajorityType);
+			const response = checkValidMajority(council.actPointMajority, council.actPointMajorityDivider, council.actPointMajorityType, translate);
 			if (response.error) {
 				setState({
 					majorityAlert: true,
@@ -340,8 +340,8 @@ const StepOptions = ({
 							</div>
 						}
 					</div>
-					{CBX.canAddTranslator(council) &&
-						<RoomLayout
+					{CBX.canAddTranslator(council)
+						&& <RoomLayout
 							translate={translate}
 							data={council}
 							value={council.room.layout}
@@ -906,9 +906,11 @@ const RTMPField = ({ data, updateData, translate }) => {
 	);
 };
 
-export const RoomLayout = ({ translate, councilType, value, updateData }) => (
-	councilType === 0 &&
-	<div style={{ fontSize: '0.875rem', marginTop: '5px', marginBottom: '5px' }}>
+export const RoomLayout = ({
+	translate, councilType, value, updateData
+}) => (
+	councilType === 0
+	&& <div style={{ fontSize: '0.875rem', marginTop: '5px', marginBottom: '5px' }}>
 		<div style={{ marginBottom: '0.5em' }}>
 			{translate.room_layout}
 			<HelpPopover

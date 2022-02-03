@@ -33,7 +33,7 @@ const PointEditorLive = ({
 	};
 
 	const updateAgenda = async () => {
-		const majorityCheckResult = checkValidMajority(state.majority, state.majorityDivider, state.majorityType);
+		const majorityCheckResult = checkValidMajority(state.majority, state.majorityDivider, state.majorityType, translate);
 		if (majorityCheckResult.error) {
 			setState({
 				majorityError: majorityCheckResult.message

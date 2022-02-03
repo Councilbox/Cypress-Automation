@@ -60,9 +60,9 @@ const CouncilStatuteEditor = ({
 				mutation UpdateCouncilRoom($councilRoom: CouncilRoomInput!, $councilId: Int!){
 					updateCouncilRoom(councilRoom: $councilRoom, councilId: $councilId){
 						success
-					}
 				}
-			`,
+			}
+		`,
 			variables: {
 				councilId: council.id,
 				councilRoom: {

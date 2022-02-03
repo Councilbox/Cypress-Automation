@@ -17,6 +17,7 @@ import { importCensus, getCensusTemplate, checkUniqueCensusEmails } from '../../
 import { checkValidEmail } from '../../../utils';
 import { downloadFile } from '../../../utils/CBX';
 import { isMobile } from '../../../utils/screen';
+import { checkValidPhone } from '../../../utils/validation';
 
 let XLSX;
 import('xlsx').then(data => { XLSX = data; });
@@ -369,7 +370,7 @@ class ImportCensusButton extends React.Component {
 				name: participant.name || '',
 				position: participant.position || '',
 				surname: participant.surname || '',
-				email: participant.email ? participant.email.toLowerCase() : '',
+				email: participant.r_email ? participant?.r_email.toLowerCase() : null,
 				dni: participant.dni || '',
 				phone: this.cleanPhone(participant.phone),
 				language: participant.language,
@@ -389,7 +390,7 @@ class ImportCensusButton extends React.Component {
 				companyId: this.props.companyId,
 				censusId: this.props.censusId,
 				name: participant.r_name || '',
-				email: participant.r_email ? participant.r_email.toLowerCase() : null,
+				email: participant.email ? participant?.email.toLowerCase() : null,
 				dni: participant.r_dni || '',
 				phone: this.cleanPhone(participant.r_phone),
 				personOrEntity: 1,
@@ -446,12 +447,6 @@ class ImportCensusButton extends React.Component {
 		};
 
 		if (!isEntity) {
-			if (!checkValidEmail(participant.email)) {
-				errors.email = required;
-				errors.hasError = true;
-			}
-
-
 			if (!participant.name) {
 				errors.name = required;
 				errors.hasError = true;
@@ -462,12 +457,21 @@ class ImportCensusButton extends React.Component {
 				errors.hasError = true;
 			}
 
-			if (!participant.dni) {
-				errors.dni = required;
+			if (!participant.email && !participant?.r_email) {
+				errors.email = required;
+				errors.hasError = true;
+			} else if (!participant.email && !checkValidEmail(participant.email) && !participant.r_email) {
+				errors.email = required;
+				errors.hasError = true;
+			} else if (participant.email === participant.r_email) {
+				errors.email = required;
 				errors.hasError = true;
 			}
 
-			if (!participant.phone) {
+			if (!participant.phone && !participant?.r_phone) {
+				errors.phone = required;
+				errors.hasError = true;
+			} else if (participant.phone && !checkValidPhone(participant.phone)) {
 				errors.phone = required;
 				errors.hasError = true;
 			}
@@ -481,11 +485,19 @@ class ImportCensusButton extends React.Component {
 				errors.r_name = required;
 				errors.hasError = true;
 			}
-			if (participant.r_email) {
-				if (!checkValidEmail(participant.r_email)) {
-					errors.r_email = required;
-					errors.hasError = true;
-				}
+			if (!participant.r_email) {
+				errors.r_email = required;
+				errors.hasError = true;
+			} else if (!checkValidEmail(participant.r_email)) {
+				errors.r_email = required;
+				errors.hasError = true;
+			}
+			if (!participant?.r_phone) {
+				errors.phone = required;
+				errors.hasError = true;
+			} else if (participant.r_phone && !checkValidPhone(participant.r_phone)) {
+				errors.phone = required;
+				errors.hasError = true;
 			}
 		}
 
@@ -705,9 +717,9 @@ class ImportCensusButton extends React.Component {
 												<div
 													style={{ width: '100%' }}
 												>
-													{this.state.invalidEmails.map(item => (
+													{this.state.invalidEmails.map((item, index) => (
 														<React.Fragment key={`invalidEmails_${item[0]}`}>
-															{`${translate.entry} ${item[1]}: ${item[0]}`}<br />
+															{`${translate.entry} ${index}: ${item[0]}`}<br />
 														</React.Fragment>
 													))}
 												</div>

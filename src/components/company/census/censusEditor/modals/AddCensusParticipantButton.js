@@ -138,6 +138,7 @@ class AddCensusParticipantButton extends React.Component {
 		const hasSocialCapital = censusHasParticipations(this.props.census);
 		const errorsParticipant = checkRequiredFieldsParticipant(
 			participant,
+			representative,
 			translate,
 			hasSocialCapital,
 			company
@@ -189,7 +190,7 @@ class AddCensusParticipantButton extends React.Component {
 				});
 			}
 
-			if (participant.email === representative.email) {
+			if (participant.email === representative.email && participant.email.length !== 0) {
 				errorsRepresentative.errors.email = translate.repeated_email;
 				errorsParticipant.errors.email = translate.repeated_email;
 				errorsParticipant.hasError = true;
@@ -208,6 +209,7 @@ class AddCensusParticipantButton extends React.Component {
 
 	renderBody() {
 		const participant = this.state.data;
+		const { representative } = this.state;
 		const { errors } = this.state;
 		const { translate } = this.props;
 		const { languages } = this.props.data;
@@ -217,9 +219,9 @@ class AddCensusParticipantButton extends React.Component {
 					open={this.state.selectRepresentative}
 					census={this.props.census}
 					translate={translate}
-					updateRepresentative={representative => {
+					updateRepresentative={rep => {
 						this.updateRepresentative({
-							...representative,
+							...rep,
 							hasRepresentative: true
 						});
 					}}
@@ -237,6 +239,7 @@ class AddCensusParticipantButton extends React.Component {
 						<ParticipantForm
 							type={participant.personOrEntity}
 							participant={participant}
+							representative={representative}
 							participations={censusHasParticipations(this.props.census)}
 							translate={translate}
 							languages={languages}
@@ -251,7 +254,7 @@ class AddCensusParticipantButton extends React.Component {
 					}}>
 						<RepresentativeForm
 							translate={this.props.translate}
-							state={this.state.representative}
+							state={representative}
 							updateState={this.updateRepresentative}
 							setSelectRepresentative={value => this.setState({
 								selectRepresentative: value

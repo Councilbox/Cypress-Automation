@@ -20,7 +20,9 @@ import { useOldState } from '../../../../hooks';
 import withSharedProps from '../../../../HOCs/withSharedProps';
 import { isMobile } from '../../../../utils/screen';
 import { COUNCIL_TYPES } from '../../../../constants';
-import { councilIsFinished, getMaxGrantedWordsMessage, isAppointment, isMaxGrantedWordsError } from '../../../../utils/CBX';
+import {
+	councilIsFinished, getMaxGrantedWordsMessage, isAppointment, isMaxGrantedWordsError
+} from '../../../../utils/CBX';
 import SelectRepresentative from '../../editor/census/modals/SelectRepresentative';
 import AppointmentParticipantForm from '../../participants/AppointmentParticipantForm';
 
@@ -83,6 +85,7 @@ const AddConvenedParticipantButton = ({
 			const hasSocialCapital = participations;
 			errorsParticipant = checkRequiredFieldsParticipant(
 				participant,
+				representative,
 				translate,
 				hasSocialCapital,
 				company
@@ -104,7 +107,7 @@ const AddConvenedParticipantButton = ({
 		}
 
 
-		if (participant.email && company.type !== 10) {
+		if ((participant.email && company.type !== 10) || (participant.personOrEntity === 1)) {
 			const emailsToCheck = [participant.email];
 
 			if (representative.email && !representative.id) {
@@ -122,34 +125,38 @@ const AddConvenedParticipantButton = ({
 			if (!response.data.checkUniqueCouncilEmails.success) {
 				const data = JSON.parse(response.data.checkUniqueCouncilEmails.message);
 				data.duplicatedEmails.forEach(email => {
-					if (participant.email === email) {
+					if (participant?.email === email && participant?.email?.length > 0) {
 						errorsParticipant.errors.email = translate.register_exists_email;
 						errorsParticipant.hasError = true;
 					}
-					if (representative.email === email) {
+					if (representative?.email === email && representative?.email.length > 0) {
 						errorsRepresentative.errors.email = translate.register_exists_email;
 						errorsRepresentative.hasError = true;
 					}
 				});
 			}
 
-			if (participant.email === representative.email) {
+			if (participant?.email === representative?.email && !representative?.hasRepresentative) {
 				errorsRepresentative.errors.email = translate.repeated_email;
 				errorsParticipant.errors.email = translate.repeated_email;
 				errorsParticipant.hasError = true;
 			}
 
-			if (participant.phone && participant.phone !== '-') {
-				if (!testPhone.test(participant.phone)) {
-					errorsParticipant.hasError = true;
-					errorsParticipant.errors.phone = translate.invalid_field;
-				}
+			if (!participant?.phone && representative?.hasRepresentative) {
+				errorsParticipant.hasError = true;
+				errorsParticipant.errors.phone = translate.field_required;
+			} else if (!participant?.phone && !testPhone.test(participant.phone)) {
+				errorsParticipant.hasError = true;
+				errorsParticipant.errors.phone = translate.invalid_phone;
 			}
 
-			if (representative.phone && representative.phone !== '-') {
-				if (!testPhone.test(representative.phone)) {
+			if (representative?.hasRepresentative) {
+				if (!representative?.phone) {
 					errorsRepresentative.hasError = true;
-					errorsRepresentative.errors.phone = translate.invalid_field;
+					errorsRepresentative.errors.phone = translate.field_required;
+				} else if (!testPhone.test(representative.phone)) {
+					errorsRepresentative.hasError = true;
+					errorsRepresentative.errors.phone = translate.invalid_phone;
 				}
 			}
 		}
@@ -315,15 +322,16 @@ const AddConvenedParticipantButton = ({
 								{isAppointment(council) ?
 									<AppointmentParticipantForm
 										participant={participant}
+										representative={representative}
 										translate={translate}
 										languages={languages}
 										errors={errors}
 										updateState={updateState}
 									/>
-									:
-									<ParticipantForm
+									: <ParticipantForm
 										type={participant.personOrEntity}
 										participant={participant}
+										representative={representative}
 										participations={participations}
 										translate={translate}
 										hideVotingInputs={council.councilType === COUNCIL_TYPES.ONE_ON_ONE}

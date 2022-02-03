@@ -226,8 +226,8 @@ const ParticipantsPage = ({
 				padding: '0 8px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '.5rem'
 			}}>
 				<GridItem xs={orientation === 'landscape' ? 4 : 6} md={6} lg={3} style={{ display: 'flex', alignItems: 'center' }}>
-					{(council.state === 10 || council.state === 20)
-						&& (!councilStarted(council) ? <DropdownParticipant
+					{(council.state === 10 || council.state === 20 || council.state === 5)
+						&& (!councilStarted(council) || council.state === 5 ? <DropdownParticipant
 							council={council}
 							addTranslator={canAddTranslator(council)}
 							participations={hasParticipations(council)}
@@ -325,6 +325,7 @@ const ParticipantsPage = ({
 							value={filters.filterField}
 							onChange={event => updateFilterField(event.target.value)
 							}
+							id={'select-search-live'}
 						>
 							{fields.map(field => (
 								<MenuItem
@@ -352,6 +353,7 @@ const ParticipantsPage = ({
 							onChange={event => {
 								updateFilterText(event.target.value);
 							}}
+							id={'input-search-live'}
 						/>
 					</div>
 				</GridItem>

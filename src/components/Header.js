@@ -170,7 +170,7 @@ const Header = ({
 				/>
 				{languageSelector
 					&& <span style={{ fontSize: '0.85em' }}>
-						{`v${CLIENT_VERSION}`}
+						v<span id="client-version">{CLIENT_VERSION}</span>
 					</span>
 				}
 				{props.participantLanguageSelector && (

@@ -14,6 +14,8 @@ import ParticipantForm from './ParticipantForm';
 import { checkValidEmail, errorHandler } from '../../../utils';
 import { updateCouncilParticipant } from '../../../queries/councilParticipant';
 import { removeTypenameField } from '../../../utils/CBX';
+import { INPUT_REGEX } from '../../../constants';
+import { checkValidPhone } from '../../../utils/validation';
 
 const newRepresentativeInitialValues = {
 	language: 'es',
@@ -27,320 +29,336 @@ const newRepresentativeInitialValues = {
 };
 
 class ParticipantEditor extends Component {
-updateParticipantData = object => {
-	this.setState({
-		data: {
-			...this.state.data,
-			...object
-		}
-	});
-};
-
-updateParticipant = async () => {
-	if (!this.checkRequiredFields()) {
-		const { translate } = this.props;
-
-		const variables = {
-			participant: {
-				...removeTypenameField(this.state.data)
-			}
-		};
-
-		if (this.state.addRepresentative) {
-			// eslint-disable-next-line no-shadow
-			variables.representative = removeTypenameField(this.state.data);
-		}
-
-		const response = await this.props.updateParticipant({
-			variables
-		});
-		if (response) {
-			if (response.errors) {
-				const errorField = errorHandler(response.errors[0].code);
-				this.setState({
-					errors: {
-						...this.state.errors,
-						email: translate[errorField]
-					}
-				});
-			} else {
-				this.props.requestClose();
-			}
-		}
-	}
-};
-
-updateRepresentative = object => {
-	this.setState({
-		data: {
-			...this.state.data,
-			representative: {
-				...this.state.data.representative,
+	updateParticipantData = object => {
+		this.setState({
+			data: {
+				...this.state.data,
 				...object
 			}
-		}
-	});
-};
-
-activateRepresentative = value => {
-	const newState = {
-		...this.state,
-		addRepresentative: value
+		});
 	};
 
-	if (!this.state.data.representative && value) {
-		newState.data.representative = {
-			...newRepresentativeInitialValues
+	updateParticipant = async () => {
+		if (!this.checkRequiredFields()) {
+			const { translate } = this.props;
+
+			const variables = {
+				participant: {
+					...removeTypenameField(this.state.data)
+				}
+			};
+
+			if (this.state.addRepresentative) {
+				// eslint-disable-next-line no-shadow
+				variables.representative = removeTypenameField(this.state.data);
+			}
+
+			const response = await this.props.updateParticipant({
+				variables
+			});
+			if (response) {
+				if (response.errors) {
+					const errorField = errorHandler(response.errors[0].code);
+					this.setState({
+						errors: {
+							...this.state.errors,
+							email: translate[errorField]
+						}
+					});
+				} else {
+					this.props.requestClose();
+				}
+			}
+		}
+	};
+
+	updateRepresentative = object => {
+		this.setState({
+			data: {
+				...this.state.data,
+				representative: {
+					...this.state.data.representative,
+					...object
+				}
+			}
+		});
+	};
+
+	activateRepresentative = value => {
+		const newState = {
+			...this.state,
+			addRepresentative: value
+		};
+
+		if (!this.state.data.representative && value) {
+			newState.data.representative = {
+				...newRepresentativeInitialValues
+			};
+		}
+		this.setState({ ...newState });
+	};
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			languages: [],
+			addRepresentative: false,
+			participantType: 0,
+			data: {
+				representative: {}
+			},
+
+			errors: {
+				language: '',
+				councilId: '',
+				numParticipations: '',
+				personOrEntity: '',
+				name: '',
+				dni: '',
+				position: '',
+				email: '',
+				phone: ''
+			}
 		};
 	}
-	this.setState({ ...newState });
-};
 
-constructor(props) {
-	super(props);
-	this.state = {
-		languages: [],
-		addRepresentative: false,
-		participantType: 0,
-		data: {
-			representative: {}
-		},
+	static getDerivedStateFromProps(nextProps, prevState) {
+		if (nextProps.participant) {
+			if (nextProps.participant.id !== prevState.data.id) {
+				return {
+					...prevState,
+					addRepresentative: !!nextProps.participant.representative,
+					data: {
+						...nextProps.participant
+					}
+				};
+			}
+		}
+		return {
+			...prevState
+		};
+	}
 
-		errors: {
-			language: '',
-			councilId: '',
-			numParticipations: '',
-			personOrEntity: '',
+	async componentDidMount() {
+		this.setState({
+			languages: [
+				{
+					columnName: 'es',
+					desc: 'Español'
+				},
+				{
+					columnName: 'en',
+					desc: 'English'
+				},
+				{
+					columnName: 'pt',
+					desc: 'Portugués'
+				},
+				{
+					columnName: 'cat',
+					desc: 'Catalá'
+				},
+				{
+					columnName: 'gal',
+					desc: 'Galego'
+				},
+			]
+		});
+	}
+
+	checkRequiredFields() {
+		const participant = this.state.data;
+		const { representative } = participant;
+		const { translate } = this.props;
+
+		const errors = {
 			name: '',
+			surname: '',
 			dni: '',
 			position: '',
 			email: '',
-			phone: ''
+			phone: '',
+			language: '',
+			numParticipations: ''
+		};
+
+		let hasError = false;
+		const regex = INPUT_REGEX;
+
+		if (!participant.name) {
+			hasError = true;
+			errors.name = translate.field_required;
+		} else if (!(regex.test(participant.name)) || !participant.name.trim()) {
+			hasError = true;
+			errors.name = translate.invalid_field;
 		}
-	};
-}
 
-static getDerivedStateFromProps(nextProps, prevState) {
-	if (nextProps.participant) {
-		if (nextProps.participant.id !== prevState.data.id) {
-			return {
-				...prevState,
-				addRepresentative: !!nextProps.participant.representative,
-				data: {
-					...nextProps.participant
-				}
-			};
+
+		if (!participant.surname && this.state.participantType === 0) {
+			hasError = true;
+			errors.surname = translate.field_required;
+		} else if ((!(regex.test(participant.surname)) || !participant.surname.trim()) && participant.personOrEntity === 0) {
+			hasError = true;
+			errors.surname = translate.invalid_field;
 		}
-	}
-	return {
-		...prevState
-	};
-}
 
-async componentDidMount() {
-	this.setState({
-		languages: [
-			{
-				columnName: 'es',
-				desc: 'Español'
-			},
-			{
-				columnName: 'en',
-				desc: 'English'
-			},
-			{
-				columnName: 'pt',
-				desc: 'Portugués'
-			},
-			{
-				columnName: 'cat',
-				desc: 'Catalá'
-			},
-			{
-				columnName: 'gal',
-				desc: 'Galego'
-			},
-		]
-	});
-}
+		if (!participant.dni) {
+			hasError = true;
+			errors.dni = translate.field_required;
+		}
 
-checkRequiredFields() {
-	const participant = this.state.data;
-	const { translate } = this.props;
+		if (!participant.position) {
+			hasError = true;
+			errors.position = translate.field_required;
+		}
 
-	const errors = {
-		name: '',
-		surname: '',
-		dni: '',
-		position: '',
-		email: '',
-		phone: '',
-		language: '',
-		numParticipations: ''
-	};
+		if (!participant.email && participant.personOrEntity === 0) {
+			hasError = true;
+			errors.email = translate.field_required;
+		} else if (participant.email && !checkValidEmail(participant?.email?.toLocaleLowerCase())) {
+			hasError = true;
+			errors.email = translate.email_not_valid;
+		}
 
-	let hasError = false;
+		if (!participant.phone && !representative?.hasRepresentative) {
+			hasError = true;
+			errors.phone = translate.field_required;
+		} else if (participant.phone && !checkValidPhone(participant.phone)) {
+			errors.phone = translate.invalid_phone;
+			hasError = true;
+		}
 
-	if (!participant.name) {
-		hasError = true;
-		errors.name = translate.field_required;
+		if (!participant.language) {
+			hasError = true;
+			errors.language = translate.field_required;
+		}
+
+		if (!participant.numParticipations) {
+			hasError = true;
+			errors.numParticipations = translate.field_required;
+		}
+
+		this.setState({
+			...this.state,
+			errors
+		});
+
+		return hasError;
 	}
 
-	if (!participant.surname && this.state.participantType === 0) {
-		hasError = true;
-		errors.surname = translate.field_required;
-	}
-
-	if (!participant.dni) {
-		hasError = true;
-		errors.dni = translate.field_required;
-	}
-
-	if (!participant.position) {
-		hasError = true;
-		errors.position = translate.field_required;
-	}
-
-	if (!checkValidEmail(participant.email.toLocaleLowerCase())) {
-		hasError = true;
-		errors.email = 'Se requiere un email válido';
-	}
-
-	if (!participant.phone) {
-		hasError = true;
-		errors.phone = translate.field_required;
-	}
-
-	if (!participant.language) {
-		hasError = true;
-		errors.language = translate.field_required;
-	}
-
-	if (!participant.numParticipations) {
-		hasError = true;
-		errors.numParticipations = translate.field_required;
-	}
-
-	this.setState({
-		...this.state,
-		errors
-	});
-
-	return hasError;
-}
-
-renderRepresentativeCheckbox() {
-	return (
-		<Grid>
-			<GridItem xs={12} lg={12} md={12}>
-				<Checkbox
-					label={this.props.translate.add_representative}
-					value={this.state.addRepresentative}
-					onChange={(event, isInputChecked) => this.activateRepresentative(isInputChecked)
-					}
-				/>
-			</GridItem>
-		</Grid>
-	);
-}
-
-renderAddParticipantButtons() {
-	const { translate } = this.props;
-	const primary = getPrimary();
-
-	return (
-		<Fragment>
-			<BasicButton
-				text={translate.cancel}
-				color={'white'}
-				textStyle={{
-					color: primary,
-					fontWeight: '700',
-					fontSize: '0.9em',
-					textTransform: 'none'
-				}}
-				textPosition="after"
-				onClick={this.props.requestClose}
-				buttonStyle={{
-					marginRight: '1em',
-					border: `2px solid ${primary}`
-				}}
-			/>
-			<BasicButton
-				text={translate.save}
-				color={primary}
-				textStyle={{
-					color: 'white',
-					fontWeight: '700',
-					fontSize: '0.9em',
-					textTransform: 'none'
-				}}
-				icon={<ButtonIcon color="white" type="save" />}
-				textPosition="after"
-				onClick={this.updateParticipant}
-			/>
-		</Fragment>
-	);
-}
-
-render() {
-	const participant = this.state.data;
-	const { translate, participations } = this.props;
-	const { representative } = participant;
-	const { errors } = this.state;
-
-	return (
-		<Fragment>
+	renderRepresentativeCheckbox() {
+		return (
 			<Grid>
 				<GridItem xs={12} lg={12} md={12}>
-					<Typography variant="title">
-						{translate.edit_participant}
-					</Typography>
+					<Checkbox
+						label={this.props.translate.add_representative}
+						value={this.state.addRepresentative}
+						onChange={(event, isInputChecked) => this.activateRepresentative(isInputChecked)
+						}
+					/>
 				</GridItem>
-				<Paper
-					style={{
-						padding: '2em',
-						paddingTop: '1em',
-						marginTop: '1em',
-						marginBottom: '1em'
+			</Grid>
+		);
+	}
+
+	renderAddParticipantButtons() {
+		const { translate } = this.props;
+		const primary = getPrimary();
+
+		return (
+			<Fragment>
+				<BasicButton
+					text={translate.cancel}
+					color={'white'}
+					textStyle={{
+						color: primary,
+						fontWeight: '700',
+						fontSize: '0.9em',
+						textTransform: 'none'
 					}}
-				>
-					{
-						<ParticipantForm
-							type={this.state.participantType}
-							participant={participant}
-							participations={participations}
-							translate={translate}
-							languages={this.state.languages}
-							errors={errors}
-							updateState={this.updateParticipantData}
-						/>
-					}
-				</Paper>
-				{this.renderRepresentativeCheckbox()}
-				{this.state.addRepresentative && (
+					textPosition="after"
+					onClick={this.props.requestClose}
+					buttonStyle={{
+						marginRight: '1em',
+						border: `2px solid ${primary}`
+					}}
+				/>
+				<BasicButton
+					text={translate.save}
+					color={primary}
+					textStyle={{
+						color: 'white',
+						fontWeight: '700',
+						fontSize: '0.9em',
+						textTransform: 'none'
+					}}
+					icon={<ButtonIcon color="white" type="save" />}
+					textPosition="after"
+					onClick={this.updateParticipant}
+				/>
+			</Fragment>
+		);
+	}
+
+	render() {
+		const participant = this.state.data;
+		const { translate, participations } = this.props;
+		const { representative } = participant;
+		const { errors } = this.state;
+
+		return (
+			<Fragment>
+				<Grid>
+					<GridItem xs={12} lg={12} md={12}>
+						<Typography variant="title">
+							{translate.edit_participant}
+						</Typography>
+					</GridItem>
 					<Paper
 						style={{
-							marginBottom: '1.3em',
-							padding: '2em'
+							padding: '2em',
+							paddingTop: '1em',
+							marginTop: '1em',
+							marginBottom: '1em'
 						}}
 					>
 						{
-							<RepresentativeForm
+							<ParticipantForm
+								type={this.state.participantType}
 								representative={representative}
+								participant={participant}
+								participations={participations}
 								translate={translate}
 								languages={this.state.languages}
 								errors={errors}
-								updateState={this.updateRepresentative}
+								updateState={this.updateParticipantData}
 							/>
 						}
 					</Paper>
-				)}
-				{this.renderAddParticipantButtons()}
-			</Grid>
-		</Fragment>
-	);
-}
+					{this.renderRepresentativeCheckbox()}
+					{this.state.addRepresentative && (
+						<Paper
+							style={{
+								marginBottom: '1.3em',
+								padding: '2em'
+							}}
+						>
+							{
+								<RepresentativeForm
+									state={representative}
+									translate={translate}
+									languages={this.state.languages}
+									errors={errors}
+									updateState={this.updateRepresentative}
+								/>
+							}
+						</Paper>
+					)}
+					{this.renderAddParticipantButtons()}
+				</Grid>
+			</Fragment>
+		);
+	}
 }
 
 export default graphql(updateCouncilParticipant, {
