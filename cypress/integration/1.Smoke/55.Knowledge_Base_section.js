@@ -58,15 +58,18 @@ describe("The user is able to add a new document in the 'Base de conocimiento' s
     });
 
     it("From the drop down menu click on the 'Subir archivo' button", function() {
+
+        cy.get('#company-documents-drowpdown')
         
-        const docFile = 'testDocument.txt';
-        cy.get('#company-document-upload-file').attachFile(docFile)
 
     });
 
 
 
     it("Choose the file you want to upload click on it and then click on 'Open' button", function() {
+
+        const docFile = 'testDocument.txt';
+        cy.get('#company-document-upload-file').attachFile(docFile)
         
     });
 

@@ -1,12 +1,11 @@
-const ovac_admin_url = Cypress.env("ovacAdminUrl");
-const ovac_url = Cypress.env("ovacUrl");
+import loginPage from "./pageObjects/loginPage"
+import entitiesPasge from "./pageObjects/entitiesPage"
 
-const emailAlem = "alem@qaengineers.net";
-const emailTest = "5ebc694c-dd33-4b25-883a-33c7da04304d@mailslurp.com";
-const password = "Mostar123!";
+let login = new loginPage();
+let entity = new entitiesPage();
 
 
-describe("The user is able to add entity - Entity section", function() {
+describe("The user is able to add entity - Entities section", function() {
 
 
      before(function() {
@@ -14,90 +13,60 @@ describe("The user is able to add entity - Entity section", function() {
     });
     
     it("The user is able to open the browser and enter the URL: ", function() {       
-
-        cy.visit(ovac_admin_url)
-        
+        login.navigateAdmin()        
     });
 
     it("The user is able to enter the email address", function() {     
-
-        cy.get('#username').type(emailTest).should('have.value', emailTest)  
-        
+        login.enterEmailValid()        
     });
 
     it("The user is able to enter the password", function() {    
-
-        cy.get('#password').type(password).should('have.value', password)
-        
+        login.enterPasswordValid()        
     });
 
     it("The user is able to click on the Log in button", function() {  
-
-        cy.get('#login-button').click()     
-        
+        login.loginSubmit()           
     });
 
     it("The user is successfully logged in", function() {  
-
-        cy.url().should('include', '/company/')
-        
+        login.confirmLogin()        
     });
 
-    it("The user is able to click on the menu icon (top left corner)", function() {  
-
-        cy.url().should('include', '/company/')
-        
+    it("The user is able to click on the 'Insitution' button", function() {  
+        entity.institutionButton()        
     });
 
-    it("The user is able to click on the Add entity button", function() {  
-
-        cy.url().should('include', '/company/')
-        
+    it("The user is able to click on the 'Add' button", function() {  
+        entity.addButton()       
     });
 
-    it("The user is successfully logged in", function() {  
-
-        cy.url().should('include', '/company/')
-        
+    it("The user is able to populate the 'Name' field", function() {  
+        entity.enterName()        
     });
+
+    it("The user is able to populate the 'TAX ID NO/CIF/NIE' field", function() {  
+        entity.enterTAXid()       
+    });
+
+    it("The user is able to populate the 'Address' field", function() {  
+        entity.enterEntityAddress()        
+    });
+
+    it("The user is able to populate the 'Town/City' field", function() {  
+        entity.enterTownCity()       
+    });
+
+    it("The user is able to populate the 'Province' label", function() {  
+        entity.selectProvinceEntity()        
+    });
+
+    it("The user is able to click on the 'Add entity+' button", function() {
+        entity.submitEntityAdd()
+    });
+
 
 
 
 })
 
 
-
-describe("The user is able to link entity - Entity section", function() {
-
-
-     before(function() {
-      
-    });
-    
-    it("The user is successfully logged in", function() {  
-
-        cy.url().should('include', '/company/')
-        
-    });
-
-    it("The user is able to click on the menu icon (top left corner)", function() {  
-
-        cy.url().should('include', '/company/')
-        
-    });
-
-    it("The user is able to click on the Add entity button", function() {  
-
-        cy.url().should('include', '/company/')
-        
-    });
-
-    it("The user is successfully logged in", function() {  
-
-        cy.url().should('include', '/company/')
-        
-    });
-
-
-
-})

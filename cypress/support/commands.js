@@ -75,6 +75,19 @@ Cypress.Commands.add('iframe', { prevSubject: 'element' }, ($iframe, callback = 
         .should(iframe => expect(iframe.contents().find('body')).to.exist)
         .then(iframe => cy.wrap(iframe.contents().find('body')))
         .within({}, callback)
-})
+});
 
 import 'cypress-file-upload';
+
+
+
+const {MailSlurp} = require("mailslurp-client");
+
+const apiKey = "2e5d119a1a73903d2f1666d48421aba1698eff7aa50c051af5ff16c448783d1e";
+const inboxId = "c0ddabd9-b148-4a0e-86b6-5f00a0497fa5";
+const mailslurp = new MailSlurp({apiKey});
+
+Cypress.Commands.add("waitForLatestEmail", () => {
+    return mailslurp.waitForLatestEmail(inboxId);
+});
+

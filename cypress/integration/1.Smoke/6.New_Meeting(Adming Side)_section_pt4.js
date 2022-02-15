@@ -1,3 +1,6 @@
+const login_url = Cypress.env("baseUrl");
+
+
 describe("Councilbox login - valid username and password", function() {
 
      before(function() {

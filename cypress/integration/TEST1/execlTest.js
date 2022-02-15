@@ -98,7 +98,7 @@ it("INPUT TODAYS DATE", function () {
         
        
         cy.visit('https://app.councilbox.com/')
-        cy.xpath('//*[@id="root"]/div[1]/div[2]/div/div[1]/div/div[2]/div/div[4]/span/text()').then(($temp)=>{
+        cy.get('#client-version').then(($temp)=>{
         const txt = $temp.text()
         cy.writeFile('cypress/integration/TEST/versions.csv', txt, {flag: 'a+'})
 
@@ -298,7 +298,7 @@ it("INPUT TODAYS DATE", function () {
   
        
         cy.visit('https://evid.councilbox.com/')
-        cy.xpath('//*[@id="root"]/div[1]/div[2]/div/div[1]/div/div[2]/div/div[3]/div/span/text()').then(($temp)=>{
+        cy.get('#client-version').then(($temp)=>{
         const txt = $temp.text()
         cy.writeFile('cypress/integration/TEST/versions.csv', txt, {flag: 'a+'})
 
@@ -408,7 +408,7 @@ it("PORTAL dev", function () {
         
        
         cy.visit('https://app.shutter.councilbox.com/')
-        cy.xpath('//*[@id="shutter-app"]/div/div[2]/h6/text()[4]').then(($temp)=>{
+        cy.get('#version').then(($temp)=>{
         const txt = $temp.text()
         cy.writeFile('cypress/integration/TEST/versions.csv', txt, {flag: 'a+'})
 

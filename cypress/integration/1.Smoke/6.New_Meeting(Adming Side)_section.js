@@ -187,8 +187,8 @@ describe("The user is able to create a new call without session in the 'Nueva re
         cy.get('#calendar-accept-button').click()
 
         cy.get('#date-time-picker-date-end').click()
-        cy.contains('2021').click()
         cy.contains('2022').click()
+        cy.contains('2023').click()
         cy.get('#calendar-accept-button').click()
         cy.wait(1000)
         cy.get('#alert-confirm-button-accept').click()
