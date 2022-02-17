@@ -4,11 +4,6 @@ const entityTown = "Cikago"
 
 class entitiesPage {
 
-	institituionButton() {
-		cy.get('#MISSING_ID')
-			.should('be.visible')
-			.click()
-	}
 
 	addButton() {
 		cy.get('#MISSING_ID')

@@ -1,8 +1,18 @@
 import loginPage from "./pageObjects/loginPage"
-import entitiesPasge from "./pageObjects/entitiesPage"
+import requestAppointment from "./pageObjects/requestAppointment"
+import adminDashboard from "./pageObjects/adminDashboardPage"
+import appointmentsPage from "./pageObjects/appointmentsPage"
+import knowledgeBasePage from "./pageObjects/knowledgeBasePage"
+import usersPage from "./pageObjects/usersPage"
 
+
+let inboxId;
 let login = new loginPage();
-let entity = new entitiesPage();
+let appointment = new requestAppointment()
+let dashboard = new adminDashboard()
+let appoinments = new appointmentsPage()
+let knowledgeBase = new knowledgeBasePage()
+let users = new usersPage()
 
 
 describe("The user is able to add entity - Entities section", function() {
@@ -33,7 +43,7 @@ describe("The user is able to add entity - Entities section", function() {
     });
 
     it("The user is able to click on the 'Insitution' button", function() {  
-        entity.institutionButton()        
+        dashobard.institituionButton()        
     });
 
     it("The user is able to click on the 'Add' button", function() {  
@@ -64,6 +74,26 @@ describe("The user is able to add entity - Entities section", function() {
         entity.submitEntityAdd()
     });
 
+
+
+
+})
+
+
+describe("The user is able to add a logo to the Entity", function() {
+
+
+     before(function() {
+      
+    });
+    
+    it("The user is able to open the browser and enter the URL: ", function() {       
+        login.navigateAdmin()        
+    });
+
+    it("The user is able to click on the 'Insitution' button", function() {  
+        dashobard.institituionButton()  
+    });
 
 
 

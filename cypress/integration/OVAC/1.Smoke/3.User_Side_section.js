@@ -1,9 +1,14 @@
 import loginPage from "./pageObjects/loginPage"
 import requestAppointment from "./pageObjects/requestAppointment"
+import adminDashboard from "./pageObjects/adminDashboardPage"
+import appointmentsPage from "./pageObjects/appointmentsPage"
+
 
 let inboxId;
 let login = new loginPage();
 let appointment = new requestAppointment()
+let dashboard = new adminDashboard()
+let appoinments = new appointmentsPage()
 
 
 describe("The user is able to request prior appointment for the meeting", function() {
@@ -129,6 +134,107 @@ describe("The user is able to cancel prior appointment", function() {
     it("Appointment should be canceled", function() {
         appointment.cancelConfirm()
     })
+
+
+})
+
+describe("User is able to create new meeting", function() {
+     before(function() { 
+        cy.clearLocalStorage();
+
+    });
+
+    it("Open he browser and enter URL", function() {
+        login.navigateAdmin()
+    })
+
+    it("The user is able to log in to the page", function() {     
+
+        login.enterEmailValid()
+        login.enterPasswordValid()
+        login.loginSubmit()  
+        login.confirmLogin() 
+        
+    });
+
+    it("The user is able to click on the 'Appointments' button", function() {    
+
+        dashboard.appointmentsButton()
+        
+    });
+
+    it("The user is able to enter the data into 'Description' field", function() {
+
+        appointments.enterDescription()
+    })
+
+    it("The user is able to click on the 'Next' button", function() {
+
+        appointments.nextButtonDetails()
+    })
+
+    it("The user is able to click on the 'Add participant+'' button", function() {
+
+        appointments.nextButton()
+    })
+
+    it("The user is able to input required field for Add Participant", function() {
+        appointments.inputParticipantData()
+    })
+
+    it("The user is able to click on 'OK' button", function() {
+        appointment.alertConfirmButton()
+    })
+
+    it("The user is able to click on the 'Next' button", function() {
+        appointments.nextButtonParticipants()
+    })
+
+    it("The user is able to click on the 'Confirmation or Consent' button", function() {
+        appointments.consentsTitle()
+    })
+
+    it("The user is able to click on the 'OK' button", function() {
+        appointment.alertConfirmButton()
+    })
+
+    it("The user is able to click on the 'Next' button", function() {
+        appointments.nextButtonConsents()
+    })
+
+    it("The user is able to click on the 'Next' button", function() {
+        appointments.nextButtonDocumentation()
+    })
+
+    it("The user is able to click on the 'Next' button", function() {
+        appointments.nextButtonConfiguration()
+    })
+
+    it("The user is able to click on the 'Send' button", function() {
+        appointments.sendButton()
+    })
+
+    it("The user is able to click on the 'Prepare room' button", function() {
+        appointments.prepareRoomButton()
+    })
+
+    it("The user is able to click on the 'Open room' button", function() {
+        appointments.openRoomButton()
+    })
+
+    it("The user is able to click on the 'OK' button", function() {
+        appointment.alertConfirmButton()
+        cy.wait(3000)
+    })
+
+    it("The user is able to click on the 'Start appointment' button", function() {
+        appointments.startAppointmentButton()
+        appointment.alertConfirmButton()
+        cy.wait(5000)
+    })
+
+
+
 
 
 })

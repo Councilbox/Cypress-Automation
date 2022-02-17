@@ -55,7 +55,8 @@ describe("The user is able to create a new account in Councilbox", function() {
     });
 
     it("User should be registered successfully", function() {
-        cy.contains('Alta de usuario')
+        cy.xpath('//*[@id="root"]/div[1]/div/div/div[1]/div/div[2]/div/div[1]/div[2]/div')
+            .should('be.visible')
         cy.wait(1000)
     });
 

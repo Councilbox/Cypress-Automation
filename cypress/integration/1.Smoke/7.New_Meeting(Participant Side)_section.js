@@ -18,8 +18,8 @@ describe("Councilbox login - valid username and password", function() {
     });
 
     it("Change language to Spanish", function() {
-        cy.contains('EN').click();
-        cy.contains('ES').click();
+        cy.get('#language-selector').click();
+        cy.get('#language-es').click();
     });
 
     it("Enters email address", function() {
