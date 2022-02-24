@@ -1168,6 +1168,7 @@ describe("The user is able to choose and select 'There are present participants 
 
         it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
             cy.get('#council-type-remote-vote').scrollIntoView()
+            cy.wait(3000)
         });
 
         it("Click on the 'There are present participants with electronic vote' checkbox and click on the 'Save' button", function() {

@@ -163,7 +163,7 @@ it("INPUT TODAYS DATE", function () {
         
        
         cy.visit('https://ovac.pre.councilbox.com/')
-        cy.xpath('//*[@id="root"]/div[1]/div[2]/div/div[1]/div/div/div[2]/div/div/div/div[2]/text()').then(($temp)=>{
+        cy.get('#client-version').then(($temp)=>{
         const txt = $temp.text()
         cy.writeFile('cypress/integration/TEST/versions.csv', txt, {flag: 'a+'})
 
