@@ -40,6 +40,7 @@ it("INPUT TODAYS DATE", function () {
         
        
         cy.visit('https://app.dev.councilbox.com/')
+        cy.wait(10000)
         cy.get('#client-version').then(($temp)=>{
         const txt = $temp.text()
         cy.writeFile('cypress/integration/TEST/versions.csv', txt, {flag: 'a+'})
@@ -58,6 +59,7 @@ it("INPUT TODAYS DATE", function () {
         
        
         cy.visit('https://app.pre.councilbox.com/')
+        cy.wait(10000)
         cy.get('#client-version').then(($temp)=>{
         const txt = $temp.text()
         cy.writeFile('cypress/integration/TEST/versions.csv', txt, {flag: 'a+'})
@@ -202,7 +204,7 @@ it("INPUT TODAYS DATE", function () {
         
        
         cy.visit('https://ovac.councilbox.com/')
-        cy.xpath('//*[@id="root"]/div[1]/div[2]/div/div[1]/div/div/div[2]/div/div/div/div[2]/text()').then(($temp)=>{
+        cy.get('#client-version').then(($temp)=>{
         const txt = $temp.text()
         cy.writeFile('cypress/integration/TEST/versions.csv', txt, {flag: 'a+'})
 
@@ -429,7 +431,7 @@ it("PORTAL dev", function () {
         
        
         cy.visit('https://horus.pre.councilbox.com/admin')
-        cy.xpath('//*[@id="root"]/div/div/div/div/div[4]/small/text()[2]').then(($temp)=>{
+        cy.xpath('//*[@id="root"]/div/div/div/div/div[4]/small').then(($temp)=>{
         const txt = $temp.text()
         cy.writeFile('cypress/integration/TEST/versions.csv', txt, {flag: 'a+'})
 
@@ -448,7 +450,7 @@ it("PORTAL dev", function () {
         
        
         cy.visit('https://horus.councilbox.com/admin')
-        cy.xpath('//*[@id="root"]/div/div/div/div/div[4]/small/text()[2]').then(($temp)=>{
+        cy.xpath('//*[@id="root"]/div/div/div/div/div[4]/small').then(($temp)=>{
         const txt = $temp.text()
         cy.writeFile('cypress/integration/TEST/versions.csv', txt, {flag: 'a+'})
 

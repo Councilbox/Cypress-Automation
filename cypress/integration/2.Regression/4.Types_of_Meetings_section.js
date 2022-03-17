@@ -141,6 +141,9 @@ describe("The user is able to undo all changes in the 'Council Types' section", 
 
     */
 
+
+    
+
 describe("The user is able to edit a type of meeting in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
@@ -167,7 +170,7 @@ describe("The user is able to edit a type of meeting in the 'Council types' sect
     });
 
 
-/*
+
 
 describe("The user is able to Add a type of meeting in the 'Council types' section", function() {
 
@@ -177,17 +180,23 @@ describe("The user is able to Add a type of meeting in the 'Council types' secti
         });
 
         it("Click on 'Add type of meeting +' button", function() {
-            cy.get('#anadirTipoDeReunion').click()
+            cy.get('#company-statute-create-button').click()
             cy.wait(1000)
         });
 
 
         it("Populate all required fields in Add type of meeting", function() {
-            cy.get('#anadirTipoDeReunionInputEnModal').type('AlemTestAutomation')
+            cy.get('#new-council-type-input').type('TypeAuto'+Cypress.config('UniqueNumber'))
+            
+
         });
 
         it("Click on 'OK' button", function() {
             cy.get('#alert-confirm-button-accept').click()
+            cy.get('#council-statute-save-button').click()
+            cy.wait(2000)
+             cy.contains('TypeAuto'+Cypress.config('UniqueNumber')).scrollIntoView()
+            .should('be.visible')
         });
 
         it("Back to Home page", function() {
@@ -197,6 +206,8 @@ describe("The user is able to Add a type of meeting in the 'Council types' secti
 
     });
 
+
+/*
 
 
 
@@ -216,7 +227,7 @@ describe("The user is able to rename a type of meeting in the 'Types of meetings
 
 
         it("Populate the “Meeting type*” field with a new name and click on the 'OK' button", function() {
-            cy.get('#anadirTipoDeReunionInputEnModal')..clear().type('AlemTestAutomation')
+            cy.get('#anadirTipoDeReunionInputEnModal').clear().type('AlemTestAutomation')
             cy.get('#alert-confirm-button-accept').click()
         });
 
@@ -227,9 +238,9 @@ describe("The user is able to rename a type of meeting in the 'Types of meetings
 
     });
 
+*/
 
-
-
+/*
 describe("The user is able to delete a type of meeting from the list of meetings in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
@@ -238,7 +249,10 @@ describe("The user is able to delete a type of meeting from the list of meetings
         });
 
         it("Navigate to the already added meeting type and hover it then click on the “X” button", function() {
-            cy.get('#MISSING_ID')
+            cy.contains('TypeAuto'+Cypress.config('UniqueNumber')).scrollIntoView()
+            .should('be.visible')
+
+            cy.xpath('//*[@class="jss711 jss917 closeIcon"]').last().click()
             cy.wait(1000)
         });
 
@@ -254,7 +268,7 @@ describe("The user is able to delete a type of meeting from the list of meetings
 
     });
 
-    
+ */   
 
 describe("The user is not able to add type of meeting without populating 'Meeting type*'' field in the 'Types of meetings' section", function() {
 
@@ -285,7 +299,7 @@ describe("The user is not able to add type of meeting without populating 'Meetin
     });
 
 
-*/
+
 
 
 describe("The user is able to choose and select 'There is minimum notice to call notice' option for the call in the 'Convene' section in the 'Council types' section", function() {
