@@ -1,80 +1,53 @@
 import loginPage from "./pageObjects/loginPage"
-import logoutPage from "./pageObjects/logoutPage"
+import adminDashboard from "./pageObjects/adminDashboardPage"
 
 let login = new loginPage();
-let logout = new logoutPage();
+let dashboard = new adminDashboard()
 
 
 
 describe("The user is able to log in to the page - Account section", function() {
-
     before(function() {
-        cy.clearLocalStorage();
-      
-    });
-    
+        cy.clearLocalStorage();  
+    });   
     it("The user is able to open the browser and enter the URL: ", function() {       
-
-    	login.navigateAdmin()
-        
+    	login.navigate_admin()        
     });
 
     it("The user is able to enter the email address", function() {     
-
-    	login.enterEmailValid()
-        
+    	login.enter_email()       
     });
 
     it("The user is able to enter the password", function() {    
-
-    	login.enterPasswordValid()
-        
+    	login.enter_password()       
     });
 
     it("The user is able to click on the Log in button", function() {  
-
-    	login.loginSubmit()    
-        
+    	login.login_submit()       
     });
 
     it("The user is successfully logged in", function() {  
-
-    	login.confirmLogin()
-        
+    	login.confirm_login()    
     });
-
 })
-
 
 describe("The user is able to log out from the page - Account section", function() {
 
-
     it("The user is successfully logged in", function() {  
-
-    	login.confirmLogin()
-        
+    	login.confirm_login()       
     });
 
     it("The user is able to click on the Account icon", function() {  
-
-    	logout.accountButton()
-        
+       	dashboard.click_user_icon()       
     });
 
     it("The user is able to click on the Log out button", function() {  
-
-    	logout.logoutButton()
-        
+    	dashboard.click_logout()       
     });
 
     it("User is logged out successfully", function() {  
-
-    	logout.logoutConfirm()
-        
+    	dashboard.confirm_logout()   
     });
-
-
-
 })
 
 

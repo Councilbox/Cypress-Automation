@@ -79,12 +79,12 @@ Cypress.Commands.add('iframe', { prevSubject: 'element' }, ($iframe, callback = 
 
 import 'cypress-file-upload';
 
-
+require('cy-verify-downloads').addCustomCommand();
 
 const {MailSlurp} = require("mailslurp-client");
 
 const apiKey = "2e5d119a1a73903d2f1666d48421aba1698eff7aa50c051af5ff16c448783d1e";
-const inboxId = "c0ddabd9-b148-4a0e-86b6-5f00a0497fa5";
+const inboxId = "58867653-57ca-4d58-9d84-45b60ac48434";
 const mailslurp = new MailSlurp({apiKey});
 
 Cypress.Commands.add("waitForLatestEmail", () => {

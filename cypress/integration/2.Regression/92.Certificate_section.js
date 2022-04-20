@@ -101,6 +101,11 @@ describe("The user is able to create a new certificate", function() {
 
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 });
 
 describe("The user is not able to generate a certificate without populating 'Title' field in the 'New certificate' section", function() {
@@ -139,6 +144,11 @@ describe("The user is not able to generate a certificate without populating 'Tit
 
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 });
 
 describe("The user is able to export certificate in the PDF form in the 'New certificate' section", function() {
@@ -175,6 +185,11 @@ describe("The user is able to export certificate in the PDF form in the 'New cer
     it("Click on the 'PDF' button", function() {   
         cy.get('#MISSING_ID').click()
     })
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 });
 
@@ -213,6 +228,11 @@ describe("The user is able to export certificate in the WORD form in the 'New ce
         cy.get('#MISSING_ID').click()
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 });
 
 
@@ -248,6 +268,11 @@ describe("The user is able to select the '2 columns' layout in the 'New certific
         .should('be.checked')
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 });
 
 describe("The user is able to see preview in the 'New certificate' section", function() {
@@ -281,6 +306,11 @@ describe("The user is able to see preview in the 'New certificate' section", fun
         cy.get('#document-editor-open-preview-button').click()
         cy.get('#act-preview-container').should('be.visible')
     })
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 });
 
@@ -319,6 +349,11 @@ describe("The user is able to select/unselect the checkbox next to the 'Include 
         cy.get('#remove-block-certAgenda').click()
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 
 });
 
@@ -355,6 +390,11 @@ describe("The user is able to add text block in the 'New certificate' section", 
         cy.get('#document-add-block-text').click()
         cy.get('#root > div:nth-child(1) > div:nth-child(3) > div > div:nth-child(2) > div > div > div:nth-child(2) > div:nth-child(3) > div > div:nth-child(1) > div > div > div.actaLienzo > div > div').should('have.length', 5)
     })
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 
 });

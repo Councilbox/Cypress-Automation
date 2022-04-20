@@ -14,7 +14,7 @@
   
 
   "video": false,
-
+  "downloadsFolder": "cypress/downloads",
 "chromeWebSecurity": false,
   
 
@@ -23,6 +23,8 @@
   "requestTimeout": 2000,
   "defaultCommandTimeout": 5000,
   "pageLoadTimeout": 10000,
+
+  "projectId": "ycw8dr",
 
 
 

@@ -133,6 +133,11 @@ describe("The user is able to upload a new document to the 'Documentation' form 
         cy.get('#MISSING_ID').click()
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 
 });
 
@@ -223,6 +228,11 @@ describe("The user is able to edit a document name in the 'Documentation' form i
         cy.contains('Edit File Name').should('be.visible')
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 
 });
 
@@ -308,6 +318,11 @@ describe("The user is able to remove a already added document in the 'Documentat
     it("Click on the 'Delete' button", function() {
         cy.get('#alert-confirm-button-accept').click()
     })
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 
 });

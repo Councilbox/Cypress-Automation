@@ -125,6 +125,11 @@ describe("The user is not able to add 'New item yes/no/abstention' without popul
         cy.get('#agenda-editor-title-input-error-text').should('be.visible')     
     });
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 
 
 
@@ -197,6 +202,11 @@ describe("The user is not able to add Custom item without populating the 'Title'
         cy.get('#undefined-error-text').should('be.visible')     
     });
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 
 });
 
@@ -267,6 +277,11 @@ describe("The user is not able to add Custom item with invalid input in the 'Val
     it("'Required field' alert message is displayed beyond the 'Value' field", function() {
         cy.get('#undefined-error-text').should('be.visible')     
     });
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 
 });
@@ -356,6 +371,11 @@ describe("The user is able to reorder agenda points in the 'Agenda' section in t
         cy.get('#MISSING_ID')
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 
 });
 
@@ -427,6 +447,11 @@ describe("The user is able to add 'Informative' type of the Yes/no item to the '
     it("'Informative' type of item is successfully added", function () {
         cy.contains('Informative Agenda').should('be.visible')
     })
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 });
 
@@ -508,6 +533,11 @@ describe("The user is able to edit 'Informative' type of the Yes/no item to the 
         cy.contains('Edit Informative Agenda').should('be.visible')
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 
 });
 
@@ -587,6 +617,11 @@ describe("The user is able to remove 'Informative' type of the Item Yes/no Abste
     it("Item is successfully removed", function() {
         cy.get('#MISSING_ID').should('not.exist')
     })
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 
 });
@@ -684,6 +719,11 @@ describe("The user is able to add 'Roll-call vote' type of the Yes/no item to th
         cy.contains('Roll-call vote Agenda').should('be.visible')
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 });
 
 
@@ -765,6 +805,11 @@ describe("The user is able to edit 'Roll-call vote' type of the Yes/no item to t
         cy.contains('Edit Roll-call vote Agenda').should('be.visible')
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 
 });
 
@@ -844,6 +889,11 @@ describe("The user is able to remove 'Roll-call vote' type of the Item Yes/no Ab
     it("Item is successfully removed", function() {
         cy.get('#MISSING_ID').should('not.exist')
     })
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 
 });
@@ -941,6 +991,11 @@ describe("The user is able to add 'Public voting' type of the Yes/no item to the
         cy.contains('Public voting Agenda').should('be.visible')
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 });
 
 
@@ -1022,6 +1077,11 @@ describe("The user is able to edit 'Public voting' type of the Yes/no item to th
         cy.contains('Edit Public voting Agenda').should('be.visible')
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 
 });
 
@@ -1101,6 +1161,11 @@ describe("The user is able to remove 'Public voting' type of the Item Yes/no Abs
     it("Item is successfully removed", function() {
         cy.get('#MISSING_ID').should('not.exist')
     })
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 
 });
@@ -1211,6 +1276,11 @@ describe("The user is able to add 'Anonymous votation' type of the Yes/no item t
         cy.contains('Public voting Agenda').should('be.visible')
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 });
 
 
@@ -1292,6 +1362,11 @@ describe("The user is able to edit 'Anonymous votation' type of the Yes/no item 
         cy.contains('Edit Anonymous votation Agenda').should('be.visible')
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 
 });
 
@@ -1371,6 +1446,11 @@ describe("The user is able to remove 'Anonymous votation' type of the Item Yes/n
     it("Item is successfully removed", function() {
         cy.get('#MISSING_ID').should('not.exist')
     })
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 
 });
@@ -1475,6 +1555,11 @@ describe("The user is able to add 'Roll-call vote' type of the Custom item to th
         cy.contains('Roll-call vote Custom Agenda').should('be.visible')
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 });
 
 
@@ -1557,6 +1642,11 @@ describe("The user is able to edit 'Roll-call vote' type of the Custom item to t
         cy.contains('Edit Roll-call vote Custom Agenda').should('be.visible')
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 
 });
 
@@ -1638,6 +1728,11 @@ describe("The user is able to remove 'Roll-call vote' type of the Custom item to
     it("Item is successfully removed", function() {
         cy.get('#MISSING_ID').should('not.exist')
     })
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 
 });
@@ -1732,6 +1827,11 @@ describe("The user is able to add 'Anonymous votation' type of the Custom item t
         cy.contains('Anonymous votation Custom Agenda').should('be.visible')
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 });
 
 
@@ -1813,6 +1913,11 @@ describe("The user is able to edit 'Anonymous votation' type of the Custom item 
     it("Item is successfully edited", function() {
         cy.contains('Edit Anonymous votation Custom Agenda').should('be.visible')
     })
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 
 });
@@ -1896,6 +2001,11 @@ describe("The user is able to remove 'Anonymous votation' type of the Custom ite
         cy.get('#MISSING_ID').should('not.exist')
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 
 });
 
@@ -1977,6 +2087,11 @@ describe("The user is able to add 'Public voting' type of the Custom item to the
     it("'Public voting' type of item is successfully added", function () {
         cy.contains('Public voting Custom Agenda').should('be.visible')
     })
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 });
 
@@ -2060,6 +2175,11 @@ describe("The user is able to edit 'Public voting' type of the Custom item to th
         cy.contains('Edit Public voting Custom Agenda').should('be.visible')
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 
 });
 
@@ -2141,6 +2261,10 @@ describe("The user is able to remove 'Public voting' type of the Custom item to 
     it("Item is successfully removed", function() {
         cy.get('#MISSING_ID').should('not.exist')
     })
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 
 });
@@ -2229,6 +2353,11 @@ describe("The user is able to add attachment the 'Item Yes/no/abstention' to the
         cy.contains('Public voting Custom Agenda').should('be.visible')
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 });
 
 
@@ -2316,5 +2445,10 @@ describe("The user is able to add attachment in the Custom item to the 'Add item
     it("'Roll-call vote' type of item is successfully added", function () {
         cy.contains('Public voting Custom Agenda').should('be.visible')
     })
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 });

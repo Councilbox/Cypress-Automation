@@ -3,40 +3,40 @@ const ovac_url = Cypress.env("ovacUrl");
 
 const emailAlem = "alem@qaengineers.net";
 const emailTest = "5ebc694c-dd33-4b25-883a-33c7da04304d@mailslurp.com";
-const password = "Mostar123!";
+
 
 
 class loginPage {
 
-	navigateUser() {
+	navigate_user() {
 		cy.visit(ovac_url)
 		cy.url().should('eq', ovac_url)
 	}
 
-	navigateAdmin() {
+	navigate_admin() {
 		cy.visit(ovac_admin_url)
 		cy.url().should('eq', ovac_admin_url)
 	}
 
-	enterEmailValid() {
+	enter_email(email) {
 		cy.get('#username')
-            .type(emailTest)
-            .should('have.value', emailTest)  
+            .type(email)
+            .should('have.value', email)  
 	}
 
-	enterPasswordValid() {
+	enter_password(password) {
 		cy.get('#password')
             .type(password)
             .should('have.value', password)
 	}
 
-	loginSubmit() {
+	login_submit() {
 		cy.get('#login-button')
             .should('be.visible')
             .click() 
 	}
 
-	confirmLogin() {
+	confirm_login() {
 		cy.url()
             .should('include', '/company/')
 	}

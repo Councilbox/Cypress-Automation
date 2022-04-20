@@ -83,6 +83,11 @@ describe("The user is able to select all meetings in the 'Drafts' section", func
         cy.get('#MISSING_ID').click()
     });
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 
 });
 
@@ -103,6 +108,11 @@ describe("The user is able to open the 'Convened' form in the 'Meetings' section
         cy.get('#tab-1').click()
         cy.url('include', '/councils/calendar')
     });
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 
 });
@@ -125,6 +135,11 @@ describe("The user is able to open the 'In progress' form in the 'Meetings' sect
         cy.url('include', '/councils/live')
     });
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 
 });
 
@@ -145,6 +160,11 @@ describe("The user is able to open the 'Drafting the minutes' form in the 'Minut
         cy.get('#tab-3').click()
         cy.url('include', '/councils/act')
     });
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 
 });
@@ -167,6 +187,11 @@ describe("The user is able to open the 'Minute book' form in the 'Meetings' sect
         cy.url('include', '/councils/confirmed')
     });
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 
 });
 
@@ -187,6 +212,11 @@ describe("The user is able to open the 'Log' form in the 'Meetings' section", fu
         cy.get('#tab-5').click()
         cy.url('include', '/councils/history')
     });
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 
 });
@@ -209,6 +239,11 @@ describe("The user is able to open the 'All' form in the 'Meetings' section", fu
         cy.url('include', '/councils/history')
     });
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 
 });
 
@@ -229,6 +264,11 @@ describe("The user is able to open the 'All' form in the 'Meetings' section", fu
         cy.get('#tab-5').click()
         cy.url('include', '/councils/history')
     });
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 
 });
@@ -256,6 +296,11 @@ describe("The user is able to search the meetings in the 'Drafts' form in the 'M
         cy.contains('MeetingSearchTest422').should('be.visible')
     });
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 
 });
 
@@ -281,6 +326,11 @@ describe("The user is able to search the meetings in the 'Convened' form in the 
         cy.get('#MISSING_ID').type('MeetingSearchTest422')
         cy.contains('MeetingSearchTest422').should('be.visible')
     });
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 
 });
@@ -308,6 +358,11 @@ describe("The user is able to search the meetings in the 'In Progress' form in t
         cy.contains('MeetingSearchTest422').should('be.visible')
     });
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 });
 
 describe("The user is able to search the meetings in the 'Drafting the minutes' form in the 'Meetings' section", function() {
@@ -332,6 +387,11 @@ describe("The user is able to search the meetings in the 'Drafting the minutes' 
         cy.get('#MISSING_ID').type('MeetingSearchTest422')
         cy.contains('MeetingSearchTest422').should('be.visible')
     });
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 });
 
@@ -358,6 +418,11 @@ describe("The user is able to search the meetings in the 'Minute book' form in t
         cy.contains('MeetingSearchTest422').should('be.visible')
     });
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 });
 
 describe("The user is able to search the meetings in the 'Log' form in the 'Meetings' section", function() {
@@ -382,6 +447,11 @@ describe("The user is able to search the meetings in the 'Log' form in the 'Meet
         cy.get('#MISSING_ID').type('MeetingSearchTest422')
         cy.contains('MeetingSearchTest422').should('be.visible')
     });
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 });
 
@@ -409,6 +479,11 @@ describe("The user is able to search the meetings in the 'All' form in the 'Meet
         cy.contains('MeetingSearchTest422').should('be.visible')
     });
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 });
 
 
@@ -429,6 +504,11 @@ describe("The user is able to open the 'Drafts' form in the 'Meetings' section",
         cy.get('#tab-0').click()
         cy.url('include', '/councils/drafts')
     });
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 });
 
@@ -453,6 +533,11 @@ describe("The user is able to select all meetings in the 'Drafts' form in the 'M
     it("Click on the checkbox left to the 'Start Date' field", function() {
         cy.get('#MISSING_ID').click()
     });
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 
 });
@@ -479,6 +564,11 @@ describe("The user is able to select all meetings in the 'Convened' form in the 
         cy.get('#MISSING_ID').click()
     });
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 
 });
 
@@ -503,6 +593,11 @@ describe("The user is able to select all meetings in the 'In progress' form in t
     it("Click on the checkbox left to the 'Start Date' field", function() {
         cy.get('#MISSING_ID').click()
     });
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 
 });
@@ -532,6 +627,11 @@ describe("The user is able to delete the meeting in the 'Convened' form in the '
         cy.get('#alert-confirm-button-accept')
     });
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 
 });
 
@@ -560,6 +660,11 @@ describe("The user is able to delete the meeting in the 'Drafts' form in the 'Me
         cy.get('#alert-confirm-button-accept')
     });
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 
 });
 
@@ -587,6 +692,11 @@ describe("The user is able to delete the meeting in the 'In Progress' form in th
         cy.wait(1000)
         cy.get('#alert-confirm-button-accept')
     });
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 
 });

@@ -17,61 +17,72 @@ let users = new usersPage()
 
 describe("The user is able to add entity - Entities section", function() {
 
+    const email = "alem@qaengineers.net"
+    const password = "Mostar123!"
+    const name = "Institutions"+Cypress.config('UniqueNumber')
+    const tax_id = Cypress.config('UniqueNumber')
+    const address = "Majkl Dzordana 23"
+    const town = "Cikago"
+    const zip = "88000"
 
      before(function() {
       
     });
     
     it("The user is able to open the browser and enter the URL: ", function() {       
-        login.navigateAdmin()        
+        login.navigate_admin()        
     });
 
     it("The user is able to enter the email address", function() {     
-        login.enterEmailValid()        
+        login.enter_email(email)        
     });
 
     it("The user is able to enter the password", function() {    
-        login.enterPasswordValid()        
+        login.enter_password(password)        
     });
 
     it("The user is able to click on the Log in button", function() {  
-        login.loginSubmit()           
+        login.login_submit()           
     });
 
     it("The user is successfully logged in", function() {  
-        login.confirmLogin()        
+        login.confirm_login()        
     });
 
     it("The user is able to click on the 'Insitution' button", function() {  
-        dashobard.institituionButton()        
+        dashobard.click_on_istitutions()      
     });
 
     it("The user is able to click on the 'Add' button", function() {  
-        entity.addButton()       
+        entity.click_add_button()     
     });
 
     it("The user is able to populate the 'Name' field", function() {  
-        entity.enterName()        
+        entity.enter_name(name)        
     });
 
     it("The user is able to populate the 'TAX ID NO/CIF/NIE' field", function() {  
-        entity.enterTAXid()       
+        entity.enter_TAX_id(tax_id)      
     });
 
     it("The user is able to populate the 'Address' field", function() {  
-        entity.enterEntityAddress()        
+        entity.enter_entity_address(address)      
     });
 
     it("The user is able to populate the 'Town/City' field", function() {  
-        entity.enterTownCity()       
+        entity.enter_town_city(town)    
     });
 
     it("The user is able to populate the 'Province' label", function() {  
-        entity.selectProvinceEntity()        
+        entity.select_province_entity()        
+    });
+
+    it("The user is able to populate the 'ZIP Code' label", function() {  
+        entity.enter_zip_code(zip)      
     });
 
     it("The user is able to click on the 'Add entity+' button", function() {
-        entity.submitEntityAdd()
+        entity.click_submit_entity()
     });
 
 
@@ -88,7 +99,7 @@ describe("The user is able to add a logo to the Entity", function() {
     });
     
     it("The user is able to open the browser and enter the URL: ", function() {       
-        login.navigateAdmin()        
+        login.navigate_admin()        
     });
 
     it("The user is able to click on the 'Insitution' button", function() {  

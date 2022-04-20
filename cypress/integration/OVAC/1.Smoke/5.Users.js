@@ -34,7 +34,7 @@ describe("Admin is able to create new user with 'English' language in the Users 
      
     it("The user is able to click on the 'Users' button", function() {
 
-    	dashboard.usersButton()
+    	dashboard.click_on_templates()
 		
 	})
 

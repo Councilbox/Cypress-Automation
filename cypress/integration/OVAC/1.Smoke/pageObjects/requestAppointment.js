@@ -1,128 +1,147 @@
-const name = "Automation"
-const surname = "Test"
-const TIN = "12345678Z"
-const countryCode = "387"
-const telephoneNo = "62123456"
-const email = "c0ddabd9-b148-4a0e-86b6-5f00a0497fa5@mailslurp.com"
+//const TIN = "12345678Z"
+//const countryCode = "387"
+//const telephoneNo = "62123456"
+//const email = "58867653-57ca-4d58-9d84-45b60ac48434@mailslurp.com"
+
+elements = {
+	request_prior_appointment: () => cy.get('#create-appointment-button'),
+
+	appointment_date: () => cy.get('#date-0'),
+
+	name: () => cy.get('#appointment-participant-name'),
+	surname: () => cy.get('#appointment-participant-surname'),
+	TIN: () => cy.get('#appointment-participant-document'),
+	contry_code: () => cy.get('#appointment-participant-phone-code'),
+	telephone_no: () => cy.get('#appointment-participant-phone'),
+	email: () => cy.get('#appointment-participant-email'),
+	privacy_button: () => cy.get('#appointment-participant-legal-check'),
+
+	alert_cofirm: () => cy.get('#alert-confirm-button-accept'),
+
+	submit: () => cy.get('#appointment-create-button'),
+
+	reschedule_appointment: () => cy.get('#reschedule-appointment-button'),
+	cancel_appointment: () => cy.get('#cancel-appointment-button'),
+	my_documentation: () => cy.get('#documentation-appointment-button')
+	}
 
 class requestAppointment {
 
-	requestPriorAppointmentButton() {
-		cy.get('#create-appointment-button')
+	request_prior_appointment_button() {
+		this.elements.request_prior_appointment()
 			.should('be.visible')
 			.click()
 		cy.url().should('include', '/newAppointment')
 	}
 
-	navigateToDateAndTime() {
+	navigate_to_date_and_time() {
 		cy.contains('Date and time of the appointment.')
 			.should('be.visible')
 	}
 
-	selectAppointmentDate() {
-		cy.get('#date-0')
+	select_appointment_date() {
+		this.elements.appointment_date()
 			.should('be.visible')
 			.click()
 	}
 
-	enterName() {
-		cy.get('#appointment-participant-name')
+	enter_name(name) {
+		this.elements.name
 			.should('be.visible')
 			.clear()
 			.type(name)
 			.should('have.value', name)
 	}
 
-	enterSurname() {
-		cy.get('#appointment-participant-surname')
+	enter_surname(surname) {
+		this.elements.surname()
 			.should('be.visible')
 			.clear()
 			.type(surname)
 			.should('have.value', surname)
 	}
 
-	enterTIN() {
-		cy.get('#appointment-participant-document')
+	enter_TIN(tin) {
+		this.elements.TIN()
 			.should('be.visible')
 			.clear()
-			.type(TIN)
-			.should('have.value', TIN)
+			.type(tin)
+			.should('have.value', tin)
 	}
 
-	enterCountryCode() {
-		cy.get('#appointment-participant-phone-code')
+	enter_country_code(country_code) {
+		this.elements.country_code()
 			.should('be.visible')
 			.clear()
-			.type(countryCode)
-			.should('have.value', countryCode)
+			.type(country_code)
+			.should('have.value', country_code)
 	}
 
-	enterTelephoneNo() {
-		cy.get('#appointment-participant-phone')
+	enter_telephone_no(phone) {
+		this.elements.telephone_no()
 			.should('be.visible')
 			.clear()
-			.type(telephoneNo)
-			.should('have.value', telephoneNo)
+			.type(phone)
+			.should('have.value', phone)
 	}
 
-	enterEmail() {
-		cy.get('#appointment-participant-email')	
+	enter_email(email) {
+		this.elements.email()
 			.should('be.visible')
 			.clear()
 			.type(email)
 			.should('have.value', email)
 	}
 
-	privacyButton() {
-		cy.get('#appointment-participant-legal-check')
+	click_privacy_button() {
+		this.elements.privacy_button()
 			.should('be.visible')
 			.click()
 		cy.contains('Legal notice')
 			.should('be.visible')
 	}
 
-	alertConfirmButton() {
-		cy.get('#alert-confirm-button-accept')
+	accept_privacy() {
+		this.elements.alert_cofirm()
 			.should('be.visible')
 			.click()
 	}
 
-	requestAppointmentSubmit() {
-		cy.get('#appointment-create-button')
+	request_appointment_submit() {
+		this.elements.submit()
 			.should('be.visible')
 			.click()
 	}
 
-	confirmAppointmentRequest() {
+	confirm_appointment_request() {
 		cy.contains('Prior appointment confirmed')
 			.should('be.visible')
 	}
 
-	rescheduleAppointmentButton()
-	{
-		cy.get('#reschedule-appointment-button')
+	reschedule_appointment_button() {
+		this.elements.reschedule_appointment()
 			.should('be.visible')
 			.click()
 	}
 
-	rescheduleConfirm() {
-		cy.contains('Su cita se ha reagendado con éxito.')
+	reschedule_confirm(reschedule_message) {
+		cy.contains(reschedule_message)
 			.should('be.visible')
 	}
 
-	cancelAppointmentButton() {
-		cy.get('#cancel-appointment-button')
+	cancel_appointment_button() {
+		this.elements.cancel_appointment()
 			.should('be.visible')
 			.click()
 	}
 
-	cancelConfirm() {
+	cancel_confirm() {
 		cy.contains('Su cita se ha cancelado con éxito.')
 			.should('be.visible')
 	}
 
-	myDocumentationButton() {
-		cy.get('#documentation-appointment-button')
+	my_documentation_button() {
+		this.elements.my_documentation()
 			.should('be.visible')
 			.click()
 	}

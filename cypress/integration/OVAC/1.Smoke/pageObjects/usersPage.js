@@ -39,6 +39,12 @@ class usersPage {
 			.click()
 	}
 
+	saveUser() {
+		cy.get('#create-user-button')
+			.should('be.visible')
+			.click()
+	}
+
 
 }
 

@@ -138,6 +138,11 @@ describe("The user is able to select 'Recording of entire meeting' checkbox in t
         cy.get('#MISSING_ID').click()
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 });
 
 
@@ -221,6 +226,11 @@ describe("The user is able to select 'Password sent by email' checkbox in the 'O
         cy.get('#council-options-security-email').click()
         cy.get('#MISSING_ID').click()
     })
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 });
 
@@ -307,6 +317,11 @@ describe("The user is able to select 'Password not required' checkbox in the 'Op
         cy.get('#MISSING_ID').click()
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 });
 
 
@@ -389,6 +404,11 @@ describe("The user is able to select 'Password sent by SMS' checkbox in the 'Opt
         cy.get('#council-options-security-sms').click()
         cy.get('#MISSING_ID').click()
     })
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 });
 
@@ -563,6 +583,11 @@ describe("The user is able to select 'If you want participants to receive a noti
         cy.get('#MISSING_ID').click()
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 });
 
 
@@ -651,6 +676,11 @@ describe("The user is able to select 'There is room with video broadcast' checkb
         cy.get('#MISSING_ID').click()
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 });
 
 
@@ -735,6 +765,11 @@ describe("The user is able to select 'Test meeting' checkbox in the 'Options' se
         cy.get('#council-options-test-meeting').scrollIntoView().check().should('be.checked')
         cy.get('#MISSING_ID').click()
     })
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 });
 
@@ -824,6 +859,11 @@ describe("The user is able to select 'Comments wall' checkbox in the 'Options' s
         cy.get('#MISSING_ID').click()
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 });
 
 
@@ -910,6 +950,11 @@ describe("The user is able to select 'Can request the floor' checkbox in the 'Op
         cy.get('#council-options-ask-word-menu').check().should('be.checked')
         cy.get('#MISSING_ID').click()
     })
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 });
 
@@ -1000,6 +1045,11 @@ describe("The user is able to select 'Simple majority' option in the 'The readin
         cy.get('#council-options-act-point-majority-type').click()
         cy.get('#council-options-act-majority-1').click()
     });
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 });
 
@@ -1092,6 +1142,11 @@ describe("The user is able to select 'Absolute majority' option in the 'The read
         cy.get('#council-options-act-majority-2').click()
     });
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 });
 
 
@@ -1180,6 +1235,11 @@ describe("The user is able to select 'Two-thirds majority' option in the 'The re
         cy.get('#council-options-act-point-majority-type').click()
         cy.get('#council-options-act-majority-4').click()
     });
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 });
 
@@ -1270,6 +1330,11 @@ describe("The user is able to select 'Percentage' option in the 'The reading and
         cy.get('#council-options-act-point-majority-type').click()
         cy.get('#council-options-act-majority-0').click()
     });
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 });
 
@@ -1362,6 +1427,11 @@ describe("The user is able to select 'Number' option in the 'The reading and app
         cy.get('#council-options-act-majority-6').click()
     });
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 });
 
 
@@ -1451,6 +1521,11 @@ describe("The user is able to select 'Fraction' option in the 'The reading and a
         cy.get('#council-options-act-point-majority-type').click()
         cy.get('#council-options-act-majority-5').click()
     });
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 });
 
@@ -1542,6 +1617,11 @@ describe("The user is able to select who will receive delegated vote in the 'Can
         cy.get('#MISSING_ID').click()
         cy.get('#alert-confirm-close').click()
     });
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 });
 
@@ -1640,6 +1720,11 @@ describe("The user is able to remove who will receive delegated vote in the 'Can
         cy.get('#alert-confirm-button-accept').click() 
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 });
 
 
@@ -1725,6 +1810,11 @@ describe("The user is able to populate the 'Contact Email' field in the 'Options
         cy.get('#MISSING_ID').click()
        
     })
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 });
 
@@ -1816,6 +1906,12 @@ describe("The user is not able to populate the 'Contact Email' field with invali
         cy.get('#council-options-contact-email-error-text').should('be.visible')
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
+
 });
 
 
@@ -1901,6 +1997,11 @@ describe("The user is able to open the tooltip next to the 'Contact Email' by cl
 
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 });
 
 
@@ -1984,6 +2085,11 @@ describe("The user is able to open the tooltip next to the 'If you want particip
         cy.contains('The participants will be able to confirm their intention to attend the meeting using the invitation email.').should('be.visible')
 
     })
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 });
 
@@ -2069,6 +2175,11 @@ describe("The user is able to click on the tooltip above the 'Room Layout' form 
         cy.contains('By choosing an option, all users will access with this room layout').should('be.visible')
 
     })
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 });
 
@@ -2162,6 +2273,11 @@ describe("The user is able to select 'Active Speaker View' option in the 'Room L
         cy.get('#MISSING_ID').click()
     })
 
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
+
 });
 
 
@@ -2253,5 +2369,10 @@ describe("The user is able to select 'Grid View' option in the 'Room Layout /Opt
     it("Clicks on the 'SAVE' CTA", function () {
         cy.get('#MISSING_ID').click()
     })
+
+    it("User should be able to exit the meeting", function() {
+        cy.visit(login_url)
+    });
+
 
 });

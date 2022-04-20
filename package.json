@@ -114,6 +114,7 @@
     "@cypress/webpack-preprocessor": "^5.6.0",
     "clipboardy": "^3.0.0",
     "css-loader": "^0.28.8",
+    "cy-verify-downloads": "^0.1.4",
     "cypress": "^4.12.1",
     "cypress-file-upload": "^5.0.2",
     "cypress-mailslurp": "^1.3.0",
