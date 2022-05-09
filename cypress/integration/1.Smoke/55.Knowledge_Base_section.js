@@ -36,7 +36,7 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Clicks login button", function() {
         cy.get("#login-button").click();
-        cy.wait(2000)
+       
     });
 
 });
@@ -46,7 +46,7 @@ describe("The user is able to add a new document in the 'Base de conocimiento' s
 
 
      it("From the menu choose and click on the 'Base de conocimiento' button", function() {
-        cy.wait(3000)
+        
         cy.get('#edit-drafts-block').click()
 
     });
@@ -75,7 +75,7 @@ describe("The user is able to add a new document in the 'Base de conocimiento' s
 
     it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+            
         });
 
 
@@ -113,13 +113,13 @@ describe("The user is able to create a new template in the 'Base de conocimiento
 
     it("Click on the 'Guardar' button", function() {
         cy.get('#draft-editor-save').click()
-        cy.wait(5000)
+       
           
     });
 
     it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+          
         });
 
 
@@ -144,7 +144,7 @@ describe("The user is able to add new tag in the 'Base de conocimiento' section"
 
     it("Click on the 'Anadir' button", function() {
         cy.get('#company-tag-add-button').click()
-        cy.wait(1000)
+      
     });
 
 
@@ -177,7 +177,7 @@ describe("The user is able to add new tag in the 'Base de conocimiento' section"
 
     it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+           
         });
 
 

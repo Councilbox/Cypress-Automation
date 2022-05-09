@@ -9,7 +9,7 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Visits the Councilbox web page", function() {
         cy.visit(login_url);
-        cy.wait(3000)
+
     });
 
     it("Change language to Spanish", function() {
@@ -31,7 +31,7 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Clicks login button", function() {
         cy.get("#login-button").click();
-        cy.wait(2000)
+    
     });
 
 });
@@ -47,7 +47,7 @@ describe("The user is able to send minutes in the 'New call with session' type o
 
     it("Click on the “Con sesion” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)
+     
     
     });
 
@@ -61,16 +61,16 @@ describe("The user is able to send minutes in the 'New call with session' type o
             .type('Test')
 
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+       
 
     });
 
 
     it("Click on the 'Anadir participante' button and populate all required fields then click on the “Siguiente” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+    
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+       
 
 
            
@@ -97,7 +97,7 @@ describe("The user is able to send minutes in the 'New call with session' type o
 
           cy.wait(1000)
 
-          cy.wait(3000)
+       
 
           cy.get('#censoSiguienteNew').click()
 
@@ -117,18 +117,18 @@ describe("The user is able to send minutes in the 'New call with session' type o
 
         cy.get('#agenda-editor-type-select').click()
 
-        cy.wait(1000)
+      
         cy.get('#agenda-editor-type-1').click()
-        cy.wait(1000)
+      
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+      
         cy.get('#ordenDelDiaNext').click()
 
-        cy.wait(1000)
+        
 
         cy.get('#attachmentSiguienteNew').click()
 
-        cy.wait(1000)
+        
         
 
     });
@@ -155,12 +155,12 @@ describe("The user is able to send minutes in the 'New call with session' type o
 
      it("Populate all required fields and click on the “Siguiente” button", function() {
         cy.get('#council-options-contact-email').scrollIntoView()
-        cy.wait(1000)
+       
         cy.get('#council-options-contact-email')
             .type('test@test.test')
         
         cy.get('#optionsNewSiguiente').click()
-        cy.wait(1000)
+      
         
         
 
@@ -170,7 +170,7 @@ describe("The user is able to send minutes in the 'New call with session' type o
       it("Click on the “Convocar y notificar” button", function() {
         
         cy.get('#council-editor-convene-notify').click()
-        cy.wait(3000)
+      
         
         
 
@@ -198,7 +198,7 @@ describe("The user is able to send minutes in the 'New call with session' type o
            it("Populate all required fields and click on the “Aceptar” button", function() {
         
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(10000)
+       
         
         
 
@@ -224,7 +224,7 @@ describe("The user is able to send minutes in the 'New call with session' type o
             it("Navigate to the upper right corner and click on the “Iniciar reunion” button", function() {
         
         cy.get('#start-council-button').click()
-        cy.wait(2000)
+       
         
         
     
@@ -235,25 +235,22 @@ describe("The user is able to send minutes in the 'New call with session' type o
         
        cy.get('#council-president-select').click()
 
-       cy.wait(200)
+       
 
        cy.get('#participant-selector-0').click()
 
         cy.get('#council-secretary-select').click()
 
-        cy.wait(200)
-
         cy.get('#participant-selector-0').click()
 
         cy.get('#council-quality-vote-select').click()
 
-        cy.wait(200)
-
+      
         cy.get('#participant-selector-0').click()
 
        
          cy.get('#alert-confirm-button-accept').click()
-        cy.wait(200)
+    
         cy.get('#alert-confirm-button-cancel').click()
         
     
@@ -263,10 +260,10 @@ describe("The user is able to send minutes in the 'New call with session' type o
         it("Click on the “Abrir punto” button", function() {
         
         cy.get('#council-live-tab-agenda').click()
-        cy.wait(1000)
+    
 
         cy.get('#open-agenda-point-button').click()
-        cy.wait(2000)
+    
         
         
     
@@ -276,11 +273,10 @@ describe("The user is able to send minutes in the 'New call with session' type o
     it("Click on the “Activar votaciones” button", function() {
         
         cy.get('#council-live-tab-agenda').click()
-        cy.wait(1000)
+     
 
         cy.get('#open-point-votings-button').click()
-        cy.wait(2000)
-        
+      
         
     
     });
@@ -289,7 +285,7 @@ describe("The user is able to send minutes in the 'New call with session' type o
     it("Click on the “Cerrar las votaciones del punto” button", function() {
         
         cy.get('#close-point-votings-button').click()
-        cy.wait(2000)
+       
         
         
     
@@ -298,7 +294,7 @@ describe("The user is able to send minutes in the 'New call with session' type o
     it("Click on the “Cerrar punto” button", function() {
         
         cy.get('#close-agenda-point-button').click()
-        cy.wait(2000)
+     
         
         
     
@@ -317,7 +313,7 @@ describe("The user is able to send minutes in the 'New call with session' type o
     it("Click on the “Accept” button", function() {
         
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(2000)
+      
         
         
     
@@ -327,9 +323,9 @@ describe("The user is able to send minutes in the 'New call with session' type o
     it("Click on the “Finalizar y aprobar acta” button and again click on the “Finalizar y aprobar acta” button", function() {
         
         cy.get('#council-act-approve-button').click()
-        cy.wait(5000)
+      
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+       
         
         
     
@@ -339,7 +335,7 @@ describe("The user is able to send minutes in the 'New call with session' type o
     it("Click on the “Envio del acta” button", function() {
         
         cy.get('#tab-sendAct').click()
-        cy.wait(1000)
+       
         
         
     
@@ -349,7 +345,7 @@ describe("The user is able to send minutes in the 'New call with session' type o
     it("Click on the “Enviar acta” button", function() {
         
         cy.get('#send-act-button').click()
-        cy.wait(1000)
+      
         
         
     
@@ -359,9 +355,9 @@ describe("The user is able to send minutes in the 'New call with session' type o
     it("Click on the “Enviar a todos los convocados then click on the “Enviar” button", function() {
         
         cy.get('#send-act-all-convened-option').click()
-        cy.wait(1000)
+       
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(3000)
+        
         cy.get('#alert-confirm-button-cancel').click()
         
         
@@ -370,7 +366,7 @@ describe("The user is able to send minutes in the 'New call with session' type o
 
     it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+            
         });
 
 

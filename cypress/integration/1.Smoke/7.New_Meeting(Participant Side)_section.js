@@ -14,7 +14,7 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Visits the Councilbox web page", function() {
         cy.visit(login_url);
-        cy.wait(3000)
+      
     });
 
     it("Change language to Spanish", function() {
@@ -36,7 +36,7 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Clicks login button", function() {
         cy.get("#login-button").click();
-        cy.wait(2000)
+       
     });
 
 });

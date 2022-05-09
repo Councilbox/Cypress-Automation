@@ -35,7 +35,6 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Clicks login button", function() {
         cy.get("#login-button").click();
-        cy.wait(2000)
     });
 
 });
@@ -52,7 +51,6 @@ describe("The user is able to add a partner in the 'Libro de socios' section", f
 
     it("Click on the 'Anadir socio' form", function() {
         cy.get('#add-partner-button').click()
-        cy.wait(1000)
 
     });
 
@@ -232,7 +230,7 @@ describe("The user is able to add a partner in the 'Libro de socios' section", f
        it("Click on the 'Guardar cambios' button", function() {
 
         cy.get('#guardarAnadirSocio').click()
-        cy.wait(3000)
+
        
     
     });
@@ -241,7 +239,7 @@ describe("The user is able to add a partner in the 'Libro de socios' section", f
 
        it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+
         });
 
 

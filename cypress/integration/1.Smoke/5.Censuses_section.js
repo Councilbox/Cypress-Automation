@@ -14,7 +14,7 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Visits the Councilbox web page", function() {
         cy.visit(login_url);
-        cy.wait(3000)
+
     });
 
     it("Change language to Spanish", function() {
@@ -36,7 +36,7 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Clicks login button", function() {
         cy.get("#login-button").click();
-        cy.wait(2000)
+
     });
 
 });
@@ -48,7 +48,7 @@ describe("The user is able to add census in the 'Censos' section [tipo Assistent
     it("From the menu choose and click on the 'Censos' button", function() {
 
         cy.get('#edit-censuses-block').click()
-        cy.wait(3000)
+
 
     });
 
@@ -83,7 +83,7 @@ describe("The user is able to add census in the 'Censos' section [tipo Assistent
 
     it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+     
         });
 
 

@@ -35,7 +35,6 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Clicks login button", function() {
         cy.get("#login-button").click();
-        cy.wait(2000)
     });
 
 });
@@ -46,7 +45,6 @@ describe("Councilbox login - valid username and password", function() {
 describe("The user is able to add company in the Councilbox", function() {
 
     it("From the dashboard click on the 'Anadir sociedad' button", function() {
-        cy.wait(5000)
         cy.get('#entidadesSideBar').click()
         cy.wait(1000)
         cy.get('#entidadesAddSociedad').click()
@@ -143,12 +141,10 @@ describe("The user is able to Link company", function() {
 
     it("Click on the 'Vincular' button", function() {
         cy.get('#company-link-button').click()
-            cy.wait(3000)
     });
 
     it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
         });
 
 

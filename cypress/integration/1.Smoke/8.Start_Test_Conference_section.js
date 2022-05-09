@@ -35,7 +35,7 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Clicks login button", function() {
         cy.get("#login-button").click();
-        cy.wait(2000)
+       
     });
 
 });
@@ -46,7 +46,7 @@ describe("The user is able to start conference", function() {
     it("Click on the 'Iniciar conferencia' button", function() {
         cy.contains('dashboard').click({ force: true })
         cy.get('#init-meeting-block').click()
-        cy.wait(10000)
+        
 
     });
 
@@ -68,7 +68,7 @@ describe("The user is able to start conference", function() {
 });
 
 */
-cy.wait(15000)
+
         });
 
 

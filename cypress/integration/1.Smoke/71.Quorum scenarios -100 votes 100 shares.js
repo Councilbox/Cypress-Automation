@@ -35,7 +35,7 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Clicks login button", function() {
         cy.get("#login-button").click();
-        cy.wait(2000)
+    
     });
 
 });
@@ -53,14 +53,14 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
             .type('Qourum'+Cypress.config('UniqueNumber'))
         cy.get('#census-type').click()
         cy.get('#census-type-social-capital').click()
-        cy.wait(1000)
+    
         cy.get('#alert-confirm-button-accept').click()
     });
 
     it("Navigate to the already added census and hover it then click on the “Manage participants” icon", function() {
         cy.get('#undefined-search-input').clear()
             .type('Qourum'+Cypress.config('UniqueNumber'))
-        cy.wait(3000)
+        cy.wait(1000)
         cy.get('#census_row_0').trigger('mouseover')
         cy.get('#census-manage-participants-button').click()
 
@@ -68,7 +68,7 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
 
     it("Add participant A with 20 votes and 20 shares", function() {
         cy.get('#add-census-participant-button').click()
-        cy.wait(1000)
+  
         cy.get('#participant-name-input').clear()
             .type('Participant')
         cy.get('#participant-surname-input').clear()
@@ -82,13 +82,16 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
         cy.get('#participant-social-capital-input').clear()
             .type('20')
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+     
+        
+        
         
     });
 
     it("Add participant B with 10 votes and 10 shares", function() {
+   
         cy.get('#add-census-participant-button').click()
-        cy.wait(1000)
+       
         cy.get('#participant-name-input').clear()
             .type('Participant')
         cy.get('#participant-surname-input').clear()
@@ -102,12 +105,13 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
         cy.get('#participant-social-capital-input').clear()
             .type('10')
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+    
+        
     });
 
     it("Add participant C with 10 votes and 10 shares", function() {
         cy.get('#add-census-participant-button').click()
-        cy.wait(1000)
+       
         cy.get('#participant-name-input').clear()
             .type('Participant')
         cy.get('#participant-surname-input').clear()
@@ -121,12 +125,13 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
         cy.get('#participant-social-capital-input').clear()
             .type('10')
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+      
+       
     });
 
     it("Add participant D with 20 votes and 20 shares", function() {
         cy.get('#add-census-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('Participant')
         cy.get('#participant-surname-input').clear()
@@ -140,12 +145,13 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
         cy.get('#participant-social-capital-input').clear()
             .type('20')
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+        
+       
     });
  
     it("Add participant E with 10 votes and 10 shares", function() {
         cy.get('#add-census-participant-button').click()
-        cy.wait(1000)
+     
         cy.get('#participant-name-input').clear()
             .type('Participant')
         cy.get('#participant-surname-input').clear()
@@ -159,12 +165,13 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
         cy.get('#participant-social-capital-input').clear()
             .type('10')
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+       
+       
     });
 
     it("Add participant F with 10 votes and 10 shares”", function() {
         cy.get('#add-census-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('Participant')
         cy.get('#participant-surname-input').clear()
@@ -178,12 +185,12 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
         cy.get('#participant-social-capital-input').clear()
             .type('10')
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+          
     });
 
     it("Add participant G with 5 votes and 5 shares", function() {
         cy.get('#add-census-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('Participant')
         cy.get('#participant-surname-input').clear()
@@ -197,12 +204,13 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
         cy.get('#participant-social-capital-input').clear()
             .type('5')
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+       
+        
     });
 
     it("Add participant H with 5 votes and 5 shares", function() {
         cy.get('#add-census-participant-button').click()
-        cy.wait(1000)
+       
         cy.get('#participant-name-input').clear()
             .type('Participant')
         cy.get('#participant-surname-input').clear()
@@ -216,12 +224,13 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
         cy.get('#participant-social-capital-input').clear()
             .type('5')
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+       
+        
     });
 
     it("Add participant I with 10 votes and 10 shares", function() {
         cy.get('#add-census-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('Participant')
         cy.get('#participant-surname-input').clear()
@@ -235,12 +244,13 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
         cy.get('#participant-social-capital-input').clear()
             .type('10')
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+        
+        
     });
 
     it("Observe the total number of votes and shares", function() {
         cy.get('#census-total-votes').should('have.text', '100')
-        cy.wait(500)
+       
         cy.get('#census-total-social-capital').should('have.text', '100')
     });
 
@@ -250,18 +260,18 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
     });
 
     it("Click on the “New meeting” button the select the “With session” type of meeting", function() {
-        cy.wait(5000)
+        
         cy.get('#create-council-block').click()
-        cy.wait(3000)   
+          
         cy.get('#create-council-with-session').click()
-        cy.wait(3000) 
+        
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
         cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
     
     it("Navigate to the “Current census” on the top left corner and click on the field to select the census", function() {
@@ -278,7 +288,7 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
    
     it("Click on the “Next” button", function() {
         cy.get('#censoSiguienteNew').click()
-        cy.wait(1000)
+       
     });
 
     it("Add item to agenda", function() {
@@ -286,130 +296,134 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
         cy.get('#puntoSiNoAbstencion').click()
         cy.get('#agenda-editor-title-input')
             .type('Test')
+        cy.get('#agenda-editor-type-select').click()
+        cy.get('#agenda-editor-type-1').click()
         cy.get('#alert-confirm-button-accept').click()  
-        cy.wait(1000)
+        
     });
 
     it("Click on the “Next” button", function() {
-        cy.get('#ordenDelDiaNext').click()
         cy.wait(1000)
+        cy.get('#ordenDelDiaNext').click()
+       
     });
 
     it("Click on the “Next” button", function() {
         cy.get('#attachmentSiguienteNew').click()
-        cy.wait(1000)
+       
     });
 
     it("Click on the “Next” button", function() {
         cy.get('#council-options-contact-email').scrollIntoView()
-        cy.wait(1000)
+      
         cy.get('#council-options-contact-email')
             .type('test@test.test')
         cy.get('#optionsNewSiguiente').click()
-        cy.wait(3000)
+        
     });
 
     it("Click on the “Invite and notify” button then click on the “Prepare room” button", function() {
         cy.get('#council-editor-convene-notify').click()
-        cy.wait(1000)
+       
     });
 
     it("Click on the “Open room” button then click on the “Open room” button", function() {
         cy.get('#prepararSalaNew').click()
-        cy.wait(10000)
+        
     });
 
     it("Click on the “Participants” button", function() {
         cy.get('#council-live-tab-participants').click()
-        cy.wait(1000)
+        
     });
 
     it("Click to the “Participant E”", function() {
         cy.contains(/^Participant E$/).click()
-        cy.wait(3000)
+       
     });
 
     it("Click on the “Delegate vote” button then choose the “Participant B” and click on it”", function() {
         cy.get('#participant-editor-delegate-vote-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-row-1').click()
-        cy.wait(3000)
+       
         cy.get('#alert-confirm-close').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the “Participant B” and observe the total votes”", function() {
-        cy.wait(1000)
+        
         cy.contains(/^Participant B$/).click()
-        cy.wait(1000)
+     
         cy.get('#owned-votes-total').should('have.text', ' 10')
         cy.get('#owned-delegated-social-capital').should('have.text', ' 10')
-        cy.wait(1000)
+       
         cy.get('#alert-confirm-close').click()
-        cy.wait(1000)
+       
 
     });
 
     it("Click on the “Participant B” and select the “Attending in person” status", function() {
-        cy.get('#state-selector-participant-item-2').click()
-        cy.wait(1000)
-        cy.get('#state-in-person-participant-item-2').click()
-        cy.wait(1000)
+        cy.get('#input-search-live')
+            .type('B')
+            .wait(1000)
+        cy.get('#state-selector-participant-item-1').click()
+        
+        cy.get('#state-in-person-participant-item-1').click()
+       cy.get('#input-search-live').clear()
     });
 
 
     it("Observe the current quorum number on the top right side of the page”", function() {
-        cy.wait(10000)
         cy.get('#live-current-quorum').should('have.text', '20')
-        cy.wait(1000)
+       
     });
 
     it("Click on the “Participant D” button", function() {
         cy.contains(/^Participant D$/).click()
-        cy.wait(1000)   
+        
     });
 
     it("Click on the “Vote early” button and select the option you want", function() {
-        /*
+        
         cy.get('#participant-early-voting-button').click()
-        cy.wait(5000)
+     
         cy.get('#early-vote-option-1-point-0').click()
-        cy.wait(1000)
-        cy.get('#alert-confirm-close').click()  
-        cy.wait(1000)
+      
+        cy.xpath('(//*[@id="alert-confirm-close"])[2]').click()  
+     
         cy.get('#alert-confirm-close').click() 
-        cy.wait(1000)   
-        */  
+       
+         
     });
 
     it("Observe the current quorum number on the top right side of the page”", function() {
-        cy.wait(10000)
         cy.get('#live-current-quorum').should('have.text', '40')
-        cy.wait(1000)
+        
     });
 
     it("Click to the “Participant C”", function() {
         cy.contains(/^Participant C$/).click()
-        cy.wait(3000)
+        
     });
 
     it("Click on the “Delegate vote” button then choose the “Participant A” and click on it”", function() {
         cy.get('#participant-editor-delegate-vote-button').click()
-        cy.wait(1000)
+       
         cy.get('#participant-row-0').click()
-        cy.wait(3000)
+        
         cy.get('#alert-confirm-close').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the “Participant A” and observe the total votes”", function() {
         cy.contains(/^Participant A$/).click()
-        cy.wait(1000)
-        cy.get('#owned-votes-total').should('have.text', '20')
-        cy.get('#owned-delegated-social-capital').should('have.text', '10')
-        cy.wait(1000)
+        
+        cy.get('#owned-votes-total').should('contain', '20')
+        cy.get('#owned-delegated-social-capital').should('contain', '10')
+        
         cy.get('#alert-confirm-close').click()
-        cy.wait(1000)
+       
 
     });
 
@@ -419,7 +433,7 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
 
     it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+           
         });  
 
    

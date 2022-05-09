@@ -114,7 +114,6 @@ describe("Councilbox login - valid username and password", function() {
         cy.clearLocalStorage();
         cy.saveLocalStorage();
         cy.visit(login_url);
-        cy.wait(3000)
     });
 
     it("Change language to Spanish", function() {
@@ -136,7 +135,6 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Clicks login button", function() {
         cy.get("#login-button").click();
-        cy.wait(3000)
     });
 
 });
@@ -210,7 +208,6 @@ describe("The user is able to restore a password", function() {
 */
 it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
         });    
 });
 
