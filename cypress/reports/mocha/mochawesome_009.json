@@ -1,5 +1,16 @@
 {
   "stats": {
+<<<<<<< HEAD
+    "suites": 2,
+    "tests": 32,
+    "passes": 32,
+    "pending": 0,
+    "failures": 0,
+    "start": "2022-04-20T13:03:12.375Z",
+    "end": "2022-04-20T13:03:37.842Z",
+    "duration": 25467,
+    "testsRegistered": 32,
+=======
     "suites": 1,
     "tests": 23,
     "passes": 23,
@@ -9,6 +20,7 @@
     "end": "2022-04-03T16:02:23.766Z",
     "duration": 83315,
     "testsRegistered": 23,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
     "passPercent": 100,
     "pendingPercent": 0,
     "other": 0,
@@ -18,115 +30,216 @@
   },
   "results": [
     {
+<<<<<<< HEAD
+      "uuid": "0c751cf4-a1f0-4a69-a00d-5d82169dba2e",
+      "title": "",
+      "fullFile": "cypress/integration/1.Smoke/4.Shareholders_Register_section.js",
+      "file": "cypress/integration/1.Smoke/4.Shareholders_Register_section.js",
+=======
       "uuid": "dcdf2bed-0ca9-4c66-a2f6-9a4c279f6ae3",
       "title": "",
       "fullFile": "cypress\\integration\\TEST1\\execlTest.js",
       "file": "cypress\\integration\\TEST1\\execlTest.js",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
       "beforeHooks": [],
       "afterHooks": [],
       "tests": [],
       "suites": [
         {
+<<<<<<< HEAD
+          "uuid": "f146f1d9-5955-448e-81d5-257e6af0fac7",
+          "title": "Councilbox login - valid username and password",
+=======
           "uuid": "80485004-4de0-43b1-91fc-5f36aec5e7a8",
           "title": "VERSIONS",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
           "fullFile": "",
           "file": "",
           "beforeHooks": [],
           "afterHooks": [],
           "tests": [
             {
+<<<<<<< HEAD
+              "title": "Visits the Councilbox web page",
+              "fullTitle": "Councilbox login - valid username and password Visits the Councilbox web page",
+              "timedOut": null,
+              "duration": 750,
+=======
               "title": "INPUT TODAYS DATE",
               "fullTitle": "VERSIONS INPUT TODAYS DATE",
               "timedOut": null,
               "duration": 699,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.visit(login_url);",
+              "err": {},
+              "uuid": "d3ae8f64-bcef-47d2-8d3d-b7fba25bc2b3",
+              "parentUUID": "f146f1d9-5955-448e-81d5-257e6af0fac7",
+=======
               "code": "cy.writeFile('cypress/integration/TEST/versions.csv', '\\n', {\n  flag: 'a+'\n});\ncy.request('GET', \"https://www.timeapi.io/api/Time/current/coordinate\").its('body.date').then(function (date) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', date, {\n    flag: 'a+'\n  });\n});\ncy.request('GET', \"https://www.timeapi.io/api/Time/current/coordinate\").its('body.dayOfWeek').then(function (dayOfWeek) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', ' ', {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', dayOfWeek, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "9ab7f823-a5e2-40e8-bc82-71dcba64ff7d",
               "parentUUID": "80485004-4de0-43b1-91fc-5f36aec5e7a8",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Change language to Spanish",
+              "fullTitle": "Councilbox login - valid username and password Change language to Spanish",
+              "timedOut": null,
+              "duration": 936,
+=======
               "title": "REU dev",
               "fullTitle": "VERSIONS REU dev",
               "timedOut": null,
               "duration": 12271,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#language-selector').click();\ncy.get('#language-es').click();",
+              "err": {},
+              "uuid": "4b5ec488-2e62-4a1e-89a2-4e9ec9657f3b",
+              "parentUUID": "f146f1d9-5955-448e-81d5-257e6af0fac7",
+=======
               "code": "cy.visit('https://app.dev.councilbox.com/');\ncy.wait(10000);\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "ca42a948-4a87-44b5-bc1e-2a781081bc25",
               "parentUUID": "80485004-4de0-43b1-91fc-5f36aec5e7a8",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Enters email address",
+              "fullTitle": "Councilbox login - valid username and password Enters email address",
+              "timedOut": null,
+              "duration": 960,
+=======
               "title": "REU pre",
               "fullTitle": "VERSIONS REU pre",
               "timedOut": null,
               "duration": 13358,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#username').clear().type('alem@qaengineers.net').should(\"have.value\", 'alem@qaengineers.net');",
+              "err": {},
+              "uuid": "0bb297ce-2136-4e8c-81a4-9e27f3b6980f",
+              "parentUUID": "f146f1d9-5955-448e-81d5-257e6af0fac7",
+=======
               "code": "cy.visit('https://app.pre.councilbox.com/');\ncy.wait(10000);\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "3422b71f-5ce7-4ed5-98bd-3eff58db77e5",
               "parentUUID": "80485004-4de0-43b1-91fc-5f36aec5e7a8",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Enters password",
+              "fullTitle": "Councilbox login - valid username and password Enters password",
+              "timedOut": null,
+              "duration": 430,
+=======
               "title": "REU CORE staging",
               "fullTitle": "VERSIONS REU CORE staging",
               "timedOut": null,
               "duration": 284,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#password').clear().type('Mostar123!').should(\"have.value\", 'Mostar123!');",
+              "err": {},
+              "uuid": "da883a65-d0a1-4f5c-9978-dd8a1c2235c3",
+              "parentUUID": "f146f1d9-5955-448e-81d5-257e6af0fac7",
+=======
               "code": "cy.request('GET', \"https://api.pre.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', version, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "b1c55bdb-f9f0-4c0b-85b8-9674c93ed18f",
               "parentUUID": "80485004-4de0-43b1-91fc-5f36aec5e7a8",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Clicks login button",
+              "fullTitle": "Councilbox login - valid username and password Clicks login button",
+              "timedOut": null,
+              "duration": 2113,
+=======
               "title": "REU",
               "fullTitle": "VERSIONS REU",
               "timedOut": null,
               "duration": 4088,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
-              "code": "cy.visit('https://app.councilbox.com/');\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
+<<<<<<< HEAD
+              "code": "cy.get(\"#login-button\").click();\ncy.wait(2000);",
               "err": {},
-              "uuid": "1f5acd61-9c8a-45d0-97d0-99df63418b9c",
-              "parentUUID": "80485004-4de0-43b1-91fc-5f36aec5e7a8",
+              "uuid": "a8c5fca2-1ad6-40bd-94de-92d3f482d17d",
+              "parentUUID": "f146f1d9-5955-448e-81d5-257e6af0fac7",
               "isHook": false,
               "skipped": false
-            },
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "d3ae8f64-bcef-47d2-8d3d-b7fba25bc2b3",
+            "4b5ec488-2e62-4a1e-89a2-4e9ec9657f3b",
+            "0bb297ce-2136-4e8c-81a4-9e27f3b6980f",
+            "da883a65-d0a1-4f5c-9978-dd8a1c2235c3",
+            "a8c5fca2-1ad6-40bd-94de-92d3f482d17d"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 5189,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+          "title": "The user is able to add a partner in the 'Libro de socios' section",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
             {
-              "title": "REU CORE production",
-              "fullTitle": "VERSIONS REU CORE production",
+              "title": "From the menu choose and click on the 'Libro de socios' button",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section From the menu choose and click on the 'Libro de socios' button",
               "timedOut": null,
               "duration": 126,
               "state": "passed",
@@ -135,322 +248,771 @@
               "fail": false,
               "pending": false,
               "context": null,
+              "code": "cy.get('#edit-company-block').click();",
+              "err": {},
+              "uuid": "a4bb03b2-b76c-4f0f-b1b8-478ebb4c02e4",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Click on the 'Anadir socio' form",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Click on the 'Anadir socio' form",
+              "timedOut": null,
+              "duration": 1897,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#add-partner-button').click();\ncy.wait(1000);",
+              "err": {},
+              "uuid": "3a69fc6c-3988-4bdf-8fdc-d8fd7ec44ddb",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Populate “Nombre” field",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Populate “Nombre” field",
+              "timedOut": null,
+              "duration": 558,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#add-partner-name').type('Test' + Cypress.config('UniqueNumber'));",
+              "err": {},
+              "uuid": "bb67e42b-e2bc-4ddc-ae84-180447d462dc",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Populate “Apelidos” field",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Populate “Apelidos” field",
+              "timedOut": null,
+              "duration": 545,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#add-partner-surname').type('Test' + Cypress.config('UniqueNumber'));",
+              "err": {},
+              "uuid": "c6ccc966-afdc-4a7b-8a97-57baff6adba9",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Populate “DNI/NIF” field",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Populate “DNI/NIF” field",
+              "timedOut": null,
+              "duration": 540,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#add-partner-dni').type('Test' + Cypress.config('UniqueNumber'));",
+              "err": {},
+              "uuid": "27150daa-571f-444e-94a1-bdbf00a03b95",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Populate “Nacionalidad” field",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Populate “Nacionalidad” field",
+              "timedOut": null,
+              "duration": 501,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#add-partner-nationality').type('Test' + Cypress.config('UniqueNumber'));",
+              "err": {},
+              "uuid": "e7e9afb4-9bb7-44d5-bfb0-e1af5996a3b8",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Populate “Email” field",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Populate “Email” field",
+              "timedOut": null,
+              "duration": 609,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#add-partner-email').type('automationTest@test.com');",
+              "err": {},
+              "uuid": "8f33173a-0d02-465b-8de4-385bf6f14ee4",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Populate “Telefono” field",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Populate “Telefono” field",
+              "timedOut": null,
+              "duration": 397,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#add-partner-phone').type(Cypress.config('UniqueNumber'));",
+              "err": {},
+              "uuid": "522b81bb-2b71-48b0-aa41-35a904781f15",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Populate “Telefono Fijo” field",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Populate “Telefono Fijo” field",
+              "timedOut": null,
+              "duration": 418,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#add-partner-landline-phone').type(Cypress.config('UniqueNumber'));",
+              "err": {},
+              "uuid": "bb866dbf-9b71-43c4-b919-41a194d5be27",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+=======
+              "code": "cy.visit('https://app.councilbox.com/');\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
+              "err": {},
+              "uuid": "1f5acd61-9c8a-45d0-97d0-99df63418b9c",
+              "parentUUID": "80485004-4de0-43b1-91fc-5f36aec5e7a8",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
+              "isHook": false,
+              "skipped": false
+            },
+            {
+<<<<<<< HEAD
+              "title": "Populate “TIpo de Socio” field",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Populate “TIpo de Socio” field",
+              "timedOut": null,
+              "duration": 502,
+=======
+              "title": "REU CORE production",
+              "fullTitle": "VERSIONS REU CORE production",
+              "timedOut": null,
+              "duration": 126,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#add-partner-type').type('test' + Cypress.config('UniqueNumber'));",
+              "err": {},
+              "uuid": "4edba347-a77c-41d6-aa75-e75f474c34ea",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+=======
               "code": "cy.request('GET', \"https://api.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', version, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "774e97ae-5f91-4b5a-9f0a-50073495f0d5",
               "parentUUID": "80485004-4de0-43b1-91fc-5f36aec5e7a8",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Select the “Estado”",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Select the “Estado”",
+              "timedOut": null,
+              "duration": 257,
+=======
               "title": "OVAC dev",
               "fullTitle": "VERSIONS OVAC dev",
               "timedOut": null,
               "duration": 4465,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#add-partner-state').click();\ncy.get('#add-partner-unsubscribed').click();",
+              "err": {},
+              "uuid": "45ac9c93-d744-4ec2-ae8a-f86cf9a68130",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+=======
               "code": "cy.visit('https://ovac.dev.councilbox.com/');\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "b95413ff-f764-489b-b5e2-8723d3f86bd5",
               "parentUUID": "80485004-4de0-43b1-91fc-5f36aec5e7a8",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Select “Votos”",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Select “Votos”",
+              "timedOut": null,
+              "duration": 395,
+=======
               "title": "OVAC pre",
               "fullTitle": "VERSIONS OVAC pre",
               "timedOut": null,
               "duration": 4691,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#add-partner-votes').type('5');",
+              "err": {},
+              "uuid": "8dd37446-51d6-4cf2-aeac-408dbc347878",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+=======
               "code": "cy.visit('https://ovac.pre.councilbox.com/');\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "f671c074-edef-42f0-b7c2-e7e37fdf6294",
               "parentUUID": "80485004-4de0-43b1-91fc-5f36aec5e7a8",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Select “Participaciones”",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Select “Participaciones”",
+              "timedOut": null,
+              "duration": 178,
+=======
               "title": "OVAC CORE staging",
               "fullTitle": "VERSIONS OVAC CORE staging",
               "timedOut": null,
               "duration": 363,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#add-partner-social-capital').type('5');",
+              "err": {},
+              "uuid": "ce53d4dd-c676-4702-83e8-47510011aaeb",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+=======
               "code": "cy.request('GET', \"http://api.ovac.pre.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', version, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "ecf8ed7a-f064-4e9b-bf99-44f491917038",
               "parentUUID": "80485004-4de0-43b1-91fc-5f36aec5e7a8",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Navigate to the “Ficha” section and populate “Nº de acta de alta” field",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Navigate to the “Ficha” section and populate “Nº de acta de alta” field",
+              "timedOut": null,
+              "duration": 420,
+=======
               "title": "OVAC",
               "fullTitle": "VERSIONS OVAC",
               "timedOut": null,
               "duration": 4685,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#add-partner-subscribe-number').type(Cypress.config('UniqueNumber'));",
+              "err": {},
+              "uuid": "adaf1d1e-77b6-48aa-98c0-a45e32ab0d32",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+=======
               "code": "cy.visit('https://ovac.councilbox.com/');\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "0ed1224a-fd4a-4380-bf41-67e4de90a5fe",
               "parentUUID": "80485004-4de0-43b1-91fc-5f36aec5e7a8",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Populate “Nº de acta de baja” field",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Populate “Nº de acta de baja” field",
+              "timedOut": null,
+              "duration": 441,
+=======
               "title": "OVAC CORE production",
               "fullTitle": "VERSIONS OVAC CORE production",
               "timedOut": null,
               "duration": 133,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#add-partner-unsubscribe-number').type(Cypress.config('UniqueNumber'));",
+              "err": {},
+              "uuid": "1f39dd9d-d5ae-445c-b8c1-ddc49d3025c9",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+=======
               "code": "cy.request('GET', \"https://api.ovac.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', version, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "a977fea6-99ec-4866-998e-769d8489ec2a",
               "parentUUID": "80485004-4de0-43b1-91fc-5f36aec5e7a8",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Select “Fecha de apertura de ficha”",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Select “Fecha de apertura de ficha”",
+              "timedOut": null,
+              "duration": 266,
+=======
               "title": "EVID dev",
               "fullTitle": "VERSIONS EVID dev",
               "timedOut": null,
               "duration": 4187,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#add-partner-open-date-icon').click();\ncy.get('#calendar-accept-button').click();",
+              "err": {},
+              "uuid": "25b273fa-9cc6-42b4-a17e-1d605adac728",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+=======
               "code": "cy.visit('https://evid.dev.councilbox.com/');\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "b25e91da-baeb-43f6-960f-6b4c57c25cea",
               "parentUUID": "80485004-4de0-43b1-91fc-5f36aec5e7a8",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Select “Fecha de alta”",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Select “Fecha de alta”",
+              "timedOut": null,
+              "duration": 357,
+=======
               "title": "EVID pre",
               "fullTitle": "VERSIONS EVID pre",
               "timedOut": null,
               "duration": 4305,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#add-partner-open-subscribe-icon').click();\ncy.get('#calendar-accept-button').click();",
+              "err": {},
+              "uuid": "48a3642c-10a8-43de-88ad-c593b3a98d45",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+=======
               "code": "cy.visit('https://evid.pre.councilbox.com/');\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "1573e6f2-2380-4941-8122-d6c8ab88cc2c",
               "parentUUID": "80485004-4de0-43b1-91fc-5f36aec5e7a8",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Select “Acta de alta”",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Select “Acta de alta”",
+              "timedOut": null,
+              "duration": 346,
+=======
               "title": "EVID CORE staging",
               "fullTitle": "VERSIONS EVID CORE staging",
               "timedOut": null,
               "duration": 403,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#add-partner-open-subscribe-act-icon').click();\ncy.get('#calendar-accept-button').click();",
+              "err": {},
+              "uuid": "8c473ed7-8775-43b3-8266-4287d2aa5a0f",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+=======
               "code": "cy.request('GET', \"http://evid-api.pre.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', version, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "79a3f581-30dd-46d8-9a94-3d767b60625a",
               "parentUUID": "80485004-4de0-43b1-91fc-5f36aec5e7a8",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Select “Fecha de baja”",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Select “Fecha de baja”",
+              "timedOut": null,
+              "duration": 377,
+=======
               "title": "EVID",
               "fullTitle": "VERSIONS EVID",
               "timedOut": null,
               "duration": 4093,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#add-partner-open-unsubscribe-icon').click();\ncy.get('#calendar-accept-button').click();",
+              "err": {},
+              "uuid": "1e443479-eca4-42dd-a39a-82446cbb9425",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+=======
               "code": "cy.visit('https://evid.councilbox.com/');\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "f47ddd64-37f2-4fb9-97b2-9bec5c468aa3",
               "parentUUID": "80485004-4de0-43b1-91fc-5f36aec5e7a8",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Select “Acta de baja”",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Select “Acta de baja”",
+              "timedOut": null,
+              "duration": 360,
+=======
               "title": "EVID CORE production",
               "fullTitle": "VERSIONS EVID CORE production",
               "timedOut": null,
               "duration": 264,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#add-partner-open-unsubscribe-act-icon').click();\ncy.get('#calendar-accept-button').click();",
+              "err": {},
+              "uuid": "8d199599-9699-48f9-8c68-bd9cbe2ff483",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+=======
               "code": "cy.request('GET', \"https://evid-api.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', version, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "eb2f2ffb-a3ae-4935-a756-1033c4a055c8",
               "parentUUID": "80485004-4de0-43b1-91fc-5f36aec5e7a8",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Navigate to the “Datos adicionales” section and populate “Dirección” field",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Navigate to the “Datos adicionales” section and populate “Dirección” field",
+              "timedOut": null,
+              "duration": 582,
+=======
               "title": "PORTAL dev",
               "fullTitle": "VERSIONS PORTAL dev",
               "timedOut": null,
               "duration": 3334,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#add-partner-address').type('AutomationTest');",
+              "err": {},
+              "uuid": "8d5f9075-83dc-404a-a2e6-119a4fac44c8",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+=======
               "code": "cy.visit('https://portal.dev.councilbox.com/');\ncy.xpath('//*[@id=\"root\"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div/span/text()').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "bf030293-7ee2-4ed1-8839-b21fedd24f74",
               "parentUUID": "80485004-4de0-43b1-91fc-5f36aec5e7a8",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Populate “Localidad” field",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Populate “Localidad” field",
+              "timedOut": null,
+              "duration": 453,
+=======
               "title": "PORTAL pre",
               "fullTitle": "VERSIONS PORTAL pre",
               "timedOut": null,
               "duration": 3797,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#add-partner-locality').type('AutomationTest');",
+              "err": {},
+              "uuid": "0780c7b3-2444-406a-ba02-a3585347e9e2",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+=======
               "code": "cy.visit('https://portal.pre.councilbox.com/');\ncy.xpath('//*[@id=\"root\"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div/span/text()').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "dad124a5-e5e3-4eac-a764-3ccbae15bbb7",
               "parentUUID": "80485004-4de0-43b1-91fc-5f36aec5e7a8",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Select “Provincia”",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Select “Provincia”",
+              "timedOut": null,
+              "duration": 384,
+=======
               "title": "PORTAL",
               "fullTitle": "VERSIONS PORTAL",
               "timedOut": null,
               "duration": 3566,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#add-partner-country_state').type('Catalonia');",
+              "err": {},
+              "uuid": "414b8f08-493e-4d42-b721-de62b4b67706",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+=======
               "code": "cy.visit('https://portal.councilbox.com/');\ncy.xpath('//*[@id=\"root\"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div/span/text()').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "203d8a7a-d927-4f3b-b497-5e2040dd4d40",
               "parentUUID": "80485004-4de0-43b1-91fc-5f36aec5e7a8",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Populate “Codigo Postal” field",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Populate “Codigo Postal” field",
+              "timedOut": null,
+              "duration": 403,
+=======
               "title": "SHUTTER pre",
               "fullTitle": "VERSIONS SHUTTER pre",
               "timedOut": null,
               "duration": 3065,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#add-partner-zipcode').type(Cypress.config('UniqueNumber'));",
+              "err": {},
+              "uuid": "b0b6dcfc-6586-4be6-bcdf-8179ce4c93b3",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+=======
               "code": "cy.visit('https://app.shutter.pre.councilbox.com/');\ncy.get('#version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "2bed6fd2-ca12-4a90-aeed-c4713a920146",
               "parentUUID": "80485004-4de0-43b1-91fc-5f36aec5e7a8",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Select “Idioma”",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Select “Idioma”",
+              "timedOut": null,
+              "duration": 243,
+=======
               "title": "SHUTTER",
               "fullTitle": "VERSIONS SHUTTER",
               "timedOut": null,
               "duration": 2988,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#add-partner-language-select').click();\ncy.get('#add-partner-language-select-en').click();",
+              "err": {},
+              "uuid": "b9a0e313-e99c-4612-8f4a-0bbd40c1c6df",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+=======
               "code": "cy.visit('https://app.shutter.councilbox.com/');\ncy.get('#version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "cd3cbcab-e46c-46a1-9658-c96495a46e7c",
               "parentUUID": "80485004-4de0-43b1-91fc-5f36aec5e7a8",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Click on the 'Guardar cambios' button",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Click on the 'Guardar cambios' button",
+              "timedOut": null,
+              "duration": 3398,
+=======
               "title": "HORUS pre",
               "fullTitle": "VERSIONS HORUS pre",
               "timedOut": null,
               "duration": 2793,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#guardarAnadirSocio').click();\ncy.wait(3000);",
+              "err": {},
+              "uuid": "753a8494-b54b-4013-ad55-5b3725a34f96",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+=======
               "code": "cy.visit('https://horus.pre.councilbox.com/admin');\ncy.xpath('//*[@id=\"root\"]/div/div/div/div/div[4]/small').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "cdbd98fe-ddb4-41cb-834d-a82f82ca0a76",
               "parentUUID": "80485004-4de0-43b1-91fc-5f36aec5e7a8",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Back to Home page",
+              "fullTitle": "The user is able to add a partner in the 'Libro de socios' section Back to Home page",
+              "timedOut": null,
+              "duration": 3693,
+=======
               "title": "HORUS",
               "fullTitle": "VERSIONS HORUS",
               "timedOut": null,
               "duration": 2280,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.visit(login_url);\ncy.wait(3000);",
+              "err": {},
+              "uuid": "66bfd8a6-40c1-47de-ab18-c7854b84af72",
+              "parentUUID": "4d4fb358-1d34-4d69-9e9b-c2d0a2a899f8",
+=======
               "code": "cy.visit('https://horus.councilbox.com/admin');\ncy.xpath('//*[@id=\"root\"]/div/div/div/div/div[4]/small').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "387f6992-8b2a-4651-8725-569f4fec54d6",
               "parentUUID": "80485004-4de0-43b1-91fc-5f36aec5e7a8",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
+<<<<<<< HEAD
+            "a4bb03b2-b76c-4f0f-b1b8-478ebb4c02e4",
+            "3a69fc6c-3988-4bdf-8fdc-d8fd7ec44ddb",
+            "bb67e42b-e2bc-4ddc-ae84-180447d462dc",
+            "c6ccc966-afdc-4a7b-8a97-57baff6adba9",
+            "27150daa-571f-444e-94a1-bdbf00a03b95",
+            "e7e9afb4-9bb7-44d5-bfb0-e1af5996a3b8",
+            "8f33173a-0d02-465b-8de4-385bf6f14ee4",
+            "522b81bb-2b71-48b0-aa41-35a904781f15",
+            "bb866dbf-9b71-43c4-b919-41a194d5be27",
+            "4edba347-a77c-41d6-aa75-e75f474c34ea",
+            "45ac9c93-d744-4ec2-ae8a-f86cf9a68130",
+            "8dd37446-51d6-4cf2-aeac-408dbc347878",
+            "ce53d4dd-c676-4702-83e8-47510011aaeb",
+            "adaf1d1e-77b6-48aa-98c0-a45e32ab0d32",
+            "1f39dd9d-d5ae-445c-b8c1-ddc49d3025c9",
+            "25b273fa-9cc6-42b4-a17e-1d605adac728",
+            "48a3642c-10a8-43de-88ad-c593b3a98d45",
+            "8c473ed7-8775-43b3-8266-4287d2aa5a0f",
+            "1e443479-eca4-42dd-a39a-82446cbb9425",
+            "8d199599-9699-48f9-8c68-bd9cbe2ff483",
+            "8d5f9075-83dc-404a-a2e6-119a4fac44c8",
+            "0780c7b3-2444-406a-ba02-a3585347e9e2",
+            "414b8f08-493e-4d42-b721-de62b4b67706",
+            "b0b6dcfc-6586-4be6-bcdf-8179ce4c93b3",
+            "b9a0e313-e99c-4612-8f4a-0bbd40c1c6df",
+            "753a8494-b54b-4013-ad55-5b3725a34f96",
+            "66bfd8a6-40c1-47de-ab18-c7854b84af72"
+=======
             "9ab7f823-a5e2-40e8-bc82-71dcba64ff7d",
             "ca42a948-4a87-44b5-bc1e-2a781081bc25",
             "3422b71f-5ce7-4ed5-98bd-3eff58db77e5",
@@ -474,11 +1036,16 @@
             "cd3cbcab-e46c-46a1-9658-c96495a46e7c",
             "cdbd98fe-ddb4-41cb-834d-a82f82ca0a76",
             "387f6992-8b2a-4651-8725-569f4fec54d6"
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
+<<<<<<< HEAD
+          "duration": 18646,
+=======
           "duration": 80238,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
           "root": false,
           "rootEmpty": false,
           "_timeout": 2000
@@ -508,7 +1075,11 @@
         "useInlineDiffs": false,
         "code": true
       },
+<<<<<<< HEAD
+      "version": "6.3.1"
+=======
       "version": "6.2.2"
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
     },
     "marge": {
       "options": {

@@ -4,6 +4,7 @@ import adminDashboard from "./pageObjects/adminDashboardPage"
 import appointmentsPage from "./pageObjects/appointmentsPage"
 import knowledgeBasePage from "./pageObjects/knowledgeBasePage"
 import usersPage from "./pageObjects/usersPage"
+import entitiesPage from "./pageObjects/entitiesPage"
 
 
 let inboxId;
@@ -13,22 +14,12 @@ let dashboard = new adminDashboard()
 let appoinments = new appointmentsPage()
 let knowledgeBase = new knowledgeBasePage()
 let users = new usersPage()
+let entity = new entitiesPage()
 
 
-describe("The user is able to add entity - Entities section", function() {
-
+describe("Admin is able to log in", function() {
     const email = "alem@qaengineers.net"
     const password = "Mostar123!"
-    const name = "Institutions"+Cypress.config('UniqueNumber')
-    const tax_id = Cypress.config('UniqueNumber')
-    const address = "Majkl Dzordana 23"
-    const town = "Cikago"
-    const zip = "88000"
-
-     before(function() {
-      
-    });
-    
     it("The user is able to open the browser and enter the URL: ", function() {       
         login.navigate_admin()        
     });
@@ -48,9 +39,20 @@ describe("The user is able to add entity - Entities section", function() {
     it("The user is successfully logged in", function() {  
         login.confirm_login()        
     });
+})
 
-    it("The user is able to click on the 'Insitution' button", function() {  
-        dashobard.click_on_istitutions()      
+describe("The user is able to add entity - Entities section", function() {
+    const name = "Institutions"+Cypress.config('UniqueNumber')
+    const tax_id = Cypress.config('UniqueNumber')
+    const address = "Majkl Dzordana 23"
+    const town = "Cikago"
+    const zip = "88000"
+     before(function() {    
+    });  
+    it("The user is able to click on the 'Insitution' button", function() { 
+        dashboard.click_on_government()
+        dashboard.select_institution() 
+        dashboard.click_on_istitutions()      
     });
 
     it("The user is able to click on the 'Add' button", function() {  
@@ -84,30 +86,40 @@ describe("The user is able to add entity - Entities section", function() {
     it("The user is able to click on the 'Add entity+' button", function() {
         entity.click_submit_entity()
     });
-
-
-
-
 })
 
-
 describe("The user is able to add a logo to the Entity", function() {
-
-
-     before(function() {
-      
+     before(function() {    
     });
+    const name = "LogoTestingAuto"
     
     it("The user is able to open the browser and enter the URL: ", function() {       
         login.navigate_admin()        
     });
 
     it("The user is able to click on the 'Insitution' button", function() {  
-        dashobard.institituionButton()  
+        dashboard.click_on_government()
+        dashboard.select_institution()
+        dashboard.click_on_istitutions()
+    });
+    
+    it("The user is able to navigate on already existing entity and click on the 'Edit' button", function() {  
+        entity.search_for_institution(name) 
+        entity.click_action_button()
+        entity.click_edit_option()
     });
 
+    it("The user is able to click on the 'Organization logo' button / The user is able to choose photo and click on the 'Open' button", function() {  
+        entity.upload_organisation_logo()
+    });
 
+    it("The user is able to click on the 'Insitution' button", function() {  
+        dashboard.click_on_istitutions()
+    });
 
+    it("Navigate back to Home page", function() {
+        login.navigate_admin()
+    })
 })
 
 

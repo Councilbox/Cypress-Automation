@@ -1,5 +1,17 @@
 {
   "stats": {
+<<<<<<< HEAD
+    "suites": 4,
+    "tests": 24,
+    "passes": 20,
+    "pending": 0,
+    "failures": 4,
+    "start": "2022-04-20T13:03:58.856Z",
+    "end": "2022-04-20T13:04:51.093Z",
+    "duration": 52237,
+    "testsRegistered": 24,
+    "passPercent": 83.33333333333334,
+=======
     "suites": 1,
     "tests": 23,
     "passes": 23,
@@ -10,6 +22,7 @@
     "duration": 84184,
     "testsRegistered": 23,
     "passPercent": 100,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
     "pendingPercent": 0,
     "other": 0,
     "hasOther": false,
@@ -18,105 +31,219 @@
   },
   "results": [
     {
+<<<<<<< HEAD
+      "uuid": "6da89ca6-a1c1-4a45-a72b-e4a41d39e57d",
+      "title": "",
+      "fullFile": "cypress/integration/1.Smoke/55.Knowledge_Base_section.js",
+      "file": "cypress/integration/1.Smoke/55.Knowledge_Base_section.js",
+=======
       "uuid": "0c3e67d6-665e-4b00-86b2-66618080c8b4",
       "title": "",
       "fullFile": "cypress\\integration\\TEST1\\execlTest.js",
       "file": "cypress\\integration\\TEST1\\execlTest.js",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
       "beforeHooks": [],
       "afterHooks": [],
       "tests": [],
       "suites": [
         {
+<<<<<<< HEAD
+          "uuid": "690f57a0-8de6-49fb-b947-75dddcc21fae",
+          "title": "Councilbox login - valid username and password",
+=======
           "uuid": "b613c6e0-3bba-43ae-965d-688e84df0e8a",
           "title": "VERSIONS",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
           "fullFile": "",
           "file": "",
           "beforeHooks": [],
           "afterHooks": [],
           "tests": [
             {
+<<<<<<< HEAD
+              "title": "Visits the Councilbox web page",
+              "fullTitle": "Councilbox login - valid username and password Visits the Councilbox web page",
+              "timedOut": null,
+              "duration": 1855,
+=======
               "title": "INPUT TODAYS DATE",
               "fullTitle": "VERSIONS INPUT TODAYS DATE",
               "timedOut": null,
               "duration": 655,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.visit(login_url);\ncy.visit(login_url);",
+              "err": {},
+              "uuid": "ec2c0852-b481-4060-8e05-0bc0b5b3a018",
+              "parentUUID": "690f57a0-8de6-49fb-b947-75dddcc21fae",
+=======
               "code": "cy.writeFile('cypress/integration/TEST/versions.csv', '\\n', {\n  flag: 'a+'\n});\ncy.request('GET', \"https://www.timeapi.io/api/Time/current/coordinate\").its('body.date').then(function (date) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', date, {\n    flag: 'a+'\n  });\n});\ncy.request('GET', \"https://www.timeapi.io/api/Time/current/coordinate\").its('body.dayOfWeek').then(function (dayOfWeek) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', ' ', {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', dayOfWeek, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "c0eb7fd9-28bc-415c-9eab-f719eff52a30",
               "parentUUID": "b613c6e0-3bba-43ae-965d-688e84df0e8a",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Change language to Spanish",
+              "fullTitle": "Councilbox login - valid username and password Change language to Spanish",
+              "timedOut": null,
+              "duration": 1065,
+=======
               "title": "REU dev",
               "fullTitle": "VERSIONS REU dev",
               "timedOut": null,
               "duration": 12747,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#language-selector').click();\ncy.get('#language-es').click();",
+              "err": {},
+              "uuid": "0255b8ba-e3bd-4104-ac14-3c8fe84b641d",
+              "parentUUID": "690f57a0-8de6-49fb-b947-75dddcc21fae",
+=======
               "code": "cy.visit('https://app.dev.councilbox.com/');\ncy.wait(10000);\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "77ad3bfd-1c73-481b-b5ec-ddf667bd775f",
               "parentUUID": "b613c6e0-3bba-43ae-965d-688e84df0e8a",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Enters email address",
+              "fullTitle": "Councilbox login - valid username and password Enters email address",
+              "timedOut": null,
+              "duration": 922,
+=======
               "title": "REU pre",
               "fullTitle": "VERSIONS REU pre",
               "timedOut": null,
               "duration": 12781,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#username').clear().type('alem@qaengineers.net').should(\"have.value\", 'alem@qaengineers.net');",
+              "err": {},
+              "uuid": "7b5bd910-a2ba-435e-a4ab-0b030ffb8a83",
+              "parentUUID": "690f57a0-8de6-49fb-b947-75dddcc21fae",
+=======
               "code": "cy.visit('https://app.pre.councilbox.com/');\ncy.wait(10000);\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "864565cf-1c16-4332-b326-ed88e9b8fa14",
               "parentUUID": "b613c6e0-3bba-43ae-965d-688e84df0e8a",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Enters password",
+              "fullTitle": "Councilbox login - valid username and password Enters password",
+              "timedOut": null,
+              "duration": 438,
+=======
               "title": "REU CORE staging",
               "fullTitle": "VERSIONS REU CORE staging",
               "timedOut": null,
               "duration": 210,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#password').clear().type('Mostar123!').should(\"have.value\", 'Mostar123!');",
+              "err": {},
+              "uuid": "3757d3d7-0e5a-42d1-98f8-3f7eb2a7ed7d",
+              "parentUUID": "690f57a0-8de6-49fb-b947-75dddcc21fae",
+=======
               "code": "cy.request('GET', \"https://api.pre.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', version, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "560da78d-ebc4-4653-a89c-772ba2b5407b",
               "parentUUID": "b613c6e0-3bba-43ae-965d-688e84df0e8a",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Clicks login button",
+              "fullTitle": "Councilbox login - valid username and password Clicks login button",
+              "timedOut": null,
+              "duration": 2114,
+=======
               "title": "REU",
               "fullTitle": "VERSIONS REU",
               "timedOut": null,
               "duration": 3816,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get(\"#login-button\").click();\ncy.wait(2000);",
+              "err": {},
+              "uuid": "1c15452b-5419-482f-9778-7cb78acfe2f7",
+              "parentUUID": "690f57a0-8de6-49fb-b947-75dddcc21fae",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "ec2c0852-b481-4060-8e05-0bc0b5b3a018",
+            "0255b8ba-e3bd-4104-ac14-3c8fe84b641d",
+            "7b5bd910-a2ba-435e-a4ab-0b030ffb8a83",
+            "3757d3d7-0e5a-42d1-98f8-3f7eb2a7ed7d",
+            "1c15452b-5419-482f-9778-7cb78acfe2f7"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 6394,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "8156d1dc-6c21-4ab7-ac32-4932a6bfe898",
+          "title": "The user is able to add a new document in the 'Base de conocimiento' section",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "From the menu choose and click on the 'Base de conocimiento' button",
+              "fullTitle": "The user is able to add a new document in the 'Base de conocimiento' section From the menu choose and click on the 'Base de conocimiento' button",
+              "timedOut": null,
+              "duration": 3157,
+=======
               "code": "cy.visit('https://app.councilbox.com/');\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "3a638814-27fb-4d31-85d1-972895c5d7d6",
@@ -129,84 +256,184 @@
               "fullTitle": "VERSIONS REU CORE production",
               "timedOut": null,
               "duration": 166,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.wait(3000);\ncy.get('#edit-drafts-block').click();",
+              "err": {},
+              "uuid": "549cec45-7258-4c73-8252-d9a654799a5f",
+              "parentUUID": "8156d1dc-6c21-4ab7-ac32-4932a6bfe898",
+=======
               "code": "cy.request('GET', \"https://api.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', version, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "758f8226-b8c2-4421-89ff-30fa258caf5e",
               "parentUUID": "b613c6e0-3bba-43ae-965d-688e84df0e8a",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Click on the 'Mi documentacion' button",
+              "fullTitle": "The user is able to add a new document in the 'Base de conocimiento' section Click on the 'Mi documentacion' button",
+              "timedOut": null,
+              "duration": 99,
+=======
               "title": "OVAC dev",
               "fullTitle": "VERSIONS OVAC dev",
               "timedOut": null,
               "duration": 4196,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#company-documents-drowpdown').click();",
+              "err": {},
+              "uuid": "a4b72fbf-42bd-4fc8-9ff0-933b06058954",
+              "parentUUID": "8156d1dc-6c21-4ab7-ac32-4932a6bfe898",
+=======
               "code": "cy.visit('https://ovac.dev.councilbox.com/');\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "345e0e72-1e6c-4fe9-bd1c-49d8eac3cbb1",
               "parentUUID": "b613c6e0-3bba-43ae-965d-688e84df0e8a",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "From the drop down menu click on the 'Subir archivo' button",
+              "fullTitle": "The user is able to add a new document in the 'Base de conocimiento' section From the drop down menu click on the 'Subir archivo' button",
+              "timedOut": null,
+              "duration": 13,
+              "state": "passed",
+              "speed": "fast",
+=======
               "title": "OVAC pre",
               "fullTitle": "VERSIONS OVAC pre",
               "timedOut": null,
               "duration": 5310,
               "state": "passed",
               "speed": "slow",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#company-documents-drowpdown');",
+              "err": {},
+              "uuid": "c4a3f655-2952-4d9b-9e8f-f4dad54b2bcf",
+              "parentUUID": "8156d1dc-6c21-4ab7-ac32-4932a6bfe898",
+=======
               "code": "cy.visit('https://ovac.pre.councilbox.com/');\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "053ae5e2-8cd4-49c0-906e-7a6040fd2964",
               "parentUUID": "b613c6e0-3bba-43ae-965d-688e84df0e8a",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Choose the file you want to upload click on it and then click on 'Open' button",
+              "fullTitle": "The user is able to add a new document in the 'Base de conocimiento' section Choose the file you want to upload click on it and then click on 'Open' button",
+              "timedOut": null,
+              "duration": 26,
+              "state": "passed",
+              "speed": "fast",
+=======
               "title": "OVAC CORE staging",
               "fullTitle": "VERSIONS OVAC CORE staging",
               "timedOut": null,
               "duration": 387,
               "state": "passed",
               "speed": "slow",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "var docFile = 'testDocument.txt';\ncy.get('#company-document-upload-file').attachFile(docFile);",
+              "err": {},
+              "uuid": "8203909a-893d-4084-abd8-c4911b536777",
+              "parentUUID": "8156d1dc-6c21-4ab7-ac32-4932a6bfe898",
+=======
               "code": "cy.request('GET', \"http://api.ovac.pre.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', version, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "622a2c77-0c4c-41c9-b280-6b1749ba27f4",
               "parentUUID": "b613c6e0-3bba-43ae-965d-688e84df0e8a",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Back to Home page",
+              "fullTitle": "The user is able to add a new document in the 'Base de conocimiento' section Back to Home page",
+              "timedOut": null,
+              "duration": 3922,
+=======
               "title": "OVAC",
               "fullTitle": "VERSIONS OVAC",
               "timedOut": null,
               "duration": 4475,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.visit(login_url);\ncy.wait(3000);",
+              "err": {},
+              "uuid": "1ddcc9c1-9159-4794-b88a-118e442edd9b",
+              "parentUUID": "8156d1dc-6c21-4ab7-ac32-4932a6bfe898",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "549cec45-7258-4c73-8252-d9a654799a5f",
+            "a4b72fbf-42bd-4fc8-9ff0-933b06058954",
+            "c4a3f655-2952-4d9b-9e8f-f4dad54b2bcf",
+            "8203909a-893d-4084-abd8-c4911b536777",
+            "1ddcc9c1-9159-4794-b88a-118e442edd9b"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 7217,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "8b90d05f-9e07-4dcc-b6bf-5ea61a1e900e",
+          "title": "The user is able to create a new template in the 'Base de conocimiento' section",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "From the menu choose and click on the 'Base de conocimiento' button",
+              "fullTitle": "The user is able to create a new template in the 'Base de conocimiento' section From the menu choose and click on the 'Base de conocimiento' button",
+              "timedOut": null,
+              "duration": 142,
+=======
               "code": "cy.visit('https://ovac.councilbox.com/');\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "28d99add-65ee-46a7-8aaa-ae89fd3458cf",
@@ -219,102 +446,213 @@
               "fullTitle": "VERSIONS OVAC CORE production",
               "timedOut": null,
               "duration": 169,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#edit-drafts-block').click();",
+              "err": {},
+              "uuid": "df0fbeea-a961-4e4e-9228-6b3580c6322c",
+              "parentUUID": "8b90d05f-9e07-4dcc-b6bf-5ea61a1e900e",
+=======
               "code": "cy.request('GET', \"https://api.ovac.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', version, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "8605bda2-b54e-469e-8c16-4642325e577e",
               "parentUUID": "b613c6e0-3bba-43ae-965d-688e84df0e8a",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Click on the 'Plantillas' button",
+              "fullTitle": "The user is able to create a new template in the 'Base de conocimiento' section Click on the 'Plantillas' button",
+              "timedOut": null,
+              "duration": 119,
+=======
               "title": "EVID dev",
               "fullTitle": "VERSIONS EVID dev",
               "timedOut": null,
               "duration": 4705,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#tab-1').click();",
+              "err": {},
+              "uuid": "3e796eae-1233-4450-ba07-887f4bd1d430",
+              "parentUUID": "8b90d05f-9e07-4dcc-b6bf-5ea61a1e900e",
+=======
               "code": "cy.visit('https://evid.dev.councilbox.com/');\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "b3451ecf-82e7-44b5-ac01-2bdfe77708a4",
               "parentUUID": "b613c6e0-3bba-43ae-965d-688e84df0e8a",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Click on the 'Nueva plantilla' button",
+              "fullTitle": "The user is able to create a new template in the 'Base de conocimiento' section Click on the 'Nueva plantilla' button",
+              "timedOut": null,
+              "duration": 118,
+=======
               "title": "EVID pre",
               "fullTitle": "VERSIONS EVID pre",
               "timedOut": null,
               "duration": 4495,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#draft-create-button').click();",
+              "err": {},
+              "uuid": "3e2957de-9a4b-40fa-aafa-18da2ce944f5",
+              "parentUUID": "8b90d05f-9e07-4dcc-b6bf-5ea61a1e900e",
+=======
               "code": "cy.visit('https://evid.pre.councilbox.com/');\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "5f2be553-7744-4fbf-92b5-8d48a8dbbb3f",
               "parentUUID": "b613c6e0-3bba-43ae-965d-688e84df0e8a",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Populate “Titulo” field",
+              "fullTitle": "The user is able to create a new template in the 'Base de conocimiento' section Populate “Titulo” field",
+              "timedOut": null,
+              "duration": 910,
+=======
               "title": "EVID CORE staging",
               "fullTitle": "VERSIONS EVID CORE staging",
               "timedOut": null,
               "duration": 449,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#draft-editor-title').clear().type('TestAutomation' + Cypress.config('UniqueNumber'));",
+              "err": {},
+              "uuid": "3f171093-d548-484a-ab80-86cba82117d5",
+              "parentUUID": "8b90d05f-9e07-4dcc-b6bf-5ea61a1e900e",
+=======
               "code": "cy.request('GET', \"http://evid-api.pre.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', version, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "5c071b18-7ecd-43cf-92de-a359942d747d",
               "parentUUID": "b613c6e0-3bba-43ae-965d-688e84df0e8a",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Click on the 'Guardar' button",
+              "fullTitle": "The user is able to create a new template in the 'Base de conocimiento' section Click on the 'Guardar' button",
+              "timedOut": null,
+              "duration": 5123,
+=======
               "title": "EVID",
               "fullTitle": "VERSIONS EVID",
               "timedOut": null,
               "duration": 4143,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#draft-editor-save').click();\ncy.wait(5000);",
+              "err": {},
+              "uuid": "7e024e32-8945-46d2-852e-b3eb2fedaf6c",
+              "parentUUID": "8b90d05f-9e07-4dcc-b6bf-5ea61a1e900e",
+=======
               "code": "cy.visit('https://evid.councilbox.com/');\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "bb215c54-936b-4a18-9a24-ae765d5cc9d9",
               "parentUUID": "b613c6e0-3bba-43ae-965d-688e84df0e8a",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Back to Home page",
+              "fullTitle": "The user is able to create a new template in the 'Base de conocimiento' section Back to Home page",
+              "timedOut": null,
+              "duration": 3655,
+=======
               "title": "EVID CORE production",
               "fullTitle": "VERSIONS EVID CORE production",
               "timedOut": null,
               "duration": 215,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.visit(login_url);\ncy.wait(3000);",
+              "err": {},
+              "uuid": "870308eb-e448-436a-819d-78736cf61038",
+              "parentUUID": "8b90d05f-9e07-4dcc-b6bf-5ea61a1e900e",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "df0fbeea-a961-4e4e-9228-6b3580c6322c",
+            "3e796eae-1233-4450-ba07-887f4bd1d430",
+            "3e2957de-9a4b-40fa-aafa-18da2ce944f5",
+            "3f171093-d548-484a-ab80-86cba82117d5",
+            "7e024e32-8945-46d2-852e-b3eb2fedaf6c",
+            "870308eb-e448-436a-819d-78736cf61038"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 10067,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "a63e64ce-e6d7-4717-9c1f-ec4037c9d178",
+          "title": "The user is able to add new tag in the 'Base de conocimiento' section",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "From the menu choose and click on the 'Base de conocimiento' button",
+              "fullTitle": "The user is able to add new tag in the 'Base de conocimiento' section From the menu choose and click on the 'Base de conocimiento' button",
+              "timedOut": null,
+              "duration": 136,
+=======
               "code": "cy.request('GET', \"https://evid-api.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', version, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "b06263f4-f19d-4d0e-94df-849344ce23f4",
@@ -327,56 +665,134 @@
               "fullTitle": "VERSIONS PORTAL dev",
               "timedOut": null,
               "duration": 3627,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#edit-drafts-block').click();",
+              "err": {},
+              "uuid": "bfd2340c-9bc4-4125-99b6-28dcbcb0463b",
+              "parentUUID": "a63e64ce-e6d7-4717-9c1f-ec4037c9d178",
+=======
               "code": "cy.visit('https://portal.dev.councilbox.com/');\ncy.xpath('//*[@id=\"root\"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div/span/text()').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "65f2e408-477c-4eb4-81b4-fe95d0de24b1",
               "parentUUID": "b613c6e0-3bba-43ae-965d-688e84df0e8a",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Click on the 'Tags' button",
+              "fullTitle": "The user is able to add new tag in the 'Base de conocimiento' section Click on the 'Tags' button",
+              "timedOut": null,
+              "duration": 180,
+=======
               "title": "PORTAL pre",
               "fullTitle": "VERSIONS PORTAL pre",
               "timedOut": null,
               "duration": 4232,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#tab-2').click();",
+              "err": {},
+              "uuid": "c69f5799-e63f-42c7-a7f3-d60695d0bba9",
+              "parentUUID": "a63e64ce-e6d7-4717-9c1f-ec4037c9d178",
+=======
               "code": "cy.visit('https://portal.pre.councilbox.com/');\ncy.xpath('//*[@id=\"root\"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div/span/text()').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "291cec16-0d0a-4b38-b543-35d5542ebbeb",
               "parentUUID": "b613c6e0-3bba-43ae-965d-688e84df0e8a",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Click on the 'Anadir' button",
+              "fullTitle": "The user is able to add new tag in the 'Base de conocimiento' section Click on the 'Anadir' button",
+              "timedOut": null,
+              "duration": 1270,
+=======
               "title": "PORTAL",
               "fullTitle": "VERSIONS PORTAL",
               "timedOut": null,
               "duration": 3396,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
-              "code": "cy.visit('https://portal.councilbox.com/');\ncy.xpath('//*[@id=\"root\"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div/span/text()').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
+<<<<<<< HEAD
+              "code": "cy.get('#company-tag-add-button').click();\ncy.wait(1000);",
               "err": {},
-              "uuid": "762fb7c7-f3f8-4811-8698-750c46d77da0",
-              "parentUUID": "b613c6e0-3bba-43ae-965d-688e84df0e8a",
+              "uuid": "9ace2bab-b8c9-480c-8679-24df59d509dd",
+              "parentUUID": "a63e64ce-e6d7-4717-9c1f-ec4037c9d178",
               "isHook": false,
               "skipped": false
             },
             {
+              "title": "Populate “Clave” field",
+              "fullTitle": "The user is able to add new tag in the 'Base de conocimiento' section Populate “Clave” field",
+              "timedOut": null,
+              "duration": 5446,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "{\n  \"title\": \"Failed screenshot\",\n  \"value\": \"screenshots/1.Smoke/55.Knowledge_Base_section.js/The user is able to add new tag in the 'Base de conocimiento' section -- Populate “Clave” field (failed).png\"\n}",
+              "code": "cy.get('#company-tag-key').clear().type('TestAutomation' + Cypress.config('UniqueNumber'));",
+              "err": {
+                "message": "AssertionError: Timed out retrying: Expected to find element: `#company-tag-key`, but never found it.",
+                "estack": "AssertionError: Timed out retrying: Expected to find element: `#company-tag-key`, but never found it.\n    at Context.eval (https://app.pre.councilbox.com/__cypress/tests?p=cypress/integration/1.Smoke/55.Knowledge_Base_section.js:83:8)",
+                "diff": null
+              },
+              "uuid": "a5e3c2a1-2100-4daa-8cf5-1cff5132a916",
+              "parentUUID": "a63e64ce-e6d7-4717-9c1f-ec4037c9d178",
+=======
+              "code": "cy.visit('https://portal.councilbox.com/');\ncy.xpath('//*[@id=\"root\"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div/span/text()').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
+              "err": {},
+              "uuid": "762fb7c7-f3f8-4811-8698-750c46d77da0",
+              "parentUUID": "b613c6e0-3bba-43ae-965d-688e84df0e8a",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
+              "isHook": false,
+              "skipped": false
+            },
+            {
+<<<<<<< HEAD
+              "title": "Populate “Valor” field",
+              "fullTitle": "The user is able to add new tag in the 'Base de conocimiento' section Populate “Valor” field",
+              "timedOut": null,
+              "duration": 5447,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "{\n  \"title\": \"Failed screenshot\",\n  \"value\": \"screenshots/1.Smoke/55.Knowledge_Base_section.js/The user is able to add new tag in the 'Base de conocimiento' section -- Populate “Valor” field (failed).png\"\n}",
+              "code": "cy.get('#company-tag-value').clear().type('TestAutomation' + Cypress.config('UniqueNumber'));",
+              "err": {
+                "message": "AssertionError: Timed out retrying: Expected to find element: `#company-tag-value`, but never found it.",
+                "estack": "AssertionError: Timed out retrying: Expected to find element: `#company-tag-value`, but never found it.\n    at Context.eval (https://app.pre.councilbox.com/__cypress/tests?p=cypress/integration/1.Smoke/55.Knowledge_Base_section.js:86:8)",
+                "diff": null
+              },
+              "uuid": "a93f4db1-1384-4e58-997d-3c70e732d9a5",
+              "parentUUID": "a63e64ce-e6d7-4717-9c1f-ec4037c9d178",
+=======
               "title": "SHUTTER pre",
               "fullTitle": "VERSIONS SHUTTER pre",
               "timedOut": null,
@@ -391,10 +807,31 @@
               "err": {},
               "uuid": "fc63fbe6-85e0-470e-8539-514759400d3e",
               "parentUUID": "b613c6e0-3bba-43ae-965d-688e84df0e8a",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Populate “Descripcion” field",
+              "fullTitle": "The user is able to add new tag in the 'Base de conocimiento' section Populate “Descripcion” field",
+              "timedOut": null,
+              "duration": 5424,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "{\n  \"title\": \"Failed screenshot\",\n  \"value\": \"screenshots/1.Smoke/55.Knowledge_Base_section.js/The user is able to add new tag in the 'Base de conocimiento' section -- Populate “Descripcion” field (failed).png\"\n}",
+              "code": "cy.get('#company-tag-description').clear().type('TestAutomation');",
+              "err": {
+                "message": "AssertionError: Timed out retrying: Expected to find element: `#company-tag-description`, but never found it.",
+                "estack": "AssertionError: Timed out retrying: Expected to find element: `#company-tag-description`, but never found it.\n    at Context.eval (https://app.pre.councilbox.com/__cypress/tests?p=cypress/integration/1.Smoke/55.Knowledge_Base_section.js:89:8)",
+                "diff": null
+              },
+              "uuid": "22598018-fc60-4c72-ae52-7af7bcb149ef",
+              "parentUUID": "a63e64ce-e6d7-4717-9c1f-ec4037c9d178",
+=======
               "title": "SHUTTER",
               "fullTitle": "VERSIONS SHUTTER",
               "timedOut": null,
@@ -409,10 +846,31 @@
               "err": {},
               "uuid": "f12d1877-520f-4461-951a-e20cff2ff98a",
               "parentUUID": "b613c6e0-3bba-43ae-965d-688e84df0e8a",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Click on the 'Aceptar' button",
+              "fullTitle": "The user is able to add new tag in the 'Base de conocimiento' section Click on the 'Aceptar' button",
+              "timedOut": null,
+              "duration": 5430,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "{\n  \"title\": \"Failed screenshot\",\n  \"value\": \"screenshots/1.Smoke/55.Knowledge_Base_section.js/The user is able to add new tag in the 'Base de conocimiento' section -- Click on the 'Aceptar' button (failed).png\"\n}",
+              "code": "cy.get('#alert-confirm-button-accept').click();",
+              "err": {
+                "message": "AssertionError: Timed out retrying: Expected to find element: `#alert-confirm-button-accept`, but never found it.",
+                "estack": "AssertionError: Timed out retrying: Expected to find element: `#alert-confirm-button-accept`, but never found it.\n    at Context.eval (https://app.pre.councilbox.com/__cypress/tests?p=cypress/integration/1.Smoke/55.Knowledge_Base_section.js:92:8)",
+                "diff": null
+              },
+              "uuid": "6a408343-9125-472a-b7bd-8e2274dd03ed",
+              "parentUUID": "a63e64ce-e6d7-4717-9c1f-ec4037c9d178",
+=======
               "title": "HORUS pre",
               "fullTitle": "VERSIONS HORUS pre",
               "timedOut": null,
@@ -427,30 +885,61 @@
               "err": {},
               "uuid": "f2086292-3e6d-4726-9cde-51ee8dd54525",
               "parentUUID": "b613c6e0-3bba-43ae-965d-688e84df0e8a",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Back to Home page",
+              "fullTitle": "The user is able to add new tag in the 'Base de conocimiento' section Back to Home page",
+              "timedOut": null,
+              "duration": 3696,
+=======
               "title": "HORUS",
               "fullTitle": "VERSIONS HORUS",
               "timedOut": null,
               "duration": 2379,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.visit(login_url);\ncy.wait(3000);",
+              "err": {},
+              "uuid": "d8067d25-1d31-456f-9873-6b733edb0468",
+              "parentUUID": "a63e64ce-e6d7-4717-9c1f-ec4037c9d178",
+=======
               "code": "cy.visit('https://horus.councilbox.com/admin');\ncy.xpath('//*[@id=\"root\"]/div/div/div/div/div[4]/small').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "550b45ee-a3d2-4ab0-b0be-f7b3d9ef8351",
               "parentUUID": "b613c6e0-3bba-43ae-965d-688e84df0e8a",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
+<<<<<<< HEAD
+            "bfd2340c-9bc4-4125-99b6-28dcbcb0463b",
+            "c69f5799-e63f-42c7-a7f3-d60695d0bba9",
+            "9ace2bab-b8c9-480c-8679-24df59d509dd",
+            "d8067d25-1d31-456f-9873-6b733edb0468"
+          ],
+          "failures": [
+            "a5e3c2a1-2100-4daa-8cf5-1cff5132a916",
+            "a93f4db1-1384-4e58-997d-3c70e732d9a5",
+            "22598018-fc60-4c72-ae52-7af7bcb149ef",
+            "6a408343-9125-472a-b7bd-8e2274dd03ed"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 27029,
+=======
             "c0eb7fd9-28bc-415c-9eab-f719eff52a30",
             "77ad3bfd-1c73-481b-b5ec-ddf667bd775f",
             "864565cf-1c16-4332-b326-ed88e9b8fa14",
@@ -479,6 +968,7 @@
           "pending": [],
           "skipped": [],
           "duration": 81199,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
           "root": false,
           "rootEmpty": false,
           "_timeout": 2000
@@ -508,7 +998,11 @@
         "useInlineDiffs": false,
         "code": true
       },
+<<<<<<< HEAD
+      "version": "6.3.1"
+=======
       "version": "6.2.2"
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
     },
     "marge": {
       "options": {

@@ -1,6 +1,10 @@
+import { capitalize } from "lodash"
+
 const companyName = "AutomationTesting"
 const companyAddress = "Majkl Dzordana 23"
 const entityTown = "Cikago"
+
+let docFile = 'testDocument.txt';
 
 class entitiesPage {
 
@@ -14,6 +18,11 @@ class entitiesPage {
 		province_option : () => cy.get('#company-country-state-Albacete'),
 		zip_code: () => cy.get('#company-zipcode-input'),
 		submit: () => cy.get('#company-add-button'),
+		search: () => cy.xpath('//*[@class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedStart"]'),
+		action_button: () => cy.xpath('(//*[@class="MuiButtonBase-root MuiButton-root MuiButton-text"])[1]'),
+		edit_option: () => cy.get('body > div.MuiPopover-root > div.MuiPaper-root.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded > div > ul > div:nth-child(1)'),
+		organisation_logo_upload: () => cy.get('#root > div > div:nth-child(3) > div > div:nth-child(2) > div > div > div:nth-child(1) > div.MuiPaper-root.MuiPaper-elevation0.MuiPaper-rounded > div > div > div:nth-child(1) > div > div > div:nth-child(1) > div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-3.MuiGrid-grid-lg-3 > div:nth-child(2) > label > span'),
+
 	}
 
 
@@ -21,6 +30,30 @@ class entitiesPage {
 		this.elements.add_button()
 			.should('be.visible')
 			.click()
+	}
+
+	upload_organisation_logo() {
+        this.elements.organisation_logo_upload()
+			.attachFile(docFile)
+	}
+
+	click_action_button() {
+		this.elements.action_button()
+			.should('be.visible')
+			.click()
+	}
+
+	click_edit_option() {
+		this.elements.edit_option()
+			.should('be.visible')
+			.click()
+		cy.url().should('include', '/edit/')
+	}
+
+	search_for_institution(name) {
+		this.elements.search()
+			.should('be.visible')
+			.type(name)
 	}
 
 	enter_name(name) {
@@ -39,7 +72,7 @@ class entitiesPage {
 			.should('have.value', tax_id)
 	}
 
-	enter_entity_address() {
+	enter_entity_address(companyAddress) {
 		this.elements.address()
 			.should('be.visible')
 			.clear()
@@ -47,7 +80,7 @@ class entitiesPage {
 			.should('have.value', companyAddress)
 	}
 
-	enter_town_city() {
+	enter_town_city(town) {
 		this.elements.town_city()
 			.should('be.visible')
 			.clear()
@@ -61,8 +94,8 @@ class entitiesPage {
 			.click()
 		this.elements.province_option()
 			.click()
-		this.elements.province
-			.should('have.value', 'Albacete')
+		this.elements.province()
+			.should('have.text', 'Albacete')
 	}
 
 	enter_zip_code(zip) {

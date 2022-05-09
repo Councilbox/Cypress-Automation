@@ -24,6 +24,8 @@
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
+require('cypress-downloadfile/lib/downloadFileCommand');
+
 let LOCAL_STORAGE_MEMORY = {};
 const login_url = Cypress.env("baseUrl");
 const valid_password = Cypress.env("login_password");
@@ -84,7 +86,7 @@ require('cy-verify-downloads').addCustomCommand();
 const {MailSlurp} = require("mailslurp-client");
 
 const apiKey = "2e5d119a1a73903d2f1666d48421aba1698eff7aa50c051af5ff16c448783d1e";
-const inboxId = "58867653-57ca-4d58-9d84-45b60ac48434";
+const inboxId = "29942413-017f-4eb8-a3dc-6074ea12bdb8";
 const mailslurp = new MailSlurp({apiKey});
 
 Cypress.Commands.add("waitForLatestEmail", () => {

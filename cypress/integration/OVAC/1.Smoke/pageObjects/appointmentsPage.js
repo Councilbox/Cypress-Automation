@@ -1,14 +1,18 @@
+import { curryRight } from "lodash";
+
+let docFile = 'testDocument.txt';
+
 class appointmentsPage {
 
 	elements = {
-		add_button: () => cy.get('#create-appointment-button'),
-		desription: () => cy.get('#council-notice-convene-intro'),
+		add_button: () => cy.xpath('//*[@class="MuiButtonBase-root MuiFab-root MuiFab-primary"]'),
+		description: () => cy.get('#council-notice-convene-intro'),
 		next_details: () => cy.get('#council-editor-next'),
 
-		add_participant: () => cy.get('#anadirParticipanteEnCensoNewReunion'),
+		add_participant: () => cy.xpath('(//*[@class="MuiButtonBase-root MuiButton-root MuiButton-text"])[2]'),
 		participant_name: () => cy.get('#participant-name'),
-		participant_surname: () => cy.get('#participant-surnamename'),
-		participant_dni: () => cy.get('#participant-dni'),
+		participant_surname: () => cy.get('#participant-surname'),
+		participant_dni: () => cy.xpath('(//*[@class="MuiInputBase-input MuiInput-input"])[4]'),
 		participant_position: () => cy.get('#participant-position'),
 		participant_email: () => cy.get('#participant-email'),
 		participant_phone_code: () => cy.get('#participant-phone-code'),
@@ -19,6 +23,9 @@ class appointmentsPage {
 		consents_add_button: () => cy.get('#add-appointment-agenda-point'),
 		consents_title: () => cy.get('#agenda-editor-title-input'),
 		consents_save: () => cy.get('#panel-confirm-button-accept'),
+
+		next_participants: () => cy.get('#censoSiguienteNew'),
+
 		next_consents: () => cy.get('#ordenDelDiaNext'),
 
 		next_documentation: () => cy.get('#attachmentSiguienteNew'),
@@ -33,6 +40,8 @@ class appointmentsPage {
 
 		start_appointment: () => cy.get('#start-council-button'),
 
+		upload: () => cy.get('#upload-file-participant-button'),
+
 
 		
 
@@ -42,15 +51,12 @@ class appointmentsPage {
 		this.elements.add_button()
 			.should('be.visible')
 			.click()
-		cy.url().should('include', '/council/')
 	}
 
 	enter_description(description) {
 		this.elements.description()
 			.should('be.visible')
-			.clear()
 			.type(description)
-			.should('have.value', description)
 	}
 
 	click_next_details() {
@@ -63,8 +69,6 @@ class appointmentsPage {
 		this.elements.add_participant()
 			.should('be.visible')
 			.click()
-		cy.get('#alert-confirm > div.MuiDialog-container.MuiDialog-scrollPaper > div')
-			.should('be.visible')
 	}
 
 	enter_participant_data(name, surname, dni, email, phone_code, phone) {
@@ -97,14 +101,16 @@ class appointmentsPage {
 
 	click_next_participants() {
 		this.elements.next_participants()
-			.should(be.visible)
+			.should('be.visible')
 			.click()
+			.wait(500)
 	}
 
 	click_add_consents() {
 		this.elements.consents_add_button()
 			.should('be.visible')
 			.click()
+			.wait(500)
 	}
 
 	enter_consent_title() {
@@ -125,12 +131,14 @@ class appointmentsPage {
 		this.elements.next_consents()
 			.should('be.visible')
 			.click()
+			.wait(500)
 	}
 
 	click_next_documentation() {
 		this.elements.next_documentation()
 			.should('be.visible')
 			.click()
+			.wait(500)
 	}
 
 	click_next_configuration() {
@@ -164,8 +172,10 @@ class appointmentsPage {
 			.click()
 	}
 
-
-
+	upload_document() {
+		this.elements.upload()
+			.attachFile(docFile)
+	}
 
 }
 

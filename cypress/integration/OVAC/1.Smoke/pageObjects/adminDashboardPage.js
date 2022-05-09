@@ -1,3 +1,5 @@
+import { xorBy } from "lodash"
+
 class adminDashboard {
 
 	elements = {
@@ -12,12 +14,29 @@ class adminDashboard {
 		user_icon: () =>cy.get('#user-menu-trigger'),
 		logout: () => cy.get('#user-menu-logout'),
 
+		government: () => cy.xpath('//*[@class="ri-government-line"]'),
+
+		institution_option: () => cy.xpath('//*[@title="OVAC Demo"]')
+
 	}
 
 	click_on_appointments() {
 		this.elements.appointments()
 			.should('be.visible')
 			.click()
+	}
+
+	click_on_government() {
+		this.elements.government()
+			.should('be.visible')
+			.click()
+	}
+
+	select_institution() {
+		this.elements.institution_option()
+			.should('be.visible')
+			.click({force:true})
+			.wait(1000)
 	}
 
 	click_user_icon() {

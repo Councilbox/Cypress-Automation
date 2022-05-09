@@ -1,4 +1,5 @@
 {
+  "downloadsFolder": "cypress/downloads",
   "reporter": "cypress-multi-reporters",
   "reporterOptions": {
     "reporterEnabled": "mochawesome",
@@ -14,14 +15,13 @@
   
 
   "video": false,
-  "downloadsFolder": "cypress/downloads",
 "chromeWebSecurity": false,
   
 
   "viewportWidth": 1920,
   "viewportHeight": 1080,
   "requestTimeout": 2000,
-  "defaultCommandTimeout": 5000,
+  "defaultCommandTimeout": 10000,
   "pageLoadTimeout": 10000,
 
   "projectId": "ycw8dr",

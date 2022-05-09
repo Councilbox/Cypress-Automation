@@ -9,8 +9,7 @@ let inboxId;
 let login = new loginPage();
 let appointment = new requestAppointment()
 let dashboard = new adminDashboard()
-let appoinments = new appointmentsPage()
-
+let appointments = new appointmentsPage()
 
 describe("The user is able to request prior appointment for the meeting", function() {
      before(function() {    
@@ -20,7 +19,7 @@ describe("The user is able to request prior appointment for the meeting", functi
     const tin = "12345678Z"
     const country_code = "387"
     const phone = "62123123"
-    const email = "58867653-57ca-4d58-9d84-45b60ac48434@mailslurp.com"
+    const email = "29942413-017f-4eb8-a3dc-6074ea12bdb8@mailslurp.com"
     it("Open the browser and enter the URL", function() {
         login.navigate_user()
     })
@@ -34,7 +33,7 @@ describe("The user is able to request prior appointment for the meeting", functi
     });
 
     it("Navigate to the 'Calendar' and select the date and time", function() {    
-        appointment.select_appointment_date()      
+        appointment.select_appointment_date()     
     });
 
     it("Populate the 'Name' field", function() {  
@@ -68,7 +67,6 @@ describe("The user is able to request prior appointment for the meeting", functi
 
     it("Verify that appointment is requested", function() {
         appointment.confirm_appointment_request()
-        cy.wait(30000)
     })
 })
 
@@ -76,7 +74,7 @@ describe("The user is able to request prior appointment for the meeting", functi
 describe("The user is able to reschedule prior appointment", function() {
      before(function() {    
     });
-    const reschedule_message = 'Su cita se ha reagendado con éxito.'
+    const reschedule_message = 'Your appointment has been successfully rescheduled.'
 
     it("Open email app and open the mail", function() {
         cy.wait(45000)
@@ -114,8 +112,7 @@ describe("The user is able to add document for the meeting in the 'My Documentat
     })
 
     it("Click on the 'Upload File' button and upload a file", function() {
-        const docFile = 'testDocument.txt';
-        cy.get('#upload-file-participant-button').attachFile(docFile)
+        appointment.upload_document()
     })
 
 
@@ -125,15 +122,13 @@ describe("The user is able to add document for the meeting in the 'My Documentat
 describe("The user is able to cancel prior appointment", function() {
      before(function() {    
     });
-    const email = "alem@qaengineers.net"
-    const password = "Mostar123!"
+
+    const message = "Your appointment has been successfully cancelled."
 
     it("Open email app and open the mail", function() {
 
-        cy.wait(45000)
         cy.waitForLatestEmail().then((inbox) => {
             cy.state('document').write(inbox.body);
-            cy.wait(5000)
             cy.get('body > table:nth-child(5) > tbody > tr:nth-child(2) > td > div:nth-child(1) > div:nth-child(6) > a').invoke('attr', 'href').then(myLink => {
                 cy.visit(myLink);
             })
@@ -150,95 +145,96 @@ describe("The user is able to cancel prior appointment", function() {
     })
 
     it("Appointment should be canceled", function() {
-        appointment.cancel_confirm()
+        appointment.alert_message(message)
     })
 })
 
 describe("User is able to create new meeting", function() {
-     before(function() { 
-        cy.clearLocalStorage();
-    });
-    const name = "Participant"
-    const surname = "Test"
-    const dni = "12345678Z"
-    const email = "58867653-57ca-4d58-9d84-45b60ac48434@mailslurp.com" 
-    const phone_code = "387"
-    const phone = "61123123"
-    it("Open he browser and enter URL", function() {
-        login.navigate_admin()
-    })
+    before(function() { 
+       cy.clearLocalStorage();
+   });
+   const name = "Participant"
+   const surname = "Test"
+   const dni = "12345678Z"
+   const email_1 = "ca0b7eb9-d026-43ad-aada-72b36cf6dca1@mailslurp.com" 
+   const phone_code = "387"
+   const phone = "61123123"
+   const email = "alem@qaengineers.net"
+   const password = "Mostar123!"
+   const description1 = "Testing"
+   it("Open he browser and enter URL", function() {
+       login.navigate_admin()
+   })
 
-    it("The user is able to log in to the page", function() {     
-        login.enter_email(email)
-        login.enter_password(password)
-        login.login_submit()  
-        login.confirm_login()        
-    });
+   it("The user is able to log in to the page", function() {     
+       login.enter_email(email)
+       login.enter_password(password)
+       login.login_submit()  
+       login.confirm_login()        
+   });
 
-    it("The user is able to click on the 'Appointments' button", function() {    
-        dashboard.click_on_appointments()     
-    });
+   it("The user is able to click on the 'Appointments' button", function() {    
+       dashboard.click_on_appointments()     
+   });
 
-    it("The user is able to click on Add button", function() {
-        appointments.click_on_add_button()
-    })
+   it("The user is able to click on Add button", function() {
+       appointments.click_on_add_button()
+   })
 
-    it("The user is able to enter the data into 'Description' field", function() {
-        appointments.enter_description(description)
-    })
+   it("The user is able to enter the data into 'Description' field", function() {
+       appointments.enter_description(description1)
+   })
 
-    it("The user is able to click on the 'Next' button", function() {
-        appointments.click_next_details()
-    })
+   it("The user is able to click on the 'Next' button", function() {
+       appointments.click_next_details()
+       cy.wait(1000)
+   })
 
-    it("The user is able to click on the 'Add participant+'' button", function() {
-        appointments.click_add_participant_button()
-    })
+   it("The user is able to click on the 'Add participant+'' button", function() {
+       appointments.click_add_participant_button()
+   })
 
-    it("The user is able to input required field for Add Participant", function() {
-        appointments.enter_participant_data(name, surname, dni, email, phone_code, phone)
-    })
+   it("The user is able to input required field for Add Participant", function() {
+       appointments.enter_participant_data(name, surname, dni, email_1, phone_code, phone)
+       appointments.click_consent_save_button()
+   })
+   
+   it("The user is able to click on the 'Next' button", function() {
+       appointments.click_next_participants()
+   })
 
-    it("The user is able to click on 'OK' button", function() {
-        appointment.accept_privacy()
-    })
+   it("The user is able to click on the 'Next' button", function() {
+       appointments.click_next_consents()
+   })
 
-    it("The user is able to click on the 'Next' button", function() {
-        appointments.click_next_participants()
-    })
+   it("The user is able to click on the 'Next' button", function() {
+       appointments.click_next_documentation()
+   })
 
-    it("The user is able to click on the 'Next' button", function() {
-        appointments.click_next_consents()
-    })
+   it("The user is able to click on the 'Next' button", function() {
+       appointments.click_next_configuration()
+   })
 
-    it("The user is able to click on the 'Next' button", function() {
-        appointments.click_next_documentation()
-    })
+   it("The user is able to click on the 'Send' button", function() {
+       appointments.click_send()
+   })
 
-    it("The user is able to click on the 'Next' button", function() {
-        appointments.click_next_configuration()
-    })
+   it("The user is able to click on the 'Prepare room' button", function() {
+       appointments.click_prepare_room()
+   })
 
-    it("The user is able to click on the 'Send' button", function() {
-        appointments.click_send()
-    })
+   it("The user is able to click on the 'Open room' button", function() {
+       appointments.click_open_room()
+   })
 
-    it("The user is able to click on the 'Prepare room' button", function() {
-        appointments.click_prepare_room()
-    })
+   it("The user is able to click on the 'OK' button", function() {
+       appointment.accept_privacy()
+       cy.wait(3000)
+   })
 
-    it("The user is able to click on the 'Open room' button", function() {
-        appointments.click_open_room()
-    })
-
-    it("The user is able to click on the 'OK' button", function() {
-        appointment.accept_privacy()
-        cy.wait(3000)
-    })
-
-    it("The user is able to click on the 'Start appointment' button", function() {
-        appointments.click_start_appointment()
-        appointment.accept_privacy()
-        cy.wait(5000)
-    })
+   it("The user is able to click on the 'Start appointment' button", function() {
+       appointments.click_start_appointment()
+       appointment.accept_privacy()
+       cy.wait(5000)
+   })
 })

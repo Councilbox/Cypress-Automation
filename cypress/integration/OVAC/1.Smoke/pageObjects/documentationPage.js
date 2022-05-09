@@ -18,12 +18,13 @@ class documentationPage {
 		this.elements.download_button()
 			.should('be.visible')
 			.click()
+			.wait(3000)
 	}
 
     verify_download() {
         cy.verifyDownload('Test document1.pdf')
     }
-	
+       
 }
 
 export default documentationPage

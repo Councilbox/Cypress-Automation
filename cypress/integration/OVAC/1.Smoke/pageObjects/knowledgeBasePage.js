@@ -1,21 +1,21 @@
+let docFile = 'testDocument.txt';
+
 class knowledgeBasePage {
 
 	elements = {
-		add_button: () => cy.get('#add-procedure-button'),
+		add_button: () => cy.xpath('//*[@class="MuiButtonBase-root MuiFab-root MuiFab-primary"]'),
 		upload_file: () => cy.get('#company-document-upload-file'),
 	}
 
 	click_add_button() {
-		this.elements.add_button
+		this.elements.add_button()
 			.should('be.visible')
 			.click()
 	}
 
 	upload_file() {
 		this.elements.upload_file()
-			.should('be.visible')
-		const docFile = 'testDocument.txt';
-        cy.get('#upload-file-participant-button').attachFile(docFile)
+			.attachFile(docFile)
 	}
 }
 

@@ -19,41 +19,55 @@ describe("The user is able to navigate and login to the page", function() {
 	before(function() {    
 		cy.clearLocalStorage();
     });
+	const email = "alem@qaengineers.net"
+	const password = "Mostar123!"
 
 	it("Open admin URL and login", function() {
-		login.navigateAdmin()
-		login.enterEmailValid()
-        login.enterPasswordValid()
-        login.loginSubmit()  
-        login.confirmLogin() 
+		login.navigate_admin()
+		login.enter_email(email)
+        login.enter_password(password)
+        login.login_submit() 
+        login.confirm_login() 
 	})	
 })
 
 
 describe("Admin is able to create new user with 'English' language in the Users form", function() {
+
+	const phone = "600000666"
+	const tin = "12345678Z"
+	const name = "Automation"
+	const surname = "Sur"+Cypress.config('UniqueNumber')
+	const email = 'test'+Cypress.config('UniqueNumber')+'@test.com'
      
     it("The user is able to click on the 'Users' button", function() {
 
-    	dashboard.click_on_templates()
+    	dashboard.click_on_users()
 		
 	})
 
 	it("The user is able to click on the 'Add' button", function() {
 
-		users.addUser()
+		users.click_add_user()
 	})
 
 	it("The user is able to populate all required fields and set language to 'English'", function() {
 
-		users.enterName()
-		users.enterSurname()
-		users.enterEmail()
-		users.changeLanguageEnglish()
+		users.enter_name(name)
+		users.enter_surname(surname)
+		users.enter_phone(phone)
+		users.enter_tin(tin)
+		users.enter_email(email)
+		users.change_language_english()
 	})
 
-	it("The user is able to click on the 'Save' button", function() {
+	it("The user is able to click on the 'Continue' button", function() {
 
-		users.saveUser()
+		users.click_continue()
+	})
+
+	it("The user is able to click on the 'Finalize' button", function() {
+		users.click_on_finalize()
 	})
     
 

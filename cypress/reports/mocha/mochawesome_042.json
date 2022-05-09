@@ -1,26 +1,14 @@
 {
   "stats": {
-<<<<<<< HEAD
-    "suites": 2,
-    "tests": 9,
-    "passes": 9,
-    "pending": 0,
-    "failures": 0,
-    "start": "2022-04-20T13:02:58.005Z",
-    "end": "2022-04-20T13:03:10.737Z",
-    "duration": 12732,
-    "testsRegistered": 9,
-=======
     "suites": 1,
     "tests": 23,
     "passes": 23,
     "pending": 0,
     "failures": 0,
-    "start": "2022-04-01T16:00:57.310Z",
-    "end": "2022-04-01T16:02:17.867Z",
-    "duration": 80557,
+    "start": "2022-05-08T16:01:12.683Z",
+    "end": "2022-05-08T16:02:40.127Z",
+    "duration": 87444,
     "testsRegistered": 23,
->>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
     "passPercent": 100,
     "pendingPercent": 0,
     "other": 0,
@@ -30,223 +18,109 @@
   },
   "results": [
     {
-<<<<<<< HEAD
-      "uuid": "3055d89a-6729-4e6f-9da0-799098494fe8",
-      "title": "",
-      "fullFile": "cypress/integration/1.Smoke/3.Types_of_Meetings_section.js",
-      "file": "cypress/integration/1.Smoke/3.Types_of_Meetings_section.js",
-=======
-      "uuid": "7ffd3369-f803-4d65-8630-a4ba19a66b7f",
+      "uuid": "e063b6c7-a918-4372-a4ac-e5f29055a11b",
       "title": "",
       "fullFile": "cypress\\integration\\TEST1\\execlTest.js",
       "file": "cypress\\integration\\TEST1\\execlTest.js",
->>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
       "beforeHooks": [],
       "afterHooks": [],
       "tests": [],
       "suites": [
         {
-<<<<<<< HEAD
-          "uuid": "6dc46e86-4e22-4bb7-8290-bb7c3e54a05b",
-          "title": "Councilbox login - valid username and password",
-=======
-          "uuid": "8137d0a7-bcdd-49d8-9807-31fa2111c1be",
+          "uuid": "8b7431d6-a673-4fa2-948c-f39a0b87c0c4",
           "title": "VERSIONS",
->>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
           "fullFile": "",
           "file": "",
           "beforeHooks": [],
           "afterHooks": [],
           "tests": [
             {
-<<<<<<< HEAD
-              "title": "Visits the Councilbox web page",
-              "fullTitle": "Councilbox login - valid username and password Visits the Councilbox web page",
-              "timedOut": null,
-              "duration": 739,
-=======
               "title": "INPUT TODAYS DATE",
               "fullTitle": "VERSIONS INPUT TODAYS DATE",
               "timedOut": null,
-              "duration": 583,
->>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
+              "duration": 511,
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
-<<<<<<< HEAD
-              "code": "cy.visit(login_url);",
-              "err": {},
-              "uuid": "967066dd-ebdd-469e-b672-035caf364f69",
-              "parentUUID": "6dc46e86-4e22-4bb7-8290-bb7c3e54a05b",
-=======
               "code": "cy.writeFile('cypress/integration/TEST/versions.csv', '\\n', {\n  flag: 'a+'\n});\ncy.request('GET', \"https://www.timeapi.io/api/Time/current/coordinate\").its('body.date').then(function (date) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', date, {\n    flag: 'a+'\n  });\n});\ncy.request('GET', \"https://www.timeapi.io/api/Time/current/coordinate\").its('body.dayOfWeek').then(function (dayOfWeek) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', ' ', {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', dayOfWeek, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
-              "uuid": "513ed163-6091-4f8e-8ada-00061bc3bee6",
-              "parentUUID": "8137d0a7-bcdd-49d8-9807-31fa2111c1be",
->>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
+              "uuid": "baf350f2-d80b-4ad3-956a-f0d321d45459",
+              "parentUUID": "8b7431d6-a673-4fa2-948c-f39a0b87c0c4",
               "isHook": false,
               "skipped": false
             },
             {
-<<<<<<< HEAD
-              "title": "Change language to Spanish",
-              "fullTitle": "Councilbox login - valid username and password Change language to Spanish",
-              "timedOut": null,
-              "duration": 1014,
-=======
               "title": "REU dev",
               "fullTitle": "VERSIONS REU dev",
               "timedOut": null,
-              "duration": 12098,
->>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
+              "duration": 11835,
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
-<<<<<<< HEAD
-              "code": "cy.get('#language-selector').click();\ncy.get('#language-es').click();",
-              "err": {},
-              "uuid": "612e6ae5-01c8-4df6-b669-fd953760f3be",
-              "parentUUID": "6dc46e86-4e22-4bb7-8290-bb7c3e54a05b",
-=======
               "code": "cy.visit('https://app.dev.councilbox.com/');\ncy.wait(10000);\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
-              "uuid": "2ab5071f-4be7-4cf6-bfd7-7e0f633acc40",
-              "parentUUID": "8137d0a7-bcdd-49d8-9807-31fa2111c1be",
->>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
+              "uuid": "954800fe-ad63-439f-b55b-0c2bedb3b1d1",
+              "parentUUID": "8b7431d6-a673-4fa2-948c-f39a0b87c0c4",
               "isHook": false,
               "skipped": false
             },
             {
-<<<<<<< HEAD
-              "title": "Enters email address",
-              "fullTitle": "Councilbox login - valid username and password Enters email address",
-              "timedOut": null,
-              "duration": 904,
-=======
               "title": "REU pre",
               "fullTitle": "VERSIONS REU pre",
               "timedOut": null,
-              "duration": 12516,
->>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
+              "duration": 12608,
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
-<<<<<<< HEAD
-              "code": "cy.get('#username').clear().type('alem@qaengineers.net').should(\"have.value\", 'alem@qaengineers.net');",
-              "err": {},
-              "uuid": "d7152c4f-f986-44ba-ac5c-b59b890b28f1",
-              "parentUUID": "6dc46e86-4e22-4bb7-8290-bb7c3e54a05b",
-=======
               "code": "cy.visit('https://app.pre.councilbox.com/');\ncy.wait(10000);\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
-              "uuid": "70f9ab73-78a6-44bc-8189-28a088670866",
-              "parentUUID": "8137d0a7-bcdd-49d8-9807-31fa2111c1be",
->>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
+              "uuid": "590abbd8-c603-47c2-b007-d57e1cc44679",
+              "parentUUID": "8b7431d6-a673-4fa2-948c-f39a0b87c0c4",
               "isHook": false,
               "skipped": false
             },
             {
-<<<<<<< HEAD
-              "title": "Enters password",
-              "fullTitle": "Councilbox login - valid username and password Enters password",
-              "timedOut": null,
-              "duration": 446,
-=======
               "title": "REU CORE staging",
               "fullTitle": "VERSIONS REU CORE staging",
               "timedOut": null,
-              "duration": 266,
->>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
+              "duration": 282,
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
-<<<<<<< HEAD
-              "code": "cy.get('#password').clear().type('Mostar123!').should(\"have.value\", 'Mostar123!');",
-              "err": {},
-              "uuid": "ecf1e466-46ac-4010-93fe-5f0ecbc34e00",
-              "parentUUID": "6dc46e86-4e22-4bb7-8290-bb7c3e54a05b",
-=======
               "code": "cy.request('GET', \"https://api.pre.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', version, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
-              "uuid": "34785816-c583-427e-9e60-051b37dbf713",
-              "parentUUID": "8137d0a7-bcdd-49d8-9807-31fa2111c1be",
->>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
+              "uuid": "87e357c2-e9b0-426b-b1e3-d80c5bd76452",
+              "parentUUID": "8b7431d6-a673-4fa2-948c-f39a0b87c0c4",
               "isHook": false,
               "skipped": false
             },
             {
-<<<<<<< HEAD
-              "title": "Clicks login button",
-              "fullTitle": "Councilbox login - valid username and password Clicks login button",
-              "timedOut": null,
-              "duration": 2107,
-=======
               "title": "REU",
               "fullTitle": "VERSIONS REU",
               "timedOut": null,
-              "duration": 3556,
->>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
+              "duration": 4400,
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
-<<<<<<< HEAD
-              "code": "cy.get(\"#login-button\").click();\ncy.wait(2000);",
-              "err": {},
-              "uuid": "6f49223b-270f-4022-adcb-ef66407d856d",
-              "parentUUID": "6dc46e86-4e22-4bb7-8290-bb7c3e54a05b",
-              "isHook": false,
-              "skipped": false
-            }
-          ],
-          "suites": [],
-          "passes": [
-            "967066dd-ebdd-469e-b672-035caf364f69",
-            "612e6ae5-01c8-4df6-b669-fd953760f3be",
-            "d7152c4f-f986-44ba-ac5c-b59b890b28f1",
-            "ecf1e466-46ac-4010-93fe-5f0ecbc34e00",
-            "6f49223b-270f-4022-adcb-ef66407d856d"
-          ],
-          "failures": [],
-          "pending": [],
-          "skipped": [],
-          "duration": 5210,
-          "root": false,
-          "rootEmpty": false,
-          "_timeout": 2000
-        },
-        {
-          "uuid": "30fbae45-bc7e-444f-beca-5e6424198a30",
-          "title": "The user is able to add a new type of meeting in the 'Tipos de reunion' section",
-          "fullFile": "",
-          "file": "",
-          "beforeHooks": [],
-          "afterHooks": [],
-          "tests": [
-            {
-              "title": "From the menu choose and click on the 'Tipos de reunion' button",
-              "fullTitle": "The user is able to add a new type of meeting in the 'Tipos de reunion' section From the menu choose and click on the 'Tipos de reunion' button",
-              "timedOut": null,
-              "duration": 146,
-=======
               "code": "cy.visit('https://app.councilbox.com/');\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
-              "uuid": "673aeb7f-9b2f-465e-b2a7-9dde40ec111c",
-              "parentUUID": "8137d0a7-bcdd-49d8-9807-31fa2111c1be",
+              "uuid": "9f3e3d88-b8b5-43c3-a636-5fefa9f9a8ce",
+              "parentUUID": "8b7431d6-a673-4fa2-948c-f39a0b87c0c4",
               "isHook": false,
               "skipped": false
             },
@@ -254,7 +128,7 @@
               "title": "REU CORE production",
               "fullTitle": "VERSIONS REU CORE production",
               "timedOut": null,
-              "duration": 168,
+              "duration": 150,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -263,8 +137,8 @@
               "context": null,
               "code": "cy.request('GET', \"https://api.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', version, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
-              "uuid": "613a1f51-d063-4ae7-b753-fa59656f80bb",
-              "parentUUID": "8137d0a7-bcdd-49d8-9807-31fa2111c1be",
+              "uuid": "1229f8ea-b0e2-4b60-9607-9a92f5740408",
+              "parentUUID": "8b7431d6-a673-4fa2-948c-f39a0b87c0c4",
               "isHook": false,
               "skipped": false
             },
@@ -272,7 +146,7 @@
               "title": "OVAC dev",
               "fullTitle": "VERSIONS OVAC dev",
               "timedOut": null,
-              "duration": 4449,
+              "duration": 4407,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -281,8 +155,8 @@
               "context": null,
               "code": "cy.visit('https://ovac.dev.councilbox.com/');\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
-              "uuid": "fc1c21b0-d2cc-4420-9c22-3b777d576b4c",
-              "parentUUID": "8137d0a7-bcdd-49d8-9807-31fa2111c1be",
+              "uuid": "35986670-8951-4453-94f4-2f131dfece69",
+              "parentUUID": "8b7431d6-a673-4fa2-948c-f39a0b87c0c4",
               "isHook": false,
               "skipped": false
             },
@@ -290,7 +164,7 @@
               "title": "OVAC pre",
               "fullTitle": "VERSIONS OVAC pre",
               "timedOut": null,
-              "duration": 4235,
+              "duration": 4864,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -299,8 +173,8 @@
               "context": null,
               "code": "cy.visit('https://ovac.pre.councilbox.com/');\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
-              "uuid": "3ad0e61b-6817-40a1-8ffa-4ecb6fb469ed",
-              "parentUUID": "8137d0a7-bcdd-49d8-9807-31fa2111c1be",
+              "uuid": "dfdd951d-44a5-48b7-96f1-14f606060dab",
+              "parentUUID": "8b7431d6-a673-4fa2-948c-f39a0b87c0c4",
               "isHook": false,
               "skipped": false
             },
@@ -308,7 +182,7 @@
               "title": "OVAC CORE staging",
               "fullTitle": "VERSIONS OVAC CORE staging",
               "timedOut": null,
-              "duration": 335,
+              "duration": 384,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -317,8 +191,8 @@
               "context": null,
               "code": "cy.request('GET', \"http://api.ovac.pre.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', version, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
-              "uuid": "45ae23e5-0a2f-48cf-ad13-acdb2b272dc1",
-              "parentUUID": "8137d0a7-bcdd-49d8-9807-31fa2111c1be",
+              "uuid": "d4521e05-2665-4696-9612-b61f25c860d7",
+              "parentUUID": "8b7431d6-a673-4fa2-948c-f39a0b87c0c4",
               "isHook": false,
               "skipped": false
             },
@@ -326,7 +200,7 @@
               "title": "OVAC",
               "fullTitle": "VERSIONS OVAC",
               "timedOut": null,
-              "duration": 4405,
+              "duration": 5325,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -335,8 +209,8 @@
               "context": null,
               "code": "cy.visit('https://ovac.councilbox.com/');\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
-              "uuid": "4542b1ac-adc2-4d44-ae9d-00fcf1710f6b",
-              "parentUUID": "8137d0a7-bcdd-49d8-9807-31fa2111c1be",
+              "uuid": "2db7d7d7-659c-48d8-af06-4048279b3551",
+              "parentUUID": "8b7431d6-a673-4fa2-948c-f39a0b87c0c4",
               "isHook": false,
               "skipped": false
             },
@@ -344,7 +218,7 @@
               "title": "OVAC CORE production",
               "fullTitle": "VERSIONS OVAC CORE production",
               "timedOut": null,
-              "duration": 102,
+              "duration": 191,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -353,8 +227,8 @@
               "context": null,
               "code": "cy.request('GET', \"https://api.ovac.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', version, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
-              "uuid": "acc7bfd5-c039-4fc3-83a5-662b2dceeab1",
-              "parentUUID": "8137d0a7-bcdd-49d8-9807-31fa2111c1be",
+              "uuid": "6c537f18-2e46-4925-bf74-850688ea46a8",
+              "parentUUID": "8b7431d6-a673-4fa2-948c-f39a0b87c0c4",
               "isHook": false,
               "skipped": false
             },
@@ -362,7 +236,7 @@
               "title": "EVID dev",
               "fullTitle": "VERSIONS EVID dev",
               "timedOut": null,
-              "duration": 4233,
+              "duration": 4502,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -371,8 +245,8 @@
               "context": null,
               "code": "cy.visit('https://evid.dev.councilbox.com/');\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
-              "uuid": "24a3b47b-0e89-4bea-9964-cc2346144462",
-              "parentUUID": "8137d0a7-bcdd-49d8-9807-31fa2111c1be",
+              "uuid": "fc23bffd-99f5-403b-8544-43729e181f6d",
+              "parentUUID": "8b7431d6-a673-4fa2-948c-f39a0b87c0c4",
               "isHook": false,
               "skipped": false
             },
@@ -380,7 +254,7 @@
               "title": "EVID pre",
               "fullTitle": "VERSIONS EVID pre",
               "timedOut": null,
-              "duration": 4310,
+              "duration": 4852,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -389,8 +263,8 @@
               "context": null,
               "code": "cy.visit('https://evid.pre.councilbox.com/');\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
-              "uuid": "5f8f68ce-059f-4407-81f7-0f2a7f7c8ec2",
-              "parentUUID": "8137d0a7-bcdd-49d8-9807-31fa2111c1be",
+              "uuid": "6827b6f1-fc13-4be0-8ef0-3bee53feb454",
+              "parentUUID": "8b7431d6-a673-4fa2-948c-f39a0b87c0c4",
               "isHook": false,
               "skipped": false
             },
@@ -398,7 +272,7 @@
               "title": "EVID CORE staging",
               "fullTitle": "VERSIONS EVID CORE staging",
               "timedOut": null,
-              "duration": 444,
+              "duration": 483,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -407,8 +281,8 @@
               "context": null,
               "code": "cy.request('GET', \"http://evid-api.pre.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', version, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
-              "uuid": "9ad9de40-07ca-425d-b7a9-5c07e3acb5d6",
-              "parentUUID": "8137d0a7-bcdd-49d8-9807-31fa2111c1be",
+              "uuid": "c1a3390e-d1be-4a2a-84b1-bf10278f9919",
+              "parentUUID": "8b7431d6-a673-4fa2-948c-f39a0b87c0c4",
               "isHook": false,
               "skipped": false
             },
@@ -416,7 +290,7 @@
               "title": "EVID",
               "fullTitle": "VERSIONS EVID",
               "timedOut": null,
-              "duration": 4555,
+              "duration": 5020,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -425,8 +299,8 @@
               "context": null,
               "code": "cy.visit('https://evid.councilbox.com/');\ncy.get('#client-version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
-              "uuid": "49ba840e-c594-4376-a65c-e5912305e069",
-              "parentUUID": "8137d0a7-bcdd-49d8-9807-31fa2111c1be",
+              "uuid": "08a1bc8b-90a2-4958-92f2-39807e53c588",
+              "parentUUID": "8b7431d6-a673-4fa2-948c-f39a0b87c0c4",
               "isHook": false,
               "skipped": false
             },
@@ -434,7 +308,7 @@
               "title": "EVID CORE production",
               "fullTitle": "VERSIONS EVID CORE production",
               "timedOut": null,
-              "duration": 126,
+              "duration": 131,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -443,8 +317,8 @@
               "context": null,
               "code": "cy.request('GET', \"https://evid-api.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', version, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
-              "uuid": "a334280c-3760-4397-9e50-4234fd08f01b",
-              "parentUUID": "8137d0a7-bcdd-49d8-9807-31fa2111c1be",
+              "uuid": "0c41e41c-1bef-4f86-a6c3-18e424ce9b86",
+              "parentUUID": "8b7431d6-a673-4fa2-948c-f39a0b87c0c4",
               "isHook": false,
               "skipped": false
             },
@@ -452,7 +326,7 @@
               "title": "PORTAL dev",
               "fullTitle": "VERSIONS PORTAL dev",
               "timedOut": null,
-              "duration": 3464,
+              "duration": 3609,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -461,8 +335,8 @@
               "context": null,
               "code": "cy.visit('https://portal.dev.councilbox.com/');\ncy.xpath('//*[@id=\"root\"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div/span/text()').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
-              "uuid": "804b2707-8819-4766-a912-dfccd5e72681",
-              "parentUUID": "8137d0a7-bcdd-49d8-9807-31fa2111c1be",
+              "uuid": "3c0f4ee0-d9c4-4953-9e9e-6896aaf85e3d",
+              "parentUUID": "8b7431d6-a673-4fa2-948c-f39a0b87c0c4",
               "isHook": false,
               "skipped": false
             },
@@ -470,7 +344,7 @@
               "title": "PORTAL pre",
               "fullTitle": "VERSIONS PORTAL pre",
               "timedOut": null,
-              "duration": 3533,
+              "duration": 3771,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -479,8 +353,8 @@
               "context": null,
               "code": "cy.visit('https://portal.pre.councilbox.com/');\ncy.xpath('//*[@id=\"root\"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div/span/text()').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
-              "uuid": "605f81ca-1626-4670-ae8f-07607e1024fd",
-              "parentUUID": "8137d0a7-bcdd-49d8-9807-31fa2111c1be",
+              "uuid": "12ce8f61-a0fc-47f3-9e95-602b8874a213",
+              "parentUUID": "8b7431d6-a673-4fa2-948c-f39a0b87c0c4",
               "isHook": false,
               "skipped": false
             },
@@ -488,7 +362,7 @@
               "title": "PORTAL",
               "fullTitle": "VERSIONS PORTAL",
               "timedOut": null,
-              "duration": 3092,
+              "duration": 3870,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -497,8 +371,8 @@
               "context": null,
               "code": "cy.visit('https://portal.councilbox.com/');\ncy.xpath('//*[@id=\"root\"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div/span/text()').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
-              "uuid": "8312e14d-a39e-4db8-92fa-620ac4aa7e82",
-              "parentUUID": "8137d0a7-bcdd-49d8-9807-31fa2111c1be",
+              "uuid": "f8fee477-0dca-447f-a6db-c6cc15af9dcb",
+              "parentUUID": "8b7431d6-a673-4fa2-948c-f39a0b87c0c4",
               "isHook": false,
               "skipped": false
             },
@@ -506,166 +380,105 @@
               "title": "SHUTTER pre",
               "fullTitle": "VERSIONS SHUTTER pre",
               "timedOut": null,
-              "duration": 2899,
->>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
+              "duration": 3641,
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
-<<<<<<< HEAD
-              "code": "cy.get('#edit-statutes-block').click();",
-              "err": {},
-              "uuid": "1db0d9e3-495d-4f68-bb71-8c42750847ac",
-              "parentUUID": "30fbae45-bc7e-444f-beca-5e6424198a30",
-=======
               "code": "cy.visit('https://app.shutter.pre.councilbox.com/');\ncy.get('#version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
-              "uuid": "6471181e-6e02-4cba-b325-4471a46d701d",
-              "parentUUID": "8137d0a7-bcdd-49d8-9807-31fa2111c1be",
->>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
+              "uuid": "33dd4cdb-eef3-497f-860d-da179938d1fa",
+              "parentUUID": "8b7431d6-a673-4fa2-948c-f39a0b87c0c4",
               "isHook": false,
               "skipped": false
             },
             {
-<<<<<<< HEAD
-              "title": "On the upper left corner click on the 'Anadir tipo de reunion+'' button",
-              "fullTitle": "The user is able to add a new type of meeting in the 'Tipos de reunion' section On the upper left corner click on the 'Anadir tipo de reunion+'' button",
-              "timedOut": null,
-              "duration": 1419,
-=======
               "title": "SHUTTER",
               "fullTitle": "VERSIONS SHUTTER",
               "timedOut": null,
-              "duration": 2858,
->>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
+              "duration": 3074,
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
-<<<<<<< HEAD
-              "code": "cy.get('#company-statute-create-button').click();",
-              "err": {},
-              "uuid": "471e7821-368a-40bc-9955-b8f09d74ea98",
-              "parentUUID": "30fbae45-bc7e-444f-beca-5e6424198a30",
-=======
               "code": "cy.visit('https://app.shutter.councilbox.com/');\ncy.get('#version').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
-              "uuid": "12f878ee-822b-4a86-add8-3bf35ef2b6b7",
-              "parentUUID": "8137d0a7-bcdd-49d8-9807-31fa2111c1be",
->>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
+              "uuid": "8598e9b9-2a2c-4480-aa2d-e4ad9ef0c614",
+              "parentUUID": "8b7431d6-a673-4fa2-948c-f39a0b87c0c4",
               "isHook": false,
               "skipped": false
             },
             {
-<<<<<<< HEAD
-              "title": "Populate required field and click on the 'Aceptar' button",
-              "fullTitle": "The user is able to add a new type of meeting in the 'Tipos de reunion' section Populate required field and click on the 'Aceptar' button",
-              "timedOut": null,
-              "duration": 511,
-=======
               "title": "HORUS pre",
               "fullTitle": "VERSIONS HORUS pre",
               "timedOut": null,
-              "duration": 2349,
->>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
+              "duration": 2852,
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
-<<<<<<< HEAD
-              "code": "cy.get('#new-council-type-input').type('Test' + Cypress.config('UniqueNumber'));\ncy.get('#alert-confirm-button-accept').click();",
-              "err": {},
-              "uuid": "7f7c2442-4f8f-433e-b627-f481e1e1ea2e",
-              "parentUUID": "30fbae45-bc7e-444f-beca-5e6424198a30",
-=======
               "code": "cy.visit('https://horus.pre.councilbox.com/admin');\ncy.xpath('//*[@id=\"root\"]/div/div/div/div/div[4]/small').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
-              "uuid": "98b1674b-5599-49f9-b472-f075739d13b6",
-              "parentUUID": "8137d0a7-bcdd-49d8-9807-31fa2111c1be",
->>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
+              "uuid": "281ea00d-2c50-4a56-b61c-1d79065fc54a",
+              "parentUUID": "8b7431d6-a673-4fa2-948c-f39a0b87c0c4",
               "isHook": false,
               "skipped": false
             },
             {
-<<<<<<< HEAD
-              "title": "Back to Home page",
-              "fullTitle": "The user is able to add a new type of meeting in the 'Tipos de reunion' section Back to Home page",
-              "timedOut": null,
-              "duration": 4011,
-=======
               "title": "HORUS",
               "fullTitle": "VERSIONS HORUS",
               "timedOut": null,
-              "duration": 2679,
->>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
+              "duration": 2586,
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
-<<<<<<< HEAD
-              "code": "cy.visit(login_url);\ncy.wait(3000);",
-              "err": {},
-              "uuid": "52208e1d-fd1d-4779-9529-aafa96e65fae",
-              "parentUUID": "30fbae45-bc7e-444f-beca-5e6424198a30",
-=======
               "code": "cy.visit('https://horus.councilbox.com/admin');\ncy.xpath('//*[@id=\"root\"]/div/div/div/div/div[4]/small').then(function ($temp) {\n  var txt = $temp.text();\n  cy.writeFile('cypress/integration/TEST/versions.csv', txt, {\n    flag: 'a+'\n  });\n});",
               "err": {},
-              "uuid": "085b3d5e-8c62-4f68-9d13-1e77f2fca960",
-              "parentUUID": "8137d0a7-bcdd-49d8-9807-31fa2111c1be",
->>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
+              "uuid": "c1d08cc6-f9f8-472b-8e66-cd4c1f8a9e1c",
+              "parentUUID": "8b7431d6-a673-4fa2-948c-f39a0b87c0c4",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-<<<<<<< HEAD
-            "1db0d9e3-495d-4f68-bb71-8c42750847ac",
-            "471e7821-368a-40bc-9955-b8f09d74ea98",
-            "7f7c2442-4f8f-433e-b627-f481e1e1ea2e",
-            "52208e1d-fd1d-4779-9529-aafa96e65fae"
-=======
-            "513ed163-6091-4f8e-8ada-00061bc3bee6",
-            "2ab5071f-4be7-4cf6-bfd7-7e0f633acc40",
-            "70f9ab73-78a6-44bc-8189-28a088670866",
-            "34785816-c583-427e-9e60-051b37dbf713",
-            "673aeb7f-9b2f-465e-b2a7-9dde40ec111c",
-            "613a1f51-d063-4ae7-b753-fa59656f80bb",
-            "fc1c21b0-d2cc-4420-9c22-3b777d576b4c",
-            "3ad0e61b-6817-40a1-8ffa-4ecb6fb469ed",
-            "45ae23e5-0a2f-48cf-ad13-acdb2b272dc1",
-            "4542b1ac-adc2-4d44-ae9d-00fcf1710f6b",
-            "acc7bfd5-c039-4fc3-83a5-662b2dceeab1",
-            "24a3b47b-0e89-4bea-9964-cc2346144462",
-            "5f8f68ce-059f-4407-81f7-0f2a7f7c8ec2",
-            "9ad9de40-07ca-425d-b7a9-5c07e3acb5d6",
-            "49ba840e-c594-4376-a65c-e5912305e069",
-            "a334280c-3760-4397-9e50-4234fd08f01b",
-            "804b2707-8819-4766-a912-dfccd5e72681",
-            "605f81ca-1626-4670-ae8f-07607e1024fd",
-            "8312e14d-a39e-4db8-92fa-620ac4aa7e82",
-            "6471181e-6e02-4cba-b325-4471a46d701d",
-            "12f878ee-822b-4a86-add8-3bf35ef2b6b7",
-            "98b1674b-5599-49f9-b472-f075739d13b6",
-            "085b3d5e-8c62-4f68-9d13-1e77f2fca960"
->>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
+            "baf350f2-d80b-4ad3-956a-f0d321d45459",
+            "954800fe-ad63-439f-b55b-0c2bedb3b1d1",
+            "590abbd8-c603-47c2-b007-d57e1cc44679",
+            "87e357c2-e9b0-426b-b1e3-d80c5bd76452",
+            "9f3e3d88-b8b5-43c3-a636-5fefa9f9a8ce",
+            "1229f8ea-b0e2-4b60-9607-9a92f5740408",
+            "35986670-8951-4453-94f4-2f131dfece69",
+            "dfdd951d-44a5-48b7-96f1-14f606060dab",
+            "d4521e05-2665-4696-9612-b61f25c860d7",
+            "2db7d7d7-659c-48d8-af06-4048279b3551",
+            "6c537f18-2e46-4925-bf74-850688ea46a8",
+            "fc23bffd-99f5-403b-8544-43729e181f6d",
+            "6827b6f1-fc13-4be0-8ef0-3bee53feb454",
+            "c1a3390e-d1be-4a2a-84b1-bf10278f9919",
+            "08a1bc8b-90a2-4958-92f2-39807e53c588",
+            "0c41e41c-1bef-4f86-a6c3-18e424ce9b86",
+            "3c0f4ee0-d9c4-4953-9e9e-6896aaf85e3d",
+            "12ce8f61-a0fc-47f3-9e95-602b8874a213",
+            "f8fee477-0dca-447f-a6db-c6cc15af9dcb",
+            "33dd4cdb-eef3-497f-860d-da179938d1fa",
+            "8598e9b9-2a2c-4480-aa2d-e4ad9ef0c614",
+            "281ea00d-2c50-4a56-b61c-1d79065fc54a",
+            "c1d08cc6-f9f8-472b-8e66-cd4c1f8a9e1c"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-<<<<<<< HEAD
-          "duration": 6087,
-=======
-          "duration": 77255,
->>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
+          "duration": 83348,
           "root": false,
           "rootEmpty": false,
           "_timeout": 2000
@@ -695,11 +508,7 @@
         "useInlineDiffs": false,
         "code": true
       },
-<<<<<<< HEAD
       "version": "6.3.1"
-=======
-      "version": "6.2.2"
->>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
     },
     "marge": {
       "options": {

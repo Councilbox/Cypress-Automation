@@ -1,5 +1,17 @@
 {
   "stats": {
+<<<<<<< HEAD
+    "suites": 3,
+    "tests": 40,
+    "passes": 40,
+    "pending": 0,
+    "failures": 0,
+    "start": "2022-04-20T13:07:25.842Z",
+    "end": "2022-04-20T13:09:26.857Z",
+    "duration": 121015,
+    "testsRegistered": 40,
+    "passPercent": 100,
+=======
     "suites": 1,
     "tests": 23,
     "passes": 7,
@@ -10,6 +22,7 @@
     "duration": 257209,
     "testsRegistered": 23,
     "passPercent": 30.434782608695656,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
     "pendingPercent": 0,
     "other": 0,
     "hasOther": false,
@@ -18,41 +31,83 @@
   },
   "results": [
     {
+<<<<<<< HEAD
+      "uuid": "738e6412-7ed0-473c-a3a5-06747f0cafb5",
+      "title": "",
+      "fullFile": "cypress/integration/1.Smoke/6.New_Meeting(Adming Side)_section_pt2.js",
+      "file": "cypress/integration/1.Smoke/6.New_Meeting(Adming Side)_section_pt2.js",
+=======
       "uuid": "eb004ac2-9730-4662-8cb0-5c59de9a89b6",
       "title": "",
       "fullFile": "cypress\\integration\\TEST1\\execlTest.js",
       "file": "cypress\\integration\\TEST1\\execlTest.js",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
       "beforeHooks": [],
       "afterHooks": [],
       "tests": [],
       "suites": [
         {
+<<<<<<< HEAD
+          "uuid": "4853c22d-43a4-4ee2-b005-5e7c0afb74f9",
+          "title": "Councilbox login - valid username and password",
+=======
           "uuid": "796865c0-cf06-4657-a5a4-dac284cd3215",
           "title": "VERSIONS",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
           "fullFile": "",
           "file": "",
           "beforeHooks": [],
           "afterHooks": [],
           "tests": [
             {
+<<<<<<< HEAD
+              "title": "Visits the Councilbox web page",
+              "fullTitle": "Councilbox login - valid username and password Visits the Councilbox web page",
+              "timedOut": null,
+              "duration": 3812,
+=======
               "title": "INPUT TODAYS DATE",
               "fullTitle": "VERSIONS INPUT TODAYS DATE",
               "timedOut": null,
               "duration": 25712,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.visit(login_url);\ncy.wait(3000);",
+              "err": {},
+              "uuid": "ee6fdd3c-1547-4dcd-983b-46e3d56ae5a5",
+              "parentUUID": "4853c22d-43a4-4ee2-b005-5e7c0afb74f9",
+=======
               "code": "cy.writeFile('cypress/integration/TEST/versions.csv', '\\n', {\n  flag: 'a+'\n});\ncy.request('GET', \"https://www.timeapi.io/api/Time/current/coordinate\").its('body.date').then(function (date) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', date, {\n    flag: 'a+'\n  });\n});\ncy.request('GET', \"https://www.timeapi.io/api/Time/current/coordinate\").its('body.dayOfWeek').then(function (dayOfWeek) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', ' ', {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', dayOfWeek, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "2d848bd0-18f8-4eca-95de-cd709cc86b25",
               "parentUUID": "796865c0-cf06-4657-a5a4-dac284cd3215",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Change language to Spanish",
+              "fullTitle": "Councilbox login - valid username and password Change language to Spanish",
+              "timedOut": null,
+              "duration": 228,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#language-selector').click();\ncy.get('#language-es').click();",
+              "err": {},
+              "uuid": "90d91425-2e2b-4751-b6a7-d9ff042fb052",
+              "parentUUID": "4853c22d-43a4-4ee2-b005-5e7c0afb74f9",
+=======
               "title": "REU dev",
               "fullTitle": "VERSIONS REU dev",
               "timedOut": null,
@@ -71,10 +126,27 @@
               },
               "uuid": "36108cd7-74df-402e-8c18-f207ac169f2a",
               "parentUUID": "796865c0-cf06-4657-a5a4-dac284cd3215",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Enters email address",
+              "fullTitle": "Councilbox login - valid username and password Enters email address",
+              "timedOut": null,
+              "duration": 942,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#username').clear().type('alem@qaengineers.net').should(\"have.value\", 'alem@qaengineers.net');",
+              "err": {},
+              "uuid": "56358a93-449a-435a-b372-e5658a6bee5a",
+              "parentUUID": "4853c22d-43a4-4ee2-b005-5e7c0afb74f9",
+=======
               "title": "REU pre",
               "fullTitle": "VERSIONS REU pre",
               "timedOut": null,
@@ -93,28 +165,102 @@
               },
               "uuid": "1be3fd6a-6ab7-4d9c-a8c2-75097e49470e",
               "parentUUID": "796865c0-cf06-4657-a5a4-dac284cd3215",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Enters password",
+              "fullTitle": "Councilbox login - valid username and password Enters password",
+              "timedOut": null,
+              "duration": 408,
+=======
               "title": "REU CORE staging",
               "fullTitle": "VERSIONS REU CORE staging",
               "timedOut": null,
               "duration": 12239,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#password').clear().type('Mostar123!').should(\"have.value\", 'Mostar123!');",
+              "err": {},
+              "uuid": "6d27857f-c64b-48b9-87c2-17342050d190",
+              "parentUUID": "4853c22d-43a4-4ee2-b005-5e7c0afb74f9",
+=======
               "code": "cy.request('GET', \"https://api.pre.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', version, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "eda2c64e-6d54-4db9-a78a-c6d512df6211",
               "parentUUID": "796865c0-cf06-4657-a5a4-dac284cd3215",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Clicks login button",
+              "fullTitle": "Councilbox login - valid username and password Clicks login button",
+              "timedOut": null,
+              "duration": 2114,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get(\"#login-button\").click();\ncy.wait(2000);",
+              "err": {},
+              "uuid": "ddfc0ff9-5826-43af-8e5d-bf7f6494ac86",
+              "parentUUID": "4853c22d-43a4-4ee2-b005-5e7c0afb74f9",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "ee6fdd3c-1547-4dcd-983b-46e3d56ae5a5",
+            "90d91425-2e2b-4751-b6a7-d9ff042fb052",
+            "56358a93-449a-435a-b372-e5658a6bee5a",
+            "6d27857f-c64b-48b9-87c2-17342050d190",
+            "ddfc0ff9-5826-43af-8e5d-bf7f6494ac86"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 7504,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "6e45a302-1c60-43b5-aaa4-baa6da616a32",
+          "title": "The user is able to activate ratings in the 'New call with session'",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Click on the 'Nueva reunion' button",
+              "fullTitle": "The user is able to activate ratings in the 'New call with session' Click on the 'Nueva reunion' button",
+              "timedOut": null,
+              "duration": 132,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#create-council-block').click();",
+              "err": {},
+              "uuid": "2f0112e7-0506-44c5-81a0-e5d8ba2aecbd",
+              "parentUUID": "6e45a302-1c60-43b5-aaa4-baa6da616a32",
+=======
               "title": "REU",
               "fullTitle": "VERSIONS REU",
               "timedOut": null,
@@ -133,28 +279,59 @@
               },
               "uuid": "f2128e8a-169a-4751-bd05-d3d570bd08d9",
               "parentUUID": "796865c0-cf06-4657-a5a4-dac284cd3215",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Click on the “Con sesion” button",
+              "fullTitle": "The user is able to activate ratings in the 'New call with session' Click on the “Con sesion” button",
+              "timedOut": null,
+              "duration": 3113,
+=======
               "title": "REU CORE production",
               "fullTitle": "VERSIONS REU CORE production",
               "timedOut": null,
               "duration": 3019,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#create-council-with-session').click();\ncy.wait(3000);",
+              "err": {},
+              "uuid": "6b7e5856-b666-415f-a373-205c2d3f9fa1",
+              "parentUUID": "6e45a302-1c60-43b5-aaa4-baa6da616a32",
+=======
               "code": "cy.request('GET', \"https://api.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', version, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "b62bbdf6-394c-42c0-8f2c-9e759497d11e",
               "parentUUID": "796865c0-cf06-4657-a5a4-dac284cd3215",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Populate all required fields and click on the “Siguiente” button",
+              "fullTitle": "The user is able to activate ratings in the 'New call with session' Populate all required fields and click on the “Siguiente” button",
+              "timedOut": null,
+              "duration": 2535,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#council-notice-type-select').click();\ncy.get('#council-notice-type-2').click();\ncy.get('#council-notice-title').clear().type('Test');\ncy.get('#council-notice-convene-intro').type('Test');\ncy.get('#council-editor-next').click();\ncy.wait(1000);",
+              "err": {},
+              "uuid": "6bb70e9c-df14-498e-905c-a8a89bb257f5",
+              "parentUUID": "6e45a302-1c60-43b5-aaa4-baa6da616a32",
+=======
               "title": "OVAC dev",
               "fullTitle": "VERSIONS OVAC dev",
               "timedOut": null,
@@ -173,10 +350,27 @@
               },
               "uuid": "f73d65cf-2220-48ab-9570-cd714e0d616d",
               "parentUUID": "796865c0-cf06-4657-a5a4-dac284cd3215",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Click on the 'Anadir participante' button and populate all required fields then click on the “Siguiente” button",
+              "fullTitle": "The user is able to activate ratings in the 'New call with session' Click on the 'Anadir participante' button and populate all required fields then click on the “Siguiente” button",
+              "timedOut": null,
+              "duration": 11700,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#add-participant-dropdown-trigger').click();\ncy.wait(1000);\ncy.get('#add-participant-button').click();\ncy.wait(1000);\ncy.get('#participant-name-input').clear().type('alem' + Cypress.config('UniqueNumber'));\ncy.get('#participant-surname-input').clear().type('alem' + Cypress.config('UniqueNumber'));\ncy.get('#participant-dni-input').clear().type('TestAutomation' + Cypress.config('UniqueNumber'));\ncy.get('#participant-phone-input').clear().type('123123123');\ncy.get('#participant-email-input').clear().type('alem' + Cypress.config('UniqueNumber') + '@yopmail.com');\ncy.get('#participant-administrative-email-input').clear().type('alem' + Cypress.config('UniqueNumber') + '@yopmail.com');\ncy.get('#alert-confirm-button-accept').click();\ncy.wait(1000);\ncy.wait(3000);\ncy.get('#censoSiguienteNew').click();",
+              "err": {},
+              "uuid": "ce0dd72a-9b85-41da-a013-f1ad048e8480",
+              "parentUUID": "6e45a302-1c60-43b5-aaa4-baa6da616a32",
+=======
               "title": "OVAC pre",
               "fullTitle": "VERSIONS OVAC pre",
               "timedOut": null,
@@ -195,28 +389,59 @@
               },
               "uuid": "e94304af-3097-4330-8aa8-8d3626a8b9b7",
               "parentUUID": "796865c0-cf06-4657-a5a4-dac284cd3215",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Click on the “Anadir punto al orden del dia+” button",
+              "fullTitle": "The user is able to activate ratings in the 'New call with session' Click on the “Anadir punto al orden del dia+” button",
+              "timedOut": null,
+              "duration": 341,
+=======
               "title": "OVAC CORE staging",
               "fullTitle": "VERSIONS OVAC CORE staging",
               "timedOut": null,
               "duration": 3627,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#newPuntoDelDiaOrdenDelDiaNew').click();",
+              "err": {},
+              "uuid": "1cffad67-4f1c-4282-bf4b-fb5e9112167e",
+              "parentUUID": "6e45a302-1c60-43b5-aaa4-baa6da616a32",
+=======
               "code": "cy.request('GET', \"http://api.ovac.pre.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', version, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "178d2da1-cebc-46df-a625-d92818b81f7b",
               "parentUUID": "796865c0-cf06-4657-a5a4-dac284cd3215",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button",
+              "fullTitle": "The user is able to activate ratings in the 'New call with session' Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button",
+              "timedOut": null,
+              "duration": 6155,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#puntoSiNoAbstencion').click();\ncy.get('#agenda-editor-title-input').type('Test');\ncy.get('#agenda-editor-type-select').click();\ncy.wait(1000);\ncy.get('#agenda-editor-type-1').click();\ncy.wait(1000);\ncy.get('#alert-confirm-button-accept').click();\ncy.wait(1000);\ncy.get('#ordenDelDiaNext').click();\ncy.wait(1000);\ncy.get('#attachmentSiguienteNew').click();\ncy.wait(1000);",
+              "err": {},
+              "uuid": "e741ce7f-763c-4709-8241-6726c88c31fe",
+              "parentUUID": "6e45a302-1c60-43b5-aaa4-baa6da616a32",
+=======
               "title": "OVAC",
               "fullTitle": "VERSIONS OVAC",
               "timedOut": null,
@@ -235,28 +460,59 @@
               },
               "uuid": "ff35b866-e673-4e50-b37b-b135ea9f2d94",
               "parentUUID": "796865c0-cf06-4657-a5a4-dac284cd3215",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Populate all required fields and click on the “Siguiente” button",
+              "fullTitle": "The user is able to activate ratings in the 'New call with session' Populate all required fields and click on the “Siguiente” button",
+              "timedOut": null,
+              "duration": 2729,
+=======
               "title": "OVAC CORE production",
               "fullTitle": "VERSIONS OVAC CORE production",
               "timedOut": null,
               "duration": 2727,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#council-options-contact-email').scrollIntoView();\ncy.wait(1000);\ncy.get('#council-options-contact-email').type('test@test.test');\ncy.get('#optionsNewSiguiente').click();\ncy.wait(1000);",
+              "err": {},
+              "uuid": "914ad5d8-b832-44b9-89e9-3611004fd051",
+              "parentUUID": "6e45a302-1c60-43b5-aaa4-baa6da616a32",
+=======
               "code": "cy.request('GET', \"https://api.ovac.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', version, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "5ad5b687-08fc-4711-b7ba-7889cb4d256c",
               "parentUUID": "796865c0-cf06-4657-a5a4-dac284cd3215",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Click on the “Convocar y notificar” button",
+              "fullTitle": "The user is able to activate ratings in the 'New call with session' Click on the “Convocar y notificar” button",
+              "timedOut": null,
+              "duration": 3102,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#council-editor-convene-notify').click();\ncy.wait(3000);",
+              "err": {},
+              "uuid": "a0df1de3-cde8-4b5c-86e3-0b3c7716e4fe",
+              "parentUUID": "6e45a302-1c60-43b5-aaa4-baa6da616a32",
+=======
               "title": "EVID dev",
               "fullTitle": "VERSIONS EVID dev",
               "timedOut": null,
@@ -275,10 +531,27 @@
               },
               "uuid": "91ba32e1-ddb6-4cf3-bb06-cc5b0029a9eb",
               "parentUUID": "796865c0-cf06-4657-a5a4-dac284cd3215",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Click on the “Preparar sala” button",
+              "fullTitle": "The user is able to activate ratings in the 'New call with session' Click on the “Preparar sala” button",
+              "timedOut": null,
+              "duration": 107,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#prepararSalaNew').click();",
+              "err": {},
+              "uuid": "5e435a75-743f-4ba4-a15b-966dcf2d4f19",
+              "parentUUID": "6e45a302-1c60-43b5-aaa4-baa6da616a32",
+=======
               "title": "EVID pre",
               "fullTitle": "VERSIONS EVID pre",
               "timedOut": null,
@@ -297,28 +570,59 @@
               },
               "uuid": "56f1e1e8-8aa1-4609-82b2-74171e6c530e",
               "parentUUID": "796865c0-cf06-4657-a5a4-dac284cd3215",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Navigate to the upper right corner and click on the “Abrir Sala” button",
+              "fullTitle": "The user is able to activate ratings in the 'New call with session' Navigate to the upper right corner and click on the “Abrir Sala” button",
+              "timedOut": null,
+              "duration": 2973,
+=======
               "title": "EVID CORE staging",
               "fullTitle": "VERSIONS EVID CORE staging",
               "timedOut": null,
               "duration": 5161,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#abrirSalaEnReunion').click();",
+              "err": {},
+              "uuid": "e0344a9f-bbcf-481f-8458-4bbbdc682fc2",
+              "parentUUID": "6e45a302-1c60-43b5-aaa4-baa6da616a32",
+=======
               "code": "cy.request('GET', \"http://evid-api.pre.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', version, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "af663399-c7c9-451e-9638-1f5d6993fecf",
               "parentUUID": "796865c0-cf06-4657-a5a4-dac284cd3215",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Populate all required fields and click on the “Aceptar” button",
+              "fullTitle": "The user is able to activate ratings in the 'New call with session' Populate all required fields and click on the “Aceptar” button",
+              "timedOut": null,
+              "duration": 10110,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#alert-confirm-button-accept').click();\ncy.wait(10000);",
+              "err": {},
+              "uuid": "845bb834-d22d-4b27-848d-9fb1e854413f",
+              "parentUUID": "6e45a302-1c60-43b5-aaa4-baa6da616a32",
+=======
               "title": "EVID",
               "fullTitle": "VERSIONS EVID",
               "timedOut": null,
@@ -337,28 +641,77 @@
               },
               "uuid": "3748e251-8a8c-4fde-a007-1cc852969cf0",
               "parentUUID": "796865c0-cf06-4657-a5a4-dac284cd3215",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Navigate to the “Camera and microphone” form and click on the “Accept” button",
+              "fullTitle": "The user is able to activate ratings in the 'New call with session' Navigate to the “Camera and microphone” form and click on the “Accept” button",
+              "timedOut": null,
+              "duration": 16,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "/*       \n           cy.get('#admin-room-iframe').then($iframe => {\n const $body = $iframe.contents().find('body') ; cy.wrap($body)\n\n   .contains('Join')\n   .click()\n    cy.wait(10000)\n})\n*/",
+              "err": {},
+              "uuid": "a84a1e9f-7320-4cb3-b5c0-32246f887740",
+              "parentUUID": "6e45a302-1c60-43b5-aaa4-baa6da616a32",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Navigate to the upper right corner and click on the “Iniciar reunion” button",
+              "fullTitle": "The user is able to activate ratings in the 'New call with session' Navigate to the upper right corner and click on the “Iniciar reunion” button",
+              "timedOut": null,
+              "duration": 2135,
+=======
               "title": "EVID CORE production",
               "fullTitle": "VERSIONS EVID CORE production",
               "timedOut": null,
               "duration": 3119,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "state": "passed",
               "speed": "slow",
               "pass": true,
               "fail": false,
               "pending": false,
               "context": null,
+<<<<<<< HEAD
+              "code": "cy.get('#start-council-button').click();\ncy.wait(2000);",
+              "err": {},
+              "uuid": "d2a10280-8c02-4013-92bb-7f725c9a7210",
+              "parentUUID": "6e45a302-1c60-43b5-aaa4-baa6da616a32",
+=======
               "code": "cy.request('GET', \"https://evid-api.councilbox.com/health\").its('body.version').then(function (version) {\n  cy.writeFile('cypress/integration/TEST/versions.csv', version, {\n    flag: 'a+'\n  });\n  cy.writeFile('cypress/integration/TEST/versions.csv', \",\", {\n    flag: 'a+'\n  });\n});",
               "err": {},
               "uuid": "6e4d85d1-283e-415b-a08e-4e3ff1a18090",
               "parentUUID": "796865c0-cf06-4657-a5a4-dac284cd3215",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Populate all required fields and click on the “Aceptar” button",
+              "fullTitle": "The user is able to activate ratings in the 'New call with session' Populate all required fields and click on the “Aceptar” button",
+              "timedOut": null,
+              "duration": 2083,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#council-president-select').click();\ncy.wait(200);\ncy.get('#participant-selector-0').click();\ncy.get('#council-secretary-select').click();\ncy.wait(200);\ncy.get('#participant-selector-0').click();\ncy.get('#council-quality-vote-select').click();\ncy.wait(200);\ncy.get('#participant-selector-0').click();\ncy.get('#alert-confirm-button-accept').click();\ncy.wait(200);\ncy.get('#alert-confirm-button-cancel').click();",
+              "err": {},
+              "uuid": "1e607236-0a06-43fb-8547-019f5c1b3304",
+              "parentUUID": "6e45a302-1c60-43b5-aaa4-baa6da616a32",
+=======
               "title": "PORTAL dev",
               "fullTitle": "VERSIONS PORTAL dev",
               "timedOut": null,
@@ -377,10 +730,27 @@
               },
               "uuid": "a2c1c460-73a3-4728-9cee-f52f115c4ae0",
               "parentUUID": "796865c0-cf06-4657-a5a4-dac284cd3215",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Click on the “Abrir punto” button",
+              "fullTitle": "The user is able to activate ratings in the 'New call with session' Click on the “Abrir punto” button",
+              "timedOut": null,
+              "duration": 3419,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#council-live-tab-agenda').click();\ncy.wait(1000);\ncy.get('#open-agenda-point-button').click();\ncy.wait(2000);",
+              "err": {},
+              "uuid": "ba55d282-4c70-42d8-8dd0-0877d3acc5fe",
+              "parentUUID": "6e45a302-1c60-43b5-aaa4-baa6da616a32",
+=======
               "title": "PORTAL pre",
               "fullTitle": "VERSIONS PORTAL pre",
               "timedOut": null,
@@ -399,10 +769,27 @@
               },
               "uuid": "fd7c3cc4-ff6c-4cc9-8f07-4731adc01b49",
               "parentUUID": "796865c0-cf06-4657-a5a4-dac284cd3215",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Click on the “Activar votaciones” button",
+              "fullTitle": "The user is able to activate ratings in the 'New call with session' Click on the “Activar votaciones” button",
+              "timedOut": null,
+              "duration": 3254,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#council-live-tab-agenda').click();\ncy.wait(1000);\ncy.get('#open-point-votings-button').click();\ncy.wait(2000);",
+              "err": {},
+              "uuid": "1d09c027-b488-4443-bca8-310195b08797",
+              "parentUUID": "6e45a302-1c60-43b5-aaa4-baa6da616a32",
+=======
               "title": "PORTAL",
               "fullTitle": "VERSIONS PORTAL",
               "timedOut": null,
@@ -421,10 +808,82 @@
               },
               "uuid": "9f20c4e8-0ff6-4641-add7-b5c8bf72ffe4",
               "parentUUID": "796865c0-cf06-4657-a5a4-dac284cd3215",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "User should be able to exit the meeting",
+              "fullTitle": "The user is able to activate ratings in the 'New call with session' User should be able to exit the meeting",
+              "timedOut": null,
+              "duration": 716,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(login_url);",
+              "err": {},
+              "uuid": "89e06b2c-ab87-4e5e-8f17-e760282c024b",
+              "parentUUID": "6e45a302-1c60-43b5-aaa4-baa6da616a32",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "2f0112e7-0506-44c5-81a0-e5d8ba2aecbd",
+            "6b7e5856-b666-415f-a373-205c2d3f9fa1",
+            "6bb70e9c-df14-498e-905c-a8a89bb257f5",
+            "ce0dd72a-9b85-41da-a013-f1ad048e8480",
+            "1cffad67-4f1c-4282-bf4b-fb5e9112167e",
+            "e741ce7f-763c-4709-8241-6726c88c31fe",
+            "914ad5d8-b832-44b9-89e9-3611004fd051",
+            "a0df1de3-cde8-4b5c-86e3-0b3c7716e4fe",
+            "5e435a75-743f-4ba4-a15b-966dcf2d4f19",
+            "e0344a9f-bbcf-481f-8458-4bbbdc682fc2",
+            "845bb834-d22d-4b27-848d-9fb1e854413f",
+            "a84a1e9f-7320-4cb3-b5c0-32246f887740",
+            "d2a10280-8c02-4013-92bb-7f725c9a7210",
+            "1e607236-0a06-43fb-8547-019f5c1b3304",
+            "ba55d282-4c70-42d8-8dd0-0877d3acc5fe",
+            "1d09c027-b488-4443-bca8-310195b08797",
+            "89e06b2c-ab87-4e5e-8f17-e760282c024b"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 54620,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "6eb3d92a-d9c5-4dce-ba76-fbdb0365243f",
+          "title": "The user is able to close point votations in the 'New call with session' type of meeting'",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Click on the 'Nueva reunion' button",
+              "fullTitle": "The user is able to close point votations in the 'New call with session' type of meeting' Click on the 'Nueva reunion' button",
+              "timedOut": null,
+              "duration": 1405,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#create-council-block').click();",
+              "err": {},
+              "uuid": "3a31c005-2fae-4472-baf3-6f444bf773b2",
+              "parentUUID": "6eb3d92a-d9c5-4dce-ba76-fbdb0365243f",
+=======
               "title": "SHUTTER pre",
               "fullTitle": "VERSIONS SHUTTER pre",
               "timedOut": null,
@@ -443,10 +902,27 @@
               },
               "uuid": "04786845-6c7f-4568-bdba-17da9a766025",
               "parentUUID": "796865c0-cf06-4657-a5a4-dac284cd3215",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Click on the “Con sesion” button",
+              "fullTitle": "The user is able to close point votations in the 'New call with session' type of meeting' Click on the “Con sesion” button",
+              "timedOut": null,
+              "duration": 3104,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#create-council-with-session').click();\ncy.wait(3000);",
+              "err": {},
+              "uuid": "07133bff-cce6-41b6-88cb-f17779c2732f",
+              "parentUUID": "6eb3d92a-d9c5-4dce-ba76-fbdb0365243f",
+=======
               "title": "SHUTTER",
               "fullTitle": "VERSIONS SHUTTER",
               "timedOut": null,
@@ -465,10 +941,27 @@
               },
               "uuid": "520c454e-1458-4dc1-9ae9-f281e8427074",
               "parentUUID": "796865c0-cf06-4657-a5a4-dac284cd3215",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Populate all required fields and click on the “Siguiente” button",
+              "fullTitle": "The user is able to close point votations in the 'New call with session' type of meeting' Populate all required fields and click on the “Siguiente” button",
+              "timedOut": null,
+              "duration": 2419,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#council-notice-type-select').click();\ncy.get('#council-notice-type-2').click();\ncy.get('#council-notice-title').clear().type('Test');\ncy.get('#council-notice-convene-intro').type('Test');\ncy.get('#council-editor-next').click();\ncy.wait(1000);",
+              "err": {},
+              "uuid": "ae679451-7ae0-46f0-93c1-545a91867a88",
+              "parentUUID": "6eb3d92a-d9c5-4dce-ba76-fbdb0365243f",
+=======
               "title": "HORUS pre",
               "fullTitle": "VERSIONS HORUS pre",
               "timedOut": null,
@@ -487,10 +980,279 @@
               },
               "uuid": "bd0f0658-df35-427a-bafe-f263df320727",
               "parentUUID": "796865c0-cf06-4657-a5a4-dac284cd3215",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             },
             {
+<<<<<<< HEAD
+              "title": "Click on the 'Anadir participante' button and populate all required fields then click on the “Siguiente” button",
+              "fullTitle": "The user is able to close point votations in the 'New call with session' type of meeting' Click on the 'Anadir participante' button and populate all required fields then click on the “Siguiente” button",
+              "timedOut": null,
+              "duration": 11537,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#add-participant-dropdown-trigger').click();\ncy.wait(1000);\ncy.get('#add-participant-button').click();\ncy.wait(1000);\ncy.get('#participant-name-input').clear().type('alem' + Cypress.config('UniqueNumber'));\ncy.get('#participant-surname-input').clear().type('alem' + Cypress.config('UniqueNumber'));\ncy.get('#participant-dni-input').clear().type('TestAutomation' + Cypress.config('UniqueNumber'));\ncy.get('#participant-phone-input').clear().type('123123123');\ncy.get('#participant-email-input').clear().type('alem' + Cypress.config('UniqueNumber') + '@yopmail.com');\ncy.get('#participant-administrative-email-input').clear().type('alem' + Cypress.config('UniqueNumber') + '@yopmail.com');\ncy.get('#alert-confirm-button-accept').click();\ncy.wait(1000);\ncy.wait(3000);\ncy.get('#censoSiguienteNew').click();",
+              "err": {},
+              "uuid": "ec43044c-6742-40e2-9e2a-902acd8620ca",
+              "parentUUID": "6eb3d92a-d9c5-4dce-ba76-fbdb0365243f",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Click on the “Anadir punto al orden del dia+” button",
+              "fullTitle": "The user is able to close point votations in the 'New call with session' type of meeting' Click on the “Anadir punto al orden del dia+” button",
+              "timedOut": null,
+              "duration": 351,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#newPuntoDelDiaOrdenDelDiaNew').click();",
+              "err": {},
+              "uuid": "4a186400-d210-405b-a1b3-679812df9efd",
+              "parentUUID": "6eb3d92a-d9c5-4dce-ba76-fbdb0365243f",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button",
+              "fullTitle": "The user is able to close point votations in the 'New call with session' type of meeting' Click on the “Punto Si/no abstencion” button and populate “Title” field then choose “Votacio nominal” tipo and click on the “Aceptar” button then click on the “Siguiente” button",
+              "timedOut": null,
+              "duration": 6142,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#puntoSiNoAbstencion').click();\ncy.get('#agenda-editor-title-input').type('Test');\ncy.get('#agenda-editor-type-select').click();\ncy.wait(1000);\ncy.get('#agenda-editor-type-1').click();\ncy.wait(1000);\ncy.get('#alert-confirm-button-accept').click();\ncy.wait(1000);\ncy.get('#ordenDelDiaNext').click();\ncy.wait(1000);\ncy.get('#attachmentSiguienteNew').click();\ncy.wait(1000);",
+              "err": {},
+              "uuid": "60a9ccb5-c4a7-4d3e-8be1-4130da085126",
+              "parentUUID": "6eb3d92a-d9c5-4dce-ba76-fbdb0365243f",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Populate all required fields and click on the “Siguiente” button",
+              "fullTitle": "The user is able to close point votations in the 'New call with session' type of meeting' Populate all required fields and click on the “Siguiente” button",
+              "timedOut": null,
+              "duration": 2749,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#council-options-contact-email').scrollIntoView();\ncy.wait(1000);\ncy.get('#council-options-contact-email').type('test@test.test');\ncy.get('#optionsNewSiguiente').click();\ncy.wait(1000);",
+              "err": {},
+              "uuid": "8c03a3e4-0ba4-4356-8b94-899172d6849a",
+              "parentUUID": "6eb3d92a-d9c5-4dce-ba76-fbdb0365243f",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Click on the “Convocar y notificar” button",
+              "fullTitle": "The user is able to close point votations in the 'New call with session' type of meeting' Click on the “Convocar y notificar” button",
+              "timedOut": null,
+              "duration": 3104,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#council-editor-convene-notify').click();\ncy.wait(3000);",
+              "err": {},
+              "uuid": "8ddf2d49-958c-433d-a258-436a9f910920",
+              "parentUUID": "6eb3d92a-d9c5-4dce-ba76-fbdb0365243f",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Click on the “Preparar sala” button",
+              "fullTitle": "The user is able to close point votations in the 'New call with session' type of meeting' Click on the “Preparar sala” button",
+              "timedOut": null,
+              "duration": 107,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#prepararSalaNew').click();",
+              "err": {},
+              "uuid": "4313dbc5-dae0-47ca-bbfa-9899df3bc588",
+              "parentUUID": "6eb3d92a-d9c5-4dce-ba76-fbdb0365243f",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Navigate to the upper right corner and click on the “Abrir Sala” button",
+              "fullTitle": "The user is able to close point votations in the 'New call with session' type of meeting' Navigate to the upper right corner and click on the “Abrir Sala” button",
+              "timedOut": null,
+              "duration": 2508,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#abrirSalaEnReunion').click();",
+              "err": {},
+              "uuid": "980de089-30fc-44eb-8514-8036bcca4ee6",
+              "parentUUID": "6eb3d92a-d9c5-4dce-ba76-fbdb0365243f",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Populate all required fields and click on the “Aceptar” button",
+              "fullTitle": "The user is able to close point votations in the 'New call with session' type of meeting' Populate all required fields and click on the “Aceptar” button",
+              "timedOut": null,
+              "duration": 10119,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#alert-confirm-button-accept').click();\ncy.wait(10000);",
+              "err": {},
+              "uuid": "5e8e08ae-0c7e-435d-8b68-056211b46262",
+              "parentUUID": "6eb3d92a-d9c5-4dce-ba76-fbdb0365243f",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Navigate to the “Camera and microphone” form and click on the “Accept” button",
+              "fullTitle": "The user is able to close point votations in the 'New call with session' type of meeting' Navigate to the “Camera and microphone” form and click on the “Accept” button",
+              "timedOut": null,
+              "duration": 15,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "/*       \n           cy.get('#admin-room-iframe').then($iframe => {\n const $body = $iframe.contents().find('body') ; cy.wrap($body)\n\n   .contains('Join')\n   .click()\n    cy.wait(10000)\n})\n*/",
+              "err": {},
+              "uuid": "bed33c73-0d8a-4f40-a703-19e6924d1923",
+              "parentUUID": "6eb3d92a-d9c5-4dce-ba76-fbdb0365243f",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Navigate to the upper right corner and click on the “Iniciar reunion” button",
+              "fullTitle": "The user is able to close point votations in the 'New call with session' type of meeting' Navigate to the upper right corner and click on the “Iniciar reunion” button",
+              "timedOut": null,
+              "duration": 2136,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#start-council-button').click();\ncy.wait(2000);",
+              "err": {},
+              "uuid": "f932fc05-ba2f-40a7-9191-5bad150496ec",
+              "parentUUID": "6eb3d92a-d9c5-4dce-ba76-fbdb0365243f",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Populate all required fields and click on the “Aceptar” button",
+              "fullTitle": "The user is able to close point votations in the 'New call with session' type of meeting' Populate all required fields and click on the “Aceptar” button",
+              "timedOut": null,
+              "duration": 1656,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#council-president-select').click();\ncy.wait(200);\ncy.get('#participant-selector-0').click();\ncy.get('#council-secretary-select').click();\ncy.wait(200);\ncy.get('#participant-selector-0').click();\ncy.get('#council-quality-vote-select').click();\ncy.wait(200);\ncy.get('#participant-selector-0').click();\ncy.get('#alert-confirm-button-accept').click();\ncy.wait(200);\ncy.get('#alert-confirm-button-cancel').click();",
+              "err": {},
+              "uuid": "5644fa5d-3c28-4aad-b7b7-43a46b85ca6c",
+              "parentUUID": "6eb3d92a-d9c5-4dce-ba76-fbdb0365243f",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Click on the “Abrir punto” button",
+              "fullTitle": "The user is able to close point votations in the 'New call with session' type of meeting' Click on the “Abrir punto” button",
+              "timedOut": null,
+              "duration": 3362,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#council-live-tab-agenda').click();\ncy.wait(1000);\ncy.get('#open-agenda-point-button').click();\ncy.wait(2000);",
+              "err": {},
+              "uuid": "169e95e1-fcb9-47d6-a818-0febe327f6a1",
+              "parentUUID": "6eb3d92a-d9c5-4dce-ba76-fbdb0365243f",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Click on the “Activar votaciones” button",
+              "fullTitle": "The user is able to close point votations in the 'New call with session' type of meeting' Click on the “Activar votaciones” button",
+              "timedOut": null,
+              "duration": 3301,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#council-live-tab-agenda').click();\ncy.wait(1000);\ncy.get('#open-point-votings-button').click();\ncy.wait(2000);",
+              "err": {},
+              "uuid": "31ec26c8-ea9f-4566-9a4b-4c51f917a5c9",
+              "parentUUID": "6eb3d92a-d9c5-4dce-ba76-fbdb0365243f",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Click on the “Cerrar las votaciones del punto” button",
+              "fullTitle": "The user is able to close point votations in the 'New call with session' type of meeting' Click on the “Cerrar las votaciones del punto” button",
+              "timedOut": null,
+              "duration": 2102,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.get('#close-point-votings-button').click();\ncy.wait(2000);",
+              "err": {},
+              "uuid": "856ca9db-5ddb-45b4-b855-453e049ed024",
+              "parentUUID": "6eb3d92a-d9c5-4dce-ba76-fbdb0365243f",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "User should be able to exit the meeting",
+              "fullTitle": "The user is able to close point votations in the 'New call with session' type of meeting' User should be able to exit the meeting",
+              "timedOut": null,
+              "duration": 888,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(login_url);",
+              "err": {},
+              "uuid": "09782359-1c36-4217-8e8f-40a0c997170a",
+              "parentUUID": "6eb3d92a-d9c5-4dce-ba76-fbdb0365243f",
+=======
               "title": "HORUS",
               "fullTitle": "VERSIONS HORUS",
               "timedOut": null,
@@ -509,12 +1271,38 @@
               },
               "uuid": "0e9abb21-b7ef-4e2b-b553-17e2666ea795",
               "parentUUID": "796865c0-cf06-4657-a5a4-dac284cd3215",
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
+<<<<<<< HEAD
+            "3a31c005-2fae-4472-baf3-6f444bf773b2",
+            "07133bff-cce6-41b6-88cb-f17779c2732f",
+            "ae679451-7ae0-46f0-93c1-545a91867a88",
+            "ec43044c-6742-40e2-9e2a-902acd8620ca",
+            "4a186400-d210-405b-a1b3-679812df9efd",
+            "60a9ccb5-c4a7-4d3e-8be1-4130da085126",
+            "8c03a3e4-0ba4-4356-8b94-899172d6849a",
+            "8ddf2d49-958c-433d-a258-436a9f910920",
+            "4313dbc5-dae0-47ca-bbfa-9899df3bc588",
+            "980de089-30fc-44eb-8514-8036bcca4ee6",
+            "5e8e08ae-0c7e-435d-8b68-056211b46262",
+            "bed33c73-0d8a-4f40-a703-19e6924d1923",
+            "f932fc05-ba2f-40a7-9191-5bad150496ec",
+            "5644fa5d-3c28-4aad-b7b7-43a46b85ca6c",
+            "169e95e1-fcb9-47d6-a818-0febe327f6a1",
+            "31ec26c8-ea9f-4566-9a4b-4c51f917a5c9",
+            "856ca9db-5ddb-45b4-b855-453e049ed024",
+            "09782359-1c36-4217-8e8f-40a0c997170a"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 57005,
+=======
             "2d848bd0-18f8-4eca-95de-cd709cc86b25",
             "eda2c64e-6d54-4db9-a78a-c6d512df6211",
             "b62bbdf6-394c-42c0-8f2c-9e759497d11e",
@@ -544,6 +1332,7 @@
           "pending": [],
           "skipped": [],
           "duration": 249210,
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
           "root": false,
           "rootEmpty": false,
           "_timeout": 2000
@@ -573,7 +1362,11 @@
         "useInlineDiffs": false,
         "code": true
       },
+<<<<<<< HEAD
+      "version": "6.3.1"
+=======
       "version": "6.2.2"
+>>>>>>> 92ef61f24f3fa37b37922c8c9da43d1e15a11f71
     },
     "marge": {
       "options": {
