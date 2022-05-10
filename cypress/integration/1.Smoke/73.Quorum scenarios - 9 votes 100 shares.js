@@ -291,11 +291,12 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
         cy.get('#agenda-editor-title-input')
             .type('Test')
         cy.get('#alert-confirm-button-accept').click()  
-        cy.wait(1000)
+       
         
     });
 
     it("Click on the “Next” button", function() {
+        cy.wait(1000)
         cy.get('#ordenDelDiaNext').click()
      
     });
@@ -315,7 +316,7 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
     });
 
     it("Click on the “Invite and notify” button then click on the “Prepare room” button", function() {
-        cy.wait(1000)
+
         cy.get('#council-editor-convene-notify').click()
         
     });
@@ -342,12 +343,53 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
     });
 
     it("Observe the current quorum number on the top right side of the page", function() {
-        cy.get('#live-current-quorum').should('have.text', '30')
+        cy.get('#live-current-quorum').should('have.text', '10')
         cy.wait(500)
     });
 
+    it("Click on the “Participant D” and select the “Attending in person” status", function() {
+        cy.get('#input-search-live')
+            .type('Participant D')
+            .wait(1000)
+        cy.get('#state-selector-participant-item-0').click()
+        
+        cy.get('#state-in-person-participant-item-0').click()
+       cy.get('#input-search-live').clear()
+        
+    });
 
+    it("Observe the current quorum number on the top right side of the page", function() {
+        cy.get('#live-current-quorum').should('have.text', '30')
+       
+    });
 
+    it("Click on the “Participant G” and select the “Attending in person” status", function() {
+        cy.get('#input-search-live')
+            .type('Participant G')
+           cy.wait(1000)
+        cy.get('#state-selector-participant-item-0').click()
+        
+        cy.get('#state-in-person-participant-item-0').click()
+       cy.get('#input-search-live').clear()
+        
+    });
+
+    it("Observe the current quorum number on the top right side of the page", function() {
+        cy.get('#live-current-quorum').should('have.text', '35')
+        
+    });
+
+    it("Start the meeting", function() {
+        cy.get('#abrirSalaEnReunion').click()
+        cy.get('#alert-confirm-button-accept').click()
+        cy.get('#start-council-button').click()
+        cy.get('#alert-confirm-button-accept').click()
+    });
+
+    it("Observe the current quorum number on the top right side of the page", function() {
+        cy.get('#live-current-quorum').should('have.text', '35')
+       
+    });
 
 });
 

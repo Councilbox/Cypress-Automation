@@ -45,8 +45,9 @@ describe("Councilbox login - valid username and password", function() {
 describe("The user is able to add company in the Councilbox", function() {
 
     it("From the dashboard click on the 'Anadir sociedad' button", function() {
+        cy.wait(2000)
         cy.get('#entidadesSideBar').click()
-        cy.wait(1000)
+        
         cy.get('#entidadesAddSociedad').click()
     });
 

@@ -45,7 +45,7 @@ describe("Councilbox login - valid username and password", function() {
 
 
 
-describe("Quorum numbers (current/initial) scenario (test case 1) - current quorum 80/initial quorum 70 - 100 votes - 100 shares", function() {
+describe("Quorum numbers (current/initial) scenario (test case 4) - current quorum 60/initial quorum 50 - 100 votes 100 shares", function() {
     
     it("Click on the “Censuses” button", function() {
         cy.get('#edit-censuses-block').click()
@@ -365,16 +365,26 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
     });
 
     it("Navigate to the “Guest 1” and select the “Attending in person” status", function() {
-        cy.get('#state-selector-participant-item-1').click()
-       
-        cy.get('#state-in-person-participant-item-1').click()
+
+        cy.get('#input-search-live')
+            .type('Guest 1')
+            .wait(1000)
+        cy.get('#state-selector-participant-item-0').click()
+        
+        cy.get('#state-in-person-participant-item-0').click()
+       cy.get('#input-search-live').clear()
+ 
       
     });
 
-    it("Navigate to the “Guest 1” and select the “Attending in person” status", function() {
-        cy.get('#state-selector-participant-item-1').click()
+    it("Navigate to the “Guest 2” and select the “Attending in person” status", function() {
+        cy.get('#input-search-live')
+            .type('Guest 2')
+            .wait(1000)
+        cy.get('#state-selector-participant-item-0').click()
         
-        cy.get('#state-in-person-participant-item-1').click()
+        cy.get('#state-in-person-participant-item-0').click()
+       cy.get('#input-search-live').clear()
         
     });
 
