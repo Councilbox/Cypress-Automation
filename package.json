@@ -91,7 +91,7 @@
     "regression headless": "cypress run --headless --spec=cypress/integration/2.Regression/*",
     "regression firefox": "cypress run --headed --browser firefox --spec=cypress/integration/2.Regression/*",
     "regression edge": "cypress run --headed --browser edge --spec=cypress/integration/2.Regression/*",
-    "smoke": "--no-color cypress run --headless --spec=cypress/integration/1.Smoke/*",
+    "smoke": "cypress run --headless --spec=cypress/integration/1.Smoke/*",
     "ovac smoke": "cypress run --headed --browser electron --spec=cypress/integration/OVAC/1.Smoke/*",
     "cypress": "cypress open",
     "lint": "eslint . --quiet --ext .js --ext .jsx",
