@@ -218,23 +218,4 @@ describe("User is able to create new meeting", function() {
    it("The user is able to click on the 'Send' button", function() {
        appointments.click_send()
    })
-
-   it("The user is able to click on the 'Prepare room' button", function() {
-       appointments.click_prepare_room()
-   })
-
-   it("The user is able to click on the 'Open room' button", function() {
-       appointments.click_open_room()
-   })
-
-   it("The user is able to click on the 'OK' button", function() {
-       appointment.accept_privacy()
-       cy.wait(3000)
-   })
-
-   it("The user is able to click on the 'Start appointment' button", function() {
-       appointments.click_start_appointment()
-       appointment.accept_privacy()
-       cy.wait(5000)
-   })
 })
