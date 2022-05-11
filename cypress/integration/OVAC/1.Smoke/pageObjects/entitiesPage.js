@@ -38,6 +38,7 @@ class entitiesPage {
 	}
 
 	click_action_button() {
+		cy.wait(1000)
 		this.elements.action_button()
 			.should('be.visible')
 			.click()

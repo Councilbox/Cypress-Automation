@@ -155,6 +155,7 @@ class appointmentsPage {
 	}
 
 	click_prepare_room() {
+		cy.wait(1000)
 		this.elements.prepare_room()
 			.should('be.visible')
 			.click()

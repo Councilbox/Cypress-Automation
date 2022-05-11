@@ -41,6 +41,39 @@ describe("Admin is able to log in", function() {
     });
 })
 
+describe("The user is able to add a logo to the Entity", function() {
+    before(function() {    
+   });
+   const name = "LogoTestingAuto"
+   
+   it("The user is able to open the browser and enter the URL: ", function() {       
+       login.navigate_admin()        
+   });
+
+   it("The user is able to click on the 'Insitution' button", function() {  
+       dashboard.click_on_government()
+       dashboard.select_institution()
+       dashboard.click_on_istitutions()
+   });
+   
+   it("The user is able to navigate on already existing entity and click on the 'Edit' button", function() {  
+       entity.search_for_institution(name) 
+       entity.click_action_button()
+       entity.click_edit_option()
+   });
+
+   it("The user is able to click on the 'Organization logo' button / The user is able to choose photo and click on the 'Open' button", function() {  
+       entity.upload_organisation_logo()
+   });
+
+   it("The user is able to click on the 'Insitution' button", function() {  
+       dashboard.click_on_istitutions()
+   });
+
+   it("Navigate back to Home page", function() {
+       login.navigate_admin()
+   })
+
 describe("The user is able to add entity - Entities section", function() {
     const name = "Institutions"+Cypress.config('UniqueNumber')
     const tax_id = Cypress.config('UniqueNumber')
@@ -50,8 +83,6 @@ describe("The user is able to add entity - Entities section", function() {
      before(function() {    
     });  
     it("The user is able to click on the 'Insitution' button", function() { 
-        dashboard.click_on_government()
-        dashboard.select_institution() 
         dashboard.click_on_istitutions()      
     });
 
@@ -88,38 +119,7 @@ describe("The user is able to add entity - Entities section", function() {
     });
 })
 
-describe("The user is able to add a logo to the Entity", function() {
-     before(function() {    
-    });
-    const name = "LogoTestingAuto"
-    
-    it("The user is able to open the browser and enter the URL: ", function() {       
-        login.navigate_admin()        
-    });
 
-    it("The user is able to click on the 'Insitution' button", function() {  
-        dashboard.click_on_government()
-        dashboard.select_institution()
-        dashboard.click_on_istitutions()
-    });
-    
-    it("The user is able to navigate on already existing entity and click on the 'Edit' button", function() {  
-        entity.search_for_institution(name) 
-        entity.click_action_button()
-        entity.click_edit_option()
-    });
-
-    it("The user is able to click on the 'Organization logo' button / The user is able to choose photo and click on the 'Open' button", function() {  
-        entity.upload_organisation_logo()
-    });
-
-    it("The user is able to click on the 'Insitution' button", function() {  
-        dashboard.click_on_istitutions()
-    });
-
-    it("Navigate back to Home page", function() {
-        login.navigate_admin()
-    })
 })
 
 
