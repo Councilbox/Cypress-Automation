@@ -52,7 +52,7 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Clicks login button", function() {
         cy.get("#login-button").click();
-        cy.wait(1000)
+       
     });
 
 });
@@ -84,14 +84,14 @@ describe("Councilbox login - valid username and password", function() {
 describe("The user is not able to add census in the 'Censuses' section without populating 'Name' field", function() {
 
         it("From the menu choose and click on the 'Censuses' form", function() {
-            cy.wait(3000)
+       
             cy.get('#edit-censuses-block').click()
-            cy.wait(1000)
+       
         });
 
         it("Click on the 'Add census+'' button", function() {
             cy.get('#add-census-button').click()
-            cy.wait(1000)
+        
 
         });
 
@@ -105,7 +105,7 @@ describe("The user is not able to add census in the 'Censuses' section without p
         
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+          
         });
 
 
@@ -118,24 +118,24 @@ describe("The user is able to clone already added census in the 'Censues' sectio
         it("From the menu choose and click on the 'Censuses' form", function() {
            
             cy.get('#edit-censuses-block').click()
-            cy.wait(1000)
+            
         });
 
         it("Set the cursor on the already added census and navigate to the 'Clone census' button and then click on it", function() {
             cy.get('#census_row_0').trigger('mouseover')
-            cy.wait(1000)
+            
             cy.get('#census-clone-button').click()
 
         });
 
         it("Populate all required fields and click on the 'OK' button", function() {
             cy.get('#alert-confirm-button-accept').click()
-            cy.wait(1000)
+            
         });
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+        
         });
 
 
@@ -146,24 +146,24 @@ describe("The user is able to delete already added census in the 'Censuses' sect
         it("From the menu choose and click on the 'Censuses' form", function() {
             
             cy.get('#edit-censuses-block').click()
-            cy.wait(1000)
+          
         });
 
         it("Set the cursor on already added census and navigate to the 'Delete' button and then click on it", function() {
             cy.get('#census_row_0').trigger('mouseover')
-            cy.wait(1000)
+          
             cy.get('#census-delete-button').click()
 
         });
 
         it("Click on the 'Send to recycle bin' button", function() {
             cy.get('#alert-confirm-button-accept').click()
-            cy.wait(1000)
+            
         });
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+          
         });
 
 
@@ -175,12 +175,12 @@ describe("The user is able to edit already added census in the 'Censuses' sectio
         it("From the menu choose and click on the 'Censuses' form", function() {
             
             cy.get('#edit-censuses-block').click()
-            cy.wait(1000)
+         
         });
 
         it("Set the cursor on already added census and navigate to the 'Edit' button and then click on it", function() {
             cy.get('#census_row_0').trigger('mouseover')
-            cy.wait(1000)
+            
             cy.get('#census-edit-button').click()
 
         });
@@ -189,12 +189,12 @@ describe("The user is able to edit already added census in the 'Censuses' sectio
             cy.get('#census-name').clear()
                 .type('Test')
             cy.get('#alert-confirm-button-accept').click()
-            cy.wait(1000)
+           
         });
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+           
         });
 
 
@@ -203,14 +203,14 @@ describe("The user is able to edit already added census in the 'Censuses' sectio
 describe("The user is able to add 'Shares' type of census in the 'Censuses' section", function() {
 
         it("From the menu choose and click on the 'Censuses' form", function() {
-            cy.wait(3000)
+           
             cy.get('#edit-censuses-block').click()
-            cy.wait(1000)
+          
         });
 
         it("Click on the 'Add census+'' button", function() {
             cy.get('#add-census-button').click()
-            cy.wait(1000)
+       
 
         });
 
@@ -221,18 +221,18 @@ describe("The user is able to add 'Shares' type of census in the 'Censuses' sect
 
         it("Navigate to the 'Census type' button and click on the it", function() {
             cy.get('#census-type').click()
-            cy.wait(1000)
+         
         });
 
         it("Click on the “Shares” button then click on the “OK” button", function() {
             cy.get('#census-type-social-capital').click()
             cy.get('#alert-confirm-button-accept').click()
-            cy.wait(1000)
+           
         });
         
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+       
         });
 
 
@@ -241,9 +241,9 @@ describe("The user is able to add 'Shares' type of census in the 'Censuses' sect
 describe("The user is able to use filter search in the 'Censuses' section", function() {
 
         it("From the menu choose and click on the 'Censuses' form", function() {
-            cy.wait(3000)
+        
             cy.get('#edit-censuses-block').click()
-            cy.wait(1000)
+        
         });
 
         it("Navigate to the upper right corner to the filter search", function() {
@@ -262,7 +262,7 @@ describe("The user is able to use filter search in the 'Censuses' section", func
         
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+         
         });
 
 
@@ -274,20 +274,22 @@ describe("The user is able to add participant in the 'Manage participants' in th
         it("From the menu choose and click on the 'Censuses' form", function() {
             
             cy.get('#edit-censuses-block').click()
-            cy.wait(1000)
+         
         });
 
         it("Set the cursor on already added census and navigate to the 'Manage participants' button and then click on it", function() {
             cy.get('#census_row_0').trigger('mouseover')
-            cy.wait(1000)
-            cy.get('#census-manage-participants-button').click()
+       
+            cy.get('#census-manage-participants-button').click().wait(1000)
+            
 
         });
 
         it("Click on the 'Add participant+'' button", function() {
-            cy.wait(1000)
+       
             cy.get('#add-census-participant-button').click()
-            cy.wait(1000)
+          
+            
         });
 
         it("Populate all required fields", function() {
@@ -302,12 +304,12 @@ describe("The user is able to add participant in the 'Manage participants' in th
 
         it("Click on the 'Save' button", function() {
             cy.get('#alert-confirm-button-accept').click()
-            cy.wait(1000)
+            
         });
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+            
         });
 
 
@@ -320,20 +322,20 @@ describe("The user is able to edit participants in the 'Manage participants' for
         it("From the menu choose and click on the 'Censuses' form", function() {
             
             cy.get('#edit-censuses-block').click()
-            cy.wait(1000)
+          
         });
 
         it("Set the cursor on already added census and navigate to the 'Manage participants' button and then click on it", function() {
             cy.get('#census_row_0').trigger('mouseover')
-            cy.wait(1000)
-            cy.get('#census-manage-participants-button').click()
+           
+            cy.get('#census-manage-participants-button').click().wait(1000)
 
         });
 
         it("Click on the 'Add participant+'' button", function() {
-            cy.wait(1000)
+            
             cy.get('#add-census-participant-button').click()
-            cy.wait(1000)
+            
         });
 
         it("Populate all required fields", function() {
@@ -349,12 +351,12 @@ describe("The user is able to edit participants in the 'Manage participants' for
 
         it("Click on the 'Save' button", function() {
             cy.get('#alert-confirm-button-accept').click()
-            cy.wait(1000)
+            
         });
 
         it("Navigate to the already added participant and click on it", function() {
             cy.get('#participant-row-0').click()
-            cy.wait(1000)
+            
         });
 
         it("Modify the fields you want and click on the 'OK' button", function() {
@@ -365,7 +367,7 @@ describe("The user is able to edit participants in the 'Manage participants' for
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+            
         });
 
 
@@ -377,20 +379,20 @@ describe("The user is able to delete participant in the 'Manage participants' fo
         it("From the menu choose and click on the 'Censuses' form", function() {
             
             cy.get('#edit-censuses-block').click()
-            cy.wait(1000)
+           
         });
 
         it("Set the cursor on already added census and navigate to the 'Manage participants' button and then click on it", function() {
             cy.get('#census_row_0').trigger('mouseover')
-            cy.wait(1000)
-            cy.get('#census-manage-participants-button').click()
+            
+            cy.get('#census-manage-participants-button').click().wait(1000)
 
         });
 
         it("Click on the 'Add participant+'' button", function() {
-            cy.wait(1000)
+            
             cy.get('#add-census-participant-button').click()
-            cy.wait(1000)
+            
         });
 
         it("Populate all required fields", function() {
@@ -407,18 +409,18 @@ describe("The user is able to delete participant in the 'Manage participants' fo
 
         it("Click on the 'Save' button", function() {
             cy.get('#alert-confirm-button-accept').click()
-            cy.wait(1000)
+           
         });
 
         it("Navigate to the already added participant and click on the 'X' button", function() {
             cy.get('#participant-row-0').trigger('mouseover')
             cy.xpath('(//*[@type="button"])[6]').click()
-            cy.wait(1000)
+           
         });
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+            
         });
 
 
@@ -433,23 +435,23 @@ describe("The user is able to search partner by 'Position' filter in the 'Manage
         it("From the menu choose and click on the 'Censuses' form", function() {
             
             cy.get('#edit-censuses-block').click()
-            cy.wait(1000)
+           
         });
 
         it("Set the cursor on already added census and navigate to the 'Manage participants' button and then click on it", function() {
             cy.get('#undefined-search-input').clear()
                 .type('testtest')
-            cy.wait(1000)
+            
             cy.get('#census_row_0').trigger('mouseover')
-            cy.wait(1000)
-            cy.get('#census-manage-participants-button').click()
+           
+            cy.get('#census-manage-participants-button').click().wait(1000)
 
         });
 
         it("Click on the 'Add participant+'' button", function() {
-            cy.wait(1000)
+          
             cy.get('#add-census-participant-button').click()
-            cy.wait(1000)
+           
         });
 
         it("Populate all required fields", function() {
@@ -466,24 +468,24 @@ describe("The user is able to search partner by 'Position' filter in the 'Manage
 
         it("Click on the 'Save' button", function() {
             cy.get('#alert-confirm-button-accept').click()
-            cy.wait(1000)
+            
         });
 
         it("Navigate to the filter search and click on the filter by 'Position' button", function() {
             cy.get('#filter-by-select').click()
             cy.get('#filter-option-position').click()
-            cy.wait(1000)
+            
         });
 
         it("On the field write the word you want", function() {
             cy.get('#undefined-search-input').clear()
                 .type('test')
-            cy.wait(4000)
+           
         });
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+            
         });
 
 
@@ -494,23 +496,23 @@ describe("The user is able to search partner by 'Participant data' filter in the
         it("From the menu choose and click on the 'Censuses' form", function() {
             
             cy.get('#edit-censuses-block').click()
-            cy.wait(1000)
+            
         });
 
         it("Set the cursor on already added census and navigate to the 'Manage participants' button and then click on it", function() {
             cy.get('#undefined-search-input').clear()
                 .type('testtest')
-            cy.wait(1000)
+           
             cy.get('#census_row_0').trigger('mouseover')
-            cy.wait(1000)
-            cy.get('#census-manage-participants-button').click()
+            
+            cy.get('#census-manage-participants-button').click().wait(1000)
 
         });
 
         it("Click on the 'Add participant+'' button", function() {
-            cy.wait(1000)
+           
             cy.get('#add-census-participant-button').click()
-            cy.wait(1000)
+            
         });
 
         it("Populate all required fields", function() {
@@ -527,24 +529,24 @@ describe("The user is able to search partner by 'Participant data' filter in the
 
         it("Click on the 'Save' button", function() {
             cy.get('#alert-confirm-button-accept').click()
-            cy.wait(1000)
+            
         });
 
         it("Navigate to the filter search and click on the filter by 'Participant data' button", function() {
             cy.get('#filter-by-select').click()
             cy.get('#filter-option-fullName').click()
-            cy.wait(1000)
+            
         });
 
         it("On the field write the word you want", function() {
             cy.get('#undefined-search-input').clear()
                 .type('aaaa')
-            cy.wait(4000)
+            
         });
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+            
         });
 
 
@@ -555,23 +557,23 @@ describe("The user is able to search partner by 'TIN' filter in the 'Manage part
         it("From the menu choose and click on the 'Censuses' form", function() {
             
             cy.get('#edit-censuses-block').click()
-            cy.wait(1000)
+           
         });
 
         it("Set the cursor on already added census and navigate to the 'Manage participants' button and then click on it", function() {
             cy.get('#undefined-search-input').clear()
                 .type('testtest')
-            cy.wait(1000)
+          
             cy.get('#census_row_0').trigger('mouseover')
-            cy.wait(1000)
-            cy.get('#census-manage-participants-button').click()
+           
+            cy.get('#census-manage-participants-button').click().wait(1000)
 
         });
 
         it("Click on the 'Add participant+'' button", function() {
-            cy.wait(1000)
+            
             cy.get('#add-census-participant-button').click()
-            cy.wait(1000)
+           
         });
 
         it("Populate all required fields", function() {
@@ -588,24 +590,24 @@ describe("The user is able to search partner by 'TIN' filter in the 'Manage part
 
         it("Click on the 'Save' button", function() {
             cy.get('#alert-confirm-button-accept').click()
-            cy.wait(1000)
+            
         });
 
         it("Navigate to the filter search and click on the filter by 'TIN' button", function() {
             cy.get('#filter-by-select').click()
             cy.get('#filter-option-dni').click()
-            cy.wait(1000)
+            
         });
 
         it("On the field write the word you want", function() {
             cy.get('#undefined-search-input').clear()
                 .type('12345')
-            cy.wait(4000)
+           
         });
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+            
         });
 
 

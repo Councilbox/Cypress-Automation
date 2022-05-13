@@ -27,6 +27,8 @@ function userID_Alpha() {
     return text;
   }
 
+  
+
 describe("Councilbox login - valid username and password", function() {
 
      before(function() {
@@ -52,7 +54,7 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Clicks login button", function() {
         cy.get("#login-button").click();
-        cy.wait(1000)
+        
     });
 
 });
@@ -72,7 +74,7 @@ describe("The user is not able to Link company with invalid inputs in the 'Maste
     
         it("From the dashboard click on the 'Link company' button", function() {
             cy.get('#entidadesSideBar').click({ force: true})
-            cy.wait(1000)
+           
             cy.get('#company-link-nav-button').click({ force: true})
 
         });
@@ -105,7 +107,7 @@ describe("The user is not able to Link company with invalid inputs in the 'CIF o
 
         it("From the dashboard click on the 'Link company' button", function() {
             cy.get('#entidadesSideBar').click({ force: true})
-            cy.wait(1000)
+          
             cy.get('#company-link-nav-button').click({ force: true})
 
         });
@@ -139,7 +141,7 @@ describe("The user is able to Link Company", function() {
 
         it("From the dashboard click on the 'Link company' button", function() {
             cy.get('#entidadesSideBar').click({ force: true})
-            cy.wait(1000)
+      
             cy.get('#company-link-nav-button').click({ force: true})
 
         });
@@ -155,7 +157,7 @@ describe("The user is able to Link Company", function() {
                 .type("automation")
                 .should("have.value", "automation")
             cy.get('#company-link-button').click()
-            cy.wait(3000)
+           
         });
 
         it("'Company linked correctly' message should be displayed ", function() {
@@ -174,6 +176,7 @@ describe("The user is able to unlink the company", function() {
 
 
         it("On the upper left corner above 'Dashboard' click on 'Basic data' button", function() {
+            cy.wait(2000)
             cy.get('#entidadesSideBar').click({ force: true})
             cy.xpath('(//*[@role="menuitem"])[2]').click()
             cy.get('#user-menu-trigger').click()
@@ -183,12 +186,12 @@ describe("The user is able to unlink the company", function() {
 
         it("Scroll down the page and in the right corner click on the 'Unlink' button", function() {
             cy.get('#company-unlink-button').click()
-            cy.wait(1000)
+           
         });
 
         it("Click on the 'OK' button", function() {
             cy.get('#unlink-modal-button-accept').click()
-            cy.wait(1000)
+           
         })
 
         it("Back to Home page", function() {
@@ -201,7 +204,7 @@ describe("The user is able to unlink the company", function() {
 describe("The user is able to edit 'Business name*'' in the Company settings in the Councilbox", function() {
 
         it("On the upper right corner click on the 'User icon' button", function() {
-            cy.wait(5000)
+         
             cy.get('#user-menu-trigger').click()
         });
 
@@ -228,7 +231,7 @@ describe("The user is able to edit 'Business name*'' in the Company settings in 
 describe("The user is able to edit 'TIN of the organization*' in the Company settings in the Councilbox", function() {
 
         it("On the upper right corner click on the 'User icon' button", function() {
-            cy.wait(5000)
+           
             cy.get('#user-menu-trigger').click()
         });
 
@@ -256,7 +259,7 @@ describe("The user is able to edit 'TIN of the organization*' in the Company set
 describe("The user is able to edit 'Domain' in the 'Company settings' in the Councilbox", function() {
 
         it("On the upper right corner click on the 'User icon' button", function() {
-            cy.wait(5000)
+            
             cy.get('#user-menu-trigger').click()
         });
 
@@ -283,7 +286,7 @@ describe("The user is able to edit 'Domain' in the 'Company settings' in the Cou
 describe("The user is able to edit 'Master code' in the 'Company settings' in the Councilbox", function() {
 
         it("On the upper right corner click on the 'User icon' button", function() {
-            cy.wait(5000)
+           
             cy.get('#user-menu-trigger').click()
         });
 
@@ -311,7 +314,7 @@ describe("The user is able to edit 'Master code' in the 'Company settings' in th
 describe("The user is able to edit 'Contact email' in the 'Company settings' in the Councilbox", function() {
 
         it("On the upper right corner click on the 'User icon' button", function() {
-            cy.wait(5000)
+            
             cy.get('#user-menu-trigger').click()
         });
 
@@ -320,7 +323,7 @@ describe("The user is able to edit 'Contact email' in the 'Company settings' in 
         });
 
         it("Modify the 'Contact email' field and click on the 'Save' button", function() {
-            cy.get('#MISSING_ID').clear()
+            cy.get('#company-settings-contact-email').clear()
                 .type('test@test.test')
             cy.get('#save-button').click()
         });
@@ -338,7 +341,7 @@ describe("The user is able to edit 'Contact email' in the 'Company settings' in 
 describe("The user is able to edit 'Address' in the 'Contact details' in the Company settings in the Councilbox", function() {
 
         it("On the upper right corner click on the 'User icon' button", function() {
-            cy.wait(5000)
+            
             cy.get('#user-menu-trigger').click()
         });
 
@@ -365,7 +368,7 @@ describe("The user is able to edit 'Address' in the 'Contact details' in the Com
 describe("The user is able to edit 'Town/City' in the 'Contact details' in the Company settings in the Councilbox", function() {
 
         it("On the upper right corner click on the 'User icon' button", function() {
-            cy.wait(5000)
+            
             cy.get('#user-menu-trigger').click()
         });
 
@@ -392,7 +395,7 @@ describe("The user is able to edit 'Town/City' in the 'Contact details' in the C
 describe("The user is able to edit 'Country' in the 'Contact details' in the Company settings in the Councilbox", function() {
 
         it("On the upper right corner click on the 'User icon' button", function() {
-            cy.wait(5000)
+          
             cy.get('#user-menu-trigger').click()
         });
 
@@ -402,7 +405,7 @@ describe("The user is able to edit 'Country' in the 'Contact details' in the Com
 
         it("Modify the 'Country' field and click on the 'Save' button", function() {
             cy.get('#company-country').click()
-            cy.wait(1000)
+           
             cy.xpath('(//*[@role="option"])[1]').click()
             cy.get('#save-button').click()
         });
@@ -421,7 +424,7 @@ describe("The user is able to edit 'Country' in the 'Contact details' in the Com
 describe("The user is able to edit 'Province' in the 'Contact details' in the Company settings in the Councilbox", function() {
 
         it("On the upper right corner click on the 'User icon' button", function() {
-            cy.wait(5000)
+            
             cy.get('#user-menu-trigger').click()
         });
 
@@ -432,7 +435,7 @@ describe("The user is able to edit 'Province' in the 'Contact details' in the Co
 
         it("Modify the 'Province' field and click on the 'Save' button", function() {
             cy.get('#country-state-select').click()
-            cy.wait(1000)
+           
             cy.xpath('(//*[@role="option"])[1]').click()
             cy.get('#save-button').click()
         });
@@ -451,7 +454,7 @@ describe("The user is able to edit 'Province' in the 'Contact details' in the Co
 describe("The user is able to edit 'Zipcode' in the 'Contact details' in the Company settings in the Councilbox", function() {
 
         it("On the upper right corner click on the 'User icon' button", function() {
-            cy.wait(5000)
+          
             cy.get('#user-menu-trigger').click()
         });
 
@@ -478,7 +481,7 @@ describe("The user is able to edit 'Zipcode' in the 'Contact details' in the Com
 describe("The user is able to edit 'Language' in the 'Contact details' in the Company settings in the Councilbox", function() {
 
         it("On the upper right corner click on the 'User icon' button", function() {
-            cy.wait(5000)
+            
             cy.get('#user-menu-trigger').click()
         });
 
@@ -488,7 +491,7 @@ describe("The user is able to edit 'Language' in the 'Contact details' in the Co
 
         it("Modify the 'Language' field and click on the 'Save' button", function() {
             cy.get('#company-language-select').click()
-            cy.wait(1000)
+           
             cy.xpath('(//*[@role="option"])[1]').click()
             cy.get('#save-button').click()
         });

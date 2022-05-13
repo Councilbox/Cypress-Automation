@@ -53,10 +53,18 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Clicks login button", function() {
         cy.get("#login-button").click();
-        cy.wait(1000)
+        
     });
 
 });
+
+
+
+
+
+
+
+
 
 describe("The user is able to select 'Recording of entire meeting' checkbox in the 'Options' section in the 'New meeting with session' type of meeting", function() {
 
@@ -71,40 +79,35 @@ describe("The user is able to select 'Recording of entire meeting' checkbox in t
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+        
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-type-select').click()
-        cy.get('#council-notice-type-2').click()
+        
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                  
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+   
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -129,13 +132,13 @@ describe("The user is able to select 'Recording of entire meeting' checkbox in t
 
     it("Click on the 'Next' CTA", function () {
         cy.get('#ordenDelDiaNext').click()
-        cy.wait(1000)
+        
         cy.get('#attachmentSiguienteNew').click()
     })
 
     it("Click on the 'Record of entire meeting' checkbox and click on the 'Save' CTA", function () {
-        cy.get('#council-options-full-recording').check().should('be.checked')
-        cy.get('#MISSING_ID').click()
+        cy.get('#council-options-full-recording').click().should('be.checked')
+        cy.get('#step-options-save-button').click()
     })
 
     it("User should be able to exit the meeting", function() {
@@ -160,40 +163,35 @@ describe("The user is able to select 'Password sent by email' checkbox in the 'O
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+        
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-type-select').click()
-        cy.get('#council-notice-type-2').click()
+        
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                     
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+    
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -218,13 +216,13 @@ describe("The user is able to select 'Password sent by email' checkbox in the 'O
 
     it("Click on the 'Next' CTA", function () {
         cy.get('#ordenDelDiaNext').click()
-        cy.wait(1000)
+        
         cy.get('#attachmentSiguienteNew').click()
     })
 
     it("Click on the 'Password sent by email' checkbox and click on the 'Save' CTA", function () {
         cy.get('#council-options-security-email').click()
-        cy.get('#MISSING_ID').click()
+        cy.get('#step-options-save-button').click()
     })
 
     it("User should be able to exit the meeting", function() {
@@ -250,40 +248,35 @@ describe("The user is able to select 'Password not required' checkbox in the 'Op
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+        
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-type-select').click()
-        cy.get('#council-notice-type-2').click()
+        
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                     
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+  
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+        cy.wait(1000)
+          
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -308,13 +301,13 @@ describe("The user is able to select 'Password not required' checkbox in the 'Op
 
     it("Click on the 'Next' CTA", function () {
         cy.get('#ordenDelDiaNext').click()
-        cy.wait(1000)
+        
         cy.get('#attachmentSiguienteNew').click()
     })
 
     it("Click on the 'Password not required' checkbox and click on the 'Save' CTA", function () {
         cy.get('#council-options-security-none').click()
-        cy.get('#MISSING_ID').click()
+        cy.get('#step-options-save-button').click()
     })
 
     it("User should be able to exit the meeting", function() {
@@ -338,41 +331,37 @@ describe("The user is able to select 'Password sent by SMS' checkbox in the 'Opt
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+        
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-type-select').click()
-        cy.get('#council-notice-type-2').click()
+        
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                      
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+    
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)
         cy.get('#censoSiguienteNew').click()
+        cy.wait(1000)
     });
 
     it("Click on the “Add item to the agenda+” button", function() {
@@ -396,13 +385,13 @@ describe("The user is able to select 'Password sent by SMS' checkbox in the 'Opt
 
     it("Click on the 'Next' CTA", function () {
         cy.get('#ordenDelDiaNext').click()
-        cy.wait(1000)
+        
         cy.get('#attachmentSiguienteNew').click()
     })
 
     it("Click on the 'Password sent by SMS' checkbox and click on the 'Save' CTA", function () {
-        cy.get('#council-options-security-sms').click()
-        cy.get('#MISSING_ID').click()
+        cy.get('#council-options-security-sms').click({force:true})
+        cy.get('#step-options-save-button').click()
     })
 
     it("User should be able to exit the meeting", function() {
@@ -428,40 +417,35 @@ describe("The user is able to select 'Digital certificate (FNMT or DNIe)'' check
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+        
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-type-select').click()
-        cy.get('#council-notice-type-2').click()
+        
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                    
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+    
         cy.get('#alert-confirm-button-accept').click()
           cy.wait(1000)
-          cy.wait(3000)
+          
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -486,7 +470,7 @@ describe("The user is able to select 'Digital certificate (FNMT or DNIe)'' check
 
     it("Click on the 'Next' CTA", function () {
         cy.get('#ordenDelDiaNext').click()
-        cy.wait(1000)
+        
         cy.get('#attachmentSiguienteNew').click()
     })
 
@@ -516,40 +500,35 @@ describe("The user is able to select 'If you want participants to receive a noti
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+        
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-type-select').click()
-        cy.get('#council-notice-type-2').click()
+        
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                   
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -574,13 +553,13 @@ describe("The user is able to select 'If you want participants to receive a noti
 
     it("Click on the 'Next' CTA", function () {
         cy.get('#ordenDelDiaNext').click()
-        cy.wait(1000)
+        
         cy.get('#attachmentSiguienteNew').click()
     })
 
     it("Click on the 'If you want participants to receive a notice to confirm their intention to attend' checkbox and click on the 'Save' CTA", function () {
-        cy.get('#council-options-confirm-attendance').check().should('be.checked')
-        cy.get('#MISSING_ID').click()
+        cy.get('#council-options-confirm-attendance').click().should('be.checked')
+        cy.get('#step-options-save-button').click()
     })
 
     it("User should be able to exit the meeting", function() {
@@ -607,40 +586,35 @@ describe("The user is able to select 'There is room with video broadcast' checkb
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+        
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-type-select').click()
-        cy.get('#council-notice-type-2').click()
+        
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+             
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -665,15 +639,15 @@ describe("The user is able to select 'There is room with video broadcast' checkb
 
     it("Click on the 'Next' CTA", function () {
         cy.get('#ordenDelDiaNext').click()
-        cy.wait(1000)
+        
         cy.get('#attachmentSiguienteNew').click()
     })
 
     it("Click on the 'There is room with video broadcast' checkbox and click on the 'Save' CTA", function () {
         cy.get('#council-options-enable-video').should('be.checked')
         cy.get('#council-options-enable-video').click()
-        cy.get('#council-options-enable-video').check().should('be.checked')
-        cy.get('#MISSING_ID').click()
+        cy.get('#council-options-enable-video').click().should('be.checked')
+        cy.get('#step-options-save-button').click()
     })
 
     it("User should be able to exit the meeting", function() {
@@ -688,90 +662,85 @@ describe("The user is able to select 'There is room with video broadcast' checkb
 
 describe("The user is able to select 'Test meeting' checkbox in the 'Options' section in the 'New meeting with session' type of meeting", function() {
 
-     before(function() {
-        
-    });
+    before(function() {
+       
+   });
 
 
-    it("Click on the 'New meeting' button", function() {
-        cy.get('#create-council-block').click()
-    });
+   it("Click on the 'New meeting' button", function() {
+       cy.get('#create-council-block').click()
+   });
 
-    it("Click on the “With session” button", function() {
-        cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
-    });
+   it("Click on the “With session” button", function() {
+       cy.get('#create-council-with-session').click()
+       
+   });
 
-    it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-type-select').click()
-        cy.get('#council-notice-type-2').click()
-        cy.get('#council-notice-title').clear()
-            .type('Test')
-       cy.get('#council-notice-convene-intro')
-            .type('Test')
-        cy.get('#council-editor-next').click()
-        cy.wait(1000)
-    });
+   it("Populate all required fields and click on the “Next” button", function() {
+       
+       cy.get('#council-notice-title').clear()
+           .type('Test')
+      cy.get('#council-notice-convene-intro')
+           .type('Test')
+       cy.get('#council-editor-next').click()
+       
+   });
 
-    it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
-        cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
-        cy.get('#add-participant-button').click()
-        cy.wait(1000)
-        cy.get('#participant-name-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber'))               
-        cy.get('#participant-surname-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
-        cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
-        cy.get('#censoSiguienteNew').click()
-    });
+   it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
+       cy.get('#add-participant-dropdown-trigger').click()
+       
+       cy.get('#add-participant-button').click()
+       
+       cy.get('#participant-name-input').clear()
+           .type('alem'+Cypress.config('UniqueNumber'))               
+       cy.get('#participant-surname-input').clear()
+           .type('alem'+Cypress.config('UniqueNumber')) 
+                
+       cy.get('#participant-email-input').clear()
+           .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
+  
+       cy.get('#alert-confirm-button-accept').click()
+       cy.wait(1000)
+         
+       cy.get('#censoSiguienteNew').click()
+   });
 
-    it("Click on the “Add item to the agenda+” button", function() {
-        cy.get('#newPuntoDelDiaOrdenDelDiaNew').click()        
-    });
+   it("Click on the “Add item to the agenda+” button", function() {
+       cy.get('#newPuntoDelDiaOrdenDelDiaNew').click()        
+   });
 
-    it("Click on the 'Item Yes/No Agenda' CTA", function() {
-        cy.get('#puntoSiNoAbstencion').click()        
-    });
+   it("Click on the 'Item Yes/No Agenda' CTA", function() {
+       cy.get('#puntoSiNoAbstencion').click()        
+   });
 
-    it("Populate all required fields and navigate to the 'ype' field and select the 'Informative' type then click on the 'OK' CTA", function() {
-        cy.get('#agenda-editor-title-input').type('Informative Agenda')
-        cy.get('#agenda-editor-type-select').click()
-        cy.get('#agenda-editor-type-0').click()
-        cy.get('#alert-confirm-button-accept').click()
-    })
+   it("Populate all required fields and navigate to the 'ype' field and select the 'Informative' type then click on the 'OK' CTA", function() {
+       cy.get('#agenda-editor-title-input').type('Informative Agenda')
+       cy.get('#agenda-editor-type-select').click()
+       cy.get('#agenda-editor-type-0').click()
+       cy.get('#alert-confirm-button-accept').click()
+   })
 
-    it("'Informative' type of item is successfully added", function () {
-        cy.contains('Informative Agenda').should('be.visible')
-    })
+   it("'Informative' type of item is successfully added", function () {
+       cy.contains('Informative Agenda').should('be.visible')
+   })
 
-    it("Click on the 'Next' CTA", function () {
-        cy.get('#ordenDelDiaNext').click()
-        cy.wait(1000)
-        cy.get('#attachmentSiguienteNew').click()
-    })
+   it("Click on the 'Next' CTA", function () {
+       cy.get('#ordenDelDiaNext').click()
+       
+       cy.get('#attachmentSiguienteNew').click()
+   })
 
-    it("Click on the 'Test meeting' checkbox and click on the 'Save' CTA", function () {
-        cy.get('#council-options-test-meeting').scrollIntoView().check().should('be.checked')
-        cy.get('#MISSING_ID').click()
-    })
+   it("Click on the 'Test meeting' checkbox and click on the 'Save' CTA", function () {
+       cy.get('#council-options-test-meeting').click({force:true}).should('be.checked')
+   })
 
-    it("User should be able to exit the meeting", function() {
-        cy.visit(login_url)
-    });
+   it("User should be able to exit the meeting", function() {
+       cy.visit(login_url)
+   });
 
 
 });
+
 
 
 
@@ -790,40 +759,35 @@ describe("The user is able to select 'Comments wall' checkbox in the 'Options' s
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+        
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-type-select').click()
-        cy.get('#council-notice-type-2').click()
+        
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                    
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+    
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+        cy.wait(1000)
+          
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -848,15 +812,15 @@ describe("The user is able to select 'Comments wall' checkbox in the 'Options' s
 
     it("Click on the 'Next' CTA", function () {
         cy.get('#ordenDelDiaNext').click()
-        cy.wait(1000)
+        
         cy.get('#attachmentSiguienteNew').click()
     })
 
     it("Click on the 'Comments wall' checkbox and click on the 'Save' CTA", function () {
         cy.get('#council-options-comments-wall').should('be.checked')
         cy.get('#council-options-comments-wall').click()
-        cy.get('#council-options-comments-wall').check().should('be.checked')
-        cy.get('#MISSING_ID').click()
+        cy.get('#council-options-comments-wall').click().should('be.checked')
+        cy.get('#council-options-enable-video').click()
     })
 
     it("User should be able to exit the meeting", function() {
@@ -882,40 +846,35 @@ describe("The user is able to select 'Can request the floor' checkbox in the 'Op
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+        
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-type-select').click()
-        cy.get('#council-notice-type-2').click()
+        
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                    
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+    
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -940,15 +899,15 @@ describe("The user is able to select 'Can request the floor' checkbox in the 'Op
 
     it("Click on the 'Next' CTA", function () {
         cy.get('#ordenDelDiaNext').click()
-        cy.wait(1000)
+        
         cy.get('#attachmentSiguienteNew').click()
     })
 
     it("Click on the 'Can request the floor' checkbox and click on the 'Save' CTA", function () {
         cy.get('#council-options-ask-word-menu').should('be.checked')
         cy.get('#council-options-ask-word-menu').click()
-        cy.get('#council-options-ask-word-menu').check().should('be.checked')
-        cy.get('#MISSING_ID').click()
+        cy.get('#council-options-ask-word-menu').click().should('be.checked')
+        cy.get('#council-options-enable-video').click()
     })
 
     it("User should be able to exit the meeting", function() {
@@ -974,40 +933,35 @@ describe("The user is able to select 'Simple majority' option in the 'The readin
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+        
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-type-select').click()
-        cy.get('#council-notice-type-2').click()
+        
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                    
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+    
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+        cy.wait(1000)
+          
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1032,18 +986,18 @@ describe("The user is able to select 'Simple majority' option in the 'The readin
 
     it("Click on the 'Next' CTA", function () {
         cy.get('#ordenDelDiaNext').click()
-        cy.wait(1000)
+        
         cy.get('#attachmentSiguienteNew').click()
     })
 
     it("Scroll down the page and choose and select 'The reading and approval of the draft minutes will be added as the last item on the agenda' checkbox", function () {
-        cy.get('#council-options-add-act-point').scrollIntoView()
-        .check().should('be.checked')
+        cy.get('#council-options-add-act-point')
+        .click({force:true}).should('be.checked')
     })
 
     it("Navigate to the dropdown and click on the 'Simple majority' option", function () {
-        cy.get('#council-options-act-point-majority-type').click()
-        cy.get('#council-options-act-majority-1').click()
+        cy.get('#council-options-act-point-majority-type').click({force:true})
+        cy.get('#council-options-act-majority-1').click({force:true})
     });
 
     it("User should be able to exit the meeting", function() {
@@ -1070,40 +1024,35 @@ describe("The user is able to select 'Absolute majority' option in the 'The read
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+        
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-type-select').click()
-        cy.get('#council-notice-type-2').click()
+        
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                    
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+    
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1128,13 +1077,13 @@ describe("The user is able to select 'Absolute majority' option in the 'The read
 
     it("Click on the 'Next' CTA", function () {
         cy.get('#ordenDelDiaNext').click()
-        cy.wait(1000)
+        
         cy.get('#attachmentSiguienteNew').click()
     })
 
     it("Scroll down the page and choose and select 'The reading and approval of the draft minutes will be added as the last item on the agenda' checkbox", function () {
-        cy.get('#council-options-add-act-point').scrollIntoView()
-        .check().should('be.checked')
+        cy.get('#council-options-add-act-point').scrollIntoView().wait(1000)
+        .click().should('be.checked')
     })
 
     it("Navigate to the dropdown and click on the 'Absolute majority' option", function () {
@@ -1164,40 +1113,35 @@ describe("The user is able to select 'Two-thirds majority' option in the 'The re
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+        
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-type-select').click()
-        cy.get('#council-notice-type-2').click()
+        
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                    
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+    
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+        cy.wait(1000)
+          
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1222,13 +1166,13 @@ describe("The user is able to select 'Two-thirds majority' option in the 'The re
 
     it("Click on the 'Next' CTA", function () {
         cy.get('#ordenDelDiaNext').click()
-        cy.wait(1000)
+        
         cy.get('#attachmentSiguienteNew').click()
     })
 
     it("Scroll down the page and choose and select 'The reading and approval of the draft minutes will be added as the last item on the agenda' checkbox", function () {
-        cy.get('#council-options-add-act-point').scrollIntoView()
-        .check().should('be.checked')
+        cy.get('#council-options-add-act-point').scrollIntoView().wait(1000)
+        .click().should('be.checked')
     })
 
     it("Navigate to the dropdown and click on the 'Two-thirds majority' option", function () {
@@ -1259,40 +1203,35 @@ describe("The user is able to select 'Percentage' option in the 'The reading and
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+        
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-type-select').click()
-        cy.get('#council-notice-type-2').click()
+        
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                    
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+    
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+        cy.wait(1000)
+          
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1317,13 +1256,13 @@ describe("The user is able to select 'Percentage' option in the 'The reading and
 
     it("Click on the 'Next' CTA", function () {
         cy.get('#ordenDelDiaNext').click()
-        cy.wait(1000)
+        
         cy.get('#attachmentSiguienteNew').click()
     })
 
     it("Scroll down the page and choose and select 'The reading and approval of the draft minutes will be added as the last item on the agenda' checkbox", function () {
-        cy.get('#council-options-add-act-point').scrollIntoView()
-        .check().should('be.checked')
+        cy.get('#council-options-add-act-point').scrollIntoView().wait(1000)
+        .click().should('be.checked')
     })
 
     it("Navigate to the dropdown and click on the 'Percentage' option", function () {
@@ -1355,40 +1294,35 @@ describe("The user is able to select 'Number' option in the 'The reading and app
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+        
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-type-select').click()
-        cy.get('#council-notice-type-2').click()
+        
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                    
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+    
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1413,13 +1347,13 @@ describe("The user is able to select 'Number' option in the 'The reading and app
 
     it("Click on the 'Next' CTA", function () {
         cy.get('#ordenDelDiaNext').click()
-        cy.wait(1000)
+        
         cy.get('#attachmentSiguienteNew').click()
     })
 
     it("Scroll down the page and choose and select 'The reading and approval of the draft minutes will be added as the last item on the agenda' checkbox", function () {
-        cy.get('#council-options-add-act-point').scrollIntoView()
-        .check().should('be.checked')
+        cy.get('#council-options-add-act-point').scrollIntoView().wait(1000)
+        .click().should('be.checked')
     })
 
     it("Navigate to the dropdown and click on the 'Number' option", function () {
@@ -1439,92 +1373,87 @@ describe("The user is able to select 'Number' option in the 'The reading and app
 
 describe("The user is able to select 'Fraction' option in the 'The reading and approval of the draft minutes will be added as the last item on the agenda' form in the 'Options' section in the 'New meeting with session' type of meeting", function() {
 
-     before(function() {
-        
-    });
+    before(function() {
+       
+   });
 
 
-    it("Click on the 'New meeting' button", function() {
-        cy.get('#create-council-block').click()
-    });
+   it("Click on the 'New meeting' button", function() {
+       cy.get('#create-council-block').click()
+   });
 
-    it("Click on the “With session” button", function() {
-        cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
-    });
+   it("Click on the “With session” button", function() {
+       cy.get('#create-council-with-session').click()
+       
+   });
 
-    it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-type-select').click()
-        cy.get('#council-notice-type-2').click()
-        cy.get('#council-notice-title').clear()
-            .type('Test')
-       cy.get('#council-notice-convene-intro')
-            .type('Test')
-        cy.get('#council-editor-next').click()
-        cy.wait(1000)
-    });
+   it("Populate all required fields and click on the “Next” button", function() {
+       
+       cy.get('#council-notice-title').clear()
+           .type('Test')
+      cy.get('#council-notice-convene-intro')
+           .type('Test')
+       cy.get('#council-editor-next').click()
+       
+   });
 
-    it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
-        cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
-        cy.get('#add-participant-button').click()
-        cy.wait(1000)
-        cy.get('#participant-name-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber'))               
-        cy.get('#participant-surname-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
-        cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
-        cy.get('#censoSiguienteNew').click()
-    });
+   it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
+       cy.get('#add-participant-dropdown-trigger').click()
+       
+       cy.get('#add-participant-button').click()
+       
+       cy.get('#participant-name-input').clear()
+           .type('alem'+Cypress.config('UniqueNumber'))               
+       cy.get('#participant-surname-input').clear()
+           .type('alem'+Cypress.config('UniqueNumber')) 
+                   
+       cy.get('#participant-email-input').clear()
+           .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
+   
+       cy.get('#alert-confirm-button-accept').click()
+       cy.wait(1000)
+         
+       cy.get('#censoSiguienteNew').click()
+   });
 
-    it("Click on the “Add item to the agenda+” button", function() {
-        cy.get('#newPuntoDelDiaOrdenDelDiaNew').click()        
-    });
+   it("Click on the “Add item to the agenda+” button", function() {
+       cy.get('#newPuntoDelDiaOrdenDelDiaNew').click()        
+   });
 
-    it("Click on the 'Item Yes/No Agenda' CTA", function() {
-        cy.get('#puntoSiNoAbstencion').click()        
-    });
+   it("Click on the 'Item Yes/No Agenda' CTA", function() {
+       cy.get('#puntoSiNoAbstencion').click()        
+   });
 
-    it("Populate all required fields and navigate to the 'ype' field and select the 'Informative' type then click on the 'OK' CTA", function() {
-        cy.get('#agenda-editor-title-input').type('Informative Agenda')
-        cy.get('#agenda-editor-type-select').click()
-        cy.get('#agenda-editor-type-0').click()
-        cy.get('#alert-confirm-button-accept').click()
-    })
+   it("Populate all required fields and navigate to the 'ype' field and select the 'Informative' type then click on the 'OK' CTA", function() {
+       cy.get('#agenda-editor-title-input').type('Informative Agenda')
+       cy.get('#agenda-editor-type-select').click()
+       cy.get('#agenda-editor-type-0').click()
+       cy.get('#alert-confirm-button-accept').click()
+   })
 
-    it("'Informative' type of item is successfully added", function () {
-        cy.contains('Informative Agenda').should('be.visible')
-    })
+   it("'Informative' type of item is successfully added", function () {
+       cy.contains('Informative Agenda').should('be.visible')
+   })
 
-    it("Click on the 'Next' CTA", function () {
-        cy.get('#ordenDelDiaNext').click()
-        cy.wait(1000)
-        cy.get('#attachmentSiguienteNew').click()
-    })
+   it("Click on the 'Next' CTA", function () {
+       cy.get('#ordenDelDiaNext').click()
+       
+       cy.get('#attachmentSiguienteNew').click()
+   })
 
-    it("Scroll down the page and choose and select 'The reading and approval of the draft minutes will be added as the last item on the agenda' checkbox", function () {
-        cy.get('#council-options-add-act-point').scrollIntoView()
-        .check().should('be.checked')
-    })
+   it("Scroll down the page and choose and select 'The reading and approval of the draft minutes will be added as the last item on the agenda' checkbox", function () {
+       cy.get('#council-options-add-act-point')
+       .click({force:true}).should('be.checked')
+   })
 
-    it("Navigate to the dropdown and click on the 'Fraction' option", function () {
-        cy.get('#council-options-act-point-majority-type').click()
-        cy.get('#council-options-act-majority-5').click()
-    });
+   it("Navigate to the dropdown and click on the 'Fraction' option", function () {
+       cy.get('#council-options-act-point-majority-type').click({force:true})
+       cy.get('#council-options-act-majority-5').click({force:true})
+   });
 
-    it("User should be able to exit the meeting", function() {
-        cy.visit(login_url)
-    });
+   it("User should be able to exit the meeting", function() {
+       cy.visit(login_url)
+   });
 
 
 });
@@ -1545,40 +1474,35 @@ describe("The user is able to select who will receive delegated vote in the 'Can
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+        
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-type-select').click()
-        cy.get('#council-notice-type-2').click()
+        
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                    
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+    
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+        cy.wait(1000)
+          
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1590,7 +1514,7 @@ describe("The user is able to select who will receive delegated vote in the 'Can
         cy.get('#puntoSiNoAbstencion').click()        
     });
 
-    it("Populate all required fields and navigate to the 'ype' field and select the 'Informative' type then click on the 'OK' CTA", function() {
+    it("Populate all required fields and navigate to the 'Type' field and select the 'Informative' type then click on the 'OK' CTA", function() {
         cy.get('#agenda-editor-title-input').type('Informative Agenda')
         cy.get('#agenda-editor-type-select').click()
         cy.get('#agenda-editor-type-0').click()
@@ -1603,18 +1527,18 @@ describe("The user is able to select who will receive delegated vote in the 'Can
 
     it("Click on the 'Next' CTA", function () {
         cy.get('#ordenDelDiaNext').click()
-        cy.wait(1000)
+        
         cy.get('#attachmentSiguienteNew').click()
     })
 
     it("Scroll down the page and navigate to the 'Can receive delegations' section", function () {
-        cy.get('#MISSING_ID').scrollIntoView()
+        cy.get('#delegation-restriction-select-button').scrollIntoView().wait(1000)
        
     })
 
     it("Click on the 'Select' button and choose the participant you want", function () {
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').click()
+        cy.get('#delegation-restriction-select-button').click()
+        cy.get('#delegation-restriction-modal-select-0').click()
         cy.get('#alert-confirm-close').click()
     });
 
@@ -1639,40 +1563,35 @@ describe("The user is able to remove who will receive delegated vote in the 'Can
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+        
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-type-select').click()
-        cy.get('#council-notice-type-2').click()
+        
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                    
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+    
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+        cy.wait(1000)
+          
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1684,7 +1603,7 @@ describe("The user is able to remove who will receive delegated vote in the 'Can
         cy.get('#puntoSiNoAbstencion').click()        
     });
 
-    it("Populate all required fields and navigate to the 'ype' field and select the 'Informative' type then click on the 'OK' CTA", function() {
+    it("Populate all required fields and navigate to the 'Type' field and select the 'Informative' type then click on the 'OK' CTA", function() {
         cy.get('#agenda-editor-title-input').type('Informative Agenda')
         cy.get('#agenda-editor-type-select').click()
         cy.get('#agenda-editor-type-0').click()
@@ -1697,23 +1616,23 @@ describe("The user is able to remove who will receive delegated vote in the 'Can
 
     it("Click on the 'Next' CTA", function () {
         cy.get('#ordenDelDiaNext').click()
-        cy.wait(1000)
+        
         cy.get('#attachmentSiguienteNew').click()
     })
 
     it("Scroll down the page and navigate to the 'Can receive delegations' section", function () {
-        cy.get('#MISSING_ID').scrollIntoView()
+        cy.get('#delegation-restriction-select-button').scrollIntoView().wait(1000)
        
     })
 
     it("Click on the 'Select' button and choose the participant you want", function () {
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').click()
+        cy.get('#delegation-restriction-select-button').click()
+        cy.get('#delegation-restriction-modal-select-0').click()
         cy.get('#alert-confirm-close').click()
     });
 
     it("Navigate to the already selected delegations and click on the 'X' button", function () {
-        cy.get('#MISSING_ID').click() 
+        cy.get('#delegation-restriction-delete-button-0').click() 
     })
 
     it("Click on the 'OK' button", function () {
@@ -1741,41 +1660,37 @@ describe("The user is able to populate the 'Contact Email' field in the 'Options
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+        
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-type-select').click()
-        cy.get('#council-notice-type-2').click()
+        
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                    
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+    
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+        cy.wait(1000)
+          
         cy.get('#censoSiguienteNew').click()
+        cy.wait(1000)
     });
 
     it("Click on the “Add item to the agenda+” button", function() {
@@ -1799,7 +1714,7 @@ describe("The user is able to populate the 'Contact Email' field in the 'Options
 
     it("Click on the 'Next' CTA", function () {
         cy.get('#ordenDelDiaNext').click()
-        cy.wait(1000)
+        
         cy.get('#attachmentSiguienteNew').click()
     })
 
@@ -1807,7 +1722,7 @@ describe("The user is able to populate the 'Contact Email' field in the 'Options
         cy.get('#council-options-contact-email').clear()
             .type('test@test.test')
             .should('have.value', 'test@test.test')
-        cy.get('#MISSING_ID').click()
+        cy.get('#step-options-save-button').click()
        
     })
 
@@ -1833,40 +1748,35 @@ describe("The user is not able to populate the 'Contact Email' field with invali
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+        
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-type-select').click()
-        cy.get('#council-notice-type-2').click()
+        
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                    
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+    
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+        cy.wait(1000)
+          
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1891,7 +1801,7 @@ describe("The user is not able to populate the 'Contact Email' field with invali
 
     it("Click on the 'Next' CTA", function () {
         cy.get('#ordenDelDiaNext').click()
-        cy.wait(1000)
+        
         cy.get('#attachmentSiguienteNew').click()
     })
 
@@ -1928,40 +1838,35 @@ describe("The user is able to open the tooltip next to the 'Contact Email' by cl
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+        
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-type-select').click()
-        cy.get('#council-notice-type-2').click()
+        
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                    
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+    
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+        cy.wait(1000)
+          
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1986,13 +1891,13 @@ describe("The user is able to open the tooltip next to the 'Contact Email' by cl
 
     it("Click on the 'Next' CTA", function () {
         cy.get('#ordenDelDiaNext').click()
-        cy.wait(1000)
+        
         cy.get('#attachmentSiguienteNew').click()
     })
 
     it("Navigate to the contact email text and click on the '?'' icon", function () {
-        cy.get('#council-options-contact-email').scrollIntoView()
-        cy.get('#MISSING_ID').click()
+        cy.get('#council-options-contact-email').scrollIntoView().wait(1000)
+        cy.get('#council-options-contact-email-pop').click()
         cy.contains('This email address will be used as the contact email for the meeting administrator').should('be.visible')
 
     })
@@ -2018,40 +1923,35 @@ describe("The user is able to open the tooltip next to the 'If you want particip
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+        
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-type-select').click()
-        cy.get('#council-notice-type-2').click()
+        
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                    
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+    
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+        cy.wait(1000)
+          
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -2076,12 +1976,12 @@ describe("The user is able to open the tooltip next to the 'If you want particip
 
     it("Click on the 'Next' CTA", function () {
         cy.get('#ordenDelDiaNext').click()
-        cy.wait(1000)
+        
         cy.get('#attachmentSiguienteNew').click()
     })
 
     it("Click on the '?'' icon next to the 'If you want participants to receive a notice to confirm their intention to attend' text", function () {
-        cy.get('#MISSING_ID').click()
+        cy.get('#council-options-confirm-attendance-pop').click()
         cy.contains('The participants will be able to confirm their intention to attend the meeting using the invitation email.').should('be.visible')
 
     })
@@ -2108,40 +2008,35 @@ describe("The user is able to click on the tooltip above the 'Room Layout' form 
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+        
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-type-select').click()
-        cy.get('#council-notice-type-2').click()
+        
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                    
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+    
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+        cy.wait(1000)
+          
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -2166,12 +2061,12 @@ describe("The user is able to click on the tooltip above the 'Room Layout' form 
 
     it("Click on the 'Next' CTA", function () {
         cy.get('#ordenDelDiaNext').click()
-        cy.wait(1000)
+        
         cy.get('#attachmentSiguienteNew').click()
     })
 
     it("Navigate to the 'Room Layout' form and click on '?' icon", function () {
-        cy.get('#MISSING_ID').scrollIntoView().click()
+        cy.xpath('(//*[@class="material-icons"])[5]').click()
         cy.contains('By choosing an option, all users will access with this room layout').should('be.visible')
 
     })
@@ -2199,40 +2094,35 @@ describe("The user is able to select 'Active Speaker View' option in the 'Room L
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+        
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-type-select').click()
-        cy.get('#council-notice-type-2').click()
+        
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                    
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+    
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -2257,12 +2147,12 @@ describe("The user is able to select 'Active Speaker View' option in the 'Room L
 
     it("Click on the 'Next' CTA", function () {
         cy.get('#ordenDelDiaNext').click()
-        cy.wait(1000)
+        
         cy.get('#attachmentSiguienteNew').click()
     })
 
     it("Navigate to the 'Room Layout' form", function () {
-        cy.get('#council-options-active-speaker').scrollIntoView().click()
+        cy.get('#council-options-active-speaker').scrollIntoView().wait(1000).click()
     })
 
     it("Select the checkbox next to the  'Active Speaker View' option", function () {
@@ -2270,7 +2160,7 @@ describe("The user is able to select 'Active Speaker View' option in the 'Room L
     })
 
     it("Clicks on the 'SAVE' CTA", function () {
-        cy.get('#MISSING_ID').click()
+        cy.get('#step-options-save-button').click()
     })
 
     it("User should be able to exit the meeting", function() {
@@ -2296,40 +2186,35 @@ describe("The user is able to select 'Grid View' option in the 'Room Layout /Opt
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+        
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-type-select').click()
-        cy.get('#council-notice-type-2').click()
+        
         cy.get('#council-notice-title').clear()
             .type('Test')
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                    
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+    
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -2354,12 +2239,12 @@ describe("The user is able to select 'Grid View' option in the 'Room Layout /Opt
 
     it("Click on the 'Next' CTA", function () {
         cy.get('#ordenDelDiaNext').click()
-        cy.wait(1000)
+        
         cy.get('#attachmentSiguienteNew').click()
     })
 
     it("Navigate to the 'Room Layout' form", function () {
-        cy.get('#council-options-grid').scrollIntoView().click()
+        cy.get('#council-options-grid').scrollIntoView().wait(1000).click()
     })
 
     it("Select the checkbox next to the  'Grid View' option", function () {
@@ -2367,7 +2252,7 @@ describe("The user is able to select 'Grid View' option in the 'Room Layout /Opt
     })
 
     it("Clicks on the 'SAVE' CTA", function () {
-        cy.get('#MISSING_ID').click()
+        cy.get('#step-options-save-button').click()
     })
 
     it("User should be able to exit the meeting", function() {

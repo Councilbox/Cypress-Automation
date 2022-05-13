@@ -32,12 +32,12 @@ function userID_Alpha() {
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(1000);
+            
         });
     
         it("Click on the 'Sign Up' button", function() {
             cy.get('#sign-up-button').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the “Sign up” button without populating required fields", function() {
@@ -45,11 +45,11 @@ function userID_Alpha() {
         });
 
         it("An alert message is displayed beyond the fields", function() {
-            cy.get('#signup-name-error-text')
-            cy.get('#signup-surname-error-text')
-            cy.get('#signup-phone-error-text')
-            cy.get('#signup-email-error-text')
-            cy.get('#signup-password-error-text')
+            cy.get('#create-account-name-error')
+            cy.get('#create-account-surname-error')
+            cy.get('#create-account-phone-error')
+            cy.get('#create-account-mail-error')
+            cy.get('#create-account-password-error')
             cy.get('#legal-terms-error-text')
         })
     });
@@ -59,12 +59,12 @@ describe("The user is not able to create a new account in Councilbox with invali
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(1000);
+           
         });
     
         it("Click on the 'Sign Up' button", function() {
             cy.get('#sign-up-button').click()
-            cy.wait(1000)
+           
         });
 
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
@@ -108,7 +108,7 @@ describe("The user is not able to create a new account in Councilbox with invali
         });
 
         it("Should display 'Please enter a valid first name'", function() {
-            cy.get('#signup-name-error-text')
+            cy.get('#create-account-name-error')
         })
     });
 
@@ -117,12 +117,12 @@ describe("The user is not able to create a new account in Councilbox with invali
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(1000);
+          
         });
     
         it("Click on the 'Sign Up' button", function() {
             cy.get('#sign-up-button').click()
-            cy.wait(1000)
+            
         });
 
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
@@ -166,7 +166,7 @@ describe("The user is not able to create a new account in Councilbox with invali
         });
 
         it("Should display 'Please enter a valid phone number'", function() {
-            cy.get('#signup-phone-error-text')
+            cy.get('#create-account-phone-error')
         });
     });
 
@@ -175,12 +175,12 @@ describe("The user is not able to create a new account in Councilbox with invali
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(1000);
+         
         });
     
         it("Click on the 'Sign Up' button", function() {
             cy.get('#sign-up-button').click()
-            cy.wait(1000)
+    
         });
 
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
@@ -223,7 +223,7 @@ describe("The user is not able to create a new account in Councilbox with invali
         });
 
         it("Please enter valid last names", function() {
-            cy.get('#signup-surname-error-text')
+            cy.get('#create-account-surname-error')
         })
     });
 
@@ -232,12 +232,12 @@ describe("The user is not able to register to the Councilbox with the E-mail alr
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(1000);
+          
         });
     
         it("Click on the 'Sign Up' button", function() {
             cy.get('#sign-up-button').click()
-            cy.wait(1000)
+          
         });
 
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
@@ -282,7 +282,7 @@ describe("The user is not able to register to the Councilbox with the E-mail alr
         });
 
         it("'This email is already registered.'' message is displayed beyond the “Email” field", function() {
-            cy.get('#signup-email-error-text')
+            cy.get('#create-account-mail-error')
         });
     });
 
@@ -291,12 +291,12 @@ describe("The user is not able to register to the Councilbox with the invalid in
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(1000);
+        
         });
     
         it("Click on the 'Sign Up' button", function() {
             cy.get('#sign-up-button').click()
-            cy.wait(1000)
+            
         });
 
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
@@ -339,7 +339,7 @@ describe("The user is not able to register to the Councilbox with the invalid in
         });
 
         it("'The email does not match.'' message is displayed beyond the “Repeat Email” field", function() {
-            cy.get('#signup-email-check-error-text')
+            cy.get('#create-account-repeat-mail-error')
         });
     });
 
@@ -348,12 +348,12 @@ describe("The user is not able to register to the Councilbox with the invalid in
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(1000);
+         
         });
     
         it("Click on the 'Sign Up' button", function() {
             cy.get('#sign-up-button').click()
-            cy.wait(1000)
+         
         });
 
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
@@ -396,7 +396,7 @@ describe("The user is not able to register to the Councilbox with the invalid in
         });
 
         it("'The passwords do not match' message is displayed beyond the “Confirm Password” field", function() {
-            cy.get('#signup-password-check-error-text')
+            cy.get('#create-account-repeat-password-error')
         });
     });
 
@@ -405,12 +405,12 @@ describe("The user is not able to register without accepting terms and condition
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(1000);
+         
         });
     
         it("Click on the 'Sign Up' button", function() {
             cy.get('#sign-up-button').click()
-            cy.wait(1000)
+         
         });
 
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
@@ -449,7 +449,7 @@ describe("The user is not able to register without accepting terms and condition
         });
 
         it("'I accept the terms and conditions' message is displayed", function() {
-            cy.get('#accept-legal-checkbox').click()
+            cy.get('#legal-terms-error-text').click()
         });
     });
 
@@ -459,7 +459,7 @@ describe("The user is not able to login in Councilbox with invalid inputs in the
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(1000);
+         
         });
     
         it("Populate the “Email” field with invalid Email", function() {
@@ -478,7 +478,7 @@ describe("The user is not able to login in Councilbox with invalid inputs in the
         });
 
         it("'The email is not verified or does not exist.' alert message is displayed", function() {
-            cy.get('#username-error-text')
+            cy.get('#username-helper-text')
         });
 
      });
@@ -488,7 +488,7 @@ describe("The user is not able to login in Councilbox with invalid password", fu
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(1000);
+        
         });
  
         it("Populate the “Email” field with invalid Email", function() {
@@ -507,7 +507,7 @@ describe("The user is not able to login in Councilbox with invalid password", fu
         });
 
         it("'Incorrect password' alert message is displayed", function() {
-            cy.get('#username-error-text')
+            cy.get('#password-helper-text')
         });
 
      });
@@ -517,7 +517,7 @@ describe("The user is not able to login in Councilbox without populating require
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(1000);
+            
         });
     
         it("Click on the 'To enter' button without populating required fields", function() {
@@ -525,8 +525,8 @@ describe("The user is not able to login in Councilbox without populating require
         });
 
         it("'This field is required.' alert message is displayed beyond the “Email” and “Password” fields", function() {
-            cy.get('#username-error-text')
-            cy.get('#password-error-text')
+            cy.get('#username-helper-text')
+            cy.get('#password-helper-text')
         });
 
      });
@@ -535,17 +535,17 @@ describe("The user is able to select the 'EN' language on the 'Homepage' section
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(2000);
+           
         });
     
         it("Navigate to the upper right corner of the page and click on the “Language selector” button", function() {
             cy.get('#language-selector').click()
-            cy.wait(1000)
+          
         });
 
         it("From the dropdown menu choose and click on the 'EN' button", function() {
             cy.get('#language-en').click()
-            cy.wait(1000)
+          
         });
 
      });
@@ -554,7 +554,7 @@ describe("The user is able to select the 'ES' language on the 'Homepage' section
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(2000);
+          
         });
     
         it("Navigate to the upper right corner of the page and click on the “Language selector” button", function() {
@@ -564,7 +564,7 @@ describe("The user is able to select the 'ES' language on the 'Homepage' section
 
         it("From the dropdown menu choose and click on the 'ES' button", function() {
             cy.get('#language-es').click()
-            cy.wait(1000)
+            
         });
 
      });
@@ -573,17 +573,17 @@ describe("The user is able to select the 'CAT' language on the 'Homepage' sectio
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(2000);
+         
         });
     
         it("Navigate to the upper right corner of the page and click on the “Language selector” button", function() {
             cy.get('#language-selector').click()
-            cy.wait(1000)
+         
         });
 
         it("From the dropdown menu choose and click on the 'CAT' button", function() {
             cy.get('#language-cat').click()
-            cy.wait(1000)
+            
         });
 
      });
@@ -592,17 +592,17 @@ describe("The user is able to select the 'GAL' language on the 'Homepage' sectio
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(2000);
+          
         });
     
         it("Navigate to the upper right corner of the page and click on the “Language selector” button", function() {
             cy.get('#language-selector').click()
-            cy.wait(1000)
+            
         });
 
         it("From the dropdown menu choose and click on the 'GAL' button", function() {
             cy.get('#language-gal').click()
-            cy.wait(1000)
+           
         });
 
      });
@@ -611,17 +611,17 @@ describe("The user is able to select the 'PT' language on the 'Homepage' section
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(2000);
+           
         });
     
         it("Navigate to the upper right corner of the page and click on the “Language selector” button", function() {
             cy.get('#language-selector').click()
-            cy.wait(1000)
+            
         });
 
         it("From the dropdown menu choose and click on the 'PT' button", function() {
             cy.get('#language-pt').click()
-            cy.wait(1000)
+         
         });
 
      });
@@ -630,17 +630,17 @@ describe("The user is able to select the 'EU' language on the 'Homepage' section
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(2000);
+           
         });
     
         it("Navigate to the upper right corner of the page and click on the “Language selector” button", function() {
             cy.get('#language-selector').click()
-            cy.wait(1000)
+            
         });
 
         it("From the dropdown menu choose and click on the 'EU' button", function() {
             cy.get('#language-eu').click()
-            cy.wait(1000)
+        
         });
 
      });
@@ -649,17 +649,17 @@ describe("The user is able to select the 'FR' language on the 'Homepage' section
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(2000);
+            
         });
     
         it("Navigate to the upper right corner of the page and click on the “Language selector” button", function() {
             cy.get('#language-selector').click()
-            cy.wait(1000)
+           
         });
 
         it("From the dropdown menu choose and click on the 'FR' button", function() {
             cy.get('#language-fr').click()
-            cy.wait(1000)
+            
         });
 
      });
@@ -668,17 +668,17 @@ describe("The user is able to select the 'EN' language on the 'Homepage' section
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(2000);
+           
         });
     
         it("Navigate to the upper right corner of the page and click on the “Language selector” button", function() {
             cy.get('#language-selector').click()
-            cy.wait(1000)
+          
         });
 
         it("From the dropdown menu choose and click on the 'EN' button", function() {
             cy.get('#language-en').click()
-            cy.wait(1000)
+            
         });
 
      });
@@ -687,22 +687,22 @@ describe("The user is not able to restore password without populating the 'Email
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(1000);
+            
         });
     
         it("Click on the “I forgot my password” button", function() {
             cy.get('#restore-password-link').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the “Restore access” button without populating the 'Email' field", function() {
             cy.get('#restore-password-button').click()
-            cy.wait(1000)
+            
         });
 
         it("“Please enter a valid email address.” alert message is displayed", function() {
             cy.get('#restore-password-email-input-error-text').click()
-            cy.wait(1000)
+           
         });
 
 
@@ -712,28 +712,28 @@ describe("The user is not able to restore password with invalid inputs in the 'E
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(1000);
+            
         });
     
         it("Click on the “I forgot my password” button", function() {
             cy.get('#restore-password-link').click()
-            cy.wait(1000)
+           
         });
 
         it("Populate the “Email” field with invalid email format", function() {
             cy.get('#restore-password-email-input').clear()
                 .type('fsdafdsfafsda')
-            cy.wait(1000)
+            
         });
 
         it("Click on the “Restore access” button", function() {
             cy.get('#restore-password-button').click()
-            cy.wait(1000)
+            
         });
 
         it("“Please enter a valid email address.” alert message is displayed", function() {
             cy.get('#restore-password-email-input-error-text').click()
-            cy.wait(1000)
+           
         });
 
 
@@ -743,28 +743,28 @@ describe("The user is not able to restore password with email that is not verifi
     
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
-            cy.wait(1000);
+            
         });
     
         it("Click on the “I forgot my password” button", function() {
             cy.get('#restore-password-link').click()
-            cy.wait(1000)
+          
         });
 
         it("Populate the “Email” field with invalid email format", function() {
             cy.get('#restore-password-email-input').clear()
                 .type('fsdafdsf@fdsafa.fsa')
-            cy.wait(1000)
+          
         });
 
         it("Click on the “Restore access” button", function() {
             cy.get('#restore-password-button').click()
-            cy.wait(1000)
+          
         });
 
         it("“The email was not verified or does not exist.” alert message is displayed", function() {
             cy.get('#restore-password-email-input-error-text').click()
-            cy.wait(1000)
+        
         });
 
 

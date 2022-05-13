@@ -53,7 +53,7 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Clicks login button", function() {
         cy.get("#login-button").click();
-        cy.wait(1000)
+        
     });
 
 });
@@ -72,7 +72,7 @@ describe("The user is able to upload a new document to the 'Documentation' form 
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+           
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -83,29 +83,26 @@ describe("The user is able to upload a new document to the 'Documentation' form 
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                
+               
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+        cy.wait(1000)
+          
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -126,11 +123,12 @@ describe("The user is able to upload a new document to the 'Documentation' form 
     })
 
     it("On the upper right corner click on the 'Add+'' button then click on the 'Upload file' button", function () {
-        cy.get('#MISSING_ID').click()
+        cy.get('#attachment-step-add-button').click()
     })
 
     it("Find the file you want to upload and click on it then click on the 'Open' button", function () {
-        cy.get('#MISSING_ID').click()
+        const docFile = 'testDocument.txt';
+        cy.get('#attachment-step-upload-button').attachFile(docFile)
     })
 
     it("User should be able to exit the meeting", function() {
@@ -156,7 +154,7 @@ describe("The user is able to edit a document name in the 'Documentation' form i
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+           
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -167,29 +165,25 @@ describe("The user is able to edit a document name in the 'Documentation' form i
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+               
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -210,16 +204,17 @@ describe("The user is able to edit a document name in the 'Documentation' form i
     })
 
     it("On the upper right corner click on the 'Add+'' button then click on the 'Upload file' button", function () {
-        cy.get('#MISSING_ID').click()
+        cy.get('#attachment-step-add-button').click()
     })
 
     it("Find the file you want to upload and click on it then click on the 'Open' button", function () {
-        cy.get('#MISSING_ID').click()
+        const docFile = 'testDocument.txt';
+        cy.get('#attachment-step-upload-button').attachFile(docFile)
     })
 
     it("Click on the already added document and populate it with the name you want", function () {
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').clear().type('Edit File Name')
+        cy.get('#attachment-edit-button-0').click()
+        cy.get('#attachment-step-edit-name').clear().type('Edit File Name')
         cy.get('#alert-confirm-button-accept').click()
 
     })
@@ -250,7 +245,7 @@ describe("The user is able to remove a already added document in the 'Documentat
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+           
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -261,29 +256,25 @@ describe("The user is able to remove a already added document in the 'Documentat
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                  
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+      
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -304,15 +295,16 @@ describe("The user is able to remove a already added document in the 'Documentat
     })
 
     it("On the upper right corner click on the 'Add+'' button then click on the 'Upload file' button", function () {
-        cy.get('#MISSING_ID').click()
+        cy.get('#attachment-step-add-button').click()
     })
 
     it("Find the file you want to upload and click on it then click on the 'Open' button", function () {
-        cy.get('#MISSING_ID').click()
+        const docFile = 'testDocument.txt';
+        cy.get('#attachment-step-upload-button').attachFile(docFile)
     })
 
     it("Navigate to the already added document and click on the 'X' button to remove the document", function () {
-        cy.get('#MISSING_ID').click()
+        cy.get('#attachment-delete-button-0').click()
     })
 
     it("Click on the 'Delete' button", function() {

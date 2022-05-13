@@ -53,7 +53,7 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Clicks login button", function() {
         cy.get("#login-button").click();
-        cy.wait(1000)
+        
     });
 
 });
@@ -61,13 +61,13 @@ describe("Councilbox login - valid username and password", function() {
 describe("The user is able to select 'English' language in the 'Add participant' form in the 'New meeting' type of meeting in the 'Census' section", function() {
 
     it("Click on the 'New meeting' button", function() {
-        cy.wait(2000)
+        
         cy.get('#create-council-block').click()
     });
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+         
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -78,14 +78,14 @@ describe("The user is able to select 'English' language in the 'Add participant'
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
     });
 
     it("Populate all required fields with valid inputs", function() {
@@ -105,14 +105,14 @@ describe("The user is able to select 'English' language in the 'Add participant'
 
     it("Navigate to the 'Language' field and click on the 'English' button", function() {
         cy.get('#participant-language-select').click()
-        cy.wait(500)
+        
         cy.get('#participant-language-en').click() 
-        cy.wait(1000)     
+             
     });
 
     it("Click on the 'OK' button", function() {
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)       
+               
     });
 
     it("User should be able to exit the meeting", function() {
@@ -124,13 +124,13 @@ describe("The user is able to select 'English' language in the 'Add participant'
 describe("The user is able to select 'Espanol' language in the 'Add participant' form in the 'New meeting' type of meeting in the 'Census' section", function() {
 
     it("Click on the 'New meeting' button", function() {
-        cy.wait(2000)
+        
         cy.get('#create-council-block').click()
     });
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+         
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -141,14 +141,14 @@ describe("The user is able to select 'Espanol' language in the 'Add participant'
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
     });
 
     it("Populate all required fields with valid inputs", function() {
@@ -168,14 +168,14 @@ describe("The user is able to select 'Espanol' language in the 'Add participant'
 
     it("Navigate to the 'Language' field and click on the 'Espanol' button", function() {
         cy.get('#participant-language-select').click()
-        cy.wait(500)
+        
         cy.get('#participant-language-es').click() 
-        cy.wait(1000)     
+             
     });
 
     it("Click on the 'OK' button", function() {
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)       
+               
     });
 
     it("User should be able to exit the meeting", function() {
@@ -187,13 +187,13 @@ describe("The user is able to select 'Espanol' language in the 'Add participant'
 describe("The user is able to select 'Portugues' language in the 'Add participant' form in the 'New meeting' type of meeting in the 'Census' section", function() {
 
     it("Click on the 'New meeting' button", function() {
-        cy.wait(2000)
+        
         cy.get('#create-council-block').click()
     });
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+         
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -204,14 +204,14 @@ describe("The user is able to select 'Portugues' language in the 'Add participan
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
     });
 
     it("Populate all required fields with valid inputs", function() {
@@ -231,14 +231,14 @@ describe("The user is able to select 'Portugues' language in the 'Add participan
 
     it("Navigate to the 'Language' field and click on the 'Portugues' button", function() {
         cy.get('#participant-language-select').click()
-        cy.wait(500)
+        
         cy.get('#participant-language-pt').click() 
-        cy.wait(1000)     
+             
     });
 
     it("Click on the 'OK' button", function() {
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)       
+               
     });
 
     it("User should be able to exit the meeting", function() {
@@ -250,13 +250,13 @@ describe("The user is able to select 'Portugues' language in the 'Add participan
 describe("The user is able to select 'Catala' language in the 'Add participant' form in the 'New meeting' type of meeting in the 'Census' section", function() {
 
     it("Click on the 'New meeting' button", function() {
-        cy.wait(2000)
+        
         cy.get('#create-council-block').click()
     });
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+         
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -267,14 +267,14 @@ describe("The user is able to select 'Catala' language in the 'Add participant' 
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
     });
 
     it("Populate all required fields with valid inputs", function() {
@@ -294,14 +294,14 @@ describe("The user is able to select 'Catala' language in the 'Add participant' 
 
     it("Navigate to the 'Language' field and click on the 'Catala' button", function() {
         cy.get('#participant-language-select').click()
-        cy.wait(500)
+        
         cy.get('#participant-language-cat').click() 
-        cy.wait(1000)     
+             
     });
 
     it("Click on the 'OK' button", function() {
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)       
+               
     });
 
     it("User should be able to exit the meeting", function() {
@@ -313,13 +313,13 @@ describe("The user is able to select 'Catala' language in the 'Add participant' 
 describe("The user is able to select 'Galego' language in the 'Add participant' form in the 'New meeting' type of meeting in the 'Census' section", function() {
 
     it("Click on the 'New meeting' button", function() {
-        cy.wait(2000)
+        
         cy.get('#create-council-block').click()
     });
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+         
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -330,14 +330,14 @@ describe("The user is able to select 'Galego' language in the 'Add participant' 
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
     });
 
     it("Populate all required fields with valid inputs", function() {
@@ -357,14 +357,14 @@ describe("The user is able to select 'Galego' language in the 'Add participant' 
 
     it("Navigate to the 'Language' field and click on the 'Galego' button", function() {
         cy.get('#participant-language-select').click()
-        cy.wait(500)
+        
         cy.get('#participant-language-gal').click() 
-        cy.wait(1000)     
+             
     });
 
     it("Click on the 'OK' button", function() {
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)       
+               
     });
 
     it("User should be able to exit the meeting", function() {
@@ -376,13 +376,13 @@ describe("The user is able to select 'Galego' language in the 'Add participant' 
 describe("The user is able to select 'Polsku' language in the 'Add participant' form in the 'New meeting' type of meeting in the 'Census' section", function() {
 
     it("Click on the 'New meeting' button", function() {
-        cy.wait(2000)
+        
         cy.get('#create-council-block').click()
     });
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+         
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -393,14 +393,14 @@ describe("The user is able to select 'Polsku' language in the 'Add participant' 
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
     });
 
     it("Populate all required fields with valid inputs", function() {
@@ -420,14 +420,14 @@ describe("The user is able to select 'Polsku' language in the 'Add participant' 
 
     it("Navigate to the 'Language' field and click on the 'Polsku' button", function() {
         cy.get('#participant-language-select').click()
-        cy.wait(500)
+        
         cy.get('#participant-language-pl').click() 
-        cy.wait(1000)     
+             
     });
 
     it("Click on the 'OK' button", function() {
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)       
+               
     });
 
     it("User should be able to exit the meeting", function() {
@@ -439,13 +439,13 @@ describe("The user is able to select 'Polsku' language in the 'Add participant' 
 describe("The user is able to select 'Francis' language in the 'Add participant' form in the 'New meeting' type of meeting in the 'Census' section", function() {
 
     it("Click on the 'New meeting' button", function() {
-        cy.wait(2000)
+        
         cy.get('#create-council-block').click()
     });
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+         
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -456,14 +456,14 @@ describe("The user is able to select 'Francis' language in the 'Add participant'
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
     });
 
     it("Populate all required fields with valid inputs", function() {
@@ -483,14 +483,14 @@ describe("The user is able to select 'Francis' language in the 'Add participant'
 
     it("Navigate to the 'Language' field and click on the 'Francis' button", function() {
         cy.get('#participant-language-select').click()
-        cy.wait(500)
+        
         cy.get('#participant-language-fr').click() 
-        cy.wait(1000)     
+             
     });
 
     it("Click on the 'OK' button", function() {
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)       
+               
     });
 
     it("User should be able to exit the meeting", function() {
@@ -502,13 +502,13 @@ describe("The user is able to select 'Francis' language in the 'Add participant'
 describe("The user is able to select 'Euskera' language in the 'Add participant' form in the 'New meeting' type of meeting in the 'Census' section", function() {
 
     it("Click on the 'New meeting' button", function() {
-        cy.wait(2000)
+        
         cy.get('#create-council-block').click()
     });
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+         
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -519,14 +519,14 @@ describe("The user is able to select 'Euskera' language in the 'Add participant'
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
     });
 
     it("Populate all required fields with valid inputs", function() {
@@ -546,14 +546,14 @@ describe("The user is able to select 'Euskera' language in the 'Add participant'
 
     it("Navigate to the 'Language' field and click on the 'Euskera' button", function() {
         cy.get('#participant-language-select').click()
-        cy.wait(500)
+        
         cy.get('#participant-language-eu').click() 
-        cy.wait(1000)     
+             
     });
 
     it("Click on the 'OK' button", function() {
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)       
+               
     });
 
     it("User should be able to exit the meeting", function() {

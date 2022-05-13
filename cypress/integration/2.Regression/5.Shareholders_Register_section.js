@@ -52,7 +52,7 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Clicks login button", function() {
         cy.get("#login-button").click();
-        cy.wait(1000)
+      
     });
 
 });
@@ -73,18 +73,18 @@ describe("The user is able to edit member information in the 'Shareholder regist
 
         it("From the menu choose and click on the 'Shareholders register' button", function() {
             cy.get('#edit-company-block').click()
-            cy.wait(1000)
+           
         });
 
         it("Click on the 'Add member' button", function() {
             cy.get('#add-partner-button').click()
-            cy.wait(1000)
+          
 
         });
 
         it("Click on the 'Save changes' button", function() {
             cy.get('#guardarAnadirSocio').click()
-            cy.wait(1000)
+       
         });
 
         it("The error message 'Required field' is displayed above the required fields and the new member isn't added to the partner list", function() {
@@ -104,12 +104,12 @@ describe("The user is not able to add a member with invalid inputs in the 'Name'
 
         it("From the menu choose and click on the 'Shareholders register' button", function() {
             cy.get('#edit-company-block').click()
-            cy.wait(1000)
+           
         });
 
         it("Click on the 'Add member' button", function() {
             cy.get('#add-partner-button').click()
-            cy.wait(1000)
+            
 
         });
 
@@ -120,13 +120,13 @@ describe("The user is not able to add a member with invalid inputs in the 'Name'
                 .type('Test')
             cy.get('#add-partner-email').clear()
                 .type('test@test.test')
-            cy.wait(1000)
+            
 
         });
 
         it("Click on the 'Save changes' button", function() {
             cy.get('#guardarAnadirSocio').click()
-            cy.wait(1000)
+          
         });
 
         it("The “Invalid field” message is displayed beyond the “Name” field", function() {
@@ -144,12 +144,12 @@ describe("The user is not able to add a member with invalid inputs in the 'Surna
 
         it("From the menu choose and click on the 'Shareholders register' button", function() {
             cy.get('#edit-company-block').click()
-            cy.wait(1000)
+        
         });
 
         it("Click on the 'Add member' button", function() {
             cy.get('#add-partner-button').click()
-            cy.wait(1000)
+          
 
         });
 
@@ -160,13 +160,13 @@ describe("The user is not able to add a member with invalid inputs in the 'Surna
                 .type('!!!!!')
             cy.get('#add-partner-email').clear()
                 .type('test@test.test')
-            cy.wait(1000)
+        
 
         });
 
         it("Click on the 'Save changes' button", function() {
             cy.get('#guardarAnadirSocio').click()
-            cy.wait(1000)
+            
         });
 
         it("The “Invalid field” message is displayed beyond the “Surname” field", function() {
@@ -184,18 +184,18 @@ describe("The user is able to add 'Legal person' type of member in the 'Sharehol
 
         it("From the menu choose and click on the 'Shareholders register' button", function() {
             cy.get('#edit-company-block').click()
-            cy.wait(1000)
+           
         });
 
         it("Click on the 'Add member' button", function() {
             cy.get('#add-partner-button').click()
-            cy.wait(1000)
+           
 
         });
 
         it("Navigate to the 'Legal person' button and click on it", function() {
             cy.get('#radio-entity').click()
-            cy.wait(1000)
+         
         });
 
         it("Populate all required fields and click on the 'Save changes' button", function() {
@@ -208,7 +208,7 @@ describe("The user is able to add 'Legal person' type of member in the 'Sharehol
 
         it("Click on the 'Save changes' button", function() {
             cy.get('#guardarAnadirSocio').click()
-            cy.wait(1000)
+            
         });
 
         it("Back to Home page", function() {
@@ -222,24 +222,24 @@ describe("The user is able to filter members by position in the 'Shareholders re
 
         it("Click on the 'Shareholders register' button", function() {
             cy.get('#edit-company-block').click()
-            cy.wait(1000)
+            
         });
 
         it("Navigate to the upper right corner and click on the filter button", function() {
             cy.get('#filter-by-select').click()
-            cy.wait(1000)
+          
 
         });
 
         it("From the menu choose and click on the 'Position' button", function() {
             cy.get('#filter-option-position').click()
-            cy.wait(1000)
+        
         });
 
         it("On the filter search field write the position you want to search", function() {
             cy.get('#partners-search-input').clear()
                 .type('Test')
-            cy.wait(3000)
+         
         });
 
         it("Back to Home page", function() {
@@ -253,24 +253,24 @@ describe("The user is able to filter members by participant data in the 'Shareho
 
         it("Click on the 'Shareholders register' button", function() {
             cy.get('#edit-company-block').click()
-            cy.wait(1000)
+           
         });
 
         it("Navigate to the upper right corner and click on the filter button", function() {
             cy.get('#filter-by-select').click()
-            cy.wait(1000)
+           
 
         });
 
         it("From the menu choose and click on the 'Participant data' button", function() {
             cy.get('#filter-option-fullName').click()
-            cy.wait(1000)
+          
         });
 
         it("On the filter search field write the Participant data you want to search", function() {
             cy.get('#partners-search-input').clear()
                 .type('Test')
-            cy.wait(3000)
+        
         });
         
         it("Back to Home page", function() {
@@ -284,24 +284,24 @@ describe("The user is able to filter members by TIN in the 'Shareholders registe
 
         it("Click on the 'Shareholders register' button", function() {
             cy.get('#edit-company-block').click()
-            cy.wait(1000)
+           
         });
 
         it("Navigate to the upper right corner and click on the filter button", function() {
             cy.get('#filter-by-select').click()
-            cy.wait(1000)
+          
 
         });
 
         it("From the menu choose and click on the 'TIN' button", function() {
             cy.get('#filter-option-dni').click()
-            cy.wait(1000)
+         
         });
 
         it("On the filter search field write the TIN you want to search", function() {
             cy.get('#partners-search-input').clear()
                 .type('12345')
-            cy.wait(3000)
+           
         });
         
         it("Back to Home page", function() {
@@ -315,24 +315,24 @@ describe("The user is able to filter members by Number de acta in the 'Sharehold
 
         it("Click on the 'Shareholders register' button", function() {
             cy.get('#edit-company-block').click()
-            cy.wait(1000)
+           
         });
 
         it("Navigate to the upper right corner and click on the filter button", function() {
             cy.get('#filter-by-select').click()
-            cy.wait(1000)
+           
 
         });
 
         it("From the menu choose and click on the 'Number de acta' button", function() {
             cy.get('#filter-option-subscribeActNumber').click()
-            cy.wait(1000)
+           
         });
 
         it("On the filter search field write the Number de acta you want to search", function() {
             cy.get('#partners-search-input').clear()
                 .type('12345')
-            cy.wait(3000)
+           
         });
         
         it("Back to Home page", function() {
@@ -347,18 +347,18 @@ describe("The user is able to filter members by 'Registrations' status type in t
 
         it("Click on the 'Shareholders register' button", function() {
             cy.get('#edit-company-block').click()
-            cy.wait(1000)
+            
         });
 
         it("Navigate to the button left to the 'Add member' button and click on it", function() {
             cy.get('#category-filter-select').click()
-            cy.wait(1000)
+           
 
         });
 
         it("Click on the 'Registrations' button", function() {
             cy.get('#category-1').click()
-            cy.wait(1000)
+            
         });
         
         it("Back to Home page", function() {
@@ -373,18 +373,18 @@ describe("The user is able to filter members by 'Cancellation' status type in th
 
         it("Click on the 'Shareholders register' button", function() {
             cy.get('#edit-company-block').click()
-            cy.wait(1000)
+          
         });
 
         it("Navigate to the button left to the 'Add member' button and click on it", function() {
             cy.get('#category-filter-select').click()
-            cy.wait(1000)
+        
 
         });
 
         it("Click on the 'Cancellation' button", function() {
             cy.get('#category-0').click()
-            cy.wait(1000)
+           
         });
         
         it("Back to Home page", function() {
@@ -398,18 +398,18 @@ describe("The user is able to filter members by 'Other' status type in the 'Shar
 
         it("Click on the 'Shareholders register' button", function() {
             cy.get('#edit-company-block').click()
-            cy.wait(1000)
+           
         });
 
         it("Navigate to the button left to the 'Add member' button and click on it", function() {
             cy.get('#category-filter-select').click()
-            cy.wait(1000)
+           
 
         });
 
         it("Click on the 'Other' button", function() {
             cy.get('#category-2').click()
-            cy.wait(1000)
+            
         });
         
         it("Back to Home page", function() {
@@ -423,14 +423,14 @@ describe("The user is able to filter members by 'Other' status type in the 'Shar
 describe("The alert message is successfully displayed when the user clicks on the 'Back' button without saving changes in the 'Add member' form", function() {
 
         it("From the menu choose and click on the 'Shareholders register' form", function() {
-            cy.wait(1000)
+           
             cy.get('#edit-company-block').click()
-            cy.wait(1000)
+        
         });
 
         it("Click on the 'Add member' button", function() {
             cy.get('#add-partner-button').click()
-            cy.wait(1000)
+         
 
         });
 
@@ -441,7 +441,7 @@ describe("The alert message is successfully displayed when the user clicks on th
                 .type('Test')
             cy.get('#add-partner-email').clear()
                 .type('test@test.test')
-            cy.wait(1000)
+          
             cy.get('#edit-partner-back-button').click()
         });
         

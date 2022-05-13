@@ -52,15 +52,10 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Clicks login button", function() {
         cy.get("#login-button").click();
-        cy.wait(1000)
+      
     });
 
 });
-
-
-
-
-
 
 
 
@@ -148,14 +143,14 @@ describe("The user is able to edit a type of meeting in the 'Council types' sect
 
         it("Click on the 'Council types' button", function() {
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
-            cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+           
+            cy.get('#company-statute-edit-5').click()
+            
         });
 
         it("From the list of meetings find and click the one you want to edit", function() {
             cy.get('#council-type-advance-notice-days').click()
-            cy.wait(1000)
+         
         });
 
         it("Populate fields with new data and click on the 'Save' button", function() {
@@ -176,12 +171,12 @@ describe("The user is able to Add a type of meeting in the 'Council types' secti
 
         it("Click on the 'Council types' button", function() {
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on 'Add type of meeting +' button", function() {
             cy.get('#company-statute-create-button').click()
-            cy.wait(1000)
+          
         });
 
 
@@ -194,9 +189,7 @@ describe("The user is able to Add a type of meeting in the 'Council types' secti
         it("Click on 'OK' button", function() {
             cy.get('#alert-confirm-button-accept').click()
             cy.get('#council-statute-save-button').click()
-            cy.wait(2000)
-             cy.contains('TypeAuto'+Cypress.config('UniqueNumber')).scrollIntoView()
-            .should('be.visible')
+     
         });
 
         it("Back to Home page", function() {
@@ -249,7 +242,7 @@ describe("The user is able to delete a type of meeting from the list of meetings
         });
 
         it("Navigate to the already added meeting type and hover it then click on the “X” button", function() {
-            cy.contains('TypeAuto'+Cypress.config('UniqueNumber')).scrollIntoView()
+            cy.contains('TypeAuto'+Cypress.config('UniqueNumber')).scrollIntoView().wait(1000)
             .should('be.visible')
 
             cy.xpath('//*[@class="jss711 jss917 closeIcon"]').last().click()
@@ -274,12 +267,12 @@ describe("The user is not able to add type of meeting without populating 'Meetin
 
         it("Click on the 'Council types' button", function() {
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on 'Add type of meeting +' button", function() {
-            cy.get('#anadirTipoDeReunion').click()
-            cy.wait(1000)
+            cy.get('#company-statute-create-button').click()
+          
         });
 
 
@@ -306,19 +299,19 @@ describe("The user is able to choose and select 'There is minimum notice to call
 
         it("Click on the 'Council types' button", function() {
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+          
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+        
         });
 
         it("Navigate to the 'Announcement' section", function() {
-            cy.get('#council-type-advance-notice-days').scrollIntoView()
-            cy.wait(1000)
+            cy.get('#council-type-advance-notice-days').scrollIntoView().wait(1000)
+         
         });
 
         it("Click on the 'There is a minimum notice to call notice' checkbox and click on the 'Save' button", function() {
             cy.get('#council-type-advance-notice-days').click()
-            cy.wait(1000)
+            
             cy.get('#council-statute-save-button').click()
 
         });
@@ -333,21 +326,21 @@ describe("The user is able to choose and select 'There is minimum notice to call
 describe("The user is able to choose and select 'Second call' option for the call in the 'Announcement' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(2000)
+           
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+         
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+         
         });
 
         it("Navigate to the 'Announcement' section", function() {
-            cy.get('#council-type-has-second-call').scrollIntoView()
-            cy.wait(1000)
+            cy.get('#council-type-has-second-call').scrollIntoView().wait(1000)
+            
         });
 
         it("Click on the 'There is second call' checkbox and click on the 'Save' button", function() {
             cy.get('#council-type-has-second-call').click()
-            cy.wait(1000)
+           
             cy.get('#council-statute-save-button').click()
 
         });
@@ -364,9 +357,9 @@ describe("The user is able to choose and select 'Attendees' type of quorum for t
 
         it("Click on the 'Council types' button", function() {
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+        
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+            
         });
 
         it("Navigate to the 'Attendance' section", function() {
@@ -375,9 +368,9 @@ describe("The user is able to choose and select 'Attendees' type of quorum for t
 
         it("Navigate to the 'Type of Quorum' and click on the 'Attendees' button and click on the 'Save' button", function() {
             cy.get('#council-type-quorum-type').click()
-            cy.wait(1000)
+            
             cy.get('#quorum-type-attendants').click()
-            cy.wait(1000)
+            
             cy.get('#council-statute-save-button').click()
 
         });
@@ -393,11 +386,11 @@ describe("The user is able to choose and select 'Attendees' type of quorum for t
 describe("The user is able to choose and select 'Shares' type of quorum for the call in the 'Attendance' section in the 'Council types' form", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(2000)
+            
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+           
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+            
         });
 
         it("Navigate to the 'Attendance' section", function() {
@@ -406,9 +399,9 @@ describe("The user is able to choose and select 'Shares' type of quorum for the 
 
         it("Navigate to the 'Type of quorum' and click on it and from the dropdown menu choose and click on the 'Shares' button and click on the 'Save' button", function() {
             cy.get('#council-type-quorum-type').click()
-            cy.wait(1000)
+            
             cy.get('#quorum-type-social-capital').click()
-            cy.wait(1000)
+            
             cy.get('#council-statute-save-button').click()
 
         });
@@ -423,11 +416,11 @@ describe("The user is able to choose and select 'Shares' type of quorum for the 
 describe("The user is able to choose and select 'Percentage' in the 'Quorum attendance 1st call' field in the 'Council types' form", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(2000)
+            
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+            
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+            
         });
 
         it("Navigate to the 'Attendance' section", function() {
@@ -436,9 +429,9 @@ describe("The user is able to choose and select 'Percentage' in the 'Quorum atte
 
         it("Navigate to the 'Quorum attendance 1st call' and click on the 'Percentage' button and enter the number then click on the 'Save' button", function() {
             cy.get('#council-type-quorum-first-call').click()
-            cy.wait(1000)
+          
             cy.get('#quorum-first-call-0').click()
-            cy.wait(1000)
+           
             cy.get('#quorum-first-call-percentage').clear()
                 .type('20')
             cy.get('#council-statute-save-button').click()
@@ -455,11 +448,11 @@ describe("The user is able to choose and select 'Percentage' in the 'Quorum atte
 describe("The user is able to choose and select 'Half plus one' in the 'Quorum attendance 1st call' field in the 'Council types' form", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(2000)
+          
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+            
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+            
         });
 
         it("Navigate to the 'Attendance' section", function() {
@@ -468,9 +461,9 @@ describe("The user is able to choose and select 'Half plus one' in the 'Quorum a
 
         it("Navigate to the 'Quorum attendance 1st call' and click on the 'Half plus one' button and enter the number then click on the 'Save' button", function() {
             cy.get('#council-type-quorum-first-call').click()
-            cy.wait(1000)
+            
             cy.get('#quorum-first-call-1').click()
-            cy.wait(1000)
+            
             cy.get('#council-statute-save-button').click()
 
         });
@@ -485,11 +478,11 @@ describe("The user is able to choose and select 'Half plus one' in the 'Quorum a
 describe("The user is able to choose and select 'Fraction' in the 'Quorum attendance 1st call' field in the 'Council types' form", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(2000)
+           
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+            
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+            
         });
 
         it("Navigate to the 'Attendance' section", function() {
@@ -498,9 +491,9 @@ describe("The user is able to choose and select 'Fraction' in the 'Quorum attend
 
         it("Navigate to the 'Quorum attendance 1st call' and click on the 'Fraction' button and enter the number then click on the 'Save' button", function() {
             cy.get('#council-type-quorum-first-call').click()
-            cy.wait(1000)
+           
             cy.get('#quorum-first-call-2').click()
-            cy.wait(1000)
+          
             cy.get('#council-statute-save-button').click()
 
         });
@@ -515,11 +508,11 @@ describe("The user is able to choose and select 'Fraction' in the 'Quorum attend
 describe("The user is able to choose and select 'Number' in the 'Quorum attendance 1st call' field in the 'Council types' form", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(2000)
+          
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+           
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+           
         });
 
         it("Navigate to the 'Attendance' section", function() {
@@ -528,9 +521,9 @@ describe("The user is able to choose and select 'Number' in the 'Quorum attendan
 
         it("Navigate to the 'Quorum attendance 1st call' and click on the 'Number' button and enter the number then click on the 'Save' button", function() {
             cy.get('#council-type-quorum-first-call').click()
-            cy.wait(1000)
+           
             cy.get('#quorum-first-call-3').click()
-            cy.wait(1000)
+           
             cy.get('#council-statute-save-button').click()
 
         });
@@ -545,11 +538,11 @@ describe("The user is able to choose and select 'Number' in the 'Quorum attendan
 describe("The user is able to choose and select 'None' in the 'Quorum attendance 1st call' field in the 'Council types' form", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(2000)
+            
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+            
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+           
         });
 
         it("Navigate to the 'Attendance' section", function() {
@@ -558,9 +551,9 @@ describe("The user is able to choose and select 'None' in the 'Quorum attendance
 
         it("Navigate to the 'Quorum attendance 1st call' and click on the 'None' button and enter the number then click on the 'Save' button", function() {
             cy.get('#council-type-quorum-first-call').click()
-            cy.wait(1000)
+           
             cy.get('#quorum-first-call--1').click()
-            cy.wait(1000)
+           
             cy.get('#council-statute-save-button').click()
 
         });
@@ -576,11 +569,11 @@ describe("The user is able to choose and select 'None' in the 'Quorum attendance
 describe("The user is able to choose and select 'Percentage' in the 'Quorum attendance 2nd call' field in the 'Council types' form", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(2000)
+          
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+            
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+           
         });
 
         it("Navigate to the 'Attendance' section", function() {
@@ -589,9 +582,9 @@ describe("The user is able to choose and select 'Percentage' in the 'Quorum atte
 
         it("Navigate to the 'Quorum attendance 2nd call' and click on the 'Percentage' button and enter the number then click on the 'Save' button", function() {
             cy.get('#council-type-quorum-second-call').click()
-            cy.wait(1000)
+            
             cy.get('#quorum-second-call-0').click()
-            cy.wait(1000)
+           
             cy.get('#council-statute-save-button').click()
 
         });
@@ -606,11 +599,11 @@ describe("The user is able to choose and select 'Percentage' in the 'Quorum atte
 describe("The user is able to choose and select 'Fraction' in the 'Quorum attendance 2nd call' field in the 'Council types' form", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(2000)
+           
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+            
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+           
         });
 
         it("Navigate to the 'Attendance' section", function() {
@@ -619,9 +612,9 @@ describe("The user is able to choose and select 'Fraction' in the 'Quorum attend
 
         it("Navigate to the 'Quorum attendance 2nd call' and click on the 'Fraction' button and enter the number then click on the 'Save' button", function() {
             cy.get('#council-type-quorum-second-call').click()
-            cy.wait(1000)
+         
             cy.get('#quorum-second-call-2').click()
-            cy.wait(1000)
+           
             cy.get('#council-statute-save-button').click()
 
         });
@@ -636,11 +629,11 @@ describe("The user is able to choose and select 'Fraction' in the 'Quorum attend
 describe("The user is able to choose and select 'Number' in the 'Quorum attendance 2nd call' field in the 'Council types' form", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(2000)
+           
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+            
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+           
         });
 
         it("Navigate to the 'Attendance' section", function() {
@@ -649,9 +642,9 @@ describe("The user is able to choose and select 'Number' in the 'Quorum attendan
 
         it("Navigate to the 'Quorum attendance 2nd call' and click on the 'Number' button and enter the number then click on the 'Save' button", function() {
             cy.get('#council-type-quorum-second-call').click()
-            cy.wait(1000)
+           
             cy.get('#quorum-second-call-3').click()
-            cy.wait(1000)
+            
             cy.get('#council-statute-save-button').click()
 
         });
@@ -666,11 +659,11 @@ describe("The user is able to choose and select 'Number' in the 'Quorum attendan
 describe("The user is able to choose and select 'Half plus one' in the 'Quorum attendance 2nd call' field in the 'Council types' form", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(2000)
+           
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+           
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+          
         });
 
         it("Navigate to the 'Attendance' section", function() {
@@ -679,9 +672,9 @@ describe("The user is able to choose and select 'Half plus one' in the 'Quorum a
 
         it("Navigate to the 'Quorum attendance 2nd call' and click on the 'Half plus one' button and enter the number then click on the 'Save' button", function() {
             cy.get('#council-type-quorum-second-call').click()
-            cy.wait(1000)
+           
             cy.get('#quorum-second-call-1').click()
-            cy.wait(1000)
+           
             cy.get('#council-statute-save-button').click()
 
         });
@@ -696,11 +689,11 @@ describe("The user is able to choose and select 'Half plus one' in the 'Quorum a
 describe("The user is able to choose and select 'None' in the 'Quorum attendance 2nd call' field in the 'Council types' form", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(2000)
+           
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+           
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+           
         });
 
         it("Navigate to the 'Attendance' section", function() {
@@ -709,9 +702,9 @@ describe("The user is able to choose and select 'None' in the 'Quorum attendance
 
         it("Navigate to the 'Quorum attendance 2nd call' and click on the 'None' button and enter the number then click on the 'Save' button", function() {
             cy.get('#council-type-quorum-second-call').click()
-            cy.wait(1000)
+          
             cy.get('#quorum-second-call--1').click()
-            cy.wait(1000)
+         
             cy.get('#council-statute-save-button').click()
 
         });
@@ -726,11 +719,11 @@ describe("The user is able to choose and select 'None' in the 'Quorum attendance
 describe("The user is able to choose and select 'Delegated vote' option for the call in the 'Attendance' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(2000)
+           
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+           
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+          
         });
 
         it("Navigate to the 'Attendance' section", function() {
@@ -739,7 +732,7 @@ describe("The user is able to choose and select 'Delegated vote' option for the 
 
         it("Click on the 'There is a delegated vote' checkbox and click on the 'Save' button", function() {
             cy.get('#council-type-delegated-vote').click()
-            cy.wait(1000)
+           
             cy.get('#council-statute-save-button').click()
         });
 
@@ -753,11 +746,11 @@ describe("The user is able to choose and select 'Delegated vote' option for the 
 describe("The user is able to choose and select 'The sense of vote can be indicated in the delegations' option for the call in the 'Attendance' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(2000)
+          
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+          
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+        
         });
 
         it("Navigate to the 'Attendance' section", function() {
@@ -766,7 +759,7 @@ describe("The user is able to choose and select 'The sense of vote can be indica
 
         it("Click on the 'The sense of vote can be indicated in the delegations' checkbox and click on the 'Save' button", function() {
             cy.get('#council-type-vote-sense').click()
-            cy.wait(1000)
+           
             cy.get('#council-statute-save-button').click()
         });
 
@@ -780,11 +773,11 @@ describe("The user is able to choose and select 'The sense of vote can be indica
 describe("The user is able to choose and select 'Early voting' option for the call in the 'Assistance' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(2000)
+          
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+            
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+           
         });
 
         it("Navigate to the 'Attendance' section", function() {
@@ -793,7 +786,7 @@ describe("The user is able to choose and select 'Early voting' option for the ca
 
         it("Click on the 'There is early voting' checkbox and click on the 'Save' button", function() {
             cy.get('#council-type-early-vote').click()
-            cy.wait(1000)
+           
             cy.get('#council-statute-save-button').click()
         });
 
@@ -807,11 +800,11 @@ describe("The user is able to choose and select 'Early voting' option for the ca
 describe("The user is able to choose and select 'There is maximum number of delegated votes option for the call' in the 'Assistance' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(2000)
+           
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+            
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+         
         });
 
         it("Navigate to the 'Attendance' section", function() {
@@ -820,7 +813,7 @@ describe("The user is able to choose and select 'There is maximum number of dele
 
         it("Click on the 'There is a maximum number of delegated votes' checkbox and navigate to the 'Vote' field and populate it then click on the 'Save' button", function() {
             cy.get('#council-type-max-delegated').click()
-            cy.wait(1000)
+          
             cy.get('#council-type-max-delegated-number').clear()
                 .type('3')
             cy.get('#council-statute-save-button').click()
@@ -836,11 +829,11 @@ describe("The user is able to choose and select 'There is maximum number of dele
 describe("The user is able to choose and select 'Access to the room is limited after the start' option for the call in the 'Assistance' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(2000)
+          
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+            
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+           
         });
 
         it("Navigate to the 'Attendance' section", function() {
@@ -849,7 +842,7 @@ describe("The user is able to choose and select 'Access to the room is limited a
 
         it("Click on the 'Access to the room is limited after the start' checkbox and navigate to the 'Minutes' field and populate it then click on the 'Save' button", function() {
             cy.get('#council-type-limited-access').click()
-            cy.wait(1000)
+           
             cy.get('#council-type-limited-access-minutes').clear()
                 .type('3')
             cy.get('#council-statute-save-button').click()
@@ -867,11 +860,11 @@ describe("The user is able to choose and select 'Access to the room is limited a
 describe("The user is able to choose and select 'Against' option for the call in the 'Default vote sense' field in the  'Completion of social agreements' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(2000)
+         
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+          
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+          
         });
 
         it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
@@ -879,16 +872,16 @@ describe("The user is able to choose and select 'Against' option for the call in
         });
 
         it("Navigate to the 'Default vote sense' field", function() {
-            cy.contains('Default voting').scrollIntoView()
-            cy.wait(1000)
+            cy.get('#council-type-default-vote').scrollIntoView().wait(1000)
+           
             //cy.get('.sidebar').scrollTo('bottom')
             cy.get('#council-type-default-vote').click()
-            cy.wait(1000)
+           
         });
 
         it("Click on the 'Against' button and click on the 'Save' button", function() {
             cy.get('#default-vote-0').click()
-            cy.wait(1000)
+         
             cy.get('#council-statute-save-button').click()
         });
 
@@ -902,11 +895,11 @@ describe("The user is able to choose and select 'Against' option for the call in
 describe("The user is able to choose and select 'No vote' option for the call in the 'Default vote sense' field in the  'Completion of social agreements' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(2000)
+         
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+         
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+           
         });
 
         it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
@@ -914,16 +907,16 @@ describe("The user is able to choose and select 'No vote' option for the call in
         });
 
         it("Navigate to the 'Default vote sense' field", function() {
-            cy.contains('Default voting').scrollIntoView()
-            cy.wait(1000)
+            cy.get('#council-type-default-vote').scrollIntoView().wait(1000)
+            
             //cy.get('.sidebar').scrollTo('bottom')
             cy.get('#council-type-default-vote').click()
-            cy.wait(1000)
+         
         });
 
         it("Click on the 'No vote' button and click on the 'Save' button", function() {
             cy.get('#default-vote-no-vote').click()
-            cy.wait(1000)
+           
             cy.get('#council-statute-save-button').click()
         });
 
@@ -938,11 +931,11 @@ describe("The user is able to choose and select 'No vote' option for the call in
 describe("The user is able to choose and select 'In favor' option for the call in the 'Default vote sense' field in the  'Completion of social agreements' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(2000)
+           
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+            
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+            
         });
 
         it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
@@ -950,16 +943,16 @@ describe("The user is able to choose and select 'In favor' option for the call i
         });
 
         it("Navigate to the 'Default vote sense' field", function() {
-            cy.contains('Default voting').scrollIntoView()
-            cy.wait(1000)
+            cy.get('#council-type-default-vote').scrollIntoView().wait(1000)
+            
             //cy.get('.sidebar').scrollTo('bottom')
             cy.get('#council-type-default-vote').click()
-            cy.wait(1000)
+           
         });
 
         it("Click on the 'In favor' button and click on the 'Save' button", function() {
             cy.get('#default-vote-1').click()
-            cy.wait(1000)
+         
             cy.get('#council-statute-save-button').click()
         });
 
@@ -973,11 +966,11 @@ describe("The user is able to choose and select 'In favor' option for the call i
 describe("The user is able to choose and select 'Abstention' option for the call in the 'Default vote sense' field in the  'Completion of social agreements' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(2000)
+           
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+            
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+            
         });
 
         it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
@@ -985,16 +978,16 @@ describe("The user is able to choose and select 'Abstention' option for the call
         });
 
         it("Navigate to the 'Default vote sense' field", function() {
-            cy.contains('Default voting').scrollIntoView()
-            cy.wait(1000)
+            cy.get('#council-type-default-vote').scrollIntoView().wait(1000)
+            
             //cy.get('.sidebar').scrollTo('bottom')
             cy.get('#council-type-default-vote').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the 'Abstention' button and click on the 'Save' button", function() {
             cy.get('#default-vote-2').click()
-            cy.wait(1000)
+          
             cy.get('#council-statute-save-button').click()
         });
 
@@ -1009,20 +1002,20 @@ describe("The user is able to choose and select 'Abstention' option for the call
 describe("The user is able to choose and select 'There are comments on the agenda items' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(2000)
+           
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+           
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+          
         });
 
         it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
-            cy.contains('Making resolutions').scrollIntoView()
+            cy.get('#council-type-has-comments').scrollIntoView().wait(1000)
         });
 
         it("Click on the 'There are comments on the agenda items' checkbox and click on the 'Save' button", function() {
             cy.get('#council-type-has-comments').click()
-            cy.wait(1000)
+            
             cy.get('#council-statute-save-button').click()
         });
 
@@ -1036,21 +1029,21 @@ describe("The user is able to choose and select 'There are comments on the agend
 describe("The user is able to choose and select 'Email notification of voting start' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(2000)
+           
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+           
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+          
         });
 
         it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
-            cy.get('#council-type-notify-points').scrollIntoView()
-            cy.wait(1000)
+            cy.get('#council-type-notify-points').scrollIntoView().wait(1000)
+          
         });
 
         it("Click on the 'Email notification of voting start' checkbox and click on the 'Save' button", function() {
             cy.get('#council-type-notify-points').click()
-            cy.wait(1000)
+         
             cy.get('#council-statute-save-button').click()
         });
 
@@ -1064,20 +1057,20 @@ describe("The user is able to choose and select 'Email notification of voting st
 describe("The user is able to choose and select 'Exists quality vote' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(1000)
+            
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+           
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+          
         });
 
         it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
-            cy.contains('Making resolutions').scrollIntoView()
+            cy.get('#council-type-quality-vote').scrollIntoView().wait(1000)
         });
 
         it("Click on the 'Exists quality vote' checkbox and click on the 'Save' button", function() {
             cy.get('#council-type-quality-vote').click()
-            cy.wait(1000)
+          
             cy.get('#council-statute-save-button').click()
         });
 
@@ -1091,20 +1084,20 @@ describe("The user is able to choose and select 'Exists quality vote' option for
 describe("The user is able to choose and select 'Chairperson' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(1000)
+           
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+        
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+          
         });
 
         it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
-            cy.contains('Making resolutions').scrollIntoView()
+            cy.get('#council-type-president').scrollIntoView().wait(1000)
         });
 
         it("Click on the 'President' checkbox and click on the 'Save' button", function() {
             cy.get('#council-type-president').click()
-            cy.wait(1000)
+            
             cy.get('#council-statute-save-button').click()
         });
 
@@ -1119,20 +1112,20 @@ describe("The user is able to choose and select 'Chairperson' option for the cal
 describe("The user is able to choose and select 'Secretary' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(1000)
+            
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+            
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+          
         });
 
         it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
-            cy.contains('Making resolutions').scrollIntoView()
+            cy.get('#council-type-secretary').scrollIntoView().wait(1000)
         });
 
         it("Click on the 'Secretary' checkbox and click on the 'Save' button", function() {
             cy.get('#council-type-secretary').click()
-            cy.wait(1000)
+           
             cy.get('#council-statute-save-button').click()
         });
 
@@ -1146,20 +1139,20 @@ describe("The user is able to choose and select 'Secretary' option for the call 
 describe("The user is able to choose and select 'Hide recounts until voting is closed' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(1000)
+          
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+          
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+           
         });
 
         it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
-            cy.contains('Making resolutions').scrollIntoView()
+            cy.get('#council-type-hide-recount').scrollIntoView().wait(1000)
         });
 
         it("Click on the 'Hide recounts until voting is closed' checkbox and click on the 'Save' button", function() {
             cy.get('#council-type-hide-recount').click()
-            cy.wait(1000)
+           
             cy.get('#council-statute-save-button').click()
         });
 
@@ -1173,21 +1166,21 @@ describe("The user is able to choose and select 'Hide recounts until voting is c
 describe("The user is able to choose and select 'There are present participants with electronic vote' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(1000)
+            
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+          
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+           
         });
 
         it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
-            cy.get('#council-type-remote-vote').scrollIntoView()
-            cy.wait(3000)
+            cy.get('#council-type-remote-vote').scrollIntoView().wait(1000)
+         
         });
 
         it("Click on the 'There are present participants with electronic vote' checkbox and click on the 'Save' button", function() {
             cy.get('#council-type-remote-vote').click()
-            cy.wait(1000)
+           
             cy.get('#council-statute-save-button').click()
         });
 
@@ -1201,21 +1194,21 @@ describe("The user is able to choose and select 'There are present participants 
 describe("The user is able to choose and select 'It is permitted to alter the agenda after the call' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(1000)
+       
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+         
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+         
         });
 
         it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
-            cy.get('#council-type-agenda-modify').scrollIntoView()
-            cy.wait(1000)
+            cy.get('#council-type-agenda-modify').scrollIntoView().wait(1000)
+          
         });
 
         it("Click on the 'It is permitted to alter the agenda after the call' checkbox and click on the 'Save' button", function() {
             cy.get('#council-type-agenda-modify').click()
-            cy.wait(1000)
+          
             cy.get('#council-statute-save-button').click()
         });
 
@@ -1229,21 +1222,21 @@ describe("The user is able to choose and select 'It is permitted to alter the ag
 describe("The user is able to choose and select 'It is permitted to reorder items on the agenda during the meeting' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(1000)
+            
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+           
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+          
         });
 
         it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
-            cy.get('#council-type-agenda-reorder').scrollIntoView()
-            cy.wait(1000)
+            cy.get('#council-type-agenda-reorder').scrollIntoView().wait(1000)
+           
         });
 
         it("Click on the 'It is permitted to reorder items on the agenda during the meeting' checkbox and click on the 'Save' button", function() {
             cy.get('#council-type-agenda-reorder').click()
-            cy.wait(1000)
+          
             cy.get('#council-statute-save-button').click()
         });
 
@@ -1257,21 +1250,21 @@ describe("The user is able to choose and select 'It is permitted to reorder item
 describe("The user is able to choose and select 'Those banned may be readmitted' option for the call in the 'Making resolutions' section in the 'Council types' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(1000)
+      
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+          
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+    
         });
 
         it("Scroll down the page and navigate to the 'Making resolutions' section", function() {
-            cy.get('#council-type-can-unblock').scrollIntoView()
-            cy.wait(1000)
+            cy.get('#council-type-can-unblock').scrollIntoView().wait(1000)
+      
         });
 
         it("Click on the 'Those banned may be readmitted' checkbox and click on the 'Save' button", function() {
             cy.get('#council-type-can-unblock').click()
-            cy.wait(1000)
+          
             cy.get('#council-statute-save-button').click()
         });
 
@@ -1287,23 +1280,23 @@ describe("The user is able to choose and select 'Those banned may be readmitted'
 describe("The user is able to choose and select 'Associated census' for the call in the 'Census' section in the 'Types of meetings' form", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(1000)
+           
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+          
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+           
         });
 
         it("Scroll down the page and navigate to the 'Census' section", function() {
-            cy.get('#council-type-default-census').scrollIntoView()
-            cy.wait(1000)
+            cy.get('#council-type-default-census').scrollIntoView().wait(1000)
+            
         });
 
         it("Navigate to the 'Associated census' and from the dropdown menu choose and click on the Census you want to select then click on the 'Save' button", function() {
             cy.get('#council-type-default-census').click()
-            cy.wait(1000)
+         
             cy.get('#census-0').click()
-            cy.wait(1000)
+          
             cy.get('#council-statute-save-button').click()
         });
 
@@ -1319,21 +1312,21 @@ describe("The user is able to choose and select 'Associated census' for the call
 describe("The user is able to choose and select 'Minutes exist' option for the call in the 'Minutes and documents' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(1000)
+          
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+            
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+           
         });
 
         it("Scroll down the page and navigate to the 'Minutes and documents' section", function() {
-            cy.get('#council-type-has-act').scrollIntoView()
-            cy.wait(1000)
+            cy.get('#council-type-has-act').scrollIntoView().wait(1000)
+            
         });
 
         it("Click on the 'Minutes exist' checkbox and click on the 'Save' button", function() {
             cy.get('#council-type-has-act').click()
-            cy.wait(1000)
+          
             cy.get('#council-statute-save-button').click()
         });
 
@@ -1347,21 +1340,21 @@ describe("The user is able to choose and select 'Minutes exist' option for the c
 describe("The user is able to choose and select 'Automatic approval of the minutes at the end' option for the call in the 'Minutes and documents' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(1000)
+            
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+           
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+           
         });
 
         it("Scroll down the page and navigate to the 'Minutes and documents' section", function() {
-            cy.get('#council-type-auto-approve-act').scrollIntoView()
-            cy.wait(1000)
+            cy.get('#council-type-auto-approve-act').scrollIntoView().wait(1000)
+           
         });
 
         it("Click on the “Automatic approval of the minutes at the end” checkbox and click on the 'Save' button", function() {
             cy.get('#council-type-auto-approve-act').click()
-            cy.wait(1000)
+            
             cy.get('#council-statute-save-button').click()
         });
 
@@ -1375,21 +1368,21 @@ describe("The user is able to choose and select 'Automatic approval of the minut
 describe("The user is able to choose and select 'Send minutes automatically on completion option for the call in the 'Minutes and documents' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(1000)
+           
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+           
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+          
         });
 
         it("Scroll down the page and navigate to the 'Minutes and documents' section", function() {
-            cy.get('#council-type-auto-send-act').scrollIntoView()
-            cy.wait(1000)
+            cy.get('#council-type-auto-send-act').scrollIntoView().wait(1000)
+          
         });
 
         it("Click on the “Send minutes automatically on completion” checkbox and click on the “Save” button", function() {
             cy.get('#council-type-auto-send-act').click()
-            cy.wait(1000)
+          
             cy.get('#council-statute-save-button').click()
         });
 
@@ -1412,7 +1405,7 @@ describe("The user is able to choose and select 'A list of participants is inclu
         });
 
         it("Scroll down the page and navigate to the 'Minutes and documents' section", function() {
-            cy.get('#council-type-include-attendants-list').scrollIntoView()
+            cy.get('#council-type-include-attendants-list').scrollIntoView().wait(1000)
             cy.wait(1000)
         });
 
@@ -1441,7 +1434,7 @@ describe("The user is able to choose and select 'It is included in the minute bo
         });
 
         it("Scroll down the page and navigate to the 'Minutes and documents' section", function() {
-            cy.get('#council-type-include-act-book').scrollIntoView()
+            cy.get('#council-type-include-act-book').scrollIntoView().wait(1000)
             cy.wait(1000)
         });
 
@@ -1463,21 +1456,21 @@ describe("The user is able to choose and select 'It is included in the minute bo
 describe("The user is able to choose and select 'Double column' option for the call in the 'Documents' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(1000)
+        
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+         
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+          
         });
 
         it("Scroll down the page and navigate to the 'Documents' section", function() {
-            cy.get('#council-type-double-column').scrollIntoView()
-            cy.wait(1000)
+            cy.get('#council-type-double-column').scrollIntoView().wait(1000)
+         
         });
 
         it("Click on the 'Double column' checkbox and click on the 'Save' button", function() {
             cy.get('#council-type-double-column').click()
-            cy.wait(1000)
+            
             cy.get('#council-statute-save-button').click()
         });
 
@@ -1492,21 +1485,21 @@ describe("The user is able to choose and select 'Double column' option for the c
 describe("The user is able to choose and select 'Require (proxy) document' option for the call in the 'Documents' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(1000)
+          
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+            
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+          
         });
 
         it("Scroll down the page and navigate to the 'Documents' section", function() {
-            cy.get('#council-type-require-proxy').scrollIntoView()
-            cy.wait(1000)
+            cy.get('#council-type-require-proxy').scrollIntoView().wait(1000)
+          
         });
 
         it("Click on the 'Require (proxy) document' checkbox and click on the 'Save' button", function() {
             cy.get('#council-type-require-proxy').click()
-            cy.wait(1000)
+         
             cy.get('#council-statute-save-button').click()
         });
 
@@ -1523,16 +1516,16 @@ describe("The user is able to choose and select 'Require (proxy) document' optio
 describe("The user is able to choose and select the tag in the 'tags' section in the 'Announcement header' form in the 'Announcement template' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(1000)
+          
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+           
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+            
         });
 
         it("Scroll down the page and navigate to the 'Documents' section", function() {
-            cy.get('#council-type-convene-header').scrollIntoView()
-            cy.wait(1000)
+            cy.get('#council-type-convene-header').scrollIntoView().wait(1000)
+         
         });
 
         it("Navigate to the 'Voting letter with voting directions' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
@@ -1540,7 +1533,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
                 .type('{{')
                     .type('business_name')
                         .type('}}')
-            cy.wait(1000)
+         
             cy.get('#council-statute-save-button').click()
 
         });
@@ -1556,16 +1549,16 @@ describe("The user is able to choose and select the tag in the 'tags' section in
 describe("The user is able to choose and select the tag in the 'tags' section in the 'Annoucement footer' form in the 'Annoucement template' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(1000)
+       
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+         
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+         
         });
 
         it("Scroll down the page and navigate to the 'Announcement templates' section", function() {
-            cy.get('#council-type-convene-footer').scrollIntoView()
-            cy.wait(1000)
+            cy.get('#council-type-convene-footer').scrollIntoView().wait(1000)
+          
         });
 
         it("Navigate to the 'Announcement footer' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
@@ -1573,7 +1566,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
                 .type('{{')
                     .type('business_name')
                         .type('}}')
-            cy.wait(1000)
+           
             cy.get('#council-statute-save-button').click()
 
         });
@@ -1588,16 +1581,16 @@ describe("The user is able to choose and select the tag in the 'tags' section in
 describe("The user is able to choose and select the tag in the 'tags' section in the 'Introduction' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(1000)
+          
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+          
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+        
         });
 
         it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
-            cy.get('#council-type-intro').scrollIntoView()
-            cy.wait(1000)
+            cy.get('#council-type-intro').scrollIntoView().wait(1000)
+           
         });
 
         it("Navigate to the 'Introduction' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
@@ -1605,7 +1598,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
                 .type('{{')
                     .type('business_name')
                         .type('}}')
-            cy.wait(1000)
+          
             cy.get('#council-statute-save-button').click()
 
         });
@@ -1620,16 +1613,16 @@ describe("The user is able to choose and select the tag in the 'tags' section in
 describe("The user is able to choose and select the tag in the 'tags' section in the 'Right column introduction' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(1000)
+            
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+          
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+        
         });
 
         it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
-            cy.get('#council-type-intro-secondary').scrollIntoView()
-            cy.wait(1000)
+            cy.get('#council-type-intro-secondary').scrollIntoView().wait(1000)
+        
         });
 
         it("Navigate to the 'Right column introduction' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
@@ -1637,7 +1630,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
                 .type('{{')
                     .type('business_name')
                         .type('}}')
-            cy.wait(1000)
+          
             cy.get('#council-statute-save-button').click()
 
         });
@@ -1652,16 +1645,16 @@ describe("The user is able to choose and select the tag in the 'tags' section in
 describe("The user is able to choose and select the tag in the 'tags' section in the 'Constitution' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(1000)
+          
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+            
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+         
         });
 
         it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
-            cy.get('#council-type-constitution').scrollIntoView()
-            cy.wait(1000)
+            cy.get('#council-type-constitution').scrollIntoView().wait(1000)
+            
         });
 
         it("Navigate to the 'Constitution' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
@@ -1669,7 +1662,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
                 .type('{{')
                     .type('business_name')
                         .type('}}')
-            cy.wait(1000)
+            
             cy.get('#council-statute-save-button').click()
 
         });
@@ -1684,16 +1677,16 @@ describe("The user is able to choose and select the tag in the 'tags' section in
 describe("The user is able to choose and select the tag in the 'tags' section in the 'Constitution right column' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(1000)
+          
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+           
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+           
         });
 
         it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
-            cy.get('#council-type-constitution-secondary').scrollIntoView()
-            cy.wait(1000)
+            cy.get('#council-type-constitution-secondary').scrollIntoView().wait(1000)
+           
         });
 
         it("Navigate to the 'Constitution right column' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
@@ -1701,7 +1694,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
                 .type('{{')
                     .type('business_name')
                         .type('}}')
-            cy.wait(1000)
+          
             cy.get('#council-statute-save-button').click()
 
         });
@@ -1716,16 +1709,16 @@ describe("The user is able to choose and select the tag in the 'tags' section in
 describe("The user is able to choose and select the tag in the 'tags' section in the 'Conclusion' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(1000)
+          
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+         
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+          
         });
 
         it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
-            cy.get('#council-type-conclusion').scrollIntoView()
-            cy.wait(1000)
+            cy.get('#council-type-conclusion').scrollIntoView().wait(1000)
+           
         });
 
         it("Navigate to the 'Conclusion' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
@@ -1733,7 +1726,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
                 .type('{{')
                     .type('business_name')
                         .type('}}')
-            cy.wait(1000)
+           
             cy.get('#council-statute-save-button').click()
 
         });
@@ -1748,16 +1741,16 @@ describe("The user is able to choose and select the tag in the 'tags' section in
 describe("The user is able to choose and select the tag in the 'tags' section in the 'Right column conclusion' form in the 'Minutes templates' section in the 'Types of meetings' section", function() {
 
         it("Click on the 'Council types' button", function() {
-            cy.wait(1000)
+           
             cy.get('#edit-statutes-block').click()
-            cy.wait(1000)
+            
             cy.get('#company-statute-edit-3').click()
-            cy.wait(1000)
+         
         });
 
         it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
-            cy.get('#council-type-conclusion-secondary').scrollIntoView()
-            cy.wait(1000)
+            cy.get('#council-type-conclusion-secondary').scrollIntoView().wait(1000)
+           
         });
 
         it("Navigate to the 'Right column conclusion' section and click on the 'tags' button and click on it then choose and select the tag you want and click on the 'Save' button", function() {
@@ -1765,7 +1758,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
                 .type('{{')
                     .type('business_name')
                         .type('}}')
-            cy.wait(1000)
+          
             cy.get('#council-statute-save-button').click()
 
         });
@@ -1789,7 +1782,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
         });
 
         it("Scroll down the page and navigate to the 'Announcement templates' section", function() {
-            cy.get('#council-type-proxy').scrollIntoView()
+            cy.get('#council-type-proxy').scrollIntoView().wait(1000)
             cy.wait(1000)
         });
 
@@ -1820,7 +1813,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
         });
 
         it("Scroll down the page and navigate to the 'Announcement templates' section", function() {
-            cy.get('#council-type-proxy-secondary').scrollIntoView()
+            cy.get('#council-type-proxy-secondary').scrollIntoView().wait(1000)
             cy.wait(1000)
         });
 
@@ -1851,7 +1844,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
         });
 
         it("Scroll down the page and navigate to the 'Documents' section", function() {
-            cy.get('#council-type-vote-letter').scrollIntoView()
+            cy.get('#council-type-vote-letter').scrollIntoView().wait(1000)
             cy.wait(1000)
         });
 
@@ -1883,7 +1876,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
         });
 
         it("Scroll down the page and navigate to the 'Documents' section", function() {
-            cy.get('#council-type-vote-letter-secondary').scrollIntoView()
+            cy.get('#council-type-vote-letter-secondary').scrollIntoView().wait(1000)
             cy.wait(1000)
         });
 
@@ -1914,7 +1907,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
         });
 
         it("Scroll down the page and navigate to the 'Documents' section", function() {
-            cy.get('#council-type-vote-letter-with-sense').scrollIntoView()
+            cy.get('#council-type-vote-letter-with-sense').scrollIntoView().wait(1000)
             cy.wait(1000)
         });
 
@@ -1945,7 +1938,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
         });
 
         it("Scroll down the page and navigate to the 'Documents' section", function() {
-            cy.get('#council-type-vote-letter-with-sense-secondary').scrollIntoView()
+            cy.get('#council-type-vote-letter-with-sense-secondary').scrollIntoView().wait(1000)
             cy.wait(1000)
         });
 
@@ -1976,7 +1969,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
         });
 
         it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
-            cy.get('#council-type-intro').scrollIntoView()
+            cy.get('#council-type-intro').scrollIntoView().wait(1000)
             cy.wait(1000)
         });
 
@@ -2007,7 +2000,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
         });
 
         it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
-            cy.get('#council-type-intro-secondary').scrollIntoView()
+            cy.get('#council-type-intro-secondary').scrollIntoView().wait(1000)
             cy.wait(1000)
         });
 
@@ -2038,7 +2031,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
         });
 
         it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
-            cy.get('#council-type-constitution').scrollIntoView()
+            cy.get('#council-type-constitution').scrollIntoView().wait(1000)
             cy.wait(1000)
         });
 
@@ -2069,7 +2062,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
         });
 
         it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
-            cy.get('#council-type-constitution-secondary').scrollIntoView()
+            cy.get('#council-type-constitution-secondary').scrollIntoView().wait(1000)
             cy.wait(1000)
         });
 
@@ -2100,7 +2093,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
         });
 
         it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
-            cy.get('#council-type-conclusion').scrollIntoView()
+            cy.get('#council-type-conclusion').scrollIntoView().wait(1000)
             cy.wait(1000)
         });
 
@@ -2131,7 +2124,7 @@ describe("The user is able to choose and select the tag in the 'tags' section in
         });
 
         it("Scroll down the page and navigate to the 'Minutes templates' section", function() {
-            cy.get('#council-type-conclusion-secondary').scrollIntoView()
+            cy.get('#council-type-conclusion-secondary').scrollIntoView().wait(1000)
             cy.wait(1000)
         });
 

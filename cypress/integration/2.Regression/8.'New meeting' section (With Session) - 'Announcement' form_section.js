@@ -52,7 +52,7 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Clicks login button", function() {
         cy.get("#login-button").click();
-        cy.wait(1000)
+        
     });
 
 });
@@ -64,27 +64,27 @@ describe("The user is able to select 'Meeting type' in the 'Announcement' sectio
 
         it("Click on the 'New Meeting' button", function() {
             cy.get('#create-council-block').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the 'With session' buttonn", function() {
             cy.get('#create-council-with-session').click()
-            cy.wait(1000)
+            
         });
 
         it("Navigate to the 'Meeting Type' section and click on it", function() {
             cy.get('#council-notice-type-select').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the Meeting type you want", function() {
             cy.get('#council-notice-type-2')
-            cy.wait(1000)
+            
         });
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+            
         });
 
 
@@ -95,27 +95,27 @@ describe("The user is able to select 'Meeting type' in the 'Announcement' sectio
 
         it("Click on the 'New Meeting' button", function() {
             cy.get('#create-council-block').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the 'With session' buttonn", function() {
             cy.get('#create-council-with-session').click()
-            cy.wait(1000)
+            
         });
 
         it("Navigate to the 'Meeting Type' section and click on it", function() {
             cy.get('#council-notice-type-select').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the Meeting type you want", function() {
             cy.get('#council-notice-type-2')
-            cy.wait(1000)
+            
         });
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+            
         });
 
 
@@ -125,17 +125,17 @@ describe("The user is able to view the details of the council in the 'Announceme
 
         it("Click on the 'New Meeting' button", function() {
             cy.get('#create-council-block').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the 'With session' buttonn", function() {
             cy.get('#create-council-with-session').click()
-            cy.wait(1000)
+            
         });
 
         it("Navigate to upper left corner and click on the “See Details” button", function() {
             cy.get('#council-editor-check-statute').click()
-            cy.wait(1000)
+            
         });
 
         it("The details of council is successfully displayed", function() {
@@ -144,7 +144,7 @@ describe("The user is able to view the details of the council in the 'Announceme
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+            
         });
 
 
@@ -154,17 +154,17 @@ describe("The user is able to change meeting date in the 'Announcement' section 
 
         it("Click on the 'New Meeting' button", function() {
             cy.get('#create-council-block').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the 'With session' buttonn", function() {
             cy.get('#create-council-with-session').click()
-            cy.wait(1000)
+            
         });
 
         it("Navigate to the 'Date 1st call' section and click on the 'Calendar' icon", function() {
             cy.get('#council-notice-date-start-icon').click()
-            cy.wait(1000)
+            
         });
 
         it("Select the time and date you want and click on the 'OK' button", function() {
@@ -173,7 +173,7 @@ describe("The user is able to change meeting date in the 'Announcement' section 
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+            
         });
 
 
@@ -184,17 +184,17 @@ describe("The user is able to change meeting date in the 'Announcement' section 
 
         it("Click on the 'New Meeting' button", function() {
             cy.get('#create-council-block').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the 'With session' buttonn", function() {
             cy.get('#create-council-with-session').click()
-            cy.wait(1000)
+            
         });
 
         it("Navigate to the 'Date 1st call' section and click on the 'Calendar' icon", function() {
             cy.get('#council-notice-date-start-icon').click()
-            cy.wait(1000)
+            
         });
 
         it("Select the time and date you want and click on the 'OK' button", function() {
@@ -203,7 +203,7 @@ describe("The user is able to change meeting date in the 'Announcement' section 
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+            
         });
 
 
@@ -213,12 +213,12 @@ describe("The user is able to change meeting title in the 'Announcement' section
 
         it("Click on the 'New Meeting' button", function() {
             cy.get('#create-council-block').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the 'With session' buttonn", function() {
             cy.get('#create-council-with-session').click()
-            cy.wait(1000)
+            
         });
 
         it("Navigated to the 'Meeting title' section", function() {
@@ -236,7 +236,7 @@ describe("The user is able to change meeting title in the 'Announcement' section
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+            
         });
 
 
@@ -246,22 +246,22 @@ describe("The user is able to change location to celebrate in remote through the
 
         it("Click on the 'New Meeting' button", function() {
             cy.get('#create-council-block').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the 'With session' buttonn", function() {
             cy.get('#create-council-with-session').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the 'Change location' button", function() {
             cy.get('#council-notice-place').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the checkbox to “Held remotely” option", function() {
             cy.get('#council-place-remote').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the “Save” button", function() {
@@ -270,7 +270,7 @@ describe("The user is able to change location to celebrate in remote through the
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+            
         });
 
 
@@ -280,36 +280,36 @@ describe("The user is not able to create a meeting without populating 'Meeting t
 
         it("Click on the 'New Meeting' button", function() {
             cy.get('#create-council-block').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the 'With session' buttonn", function() {
             cy.get('#create-council-with-session').click()
-            cy.wait(1000)
+            
         });
 
         it("Navigate to the 'Meeting title' section and delete an already written title", function() {
             cy.get('#council-notice-title').clear()
-            cy.wait(1000)
+            
         });
 
         it("Populate all other required fields and click on the 'Next' button", function() {
             cy.get('#council-notice-convene-intro')
                 .type('Test')
             cy.get('#council-editor-next').click()
-            cy.wait(1000)
+            
         });
 
         it("A pop-up window with the “Review the form. There are errors or blank fields” message is displayed", function() {
             cy.get('#error-alert-title')
-            cy.wait(500)
+            
             cy.get('#error-alert-button').click()
 
         })
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+            
         });
 
 
@@ -319,27 +319,27 @@ describe("The user is not able to change location in the 'Announcement' section 
 
         it("Click on the 'New Meeting' button", function() {
             cy.get('#create-council-block').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the 'With session' buttonn", function() {
             cy.get('#create-council-with-session').click()
-            cy.wait(1000)
+            
         });
 
         it("Navigate to the 'Location' section and click on the 'Change location' button", function() {
             cy.get('#council-notice-place').click()
-            cy.wait(1000)
+            
         });
 
         it("Remove the data from populated fields", function() {
             cy.get('#council-place-country').clear()
-            cy.wait(1000)
+            
         });
 
         it("Click on the 'OK' button", function() {
             cy.get('#accept-button').click()
-            cy.wait(1000)
+            
 
         })
 
@@ -349,7 +349,7 @@ describe("The user is not able to change location in the 'Announcement' section 
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+            
         });
 
 
@@ -359,27 +359,27 @@ describe("The user is able to select the 'Province' tag in the 'Information on t
 
         it("Click on the 'New Meeting' button", function() {
             cy.get('#create-council-block').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the 'With session' buttonn", function() {
             cy.get('#create-council-with-session').click()
-            cy.wait(1000)
+            
         });
 
         it("Navigate to the “Information on the announcement*” section and click on the 'tags' button", function() {
             cy.get('#custom-tags-council-notice-convene-footer').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the “Province” button", function() {
             cy.get('#tag-4').click()
-            cy.wait(1000)
+            
         });
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+            
         });
 
 
@@ -389,27 +389,27 @@ describe("The user is able to select the 'Country' tag in the 'Information on th
 
         it("Click on the 'New Meeting' button", function() {
             cy.get('#create-council-block').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the 'With session' buttonn", function() {
             cy.get('#create-council-with-session').click()
-            cy.wait(1000)
+            
         });
 
         it("Navigate to the “Information on the announcement*” section and click on the 'tags' button", function() {
             cy.get('#custom-tags-council-notice-convene-footer').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the “Country” button", function() {
             cy.get('#tag-3').click()
-            cy.wait(1000)
+            
         });
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+            
         });
 
 
@@ -419,27 +419,27 @@ describe("The user is able to select the 'Business name' tag in the 'Information
 
         it("Click on the 'New Meeting' button", function() {
             cy.get('#create-council-block').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the 'With session' buttonn", function() {
             cy.get('#create-council-with-session').click()
-            cy.wait(1000)
+            
         });
 
         it("Navigate to the “Information on the announcement*” section and click on the 'tags' button", function() {
             cy.get('#custom-tags-council-notice-convene-footer').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the Business name button", function() {
             cy.get('#tag-1').click()
-            cy.wait(1000)
+            
         });
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+            
         });
 
 
@@ -449,27 +449,27 @@ describe("The user is able to select the 'Place held' tag in the 'Information on
 
         it("Click on the 'New Meeting' button", function() {
             cy.get('#create-council-block').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the 'With session' buttonn", function() {
             cy.get('#create-council-with-session').click()
-            cy.wait(1000)
+            
         });
 
         it("Navigate to the “Information on the announcement*” section and click on the 'tags' button", function() {
             cy.get('#custom-tags-council-notice-convene-footer').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the “Place held” button", function() {
             cy.get('#tag-2').click()
-            cy.wait(1000)
+            
         });
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+            
         });
 
 
@@ -479,27 +479,27 @@ describe("The user is able to select the 'Date' tag in the 'Information on the a
 
         it("Click on the 'New Meeting' button", function() {
             cy.get('#create-council-block').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the 'With session' buttonn", function() {
             cy.get('#create-council-with-session').click()
-            cy.wait(1000)
+            
         });
 
         it("Navigate to the “Information on the announcement*” section and click on the 'tags' button", function() {
             cy.get('#custom-tags-council-notice-convene-footer').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the “Date” button", function() {
             cy.get('#tag-0').click()
-            cy.wait(1000)
+            
         });
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+            
         });
 
 
@@ -509,28 +509,28 @@ describe("The user is not able to create a 'New meeting with session' type of me
 
         it("Click on the 'New Meeting' button", function() {
             cy.get('#create-council-block').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the 'With session' buttonn", function() {
             cy.get('#create-council-with-session').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the 'Next' button without populating the 'Information on the announcement*' field", function() {
             cy.get('#council-editor-next').click()
-            cy.wait(1000)
+            
         });
 
         it("Error “Review the form. There are errors or blank fields” message is displayed in the pop-up window", function() {
             cy.get('#error-alert-title').click()
-            cy.wait(1000)
+            
             cy.get('#error-alert-button').click()
         });
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+            
         });
 
 
@@ -540,29 +540,29 @@ describe("The user is able to change location of meeting in the 'New meeting' se
 
         it("Click on the 'New Meeting' button", function() {
             cy.get('#create-council-block').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the 'With session' buttonn", function() {
             cy.get('#create-council-with-session').click()
-            cy.wait(1000)
+            
         });
 
         it("Click on the 'Change location' button", function() {
             cy.get('#council-notice-place').click()
-            cy.wait(1000)
+            
         });
 
         it("Modify fields with changes you want and click on the 'OK' button", function() {
             cy.get('#council-place-remote').click()
-            cy.wait(1000)
+            
             cy.get('#accept-button').click()
-            cy.wait(1000)
+            
         });
 
         it("Back to Home page", function() {
             cy.visit(login_url);
-            cy.wait(3000)
+            
         });
 
 

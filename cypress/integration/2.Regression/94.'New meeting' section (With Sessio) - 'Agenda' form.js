@@ -53,10 +53,13 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Clicks login button", function() {
         cy.get("#login-button").click();
-        cy.wait(1000)
+        
     });
 
 });
+
+
+
 
 
 describe("The user is not able to add 'New item yes/no/abstention' without populating the 'Title' field to the 'Add item to the agenda' section", function() {
@@ -72,7 +75,7 @@ describe("The user is not able to add 'New item yes/no/abstention' without popul
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -83,29 +86,24 @@ describe("The user is not able to add 'New item yes/no/abstention' without popul
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+        cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000) 
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -148,7 +146,7 @@ describe("The user is not able to add Custom item without populating the 'Title'
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -159,29 +157,24 @@ describe("The user is not able to add Custom item without populating the 'Title'
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+        cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+        cy.wait(1000)
+          
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -194,12 +187,12 @@ describe("The user is not able to add Custom item without populating the 'Title'
     });
 
     it("Populate all required fields expect 'Title' field and click on the 'OK' CTA", function() {
-        cy.get('#MISSING_ID').type('Test')
+        cy.get('#custom-point-added-option-0').type('Test')
         cy.get('#alert-confirm-button-accept').click()
     });
 
     it("'Required field' alert message is displayed beyond the Title field", function() {
-        cy.get('#undefined-error-text').should('be.visible')     
+        cy.get('#agenda-custom-point-title-error-text').should('be.visible')     
     });
 
     it("User should be able to exit the meeting", function() {
@@ -224,7 +217,7 @@ describe("The user is not able to add Custom item with invalid input in the 'Val
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -235,29 +228,24 @@ describe("The user is not able to add Custom item with invalid input in the 'Val
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+        cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -270,12 +258,12 @@ describe("The user is not able to add Custom item with invalid input in the 'Val
     });
 
     it("Populate all required fields expect 'Value' field and click on the 'OK' CTA", function() {
-        cy.get('#MISSING_ID').type('Test')
+        cy.get('#agenda-custom-point-title').type('Test')
         cy.get('#alert-confirm-button-accept').click()
     });
 
     it("'Required field' alert message is displayed beyond the 'Value' field", function() {
-        cy.get('#undefined-error-text').should('be.visible')     
+        cy.get('#custom-point-added-option-0-error-text').should('be.visible')     
     });
 
     it("User should be able to exit the meeting", function() {
@@ -299,7 +287,7 @@ describe("The user is able to reorder agenda points in the 'Agenda' section in t
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -310,29 +298,24 @@ describe("The user is able to reorder agenda points in the 'Agenda' section in t
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+        cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+         cy.wait(1000) 
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -347,6 +330,7 @@ describe("The user is able to reorder agenda points in the 'Agenda' section in t
     it("Populate all required fields and click on the 'OK' CTA", function() {
         cy.get('#agenda-editor-title-input').type('Yes/No agenda')
         cy.get('#alert-confirm-button-accept').click()
+        cy.wait(1000)
     })
 
     it("Click on the “Add item to the agenda+” button", function() {
@@ -358,17 +342,17 @@ describe("The user is able to reorder agenda points in the 'Agenda' section in t
     });
 
     it("Populate all required fields and click on the 'OK' CTA", function() {
-        cy.get('#MISSING_ID').type('Custom Agenda')
-        cy.get('#MISSING_ID').type('Value')
+        cy.get('#agenda-custom-point-title').type('Custom Agenda')
+        cy.get('#custom-point-added-option-0').type('Value')
         cy.get('#alert-confirm-button-accept').click()
     });
 
     it("Click on the 'Reorder agenda items' button", function() {
-        cy.get('#MISSING_ID').click()   
+        cy.get('#agenda-step-reorder-button').click()   
     });
 
     it("Reorder agenda items and click on the 'Save' button", function () {
-        cy.get('#MISSING_ID')
+        cy.get('#agenda-step-sort-list-0').click()
     })
 
     it("User should be able to exit the meeting", function() {
@@ -392,7 +376,7 @@ describe("The user is able to add 'Informative' type of the Yes/no item to the '
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -403,29 +387,25 @@ describe("The user is able to add 'Informative' type of the Yes/no item to the '
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+            cy.get('#participant-email-input')
+
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)  
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -468,7 +448,7 @@ describe("The user is able to edit 'Informative' type of the Yes/no item to the 
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -479,29 +459,24 @@ describe("The user is able to edit 'Informative' type of the Yes/no item to the 
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+            cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -513,7 +488,7 @@ describe("The user is able to edit 'Informative' type of the Yes/no item to the 
         cy.get('#puntoSiNoAbstencion').click()        
     });
 
-    it("Populate all required fields and navigate to the 'ype' field and select the 'Informative' type then click on the 'OK' CTA", function() {
+    it("Populate all required fields and navigate to the 'Type' field and select the 'Informative' type then click on the 'OK' CTA", function() {
         cy.get('#agenda-editor-title-input').type('Informative Agenda')
         cy.get('#agenda-editor-type-select').click()
         cy.get('#agenda-editor-type-0').click()
@@ -525,8 +500,9 @@ describe("The user is able to edit 'Informative' type of the Yes/no item to the 
     })
 
     it("Click on the already added type of meeting and modify it with changes you want then click on the 'OK' button", function() {
-        cy.get('#MISSING_ID').click()
+        cy.get('#agenda-step-item-1').click()
         cy.get('#agenda-editor-title-input').clear().type('Edit Informative Agenda')
+        cy.get('#alert-confirm-button-accept').click()
     })
 
     it("Item is successfully edited", function() {
@@ -554,7 +530,7 @@ describe("The user is able to remove 'Informative' type of the Item Yes/no Abste
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -565,29 +541,24 @@ describe("The user is able to remove 'Informative' type of the Item Yes/no Abste
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+            cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -611,11 +582,12 @@ describe("The user is able to remove 'Informative' type of the Item Yes/no Abste
     })
 
     it("Navigate to the already added item and click on the 'X' button to remove it then click on the 'Delete' button", function() {
-        cy.get('#MISSING_ID').click()
+        cy.get('#agenda-step-delete-item-1').click()
+        cy.get('#alert-confirm-button-accept').click()
     })
 
     it("Item is successfully removed", function() {
-        cy.get('#MISSING_ID').should('not.exist')
+        cy.get('#agenda-step-item-1').should('not.exist')
     })
 
     it("User should be able to exit the meeting", function() {
@@ -663,7 +635,7 @@ describe("The user is able to add 'Roll-call vote' type of the Yes/no item to th
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -674,29 +646,24 @@ describe("The user is able to add 'Roll-call vote' type of the Yes/no item to th
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+            cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -740,7 +707,7 @@ describe("The user is able to edit 'Roll-call vote' type of the Yes/no item to t
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -751,29 +718,24 @@ describe("The user is able to edit 'Roll-call vote' type of the Yes/no item to t
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+            cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -797,8 +759,9 @@ describe("The user is able to edit 'Roll-call vote' type of the Yes/no item to t
     })
 
     it("Click on the already added type of meeting and modify it with changes you want then click on the 'OK' button", function() {
-        cy.get('#MISSING_ID').click()
+        cy.get('#agenda-step-item-1').click()
         cy.get('#agenda-editor-title-input').clear().type('Edit Roll-call vote Agenda')
+        cy.get('#alert-confirm-button-accept').click()
     })
 
     it("Item is successfully edited", function() {
@@ -826,7 +789,7 @@ describe("The user is able to remove 'Roll-call vote' type of the Item Yes/no Ab
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -837,29 +800,24 @@ describe("The user is able to remove 'Roll-call vote' type of the Item Yes/no Ab
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+            cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -883,11 +841,12 @@ describe("The user is able to remove 'Roll-call vote' type of the Item Yes/no Ab
     })
 
     it("Navigate to the already added item and click on the 'X' button to remove it then click on the 'Delete' button", function() {
-        cy.get('#MISSING_ID').click()
+        cy.get('#agenda-step-delete-item-1').click()
+        cy.get('#alert-confirm-button-accept').click()
     })
 
     it("Item is successfully removed", function() {
-        cy.get('#MISSING_ID').should('not.exist')
+        cy.get('#agenda-step-item-1').should('not.exist')
     })
 
     it("User should be able to exit the meeting", function() {
@@ -935,7 +894,7 @@ describe("The user is able to add 'Public voting' type of the Yes/no item to the
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -946,29 +905,24 @@ describe("The user is able to add 'Public voting' type of the Yes/no item to the
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+            cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)  
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1012,7 +966,7 @@ describe("The user is able to edit 'Public voting' type of the Yes/no item to th
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -1023,29 +977,24 @@ describe("The user is able to edit 'Public voting' type of the Yes/no item to th
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+            cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1069,8 +1018,9 @@ describe("The user is able to edit 'Public voting' type of the Yes/no item to th
     })
 
     it("Click on the already added type of meeting and modify it with changes you want then click on the 'OK' button", function() {
-        cy.get('#MISSING_ID').click()
+        cy.get('#agenda-step-item-1').click()
         cy.get('#agenda-editor-title-input').clear().type('Edit Public voting Agenda')
+        cy.get('#alert-confirm-button-accept').click()
     })
 
     it("Item is successfully edited", function() {
@@ -1098,7 +1048,7 @@ describe("The user is able to remove 'Public voting' type of the Item Yes/no Abs
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -1109,29 +1059,24 @@ describe("The user is able to remove 'Public voting' type of the Item Yes/no Abs
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+            cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1155,11 +1100,12 @@ describe("The user is able to remove 'Public voting' type of the Item Yes/no Abs
     })
 
     it("Navigate to the already added item and click on the 'X' button to remove it then click on the 'Delete' button", function() {
-        cy.get('#MISSING_ID').click()
+        cy.get('#agenda-step-delete-item-1').click()
+        cy.get('#alert-confirm-button-accept').click()
     })
 
     it("Item is successfully removed", function() {
-        cy.get('#MISSING_ID').should('not.exist')
+        cy.get('#agenda-step-item-1').should('not.exist')
     })
 
     it("User should be able to exit the meeting", function() {
@@ -1220,7 +1166,7 @@ describe("The user is able to add 'Anonymous votation' type of the Yes/no item t
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -1231,29 +1177,24 @@ describe("The user is able to add 'Anonymous votation' type of the Yes/no item t
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+            cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1273,7 +1214,7 @@ describe("The user is able to add 'Anonymous votation' type of the Yes/no item t
     })
 
     it("'Anonymous votation' type of item is successfully added", function () {
-        cy.contains('Public voting Agenda').should('be.visible')
+        cy.contains('Anonymous votation Agenda').should('be.visible')
     })
 
     it("User should be able to exit the meeting", function() {
@@ -1297,7 +1238,7 @@ describe("The user is able to edit 'Anonymous votation' type of the Yes/no item 
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -1308,29 +1249,24 @@ describe("The user is able to edit 'Anonymous votation' type of the Yes/no item 
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+            cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)  
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1354,8 +1290,9 @@ describe("The user is able to edit 'Anonymous votation' type of the Yes/no item 
     })
 
     it("Click on the already added type of meeting and modify it with changes you want then click on the 'OK' button", function() {
-        cy.get('#MISSING_ID').click()
+        cy.get('#agenda-step-item-1').click()
         cy.get('#agenda-editor-title-input').clear().type('Edit Anonymous votation Agenda')
+        cy.get('#alert-confirm-button-accept').click()
     })
 
     it("Item is successfully edited", function() {
@@ -1383,7 +1320,7 @@ describe("The user is able to remove 'Anonymous votation' type of the Item Yes/n
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -1394,29 +1331,24 @@ describe("The user is able to remove 'Anonymous votation' type of the Item Yes/n
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+            cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1440,11 +1372,12 @@ describe("The user is able to remove 'Anonymous votation' type of the Item Yes/n
     })
 
     it("Navigate to the already added item and click on the 'X' button to remove it then click on the 'Delete' button", function() {
-        cy.get('#MISSING_ID').click()
+        cy.get('#agenda-step-delete-item-1').click()
+        cy.get('#alert-confirm-button-accept').click()
     })
 
     it("Item is successfully removed", function() {
-        cy.get('#MISSING_ID').should('not.exist')
+        cy.get('#agenda-step-item-1').should('not.exist')
     })
 
     it("User should be able to exit the meeting", function() {
@@ -1498,7 +1431,7 @@ describe("The user is able to add 'Roll-call vote' type of the Custom item to th
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -1509,29 +1442,24 @@ describe("The user is able to add 'Roll-call vote' type of the Custom item to th
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+            cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1543,11 +1471,11 @@ describe("The user is able to add 'Roll-call vote' type of the Custom item to th
         cy.get('#puntoPersonalizado').click()        
     });
 
-    it("Populate all required fields and navigate to the 'ype' field and select the 'Roll-call vote' type then click on the 'OK' CTA", function() {
-        cy.get('#MISSING_ID').type('Roll-call vote Custom Agenda')
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').type('Value')
+    it("Populate all required fields and navigate to the 'Type' field and select the 'Roll-call vote' type then click on the 'OK' CTA", function() {
+        cy.get('#agenda-custom-point-title').type('Roll-call vote Custom Agenda')
+        cy.get('#agenda-custom-point-type-dropdown').click()
+        cy.get('#agenda-custom-point-type-0').click()
+        cy.get('#custom-point-added-option-0').type('Value')
         cy.get('#alert-confirm-button-accept').click()
     })
 
@@ -1576,7 +1504,7 @@ describe("The user is able to edit 'Roll-call vote' type of the Custom item to t
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -1587,29 +1515,24 @@ describe("The user is able to edit 'Roll-call vote' type of the Custom item to t
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+            cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1621,11 +1544,11 @@ describe("The user is able to edit 'Roll-call vote' type of the Custom item to t
         cy.get('#puntoPersonalizado').click()        
     });
 
-    it("Populate all required fields and navigate to the 'ype' field and select the 'Roll-call vote' type then click on the 'OK' CTA", function() {
-        cy.get('#MISSING_ID').type('Roll-call vote Custom Agenda')
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').type('Value')
+    it("Populate all required fields and navigate to the 'Type' field and select the 'Roll-call vote' type then click on the 'OK' CTA", function() {
+        cy.get('#agenda-custom-point-title').type('Roll-call vote Custom Agenda')
+        cy.get('#agenda-custom-point-type-dropdown').click()
+        cy.get('#agenda-custom-point-type-0').click()
+        cy.get('#custom-point-added-option-0').type('Value')
         cy.get('#alert-confirm-button-accept').click()
     })
 
@@ -1634,8 +1557,9 @@ describe("The user is able to edit 'Roll-call vote' type of the Custom item to t
     })
 
     it("Click on the already added item and modify it with changes you want then click on the 'OK' button", function() {
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').clear().type('Edit Roll-call vote Custom Agenda')
+        cy.get('#agenda-step-item-1').click()
+        cy.get('#agenda-custom-point-title').clear().type('Edit Roll-call vote Custom Agenda')
+        cy.get('#alert-confirm-button-accept').click()
     })
 
     it("Item is successfully edited", function() {
@@ -1663,7 +1587,7 @@ describe("The user is able to remove 'Roll-call vote' type of the Custom item to
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -1674,29 +1598,24 @@ describe("The user is able to remove 'Roll-call vote' type of the Custom item to
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+            cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1708,11 +1627,11 @@ describe("The user is able to remove 'Roll-call vote' type of the Custom item to
         cy.get('#puntoPersonalizado').click()        
     });
 
-    it("Populate all required fields and navigate to the 'ype' field and select the 'Roll-call vote' type then click on the 'OK' CTA", function() {
-        cy.get('#MISSING_ID').type('Roll-call vote Custom Agenda')
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').type('Value')
+    it("Populate all required fields and navigate to the 'Type' field and select the 'Roll-call vote' type then click on the 'OK' CTA", function() {
+        cy.get('#agenda-custom-point-title').type('Roll-call vote Custom Agenda')
+        cy.get('#agenda-custom-point-type-dropdown').click()
+        cy.get('#agenda-custom-point-type-0').click()
+        cy.get('#custom-point-added-option-0').type('Value')
         cy.get('#alert-confirm-button-accept').click()
     })
 
@@ -1722,11 +1641,12 @@ describe("The user is able to remove 'Roll-call vote' type of the Custom item to
 
 
     it("Navigate to the already added item and click on the 'X' button to remove it then click on the 'Delete' button", function() {
-        cy.get('#MISSING_ID').click()
+        cy.get('#agenda-step-delete-item-1').click()
+        cy.get('#alert-confirm-button-accept').click()
     })
 
     it("Item is successfully removed", function() {
-        cy.get('#MISSING_ID').should('not.exist')
+        cy.get('#agenda-step-item-1').should('not.exist')
     })
 
     it("User should be able to exit the meeting", function() {
@@ -1770,7 +1690,7 @@ describe("The user is able to add 'Anonymous votation' type of the Custom item t
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -1781,29 +1701,24 @@ describe("The user is able to add 'Anonymous votation' type of the Custom item t
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+            cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)  
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1815,16 +1730,16 @@ describe("The user is able to add 'Anonymous votation' type of the Custom item t
         cy.get('#puntoPersonalizado').click()        
     });
 
-    it("Populate all required fields and navigate to the 'ype' field and select the 'Anonymous votation' type then click on the 'OK' CTA", function() {
-        cy.get('#MISSING_ID').type('Anonymous votation Custom Agenda')
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').type('Value')
+    it("Populate all required fields and navigate to the 'Type' field and select the 'Anonymous votation' type then click on the 'OK' CTA", function() {
+        cy.get('#agenda-custom-point-title').type('Roll-call vote Custom Agenda')
+        cy.get('#agenda-custom-point-type-dropdown').click()
+        cy.get('#agenda-custom-point-type-1').click()
+        cy.get('#custom-point-added-option-0').type('Value')
         cy.get('#alert-confirm-button-accept').click()
     })
 
     it("'Anonymous votation' type of item is successfully added", function () {
-        cy.contains('Anonymous votation Custom Agenda').should('be.visible')
+        cy.contains('Roll-call vote Custom Agenda').should('be.visible')
     })
 
     it("User should be able to exit the meeting", function() {
@@ -1848,7 +1763,7 @@ describe("The user is able to edit 'Anonymous votation' type of the Custom item 
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -1859,29 +1774,24 @@ describe("The user is able to edit 'Anonymous votation' type of the Custom item 
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+            cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1893,11 +1803,11 @@ describe("The user is able to edit 'Anonymous votation' type of the Custom item 
         cy.get('#puntoPersonalizado').click()        
     });
 
-    it("Populate all required fields and navigate to the 'ype' field and select the 'Anonymous votation' type then click on the 'OK' CTA", function() {
-        cy.get('#MISSING_ID').type('Anonymous votation Custom Agenda')
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').type('Value')
+    it("Populate all required fields and navigate to the 'Type' field and select the 'Anonymous votation' type then click on the 'OK' CTA", function() {
+        cy.get('#agenda-custom-point-title').type('Anonymous votation Custom Agenda')
+        cy.get('#agenda-custom-point-type-dropdown').click()
+        cy.get('#agenda-custom-point-type-1').click()
+        cy.get('#custom-point-added-option-0').type('Value')
         cy.get('#alert-confirm-button-accept').click()
     })
 
@@ -1906,8 +1816,9 @@ describe("The user is able to edit 'Anonymous votation' type of the Custom item 
     })
 
     it("Click on the already added item and modify it with changes you want then click on the 'OK' button", function() {
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').clear().type('Edit Anonymous votation Custom Agenda')
+        cy.get('#agenda-step-item-1').click()
+        cy.get('#agenda-custom-point-title').clear().type('Edit Anonymous votation Custom Agenda')
+        cy.get('#alert-confirm-button-accept').click()
     })
 
     it("Item is successfully edited", function() {
@@ -1935,7 +1846,7 @@ describe("The user is able to remove 'Anonymous votation' type of the Custom ite
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -1946,29 +1857,24 @@ describe("The user is able to remove 'Anonymous votation' type of the Custom ite
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+            cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)  
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1980,11 +1886,11 @@ describe("The user is able to remove 'Anonymous votation' type of the Custom ite
         cy.get('#puntoPersonalizado').click()        
     });
 
-    it("Populate all required fields and navigate to the 'ype' field and select the 'Anonymous votation' type then click on the 'OK' CTA", function() {
-        cy.get('#MISSING_ID').type('Anonymous votation Custom Agenda')
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').type('Value')
+    it("Populate all required fields and navigate to the 'Type' field and select the 'Anonymous votation' type then click on the 'OK' CTA", function() {
+        cy.get('#agenda-custom-point-title').type('Anonymous votation Custom Agenda')
+        cy.get('#agenda-custom-point-type-dropdown').click()
+        cy.get('#agenda-custom-point-type-1').click()
+        cy.get('#custom-point-added-option-0').type('Value')
         cy.get('#alert-confirm-button-accept').click()
     })
 
@@ -1994,11 +1900,12 @@ describe("The user is able to remove 'Anonymous votation' type of the Custom ite
 
 
     it("Navigate to the already added item and click on the 'X' button to remove it then click on the 'Delete' button", function() {
-        cy.get('#MISSING_ID').click()
+        cy.get('#agenda-step-delete-item-1').click()
+        cy.get('#alert-confirm-button-accept').click()
     })
 
     it("Item is successfully removed", function() {
-        cy.get('#MISSING_ID').should('not.exist')
+        cy.get('#agenda-step-item-1').should('not.exist')
     })
 
     it("User should be able to exit the meeting", function() {
@@ -2031,7 +1938,7 @@ describe("The user is able to add 'Public voting' type of the Custom item to the
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -2042,29 +1949,24 @@ describe("The user is able to add 'Public voting' type of the Custom item to the
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+            cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)  
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -2076,12 +1978,13 @@ describe("The user is able to add 'Public voting' type of the Custom item to the
         cy.get('#puntoPersonalizado').click()        
     });
 
-    it("Populate all required fields and navigate to the 'ype' field and select the 'Public voting' type then click on the 'OK' CTA", function() {
-        cy.get('#MISSING_ID').type('Public voting Custom Agenda')
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').type('Value')
+    it("Populate all required fields and navigate to the 'Type' field and select the 'Public voting' type then click on the 'OK' CTA", function() {
+        cy.get('#agenda-custom-point-title').type('Public voting Custom Agenda')
+        cy.get('#agenda-custom-point-type-dropdown').click()
+        cy.get('#agenda-custom-point-type-2').click()
+        cy.get('#custom-point-added-option-0').type('Value')
         cy.get('#alert-confirm-button-accept').click()
+
     })
 
     it("'Public voting' type of item is successfully added", function () {
@@ -2109,7 +2012,7 @@ describe("The user is able to edit 'Public voting' type of the Custom item to th
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -2120,29 +2023,24 @@ describe("The user is able to edit 'Public voting' type of the Custom item to th
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+            cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -2154,12 +2052,13 @@ describe("The user is able to edit 'Public voting' type of the Custom item to th
         cy.get('#puntoPersonalizado').click()        
     });
 
-    it("Populate all required fields and navigate to the 'ype' field and select the 'Public voting' type then click on the 'OK' CTA", function() {
-        cy.get('#MISSING_ID').type('Public voting Custom Agenda')
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').type('Value')
+    it("Populate all required fields and navigate to the 'Type' field and select the 'Public voting' type then click on the 'OK' CTA", function() {
+        cy.get('#agenda-custom-point-title').type('Public voting Custom Agenda')
+        cy.get('#agenda-custom-point-type-dropdown').click()
+        cy.get('#agenda-custom-point-type-1').click()
+        cy.get('#custom-point-added-option-0').type('Value')
         cy.get('#alert-confirm-button-accept').click()
+
     })
 
     it("'Public voting' type of item is successfully added", function () {
@@ -2167,8 +2066,9 @@ describe("The user is able to edit 'Public voting' type of the Custom item to th
     })
 
     it("Click on the already added item and modify it with changes you want then click on the 'OK' button", function() {
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').clear().type('Edit Public voting Custom Agenda')
+        cy.get('#agenda-step-item-1').click()
+        cy.get('#agenda-custom-point-title').clear().type('Edit Public voting Custom Agenda')
+        cy.get('#alert-confirm-button-accept').click()
     })
 
     it("Item is successfully edited", function() {
@@ -2196,7 +2096,7 @@ describe("The user is able to remove 'Public voting' type of the Custom item to 
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -2207,29 +2107,24 @@ describe("The user is able to remove 'Public voting' type of the Custom item to 
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+            cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -2242,11 +2137,12 @@ describe("The user is able to remove 'Public voting' type of the Custom item to 
     });
 
     it("Populate all required fields and navigate to the 'ype' field and select the 'Public voting' type then click on the 'OK' CTA", function() {
-        cy.get('#MISSING_ID').type('Public voting Custom Agenda')
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').type('Value')
+        cy.get('#agenda-custom-point-title').type('Public voting Custom Agenda')
+        cy.get('#agenda-custom-point-type-dropdown').click()
+        cy.get('#agenda-custom-point-type-1').click()
+        cy.get('#custom-point-added-option-0').type('Value')
         cy.get('#alert-confirm-button-accept').click()
+
     })
 
     it("'Public voting' type of item is successfully added", function () {
@@ -2255,11 +2151,13 @@ describe("The user is able to remove 'Public voting' type of the Custom item to 
 
 
     it("Navigate to the already added item and click on the 'X' button to remove it then click on the 'Delete' button", function() {
-        cy.get('#MISSING_ID').click()
+        cy.get('#agenda-step-delete-item-1').click()
+        cy.get('#alert-confirm-button-accept').click()
+
     })
 
     it("Item is successfully removed", function() {
-        cy.get('#MISSING_ID').should('not.exist')
+        cy.get('#agenda-step-item-1').should('not.exist')
     })
     it("User should be able to exit the meeting", function() {
         cy.visit(login_url)
@@ -2292,7 +2190,7 @@ describe("The user is able to add attachment the 'Item Yes/no/abstention' to the
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -2303,29 +2201,24 @@ describe("The user is able to add attachment the 'Item Yes/no/abstention' to the
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+            cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -2338,13 +2231,15 @@ describe("The user is able to add attachment the 'Item Yes/no/abstention' to the
     });
 
     it("Populate all required fields and navigate to the 'add attachment' button and click on it then upload the document you want then click on the 'OK' CTA", function() {
-        cy.get('#MISSING_ID').type('Public voting Custom Agenda')
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').type('Value')
+        cy.get('#agenda-editor-title-input').type('test Attach')
 
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').upload()
+
+        const docFile = 'testDocument.txt';
+        
+  
+
+        cy.get('#agenda-add-attachment-dropdown').click()
+        cy.get('#agenda-add-attachment-dropdown > div.jss14770.jss14780.jss14771.jss14827 > div > div > label > div').attachFile(docFile)
 
         cy.get('#alert-confirm-button-accept').click()
     })
@@ -2385,7 +2280,7 @@ describe("The user is able to add attachment in the Custom item to the 'Add item
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -2396,29 +2291,24 @@ describe("The user is able to add attachment in the Custom item to the 'Add item
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant' button and populate all required fields then click on the “Next” button", function() {
         cy.get('#add-participant-dropdown-trigger').click()
-        cy.wait(1000)
+        
         cy.get('#add-participant-button').click()
-        cy.wait(1000)
+        
         cy.get('#participant-name-input').clear()
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
-        cy.get('#participant-email-input').clear()
+            cy.get('#participant-email-input')
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
-          cy.wait(3000)
+          
+        cy.wait(1000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -2431,13 +2321,15 @@ describe("The user is able to add attachment in the Custom item to the 'Add item
     });
 
     it("Populate all required fields and navigate to the 'add attachment' button and click on it then upload the document you want then click on the 'OK' CTA", function() {
-        cy.get('#MISSING_ID').type('Public voting Custom Agenda')
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').type('Value')
+        cy.get('#agenda-custom-point-title').type('Public voting Custom Agenda')
+        cy.get('#custom-point-added-option-0').type('Value')
 
-        cy.get('#MISSING_ID').click()
-        cy.get('#MISSING_ID').upload()
+        const docFile = 'testDocument.txt';
+        
+  
+
+        cy.get('#agenda-add-attachment-dropdown').click()
+        cy.get('#agenda-add-attachment-dropdown > div.jss14770.jss14780.jss14771.jss14827 > div > div > label > div').attachFile(docFile)
 
         cy.get('#alert-confirm-button-accept').click()
     })

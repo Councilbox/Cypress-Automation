@@ -53,10 +53,11 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Clicks login button", function() {
         cy.get("#login-button").click();
-        cy.wait(1000)
+        
     });
 
 });
+
 
 
 describe("The user is not able to add participant with invalid inputs in the 'Name' field to the Census in the 'New meeting' section", function() {
@@ -71,7 +72,7 @@ describe("The user is not able to add participant with invalid inputs in the 'Na
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -82,7 +83,7 @@ describe("The user is not able to add participant with invalid inputs in the 'Na
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant+' button", function() {
@@ -95,16 +96,12 @@ describe("The user is not able to add participant with invalid inputs in the 'Na
             .type('!')               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+  
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
+          
     })
 
     it("'Invalid field' alert message is displayed beyond the 'Name' field", function() {
@@ -129,7 +126,7 @@ describe("The user is not able to add participant with invalid inputs in the 'Su
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -140,7 +137,7 @@ describe("The user is not able to add participant with invalid inputs in the 'Su
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant+' button", function() {
@@ -153,16 +150,12 @@ describe("The user is not able to add participant with invalid inputs in the 'Su
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('!') 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+  
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
+          
     })
 
     it("'Invalid field' alert message is displayed beyond the 'Name' field", function() {
@@ -187,7 +180,7 @@ describe("The user is not able to add representative with invalid inputs in the 
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -198,7 +191,7 @@ describe("The user is not able to add representative with invalid inputs in the 
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant+' button", function() {
@@ -211,14 +204,10 @@ describe("The user is not able to add representative with invalid inputs in the 
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+  
 
     })
 
@@ -231,12 +220,10 @@ describe("The user is not able to add representative with invalid inputs in the 
             .type('!!')
         cy.get('#representative-surname-input').clear()
             .type('Repre'+Cypress.config('UniqueNumber'))
-        cy.get('#representative-dni-input').clear()
-            .type('21451')
+  
         cy.get('#representative-email-input').clear()
             .type('rep'+Cypress.config('UniqueNumber')+'@yopmail.com')  
-        cy.get('#representative-phone-input').clear()
-            .type('213456')  
+
         cy.get('#alert-confirm-button-accept').click()
     })
 
@@ -264,7 +251,7 @@ describe("The user is not able to add representative with invalid inputs in the 
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -275,7 +262,7 @@ describe("The user is not able to add representative with invalid inputs in the 
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant+' button", function() {
@@ -288,14 +275,10 @@ describe("The user is not able to add representative with invalid inputs in the 
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+  
 
     })
 
@@ -308,12 +291,10 @@ describe("The user is not able to add representative with invalid inputs in the 
             .type('Repre'+Cypress.config('UniqueNumber'))
         cy.get('#representative-surname-input').clear()
             .type('!!')
-        cy.get('#representative-dni-input').clear()
-            .type('21451')
+  
         cy.get('#representative-email-input').clear()
             .type('rep'+Cypress.config('UniqueNumber')+'@yopmail.com')  
-        cy.get('#representative-phone-input').clear()
-            .type('213456')  
+
         cy.get('#alert-confirm-button-accept').click()
     })
 
@@ -329,6 +310,8 @@ describe("The user is not able to add representative with invalid inputs in the 
 
 });
 
+/*
+
 describe("The user is not able to add representative with invalid inputs in the 'Phone' field in the 'Add participant+'' form in the 'New meeting with session' type of meeting", function() {
 
      before(function() {
@@ -341,7 +324,7 @@ describe("The user is not able to add representative with invalid inputs in the 
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -352,7 +335,7 @@ describe("The user is not able to add representative with invalid inputs in the 
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant+' button", function() {
@@ -365,14 +348,10 @@ describe("The user is not able to add representative with invalid inputs in the 
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+  
 
     })
 
@@ -385,8 +364,7 @@ describe("The user is not able to add representative with invalid inputs in the 
             .type('Repre'+Cypress.config('UniqueNumber'))
         cy.get('#representative-surname-input').clear()
             .type('Repre'+Cypress.config('UniqueNumber'))
-        cy.get('#representative-dni-input').clear()
-            .type('21451')
+  
         cy.get('#representative-email-input').clear()
             .type('rep'+Cypress.config('UniqueNumber')+'@yopmail.com')  
         cy.get('#representative-phone-input').clear()
@@ -406,6 +384,8 @@ describe("The user is not able to add representative with invalid inputs in the 
 
 });
 
+
+
 describe("The user is not able to add representative with invalid inputs in the 'TIN' field in the 'Add participant+'' form in the 'New meeting with session' type of meeting", function() {
 
      before(function() {
@@ -418,7 +398,7 @@ describe("The user is not able to add representative with invalid inputs in the 
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -429,7 +409,7 @@ describe("The user is not able to add representative with invalid inputs in the 
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant+' button", function() {
@@ -442,14 +422,10 @@ describe("The user is not able to add representative with invalid inputs in the 
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+  
 
     })
 
@@ -462,11 +438,10 @@ describe("The user is not able to add representative with invalid inputs in the 
             .type('Repre'+Cypress.config('UniqueNumber'))
         cy.get('#representative-surname-input').clear()
             .type('Repre'+Cypress.config('UniqueNumber'))
-        cy.get('#representative-dni-input').clear()
-            .type('21451')
+  
         cy.get('#representative-email-input').clear()
             .type('rep'+Cypress.config('UniqueNumber')+'@yopmail.com')  
-        cy.get('#representative-phone-input').clear()
+        cy.get('#representative-dni-input').clear()
             .type('!!')  
         cy.get('#alert-confirm-button-accept').click()
     })
@@ -483,6 +458,8 @@ describe("The user is not able to add representative with invalid inputs in the 
 
 });
 
+*/
+
 describe("The user is able to add representative in the 'Add participant+'' form in the 'New meeting with session' type of meeting", function() {
 
      before(function() {
@@ -495,7 +472,7 @@ describe("The user is able to add representative in the 'Add participant+'' form
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -506,7 +483,7 @@ describe("The user is able to add representative in the 'Add participant+'' form
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant+' button", function() {
@@ -519,14 +496,10 @@ describe("The user is able to add representative in the 'Add participant+'' form
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+  
 
     })
 
@@ -539,12 +512,10 @@ describe("The user is able to add representative in the 'Add participant+'' form
             .type('Repre'+Cypress.config('UniqueNumber'))
         cy.get('#representative-surname-input').clear()
             .type('Repre'+Cypress.config('UniqueNumber'))
-        cy.get('#representative-dni-input').clear()
-            .type('21451')
+  
         cy.get('#representative-email-input').clear()
             .type('rep'+Cypress.config('UniqueNumber')+'@yopmail.com')  
-        cy.get('#representative-phone-input').clear()
-            .type('123456')  
+ 
         cy.get('#alert-confirm-button-accept').click()
     })
 
@@ -567,7 +538,7 @@ describe("The user is able to edit participant to the Census in the 'New meeting
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -578,7 +549,7 @@ describe("The user is able to edit participant to the Census in the 'New meeting
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant+' button", function() {
@@ -591,24 +562,20 @@ describe("The user is able to edit participant to the Census in the 'New meeting
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+  
         cy.get('#alert-confirm-button-accept').click()
 
     })
 
     it("Navigate to the already added participant and click on it", function() {
-        cy.get('#MISSING_ID').click()
+        cy.get('#participant-row-0').click()
     })
 
     it("Modify the data with changes you want and click on the 'OK' button", function() {
-        cy.get('#participant-entity-name-input').clear()
+        cy.get('#participant-name-input').clear()
             .type('Edit'+Cypress.config('UniqueNumber'))
         cy.get('#alert-confirm-button-accept').click()
         cy.contains('Edit'+Cypress.config('UniqueNumber')).should('be.visible')
@@ -632,7 +599,7 @@ describe("The user is able to delete participant to the Census in the 'New meeti
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -643,7 +610,7 @@ describe("The user is able to delete participant to the Census in the 'New meeti
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant+' button", function() {
@@ -656,24 +623,20 @@ describe("The user is able to delete participant to the Census in the 'New meeti
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+  
         cy.get('#alert-confirm-button-accept').click()
 
     })
 
     it("Navigate to the already added participant and hover it", function() {
-        cy.get('#MISSING_ID').trigger('mouseover')
+        cy.get('#participant-row-0').trigger('mouseover')
     })
 
     it("Click on 'X' button", function() {
-        cy.get('MISSING_ID').click()
+        cy.get('#delete-participant-icon-0').click()
     })
 
     it("Click on 'OK' button", function() {
@@ -700,7 +663,7 @@ describe("The user is able to select representative in the 'Add participant+'' f
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -711,7 +674,7 @@ describe("The user is able to select representative in the 'Add participant+'' f
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant+' button", function() {
@@ -724,14 +687,10 @@ describe("The user is able to select representative in the 'Add participant+'' f
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+  
 
     })
 
@@ -744,12 +703,10 @@ describe("The user is able to select representative in the 'Add participant+'' f
             .type('Repre'+Cypress.config('UniqueNumber'))
         cy.get('#representative-surname-input').clear()
             .type('Repre'+Cypress.config('UniqueNumber'))
-        cy.get('#representative-dni-input').clear()
-            .type('21451')
+  
         cy.get('#representative-email-input').clear()
             .type('rep'+Cypress.config('UniqueNumber')+'@yopmail.com')  
-        cy.get('#representative-phone-input').clear()
-            .type('123456')  
+ 
         cy.get('#alert-confirm-button-accept').click()
     })
 
@@ -763,10 +720,7 @@ describe("The user is able to select representative in the 'Add participant+'' f
             .type('New'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('New'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                
         cy.get('#participant-email-input').clear()
             .type('alem1'+Cypress.config('UniqueNumber')+'@yopmail.com')                
         cy.get('#participant-administrative-email-input').clear()
@@ -804,7 +758,7 @@ describe("The user is able to add 'Viewer' type of participation to the Census i
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -815,7 +769,7 @@ describe("The user is able to add 'Viewer' type of participation to the Census i
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant+' button", function() {
@@ -828,14 +782,10 @@ describe("The user is able to add 'Viewer' type of participation to the Census i
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+  
 
     })
 
@@ -869,7 +819,7 @@ describe("The user is able to add 'Floor given' type of participation to the Cen
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -880,7 +830,7 @@ describe("The user is able to add 'Floor given' type of participation to the Cen
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant+' button", function() {
@@ -893,14 +843,10 @@ describe("The user is able to add 'Floor given' type of participation to the Cen
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+  
 
     })
 
@@ -934,7 +880,7 @@ describe("The user is able to add 'You cannot request the floor' type of partici
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -945,7 +891,7 @@ describe("The user is able to add 'You cannot request the floor' type of partici
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant+' button", function() {
@@ -958,14 +904,10 @@ describe("The user is able to add 'You cannot request the floor' type of partici
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+  
 
     })
 
@@ -999,7 +941,7 @@ describe("The user is able to add 'Waiting room' type of participation to the Ce
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -1010,7 +952,7 @@ describe("The user is able to add 'Waiting room' type of participation to the Ce
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant+' button", function() {
@@ -1023,14 +965,10 @@ describe("The user is able to add 'Waiting room' type of participation to the Ce
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+  
 
     })
 
@@ -1065,7 +1003,7 @@ describe("The user is able to select 'Espanol' language in the 'Add participant+
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -1076,7 +1014,7 @@ describe("The user is able to select 'Espanol' language in the 'Add participant+
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant+' button", function() {
@@ -1089,14 +1027,10 @@ describe("The user is able to select 'Espanol' language in the 'Add participant+
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+  
 
     })
 
@@ -1130,7 +1064,7 @@ describe("The user is able to add guest in the 'Censues' step during the meeting
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -1141,7 +1075,7 @@ describe("The user is able to add guest in the 'Censues' step during the meeting
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add guestt+' button", function() {
@@ -1154,10 +1088,7 @@ describe("The user is able to add guest in the 'Censues' step during the meeting
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-form-surname').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-form-card-id').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-form-phone').clear()
-            .type('123123123')                
+                 
         cy.get('#participant-form-email').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
 
@@ -1188,7 +1119,7 @@ describe("The user is able to edit guest in the 'Censuses' step during the meeti
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -1199,7 +1130,7 @@ describe("The user is able to edit guest in the 'Censuses' step during the meeti
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add guestt+' button", function() {
@@ -1212,10 +1143,7 @@ describe("The user is able to edit guest in the 'Censuses' step during the meeti
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-form-surname').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-form-card-id').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-form-phone').clear()
-            .type('123123123')                
+                 
         cy.get('#participant-form-email').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
 
@@ -1226,11 +1154,11 @@ describe("The user is able to edit guest in the 'Censuses' step during the meeti
     })
 
     it("Navigate to the already added guest and click on it", function() {
-        cy.get('#MISSING_ID').click() 
+        cy.get('#participant-row-0').click() 
     });
 
     it("Modify the fields you want and click on the 'Send' CTA",function() {
-        cy.get('#participant-form-name').clear()
+        cy.get('#participant-name-input').clear()
             .type('EditName'+Cypress.config('UniqueNumber'))
         cy.get('#alert-confirm-button-accept').click()
     })
@@ -1257,7 +1185,7 @@ describe("The user is able to select checkbox in the 'Manage Participants' page 
 
     it("Click on the “With session” button", function() {
         cy.get('#create-council-with-session').click()
-        cy.wait(3000)   
+          
     });
 
     it("Populate all required fields and click on the “Next” button", function() {
@@ -1268,7 +1196,7 @@ describe("The user is able to select checkbox in the 'Manage Participants' page 
        cy.get('#council-notice-convene-intro')
             .type('Test')
         cy.get('#council-editor-next').click()
-        cy.wait(1000)
+        
     });
 
     it("Click on the 'Add participant+' button", function() {
@@ -1281,14 +1209,10 @@ describe("The user is able to select checkbox in the 'Manage Participants' page 
             .type('alem'+Cypress.config('UniqueNumber'))               
         cy.get('#participant-surname-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')) 
-        cy.get('#participant-dni-input').clear()
-            .type('TestAutomation'+Cypress.config('UniqueNumber'))                  
-        cy.get('#participant-phone-input').clear()
-            .type('123123123')                
+                
         cy.get('#participant-email-input').clear()
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
-        cy.get('#participant-administrative-email-input').clear()
-            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com') 
+  
 
     })
  
@@ -1297,8 +1221,8 @@ describe("The user is able to select checkbox in the 'Manage Participants' page 
     })
 
     it("Navigate to the already added participant and click on the checkbox", function() {
-        cy.get('#MISSING_ID').trigger('mouseover')
-        cy.get('#MISSING_ID').click()
+        cy.get('#participant-row-0').trigger('mouseover')
+        cy.get('#step-census-header-checkbox-0').click()
     })
 
 

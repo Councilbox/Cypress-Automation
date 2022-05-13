@@ -53,10 +53,14 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Clicks login button", function() {
         cy.get("#login-button").click();
-        cy.wait(1000)
+        
     });
 
 });
+
+
+
+
 
 describe("Add draft meeting, convened meeting, in progress meeting", function() {
 
@@ -80,7 +84,7 @@ describe("The user is able to select all meetings in the 'Drafts' section", func
     });
 
     it("Click on the checkbox left to the 'Start Date' field", function() {
-        cy.get('#MISSING_ID').click()
+        cy.get('#meeting-list-header-checkbox').click()
     });
 
     it("User should be able to exit the meeting", function() {
@@ -292,8 +296,8 @@ describe("The user is able to search the meetings in the 'Drafts' form in the 'M
     });
 
     it("Navigate to the search field and populate it with inputs you want", function() {
-        cy.get('#MISSING_ID').type('MeetingSearchTest422')
-        cy.contains('MeetingSearchTest422').should('be.visible')
+        cy.get('#council-search').type('Ordinary General Meeting - 03/03/2022')
+        cy.get('#council-list-0').should('contain' ,'Ordinary General Meeting - 03/03/2022')
     });
 
     it("User should be able to exit the meeting", function() {
@@ -323,8 +327,8 @@ describe("The user is able to search the meetings in the 'Convened' form in the 
     });
 
     it("Navigate to the 'Search' form and populate it with the inputs you want", function() {
-        cy.get('#MISSING_ID').type('MeetingSearchTest422')
-        cy.contains('MeetingSearchTest422').should('be.visible')
+        cy.get('#council-search').type('Ordinary General Meeting - 16/07/2021')
+        cy.get('#council-list-0').should('contain', 'Ordinary General Meeting - 16/07/2021')
     });
 
     it("User should be able to exit the meeting", function() {
@@ -354,8 +358,8 @@ describe("The user is able to search the meetings in the 'In Progress' form in t
     });
 
     it("Navigate to the 'Search' form and populate it with the inputs you want", function() {
-        cy.get('#MISSING_ID').type('MeetingSearchTest422')
-        cy.contains('MeetingSearchTest422').should('be.visible')
+        cy.get('#council-search').type('Ordinary General Meeting - 26/05/2021')
+        cy.get('#council-list-0').should('contain', 'Ordinary General Meeting - 26/05/2021')
     });
 
     it("User should be able to exit the meeting", function() {
@@ -384,8 +388,8 @@ describe("The user is able to search the meetings in the 'Drafting the minutes' 
     });
 
     it("Navigate to the 'Search' form and populate it with the inputs you want", function() {
-        cy.get('#MISSING_ID').type('MeetingSearchTest422')
-        cy.contains('MeetingSearchTest422').should('be.visible')
+        cy.get('#council-search').type('Junta General Ordinaria - 27/05/2021')
+        cy.get('#councils-table-row-0').should('contain', 'Junta General Ordinaria - 27/05/2021')
     });
 
     it("User should be able to exit the meeting", function() {
@@ -414,8 +418,8 @@ describe("The user is able to search the meetings in the 'Minute book' form in t
     });
 
     it("Navigate to the 'Search' form and populate it with the inputs you want", function() {
-        cy.get('#MISSING_ID').type('MeetingSearchTest422')
-        cy.contains('MeetingSearchTest422').should('be.visible')
+        cy.get('#council-search').type('Junta General Ordinaria - 31/05/2021')
+        cy.get('#councils-table-row-0').should('contain', 'Junta General Ordinaria - 31/05/2021')
     });
 
     it("User should be able to exit the meeting", function() {
@@ -444,8 +448,8 @@ describe("The user is able to search the meetings in the 'Log' form in the 'Meet
     });
 
     it("Navigate to the 'Search' form and populate it with the inputs you want", function() {
-        cy.get('#MISSING_ID').type('MeetingSearchTest422')
-        cy.contains('MeetingSearchTest422').should('be.visible')
+        cy.get('#council-search').type('Junta General Ordinaria - 28/05/2021')
+        cy.get('#councils-table-row-0').should('contain', 'Junta General Ordinaria - 28/05/2021')
     });
 
     it("User should be able to exit the meeting", function() {
@@ -475,8 +479,8 @@ describe("The user is able to search the meetings in the 'All' form in the 'Meet
     });
 
     it("Navigate to the 'Search' form and populate it with the inputs you want", function() {
-        cy.get('#MISSING_ID').type('MeetingSearchTest422')
-        cy.contains('MeetingSearchTest422').should('be.visible')
+        cy.get('#council-search').type('Junta General Ordinaria - 28/05/2021')
+        cy.get('#councils-table-row-0').should('contain', 'Junta General Ordinaria - 28/05/2021')
     });
 
     it("User should be able to exit the meeting", function() {
@@ -531,7 +535,7 @@ describe("The user is able to select all meetings in the 'Drafts' form in the 'M
     });
 
     it("Click on the checkbox left to the 'Start Date' field", function() {
-        cy.get('#MISSING_ID').click()
+        cy.get('#meeting-list-header-checkbox').click()
     });
 
     it("User should be able to exit the meeting", function() {
@@ -561,7 +565,7 @@ describe("The user is able to select all meetings in the 'Convened' form in the 
     });
 
     it("Click on the checkbox left to the 'Start Date' field", function() {
-        cy.get('#MISSING_ID').click()
+        cy.get('#meeting-list-header-checkbox').click()
     });
 
     it("User should be able to exit the meeting", function() {
@@ -591,7 +595,7 @@ describe("The user is able to select all meetings in the 'In progress' form in t
     });
 
     it("Click on the checkbox left to the 'Start Date' field", function() {
-        cy.get('#MISSING_ID').click()
+        cy.get('#meeting-list-header-checkbox').click()
     });
 
     it("User should be able to exit the meeting", function() {
@@ -604,32 +608,33 @@ describe("The user is able to select all meetings in the 'In progress' form in t
 
 describe("The user is able to delete the meeting in the 'Convened' form in the 'Meetings' section", function() {
 
-     before(function() {
-        
-    });
+    before(function() {
+       
+   });
 
 
-    it("Navigate to the left side of the page and click on the 'Meetings' button", function() {
-        cy.get('#side-menu-trigger-1').click()
-        cy.url('include', '/councils/drafts')
+   it("Navigate to the left side of the page and click on the 'Meetings' button", function() {
+       cy.get('#side-menu-trigger-1').click()
+       cy.url('include', '/councils/drafts')
 
-    });
+   });
 
-    it("Click on the 'Convened' button", function() {
-        cy.get('#tab-1').click()
-        cy.url('include', '/councils/calendar')
-    });
+   it("Click on the 'Convened' button", function() {
+       cy.get('#tab-1').click().wait(1000)
+       cy.url('include', '/councils/calendar')
+   });
 
-    it("Navigate to the already added meeting and click on the 'X' button", function() {
-        cy.get('#councils-table-row-1"').trigger('mouseover')
-        cy.get('#MISSING_ID').click()
-        cy.wait(1000)
-        cy.get('#alert-confirm-button-accept')
-    });
+   it("Navigate to the already added meeting and click on the 'X' button", function() {
+       cy.get('#council-list-0').trigger('mouseover')
+     
+       cy.get('#meetings-list-close-0').click()
+       
+       cy.get('#alert-confirm-button-accept')
+   });
 
-    it("User should be able to exit the meeting", function() {
-        cy.visit(login_url)
-    });
+   it("User should be able to exit the meeting", function() {
+       cy.visit(login_url)
+   });
 
 
 
@@ -637,32 +642,32 @@ describe("The user is able to delete the meeting in the 'Convened' form in the '
 
 describe("The user is able to delete the meeting in the 'Drafts' form in the 'Meetings' section", function() {
 
-     before(function() {
-        
-    });
+    before(function() {
+       
+   });
 
 
-    it("Navigate to the left side of the page and click on the 'Meetings' button", function() {
-        cy.get('#side-menu-trigger-1').click()
-        cy.url('include', '/councils/drafts')
+   it("Navigate to the left side of the page and click on the 'Meetings' button", function() {
+       cy.get('#side-menu-trigger-1').click()
+       cy.url('include', '/councils/drafts')
 
-    });
+   });
 
-    it("Click on the 'Drafts' button", function() {
-        cy.get('#tab-0').click()
-        cy.url('include', '/councils/drafts')
-    });
+   it("Click on the 'Drafts' button", function() {
+       cy.get('#tab-0').click().wait(1000)
+       cy.url('include', '/councils/drafts')
+   });
 
-    it("Navigate to the already added meeting and click on the 'X' button", function() {
-        cy.get('#councils-table-row-1"').trigger('mouseover')
-        cy.get('#MISSING_ID').click()
-        cy.wait(1000)
-        cy.get('#alert-confirm-button-accept')
-    });
+   it("Navigate to the already added meeting and click on the 'X' button", function() {
+       cy.get('#council-list-0').trigger('mouseover')
+       cy.get('#meetings-list-close-0').click()
+       
+       cy.get('#alert-confirm-button-accept')
+   });
 
-    it("User should be able to exit the meeting", function() {
-        cy.visit(login_url)
-    });
+   it("User should be able to exit the meeting", function() {
+       cy.visit(login_url)
+   });
 
 
 
@@ -670,32 +675,33 @@ describe("The user is able to delete the meeting in the 'Drafts' form in the 'Me
 
 describe("The user is able to delete the meeting in the 'In Progress' form in the 'Meetings' section", function() {
 
-     before(function() {
-        
-    });
+    before(function() {
+       
+   });
 
 
-    it("Navigate to the left side of the page and click on the 'Meetings' button", function() {
-        cy.get('#side-menu-trigger-1').click()
-        cy.url('include', '/councils/drafts')
+   it("Navigate to the left side of the page and click on the 'Meetings' button", function() {
+       cy.get('#side-menu-trigger-1').click()
+       cy.url('include', '/councils/drafts')
 
-    });
+   });
 
-    it("Click on the 'In Progress' button", function() {
-        cy.get('#tab-2').click()
-        cy.url('include', '/councils/live')
-    });
+   it("Click on the 'In Progress' button", function() {
+       cy.get('#tab-2').click().wait(1000)
+       cy.url('include', '/councils/live')
+   });
 
-    it("Navigate to the already added meeting and click on the 'X' button", function() {
-        cy.get('#councils-table-row-1"').trigger('mouseover')
-        cy.get('#MISSING_ID').click()
-        cy.wait(1000)
-        cy.get('#alert-confirm-button-accept')
-    });
+   it("Navigate to the already added meeting and click on the 'X' button", function() {
+       cy.get('#council-list-0').trigger('mouseover')
+       
+       cy.get('#meetings-list-close-0').click()
+       
+       cy.get('#alert-confirm-button-accept')
+   });
 
-    it("User should be able to exit the meeting", function() {
-        cy.visit(login_url)
-    });
+   it("User should be able to exit the meeting", function() {
+       cy.visit(login_url)
+   });
 
 
 

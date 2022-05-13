@@ -53,7 +53,7 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Clicks login button", function() {
         cy.get("#login-button").click();
-        cy.wait(1000)
+        
     });
 
 });
@@ -68,7 +68,8 @@ describe("The user is able to create a new certificate", function() {
 
     it("On the left side of the page click on the 'Meetings' button", function() {
         cy.get('#side-menu-trigger-1').click()
-        cy.url('include', '/councils/drafts')
+        cy.url('include', '/councils/drafts').wait(1000)
+        
     });
 
     it("Click on the 'Minutes Book' button", function() {
@@ -77,26 +78,28 @@ describe("The user is able to create a new certificate", function() {
     });
 
     it("Navigate to the already added meeting hover it and click on the 'Certificate' button", function() {
+        
         cy.get('#councils-table-row-0').trigger('mouseover')
-        cy.get('#MISSING_ID').click()
+       
+        cy.get('#council-list-certificate-0').click({force:true})
         cy.url('include', '/certificates')
     });
 
     it("Click on the 'New certificate' button", function() {
-        cy.get('#MISSING_ID').click()
+        cy.get('#create-certificate').click()
     });
 
     it("Populate all required fields and click on the 'Generate certificate' button", function() {
         cy.get('#toggle-editor-cert_title')
             .click()
-        cy.get('#text-editor-cert_title')
-            .clear()
+    
+         
             .type('CertiTest')
-            .should('have.value', 'CertiTest')
+            
         cy.get('#toggle-editor-cert_title')
             .click()
-        cy.get('#MISSING_ID').click()
-        cy.wait(3000)
+        cy.get('#generate-certificate').click()
+       
         cy.get('#alert-confirm-button-accept').click()
 
     })
@@ -117,7 +120,7 @@ describe("The user is not able to generate a certificate without populating 'Tit
 
     it("On the left side of the page click on the 'Meetings' button", function() {
         cy.get('#side-menu-trigger-1').click()
-        cy.url('include', '/councils/drafts')
+        cy.url('include', '/councils/drafts').wait(1000)
     });
 
     it("Click on the 'Minutes Book' button", function() {
@@ -127,20 +130,20 @@ describe("The user is not able to generate a certificate without populating 'Tit
 
     it("Navigate to the already added meeting hover it and click on the 'Certificate' button", function() {
         cy.get('#councils-table-row-0').trigger('mouseover')
-        cy.get('#MISSING_ID').click()
+        cy.get('#council-list-certificate-0').click()
         cy.url('include', '/certificates')
     });
 
     it("Click on the 'New certificate' button", function() {
-        cy.get('#MISSING_ID').click()
+        cy.get('#create-certificate').click()
     });
 
     it("Click on the 'Generate certificate' button", function() {
-        cy.get('#MISSING_ID').click()
-        cy.wait(3000)
+        cy.get('#generate-certificate').click()
+       
         cy.get('#alert-confirm-button-accept').click()
         cy.log("'You must fill in the title before creating certificate' alert message is displayed")
-        cy.get('#MISSING_ID').should('be.visible')
+        cy.get('#generate-certificate-error').should('be.visible')
 
     })
 
@@ -160,7 +163,7 @@ describe("The user is able to export certificate in the PDF form in the 'New cer
 
     it("On the left side of the page click on the 'Meetings' button", function() {
         cy.get('#side-menu-trigger-1').click()
-        cy.url('include', '/councils/drafts')
+        cy.url('include', '/councils/drafts').wait(1000)
     });
 
     it("Click on the 'Minutes Book' button", function() {
@@ -170,20 +173,20 @@ describe("The user is able to export certificate in the PDF form in the 'New cer
 
     it("Navigate to the already added meeting hover it and click on the 'Certificate' button", function() {
         cy.get('#councils-table-row-0').trigger('mouseover')
-        cy.get('#MISSING_ID').click()
+        cy.get('#council-list-certificate-0').click()
         cy.url('include', '/certificates')
     });
 
     it("Click on the 'New certificate' button", function() {
-        cy.get('#MISSING_ID').click()
+        cy.get('#create-certificate').click()
     });
 
     it("Click on the 'Export document' button", function() {   
-        cy.get('#user-menu-trigger').click()
+        cy.xpath('(//*[@id="user-menu-trigger"])[2]').click()
     })
 
     it("Click on the 'PDF' button", function() {   
-        cy.get('#MISSING_ID').click()
+        cy.get('#download-certificate-pdf').click()
     })
 
     it("User should be able to exit the meeting", function() {
@@ -202,7 +205,7 @@ describe("The user is able to export certificate in the WORD form in the 'New ce
 
     it("On the left side of the page click on the 'Meetings' button", function() {
         cy.get('#side-menu-trigger-1').click()
-        cy.url('include', '/councils/drafts')
+        cy.url('include', '/councils/drafts').wait(1000)
     });
 
     it("Click on the 'Minutes Book' button", function() {
@@ -212,20 +215,20 @@ describe("The user is able to export certificate in the WORD form in the 'New ce
 
     it("Navigate to the already added meeting hover it and click on the 'Certificate' button", function() {
         cy.get('#councils-table-row-0').trigger('mouseover')
-        cy.get('#MISSING_ID').click()
+        cy.get('#council-list-certificate-0').click()
         cy.url('include', '/certificates')
     });
 
     it("Click on the 'New certificate' button", function() {
-        cy.get('#MISSING_ID').click()
+        cy.get('#create-certificate').click()
     });
 
     it("Click on the 'Export document' button", function() {   
-        cy.get('#user-menu-trigger').click()
+        cy.xpath('(//*[@id="user-menu-trigger"])[2]').click()
     })
 
     it("Click on the 'WORD' button", function() {   
-        cy.get('#MISSING_ID').click()
+        cy.get('#download-certificate-ms-word').click()
     })
 
     it("User should be able to exit the meeting", function() {
@@ -245,7 +248,7 @@ describe("The user is able to select the '2 columns' layout in the 'New certific
 
     it("On the left side of the page click on the 'Meetings' button", function() {
         cy.get('#side-menu-trigger-1').click()
-        cy.url('include', '/councils/drafts')
+        cy.url('include', '/councils/drafts').wait(1000)
     });
 
     it("Click on the 'Minutes Book' button", function() {
@@ -255,12 +258,12 @@ describe("The user is able to select the '2 columns' layout in the 'New certific
 
     it("Navigate to the already added meeting hover it and click on the 'Certificate' button", function() {
         cy.get('#councils-table-row-0').trigger('mouseover')
-        cy.get('#MISSING_ID').click()
+        cy.get('#council-list-certificate-0').click()
         cy.url('include', '/certificates')
     });
 
     it("Click on the 'New certificate' button", function() {
-        cy.get('#MISSING_ID').click()
+        cy.get('#create-certificate').click()
     });
 
     it("Select the checkbox next to the 'Create 2 columns' text", function() {   
@@ -284,7 +287,7 @@ describe("The user is able to see preview in the 'New certificate' section", fun
 
     it("On the left side of the page click on the 'Meetings' button", function() {
         cy.get('#side-menu-trigger-1').click()
-        cy.url('include', '/councils/drafts')
+        cy.url('include', '/councils/drafts').wait(1000)
     });
 
     it("Click on the 'Minutes Book' button", function() {
@@ -294,12 +297,12 @@ describe("The user is able to see preview in the 'New certificate' section", fun
 
     it("Navigate to the already added meeting hover it and click on the 'Certificate' button", function() {
         cy.get('#councils-table-row-0').trigger('mouseover')
-        cy.get('#MISSING_ID').click()
+        cy.get('#council-list-certificate-0').click()
         cy.url('include', '/certificates')
     });
 
     it("Click on the 'New certificate' button", function() {
-        cy.get('#MISSING_ID').click()
+        cy.get('#create-certificate').click()
     });
 
     it("Click on the 'See preview' button", function() {   
@@ -323,7 +326,7 @@ describe("The user is able to select/unselect the checkbox next to the 'Include 
 
     it("On the left side of the page click on the 'Meetings' button", function() {
         cy.get('#side-menu-trigger-1').click()
-        cy.url('include', '/councils/drafts')
+        cy.url('include', '/councils/drafts').wait(1000)
     });
 
     it("Click on the 'Minutes Book' button", function() {
@@ -333,12 +336,12 @@ describe("The user is able to select/unselect the checkbox next to the 'Include 
 
     it("Navigate to the already added meeting hover it and click on the 'Certificate' button", function() {
         cy.get('#councils-table-row-0').trigger('mouseover')
-        cy.get('#MISSING_ID').click()
+        cy.get('#council-list-certificate-0').click()
         cy.url('include', '/certificates')
     });
 
     it("Click on the 'New certificate' button", function() {
-        cy.get('#MISSING_ID').click()
+        cy.get('#create-certificate').click()
     });
 
     it("Click on the checkbox next to the 'Include certified stamp' button", function() {   
@@ -366,7 +369,7 @@ describe("The user is able to add text block in the 'New certificate' section", 
 
     it("On the left side of the page click on the 'Meetings' button", function() {
         cy.get('#side-menu-trigger-1').click()
-        cy.url('include', '/councils/drafts')
+        cy.url('include', '/councils/drafts').wait(2000)
     });
 
     it("Click on the 'Minutes Book' button", function() {
@@ -376,12 +379,12 @@ describe("The user is able to add text block in the 'New certificate' section", 
 
     it("Navigate to the already added meeting hover it and click on the 'Certificate' button", function() {
         cy.get('#councils-table-row-0').trigger('mouseover')
-        cy.get('#MISSING_ID').click()
+        cy.get('#council-list-certificate-0').click()
         cy.url('include', '/certificates')
     });
 
     it("Click on the 'New certificate' button", function() {
-        cy.get('#MISSING_ID').click()
+        cy.get('#create-certificate').click()
     });
 
     it("Click on the 'Text block' button", function() { 
