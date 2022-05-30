@@ -103,7 +103,7 @@ describe("The user is not able to add 'New item yes/no/abstention' without popul
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000) 
+        cy.wait(2000) 
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -173,7 +173,7 @@ describe("The user is not able to add Custom item without populating the 'Title'
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
 
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+        cy.wait(2000)
           
         cy.get('#censoSiguienteNew').click()
     });
@@ -245,7 +245,7 @@ describe("The user is not able to add Custom item with invalid input in the 'Val
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)
+        cy.wait(2000)
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -315,7 +315,7 @@ describe("The user is able to reorder agenda points in the 'Agenda' section in t
 
         cy.get('#alert-confirm-button-accept').click()
           
-         cy.wait(1000) 
+         cy.wait(2000) 
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -330,7 +330,7 @@ describe("The user is able to reorder agenda points in the 'Agenda' section in t
     it("Populate all required fields and click on the 'OK' CTA", function() {
         cy.get('#agenda-editor-title-input').type('Yes/No agenda')
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+        cy.wait(2000)
     })
 
     it("Click on the “Add item to the agenda+” button", function() {
@@ -405,7 +405,7 @@ describe("The user is able to add 'Informative' type of the Yes/no item to the '
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)  
+        cy.wait(2000)  
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -476,7 +476,7 @@ describe("The user is able to edit 'Informative' type of the Yes/no item to the 
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)   
+        cy.wait(2000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -558,7 +558,7 @@ describe("The user is able to remove 'Informative' type of the Item Yes/no Abste
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)   
+        cy.wait(2000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -663,7 +663,7 @@ describe("The user is able to add 'Roll-call vote' type of the Yes/no item to th
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)   
+        cy.wait(2000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -735,7 +735,7 @@ describe("The user is able to edit 'Roll-call vote' type of the Yes/no item to t
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)   
+        cy.wait(2000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -817,7 +817,7 @@ describe("The user is able to remove 'Roll-call vote' type of the Item Yes/no Ab
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)   
+        cy.wait(2000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -922,7 +922,7 @@ describe("The user is able to add 'Public voting' type of the Yes/no item to the
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)  
+        cy.wait(2000)  
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -994,7 +994,7 @@ describe("The user is able to edit 'Public voting' type of the Yes/no item to th
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)   
+        cy.wait(2000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1076,7 +1076,7 @@ describe("The user is able to remove 'Public voting' type of the Item Yes/no Abs
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)   
+        cy.wait(2000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1194,7 +1194,7 @@ describe("The user is able to add 'Anonymous votation' type of the Yes/no item t
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)   
+        cy.wait(2000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1266,7 +1266,7 @@ describe("The user is able to edit 'Anonymous votation' type of the Yes/no item 
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)  
+        cy.wait(2000)  
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1348,7 +1348,7 @@ describe("The user is able to remove 'Anonymous votation' type of the Item Yes/n
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)   
+        cy.wait(2000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1459,7 +1459,7 @@ describe("The user is able to add 'Roll-call vote' type of the Custom item to th
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)   
+        cy.wait(2000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1532,7 +1532,7 @@ describe("The user is able to edit 'Roll-call vote' type of the Custom item to t
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)   
+        cy.wait(2000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1615,7 +1615,7 @@ describe("The user is able to remove 'Roll-call vote' type of the Custom item to
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)   
+        cy.wait(2000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1718,7 +1718,7 @@ describe("The user is able to add 'Anonymous votation' type of the Custom item t
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)  
+        cy.wait(2000)  
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1791,7 +1791,7 @@ describe("The user is able to edit 'Anonymous votation' type of the Custom item 
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)   
+        cy.wait(2000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1874,7 +1874,7 @@ describe("The user is able to remove 'Anonymous votation' type of the Custom ite
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)  
+        cy.wait(2000)  
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1966,7 +1966,7 @@ describe("The user is able to add 'Public voting' type of the Custom item to the
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)  
+        cy.wait(2000)  
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -2040,7 +2040,7 @@ describe("The user is able to edit 'Public voting' type of the Custom item to th
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)   
+        cy.wait(2000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -2124,7 +2124,7 @@ describe("The user is able to remove 'Public voting' type of the Custom item to 
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)   
+        cy.wait(2000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -2218,7 +2218,7 @@ describe("The user is able to add attachment the 'Item Yes/no/abstention' to the
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)   
+        cy.wait(2000)   
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -2308,7 +2308,7 @@ describe("The user is able to add attachment in the Custom item to the 'Add item
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)   
+        cy.wait(2000)   
         cy.get('#censoSiguienteNew').click()
     });
 

@@ -107,7 +107,7 @@ describe("The user is able to select 'Recording of entire meeting' checkbox in t
    
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)
+        cy.wait(2000)
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -191,7 +191,7 @@ describe("The user is able to select 'Password sent by email' checkbox in the 'O
     
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)
+        cy.wait(2000)
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -275,7 +275,7 @@ describe("The user is able to select 'Password not required' checkbox in the 'Op
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
   
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+        cy.wait(2000)
           
         cy.get('#censoSiguienteNew').click()
     });
@@ -359,9 +359,9 @@ describe("The user is able to select 'Password sent by SMS' checkbox in the 'Opt
     
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)
+        cy.wait(2000)
         cy.get('#censoSiguienteNew').click()
-        cy.wait(1000)
+        cy.wait(2000)
     });
 
     it("Click on the “Add item to the agenda+” button", function() {
@@ -444,7 +444,7 @@ describe("The user is able to select 'Digital certificate (FNMT or DNIe)'' check
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
     
         cy.get('#alert-confirm-button-accept').click()
-          cy.wait(1000)
+          cy.wait(2000)
           
         cy.get('#censoSiguienteNew').click()
     });
@@ -528,7 +528,7 @@ describe("The user is able to select 'If you want participants to receive a noti
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)
+        cy.wait(2000)
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -614,7 +614,7 @@ describe("The user is able to select 'There is room with video broadcast' checkb
 
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)
+        cy.wait(2000)
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -700,7 +700,7 @@ describe("The user is able to select 'Test meeting' checkbox in the 'Options' se
            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
   
        cy.get('#alert-confirm-button-accept').click()
-       cy.wait(1000)
+       cy.wait(2000)
          
        cy.get('#censoSiguienteNew').click()
    });
@@ -786,7 +786,7 @@ describe("The user is able to select 'Comments wall' checkbox in the 'Options' s
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
     
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+        cy.wait(2000)
           
         cy.get('#censoSiguienteNew').click()
     });
@@ -874,7 +874,7 @@ describe("The user is able to select 'Can request the floor' checkbox in the 'Op
     
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)
+        cy.wait(2000)
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -960,7 +960,7 @@ describe("The user is able to select 'Simple majority' option in the 'The readin
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
     
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+        cy.wait(2000)
           
         cy.get('#censoSiguienteNew').click()
     });
@@ -1052,7 +1052,7 @@ describe("The user is able to select 'Absolute majority' option in the 'The read
     
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)
+        cy.wait(2000)
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1140,7 +1140,7 @@ describe("The user is able to select 'Two-thirds majority' option in the 'The re
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
     
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+        cy.wait(2000)
           
         cy.get('#censoSiguienteNew').click()
     });
@@ -1230,7 +1230,7 @@ describe("The user is able to select 'Percentage' option in the 'The reading and
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
     
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+        cy.wait(2000)
           
         cy.get('#censoSiguienteNew').click()
     });
@@ -1322,7 +1322,7 @@ describe("The user is able to select 'Number' option in the 'The reading and app
     
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)
+        cy.wait(2000)
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -1411,7 +1411,7 @@ describe("The user is able to select 'Fraction' option in the 'The reading and a
            .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
    
        cy.get('#alert-confirm-button-accept').click()
-       cy.wait(1000)
+       cy.wait(2000)
          
        cy.get('#censoSiguienteNew').click()
    });
@@ -1501,7 +1501,7 @@ describe("The user is able to select who will receive delegated vote in the 'Can
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
     
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+        cy.wait(2000)
           
         cy.get('#censoSiguienteNew').click()
     });
@@ -1590,7 +1590,7 @@ describe("The user is able to remove who will receive delegated vote in the 'Can
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
     
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+        cy.wait(2000)
           
         cy.get('#censoSiguienteNew').click()
     });
@@ -1687,10 +1687,10 @@ describe("The user is able to populate the 'Contact Email' field in the 'Options
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
     
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+        cy.wait(2000)
           
         cy.get('#censoSiguienteNew').click()
-        cy.wait(1000)
+        cy.wait(2000)
     });
 
     it("Click on the “Add item to the agenda+” button", function() {
@@ -1775,7 +1775,7 @@ describe("The user is not able to populate the 'Contact Email' field with invali
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
     
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+        cy.wait(2000)
           
         cy.get('#censoSiguienteNew').click()
     });
@@ -1865,7 +1865,7 @@ describe("The user is able to open the tooltip next to the 'Contact Email' by cl
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
     
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+        cy.wait(2000)
           
         cy.get('#censoSiguienteNew').click()
     });
@@ -1950,7 +1950,7 @@ describe("The user is able to open the tooltip next to the 'If you want particip
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
     
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+        cy.wait(2000)
           
         cy.get('#censoSiguienteNew').click()
     });
@@ -2035,7 +2035,7 @@ describe("The user is able to click on the tooltip above the 'Room Layout' form 
             .type('alem'+Cypress.config('UniqueNumber')+'@yopmail.com')                
     
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+        cy.wait(2000)
           
         cy.get('#censoSiguienteNew').click()
     });
@@ -2122,7 +2122,7 @@ describe("The user is able to select 'Active Speaker View' option in the 'Room L
     
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)
+        cy.wait(2000)
         cy.get('#censoSiguienteNew').click()
     });
 
@@ -2214,7 +2214,7 @@ describe("The user is able to select 'Grid View' option in the 'Room Layout /Opt
     
         cy.get('#alert-confirm-button-accept').click()
           
-        cy.wait(1000)
+        cy.wait(2000)
         cy.get('#censoSiguienteNew').click()
     });
 

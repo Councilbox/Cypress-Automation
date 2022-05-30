@@ -51,8 +51,7 @@ describe("The user is able to add a logo to the Entity", function() {
    });
 
    it("The user is able to click on the 'Insitution' button", function() {  
-       dashboard.click_on_government()
-       dashboard.select_institution()
+
        dashboard.click_on_istitutions()
    });
    

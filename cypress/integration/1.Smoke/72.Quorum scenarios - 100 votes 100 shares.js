@@ -309,7 +309,7 @@ describe("Quorum numbers (current/initial) scenario (test case 4) - current quor
         cy.get('#council-options-contact-email').scrollIntoView()
       
         cy.get('#council-options-contact-email')
-            .type('test@test.test')
+            .clear().type('test@test.test')
         cy.get('#optionsNewSiguiente').click()
         
     });
@@ -342,7 +342,7 @@ describe("Quorum numbers (current/initial) scenario (test case 4) - current quor
         cy.get('#participant-form-card-id').clear()
             .type(Cypress.config('UniqueNumber'))
         cy.get('#participant-form-email').clear()
-            .type('test@test.test')
+            .clear().type('test@test.test')
         cy.get('#alert-confirm-button-accept').click()
         
     });

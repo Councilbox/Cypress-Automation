@@ -155,7 +155,7 @@ describe("The user is able to finalize and approve act in the 'New call with ses
      it("Populate all required fields and click on the “Siguiente” button", function() {
         cy.get('#council-options-contact-email').scrollIntoView()
        
-        cy.get('#council-options-contact-email')
+        cy.get('#council-options-contact-email').clear()
             .type('test@test.test')
         
         cy.get('#optionsNewSiguiente').click()

@@ -317,7 +317,7 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
         cy.get('#council-options-contact-email').scrollIntoView()
       
         cy.get('#council-options-contact-email')
-            .type('test@test.test')
+            .clear().type('test@test.test')
         cy.get('#optionsNewSiguiente').click()
         
     });

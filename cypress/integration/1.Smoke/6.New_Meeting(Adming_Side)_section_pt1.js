@@ -112,7 +112,7 @@ describe("The user is able to create a new call with session in the 'Nueva reuni
 
     it("Click on the 'Aceptar' button", function() {
         cy.get('#alert-confirm-button-accept').click()
-        cy.wait(1000)
+        cy.wait(2000)
         cy.get('#censoSiguienteNew').click()
           
     });
@@ -138,7 +138,7 @@ describe("The user is able to create a new call with session in the 'Nueva reuni
        
         cy.get('#council-options-contact-email').scrollIntoView()
       
-        cy.get('#council-options-contact-email')
+        cy.get('#council-options-contact-email').clear()
             .type('test@test.test')
         cy.get('#optionsNewSiguiente').click()
        
@@ -263,7 +263,7 @@ describe("The user is able to start council in the 'New call with session' secti
           
           cy.get('#alert-confirm-button-accept').click()
 
-          cy.wait(1000)
+          cy.wait(2000)
 
           cy.get('#censoSiguienteNew').click()
 
@@ -323,7 +323,7 @@ describe("The user is able to start council in the 'New call with session' secti
      it("Populate all required fields and click on the “Siguiente” button", function() {
         cy.get('#council-options-contact-email').scrollIntoView()
         
-        cy.get('#council-options-contact-email')
+        cy.get('#council-options-contact-email').clear()
             .type('test@test.test')
         
         cy.get('#optionsNewSiguiente').click()
@@ -517,7 +517,7 @@ describe("The user is able to open point in the 'New call with session' section"
           
           cy.get('#alert-confirm-button-accept').click()
 
-        cy.wait(1000)
+        cy.wait(2000)
 
           cy.get('#censoSiguienteNew').click()
 
@@ -577,7 +577,7 @@ describe("The user is able to open point in the 'New call with session' section"
      it("Populate all required fields and click on the “Siguiente” button", function() {
         cy.get('#council-options-contact-email').scrollIntoView()
       
-        cy.get('#council-options-contact-email')
+        cy.get('#council-options-contact-email').clear()
             .type('test@test.test')
         
         cy.get('#optionsNewSiguiente').click()

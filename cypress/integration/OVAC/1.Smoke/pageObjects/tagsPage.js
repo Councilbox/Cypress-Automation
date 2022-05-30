@@ -1,10 +1,10 @@
 class tagsPage {
 
 	elements = { 
-		add_button: () => cy.get('#add-procedure-button'),
+		add_button: () => cy.get('#company-tag-add-button'),
 		code: () => cy.get('#company-tag-key'),
 		value: () => cy.get('#company-tag-value'),
-		alert_confirm: () => cy.get('#panel-confirm-button-accept'),
+		alert_confirm: () => cy.get('#alert-confirm-button-accept'),
 	
 	
 		}

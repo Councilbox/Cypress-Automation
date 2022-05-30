@@ -153,7 +153,7 @@ describe("The user is able to activate ratings in the 'New call with session'", 
      it("Populate all required fields and click on the “Siguiente” button", function() {
         cy.get('#council-options-contact-email').scrollIntoView()
       
-        cy.get('#council-options-contact-email')
+        cy.get('#council-options-contact-email').clear()
             .type('test@test.test')
         
         cy.get('#optionsNewSiguiente').click()
@@ -418,7 +418,7 @@ describe("The user is able to close point votations in the 'New call with sessio
      it("Populate all required fields and click on the “Siguiente” button", function() {
         cy.get('#council-options-contact-email').scrollIntoView()
         
-        cy.get('#council-options-contact-email')
+        cy.get('#council-options-contact-email').clear()
             .type('test@test.test')
         
         cy.get('#optionsNewSiguiente').click()
