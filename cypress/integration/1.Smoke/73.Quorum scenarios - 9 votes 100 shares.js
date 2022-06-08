@@ -343,6 +343,7 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
     });
 
     it("Observe the current quorum number on the top right side of the page", function() {
+        cy.wait(5000)
         cy.get('#live-current-quorum').should('have.text', '10')
         cy.wait(500)
     });
@@ -359,6 +360,7 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
     });
 
     it("Observe the current quorum number on the top right side of the page", function() {
+        cy.wait(5000)
         cy.get('#live-current-quorum').should('have.text', '30')
        
     });
@@ -375,6 +377,7 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
     });
 
     it("Observe the current quorum number on the top right side of the page", function() {
+        cy.wait(5000)
         cy.get('#live-current-quorum').should('have.text', '35')
         
     });
@@ -387,6 +390,7 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
     });
 
     it("Observe the current quorum number on the top right side of the page", function() {
+        cy.wait(5000)
         cy.get('#live-current-quorum').should('have.text', '35')
        
     });

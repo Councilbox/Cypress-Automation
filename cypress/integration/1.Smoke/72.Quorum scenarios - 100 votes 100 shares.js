@@ -424,6 +424,7 @@ describe("Quorum numbers (current/initial) scenario (test case 4) - current quor
     });
 
     it("Observe the current quorum number on the top right side of the page", function() {
+        cy.wait(10000)
         cy.get('#live-current-quorum').should('have.text', '30')
         
     });
