@@ -135,7 +135,8 @@ describe("The user is able to change entity - Entities section", function() {
     });
 
     it("The user is able to click on the 'See More Entites' button", function() {  
-        entity.click_on_see_more_entites()    
+        entity.click_on_see_more_entites() 
+        cy.wait(5000)   
     });
 
     it("The user is able to click the 'Manage Appointments' button", function() {  
