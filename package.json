@@ -93,7 +93,7 @@
     "regression edge": "cypress run --headed --browser edge --spec=cypress/integration/2.Regression/*",
     "regression cert": "cypress run --headed --browser electron --spec=cypress/integration/1.Smoke/92.Certificate_section.js",
     "regression net": "cypress run --headed --browser electron --spec=cypress/integration/2.Regression/7.Knowledge_Base_section.js",
-    "smoke": "cypress run --headless --spec=cypress/integration/1.Smoke/*",
+    "smoke": "npm run pretest && cypress run --headless --spec=cypress/integration/1.Smoke/*",
     "ovac smoke": "cypress run --headed --browser electron --spec=cypress/integration/OVAC/1.Smoke/1.Account_section.js",
     "cypress": "cypress open",
     "lint": "eslint . --quiet --ext .js --ext .jsx",
@@ -104,12 +104,13 @@
     "deploy": "sh deploy.sh",
     "clean:reports": "rmdir /S /Q cypress\\reports && mkdir cypress\\reports && mkdir cypress\\reports\\mochareports",
     "pretest": "npm run clean:reports",
-    "scripts": "cypress run",
+    "scripts": "cypress run --headless --spec=cypress/integration/1.Smoke/*",
     "combine-reports": "npx mochawesome-merge cypress/reports/mocha/*.json > cypress/reports/report.json",
     "generate-report": "npx marge cypress/reports/report.json --reportDir ./ --inline",
     "posttest": "npm run combine-reports && npm run generate-report",
     "test": "npm run scripts || npm run posttest"
   },
+
   "devDependencies": {
     "@babel/core": "^7.13.1",
     "@babel/preset-env": "^7.13.5",

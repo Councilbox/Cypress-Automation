@@ -142,11 +142,50 @@ describe("The user is able to Link company", function() {
 
     it("Click on the 'Vincular' button", function() {
         cy.get('#company-link-button').click()
+        cy.wait(2000)
     });
+
+    it("Back to Home page", function() {
+            cy.visit(login_url);
+            cy.wait(5000)
+        });
+ 
+
+
+});
+
+
+describe("The user is able to Unlink company", function() {
+
+    it("From the dashboard click on the 'Vincular sociedad' button", function() {
+        cy.get('#entidadesSideBar').click()
+        cy.xpath('(//*[@role="menuitem"])[2]').click()
+});
+
+    it("Click on User Menu", function() {
+        cy.get('#user-menu-trigger').click()
+    });
+
+    it("Click to Edit Company", function() {
+        cy.get('#user-settings-edit-company').click({force : true})
+    });
+
+
+    it("Click on the Unlink button", function() {
+        cy.get('#company-unlink-button').click()
+    });
+
+    it("Click on 'OK' button to confirm Unlink", function() {
+        cy.wait(1000)
+        cy.get('#unlink-modal-button-accept').click()
+    })
+
+    it("Confirm success toast message", function() {
+        cy.contains('Unlinked company')
+    })
 
     it("Back to Home page", function() {
             cy.visit(login_url);
         });
 
-
-});
+}); 

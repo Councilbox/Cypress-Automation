@@ -60,7 +60,7 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
     it("Navigate to the already added census and hover it then click on the “Manage participants” icon", function() {
         cy.get('#undefined-search-input').clear()
             .type('Qourum'+Cypress.config('UniqueNumber'))
-        cy.wait(1000)
+        cy.wait(4000)
         cy.get('#census_row_0').trigger('mouseover')
         cy.get('#census-manage-participants-button').click()
 
@@ -303,7 +303,7 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
     });
 
     it("Click on the “Next” button", function() {
-        cy.wait(1000)
+        cy.wait(4000)
         cy.get('#ordenDelDiaNext').click()
        
     });

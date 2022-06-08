@@ -305,13 +305,13 @@ describe("The user is able to start council in the 'New call with session' secti
         cy.get('#puntoSiNoAbstencion').click()
         cy.get('#tituloPuntoDelDiaModal').type('Test')
         cy.contains('Informativo').click()
-        cy.wait(1000)
+        cy.wait(4000)
         cy.contains('Votación nominal').click()
         cy.contains('Aceptar').click()
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
-        cy.wait(1000)
+        cy.wait(4000)
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
-        cy.wait(1000)
+        cy.wait(4000)
 
        
 
@@ -439,14 +439,14 @@ describe("The user is able to start council in the 'New call with session' secti
 
 
     cy.get('#exit-live-room-button').click()
-        cy.wait(1000)
+        cy.wait(4000)
 
    
 })
         
         
         cy.contains('Aceptar').click()
-        cy.wait(1000)
+        cy.wait(4000)
         
    */     
     
@@ -559,13 +559,13 @@ describe("The user is able to open point in the 'New call with session' section"
         cy.get('#puntoSiNoAbstencion').click()
         cy.get('#tituloPuntoDelDiaModal').type('Test')
         cy.contains('Informativo').click()
-        cy.wait(1000)
+        cy.wait(4000)
         cy.contains('Votación nominal').click()
         cy.contains('Aceptar').click()
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
-        cy.wait(1000)
+        cy.wait(4000)
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
-        cy.wait(1000)
+        cy.wait(4000)
 
        
 

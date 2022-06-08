@@ -94,7 +94,7 @@ describe("The user is able to activate ratings in the 'New call with session'", 
           
           cy.get('#alert-confirm-button-accept').click()
 
-        cy.wait(1000)
+        cy.wait(4000)
 
           cy.get('#censoSiguienteNew').click()
 
@@ -135,13 +135,13 @@ describe("The user is able to activate ratings in the 'New call with session'", 
         cy.get('#puntoSiNoAbstencion').click()
         cy.get('#tituloPuntoDelDiaModal').type('Test')
         cy.contains('Informativo').click()
-        cy.wait(1000)
+        cy.wait(4000)
         cy.contains('Votación nominal').click()
         cy.contains('Aceptar').click()
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
-        cy.wait(1000)
+        cy.wait(4000)
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
-        cy.wait(1000)
+        cy.wait(4000)
 
        
 
@@ -359,7 +359,7 @@ describe("The user is able to close point votations in the 'New call with sessio
           
           cy.get('#alert-confirm-button-accept').click()
 
-        cy.wait(1000)
+        cy.wait(4000)
 
           cy.get('#censoSiguienteNew').click()
 
@@ -400,13 +400,13 @@ describe("The user is able to close point votations in the 'New call with sessio
         cy.get('#puntoSiNoAbstencion').click()
         cy.get('#tituloPuntoDelDiaModal').type('Test')
         cy.contains('Informativo').click()
-        cy.wait(1000)
+        cy.wait(4000)
         cy.contains('Votación nominal').click()
         cy.contains('Aceptar').click()
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
-        cy.wait(1000)
+        cy.wait(4000)
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
-        cy.wait(1000)
+        cy.wait(4000)
 
        
 

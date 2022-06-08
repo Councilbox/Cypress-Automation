@@ -138,13 +138,13 @@ describe("The user is able to close point in the 'New call with session' type of
         cy.get('#puntoSiNoAbstencion').click()
         cy.get('#tituloPuntoDelDiaModal').type('Test')
         cy.contains('Informativo').click()
-        cy.wait(1000)
+        cy.wait(4000)
         cy.contains('Votación nominal').click()
         cy.contains('Aceptar').click()
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
-        cy.wait(1000)
+        cy.wait(4000)
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
-        cy.wait(1000)
+        cy.wait(4000)
 
        
 
@@ -421,13 +421,13 @@ describe("The user is able to finish council in the 'New call with session' type
         cy.get('#puntoSiNoAbstencion').click()
         cy.get('#tituloPuntoDelDiaModal').type('Test')
         cy.contains('Informativo').click()
-        cy.wait(1000)
+        cy.wait(4000)
         cy.contains('Votación nominal').click()
         cy.contains('Aceptar').click()
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
-        cy.wait(1000)
+        cy.wait(4000)
         cy.get('#botonSiguienteNuevasReunionesAbajo').click()
-        cy.wait(1000)
+        cy.wait(4000)
 
        
 
