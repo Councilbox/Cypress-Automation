@@ -28,12 +28,24 @@ describe("The user is able to request prior appointment for the meeting", functi
         appointment.request_prior_appointment_button()  
     });
 
-    it("Navigate to the 'Appointment Date & Time' section", function() {     
-        appointment.navigate_to_date_and_time()       
+    it("Select 'Service requested'", function() {     
+        appointment.select_service_requested()     
     });
 
+    it("Click on the 'CONTINUE' button", function() {     
+        appointment.click_continue()      
+    });
+
+
+
+
     it("Navigate to the 'Calendar' and select the date and time", function() {    
-        appointment.select_appointment_date()     
+        appointment.select_last_day()   
+        appointment.select_time()
+    });
+
+    it("Click on the 'CONTINUE' button", function() {     
+        appointment.click_continue()      
     });
 
     it("Populate the 'Name' field", function() {  
@@ -48,8 +60,7 @@ describe("The user is able to request prior appointment for the meeting", functi
     });
 
     it("Populate the 'Country code' and the 'Telephone' fields", function() {  
-        appointment.enter_country_code(country_code)
-        appointment.enter_telephone_no(phone)      
+        appointment.enter_telephone_no(country_code, phone)      
     });
 
     it("Populate the 'Email' field", function() {  
@@ -57,17 +68,13 @@ describe("The user is able to request prior appointment for the meeting", functi
     });
 
     it("Select the checkbox next to the 'The individual gives his/her consent for the results of the attendance at the appointment to be processed by this body' option", function() {  
-        appointment.click_privacy_button()
-        appointment.accept_privacy()      
+        appointment.accept_everything()   
     });
 
     it("Click on the 'Request appointment' button", function() {  
-        appointment.request_appointment_submit()      
+        appointment.click_continue()   
     });
 
-    it("Verify that appointment is requested", function() {
-        appointment.confirm_appointment_request()
-    })
 })
 
 
@@ -90,10 +97,7 @@ describe("The user is able to reschedule prior appointment", function() {
 
     it("Click on the 'Reschedule Appointment' button", function() {
         appointment.reschedule_appointment_button()
-    })
-
-    it("Click on 'Accept' button", function() {
-        appointment.accept_privacy()
+        appointment.click_ok()
     })
 
     it("Appointment should be rescheduled", function() {
@@ -103,20 +107,6 @@ describe("The user is able to reschedule prior appointment", function() {
 
 })
 
-describe("The user is able to add document for the meeting in the 'My Documentation' section", function() {
-     before(function() {    
-    });
-
-    it("Click on the 'My documentation' button from the card", function() {
-        appointment.my_documentation_button()
-    })
-
-    it("Click on the 'Upload File' button and upload a file", function() {
-        appointment.upload_document()
-    })
-
-
-})
 
 
 describe("The user is able to cancel prior appointment", function() {

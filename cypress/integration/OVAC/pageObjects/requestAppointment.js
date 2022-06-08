@@ -12,7 +12,7 @@ class requestAppointment {
 		request_prior_appointment: () => cy.get('#access-room-button'),
 	
 		appointment_date: () => cy.get('#root > div > div > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div > div:nth-child(1) > div:nth-child(2) > div.MuiGrid-root.MuiGrid-container > div:nth-child(1) > div > div.react-calendar__viewContainer > div > div > div > div.react-calendar__month-view__days > button'),
-		appointment_time: () => cy.get('#date-11'),
+		appointment_time: () => cy.get('#date-0'),
 
 		confirm: () => cy.xpath('//*[@class="MuiButtonBase-root MuiButton-root MuiButton-contained" ]'),
 		required_field: () => cy.xpath('(//*[@class="MuiFormHelperText-root error-text Mui-error"])'),
@@ -45,6 +45,10 @@ class requestAppointment {
 		service_requeted_select_first: () => cy.get('#appointment-service-select-option-0'),
 
 		checkboxes: () => cy.xpath('//*[@type="checkbox"]'),
+
+		last_day: () => cy.xpath('//*[@class="react-calendar__tile react-calendar__month-view__days__day"]'),
+
+		ok_reschedule: () => cy.get('#panel-confirm-button-accept'),
 	
 		}
 
@@ -53,6 +57,18 @@ class requestAppointment {
 			.should('be.visible')
 			.click()
 		cy.url().should('include', '/newAppointment')
+	}
+
+	click_ok() {
+		this.elements.ok_reschedule()
+			.should('be.visible')
+			.click()
+	}
+
+	select_last_day() {
+		this.elements.last_day()
+			.last()
+			.click()
 	}
 
 	verify_accept_terms_error_message() {
@@ -118,6 +134,12 @@ class requestAppointment {
 			.click()
 	}
 
+	select_time() {
+		this.elements.appointment_time()
+			.last()
+			.click()
+	}
+
 	enter_name(name) {
 		this.elements.name()
 			.should('be.visible')
@@ -151,7 +173,7 @@ class requestAppointment {
 	}
 
 	enter_telephone_no(phone_code, phone) {
-		this.elements.phone_code()
+		this.elements.country_code()
 			.should('be.visible')
 			.clear()
 			.type(phone_code)

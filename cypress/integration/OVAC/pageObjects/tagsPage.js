@@ -1,10 +1,11 @@
 class tagsPage {
 
 	elements = { 
-		add_button: () => cy.get('#company-tag-add-button'),
+		add_button: () => cy.xpath('//*[@title="Add tag"]'),
 		code: () => cy.get('#company-tag-key'),
 		value: () => cy.get('#company-tag-value'),
 		alert_confirm: () => cy.get('#alert-confirm-button-accept'),
+		save: () => cy.get('#panel-confirm-button-accept')
 	
 	
 		}
@@ -35,6 +36,12 @@ class tagsPage {
 			.clear()
 			.type(value)
 			.should('have.value', value)
+	}
+
+	click_save() {
+		this.elements.save()
+			.should('be.visible')
+			.click()
 	}
 }
 

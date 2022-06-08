@@ -94,8 +94,8 @@ describe("The user is able to Add a new tag - <Tags> tab - Knowledge base sectio
 		tags.enter_value(value)
 	})
 
-	it("The user is able to click on the 'Ok' button", function() {
-		tags.alert_confirm()
+	it("The user is able to click on the 'SAVE' button", function() {
+		tags.click_save()
 	})  
 })
 
