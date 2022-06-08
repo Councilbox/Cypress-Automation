@@ -154,7 +154,7 @@ describe("The user is able to Link company", function() {
 
 });
 
-
+/*
 describe("The user is able to Unlink company", function() {
 
     it("From the dashboard click on the 'Vincular sociedad' button", function() {
@@ -189,3 +189,5 @@ describe("The user is able to Unlink company", function() {
         });
 
 }); 
+
+*/
