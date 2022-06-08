@@ -116,8 +116,34 @@ describe("The user is able to add entity - Entities section", function() {
     it("The user is able to click on the 'Add entity+' button", function() {
         entity.click_submit_entity()
     });
+
+    it("Navigate back to Home page", function() {
+        login.navigate_admin()
+    })
 })
 
+
+})
+
+
+describe("The user is able to change entity - Entities section", function() {
+     before(function() {    
+    });  
+    it("The user is able to click on the 'Entity' button", function() { 
+        entity.click_on_entity()  
+    });
+
+    it("The user is able to click on the 'See More Entites' button", function() {  
+        entity.click_on_see_more_entites()    
+    });
+
+    it("The user is able to click the 'Manage Appointments' button", function() {  
+        entity.click_manage_appointments()    
+    });
+
+    it("Navigate back to Home page", function() {
+        login.navigate_admin()
+    })
 
 })
 

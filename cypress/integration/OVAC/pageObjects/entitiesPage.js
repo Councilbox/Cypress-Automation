@@ -23,11 +23,37 @@ class entitiesPage {
 		edit_option: () => cy.get('body > div.MuiPopover-root > div.MuiPaper-root.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded > div > ul > div:nth-child(1)'),
 		organisation_logo_upload: () => cy.get('#root > div > div:nth-child(3) > div > div:nth-child(2) > div > div > div:nth-child(1) > div.MuiPaper-root.MuiPaper-elevation0.MuiPaper-rounded > div > div > div:nth-child(1) > div > div > div:nth-child(1) > div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-3.MuiGrid-grid-lg-3 > div:nth-child(2) > label > span'),
 
+		entity_button: () => cy.xpath('//*[@class="ri-government-line"]'),
+		see_more_entities: () => cy.xpath('//*[@class="MuiButtonBase-root MuiButton-root MuiButton-contained"]'),
+
+		manage_appointment:() => cy.xpath('#root > div > div:nth-child(3) > div > div:nth-child(2) > div > div:nth-child(1) > div.MuiPaper-root.MuiPaper-elevation0.MuiPaper-rounded > div > div > div > div:nth-child(2) > div > div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-12.MuiGrid-grid-lg-12 > div > div:nth-child(1) > table > tr:nth-child(2) > td:nth-child(4) > div > button'),
+
 	}
 
 
 	click_add_button() {
 		this.elements.add_button()
+			.should('be.visible')
+			.click()
+	}
+
+	click_manage_appointments() {
+		this.elements.manage_appointment()
+			.should('be.visible')
+			.click()
+			.wait(3000)
+	}
+
+	click_on_see_more_entites() {
+		this.elements.see_more_entities()
+			.should('be.visible')
+			.click()
+		cy.url()
+			.should('include', '/myCompanies')
+	}
+
+	click_on_entity() {
+		this.elements.entity_button()
 			.should('be.visible')
 			.click()
 	}
