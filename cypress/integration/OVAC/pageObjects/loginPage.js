@@ -4,15 +4,17 @@ const ovac_url = Cypress.env("ovacUrl");
 const emailAlem = "alem@qaengineers.net";
 const emailTest = "5ebc694c-dd33-4b25-883a-33c7da04304d@mailslurp.com";
 
-elements = {
-	username: () => cy.get('#username'),
-	passowrd: () => cy.get('#password'),
-	login_submit: () => cy.get('#login-button')
-}
+
 
 
 
 class loginPage {
+
+	elements = {
+		username: () => cy.get('#username'),
+		passowrd: () => cy.get('#password'),
+		login_submit: () => cy.get('#login-button')
+	}
 
 	navigate_user() {
 		cy.visit(ovac_url)
