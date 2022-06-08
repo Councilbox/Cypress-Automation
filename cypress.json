@@ -22,7 +22,7 @@
   "viewportHeight": 1080,
   "requestTimeout": 2000,
   "defaultCommandTimeout": 10000,
-  "pageLoadTimeout": 10000,
+  "pageLoadTimeout": 20000,
 
   "projectId": "ycw8dr",
 

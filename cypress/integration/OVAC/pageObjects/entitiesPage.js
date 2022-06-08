@@ -26,7 +26,7 @@ class entitiesPage {
 		entity_button: () => cy.xpath('//*[@class="ri-government-line"]'),
 		see_more_entities: () => cy.xpath('//*[@class="MuiButtonBase-root MuiButton-root MuiButton-contained"]'),
 
-		manage_appointment:() => cy.xpath('#root > div > div:nth-child(3) > div > div:nth-child(2) > div > div:nth-child(1) > div.MuiPaper-root.MuiPaper-elevation0.MuiPaper-rounded > div > div > div > div:nth-child(2) > div > div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-12.MuiGrid-grid-lg-12 > div > div:nth-child(1) > table > tr:nth-child(2) > td:nth-child(4) > div > button'),
+		manage_appointment:() => cy.get('#root > div > div:nth-child(3) > div > div:nth-child(2) > div > div:nth-child(1) > div.MuiPaper-root.MuiPaper-elevation0.MuiPaper-rounded > div > div > div > div:nth-child(2) > div > div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-12.MuiGrid-grid-lg-12 > div > div:nth-child(1) > table > tr:nth-child(2) > td:nth-child(4) > div > button'),
 
 	}
 

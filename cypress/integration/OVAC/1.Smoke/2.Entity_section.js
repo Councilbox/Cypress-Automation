@@ -119,6 +119,7 @@ describe("The user is able to add entity - Entities section", function() {
 
     it("Navigate back to Home page", function() {
         login.navigate_admin()
+        cy.wait(5000)
     })
 })
 
