@@ -1,5 +1,5 @@
-import loginPage from "./pageObjects/loginPage"
-import adminDashboard from "./pageObjects/adminDashboardPage"
+import loginPage from "../pageObjects/loginPage"
+import adminDashboard from "../pageObjects/adminDashboardPage"
 
 let login = new loginPage();
 let dashboard = new adminDashboard()

@@ -1,9 +1,9 @@
-import loginPage from "./pageObjects/loginPage"
-import requestAppointment from "./pageObjects/requestAppointment"
-import adminDashboard from "./pageObjects/adminDashboardPage"
-import appointmentsPage from "./pageObjects/appointmentsPage"
-import knowledgeBasePage from "./pageObjects/knowledgeBasePage"
-import usersPage from "./pageObjects/usersPage"
+import loginPage from "../pageObjects/loginPage"
+import requestAppointment from "../pageObjects/requestAppointment"
+import adminDashboard from "../pageObjects/adminDashboardPage"
+import appointmentsPage from "../pageObjects/appointmentsPage"
+import knowledgeBasePage from "../pageObjects/knowledgeBasePage"
+import usersPage from "../pageObjects/usersPage"
 
 
 let inboxId;

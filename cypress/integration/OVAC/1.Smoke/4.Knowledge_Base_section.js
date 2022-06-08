@@ -1,11 +1,11 @@
-import loginPage from "./pageObjects/loginPage"
-import requestAppointment from "./pageObjects/requestAppointment"
-import adminDashboard from "./pageObjects/adminDashboardPage"
-import appointmentsPage from "./pageObjects/appointmentsPage"
-import knowledgeBasePage from "./pageObjects/knowledgeBasePage"
-import templatesPage from "./pageObjects/templatesPage"
-import tagsPage from "./pageObjects/tagsPage"
-import documentationPage from "./pageObjects/documentationPage"
+import loginPage from "../pageObjects/loginPage"
+import requestAppointment from "../pageObjects/requestAppointment"
+import adminDashboard from "../pageObjects/adminDashboardPage"
+import appointmentsPage from "../pageObjects/appointmentsPage"
+import knowledgeBasePage from "../pageObjects/knowledgeBasePage"
+import templatesPage from "../pageObjects/templatesPage"
+import tagsPage from "../pageObjects/tagsPage"
+import documentationPage from "../pageObjects/documentationPage"
 
 
 let inboxId;

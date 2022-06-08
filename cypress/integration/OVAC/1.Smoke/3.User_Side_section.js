@@ -1,7 +1,7 @@
-import loginPage from "./pageObjects/loginPage"
-import requestAppointment from "./pageObjects/requestAppointment"
-import adminDashboard from "./pageObjects/adminDashboardPage"
-import appointmentsPage from "./pageObjects/appointmentsPage"
+import loginPage from "../pageObjects/loginPage"
+import requestAppointment from "../pageObjects/requestAppointment"
+import adminDashboard from "../pageObjects/adminDashboardPage"
+import appointmentsPage from "../pageObjects/appointmentsPage"
 import { func } from "prop-types";
 
 
