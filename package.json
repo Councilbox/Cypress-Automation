@@ -112,7 +112,7 @@
 
     "scripts2": "cypress run --headed --browser electron --spec=cypress/integration/OVAC/1.Smoke/*",
 
-    "cy:test-ovac": "npm run pretest && npm run scripts2 && npm run posttest"
+    "cy:test-ovac": "npm run pretest && npm run scripts2"
 
 
   },
