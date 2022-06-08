@@ -159,7 +159,7 @@ describe("User is able to create new meeting", function() {
    const email_1 = "ca0b7eb9-d026-43ad-aada-72b36cf6dca1@mailslurp.com" 
    const phone_code = "387"
    const phone = "61123123"
-   const email = "alem@qaengineers.net"
+   const email = "alem+1@qaengineers.net"
    const password = "Mostar123!"
    const description1 = "Testing"
    it("Open he browser and enter URL", function() {

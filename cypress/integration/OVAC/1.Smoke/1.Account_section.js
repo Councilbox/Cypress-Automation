@@ -10,7 +10,7 @@ describe("The user is able to log in to the page - Account section", function() 
     before(function() {
         cy.clearLocalStorage();  
     });
-    const email = "alem@qaengineers.net"
+    const email = "alem+1@qaengineers.net"
     const password = "Mostar123!"
     it("The user is able to open the browser and enter the URL: ", function() {       
     	login.navigate_admin()        
