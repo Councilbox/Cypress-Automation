@@ -92,7 +92,7 @@
     "regression firefox": "cypress run --headed --browser firefox --spec=cypress/integration/2.Regression/*",
     "regression edge": "cypress run --headed --browser edge --spec=cypress/integration/2.Regression/*",
     "regression cert": "cypress run --headed --browser electron --spec=cypress/integration/1.Smoke/92.Certificate_section.js",
-    "regression net": "cypress run --headed --browser electron --spec=cypress/integration/2.Regression/7.Knowledge_Base_section.js",
+    "regression net": "cypress run --headless --spec=cypress/integration/2.Regression/7.Knowledge_Base_section.js",
     "smoke": "npm run pretest && cypress run --headless --spec=cypress/integration/1.Smoke/*",
     "ovac smoke": "cypress run --headed --browser electron --spec=cypress/integration/OVAC/1.Smoke/*",
     "cypress": "cypress open",
