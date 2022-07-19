@@ -171,6 +171,7 @@ describe("The user is able to Link Company", function() {
 
 
     });
+    /*
 
 describe("The user is able to unlink the company", function() {
 
@@ -200,7 +201,7 @@ describe("The user is able to unlink the company", function() {
 
     });
 
-
+*/
 describe("The user is able to edit 'Business name*'' in the Company settings in the Councilbox", function() {
 
         it("On the upper right corner click on the 'User icon' button", function() {
