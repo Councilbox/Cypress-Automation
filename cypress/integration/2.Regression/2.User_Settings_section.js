@@ -1,7 +1,13 @@
+import loginPage from "../pageObjects/loginPage";
+import userSettingsPage from "../pageObjects/userSettingsPage";
+
 const invalid_emails = ["andrej@qa", "andrej.qa", "andrej@majl.234"];
 const login_url = Cypress.env("baseUrl");
 const valid_password = Cypress.env("login_password");
 const valid_email = Cypress.env("login_email");
+
+let settings = new userSettingsPage()
+let login = new loginPage()
 
 beforeEach(function() {
     cy.restoreLocalStorage();
@@ -65,24 +71,24 @@ describe("Councilbox login - valid username and password", function() {
 
 describe("The user is able to change the 'Name' in the  'User settings' in the Councilbox", function() {
     
+    const name = "Balla"
 
         it("On the upper right corner click on 'User' icon", function() {
             cy.wait(5000)
-            cy.get('#user-menu-trigger').click()
+            settings.click_on_my_account()
         });
 
         it("From the drop down menu click on the 'Edit user' button", function() {
-            cy.xpath('//*[@class="fa fa-edit"]').click()
+            settings.click_on_user_settings()
         });
 
         it("Modify the 'Name' field", function() {
-            cy.get('#user-settings-name')
-                .clear()
-                .type('Balla')
+            settings.enter_user_name(name)
+         
         });
 
         it("User should be able to save changes", function() {
-            cy.get('#user-settings-save-button').click()
+            settings.click_on_save()
         });
 
 
@@ -91,82 +97,82 @@ describe("The user is able to change the 'Name' in the  'User settings' in the C
 
 describe("The user is able to change the 'Surname' in the  'User settings' in the Councilbox", function() {
     
+    const surname = "Balic"
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
            
         });
 
         it("On the upper right corner click on 'User' icon", function() {
-            cy.get('#user-menu-trigger').click()
+            settings.click_on_my_account()
         });
 
         it("From the drop down menu click on the 'Edit user' button", function() {
-            cy.xpath('//*[@class="fa fa-edit"]').click()
+            settings.click_on_user_settings()
         });
 
         it("Modify the 'Surname' field", function() {
-            cy.get('#user-settings-surname')
-                .clear()
-                .type('Balic')
+            settings.enter_user_surname(surname)
+              
         });
 
         it("User should be able to save changes", function() {
-            cy.get('#user-settings-save-button').click()
+            settings.click_on_save()
         });
 
     });
 
 describe("The user is able to change the 'Telephone No' in the  'User settings' in the Councilbox", function() {
     
+    const phone = Cypress.config('UniqueNumber')
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
            
         });
 
         it("On the upper right corner click on 'User' icon", function() {
-            cy.get('#user-menu-trigger').click()
+            settings.click_on_my_account()
         });
 
         it("From the drop down menu click on the 'Edit user' button", function() {
-            cy.xpath('//*[@class="fa fa-edit"]').click()
+            settings.click_on_user_settings()
         });
 
         it("Modify the 'Telephone No' field", function() {
-            cy.get('#user-settings-phone')
-                .clear()
-                .type(Cypress.config('UniqueNumber'))
+            settings.enter_user_phone(phone)
+               
         });
 
         it("User should be able to save changes", function() {
-            cy.get('#user-settings-save-button').click()
+            settings.click_on_save()
         });
 
     });
 
 describe("The user is able to change the 'Email' in the  'User settings' in the Councilbox", function() {
     
+    const email = "alem@qaengineers.net"
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
             
         });
 
         it("On the upper right corner click on 'User' icon", function() {
-            cy.get('#user-menu-trigger').click()
+            settings.click_on_my_account()
         });
 
         it("From the drop down menu click on the 'Edit user' button", function() {
-            cy.xpath('//*[@class="fa fa-edit"]').click()
+            settings.click_on_user_settings()
         });
 
         it("Modify the 'Email' field", function() {
-            cy.get('#user-settings-email')
-                .clear()
-                .type('alem@qaengineers.net')
+            settings.enter_user_email(email) 
+            
             
         });
 
         it("User should be able to save changes", function() {
-            cy.get('#user-settings-save-button').click()
+            settings.click_on_save()
         });
 
     });
@@ -180,20 +186,20 @@ describe("The user is able to select the 'Español' language in the  'User setti
         });
         
         it("On the upper right corner click on 'User' icon", function() {
-            cy.get('#user-menu-trigger').click()
+            settings.click_on_my_account()
         });
 
         it("From the drop down menu click on the 'Edit user' button", function() {
-            cy.xpath('//*[@class="fa fa-edit"]').click()
+            settings.click_on_user_settings()
         });
 
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
-            cy.get('#user-settings-language').click()
-            cy.get('#language-es').click()
+            settings.click_on_user_language()
+            login.select_spanish_language()
         });
 
         it("User should be able to save changes", function() {
-            cy.get('#user-settings-save-button').click()
+            settings.click_on_save()
         });
 
     });
@@ -206,20 +212,20 @@ describe("The user is able to select the 'Català' language in the  'User settin
         });
         
         it("On the upper right corner click on 'User' icon", function() {
-            cy.get('#user-menu-trigger').click()
+            settings.click_on_my_account()
         });
 
         it("From the drop down menu click on the 'Edit user' button", function() {
-            cy.xpath('//*[@class="fa fa-edit"]').click()
+            settings.click_on_user_settings()
         });
 
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
-            cy.get('#user-settings-language').click()
-            cy.get('#language-cat').click()
+            settings.click_on_user_language()
+            login.select_catala_language()
         });
 
         it("User should be able to save changes", function() {
-            cy.get('#user-settings-save-button').click()
+            settings.click_on_save()
         });
 
     });
@@ -232,20 +238,20 @@ describe("The user is able to select the 'Português' language in the  'User set
         });
         
         it("On the upper right corner click on 'User' icon", function() {
-            cy.get('#user-menu-trigger').click()
+            settings.click_on_my_account()
         });
 
         it("From the drop down menu click on the 'Edit user' button", function() {
-            cy.xpath('//*[@class="fa fa-edit"]').click()
+            settings.click_on_user_settings()
         });
 
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
-            cy.get('#user-settings-language').click()
-            cy.get('#language-pt').click()
+            settings.click_on_user_language()
+            login.select_portugese_language()
         });
 
         it("User should be able to save changes", function() {
-            cy.get('#user-settings-save-button').click()
+            settings.click_on_save()
         });
 
     });
@@ -258,20 +264,20 @@ describe("The user is able to select the 'Galego' language in the  'User setting
         });
         
         it("On the upper right corner click on 'User' icon", function() {
-            cy.get('#user-menu-trigger').click()
+            settings.click_on_my_account()
         });
 
         it("From the drop down menu click on the 'Edit user' button", function() {
-            cy.xpath('//*[@class="fa fa-edit"]').click()
+            settings.click_on_user_settings()
         });
 
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
-            cy.get('#user-settings-language').click()
-            cy.get('#language-gal').click()
+            settings.click_on_user_language()
+            login.select_galego_language()
         });
 
         it("User should be able to save changes", function() {
-            cy.get('#user-settings-save-button').click()
+            settings.click_on_save()
         });
 
     });
@@ -285,20 +291,20 @@ describe("The user is able to select the 'Polsku' language in the  'User setting
         });
         
         it("On the upper right corner click on 'User' icon", function() {
-            cy.get('#user-menu-trigger').click()
+            settings.click_on_my_account()
         });
 
         it("From the drop down menu click on the 'Edit user' button", function() {
-            cy.xpath('//*[@class="fa fa-edit"]').click()
+            settings.click_on_user_settings()
         });
 
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
-            cy.get('#user-settings-language').click()
-            cy.get('#language-pl').click()
+            settings.click_on_user_language()
+            login.select_polish_language()
         });
 
         it("User should be able to save changes", function() {
-            cy.get('#user-settings-save-button').click()
+            settings.click_on_save()
         });
 
     });
@@ -312,20 +318,20 @@ describe("The user is able to select the 'Euskera' language in the  'User settin
         });
         
         it("On the upper right corner click on 'User' icon", function() {
-            cy.get('#user-menu-trigger').click()
+            settings.click_on_my_account()
         });
 
         it("From the drop down menu click on the 'Edit user' button", function() {
-            cy.xpath('//*[@class="fa fa-edit"]').click()
+            settings.click_on_user_settings()
         });
 
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
-            cy.get('#user-settings-language').click()
-            cy.get('#language-eu').click()
+            settings.click_on_user_language()
+            login.select_euskera_language()
         });
 
         it("User should be able to save changes", function() {
-            cy.get('#user-settings-save-button').click()
+            settings.click_on_save()
         });
 
     });
@@ -339,20 +345,20 @@ describe("The user is able to select the 'Français' language in the  'User sett
         });
         
         it("On the upper right corner click on 'User' icon", function() {
-            cy.get('#user-menu-trigger').click()
+            settings.click_on_my_account()
         });
 
         it("From the drop down menu click on the 'Edit user' button", function() {
-            cy.xpath('//*[@class="fa fa-edit"]').click()
+            settings.click_on_user_settings()
         });
 
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
-            cy.get('#user-settings-language').click()
-            cy.get('#language-fr').click()
+            settings.click_on_user_language()
+            login.select_french_language()
         });
 
         it("User should be able to save changes", function() {
-            cy.get('#user-settings-save-button').click()
+            settings.click_on_save()
         });
 
     });
@@ -365,20 +371,20 @@ describe("The user is able to select the 'English' language in the  'User settin
         });
         
         it("On the upper right corner click on 'User' icon", function() {
-            cy.get('#user-menu-trigger').click()
+            settings.click_on_my_account()
         });
 
         it("From the drop down menu click on the 'Edit user' button", function() {
-            cy.xpath('//*[@class="fa fa-edit"]').click()
+            settings.click_on_user_settings()
         });
 
         it("Navigate to the 'Language' section and select the 'English' language and click on the “Save” button", function() {
-            cy.get('#user-settings-language').click()
-            cy.get('#language-en').click()
+            settings.click_on_user_language()
+            login.select_english_language()
         });
 
         it("User should be able to save changes", function() {
-            cy.get('#user-settings-save-button').click()
+            settings.click_on_save()
         });
 
         it("Refresh the Web App", function() {
@@ -389,29 +395,27 @@ describe("The user is able to select the 'English' language in the  'User settin
 
 
 describe("The user is able to change password in the Councilbox", function() {
-    
+    const password = "Mostar123!"
+    const new_password = "Mostar123!"
         it("On the upper right corner click on 'User' icon", function() {
-            cy.get('#user-menu-trigger').click()
+            settings.click_on_my_account()
         });
 
         it("From the drop down menu click on the 'Edit user' button", function() {
-            cy.xpath('//*[@class="fa fa-edit"]').click()
+            settings.click_on_user_settings()
         });
 
         it("Click on the 'Change password' button", function() {
-            cy.get('#user-change-password-button').click()
+            settings.click_on_change_password()
           
         });
 
 
         it("Populate all required fields and click on the 'Save' button", function() {
-            cy.get('#user-current-password')
-                .type('Mostar123!')
-            cy.get('#user-password')
-                .type('Mostar123!')
-            cy.get('#user-password-check')
-                .type('Mostar123!')
-            cy.get('#user-password-save').click()
+            settings.enter_current_password(password)
+            settings.enter_new_password(new_password)
+            settings.enter_new_password_confirm(new_password)
+            settings.click_on_save_password() 
         });
 
         it("Back to Home page", function() {
@@ -421,44 +425,41 @@ describe("The user is able to change password in the Councilbox", function() {
     });
 
 describe("The user is not able to change password without populating the 'Current password' field", function() {
+    const new_password = "Mostar123!"
     
+
         it("On the upper right corner click on 'User' icon", function() {
-            cy.get('#user-menu-trigger').click()
+            settings.click_on_my_account()
         });
 
         it("From the drop down menu click on the 'Edit user' button", function() {
-            cy.xpath('//*[@class="fa fa-edit"]').click()
+            settings.click_on_user_settings()
         });
 
         it("Click on the 'Change password' button", function() {
-            cy.get('#user-change-password-button').click()
+            settings.click_on_change_password()
            
         });
 
-        it("Skip the “Current password” field", function() {
-            cy.get('#user-current-password').clear()
-           
-        });
+      
 
         it("Populate the “New password” field", function() {
-            cy.get('#user-password').clear()
-                .type('Mostar123!')
+            settings.enter_new_password(new_password)
          
         });
 
         it("Populate the “Confirm” field", function() {
-            cy.get('#user-password-check').clear()
-                .type('Mostar123!')
+            settings.enter_new_password_confirm(new_password)
            
         });
 
         it("Click on the 'Save' button", function() {
-            cy.get('#user-password-save').click()
+            settings.click_on_save_password() 
            
         });
 
         it("“The password cannot be empty” message is displayed", function() {
-            cy.get('#user-current-password-error-text')
+            settings.verify_existing_current_password_error()
           
         });
 
@@ -470,43 +471,43 @@ describe("The user is not able to change password without populating the 'Curren
 
 describe("The user is not able to change password without populating the 'New password' field", function() {
     
+    const password = "Mostar123!"
+    const new_password = "Mostar123!"
+    const new_password1 = " "
         it("On the upper right corner click on 'User' icon", function() {
-            cy.get('#user-menu-trigger').click()
+            settings.click_on_my_account()
         });
 
         it("From the drop down menu click on the 'Edit user' button", function() {
-            cy.xpath('//*[@class="fa fa-edit"]').click()
+            settings.click_on_user_settings()
         });
 
         it("Click on the 'Change password' button", function() {
-            cy.get('#user-change-password-button').click()
+            settings.click_on_change_password()
            
         });
 
         it("Populate the “Current password” field", function() {
-            cy.get('#user-current-password').clear()
-                .type('Mostar123!')
+            settings.enter_current_password(password)
            
         });
 
         it("Skip the “New password” field", function() {
-            cy.get('#user-password').clear()
-           
+           settings.clear_user_new_password()
         });
 
         it("Populate the “Confirm” field", function() {
-            cy.get('#user-password-check').clear()
-                .type('Mostar123!')
+            settings.enter_new_password_confirm(new_password)
            
         });
 
         it("Click on the 'Save' button", function() {
-            cy.get('#user-password-save').click()
+            settings.click_on_save_password() 
            
         });
 
         it("“The password cannot be empty” alert message is displayed beyond the “New password” field", function() {
-            cy.get('#user-password-error-text')
+            settings.verify_existing_new_password_error() 
             
         });
 
@@ -518,43 +519,43 @@ describe("The user is not able to change password without populating the 'New pa
 
 describe("The user is not able to change password without populating the 'Confirm' field", function() {
     
+    const password = "Mostar123!"
+    const new_password = "Mostar123!"
+    const new_password1 = " "
         it("On the upper right corner click on 'User' icon", function() {
-            cy.get('#user-menu-trigger').click()
+            settings.click_on_my_account()
         });
 
         it("From the drop down menu click on the 'Edit user' button", function() {
-            cy.xpath('//*[@class="fa fa-edit"]').click()
+            settings.click_on_user_settings()
         });
 
         it("Click on the 'Change password' button", function() {
-            cy.get('#user-change-password-button').click()
+            settings.click_on_change_password()
            
         });
 
         it("Populate the “Current password” field", function() {
-            cy.get('#user-current-password').clear()
-                .type('Mostar123!')
+            settings.enter_current_password(password)
            
         });
 
         it("Populate the “New password” field", function() {
-            cy.get('#user-password').clear()
-                .type('Mostar123!')
+            settings.enter_new_password(new_password)
            
         });
 
         it("Skip the “Confirm” field", function() {
-            cy.get('#user-password-check').clear()
-            
+            settings.clear_user_new_password_confirm()
         });
 
         it("Click on the 'Save' button", function() {
-            cy.get('#user-password-save').click()
+            settings.click_on_save_password() 
             
         });
 
         it("“The passwords do not match” alert message is displayed beyond the “Confirm” field", function() {
-            cy.get('#user-password-check-error-text')
+            settings.verify_existing_new_password_confirm_error() 
             
         });
 
@@ -565,45 +566,43 @@ describe("The user is not able to change password without populating the 'Confir
     });
 
 describe("The user is not able to change password without populating the 'Confirm' field", function() {
-    
+    const password = "Starmo123!"
+    const new_password = "Mostar123!"
         it("On the upper right corner click on 'User' icon", function() {
-            cy.get('#user-menu-trigger').click()
+            settings.click_on_my_account()
         });
 
         it("From the drop down menu click on the 'Edit user' button", function() {
-            cy.xpath('//*[@class="fa fa-edit"]').click()
+            settings.click_on_user_settings()
         });
 
         it("Click on the 'Change password' button", function() {
-            cy.get('#user-change-password-button').click()
+            settings.click_on_change_password()
          
         });
 
         it("Populate the “Current password” field with invalid inputs", function() {
-            cy.get('#user-current-password').clear()
-                .type('Starmo123!')
+            settings.enter_current_password(password)
             
         });
 
         it("Populate the “New password” field", function() {
-            cy.get('#user-password').clear()
-                .type('Mostar123!')
+            settings.enter_new_password(new_password)
           
         });
 
         it("Populate the “Confirm” field", function() {
-            cy.get('#user-password-check').clear()
-                .type('Mostar123!')
+            settings.enter_new_password_confirm(new_password)
          
         });
 
         it("Click on the 'Save' button", function() {
-            cy.get('#user-password-save').click()
+            settings.click_on_save_password() 
           
         });
 
         it("“Incorrect current password” alert message is displayed beyond the “Current password field” field", function() {
-            cy.get('#user-current-password-error-text')
+            settings.verify_existing_current_password_error()
            
         });
 
@@ -615,45 +614,45 @@ describe("The user is not able to change password without populating the 'Confir
 
 describe("The user is not able to change Email with invalid inputs", function() {
     
+    const name = "Balla"
+    const surname = "Alem"
+    const email = "sfdafsdf"
+    const phone = "123456"
         it("On the upper right corner click on 'User' icon", function() {
-            cy.get('#user-menu-trigger').click()
+            settings.click_on_my_account()
         });
 
         it("From the drop down menu click on the 'Edit user' button", function() {
-            cy.xpath('//*[@class="fa fa-edit"]').click()
+            settings.click_on_user_settings()
         });
 
         it("Populate the 'Name' field", function() {
-            cy.get('#user-settings-name').clear()
-                .type('Balla')
+            settings.enter_user_name(name)
             
         });
 
         it("Populate the 'Last Name' field", function() {
-            cy.get('#user-settings-surname').clear()
-                .type('Alem')
+            settings.enter_user_surname(surname)
             
         });
 
         it("Populate the “Email” field with invalid inputs", function() {
-            cy.get('#user-settings-email').clear()
-                .type('sfdafasdf')
+            settings.enter_user_email(email)
            
         });
 
         it("Populate the 'Telephone No' field", function() {
-            cy.get('#user-settings-phone').clear()
-                .type('123456')
+            settings.enter_user_phone(phone)
           
         });
 
         it("Click on the “Save” button", function() {
-            cy.get('#user-settings-save-button').click()
+            settings.click_on_save()
          
         });
 
         it("Observe the “Save” button and observe the message beyond the “Email” field - “Invalid field”", function() {
-            cy.get('#user-settings-email-error-text')
+            settings.verify_existing_user_email_error()
         
         });
 
@@ -664,45 +663,44 @@ describe("The user is not able to change Email with invalid inputs", function() 
     });
 
 describe("The user is not able to save changes without populating the 'Last Name' field", function() {
-    
+    const name = "Balla"
+    const email = "alem@qaengineers.net"
+    const phone = "123456"
+    const surname = " "
         it("On the upper right corner click on 'User' icon", function() {
-            cy.get('#user-menu-trigger').click()
+            settings.click_on_my_account()
         });
 
         it("From the drop down menu click on the 'Edit user' button", function() {
-            cy.xpath('//*[@class="fa fa-edit"]').click()
+            settings.click_on_user_settings()
         });
 
         it("Populate the 'Name' field", function() {
-            cy.get('#user-settings-name').clear()
-                .type('Balla')
+            settings.enter_user_name(name)
          
         });
 
         it("Skip the 'Last Name' field", function() {
-            cy.get('#user-settings-surname').clear()
-           
+           settings.clear_user_surname()
         });
 
         it("Populate the “Email” field", function() {
-            cy.get('#user-settings-email').clear()
-                .type('alem@qaengineers.net')
+            settings.enter_user_email(email)
           
         });
 
         it("Populate the 'Telephone No' field", function() {
-            cy.get('#user-settings-phone').clear()
-                .type('123456')
+            settings.enter_user_phone(phone)
            
         });
 
         it("Click on the “Save” button", function() {
-            cy.get('#user-settings-save-button').click()
+            settings.click_on_save()
           
         })
 
         it("Observe the “Save” button and observe the message beyond the “Last Name” field - “This field is required.”", function() {
-            cy.get('#user-settings-surname-error-text')
+            settings.verify_existing_user_surname_error()
             
         })
 
@@ -713,45 +711,44 @@ describe("The user is not able to save changes without populating the 'Last Name
     });
 
 describe("The user is not able to save changes without populating the 'Email' field", function() {
-    
+    const name = "Balla"
+    const surname = "Alem"
+    const phone = "123456"
+    const email = " "
         it("On the upper right corner click on 'User' icon", function() {
-            cy.get('#user-menu-trigger').click()
+            settings.click_on_my_account()
         });
 
         it("From the drop down menu click on the 'Edit user' button", function() {
-            cy.xpath('//*[@class="fa fa-edit"]').click()
+            settings.click_on_user_settings()
         });
 
         it("Populate the 'Name' field", function() {
-            cy.get('#user-settings-name').clear()
-                .type('Balla')
+            settings.enter_user_name(name)
           
         });
 
-        it("Skip the 'Last Name' field", function() {
-            cy.get('#user-settings-surname').clear()
-                .type('Alem')
+        it("Populate the 'Last Name' field", function() {
+            settings.enter_user_surname(surname)
            
         });
 
         it("Skip the “Email” field", function() {
-            cy.get('#user-settings-email').clear()
-          
+            settings.clear_user_email()
         });
 
         it("Populate the 'Telephone No' field", function() {
-            cy.get('#user-settings-phone').clear()
-                .type('123456')
+            settings.enter_user_phone(phone)
           
         });
 
         it("Click on the “Save” button", function() {
-            cy.get('#user-settings-save-button').click()
+            settings.click_on_save()
           
         })
 
         it("Observe the “Save” button and observe the message beyond the “Email” field - “Invalid field”", function() {
-            cy.get('#user-settings-email-error-text')
+            settings.verify_existing_user_email_error()
             
         })
 
@@ -762,45 +759,44 @@ describe("The user is not able to save changes without populating the 'Email' fi
     });
 
 describe("The user is not able to save changes without populating the 'First Name' field", function() {
-    
+    const surname = "Alem"
+    const email = "alem@qaengineers.net"
+    const phone = "123456"
+    const name = " "
         it("On the upper right corner click on 'User' icon", function() {
-            cy.get('#user-menu-trigger').click()
+            settings.click_on_my_account()
         });
 
         it("From the drop down menu click on the 'Edit user' button", function() {
-            cy.xpath('//*[@class="fa fa-edit"]').click()
+            settings.click_on_user_settings()
         });
 
-        it("Populate the 'Name' field", function() {
-            cy.get('#user-settings-name').clear()
-         
+        it("Skip the 'Name' field", function() {
+            settings.clear_user_name()
         });
 
-        it("Skip the 'Last Name' field", function() {
-            cy.get('#user-settings-surname').clear()
-                .type('Alem')
+        it("Populate the 'Last Name' field", function() {
+            settings.enter_user_surname(surname)
             
         });
 
-        it("Skip the “Email” field", function() {
-            cy.get('#user-settings-email').clear()
-                .type('alem@qaengineers.net')
+        it("Populate the “Email” field", function() {
+            settings.enter_user_email(email)
             
         });
 
         it("Populate the 'Telephone No' field", function() {
-            cy.get('#user-settings-phone').clear()
-                .type('123456')
+            settings.enter_user_phone(phone)
          
         });
 
         it("Click on the “Save” button", function() {
-            cy.get('#user-settings-save-button').click()
+            settings.click_on_save()
            
         })
 
         it("Observe the “Save” button and observe the message beyond the “Name” field - “This field is required.”", function() {
-            cy.get('#user-settings-name-error-text')
+            settings.verify_existing_user_name_error()
           
         })
 
