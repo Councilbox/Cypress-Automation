@@ -1,7 +1,11 @@
+import loginPage from "../pageObjects/loginPage";
+
 const invalid_emails = ["andrej@qa", "andrej.qa", "andrej@majl.234"];
 const login_url = Cypress.env("baseUrl");
 const valid_password = Cypress.env("login_password");
 const valid_email = Cypress.env("login_email");
+
+let login = new loginPage()
 
 beforeEach(function() {
     cy.restoreLocalStorage();
@@ -36,367 +40,367 @@ function userID_Alpha() {
         });
     
         it("Click on the 'Sign Up' button", function() {
-            cy.get('#sign-up-button').click()
+            login.click_on_sign_up_button()
             
         });
 
         it("Click on the “Sign up” button without populating required fields", function() {
-            cy.get('#create-user-button').click()
+            login.click_on_send()
         });
 
         it("An alert message is displayed beyond the fields", function() {
-            cy.get('#create-account-name-error')
-            cy.get('#create-account-surname-error')
-            cy.get('#create-account-phone-error')
-            cy.get('#create-account-mail-error')
-            cy.get('#create-account-password-error')
-            cy.get('#legal-terms-error-text')
+            login.verify_existing_name_error()
+            login.verify_existing_surname_error()
+            login.verify_existing_phone_error()
+            login.verify_existing_email_error()
+            login.verify_existing_password_error()
+            login.verify_existing_legal_terms_error()
         })
     });
 
 
 describe("The user is not able to create a new account in Councilbox with invalid inputs in the 'Name' field", function() {
     
+
+    const name = "12345"
+    const surname = "Test"
+    const phone = "123123123"
+    const email = "alem"+Cypress.config('UniqueNumber')+"@yopmail.com"
+    const password = "Mostar123!"
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
            
         });
     
         it("Click on the 'Sign Up' button", function() {
-            cy.get('#sign-up-button').click()
+            login.click_on_sign_up_button()
            
         });
 
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
-            cy.get('#signup-name').clear()
-                .type("12345")        
+            login.enter_signup_name(name)
+                       
         });
 
         it("Populate the 'Surname' field", function() {
-            cy.get('#signup-surname').clear()
-                .type("Test")
-                .should("have.value", "Test")
+            login.enter_signup_surname(surname) 
+                
         });
 
         it("Populate the 'Phone' field", function() {
-            cy.get('#signup-phone').clear()
-                .type("123123123")
-                .should("have.value", "123123123")
+            login.enter_signup_phone(phone)
+                
         });
 
         it("Populate the 'Email' and the 'Repeat email' fields", function() {
-            cy.get('#signup-email').clear()
-                .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
-            
-            cy.get('#signup-email-check').clear()
-                .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
+            login.enter_signup_email_and_confirm_it(email)
+                
         });
 
         it("Populate the 'Password' and the 'Confirm password' fields", function() {
-            cy.get('#signup-password').clear()
-                .type("Mostar123!")
-            cy.get('#signup-password-check').clear()
-                .type("Mostar123!") 
+            login.enter_signup_password_and_confirm_it(password)
+                
         });
 
         it("Click on the checkbox to confirm terms and conditions of councilbox", function() {
-            cy.get('#accept-legal-checkbox').click()
+            login.accept_terms() 
         });
 
         it("Click on 'Send' button", function() {
-            cy.get('#create-user-button').click() 
+            login.click_on_send() 
         });
 
         it("Should display 'Please enter a valid first name'", function() {
-            cy.get('#create-account-name-error')
+            login.verify_existing_name_error()
         })
     });
 
 
 describe("The user is not able to create a new account in Councilbox with invalid inputs in the 'Phone' field", function() {
     
+    const name = "Automation"
+    const surname = "Test"
+    const phone = "Testing"
+    const email = "alem"+Cypress.config('UniqueNumber')+"@yopmail.com"
+    const password = "Mostar123!"
+
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
           
         });
     
         it("Click on the 'Sign Up' button", function() {
-            cy.get('#sign-up-button').click()
+            login.click_on_sign_up_button()
             
         });
 
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
-            cy.get('#signup-name').clear()
+            login.enter_signup_name(name)
                 .type("Automation")           
         });
 
         it("Populate the 'Surname' field", function() {
-            cy.get('#signup-surname').clear()
-                .type("Test")
-                .should("have.value", "Test")
+            login.enter_signup_surname(surname) 
+                
         });
 
         it("Populate the 'Phone' field", function() {
-            cy.get('#signup-phone').clear()
-                .type("test")
-                .should("have.value", "test")
+            login.enter_signup_phone(phone)
+                
         });
 
         it("Populate the 'Email' and the 'Repeat email' fields", function() {
-            cy.get('#signup-email').clear()
-                .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
-            cy.get('#signup-email-check').clear()
-                .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
+            login.enter_signup_email_and_confirm_it(email)
+        
         });
 
         it("Populate the 'Password' and the 'Confirm password' fields", function() {
-             cy.get('#signup-password').clear()
-                .type("Mostar123!")
-
-             cy.get('#signup-password-check').clear()
-                .type("Mostar123!") 
+             login.enter_signup_password_and_confirm_it(password)
+        
         });
 
         it("Click on the checkbox to confirm terms and conditions of councilbox", function() {
-            cy.get('#accept-legal-checkbox').click()
+            login.accept_terms() 
         });
 
         it("Click on 'Send' button", function() {
-            cy.get('#create-user-button').click()
+            login.click_on_send()
         });
 
         it("Should display 'Please enter a valid phone number'", function() {
-            cy.get('#create-account-phone-error')
+            login.verify_existing_phone_error()
         });
     });
 
 
 describe("The user is not able to create a new account in Councilbox with invalid inputs in the 'Surname' field", function() {
     
+    const name = "Automation"
+    const surname = "12345"
+    const phone = "123123123"
+    const email = "alem"+Cypress.config('UniqueNumber')+"@yopmail.com"
+    const password = "Mostar123!"
+
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
          
         });
     
         it("Click on the 'Sign Up' button", function() {
-            cy.get('#sign-up-button').click()
+            login.click_on_sign_up_button()
     
         });
 
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
-            cy.get('#signup-name').clear()
+            login.enter_signup_name(name)
                 .type("Automation")
         });
 
         it("Populate the 'Surname' field", function() {
-            cy.get('#signup-surname').clear()
+            login.enter_signup_surname(surname) 
                 .type("12345")
                 .should("have.value", "12345")
         });
 
         it("Populate the 'Phone' field", function() {
-            cy.get('#signup-phone').clear()
-                .type("123123123")
-                .should("have.value", "123123123")
+            login.enter_signup_phone(phone)
+                
         }); 
 
         it("Populate the 'Email' and the 'Repeat email' fields", function() {
-            cy.get('#signup-email').clear()
-                .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
-            cy.get('#signup-email-check').clear()
-                .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
+            login.enter_signup_email_and_confirm_it(email)
+      
         });
 
         it("Populate the 'Password' and the 'Confirm password' fields", function() {
-             cy.get('#signup-password').clear()
-                .type("Mostar123!")
-             cy.get('#signup-password-check').clear()
-                .type("Mostar123!") 
+             login.enter_signup_password_and_confirm_it(password)
+             
         });
 
         it("Click on the checkbox to confirm terms and conditions of councilbox", function() {
-            cy.get('#accept-legal-checkbox').click()
+            login.accept_terms() 
         });
 
         it("Click on 'Send' button", function() {
-            cy.get('#create-user-button').click()
+            login.click_on_send()
         });
 
         it("Please enter valid last names", function() {
-            cy.get('#create-account-surname-error')
+            login.verify_existing_surname_error()
         })
     });
 
 
 describe("The user is not able to register to the Councilbox with the E-mail already used", function() {
     
+    const name = "Automation"
+    const surname = "Test"
+    const phone = "123123123"
+    const email = "ballalem@hotmail.com"
+    const password = "Mostar123!"
+
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
           
         });
     
         it("Click on the 'Sign Up' button", function() {
-            cy.get('#sign-up-button').click()
+            login.click_on_sign_up_button()
           
         });
 
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
-            cy.get('#signup-name').clear()
+            login.enter_signup_name(name)
                 .type("Automation")
         });
 
         it("Populate the 'Surname' field", function() {
-            cy.get('#signup-surname').clear()
-                .type("Test")
-                .should("have.value", "Test")
+            login.enter_signup_surname(surname) 
+                
         });
 
 
         it("Populate the 'Phone' field", function() {
-            cy.get('#signup-phone').clear()
-                .type("123123123")
-                .should("have.value", "123123123")
+            login.enter_signup_phone(phone)
+                
         });
 
         it("Populate the 'Email' and the 'Repeat email' fields", function() {
-            cy.get('#signup-email').clear()
-                .type("ballalem@hotmail.com")
-            cy.get('#signup-email-check').clear()
-                .type("ballalem@hotmail.com")
+            login.enter_signup_email_and_confirm_it(email)
+      
         });
 
         it("Populate the 'Password' and the 'Confirm password' fields", function() {
-            cy.get('#signup-password').clear()
-                .type("Mostar123!")
-
-            cy.get('#signup-password-check').clear()
-                .type("Mostar123!") 
+            login.enter_signup_password_and_confirm_it(password)
+        
         });
 
         it("Click on the checkbox to confirm terms and conditions of councilbox", function() {
-            cy.get('#accept-legal-checkbox').click()
+            login.accept_terms() 
         });
 
         it("Click on 'Send' button", function() {
-            cy.get('#create-user-button').click()
+            login.click_on_send()
         });
 
         it("'This email is already registered.'' message is displayed beyond the “Email” field", function() {
-            cy.get('#create-account-mail-error')
+            login.verify_existing_email_error()
         });
     });
 
 
 describe("The user is not able to register to the Councilbox with the invalid inputs in the 'Repeat Email' field", function() {
     
+    const name = "Automation"
+    const surname = "Test"
+    const phone = "123123123"
+    const email = "alem"+Cypress.config('UniqueNumber')+"@yopmail.com"
+    const password = "Mostar123!"
+    const email_confirm = "alem123@test.test"
+
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
         
         });
     
         it("Click on the 'Sign Up' button", function() {
-            cy.get('#sign-up-button').click()
+            login.click_on_sign_up_button()
             
         });
 
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
-            cy.get('#signup-name').clear()
+            login.enter_signup_name(name)
                 .type("Automation")
         });
 
         it("Populate the 'Surname' field", function() {
-            cy.get('#signup-surname').clear()
-                .type("Test")
-                .should("have.value", "Test")
+            login.enter_signup_surname(surname) 
+                
         });
 
         it("Populate the 'Phone' field", function() {
-            cy.get('#signup-phone').clear()
-                .type("123123123")
-                .should("have.value", "123123123")
+            login.enter_signup_phone(phone)
+                
         });
 
         it("Populate the 'Email' and the 'Repeat email' fields", function() {
-            cy.get('#signup-email').clear()
-                .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
-            cy.get('#signup-email-check').clear()
-                .type("alem123@test.test")
+            login.enter_signup_email(email)
+            login.enter_signup_email_confirm(email_confirm)
         });
 
         it("Populate the 'Password' and the 'Confirm password' fields", function() {
-             cy.get('#signup-password').clear()
-                .type("Mostar123!")
-             cy.get('#signup-password-check').clear()
-                .type("Mostar123!") 
+             login.enter_signup_password_and_confirm_it(password)
+     
         });
 
         it("Click on the checkbox to confirm terms and conditions of councilbox", function() {
-            cy.get('#accept-legal-checkbox').click()
+            login.accept_terms() 
         });
 
         it("Click on 'Send' button", function() {
-            cy.get('#create-user-button').click()
+            login.click_on_send()
         });
 
         it("'The email does not match.'' message is displayed beyond the “Repeat Email” field", function() {
-            cy.get('#create-account-repeat-mail-error')
+            login.verify_existing_email_confirm_error()
         });
     });
 
 
 describe("The user is not able to register to the Councilbox with the invalid inputs in the 'Confirm Password' field", function() {
     
+    const name = "Automation"
+    const surname = "Test"
+    const phone = "123123123"
+    const email = "alem"+Cypress.config('UniqueNumber')+"@yopmail.com"
+    const password = "Mostar123!"
+    const password_confirm = "123456"
+
         it("Open the browser and enter the URL of the staging environment", function() {
             cy.visit(login_url);
          
         });
     
         it("Click on the 'Sign Up' button", function() {
-            cy.get('#sign-up-button').click()
+            login.click_on_sign_up_button()
          
         });
 
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
-            cy.get('#signup-name').clear()
+            login.enter_signup_name(name)
             .type("Automation")
         });
 
         it("Populate the 'Surname' field", function() {
-            cy.get('#signup-surname').clear()
-                .type("Test")
-                .should("have.value", "Test")
+            login.enter_signup_surname(surname) 
+                
         });
 
         it("Populate the 'Phone' field", function() {
-            cy.get('#signup-phone').clear()
-                .type("123123123")
-                .should("have.value", "123123123")
+            login.enter_signup_phone(phone)
+                
         });
 
         it("Populate the 'Email' and the 'Repeat email' fields", function() {
-            cy.get('#signup-email').clear()
-                .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
-            cy.get('#signup-email-check').clear()
-                .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
+            login.enter_signup_email_and_confirm_it(email)
+         
         });
 
         it("Populate the 'Password' and the 'Confirm password' fields", function() {
-            cy.get('#signup-password').clear()
-                .type("Mostar123!")
-            cy.get('#signup-password-check').clear()
-                .type("123456") 
+            login.enter_signup_password(password)
+            login.enter_signup_password_confirm(password_confirm)
         });
 
         it("Click on the checkbox to confirm terms and conditions of councilbox", function() {
-            cy.get('#accept-legal-checkbox').click()
+            login.accept_terms() 
         });
 
         it("Click on 'Send' button", function() {
-            cy.get('#create-user-button').click()
+            login.click_on_send()
         });
 
         it("'The passwords do not match' message is displayed beyond the “Confirm Password” field", function() {
-            cy.get('#create-account-repeat-password-error')
+            login.verify_existing_password_confirm_error()
         });
     });
 
@@ -409,47 +413,43 @@ describe("The user is not able to register without accepting terms and condition
         });
     
         it("Click on the 'Sign Up' button", function() {
-            cy.get('#sign-up-button').click()
+            login.click_on_sign_up_button()
          
         });
 
         it("Populate the 'Name' field with invalid inputs (with number)", function() {
-            cy.get('#signup-name').clear()
+            login.enter_signup_name(name)
                 .type("Automation")
         });
 
         it("Populate the 'Surname' field", function() {
-            cy.get('#signup-surname').clear()
-                .type("Test")
-                .should("have.value", "Test")
+            login.enter_signup_surname(surname) 
+                
         });
 
         it("Populate the 'Phone' field", function() {
-            cy.get('#signup-phone').clear()
-                .type("123123123")
-                .should("have.value", "123123123")
+            login.enter_signup_phone(phone)
+                
         });
 
         it("Populate the 'Email' and the 'Repeat email' fields", function() {
-            cy.get('#signup-email').clear()
+            login.enter_signup_email_and_confirm_it(email)
                 .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
             cy.get('#signup-email-check').clear()
                 .type("alem"+Cypress.config('UniqueNumber')+"@yopmail.com")
         });
 
         it("Populate the 'Password' and the 'Confirm password' fields", function() {
-            cy.get('#signup-password').clear()
-                .type("Mostar123!")
-            cy.get('#signup-password-check').clear()
-                .type("Mostar123!") 
+            login.enter_signup_password_and_confirm_it(password)
+                
         });
         
         it("Click on 'Send' button", function() {
-            cy.get('#create-user-button').click()
+            login.click_on_send()
         });
 
         it("'I accept the terms and conditions' message is displayed", function() {
-            cy.get('#legal-terms-error-text').click()
+            login.verify_existing_legal_terms_error().click()
         });
     });
 
