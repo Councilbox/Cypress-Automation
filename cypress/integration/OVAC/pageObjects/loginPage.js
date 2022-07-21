@@ -13,7 +13,8 @@ class loginPage {
 	elements = {
 		username: () => cy.get('#username'),
 		passowrd: () => cy.get('#password'),
-		login_submit: () => cy.get('#login-button')
+		login_submit: () => cy.get('#restore-password-button'),
+
 	}
 
 	navigate_user() {
@@ -39,7 +40,7 @@ class loginPage {
 	}
 
 	login_submit() {
-		cy.get('#login-button')
+		cy.get('#restore-password-button')
             .should('be.visible')
             .click() 
 	}
