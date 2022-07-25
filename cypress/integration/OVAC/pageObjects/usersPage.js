@@ -5,16 +5,26 @@ class usersPage {
 
 	elements = { 
 		add_user_button: () => cy.get('#add-user-button'),
+		search: () => cy.get('#company-document-search-input'),
 		name: () => cy.get('#user-settings-name'),
 		surname: () => cy.get('#user-settings-surname'),
 		email: () => cy.get('#user-settings-email'),
 		language_menu: () => cy.get('#user-settings-language'),
 		language_option_english: () => cy.get('#language-en'),
+		language_option_catala: () => cy.get('#language-cat'),
+		language_option_spanish: () => cy.get('#language-es'),
+		language_option_italiano : () => cy.get('#language-it'),
+		language_option_euskera : () => cy.get('#language-eu'),
+		return: () => cy.get('[class="material-icons MuiIcon-root ri-arrow-left-line text-2xl flex items-center "]'),
+		error: () => cy.get('[class="MuiFormHelperText-root error-text Mui-error"]'),
+
 		create_user: () => cy.get('#create-user-button'),
 		phone: () => cy.get('#user-settings-phone'),
+		phone_code: () => cy.get('#user-phone-code'),
 		tin: () => cy.get('#user-id-card-type'),
-		continue: () => cy.xpath('//*[@class="MuiButtonBase-root MuiButton-root MuiButton-text"]'),
+		continue: () => cy.get('[class="MuiButtonBase-root MuiButton-root MuiButton-text"]').eq(0),
 		finalize: () => cy.get('#root > div > div:nth-child(3) > div > div:nth-child(2) > div > div:nth-child(1) > div > div:nth-child(2) > div > button'),
+		users_table_row: () => cy.get('[class="MuiTableRow-root cursor-pointer MuiTableRow-hover"]').eq(0)
 	
 		}
 
@@ -22,6 +32,39 @@ class usersPage {
 		this.elements.add_user_button()
 			.should('be.visible')
 			.click()
+	}
+
+	verify_error() {
+		this.elements.error()
+			.should('be.visible')
+	}
+
+	click_return() {
+		this.elements.return()
+			.should('be.visible')
+			.click()
+	}
+
+	verify_user(user) {
+		this.elements.users_table_row()
+			.contains(user)
+			.should('be.visible')
+	}
+
+	search_for_user(user) {
+		this.elements.search()
+			.should('be.visible')
+			.clear()
+			.type(user)
+			.should('have.value', user)
+	}
+
+	enter_phone_code(phone_code) {
+		this.elements.phone_code()
+			.should('be.visible')
+			.clear()
+			.type(phone_code)
+			.should('have.value', phone_code)
 	}
 
 	enter_phone(phone) {
@@ -72,6 +115,36 @@ class usersPage {
 			.click()
 		cy.wait(1000)
 		this.elements.language_option_english()
+			.click()
+	}
+
+	click_language_menu() {
+		this.elements.language_menu()
+			.should('be.visible')
+			.click()
+	}
+
+	select_calego_language() {
+		this.elements.language_option_catala()
+			.should('be.visible')
+			.click()
+	}
+
+	select_italiano_language() {
+		this.elements.language_option_italiano()
+			.should('be.visible')
+			.click()
+	}
+
+	select_euskera_language() {
+		this.elements.language_option_euskera()
+			.should('be.visible')
+			.click()
+	}
+
+	select_spanish_language() {
+		this.elements.language_option_spanish()
+			.should('be.visible')
 			.click()
 	}
 
