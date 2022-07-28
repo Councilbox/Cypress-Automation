@@ -111,7 +111,7 @@
     "generate-report": "npx marge cypress/reports/report.json --reportDir ./ --inline",
     "posttest": "npm run combine-reports && npm run generate-report",
     "test": "npm run scripts || npm run posttest",
-    "scripts2": "cypress run --headed --browser electron --spec=cypress/integration/OVAC/1.Smoke/*",
+    "scripts2": "cypress run --headed --browser electron --spec=cypress/integration/OVAC/1.Smoke/1.Account_section.js",
     "cy:test-ovac": "npm run pretest && npm run scripts2"
   },
   "devDependencies": {
