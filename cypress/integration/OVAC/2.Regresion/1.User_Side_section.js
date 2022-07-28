@@ -377,11 +377,11 @@ describe("The user is able to see administration documentation - Participant sid
         appointment.enter_telephone_no(phone_code, phone) 
         appointment.enter_email(email_user)
     })
-
+/*
    it("Click 'CONFIRM'", function() {    
        appointment.click_confirm()  
    });
-/*
+
    it("Open Admin portal and start the meeting", function () {
         login.login(email, password)
         dashboard.click_on_appointments()
