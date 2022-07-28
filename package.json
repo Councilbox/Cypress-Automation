@@ -95,7 +95,7 @@
     "regression net": "cypress run --headless --spec=cypress/integration/2.Regression/7.Knowledge_Base_section.js",
     "smoke": "npm run pretest && cypress run --headless --spec=cypress/integration/1.Smoke/*",
     "ovac smoke": "cypress run --headed --browser electron --spec=cypress/integration/OVAC/1.Smoke/*",
-    "ovac regression": "cypress run --headed --spec=cypress/integration/OVAC/2.Regresion/1.User_Side_section.js",
+    "ovac regression": "cypress run --headed --spec=cypress/integration/OVAC/2.Regresion/*",
 
     "cypress": "cypress open",
     "lint": "eslint . --quiet --ext .js --ext .jsx",
