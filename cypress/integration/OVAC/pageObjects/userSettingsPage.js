@@ -113,8 +113,7 @@ class userSettingsPage {
 
     click_on_company_settings() {
         this.elements.company_settings()
-            .should('be.visible')
-            .click()
+            .click({force:true})
         cy.url()
             .should('include', '/settings')
     }
@@ -194,8 +193,7 @@ class userSettingsPage {
 
     click_on_save() {
         this.elements.save_button()
-            .should('be.visible')
-            .click()
+            .click({force:true})
     }
 
     enter_user_name(name) {
@@ -240,8 +238,7 @@ class userSettingsPage {
 
     click_on_user_settings() {
         this.elements.user_settings()  
-            .should('be.visible')
-            .click()
+            .click({force:true})
         cy.url()
             .should('include', '/user')
             .wait(2000)

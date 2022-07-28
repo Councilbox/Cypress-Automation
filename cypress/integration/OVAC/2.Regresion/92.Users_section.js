@@ -52,7 +52,7 @@ describe("Users section - regression tests", function() {
     const phone_code = "387"
     const phone = "61123123"
     const tin = "12345678Z"
-    const email_user = "test"+Cypress.config('UniqueNumber')+"@test.com"
+    const email_user = "test1"+Cypress.config('UniqueNumber')+"@test.com"
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
@@ -85,7 +85,7 @@ describe("Users section - regression tests", function() {
     const phone_code = "387"
     const phone = "61123123"
     const tin = "12345678Z"
-    const email_user = "test"+Cypress.config('UniqueNumber')+"@test.com"
+    const email_user = "test2"+Cypress.config('UniqueNumber')+"@test.com"
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
@@ -118,7 +118,7 @@ describe("Users section - regression tests", function() {
     const phone_code = "387"
     const phone = "61123123"
     const tin = "12345678Z"
-    const email_user = "test"+Cypress.config('UniqueNumber')+"@test.com"
+    const email_user = "test3"+Cypress.config('UniqueNumber')+"@test.com"
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
@@ -151,7 +151,7 @@ describe("Users section - regression tests", function() {
     const phone_code = "387"
     const phone = "61123123"
     const tin = "12345678Z"
-    const email_user = "test"+Cypress.config('UniqueNumber')+"@test.com"
+    const email_user = "test4"+Cypress.config('UniqueNumber')+"@test.com"
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
@@ -184,7 +184,7 @@ describe("Users section - regression tests", function() {
     const phone_code = "387"
     const phone = "61123123"
     const tin = "12345678Z"
-    const email_user = "test"+Cypress.config('UniqueNumber')+"@test.com"
+    const email_user = "test5"+Cypress.config('UniqueNumber')+"@test.com"
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
@@ -236,7 +236,7 @@ describe("Users section - regression tests", function() {
     const phone_code = "387"
     const phone = "61123123"
     const tin = "12345678Z"
-    const email_user = "test"+Cypress.config('UniqueNumber')+"@test.com"
+    const email_user = "test6"+Cypress.config('UniqueNumber')+"@test.com"
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
@@ -264,7 +264,7 @@ describe("Users section - regression tests", function() {
     const phone_code = "387"
     const phone = "61123123"
     const tin = "12345678Z"
-    const email_user = "test"+Cypress.config('UniqueNumber')+"@test.com"
+    const email_user = "test7"+Cypress.config('UniqueNumber')+"@test.com"
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
@@ -320,7 +320,7 @@ describe("Users section - regression tests", function() {
     const phone_code = "387"
     const phone = "61123123"
     const tin = "12345678Z"
-    const email_user = "test"+Cypress.config('UniqueNumber')+"@test.com"
+    const email_user = "test8"+Cypress.config('UniqueNumber')+"@test.com"
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
@@ -348,7 +348,7 @@ describe("Users section - regression tests", function() {
     const phone_code = "387"
     const phone = "61123123"
     const tin = "12345678Z"
-    const email_user = "test"+Cypress.config('UniqueNumber')+"@test.com"
+    const email_user = "test9"+Cypress.config('UniqueNumber')+"@test.com"
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()

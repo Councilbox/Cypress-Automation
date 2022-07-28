@@ -13,7 +13,7 @@ class knowledgeBasePage {
 		delete_file: () => cy.get('#delete-file-0'),
 		edit_file: () => cy.get('#edit-file-0'),
 		edit: () => cy.get('#edit-folder-0'),
-		delete: () => cy.get('/html/body/div[4]/div[3]/div/ul/div[2]'),
+		delete: () => cy.xpath('/html/body/div[4]/div[3]/div/ul/div[2]'),
 
 		value_error: () => cy.xpath('//*[@id="panel-confirm"]/div[3]/div/div/div/div/div/div[2]/div/div/p'),
 		code_error: () => cy.xpath('//*[@id="panel-confirm"]/div[3]/div/div/div/div/div/div[1]/div/div/p'),

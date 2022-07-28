@@ -2,8 +2,6 @@ import loginPage from "../pageObjects/loginPage"
 import requestAppointment from "../pageObjects/requestAppointment"
 import appointmentsPage from "../pageObjects/appointmentsPage"
 import adminDashboard from "../pageObjects/adminDashboardPage"
-import { Pass } from "codemirror"
-import Password from "antd/lib/input/Password"
 import userSettingsPage from "../pageObjects/userSettingsPage"
 
 let login = new loginPage()
@@ -48,10 +46,6 @@ describe("Company settings - regression tests", function() {
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
-    cy.log("The user is able to Login")
-        login.enter_email(email)
-        login.enter_password(passowrd)
-        login.login_submit()
     cy.log("The user is able to click on the Account icon")
         settings.click_on_my_account()
     cy.log("The user is able to click on the Configuration button")
@@ -73,10 +67,6 @@ describe("Company settings - regression tests", function() {
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
-    cy.log("The user is able to Login")
-        login.enter_email(email)
-        login.enter_password(passowrd)
-        login.login_submit()
     cy.log("The user is able to click on the Account icon")
         settings.click_on_my_account()
     cy.log("The user is able to click on the Configuration button")
@@ -97,10 +87,6 @@ describe("Company settings - regression tests", function() {
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
-    cy.log("The user is able to Login")
-        login.enter_email(email)
-        login.enter_password(passowrd)
-        login.login_submit()
     cy.log("The user is able to click on the Account icon")
         settings.click_on_my_account()
     cy.log("The user is able to click on the Configuration button")
@@ -115,11 +101,7 @@ describe("Company settings - regression tests", function() {
         settings.verify_company_language(language) 
    })
 
-   it("The user is able to Unlink the Company - Company settings section", function() {
-
-   })
-
-
+  
 
 
    

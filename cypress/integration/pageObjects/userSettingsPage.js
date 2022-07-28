@@ -118,8 +118,7 @@ class userSettingsPage {
 
     click_on_user_settings() {
         this.elements.user_settings()
-            .should('be.visible')
-            .click()
+            .click({force : true})
         cy.url()
             .should('include', '/user')
     }

@@ -189,7 +189,7 @@ describe("Documentation section - regression tests", function() {
         documentation.click_alert_confirm()
     cy.log("Verify that Folder is edited")
         documentation.search_for_folder(title_new)
-        documentation.verify_folder_(title_new)
+        documentation.verify_folder(title_new)
    })
 
    it("The user is able to Delete the document by clicking on the Delete link - Documentation tab - Knowledge base section", function() {

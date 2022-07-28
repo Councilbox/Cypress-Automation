@@ -1,4 +1,3 @@
-import { Search } from "material-ui-icons"
 
 class tagsPage {
 
@@ -10,8 +9,10 @@ class tagsPage {
 		save: () => cy.get('#panel-confirm-button-accept'),
 		search: () => cy.get('#company-tag-search-input'),
 		edit: () => cy.xpath('/html/body/div[4]/div[3]/div/ul/div[1]'),
+		delete: () => cy.xpath('/html/body/div[4]/div[3]/div/ul/div[2]/div[2]/span'),
 		action_menu: () => cy.xpath('(//*[@class="MuiButtonBase-root MuiButton-root MuiButton-text"])[1]'),
 		tags_table_row_first: () => cy.xpath('//*[@id="root"]/div/div[3]/div/div[2]/div/div/div/div[1]/div/div/div[2]/div[2]/div/table/tbody/tr[1]/td[1]'),	
+		error: () => cy.get('[class="MuiFormHelperText-root error-text Mui-error"]'),
 	
 		}
 
@@ -20,6 +21,12 @@ class tagsPage {
             .should('be.visible')
             .click()
     }
+
+	click_on_delete() {
+		this.elements.delete()
+			.should('be.visible')
+			.click()
+	}
 
 	verify_tag(code) {
 		this.elements.tags_table_row_first()
@@ -30,6 +37,11 @@ class tagsPage {
 	verify_tag_deleted() {
 		this.elements.tags_table_row_first()
 			.should('not.exist')
+	}
+
+	verify_error() {
+		this.elements.error()
+			.should('be.visible')
 	}
 
 	click_on_action_menu() {
