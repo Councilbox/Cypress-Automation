@@ -1,15 +1,20 @@
-import { curryRight } from "lodash";
 
 let docFile = 'testDocument.txt';
 
 class appointmentsPage {
 
 	elements = {
-		add_button: () => cy.xpath('//*[@class="MuiButtonBase-root MuiFab-root MuiFab-primary"]'),
+		add_button: () => cy.get('#appointment-create-button'),
 		description: () => cy.get('#council-notice-convene-intro'),
 		next_details: () => cy.get('#council-editor-next'),
+		search_bar: () => cy.xpath('//*[@id="root"]/div/div[3]/div/div[2]/div/div[2]/div/div[1]/div[2]/div/div/div/input'),
+		action_button: () => cy.get('#appointment-menu'),
+		action_participant: () => cy.get('#appointment-participants-action-48304'),
+		menu_participant: () => cy.xpath('//*[@id="panel-confirm"]/div[3]/div/div/div/div/div/div[1]/div/div/div[2]/div/div[1]/table/tbody/tr/td[6]/button/span[1]/i'),
+		edit_participanth: () => cy.xpath('/html/body/div[5]/div[3]/div/ul/div[1]/div[2]/span'),
+		participant_table_row: () => cy.xpath('//*[@id="panel-confirm"]/div[3]/div/div/div/div/div/div[1]/div/div/div[2]/div/div[1]/table/tbody/tr/td[1]'),
 
-		add_participant: () => cy.xpath('(//*[@class="MuiButtonBase-root MuiButton-root MuiButton-text"])[2]'),
+		add_participant: () => cy.get('#council-add-participant-button'),
 		participant_name: () => cy.get('#participant-name'),
 		participant_surname: () => cy.get('#participant-surname'),
 		participant_dni: () => cy.xpath('(//*[@class="MuiInputBase-input MuiInput-input"])[4]'),
@@ -19,6 +24,14 @@ class appointmentsPage {
 		participant_phone: () => cy.get('#participant-phone'),
 		participant_language: () => cy.get('#participant-language'),
 		next_participants: () => cy.get('#censoSiguienteNew'),
+
+		reorced_button: () => cy.get('[class="MuiButtonBase-root MuiButton-root MuiButton-contained"]').eq(3),
+		add_consents: () => cy.get('#default-page-button'),
+
+
+		procedure_select: () => cy.get('[class="ant-checkbox-wrapper"]').eq(0),
+
+		save_participant: () => cy.xpath('(//*[@id="panel-confirm-button-accept"])[2]'),
 
 		consents_add_button: () => cy.get('#add-appointment-agenda-point'),
 		consents_title: () => cy.get('#agenda-editor-title-input'),
@@ -42,17 +55,87 @@ class appointmentsPage {
 
 		upload: () => cy.get('#upload-file-participant-button'),
 
-		search: () => cy.xpath('//*[@class="MuiInputAdornment-root MuiInputAdornment-positionEnd"]'),
 
 		first_appointment: () => cy.get('#appointment-row-0'),
 
 		accept_modal: () => cy.get('#alert-confirm-button-accept'),
+
+		consents_first: () => cy.xpath('//*[@id="alert-confirm"]/div[3]/div/div[2]/div/div[1]'),
 		
 
 	}
 
+
 	click_on_add_button() {
 		this.elements.add_button()
+			.should('be.visible')
+			.click()
+	}
+
+	click_on_reorder() {
+		this.elements.reorced_button()
+			.should('be.visible')
+			.click()
+	}
+
+	drag_first_consent() {
+		this.elements.consents_first()
+			.trigger("mousemove")
+			.trigger("mousedown")
+	}
+
+	select_procedure() {
+		this.elements.procedure_select()
+			.click({force:true})
+			cy.wait(2000)
+
+	}
+
+	click_on_add_consents() {
+		this.elements.add_consents()
+			.should('be.visible')
+			.click()
+	}
+
+	click_on_save_participanth() {
+		this.elements.save_participant()
+			.should('be.visible')
+			.click()
+	}
+
+	click_on_edit_participanth() {
+		this.elements.edit_participanth()
+			.should('be.visible')
+			.click()
+	}
+
+	verify_participant_is_saved(name) {
+		this.elements.participant_table_row()
+			.should('contain', name)
+	}
+
+	click_on_participants_menu() {
+		this.elements.action_participant()
+			.should('be.visible')
+			.click()
+	}
+
+	click_on_menu_participant() {
+		this.elements.menu_participant()
+			.should('be.visible')
+			.click()
+	}
+
+	enter_participant_name(name) {
+		this.elements.participant_name()
+			.should('be.visible')
+			.clear()
+			.type(name)
+			.should('have.value', name)
+	}
+
+	click_on_action_menu() {
+		this.elements.action_button()
 			.should('be.visible')
 			.click()
 	}
@@ -76,7 +159,7 @@ class appointmentsPage {
 	}
 
 	search_for_participant(name) {
-		this.elements.search()
+		this.elements.search_bar()
 			.should('be.visible')
 			.clear()
 			.type(name)
@@ -138,7 +221,7 @@ class appointmentsPage {
 			.wait(500)
 	}
 
-	enter_consent_title() {
+	enter_consent_title(consents_title) {
 		this.elements.consents_title()
 			.should('be.visible')
 			.clear()

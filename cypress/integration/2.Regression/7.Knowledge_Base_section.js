@@ -1,7 +1,10 @@
-const invalid_emails = ["andrej@qa", "andrej.qa", "andrej@majl.234"];
+import knowledgeBasePage from "../pageObjects/knowledgeBasePage";
+import loginPage from "../pageObjects/loginPage";
+
 const login_url = Cypress.env("baseUrl");
-const valid_password = Cypress.env("login_password");
-const valid_email = Cypress.env("login_email");
+
+let knowledge = new knowledgeBasePage()
+let login = new loginPage()
 
 beforeEach(function() {
     cy.restoreLocalStorage();
@@ -16,7 +19,6 @@ before(function() {
     cy.saveLocalStorage();
 });
 
-
 function userID_Alpha() {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -27,431 +29,305 @@ function userID_Alpha() {
     return text;
   }
 
-describe("Councilbox login - valid username and password", function() {
+describe("Knowledge Base - Regression", function() {
 
-     before(function() {
-        
-    });
+   it("Login", function() { 
+        const email = "alem@qaengineers.net"
+        const password = "Mostar123!"
+        login.login(email, password)
+    })
 
-
-    it("Visits the Councilbox web page", function() {
+    it("The user is able to create a new folder in the 'Knowledge base' section",function() {
+        const title = "Folder"+Cypress.config('UniqueNumber')
+        cy.log("Back to Home page")
         cy.visit(login_url);
+        cy.log("From the menu choose and click on the 'Knowledge base' option")
+            knowledge.click_on_knowledge_base()
+        cy.log("Click on the 'My docs' button")
+            knowledge.click_on_my_docs()
+        cy.log("From the drop down menu choose and click on the 'New folder' button")
+            knowledge.click_on_new_folder()
+        cy.log("Add a title of the new folder and click on the 'OK' button")
+            knowledge.enter_folder_title(title)
+            knowledge.click_on_alert_accept()
+        cy.log("Verify that New Folder is created")
+            knowledge.search_for_documentation(title)
+            knowledge.verify_existing_documentation(title)
     });
 
-    it("Enters email address", function() {
-        cy.get('input').eq(0)
-            .type('alem@qaengineers.net')    
-            .should("have.value", 'alem@qaengineers.net')
+    it("The user is able to edit a folder name in the 'Knowledge base' section", function() {
+        const modal_title = "New folder"
+        const modal_title_2 = "Edit folder"
+        const title = "ToEdit"+Cypress.config('UniqueNumber')
+        const new_title = "Edited"+Cypress.config('UniqueNumber')
+        cy.log("Back to Home page")
+        cy.visit(login_url);
+        cy.log("From the menu choose and click on the 'Knowledge base' option")
+            knowledge.click_on_knowledge_base()
+        cy.log("Click on the 'My docs' button")
+            knowledge.click_on_my_docs()
+        cy.log("From the drop down menu choose and click on the 'New folder' button")
+            knowledge.click_on_new_folder()
+            knowledge.verify_modal_title(modal_title)
+        cy.log("Add a title of the new folder and click on the 'OK' button")
+            knowledge.enter_folder_title(title)
+            knowledge.click_on_alert_accept()
+        cy.log("Navigate to the already added folder and click on the 'Edit' button")
+            knowledge.search_for_documentation(title)
+            knowledge.click_on_edit_folder()
+            knowledge.verify_modal_title(modal_title_2)
+        cy.log("Populate the field with changes you want and click 'OK' button")
+            knowledge.edit_folder_title(new_title) 
+            knowledge.click_on_alert_accept()
+        cy.log("Verify that Folder is edited")
+            knowledge.search_for_documentation(new_title)
+            knowledge.verify_existing_documentation(new_title)
     });
 
-    it("Enters password", function() {
-        cy.get('input').eq(1)
-            .type('Mostar123!')    
-            .should("have.value", 'Mostar123!')
+    it("The user is able to delete already added folder in the 'Knowledge base' section", function() {
+        const modal_title = "New folder"
+        const modal_title2 = "Warning"
+        const title = "ToDelete"+Cypress.config('UniqueNumber')
+        cy.log("Back to Home page")
+        cy.visit(login_url);
+        cy.log("From the menu choose and click on the 'Knowledge base' option")
+            knowledge.click_on_knowledge_base()
+        cy.log("Click on the 'My docs' button")
+            knowledge.click_on_my_docs()
+        cy.log("From the drop down menu choose and click on the 'New folder' button")
+            knowledge.click_on_new_folder()
+            knowledge.verify_modal_title(modal_title)
+        cy.log("Add a title of the new folder and click on the 'OK' button")
+            knowledge.enter_folder_title(title)
+            knowledge.click_on_alert_accept()
+        cy.log("Verify that Folder is edited")
+            knowledge.search_for_documentation(title)
+            knowledge.verify_existing_documentation(title)
+        cy.log("Navigate to already created folder and click on the 'Delete' button")
+            knowledge.click_on_delete_folder()
+        cy.log("'Are you sure you want to delete the folder and all its contents?'' alert message is displayed")
+            knowledge.verify_modal_title(modal_title2)
+        cy.log("Click on the 'OK' button")
+            knowledge.click_on_alert_accept()
+        cy.log("Verify that Folder is deleted")
+            knowledge.search_for_documentation(title)
+            knowledge.verify_folder_is_deleted()
     });
 
-    it("Clicks login button", function() {
-        cy.get("#login-button").click();
-        
+    it("The alert message is displayed when the user clicks on the 'Back' button without saving changes in the 'New template' section", function() {
+        const title = "Template"+Cypress.config('UniqueNumber')
+        const modal_title = "Warning"
+        const unsaved_changes = "Has unsaved changes"
+        cy.log("Back to Home page")
+        cy.visit(login_url);
+        cy.log("From the menu choose and click on the 'Knowledge base' option")
+            knowledge.click_on_knowledge_base()
+        cy.log("Click on the 'Templates' button")
+            knowledge.click_on_templates_tab()
+        cy.log("Click on the 'New template' button")
+            knowledge.click_on_new_template_button()
+        cy.log("Populate all required fields and click on the 'Back' button")
+            knowledge.enter_template_title(title)
+            knowledge.click_on_back_template()
+        cy.log("'Has unsaved changes' alert message is successfully displayed")
+            knowledge.verify_modal_title(modal_title)
+            knowledge.verify_unsaved_changes_modal(unsaved_changes)
     });
 
+    it("The user is able to download template in the 'Knowledge base' section",function() {
+        const template = "Aprobación de la gestión del órgano de administración durante el ejercicio cerrado el 31 de diciembre de 2016"
+        cy.log("Back to Home page")
+        cy.visit(login_url);
+        cy.log("From the menu choose and click on the 'Knowledge base' option")
+            knowledge.click_on_knowledge_base()
+        cy.log("Click on the 'Templates' button")
+            knowledge.click_on_templates_tab()
+        cy.log("Click on the 'Download templates' button")
+            knowledge.click_on_download_template()
+        cy.log("From the list of templates choose and click on the checkbox to select a template you want to download")
+            knowledge.click_on_templates_checkbox()
+        cy.log("Click on the “Download 1 Template to “My Drafts” +” section")
+            knowledge.click_on_download_template_to_drafts()
+        cy.log("Verify Downloaded Template")
+            knowledge.verify_downloaded_template(template)
+            
+    });
+
+
+    it("The user is able to delete template in the 'Knowledge base' section", function() {
+        const modal_title = "Warning"
+        const title = "ToDelete"+Cypress.config('UniqueNumber')
+        cy.log("Back to Home page")
+        cy.visit(login_url);
+        cy.log("From the menu choose and click on the 'Knowledge base' option")
+            knowledge.click_on_knowledge_base()
+        cy.log("Click on the 'Templates' button")
+            knowledge.click_on_templates_tab()
+        cy.log("Create new Template")
+            knowledge.click_on_new_template_button()
+            knowledge.enter_template_title(title)
+            knowledge.click_on_save_template()
+        cy.log("Search for created template")
+            knowledge.search_for_template(title)
+        cy.log("Navigate to the template you want to delete and hover cy.log then click on the “X” button")
+            knowledge.mouseover_on_templates_table_row_first_item()
+        cy.log("Click on the 'Delete' button")
+            knowledge.click_on_templates_delete_button()
+            knowledge.verify_modal_title(modal_title)     
+            knowledge.click_on_alert_accept()     
+        cy.log("Verify that Template is deleted")
+            knowledge.search_for_template(title)
+            knowledge.verify_template_is_deleted()
+    });
+
+    it("The user is able to use filter search in the 'Templates' section", function() {
+        const search = "Test"
+        const searched = "Test5402685753729"
+        cy.log("Back to Home page")
+        cy.visit(login_url);
+        cy.log("From the menu choose and click on the 'Knowledge base' option")
+            knowledge.click_on_knowledge_base()
+        cy.log("Click on the 'Templates' button")
+            knowledge.click_on_templates_tab()
+        cy.log("Navigate to the filter search in the upper right corner and click on cy.log")
+            knowledge.click_on_templates_filter_by()
+        cy.log("Populate the field with the template name you want to find")
+            knowledge.search_for_tags(search)
+        cy.log("The searched template is successfully displayed in the template list")
+            knowledge.click_on_searched_tag(searched) 
+    });
+
+    it("The user is able to edit already added tag in the 'Knowledge base' section", function() {
+        const modal_title2 = "Edit tag"
+        const description = "TestAutomation"
+        const modal_title = "Add tag"
+        const value = "value"+Cypress.config('UniqueNumber')
+        const code = "code"+Cypress.config('UniqueNumber')
+        const code_new = "new"+Cypress.config('UniqueNumber')
+        cy.log("Back to Home page")
+        cy.visit(login_url);
+        cy.log("From the menu choose and click on the 'Knowledge base' option")
+            knowledge.click_on_knowledge_base()   
+        cy.log("Click on the 'Tags' button")
+            knowledge.click_on_tags_tab()
+        cy.log("Add new Tag")
+            knowledge.click_on_add_tag()
+            knowledge.verify_modal_title(modal_title)
+            knowledge.enter_tag_code(code)
+            knowledge.enter_tag_value(value)
+            knowledge.click_on_alert_accept()
+        cy.log("Search for Tag")
+                knowledge.search_for_tag(code)
+        cy.log("Navigate to the tag you want to edit and hover cy.log then click on the 'edit' button")
+            knowledge.mouseover_on_tag_table_row_first_item()
+            knowledge.click_on_tags_edit_button()
+            knowledge.verify_modal_title(modal_title2)
+        cy.log("Modify tag with changes you want and click on the 'Save' button")
+            knowledge.enter_tag_code(code_new)
+            knowledge.click_on_alert_accept()
+        cy.reload()
+        cy.log("Verify that Tag is Edited")
+            knowledge.search_for_tag(code_new)
+            knowledge.verify_existing_tag(code_new)
+    });
+
+    it("The user is able to edit already existing template in the 'Templates' section", function() {
+
+        const title = "ToEdit"+Cypress.config('UniqueNumber')
+        const title_new = "Edited"+Cypress.config('UniqueNumber')
+        cy.log("Back to Home page")
+        cy.visit(login_url);
+        cy.log("From the menu choose and click on the 'Knowledge base' option")
+            knowledge.click_on_knowledge_base()
+        cy.log("Click on the 'Templates' button")
+            knowledge.click_on_templates_tab()
+        cy.log("Add new Template")
+            knowledge.click_on_new_template_button()
+            knowledge.enter_template_title(title)
+            knowledge.click_on_save_template()
+        cy.log("Search for a Template")
+            knowledge.search_for_template(title)
+        cy.log("Navigate to the template you want to edit and hover cy.log then click on the 'edit' button")
+            knowledge.mouseover_on_templates_table_row_first_item() 
+            knowledge.click_on_templates_edit_button()
+        cy.log("Modify tag with changes you want and click on the 'Save' button")
+            knowledge.enter_template_title(title_new)                      
+            knowledge.click_on_save_template()
+        cy.log("Verify that Template is edited")
+            knowledge.search_for_template(title_new)
+            knowledge.verify_existing_templated(title_new)
+    });
+
+
+    it("The alert message is successfully displayed when the user clicks on the 'Cancel' button without saving changes in the 'Edit tag' section", function() {
+        const description = Cypress.config('UniqueNumber')
+        const modal_title = "Edit tag"
+        const modal_title2 = "Warning"
+        const unsaved_changes = "Has unsaved changes"
+        cy.log("Back to Home page")
+        cy.visit(login_url);
+        cy.log("From the menu choose and click on the 'Knowledge base' option")
+            knowledge.click_on_knowledge_base()
+        cy.log("Click on the 'Tags' button")
+            knowledge.click_on_tags_tab()
+        cy.log("Navigate to the template you want to edit and hover cy.log then click on the 'Edit' button")
+            knowledge.mouseover_on_tag_table_row_first_item()      
+            knowledge.click_on_tags_edit_button()
+            knowledge.verify_modal_title(modal_title)
+        cy.log("Populate all required fields and click on the 'Cancel' button")
+            knowledge.enter_tag_description(description)      
+            knowledge.click_on_alert_cancel()
+        cy.log("'Has changes without saving' alert message is successfully displayed")
+            knowledge.verify_unsaved_changes_modal(unsaved_changes)
+            knowledge.click_on_discard_changes()
+    });
+
+    it("The user is able to delete already added tag in the 'Knowledge base' section", function() {
+        const description = Cypress.config('UniqueNumber')
+        const modal_title2 = "Add tag"
+        const modal_title = "Delete tag"
+        const code = "ToDelete"+Cypress.config('UniqueNumber')
+        const value = "Delete"+Cypress.config('UniqueNumber')
+        cy.log("Back to Home page")
+        cy.visit(login_url);
+        cy.log("From the menu choose and click on the 'Knowledge base' option")
+            knowledge.click_on_knowledge_base()
+        cy.log("Click on the 'Tags' button")
+            knowledge.click_on_tags_tab()
+        cy.log("Add new Tag")
+            knowledge.click_on_add_tag()
+            knowledge.verify_modal_title(modal_title2)
+            knowledge.enter_tag_code(code)
+            knowledge.enter_tag_value(value)
+            knowledge.click_on_alert_accept()
+        cy.log("Search for Tag")
+            knowledge.search_for_tag(code)
+        cy.log("Navigate to tag you want to delete and then click on the 'Delete' button")
+            knowledge.mouseover_on_tag_table_row_first_item()          
+            knowledge.click_on_tags_delete_button()
+            knowledge.verify_modal_title(modal_title)          
+        cy.log("Click on the 'Accept' button")
+            knowledge.click_on_alert_accept()
+            cy.reload()
+        cy.log("Verify that Tag is Deleted")
+            knowledge.search_for_tag(code)
+            knowledge.verify_tag_is_deleted(code)
+    });
+
+    it("The user is able to use filter search in the 'Templates' section", function() { 
+        const search = "Test"
+        const searched = "Test5402685753729"
+        cy.log("Back to Home page")
+        cy.visit(login_url);
+        cy.log("From the menu choose and click on the 'Knowledge base' option")
+            knowledge.click_on_knowledge_base()
+        cy.log("Click on the 'Templates' button")
+            knowledge.click_on_templates_tab()           
+        cy.log("Navigate to the filter search in the upper right corner and click on cy.log")
+            knowledge.click_on_templates_filter_by()          
+        cy.log("Populate the field with the template name you want to find")
+            knowledge.search_for_tags(search)
+        cy.log("The searched template is successfully displayed in the template list")
+            knowledge.click_on_searched_tag(searched) 
+    });
 });
-
-
-
-
-
-
-
-
-describe("The user is able to create a new folder in the 'Knowledge base' section", function() {
-
-        it("From the menu choose and click on the 'Knowledge base' option", function() {
-            cy.get('#edit-drafts-block').click()
-         
-        });
-
-        it("Click on the 'My docs' button", function() {
-            cy.get('#company-documents-drowpdown').click()
-         
-        });
-
-        it("From the drop down menu choose and click on the 'New folder' button", function() {
-            cy.get('#company-document-create-folder').click()
-         
-        });
-
-        it("Add a title of the new folder and click on the 'OK' button", function() {
-            cy.get('#create-folder-name').clear()
-                .type('Test'+Cypress.config('UniqueNumber'))
-            cy.get('#alert-confirm-button-accept').click()
-           
-        });
-
-        it("Back to Home page", function() {
-            cy.visit(login_url);
-        
-        });
-
-
-    });
-
-
-describe("The user is able to edit a folder name in the 'Knowledge base' section", function() {
-
-        it("From the menu choose and click on the 'Knowledge base' option", function() {
-            cy.get('#edit-drafts-block').click()
-           
-        });
-
-        it("Click on the 'My docs' button", function() {
-            cy.get('#company-documents-drowpdown').click()
-           
-        });
-
-        it("From the drop down menu choose and click on the 'New folder' button", function() {
-            cy.get('#company-document-create-folder').click()
-         
-        });
-
-        it("Add a title of the new folder and click on the 'OK' button", function() {
-            cy.get('#create-folder-name').clear()
-                .type('Test'+Cypress.config('UniqueNumber'))
-            cy.get('#alert-confirm-button-accept').click()
-           
-        });
-
-        it("Navigate to the already added folder and click on the 'Edit' button", function() {
-            cy.get('#edit-folder-0').click()
-            
-        });
-
-        it("Populate the field with changes you want and click 'OK' button", function() {
-            cy.get('#titleDraft').clear()
-                .type('Test'+Cypress.config('UniqueNumber'))
-            cy.get('#alert-confirm-button-accept').click()
-            
-        });
-
-        it("Back to Home page", function() {
-            cy.visit(login_url);
-            
-        });
-
-
-    });
-
-describe("The user is able to delete already added folder in the 'Knowledge base' section", function() {
-
-        it("From the menu choose and click on the 'Knowledge base' option", function() {
-            cy.get('#edit-drafts-block').click()
-          
-        });
-
-        it("Navigate to already created folder and click on the 'Delete' button", function() {
-            cy.get('#delete-folder-0').click()
-           
-        });
-
-        it("'Are you sure you want to delete the folder and all its contents?'' alert message is displayed", function() {
-            cy.get('#modal-title')
-        });
-
-        it("Click on the 'OK' button", function() {
-            cy.get('#alert-confirm-button-accept').click()
-           
-        });
-
-        it("Back to Home page", function() {
-            cy.visit(login_url);
-            
-        });
-
-
-    });
-
-
-describe("The alert message is displayed when the user clicks on the 'Back' button without saving changes in the 'New template' section", function() {
-
-        it("From the menu choose and click on the 'Knowledge base' option", function() {
-            cy.get('#edit-drafts-block').click()
-            
-        });
-
-        it("Click on the 'Templates' button", function() {
-            cy.get('#tab-1').click()
-            
-        });
-
-        it("Click on the 'New template' button", function() {
-            cy.get('#draft-create-button').click()
-        });
-
-        it("Populate all required fields and click on the 'Back' button", function() {
-            cy.get('#draft-editor-title').clear()
-                .type('Test')
-            cy.get('#draft-editor-back').click()
-            
-        });
-
-        it("'Has unsaved changes' alert message is successfully displayed", function() {
-            cy.get('#modal-title')
-            cy.get('#unsaved-changes-discard').click()
-        
-        });
-
-        it("Back to Home page", function() {
-            cy.visit(login_url);
-           
-        });
-
-    });
-
-describe("The user is able to download template in the 'Knowledge base' section", function() {
-
-        it("From the menu choose and click on the 'Knowledge base' option", function() {
-            cy.get('#edit-drafts-block').click()
-            
-        });
-
-        it("Click on the 'Templates' button", function() {
-            cy.get('#tab-1').click()
-            
-        });
-
-        it("Click on the 'Download templates' button", function() {
-            cy.get('#drafts-download-organization-drafts').click()
-        });
-
-        it("From the list of templates choose and click on the checkbox to select a template you want to download", function() {
-            cy.get('#delete-checkbox-0').click()
-           
-        });
-
-        it("Click on the “Download 1 Template to “My Drafts” +” section", function() {
-            cy.get('#download-platform-drafts-button').click()
-            
-        });
-
-        it("Back to Home page", function() {
-            cy.visit(login_url);
-            
-        });
-
-
-    });
-
-
-describe("The user is able to delete template in the 'Knowledge base' section", function() {
-
-        it("From the menu choose and click on the 'Knowledge base' option", function() {
-            cy.get('#edit-drafts-block').click()
-         
-        });
-
-        it("Click on the 'Templates' button", function() {
-            cy.get('#tab-1').click()
-            
-        });
-
-        it("Navigate to the template you want to delete and hover it then click on the “X” button", function() {
-            cy.get('#participant-row-0').trigger('mouseover')
-            
-        });
-
-        it("Click on the 'Delete' button", function() {
-            cy.get('#delete-draft-0').click()
-            
-            cy.get('#alert-confirm-button-accept').click()
-            
-        });
-
-        it("Back to Home page", function() {
-            cy.visit(login_url);
-           
-        });
-
-
-    });
-
-describe("The user is able to use filter search in the 'Templates' section", function() {
-
-        it("From the menu choose and click on the 'Knowledge base' option", function() {
-            cy.get('#edit-drafts-block').click()
-           
-        });
-
-        it("Click on the 'Templates' button", function() {
-            cy.get('#tab-1').click()
-           
-        });
-
-        it("Navigate to the filter search in the upper right corner and click on it", function() {
-            cy.get('#drafts-tag-filter-selector').click()
-           
-        });
-
-        it("Populate the field with the template name you want to find", function() {
-            cy.get('#tag-search-input').clear()
-                .type('Test')
-            
-        });
-
-        it("The searched template is successfully displayed in the template list", function() {
-            cy.get('#add-tag-statute_2531')
-        });
-
-        it("Back to Home page", function() {
-            cy.visit(login_url);
-           
-        });
-
-
-    });
-
-describe("The user is able to edit already added tag in the 'Knowledge base' section", function() {
-
-        it("From the menu choose and click on the 'Knowledge base' option", function() {
-            cy.get('#edit-drafts-block').click()
-          
-        });
-
-        it("Click on the 'Tags' button", function() {
-            cy.get('#tab-2').click()
-           
-        });
-
-        it("Navigate to the tag you want to edit and hover it then click on the 'edit' button", function() {
-            cy.get('#tag-0').trigger('mouseover')
-          
-            cy.get('#tag-0-edit-button').click()
-            
-        });
-
-        it("Modify tag with changes you want and click on the 'Save' button", function() {
-            cy.get('#company-tag-description').clear()
-                .type('TestAutomation')
-         
-            cy.get('#alert-confirm-button-accept').click()
-            
-        });
-
-        it("Back to Home page", function() {
-            cy.visit(login_url);
-            
-        });
-
-
-    });
-
-describe("The user is able to edit already existing template in the 'Templates' section", function() {
-
-        it("From the menu choose and click on the 'Knowledge base' option", function() {
-            cy.get('#edit-drafts-block').click()
-            
-        });
-
-        it("Click on the 'Templates' button", function() {
-            cy.get('#tab-1').click()
-          
-        });
-
-        it("Navigate to the template you want to edit and hover it then click on the 'edit' button", function() {
-            cy.get('#participant-row-0').trigger('mouseover')
-           
-            cy.get('#edit-draft-0').click()
-            
-        });
-
-        it("Modify tag with changes you want and click on the 'Save' button", function() {
-            cy.get('#draft-editor-title').clear()
-                .type('TestAutomation')
-          
-            cy.get('#draft-editor-save').click()
-          
-        });
-
-        it("Back to Home page", function() {
-            cy.visit(login_url);
-            cy.wait(3000)
-        });
-
-
-    });
-
-describe("The user is able to delete already added tag in the 'Knowledge base' section", function() {
-
-        it("From the menu choose and click on the 'Knowledge base' option", function() {
-            cy.get('#edit-drafts-block').click()
-           
-        });
-
-        it("Click on the 'Tags' button", function() {
-            cy.get('#tab-2').click()
-            
-        });
-
-        it("Navigate to the template you want to edit and hover it then click on the 'Delete' button", function() {
-            cy.get('#tag-0').trigger('mouseover')
-            
-            cy.get('#tag-0-edit-button').click()
-            
-        });
-
-        it("Modify tag with changes you want and click on the 'Save' button", function() {
-            cy.get('#company-tag-key').clear()
-                .type('test'+Cypress.config('UniqueNumber'))
-            cy.get('#alert-confirm-button-accept').click()
-           
-        });
-
-        it("Back to Home page", function() {
-            cy.visit(login_url);
-            
-        });
-
-
-    });
-
-
-describe("The alert message is successfully displayed when the user clicks on the 'Cancel' button without saving changes in the 'Edit tag' section", function() {
-
-        it("From the menu choose and click on the 'Knowledge base' option", function() {
-            cy.get('#edit-drafts-block').click()
-           
-        });
-
-        it("Click on the 'Tags' button", function() {
-            cy.get('#tab-2').click()
-          
-        });
-
-        it("Navigate to the template you want to edit and hover it then click on the 'Edit' button", function() {
-            cy.get('#tag-0').trigger('mouseover')
-            
-            cy.get('#tag-0-edit-button').click()
-           
-        });
-
-        it("Populate all required fields and click on the 'Cancel' button", function() {
-            cy.get('#company-tag-description').clear()
-                .type(Cypress.config('UniqueNumber'))
-           
-            cy.get('#alert-confirm-button-cancel').click()
-            
-        });
-
-        it("'Has changes without saving' alert message is successfully displayed", function() {
-            cy.get('#unsaved-changes-discard').click()
-            
-        });
-
-        it("Back to Home page", function() {
-            cy.visit(login_url);
-            
-        });
-
-
-
-    });
-

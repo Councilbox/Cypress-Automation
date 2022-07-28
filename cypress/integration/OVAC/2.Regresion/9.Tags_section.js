@@ -63,10 +63,13 @@ describe("Tags section - regression tests", function() {
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
+<<<<<<< HEAD
     cy.log("The user is able to Login")
         login.enter_email(email)
         login.enter_password(passowrd)
         login.login_submit()
+=======
+>>>>>>> 726746e47012d76d2d13e9572ee5ec975f9578c4
     cy.log("The user is able to click on the 'Tags' button")
         dashboard.click_on_tags()
     cy.log("Add new Tag")
@@ -92,10 +95,13 @@ describe("Tags section - regression tests", function() {
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
+<<<<<<< HEAD
     cy.log("The user is able to Login")
         login.enter_email(email)
         login.enter_password(passowrd)
         login.login_submit()
+=======
+>>>>>>> 726746e47012d76d2d13e9572ee5ec975f9578c4
     cy.log("The user is able to click on the 'Tags' button")
         dashboard.click_on_tags()
     cy.log("Click on Add new Tag")
@@ -105,7 +111,11 @@ describe("Tags section - regression tests", function() {
     cy.log("Click on SAVE")
         tag.click_save()
     cy.log("Verify that Error message is displayed under Value field")
+<<<<<<< HEAD
         tag.verify_value_error()
+=======
+        tag.verify_error()
+>>>>>>> 726746e47012d76d2d13e9572ee5ec975f9578c4
    })
 
    it("The user is not able to add a tag without populating Code field - <Tags> tab - Knowledge base section", function() {
@@ -116,10 +126,13 @@ describe("Tags section - regression tests", function() {
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
+<<<<<<< HEAD
     cy.log("The user is able to Login")
         login.enter_email(email)
         login.enter_password(passowrd)
         login.login_submit()
+=======
+>>>>>>> 726746e47012d76d2d13e9572ee5ec975f9578c4
     cy.log("The user is able to click on the 'Tags' button")
         dashboard.click_on_tags()
     cy.log("Click on Add new Tag")
@@ -129,7 +142,11 @@ describe("Tags section - regression tests", function() {
     cy.log("Click on SAVE")
         tag.click_save()
     cy.log("Verify that Error message is displayed under Code field")
+<<<<<<< HEAD
         tag.verify_code_error()
+=======
+        tag.verify_error()
+>>>>>>> 726746e47012d76d2d13e9572ee5ec975f9578c4
    })
 
    it("The user is able to search tag by code - <Tags> tab - Knowledge base section", function() {
@@ -140,10 +157,13 @@ describe("Tags section - regression tests", function() {
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
+<<<<<<< HEAD
     cy.log("The user is able to Login")
         login.enter_email(email)
         login.enter_password(passowrd)
         login.login_submit()
+=======
+>>>>>>> 726746e47012d76d2d13e9572ee5ec975f9578c4
     cy.log("The user is able to click on the 'Tags' button")
         dashboard.click_on_tags()
     cy.log("Click on Add new Tag")

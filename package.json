@@ -92,9 +92,11 @@
     "regression firefox": "cypress run --headed --browser firefox --spec=cypress/integration/2.Regression/*",
     "regression edge": "cypress run --headed --browser edge --spec=cypress/integration/2.Regression/*",
     "regression cert": "cypress run --headed --browser electron --spec=cypress/integration/1.Smoke/92.Certificate_section.js",
-    "regression net": "cypress run --headed --browser electron --spec=cypress/integration/2.Regression/7.Knowledge_Base_section.js",
+    "regression net": "cypress run --headless --spec=cypress/integration/2.Regression/7.Knowledge_Base_section.js",
     "smoke": "npm run pretest && cypress run --headless --spec=cypress/integration/1.Smoke/*",
     "ovac smoke": "cypress run --headed --browser electron --spec=cypress/integration/OVAC/1.Smoke/*",
+    "ovac regression": "cypress run --headed --spec=cypress/integration/OVAC/2.Regresion/3.User_Settings_section.js",
+
     "cypress": "cypress open",
     "lint": "eslint . --quiet --ext .js --ext .jsx",
     "lint-fix": "eslint . --fix --ext .js --ext .jsx",
@@ -109,14 +111,9 @@
     "generate-report": "npx marge cypress/reports/report.json --reportDir ./ --inline",
     "posttest": "npm run combine-reports && npm run generate-report",
     "test": "npm run scripts || npm run posttest",
-
     "scripts2": "cypress run --headed --browser electron --spec=cypress/integration/OVAC/1.Smoke/*",
-
     "cy:test-ovac": "npm run pretest && npm run scripts2"
-
-
   },
-
   "devDependencies": {
     "@babel/core": "^7.13.1",
     "@babel/preset-env": "^7.13.5",
@@ -127,7 +124,7 @@
     "cy-verify-downloads": "^0.1.4",
     "cypress": "^4.5.0",
     "cypress-downloadfile": "^1.2.1",
-    "cypress-file-upload": "^5.0.2",
+    "cypress-file-upload": "^5.0.8",
     "cypress-mailslurp": "^1.3.0",
     "cypress-mochawesome-reporter": "^2.0.1",
     "cypress-multi-reporters": "^1.6.0",
