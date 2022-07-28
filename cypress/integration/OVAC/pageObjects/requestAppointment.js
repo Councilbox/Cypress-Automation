@@ -26,7 +26,7 @@ class requestAppointment {
 		phone_code: () => cy.get('#appointment-participant-phone-code'),
 		email: () => cy.get('#appointment-participant-email'),
 		privacy_button: () => cy.get('#appointment-participant-legal-check'),
-	
+		next_month: () => cy.get('[class="ri-arrow-right-s-line"]').eq(1),	
 		alert_cofirm: () => cy.get('#alert-confirm-button-accept'),
 	
 		submit: () => cy.get('#appointment-create-button'),
@@ -62,6 +62,11 @@ class requestAppointment {
 	click_ok() {
 		this.elements.ok_reschedule()
 			.should('be.visible')
+			.click()
+	}
+
+	click_next_month() {
+		this.elements.next_month()
 			.click()
 	}
 
@@ -124,6 +129,8 @@ class requestAppointment {
 	}
 
 	select_appointment_date() {
+		this.elements.next_month()
+			.click()
 		this.elements.appointment_date()
 			.last()
 			.should('be.visible')
