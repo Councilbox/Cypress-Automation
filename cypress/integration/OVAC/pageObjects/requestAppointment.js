@@ -11,7 +11,7 @@ class requestAppointment {
 	
 		request_prior_appointment: () => cy.get('#access-room-button'),
 	
-		appointment_date: () => cy.xpath('//*[@id="root"]/div/div[2]/div[1]/div/div[1]/div/div/div[2]/div[3]/div/div/div/div/div/div/div[2]/div/div[1]/div/div[2]/div/div/div/div[2]/button[28]'),
+		appointment_date: () => cy.xpath('//*[@id="root"]/div/div[2]/div[1]/div/div[1]/div/div[2]/div[3]/div/div/div/div/div/div/div[2]/div/div[1]/div/div[2]/div/div/div/div[2]/button[31]'),
 		appointment_time: () => cy.get('#date-0'),
 
 		confirm: () => cy.xpath('//*[@class="MuiButtonBase-root MuiButton-root MuiButton-contained" ]'),
@@ -26,7 +26,7 @@ class requestAppointment {
 		phone_code: () => cy.get('#appointment-participant-phone-code'),
 		email: () => cy.get('#appointment-participant-email'),
 		privacy_button: () => cy.get('#appointment-participant-legal-check'),
-		next_month: () => cy.get('[class="ri-arrow-right-s-line"]').eq(1),	
+		next_month: () => cy.get('#root > div > div:nth-child(2) > div:nth-child(1) > div > div:nth-child(1) > div.MuiBox-root.jss21 > div.MuiPaper-root.MuiStepper-root.MuiStepper-vertical.MuiPaper-elevation0 > div:nth-child(3) > div > div > div > div > div > div > div:nth-child(2) > div > div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-4 > div > div.react-calendar__navigation > button.react-calendar__navigation__arrow.react-calendar__navigation__next-button > i'),
 		alert_cofirm: () => cy.get('#alert-confirm-button-accept'),
 	
 		submit: () => cy.get('#appointment-create-button'),
