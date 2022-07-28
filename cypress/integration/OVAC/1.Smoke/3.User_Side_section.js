@@ -150,7 +150,7 @@ describe("User is able to create new meeting", function() {
    const phone_code = "387"
    const phone = "61123123"
    const email = "alem+1@qaengineers.net"
-   const password = "Mostar123!"
+   const password = "Mostar1234!test"
    const description1 = "Testing"
    it("Open he browser and enter URL", function() {
        login.navigate_admin()

@@ -19,7 +19,7 @@ let entity = new entitiesPage()
 
 describe("Admin is able to log in", function() {
     const email = "alem+1@qaengineers.net"
-    const password = "Mostar123!"
+    const password = "Mostar1234!test"
     it("The user is able to open the browser and enter the URL: ", function() {       
         login.navigate_admin()        
     });
