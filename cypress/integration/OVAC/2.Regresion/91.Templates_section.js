@@ -115,11 +115,8 @@ describe("Templates section - regression tests", function() {
         template.verify_template(title)
    })
 
-<<<<<<< HEAD
-=======
    /*
 
->>>>>>> 726746e47012d76d2d13e9572ee5ec975f9578c4
    it("The user is able to use filter by - Templates tab - Knowledge base", function() {
     const email = "alem+1@qaengineers.net"
     const passowrd = "Mostar1234!test"
@@ -136,11 +133,7 @@ describe("Templates section - regression tests", function() {
         template.search_for_procedure(procedure)
    })
 
-<<<<<<< HEAD
-
-=======
 */
->>>>>>> 726746e47012d76d2d13e9572ee5ec975f9578c4
 
   
 

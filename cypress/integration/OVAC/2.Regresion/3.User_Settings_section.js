@@ -2,11 +2,6 @@ import loginPage from "../pageObjects/loginPage"
 import requestAppointment from "../pageObjects/requestAppointment"
 import appointmentsPage from "../pageObjects/appointmentsPage"
 import adminDashboard from "../pageObjects/adminDashboardPage"
-<<<<<<< HEAD
-import { Pass } from "codemirror"
-import Password from "antd/lib/input/Password"
-=======
->>>>>>> 726746e47012d76d2d13e9572ee5ec975f9578c4
 import userSettingsPage from "../pageObjects/userSettingsPage"
 
 let login = new loginPage()
@@ -53,13 +48,6 @@ describe("User settings - regression tests", function() {
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
-<<<<<<< HEAD
-    cy.log("The user is able to Login")
-        login.enter_email(email)
-        login.enter_password(passowrd)
-        login.login_submit()
-=======
->>>>>>> 726746e47012d76d2d13e9572ee5ec975f9578c4
     cy.log("The user is able to click on the Account icon")
         settings.click_on_my_account()
     cy.log("The user is able to click on the Edit button")
@@ -79,13 +67,6 @@ describe("User settings - regression tests", function() {
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
-<<<<<<< HEAD
-    cy.log("The user is able to Login")
-        login.enter_email(email)
-        login.enter_password(passowrd)
-        login.login_submit()
-=======
->>>>>>> 726746e47012d76d2d13e9572ee5ec975f9578c4
     cy.log("The user is able to click on the Account icon")
         settings.click_on_my_account()
     cy.log("The user is able to click on the Edit button")
@@ -106,13 +87,6 @@ describe("User settings - regression tests", function() {
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
-<<<<<<< HEAD
-    cy.log("The user is able to Login")
-        login.enter_email(email)
-        login.enter_password(passowrd)
-        login.login_submit()
-=======
->>>>>>> 726746e47012d76d2d13e9572ee5ec975f9578c4
     cy.log("The user is able to click on the Account icon")
         settings.click_on_my_account()
     cy.log("The user is able to click on the Edit button")
@@ -133,13 +107,6 @@ describe("User settings - regression tests", function() {
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
-<<<<<<< HEAD
-    cy.log("The user is able to Login")
-        login.enter_email(email)
-        login.enter_password(passowrd)
-        login.login_submit()
-=======
->>>>>>> 726746e47012d76d2d13e9572ee5ec975f9578c4
     cy.log("The user is able to click on the Account icon")
         settings.click_on_my_account()
     cy.log("The user is able to click on the Edit button")
@@ -163,13 +130,6 @@ describe("User settings - regression tests", function() {
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
-<<<<<<< HEAD
-    cy.log("The user is able to Login")
-        login.enter_email(email)
-        login.enter_password(password)
-        login.login_submit()
-=======
->>>>>>> 726746e47012d76d2d13e9572ee5ec975f9578c4
     cy.log("The user is able to click on the Account icon")
         settings.click_on_my_account()
     cy.log("The user is able to click on the Edit button")
@@ -208,13 +168,6 @@ describe("User settings - regression tests", function() {
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
-<<<<<<< HEAD
-    cy.log("The user is able to Login")
-        login.enter_email(email)
-        login.enter_password(password)
-        login.login_submit()
-=======
->>>>>>> 726746e47012d76d2d13e9572ee5ec975f9578c4
     cy.log("The user is able to click on the Account icon")
         settings.click_on_my_account()
     cy.log("The user is able to click on the Edit button")
@@ -240,13 +193,6 @@ describe("User settings - regression tests", function() {
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
-<<<<<<< HEAD
-    cy.log("The user is able to Login")
-        login.enter_email(email)
-        login.enter_password(password)
-        login.login_submit()
-=======
->>>>>>> 726746e47012d76d2d13e9572ee5ec975f9578c4
     cy.log("The user is able to click on the Account icon")
         settings.click_on_my_account()
     cy.log("The user is able to click on the Edit button")

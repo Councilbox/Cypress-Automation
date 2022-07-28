@@ -91,11 +91,7 @@ describe("The user is able not able to request prior appointment for the meeting
    });
 
    it("Select Date and Time", function() {
-<<<<<<< HEAD
-        appointment.enter_appointment_time()
-=======
         appointment.select_appointment_date()
->>>>>>> 726746e47012d76d2d13e9572ee5ec975f9578c4
    });
 
    it("Click 'CONTINUE'", function() {     
@@ -148,11 +144,7 @@ describe("The user is able not able to request prior appointment for the meeting
    });
 
    it("Select Date and Time", function() {
-<<<<<<< HEAD
-        appointment.enter_appointment_time()
-=======
         appointment.select_appointment_date()
->>>>>>> 726746e47012d76d2d13e9572ee5ec975f9578c4
    });
 
    it("Click 'CONTINUE'", function() {     
@@ -206,11 +198,7 @@ describe("The user is able not able to request prior appointment for the meeting
    });
 
    it("Select Date and Time", function() {
-<<<<<<< HEAD
-        appointment.enter_appointment_time()
-=======
         appointment.select_appointment_date()
->>>>>>> 726746e47012d76d2d13e9572ee5ec975f9578c4
    });
 
    it("Click 'CONTINUE'", function() {     
@@ -263,11 +251,7 @@ describe("The user is able not able to request prior appointment for the meeting
    });
 
    it("Select Date and Time", function() {
-<<<<<<< HEAD
-        appointment.enter_appointment_time()
-=======
         appointment.select_appointment_date()
->>>>>>> 726746e47012d76d2d13e9572ee5ec975f9578c4
    });
 
    it("Click 'CONTINUE'", function() {     
@@ -320,11 +304,7 @@ describe("The user is able not able to request prior appointment for the meeting
    });
 
    it("Select Date and Time", function() {
-<<<<<<< HEAD
-        appointment.enter_appointment_time()
-=======
         appointment.select_appointment_date()
->>>>>>> 726746e47012d76d2d13e9572ee5ec975f9578c4
    });
 
    it("Click 'CONTINUE'", function() {     
@@ -360,13 +340,8 @@ describe("The user is able to see administration documentation - Participant sid
     const phone_code = "387"
     const email_user = "29942413-017f-4eb8-a3dc-6074ea12bdb8@mailslurp.com"
 
-<<<<<<< HEAD
-    const email = "alem@qaengineers.net"
-    const password = "Mostar123!"
-=======
     const email = "alem+1@qaengineers.net"
     const password = "Mostar1234!test"
->>>>>>> 726746e47012d76d2d13e9572ee5ec975f9578c4
     before(function() {    
    });
 
@@ -388,11 +363,7 @@ describe("The user is able to see administration documentation - Participant sid
    });
 
    it("Select Date and Time", function() {
-<<<<<<< HEAD
-        appointment.enter_appointment_time()
-=======
         appointment.select_appointment_date()
->>>>>>> 726746e47012d76d2d13e9572ee5ec975f9578c4
    });
 
    it("Click 'CONTINUE'", function() {     
@@ -410,11 +381,7 @@ describe("The user is able to see administration documentation - Participant sid
    it("Click 'CONFIRM'", function() {    
        appointment.click_confirm()  
    });
-<<<<<<< HEAD
-
-=======
 /*
->>>>>>> 726746e47012d76d2d13e9572ee5ec975f9578c4
    it("Open Admin portal and start the meeting", function () {
         login.login(email, password)
         dashboard.click_on_appointments()
@@ -425,11 +392,7 @@ describe("The user is able to see administration documentation - Participant sid
         appointments.click_start_appointment()
         appointments.accept_modal()
    })
-<<<<<<< HEAD
-
-=======
 */
->>>>>>> 726746e47012d76d2d13e9572ee5ec975f9578c4
 })
 
 
