@@ -119,6 +119,7 @@ describe("User settings - regression tests", function() {
     cy.log("Verify that User is successfully edited")
         cy.reload()
         settings.verify_english_language()
+        
    })
 
    
