@@ -40,6 +40,7 @@ describe("The user is able to request prior appointment for the meeting", functi
 
 
     it("Navigate to the 'Calendar' and select the date and time", function() {    
+        appointment.click_next_month()
         appointment.select_last_day()   
         appointment.select_time()
     });
@@ -96,6 +97,10 @@ describe("The user is able to reschedule prior appointment", function() {
     })
 
     it("Click on the 'Reschedule Appointment' button", function() {
+        cy.get('[class="MuiInputBase-input MuiInput-input"]')
+            .type('12345678Z')
+        cy.get('#modal-confirm-participant-id-card-button-accept')
+            .click()
         appointment.reschedule_appointment_button()
         appointment.click_ok()
     })
@@ -127,6 +132,10 @@ describe("The user is able to cancel prior appointment", function() {
     })
 
     it("Click on the 'Cancel Appointment' button", function() {
+        cy.get('[class="MuiInputBase-input MuiInput-input"]')
+            .type('12345678Z')
+        cy.get('#modal-confirm-participant-id-card-button-accept')
+            .click()
         appointment.cancel_appointment_button()
     })
 
