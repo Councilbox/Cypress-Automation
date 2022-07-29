@@ -178,6 +178,8 @@ describe("User is able to create new meeting", function() {
 
    it("The user is able to click on Add button", function() {
        appointments.click_on_add_button()
+       appointments.select_procedure()
+       appointments.click_consent_save_button()
    })
 
    it("The user is able to enter the data into 'Description' field", function() {
