@@ -1,10 +1,12 @@
+import loginPage from "../pageObjects/loginPage";
+
 const invalid_emails = ["andrej@qa", "andrej.qa", "andrej@majl.234"];
 const login_url = Cypress.env("baseUrl");
 const valid_password = Cypress.env("login_password");
 const valid_email = Cypress.env("login_email");
 
 
-
+let login = new loginPage()
 
 describe("The user is able to create a new account in Councilbox", function() {
 
@@ -18,7 +20,7 @@ describe("The user is able to create a new account in Councilbox", function() {
     });
 
     it("Change language to Spanish", function() {
-        cy.get('#language-selector').click();
+        login.click_on_language_dropmenu()
         cy.get('#language-es').click();
     });
 

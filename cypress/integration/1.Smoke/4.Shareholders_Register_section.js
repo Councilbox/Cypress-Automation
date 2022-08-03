@@ -1,248 +1,125 @@
-const invalid_emails = ["andrej@qa", "andrej.qa", "andrej@majl.234"];
+import dashboardPage from "../pageObjects/dashbaordPage";
+import loginPage from "../pageObjects/loginPage";
+import shareholdersRegisterPage from "../pageObjects/shareholdersRegisterPage";
+
 const login_url = Cypress.env("baseUrl");
-const valid_password = Cypress.env("login_password");
-const valid_email = Cypress.env("login_email");
 
 
+let login = new loginPage()
+let shareholders = new shareholdersRegisterPage()
+let dashboard = new dashboardPage()
 
-describe("Councilbox login - valid username and password", function() {
+
+describe("Sharehodlers Register - smoke tests", function () {
+
 
      before(function() {
         
     });
 
 
-    it("Visits the Councilbox web page", function() {
-        cy.visit(login_url);
-    });
-
-    it("Change language to Spanish", function() {
-        cy.get('#language-selector').click();
-        cy.get('#language-es').click();
-    });
-
-    it("Enters email address", function() {
-        cy.get('#username').clear()
-            .type('alem@qaengineers.net')    
-            .should("have.value", 'alem@qaengineers.net')
-    });
-
-    it("Enters password", function() {
-        cy.get('#password').clear()
-            .type('Mostar123!')    
-            .should("have.value", 'Mostar123!')
-    });
-
-    it("Clicks login button", function() {
-        cy.get("#login-button").click();
-    });
-
-});
-
-
-describe("The user is able to add a partner in the 'Libro de socios' section", function() {
-
-    it("From the menu choose and click on the 'Libro de socios' button", function() {
-
-        cy.get('#edit-company-block').click()
-
-    });
-
-
-    it("Click on the 'Anadir socio' form", function() {
-        cy.get('#add-partner-button').click()
-
-    });
-
-    it("Populate “Nombre” field", function() {
-
-        cy.get('#add-partner-name').type('Test'+Cypress.config('UniqueNumber'))
-    
-    });
-
-    it("Populate “Apelidos” field", function() {
-
-        cy.get('#add-partner-surname').type('Test'+Cypress.config('UniqueNumber'))
-    
-    });
-
-
-    it("Populate “DNI/NIF” field", function() {
-
-        cy.get('#add-partner-dni').type('Test'+Cypress.config('UniqueNumber'))
-    
-    });
-
-    it("Populate “Nacionalidad” field", function() {
-
-        cy.get('#add-partner-nationality').type('Test'+Cypress.config('UniqueNumber'))
-    
-    });
-
-    it("Populate “Email” field", function() {
-
-        cy.get('#add-partner-email').type('automationTest@test.com')
-    
-    });
-
-    it("Populate “Telefono” field", function() {
-
-        cy.get('#add-partner-phone').type(Cypress.config('UniqueNumber'))
-    
-    });
-
-
-    it("Populate “Telefono Fijo” field", function() {
-
-        cy.get('#add-partner-landline-phone').type(Cypress.config('UniqueNumber'))
-    
-    });
-
-    it("Populate “TIpo de Socio” field", function() {
-
-        cy.get('#add-partner-type').type('test'+Cypress.config('UniqueNumber'))
-    
-    });
-
-    it("Select the “Estado”", function() {
-
-        cy.get('#add-partner-state').click()
-        cy.get('#add-partner-unsubscribed').click()
-    
-    });
-
-    
-
-    it("Select “Votos”", function() {
-
-        cy.get('#add-partner-votes')
-            .type('5')    
-            
-    
-    });
-
-
-
-    it("Select “Participaciones”", function() {
-
-        cy.get('#add-partner-social-capital')
-            .type('5')
-    
-    });
-
-    
-
-    it("Navigate to the “Ficha” section and populate “Nº de acta de alta” field", function() {
-
-        cy.get('#add-partner-subscribe-number').type(Cypress.config('UniqueNumber'))
-    
-    });
-
-    it("Populate “Nº de acta de baja” field", function() {
-
-        cy.get('#add-partner-unsubscribe-number').type(Cypress.config('UniqueNumber'))
-    
-    });
-
-
-    it("Select “Fecha de apertura de ficha”", function() {
-
-        cy.get('#add-partner-open-date-icon').click()
-        cy.get('#calendar-accept-button').click()
-       
-    
-    });
-
-
-    it("Select “Fecha de alta”", function() {
-
-        cy.get('#add-partner-open-subscribe-icon').click()
-        cy.get('#calendar-accept-button').click()
-       
-    
-    });
-
-
-    it("Select “Acta de alta”", function() {
-
-        cy.get('#add-partner-open-subscribe-act-icon').click()
-        cy.get('#calendar-accept-button').click()
-       
-    
-    });
-
-
-    it("Select “Fecha de baja”", function() {
-
-        cy.get('#add-partner-open-unsubscribe-icon').click()
-        cy.get('#calendar-accept-button').click()
-       
-    
-    });
-
-
-    it("Select “Acta de baja”", function() {
-
-        cy.get('#add-partner-open-unsubscribe-act-icon').click()
-        cy.get('#calendar-accept-button').click()
-       
-    
-    });
-
-
-     it("Navigate to the “Datos adicionales” section and populate “Dirección” field", function() {
-
-        cy.get('#add-partner-address').type('AutomationTest')
-    
-    });
-
-     it("Populate “Localidad” field", function() {
-
-        cy.get('#add-partner-locality').type('AutomationTest')
-       
-    
-    });
-
-      it("Select “Provincia”", function() {
-
-        cy.get('#add-partner-country_state').type('Catalonia')
-       
-       
-    
-    });
-
-      it("Populate “Codigo Postal” field", function() {
-
-        cy.get('#add-partner-zipcode').type(Cypress.config('UniqueNumber'))
-       
-    
-    });
-
-
-      it("Select “Idioma”", function() {
-
-        cy.get('#add-partner-language-select').click()
-        cy.get('#add-partner-language-select-en').click()
-       
-    
-    });
-
-       it("Click on the 'Guardar cambios' button", function() {
-
-        cy.get('#guardarAnadirSocio').click()
-
-       
-    
-    });
-
-
-
-       it("Back to Home page", function() {
+    it("Login", function() {
+        const email = "alem@qaengineers.net"
+        const password = "Mostar123!"
+        cy.clearLocalStorage()
+        cy.log("Navigate to login page")
             cy.visit(login_url);
+        cy.log("Change language to Spanish")
+            login.click_on_language_dropmenu()
+            login.select_spanish_language()
+        cy.log("Enters email address")
+            login.enter_email(email)
+        cy.log("Enters password")
+            login.enter_password(password)
+        cy.log("Clicks login button")
+            login.click_login()
+    });
 
-        });
+    it("The user is able to add a partner in the 'Libro de socios' section", function() {
+        
+        const name = "Name"+Cypress.config('UniqueNumber')
+        const surname = "Surname"+Cypress.config('UniqueNumber')
+        const tin = Cypress.config('UniqueNumber')
+        const nacionality = "Automation"
+        const email = "automationTest@test.com"
+        const phone = Cypress.config('UniqueNumber')
+        const landline_phone = Cypress.config('UniqueNumber')
+        const type_of_member = "Test"
+        const votes = "5"
+        const shares = "5"
+        const registration_record = Cypress.config('UniqueNumber')
+        const cancelation_record = "1"+Cypress.config('UniqueNumber')
+        const address = "AutomationTest"
+        const town = "AutomationTest"
+        const province = "Catalonia"
+        const zipcode = Cypress.config('UniqueNumber')
+
+    cy.log("Click on Shareholders page")
+        dashboard.click_on_shareholders_register()
+    cy.log("Click on the 'Anadir socio' form")
+        shareholders.click_on_add_member()
+    cy.log("Populate “Nombre” field")
+        shareholders.enter_partner_name(name)
+    cy.log("Populate “Apelidos” field")
+        shareholders.enter_partner_surname(surname)
+    cy.log("Populate “DNI/NIF” field")
+        shareholders.enter_partner_tin(tin)
+    cy.log("Populate “Nacionalidad” field")
+        shareholders.enter_partner_nacionality(nacionality)
+    cy.log("Populate “Email” field")
+        shareholders.enter_partner_email(email)
+    cy.log("Populate “Telefono” field")
+        shareholders.enter_partner_phone(phone)
+    cy.log("Populate “Telefono Fijo” field")
+        shareholders.enter_partner_landline_phone(landline_phone)
+    cy.log("Populate “TIpo de Socio” field")
+        shareholders.enter_partner_type_of_member(type_of_member)
+    cy.log("Select the “Estado”")
+        shareholders.click_on_status_dropmenu()
+        shareholders.select_status_option()
+    cy.log("Select “Votos”")
+        shareholders.enter_partner_votes(votes)
+    cy.log("Select “Participaciones”")
+        shareholders.enter_partner_shares(shares)
+    cy.log("Navigate to the “Ficha” section and populate “Nº de acta de alta” field")
+        shareholders.enter_registration_record(registration_record)
+    cy.log("Populate “Nº de acta de baja” field")
+        shareholders.enter_cancelation_record(cancelation_record)
+    cy.log("Select “Fecha de apertura de ficha”")
+        shareholders.click_on_date_file_opened_calendar()
+        shareholders.click_on_calendar_accept()
+    cy.log("Select “Fecha de alta”")
+        shareholders.click_on_registration_date_calendar()
+        shareholders.click_on_calendar_accept()
+    cy.log("Select “Acta de alta”")
+        shareholders.click_on_record_of_registration_date_calendar()
+        shareholders.click_on_calendar_accept()
+    cy.log("Select “Fecha de baja”")
+        shareholders.click_on_cancelation_date_calendar()
+        shareholders.click_on_calendar_accept()
+    cy.log("Select “Acta de baja”")
+        shareholders.click_on_record_of_cancelation_date_calendar()
+        shareholders.click_on_calendar_accept()
+    cy.log("Navigate to the “Datos adicionales” section and populate “Dirección” field")
+        shareholders.enter_partner_address(address)
+    cy.log("Populate “Localidad” field")
+        shareholders.enter_partner_town(town)
+    cy.log("Select “Provincia”")
+        shareholders.enter_partner_province(province)
+    cy.log("Populate “Codigo Postal” field")
+        shareholders.enter_partner_zipcode(zipcode)
+    cy.log("Select “Idioma”")
+        shareholders.click_on_langauge_dropmenu()
+        shareholders.select_english_language()
+    cy.log("Click on the 'Guardar cambios' button")
+        shareholders.click_on_save_button()
+    cy.log("Verify that Member is created")
+        shareholders.enter_search_data(name)
+        shareholders.verify_member(name)
+    cy.log("Back to Home page")
+        cy.visit(login_url)
+    });
 
 
- 
 
 });

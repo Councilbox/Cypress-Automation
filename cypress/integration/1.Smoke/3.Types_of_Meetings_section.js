@@ -1,67 +1,66 @@
-const invalid_emails = ["andrej@qa", "andrej.qa", "andrej@majl.234"];
+import { Colorize } from "material-ui-icons";
+import { func } from "prop-types";
+import dashboardPage from "../pageObjects/dashbaordPage";
+import loginPage from "../pageObjects/loginPage";
+import typeOfMeetingsPage from "../pageObjects/typesOfMeetingsPage";
+
 const login_url = Cypress.env("baseUrl");
-const valid_password = Cypress.env("login_password");
-const valid_email = Cypress.env("login_email");
 
+let types = new typeOfMeetingsPage
+let dashbaord = new dashboardPage()
+let login = new loginPage()
 
-
-describe("Councilbox login - valid username and password", function() {
+describe("Type of Meetings - smoke test", function() {
 
      before(function() {
+
+    });
         
-    });
-
-
-    it("Visits the Councilbox web page", function() {
-        cy.visit(login_url);
-    });
-
-    it("Change language to Spanish", function() {
-        cy.get('#language-selector').click();
-        cy.get('#language-es').click();
-    });
-
-    it("Enters email address", function() {
-        cy.get('#username').clear()
-            .type('alem@qaengineers.net')    
-            .should("have.value", 'alem@qaengineers.net')
-    });
-
-    it("Enters password", function() {
-        cy.get('#password').clear()
-            .type('Mostar123!')    
-            .should("have.value", 'Mostar123!')
-    });
-
-    it("Clicks login button", function() {
-        cy.get("#login-button").click();
-    });
-
-});
-
-
-
-describe("The user is able to add a new type of meeting in the 'Tipos de reunion' section", function() {
-
-    it("From the menu choose and click on the 'Tipos de reunion' button", function() {
- 
-        cy.get('#edit-statutes-block').click()
-
-    });
-
-
-    it("On the upper left corner click on the 'Anadir tipo de reunion+'' button", function() {
-        cy.get('#company-statute-create-button').click()
-
-    });
-
-    it("Populate required field and click on the 'Aceptar' button", function() {
-        cy.get('#new-council-type-input').type('Test'+Cypress.config('UniqueNumber'))
-        cy.get('#alert-confirm-button-accept').click()
-    });
-
-    it("Back to Home page", function() {
+   
+    it("Login", function() {
+        const email = "alem@qaengineers.net"
+        const password = "Mostar123!"
+        
+        cy.log("Navigate to login page")
             cy.visit(login_url);
-        });
+        cy.log("Change language to Spanish")
+            login.click_on_language_dropmenu()
+            login.select_spanish_language()
+        cy.log("Enters email address")
+            login.enter_email(email)
+        cy.log("Enters password")
+            login.enter_password(password)
+        cy.log("Clicks login button")
+            login.click_login()
+    })
+        
+   
+    it("The user is able to add a new type of meeting in the 'Tipos de reunion' section", function() {
+        const title = "MeetingType"+Cypress.config('UniqueNumber')
+        const modal_title = "Add type of meeting"
 
-});
+        cy.log("From the menu choose and click on the 'Tipos de reunion' button")
+            dashbaord.click_on_type_of_meetings()
+        cy.log("On the upper left corner click on the 'Anadir tipo de reunion+'' button")
+            types.click_on_add_button(modal_title)
+        cy.log("Populate required field and click on the 'Aceptar' button and click on 'Save'")
+            types.enter_title(title)
+            types.alert_confirm()
+            types.click_on_save()
+        cy.log("Verify that Type of Meetings is created")
+            types.verify_type_is_created(title)
+        cy.log("Back to Home page")
+            cy.visit(login_url);
+    })
+
+
+
+})
+
+
+
+
+
+
+
+

@@ -12,31 +12,21 @@ describe("Councilbox login - valid username and password", function() {
     });
 
 
-    it("Visits the Councilbox web page", function() {
-        cy.visit(login_url);
-
-    });
-
-    it("Change language to Spanish", function() {
-        cy.get('#language-selector').click();
-        cy.get('#language-es').click();
-    });
-
-    it("Enters email address", function() {
-        cy.get('#username').clear()
-            .type('alem@qaengineers.net')    
-            .should("have.value", 'alem@qaengineers.net')
-    });
-
-    it("Enters password", function() {
-        cy.get('#password').clear()
-            .type('Mostar123!')    
-            .should("have.value", 'Mostar123!')
-    });
-
-    it("Clicks login button", function() {
-        cy.get("#login-button").click();
-
+    it("Login", function() {
+        const email = "alem@qaengineers.net"
+        const password = "Mostar123!"
+        cy.clearLocalStorage()
+        cy.log("Navigate to login page")
+            cy.visit(login_url);
+        cy.log("Change language to Spanish")
+            login.click_on_language_dropmenu()
+            login.select_spanish_language()
+        cy.log("Enters email address")
+            login.enter_email(email)
+        cy.log("Enters password")
+            login.enter_password(password)
+        cy.log("Clicks login button")
+            login.click_login()
     });
 
 });
