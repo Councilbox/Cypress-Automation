@@ -95,7 +95,7 @@
     "regression net": "cypress run --headless --spec=cypress/integration/2.Regression/7.Knowledge_Base_section.js",
     "smoke": "npm run pretest && cypress run --headless --spec=cypress/integration/1.Smoke/*",
     "ovac smoke": "cypress run --headed --browser electron --spec=cypress/integration/OVAC/1.Smoke/*",
-    "ovac regression": "cypress run --headed --spec=cypress/integration/OVAC/2.Regresion/1.User_Side_section.js",
+    "ovac regression": "cypress run --headed --spec=cypress/integration/OVAC/TEST/*",
 
     "cypress": "cypress open",
     "lint": "eslint . --quiet --ext .js --ext .jsx",
@@ -108,7 +108,7 @@
     "pretest": "npm run clean:reports",
     "scripts": "cypress run --headless --spec=cypress/integration/1.Smoke/*",
     "combine-reports": "npx mochawesome-merge cypress/reports/mocha/*.json > cypress/reports/report.json",
-    "generate-report": "npx marge cypress/reports/report.json --reportDir ./ --inline",
+    "generate-report": "npx marge cypress/reports/report%DATE%.json --reportDir ./ --inline",
     "posttest": "npm run combine-reports && npm run generate-report",
     "test": "npm run scripts || npm run posttest",
     "scripts2": "cypress run --headed --browser electron --spec=cypress/integration/OVAC/1.Smoke/1.Account_section.js",
