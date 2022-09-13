@@ -43,10 +43,9 @@ module.exports = (on, config) => {
     
 }
 
-/*const { isFileExist } = require('cy-verify-downloads');
+const { isFileExist } = require('cy-verify-downloads');
 
 module.exports = (on, config) => {
   on('task', { isFileExist })
 }
 
-*/
