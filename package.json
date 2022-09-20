@@ -2,9 +2,7 @@
   "name": "councilbox_client",
   "version": "8.11.1",
   "private": true,
-  "dependencies": {
-   
-  },
+  "dependencies": {},
   "scripts": {
     "start": "cross-env REACT_APP_MODE=dev react-scripts start",
     "startS": "cross-env HTTPS=true REACT_APP_MODE=dev react-scripts start",
@@ -28,7 +26,6 @@
     "smoke": "npm run pretest && cypress run --headless --spec=cypress/integration/1.Smoke/*",
     "ovac smoke": "cypress run --headed --browser electron --spec=cypress/integration/OVAC/1.Smoke/*",
     "ovac regression": "cypress run --headed --spec=cypress/integration/OVAC/TEST/*",
-
     "cypress": "cypress open",
     "lint": "eslint . --quiet --ext .js --ext .jsx",
     "lint-fix": "eslint . --fix --ext .js --ext .jsx",
