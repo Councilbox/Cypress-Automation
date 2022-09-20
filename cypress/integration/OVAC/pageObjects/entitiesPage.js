@@ -4,25 +4,26 @@ const companyAddress = "Majkl Dzordana 23"
 const entityTown = "Cikago"
 
 let docFile = 'testDocument.txt';
+let imageFile = 'testimage.png'
 
 class entitiesPage {
 
 	elements = {
 		search_for_entity: () => cy.xpath('//*[@id="root"]/div/div[3]/div/div[2]/div/div[1]/div[2]/div/div/div/div[1]/div[2]/div/div/div/div/input'),
 		add_button: () => cy.get('#create-company-button'),
-		name: () => cy.get('#company-name-input'),
-		tax_id: () => cy.get('#company-id-input'),
-		address: () => cy.get('#company-address-input'),
-		town_city: () => cy.get('#company-city-input'),
+		name: () => cy.get('#business-name'),
+		tax_id: () => cy.get('#addSociedadCIF'),
+		address: () => cy.get('#addSociedadDireccion'),
+		town_city: () => cy.get('#addSociedadLocalidad'),
 		province: () => cy.get('#country-state-select'),
 		institution_search: () => cy.get('#institutions-search-input'), 
-		province_option : () => cy.get('#company-country-state-Albacete'),
-		zip_code: () => cy.get('#company-zipcode-input'),
-		submit: () => cy.get('#company-add-button'),
+		province_option : () => cy.get('[role="menuitem"]').eq(25),
+		zip_code: () => cy.get('#addSociedadCP'),
+		submit: () => cy.get('#layout-top > div > div:nth-child(2) > div > button'),
 		search: () => cy.xpath('//*[@class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedStart"]'),
 		action_button: () => cy.xpath('(//*[@class="MuiButtonBase-root MuiButton-root MuiButton-text"])[1]'),
 		edit_option: () => cy.get('body > div.MuiPopover-root > div.MuiPaper-root.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded > div > ul > div:nth-child(1)'),
-		organisation_logo_upload: () => cy.get('#root > div > div:nth-child(3) > div > div:nth-child(2) > div > div > div:nth-child(1) > div.MuiPaper-root.MuiPaper-elevation0.MuiPaper-rounded > div > div > div:nth-child(1) > div > div > div:nth-child(1) > div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-3.MuiGrid-grid-lg-3 > div:nth-child(2) > label > span'),
+		organisation_logo_upload: () => cy.get('input[type=file]'),
 
 		entity_button: () => cy.xpath('//*[@class="ri-government-line"]'),
 		see_more_entities: () => cy.xpath('//*[@class="MuiButtonBase-root MuiButton-root MuiButton-contained"]'),
@@ -135,7 +136,7 @@ class entitiesPage {
 
 	upload_organisation_logo() {
         this.elements.organisation_logo_upload()
-			.attachFile(docFile)
+			.attachFile(imageFile)
 	}
 
 	click_action_button() {
@@ -196,8 +197,6 @@ class entitiesPage {
 			.click()
 		this.elements.province_option()
 			.click()
-		this.elements.province()
-			.should('have.text', 'Albacete')
 	}
 
 	enter_zip_code(zip) {

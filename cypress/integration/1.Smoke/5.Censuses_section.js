@@ -1,7 +1,11 @@
+import loginPage from "../pageObjects/loginPage";
+
 const invalid_emails = ["andrej@qa", "andrej.qa", "andrej@majl.234"];
 const login_url = Cypress.env("baseUrl");
 const valid_password = Cypress.env("login_password");
 const valid_email = Cypress.env("login_email");
+
+let login = new loginPage()
 
 
 
@@ -70,6 +74,18 @@ describe("The user is able to add census in the 'Censos' section [tipo Assistent
     it("Click on the 'Aceptar' button", function() {
         cy.get('#alert-confirm-button-accept').click()
     });
+
+    it("Verify that Census is added by searching for it", function() {
+        cy.get('#undefined-search-input')
+            .should('be.visible')
+            .clear()
+            .type('AutomationTest'+Cypress.config('UniqueNumber'))    
+            .should("have.value", 'AutomationTest'+Cypress.config('UniqueNumber'))
+            .wait(2000)
+        cy.get('#census_row_0')
+            .contains('AutomationTest'+Cypress.config('UniqueNumber'))
+            .should('be.visible')
+    })
 
     it("Back to Home page", function() {
             cy.visit(login_url);

@@ -1,5 +1,3 @@
-import { Colorize } from "material-ui-icons";
-import { func } from "prop-types";
 import dashboardPage from "../pageObjects/dashbaordPage";
 import loginPage from "../pageObjects/loginPage";
 import typeOfMeetingsPage from "../pageObjects/typesOfMeetingsPage";

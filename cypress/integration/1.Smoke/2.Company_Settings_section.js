@@ -154,12 +154,15 @@ describe("The user is able to Link company", function() {
 
 });
 
-/*
+
 describe("The user is able to Unlink company", function() {
 
     it("From the dashboard click on the 'Vincular sociedad' button", function() {
         cy.get('#entidadesSideBar').click()
-        cy.xpath('(//*[@role="menuitem"])[2]').click()
+        cy.get('[role="menuitem"]')
+            .contains('automationtest')
+            .should('be.visible')
+            .click()
 });
 
     it("Click on User Menu", function() {
@@ -190,4 +193,3 @@ describe("The user is able to Unlink company", function() {
 
 }); 
 
-*/
