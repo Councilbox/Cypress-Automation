@@ -167,15 +167,18 @@ describe("The user is able to Unlink company", function() {
 
     it("Click on User Menu", function() {
         cy.get('#user-menu-trigger').click()
+        cy.wait(1000)
     });
 
     it("Click to Edit Company", function() {
         cy.get('#user-settings-edit-company').click({force : true})
+        cy.wait(1000)
     });
 
 
     it("Click on the Unlink button", function() {
         cy.get('#company-unlink-button').click()
+        cy.wait(1000)
     });
 
     it("Click on 'OK' button to confirm Unlink", function() {
