@@ -19,7 +19,7 @@ describe("Type of Meetings - smoke test", function() {
    
     it("Login", function() {
         const email = "alem@qaengineers.net"
-        const password = "Mostar123!"
+        const password = "Mostar123!test"
         
         cy.log("Navigate to login page")
             cy.visit(login_url);

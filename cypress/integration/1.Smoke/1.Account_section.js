@@ -131,8 +131,8 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Enters password", function() {
         cy.get('#password').clear()
-            .type('Mostar123!')    
-            .should("have.value", 'Mostar123!')
+            .type('Mostar123!testtest')    
+            .should("have.value", 'Mostar123!testtest')
     });
 
     it("Clicks login button", function() {
