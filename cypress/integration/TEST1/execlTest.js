@@ -6,7 +6,7 @@ describe("VERSIONS", function () {
 it("INPUT TODAYS DATE", function () {
 
 
-        cy.wait(20000)
+       
 
 
 
