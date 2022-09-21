@@ -10,7 +10,7 @@
     "build": "cross-env REACT_APP_MODE=alpha react-scripts build",
     "startAlpha": "cross-env REACT_APP_MODE=alpha react-scripts start",
     "test1": "mocha --require babel-register ./src/tests",
-    "versions": "cypress run --headless --spec=cypress/integration/TEST1/execlTest.js",
+    "versions": "cypress run --headed --browser electron --spec=cypress/integration/TEST1/execlTest.js",
     "regression": "cypress run --headless --spec=cypress/integration/2.Regression/*",
     "smoke electron": "cypress run --headed --spec=cypress/integration/1.Smoke/*",
     "smoke chrome": "cypress run --headed --browser chrome --spec=cypress/integration/1.Smoke/*",
