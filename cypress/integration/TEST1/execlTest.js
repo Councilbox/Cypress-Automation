@@ -6,6 +6,9 @@ describe("VERSIONS", function () {
 it("INPUT TODAYS DATE", function () {
 
 
+        cy.wait(20000)
+
+
 
 
         cy.writeFile('cypress/integration/TEST/versions.csv', '\n',{flag: 'a+'})
