@@ -6,50 +6,42 @@ let dashboard = new adminDashboard()
 
 
 
-describe("The user is able to log in to the page - Account section", function() {
+describe("Account section", function() {
     before(function() {
         cy.clearLocalStorage();  
     });
-    const email = "alem+1@qaengineers.net"
-    const password = "Mostar1234!test"
-    it("The user is able to open the browser and enter the URL: ", function() {       
+    
+
+    it("The user is able to log in to the page", function() {
+        const email = "alem+1@qaengineers.net"
+        const password = "Mostar1234!test"
+        
+    cy.log("The user is able to open the browser and enter the URL: ")    
     	login.navigate_admin()        
-    });
-
-    it("The user is able to enter the email address", function() {     
+    cy.log("The user is able to enter the email address")
     	login.enter_email(email)       
-    });
-
-    it("The user is able to enter the password", function() {    
+    cy.log("The user is able to enter the password")
     	login.enter_password(password)       
-    });
-
-    it("The user is able to click on the Log in button", function() {  
-    	login.login_submit()       
-    });
-
-    it("The user is successfully logged in", function() {  
+    cy.log("The user is able to click on the Log in button")
+    	login.login_submit()      
+    cy.log("The user is successfully logged in")
     	login.confirm_login()    
-    });
-})
+    })
 
-describe("The user is able to log out from the page - Account section", function() {
+    it("The user is able to log out from the page ", function() {  
 
-    it("The user is successfully logged in", function() {  
+    cy.log("Verify that user is logged in")
     	login.confirm_login()       
-    });
-
-    it("The user is able to click on the Account icon", function() {  
+    cy.log("The user is successfully logged in")
+    	login.confirm_login()       
+    cy.log("The user is able to click on the Account icon")
        	dashboard.click_user_icon()       
-    });
-
-    it("The user is able to click on the Log out button", function() {  
+    cy.log("The user is able to click on the Log out button")
     	dashboard.click_logout()       
-    });
-
-    it("User is logged out successfully", function() {  
+    cy.log("User is logged out successfully")
     	dashboard.confirm_logout()   
     });
+
 })
 
 

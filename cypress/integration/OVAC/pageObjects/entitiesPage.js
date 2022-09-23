@@ -29,7 +29,7 @@ class entitiesPage {
 		see_more_entities: () => cy.xpath('//*[@class="MuiButtonBase-root MuiButton-root MuiButton-contained"]'),
 		manage_entity: () => cy.xpath('//*[@id="root"]/div/div[3]/div/div[2]/div/div[1]/div[2]/div/div/div/div[2]/div/div[1]/div/div[1]/div/table/tr[2]/td[4]/div/button'),
 
-		manage_appointment:() => cy.get('#root > div > div:nth-child(3) > div > div:nth-child(2) > div > div:nth-child(1) > div.MuiPaper-root.MuiPaper-elevation0.MuiPaper-rounded > div > div > div > div:nth-child(2) > div > div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-12.MuiGrid-grid-lg-12 > div > div:nth-child(1) > table > tr:nth-child(2) > td:nth-child(4) > div > button'),
+		manage_appointment:() => cy.get('#root > div > div:nth-child(3) > div > div:nth-child(2) > div > div:nth-child(1) > div.MuiPaper-root.MuiPaper-elevation0.MuiPaper-rounded > div > div > div > div:nth-child(2) > div > div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-12.MuiGrid-grid-lg-12 > div > div:nth-child(1) > div > table > tr:nth-child(2) > td:nth-child(4) > div > button > span.MuiButton-label'),
 
 		entity_name_error: () => cy.xpath('//*[@id="root"]/div/div[3]/div/div[2]/div/div[1]/div[2]/div/div/div[1]/div/div/div/div[1]/div[1]/div[1]/div/div[1]/div/div/p'),
 		ban_button: () => cy.xpath('//*[@id="institutions-dropdown-1249"]/div[3]/div/ul/div[2]/div[2]/span'),

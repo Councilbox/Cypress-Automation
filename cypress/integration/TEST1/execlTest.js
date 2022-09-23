@@ -11,12 +11,12 @@ it("INPUT TODAYS DATE", function () {
 
 
 
-        cy.writeFile('cypress/integration/TEST/versions.csv', '\n',{flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', '\n',{flag: 'a+'})
 
         cy.request('GET', "https://www.timeapi.io/api/Time/current/coordinate")
         .its('body.date')
         .then(date => {
-            cy.writeFile('cypress/integration/TEST/versions.csv', date ,{flag: 'a+'})
+            cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', date ,{flag: 'a+'})
             
             
         })
@@ -25,11 +25,11 @@ it("INPUT TODAYS DATE", function () {
         cy.request('GET', "https://www.timeapi.io/api/Time/current/coordinate")
         .its('body.dayOfWeek')
         .then(dayOfWeek => {
-            cy.writeFile('cypress/integration/TEST/versions.csv', ' ' ,{flag: 'a+'})
-            cy.writeFile('cypress/integration/TEST/versions.csv', dayOfWeek ,{flag: 'a+'})
+            cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', ' ' ,{flag: 'a+'})
+            cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', dayOfWeek ,{flag: 'a+'})
 
 
-        cy.writeFile('cypress/integration/TEST/versions.csv', "," ,{flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', "," ,{flag: 'a+'})
             
             
         })
@@ -46,9 +46,9 @@ it("INPUT TODAYS DATE", function () {
         cy.wait(10000)
         cy.get('#client-version').then(($temp)=>{
         const txt = $temp.text()
-        cy.writeFile('cypress/integration/TEST/versions.csv', txt, {flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', txt, {flag: 'a+'})
 
-        cy.writeFile('cypress/integration/TEST/versions.csv', "," ,{flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', "," ,{flag: 'a+'})
 
 
         })  
@@ -65,9 +65,9 @@ it("INPUT TODAYS DATE", function () {
         cy.wait(10000)
         cy.get('#client-version').then(($temp)=>{
         const txt = $temp.text()
-        cy.writeFile('cypress/integration/TEST/versions.csv', txt, {flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', txt, {flag: 'a+'})
 
-        cy.writeFile('cypress/integration/TEST/versions.csv', "," ,{flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', "," ,{flag: 'a+'})
 
 
         })  
@@ -84,9 +84,9 @@ it("INPUT TODAYS DATE", function () {
         cy.request('GET', "https://api.pre.councilbox.com/health")
         .its('body.version')
         .then(version => {
-            cy.writeFile('cypress/integration/TEST/versions.csv', version, {flag: 'a+'})
+            cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', version, {flag: 'a+'})
 
-            cy.writeFile('cypress/integration/TEST/versions.csv', "," ,{flag: 'a+'})
+            cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', "," ,{flag: 'a+'})
             
             
         })
@@ -105,9 +105,9 @@ it("INPUT TODAYS DATE", function () {
         cy.visit('https://app.councilbox.com/')
         cy.get('#client-version').then(($temp)=>{
         const txt = $temp.text()
-        cy.writeFile('cypress/integration/TEST/versions.csv', txt, {flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', txt, {flag: 'a+'})
 
-        cy.writeFile('cypress/integration/TEST/versions.csv', "," ,{flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', "," ,{flag: 'a+'})
 
 
         })  
@@ -123,9 +123,9 @@ it("INPUT TODAYS DATE", function () {
         cy.request('GET', "https://api.councilbox.com/health")
         .its('body.version')
         .then(version => {
-            cy.writeFile('cypress/integration/TEST/versions.csv', version, {flag: 'a+'})
+            cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', version, {flag: 'a+'})
 
-            cy.writeFile('cypress/integration/TEST/versions.csv', "," ,{flag: 'a+'})
+            cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', "," ,{flag: 'a+'})
             
             
         })
@@ -146,9 +146,9 @@ it("INPUT TODAYS DATE", function () {
         cy.visit('https://ovac.dev.councilbox.com/')
         cy.get('#client-version').then(($temp)=>{
         const txt = $temp.text()
-        cy.writeFile('cypress/integration/TEST/versions.csv', txt, {flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', txt, {flag: 'a+'})
 
-        cy.writeFile('cypress/integration/TEST/versions.csv', "," ,{flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', "," ,{flag: 'a+'})
 
 
         })  
@@ -170,9 +170,9 @@ it("INPUT TODAYS DATE", function () {
         cy.visit('https://ovac.pre.councilbox.com/')
         cy.get('#client-version').then(($temp)=>{
         const txt = $temp.text()
-        cy.writeFile('cypress/integration/TEST/versions.csv', txt, {flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', txt, {flag: 'a+'})
 
-        cy.writeFile('cypress/integration/TEST/versions.csv', "," ,{flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', "," ,{flag: 'a+'})
 
 
         })  
@@ -191,9 +191,9 @@ it("INPUT TODAYS DATE", function () {
         cy.request('GET', "http://api.ovac.pre.councilbox.com/health")
         .its('body.version')
         .then(version => {
-            cy.writeFile('cypress/integration/TEST/versions.csv', version, {flag: 'a+'})
+            cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', version, {flag: 'a+'})
 
-            cy.writeFile('cypress/integration/TEST/versions.csv', "," ,{flag: 'a+'})
+            cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', "," ,{flag: 'a+'})
             
             
         })
@@ -209,9 +209,9 @@ it("INPUT TODAYS DATE", function () {
         cy.visit('https://ovac.councilbox.com/')
         cy.get('#client-version').then(($temp)=>{
         const txt = $temp.text()
-        cy.writeFile('cypress/integration/TEST/versions.csv', txt, {flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', txt, {flag: 'a+'})
 
-        cy.writeFile('cypress/integration/TEST/versions.csv', "," ,{flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', "," ,{flag: 'a+'})
 
 
         })  
@@ -231,9 +231,9 @@ it("INPUT TODAYS DATE", function () {
         cy.request('GET', "https://api.ovac.councilbox.com/health")
         .its('body.version')
         .then(version => {
-            cy.writeFile('cypress/integration/TEST/versions.csv', version, {flag: 'a+'})
+            cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', version, {flag: 'a+'})
 
-            cy.writeFile('cypress/integration/TEST/versions.csv', "," ,{flag: 'a+'})
+            cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', "," ,{flag: 'a+'})
             
             
         })
@@ -251,9 +251,9 @@ it("INPUT TODAYS DATE", function () {
         cy.visit('https://evid.dev.councilbox.com/')
         cy.get('#client-version').then(($temp)=>{
         const txt = $temp.text()
-        cy.writeFile('cypress/integration/TEST/versions.csv', txt, {flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', txt, {flag: 'a+'})
 
-        cy.writeFile('cypress/integration/TEST/versions.csv', "," ,{flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', "," ,{flag: 'a+'})
 
 
         })  
@@ -268,9 +268,9 @@ it("INPUT TODAYS DATE", function () {
         cy.visit('https://evid.pre.councilbox.com/')
         cy.get('#client-version').then(($temp)=>{
         const txt = $temp.text()
-        cy.writeFile('cypress/integration/TEST/versions.csv', txt, {flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', txt, {flag: 'a+'})
 
-        cy.writeFile('cypress/integration/TEST/versions.csv', "," ,{flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', "," ,{flag: 'a+'})
 
 
         })  
@@ -286,9 +286,9 @@ it("INPUT TODAYS DATE", function () {
         cy.request('GET', "http://evid-api.pre.councilbox.com/health")
         .its('body.version')
         .then(version => {
-            cy.writeFile('cypress/integration/TEST/versions.csv', version, {flag: 'a+'})
+            cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', version, {flag: 'a+'})
 
-            cy.writeFile('cypress/integration/TEST/versions.csv', "," ,{flag: 'a+'})
+            cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', "," ,{flag: 'a+'})
             
             
         })
@@ -305,9 +305,9 @@ it("INPUT TODAYS DATE", function () {
         cy.visit('https://evid.councilbox.com/')
         cy.get('#client-version').then(($temp)=>{
         const txt = $temp.text()
-        cy.writeFile('cypress/integration/TEST/versions.csv', txt, {flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', txt, {flag: 'a+'})
 
-        cy.writeFile('cypress/integration/TEST/versions.csv', "," ,{flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', "," ,{flag: 'a+'})
 
 
         })  
@@ -323,9 +323,9 @@ it("INPUT TODAYS DATE", function () {
         cy.request('GET', "https://evid-api.councilbox.com/health")
         .its('body.version')
         .then(version => {
-            cy.writeFile('cypress/integration/TEST/versions.csv', version, {flag: 'a+'})
+            cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', version, {flag: 'a+'})
 
-            cy.writeFile('cypress/integration/TEST/versions.csv', "," ,{flag: 'a+'})
+            cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', "," ,{flag: 'a+'})
             
             
         })
@@ -342,9 +342,9 @@ it("PORTAL dev", function () {
         cy.visit('https://portal.dev.councilbox.com/')
         cy.xpath('//*[@id="root"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div/span/text()').then(($temp)=>{
         const txt = $temp.text()
-        cy.writeFile('cypress/integration/TEST/versions.csv', txt, {flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', txt, {flag: 'a+'})
 
-        cy.writeFile('cypress/integration/TEST/versions.csv', "," ,{flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', "," ,{flag: 'a+'})
 
 
         })  
@@ -358,9 +358,9 @@ it("PORTAL dev", function () {
         cy.visit('https://portal.pre.councilbox.com/')
         cy.xpath('//*[@id="root"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div/span/text()').then(($temp)=>{
         const txt = $temp.text()
-        cy.writeFile('cypress/integration/TEST/versions.csv', txt, {flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', txt, {flag: 'a+'})
 
-        cy.writeFile('cypress/integration/TEST/versions.csv', "," ,{flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', "," ,{flag: 'a+'})
 
 
         })  
@@ -375,9 +375,9 @@ it("PORTAL dev", function () {
         cy.visit('https://portal.councilbox.com/')
         cy.xpath('//*[@id="root"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div/span/text()').then(($temp)=>{
         const txt = $temp.text()
-        cy.writeFile('cypress/integration/TEST/versions.csv', txt, {flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', txt, {flag: 'a+'})
 
-        cy.writeFile('cypress/integration/TEST/versions.csv', "," ,{flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', "," ,{flag: 'a+'})
 
 
         })  
@@ -396,9 +396,9 @@ it("PORTAL dev", function () {
         cy.visit('https://app.shutter.pre.councilbox.com/')
         cy.get('#version').then(($temp)=>{
         const txt = $temp.text()
-        cy.writeFile('cypress/integration/TEST/versions.csv', txt, {flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', txt, {flag: 'a+'})
 
-        cy.writeFile('cypress/integration/TEST/versions.csv', "," ,{flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', "," ,{flag: 'a+'})
 
 
         })  
@@ -415,9 +415,9 @@ it("PORTAL dev", function () {
         cy.visit('https://app.shutter.councilbox.com/')
         cy.get('#version').then(($temp)=>{
         const txt = $temp.text()
-        cy.writeFile('cypress/integration/TEST/versions.csv', txt, {flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', txt, {flag: 'a+'})
 
-        cy.writeFile('cypress/integration/TEST/versions.csv', "," ,{flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', "," ,{flag: 'a+'})
 
 
         })  
@@ -436,9 +436,9 @@ it("PORTAL dev", function () {
         cy.visit('https://horus.pre.councilbox.com/admin')
         cy.xpath('//*[@id="root"]/div/div/div/div/div[4]/small').then(($temp)=>{
         const txt = $temp.text()
-        cy.writeFile('cypress/integration/TEST/versions.csv', txt, {flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', txt, {flag: 'a+'})
 
-        cy.writeFile('cypress/integration/TEST/versions.csv', "," ,{flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', "," ,{flag: 'a+'})
 
 
         })  
@@ -455,7 +455,7 @@ it("PORTAL dev", function () {
         cy.visit('https://horus.councilbox.com/admin')
         cy.xpath('//*[@id="root"]/div/div/div/div/div[4]/small').then(($temp)=>{
         const txt = $temp.text()
-        cy.writeFile('cypress/integration/TEST/versions.csv', txt, {flag: 'a+'})
+        cy.writeFile('cypress/integration/TEST/CouncilBox_Version_Tracking.csv', txt, {flag: 'a+'})
 
         
 

@@ -17,135 +17,84 @@ let users = new usersPage()
 let entity = new entitiesPage()
 
 
-describe("Admin is able to log in", function() {
+describe("Entity section", function() {
+
+    it("Admin is able to log in", function() {    
     const email = "alem+1@qaengineers.net"
     const password = "Mostar1234!test"
     
-    it("The user is able to open the browser and enter the URL: ", function() {    
+    cy.log("The user is able to open the browser and enter the URL: ")  
         cy.clearLocalStorage()   
         login.navigate_admin()        
-    });
-
-    it("The user is able to enter the email address", function() {     
+    cy.log("The user is able to enter the email address")  
         login.enter_email(email)        
-    });
-
-    it("The user is able to enter the password", function() {    
+    cy.log("The user is able to enter the password") 
         login.enter_password(password)        
-    });
-
-    it("The user is able to click on the Log in button", function() {  
+    cy.log("The user is able to click on the Log in button")
         login.login_submit()           
-    });
-
-    it("The user is successfully logged in", function() {  
+    cy.log("The user is successfully logged in")
         login.confirm_login()        
     });
-})
 
-describe("The user is able to add a logo to the Entity", function() {
-    before(function() {    
-   });
+    it("The user is able to add a logo to the Entity", function() {       
    const name = "LogoTestingAuto"
    
-   it("The user is able to open the browser and enter the URL: ", function() {       
+   cy.log("The user is able to open the browser and enter the URL: ")      
        login.navigate_admin()        
-   });
-
-   it("The user is able to click on the 'Insitution' button", function() {  
-
+   cy.log("The user is able to click on the 'Insitution' button") 
        dashboard.click_on_istitutions()
-   });
-   
-   it("The user is able to navigate on already existing entity and click on the 'Edit' button", function() {  
+   cy.log("The user is able to navigate on already existing entity and click on the 'Edit' button")
        entity.search_for_institution(name) 
        entity.click_action_button()
        entity.click_edit_option()
-   });
-
-   it("The user is able to click on the 'Organization logo' button / The user is able to choose photo and click on the 'Open' button", function() {  
+   cy.log("The user is able to click on the 'Organization logo' button / The user is able to choose photo and click on the 'Open' button")  
        entity.upload_organisation_logo()
-   });
-
-   it("The user is able to click on the 'Insitution' button", function() {  
+   cy.log("The user is able to click on the 'Insitution' button")
        dashboard.click_on_istitutions()
-   });
-
-   it("Navigate back to Home page", function() {
+   cy.log("Navigate back to Home page")
        login.navigate_admin()
    })
 
-describe("The user is able to add entity - Entities section", function() {
+    it("The user is able to add entity", function() { 
     const name = "Institutions"+Cypress.config('UniqueNumber')
     const tax_id = Cypress.config('UniqueNumber')
     const address = "Majkl Dzordana 23"
     const town = "Cikago"
     const zip = "88000"
-     before(function() {    
-    });  
-    it("The user is able to click on the 'Insitution' button", function() { 
+     
+    cy.log("The user is able to click on the 'Insitution' button")
         dashboard.click_on_istitutions()      
-    });
-
-    it("The user is able to click on the 'Add' button", function() {  
+    cy.log("The user is able to click on the 'Add' button") 
         entity.click_add_button()     
-    });
-
-    it("The user is able to populate the 'Name' field", function() {  
+    cy.log("The user is able to populate the 'Name' field") 
         entity.enter_name(name)        
-    });
-
-    it("The user is able to populate the 'TAX ID NO/CIF/NIE' field", function() {  
+    cy.log("The user is able to populate the 'TAX ID NO/CIF/NIE' field") 
         entity.enter_TAX_id(tax_id)      
-    });
-
-    it("The user is able to populate the 'Address' field", function() {  
+    cy.log("The user is able to populate the 'Address' field")
         entity.enter_entity_address(address)      
-    });
-
-    it("The user is able to populate the 'Town/City' field", function() {  
+    cy.log("The user is able to populate the 'Town/City' field")
         entity.enter_town_city(town)    
-    });
-
-    it("The user is able to populate the 'Province' label", function() {  
+    cy.log("The user is able to populate the 'Province' label")
         entity.select_province_entity()        
-    });
-
-    it("The user is able to populate the 'ZIP Code' label", function() {  
+    cy.log("The user is able to populate the 'ZIP Code' label")
         entity.enter_zip_code(zip)      
-    });
-
-    it("The user is able to click on the 'Add entity+' button", function() {
+    cy.log("The user is able to click on the 'Add entity+' button")
         entity.click_submit_entity()
-    });
-
-    it("Navigate back to Home page", function() {
+    cy.log("Navigate back to Home page")
         login.navigate_admin()
         cy.wait(5000)
     })
-})
 
+    it("The user is able to change entity", function() { 
 
-})
-
-
-describe("The user is able to change entity - Entities section", function() {
-     before(function() {    
-    });  
-    it("The user is able to click on the 'Entity' button", function() { 
+    cy.log("The user is able to click on the 'Entity' button")
         entity.click_on_entity()  
-    });
-
-    it("The user is able to click on the 'See More Entites' button", function() {  
+    cy.log("The user is able to click on the 'See More Entites' button")
         entity.click_on_see_more_entites() 
         cy.wait(5000)   
-    });
-
-    it("The user is able to click the 'Manage Appointments' button", function() {  
+    cy.log("The user is able to click the 'Manage Appointments' button")
         entity.click_manage_appointments()    
-    });
-
-    it("Navigate back to Home page", function() {
+    cy.log("Navigate back to Home page")
         login.navigate_admin()
     })
 
