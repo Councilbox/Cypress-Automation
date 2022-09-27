@@ -2,6 +2,7 @@ const invalid_emails = ["andrej@qa", "andrej.qa", "andrej@majl.234"];
 const login_url = Cypress.env("baseUrl");
 const valid_password = Cypress.env("login_password");
 const valid_email = Cypress.env("login_email");
+let url = Cypress.config().baseUrl;
 
 
 
@@ -13,8 +14,8 @@ describe("Councilbox login - valid username and password", function() {
 
 
     it("Visits the Councilbox web page", function() {
-        cy.visit(login_url);
-        cy.visit(login_url);
+        cy.visit(url);
+        cy.visit(url);
     });
 
     it("Change language to Spanish", function() {
@@ -74,7 +75,7 @@ describe("The user is able to add a new document in the 'Base de conocimiento' s
     });
 
     it("Back to Home page", function() {
-            cy.visit(login_url);
+            cy.visit(url);
             
         });
 
@@ -118,7 +119,7 @@ describe("The user is able to create a new template in the 'Base de conocimiento
     });
 
     it("Back to Home page", function() {
-            cy.visit(login_url);
+            cy.visit(url);
           
         });
 
@@ -176,7 +177,7 @@ describe("The user is able to add new tag in the 'Base de conocimiento' section"
     });
 
     it("Back to Home page", function() {
-            cy.visit(login_url);
+            cy.visit(url);
            
         });
 

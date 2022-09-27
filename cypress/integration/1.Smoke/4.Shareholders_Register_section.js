@@ -4,6 +4,7 @@ import shareholdersRegisterPage from "../pageObjects/shareholdersRegisterPage";
 
 const login_url = Cypress.env("baseUrl");
 
+let url = Cypress.config().baseUrl;
 
 let login = new loginPage()
 let shareholders = new shareholdersRegisterPage()
@@ -23,7 +24,7 @@ describe("Sharehodlers Register - smoke tests", function () {
         const password = "Mostar123!test"
         cy.clearLocalStorage()
         cy.log("Navigate to login page")
-            cy.visit(login_url);
+            cy.visit(url);
         cy.log("Change language to Spanish")
             login.click_on_language_dropmenu()
             login.select_spanish_language()
@@ -117,7 +118,7 @@ describe("Sharehodlers Register - smoke tests", function () {
         shareholders.enter_search_data(name)
         shareholders.verify_member(name)
     cy.log("Back to Home page")
-        cy.visit(login_url)
+        cy.visit(url)
     });
 
 

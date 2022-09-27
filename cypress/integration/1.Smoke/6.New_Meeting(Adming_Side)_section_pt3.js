@@ -1,4 +1,5 @@
 const login_url = Cypress.env("baseUrl");
+let url = Cypress.config().baseUrl;
 
 
 describe("Councilbox login - valid username and password", function() {
@@ -9,7 +10,7 @@ describe("Councilbox login - valid username and password", function() {
 
 
     it("Visits the Councilbox web page", function() {
-        cy.visit(login_url);
+        cy.visit(url);
         
     });
 
@@ -306,7 +307,7 @@ describe("The user is able to close point in the 'New call with session' type of
 
     it("User should be able to exit the meeting", function() {
 
-        cy.visit(login_url)
+        cy.visit(url)
 
     });
 
@@ -607,7 +608,7 @@ describe("The user is able to finish council in the 'New call with session' type
 
     it("User should be able to exit the meeting", function() {
 
-        cy.visit(login_url)
+        cy.visit(url)
 
     });
 

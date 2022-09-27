@@ -18,6 +18,7 @@ before(function() {
     cy.saveLocalStorage();
 });
 
+let url = Cypress.config().baseUrl;
 
 function userID_Alpha() {
     var text = "";
@@ -34,7 +35,7 @@ function userID_Alpha() {
   
     it("The user is not able to register to the Councilbox without populating required fields", function() {
         cy.log("Open the browser and enter the URL of the staging environment")
-            cy.visit(login_url);
+            cy.visit(url);
         cy.log("Click on the 'Sign Up' button")
             login.click_on_sign_up_button()
         cy.log("Click on the “Sign up” button without populating required fields")
@@ -55,7 +56,7 @@ function userID_Alpha() {
         const email = "alem"+Cypress.config('UniqueNumber')+"@yopmail.com"
         const password = "Mostar123!"
         cy.log("Open the browser and enter the URL of the staging environment")
-            cy.visit(login_url);
+            cy.visit(url);
         cy.log("Click on the 'Sign Up' button")
             login.click_on_sign_up_button()
         cy.log("Populate the 'Name' field with invalid inputs (with number)")
@@ -83,7 +84,7 @@ function userID_Alpha() {
         const email = "alem"+Cypress.config('UniqueNumber')+"@yopmail.com"
         const password = "Mostar123!"
         cy.log("Open the browser and enter the URL of the staging environment")
-            cy.visit(login_url);
+            cy.visit(url);
         cy.log("Click on the 'Sign Up' button")
             login.click_on_sign_up_button()
         cy.log("Populate the 'Name' field with invalid inputs (with number)")
@@ -111,7 +112,7 @@ function userID_Alpha() {
         const email = "alem"+Cypress.config('UniqueNumber')+"@yopmail.com"
         const password = "Mostar123!"
         cy.log("Open the browser and enter the URL of the staging environment")
-            cy.visit(login_url);
+            cy.visit(url);
         cy.log("Click on the 'Sign Up' button")
             login.click_on_sign_up_button()
         cy.log("Populate the 'Name' field with invalid inputs (with number)")
@@ -139,7 +140,7 @@ function userID_Alpha() {
         const email = "ballalem@hotmail.com"
         const password = "Mostar123!"
         cy.log("Open the browser and enter the URL of the staging environment")
-            cy.visit(login_url);
+            cy.visit(url);
         cy.log("Click on the 'Sign Up' button")
             login.click_on_sign_up_button()
         cy.log("Populate the 'Name' field with invalid inputs (with number)")
@@ -168,7 +169,7 @@ function userID_Alpha() {
         const password = "Mostar123!"
         const email_confirm = "alem123@test.test"
         cy.log("Open the browser and enter the URL of the staging environment")
-            cy.visit(login_url);
+            cy.visit(url);
         cy.log("Click on the 'Sign Up' button")
             login.click_on_sign_up_button()
         cy.log("Populate the 'Name' field with invalid inputs (with number)")
@@ -198,7 +199,7 @@ function userID_Alpha() {
         const password = "Mostar123!"
         const password_confirm = "123456"
         cy.log("Open the browser and enter the URL of the staging environment")
-            cy.visit(login_url);
+            cy.visit(url);
         cy.log("Click on the 'Sign Up' button")
             login.click_on_sign_up_button()
         cy.log("Populate the 'Name' field with invalid inputs (with number)")
@@ -228,7 +229,7 @@ function userID_Alpha() {
         const email = "alem"+Cypress.config('UniqueNumber')+"@yopmail.com"
         const password = "Mostar123!"
         cy.log("Open the browser and enter the URL of the staging environment")
-            cy.visit(login_url);
+            cy.visit(url);
         cy.log("Click on the 'Sign Up' button")
             login.click_on_sign_up_button()
         cy.log("Populate the 'Name' field with invalid inputs (with number)")
@@ -252,7 +253,7 @@ function userID_Alpha() {
         const email = "alem54321@test.test"
         const password = "Test12345"
         cy.log("Open the browser and enter the URL of the staging environment")
-            cy.visit(login_url);
+            cy.visit(url);
         cy.log("Populate the “Email” field with invalid Email")
             login.enter_email(email)
         cy.log("Populate the “Password” field with valid inputs")
@@ -268,7 +269,7 @@ function userID_Alpha() {
         const email = "alem@qaengineers.net"
         const password = "Test12345"
         cy.log("Open the browser and enter the URL of the staging environment")
-            cy.visit(login_url);
+            cy.visit(url);
         cy.log("Populate the “Email” field with invalid Email")
             login.enter_email(email)
         cy.log("Populate the “Password” field with valid inputs")
@@ -282,7 +283,7 @@ function userID_Alpha() {
 
     it("The user is not able to login in Councilbox without populating required fields", function() {
         cy.log("Open the browser and enter the URL of the staging environment")
-            cy.visit(login_url);
+            cy.visit(url);
         cy.log("Click on the 'To enter' button without populating required fields")
             login.click_login()
         cy.log("'This field is required.' alert message is displayed beyond the “Email” and “Password” fields")
@@ -292,7 +293,7 @@ function userID_Alpha() {
 
     it("The user is able to select the 'EN' language on the 'Homepage' section", function() {
         cy.log("Open the browser and enter the URL of the staging environment")
-            cy.visit(login_url);
+            cy.visit(url);
         cy.log("Navigate to the upper right corner of the page and click on the “Language selector” button")
             login.click_on_language_dropmenu()
         cy.log("From the dropdown menu choose and click on the 'EN' button")
@@ -301,7 +302,7 @@ function userID_Alpha() {
 
     it("The user is able to select the 'ES' language on the 'Homepage' section", function() {
         cy.log("Open the browser and enter the URL of the staging environment")
-            cy.visit(login_url);
+            cy.visit(url);
         cy.log("Navigate to the upper right corner of the page and click on the “Language selector” button")
             login.click_on_language_dropmenu()
             cy.wait(1000)
@@ -311,7 +312,7 @@ function userID_Alpha() {
 
     it("The user is able to select the 'CAT' language on the 'Homepage' section", function() {
         cy.log("Open the browser and enter the URL of the staging environment")
-            cy.visit(login_url);
+            cy.visit(url);
         cy.log("Navigate to the upper right corner of the page and click on the “Language selector” button")
             login.click_on_language_dropmenu()
         cy.log("From the dropdown menu choose and click on the 'CAT' button")
@@ -320,7 +321,7 @@ function userID_Alpha() {
 
     it("The user is able to select the 'GAL' language on the 'Homepage' section", function() {
         cy.log("Open the browser and enter the URL of the staging environment")
-            cy.visit(login_url);
+            cy.visit(url);
         cy.log("Navigate to the upper right corner of the page and click on the “Language selector” button")
             login.click_on_language_dropmenu()
         cy.log("From the dropdown menu choose and click on the 'GAL' button")
@@ -329,7 +330,7 @@ function userID_Alpha() {
 
     it("The user is able to select the 'PT' language on the 'Homepage' section", function() {
         cy.log("Open the browser and enter the URL of the staging environment")
-            cy.visit(login_url);
+            cy.visit(url);
         cy.log("Navigate to the upper right corner of the page and click on the “Language selector” button")
             login.click_on_language_dropmenu()
         cy.log("From the dropdown menu choose and click on the 'PT' button")
@@ -338,7 +339,7 @@ function userID_Alpha() {
 
     it("The user is able to select the 'EU' language on the 'Homepage' section", function() {
         cy.log("Open the browser and enter the URL of the staging environment")
-            cy.visit(login_url);
+            cy.visit(url);
         cy.log("Navigate to the upper right corner of the page and click on the “Language selector” button")
             login.click_on_language_dropmenu()
         cy.log("From the dropdown menu choose and click on the 'EU' button")
@@ -347,7 +348,7 @@ function userID_Alpha() {
 
     it("The user is able to select the 'FR' language on the 'Homepage' section", function() {
         cy.log("Open the browser and enter the URL of the staging environment")
-            cy.visit(login_url);
+            cy.visit(url);
         cy.log("Navigate to the upper right corner of the page and click on the “Language selector” button")
             login.click_on_language_dropmenu()
         cy.log("From the dropdown menu choose and click on the 'FR' button")
@@ -356,7 +357,7 @@ function userID_Alpha() {
 
     it("The user is able to select the 'EN' language on the 'Homepage' section", function() {
         cy.log("Open the browser and enter the URL of the staging environment")
-            cy.visit(login_url);
+            cy.visit(url);
         cy.log("Navigate to the upper right corner of the page and click on the “Language selector” button")
             login.click_on_language_dropmenu()
         cy.log("From the dropdown menu choose and click on the 'EN' button")
@@ -365,7 +366,7 @@ function userID_Alpha() {
 
     it("The user is not able to restore password without populating the 'Email' field", function() {
         cy.log("Open the browser and enter the URL of the staging environment")
-            cy.visit(login_url);
+            cy.visit(url);
         cy.log("Click on the “I forgot my password” button")
             login.click_on_forgot_password() 
         cy.log("Click on the “Restore access” button without populating the 'Email' field")
@@ -378,7 +379,7 @@ function userID_Alpha() {
     
         const email = "fsdafdsfafsda"
         cy.log("Open the browser and enter the URL of the staging environment")
-            cy.visit(login_url);
+            cy.visit(url);
         cy.log("Click on the “I forgot my password” button")
             login.click_on_forgot_password() 
         cy.log("Populate the “Email” field with invalid email format")
@@ -392,7 +393,7 @@ function userID_Alpha() {
     it("The user is not able to restore password with email that is not verified", function() {
         const email = "fsdafdsf@fdsafa.fsa'"
         cy.log("Open the browser and enter the URL of the staging environment")
-            cy.visit(login_url);
+            cy.visit(url);
         cy.log("Click on the “I forgot my password” button")
             login.click_on_forgot_password() 
         cy.log("Populate the “Email” field with invalid email format")

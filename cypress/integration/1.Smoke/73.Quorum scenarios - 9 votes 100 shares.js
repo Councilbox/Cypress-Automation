@@ -3,6 +3,7 @@ const login_url = Cypress.env("baseUrl");
 const valid_password = Cypress.env("login_password");
 const valid_email = Cypress.env("login_email");
 
+let url = Cypress.config().baseUrl;
 
 
 describe("Councilbox login - valid username and password", function() {
@@ -13,7 +14,7 @@ describe("Councilbox login - valid username and password", function() {
 
 
     it("Visits the Councilbox web page", function() {
-        cy.visit(login_url);
+        cy.visit(url);
     });
 
     it("Change language to Spanish", function() {
@@ -250,7 +251,7 @@ describe("Quorum numbers (current/initial) scenario (test case 1) - current quor
 
 
     it("Close the “Census” section and navigate to the landing page", function() {
-        cy.visit(login_url)
+        cy.visit(url)
     });
 
     it("Click on the “New meeting” button the select the “With session” type of meeting", function() {

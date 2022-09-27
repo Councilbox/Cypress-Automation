@@ -7,6 +7,9 @@ const valid_email = Cypress.env("login_email");
 
 let login = new loginPage();
 
+let url = Cypress.config().baseUrl;
+
+
 describe("Account section", function() {
 	before(function() {});
 
@@ -22,7 +25,7 @@ describe("Account section", function() {
 		cy.log(
 			"Open the browser and enter the URL: https://app.councilbox.com/"
 		);
-		cy.visit(login_url);
+		cy.visit(url);
 		cy.wait(5000);
 
 		cy.log("Change language to Spanish");
@@ -96,7 +99,7 @@ describe("Councilbox login - valid username and password", function() {
 	it("Visits the Councilbox web page", function() {
 		cy.clearLocalStorage();
 		cy.saveLocalStorage();
-		cy.visit(login_url);
+		cy.visit(url);
 	});
 
 	it("Change language to Spanish", function() {
@@ -132,7 +135,7 @@ describe("Log Out", function() {
 	});
 
 	it("User successfully redirected to login page", function() {
-		cy.url().should("include", login_url);
+		cy.url().should("include", url);
 	});
 });
 
@@ -186,6 +189,6 @@ describe("The user is able to restore a password", function() {
 
 */
 	it("Back to Home page", function() {
-		cy.visit(login_url);
+		cy.visit(url);
 	});
 });

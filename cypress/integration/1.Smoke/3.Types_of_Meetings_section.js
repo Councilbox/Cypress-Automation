@@ -4,6 +4,9 @@ import typeOfMeetingsPage from "../pageObjects/typesOfMeetingsPage";
 
 const login_url = Cypress.env("baseUrl");
 
+let url = Cypress.config().baseUrl;
+
+
 let types = new typeOfMeetingsPage
 let dashbaord = new dashboardPage()
 let login = new loginPage()
@@ -20,7 +23,7 @@ describe("Type of Meetings - smoke test", function() {
         const password = "Mostar123!test"
         
         cy.log("Navigate to login page")
-            cy.visit(login_url);
+            cy.visit(url);
         cy.log("Change language to Spanish")
             login.click_on_language_dropmenu()
             login.select_spanish_language()
@@ -48,7 +51,7 @@ describe("Type of Meetings - smoke test", function() {
         cy.log("Verify that Type of Meetings is created")
             types.verify_type_is_created(title)
         cy.log("Back to Home page")
-            cy.visit(login_url);
+            cy.visit(url);
     })
 
 

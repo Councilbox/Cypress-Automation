@@ -3,6 +3,7 @@ const login_url = Cypress.env("baseUrl");
 const valid_password = Cypress.env("login_password");
 const valid_email = Cypress.env("login_email");
 
+let url = Cypress.config().baseUrl;
 
 
 describe("Councilbox login - valid username and password", function() {
@@ -13,7 +14,7 @@ describe("Councilbox login - valid username and password", function() {
 
 
     it("Visits the Councilbox web page", function() {
-        cy.visit(login_url);
+        cy.visit(url);
   
     });
 
@@ -164,7 +165,7 @@ it("Click on the 'Convocar y notificar' button", function() {
 });
 
 it("Back to Home page", function() {
-            cy.visit(login_url);
+            cy.visit(url);
           
         });
 
@@ -199,7 +200,7 @@ describe("The user is able to create a new call without session in the 'Nueva re
     });
 
     it("Back to Home page", function() {
-            cy.visit(login_url);
+            cy.visit(url);
            
         });
     
@@ -432,7 +433,7 @@ describe("The user is able to start council in the 'New call with session' secti
 
     it("User should be able to exit the meeting", function() {
 
-        cy.visit(login_url)
+        cy.visit(url)
 /*
          cy.get('#Your App: 'councilbox-client'').then($iframe => {
   const $body = $iframe.contents().find('body') ; cy.wrap($body)
@@ -698,7 +699,7 @@ describe("The user is able to open point in the 'New call with session' section"
 
         it("User should be able to exit the meeting", function() {
 
-        cy.visit(login_url)
+        cy.visit(url)
 
     });
 

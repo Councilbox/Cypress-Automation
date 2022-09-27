@@ -7,6 +7,7 @@ const valid_email = Cypress.env("login_email");
 
 let login = new loginPage()
 
+let url = Cypress.config().baseUrl;
 
 
 describe("Councilbox login - valid username and password", function() {
@@ -21,7 +22,7 @@ describe("Councilbox login - valid username and password", function() {
         const password = "Mostar123!test"
         cy.clearLocalStorage()
         cy.log("Navigate to login page")
-            cy.visit(login_url);
+            cy.visit(url);
         cy.log("Change language to Spanish")
             login.click_on_language_dropmenu()
             login.select_spanish_language()
@@ -88,7 +89,7 @@ describe("The user is able to add census in the 'Censos' section [tipo Assistent
     })
 
     it("Back to Home page", function() {
-            cy.visit(login_url);
+            cy.visit(url);
      
         });
 
