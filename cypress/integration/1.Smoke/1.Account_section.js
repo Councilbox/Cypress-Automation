@@ -1,9 +1,6 @@
 import loginPage from "../pageObjects/loginPage";
 
-const invalid_emails = ["andrej@qa", "andrej.qa", "andrej@majl.234"];
 const login_url = Cypress.env("baseUrl");
-const valid_password = Cypress.env("login_password");
-const valid_email = Cypress.env("login_email");
 
 let login = new loginPage();
 
