@@ -38,6 +38,8 @@ describe("Councilbox login - valid username and password", function() {
         cy.get("#login-button").click();
     });
 
+
+
 });
 
 
@@ -129,15 +131,33 @@ describe("The user is able to Link company", function() {
 });
 
     it("Populate “CIF de la entidad*” field", function() {
-        cy.get('#company-link-cif').clear()
+
+        cy.url().then(($url) => {
+            if($url.includes('app.dev.councilbox.com')) {
+                cy.get('#company-link-cif').clear()
             .type('automationtest')    
             .should("have.value", 'automationtest')
+            } else  {
+                cy.get('#company-link-cif').clear()
+            .type('smoke0709')    
+            .should("have.value", 'smoke0709')
+              }
+        })
     });
 
     it("Populate “Clave maestra*” field", function() {
-        cy.get('#company-link-key').clear()
+
+        cy.url().then(($url) => {
+            if($url.includes('app.dev.councilbox.com')) {
+                cy.get('#company-link-key').clear()
             .type('automation')    
             .should("have.value", 'automation')
+            } else  {
+                cy.get('#company-link-key').clear()
+            .type('smoke0709')    
+            .should("have.value", 'smoke0709')
+              }
+        })
     });
 
 
@@ -151,6 +171,9 @@ describe("The user is able to Link company", function() {
             cy.wait(5000)
         });
  
+
+
+        
 
 
 });
