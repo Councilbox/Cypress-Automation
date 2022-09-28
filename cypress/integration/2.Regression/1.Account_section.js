@@ -54,7 +54,7 @@ function userID_Alpha() {
         const surname = "Test"
         const phone = "123123123"
         const email = "alem"+Cypress.config('UniqueNumber')+"@yopmail.com"
-        const password = "Mostar123!"
+        const password = "Mostar123!test"
         cy.log("Open the browser and enter the URL of the staging environment")
             cy.visit(url);
         cy.log("Click on the 'Sign Up' button")
@@ -82,7 +82,7 @@ function userID_Alpha() {
         const surname = "Test"
         const phone = "Testing"
         const email = "alem"+Cypress.config('UniqueNumber')+"@yopmail.com"
-        const password = "Mostar123!"
+        const password = "Mostar123!test"
         cy.log("Open the browser and enter the URL of the staging environment")
             cy.visit(url);
         cy.log("Click on the 'Sign Up' button")
@@ -110,7 +110,7 @@ function userID_Alpha() {
         const surname = "12345"
         const phone = "123123123"
         const email = "alem"+Cypress.config('UniqueNumber')+"@yopmail.com"
-        const password = "Mostar123!"
+        const password = "Mostar123!test"
         cy.log("Open the browser and enter the URL of the staging environment")
             cy.visit(url);
         cy.log("Click on the 'Sign Up' button")
@@ -138,7 +138,7 @@ function userID_Alpha() {
         const surname = "Test"
         const phone = "123123123"
         const email = "ballalem@hotmail.com"
-        const password = "Mostar123!"
+        const password = "Mostar123!test"
         cy.log("Open the browser and enter the URL of the staging environment")
             cy.visit(url);
         cy.log("Click on the 'Sign Up' button")
@@ -166,7 +166,7 @@ function userID_Alpha() {
         const surname = "Test"
         const phone = "123123123"
         const email = "alem"+Cypress.config('UniqueNumber')+"@yopmail.com"
-        const password = "Mostar123!"
+        const password = "Mostar123!test"
         const email_confirm = "alem123@test.test"
         cy.log("Open the browser and enter the URL of the staging environment")
             cy.visit(url);
@@ -196,7 +196,7 @@ function userID_Alpha() {
         const surname = "Test"
         const phone = "123123123"
         const email = "alem"+Cypress.config('UniqueNumber')+"@yopmail.com"
-        const password = "Mostar123!"
+        const password = "Mostar123!test"
         const password_confirm = "123456"
         cy.log("Open the browser and enter the URL of the staging environment")
             cy.visit(url);
@@ -227,7 +227,7 @@ function userID_Alpha() {
         const surname = "Test"
         const phone = "123123123"
         const email = "alem"+Cypress.config('UniqueNumber')+"@yopmail.com"
-        const password = "Mostar123!"
+        const password = "Mostar123!test"
         cy.log("Open the browser and enter the URL of the staging environment")
             cy.visit(url);
         cy.log("Click on the 'Sign Up' button")

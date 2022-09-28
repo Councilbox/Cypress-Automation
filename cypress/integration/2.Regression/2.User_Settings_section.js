@@ -52,8 +52,8 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Enters password", function() {
         cy.get('input').eq(1)
-            .type('Mostar123!')    
-            .should("have.value", 'Mostar123!')
+            .type('Mostar123!test')    
+            .should("have.value", 'Mostar123!test')
     });
 
     it("Clicks login button", function() {
@@ -395,8 +395,8 @@ describe("The user is able to select the 'English' language in the  'User settin
 
 
 describe("The user is able to change password in the Councilbox", function() {
-    const password = "Mostar123!"
-    const new_password = "Mostar123!"
+    const password = "Mostar123!test"
+    const new_password = "Mostar123!test"
         it("On the upper right corner click on 'User' icon", function() {
             settings.click_on_my_account()
         });
@@ -425,7 +425,7 @@ describe("The user is able to change password in the Councilbox", function() {
     });
 
 describe("The user is not able to change password without populating the 'Current password' field", function() {
-    const new_password = "Mostar123!"
+    const new_password = "Mostar123!test"
     
 
         it("On the upper right corner click on 'User' icon", function() {
@@ -471,8 +471,8 @@ describe("The user is not able to change password without populating the 'Curren
 
 describe("The user is not able to change password without populating the 'New password' field", function() {
     
-    const password = "Mostar123!"
-    const new_password = "Mostar123!"
+    const password = "Mostar123!test"
+    const new_password = "Mostar123!test"
     const new_password1 = " "
         it("On the upper right corner click on 'User' icon", function() {
             settings.click_on_my_account()
@@ -519,8 +519,8 @@ describe("The user is not able to change password without populating the 'New pa
 
 describe("The user is not able to change password without populating the 'Confirm' field", function() {
     
-    const password = "Mostar123!"
-    const new_password = "Mostar123!"
+    const password = "Mostar123!test"
+    const new_password = "Mostar123!test"
     const new_password1 = " "
         it("On the upper right corner click on 'User' icon", function() {
             settings.click_on_my_account()
@@ -567,7 +567,7 @@ describe("The user is not able to change password without populating the 'Confir
 
 describe("The user is not able to change password without populating the 'Confirm' field", function() {
     const password = "Starmo123!"
-    const new_password = "Mostar123!"
+    const new_password = "Mostar123!test"
         it("On the upper right corner click on 'User' icon", function() {
             settings.click_on_my_account()
         });

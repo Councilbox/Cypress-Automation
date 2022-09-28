@@ -48,8 +48,8 @@ describe("Councilbox login - valid username and password", function() {
 
     it("Enters password", function() {
         cy.get('input').eq(1)
-            .type('Mostar123!')    
-            .should("have.value", 'Mostar123!')
+            .type('Mostar123!test')    
+            .should("have.value", 'Mostar123!test')
     });
 
     it("Clicks login button", function() {

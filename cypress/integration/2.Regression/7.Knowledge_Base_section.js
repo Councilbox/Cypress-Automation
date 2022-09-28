@@ -33,7 +33,7 @@ describe("Knowledge Base - Regression", function() {
 
    it("Login", function() { 
         const email = "alem@qaengineers.net"
-        const password = "Mostar123!"
+        const password = "Mostar123!testtest"
         login.login(email, password)
     })
 
