@@ -23,7 +23,7 @@ describe("Knowledge base section", function() {
     });
 	it("The user is able to navigate and login to the page", function() {
 	const email = "alem+1@qaengineers.net"
-	const password = "Mostar1234!test"
+	const password = "Mostar1234!test12"
 	cy.clearLocalStorage();
 
 	cy.log("Open admin URL and login")

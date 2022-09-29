@@ -1,0 +1,107 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2022-09-28T22:53:30.024Z",
+    "end": "2022-09-28T22:53:38.885Z",
+    "duration": 8861,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "62d66e7e-df72-407e-9a68-0147daa53d0f",
+      "title": "",
+      "fullFile": "cypress/integration/OVAC/2.Regresion/2.Request_Appointment_section.js",
+      "file": "cypress/integration/OVAC/2.Regresion/2.Request_Appointment_section.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "833f5cd5-8981-43b7-a8d7-862cb7d961be",
+          "title": "Request appointment - regression tests",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Admin is able to Log in to the page",
+              "fullTitle": "Request appointment - regression tests Admin is able to Log in to the page",
+              "timedOut": null,
+              "duration": 8032,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "var email = \"alem+1@qaengineers.net\";\nvar password = \"Mostar1234!test\";\ncy.log(\"Open the browser and enter URL\");\nlogin.navigate_admin();\ncy.log(\"Populate all required fields with valid data\");\nlogin.enter_email(email);\nlogin.enter_password(password);\ncy.log(\"Click on login button\");\nlogin.login_submit();\ncy.log(\"Admin shuold be logged in\");\nlogin.confirm_login();",
+              "err": {},
+              "uuid": "9a0cc82c-0e39-4734-9036-5fa510099427",
+              "parentUUID": "833f5cd5-8981-43b7-a8d7-862cb7d961be",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "9a0cc82c-0e39-4734-9036-5fa510099427"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 8032,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.3.1"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "reportDir": "cypress/reports/mocha",
+        "quite": true,
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "5.2.0"
+    }
+  }
+}

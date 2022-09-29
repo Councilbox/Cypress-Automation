@@ -146,7 +146,7 @@ describe("User side section", function() {
    const phone_code = "387"
    const phone = "61123123"
    const email = "alem+1@qaengineers.net"
-   const password = "Mostar1234!test"
+   const password = "Mostar1234!test12"
    const description1 = "Testing"
    cy.log("Open he browser and enter URL")
        login.navigate_admin()

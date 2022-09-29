@@ -15,7 +15,7 @@ describe("Request appointment - regression tests", function() {
 
    it("Admin is able to Log in to the page", function() {
     const email = "alem+1@qaengineers.net"
-    const password = "Mostar1234!test"
+    const password = "Mostar1234!test12"
     cy.log("Open the browser and enter URL")
         login.navigate_admin()
     cy.log("Populate all required fields with valid data")

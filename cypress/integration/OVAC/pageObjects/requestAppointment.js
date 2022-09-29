@@ -11,7 +11,7 @@ class requestAppointment {
 	
 		request_prior_appointment: () => cy.get('#access-room-button'),
 	
-		appointment_date: () => cy.xpath('//*[@id="root"]/div/div[2]/div[1]/div/div[1]/div/div[2]/div[3]/div/div/div/div/div/div/div[2]/div/div[1]/div/div[2]/div/div/div/div[2]/button[31]'),
+		appointment_date: () => cy.get('.react-calendar__month-view__days__day').contains('31'),
 		appointment_time: () => cy.get('#date-0'),
 
 		confirm: () => cy.xpath('//*[@class="MuiButtonBase-root MuiButton-root MuiButton-contained" ]'),
@@ -129,6 +129,7 @@ class requestAppointment {
 	}
 
 	select_appointment_date() {
+		cy.wait(2000)
 		this.elements.next_month()
 			.click()
 		this.elements.appointment_date()

@@ -2,8 +2,6 @@ import loginPage from "../pageObjects/loginPage"
 import requestAppointment from "../pageObjects/requestAppointment"
 import appointmentsPage from "../pageObjects/appointmentsPage"
 import adminDashboard from "../pageObjects/adminDashboardPage"
-import { Pass } from "codemirror"
-import Password from "antd/lib/input/Password"
 import userSettingsPage from "../pageObjects/userSettingsPage"
 
 let login = new loginPage()
@@ -21,7 +19,7 @@ describe("Company settings - regression tests", function() {
     const participant = "Automation"
     const name = "Automation"+Cypress.config('UniqueNumber')
     const email = "alem+1@qaengineers.net"
-    const passowrd = "Mostar1234!test"
+    const passowrd = "Mostar1234!test12"
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()

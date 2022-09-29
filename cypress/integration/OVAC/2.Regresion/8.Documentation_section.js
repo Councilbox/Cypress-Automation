@@ -5,7 +5,6 @@ import adminDashboard from "../pageObjects/adminDashboardPage"
 import userSettingsPage from "../pageObjects/userSettingsPage"
 import entitiesPage from "../pageObjects/entitiesPage"
 import knowledgeBasePage from "../pageObjects/knowledgeBasePage"
-import { doc } from "prettier"
 
 let login = new loginPage()
 let appointment = new requestAppointment()
@@ -22,7 +21,7 @@ describe("Documentation section - regression tests", function() {
 
    it("The user is able to create a new folder - Documentation tab - Knowledge base section", function() {
     const email = "alem+1@qaengineers.net"
-    const passowrd = "Mostar1234!test"
+    const passowrd = "Mostar1234!test12"
     const title = "Folder"+Cypress.config('UniqueNumber')
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
@@ -218,7 +217,7 @@ describe("Documentation section - regression tests", function() {
 
    it("The user is able to Edit the document by clicking on the Edit link - Documentation tab - Knowledge base section", function() {
     const file = "testDocument"
-    const file_new = "editedFile"
+    const file_new = "editedFile"+Cypress.config('UniqueNumber')
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()

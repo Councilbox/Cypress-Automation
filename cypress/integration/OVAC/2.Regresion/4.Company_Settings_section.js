@@ -2,8 +2,6 @@ import loginPage from "../pageObjects/loginPage"
 import requestAppointment from "../pageObjects/requestAppointment"
 import appointmentsPage from "../pageObjects/appointmentsPage"
 import adminDashboard from "../pageObjects/adminDashboardPage"
-import { Pass } from "codemirror"
-import Password from "antd/lib/input/Password"
 import userSettingsPage from "../pageObjects/userSettingsPage"
 
 let login = new loginPage()
@@ -20,7 +18,7 @@ describe("Company settings - regression tests", function() {
    it("The user is able to change the Name of the company - Company settings section", function() {
     const name = "Company"+Cypress.config('UniqueNumber')
     const email = "alem+1@qaengineers.net"
-    const passowrd = "Mostar1234!test"
+    const passowrd = "Mostar1234!test12"
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
@@ -43,15 +41,12 @@ describe("Company settings - regression tests", function() {
 
    it("The user is able to change the VAT NO/CIF - Company settings section", function() {
     const email = "alem+1@qaengineers.net"
-    const passowrd = "Mostar1234!test"
+    const passowrd = "Mostar1234!test12"
     const tax = Cypress.config('UniqueNumber')
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
-    cy.log("The user is able to Login")
-        login.enter_email(email)
-        login.enter_password(passowrd)
-        login.login_submit()
+  
     cy.log("The user is able to click on the Account icon")
         settings.click_on_my_account()
     cy.log("The user is able to click on the Configuration button")
@@ -67,16 +62,13 @@ describe("Company settings - regression tests", function() {
 
    it("The user is able to change the contact e-mail - Company settings section", function() {
     const email = "alem+1@qaengineers.net"
-    const passowrd = "Mostar1234!test"
+    const passowrd = "Mostar1234!test12"
     const tax = Cypress.config('UniqueNumber')
     const contact_email = "contact"+Cypress.config('UniqueNumber')+"@test.test"
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
-    cy.log("The user is able to Login")
-        login.enter_email(email)
-        login.enter_password(passowrd)
-        login.login_submit()
+   
     cy.log("The user is able to click on the Account icon")
         settings.click_on_my_account()
     cy.log("The user is able to click on the Configuration button")
@@ -92,15 +84,12 @@ describe("Company settings - regression tests", function() {
 
    it("The user is able to change the language to English - Company settings section", function() {
     const email = "alem+1@qaengineers.net"
-    const passowrd = "Mostar1234!test"
+    const passowrd = "Mostar1234!test12"
     const language = "English"
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
-    cy.log("The user is able to Login")
-        login.enter_email(email)
-        login.enter_password(passowrd)
-        login.login_submit()
+ 
     cy.log("The user is able to click on the Account icon")
         settings.click_on_my_account()
     cy.log("The user is able to click on the Configuration button")

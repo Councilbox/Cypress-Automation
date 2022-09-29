@@ -25,7 +25,7 @@ describe("Appointments section - regression tests", function() {
 
    it("The user is able to reorder Consents list - Consents tab", function() {
     const email_log = "alem+1@qaengineers.net"
-    const passowrd = "Mostar1234!test"
+    const passowrd = "Mostar1234!test12"
     const name = "Test"
     const surname = "Test"
     const dni = "12345678Z"

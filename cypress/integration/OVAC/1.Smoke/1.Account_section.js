@@ -14,7 +14,7 @@ describe("Account section", function() {
 
     it("The user is able to log in to the page", function() {
         const email = "alem+1@qaengineers.net"
-        const password = "Mostar1234!test"
+        const password = "Mostar1234!test12"
         
     cy.log("The user is able to open the browser and enter the URL: ")    
     	login.navigate_admin()        
