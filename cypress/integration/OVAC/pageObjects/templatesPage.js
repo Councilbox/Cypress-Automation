@@ -12,7 +12,7 @@ class templatesPage {
 		action_menu: () => cy.get('[class="ri-more-2-fill"]'),
 		action_options: () => cy.xpath('//*[@class="MuiList-root MuiList-padding"]'),	
 		alert_confirm: () => cy.get('#alert-confirm-button-accept'),
-		template_table_row: () => cy.get('[class="MuiTableRow-root MuiTableRow-hover"]'),
+		template_table_row: () => cy.get('[class="MuiTableRow-root cursor-pointer MuiTableRow-hover"]'),
 		procedure_type_filter: () => cy.get('#procedure-type-filter').eq(0)
 		}
 

@@ -25,7 +25,7 @@ describe("Templates section - regression tests", function() {
 
    it("The user is not able to add a new template without populating the 'Title' field - Templates tab - Knowledge base section", function() {
     const email = "alem+1@qaengineers.net"
-    const passowrd = "Mostar1234!test"
+    const passowrd = "Mostar1234!test12"
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()

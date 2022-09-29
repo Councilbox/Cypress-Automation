@@ -27,7 +27,7 @@ describe("Users section - regression tests", function() {
 
    it("Admin is able to use search engine to find users by user name", function() {
     const email = "alem+1@qaengineers.net"
-    const passowrd = "Mostar1234!test"
+    const passowrd = "Mostar1234!test12"
     const user = "Teeeeeeeeeeeeeeestttt Tesssssssssssssst"
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
@@ -49,7 +49,7 @@ describe("Users section - regression tests", function() {
     const passowrd = "Mostar1234!test"
     const name = "Test"+Cypress.config('UniqueNumber')
     const surname = "Automation"
-    const phone_code = "387"
+    const phone_code = "+387"
     const phone = "61123123"
     const tin = "12345678Z"
     const email_user = "test1"+Cypress.config('UniqueNumber')+"@test.com"
@@ -72,6 +72,7 @@ describe("Users section - regression tests", function() {
     cy.log("Click Continue")
         users.click_continue()
         users.click_on_finalize()
+        cy.wait(5000)
     cy.log("Verify user is created")
         users.search_for_user(name)
         users.verify_user(name)
@@ -82,7 +83,7 @@ describe("Users section - regression tests", function() {
     const passowrd = "Mostar1234!test"
     const name = "Test"+Cypress.config('UniqueNumber')
     const surname = "Automation"
-    const phone_code = "387"
+    const phone_code = "+387"
     const phone = "61123123"
     const tin = "12345678Z"
     const email_user = "test2"+Cypress.config('UniqueNumber')+"@test.com"
@@ -115,7 +116,7 @@ describe("Users section - regression tests", function() {
     const passowrd = "Mostar1234!test"
     const name = "Test"+Cypress.config('UniqueNumber')
     const surname = "Automation"
-    const phone_code = "387"
+    const phone_code = "+387"
     const phone = "61123123"
     const tin = "12345678Z"
     const email_user = "test3"+Cypress.config('UniqueNumber')+"@test.com"
@@ -148,7 +149,7 @@ describe("Users section - regression tests", function() {
     const passowrd = "Mostar1234!test"
     const name = "Test"+Cypress.config('UniqueNumber')
     const surname = "Automation"
-    const phone_code = "387"
+    const phone_code = "+387"
     const phone = "61123123"
     const tin = "12345678Z"
     const email_user = "test4"+Cypress.config('UniqueNumber')+"@test.com"
@@ -181,7 +182,7 @@ describe("Users section - regression tests", function() {
     const passowrd = "Mostar1234!test"
     const name = "Test"+Cypress.config('UniqueNumber')
     const surname = "Automation"
-    const phone_code = "387"
+    const phone_code = "+387"
     const phone = "61123123"
     const tin = "12345678Z"
     const email_user = "test5"+Cypress.config('UniqueNumber')+"@test.com"
@@ -213,7 +214,7 @@ describe("Users section - regression tests", function() {
     const passowrd = "Mostar1234!test"
     const name = "Test"+Cypress.config('UniqueNumber')
     const surname = "Automation"
-    const phone_code = "387"
+    const phone_code = "+387"
     const phone = "61123123"
     const tin = "12345678Z"
     const email_user = "test"+Cypress.config('UniqueNumber')+"@test.com"
@@ -233,7 +234,7 @@ describe("Users section - regression tests", function() {
     const passowrd = "Mostar1234!test"
     const name = "Test"+Cypress.config('UniqueNumber')
     const surname = "Automation"
-    const phone_code = "387"
+    const phone_code = "+387"
     const phone = "61123123"
     const tin = "12345678Z"
     const email_user = "test6"+Cypress.config('UniqueNumber')+"@test.com"
@@ -261,7 +262,7 @@ describe("Users section - regression tests", function() {
     const passowrd = "Mostar1234!test"
     const name = "Test"+Cypress.config('UniqueNumber')
     const surname = "Automation"
-    const phone_code = "387"
+    const phone_code = "+387"
     const phone = "61123123"
     const tin = "12345678Z"
     const email_user = "test7"+Cypress.config('UniqueNumber')+"@test.com"
@@ -289,7 +290,7 @@ describe("Users section - regression tests", function() {
     const passowrd = "Mostar1234!test"
     const name = "Test"+Cypress.config('UniqueNumber')
     const surname = "Automation"
-    const phone_code = "387"
+    const phone_code = "+387"
     const phone = "61123123"
     const tin = "12345678Z"
     const email_user = "test"+Cypress.config('UniqueNumber')+"@test.com"
@@ -317,7 +318,7 @@ describe("Users section - regression tests", function() {
     const passowrd = "Mostar1234!test"
     const name = "Test"+Cypress.config('UniqueNumber')
     const surname = "Automation"
-    const phone_code = "387"
+    const phone_code = "+387"
     const phone = "61123123"
     const tin = "12345678Z"
     const email_user = "test8"+Cypress.config('UniqueNumber')+"@test.com"
@@ -345,7 +346,7 @@ describe("Users section - regression tests", function() {
     const passowrd = "Mostar1234!test"
     const name = "Test"+Cypress.config('UniqueNumber')
     const surname = "Automation"
-    const phone_code = "387"
+    const phone_code = "+387"
     const phone = "61123123"
     const tin = "12345678Z"
     const email_user = "test9"+Cypress.config('UniqueNumber')+"@test.com"
