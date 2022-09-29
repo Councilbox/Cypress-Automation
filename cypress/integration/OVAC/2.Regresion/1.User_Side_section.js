@@ -1,4 +1,3 @@
-import { func } from "prop-types"
 import loginPage from "../pageObjects/loginPage"
 import requestAppointment from "../pageObjects/requestAppointment"
 import appointmentsPage from "../pageObjects/appointmentsPage"
@@ -32,6 +31,8 @@ describe("The user is not able to request prior appointment for the meeting with
 
 })
 
+/*
+
 describe("The user is not able to request prior appointment for the meeting without selecting Date and Time", function() {
     before(function() {    
    });
@@ -62,6 +63,8 @@ describe("The user is not able to request prior appointment for the meeting with
    });
 
 })
+
+*/
 
 describe("The user is able not able to request prior appointment for the meeting without populating 'Name' field", function() {
 
@@ -341,7 +344,7 @@ describe("The user is able to see administration documentation - Participant sid
     const email_user = "29942413-017f-4eb8-a3dc-6074ea12bdb8@mailslurp.com"
 
     const email = "alem+1@qaengineers.net"
-    const password = "Mostar1234!test"
+    const password = "Mostar1234!test12"
     before(function() {    
    });
 

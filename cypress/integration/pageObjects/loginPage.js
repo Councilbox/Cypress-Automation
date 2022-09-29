@@ -38,6 +38,7 @@ class loginPage {
 		signup_password: () => cy.get("#signup-password"),
 		signup_password_confirm: () => cy.get("#signup-password-check"),
 		signup_legal_terms: () => cy.get("#accept-legal-checkbox"),
+		signup_back_button: () => cy.get("#signup-back-button"),
 		//erros
 		name_error: () => cy.get("#create-account-name-error"),
 		surname_error: () => cy.get("#create-account-surname-error"),
@@ -54,6 +55,10 @@ class loginPage {
 				'//*[@id="root"]/div[1]/div/div/div[1]/div/div/div[2]/div/div[1]/div/div[2]/div/div/div[3]/div[2]'
 			)
 	};
+
+	click_on_the_signup_back_button() {
+		this.elements.should("be.visible").click();
+	}
 
 	enter_email(email) {
 		this.elements

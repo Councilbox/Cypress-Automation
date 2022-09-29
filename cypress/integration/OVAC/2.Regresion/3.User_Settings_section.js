@@ -20,7 +20,7 @@ describe("User settings - regression tests", function() {
    it("The user is able to change the Name - Users settings section", function() {
     const name = "Alem"+Cypress.config('UniqueNumber')
     const email = "alem+1@qaengineers.net"
-    const passowrd = "Mostar1234!test"
+    const passowrd = "Mostar1234!test12"
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
@@ -44,7 +44,7 @@ describe("User settings - regression tests", function() {
    it("The user is able to change the Surname - Users settings section", function() {
     const surname = "Balla"+Cypress.config('UniqueNumber')
     const email = "alem+1@qaengineers.net"
-    const passowrd = "Mostar1234!test"
+    const passowrd = "Mostar1234!test1"
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
@@ -63,7 +63,7 @@ describe("User settings - regression tests", function() {
 
    it("The user is able to change the Email - Users settings section", function() {
     const email = "alem+1@qaengineers.net"
-    const passowrd = "Mostar1234!test"
+    const passowrd = "Mostar1234!test1"
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
         login.navigate_admin()
@@ -82,7 +82,7 @@ describe("User settings - regression tests", function() {
 
    it("The user is able to change the Telephone No - Users settings section", function() {
     const email = "alem+1@qaengineers.net"
-    const passowrd = "Mostar1234!test"
+    const passowrd = "Mostar1234!test1"
     const phone = Cypress.config('UniqueNumber')
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
@@ -122,11 +122,11 @@ describe("User settings - regression tests", function() {
         
    })
 
-   
+   /*
 
    it("The user is able to change password - User settings section", function() {
     const email = "alem+1@qaengineers.net"
-    const password = "Mostar1234!test"
+    const password = "Mostar1234!test1"
     const new_password = "T2est1234!blabla"
     cy.clearLocalStorage()
     cy.log("Open browser and enter URL")
@@ -160,10 +160,10 @@ describe("User settings - regression tests", function() {
         settings.enter_new_password_confirm(password)
         settings.click_on_save_password()
    })
-
+*/
    it("The user is not able to change password with invalid input in the Current password field - User settings section ", function() {
     const email = "alem+1@qaengineers.net"
-    const password = "Mostar1234!test"
+    const password = "Mostar1234!test2"
     const new_password = "T2est1234!blabla"
     const invalid_password = "blabladsfa123!!A"
     cy.clearLocalStorage()
@@ -188,7 +188,7 @@ describe("User settings - regression tests", function() {
 
    it("The user is not able to change password with invalid input in the Confirm password field - User settings section ", function() {
     const email = "alem+1@qaengineers.net"
-    const password = "Mostar1234!test"
+    const password = "Mostar1234!test1"
     const new_password = "T2est1234!blabla"
     const invalid_password = "blabladsfa123!!A"
     cy.clearLocalStorage()

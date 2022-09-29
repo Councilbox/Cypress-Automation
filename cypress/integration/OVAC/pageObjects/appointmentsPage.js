@@ -9,7 +9,7 @@ class appointmentsPage {
 		next_details: () => cy.get('#council-editor-next'),
 		search_bar: () => cy.xpath('//*[@id="root"]/div/div[3]/div/div[2]/div/div[2]/div/div[1]/div[2]/div/div/div/input'),
 		action_button: () => cy.get('#appointment-menu'),
-		action_participant: () => cy.get('#appointment-participants-action-48304'),
+		action_participant: () => cy.get('#appointment-participants-action-49226'),
 		menu_participant: () => cy.xpath('//*[@id="panel-confirm"]/div[3]/div/div/div/div/div/div[1]/div/div/div[2]/div/div[1]/table/tbody/tr/td[6]/button/span[1]/i'),
 		edit_participanth: () => cy.xpath('/html/body/div[5]/div[3]/div/ul/div[1]/div[2]/span'),
 		participant_table_row: () => cy.xpath('//*[@id="panel-confirm"]/div[3]/div/div/div/div/div/div[1]/div/div/div[2]/div/div[1]/table/tbody/tr/td[1]'),

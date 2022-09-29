@@ -1,11 +1,16 @@
 import loginPage from "../pageObjects/loginPage";
+import userSettingsPage from "../pageObjects/userSettingsPage";
 
+const invalid_emails = ["andrej@qa", "andrej.qa", "andrej@majl.234"];
 const login_url = Cypress.env("baseUrl");
-
-let login = new loginPage();
+const valid_password = Cypress.env("login_password");
+const valid_email = Cypress.env("login_email");
 
 let url = Cypress.config().baseUrl;
 
+
+let login = new loginPage();
+let userSettings = new userSettingsPage();
 
 describe("Account section", function() {
 	before(function() {});
@@ -43,14 +48,11 @@ describe("Account section", function() {
 		cy.log(
 			"Click on the checkbox button to accept the 'términos y condiciones de councilbox'"
 		);
-		cy.get("#accept-legal-checkbox").click();
-
+		login.accept_terms();
 		cy.log("Click on the 'Enviar button'");
-		cy.get("#create-user-button").click();
-
+		login.click_on_send();
 		cy.log("User should be registered successfully");
-		cy.get("#signup-back-button").should("be.visible");
-
+		cy.get("#signup-back-button").click();
 		cy.log("Open email application and navigate to the activation email");
 		/*
        cy.visit('http://www.yopmail.com/en/')    
@@ -59,6 +61,46 @@ describe("Account section", function() {
        cy.get('.sbut').click()   
        */
 	});
+	it("Councilbox login - valid username and password", function() {
+		const email = "alem@qaengineers.net";
+		const password = "Mostar123!test";
+		cy.log("Visits the Councilbox web page");
+		cy.clearLocalStorage();
+		cy.saveLocalStorage();
+		cy.visit(url);
+		cy.log("Change language to Spanish");
+		login.click_on_language_dropmenu();
+		login.select_spanish_language();
+		cy.log("Enters email address");
+		login.enter_email(email);
+		cy.log("Enters password");
+		login.enter_password(password);
+		cy.log("Clicks login button");
+		login.click_login();
+	});
+	it("Log Out", function() {
+		cy.log("Opens dropdown in upper right corner");
+		userSettings.click_on_my_account();
+		cy.log("Clicks logout");
+		userSettings.click_on_the_logout_button();
+		cy.log("User successfully redirected to login page");
+		cy.url().should("include", url);
+	});
+	it("The user is able to restore a password", function() {
+		const email = "alemtestqa12@yopmail.com";
+		cy.log("Click on the 'Olvide mi contrasena?'' button");
+		login.click_on_forgot_password();
+		cy.log("Enter your Email and click on the 'Restablecer acceso' button");
+		login.enter_email_restore_password(email);
+		login.click_on_restore_password();
+		cy.log("Open your email application", function() {
+			cy.visit("http://www.yopmail.com/en/");
+		});
+		it("Back to Home page", function() {
+			cy.visit(url);
+		});
+	});
+
 	/*
     it('GET', function(){
 
@@ -92,67 +134,44 @@ describe("Account section", function() {
 */
 });
 
-describe("Councilbox login - valid username and password", function() {
-	it("Visits the Councilbox web page", function() {
-		cy.clearLocalStorage();
-		cy.saveLocalStorage();
-		cy.visit(url);
-	});
+// it("Councilbox login - valid username and password", function() {
+// 	const email = "alem@qaengineers.net";
+// 	const password = "Mostar123!test";
+// 	cy.log("Visits the Councilbox web page");
+// 	cy.clearLocalStorage();
+// 	cy.saveLocalStorage();
+// 	cy.visit(url);
+// 	cy.log("Change language to Spanish");
+// 	login.click_on_language_dropmenu();
+// 	login.select_spanish_language();
+// 	cy.log("Enters email address");
+// 	login.enter_email(email);
+// 	cy.log("Enters password");
+// 	login.enter_password(password);
+// 	cy.log("Clicks login button");
+// 	login.click_login();
+// });
+// it("Log Out", function() {
+// 	cy.log("Opens dropdown in upper right corner");
+// 	userSettings.click_on_my_account();
+// 	cy.log("Clicks logout");
+// 	userSettings.click_on_the_logout_button();
+// 	cy.log("User successfully redirected to login page");
+// 	cy.url().should("include", url);
+// });
 
-	it("Change language to Spanish", function() {
-		cy.get("#language-selector").click();
-		cy.get("#language-es").click();
-	});
+// it("The user is able to restore a password", function() {
+// 	const email = "alemtestqa12@yopmail.com";
+// 	cy.log("Click on the 'Olvide mi contrasena?'' button");
+// 	login.click_on_forgot_password();
+// 	cy.log("Enter your Email and click on the 'Restablecer acceso' button");
+// 	login.enter_email_restore_password(email);
+// 	login.click_on_restore_password();
+// 	cy.log("Open your email application", function() {
+// 		cy.visit("http://www.yopmail.com/en/");
+// 	});
 
-	it("Enters email address", function() {
-		cy.get("#username")
-			.clear()
-			.type("alem@qaengineers.net")
-			.should("have.value", "alem@qaengineers.net");
-	});
-
-	it("Enters password", function() {
-		cy.get("#password")
-			.clear()
-			.type("Mostar123!test")
-			.should("have.value", "Mostar123!test");
-	});
-
-	it("Clicks login button", function() {
-		cy.get("#login-button").click();
-	});
-});
-
-describe("Log Out", function() {
-	it("Opens dropdown in upper right corner", function() {
-		cy.get("#user-menu-trigger").click();
-	});
-	it("Clicks logout", function() {
-		cy.get("#user-menu-logout").click();
-	});
-
-	it("User successfully redirected to login page", function() {
-		cy.url().should("include", url);
-	});
-});
-
-describe("The user is able to restore a password", function() {
-	it("Click on the 'Olvide mi contrasena?'' button", function() {
-		cy.get("#restore-password-link").click();
-	});
-
-	it("Enter your Email and click on the 'Restablecer acceso' button", function() {
-		cy.get("#restore-password-email-input")
-			.clear()
-			.type("alemtestqa12@yopmail.com");
-		cy.get("#restore-password-button").click();
-	});
-
-	it("Open your email application", function() {
-		cy.visit("http://www.yopmail.com/en/");
-	});
-
-	/*
+/*
      it("Open 'Restablecer contrasena' email and click on the 'Restablecer contrasena' button", function() {
        cy.get('#login').type('alemtestqa12')
        cy.get('.sbut').click()      
@@ -185,7 +204,7 @@ describe("The user is able to restore a password", function() {
 });
 
 */
-	it("Back to Home page", function() {
-		cy.visit(url);
-	});
-});
+// 	it("Back to Home page", function() {
+// 		cy.visit(url);
+// 	});
+// });

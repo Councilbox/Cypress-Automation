@@ -23,7 +23,7 @@ describe("Tags section - regression tests", function() {
 
    it("The user is able to edit already existing tag - <Tags> tab - Knowledge base sectionn", function() {
     const email = "alem+1@qaengineers.net"
-    const passowrd = "Mostar1234!test"
+    const passowrd = "Mostar1234!test12"
     const title = "Folder"+Cypress.config('UniqueNumber')
     const code = "Code"+Cypress.config('UniqueNumber')
     const value = "V"+Cypress.config('UniqueNumber')
