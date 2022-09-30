@@ -100,6 +100,7 @@ class knowledgeBasePage {
     upload_file() {
         this.elements.upload_file()
             .attachFile(docFile)
+            .wait(5000)
     }
 
     verify_existing_tag(code) {
@@ -168,6 +169,12 @@ class knowledgeBasePage {
 
     verify_existing_documentation(title) {
         this.elements.documentation_table_row_first_item()
+            .contains(title)
+            .should('be.visible')
+    }
+
+    verify_existing_file(title) {
+        this.elements.file_table_row()
             .contains(title)
             .should('be.visible')
     }
@@ -364,8 +371,8 @@ class knowledgeBasePage {
 
     click_on_my_docs() {
         this.elements.my_docs()
-            .should('be.visible')
-            .click()
+
+            .click({force:true})
         cy.url()
             .should('include', '/documentation')
     }

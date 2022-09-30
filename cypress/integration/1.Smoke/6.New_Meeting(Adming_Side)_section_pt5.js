@@ -38,7 +38,7 @@ describe("New Meeting (Admin side) part 5", function() {
        const password = "Mostar123!test"
        
        cy.log("Navigate to login page")
-           cy.visit(url);
+           cy.visit(login_url);
        cy.log("Change language to Spanish")
            login.click_on_language_dropmenu()
            login.select_spanish_language()

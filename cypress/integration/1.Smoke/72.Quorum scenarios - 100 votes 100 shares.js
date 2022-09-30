@@ -1,9 +1,32 @@
+import dashboardPage from "../pageObjects/dashbaordPage";
+import newMeetingAgenda from "../pageObjects/newMeetingAgenda";
+import newMeetingPage from "../pageObjects/newMeetingAnnoucement";
+import newMeetingCensus from "../pageObjects/newMeetingCensus";
+import newMeetingDocumentation from "../pageObjects/newMeetingDocumentation";
+import newMeetingFinalize from "../pageObjects/newMeetingFinalize";
+import newMeetingOptions from "../pageObjects/newMeetingOptions";
+import newMeetingPreview from "../pageObjects/newMeetingPreview";
+import loginPage from "../pageObjects/loginPage"
+import knowledgeBasePage from "../pageObjects/knowledgeBasePage";
+import censusPage from "../pageObjects/censusPage";
+
 const invalid_emails = ["andrej@qa", "andrej.qa", "andrej@majl.234"];
 const login_url = Cypress.env("baseUrl");
 const valid_password = Cypress.env("login_password");
 const valid_email = Cypress.env("login_email");
-
 let url = Cypress.config().baseUrl;
+
+let knowledge = new knowledgeBasePage()
+let login = new loginPage()
+let meetingAnnoucemenet = new newMeetingPage()
+let dashboard = new dashboardPage()
+let meetingCensus = new newMeetingCensus()
+let meetingAgenda = new newMeetingAgenda()
+let meetingDocumentation = new newMeetingDocumentation()
+let meetingOptions = new newMeetingOptions()
+let meetingPreview = new newMeetingPreview()
+let meetingFinalize = new newMeetingFinalize()
+let census = new censusPage()
 
 
 describe("Councilbox login - valid username and password", function() {
@@ -83,7 +106,7 @@ it("Quorum numbers (current/initial) scenario (test case 4) - current quorum 60/
     const guest_name_full_1 = "Guest 1"
 
     const guest_name_full_2 = "Guest 2"
-
+    const participant_b = "B, Participant"
 
     const quorum_0 = "0"
 
@@ -149,12 +172,13 @@ it("Quorum numbers (current/initial) scenario (test case 4) - current quorum 60/
     cy.log("Navigate to the “Current census” on the top left corner and click on the field to select the census")
         meetingCensus.click_on_current_census()
     cy.log("Select the census you added before (with 9 participants - 100 votes and 100 shares)")
-        cy.contains('Qourum'+Cypress.config('UniqueNumber')).click()
+        cy.contains(name_census).click()
     cy.log("Click on the “Yes, I want to change the census” button")
         meetingCensus.confirm_census_change() 
     cy.log("Click on the “Next” button")
         meetingCensus.click_on_next()
     cy.log("Add item to agenda")
+        meetingAgenda.click_on_add_agenda()
         meetingAgenda.click_on_yes_no_item()
         meetingAgenda.enter_agenda_title(agenda_title)
         meetingAgenda.select_agenda_roll_call()
@@ -190,22 +214,25 @@ it("Quorum numbers (current/initial) scenario (test case 4) - current quorum 60/
         meetingPreview.search_for_participant(guest_name_full_1) 
         meetingPreview.click_on_first_participant()
         meetingPreview.click_on_attending_in_person()
+        meetingPreview.clear_search()
     cy.log("Navigate to the “Guest 2” and select the “Attending in person” status")
         meetingPreview.search_for_participant(guest_name_full_2) 
         meetingPreview.click_on_first_participant()
         meetingPreview.click_on_attending_in_person()
+        meetingPreview.clear_search()
     cy.log("Observe the current quorum number")
         meetingPreview.verify_current_quorum(quorum_0)
     cy.log("Click to the “Participant D”")
         cy.contains(/^Participant D$/).click()
     cy.log("Click on the “Delegate vote” button then choose the “Participant B” and click on it")
         meetingPreview.click_on_delegate_vote()
-        meetingPreview.delegate_vote_to_participant(surname_b) 
+        meetingPreview.delegate_vote_to_participant(participant_b) 
         meetingPreview.alert_close()
+        meetingPreview.clear_search()
     cy.log("Click on the “Participant B” and observe the total votes")
         cy.contains(/^Participant B$/).click()
-        meetingPreview.verify_total_votes(votes_10)
-        meetingPreview.verify_total_shares(shares_20)
+        meetingPreview.verify_owned_votes(votes_10)
+        meetingPreview.verify_owned(shares_20)
         meetingPreview.alert_close()           
     cy.log("Click on the “Participant B” and select the “Attending in person” status")
         meetingPreview.search_for_participant(surname_b) 

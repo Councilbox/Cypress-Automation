@@ -44,6 +44,7 @@ describe("Company settings", function() {
 		const zip = Cypress.config("UniqueNumber");
 		const membership = "Test";
 		cy.clearLocalStorage();
+		cy.wait(5000)
 		cy.log("From the dashboard click on the 'Anadir sociedad' button");
 		dashbaord.click_on_institutions_button_on_top_page();
 		dashbaord.click_on_add_company_button();
@@ -73,6 +74,7 @@ describe("Company settings", function() {
 		const masterCode = "automation";
 		cy.clearLocalStorage();
 		cy.visit(url);
+		cy.wait(5000)
 		cy.log("From the dashboard click on the 'Vincular sociedad' button");
 		dashbaord.click_on_institutions_button_on_top_page();
 		dashbaord.click_on_link_company_button();
@@ -88,6 +90,7 @@ describe("Company settings", function() {
 	it("The user is able to Unlink company", function() {
 		const tinCompany = "automationtest";
 		cy.visit(url);
+		cy.wait(5000)
 		cy.log("From the dashboard click on the 'Vincular sociedad' button");
 		dashbaord.click_on_institutions_button_on_top_page();
 		dashbaord.click_on_company_from_list_of_companies();

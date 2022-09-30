@@ -54,13 +54,13 @@ class newMeetingPreview {
         vote_early: () => cy.get('#participant-early-voting-button'),
         in_favor: () => cy.get('#early-vote-option-1-point-0'),
 
-        alert_close_second: () => cy.get('(//*[@id="alert-confirm-close"])[2]'),
+        alert_close_second: () => cy.xpath('(//*[@id="alert-confirm-close"])[2]'),
 
         add_participant: () => cy.get('#add-participant-dropdown-trigger'),
         add_guest: () => cy.get('#add-guest-button'),
 
         guest_name: () => cy.get('#participant-form-name'),
-        guest_surname: () =>('#participant-form-surname'),
+        guest_surname: () => cy.get('#participant-form-surname'),
         guest_id: () => cy.get('#participant-form-card-id'),
         guest_email: () => cy.get('#participant-form-email'),
        
@@ -121,7 +121,7 @@ class newMeetingPreview {
 
     verify_owned_votes(votes) {
         this.elements.owned_votes()
-            .should('have.text', votes)
+            .should('contain.text', votes)
     }
 
     verify_current_quorum(quorum) {
@@ -156,9 +156,14 @@ class newMeetingPreview {
             .wait(1000)
     }
 
+    clear_search() {
+        this.elements.paerticipants_search()
+            .clear()
+    }
+
     verify_owned(shares) {
         this.elements.owned_shares()
-            .should('have.text', shares)
+            .should('contain.text', shares)
     }
 
     click_on_finalize() {
@@ -174,13 +179,8 @@ class newMeetingPreview {
     }
 
     delegate_vote_to_participant(participant) {
-        this.elements.participant_vote_search()
-            .should('be.visible')
-            .clear()
-            .type(participant)
-            .should('have.value', participant)
-            .wait(2000)
-        this.elements.participant_table_row()
+        cy.contains(participant)
+            .scrollIntoView()
             .should('be.visible')
             .click()
     }

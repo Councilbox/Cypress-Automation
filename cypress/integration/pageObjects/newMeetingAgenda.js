@@ -36,6 +36,7 @@ class newMeetingAgenda {
     }
 
     click_on_add_agenda() {
+        cy.wait(3000)
         this.elements.add_item_to_agenda_button()
             .should('be.visible')
             .click()

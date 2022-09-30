@@ -54,7 +54,7 @@ describe("Census", function() {
 		const name = "AutomationTest" + Cypress.config("UniqueNumber");
 		const description = "AutomationTest";
 
-		cy.visit(url);
+
 		cy.log("From the menu choose and click on the 'Censos' button");
 		dashbaord.click_on_census();
 		cy.log("Click on 'Anadir censo+' button");

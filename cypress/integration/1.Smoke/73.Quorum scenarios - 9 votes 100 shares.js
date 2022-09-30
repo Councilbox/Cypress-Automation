@@ -93,6 +93,10 @@ it("Quorum numbers (current/initial) scenario (test case 1) - current quorum 55/
     const qourum_10 = "10"
     const qourum_30 = "30"
     const qourum_35 = "35"
+
+    const participant_b = "B, Participant"
+    const participant_d = "D, Participant"
+    const participant_g = "G, Participant"
     
     cy.log("Click on the “Censuses” button")
         dashboard.click_on_census()
@@ -156,12 +160,13 @@ it("Quorum numbers (current/initial) scenario (test case 1) - current quorum 55/
     cy.log("Navigate to the “Current census” on the top left corner and click on the field to select the census")
         meetingCensus.click_on_current_census()
     cy.log("Select the census you added before (with 9 participants - 100 votes and 100 shares)")
-        cy.contains('Qourum'+Cypress.config('UniqueNumber')).click()
+        cy.contains(name_census).click()
     cy.log("Click on the “Yes, I want to change the census” button")
         meetingCensus.confirm_census_change() 
     cy.log("Click on the “Next” button")
         meetingCensus.click_on_next()
     cy.log("Add item to agenda")
+        meetingAgenda.click_on_add_agenda()
         meetingAgenda.click_on_yes_no_item()
         meetingAgenda.enter_agenda_title(agenda_title)
         meetingAgenda.select_agenda_roll_call()
@@ -185,8 +190,9 @@ it("Quorum numbers (current/initial) scenario (test case 1) - current quorum 55/
         meetingPreview.click_on_participants_tab()
     cy.log("Click on the “Participant B” and select the “Attending in person” status")
         meetingPreview.search_for_participant(surname_b) 
-        meetingPreview.click_on_second_participant()
+        meetingPreview.click_on_first_participant()
         meetingPreview.click_on_attending_in_person()
+        meetingPreview.clear_search()
     cy.log("Observe the current quorum number on the top right side of the page")
         cy.wait(5000)
         meetingPreview.verify_current_quorum(qourum_10)
@@ -195,6 +201,7 @@ it("Quorum numbers (current/initial) scenario (test case 1) - current quorum 55/
         meetingPreview.search_for_participant(surname_d) 
         meetingPreview.click_on_first_participant()
         meetingPreview.click_on_attending_in_person()
+        meetingPreview.clear_search()
     cy.log("Observe the current quorum number on the top right side of the page")
         cy.wait(5000)
         meetingPreview.verify_current_quorum(qourum_30)
@@ -202,14 +209,12 @@ it("Quorum numbers (current/initial) scenario (test case 1) - current quorum 55/
         meetingPreview.search_for_participant(surname_g) 
         meetingPreview.click_on_first_participant()
         meetingPreview.click_on_attending_in_person()
+        meetingPreview.clear_search()
     cy.log("Observe the current quorum number on the top right side of the page")
         cy.wait(5000)
         meetingPreview.verify_current_quorum(qourum_35)
     cy.log("Start the meeting")
         meetingPreview.click_on_start_meeting()
-        meetingPreview.select_president()
-        meetingPreview.select_secreatary()
-        meetingPreview.select_quality()
         meetingPreview.alert_confirm() 
     cy.log("Observe the current quorum number on the top right side of the page")
         cy.wait(5000)

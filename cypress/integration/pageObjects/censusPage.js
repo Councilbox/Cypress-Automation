@@ -79,6 +79,7 @@ class censusPage {
 	click_add_participant() {
 		this.elements.add_participant()
 			.should('be.visible')
+			.click()
 	}
 
 	click_manage_participants() {

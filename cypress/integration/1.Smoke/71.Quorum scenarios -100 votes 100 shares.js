@@ -85,7 +85,8 @@ describe("Councilbox login - valid username and password", function() {
     const surname_i = "I"
     const email_i = "testI@test.test"
 
-    const participant_b = "Participant B"
+    const participant_b = "B, Participant"
+    const participant_a = "A, Participant"
 
     cy.log("Click on the “Censuses” button")
         dashboard.click_on_census()
@@ -155,6 +156,7 @@ describe("Councilbox login - valid username and password", function() {
     cy.log("Click on the “Next” button")
         meetingCensus.click_on_next()
     cy.log("Add item to agenda")
+        meetingAgenda.click_on_add_agenda()
         meetingAgenda.click_on_yes_no_item()
         meetingAgenda.enter_agenda_title(agenda_title)
         meetingAgenda.select_agenda_roll_call()
@@ -191,6 +193,7 @@ describe("Councilbox login - valid username and password", function() {
         meetingPreview.search_for_participant(surname_b) 
         meetingPreview.click_on_second_participant()
         meetingPreview.click_on_attending_in_person()
+        meetingPreview.clear_search()
     cy.log("Observe the current quorum number on the top right side of the page”")
         cy.wait(5000)
         meetingPreview.verify_current_quorum(quorum) 
@@ -206,7 +209,6 @@ describe("Councilbox login - valid username and password", function() {
     cy.log("Click to the “Participant C”")
         cy.contains(/^Participant C$/).click()
     cy.log("Click on the “Delegate vote” button then choose the “Participant A” and click on it”")
-        const participant_a = "Participant A"
         meetingPreview.click_on_delegate_vote() 
         meetingPreview.delegate_vote_to_participant(participant_a) 
         meetingPreview.alert_close()

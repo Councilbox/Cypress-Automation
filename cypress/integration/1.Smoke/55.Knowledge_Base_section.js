@@ -63,8 +63,9 @@ describe("Knowledge base section", function() {
     cy.log("From the drop down menu click on the 'Subir archivo' button and Choose the file you want to upload click on it and then click on 'Open' button")
         knowledge.upload_file()
     cy.log("Verify file is uploaded and delete it")
+        cy.reload()
         knowledge.search_for_documentation(file)
-        knowledge.verify_existing_documentation()
+        knowledge.verify_existing_file(file)
         knowledge.delete_file()
         knowledge.verify_file_is_deleted()
     });
@@ -103,8 +104,6 @@ describe("Knowledge base section", function() {
         knowledge.enter_tag_description(description)
     cy.log("Click on the 'Aceptar' button")
         knowledge.click_on_alert_accept()
-    cy.log("Back to Home page")
-            cy.visit(url);
     });
 
 });

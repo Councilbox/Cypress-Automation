@@ -40,7 +40,6 @@ describe("Type of Meetings - smoke test", function() {
         const title = "MeetingType"+Cypress.config('UniqueNumber')
         const modal_title = "Add type of meeting"
         
-        cy.visit(url);
         cy.log("From the menu choose and click on the 'Tipos de reunion' button")
             dashbaord.click_on_type_of_meetings()
         cy.log("On the upper left corner click on the 'Anadir tipo de reunion+'' button")
