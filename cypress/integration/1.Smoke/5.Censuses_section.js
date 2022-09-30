@@ -24,7 +24,7 @@ describe("Census", function() {
 		const password = "Mostar123!test";
 
 		cy.log("Navigate to login page");
-		cy.visit(login_url);
+		cy.visit(url);
 		// cy.log("Change language to Spanish");
 		// login.click_on_language_dropmenu();
 		// login.select_spanish_language();
@@ -39,7 +39,7 @@ describe("Census", function() {
 	// 	const password = "Mostar123!test";
 	// 	cy.clearLocalStorage();
 	// 	cy.log("Navigate to login page");
-	// 	cy.visit(login_url);
+	// 	cy.visit(url);
 	// 	cy.log("Change language to Spanish");
 	// 	login.click_on_language_dropmenu();
 	// 	login.select_spanish_language();
@@ -54,6 +54,7 @@ describe("Census", function() {
 		const name = "AutomationTest" + Cypress.config("UniqueNumber");
 		const description = "AutomationTest";
 
+		cy.visit(url);
 		cy.log("From the menu choose and click on the 'Censos' button");
 		dashbaord.click_on_census();
 		cy.log("Click on 'Anadir censo+' button");
@@ -70,9 +71,6 @@ describe("Census", function() {
 		cy.log("Verify that Census is added by searching for it");
 		census.type_in_search_bar(name);
 		census.verify_new_census(name);
-	
-		cy.log("Back to Home page");
-		cy.visit(login_url);
 	});
 });
 
@@ -127,6 +125,6 @@ describe("Census", function() {
 // 	});
 
 // 	it("Back to Home page", function() {
-// 		cy.visit(login_url);
+// 		cy.visit(url);
 // 	});
 // });

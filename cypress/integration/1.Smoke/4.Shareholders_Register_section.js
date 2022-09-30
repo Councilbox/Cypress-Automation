@@ -54,7 +54,7 @@ describe("Sharehodlers Register - smoke tests", function () {
         const town = "AutomationTest"
         const province = "Catalonia"
         const zipcode = Cypress.config('UniqueNumber')
-
+    cy.visit(url);
     cy.log("Click on Shareholders page")
         dashboard.click_on_shareholders_register()
     cy.log("Click on the 'Anadir socio' form")
@@ -117,8 +117,6 @@ describe("Sharehodlers Register - smoke tests", function () {
     cy.log("Verify that Member is created")
         shareholders.enter_search_data(name)
         shareholders.verify_member(name)
-    cy.log("Back to Home page")
-        cy.visit(url)
     });
 
 

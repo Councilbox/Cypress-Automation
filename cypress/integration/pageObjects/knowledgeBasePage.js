@@ -1,3 +1,5 @@
+let docFile = 'testDocument.txt';
+
 
 class knowledgeBasePage {
 
@@ -13,6 +15,9 @@ class knowledgeBasePage {
         folder_title_draft: () => cy.get('#titleDraft'),
         documentation_search: () => cy.get('#company-document-search-input'),
         documentation_table_row_first_item: () => cy.get('#folder-0'),
+        upload_file: () => cy.get('input[type=file]'),
+        delete_file: () => cy.get('#delete-file-0'),
+        file_table_row: () => cy.get('#file-0'),
 
         //modal
         modal_title: () => cy.get('#modal-title'),
@@ -61,6 +66,15 @@ class knowledgeBasePage {
             .should('include', 'drafts/documentation')
     }
 
+    delete_file() {
+        this.elements.delete_file()
+            .should('be.visible')
+            .click()
+        this.elements.alert_accept()
+            .should('be.visible')
+            .click()
+    }
+
     search_for_tag(code) {
         this.elements.tags_search()
             .should('be.visible')
@@ -81,6 +95,11 @@ class knowledgeBasePage {
             .clear()
             .type(value)
             .should('have.value', value)
+    }
+
+    upload_file() {
+        this.elements.upload_file()
+            .attachFile(docFile)
     }
 
     verify_existing_tag(code) {
@@ -105,6 +124,11 @@ class knowledgeBasePage {
 
     verify_template_is_deleted() {
         this.elements.templates_table_row_first()
+            .should('not.exist')
+    }
+
+    verify_file_is_deleted() {
+        this.elements.file_table_row()
             .should('not.exist')
     }
 

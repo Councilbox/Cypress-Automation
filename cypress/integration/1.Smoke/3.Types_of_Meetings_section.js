@@ -39,7 +39,8 @@ describe("Type of Meetings - smoke test", function() {
     it("The user is able to add a new type of meeting in the 'Tipos de reunion' section", function() {
         const title = "MeetingType"+Cypress.config('UniqueNumber')
         const modal_title = "Add type of meeting"
-
+        
+        cy.visit(url);
         cy.log("From the menu choose and click on the 'Tipos de reunion' button")
             dashbaord.click_on_type_of_meetings()
         cy.log("On the upper left corner click on the 'Anadir tipo de reunion+'' button")
@@ -51,7 +52,7 @@ describe("Type of Meetings - smoke test", function() {
         cy.log("Verify that Type of Meetings is created")
             types.verify_type_is_created(title)
         cy.log("Back to Home page")
-            cy.visit(url);
+            
     })
 
 

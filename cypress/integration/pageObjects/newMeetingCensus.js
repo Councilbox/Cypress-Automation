@@ -20,6 +20,9 @@ class newMeetingCensus {
         alert_confirm: () => cy.get('#alert-confirm-button-accept'),
 
         next_census: () => cy.get('#censoSiguienteNew'),
+
+        current_census_menu: () => cy.get('#change-census-select'),
+        yes_change_census: () => cy.get('#change-census-confirm'),
      
  
       
@@ -29,6 +32,18 @@ class newMeetingCensus {
 
     click_on_next() {
         this.elements.next_census()
+            .should('be.visible')
+            .click()
+    }
+
+    confirm_census_change() {
+        this.elements.yes_change_census()
+            .should('be.visible')
+            .click()
+    }
+
+    click_on_current_census() {
+        this.elements.current_census_menu()
             .should('be.visible')
             .click()
     }

@@ -13,422 +13,206 @@ describe("Councilbox login - valid username and password", function() {
     });
 
 
-    it("Visits the Councilbox web page", function() {
-        cy.visit(url);
-    });
-
-    it("Change language to Spanish", function() {
-        cy.get('#language-selector').click();
-        cy.get('#language-es').click();
-    });
-
-    it("Enters email address", function() {
-        cy.get('#username').clear()
-            .type('alem@qaengineers.net')    
-            .should("have.value", 'alem@qaengineers.net')
-    });
-
-    it("Enters password", function() {
-        cy.get('#password').clear()
-            .type('Mostar123!test')    
-            .should("have.value", 'Mostar123!test')
-    });
-
-    it("Clicks login button", function() {
-        cy.get("#login-button").click();
-      
-    });
-
-});
+    it("Login", function() {
+        const email = "alem@qaengineers.net"
+        const password = "Mostar123!test"
+        
+        cy.log("Navigate to login page")
+            cy.visit(url);
+        cy.log("Change language to Spanish")
+            login.click_on_language_dropmenu()
+            login.select_spanish_language()
+        cy.log("Enters email address")
+            login.enter_email(email)
+        cy.log("Enters password")
+            login.enter_password(password)
+        cy.log("Clicks login button")
+            login.click_login()
+    })
 
 
-
-
-
-
-describe("Quorum numbers (current/initial) scenario (test case 4) - current quorum 60/initial quorum 50 - 100 votes 100 shares", function() {
+it("Quorum numbers (current/initial) scenario (test case 4) - current quorum 60/initial quorum 50 - 100 votes 100 shares", function() {
+    const name_census = 'Qourum2'+Cypress.config('UniqueNumber')
+    const meeting_title = "Meeting1"+Cypress.config('UniqueNumber')
+    const contact_email = "test@test.test"
+    const agenda_title = "Test"
+    const total_votes = "100"
+    const total_shares = "100"
+    const votes_20 = "20"
+    const shares_20 = "20"
+    const votes_10 = "10"
+    const shares_10 = "10"
+    const votes_5 = "5"
+    const shares_5 = "5"
+    const quorum = "20"
+    const quorum_2 = "40"
+    const name = "Participant"
+    const surname_a = "A"
+    const email_a = "testA@test.test"
+    const phone = "123456"
+    const surname_b = "B"
+    const email_b = "testB@test.test"
+    const surname_c = "C"
+    const email_c = "testC@test.test"
+    const surname_d = "D"
+    const email_d = "testD@test.test"
+    const surname_e = "E"
+    const email_e = "testE@test.test"
+    const surname_f = "F"
+    const email_f = "testF@test.test"
     
-    it("Click on the “Censuses” button", function() {
-        cy.get('#edit-censuses-block').click()
-    });
+    const surname_g = "G"
+    const email_g = "testg@test.test"
+    const surname_h = "H"
+    const email_h = "testH@test.test"
+    const surname_i = "I"
+    const email_i = "testI@test.test"
 
-    it("Click on the “Add census” button and populate all required fields then click on the “OK” button", function() {
-        cy.get('#add-census-button').click()
-        cy.get('#census-name').clear()
-            .type('Qourum'+Cypress.config('UniqueNumber'))
-        cy.get('#census-type').click()
-        cy.get('#census-type-social-capital').click()
-      
-        cy.get('#alert-confirm-button-accept').click()
-    });
+    const quoroum_30 = "30"
 
-    it("Navigate to the already added census and hover it then click on the “Manage participants” icon", function() {
-        cy.get('#undefined-search-input').clear()
-            .type('Qourum'+Cypress.config('UniqueNumber'))
-        cy.wait(4000)
-        cy.get('#census_row_0').trigger('mouseover')
-        cy.get('#census-manage-participants-button').click()
-
-    });
-
-    it("Add participant A with 20 votes and 20 shares", function() {
-        cy.get('#add-census-participant-button').click()
-        
-        cy.get('#participant-name-input').clear()
-            .type('Participant')
-        cy.get('#participant-surname-input').clear()
-            .type('A')
-        cy.get('#participant-email-input').clear()
-            .type('testA@test.test')
-        cy.get('#participant-phone-input').clear()
-            .type('123456')
-        cy.get('#participant-votes-input').clear()
-            .type('20')
-        cy.get('#participant-social-capital-input').clear()
-            .type('20')
-        cy.get('#alert-confirm-button-accept').click()
-     
-        
-    });
-
-    it("Add participant B with 10 votes and 10 shares", function() {
-        cy.get('#add-census-participant-button').click()
-       
-        cy.get('#participant-name-input').clear()
-            .type('Participant')
-        cy.get('#participant-surname-input').clear()
-            .type('B')
-        cy.get('#participant-email-input').clear()
-            .type('testB@test.test')
-        cy.get('#participant-phone-input').clear()
-            .type('123456')
-        cy.get('#participant-votes-input').clear()
-            .type('10')
-        cy.get('#participant-social-capital-input').clear()
-            .type('10')
-        cy.get('#alert-confirm-button-accept').click()
-        
-    });
-
-    it("Add participant C with 10 votes and 10 shares", function() {
-        cy.get('#add-census-participant-button').click()
-        
-        cy.get('#participant-name-input').clear()
-            .type('Participant')
-        cy.get('#participant-surname-input').clear()
-            .type('C')
-        cy.get('#participant-email-input').clear()
-            .type('testC@test.test')
-        cy.get('#participant-phone-input').clear()
-            .type('123456')
-        cy.get('#participant-votes-input').clear()
-            .type('10')
-        cy.get('#participant-social-capital-input').clear()
-            .type('10')
-        cy.get('#alert-confirm-button-accept').click()
-        
-    });
-
-    it("Add participant D with 20 votes and 20 shares", function() {
-        cy.get('#add-census-participant-button').click()
-        
-        cy.get('#participant-name-input').clear()
-            .type('Participant')
-        cy.get('#participant-surname-input').clear()
-            .type('D')
-        cy.get('#participant-email-input').clear()
-            .type('testD@test.test')
-        cy.get('#participant-phone-input').clear()
-            .type('123456')
-        cy.get('#participant-votes-input').clear()
-            .type('20')
-        cy.get('#participant-social-capital-input').clear()
-            .type('20')
-        cy.get('#alert-confirm-button-accept').click()
-        
-    });
- 
-    it("Add participant E with 10 votes and 10 shares", function() {
-        cy.get('#add-census-participant-button').click()
-       
-        cy.get('#participant-name-input').clear()
-            .type('Participant')
-        cy.get('#participant-surname-input').clear()
-            .type('E')
-        cy.get('#participant-email-input').clear()
-            .type('testE@test.test')
-        cy.get('#participant-phone-input').clear()
-            .type('123456')
-        cy.get('#participant-votes-input').clear()
-            .type('10')
-        cy.get('#participant-social-capital-input').clear()
-            .type('10')
-        cy.get('#alert-confirm-button-accept').click()
-        
-    });
-
-    it("Add participant F with 10 votes and 10 shares”", function() {
-        cy.get('#add-census-participant-button').click()
-        
-        cy.get('#participant-name-input').clear()
-            .type('Participant')
-        cy.get('#participant-surname-input').clear()
-            .type('F')
-        cy.get('#participant-email-input').clear()
-            .type('testF@test.test')
-        cy.get('#participant-phone-input').clear()
-            .type('123456')
-        cy.get('#participant-votes-input').clear()
-            .type('10')
-        cy.get('#participant-social-capital-input').clear()
-            .type('10')
-        cy.get('#alert-confirm-button-accept').click()
-        
-    });
-
-    it("Add participant G with 5 votes and 5 shares", function() {
-        cy.get('#add-census-participant-button').click()
-      
-        cy.get('#participant-name-input').clear()
-            .type('Participant')
-        cy.get('#participant-surname-input').clear()
-            .type('G')
-        cy.get('#participant-email-input').clear()
-            .type('testG@test.test')
-        cy.get('#participant-phone-input').clear()
-            .type('123456')
-        cy.get('#participant-votes-input').clear()
-            .type('5')
-        cy.get('#participant-social-capital-input').clear()
-            .type('5')
-        cy.get('#alert-confirm-button-accept').click()
-        
-    });
-
-    it("Add participant H with 5 votes and 5 shares", function() {
-        cy.get('#add-census-participant-button').click()
-      
-        cy.get('#participant-name-input').clear()
-            .type('Participant')
-        cy.get('#participant-surname-input').clear()
-            .type('H')
-        cy.get('#participant-email-input').clear()
-            .type('testH@test.test')
-        cy.get('#participant-phone-input').clear()
-            .type('123456')
-        cy.get('#participant-votes-input').clear()
-            .type('5')
-        cy.get('#participant-social-capital-input').clear()
-            .type('5')
-        cy.get('#alert-confirm-button-accept').click()
-        
-    });
-
-    it("Add participant I with 10 votes and 10 shares", function() {
-        cy.get('#add-census-participant-button').click()
-      
-        cy.get('#participant-name-input').clear()
-            .type('Participant')
-        cy.get('#participant-surname-input').clear()
-            .type('I')
-        cy.get('#participant-email-input').clear()
-            .type('testI@test.test')
-        cy.get('#participant-phone-input').clear()
-            .type('123456')
-        cy.get('#participant-votes-input').clear()
-            .type('10')
-        cy.get('#participant-social-capital-input').clear()
-            .type('10')
-        cy.get('#alert-confirm-button-accept').click()
-       
-    });
-
-    it("Observe the total number of votes and shares", function() {
-        cy.get('#census-total-votes').should('have.text', '100')
-        
-        cy.get('#census-total-social-capital').should('have.text', '100')
-    });
+    const guest_name = "Guest"
+    const guest_surname = "1"
+    const id_1 = Cypress.config('UniqueNumber')
+    const guest_email = "test@test.test"
 
 
-    it("Close the “Census” section and navigate to the landing page", function() {
+    const guest_surname_2 = "2"
+    const id_2 = "1"+Cypress.config('UniqueNumber')
+    const guest_email_2 = "test1@test.test"
+
+    const guest_name_full_1 = "Guest 1"
+
+    const guest_name_full_2 = "Guest 2"
+
+
+    const quorum_0 = "0"
+
+    cy.log("Click on the “Censuses” button")
+        dashboard.click_on_census()
+    cy.log("Click on the “Add census” button and populate all required fields then click on the “OK” button")
+        census.click_on_add_new_census()
+        census.type_census_name(name_census)
+        census.click_on_drop_census_type()
+        census.select_shares_census_type()
+        census.alert_confirm()
+    cy.log("Navigate to the already added census and hover cy.log then click on the “Manage participants” icon")
+        census.type_in_search_bar(name_census)
+        census.click_manage_participants()
+    cy.log("Add participant A with 20 votes and 20 shares")
+        census.click_add_participant()
+        census.input_participant_data(name, surname_a, email_a, phone, votes_20, shares_20)
+        census.alert_confirm()
+    cy.log("Add participant B with 10 votes and 10 shares")
+        census.click_add_participant()
+        census.input_participant_data(name, surname_b, email_b, phone, votes_10, shares_10)
+        census.alert_confirm()        
+    cy.log("Add participant C with 10 votes and 10 shares")
+        census.click_add_participant()
+        census.input_participant_data(name, surname_c, email_c, phone, votes_10, shares_10)
+        census.alert_confirm()       
+    cy.log("Add participant D with 20 votes and 20 shares")
+        census.click_add_participant()
+        census.input_participant_data(name, surname_d, email_d, phone, votes_20, shares_20)
+        census.alert_confirm()                  
+    cy.log("Add participant E with 10 votes and 10 shares")
+        census.click_add_participant()
+        census.input_participant_data(name, surname_e, email_e, phone, votes_10, shares_10)
+        census.alert_confirm()            
+    cy.log("Add participant F with 10 votes and 10 shares”") 
+        census.click_add_participant()
+        census.input_participant_data(name, surname_f, email_f, phone, votes_10, shares_10)
+        census.alert_confirm()        
+    cy.log("Add participant G with 5 votes and 5 shares")
+        census.click_add_participant()
+        census.input_participant_data(name, surname_g, email_g, phone, votes_5, shares_5)
+        census.alert_confirm()
+    cy.log("Add participant H with 5 votes and 5 shares")
+        census.click_add_participant()
+        census.input_participant_data(name, surname_h, email_h, phone, votes_5, shares_5)
+        census.alert_confirm()
+    cy.log("Add participant I with 10 votes and 10 shares")  
+        census.click_add_participant()
+        census.input_participant_data(name, surname_i, email_i, phone, votes_10, shares_10)
+        census.alert_confirm()
+    cy.log("Observe the total number of votes and shares")  
+        census.verify_total_votes(total_votes)  
+        census.verify_total_shares(total_shares)
+    cy.log("Close the “Census” section and navigate to the landing page")
         cy.visit(url)
-    });
-
-    it("Click on the “New meeting” button the select the “With session” type of meeting", function() {
-        
-        cy.get('#create-council-block').click()
-          
-        cy.get('#create-council-with-session').click()
-        
-    });
-
-    it("Populate all required fields and click on the “Next” button", function() {
-        cy.get('#council-notice-convene-intro')
-            .type('Test')
-        cy.get('#council-editor-next').click()
-       
-    });
-    
-    it("Navigate to the “Current census” on the top left corner and click on the field to select the census", function() {
-        cy.get('#change-census-select').click()
-    });
-    
-    it("Select the census you added before (with 9 participants - 100 votes and 100 shares)", function() {
+    cy.log("Click on the “New meeting” button the select the “With session” type of meeting")
+        dashboard.click_on_new_meeting()
+        meetingAnnoucemenet.click_on_with_session()
+    cy.log("Populate all required fields and click on the “Next” button")
+        meetingAnnoucemenet.enter_meeting_title(meeting_title)
+        meetingAnnoucemenet.enter_information_on_the_announcement(meeting_title)     
+        meetingAnnoucemenet.click_next_announcement()
+    cy.log("Navigate to the “Current census” on the top left corner and click on the field to select the census")
+        meetingCensus.click_on_current_census()
+    cy.log("Select the census you added before (with 9 participants - 100 votes and 100 shares)")
         cy.contains('Qourum'+Cypress.config('UniqueNumber')).click()
-    });
-    
-    it("Click on the “Yes, I want to change the census” button", function() {
-        cy.get('#change-census-confirm').click()
-    });
-   
-    it("Click on the “Next” button", function() {
-        cy.get('#censoSiguienteNew').click()
-      
-    });
-
-    it("Add item to agenda", function() {
-        cy.get('#newPuntoDelDiaOrdenDelDiaNew').click()
-        cy.get('#puntoSiNoAbstencion').click()
-        cy.get('#agenda-editor-title-input')
-            .type('Test')
-        cy.get('#alert-confirm-button-accept').click()  
-        
-    });
-
-    it("Click on the “Next” button", function() {
+    cy.log("Click on the “Yes, I want to change the census” button")
+        meetingCensus.confirm_census_change() 
+    cy.log("Click on the “Next” button")
+        meetingCensus.click_on_next()
+    cy.log("Add item to agenda")
+        meetingAgenda.click_on_yes_no_item()
+        meetingAgenda.enter_agenda_title(agenda_title)
+        meetingAgenda.select_agenda_roll_call()
+        meetingAgenda.alert_confirm()
+    cy.log("Click on the “Next” button")
         cy.wait(4000)
-        cy.get('#ordenDelDiaNext').click()
-       
-    });
-
-    it("Click on the “Next” button", function() {
-        cy.get('#attachmentSiguienteNew').click()
-       
-    });
-
-    it("Click on the “Next” button", function() {
-        cy.get('#council-options-contact-email').scrollIntoView()
-      
-        cy.get('#council-options-contact-email')
-            .clear().type('test@test.test')
-        cy.get('#optionsNewSiguiente').click()
-        
-    });
-
-    it("Click on the “Invite and notify” button then click on the “Prepare room” button", function() {
-        cy.wait(4000)
-        cy.get('#council-editor-convene-notify').click()
-       
-    });
-
-    it("Click on the “Open room” button then click on the “Open room” button", function() {
-        cy.get('#prepararSalaNew').click()
-       
-    });
-
-    it("Click on the “Participants” button", function() {
-        cy.get('#council-live-tab-participants').click()
-        
-    });
-
-    it("Click on the “Add guest+” button and populate all required fields and click on the “Send” button", function() {
-        cy.get('#add-participant-dropdown-trigger').click()
-        
-        cy.get('#add-guest-button').click()
-        
-        cy.get('#participant-form-name').clear()
-            .type('Guest')
-        cy.get('#participant-form-surname').clear()
-            .type('1')
-        cy.get('#participant-form-card-id').clear()
-            .type(Cypress.config('UniqueNumber'))
-        cy.get('#participant-form-email').clear()
-            .clear().type('test@test.test')
-        cy.get('#alert-confirm-button-accept').click()
-        
-    });
-
-    it("Click on the “Add guest+” button and populate all required fields and click on the “Send” button", function() {
-        cy.get('#add-participant-dropdown-trigger').click()
-     
-        cy.get('#add-guest-button').click()
-      
-        cy.get('#participant-form-name').clear()
-            .type('Guest')
-        cy.get('#participant-form-surname').clear()
-            .type('2')
-        cy.get('#participant-form-card-id').clear()
-            .type('1'+Cypress.config('UniqueNumber'))
-        cy.get('#participant-form-email').clear()
-            .type('test1@test.test')
-        cy.get('#alert-confirm-button-accept').click()
-        
-    });
-
-    it("Navigate to the “Guest 1” and select the “Attending in person” status", function() {
-
-        cy.get('#input-search-live')
-            .type('Guest 1')
-            .wait(1000)
-        cy.get('#state-selector-participant-item-0').click()
-        
-        cy.get('#state-in-person-participant-item-0').click()
-       cy.get('#input-search-live').clear()
- 
-      
-    });
-
-    it("Navigate to the “Guest 2” and select the “Attending in person” status", function() {
-        cy.get('#input-search-live')
-            .type('Guest 2')
-            .wait(1000)
-        cy.get('#state-selector-participant-item-0').click()
-        
-        cy.get('#state-in-person-participant-item-0').click()
-       cy.get('#input-search-live').clear()
-        
-    });
-
-    it("Observe the current quorum number", function() {
-        cy.get('#live-current-quorum').should('have.text', '0')
-        
-    });
-
-    it("Click to the “Participant D”", function() {
+        meetingAgenda.click_on_next()
+    cy.log("Click on the “Next” button")
+        meetingDocumentation.click_on_next()
+    cy.log("Click on the “Next” button")
+        meetingOptions.scroll_to_contact_email()
+        meetingOptions.enter_contact_email(contact_email)
+        meetingOptions.click_on_next()
+    cy.log("Click on the “Invite and notify” button then click on the “Prepare room” button")
+        meetingPreview.click_on_invite_and_notify()
+        meetingPreview.click_on_prepare_room()
+    cy.log("Click on the “Open room” button then click on the “Open room” button")
+        meetingPreview.click_open_room()
+        meetingPreview.alert_confirm()
+    cy.log("Click on the “Participants” button")
+        meetingPreview.click_on_participants_tab()
+    cy.log("Click on the “Add guest+” button and populate all required fields and click on the “Send” button")
+        meetingPreview.click_on_add_participant()
+        meetingPreview.click_on_add_guest()
+        meetingPreview.enter_guest_inputs(guest_name, guest_surname, id_1, guest_email)
+        meetingPreview.alert_confirm()
+    cy.log("Click on the “Add guest+” button and populate all required fields and click on the “Send” button")
+        meetingPreview.click_on_add_participant()
+        meetingPreview.click_on_add_guest()
+        meetingPreview.enter_guest_inputs(guest_name, guest_surname_2, id_2, guest_email_2)
+        meetingPreview.alert_confirm()
+    cy.log("Navigate to the “Guest 1” and select the “Attending in person” status")
+        meetingPreview.search_for_participant(guest_name_full_1) 
+        meetingPreview.click_on_first_participant()
+        meetingPreview.click_on_attending_in_person()
+    cy.log("Navigate to the “Guest 2” and select the “Attending in person” status")
+        meetingPreview.search_for_participant(guest_name_full_2) 
+        meetingPreview.click_on_first_participant()
+        meetingPreview.click_on_attending_in_person()
+    cy.log("Observe the current quorum number")
+        meetingPreview.verify_current_quorum(quorum_0)
+    cy.log("Click to the “Participant D”")
         cy.contains(/^Participant D$/).click()
-        
-    });
-
-    it("Click on the “Delegate vote” button then choose the “Participant B” and click on it", function() {
-        cy.get('#participant-editor-delegate-vote-button').click()
-    
-        cy.get('#participant-row-1').click()
-       
-        cy.get('#alert-confirm-close').click()
-   
-    });
-
-    it("Click on the “Participant B” and observe the total votes", function() {
+    cy.log("Click on the “Delegate vote” button then choose the “Participant B” and click on it")
+        meetingPreview.click_on_delegate_vote()
+        meetingPreview.delegate_vote_to_participant(surname_b) 
+        meetingPreview.alert_close()
+    cy.log("Click on the “Participant B” and observe the total votes")
         cy.contains(/^Participant B$/).click()
-        cy.get('#owned-votes-total').should('have.text', ' 10')
-        cy.get('#owned-delegated-social-capital').should('have.text', ' 20')
-        
-        cy.get('#alert-confirm-close').click()
-       
-    });
-
-    it("Click on the “Participant B” and select the “Attending in person” status", function() {
-        cy.get('#state-selector-participant-item-2').click()
-       
-        cy.get('#state-in-person-participant-item-2').click()
-      
-    });
-
-    it("Observe the current quorum number on the top right side of the page", function() {
+        meetingPreview.verify_total_votes(votes_10)
+        meetingPreview.verify_total_shares(shares_20)
+        meetingPreview.alert_close()           
+    cy.log("Click on the “Participant B” and select the “Attending in person” status")
+        meetingPreview.search_for_participant(surname_b) 
+        meetingPreview.click_on_second_participant()
+        meetingPreview.click_on_attending_in_person()   
+    cy.log("Observe the current quorum number on the top right side of the page")
         cy.wait(10000)
-        cy.get('#live-current-quorum').should('have.text', '30')
-        
+        meetingPreview.verify_current_quorum(quoroum_30)           
     });
-
-
 });

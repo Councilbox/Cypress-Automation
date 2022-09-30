@@ -72,6 +72,7 @@ describe("Company settings", function() {
 		const tinCompany = "automationtest";
 		const masterCode = "automation";
 		cy.clearLocalStorage();
+		cy.visit(url);
 		cy.log("From the dashboard click on the 'Vincular sociedad' button");
 		dashbaord.click_on_institutions_button_on_top_page();
 		dashbaord.click_on_link_company_button();
@@ -81,12 +82,12 @@ describe("Company settings", function() {
 		addComapy.type_master_code_company_link(masterCode);
 		cy.log("Click on the 'Vincular' button");
 		addComapy.click_on_company_link_button();
-		cy.log("Back to Home page");
-		cy.visit(url);
+		
 	});
 
 	it("The user is able to Unlink company", function() {
 		const tinCompany = "automationtest";
+		cy.visit(url);
 		cy.log("From the dashboard click on the 'Vincular sociedad' button");
 		dashbaord.click_on_institutions_button_on_top_page();
 		dashbaord.click_on_company_from_list_of_companies();
@@ -100,8 +101,6 @@ describe("Company settings", function() {
 		addComapy.click_on_ok_button_unlink_window();
 		cy.log("Confirm success toast message");
 		cy.contains("Unlinked company");
-		cy.log("Back to Home page");
-		cy.visit(url);
 	});
 });
 

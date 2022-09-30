@@ -5,6 +5,8 @@ import newMeetingCensus from "../pageObjects/newMeetingCensus";
 import newMeetingDocumentation from "../pageObjects/newMeetingDocumentation";
 import newMeetingOptions from "../pageObjects/newMeetingOptions";
 import newMeetingPreview from "../pageObjects/newMeetingPreview";
+import loginPage from "../pageObjects/loginPage"
+
 
 const invalid_emails = ["andrej@qa", "andrej.qa", "andrej@majl.234"];
 const login_url = Cypress.env("baseUrl");
@@ -13,6 +15,7 @@ const valid_email = Cypress.env("login_email");
 
 let url = Cypress.config().baseUrl;
 
+let login = new loginPage()
 let meetingAnnoucemenet = new newMeetingPage()
 let dashboard = new dashboardPage()
 let meetingCensus = new newMeetingCensus()
@@ -21,43 +24,29 @@ let meetingDocumentation = new newMeetingDocumentation()
 let meetingOptions = new newMeetingOptions()
 let meetingPreview = new newMeetingPreview()
 
-describe("Councilbox login - valid username and password", function() {
+describe("New Meeting (Admin side) part 2", function() {
 
      before(function() {
         
     });
 
 
-    it("Visits the Councilbox web page", function() {
-        cy.visit(login_url);
-       
-    });
-
-    it("Change language to Spanish", function() {
-        cy.get('#language-selector').click();
-        cy.get('#language-es').click();
-    });
-
-    it("Enters email address", function() {
-        cy.get('#username').clear()
-            .type('alem@qaengineers.net')    
-            .should("have.value", 'alem@qaengineers.net')
-    });
-
-    it("Enters password", function() {
-        cy.get('#password').clear()
-            .type('Mostar123!test')    
-            .should("have.value", 'Mostar123!test')
-    });
-
-    it("Clicks login button", function() {
-        cy.get("#login-button").click();
-      
-    });
-
-});
-
-describe("New Meeting (Admin side) part 2", function() {
+    it("Login", function() {
+        const email = "alem@qaengineers.net"
+        const password = "Mostar123!test"
+        
+        cy.log("Navigate to login page")
+            cy.visit(url);
+        cy.log("Change language to Spanish")
+            login.click_on_language_dropmenu()
+            login.select_spanish_language()
+        cy.log("Enters email address")
+            login.enter_email(email)
+        cy.log("Enters password")
+            login.enter_password(password)
+        cy.log("Clicks login button")
+            login.click_login()
+    })
 
     it("The user is able to activate ratings in the 'New call with session'", function() {
         const meeting_title = 'Test'
@@ -124,7 +113,7 @@ describe("New Meeting (Admin side) part 2", function() {
     cy.log("Click on the “Activar votaciones” button")
         meetingPreview.click_activate_voting()
     cy.log("User should be able to exit the meeting")
-        cy.visit(login_url)
+        cy.visit(url)
     });
 
     it("The user is able to close point votations in the 'New call with session' type of meeting'", function() {
@@ -136,6 +125,7 @@ describe("New Meeting (Admin side) part 2", function() {
         const email = 'alem'+Cypress.config('UniqueNumber')+'@yopmail.com'
         const title = "Test"
         const contact_email = "test@test.test"
+        cy.visit(url);
     cy.log("Click on the 'Nueva reunion' button") 
         dashboard.click_on_new_meeting()
     cy.log("Click on the 'Con sesion' button")

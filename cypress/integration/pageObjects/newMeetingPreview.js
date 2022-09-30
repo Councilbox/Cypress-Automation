@@ -31,14 +31,168 @@ class newMeetingPreview {
 
         finalize_button: () => cy.get('#finalizarReunionEnReunion'),
 
+
+        participants_tab: () => cy.get('#council-live-tab-participants'),
+        delegate_vote: () => cy.get('#participant-editor-delegate-vote-button'),
+        participant_vote_search: () => cy.get('[placeholder="Search"]'),
+        participant_table_row: () => cy.get('#participant-row-0'),
+
+        alert_close: () => cy.get('#alert-confirm-close'),
+
+        owned_votes: () => cy.get('#owned-votes-total'),
+        owned_shares: () => cy.get('#owned-delegated-social-capital'),
+
+        paerticipants_search: () => cy.get('#input-search-live'),
+
+        participant_b: () => cy.get('#state-selector-participant-item-1'),
+        first_participanth: () => cy.get('#state-selector-participant-item-0'),
+
+        attending_in_person: () => cy.get('[role="menuitem"]').contains('Attending in person'),
+
+        current_quoeum_number: () => cy.get('#live-current-quorum'),
+
+        vote_early: () => cy.get('#participant-early-voting-button'),
+        in_favor: () => cy.get('#early-vote-option-1-point-0'),
+
+        alert_close_second: () => cy.get('(//*[@id="alert-confirm-close"])[2]'),
+
+        add_participant: () => cy.get('#add-participant-dropdown-trigger'),
+        add_guest: () => cy.get('#add-guest-button'),
+
+        guest_name: () => cy.get('#participant-form-name'),
+        guest_surname: () =>('#participant-form-surname'),
+        guest_id: () => cy.get('#participant-form-card-id'),
+        guest_email: () => cy.get('#participant-form-email'),
        
     
 
 
 	}
 
+    alert_close_second() {
+        this.elements.alert_close_second()
+            .should('be.visible')
+            .click()
+    }
+
+    enter_guest_inputs(name, surname, id, email) {
+        this.elements.guest_name()
+            .should('be.visible')
+            .clear()
+            .type(name)
+            .should('have.value', name)
+        this.elements.guest_surname()
+            .should('be.visible')
+            .clear()
+            .type(surname)
+            .should('have.value', surname)
+        this.elements.guest_id()
+            .should('be.visible')
+            .clear()
+            .type(id)
+            .should('have.value', id)
+        this.elements.guest_email()
+            .should('be.visible')
+            .clear()
+            .type(email)
+            .should('have.value', email)
+    }
+
+    click_on_add_guest() {
+        this.elements.add_guest()
+            .should('be.visible')
+            .click()
+    }
+
+    click_on_add_participant() {
+        this.elements.add_participant()
+            .should('be.visible')
+            .click()
+    }
+
+    click_on_vote_early() {
+        this.elements.vote_early()
+            .should('be.visible')
+            .click()
+        this.elements.in_favor()
+            .should('be.visible')
+            .click()
+    }
+
+    verify_owned_votes(votes) {
+        this.elements.owned_votes()
+            .should('have.text', votes)
+    }
+
+    verify_current_quorum(quorum) {
+        this.elements.current_quoeum_number()
+            .should('have.text', quorum)
+    }
+
+    click_on_attending_in_person() {
+        this.elements.attending_in_person()
+            .should('be.visible')
+            .click()
+    }
+
+    click_on_second_participant() {
+        this.elements.participant_b()
+            .should('be.visible')
+            .click()
+    }
+
+    click_on_first_participant() {
+        this.elements.first_participanth()
+            .should('be.visible')
+            .click()
+    }
+
+    search_for_participant(participant) {
+        this.elements.paerticipants_search()
+            .should('be.visible')
+            .clear()
+            .type(participant)
+            .should('have.value', participant)
+            .wait(1000)
+    }
+
+    verify_owned(shares) {
+        this.elements.owned_shares()
+            .should('have.text', shares)
+    }
+
     click_on_finalize() {
         this.elements.finalize_button()
+            .should('be.visible')
+            .click()
+    }
+
+    alert_close() {
+        this.elements.alert_close()
+            .should('be.visible')
+            .click()
+    }
+
+    delegate_vote_to_participant(participant) {
+        this.elements.participant_vote_search()
+            .should('be.visible')
+            .clear()
+            .type(participant)
+            .should('have.value', participant)
+            .wait(2000)
+        this.elements.participant_table_row()
+            .should('be.visible')
+            .click()
+    }
+
+    click_on_delegate_vote() {
+        this.elements.delegate_vote()
+            .should('be.visible')
+            .click()
+    }
+
+    click_on_participants_tab() {
+        this.elements.participants_tab()
             .should('be.visible')
             .click()
     }
