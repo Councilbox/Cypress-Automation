@@ -31,14 +31,15 @@ class entitiesPage {
 
 		manage_appointment:() => cy.get('#root > div > div:nth-child(3) > div > div:nth-child(2) > div > div:nth-child(1) > div.MuiPaper-root.MuiPaper-elevation0.MuiPaper-rounded > div > div > div > div:nth-child(2) > div > div.MuiGrid-root.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-md-12.MuiGrid-grid-lg-12 > div > div:nth-child(1) > div > table > tr:nth-child(2) > td:nth-child(4) > div > button > span.MuiButton-label'),
 
-		entity_name_error: () => cy.xpath('//*[@id="root"]/div/div[3]/div/div[2]/div/div[1]/div[2]/div/div/div[1]/div/div/div/div[1]/div[1]/div[1]/div/div[1]/div/div/p'),
-		ban_button: () => cy.xpath('//*[@id="institutions-dropdown-1249"]/div[3]/div/ul/div[2]/div[2]/span'),
+		entity_name_error: () => cy.get('[class="MuiFormHelperText-root error-text Mui-error"]'),
+		ban_button: () => cy.get('[class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button"]').contains('Ban'),
 		alert_accept: () => cy.get('#alert-confirm-button-accept'),
-		delete_button: () => cy.xpath('//*[@id="institutions-dropdown-1108"]/div[3]/div/ul/div[3]/div[2]/span'),
-		edit_button: () => cy.xpath('//*[@id="institutions-dropdown-1187"]/div[3]/div/ul/div[1]/div[2]/span'),
-		save_entity: () => cy.get('#save-button'),
+		delete_button: () => cy.get('[class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button"]').contains('Delete'),
+		edit_button: () => cy.get('[class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button"]').contains('Edit'),
+		save_entity: () => cy.get('[class="MuiButtonBase-root MuiButton-root MuiButton-text"]'),
 		next_page: () => cy.xpath('//*[@id="root"]/div/div[3]/div/div[2]/div/div[2]/div/div[1]/div/div/div[2]/div/div/div[2]/div/div[2]/span/i'),
-
+		current_entity: () => cy.get('[class="MuiButtonBase-root MuiListItem-root MuiMenuItem-root Mui-selected MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button Mui-selected"]'),
+		all_entity: () => cy.get('.ri-government-line'),
 	}
 
 
@@ -46,6 +47,52 @@ class entitiesPage {
 		this.elements.add_button()
 			.should('be.visible')
 			.click()
+	}
+
+	new_entity_switch(name) {
+		this.elements.current_entity().then(($btn) => {
+			if($btn.text().includes(name)) {
+				this.elements.all_entity()
+					.click()
+			} else {
+				cy.wait(1000)
+				this.elements.see_more_entities()
+					.click()
+				this.elements.search_for_entity()
+					.should('be.visible')
+					.clear()
+					.type(name)
+					.should('have.value', name)
+				this.elements.manage_entity()
+					.should('be.visible')
+					.click()
+					.wait(10000)
+			}
+
+		})
+	}
+
+	if_entity() {
+		this.elements.current_entity().then(($btn) => {
+			if($btn.text().includes('OVAC DEMO')) {
+				this.elements.all_entity()
+					.click()
+			} else {
+				cy.wait(1000)
+				this.elements.see_more_entities()
+					.click()
+				this.elements.search_for_entity()
+					.should('be.visible')
+					.clear()
+					.type('OVAC DEMO')
+					.should('have.value', 'OVAC DEMO')
+				this.elements.manage_entity()
+					.should('be.visible')
+					.click()
+					.wait(10000)
+			}
+
+		})
 	}
 
 	go_to_next_page() {
@@ -129,6 +176,7 @@ class entitiesPage {
 	}
 
 	click_on_entity() {
+		cy.wait(3000)
 		this.elements.entity_button()
 			.should('be.visible')
 			.click()
@@ -240,7 +288,7 @@ class entitiesPage {
 		this.elements.province_option()
 			.click()
 		this.elements.province()
-			.should('have.text', 'Albacete')
+			.should('have.text', 'Ceuta')
 		this.elements.zip_code()
 			.should('be.visible')
 			.clear()

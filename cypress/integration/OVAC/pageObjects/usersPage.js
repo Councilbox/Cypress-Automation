@@ -80,6 +80,7 @@ class usersPage {
 	}
 
 	click_on_finalize() {
+		cy.wait(3000)
 		this.elements.finalize()
 			.should('be.visible')
 			.click()

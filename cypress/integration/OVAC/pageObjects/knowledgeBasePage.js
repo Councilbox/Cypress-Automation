@@ -83,6 +83,7 @@ class knowledgeBasePage {
 	}
 
 	verify_folder(title) {
+		cy.wait(2000)
 		this.elements.folder_table_row_first()
 			.contains(title)
 			.should('be.visible')

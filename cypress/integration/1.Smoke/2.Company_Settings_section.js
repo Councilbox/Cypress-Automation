@@ -79,7 +79,7 @@ describe("Company settings", function() {
 		dashbaord.click_on_institutions_button_on_top_page();
 		dashbaord.click_on_link_company_button();
 		cy.log("Populate “CIF de la entidad*” field");
-		addComapy.type_tin_company_link(tinCompany);
+		addComapy.type_tin_company_link();
 		cy.log("Populate “Clave maestra*” field");
 		addComapy.type_master_code_company_link(masterCode);
 		cy.log("Click on the 'Vincular' button");

@@ -34,19 +34,35 @@ class addCompanyPage {
 			.click();
 	}
 
-	type_master_code_company_link(masterCode) {
-		this.elements
-			.master_code_company_link()
-			.clear()
-			.type(masterCode)
-			.should("have.value", masterCode);
+	type_master_code_company_link() {
+		cy.url().then(($url) => {
+			if($url.includes('app.dev.councilbox.com')) {
+				this.elements.master_code_company_link()
+					.clear()
+					.type('automation')
+					.should('have.value', 'automation')
+			} else {
+				this.elements.master_code_company_link()
+					.clear()
+					.type('smoke0709')
+					.should('have.value', 'smoke0709')
+			}
+		})
 	}
-	type_tin_company_link(tinCompany) {
-		this.elements
-			.tin_comapny_link()
-			.clear()
-			.type(tinCompany)
-			.should("have.value", tinCompany);
+	type_tin_company_link() {
+		cy.url().then(($url) => {
+			if($url.includes('app.dev.councilbox.com')) {
+				this.elements.tin_comapny_link()
+					.clear()
+					.type('automationtest')
+					.should('have.value', 'automationtest')
+			} else {
+				this.elements.tin_comapny_link()
+					.clear()
+					.type('smoke0709')
+					.should('have.value', 'smoke0709')
+			}
+		})
 	}
 
 	type_membership_code(membership) {

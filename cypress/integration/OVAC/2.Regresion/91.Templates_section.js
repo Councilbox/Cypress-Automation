@@ -14,9 +14,10 @@ let appointment = new requestAppointment()
 let appointments = new appointmentsPage()
 let dashboard = new adminDashboard()
 let settings = new userSettingsPage()
-let entity = new entitiesPage()
+let entit = new entitiesPage()
 let documentation = new knowledgeBasePage()
 let template = new templatesPage()
+
 
 
 describe("Templates section - regression tests", function() {
@@ -33,6 +34,9 @@ describe("Templates section - regression tests", function() {
         login.enter_email(email)
         login.enter_password(passowrd)
         login.login_submit()
+    cy.log("Select OVAC Demo entity")
+        entit.click_on_entity()
+        entit.if_entity()
     cy.log("The user is able to click on the 'Templates' tab")
         dashboard.click_on_templates()
     cy.log("The user is able to click on the 'New template' button")

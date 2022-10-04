@@ -3,12 +3,14 @@ import requestAppointment from "../pageObjects/requestAppointment"
 import appointmentsPage from "../pageObjects/appointmentsPage"
 import adminDashboard from "../pageObjects/adminDashboardPage"
 import userSettingsPage from "../pageObjects/userSettingsPage"
+import entitiesPage from "../pageObjects/entitiesPage"
 
 let login = new loginPage()
 let appointment = new requestAppointment()
 let appointments = new appointmentsPage()
 let dashboard = new adminDashboard()
 let settings = new userSettingsPage()
+let entit = new entitiesPage()
 
 
 describe("User settings - regression tests", function() {
@@ -28,6 +30,9 @@ describe("User settings - regression tests", function() {
         login.enter_email(email)
         login.enter_password(passowrd)
         login.login_submit()
+    cy.log("Select OVAC Demo entity")
+        entit.click_on_entity()
+        entit.if_entity()
     cy.log("The user is able to click on the Account icon")
         settings.click_on_my_account()
     cy.log("The user is able to click on the Edit button")
