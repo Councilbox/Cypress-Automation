@@ -1,5 +1,3 @@
-import { xorBy } from "lodash"
-import { lang } from "moment"
 
 class userSettingsPage {
 
