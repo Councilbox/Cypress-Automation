@@ -40,7 +40,10 @@ describe("Entity section", function() {
    const name = "LogoTestingAuto"
    
    cy.log("The user is able to open the browser and enter the URL: ")      
-       login.navigate_admin()        
+       login.navigate_admin()     
+    cy.log("Select OVAC Demo entity")
+        entity.click_on_entity()
+        entity.if_entity()   
    cy.log("The user is able to click on the 'Insitution' button") 
        dashboard.click_on_istitutions()
    cy.log("The user is able to navigate on already existing entity and click on the 'Edit' button")
@@ -61,7 +64,9 @@ describe("Entity section", function() {
     const address = "Majkl Dzordana 23"
     const town = "Cikago"
     const zip = "88000"
-     
+    cy.log("Select OVAC Demo entity")
+        entity.click_on_entity()
+        entity.if_entity()
     cy.log("The user is able to click on the 'Insitution' button")
         dashboard.click_on_istitutions()      
     cy.log("The user is able to click on the 'Add' button") 
@@ -86,14 +91,9 @@ describe("Entity section", function() {
     })
 
     it("The user is able to change entity", function() { 
-
-    cy.log("The user is able to click on the 'Entity' button")
-        entity.click_on_entity()  
-    cy.log("The user is able to click on the 'See More Entites' button")
-        entity.click_on_see_more_entites() 
-        cy.wait(5000)   
-    cy.log("The user is able to click the 'Manage Appointments' button")
-        entity.click_manage_appointments()    
+    cy.log("Select OVAC Demo entity")
+        entity.click_on_entity()
+        entity.if_entity()   
     cy.log("Navigate back to Home page")
         login.navigate_admin()
     })

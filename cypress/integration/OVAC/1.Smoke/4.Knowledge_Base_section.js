@@ -6,6 +6,7 @@ import knowledgeBasePage from "../pageObjects/knowledgeBasePage"
 import templatesPage from "../pageObjects/templatesPage"
 import tagsPage from "../pageObjects/tagsPage"
 import documentationPage from "../pageObjects/documentationPage"
+import entitiesPage from "../pageObjects/entitiesPage"
 
 
 let inboxId;
@@ -17,6 +18,7 @@ let knowledgeBase = new knowledgeBasePage()
 let templates = new templatesPage()
 let tags = new tagsPage()
 let documentation = new documentationPage()
+let entit = new entitiesPage()
 
 describe("Knowledge base section", function() {
 	before(function() {    
@@ -32,7 +34,11 @@ describe("Knowledge base section", function() {
         login.enter_password(password)
         login.login_submit()  
         login.confirm_login() 
+	cy.log("Select OVAC Demo entity")
+        entit.click_on_entity()
+        entit.if_entity()
 	})
+	
 
 	it("The user is able to add a new document - Documentation tab", function() {
 

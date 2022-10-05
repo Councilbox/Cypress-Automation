@@ -1,0 +1,177 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 4,
+    "passes": 1,
+    "pending": 0,
+    "failures": 3,
+    "start": "2022-10-05T16:57:59.748Z",
+    "end": "2022-10-05T16:59:28.518Z",
+    "duration": 88770,
+    "testsRegistered": 4,
+    "passPercent": 25,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "a8c15874-8aa6-4f66-bb5e-4256623a644d",
+      "title": "",
+      "fullFile": "cypress/integration/OVAC/1.Smoke/3.User_Side_section.js",
+      "file": "cypress/integration/OVAC/1.Smoke/3.User_Side_section.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "840c68d5-20c0-42cc-b7a0-320306b10158",
+          "title": "User side section",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "The user is able to request prior appointment for the meeting",
+              "fullTitle": "User side section The user is able to request prior appointment for the meeting",
+              "timedOut": null,
+              "duration": 12613,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const name = \"Automation\";\nconst surname = \"User\";\nconst tin = \"12345678Z\";\nconst country_code = \"387\";\nconst phone = \"62123123\";\nconst email = \"29942413-017f-4eb8-a3dc-6074ea12bdb8@mailslurp.com\";\ncy.log(\"Open the browser and enter the URL\");\nlogin.navigate_user();\ncy.log(\"'Click on the 'Request prior appointment' button\");\nappointment.request_prior_appointment_button();\ncy.log(\"Select 'Service requested'\");\nappointment.select_service_requested();\ncy.log(\"Click on the 'CONTINUE' button\");\nappointment.click_continue();\ncy.log(\"Navigate to the 'Calendar' and select the date and time\");\nappointment.click_next_month();\nappointment.select_last_day();\nappointment.select_time();\ncy.log(\"Click on the 'CONTINUE' button\");\nappointment.click_continue();\ncy.log(\"Populate the 'Name' field\");\nappointment.enter_name(name);\ncy.log(\"Populate the 'Name' field\");\nappointment.enter_surname(surname);\ncy.log(\"Populate the 'TIN' field\");\nappointment.enter_TIN(tin);\ncy.log(\"Populate the 'Country code' and the 'Telephone' fields\");\nappointment.enter_telephone_no(country_code, phone);\ncy.log(\"Populate the 'Email' field\");\nappointment.enter_email(email);\ncy.log(\"Select the checkbox next to the 'The individual gives his/her consent for the results of the attendance at the appointment to be processed by this body' option\");\nappointment.accept_everything();\ncy.log(\"Click on the 'Request appointment' button\");\nappointment.click_continue();",
+              "err": {},
+              "uuid": "f7ae3c6f-d73a-43a9-a8a3-04ad3b1107df",
+              "parentUUID": "840c68d5-20c0-42cc-b7a0-320306b10158",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The user is able to reschedule prior appointment",
+              "fullTitle": "User side section The user is able to reschedule prior appointment",
+              "timedOut": null,
+              "duration": 62202,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "{\n  \"title\": \"Failed screenshot\",\n  \"value\": \"screenshots/OVAC/1.Smoke/3.User_Side_section.js/User side section -- The user is able to reschedule prior appointment (failed).png\"\n}",
+              "code": "const reschedule_message = 'Your appointment has been successfully rescheduled.';\ncy.log(\"Open email app and open the mail\");\ncy.wait(45000);\ncy.waitForLatestEmail().then(inbox => {\n  cy.state('document').write(inbox.body);\n  cy.wait(5000);\n  cy.get('body > table:nth-child(5) > tbody > tr:nth-child(2) > td > div:nth-child(1) > div:nth-child(6) > a').invoke('attr', 'href').then(myLink => {\n    cy.visit(myLink);\n  });\n  cy.wait(5000);\n});\ncy.log(\"Click on the 'Reschedule Appointment' button\");\ncy.get('[class=\"MuiInputBase-input MuiInput-input\"]').type('12345678Z');\ncy.get('#modal-confirm-participant-id-card-button-accept').click();\nappointment.reschedule_appointment_button();\nappointment.click_ok();\ncy.log(\"Appointment should be rescheduled\");\nappointment.reschedule_confirm(reschedule_message);",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 10000ms: Expected to find element: `body > table:nth-child(5) > tbody > tr:nth-child(2) > td > div:nth-child(1) > div:nth-child(6) > a`, but never found it.",
+                "estack": "AssertionError: Timed out retrying after 10000ms: Expected to find element: `body > table:nth-child(5) > tbody > tr:nth-child(2) > td > div:nth-child(1) > div:nth-child(6) > a`, but never found it.\n    at Context.eval (https://ovac.pre.councilbox.com/__cypress/tests?p=cypress/integration/OVAC/1.Smoke/3.User_Side_section.js:206:10)",
+                "diff": null
+              },
+              "uuid": "840041ab-9615-4f83-8194-efe897611b98",
+              "parentUUID": "840c68d5-20c0-42cc-b7a0-320306b10158",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The user is able to cancel prior appointment",
+              "fullTitle": "User side section The user is able to cancel prior appointment",
+              "timedOut": null,
+              "duration": 10782,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "{\n  \"title\": \"Failed screenshot\",\n  \"value\": \"screenshots/OVAC/1.Smoke/3.User_Side_section.js/User side section -- The user is able to cancel prior appointment (failed).png\"\n}",
+              "code": "const message = \"Your appointment has been successfully cancelled.\";\ncy.log(\"Open email app and open the mail\");\ncy.waitForLatestEmail().then(inbox => {\n  cy.state('document').write(inbox.body);\n  cy.get('body > table:nth-child(5) > tbody > tr:nth-child(2) > td > div:nth-child(1) > div:nth-child(6) > a').invoke('attr', 'href').then(myLink => {\n    cy.visit(myLink);\n  });\n  cy.wait(5000);\n});\ncy.log(\"Click on the 'Cancel Appointment' button\");\ncy.get('[class=\"MuiInputBase-input MuiInput-input\"]').type('12345678Z');\ncy.get('#modal-confirm-participant-id-card-button-accept').click();\nappointment.cancel_appointment_button();\ncy.log(\"Click on 'Accept' button\");\nappointment.accept_privacy();\ncy.log(\"Appointment should be canceled\");\nappointment.alert_message(message);",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 10000ms: Expected to find element: `body > table:nth-child(5) > tbody > tr:nth-child(2) > td > div:nth-child(1) > div:nth-child(6) > a`, but never found it.",
+                "estack": "AssertionError: Timed out retrying after 10000ms: Expected to find element: `body > table:nth-child(5) > tbody > tr:nth-child(2) > td > div:nth-child(1) > div:nth-child(6) > a`, but never found it.\n    at Context.eval (https://ovac.pre.councilbox.com/__cypress/tests?p=cypress/integration/OVAC/1.Smoke/3.User_Side_section.js:224:10)",
+                "diff": null
+              },
+              "uuid": "d1379a2e-8ac2-48a7-9798-a0cf1994e352",
+              "parentUUID": "840c68d5-20c0-42cc-b7a0-320306b10158",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "User is able to create new meeting",
+              "fullTitle": "User side section User is able to create new meeting",
+              "timedOut": null,
+              "duration": 323,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "{\n  \"title\": \"Failed screenshot\",\n  \"value\": \"screenshots/OVAC/1.Smoke/3.User_Side_section.js/User side section -- User is able to create new meeting (failed).png\"\n}",
+              "code": "before(function () {\n  cy.clearLocalStorage();\n});\nconst name = \"Participant\";\nconst surname = \"Test\";\nconst dni = \"12345678Z\";\nconst email_1 = \"ca0b7eb9-d026-43ad-aada-72b36cf6dca1@mailslurp.com\";\nconst phone_code = \"387\";\nconst phone = \"61123123\";\nconst email = \"alem+1@qaengineers.net\";\nconst password = \"Mostar1234!test12\";\nconst description1 = \"Testing\";\ncy.log(\"Open he browser and enter URL\");\nlogin.navigate_admin();\ncy.log(\"The user is able to log in to the page\");\nlogin.enter_email(email);\nlogin.enter_password(password);\nlogin.login_submit();\nlogin.confirm_login();\ncy.log(\"The user is able to click on the 'Appointments' button\");\ndashboard.click_on_appointments();\ncy.log(\"The user is able to click on Add button\");\nappointments.click_on_add_button();\nappointments.select_procedure();\nappointments.click_consent_save_button();\ncy.log(\"The user is able to enter the data into 'Description' field\");\nappointments.enter_description(description1);\ncy.log(\"The user is able to click on the 'Next' button\");\nappointments.click_next_details();\ncy.wait(1000);\ncy.log(\"The user is able to click on the 'Add participant+'' button\");\nappointments.click_add_participant_button();\ncy.log(\"The user is able to input required field for Add Participant\");\nappointments.enter_participant_data(name, surname, dni, email_1, phone_code, phone);\nappointments.click_consent_save_button();\ncy.log(\"The user is able to click on the 'Next' button\");\nappointments.click_next_participants();\ncy.log(\"The user is able to click on the 'Next' button\");\nappointments.click_next_consents();\ncy.log(\"The user is able to click on the 'Next' button\");\nappointments.click_next_documentation();\ncy.log(\"The user is able to click on the 'Next' button\");\nappointments.click_next_configuration();\ncy.log(\"The user is able to click on the 'Send' button\");\nappointments.click_send();",
+              "err": {
+                "message": "CypressError: Cypress detected you registered a(n) `beforeAll` hook while a test was running (possibly a hook nested inside another hook). All hooks must be registered before a test begins executing.\n\nMove the `beforeAll` into a suite callback or the global scope.",
+                "estack": "CypressError: Cypress detected you registered a(n) `beforeAll` hook while a test was running (possibly a hook nested inside another hook). All hooks must be registered before a test begins executing.\n\nMove the `beforeAll` into a suite callback or the global scope.\n    at cypressErr (https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:176389:18)\n    at Object.errByPath (https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:176458:10)\n    at Suite._createHook (https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:178257:84)\n    at Suite.../driver/node_modules/mocha/lib/suite.js.Suite.beforeAll (https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:127114:19)\n    at Suite.<computed> [as beforeAll] (https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:178267:23)\n    at before (https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:121038:17)\nFrom Your Spec Code:\n    at Context.eval (https://ovac.pre.councilbox.com/__cypress/tests?p=cypress/integration/OVAC/1.Smoke/3.User_Side_section.js:239:5)",
+                "diff": null
+              },
+              "uuid": "4c0b07b4-dbb7-45bd-b4f4-30b6b5bf570a",
+              "parentUUID": "840c68d5-20c0-42cc-b7a0-320306b10158",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "f7ae3c6f-d73a-43a9-a8a3-04ad3b1107df"
+          ],
+          "failures": [
+            "840041ab-9615-4f83-8194-efe897611b98",
+            "d1379a2e-8ac2-48a7-9798-a0cf1994e352",
+            "4c0b07b4-dbb7-45bd-b4f4-30b6b5bf570a"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 85920,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.3.1"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "reportDir": "cypress/reports/mocha",
+        "quite": true,
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "5.2.0"
+    }
+  }
+}

@@ -4,6 +4,7 @@ import adminDashboard from "../pageObjects/adminDashboardPage"
 import appointmentsPage from "../pageObjects/appointmentsPage"
 import knowledgeBasePage from "../pageObjects/knowledgeBasePage"
 import usersPage from "../pageObjects/usersPage"
+import entitiesPage from "../pageObjects/entitiesPage"
 
 
 let inboxId;
@@ -13,6 +14,7 @@ let dashboard = new adminDashboard()
 let appoinments = new appointmentsPage()
 let knowledgeBase = new knowledgeBasePage()
 let users = new usersPage()
+let entit = new entitiesPage()
 
 
 describe("Users tests", function() {
@@ -30,6 +32,9 @@ describe("Users tests", function() {
         login.enter_password(password)
         login.login_submit() 
         login.confirm_login() 
+	cy.log("Select OVAC Demo entity")
+        entit.click_on_entity()
+        entit.if_entity()
 	})	
 
     it("Admin is able to create new user with 'English' language in the Users form", function() {

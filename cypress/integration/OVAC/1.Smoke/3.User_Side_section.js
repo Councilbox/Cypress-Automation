@@ -79,8 +79,14 @@ describe("User side section", function() {
         cy.waitForLatestEmail().then((inbox) => {
             cy.state('document').write(inbox.body);
             cy.wait(5000)
-            cy.get('body > table:nth-child(5) > tbody > tr:nth-child(2) > td > div:nth-child(1) > div:nth-child(6) > a').invoke('attr', 'href').then(myLink => {
-                cy.visit(myLink);
+            cy.get('body > table:nth-child(5) > tbody > tr:nth-child(1) > td > div > div:nth-child(3) > table > tbody > tr > td > div > table > tbody > tr:nth-child(2) > td > div > p > span').then(($btn) => {
+                const txt = $btn.text()
+                cy.reload()
+                cy.get('#sign-modal-code')
+                    .type(txt)
+                cy.get('#alert-confirm-button-accept').click()
+              
+              
             })
                 cy.wait(5000)
         })
