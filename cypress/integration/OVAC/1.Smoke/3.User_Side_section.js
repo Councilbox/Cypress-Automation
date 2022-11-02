@@ -2,7 +2,9 @@ import loginPage from "../pageObjects/loginPage"
 import requestAppointment from "../pageObjects/requestAppointment"
 import adminDashboard from "../pageObjects/adminDashboardPage"
 import appointmentsPage from "../pageObjects/appointmentsPage"
-import { func } from "prop-types";
+
+
+let url = Cypress.config().baseUrl;
 
 
 let inboxId;
@@ -10,6 +12,8 @@ let login = new loginPage();
 let appointment = new requestAppointment()
 let dashboard = new adminDashboard()
 let appointments = new appointmentsPage()
+
+let code;
 
 describe("User side section", function() {
      before(function() {    
@@ -27,7 +31,7 @@ describe("User side section", function() {
     
 
     cy.log("Open the browser and enter the URL")
-        login.navigate_user()
+        cy.visit(url)
     
     cy.log("'Click on the 'Request prior appointment' button")   
         appointment.request_prior_appointment_button()  
@@ -71,32 +75,46 @@ describe("User side section", function() {
 
 
     it("The user is able to reschedule prior appointment", function() {
-       
-        const reschedule_message = 'Your appointment has been successfully rescheduled.'
+        const tin = "12345678Z"
+
+        const reschedule_message = 'Su cita se ha reagendado con éxito.'
 
     cy.log("Open email app and open the mail")
         cy.wait(45000)
-        cy.waitForLatestEmail().then((inbox) => {
-            cy.state('document').write(inbox.body);
-            cy.wait(5000)
-            cy.get('body > table:nth-child(5) > tbody > tr:nth-child(1) > td > div > div:nth-child(3) > table > tbody > tr > td > div > table > tbody > tr:nth-child(2) > td > div > p > span').then(($btn) => {
-                const txt = $btn.text()
-                cy.reload()
+        cy.waitForLatestEmail().then(email => {
+
+            let test = email.body
+            cy.log(test)
+            // verify we received an email
+            assert.isDefined(email);
+
+        
+            // verify that email contains the code
+        
+            // extract the confirmation code (so we can confirm the user)
+            code = /\s+(\d{6})\s+/.exec(email.body)[0];
+            code = code.replace(/\s/g, '');
+                        assert.isDefined(code);
+            cy.log(code)
+          
                 cy.get('#sign-modal-code')
-                    .type(txt)
+                    .type(code)
                 cy.get('#alert-confirm-button-accept').click()
               
               
-            })
+            
                 cy.wait(5000)
-        })
-    
+                
+            });
+
+    cy.log("Click on CONTINUE")
+        appointment.click_continue_secure()
+    cy.log("Enter TIN")
+        appointment.enter_secure_TIN(tin)
+    cy.log("Click continue")
+        appointment.click_continue_id()
 
     cy.log("Click on the 'Reschedule Appointment' button")
-        cy.get('[class="MuiInputBase-input MuiInput-input"]')
-            .type('12345678Z')
-        cy.get('#modal-confirm-participant-id-card-button-accept')
-            .click()
         appointment.reschedule_appointment_button()
         appointment.click_ok()
     
@@ -112,7 +130,9 @@ describe("User side section", function() {
     it("The user is able to cancel prior appointment", function() {
        
 
-    const message = "Your appointment has been successfully cancelled."
+    const message = "Su cita se ha cancelado con éxito."
+    const tin = "12345678Z"
+    cy.wait(45000)
 
     cy.log("Open email app and open the mail")
 
@@ -126,10 +146,8 @@ describe("User side section", function() {
     
 
     cy.log("Click on the 'Cancel Appointment' button")
-        cy.get('[class="MuiInputBase-input MuiInput-input"]')
-            .type('12345678Z')
-        cy.get('#modal-confirm-participant-id-card-button-accept')
-            .click()
+        appointment.enter_secure_TIN(tin)
+        appointment.click_continue_id()
         appointment.cancel_appointment_button()
    
 
@@ -142,9 +160,9 @@ describe("User side section", function() {
 
 
     it("User is able to create new meeting", function() {
-        before(function() { 
+        
        cy.clearLocalStorage();
-        });
+      
    const name = "Participant"
    const surname = "Test"
    const dni = "12345678Z"
@@ -155,7 +173,7 @@ describe("User side section", function() {
    const password = "Mostar1234!test12"
    const description1 = "Testing"
    cy.log("Open he browser and enter URL")
-       login.navigate_admin()
+       cy.visit(url+'/admin')
 
    cy.log("The user is able to log in to the page")  
        login.enter_email(email)

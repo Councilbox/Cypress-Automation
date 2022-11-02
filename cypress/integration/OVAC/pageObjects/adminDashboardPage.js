@@ -10,7 +10,7 @@ class adminDashboard {
 		users: () => cy.get('#user-link'),
 		institutions: () => cy.get('#companies-link'),
 
-		user_icon: () =>cy.get('#user-menu-trigger'),
+		user_icon: () =>cy.get('.ri-user-3-line'),
 		logout: () => cy.get('#user-menu-logout'),
 
 		government: () => cy.xpath('//*[@class="ri-government-line"]'),

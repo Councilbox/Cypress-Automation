@@ -13,6 +13,8 @@ class requestAppointment {
 	
 		appointment_date: () => cy.get('.react-calendar__month-view__days__day').contains('30'),
 		appointment_time: () => cy.get('#date-0'),
+		secure_continue: () => cy.get('[class="MuiButtonBase-root MuiButton-root MuiButton-contained"]'),
+		tin_continue: () => cy.get('#id-login-button'),
 
 		confirm: () => cy.xpath('//*[@class="MuiButtonBase-root MuiButton-root MuiButton-contained" ]'),
 		required_field: () => cy.xpath('(//*[@class="MuiFormHelperText-root error-text Mui-error"])'),
@@ -49,6 +51,8 @@ class requestAppointment {
 		last_day: () => cy.xpath('//*[@class="react-calendar__tile react-calendar__month-view__days__day"]'),
 
 		ok_reschedule: () => cy.get('#panel-confirm-button-accept'),
+
+		secure_id: () => cy.get('[class="MuiInputBase-input MuiInput-input"]'),
 	
 		}
 
@@ -70,9 +74,27 @@ class requestAppointment {
 			.click()
 	}
 
+	enter_secure_TIN(tin) {
+		this.elements.secure_id()
+			.type(tin)
+			.should('have.value', tin)
+	}
+
 	select_last_day() {
 		this.elements.last_day()
 			.last()
+			.click()
+	}
+
+	click_continue_id() {
+		this.elements.tin_continue()
+			.should('be.visible')
+			.click()
+	}
+
+	click_continue_secure() {
+		this.elements.secure_continue()
+			.should('be.visible')
 			.click()
 	}
 

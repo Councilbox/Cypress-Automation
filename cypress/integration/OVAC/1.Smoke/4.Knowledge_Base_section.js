@@ -8,6 +8,8 @@ import tagsPage from "../pageObjects/tagsPage"
 import documentationPage from "../pageObjects/documentationPage"
 import entitiesPage from "../pageObjects/entitiesPage"
 
+let url = Cypress.config().baseUrl;
+
 
 let inboxId;
 let login = new loginPage();
@@ -29,7 +31,7 @@ describe("Knowledge base section", function() {
 	cy.clearLocalStorage();
 
 	cy.log("Open admin URL and login")
-		login.navigate_admin()
+		cy.visit(url+'/admin')
 		login.enter_email(email)
         login.enter_password(password)
         login.login_submit()  
@@ -54,7 +56,7 @@ describe("Knowledge base section", function() {
      const title = "Tab"+Cypress.config('UniqueNumber')
 
     cy.log("The user is able to click on the 'Templates' button")
-    	login.navigate_admin()
+    	cy.visit(url+'/admin')
     	dashboard.click_on_templates()
 	cy.log("The user is able to click on the '+' button")
 		templates.click_add_button()
@@ -71,7 +73,7 @@ describe("Knowledge base section", function() {
 	const value = "12345"
      
     cy.log("The user is able to click on the 'Tags' button")
-    	login.navigate_admin()
+	cy.visit(url+'/admin')
     	dashboard.click_on_tags()
 	cy.log("The user is able to click on the 'Add' button")
 		tags.click_add_button()
@@ -87,7 +89,7 @@ describe("Knowledge base section", function() {
     const search_data = "Test document" 
 
     cy.log("The user is able to click on the 'Documents' button")
-    	login.navigate_admin()
+    	cy.visit(url+'/admin')
     	dashboard.click_on_documentation()
 	cy.log("The user is able to navigate to the already existing file and click on the 'Download' icon")
 		documentation.search_documentation(search_data)

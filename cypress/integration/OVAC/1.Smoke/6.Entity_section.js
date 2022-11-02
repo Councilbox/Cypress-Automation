@@ -15,6 +15,7 @@ let appoinments = new appointmentsPage()
 let knowledgeBase = new knowledgeBasePage()
 let users = new usersPage()
 let entity = new entitiesPage()
+let url = Cypress.config().baseUrl;
 
 
 describe("Entity section", function() {
@@ -25,7 +26,7 @@ describe("Entity section", function() {
     
     cy.log("The user is able to open the browser and enter the URL: ")  
         cy.clearLocalStorage()   
-        login.navigate_admin()        
+        cy.visit(url+'/admin')       
     cy.log("The user is able to enter the email address")  
         login.enter_email(email)        
     cy.log("The user is able to enter the password") 
@@ -40,7 +41,7 @@ describe("Entity section", function() {
    const name = "LogoTestingAuto"
    
    cy.log("The user is able to open the browser and enter the URL: ")      
-       login.navigate_admin()     
+       cy.visit(url+'/admin')    
     cy.log("Select OVAC Demo entity")
         entity.click_on_entity()
         entity.if_entity()   
@@ -55,8 +56,8 @@ describe("Entity section", function() {
    cy.log("The user is able to click on the 'Insitution' button")
        dashboard.click_on_istitutions()
    cy.log("Navigate back to Home page")
-       login.navigate_admin()
-   })
+   cy.visit(url+'/admin')    
+})
 
     it("The user is able to add entity", function() { 
     const name = "Institutions"+Cypress.config('UniqueNumber')
@@ -86,8 +87,8 @@ describe("Entity section", function() {
     cy.log("The user is able to click on the 'Add entity+' button")
         entity.click_submit_entity()
     cy.log("Navigate back to Home page")
-        login.navigate_admin()
-        cy.wait(5000)
+    cy.visit(url+'/admin')    
+    cy.wait(5000)
     })
 
     it("The user is able to change entity", function() { 
@@ -95,8 +96,8 @@ describe("Entity section", function() {
         entity.click_on_entity()
         entity.if_entity()   
     cy.log("Navigate back to Home page")
-        login.navigate_admin()
-    })
+    cy.visit(url+'/admin')    
+})
 
 })
 

@@ -4,6 +4,7 @@ import adminDashboard from "../pageObjects/adminDashboardPage"
 let login = new loginPage();
 let dashboard = new adminDashboard()
 
+let url = Cypress.config().baseUrl;
 
 
 describe("Account section", function() {
@@ -17,7 +18,7 @@ describe("Account section", function() {
         const password = "Mostar1234!test12"
         
     cy.log("The user is able to open the browser and enter the URL: ")    
-    	login.navigate_admin()        
+    	cy.visit(url+'/admin')       
     cy.log("The user is able to enter the email address")
     	login.enter_email(email)       
     cy.log("The user is able to enter the password")

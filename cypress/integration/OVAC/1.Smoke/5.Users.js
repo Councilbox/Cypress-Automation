@@ -6,6 +6,8 @@ import knowledgeBasePage from "../pageObjects/knowledgeBasePage"
 import usersPage from "../pageObjects/usersPage"
 import entitiesPage from "../pageObjects/entitiesPage"
 
+let url = Cypress.config().baseUrl;
+
 
 let inboxId;
 let login = new loginPage();
@@ -27,7 +29,7 @@ describe("Users tests", function() {
 	const password = "Mostar1234!test12"
 
 	cy.log("Open admin URL and login")
-		login.navigate_admin()
+		cy.visit(url+'/admin')
 		login.enter_email(email)
         login.enter_password(password)
         login.login_submit() 
