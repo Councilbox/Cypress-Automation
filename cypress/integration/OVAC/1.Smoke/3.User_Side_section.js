@@ -31,7 +31,7 @@ describe("User side section", function() {
     
 
     cy.log("Open the browser and enter the URL")
-        cy.visit(url)
+        login.navigate_user()
     
     cy.log("'Click on the 'Request prior appointment' button")   
         appointment.request_prior_appointment_button()  
@@ -43,6 +43,7 @@ describe("User side section", function() {
         appointment.click_continue()      
 
     cy.log("Navigate to the 'Calendar' and select the date and time")
+        cy.wait(5000)
         appointment.click_next_month()
         appointment.select_last_day()   
         appointment.select_time()
