@@ -38,7 +38,7 @@ describe("New Meeting (Admin side) part 5", function() {
        const password = "Mostar123!test"
        
        cy.log("Navigate to login page")
-           cy.visit(login_url);
+           cy.visit(url);
        cy.log("Change language to Spanish")
            login.click_on_language_dropmenu()
            login.select_spanish_language()
@@ -126,7 +126,7 @@ describe("New Meeting (Admin side) part 5", function() {
    cy.log("Click on the “Finalizar y aprobar acta” button and again click on the “Finalizar y aprobar acta” button")        
        meetingFinalize.click_finalize_and_approve()
        meetingFinalize.verify_modal_title()
-       meetingPreview.alert_confirm()
+       meetingPreview.accept_modal()
     cy.log("Click on the “Envio del acta” button")
         meetingFinalize.click_sending_minutes_tab()
     cy.log("Click on the “Enviar acta” button")   
@@ -136,7 +136,7 @@ describe("New Meeting (Admin side) part 5", function() {
         meetingPreview.alert_confirm()  
         meetingFinalize.alert_cancel()
     cy.log("User should be able to exit the meeting")
-       cy.visit(login_url)
+       cy.visit(url)
    });
 
 });

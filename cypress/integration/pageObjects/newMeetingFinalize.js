@@ -9,11 +9,11 @@ class newMeetingFinalize {
 
         finalize_and_approve_tab: () => cy.get('#council-act-approve-button'),
 
-        sending_minutes_tab: () => cy.get('#tab-sendAct'),
+        sending_minutes_tab: () => cy.get('#tab-1'),
         send_minutes_button: () => cy.get('#send-act-button'),
         send_to_all_invited_option: () => cy.get('#send-act-all-convened-option'),
 
-        modal_title: () => cy.get('#modal-title'),
+        modal_title: () => cy.get('#mui-11'),
 
         alert_cancel: () => cy.get('#alert-confirm-button-cancel'),
     
@@ -27,6 +27,8 @@ class newMeetingFinalize {
             .click()
            .wait(2000)
     }
+
+    
 
     alert_cancel() {
         this.elements.alert_cancel()

@@ -2,7 +2,7 @@ const login_url = Cypress.env("baseUrl");
 
 class userSettingsPage {
 	elements = {
-		my_account: () => cy.get("#user-menu-trigger"),
+		my_account: () => cy.get("#cbx-header-third-button-user"),
 		user_settings: () => cy.get("#user-menu-settings"),
 		user_name: () => cy.get("#user-settings-name"),
 		user_surname: () => cy.get("#user-settings-surname"),
@@ -20,7 +20,7 @@ class userSettingsPage {
 		new_password: () => cy.get("#user-password"),
 		new_password_confirm: () => cy.get("#user-password-check"),
 		save_password_button: () => cy.get("#user-password-save"),
-		logout_button: () => cy.get("#user-menu-logout"),
+		logout_button: () => cy.get("#user-settings-logout"),
 
 		current_password_error: () =>
 			cy.get("#user-current-password-error-text"),
@@ -36,6 +36,7 @@ class userSettingsPage {
 	}
 
 	click_on_my_account() {
+		cy.wait(2000)
 		this.elements
 			.my_account()
 			.should("be.visible")

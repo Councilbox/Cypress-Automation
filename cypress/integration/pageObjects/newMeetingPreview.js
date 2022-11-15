@@ -44,8 +44,8 @@ class newMeetingPreview {
 
         paerticipants_search: () => cy.get('#input-search-live'),
 
-        participant_b: () => cy.get('#state-selector-participant-item-1'),
-        first_participanth: () => cy.get('#state-selector-participant-item-0'),
+        participant_b: () => cy.get('#participant-item-1').find('#state-selector-undefined'),
+        first_participanth: () => cy.get('#participant-item-0').find('#state-selector-undefined'),
 
         attending_in_person: () => cy.get('[role="menuitem"]').contains('Attending in person'),
 
@@ -63,6 +63,9 @@ class newMeetingPreview {
         guest_surname: () => cy.get('#participant-form-surname'),
         guest_id: () => cy.get('#participant-form-card-id'),
         guest_email: () => cy.get('#participant-form-email'),
+        modal_accept: () => cy.get('#modal-button-accept'),
+        guest_phone: () => cy.get('#participant-form-phone')
+
        
     
 
@@ -75,7 +78,13 @@ class newMeetingPreview {
             .click()
     }
 
-    enter_guest_inputs(name, surname, id, email) {
+    accept_modal() {
+        this.elements.modal_accept()
+            .should('be.visible')
+            .click()
+    }
+
+    enter_guest_inputs(name, surname, id, email, phone) {
         this.elements.guest_name()
             .should('be.visible')
             .clear()
@@ -96,6 +105,11 @@ class newMeetingPreview {
             .clear()
             .type(email)
             .should('have.value', email)
+        this.elements.guest_phone()
+            .should('be.visible')
+            .type(phone)
+            .should('have.value', phone)
+
     }
 
     click_on_add_guest() {
@@ -253,6 +267,7 @@ class newMeetingPreview {
     }
 
     click_on_start_meeting() {
+        cy.wait(3000)
         this.elements.start_meeting()
             .should('be.visible')
             .click()

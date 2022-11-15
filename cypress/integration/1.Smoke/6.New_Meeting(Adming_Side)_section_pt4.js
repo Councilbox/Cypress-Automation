@@ -127,7 +127,7 @@ describe("New Meeting (Admin side) part 4", function() {
     cy.log("Click on the “Finalizar y aprobar acta” button and again click on the “Finalizar y aprobar acta” button")        
         meetingFinalize.click_finalize_and_approve()
         meetingFinalize.verify_modal_title()
-        meetingPreview.alert_confirm()
+        meetingPreview.accept_modal()
     cy.log("User should be able to exit the meeting")
         cy.visit(url)
 
