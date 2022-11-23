@@ -28,6 +28,19 @@ describe("Request appointment - regression tests", function() {
    })
 
 
+   it("User is able to Upload file in the 'Documentation' page", function() {
+
+    cy.log("The user is able to click on the 'Documentations' button")
+    	dashboard.click_on_documentation()
+	cy.log("The user is able to click on the '+' button")
+		knowledgeBase.click_add_button()
+	cy.log("The user is able to click on the 'Upload file' button and upload a file")
+		knowledgeBase.upload_file()
+	})
+
+    
+
+
 
 
 
