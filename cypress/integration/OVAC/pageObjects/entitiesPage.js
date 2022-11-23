@@ -4,12 +4,12 @@ const companyAddress = "Majkl Dzordana 23"
 const entityTown = "Cikago"
 
 let docFile = 'testDocument.txt';
-let imageFile = 'testimage.png'
+let imageFile = 'almir.png'
 
 class entitiesPage {
 
 	elements = {
-		search_for_entity: () => cy.xpath('//*[@id="root"]/div/div[3]/div/div[2]/div/div[1]/div[2]/div/div/div/div[1]/div[2]/div/div/div/div/input'),
+		search_for_entity: () => cy.get('[class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd"]'),
 		add_button: () => cy.get('#create-company-button'),
 		name: () => cy.get('#business-name'),
 		tax_id: () => cy.get('#addSociedadCIF'),
@@ -17,6 +17,7 @@ class entitiesPage {
 		town_city: () => cy.get('#addSociedadLocalidad'),
 		province: () => cy.get('#country-state-select'),
 		institution_search: () => cy.get('#institutions-search-input'), 
+		contact_email: () => cy.xpath('(//*[@class="MuiInputBase-input MuiInput-input"])[3]'),
 		province_option : () => cy.get('[role="menuitem"]').eq(25),
 		zip_code: () => cy.get('#addSociedadCP'),
 		submit: () => cy.get('#layout-top > div > div:nth-child(2) > div > button'),
@@ -40,6 +41,9 @@ class entitiesPage {
 		next_page: () => cy.xpath('//*[@id="root"]/div/div[3]/div/div[2]/div/div[2]/div/div[1]/div/div/div[2]/div/div/div[2]/div/div[2]/span/i'),
 		current_entity: () => cy.get('[class="MuiButtonBase-root MuiListItem-root MuiMenuItem-root Mui-selected MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button Mui-selected"]'),
 		all_entity: () => cy.get('.ri-government-line'),
+
+		main_language: () => cy.get('#company-language-select'),
+		select_language: () => cy.get('[class="MuiList-root MuiMenu-list MuiList-padding"]'),
 	}
 
 
@@ -47,6 +51,29 @@ class entitiesPage {
 		this.elements.add_button()
 			.should('be.visible')
 			.click()
+	}
+
+	verify_language(language) {
+		this.elements.main_language()
+			.should('have.text', language)
+	}
+
+	select_company_language(language) {
+		this.elements.main_language()
+			.should('be.visible')
+			.click()
+		this.elements.select_language()
+			.contains(language)
+			.should('be.visible')
+			.click()
+	}
+
+	enter_contact_email(contact_email) {
+		this.elements.contact_email()
+			.should('be.visible')
+			.clear()
+			.type(contact_email)
+			.should('have.value', contact_email)
 	}
 
 	new_entity_switch(name) {
@@ -86,6 +113,7 @@ class entitiesPage {
 					.clear()
 					.type('OVAC DEMO')
 					.should('have.value', 'OVAC DEMO')
+					.wait(3000)
 				this.elements.manage_entity()
 					.should('be.visible')
 					.click()
@@ -117,6 +145,21 @@ class entitiesPage {
 	verify_name_error() {
 		this.elements.entity_name_error()
 			.should('be.visible')
+	}
+
+	verify_name(name) {
+		this.elements.name()
+			.should('have.value', name)
+	}
+
+	verify_contact_email(contact_email) {
+		this.elements.contact_email()
+			.should('have.value', contact_email)
+	}
+
+	verify_tax(tax) {
+		this.elements.tax_id()
+			.should('have.value', tax)
 	}
 
 	click_on_delete() {

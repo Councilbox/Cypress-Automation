@@ -42,11 +42,18 @@ class userSettingsPage {
         company_contact_email: () => cy.xpath('//*[@id="root"]/div/div[3]/div/div[2]/div/div[1]/div[2]/div/div/div[1]/div/div/div/div[1]/div[1]/div/div[4]/div/div/div/input'),
         company_language_menu: () => cy.get('#company-language-select'),
         company_language_english: () => cy.xpath('//*[@id="menu-Main language"]/div[3]/ul/li[2]'),
+        save_company: () => cy.get('#save-button'),
 
 	}
 
 	click_on_my_account() {
         this.elements.my_account()
+            .should('be.visible')
+            .click()
+    }
+
+    click_on_save_button() {
+        this.elements.save_company()
             .should('be.visible')
             .click()
     }
