@@ -2,7 +2,7 @@
 class userSettingsPage {
 
 	elements = {
-		my_account: () => cy.get('#user-menu-trigger'),
+		my_account: () => cy.xpath('(//*[@id="user-menu-trigger"])[2]'),
         user_settings: () => cy.get('#user-menu-settings'),
         company_settings: () => cy.get('#user-settings-edit-company'),
         logout: () => cy.get('#user-menu-logout'),
@@ -18,6 +18,10 @@ class userSettingsPage {
 
         save_button: () => cy.get('#user-settings-save-button'),
         english: () => cy.get('#language-en'),
+        italian: () => cy.get('#language-it'),
+        catala: () => cy.get('#language-cat'),
+        euskera: () => cy.get('#language-eu'),
+        spanish: () => cy.get('#language-es'),
 
         //change_password
         change_password_button: () => cy.get('#user-change-password-button'),
@@ -178,9 +182,53 @@ class userSettingsPage {
             .click()
     }
 
+    select_italian_language() {
+        this.elements.italian()
+            .should('be.visible')
+            .click()
+    }
+
+    select_spanish_language() {
+        this.elements.spanish()
+            .should('be.visible')
+            .click()
+    }
+
+    select_catala_language() {
+        this.elements.catala()
+            .should('be.visible')
+            .click()
+    }
+
+    select_ruskera_language() {
+        this.elements.euskera()
+            .should('be.visible')
+            .click()
+    }
+
     verify_english_language() {
         this.elements.user_language_menu()
             .should('contain', 'English')
+    } 
+
+    verify_italian_language() {
+        this.elements.user_language_menu()
+            .should('contain', 'Italiano')
+    } 
+
+    verify_catala_language() {
+        this.elements.user_language_menu()
+            .should('contain', 'Català')
+    } 
+
+    verify_euskera_language() {
+        this.elements.user_language_menu()
+            .should('contain', 'Euskera')
+    } 
+
+    verify_spanish_language() {
+        this.elements.user_language_menu()
+            .should('contain', 'Español')
     } 
 
     click_on_language_menu() {

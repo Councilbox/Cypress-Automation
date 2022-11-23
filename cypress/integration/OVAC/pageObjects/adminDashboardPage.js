@@ -3,7 +3,7 @@ class adminDashboard {
 
 	elements = {
 		appointments: () => cy.get('#council-link'),
-		procedures: () => cy.get('#rocedures-link'),
+		procedures: () => cy.get('#procedures-link'),
 		templates: () => cy.get('#draft-link'),
 		tags: () => cy.get('#tags-link'),
 		documentation: () => cy.get('#documentation-link'),
@@ -58,24 +58,32 @@ class adminDashboard {
 		this.elements.institutions()
 			.should('be.visible')
 			.click()
+		cy.url()
+			.should('include', '/companies')		
 	}
 
 	click_on_procedures() {
 		this.elements.procedures()
 			.should('be.visible')
 			.click()
+		cy.url()
+			.should('include', '/procedures')	
 	}
 
 	click_on_templates() {
 		this.elements.templates()
 			.should('be.visible')
 			.click()
+		cy.url()
+			.should('include', '/drafts')
 	}
 
 	click_on_tags() {
 		this.elements.tags()
 			.should('be.visible')
 			.click()
+		cy.url()
+			.should('include', '/tags')	
 	}
 
 	click_on_documentation() {

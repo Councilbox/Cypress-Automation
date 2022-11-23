@@ -105,27 +105,6 @@ describe("User settings - regression tests", function() {
         settings.verify_user_phone(phone)
    })
 
-   it("The user is able to change the Language to English - Users settings section", function() {
-    const email = "alem+1@qaengineers.net"
-    const passowrd = "Mostar1234!test"
-    const phone = Cypress.config('UniqueNumber')
-    cy.clearLocalStorage()
-    cy.log("Open browser and enter URL")
-        login.navigate_admin()
-    cy.log("The user is able to click on the Account icon")
-        settings.click_on_my_account()
-    cy.log("The user is able to click on the Edit button")
-        settings.click_on_user_settings()
-    cy.log("The user is able to edit a 'Language' field")
-        settings.click_on_language_menu()
-        settings.select_english_language()
-    cy.log("Click on SAVE")
-        settings.click_on_save()
-    cy.log("Verify that User is successfully edited")
-        cy.reload()
-        settings.verify_english_language()
-        
-   })
 
    /*
 
@@ -215,6 +194,170 @@ describe("User settings - regression tests", function() {
         settings.click_on_save_password()
     cy.log("The error message is displayed below Confirm password label")
         settings.verify_existing_confirm_password_error()
+   })
+
+
+
+   it("The user is able to save all changes by clicking on the 'Save' button - User settings section", function() {
+    const name = "Alem"+Cypress.config('UniqueNumber')+"1"
+    const surname = "Balla"+Cypress.config('UniqueNumber')+"1"
+    const email = "alem+1@qaengineers.net"
+    const passowrd = "Mostar1234!test"
+    const phone = Cypress.config('UniqueNumber')
+    cy.clearLocalStorage()
+    cy.log("Open browser and enter URL")
+        login.navigate_admin()
+    cy.log("The user is able to click on the Account icon")
+        settings.click_on_my_account()
+    cy.log("The user is able to click on the Edit button")
+        settings.click_on_user_settings()
+    cy.log("The user is able to edit a 'Name' field")
+        settings.enter_user_name(name)
+    cy.log("The user is able to edit a 'Surname' field")
+        settings.enter_user_surname(surname)
+    cy.log("The user is able to edit a 'Email' field")
+        settings.enter_user_email(email)
+    cy.log("Click on SAVE")
+        settings.click_on_save()
+    cy.log("Verify that User is successfully edited")
+        cy.reload()
+        settings.verify_user_surname(surname)
+        settings.verify_user_name(name)
+        settings.verify_user_email(email)
+        
+   })
+
+   it("The user is able to change the Language to English - Users settings section", function() {
+    const email = "alem+1@qaengineers.net"
+    const passowrd = "Mostar1234!test"
+    const phone = Cypress.config('UniqueNumber')
+    cy.clearLocalStorage()
+    cy.log("Open browser and enter URL")
+        login.navigate_admin()
+    cy.log("The user is able to click on the Account icon")
+        settings.click_on_my_account()
+    cy.log("The user is able to click on the Edit button")
+        settings.click_on_user_settings()
+    cy.log("The user is able to edit a 'Language' field")
+        settings.click_on_language_menu()
+        settings.select_english_language()
+    cy.log("Click on SAVE")
+        settings.click_on_save()
+    cy.log("Verify that User is successfully edited")
+        cy.reload()
+        settings.verify_english_language()
+        
+   })
+
+   it("The user is able to change the Language to Italiano - Users settings section", function() {
+    const email = "alem+1@qaengineers.net"
+    const passowrd = "Mostar1234!test"
+    const phone = Cypress.config('UniqueNumber')
+    cy.clearLocalStorage()
+    cy.log("Open browser and enter URL")
+        login.navigate_admin()
+    cy.log("The user is able to click on the Account icon")
+        settings.click_on_my_account()
+    cy.log("The user is able to click on the Edit button")
+        settings.click_on_user_settings()
+    cy.log("The user is able to edit a 'Language' field")
+        settings.click_on_language_menu()
+        settings.select_italian_language()
+    cy.log("Click on SAVE")
+        settings.click_on_save()
+    cy.log("Verify that User is successfully edited")
+        cy.reload()
+        settings.verify_italian_language()
+        
+   })
+
+   it("The user is able to change the Language to Catalá  - Users settings section", function() {
+    const email = "alem+1@qaengineers.net"
+    const passowrd = "Mostar1234!test"
+    const phone = Cypress.config('UniqueNumber')
+    cy.clearLocalStorage()
+    cy.log("Open browser and enter URL")
+        login.navigate_admin()
+    cy.log("The user is able to click on the Account icon")
+        settings.click_on_my_account()
+    cy.log("The user is able to click on the Edit button")
+        settings.click_on_user_settings()
+    cy.log("The user is able to edit a 'Language' field")
+        settings.click_on_language_menu()
+        settings.select_catala_language()
+    cy.log("Click on SAVE")
+        settings.click_on_save()
+    cy.log("Verify that User is successfully edited")
+        cy.reload()
+        settings.verify_catala_language()
+        
+   })
+
+   it("The user is able to change the Language to Euskera  - Users settings section", function() {
+    const email = "alem+1@qaengineers.net"
+    const passowrd = "Mostar1234!test"
+    const phone = Cypress.config('UniqueNumber')
+    cy.clearLocalStorage()
+    cy.log("Open browser and enter URL")
+        login.navigate_admin()
+    cy.log("The user is able to click on the Account icon")
+        settings.click_on_my_account()
+    cy.log("The user is able to click on the Edit button")
+        settings.click_on_user_settings()
+    cy.log("The user is able to edit a 'Language' field")
+        settings.click_on_language_menu()
+        settings.select_ruskera_language()
+    cy.log("Click on SAVE")
+        settings.click_on_save()
+    cy.log("Verify that User is successfully edited")
+        cy.reload()
+        settings.verify_euskera_language()
+        
+   })
+
+
+   it("The user is able to change the Language to Spanish - Users settings section", function() {
+    const email = "alem+1@qaengineers.net"
+    const passowrd = "Mostar1234!test"
+    const phone = Cypress.config('UniqueNumber')
+    cy.clearLocalStorage()
+    cy.log("Open browser and enter URL")
+        login.navigate_admin()
+    cy.log("The user is able to click on the Account icon")
+        settings.click_on_my_account()
+    cy.log("The user is able to click on the Edit button")
+        settings.click_on_user_settings()
+    cy.log("The user is able to edit a 'Language' field")
+        settings.click_on_language_menu()
+        settings.select_spanish_language()
+    cy.log("Click on SAVE")
+        settings.click_on_save()
+    cy.log("Verify that User is successfully edited")
+        cy.reload()
+        settings.verify_spanish_language()
+        
+   })
+
+   it("The user is able to change the Language BACK to English - Users settings section", function() {
+    const email = "alem+1@qaengineers.net"
+    const passowrd = "Mostar1234!test"
+    const phone = Cypress.config('UniqueNumber')
+    cy.clearLocalStorage()
+    cy.log("Open browser and enter URL")
+        login.navigate_admin()
+    cy.log("The user is able to click on the Account icon")
+        settings.click_on_my_account()
+    cy.log("The user is able to click on the Edit button")
+        settings.click_on_user_settings()
+    cy.log("The user is able to edit a 'Language' field")
+        settings.click_on_language_menu()
+        settings.select_english_language()
+    cy.log("Click on SAVE")
+        settings.click_on_save()
+    cy.log("Verify that User is successfully edited")
+        cy.reload()
+        settings.verify_english_language()
+        
    })
 
 

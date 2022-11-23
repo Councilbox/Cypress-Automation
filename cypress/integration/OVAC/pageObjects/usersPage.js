@@ -24,12 +24,23 @@ class usersPage {
 		tin: () => cy.get('#user-id-card-type'),
 		continue: () => cy.get('[class="MuiButtonBase-root MuiButton-root MuiButton-text"]').eq(0),
 		finalize: () => cy.get('#root > div > div:nth-child(3) > div > div:nth-child(2) > div > div:nth-child(1) > div > div:nth-child(2) > div > button'),
-		users_table_row: () => cy.get('[class="MuiTableRow-root cursor-pointer MuiTableRow-hover"]').eq(0)
+		users_table_row: () => cy.get('[class="MuiTableRow-root cursor-pointer MuiTableRow-hover"]').eq(0),
+		action_button: () => cy.get('.ri-more-2-fill').eq(0),
+		edit_button: () => cy.get('.ri-pencil-line')
 	
 		}
 
 	click_add_user() {
 		this.elements.add_user_button()
+			.should('be.visible')
+			.click()
+	}
+
+	click_on_edit() {
+		this.elements.action_button()
+			.should('be.visible')
+			.click()
+		this.elements.edit_button()
 			.should('be.visible')
 			.click()
 	}
@@ -84,6 +95,7 @@ class usersPage {
 		this.elements.finalize()
 			.should('be.visible')
 			.click()
+		cy.wait(5000)
 	}
 
 	enter_name(name) {
