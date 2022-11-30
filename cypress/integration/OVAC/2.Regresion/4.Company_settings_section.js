@@ -157,6 +157,60 @@ describe("Company settings - regression tests", function() {
     })
 
 
+    it("Only the Super administrator and Administrator can configure the organization/entity from the 'Account' icon", function() {
+        cy.log("Navigate back to Home page")
+            login.navigate_admin()  
+        cy.log("Click on My Acount")
+            settings.click_on_my_account()
+        cy.log("On the menu, there is the organization/entity configuration option")
+            settings.company_settings_visible()
+        cy.log("Logout")
+            settings.click_on_logout()
+    })
+
+    it("The Professional and Calendar managers don't see the Organization/Entity configuration under the 'Account' icon", function() {
+        cy.clearLocalStorage()
+        const email = "mo+3@qaengineers.net"
+        const passowrd = "Testtest123!"
+        cy.clearLocalStorage()
+        cy.log("Open browser and enter URL")
+            login.navigate_admin()
+        cy.log("The user is able to Login")
+            login.enter_email(email)
+            login.enter_password(passowrd)
+            login.login_submit() 
+        cy.log("Click on My Acount")
+            settings.click_on_my_account()
+        cy.log("On the menu, the organization/entity configuration option is not displayed")
+            settings.company_settings_not_visible()
+        cy.log("Logout")
+            settings.click_on_logout()
+    })
+
+    it("The user can add or edit support email for organization", function() {
+        cy.clearLocalStorage()
+        const email = "alem+1@qaengineers.net"
+        const passowrd = "Mostar1234!test12"
+        const support_email = "support"+Cypress.config('UniqueNumber')+"@test.com"
+        cy.clearLocalStorage()
+        cy.log("Open browser and enter URL")
+            login.navigate_admin()
+        cy.log("The user is able to Login")
+            login.enter_email(email)
+            login.enter_password(passowrd)
+            login.login_submit() 
+        cy.log("Click on My Acount")
+            settings.click_on_my_account()
+        cy.log("Click to Edit company")
+            settings.click_on_company_settings()
+        cy.log("Add/Edit the support email")
+            settings.enter_support_email(support_email)
+        cy.log("Click on the 'Save' button")
+            settings.click_on_save_button()
+    })
+    
+
+
     it("The user is able to change entity", function() { 
         cy.log("Navigate back to Home page")
             login.navigate_admin()  

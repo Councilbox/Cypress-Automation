@@ -50,6 +50,8 @@ describe("Documentation section - regression tests", function() {
 
    })
 
+   
+
    it("The user is able to create a new folder in the existing folder - Documentation tab - Knowledge base section", function() {
     const email = "alem+1@qaengineers.net"
     const passowrd = "Mostar1234!test"
@@ -248,6 +250,63 @@ describe("Documentation section - regression tests", function() {
 
 
 
+   it("The user is able to upload a new document in the already existing folder - Documentation ", function() {
+    const email = "alem+1@qaengineers.net"
+    const passowrd = "Mostar1234!test12"
+    const title = "FolderFile"+Cypress.config('UniqueNumber')
+    cy.clearLocalStorage()
+    cy.log("Open browser and enter URL")
+        login.navigate_admin()
+    cy.log("The user is able to Login")
+        login.enter_email(email)
+        login.enter_password(passowrd)
+        login.login_submit()
+    cy.log("Select OVAC Demo entity")
+        entit.click_on_entity()
+        entit.if_entity()
+    cy.log("The user is able to click on the 'Knowledge base' button")
+        dashboard.click_on_documentation()
+    cy.log("The user is able to click on the 'My docs' drop menu")
+    cy.log("Click on Add Button")
+        documentation.click_add_button()
+    cy.log("The user is able to click on the 'New folder' button")
+        documentation.click_on_new_folder()
+    cy.log("The user is able to populate title field and click on the 'Ok' button")
+        documentation.enter_folder_title(title)
+        documentation.click_alert_confirm()
+    cy.log("Verify that Folder is created")
+        documentation.search_for_folder(title)
+        documentation.verify_folder(title)
+    cy.log("Open that Folder")
+        documentation.open_folder()
+    cy.log("Upload a file")
+        documentation.upload_file()
+    
+
+   })
+
+
+   it("Professionals can only download documents and 'three dots' settings are hidden for them - Documentation", function() {
+    const email = "mo+5@qaengineers.net"
+    const password = "Ovacdemo123!"
+    const file = "testDocument"
+    const file_new = "editedFile"+Cypress.config('UniqueNumber')
+        //settings.click_on_my_account()
+        //settings.click_on_logout()
+    cy.log("Open browser and enter URL")
+        login.navigate_admin()
+    cy.log("The user is able to Login")
+        login.enter_email(email)
+        login.enter_password(password)
+        login.login_submit()
+    cy.log("The user is able to click on the 'Knowledge base' button")
+        dashboard.click_on_documentation()
+    cy.log("Action button should not exist")
+        documentation.action_button_not_exist()
+    cy.log("Only Download button should be visible")
+        documentation.download_visible()
+
+    })
 
 
 

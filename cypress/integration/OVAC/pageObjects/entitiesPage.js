@@ -38,17 +38,39 @@ class entitiesPage {
 		delete_button: () => cy.get('[class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button"]').contains('Delete'),
 		edit_button: () => cy.get('[class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button"]').contains('Edit'),
 		save_entity: () => cy.get('[class="MuiButtonBase-root MuiButton-root MuiButton-text"]'),
-		next_page: () => cy.xpath('//*[@id="root"]/div/div[3]/div/div[2]/div/div[2]/div/div[1]/div/div/div[2]/div/div/div[2]/div/div[2]/span/i'),
+		next_page: () => cy.get('.ri-arrow-right-s-line'),
 		current_entity: () => cy.get('[class="MuiButtonBase-root MuiListItem-root MuiMenuItem-root Mui-selected MuiMenuItem-gutters MuiListItem-gutters MuiListItem-button Mui-selected"]'),
 		all_entity: () => cy.get('.ri-government-line'),
 
 		main_language: () => cy.get('#company-language-select'),
 		select_language: () => cy.get('[class="MuiList-root MuiMenu-list MuiList-padding"]'),
+
+		all_types: () => cy.get('#entity-categories-select'),
+		types_list: () => cy.get('[class="MuiPaper-root MuiMenu-paper MuiPopover-paper MuiPaper-elevation8 MuiPaper-rounded"]'),
+
+		save_on_entity: () => cy.get('[class="MuiButtonBase-root MuiButton-root MuiButton-text"]').eq(0),
 	}
 
 
 	click_add_button() {
 		this.elements.add_button()
+			.should('be.visible')
+			.click()
+	}
+
+	verify_types() {
+		this.elements.types_list()
+			.should('be.visible')
+	}
+
+	saving() {
+		this.elements.save_on_entity()
+			.should('be.visible')
+			.click()
+	}
+
+	click_on_all_entites_filter() {
+		this.elements.all_types()
 			.should('be.visible')
 			.click()
 	}
@@ -90,6 +112,7 @@ class entitiesPage {
 					.clear()
 					.type(name)
 					.should('have.value', name)
+				cy.wait(5000)
 				this.elements.manage_entity()
 					.should('be.visible')
 					.click()

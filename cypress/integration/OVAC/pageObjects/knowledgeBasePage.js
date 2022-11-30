@@ -23,12 +23,33 @@ class knowledgeBasePage {
 		alert_confirm: () => cy.get('#alert-confirm-button-accept'),
 
 		action_button: () => cy.xpath('//*[@id="root"]/div/div[3]/div/div[2]/div/div/div/div[1]/div/div/div[2]/div/table/tbody/tr/td[5]/div/div/button'),
+
+		actioning: () => cy.get('.ri-more-2-fill'),
+
+		folder_icon: () => cy.get('#dss'),
+		download: () => cy.get('#download-file-0'),
 	}
 
 	click_add_button() {
 		this.elements.add_button()
 			.should('be.visible')
 			.click()
+	}
+
+	download_visible() {
+		this.elements.download()
+			.should('be.visible')
+	}
+
+	open_folder() {
+		this.elements.folder_icon()
+			.should('be.visible')
+			.click()
+	}
+
+	action_button_not_exist() {
+		this.elements.actioning()
+			.should('not.exist')
 	}
 
 	verify_code_error() {

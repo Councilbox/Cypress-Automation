@@ -4,6 +4,7 @@ class templatesPage {
 	elements = { 
 		add_button: () => cy.get('#add-procedure-button'),
 		new: () => cy.get('#company-document-create-folder').eq(0),
+		import: () => cy.get('[class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button"]').last(),
 		title: () => cy.get('#draft-editor-title'),
 		save: () => cy.get('#draft-editor-save'),
 		title_error: () => cy.xpath('//*[@id="root"]/div/div[3]/div/div[2]/div/div[1]/div[2]/div/div/div/div[1]/div/div[1]/div/div/div/div/div[1]/div[2]/span'),
@@ -13,7 +14,9 @@ class templatesPage {
 		action_options: () => cy.xpath('//*[@class="MuiList-root MuiList-padding"]'),	
 		alert_confirm: () => cy.get('#alert-confirm-button-accept'),
 		template_table_row: () => cy.get('[class="MuiTableRow-root cursor-pointer MuiTableRow-hover"]'),
-		procedure_type_filter: () => cy.get('#procedure-type-filter').eq(0)
+		procedure_type_filter: () => cy.get('#procedure-type-filter').eq(0),
+
+		first_checkbox: () => cy.get('#delete-checkbox-0'),
 		}
 
     click_add_button() {
@@ -22,6 +25,11 @@ class templatesPage {
             .click()
     }
 
+	select_first_template() {
+		this.elements.first_checkbox()
+			.click({force:true})
+	}
+
 	search_for_procedure(procedure) {
 		this.elements.procedure_type_filter()
 			.should('be.visible')
@@ -29,6 +37,12 @@ class templatesPage {
 			.type(procedure)
 			.should('have.value', procedure)
 			.wait(1000)
+	}
+
+	click_on_import() {
+		this.elements.import()
+			.should('be.visible')
+			.click()
 	}
 
 	verify_template() {

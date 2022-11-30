@@ -44,6 +44,8 @@ class userSettingsPage {
         company_language_english: () => cy.xpath('//*[@id="menu-Main language"]/div[3]/ul/li[2]'),
         save_company: () => cy.get('#save-button'),
 
+        support_email: () => cy.xpath('(//*[@class="MuiInputBase-input MuiInput-input"])[4]'),
+
 	}
 
 	click_on_my_account() {
@@ -52,10 +54,29 @@ class userSettingsPage {
             .click()
     }
 
+    enter_support_email(support_email) {
+        this.elements.support_email()
+            .should('be.visible')
+            .clear()
+            .type(support_email)
+            .should('have.value', support_email)
+    }
+
+    company_settings_not_visible() {
+        this.elements.company_settings()
+            .should('not.exist')
+    }
+
     click_on_save_button() {
         this.elements.save_company()
             .should('be.visible')
             .click()
+    }
+
+    company_settings_visible() {
+        this.elements.company_settings()
+            .should('be.visible')
+            .should('exist')
     }
 
     select_company_english_language() {

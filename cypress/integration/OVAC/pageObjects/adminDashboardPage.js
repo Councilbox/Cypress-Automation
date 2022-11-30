@@ -9,14 +9,53 @@ class adminDashboard {
 		documentation: () => cy.get('#documentation-link'),
 		users: () => cy.get('#user-link'),
 		institutions: () => cy.get('#companies-link'),
+		dashboard: () => cy.get('#dashboard-link'),
 
 		user_icon: () =>cy.get('.ri-user-3-line'),
 		logout: () => cy.get('#user-menu-logout'),
 
 		government: () => cy.xpath('//*[@class="ri-government-line"]'),
 
-		institution_option: () => cy.xpath('//*[@title="OVAC Demo"]')
+		institution_option: () => cy.xpath('//*[@title="OVAC Demo"]'),
+		month_back: () => cy.get('.ri-arrow-left-s-line'),
 
+
+
+
+
+
+
+		//dashboard
+
+		institutions_dropmenu: () => cy.get('#company-entities-filter'),
+		procedures_filter: () => cy.get('#procedures-filter'),
+
+	}
+
+	click_on_dashboard() {
+		this.elements.dashboard()
+			.should('be.visible')
+			.click()
+		cy.url()
+			.should('include', '/dashboard')
+	}
+
+	click_on_month_back() {
+		this.elements.month_back()
+			.should('be.visible')
+			.click()
+	}
+
+	click_on_institituions_dropmenu() {
+		this.elements.institutions_dropmenu()
+			.should('be.visible')
+			.click()
+	}
+
+	click_on_procedures_filter() {
+		this.elements.procedures_filter()
+			.should('be.visible')
+			.click()
 	}
 
 	click_on_appointments() {
