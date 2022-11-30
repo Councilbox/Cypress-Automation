@@ -24,16 +24,10 @@
   "defaultCommandTimeout": 10000,
   "pageLoadTimeout": 20000,
 
-  "projectId": "ycw8dr",
+  "projectId": "ycw8dr"
 
 
 
-
-
-  "firefoxGcInterval": {
-    "runMode": null,
-    "openMode": null
-  }
 
 
 
