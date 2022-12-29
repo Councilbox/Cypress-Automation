@@ -19,7 +19,7 @@ describe("User side section", function() {
      before(function() {    
     });
 
-    
+   
 
     it("The user is able to request prior appointment for the meeting", function() {
         const name = "Automation"
@@ -27,7 +27,9 @@ describe("User side section", function() {
         const tin = "12345678Z"
         const country_code = "387"
         const phone = "62123123"
-        const email = "29942413-017f-4eb8-a3dc-6074ea12bdb8@mailslurp.com"
+        const email = "18d30902-7422-4fe5-a964-01b8ffaa0659@mailslurp.com"
+        const procedure = "Automation procedure [Alem]"
+        const company = "Name/Companyaaa"
     
 
     cy.log("Open the browser and enter the URL")
@@ -35,9 +37,12 @@ describe("User side section", function() {
     
     cy.log("'Click on the 'Request prior appointment' button")   
         appointment.request_prior_appointment_button()  
+    
+    cy.log("Select Company")
+        appointment.select_company(company)
 
     cy.log("Select 'Service requested'")
-        appointment.select_service_requested()     
+        appointment.select_service_requested(procedure)     
 
     cy.log("Click on the 'CONTINUE' button") 
         appointment.click_continue()      
@@ -46,7 +51,6 @@ describe("User side section", function() {
         cy.wait(5000)
         appointment.click_next_month()
         appointment.select_last_day()   
-        appointment.select_time()
 
     cy.log("Click on the 'CONTINUE' button")
         appointment.click_continue()      
@@ -71,6 +75,8 @@ describe("User side section", function() {
 
     cy.log("Click on the 'Request appointment' button")
         appointment.click_continue()   
+
+    
     });
 
 
@@ -108,12 +114,14 @@ describe("User side section", function() {
                 
             });
 
-    cy.log("Click on CONTINUE")
-        appointment.click_continue_secure()
-    cy.log("Enter TIN")
-        appointment.enter_secure_TIN(tin)
-    cy.log("Click continue")
-        appointment.click_continue_id()
+
+        cy.log("Access portal")
+            appointment.click_access_portal()
+        
+        cy.log("Enter tin")
+            appointment.enter_secure_TIN(tin)
+            appointment.click_continue_id()
+
 
     cy.log("Click on the 'Reschedule Appointment' button")
         appointment.reschedule_appointment_button()
@@ -133,13 +141,13 @@ describe("User side section", function() {
 
     const message = "Su cita se ha cancelado con éxito."
     const tin = "12345678Z"
-    cy.wait(45000)
+    cy.wait(20000)
 
     cy.log("Open email app and open the mail")
 
         cy.waitForLatestEmail().then((inbox) => {
             cy.state('document').write(inbox.body);
-            cy.get('body > table:nth-child(5) > tbody > tr:nth-child(2) > td > div:nth-child(1) > div:nth-child(6) > a').invoke('attr', 'href').then(myLink => {
+            cy.get('[lang="x-btn-access-room"]').invoke('attr', 'href').then(myLink => {
                 cy.visit(myLink);
             })
                 cy.wait(5000)
@@ -166,7 +174,7 @@ describe("User side section", function() {
       
    const name = "Participant"
    const surname = "Test"
-   const dni = "12345678Z"
+   const dni = "DZKDNN91R31E479O"
    const email_1 = "ca0b7eb9-d026-43ad-aada-72b36cf6dca1@mailslurp.com" 
    const phone_code = "387"
    const phone = "61123123"

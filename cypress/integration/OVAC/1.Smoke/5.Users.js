@@ -9,6 +9,10 @@ import entitiesPage from "../pageObjects/entitiesPage"
 let url = Cypress.config().baseUrl;
 
 
+Cypress.on('uncaught:exception', (err, runnable) => {
+	return false;
+  });
+
 let inboxId;
 let login = new loginPage();
 let appointment = new requestAppointment()

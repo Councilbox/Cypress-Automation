@@ -19,6 +19,7 @@ class requestAppointment {
 		confirm: () => cy.xpath('//*[@class="MuiButtonBase-root MuiButton-root MuiButton-contained" ]'),
 		required_field: () => cy.xpath('(//*[@class="MuiFormHelperText-root error-text Mui-error"])'),
 		terms_error: () => cy.xpath('//*[@class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-11"]'),
+		company_select: () => cy.get('.MuiInputBase-inputAdornedEnd').first(),
 	
 		name: () => cy.get('#appointment-participant-name'),
 		surname: () => cy.get('#appointment-participant-surname'),
@@ -44,7 +45,7 @@ class requestAppointment {
 		alert: () => cy.xpath('//*[@role="alert"]'),
 
 		service_requested_dropmenu: () => cy.get('#appointment-service-select'),
-		service_requeted_select_first: () => cy.get('#appointment-service-select-option-0'),
+		service_requeted_select_first: () => cy.get('#appointment-service-select-popup'),
 
 		checkboxes: () => cy.xpath('//*[@type="checkbox"]'),
 
@@ -53,6 +54,8 @@ class requestAppointment {
 		ok_reschedule: () => cy.get('#panel-confirm-button-accept'),
 
 		secure_id: () => cy.get('[class="MuiInputBase-input MuiInput-input"]'),
+
+		access_portal: () => cy.get('.css-38xk5c')
 	
 		}
 
@@ -61,6 +64,23 @@ class requestAppointment {
 			.should('be.visible')
 			.click()
 		cy.url().should('include', '/newAppointment')
+	}
+
+	select_company(company) {
+		this.elements.company_select()
+			.should('be.visible')
+			.type(company)
+			.wait(3000)
+		cy.get('#appointment-entity-select-option-0')
+			.click()
+		
+
+	}
+
+	click_access_portal() {
+		this.elements.access_portal()
+			.should('be.visible')
+			.click()
 	}
 
 	click_ok() {
@@ -113,11 +133,13 @@ class requestAppointment {
 			.click({ multiple: true })		
 	}
 
-	select_service_requested() {
+	select_service_requested(procedure) {
 		this.elements.service_requested_dropmenu()
 			.should('be.visible')
 			.click()
 		this.elements.service_requeted_select_first()
+			.contains(procedure)
+			.scrollIntoView()
 			.should('be.visible')
 			.click()
 	}

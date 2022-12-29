@@ -16,7 +16,7 @@
     "smoke electron prod": "cypress run --headed --config baseUrl=https://app.councilbox.com --spec=cypress/integration/1.Smoke/*",
     "ovac smoke electron prod": "cypress run --headed --config baseUrl=https://ovac.pre.councilbox.com --spec=cypress/integration/OVAC/1.Smoke/*",
     "ovac smoke electron dev": "cypress run --headed --config baseUrl=https://ovac.dev.councilbox.com --spec=cypress/integration/OVAC/1.Smoke/*",
-    "ovac test": "cypress run --headed --config baseUrl=https://ovac.pre.councilbox.com --spec=cypress/integration/OVAC/1.Smoke/5.Users.js",
+    "ovac test": "cypress run --headed --config baseUrl=https://ovac.dev.councilbox.com --spec=cypress/integration/OVAC/1.Smoke/3.User_Side_section.js",
 
     "smoke chrome": "cypress run --headed --browser chrome --spec=cypress/integration/1.Smoke/*",
     "smoke firefox": "cypress run --headed --browser firefox --spec=cypress/integration/1.Smoke/*",
