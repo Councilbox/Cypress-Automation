@@ -1,0 +1,126 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2022-12-31T16:20:38.647Z",
+    "end": "2022-12-31T16:21:08.942Z",
+    "duration": 30295,
+    "testsRegistered": 2,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "5b87d728-8eac-4564-b290-65d1beca43b3",
+      "title": "",
+      "fullFile": "cypress/integration/OVAC/1.Smoke/5.Users.js",
+      "file": "cypress/integration/OVAC/1.Smoke/5.Users.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "e618bcb0-5147-4572-a490-81931ea4f241",
+          "title": "Users tests",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "The user is able to navigate and login to the page",
+              "fullTitle": "Users tests The user is able to navigate and login to the page",
+              "timedOut": null,
+              "duration": 14143,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.log(\"Open admin URL and login\");\ncy.visit(url + '/admin');\nlogin.enter_email(_users.default.email);\nlogin.enter_password(_users.default.password);\nlogin.login_submit();\nlogin.confirm_login();\ncy.log(\"Select OVAC Demo entity\");\nentit.click_on_entity();\nentit.if_entity();",
+              "err": {},
+              "uuid": "cfc0f575-b619-4f9a-8943-4fb4e51913c5",
+              "parentUUID": "e618bcb0-5147-4572-a490-81931ea4f241",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Admin is able to create new user with 'English' language in the Users form",
+              "fullTitle": "Users tests Admin is able to create new user with 'English' language in the Users form",
+              "timedOut": null,
+              "duration": 16067,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.log(\"The user is able to click on the 'Users' button\");\ndashboard.click_on_users();\ncy.log(\"The user is able to click on the 'Add' button\");\nuser.click_add_user();\ncy.log(\"The user is able to populate all required fields and set language to 'English'\");\nuser.enter_name(_users_data.default.name);\nuser.enter_surname(_users_data.default.surname + Cypress.config('UniqueNumber'));\nuser.enter_phone(_users_data.default.phone);\nuser.enter_tin(_users_data.default.tin);\nuser.enter_email(_users_data.default.email + Cypress.config('UniqueNumber') + _users_data.default.domain);\nuser.change_language_english();\ncy.log(\"The user is able to click on the 'Continue' button\");\nuser.click_continue();\ncy.log(\"The user is able to click on the 'Finalize' button\");\nuser.click_on_finalize();",
+              "err": {},
+              "uuid": "dedea899-a4cc-4a1a-af52-611bb9952f13",
+              "parentUUID": "e618bcb0-5147-4572-a490-81931ea4f241",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "cfc0f575-b619-4f9a-8943-4fb4e51913c5",
+            "dedea899-a4cc-4a1a-af52-611bb9952f13"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 30210,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.3.1"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "reportDir": "cypress/reports/mocha",
+        "quite": true,
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "5.2.0"
+    }
+  }
+}

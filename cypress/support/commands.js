@@ -86,7 +86,7 @@ require('cy-verify-downloads').addCustomCommand();
 const {MailSlurp} = require("mailslurp-client");
 
 const apiKey = "2e5d119a1a73903d2f1666d48421aba1698eff7aa50c051af5ff16c448783d1e";
-const inboxId = "18d30902-7422-4fe5-a964-01b8ffaa0659";
+const inboxId = "ce17fa9c-f182-400a-8abd-5876bc9844da";
 const mailslurp = new MailSlurp({apiKey});
 
 Cypress.Commands.add("waitForLatestEmail", () => {

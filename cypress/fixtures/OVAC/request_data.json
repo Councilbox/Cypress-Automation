@@ -1,0 +1,17 @@
+{
+    "name": "Automation",
+    "surname": "Test",
+    "tin": "12345678Z",
+    "country_code": "387",
+    "phone": "61123123",
+
+    "email": "ce17fa9c-f182-400a-8abd-5876bc9844da@mailslurp.com",
+
+    "procedure": "Automation procedure [Alem]",
+    "company": "Name/Companyaaa",
+
+
+    "reschedule_message": "Su cita se ha reagendado con éxito.",
+    "cancel_message": "Su cita se ha cancelado con éxito."
+
+}

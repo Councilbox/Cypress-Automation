@@ -1,27 +1,21 @@
 import loginPage from "../pageObjects/loginPage"
-import requestAppointment from "../pageObjects/requestAppointment"
 import adminDashboard from "../pageObjects/adminDashboardPage"
-import appointmentsPage from "../pageObjects/appointmentsPage"
-import knowledgeBasePage from "../pageObjects/knowledgeBasePage"
 import usersPage from "../pageObjects/usersPage"
 import entitiesPage from "../pageObjects/entitiesPage"
 
 let url = Cypress.config().baseUrl;
 
+import users from "/cypress/fixtures/OVAC/users.json"
+import users_data from "/cypress/fixtures/OVAC/users_data.json"
 
 Cypress.on('uncaught:exception', (err, runnable) => {
 	return false;
   });
 
-let inboxId;
 let login = new loginPage();
-let appointment = new requestAppointment()
 let dashboard = new adminDashboard()
-let appoinments = new appointmentsPage()
-let knowledgeBase = new knowledgeBasePage()
-let users = new usersPage()
+let user = new usersPage()
 let entit = new entitiesPage()
-
 
 describe("Users tests", function() {
 	before(function() {    
@@ -29,42 +23,33 @@ describe("Users tests", function() {
     });
 
 	it("The user is able to navigate and login to the page", function() {
-	const email = "alem+1@qaengineers.net"
-	const password = "Mostar1234!test12"
-
-	cy.log("Open admin URL and login")
-		cy.visit(url+'/admin')
-		login.enter_email(email)
-        login.enter_password(password)
-        login.login_submit() 
-        login.confirm_login() 
-	cy.log("Select OVAC Demo entity")
-        entit.click_on_entity()
-        entit.if_entity()
+		cy.log("Open admin URL and login")
+			cy.visit(url+'/admin')
+			login.enter_email(users.email)
+        	login.enter_password(users.password)
+        	login.login_submit() 
+        	login.confirm_login() 
+		cy.log("Select OVAC Demo entity")
+        	entit.click_on_entity()
+        	entit.if_entity()
 	})	
 
     it("Admin is able to create new user with 'English' language in the Users form", function() {
-	const phone = "600000666"
-	const tin = "12345678Z"
-	const name = "Automation"
-	const surname = "Sur"+Cypress.config('UniqueNumber')
-	const email = 'test'+Cypress.config('UniqueNumber')+'@test.com'
-     
-    cy.log("The user is able to click on the 'Users' button")
-    	dashboard.click_on_users()
-	cy.log("The user is able to click on the 'Add' button")
-		users.click_add_user()
-	cy.log("The user is able to populate all required fields and set language to 'English'")
-		users.enter_name(name)
-		users.enter_surname(surname)
-		users.enter_phone(phone)
-		users.enter_tin(tin)
-		users.enter_email(email)
-		users.change_language_english()
-	cy.log("The user is able to click on the 'Continue' button")
-		users.click_continue()
-	cy.log("The user is able to click on the 'Finalize' button")
-		users.click_on_finalize()
+    	cy.log("The user is able to click on the 'Users' button")
+    		dashboard.click_on_users()
+		cy.log("The user is able to click on the 'Add' button")
+			user.click_add_user()
+		cy.log("The user is able to populate all required fields and set language to 'English'")
+			user.enter_name(users_data.name)
+			user.enter_surname(users_data.surname+Cypress.config('UniqueNumber'))
+			user.enter_phone(users_data.phone)
+			user.enter_tin(users_data.tin)
+			user.enter_email(users_data.email+Cypress.config('UniqueNumber')+users_data.domain)
+			user.change_language_english()
+		cy.log("The user is able to click on the 'Continue' button")
+			user.click_continue()
+		cy.log("The user is able to click on the 'Finalize' button")
+			user.click_on_finalize()
 	})
     
 })
