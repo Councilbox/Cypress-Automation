@@ -62,73 +62,73 @@ describe("The user is not able to request prior appointment for the meeting with
 	it("The user is able not able to request prior appointment for the meeting without populating 'Name' field", function() {
 		cy.log("Open the browser and enter the URL");
 		cy.clearLocalStorage();
-		login.navigate_user();
+			login.navigate_user();
 		cy.log("'Click on the 'Request prior appointment' button");
-		appointment.request_prior_appointment_button();
+			appointment.request_prior_appointment_button();
 		cy.log("Select Company");
-		appointment.select_company(request_data.company);
+			appointment.select_company(request_data.company);
 		cy.log("Select 'Service requested'");
-		appointment.select_service_requested(request_data.procedure);
+			appointment.select_service_requested(request_data.procedure);
 		cy.log("Click 'CONTINUE'");
-		appointment.click_continue();
+			appointment.click_continue();
 		cy.log("Select Date and Time");
-		appointment.select_appointment_date();
+			appointment.select_appointment_date();
 		cy.log("Click 'CONTINUE'");
-		appointment.click_continue();
+			appointment.click_continue();
 		cy.log("Enter required fields except 'Name'");
-		appointment.enter_surname(users_data.surname);
-		appointment.enter_TIN(users_data.tin);
-		appointment.enter_telephone_no(users_data.phone_code, users_data.phone);
-		appointment.enter_email(users_data.email_test);
-		appointment.accept_everything();
+			appointment.enter_surname(users_data.surname);
+			appointment.enter_TIN(users_data.tin);
+			appointment.enter_telephone_no(users_data.phone_code, users_data.phone);
+			appointment.enter_email(users_data.email_test);
+			appointment.accept_everything();
 		cy.log("Click 'CONFIRM'");
-		appointment.click_confirm();
+			appointment.click_confirm();
 		cy.log(
 			"The alert message 'Required field' is displayed beyond the 'Name' field"
 		);
-		appointment.verify_required_field_message();
+			appointment.verify_required_field_message();
 	});
 
 	it("The user is able not able to request prior appointment for the meeting without populating 'Surname' field", function() {
 		cy.log("Open the browser and enter the URL");
 		cy.clearLocalStorage();
-		login.navigate_user();
+			login.navigate_user();
 		cy.log("'Click on the 'Request prior appointment' button");
-		appointment.request_prior_appointment_button();
+			appointment.request_prior_appointment_button();
 		cy.log("Select Company");
-		appointment.select_company(request_data.company);
+			appointment.select_company(request_data.company);
 		cy.log("Select 'Service requested'");
-		appointment.select_service_requested(request_data.procedure);
+			appointment.select_service_requested(request_data.procedure);
 		cy.log("Click 'CONTINUE'");
-		appointment.click_continue();
+			appointment.click_continue();
 		cy.log("Select Date and Time");
-		appointment.select_appointment_date();
+			appointment.select_appointment_date();
 		cy.log("Click 'CONTINUE'");
-		appointment.click_continue();
+			appointment.click_continue();
 		cy.log("Enter required fields except 'Surname'");
-		appointment.enter_name(users_data.name);
-		appointment.enter_TIN(users_data.tin);
-		appointment.enter_telephone_no(users_data.phone_code, users_data.phone);
-		appointment.enter_email(users_data.email_test);
-		appointment.accept_everything();
+			appointment.enter_name(users_data.name);
+			appointment.enter_TIN(users_data.tin);
+			appointment.enter_telephone_no(users_data.phone_code, users_data.phone);
+			appointment.enter_email(users_data.email_test);
+			appointment.accept_everything();
 		cy.log("Click 'CONFIRM'");
-		appointment.click_confirm();
+			appointment.click_confirm();
 		cy.log(
 			"The alert message 'Required field' is displayed beyond the 'Surname' field"
 		);
-		appointment.verify_required_field_message();
+			appointment.verify_required_field_message();
 	});
 
 	it("The user is able not able to request prior appointment for the meeting without populating 'TIN' field", function() {
 		cy.log("Open the browser and enter the URL");
 		cy.clearLocalStorage();
-		login.navigate_user();
+			login.navigate_user();
 		cy.log("'Click on the 'Request prior appointment' button");
-		appointment.request_prior_appointment_button();
+			appointment.request_prior_appointment_button();
 		cy.log("Select Company");
-		appointment.select_company(request_data.company);
+			appointment.select_company(request_data.company);
 		cy.log("Select 'Service requested'");
-		appointment.select_service_requested(request_data.procedure);
+			appointment.select_service_requested(request_data.procedure);
 		cy.log("Click 'CONTINUE'");
 		appointment.click_continue();
 		cy.log("Select Date and Time");
