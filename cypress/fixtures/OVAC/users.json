@@ -1,4 +1,20 @@
 {
     "email": "alem+1@qaengineers.net",
-    "password": "Mostar1234!test12"
+    "password": "Mostar1234!test12",
+    "name": "Alem",
+    "surname": "Balla",
+    "new_password": "T2est1234!blabla",
+    "invalid_password": "blabladsfa123!!A",
+    "language": "English",
+
+    "mo": {
+        "email": "mo+3@qaengineers.net",
+        "password": "Testtest123!"
+
+    
+    },
+    "mo_professional": {
+        "email": "mo+5@qaengineers.net",
+        "password": "Ovacdemo123!"
+    }
 }

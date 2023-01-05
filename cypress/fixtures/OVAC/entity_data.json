@@ -3,5 +3,19 @@
     "new_name": "Institutions",
     "address": "Majkl Dzordana 23",
     "town": "Cikago",
-    "zip": "88000"
+    "zip": "88000",
+    "company_name": "CompanyTo",
+    "edited_company_name": "Edited",
+    "company_email": "test",
+    "company_domain": "@test.com",
+    "support_email": "support",
+    "contact_email": "contact",
+    "name_test": "Test",
+    "name_delete": "Delete",
+    "zip_12300": "123000",
+    "name_edit": "Edit",
+    "company_adress_alem": "alem",
+    "name_company": "Company",
+    "language": "English"
+    
 }
