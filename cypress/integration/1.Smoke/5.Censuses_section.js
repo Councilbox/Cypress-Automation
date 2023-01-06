@@ -9,8 +9,6 @@ const valid_password = Cypress.env("login_password");
 const valid_email = Cypress.env("login_email");
 
 let url = Cypress.config().baseUrl;
-
-
 let login = new loginPage();
 let dashbaord = new dashboardPage();
 let census = new censusPage();
@@ -53,7 +51,6 @@ describe("Census", function() {
 	it("The user is able to add census in the 'Censos' section [tipo Assistentes]", function() {
 		const name = "AutomationTest" + Cypress.config("UniqueNumber");
 		const description = "AutomationTest";
-
 
 		cy.log("From the menu choose and click on the 'Censos' button");
 		dashbaord.click_on_census();

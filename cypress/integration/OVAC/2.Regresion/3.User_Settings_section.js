@@ -20,76 +20,76 @@ describe("User settings - regression tests", function() {
 	it("The user is able to change the Name - Users settings section", function() {
 		cy.clearLocalStorage();
 		cy.log("Open browser and enter URL");
-		login.navigate_admin();
+			login.navigate_admin();
 		cy.log("The user is able to Login");
-		login.enter_email(users.email);
-		login.enter_password(users.passowrd);
-		login.login_submit();
+			login.enter_email(users.email);
+			login.enter_password(users.passowrd);
+			login.login_submit();
 		cy.log("Select OVAC Demo entity");
-		entit.click_on_entity();
-		entit.if_entity();
+			entit.click_on_entity();
+			entit.if_entity();
 		cy.log("The user is able to click on the Account icon");
-		settings.click_on_my_account();
+			settings.click_on_my_account();
 		cy.log("The user is able to click on the Edit button");
-		settings.click_on_user_settings();
+			settings.click_on_user_settings();
 		cy.log("The user is able to edit a 'Name' field");
-		settings.enter_user_name(users.name + Cypress.config("UniqueNumber"));
+			settings.enter_user_name(users.name + Cypress.config("UniqueNumber"));
 		cy.log("Click on SAVE");
-		settings.click_on_save();
+			settings.click_on_save();
 		cy.log("Verify that User is successfully edited");
 		cy.reload();
-		settings.verify_user_name(users.name + Cypress.config("UniqueNumber"));
+			settings.verify_user_name(users.name + Cypress.config("UniqueNumber"));
 	});
 
 	it("The user is able to change the Surname - Users settings section", function() {
 		cy.clearLocalStorage();
 		cy.log("Open browser and enter URL");
-		login.navigate_admin();
+			login.navigate_admin();
 		cy.log("The user is able to click on the Account icon");
-		settings.click_on_my_account();
+			settings.click_on_my_account();
 		cy.log("The user is able to click on the Edit button");
-		settings.click_on_user_settings();
+			settings.click_on_user_settings();
 		cy.log("The user is able to edit a 'Surname' field");
-		settings.enter_user_surname(users.surname);
+			settings.enter_user_surname(users.surname);
 		cy.log("Click on SAVE");
-		settings.click_on_save();
+			settings.click_on_save();
 		cy.log("Verify that User is successfully edited");
 		cy.reload();
-		settings.verify_user_surname(users.surname);
+			settings.verify_user_surname(users.surname);
 	});
 
 	it("The user is able to change the Email - Users settings section", function() {
 		cy.clearLocalStorage();
 		cy.log("Open browser and enter URL");
-		login.navigate_admin();
+			login.navigate_admin();
 		cy.log("The user is able to click on the Account icon");
-		settings.click_on_my_account();
+			settings.click_on_my_account();
 		cy.log("The user is able to click on the Edit button");
-		settings.click_on_user_settings();
+			settings.click_on_user_settings();
 		cy.log("The user is able to edit a 'Email' field");
-		settings.enter_user_email(users.email);
+			settings.enter_user_email(users.email);
 		cy.log("Click on SAVE");
-		settings.click_on_save();
+			settings.click_on_save();
 		cy.log("Verify that User is successfully edited");
 		cy.reload();
-		settings.verify_user_email(users.email);
+			settings.verify_user_email(users.email);
 	});
 
 	it("The user is able to change the Telephone No - Users settings section", function() {
 		cy.clearLocalStorage();
 		cy.log("Open browser and enter URL");
-		login.navigate_admin();
+			login.navigate_admin();
 		cy.log("The user is able to click on the Account icon");
-		settings.click_on_my_account();
+			settings.click_on_my_account();
 		cy.log("The user is able to click on the Edit button");
-		settings.click_on_user_settings();
+			settings.click_on_user_settings();
 		cy.log("The user is able to edit a 'Email' field");
-		settings.enter_user_phone(Cypress.config("UniqueNumber"));
+			settings.enter_user_phone(Cypress.config("UniqueNumber"));
 		cy.log("Click on SAVE");
-		settings.click_on_save();
+			settings.click_on_save();
 		cy.log("Verify that User is successfully edited");
 		cy.reload();
-		settings.verify_user_phone(Cypress.config("UniqueNumber"));
+			settings.verify_user_phone(Cypress.config("UniqueNumber"));
 	});
 
 	/*
@@ -134,184 +134,174 @@ describe("User settings - regression tests", function() {
 	it("The user is not able to change password with invalid input in the Current password field - User settings section ", function() {
 		cy.clearLocalStorage();
 		cy.log("Open browser and enter URL");
-		login.navigate_admin();
+			login.navigate_admin();
 		cy.log("The user is able to click on the Account icon");
-		settings.click_on_my_account();
+			settings.click_on_my_account();
 		cy.log("The user is able to click on the Edit button");
-		settings.click_on_user_settings();
+			settings.click_on_user_settings();
 		cy.log("The user is able to click on the 'Change password' button");
-		settings.click_on_change_password();
+			settings.click_on_change_password();
 		cy.log("The user is able to enter invalid data in the Current label");
-		settings.enter_current_password(users.invalid_password);
+			settings.enter_current_password(users.invalid_password);
 		cy.log("The user is able to enter new password");
-		settings.enter_new_password(users.new_password);
-		settings.enter_new_password_confirm(users.new_password);
+			settings.enter_new_password(users.new_password);
+			settings.enter_new_password_confirm(users.new_password);
 		cy.log("Click on SAVE");
-		settings.click_on_save_password();
+			settings.click_on_save_password();
 		cy.log("The error message is displayed below Current password label");
-		settings.verify_existing_current_password_error();
+			settings.verify_existing_current_password_error();
 	});
 
 	it("The user is not able to change password with invalid input in the Confirm password field - User settings section ", function() {
 		cy.clearLocalStorage();
 		cy.log("Open browser and enter URL");
-		login.navigate_admin();
+			login.navigate_admin();
 		cy.log("The user is able to click on the Account icon");
-		settings.click_on_my_account();
+			settings.click_on_my_account();
 		cy.log("The user is able to click on the Edit button");
-		settings.click_on_user_settings();
+			settings.click_on_user_settings();
 		cy.log("The user is able to click on the 'Change password' button");
-		settings.click_on_change_password();
+			settings.click_on_change_password();
 		cy.log("The user is able to enter valid data in the Current label");
-		settings.enter_current_password(users.invalid_password);
+			settings.enter_current_password(users.invalid_password);
 		cy.log("The user is able to enter new password");
-		settings.enter_new_password(users.new_password);
-		cy.log(
-			"The user is able to enter invalid password in the Confirm label"
-		);
-		settings.enter_new_password_confirm(users.invalid_password);
+			settings.enter_new_password(users.new_password);
+		cy.log("The user is able to enter invalid password in the Confirm label");
+			settings.enter_new_password_confirm(users.invalid_password);
 		cy.log("Click on SAVE");
-		settings.click_on_save_password();
+			settings.click_on_save_password();
 		cy.log("The error message is displayed below Confirm password label");
-		settings.verify_existing_confirm_password_error();
+			settings.verify_existing_confirm_password_error();
 	});
 
 	it("The user is able to save all changes by clicking on the 'Save' button - User settings section", function() {
 		cy.clearLocalStorage();
 		cy.log("Open browser and enter URL");
-		login.navigate_admin();
+			login.navigate_admin();
 		cy.log("The user is able to click on the Account icon");
-		settings.click_on_my_account();
+			settings.click_on_my_account();
 		cy.log("The user is able to click on the Edit button");
-		settings.click_on_user_settings();
+			settings.click_on_user_settings();
 		cy.log("The user is able to edit a 'Name' field");
-		settings.enter_user_name(
-			users.name + Cypress.config("UniqueNumber") + "1"
-		);
+			settings.enter_user_name(users.name + Cypress.config("UniqueNumber") + "1");
 		cy.log("The user is able to edit a 'Surname' field");
-		settings.enter_user_surname(
-			users.surname + Cypress.config("UniqueNumber") + "1"
-		);
+			settings.enter_user_surname(users.surname + Cypress.config("UniqueNumber") + "1");
 		cy.log("The user is able to edit a 'Email' field");
-		settings.enter_user_email(users.email);
+			settings.enter_user_email(users.email);
 		cy.log("Click on SAVE");
-		settings.click_on_save();
+			settings.click_on_save();
 		cy.log("Verify that User is successfully edited");
 		cy.reload();
-		settings.verify_user_surname(
-			users.surname + Cypress.config("UniqueNumber") + "1"
-		);
-		settings.verify_user_name(
-			users.name + Cypress.config("UniqueNumber") + "1"
-		);
-		settings.verify_user_email(users.email);
+			settings.verify_user_surname(users.surname + Cypress.config("UniqueNumber") + "1");
+			settings.verify_user_name(users.name + Cypress.config("UniqueNumber") + "1");
+			settings.verify_user_email(users.email);
 	});
 
 	it("The user is able to change the Language to English - Users settings section", function() {
 		cy.clearLocalStorage();
 		cy.log("Open browser and enter URL");
-		login.navigate_admin();
+			login.navigate_admin();
 		cy.log("The user is able to click on the Account icon");
-		settings.click_on_my_account();
+			settings.click_on_my_account();
 		cy.log("The user is able to click on the Edit button");
-		settings.click_on_user_settings();
+			settings.click_on_user_settings();
 		cy.log("The user is able to edit a 'Language' field");
-		settings.click_on_language_menu();
-		settings.select_english_language();
+			settings.click_on_language_menu();
+			settings.select_english_language();
 		cy.log("Click on SAVE");
-		settings.click_on_save();
+			settings.click_on_save();
 		cy.log("Verify that User is successfully edited");
 		cy.reload();
-		settings.verify_english_language();
+			settings.verify_english_language();
 	});
 
 	it("The user is able to change the Language to Italiano - Users settings section", function() {
 		cy.clearLocalStorage();
 		cy.log("Open browser and enter URL");
-		login.navigate_admin();
+			login.navigate_admin();
 		cy.log("The user is able to click on the Account icon");
-		settings.click_on_my_account();
+			settings.click_on_my_account();
 		cy.log("The user is able to click on the Edit button");
-		settings.click_on_user_settings();
+			settings.click_on_user_settings();
 		cy.log("The user is able to edit a 'Language' field");
-		settings.click_on_language_menu();
-		settings.select_italian_language();
+			settings.click_on_language_menu();
+			settings.select_italian_language();
 		cy.log("Click on SAVE");
-		settings.click_on_save();
+			settings.click_on_save();
 		cy.log("Verify that User is successfully edited");
 		cy.reload();
-		settings.verify_italian_language();
+			settings.verify_italian_language();
 	});
 
 	it("The user is able to change the Language to Catalá  - Users settings section", function() {
 		cy.clearLocalStorage();
 		cy.log("Open browser and enter URL");
-		login.navigate_admin();
+			login.navigate_admin();
 		cy.log("The user is able to click on the Account icon");
-		settings.click_on_my_account();
+			settings.click_on_my_account();
 		cy.log("The user is able to click on the Edit button");
-		settings.click_on_user_settings();
+			settings.click_on_user_settings();
 		cy.log("The user is able to edit a 'Language' field");
-		settings.click_on_language_menu();
-		settings.select_catala_language();
+			settings.click_on_language_menu();
+			settings.select_catala_language();
 		cy.log("Click on SAVE");
-		settings.click_on_save();
+			settings.click_on_save();
 		cy.log("Verify that User is successfully edited");
 		cy.reload();
-		settings.verify_catala_language();
+			settings.verify_catala_language();
 	});
 
 	it("The user is able to change the Language to Euskera  - Users settings section", function() {
 		cy.clearLocalStorage();
 		cy.log("Open browser and enter URL");
-		login.navigate_admin();
+			login.navigate_admin();
 		cy.log("The user is able to click on the Account icon");
-		settings.click_on_my_account();
+			settings.click_on_my_account();
 		cy.log("The user is able to click on the Edit button");
-		settings.click_on_user_settings();
+			settings.click_on_user_settings();
 		cy.log("The user is able to edit a 'Language' field");
-		settings.click_on_language_menu();
-		settings.select_ruskera_language();
+			settings.click_on_language_menu();
+			settings.select_ruskera_language();
 		cy.log("Click on SAVE");
-		settings.click_on_save();
+			settings.click_on_save();
 		cy.log("Verify that User is successfully edited");
 		cy.reload();
-		settings.verify_euskera_language();
+			settings.verify_euskera_language();
 	});
 
 	it("The user is able to change the Language to Spanish - Users settings section", function() {
 		cy.clearLocalStorage();
 		cy.log("Open browser and enter URL");
-		login.navigate_admin();
+			login.navigate_admin();
 		cy.log("The user is able to click on the Account icon");
-		settings.click_on_my_account();
+			settings.click_on_my_account();
 		cy.log("The user is able to click on the Edit button");
-		settings.click_on_user_settings();
+			settings.click_on_user_settings();
 		cy.log("The user is able to edit a 'Language' field");
-		settings.click_on_language_menu();
-		settings.select_spanish_language();
+			settings.click_on_language_menu();
+			settings.select_spanish_language();
 		cy.log("Click on SAVE");
-		settings.click_on_save();
+			settings.click_on_save();
 		cy.log("Verify that User is successfully edited");
 		cy.reload();
-		settings.verify_spanish_language();
+			settings.verify_spanish_language();
 	});
 
 	it("The user is able to change the Language BACK to English - Users settings section", function() {
 		cy.clearLocalStorage();
 		cy.log("Open browser and enter URL");
-		login.navigate_admin();
+			login.navigate_admin();
 		cy.log("The user is able to click on the Account icon");
-		settings.click_on_my_account();
+			settings.click_on_my_account();
 		cy.log("The user is able to click on the Edit button");
-		settings.click_on_user_settings();
+			settings.click_on_user_settings();
 		cy.log("The user is able to edit a 'Language' field");
-		settings.click_on_language_menu();
-		settings.select_english_language();
+			settings.click_on_language_menu();
+			settings.select_english_language();
 		cy.log("Click on SAVE");
-		settings.click_on_save();
+			settings.click_on_save();
 		cy.log("Verify that User is successfully edited");
 		cy.reload();
-		settings.verify_english_language();
+			settings.verify_english_language();
 	});
 });

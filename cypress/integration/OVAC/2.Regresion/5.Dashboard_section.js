@@ -20,43 +20,39 @@ describe("Dashboard - regression tests", function() {
 	it("Verify that user is able to open “Dashboard”", function() {
 		cy.clearLocalStorage();
 		cy.log("Open browser and enter URL");
-		login.navigate_admin();
+			login.navigate_admin();
 		cy.log("The user is able to Login");
-		login.enter_email(users.email);
-		login.enter_password(users.passowrd);
-		login.login_submit();
+			login.enter_email(users.email);
+			login.enter_password(users.passowrd);
+			login.login_submit();
 		cy.log("From the menu on the left, select 'Dashboard'");
-		dashboard.click_on_dashboard();
+			dashboard.click_on_dashboard();
 	});
 
 	it("The user can filter the 'Dashboard' using the drop-down list 'All entities'", function() {
 		cy.log("Navigate back to Home page");
-		login.navigate_admin();
+			login.navigate_admin();
 		cy.log("From the menu on the left, select 'Dashboard'");
-		dashboard.click_on_dashboard();
-		cy.log(
-			"At top of the page, click on the 'All entities' drop-down list"
-		);
-		dashboard.click_on_institituions_dropmenu();
+			dashboard.click_on_dashboard();
+		cy.log("At top of the page, click on the 'All entities' drop-down list");
+			dashboard.click_on_institituions_dropmenu();
 	});
 
 	it("The user can filter the 'Dashboard' using the drop-down list 'All procedures'", function() {
 		cy.log("Navigate back to Home page");
-		login.navigate_admin();
+			login.navigate_admin();
 		cy.log("From the menu on the left, select 'Dashboard'");
-		dashboard.click_on_dashboard();
-		cy.log(
-			"At top of the page, click on the 'All procedures' drop-down list"
-		);
-		dashboard.click_on_procedures_filter();
+			dashboard.click_on_dashboard();
+		cy.log("At top of the page, click on the 'All procedures' drop-down list");
+			dashboard.click_on_procedures_filter();
 	});
 
 	it("The user has the ability to change the month on the 'Dashboard'", function() {
 		cy.log("Navigate back to Home page");
-		login.navigate_admin();
+			login.navigate_admin();
 		cy.log("From the menu on the left, select 'Dashboard'");
-		dashboard.click_on_dashboard();
+			dashboard.click_on_dashboard();
 		cy.log("Click on Month Back");
-		dashboard.click_on_month_back();
+			dashboard.click_on_month_back();
 	});
 });

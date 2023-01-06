@@ -27,116 +27,102 @@ describe("Templates section - regression tests", function() {
 	it("The user is not able to add a new template without populating the 'Title' field - Templates tab - Knowledge base section", function() {
 		cy.clearLocalStorage();
 		cy.log("Open browser and enter URL");
-		login.navigate_admin();
+			login.navigate_admin();
 		cy.log("The user is able to Login");
-		login.enter_email(users.email);
-		login.enter_password(users.password);
-		login.login_submit();
+			login.enter_email(users.email);
+			login.enter_password(users.password);
+			login.login_submit();
 		cy.log("Select OVAC Demo entity");
-		entit.click_on_entity();
-		entit.if_entity();
+			entit.click_on_entity();
+			entit.if_entity();
 		cy.log("The user is able to click on the 'Templates' tab");
-		dashboard.click_on_templates();
+			dashboard.click_on_templates();
 		cy.log("The user is able to click on the 'New template' button");
-		template.click_add_button();
-		template.click_new();
+			template.click_add_button();
+			template.click_new();
 		cy.log("The user is able to click on the 'Save' button");
-		template.click_save();
+			template.click_save();
 		cy.log("The error message should be displayed below the Title field");
-		template.verify_title_error();
+			template.verify_title_error();
 	});
 
 	it("The user is able to switch between the pages - Templates tab - Knowledge base section", function() {
 		cy.clearLocalStorage();
 		cy.log("Open browser and enter URL");
-		login.navigate_admin();
+			login.navigate_admin();
 		cy.log("The user is able to click on the 'Templates' tab");
-		dashboard.click_on_templates();
+			dashboard.click_on_templates();
 		cy.log("The user is able to click on the 'Next' button");
-		template.click_next_page();
+			template.click_next_page();
 	});
 
 	it("The user is able to delete already existing template - Templates tab - Knowledge base section", function() {
 		cy.clearLocalStorage();
 		cy.log("Open browser and enter URL");
-		login.navigate_admin();
+			login.navigate_admin();
 		cy.log("The user is able to click on the 'Templates' tab");
-		dashboard.click_on_templates();
+			dashboard.click_on_templates();
 		cy.log("The user is able to click on the 'New template' button");
-		template.click_add_button();
-		template.click_new();
+			template.click_add_button();
+			template.click_new();
 		cy.log("Enter title");
-		template.enter_title(
-			templates_data.to_delete_title + Cypress.config("UniqueNumber")
-		);
+			template.enter_title(templates_data.to_delete_title + Cypress.config("UniqueNumber"));
 		cy.log("The user is able to click on the 'Save' button");
-		template.click_save();
+			template.click_save();
 		cy.log("Search for Template");
-		template.search_for_template(
-			templates_data.to_delete_title + Cypress.config("UniqueNumber")
-		);
+			template.search_for_template(templates_data.to_delete_title + Cypress.config("UniqueNumber"));
 		cy.log("Click on DELETE");
-		template.click_on_action_menu();
-		template.select_action_option(templates_data.option);
-		template.alert_confirm();
+			template.click_on_action_menu();
+			template.select_action_option(templates_data.option);
+			template.alert_confirm();
 		cy.log("Verify Template Deleted");
-		template.verify_template_deleted();
-	});
+			template.verify_template_deleted();
+	});	
 
 	it("The user is able to edit already existing template - Templates tab - Knowledge base section", function() {
 		cy.clearLocalStorage();
 		cy.log("Open browser and enter URL");
-		login.navigate_admin();
+			login.navigate_admin();
 		cy.log("The user is able to click on the 'Templates' tab");
-		dashboard.click_on_templates();
+			dashboard.click_on_templates();
 		cy.log("The user is able to click on the 'New template' button");
-		template.click_add_button();
-		template.click_new();
+			template.click_add_button();
+			template.click_new();
 		cy.log("Enter title");
-		template.enter_title(
-			templates_data.to_edit_title + Cypress.config("UniqueNumber")
-		);
+			template.enter_title(templates_data.to_edit_title + Cypress.config("UniqueNumber"));
 		cy.log("The user is able to click on the 'Save' button");
-		template.click_save();
+			template.click_save();
 		cy.log("Search for Template");
-		template.search_for_template(
-			templates_data.to_edit_title + Cypress.config("UniqueNumber")
-		);
+			template.search_for_template(templates_data.to_edit_title + Cypress.config("UniqueNumber"));
 		cy.log("Click on EDIT");
-		template.click_on_action_menu();
-		template.select_action_option(templates_data.edit_option);
+			template.click_on_action_menu();
+			template.select_action_option(templates_data.edit_option);
 		cy.log("Edit the Title");
-		template.enter_title(
-			templates_data.edited_title + Cypress.config("UniqueNumber")
-		);
+			template.enter_title(templates_data.edited_title + Cypress.config("UniqueNumber"));
 		cy.log("Click on SAVE");
-		template.click_save();
+			template.click_save();
 		cy.log("Verify Template is updated");
-		template.search_for_template(
-			templates_data.edited_title + Cypress.config("UniqueNumber")
-		);
-		template.verify_template(
-			templates_data.to_edit_title + Cypress.config("UniqueNumber")
-		);
+			template.search_for_template(templates_data.edited_title + Cypress.config("UniqueNumber"));
+			template.verify_template(templates_data.to_edit_title + Cypress.config("UniqueNumber"));
 	});
 
 	it("The user is able to edit already existing template - Templates tab - Knowledge base section", function() {
 		cy.clearLocalStorage();
 		cy.log("Open browser and enter URL");
-		login.navigate_admin();
+			login.navigate_admin();
 		cy.log("The user is able to Login");
-		login.enter_email(users.email);
-		login.enter_password(users.password);
-		login.login_submit();
+			login.enter_email(users.email);
+			login.enter_password(users.password);
+			login.login_submit();
 		cy.log("The user is able to click on the 'Templates' tab");
-		dashboard.click_on_templates();
+			dashboard.click_on_templates();
 		cy.log("The user is able to click on the 'Import' button");
-		template.click_add_button();
-		template.click_on_import();
+			template.click_add_button();
+			template.click_on_import();
 		cy.log("Select first template");
-		template.select_first_template();
+			template.select_first_template();
 		cy.log("Click on SAVE");
-		template.click_save();
+			template.click_save();
 	});
 
 	/*
