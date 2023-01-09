@@ -9,7 +9,7 @@ import tagsPage from "../pageObjects/tagsPage";
 import templatesPage from "../pageObjects/templatesPage";
 import usersPage from "../pageObjects/usersPage";
 
-import users from "../../../fixtures/OVAC/users.json";
+import account from "../../../fixtures/OVAC/users.json";
 import users_data from "../../../fixtures/OVAC/users_data.json";
 
 let login = new loginPage();
@@ -31,8 +31,8 @@ describe("Users section - regression tests", function() {
 		cy.log("Open browser and enter URL");
 			login.navigate_admin();
 		cy.log("The user is able to Login");
-			login.enter_email(users.email);
-			login.enter_password(users.passowrd);
+			login.enter_email(account.email);
+			login.enter_password(account.password);
 			login.login_submit();
 		cy.log("Select OVAC Demo entity");
 			entit.click_on_entity();

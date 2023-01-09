@@ -24,7 +24,7 @@ describe("Company settings - regression tests", function() {
 			login.navigate_admin();
 		cy.log("The user is able to Login");
 			login.enter_email(users.email);
-			login.enter_password(users.passowrd);
+			login.enter_password(users.password);
 			login.login_submit();
 		cy.log("Select OVAC Demo entity");
 			entity.click_on_entity();

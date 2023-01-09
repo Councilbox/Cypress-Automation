@@ -13,10 +13,12 @@ let dashboard = new adminDashboard();
 let users = new usersPage();
 let knowledgeBase = new knowledgeBasePage();
 let settings = new userSettingsPage();
+let entit = new entitiesPage()
 
 import account from "../../../fixtures/OVAC/users.json";
 import users_data from "../../../fixtures/OVAC/users_data.json";
 import documentation_data from "../../../fixtures/OVAC/documentation_data.json";
+import entitiesPage from "../pageObjects/entitiesPage";
 
 describe("Request appointment - regression tests", function() {
 	before(function() {});
@@ -34,6 +36,9 @@ describe("Request appointment - regression tests", function() {
 	});
 
 	it("User is able to Upload file in the 'Documentation' page", function() {
+		cy.log("Select OVAC Demo entity");
+			entit.click_on_entity();
+			entit.if_entity();
 		cy.log("The user is able to click on the 'Documentations' button");
 			dashboard.click_on_documentation();
 		cy.log("The user is able to click on the '+' button");

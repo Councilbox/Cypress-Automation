@@ -104,6 +104,10 @@ describe("Templates section - regression tests", function() {
 		cy.log("Verify Template is updated");
 			template.search_for_template(templates_data.edited_title + Cypress.config("UniqueNumber"));
 			template.verify_template(templates_data.to_edit_title + Cypress.config("UniqueNumber"));
+		cy.log("The user is able to click on the 'Account' icon");
+			settings.click_on_my_account();
+		cy.log("Click on End session");
+			settings.click_on_logout();
 	});
 
 	it("The user is able to edit already existing template - Templates tab - Knowledge base section", function() {

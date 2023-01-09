@@ -11,7 +11,7 @@ class requestAppointment {
 	
 		request_prior_appointment: () => cy.get('#access-room-button'),
 	
-		appointment_date: () => cy.get('.react-calendar__month-view__days__day').contains('30'),
+		appointment_date: () => cy.get('.react-calendar__month-view__days__day').contains('28'),
 		appointment_time: () => cy.get('#date-0'),
 		secure_continue: () => cy.get('[class="MuiButtonBase-root MuiButton-root MuiButton-contained"]'),
 		tin_continue: () => cy.get('#id-login-button'),

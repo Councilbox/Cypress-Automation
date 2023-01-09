@@ -12,7 +12,7 @@ let appointment = new requestAppointment();
 let appointments = new appointmentsPage();
 let dashboard = new adminDashboard();
 let settings = new userSettingsPage();
-let entit = new entitiesPage();
+let entity = new entitiesPage();
 
 describe("Dashboard - regression tests", function() {
 	before(function() {});
@@ -23,9 +23,11 @@ describe("Dashboard - regression tests", function() {
 			login.navigate_admin();
 		cy.log("The user is able to Login");
 			login.enter_email(users.email);
-			login.enter_password(users.passowrd);
+			login.enter_password(users.password);
 			login.login_submit();
 		cy.log("From the menu on the left, select 'Dashboard'");
+			entity.click_on_entity();
+			entity.if_entity();
 			dashboard.click_on_dashboard();
 	});
 
