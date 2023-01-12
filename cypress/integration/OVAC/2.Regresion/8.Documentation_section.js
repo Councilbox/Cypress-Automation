@@ -134,7 +134,7 @@ describe("Documentation section - regression tests", function() {
 			documentation.search_for_folder(documentation_data.title_delete + Cypress.config("UniqueNumber"));
 			documentation.verify_folder(documentation_data.title_delete + Cypress.config("UniqueNumber"));
 		cy.log("Click on Action menu");
-			documentation.click_on_action_menu();
+			documentation.click_on_actioning();
 		cy.log("Click on Delete");
 			documentation.click_on_delete();
 		cy.log("Click on OK");
@@ -162,7 +162,7 @@ describe("Documentation section - regression tests", function() {
 			documentation.search_for_folder(documentation_data.title_to_edit + Cypress.config("UniqueNumber"));
 			documentation.verify_folder(documentation_data.title_to_edit + Cypress.config("UniqueNumber"));
 		cy.log("Click on Action menu");
-			documentation.click_on_action_menu();
+			documentation.click_on_actioning();
 		cy.log("Click on Edit");
 			documentation.click_on_edit();
 		cy.log("Change that Title");
@@ -219,13 +219,13 @@ describe("Documentation section - regression tests", function() {
 	});
 
 	it("The user is able to upload a new document in the already existing folder - Documentation ", function() {
-		cy.clearLocalStorage();
-		cy.log("Open browser and enter URL");
-			login.navigate_admin();
-		cy.log("The user is able to Login");
-			login.enter_email(users.email);
-			login.enter_password(users.passowrd);
-			login.login_submit();
+		// cy.clearLocalStorage();
+		// cy.log("Open browser and enter URL");
+		// 	login.navigate_admin();
+		// cy.log("The user is able to Login");
+		// 	login.enter_email(users.email);
+		// 	login.enter_password(users.passowrd);
+		// 	login.login_submit();
 		cy.log("Select OVAC Demo entity");
 			entit.click_on_entity();
 			entit.if_entity();
@@ -246,6 +246,9 @@ describe("Documentation section - regression tests", function() {
 			documentation.open_folder();
 		cy.log("Upload a file");
 			documentation.upload_file();
+		cy.log("Logout");
+			settings.click_on_my_account()
+			settings.click_on_logout();
 	});
 
 	it("Professionals can only download documents and 'three dots' settings are hidden for them - Documentation", function() {
@@ -255,7 +258,7 @@ describe("Documentation section - regression tests", function() {
 			login.navigate_admin();
 		cy.log("The user is able to Login");
 			login.enter_email(users.mo_professional.email);
-			login.enter_password(users.mo_professional.passowrd);
+			login.enter_password(users.mo_professional.password);
 			login.login_submit();
 		cy.log("The user is able to click on the 'Knowledge base' button");
 			dashboard.click_on_documentation();

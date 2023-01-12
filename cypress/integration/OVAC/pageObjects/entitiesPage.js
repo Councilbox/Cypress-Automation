@@ -9,7 +9,7 @@ let imageFile = 'almir.png'
 class entitiesPage {
 
 	elements = {
-		search_for_entity: () => cy.get('[class="MuiInputBase-input MuiInput-input MuiInputBase-inputAdornedEnd"]'),
+		search_for_entity: () => cy.xpath('//*[@id="institutions-search-input"]'),
 		add_button: () => cy.get('#create-company-button'),
 		name: () => cy.get('#business-name'),
 		tax_id: () => cy.get('#addSociedadCIF'),

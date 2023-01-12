@@ -1,4 +1,4 @@
-let docFile = 'testDocument.txt';
+let docFile = 'qaengineers.txt';
 
 class knowledgeBasePage {
 
@@ -22,12 +22,19 @@ class knowledgeBasePage {
 		//alert
 		alert_confirm: () => cy.get('#alert-confirm-button-accept'),
 
-		action_button: () => cy.xpath('//*[@id="root"]/div/div[3]/div/div[2]/div/div/div/div[1]/div/div/div[2]/div/table/tbody/tr/td[5]/div/div/button'),
+		action_button: () => cy.xpath('//*[@id="root"]/div/div[3]/div/div[2]/div/div/div/div[2]/div[1]/div/div/table/tbody/tr[1]/td[5]/div/div[2]/button'),
 
 		actioning: () => cy.get('.ri-more-2-fill'),
 
 		folder_icon: () => cy.get('#dss'),
 		download: () => cy.get('#download-file-0'),
+	}
+
+	click_on_actioning() {
+		this.elements
+			.actioning()
+			.should("be.visible")
+			.click({force:true})
 	}
 
 	click_add_button() {
@@ -100,7 +107,7 @@ class knowledgeBasePage {
 	click_on_action_menu() {
 		this.elements.action_button()
 			.should('be.visible')
-			.click()
+			.click({force:true})
 	}
 
 	verify_folder(title) {

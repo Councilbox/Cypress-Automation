@@ -40,6 +40,7 @@ class userSettingsPage {
 			),
 
 		//company
+		company_save_button: () => cy.xpath('//*[@id="layout-top"]/div/div[2]/div/button'),
 		company_name: () => cy.get("#business-name"),
 		company_tax: () => cy.get("#addSociedadCIF"),
 		save_company_button: () => cy.xpath('(//*[@id="save-button"])[2]'),
@@ -55,6 +56,12 @@ class userSettingsPage {
 		support_email: () =>
 			cy.xpath('(//*[@class="MuiInputBase-input MuiInput-input"])[4]')
 	};
+	click_on_company_save_button(){
+		this.elements
+			.company_save_button()
+			.should("be.visible")
+			.click()
+	}
 
 	click_on_my_account() {
 		this.elements
