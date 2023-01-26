@@ -134,6 +134,8 @@ describe("Entities settings - regression tests", function() {
 			entity.click_action_button();
 			entity.click_edit_option();
 		cy.log("The user is able to click on the 'Organization logo' button / The user is able to choose photo and click on the 'Open' button");
+		cy.get('.MuiTab-wrapper').eq(1).click()
+
 			entity.upload_organisation_logo();
 		cy.log("The user is able to click on the 'Insitution' button");
 			dashboard.click_on_istitutions();

@@ -1,0 +1,221 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 7,
+    "passes": 7,
+    "pending": 0,
+    "failures": 0,
+    "start": "2023-01-26T15:48:39.186Z",
+    "end": "2023-01-26T15:50:48.363Z",
+    "duration": 129177,
+    "testsRegistered": 7,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "ad621806-e7b9-4a88-b67e-123e18a261b0",
+      "title": "",
+      "fullFile": "cypress/integration/OVAC/2.Regresion/93.Entities_section.js",
+      "file": "cypress/integration/OVAC/2.Regresion/93.Entities_section.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "adb13d19-a77b-4fda-a54f-58eac4e633ad",
+          "title": "Entities settings - regression tests",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "User is not able to Add entity without populating required fields - Entities section",
+              "fullTitle": "Entities settings - regression tests User is not able to Add entity without populating required fields - Entities section",
+              "timedOut": null,
+              "duration": 12427,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.clearLocalStorage();\ncy.log(\"Open browser and enter URL\");\nlogin.navigate_admin();\ncy.log(\"The user is able to Login\");\nlogin.enter_email(_users.default.email);\nlogin.enter_password(_users.default.password);\nlogin.login_submit();\ncy.log(\"Select OVAC Demo entity\");\nentity.click_on_entity();\nentity.if_entity();\ncy.log(\"The user is able to click on the 'Institutions' button\");\ndashboard.click_on_istitutions();\ncy.log(\"The user is able to click on the 'Add' button\");\nentity.click_add_button();\ncy.log(\"Click on Add again without populating enything\");\nentity.click_submit_entity();\ncy.log(\"The error message is displayed below required fields\");\nentity.verify_name_error();",
+              "err": {},
+              "uuid": "802d3343-ff0b-4528-8836-f2e25462e7cf",
+              "parentUUID": "adb13d19-a77b-4fda-a54f-58eac4e633ad",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The user is able to Ban Entity - Entities section",
+              "fullTitle": "Entities settings - regression tests The user is able to Ban Entity - Entities section",
+              "timedOut": null,
+              "duration": 16612,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.clearLocalStorage();\ncy.log(\"Open browser and enter URL\");\nlogin.navigate_admin();\ncy.log(\"Select OVAC Demo entity\");\nentity.click_on_entity();\nentity.if_entity();\ncy.log(\"The user is able to click on the 'Institutions' button\");\ndashboard.click_on_istitutions();\ncy.log(\"The user is able to click on the 'Add' button\");\nentity.click_add_button();\ncy.log(\"Populate all required fields and click SUBMIT\");\nentity.populate_all_fields(_entity_data.default.name_test + Cypress.config(\"UniqueNumber\"), Cypress.config(\"UniqueNumber\"), _entity_data.default.name_test, _entity_data.default.name_test, _entity_data.default.zip);\nentity.click_submit_entity();\ncy.log(\"Select OVAC Demo entity\");\nentity.click_on_entity();\nentity.if_entity();\ncy.log(\"Go to Institutions\");\ndashboard.click_on_istitutions();\nentity.search_for_inst(_entity_data.default.name_test + Cypress.config(\"UniqueNumber\"));\ncy.log(\"The user is able to navigate on already existing entity and click on the 'Ban' button\");\nentity.click_action_button();\nentity.click_on_ban();\nentity.click_alert_accept();",
+              "err": {},
+              "uuid": "314d9a9a-7e3d-48b7-81fb-ac33b4001b88",
+              "parentUUID": "adb13d19-a77b-4fda-a54f-58eac4e633ad",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The user is able to Delete Entity - Entities section",
+              "fullTitle": "Entities settings - regression tests The user is able to Delete Entity - Entities section",
+              "timedOut": null,
+              "duration": 31233,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.clearLocalStorage();\ncy.log(\"Open browser and enter URL\");\nlogin.navigate_admin();\ncy.log(\"Select OVAC Demo entity\");\nentity.click_on_entity();\nentity.if_entity();\ncy.log(\"The user is able to click on the 'Institutions' button\");\ndashboard.click_on_istitutions();\ncy.log(\"The user is able to click on the 'Add' button\");\nentity.click_add_button();\ncy.log(\"Populate all required fields and click SUBMIT\");\nentity.populate_all_fields(_entity_data.default.name_delete + Cypress.config(\"UniqueNumber\"), \"1\" + Cypress.config(\"UniqueNumber\"), _entity_data.default.name_test, _entity_data.default.name_test, _entity_data.default.zip_12300);\nentity.click_submit_entity();\ncy.log(\"Select OVAC Demo entity\");\nentity.click_on_entity();\nentity.if_entity();\ncy.log(\"Go to Institutions\");\ndashboard.click_on_istitutions();\nentity.search_for_inst(_entity_data.default.name_delete + Cypress.config(\"UniqueNumber\"));\ncy.log(\"The user is able to navigate on already existing entity and click on the 'Ban' button\");\nentity.click_action_button();\nentity.click_on_delete();\nentity.click_alert_accept();",
+              "err": {},
+              "uuid": "9790b4a2-7736-4bd1-ae2b-206b57287a86",
+              "parentUUID": "adb13d19-a77b-4fda-a54f-58eac4e633ad",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The user is able to Edit Entity - Entities section",
+              "fullTitle": "Entities settings - regression tests The user is able to Edit Entity - Entities section",
+              "timedOut": null,
+              "duration": 32233,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.clearLocalStorage();\ncy.log(\"Open browser and enter URL\");\nlogin.navigate_admin();\ncy.log(\"Select OVAC Demo entity\");\nentity.click_on_entity();\nentity.if_entity();\ncy.log(\"The user is able to click on the 'Institutions' button\");\ndashboard.click_on_istitutions();\ncy.log(\"The user is able to click on the 'Add' button\");\nentity.click_add_button();\ncy.log(\"Populate all required fields and click SUBMIT\");\nentity.populate_all_fields(_entity_data.default.name_edit + Cypress.config(\"UniqueNumber\"), \"2\" + Cypress.config(\"UniqueNumber\"), _entity_data.default.name_test, _entity_data.default.name_test, _entity_data.default.zip_12300);\nentity.click_submit_entity();\ncy.log(\"Select OVAC Demo entity\");\nentity.click_on_entity();\nentity.if_entity();\ncy.log(\"Go to Institutions\");\ndashboard.click_on_istitutions();\nentity.search_for_inst(_entity_data.default.name_edit + Cypress.config(\"UniqueNumber\"));\ncy.log(\"Click on Action button\");\nentity.click_action_button();\ncy.log(\"Click on EDIT\");\nentity.click_on_edit();\ncy.log(\"Edit the entity\");\nentity.enter_entity_address(_entity_data.default.company_adress_alem);\ncy.log(\"Click on SAVE\");\nentity.saving();",
+              "err": {},
+              "uuid": "0d1f9bb3-946e-4cca-abb4-4ec01d619935",
+              "parentUUID": "adb13d19-a77b-4fda-a54f-58eac4e633ad",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The user is able to add a logo to the Entity",
+              "fullTitle": "Entities settings - regression tests The user is able to add a logo to the Entity",
+              "timedOut": null,
+              "duration": 22858,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.log(\"The user is able to open the browser and enter the URL: \");\nlogin.navigate_admin();\ncy.log(\"Select OVAC Demo entity\");\nentity.click_on_entity();\nentity.if_entity();\ncy.log(\"The user is able to click on the 'Insitution' button\");\ndashboard.click_on_istitutions();\ncy.log(\"The user is able to navigate on already existing entity and click on the 'Edit' button\");\nentity.search_for_institution(_entity_data.default.logo_name);\nentity.click_action_button();\nentity.click_edit_option();\ncy.log(\"The user is able to click on the 'Organization logo' button / The user is able to choose photo and click on the 'Open' button\");\ncy.get('.MuiTab-wrapper').eq(1).click();\nentity.upload_organisation_logo();\ncy.log(\"The user is able to click on the 'Insitution' button\");\ndashboard.click_on_istitutions();\ncy.log(\"Navigate back to Home page\");\nlogin.navigate_admin();",
+              "err": {},
+              "uuid": "4ee027fd-9866-41f4-b8e1-984430933776",
+              "parentUUID": "adb13d19-a77b-4fda-a54f-58eac4e633ad",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "On the 'Institutions' form, there is a 'All type' filter that can be used to sort by entity type",
+              "fullTitle": "Entities settings - regression tests On the 'Institutions' form, there is a 'All type' filter that can be used to sort by entity type",
+              "timedOut": null,
+              "duration": 4796,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.log(\"The user is able to open the browser and enter the URL: \");\nlogin.navigate_admin();\ncy.log(\"Select OVAC Demo entity\");\nentity.click_on_entity();\nentity.if_entity();\ncy.log(\"The user is able to click on the 'Insitution' button\");\ndashboard.click_on_istitutions();\ncy.log(\"Navigate and click on the 'All type' drop-down list\");\nentity.click_on_all_entites_filter();\ncy.log(\"The drop-down list of entity types is successfully presented\");\nentity.verify_types();",
+              "err": {},
+              "uuid": "742733dd-d230-4764-b7f1-793c0bb2cb62",
+              "parentUUID": "adb13d19-a77b-4fda-a54f-58eac4e633ad",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The user is able to switch between the pages in the Institutions form - Entities section",
+              "fullTitle": "Entities settings - regression tests The user is able to switch between the pages in the Institutions form - Entities section",
+              "timedOut": null,
+              "duration": 6189,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.clearLocalStorage();\ncy.log(\"Open browser and enter URL\");\nlogin.navigate_admin();\ncy.log(\"Select OVAC Demo entity\");\nentity.click_on_entity();\nentity.if_entity();\ncy.log(\"Go to Entities page\");\ndashboard.click_on_istitutions();\ncy.log(\"Go to Next Page\");\nentity.go_to_next_page();",
+              "err": {},
+              "uuid": "ff07f8e6-ead4-42f5-bc30-154100f4f136",
+              "parentUUID": "adb13d19-a77b-4fda-a54f-58eac4e633ad",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "802d3343-ff0b-4528-8836-f2e25462e7cf",
+            "314d9a9a-7e3d-48b7-81fb-ac33b4001b88",
+            "9790b4a2-7736-4bd1-ae2b-206b57287a86",
+            "0d1f9bb3-946e-4cca-abb4-4ec01d619935",
+            "4ee027fd-9866-41f4-b8e1-984430933776",
+            "742733dd-d230-4764-b7f1-793c0bb2cb62",
+            "ff07f8e6-ead4-42f5-bc30-154100f4f136"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 126348,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.3.1"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "reportDir": "cypress/reports/mocha",
+        "quite": true,
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "5.2.0"
+    }
+  }
+}

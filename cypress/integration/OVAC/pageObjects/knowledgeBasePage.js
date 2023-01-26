@@ -22,7 +22,7 @@ class knowledgeBasePage {
 		//alert
 		alert_confirm: () => cy.get('#alert-confirm-button-accept'),
 
-		action_button: () => cy.xpath('//*[@id="root"]/div/div[3]/div/div[2]/div/div/div/div[2]/div[1]/div/div/table/tbody/tr[1]/td[5]/div/div[2]/button'),
+		action_button: () => cy.get('.ri-more-2-fill').first(),
 
 		actioning: () => cy.get('.ri-more-2-fill'),
 

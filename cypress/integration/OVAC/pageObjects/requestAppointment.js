@@ -229,7 +229,7 @@ class requestAppointment {
 			.should('be.visible')
 			.clear()
 			.type(phone_code)
-			.should('have.value', '+'+phone_code)
+			.should('have.value', phone_code)
 		this.elements.telephone_no()
 			.should('be.visible')
 			.clear()

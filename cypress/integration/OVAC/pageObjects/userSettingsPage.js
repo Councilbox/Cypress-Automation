@@ -45,13 +45,13 @@ class userSettingsPage {
 		company_tax: () => cy.get("#addSociedadCIF"),
 		save_company_button: () => cy.xpath('(//*[@id="save-button"])[2]'),
 		company_contact_email: () =>
-			cy.xpath(
-				'//*[@id="root"]/div/div[3]/div/div[2]/div/div[1]/div[2]/div/div/div[1]/div/div/div/div[1]/div[1]/div/div[4]/div/div/div/input'
+			cy.get(
+				'#tab-panel-index-0 > div > div:nth-child(1) > div > div > div:nth-child(3) > div > div > div > input'
 			),
 		company_language_menu: () => cy.get("#company-language-select"),
 		company_language_english: () =>
 			cy.xpath('//*[@id="menu-Main language"]/div[3]/ul/li[2]'),
-		save_company: () => cy.get("#save-button"),
+		save_company: () => cy.get("#layout-top > div > div:nth-child(2) > div > button"),
 
 		support_email: () =>
 			cy.xpath('(//*[@class="MuiInputBase-input MuiInput-input"])[4]')

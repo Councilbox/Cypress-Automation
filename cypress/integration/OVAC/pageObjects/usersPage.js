@@ -63,6 +63,7 @@ class usersPage {
 	}
 
 	search_for_user(user) {
+		cy.wait(2000)
 		this.elements.search()
 			.should('be.visible')
 			.clear()

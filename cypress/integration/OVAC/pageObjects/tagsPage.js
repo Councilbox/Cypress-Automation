@@ -11,7 +11,7 @@ class tagsPage {
 		edit: () => cy.xpath('/html/body/div[4]/div[3]/div/ul/div[1]'),
 		delete: () => cy.xpath('/html/body/div[4]/div[3]/div/ul/div[2]/div[2]/span'),
 		action_menu: () => cy.xpath('(//*[@class="MuiButtonBase-root MuiButton-root MuiButton-text"])[1]'),
-		tags_table_row_first: () => cy.xpath('//*[@id="root"]/div/div[3]/div/div[2]/div/div/div/div[2]/div[1]/div/div[2]/div/table/tbody/tr[1]'),	
+		tags_table_row_first: () => cy.get('[class="MuiTypography-root truncate max-w-sm MuiTypography-body1"]').first(),	
 		error: () => cy.get('[class="MuiFormHelperText-root error-text Mui-error"]'),
 	
 		}

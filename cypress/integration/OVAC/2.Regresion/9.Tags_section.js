@@ -49,8 +49,8 @@ describe("Tags section - regression tests", function() {
 		cy.log("Click on SAVE");
 			tag.click_save();
 		cy.log("Verify that Tag is edited");
-			tag.search_for_tag(tags_data.code_new + Cypress.config("UniqueNumber"));
-			tag.verify_tag(tags_data.code_new + Cypress.config("UniqueNumber"));
+			tag.search_for_tag(tags_data.code_new+Cypress.config("UniqueNumber"));
+			tag.verify_tag(tags_data.code_new+Cypress.config("UniqueNumber"));
 	});
 
 	it("The user is able to delete already existing tab - <Tags> tab - Knowledge base section", function() {

@@ -1,0 +1,341 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 12,
+    "passes": 6,
+    "pending": 0,
+    "failures": 6,
+    "start": "2023-01-26T15:44:57.185Z",
+    "end": "2023-01-26T15:48:34.250Z",
+    "duration": 217065,
+    "testsRegistered": 12,
+    "passPercent": 50,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "3e351251-a752-4c59-a8a7-92227372d873",
+      "title": "",
+      "fullFile": "cypress/integration/OVAC/2.Regresion/92.Users_section.js",
+      "file": "cypress/integration/OVAC/2.Regresion/92.Users_section.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "28dd553d-3c90-46de-a8c8-ff57d0706b81",
+          "title": "Users section - regression tests",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Admin is able to use search engine to find users by user name",
+              "fullTitle": "Users section - regression tests Admin is able to use search engine to find users by user name",
+              "timedOut": null,
+              "duration": 15545,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.clearLocalStorage();\ncy.log(\"Open browser and enter URL\");\nlogin.navigate_admin();\ncy.log(\"The user is able to Login\");\nlogin.enter_email(_users.default.email);\nlogin.enter_password(_users.default.password);\nlogin.login_submit();\ncy.log(\"Select OVAC Demo entity\");\nentit.click_on_entity();\nentit.if_entity();\ncy.log(\"The user is able to click on the 'Users' tab\");\ndashboard.click_on_users();\ncy.log(\"The user is able to click on the 'Search' field and enter the name\");\nusers.search_for_user(_users_data.default.user);\ncy.log(\"The user with that name is displayed successfully\");\nusers.verify_user(_users_data.default.user);",
+              "err": {},
+              "uuid": "62ec9440-a5b8-4315-b6a5-6252f0c64b25",
+              "parentUUID": "28dd553d-3c90-46de-a8c8-ff57d0706b81",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Admin is able to create new user with 'Catala' language in the Users form",
+              "fullTitle": "Users section - regression tests Admin is able to create new user with 'Catala' language in the Users form",
+              "timedOut": null,
+              "duration": 33172,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "{\n  \"title\": \"Failed screenshot\",\n  \"value\": \"screenshots/OVAC/2.Regresion/92.Users_section.js/Users section - regression tests -- Admin is able to create new user with 'Catala' language in the Users form (failed).png\"\n}",
+              "code": "cy.clearLocalStorage();\ncy.log(\"Open browser and enter URL\");\nlogin.navigate_admin();\ncy.log(\"The user is able to click on the 'Users' tab\");\ndashboard.click_on_users();\ncy.log(\"The user is able to click on the 'Add' button\");\nusers.click_add_user();\ncy.log(\"The user is able to populate all required fields and set language to 'Catala'\");\nusers.enter_name(_users_data.default.name_test_user + Cypress.config(\"UniqueNumber\"));\nusers.enter_surname(_users_data.default.name);\nusers.enter_phone_code(\"+\" + _users_data.default.phone_code);\nusers.enter_phone(_users_data.default.phone);\nusers.enter_tin(_users_data.default.tin);\nusers.enter_email(_users_data.default.email + \"1\" + Cypress.config(\"UniqueNumber\") + _users_data.default.domain);\nusers.click_language_menu();\nusers.select_calego_language();\ncy.log(\"Click Continue\");\nusers.click_continue();\nusers.click_on_finalize();\ncy.log(\"Verify user is created\");\nusers.search_for_user(_users_data.default.name_test_user + Cypress.config(\"UniqueNumber\"));\nusers.verify_user(_users_data.default.name_test_user + Cypress.config(\"UniqueNumber\"));",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 10000ms: Expected to find element: `#company-document-search-input`, but never found it.",
+                "estack": "AssertionError: Timed out retrying after 10000ms: Expected to find element: `#company-document-search-input`, but never found it.\n    at usersPage.search_for_user (https://ovac.dev.councilbox.com/__cypress/tests?p=cypress/integration/OVAC/2.Regresion/92.Users_section.js:2101:28)\n    at Context.eval (https://ovac.dev.councilbox.com/__cypress/tests?p=cypress/integration/OVAC/2.Regresion/92.Users_section.js:307:11)",
+                "diff": null
+              },
+              "uuid": "57725412-eb6c-4ecc-acae-9c87cc202d1e",
+              "parentUUID": "28dd553d-3c90-46de-a8c8-ff57d0706b81",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Admin is able to create new user with 'Spanish' language in the Users form",
+              "fullTitle": "Users section - regression tests Admin is able to create new user with 'Spanish' language in the Users form",
+              "timedOut": null,
+              "duration": 31798,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "{\n  \"title\": \"Failed screenshot\",\n  \"value\": \"screenshots/OVAC/2.Regresion/92.Users_section.js/Users section - regression tests -- Admin is able to create new user with 'Spanish' language in the Users form (failed).png\"\n}",
+              "code": "cy.clearLocalStorage();\ncy.log(\"Open browser and enter URL\");\nlogin.navigate_admin();\ncy.log(\"The user is able to click on the 'Users' tab\");\ndashboard.click_on_users();\ncy.log(\"The user is able to click on the 'Add' button\");\nusers.click_add_user();\ncy.log(\"The user is able to populate all required fields and set language to 'Spanish'\");\nusers.enter_name(_users_data.default.name_test_user + Cypress.config(\"UniqueNumber\"));\nusers.enter_surname(_users_data.default.name);\nusers.enter_phone_code(\"+\" + _users_data.default.phone_code);\nusers.enter_phone(_users_data.default.phone);\nusers.enter_tin(_users_data.default.tin);\nusers.enter_email(_users_data.default.email + \"2\" + Cypress.config(\"UniqueNumber\") + _users_data.default.domain);\nusers.click_language_menu();\nusers.select_spanish_language();\ncy.log(\"Click Continue\");\nusers.click_continue();\nusers.click_on_finalize();\ncy.log(\"Verify user is created\");\nusers.search_for_user(_users_data.default.name_test_user + Cypress.config(\"UniqueNumber\"));\nusers.verify_user(_users_data.default.name_test_user + Cypress.config(\"UniqueNumber\"));",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 10000ms: Expected to find element: `#company-document-search-input`, but never found it.",
+                "estack": "AssertionError: Timed out retrying after 10000ms: Expected to find element: `#company-document-search-input`, but never found it.\n    at usersPage.search_for_user (https://ovac.dev.councilbox.com/__cypress/tests?p=cypress/integration/OVAC/2.Regresion/92.Users_section.js:2101:28)\n    at Context.eval (https://ovac.dev.councilbox.com/__cypress/tests?p=cypress/integration/OVAC/2.Regresion/92.Users_section.js:331:11)",
+                "diff": null
+              },
+              "uuid": "2bc7a7b9-83c4-4fa7-b0e1-f43d9782ba47",
+              "parentUUID": "28dd553d-3c90-46de-a8c8-ff57d0706b81",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Admin is able to create new user with 'Italiano' language in the Users form",
+              "fullTitle": "Users section - regression tests Admin is able to create new user with 'Italiano' language in the Users form",
+              "timedOut": null,
+              "duration": 33630,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "{\n  \"title\": \"Failed screenshot\",\n  \"value\": \"screenshots/OVAC/2.Regresion/92.Users_section.js/Users section - regression tests -- Admin is able to create new user with 'Italiano' language in the Users form (failed).png\"\n}",
+              "code": "cy.clearLocalStorage();\ncy.log(\"Open browser and enter URL\");\nlogin.navigate_admin();\ncy.log(\"The user is able to click on the 'Users' tab\");\ndashboard.click_on_users();\ncy.log(\"The user is able to click on the 'Add' button\");\nusers.click_add_user();\ncy.log(\"The user is able to populate all required fields and set language to 'Italiano'\");\nusers.enter_name(_users_data.default.name_test_user + Cypress.config(\"UniqueNumber\"));\nusers.enter_surname(_users_data.default.name);\nusers.enter_phone_code(\"+\" + _users_data.default.phone_code);\nusers.enter_phone(_users_data.default.phone);\nusers.enter_tin(_users_data.default.tin);\nusers.enter_email(_users_data.default.email + \"3\" + Cypress.config(\"UniqueNumber\") + _users_data.default.domain);\nusers.click_language_menu();\nusers.select_italiano_language();\ncy.log(\"Click Continue\");\nusers.click_continue();\nusers.click_on_finalize();\ncy.log(\"Verify user is created\");\nusers.search_for_user(_users_data.default.name_test_user + Cypress.config(\"UniqueNumber\"));\nusers.verify_user(_users_data.default.name_test_user + Cypress.config(\"UniqueNumber\"));",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 10000ms: Expected to find element: `#company-document-search-input`, but never found it.",
+                "estack": "AssertionError: Timed out retrying after 10000ms: Expected to find element: `#company-document-search-input`, but never found it.\n    at usersPage.search_for_user (https://ovac.dev.councilbox.com/__cypress/tests?p=cypress/integration/OVAC/2.Regresion/92.Users_section.js:2101:28)\n    at Context.eval (https://ovac.dev.councilbox.com/__cypress/tests?p=cypress/integration/OVAC/2.Regresion/92.Users_section.js:355:11)",
+                "diff": null
+              },
+              "uuid": "af56a654-fded-4a3b-a8d9-482b987f3e43",
+              "parentUUID": "28dd553d-3c90-46de-a8c8-ff57d0706b81",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Admin is able to create new user with 'Euskera' language in the Users form",
+              "fullTitle": "Users section - regression tests Admin is able to create new user with 'Euskera' language in the Users form",
+              "timedOut": null,
+              "duration": 31251,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "{\n  \"title\": \"Failed screenshot\",\n  \"value\": \"screenshots/OVAC/2.Regresion/92.Users_section.js/Users section - regression tests -- Admin is able to create new user with 'Euskera' language in the Users form (failed).png\"\n}",
+              "code": "cy.clearLocalStorage();\ncy.log(\"Open browser and enter URL\");\nlogin.navigate_admin();\ncy.log(\"The user is able to click on the 'Users' tab\");\ndashboard.click_on_users();\ncy.log(\"The user is able to click on the 'Add' button\");\nusers.click_add_user();\ncy.log(\"The user is able to populate all required fields and set language to 'Euskera'\");\nusers.enter_name(_users_data.default.name_test_user + Cypress.config(\"UniqueNumber\"));\nusers.enter_surname(_users_data.default.name);\nusers.enter_phone_code(\"+\" + _users_data.default.phone_code);\nusers.enter_phone(_users_data.default.phone);\nusers.enter_tin(_users_data.default.tin);\nusers.enter_email(_users_data.default.email + \"4\" + Cypress.config(\"UniqueNumber\") + _users_data.default.domain);\nusers.click_language_menu();\nusers.select_euskera_language();\ncy.log(\"Click Continue\");\nusers.click_continue();\nusers.click_on_finalize();\ncy.log(\"Verify user is created\");\nusers.search_for_user(_users_data.default.name_test_user + Cypress.config(\"UniqueNumber\"));\nusers.verify_user(_users_data.default.name_test_user + Cypress.config(\"UniqueNumber\"));",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 10000ms: Expected to find element: `#company-document-search-input`, but never found it.",
+                "estack": "AssertionError: Timed out retrying after 10000ms: Expected to find element: `#company-document-search-input`, but never found it.\n    at usersPage.search_for_user (https://ovac.dev.councilbox.com/__cypress/tests?p=cypress/integration/OVAC/2.Regresion/92.Users_section.js:2101:28)\n    at Context.eval (https://ovac.dev.councilbox.com/__cypress/tests?p=cypress/integration/OVAC/2.Regresion/92.Users_section.js:379:11)",
+                "diff": null
+              },
+              "uuid": "50bf6545-7c88-4714-a515-b745cd79b8ad",
+              "parentUUID": "28dd553d-3c90-46de-a8c8-ff57d0706b81",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Admin is able to create new user with 'English' language in the Users form",
+              "fullTitle": "Users section - regression tests Admin is able to create new user with 'English' language in the Users form",
+              "timedOut": null,
+              "duration": 541,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "{\n  \"title\": \"Failed screenshot\",\n  \"value\": \"screenshots/OVAC/2.Regresion/92.Users_section.js/Users section - regression tests -- Admin is able to create new user with 'English' language in the Users form (failed).png\"\n}",
+              "code": "cy.clearLocalStorage();\ncy.log(\"Open browser and enter URL\");\nlogin.navigate_admin();\ncy.log(\"The user is able to click on the 'Users' tab\");\ndashboard.click_on_users();\ncy.log(\"The user is able to click on the 'Add' button\");\nusers.click_add_user();\ncy.log(\"The user is able to populate all required fields and set language to 'English'\");\nusers.enter_name(_users_data.default.name_test_user + Cypress.config(\"UniqueNumber\"));\nusers.enter_surname(user.name);\nusers.enter_phone_code(\"+\" + _users_data.default.phone_code);\nusers.enter_phone(_users_data.default.phone);\nusers.enter_tin(_users_data.default.phone);\nusers.enter_email(_users_data.default.email + \"5\" + Cypress.config(\"UniqueNumber\") + _users_data.default.domain);\nusers.change_language_english();\ncy.log(\"Click Continue\");\nusers.click_continue();\nusers.click_on_finalize();\ncy.log(\"Verify user is created\");\nusers.search_for_user(_users_data.default.name_test_user + Cypress.config(\"UniqueNumber\"));\nusers.verify_user(_users_data.default.name_test_user + Cypress.config(\"UniqueNumber\"));",
+              "err": {
+                "message": "ReferenceError: user is not defined",
+                "estack": "ReferenceError: user is not defined\n    at Context.eval (https://ovac.dev.councilbox.com/__cypress/tests?p=cypress/integration/OVAC/2.Regresion/92.Users_section.js:392:25)",
+                "diff": null
+              },
+              "uuid": "973729cb-9153-40ef-becd-3fe73e1246c7",
+              "parentUUID": "28dd553d-3c90-46de-a8c8-ff57d0706b81",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Admin is able to click the 'Return' button in the 'Add user' form",
+              "fullTitle": "Users section - regression tests Admin is able to click the 'Return' button in the 'Add user' form",
+              "timedOut": null,
+              "duration": 4987,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.clearLocalStorage();\ncy.log(\"Open browser and enter URL\");\nlogin.navigate_admin();\ncy.log(\"The user is able to click on the 'Users' tab\");\ndashboard.click_on_users();\ncy.log(\"The user is able to click on the 'Add' button\");\nusers.click_add_user();\ncy.log(\"The user is able to click on the 'Back' icon\");\nusers.click_return();",
+              "err": {},
+              "uuid": "427bec7b-9d13-47a4-8823-cfbcc3b712f4",
+              "parentUUID": "28dd553d-3c90-46de-a8c8-ff57d0706b81",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The admin is not able to create a user without populating the Name field - Add user form",
+              "fullTitle": "Users section - regression tests The admin is not able to create a user without populating the Name field - Add user form",
+              "timedOut": null,
+              "duration": 8243,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.clearLocalStorage();\ncy.log(\"Open browser and enter URL\");\nlogin.navigate_admin();\ncy.log(\"The user is able to click on the 'Users' tab\");\ndashboard.click_on_users();\ncy.log(\"The user is able to click on the 'Add' button\");\nusers.click_add_user();\ncy.log(\"The user is able to populate all required fields except the 'Name' field\");\nusers.enter_surname(_users_data.default.name);\nusers.enter_phone_code(\"+\" + _users_data.default.passowrd);\nusers.enter_phone(_users_data.default.phone);\nusers.enter_tin(_users_data.default.phone);\nusers.enter_email(_users_data.default.email + \"6\" + Cypress.config(\"UniqueNumber\") + _users_data.default.domain);\ncy.log(\"Click Continue\");\nusers.click_continue();\ncy.log(\"The error message is displayed below the 'Name' field\");\nusers.verify_error();",
+              "err": {},
+              "uuid": "f0e736a1-9f37-445e-b1db-698887f0c366",
+              "parentUUID": "28dd553d-3c90-46de-a8c8-ff57d0706b81",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The admin is not able to create a user without populating the Surname field - Add user form",
+              "fullTitle": "Users section - regression tests The admin is not able to create a user without populating the Surname field - Add user form",
+              "timedOut": null,
+              "duration": 8501,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.clearLocalStorage();\ncy.log(\"Open browser and enter URL\");\nlogin.navigate_admin();\ncy.log(\"The user is able to click on the 'Users' tab\");\ndashboard.click_on_users();\ncy.log(\"The user is able to click on the 'Add' button\");\nusers.click_add_user();\ncy.log(\"The user is able to populate all required fields except the 'Surname' field\");\nusers.enter_name(_users_data.default.name_test_user + Cypress.config(\"UniqueNumber\"));\nusers.enter_phone_code(\"+\" + _users_data.default.phone_code);\nusers.enter_phone(_users_data.default.phone);\nusers.enter_tin(_users_data.default.tin);\nusers.enter_email(_users_data.default.email + \"7\" + Cypress.config(\"UniqueNumber\") + _users_data.default.domain);\ncy.log(\"Click Continue\");\nusers.click_continue();\ncy.log(\"The error message is displayed below the 'Surname' field\");\nusers.verify_error();",
+              "err": {},
+              "uuid": "fe9ad02b-9b99-4c56-b6b5-749eaf76ce37",
+              "parentUUID": "28dd553d-3c90-46de-a8c8-ff57d0706b81",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The admin is not able to create a user without populating the E-mail field - Add user form",
+              "fullTitle": "Users section - regression tests The admin is not able to create a user without populating the E-mail field - Add user form",
+              "timedOut": null,
+              "duration": 7097,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.clearLocalStorage();\ncy.log(\"Open browser and enter URL\");\nlogin.navigate_admin();\ncy.log(\"The user is able to click on the 'Users' tab\");\ndashboard.click_on_users();\ncy.log(\"The user is able to click on the 'Add' button\");\nusers.click_add_user();\ncy.log(\"The user is able to populate all required fields except the 'Email' field\");\nusers.enter_name(_users_data.default.name_test_user + Cypress.config(\"UniqueNumber\"));\nusers.enter_surname(_users_data.default.name);\nusers.enter_phone_code(\"+\" + _users_data.default.phone_code);\nusers.enter_phone(_users_data.default.phone);\nusers.enter_tin(_users_data.default.tin);\ncy.log(\"Click Continue\");\nusers.click_continue();\ncy.log(\"The error message is displayed below the 'Email' field\");\nusers.verify_error();",
+              "err": {},
+              "uuid": "c4c5e0fd-e591-47a7-af01-dbe8bd4c6276",
+              "parentUUID": "28dd553d-3c90-46de-a8c8-ff57d0706b81",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The admin is not able to create a user with invalid Telephone number field - Add user form",
+              "fullTitle": "Users section - regression tests The admin is not able to create a user with invalid Telephone number field - Add user form",
+              "timedOut": null,
+              "duration": 8292,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.clearLocalStorage();\ncy.log(\"Open browser and enter URL\");\nlogin.navigate_admin();\ncy.log(\"The user is able to click on the 'Users' tab\");\ndashboard.click_on_users();\ncy.log(\"The user is able to click on the 'Add' button\");\nusers.click_add_user();\ncy.log(\"The user is able to populate all required fields except the 'Phone' field\");\nusers.enter_name(_users_data.default.name_test_user + Cypress.config(\"UniqueNumber\"));\nusers.enter_surname(_users_data.default.name);\nusers.enter_phone_code(\"+\" + _users_data.default.phone_code);\nusers.enter_tin(_users_data.default.tin);\nusers.enter_email(_users_data.default.email + \"8\" + Cypress.config(\"UniqueNumber\") + _users_data.default.domain);\ncy.log(\"Click Continue\");\nusers.click_continue();\ncy.log(\"The error message is displayed below the 'Phone' field\");\nusers.verify_error();",
+              "err": {},
+              "uuid": "72224600-e235-47bc-b160-a05d4b98fd98",
+              "parentUUID": "28dd553d-3c90-46de-a8c8-ff57d0706b81",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The admin is able to choose entities when adding the user - Add user form",
+              "fullTitle": "Users section - regression tests The admin is able to choose entities when adding the user - Add user form",
+              "timedOut": null,
+              "duration": 30603,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "{\n  \"title\": \"Failed screenshot\",\n  \"value\": \"screenshots/OVAC/2.Regresion/92.Users_section.js/Users section - regression tests -- The admin is able to choose entities when adding the user - Add user form (failed).png\"\n}",
+              "code": "cy.clearLocalStorage();\ncy.log(\"Open browser and enter URL\");\nlogin.navigate_admin();\ncy.log(\"The user is able to click on the 'Users' tab\");\ndashboard.click_on_users();\ncy.log(\"The user is able to click on the 'Add' button\");\nusers.click_add_user();\ncy.log(\"The user is able to populate all required fields and set language to 'Catala'\");\nusers.enter_name(_users_data.default.name_test_user + Cypress.config(\"UniqueNumber\"));\nusers.enter_surname(_users_data.default.name);\nusers.enter_phone_code(\"+\" + _users_data.default.phone_code);\nusers.enter_phone(_users_data.default.phone);\nusers.enter_tin(_users_data.default.tin);\nusers.enter_email(_users_data.default.email + \"9\" + Cypress.config(\"UniqueNumber\") + _users_data.default.domain);\nusers.click_language_menu();\nusers.select_calego_language();\ncy.log(\"Click Continue\");\nusers.click_continue();\nusers.click_on_finalize();\ncy.log(\"Verify user is created\");\nusers.search_for_user(_users_data.default.name_test_user + Cypress.config(\"UniqueNumber\"));\nusers.verify_user(_users_data.default.name_test_user + Cypress.config(\"UniqueNumber\"));",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 10000ms: Expected to find element: `#company-document-search-input`, but never found it.",
+                "estack": "AssertionError: Timed out retrying after 10000ms: Expected to find element: `#company-document-search-input`, but never found it.\n    at usersPage.search_for_user (https://ovac.dev.councilbox.com/__cypress/tests?p=cypress/integration/OVAC/2.Regresion/92.Users_section.js:2101:28)\n    at Context.eval (https://ovac.dev.councilbox.com/__cypress/tests?p=cypress/integration/OVAC/2.Regresion/92.Users_section.js:513:11)",
+                "diff": null
+              },
+              "uuid": "20bab7db-3c37-440f-ae2f-80c22927df16",
+              "parentUUID": "28dd553d-3c90-46de-a8c8-ff57d0706b81",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "62ec9440-a5b8-4315-b6a5-6252f0c64b25",
+            "427bec7b-9d13-47a4-8823-cfbcc3b712f4",
+            "f0e736a1-9f37-445e-b1db-698887f0c366",
+            "fe9ad02b-9b99-4c56-b6b5-749eaf76ce37",
+            "c4c5e0fd-e591-47a7-af01-dbe8bd4c6276",
+            "72224600-e235-47bc-b160-a05d4b98fd98"
+          ],
+          "failures": [
+            "57725412-eb6c-4ecc-acae-9c87cc202d1e",
+            "2bc7a7b9-83c4-4fa7-b0e1-f43d9782ba47",
+            "af56a654-fded-4a3b-a8d9-482b987f3e43",
+            "50bf6545-7c88-4714-a515-b745cd79b8ad",
+            "973729cb-9153-40ef-becd-3fe73e1246c7",
+            "20bab7db-3c37-440f-ae2f-80c22927df16"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 213660,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.3.1"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "reportDir": "cypress/reports/mocha",
+        "quite": true,
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "5.2.0"
+    }
+  }
+}

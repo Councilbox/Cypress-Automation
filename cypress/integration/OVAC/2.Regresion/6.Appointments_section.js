@@ -44,7 +44,7 @@ describe("Appointments section - regression tests", function() {
 			appointments.select_procedure();
 			appointments.click_consent_save_button();
 		cy.log("Click on Continue");
-			appointments.click_next_details();
+			appointments.click_continue_next();
 		cy.log("Click on Add Participant");
 			appointments.click_add_participant_button();
 		cy.log("Enter all Required fields and click SAVE");

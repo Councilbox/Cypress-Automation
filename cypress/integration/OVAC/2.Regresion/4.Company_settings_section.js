@@ -114,6 +114,7 @@ describe("Company settings - regression tests", function() {
 			settings.click_on_my_account();
 		cy.log("The user is able to click on the Configuration button");
 			settings.click_on_company_settings();
+			cy.get('.MuiTab-wrapper').eq(1).click()
 		cy.log("The user is able to edit a 'Organization logo' field");
 			entity.upload_organisation_logo();
 		cy.log("Click on SAVE");
@@ -156,6 +157,12 @@ describe("Company settings - regression tests", function() {
 		cy.clearLocalStorage();
 
 		cy.clearLocalStorage();
+		cy.log("Click on My Acount");
+			settings.click_on_my_account();
+		cy.log("On the menu, there is the organization/entity configuration option");
+			settings.company_settings_visible();
+		cy.log("Logout");
+			settings.click_on_logout();
 		cy.log("Open browser and enter URL");
 			login.navigate_admin();
 		cy.log("The user is able to Login");

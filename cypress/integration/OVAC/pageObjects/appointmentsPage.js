@@ -6,6 +6,7 @@ class appointmentsPage {
 	elements = {
 		add_button: () => cy.get('#appointment-create-button'),
 		description: () => cy.get('#council-notice-convene-intro'),
+		click_continue_next: () => cy.get('#panel-confirm-button-accept'),
 		next_details: () => cy.get('#council-editor-next'),
 		search_bar: () => cy.xpath('//*[@id="root"]/div/div[3]/div/div[2]/div/div[2]/div/div[1]/div[2]/div/div/div/input'),
 		action_button: () => cy.get('#appointment-menu'),
@@ -69,6 +70,11 @@ class appointmentsPage {
 	click_on_add_button() {
 		this.elements.add_button()
 			.should('be.visible')
+			.click()
+	}
+
+	click_continue_next() {
+		this.elements.click_continue_next()
 			.click()
 	}
 

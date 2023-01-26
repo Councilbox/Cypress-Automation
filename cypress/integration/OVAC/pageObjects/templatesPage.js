@@ -7,7 +7,7 @@ class templatesPage {
 		import: () => cy.get('[class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button"]').last(),
 		title: () => cy.get('#draft-editor-title'),
 		save: () => cy.get('#draft-editor-save'),
-		title_error: () => cy.xpath('//*[@id="root"]/div/div[3]/div/div[2]/div/div[1]/div[2]/div/div/div/div[1]/div/div[1]/div/div[1]/div/div[1]/div[2]/span'),
+		title_error: () => cy.xpath('//*[@id="root"]/div/div[3]/div/div[2]/div/div[1]/div[2]/div/div/div/div[1]/div/div[1]/div/div/div[1]/div/div[1]/div[2]/span'),
 		next_page_button: () => cy.get('.ri-arrow-right-s-line'),
 		search: () => cy.get('#company-document-search-input'),
 		action_menu: () => cy.get('[class="ri-more-2-fill"]'),
