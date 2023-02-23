@@ -24,7 +24,32 @@
   "defaultCommandTimeout": 10000,
   "pageLoadTimeout": 20000,
 
-  "projectId": "ycw8dr"
+  "projectId": "ycw8dr",
+
+
+  "browsers": [
+    {
+       "browser": "MicrosoftEdge",
+       "platform": "Windows 10",
+       "versions": [
+          "latest"
+       ]
+    },
+    {
+       "browser": "Chrome",
+       "platform": "Windows 10",
+       "versions": [
+          "latest"
+       ]
+    },
+    {
+       "browser": "Firefox",
+       "platform": "Windows 10",
+       "versions": [
+          "latest"
+       ]
+    }
+ ]
 
 
 
