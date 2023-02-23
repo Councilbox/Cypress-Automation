@@ -48,6 +48,8 @@ describe("New Meeting (Admin side) part 1", function() {
             login.click_login()
     })
 
+    
+
     it("The user is able to create a new call with session in the 'Nueva reunion' section", function() {
         const meeting_title = 'Test'
         const name = 'TestAutomation'+Cypress.config('UniqueNumber')
@@ -92,6 +94,8 @@ describe("New Meeting (Admin side) part 1", function() {
     cy.log("Click on the 'Convocar y notificar' button")
         meetingPreview.click_on_invite_and_notify()
     });
+
+    
 
 it("The user is able to create a new call without session in the 'Nueva reunion' section", function() {
     cy.visit(login_url);

@@ -51,8 +51,8 @@ class newMeetingPage {
     }
 
     select_end_date() {
-        cy.contains('2022').click()
         cy.contains('2023').click()
+        cy.contains('2024').click()
     }
 
     click_on_end_date_calendar() {

@@ -1,4 +1,4 @@
-let docFile = 'testDocument.txt';
+let docFile = 'qaengineers.txt';
 
 
 class knowledgeBasePage {

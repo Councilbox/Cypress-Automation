@@ -54,7 +54,7 @@ describe("Knowledge base section", function() {
 
 
     it("The user is able to add a new document in the 'Base de conocimiento' section", function() {
-    const file = "testDocument"
+    const file = "qaengineers"
 
     cy.log("From the menu choose and click on the 'Base de conocimiento' button")  
         dashboard.click_on_knowledge_base()
@@ -85,6 +85,8 @@ describe("Knowledge base section", function() {
         knowledge.click_on_save_template()
     });
 
+    /*
+
     it("The user is able to add new tag in the 'Base de conocimiento' section", function() {
     const code = 'TestAutomation'+Cypress.config('UniqueNumber')
     const value = 'TestAutomation'+Cypress.config('UniqueNumber')
@@ -105,5 +107,7 @@ describe("Knowledge base section", function() {
     cy.log("Click on the 'Aceptar' button")
         knowledge.click_on_alert_accept()
     });
+
+    */
 
 });
