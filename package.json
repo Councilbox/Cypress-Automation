@@ -13,7 +13,7 @@
     "versions": "cypress run --headed --browser electron --spec=cypress/integration/TEST1/execlTest.js",
     "regression": "cypress run --headless --spec=cypress/integration/2.Regression/*",
     "smoke edge dev": "cypress run --headed --browser edge --config baseUrl=https://app.dev.councilbox.com --spec=cypress/integration/1.Smoke/*",
-    "smoke chrome dev": "cypress run --headed --browser electron --config baseUrl=https://app.dev.councilbox.com --spec=cypress/integration/1.Smoke/*",
+    "smoke chrome dev": "cypress run --headed --browser chrome --config baseUrl=https://app.dev.councilbox.com --spec=cypress/integration/1.Smoke/*",
     "smoke firefox dev": "cypress run --headed --browser firefox --config baseUrl=https://app.dev.councilbox.com --spec=cypress/integration/1.Smoke/*",
 
     "smoke electron prod": "cypress run --headed --config baseUrl=https://app.councilbox.com --spec=cypress/integration/1.Smoke/*",
