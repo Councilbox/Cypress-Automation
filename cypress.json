@@ -30,6 +30,7 @@
   "browsers": [
     {
        "browser": "MicrosoftEdge",
+       "name": "edge",
        "platform": "Windows 10",
        "versions": [
           "latest"
@@ -37,6 +38,7 @@
     },
     {
        "browser": "Chrome",
+       "name": "chrome",
        "platform": "Windows 10",
        "versions": [
           "latest"
@@ -44,6 +46,7 @@
     },
     {
        "browser": "Firefox",
+       "name": "firefox",
        "platform": "Windows 10",
        "versions": [
           "latest"
