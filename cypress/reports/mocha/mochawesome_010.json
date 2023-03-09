@@ -1,0 +1,177 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 4,
+    "passes": 1,
+    "pending": 0,
+    "failures": 3,
+    "start": "2023-02-23T22:39:00.852Z",
+    "end": "2023-02-23T22:41:12.061Z",
+    "duration": 131209,
+    "testsRegistered": 4,
+    "passPercent": 25,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "8b71dd74-3ee4-46bb-bc41-b5f8f4e5180b",
+      "title": "",
+      "fullFile": "cypress/integration/OVAC/1.Smoke/3.User_Side_section.js",
+      "file": "cypress/integration/OVAC/1.Smoke/3.User_Side_section.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "b24c48d8-c221-4196-bf43-2d836d3313d0",
+          "title": "User side section",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "The user is able to request prior appointment for the meeting",
+              "fullTitle": "User side section The user is able to request prior appointment for the meeting",
+              "timedOut": null,
+              "duration": 17749,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.log(\"Open the browser and enter the URL\");\nlogin.navigate_user();\ncy.log(\"'Click on the 'Request prior appointment' button\");\nappointment.request_prior_appointment_button();\ncy.log(\"Select Company\");\nappointment.select_company(_request_data.default.company);\ncy.log(\"Select 'Service requested'\");\nappointment.select_service_requested(_request_data.default.procedure);\ncy.log(\"Click on the 'CONTINUE' button\");\nappointment.click_continue();\ncy.log(\"Navigate to the 'Calendar' and select the date and time\");\ncy.wait(5000);\nappointment.click_next_month();\nappointment.select_last_day();\ncy.log(\"Click on the 'CONTINUE' button\");\nappointment.click_continue();\ncy.log(\"Populate the 'Name' field\");\nappointment.enter_name(_request_data.default.name);\ncy.log(\"Populate the 'Name' field\");\nappointment.enter_surname(_request_data.default.surname);\ncy.log(\"Populate the 'TIN' field\");\nappointment.enter_TIN(_request_data.default.tin);\ncy.log(\"Populate the 'Country code' and the 'Telephone' fields\");\nappointment.enter_telephone_no(_request_data.default.country_code, _request_data.default.phone);\ncy.log(\"Populate the 'Email' field\");\nappointment.enter_email(_request_data.default.email);\ncy.log(\"Select the checkbox next to the 'The individual gives his/her consent for the results of the attendance at the appointment to be processed by this body' option\");\nappointment.accept_everything();\ncy.log(\"Click on the 'Request appointment' button\");\nappointment.click_continue();",
+              "err": {},
+              "uuid": "5386f156-c359-4aa0-8346-b1ec3c6cac15",
+              "parentUUID": "b24c48d8-c221-4196-bf43-2d836d3313d0",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The user is able to reschedule prior appointment",
+              "fullTitle": "User side section The user is able to reschedule prior appointment",
+              "timedOut": null,
+              "duration": 65201,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "{\n  \"title\": \"Failed screenshot\",\n  \"value\": \"screenshots/OVAC/1.Smoke/3.User_Side_section.js/User side section -- The user is able to reschedule prior appointment (failed).png\"\n}",
+              "code": "cy.log(\"Open email app and open the mail\");\ncy.wait(45000);\ncy.waitForLatestEmail().then(email => {\n  let test = email.body;\n  cy.log(test);\n  assert.isDefined(email);\n  code = /\\s+(\\d{6})\\s+/.exec(email.body)[0];\n  code = code.replace(/\\s/g, '');\n  assert.isDefined(code);\n  cy.log(code);\n  cy.get('#sign-modal-code').type(code);\n  cy.get('#alert-confirm-button-accept').click();\n  cy.wait(5000);\n});\ncy.log(\"Access portal\");\nappointment.click_access_portal();\ncy.log(\"Enter tin\");\nappointment.enter_secure_TIN(_request_data.default.tin);\nappointment.click_continue_id();\ncy.log(\"Click on the 'Reschedule Appointment' button\");\nappointment.reschedule_appointment_button();\nappointment.click_ok();\ncy.log(\"Appointment should be rescheduled\");\nappointment.reschedule_confirm(_request_data.default.reschedule_message);",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 10000ms: Expected to find element: `#reschedule-appointment-button`, but never found it.",
+                "estack": "AssertionError: Timed out retrying after 10000ms: Expected to find element: `#reschedule-appointment-button`, but never found it.\n    reschedule_appointment_button@https://ovac.pre.councilbox.com/__cypress/tests?p=cypress/integration/OVAC/1.Smoke/3.User_Side_section.js:921:44\n    ./cypress/integration/OVAC/1.Smoke/3.User_Side_section.js/</<@https://ovac.pre.councilbox.com/__cypress/tests?p=cypress/integration/OVAC/1.Smoke/3.User_Side_section.js:254:17\n    ../driver/src/cypress/cy.ts/setRunnable/runnable.fn@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:173524:43\n    callFn@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:125614:21\n    ../driver/src/cypress/runner.ts/create/onRunnableRun/<@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:180445:30\n    finallyHandler@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:9576:23\n    tryCatcher@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:13022:23\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromiseFromHandler@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:10957:31\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11014:18\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise0@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11059:10\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromises@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11139:18\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._fulfill@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11083:18\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11027:21\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise0@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11059:10\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromises@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11139:18\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._fulfill@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11083:18\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._resolveCallback@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:10877:57\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromiseFromHandler@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:10969:17\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11014:18\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise0@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11059:10\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromises@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11139:18\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._fulfill@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11083:18\n    ../../node_modules/bluebird/js/release/promise_array.js/module.exports/PromiseArray.prototype._resolve@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11356:19\n    ../../node_modules/bluebird/js/release/promise_array.js/module.exports/PromiseArray.prototype._promiseFulfilled@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11374:14\n    ../../node_modules/bluebird/js/release/promise_array.js/module.exports/PromiseArray.prototype._iterate@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11344:31\n    init@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11308:10\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11011:21\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise0@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11059:10\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromises@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11139:18\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._fulfill@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11083:18\n    ../../node_modules/bluebird/js/release/promise_array.js/module.exports/PromiseArray.prototype._resolve@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11356:19\n    ../../node_modules/bluebird/js/release/promise_array.js/module.exports/PromiseArray.prototype._promiseFulfilled@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11374:14\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11019:26\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise0@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11059:10\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromises@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11139:18\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._fulfill@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11083:18\n    ../../node_modules/bluebird/js/release/promise_array.js/module.exports/PromiseArray.prototype._resolve@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11356:19\n    ../../node_modules/bluebird/js/release/map.js/module.exports/MappingPromiseArray.prototype._promiseFulfilled@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:10182:18\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11019:26\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise0@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11059:10\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromises@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11139:18\n    _drainQueueStep@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:7729:12\n    _drainQueue@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:7722:24\n    ../../node_modules/bluebird/js/release/async.js/</Async.prototype._drainQueues@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:7738:16\n    ../../node_modules/bluebird/js/release/async.js/</Async/this.drainQueues@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:7608:14\n",
+                "diff": null
+              },
+              "uuid": "a9b7b318-01c9-463a-9c13-0b5286515f1b",
+              "parentUUID": "b24c48d8-c221-4196-bf43-2d836d3313d0",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The user is able to cancel prior appointment",
+              "fullTitle": "User side section The user is able to cancel prior appointment",
+              "timedOut": null,
+              "duration": 37798,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "{\n  \"title\": \"Failed screenshot\",\n  \"value\": \"screenshots/OVAC/1.Smoke/3.User_Side_section.js/User side section -- The user is able to cancel prior appointment (failed).png\"\n}",
+              "code": "cy.wait(20000);\ncy.log(\"Open email app and open the mail\");\ncy.waitForLatestEmail().then(inbox => {\n  cy.state('document').write(inbox.body);\n  cy.get('[lang=\"x-btn-access-room\"]').invoke('attr', 'href').then(myLink => {\n    cy.visit(myLink);\n  });\n  cy.wait(5000);\n});\ncy.log(\"Click on the 'Cancel Appointment' button\");\nappointment.enter_secure_TIN(_request_data.default.tin);\nappointment.click_continue_id();\nappointment.cancel_appointment_button();\ncy.log(\"Click on 'Accept' button\");\nappointment.accept_privacy();\ncy.log(\"Appointment should be canceled\");\nappointment.alert_message(_request_data.default.cancel_message);",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 10000ms: Expected to find element: `#cancel-appointment-button`, but never found it.",
+                "estack": "AssertionError: Timed out retrying after 10000ms: Expected to find element: `#cancel-appointment-button`, but never found it.\n    cancel_appointment_button@https://ovac.pre.councilbox.com/__cypress/tests?p=cypress/integration/OVAC/1.Smoke/3.User_Side_section.js:929:40\n    ./cypress/integration/OVAC/1.Smoke/3.User_Side_section.js/</<@https://ovac.pre.councilbox.com/__cypress/tests?p=cypress/integration/OVAC/1.Smoke/3.User_Side_section.js:272:17\n    ../driver/src/cypress/cy.ts/setRunnable/runnable.fn@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:173524:43\n    callFn@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:125614:21\n    ../driver/src/cypress/runner.ts/create/onRunnableRun/<@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:180445:30\n    finallyHandler@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:9576:23\n    tryCatcher@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:13022:23\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromiseFromHandler@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:10957:31\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11014:18\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise0@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11059:10\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromises@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11139:18\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._fulfill@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11083:18\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11027:21\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise0@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11059:10\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromises@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11139:18\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._fulfill@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11083:18\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._resolveCallback@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:10877:57\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromiseFromHandler@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:10969:17\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11014:18\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise0@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11059:10\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromises@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11139:18\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._fulfill@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11083:18\n    ../../node_modules/bluebird/js/release/promise_array.js/module.exports/PromiseArray.prototype._resolve@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11356:19\n    ../../node_modules/bluebird/js/release/promise_array.js/module.exports/PromiseArray.prototype._promiseFulfilled@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11374:14\n    ../../node_modules/bluebird/js/release/promise_array.js/module.exports/PromiseArray.prototype._iterate@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11344:31\n    init@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11308:10\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11011:21\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise0@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11059:10\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromises@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11139:18\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._fulfill@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11083:18\n    ../../node_modules/bluebird/js/release/promise_array.js/module.exports/PromiseArray.prototype._resolve@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11356:19\n    ../../node_modules/bluebird/js/release/promise_array.js/module.exports/PromiseArray.prototype._promiseFulfilled@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11374:14\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11019:26\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise0@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11059:10\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromises@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11139:18\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._fulfill@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11083:18\n    ../../node_modules/bluebird/js/release/promise_array.js/module.exports/PromiseArray.prototype._resolve@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11356:19\n    ../../node_modules/bluebird/js/release/map.js/module.exports/MappingPromiseArray.prototype._promiseFulfilled@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:10182:18\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11019:26\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise0@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11059:10\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromises@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11139:18\n    _drainQueueStep@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:7729:12\n    _drainQueue@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:7722:24\n    ../../node_modules/bluebird/js/release/async.js/</Async.prototype._drainQueues@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:7738:16\n    ../../node_modules/bluebird/js/release/async.js/</Async/this.drainQueues@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:7608:14\n",
+                "diff": null
+              },
+              "uuid": "81b84f9a-ba09-4409-b0d3-2b1e90c42dde",
+              "parentUUID": "b24c48d8-c221-4196-bf43-2d836d3313d0",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "User is able to create new meeting",
+              "fullTitle": "User side section User is able to create new meeting",
+              "timedOut": null,
+              "duration": 10305,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "{\n  \"title\": \"Failed screenshot\",\n  \"value\": \"screenshots/OVAC/1.Smoke/3.User_Side_section.js/User side section -- User is able to create new meeting (failed).png\"\n}",
+              "code": "cy.clearLocalStorage();\ncy.log(\"Open he browser and enter URL\");\ncy.visit(url + '/admin');\ncy.log(\"The user is able to log in to the page\");\nlogin.enter_email(_users.default.email);\nlogin.enter_password(_users.default.password);\nlogin.login_submit();\nlogin.confirm_login();\ncy.log(\"The user is able to click on the 'Appointments' button\");\ndashboard.click_on_appointments();\ncy.log(\"The user is able to click on Add button\");\nappointments.click_on_add_button();\nappointments.select_procedure();\nappointments.click_consent_save_button();\ncy.log(\"The user is able to enter the data into 'Description' field\");\nappointments.enter_description(_meeting_data.default.description);\ncy.log(\"The user is able to click on the 'Next' button\");\nappointments.click_next_details();\ncy.wait(1000);\ncy.log(\"The user is able to click on the 'Add participant+'' button\");\nappointments.click_add_participant_button();\ncy.log(\"The user is able to input required field for Add Participant\");\nappointments.enter_participant_data(_meeting_data.default.name, _meeting_data.default.surname, _meeting_data.default.dni, _meeting_data.default.email, _meeting_data.default.phone_code, _meeting_data.default.phone);\nappointments.click_consent_save_button();\ncy.log(\"The user is able to click on the 'Next' button\");\nappointments.click_next_participants();\ncy.log(\"The user is able to click on the 'Next' button\");\nappointments.click_next_consents();\ncy.log(\"The user is able to click on the 'Next' button\");\nappointments.click_next_documentation();\ncy.log(\"The user is able to click on the 'Next' button\");\nappointments.click_next_configuration();\ncy.log(\"The user is able to click on the 'Send' button\");\nappointments.click_send();",
+              "err": {
+                "message": "CypressError: `cy.type()` failed because it requires a valid typeable element.\n\nThe element typed into was:\n\n  > `<p>...</p>`\n\n  A typeable element matches one of the following selectors:\n  `a[href]`\n  `area[href]`\n  `input`\n  `select`\n  `textarea`\n  `button`\n  `iframe`\n  `[tabindex]`\n  `[contenteditable]`\n\nhttps://on.cypress.io/type",
+                "estack": "CypressError: `cy.type()` failed because it requires a valid typeable element.\n\nThe element typed into was:\n\n  > `<p>...</p>`\n\n  A typeable element matches one of the following selectors:\n  `a[href]`\n  `area[href]`\n  `input`\n  `select`\n  `textarea`\n  `button`\n  `iframe`\n  `[tabindex]`\n  `[contenteditable]`\n\nhttps://on.cypress.io/type\n../driver/src/cy/commands/actions/type.ts/__webpack_exports__.default/type/handleFocused/onReady/<@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:155101:84\ntryCatcher@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:13022:23\n../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromiseFromHandler@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:10957:31\n../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11014:18\n../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise0@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11059:10\n../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromises@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11139:18\n_drainQueueStep@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:7729:12\n_drainQueue@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:7722:24\n../../node_modules/bluebird/js/release/async.js/</Async.prototype._drainQueues@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:7738:16\n../../node_modules/bluebird/js/release/async.js/</Async/this.drainQueues@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:7608:14\nFrom Your Spec Code:\n    shouldFn@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:155787:18\n    should@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:155905:23\n    ../driver/src/cy/assertions.ts/create/injectAssertion/<@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:150892:39\n    assertions@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:151253:16\n    tryCatcher@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:13022:23\n    gotValue@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:12166:18\n    gotAccum@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:12153:25\n    tryCatcher@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:13022:23\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromiseFromHandler@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:10957:31\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromise@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11014:18\n    ../../node_modules/bluebird/js/release/promise.js/</module.exports/Promise.prototype._settlePromiseCtx@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:11051:10\n    _drainQueueStep@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:7733:12\n    _drainQueue@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:7722:24\n    ../../node_modules/bluebird/js/release/async.js/</Async.prototype._drainQueues@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:7738:16\n    ../../node_modules/bluebird/js/release/async.js/</Async/this.drainQueues@https://ovac.pre.councilbox.com/__cypress/runner/cypress_runner.js:7608:14\n",
+                "diff": null
+              },
+              "uuid": "e233be07-bd91-4896-b5be-2dadaf3fc010",
+              "parentUUID": "b24c48d8-c221-4196-bf43-2d836d3313d0",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "5386f156-c359-4aa0-8346-b1ec3c6cac15"
+          ],
+          "failures": [
+            "a9b7b318-01c9-463a-9c13-0b5286515f1b",
+            "81b84f9a-ba09-4409-b0d3-2b1e90c42dde",
+            "e233be07-bd91-4896-b5be-2dadaf3fc010"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 131053,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.3.1"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "reportDir": "cypress/reports/mocha",
+        "quite": true,
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "5.2.0"
+    }
+  }
+}

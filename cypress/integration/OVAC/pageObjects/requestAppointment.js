@@ -21,15 +21,16 @@ class requestAppointment {
 		terms_error: () => cy.xpath('//*[@class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-11"]'),
 		company_select: () => cy.get('.MuiInputBase-inputAdornedEnd').first(),
 	
-		name: () => cy.get('#appointment-participant-name'),
-		surname: () => cy.get('#appointment-participant-surname'),
-		TIN: () => cy.get('#appointment-participant-document'),
-		country_code: () => cy.get('#appointment-participant-phone-code'),
-		telephone_no: () => cy.get('#appointment-participant-phone'),
-		phone_code: () => cy.get('#appointment-participant-phone-code'),
-		email: () => cy.get('#appointment-participant-email'),
+		name: () => cy.get('#appointment-kiosk-participant-name'),
+		surname: () => cy.get('#appointment-kiosk-participant-surname'),
+		TIN: () => cy.get('#kiosk-layout-content > div > div > div:nth-child(1) > div:nth-child(2) > div > div > input'),
+		country_code: () => cy.get('#appointment-kiosk-participant-prefix'),
+		telephone_no: () => cy.get('#appointment-kiosk-participant-phone'),
+		phone_code: () => cy.get('#appointment-kiosk-participant-prefix'),
+		email: () => cy.get('#kiosk-layout-content > div > div > div:nth-child(3) > div:nth-child(2) > div > div > input'),
 		privacy_button: () => cy.get('#appointment-participant-legal-check'),
-		next_month: () => cy.get('.ri-arrow-right-s-line').last(),
+		next_month: () => cy.get('.ri-arrow-right-s-line').first(),
+		
 		alert_cofirm: () => cy.get('#alert-confirm-button-accept'),
 	
 		submit: () => cy.get('#appointment-create-button'),
@@ -40,14 +41,14 @@ class requestAppointment {
 		doc_option:() => cy.get('#document-1'),
 		upload_1: () => cy.get('#document-1-upload'),
 
-		continue: () => cy.xpath('//*[@class="MuiButtonBase-root MuiButton-root MuiButton-contained"]'),
+		continue: () => cy.get('.arrow-primary'),
 
 		alert: () => cy.xpath('//*[@role="alert"]'),
 
 		service_requested_dropmenu: () => cy.get('#appointment-service-select'),
 		service_requeted_select_first: () => cy.get('#appointment-service-select-popup'),
 
-		checkboxes: () => cy.xpath('//*[@type="checkbox"]'),
+		checkboxes: () => cy.get('[data-testid="CheckBoxOutlineBlankIcon"]'),
 
 		last_day: () => cy.xpath('//*[@class="react-calendar__tile react-calendar__month-view__days__day"]'),
 

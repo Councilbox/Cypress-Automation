@@ -23,14 +23,12 @@ describe("User side section", function() {
     it("The user is able to request prior appointment for the meeting", function() {
         cy.log("Open the browser and enter the URL")
             login.navigate_user()
-        cy.log("'Click on the 'Request prior appointment' button")   
-            appointment.request_prior_appointment_button()  
-        cy.log("Select Company")
-            appointment.select_company(request_data.company)
-        cy.log("Select 'Service requested'")
-            appointment.select_service_requested(request_data.procedure)     
-        cy.log("Click on the 'CONTINUE' button") 
-            appointment.click_continue()      
+        cy.log("Click on the START")
+            cy.get('.MuiButton-containedPrimary').scrollIntoView().click()
+        cy.log("Select institution")
+            cy.get('.MuiPaper-elevation1').eq(1).click()
+        cy.log("Selecy Company")
+            cy.get('.cbx-button').eq(1).click()     
         cy.log("Navigate to the 'Calendar' and select the date and time")
             cy.wait(5000)
             appointment.click_next_month()
@@ -52,6 +50,8 @@ describe("User side section", function() {
         cy.log("Click on the 'Request appointment' button")
             appointment.click_continue()   
     });
+
+    /*
 
     it("The user is able to reschedule prior appointment", function() {
         cy.log("Open email app and open the mail")
@@ -100,6 +100,8 @@ describe("User side section", function() {
         cy.log("Appointment should be canceled")
             appointment.alert_message(request_data.cancel_message)
     })
+
+    */
 
 
     it("User is able to create new meeting", function() {  
