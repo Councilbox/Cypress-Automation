@@ -49,7 +49,5 @@ module.exports = (on, config) => {
   on('task', { isFileExist })
 }
 
-Cypress.on('uncaught:exception', (err, runnable) => {
-    return false;
-});
+
 
