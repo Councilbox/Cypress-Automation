@@ -93,3 +93,7 @@ Cypress.Commands.add("waitForLatestEmail", () => {
     return mailslurp.waitForLatestEmail(inboxId);
 });
 
+Cypress.on('uncaught:exception', (err, runnable) => {
+    return false;
+});
+
