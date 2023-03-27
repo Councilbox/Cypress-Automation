@@ -56,7 +56,7 @@ describe("Users section - regression tests", function() {
 		cy.log("The user is able to populate all required fields and set language to 'Catala'");
 			users.enter_name(users_data.name_test_user + Cypress.config("UniqueNumber"));
 			users.enter_surname(users_data.name);
-			users.enter_phone_code("+" + users_data.phone_code);
+			users.enter_phone_code(users_data.phone_code);
 			users.enter_phone(users_data.phone);
 			users.enter_tin(users_data.tin);
 			users.enter_email(users_data.email + "1" + Cypress.config("UniqueNumber") + users_data.domain);
@@ -81,7 +81,7 @@ describe("Users section - regression tests", function() {
 		cy.log("The user is able to populate all required fields and set language to 'Spanish'");
 			users.enter_name(users_data.name_test_user + Cypress.config("UniqueNumber"));
 			users.enter_surname(users_data.name);
-			users.enter_phone_code("+" + users_data.phone_code);
+			users.enter_phone_code(users_data.phone_code);
 			users.enter_phone(users_data.phone);
 			users.enter_tin(users_data.tin);
 			users.enter_email(users_data.email + "2" + Cypress.config("UniqueNumber") + users_data.domain);
@@ -106,7 +106,7 @@ describe("Users section - regression tests", function() {
 		cy.log("The user is able to populate all required fields and set language to 'Italiano'");
 			users.enter_name(users_data.name_test_user + Cypress.config("UniqueNumber"));
 			users.enter_surname(users_data.name);
-			users.enter_phone_code("+" + users_data.phone_code);
+			users.enter_phone_code(users_data.phone_code);
 			users.enter_phone(users_data.phone);
 			users.enter_tin(users_data.tin);
 			users.enter_email(users_data.email + "3" + Cypress.config("UniqueNumber") + users_data.domain);
@@ -131,7 +131,7 @@ describe("Users section - regression tests", function() {
 		cy.log("The user is able to populate all required fields and set language to 'Euskera'");
 			users.enter_name(users_data.name_test_user + Cypress.config("UniqueNumber"));
 			users.enter_surname(users_data.name);
-			users.enter_phone_code("+" + users_data.phone_code);
+			users.enter_phone_code(users_data.phone_code);
 			users.enter_phone(users_data.phone);
 			users.enter_tin(users_data.tin);
 			users.enter_email(users_data.email + "4" + Cypress.config("UniqueNumber") + users_data.domain);
@@ -156,7 +156,7 @@ describe("Users section - regression tests", function() {
 		cy.log("The user is able to populate all required fields and set language to 'English'");
 			users.enter_name(users_data.name_test_user + Cypress.config("UniqueNumber"));
 			users.enter_surname(user.name);
-			users.enter_phone_code("+" + users_data.phone_code);
+			users.enter_phone_code(users_data.phone_code);
 			users.enter_phone(users_data.phone);
 			users.enter_tin(users_data.phone);
 			users.enter_email(users_data.email + "5" + Cypress.config("UniqueNumber") + users_data.domain);
@@ -191,7 +191,7 @@ describe("Users section - regression tests", function() {
 			users.click_add_user();
 		cy.log("The user is able to populate all required fields except the 'Name' field");
 			users.enter_surname(users_data.name);
-			users.enter_phone_code("+" + users_data.passowrd);
+			users.enter_phone_code(users_data.phone_code);
 			users.enter_phone(users_data.phone);
 			users.enter_tin(users_data.phone);
 			users.enter_email(users_data.email + "6" + Cypress.config("UniqueNumber") + users_data.domain);
@@ -211,7 +211,7 @@ describe("Users section - regression tests", function() {
 			users.click_add_user();
 		cy.log("The user is able to populate all required fields except the 'Surname' field");
 			users.enter_name(users_data.name_test_user + Cypress.config("UniqueNumber"));
-			users.enter_phone_code("+" + users_data.phone_code);
+			users.enter_phone_code(users_data.phone_code);
 			users.enter_phone(users_data.phone);
 			users.enter_tin(users_data.tin);
 			users.enter_email(users_data.email + "7" + Cypress.config("UniqueNumber") + users_data.domain);
@@ -232,7 +232,7 @@ describe("Users section - regression tests", function() {
 		cy.log("The user is able to populate all required fields except the 'Email' field");
 			users.enter_name(users_data.name_test_user + Cypress.config("UniqueNumber"));
 			users.enter_surname(users_data.name);
-			users.enter_phone_code("+" + users_data.phone_code);
+			users.enter_phone_code(users_data.phone_code);
 			users.enter_phone(users_data.phone);
 			users.enter_tin(users_data.tin);
 		cy.log("Click Continue");
@@ -252,7 +252,7 @@ describe("Users section - regression tests", function() {
 		cy.log("The user is able to populate all required fields except the 'Phone' field");
 			users.enter_name(users_data.name_test_user + Cypress.config("UniqueNumber"));
 			users.enter_surname(users_data.name);
-			users.enter_phone_code("+" + users_data.phone_code);
+			users.enter_phone_code(users_data.phone_code);
 			users.enter_tin(users_data.tin);
 			users.enter_email(users_data.email + "8" + Cypress.config("UniqueNumber") + users_data.domain);
 		cy.log("Click Continue");
@@ -272,7 +272,7 @@ describe("Users section - regression tests", function() {
 		cy.log("The user is able to populate all required fields and set language to 'Catala'");
 			users.enter_name(users_data.name_test_user + Cypress.config("UniqueNumber"));
 			users.enter_surname(users_data.name);
-			users.enter_phone_code("+" + users_data.phone_code);
+			users.enter_phone_code(users_data.phone_code);
 			users.enter_phone(users_data.phone);
 			users.enter_tin(users_data.tin);
 			users.enter_email(users_data.email + "9" + Cypress.config("UniqueNumber") + users_data.domain);

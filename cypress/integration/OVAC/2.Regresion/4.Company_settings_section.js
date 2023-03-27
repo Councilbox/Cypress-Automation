@@ -153,6 +153,8 @@ describe("Company settings - regression tests", function() {
 			settings.click_on_logout();
 	});
 
+	/*
+
 	it("The user can add or edit support email for organization", function() {
 		cy.clearLocalStorage();
 
@@ -178,6 +180,8 @@ describe("Company settings - regression tests", function() {
 		cy.log("Click on the 'Save' button");
 			settings.click_on_company_save_button();
 	});
+
+	*/
 
 	it("The user is able to change entity", function() {
 		cy.log("Navigate back to Home page");

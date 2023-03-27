@@ -43,7 +43,7 @@ class requestAppointment {
 
 		continue: () => cy.get('.arrow-primary'),
 
-		alert: () => cy.xpath('//*[@role="alert"]'),
+		alert: () => cy.get('.cbx-inputText-items-center'),
 
 		service_requested_dropmenu: () => cy.get('#appointment-service-select'),
 		service_requeted_select_first: () => cy.get('#appointment-service-select-popup'),

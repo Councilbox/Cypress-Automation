@@ -1,0 +1,226 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 7,
+    "passes": 6,
+    "pending": 0,
+    "failures": 1,
+    "start": "2023-03-22T14:04:10.364Z",
+    "end": "2023-03-22T14:05:48.958Z",
+    "duration": 98594,
+    "testsRegistered": 7,
+    "passPercent": 85.71428571428571,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "878348a3-ab9e-4b02-8372-a0abaf0c8662",
+      "title": "",
+      "fullFile": "cypress/integration/OVAC/2.Regresion/1.User_Side_section.js",
+      "file": "cypress/integration/OVAC/2.Regresion/1.User_Side_section.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "0bcebcb7-1f62-454b-8b34-90943a65f336",
+          "title": "User side regression tests",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "The user is not able to request prior appointment for the meeting without populating required fields",
+              "fullTitle": "User side regression tests The user is not able to request prior appointment for the meeting without populating required fields",
+              "timedOut": null,
+              "duration": 14273,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.log(\"Open the browser and enter the URL\");\nlogin.navigate_user();\ncy.log(\"Click on the START\");\ncy.get('.MuiButton-containedPrimary').scrollIntoView().click();\ncy.log(\"Select institution\");\ncy.get('.MuiPaper-elevation1').eq(1).click();\ncy.log(\"Selecy Company\");\ncy.get('.cbx-button').eq(1).click();\ncy.log(\"Click on the 'CONTINUE' button\");\nappointment.click_continue();\ncy.log(\"Click on the 'Request appointment' button\");\nappointment.click_continue();\ncy.log(\"Verify 'Required fields' message is displayed beyoned the required fields\");\nappointment.verify_existing_alert();",
+              "err": {},
+              "uuid": "fecc0e5e-cbd6-4af9-be5c-1a1673df57d6",
+              "parentUUID": "0bcebcb7-1f62-454b-8b34-90943a65f336",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The user is able not able to request prior appointment for the meeting without populating 'Name' field",
+              "fullTitle": "User side regression tests The user is able not able to request prior appointment for the meeting without populating 'Name' field",
+              "timedOut": null,
+              "duration": 13149,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.log(\"Open the browser and enter the URL\");\ncy.clearLocalStorage();\nlogin.navigate_user();\ncy.log(\"Click on the START\");\ncy.get('.MuiButton-containedPrimary').scrollIntoView().click();\ncy.log(\"Select institution\");\ncy.get('.MuiPaper-elevation1').eq(1).click();\ncy.log(\"Selecy Company\");\ncy.get('.cbx-button').eq(1).click();\ncy.log(\"Click 'CONTINUE'\");\nappointment.click_continue();\ncy.log(\"Enter required fields except 'Name'\");\nappointment.enter_surname(_users_data.default.surname);\ncy.get('.css-qiwgdb').first().click();\ncy.get('[data-value=\"dni\"]').click();\nappointment.enter_TIN(_users_data.default.tin);\nappointment.enter_telephone_no(_users_data.default.phone_code, _users_data.default.phone);\nappointment.enter_email(_users_data.default.email_test);\nappointment.accept_everything();\ncy.log(\"Click 'CONFIRM'\");\nappointment.click_continue();\ncy.log(\"The alert message 'Required field' is displayed beyond the 'Name' field\");\nappointment.verify_existing_alert();",
+              "err": {},
+              "uuid": "61468649-d25b-4086-836c-ceaa41f3eeda",
+              "parentUUID": "0bcebcb7-1f62-454b-8b34-90943a65f336",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The user is able not able to request prior appointment for the meeting without populating 'Surname' field",
+              "fullTitle": "User side regression tests The user is able not able to request prior appointment for the meeting without populating 'Surname' field",
+              "timedOut": null,
+              "duration": 11717,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.log(\"Open the browser and enter the URL\");\ncy.clearLocalStorage();\nlogin.navigate_user();\ncy.log(\"Click on the START\");\ncy.get('.MuiButton-containedPrimary').scrollIntoView().click();\ncy.log(\"Select institution\");\ncy.get('.MuiPaper-elevation1').eq(1).click();\ncy.log(\"Selecy Company\");\ncy.get('.cbx-button').eq(1).click();\ncy.log(\"Click 'CONTINUE'\");\nappointment.click_continue();\ncy.log(\"Enter required fields except 'Surname'\");\nappointment.enter_name(_users_data.default.name);\nappointment.enter_TIN(_users_data.default.tin);\nappointment.enter_telephone_no(_users_data.default.phone_code, _users_data.default.phone);\nappointment.enter_email(_users_data.default.email_test);\nappointment.accept_everything();\ncy.log(\"Click 'CONFIRM'\");\nappointment.click_continue();\ncy.log(\"The alert message 'Required field' is displayed beyond the 'Surname' field\");\nappointment.verify_existing_alert();",
+              "err": {},
+              "uuid": "3ec6b68e-ea41-42d4-bdd1-d3baeebbca58",
+              "parentUUID": "0bcebcb7-1f62-454b-8b34-90943a65f336",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The user is able not able to request prior appointment for the meeting without populating 'TIN' field",
+              "fullTitle": "User side regression tests The user is able not able to request prior appointment for the meeting without populating 'TIN' field",
+              "timedOut": null,
+              "duration": 23005,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "{\n  \"title\": \"Failed screenshot\",\n  \"value\": \"screenshots/OVAC/2.Regresion/1.User_Side_section.js/User side regression tests -- The user is able not able to request prior appointment for the meeting without populating 'TIN' field (failed).png\"\n}",
+              "code": "cy.log(\"Open the browser and enter the URL\");\ncy.clearLocalStorage();\nlogin.navigate_user();\ncy.log(\"Click on the START\");\ncy.get('.MuiButton-containedPrimary').scrollIntoView().click();\ncy.log(\"Select institution\");\ncy.get('.MuiPaper-elevation1').eq(1).click();\ncy.log(\"Selecy Company\");\ncy.get('.cbx-button').eq(1).click();\ncy.log(\"Click 'CONTINUE'\");\nappointment.click_continue();\ncy.log(\"Enter required fields except 'TIN'\");\ncy.get('.css-qiwgdb').first().click();\ncy.get('[data-value=\"dni\"]').click();\nappointment.enter_name(_users_data.default.name);\nappointment.enter_surname(_users_data.default.surname);\nappointment.enter_telephone_no(_users_data.default.phone_code, _users_data.default.phone);\nappointment.enter_email(_users_data.default.email_test);\nappointment.accept_everything();\ncy.log(\"Click 'CONFIRM'\");\nappointment.click_continue();\ncy.log(\"The alert message 'Required field' is displayed beyond the 'TIN' field\");\nappointment.verify_existing_alert();",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 10000ms: Expected to find element: `.cbx-inputText-items-center`, but never found it.",
+                "estack": "AssertionError: Timed out retrying after 10000ms: Expected to find element: `.cbx-inputText-items-center`, but never found it.\n    at requestAppointment.verify_existing_alert (https://ovac.pre.councilbox.com/__cypress/tests?p=cypress/integration/OVAC/2.Regresion/1.User_Side_section.js:587:27)\n    at Context.eval (https://ovac.pre.councilbox.com/__cypress/tests?p=cypress/integration/OVAC/2.Regresion/1.User_Side_section.js:294:17)",
+                "diff": null
+              },
+              "uuid": "436dddf5-d572-4686-b04d-458a88666ebd",
+              "parentUUID": "0bcebcb7-1f62-454b-8b34-90943a65f336",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The user is able not able to request prior appointment for the meeting without populating 'Email' field",
+              "fullTitle": "User side regression tests The user is able not able to request prior appointment for the meeting without populating 'Email' field",
+              "timedOut": null,
+              "duration": 10815,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.log(\"Open the browser and enter the URL\");\ncy.clearLocalStorage();\nlogin.navigate_user();\ncy.log(\"Click on the START\");\ncy.get('.MuiButton-containedPrimary').scrollIntoView().click();\ncy.log(\"Select institution\");\ncy.get('.MuiPaper-elevation1').eq(1).click();\ncy.log(\"Selecy Company\");\ncy.get('.cbx-button').eq(1).click();\ncy.log(\"Click 'CONTINUE'\");\nappointment.click_continue();\nappointment.click_continue();\ncy.log(\"Enter required fields except 'Email'\");\nappointment.enter_name(_users_data.default.name);\nappointment.enter_surname(_users_data.default.surname);\nappointment.enter_TIN(_users_data.default.tin);\nappointment.enter_telephone_no(_users_data.default.phone_code, _users_data.default.phone);\nappointment.accept_everything();\ncy.log(\"Click 'CONFIRM'\");\nappointment.click_continue();\ncy.log(\"The alert message 'Required field' is displayed beyond the 'Email' field\");\nappointment.verify_existing_alert();",
+              "err": {},
+              "uuid": "adb977fc-dc70-4b39-9ec7-a38ce5da16dd",
+              "parentUUID": "0bcebcb7-1f62-454b-8b34-90943a65f336",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The user is able not able to request prior appointment for the meeting without accepting the terms",
+              "fullTitle": "User side regression tests The user is able not able to request prior appointment for the meeting without accepting the terms",
+              "timedOut": null,
+              "duration": 10653,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.log(\"Open the browser and enter the URL\");\ncy.clearLocalStorage();\nlogin.navigate_user();\ncy.log(\"Click on the START\");\ncy.get('.MuiButton-containedPrimary').scrollIntoView().click();\ncy.log(\"Select institution\");\ncy.get('.MuiPaper-elevation1').eq(1).click();\ncy.log(\"Selecy Company\");\ncy.get('.cbx-button').eq(1).click();\ncy.log(\"Click 'CONTINUE'\");\nappointment.click_continue();\ncy.log(\"Enter required fields except but don't Accept Terms\");\nappointment.enter_name(_users_data.default.name);\nappointment.enter_surname(_users_data.default.surname);\nappointment.enter_TIN(_users_data.default.tin);\nappointment.enter_telephone_no(_users_data.default.phone_code, _users_data.default.phone);\nappointment.enter_email(_users_data.default.email_test);\ncy.log(\"Click 'CONFIRM'\");\nappointment.click_continue();\ncy.log(\"The alert message 'Required field' is displayed beyond the 'Terms' field\");\ncy.get('#kiosk-layout-content > div > div > div:nth-child(5) > div:nth-child(2)').should('be.visible');",
+              "err": {},
+              "uuid": "cc1e1c9c-92e6-41e6-9d3e-4c8e30195268",
+              "parentUUID": "0bcebcb7-1f62-454b-8b34-90943a65f336",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The user is able to see administration documentation - Participant side",
+              "fullTitle": "User side regression tests The user is able to see administration documentation - Participant side",
+              "timedOut": null,
+              "duration": 10690,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.log(\"Open the browser and enter the URL\");\ncy.clearLocalStorage();\nlogin.navigate_user();\ncy.log(\"Click on the START\");\ncy.get('.MuiButton-containedPrimary').scrollIntoView().click();\ncy.log(\"Select institution\");\ncy.get('.MuiPaper-elevation1').eq(1).click();\ncy.log(\"Selecy Company\");\ncy.get('.cbx-button').eq(1).click();\ncy.log(\"Click 'CONTINUE'\");\nappointment.click_continue();\ncy.log(\"Enter required fields except but don't Accept Terms\");\nappointment.enter_name(_users_data.default.name);\nappointment.enter_surname(_users_data.default.surname);\nappointment.enter_TIN(_users_data.default.tin);\nappointment.enter_telephone_no(_users_data.default.phone_code, _users_data.default.phone);\nappointment.enter_email(_users_data.default.email_user);",
+              "err": {},
+              "uuid": "0dc4a1b1-9fd8-449b-86a4-9f11b9cf358b",
+              "parentUUID": "0bcebcb7-1f62-454b-8b34-90943a65f336",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "fecc0e5e-cbd6-4af9-be5c-1a1673df57d6",
+            "61468649-d25b-4086-836c-ceaa41f3eeda",
+            "3ec6b68e-ea41-42d4-bdd1-d3baeebbca58",
+            "adb977fc-dc70-4b39-9ec7-a38ce5da16dd",
+            "cc1e1c9c-92e6-41e6-9d3e-4c8e30195268",
+            "0dc4a1b1-9fd8-449b-86a4-9f11b9cf358b"
+          ],
+          "failures": [
+            "436dddf5-d572-4686-b04d-458a88666ebd"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 94302,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.3.1"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "reportDir": "cypress/reports/mocha",
+        "quite": true,
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "5.2.0"
+    }
+  }
+}

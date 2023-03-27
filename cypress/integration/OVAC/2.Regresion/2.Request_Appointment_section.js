@@ -102,7 +102,7 @@ describe("Request appointment - regression tests", function() {
 		cy.log("The user is able to enter the 'Licence code' field");
 			users.enter_tin(users_data.tin);
 		cy.log("The user is able to enter the 'Telephone' field");
-			users.enter_phone_code("+" + users_data.phone_code);
+			users.enter_phone_code(users_data.phone_code);
 			users.enter_phone(users_data.phone);
 		cy.log("The user is able to click on the 'Continue' button");
 			users.click_continue();
