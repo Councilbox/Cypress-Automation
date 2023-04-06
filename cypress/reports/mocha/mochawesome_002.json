@@ -1,0 +1,126 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2023-04-06T12:19:10.210Z",
+    "end": "2023-04-06T12:19:27.955Z",
+    "duration": 17745,
+    "testsRegistered": 2,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "1d933354-917a-4107-be0d-841e6ce3ece7",
+      "title": "",
+      "fullFile": "cypress/integration/1.Smoke/3.Types_of_Meetings_section.js",
+      "file": "cypress/integration/1.Smoke/3.Types_of_Meetings_section.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "ef8a59aa-d7eb-4802-81b8-af76b18be9c0",
+          "title": "Type of Meetings - smoke test",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Login",
+              "fullTitle": "Type of Meetings - smoke test Login",
+              "timedOut": null,
+              "duration": 8194,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const email = \"alem@qaengineers.net\";\nconst password = \"Mostar1234!test\";\ncy.log(\"Navigate to login page\");\ncy.visit(url);\ncy.log(\"Change language to Spanish\");\nlogin.click_on_language_dropmenu();\nlogin.select_spanish_language();\ncy.log(\"Enters email address\");\nlogin.enter_email(email);\ncy.log(\"Enters password\");\nlogin.enter_password(password);\ncy.log(\"Clicks login button\");\nlogin.click_login();",
+              "err": {},
+              "uuid": "58bec890-3b75-4fb7-84e2-80ea299382cf",
+              "parentUUID": "ef8a59aa-d7eb-4802-81b8-af76b18be9c0",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The user is able to add a new type of meeting in the 'Tipos de reunion' section",
+              "fullTitle": "Type of Meetings - smoke test The user is able to add a new type of meeting in the 'Tipos de reunion' section",
+              "timedOut": null,
+              "duration": 9497,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const title = \"MeetingType\" + Cypress.config('UniqueNumber');\nconst modal_title = \"Add type of meeting\";\ncy.log(\"From the menu choose and click on the 'Tipos de reunion' button\");\ndashbaord.click_on_type_of_meetings();\ncy.log(\"On the upper left corner click on the 'Anadir tipo de reunion+'' button\");\ntypes.click_on_add_button(modal_title);\ncy.log(\"Populate required field and click on the 'Aceptar' button and click on 'Save'\");\ntypes.enter_title(title);\ntypes.alert_confirm();\ntypes.click_on_save();\ncy.log(\"Verify that Type of Meetings is created\");\ntypes.verify_type_is_created(title);\ncy.log(\"Back to Home page\");",
+              "err": {},
+              "uuid": "e59b15bb-4ec0-4074-b42c-73444957edc5",
+              "parentUUID": "ef8a59aa-d7eb-4802-81b8-af76b18be9c0",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "58bec890-3b75-4fb7-84e2-80ea299382cf",
+            "e59b15bb-4ec0-4074-b42c-73444957edc5"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 17691,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.3.1"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "reportDir": "cypress/reports/mocha",
+        "quite": true,
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "5.2.0"
+    }
+  }
+}

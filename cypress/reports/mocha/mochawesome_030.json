@@ -1,0 +1,131 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 1,
+    "pending": 0,
+    "failures": 1,
+    "start": "2023-04-06T13:00:55.641Z",
+    "end": "2023-04-06T13:01:30.652Z",
+    "duration": 35011,
+    "testsRegistered": 2,
+    "passPercent": 50,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "82c857eb-39f4-453f-b85d-fd9f5ea4cb93",
+      "title": "",
+      "fullFile": "cypress/integration/OVAC/1.Smoke/5.Users.js",
+      "file": "cypress/integration/OVAC/1.Smoke/5.Users.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "ffdfe71a-4795-4f8c-bc7a-897ed4413a1d",
+          "title": "Users tests",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "The user is able to navigate and login to the page",
+              "fullTitle": "Users tests The user is able to navigate and login to the page",
+              "timedOut": null,
+              "duration": 13715,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.log(\"Open admin URL and login\");\ncy.visit(url + '/admin');\nlogin.enter_email(_users.default.email);\nlogin.enter_password(_users.default.password);\nlogin.login_submit();\nlogin.confirm_login();\ncy.log(\"Select OVAC Demo entity\");\nentit.click_on_entity();\nentit.if_entity();",
+              "err": {},
+              "uuid": "4a21c776-8e50-4db1-bc7f-b026aac26cec",
+              "parentUUID": "ffdfe71a-4795-4f8c-bc7a-897ed4413a1d",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "Admin is able to create new user with 'English' language in the Users form",
+              "fullTitle": "Users tests Admin is able to create new user with 'English' language in the Users form",
+              "timedOut": null,
+              "duration": 21088,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "{\n  \"title\": \"Failed screenshot\",\n  \"value\": \"screenshots/OVAC/1.Smoke/5.Users.js/Users tests -- Admin is able to create new user with 'English' language in the Users form (failed).png\"\n}",
+              "code": "cy.log(\"The user is able to click on the 'Users' button\");\ndashboard.click_on_users();\ncy.log(\"The user is able to click on the 'Add' button\");\nuser.click_add_user();\ncy.log(\"The user is able to populate all required fields and set language to 'English'\");\nuser.enter_name(_users_data.default.name);\nuser.enter_surname(_users_data.default.surname + Cypress.config('UniqueNumber'));\nuser.enter_phone(_users_data.default.phone);\nuser.enter_tin(_users_data.default.tin);\nuser.enter_email(_users_data.default.email + Cypress.config('UniqueNumber') + _users_data.default.domain);\nuser.change_language_english();\ncy.log(\"The user is able to click on the 'Continue' button\");\nuser.click_continue();\ncy.log(\"The user is able to click on the 'Finalize' button\");\nuser.click_on_finalize();",
+              "err": {
+                "message": "AssertionError: Timed out retrying after 10000ms: expected '<button.MuiButtonBase-root.MuiButton-root.MuiButton-text>' to be 'visible'\n\nThis element `<button.MuiButtonBase-root.MuiButton-root.MuiButton-text>` is not visible because it has CSS property: `position: fixed` and it's being covered by another element:\n\n`<div class=\"MuiFormControl-root MuiTextField-root MuiFormControl-marginNormal\" style=\"margin-top: 0px; width: 100%;\">...</div>`",
+                "estack": "AssertionError: Timed out retrying after 10000ms: expected '<button.MuiButtonBase-root.MuiButton-root.MuiButton-text>' to be 'visible'\n\nThis element `<button.MuiButtonBase-root.MuiButton-root.MuiButton-text>` is not visible because it has CSS property: `position: fixed` and it's being covered by another element:\n\n`<div class=\"MuiFormControl-root MuiTextField-root MuiFormControl-marginNormal\" style=\"margin-top: 0px; width: 100%;\">...</div>`\n    at usersPage.click_continue (https://ovac.dev.councilbox.com/__cypress/tests?p=cypress/integration/OVAC/1.Smoke/5.Users.js:872:30)\n    at Context.eval (https://ovac.dev.councilbox.com/__cypress/tests?p=cypress/integration/OVAC/1.Smoke/5.Users.js:280:10)",
+                "diff": null
+              },
+              "uuid": "d8b2e47e-7a92-4ccf-a587-dc3d64895158",
+              "parentUUID": "ffdfe71a-4795-4f8c-bc7a-897ed4413a1d",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "4a21c776-8e50-4db1-bc7f-b026aac26cec"
+          ],
+          "failures": [
+            "d8b2e47e-7a92-4ccf-a587-dc3d64895158"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 34803,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.3.1"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "reportDir": "cypress/reports/mocha",
+        "quite": true,
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "5.2.0"
+    }
+  }
+}

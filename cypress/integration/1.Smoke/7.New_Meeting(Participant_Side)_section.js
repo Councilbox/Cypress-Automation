@@ -36,7 +36,7 @@ describe("New Meeting (Participant side)", function() {
 
     it("Login", function() {
         const email = "alem@qaengineers.net"
-        const password = "Mostar123!test"
+        const password = "Mostar1234!test"
         
         cy.log("Navigate to login page")
             cy.visit(url);

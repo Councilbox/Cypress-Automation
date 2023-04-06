@@ -63,7 +63,7 @@ describe("Account section", function() {
 	});
 	it("Councilbox login - valid username and password", function() {
 		const email = "alem@qaengineers.net";
-		const password = "Mostar123!test";
+		const password = "Mostar1234!test";
 		cy.log("Visits the Councilbox web page");
 		cy.clearLocalStorage();
 		cy.saveLocalStorage();

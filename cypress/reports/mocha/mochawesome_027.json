@@ -1,0 +1,126 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 2,
+    "passes": 2,
+    "pending": 0,
+    "failures": 0,
+    "start": "2023-04-06T12:58:44.328Z",
+    "end": "2023-04-06T12:58:57.397Z",
+    "duration": 13069,
+    "testsRegistered": 2,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "5c54dee0-ff06-4213-9ff3-54b99d60d6db",
+      "title": "",
+      "fullFile": "cypress/integration/OVAC/1.Smoke/1.Account_section.js",
+      "file": "cypress/integration/OVAC/1.Smoke/1.Account_section.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "f959d460-72d6-49b3-a673-de49b780f8f1",
+          "title": "Account section",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "The user is able to log in to the page",
+              "fullTitle": "Account section The user is able to log in to the page",
+              "timedOut": null,
+              "duration": 12365,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.log(\"The user is able to open the browser and enter the URL: \");\ncy.visit(url + \"/admin\");\ncy.log(\"The user is able to enter the email address\");\nlogin.enter_email(_users.default.email);\ncy.log(\"The user is able to enter the password\");\nlogin.enter_password(_users.default.password);\ncy.log(\"The user is able to click on the Log in button\");\nlogin.login_submit();\ncy.log(\"The user is successfully logged in\");\nlogin.confirm_login();",
+              "err": {},
+              "uuid": "e546e4b0-624b-4747-9662-5d33155d765d",
+              "parentUUID": "f959d460-72d6-49b3-a673-de49b780f8f1",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The user is able to log out from the page ",
+              "fullTitle": "Account section The user is able to log out from the page ",
+              "timedOut": null,
+              "duration": 667,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.log(\"Verify that user is logged in\");\nlogin.confirm_login();\ncy.log(\"The user is successfully logged in\");\nlogin.confirm_login();\ncy.log(\"The user is able to click on the Account icon\");\ndashboard.click_user_icon();\ncy.log(\"The user is able to click on the Log out button\");\ndashboard.click_logout();\ncy.log(\"User is logged out successfully\");\ndashboard.confirm_logout();",
+              "err": {},
+              "uuid": "846a8bfd-b920-4bbc-8865-294641e6ad20",
+              "parentUUID": "f959d460-72d6-49b3-a673-de49b780f8f1",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "e546e4b0-624b-4747-9662-5d33155d765d",
+            "846a8bfd-b920-4bbc-8865-294641e6ad20"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 13032,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.3.1"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "reportDir": "cypress/reports/mocha",
+        "quite": true,
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "5.2.0"
+    }
+  }
+}

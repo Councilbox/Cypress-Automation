@@ -1,0 +1,150 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 3,
+    "passes": 2,
+    "pending": 0,
+    "failures": 1,
+    "start": "2023-04-06T12:40:16.794Z",
+    "end": "2023-04-06T12:40:31.719Z",
+    "duration": 14925,
+    "testsRegistered": 3,
+    "passPercent": 66.66666666666666,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "68f92699-6452-45c9-b4fb-07dd056453cb",
+      "title": "",
+      "fullFile": "cypress/integration/1.Smoke/55.Knowledge_Base_section.js",
+      "file": "cypress/integration/1.Smoke/55.Knowledge_Base_section.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "fd701019-0bbc-41c0-ab75-53471a00edaa",
+          "title": "Knowledge base section",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Login",
+              "fullTitle": "Knowledge base section Login",
+              "timedOut": null,
+              "duration": 8036,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const email = \"alem@qaengineers.net\";\nconst password = \"Mostar1234!test\";\ncy.log(\"Navigate to login page\");\ncy.visit(url);\ncy.log(\"Change language to Spanish\");\nlogin.click_on_language_dropmenu();\nlogin.select_spanish_language();\ncy.log(\"Enters email address\");\nlogin.enter_email(email);\ncy.log(\"Enters password\");\nlogin.enter_password(password);\ncy.log(\"Clicks login button\");\nlogin.click_login();",
+              "err": {},
+              "uuid": "c2205b83-6be1-4213-ad8b-c89d6d9cf267",
+              "parentUUID": "fd701019-0bbc-41c0-ab75-53471a00edaa",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The user is able to add a new document in the 'Base de conocimiento' section",
+              "fullTitle": "Knowledge base section The user is able to add a new document in the 'Base de conocimiento' section",
+              "timedOut": null,
+              "duration": 2536,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": "{\n  \"title\": \"Failed screenshot\",\n  \"value\": \"screenshots/1.Smoke/55.Knowledge_Base_section.js/Knowledge base section -- The user is able to add a new document in the 'Base de conocimiento' section (failed).png\"\n}",
+              "code": "const file = \"qaengineers\";\ncy.log(\"From the menu choose and click on the 'Base de conocimiento' button\");\ndashboard.click_on_knowledge_base();\ncy.log(\"Click on the 'Mi documentacion' button\");\nknowledge.click_on_my_docs();\ncy.log(\"From the drop down menu click on the 'Subir archivo' button and Choose the file you want to upload click on it and then click on 'Open' button\");\nknowledge.upload_file();\ncy.log(\"Verify file is uploaded and delete it\");\ncy.reload();\nknowledge.search_for_documentation(file);\nknowledge.verify_existing_file(file);\nknowledge.delete_file();\nknowledge.verify_file_is_deleted();",
+              "err": {
+                "message": "Error: A fixture file could not be found at any of the following paths:\n\n    > cypress/fixtures/qaengineers.txt\n    > cypress/fixtures/qaengineers.txt.[ext]\n\nCypress looked for these file extensions at the provided path:\n\n    > .json, .js, .coffee, .html, .txt, .csv, .png, .jpg, .jpeg, .gif, .tif, .tiff, .zip\n\nProvide a path to an existing fixture file.",
+                "estack": "Error: A fixture file could not be found at any of the following paths:\n\n    > cypress/fixtures/qaengineers.txt\n    > cypress/fixtures/qaengineers.txt.[ext]\n\nCypress looked for these file extensions at the provided path:\n\n    > .json, .js, .coffee, .html, .txt, .csv, .png, .jpg, .jpeg, .gif, .tif, .tiff, .zip\n\nProvide a path to an existing fixture file.\n    at Object.<anonymous> (/Users/alembalic/Library/Caches/Cypress/9.5.4/Cypress.app/Contents/Resources/app/packages/server/lib/fixture.js:69:30)\n    at Object.tryCatcher (/Users/alembalic/Library/Caches/Cypress/9.5.4/Cypress.app/Contents/Resources/app/packages/server/node_modules/bluebird/js/release/util.js:16:23)\n    at Promise._settlePromiseFromHandler (/Users/alembalic/Library/Caches/Cypress/9.5.4/Cypress.app/Contents/Resources/app/packages/server/node_modules/bluebird/js/release/promise.js:547:31)\n    at Promise._settlePromise (/Users/alembalic/Library/Caches/Cypress/9.5.4/Cypress.app/Contents/Resources/app/packages/server/node_modules/bluebird/js/release/promise.js:604:18)\n    at Promise._settlePromise0 (/Users/alembalic/Library/Caches/Cypress/9.5.4/Cypress.app/Contents/Resources/app/packages/server/node_modules/bluebird/js/release/promise.js:649:10)\n    at Promise._settlePromises (/Users/alembalic/Library/Caches/Cypress/9.5.4/Cypress.app/Contents/Resources/app/packages/server/node_modules/bluebird/js/release/promise.js:729:18)\n    at Promise._fulfill (/Users/alembalic/Library/Caches/Cypress/9.5.4/Cypress.app/Contents/Resources/app/packages/server/node_modules/bluebird/js/release/promise.js:673:18)\n    at /Users/alembalic/Library/Caches/Cypress/9.5.4/Cypress.app/Contents/Resources/app/packages/server/node_modules/bluebird/js/release/nodeback.js:42:21\n    at f (/Users/alembalic/Library/Caches/Cypress/9.5.4/Cypress.app/Contents/Resources/app/node_modules/once/once.js:25:25)\n    at Glob.<anonymous> (/Users/alembalic/Library/Caches/Cypress/9.5.4/Cypress.app/Contents/Resources/app/packages/server/node_modules/glob/glob.js:151:7)\n    at Glob.emit (node:events:394:28)\n    at Glob._finish (/Users/alembalic/Library/Caches/Cypress/9.5.4/Cypress.app/Contents/Resources/app/packages/server/node_modules/glob/glob.js:197:8)\n    at done (/Users/alembalic/Library/Caches/Cypress/9.5.4/Cypress.app/Contents/Resources/app/packages/server/node_modules/glob/glob.js:182:14)\n    at Glob._processSimple2 (/Users/alembalic/Library/Caches/Cypress/9.5.4/Cypress.app/Contents/Resources/app/packages/server/node_modules/glob/glob.js:688:12)\n    at /Users/alembalic/Library/Caches/Cypress/9.5.4/Cypress.app/Contents/Resources/app/packages/server/node_modules/glob/glob.js:676:10\n    at Glob._stat2 (/Users/alembalic/Library/Caches/Cypress/9.5.4/Cypress.app/Contents/Resources/app/packages/server/node_modules/glob/glob.js:772:12)\n    at lstatcb_ (/Users/alembalic/Library/Caches/Cypress/9.5.4/Cypress.app/Contents/Resources/app/packages/server/node_modules/glob/glob.js:764:12)\n    at RES (/Users/alembalic/Library/Caches/Cypress/9.5.4/Cypress.app/Contents/Resources/app/node_modules/inflight/inflight.js:31:16)\n    at f (/Users/alembalic/Library/Caches/Cypress/9.5.4/Cypress.app/Contents/Resources/app/node_modules/once/once.js:25:25)\n    at callback (/Users/alembalic/Library/Caches/Cypress/9.5.4/Cypress.app/Contents/Resources/app/node_modules/graceful-fs/polyfills.js:299:20)\n    at FSReqCallback.oncomplete (node:fs:195:21)\n",
+                "diff": null
+              },
+              "uuid": "443d4ecf-d2d4-4e64-9969-6218717d4da6",
+              "parentUUID": "fd701019-0bbc-41c0-ab75-53471a00edaa",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The user is able to create a new template in the 'Base de conocimiento' section",
+              "fullTitle": "Knowledge base section The user is able to create a new template in the 'Base de conocimiento' section",
+              "timedOut": null,
+              "duration": 4291,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "const title = 'TestAutomation' + Cypress.config('UniqueNumber');\ncy.visit(url);\ncy.log(\"From the menu choose and click on the 'Base de conocimiento' button\");\ndashboard.click_on_knowledge_base();\ncy.log(\"Click on the 'Plantillas' button\");\nknowledge.click_on_templates_tab();\ncy.log(\"Click on the 'Nueva plantilla' button\");\nknowledge.click_on_new_template_button();\ncy.log(\"Populate “Titulo” field\");\nknowledge.enter_template_title(title);\ncy.log(\"Click on the 'Guardar' button\");\nknowledge.click_on_save_template();",
+              "err": {},
+              "uuid": "55ba0ba7-74a3-485c-9204-1bb77ecac9d3",
+              "parentUUID": "fd701019-0bbc-41c0-ab75-53471a00edaa",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "c2205b83-6be1-4213-ad8b-c89d6d9cf267",
+            "55ba0ba7-74a3-485c-9204-1bb77ecac9d3"
+          ],
+          "failures": [
+            "443d4ecf-d2d4-4e64-9969-6218717d4da6"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 14863,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.3.1"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "reportDir": "cypress/reports/mocha",
+        "quite": true,
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "5.2.0"
+    }
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 5,
+    "passes": 5,
+    "pending": 0,
+    "failures": 0,
+    "start": "2023-04-06T13:11:30.613Z",
+    "end": "2023-04-06T13:12:06.456Z",
+    "duration": 35843,
+    "testsRegistered": 5,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "3823a53a-775f-4f15-93fd-f7d2794b91ab",
+      "title": "",
+      "fullFile": "cypress/integration/OVAC/1.Smoke/4.Knowledge_Base_section.js",
+      "file": "cypress/integration/OVAC/1.Smoke/4.Knowledge_Base_section.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "4d4577fd-65ae-441e-982a-33720e9e59e9",
+          "title": "Knowledge base section",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "The user is able to navigate and login to the page",
+              "fullTitle": "Knowledge base section The user is able to navigate and login to the page",
+              "timedOut": null,
+              "duration": 14443,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.clearLocalStorage();\ncy.log(\"Open admin URL and login\");\ncy.visit(url + '/admin');\nlogin.enter_email(_users.default.email);\nlogin.enter_password(_users.default.password);\nlogin.login_submit();\nlogin.confirm_login();\ncy.log(\"Select OVAC Demo entity\");\nentit.click_on_entity();\nentit.if_entity();",
+              "err": {},
+              "uuid": "7e23d144-1d1b-4bfd-b0c0-6c767ab24141",
+              "parentUUID": "4d4577fd-65ae-441e-982a-33720e9e59e9",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The user is able to add a new document - Documentation tab",
+              "fullTitle": "Knowledge base section The user is able to add a new document - Documentation tab",
+              "timedOut": null,
+              "duration": 892,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.log(\"The user is able to click on the 'Documentations' button\");\ndashboard.click_on_documentation();\ncy.log(\"The user is able to click on the '+' button\");\nknowledgeBase.click_add_button();\ncy.log(\"The user is able to click on the 'Upload file' button and upload a file\");\nknowledgeBase.upload_file();",
+              "err": {},
+              "uuid": "991bcf11-5762-4478-8830-b4cffd67d384",
+              "parentUUID": "4d4577fd-65ae-441e-982a-33720e9e59e9",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The user is able to create a new template - Templates tab",
+              "fullTitle": "Knowledge base section The user is able to create a new template - Templates tab",
+              "timedOut": null,
+              "duration": 5025,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.log(\"The user is able to click on the 'Templates' button\");\ncy.visit(url + '/admin');\ndashboard.click_on_templates();\ncy.log(\"The user is able to click on the '+' button\");\ntemplates.click_add_button();\ncy.log(\"The user is able to choose 'New' option\");\ntemplates.click_new();\ncy.log(\"The user is able to populate the 'Title' filed\");\ntemplates.enter_title(_knowledge_data.default.template_name + Cypress.config('UniqueNumber'));\ncy.log(\"The user is able to click on the 'Save' button\");\ntemplates.click_save();",
+              "err": {},
+              "uuid": "207f63c7-3946-4dc2-acd8-158d2d8c4db7",
+              "parentUUID": "4d4577fd-65ae-441e-982a-33720e9e59e9",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The user is able to Add a new tag - <Tags> tab - Knowledge base section",
+              "fullTitle": "Knowledge base section The user is able to Add a new tag - <Tags> tab - Knowledge base section",
+              "timedOut": null,
+              "duration": 5580,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.log(\"The user is able to click on the 'Tags' button\");\ncy.visit(url + '/admin');\ndashboard.click_on_tags();\ncy.log(\"The user is able to click on the 'Add' button\");\ntags.click_add_button();\ncy.log(\"The user is able to populate the 'Code field'\");\ntags.enter_code(_knowledge_data.default.tag_name + Cypress.config('UniqueNumber'));\ncy.log(\"The user is able to populate the 'Value' field\");\ntags.enter_value(_knowledge_data.default.value);\ncy.log(\"The user is able to click on the 'SAVE' button\");\ntags.click_save();",
+              "err": {},
+              "uuid": "48b1b6bf-252a-4030-93f3-a19ff739a8b0",
+              "parentUUID": "4d4577fd-65ae-441e-982a-33720e9e59e9",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "The user is able to download the document by clicking on the 'Download' icon - Documentation tab",
+              "fullTitle": "Knowledge base section The user is able to download the document by clicking on the 'Download' icon - Documentation tab",
+              "timedOut": null,
+              "duration": 9820,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.log(\"The user is able to click on the 'Documents' button\");\ncy.visit(url + '/admin');\ndashboard.click_on_documentation();\ncy.log(\"The user is able to navigate to the already existing file and click on the 'Download' icon\");\ndocumentation.search_documentation(_knowledge_data.default.search_data);\ndocumentation.click_download();\ndocumentation.verify_download();",
+              "err": {},
+              "uuid": "4b2c0d0e-fdb1-4042-98ab-a4f1b33198f6",
+              "parentUUID": "4d4577fd-65ae-441e-982a-33720e9e59e9",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "7e23d144-1d1b-4bfd-b0c0-6c767ab24141",
+            "991bcf11-5762-4478-8830-b4cffd67d384",
+            "207f63c7-3946-4dc2-acd8-158d2d8c4db7",
+            "48b1b6bf-252a-4030-93f3-a19ff739a8b0",
+            "4b2c0d0e-fdb1-4042-98ab-a4f1b33198f6"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 35760,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.3.1"
+    },
+    "marge": {
+      "options": {
+        "id": "default",
+        "reportDir": "cypress/reports/mocha",
+        "quite": true,
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "5.2.0"
+    }
+  }
+}
