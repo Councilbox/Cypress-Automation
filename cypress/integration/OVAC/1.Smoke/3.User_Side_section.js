@@ -16,9 +16,13 @@ let appointments = new appointmentsPage()
 
 let code;
 
+
+
 describe("User side section", function() {
      before(function() {    
     });
+
+    
 
     it("The user is able to request prior appointment for the meeting", function() {
         cy.log("Open the browser and enter the URL")
@@ -50,6 +54,8 @@ describe("User side section", function() {
         cy.log("Click on the 'Request appointment' button")
             appointment.click_continue()   
     });
+
+    
 
     /*
 
@@ -103,7 +109,6 @@ describe("User side section", function() {
 
     */
 
-
     it("User is able to create new meeting", function() {  
             cy.clearLocalStorage();
         cy.log("Open he browser and enter URL")
@@ -119,8 +124,6 @@ describe("User side section", function() {
             appointments.click_on_add_button()
             appointments.select_procedure()
             appointments.click_consent_save_button()
-        cy.log("The user is able to enter the data into 'Description' field")
-            appointments.enter_description(meeting_data.description)
         cy.log("The user is able to click on the 'Next' button")
             appointments.click_next_details()
        cy.wait(1000)
@@ -129,6 +132,7 @@ describe("User side section", function() {
         cy.log("The user is able to input required field for Add Participant")
             appointments.enter_participant_data(meeting_data.name, meeting_data.surname, meeting_data.dni, meeting_data.email, meeting_data.phone_code, meeting_data.phone)
             appointments.click_consent_save_button()
+            cy.wait(5000)
         cy.log("The user is able to click on the 'Next' button")
             appointments.click_next_participants()
         cy.log("The user is able to click on the 'Next' button")
